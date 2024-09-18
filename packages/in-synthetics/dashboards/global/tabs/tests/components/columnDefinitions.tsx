@@ -14,6 +14,7 @@ import { themes } from '@instana/design-tokens';
 // @ts-expect-error Module needs to be translated to TS
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import AssociationsContent from 'in-synthetics/dashboards/global/tabs/tests/components/AssociationsContent';
+import LocationsPresenter from 'in-synthetics/dashboards/global/tabs/tests/components/LocationsPresenter';
 import ListActionsColumn from 'in-synthetics/dashboards/global/tabs/tests/components/ListActionsColumn';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
@@ -27,11 +28,10 @@ import { getSyntheticType } from 'in-synthetics/utils/syntheticTypeMap';
 import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getChartGranularity } from 'in-stores/metric/metric';
-import HealthDot from 'in-components/health/HealthDot';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-import locals from './columnDefinitions.mless';
+import locals from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions.mless';
 
 interface TestListProps extends ServerTablePresenterProps<TestResultListItem> {
   timeConfig: TimeConfig;
@@ -201,71 +201,8 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
     id: 'location',
     label: t('in-synthetics:dashboard.testList.locationLabel'),
     defaultOrderDirection: 'ASC',
-    getContent(item: TestResultListItem) {
-      const locationStatusList: LocationStatus[] =
-        item?.testResultCommonProperties?.testCommonProperties?.locationStatusList ?? [];
-      const totalLocations = locationStatusList.length == 0 ? 0 : locationStatusList.length;
-
-      if (totalLocations === 1) {
-        const locationStatus: LocationStatus = locationStatusList[0];
-        const severity = locationStatus.successRate == 1 ? 0 : 10;
-        if (locationStatus.totalTestRuns != 0) {
-          return (
-            <HorizontalFlexWrapper>
-              <SvgIcon type={'lib_synthetic_location'} />
-              <div>
-                <h4 className={locals.label}>
-                  {item.testResultCommonProperties.testCommonProperties?.locationDisplayLabels &&
-                    item.testResultCommonProperties.testCommonProperties?.locationDisplayLabels[0]}
-                </h4>
-                <HealthDot severity={severity} iconSize={5} />
-              </div>
-            </HorizontalFlexWrapper>
-          );
-        } else {
-          return (
-            <HorizontalFlexWrapper>
-              <SvgIcon type={'lib_synthetic_location'} />
-              <div>
-                <h4 className={locals.label}>
-                  {item.testResultCommonProperties.testCommonProperties?.locationDisplayLabels &&
-                    item.testResultCommonProperties.testCommonProperties?.locationDisplayLabels[0]}
-                </h4>
-              </div>
-            </HorizontalFlexWrapper>
-          );
-        }
-      } else {
-        let severities = locationStatusList
-          .filter(location => {
-            if (location.totalTestRuns != 0) {
-              return true;
-            }
-            return false;
-          })
-          .map(location => {
-            return {
-              sev: location.successRate == 1 ? 0 : 10,
-              id: location.locationId
-            };
-          });
-
-        return (
-          <HorizontalFlexWrapper>
-            <SvgIcon type={'lib_synthetic_location'} />
-            <div>
-              <h4 className={locals.label}>{t('in-synthetics:dashboard.testList.locations', { totalLocations })}</h4>
-              <HorizontalFlexWrapper>
-                {severities.map(severity => {
-                  return (
-                    <HealthDot key={severity.id} severity={severity.sev} iconSize={5} className={locals.dotPadding} />
-                  );
-                })}
-              </HorizontalFlexWrapper>
-            </div>
-          </HorizontalFlexWrapper>
-        );
-      }
+    getContent: function Content(item: TestResultListItem) {
+      return <LocationsPresenter item={item} />;
     }
   },
   {
@@ -288,7 +225,7 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
       if (severity == 0) {
         return (
           <div>
-            <SvgIcon type="lib_uncheck" className={locals.okayIcon} size="s" />
+            <SvgIcon type="lib_uncheck" color={themes.default.ids.color.option.green['500']} size="s" />
           </div>
         );
       } else {
