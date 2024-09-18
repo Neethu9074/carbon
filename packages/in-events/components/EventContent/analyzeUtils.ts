@@ -8,9 +8,10 @@ import { GlobalApplicationsSmartAlertConfig } from 'in-alerting/smart-alerts/app
 import { ApplicationSmartAlertConfig } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { InfraSmartAlertConfig } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { TimeConfig, WebsiteAlertConfig, MobileAppAlertConfig } from 'in-types';
+import { fixateTimeConfig, trimTimeConfigEnd } from 'in-stores/time/config';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
-import { fixateTimeConfig } from 'in-stores/time/config';
 import { EventOrMap } from 'in-events/types';
+import { days } from 'in-services/time';
 
 type AnySmartAlertConfig =
   | WebsiteAlertConfig
@@ -19,12 +20,18 @@ type AnySmartAlertConfig =
   | GlobalApplicationsSmartAlertConfig
   | InfraSmartAlertConfig;
 
+/**
+ * Analyze queries such as GetCallGroups are limited to 1 month of data, and fail if a timeframe is requested that is too large.
+ */
+export const analyzeQueryTimeframeLimit = days.toMillis(31);
+
 export function getSmartAlertAnalyzeTimeConfig(event: EventOrMap, alertConfig: AnySmartAlertConfig) {
   const analyzeTimeConfig =
     alertConfig?.rule.alertType === 'throughput'
       ? getWidenedTimeConfigFromEvent(event, alertConfig.granularity)
       : getTimeConfigFromEvent(event);
-  return fixateTimeConfig(analyzeTimeConfig);
+  const fixedTimeConfig = fixateTimeConfig(analyzeTimeConfig);
+  return trimTimeConfigEnd(fixedTimeConfig, analyzeQueryTimeframeLimit);
 }
 
 /**

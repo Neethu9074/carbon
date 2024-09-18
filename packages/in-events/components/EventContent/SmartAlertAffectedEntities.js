@@ -18,10 +18,11 @@ import { containsTagName, toBackendQueryModel } from 'in-components/QueryBuilder
 import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/applications/tracker';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
+import { analyzeQueryTimeframeLimit } from 'in-events/components/EventContent/analyzeUtils';
 import AffectedEntities from 'in-events/components/AffectedEntities/AffectedEntities';
+import { fixateTimeConfig, trimTimeConfigEnd } from 'in-stores/time/config';
 import { isApplicationEntity } from 'in-services/entityUtils';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
-import { fixateTimeConfig } from 'in-stores/time/config';
 import { t } from 'in-i18n';
 
 export function SmartAlertAffectedEntities({
@@ -50,6 +51,7 @@ export function SmartAlertAffectedEntities({
   const adaptiveBaselineInfo = (event.getIn(['metadata', 'adaptiveBaselineInfo'], Map({})) ?? Map({})).toJS();
   const timeConfig = getTimeConfigFromEvent(event);
   const fixedTimeConfig = fixateTimeConfig(timeConfig);
+  const trimmedTimeConfig = trimTimeConfigEnd(fixedTimeConfig, analyzeQueryTimeframeLimit);
   const tagFilterExpression = getTagFilterExpression();
   const totalTagFilterExpression = getTotalTagFilterExpression();
   const needsGroupByEndpoint =
@@ -68,7 +70,7 @@ export function SmartAlertAffectedEntities({
           endpointId,
           endpointName,
           alertConfig,
-          timeConfig: fixedTimeConfig,
+          timeConfig: trimmedTimeConfig,
           groupingTagName: needsGroupByEndpoint ? 'endpoint.name' : 'service.name',
           adaptiveBaselineInfo
         },
@@ -91,7 +93,7 @@ export function SmartAlertAffectedEntities({
         totalTagFilterExpression={totalTagFilterExpression}
         includeInternal={includeInternal}
         includeSynthetic={includeSynthetic}
-        timeConfig={fixedTimeConfig}
+        timeConfig={trimmedTimeConfig}
         filterGroup={needsGroupByEndpoint ? groupByEndpointName : groupByServiceName}
         createItemLink={createItemLink}
         renderLinkToAnalyzeAll={renderLinkToAnalyzeAll}
@@ -108,7 +110,7 @@ export function SmartAlertAffectedEntities({
         applicationName,
         serviceId,
         endpointId,
-        timeConfig: fixedTimeConfig,
+        timeConfig: trimmedTimeConfig,
         adaptiveBaselineInfo
       })
     );
@@ -122,7 +124,7 @@ export function SmartAlertAffectedEntities({
         applicationName,
         serviceId,
         endpointId,
-        timeConfig: fixedTimeConfig,
+        timeConfig: trimmedTimeConfig,
         excludeViolationRelatedFilters: true,
         adaptiveBaselineInfo
       })
@@ -139,7 +141,7 @@ export function SmartAlertAffectedEntities({
         endpointId: needsGroupByEndpoint ? item.id : null, // we never have an ID here (e.g. for a PER-SERVICE SmartAlert), because we do a grouping by name.
         endpointName: needsGroupByEndpoint ? item.name : null,
         alertConfig,
-        timeConfig: fixedTimeConfig,
+        timeConfig: trimmedTimeConfig,
         adaptiveBaselineInfo
       },
       getLinkToApplicationAnalyze
