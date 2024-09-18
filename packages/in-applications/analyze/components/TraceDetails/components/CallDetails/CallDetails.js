@@ -133,7 +133,7 @@ export default function CallDetails(props) {
     ];
     cardContent = (
       <>
-        <DisplayTimeData values={values} isBatched batchCount={call.batchSize} />
+        <DisplayTimeData values={values} batchCount={call.batchSize} />
         <Stack direction="vertical" gap="normal">
           <ServiceComponent call={call} websiteBeacon={websiteBeacon} mobileAppBeacon={mobileAppBeacon} />
           <IsSynthetic call={call} />
