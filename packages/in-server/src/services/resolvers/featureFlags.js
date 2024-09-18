@@ -343,7 +343,7 @@ module.exports = exports = [
   {
     uiClientKey: 'businessObservabilityEnabled',
     instanaCtlKey: 'feature.business.observability.enabled',
-    defaultValue: true
+    defaultValue: false
   },
   {
     uiClientKey: 'bizopsPerspectivesEnabled',
