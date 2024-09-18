@@ -155,6 +155,7 @@ import './session';
 import './symfony';
 import './urllib3';
 import './saphttp';
+import './sequel';
 import './prisma';
 import './ibm-mq';
 import './cosmos';

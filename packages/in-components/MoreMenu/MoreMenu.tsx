@@ -6,8 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { MoreMenu as CarbonMoreMenu, MoreMenuProps } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { MoreMenu as CarbonMoreMenu, MoreMenuProps, Button } from '@instana/components';
 
 import { carbonMoreMenuEnabled } from 'in-services/featureFlags';
 import { stopPropagation } from 'in-services/util/function';
@@ -59,6 +58,7 @@ export default function MoreMenu({
           toggle,
           ref
         }) ?? (
+          // @ts-expect-error children not defined
           <Button
             className={classNames(locals.button, className)}
             onClick={e => {
@@ -68,7 +68,6 @@ export default function MoreMenu({
             ref={ref}
             icon="lib_menu_more_horizontal"
             size={size}
-            // @ts-expect-error
             kind={kind}
           />
         )

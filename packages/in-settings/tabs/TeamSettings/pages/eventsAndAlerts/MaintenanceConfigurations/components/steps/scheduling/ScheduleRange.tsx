@@ -9,8 +9,8 @@ import { useState } from 'react';
 import { RRule } from 'rrule';
 import React from 'react';
 
-import { formatDate } from '@instana/format-date';
 import { Stack, RadioButton } from '@instana/components';
+import { formatDate } from '@instana/format-date';
 
 import {
   setRRuleDateUntil,
@@ -56,8 +56,6 @@ export default function ScheduleRange({ form, setValue, setFormRRule, rrule }: S
           </HorizontalFlexWrapper>
           <ErrorBoundary name="dateInput-schedule-RMW">
             <DateInput
-              // placeholder not an official input prop so we're gonna ignore
-              // @ts-expect-error
               placeholder="YYYY-MM-DD"
               value={dateField?.value}
               onChange={v => setValue(form, ['window', 'start', 'date'], v)}
@@ -109,7 +107,6 @@ export default function ScheduleRange({ form, setValue, setFormRRule, rrule }: S
             </HorizontalFlexWrapper>
             <ErrorBoundary name="dateInput-schedule-RMW">
               <DateInput
-                //@ts-expect-error
                 placeholder="YYYY-MM-DD"
                 onChange={v => {
                   if (v) {

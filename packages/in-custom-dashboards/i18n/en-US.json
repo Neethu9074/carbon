@@ -435,9 +435,13 @@
       }
     },
     "slo": {
+      "general": {
+        "demoWidgetTitle": "Widget Title",
+        "sloNotFound": "Slo Configuration Not Found"
+      },
       "v2Form": {
         "headline": "Select a Service Level Objective",
-        "subheading": "Select and existing SLO or click \"Add new SLO\" to create a new one",
+        "subheading": "Select an existing SLO or click \"Add new SLO\" to create a new one",
         "addSloButtonLabel": "Add new SLO",
         "chartTypeSelectionLabel": "Chart type",
         "chartTypeOption": "",
@@ -446,6 +450,9 @@
         "validators": {
           "notBlankSloValidator": "Please choose a SLO configuration from the list."
         }
+      },
+      "v2WidgetHeader": {
+        "indicatorType": "Indicator type:"
       },
       "demo": {
         "title": "SLO Title",

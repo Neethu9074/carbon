@@ -343,7 +343,7 @@ module.exports = exports = [
   {
     uiClientKey: 'businessObservabilityEnabled',
     instanaCtlKey: 'feature.business.observability.enabled',
-    defaultValue: true
+    defaultValue: false
   },
   {
     uiClientKey: 'bizopsPerspectivesEnabled',
@@ -481,6 +481,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'rcaFailedStateEnabled',
+    instanaCtlKey: 'feature.rca.failed.state.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'eventFeedbackEnabled',
     instanaCtlKey: 'feature.event.feedback.enabled',
     defaultValue: true
@@ -536,11 +541,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'carbonPillEnabled',
-    instanaCtlKey: 'feature.carbon.pill.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'carbonMessageEnabled',
     instanaCtlKey: 'feature.carbon.message.enabled',
     defaultValue: true
@@ -568,7 +568,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonSearchInputEnabled',
     instanaCtlKey: 'feature.carbon.search.input.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonMoreMenuEnabled',
@@ -608,7 +608,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonSelectEnabled',
     instanaCtlKey: 'feature.carbon.select.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonPaginationEnabled',
@@ -633,11 +633,16 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonInputEnabled',
     instanaCtlKey: 'feature.carbon.input.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonComboBoxEnabled',
     instanaCtlKey: 'feature.carbon.combobox.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'carbonDateInputEnabled',
+    instanaCtlKey: 'feature.carbon.dateinput.enabled',
     defaultValue: false
   },
   {
@@ -713,7 +718,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonTileEnabled',
     instanaCtlKey: 'feature.carbon.tile.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonStepProgressBarEnabled',

@@ -2683,6 +2683,11 @@
   "tracingTypeName_session_0": "Session Calls",
   "tracingTypeName_session_1": "Session Call",
   "tracingTypeName_session_2": "Session Calls",
+  "tracingTypeName_sequel": "Sequel",
+  "tracingTypeName_sequel_plural": "Sequel Calls",
+  "tracingTypeName_sequel_0": "Sequel Calls",
+  "tracingTypeName_sequel_1": "Sequel",
+  "tracingTypeName_sequel_2": "Sequel Calls",
   "tracingTypeName_shell": "Shell Call",
   "tracingTypeName_shell_plural": "Shell Calls",
   "tracingTypeName_shell_0": "Shell Calls",
@@ -17211,6 +17216,13 @@
     "session": {
       "sessionStart": "Session Start",
       "sessionHandler": "Session Handler"
+    },
+    "sequel": {
+      "adapter": "Adapter",
+      "database": "Database",
+      "databaseHost": "Database Host",
+      "username": "Username",
+      "sql": "SQL"
     },
     "shell": {
       "shellCommand": "Shell Command"

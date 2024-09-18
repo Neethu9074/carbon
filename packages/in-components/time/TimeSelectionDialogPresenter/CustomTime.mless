@@ -11,8 +11,7 @@
 
   .controls {
     display: flex;
-    justify-content: space-between;
-
+    gap: 0.5rem;
     margin-top: 3rem;
   }
 
@@ -26,6 +25,7 @@
   .button {
     width: 9rem;
     height: 2rem;
+    margin-left: auto;
   }
 
   .notes {

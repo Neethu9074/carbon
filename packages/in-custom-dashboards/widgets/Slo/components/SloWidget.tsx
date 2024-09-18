@@ -6,22 +6,72 @@
 
 import React from 'react';
 
+import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { Card } from '@instana/components';
 
-import { SloWidgetPresenterProps } from 'in-custom-dashboards/widgets/Slo/SloWidgetPresenter';
+import ContextAwareSloWidgetRightHeader from 'in-custom-dashboards/widgets/Slo/components/ContextAwareSloWidgetRightHeader';
+import IndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
+import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
+import ErrorBudgetChart from 'in-service-levels/components/SloDashboard/components/chart/ErrorBudgetChart';
+import SloChartSummary from 'in-service-levels/components/SloChart/SloChartSummary/SloChartSummary';
+import SloWidgetLeftHeader from 'in-custom-dashboards/widgets/Slo/components/SloWidgetLeftHeader';
+import useSloWidgetMetrics from 'in-custom-dashboards/widgets/Slo/hooks/useSloWidgetMetrics';
+import { SloWidgetConfiguration } from 'in-custom-dashboards/widgets/Slo/types';
+import { getValueFromSingleValueMetric } from 'in-service-levels/utils/format';
+import { MetricDataPoint } from 'in-components/Chart/types';
 
-export function SloWidget({ actions, title, dragHandle }: SloWidgetPresenterProps) {
+interface SloWidgetPresenterProps {
+  actions: React.ReactNode;
+  config: SloWidgetConfiguration;
+  dragHandle: React.ReactNode;
+  isPreview?: boolean;
+  title: string;
+  sloConfig: ServiceLevelObjectiveConfiguration;
+}
+
+export default function SloWidget({
+  actions,
+  dragHandle,
+  config,
+  isPreview,
+  title,
+  sloConfig
+}: SloWidgetPresenterProps) {
+  const timeConfig = useContextAwareSloTimeWindowConfig();
+  const [metricResult, status] = useSloWidgetMetrics(sloConfig, timeConfig);
+
+  const remainingBudgetNumber = metricResult?.find(metric => metric.id === 'remainingBudgetNumber');
+  const statusMetric = metricResult?.find(metric => metric.id === 'statusMetric');
+  const metricRemaining = getValueFromSingleValueMetric(remainingBudgetNumber?.values as MetricDataPoint[]);
+  const metricSli = getValueFromSingleValueMetric(statusMetric?.values as MetricDataPoint[]);
+
   return (
     <Card
-      rightHeaderContent={
-        <>
-          {dragHandle}
-          {actions}
-        </>
-      }
-      leftHeaderContent={<>{title}</>}
+      rightHeaderContent={<ContextAwareSloWidgetRightHeader actions={actions} dragHandle={dragHandle} />}
+      leftHeaderContent={<SloWidgetLeftHeader sloConfig={sloConfig} isPreview={isPreview} title={title} />}
+      useMaxAvailableHeight={false}
     >
-      <div style={{ backgroundColor: 'magenta', width: '100%', height: '100%', minHeight: 100, minWidth: 100 }} />
+      <SloChartSummary
+        budgetSingleNumber={remainingBudgetNumber?.values as MetricDataPoint[]}
+        fromTimestamp={sloConfig.timeWindow.type === 'fixed' ? sloConfig.timeWindow.startTimestamp : Date.now()}
+        indicatorType={sloConfig.indicator.type}
+        metricRemaining={metricRemaining}
+        metricSli={metricSli}
+        objectiveDuration={sloConfig.timeWindow.duration}
+        objectiveDurationUnit={sloConfig.timeWindow.durationUnit}
+        showRemainingBudget
+        sloEntityType={sloConfig.entity.type}
+        status={status}
+        statusSingleNumber={statusMetric?.values as MetricDataPoint[]}
+        target={sloConfig.target}
+        timeWindowType={sloConfig.timeWindow.type}
+      />
+
+      {config.chartType === 'ERROR_BUDGET' ? (
+        <ErrorBudgetChart configuration={sloConfig} />
+      ) : (
+        <IndicatorChart entity={sloConfig.entity} indicator={sloConfig.indicator} timeWindow={sloConfig.timeWindow} />
+      )}
     </Card>
   );
 }

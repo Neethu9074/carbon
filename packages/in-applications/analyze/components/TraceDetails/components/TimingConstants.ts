@@ -15,3 +15,4 @@ export const TOTAL_TIME_LABEL = t('in-analyze:traceDetails.labelTotal');
 export const NETWORK_TIME_LABEL = t('in-analyze:traceDetails.labelNetwork');
 export const SELF_TIME_LABEL = t('in-analyze:traceDetails.labelSelf');
 export const WAITING_TIME_LABEL = t('in-analyze:traceDetails.labelWaiting');
+export const ELAPSED_TIME_LABEL = t('in-analyze:traceDetails.labelElapsed');

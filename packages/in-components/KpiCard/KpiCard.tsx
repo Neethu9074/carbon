@@ -6,14 +6,13 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
-import { Link, SvgIcon, Card } from '@instana/components';
-import { Button, ButtonKinds } from '@instana/legacy';
+import { Link, SvgIcon, Card, Button, ButtonKinds, IconButton } from '@instana/components';
 import { Observable } from '@instana/observables';
 
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
+import { carbonButtonEnabled, carbonTooltipEnabled } from 'in-services/featureFlags';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { carbonTooltipEnabled } from 'in-services/featureFlags';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import Tooltip from 'in-components/Tooltip';
 import { ResultPrecision } from 'in-types';
@@ -177,34 +176,45 @@ export default function KpiCard({
             <MultiLineToolTipIcon withMargin lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
           )}
         </div>
-        {iconAction && (
-          <div
-            className={classNames({
-              [locals.actionWrapper]: true,
-              [locals.showLongVariantOnHover]: width != null && width > 300
-            })}
-          >
-            <Tooltip content={iconAction.text} overwriteBlock>
-              <Link
-                href={iconAction.href$ ?? iconAction.href}
-                aria-label={iconAction.text}
+        {iconAction &&
+          (carbonButtonEnabled ? (
+            <Tooltip content={iconAction.text}>
+              <IconButton
+                href$={iconAction.href$}
+                href={iconAction.href}
+                kind={iconAction.kind}
+                type={iconAction.icon}
                 onClick={iconAction.onClick}
-              >
-                <SvgIcon className={locals.actionIcon} type={iconAction.icon} />
-              </Link>
+              />
             </Tooltip>
-            <Button
-              className={locals.action}
-              icon={iconAction.icon}
-              href$={iconAction.href$}
-              href={iconAction.href}
-              onClick={iconAction.onClick}
-              kind={iconAction.kind}
+          ) : (
+            <div
+              className={classNames({
+                [locals.actionWrapper]: true,
+                [locals.showLongVariantOnHover]: width != null && width > 300
+              })}
             >
-              {iconAction.text}
-            </Button>
-          </div>
-        )}
+              <Tooltip content={iconAction.text} overwriteBlock>
+                <Link
+                  href={iconAction.href$ ?? iconAction.href}
+                  aria-label={iconAction.text}
+                  onClick={iconAction.onClick}
+                >
+                  <SvgIcon className={locals.actionIcon} type={iconAction.icon} />
+                </Link>
+              </Tooltip>
+              <Button
+                className={locals.action}
+                icon={iconAction.icon}
+                href$={iconAction.href$}
+                href={iconAction.href}
+                onClick={iconAction.onClick}
+                kind={iconAction.kind}
+              >
+                {iconAction.text}
+              </Button>
+            </div>
+          ))}
         {actions && <div className={locals.actions}>{actions}</div>}
       </div>
       {tooltipContent ? (

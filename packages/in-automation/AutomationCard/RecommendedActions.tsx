@@ -38,6 +38,7 @@ import { useSegmentTracker } from 'in-automation/tracker';
 import { Event, Result, VolatileId } from 'in-types';
 import { isLoading } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import { hasError } from 'in-services/util/result';
 import { mapData } from 'in-services/util/result';
 import { ScoredAction } from 'in-automation/api';
 import { role } from 'in-stores/user';
@@ -115,7 +116,7 @@ function GenerateAIActionButton({
   ootbRecommendedActions: Result<ScoredAction[]>;
 }) {
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
-  const { name = '' } = trigger.data!;
+  const name = hasError(trigger) ? event?.problem?.problemText ?? '' : trigger.data!?.name;
   const hasAccessToManual = useHasAccessToManual();
 
   if (!role?.canConfigureAutomationActions || !hasAccessToManual) return null;

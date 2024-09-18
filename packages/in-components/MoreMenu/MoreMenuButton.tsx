@@ -5,8 +5,7 @@
 
 import React, { forwardRef } from 'react';
 
-import { MoreMenuButton as CarbonMoreMenuButton, MoreMenuButtonProps } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { MoreMenuButton as CarbonMoreMenuButton, MoreMenuButtonProps, Button } from '@instana/components';
 
 import { carbonMoreMenuEnabled } from 'in-services/featureFlags';
 

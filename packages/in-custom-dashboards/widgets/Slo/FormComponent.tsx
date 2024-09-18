@@ -120,7 +120,7 @@ export default function FormComponent({
             hasError={!chartTypeField.valid}
           >
             {SloWidgetChartTypes.map(chartType => (
-              <option value={chartType}>
+              <option value={chartType} key={chartType}>
                 {t('in-custom-dashboards:widgets.slo.v2Form.chartTypeOption', { context: chartType })}
               </option>
             ))}

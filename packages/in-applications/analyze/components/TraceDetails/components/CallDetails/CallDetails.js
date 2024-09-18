@@ -10,6 +10,7 @@ import { Card, Link, Stack, SvgIcon } from '@instana/components';
 import { create, just } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
+import { Pill } from '@instana/components';
 
 import ServiceComponent from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/ServiceComponent';
 import { getCorrelatedWebsiteBeacons } from 'in-applications/analyze/components/TraceDetails/tabs/Summary/websiteCorrelation';
@@ -90,6 +91,7 @@ export default function CallDetails(props) {
     cardContent = <ErroneousResultPresenter errors={callResult.errors} isRetryError={isRetryError(callResult)} />;
   } else {
     call = callResult.data;
+    const isBatched = call.batchSize > 1;
     const waitingTime = hasOnlyExitSpan(call)
       ? null
       : call.duration - (call.minSelfTime || call.selfTime || 0) - (call.networkTime || 0);
@@ -100,14 +102,21 @@ export default function CallDetails(props) {
         formatter: formatDateTimeWithMilliSeconds
       },
       {
-        label: t('in-analyze:traceDetail.components.callDetails.latency'),
-        duration: call.duration
+        label: isBatched
+          ? t('in-analyze:traceDetail.components.callDetails.sumOfLatencies')
+          : t('in-analyze:traceDetail.components.callDetails.latency'),
+        duration: call.duration,
+        showPill: isBatched,
+        toolTipLabel: t('in-analyze:traceDetail.components.callDetails.latency')
       },
       {
-        label: t('in-analyze:traceDetail.components.callDetails.selfTime'),
+        label: isBatched
+          ? t('in-analyze:traceDetail.components.callDetails.elapsedTime')
+          : t('in-analyze:traceDetail.components.callDetails.selfTime'),
         duration: call.minSelfTime || call.selfTime,
         totalDuration: call.duration,
-        showDurationInpercent: true
+        showDurationInpercent: !isBatched,
+        showPill: isBatched
       },
       {
         label: t('in-analyze:traceDetail.components.callDetails.networkTime'),
@@ -124,7 +133,7 @@ export default function CallDetails(props) {
     ];
     cardContent = (
       <>
-        <DisplayTimeData values={values} />
+        <DisplayTimeData values={values} batchCount={call.batchSize} />
         <Stack direction="vertical" gap="normal">
           <ServiceComponent call={call} websiteBeacon={websiteBeacon} mobileAppBeacon={mobileAppBeacon} />
           <IsSynthetic call={call} />
@@ -226,21 +235,35 @@ function getTraceActivityTreeNodeDetailsRetriable([traceId, callId, retry]) {
       });
 }
 
-function DisplayTimeData({ values }) {
+function DisplayTimeData({ values, batchCount }) {
   return (
     <Dl>
       {values.map(value => {
-        const { label, duration, totalDuration, showDurationInpercent } = value;
+        const { label, duration, totalDuration, showDurationInpercent, showPill, toolTipLabel } = value;
         const formatter = value.formatter ?? latencyFixed.compact;
         const durationValue = duration == null ? valueMissingPlaceholder : `${formatter(duration)}`;
         const durationInPercent =
           totalDuration >= 1 && duration >= 1 && showDurationInpercent
             ? '(' + (((duration / totalDuration) * 100) | 0) + '%)'
             : null;
-
         return (
           <Di title={label} key={label}>
-            {durationValue} {durationInPercent !== null ? ` ${durationInPercent}` : ''}
+            {showPill ? (
+              <Tooltip
+                content={t('in-analyze:traceDetail.components.callDetails.batchTooltip', {
+                  batchCount: batchCount,
+                  type: String(toolTipLabel ?? label).toLocaleLowerCase()
+                })}
+                align="topMiddle"
+              >
+                <Pill type="gray" kind="lighter">
+                  {durationValue}
+                </Pill>
+              </Tooltip>
+            ) : (
+              durationValue
+            )}{' '}
+            {durationInPercent !== null ? ` ${durationInPercent}` : ''}
           </Di>
         );
       })}

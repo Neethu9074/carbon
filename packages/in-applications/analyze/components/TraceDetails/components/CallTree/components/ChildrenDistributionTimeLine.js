@@ -60,11 +60,10 @@ export default function ChildrenDistributionTimeLine(props) {
 }
 
 function ParentCallIndicator({ call, scale, getColor, onClick }) {
+  const duration = call.batchSize > 1 ? call.minSelfTime : call.duration;
   const left = scale.getDomainFrom() === scale.getDomainTo() ? scale.getRangeFrom() : scale.getRange(call.start);
   const width =
-    scale.getDomainFrom() === scale.getDomainTo()
-      ? scale.getRangeTo()
-      : scale.getRange(call.start + call.duration) - left;
+    scale.getDomainFrom() === scale.getDomainTo() ? scale.getRangeTo() : scale.getRange(call.start + duration) - left;
 
   return (
     <Tooltip
@@ -94,12 +93,13 @@ function ParentCallIndicator({ call, scale, getColor, onClick }) {
 }
 
 function ProcessingTime({ call, getColor }) {
+  const duration = call.batchSize > 1 ? call.minSelfTime : call.duration;
   const networkTime = call.networkTime || 0;
   const processingStartTime = call.start + networkTime / 2;
-  const processingEndTime = call.start + call.duration - networkTime / 2;
+  const processingEndTime = call.start + duration - networkTime / 2;
   const processingDuration = processingEndTime - processingStartTime;
 
-  const processingWidthInPercent = (processingDuration / call.duration) * 100;
+  const processingWidthInPercent = (processingDuration / duration) * 100;
 
   return (
     <div
@@ -115,6 +115,7 @@ function ProcessingTime({ call, getColor }) {
 
 function CallDurationLabel({ call }) {
   // const positionOnAxisInPercent = scale.getRange(call.start + call.duration);
+  const duration = call.batchSize > 1 ? call.minSelfTime : call.duration;
 
   return (
     <div
@@ -131,7 +132,7 @@ function CallDurationLabel({ call }) {
           [locals.rightAlignedCallDuration]: false
         })}
       >
-        {latencyFixed.compact(call.duration)}
+        {latencyFixed.compact(duration)}
       </span>
     </div>
   );
@@ -139,10 +140,10 @@ function CallDurationLabel({ call }) {
 
 function CallIndicator({ call, scale, getColor, onClick }) {
   const left = scale.getDomainFrom() === scale.getDomainTo() ? scale.getRangeFrom() : scale.getRange(call.start);
+  const duration = call.batchSize > 1 ? call.minSelfTime : call.duration;
+
   const width =
-    scale.getDomainFrom() === scale.getDomainTo()
-      ? scale.getRangeTo()
-      : scale.getRange(call.start + call.duration) - left;
+    scale.getDomainFrom() === scale.getDomainTo() ? scale.getRangeTo() : scale.getRange(call.start + duration) - left;
 
   return (
     <Tooltip

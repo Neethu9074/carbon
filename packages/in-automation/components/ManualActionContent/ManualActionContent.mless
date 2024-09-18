@@ -9,6 +9,7 @@
     background: var(--ids-color-option-neutral-50);
     display: flex;
     justify-content: space-between;
+    line-height: 1.25rem;
   }
 
   .codeBlock {

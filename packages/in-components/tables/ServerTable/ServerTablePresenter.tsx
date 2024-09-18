@@ -8,8 +8,8 @@ import classNames from 'classnames';
 import invariant from 'invariant';
 import { debounce } from 'lodash';
 
-import { TableSkeleton as CarbonTableSkeleton, Pagination as CarbonPagination } from '@instana/components';
 import { TableErrorRows, Table, Tbody, Thead } from '@instana/legacy';
+import { Pagination as CarbonPagination } from '@instana/components';
 import { DataTable as CarbonDataTable } from '@instana/components';
 import { Card, SearchInput } from '@instana/components';
 
@@ -17,14 +17,13 @@ import { filterColumns } from 'in-components/tables/ServerTable/internalComponen
 import EmptyContent from 'in-components/tables/ServerTable/internalComponents/EmptyContent';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import LoadingRows from 'in-components/tables/ServerTable/internalComponents/LoadingRows';
+import { carbonPaginationEnabled, carbonTableEnabled } from 'in-services/featureFlags';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import { TableProps, TableState } from 'in-components/tables/ServerTable/types';
 import { Nullish, PaginatedResult, Result, ResultPrecision } from 'in-types';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
-import { carbonPaginationEnabled } from 'in-services/featureFlags';
 import { noop, pendingResult } from 'in-services/fixedObjects';
 import { hasError, isLoading } from 'in-services/util/result';
-import { carbonTableEnabled } from 'in-services/featureFlags';
 import Pagination from 'in-components/Pagination';
 import { OrderDirection } from 'in-types';
 import { t } from 'in-i18n';
@@ -157,42 +156,9 @@ export default function ServerTablePresenter<
         <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
       ) : undefined;
 
-    if (isLoading(result)) {
-      // when loading , waiting for api to return data
-      body = (
-        <CarbonTableSkeleton headers={carbonHeaders} columnCount={visibleColumns?.length} rowCount={3} showToolbar />
-      );
-    } else if (hasError(result)) {
-      // when api returns error
-      body = (
-        <div className={locals.emptyTable}>
-          <CarbonDataTable headers={carbonHeaders} rows={[]} />
-          <TableErrorRows cols={visibleColumns.length} errors={result.errors} size={size} />
-        </div>
-      );
-    } else if (result.data?.items?.length === 0) {
-      // when api returns no data
-      body = (
-        <div className={locals.emptyTable}>
-          <CarbonDataTable
-            headers={carbonHeaders}
-            rows={[]}
-            filterRows={(value: React.ChangeEvent<HTMLInputElement>) => {
-              filterRows(value?.target?.value);
-            }}
-            searchText={query}
-          />
-          <EmptyContent
-            cols={visibleColumns?.length}
-            size={size}
-            renderNoDataAvailable={renderNoDataAvailable}
-            noDataMessage={noDataMessage}
-          />
-        </div>
-      );
-    } else {
-      // when api has returned data
-      const carbonRows = result.data!.items.map((item: ItemType, index: number) => {
+    // when api has returned data
+    const carbonRows =
+      result.data?.items.map((item: ItemType, index: number) => {
         let value = { id: item.id ?? String(index) };
         carbonHeaders.map(({ key, getContent, ellipsis, width, noWrap }) => {
           let pair;
@@ -220,33 +186,34 @@ export default function ServerTablePresenter<
           return value;
         });
         return value;
-      });
+      }) || [];
 
-      body = (
-        <CarbonDataTable
-          headers={carbonHeaders}
-          rows={carbonRows}
-          filterRows={(value: React.ChangeEvent<HTMLInputElement>) => {
-            filterRows(value?.target?.value);
-          }}
-          sortRow={(sortState: { sortHeaderKey: string; sortDirection: string }) => {
-            let orderBy = sortState.sortHeaderKey;
-            let orderDirection = sortState.sortDirection as OrderDirection;
-            // backend APIs as of now doesnt support NONE sort direction option, so will be
-            // changing it to ASC to maintain the current behaviour.
-            if (sortState.sortDirection === 'NONE' || sortState.sortDirection === 'DESC') {
-              orderDirection = 'ASC';
-            } else if (sortState.sortDirection === 'ASC') {
-              orderDirection = 'DESC';
-            }
-            onChange({ query, orderBy, orderDirection, page: 1, pageSize, pageSizes });
-          }}
-          searchText={query}
-          isSearchEnabled={isSearchable}
-        />
-      );
-    }
+    body = (
+      <CarbonDataTable
+        loading={Boolean(isLoading(result))}
+        headers={carbonHeaders}
+        rows={carbonRows}
+        filterRows={(value: React.ChangeEvent<HTMLInputElement>) => {
+          filterRows(value?.target?.value);
+        }}
+        sortRow={(sortState: { sortHeaderKey: string; sortDirection: string }) => {
+          let orderBy = sortState.sortHeaderKey;
+          let orderDirection = sortState.sortDirection as OrderDirection;
+          // backend APIs as of now doesnt support NONE sort direction option, so will be
+          // changing it to ASC to maintain the current behaviour.
+          if (sortState.sortDirection === 'NONE' || sortState.sortDirection === 'DESC') {
+            orderDirection = 'ASC';
+          } else if (sortState.sortDirection === 'ASC') {
+            orderDirection = 'DESC';
+          }
+          onChange({ query, orderBy, orderDirection, page: 1, pageSize, pageSizes });
+        }}
+        searchText={query}
+        isSearchEnabled={isSearchable}
+      />
+    );
 
+    const emptyContent = carbonRows.length == 0 && !isLoading(result);
     return (
       <Card
         title={cardTitle}
@@ -269,6 +236,23 @@ export default function ServerTablePresenter<
           )}
           {/* Carbon Table */}
           {body}
+          {/* Empty Content */}
+          {emptyContent && (
+            <div className={locals.emptyTable}>
+              <EmptyContent
+                cols={visibleColumns?.length}
+                size={size}
+                renderNoDataAvailable={renderNoDataAvailable}
+                noDataMessage={noDataMessage}
+              />
+            </div>
+          )}
+          {/* Error */}
+          {emptyContent && hasError(result) && (
+            <div className={locals.emptyTable}>
+              <TableErrorRows cols={visibleColumns.length} errors={result.errors} size={size} />
+            </div>
+          )}
           {/* Pagination */}
           {result.data && result.data.totalHits > defaultPageSize ? (
             <CarbonPagination

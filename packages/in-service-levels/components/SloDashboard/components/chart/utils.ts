@@ -28,6 +28,14 @@ export function findMinMaxMetricValues(metrics: MetricDataSeries): { min: number
   );
 }
 
+export function findMinMetricValue(metrics: MetricDataSeries): number {
+  return metrics.reduce((acc, [, value]) => {
+    acc = Math.min(acc, value);
+
+    return acc;
+  }, Infinity);
+}
+
 export function calculateSloReferenceChartGranularity(
   timeConfig: TimeConfig,
   needsExtraSpace = false,

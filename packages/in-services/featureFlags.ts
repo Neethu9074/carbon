@@ -54,7 +54,6 @@ export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 export const logWidgetsEnabled = isFeatureFlagEnabled('logWidgetsEnabled');
 export const logVolumePageEnabled = isFeatureFlagEnabled('logVolumePageEnabled');
 export const logHomepageEnabled = isFeatureFlagEnabled('logHomepageEnabled');
-export const carbonPillEnabled = isFeatureFlagEnabled('carbonPillEnabled');
 export const logRetentionPageEnabled = isFeatureFlagEnabled('logRetentionPageEnabled');
 export const notesAndActivityEnabled = isFeatureFlagEnabled('notesAndActivityEnabled');
 export const carbonMessageEnabled = isFeatureFlagEnabled('carbonMessageEnabled');
@@ -81,6 +80,7 @@ export const carbonDropdownEnabled = isFeatureFlagEnabled('carbonDropdownEnabled
 export const carbonInputEnabled = isFeatureFlagEnabled('carbonInputEnabled');
 export const carbonComboBoxEnabled = isFeatureFlagEnabled('carbonComboBoxEnabled');
 export const carbonCodeEnabled = isFeatureFlagEnabled('carbonCodeEnabled');
+export const carbonDateInputEnabled = isFeatureFlagEnabled('carbonDateInputEnabled');
 export const carbonExpandableGroupEnabled = isFeatureFlagEnabled('carbonExpandableGroupEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
@@ -251,6 +251,7 @@ export const playWithReleaseEnabled = isFeatureFlagEnabled('playWithReleaseEnabl
 
 export const rcaUIEnabled = isFeatureFlagEnabled('rcaUIEnabled', true);
 export const rcaLogsEnabled = isFeatureFlagEnabled('rcaLogsEnabled', false);
+export const rcaFailedStateEnabled = isFeatureFlagEnabled('rcaFailedStateEnabled', false);
 export const eventFeedbackEnabled = isFeatureFlagEnabled('eventFeedbackEnabled', true);
 export const incidentSummarizationEnabled = isFeatureFlagEnabled('incidentSummarizationEnabled', false);
 export const manuallyCloseEventEnabled = isFeatureFlagEnabled('manuallyCloseEventEnabled', true);
