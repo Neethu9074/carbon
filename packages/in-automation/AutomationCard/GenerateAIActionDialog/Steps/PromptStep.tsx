@@ -193,7 +193,7 @@ function GenerateButton({
   const { generateAIClickPromptStepTrackerSegment } = useSegmentTracker();
   return (
     <Button
-      kind="action"
+      kind="tertiary"
       disabled={
         (!promptForm.hierarchyValid && promptForm.hierarchyTouched) || (!!generatedAction && isLoading(generatedAction))
       }
