@@ -80,6 +80,7 @@
     "role_permissions_contributor": "Contributor - Access {{quantityOfAreas}}",
     "role_permissions_owner": "Owner - Access {{quantityOfAreas}}",
     "role_permissions_viewer": "Viewer - Access {{quantityOfAreas}}",
+    "role_permissions_limited": "Unknown - Limited Access",
     "role_permissions_limited_owner": "Owner - Limited Access",
     "role_permissions_limited_viewer": "Viewer - Limited Access",
     "role_permission_scope_all": "all",
