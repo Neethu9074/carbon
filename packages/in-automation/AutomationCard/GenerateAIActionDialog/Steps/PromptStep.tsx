@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Button, Spacer, Typography } from '@instana/components';
+import { Button, Spacer, Typography, PreviewPill } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Event, Result } from '@instana/types';
 
@@ -193,7 +193,7 @@ function GenerateButton({
   const { generateAIClickPromptStepTrackerSegment } = useSegmentTracker();
   return (
     <Button
-      kind="tertiary"
+      kind="action"
       disabled={
         (!promptForm.hierarchyValid && promptForm.hierarchyTouched) || (!!generatedAction && isLoading(generatedAction))
       }
@@ -250,14 +250,16 @@ export default function PromptStep({
 }) {
   return (
     <Row>
-      <Col lg={8}>
+      <Col lg={7}>
+        <Spacer vertical="normal" />
+        <PreviewPill privatePreview />
         <Spacer vertical="normal" />
         <Typography variant="body-regular">{t('in-automation:GenerateAIActionDialog.Step1HeadlinePrompt')}</Typography>
         <Spacer vertical="normal" />
         <PromptInputs form={form} setForm={setForm} />
         <GenerateButton form={form} setForm={setForm} event={event} />
       </Col>
-      <Col lg={4}>
+      <Col lg={5}>
         <Spacer vertical="normal" />
         <ActionPreview />
       </Col>
