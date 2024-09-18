@@ -135,7 +135,7 @@ export default function SelectActionStep({
 
   return (
     <Row>
-      <Col lg={8}>
+      <Col lg={7}>
         <Spacer vertical="normal" />
         <Typography variant="body-regular">
           {t('in-automation:GenerateAIActionDialog.Step1HeadlineSelectAction')}
@@ -155,7 +155,7 @@ export default function SelectActionStep({
           fixedLayout
         />
       </Col>
-      <Col lg={4}>
+      <Col lg={5}>
         <ActionPreview />
       </Col>
     </Row>
