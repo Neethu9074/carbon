@@ -204,6 +204,7 @@
     "sloChartSummary": {
       "status": "Status",
       "target": "Target:",
+      "errorBudgetRemaining": "Error Budget Remaining",
       "errorBudgetSpent": "Error Budget Spent",
       "errorBudget": "Error Budget:",
       "timeWindow": "Time Window",

@@ -6,11 +6,12 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { type as typeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { Group } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -57,6 +58,7 @@ export default function AnalyzeCallsButton({
         }),
         groupBy
       })}
+      size={carbonButtonEnabled ? 'compact' : 'normal'}
     >
       {t('in-kubernetes:dashboards.analyzeCalls')}
     </Button>

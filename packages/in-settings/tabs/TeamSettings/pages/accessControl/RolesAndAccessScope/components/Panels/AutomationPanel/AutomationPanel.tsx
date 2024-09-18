@@ -15,6 +15,7 @@ import {
   AreaRoles,
   AreaRoleWithCustomType,
   automationAdditionalCapabilities,
+  automationOwnerCapabilities,
   automationViewCapabilities,
   ProductArea,
   ScopedPermissionType
@@ -30,7 +31,7 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { FormControlProps } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/RoleFormGroup';
-import { productPermissionsObject } from 'in-stores/permission';
+import { CapabilityType, productPermissionsObject } from 'in-stores/permission';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -69,13 +70,24 @@ export default function AutomationAccessPanel<FORM_TYPE extends MapFormItems>({
   const onChangeRole = (selected: AreaRoleWithCustomType | undefined, limitation: ScopedPermissionType) => {
     if (!permissionSet || selected === 'CUSTOM') return;
 
-    const newPermissionSet = updatePermissionSetForLimitableProductArea(
+    const restPermissionSet = updatePermissionSetForLimitableProductArea(
       permissionSet,
       productArea,
       limitation,
       selected
     );
 
+    const permissions =
+      selected === 'VIEWER'
+        ? restPermissionSet.permissions.filter(
+            permission => !automationOwnerCapabilities.includes(permission as CapabilityType)
+          )
+        : restPermissionSet.permissions;
+
+    const newPermissionSet: PermissionSet = {
+      ...restPermissionSet,
+      permissions
+    };
     setForm(updateFormField(form, 'permissionSet', newPermissionSet, true));
   };
 

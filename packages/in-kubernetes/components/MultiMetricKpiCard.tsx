@@ -7,8 +7,7 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
-import { Link, SvgIcon, Card } from '@instana/components';
-import { Button, ButtonKinds } from '@instana/legacy';
+import { Link, SvgIcon, Card, Button, ButtonKinds } from '@instana/components';
 import { Observable } from '@instana/observables';
 
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';

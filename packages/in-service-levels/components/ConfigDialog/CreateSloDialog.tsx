@@ -57,10 +57,14 @@ export default function CreateSloDialog({ configuration, mode, trackingMeta }: C
   const { form, setForm, updateForm, submitStatus, doSubmit } = useHandleSloForm({ configuration, mode });
 
   useEffect(() => {
-    trackSloEvent(SLO_CONFIG_DIALOG_OPEN, {
-      productArea: trackingMeta.productArea,
-      pageName: trackingMeta.pageName
-    });
+    trackSloEvent(
+      SLO_CONFIG_DIALOG_OPEN,
+      {
+        productArea: trackingMeta.productArea,
+        pageName: trackingMeta.pageName
+      },
+      undefined
+    );
   }, [trackingMeta]);
 
   return (
@@ -71,10 +75,14 @@ export default function CreateSloDialog({ configuration, mode, trackingMeta }: C
         <ConfigDialog
           title={t('in-service-levels:createSloDialog.title')}
           onClose={() => {
-            trackSloEvent(SLO_CONFIG_DIALOG_CLOSE, {
-              productArea: trackingMeta.productArea,
-              pageName: trackingMeta.pageName
-            });
+            trackSloEvent(
+              SLO_CONFIG_DIALOG_CLOSE,
+              {
+                productArea: trackingMeta.productArea,
+                pageName: trackingMeta.pageName
+              },
+              undefined
+            );
             closeDialog();
           }}
           isSaving={submitStatus === 'pending'}
@@ -115,16 +123,18 @@ function onSuccess(
     })
   });
 
-  trackSloEvent(SLO_CONFIG_DIALOG_FINISH, {
-    id,
-    mode,
-    blueprint: indicator.blueprint,
-    indicatorType: indicator.type,
-    entityType: entity.type,
-    timeWindowType: timeWindow.type,
-    productArea: trackingMeta.productArea,
-    pageName: trackingMeta.pageName
-  });
+  trackSloEvent(
+    SLO_CONFIG_DIALOG_FINISH,
+    { productArea: trackingMeta.productArea, pageName: trackingMeta.pageName },
+    {
+      id,
+      mode,
+      blueprint: indicator.blueprint,
+      indicatorType: indicator.type,
+      entityType: entity.type,
+      timeWindowType: timeWindow.type
+    }
+  );
 
   closeDialog();
 }
@@ -140,12 +150,14 @@ function onError(
   result?: Result<ServiceLevelObjectiveConfiguration>
 ) {
   if (result && result.errors.length !== 0) {
-    trackSloEvent(SLO_CONFIG_DIALOG_ERROR, {
-      mode,
-      code: 'API_ERROR',
-      productArea: trackingMeta.productArea,
-      pageName: trackingMeta.pageName
-    });
+    trackSloEvent(
+      SLO_CONFIG_DIALOG_ERROR,
+      { productArea: trackingMeta.productArea, pageName: trackingMeta.pageName },
+      {
+        mode,
+        code: 'API_ERROR'
+      }
+    );
 
     return result.errors.forEach(error =>
       addMessage({
@@ -157,12 +169,17 @@ function onError(
   }
 
   if (!result?.data) {
-    trackSloEvent(SLO_CONFIG_DIALOG_ERROR, {
-      mode,
-      code: 'UNEXPECTED_ERROR',
-      productArea: trackingMeta.productArea,
-      pageName: trackingMeta.pageName
-    });
+    trackSloEvent(
+      SLO_CONFIG_DIALOG_ERROR,
+      {
+        productArea: trackingMeta.productArea,
+        pageName: trackingMeta.pageName
+      },
+      {
+        mode,
+        code: 'UNEXPECTED_ERROR'
+      }
+    );
 
     return addMessage({
       ...errorMessageHeader,
@@ -173,12 +190,17 @@ function onError(
 
   const { name } = result.data;
 
-  trackSloEvent(SLO_CONFIG_DIALOG_ERROR, {
-    mode,
-    code: 'INVALID_SLO_CONFIG',
-    productArea: trackingMeta.productArea,
-    pageName: trackingMeta.pageName
-  });
+  trackSloEvent(
+    SLO_CONFIG_DIALOG_ERROR,
+    {
+      productArea: trackingMeta.productArea,
+      pageName: trackingMeta.pageName
+    },
+    {
+      mode,
+      code: 'INVALID_SLO_CONFIG'
+    }
+  );
 
   return addMessage({
     ...errorMessageHeader,

@@ -216,6 +216,15 @@
     "runningIn": "Running in:",
     "inService": "In service:",
     "asPartOfApplicationPerspective": "As part of application perspective:",
+    "failedTitle": "No root cause for this incident",
+    "failed": "A root cause could not be identified for this incident. You can review the automation policies and recommended actions to remediate the triggering event.",
+    "failureReasons": {
+      "noCalls": "A root cause could not be identified for this incident due to insufficient application impact. Since the event has occurred {{time_since_event_started}}, it's possible there might be more information available. Please go to the analyze page for further analysis",
+      "notEnoughApplicationImpact": "One possible reason is that the instrumentation for this application might be incorrect. See Application Perspectives in the documentation for additional information.",
+      "notSupported": "Probable root cause is not supported for this type of event. To learn more about how to instrument probable root cause for Smart Alerts, see the documentation.",
+      "analyzePage": "View Analyze Page",
+      "viewDocumentation": "View documentation"
+    },
     "traceLogs": "Trace Logs",
     "errorMessages": "Trace Error Messages",
     "analyzeErrors": "Analyze Errors",
@@ -256,8 +265,8 @@
     "openNotes": "Open notes and activity",
     "closeNotes": "Close notes and activity",
     "notesActivity": "Notes and activity",
-    "techPreview": "Private preview",
-    "you": "You",
+    "you": "You {{date}}",
+    "watsonx": "watsonx {{date}}",
     "summarizeIncident": "Summarize this incident?",
     "summarizeIncidentDescription": "Try summarizing this incident, to help you and your team gain a quick understanding of what has happened.",
     "generateSummary": "Generate a summary",
@@ -274,6 +283,8 @@
     "triggeringEvent": "<strong>Triggering event</strong>: We use the title and description to frame the summary.",
     "relatedEvents": "<strong>Related events</strong>: We use the titles, descriptions and associated actions.",
     "affectedEntities": "<strong>Affected entities</strong>: We use entity data to inform the summary.",
-    "updatedBy": "(updated by {{name}})"
+    "updatedBy": "(updated by {{name}})",
+    "showAll": "Show all",
+    "collapse": "Collapse"
   }
 }

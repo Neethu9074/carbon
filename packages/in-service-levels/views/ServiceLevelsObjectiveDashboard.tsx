@@ -76,7 +76,11 @@ export default function ServiceLevelsObjectiveDashboard() {
             : pageNames.slo_config
       }}
     >
-      <SloTimeWindowProvider sloConfigId={sloId} sloTimeWindow={sloTimeWindow}>
+      <SloTimeWindowProvider
+        sloConfigId={sloId}
+        sloTimeWindow={sloTimeWindow}
+        timeWindowTypeParameterDefinition={defaultServiceLevelObjectiveUrlParameters.timeWindowType}
+      >
         <TabView
           location={location}
           HeaderComponent={SloDashboardHeader}

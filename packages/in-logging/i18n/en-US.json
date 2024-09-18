@@ -1,6 +1,7 @@
 {
   "logs": "Logs",
   "sum": "sum",
+  "count": "count",
   "bar": "Bar",
   "logsOverTime": "Logs over time",
   "logsOverTime_ERROR": "Error",
@@ -60,6 +61,13 @@
     "smartAlerts": "Smart Alerts",
     "deleteLogs": "Delete Logs",
     "configuration": "Configuration",
+    "logVolume":{
+      "logVolumeTitle": "Current month log volume",
+      "gb": "GB",
+      "logVolumeIcon": "Go to log volume"
+    },
+    "retentionIcon": "Change retention period",
+    "noData": "No data available",
     "analyzeLogs": "Analyze Logs"
   }
 }

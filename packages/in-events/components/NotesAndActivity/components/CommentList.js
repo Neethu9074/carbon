@@ -7,12 +7,18 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon, CarbonPopover, CarbonPopoverContent, IconButton } from '@instana/components';
+import { SvgIcon, CarbonPopover, CarbonPopoverContent, IconButton, CarbonButton } from '@instana/components';
 
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import { TYPE_NOTE, TYPE_EXT_NOTE, TYPE_EXT_F_CHANGE, TYPE_AI_SUMMARY } from '../utils';
 import { noteNameAndTimeFormat, createDataString, getSummary } from './utils';
+import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
+import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { dateFormat, timeFormat } from 'in-services/formatters/date';
+import { EVENT_AI_SHOW_MORE } from 'in-services/tracking/eventNames';
+import { CTA_CLICKED } from 'in-services/util/constants';
+import { track } from 'in-services/tracking/trackers';
+import { user } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
 import locals from './CommentList.mless';
@@ -111,13 +117,21 @@ export function CommentList(props) {
 // if the text is from me or someone else, ai generated, or external source
 export function ChatBubble(props) {
   const { myBubble, contents, data, type, noteObj } = props;
+  const [showAll, setShowAll] = useState(false);
   // Currently we have 4 types of bubbles
   const note = type === TYPE_NOTE;
   const extNote = type === TYPE_EXT_NOTE;
   const extChange = type === TYPE_EXT_F_CHANGE;
   const updatedBy = (extChange && noteObj?.metadata?.get('updatedBy')) || '';
   const aiSum = type === TYPE_AI_SUMMARY;
-  const summary = aiSum && getSummary(noteObj?.data);
+  // Calculate the AI Summary
+  const sumData = noteObj?.data || [];
+  const subArray = (arr, i = 0, n = 1) => arr?.slice(i, n);
+  const firstFive = aiSum && subArray(sumData, 0, 5);
+  const last = aiSum && subArray(sumData, 5, sumData.size);
+  const summaryStart = aiSum && getSummary(firstFive);
+  const summaryEnd = aiSum && getSummary(last);
+
   return (
     <div
       className={classNames({
@@ -127,18 +141,24 @@ export function ChatBubble(props) {
         [locals.aiGenBubble]: aiSum
       })}
     >
-      {note && contents}
+      {note && contents && <div style={{ wordWrap: 'break-word' }}>{contents}</div>}
       {aiSum && (
         <>
           <div className={locals.bubbleContentsHeader}>{t('in-events:notes.sumGenerated')}</div>
-          {summary.map(entity => {
-            return (
-              <div className={locals.summaryList}>
-                {`- `}
-                <div>{entity}</div>
-              </div>
-            );
-          })}
+          <SummaryEntry summaryList={summaryStart} />
+          {showAll && <SummaryEntry summaryList={summaryEnd} />}
+          {summaryEnd.length > 0 && (
+            <CarbonButton
+              size="sm"
+              onClick={() => {
+                handleShowMore(noteObj?.id);
+                setShowAll(!showAll);
+              }}
+              kind="ghost"
+            >
+              {!showAll ? t('in-events:notes.showAll') : t('in-events:notes.collapse')}
+            </CarbonButton>
+          )}
         </>
       )}
       {extNote && (
@@ -158,6 +178,24 @@ export function ChatBubble(props) {
         </>
       )}
     </div>
+  );
+}
+
+function SummaryEntry({ summaryList }) {
+  return (
+    <>
+      {summaryList.map(entity => {
+        return (
+          <div key={entity.label} className={locals.summaryList}>
+            {`- `}
+            <div>
+              <div style={{ fontWeight: '700' }}>{entity.label}</div>
+              {entity.summary}
+            </div>
+          </div>
+        );
+      })}
+    </>
   );
 }
 
@@ -204,23 +242,37 @@ export function AIExplainedContent() {
         <div className={locals.dataTypesHeader}>{t('in-events:notes.dataTypes')}</div>
         <div className={locals.bullet}>
           {'- '}
-          <div>
+          <div style={{ paddingLeft: '.5rem' }}>
             <Trans i18nKey={'in-events:notes.triggeringEvent'} />
           </div>
         </div>
         <div className={locals.bullet}>
           {'- '}
-          <div>
+          <div style={{ paddingLeft: '.5rem' }}>
             <Trans i18nKey={'in-events:notes.relatedEvents'} />
           </div>
         </div>
         <div className={locals.bullet}>
           {'- '}
-          <div>
+          <div style={{ paddingLeft: '.5rem' }}>
             <Trans i18nKey={'in-events:notes.affectedEntities'} />
           </div>
         </div>
       </div>
     </div>
   );
+}
+
+function handleShowMore(id) {
+  const { pageRootName, productArea } = getViewTrackingMetaData();
+  if (pageRootName && productArea) {
+    const data = {
+      parentPageName: pageRootName,
+      parentPageCategory: productArea,
+      CTA: EVENT_AI_SHOW_MORE,
+      path: location.hash
+    };
+    eventTracker({ data, segmentEventName: CTA_CLICKED });
+  }
+  track(EVENT_AI_SHOW_MORE, { id, author: user.preferredName });
 }

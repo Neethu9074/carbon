@@ -17,7 +17,6 @@ import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadge
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import getKubernetesNode from 'in-kubernetes/subscriptions/getKubernetesNode';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
-import { kubernetesTimeShiftSelectTracker } from 'in-kubernetes/tracker';
 import { nodeId as matrixNodeId } from 'in-kubernetes/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -32,8 +31,8 @@ import tabs from 'in-kubernetes/Dashboards/Node/tabs/index';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { pageNames } from 'in-services/tracking/pageNames';
 import BadgeList from 'in-components/BadgeList/BadgeList';
+import { useSegmentTracker } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
-import { nodeTabChange } from 'in-kubernetes/tracker';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
@@ -44,6 +43,8 @@ export default function NodeDashboard({ location }) {
     viewPath: nodeDashboard,
     timeConfig: getTimeConfig(location)
   };
+
+  const { k8sTabChange, kubernetesTimeShiftSelectTracker } = useSegmentTracker();
 
   return (
     <>
@@ -72,10 +73,18 @@ export default function NodeDashboard({ location }) {
           id: props.nodeId,
           timeConfig: props.timeConfig
         })}
-        HeaderComponent={Header}
+        HeaderComponent={props => (
+          <Header {...props} kubernetesTimeShiftSelectTracker={kubernetesTimeShiftSelectTracker} />
+        )}
         location={location}
         tabs={tabs}
-        tabChangeTracker={nodeTabChange}
+        tabChangeTracker={e => {
+          k8sTabChange({
+            ...e,
+            dashboard: 'node',
+            path: location.pathname
+          });
+        }}
         props={props}
         renderErrors={errors => (
           <CenterAlignmentColumn>
@@ -122,7 +131,7 @@ function renderButtonLine({ nodeId, timeConfig, result }) {
   );
 }
 
-function renderButtonLineSecondary({ nodeId, timeConfig }) {
+function renderButtonLineSecondary({ nodeId, timeConfig, kubernetesTimeShiftSelectTracker }) {
   return (
     <>
       {beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled && (

@@ -54,7 +54,6 @@ export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 export const logWidgetsEnabled = isFeatureFlagEnabled('logWidgetsEnabled');
 export const logVolumePageEnabled = isFeatureFlagEnabled('logVolumePageEnabled');
 export const logHomepageEnabled = isFeatureFlagEnabled('logHomepageEnabled');
-export const carbonPillEnabled = isFeatureFlagEnabled('carbonPillEnabled');
 export const logRetentionPageEnabled = isFeatureFlagEnabled('logRetentionPageEnabled');
 export const notesAndActivityEnabled = isFeatureFlagEnabled('notesAndActivityEnabled');
 export const carbonMessageEnabled = isFeatureFlagEnabled('carbonMessageEnabled');
@@ -110,7 +109,7 @@ export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true)
 export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
 export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', true);
 export const sloSmartAlertsEnabled = isFeatureFlagEnabled('sloSmartAlertsEnabled', true);
-export const sloRebornWidgetEnabled = isFeatureFlagEnabled('sloRebornWidgetEnabled', false);
+export const sloRebornWidgetEnabled = isFeatureFlagEnabled('sloRebornWidgetEnabled', true);
 
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', true);
 export const eumImpactedUsersForAppAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForAppAlertEnabled', false);
@@ -251,6 +250,7 @@ export const playWithReleaseEnabled = isFeatureFlagEnabled('playWithReleaseEnabl
 
 export const rcaUIEnabled = isFeatureFlagEnabled('rcaUIEnabled', true);
 export const rcaLogsEnabled = isFeatureFlagEnabled('rcaLogsEnabled', false);
+export const rcaFailedStateEnabled = isFeatureFlagEnabled('rcaFailedStateEnabled', false);
 export const eventFeedbackEnabled = isFeatureFlagEnabled('eventFeedbackEnabled', true);
 export const incidentSummarizationEnabled = isFeatureFlagEnabled('incidentSummarizationEnabled', false);
 export const manuallyCloseEventEnabled = isFeatureFlagEnabled('manuallyCloseEventEnabled', true);
@@ -290,3 +290,4 @@ export const automationActionAiGenerationUnitEnabled = isFeatureFlagEnabled(
   'automationActionAiGenerationUnitEnabled',
   false
 );
+export const carbonSliderEnabled = isFeatureFlagEnabled('carbonSliderEnabled', false);

@@ -34,10 +34,14 @@ export default function FormComponent({
   const updateForm = useSloWidgetFormSideEffects(form, updatedForm => originalOnChange([], () => updatedForm));
 
   useEffect(() => {
-    trackSloEvent(SLO2_WIDGET_EDIT_START, {
-      productArea: productAreas.custom_dashboard,
-      pageName: pageNames.custom_dashboard
-    });
+    trackSloEvent(
+      SLO2_WIDGET_EDIT_START,
+      {
+        productArea: productAreas.custom_dashboard,
+        pageName: pageNames.custom_dashboard
+      },
+      undefined
+    );
   }, []);
 
   const entityTypeField = form.getIn(['entityType']);
@@ -116,7 +120,7 @@ export default function FormComponent({
             hasError={!chartTypeField.valid}
           >
             {SloWidgetChartTypes.map(chartType => (
-              <option value={chartType}>
+              <option value={chartType} key={chartType}>
                 {t('in-custom-dashboards:widgets.slo.v2Form.chartTypeOption', { context: chartType })}
               </option>
             ))}

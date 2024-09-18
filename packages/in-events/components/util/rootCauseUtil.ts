@@ -44,13 +44,14 @@ export interface ExplainabilityValues {
 }
 
 // Typescript Probable Root Cause Reference
-export type ProbableCauseSnapshotKeys = 'entityID' | 'explainability' | 'probFailure' | 'events';
+export type ProbableCauseSnapshotKeys = 'entityID' | 'explainability' | 'probFailure' | 'events' | 'snapshotId';
 
 export interface ProbableCauseSnapshotValues {
   entityID: Map<string, string>;
   explainability: List<Map<ExplainabilityKeys, ExplainabilityValues[ExplainabilityKeys]>>;
   probFailure: number;
   events: List<string>;
+  snapshotId?: string;
 }
 
 export type ProbableCauseType = Map<ProbableCauseSnapshotKeys, ProbableCauseSnapshotValues[ProbableCauseSnapshotKeys]>;

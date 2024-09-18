@@ -40,15 +40,6 @@ import locals from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/
 
 const logger = createLogger('apiTokenConfig');
 
-export interface FormProp {
-  items?: { name?: { value?: String } };
-  hierarchyValid: boolean;
-  setTouched(touched: boolean, opts?: any): any;
-  toJS(): ApiTokenProps;
-  updateIn(path: any, updater?: any): any;
-  get(path: any): any;
-}
-
 export interface ApiTokenProps {
   name: string;
   accessGrantingToken: string;
@@ -66,7 +57,7 @@ export interface StateProps {
   error: boolean;
   message: string | null;
   apiToken: ApiTokenProps | null;
-  form: FormProp | null;
+  form: MapForm<any> | null | undefined;
   createNewToken: boolean;
   showCreatedToken: boolean;
 }
@@ -84,6 +75,11 @@ const initialState: StateProps = {
 const ApiToken = (props: MatchParams): any => {
   const [state, setState] = useState(initialState);
   const { goToPath } = useNavigation();
+  const { apiToken, form, message, loading } = state;
+  const headline = t('in-settings:tabs.createdApiToken');
+  const description = t('in-settings:tabs.apiTokenDescription');
+  const apiTokenName = apiToken?.name;
+  const accessGrantingToken = apiToken?.accessGrantingToken;
 
   const loadApiToken = useCallback(
     (id: string): void => {
@@ -105,7 +101,7 @@ const ApiToken = (props: MatchParams): any => {
               expiresOn: null
             }
           : apiToken;
-        setState(prevState => ({
+        setState((prevState: any) => ({
           ...prevState,
           loading: false,
           error: false,
@@ -160,7 +156,7 @@ const ApiToken = (props: MatchParams): any => {
     const saveResult$ = createApiToken({
       accessGrantingToken,
       internalId: generateUniqueShortId(),
-      name: state.form?.items?.name?.value
+      name: form?.get('name')?.value
     });
     return saveResult$;
   };
@@ -170,6 +166,12 @@ const ApiToken = (props: MatchParams): any => {
       let value = apiToken[fieldName as keyof ApiTokenProps];
       state.form = state.form?.updateIn([fieldName], (field: any) => field.setValue(value).setTouched(true));
     });
+
+  const setForm = (updatedForm: any) =>
+    setState(prevState => ({
+      ...prevState,
+      form: updatedForm
+    }));
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -246,12 +248,6 @@ const ApiToken = (props: MatchParams): any => {
     }));
   };
 
-  const { apiToken, form, message, loading } = state;
-  const headline = t('in-settings:tabs.createdApiToken');
-  const description = t('in-settings:tabs.apiTokenDescription');
-  const apiTokenName = apiToken?.name;
-  const accessGrantingToken = apiToken?.accessGrantingToken;
-
   if (state.showCreatedToken)
     return (
       <Dialog title={headline} onClose={() => close()}>
@@ -305,7 +301,12 @@ const ApiToken = (props: MatchParams): any => {
 
         <form onSubmit={onSubmit}>
           {form ? (
-            <ApiTokenForm form={form} onChange={onChange} createNewToken={state.createNewToken} setState={setState} />
+            <ApiTokenForm
+              form={form}
+              onChange={onChange}
+              createNewToken={state.createNewToken}
+              setForm={updatedForm => setForm(updatedForm)}
+            />
           ) : null}
         </form>
       </SettingsDetailPage>

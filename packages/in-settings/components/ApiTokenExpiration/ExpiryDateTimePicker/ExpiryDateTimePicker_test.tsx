@@ -29,7 +29,7 @@ describe('in-settings/components/ApiTokenExpiration/ExpiryDateTimePicker/ExpiryD
   };
   const props: ExpiryDateTimePickerProps = {
     form: createForm(createToken),
-    setState: mockSetState
+    setForm: mockSetState
   };
   it('renders ExpiryDateTimePicker', () => {
     const { getByText } = render(<ExpiryDateTimePicker {...props} />);

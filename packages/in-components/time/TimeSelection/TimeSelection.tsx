@@ -11,7 +11,8 @@ import { useObservable } from '@instana/hooks';
 import TimeSelectionDialogPresenter from 'in-components/time/TimeSelectionDialogPresenter/TimeSelectionDialogPresenter';
 // @ts-expect-error
 import DashboardHeaderButton from 'in-components/DashboardHeader/DashboardHeaderButton';
-import { TIME_WINDOW_SIZE_VIA_PICKER, TIME_LIVE_MODE, track } from 'in-services/tracking/tracking';
+import { TIME_WINDOW_SIZE_VIA_PICKER, TIME_LIVE_MODE } from 'in-services/tracking/tracking';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { timeConfig$, urlQueryKeys } from 'in-stores/time/config';
@@ -125,6 +126,8 @@ function LiveModeToggle({
 }: LiveModeToggleProps) {
   const { location, createHref } = useNavigation();
 
+  const { trackCta } = useSegmentTracking();
+
   const isLive = liveModeDisabled ? false : isLiveProp;
   const href = createHref(isLive ? getTimeframeNonLiveLocation(location) : getTimeframeLiveLocation(location));
 
@@ -139,7 +142,7 @@ function LiveModeToggle({
         icon={icon}
         darkTheme={darkTheme}
         className={isLive ? locals.live : locals.static}
-        onClick={() => !isLive && track(TIME_LIVE_MODE)}
+        onClick={() => !isLive && trackCta(TIME_LIVE_MODE)}
       >
         {t('in-components:time.dashboardHeaderButtonLive')}
       </DashboardHeaderButton>
@@ -154,12 +157,13 @@ interface TimeSelectionDialogPresenterWrapperProps {
 
 function TimeSelectionDialogPresenterWrapper({ timeConfig, close }: TimeSelectionDialogPresenterWrapperProps) {
   const { location, navigate } = useNavigation();
+  const { trackCta } = useSegmentTracking();
 
   return <TimeSelectionDialogPresenter timeConfig={timeConfig} onChange={onChange} closeOverlay={close} />;
 
   function onChange(timeConfig: TimeConfig) {
     close();
-    track(TIME_WINDOW_SIZE_VIA_PICKER, {});
+    trackCta(TIME_WINDOW_SIZE_VIA_PICKER, {});
 
     if (timeConfig) {
       navigate(setTimeframe(timeConfig.windowSize, timeConfig.to, location));

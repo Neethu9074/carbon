@@ -48,7 +48,6 @@ module.exports = {
   logRetentionPageEnabled: true,
   logWidgetsEnabled: true,
   carbonShellEnabled: true,
-  carbonPillEnabled: true,
   carbonMessageEnabled: true,
   carbonIconButtonEnabled: true,
   carbonSearchInputEnabled: true,
@@ -118,8 +117,9 @@ module.exports = {
   syntheticCustomDashboardEnabled: true,
   rcaUIEnabled: true,
   rcaLogsEnabled: false,
+  rcaFailedStateEnabled: false,
   eventFeedbackEnabled: true,
-  incidentSummarizationEnabled: false,
+  incidentSummarizationEnabled: true,
   manuallyCloseEventEnabled: true,
   apiTokenExpirationEnabled: false,
   regexMetricSelectionEnabled: true,
@@ -169,5 +169,6 @@ module.exports = {
   graphViewFromInfraMapEnabled: true,
   extrapolateMissingStackedAreaValues: false,
   nutanixEnabled: true,
-  automationActionAiGenerationUnitEnabled: true
+  automationActionAiGenerationUnitEnabled: true,
+  carbonSliderEnabled: true
 };

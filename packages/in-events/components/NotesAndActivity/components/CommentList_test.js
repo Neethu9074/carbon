@@ -84,7 +84,7 @@ describe('ChatBubble', () => {
         noteObj={{
           author: 'John Doe',
           type: 'external_note',
-          contents: 'This is an ai generated message',
+          data: [new Map([['entitySummary', 'This is an ai generated message'], ['entityLabel', 'LABEL']])],
           timestamp: 1717523244282,
           label: 'AI Summary'
         }}
@@ -95,7 +95,9 @@ describe('ChatBubble', () => {
     expect(wrapper.find(`div.${locals.bubble}`)).toHaveLength(1);
     expect(wrapper.find(`div.${locals.myBubble}`)).toHaveLength(0);
     expect(wrapper.find(`div.${locals.aiGenBubble}`)).toHaveLength(1);
-    expect(wrapper.find(`div.${locals.aiGenBubble}`).text()).toEqual('Summary generated:');
+    expect(wrapper.find(`div.${locals.aiGenBubble}`).text()).toEqual(
+      'Summary generated:<SummaryEntry />'
+    );
     expect(wrapper.find(`div.${locals.bubbleContentsHeader}`)).toHaveLength(1);
     expect(wrapper.find(`div.${locals.bubbleContentsHeader}`).text()).toEqual('Summary generated:');
   });

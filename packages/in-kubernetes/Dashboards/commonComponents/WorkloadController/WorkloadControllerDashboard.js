@@ -16,7 +16,6 @@ import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsF
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
-import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -28,6 +27,7 @@ import DashboardHeader from 'in-components/DashboardHeader';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { useSegmentTracker } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-components/Footer';
 
@@ -57,6 +57,8 @@ export default function WorkloadControllerDashboard({
   };
   props[`${props.workloadControllerType}Id`] = props.workloadControllerId;
 
+  const { kubernetesTimeShiftSelectTracker } = useSegmentTracker();
+
   return (
     <>
       <ViewTrackingMeta
@@ -72,7 +74,9 @@ export default function WorkloadControllerDashboard({
           id: props.workloadControllerId,
           timeConfig: props.timeConfig
         })}
-        HeaderComponent={Header}
+        HeaderComponent={props => (
+          <Header {...props} kubernetesTimeShiftSelectTracker={kubernetesTimeShiftSelectTracker} />
+        )}
         location={location}
         tabs={tabs}
         tabChangeTracker={tabChangeTracker}
@@ -127,14 +131,14 @@ function Header(props) {
   );
 }
 
-function renderButtonLineSecondary({ timeConfig, podId }) {
+function renderButtonLineSecondary({ timeConfig, podId, kubernetesTimeShiftSelectTracker, workloadControllerType }) {
   return (
     <>
       {beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled && (
         <TimeShiftDropdown
           onChange={offset =>
-            applicationTimeShiftSelectTracker({
-              area: 'pod',
+            kubernetesTimeShiftSelectTracker({
+              area: workloadControllerType,
               offset: getTimeShiftLabel({ offset: offset }),
               windowSize: timeConfig.windowSize,
               autoRefresh: timeConfig.autoRefresh

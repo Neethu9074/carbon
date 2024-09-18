@@ -21,10 +21,14 @@ export function openAddSloSlideInView(
   setSlideInView: SetSlideInViewAction<CreateSloFormSlideState>,
   onCreationSuccessful: (sloConfig: ServiceLevelObjectiveConfiguration) => void
 ) {
-  trackSloEvent(SLO_CONFIG_DIALOG_OPEN, {
-    productArea: productAreas.custom_dashboard,
-    pageName: pageNames.custom_dashboard
-  });
+  trackSloEvent(
+    SLO_CONFIG_DIALOG_OPEN,
+    {
+      productArea: productAreas.custom_dashboard,
+      pageName: pageNames.custom_dashboard
+    },
+    undefined
+  );
 
   return setSlideInView({
     renderTitle() {

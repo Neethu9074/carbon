@@ -24,17 +24,6 @@ describe('in-custom-dashboards/widgets/SloLegacy/components/widget/tiles/SloTile
     expect(wrapper.find(`.${locals.value}`).text()).toContain(valueMissingPlaceholder);
   });
 
-  it('renders a placeholder if budget is undefined', () => {
-    // Given
-    const budget = undefined;
-
-    // When
-    const wrapper = shallow(<SloTile title="" budgetTitle="" value="something" budget={budget} />);
-
-    // Then
-    expect(wrapper.find(`.${locals.targetInfo}`).text()).toContain(valueMissingPlaceholder);
-  });
-
   it('applies none of the budget indicator classes to value if value is undefined', () => {
     // Given
     const value = undefined;

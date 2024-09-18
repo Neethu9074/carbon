@@ -4,13 +4,14 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Redirect } from 'react-router-dom';
 import React from 'react';
 
 import { usePowervcHypervisorDashboard } from 'in-powervc/navigation/paths';
-import RedirectWithHash from 'in-components/RedirectWithHash';
 
-export default function SystemDashboard({ snapshot }) {
+export default function SystemDashboard({ snapshot, timeConfig }) {
   const getPowervcHypervisorDashboard = usePowervcHypervisorDashboard();
+  const href = getPowervcHypervisorDashboard(snapshot.get('id'), { timeConfig });
 
-  return <RedirectWithHash to={getPowervcHypervisorDashboard(snapshot.get('id'))} />;
+  return <Redirect to={href.substring(2)} />;
 }

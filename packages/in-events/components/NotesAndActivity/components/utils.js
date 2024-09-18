@@ -21,11 +21,10 @@ export function validTextEntry(text) {
 export function noteNameAndTimeFormat(myBubble, note, date, type) {
   const typeNote = type === TYPE_NOTE;
   const aiGen = type === TYPE_AI_SUMMARY;
-
   if (myBubble && typeNote) {
-    return `${t('in-events:notes.you')} ${date}`;
+    return `${t('in-events:notes.you', { date: date })}`;
   } else if (aiGen) {
-    return `watsonx ${date}`;
+    return `${t('in-events:notes.watsonx', { date: date })}`;
   } else if (typeNote) {
     return `${note?.author} ${date}`;
   } else {
@@ -62,8 +61,9 @@ export function getSummary(data) {
   var dataString = [];
   data?.map(entry => {
     const props = Object.fromEntries(entry);
+    const entityLabel = (props.entityLabel && props.entityLabel !== "" && props.entityLabel) || props.entityName;
     const entitySummary = `${props.entitySummary}\n`;
-    dataString.push(entitySummary);
+    dataString.push({ label: entityLabel, summary: entitySummary });
   });
   return dataString;
 }

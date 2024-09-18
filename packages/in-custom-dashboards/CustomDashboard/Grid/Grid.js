@@ -197,6 +197,7 @@ function WidgetContent({
       dragHandle={isDraggable && dragHandle}
       config={widget.config}
       setApDialogOpen={widget.setApDialogOpen}
+      widgetId={widget.id}
     />
   );
 

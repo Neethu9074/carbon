@@ -4,13 +4,14 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Redirect } from 'react-router-dom';
 import React from 'react';
 
 import { usePowervcRegionDashboard } from 'in-powervc/navigation/paths';
-import RedirectWithHash from 'in-components/RedirectWithHash';
 
-export default function SystemDashboard({ snapshot }) {
+export default function SystemDashboard({ snapshot, timeConfig }) {
   const getPowervcRegionDashboard = usePowervcRegionDashboard();
+  const href = getPowervcRegionDashboard(snapshot.get('id'), { timeConfig });
 
-  return <RedirectWithHash to={getPowervcRegionDashboard(snapshot.get('id'))} />;
+  return <Redirect to={href.substring(2)} />;
 }

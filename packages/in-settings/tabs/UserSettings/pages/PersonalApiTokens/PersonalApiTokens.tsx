@@ -17,11 +17,13 @@ import {
 import CreatePersonalApiToken from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/CreatePersonalApiToken';
 import EditPersonalApiToken from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/EditPersonalApiToken';
 import TenantInfoBanner from 'in-settings/tabs/TeamSettings/components/TenantInfoBanner/TenantInfoBanner';
+import { getApiTokenStatus } from 'in-settings/components/ApiTokenExpiration/utils';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { userSettingsPersonalApiTokens } from 'in-settings/navigation/paths';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { formatDateTime, fromNow } from 'in-services/formatters/date';
+import { apiTokenExpirationEnabled } from 'in-services/featureFlags';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -67,7 +69,12 @@ export default function PersonalApiTokens() {
         onRowClick={item => addActiveDialog(<EditPersonalApiToken onClose={close} current={item} />)}
         onCreateNew={() => addActiveDialog(<CreatePersonalApiToken onClose={close} />)}
         labelNew={t('in-settings:tabs.newPersonalApiToken')}
-        searchAttributes={['name', 'tokenId', 'accessGrantingToken']}
+        searchAttributes={[
+          'name',
+          'tokenId',
+          'accessGrantingToken',
+          ...(apiTokenExpirationEnabled ? [(entity: any) => getApiTokenStatus(entity?.expiresOn)] : [])
+        ]}
         searchPlaceholder={t('in-settings:components.search')}
         noDataMessage={t('in-settings:tabs.noPersonalApiTokens')}
         customSortEntities={customSortEntities}
@@ -122,6 +129,19 @@ const columnDefinitions = [
       </span>
     )
   },
+  ...(apiTokenExpirationEnabled
+    ? [
+        {
+          id: 'expiresOn',
+          label: t('in-settings:tabs.tokenStatus'),
+          ellipsis: true,
+          useMinimumAmountOfHorizontalSpace: true,
+          getContent({ expiresOn }: PersonalApiToken) {
+            return getApiTokenStatus(expiresOn);
+          }
+        }
+      ]
+    : []),
   {
     id: 'createdOn',
     label: t('in-settings:tabs.tokenCreated'),
@@ -151,16 +171,20 @@ const customSortEntities = ({
   orderDirectionState: 'ASC' | 'DESC';
 }): PersonalApiToken[] => {
   return entities.slice().sort((a, b) => {
-    if (!a[orderByState]) return 1;
-    if (!b[orderByState]) return -1;
+    const orderByState1 = a[orderByState];
+    const orderByState2 = b[orderByState];
+
+    if (orderByState1 === null || orderByState1 === undefined) return 1;
+    if (orderByState2 === null || orderByState2 === undefined) return -1;
+
     if (orderByState === 'lastUsedOn' || orderByState === 'createdOn') {
       return orderDirectionState === 'ASC'
         ? Number(a[orderByState]) - Number(b[orderByState])
         : Number(b[orderByState]) - Number(a[orderByState]);
     }
     return orderDirectionState === 'ASC'
-      ? compareIgnoreCase(a[orderByState].toString(), b[orderByState].toString())
-      : compareIgnoreCase(b[orderByState].toString(), a[orderByState].toString());
+      ? compareIgnoreCase(orderByState1.toString(), orderByState2.toString())
+      : compareIgnoreCase(orderByState2.toString(), orderByState1.toString());
   });
 };
 

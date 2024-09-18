@@ -8,7 +8,6 @@ import { createField, createMapForm, Field, MapForm, ValidationResult } from 'fo
 
 import { DateFormatterInput, formatDateTime } from '@instana/format-date';
 
-import { FormProp } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { dateValidator, timeValidator } from 'in-services/validators/date';
 import { formatDate, formatTime } from 'in-services/formatters/date';
@@ -29,11 +28,11 @@ export function removeFormForExpiryTimeStamp(form: MapForm<any>): MapForm<any> {
 export function addFormForExpiryTimeStamp(form: MapForm<any>, ts?: number | null): MapForm<any> {
   return form.put(
     customTokenExpiry,
-    createMapForm({ validator: isBeforeCurrentTimeValidator })
+    createMapForm({ validator: isBeforeCurrentTimeValidator, touched: true })
       .put(
         'date',
         createField({
-          value: ts ? formatDate(ts) : null,
+          value: ts ? formatDate(ts) : '',
           validator: composeAndShortCircuitOnError(notBlankValidator, dateValidator)
         })
       )
@@ -63,14 +62,14 @@ export const isBeforeCurrentTimeValidator = ({
     : null;
 };
 
-export const updateExpiresOnFormField = (form: FormProp, value: number | null) => {
-  return form.updateIn(['expiresOn'], (f: Field<DateFormatterInput>) => f.setValue(value));
+export const updateExpiresOnFormField = (form: MapForm<any>, value: DateFormatterInput): MapForm<any> => {
+  return form.updateIn(['expiresOn'], (f: Field<DateFormatterInput>) => f.setValue(value).setTouched(true));
 };
 
 export const getApiTokenStatus = (expiresOn: DateFormatterInput) => {
   const time_diff: number = new Date().getTime() - (expiresOn as number);
 
-  if (expiresOn === null) {
+  if (expiresOn === null || expiresOn === 0) {
     return t('in-settings:tabs.tokenActive');
   } else if (time_diff < 0) {
     return t('in-settings:tabs.tokenActiveUntil', { dateTime: formatDateTime(expiresOn) });

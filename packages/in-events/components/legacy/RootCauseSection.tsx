@@ -8,6 +8,7 @@ import React, { ReactNode, useState } from 'react';
 import { List, Map } from 'immutable';
 
 import {
+  Button,
   CarbonTab,
   CarbonTabList,
   CarbonTabPanel,
@@ -16,11 +17,15 @@ import {
   Card,
   IconButton,
   Pill,
+  PreviewPill,
   Stack,
+  SvgIcon,
   Typography
 } from '@instana/components';
 import { Snapshot, TimeConfig } from '@instana/types';
 import { themes } from '@instana/design-tokens';
+import { t, Trans } from '@instana/i18n-react';
+import { fromNow } from '@instana/format-date';
 
 import {
   RCAFeedbackClosedManuallyTracker,
@@ -32,39 +37,43 @@ import {
 } from 'in-events/tracker';
 import { ExplainabilityKeys, ProbableCauseType } from 'in-events/components/util/rootCauseUtil';
 import RootCauseEntityDetails from 'in-events/components/legacy/RootCauseEntityDetails';
+import { carbonButtonEnabled, rcaFailedStateEnabled } from 'in-services/featureFlags';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
 import { rcaStepConfig } from 'in-events/components/feedback/rcaStepConfig';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
+import { useLinkToAnalyze } from 'in-applications/navigation/paths';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { minutes } from 'in-services/time/time';
 import { EventOrMap } from 'in-events/types';
-import { t } from 'in-i18n';
+import { Nullish } from 'in-types';
 
 import locals from 'in-events/components/legacy/EventList.mless';
 
 interface RootCauseSectionProps {
   title: string;
   incident: EventOrMap;
-  incidentHasRCAProperty: boolean;
   latestSnapshot: Snapshot;
 }
 
-export default function RootCauseSection({
-  title,
-  incident,
-  incidentHasRCAProperty,
-  latestSnapshot
-}: RootCauseSectionProps) {
+export default function RootCauseSection({ title, incident, latestSnapshot }: RootCauseSectionProps) {
   const rootCauseSnapshotPath = incident.hasIn(['metadata', 'rootCause', 'currentRootCause'])
     ? ['metadata', 'rootCause', 'currentRootCause']
     : ['metadata', 'rootCause'];
 
-  const rootCauseSnapshotMap = (incident.getIn(rootCauseSnapshotPath, Map()) as Map<string, ProbableCauseType>)
-    .sort((a, b) => (b.get('probFailure') as number) - (a.get('probFailure') as number))
-    .filter(rootCauseEntity => {
+  const failureReason = incident.getIn(['rca', 'failureReason']);
+
+  const getLinkToApplicationAnalyze = useLinkToAnalyze();
+
+  const rootCauseSnapshotMap = (
+    incident.getIn(rootCauseSnapshotPath, Map()) as Map<string, ProbableCauseType> | List<ProbableCauseType>
+  )
+    .sort(
+      (a: ProbableCauseType, b: ProbableCauseType) =>
+        (b.get('probFailure') as number) - (a.get('probFailure') as number)
+    )
+    .filter((rootCauseEntity: ProbableCauseType | undefined) => {
       // Filtering out entities with no erroneous rate through the identified root cause
       if (!rootCauseEntity) return false;
 
@@ -79,9 +88,87 @@ export default function RootCauseSection({
       return true;
     });
 
-  const rootCauseSnapshots = rootCauseSnapshotMap.entrySeq().toArray();
+  let rootCauseSnapshots: [string, ProbableCauseType][] = [];
+  if (List.isList(rootCauseSnapshotMap)) {
+    rootCauseSnapshots = rootCauseSnapshotMap
+      .map((rootCause: ProbableCauseType | undefined) => {
+        if (!rootCause) return;
+        const id = rootCause?.get('snapshotId');
 
-  if (!incidentHasRCAProperty || rootCauseSnapshotMap.size <= 0) return null;
+        return [id, rootCause];
+      })
+      .toArray() as [string, ProbableCauseType][];
+  } else if (Map.isMap(rootCauseSnapshotMap)) {
+    // legacy where we had a map of snapshot Ids with respective root cause directly
+    rootCauseSnapshots = rootCauseSnapshotMap.entrySeq().toArray() as [string, ProbableCauseType][];
+  }
+
+  if (rootCauseSnapshotMap.size <= 0 && rcaFailedStateEnabled) {
+    let failedTextReason;
+    let externalLink;
+    let buttonText;
+    if (failureReason) {
+      if (failureReason === 'no_calls_after_filter' || failureReason === 'no_calls') {
+        const incidentStartTime = new Date(incident.get('start') as number);
+        failedTextReason = (
+          <Trans
+            i18nKey="in-events:RCA.failureReasons.noCalls"
+            components={{
+              time_since_event_started: fromNow(incidentStartTime)
+            }}
+            parent="span"
+          />
+        );
+        externalLink = getLinkToApplicationAnalyze({});
+        buttonText = t('in-events:RCA.failureReasons.analyzePage');
+      } else if (failureReason === 'not_enough_application_impact') {
+        failedTextReason = t('in-events:RCA.failureReasons.notEnoughApplicationImpact');
+        externalLink =
+          'https://www.ibm.com/docs/en/instana-observability/current?topic=applications-application-perspectives';
+        buttonText = t('in-events:RCA.failureReasons.viewDocumentation');
+      }
+    } else {
+      failedTextReason = t('in-events:RCA.failureReasons.notSupported');
+      externalLink = 'https://www.ibm.com/docs/en/instana-observability/current?topic=ma-smart-alerts';
+      buttonText = t('in-events:RCA.failureReasons.viewDocumentation');
+    }
+
+    return (
+      <ProbableRootCauseCard title={title}>
+        <div className={locals.innerRCACard}>
+          <Stack>
+            <SvgIcon type="lib_carbon_empty_state" size="xxl" />
+            <div className={locals.failureTextWrapper}>
+              <Typography variant="heading-compact-02">{t('in-events:RCA.failedTitle')}</Typography>
+            </div>
+            <div className={locals.failureTextWrapper}>
+              <Typography variant="body-regular">{t('in-events:RCA.failed')}</Typography>
+            </div>
+            {failedTextReason && (
+              <div className={locals.failureTextWrapper}>
+                <Typography variant="body-regular">{failedTextReason}</Typography>
+              </div>
+            )}
+            {buttonText && (
+              <Button
+                icon={
+                  buttonText === t('in-events:RCA.failureReasons.viewDocumentation')
+                    ? 'lib_views_external_link'
+                    : 'lib_analyze'
+                }
+                kind={carbonButtonEnabled ? 'tertiary' : 'secondary'}
+                href={externalLink}
+              >
+                {buttonText}
+              </Button>
+            )}
+          </Stack>
+        </div>
+      </ProbableRootCauseCard>
+    );
+  } else if (rootCauseSnapshotMap.size <= 0 && !rcaFailedStateEnabled) {
+    return null;
+  }
   return (
     <ProbableRootCauseCard title={title} incident={incident}>
       <div>
@@ -90,7 +177,7 @@ export default function RootCauseSection({
             {rootCauseSnapshots.map(([rcaSnapshotID, rootCause], idx) => {
               if (!rootCause) return;
 
-              const probFailureValue = rootCause.get('probFailure');
+              const probFailureValue = rootCause.get('probFailure') as number;
 
               let probText: string | undefined = undefined;
               if (probFailureValue >= 0.7) {
@@ -153,7 +240,7 @@ export default function RootCauseSection({
 
 interface ProbableRootCauseCardProps {
   title: string;
-  incident: EventOrMap;
+  incident?: EventOrMap;
   children: ReactNode;
 }
 
@@ -167,7 +254,7 @@ function ProbableRootCauseCard({ title, children, incident }: ProbableRootCauseC
           leftHeaderContent={
             <Stack direction="horizontal" gap="xxsmall">
               <Tooltip align="topRight" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
-                <PreviewBadge className={locals.techPreviewPill} />
+                <PreviewPill className={locals.techPreviewPill} />
               </Tooltip>
               <Pill type="purple" className={locals.rcaAIPill}>
                 {t('in-events:RCA.AIGenBadgeText')}
@@ -177,8 +264,7 @@ function ProbableRootCauseCard({ title, children, incident }: ProbableRootCauseC
         >
           <Stack>
             {children}
-
-            <FeedbackComponent incident={incident} />
+            {incident && <FeedbackComponent incident={incident} />}
           </Stack>
         </Card>
       </Col>
@@ -208,7 +294,7 @@ function getIncidentTimeConfig(incident: EventOrMap): TimeConfig {
 }
 
 interface FeedbackComponentProps {
-  incident: EventOrMap;
+  incident: EventOrMap | Nullish;
 }
 
 function FeedbackComponent({ incident }: FeedbackComponentProps) {

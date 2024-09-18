@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon, CarbonButton } from '@instana/components';
+import { SvgIcon, CarbonButton, CarbonInlineLoading } from '@instana/components';
 
 import { EVENT_AI_GENERATE_SUBMIT } from 'in-services/tracking/eventNames';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
@@ -53,14 +53,17 @@ export function QuickActions(props) {
           className={locals.actionsButton}
           size={'sm'}
           disabled={!enableAISummary}
-          renderIcon={() => (
-            <SvgIcon
-              type={(!enableAISummary && 'lib_actions_loading') || 'lib_generate_ai'}
-              color="currentColor"
-              size="xs"
-              spinning={!enableAISummary}
-            />
-          )}
+          renderIcon={() => {
+            return (
+              <>
+                {enableAISummary ? (
+                  <SvgIcon type={'lib_generate_ai'} color="currentColor" size="xs" />
+                ) : (
+                  <CarbonInlineLoading className={locals.generating} />
+                )}
+              </>
+            );
+          }}
           onClick={() => handleAIGenerateNote(incidentId, setEnableAISummary)}
         >
           <div className={locals.quickActionButtonContents}>{t('in-events:notes.generateSummary')}</div>
