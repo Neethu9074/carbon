@@ -52,8 +52,18 @@ export function getNotes(event) {
 export function filterSearchNotes(notes, input) {
   const result = notes?.filter(note => {
     // Converts the note to a string and makes everything lower case for more accurate searching
-    const result = JSON.stringify(Object.values(note)).toLowerCase()
+    const result = JSON.stringify(Object.values(note)).toLowerCase();
     return result.includes(input);
   });
   return result;
+}
+
+export function getSummaryCount(notes) {
+  let count = 0;
+  notes?.map(note => {
+    if (note?.type == TYPE_AI_SUMMARY) {
+      count++;
+    }
+  });
+  return count;
 }
