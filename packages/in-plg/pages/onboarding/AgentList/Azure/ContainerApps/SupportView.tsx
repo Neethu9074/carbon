@@ -20,26 +20,20 @@ export const Documentations = ({ runtime }: Runtime): JSX.Element => {
     case 'Go':
       return (
         <Stack gap="small">
-          <DocumentLink
-            text={t('in-plg:agentDetails.azure.monitoringAzure')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-microsoft-azure"
-          />
+          <DocumentLink text={t('in-plg:agentDetails.azure.monitoringAzure')} href="https://ibm.biz/ms-azure-agent" />
           <DocumentLink
             text={t('in-plg:agentDetails.azure.monitoringAzureContainerApps')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=go-azure-container-apps-tracing"
+            href="https://ibm.biz/azure-container-app-trace-go"
           />
         </Stack>
       );
     default:
       return (
         <Stack gap="small">
-          <DocumentLink
-            text={t('in-plg:agentDetails.azure.monitoringAzure')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-microsoft-azure"
-          />
+          <DocumentLink text={t('in-plg:agentDetails.azure.monitoringAzure')} href="https://ibm.biz/ms-azure-agent" />
           <DocumentLink
             text={t('in-plg:agentDetails.azure.monitoringAzureContainerApps')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=go-azure-container-apps-tracing"
+            href="https://ibm.biz/azure-container-app-trace-go"
           />
         </Stack>
       );

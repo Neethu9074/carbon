@@ -125,11 +125,7 @@ export function UsageBanner({ message }: UsageBannerProps) {
               components={{
                 linkToDocker: (
                   //@ts-expect-error missing translation
-                  <Link
-                    className={locals.bannerLink}
-                    external
-                    href="https://www.ibm.com/docs/obi/current?topic=installer-license-activation-renewal"
-                  />
+                  <Link className={locals.bannerLink} external href="https://ibm.biz/license-ops" />
                 ),
                 linkToKubernetes: (
                   //@ts-expect-error missing translation

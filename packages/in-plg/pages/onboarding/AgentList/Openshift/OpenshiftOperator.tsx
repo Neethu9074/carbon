@@ -100,11 +100,7 @@ export default function OpenshiftOperator({
                 i18nKey="in-plg:agentDetails.openshift.instructions.operator.configureCustomYamlFileSubtext1"
                 components={{
                   installOperatorDoc: (
-                    <a
-                      href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host-agent-kubernetes#install-operator-manually"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    />
+                    <a href="https://ibm.biz/install-operator-manual" rel="noopener noreferrer" target="_blank" />
                   )
                 }}
               />
@@ -126,7 +122,7 @@ export default function OpenshiftOperator({
                 components={{
                   networkAccess: (
                     <a
-                      href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host-agent-kubernetes#configure-network-access-for-monitored-applications"
+                      href="https://ibm.biz/config-network-access-monitored-apps"
                       rel="noopener noreferrer"
                       target="_blank"
                     />

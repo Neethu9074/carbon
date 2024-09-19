@@ -79,7 +79,7 @@ export default function OnboardingStepBuilder({ activation }: { activation: any 
       if (currentTile === 'startIntegrating' || currentTile === 'additionalAgents') {
         return createHrefToPath('/agents/installation');
       } else if (currentTile === 'traceInteractions') {
-        return 'https://www.ibm.com/docs/en/instana-observability/current?topic=references-tracing-in-instana';
+        return 'https://ibm.biz/instana-tracing';
       } else if (currentTile === 'inviteUsers' || currentTile === 'inviteTeammates') {
         return createHrefToPath('/config/team/accessControl/users');
       } else if (currentTile === 'appPerspective') {

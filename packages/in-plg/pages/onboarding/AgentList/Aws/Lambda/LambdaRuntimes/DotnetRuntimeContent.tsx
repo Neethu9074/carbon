@@ -81,10 +81,7 @@ export default function DotnetRuntimeContent({
             i18nKey={'in-plg:agentDetails.aws.referDocumentationForSettingUpAwsSensor'}
             components={{
               awsSensorDoc: (
-                <Link
-                  href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-amazon-web-services-aws-agent"
-                  target="_blank"
-                >
+                <Link href="https://ibm.biz/monitor-aws" target="_blank">
                   {t('in-plg:agentDetails.aws.documentationLinks.awsServiceDocumentation')}
                 </Link>
               )
@@ -99,9 +96,7 @@ export default function DotnetRuntimeContent({
         }
       >
         <Wrapper>
-          <Typography variant="body-regular">
-            {t('in-plg:agentDetails.aws.awsLambdaDotnetAutotrace')}
-          </Typography>
+          <Typography variant="body-regular">{t('in-plg:agentDetails.aws.awsLambdaDotnetAutotrace')}</Typography>
           <Typography variant="body-regular">
             {t('in-plg:agentDetails.aws.romanStep1') + t('in-plg:agentDetails.aws.selectAwsRegion')}
           </Typography>
@@ -135,26 +130,26 @@ export default function DotnetRuntimeContent({
           </Stack>
           <Stack direction="horizontal">
             <KeyValue
-                label={'CORECLR_ENABLE_PROFILING'}
-                value={<InputWithButton type="copy" inputValue={'1'} />}
-                withGap
+              label={'CORECLR_ENABLE_PROFILING'}
+              value={<InputWithButton type="copy" inputValue={'1'} />}
+              withGap
             />
             <KeyValue
-                label={'CORECLR_PROFILER'}
-                value={<InputWithButton type="copy" inputValue={'{cf0d821e-299b-5307-a3d8-b283c03916dd}'} />}
-                withGap
+              label={'CORECLR_PROFILER'}
+              value={<InputWithButton type="copy" inputValue={'{cf0d821e-299b-5307-a3d8-b283c03916dd}'} />}
+              withGap
             />
           </Stack>
           <Stack direction="horizontal">
             <KeyValue
-                label={'CORECLR_PROFILER_PATH'}
-                value={<InputWithButton type="copy" inputValue={'/opt/instana_tracing/CoreProfiler.so'} />}
-                withGap
+              label={'CORECLR_PROFILER_PATH'}
+              value={<InputWithButton type="copy" inputValue={'/opt/instana_tracing/CoreProfiler.so'} />}
+              withGap
             />
             <KeyValue
-                label={'DOTNET_STARTUP_HOOKS'}
-                value={<InputWithButton type="copy" inputValue={'/opt/Instana.Tracing.Core.dll'} />}
-                withGap
+              label={'DOTNET_STARTUP_HOOKS'}
+              value={<InputWithButton type="copy" inputValue={'/opt/Instana.Tracing.Core.dll'} />}
+              withGap
             />
           </Stack>
         </Wrapper>
