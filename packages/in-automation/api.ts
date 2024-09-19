@@ -976,3 +976,13 @@ export function getActionNameExists(name: string, type: ActionType) {
     mapToResultObject: true
   });
 }
+
+export type ActionFilter = { types: string[]; tags: string[] };
+export function getActionFilter() {
+  return http<ActionFilter>({
+    method: 'GET',
+    url: `${actionUrl}/rbacActionFilters`,
+    maxRetries: 3,
+    mapToResultObject: true
+  });
+}

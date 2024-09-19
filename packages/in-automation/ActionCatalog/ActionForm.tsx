@@ -98,11 +98,12 @@ import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { isLoading } from 'in-services/util/result';
+import { ActionFilter } from 'in-automation/api';
 import Code from 'in-components/form/Code/Code';
+import { ActionType, Result } from 'in-types';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { role } from 'in-stores/user';
-import { ActionType } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ActionForm.mless';
@@ -113,19 +114,34 @@ interface ActionFormProps {
   entity: ActionFormEntity;
   setForm: SetFormFunction;
   isCreate: boolean;
+  actionFilter: Result<'all'> | Result<ActionFilter>;
 }
 
-export default function ActionForm({ form, setForm, onChange, entity: action, isCreate }: ActionFormProps) {
+export default function ActionForm({
+  form,
+  setForm,
+  onChange,
+  entity: action,
+  isCreate,
+  actionFilter
+}: ActionFormProps) {
   const type = (form.get('type') as Field<ActionType>).value;
   const showTimeoutSection = isScript(type) || isWebhook(type) || isAnsible(type);
+
   return (
     <fieldset>
       <Row>
         <Col lg={8}>
           <SectionHeading>{t('in-automation:ActionCatalog.1ActionDetails')}</SectionHeading>
-          <MetaDataSection form={form} setForm={setForm} onChange={onChange} />
+          <MetaDataSection form={form} setForm={setForm} onChange={onChange} actionFilter={actionFilter} />
           <SectionHeading>{t('in-automation:ActionCatalog.2ActionConfiguration')}</SectionHeading>
-          <TypeSection form={form} onChange={onChange} entity={action} isCreate={isCreate} />
+          <TypeSection
+            form={form}
+            onChange={onChange}
+            entity={action}
+            isCreate={isCreate}
+            actionFilter={actionFilter}
+          />
           {isDocLink(type) && <DocLinkSection form={form} onChange={onChange} />}
           {isScript(type) && <ScriptSection form={form} onChange={onChange} />}
           {isWebhook(type) && <WebhookSection setForm={setForm} form={form} onChange={onChange} entity={action} />}
@@ -181,12 +197,27 @@ const TimeoutSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onCh
     </>
   );
 };
-const MetaDataSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'setForm' | 'onChange'>) => {
+
+function filterTags(actionFilter: Result<'all'> | Result<ActionFilter>, availableTags: Result<string[]>) {
+  if (actionFilter.data === 'all') {
+    return availableTags.data;
+  } else {
+    return availableTags.data?.filter(tag => (actionFilter as Result<ActionFilter>).data?.tags.includes(tag));
+  }
+}
+
+const MetaDataSection = ({
+  form,
+  onChange,
+  actionFilter
+}: Pick<ActionFormProps, 'form' | 'setForm' | 'onChange' | 'actionFilter'>) => {
   const name = form.get('name') as Field<string>;
   const description = form.get('description') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
   const tags = form.get('tags') as Field<string[]>;
   const availableTags = useActionTags();
+  const filteredTags = filterTags(actionFilter, availableTags);
+  const isValidNewOption = actionFilter.data === 'all' ? undefined : () => false;
   return (
     <>
       {name.map(field => (
@@ -236,10 +267,11 @@ const MetaDataSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'set
           <CreatableTagSelect
             id="action-tags"
             isLoading={isLoading(availableTags)}
-            tags={availableTags.data}
+            tags={filteredTags}
             value={field.value}
             onChange={newTags => onChange('tags', newTags)}
             disabled={isNotEditable || !role?.canConfigureAutomationActions}
+            isValidNewOption={isValidNewOption}
           />
         </FormGroup>
       ))}
@@ -247,15 +279,90 @@ const MetaDataSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'set
   );
 };
 
+const typeOptions = [DOC_LINK_TYPE, SCRIPT_TYPE, WEBHOOK_TYPE, MANUAL_TYPE, GITHUB_TYPE, GITLAB_TYPE, JIRA_TYPE];
+function filterTypes(actionFilter: Result<'all'> | Result<ActionFilter>) {
+  if (actionFilter.data === 'all') {
+    return typeOptions;
+  } else {
+    return typeOptions.filter(option => (actionFilter as Result<ActionFilter>).data?.types.includes(option));
+  }
+}
+
+export function onTypeChange(type: ActionType, action: ActionFormEntity, onChange: OnEntityChange<ActionFormEntity>) {
+  onChange('type', type, updatedForm => {
+    // WILL NEED TO UPDATE THIS FOR NEW TYPES
+    const type = (updatedForm.get('type') as Field<ActionType>).value;
+    if (isDocLink(type)) {
+      updatedForm = removeScriptField(updatedForm);
+      updatedForm = removeWebhookFields(updatedForm);
+      updatedForm = removeGithubFields(updatedForm);
+      updatedForm = removeGitlabFields(updatedForm);
+      updatedForm = removeJiraFields(updatedForm);
+      updatedForm = removeManualContentField(updatedForm);
+      updatedForm = putDocLinkField(updatedForm, action);
+    } else if (isScript(type)) {
+      updatedForm = removeDocLinkField(updatedForm);
+      updatedForm = removeWebhookFields(updatedForm);
+      updatedForm = removeGithubFields(updatedForm);
+      updatedForm = removeGitlabFields(updatedForm);
+      updatedForm = removeJiraFields(updatedForm);
+      updatedForm = removeManualContentField(updatedForm);
+      updatedForm = putScriptField(updatedForm, action);
+    } else if (isWebhook(type)) {
+      updatedForm = removeDocLinkField(updatedForm);
+      updatedForm = removeScriptField(updatedForm);
+      updatedForm = removeGithubFields(updatedForm);
+      updatedForm = removeGitlabFields(updatedForm);
+      updatedForm = removeJiraFields(updatedForm);
+      updatedForm = removeManualContentField(updatedForm);
+      updatedForm = putWebhookFields(updatedForm, action);
+    } else if (isManual(type)) {
+      updatedForm = removeDocLinkField(updatedForm);
+      updatedForm = removeScriptField(updatedForm);
+      updatedForm = removeWebhookFields(updatedForm);
+      updatedForm = removeGitlabFields(updatedForm);
+      updatedForm = removeJiraFields(updatedForm);
+      updatedForm = removeGithubFields(updatedForm);
+      updatedForm = putManualField(updatedForm, action);
+    } else if (isGithub(type)) {
+      updatedForm = removeDocLinkField(updatedForm);
+      updatedForm = removeScriptField(updatedForm);
+      updatedForm = removeWebhookFields(updatedForm);
+      updatedForm = removeGitlabFields(updatedForm);
+      updatedForm = removeJiraFields(updatedForm);
+      updatedForm = removeManualContentField(updatedForm);
+      updatedForm = putGithubFields(updatedForm, action);
+    } else if (isGitlab(type)) {
+      updatedForm = removeDocLinkField(updatedForm);
+      updatedForm = removeScriptField(updatedForm);
+      updatedForm = removeWebhookFields(updatedForm);
+      updatedForm = removeGithubFields(updatedForm);
+      updatedForm = removeJiraFields(updatedForm);
+      updatedForm = removeManualContentField(updatedForm);
+      updatedForm = putGitlabFields(updatedForm, action);
+    } else if (isJira(type)) {
+      updatedForm = removeDocLinkField(updatedForm);
+      updatedForm = removeScriptField(updatedForm);
+      updatedForm = removeWebhookFields(updatedForm);
+      updatedForm = removeGithubFields(updatedForm);
+      updatedForm = removeGitlabFields(updatedForm);
+      updatedForm = removeManualContentField(updatedForm);
+      updatedForm = putJiraFields(updatedForm, action);
+    }
+    return updatedForm;
+  });
+}
+
 const TypeSection = ({
   form,
   onChange,
   entity: action,
-  isCreate
-}: Pick<ActionFormProps, 'form' | 'onChange' | 'entity' | 'isCreate'>) => {
+  isCreate,
+  actionFilter
+}: Pick<ActionFormProps, 'form' | 'onChange' | 'entity' | 'isCreate' | 'actionFilter'>) => {
   const type = form.get('type') as Field<ActionType>;
   const isNotEditable = useContext(isNotEditableContext);
-
+  const filteredTypes = filterTypes(actionFilter);
   return type.map(field => (
     <FormGroup>
       <Label htmlFor="action-type" hasError={!field.valid && field.touched}>
@@ -266,79 +373,14 @@ const TypeSection = ({
           <Select
             id="action-type"
             value={field.value}
-            onChange={e =>
-              onChange('type', e.target.value, updatedForm => {
-                // WILL NEED TO UPDATE THIS FOR NEW TYPES
-                const type = (updatedForm.get('type') as Field<ActionType>).value;
-                if (isDocLink(type)) {
-                  updatedForm = removeScriptField(updatedForm);
-                  updatedForm = removeWebhookFields(updatedForm);
-                  updatedForm = removeGithubFields(updatedForm);
-                  updatedForm = removeGitlabFields(updatedForm);
-                  updatedForm = removeJiraFields(updatedForm);
-                  updatedForm = removeManualContentField(updatedForm);
-                  updatedForm = putDocLinkField(updatedForm, action);
-                } else if (isScript(type)) {
-                  updatedForm = removeDocLinkField(updatedForm);
-                  updatedForm = removeWebhookFields(updatedForm);
-                  updatedForm = removeGithubFields(updatedForm);
-                  updatedForm = removeGitlabFields(updatedForm);
-                  updatedForm = removeJiraFields(updatedForm);
-                  updatedForm = removeManualContentField(updatedForm);
-                  updatedForm = putScriptField(updatedForm, action);
-                } else if (isWebhook(type)) {
-                  updatedForm = removeDocLinkField(updatedForm);
-                  updatedForm = removeScriptField(updatedForm);
-                  updatedForm = removeGithubFields(updatedForm);
-                  updatedForm = removeGitlabFields(updatedForm);
-                  updatedForm = removeJiraFields(updatedForm);
-                  updatedForm = removeManualContentField(updatedForm);
-                  updatedForm = putWebhookFields(updatedForm, action);
-                } else if (isManual(type)) {
-                  updatedForm = removeDocLinkField(updatedForm);
-                  updatedForm = removeScriptField(updatedForm);
-                  updatedForm = removeWebhookFields(updatedForm);
-                  updatedForm = removeGitlabFields(updatedForm);
-                  updatedForm = removeJiraFields(updatedForm);
-                  updatedForm = removeGithubFields(updatedForm);
-                  updatedForm = putManualField(updatedForm, action);
-                } else if (isGithub(type)) {
-                  updatedForm = removeDocLinkField(updatedForm);
-                  updatedForm = removeScriptField(updatedForm);
-                  updatedForm = removeWebhookFields(updatedForm);
-                  updatedForm = removeGitlabFields(updatedForm);
-                  updatedForm = removeJiraFields(updatedForm);
-                  updatedForm = removeManualContentField(updatedForm);
-                  updatedForm = putGithubFields(updatedForm, action);
-                } else if (isGitlab(type)) {
-                  updatedForm = removeDocLinkField(updatedForm);
-                  updatedForm = removeScriptField(updatedForm);
-                  updatedForm = removeWebhookFields(updatedForm);
-                  updatedForm = removeGithubFields(updatedForm);
-                  updatedForm = removeJiraFields(updatedForm);
-                  updatedForm = removeManualContentField(updatedForm);
-                  updatedForm = putGitlabFields(updatedForm, action);
-                } else if (isJira(type)) {
-                  updatedForm = removeDocLinkField(updatedForm);
-                  updatedForm = removeScriptField(updatedForm);
-                  updatedForm = removeWebhookFields(updatedForm);
-                  updatedForm = removeGithubFields(updatedForm);
-                  updatedForm = removeGitlabFields(updatedForm);
-                  updatedForm = removeManualContentField(updatedForm);
-                  updatedForm = putJiraFields(updatedForm, action);
-                }
-                return updatedForm;
-              })
-            }
+            onChange={e => onTypeChange(e.target.value as ActionType, action, onChange)}
             hasError={!field.valid && field.touched}
           >
-            <option value={DOC_LINK_TYPE}>{t('in-automation:ActionCatalog.docLink')}</option>
-            <option value={SCRIPT_TYPE}>{t('in-automation:ActionCatalog.script')}</option>
-            <option value={WEBHOOK_TYPE}>{t('in-automation:ActionCatalog.http')}</option>
-            <option value={MANUAL_TYPE}>{t('in-automation:ActionCatalog.manual')}</option>
-            <option value={GITHUB_TYPE}>{t('in-automation:ActionCatalog.github')}</option>
-            <option value={GITLAB_TYPE}>{t('in-automation:ActionCatalog.gitlab')}</option>
-            <option value={JIRA_TYPE}>{t('in-automation:ActionCatalog.jira')}</option>
+            {filteredTypes.map(type => (
+              <option key={type} value={type}>
+                {getType(type)}
+              </option>
+            ))}
           </Select>
           <TouchedMessages field={field} className={locals.subErrorTextFormField} />
           <HelpText className={locals.subTextFormField}>{getHelpTextType(type.value)}</HelpText>

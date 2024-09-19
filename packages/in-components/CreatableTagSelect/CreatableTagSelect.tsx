@@ -4,7 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
-import { OptionTypeBase } from 'react-select';
+import { GroupTypeBase, OptionTypeBase } from 'react-select';
+import { CreatableProps } from 'react-select/creatable';
 import React from 'react';
 
 import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
@@ -16,23 +17,33 @@ interface OptionType extends OptionTypeBase {
 
 const mapTagToSelectOption = (tag: string): OptionType => ({ value: tag, label: tag });
 
-interface CreatableTagSelectProps {
+interface CreatableTagSelectProps<
+  OptionType extends OptionTypeBase,
+  IsMulti extends boolean,
+  GroupType extends GroupTypeBase<OptionType> = GroupTypeBase<OptionType>
+> {
   value: string[];
   onChange: (value: string[]) => void;
   tags?: string[];
   disabled?: boolean;
   id?: string;
   isLoading?: boolean;
+  isValidNewOption?: CreatableProps<OptionType, IsMulti, GroupType>['isValidNewOption'];
 }
 
-export default function CreatableTagSelect({
+export default function CreatableTagSelect<
+  OptionType extends OptionTypeBase,
+  IsMulti extends boolean,
+  GroupType extends GroupTypeBase<OptionType> = GroupTypeBase<OptionType>
+>({
   id,
   tags,
   value,
   onChange,
   isLoading,
-  disabled
-}: CreatableTagSelectProps) {
+  disabled,
+  isValidNewOption
+}: CreatableTagSelectProps<OptionType, IsMulti, GroupType>) {
   const options = tags?.map(mapTagToSelectOption);
   const selectValue = value.map(mapTagToSelectOption);
 
@@ -48,6 +59,7 @@ export default function CreatableTagSelect({
       placeholder={t('in-components:creatableTagSelect.placeholder')}
       aria-label={t('in-components:creatableTagSelect.placeholder')}
       isMulti
+      isValidNewOption={isValidNewOption}
     />
   );
 }

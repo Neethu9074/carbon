@@ -25,7 +25,8 @@ const emptyPermissions: PermissionSet = {
   websiteIds: [],
   businessPerspectiveIds: [],
   syntheticCredentialKeys: [],
-  syntheticTestIds: []
+  syntheticTestIds: [],
+  actionFilter: {}
 };
 const close = u1 as jest.MockedFunction<typeof u1>;
 

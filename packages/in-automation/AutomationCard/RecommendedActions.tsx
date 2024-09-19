@@ -26,13 +26,14 @@ import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilte
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { MANUAL_TYPE, isExternal } from 'in-automation/ActionCatalog/shared';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { TriggerSpecification } from 'in-automation/Policies/types';
 import { TagsFilter } from 'in-automation/components/tableFilters';
-import { isExternal } from 'in-automation/ActionCatalog/shared';
+import useActionFilter from 'in-automation/hooks/useActionFilter';
 import { useSegmentTracker } from 'in-automation/tracker';
 import { Event, Result, VolatileId } from 'in-types';
 import { isLoading } from 'in-services/util/result';
@@ -100,6 +101,10 @@ const columnDefinitions: ColumnDefinition<ScoredAction, RecommendedActionsTableP
   scoreColumn,
   actionColumn
 ];
+function useHasAccessToManual() {
+  const actionFilter = useActionFilter();
+  return actionFilter.data === 'all' ? true : actionFilter.data?.types.includes(MANUAL_TYPE) ?? false;
+}
 
 function GenerateAIActionButton({
   event,
@@ -111,9 +116,10 @@ function GenerateAIActionButton({
   ootbRecommendedActions: Result<ScoredAction[]>;
 }) {
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
-
   const name = hasError(trigger) ? event?.problem?.problemText ?? '' : trigger.data!?.name;
-  if (!role?.canConfigureAutomationActions) return null;
+  const hasAccessToManual = useHasAccessToManual();
+
+  if (!role?.canConfigureAutomationActions || !hasAccessToManual) return null;
   return (
     <Button
       kind="action"

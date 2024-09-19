@@ -19,7 +19,8 @@ const defaultValue = {
     websiteIds: [],
     businessPerspectiveIds: [],
     syntheticCredentialKeys: [],
-    syntheticTestIds: []
+    syntheticTestIds: [],
+    actionFilter: {}
   }
 };
 

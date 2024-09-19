@@ -72,7 +72,8 @@ const mockFormData = {
       operator: 'EQUALS',
       value: 'load_gen'
     }
-  ]
+  ],
+  actionFilter: { scopeId: '', scopeRoleId: '-1' }
 };
 
 export const createFilterForm = () => {

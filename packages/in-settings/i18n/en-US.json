@@ -68,6 +68,7 @@
     "allApplications": "All applications",
     "allActions": "All actions",
     "allWebsites": "All websites",
+    "automationContentMessage": "Actions matched by the following filter",
     "allMobileApps": "All mobile apps",
     "businessMonitoringAccessAllMessage": "All business processes",
     "kubernetes": "Kubernetes",
@@ -79,6 +80,9 @@
     "role_permissions_contributor": "Contributor - Access {{quantityOfAreas}}",
     "role_permissions_owner": "Owner - Access {{quantityOfAreas}}",
     "role_permissions_viewer": "Viewer - Access {{quantityOfAreas}}",
+    "role_permissions_limited": "Unknown - Limited Access",
+    "role_permissions_limited_owner": "Owner - Limited Access",
+    "role_permissions_limited_viewer": "Viewer - Limited Access",
     "role_permission_scope_all": "all",
     "role_permissions_contributor_and_owner": "Owner Access {{quantityOfAreas}} & Contributor Access {{quantityOfAreasContributor}}",
     "role_permissions_contributor_and_viewer": "Viewer Access {{quantityOfAreas}} & Contributor Access {{quantityOfAreasContributor}}",
@@ -144,6 +148,10 @@
     "addButton_applications": "Select applications",
     "descriptionLimitedAccess_applications": "Select the role and add applications below to grant access.",
     "descriptionAccessAll_applications": "All applications can be accessed with the selected role.",
+    "automationFilterUse": "Use the filters below to grant access to automation actions.",
+    "automationFilter_mayNotBeBlank": "The value must not be blank.",
+    "automationActionTypeHeader": "Action type",
+    "automationTagHeader": "Tag",
     "deleteButton": "Remove {{name}} from list",
     "infrastructureDfqHeader": "Dynamic focus query (DFQ)",
     "infrastructureDfqUse": "In addition, you can use the dynamic focus query below to grant access to infrastructure.",
@@ -297,7 +305,7 @@
         "access_level": "Access all the automation actions and policies with the selected access type and any additional permissions."
       },
       "limited_access": {
-        "access_level": "Access only the listed automation actions and policies with the selected access type and any additional permissions."
+        "access_level": "Access specific automation actions with the selected action type or tags."
       },
       "role_permissions_owner": "Create, configure, view, delete automation actions and view action history.",
       "role_permissions_viewer": "View automation actions, policies and history."
@@ -440,7 +448,7 @@
       "success": "Success",
       "failure": "Failed",
       "warning": "Warning",
-      "learnMore":"Learn More",
+      "learnMore": "Learn More",
       "deletionDate": "Timestamp",
       "reason": "Reason",
       "numberOfLogs": "Number of logs",
@@ -475,7 +483,7 @@
       "days_60": "60 days retention",
       "days_90": "90 days retention",
       "noLogVolumeData": "No data to show",
-      "logVolumeErrorTitle":"Something went wrong",
+      "logVolumeErrorTitle": "Something went wrong",
       "logVolumeErrorInfo": "We are unable to retrieve data from the database",
       "groupingTagTootip": "{{groupingTag}} information not available",
       "ruTooltip": "Resource units (RU) are calculated based on the volume of logs ingested and the retention period. Any amount of ingested data consumes a minimum of 1 RU"

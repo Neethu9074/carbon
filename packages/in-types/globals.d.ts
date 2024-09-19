@@ -28,6 +28,7 @@ export interface Role {
   canSetAgentTraceLogLevel: boolean;
   canSeeExtendedInternalMonitoring: boolean;
   limitedInfrastructureScope: boolean;
+  limitedAutomationScope: boolean;
   // pre-evaluated permissions from backend
   canConfigureApplications: boolean;
   canConfigureServiceLevelIndicators: boolean;

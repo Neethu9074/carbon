@@ -4,8 +4,6 @@
  * Copyright IBM Corp. 2024
  */
 
-import { PermissionSet } from 'in-types';
-
 import {
   ProductArea,
   ProductAreaType,
@@ -14,6 +12,7 @@ import {
 import { getAreaRoleFromPermissionSet } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { getScopeFromProductArea } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
 import { hasAutomationAccess, LimitedAccessScope, LimitedAccessScopeType } from 'in-stores/permission';
+import { PermissionSet } from 'in-types';
 import { t } from 'in-i18n';
 
 type ProductAreaWithAutomationData = Extract<ProductAreaType, 'AUTOMATION'>;
@@ -51,12 +50,15 @@ export const getAutomationAreaData = ({ area, permissionsSet }: getAreaDataProps
   const hasAreaAccess = areaItemData.hasAreaAccess;
   const areaRole = getAreaRoleFromPermissionSet(area, permissionsSet);
   const hasFullAreaAccess = areaAccessScope === ScopedPermissionItem.ACCESS_ALL;
-
   const shouldRenderContent = Boolean(hasAreaAccess && areaRole);
 
   let areaColumnHeadline = '';
   if (areaAccessScope === ScopedPermissionItem.NO_ACCESS) {
     areaColumnHeadline = t('in-settings:productAreas.no_access');
+  } else if (areaAccessScope === ScopedPermissionItem.LIMITED_ACCESS) {
+    areaColumnHeadline = t('in-settings:productAreas.role_permissions_limited', {
+      context: areaRole?.toLowerCase()
+    });
   } else {
     areaColumnHeadline = t('in-settings:productAreas.role_permissions', {
       context: areaRole?.toLowerCase(),
