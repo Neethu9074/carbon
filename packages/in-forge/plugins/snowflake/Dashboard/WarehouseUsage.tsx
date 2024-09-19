@@ -11,8 +11,8 @@ import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
-import { number, timeByMillisZeroDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
@@ -46,7 +46,7 @@ const cols = [
       getMetricName(row: WarehouseUsageRow) {
         return `credit.warehouse_usage.${row.key}.compute`;
       },
-      getContent: number.compact,
+      getContent: number.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -62,7 +62,7 @@ const cols = [
       getMetricName(row: WarehouseUsageRow) {
         return `credit.warehouse_usage.${row.key}.cloud_services`;
       },
-      getContent: number.compact,
+      getContent: number.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -78,7 +78,7 @@ const cols = [
       getMetricName(row: WarehouseUsageRow) {
         return `credit.warehouse_usage.${row.key}.total`;
       },
-      getContent: number.compact,
+      getContent: number.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -120,7 +120,7 @@ const WarehouseUsage = function WarehouseUsage({ snapshotId, timeConfig }: Wareh
           timeConfig={timeConfig}
           y1={{
             min: 0,
-            formatter: timeByMillisZeroDecimalPlaces,
+            formatter: number.detailed,
             metrics: [
               `credit.warehouse_usage.${row.key}.compute`,
               `credit.warehouse_usage.${row.key}.cloud_services`,
