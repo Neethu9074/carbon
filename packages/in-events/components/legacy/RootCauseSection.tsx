@@ -28,18 +28,19 @@ import { t, Trans } from '@instana/i18n-react';
 import { fromNow } from '@instana/format-date';
 
 import {
-  RCAFeedbackClosedManuallyTracker,
-  RCAFeedbackNextTracker,
-  RCAFeedbackSkipTracker,
-  RCAFeedbackSubmitTracker,
-  helpfulRCASuggestionTracker,
-  unhelpfulRCASuggestionTracker
-} from 'in-events/tracker';
+  EVENT_RCA_SUGGESTION_HELPFUL,
+  EVENT_RCA_SUGGESTION_UNHELPFUL,
+  EVENT_RCA_FEEDBACK_NEXT,
+  EVENT_FEEDBACK_SKIP,
+  EVENT_RCA_FEEDBACK_CLOSED_MANUALLY,
+  EVENT_RCA_FEEDBACK_SUBMIT
+} from 'in-services/tracking/tracking';
 import { ExplainabilityKeys, ProbableCauseType } from 'in-events/components/util/rootCauseUtil';
 import RootCauseEntityDetails from 'in-events/components/legacy/RootCauseEntityDetails';
 import { carbonButtonEnabled, rcaFailedStateEnabled } from 'in-services/featureFlags';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { rcaStepConfig } from 'in-events/components/feedback/rcaStepConfig';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { useLinkToAnalyze } from 'in-applications/navigation/paths';
@@ -298,6 +299,9 @@ interface FeedbackComponentProps {
 }
 
 function FeedbackComponent({ incident }: FeedbackComponentProps) {
+  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
+  const { trackCta } = useSegmentTracking();
+
   const [thumbsDown, setThumbsDown] = useState(false);
   const [thumbsUp, setThumbsUp] = useState(false);
 
@@ -314,7 +318,7 @@ function FeedbackComponent({ incident }: FeedbackComponentProps) {
         type="lib_thumbs_up"
         iconSize="xs"
         onClick={() => {
-          helpfulRCASuggestionTracker({});
+          trackCta(EVENT_RCA_SUGGESTION_HELPFUL, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
           setThumbsUp(true);
         }}
       />
@@ -324,14 +328,26 @@ function FeedbackComponent({ incident }: FeedbackComponentProps) {
         type="lib_thumbs_down"
         iconSize="xs"
         onClick={() => {
-          unhelpfulRCASuggestionTracker({});
+          trackCta(EVENT_RCA_SUGGESTION_UNHELPFUL, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
           addActiveDialog(
             <EventFeedbackDialog
               stepConfig={rcaStepConfig}
-              nextStepTracker={RCAFeedbackNextTracker}
-              skipStepTracker={RCAFeedbackSkipTracker}
-              closedManuallyTracker={RCAFeedbackClosedManuallyTracker}
-              submitTracker={RCAFeedbackSubmitTracker}
+              nextStepTracker={instrumentationEventProperties => {
+                trackCta(EVENT_RCA_FEEDBACK_NEXT, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
+              }}
+              skipStepTracker={instrumentationEventProperties => {
+                trackCta(EVENT_FEEDBACK_SKIP, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
+              }}
+              closedManuallyTracker={instrumentationEventProperties => {
+                trackCta(
+                  EVENT_RCA_FEEDBACK_CLOSED_MANUALLY,
+                  instrumentationEventProperties,
+                  SEGMENT_EVENT_PROPERTY_CHANNEL
+                );
+              }}
+              submitTracker={instrumentationEventProperties => {
+                trackCta(EVENT_RCA_FEEDBACK_SUBMIT, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
+              }}
               submitMetadata={{ incident }}
             />
           );
