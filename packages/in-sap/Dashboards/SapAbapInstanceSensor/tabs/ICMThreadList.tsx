@@ -105,7 +105,7 @@ export default function ICMThreadList({ snapshotId }: SnapshotData) {
       cols={cols}
       rows={rows}
       initialSortColumn={5}
-      initialSortDirection="asc"
+      initialSortDirection="desc"
     />
   );
 }

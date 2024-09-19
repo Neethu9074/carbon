@@ -63,22 +63,6 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.responseTime'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: UserListRow) {
-        return row.snapshotId;
-      },
-      getMetricName(row: UserListRow) {
-        return `userList.${row.key}.RESPTIME`;
-      },
-      getContent: millis.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
     title: t('in-sap:dashboards.cpuTime'),
     type: 'metric',
     typeArgs: {
@@ -87,6 +71,22 @@ const cols = [
       },
       getMetricName(row: UserListRow) {
         return `userList.${row.key}.CPUTIME`;
+      },
+      getContent: millis.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.responseTime'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: UserListRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: UserListRow) {
+        return `userList.${row.key}.RESPTIME`;
       },
       getContent: millis.detailed,
       getTimeWindowAggregation() {
@@ -246,7 +246,7 @@ export default function UserList({ snapshotId, timeConfig }: UserListProps) {
       cardTitle={t('in-sap:dashboards.userStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={3}
+      initialSortColumn={4}
       initialSortDirection="desc"
       getRowDetails={getDetails}
       rightHeader={rightHeader}

@@ -419,7 +419,9 @@ export default function Summary({ data }: { data: SnapshotData }) {
                 'workLoadStats.bckgrdResponseTime',
                 'workLoadStats.spoolResponseTime',
                 'workLoadStats.update2ResponseTime',
-                'workLoadStats.rfcResponseTime'
+                'workLoadStats.rfcResponseTime',
+                'workLoadStats.httpResponseTime',
+                'workLoadStats.httpsResponseTime'
               ],
               labels: [
                 t('in-sap:dashboards.dialogRespTime'),
@@ -428,7 +430,9 @@ export default function Summary({ data }: { data: SnapshotData }) {
                 t('in-sap:dashboards.bckgrdRespTime'),
                 t('in-sap:dashboards.spoolRespTime'),
                 t('in-sap:dashboards.update2RespTime'),
-                t('in-sap:dashboards.rfcRespTime')
+                t('in-sap:dashboards.rfcRespTime'),
+                t('in-sap:dashboards.httpRespTime'),
+                t('in-sap:dashboards.httpsRespTime')
               ],
               type: 'line',
               formatter: millis.detailed
@@ -449,7 +453,9 @@ export default function Summary({ data }: { data: SnapshotData }) {
                 'workLoadStats.avgBckgrdResponseTime',
                 'workLoadStats.avgSpoolResponseTime',
                 'workLoadStats.avgUpdate2ResponseTime',
-                'workLoadStats.avgRfcResponseTime'
+                'workLoadStats.avgRfcResponseTime',
+                'workLoadStats.avgHttpResponseTime',
+                'workLoadStats.avgHttpsResponseTime'
               ],
               labels: [
                 t('in-sap:dashboards.dialogRespTime'),
@@ -458,7 +464,9 @@ export default function Summary({ data }: { data: SnapshotData }) {
                 t('in-sap:dashboards.bckgrdRespTime'),
                 t('in-sap:dashboards.spoolRespTime'),
                 t('in-sap:dashboards.update2RespTime'),
-                t('in-sap:dashboards.rfcRespTime')
+                t('in-sap:dashboards.rfcRespTime'),
+                t('in-sap:dashboards.httpRespTime'),
+                t('in-sap:dashboards.httpsRespTime')
               ],
               type: 'line',
               formatter: millis.detailed

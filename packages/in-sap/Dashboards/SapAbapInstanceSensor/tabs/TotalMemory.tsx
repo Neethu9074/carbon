@@ -71,22 +71,6 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.totalMemory'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: TotalMemoryRow) {
-        return row.snapshotId;
-      },
-      getMetricName(row: TotalMemoryRow) {
-        return `memoryStats.${row.key}.memSum`;
-      },
-      getContent: bytes.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
     title: t('in-sap:dashboards.privateMemory'),
     type: 'metric',
     typeArgs: {
@@ -127,6 +111,22 @@ const cols = [
       },
       getMetricName(row: TotalMemoryRow) {
         return `memoryStats.${row.key}.maxBytes`;
+      },
+      getContent: bytes.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.totalMemory'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: TotalMemoryRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: TotalMemoryRow) {
+        return `memoryStats.${row.key}.memSum`;
       },
       getContent: bytes.compact,
       getTimeWindowAggregation() {
@@ -216,8 +216,8 @@ export default function TotalMemory({ snapshotId, timeConfig }: TotalMemoryProps
       cardTitle={t('in-sap:dashboards.memoryStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={0}
-      initialSortDirection="asc"
+      initialSortColumn={7}
+      initialSortDirection="desc"
       getRowDetails={getDetails}
       // @ts-expect-error Module needs to be translated to TS
       rightHeader={rightHeader}

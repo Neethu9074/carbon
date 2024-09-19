@@ -14,6 +14,7 @@ import OutboundTransactionalRfcInfo from 'in-sap/Dashboards/SapAbapInstanceSenso
 import OutboundQueueRfcInfo from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/OutboundQueueRfcInfo';
 import InboundQueueRfcInfo from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/InboundQueueRfcInfo';
 import HttpMetricsStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/HttpMetricsStats';
+import TransportRequest from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/TransportRequest';
 import SpoolMetricStat from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/SpoolMetricStat';
 import RfcErrorLogs from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/RfcErrorLogs';
 import RFCCallsMetrics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/RFCCalls';
@@ -155,6 +156,7 @@ export default function SecurityEssentials({ data }: { data: SnapshotData }) {
       <InboundQueueRfcInfo snapshotId={snapshotId} timeConfig={timeConfig} />
       <OutboundQueueRfcInfo snapshotId={snapshotId} timeConfig={timeConfig} />
       <HttpMetricsStats snapshotId={snapshotId} timeConfig={timeConfig} />
+      <TransportRequest snapshotId={snapshotId} />
     </Fragment>
   );
 }
