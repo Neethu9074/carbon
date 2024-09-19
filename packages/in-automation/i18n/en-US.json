@@ -88,6 +88,7 @@
   "automationPolicies": "Automation Policies",
   "copyOf": "(Copy of) {{name}}",
   "searchActions": "Search Actions",
+  "searchOptimizations": "Search optimizations",
   "hostsLimitHelpText": "Limit execution to the specified target host. Select the value that matches how the system is represented in Ansible inventory, or enter a string supported by Ansible limit syntax.",
   "aiEngine": "AI Engine",
   "engine": "Engine",

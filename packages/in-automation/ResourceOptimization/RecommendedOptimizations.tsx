@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { Button, IconButton, Spacer, Stack, Typography } from '@instana/components';
+import { Spacer, Stack, Typography } from '@instana/components';
 
 import {
   actionCategoryColumn,
@@ -18,19 +18,13 @@ import useServerTableUrlState, {
   ServerTableUrlState
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import CreatePolicyDialog from 'in-automation/AutomationCard/CreatePolicyDialog/CreatePolicyDialog';
 import useNavigateToActionDetails from 'in-automation/navigation/hooks/useNavigateToActionDetails';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
-import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilters';
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import { TriggerSpecification } from 'in-automation/Policies/types';
-import { TagsFilter } from 'in-automation/components/tableFilters';
 import { isExternal } from 'in-automation/ActionCatalog/shared';
 import { Event, Result, VolatileId } from 'in-types';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import { mapData } from 'in-services/util/result';
 import { ScoredAction } from 'in-automation/api';
 import { role } from 'in-stores/user';
@@ -45,52 +39,11 @@ interface RecommendedOptimizationsTableProps extends ServerTablePresenterProps<S
   trigger: Result<TriggerSpecification>;
 }
 
-const actionColumn: ColumnDefinition<ScoredAction, RecommendedOptimizationsTableProps> = {
-  id: 'action',
-  label: '',
-  sortable: false,
-  width: 8,
-  getContent(action, { volatileId, event, trigger }) {
-    const isManualExternal =
-      action?.metadata?.ai && action?.metadata?.ai[0]?.turbonomicActionMode === 'MANUAL' && isExternal(action.type);
-    if (isManualExternal) {
-      if (!role?.canRunAutomationActions) return null;
-      return (
-        <Button
-          kind="action"
-          icon="lib_actions_play"
-          onClick={e => {
-            stopPropagationAndPreventDefault(e);
-            addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
-          }}
-          noAutoMargin
-        >
-          {t('in-automation:ActionCatalog.run')}
-        </Button>
-      );
-    }
-    if (!role?.canConfigureAutomationPolicies || isExternal(action.type)) return null;
-    return (
-      <Tooltip content={t('in-automation:createPolicyWithName', { actionName: action.name })} delay={500}>
-        <IconButton
-          kind="primaryv2"
-          type="lib_openclose_add_circle_outline"
-          onClick={e => {
-            stopPropagationAndPreventDefault(e);
-            addActiveDialog(<CreatePolicyDialog trigger={trigger} action={action} event={event} />);
-          }}
-        />
-      </Tooltip>
-    );
-  }
-};
-
 const columnDefinitions: ColumnDefinition<ScoredAction, RecommendedOptimizationsTableProps>[] = [
   nameColumn as ColumnDefinition<ScoredAction, RecommendedOptimizationsTableProps>,
   typesColumn,
   impactedServicesColumn,
-  actionCategoryColumn as ColumnDefinition<ScoredAction, RecommendedOptimizationsTableProps>,
-  actionColumn
+  actionCategoryColumn as ColumnDefinition<ScoredAction, RecommendedOptimizationsTableProps>
 ];
 
 function useFilters({
@@ -176,10 +129,8 @@ export default function RecommendedOptimizations({
   });
   const { page, pageSize, orderBy, orderDirection, query } = serverTableUrlState;
   const navigateToActionDetails = useNavigateToActionDetails();
-  const availableAiEngines = [...new Set(recommendedOptimizations.data?.map(({ aiEngine }) => aiEngine))];
-  const availableTags = [...new Set(recommendedOptimizations.data?.flatMap(({ tags }) => tags ?? []))];
 
-  const { filteredActions, types, setTypes, aiEngine, setAiEngine, tags, setTags } = useFilters({
+  const { filteredActions, types, setTypes } = useFilters({
     recommendedOptimizations,
     setServerTableUrlState
   });
@@ -223,12 +174,10 @@ export default function RecommendedOptimizations({
       rightHeader={
         <Stack direction="horizontal">
           <TypeFilter type={types} setType={params => setTypes({ types: params.types })} showExternal />
-          <AiEngineFilter availableAiEngines={availableAiEngines} aiEngine={aiEngine} setAiEngine={setAiEngine} />
-          <TagsFilter availableTags={availableTags} tags={tags} setTags={setTags} />
           <Spacer horizontal="small" />
         </Stack>
       }
-      searchPlaceholder={t('in-automation:searchActions')}
+      searchPlaceholder={t('in-automation:searchOptimizations')}
       onRowClick={!role?.canConfigureAutomationPolicies ? handleRowClick : undefined}
     />
   );
