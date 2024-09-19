@@ -5,6 +5,7 @@
  */
 
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import { debounce } from 'lodash';
 
 import { DashboardTable, DashboardTile } from '@instana/components';
@@ -210,9 +211,17 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
 
   const dataArray = generateRows();
   const filteredArrayExcludingViewAllButton = dataArray.filter(item => item.key !== 'viewAllButton');
+  const hasNoDataTile = !filteredArrayExcludingViewAllButton.length;
 
   return (
-    <section className={locals.dataTableWrapper} aria-label={`${header}`} role="region">
+    <section
+      className={classNames({
+        [locals.dataTableWrapper]: true,
+        [locals.noData]: hasNoDataTile
+      })}
+      aria-label={`${header}`}
+      role="region"
+    >
       <DashboardTile {...dashboardTileProps} handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')} size="xs">
         <DashboardTable
           header={`${header}`}
@@ -224,7 +233,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
           hasAddPermission={hasAddPermission}
           hasAddMore={hasAddMore && !playwithEnabled ? true : false}
           viewAll={viewAll ?? hasContent ? true : false}
-          hasNoDataTile={!filteredArrayExcludingViewAllButton.length}
+          hasNoDataTile={hasNoDataTile}
           addMore={addMore}
           addData={addData}
           href={href}

@@ -8,11 +8,24 @@
   .dataTableWrapper {
     :global {
       .dashboardTable {
+        table {
+          table-layout: fixed;
+        }
         td:has(.carbonIconButton) {
           position: relative;
           padding-inline-end: 8px;
           .carbonIconButton {
             float: right;
+          }
+        }
+      }
+    }
+    // These style should be placed after the above "table-layout" as it needs to override it.
+    &.noData {
+      :global {
+        .dashboardTable {
+          table {
+            table-layout: auto;
           }
         }
       }
