@@ -102,3 +102,35 @@ export function extractBaselineFromResultsOrUseErrorFallback(
   }
   return { baseline };
 }
+
+export function extractMultiBaselineFromResultsOrUseErrorFallback(
+  persistedBaselineResult: Result<[number, number, number][]> | Nullish,
+  errorFallbackBaseline: [number, number, number][]
+): {
+  baseline: [number, number, number][];
+  error?: boolean;
+} {
+  const fetchError = persistedBaselineResult && hasError(persistedBaselineResult);
+
+  if (fetchError) {
+    // if a fallback baseline exists, hide the error
+    if (errorFallbackBaseline?.length > 0) {
+      return { baseline: errorFallbackBaseline };
+    }
+    return {
+      error: fetchError,
+      baseline: []
+    };
+  }
+
+  if (persistedBaselineResult && isLoading(persistedBaselineResult)) {
+    return { baseline: [] as [number, number, number][] };
+  }
+
+  let baseline: [number, number, number][] = persistedBaselineResult?.data ?? [];
+
+  if (baseline?.length < errorFallbackBaseline?.length) {
+    baseline = errorFallbackBaseline;
+  }
+  return { baseline };
+}

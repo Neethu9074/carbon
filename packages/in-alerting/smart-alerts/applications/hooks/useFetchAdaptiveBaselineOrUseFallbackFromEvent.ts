@@ -9,7 +9,7 @@ import { TimeConfig } from '@instana/types';
 
 import getBaselinePredictions from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationAdaptiveBaselinePredictions';
 import { ApplicationSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
-import { extractBaselineFromResultsOrUseErrorFallback } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
+import { extractMultiBaselineFromResultsOrUseErrorFallback } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { pendingResult } from 'in-services/fixedObjects';
 
 interface useFetchAdaptiveBaselineProps {
@@ -28,7 +28,7 @@ export function useFetchAdaptiveBaselineOrUseFallbackFromEvent(props: useFetchAd
   error?: boolean;
 } {
   const {
-    alertConfigWithFormModel: { created, id, granularity },
+    alertConfigWithFormModel,
     viewConfig: { timeConfig },
     applicationId,
     serviceId,
@@ -36,6 +36,7 @@ export function useFetchAdaptiveBaselineOrUseFallbackFromEvent(props: useFetchAd
     eventBasedAdaptiveBaseline
   } = props;
 
+  const { created, id, granularity } = alertConfigWithFormModel;
   const selectedEntityId = endpointId ?? serviceId ?? applicationId;
 
   const queryParams = {
@@ -51,6 +52,53 @@ export function useFetchAdaptiveBaselineOrUseFallbackFromEvent(props: useFetchAd
     selectedEntityId ? getBaselinePredictions(queryParams).startWith(pendingResult) : null,
     [id, created, applicationId, selectedEntityId, timeConfig]
   );
+  const extractedResult = extractMultiBaselineFromResultsOrUseErrorFallback(
+    persistedBaseline,
+    transformEventBasedAdaptiveBaseline(eventBasedAdaptiveBaseline, alertConfigWithFormModel)
+  );
+  return extractBaselineFromResult(alertConfigWithFormModel, extractedResult);
+}
 
-  return extractBaselineFromResultsOrUseErrorFallback(persistedBaseline, eventBasedAdaptiveBaseline);
+function isOnlyCriticalDefined(alertConfigWithFormModel: ApplicationSmartAlertConfigWithMetadata): boolean {
+  const thresholds = alertConfigWithFormModel.rules?.[0]?.thresholds;
+  return Boolean(thresholds?.CRITICAL);
+}
+
+function transformEventBasedAdaptiveBaseline(
+  baseline: [number, number][],
+  alertConfigWithFormModel: ApplicationSmartAlertConfigWithMetadata
+): [number, number, number][] {
+  if (!baseline) {
+    return [];
+  }
+  const isCritical = isOnlyCriticalDefined(alertConfigWithFormModel);
+
+  return baseline.map(datapoint => {
+    return isCritical ? [datapoint[0], datapoint[1], 0] : [datapoint[0], 0, datapoint[1]];
+  });
+}
+
+function extractBaselineFromResult(
+  alertConfigWithFormModel: ApplicationSmartAlertConfigWithMetadata,
+  extractedPersistedBaselineResult: {
+    baseline: [number, number, number][];
+    error?: boolean;
+  }
+): {
+  baseline: [number, number][];
+  error?: boolean;
+} {
+  const { baseline, error } = extractedPersistedBaselineResult;
+  if (error) {
+    return {
+      baseline: [],
+      error: true
+    };
+  }
+  const isCritical = isOnlyCriticalDefined(alertConfigWithFormModel);
+  const finalBaseline: [number, number][] = baseline.map(datapoint => {
+    return isCritical ? [datapoint[0], datapoint[2]] : [datapoint[0], datapoint[1]];
+  });
+
+  return { baseline: finalBaseline };
 }
