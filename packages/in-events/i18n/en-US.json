@@ -5,6 +5,12 @@
     "totalCallsInAlert": "Total Calls in Alert Scope",
     "earliestTimestamp": "Earliest Timestamp"
   },
+  "affectedApplications": {
+    "noAffectedApplications":"No affected applications found.",
+    "title": "Tittle",
+    "totalcalls": "Affected Calls",
+    "errorLoadingData": "Error loading data."
+  },
   "entityInfoPresenterDefaultLabel": "On: ",
   "entityInfoLabelOfService": "Of Service:",
   "titleDetail": "Detail",
@@ -129,7 +135,6 @@
   "headerVulnerability": "Title",
   "headerReportedOn": "On",
   "headerReportedDate": "Reported Date",
-  "headerAffectedApp": "Affected Applications",
   "headerCvssScore": "CVSS Score",
   "unidentifiedEntity": "Unidentified Entity",
   "unidentifiedEntityTooltip": "There was an error retrieving information about this entity. You can visit the entity's dashboard by clicking the 'Unidentified Entity' link for more details.",

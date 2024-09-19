@@ -43,6 +43,7 @@ import ApplicationEventContent from 'in-events/components/EventContent/Applicati
 import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAlertImpactedUsers';
 import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
 import SyntheticEventContent from 'in-events/components/EventContent/SyntheticEventContent';
+import AffectedEntitiesPresenter from 'in-events/components/legacy/CveAffectedApplications';
 import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
 import WebsiteEventContent from 'in-events/components/EventContent/WebsiteEventContent';
@@ -285,6 +286,9 @@ function EventContent({ event, latestSnapshot, reload }) {
           entityType={event?.get('entityType', undefined)}
           entityId={event?.get('entityId', undefined)}
         />
+      )}
+      {isCveIssueEvent(event) && snapshot?.get('id') && (
+        <AffectedEntitiesPresenter id={snapshot?.get('id')} timeConfig={timeConfig} />
       )}
     </>
   );
