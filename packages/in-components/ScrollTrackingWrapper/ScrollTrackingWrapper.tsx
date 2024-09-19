@@ -53,7 +53,7 @@ export default function ScrollTrackingWrapper({ children }: Props) {
           parentPageName: pageRootName,
           parentPageCategory: productArea,
           action: PAGE_SCROLLED_BOTTOM,
-          path: location.hash
+          path: pathname
         };
         eventTracker({ data, segmentEventName: UI_INTERACTION });
       }

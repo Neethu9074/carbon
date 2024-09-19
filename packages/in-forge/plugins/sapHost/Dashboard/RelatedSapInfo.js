@@ -8,11 +8,8 @@ import React from 'react';
 
 import { Collapsible } from '@instana/components';
 
-import {
-  trackSidebarRelatedEntitiesExpanded,
-  trackSidebarRelatedEntitiesClicked
-} from 'in-infrastructure/tracking/tracking';
 import { ClickableSnapshotListItem, ClickableList } from 'in-sdk/components/sidebar/ClickableList';
+import { useSegmentTracker } from 'in-infrastructure/tracking/tracking';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { getSnapshots } from 'in-stores/snapshot';
 import { getPluginName } from 'in-sdk/pluginName';
@@ -29,6 +26,8 @@ export default connectTo(
     };
   },
   function RelatedSnapshotList({ initiallyOpen, snapshots }) {
+    const { trackSidebarRelatedEntitiesExpanded, trackSidebarRelatedEntitiesClicked } = useSegmentTracker();
+
     if (!snapshots || snapshots.size === 0) {
       return null;
     }
@@ -40,11 +39,27 @@ export default connectTo(
       compareIgnoreCase(getPluginName(a, instancegGrouping[a].length), getPluginName(b, instancegGrouping[b].length))
     );
 
-    return pluginMap(systemGroupPlugins, systemGrouping, instanceGroupPlugins, instancegGrouping, initiallyOpen);
+    return pluginMap(
+      systemGroupPlugins,
+      systemGrouping,
+      instanceGroupPlugins,
+      instancegGrouping,
+      initiallyOpen,
+      trackSidebarRelatedEntitiesExpanded,
+      trackSidebarRelatedEntitiesClicked
+    );
   }
 );
 
-function pluginMap(systemGroupPlugins, systemGrouping, instanceGroupPlugins, instancegGrouping, initiallyOpen) {
+function pluginMap(
+  systemGroupPlugins,
+  systemGrouping,
+  instanceGroupPlugins,
+  instancegGrouping,
+  initiallyOpen,
+  trackSidebarRelatedEntitiesExpanded,
+  trackSidebarRelatedEntitiesClicked
+) {
   return (
     <div>
       {systemGroupPlugins.map(plugin => (

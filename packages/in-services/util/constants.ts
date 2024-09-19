@@ -21,3 +21,4 @@ export const STARTED_PROCESS = 'Started Process';
 export const CREATED_OBJECT = 'Created Object';
 export const UPDATED_OBJECT = 'Updated Object';
 export const UI_INTERACTION = 'UI Interaction';
+export const UI_LOADING = 'UI Loading';
