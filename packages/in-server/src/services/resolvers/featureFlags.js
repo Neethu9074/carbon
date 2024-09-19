@@ -492,7 +492,7 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'incidentSummarizationEnabled',
-    instanaCtlKey: 'feature.incident.summarization.enabled',
+    instanaCtlKey: 'feature.incident.ai.summarization.enabled',
     defaultValue: false
   },
   {
