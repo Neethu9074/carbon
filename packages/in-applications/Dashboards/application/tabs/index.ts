@@ -6,6 +6,8 @@
 //@ts-expect-error needs TS migration
 import ReadOnlyConfiguration from 'in-applications/Dashboards/application/tabs/ReadOnlyConfiguration';
 //@ts-expect-error needs TS migration
+import CveVulnerabilities from 'in-applications/Dashboards/application/tabs/CveVulnerabilities';
+//@ts-expect-error needs TS migration
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
 //@ts-expect-error needs TS migration
 import Configuration from 'in-applications/Dashboards/application/tabs/Configuration';
@@ -24,6 +26,7 @@ import LogMessagesTab from 'in-logging/components/Dashboards/components/LogMessa
 import { hasInfrastructureAccess, hasSyntheticsAccess } from 'in-stores/permission';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import { Tab } from 'in-components/LocationAwareTabView/types';
+import { cveIssueEnabled } from 'in-services/featureFlags';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -69,6 +72,11 @@ const getApplicationTabs = (canConfigureApplications: boolean | null | undefined
         path: `${applicationDashboard}/synthetics`,
         component: SyntheticsList
       },
+    cveIssueEnabled && {
+      label: t('in-events:labelCveIssue'),
+      path: `${applicationDashboard}/CveVulnerabilities`,
+      component: CveVulnerabilities
+    },
     {
       label: t('in-applications:labelSmartAlerts'),
       path: `${applicationDashboard}/alerts`,
