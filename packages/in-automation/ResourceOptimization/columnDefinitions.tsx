@@ -21,6 +21,9 @@ import Tooltip from 'in-components/Tooltip/Tooltip';
 import { ScoredAction } from 'in-automation/api';
 import { t } from 'in-i18n';
 
+const mockdata = true;
+const mockTypes = ['Resize', 'Delete', 'Scale', 'Buy', 'Move'];
+
 export const nameColumn: ColumnDefinition<Action | ScoredAction> = {
   id: 'name',
   label: t('in-automation:name'),
@@ -44,7 +47,7 @@ export const nameColumn: ColumnDefinition<Action | ScoredAction> = {
       </Tooltip>
     );
   },
-  width: 20,
+  width: 25,
   sortable: true
 };
 
@@ -67,18 +70,22 @@ export const actionCategoryColumn: ColumnDefinition<{ tags: string[] }> = {
   width: 10,
   getContent(item) {
     const { tags = [] } = item;
-    return <DynamicTagList tags={tags} />;
+    return <DynamicTagList tags={mockdata ? ['Performance'] : tags} />;
   }
 };
 
 export const typesColumn: ColumnDefinition<ScoredAction> = {
   label: t('in-automation:types'),
   id: 'engine',
-  width: 15,
+  width: 10,
   getContent(action) {
     return (
       <Typography variant="body-regular">
-        {action.aiEngine.startsWith('A similar event') ? t('in-automation:eventSimilarity') : action.aiEngine}
+        {mockdata
+          ? mockTypes[Math.floor(Math.random() * mockTypes.length)]
+          : action.aiEngine.startsWith('A similar event')
+          ? t('in-automation:eventSimilarity')
+          : action.aiEngine}
       </Typography>
     );
   }
@@ -92,17 +99,13 @@ export const impactedServicesColumn: ColumnDefinition<ScoredAction> = {
   getContent(action) {
     if (isExternal(action.type)) return null;
     return (
-      <Tooltip
-        content={t('in-automation:ActionCatalog.confidenceHelpText', { source: action.aiEngine })}
-        align="topRight"
-        delay={500}
-      >
-        <HorizontalFlexWrapper>
-          <Typography variant="body-regular">
-            {t('in-automation:ActionCatalog.confidence', { context: action.confidence })}
-          </Typography>
-        </HorizontalFlexWrapper>
-      </Tooltip>
+      <HorizontalFlexWrapper>
+        <Typography variant="body-regular">
+          {mockdata
+            ? Math.floor(Math.random() * 500)
+            : t('in-automation:ActionCatalog.confidence', { context: action.confidence })}
+        </Typography>
+      </HorizontalFlexWrapper>
     );
   }
 };
