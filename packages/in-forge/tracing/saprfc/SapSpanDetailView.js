@@ -32,6 +32,13 @@ export function SapSpanDetailViewDescriptionList({ span }) {
       <Di title={t('in-forge:tracing.sap.rollOutTime')}>{span.getIn(['data', 'sap', 'rollOutTime'])}</Di>
       <Di title={t('in-forge:tracing.sap.queueTime')}>{span.getIn(['data', 'sap', 'queueTime'])}</Di>
       <Di title={t('in-forge:tracing.sap.rollWaitTime')}>{span.getIn(['data', 'sap', 'rollWaitTime'])}</Di>
+      <Di title={t('in-forge:tracing.sap.dvUnit')}>{span.getIn(['data', 'sap', 'dvUnit'])}</Di>
+      <Di title={t('in-forge:tracing.sap.component')}>{span.getIn(['data', 'sap', 'component'])}</Di>
+      <Di title={t('in-forge:tracing.sap.probClass')}>{span.getIn(['data', 'sap', 'probClass'])}</Di>
+      <Di title={t('in-forge:tracing.sap.program')}>{span.getIn(['data', 'sap', 'program'])}</Di>
+      <Di title={t('in-forge:tracing.sap.msgArea')}>{span.getIn(['data', 'sap', 'msgArea'])}</Di>
+      <Di title={t('in-forge:tracing.sap.developmentClass')}>{span.getIn(['data', 'sap', 'devClass'])}</Di>
+      <Di title={t('in-forge:tracing.sap.appComponent')}>{span.getIn(['data', 'sap', 'appComponent'])}</Di>
       <ErrorDescriptionItem error={span.getIn(['data', 'sap', 'errorMessage'])} />
     </>
   );

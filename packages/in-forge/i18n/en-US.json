@@ -17191,17 +17191,24 @@
       "baggage": "Baggage"
     },
     "sap": {
-      "callType": "Call Report",
+      "callType": "Call report",
       "tcode": "TCODE",
       "user": "User",
       "system": "System",
-      "totalResTime": "Response Time(ms)",
-      "dbReqTime": "DB Request Time(ms)",
-      "wpTime": "Work Process Time(ms)",
-      "rollInTime": "RollIn Time(ms)",
-      "rollOutTime": "RollOut Time(ms)",
-      "queueTime": "Queue Time(ms)",
-      "rollWaitTime": "RollWait Time(ms)"
+      "totalResTime": "Response time(ms)",
+      "dbReqTime": "DB Request time(ms)",
+      "wpTime": "Work Process time(ms)",
+      "rollInTime": "RollIn time(ms)",
+      "rollOutTime": "RollOut time(ms)",
+      "queueTime": "Queue time(ms)",
+      "rollWaitTime": "RollWait time(ms)",
+      "dvUnit": "Development unit",
+      "component": "Component",
+      "probClass": "Problem class",
+      "program": "Program",
+      "msgArea": "Message area",
+      "developmentClass": "Development class",
+      "appComponent": "Application component"
     },
     "s3": {
       "region": "Region",
