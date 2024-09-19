@@ -57,6 +57,8 @@ export interface KpiCardProps {
   minorClass?: string;
   disableHeaderTooltip?: boolean;
   bigNumbers?: boolean;
+  icon?: string;
+  iconClassName?: string;
 }
 
 export default function KpiCard({
@@ -80,7 +82,9 @@ export default function KpiCard({
   majorClass,
   minorClass,
   disableHeaderTooltip = false,
-  bigNumbers
+  bigNumbers,
+  icon,
+  iconClassName
 }: KpiCardProps) {
   const { ref, width } = useResizeObserver<HTMLDivElement>();
   const hasApproximateData = resultPrecision === 'PRECISION_APPROXIMATE';
@@ -168,7 +172,10 @@ export default function KpiCard({
           <span className={locals.titleText}>{title}</span>
         ) : (
           <Tooltip content={title} align={carbonTooltipEnabled ? 'auto' : 'bottomLeft'} overflowEllipsis>
-            <span className={locals.titleText}>{title}</span>
+            <div className={locals.titleIcon}>
+              {icon && <SvgIcon type={icon} className={iconClassName} />}
+              <span className={locals.titleText}>{title}</span>
+            </div>
           </Tooltip>
         )}
         <div className={locals.flexTooltip}>
