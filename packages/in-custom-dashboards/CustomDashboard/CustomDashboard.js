@@ -10,18 +10,18 @@ import { generateUniqueShortId } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 
 import {
-  editDashboard,
-  shareDashboard,
-  deleteDashboard,
-  startAddWidget,
-  finishAddWidget,
-  startEditWidget,
-  finishEditWidget,
-  deleteWidget,
-  startZoomWidget,
-  finishZoomWidget,
-  duplicateWidget
-} from 'in-custom-dashboards/tracker';
+  CUSTOM_DASHBOARD_SHARE,
+  CUSTOM_DASHBOARD_EDIT,
+  CUSTOM_DASHBOARD_DELETE,
+  CUSTOM_DASHBOARD_ADD_WIDGET_START,
+  CUSTOM_DASHBOARD_ADD_WIDGET_FINISH,
+  CUSTOM_DASHBOARD_EDIT_WIDGET_START,
+  CUSTOM_DASHBOARD_EDIT_WIDGET_FINISH,
+  CUSTOM_DASHBOARD_DELETE_WIDGET,
+  CUSTOM_DASHBOARD_ZOOM_WIDGET_START,
+  CUSTOM_DASHBOARD_ZOOM_WIDGET_FINISH,
+  CUSTOM_DASHBOARD_ADD_WIDGET_DUPLICATE
+} from 'in-services/tracking/tracking';
 import WidgetEditorDialog from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialog';
 import { getCustomDashboard, updateCustomDashboard, removeCustomDashboard } from 'in-custom-dashboards/api';
 import ZoomWidgetDialog from 'in-custom-dashboards/CustomDashboard/ZoomWidgetDialog/ZoomWidgetDialog';
@@ -32,9 +32,11 @@ import { activeDialogs$, addActiveDialog, close } from 'in-components/DialogPres
 import DuplicateDashboardDialog from 'in-custom-dashboards/DuplicateDashboardDialog';
 import { dashboardIdUrlParameter } from 'in-custom-dashboards/navigation/url';
 import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { getTrackingMeta } from 'in-custom-dashboards/tracker';
 import { cockpit } from 'in-cockpit/navigation/paths';
 import widgets from 'in-custom-dashboards/widgets';
 import { deepCopy } from 'in-services/util/object';
@@ -56,8 +58,8 @@ export default function CustomDashboardLoader(props) {
 
   const activeDialogs = useObservable(activeDialogs$, []) ?? [];
 
-  const {location, navigate} = useNavigation()
-
+  const { location, navigate } = useNavigation();
+  const { trackCta } = useSegmentTracking();
 
   useEffect(() => {
     setConfig(getInitialState(result).config);
@@ -119,13 +121,13 @@ export default function CustomDashboardLoader(props) {
   );
 
   function onAddWidget() {
-    startAddWidget();
+    trackCta(CUSTOM_DASHBOARD_ADD_WIDGET_START);
     addActiveDialog(
       <WidgetEditorDialog
         onSubmit={widget => {
           const newConfig = deepCopy(config);
           newConfig.widgets.push(widget);
-          finishAddWidget(widget);
+          trackCta(CUSTOM_DASHBOARD_ADD_WIDGET_FINISH, getTrackingMeta(widget));
           setConfig(newConfig);
         }}
       />
@@ -134,7 +136,7 @@ export default function CustomDashboardLoader(props) {
 
   function onEditWidget(id) {
     const widget = find(config.widgets, eachWidget => id === eachWidget.id);
-    startEditWidget(widget);
+    trackCta(CUSTOM_DASHBOARD_EDIT_WIDGET_START, getTrackingMeta(widget));
     addActiveDialog(
       <WidgetEditorDialog
         widget={widget}
@@ -142,7 +144,7 @@ export default function CustomDashboardLoader(props) {
           const newConfig = deepCopy(config);
           newConfig.widgets = newConfig.widgets.filter(widget => widget.id !== id);
           newConfig.widgets.push(widget);
-          finishEditWidget(widget);
+          trackCta(CUSTOM_DASHBOARD_EDIT_WIDGET_FINISH, getTrackingMeta(widget));
           setConfig(newConfig);
         }}
       />
@@ -160,7 +162,7 @@ export default function CustomDashboardLoader(props) {
   function onDuplicateWidget(id) {
     const newConfig = deepCopy(config);
     const widget = deepCopy(find(newConfig.widgets, eachWidget => id === eachWidget.id));
-    duplicateWidget(widget);
+    trackCta(CUSTOM_DASHBOARD_ADD_WIDGET_DUPLICATE, getTrackingMeta(widget));
     widget.id = generateUniqueShortId();
     newConfig.widgets.push(widget);
     setConfig(newConfig);
@@ -169,13 +171,13 @@ export default function CustomDashboardLoader(props) {
   function onZoomWidget(id) {
     const widget = find(config.widgets, eachWidget => id === eachWidget.id);
     const { Widget } = widgets[widget.type];
-    startZoomWidget(widget);
+    trackCta(CUSTOM_DASHBOARD_ZOOM_WIDGET_START, getTrackingMeta(widget));
     addActiveDialog(
       <ZoomWidgetDialog
         widget={widget}
         component={Widget}
         close={() => {
-          finishZoomWidget(widget);
+          trackCta(CUSTOM_DASHBOARD_ZOOM_WIDGET_FINISH, getTrackingMeta(widget));
           close();
         }}
       />
@@ -185,7 +187,7 @@ export default function CustomDashboardLoader(props) {
   function onRemoveWidget(id) {
     const newConfig = deepCopy(config);
     newConfig.widgets = newConfig.widgets.filter(widget => id !== widget.id);
-    deleteWidget(config.widgets?.find(widget => id === widget.id));
+    trackCta(CUSTOM_DASHBOARD_DELETE_WIDGET, getTrackingMeta(config.widgets?.find(widget => id === widget.id)));
     setConfig(newConfig);
   }
 
@@ -204,7 +206,7 @@ export default function CustomDashboardLoader(props) {
         onSubmit={accessRules => {
           const newConfig = deepCopy(config);
           newConfig.accessRules = accessRules;
-          shareDashboard(config.title);
+          trackCta(CUSTOM_DASHBOARD_SHARE, { title: config.title });
           setConfig(newConfig);
         }}
       />
@@ -227,7 +229,7 @@ export default function CustomDashboardLoader(props) {
           </span>
         }
         onSubmit={() => {
-          deleteDashboard(config.title);
+          trackCta(CUSTOM_DASHBOARD_DELETE, { title: config.title });
           close();
           removeCustomDashboard(config.id).subscribe(result => {
             if (result.progress.loading) {
@@ -245,8 +247,8 @@ export default function CustomDashboardLoader(props) {
               );
               return;
             }
-            const targetLocation = {...location, pathname: cockpit}
-            navigate(targetLocation)
+            const targetLocation = { ...location, pathname: cockpit };
+            navigate(targetLocation);
           });
         }}
       />
@@ -277,7 +279,7 @@ export default function CustomDashboardLoader(props) {
 
   function onSaveConfiguration() {
     setSaving(true);
-    editDashboard(config.title);
+    trackCta(CUSTOM_DASHBOARD_EDIT, { title: config.title });
     updateCustomDashboard(config).subscribe(result => {
       if (result.progress.loading) {
         return;

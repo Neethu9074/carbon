@@ -7,11 +7,12 @@ import { createField } from 'formalistic';
 import React, { useState } from 'react';
 
 import { viewPathFullyQualified, dashboardIdUrlParameter } from 'in-custom-dashboards/navigation/url';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { CUSTOM_DASHBOARD_CREATE } from 'in-services/tracking/tracking';
 import PromptPresenter from 'in-components/Dialog/PromptPresenter';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { notBlankValidator } from 'in-services/validators/string';
-import { createDashboard } from 'in-custom-dashboards/tracker';
 import { addCustomDashboard } from 'in-custom-dashboards/api';
 import { close } from 'in-components/DialogPresenter/store';
 import { user } from 'in-stores/user';
@@ -26,7 +27,8 @@ export default function NewDashboardDialog() {
     isSaving: false,
     errors: null
   });
-  const {location, navigate } = useNavigation();
+  const { location, navigate } = useNavigation();
+  const { trackCta } = useSegmentTracking();
 
   const presenterProps = {
     header: t('in-custom-dashboards:newDashboardDialog.createNewDashboard'),
@@ -73,9 +75,14 @@ export default function NewDashboardDialog() {
           response => {
             if (response.data) {
               const customDashboardId = response.data.id;
-              createDashboard(state.field.value);
-              const targetLocation = {...location, pathname: viewPathFullyQualified}
-              setOrDeleteMatrixKey(targetLocation, dashboardIdUrlParameter.path, dashboardIdUrlParameter.name, customDashboardId)
+              trackCta(CUSTOM_DASHBOARD_CREATE, { title: state.field.value });
+              const targetLocation = { ...location, pathname: viewPathFullyQualified };
+              setOrDeleteMatrixKey(
+                targetLocation,
+                dashboardIdUrlParameter.path,
+                dashboardIdUrlParameter.name,
+                customDashboardId
+              );
               navigate(targetLocation);
               close();
               return;
