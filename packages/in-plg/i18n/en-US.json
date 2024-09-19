@@ -64,7 +64,7 @@
       "configurationOptions": "Configuration options"
     },
     "jvmVendor": {
-      "azulZulu18": "Azul Zulu 1.8",
+      "azulZulu11": "Azul Zulu 11",
       "eclipseOpenJD11": "Eclipse OpenJ9 11"
     },
     "askForHelp": {
@@ -376,7 +376,7 @@
         "dynamic": "Dynamic",
         "static": "Static",
         "runtime": "Runtime",
-        "azulZulu": "Azul Zulu 1.8",
+        "azulZulu": "Azul Zulu 11",
         "eclipseOpenJ9": "Eclipse OpenJ9 11",
         "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Step 2: Review the prerequisites and run the agent deployment code.",
         "installagentOnAWSEC2": "Install agent on AWS EC2",

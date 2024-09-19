@@ -183,7 +183,7 @@ export default function LinuxPackages({
     return (
       <Stack direction="horizontal">
         <RadioButton
-          label="Azul Zulu 1.8"
+          label="Azul Zulu 11"
           checked={jvmVendor === jvmVendorOptions[0]}
           onChange={() => setJVMVendor(jvmVendorOptions[0])}
           size="default"

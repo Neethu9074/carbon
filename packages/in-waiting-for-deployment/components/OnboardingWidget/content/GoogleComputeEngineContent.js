@@ -6,6 +6,7 @@
 import React, { useState } from 'react';
 
 import { RadioButton } from '@instana/components';
+
 import {
   Bash,
   Description,
@@ -51,7 +52,7 @@ export default function GoogleComputeEngineContent({ agentKey, downloadKey, agen
           <h4>{t('in-waiting-for-deployment:content.agentJdk')}</h4>
           <p>
             <RadioButton
-              label={t('in-waiting-for-deployment:content.azulZulu18')}
+              label={t('in-waiting-for-deployment:content.azulZulu11')}
               checked={jvmVendor === jvmVendorOptions[0]}
               onChange={() => setJVMVendor(jvmVendorOptions[0])}
               size="default"

@@ -6,6 +6,7 @@
 import React, { useState } from 'react';
 
 import { RadioButton } from '@instana/components';
+
 import {
   Bash,
   CheckBox,
@@ -62,7 +63,7 @@ export default function OneLinerContent({
           <h4>{t('in-waiting-for-deployment:content.agentRuntimeLabel')}</h4>
           <p>
             <RadioButton
-              label="Azul Zulu 1.8"
+              label="Azul Zulu 11"
               checked={jvmVendor === jvmVendorOptions[0]}
               onChange={() => setJVMVendor(jvmVendorOptions[0])}
               size="default"

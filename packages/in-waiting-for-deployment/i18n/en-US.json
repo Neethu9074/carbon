@@ -23,7 +23,7 @@
     "dynamic": "Dynamic",
     "static": "Static",
     "agentJdk": "Agent JDK",
-    "azulZulu18": "Azul Zulu 1.8",
+    "azulZulu11": "Azul Zulu 11",
     "eclipseOpenJ911": "Eclipse OpenJ9 11",
     "theClusterNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo64CharactersLong": "The cluster name must be a combination of letters, dashes and underscores, up to 64 characters long",
     "aws": "AWS",

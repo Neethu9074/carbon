@@ -37,7 +37,7 @@ export default function GoogleComputeEngine({
     { key: 'Static', label: t('in-plg:agentDetails.agentMode.static') }
   ];
   const jvmVendorOptions: Option[] = [
-    { key: 'AzulZulu18', label: t('in-plg:agentDetails.jvmVendor.azulZulu18') },
+    { key: 'AzulZulu11', label: t('in-plg:agentDetails.jvmVendor.azulZulu11') },
     { key: 'EclipseOpenJD11', label: t('in-plg:agentDetails.jvmVendor.eclipseOpenJD11') }
   ];
   const [jvmVendor, setJVMVendor] = useState(jvmVendorOptions[0]);
