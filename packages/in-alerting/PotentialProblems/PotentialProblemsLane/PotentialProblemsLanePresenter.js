@@ -9,14 +9,16 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import PotentialProblemsHoverArea from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsHoverArea';
+import { POTENTIAL_PROBLEMS_MARKER_HOVERED, POTENTIAL_PROBLEMS_MARKER_CLICKED } from 'in-services/tracking/eventNames';
 import { potentialProblemsLaneAlertsPropType } from 'in-alerting/PotentialProblems/PotentialProblemsLane/proptypes';
 import PotentialProblemMarker from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemMarker';
 import SingleMarkerLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleMarkerLaneItem';
-import { trackMarkerClicked, trackMarkerHovered } from 'in-alerting/PotentialProblems/tracker';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import MarkerLane from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { getTitle } from 'in-alerting/PotentialProblems/textUtil';
+import { UI_INTERACTION } from 'in-services/util/constants';
 import { t } from 'in-i18n';
 
 const DeferredPotentialProblemsDialogPresenter = createAsyncViewComponent(PotentialProblemsDialogPresenter);
@@ -27,6 +29,7 @@ export default function PotentialProblemsLanePresenter({
   openingDialogDisabled,
   ...remainingProps
 }) {
+  const { trackCta, unstable_trackEvent } = useSegmentTracking();
   const events = useMemo(() => {
     function buildPotentialProblemEventObject({ alerts, lastStart, lastEnd, granularity, thresholds }) {
       const lastStartShifted = adjustTimestampFraction(lastStart, granularity) - granularity / 2;
@@ -131,7 +134,7 @@ export default function PotentialProblemsLanePresenter({
         }}
       />
     );
-    trackMarkerClicked({ metricNames: getUniqueMetricNames(alertRules) });
+    trackCta(POTENTIAL_PROBLEMS_MARKER_CLICKED, { metricNames: getUniqueMetricNames(alertRules) });
   };
 
   return (
@@ -156,11 +159,15 @@ export default function PotentialProblemsLanePresenter({
       LaneItem={SingleMarkerLaneItem}
       renderMarkerItem={PotentialProblemMarker}
       trackMarkerHoverEvent={eventData => {
-        trackMarkerHovered({
-          metricNames: getUniqueMetricNames(alertRules),
-          numberOfProblems: eventData.alerts.length,
-          chartName: remainingProps.chartName
-        });
+        unstable_trackEvent(
+          UI_INTERACTION,
+          { CTA: POTENTIAL_PROBLEMS_MARKER_HOVERED },
+          {
+            metricNames: getUniqueMetricNames(alertRules),
+            numberOfProblems: eventData.alerts.length,
+            chartName: remainingProps.chartName
+          }
+        );
       }}
       hideDefaultHoverStyle
     />
