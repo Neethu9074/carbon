@@ -72,6 +72,24 @@ export function fixateTimeConfig(timeConfig: TimeConfig): FixedTimeConfig {
   };
 }
 
+export function trimTimeConfigEnd(timeConfig: FixedTimeConfig, maxWindowSize: number): FixedTimeConfig {
+  if (timeConfig.windowSize < maxWindowSize) {
+    return timeConfig;
+  }
+
+  const diff = timeConfig.windowSize - maxWindowSize;
+  const trimmedTo = timeConfig.to - diff;
+  const trimmedFocusedMoment =
+    timeConfig.focusedMoment == null ? trimmedTo : Math.min(timeConfig.focusedMoment, trimmedTo);
+
+  return {
+    to: trimmedTo,
+    focusedMoment: trimmedFocusedMoment,
+    autoRefresh: timeConfig.autoRefresh,
+    windowSize: maxWindowSize
+  };
+}
+
 function timeConfigWithShift(timeConfig: TimeConfig, timeSkew: number) {
   // live mode needs to query with empty to field
   // historical data does not need to be skewed
