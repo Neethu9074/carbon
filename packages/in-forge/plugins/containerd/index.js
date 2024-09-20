@@ -5,6 +5,7 @@
  */
 
 import { Map } from 'immutable';
+import React from 'react';
 
 import { LoggingIntegrationButtonsRenderer, getObservables } from 'in-integrations/logging/LoggingIntegrationButtons';
 import containerInfoButtonConfig from 'in-forge/plugins/containerd/containerInfoButtonConfig';
@@ -33,7 +34,7 @@ registerSnapshotDefinition({
     return [
       {
         getObservables,
-        render: LoggingIntegrationButtonsRenderer,
+        render: props => <LoggingIntegrationButtonsRenderer {...props} addMargin />,
         props: {
           isWithinKubernetes: isWithinKubernetes(snapshot),
           dockerContainerId: snapshot.getIn(['data', 'id']),

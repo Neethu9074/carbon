@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { CarbonMenuButton } from '@instana/components';
@@ -25,6 +26,8 @@ import MultiButton from 'in-components/MultiButton';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
+import locals from 'in-integrations/logging/LoggingIntegrationButtons.mless';
+
 export default connectTo(getObservables())(LoggingIntegrationButtonsRenderer);
 
 export function getObservables() {
@@ -37,7 +40,7 @@ export function getObservables() {
   };
 }
 
-export function LoggingIntegrationButtonsRenderer(props) {
+export function LoggingIntegrationButtonsRenderer({ addMargin, ...props }) {
   /*
     Keep the list sorted alphabetically
    */
@@ -54,7 +57,14 @@ export function LoggingIntegrationButtonsRenderer(props) {
 
   if (carbonButtonEnabled) {
     return (
-      <CarbonMenuButton size="sm" label={t('in-integrations:logging.goToLogs')} kind="secondary">
+      <CarbonMenuButton
+        className={classNames({
+          [locals.gotoLogsButton]: addMargin
+        })}
+        size="sm"
+        label={t('in-integrations:logging.goToLogs')}
+        kind="secondary"
+      >
         {integrations}
       </CarbonMenuButton>
     );

@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import React from 'react';
+
 import { LoggingIntegrationButtonsRenderer, getObservables } from 'in-integrations/logging/LoggingIntegrationButtons';
 import agentMonitoringIssueDefinitions from 'in-forge/plugins/host/agentMonitoringIssueDefinitions';
 import getKubernetesNodeByHost from 'in-kubernetes/subscriptions/getKubernetesNodeByHost';
@@ -71,7 +73,7 @@ registerSnapshotDefinition({
             .map(result => result.data)
             .filter(Boolean)
         }),
-        render: LoggingIntegrationButtonsRenderer,
+        render: props => <LoggingIntegrationButtonsRenderer {...props} addMargin />,
         props: {
           hostFqdn,
           hostName

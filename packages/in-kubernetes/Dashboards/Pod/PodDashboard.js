@@ -168,7 +168,7 @@ function renderButtonLineSecondary({ timeConfig, podId, result, kubernetesTimeSh
 
   return (
     <>
-      <LoggingIntegrationButtons kubernetesPodName={podName} timeConfig={timeConfig} />
+      <LoggingIntegrationButtons addMargin kubernetesPodName={podName} timeConfig={timeConfig} />
       {beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled && (
         <TimeShiftDropdown
           onChange={offset =>
