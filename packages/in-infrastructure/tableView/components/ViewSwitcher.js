@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
+import { PreviewPill, SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -19,7 +19,6 @@ import {
 import { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { infraSmartAlertsEnabled } from 'in-services/featureFlags';
-import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import SearchBar from 'in-components/SearchBar';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -53,7 +52,7 @@ export default function InfrastructureViewSwitcher({ showSearchBar = true, theme
             label={
               <>
                 {t('in-infrastructure:tableView.smartAlerts')}
-                <PreviewBadge className={locals.betaPill} />
+                <PreviewPill className={locals.betaPill} />
               </>
             }
             isActive={isAlertActive}

@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Button, Stack } from '@instana/components';
+import { Button, PreviewPill, Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import {
@@ -14,7 +14,6 @@ import {
   defaultInfraExploreViewParams,
   useLinkToExplore as useLinkToInfraEntityExplore
 } from 'in-infrastructure/navigation/paths';
-import PreviewBadge from 'in-components/PreviewBadge/PreviewBadge';
 import { carbonButtonEnabled } from 'in-services/featureFlags';
 
 export interface AnalyzeRelatedInstancesButtonProps extends GetLinkToExploreProps {
@@ -33,7 +32,7 @@ export default function AnalyzeRelatedInstancesButton(
       <Button kind="primary" size="compact" href={getLinkToInfraEntityExplore(props)} onClick={props.onClick}>
         <Stack direction="horizontal" gap="disabled" align="center">
           {t('in-infrastructure:explore.relatedInstances')}
-          <PreviewBadge />
+          <PreviewPill />
         </Stack>
       </Button>
     );
@@ -48,7 +47,7 @@ export default function AnalyzeRelatedInstancesButton(
     >
       {t('in-infrastructure:explore.relatedInstances')}
       <div>
-        <PreviewBadge />
+        <PreviewPill />
       </div>
     </Button>
   );
