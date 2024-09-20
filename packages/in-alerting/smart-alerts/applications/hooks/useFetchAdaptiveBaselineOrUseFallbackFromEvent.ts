@@ -74,7 +74,7 @@ function transformEventBasedAdaptiveBaseline(
   const isCritical = isOnlyCriticalDefined(alertConfigWithFormModel);
 
   return baseline.map(datapoint => {
-    return isCritical ? [datapoint[0], datapoint[1], 0] : [datapoint[0], 0, datapoint[1]];
+    return !isCritical ? [datapoint[0], datapoint[1], 0] : [datapoint[0], 0, datapoint[1]];
   });
 }
 
