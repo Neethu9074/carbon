@@ -6,6 +6,8 @@
 //@ts-expect-error needs TS migration
 import ReadOnlyConfiguration from 'in-applications/Dashboards/application/tabs/ReadOnlyConfiguration';
 //@ts-expect-error needs TS migration
+import ResourceOptimizations from 'in-applications/Dashboards/application/tabs/ResourceOptimizations';
+//@ts-expect-error needs TS migration
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
 //@ts-expect-error needs TS migration
 import Configuration from 'in-applications/Dashboards/application/tabs/Configuration';
@@ -78,6 +80,11 @@ const getApplicationTabs = (canConfigureApplications: boolean | null | undefined
       label: t('in-applications:labelConfiguration'),
       path: `${applicationDashboard}/configuration`,
       component: canConfigureApplications ? Configuration : ReadOnlyConfiguration
+    },
+    !playwithEnabled && {
+      label: t('in-applications:labelResourceOptimizations'),
+      path: `${applicationDashboard}/resourceOptimization`,
+      component: ResourceOptimizations
     }
   ].filter(Boolean) as Array<Tab<any, any>>;
 };
