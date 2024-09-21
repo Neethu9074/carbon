@@ -22,7 +22,7 @@ import { hasError, isLoading, success } from 'in-services/util/result';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { FetchedState } from 'in-hooks/utils/types';
 
-interface ResultAwareChartMetrics {
+export interface ResultAwareChartMetrics {
   granularity: number;
   metrics: MetricDataSeries[];
   adjustedTimeframe?: AdjustedTimeframe;

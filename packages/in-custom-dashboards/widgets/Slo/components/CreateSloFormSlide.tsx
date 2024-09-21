@@ -63,10 +63,14 @@ export default function CreateSloFormSlide({ slideOut, subSlideState, onCreation
     slideOut();
     resetChildrenScrollPosition(parentElement);
     resetForm();
-    trackSloEvent(SLO_CONFIG_DIALOG_CLOSE, {
-      productArea: productAreas.custom_dashboard,
-      pageName: pageNames.custom_dashboard
-    });
+    trackSloEvent(
+      SLO_CONFIG_DIALOG_CLOSE,
+      {
+        productArea: productAreas.custom_dashboard,
+        pageName: pageNames.custom_dashboard
+      },
+      undefined
+    );
   };
 
   useEffect(() => {
@@ -137,16 +141,21 @@ function onSuccess({ data }: Result<ServiceLevelObjectiveConfiguration>) {
     })
   });
 
-  trackSloEvent(SLO_CONFIG_DIALOG_FINISH, {
-    id,
-    mode: 'NEW',
-    blueprint: indicator.blueprint,
-    indicatorType: indicator.type,
-    entityType: entity.type,
-    timeWindowType: timeWindow.type,
-    productArea: productAreas.custom_dashboard,
-    pageName: pageNames.custom_dashboard
-  });
+  trackSloEvent(
+    SLO_CONFIG_DIALOG_FINISH,
+    {
+      productArea: productAreas.custom_dashboard,
+      pageName: pageNames.custom_dashboard
+    },
+    {
+      id,
+      mode: 'NEW',
+      blueprint: indicator.blueprint,
+      indicatorType: indicator.type,
+      entityType: entity.type,
+      timeWindowType: timeWindow.type
+    }
+  );
 }
 
 const errorMessageHeader = {
@@ -156,12 +165,17 @@ const errorMessageHeader = {
 
 function onError(result?: Result<ServiceLevelObjectiveConfiguration>) {
   if (result && result.errors.length !== 0) {
-    trackSloEvent(SLO_CONFIG_DIALOG_ERROR, {
-      mode: FORM_MODE,
-      code: 'API_ERROR',
-      productArea: productAreas.custom_dashboard,
-      pageName: pageNames.custom_dashboard
-    });
+    trackSloEvent(
+      SLO_CONFIG_DIALOG_ERROR,
+      {
+        productArea: productAreas.custom_dashboard,
+        pageName: pageNames.custom_dashboard
+      },
+      {
+        mode: FORM_MODE,
+        code: 'API_ERROR'
+      }
+    );
 
     return result.errors.forEach(error =>
       addMessage({
@@ -173,12 +187,17 @@ function onError(result?: Result<ServiceLevelObjectiveConfiguration>) {
   }
 
   if (!result?.data) {
-    trackSloEvent(SLO_CONFIG_DIALOG_ERROR, {
-      mode: FORM_MODE,
-      code: 'UNEXPECTED_ERROR',
-      productArea: productAreas.custom_dashboard,
-      pageName: pageNames.custom_dashboard
-    });
+    trackSloEvent(
+      SLO_CONFIG_DIALOG_ERROR,
+      {
+        productArea: productAreas.custom_dashboard,
+        pageName: pageNames.custom_dashboard
+      },
+      {
+        mode: FORM_MODE,
+        code: 'UNEXPECTED_ERROR'
+      }
+    );
 
     return addMessage({
       ...errorMessageHeader,
@@ -189,12 +208,17 @@ function onError(result?: Result<ServiceLevelObjectiveConfiguration>) {
 
   const { name } = result.data;
 
-  trackSloEvent(SLO_CONFIG_DIALOG_ERROR, {
-    mode: FORM_MODE,
-    code: 'INVALID_SLO_CONFIG',
-    productArea: productAreas.custom_dashboard,
-    pageName: pageNames.custom_dashboard
-  });
+  trackSloEvent(
+    SLO_CONFIG_DIALOG_ERROR,
+    {
+      productArea: productAreas.custom_dashboard,
+      pageName: pageNames.custom_dashboard
+    },
+    {
+      mode: FORM_MODE,
+      code: 'INVALID_SLO_CONFIG'
+    }
+  );
 
   return addMessage({
     ...errorMessageHeader,

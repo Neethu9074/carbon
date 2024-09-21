@@ -11,11 +11,12 @@ import { statefulSetId as matrixStatefulSetId } from 'in-kubernetes/navigation/m
 import { WorkloadControllerBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { statefulSetDashboard } from 'in-kubernetes/navigation/paths';
 import tabs from 'in-kubernetes/Dashboards/StatefulSet/tabs/index';
-import { statefulSetTabChange } from 'in-kubernetes/tracker';
+import { useSegmentTracker } from 'in-kubernetes/tracker';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
 export default function StatefulSetDashboard({ location }) {
+  const { k8sTabChange } = useSegmentTracker();
   return (
     <WorkloadControllerDashboard
       location={location}
@@ -25,7 +26,13 @@ export default function StatefulSetDashboard({ location }) {
       matrixParameterId={matrixStatefulSetId}
       BreadCrumbComponent={WorkloadControllerBreadcrumbs}
       workloadControllerSubscriptionName={getKubernetesWorkloadController}
-      tabChangeTracker={statefulSetTabChange}
+      tabChangeTracker={e => {
+        k8sTabChange({
+          ...e,
+          dashboard: 'statefulSet',
+          path: location.pathname
+        });
+      }}
       headerTitle={t('in-kubernetes:dashboards.kubernetesStatefulSet')}
       badgeType={t('in-kubernetes:dashboards.k8SStatefulSet')}
       tabs={tabs}

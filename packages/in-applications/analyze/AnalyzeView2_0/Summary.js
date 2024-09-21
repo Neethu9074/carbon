@@ -28,12 +28,15 @@ import ContentWrapper from 'in-components/LocationAwareTabView/components/Conten
 import LogsInCallsContext from 'in-logging/components/TraceDetails/LogsInCallsContext';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import RestrictedAccessMessage from 'in-components/rbac/RestrictedAccessMessage';
+import {
+  ANALYZE_LOGGING_JUMP_TO_LOGS,
+} from 'in-services/tracking/tracking';
 import useLogsInCalls from 'in-logging/components/TraceDetails/useLogsInCalls';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { countOtelLogs } from 'in-logging/components/TraceDetails/utils';
 import { refreshWindowSizeDependingState } from 'in-services/browser';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import Logs from 'in-logging/components/TraceDetails/components/Logs';
-import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { latency, number } from 'in-services/formatters/number';
 import { getTraceIdTagFilter } from 'in-logging/queryBuilder';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
@@ -129,6 +132,8 @@ export default function Summary({
     setCallId(call.id);
     tracker.traceViewCallTimelineDetailClickedTracker(emptyObject);
   };
+
+  const {trackCta} = useSegmentTracking()
 
   const hasWebsiteCorrelationId = trace.eumCorrelationId != null && trace.eumCorrelationType === 'web';
   const hasMobileCorrelationId = trace.eumCorrelationId != null && trace.eumCorrelationType === 'mobile';
@@ -346,7 +351,7 @@ export default function Summary({
                         kind="secondary"
                         icon="lib_analyze"
                         href={logsHref}
-                        onClick={() => jumpToLogs({ source: 'analyze logs' })}
+                        onClick={() => trackCta(ANALYZE_LOGGING_JUMP_TO_LOGS,{ source: 'analyze logs' })}
                       >
                         {t('in-analyze:traceDetail.tabs.summary.analyzeLogs')}
                       </Button>

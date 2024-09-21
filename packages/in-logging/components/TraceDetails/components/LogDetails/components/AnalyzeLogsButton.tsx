@@ -17,7 +17,8 @@ import {
   LOG_MESSAGE
 } from 'in-logging/queryBuilder';
 import { useLinkToLogs, useGenerateLinkToLogs } from 'in-logging/navigation/paths';
-import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
+import { ANALYZE_LOGGING_JUMP_TO_LOGS } from 'in-services/tracking/eventNames';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';
 
@@ -33,13 +34,13 @@ export default function AnalyzeLogsButton({ log }: AnalyzeLogsButtonProps) {
     tagFilterExpression: [getValueMatchTagFilter({ name: LOG_MESSAGE, value: log.message })]
   });
   const generateLinkToLogs = useGenerateLinkToLogs();
-
+  const {trackCta} = useSegmentTracking()
   return (
     <Overlay
       align="bottomLeft"
       content={() => (
         <Ul>
-          <Li href={similarLogsHref} onDefaultHrefInteractionSideEffect={() => jumpToLogs({ source: 'similar logs' })}>
+          <Li href={similarLogsHref} onDefaultHrefInteractionSideEffect={() => trackCta(ANALYZE_LOGGING_JUMP_TO_LOGS,{ source: 'similar logs' })}>
             {t('in-analyze:logDetails.similarLogs')}
           </Li>
           {serviceId && (
@@ -53,7 +54,7 @@ export default function AnalyzeLogsButton({ log }: AnalyzeLogsButtonProps) {
                   })
                 ]
               })}
-              onDefaultHrefInteractionSideEffect={() => jumpToLogs({ source: 'similar services' })}
+              onDefaultHrefInteractionSideEffect={() => trackCta(ANALYZE_LOGGING_JUMP_TO_LOGS,{ source: 'similar services' })}
             >
               {t('in-analyze:logDetails.similarServiceLogs')}
             </Li>

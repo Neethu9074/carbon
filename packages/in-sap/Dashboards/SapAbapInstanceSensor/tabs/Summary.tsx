@@ -10,8 +10,6 @@ import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error needs TS migration
-import InfraMetricKpiCard from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/InfraMetricKpiCardSap';
-// @ts-expect-error needs TS migration
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { number, kiloBytes, percentage, percentagePlain, millis } from 'in-services/formatters/number';
 import CombinedMetrics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/CombinedMetrics';
@@ -25,9 +23,12 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Row, Col } from 'in-components/layout/Grid';
+import KpiCard from 'in-components/KpiCard/KpiCard';
+import MetricValue from 'in-components/MetricValue';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import KpiCard from './KpiCardSap';
 import { t } from 'in-i18n';
+
+import locals from './Summary.mless';
 
 export default function Summary({ data }: { data: SnapshotData }) {
   const timeConfig = useTimeConfig();
@@ -53,91 +54,67 @@ export default function Summary({ data }: { data: SnapshotData }) {
             value={upTime}
             renderValue={capitalizeValue}
             raw
-            iconAction={{
-              text: '',
-              icon: 'lib_sap_upTime'
-            }}
+            icon={'lib_sap_upTime'}
             borderless
+            iconClassName={locals.uptime}
           />
         </Col>
         <Col lg={3}>
-          <InfraMetricKpiCard
-            title={t('in-sap:dashboards.workProcessCount')}
-            iconAction={{
-              icon: 'lib_sap_wpCount'
-            }}
-            snapshotId={snapshotId}
-            metric="workloadcounts.workProcessRowCount"
-            formatter={number.compact}
-          />
+          <KpiCard icon={'lib_sap_wpCount'} title={t('in-sap:dashboards.workProcessCount')}>
+            <MetricValue
+              snapshotId={snapshotId}
+              metric={'workloadcounts.workProcessRowCount'}
+              formatter={number.compact}
+            />
+          </KpiCard>
         </Col>
         <Col lg={3}>
-          <InfraMetricKpiCard
-            title={t('in-sap:dashboards.dbConnectionCount')}
-            iconAction={{
-              icon: 'lib_sap_db'
-            }}
-            snapshotId={snapshotId}
-            metric="sapMetricsStats.dbConnectionCount"
-            formatter={number.compact}
-          />
+          <KpiCard icon={'lib_sap_db'} title={t('in-sap:dashboards.dbConnectionCount')}>
+            <MetricValue
+              snapshotId={snapshotId}
+              metric={'sapMetricsStats.dbConnectionCount'}
+              formatter={number.compact}
+            />
+          </KpiCard>
         </Col>
         <Col lg={3}>
-          <InfraMetricKpiCard
-            title={t('in-sap:dashboards.memoryAvailable')}
-            iconAction={{
-              icon: 'lib_sap_memory'
-            }}
-            snapshotId={snapshotId}
-            metric="swapmemory.memoryAvailablePercent"
-            formatter={percentage.detailed}
-          />
+          <KpiCard icon={'lib_sap_memory'} title={t('in-sap:dashboards.memoryAvailable')}>
+            <MetricValue
+              snapshotId={snapshotId}
+              metric={'swapmemory.memoryAvailablePercent'}
+              formatter={percentage.detailed}
+            />
+          </KpiCard>
         </Col>
       </Row>
       <Row>
         <Col lg={3}>
-          <InfraMetricKpiCard
-            title={t('in-sap:abapsensor.recentNoOfDumps')}
-            iconAction={{
-              icon: 'lib_sap_dumps'
-            }}
-            snapshotId={snapshotId}
-            metric="sapMetricsStats.numberOfDumps"
-            formatter={number.compact}
-          />
+          <KpiCard icon={'lib_sap_dumps'} title={t('in-sap:abapsensor.recentNoOfDumps')}>
+            <MetricValue snapshotId={snapshotId} metric={'sapMetricsStats.numberOfDumps'} formatter={number.compact} />
+          </KpiCard>
         </Col>
         <Col lg={3}>
-          <InfraMetricKpiCard
-            title={t('in-sap:abapsensor.inboundIdocErrors')}
-            iconAction={{
-              icon: 'lib_sap_inBound'
-            }}
-            snapshotId={snapshotId}
-            metric="sapMetricsStats.totalInboundIdocError"
-            formatter={number.compact}
-          />
+          <KpiCard icon={'lib_sap_inBound'} title={t('in-sap:abapsensor.inboundIdocErrors')}>
+            <MetricValue
+              snapshotId={snapshotId}
+              metric={'sapMetricsStats.totalInboundIdocError'}
+              formatter={percentage.detailed}
+            />
+          </KpiCard>
         </Col>
         <Col lg={3}>
-          <InfraMetricKpiCard
-            title={t('in-sap:abapsensor.outboundIdocErrors')}
-            iconAction={{
-              icon: 'lib_sap_outBound'
-            }}
-            snapshotId={snapshotId}
-            metric="sapMetricsStats.totalOutboundIdocError"
-            formatter={number.compact}
-          />
+          <KpiCard icon={'lib_sap_outBound'} title={t('in-sap:abapsensor.outboundIdocErrors')}>
+            <MetricValue
+              snapshotId={snapshotId}
+              metric={'sapMetricsStats.totalOutboundIdocError'}
+              formatter={number.compact}
+            />
+          </KpiCard>
         </Col>
         <Col lg={3}>
-          <InfraMetricKpiCard
-            title={t('in-sap:dashboards.cancelledJob')}
-            iconAction={{
-              icon: 'lib_sap_jobCancelled'
-            }}
-            snapshotId={snapshotId}
-            metric="sapMetricsStats.cancelJobs"
-            formatter={number.compact}
-          />
+          <KpiCard icon={'lib_sap_jobCancelled'} title={t('in-sap:dashboards.cancelledJob')}>
+            <MetricValue snapshotId={snapshotId} metric={'sapMetricsStats.cancelJobs'} formatter={number.compact} />
+          </KpiCard>
         </Col>
       </Row>
       <Columize>
@@ -419,7 +396,9 @@ export default function Summary({ data }: { data: SnapshotData }) {
                 'workLoadStats.bckgrdResponseTime',
                 'workLoadStats.spoolResponseTime',
                 'workLoadStats.update2ResponseTime',
-                'workLoadStats.rfcResponseTime'
+                'workLoadStats.rfcResponseTime',
+                'workLoadStats.httpResponseTime',
+                'workLoadStats.httpsResponseTime'
               ],
               labels: [
                 t('in-sap:dashboards.dialogRespTime'),
@@ -428,7 +407,9 @@ export default function Summary({ data }: { data: SnapshotData }) {
                 t('in-sap:dashboards.bckgrdRespTime'),
                 t('in-sap:dashboards.spoolRespTime'),
                 t('in-sap:dashboards.update2RespTime'),
-                t('in-sap:dashboards.rfcRespTime')
+                t('in-sap:dashboards.rfcRespTime'),
+                t('in-sap:dashboards.httpRespTime'),
+                t('in-sap:dashboards.httpsRespTime')
               ],
               type: 'line',
               formatter: millis.detailed
@@ -449,7 +430,9 @@ export default function Summary({ data }: { data: SnapshotData }) {
                 'workLoadStats.avgBckgrdResponseTime',
                 'workLoadStats.avgSpoolResponseTime',
                 'workLoadStats.avgUpdate2ResponseTime',
-                'workLoadStats.avgRfcResponseTime'
+                'workLoadStats.avgRfcResponseTime',
+                'workLoadStats.avgHttpResponseTime',
+                'workLoadStats.avgHttpsResponseTime'
               ],
               labels: [
                 t('in-sap:dashboards.dialogRespTime'),
@@ -458,7 +441,9 @@ export default function Summary({ data }: { data: SnapshotData }) {
                 t('in-sap:dashboards.bckgrdRespTime'),
                 t('in-sap:dashboards.spoolRespTime'),
                 t('in-sap:dashboards.update2RespTime'),
-                t('in-sap:dashboards.rfcRespTime')
+                t('in-sap:dashboards.rfcRespTime'),
+                t('in-sap:dashboards.httpRespTime'),
+                t('in-sap:dashboards.httpsRespTime')
               ],
               type: 'line',
               formatter: millis.detailed

@@ -34,6 +34,7 @@ import usePolicyTags from 'in-automation/hooks/usePolicyTags';
 import TextArea from 'in-components/form/TextArea/TextArea';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import FormGroup from 'in-settings/components/FormGroup';
+import { hasError } from 'in-services/util/result';
 import { NewAction } from 'in-automation/api';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -145,7 +146,16 @@ function TriggerSection({ trigger }: { trigger: Result<TriggerSpecification> }) 
   if (triggerType === 'sloSmartAlert') columnDefinitions.push(sloFilterAppliedColumn);
   if (triggerType === 'builtinEvent' || triggerType === 'customEvent') columnDefinitions.push(entityTypeColumn);
 
-  const result = listSuccess([trigger.data!]);
+  const result = hasError(trigger)
+    ? {
+        data: [],
+        errors: trigger.errors,
+        progress: {
+          loading: false
+        }
+      }
+    : listSuccess([trigger.data!]);
+
   return (
     <FormGroup>
       <Label htmlFor="event-trigger">{t('in-automation:policies.eventTrigger')}</Label>
@@ -157,6 +167,7 @@ function TriggerSection({ trigger }: { trigger: Result<TriggerSpecification> }) 
         noDataMessage={t('in-automation:policies.noEventTriggerConfigured')}
         orderDirection="ASC"
         columnDefinitions={columnDefinitions}
+        // @ts-expect-error
         result={result}
         leftHeader={t('in-automation:policies.eventTrigger')}
         fixedLayout

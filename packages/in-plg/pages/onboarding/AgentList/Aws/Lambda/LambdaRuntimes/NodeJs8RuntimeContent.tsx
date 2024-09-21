@@ -26,10 +26,7 @@ export default function NodeJs8RuntimeContent(): JSX.Element {
             i18nKey={'in-plg:agentDetails.aws.referDocumentationForSettingUpAwsSensor'}
             components={{
               awsSensorDoc: (
-                <Link
-                  href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-amazon-web-services-aws-agent"
-                  target="_blank"
-                >
+                <Link href="https://ibm.biz/monitor-aws" target="_blank">
                   {t('in-plg:agentDetails.aws.documentationLinks.awsServiceDocumentation')}
                 </Link>
               )
@@ -47,10 +44,7 @@ export default function NodeJs8RuntimeContent(): JSX.Element {
               i18nKey={'in-plg:agentDetails.aws.preferredMethodForNodeJsLambdaConfiguration'}
               components={{
                 lambdaManualWrapping: (
-                  <Link
-                    href="https://www.ibm.com/docs/en/instana-observability/current?topic=lambda-aws-native-tracing-nodejs#instana-lambda-layer-manual-wrapping"
-                    target="_blank"
-                  >
+                  <Link href="https://ibm.biz/lambda-layer-manual-wrapping" target="_blank">
                     {t('in-plg:agentDetails.aws.instanaLambdaLayerManualWrapping')}
                   </Link>
                 )
@@ -62,10 +56,7 @@ export default function NodeJs8RuntimeContent(): JSX.Element {
               i18nKey={'in-plg:agentDetails.aws.referenceToAwsLambdaMonitoringDoc'}
               components={{
                 awsLambdaMonitoring: (
-                  <Link
-                    href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-aws-lambda"
-                    target="_blank"
-                  >
+                  <Link href="https://ibm.biz/monitor-aws-lambda" target="_blank">
                     {t('in-plg:agentDetails.aws.monitoringAwsLambdaDocumentation')}
                   </Link>
                 )

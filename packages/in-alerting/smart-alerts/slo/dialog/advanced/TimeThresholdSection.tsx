@@ -52,7 +52,11 @@ export default function TimeThresholdSection() {
                 timeWindowField.setValue(value as number).setTouched(true)
               )
             }
-            valueLabelDisplay="off"
+            valueLabelFormat={val =>
+              t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigMinutes', {
+                min: millisecondsToMinutes(val)
+              })
+            }
           />
           {!isTimeWindowFieldValid &&
             timeWindowField.messages.map(({ message }, index) => (
@@ -71,7 +75,11 @@ export default function TimeThresholdSection() {
             onChange={(_event, value) =>
               onChange(['timeThreshold', 'expiry'], () => expiryField.setValue(value as number).setTouched(true))
             }
-            valueLabelDisplay="off"
+            valueLabelFormat={val =>
+              t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigMinutes', {
+                min: millisecondsToMinutes(val)
+              })
+            }
           />
           {!isExpiryFieldValid &&
             expiryField.messages.map(({ message }, index) => (

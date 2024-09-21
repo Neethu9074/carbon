@@ -10,7 +10,7 @@ import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { track as trackingV1 } from 'in-services/tracking/tracking';
 import { CTA_CLICKED } from 'in-services/util/constants';
 
-export type CtaTrackingFunction = (ctaEvent: string, optionalPayloadData?: Object) => void;
+export type CtaTrackingFunction = (ctaEvent: string, optionalPayloadData?: Object, channel?: string) => void;
 export type UnstableTrackingFunction = (segmentEventName: string, eventData: Object, customData?: Object) => void;
 
 export function useSegmentTracking(): {
@@ -19,7 +19,7 @@ export function useSegmentTracking(): {
 } {
   const location = useLocation();
 
-  function trackCta(ctaEvent: string, customData?: Object): void {
+  function trackCta(ctaEvent: string, customData?: Object, channel?: string): void {
     const { pageRootName, productArea } = getViewTrackingMetaData();
     if (pageRootName && productArea) {
       const data = {
@@ -27,7 +27,8 @@ export function useSegmentTracking(): {
         path: location.pathname,
         parentPageName: pageRootName,
         parentPageCategory: productArea,
-        CTA: ctaEvent
+        CTA: ctaEvent,
+        channel: channel
       };
       eventTracker({ segmentEventName: CTA_CLICKED, data });
     }

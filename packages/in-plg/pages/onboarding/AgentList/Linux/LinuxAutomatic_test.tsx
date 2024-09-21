@@ -74,7 +74,7 @@ describe('LinuxAutomatic Tests', () => {
     render(<LinuxAutomatic id={''} agentKey={''} downloadKey={''} />);
 
     // Get the radio buttons by their label text
-    const option1 = screen.getByLabelText('Azul Zulu 1.8');
+    const option1 = screen.getByLabelText('Azul Zulu 11');
     const option2 = screen.getByLabelText('Eclipse OpenJ9 11');
 
     // Check default checked option when page loads

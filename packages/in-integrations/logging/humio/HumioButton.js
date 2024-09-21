@@ -5,10 +5,11 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button, CarbonMenuItem, SvgIcon } from '@instana/components';
 
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { toParams } from 'in-stores/navigation/routing/stringifier';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { isBlank } from 'in-services/util/string';
 
 export default function HumioButton(props) {
@@ -16,6 +17,18 @@ export default function HumioButton(props) {
 
   if (!shouldShowButton(props) || !integration || !integration.enabled) {
     return null;
+  }
+
+  if (carbonButtonEnabled) {
+    return (
+      <CarbonMenuItem
+        renderIcon={() => {
+          return <SvgIcon type="lib_humio" />;
+        }}
+        label="Humio"
+        onClick={() => window.open(constructHumioLink(integration, props), '_blank')}
+      />
+    );
   }
 
   return (

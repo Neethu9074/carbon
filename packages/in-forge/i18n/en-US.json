@@ -2683,6 +2683,11 @@
   "tracingTypeName_session_0": "Session Calls",
   "tracingTypeName_session_1": "Session Call",
   "tracingTypeName_session_2": "Session Calls",
+  "tracingTypeName_sequel": "Sequel",
+  "tracingTypeName_sequel_plural": "Sequel Calls",
+  "tracingTypeName_sequel_0": "Sequel Calls",
+  "tracingTypeName_sequel_1": "Sequel",
+  "tracingTypeName_sequel_2": "Sequel Calls",
   "tracingTypeName_shell": "Shell Call",
   "tracingTypeName_shell_plural": "Shell Calls",
   "tracingTypeName_shell_0": "Shell Calls",
@@ -9432,29 +9437,38 @@
         "hostUsedPhysicalMemoryRatio": "Host Memory Usage",
         "eventTime": "Event Time",
         "eventName": "Event Name",
-        "eventDetail": "Event Detail",
-        "systemActive": "System Active",
         "systemStatus": "System Status",
-        "hostStatus": "Host Status",
-        "hostActive": "Host Active Status",
         "serviceStatus": "Service Status",
-        "databaseName": "Database Name",
         "systemEventStats": "System Events",
-        "errorMsg": "Error Message",
         "diskUsagePercentage": "Disk Usage Percentage",
         "diskUsageSummary": "Disk Usage Summary",
         "usage": "Usage",
         "archiveLogBackupStats": "Archive Log Backup",
-        "systemId": "System ID",
         "sourceDatabaseName": "Source Database",
-        "destinationPath": "Destination Path",
         "userLockStats": "User Locks",
         "userMode": "User mode",
         "deactivationTime": "Deactivation Time",
         "userId": "User ID",
         "schedulerJobStats": "Scheduler Jobs",
         "schedulerJobName": "Job Name",
-        "endTime": "End Time"
+        "endTime": "End Time",
+        "virtualMemory": "Virtual memory",
+        "transactionId": "Transaction ID",
+        "transactionType": "Transaction type",
+        "transactionStatus": "Transaction status",
+        "acquiredLockCount": "Acquired lock count",
+        "activeStatementCount": "Active statement count",
+        "transactionStats": "Transaction statistics",
+        "currentWorkloadRate": "Workload rate (per min)",
+        "usedMemorySize": "Used memory",
+        "activeStatementStats": "Active statements",
+        "destinationPath": "Destination path",
+        "systemId": "System ID",
+        "currentStatementId": "Current statement ID",
+        "connectionId": "Connection ID",
+        "statementId": "Statement ID",
+        "statementString": "Statement string",
+        "planId": "Plan ID"
       },
       "systemId": "System ID",
       "databaseName": "Database Name",
@@ -9494,7 +9508,12 @@
       "threadsJobWorkerBlockedCount": "Blocked job worker threads",
       "threadsSqlExecutorBlockedCount": "Blocked SQL ececutor threads",
       "queueingConnectionCount": "Queueing connection count",
-      "unableToConnect": "Cannot connect to {{dbName}} using connection url {{connectionUrl}} for user {{user}}."
+      "unableToConnect": "Cannot connect to {{dbName}} using connection url {{connectionUrl}} for user {{user}}.",
+      "currentStmtExecutionRate": "Current statement execution rate",
+      "currentStmtCompilationRate": "Current statement compilation rate",
+      "currentUpdateTransactionRate": "Cuurent update transaction rate",
+      "currentRollbackRate": "Current rollback rate",
+      "currentCommitRate": "Current commit rate"
     },
     "service": {
       "service": "Service",
@@ -11804,7 +11823,11 @@
       "freeMem": "Free memory",
       "maxMem": "Maximum memory",
       "totalMem": "Total memory",
-      "globalMem": "Global memory manager"
+      "globalMem": "Global memory manager",
+      "sourceDatastoreTimeCheckMissed": "Source Datastore Time Check Missed",
+      "sourceDatastoreNetworkError": "Source Datastore Network Error",
+      "targetDatastoreTimeCheckMissed": "Target Datastore Time Check Missed",
+      "targetDatastoreNetworkError": "Target Datastore Network Error"
     },
     "ibmMqChannel": {
       "dashboard": {
@@ -17168,17 +17191,24 @@
       "baggage": "Baggage"
     },
     "sap": {
-      "callType": "Call Report",
+      "callType": "Call report",
       "tcode": "TCODE",
       "user": "User",
       "system": "System",
-      "totalResTime": "Response Time(ms)",
-      "dbReqTime": "DB Request Time(ms)",
-      "wpTime": "Work Process Time(ms)",
-      "rollInTime": "RollIn Time(ms)",
-      "rollOutTime": "RollOut Time(ms)",
-      "queueTime": "Queue Time(ms)",
-      "rollWaitTime": "RollWait Time(ms)"
+      "totalResTime": "Response time(ms)",
+      "dbReqTime": "DB Request time(ms)",
+      "wpTime": "Work Process time(ms)",
+      "rollInTime": "RollIn time(ms)",
+      "rollOutTime": "RollOut time(ms)",
+      "queueTime": "Queue time(ms)",
+      "rollWaitTime": "RollWait time(ms)",
+      "dvUnit": "Development unit",
+      "component": "Component",
+      "probClass": "Problem class",
+      "program": "Program",
+      "msgArea": "Message area",
+      "developmentClass": "Development class",
+      "appComponent": "Application component"
     },
     "s3": {
       "region": "Region",
@@ -17207,6 +17237,13 @@
     "session": {
       "sessionStart": "Session Start",
       "sessionHandler": "Session Handler"
+    },
+    "sequel": {
+      "adapter": "Adapter",
+      "database": "Database",
+      "databaseHost": "Database Host",
+      "username": "Username",
+      "sql": "SQL"
     },
     "shell": {
       "shellCommand": "Shell Command"

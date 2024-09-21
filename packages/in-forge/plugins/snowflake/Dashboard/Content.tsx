@@ -27,7 +27,7 @@ export default function SnowflakeDashboard({
     <div>
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.snowflake.dashboard.creditUsagePerHour')}>
-          <MetricValue snapshotId={snapshotId} metric="credit.hourly_usage" formatter={number.compact} />
+          <MetricValue snapshotId={snapshotId} metric="credit.hourly_usage" formatter={number.detailed} />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.snowflake.dashboard.totalStorageBytes')}>
           <MetricValue snapshotId={snapshotId} metric="storage.storage_bytes" formatter={bytes.compact} />

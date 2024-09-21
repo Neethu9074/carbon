@@ -99,7 +99,7 @@ export default function AwsEc2Linux({
     return (
       <Stack direction="horizontal">
         <RadioButton
-          label={t('in-plg:agentDetails.jvmVendor.azulZulu18')}
+          label={t('in-plg:agentDetails.jvmVendor.azulZulu11')}
           checked={jvmVendor === jvmVendorOptions[0]}
           onChange={() => setJVMVendor(jvmVendorOptions[0])}
           size="default"

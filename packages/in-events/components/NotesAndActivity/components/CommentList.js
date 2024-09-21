@@ -7,7 +7,7 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon, CarbonPopover, CarbonPopoverContent, IconButton, CarbonButton } from '@instana/components';
+import { SvgIcon, CarbonPopover, CarbonPopoverContent, IconButton, CarbonButton, Link } from '@instana/components';
 
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import { TYPE_NOTE, TYPE_EXT_NOTE, TYPE_EXT_F_CHANGE, TYPE_AI_SUMMARY } from '../utils';
@@ -128,7 +128,7 @@ export function ChatBubble(props) {
   const sumData = noteObj?.data || [];
   const subArray = (arr, i = 0, n = 1) => arr?.slice(i, n);
   const firstFive = aiSum && subArray(sumData, 0, 5);
-  const last = aiSum && subArray(sumData, 5, sumData.length);
+  const last = aiSum && subArray(sumData, 5, sumData.size);
   const summaryStart = aiSum && getSummary(firstFive);
   const summaryEnd = aiSum && getSummary(last);
 
@@ -145,23 +145,8 @@ export function ChatBubble(props) {
       {aiSum && (
         <>
           <div className={locals.bubbleContentsHeader}>{t('in-events:notes.sumGenerated')}</div>
-          {summaryStart.map(entity => {
-            return (
-              <div className={locals.summaryList}>
-                {`- `}
-                <div>{entity}</div>
-              </div>
-            );
-          })}
-          {showAll &&
-            summaryEnd.map(entity => {
-              return (
-                <div className={locals.summaryList}>
-                  {`- `}
-                  <div>{entity}</div>
-                </div>
-              );
-            })}
+          <SummaryEntry summaryList={summaryStart} />
+          {showAll && <SummaryEntry summaryList={summaryEnd} />}
           {summaryEnd.length > 0 && (
             <CarbonButton
               size="sm"
@@ -196,6 +181,27 @@ export function ChatBubble(props) {
   );
 }
 
+// Function to reduce duplicate code for looping through summary bullet points
+function SummaryEntry({ summaryList }) {
+  return (
+    <>
+      {summaryList.map(entity => {
+        return (
+          <div key={entity.label} className={locals.summaryList}>
+            {`- `}
+            <div>
+              <div style={{ fontWeight: '700' }}>{entity.label}</div>
+              {entity.summary}
+            </div>
+          </div>
+        );
+      })}
+    </>
+  );
+}
+
+// Basic function for the rendering of the AI Popover and its inner contents
+// Each AI Popover holds his own open state so they are independent of each other
 export function AIPopover() {
   const [showPop, setShowPop] = useState(false);
   return (
@@ -239,27 +245,34 @@ export function AIExplainedContent() {
         <div className={locals.dataTypesHeader}>{t('in-events:notes.dataTypes')}</div>
         <div className={locals.bullet}>
           {'- '}
-          <div>
+          <div style={{ paddingLeft: '.5rem' }}>
             <Trans i18nKey={'in-events:notes.triggeringEvent'} />
           </div>
         </div>
         <div className={locals.bullet}>
           {'- '}
-          <div>
+          <div style={{ paddingLeft: '.5rem' }}>
             <Trans i18nKey={'in-events:notes.relatedEvents'} />
           </div>
         </div>
         <div className={locals.bullet}>
           {'- '}
-          <div>
+          <div style={{ paddingLeft: '.5rem' }}>
             <Trans i18nKey={'in-events:notes.affectedEntities'} />
           </div>
         </div>
+      </div>
+      <div className={locals.aimodellink}>
+        <div>{t('in-events:notes.aiModel')}</div>
+        <Link linkIconType={'lib_views_external_link'} href="https://ibm.biz/granite-13b-chat-v2" external>
+          {t('in-events:notes.granite')}
+        </Link>
       </div>
     </div>
   );
 }
 
+// We want to track the clicks done on the show more button
 function handleShowMore(id) {
   const { pageRootName, productArea } = getViewTrackingMetaData();
   if (pageRootName && productArea) {

@@ -117,6 +117,24 @@ export default [
   {
     formatter: number,
     metrics: [
+      'stats.currentStmtExecutionRate',
+      'stats.currentStmtCompilationRate',
+      'stats.currentUpdateTransactionRate',
+      'stats.currentRollbackRate',
+      'stats.currentCommitRate'
+    ],
+    labels: [
+      t('in-forge:plugins.sapHana.currentStmtExecutionRate'),
+      t('in-forge:plugins.sapHana.currentStmtCompilationRate'),
+      t('in-forge:plugins.sapHana.currentUpdateTransactionRate'),
+      t('in-forge:plugins.sapHana.currentRollbackRate'),
+      t('in-forge:plugins.sapHana.currentCommitRate')
+    ],
+    min: 0
+  },
+  {
+    formatter: number,
+    metrics: [
       'stats.indexServerFinishedRequests',
       'stats.indexServerActiveRequests',
       'stats.indexServerPendingRequests'
@@ -386,6 +404,13 @@ export default [
     min: 0
   },
   {
+    metrics: ['stats.logicalMemory'],
+    labels: [t('in-forge:plugins.sapHana.dashboard.virtualMemory')],
+    formatter: bytesTwoDecimalPlaces,
+    category: [t('in-forge:plugins.sapHana.dashboard.virtualMemory')],
+    min: 0
+  },
+  {
     metrics: ['stats.freeSwapSpace', 'stats.usedSwapSpace'],
     labels: [t('in-forge:plugins.sapHana.dashboard.free'), t('in-forge:plugins.sapHana.dashboard.used')],
     category: [t('in-forge:plugins.sapHana.dashboard.swapMemory')],
@@ -471,5 +496,70 @@ export default [
     category: [t('in-forge:plugins.sapHana.dashboard.diskUsagePercentage')],
     formatter: percentage.detailed,
     min: 0
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'transactionStats',
+        'acquiredLockCount',
+        t('in-forge:plugins.sapHana.dashboard.acquiredLockCount')
+      )
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.acquiredLockCount')],
+    category: [t('in-forge:plugins.sapHana.dashboard.transactionStats')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'transactionStats',
+        'activeStatementCount',
+        t('in-forge:plugins.sapHana.dashboard.activeStatementCount')
+      )
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.activeStatementCount')],
+    category: [t('in-forge:plugins.sapHana.dashboard.transactionStats')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'activeStatementStats',
+        'executionCount',
+        t('in-forge:plugins.sapHana.dashboard.executionCount')
+      )
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.executionCount')],
+    category: [t('in-forge:plugins.sapHana.dashboard.activeStatementStats')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'activeStatementStats',
+        'avgExecutionTime',
+        t('in-forge:plugins.sapHana.dashboard.avgExecutionTime')
+      )
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.avgExecutionTime')],
+    category: [t('in-forge:plugins.sapHana.dashboard.activeStatementStats')],
+    min: 0,
+    formatter: millis.detailed
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'activeStatementStats',
+        'usedMemorySize',
+        t('in-forge:plugins.sapHana.dashboard.usedMemorySize')
+      )
+    ],
+    labels: [t('in-forge:plugins.sapHana.dashboard.usedMemorySize')],
+    category: [t('in-forge:plugins.sapHana.dashboard.activeStatementStats')],
+    min: 0,
+    formatter: bytes
   }
 ];

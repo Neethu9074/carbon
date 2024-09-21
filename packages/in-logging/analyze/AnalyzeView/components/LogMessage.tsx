@@ -10,8 +10,9 @@ import { Li, Ul } from '@instana/components';
 
 import { GetHrefToGroupedView, GetHrefWithAdditionalTagFilter } from 'in-components/AnalyzeView/StateManagement';
 import { useParamTagLinks } from 'in-logging/analyze/AnalyzeView/components/hooks/useParamTagLinks';
+import { ANALYZE_LOGGING_LOG_MESSAGE_PARAMETER_CLICKED } from 'in-services/tracking/eventNames';
 import { fillWithParams, MESSAGE_CHUNK, toChunks } from 'in-services/util/stringToChunks';
-import { logMessageParameterClicked } from 'in-logging/analyze/AnalyzeView/tracker';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Overlay from 'in-components/overlays/Overlay';
 import { LogTag } from 'in-types';
@@ -74,7 +75,7 @@ interface ParamTagProps {
 
 function ParamTag({ tag }: ParamTagProps) {
   const value = String((tag.stringValue ?? tag.doubleValue ?? tag.booleanValue ?? tag.longValue) || '');
-
+  const {trackCta} = useSegmentTracking()
   const { getHrefWithAdditionalTagFilter, getHrefToGroupedView } = useParamTagLinks();
 
   if (getHrefWithAdditionalTagFilter && getHrefToGroupedView) {
@@ -86,7 +87,7 @@ function ParamTag({ tag }: ParamTagProps) {
             <Li
               className={locals.listItem}
               href={getHrefWithAdditionalTagFilter(tag.name || '', tag.key || '', value)}
-              onDefaultHrefInteractionSideEffect={() => logMessageParameterClicked({ key: tag.key })}
+              onDefaultHrefInteractionSideEffect={() => trackCta(ANALYZE_LOGGING_LOG_MESSAGE_PARAMETER_CLICKED,{ key: tag.key })}
             >
               {t('in-logging:addAsFilter')}
             </Li>
@@ -94,7 +95,7 @@ function ParamTag({ tag }: ParamTagProps) {
               <Li
                 className={locals.listItem}
                 href={getHrefToGroupedView(tag.name, tag.key || '')}
-                onDefaultHrefInteractionSideEffect={() => logMessageParameterClicked({ key: tag.key })}
+                onDefaultHrefInteractionSideEffect={() => trackCta(ANALYZE_LOGGING_LOG_MESSAGE_PARAMETER_CLICKED,{ key: tag.key })}
               >
                 {t('in-logging:addAsGroup')}
               </Li>

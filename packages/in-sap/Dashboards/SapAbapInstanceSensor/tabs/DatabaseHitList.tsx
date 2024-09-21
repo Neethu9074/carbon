@@ -91,22 +91,6 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.dbCalls'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: DatabaseHitListRow) {
-        return row.snapshotId;
-      },
-      getMetricName(row: DatabaseHitListRow) {
-        return `databaseStats.${row.key}.totalDbCalls`;
-      },
-      getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
     title: t('in-sap:dashboards.bytesRequested'),
     type: 'metric',
     typeArgs: {
@@ -117,6 +101,22 @@ const cols = [
         return `databaseStats.${row.key}.bytesRequested`;
       },
       getContent: bytes.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.calls'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: DatabaseHitListRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: DatabaseHitListRow) {
+        return `databaseStats.${row.key}.totalDbCalls`;
+      },
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }

@@ -14,11 +14,14 @@ import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 
 interface Props {
   item: TestResultListItem;
+  shouldDisplayLink?: boolean;
 }
 
-const AssociationsContent = ({ item }: Props) => {
+const AssociationsContent = ({ item, shouldDisplayLink }: Props) => {
   const applicationIdsCanBeLinked =
-    item?.testResultCommonProperties?.testCommonProperties?.accessScopeApplicationIds ?? [];
+    shouldDisplayLink == undefined
+      ? item?.testResultCommonProperties?.testCommonProperties?.accessScopeApplicationIds ?? []
+      : [];
   if (syntheticRbacLimitedEnabled) {
     const applicationLabels = item?.testResultCommonProperties?.testCommonProperties?.applicationLabels ?? [];
     const applicationIds = item?.testResultCommonProperties?.testCommonProperties?.applicationIds ?? [];
@@ -26,9 +29,14 @@ const AssociationsContent = ({ item }: Props) => {
     const websiteIds = item?.testResultCommonProperties?.testCommonProperties?.websiteIds ?? [];
     const mobileAppLabels = item?.testResultCommonProperties?.testCommonProperties?.mobileApplicationLabels ?? [];
     const mobileAppsIds = item?.testResultCommonProperties?.testCommonProperties?.mobileApplicationIds ?? [];
-    const websiteIdsCanBeLinked = item?.testResultCommonProperties?.testCommonProperties?.accessScopeWebsiteIds ?? [];
+    const websiteIdsCanBeLinked =
+      shouldDisplayLink == undefined
+        ? item?.testResultCommonProperties?.testCommonProperties?.accessScopeWebsiteIds ?? []
+        : [];
     const mobileAppIdsCanBeLinked =
-      item?.testResultCommonProperties?.testCommonProperties?.accessScopeMobileApplicationIds ?? [];
+      shouldDisplayLink == undefined
+        ? item?.testResultCommonProperties?.testCommonProperties?.accessScopeMobileApplicationIds ?? []
+        : [];
 
     return (
       <AssociationsContentPresenter
@@ -47,7 +55,7 @@ const AssociationsContent = ({ item }: Props) => {
 
   const applicationLabel = item.testResultCommonProperties?.testCommonProperties?.applicationLabel ?? '';
   const applicationId = item.testResultCommonProperties?.testCommonProperties?.applicationId ?? '';
-  const shouldDisplayLink = applicationIdsCanBeLinked.includes(applicationId);
+  shouldDisplayLink = shouldDisplayLink == undefined ? applicationIdsCanBeLinked.includes(applicationId) : false;
 
   return (
     <ApplicationLabelContent

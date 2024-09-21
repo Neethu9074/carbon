@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon, CarbonTag, CarbonLayer, CarbonInlineLoading, IconButton, CarbonSearch } from '@instana/components';
+import { SvgIcon, CarbonLayer, CarbonInlineLoading, IconButton, CarbonSearch, PreviewPill } from '@instana/components';
 
 // Not using Carbon tooltip since tooltip has not been migrated
 // Using Carbon tooltip would cause mismatch in design on the page
@@ -20,8 +20,8 @@ import { EVENT_SIDE_PANEL_CLICK } from 'in-services/tracking/eventNames';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { incidentSummarizationEnabled } from 'in-services/featureFlags';
+import { getNotes, filterSearchNotes, getSummaryCount } from './utils';
 import { CTA_CLICKED } from 'in-services/util/constants';
-import { getNotes, filterSearchNotes } from './utils';
 import { track } from 'in-services/tracking/trackers';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -94,7 +94,7 @@ export function NotesAndActivity(props) {
     <CarbonLayer>
       <div className={locals.headerWrapper}>
         {t('in-events:notes.notesActivity')}
-        <CarbonTag type="blue">{t('in-events:notes.techPreview')}</CarbonTag>
+        <PreviewPill />
         <div className={locals.tagIconWrapper}>
           <IconButton
             kind="action"
@@ -153,7 +153,11 @@ export function NotesAndActivity(props) {
               />
             )}
             {incidentSummarizationEnabled && (
-              <QuickActions displayQuickStart={displayQuickStart} incidentId={incidentId} />
+              <QuickActions
+                displayQuickStart={displayQuickStart}
+                incidentId={incidentId}
+                summaryCount={getSummaryCount(notes)}
+              />
             )}
             {!incidentSummarizationEnabled && emptyList && <EmptyState />}
             <CommentList

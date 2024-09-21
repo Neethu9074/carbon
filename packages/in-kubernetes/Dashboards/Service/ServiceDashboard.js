@@ -11,7 +11,6 @@ import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/Kuber
 import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
-import { kubernetesTimeShiftSelectTracker, serviceTabChange } from 'in-kubernetes/tracker';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesService from 'in-kubernetes/subscriptions/getKubernetesService';
 import { serviceId as matrixServiceId } from 'in-kubernetes/navigation/matrix';
@@ -33,6 +32,7 @@ import DashboardHeader from 'in-components/DashboardHeader';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { useSegmentTracker } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
@@ -44,6 +44,8 @@ export default function ServiceDashboard({ location }) {
     viewPath: serviceDashboard,
     timeConfig: getTimeConfig(location)
   };
+
+  const { k8sTabChange, kubernetesTimeShiftSelectTracker } = useSegmentTracker();
 
   return (
     <>
@@ -73,10 +75,18 @@ export default function ServiceDashboard({ location }) {
           id: props.serviceId,
           timeConfig: props.timeConfig
         })}
-        HeaderComponent={Header}
+        HeaderComponent={props => (
+          <Header {...props} kubernetesTimeShiftSelectTracker={kubernetesTimeShiftSelectTracker} />
+        )}
         location={location}
         tabs={tabs}
-        tabChangeTracker={serviceTabChange}
+        tabChangeTracker={e => {
+          k8sTabChange({
+            ...e,
+            dashboard: 'service',
+            path: location.pathname
+          });
+        }}
         filterTabByResult={result => {
           return tab => {
             if (isOpenshift(get(result, ['data', 'clusterDistribution'], 'kubernetes'))) return true;
@@ -148,7 +158,7 @@ function renderButtonLine({ timeConfig, result, serviceId }) {
   );
 }
 
-function renderButtonLineSecondary({ timeConfig, serviceId }) {
+function renderButtonLineSecondary({ timeConfig, serviceId, kubernetesTimeShiftSelectTracker }) {
   return (
     <>
       {beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled && (

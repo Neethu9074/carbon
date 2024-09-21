@@ -21,6 +21,7 @@ import {
 } from 'in-logging/queryBuilder';
 import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { maxRetrievalSize } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
@@ -62,9 +63,9 @@ const useLogsInCalls = loggingEnabled ? useLogsInCallsWithLogging : useLogsInCal
 function useLogsInCallsWithLogging({ traceId, trace, numLogsToFetch }: UseLogsInCallsParams) {
   const timeConfigForLogs = useTimeConfigForLogs(trace);
   const [selectedLog, setSelectedLog] = useState(null);
-
+  const { trackCta } = useSegmentTracking();
   const { items, errors, progress } = useLogsCursorPagination(
-    params => getData({ traceId, timeConfig: timeConfigForLogs, numLogsToFetch, ...params }),
+    params => getData(trackCta, { traceId, timeConfig: timeConfigForLogs, numLogsToFetch, ...params }),
     [traceId]
   );
 
@@ -89,7 +90,7 @@ function useLogsInCallsWithoutLogging({ trace }: UseLogsInCallsParams) {
   return { logsContextValue };
 }
 
-function getData({ traceId, timeConfig, numLogsToFetch }: GetDataParams) {
+function getData(trackCta: CtaTrackingFunction, { traceId, timeConfig, numLogsToFetch }: GetDataParams) {
   const callBody = {
     timeConfig,
     retrievalSize: numLogsToFetch ?? maxRetrievalSize,
@@ -120,7 +121,7 @@ function getData({ traceId, timeConfig, numLogsToFetch }: GetDataParams) {
     timeConfig: callBody.timeConfig,
     tagFilterExpression: callBody.tagFilterExpression
   };
-  handleLogCallsWithFilters(mixpanelProps);
+  handleLogCallsWithFilters(trackCta, mixpanelProps);
 
   return getLogs(callBody);
 }

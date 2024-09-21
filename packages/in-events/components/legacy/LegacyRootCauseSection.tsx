@@ -6,27 +6,28 @@
 import React, { useEffect, useMemo, useState, ReactNode } from 'react';
 import { List, Map } from 'immutable';
 
-import { Card, Stack, Typography, Pill, IconButton } from '@instana/components';
+import { Card, Stack, Typography, Pill, IconButton, PreviewPill } from '@instana/components';
 import { Observable, combineLatest } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { Snapshot } from '@instana/types';
 
 import {
-  RCAFeedbackClosedManuallyTracker,
-  RCAFeedbackNextTracker,
-  RCAFeedbackSkipTracker,
-  RCAFeedbackSubmitTracker,
-  expandedRCAEventCardTracker,
-  helpfulRCASuggestionTracker,
-  unhelpfulRCASuggestionTracker
-} from 'in-events/tracker';
+  EVENT_RCA_SUGGESTION_HELPFUL,
+  EVENT_RCA_SUGGESTION_UNHELPFUL,
+  EVENT_RCA_FEEDBACK_NEXT,
+  EVENT_RCA_FEEDBACK_SKIP,
+  EVENT_RCA_FEEDBACK_CLOSED_MANUALLY,
+  EVENT_RCA_FEEDBACK_SUBMIT
+} from 'in-services/tracking/tracking';
 // @ts-expect-error
 import { rcaStepConfig } from 'in-events/components/feedback/rcaStepConfig.tsx';
 import LegacyRootCauseEntityDetails from 'in-events/components/legacy/LegacyRootCauseEntityDetails';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import EventListItem from 'in-events/components/legacy/EventListItem';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 //@ts-expect-error
@@ -77,6 +78,9 @@ export default function LegacyRootCauseSection({
   incidentHasRCAProperty,
   latestSnapshot
 }: LegacyRootCauseSectionProps) {
+  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
+  const { trackCta } = useSegmentTracking();
+
   // Holds map of { snapshot_ID: [event_id, event_id] }
   const isLegacy = incident.hasIn(['metadata', 'probableRootCause']);
   const rcaSnapshotMap = useMemo(
@@ -176,7 +180,11 @@ export default function LegacyRootCauseSection({
           darkFrame
         >
           {eventsRelatedToEntity?.map((_event: EventOrMap) => (
-            <div onClick={expandedRCAEventCardTracker}>
+            <div
+              onClick={() => {
+                trackCta(EVENT_RCA_SUGGESTION_HELPFUL, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
+              }}
+            >
               <EventListItem
                 key={_event.get('id') as string}
                 triggeringProblemId={
@@ -202,20 +210,33 @@ function FeedbackComponent({
   snapshotMetadata,
   currentEntity
 }: FeedbackComponentProps) {
+  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
+  const { trackCta } = useSegmentTracking();
+
+  const { location } = useNavigation();
+
   useEffect(() => {
     if (feedbackState[currentEntity] && feedbackState[currentEntity].thumbsDown) {
       addActiveDialog(
         <EventFeedbackDialog
           stepConfig={rcaStepConfig}
-          nextStepTracker={RCAFeedbackNextTracker}
-          skipStepTracker={RCAFeedbackSkipTracker}
-          closedManuallyTracker={RCAFeedbackClosedManuallyTracker}
-          submitTracker={RCAFeedbackSubmitTracker}
+          nextStepTracker={() => {
+            trackCta(EVENT_RCA_FEEDBACK_NEXT, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
+          }}
+          skipStepTracker={() => {
+            trackCta(EVENT_RCA_FEEDBACK_SKIP, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
+          }}
+          closedManuallyTracker={() => {
+            trackCta(EVENT_RCA_FEEDBACK_CLOSED_MANUALLY, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
+          }}
+          submitTracker={() => {
+            trackCta(EVENT_RCA_FEEDBACK_SUBMIT, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
+          }}
           submitMetadata={extractFeedbackMetadataFromIncident(incident, snapshotMetadata)}
         />
       );
     }
-  }, [feedbackState, incident, snapshotMetadata, currentEntity]);
+  }, [feedbackState, incident, snapshotMetadata, currentEntity, location, trackCta]);
 
   return (
     <Stack direction="horizontal" gap="small" align="center">
@@ -230,7 +251,7 @@ function FeedbackComponent({
         type="lib_thumbs_up"
         iconSize="xs"
         onClick={() => {
-          helpfulRCASuggestionTracker({});
+          trackCta(EVENT_RCA_SUGGESTION_HELPFUL, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
           if (feedbackState[currentEntity]?.thumbsUp) {
             setFeedbackState({ ...feedbackState, [currentEntity]: defaultFeedbackState });
           } else {
@@ -244,7 +265,7 @@ function FeedbackComponent({
         type="lib_thumbs_down"
         iconSize="xs"
         onClick={() => {
-          unhelpfulRCASuggestionTracker({});
+          trackCta(EVENT_RCA_SUGGESTION_UNHELPFUL, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
           if (feedbackState[currentEntity]?.thumbsDown) {
             setFeedbackState({ ...feedbackState, [currentEntity]: defaultFeedbackState });
           } else {
@@ -406,9 +427,7 @@ function ProbableRootCauseCard({ title, incident, currentRCAEntity, children }: 
           leftHeaderContent={
             <Stack direction="horizontal" gap="xxsmall">
               <Tooltip align="topRight" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
-                <Pill type="blue" className={locals.techPreviewPill}>
-                  {t('in-events:notes.techPreview')}
-                </Pill>
+                <PreviewPill className={locals.techPreviewPill} />
               </Tooltip>
               <Pill type="purple" className={locals.rcaAIPill}>
                 {t('in-events:RCA.AIGenBadgeText')}

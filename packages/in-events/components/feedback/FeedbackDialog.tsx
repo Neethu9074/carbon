@@ -11,13 +11,14 @@ import { Stack, Typography } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
 import {
-  eventFeedbackClosedManuallyTracker,
-  eventFeedbackNextTracker,
-  eventFeedbackSkipTracker,
-  eventFeedbackSubmitTracker
-} from 'in-events/tracker';
+  EVENT_FEEDBACK_SUBMIT,
+  EVENT_FEEDBACK_SKIP,
+  EVENT_FEEDBACK_NEXT,
+  EVENT_FEEDBACK_CLOSED_MANUALLY
+} from 'in-services/tracking/tracking';
 import { FeedbackConfigEventForm, saveEventFeedbackForm } from 'in-events/components/feedback/api';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { stepConfigs } from 'in-events/components/feedback/stepConfig';
@@ -30,6 +31,9 @@ import { t } from 'in-i18n';
 import locals from 'in-events/components/feedback/Feedback.mless';
 
 export default function FeedbackDialog() {
+  const { trackCta } = useSegmentTracking();
+  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'event feedback';
+
   const [step, setStep] = useState<string>('start_0');
   const [form, setForm] = useState<MapForm<FeedbackConfigEventForm>>(createForm());
   const { location } = useNavigation();
@@ -50,7 +54,12 @@ export default function FeedbackDialog() {
       form.setTouched(true, { recurse: true });
       return;
     }
-    save(form, location, eventFeedbackSubmitTracker);
+
+    const instrumentation = (instrumentationEventProperties: Object) => {
+      trackCta(EVENT_FEEDBACK_SUBMIT, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
+    };
+
+    save(form, location, instrumentation);
   };
 
   useEffect(() => {
@@ -73,20 +82,22 @@ export default function FeedbackDialog() {
         !form.hierarchyValid || (currentStepConfig.validateStep && currentStepConfig.validateStep(form))
       }
       onPrimaryActionClick={() => {
-        eventFeedbackNextTracker({
+        const instrumentationEventProperties = {
           stepTitle: currentStepConfig.title,
           eventID: location.matrix[eventsPath]?.eventId,
           eventType: location.matrix[eventsPath]?.view
-        });
+        };
+        trackCta(EVENT_FEEDBACK_NEXT, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
         nextStep();
       }}
       secondaryActionText={t('in-events:feedback.skip')}
       onSecondaryActionClick={() => {
-        eventFeedbackSkipTracker({
+        const instrumentationEventProperties = {
           stepTitle: currentStepConfig.title,
           eventID: location.matrix[eventsPath]?.eventId,
           eventType: location.matrix[eventsPath]?.view
-        });
+        };
+        trackCta(EVENT_FEEDBACK_SKIP, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
         nextStep();
       }}
     />
@@ -100,13 +111,14 @@ export default function FeedbackDialog() {
           const id = form.get('id').value;
 
           const contactMe = form.get('contactMe').value;
-          eventFeedbackClosedManuallyTracker({
+          const instrumentationEventProperties = {
             id,
             thingsWentWrong,
             contactMe,
             eventID: location.matrix[eventsPath]?.eventId,
             eventType: location.matrix[eventsPath]?.view
-          });
+          };
+          trackCta(EVENT_FEEDBACK_CLOSED_MANUALLY, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
           close();
         }}
         footer={footer}

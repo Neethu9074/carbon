@@ -4,6 +4,7 @@
  */
 
 import { Map } from 'immutable';
+import React from 'react';
 
 import { LoggingIntegrationButtonsRenderer, getObservables } from 'in-integrations/logging/LoggingIntegrationButtons';
 import { bytesTwoDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -36,7 +37,7 @@ registerSnapshotDefinition({
     return [
       {
         getObservables,
-        render: LoggingIntegrationButtonsRenderer,
+        render: props => <LoggingIntegrationButtonsRenderer {...props} addMargin />,
         props: {
           isWithinKubernetes: isWithinKubernetes(snapshot),
           dockerContainerId: snapshot.getIn(['data', 'Id']),

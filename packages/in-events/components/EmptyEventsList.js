@@ -36,7 +36,6 @@ function getHeaders(eventType) {
         <Th>{t('in-events:headerVulnerability')}</Th>
         <Th>{t('in-events:headerReportedOn')}</Th>
         <Th>{t('in-events:headerReportedDate')}</Th>
-        <Th>{t('in-events:headerAffectedApp')}</Th>
         <Th>{t('in-events:headerCvssScore')}</Th>
         <Th>{t('in-events:headerStatus')}</Th>
       </Tr>

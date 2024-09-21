@@ -5,6 +5,12 @@
     "totalCallsInAlert": "Total Calls in Alert Scope",
     "earliestTimestamp": "Earliest Timestamp"
   },
+  "affectedApplications": {
+    "noAffectedApplications":"No affected applications found.",
+    "title": "Tittle",
+    "totalcalls": "Affected Calls",
+    "errorLoadingData": "Error loading data."
+  },
   "entityInfoPresenterDefaultLabel": "On: ",
   "entityInfoLabelOfService": "Of Service:",
   "titleDetail": "Detail",
@@ -129,7 +135,6 @@
   "headerVulnerability": "Title",
   "headerReportedOn": "On",
   "headerReportedDate": "Reported Date",
-  "headerAffectedApp": "Affected Applications",
   "headerCvssScore": "CVSS Score",
   "unidentifiedEntity": "Unidentified Entity",
   "unidentifiedEntityTooltip": "There was an error retrieving information about this entity. You can visit the entity's dashboard by clicking the 'Unidentified Entity' link for more details.",
@@ -216,6 +221,15 @@
     "runningIn": "Running in:",
     "inService": "In service:",
     "asPartOfApplicationPerspective": "As part of application perspective:",
+    "failedTitle": "No root cause for this incident",
+    "failed": "A root cause could not be identified for this incident. You can review the automation policies and recommended actions to remediate the triggering event.",
+    "failureReasons": {
+      "noCalls": "A root cause could not be identified for this incident due to insufficient application impact. Since the event has occurred {{time_since_event_started}}, it's possible there might be more information available. Please go to the analyze page for further analysis",
+      "notEnoughApplicationImpact": "One possible reason is that the instrumentation for this application might be incorrect. See Application Perspectives in the documentation for additional information.",
+      "notSupported": "Probable root cause is not supported for this type of event. To learn more about how to instrument probable root cause for Smart Alerts, see the documentation.",
+      "analyzePage": "View Analyze Page",
+      "viewDocumentation": "View documentation"
+    },
     "traceLogs": "Trace Logs",
     "errorMessages": "Trace Error Messages",
     "analyzeErrors": "Analyze Errors",
@@ -256,12 +270,12 @@
     "openNotes": "Open notes and activity",
     "closeNotes": "Close notes and activity",
     "notesActivity": "Notes and activity",
-    "techPreview": "Private preview",
     "you": "You {{date}}",
     "watsonx": "watsonx {{date}}",
     "summarizeIncident": "Summarize this incident?",
     "summarizeIncidentDescription": "Try summarizing this incident, to help you and your team gain a quick understanding of what has happened.",
     "generateSummary": "Generate a summary",
+    "waitAFewMins": "Generating summary may take longer for larger input data.",
     "searchNotes": "Search notes and activity",
     "addComment": "Add comment",
     "notesLabelText": "Add incident notes",
@@ -270,13 +284,15 @@
     "noActivityDetails": "There are no notes or activity to show yet. Use the Add comment field to share knowledge or an update for this incident with your team.",
     "aiExplained": "AI explained",
     "summary": "Summarization",
-    "summaryDescription": "To generate an incident summary we send incident and associated event data to watsonx. Watsonx then processes this data using an AI model which returns a concise summary of the broader incident.",
+    "summaryDescription": "To generate an incident summary we send incident and associated event data to watsonx. The data is processed using an AI model and watsonx returns a concise summary grouped by the affected entities.",
     "dataTypes": "Data types used",
-    "triggeringEvent": "<strong>Triggering event</strong>: We use the title and description to frame the summary.",
-    "relatedEvents": "<strong>Related events</strong>: We use the titles, descriptions and associated actions.",
-    "affectedEntities": "<strong>Affected entities</strong>: We use entity data to inform the summary.",
+    "triggeringEvent": "<strong>Incident.</strong> We use the problem description and details.",
+    "relatedEvents": "<strong>Related events.</strong> We extract and use the problem description and details.",
+    "affectedEntities": "<strong>Affected entities.</strong> We group related events by entity name.",
     "updatedBy": "(updated by {{name}})",
     "showAll": "Show all",
-    "collapse": "Collapse"
+    "collapse": "Collapse",
+    "aiModel": "Ai modal",
+    "granite": "granite-13b-chat-v2"
   }
 }

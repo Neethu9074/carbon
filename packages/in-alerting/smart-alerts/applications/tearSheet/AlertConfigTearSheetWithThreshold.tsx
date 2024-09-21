@@ -37,6 +37,7 @@ import useAlertConfigValidation from 'in-alerting/smart-alerts/applications/hook
 import AlertingTearSheet, { AlertingFooterActions } from 'in-alerting/components/AlertingTearSheet';
 import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
 import { MessageType } from 'in-components/MessageStack/MessageStack';
+import { productAreas } from 'in-services/tracking/productAreas';
 import { days } from 'in-services/time/time';
 import { Nullish } from 'in-types';
 
@@ -190,6 +191,7 @@ function SmartAlertConfigTearSheetWithQueryValidation({
       additionalValidationCheck={additionalValidationCheck(step, isTagFilterFormModelValid, channelListLoading)}
       setForm={updateForm}
       sideNavigationEnabled={editMode}
+      productArea={productAreas.applications}
     >
       {APStepRenderers.map(
         (

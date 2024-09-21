@@ -5,9 +5,10 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 
@@ -53,6 +54,7 @@ const ComponentResolver = connectTo(props => (props.getObservables ? props.getOb
 
     const button = (
       <Renderer
+        size={carbonButtonEnabled ? 'compact' : 'normal'}
         kind="secondary"
         icon={icon}
         onClick={

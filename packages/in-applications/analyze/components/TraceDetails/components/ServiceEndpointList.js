@@ -113,6 +113,7 @@ export default function ServiceEndpointList({
     columnDefinitions,
     pathSegment: '/analyze',
     defaultPageSize: 5,
+    defaultPageSizes: [5],
     defaultOrderBy: 'aggregatedTime',
     defaultOrderDirection: 'DESC',
     isSearchable: false,

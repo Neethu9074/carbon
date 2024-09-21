@@ -17,7 +17,7 @@ import {
   columnDefinitions,
   createGroupingTag,
   createTagFilter,
-  EntityHealthDot,
+  EntityHealthIcon,
   GetContentType,
   getSnapshotId,
   LogFilePathTag,
@@ -35,7 +35,8 @@ import ContainerPerformanceSparkcharts from 'in-logging/analyze/AnalyzeView/comp
 import { containerSnapshotIds, ID_HOST, LOG_CUSTOM_KEY_APPLICATION_IDS, LOG_FILE_PATH } from 'in-logging/queryBuilder';
 import useResolvedName from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedName';
 import useResolvedLink from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedLink';
-import { logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
+import { ANALYZE_LOGGING_LOG_MESSAGE_TAG_CLICKED } from 'in-services/tracking/eventNames';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import Tooltip from 'in-components/Tooltip';
@@ -60,6 +61,7 @@ export function TagValue({
 }: GetContentType) {
   const value = !longValues.includes(uniqueTagName) ? tag.stringValue || '' : tag.longValue || 0;
   const resolvedValue = useResolvedValue(uniqueTagName, tag);
+  const { trackCta } = useSegmentTracking();
 
   const entitySnapshotId = getSnapshotId(tag, item);
   const iconColor = 'var(--ids-color-option-neutral-900)';
@@ -69,7 +71,7 @@ export function TagValue({
   return (
     <div className={locals.tagValue}>
       <div className={locals.tagLink}>
-        {entitySnapshotId && <EntityHealthDot snapshotId={entitySnapshotId} />}
+        {entitySnapshotId && <EntityHealthIcon snapshotId={entitySnapshotId} />}
         <ResolvedLink tag={tag} item={item} resolvedValue={resolvedValue} uniqueTagName={uniqueTagName} />
       </div>
       {isHovered && tag.key !== LOG_CUSTOM_KEY_APPLICATION_IDS && (
@@ -83,7 +85,7 @@ export function TagValue({
                 type="lib_group_by"
                 onClick={() => {
                   location.pathname += getHrefToGroupedView(createGroupingTag(tag.name, tag.key));
-                  trackGroupClick(resolvedValue);
+                  trackGroupClick(trackCta, resolvedValue);
                   navigate(location);
                 }}
                 className={locals.squareHover}
@@ -101,7 +103,7 @@ export function TagValue({
                   location.pathname += onSelectTagHref(
                     createTagFilter(value, item.tags, tag.name, tag.key) as TagFilter
                   );
-                  trackFilterClick(tag, value);
+                  trackFilterClick(trackCta, tag, value);
                   navigate(location);
                 }}
                 className={locals.squareHover}
@@ -145,7 +147,7 @@ function ResolvedLink({ uniqueTagName, resolvedValue, tag, item }: ResolvedLinkP
   });
 
   const resolvedLink = useResolvedLink(universalTagName, universalTag, item);
-
+  const { trackCta } = useSegmentTracking();
   if (isApplicationsTag) {
     return <ApplicationsListTag resolvedValue={resolvedValue} stringValue={tag.stringValue} item={item} />;
   }
@@ -166,7 +168,11 @@ function ResolvedLink({ uniqueTagName, resolvedValue, tag, item }: ResolvedLinkP
       <Link
         className={locals.value}
         href={resolvedLink}
-        onClick={() => logMessageTagClicked({ tag: { name: tag.name, value: resolvedValue, key: tag.key } })}
+        onClick={() =>
+          trackCta(ANALYZE_LOGGING_LOG_MESSAGE_TAG_CLICKED, {
+            tag: { name: tag.name, value: resolvedValue, key: tag.key }
+          })
+        }
       >
         {resolvedValue}
       </Link>

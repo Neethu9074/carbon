@@ -11,11 +11,13 @@ import { deploymentConfigId as matrixDeploymentConfigId } from 'in-kubernetes/na
 import { deploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
 import { WorkloadControllerBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/DeploymentConfig/tabs/index';
-import { deploymentConfigTabChange } from 'in-kubernetes/tracker';
+import { useSegmentTracker } from 'in-kubernetes/tracker';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
 export default function DeploymentConfigDashboard({ location }) {
+  const { k8sTabChange } = useSegmentTracker();
+
   return (
     <WorkloadControllerDashboard
       location={location}
@@ -25,7 +27,13 @@ export default function DeploymentConfigDashboard({ location }) {
       matrixParameterId={matrixDeploymentConfigId}
       BreadCrumbComponent={WorkloadControllerBreadcrumbs}
       workloadControllerSubscriptionName={getKubernetesWorkloadController}
-      tabChangeTracker={deploymentConfigTabChange}
+      tabChangeTracker={e =>
+        k8sTabChange({
+          ...e,
+          dashboard: 'deploymentConfig',
+          path: location.pathname
+        })
+      }
       headerTitle={t('in-kubernetes:dashboards.kubernetesDeploymentConfig')}
       badgeType={t('in-kubernetes:dashboards.k8SDeploymentConfig')}
       tabs={tabs}

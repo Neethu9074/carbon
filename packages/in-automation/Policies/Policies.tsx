@@ -179,6 +179,10 @@ export function EventNameWithoutTriggerInfo({ entity }: { entity: Trigger }) {
   );
 }
 
+function Content() {
+  return useNavigateToPolicyDetails();
+}
+
 const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
   nameColumn,
   {
@@ -261,8 +265,8 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
     id: 'actions',
     sortable: false,
     width: 5,
-    getContent: function Content(item) {
-      const navigateToPolicyDetails = useNavigateToPolicyDetails();
+    getContent: item => {
+      const navigateToPolicyDetails = Content();
       if (!role?.canConfigureAutomationPolicies) return null;
       return (
         <Stack align="end">

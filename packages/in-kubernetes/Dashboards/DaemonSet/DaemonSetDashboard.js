@@ -11,11 +11,12 @@ import { daemonSetId as matrixDaemonSetId } from 'in-kubernetes/navigation/matri
 import { WorkloadControllerBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { daemonSetDashboard } from 'in-kubernetes/navigation/paths';
 import tabs from 'in-kubernetes/Dashboards/DaemonSet/tabs/index';
-import { daemonSetTabChange } from 'in-kubernetes/tracker';
+import { useSegmentTracker } from 'in-kubernetes/tracker';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
 export default function DaemonSetDashboard({ location }) {
+  const { k8sTabChange } = useSegmentTracker();
   return (
     <WorkloadControllerDashboard
       location={location}
@@ -25,7 +26,13 @@ export default function DaemonSetDashboard({ location }) {
       matrixParameterId={matrixDaemonSetId}
       BreadCrumbComponent={WorkloadControllerBreadcrumbs}
       workloadControllerSubscriptionName={getKubernetesWorkloadController}
-      tabChangeTracker={daemonSetTabChange}
+      tabChangeTracker={e => {
+        k8sTabChange({
+          ...e,
+          dashboard: 'daemonSet',
+          path: location.pathname
+        });
+      }}
       headerTitle={t('in-kubernetes:dashboards.kubernetesDaemonSet')}
       badgeType={t('in-kubernetes:dashboards.k8SDaemonSet')}
       tabs={tabs}

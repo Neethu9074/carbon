@@ -5,9 +5,10 @@
  */
 
 import { createField, createMapForm, Field, Item, MapForm, notBlankValidator, ValidationResult } from 'formalistic';
-import { isUndefined } from 'lodash';
+import { isEmpty, isUndefined } from 'lodash';
+import { parse } from 'qs';
 
-import { PermissionSet } from '@instana/types';
+import { PermissionSet, ScopeBinding } from '@instana/types';
 
 import {
   AreaRole,
@@ -68,6 +69,24 @@ export function dfqFilterValidator(permissionSet: PermissionSet | undefined): Va
   return null;
 }
 
+export function actionFilterValidator(actionFilter: ScopeBinding | undefined): ValidationResult {
+  const scopeId = actionFilter?.scopeId;
+  if (scopeId === undefined) return null;
+  const { tags = [], type = [] } = parse(scopeId, { comma: true }) as {
+    tags?: string[] | string;
+    type?: string[] | string;
+  };
+  if (isEmpty(tags) && isEmpty(type)) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-settings:PermissionSection.automationFilter_mayNotBeBlank')
+      }
+    ];
+  }
+  return null;
+}
+
 export function updateFormField<T>(
   form: MapForm<any>,
   path: string | Array<string>,
@@ -88,6 +107,7 @@ export function createForm(form = createMapForm(), apiResult?: GroupApiResult) {
   const { id, name, members, permissionSet } = apiResult?.result.group || {};
   const applicationConfig = getDefaultApplicationConfig(name);
   const applicationScope = permissionSet?.restrictedApplicationFilter?.scope || applicationConfig.scope;
+  const actionFilter = permissionSet?.actionFilter || { scopeId: '', scopeRoleId: '-1' };
   const label = permissionSet?.restrictedApplicationFilter?.label || applicationConfig?.label;
   const tagFilterExpression =
     fromBackendModel(permissionSet?.restrictedApplicationFilter?.tagFilterExpression) ||
@@ -137,7 +157,8 @@ export function createForm(form = createMapForm(), apiResult?: GroupApiResult) {
       createField({
         value: tagFilterExpression
       })
-    );
+    )
+    .put('actionFilter', createField({ value: actionFilter, validator: actionFilterValidator }));
 }
 
 // Returns the AreaRole that matches the specified permissions

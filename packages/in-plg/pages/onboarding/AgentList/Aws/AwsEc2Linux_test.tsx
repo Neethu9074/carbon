@@ -65,7 +65,7 @@ describe('AwsEc2Linux Tests', () => {
     render(<AwsEc2Linux id={''} agentKey={''} downloadKey={''} />);
 
     // Get the radio buttons by their label text
-    const option1 = screen.getByLabelText(t('in-plg:agentDetails.jvmVendor.azulZulu18'));
+    const option1 = screen.getByLabelText(t('in-plg:agentDetails.jvmVendor.azulZulu11'));
     const option2 = screen.getByLabelText(t('in-plg:agentDetails.jvmVendor.eclipseOpenJD11'));
 
     // Check default checked option when page loads

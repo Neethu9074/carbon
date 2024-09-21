@@ -49,7 +49,7 @@ const Crumb = connectTo(
             title={t('in-map:selectThisEntity')}
             className={locals.crumbLink}
             onClick={() => {
-              entitySelectedTracker({ origin: 'elevator', type: plugin });
+              entitySelectedTracker({ origin: 'elevator', type: plugin, path: location.pathname });
             }}
           >
             <HealthyPluginIcon

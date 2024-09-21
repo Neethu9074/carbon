@@ -3,7 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
+
+import { CarbonMenuButton } from '@instana/components';
 
 import CoralogixButton, {
   shouldShowButton as showCoralogixButton
@@ -18,9 +21,12 @@ import { integrationKey as mezmoIntegrationKey } from 'in-integrations/logging/m
 import { integrationKey as humioIntegrationKey } from 'in-integrations/logging/humio/consts';
 import { getIntegrationConfiguration } from 'in-integrations/logging/configurationsStore';
 import { integrationKey as elkIntegrationKey } from 'in-integrations/logging/elk/consts';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import MultiButton from 'in-components/MultiButton';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
+
+import locals from 'in-integrations/logging/LoggingIntegrationButtons.mless';
 
 export default connectTo(getObservables())(LoggingIntegrationButtonsRenderer);
 
@@ -34,7 +40,7 @@ export function getObservables() {
   };
 }
 
-export function LoggingIntegrationButtonsRenderer(props) {
+export function LoggingIntegrationButtonsRenderer({ addMargin, ...props }) {
   /*
     Keep the list sorted alphabetically
    */
@@ -48,6 +54,21 @@ export function LoggingIntegrationButtonsRenderer(props) {
     showMezmoButton(props) && mezmoIntegration && mezmoIntegration.enabled && <MezmoButton {...props} />,
     showSplunkButton(props) && splunkIntegration && splunkIntegration.enabled && <SplunkButton {...props} />
   ].filter(Boolean);
+
+  if (carbonButtonEnabled) {
+    return (
+      <CarbonMenuButton
+        className={classNames({
+          [locals.gotoLogsButton]: addMargin
+        })}
+        size="sm"
+        label={t('in-integrations:logging.goToLogs')}
+        kind="secondary"
+      >
+        {integrations}
+      </CarbonMenuButton>
+    );
+  }
 
   return (
     <MultiButton

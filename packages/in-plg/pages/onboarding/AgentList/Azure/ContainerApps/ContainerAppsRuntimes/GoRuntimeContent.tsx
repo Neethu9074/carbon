@@ -30,10 +30,7 @@ export default function GoRuntimeContent({ agentKey, serverlessEndpoint }: Onboa
               i18nKey={'in-plg:agentDetails.azure.referenceToAzureContainerAppsDocumentation'}
               components={{
                 azureContainerAppsDoc: (
-                  <Link
-                    href="https://www.ibm.com/docs/en/instana-observability/current?topic=go-azure-container-apps-tracing"
-                    target="_blank"
-                  >
+                  <Link href="https://ibm.biz/azure-container-app-trace-go" target="_blank">
                     {t('in-plg:agentDetails.azure.referenceToAzureContainerAppsDocumentation')}
                   </Link>
                 )

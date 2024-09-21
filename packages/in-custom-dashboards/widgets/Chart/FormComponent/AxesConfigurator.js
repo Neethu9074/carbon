@@ -284,7 +284,7 @@ function AxisConfigurator({
             axisName={axisName}
             startIndex={startIndex}
             getShortMetricKey={getShortMetricKey}
-            isUnitPillEnabled={withUnit}
+            withUnitPill={withUnit}
           />
         </Stack>
       </Li>

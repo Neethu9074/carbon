@@ -29,7 +29,7 @@ import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getSnapshot } from 'in-stores/snapshot';
 
-function getStackResult({ id, applicationId, timeConfig, productArea }) {
+export function getStackResult({ id, applicationId, timeConfig, productArea }) {
   switch (productArea) {
     case 'application':
       return getStackForApplication({ id, timeConfig });

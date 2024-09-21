@@ -99,7 +99,8 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/Groups/Group', () =>
           infraDfqFilter: {
             scopeId: '',
             scopeRoleId: '-1'
-          }
+          },
+          actionFilter: { scopeId: '', scopeRoleId: '-1' }
         }
       })
     );

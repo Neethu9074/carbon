@@ -34,8 +34,11 @@
     "menu": {
       "sideNavigation": "Side navigation"
     },
-    "carbonTabs": {
-      "tabs": "Tabs"
+    "dropDown": {
+      "selectOption": "Select option"
+    },
+    "tabsNavigation": {
+      "pageNavigation": "Page navigation"
     },
     "plg": {
       "dashboardTable": {

@@ -29,6 +29,7 @@ import LogDetails from 'in-logging/components/TraceDetails/components/LogDetails
 import { handleLogCallsWithFilters } from 'in-logging/analyze/AnalyzeView/utils/index';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { finishedProgress, pendingResult } from 'in-services/fixedObjects';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { loggingEnabled } from 'in-services/featureFlags';
@@ -39,11 +40,12 @@ import { t } from 'in-i18n';
 
 const LogsCard = ({ call, processSnapshotId }) => {
   const { logs } = call;
+  const { trackCta } = useSegmentTracking();
   const { selectedLog, timeConfigForLogs, setSelectedLog } = useLogsInCallsContext();
   const [isToggled, setIsToggled] = useState(!!selectedLog);
-  const logsResult = useObservable(getData({ callId: call.id, timeConfig: timeConfigForLogs }), []) ?? pendingResult;
+  const logsResult =
+    useObservable(getData(trackCta, { callId: call.id, timeConfig: timeConfigForLogs }), []) ?? pendingResult;
   const hasLoggingLogs = logsResult?.data?.items?.length > 0;
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => () => setSelectedLog(null), []);
 
@@ -86,7 +88,7 @@ const LogsCard = ({ call, processSnapshotId }) => {
   );
 };
 
-function getData({ callId, timeConfig }) {
+function getData(trackCta, { callId, timeConfig }) {
   if (!loggingEnabled) {
     return just({
       errors: [],
@@ -127,7 +129,7 @@ function getData({ callId, timeConfig }) {
     tagFilterExpression: callBody.tagFilterExpression
   };
 
-  handleLogCallsWithFilters(mixpanelProps);
+  handleLogCallsWithFilters(trackCta, mixpanelProps);
 
   return getLogs(callBody);
 }

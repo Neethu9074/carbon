@@ -11,11 +11,10 @@
 
   .inputs {
     display: flex;
+    gap: 0.5rem;
   }
 
   .field {
     width: 7rem;
-
-    margin-right: 0.5rem;
   }
 }

@@ -431,8 +431,15 @@
       "successRate": "Success Rate",
       "successRuns": "{{successRuns}} / {{totalRuns}} results",
       "latency": "Latency",
-      "locationLabel": "Location",
-      "locations": "{{totalLocations}} locations",
+      "locationLabel": "Locations",
+      "locationsColumn": {
+        "singleLocation": "{{number}} location",
+        "multipleLocations": "{{number}} locations",
+        "singleRun": "Runs in {{number}} location",
+        "multipleRun": "Runs in {{number}} locations",
+        "warning": "Warning",
+        "noIssues": "No issues"
+      },
       "associationLabel": "Associations",
       "health": "Health",
       "action": "Action",

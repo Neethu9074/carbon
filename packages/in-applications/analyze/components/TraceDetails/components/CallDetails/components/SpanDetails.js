@@ -68,7 +68,9 @@ function CustomTags({ span }) {
 
   const speciallyRenderedTags = [
     // span.data.sdk.custom.tags.message is to be rendered using ErrorDescriptionItem
-    'message'
+    'message',
+    // span.data.sdk.custom.tags.metrics is to be rendered using CustomMetrics
+    'metrics'
   ];
 
   const errorMessage = span.getIn(['data', 'sdk', 'custom', 'tags', 'message']);
@@ -94,7 +96,8 @@ function CustomTags({ span }) {
 }
 
 function CustomMetrics({ span }) {
-  let custom = span.getIn(['data', 'sdk', 'custom', 'metrics']);
+  const custom =
+    span.getIn(['data', 'sdk', 'custom', 'tags', 'metrics']) ?? span.getIn(['data', 'sdk', 'custom', 'metrics']);
   if (!custom || custom.isEmpty()) {
     return null;
   }
@@ -106,10 +109,8 @@ function CustomMetrics({ span }) {
   }));
 
   return (
-    <>
-      <Card title={t('in-analyze:traceDetail.components.callDetails.metrics')} hasMarginBottom>
-        <SidebarTagList tags={tags} />
-      </Card>
-    </>
+    <Card title={t('in-analyze:traceDetail.components.callDetails.metrics')} hasMarginBottom>
+      <SidebarTagList tags={tags} />
+    </Card>
   );
 }

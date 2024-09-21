@@ -210,6 +210,11 @@ function saveItem({ form, setMessage, setCanSaveItem, setForm, updateGroupId = n
     return;
   }
 
+  const actionFilter = form.get('actionFilter').value;
+  permissionSet = {
+    ...permissionSet,
+    actionFilter
+  };
   permissionSet = removeAdditionalPermissionsForNoaccess(
     [
       ProductArea.WEBSITE,

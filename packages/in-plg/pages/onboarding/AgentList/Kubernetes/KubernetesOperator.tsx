@@ -64,7 +64,7 @@ const KubernetesOperator = ({
           />
           <DocumentLink
             text={t('in-plg:agentDetails.kubernetes.operator.installAnAgentOnKubernetes')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host-agent-kubernetes"
+            href="https://ibm.biz/install-host-agent-kubernetes"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.common.configuringTheAgentAfterInstall')}
@@ -108,7 +108,7 @@ const KubernetesOperator = ({
       '   env: {}',
       '   configuration_yaml: |',
       '    # You can leave this empty, or use this to configure your instana agent.',
-      '    # See https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-kubernetes#operator-configuration'
+      '    # See https://ibm.biz/install-agent-k8-operator-config'
     );
     return content;
   };
@@ -157,11 +157,7 @@ const KubernetesOperator = ({
                 i18nKey="in-plg:agentDetails.kubernetes.operator.followTheInstructionsInTheDocumentation"
                 components={{
                   documentation: (
-                    <a
-                      href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-kubernetes#install-the-operator-manually"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    />
+                    <a href="https://ibm.biz/install-agent-k8-manual" rel="noopener noreferrer" target="_blank" />
                   )
                 }}
               />

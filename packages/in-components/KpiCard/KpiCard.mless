@@ -121,6 +121,11 @@
   .titleText {
     .ellipsis();
     width: 100%;
+    display: flex;
+  }
+
+  .titleIcon {
+    display: flex;
   }
 
   .contentText {

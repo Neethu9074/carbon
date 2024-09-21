@@ -16,7 +16,8 @@ import {
 } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/types';
 import useResolvedValue from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedValue';
 import useResolvedLink from 'in-logging/analyze/AnalyzeView/components/hooks/useResolvedLink';
-import { logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
+import { ANALYZE_LOGGING_LOG_MESSAGE_TAG_CLICKED } from 'in-services/tracking/eventNames';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { LOG_CUSTOM_KEY_APPLICATION_ID } from 'in-logging/queryBuilder';
 import Overlay from 'in-components/overlays/Overlay';
 import Header from 'in-components/Dialog/Header';
@@ -61,13 +62,13 @@ function Application({ applicationId, item }: ApplicationProps) {
   const resolvedLink =
     useResolvedLink(LOG_CUSTOM_KEY_APPLICATION_ID, { stringValue: applicationId }, item) || undefined;
   const resolvedValue = useResolvedValue(LOG_CUSTOM_KEY_APPLICATION_ID, { stringValue: applicationId });
-
+  const {trackCta} = useSegmentTracking()
   return (
     <Li>
       <Link
         className={locals.value}
         href={resolvedLink}
-        onClick={() => logMessageTagClicked({ tag: { name: LOG_CUSTOM_KEY_APPLICATION_ID, value: resolvedValue } })}
+        onClick={() => trackCta(ANALYZE_LOGGING_LOG_MESSAGE_TAG_CLICKED,{ tag: { name: LOG_CUSTOM_KEY_APPLICATION_ID, value: resolvedValue } })}
       >
         {resolvedValue}
       </Link>

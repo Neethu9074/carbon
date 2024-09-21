@@ -5,7 +5,6 @@
 
 import React from 'react';
 
-import { trackAnalyzeInfrastructureButtonClicked as trackAnalyzeRelatedInstancesButtonClicked } from 'in-infrastructure/tracking/tracking';
 import DashboardHeaderButtonSection from 'in-infrastructure/Dashboard/components/DashboardHeaderButtonSection';
 import AnalyzeRelatedInstancesButton from 'in-infrastructure/components/AnalyzeRelatedInstancesButton';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
@@ -14,6 +13,8 @@ import EntityCveIndicator from 'in-components/EntityCveIndicator/EntityHealthInd
 import DashboardBreadcrumb from 'in-infrastructure/Dashboard/components/DashboardBreadcrumb';
 import CveIndicatorButtonPresenter from 'in-components/health/CveIndicatorButtonPresenter';
 import PluginBadge from 'in-infrastructure/Dashboard/components/PluginBadge';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { useSegmentTracker } from 'in-infrastructure/tracking/tracking';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
 import { getRelatedInstancesTagFilterCallback } from 'in-sdk/tagFilter';
 import ZoneTag from 'in-map/components/MapSidebar/components/ZoneTag';
@@ -28,6 +29,8 @@ import locals from './DashboardHeader.mless';
 
 export default function DashboardHeader(props) {
   const { snapshot, title, snapshotId } = props;
+  const { location } = useNavigation();
+  const { trackAnalyzeInfrastructureButtonClicked: trackAnalyzeRelatedInstancesButtonClicked } = useSegmentTracker();
   return (
     <>
       <DashboardBreadcrumb snapshotId={snapshotId} snapshot={snapshot} title={title} />
@@ -38,7 +41,9 @@ export default function DashboardHeader(props) {
           snapshot={snapshot}
           renderIcon={() => <PluginIcon className={locals.icon} snapshot={snapshot} />}
           label={snapshot.get('label')}
-          renderButtonLine={renderButtonLine}
+          renderButtonLine={props =>
+            renderButtonLine({ ...props, path: location.pathname, trackAnalyzeRelatedInstancesButtonClicked })
+          }
           renderButtonLineSecondary={renderButtonLineSecondary}
           renderMetaInformation={renderMetaInformation}
         />
@@ -48,8 +53,7 @@ export default function DashboardHeader(props) {
 }
 
 function renderButtonLine(props) {
-  const { snapshot, timeConfig } = props;
-
+  const { snapshot, timeConfig, path, trackAnalyzeRelatedInstancesButtonClicked } = props;
   const plugin = snapshot.get('plugin');
   const getTagFilter = analyzeRelatedInstancesButtonEnabled ? getRelatedInstancesTagFilterCallback(plugin) : undefined;
   const analyzeRelatedInstancesTagFilter = getTagFilter ? getTagFilter(snapshot) : undefined;
@@ -85,7 +89,7 @@ function renderButtonLine(props) {
           type={snapshot.get('plugin')}
           timeConfig={timeConfig}
           group={defaultAllInfraGroup}
-          onClick={() => trackAnalyzeRelatedInstancesButtonClicked({ plugin })}
+          onClick={() => trackAnalyzeRelatedInstancesButtonClicked({ plugin, path })}
         />
       )}
     </>

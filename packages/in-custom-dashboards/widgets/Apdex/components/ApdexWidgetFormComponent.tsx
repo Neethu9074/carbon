@@ -58,7 +58,7 @@ export default function ApdexWidgetFormComponent({ form, onChange, setSlideInVie
 
   const track = useSloTrackers();
   useEffect(() => {
-    track(APDEX_WIDGET_EDIT_START, {});
+    track(APDEX_WIDGET_EDIT_START, undefined);
   }, [track]);
 
   // eslint-disable-next-line import/no-deprecated

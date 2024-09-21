@@ -181,8 +181,8 @@ export default function DBConnectionProvider({ snapshotId, timeConfig }: DbConne
       cardTitle={t('in-sap:dashboards.databaseConnection')}
       cols={cols}
       rows={rows}
-      initialSortColumn={0}
-      initialSortDirection="asc"
+      initialSortColumn={4}
+      initialSortDirection="desc"
       getRowDetails={getDetails}
       // @ts-expect-error Module needs to be translated to TS
       rightHeader={rightHeader}
