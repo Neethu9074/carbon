@@ -27,6 +27,7 @@ import { isExternal } from 'in-automation/ActionCatalog/shared';
 import { Event, Result, VolatileId } from 'in-types';
 import { mapData } from 'in-services/util/result';
 import { ScoredAction } from 'in-automation/api';
+import { recommendedList } from './testData';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -74,7 +75,7 @@ function useFilters({
 
   return {
     filteredActions: mapData(recommendedOptimizations, data =>
-      data.filter(action =>
+      data?.filter(action =>
         filters.reduce((shouldInclude, filter) => {
           const emptyFilter = !filter.value?.length;
           if (emptyFilter) return shouldInclude;
@@ -129,6 +130,7 @@ export default function RecommendedOptimizations({
   });
   const { page, pageSize, orderBy, orderDirection, query } = serverTableUrlState;
   const navigateToActionDetails = useNavigateToActionDetails();
+  recommendedOptimizations = recommendedOptimizations || recommendedList;
 
   const { filteredActions, types, setTypes } = useFilters({
     recommendedOptimizations,
@@ -158,7 +160,7 @@ export default function RecommendedOptimizations({
       fixedLayout
       leftHeader={
         <Typography variant="heading-300">
-          {result?.progress.loading
+          {result?.progress?.loading
             ? t('in-automation:recommendedOptimizations')
             : t('in-automation:recommendedOptimizationsWithCount', { count: totalHits })}
         </Typography>
