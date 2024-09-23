@@ -147,8 +147,8 @@ export default class Table extends React.Component {
       isSortable: true,
       sortDirection: data.sortColumnIndex === i ? data.sortDirection.toUpperCase() : 'NONE'
     }));
-    const carbonRows = [];
-
+    let carbonRows = [];
+    let carbonRow = {};
     if (carbonTableEnabled) {
       if (data.rows.length === 0) {
         return (
@@ -179,15 +179,13 @@ export default class Table extends React.Component {
         );
       } else {
         for (let i = 0, length = data.rows.length; i < length; i++) {
-          const rowData = data.rows[i];
-          const carbonRow = {};
-          carbonRow['id'] = rowData.key;
-          rowData.columns.map((column, i) => {
+          carbonRow['id'] = data.rows[i].key;
+          data.rows[i].columns.map((column, i) => {
             // get column header name and assign value to that
             carbonRow[carbonHeaders[i]['header']] = column.value ?? '-';
           });
           if (this.props.getRowDetails != undefined) {
-            carbonRow['expanded'] = this.props.getRowDetails(rowData.rowConfig);
+            carbonRow['expanded'] = this.props.getRowDetails(data.rows[i].rowConfig);
           }
           carbonRows.push(carbonRow);
         }
