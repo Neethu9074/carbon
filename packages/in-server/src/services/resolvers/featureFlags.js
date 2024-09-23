@@ -643,7 +643,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonComboBoxEnabled',
     instanaCtlKey: 'feature.carbon.combobox.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonDateInputEnabled',
