@@ -541,6 +541,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'carbonPillEnabled',
+    instanaCtlKey: 'feature.carbon.pill.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'carbonMessageEnabled',
     instanaCtlKey: 'feature.carbon.message.enabled',
     defaultValue: true
