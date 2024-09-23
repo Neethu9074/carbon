@@ -6,8 +6,8 @@
 
 import React from 'react';
 
+import PluginIcon, { PluginIconProps } from 'in-components/PluginIcon';
 import 'in-components/PluginIcon/PluginIcon.story.css';
-import PluginIcon from 'in-components/PluginIcon';
 import { plugins } from 'in-forge/constants';
 
 export default {
@@ -22,7 +22,7 @@ const pluginArgType = {
   }
 };
 
-export const Default = props => <PluginIcon {...props} />;
+export const Default = (props: PluginIconProps) => <PluginIcon {...props} />;
 Default.args = {
   plugin: Object.keys(plugins)[0]
 };

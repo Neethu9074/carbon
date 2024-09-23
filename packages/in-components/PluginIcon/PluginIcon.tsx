@@ -22,7 +22,7 @@ import { SnapshotMap } from 'in-components/EntityLink';
 import { getPluginName } from 'in-sdk/pluginName';
 import Tooltip from 'in-components/Tooltip';
 
-interface PluginIconProps extends Omit<React.ComponentProps<typeof SvgIcon>, 'type'> {
+export interface PluginIconProps extends Omit<React.ComponentProps<typeof SvgIcon>, 'type'> {
   size?: Size;
   color?: string;
   snapshot?: SnapshotMap;
