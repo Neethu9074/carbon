@@ -6862,8 +6862,8 @@
       "labelContentionRate": "Contention-Rate",
       "labelLargeObject": "Large Objects",
       "labelGCTime": "GC time",
-      "theFollowingEnvironmentVariablesMustBeSetOnTheNetCoreProcess": "The process environment for this .NET Full Framework application is not correctly configured for Instana to be able to monitor it. The following environment variables must be set on the .NET Core process: <code>{{missing}}</code>. Refer to the documentation for the right values to be set.",
-      "detectedThisBasedOnTheValueOfTheInvalidEnvKeyEnvironmentVariable": "It seems that another tool is monitoring this .NET Full Framework process, likely {{competitor}}. The Instana host agent has detected this based on the value of the <code>{{invalidEnvKey}}</code> environment variable. For Instana to be able to trace this .NET Core process, you need to disable the other monitoring tool.",
+      "theFollowingEnvironmentVariablesMustBeSetOnTheNetCoreProcess": "The process environment for this .NET Full Framework application is not correctly configured for Instana to be able to monitor it. The following environment variables must be set on the .NET Framework process: <code>{{missing}}</code>. Refer to the documentation for the right values to be set.",
+      "detectedThisBasedOnTheValueOfTheInvalidEnvKeyEnvironmentVariable": "It seems that another tool is monitoring this .NET Full Framework process, likely {{competitor}}. The Instana host agent has detected this based on the value of the <code>{{invalidEnvKey}}</code> environment variable. For Instana to be able to trace this .NET Framework process, you need to disable the other monitoring tool.",
       "theEnvironmentVariableInvalidEnvKeyHasTheWrongValue": "The process environment for this .NET Full Framework application is not correctly configured for Instana to be able to monitor it. The environment variable <code>{{invalidEnvKey}}</code> has the wrong value <code>{{invalidEnvValue}}</code>. Refer to the documentation for guidance on which value to set to the <code>{{invalidEnvKey}}</code> environment variable.",
       "dashboard": {
         "labelAllHeaps": "All Heaps",
