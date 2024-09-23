@@ -4,6 +4,10 @@
  * Copyright IBM Corp. 2024
  */
 
+import { sloRebornWidgetEnabled, sloV2Enabled } from 'in-services/featureFlags';
+
+export const isSloWidgetEnabled = sloV2Enabled && sloRebornWidgetEnabled;
+
 export const SloWidgetChartVariant = Object.freeze({
   INDICATOR: 'INDICATOR',
   ERROR_BUDGET: 'ERROR_BUDGET'
