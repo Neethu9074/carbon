@@ -479,10 +479,6 @@
         "alertConfigurationTitleTimeThreshold": "Time threshold",
         "alertConfigurationTitleAlertChannels": "Alert channels",
         "alertConfigurationTitleAlertProperties": "Alert properties",
-        "filter": "filter",
-        "filter_plural": "filters",
-        "moreFiltersWithCount": "+{{count}} more filter",
-        "moreFiltersWithCount_plural": "+{{count}} more filters",
         "alertsLabelFilters": "Filters"
       },
       "configuration": {

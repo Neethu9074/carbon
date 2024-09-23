@@ -48,7 +48,8 @@ export default function ScopeColumn({ config }: { config: LogAlertConfigWithMeta
                 })}
             </div>
           }
-          align="topMiddle"
+          align="auto"
+          forceTheme
           delay={500}
         >
           <span className={classNames(locals.centered, locals.space)}>

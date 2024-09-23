@@ -42,7 +42,8 @@ export default function ScopeColumn({ config }: { config: SyntheticAlertConfig }
                 })}
             </div>
           }
-          align="topMiddle"
+          align="auto"
+          forceTheme
           delay={500}
         >
           <span className={locals.centered}>

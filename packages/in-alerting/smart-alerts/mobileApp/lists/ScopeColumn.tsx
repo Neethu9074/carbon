@@ -74,7 +74,8 @@ export default function ScopeColumn({
                 })}
             </div>
           }
-          align="topMiddle"
+          align="auto"
+          forceTheme
           delay={500}
         >
           <span className={locals.centered}>
