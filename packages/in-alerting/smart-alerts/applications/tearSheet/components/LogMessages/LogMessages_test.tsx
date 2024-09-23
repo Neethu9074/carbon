@@ -66,7 +66,7 @@ describe('LogMessages', () => {
       },
       {
         id: 'level',
-        label: 'Log Level',
+        label: 'Log level',
         width: 20,
         getContent: expect.any(Function)
       }
