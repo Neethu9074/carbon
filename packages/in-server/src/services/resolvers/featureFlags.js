@@ -603,7 +603,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonListEnabled',
     instanaCtlKey: 'feature.carbon.list.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonAccordionEnabled',
