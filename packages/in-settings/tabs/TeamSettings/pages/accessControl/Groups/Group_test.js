@@ -100,7 +100,7 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/Groups/Group', () =>
             scopeId: '',
             scopeRoleId: '-1'
           },
-          actionFilter: { scopeId: undefined, scopeRoleId: '-101' }
+          actionFilter: { scopeId: undefined, scopeRoleId: '-1' }
         }
       })
     );

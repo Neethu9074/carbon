@@ -107,7 +107,7 @@ export function createForm(form = createMapForm(), apiResult?: GroupApiResult) {
   const { id, name, members, permissionSet } = apiResult?.result.group || {};
   const applicationConfig = getDefaultApplicationConfig(name);
   const applicationScope = permissionSet?.restrictedApplicationFilter?.scope || applicationConfig.scope;
-  const actionFilter = permissionSet?.actionFilter || { scopeId: undefined, scopeRoleId: '-101' };
+  const actionFilter = permissionSet?.actionFilter || { scopeId: undefined, scopeRoleId: '-1' };
   const label = permissionSet?.restrictedApplicationFilter?.label || applicationConfig?.label;
   const tagFilterExpression =
     fromBackendModel(permissionSet?.restrictedApplicationFilter?.tagFilterExpression) ||

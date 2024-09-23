@@ -21,8 +21,7 @@ import {
   ProductArea,
   ScopedPermissionItem,
   ScopedPermissionItems,
-  ScopedPermissionType,
-  ScopeRoles
+  ScopedPermissionType
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import AutomationAccessPanel from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/AutomationPanel/AutomationPanel';
 import TabSelect, {
@@ -71,10 +70,10 @@ export default function PermissionSectionAutomation<FORM_TYPE extends MapFormIte
       selected
     );
 
-    const scopeRoleId = selected === 'OWNER' ? ScopeRoles.Owner : ScopeRoles.Viewer;
-
     const newActionFilter =
-      limitation === ScopedPermissionItem.LIMITED_ACCESS ? initalActionFilter : { scopeId: undefined, scopeRoleId };
+      limitation === ScopedPermissionItem.LIMITED_ACCESS
+        ? initalActionFilter
+        : { scopeId: undefined, scopeRoleId: '-1' };
 
     let updatedForm = updateFormField(form, entityPermissionKey, newActionFilter, true);
     const newPermissionSet: PermissionSet = {
