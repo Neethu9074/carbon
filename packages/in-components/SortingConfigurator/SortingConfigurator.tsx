@@ -5,13 +5,12 @@
 
 import React, { useRef } from 'react';
 
-import { Li } from '@instana/components';
-import { Button } from '@instana/legacy';
-import { Ul } from '@instana/components';
+import { Li, Button, Ul } from '@instana/components';
 
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import OverlayOption from 'in-components/OverlayOption/OverlayOption';
 import DropdownButton from 'in-components/Button/DropdownButton';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { compositeRef } from 'in-services/util/react';
 import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';
@@ -79,6 +78,7 @@ export default function SortingConfigurator({ options, orderBy, onChange }: Prop
             direction: orderBy.direction === 'ASC' ? 'DESC' : 'ASC'
           })
         }
+        size={carbonButtonEnabled ? 'compact' : 'normal'}
       >
         {orderBy.direction === 'ASC'
           ? t('in-components:sortingConfigurator.buttonAscending')
