@@ -22,13 +22,15 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { getBusinessMonitoringTagCatalog } from 'in-bizops/api/catalog';
 import { createBusinessPerspective } from 'in-bizops/api/perspectives';
+import { HttpResponse, PerspectiveItem } from 'in-bizops/utils/types';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { bizopsPerspectiveCreated } from 'in-bizops/tracker';
 import { close } from 'in-components/DialogPresenter/store';
 import { TIMEOUT_IN_MS } from 'in-bizops/utils/constants';
 import { pendingResult } from 'in-services/fixedObjects';
-import { PerspectiveItem } from 'in-bizops/utils/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { noop } from 'in-services/util/function';
+import { BusinessPerspective } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-bizops/lists/businessPerspectives/creation/NewPerspective.mless';
@@ -69,8 +71,15 @@ export function NewPerspectiveDialogPresenter() {
     Callback functions for the backend after the UI submits
     an API request to create a new perspective
   */
-  function onSuccess(item: PerspectiveItem) {
+  function onSuccess(item: BusinessPerspective) {
     close();
+    const trackerData = {
+      path: location.pathname,
+      successFlag: true,
+      perspectiveId: item.id,
+      perspectiveName: item.name
+    };
+    bizopsPerspectiveCreated(trackerData);
     location.pathname = `${businessPerspectiveDashboard}${summaryTab}`;
     setOrDeleteMatrixKey(location, businessPerspectiveDashboard, 'perspectiveId', item.id);
     setOrDeleteMatrixKey(location, businessPerspectiveDashboard, 'perspectiveName', item.name);
@@ -85,8 +94,15 @@ export function NewPerspectiveDialogPresenter() {
     });
   }
 
-  function onError() {
+  function onError(data: HttpResponse) {
     close();
+    const trackerData = {
+      path: location.pathname,
+      successFlag: false,
+      errorMessage: data.response.body.errors,
+      perspectiveName: form.get('perspectiveName').value
+    };
+    bizopsPerspectiveCreated(trackerData);
     addMessage({
       type: 'danger',
       title: t('in-bizops:perspectives.errorMessages.createOperationFailed'),

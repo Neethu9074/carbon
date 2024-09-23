@@ -32,3 +32,14 @@ export interface GetBizOpsTagSuggestionQuery extends FilteredQuery {
   readonly propose: TagSuggestionProposeType;
   readonly timeConfig: TimeConfig;
 }
+
+export interface HttpResponse {
+  name: string;
+  response: {
+    status: number;
+    statusText: string;
+    body: {
+      errors: string[];
+    };
+  };
+}

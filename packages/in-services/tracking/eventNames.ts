@@ -464,9 +464,19 @@ export const ALERTING_CLONE_TRIGGER = 'smartalert.clone.clicked';
 export const ALERTING_CANCEL_CLICKED = 'smartalert.cancel.clicked';
 
 // Business Monitoring Tracking
-export const BIZOPS_TABS_CLICK = 'bizops.tabs.click';
+// Segment
+export const BIZOPS_TAB_CLICK = 'bizops.tab.click';
 export const BIZOPS_PROCESSES_LIST_SELECT = 'bizops.processes.list.select';
+export const BIZOPS_PERSPECTIVES_LIST_SELECT = 'bizops.perspectives.list.select';
+export const BIZOPS_ANALYZE_INSTANCES_CLICK = 'bizops.analyze.instances.click';
+export const BIZOPS_VIEW_ALL_ACTIVITIES_CLICK = 'bizops.view.all.activities.click';
+export const BIZOPS_ACTIVITY_SELECT = 'bizops.activity.select';
+export const BIZOPS_CREATE_PERSPECTIVE_CLICK = 'bizops.create.perspective.click';
+export const BIZOPS_PERSPECTIVE_CREATED = 'bizops.perspective.created';
+export const BIZOPS_BREADCRUMB_CLICK = 'bizops.breadcrumb.click';
+export const BIZOPS_DEPLOY_AGENT_CLICK = 'bizops.deploy.agent.click';
 
+// Mixpanel
 export const BIZOPS_PERSPECTIVE_LIST_SELECT = 'bizops.perspective.list.select';
 
 export const BIZOPS_PROCESS_TABS_CLICK = 'bizops.process.tabs.click';

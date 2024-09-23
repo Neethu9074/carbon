@@ -9,7 +9,6 @@ import React from 'react';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
 import { businessPerspectiveDashboard } from 'in-bizops/navigation/paths';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { clickBizopsProcessTabsTracker } from 'in-bizops/tracker';
 import { productAreas } from 'in-services/tracking/productAreas';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -17,6 +16,7 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { tabs } from 'in-bizops/dashboards/perspectives/tabs';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
+import { bizopsTabClick } from 'in-bizops/tracker';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
@@ -47,7 +47,7 @@ export default function BusinessPerspectiveSummary() {
       <ViewTrackingMeta
         data={{
           productArea: productAreas.bizops,
-          pageRootName: pageNames.bizops_perspective_summary
+          pageRootName: pageNames.bizops_perspective
         }}
       />
       <TabView
@@ -55,7 +55,7 @@ export default function BusinessPerspectiveSummary() {
         location={location}
         props={props}
         tabs={tabs}
-        tabChangeTracker={clickBizopsProcessTabsTracker}
+        tabChangeTracker={props => bizopsTabClick({ tab: props.tab, path: location.pathname })}
       />
     </div>
   );

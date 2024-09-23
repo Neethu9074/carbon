@@ -11,6 +11,8 @@ import { themes } from '@instana/design-tokens';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { bizopsDeployAgentClick } from 'in-bizops/tracker';
 
 import locals from './BizOpsEmptyTableState.mless';
 
@@ -25,6 +27,11 @@ function ServerTableWithEmptyState(props: any) {
 }
 
 function NoDataAvailable(href: string) {
+  const { location } = useNavigation();
+  const trackerProps = {
+    path: location.pathname,
+    location: 'empty table state'
+  };
   return (
     <CenterAlignmentColumn>
       <div className={locals.bizopsNoData}>
@@ -40,7 +47,12 @@ function NoDataAvailable(href: string) {
           </a>
         </p>
       </div>
-      <Button kind="primary" href={href} className={locals.bizopsDeployAgent}>
+      <Button
+        kind="primary"
+        href={href}
+        className={locals.bizopsDeployAgent}
+        onClick={() => bizopsDeployAgentClick(trackerProps)}
+      >
         Deploy agent
       </Button>
     </CenterAlignmentColumn>
