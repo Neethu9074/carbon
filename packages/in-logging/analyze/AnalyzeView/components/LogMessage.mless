@@ -6,6 +6,9 @@
 :local {
   .message {
     color: var(--ids-color-option-neutral-900);
+    overflow-wrap: break-word;
+    word-break: break-all;
+    white-space: normal;
   }
 
   .hovered {

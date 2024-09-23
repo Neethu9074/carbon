@@ -76,6 +76,11 @@ export default class extends React.Component {
               })}
               key={child.name}
               onClick={() => this.onReturn(child)}
+              onMouseEnter={() =>
+                this.setState({
+                  currentHighlightedRowIndex: i
+                })
+              }
               ref={item => {
                 if (i === currentHighlightedRowIndex && item && scrollElement) {
                   const topYPosOfItem = item.offsetTop;
