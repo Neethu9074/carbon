@@ -73,7 +73,7 @@ const mockFormData = {
       value: 'load_gen'
     }
   ],
-  actionFilter: { scopeId: '', scopeRoleId: '-1' }
+  actionFilter: { scopeId: undefined, scopeRoleId: '-101' }
 };
 
 export const createFilterForm = () => {

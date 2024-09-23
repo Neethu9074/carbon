@@ -238,7 +238,7 @@ function createPermissionSet() {
     syntheticTestIds: [],
     businessPerspectiveIds: [],
     infraDfqFilter: { scopeId: '', scopeRoleId: '-1' },
-    actionFilter: { scopeId: '', scopeRoleId: '-1' }
+    actionFilter: { scopeId: undefined, scopeRoleId: '-101' }
   };
 }
 
