@@ -22,8 +22,8 @@ import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/m
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { selectBizopsProcessActivitiesTracker } from 'in-bizops/tracker';
 import { getChartGranularity } from 'in-stores/metric/metric';
+import { bizopsActivitySelect } from 'in-bizops/tracker';
 import { t } from 'in-i18n';
 
 import locals from './columnDefinitions.mless';
@@ -128,6 +128,7 @@ function ActivityLink(activityName: string | undefined, activityId: string | und
     t('in-bizops:dashboards.summary.pageTitle');
 
   const activityTracking = {
+    path: location.pathname,
     processId: businessProcessId,
     processName: businessProcessName,
     activityName: activityName as string
@@ -141,7 +142,7 @@ function ActivityLink(activityName: string | undefined, activityId: string | und
     <Link
       className={locals.label}
       href={createHref(location)}
-      onClick={() => selectBizopsProcessActivitiesTracker(activityTracking)}
+      onClick={() => bizopsActivitySelect(activityTracking)}
     >
       {activityName}
     </Link>

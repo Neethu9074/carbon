@@ -19,7 +19,7 @@ import {
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 // @ts-expect-error Could not find a declaration file for module
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
-import { clickBizopsProcessViewAllActivitiesTracker, selectBizopsProcessActivitiesTracker } from 'in-bizops/tracker';
+import { bizopsViewAllActivitiesClick, bizopsActivitySelect } from 'in-bizops/tracker';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import getBusinessActivities from 'in-bizops/subscriptions/getBusinessActivities';
 import { BusinessActivityItem, TagFilterExpression, TimeConfig } from 'in-types';
@@ -83,7 +83,8 @@ function ViewAll({ className }: viewAllProps) {
     getMatrixParameter(location, businessProcessDashboard, 'definitionName') ??
     t('in-bizops:dashboards.summary.pageTitle');
 
-  const processTracking = {
+  const trackerProps = {
+    path: location.pathname,
     processId: businessProcessId,
     processName: businessProcessName
   };
@@ -93,7 +94,7 @@ function ViewAll({ className }: viewAllProps) {
     <Link
       className={className}
       href={viewAllPath}
-      onClick={() => clickBizopsProcessViewAllActivitiesTracker(processTracking)}
+      onClick={() => bizopsViewAllActivitiesClick(trackerProps)}
     >
       {t('in-bizops:dashboards.summary.widgets.viewAll')}
     </Link>
@@ -176,6 +177,7 @@ function Label({ item }: LabelProps) {
     t('in-bizops:dashboards.summary.pageTitle');
 
   const activityTracking = {
+    path: location.pathname,
     processId: businessProcessId,
     processName: businessProcessName,
     activityName: activityName
@@ -186,7 +188,7 @@ function Label({ item }: LabelProps) {
   setOrDeleteMatrixKey(location, businessActivityPath, 'activityId', item.businessActivity?.activityId);
 
   return (
-    <Link href={createHref(location)} onClick={() => selectBizopsProcessActivitiesTracker(activityTracking)}>
+    <Link href={createHref(location)} onClick={() => bizopsActivitySelect(activityTracking)}>
       {activityName}
     </Link>
   );

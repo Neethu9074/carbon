@@ -253,7 +253,7 @@ function ProbableRootCauseCard({ title, children, incident }: ProbableRootCauseC
         <Card
           title={title}
           leftHeaderContent={
-            <Stack direction="horizontal" gap="xxsmall">
+            <Stack direction="horizontal" gap="xxsmall" align="center">
               <Tooltip align="topRight" content={t('in-events:RCA.performanceConstantlyEvaluated')}>
                 <PreviewPill className={locals.techPreviewPill} />
               </Tooltip>

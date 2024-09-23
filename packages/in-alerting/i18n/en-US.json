@@ -1080,7 +1080,17 @@
             "subtitleForStaticDailySeasonality": "Static Daily Seasonality, {{metricLabel}}",
             "subtitleForStaticWeeklySeasonality": "Static Weekly Seasonality, {{metricLabel}}",
             "subtitleForAdaptiveThreshold": "Adaptive Threshold, {{metricLabel}}"
-          }
+          },
+          "moreFiltersWithCount": "+{{count}} more filter",
+          "moreFiltersWithCount_plural": "+{{count}} more filters",
+          "moreFiltersWithCount_0": "+{{count}} more filters",
+          "moreFiltersWithCount_1": "+{{count}} more filters",
+          "moreFiltersWithCount_2": "+{{count}} more filters",
+          "filter": "Filter",
+          "filter_plural": "Filters",
+          "filter_0": "Filters",
+          "filter_1": "Filters",
+          "filter_2": "Filters"
         }
       }
     },
@@ -1116,9 +1126,9 @@
           "moreFiltersWithCount_2": "+{{count}} more filters",
           "filter": "Filter",
           "filter_plural": "Filters",
-          "filter_0": "filters",
-          "filter_1": "filters",
-          "filter_2": "filters"
+          "filter_0": "Filters",
+          "filter_1": "Filters",
+          "filter_2": "Filters"
         }
       },
       "alertList": {

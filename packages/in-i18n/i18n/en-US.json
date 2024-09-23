@@ -34,6 +34,9 @@
     "menu": {
       "sideNavigation": "Side navigation"
     },
+    "dropDown": {
+      "selectOption": "Select option"
+    },
     "tabsNavigation": {
       "pageNavigation": "Page navigation"
     },

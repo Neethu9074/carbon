@@ -194,6 +194,7 @@ import './mongo';
 import './mysql';
 import './neo4j';
 import './play2';
+import './play3';
 import './py.hc';
 import './redis';
 import './shell';

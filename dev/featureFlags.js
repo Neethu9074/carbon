@@ -48,6 +48,7 @@ module.exports = {
   logRetentionPageEnabled: true,
   logWidgetsEnabled: true,
   carbonShellEnabled: true,
+  carbonPillEnabled: true,
   carbonMessageEnabled: true,
   carbonIconButtonEnabled: true,
   carbonSearchInputEnabled: true,
@@ -68,7 +69,7 @@ module.exports = {
   carbonRadioButtonEnabled: true,
   carbonCheckboxEnabled: true,
   carbonComboBoxEnabled: true,
-  carbonDateInputEnabled: true,
+  carbonDateInputEnabled: false,
   carbonExpandableGroupEnabled: true,
   pseudoLanguageEnabled: true,
   applicationHealthOverviewEnabled: true,
@@ -171,5 +172,6 @@ module.exports = {
   extrapolateMissingStackedAreaValues: false,
   nutanixEnabled: true,
   automationActionAiGenerationUnitEnabled: true,
-  carbonSliderEnabled: true
+  carbonSliderEnabled: true,
+  customDashboardTopLevelFiltersEnabled: true
 };

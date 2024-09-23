@@ -5,11 +5,11 @@
 
 import React from 'react';
 
-import { Stack } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Stack, Button } from '@instana/components';
 
 import ChooseConnectionStrategyDialog from 'in-connection/components/ChooseConnectionStrategyDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export interface Props {
@@ -27,6 +27,13 @@ export default function ReconnectingMessage({ attempt }: Props) {
             e.stopPropagation();
             addActiveDialog(<ChooseConnectionStrategyDialog />);
           }}
+          {...(carbonButtonEnabled
+            ? {
+                size: 'compact',
+                kind: 'tertiary',
+                style: { 'padding-inline-end': '1rem' }
+              }
+            : {})}
         >
           {t('in-connection:stat.connectLostState.chooseConnectionStrategy')}
         </Button>

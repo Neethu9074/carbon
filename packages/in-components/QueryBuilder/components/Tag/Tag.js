@@ -13,18 +13,11 @@ import {
   createTagForm,
   getFormPresentationInformation
 } from 'in-components/QueryBuilder/validation/tagForm';
-import {
-  CONTAINS,
-  EQUALS,
-  NOT_EQUAL,
-  NOT_STARTS_WITH,
-  STARTS_WITH
-} from 'in-components/QueryBuilder/tagFilter/operators';
+// eslint-disable-next-line import/no-unresolved
+import BooleanSelector from 'in-components/QueryBuilder/components/Tag/BooleanSelector';
+import { EQUALS, NOT_EQUAL, NOT_STARTS_WITH, STARTS_WITH } from 'in-components/QueryBuilder/tagFilter/operators';
 import { KEY_VALUE_PAIR, STRING, STRING_LIST, STRING_SET } from 'in-components/QueryBuilder/tagFilter/types';
 import { getSuggestionsTagFilterExpression } from 'in-components/QueryBuilder/tagFilter/tagSuggestions';
-// eslint-disable-next-line import/no-unresolved
-import { LOG_MESSAGE } from 'in-logging/queryBuilder';
-import BooleanSelector from 'in-components/QueryBuilder/components/Tag/BooleanSelector';
 import { STRING_MAX_LENGTH } from 'in-components/QueryBuilder/tagFilter/constraints';
 import NumberInput from 'in-components/QueryBuilder/components/Tag/NumberInput';
 import { onElementKeyUp } from 'in-components/QueryBuilder/keyboardInteraction';
@@ -59,7 +52,6 @@ export default function Tag(props) {
   const { renderModelIndex, formModelIndex, name: tagName } = element;
   const form = createTagForm(tagCatalog, element, allowEmptyKey);
   const { allowedOperators, valueType, type: tagType } = getFormPresentationInformation(tagCatalog, form);
-  const newElement = element.name === LOG_MESSAGE ? { ...element, operator: CONTAINS } : element;
   const locals = useThemedLocals(styleDefs);
 
   // To allow re-rendering when no React state has changed. We use this when we change the
@@ -136,7 +128,7 @@ export default function Tag(props) {
         />
       </SuspendDraggable>
       <Operator
-        element={newElement}
+        element={element}
         allowedOperators={allowedOperators}
         onChange={_operator => {
           const newForm = changeOperator(tagCatalog, form, _operator);

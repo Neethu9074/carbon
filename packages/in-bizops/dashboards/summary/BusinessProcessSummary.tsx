@@ -16,7 +16,6 @@ import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicator
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { clickBizopsProcessTabsTracker } from 'in-bizops/tracker';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { productAreas } from 'in-services/tracking/productAreas';
 import AnalyzeButton from 'in-bizops/components/AnalyzeButton';
@@ -24,6 +23,7 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import tabs from 'in-bizops/dashboards/summary/tabs/index';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
+import { bizopsTabClick } from 'in-bizops/tracker';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
@@ -59,7 +59,7 @@ export default function BusinessProcessDashboard() {
       <ViewTrackingMeta
         data={{
           productArea: productAreas.bizops,
-          pageRootName: pageNames.bizops_process_summary
+          pageRootName: pageNames.bizops_process
         }}
       />
       <TabView
@@ -67,7 +67,7 @@ export default function BusinessProcessDashboard() {
         location={location}
         tabs={tabs}
         props={props}
-        tabChangeTracker={clickBizopsProcessTabsTracker}
+        tabChangeTracker={props => bizopsTabClick({ tab: props.tab, path: location.pathname })}
       />
     </div>
   );

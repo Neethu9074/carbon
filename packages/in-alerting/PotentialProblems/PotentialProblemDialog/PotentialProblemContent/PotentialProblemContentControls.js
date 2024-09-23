@@ -15,14 +15,18 @@ import {
   thresholdPropType
 } from 'in-alerting/PotentialProblems/PotentialProblemsLane/proptypes';
 import {
+  POTENTIAL_PROBLEMS_SMART_ALERT_CREATE,
+  POTENTIAL_PROBLEMS_GO_TO_ANALYZE
+} from 'in-services/tracking/eventNames';
+import {
   applicationSmartAlertFullScreenDesignEnabled,
   applicationSmartAlertDialogView
 } from 'in-services/featureFlags';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
-import { trackCreateSmartAlert, trackGotoAnalyze } from 'in-alerting/PotentialProblems/tracker';
 import { getLinkToUnboundAnalytics } from 'in-events/components/AnalyzeApplicationEventButton';
 import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { close } from 'in-components/DialogPresenter/store';
@@ -64,6 +68,7 @@ export default function PotentialProblemContentControls({
     },
     getLinkToApplicationAnalyze
   );
+  const { trackCta } = useSegmentTracking();
 
   return (
     <>
@@ -71,7 +76,7 @@ export default function PotentialProblemContentControls({
         kind="primary"
         onClick={e => {
           e.stopPropagation();
-          trackGotoAnalyze({
+          trackCta(POTENTIAL_PROBLEMS_GO_TO_ANALYZE, {
             metricName: rule.metricName
           });
           close();
@@ -97,7 +102,7 @@ export default function PotentialProblemContentControls({
                     granularity: defaultGranularity
                   })
                 );
-                trackCreateSmartAlert({
+                trackCta(POTENTIAL_PROBLEMS_SMART_ALERT_CREATE, {
                   metricName: rule.metricName
                 });
               }}
@@ -125,6 +130,9 @@ export default function PotentialProblemContentControls({
                   )
                 );
 
+                trackCta(POTENTIAL_PROBLEMS_SMART_ALERT_CREATE, {
+                  metricName: rule.metricName
+                });
                 e.stopPropagation();
                 close();
               }}

@@ -61,6 +61,8 @@ export default function CustomDashboardLoader(props) {
   const { location, navigate } = useNavigation();
   const { trackCta } = useSegmentTracking();
 
+  const [topLevelFilters, setTopLevelFilters] = useState([]);
+
   useEffect(() => {
     setConfig(getInitialState(result).config);
     setSaving(getInitialState(result).isSaving);
@@ -117,6 +119,8 @@ export default function CustomDashboardLoader(props) {
       onEditAsJson={onEditAsJson}
       onViewAsJson={onViewAsJson}
       canCreatePublicCustomDashboards={role.canCreatePublicCustomDashboards}
+      topLevelFilters={topLevelFilters}
+      setTopLevelFilters={setTopLevelFilters}
     />
   );
 

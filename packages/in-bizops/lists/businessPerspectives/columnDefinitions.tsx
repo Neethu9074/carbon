@@ -16,8 +16,8 @@ import { businessPerspectiveDashboard, summaryTab } from 'in-bizops/navigation/p
 import BizOpsHealthIndicator from 'in-bizops/components/BizOpsHealthIndicator';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { selectBizopsListPerspectiveTracker } from 'in-bizops/tracker';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { bizopsPerspectivesListSelect } from 'in-bizops/tracker';
 import { t } from 'in-i18n';
 
 import locals from './columnDefinitions.mless';
@@ -38,12 +38,13 @@ function BusinessPerspectiveNameColumnContent(item: BusinessPerspectiveItem) {
   setOrDeleteMatrixKey(location, businessPerspectiveDashboard, 'perspectiveName', businessPerspectiveName);
 
   const perspectiveTracking = {
+    path: location.pathname,
     perspectiveId: businessPerspectiveId,
     perspectiveName: businessPerspectiveName
   };
 
   return (
-    <div className={locals.tracker} onClick={() => selectBizopsListPerspectiveTracker(perspectiveTracking)}>
+    <div className={locals.tracker} onClick={() => bizopsPerspectivesListSelect(perspectiveTracking)}>
       <SeverityAwareEntityLink
         severity={getSeverity(item)}
         label={businessPerspectiveName}

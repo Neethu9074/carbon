@@ -13,12 +13,12 @@ import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/Das
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader from 'in-components/DashboardHeader';
-import { clickBizopsTabsTracker } from 'in-bizops/tracker';
 import * as paths from 'in-bizops/navigation/paths';
+import { bizopsTabClick } from 'in-bizops/tracker';
 import { t } from 'in-i18n';
 
 export default function ViewSwitcher() {
-  const { matchLocation, createHrefToPath } = useNavigation();
+  const { location, matchLocation, createHrefToPath } = useNavigation();
   const isProcessesActive = matchLocation(paths.businessProcessPath);
   const isPerspectivesActive = matchLocation(paths.businessPerspectivesPath);
 
@@ -45,7 +45,7 @@ export default function ViewSwitcher() {
             label={t('in-bizops:labelBizOps')}
             isActive={isProcessesActive && !isPerspectivesActive}
             onClick={() => {
-              clickBizopsTabsTracker({ tab: 'Processes' });
+              bizopsTabClick({ path: location.pathname, tab: 'Processes' });
             }}
           />
           {bizopsPerspectivesEnabled && ( // !TODO!: This needs to be moved above the processes tab once perspectives is released
@@ -55,7 +55,7 @@ export default function ViewSwitcher() {
               isActive={isPerspectivesActive && !isProcessesActive}
               isDisabled={perspectivesDisabled}
               onClick={() => {
-                clickBizopsTabsTracker({ tab: 'Perspectives' });
+                bizopsTabClick({ path: location.pathname, tab: 'Perspectives' });
               }}
             />
           )}
