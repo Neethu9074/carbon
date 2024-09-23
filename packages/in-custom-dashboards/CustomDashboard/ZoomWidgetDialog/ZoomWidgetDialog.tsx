@@ -8,7 +8,9 @@ import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import { isEqual } from 'lodash';
 
+import { EventsTitle } from 'in-custom-dashboards/widgets/Table/eventsTable/TablePresenter';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { dataSources } from 'in-custom-dashboards/widgets/Table';
 import Dialog from 'in-components/Dialog/Dialog';
 import usePrevious from 'in-hooks/usePrevious';
 
@@ -43,8 +45,9 @@ export default function ZoomWidgetDialog({ widget, component: Widget, close }: a
     setApDialogOpen
   } = widget;
 
+  const widgetTitle = getWidgetTitle(widget);
   return (
-    <Dialog title={widget.title || '–'} onClose={close}>
+    <Dialog title={widgetTitle} onClose={close} className={locals.bottomMargin}>
       <div
         className={classNames({
           [locals.container]: hasMinWidth,
@@ -63,4 +66,11 @@ export default function ZoomWidgetDialog({ widget, component: Widget, close }: a
       </div>
     </Dialog>
   );
+}
+
+function getWidgetTitle(widget: any) {
+  if (widget.config.source === dataSources.EVENTS.type) {
+    return <EventsTitle title={widget.title} config={widget.config} />;
+  }
+  return widget.title || '–';
 }
