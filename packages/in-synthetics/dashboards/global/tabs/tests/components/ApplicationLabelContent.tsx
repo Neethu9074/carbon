@@ -29,10 +29,14 @@ const ApplicationLabelContent = ({ applicationId, applicationLabel, shouldDispla
         <div>
           {shouldDisplayLink ? (
             <Link href={applicationId && getLinkToApplicationDashboard({ applicationId })}>
-              <span className={locals.label}>{applicationLabel}</span>
+              <span className={locals.label} title="linked">
+                {applicationLabel}
+              </span>
             </Link>
           ) : (
-            <span className={locals.label}>{applicationLabel}</span>
+            <span className={locals.label} title="notLinked">
+              {applicationLabel}
+            </span>
           )}
         </div>
       </HorizontalFlexWrapper>
@@ -41,7 +45,9 @@ const ApplicationLabelContent = ({ applicationId, applicationLabel, shouldDispla
 
   return (
     <div>
-      <span className={locals.label}>{''}</span>
+      <span className={locals.label} title="empty">
+        {''}
+      </span>
     </div>
   );
 };
