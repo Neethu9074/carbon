@@ -18,15 +18,15 @@
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Remove",
     "alertHeaderIsNotLatestRevisionMessage": "You are looking at revision {{description}} of this alert configuration. Please <latestRevisionButton>select the latest revision</latestRevisionButton> or <restoreRevisionButton>restore from current revision</restoreRevisionButton> if you want to make changes.",
     "alertHeaderAriaLabelSeverity": "Event has severity {{severity}}",
-    "alertHistoryListTitleWithTotalRepresentedItemCount": "Alerts Created ({{totalRepresentedItemCount}})",
+    "alertHistoryListTitleWithTotalRepresentedItemCount": "Alerts created ({{totalRepresentedItemCount}})",
     "alertStateActive": "active",
     "alertPropertyInfosLabelTitle": "Title",
     "alertPropertyInfosLabelAlertLevel": "Alert level",
     "alertPropertyInfosLabelTriggersIncident": "Triggers Incident",
     "alertPropertyInfosLabelDescription": "Description",
     "noChannelSelectedText": "Currently, you have not selected an alert channel and will not receive any alerts.",
-    "scopeConfigPresenterHelpTextAdditionalFilters": "Additional Filters",
-    "groupBy": "Group By",
+    "scopeConfigPresenterHelpTextAdditionalFilters": "Additional filters",
+    "groupBy": "Group by",
     "noChannelAvailable": "No Alert channels available",
     "optional": "Optional",
     "revisionDropdownButton": {
@@ -150,7 +150,7 @@
     "titleCopyOf": "(Copy of) {{smartAlertTitle}}",
     "smartAlertsTitle": "Smart alerts",
     "applications": {
-      "alertConfiguration": "Alert Configuration",
+      "alertConfiguration": "Alert configuration",
       "advanced": {
         "applicationNamePlaceholder": "application-name",
         "serviceNamePlaceholder": "service-name",
@@ -647,7 +647,7 @@
     },
     "details": {
       "header": "Details",
-      "thresholdTypeTitle": "Threshold Type",
+      "thresholdTypeTitle": "Threshold type",
       "metricTitle": "Metric",
       "threshold": "Threshold",
       "warningThresholdLabel": "Warning",
@@ -1186,7 +1186,7 @@
       },
       "details": {
         "threshold": "Threshold",
-        "alertConfigurationListTitleAlertConfiguration": "Alert Configuration",
+        "alertConfigurationListTitleAlertConfiguration": "Alert configuration",
         "scope": {
           "perLocation": {
             "shortText": "Per Location"
@@ -1270,7 +1270,7 @@
         "stepConfigsStep2Title": "Step 2: Select Scope"
       },
       "alertDetails": {
-        "alertConfigurationListTitleAlertConfiguration": "Alert Configuration",
+        "alertConfigurationListTitleAlertConfiguration": "Alert configuration",
         "alertConfigurationTitleTrigger": "Trigger",
         "alertConfigurationTitleHTTPStatusCode": "HTTP Status Code",
         "alertConfigurationTitleCustomEvent": "Custom Event",
@@ -1374,7 +1374,7 @@
     },
     "infrastructure": {
       "alertDetails": {
-        "alertConfiguration": "Alert Configuration",
+        "alertConfiguration": "Alert configuration",
         "alertConfigurationTitleTrigger": "Trigger",
         "alertConfigurationTitleScope": "Scope",
         "alertConfigurationTitleAlertChannels": "Alert channels",
@@ -1456,7 +1456,7 @@
     },
     "logs": {
       "alertDetails": {
-        "alertConfiguration": "Alert Configuration",
+        "alertConfiguration": "Alert configuration",
         "metricName": "Log count",
         "alertConfigurationTitleScope": "Scope",
         "noScopeSelected": "No scope filters or groups configured.",
@@ -1594,7 +1594,7 @@
         "alertPropertiesIncidentWarning": "Incidents are only applicable to SLO's associated with applications"
       },
       "details": {
-        "alertConfigurationTitle": "Alert Configuration",
+        "alertConfigurationTitle": "Alert configuration",
         "sloHeader": "SLOs",
         "thresholdInfo": "",
         "thresholdInfo_BURN_RATE": "When burn rate is {{operator}} {{percentage}}",
