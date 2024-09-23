@@ -819,5 +819,10 @@ module.exports = exports = [
     uiClientKey: 'carbonSliderEnabled',
     instanaCtlKey: 'feature.carbon.slider.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'customDashboardTopLevelFiltersEnabled',
+    instanaCtlKey: 'feature.custom.dashboard.top.level.filters.enabled',
+    defaultValue: false
   }
 ];

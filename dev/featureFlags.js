@@ -172,5 +172,6 @@ module.exports = {
   extrapolateMissingStackedAreaValues: false,
   nutanixEnabled: true,
   automationActionAiGenerationUnitEnabled: true,
-  carbonSliderEnabled: true
+  carbonSliderEnabled: true,
+  customDashboardTopLevelFiltersEnabled: true
 };

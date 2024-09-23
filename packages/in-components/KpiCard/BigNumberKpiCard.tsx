@@ -13,10 +13,12 @@ import ResultAwareBigNumberKpiCard, {
   ConfigWithStaticCompanion,
   isConfigWithCompanionMetric
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
+import { useFilteredMetricConfiguration } from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
 import { getTimeConfigBasedOnMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { MetricResult, Result, UnifiedMetricConfigurationUnion } from 'in-types';
 import { ThresholdFn } from 'in-custom-dashboards/widgets/_shared/threshold';
+import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { IconAction } from 'in-components/KpiCard/KpiCard';
 import { FormatterFn } from 'in-stores/metric/formatters';
@@ -59,6 +61,7 @@ export default function BigNumberKpiCard({
 }: BigNumberKpiCardProps) {
   const timeConfig = useTimeConfig();
   const usedTimeConfig = getTimeConfigBasedOnMetricConfiguration(config.metricConfiguration, timeConfig);
+  const metricConfiguration = useFilteredMetricConfiguration(config.metricConfiguration);
 
   const metricDefaults = {
     timeShift: {
@@ -70,17 +73,17 @@ export default function BigNumberKpiCard({
 
   let metrics: { [index: string]: UnifiedMetricConfigurationUnion } = {
     [metricKey]: {
-      ...config.metricConfiguration,
+      ...metricConfiguration,
       ...metricDefaults
     } as UnifiedMetricConfigurationUnion
   };
 
-  if (hasActiveTimeShift(config.metricConfiguration.timeShift)) {
+  if (hasActiveTimeShift(metricConfiguration.timeShift)) {
     metrics[comparisonMetricKey] = {
-      ...config.metricConfiguration,
+      ...metricConfiguration,
       ...metricDefaults,
-      timeShift: translateOffsetToTimeShiftConfig(config.metricConfiguration.timeShift, timeConfig)
-    };
+      timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
+    } as UnifiedMetricConfigurationUnion;
   } else if (isConfigWithCompanionMetric(config)) {
     metrics[companionMetricKey] = {
       ...config.companionMetricConfiguration,
@@ -88,9 +91,10 @@ export default function BigNumberKpiCard({
     };
   }
 
+  const stableMetrics = useStableObjectInstance(metrics);
+
   const result: Result<MetricResult[]> =
-    useObservable(() => getUnifiedMetrics({ metrics }), [config, timeConfig, config.metricConfiguration.timeShift]) ??
-    pendingResult;
+    useObservable(() => getUnifiedMetrics({ metrics }), [stableMetrics]) ?? pendingResult;
 
   return (
     <ResultAwareBigNumberKpiCard

@@ -4,9 +4,10 @@
  */
 
 import { create, Observable } from '@instana/observables';
+import { generateStableHash } from '@instana/utils';
 
+import { CustomDashboard, CustomDashboardPreview, Result, TagCatalog, TimeConfig, UserResult } from 'in-types';
 import memoize, { ObservableCreator } from 'in-services/util/memoizingObservableGenerator';
-import { CustomDashboard, CustomDashboardPreview, Result, UserResult } from 'in-types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { refreshSignalUsers } from 'in-api/usersRefreshSignal';
 import http from 'in-services/http';
@@ -118,4 +119,23 @@ function getUsersInternal() {
       mapToResultObject: true
     })
   );
+}
+
+export const getUnifiedTagCatalog = memoize(
+  getUnifiedTagCatalogInternal,
+  ({ timeConfig: { to, windowSize } }) => generateStableHash({ to, windowSize }),
+  60000
+);
+function getUnifiedTagCatalogInternal({ timeConfig: { to, windowSize } }: { timeConfig: TimeConfig }) {
+  return http<TagCatalog>({
+    method: 'GET',
+    maxRetries: 3,
+    url: '/api/tags/catalog',
+    queryParams: {
+      useCase: 'FILTERING',
+      to,
+      windowSize
+    },
+    mapToResultObject: true
+  });
 }
