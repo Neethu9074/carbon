@@ -8,9 +8,9 @@ import React from 'react';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 
-import { bizopsPerspectivesEnabled, bizopsStandardInclusionEnabled } from 'in-services/featureFlags';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
+import { bizopsStandardInclusionEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader from 'in-components/DashboardHeader';
 import * as paths from 'in-bizops/navigation/paths';
@@ -48,17 +48,15 @@ export default function ViewSwitcher() {
               bizopsTabClick({ path: location.pathname, tab: 'Processes' });
             }}
           />
-          {bizopsPerspectivesEnabled && ( // !TODO!: This needs to be moved above the processes tab once perspectives is released
-            <SecondLevelNavigationItem
-              href={createHrefToPath(paths.businessPerspectivesPath)}
-              label={t('in-bizops:labelPerspectives')}
-              isActive={isPerspectivesActive && !isProcessesActive}
-              isDisabled={perspectivesDisabled}
-              onClick={() => {
-                bizopsTabClick({ path: location.pathname, tab: 'Perspectives' });
-              }}
-            />
-          )}
+          <SecondLevelNavigationItem
+            href={createHrefToPath(paths.businessPerspectivesPath)}
+            label={t('in-bizops:labelPerspectives')}
+            isActive={isPerspectivesActive && !isProcessesActive}
+            isDisabled={perspectivesDisabled}
+            onClick={() => {
+              bizopsTabClick({ path: location.pathname, tab: 'Perspectives' });
+            }}
+          />
         </SecondLevelNavigation>
       </DashboardHeaderModule>
       <DashboardHeaderShadowModule />

@@ -346,11 +346,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'bizopsPerspectivesEnabled',
-    instanaCtlKey: 'feature.bizops.perspectives.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'bizopsGenAIEnabled',
     instanaCtlKey: 'feature.bizops.genAI.enabled',
     defaultValue: false
