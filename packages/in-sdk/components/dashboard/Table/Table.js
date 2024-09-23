@@ -140,15 +140,16 @@ export default class Table extends React.Component {
       </div>
     );
 
+    const carbonHeaders = cols.map((item, i) => ({
+      id: i,
+      key: item.title,
+      header: item.title,
+      isSortable: true,
+      sortDirection: data.sortColumnIndex === i ? data.sortDirection.toUpperCase() : 'NONE'
+    }));
+    const carbonRows = [];
+
     if (carbonTableEnabled) {
-      const carbonHeaders = cols.map((item, i) => ({
-        id: i,
-        key: item.title,
-        header: item.title,
-        isSortable: true,
-        sortDirection: data.sortColumnIndex === i ? data.sortDirection.toUpperCase() : 'NONE'
-      }));
-      const carbonRows = [];
       if (data.rows.length === 0) {
         return (
           <div className={locals.tableContainer}>
