@@ -116,8 +116,11 @@ export default function ServerTablePresenter<
     };
 
     const getEllipsisValue = (ellipsis: string | boolean | undefined, width: string | number | undefined) => {
-      if (typeof ellipsis === 'string' || width !== 'undefined') {
+      if (typeof ellipsis === 'string' || (width !== 'undefined' && ellipsis !== undefined)) {
         ellipsis = true;
+      }
+      if (ellipsis === undefined) {
+        ellipsis = false;
       }
       return ellipsis;
     };
@@ -125,10 +128,18 @@ export default function ServerTablePresenter<
     const getWidthValue = (ellipsis: string | boolean | undefined, width: string | number | undefined) => {
       if (typeof ellipsis === 'string') {
         width = ellipsis;
-      } else if (typeof width === 'number') {
-        width = width + 'vw';
       }
       return width;
+    };
+
+    const getWidthInAbsoluteUnit = (
+      ellipsis: string | boolean | undefined,
+      widthInAbsoluteUnit: boolean | undefined
+    ) => {
+      if (typeof ellipsis === 'string') {
+        widthInAbsoluteUnit = true;
+      }
+      return widthInAbsoluteUnit;
     };
 
     carbonHeaders = visibleColumns.map((item, i) => ({
@@ -139,7 +150,9 @@ export default function ServerTablePresenter<
       sortDirection: item?.id === orderBy ? (orderDirection === 'ASC' ? 'ASC' : 'DESC') : 'NONE',
       noWrap: item.noWrap ?? false,
       ellipsis: getEllipsisValue(item.ellipsis, item.width),
-      width: getWidthValue(item.ellipsis, item.width)
+      width: getWidthValue(item.ellipsis, item.width),
+      useMinimumAmountOfHorizontalSpace: item.useMinimumAmountOfHorizontalSpace ?? false,
+      widthInAbsoluteUnit: getWidthInAbsoluteUnit(item.ellipsis, item.widthInAbsoluteUnit) ?? false
     }));
 
     let header;
@@ -160,31 +173,36 @@ export default function ServerTablePresenter<
     const carbonRows =
       result.data?.items.map((item: ItemType, index: number) => {
         let value = { id: item.id ?? String(index) };
-        carbonHeaders.map(({ key, getContent, ellipsis, width, noWrap }) => {
-          let pair;
-          if (typeof ellipsis !== 'boolean') {
-            width = ellipsis;
-            ellipsis = true;
+        carbonHeaders.map(
+          ({ key, getContent, ellipsis, width, noWrap, useMinimumAmountOfHorizontalSpace, widthInAbsoluteUnit }) => {
+            let pair;
+            if (typeof ellipsis !== 'boolean') {
+              width = ellipsis;
+              ellipsis = true;
+            }
+            if (width) {
+              if (!widthInAbsoluteUnit) {
+                width = `${width}%`;
+              }
+              pair = {
+                [key]: (
+                  <div
+                    className={classNames({
+                      [locals.tableTdNoWrap]: noWrap,
+                      [locals.tableMinimumHorizontalSpace]: useMinimumAmountOfHorizontalSpace
+                    })}
+                  >
+                    {getContent(item, props, key)}
+                  </div>
+                )
+              };
+            } else {
+              pair = { [key]: <>{getContent(item, props, key)}</> };
+            }
+            value = { ...value, ...pair };
+            return value;
           }
-          if (ellipsis) {
-            pair = {
-              [key]: (
-                <div style={{ maxWidth: width, whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
-                  {getContent(item, props, key)}
-                </div>
-              )
-            };
-          } else if (noWrap) {
-            // when noWrap is true but ellipsis is not set
-            pair = {
-              [key]: <div style={{ whiteSpace: 'nowrap' }}>{getContent(item, props, key)}</div>
-            };
-          } else {
-            pair = { [key]: <>{getContent(item, props, key)}</> };
-          }
-          value = { ...value, ...pair };
-          return value;
-        });
+        );
         return value;
       }) || [];
 
@@ -210,6 +228,9 @@ export default function ServerTablePresenter<
         }}
         searchText={query}
         isSearchEnabled={isSearchable}
+        onClickingRow={onRowClick}
+        tableInCard={tableInCard || cardTitle != null}
+        fixedLayout={fixedLayout}
       />
     );
 
