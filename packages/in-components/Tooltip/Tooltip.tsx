@@ -54,7 +54,7 @@ export default function Tooltip({
   if (carbonTooltipEnabled && !legacy && content) {
     // For carbon convert mousePosition -> auto
     const updatedAlign = (align == 'mousePosition' && 'auto') || align;
-    const themeToPass = forceTheme && themeStyle || 'dark'
+    const themeToPass = (forceTheme && themeStyle) || 'dark';
     return (
       <CarbonTooltip
         align={updatedAlign}

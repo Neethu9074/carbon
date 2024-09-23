@@ -24,14 +24,17 @@ import isOutsideCallsShortTermStorage from 'in-alerting/PotentialProblems/Potent
 import getPotentialProblems from 'in-alerting/PotentialProblems/subscription/getPotentialProblems';
 import { isCallQueryValid } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { POTENTIAL_PROBLEMS_REQUEST_LOADING_TIME } from 'in-services/tracking/eventNames';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
-import { trackRequestLoadingTime } from 'in-alerting/PotentialProblems/tracker';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { UI_INTERACTION } from 'in-services/util/constants';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 export function PotentialProblemsPostChartContent({ markerLaneProps, openingDialogDisabled, config, widgetTitle }) {
   const globalTimeConfig = useTimeConfig();
+  const { unstable_trackEvent } = useSegmentTracking();
 
   const outsideCallsShortTermStorage = isOutsideCallsShortTermStorage(globalTimeConfig);
 
@@ -61,12 +64,16 @@ export function PotentialProblemsPostChartContent({ markerLaneProps, openingDial
               startTime.current = Date.now();
             } else if (start) {
               if (result.data && result.data.alerts.length !== 0) {
-                trackRequestLoadingTime({
-                  requestTime: `${(Date.now() - start) / 1000}s`,
-                  numberPotentialProblems: result.data.alerts.length,
-                  windowSize: globalTimeConfig.windowSize,
-                  widgetTitle
-                });
+                unstable_trackEvent(
+                  UI_INTERACTION,
+                  { CTA: POTENTIAL_PROBLEMS_REQUEST_LOADING_TIME },
+                  {
+                    requestTime: `${(Date.now() - start) / 1000}s`,
+                    numberPotentialProblems: result.data.alerts.length,
+                    windowSize: globalTimeConfig.windowSize,
+                    widgetTitle
+                  }
+                );
                 startTime.current = null;
               }
             }

@@ -83,7 +83,9 @@ const AssociationsContentPresenter = ({
 
   return (
     <div>
-      <span className={locals.label}>{''}</span>
+      <span data-testid="noAssociations" className={locals.label}>
+        {''}
+      </span>
     </div>
   );
 };

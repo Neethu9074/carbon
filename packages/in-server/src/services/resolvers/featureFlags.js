@@ -541,6 +541,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'carbonPillEnabled',
+    instanaCtlKey: 'feature.carbon.pill.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'carbonMessageEnabled',
     instanaCtlKey: 'feature.carbon.message.enabled',
     defaultValue: true
@@ -813,6 +818,11 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonSliderEnabled',
     instanaCtlKey: 'feature.carbon.slider.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'customDashboardTopLevelFiltersEnabled',
+    instanaCtlKey: 'feature.custom.dashboard.top.level.filters.enabled',
     defaultValue: false
   }
 ];

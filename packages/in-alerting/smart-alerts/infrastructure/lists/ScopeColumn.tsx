@@ -62,8 +62,9 @@ export default function ScopeColumn({ config }: { config: InfraSmartAlertConfigW
                 })}
             </div>
           }
-          align="topMiddle"
+          align="auto"
           delay={500}
+          forceTheme
         >
           <span className={classNames(locals.centered, locals.space)}>
             <SvgIcon className={locals.filterIcon} type="lib_actions_filter" />

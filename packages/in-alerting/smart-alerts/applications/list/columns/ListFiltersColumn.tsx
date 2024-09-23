@@ -43,7 +43,8 @@ export default function ListFilterColumn({ tagFilterExpression, rule, threshold 
           </span>
         </div>
       }
-      align="topMiddle"
+      align="auto"
+      forceTheme
       delay={500}
     >
       <IconLabel

@@ -54,6 +54,7 @@ export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 export const logWidgetsEnabled = isFeatureFlagEnabled('logWidgetsEnabled');
 export const logVolumePageEnabled = isFeatureFlagEnabled('logVolumePageEnabled');
 export const logHomepageEnabled = isFeatureFlagEnabled('logHomepageEnabled');
+export const carbonPillEnabled = isFeatureFlagEnabled('carbonPillEnabled');
 export const logRetentionPageEnabled = isFeatureFlagEnabled('logRetentionPageEnabled');
 export const notesAndActivityEnabled = isFeatureFlagEnabled('notesAndActivityEnabled');
 export const carbonMessageEnabled = isFeatureFlagEnabled('carbonMessageEnabled');
@@ -292,3 +293,7 @@ export const automationActionAiGenerationUnitEnabled = isFeatureFlagEnabled(
   false
 );
 export const carbonSliderEnabled = isFeatureFlagEnabled('carbonSliderEnabled', false);
+export const customDashboardTopLevelFiltersEnabled = isFeatureFlagEnabled(
+  'customDashboardTopLevelFiltersEnabled',
+  false
+);

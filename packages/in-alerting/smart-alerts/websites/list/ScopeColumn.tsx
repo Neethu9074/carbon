@@ -95,17 +95,18 @@ export default function ScopeColumn({ config, websiteLabel }: { config: WebsiteA
             <div>
               <QueryBuilder value={filtersToDisplay} readOnly />
               {filterCount > maxFilterToDisplayInColumn &&
-                t('in-websites:websiteDashboard.tabs.alerts.moreFiltersWithCount', {
+                t('in-alerting:smartAlerts.websites.list.columns.moreFiltersWithCount', {
                   count: filterCount - maxFilterToDisplayInColumn
                 })}
             </div>
           }
-          align="topMiddle"
+          align="auto"
+          forceTheme
           delay={500}
         >
           <span className={locals.centered}>
             <SvgIcon className={locals.filterIcon} type="lib_actions_filter" />
-            {t('in-websites:websiteDashboard.tabs.alerts.filter', {
+            {t('in-alerting:smartAlerts.websites.list.columns.filter', {
               count: filterCount
             })}
           </span>

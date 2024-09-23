@@ -11,6 +11,7 @@ import {
   LabeledMetricResult,
   Result,
   ResultType,
+  TagFilterExpressionElementUnion,
   TimeConfig,
   UnifiedMetricConfigurationUnion
 } from '@instana/types';
@@ -36,6 +37,10 @@ import {
   enforceSingleNumberResult,
   renderer as availableRenderers
 } from 'in-custom-dashboards/widgets/Chart/renderer';
+import {
+  getFilteredConfiguration,
+  useFilterContext
+} from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
 import getUnifiedMetrics, { isLabeledMetricResult, UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { getTimeConfigBasedOnMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { applyTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
@@ -232,15 +237,18 @@ export function useResultData(
     : config?.type;
   const adjustedGranularity = resultType === 'SINGLE_NUMBER' ? undefined : granularity;
 
+  const filter = useFilterContext();
+
   for (const axis of AxisNames) {
-    addUnifiedMetricsConfigForMetrics(axis, config, resultType, adjustedGranularity, timeConfig, metrics);
+    addUnifiedMetricsConfigForMetrics(axis, config, resultType, adjustedGranularity, timeConfig, metrics, filter);
     addUnifiedMetricsConfigForCompanionMetrics(
       axis,
       config,
       resultType,
       adjustedGranularity,
       timeConfig,
-      companionMetrics
+      companionMetrics,
+      filter
     );
   }
 
@@ -248,7 +256,7 @@ export function useResultData(
   //timeShift, aggregation, resultType, autoRefresh
   //these workarounds will be removed once the logging backend is updated to support these features
 
-  const stableConfig = useStableObjectInstance(config);
+  const stableConfig = useStableObjectInstance({ config, filter });
 
   const metricResult =
     useObservable(() => getUnifiedMetrics({ metrics }, bulkRequest), [timeConfig, stableConfig]) ?? pendingResult;
@@ -268,27 +276,34 @@ function addUnifiedMetricsConfigForMetrics(
   resultType: ResultType,
   adjustedGranularity: number | undefined,
   timeConfig: TimeConfig,
-  metrics: UnifiedMetricsConfigObject
+  metrics: UnifiedMetricsConfigObject,
+  filter: TagFilterExpressionElementUnion
 ) {
   metricConfig[axisName]?.metrics.forEach((metricConfiguration, i) =>
     isInfraMetricConfiguration(metricConfiguration as UnifiedMetricConfigurationUnion)
-      ? (metrics[getMetricId(axisName, i)] = {
-          ...metricConfiguration,
-          resultType,
-          granularity: adjustedGranularity,
-          timeConfig: getTimeConfigBasedOnMetricConfiguration(
-            metricConfiguration as UnifiedMetricConfigurationUnion,
-            timeConfig
-          ),
-          timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
-        } as UnifiedMetricConfigurationUnion)
-      : (metrics[getMetricId(axisName, i)] = {
-          ...metricConfiguration,
-          resultType,
-          granularity: adjustedGranularity,
-          timeConfig: timeConfig,
-          timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
-        } as UnifiedMetricConfigurationUnion)
+      ? (metrics[getMetricId(axisName, i)] = getFilteredConfiguration(
+          {
+            ...metricConfiguration,
+            resultType,
+            granularity: adjustedGranularity,
+            timeConfig: getTimeConfigBasedOnMetricConfiguration(
+              metricConfiguration as UnifiedMetricConfigurationUnion,
+              timeConfig
+            ),
+            timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
+          },
+          filter
+        ) as UnifiedMetricConfigurationUnion)
+      : (metrics[getMetricId(axisName, i)] = getFilteredConfiguration(
+          {
+            ...metricConfiguration,
+            resultType,
+            granularity: adjustedGranularity,
+            timeConfig: timeConfig,
+            timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
+          },
+          filter
+        ) as UnifiedMetricConfigurationUnion)
   );
 }
 
@@ -298,17 +313,21 @@ function addUnifiedMetricsConfigForCompanionMetrics(
   resultType: ResultType,
   adjustedGranularity: number | undefined,
   timeConfig: TimeConfig,
-  metrics: UnifiedMetricsConfigObject
+  metrics: UnifiedMetricsConfigObject,
+  filter: TagFilterExpressionElementUnion
 ) {
   metricConfig[axisName]?.companionMetricConfigs?.forEach(
     (metricConfiguration: any, i: number) =>
-      (metrics[getMetricId(axisName, i)] = {
-        ...metricConfiguration,
-        resultType,
-        granularity: adjustedGranularity,
-        timeConfig: timeConfig,
-        timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
-      } as UnifiedMetricConfigurationUnion)
+      (metrics[getMetricId(axisName, i)] = getFilteredConfiguration(
+        {
+          ...metricConfiguration,
+          resultType,
+          granularity: adjustedGranularity,
+          timeConfig: timeConfig,
+          timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
+        },
+        filter
+      ) as UnifiedMetricConfigurationUnion)
   );
 }
 

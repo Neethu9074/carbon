@@ -17,15 +17,20 @@ import locals from './TableConfigInfo.mless';
 interface TableConfigInfoProps extends Partial<TableFormConfiguration> {}
 
 export default function TableConfigInfo({ dynamicFocusQuery }: TableConfigInfoProps) {
+  if (!dynamicFocusQuery) {
+    return null;
+  }
   return (
-    <span className={locals.tooltipLeft}>
+    <span className={locals.tooltipLeft} title="">
       <Tooltip
         themeStyle="light"
         content={<TableConfigInfoTooltip dynamicFocusQuery={dynamicFocusQuery} />}
-        align="bottomLeft"
+        align="auto"
         delay={500}
+        forceTheme
+        legacy
       >
-        <SvgIcon className={locals.tableInfo} type="lib_help_error_info_outline" size="s" />
+        <SvgIcon type="lib_help_error_info_outline" size="s" />
       </Tooltip>
     </span>
   );
@@ -34,7 +39,7 @@ export default function TableConfigInfo({ dynamicFocusQuery }: TableConfigInfoPr
 function TableConfigInfoTooltip({ dynamicFocusQuery }: TableConfigInfoProps) {
   const dfqItems = dynamicFocusQuery ? dynamicFocusQuery?.split(' ') : [];
   return (
-    <div className={locals.tableConfigGridContainer}>
+    <div className={locals.tableConfigGridContainer} title="">
       <StackItem>
         <div className={locals.configLabel}>{t('in-custom-dashboards:widgets.table.index.filters')}</div>
         {dfqItems.map((item, i) => {

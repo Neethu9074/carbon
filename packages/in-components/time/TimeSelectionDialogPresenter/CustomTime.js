@@ -7,7 +7,7 @@ import { composeValidators, createField, createMapForm } from 'formalistic';
 import { startOfDay, subDays, getTime as getTimestamp } from 'date-fns';
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import {
   formatDate,
@@ -23,6 +23,7 @@ import Section from 'in-components/time/TimeSelectionDialogPresenter/Section';
 import { dateValidator, timeValidator } from 'in-services/validators/date';
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { days, hours, minutes } from 'in-services/time';
 import { t } from 'in-i18n';
 
@@ -49,7 +50,7 @@ export default function CustomTime({ timeConfig, onChange }) {
             <span className={locals.to}>{t('in-components:time.to')}</span>
             <DateTimeInput form={form} path="to" setValue={setValue} />
           </div>
-          <Button className={locals.button} type="submit">
+          <Button className={locals.button} type="submit" size={carbonButtonEnabled ? 'compact' : 'normal'}>
             {t('in-components:time.customTimeButtonSetTime')}
           </Button>
         </div>

@@ -202,7 +202,7 @@ export default function AssociationsCommonSection({
               </Button>
             }
             loadEntities={() =>
-              entity.getSelectedEntities((form.get(key) as Field<string[]>).value ?? []) ?? entity.allEntities
+              entity.getSelectedEntities((form.get(key) as Field<string[]>)?.value ?? []) ?? entity.allEntities
             }
             renderNoDataAvailable={() => noEntitiesDataAvailable(key)}
             tableActions={entitySelectionTableActions(form, updateForm, key)}

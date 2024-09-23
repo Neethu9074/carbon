@@ -15,7 +15,7 @@ export const productAreas = Object.freeze({
   events: 'Events',
   slo: 'Service Level Objectives',
   settings: 'Settings',
-  bizops: 'BizOps',
+  bizops: 'Business Monitoring',
   cloud_foundry: 'Platforms - Cloud Foundry',
   ibmZ: 'Platforms - IBM Z HMC',
   kubernetes: 'Platforms - Kubernetes',

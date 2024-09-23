@@ -18,10 +18,12 @@ import { perspectiveColumnDefinitions } from 'in-bizops/lists/businessPerspectiv
 import getBusinessPerspectives from 'in-bizops/subscriptions/getBusinessPerspectives';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { businessPerspectivesPath } from 'in-bizops/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { productAreas } from 'in-services/tracking/productAreas';
+import { bizopsCreatePerspectiveClick } from 'in-bizops/tracker';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import ViewSwitcher from 'in-bizops/components/ViewSwitcher';
 import { pageNames } from 'in-services/tracking/pageNames';
@@ -37,10 +39,17 @@ const pathSegment = businessPerspectivesPath;
 const matrixPrefix = '';
 
 function NewPerspectiveButton() {
+  const { location } = useNavigation();
+  const trackerProps = {
+    path: location.pathname
+  }
   return (
     <Button
       kind="action"
-      onClick={() => addActiveDialog(<NewPerspectiveDialogPresenter />)}
+      onClick={() => {
+        bizopsCreatePerspectiveClick(trackerProps);
+        addActiveDialog(<NewPerspectiveDialogPresenter />);
+      }}
       className={locals.button}
       icon="lib_openclose_add_circle_outline"
     >

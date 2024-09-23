@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import { get } from 'lodash';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import config from 'in-services/config';
