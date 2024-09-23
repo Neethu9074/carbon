@@ -102,50 +102,6 @@ export default class Table extends React.Component {
     const colCount = supportsRowDetails ? cols.length + 1 : cols.length;
     const rows = [];
 
-    if (data.rows.length === 0) {
-      rows.push(
-        <EmptyContent
-          cols={colCount}
-          size="compact"
-          renderNoDataAvailable={() => <NoDataAvailable text={t('in-sdk:dashboard.table.tableNoData')} height={80} />}
-          noDataMessage={t('in-sdk:dashboard.table.tableNoData')}
-        />
-      );
-    } else {
-      for (let i = 0, length = data.rows.length; i < length; i++) {
-        const rowData = data.rows[i];
-
-        let onClick;
-        if (this.props.onRowClick) {
-          onClick = (row, e, rowIndex) => this.props.onRowClick(row, e, data.rows, rowIndex);
-        }
-
-        const selected = rowData.rowConfig.isSelected;
-
-        rows.push(
-          <Row
-            key={rowData.key}
-            row={rowData}
-            cellClassName={cellElement}
-            toggleRowDetails={toggleRowDetails}
-            rowIndex={i}
-            onClick={onClick}
-            selected={selected}
-          />
-        );
-
-        if (rowData.expanded) {
-          rows.push(
-            <tr key={`${rowData.key}--expanded`}>
-              <td className={expandedCellElement} colSpan={colCount}>
-                {this.props.getRowDetails(rowData.rowConfig)}
-              </td>
-            </tr>
-          );
-        }
-      }
-    }
-
     const showPagination = data.pageCount > 1 || data.page >= data.pageCount || this.props.alwaysShowPagination;
     const header = (
       <div className={locals.headerExtensions}>
@@ -291,55 +247,96 @@ export default class Table extends React.Component {
           </Card>
         </div>
       );
-    }
-    return (
-      <div className={locals.tableContainer}>
-        <Card title={this.props.cardTitle} header={header} withoutPadding={this.props.withoutPadding}>
-          {this.props.explanation}
-          <table className={tableElement}>
-            <thead className={columnHeader}>
-              <tr>
-                {supportsRowDetails ? <th className={headerToggleCellElement} /> : null}
-                {cols.map((col, i) => (
-                  <th key={i} className={headerCellElement} style={{ width: `${col.width ? col.width + 'px' : ''}` }}>
-                    <SortIndicator
-                      title={col.title}
-                      index={i}
-                      sortIndex={data.sortColumnIndex}
-                      sortDirection={data.sortDirection}
-                      onChangeSort={this.store.setSort}
-                      columnDefinition={col}
-                    />
-                  </th>
-                ))}
+    } else {
+      if (data.rows.length === 0) {
+        rows.push(
+          <EmptyContent
+            cols={colCount}
+            size="compact"
+            renderNoDataAvailable={() => <NoDataAvailable text={t('in-sdk:dashboard.table.tableNoData')} height={80} />}
+            noDataMessage={t('in-sdk:dashboard.table.tableNoData')}
+          />
+        );
+      } else {
+        for (let i = 0, length = data.rows.length; i < length; i++) {
+          const rowData = data.rows[i];
+          let onClick;
+          if (this.props.onRowClick) {
+            onClick = (row, e, rowIndex) => this.props.onRowClick(row, e, data.rows, rowIndex);
+          }
+          const selected = rowData.rowConfig.isSelected;
+          rows.push(
+            <Row
+              key={rowData.key}
+              row={rowData}
+              cellClassName={cellElement}
+              toggleRowDetails={toggleRowDetails}
+              rowIndex={i}
+              onClick={onClick}
+              selected={selected}
+            />
+          );
+          if (rowData.expanded) {
+            rows.push(
+              <tr key={`${rowData.key}--expanded`}>
+                <td className={expandedCellElement} colSpan={colCount}>
+                  {this.props.getRowDetails(rowData.rowConfig)}
+                </td>
               </tr>
-            </thead>
-            <tbody>{rows}</tbody>
-          </table>
-          {showPagination ? (
-            carbonPaginationEnabled ? (
-              <>
-                <CarbonPagination
-                  currentPage={(data.page || 0) + 1}
-                  totalItems={this.props.rows?.length}
-                  pageSize={this.props.maxItemsPerPage ?? 10}
-                  pageSizes={[this.props.maxItemsPerPage ?? 10]}
-                  onChange={p => this.store.setPage(p.page - 1)}
-                />
-              </>
-            ) : (
-              <div className={locals.paginationWrapper}>
-                <Pagination
-                  onChange={newPage => this.store.setPage(newPage - 1)}
-                  currentPage={(data.page || 0) + 1}
-                  numPages={data.pageCount}
-                />
-              </div>
-            )
-          ) : null}
-          {this.props.bottomContent ? <div className={locals.bottomContent}>{this.props.bottomContent}</div> : null}
-        </Card>
-      </div>
-    );
+            );
+          }
+        }
+      }
+
+      return (
+        <div className={locals.tableContainer}>
+          <Card title={this.props.cardTitle} header={header} withoutPadding={this.props.withoutPadding}>
+            {this.props.explanation}
+            <table className={tableElement}>
+              <thead className={columnHeader}>
+                <tr>
+                  {supportsRowDetails ? <th className={headerToggleCellElement} /> : null}
+                  {cols.map((col, i) => (
+                    <th key={i} className={headerCellElement} style={{ width: `${col.width ? col.width + 'px' : ''}` }}>
+                      <SortIndicator
+                        title={col.title}
+                        index={i}
+                        sortIndex={data.sortColumnIndex}
+                        sortDirection={data.sortDirection}
+                        onChangeSort={this.store.setSort}
+                        columnDefinition={col}
+                      />
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>{rows}</tbody>
+            </table>
+            {showPagination ? (
+              carbonPaginationEnabled ? (
+                <>
+                  <CarbonPagination
+                    currentPage={(data.page || 0) + 1}
+                    totalItems={this.props.rows?.length}
+                    pageSize={this.props.maxItemsPerPage ?? 10}
+                    pageSizes={[this.props.maxItemsPerPage ?? 10]}
+                    onChange={p => this.store.setPage(p.page - 1)}
+                  />
+                </>
+              ) : (
+                <div className={locals.paginationWrapper}>
+                  <Pagination
+                    onChange={newPage => this.store.setPage(newPage - 1)}
+                    currentPage={(data.page || 0) + 1}
+                    numPages={data.pageCount}
+                  />
+                </div>
+              )
+            ) : null}
+            {this.props.bottomContent ? <div className={locals.bottomContent}>{this.props.bottomContent}</div> : null}
+          </Card>
+        </div>
+      );
+    }
   }
 }
