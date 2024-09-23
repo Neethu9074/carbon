@@ -633,7 +633,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonDropdownEnabled',
     instanaCtlKey: 'feature.carbon.dropdown.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonInputEnabled',
