@@ -33,6 +33,8 @@ import Expression from 'in-components/QueryBuilder/components/Expression';
 import Bracket from 'in-components/QueryBuilder/components/Bracket';
 import Tag from 'in-components/QueryBuilder/components/Tag/Tag';
 import ErrorBoundary from 'in-components/ErrorBoundary';
+import { LOG_MESSAGE } from 'in-logging/queryBuilder';
+import { CONTAINS } from './tagFilter/operators';
 
 import locals from './QueryBuilder.mless';
 
@@ -216,6 +218,7 @@ function QueryBuilder({
   }
 
   function onAddFormModelElement({ formModelIndex, renderModelIndex, newFormModel }) {
+    newFormModel = newFormModel.name === LOG_MESSAGE ? { ...newFormModel, operator: CONTAINS } : newFormModel;
     const updatedFormModel = currentFormModel.slice();
     const addConjunction = shouldAutomaticallyAddAConjunction(updatedFormModel, newFormModel, formModelIndex);
     updatedFormModel.splice(formModelIndex, 0, newFormModel);
