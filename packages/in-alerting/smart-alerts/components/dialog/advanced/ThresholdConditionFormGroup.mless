@@ -39,6 +39,9 @@
         margin-right: 0rem;
       }
     }
+    :global .cds--visually-hidden {
+      position: fixed;
+    }
 
     color: var(--ids-color-option-neutral-700);
   }
