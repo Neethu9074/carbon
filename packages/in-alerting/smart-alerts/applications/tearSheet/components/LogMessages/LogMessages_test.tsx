@@ -62,12 +62,14 @@ describe('LogMessages', () => {
         id: 'radio',
         lable: '',
         width: 10,
+        sortable: false,
         getContent: expect.any(Function)
       },
       {
         id: 'level',
         label: 'Log Level',
         width: 20,
+        sortable: false,
         getContent: expect.any(Function)
       }
     ];

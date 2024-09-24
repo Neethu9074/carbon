@@ -82,6 +82,7 @@ export function getColumnDefinition(message: string, level: string) {
       id: 'radio',
       lable: '',
       width: 10,
+      sortable: false,
       getContent(item: any) {
         return (
           <div className={locals.alignCenter}>
@@ -100,6 +101,7 @@ export function getColumnDefinition(message: string, level: string) {
       id: 'level',
       label: t('in-alerting:smartAlerts.applications.logMessages.levelColumn'),
       width: 20,
+      sortable: false,
       getContent(item: any) {
         return <Pill type="gray">{item.level}</Pill>;
       }
