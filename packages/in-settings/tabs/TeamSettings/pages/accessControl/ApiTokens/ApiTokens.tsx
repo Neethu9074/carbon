@@ -93,8 +93,8 @@ export default function ApiTokens() {
         return (
           <span>
             {lastUsedOn ? (
-              <Tooltip content={`${fromNow(lastUsedOn)} (${formatDateTime(lastUsedOn)})`} align="auto" delay={500}>
-                <span> {`${fromNow(lastUsedOn)} (${formatDateTime(lastUsedOn)})`} </span>
+              <Tooltip content={`${formatDateTime(lastUsedOn)}`} align="auto" delay={500}>
+                <span> {`${fromNow(lastUsedOn)}`} </span>
               </Tooltip>
             ) : (
               ''
@@ -125,8 +125,8 @@ export default function ApiTokens() {
         return (
           <span>
             {createdOn ? (
-              <Tooltip content={`${fromNow(createdOn)} (${formatDateTime(createdOn)})`} align="auto" delay={500}>
-                <span> {`${fromNow(createdOn)} (${formatDateTime(createdOn)})`} </span>
+              <Tooltip content={`${formatDateTime(createdOn)}`} align="auto" delay={500}>
+                <span> {`${fromNow(createdOn)}`} </span>
               </Tooltip>
             ) : (
               `${t('in-settings:tabs.unknownLabel')}`

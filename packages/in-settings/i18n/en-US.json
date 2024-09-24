@@ -553,6 +553,7 @@
     },
     "apiTokenHintTextForNeverExpires": "This token never expires.",
     "apiTokenHintTextForExpiration": "This token expires after {{expiryDate}} at {{expiryTime}} UTC{{utcOffSet}}.",
+    "apiTokenAlwaysHaveReadAccess": "API tokens have viewer access to all data on <strong>{{tenantUnit}}-{{tenant}}</strong>",
     "displayName": "Display name",
     "personalApiTokenDescription": "This personal API token inherits your permissions so that you can use to authenticate to the API.",
     "apiTokenDescription": "This unit specific API token can be seen/modified by anyone or any API token with the permission for API token configuration.",

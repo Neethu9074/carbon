@@ -120,8 +120,8 @@ const columnDefinitions = [
     getContent: ({ lastUsedOn }: PersonalApiToken) => (
       <span>
         {lastUsedOn ? (
-          <Tooltip content={`${fromNow(lastUsedOn)} (${formatDateTime(lastUsedOn)})`} align="topLeft" delay={500}>
-            <span>{`${fromNow(lastUsedOn)} (${formatDateTime(lastUsedOn)})`}</span>
+          <Tooltip content={`${formatDateTime(lastUsedOn)}`} align="auto" delay={500}>
+            <span>{`${fromNow(lastUsedOn)}`}</span>
           </Tooltip>
         ) : (
           ''
@@ -150,8 +150,8 @@ const columnDefinitions = [
     getContent: ({ createdOn }: PersonalApiToken) => (
       <span>
         {createdOn ? (
-          <Tooltip content={`${fromNow(createdOn)} (${formatDateTime(createdOn)})`} align="topLeft" delay={500}>
-            <span>{`${fromNow(createdOn)} (${formatDateTime(createdOn)})`}</span>
+          <Tooltip content={`${formatDateTime(createdOn)}`} align="auto" delay={500}>
+            <span>{`${fromNow(createdOn)}`}</span>
           </Tooltip>
         ) : (
           `${t('in-settings:tabs.unknownLabel')}`

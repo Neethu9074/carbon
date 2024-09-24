@@ -160,8 +160,8 @@ describe('in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens'
     expect(getByText(token.accessGrantingToken)).toBeInTheDocument();
     expect(formatDateTime).toHaveBeenCalledWith(token.createdOn);
     expect(getByText(token.createdBy!)).toBeInTheDocument();
-    expect(getByText(`formatted-${token.createdOn}`, { exact: false })).toBeInTheDocument();
-    expect(getByText(`formatted-${token.lastUsedOn}`, { exact: false })).toBeInTheDocument();
+    expect(getByText(`fromNow-${token.createdOn}`, { exact: false })).toBeInTheDocument();
+    expect(getByText(`fromNow-${token.lastUsedOn}`, { exact: false })).toBeInTheDocument();
   });
 
   it('should provide an empty table for api tokens', () => {
