@@ -9,6 +9,6 @@
     flex-direction: column;
     width: 50rem;
 
-    background: var(--ids-color-option-white);
+    background: var(--cds-layer);
   }
 }

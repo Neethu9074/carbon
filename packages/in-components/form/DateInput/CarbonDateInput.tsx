@@ -13,6 +13,7 @@ import { formatDate } from 'in-services/formatters/date';
 import { activeLanguage } from 'in-i18n';
 
 const dateFormat = 'Y-m-d';
+const pattern = '\\d{4}-\\d{1,2}-\\d{1,2}';
 
 export type DateInputValue = string | null | undefined;
 export type DateInputOnChange = (s: DateInputValue) => void;
@@ -45,7 +46,8 @@ export default function DateInput({
       }
     },
     dateFormat,
-    locale: activeLanguage?.split('-')[0]
+    locale: activeLanguage?.split('-')[0],
+    pattern
   };
   return <CarbonDateInput {...cprops} />;
 }
