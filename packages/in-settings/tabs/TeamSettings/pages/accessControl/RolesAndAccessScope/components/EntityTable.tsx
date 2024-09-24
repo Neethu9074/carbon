@@ -79,7 +79,14 @@ export default function EntityTable<ITEM_CONFIG extends ListItem>({
     <ServerTablePresenter<ITEM_CONFIG, ServerTablePresenterProps<ITEM_CONFIG>>
       getRowProps={getRowProps}
       result={paginatedResult}
-      onRowClick={disableRowClick ? () => null : onClickItem}
+      onRowClick={
+        disableRowClick
+          ? () => null
+          : (data, e) => {
+              e.preventDefault();
+              onClickItem(data);
+            }
+      }
       numSkeletonRows={3}
       page={page}
       pageSize={pageSize}
