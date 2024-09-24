@@ -16,6 +16,7 @@ interface PercentageInputProps {
   className?: string;
   min?: number;
   max?: number;
+  disabled?: boolean;
 }
 
 export default function PercentageInput({
@@ -26,13 +27,15 @@ export default function PercentageInput({
   hasError,
   className,
   min = 0,
-  max = 100
+  max = 100,
+  disabled
 }: PercentageInputProps) {
   const displayValue = formatNumber(value, decimalPrecision);
 
   return (
     <Input
       className={className}
+      disabled={disabled}
       id={id}
       value={displayValue}
       type="number"
