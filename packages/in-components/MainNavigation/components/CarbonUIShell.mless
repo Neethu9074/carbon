@@ -14,10 +14,12 @@
     }
   }
 
-  :global(.cds--side-nav__navigation .cds--tag--blue) {
+  // If there is an ID present, that ends in "-dark", we want to render a g100-themed pill
+  // This is a temporary solution which will be obsolete once we finish current theme migrations.
+  :global(.cds--side-nav__navigation a[id$='dark'] .cds--tag--blue) {
     --cds-tag-background-blue: #0043ce;
     --cds-tag-color-blue: #d0e2ff;
-   }
+  }
 
   :global(#profileMenu-switcher button svg) {
     top: 1px;
