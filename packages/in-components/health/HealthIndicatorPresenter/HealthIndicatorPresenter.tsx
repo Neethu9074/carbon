@@ -93,6 +93,7 @@ export default function HealthIndicatorPresenter({
         }}
         className={locals.badge}
         ref={refSetter}
+        tabIndex={-1}
       >
         {statusContents}
       </a>
