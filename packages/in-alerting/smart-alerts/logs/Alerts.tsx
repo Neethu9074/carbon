@@ -8,14 +8,20 @@ import React from 'react';
 
 import { LogAlertConfigWithMetadata, ThresholdConfigUnion } from '@instana/types';
 
+import {
+  alertsPath,
+  alertDetailsFullyQualifiedPath,
+  alertsDetailsPath,
+  dashboardAlertDetailsFullPath
+} from 'in-logging/navigation/paths';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { CreateLogsSmartAlertFloatingButton } from 'in-logging/navigation/createLogsSmartAlertFloatingButton';
-import { alertsPath, alertDetailsFullyQualifiedPath, alertsDetailsPath } from 'in-logging/navigation/paths';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-logging/navigation/matrix';
 import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/logs/api/logsAlertConfig';
 import { actionHandlers } from 'in-alerting/smart-alerts/logs/lists/ListActionHandlers';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import LogsAlertsTabHeader from 'in-alerting/smart-alerts/logs/LogsAlertsTabHeader';
+import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { sortOptions } from 'in-alerting/smart-alerts/logs/lists/constants';
 import ScopeColumn from 'in-alerting/smart-alerts/logs/lists/ScopeColumn';
@@ -28,12 +34,12 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/logs/Alerts.mless';
 
-export default function Alerts() {
+export default function Alerts({ isLogsDashboardHeader = false }) {
   const handlers = role?.canConfigureGlobalLogSmartAlerts ? actionHandlers : {};
-
+  const Header = isLogsDashboardHeader ? LoggingDashboardWrapper : LogsAlertsTabHeader;
   return (
     <>
-      <LogsAlertsTabHeader>
+      <Header>
         <div className={locals.wrapper}>
           <AlertBaseList<LogAlertConfigWithMetadata>
             extraColumnDefinitions={getColumnDefinitions()}
@@ -42,17 +48,17 @@ export default function Alerts() {
             getSubtitle={config => getSubtitle(config.threshold)}
             sortOptions={sortOptions}
             alertsTab={alertsPath}
-            createRowLinkLocation={createRowLinkLocation}
+            createRowLinkLocation={(config, location) => createRowLinkLocation(config, location, isLogsDashboardHeader)}
           />
           <Footer />
         </div>
-      </LogsAlertsTabHeader>
+      </Header>
       <CreateLogsSmartAlertFloatingButton />
     </>
   );
 }
 
-function getColumnDefinitions() {
+export function getColumnDefinitions() {
   return [
     {
       id: 'filterApplied',
@@ -81,10 +87,14 @@ export function getSubtitle(threshold: ThresholdConfigUnion & { value?: number }
   return <>{subtitleElements.join(', ')}</>;
 }
 
-function createRowLinkLocation(config: LogAlertConfigWithMetadata, location: Location): Location {
+function createRowLinkLocation(
+  config: LogAlertConfigWithMetadata,
+  location: Location,
+  isLogsDashboardHeader: boolean
+): Location {
   const rowLinkLocation = {
     ...location,
-    pathname: alertDetailsFullyQualifiedPath
+    pathname: isLogsDashboardHeader ? dashboardAlertDetailsFullPath : alertDetailsFullyQualifiedPath
   };
 
   setOrDeleteMatrixKey(rowLinkLocation, alertsDetailsPath, alertIdParam, config.id);

@@ -20,6 +20,7 @@ export const alertsPath = '/alerts';
 export const alertsDetailsPath = '/details';
 export const alertsFullyQualifiedPath = `${logsPath}${alertsPath}`;
 export const alertDetailsFullyQualifiedPath = `${alertsFullyQualifiedPath}${alertsDetailsPath}`;
+export const dashboardAlertDetailsFullPath = `${loggingDashboardPath}${alertsPath}${alertsDetailsPath}`;
 export const dashboardSmartAlertsPath = `${loggingDashboardPath}${alertsPath}`;
 export const dashboardDeletePath = `${loggingDashboardPath}/delete`;
 export const dashboardConfigurationPath = `${loggingDashboardPath}/configure`;

@@ -4,6 +4,8 @@
  */
 
 //@ts-expect-error
+import DashboardSmartAlertDetailsView from 'promise-loader?global,logging!in-logging/dashboard/SmartAlerts/SmartAlertDetails';
+//@ts-expect-error
 import SmartAlertDetailsView from 'promise-loader?global,logging!!in-alerting/smart-alerts/logs/details/AlertDetails';
 //@ts-expect-error needs TS migration
 import AnalyzeView from 'promise-loader?global,logging!in-logging/analyze/AnalyzeView/AnalyzeView';
@@ -12,14 +14,13 @@ import LoggingDashboardWrapper from 'promise-loader?global,logging!in-logging/da
 //@ts-expect-error needs TS migration
 import DeleteLogs from 'promise-loader?global,logging!in-logging/dashboard/DeleteLogs';
 //@ts-expect-error
-import SmartAlertList from 'promise-loader?global,logging!in-alerting/smart-alerts/logs/Alerts';
+import SmartAlerts from 'promise-loader?global,logging!in-logging/dashboard/SmartAlerts/SmartAlerts';
 //@ts-expect-error
-import SmartAlerts from 'promise-loader?global,logging!in-logging/dashboard/SmartAlerts';
+import SmartAlertList from 'promise-loader?global,logging!in-alerting/smart-alerts/logs/Alerts';
 //@ts-expect-error
 import Configuration from 'promise-loader?global,logging!in-logging/dashboard/Configuration';
 //@ts-expect-error
 import Summary from 'promise-loader?global,logging!in-logging/dashboard/Summary/Summary';
-
 import { Route } from 'react-router-dom';
 import React from 'react';
 
@@ -30,7 +31,8 @@ import {
   logsPath,
   dashboardSmartAlertsPath,
   dashboardDeletePath,
-  dashboardConfigurationPath
+  dashboardConfigurationPath,
+  dashboardAlertDetailsFullPath
 } from 'in-logging/navigation/paths';
 //@ts-expect-error needs TS migration
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
@@ -48,6 +50,9 @@ export default [
   <Route key="loggingDashboardConfiguation" path={dashboardConfigurationPath}>
     {renderAsyncRouteChildren(Configuration)}
   </Route>,
+  <Route key="loggingDashboardAlertsDetails" path={dashboardAlertDetailsFullPath}>
+    {renderAsyncRouteChildren(DashboardSmartAlertDetailsView)}
+  </Route>,
   <Route key="loggingDashboardAlerts" path={dashboardSmartAlertsPath}>
     {renderAsyncRouteChildren(SmartAlerts)}
   </Route>,
@@ -59,5 +64,5 @@ export default [
   </Route>,
   <Route key="loggingDashboardWrapper" path={`${loggingDashboardPath}/:subpath?`}>
     {renderAsyncRouteChildren(LoggingDashboardWrapper)}
-  </Route>,
+  </Route>
 ];

@@ -7,7 +7,7 @@
 import React from 'react';
 
 import { Typography } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import Dialog from 'in-components/Dialog/Dialog';
