@@ -22,6 +22,7 @@ interface Props {
   refSetter?: LegacyRef<HTMLAnchorElement>;
   onClick?: () => void;
   tooltipLabel?: string;
+  size?: 'regular' | 'xs' | 'l' | undefined;
 }
 
 export default function HealthIndicatorPresenter({
@@ -30,46 +31,71 @@ export default function HealthIndicatorPresenter({
   active,
   refSetter,
   onClick,
-  tooltipLabel: explanation
+  tooltipLabel: explanation,
+  // Define the IconButton size you want to use
+  // 32px, 40px, 48px Button Size
+  // 16px, 24px, 28px Icon size
+  size = 'xs'
 }: Props) {
   const tooltipLabel = explanation ?? getTooltipLabel(openIssues, maxSeverity);
 
+  // Green status!
   if (openIssues === 0) {
     return (
       <Tooltip content={tooltipLabel} delay={500}>
-        <IconButton type="lib_uncheck" color={themes.default.ids.color.option.green[500]} className={locals.okayIcon} />
+        <IconButton
+          type="lib_uncheck"
+          color={themes.default.ids.color.option.green[500]}
+          iconSize={size}
+          className={classNames({
+            [locals.okayIcon]: true
+          })}
+        />
       </Tooltip>
     );
   }
 
+  // Warnings or Error status
   const color = active ? '#031F29' : getDesignLibraryColorBySeverity(maxSeverity);
   const type = getDesignLibrarySeverityIcon(maxSeverity);
 
-  return (
-    <a
-      href=""
-      onClick={e => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (onClick) {
-          onClick();
-        }
-      }}
-      className={locals.badge}
-      ref={refSetter}
-    >
-      <Tooltip content={tooltipLabel} delay={500}>
-        <IconButton
-          type={type}
-          color={color}
-          className={classNames({
-            [locals.icon]: true,
-            [locals.iconWarning]: !(maxSeverity > 5) && maxSeverity !== 0
-          })}
-        />
-      </Tooltip>
-    </a>
+  const statusContents = (
+    <Tooltip content={tooltipLabel} delay={500}>
+      <IconButton
+        type={type}
+        color={color}
+        iconSize={size}
+        className={classNames({
+          [locals.icon]: true,
+          [locals.iconWarning]: !(maxSeverity > 5) && maxSeverity !== 0
+        })}
+      />
+    </Tooltip>
   );
+
+  // If no refSetter is passed we dont we can simply render the status icon as is
+  // because there is no overlay to render.  Allows for more usability of this component
+  if (refSetter) {
+    return (
+      <a
+        href=""
+        onClick={e => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (onClick) {
+            onClick();
+          }
+        }}
+        className={locals.badge}
+        ref={refSetter}
+        tabIndex={-1}
+      >
+        {statusContents}
+      </a>
+    );
+  } else {
+    return statusContents;
+  }
 }
 
 function getTooltipLabel(openIssues: number, maxSeverity: number): string {
