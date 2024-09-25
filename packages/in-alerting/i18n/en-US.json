@@ -601,7 +601,8 @@
           "metricLabel": "{{metricLabel}} percentile latency",
           "minLatency": "Minimum latency",
           "maxLatency": "Maximum latency",
-          "meanLatency": "Average latency"
+          "meanLatency": "Average latency",
+          "sumLatency": "Sum latency"
         },
         "timeThreshold": {
           "title": "Set when violations trigger alerts",
@@ -674,6 +675,7 @@
       "ruleAggregationOptionP98": "98th",
       "ruleAggregationOptionP99": "99th",
       "ruleAggregationOptionMAX": "max",
+      "ruleAggregationOptionSUM": "sum",
       "ruleAggregationForWeeklySeasonalityOptionMEAN": "mean",
       "ruleAggregationForWeeklySeasonalityOptionP50": "50th",
       "ruleStatusCodeValueOption1": "1XX (Informational)",
