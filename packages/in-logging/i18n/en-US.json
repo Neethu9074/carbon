@@ -58,8 +58,8 @@
   "logExpiration": "Retained Until",
   "dashboard": {
     "summary": "Summary",
-    "smartAlerts": "Smart Alerts",
-    "deleteLogs": "Delete Logs",
+    "smartAlerts": "Smart alerts",
+    "deleteLogs": "Delete logs",
     "configuration": "Configuration",
     "logVolume":{
       "logVolumeTitle": "Current month log volume",
@@ -68,6 +68,6 @@
     },
     "retentionIcon": "Change retention period",
     "noData": "No data available",
-    "analyzeLogs": "Analyze Logs"
+    "analyzeLogs": "Analyze logs"
   }
 }
