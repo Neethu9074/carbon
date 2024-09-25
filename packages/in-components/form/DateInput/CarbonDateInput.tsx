@@ -30,8 +30,8 @@ export default function DateInput({
 }): JSX.Element {
   const { onChange, value, disabled, id, hasError, placeholder } = props;
 
-  const convertDateObj = (date: DateInputValue) => {
-    return date ? formatDate(new Date(date)) : date;
+  const convertDateObj = (date: string | Date | number) => {
+    return formatDate(new Date(date));
   };
 
   const cprops: CarbonDateInputProps = {
@@ -41,9 +41,8 @@ export default function DateInput({
     disabled,
     hasError,
     onChange: date => {
-      if (onChange && typeof date === 'string') {
-        onChange(convertDateObj(date));
-      }
+      if (date == undefined) return onChange(date);
+      onChange(convertDateObj(typeof date === 'object' ? new Date(date.toString()) : date));
     },
     dateFormat,
     locale: activeLanguage?.split('-')[0],
