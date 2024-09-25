@@ -22,8 +22,7 @@ interface Props {
   refSetter?: LegacyRef<HTMLAnchorElement>;
   onClick?: () => void;
   tooltipLabel?: string;
-  tableUsage?: boolean;
-  buttonSize?: 'regular' | 'xs' | 'l' | undefined;
+  size?: 'regular' | 'xs' | 'l' | undefined;
 }
 
 export default function HealthIndicatorPresenter({
@@ -33,12 +32,10 @@ export default function HealthIndicatorPresenter({
   refSetter,
   onClick,
   tooltipLabel: explanation,
-  // Status Icons in table are 16px sizing so this toggles the size
-  // 16px by default and 20px if false
-  tableUsage = true,
   // Define the IconButton size you want to use
-  // 32px, 40px, 48px
-  buttonSize = 'regular'
+  // 32px, 40px, 48px Button Size
+  // 16px, 24px, 28px Icon size
+  size = 'xs'
 }: Props) {
   const tooltipLabel = explanation ?? getTooltipLabel(openIssues, maxSeverity);
 
@@ -49,10 +46,9 @@ export default function HealthIndicatorPresenter({
         <IconButton
           type="lib_uncheck"
           color={themes.default.ids.color.option.green[500]}
-          iconSize={buttonSize}
+          iconSize={size}
           className={classNames({
-            [locals.okayIcon]: true,
-            [locals.carbonStatusTableSizing]: tableUsage
+            [locals.okayIcon]: true
           })}
         />
       </Tooltip>
@@ -68,10 +64,9 @@ export default function HealthIndicatorPresenter({
       <IconButton
         type={type}
         color={color}
-        iconSize={buttonSize}
+        iconSize={size}
         className={classNames({
           [locals.icon]: true,
-          [locals.carbonStatusTableSizing]: tableUsage,
           [locals.iconWarning]: !(maxSeverity > 5) && maxSeverity !== 0
         })}
       />

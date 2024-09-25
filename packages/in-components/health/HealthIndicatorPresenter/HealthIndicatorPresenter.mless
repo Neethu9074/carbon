@@ -34,13 +34,4 @@
   .okayIcon {
     fill: var(--ids-color-option-green-500);
   }
-
-  .carbonStatusTableSizing {
-    svg {
-      min-height: 16px !important;
-      max-height: 16px !important;
-      min-width: 16px !important;
-      max-width: 16px !important;
-    }
-  }
 }
