@@ -437,7 +437,7 @@
     },
     "deleteLogs": {
       "deleteLogs": "Delete logs",
-      "info": "If you are experiencing a leak of secure information to instana logs, you can proceed to delete logs for a specific time period. ",
+      "info": "If you are experiencing a leak of secure information to Instana logs, you can proceed to delete logs for a specific time period. ",
       "confirmationDescription": "Deleting logs will permanently delete the logs from Instana. This action cannot be undone. ",
       "deletionReason": "Reasons for deletion",
       "typeToContinue": "Type {{logs}} to continue",
