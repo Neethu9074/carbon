@@ -21,15 +21,6 @@ import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { EventTrackerProps } from 'in-services/tracking/segment/types';
 
-// Needed for every event
-function getMetadata() {
-  const { pageRootName, productArea } = getViewTrackingMetaData();
-  return {
-    parentPageCategory: productArea,
-    parentPageName: pageRootName
-  };
-}
-
 // Baseline generic event interfaces to be extended
 interface UiInteractionProps {
   path: string;
@@ -45,6 +36,19 @@ interface CreatedObjectProps {
   errorMessage?: string[];
 }
 
+function bizopsEventTracker(
+  props: UiInteractionProps | CtaClickedProps | CreatedObjectProps,
+  segmentEventName: string
+) {
+  const { pageRootName, productArea } = getViewTrackingMetaData();
+  const data = {
+    ...props,
+    parentPageCategory: productArea,
+    parentPageName: pageRootName
+  } as EventTrackerProps['data'];
+  eventTracker({ data, segmentEventName: segmentEventName });
+}
+
 // ********************************
 
 interface bizopsTabClickProps extends UiInteractionProps {
@@ -52,13 +56,11 @@ interface bizopsTabClickProps extends UiInteractionProps {
 }
 
 export const bizopsTabClick = (props: bizopsTabClickProps) => {
-  const parentPageData = getMetadata();
   const data = {
     ...props,
-    ...parentPageData,
     action: BIZOPS_TAB_CLICK
-  } as EventTrackerProps['data'];
-  eventTracker({ data, segmentEventName: UI_INTERACTION });
+  };
+  bizopsEventTracker(data, UI_INTERACTION);
 };
 
 // ********************************
@@ -69,13 +71,11 @@ interface bizopsProcessesListSelectProps extends UiInteractionProps {
 }
 
 export const bizopsProcessesListSelect = (props: bizopsProcessesListSelectProps) => {
-  const parentPageData = getMetadata();
   const data = {
     ...props,
-    ...parentPageData,
     action: BIZOPS_PROCESSES_LIST_SELECT
-  } as EventTrackerProps['data'];
-  eventTracker({ data, segmentEventName: UI_INTERACTION });
+  };
+  bizopsEventTracker(data, UI_INTERACTION);
 };
 
 // ********************************
@@ -86,13 +86,11 @@ interface bizopsPerspectivesListSelectProps extends UiInteractionProps {
 }
 
 export const bizopsPerspectivesListSelect = (props: bizopsPerspectivesListSelectProps) => {
-  const parentPageData = getMetadata();
   const data = {
     ...props,
-    ...parentPageData,
     action: BIZOPS_PERSPECTIVES_LIST_SELECT
-  } as EventTrackerProps['data'];
-  eventTracker({ data, segmentEventName: UI_INTERACTION });
+  };
+  bizopsEventTracker(data, UI_INTERACTION);
 };
 
 // ********************************
@@ -104,13 +102,11 @@ interface bizopsAnalyzeInstancesProps extends CtaClickedProps {
 }
 
 export const bizopsAnalyzeInstancesClick = (props: bizopsAnalyzeInstancesProps) => {
-  const parentPageData = getMetadata();
   const data = {
     ...props,
-    ...parentPageData,
     CTA: BIZOPS_ANALYZE_INSTANCES_CLICK
-  } as EventTrackerProps['data'];
-  eventTracker({ data, segmentEventName: CTA_CLICKED });
+  };
+  bizopsEventTracker(data, CTA_CLICKED);
 };
 
 // ********************************
@@ -121,13 +117,11 @@ interface bizopsViewAllActivitiesClickedProps extends CtaClickedProps {
 }
 
 export const bizopsViewAllActivitiesClick = (props: bizopsViewAllActivitiesClickedProps) => {
-  const parentPageData = getMetadata();
   const data = {
     ...props,
-    ...parentPageData,
     CTA: BIZOPS_VIEW_ALL_ACTIVITIES_CLICK
-  } as EventTrackerProps['data'];
-  eventTracker({ data, segmentEventName: CTA_CLICKED });
+  };
+  bizopsEventTracker(data, CTA_CLICKED);
 };
 
 // ********************************
@@ -139,13 +133,11 @@ interface bizopsActivitySelectProps extends UiInteractionProps {
 }
 
 export const bizopsActivitySelect = (props: bizopsActivitySelectProps) => {
-  const parentPageData = getMetadata();
   const data = {
     ...props,
-    ...parentPageData,
     action: BIZOPS_ACTIVITY_SELECT
-  } as EventTrackerProps['data'];
-  eventTracker({ data, segmentEventName: UI_INTERACTION });
+  };
+  bizopsEventTracker(data, UI_INTERACTION);
 };
 
 // ********************************
@@ -155,13 +147,11 @@ interface bizopsCreatePerspectiveClickProps extends CtaClickedProps {
 }
 
 export const bizopsCreatePerspectiveClick = (props: bizopsCreatePerspectiveClickProps) => {
-  const parentPageData = getMetadata();
   const data = {
     ...props,
-    ...parentPageData,
     CTA: BIZOPS_CREATE_PERSPECTIVE_CLICK
-  } as EventTrackerProps['data'];
-  eventTracker({ data, segmentEventName: CTA_CLICKED });
+  };
+  bizopsEventTracker(data, CTA_CLICKED);
 };
 
 // ********************************
@@ -172,14 +162,12 @@ interface bizopsPerspectiveCreatedProps extends CreatedObjectProps {
 }
 
 export const bizopsPerspectiveCreated = (props: bizopsPerspectiveCreatedProps) => {
-  const parentPageData = getMetadata();
   const data = {
     ...props,
-    ...parentPageData,
     objectType: BIZOPS_PERSPECTIVE_CREATED,
     process: 'creation'
-  } as EventTrackerProps['data'];
-  eventTracker({ data, segmentEventName: CREATED_OBJECT });
+  };
+  bizopsEventTracker(data, CREATED_OBJECT);
 };
 
 // ********************************
@@ -191,13 +179,11 @@ interface bizopsBreadcrumbClickProps extends UiInteractionProps {
 }
 
 export const bizopsBreadcrumbClick = (props: bizopsBreadcrumbClickProps) => {
-  const parentPageData = getMetadata();
   const data = {
     ...props,
-    ...parentPageData,
     action: BIZOPS_BREADCRUMB_CLICK
-  } as EventTrackerProps['data'];
-  eventTracker({ data, segmentEventName: UI_INTERACTION });
+  };
+  bizopsEventTracker(data, UI_INTERACTION);
 };
 
 // ********************************
@@ -207,11 +193,9 @@ interface bizopsDeployAgentClickProps extends CtaClickedProps {
 }
 
 export const bizopsDeployAgentClick = (props: bizopsDeployAgentClickProps) => {
-  const parentPageData = getMetadata();
   const data = {
     ...props,
-    ...parentPageData,
     CTA: BIZOPS_DEPLOY_AGENT_CLICK
-  } as EventTrackerProps['data'];
-  eventTracker({ data, segmentEventName: CTA_CLICKED });
+  };
+  bizopsEventTracker(data, CTA_CLICKED);
 };
