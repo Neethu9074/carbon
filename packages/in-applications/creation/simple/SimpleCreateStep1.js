@@ -9,14 +9,16 @@ import { Menu } from '@instana/components';
 
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
-import { applicationCreationSelectedBlueprint } from 'in-applications/creation/tracker';
+import { APPLICATION_CREATION_SELECTED_BLUEPRINT } from 'in-services/tracking/eventNames';
 import { blueprintConfig } from 'in-applications/creation/data/blueprintConfig';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { t } from 'in-i18n';
 
 import locals from './SimpleCreateStep1.mless';
 
 export default function SimpleCreateStep1({ selectedBlueprint, setSelectedBlueprint }) {
+  const { trackCta } = useSegmentTracking();
   return (
     <SimpleModeStepContentWrapper headline={t('in-applications:creation.simple.step1.headline')}>
       <Menu
@@ -25,7 +27,7 @@ export default function SimpleCreateStep1({ selectedBlueprint, setSelectedBluepr
         initialItemSelected={selectedBlueprint}
         onItemClick={item => {
           setSelectedBlueprint(item);
-          applicationCreationSelectedBlueprint({ item });
+          trackCta(APPLICATION_CREATION_SELECTED_BLUEPRINT, { item });
         }}
       />
       <div className={locals.presenterWrapper}>

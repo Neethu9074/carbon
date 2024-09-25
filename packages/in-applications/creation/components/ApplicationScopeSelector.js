@@ -6,7 +6,8 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { applicationCreationScopeSelect } from 'in-applications/creation/tracker';
+import { APPLICATION_CREATION_SCOPE_SELECT } from 'in-services/tracking/eventNames';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import OptionBox from 'in-applications/components/OptionBox';
 import FormGroup from 'in-components/form/FormGroup';
 import { t } from 'in-i18n';
@@ -15,6 +16,7 @@ import locals from './ApplicationScopeSelector.mless';
 
 export default function ApplicationScopeSelector({ form, updateForm, maxScope = 'INCLUDE_ALL_DOWNSTREAM' }) {
   const scopeField = form.get('scope');
+  const { trackCta } = useSegmentTracking();
   return (
     <div className={locals.applicationScopeSwitchContainer}>
       <FormGroup withoutBottomMargin>
@@ -27,7 +29,7 @@ export default function ApplicationScopeSelector({ form, updateForm, maxScope = 
           asRadioButton
           checked={scopeField.value == 'INCLUDE_NO_DOWNSTREAM'}
           onChange={() => {
-            applicationCreationScopeSelect({ scope: 'INCLUDE_NO_DOWNSTREAM' });
+            trackCta(APPLICATION_CREATION_SCOPE_SELECT, { scope: 'INCLUDE_NO_DOWNSTREAM' });
             updateForm(form.updateIn(['scope'], field => field.setValue('INCLUDE_NO_DOWNSTREAM').setTouched(true)));
           }}
         />
@@ -42,7 +44,9 @@ export default function ApplicationScopeSelector({ form, updateForm, maxScope = 
             asRadioButton
             checked={scopeField.value == 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING'}
             onChange={() => {
-              applicationCreationScopeSelect({ scope: 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING' });
+              trackCta(APPLICATION_CREATION_SCOPE_SELECT, {
+                scope: 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING'
+              });
               updateForm(
                 form.updateIn(['scope'], field =>
                   field.setValue('INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING').setTouched(true)
@@ -61,7 +65,7 @@ export default function ApplicationScopeSelector({ form, updateForm, maxScope = 
             asRadioButton
             checked={scopeField.value == 'INCLUDE_ALL_DOWNSTREAM'}
             onChange={() => {
-              applicationCreationScopeSelect({ scope: 'INCLUDE_ALL_DOWNSTREAM' });
+              trackCta(APPLICATION_CREATION_SCOPE_SELECT, { scope: 'INCLUDE_ALL_DOWNSTREAM' });
               updateForm(form.updateIn(['scope'], field => field.setValue('INCLUDE_ALL_DOWNSTREAM').setTouched(true)));
             }}
           />

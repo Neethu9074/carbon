@@ -14,11 +14,12 @@ import {
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import getApplicationLiveView from 'in-applications/subscriptions/getApplicationLiveView';
+import { APPLICATION_CREATION_STEP_SWITCH } from 'in-services/tracking/eventNames';
 import SimpleCreateStep1 from 'in-applications/creation/simple/SimpleCreateStep1';
 import SimpleCreateStep2 from 'in-applications/creation/simple/SimpleCreateStep2';
 import SimpleCreateStep3 from 'in-applications/creation/simple/SimpleCreateStep3';
-import { applicationCreationStepSwitch } from 'in-applications/creation/tracker';
 import { blueprintConfig } from 'in-applications/creation/data/blueprintConfig';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { successObservable } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -95,6 +96,7 @@ export default function SimpleModeContainer({
       }),
       [timeConfig]
     ) ?? pendingResult;
+  const { trackCta } = useSegmentTracking();
 
   return (
     <div className={locals.container}>
@@ -108,7 +110,7 @@ export default function SimpleModeContainer({
         stepConfigs={stepConfigs}
         onCreate={onCreate}
         isSaving={isSaving}
-        onStepChanged={(oldStep, nextStep) => applicationCreationStepSwitch({ oldStep, nextStep })}
+        onStepChanged={(oldStep, nextStep) => trackCta(APPLICATION_CREATION_STEP_SWITCH, {}, { oldStep, nextStep })}
         renderStep={step => {
           switch (step) {
             case 0:

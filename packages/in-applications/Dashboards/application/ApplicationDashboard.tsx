@@ -32,10 +32,11 @@ import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartA
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
 import getApplicationTabs from 'in-applications/Dashboards/application/tabs/index';
+import { APPLICATION_TIME_SHIFT_SELECT } from 'in-services/tracking/eventNames';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
-import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -154,7 +155,7 @@ function Header(
       title={t('in-applications:labelApplication')}
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
-      renderButtonLineSecondary={renderButtonLineSecondary}
+      renderButtonLineSecondary={RenderButtonLineSecondary}
     />
   );
 }
@@ -221,19 +222,20 @@ interface ButtonLineSecondaryProps {
   timeConfig: TimeConfig;
 }
 
-function renderButtonLineSecondary({
+function RenderButtonLineSecondary({
   result,
   boundaryScope,
   currentTab,
   onBoundaryStateChange,
   timeConfig
 }: ButtonLineSecondaryProps) {
+  const { trackCta } = useSegmentTracking();
   return (
     <>
       <TimeShiftDropdown
         disabled={currentTab !== summaryTab}
         onChange={(offset: number) =>
-          applicationTimeShiftSelectTracker({
+          trackCta(APPLICATION_TIME_SHIFT_SELECT, {
             area: 'application',
             offset: getTimeShiftLabel({ offset: offset }),
             windowSize: timeConfig.windowSize,
