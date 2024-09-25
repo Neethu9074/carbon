@@ -13,13 +13,13 @@ import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 import { t } from '@instana/i18n-react';
 
-//@ts-expect-error
-import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
 import {
   ApplicationProps,
   ColumnDefinitionItem,
   GetApplicationsWithDefaultsProps
 } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
+//@ts-expect-error
+import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
 //@ts-expect-error doesn't contain type file
 import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateApplicationDialog';
 //@ts-expect-error doesn't contain type file
@@ -33,11 +33,12 @@ import { add, remove } from 'in-cockpit/starredItems';
 import { createNewApplicationConfig, getApplicationConfig } from 'in-api/applicationConfigs';
 import { getApplicationsWithDefaults } from 'in-applications/subscriptions/getApplications';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import { applicationCreationOpenDialogClick } from 'in-applications/creation/tracker';
+import { APPLICATION_CREATION_OPEN_DIALOG_CLICK } from 'in-services/tracking/eventNames';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { applicationsList } from 'in-applications/navigation/paths';
@@ -114,6 +115,7 @@ export default function ApplicationWidget({
   const entityResult = useObservable(getConfig, [applicationId]);
   const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
   const { createHrefToPath } = useNavigation();
+  const { trackCta } = useSegmentTracking();
 
   function addNewApplications() {
     let ele;
@@ -126,7 +128,7 @@ export default function ApplicationWidget({
         editMode
       />
     );
-    applicationCreationOpenDialogClick({
+    trackCta(APPLICATION_CREATION_OPEN_DIALOG_CLICK, {
       status: t('in-plg:welcomepage.component.applicationWidget.openCreationDialog')
     });
     return ele;

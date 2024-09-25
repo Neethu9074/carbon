@@ -5,8 +5,6 @@
 
 import {
   track,
-  APPLICATION_CREATION_OPEN_DIALOG_CLICK,
-  APPLCATION_CREATION_CLOSE_DIALOG_CLICK,
   APPLICATION_CREATION_STEP_SWITCH,
   APPLICATION_CREATION_MODE_SWITCH,
   APPLICATION_CREATION_CREATE_CLICK,
@@ -17,8 +15,6 @@ import {
   APPLICATION_CREATION_SCOPE_SELECT
 } from 'in-services/tracking/tracking';
 
-export const applicationCreationOpenDialogClick = (e: Object) => track(APPLICATION_CREATION_OPEN_DIALOG_CLICK, e);
-export const applicationCreationCloseDialogClick = (e: Object) => track(APPLCATION_CREATION_CLOSE_DIALOG_CLICK, e);
 export const applicationCreationStepSwitch = (e: Object) => track(APPLICATION_CREATION_STEP_SWITCH, e);
 export const applicationCreationModeSwitch = (e: Object) => track(APPLICATION_CREATION_MODE_SWITCH, e);
 export const applicationCreationCreateClick = (e: Object) => track(APPLICATION_CREATION_CREATE_CLICK, e);

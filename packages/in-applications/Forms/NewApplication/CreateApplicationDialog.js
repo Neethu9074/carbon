@@ -22,10 +22,12 @@ import InboundOrAllCallsChoiceVertical from 'in-applications/Dashboards/commonCo
 import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import ContributionFilterDropdown from 'in-applications/creation/components/ContributionFilterDropdown';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import { applicationSubmitTracker } from 'in-applications/tracker';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { APPLICATION_CLICK_SUBMIT } from 'in-services/tracking/eventNames';
 import DescriptionText from 'in-components/form/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import OptionBox from 'in-applications/components/OptionBox';
+import { CREATED_OBJECT } from 'in-services/util/constants';
 import Steps from 'in-applications/Forms/components/Steps';
 import { getColor } from 'in-applications/endpointTypes';
 import BasicForm from 'in-applications/Forms/BasicForm';
@@ -40,6 +42,7 @@ import { t, Trans } from 'in-i18n';
 import locals from './CreateApplicationDialog.mless';
 
 export default function CreateApplicationDialog({ applicationId, onCancelHref, getOnSavePath }) {
+  const { unstable_trackEvent } = useSegmentTracking();
   return (
     <MaxWidthFullscreenContainer className={locals.maxWidthFullscreenContainer}>
       <Card
@@ -59,11 +62,15 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref, g
               : just({ progress: { loading: false }, errors: [], data: createNewApplicationConfig() })
           }
           updateEntity={applicationConfig => {
-            applicationSubmitTracker({
-              name: applicationConfig.label,
-              downstreamEnabled: applicationConfig.scope === 'INCLUDE_ALL_DOWNSTREAM',
-              tags: applicationConfig.matchSpecification?.map(spec => spec.key) || []
-            });
+            unstable_trackEvent(
+              CREATED_OBJECT,
+              { objectType: APPLICATION_CLICK_SUBMIT },
+              {
+                name: applicationConfig.label,
+                downstreamEnabled: applicationConfig.scope === 'INCLUDE_ALL_DOWNSTREAM',
+                tags: applicationConfig.matchSpecification?.map(spec => spec.key) || []
+              }
+            );
             const isNewConfig = !applicationConfig.id ? true : false;
             if (isNewConfig) {
               return addApplicationConfigWithAlerting(applicationConfig);

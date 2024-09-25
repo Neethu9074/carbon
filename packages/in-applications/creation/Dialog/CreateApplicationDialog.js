@@ -8,17 +8,15 @@ import React, { useState } from 'react';
 import { createLogger } from '@instana/logger';
 import { useObservable } from '@instana/hooks';
 
-import {
-  applicationCreationModeSwitch,
-  applicationCreationCloseDialogClick,
-  applicationCreationCreateClick
-} from 'in-applications/creation/tracker';
+import { applicationCreationModeSwitch, applicationCreationCreateClick } from 'in-applications/creation/tracker';
 import CreateApplicationDialogPresenter from 'in-applications/creation/Dialog/CreateApplicationDialogPresenter';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/dialog/advanced/AdvancedModeFooter';
 import { createApplicationPerspectiveForm } from 'in-applications/creation/form/createApplicationForm';
 import { isQueryValid } from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import AdvancedModeContainer from 'in-applications/creation/advanced/AdvancedModeContainer';
+import { APPLCATION_CREATION_CLOSE_DIALOG_CLICK } from 'in-services/tracking/eventNames';
 import SimpleModeContainer from 'in-applications/creation/simple/SimpleModeContainer';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addApplicationConfigWithAlerting } from 'in-api/applicationConfigs';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getUserRestrictedApplications } from 'in-api/users';
@@ -54,9 +52,10 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
       onSaveSuccess,
       setErrorMessage
     );
+  const { trackCta } = useSegmentTracking();
 
   const withTrackClose = trackingConfig => {
-    applicationCreationCloseDialogClick(trackingConfig ? { step: trackingConfig } : { mode: 'Advanced' });
+    trackCta(APPLCATION_CREATION_CLOSE_DIALOG_CLICK, trackingConfig ? { step: trackingConfig } : { mode: 'Advanced' });
     onClose();
   };
 
