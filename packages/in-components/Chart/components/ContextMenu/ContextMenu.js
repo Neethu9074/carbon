@@ -17,6 +17,7 @@ import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoo
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { customDashboardsExportPdfWidget } from 'in-services/featureFlags';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { containsIgnoreCase } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
 import { minutes } from 'in-services/time';
@@ -163,6 +164,11 @@ export default class extends React.Component {
       size: 'compact'
     };
 
+    if (carbonButtonEnabled) {
+      buttonProps['kind'] = 'action';
+      buttonProps['style'] = { width: 'max-content' };
+    }
+
     const leftAligned = this.isLeftAligned();
     const barWidthInPx = xScale.getRangeArea(chart.config.granularity);
 
@@ -280,17 +286,22 @@ export default class extends React.Component {
 }
 
 function createIconButton(config) {
+  const carbonProps = { hasIconOnly: true, icon: config.icon, size: 'compact' };
+  if (config.label) {
+    carbonProps['iconDescription'] = config.label;
+  }
   const button = (
     <Button
       className={locals.contextMenuOpenButton}
       href$={config.getHref$ && config.getHref$()}
       onClick={config.onClick}
       kind="secondary"
+      {...(carbonButtonEnabled ? carbonProps : {})}
     >
-      <SvgIcon className={locals.contextMenuOpenButtonIcon} type={config.icon} />
+      {!carbonButtonEnabled && <SvgIcon className={locals.contextMenuOpenButtonIcon} type={config.icon} />}
     </Button>
   );
-  if (config.label) {
+  if (!carbonButtonEnabled && config.label) {
     return <Tooltip content={config.label}>{button}</Tooltip>;
   }
   return button;
