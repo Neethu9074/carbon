@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useState } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
 import {
   Table,
@@ -17,8 +17,8 @@ import {
   Th,
   TableLoadMoreRow
 } from '@instana/legacy';
+import { Card, Checkbox, Stack, Button } from '@instana/components';
 import { DataTable as CarbonDataTable } from '@instana/components';
-import { Card } from '@instana/components';
 
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import HighlightedTimeframeMarkerRow from 'in-events/components/HighlightedTimeframeMarkerRow';
@@ -63,6 +63,10 @@ function List(props) {
     disableCard = false
   } = props;
 
+  // Added state for selected events and select all
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
+
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
   const isDenseList = !!selectedEventId;
   let cols = 0;
@@ -70,11 +74,20 @@ function List(props) {
   if (isDenseList) {
     cols = 2;
   } else {
-    cols = canCloseManually ? 7 : 6;
+    cols = canCloseManually ? 8 : 7;
   }
 
   const timeScale = useTimeConfigUpdatingScale(timeConfig);
   const filteredRawEventList = filterManuallyClosedEventsByTimeScale(rawEventList, timeScale);
+
+  const selectableRows = filteredRawEventList.filter(
+    event => event.state !== 'closed' && event.state !== 'manually_closed'
+  );
+  const selectableRowsCount = selectableRows.length;
+  const selectedRowsCount = selectedRows.length;
+
+  const isIndeterminate = selectedRowsCount > 0 && selectedRowsCount < selectableRowsCount;
+  const isChecked = selectedRowsCount === selectableRowsCount && selectableRowsCount > 0;
 
   if (!progress.loading && filteredRawEventList.length === 0) {
     return (
@@ -94,6 +107,62 @@ function List(props) {
       </Card>
     );
   }
+
+
+  const handleSelectRow = id => {
+    if (selectedRows.includes(id)) {
+      setSelectedRows(selectedRows.filter(rowId => rowId !== id));
+    } else {
+      setSelectedRows([...selectedRows, id]);
+    }
+  };
+
+  const handleSelectAll = () => {
+    if (selectAll) {
+      setSelectedRows([]);
+      setSelectAll(false);
+    } else {
+      const selectableRows = filteredRawEventList
+        .filter(event => event.state !== 'closed' && event.state !== 'manually_closed')
+        .map(event => event.id);
+      setSelectedRows(selectableRows);
+      setSelectAll(true);
+    }
+  };
+
+  // Function to clsoe incidents
+  const closeSelectedIncidents = () => {
+    // setshowCloseIncidentForm(true);
+  };
+
+  const handleCancel = () => {
+    setSelectedRows([]);
+    setSelectAll(false);
+  };
+
+  // Rendering the top row when checkboxes are selected
+  const renderTopRow = () => {
+    if (selectedRows.length > 0) {
+      return (
+        <div className={locals.topRowBorder}>
+          <Stack direction="horizontal" gap="disabled" align="center">
+            <div className={locals.topRowGap}>
+              {selectedRows.length} {t('in-events:itemsSelected')}
+            </div>
+            <Button kind="primary" darkTheme="true" onClick={closeSelectedIncidents}>
+              {t('in-events:closeIncidents')}
+            </Button>
+            <div className={locals.divider} />
+            <Button kind="primary" darkTheme="true" onClick={handleCancel}>
+              {t('in-events:cancelSelection')}
+            </Button>
+          </Stack>
+        </div>
+      );
+    }
+    return null;
+  };
+
 
   if (carbonTableEnabled) {
     const sortedRows = filteredRawEventList;
@@ -299,100 +368,108 @@ function List(props) {
   }
 
   if (!isDenseList) {
-    const titleWidth = 45;
+    const titleWidth = 30;
     return (
       <Card title={title ?? null} header={cardHeader ?? null} leftHeaderContent={leftHeaderContent ?? null}>
-        <div
-          className={classNames({
-            [locals.widgetCard]: isCustomDashboard
-          })}
-        >
-          <Table fixedLayout={!isCustomDashboard && eventType !== 'cve_issue'}>
-            <Thead>
-              <Tr size="compact">
-                <Th useMinimumAmountOfHorizontalSpace />
-                {eventType === 'cve_issue' ? (
-                  <>
-                    {isDisplayColumn(headers, 'title') && (
-                      <SortableColumn {...props} technicalName="problem.problemText" sortable={!isPreview}>
-                        {t('in-events:headerVulnerability')}
-                      </SortableColumn>
-                    )}
-                    {isDisplayColumn(headers, 'entityLabel') && <Th>{t('in-events:headerReportedOn')}</Th>}
-                    {isDisplayColumn(headers, 'started') && (
-                      <SortableColumn {...props} technicalName="start" sortable={!isPreview}>
-                        {t('in-events:headerReportedDate')}
-                      </SortableColumn>
-                    )}
-                    {isDisplayColumn(headers, 'cvssScore') && <Th>{t('in-events:headerCvssScore')}</Th>}
-                    {isDisplayColumn(headers, 'state') && (
-                      <SortableColumn {...props} technicalName="state" sortable={!isPreview}>
-                        {t('in-events:headerStatus')}
-                      </SortableColumn>
-                    )}
-                  </>
-                ) : isDenseList ? (
-                  <SortableColumn {...props} technicalName="start">
-                    {t('in-events:headerStarted')}
-                  </SortableColumn>
-                ) : (
-                  <>
-                    {isDisplayColumn(headers, 'title') && (
-                      <SortableColumn
-                        {...props}
-                        technicalName="problem.problemText"
-                        sortable={!isPreview}
-                        width={titleWidth}
-                      >
-                        {t('in-events:headerTitle')}
-                      </SortableColumn>
-                    )}
-                    {isDisplayColumn(headers, 'entityLabel') && <Th>{t('in-events:headerOn')}</Th>}
-                    {isDisplayColumn(headers, 'started') && (
-                      <SortableColumn {...props} technicalName="start" sortable={!isPreview}>
-                        {t('in-events:headerStarted')}
-                      </SortableColumn>
-                    )}
-                    {isDisplayColumn(headers, 'ended') && (
-                      <SortableColumn {...props} technicalName="end" sortable={!isPreview}>
-                        {t('in-events:headerEnd')}
-                      </SortableColumn>
-                    )}
-                    {isDisplayColumn(headers, 'timeline') && (
-                      <Th className={locals.timelineColumn}>{t('in-events:headerTimeline')}</Th>
-                    )}
-                    {canCloseManually && isDisplayColumn(headers, 'state') && (
-                      <SortableColumn {...props} technicalName="state" sortable={!isPreview}>
-                        {t('in-events:headerState')}
-                      </SortableColumn>
-                    )}
-                    {headers && isDisplayColumn(headers, 'duration') && <Th>{t('in-events:titleDuration')}</Th>}
-                  </>
-                )}
-              </Tr>
-            </Thead>
-            <Tbody>
-              {isPresentingHighlightedTimeframe && <HighlightedTimeframeMarkerRow cols={cols} />}
-              {filteredRawEventList.map(event => (
-                <EventListRow
-                  key={event.id}
-                  state={event.state}
-                  selectedEventId={selectedEventId}
-                  onItemClicked={onItemClicked}
-                  isDenseList={isDenseList}
-                  event={event}
-                  timeScale={timeScale}
-                  timeConfig={timeConfig}
-                  headers={headers}
-                  isPreview={isPreview}
-                />
-              ))}
-              {canLoadMore && <TableLoadMoreRow loadMore={loadMore} size="compact" cols={cols} />}
-              <TableHorizontalIndicatorRow cols={cols} progress={progress} />
-              {progress.loading && <TableLoadingSkeletonRows cols={headers ? headers.length + 1 : cols} />}
-            </Tbody>
-          </Table>
-        </div>
+        <Stack>
+          <div
+            className={classNames({
+              [locals.widgetCard]: isCustomDashboard
+            })}
+          >
+            <Stack>{renderTopRow()}</Stack>
+            <Table fixedLayout={!isCustomDashboard && eventType !== 'cve_issue'}>
+              <Thead>
+                <Tr size="compact">
+                  <Th useMinimumAmountOfHorizontalSpace>
+                    <Checkbox onChange={handleSelectAll} checked={isChecked} indeterminate={isIndeterminate} />
+                  </Th>
+                  <Th useMinimumAmountOfHorizontalSpace />
+                  {eventType === 'cve_issue' ? (
+                    <>
+                      {isDisplayColumn(headers, 'title') && (
+                        <SortableColumn {...props} technicalName="problem.problemText" sortable={!isPreview}>
+                          {t('in-events:headerVulnerability')}
+                        </SortableColumn>
+                      )}
+                      {isDisplayColumn(headers, 'entityLabel') && <Th>{t('in-events:headerReportedOn')}</Th>}
+                      {isDisplayColumn(headers, 'started') && (
+                        <SortableColumn {...props} technicalName="start" sortable={!isPreview}>
+                          {t('in-events:headerReportedDate')}
+                        </SortableColumn>
+                      )}
+                      {isDisplayColumn(headers, 'cvssScore') && <Th>{t('in-events:headerCvssScore')}</Th>}
+                      {isDisplayColumn(headers, 'state') && (
+                        <SortableColumn {...props} technicalName="state" sortable={!isPreview}>
+                          {t('in-events:headerStatus')}
+                        </SortableColumn>
+                      )}
+                    </>
+                  ) : isDenseList ? (
+                    <SortableColumn {...props} technicalName="start">
+                      {t('in-events:headerStarted')}
+                    </SortableColumn>
+                  ) : (
+                    <>
+                      {isDisplayColumn(headers, 'title') && (
+                        <SortableColumn
+                          {...props}
+                          technicalName="problem.problemText"
+                          sortable={!isPreview}
+                          width={titleWidth}
+                        >
+                          {t('in-events:headerTitle')}
+                        </SortableColumn>
+                      )}
+                      {isDisplayColumn(headers, 'entityLabel') && <Th>{t('in-events:headerOn')}</Th>}
+                      {isDisplayColumn(headers, 'started') && (
+                        <SortableColumn {...props} technicalName="start" sortable={!isPreview}>
+                          {t('in-events:headerStarted')}
+                        </SortableColumn>
+                      )}
+                      {isDisplayColumn(headers, 'ended') && (
+                        <SortableColumn {...props} technicalName="end" sortable={!isPreview}>
+                          {t('in-events:headerEnd')}
+                        </SortableColumn>
+                      )}
+                      {isDisplayColumn(headers, 'timeline') && (
+                        <Th className={locals.timelineColumn}>{t('in-events:headerTimeline')}</Th>
+                      )}
+                      {canCloseManually && isDisplayColumn(headers, 'state') && (
+                        <SortableColumn {...props} technicalName="state" sortable={!isPreview}>
+                          {t('in-events:headerState')}
+                        </SortableColumn>
+                      )}
+                      {headers && isDisplayColumn(headers, 'duration') && <Th>{t('in-events:titleDuration')}</Th>}
+                    </>
+                  )}
+                </Tr>
+              </Thead>
+              <Tbody>
+                {isPresentingHighlightedTimeframe && <HighlightedTimeframeMarkerRow cols={cols} />}
+                {filteredRawEventList.map(event => (
+                  <EventListRow
+                    key={event.id}
+                    state={event.state}
+                    selectedEventId={selectedEventId}
+                    onItemClicked={onItemClicked}
+                    isDenseList={isDenseList}
+                    event={event}
+                    timeScale={timeScale}
+                    timeConfig={timeConfig}
+                    headers={headers}
+                    isPreview={isPreview}
+                    selectedRows={selectedRows}
+                    handleSelectRow={handleSelectRow}
+                  />
+                ))}
+                {canLoadMore && <TableLoadMoreRow loadMore={loadMore} size="compact" cols={cols} />}
+                <TableHorizontalIndicatorRow cols={cols} progress={progress} />
+                {progress.loading && <TableLoadingSkeletonRows cols={headers ? headers.length + 1 : cols} />}
+              </Tbody>
+            </Table>
+          </div>
+        </Stack>
       </Card>
     );
   } else {
@@ -400,6 +477,9 @@ function List(props) {
       <Table fixedLayout>
         <Thead>
           <Tr size="compact">
+            <Th useMinimumAmountOfHorizontalSpace>
+              <Checkbox onChange={handleSelectAll} checked={isChecked} indeterminate={isIndeterminate} />
+            </Th>
             <Th useMinimumAmountOfHorizontalSpace />
             {isDenseList ? (
               <SortableColumn {...props} technicalName="start">
@@ -438,6 +518,8 @@ function List(props) {
               event={event}
               timeScale={timeScale}
               timeConfig={timeConfig}
+              selectedRows={selectedRows}
+              handleSelectRow={handleSelectRow}
             />
           ))}
 

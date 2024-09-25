@@ -153,6 +153,9 @@
     "documentationLink": "<documentationLink>Read more in our documentation</documentationLink>",
     "affectedEventsLink": "View affected custom events"
   },
+  "itemsSelected": "items selected",
+  "closeIncidents": "Close Incidents",
+  "cancelSelection": "Cancel",
 
   "ibmMqFileTransfer": {
     "transferID": "Transfer ID",

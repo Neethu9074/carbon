@@ -6,8 +6,8 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { Pill, Checkbox } from '@instana/components';
 import { just } from '@instana/observables';
-import { Pill } from '@instana/components';
 import { Tr, Td } from '@instana/legacy';
 
 import {
@@ -53,10 +53,13 @@ export default function EventRow({
   timeConfig,
   event,
   headers,
-  isPreview
+  isPreview,
+  selectedRows,
+  handleSelectRow
 }) {
   const active = event.id === selectedEventId;
   const onClick = () => onItemClicked(event.id);
+
   if (isDenseList) {
     return (
       <EventsListRowDense
@@ -71,6 +74,7 @@ export default function EventRow({
   }
 
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const isEventClosed = event.state === 'closed' || event.state === 'manually_closed';
   const start = event.start;
   const end = event.manualCloseTimestamp || event.end || Date.now();
   const eventType = getEventType(event);
@@ -120,16 +124,23 @@ export default function EventRow({
     return carbonRow;
   }
   return (
-    <Tr key={event.id} size="compact" active={active} onClick={isPreview ? undefined : onClick}>
+    <Tr key={event.id} size="compact" active={active}>
       {/* Conditional rendering based on eventType */}
       {event.type === 'cve_issue' ? (
         // Custom rendering logic for cve_issue
         <>
           <Td>
+            <Checkbox
+              disabled={isEventClosed}
+              checked={selectedRows.includes(event.id)}
+              onChange={() => handleSelectRow(event.id)}
+            />
+          </Td>
+          <Td onClick={onClick}>
             <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
           </Td>
           {isDisplayColumn(headers, 'title') && (
-            <Td>
+            <Td onClick={onClick}>
               <div
                 className={classNames({
                   [locals.smallColumn]: smallColumn,
@@ -142,22 +153,22 @@ export default function EventRow({
             </Td>
           )}
           {isDisplayColumn(headers, 'entityLabel') && (
-            <Td>
+            <Td onClick={onClick}>
               <OnEntity rawEvent={event} smallColumn={smallColumn} />
             </Td>
           )}
           {isDisplayColumn(headers, 'started') && (
-            <Td>
+            <Td onClick={onClick}>
               <span className={locals.text}>{formatDisplayDateTime(start, headers, isPreview)}</span>
             </Td>
           )}
           {isDisplayColumn(headers, 'cvssScore') && (
-            <Td>
+            <Td onClick={onClick}>
               <span className={locals.text}>{cvssScore}</span>
             </Td>
           )}
           {isDisplayColumn(headers, 'state') && (
-            <Td>
+            <Td onClick={onClick}>
               <span className={locals.text}>{getStateBadge(event)}</span>
             </Td>
           )}
@@ -166,10 +177,17 @@ export default function EventRow({
         // Default rendering logic
         <>
           <Td>
+            <Checkbox
+              disabled={isEventClosed}
+              checked={selectedRows.includes(event.id)}
+              onChange={() => handleSelectRow(event.id)}
+            />
+          </Td>
+          <Td onClick={onClick}>
             <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
           </Td>
           {isDisplayColumn(headers, 'title') && (
-            <Td>
+            <Td onClick={onClick}>
               <div
                 className={classNames({
                   [locals.smallColumn]: smallColumn,
@@ -182,34 +200,34 @@ export default function EventRow({
             </Td>
           )}
           {isDisplayColumn(headers, 'entityLabel') && (
-            <Td>
+            <Td onClick={onClick}>
               <OnEntity rawEvent={event} smallColumn={smallColumn} />
             </Td>
           )}
           {isDisplayColumn(headers, 'started') && (
-            <Td>
+            <Td onClick={onClick}>
               <span className={locals.text}>{formatDisplayDateTime(start, headers, isPreview)}</span>
             </Td>
           )}
           {isDisplayColumn(headers, 'ended') && (
-            <Td>
+            <Td onClick={onClick}>
               <span className={locals.text}>{getEndValue(event, isChangeEvent, end, start, headers, isPreview)}</span>
             </Td>
           )}
           {isDisplayColumn(headers, 'timeline') && (
-            <Td>
+            <Td onClick={onClick}>
               <div className={locals.timelineWrapper}>
                 <div style={{ left, width }} className={locals.line} />
               </div>
             </Td>
           )}
           {canCloseManually && isDisplayColumn(headers, 'state') && (
-            <Td>
+            <Td onClick={onClick}>
               <span className={locals.text}>{getStateBadge(event)}</span>
             </Td>
           )}
           {headers && isDisplayColumn(headers, 'duration') && (
-            <Td>
+            <Td onClick={onClick}>
               <span className={locals.text}>
                 <Duration event={event} listView />
               </span>

@@ -15,10 +15,27 @@
     overflow: auto;
     min-height: 20rem;
   }
+
   .carbonLoadMore {
     &:hover {
       background: #fff;
     }
     display: grid;
+  }
+
+  .topRowGap {
+    width: 100%;
+    padding-left: 1rem;
+    color: white;
+  }
+
+  .topRowBorder {
+    background-color: #0f62fe;
+  }
+
+  .divider {
+    height: 1rem;
+    width: 0.0625rem;
+    background-color: white;
   }
 }
