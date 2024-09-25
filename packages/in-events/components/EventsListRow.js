@@ -71,7 +71,7 @@ export default function EventRow({
 
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
   const start = event.start;
-  const end = event.end || Date.now();
+  const end = event.manualCloseTimestamp || event.end || Date.now();
   const eventType = getEventType(event);
   const isChangeEvent = eventType === EVENT_TYPES.CHANGE;
 
