@@ -10,12 +10,16 @@
       .dashboardTable {
         table {
           table-layout: fixed;
-        }
-        td:has(.carbonIconButton) {
-          position: relative;
-          padding-inline-end: 8px;
-          .carbonIconButton {
-            float: right;
+          // The last <th> where favourites is present.
+          th:last-child:not(:has(*)) {
+            width: 1rem;
+          }
+          .favouriteIcon {
+            position: relative;
+            padding-inline-end: 8px;
+            .carbonIconButton {
+              float: right;
+            }
           }
         }
       }

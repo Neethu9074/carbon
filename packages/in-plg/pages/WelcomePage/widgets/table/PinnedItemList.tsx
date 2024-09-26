@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { DashboardTableCell as Cell } from '@instana/components';
@@ -14,6 +15,8 @@ import { ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/Das
 import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter';
 import { hasError, isLoading } from 'in-services/util/result';
 import WithPinnedItems from './WithPinnedItems';
+
+import locals from './SkeletonStyle.mless';
 
 type pinnedItemsListProps = {
   pinnedItemIdsByType?: any;
@@ -45,6 +48,8 @@ interface ItemProps {
   columnDefinitions: ColumnDefinitionItem[];
 }
 
+const FAVOURITE = 'favourite';
+
 export function Item({ pendingItem, timeConfig, type, columnDefinitions }: ItemProps) {
   const { id, result } = pendingItem;
 
@@ -52,7 +57,17 @@ export function Item({ pendingItem, timeConfig, type, columnDefinitions }: ItemP
     return (
       <>
         {columnDefinitions.map(({ key }: ColumnDefinitionItem) => {
-          return <Cell key={key}>{<LoadingSkeleton />}</Cell>;
+          return (
+            <Cell key={key}>
+              {
+                <LoadingSkeleton
+                  className={classNames({
+                    [locals.loadingSkeletonForFav]: key === FAVOURITE
+                  })}
+                />
+              }
+            </Cell>
+          );
         })}
       </>
     );
@@ -62,12 +77,12 @@ export function Item({ pendingItem, timeConfig, type, columnDefinitions }: ItemP
       <>
         {columnDefinitions.map(({ key, getContent }: ColumnDefinitionItem) => {
           return (
-            <Cell key={key}>
+            <Cell key={key} {...(key === FAVOURITE && { className: 'favouriteIcon' })}>
               {key === 'name' || key === 'title' ? (
                 <Message type="error" small>
                   {getUniqueErrors(result.errors)[0]}
                 </Message>
-              ) : key === 'favourite' ? (
+              ) : key === FAVOURITE ? (
                 <div>{getContent({ id: id, item: null, isFavourite: true, type: type })}</div>
               ) : null}
             </Cell>
@@ -85,7 +100,9 @@ export function Item({ pendingItem, timeConfig, type, columnDefinitions }: ItemP
   return (
     <>
       {columnDefinitions.map(({ key, getContent }: ColumnDefinitionItem) => (
-        <Cell key={key}>{getContent({ id, item, result, timeConfig, isFavourite: true })}</Cell>
+        <Cell key={key} {...(key === FAVOURITE && { className: 'favouriteIcon' })}>
+          {getContent({ id, item, result, timeConfig, isFavourite: true })}
+        </Cell>
       ))}
     </>
   );
