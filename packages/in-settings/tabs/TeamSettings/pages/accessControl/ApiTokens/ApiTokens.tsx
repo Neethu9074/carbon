@@ -76,7 +76,7 @@ export default function ApiTokens() {
       }
     },
     {
-      id: 'id',
+      id: 'internalId',
       label: t('in-settings:tabs.token'),
       ellipsis: true,
       useMinimumAmountOfHorizontalSpace: true,
