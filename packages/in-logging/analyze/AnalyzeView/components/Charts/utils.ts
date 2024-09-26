@@ -136,7 +136,7 @@ export function getMetricConfig({
   return {
     metric: metric.metricId,
     aggregation: metric.aggregationId,
-    label: label ?? value,
+    label: label ?? (value || '-'),
     source: 'LOG',
     metricTagFilterExpression: metricTagFilterExpression,
     tagFilterExpression: backendQueryModelWithFacets
