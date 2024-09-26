@@ -179,10 +179,11 @@ export default class Table extends React.Component {
         );
       } else {
         for (let i = 0, length = data.rows.length; i < length; i++) {
-          carbonRow['id'] = data.rows[i].key;
+          carbonRow = {};
+          carbonRow['id'] = data.rows[i].key || String(i);
           data.rows[i].columns.map((column, i) => {
             // get column header name and assign value to that
-            carbonRow[carbonHeaders[i]['header']] = column.value ?? '-';
+            carbonRow[carbonHeaders[i]['header']] = column.content ?? '-';
           });
           if (this.props.getRowDetails != undefined) {
             carbonRow['expanded'] = this.props.getRowDetails(data.rows[i].rowConfig);
