@@ -42,7 +42,7 @@ export default function AnalyzeCallsButton({
 
   return (
     <Button
-      kind="primary"
+      kind={carbonButtonEnabled ? 'action' : 'primary'}
       icon="lib_application_call"
       href={getLinkToApplicationAnalyze({
         dataSource: 'calls',

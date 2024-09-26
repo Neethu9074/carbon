@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-import { ButtonKinds } from '@instana/legacy';
+import { ButtonKinds } from '@instana/components';
 
 import { EventMap } from 'in-events/types';
 import { RawEvent } from 'in-types';

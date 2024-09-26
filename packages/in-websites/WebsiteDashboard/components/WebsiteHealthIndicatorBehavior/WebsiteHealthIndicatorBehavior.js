@@ -47,12 +47,13 @@ export default connectTo(
 
     return (
       <Overlay props={props} content={Content} withoutWrapper inContentArea={props.inContentArea} align="leftTop">
-        {({ toggle, refSetter }) => (
+        {({ toggle, refSetter, isOpen }) => (
           <props.IndicatorPresenter
             openIssues={openIssues}
             maxSeverity={maxSeverity}
             onClick={toggle}
             refSetter={refSetter}
+            isOpen={isOpen}
           />
         )}
       </Overlay>

@@ -42,7 +42,7 @@ import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { applicationsList } from 'in-applications/navigation/paths';
 import getMetrics from 'in-applications/subscriptions/getMetrics';
-import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
+import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
 import { hasError, isLoading } from 'in-services/util/result';
 import { successObservable } from 'in-services/util/result';
 import { boundaryScopes } from 'in-applications/constants';

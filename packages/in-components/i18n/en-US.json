@@ -363,7 +363,19 @@
     "openIncidents_1": "{{count}} Incident",
     "openIncidents_2": "{{count}} Incidents",
     "labelWarning": "Warning",
-    "labelCritical": "Critical"
+    "labelCritical": "Critical",
+    "carbonNoIssues": "No issues",
+    "carbonOpenIssues": "{{count}} issue",
+    "carbonOpenIssues_plural": "{{count}} issues",
+    "carbonOpenIssues_0": "{{count}} issues",
+    "carbonOpenIssues_1": "{{count}} issue",
+    "carbonOpenIssues_2": "{{count}} issues",
+    "carbonNoIncidents": "No incidents",
+    "carbonOpenIncidents": "{{count}} incident",
+    "carbonOpenIncidents_plural": "{{count}} incidents",
+    "carbonOpenIncidents_0": "{{count}} incidents",
+    "carbonOpenIncidents_1": "{{count}} incident",
+    "carbonOpenIncidents_2": "{{count}} incidents"
   },
   "vulnerabilities": {
     "eventType_issue": "vulnerabilities",
@@ -387,7 +399,19 @@
     "openIncidents_plural": "{{count}} Incidents",
     "openIncidents_0": "{{count}} Incidents",
     "openIncidents_1": "{{count}} Incident",
-    "openIncidents_2": "{{count}} Incidents"
+    "openIncidents_2": "{{count}} Incidents",
+    "carbonNoVulnerabilities": "No vulnerabilities",
+    "carbonOpenVulnerabilities": "{{count}} vulnerability",
+    "carbonOpenVulnerabilities_plural": "{{count}} vulnerabilities",
+    "carbonOpenVulnerabilities_0": "{{count}} vulnerabilities",
+    "carbonOpenVulnerabilities_1": "{{count}} vulnerability",
+    "carbonOpenVulnerabilities_2": "{{count}} vulnerabilities",
+    "carbonNoIncidents": "No incidents",
+    "carbonOpenIncidents": "{{count}} incident",
+    "carbonOpenIncidents_plural": "{{count}} incidents",
+    "carbonOpenIncidents_0": "{{count}} incidents",
+    "carbonOpenIncidents_1": "{{count}} incident",
+    "carbonOpenIncidents_2": "{{count}} incidents"
   },
   "inlineTabNavigation": {
     "labelSelectTab": "Select tab"

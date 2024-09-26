@@ -59,12 +59,13 @@ export default function ApplicationEntityHealthIndicatorBehavior(props: Applicat
       align="leftTop"
       withoutWrapper
     >
-      {({ toggle, refSetter }) => (
+      {({ toggle, refSetter, isOpen }) => (
         <IndicatorPresenter
           openIssues={healthInfo?.openIssues ?? 0}
           maxSeverity={healthInfo?.maxSeverity ?? 0}
           onClick={toggle}
           refSetter={refSetter}
+          isOpen={isOpen}
         />
       )}
     </Overlay>

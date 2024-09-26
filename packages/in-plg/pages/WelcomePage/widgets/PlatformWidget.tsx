@@ -80,7 +80,7 @@ import getOpenstackRegion from 'in-openstack/subscriptions/getOpenstackRegion';
 import getPowerVCRegion from 'in-powervc/subscriptions/getPowerVCRegion';
 import { usePowervcRegionDashboard } from 'in-powervc/navigation/paths';
 import { useVspehereEntityLink } from 'in-vsphere/navigation/paths';
-import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
+import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
 import { useIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 import { hasError, isLoading } from 'in-services/util/result';
 import { compareIgnoreCase } from 'in-services/util/string';

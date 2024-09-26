@@ -39,7 +39,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { meanLatencyFixed, number } from 'in-services/formatters/number';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
-import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
+import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { hasError, isLoading } from 'in-services/util/result';
 import DatatableWrapper from './DatatableWrapper';

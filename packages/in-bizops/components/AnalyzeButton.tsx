@@ -14,6 +14,8 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { useLinkToAnalyze } from 'in-applications/navigation/paths';
 import { bizopsAnalyzeInstancesClick } from 'in-bizops/tracker';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
+
 import { t } from 'in-i18n';
 
 /* This component directs the user to the Analyze page, with filters set
@@ -35,8 +37,9 @@ export default function AnalyzeButton({
   const { location } = useNavigation();
   return (
     <Button
-      kind="primary"
+      kind={carbonButtonEnabled ? 'action' : 'primary'}
       icon="lib_application_call"
+      size={carbonButtonEnabled ? 'compact' : 'normal'}
       href={getLinkToAnalyze({
         formModel: formModelBuilder(businessProcessId, businessActivityName),
         groupBy: {

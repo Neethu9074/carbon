@@ -37,6 +37,7 @@ import { useTagFilterManipulators } from 'in-websites/tagFiltersHoc';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import DashboardHeader from 'in-components/DashboardHeader';
@@ -258,12 +259,22 @@ function ButtonLine({ tagFilters, websiteLabel, websiteId, pageId, timeConfig, t
         timeConfig={timeConfig}
       />
       {pageId && (
-        <Button kind="primary" icon="lib_website_page_load" href={transitionsAnalyzeHref}>
+        <Button
+          size={carbonButtonEnabled ? 'compact' : 'normal'}
+          kind={carbonButtonEnabled ? 'action' : 'primary'}
+          icon="lib_website_page_load"
+          href={transitionsAnalyzeHref}
+        >
           {t('in-websites:websiteDashboard.websiteDashboardButtonAnalyzePageTransitions')}
         </Button>
       )}
       {!pageId && (
-        <Button kind="primary" icon="lib_website_page_load" href={loadsAnalyzeHref}>
+        <Button
+          size={carbonButtonEnabled ? 'compact' : 'normal'}
+          kind={carbonButtonEnabled ? 'action' : 'primary'}
+          icon="lib_website_page_load"
+          href={loadsAnalyzeHref}
+        >
           {t('in-websites:websiteDashboard.websiteDashboardButtonAnalyzePageLoads')}
         </Button>
       )}
