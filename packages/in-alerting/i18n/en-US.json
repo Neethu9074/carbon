@@ -550,7 +550,7 @@
           "groupByEndpoint_1": "{{count}} Endpoints",
           "groupByEndpoint_2": "{{count}} Endpoints",
           "groupbyDescription": "Based on calls made in the last 24 hours",
-          "noData": "No groupby data available.",
+          "noData": "No applications, services, or endpoints in scope have recorded any calls in the last 24 hours.",
           "groupByDataFailed": "Something went wrong. Could not retrieve group by data. Reason : {{reason}}"
         },
         "callsInScope": {
