@@ -9,7 +9,7 @@ import React from 'react';
 
 import { HorizontalIndicator } from '@instana/components';
 
-import WidgetCard from 'in-custom-dashboards/widgets/Apdex/components/WidgetCard';
+import WidgetCard from 'in-custom-dashboards/widgets/_shared/WidgetCard';
 
 describe('in-custom-dashboards/widgets/Apdex/components/WidgetCard', () => {
   it("should render no loading indicator if loading isn't in progress.", async () => {

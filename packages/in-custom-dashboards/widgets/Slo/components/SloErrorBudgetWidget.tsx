@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
+import { t } from '@instana/i18n-react';
 
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 import ErrorBudgetChart from 'in-service-levels/components/SloDashboard/components/chart/ErrorBudgetChart';
@@ -45,7 +46,10 @@ export default function SloErrorBudgetWidget({ sloConfig }: SloErrorBudgetWidget
         target={sloConfig.target}
         timeWindowType={sloConfig.timeWindow.type}
       />
-      <ErrorBudgetChart configuration={sloConfig} />
+      <ErrorBudgetChart
+        configuration={sloConfig}
+        title={t('in-service-levels:sloDashboard.components.errorBudgetChart.title')}
+      />
     </>
   );
 }

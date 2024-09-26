@@ -47,15 +47,19 @@ import { millis } from 'in-services/formatters/number';
 
 const metricId = 'latency';
 interface TimeBasedLatencyIndicatorChartProps {
+  automaticallySized?: boolean;
   entity: SloEntityUnion;
   indicator: LatencyBlueprintIndicator;
   missingDataIndicator?: DateAsNumber;
+  title?: string;
 }
 
 export default function TimeBasedLatencyIndicatorChart({
+  automaticallySized,
   entity,
   indicator,
-  missingDataIndicator
+  missingDataIndicator,
+  title
 }: TimeBasedLatencyIndicatorChartProps) {
   const { threshold } = indicator;
   const sloZoomInAction = useSloZoomInAction();
@@ -91,7 +95,8 @@ export default function TimeBasedLatencyIndicatorChart({
   return (
     <ResultAwareChart
       config={{
-        title: t('in-service-levels:sloDashboard.components.indicatorChart.title'),
+        automaticallySize: automaticallySized,
+        title,
         renderHistoricDataIndicator: true,
         hasApproximateData: true,
         approximateTooltipText: t(
@@ -109,6 +114,8 @@ export default function TimeBasedLatencyIndicatorChart({
           formatter: millis.compact,
           renderer
         },
+        customHeight: 250,
+        customChartSkeletonHeight: 308,
         timeConfig,
         renderPostChartContent: props => <SloDashboardMarkerLanes entity={entity} {...props} />
       }}

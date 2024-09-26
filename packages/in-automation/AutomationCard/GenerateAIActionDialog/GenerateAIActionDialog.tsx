@@ -61,10 +61,11 @@ const formId = 'createPolicyAIForm';
 function getStepConfigs(hasOotbActions: boolean) {
   const actionSteps: StepConfigs = [
     {
-      title:
-        hasOotbActions && automationActionAiGenerationUnitEnabled
+      title: hasOotbActions
+        ? automationActionAiGenerationUnitEnabled
           ? t('in-automation:GenerateAIActionDialog.step1Title')
-          : t('in-automation:GenerateAIActionDialog.step1TitleGenerateAction')
+          : t('in-automation:GenerateAIActionDialog.step1TitleSelectAction')
+        : t('in-automation:GenerateAIActionDialog.step1TitleGenerateAction')
     },
     {
       title: t('in-automation:GenerateAIActionDialog.step2Title')

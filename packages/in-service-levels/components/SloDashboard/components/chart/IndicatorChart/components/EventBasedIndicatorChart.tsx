@@ -46,14 +46,18 @@ import { number } from 'in-services/formatters/number';
 const goodEventsMetricId = 'goodEvents';
 const badEventsMetricId = 'badEvents';
 interface EventBasedIndicatorChartProps {
+  automaticallySized?: boolean;
   entity: SloEntityUnion;
   indicator: ServiceLevelIndicatorUnion;
   missingDataIndicator?: DateAsNumber;
+  title?: string;
 }
 export default function EventBasedIndicatorChart({
+  automaticallySized,
   entity,
   indicator,
-  missingDataIndicator
+  missingDataIndicator,
+  title
 }: EventBasedIndicatorChartProps) {
   const sloZoomInAction = useSloZoomInAction();
   const timeConfig = useContextAwareSloTimeWindowConfig();
@@ -68,7 +72,8 @@ export default function EventBasedIndicatorChart({
   return (
     <ResultAwareChart
       config={{
-        title: t('in-service-levels:sloDashboard.components.indicatorChart.title'),
+        automaticallySize: automaticallySized,
+        title,
         rightHeaderContent: <FilterInfo entity={entity} indicator={indicator} />,
         primaryContextMenuAction: sloZoomInAction.name,
         additionalContextMenuButtons: [sloZoomInAction],
@@ -85,6 +90,8 @@ export default function EventBasedIndicatorChart({
           formatter: number.compact,
           renderer
         },
+        customHeight: 250,
+        customChartSkeletonHeight: 308,
         timeConfig,
         renderPostChartContent: props => <SloDashboardMarkerLanes entity={entity} {...props} />
       }}

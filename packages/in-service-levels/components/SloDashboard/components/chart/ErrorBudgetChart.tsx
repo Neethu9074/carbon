@@ -11,23 +11,25 @@ import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 import SloErrorBudgetChart from 'in-service-levels/components/Shared/SloErrorBudgetChart';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
-import { t } from 'in-i18n';
 
 interface ErrorBudgetChartProps {
+  automaticallySized?: boolean;
   configuration: ServiceLevelObjectiveConfiguration;
+  title?: string;
 }
 
-export default function ErrorBudgetChart({ configuration }: ErrorBudgetChartProps) {
+export default function ErrorBudgetChart({ automaticallySized, configuration, title }: ErrorBudgetChartProps) {
   const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
   const timeConfig = useContextAwareSloTimeWindowConfig();
 
   return (
     <SloErrorBudgetChart
+      automaticallySized={automaticallySized}
       timeConfig={timeConfig}
       timeWindows={timeWindows}
       timeWindowColors={timeWindowColors}
       configuration={configuration}
-      title={t('in-service-levels:sloDashboard.components.errorBudgetChart.title')}
+      title={title}
     />
   );
 }

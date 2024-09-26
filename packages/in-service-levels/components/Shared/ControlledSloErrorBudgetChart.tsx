@@ -23,6 +23,7 @@ import { minutes, number } from 'in-services/formatters/number';
 import { sloMetrics } from 'in-service-levels/metrics';
 
 interface ControlledSloErrorBudgetChartProps {
+  automaticallySized?: boolean;
   timeConfig: TimeConfig;
   timeWindows: TimeConfig[];
   timeWindowColors: string[];
@@ -35,6 +36,7 @@ interface ControlledSloErrorBudgetChartProps {
 }
 
 export default function ControlledSloErrorBudgetChart({
+  automaticallySized,
   timeConfig,
   timeWindows,
   timeWindowColors,
@@ -61,6 +63,7 @@ export default function ControlledSloErrorBudgetChart({
     <ResultAwareChart
       config={{
         title,
+        automaticallySize: automaticallySized,
         primaryContextMenuAction: sloZoomInAction.name,
         additionalContextMenuButtons: [sloZoomInAction],
         excludedContextMenuActions: [zoomInAction.name],

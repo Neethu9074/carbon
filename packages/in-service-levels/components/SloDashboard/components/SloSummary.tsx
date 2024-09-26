@@ -90,10 +90,14 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
             indicator={configuration.indicator}
             timeWindow={configuration.timeWindow}
             createdDate={configuration.createdDate}
+            title={t('in-service-levels:sloDashboard.components.indicatorChart.title')}
           />
         </Col>
         <Col lg={4}>
-          <ErrorBudgetChart configuration={configuration} />
+          <ErrorBudgetChart
+            configuration={configuration}
+            title={t('in-service-levels:sloDashboard.components.errorBudgetChart.title')}
+          />
         </Col>
         <Col lg={4}>
           <TrafficChart configuration={configuration} />
