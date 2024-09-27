@@ -7,14 +7,15 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { Tooltip } from '@instana/components';
 
 import Legend from 'in-components/Chart/components/Legend';
+import { t } from 'in-i18n';
 
 export default function ChartLegend({ chart, onLegendItemToggle }) {
   const filteredDataSeries = useObservable(chart.config.filteredDataSeries$, [chart.config.filteredDataSeries$], {
     pure: false
   });
-
   const y1Lables = getLabelsMapFromAxis(chart.config.y1, filteredDataSeries, chart, 'y1', onLegendItemToggle);
   const y2Lables = getLabelsMapFromAxis(chart.config.y2, filteredDataSeries, chart, 'y2', onLegendItemToggle);
   return (
@@ -55,8 +56,16 @@ function getLabelsMapFromAxis(axis, filteredDataSeries, chart, axisName = 'y1', 
       const isToggleable =
         !axis.nonToggleableSeries ||
         !(axis.nonToggleableSeries.has(label) || axis.nonToggleableSeries.has(axis.metricIds[i]));
+      const showLegendToolTip =
+        label === '-' ? (
+          <Tooltip content={t('in-components:analyze.groupNameNotAvailable')}>
+            <span>{label}</span>
+          </Tooltip>
+        ) : (
+          label
+        );
       return {
-        name: label,
+        name: showLegendToolTip,
         dataSeriesName: `${axisName}-${i}`,
         isDisabled: filteredDataSeries?.has(`${axisName}-${i}`),
         timeShift: axis.timeShifts && axis.timeShifts[i],

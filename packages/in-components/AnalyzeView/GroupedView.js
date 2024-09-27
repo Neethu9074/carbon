@@ -476,17 +476,23 @@ function labelColumns({
 
 function GroupLabelTooltip({ groupName, getCustomGroupLabel, groupbyTag }) {
   const groupLabel = getCustomGroupLabel ?? identity;
-  const label = groupLabel(groupName, groupbyTag);
-  return (
-    <Tooltip content={label || t('in-components:analyze.groupNameNotAvailable', { groupbyTag })} align="mousePosition">
-      <div
-        className={classNames({
-          [locals.italic]: groupName === UNSPECIFIED || groupName === NO_VALUE
-        })}
-      >
-        {label || '-'}
-      </div>
+  const label = groupLabel(groupName, groupbyTag) || '-';
+  const labelElement = (
+    <div
+      className={classNames({
+        [locals.italic]: groupName === UNSPECIFIED || groupName === NO_VALUE
+      })}
+    >
+      {label}
+    </div>
+  );
+
+  return label === '-' ? (
+    <Tooltip content={t('in-components:analyze.groupNameNotAvailable', { groupbyTag })} align="mousePosition">
+      {labelElement}
     </Tooltip>
+  ) : (
+    labelElement
   );
 }
 
