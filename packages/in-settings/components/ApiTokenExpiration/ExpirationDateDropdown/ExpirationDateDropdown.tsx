@@ -41,7 +41,10 @@ export default function ExpirationDateDropdown({ form, id, setForm }: Expiration
     return newDate.getTime();
   };
 
-  const onChangeExpirationOptions = (selectedExpiry: ExpiryOptionType) => {
+  const onChangeExpirationOptions = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedExpiry = e.target.value as ExpiryOptionType;
+    const selectedExpiryKey = expirationOptions[e.target.selectedIndex].key;
+
     let updatedForm = form.updateIn(['expiryOption'], (f: Field<ExpiryOptionType>) => f.setValue(selectedExpiry));
 
     if (selectedExpiry === 'Custom') {
@@ -51,7 +54,7 @@ export default function ExpirationDateDropdown({ form, id, setForm }: Expiration
       updatedForm = updateExpiresOnFormField(updatedForm, null);
     } else {
       updatedForm = removeFormForExpiryTimeStamp(updatedForm);
-      updatedForm = updateExpiresOnFormField(updatedForm, addDays(Number(selectedExpiry)));
+      updatedForm = updateExpiresOnFormField(updatedForm, addDays(Number(selectedExpiryKey)));
     }
 
     setForm(updatedForm);
@@ -79,13 +82,7 @@ export default function ExpirationDateDropdown({ form, id, setForm }: Expiration
     <>
       <FormGroup>
         <Label htmlFor="api-token-expiration">{t('in-settings:tabs.apiTokenExpiration')}</Label>
-        <Select
-          useFullWidth
-          onChange={e => onChangeExpirationOptions(e.target.value as ExpiryOptionType)}
-          value={selectedExpiry}
-          id={id}
-          title=""
-        >
+        <Select useFullWidth onChange={onChangeExpirationOptions} value={selectedExpiry} id={id} title={selectedExpiry}>
           {expirationOptions.map(({ value, label }) => (
             <option key={value} value={value}>
               {label}

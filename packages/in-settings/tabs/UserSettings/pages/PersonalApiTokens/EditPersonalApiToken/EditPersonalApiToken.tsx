@@ -11,9 +11,11 @@ import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresen
 import { PersonalApiToken, savePersonalApiToken } from 'in-settings/tabs/UserSettings/api/personalApiToken';
 import { createPersonalApiTokenForm } from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/form';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { apiTokenExpirationEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
+import { UPDATED_OBJECT } from 'in-services/util/constants';
 import CancelButton from 'in-components/form/CancelButton';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
@@ -41,6 +43,7 @@ export default function EditPersonalApiToken({ onClose, current }: Props) {
   const [form, setForm] = useState(createPersonalApiTokenForm(current));
   const [isUpdating, setUpdating] = useState<boolean>(false);
   const [errors, setErrors] = useState<Error[] | undefined>();
+  const { unstable_trackEvent } = useSegmentTracking();
 
   /**
    * Handles a form submit
@@ -55,8 +58,14 @@ export default function EditPersonalApiToken({ onClose, current }: Props) {
       name: form.toJS()['name'],
       expiresOn: form.toJS()['expiresOn']
     }).once(
-      () => {
+      apiToken => {
         setUpdating(false);
+        const customData = {
+          id: apiToken.tokenId,
+          expiryDate: apiToken.expiresOn,
+          expiryOption: form.toJS()['expiryOption']
+        };
+        unstable_trackEvent(UPDATED_OBJECT, { objectType: 'settings.personalApiToken.update' }, customData);
         onClose();
       },
       () => {

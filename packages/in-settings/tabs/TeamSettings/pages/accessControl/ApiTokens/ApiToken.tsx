@@ -23,6 +23,8 @@ import { MatchParams } from 'in-settings/tabs/TeamSettings/pages/accessControl/A
 import { DialogWrapper } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/DialogWrapper';
 import ApiTokenForm from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokenForm';
 import { teamSettingsAccessControlApiTokens } from 'in-settings/navigation/paths';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { CREATED_OBJECT, UPDATED_OBJECT } from 'in-services/util/constants';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { apiTokenExpirationEnabled } from 'in-services/featureFlags';
@@ -80,6 +82,7 @@ const ApiToken = (props: MatchParams): any => {
   const description = t('in-settings:tabs.apiTokenDescription');
   const apiTokenName = apiToken?.name;
   const accessGrantingToken = apiToken?.accessGrantingToken;
+  const { unstable_trackEvent } = useSegmentTracking();
 
   const loadApiToken = useCallback(
     (id: string): void => {
@@ -195,6 +198,10 @@ const ApiToken = (props: MatchParams): any => {
           apiToken: apiToken,
           message: t('in-settings:tabs.saving')
         }));
+        const customData = {
+          id: apiToken?.internalId
+        };
+        unstable_trackEvent(CREATED_OBJECT, { objectType: 'settings.apiToken.create' }, customData);
         callSaveApiToken();
       });
       result$.errors().once((error: any) => {
@@ -215,7 +222,13 @@ const ApiToken = (props: MatchParams): any => {
       message: t('in-settings:tabs.saving')
     }));
 
-    result$.once(() => {
+    result$.once(result => {
+      const customData = {
+        id: result?.internalId,
+        expiryDate: result?.expiresOn,
+        expiryOption: apiToken?.expiryOption
+      };
+      unstable_trackEvent(UPDATED_OBJECT, { objectType: 'settings.apiToken.update' }, customData);
       if (!state.createNewToken) {
         close();
       } else {

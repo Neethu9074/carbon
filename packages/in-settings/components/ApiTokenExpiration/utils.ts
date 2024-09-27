@@ -16,7 +16,7 @@ import { t } from 'in-i18n';
 
 export const customTokenExpiry = 'customTokenExpiry';
 
-export type ExpiryOptionType = 'Custom' | 'Never' | number;
+export type ExpiryOptionType = 'Custom' | 'Never' | '30 days' | '60 days' | '90 days' | '365 days';
 
 export function removeFormForExpiryTimeStamp(form: MapForm<any>): MapForm<any> {
   if (form.containsKey(customTokenExpiry)) {
