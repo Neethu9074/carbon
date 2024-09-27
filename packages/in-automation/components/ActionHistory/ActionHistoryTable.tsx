@@ -61,11 +61,12 @@ const columnDefinitions: ColumnDefinition<ActionInstance>[] = [
     width: 20,
     getContent(row: ActionInstance) {
       return (
-        <Tooltip content={row.actionName} align="topLeft" delay={500}>
+        <Tooltip content={row.actionName} align="topLeft" delay={500} overwriteBlock>
           <WithSubscript subscript={getType(row.type)}>
             <div
               className={classNames({
-                [locals.smallColumn]: row.actionName.length > 60
+                [locals.smallColumn]: row.actionName.length > 60,
+                [locals.ellipsis]: true
               })}
             >
               <Typography variant="body-regular">{row.actionName}</Typography>
@@ -81,11 +82,12 @@ const columnDefinitions: ColumnDefinition<ActionInstance>[] = [
     width: 15,
     getContent(row: ActionInstance) {
       return (
-        <Tooltip content={row.actorName} align="topLeft" delay={500}>
+        <Tooltip content={row.actorName} align="topLeft" delay={500} overwriteBlock>
           <WithSubscript subscript={getActorType(row.actorType ?? 'ACTOR_UNKNOWN')}>
             <div
               className={classNames({
-                [locals.smallColumn]: row.actorName && row.actorName.length > 60
+                [locals.smallColumn]: row.actorName && row.actorName.length > 60,
+                [locals.ellipsis]: true
               })}
             >
               <Typography variant="body-regular">{row.actorName}</Typography>
