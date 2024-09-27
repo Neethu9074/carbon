@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { LegacyRef } from 'react';
+import React, { LegacyRef, RefObject } from 'react';
 import classNames from 'classnames';
 
 import { IconButton } from '@instana/components';
@@ -69,16 +69,6 @@ export default function HealthIndicatorPresenter({
           [locals.icon]: true,
           [locals.iconWarning]: !(maxSeverity > 5) && maxSeverity !== 0
         })}
-      />
-    </Tooltip>
-  );
-
-  // If no refSetter is passed we dont we can simply render the status icon as is
-  // because there is no overlay to render.  Allows for more usability of this component
-  if (refSetter) {
-    return (
-      <a
-        href=""
         onClick={e => {
           e.preventDefault();
           e.stopPropagation();
@@ -86,13 +76,14 @@ export default function HealthIndicatorPresenter({
             onClick();
           }
         }}
-        className={locals.badge}
-        ref={refSetter}
-        tabIndex={-1}
-      >
-        {statusContents}
-      </a>
-    );
+      />
+    </Tooltip>
+  );
+
+  // If no refSetter is passed we dont we can simply render the status icon as is
+  // because there is no overlay to render.  Allows for more usability of this component
+  if (refSetter) {
+    return <div ref={refSetter as unknown as RefObject<HTMLDivElement>}>{statusContents}</div>;
   } else {
     return statusContents;
   }
