@@ -17,7 +17,7 @@
           .favouriteIcon {
             position: relative;
             padding-inline-end: 8px;
-            .carbonIconButton {
+            div {
               float: right;
             }
           }
