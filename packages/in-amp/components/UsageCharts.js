@@ -19,7 +19,7 @@ import UsageChart from 'in-amp/components/UsageChart';
 import { Row, Col } from 'in-components/layout/Grid';
 import { carbonAlert } from 'in-themes/chartColors';
 import Tooltip from 'in-components/Tooltip';
-import { t, Trans } from 'in-i18n';
+import { t } from 'in-i18n';
 
 export default function UsageCharts({
   windowSize,
@@ -191,30 +191,6 @@ export default function UsageCharts({
         colors: [carbonAlert.blue70, carbonAlert.red60]
       };
 
-  // Logging Addon Chart Y1 and Y2 definitions
-  const LoggingAddonChartY1 = isCumulativeTimeRange
-    ? {
-        ...tenantUnit,
-        metrics: showTrendLine ? ['logging_trend_line', 'logging_cumulative'] : ['logging_cumulative'],
-        labels: showTrendLine
-          ? [t('in-amp:components.usageCharts.trendLine'), t('in-amp:components.usageCharts.consumedUnits')]
-          : [t('in-amp:components.usageCharts.consumedUnits')],
-        colors: showTrendLine ? [carbonAlert.gray60, '#17A1E6'] : ['#17A1E6']
-      }
-    : {
-        ...tenantUnit,
-        metrics: ['logging_total'],
-        labels: [t('in-amp:components.usageCharts.consumedUnits')],
-        colors: ['#17A1E6']
-      };
-
-  const LoggingAddonChartY2 = {
-    ...tenantUnit,
-    metrics: ['licensed_logging'],
-    labels: [t('in-amp:components.usageCharts.resourceUnits')],
-    colors: [carbonAlert.red60]
-  };
-
   return (
     <>
       <Row>
@@ -282,7 +258,7 @@ export default function UsageCharts({
           <SubViewHeader>{t('in-amp:components.usageCharts.addons')}</SubViewHeader>
           <Row>
             {hasSyntheticAddon && (
-              <Col xs={6}>
+              <Col xs={12}>
                 <Card
                   leftHeaderContent={
                     <Stack direction="horizontal" align="center" gap="xxsmall">
@@ -312,40 +288,6 @@ export default function UsageCharts({
                       labels: [t('in-amp:components.usageCharts.resourceUnits')],
                       colors: [carbonAlert.red60]
                     }}
-                  />
-                </Card>
-              </Col>
-            )}
-            {hasLoggingAddon && (
-              <Col xs={6}>
-                <Card
-                  leftHeaderContent={
-                    <Stack direction="horizontal" align="center" gap="xxsmall">
-                      <Typography variant="heading-300" noMargin>
-                        {t('in-amp:components.usageCharts.logging')}
-                      </Typography>
-                      <Tooltip
-                        content={
-                          onPremLicenseInformationEnabled ? (
-                            <Trans i18nKey="in-amp:components.usageCharts.loggingHelperText.onprem" />
-                          ) : (
-                            <Trans i18nKey="in-amp:components.usageCharts.loggingHelperText.saas" />
-                          )
-                        }
-                        align="auto"
-                      >
-                        <SvgIcon type="lib_help_error_info_outline" size="s" color="#172429" />
-                      </Tooltip>
-                    </Stack>
-                  }
-                >
-                  <UsageChart
-                    windowSize={windowSize}
-                    timeRange={timeRange}
-                    to={to}
-                    showAggregatedMetrics={showAggregatedMetrics}
-                    y1={LoggingAddonChartY1}
-                    y2={LoggingAddonChartY2}
                   />
                 </Card>
               </Col>
