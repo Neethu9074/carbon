@@ -185,7 +185,8 @@ const executeColumn: ColumnDefinition<Policy, AutomationPoliciesTableProps> = {
       return (
         <Link
           target="_blank"
-          onClick={() => {
+          onClick={e => {
+            e.stopPropagation();
             runActionTrackerSegment({
               actionName: action.name,
               actionType: action.type,
