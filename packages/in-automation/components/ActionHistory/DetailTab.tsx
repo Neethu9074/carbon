@@ -284,8 +284,7 @@ export default function DetailTab({
               onClick={onClick}
               href={ObservableLink ?? stringLink ?? undefined}
             >
-              {value}{' '}
-              <SvgIcon size="s" type="lib_views_external_link" color={themes.default.ids.color.option.blue['500']} />
+              {value} <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />
             </Link>
           ) : (
             value

@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { Button, IconButton, Spacer, Typography } from '@instana/components';
+import { Button, IconButton, Spacer, Typography, Link, SvgIcon } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
 import {
@@ -183,13 +183,9 @@ const executeColumn: ColumnDefinition<Policy, AutomationPoliciesTableProps> = {
     if (isDocLink(type)) {
       const value = getDocLinkFromFields(fields).value;
       return (
-        <Button
-          kind="action"
-          icon="lib_views_external_link"
+        <Link
           target="_blank"
-          href={value}
-          onClick={e => {
-            stopPropagationAndPreventDefault(e);
+          onClick={() => {
             runActionTrackerSegment({
               actionName: action.name,
               actionType: action.type,
@@ -205,10 +201,11 @@ const executeColumn: ColumnDefinition<Policy, AutomationPoliciesTableProps> = {
               policyName: item.name
             });
           }}
-          noAutoMargin
+          href={value}
         >
-          {t('in-automation:ActionCatalog.launch')}
-        </Button>
+          {t('in-automation:ActionCatalog.launch')}{' '}
+          <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />
+        </Link>
       );
     } else if (isExecutable) {
       return (
