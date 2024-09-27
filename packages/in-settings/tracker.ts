@@ -5,7 +5,6 @@
 
 import {
   track,
-  SETTINGS_USER_INVITE_SUBMIT,
   SETTINGS_ROLE_SUBMIT,
   SETTINGS_ROLE_OPEN_SUBMIT_FORM,
   SETTINGS_EVENT_VIEW,
@@ -36,13 +35,6 @@ import {
   SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUCCESS,
   SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_ERROR,
   SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUBMITTED,
-  SHARE_AND_INVITE_SUBMIT,
-  SHARE_AND_INVITE_CLOSED,
-  SHARE_AND_INVITE_TRIGGERED,
-  SHARE_AND_INVITE_INVITEE_JOINED,
-  SHARE_AND_INVITE_ADD_USER,
-  SHARE_AND_INVITE_NEW_GROUP,
-  SHARE_AND_INVITE_COPY_LINK,
   UNIT_ONBOARDING_START_INTEGRATING_CLICK,
   UNIT_ONBOARDING_TRACE_INTERACTIONS_CLICK,
   UNIT_ONBOARDING_CONNECT_WITH_EXPERTS_CLICK,
@@ -57,15 +49,6 @@ import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { EventTrackerProps } from 'in-services/tracking/segment/types';
 import { CTA_CLICKED } from 'in-services/util/constants';
-
-export const submitInviteUserTracker = (e: Object) => track(SETTINGS_USER_INVITE_SUBMIT, e);
-export const shareAndInviteSubmitTracker = (e: Object) => track(SHARE_AND_INVITE_SUBMIT, e);
-export const closedInviteAndShareModal = () => track(SHARE_AND_INVITE_CLOSED);
-export const inviteAndShareButtonClicked = (e: Object) => track(SHARE_AND_INVITE_TRIGGERED, e);
-export const addUserInviteAndShareModal = () => track(SHARE_AND_INVITE_ADD_USER);
-export const newGroupInviteAndShareModal = () => track(SHARE_AND_INVITE_NEW_GROUP);
-export const copyLinkInviteAndShareModal = () => track(SHARE_AND_INVITE_COPY_LINK);
-export const invitedUserJoined = (e: Object) => track(SHARE_AND_INVITE_INVITEE_JOINED, e);
 
 export const unitOnboardingStartIntegratingClick = () => track(UNIT_ONBOARDING_START_INTEGRATING_CLICK);
 export const unitOnboardingTraceInteractionsClick = () => track(UNIT_ONBOARDING_TRACE_INTERACTIONS_CLICK);
@@ -90,7 +73,6 @@ export const deleteAlertChannelTracker = (e: Object) => track(SETTINGS_ALERT_CHA
 export const editAlertChannelTracker = (e: Object) => track(SETTINGS_ALERT_CHANNEL_EDIT, e);
 
 export const viewEventTracker = (e: Object) => track(SETTINGS_EVENT_VIEW, e);
-
 export const logManagementDeleteLogsClickedTracker = (e: Object) =>
   track(SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_CLICKED, e);
 export const logManagementDeleteLogsSubmittedTracker = (e: Object) =>
