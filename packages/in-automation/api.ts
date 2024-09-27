@@ -25,7 +25,8 @@ import {
   SyntheticAlertConfigWithMetadata,
   ServiceLevelsAlertConfigWithMetadata,
   ActionType,
-  ActionNameExists
+  ActionNameExists,
+  ResourceOptimization
 } from 'in-types';
 import {
   ApplicationSmartAlertConfigWithMetadata,
@@ -44,6 +45,7 @@ import http from 'in-services/http';
 import { t } from 'in-i18n';
 
 const automationAPIBase = '/api/automation';
+const turboAPIBase = '/api/turbonomic';
 const actionUrl = `${automationAPIBase}/actions` as const;
 const policiesUrl = `${automationAPIBase}/policies` as const;
 
@@ -97,6 +99,18 @@ export function getAllActionsWithAISuggestions(
       actions.map(({ action, score, confidence, aiEngine }) => ({ ...action, score, confidence, aiEngine }))
     )
   );
+}
+
+export function getResourceOptimization(targetSnapshotId: string, entityType: string) {
+  return http<ResourceOptimization>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `${turboAPIBase}/recommendedActions?targetSnapshotId=${encodeURIComponent(
+      targetSnapshotId
+    )}&entityType=${entityType}`,
+    mapToResultObject: true,
+    headers: getCsrfHeader()
+  });
 }
 
 export function getAction(actionId: string): Observable<Action> {

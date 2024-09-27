@@ -440,5 +440,12 @@
     "pleaseConfirm": "Please Confirm",
     "pleaseConfirmMsg": "Are you sure you want to delete <strong>{{name}}</strong>?",
     "delete": "Delete"
+  },
+  "turboActionCategories": {
+    "compliance": "Compliance",
+    "prevention": "Prevention",
+    "efficiency": "Efficiency",
+    "savings": "Savings",
+    "performance": "Performance"
   }
 }

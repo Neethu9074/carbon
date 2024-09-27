@@ -10,7 +10,9 @@ import { Card, Spacer } from '@instana/components';
 
 import useScoredActions, {
   useUserRecommendedScoredActions,
-  useAIRecommendedScoredActions
+  useAIRecommendedScoredActions,
+  useResourceOptimization,
+  useTurboRecommendedActions
 } from 'in-automation/AutomationCard/useScoredActions';
 import AutomationCardButtonGroup, { useActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 import RecommendedOptimizations from 'in-automation/ResourceOptimization/RecommendedOptimizations';
@@ -23,6 +25,9 @@ import useTrigger from 'in-automation/AutomationCard/useTrigger';
 import { hasAutomationAccess } from 'in-stores/permission';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { Event, VolatileId } from 'in-types';
+
+// import { getResourceOptimizations } from 'in-automation/api';
+// import { useObservable } from '@instana/hooks';
 
 interface AutomationCardProps {
   volatileId: VolatileId;
@@ -38,16 +43,16 @@ function AutomationCard({ volatileId, event }: AutomationCardProps) {
   const ootbActions = useScoredActions({ event, trigger, type: 'watsonx' });
   const recommendedActions = useUserRecommendedScoredActions({ actions: userActions, policies });
   const ootbRecommendedActions = useAIRecommendedScoredActions({ actions: ootbActions, policies });
+  const recommendedOptimizations = useResourceOptimization({ event });
+  const turboRecommendedActions = useTurboRecommendedActions(recommendedOptimizations);
   return (
     <>
       <Row withoutSideMargin>
         <Col xs>
           <Card>
             <RecommendedOptimizations
-              event={event}
-              volatileId={volatileId}
-              trigger={trigger}
-              recommendedOptimizations={recommendedActions}
+              recommendedActions={turboRecommendedActions}
+              totalRecommendedActions={recommendedOptimizations?.data?.totalRecommendedActionsCount!}
             />
           </Card>
         </Col>
