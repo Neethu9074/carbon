@@ -137,15 +137,15 @@
     "label": "Display name for the group"
   },
   "PermissionSection": {
-    "addButton_websites": "Select websites",
+    "addButton_websites": "Add websites",
     "descriptionLimitedAccess_websites": "Select the role and add websites below to grant access.",
     "descriptionAccessAll_websites": "All websites can be accessed with the selected role.",
-    "addButton_mobileApps": "Select mobile apps",
+    "addButton_mobileApps": "Add mobile apps",
     "descriptionLimitedAccess_mobileApps": "Select the role and add mobile apps below to grant access.",
     "descriptionAccessAll_mobileApps": "All mobile apps can be accessed with the selected role.",
     "description_analytics": "Content is defined by access granted to website, mobile app and application dashboards.",
     "description_events_and_alerts": "Events and alerts to view are defined by the access granted to website, mobile app, application dashboards and platforms.",
-    "addButton_applications": "Select applications",
+    "addButton_applications": "Add applications",
     "descriptionLimitedAccess_applications": "Select the role and add applications below to grant access.",
     "descriptionAccessAll_applications": "All applications can be accessed with the selected role.",
     "automationFilterUse": "Use the filters below to grant access to automation actions.",
@@ -165,7 +165,7 @@
     "limitedAccessKubernetes_namespaces": "Namespaces",
     "limitedAccessKubernetes_addCluster": "Add Cluster",
     "limitedAccessKubernetes_addNamespace": "Add Namespace",
-    "addButton_syntheticTests": "Select Synthetic Tests",
+    "addButton_syntheticTests": "Add Synthetic Tests",
     "descriptionAccessAll_synthetics": "All Synthetic Tests can be accessed with the selected role.",
     "descriptionLimitedAccess_synthetics": "Select the role and add Synthetic Tests below to grant access.",
     "addButton_actions": "Select Actions",
@@ -178,7 +178,7 @@
     "contributionFilter_name_mayNotBeBlank": "The contribution filter name must not be blank.",
     "contributionFilter_name_mustNotBeLargerThan128Characters": "The contribution filter name must not be larger than 128 characters.",
     "contributionFilter_name_alreadyUsed": "The contribution filter name is already used.",
-    "addButton_syntheticCredentials": "Select Synthetic Credentials"
+    "addButton_syntheticCredentials": "Add Synthetic Credentials"
   },
   "selectItemForm": {
     "doneButton": "Done"
