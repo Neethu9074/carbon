@@ -101,13 +101,20 @@ export default class extends React.Component {
 }
 
 function EventTable(props) {
-  const { selectedEventId, onChange, progress, eventObservable } = props;
+  const { selectedEventId, onChange, progress, eventObservable, isApplicationDirect } = props;
+  const { location, navigate } = useNavigation();
+  location.pathname = eventsPath;
   const items = props.items.map(item => updateTitle(item));
   if (!items) {
     return null;
   }
 
   function onItemClicked(eventId) {
+    if (isApplicationDirect) {
+      setOrDeleteMatrixKey(location, eventsPath, 'view', 'cve_issue');
+      setOrDeleteMatrixKey(location, eventsPath, 'eventId', eventId);
+      navigate(location);
+    }
     onChange({ eventId, relatedEventsPage: 1 });
   }
 
