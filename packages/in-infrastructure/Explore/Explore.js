@@ -9,25 +9,6 @@ import { Message, Stack } from '@instana/components';
 import { just } from '@instana/observables';
 
 import {
-  filterAddedTracker,
-  filterRemovedTracker,
-  filtersClearedTracker,
-  groupAddedTracker,
-  groupRemovedTracker,
-  groupFocusedOnTracker,
-  navigateToEntityTracker,
-  typeSelectorChangedTracker,
-  groupExpandedTracker,
-  groupCollapsedTracker,
-  loadMoreTracker,
-  metricAddedTracker,
-  metricRemovedTracker,
-  metricAggregationChangedTracker,
-  sortingTracker,
-  LOAD_MORE_CONTEXT,
-  SORTING_CONTEXT
-} from 'in-infrastructure/Explore/services/tracking';
-import {
   tagFilterExpressionMatrixParameter,
   resetMetricsAndOrderOnTypeChange,
   metricsMatrixParameter,
@@ -50,11 +31,13 @@ import { removeDuplicatesFromArrayObjects, getUniqueMetricsLabels } from 'in-cus
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import { getDefaultOrder, getUpdatedOrder, toBackendGroupBy } from 'in-infrastructure/Explore/utils';
+import { LOAD_MORE_CONTEXT, SORTING_CONTEXT } from 'in-infrastructure/Explore/services/tracking';
 import GroupedInfrastructure from 'in-infrastructure/Explore/components/GroupedInfrastructure';
 import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import ApiQueryAction from 'in-components/QueryBuilder/workspace/ApiQueryAction';
+import { useSegmentTracker } from 'in-infrastructure/Explore/services/tracking';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
 import { fromUrlMetrics } from 'in-infrastructure/Explore/services/metrics';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
@@ -110,6 +93,14 @@ export default function InfraExploreView() {
 function InfraExploreViewWithFixatedTimeConfig() {
   const timeConfig = useTimeConfig();
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
+  const {
+    navigateToEntityTracker,
+    metricAddedTracker,
+    metricRemovedTracker,
+    metricAggregationChangedTracker,
+    typeSelectorChangedTracker
+  } = useSegmentTracker();
+
   const [
     {
       tagFilterExpression,
@@ -243,6 +234,9 @@ function Content({
   );
   const setTags = useCallback(tags => setUrl({ tags }), [setUrl]);
   const setOrder = useCallback(order => setUrl({ order }), [setUrl]);
+
+  const { filterAddedTracker, filterRemovedTracker, filtersClearedTracker, groupAddedTracker, groupRemovedTracker } =
+    useSegmentTracker();
 
   const onTagFilterExpressionChange = useCallback(tagFilterExpression => setUrl({ tagFilterExpression }), [setUrl]);
   const onChartedMetricsChange = useCallback(chartedMetrics => setUrl({ chartedMetrics }), [setUrl]);
@@ -410,6 +404,9 @@ function List({
   showGroupsWithMissingTags
 }) {
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
+
+  const { sortingTracker, loadMoreTracker, groupFocusedOnTracker, groupExpandedTracker, groupCollapsedTracker } =
+    useSegmentTracker();
 
   if (isInitPage) {
     return (
