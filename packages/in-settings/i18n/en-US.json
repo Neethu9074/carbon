@@ -485,7 +485,7 @@
       "noLogVolumeData": "No data to show",
       "logVolumeErrorTitle": "Something went wrong",
       "logVolumeErrorInfo": "We are unable to retrieve data from the database",
-      "groupingTagTootip": "{{groupingTag}} information not available",
+      "groupingTagTootip": "{{groupingTag}} information not available"
     },
     "auditTrail": "Audit trail",
     "failedToSaveConfig": "Failed to save config: {{err}}",
