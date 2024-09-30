@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon, CarbonButton, CarbonInlineLoading, HelpText } from '@instana/components';
+import { SvgIcon, CarbonButton, CarbonInlineLoading, HelpText, PreviewPill } from '@instana/components';
 
 import { EVENT_AI_GENERATE_SUBMIT } from 'in-services/tracking/eventNames';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
@@ -60,7 +60,9 @@ export function QuickActions(props) {
       <div>
         {displayQuickStart && (
           <>
-            <div className={locals.quickActionsHeader}>{t('in-events:notes.summarizeIncident')}</div>
+            <div className={locals.quickActionsHeader}>
+              {t('in-events:notes.summarizeIncident')} <PreviewPill privatePreview />
+            </div>
             <div className={locals.quickActionsDescription}>{t('in-events:notes.summarizeIncidentDescription')}</div>
           </>
         )}
