@@ -9,9 +9,9 @@ import {
   ButtonGroup,
   SearchInput,
   Pagination as CarbonPagination,
-  DataTable as CarbonDataTable
+  DataTable as CarbonDataTable,
+  Card
 } from '@instana/components';
-import { Card } from '@instana/components';
 
 import EmptyContent from 'in-components/tables/ServerTable/internalComponents/EmptyContent';
 import SortIndicator from 'in-sdk/components/dashboard/Table/components/SortIndicator';
@@ -140,16 +140,16 @@ export default class Table extends React.Component {
       </div>
     );
 
-    const carbonHeaders = cols.map((item, i) => ({
-      id: i,
-      key: item.title,
-      header: item.title,
-      isSortable: true,
-      sortDirection: data.sortColumnIndex === i ? data.sortDirection.toUpperCase() : 'NONE'
-    }));
-    let carbonRows = [];
-    let carbonRow = {};
     if (carbonTableEnabled) {
+      const carbonHeaders = cols.map((item, i) => ({
+        id: i,
+        key: item.title,
+        header: item.title,
+        isSortable: true,
+        sortDirection: data.sortColumnIndex === i ? data.sortDirection.toUpperCase() : 'NONE'
+      }));
+      const carbonRows = [];
+
       if (data.rows.length === 0) {
         return (
           <div className={locals.tableContainer}>
@@ -179,14 +179,15 @@ export default class Table extends React.Component {
         );
       } else {
         for (let i = 0, length = data.rows.length; i < length; i++) {
+          let carbonRow = {};
           carbonRow = {};
-          carbonRow['id'] = data.rows[i].key || String(i);
+          carbonRow.id = data.rows[i].key ?? String(i);
           data.rows[i].columns.map((column, i) => {
             // get column header name and assign value to that
-            carbonRow[carbonHeaders[i]['header']] = column.content ?? '-';
+            carbonRow[carbonHeaders[i].header] = column.content ?? '-';
           });
           if (this.props.getRowDetails) {
-            carbonRow['expanded'] = this.props.getRowDetails(data.rows[i].rowConfig);
+            carbonRow.expanded = this.props.getRowDetails(data.rows[i].rowConfig);
           }
           carbonRows.push(carbonRow);
         }
@@ -204,7 +205,7 @@ export default class Table extends React.Component {
                 this.store.setFilter(value?.target?.value);
               }}
               sortRow={sortState => {
-                let orderBy = sortState.sortHeaderKey;
+                const orderBy = sortState.sortHeaderKey;
                 let orderDirection = sortState.sortDirection;
                 // backend APIs as of now doesnt support NONE sort direction option, so will be
                 // changing it to ASC to maintain the current behaviour.
@@ -213,41 +214,39 @@ export default class Table extends React.Component {
                 } else if (sortState.sortDirection === 'ASC') {
                   orderDirection = 'DESC';
                 }
-                let columnIndex = carbonHeaders.findIndex(x => x.header === orderBy);
+                const columnIndex = carbonHeaders.findIndex(x => x.header === orderBy);
 
                 this.store.setSort(columnIndex, orderDirection.toLowerCase());
                 // onChange({ query, orderBy, orderDirection, page: 1, pageSize });
               }}
               searchText={this.state.filter}
+              isExpandable={this.props.getRowDetails}
               isSearchEnabled
-              isExpandable={this.props.getRowDetails !== undefined ? true : false}
             />
-            {showPagination ? (
-              carbonPaginationEnabled ? (
-                <>
-                  <CarbonPagination
-                    currentPage={(data.page || 0) + 1}
-                    totalItems={this.props.rows?.length}
-                    pageSize={this.props.maxItemsPerPage ?? 10}
-                    pageSizes={[this.props.maxItemsPerPage ?? 10]}
-                    onChange={p => this.store.setPage(p.page - 1)}
-                  />
-                </>
+            {showPagination &&
+              (carbonPaginationEnabled ? (
+                <CarbonPagination
+                  currentPage={(data.page ?? 0) + 1}
+                  totalItems={this.props.rows?.length}
+                  pageSize={this.props.maxItemsPerPage ?? 10}
+                  pageSizes={[this.props.maxItemsPerPage ?? 10]}
+                  onChange={p => this.store.setPage(p.page - 1)}
+                />
               ) : (
                 <div className={locals.paginationWrapper}>
                   <Pagination
                     onChange={newPage => this.store.setPage(newPage - 1)}
-                    currentPage={(data.page || 0) + 1}
+                    currentPage={(data.page ?? 0) + 1}
                     numPages={data.pageCount}
                   />
                 </div>
-              )
-            ) : null}
-            {this.props.bottomContent ? <div className={locals.bottomContent}>{this.props.bottomContent}</div> : null}
+              ))}
+            {this.props.bottomContent && <div className={locals.bottomContent}>{this.props.bottomContent}</div>}
           </Card>
         </div>
       );
     }
+
     // legacy code - instana table , need this till feature flag is there
     if (data.rows.length === 0) {
       rows.push(
