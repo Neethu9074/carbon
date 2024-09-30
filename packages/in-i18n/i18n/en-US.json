@@ -20,7 +20,9 @@
       "tableLoadMoreRow": {
         "loadMore": "Load More"
       },
-      "dataTable": "Data table"
+      "dataTable": "Data table",
+      "expandHeader": "Expand row",
+      "expandRow": "Toggle expand row"
     },
     "tableSkeleton": {
       "sampleTable": "Sample table"
