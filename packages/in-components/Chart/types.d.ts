@@ -7,8 +7,8 @@ import { Property } from 'csstype';
 import React from 'react';
 
 import { AggregationType, BoundaryScope, FilterInterface, TimeConfig } from '@instana/types';
-import { ThresholdOperator } from '@instana/types/typeDefinitions';
 import { DateFormatterInput, DateFormatterOutput } from '@instana/format-date';
+import { ThresholdOperator } from '@instana/types/typeDefinitions';
 import { Observable } from '@instana/observables';
 
 import { Renderer } from 'in-components/Chart/renderer/types';

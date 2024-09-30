@@ -13,8 +13,10 @@ import { Button } from '@instana/legacy';
 import globalHighlightAction from 'in-components/Chart/components/ContextMenu/actions/globalHighlight';
 import downloadJSONAction from 'in-components/Chart/components/ContextMenu/actions/downloadJSON';
 import downloadCSVAction from 'in-components/Chart/components/ContextMenu/actions/downloadCSV';
+import downloadPDFAction from 'in-components/Chart/components/ContextMenu/actions/downloadPDF';
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { customDashboardsExportPdfWidget } from 'in-services/featureFlags';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { containsIgnoreCase } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
@@ -30,7 +32,17 @@ export default class extends React.Component {
   constructor(props) {
     super(props);
 
-    const { setShowContextMenu, highlightedTimeframe, chart } = props;
+    const {
+      setShowContextMenu,
+      highlightedTimeframe,
+      chart,
+      chartWrapper,
+      isCustomDashboard,
+      setExportWidgetId,
+      setTooltipRef,
+      setShouldExportWidget,
+      tooltipRef
+    } = props;
 
     const basicButtonConfigs = [
       {
@@ -51,6 +63,18 @@ export default class extends React.Component {
       {
         ...downloadCSVAction,
         onClick: () => downloadCSVAction.onClick(this.props.metrics, highlightedTimeframe)
+      },
+      {
+        ...(isCustomDashboard &&
+          customDashboardsExportPdfWidget && {
+            ...downloadPDFAction,
+            onClick: () => {
+              setTooltipRef(tooltipRef);
+              setShouldExportWidget(true);
+              const widgetNode = chartWrapper.closest('[id^="widget-"]');
+              downloadPDFAction.onClick({ widgetNode, setExportWidgetId });
+            }
+          })
       }
     ];
 

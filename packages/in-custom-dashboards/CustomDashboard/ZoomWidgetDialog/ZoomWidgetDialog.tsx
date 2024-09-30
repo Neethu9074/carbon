@@ -20,7 +20,7 @@ import locals from 'in-custom-dashboards/CustomDashboard/ZoomWidgetDialog/ZoomWi
 const widgetsWithoutMinWidth = ['pie', 'timeZones', 'bigNumber', 'applicationHealth'];
 
 // Tracks which widgets should have a minimum height defined
-const widgetsWithHeight = ['apdex', 'slo'];
+const widgetsWithHeight = ['apdex', 'slo', 'slo2'];
 
 const widgetCustomHeight = 450;
 

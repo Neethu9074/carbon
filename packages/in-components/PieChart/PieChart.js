@@ -37,6 +37,7 @@ const PieChartWrapper = forwardRef((props, ref) => {
     y1: { metrics, formatter },
     donutRadius
   } = props;
+
   const [hiddenMetrics, setHiddenMetrics] = useState([]);
   const sliceGap = donutRadius && metrics.length > 1 ? 0.002 : 0;
 
@@ -61,7 +62,8 @@ const PieChartWrapper = forwardRef((props, ref) => {
             label: props.y1.labels[i],
             aggregation: props.y1.aggregations?.[i],
             timeShift: props.y1.timeShifts?.[i] || defaultTimeShift,
-            lastValue: props.y1.lastValue ?? false
+            lastValue: props.y1.lastValue ?? false,
+            formatter: props.y1.formatter
           };
         }
       }),
@@ -91,7 +93,7 @@ const PieChartWrapper = forwardRef((props, ref) => {
   }
   return (
     <div className={locals.chartContainer} ref={ref}>
-      <PieLegend {...props} updateHiddenMetrics={setHiddenMetrics} hiddenMetrics={hiddenMetrics} />
+      <PieLegend {...props} updateHiddenMetrics={setHiddenMetrics} hiddenMetrics={hiddenMetrics} slices={slices} />
       <div className={locals.chart} style={customStyle}>
         <svg className={locals.svg} viewBox="-1 -1 2 2">
           {slices.map((slice, i) => {

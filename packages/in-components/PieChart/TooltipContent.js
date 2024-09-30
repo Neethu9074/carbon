@@ -15,11 +15,16 @@ import { percentage } from 'in-services/formatters/number';
 
 import locals from './TooltipContent.mless';
 
-export default function TooltipContent({ slice, formatter, timeConfig }) {
+export default function TooltipContent({ slice, formatter, timeConfig, displayLabel = false }) {
   return (
     <div className={locals.wrapper}>
-      <span className={locals.dot} style={{ background: slice.color }} />
-      <span className={locals.label}>{slice.label}</span>
+      {displayLabel && (
+        <>
+          <span className={locals.dot} style={{ background: slice.color }} />
+          <span className={locals.label}>{slice.label}</span>
+        </>
+      )}
+
       {slice.timeShift.offset !== 0 && (
         <span className={locals.timeShift}>{`(${getTimeShiftLabel(slice.timeShift)})`}</span>
       )}
@@ -38,5 +43,6 @@ export default function TooltipContent({ slice, formatter, timeConfig }) {
 TooltipContent.propTypes = {
   slice: rpt.object.isRequired,
   formatter: rpt.func.isRequired,
-  timeConfig: rpt.object.isRequired
+  timeConfig: rpt.object.isRequired,
+  displayLabel: rpt.bool
 };

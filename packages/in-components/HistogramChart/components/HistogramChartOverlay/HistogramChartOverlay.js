@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import { isEqual } from 'lodash';
 
@@ -42,8 +42,10 @@ export default function HistogramChartOverlay({
   selectionMenuItems, // items for the selection context menu, if not set, selection will be disabled
   onSelectionChanged, // callback to call when selection changes, e.g., onSelectionChanged({from: 2, to: 3})
   selectionAdjustable, // can the selection be moved and resized?
-  tooltipRenderer // object with a function: `render({from, to, style})` which will be used to render a tooltip
+  tooltipRef: getTooltipRef,
+  tooltipRenderer // object with a function: `render({from, to, style})` which will be used to render a tooltip,
 }) {
+  const tooltipRef = useRef();
   // If the selection is adjustable the glass pane element which captures mouse events must be wider than
   // the chart on both sides (left and right) by GLASS_PANE_OFFSET, in order to:
   // - Cover completely the resizing handles which are partially outside the chart area.
@@ -441,8 +443,24 @@ export default function HistogramChartOverlay({
   const contextMenuLeftAligned = selectedBuckets && selectedBuckets.toIndex < buckets.length / 2;
   const cursor = mouseState?.cursor || cursors.pointer;
 
+  const tooltip = tooltipRenderer.render({
+    from: tooltipFrom,
+    to: tooltipTo,
+    style: { ...tooltipPositionStyle, bottom: height }
+  });
+
+  useEffect(() => {
+    getTooltipRef?.(tooltipRef?.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tooltip]);
+
   return (
-    <div className={locals.overlay} style={{ width: width }}>
+    <div
+      className={classNames('chart-overlay', {
+        [locals.overlay]: true
+      })}
+      style={{ width: width }}
+    >
       <div
         className={locals.glassPane}
         style={{
@@ -484,14 +502,10 @@ export default function HistogramChartOverlay({
       )}
 
       {tooltipFrom != null && (
-        <>
+        <div ref={tooltipRef}>
           {!tooltipForSelection && <StrikeLine style={{ height: height, left: strikeLinePosition }} />}
-          {tooltipRenderer.render({
-            from: tooltipFrom,
-            to: tooltipTo,
-            style: { ...tooltipPositionStyle, bottom: height }
-          })}
-        </>
+          {tooltip}
+        </div>
       )}
     </div>
   );

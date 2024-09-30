@@ -120,4 +120,8 @@
   .legendLabel {
     .ellipsis();
   }
+
+  .legendValue {
+    display: none;
+  }
 }

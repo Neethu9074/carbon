@@ -17,6 +17,7 @@
         "copied": "Widget copied, use CTRL-V or CMD-V to paste on any custom dashboard",
         "duplicate": "Duplicate",
         "delete": "Delete",
+        "exportPDF": "Download PDF",
         "customDashboardWidgetTitle": "Custom dashboard widget: {{title}}"
       }
     },
@@ -69,7 +70,11 @@
       "renameDashboard": "Rename Dashboard",
       "dashboardName": "Dashboard Name",
       "rename": "Rename",
-      "failSaveDashboard": "Failed to save the dashboard."
+      "failSaveDashboard": "Failed to save the dashboard.",
+      "generatingPDFTitle": "Generating pdf",
+      "generatingPDFContent": "Please wait while the pdf is being generated.",
+      "generatedPDFTitle": "Pdf Generated",
+      "generatedPDFContent": "The pdf download will start shortly."
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "Dashboard not found",

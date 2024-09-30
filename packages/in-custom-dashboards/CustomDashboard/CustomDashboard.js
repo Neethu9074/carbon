@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState, useEffect } from 'react';
-import { find, isEqual } from 'lodash';
+import React, { useState, useRef, useEffect } from 'react';
+import { find, isEqual, debounce } from 'lodash';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
@@ -22,10 +22,12 @@ import {
   CUSTOM_DASHBOARD_ZOOM_WIDGET_FINISH,
   CUSTOM_DASHBOARD_ADD_WIDGET_DUPLICATE
 } from 'in-services/tracking/tracking';
+import ExportWidgetContainer from 'in-custom-dashboards/CustomDashboard/ExportWidgetContainer/ExportWidgetContainer';
 import WidgetEditorDialog from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialog';
 import { getCustomDashboard, updateCustomDashboard, removeCustomDashboard } from 'in-custom-dashboards/api';
 import ZoomWidgetDialog from 'in-custom-dashboards/CustomDashboard/ZoomWidgetDialog/ZoomWidgetDialog';
 import EditAsJsonDialog from 'in-custom-dashboards/CustomDashboard/EditAsJsonDialog/EditAsJsonDialog';
+import { CustomDashboardContext } from 'in-custom-dashboards/CustomDashboard/CustomDashboardContext';
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
 import SharingDialog from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialog';
 import { activeDialogs$, addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -37,11 +39,14 @@ import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getTrackingMeta } from 'in-custom-dashboards/tracker';
+import { nodeToImage } from 'in-services/util/nodeToImage';
+import { imageToPdf } from 'in-services/util/imageToPdf';
 import { cockpit } from 'in-cockpit/navigation/paths';
 import widgets from 'in-custom-dashboards/widgets';
 import { deepCopy } from 'in-services/util/object';
 import Prompt from 'in-components/Dialog/Prompt';
 import useUrlState from 'in-hooks/useUrlState';
+import { getWidgetId } from './Grid/Grid';
 import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
@@ -51,10 +56,16 @@ export default function CustomDashboardLoader(props) {
   };
 
   const [{ dashboardId }, setUrlState] = useUrlState(urlStateDefinition);
+
   const result = useObservable(getCustomDashboard(dashboardId), [dashboardId]);
 
   const [config, setConfig] = useState(getInitialState(result).config);
   const [isSaving, setSaving] = useState(getInitialState(result).isSaving);
+  const [isReadyToExport, setIsReadyToExport] = useState(false);
+  const [exportWidgetId, setExportWidgetId] = useState(null);
+  const [shouldExportWidget, setShouldExportWidget] = useState(false);
+  const [tooltipRef, setTooltipRef] = useState(null);
+  const exportWidgetContainerRef = useRef(null);
 
   const activeDialogs = useObservable(activeDialogs$, []) ?? [];
 
@@ -62,6 +73,7 @@ export default function CustomDashboardLoader(props) {
   const { trackCta } = useSegmentTracking();
 
   const [topLevelFilters, setTopLevelFilters] = useState([]);
+  const exportWidget = exportWidgetId && find(config?.widgets, eachWidget => exportWidgetId === eachWidget.id);
 
   useEffect(() => {
     setConfig(getInitialState(result).config);
@@ -89,39 +101,63 @@ export default function CustomDashboardLoader(props) {
     };
   }, [config, activeDialogs.length]);
 
+  useEffect(() => {
+    if (isReadyToExport && shouldExportWidget) {
+      const onPDFDownloadDebounce = debounceOnPDFDownload({
+        exportWidgetId,
+        onPDFDownload,
+        setIsReadyToExport,
+        setShouldExportWidget,
+        tooltipRef
+      });
+
+      onPDFDownloadDebounce();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [exportWidgetId, isReadyToExport, shouldExportWidget, tooltipRef]);
+
   return (
-    <CustomDashboardPresenter
-      {...props}
-      result={result}
-      config={config}
-      setConfig={setConfig}
-      setUrlState={setUrlState}
-      // Reset state when the config changes
-      key={dashboardId}
-      customDashboardId={dashboardId}
-      editable={config?.writable && !isSaving}
-      hasChanges={hasChanges(result, config)}
-      isSaving={isSaving}
-      onLayoutChange={changes => onLayoutChange(config, setConfig, changes)}
-      onDeleteCustomDashboard={onDeleteCustomDashboard}
-      onSaveConfiguration={onSaveConfiguration}
-      onRenameDashboard={() => onRenameDashboard(config, setConfig)}
-      onDuplicateDashboard={onDuplicateDashboard}
-      onAddWidget={onAddWidget}
-      onEditWidget={onEditWidget}
-      onCopyWidget={onCopyWidget}
-      onCopyAllWidgets={onCopyAllWidgets}
-      onDuplicateWidget={onDuplicateWidget}
-      onZoomWidget={onZoomWidget}
-      onRemoveWidget={onRemoveWidget}
-      onDiscardChanges={onDiscardChanges}
-      onShare={onShare}
-      onEditAsJson={onEditAsJson}
-      onViewAsJson={onViewAsJson}
-      canCreatePublicCustomDashboards={role.canCreatePublicCustomDashboards}
-      topLevelFilters={topLevelFilters}
-      setTopLevelFilters={setTopLevelFilters}
-    />
+    <CustomDashboardContext.Provider value={{ setExportWidgetId, setTooltipRef, setShouldExportWidget }}>
+      <CustomDashboardPresenter
+        {...props}
+        result={result}
+        config={config}
+        setConfig={setConfig}
+        setUrlState={setUrlState}
+        // Reset state when the config changes
+        key={dashboardId}
+        customDashboardId={dashboardId}
+        editable={config?.writable && !isSaving}
+        hasChanges={hasChanges(result, config)}
+        isSaving={isSaving}
+        onLayoutChange={changes => onLayoutChange(config, setConfig, changes)}
+        onDeleteCustomDashboard={onDeleteCustomDashboard}
+        onSaveConfiguration={onSaveConfiguration}
+        onRenameDashboard={() => onRenameDashboard(config, setConfig)}
+        onDuplicateDashboard={onDuplicateDashboard}
+        onAddWidget={onAddWidget}
+        onEditWidget={onEditWidget}
+        onCopyWidget={onCopyWidget}
+        onCopyAllWidgets={onCopyAllWidgets}
+        onDuplicateWidget={onDuplicateWidget}
+        onZoomWidget={onZoomWidget}
+        onRemoveWidget={onRemoveWidget}
+        onDiscardChanges={onDiscardChanges}
+        onShare={onShare}
+        onEditAsJson={onEditAsJson}
+        onViewAsJson={onViewAsJson}
+        canCreatePublicCustomDashboards={role.canCreatePublicCustomDashboards}
+        topLevelFilters={topLevelFilters}
+        setTopLevelFilters={setTopLevelFilters}
+      />
+      {exportWidget && (
+        <ExportWidgetContainer
+          widget={exportWidget}
+          ref={exportWidgetContainerRef}
+          setIsReadyToExport={setIsReadyToExport}
+        />
+      )}
+    </CustomDashboardContext.Provider>
   );
 
   function onAddWidget() {
@@ -306,6 +342,57 @@ export default function CustomDashboardLoader(props) {
   function onDiscardChanges() {
     setConfig(deepCopy(result.data));
   }
+
+  async function onPDFDownload(id, tooltipRef) {
+    const widget = find(config.widgets, eachWidget => id === eachWidget.id);
+    const widgetType = widget?.type;
+    const widgetNode = document.getElementById(getWidgetId(id));
+    const nodeToExport = exportWidgetContainerRef?.current?.firstChild;
+    const orientation = ['chart', 'apdex', 'histogram', 'slo', 'slo2'].includes(widgetType) ? 'l' : 'p';
+
+    if (nodeToExport) {
+      if (tooltipRef) {
+        handleTooltip({ tooltipRef, nodeToExport, widget: widgetNode, widgetType });
+      }
+
+      addMessage(
+        {
+          type: 'info',
+          timeout: 4000,
+          title: t('in-custom-dashboards:customDashboard.customDashboard.generatingPDFTitle'),
+          content: t('in-custom-dashboards:customDashboard.customDashboard.generatingPDFContent')
+        },
+        'custom-dashboard-pdf-generation'
+      );
+
+      const imageUrl = await nodeToImage({ node: nodeToExport }).finally(() => {
+        setExportWidgetId(null);
+        setTooltipRef(null);
+      });
+
+      imageToPdf({
+        imageScale: 2,
+        imageUrl,
+        filename: id,
+        shouldFitPdf: true,
+        pdfSettings: {
+          orientation
+        }
+      }).then(onfulfilled => {
+        if (onfulfilled) {
+          addMessage(
+            {
+              type: 'info',
+              timeout: 5000,
+              title: t('in-custom-dashboards:customDashboard.customDashboard.generatedPDFTitle'),
+              content: t('in-custom-dashboards:customDashboard.customDashboard.generatedPDFContent')
+            },
+            'custom-dashboard-pdf-generated'
+          );
+        }
+      });
+    }
+  }
 }
 
 function getInitialState(result) {
@@ -330,4 +417,70 @@ function hasChanges(result, config) {
   }
 
   return !isEqual(result.data, config);
+}
+
+function handleTooltip({ tooltipRef, nodeToExport, widget, widgetType }) {
+  const chartOverlaySelector = '.chart-overlay';
+  const isHistogram = widgetType === 'histogram';
+  const widgetChartOverlay = getElementInRef(widget, chartOverlaySelector);
+  const nodeToExportChartOverlay = getElementInRef(nodeToExport, chartOverlaySelector);
+
+  if (!widgetChartOverlay || !nodeToExportChartOverlay) {
+    return;
+  }
+
+  // Get the scale to position the tooltip in the right place, respecting the proportion.
+  const scaleToAdjustTooltipPosition = nodeToExportChartOverlay.offsetWidth / widgetChartOverlay.offsetWidth;
+
+  if (isHistogram) {
+    adjustHistogramTooltip(tooltipRef, scaleToAdjustTooltipPosition);
+  } else {
+    adjustTooltipPosition(tooltipRef, scaleToAdjustTooltipPosition);
+  }
+
+  // Append tooltip to nodeToExport chart overlay
+  nodeToExportChartOverlay.appendChild(tooltipRef);
+}
+
+function debounceOnPDFDownload({
+  exportWidgetId,
+  onPDFDownload,
+  setIsReadyToExport,
+  setShouldExportWidget,
+  tooltipRef
+}) {
+  if (!exportWidgetId) {
+    return null;
+  }
+  return debounce(() => {
+    onPDFDownload(exportWidgetId, tooltipRef);
+    setShouldExportWidget(false);
+    setIsReadyToExport(false);
+  }, 1000);
+}
+
+function adjustTooltipPosition(node, scale) {
+  const position = parseFloat(node.style.left);
+  if (isNaN(position)) {
+    return;
+  }
+
+  const adjustedPosition = position * scale;
+  node.style.left = `${adjustedPosition}px`;
+}
+
+function getElementInRef(ref, query) {
+  return ref?.querySelector(query);
+}
+
+function adjustHistogramTooltip(tooltipRef, scaleToAdjustTooltipPosition) {
+  const [barStrike, tooltipContent] = tooltipRef?.children || [];
+
+  if (barStrike) {
+    adjustTooltipPosition(barStrike, scaleToAdjustTooltipPosition);
+  }
+
+  if (tooltipContent) {
+    adjustTooltipPosition(tooltipContent, scaleToAdjustTooltipPosition);
+  }
 }
