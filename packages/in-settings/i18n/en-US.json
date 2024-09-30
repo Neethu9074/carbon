@@ -486,7 +486,6 @@
       "logVolumeErrorTitle": "Something went wrong",
       "logVolumeErrorInfo": "We are unable to retrieve data from the database",
       "groupingTagTootip": "{{groupingTag}} information not available",
-      "ruTooltip": "Resource units (RU) are calculated based on the volume of logs ingested and the retention period. Any amount of ingested data consumes a minimum of 1 RU"
     },
     "auditTrail": "Audit trail",
     "failedToSaveConfig": "Failed to save config: {{err}}",
