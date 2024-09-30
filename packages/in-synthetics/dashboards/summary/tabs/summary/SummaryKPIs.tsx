@@ -160,7 +160,7 @@ export default function SummaryKPIs({
 
   /**
    * Construct the array containing the common charts for Summary view
-   * @returns {JSX.Element[]} Array of Last Run - Certificate is Valid, Last Run - Days Remaining and Last Run - Time of Expiry charts
+   * @returns {JSX.Element[]} Array of Last Run - Certificate is Signed by Public CA, Last Run - Days Remaining and Last Run - Time of Expiry charts
    */
   const getSSLCertificateKPICards = () => {
     const resultListItem = resultList.data?.items[0];
