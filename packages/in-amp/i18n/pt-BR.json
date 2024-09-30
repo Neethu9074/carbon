@@ -86,7 +86,6 @@
       "essentials": "Itens básicos",
       "iqmHosts": "Hosts IQM",
       "syntheticPops": "PoPs gerenciados sintéticos",
-      "logging": "Logs no contexto",
       "resourceUnits": "Unidades de recursos com autorizações",
       "consumedUnits": "Unidades de recursos consumidas",
       "infrastructure": "Infraestrutura",
@@ -98,11 +97,7 @@
       "trendLine": "Linha de tendência",
       "dataUsage": "Uso de dados",
       "dataUsageHelperText": "Quantidade de bytes enviados por meio de agentes separados por categoria no intervalo de tempo escolhido.",
-      "syntheticsHelperText": "O número de unidades de recurso consumidas por cada tipo de ação. As unidades são calculadas com um fator de 0,025 para testes simples, 0,042 para testes de API e 1,000 para testes do navegador.",
-      "loggingHelperText": {
-        "saas": "Número de unidades de recursos (RU) consumidas pelos logs no contexto.<br><br>As unidades de recursos são calculadas com base no tempo em que os dados ingeridos são retidos:<br>• 1 GB de dados retidos por 30 dias consome 1 RU<br>• 1 GB de dados retidos por 60 dias consome 1,2 RUs.<br>• 1 GB de dados retidos por 90 dias consome 1,4 RUs.",
-        "onprem": "Número de unidades de recursos (RU) consumidas pelos logs no contexto.<br><br>As unidades de recursos são calculadas com base na quantidade de dados ingeridos. 1 GB de dados ingeridos consome 1 RU."
-      }
+      "syntheticsHelperText": "O número de unidades de recurso consumidas por cada tipo de ação. As unidades são calculadas com um fator de 0,025 para testes simples, 0,042 para testes de API e 1,000 para testes do navegador."
     },
     "activationAdoption": {
       "activationAdoption": "Ativação e adoção",
