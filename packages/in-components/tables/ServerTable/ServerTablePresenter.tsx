@@ -229,6 +229,9 @@ export default function ServerTablePresenter<
         searchText={query}
         isSearchEnabled={isSearchable}
         onClickingRow={onRowClick}
+        tableInCard={tableInCard || cardTitle != null}
+        fixedLayout={fixedLayout}
+        results={result.data?.items}
       />
     );
 
