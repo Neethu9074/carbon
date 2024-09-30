@@ -6,19 +6,30 @@
 
 import { useState, useEffect } from 'react';
 
-import { PaginatedResult, SloEntityType, Progress } from '@instana/types';
+import {
+  PaginatedResult,
+  SloEntityType,
+  Progress,
+  SloEntityUnion,
+  ServiceLevelObjectiveConfiguration
+} from '@instana/types';
 import { generateStableHash } from '@instana/utils';
 
-import {
-  SloData,
-  SloListPageSize,
-  resultToSloData
-} from 'in-service-levels/components/Shared/SloListSelection/SloListSelection';
+import { SloListPageSize } from 'in-service-levels/components/Shared/SloListSelection/SloListSelection';
 import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
+
+export interface SloData {
+  id: string;
+  label: string;
+  entityName: string;
+  entityType: SloEntityUnion['type'];
+  query?: string;
+  page?: number;
+}
 
 export interface UseBufferedSloDataProps extends Pick<PaginatedResult<any>, 'page'> {
   query: string;
-  entityType: SloEntityType | undefined;
+  entityType: SloEntityType;
 }
 
 export interface UseBufferedSloDataResult extends Pick<PaginatedResult<any>, 'page' | 'pageSize' | 'totalHits'> {
@@ -42,16 +53,15 @@ export default function usePaginatedSloList({
   });
 
   useEffect(() => {
-    setSloList([]);
-  }, [entityType]);
+    const sloData = sloConfigsToSloData(data?.items ?? [], page, query);
 
-  useEffect(() => {
-    if (progress.loading) return;
+    // In order to fix some race conditions we had, we nee to do the entire filtering on UI side.
+    const filteredSloList = filterByPayloadData([...sloList, ...sloData], entityType, page, query);
 
-    const sloData = data ? resultToSloData(data) : [];
-    setSloList([...sloList, ...sloData]);
+    setSloList(filteredSloList);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [progress.loading, generateStableHash(data)]);
+  }, [generateStableHash({ data }), entityType, query]);
 
   return {
     sloList,
@@ -61,4 +71,33 @@ export default function usePaginatedSloList({
     totalHits: data?.totalHits ?? 0,
     progress
   };
+}
+
+function filterByPayloadData(
+  sloData: SloData[],
+  entityType: SloEntityUnion['type'],
+  page: number,
+  query: string
+): SloData[] {
+  return sloData.filter(({ label, entityType: itemEntityType, page: itemPage }) => {
+    const matchPage = (itemPage ?? 0) <= page;
+    const matchEntityType = itemEntityType === entityType;
+    const matchQuery = label.match(new RegExp(query, 'gi'));
+    return matchPage && matchEntityType && matchQuery;
+  });
+}
+
+export function sloConfigsToSloData(
+  sloConfigs: ServiceLevelObjectiveConfiguration[],
+  page?: number,
+  query?: string
+): SloData[] {
+  return sloConfigs.map(({ id, name, entity }) => ({
+    id: id as string,
+    label: name,
+    entityName: '',
+    entityType: entity.type,
+    page,
+    query
+  }));
 }

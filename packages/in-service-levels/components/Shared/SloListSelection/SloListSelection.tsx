@@ -7,15 +7,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Field, Item } from 'formalistic';
 
-import { PaginatedResult, ServiceLevelObjectiveConfiguration, SloEntityType, SloEntityUnion } from '@instana/types';
 import { HorizontalIndicator, Typography, SearchInput } from '@instana/components';
 import { Progress } from '@instana/components/types/util/dataRetrieval';
+import { PaginatedResult, SloEntityType } from '@instana/types';
 
 import SloTableHeader from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloTableHeader';
 import SloTableSelection from 'in-service-levels/components/Shared/SloTableSelection/SloTableSelection';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
+import usePaginatedSloList, { SloData } from 'in-service-levels/hooks/usePaginatedSloList';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
-import usePaginatedSloList from 'in-service-levels/hooks/usePaginatedSloList';
 import useSelectedIds from 'in-service-levels/hooks/useSelectedIds';
 import Sections from 'in-components/workspace/Sections/Sections';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
@@ -23,12 +23,6 @@ import { t } from 'in-i18n';
 
 export const SloListPageSize = 6;
 
-export interface SloData {
-  id: string;
-  label: string;
-  entityName: string;
-  entityType: SloEntityUnion['type'];
-}
 const DEFAULT_ENTITY_TYPE: SloEntityType = 'application';
 
 interface SloListSelectionProps {
@@ -121,19 +115,6 @@ export default function SloListSelection({ sloIdsField, entityTypeField, onChang
 
 function sortedSloDataByLabel(sloData: SloData[]): SloData[] {
   return sloData.sort((a, b) => a.label.localeCompare(b.label));
-}
-
-export function sloConfigsToSloData(sloConfigs: ServiceLevelObjectiveConfiguration[]): SloData[] {
-  return sloConfigs.map(({ id, name, entity }) => ({
-    id: id as string,
-    label: name,
-    entityName: '',
-    entityType: entity.type
-  }));
-}
-
-export function resultToSloData(result: PaginatedResult<ServiceLevelObjectiveConfiguration>): SloData[] {
-  return sloConfigsToSloData(result.items);
 }
 
 interface UseSloListResult extends Pick<PaginatedResult<any>, 'page' | 'pageSize' | 'totalHits'> {
