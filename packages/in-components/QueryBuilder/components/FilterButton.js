@@ -23,7 +23,8 @@ export default function FilterButton({
   withoutOrConjunction = false,
   withoutBrackets = false,
   getTagCatalog,
-  additionalGetTagCatalogProps
+  additionalGetTagCatalogProps,
+  addTagDefinitionToFormModel
 }) {
   // We must not execute the onCloseSideEffect when we just triggered a form model change
   // as this would place the focus onto the wrong element.
@@ -38,7 +39,8 @@ export default function FilterButton({
         withoutOrConjunction,
         withoutBrackets,
         getTagCatalog,
-        additionalGetTagCatalogProps
+        additionalGetTagCatalogProps,
+        addTagDefinitionToFormModel
       }}
       align="bottomLeft"
       withoutWrapper

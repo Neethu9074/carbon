@@ -13,7 +13,10 @@ import ResultAwareBigNumberKpiCard, {
   ConfigWithStaticCompanion,
   isConfigWithCompanionMetric
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
-import { useFilteredMetricConfiguration } from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
+import {
+  getFilterResultNote,
+  useFilteredMetricConfiguration
+} from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
 import { getTimeConfigBasedOnMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { MetricResult, Result, UnifiedMetricConfigurationUnion } from 'in-types';
@@ -61,7 +64,7 @@ export default function BigNumberKpiCard({
 }: BigNumberKpiCardProps) {
   const timeConfig = useTimeConfig();
   const usedTimeConfig = getTimeConfigBasedOnMetricConfiguration(config.metricConfiguration, timeConfig);
-  const metricConfiguration = useFilteredMetricConfiguration(config.metricConfiguration);
+  const { metricConfiguration, resultCode } = useFilteredMetricConfiguration(config.metricConfiguration);
 
   const metricDefaults = {
     timeShift: {
@@ -116,6 +119,7 @@ export default function BigNumberKpiCard({
         ) : undefined
       }
       raw={raw}
+      extraInfo={getFilterResultNote(resultCode)}
     />
   );
 }

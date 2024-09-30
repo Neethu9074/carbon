@@ -5,20 +5,19 @@
 
 import React from 'react';
 
-import { Card, HorizontalIndicator, LoadingSkeleton, Message, IconButton } from '@instana/components';
+import { Card, HorizontalIndicator, LoadingSkeleton, Message } from '@instana/components';
 
 import { AxisConfiguration, ChartConfig, MetricDataPoint, MetricsConfiguration } from 'in-components/Chart/types';
 import Renderer, { extendTimeConfigForBarRenderer } from 'in-components/Chart/renderer/Renderer';
-import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import Chart, { ChartReactComponentProps } from 'in-components/Chart/ChartReactComponent';
 import { clickhouseTimeoutErrorMessage } from 'in-components/AnalyzeView/utils';
+import WidgetCardHeader from 'in-components/WidgetCardHeader/WidgetCardHeader';
 import { FormatterFn, getFormatterId } from 'in-stores/metric/formatters';
 import { unitForInfraMetricsEnabled } from 'in-services/featureFlags';
 import { getUnit, getUnitByFormatter } from 'in-stores/metric/units';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 // @ts-expect-error
 import PieChart from 'in-components/PieChart';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import { Result } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -46,6 +45,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     renderErrorDetail = false,
     renderHistoricDataIndicator = false,
     hasApproximateData,
+    extraInfo,
     customChartSkeletonHeight,
     renderWidgetNotSupportedIndicator = false,
     granularity,
@@ -108,25 +108,19 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     return content;
   }
 
-  const LeftHeaderContent = () => {
-    return (
-      <>
-        {renderHistoricDataIndicator && hasApproximateData && <MultiLineToolTipIcon lines={[approximateTooltipText]} />}
-        {renderWidgetNotSupportedIndicator && (
-          <Tooltip content={t('in-components:liveModeIndicator.widgetNotSupportedInLiveMode')}>
-            <IconButton type="lib_help_error_info_outline" className={locals.liveModeIcon} />
-          </Tooltip>
-        )}
-      </>
-    );
-  };
-
   const card = (
     <Card
       className={renderWidgetNotSupportedIndicator ? locals.disabledChart : ''}
       title={title}
       useMaxAvailableHeight={config.cardUseMaxAvailableHeight}
-      leftHeaderContent={<LeftHeaderContent />}
+      leftHeaderContent={
+        <WidgetCardHeader
+          renderApproximateDataTooltip={renderHistoricDataIndicator && hasApproximateData}
+          approximateTooltipText={approximateTooltipText}
+          renderWidgetNotSupportedIndicator={renderWidgetNotSupportedIndicator}
+          extraInfoTooltip={extraInfo}
+        />
+      }
       rightHeaderContent={config.rightHeaderContent}
       size="l"
     >

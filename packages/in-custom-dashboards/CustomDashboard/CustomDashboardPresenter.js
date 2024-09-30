@@ -13,7 +13,6 @@ import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supporte
 import TopLevelFilterBar from 'in-custom-dashboards/CustomDashboard/FilterContext/TopLevelFilterBar';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import { MoreMenu, MoreMenuButton, MoreMenuSetAsLandingPageButton } from 'in-components/MoreMenu';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { FilterContext } from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
 import DashboardErroneousResultPresenter from 'in-components/DashboardErroneousResultPresenter';
 import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
@@ -142,7 +141,7 @@ export default function CustomDashboardPresenter(props) {
                 {errorSection}
                 {config && (
                   <div className={locals.wrapper}>
-                    <FilterContext.Provider value={toBackendQueryModel(topLevelFilters)}>
+                    <FilterContext.Provider value={topLevelFilters}>
                       <Grid
                         width={width}
                         config={config}

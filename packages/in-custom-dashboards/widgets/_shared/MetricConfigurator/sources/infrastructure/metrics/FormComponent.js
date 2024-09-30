@@ -333,6 +333,7 @@ export default function FormComponent({
             tagCatalog={tagCatalog}
             additionalGetTagCatalogProps={{ ownerType: type, metric, regex: isRegex }}
             withoutIcon
+            addTagDefinitionToFormModel
           />
         </Sections>
       )}

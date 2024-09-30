@@ -213,12 +213,13 @@ export function minimizeTagDefinition(tagDefinition) {
     return undefined;
   }
 
-  const { name, path, type } = tagDefinition;
+  const { name, path, type, availability } = tagDefinition;
 
   return {
     name,
     type,
-    path: path?.map(({ label }) => ({ label }))
+    path: path?.map(({ label }) => ({ label })),
+    availability
   };
 }
 

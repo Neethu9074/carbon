@@ -28,7 +28,8 @@ export default function GroupingConfigurator({
   label = t('in-components:groupingConfigurator.addGroup'),
   loadingLabel,
   getTagCatalog,
-  additionalGetTagCatalogProps
+  additionalGetTagCatalogProps,
+  addTagDefinitionToFormModel
 }) {
   const autoFocus = useRef();
 
@@ -109,6 +110,7 @@ export default function GroupingConfigurator({
           tracking={tracking}
           getTagCatalog={getTagCatalog}
           additionalGetTagCatalogProps={additionalGetTagCatalogProps}
+          addTagDefinitionToFormModel={addTagDefinitionToFormModel}
         >
           {({ toggle, refSetter }) => (
             <Button
@@ -140,7 +142,8 @@ function GroupingOverlay({
   onChange,
   tracking,
   getTagCatalog,
-  additionalGetTagCatalogProps
+  additionalGetTagCatalogProps,
+  addTagDefinitionToFormModel
 }) {
   return (
     <Overlay
@@ -154,7 +157,8 @@ function GroupingOverlay({
           onChange(selectedGroup);
         },
         getTagCatalog,
-        additionalGetTagCatalogProps
+        additionalGetTagCatalogProps,
+        addTagDefinitionToFormModel
       }}
       align={'bottomLeft'}
       withoutWrapper
@@ -187,5 +191,6 @@ GroupingConfigurator.propTypes = {
   label: rpt.string,
   loadingLabel: rpt.string,
   getTagCatalog: rpt.func,
-  additionalGetTagCatalogProps: rpt.object
+  additionalGetTagCatalogProps: rpt.object,
+  addTagDefinitionToFormModel: rpt.bool
 };

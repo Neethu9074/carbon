@@ -5,7 +5,15 @@
 
 import { findIndex, isEqual } from 'lodash';
 
-import { LogicalOperator, TagCatalog, TagFilter, TagFilterExpression, TagFilterExpressionElementUnion, TagType } from 'in-types';
+import {
+  LogicalOperator,
+  MetricSource,
+  TagCatalog,
+  TagFilter,
+  TagFilterExpression,
+  TagFilterExpressionElementUnion,
+  TagType
+} from 'in-types';
 import { toNewTagFilterFormat, type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { and, or, not } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
@@ -29,8 +37,9 @@ export interface Bracket {
 
 export interface MinimalTagDefinition {
   name: string;
-  type: TagType,
+  type: TagType;
   path: MinimalPathNode[];
+  availability: MetricSource[];
 }
 
 export interface MinimalPathNode {

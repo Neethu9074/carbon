@@ -5,53 +5,227 @@
  */
 
 import { createContext, useContext } from 'react';
-import { isEqual } from 'lodash';
+import { isEqual, uniq } from 'lodash';
 
-import { TagFilterExpressionElementUnion, UnifiedMetricConfiguration } from '@instana/types';
+import {
+  TagFilter,
+  TagFilterExpression,
+  TagFilterExpressionElementUnion,
+  UnifiedMetricConfiguration,
+  isTagFilterExpression
+} from '@instana/types';
+import { t } from '@instana/i18n-react';
 
-import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import {
+  FormModelElement,
+  MinimalTagDefinition,
+  SelfValidatingTagFilter
+} from 'in-components/QueryBuilder/transformation/formModel';
+import {
+  EMPTY_EXPRESSION,
+  EXPRESSION,
+  toBackendQueryModel
+} from 'in-components/QueryBuilder/transformation/backendQueryModel';
 
-export const FilterContext = createContext<TagFilterExpressionElementUnion>(EMPTY_EXPRESSION);
-
-export function useFormModelFilterContext() {
-  return fromBackendModel(useContext(FilterContext));
-}
+export const FilterContext = createContext<FormModelElement[]>([]);
 
 export function useFilterContext() {
   return useContext(FilterContext);
 }
 
-interface FilterableMetricConfiguration extends UnifiedMetricConfiguration {
+export interface FilterableMetricConfiguration extends UnifiedMetricConfiguration {
   tagFilterExpression: TagFilterExpressionElementUnion;
 }
 
-export function useFilteredMetricConfiguration<T extends UnifiedMetricConfiguration | FilterableMetricConfiguration>(
-  metricConfiguration: T
-): T {
-  const filterExpression = useFilterContext();
-  return getFilteredConfiguration(metricConfiguration, filterExpression);
+export type FilterResultCode =
+  | 'OMITTED_SELECTS_EVERYTHING'
+  | 'OMITTED_SELECTS_NOTHING'
+  | 'PARTIALLY_APPLIED'
+  | 'APPLIED'
+  | 'NOT_SUPPORTED';
+
+export interface FilteringResult<T> {
+  metricConfiguration: T;
+  resultCode: FilterResultCode;
 }
 
-export function getFilteredConfiguration<T extends UnifiedMetricConfiguration | FilterableMetricConfiguration>(
-  metricConfiguration: T,
-  filterExpression: TagFilterExpressionElementUnion
-): T {
-  if (!('tagFilterExpression' in metricConfiguration) || isEqual(filterExpression, EMPTY_EXPRESSION)) {
-    return metricConfiguration;
+const NOTES: { [resultCode in FilterResultCode]?: string } = {
+  OMITTED_SELECTS_EVERYTHING: t('in-custom-dashboards:customDashboard.filterContext.topLevelFilterSelectsEverything'),
+  OMITTED_SELECTS_NOTHING: t('in-custom-dashboards:customDashboard.filterContext.topLevelFilterSelectsNothing'),
+  PARTIALLY_APPLIED: t('in-custom-dashboards:customDashboard.filterContext.topLevelFilterPartiallyApplied'),
+  NOT_SUPPORTED: t('in-custom-dashboards:customDashboard.filterContext.topLevelFilterNotSupported')
+};
+
+export function getFilterResultNote(resultCode?: FilterResultCode): string | undefined {
+  return resultCode && NOTES[resultCode];
+}
+
+export function summarizeFilterResult(resultCodes: FilterResultCode[]): string | undefined {
+  const uniqueCodes = uniq(resultCodes);
+  if (uniqueCodes.length === 0) {
+    return undefined;
+  } else if (uniqueCodes.length === 1) {
+    return NOTES[uniqueCodes[0]];
+  } else {
+    return t('in-custom-dashboards:customDashboard.filterContext.topLevelFilterAppliedToSomeDatasets');
   }
-  if (isEqual(metricConfiguration.tagFilterExpression, EMPTY_EXPRESSION)) {
+}
+
+export function useFilteredMetricConfiguration<T extends FilterableMetricConfiguration | UnifiedMetricConfiguration>(
+  metricConfiguration: T
+): FilteringResult<T> {
+  const formModel = useFilterContext();
+  return applyFilteredConfiguration(metricConfiguration, formModel);
+}
+
+export function applyFilteredConfiguration<T extends FilterableMetricConfiguration | UnifiedMetricConfiguration>(
+  metricConfiguration: T,
+  filter: FormModelElement[]
+): FilteringResult<T> {
+  if (!filter || filter.length === 0) {
     return {
-      ...metricConfiguration,
-      tagFilterExpression: filterExpression
+      metricConfiguration,
+      resultCode: 'APPLIED'
     };
   }
-  return {
-    ...metricConfiguration,
-    tagFilterExpression: {
-      type: 'EXPRESSION',
-      logicalOperator: 'AND',
-      elements: [metricConfiguration.tagFilterExpression, filterExpression]
+  if (!('tagFilterExpression' in metricConfiguration)) {
+    return {
+      metricConfiguration,
+      resultCode: 'NOT_SUPPORTED'
+    };
+  }
+  const { expression, resultCode } = reduceFormModel(filter, metricConfiguration.source);
+  if (isEqual(metricConfiguration.tagFilterExpression, EMPTY_EXPRESSION)) {
+    return {
+      metricConfiguration: {
+        ...metricConfiguration,
+        tagFilterExpression: expression
+      },
+      resultCode
+    };
+  } else {
+    return {
+      metricConfiguration: {
+        ...metricConfiguration,
+        tagFilterExpression: {
+          type: 'EXPRESSION',
+          logicalOperator: 'AND',
+          elements: [metricConfiguration.tagFilterExpression, expression]
+        }
+      },
+      resultCode
+    };
+  }
+}
+
+function reduceFilterExpressionElement(
+  tagFilterExpression: TagFilterExpressionElementUnion,
+  tagDefinitions: { [name: string]: MinimalTagDefinition },
+  source: UnifiedMetricConfiguration['source']
+): ReducedTagFilterExpression {
+  if (isTagFilterExpression(tagFilterExpression)) {
+    return reduceExpression(tagFilterExpression, tagDefinitions, source);
+  }
+  return reduceTagFilter(tagFilterExpression, tagDefinitions, source);
+}
+
+function reduceFormModel(
+  formModel: FormModelElement[],
+  source: UnifiedMetricConfiguration['source']
+): ReducedTagFilterExpression {
+  const tagDefinitions = formModel.reduce<{ [name: string]: MinimalTagDefinition }>((acc, elem) => {
+    if (isSelfValidatingTagFilter(elem) && elem.tagDefinition) {
+      acc[elem.tagDefinition.name] = elem.tagDefinition;
     }
-  };
+    return acc;
+  }, {});
+
+  const tagFilterExpression = toBackendQueryModel(formModel);
+  return reduceFilterExpressionElement(tagFilterExpression, tagDefinitions, source);
+}
+
+interface ReducedTagFilterExpression {
+  resultCode: FilterResultCode;
+  expression: TagFilterExpressionElementUnion;
+}
+
+// note: NOT_BLANK and NOT_EMPTY are not included because they both imply a value is present
+const NEGATIVE_OPERATORS = ['NOT_EQUAL', 'NOT_CONTAIN', 'NOT_STARTS_WITH', 'NOT_ENDS_WITH'];
+
+function reduceExpression(
+  tagFilterExpression: TagFilterExpression,
+  tagDefinitions: { [name: string]: MinimalTagDefinition },
+  source: UnifiedMetricConfiguration['source']
+): ReducedTagFilterExpression {
+  const reducedElements = tagFilterExpression.elements.map(elem =>
+    reduceFilterExpressionElement(elem, tagDefinitions, source)
+  );
+  if (
+    reducedElements.every(e => e.resultCode === 'OMITTED_SELECTS_NOTHING') ||
+    (tagFilterExpression.logicalOperator === 'AND' &&
+      reducedElements.find(e => e.resultCode === 'OMITTED_SELECTS_NOTHING'))
+  ) {
+    return {
+      resultCode: 'OMITTED_SELECTS_NOTHING',
+      expression: EMPTY_EXPRESSION
+    };
+  } else if (
+    reducedElements.every(e => e.resultCode === 'OMITTED_SELECTS_EVERYTHING') ||
+    (tagFilterExpression.logicalOperator === 'OR' &&
+      reducedElements.find(e => e.resultCode === 'OMITTED_SELECTS_EVERYTHING'))
+  ) {
+    return {
+      resultCode: 'OMITTED_SELECTS_EVERYTHING',
+      expression: EMPTY_EXPRESSION
+    };
+  } else {
+    const elements = reducedElements
+      .map(e => e.expression)
+      .filter(e => !isTagFilterExpression(e) || e.elements.length > 0);
+    const resultCode = reducedElements.every(e => e.resultCode === 'APPLIED') ? 'APPLIED' : 'PARTIALLY_APPLIED';
+    if (elements.length === 1) {
+      return {
+        expression: elements[0],
+        resultCode
+      };
+    } else {
+      return {
+        expression: {
+          type: EXPRESSION,
+          elements,
+          logicalOperator: tagFilterExpression.logicalOperator
+        },
+        resultCode
+      };
+    }
+  }
+}
+
+function reduceTagFilter(
+  tagFilter: TagFilter,
+  tagDefinitions: { [name: string]: MinimalTagDefinition },
+  source: UnifiedMetricConfiguration['source']
+): ReducedTagFilterExpression {
+  const tagDefinition = tagDefinitions[tagFilter.name];
+  if (tagDefinition.availability?.includes(source)) {
+    return {
+      resultCode: 'APPLIED',
+      expression: tagFilter
+    };
+  }
+  if (NEGATIVE_OPERATORS.includes(tagFilter.operator)) {
+    return {
+      resultCode: 'OMITTED_SELECTS_EVERYTHING',
+      expression: EMPTY_EXPRESSION
+    };
+  } else {
+    return {
+      resultCode: 'OMITTED_SELECTS_NOTHING',
+      expression: EMPTY_EXPRESSION
+    };
+  }
+}
+
+function isSelfValidatingTagFilter(element: FormModelElement): element is SelfValidatingTagFilter {
+  return element.type === 'TAG_FILTER';
 }

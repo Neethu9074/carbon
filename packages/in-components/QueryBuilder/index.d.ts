@@ -69,6 +69,7 @@ interface QueryBuilderProps<
   getSuggestionsProps?: GetSuggestionsProps;
   getTagCatalog?: GetTagCatalog<ADDITIONAL_TAG_CATALOG_PROPS>;
   additionalGetTagCatalogProps?: ADDITIONAL_TAG_CATALOG_PROPS;
+  addTagDefinitionToFormModel?: boolean;
 
   tracking?: QueryBuilderTrackingFunctions;
 

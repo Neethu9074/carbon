@@ -61,6 +61,7 @@ interface ResultAwareChartConfig {
   renderHistoricDataIndicator?: boolean;
   renderWidgetNotSupportedIndicator?: boolean;
   hasApproximateData?: boolean;
+  extraInfo?: string;
   disableChartInLive?: boolean;
   approximateTooltipText?: string;
 }

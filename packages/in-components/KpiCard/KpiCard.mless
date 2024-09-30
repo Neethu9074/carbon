@@ -42,7 +42,7 @@
     .widgetInModal();
   }
 
-  .title {
+  .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -118,14 +118,12 @@
     align-items: center;
   }
 
-  .titleText {
-    .ellipsis();
-    width: 100%;
-    display: flex;
+  .titleContainer {
+    margin-right: 1rem;
   }
 
-  .titleIcon {
-    display: flex;
+  .titleText {
+    .ellipsis();
   }
 
   .contentText {

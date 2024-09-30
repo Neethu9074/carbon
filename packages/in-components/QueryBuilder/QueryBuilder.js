@@ -71,7 +71,8 @@ function QueryBuilder({
   getSuggestionLabel,
   allowEmptyKey = false,
   getTagCatalog,
-  additionalGetTagCatalogProps
+  additionalGetTagCatalogProps,
+  addTagDefinitionToFormModel
 }) {
   const [draggedFormModelIndex$] = useState(create());
   const resolvedCreateTagForm = tagCatalog && createTagForm.bind(null, tagCatalog);
@@ -146,6 +147,7 @@ function QueryBuilder({
       withoutBrackets={withoutBrackets}
       getTagCatalog={getTagCatalog}
       additionalGetTagCatalogProps={additionalGetTagCatalogProps}
+      addTagDefinitionToFormModel={addTagDefinitionToFormModel}
     />
   ) : (
     <>
@@ -183,6 +185,7 @@ function QueryBuilder({
               allowEmptyKey={allowEmptyKey}
               getTagCatalog={getTagCatalog}
               additionalGetTagCatalogProps={additionalGetTagCatalogProps}
+              addTagDefinitionToFormModel={addTagDefinitionToFormModel}
             />
           </div>
         )}
@@ -198,6 +201,7 @@ function QueryBuilder({
         withoutBrackets={withoutBrackets}
         getTagCatalog={getTagCatalog}
         additionalGetTagCatalogProps={additionalGetTagCatalogProps}
+        addTagDefinitionToFormModel={addTagDefinitionToFormModel}
       />
     </>
   );
@@ -335,7 +339,8 @@ function Elements({
   getSuggestionLabel,
   allowEmptyKey,
   getTagCatalog,
-  additionalGetTagCatalogProps
+  additionalGetTagCatalogProps,
+  addTagDefinitionToFormModel
 }) {
   return (
     <>
@@ -387,6 +392,7 @@ function Elements({
                 allowEmptyKey={allowEmptyKey}
                 getTagCatalog={getTagCatalog}
                 additionalGetTagCatalogProps={additionalGetTagCatalogProps}
+                addTagDefinitionToFormModel={addTagDefinitionToFormModel}
               >
                 {element.elements && (
                   <Elements
@@ -406,6 +412,10 @@ function Elements({
                     withoutBrackets={withoutBrackets}
                     autoFocusInput={autoFocusInput}
                     getSuggestionLabel={getSuggestionLabel}
+                    allowEmptyKey={allowEmptyKey}
+                    getTagCatalog={getTagCatalog}
+                    additionalGetTagCatalogProps={additionalGetTagCatalogProps}
+                    addTagDefinitionToFormModel={addTagDefinitionToFormModel}
                   />
                 )}
               </Component>
@@ -437,7 +447,8 @@ QueryBuilder.propTypes = {
   getSuggestionLabel: rpt.func,
   allowEmptyKey: rpt.bool,
   getTagCatalog: rpt.func,
-  additionalGetTagCatalogProps: rpt.object
+  additionalGetTagCatalogProps: rpt.object,
+  addTagDefinitionToFormModel: rpt.bool
 };
 
 function shouldAutomaticallyAddAConjunction(formModel, newElement, newElementIndex) {
