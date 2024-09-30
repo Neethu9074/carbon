@@ -148,7 +148,6 @@ export default class Table extends React.Component {
         isSortable: true,
         sortDirection: data.sortColumnIndex === i ? data.sortDirection.toUpperCase() : 'NONE'
       }));
-      const carbonRows = [];
 
       if (data.rows.length === 0) {
         return (
@@ -177,21 +176,22 @@ export default class Table extends React.Component {
             </Card>
           </div>
         );
-      } else {
-        for (let i = 0, length = data.rows.length; i < length; i++) {
-          let carbonRow = {};
-          carbonRow = {};
-          carbonRow.id = data.rows[i].key ?? String(i);
-          data.rows[i].columns.map((column, i) => {
-            // get column header name and assign value to that
-            carbonRow[carbonHeaders[i].header] = column.content ?? '-';
-          });
-          if (this.props.getRowDetails) {
-            carbonRow.expanded = this.props.getRowDetails(data.rows[i].rowConfig);
-          }
-          carbonRows.push(carbonRow);
-        }
       }
+
+      const carbonRows = data.rows.map((row, i) => {
+        const carbonRow = {
+          id: row.key ?? String(i)
+        };
+        row.columns.map((column, i) => {
+          // get column header name and assign value to that
+          carbonRow[carbonHeaders[i].header] = column.content ?? '-';
+        });
+        // optionally, make rows expandable
+        if (this.props.getRowDetails) {
+          carbonRow.expanded = this.props.getRowDetails(row.rowConfig);
+        }
+        return carbonRow;
+      });
 
       return (
         <div className={locals.tableContainer}>
