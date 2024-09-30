@@ -17,6 +17,11 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+
+  // When ellipsis is wrapping a link the outline is not visible on focus
+  a:focus {
+    outline-offset: -1px;
+  }
 }
 
 .alignLeft() {
