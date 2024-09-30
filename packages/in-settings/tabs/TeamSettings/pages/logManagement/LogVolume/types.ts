@@ -11,7 +11,7 @@ interface LogVolumeDataWithSums {
   year: number;
   totalVolume: VolumeUnits;
   retentionPeriods: {
-    [key: string]: { label: string; volumeGB: number; volumeRU: number }[];
+    [key: string]: { label: string; volumeGB: number }[];
   };
   partialSums: {
     days30: VolumeUnits;
@@ -33,7 +33,6 @@ interface LogVolumeDataWithoutSums {
 
 export interface VolumeUnits {
   gb: number;
-  ru: number;
 }
 
 export type LogVolumeData = LogVolumeDataWithSums | LogVolumeDataWithoutSums;
