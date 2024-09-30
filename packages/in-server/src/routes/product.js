@@ -183,7 +183,8 @@ router.get('/', async (req, res) => {
     const injectWalkMeScript =
       clientConfig.featureFlags?.playwithEnabled || clientConfig.featureFlags?.playWithReleaseEnabled;
     const isAssistMeEnabled = clientConfig.featureFlags?.assistmeEnabled;
-    res.set('Content-Security-Policy', getCsp(nonce, isAssistMeEnabled, injectWalkMeScript));
+    const injectWalkMeTestScript = clientConfig.featureFlags?.playwithTestEnabled;
+    res.set('Content-Security-Policy', getCsp(nonce, isAssistMeEnabled, injectWalkMeScript || injectWalkMeTestScript));
     res.send(
       compiledTemplate({
         indexJsChecksum,
@@ -202,7 +203,6 @@ router.get('/', async (req, res) => {
         user: userStr,
         permissions: permissions,
         config: JSON.stringify(clientConfig),
-        playwithTestEnabled: clientConfig.featureFlags?.playwithTestEnabled ?? false,
         build: stringifiedBuildInformation,
         searchFields: searchFieldsStr,
         settings: userSettings,
@@ -214,7 +214,8 @@ router.get('/', async (req, res) => {
         reportingData,
         starredItems,
         injectWalkMeScript,
-        isAssistMeEnabled
+        isAssistMeEnabled,
+        injectWalkMeTestScript
       })
     );
   } catch (err) {
