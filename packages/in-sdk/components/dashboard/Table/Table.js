@@ -217,7 +217,6 @@ export default class Table extends React.Component {
                 const columnIndex = carbonHeaders.findIndex(x => x.header === orderBy);
 
                 this.store.setSort(columnIndex, orderDirection.toLowerCase());
-                // onChange({ query, orderBy, orderDirection, page: 1, pageSize });
               }}
               searchText={this.state.filter}
               isExpandable={this.props.getRowDetails}
