@@ -5,23 +5,28 @@
 
 import React from 'react';
 
-import { Link, SvgIcon } from '@instana/components';
+import { IconButton, Button } from '@instana/components';
 
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './InfoIndicator.mless';
 
-export default function InfoIndicator({ href, href$, children, target, external }) {
+export default function InfoIndicator({ href, href$, children, target = 'blank' }) {
   return (
     <Tooltip content={<div className={locals.content}>{children}</div>}>
       {href || href$ ? (
-        <Link href={href$ ?? href} target={target} external={external} className={locals.indicator}>
-          ?
-        </Link>
+        <Button
+          kind="action"
+          icon="lib_infra_unknownIcon"
+          href={href$ ?? href}
+          target={target}
+          {...(carbonButtonEnabled ? { hasIconOnly: true } : {})}
+        >
+          {''}
+        </Button>
       ) : (
-        <div className={locals.icon}>
-          <SvgIcon type="lib_infra_unknownIcon" size="s" />
-        </div>
+        <IconButton type="lib_infra_unknownIcon" />
       )}
     </Tooltip>
   );
