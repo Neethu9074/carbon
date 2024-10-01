@@ -6,8 +6,17 @@
 
 import React from 'react';
 
+import LoggingPermissionWrapper from 'in-logging/navigation/LoggingPermissionWrapper';
 import Alert from 'in-alerting/smart-alerts/logs/Alerts';
+import { t } from 'in-i18n';
 
 export default function SmartAlerts() {
-  return <Alert isLogsDashboardHeader />;
+  return (
+    <LoggingPermissionWrapper
+      requiredPermission="canViewLogs"
+      permissionLabel={t('in-stores:permissionCanViewLogsLabel')}
+    >
+      <Alert isLogsDashboardHeader />;
+    </LoggingPermissionWrapper>
+  );
 }

@@ -11,13 +11,15 @@ import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 // eslint-disable-next-line no-restricted-imports
-import { generateQueryWithWinSize } from './utils';
+import { generateQueryWithWinSize } from 'in-logging/dashboard/utils';
 import { getEntityIdView, teamSettingsLogManagementLogVolume } from 'in-settings/navigation/paths';
 import { transformData } from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/utils';
 import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
+import { isAddonUserCached } from 'in-logging/api/licence';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { TimeConfig } from 'in-types';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './LogVolume.mless';
@@ -29,8 +31,6 @@ const localisationStrings = {
 
 const placeholderTimeConfig = { to: null, windowSize: 1, autoRefresh: false };
 
-const userAdmin = true;
-
 export default function LogVolumeDashboard() {
   const timeConfig = useTimeConfig();
   const [timePeriod, setTimePeriod] = useState<TimeConfig>(placeholderTimeConfig);
@@ -40,15 +40,17 @@ export default function LogVolumeDashboard() {
   }, [timeConfig]);
 
   const logVolumeHref = useObservable(getEntityIdView(teamSettingsLogManagementLogVolume, ''), []);
+  const isLoggingAddonUser = useObservable(isAddonUserCached, []);
 
-  const logVolumeIcon: IconAction | undefined = userAdmin
-    ? {
-        text: t('in-logging:dashboard.logVolume.logVolumeIcon'),
-        kind: 'subtle',
-        icon: 'lib_analyze',
-        href: logVolumeHref || ''
-      }
-    : undefined;
+  const logVolumeIcon: IconAction | undefined =
+    role?.canViewLogVolume && isLoggingAddonUser
+      ? {
+          text: t('in-logging:dashboard.logVolume.logVolumeIcon'),
+          kind: 'subtle',
+          icon: 'lib_analyze',
+          href: logVolumeHref || ''
+        }
+      : undefined;
 
   const result = useObservable(
     ([timePeriod]: [TimeConfig]) => {

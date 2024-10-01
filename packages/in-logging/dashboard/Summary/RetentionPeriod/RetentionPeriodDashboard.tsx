@@ -12,6 +12,8 @@ import { useObservable } from '@instana/hooks';
 import { retentionLogsGET } from 'in-settings/tabs/TeamSettings/pages/logManagement/RententionPeriod/RetentionPeriod';
 import { getEntityIdView, teamSettingsLogManagementRetentionPeriod } from 'in-settings/navigation/paths';
 import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
+import { isAddonUserCached } from 'in-logging/api/licence';
+import { role } from 'in-stores/user';
 import { Progress } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -29,17 +31,17 @@ export default function RetentionPeriodDashboard() {
   };
 
   const logRetentionHref = useObservable(getEntityIdView(teamSettingsLogManagementRetentionPeriod, ''), []);
+  const isLoggingAddonUser = useObservable(isAddonUserCached, []);
 
-  const userAdmin = true;
-
-  const logRetentionIcon: IconAction | undefined = userAdmin
-    ? {
-        text: t('in-logging:dashboard.retentionIcon'),
-        kind: 'subtle',
-        icon: 'lib_actions_edit',
-        href: logRetentionHref || ''
-      }
-    : undefined;
+  const logRetentionIcon: IconAction | undefined =
+    role?.canConfigureLogRetentionPeriod && isLoggingAddonUser
+      ? {
+          text: t('in-logging:dashboard.retentionIcon'),
+          kind: 'subtle',
+          icon: 'lib_actions_edit',
+          href: logRetentionHref || ''
+        }
+      : undefined;
 
   const getRetentionPeriod$ = retentionLogsGET();
 
@@ -47,6 +49,10 @@ export default function RetentionPeriodDashboard() {
     setRetentionValue(response.body.retentionDays);
     setIsLoading(false);
   });
+  getRetentionPeriod$.errors().once(_ => {
+    setIsLoading(false);
+  });
+
   return (
     <>
       {!isLoading ? (

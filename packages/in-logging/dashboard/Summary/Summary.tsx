@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { IconButton, Tooltip } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 // eslint-disable-next-line no-restricted-imports
 import RetentionPeriodDashboard from './RetentionPeriod/RetentionPeriodDashboard';
@@ -25,7 +26,9 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
 import { logIdMatrixParameter } from 'in-logging/navigation/matrix';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
+import { isAddonUserCached } from 'in-logging/api/licence';
 import { getTagCatalog } from 'in-logging/api/catalog';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
@@ -33,8 +36,9 @@ import locals from './Summary.mless';
 export default function Summary() {
   const { createHrefToPath } = useNavigation();
   const goToLogs = createHrefToPath(logsPathWithDataSource);
+  const isLoggingAddonUser = useObservable(isAddonUserCached, []);
 
-  const iconWithTooltip = (
+  const iconWithTooltip = role?.canViewLogs && isLoggingAddonUser && (
     <Tooltip content={t('in-logging:dashboard.analyzeLogs')} align="leftMiddle">
       <IconButton kind="subtle" type={'lib_analyze'} href={goToLogs} />
     </Tooltip>
@@ -42,13 +46,14 @@ export default function Summary() {
 
   const contentToRender = (
     <div className={locals.dashboardContainer}>
-      <div className={locals.dashboardCards}>
-        <KpiGridRow sizes={[3, 3]}>
-          <RetentionPeriodDashboard />
-          <LogVolumeDashboard />
-        </KpiGridRow>
-      </div>
-
+      {isLoggingAddonUser && (
+        <div className={locals.dashboardCards}>
+          <KpiGridRow sizes={[3, 3]}>
+            {role?.canConfigureLogRetentionPeriod && <RetentionPeriodDashboard />}
+            {role?.canViewLogVolume && <LogVolumeDashboard />}
+          </KpiGridRow>
+        </div>
+      )}
       <StateManagement
         path={loggingDashboardPath}
         defaultDataSource="logs"

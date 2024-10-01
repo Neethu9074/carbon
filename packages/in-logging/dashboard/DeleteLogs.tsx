@@ -7,12 +7,19 @@
 import React from 'react';
 
 import DeleteLogsPage from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/DeleteLogs';
+import LoggingPermissionWrapper from 'in-logging/navigation/LoggingPermissionWrapper';
 import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';
+import { t } from 'in-i18n';
 
 export default function DeleteLogs() {
   return (
-    <LoggingDashboardWrapper withPadding>
-      <DeleteLogsPage />
-    </LoggingDashboardWrapper>
+    <LoggingPermissionWrapper
+      requiredPermission="canDeleteLogs"
+      permissionLabel={t('in-stores:permissionCanDeleteLogsLabel')}
+    >
+      <LoggingDashboardWrapper withPadding>
+        <DeleteLogsPage />
+      </LoggingDashboardWrapper>
+    </LoggingPermissionWrapper>
   );
 }

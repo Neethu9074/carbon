@@ -10,18 +10,13 @@ import classNames from 'classnames';
 import { Button, SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import {
-  dashboardConfigurationPath,
-  dashboardDeletePath,
-  dashboardSmartAlertsPath,
-  loggingDashboardPath
-} from 'in-logging/navigation/paths';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
+import LoggingPermissionWrapper from 'in-logging/navigation/LoggingPermissionWrapper';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { logsPathWithDataSource } from 'in-logging/navigation/paths';
+import { loggingNavigationItem } from 'in-logging/dashboard/utils';
 import DashboardHeader from 'in-components/DashboardHeader';
-import { role } from 'in-stores/user';
 
 import locals from './LoggingDashboardWrapper.mless';
 
@@ -36,7 +31,10 @@ function LoggingDashboardWrapper(props: Props) {
   const { location, createHref, matchLocation } = useNavigation();
 
   return (
-    <>
+    <LoggingPermissionWrapper
+      requiredPermission="canViewLogs"
+      permissionLabel={t('in-stores:permissionCanViewLogsLabel')}
+    >
       <DashboardHeader
         {...props}
         icon="lib_application_logging"
@@ -46,33 +44,22 @@ function LoggingDashboardWrapper(props: Props) {
       />
       <DashboardHeaderModule>
         <SecondLevelNavigation>
-          <SecondLevelNavigationItem
-            href={createHref({ ...location, pathname: loggingDashboardPath })}
-            label={t('in-logging:dashboard.summary')}
-            isActive={matchLocation(path => path === loggingDashboardPath)}
-          />
-          <SecondLevelNavigationItem
-            href={createHref({ ...location, pathname: dashboardSmartAlertsPath })}
-            label={t('in-logging:dashboard.smartAlerts')}
-            isActive={matchLocation(dashboardSmartAlertsPath)}
-          />
-          {role?.canDeleteLogs && (
-            <SecondLevelNavigationItem
-              href={createHref({ ...location, pathname: dashboardDeletePath })}
-              label={t('in-logging:dashboard.deleteLogs')}
-              isActive={matchLocation(path => path === dashboardDeletePath)}
-            />
+          {loggingNavigationItem.map(
+            ({ path, label, currentTab, isTabAllowed = true }) =>
+              isTabAllowed && (
+                <SecondLevelNavigationItem
+                  key={path}
+                  href={createHref({ ...location, pathname: path })}
+                  label={label}
+                  isActive={matchLocation(currentTab)}
+                />
+              )
           )}
-          <SecondLevelNavigationItem
-            href={createHref({ ...location, pathname: dashboardConfigurationPath })}
-            label={t('in-logging:dashboard.configuration')}
-            isActive={matchLocation(path => path === dashboardConfigurationPath)}
-          />
         </SecondLevelNavigation>
       </DashboardHeaderModule>
       <DashboardHeaderShadowModule />
       <section className={classNames(withPadding && locals.content)}>{children}</section>
-    </>
+    </LoggingPermissionWrapper>
   );
 }
 
