@@ -7,6 +7,8 @@ import { Field, MapFormItems } from 'formalistic';
 
 import { generateUniqueShortId } from '@instana/utils';
 
+import { maintenanceWindowCTATracker } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/tracker';
+import { SETTINGS_MAINTENANCE_WINDOW_FEEDBACK_SUBMIT } from 'in-services/tracking/eventNames';
 import { maintenanceWindowFeedbackSubmitTracker } from 'in-settings/tracker';
 
 export type FeedbackFeelingRMW = 'AWESOME' | 'MEH' | 'TERRIBLE';
@@ -29,6 +31,7 @@ export interface FeedbackConfigRMWForm extends MapFormItems {
 
 export function saveFeedbackForm(config: FeedbackConfigRMW) {
   maintenanceWindowFeedbackSubmitTracker(config);
+  maintenanceWindowCTATracker(SETTINGS_MAINTENANCE_WINDOW_FEEDBACK_SUBMIT, '', undefined, config);
 }
 
 export function createFeedbackForm(): FeedbackConfigRMW {
