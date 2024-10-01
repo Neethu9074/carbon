@@ -179,8 +179,24 @@ export function EventNameWithoutTriggerInfo({ entity }: { entity: Trigger }) {
   );
 }
 
-function Content() {
-  return useNavigateToPolicyDetails();
+function PoliciesMoreMenu({ policy }: { policy: PolicyTableEntity }) {
+  const navigateToPolicyDetails = useNavigateToPolicyDetails();
+  if (!role?.canConfigureAutomationPolicies) return null;
+  return (
+    <Stack align="end">
+      <MoreMenu kind="subtle">
+        <MoreMenuButton icon="lib_actions_edit" onClick={() => navigateToPolicyDetails(policy.id, false)}>
+          {t('in-automation:edit')}
+        </MoreMenuButton>
+        <MoreMenuButton icon="lib_actions_copy" onClick={() => navigateToPolicyDetails(policy.id, true)}>
+          {t('in-automation:copy')}
+        </MoreMenuButton>
+        <MoreMenuButton icon="lib_actions_delete" onClick={() => showConfirmationDialog(policy)}>
+          {t('in-automation:delete')}
+        </MoreMenuButton>
+      </MoreMenu>
+    </Stack>
+  );
 }
 
 const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
@@ -265,25 +281,7 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
     id: 'actions',
     sortable: false,
     width: 5,
-    getContent: item => {
-      const navigateToPolicyDetails = Content();
-      if (!role?.canConfigureAutomationPolicies) return null;
-      return (
-        <Stack align="end">
-          <MoreMenu kind="subtle">
-            <MoreMenuButton icon="lib_actions_edit" onClick={() => navigateToPolicyDetails(item.id, false)}>
-              {t('in-automation:edit')}
-            </MoreMenuButton>
-            <MoreMenuButton icon="lib_actions_copy" onClick={() => navigateToPolicyDetails(item.id, true)}>
-              {t('in-automation:copy')}
-            </MoreMenuButton>
-            <MoreMenuButton icon="lib_actions_delete" onClick={() => showConfirmationDialog(item)}>
-              {t('in-automation:delete')}
-            </MoreMenuButton>
-          </MoreMenu>
-        </Stack>
-      );
-    }
+    getContent: policy => <PoliciesMoreMenu policy={policy} />
   }
 ];
 

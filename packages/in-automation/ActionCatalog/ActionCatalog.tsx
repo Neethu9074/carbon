@@ -131,6 +131,65 @@ export default function ActionCatalog({
   );
 }
 
+function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUserActions: boolean }) {
+  const navigateToActionDetails = useNavigateToActionDetails();
+  const hasPermisson = role?.canConfigureAutomationActions || role?.canRunAutomationActions;
+  if (!hasPermisson) return null;
+  return (
+    <Stack align="end">
+      <MoreMenu kind="subtle">
+        {role?.canRunAutomationActions && !isManual(action.type) && (
+          <MoreMenuButton
+            icon="lib_actions_play"
+            onClick={() => {
+              if (isDocLink(action.type)) {
+                window.open(getDocLinkFromFields(action.fields).value, '_blank')?.focus();
+              } else {
+                addActiveDialog(<RunActionDialog test action={action} volatileId={{}} />);
+              }
+
+              if (!isUserActions) clickTestAIGenaratedActionTracker({ actionName: action.name });
+            }}
+          >
+            {t('in-automation:test')}
+          </MoreMenuButton>
+        )}
+        {role?.canConfigureAutomationActions && (
+          <>
+            {isUserActions && (
+              <MoreMenuButton icon="lib_actions_edit" onClick={() => navigateToActionDetails(action.id, false)}>
+                {t('in-automation:edit')}
+              </MoreMenuButton>
+            )}
+            <MoreMenuButton
+              disabled={isAnsible(action.type)}
+              icon="lib_actions_copy"
+              onClick={() => {
+                navigateToActionDetails(action.id, true);
+                if (!isUserActions)
+                  clickCopyAIGenaratedActionTracker({
+                    actionName: action.name
+                  });
+              }}
+            >
+              {t('in-automation:copy')}
+            </MoreMenuButton>
+            {isUserActions && (
+              <MoreMenuButton
+                disabled={isNotEditable(action, false)}
+                icon="lib_actions_delete"
+                onClick={() => showConfirmationDialog(action)}
+              >
+                {t('in-automation:delete')}
+              </MoreMenuButton>
+            )}
+          </>
+        )}
+      </MoreMenu>
+    </Stack>
+  );
+}
+
 const getColumnDefinitions = ({ isUserActions }: { isUserActions: boolean }): ColumnDefinition<Action>[] => [
   nameColumn,
   descriptionColumn,
@@ -141,64 +200,7 @@ const getColumnDefinitions = ({ isUserActions }: { isUserActions: boolean }): Co
     id: 'actions',
     sortable: false,
     width: 5,
-    getContent: function Content(action) {
-      const navigateToActionDetails = useNavigateToActionDetails();
-      const hasPermisson = role?.canConfigureAutomationActions || role?.canRunAutomationActions;
-      if (!hasPermisson) return null;
-      return (
-        <Stack align="end">
-          <MoreMenu kind="subtle">
-            {role?.canRunAutomationActions && !isManual(action.type) && (
-              <MoreMenuButton
-                icon="lib_actions_play"
-                onClick={() => {
-                  if (isDocLink(action.type)) {
-                    window.open(getDocLinkFromFields(action.fields).value, '_blank')?.focus();
-                  } else {
-                    addActiveDialog(<RunActionDialog test action={action} volatileId={{}} />);
-                  }
-
-                  if (!isUserActions) clickTestAIGenaratedActionTracker({ actionName: action.name });
-                }}
-              >
-                {t('in-automation:test')}
-              </MoreMenuButton>
-            )}
-            {role?.canConfigureAutomationActions && (
-              <>
-                {isUserActions && (
-                  <MoreMenuButton icon="lib_actions_edit" onClick={() => navigateToActionDetails(action.id, false)}>
-                    {t('in-automation:edit')}
-                  </MoreMenuButton>
-                )}
-                <MoreMenuButton
-                  disabled={isAnsible(action.type)}
-                  icon="lib_actions_copy"
-                  onClick={() => {
-                    navigateToActionDetails(action.id, true);
-                    if (!isUserActions)
-                      clickCopyAIGenaratedActionTracker({
-                        actionName: action.name
-                      });
-                  }}
-                >
-                  {t('in-automation:copy')}
-                </MoreMenuButton>
-                {isUserActions && (
-                  <MoreMenuButton
-                    disabled={isNotEditable(action, false)}
-                    icon="lib_actions_delete"
-                    onClick={() => showConfirmationDialog(action)}
-                  >
-                    {t('in-automation:delete')}
-                  </MoreMenuButton>
-                )}
-              </>
-            )}
-          </MoreMenu>
-        </Stack>
-      );
-    }
+    getContent: action => <ActionCatalogMoreMenu action={action} isUserActions={isUserActions} />
   }
 ];
 

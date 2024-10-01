@@ -168,96 +168,98 @@ interface AutomationPoliciesTableProps extends ServerTablePresenterProps<Policy>
   event: Event;
 }
 
+function ExecuteButton({ policy, volatileId, event }: { policy: Policy; volatileId: VolatileId; event: Event }) {
+  const { runActionTrackerSegment } = useSegmentTracker();
+
+  if (!isManualPolicy(policy)) return null;
+  const action = policy.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action;
+  const { type, fields } = action;
+  const isExecutable =
+    isScript(type) || isWebhook(type) || isAnsible(type) || isGithub(type) || isGitlab(type) || isJira(type);
+  if (isDocLink(type)) {
+    const value = getDocLinkFromFields(fields).value;
+    return (
+      <Link
+        target="_blank"
+        onClick={e => {
+          e.stopPropagation();
+          runActionTrackerSegment({
+            actionName: action.name,
+            actionType: action.type,
+            policyName: policy.name,
+            policyType: 'manual',
+            aiOriginated: false
+          });
+
+          runActionTracker({
+            actionType: action.type,
+            actionName: action.name,
+            policyId: policy.id,
+            policyName: policy.name
+          });
+        }}
+        href={value}
+      >
+        {t('in-automation:ActionCatalog.launch')}{' '}
+        <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />
+      </Link>
+    );
+  } else if (isExecutable) {
+    return (
+      <Button
+        kind="action"
+        icon="lib_actions_play"
+        onClick={e => {
+          stopPropagationAndPreventDefault(e);
+          addActiveDialog(
+            <RunActionDialog action={action} executePolicy={policy} volatileId={volatileId} event={event} />
+          );
+        }}
+        noAutoMargin
+      >
+        {t('in-automation:ActionCatalog.run')}
+      </Button>
+    );
+  } else if (isManual(type)) {
+    return (
+      <Button
+        kind="action"
+        icon="lib_views_show"
+        onClick={e => {
+          stopPropagationAndPreventDefault(e);
+          addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
+          // Track manual action viewed
+          runActionTrackerSegment({
+            actionName: action.name,
+            actionType: action.type,
+            policyName: policy.name,
+            policyType: 'manual',
+            aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
+          });
+
+          runActionTracker({
+            actionType: action.type,
+            aIGeneratedAction: isAIAction(action) || isAIActionCopy(action),
+            actionName: action.name,
+            policyId: policy.id,
+            policyName: policy.name
+          });
+        }}
+        noAutoMargin
+      >
+        {t('in-automation:ActionCatalog.view')}
+      </Button>
+    );
+  } else {
+    return null;
+  }
+}
+
 const executeColumn: ColumnDefinition<Policy, AutomationPoliciesTableProps> = {
   id: 'execute',
   width: 9,
   label: '',
-  getContent: function Content(item, { volatileId, event }) {
-    const { runActionTrackerSegment } = useSegmentTracker();
-
-    if (!isManualPolicy(item)) return null;
-    const action = item.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action;
-    const { type, fields } = action;
-    const isExecutable =
-      isScript(type) || isWebhook(type) || isAnsible(type) || isGithub(type) || isGitlab(type) || isJira(type);
-    if (isDocLink(type)) {
-      const value = getDocLinkFromFields(fields).value;
-      return (
-        <Link
-          target="_blank"
-          onClick={e => {
-            e.stopPropagation();
-            runActionTrackerSegment({
-              actionName: action.name,
-              actionType: action.type,
-              policyName: item.name,
-              policyType: 'manual',
-              aiOriginated: false
-            });
-
-            runActionTracker({
-              actionType: action.type,
-              actionName: action.name,
-              policyId: item.id,
-              policyName: item.name
-            });
-          }}
-          href={value}
-        >
-          {t('in-automation:ActionCatalog.launch')}{' '}
-          <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />
-        </Link>
-      );
-    } else if (isExecutable) {
-      return (
-        <Button
-          kind="action"
-          icon="lib_actions_play"
-          onClick={e => {
-            stopPropagationAndPreventDefault(e);
-            addActiveDialog(
-              <RunActionDialog action={action} executePolicy={item} volatileId={volatileId} event={event} />
-            );
-          }}
-          noAutoMargin
-        >
-          {t('in-automation:ActionCatalog.run')}
-        </Button>
-      );
-    } else if (isManual(type)) {
-      return (
-        <Button
-          kind="action"
-          icon="lib_views_show"
-          onClick={e => {
-            stopPropagationAndPreventDefault(e);
-            addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
-            // Track manual action viewed
-            runActionTrackerSegment({
-              actionName: action.name,
-              actionType: action.type,
-              policyName: item.name,
-              policyType: 'manual',
-              aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
-            });
-
-            runActionTracker({
-              actionType: action.type,
-              aIGeneratedAction: isAIAction(action) || isAIActionCopy(action),
-              actionName: action.name,
-              policyId: item.id,
-              policyName: item.name
-            });
-          }}
-          noAutoMargin
-        >
-          {t('in-automation:ActionCatalog.view')}
-        </Button>
-      );
-    } else {
-      return null;
-    }
-  }
+  getContent: (policy, { volatileId, event }) => <ExecuteButton policy={policy} volatileId={volatileId} event={event} />
 };
 
 const deleteColumn: ColumnDefinition<Policy, AutomationPoliciesTableProps> = {
