@@ -133,20 +133,11 @@ const cols = [
 export default function LockEntryList({ snapshotId }: SnapshotData) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'lockEntryStats'), [snapshotId]);
   if (!data) {
-    return (
-      <Table
-        withoutPadding
-        cardTitle={t('in-sap:dashboards.LockEntryList')}
-        cols={cols}
-        rows={[]}
-        initialSortColumn={0}
-        initialSortDirection="desc"
-      />
-    );
+    return null;
   }
 
   const lockEntrys = (data as SnapshotData).get('raw_payload');
-  if (lockEntrys.size === 0) {
+  if (!lockEntrys || lockEntrys.size === 0) {
     return null;
   }
 

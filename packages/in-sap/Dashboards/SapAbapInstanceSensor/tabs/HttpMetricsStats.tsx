@@ -103,6 +103,9 @@ export default function HttpMetricsStats({ snapshotId, timeConfig }: HttpMetricP
     return null;
   }
   const httpMetricStat = (httpData as SnapshotData).get('raw_payload', []);
+  if (!httpMetricStat || httpMetricStat.size === 0) {
+    return null;
+  }
   const rows: HttpRow[] = httpMetricStat
     .keySeq()
     .toArray()
