@@ -195,6 +195,7 @@ const IncidentHeader = ({ event, timeConfig }) => {
             <IconButton
               href={createHref(location)}
               type="lib_openclose_cancel"
+              className={locals.closeEventDetail}
               iconDescription={t('in-events:tooltipCloseEventDetail')}
               isWrapperedByTooltip
               align="left"
