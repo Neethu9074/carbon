@@ -8,6 +8,12 @@ import React from 'react';
 
 import { TimeConfig } from '@instana/types';
 
+import {
+  number,
+  percentage,
+  bytesTwoDecimalPlaces,
+  timeByMillisZeroDecimalPlaces
+} from 'in-services/formatters/number';
 // @ts-expect-error needs TS migration
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import KongUpstreamLatencyRoute from 'in-forge/plugins/kongApigateway/Dashboard/KongUpstreamLatencyRoute';
@@ -18,7 +24,6 @@ import KongRequestLatency from 'in-forge/plugins/kongApigateway/Dashboard/KongRe
 import TotalHttpRequest from 'in-forge/plugins/kongApigateway/Dashboard/TotalHttpRequest';
 import TotalConnections from 'in-forge/plugins/kongApigateway/Dashboard/TotalConnections';
 import SharedDictionary from 'in-forge/plugins/kongApigateway/Dashboard/SharedDictionary';
-import { number, percentage, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import KongKongLatency from 'in-forge/plugins/kongApigateway/Dashboard/KongKongLatency';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import TotalRequest from 'in-forge/plugins/kongApigateway/Dashboard/TotalRequest';
@@ -189,7 +194,7 @@ const KongApiGatewayDashboard: React.FC<KongApiGatewayDashboardProps> = ({ snaps
                 snapshotId={snapshot.get('id')}
                 timeConfig={timeConfig}
                 y1={{
-                  formatter: number.compact,
+                  formatter: timeByMillisZeroDecimalPlaces,
                   metrics: [
                     'kongLatencyTotal.serviceLatencyFiftyPercentile',
                     'kongLatencyTotal.serviceLatencyNinetyPercentile',
@@ -212,7 +217,7 @@ const KongApiGatewayDashboard: React.FC<KongApiGatewayDashboardProps> = ({ snaps
                 snapshotId={snapshot.get('id')}
                 timeConfig={timeConfig}
                 y1={{
-                  formatter: number.compact,
+                  formatter: timeByMillisZeroDecimalPlaces,
                   metrics: [
                     'kongLatencyTotal.routeLatencyFiftyPercentile',
                     'kongLatencyTotal.routeLatencyNinetyPercentile',
@@ -243,7 +248,7 @@ const KongApiGatewayDashboard: React.FC<KongApiGatewayDashboardProps> = ({ snaps
                 snapshotId={snapshot.get('id')}
                 timeConfig={timeConfig}
                 y1={{
-                  formatter: number.compact,
+                  formatter: timeByMillisZeroDecimalPlaces,
                   metrics: [
                     'requestLatencyTotal.serviceLatencyFiftyPercentile',
                     'requestLatencyTotal.serviceLatencyNinetyPercentile',
@@ -266,7 +271,7 @@ const KongApiGatewayDashboard: React.FC<KongApiGatewayDashboardProps> = ({ snaps
                 snapshotId={snapshot.get('id')}
                 timeConfig={timeConfig}
                 y1={{
-                  formatter: number.compact,
+                  formatter: timeByMillisZeroDecimalPlaces,
                   metrics: [
                     'requestLatencyTotal.routeLatencyFiftyPercentile',
                     'requestLatencyTotal.routeLatencyNinetyPercentile',
@@ -297,7 +302,7 @@ const KongApiGatewayDashboard: React.FC<KongApiGatewayDashboardProps> = ({ snaps
                 snapshotId={snapshot.get('id')}
                 timeConfig={timeConfig}
                 y1={{
-                  formatter: number.compact,
+                  formatter: timeByMillisZeroDecimalPlaces,
                   metrics: [
                     'upstreamLatencyTotal.serviceLatencyFiftyPercentile',
                     'upstreamLatencyTotal.serviceLatencyNinetyPercentile',
@@ -320,7 +325,7 @@ const KongApiGatewayDashboard: React.FC<KongApiGatewayDashboardProps> = ({ snaps
                 snapshotId={snapshot.get('id')}
                 timeConfig={timeConfig}
                 y1={{
-                  formatter: number.compact,
+                  formatter: timeByMillisZeroDecimalPlaces,
                   metrics: [
                     'upstreamLatencyTotal.routeLatencyFiftyPercentile',
                     'upstreamLatencyTotal.routeLatencyNinetyPercentile',
