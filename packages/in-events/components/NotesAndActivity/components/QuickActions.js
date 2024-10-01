@@ -9,6 +9,7 @@ import classNames from 'classnames';
 
 import { SvgIcon, CarbonButton, CarbonInlineLoading, HelpText } from '@instana/components';
 
+import { AIPopover } from 'in-events/components/NotesAndActivity/components/AiPopover';
 import { EVENT_AI_GENERATE_SUBMIT } from 'in-services/tracking/eventNames';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
@@ -54,7 +55,7 @@ export function QuickActions(props) {
     >
       {displayQuickStart && (
         <div>
-          <SvgIcon type={'lib_help_error_help_circle'} />
+          <AIPopover />
         </div>
       )}
       <div>
