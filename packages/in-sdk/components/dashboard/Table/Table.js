@@ -168,9 +168,9 @@ export default class Table extends React.Component {
                   cols={cols?.length}
                   size="compact"
                   renderNoDataAvailable={() => (
-                    <NoDataAvailable text={t('in-kubernetes:dashboards.noComponentStatusDataAvailable')} height={80} />
+                    <NoDataAvailable text={t('in-sdk:dashboard.table.tableNoData')} height={80} />
                   )}
-                  noDataMessage={t('in-kubernetes:dashboards.noComponentStatusDataAvailable')}
+                  noDataMessage={t('in-sdk:dashboard.table.tableNoData')}
                 />
               </div>
             </Card>
