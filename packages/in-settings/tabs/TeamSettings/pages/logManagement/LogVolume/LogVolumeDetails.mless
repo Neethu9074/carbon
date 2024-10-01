@@ -7,7 +7,7 @@
 :local {
   .tableGrid {
     display: grid;
-    grid-template-areas: 'label . gb ru arrow';
+    grid-template-areas: 'label . gb gb arrow';
     grid-template-columns: 16rem auto 10rem 10rem 2rem;
     justify-content: normal;
   }
@@ -25,7 +25,7 @@
   }
 
   .tableLabel {
-    grid-area: label;
+    grid-area: label / span 2;
     justify-content: left;
     display: flex;
   }

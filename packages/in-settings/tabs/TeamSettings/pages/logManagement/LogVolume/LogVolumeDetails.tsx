@@ -63,16 +63,6 @@ export default function LogVolumeDetails({
                 <div className={locals.tableGB}>
                   <span>{totalVolume.gb} GB</span>
                 </div>
-                <div className={locals.tableRU}>
-                  <Tooltip
-                    content={t('in-settings:tabs.logVolume.ruTooltip', {
-                      groupingTag: groupingTag && capitalize(groupingTag)
-                    })}
-                    align="mousePosition"
-                  >
-                    <span>{`${Math.ceil(totalVolume.ru)} RU`}</span>
-                  </Tooltip>
-                </div>
               </Li>
               <div>
                 <Ul className={locals.logVolumeItems}>
@@ -90,11 +80,6 @@ export default function LogVolumeDetails({
                                 {t('in-settings:tabs.logVolume.days', { context: days.replace('days', '') })}
                               </span>
                               <span className={locals.tableGB}>{(retentionPeriods[days] as VolumeUnits).gb} GB</span>
-                              <span className={locals.tableRU}>
-                                {(retentionPeriods[days] as VolumeUnits).ru < 1
-                                  ? '<1 RU'
-                                  : `${Math.round((retentionPeriods[days] as VolumeUnits).ru)} RU`}
-                              </span>
                             </div>
                           </Li>
                         ))}
@@ -111,11 +96,6 @@ export default function LogVolumeDetails({
                                   {t('in-settings:tabs.logVolume.days', { context: days.replace('days', '') })}
                                 </span>
                                 <span className={locals.tableGB}>{partialSums && partialSums[days].gb} GB</span>
-                                <span className={locals.tableRU}>
-                                  {partialSums && partialSums[days].ru < 1
-                                    ? '<1 RU'
-                                    : partialSums && `${Math.round(partialSums[days].ru)} RU`}
-                                </span>
                                 <span className={locals.collapseRow}>
                                   <SvgIcon
                                     type={
@@ -130,10 +110,8 @@ export default function LogVolumeDetails({
 
                               {expandedRetention[`${month}_${days}`] && (
                                 <div>
-                                  {(retentionPeriods[days] as { label: string; volumeGB: number; volumeRU: number }[])
-                                    ?.filter(
-                                      (item: { label: string; volumeGB: number; volumeRU: number }) => item.volumeGB > 0
-                                    )
+                                  {(retentionPeriods[days] as { label: string; volumeGB: number }[])
+                                    ?.filter((item: { label: string; volumeGB: number }) => item.volumeGB > 0)
                                     .map(({ label, volumeGB }, index: number) => (
                                       <React.Fragment key={`${days}_${index}`}>
                                         <div key={label + index} className={locals.logVolumeCategories}>
