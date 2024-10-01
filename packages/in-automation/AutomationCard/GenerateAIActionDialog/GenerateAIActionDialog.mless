@@ -8,15 +8,19 @@
   .dialog {
     width: 80vw;
     height: 40vw;
+    overflow-y: auto;
   }
   .contentSection {
     display: inline-flex;
+    > div {
+      min-height: 450px;
+    }
+
     div {
       &:nth-child(1) {
         margin-right: 1rem;
-        height: 450px;
-        overflow-y: auto;
         background-color: var(--cds-field);
+        height: 100%;
       }
 
       &:nth-child(2) {

@@ -71,7 +71,7 @@ export function dfqFilterValidator(permissionSet: PermissionSet | undefined): Va
 
 export function actionFilterValidator(actionFilter: ScopeBinding | undefined): ValidationResult {
   const scopeId = actionFilter?.scopeId;
-  if (scopeId === undefined) return null;
+  if (scopeId == undefined) return null;
   const { tags = [], type = [] } = parse(scopeId, { comma: true }) as {
     tags?: string[] | string;
     type?: string[] | string;

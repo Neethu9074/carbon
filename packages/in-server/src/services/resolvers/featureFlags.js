@@ -672,7 +672,7 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'applicationSmartAlertFullScreenDesignEnabled',
-    instanaCtlKey: 'application.smart.alerts.full.screen.design.enabled',
+    instanaCtlKey: 'feature.application.smart.alert.full.screen.design.enabled',
     defaultValue: false
   },
   {
@@ -777,7 +777,7 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'applicationSmartAlertDialogView',
-    instanaCtlKey: 'application.smart.alerts.dialog.view',
+    instanaCtlKey: 'feature.application.smart.alert.dialog.view',
     defaultValue: true
   },
   {
