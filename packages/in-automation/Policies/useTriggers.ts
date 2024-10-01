@@ -4,6 +4,15 @@
  * Copyright IBM Corp. 2023
  */
 
+import {
+  EventSpecificationInfo,
+  LogAlertConfigWithMetadata,
+  MobileAppAlertConfigWithMetadata,
+  Result,
+  ServiceLevelsAlertConfigWithMetadata,
+  SyntheticAlertConfigWithMetadata,
+  WebsiteAlertConfigWithMetadata
+} from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -17,15 +26,6 @@ import {
   getSyntheticSmartAlertConfigs,
   getSloSmartAlertConfigs
 } from 'in-automation/api';
-import {
-  EventSpecificationInfo,
-  LogAlertConfigWithMetadata,
-  MobileAppAlertConfigWithMetadata,
-  Result,
-  ServiceLevelsAlertConfigWithMetadata,
-  SyntheticAlertConfigWithMetadata,
-  WebsiteAlertConfigWithMetadata
-} from 'in-types';
 import {
   ApplicationSmartAlertConfigWithMetadata,
   GlobalApplicationsSmartAlertConfigWithMetadata

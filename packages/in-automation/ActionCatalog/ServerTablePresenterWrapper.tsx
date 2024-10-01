@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2022
  */
 
-import { Field, MapForm } from 'formalistic';
 import React, { useContext } from 'react';
+import { Field } from 'formalistic';
 import classNames from 'classnames';
 
 import { IconButton, Button } from '@instana/components';
@@ -14,9 +14,9 @@ import { generateUniqueShortId } from '@instana/utils';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { isNotEditableContext } from 'in-automation/ActionCatalog/Action';
-import { SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { deepCopy } from 'in-services/util/object';
+import { ActionForm } from './useActionForm';
 import { t } from 'in-i18n';
 
 import locals from './ServerTablePresenterWrapper.mless';
@@ -36,10 +36,10 @@ interface ServerTablePresenterWrapperProps<VALUETYPE>
     ServerTablePresenterWrapperListItemConfiguration<VALUETYPE>
   >[];
   data: ListItem<VALUETYPE>[];
-  form: MapForm<any>;
+  form: ActionForm;
   formKey: string;
   defaultRow?: VALUETYPE;
-  setForm: SetFormFunction;
+  setForm: React.Dispatch<React.SetStateAction<ActionForm>>;
   customAddRow?: () => void;
   customAddRowLabel?: string;
   ticketIdParameterExist?: boolean;

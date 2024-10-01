@@ -8,8 +8,8 @@ import { Field, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
 import { Parameter, DynamicFieldValue } from '@instana/types';
-import { generateUniqueShortId } from '@instana/utils';
 import { RadioButton, Checkbox } from '@instana/components';
+import { generateUniqueShortId } from '@instana/utils';
 
 import {
   ViewModel,
@@ -30,10 +30,9 @@ import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages'
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
-import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import { getDynamicParameterTagCatalog } from 'in-automation/api';
-import { OnEntityChange } from 'in-settings/hooks/useEntityForm';
+import { OnChange } from 'in-automation/ActionCatalog/Action';
 import { close } from 'in-components/DialogPresenter/store';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import SaveCancel from 'in-settings/components/SaveCancel';
@@ -44,11 +43,11 @@ import Input from 'in-components/form/Input/Input';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
 
-import locals from './ActionForm.mless';
+import locals from './Action.mless';
 
 export interface ParameterDialogProps {
   form: MapForm<any>;
-  onChange: OnEntityChange<ActionFormEntity>;
+  onChange: OnChange;
   idToEdit?: string;
   isNotEditable: boolean;
   isAnsible: boolean;

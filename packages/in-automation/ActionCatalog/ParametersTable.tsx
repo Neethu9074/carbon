@@ -4,8 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
-import { MapForm, Field } from 'formalistic';
 import React, { useContext } from 'react';
+import { Field } from 'formalistic';
 
 import { Link, Typography } from '@instana/components';
 import { ActionType, Parameter } from '@instana/types';
@@ -18,19 +18,19 @@ import {
   doesParameterExist
 } from 'in-automation/ActionCatalog/shared';
 import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
-import { ActionFormEntity, isNotEditableContext } from 'in-automation/ActionCatalog/Action';
 import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWrapper';
-import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
+import { isNotEditableContext, OnChange } from 'in-automation/ActionCatalog/Action';
 import ParameterDialog from 'in-automation/ActionCatalog/ParameterDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import Label from 'in-components/form/Label/Label';
+import { ActionForm } from './useActionForm';
 import { t } from 'in-i18n';
 
 interface ParametersTableProps {
-  form: MapForm<any>;
-  onChange: OnEntityChange<ActionFormEntity>;
-  setForm: SetFormFunction;
+  form: ActionForm;
+  onChange: OnChange;
+  setForm: React.Dispatch<React.SetStateAction<ActionForm>>;
 }
 
 export interface MappedParameter {

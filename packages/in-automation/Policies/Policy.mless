@@ -16,18 +16,10 @@
 
   .spaceBetween {
     justify-content: space-between;
-    padding-top: 1rem;
     background-color: var(--ids-color-option-white);
-    padding-left: 1.5rem;
+    padding: 0 1.5rem;
+    padding-top: 1rem;
     height: 76px;
-  }
-  .actionBody > div {
-    padding-left: 0px;
-  }
-  .actionBody {
-    fieldset {
-      padding-left: 1.5rem;
-    }
   }
   .selectDialog {
     padding: 0 3.5rem;

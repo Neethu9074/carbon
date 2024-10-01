@@ -275,6 +275,26 @@
     "deleteDialog": {
       "success": "Action was deleted successfully.",
       "failure": "Failed to delete action: {{errorMessage}}"
+    },
+    "createDialog": {
+      "success": {
+        "title": "Action was created successfully.",
+        "content": "Action \"{{name}}\" has been created successfully."
+      },
+      "failure": {
+        "title": "Failed to created action.",
+        "content": "There was a problem creating this action: {{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "Action was updated successfully.",
+        "content": "Action \"{{name}}\" has been updated successfully."
+      },
+      "failure": {
+        "title": "Failed to update action.",
+        "content": "There was a problem updating this action: {{errorMessage}}"
+      }
     }
   },
   "actionHistory": {

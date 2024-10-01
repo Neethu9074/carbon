@@ -4,14 +4,15 @@
  * Copyright IBM Corp. 2023
  */
 
+import { ActionConfiguration, Policy, Result, TypeConfigurationType } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
 
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { AUTOMATIC, MANUAL, isAutomatic, isManual } from 'in-automation/Policies/types';
+import { getActionConfigurationFromPolicy } from 'in-automation/Policies/shared';
 import usePaginatedResult from 'in-automation/hooks/usePaginatedResult';
-import { Policy, Result, TypeConfigurationType } from 'in-types';
 import { pendingResult } from 'in-services/fixedObjects';
 import { mapData } from 'in-services/util/result';
 import { getPolicies } from 'in-automation/api';
@@ -71,16 +72,16 @@ export default function usePolicies({ serverTableUrlState, setServerTableUrlStat
       'description',
       policy => policy?.tags?.toString() ?? '',
       policy => policy?.trigger?.name ?? '',
-      policy => policy.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.name
+      policy => (getActionConfigurationFromPolicy(policy) as ActionConfiguration).action.name
     ],
-    sort: entity => {
+    sort: policy => {
       const { orderBy } = serverTableUrlState;
-      const value = entity[orderBy as keyof Policy];
+      const value = policy[orderBy as keyof Policy];
       if (orderBy === 'trigger') {
-        return entity.trigger.name?.trim()?.toLowerCase();
+        return policy.trigger.name?.trim()?.toLowerCase();
       }
       if (orderBy === 'actionName') {
-        return entity.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.name?.trim()?.toLowerCase();
+        return (getActionConfigurationFromPolicy(policy) as ActionConfiguration).action.name?.trim()?.toLowerCase();
       }
       return typeof value === 'string' ? value.trim().toLowerCase() : value;
     }

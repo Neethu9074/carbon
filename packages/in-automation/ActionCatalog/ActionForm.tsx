@@ -5,10 +5,10 @@
  */
 
 import React, { useState, useContext } from 'react';
-import { Field, MapForm } from 'formalistic';
+import { Field } from 'formalistic';
 
-import { Link, Spacer, Typography, Toggle, IconButton } from '@instana/components';
-import { TextArea, Select } from '@instana/components';
+import { Link, Spacer, Typography, Toggle, IconButton, TextArea, Select } from '@instana/components';
+import { ActionType, Result } from '@instana/types';
 
 import {
   putApiKeyFields,
@@ -45,7 +45,7 @@ import {
   putJiraCloseTicketFields,
   putJiraCommentTicketFields,
   createTicketIdParameter
-} from 'in-automation/ActionCatalog/ActionFormDefinition';
+} from 'in-automation/ActionCatalog/useActionForm';
 import {
   API_KEY,
   AUTH_TYPES,
@@ -79,57 +79,75 @@ import {
   JIRA_TYPE,
   JIRA_ISSUE_TYPES,
   getHelpTextType,
-  JIRA_OPERATIONS
+  JIRA_OPERATIONS,
+  ActionFormEntity,
+  isAction,
+  isAIAction
 } from 'in-automation/ActionCatalog/shared';
-import { ActionFormEntity, isNotEditableContext } from 'in-automation/ActionCatalog/Action';
+import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
+import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import AdditionalHeadersTable from 'in-automation/ActionCatalog/AdditionalHeadersTable';
-import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
+import { isNotEditableContext, OnChange } from 'in-automation/ActionCatalog/Action';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import ParametersTable from 'in-automation/ActionCatalog/ParametersTable';
+import CopyActionLink from 'in-automation/ActionCatalog/CopyActionLink';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import FieldsTable from 'in-automation/ActionCatalog/FieldsTable';
 import CreatableTagSelect from 'in-components/CreatableTagSelect';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { carbonInputEnabled } from 'in-services/featureFlags';
 import useActionTags from 'in-automation/hooks/useActionTags';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
-import FormGroup from 'in-settings/components/FormGroup';
+import FormGroup from 'in-components/form/FormGroup';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { isLoading } from 'in-services/util/result';
+import { FetchStatus } from 'in-hooks/utils/types';
 import { ActionFilter } from 'in-automation/api';
 import Code from 'in-components/form/Code/Code';
-import { ActionType, Result } from 'in-types';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
+import { ActionForm } from './useActionForm';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-import locals from './ActionForm.mless';
+import locals from './Action.mless';
 
-interface ActionFormProps {
-  form: MapForm<any>;
-  onChange: OnEntityChange<ActionFormEntity>;
-  entity: ActionFormEntity;
-  setForm: SetFormFunction;
-  isCreate: boolean;
-  actionFilter: Result<'all'> | Result<ActionFilter>;
+export function ActionFormHeader({ isNew, action }: { isNew: boolean; action: ActionFormEntity }) {
+  return (
+    <HorizontalFlexWrapper className={locals.spaceBetween}>
+      <SubViewHeader>
+        {isNew
+          ? t('in-automation:ActionCatalog.createANewAction')
+          : t('in-automation:ActionCatalog.configureActionEntityName', { entityName: action.name })}
+      </SubViewHeader>
+      {!isNew && (
+        <HorizontalFlexWrapper>
+          {isAction(action) && role?.canConfigureAutomationActions && <CopyActionLink action={action} />}
+        </HorizontalFlexWrapper>
+      )}
+    </HorizontalFlexWrapper>
+  );
 }
 
-export default function ActionForm({
-  form,
-  setForm,
-  onChange,
-  entity: action,
-  isCreate,
-  actionFilter
-}: ActionFormProps) {
+interface ActionFormBodyProps {
+  form: ActionForm;
+  onChange: OnChange;
+  action: ActionFormEntity;
+  setForm: React.Dispatch<React.SetStateAction<ActionForm>>;
+  isCreate: boolean;
+  actionFilter: 'all' | ActionFilter;
+}
+
+export function ActionFormBody({ form, setForm, onChange, action, isCreate, actionFilter }: ActionFormBodyProps) {
   const type = (form.get('type') as Field<ActionType>).value;
   const showTimeoutSection = isScript(type) || isWebhook(type) || isAnsible(type);
 
   return (
-    <fieldset>
+    <LeftRightPadding>
       <Row>
         <Col lg={8}>
           <SectionHeading>{t('in-automation:ActionCatalog.1ActionDetails')}</SectionHeading>
@@ -138,17 +156,17 @@ export default function ActionForm({
           <TypeSection
             form={form}
             onChange={onChange}
-            entity={action}
+            action={action}
             isCreate={isCreate}
             actionFilter={actionFilter}
           />
           {isDocLink(type) && <DocLinkSection form={form} onChange={onChange} />}
           {isScript(type) && <ScriptSection form={form} onChange={onChange} />}
-          {isWebhook(type) && <WebhookSection setForm={setForm} form={form} onChange={onChange} entity={action} />}
-          {isAnsible(type) && <AnsibleSection entity={action} />}
-          {isGithub(type) && <GithubSection form={form} onChange={onChange} setForm={setForm} entity={action} />}
-          {isGitlab(type) && <GitlabSection form={form} onChange={onChange} setForm={setForm} entity={action} />}
-          {isJira(type) && <JiraSection form={form} onChange={onChange} setForm={setForm} entity={action} />}
+          {isWebhook(type) && <WebhookSection setForm={setForm} form={form} onChange={onChange} action={action} />}
+          {isAnsible(type) && <AnsibleSection action={action} />}
+          {isGithub(type) && <GithubSection form={form} onChange={onChange} setForm={setForm} action={action} />}
+          {isGitlab(type) && <GitlabSection form={form} onChange={onChange} setForm={setForm} action={action} />}
+          {isJira(type) && <JiraSection form={form} onChange={onChange} setForm={setForm} action={action} />}
           {isManual(type) && <ManualSection form={form} onChange={onChange} />}
           {showTimeoutSection && (
             <>
@@ -165,11 +183,51 @@ export default function ActionForm({
           )}
         </Col>
       </Row>
-    </fieldset>
+    </LeftRightPadding>
   );
 }
 
-const TimeoutSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
+export function ActionFormFooter({
+  form,
+  submitStatus,
+  isNew,
+  action,
+  isCopy
+}: {
+  isNew: boolean;
+  submitStatus: FetchStatus | undefined;
+  form: ActionForm;
+  action: ActionFormEntity;
+  isCopy: boolean;
+}) {
+  const navigateToActionCatalog = useNavigateToActionCatalog();
+  const isBuiltinAction = action?.metadata?.builtIn ?? false;
+  const canSaveAction = role?.canConfigureAutomationActions && ((isBuiltinAction && isCopy) || !isBuiltinAction);
+  return (
+    <>
+      <Spacer vertical="xlarge" />
+      <FormFooter>
+        <CancelButton
+          onClick={() => {
+            const view = isAIAction(action) ? 'ai' : 'user';
+            navigateToActionCatalog(view);
+          }}
+        />
+        {canSaveAction && (
+          <SaveButton form={form} isSaving={submitStatus === 'pending'}>
+            {submitStatus === 'pending'
+              ? t('forms.states.saving')
+              : isNew
+              ? t('forms.actions.create')
+              : t('forms.actions.save')}
+          </SaveButton>
+        )}
+      </FormFooter>
+    </>
+  );
+}
+
+const TimeoutSection = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChange'>) => {
   const timeout = form.get('timeout') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
   const type = (form.get('type') as Field<ActionType>).value;
@@ -198,11 +256,11 @@ const TimeoutSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onCh
   );
 };
 
-function filterTags(actionFilter: Result<'all'> | Result<ActionFilter>, availableTags: Result<string[]>) {
-  if (actionFilter.data === 'all') {
+function filterTags(actionFilter: 'all' | ActionFilter, availableTags: Result<string[]>) {
+  if (actionFilter === 'all') {
     return availableTags.data;
   } else {
-    return availableTags.data?.filter(tag => (actionFilter as Result<ActionFilter>).data?.tags.includes(tag));
+    return availableTags.data?.filter(tag => actionFilter.tags.includes(tag));
   }
 }
 
@@ -210,14 +268,14 @@ const MetaDataSection = ({
   form,
   onChange,
   actionFilter
-}: Pick<ActionFormProps, 'form' | 'setForm' | 'onChange' | 'actionFilter'>) => {
+}: Pick<ActionFormBodyProps, 'form' | 'setForm' | 'onChange' | 'actionFilter'>) => {
   const name = form.get('name') as Field<string>;
   const description = form.get('description') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
   const tags = form.get('tags') as Field<string[]>;
   const availableTags = useActionTags();
   const filteredTags = filterTags(actionFilter, availableTags);
-  const isValidNewOption = actionFilter.data === 'all' ? undefined : () => false;
+  const isValidNewOption = actionFilter === 'all' ? undefined : () => false;
   return (
     <>
       {name.map(field => (
@@ -280,15 +338,15 @@ const MetaDataSection = ({
 };
 
 const typeOptions = [DOC_LINK_TYPE, SCRIPT_TYPE, WEBHOOK_TYPE, MANUAL_TYPE, GITHUB_TYPE, GITLAB_TYPE, JIRA_TYPE];
-function filterTypes(actionFilter: Result<'all'> | Result<ActionFilter>) {
-  if (actionFilter.data === 'all') {
+function filterTypes(actionFilter: 'all' | ActionFilter) {
+  if (actionFilter === 'all') {
     return typeOptions;
   } else {
-    return typeOptions.filter(option => (actionFilter as Result<ActionFilter>).data?.types.includes(option));
+    return typeOptions.filter(option => actionFilter.types.includes(option));
   }
 }
 
-export function onTypeChange(type: ActionType, action: ActionFormEntity, onChange: OnEntityChange<ActionFormEntity>) {
+export function onTypeChange(type: ActionType, action: ActionFormEntity, onChange: OnChange) {
   onChange('type', type, updatedForm => {
     // WILL NEED TO UPDATE THIS FOR NEW TYPES
     const type = (updatedForm.get('type') as Field<ActionType>).value;
@@ -356,10 +414,10 @@ export function onTypeChange(type: ActionType, action: ActionFormEntity, onChang
 const TypeSection = ({
   form,
   onChange,
-  entity: action,
+  action: action,
   isCreate,
   actionFilter
-}: Pick<ActionFormProps, 'form' | 'onChange' | 'entity' | 'isCreate' | 'actionFilter'>) => {
+}: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'action' | 'isCreate' | 'actionFilter'>) => {
   const type = form.get('type') as Field<ActionType>;
   const isNotEditable = useContext(isNotEditableContext);
   const filteredTypes = filterTypes(actionFilter);
@@ -392,7 +450,7 @@ const TypeSection = ({
   ));
 };
 
-const DocLinkSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
+const DocLinkSection = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChange'>) => {
   const docLink = form.get('docLink') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
 
@@ -416,7 +474,7 @@ const DocLinkSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onCh
   ));
 };
 
-const ManualSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
+const ManualSection = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChange'>) => {
   const manualContent = form.get('manualContent') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
   return manualContent.map(field => (
@@ -439,7 +497,7 @@ const ManualSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onCha
   ));
 };
 
-const ScriptSection = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
+const ScriptSection = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChange'>) => {
   const script = form.get('script') as Field<string>;
   const subtype = form.get('subtype') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
@@ -487,8 +545,8 @@ const GithubSection = ({
   form,
   onChange,
   setForm,
-  entity: action
-}: Pick<ActionFormProps, 'form' | 'onChange' | 'setForm' | 'entity'>) => {
+  action: action
+}: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'setForm' | 'action'>) => {
   const owner = form.get('owner') as Field<string>;
   const repo = form.get('repo') as Field<string>;
   const ticketActionType = form.get('ticketActionType') as Field<string>;
@@ -593,7 +651,7 @@ const GithubSection = ({
   );
 };
 
-const GithubOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'form' | 'onChange' | 'setForm'>) => {
+const GithubOpenSection = ({ form, onChange, setForm }: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'setForm'>) => {
   const title = form.get('title') as Field<string>;
   const body = form.get('body') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
@@ -678,7 +736,7 @@ const TicketCloseAndCommentSection = ({
   form,
   onChange,
   close = false
-}: Pick<ActionFormProps, 'form' | 'onChange'> & { close?: boolean }) => {
+}: Pick<ActionFormBodyProps, 'form' | 'onChange'> & { close?: boolean }) => {
   const comment = form.get('comment') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
 
@@ -707,8 +765,8 @@ const GitlabSection = ({
   form,
   onChange,
   setForm,
-  entity: action
-}: Pick<ActionFormProps, 'form' | 'onChange' | 'setForm' | 'entity'>) => {
+  action: action
+}: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'setForm' | 'action'>) => {
   const projectId = form.get('projectId') as Field<string>;
   const ticketActionType = form.get('ticketActionType') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
@@ -793,7 +851,7 @@ const GitlabSection = ({
   );
 };
 
-const GitlabOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'form' | 'onChange' | 'setForm'>) => {
+const GitlabOpenSection = ({ form, onChange, setForm }: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'setForm'>) => {
   const title = form.get('title') as Field<string>;
   const body = form.get('body') as Field<string>;
   const issue_type = form.get('issue_type') as Field<string>;
@@ -891,8 +949,8 @@ const JiraSection = ({
   form,
   onChange,
   setForm,
-  entity: action
-}: Pick<ActionFormProps, 'form' | 'onChange' | 'setForm' | 'entity'>) => {
+  action: action
+}: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'setForm' | 'action'>) => {
   const project = form.get('project') as Field<string>;
   const ticketActionType = form.get('ticketActionType') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
@@ -977,7 +1035,7 @@ const JiraSection = ({
   );
 };
 
-const JiraOpenSection = ({ form, onChange, setForm }: Pick<ActionFormProps, 'form' | 'onChange' | 'setForm'>) => {
+const JiraOpenSection = ({ form, onChange, setForm }: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'setForm'>) => {
   const summary = form.get('summary') as Field<string>;
   const body = form.get('body') as Field<string>;
   const assignee = form.get('assignee') as Field<string>;
@@ -1100,8 +1158,8 @@ const WebhookSection = ({
   form,
   setForm,
   onChange,
-  entity: action
-}: Pick<ActionFormProps, 'form' | 'setForm' | 'onChange' | 'entity'>) => {
+  action: action
+}: Pick<ActionFormBodyProps, 'form' | 'setForm' | 'onChange' | 'action'>) => {
   const host = form.get('host') as Field<string>;
   const method = form.get('method') as Field<string>;
   const accept = form.get('accept') as Field<string>;
@@ -1310,7 +1368,7 @@ const WebhookSection = ({
   );
 };
 
-const BasicAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
+const BasicAuth = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChange'>) => {
   const username = form.get('username') as Field<string>;
   const password = form.get('password') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
@@ -1351,7 +1409,7 @@ const BasicAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'
   );
 };
 
-const BearerAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
+const BearerAuth = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChange'>) => {
   const bearerToken = form.get('bearerToken') as Field<string>;
 
   return (
@@ -1371,7 +1429,7 @@ const BearerAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange
   );
 };
 
-const APIAuth = ({ form, onChange }: Pick<ActionFormProps, 'form' | 'onChange'>) => {
+const APIAuth = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChange'>) => {
   const apiKey = form.get('apiKey') as Field<string>;
   const apiKeyValue = form.get('apiKeyValue') as Field<string>;
   const apiKeyAddTo = form.get('apiKeyAddTo') as Field<string>;
@@ -1449,7 +1507,7 @@ const SecuredInput = ({
   form,
   onChange,
   fieldKey
-}: Pick<ActionFormProps, 'form' | 'onChange'> & { fieldKey: keyof typeof tooltipTranslation }) => {
+}: Pick<ActionFormBodyProps, 'form' | 'onChange'> & { fieldKey: keyof typeof tooltipTranslation }) => {
   const [showPassword, setShowPassword] = useState(false);
   const field = form.get(fieldKey) as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
@@ -1486,14 +1544,14 @@ const SecuredInput = ({
   );
 };
 
-const AnsibleSection = ({ entity }: Pick<ActionFormProps, 'entity'>) => {
-  const { jobTemplateUrl } = getAnsibleFields(entity);
+const AnsibleSection = ({ action }: Pick<ActionFormBodyProps, 'action'>) => {
+  const { jobTemplateUrl } = getAnsibleFields(action);
   return (
     <>
       <FormGroup className={locals.widthFitContent}>
         <Label>{t('in-automation:jobTemplate')}</Label>
         <Link external href={jobTemplateUrl}>
-          {entity.name}
+          {action.name}
         </Link>
       </FormGroup>
     </>

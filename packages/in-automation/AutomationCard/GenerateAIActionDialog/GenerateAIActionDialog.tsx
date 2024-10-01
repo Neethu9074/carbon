@@ -27,9 +27,9 @@ import {
 import { setSelectedAction } from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/SelectActionStep';
 import CreatePolicyStep from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/CreatePolicyStep';
 import ReviewActionStep from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/ReviewActionStep';
-import { ScoredAction, getActionNameExists, saveNewActionResult, saveNewPolicy } from 'in-automation/api';
 import CopyActionStep from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/CopyActionStep';
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
+import { ScoredAction, getActionNameExists, saveNewAction, saveNewPolicy } from 'in-automation/api';
 import { refresh as refreshScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import useHrefToActionDetails from 'in-automation/navigation/hooks/useHrefToActionDetails';
 import useHrefToPolicyDetails from 'in-automation/navigation/hooks/useHrefToPolicyDetails';
@@ -163,7 +163,7 @@ function useOnSubmit() {
     const action = getActionFromForm(form);
     if (!both) {
       setResult(pendingResult);
-      saveNewActionResult(action)
+      saveNewAction(action)
         .filter(res => !isLoading(res))
         .once(
           result => {
@@ -187,7 +187,7 @@ function useOnSubmit() {
         return;
       }
       setResult(pendingResult);
-      saveNewActionResult(action)
+      saveNewAction(action)
         .filter(res => !isLoading(res))
         .flatMap<Result<Action | Policy>>(result => {
           setResult(result);
