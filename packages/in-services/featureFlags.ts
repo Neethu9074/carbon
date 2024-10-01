@@ -284,7 +284,6 @@ export const preAggregatedMetricsQueryEnabled = isFeatureFlagEnabled('preAggrega
 export const carbonFileUploaderEnabled = isFeatureFlagEnabled('carbonFileUploaderEnabled', false);
 export const userProfileMenuEnabled = isFeatureFlagEnabled('userProfileMenuEnabled', true);
 export const unitForInfraMetricsEnabled = isFeatureFlagEnabled('unitForInfraMetricsEnabled', false);
-export const increaseAggregationEnabled = isFeatureFlagEnabled('increaseAggregationEnabled', true);
 export const graphViewFromAboutInstanaEnabled = isFeatureFlagEnabled('graphViewFromAboutInstanaEnabled', false);
 export const graphViewFromInfraMapEnabled = isFeatureFlagEnabled('graphViewFromInfraMapEnabled', false);
 export const extrapolateMissingStackedAreaValuesEnabled = isFeatureFlagEnabled('extrapolateMissingStackedAreaValues');
