@@ -31,13 +31,13 @@
     }
 
     &NoBanner {
-      max-height: ~'calc(100vh - 400px)';
+      max-height: ~'calc(100vh - 28rem)';
     }
     &Banner {
-      max-height: ~'calc(100vh - 446px)';
+      max-height: ~'calc(100vh - 30.875rem)';
     }
     &Carbon > div {
-      width: 24rem;
+      width: 100%;
     }
   }
 }
