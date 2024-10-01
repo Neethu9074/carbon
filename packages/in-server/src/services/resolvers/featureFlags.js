@@ -788,7 +788,7 @@ module.exports = exports = [
   {
     uiClientKey: 'increaseAggregationEnabled',
     instanaCtlKey: 'feature.increase.aggregation.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonCodeEnabled',
