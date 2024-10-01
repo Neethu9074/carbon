@@ -219,10 +219,10 @@ export default function ServerTablePresenter<
           let orderDirection = sortState.sortDirection as OrderDirection;
           // backend APIs as of now doesnt support NONE sort direction option, so will be
           // changing it to ASC to maintain the current behaviour.
-          if (sortState.sortDirection === 'NONE' || sortState.sortDirection === 'DESC') {
-            orderDirection = 'ASC';
-          } else if (sortState.sortDirection === 'ASC') {
+          if (sortState.sortDirection === 'NONE' || sortState.sortDirection === 'ASC') {
             orderDirection = 'DESC';
+          } else if (sortState.sortDirection === 'DESC') {
+            orderDirection = 'ASC';
           }
           onChange({ query, orderBy, orderDirection, page: 1, pageSize, pageSizes });
         }}
