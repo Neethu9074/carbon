@@ -824,5 +824,10 @@ module.exports = exports = [
     uiClientKey: 'customDashboardTopLevelFiltersEnabled',
     instanaCtlKey: 'feature.custom.dashboard.top.level.filters.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'syntheticCredentialsEnabled',
+    instanaCtlKey: 'feature.synthetic.credentials.enabled',
+    defaultValue: false
   }
 ];

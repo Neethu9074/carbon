@@ -173,5 +173,6 @@ module.exports = {
   nutanixEnabled: true,
   automationActionAiGenerationUnitEnabled: true,
   carbonSliderEnabled: true,
-  customDashboardTopLevelFiltersEnabled: true
+  customDashboardTopLevelFiltersEnabled: true,
+  syntheticCredentialsEnabled: true
 };
