@@ -594,7 +594,7 @@
         "label": "Business monitoring",
         "name": "Name",
         "activities": "Activities",
-        "views": "Views",
+        "started": "Started",
         "health": "Health",
         "searchPlaceholderLabel": "business processes",
         "viewAllLabel": "business processes"

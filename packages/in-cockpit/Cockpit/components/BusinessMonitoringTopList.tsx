@@ -146,8 +146,8 @@ const columnDefinitions: ColumnizedDefinition[] = [
           rollup={getChartGranularity(timeConfig)}
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           aggregation="DISTINCT_COUNT"
-          metrics={item?.metrics?.started_processes}
-          metric={item?.metrics?.started_processes[0][1]}
+          metrics={item?.metrics?.started_processes_array}
+          metric={item?.metrics?.started_processes_total?.[0][1]}
           label={t('in-cockpit:component.bizopsTopList.count')}
           tooltipFormatter={number.compact}
         />
