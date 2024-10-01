@@ -435,6 +435,11 @@
     "createPolicies": "Create Policies",
     "websiteSmartAlert": "Website Smart Alert"
   },
+  "infoPanel": {
+    "taskGuidance": "User guidance",
+    "hideTasks": "Hide",
+    "showTasks": "Show"
+  },
   "deleteDialog": {
     "pleaseConfirm": "Please Confirm",
     "pleaseConfirmMsg": "Are you sure you want to delete <strong>{{name}}</strong>?",

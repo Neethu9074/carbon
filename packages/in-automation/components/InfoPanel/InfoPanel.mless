@@ -5,44 +5,52 @@
  */
 
 :local {
-  .toolbarSection {
-    box-shadow: var(--ids-shadow-option-pronounced);
-    width: 100%;
-    padding-inline-start: 1.5rem;
-    padding-inline-end: 2rem;
-    border-block-start: 1px solid var(--cds-border-subtle);
-    height: 3rem;
+  .panel {
+    background-color: var(--cds-layer);
+    margin-left: 16px;
+  }
+  .contentContainer {
     display: flex;
-    flex-flow: column;
-    justify-content: center;
-
-    .hideButton {
-      gap: 0.5rem;
-    }
-    .hideButton:focus {
-      outline: none;
-      border: none;
-    }
+    width: 100%;
+    gap: 24px;
+    justify-content: flex-start;
   }
-
-  .carouselStack {
-    padding: 1rem 0rem 0rem 0rem;
-    padding-inline-start: 1rem;
-    padding-inline-end: 1rem;
-
-    .carouselTitle {
-      padding-inline-start: 1.5rem;
-    }
-
-    .carousel {
-      overflow-x: scroll;
-      padding-inline-start: 1.5rem;
-      padding-inline-end: 1.5rem;
-      scrollbar-width: none;
-    }
+  .columnContainer {
+    display: flex;
+    gap: 24px;
+    width: 200px;
+    flex-direction: column;
+    justify-content: space-between;
   }
+  .contentTitle {
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 40px;
+    margin-bottom: 16px;
+  }
+  .columnTitle {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+  }
+  .columnText {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+  }
+  .linkButton {
+    border: 1px solid;
+    width: 136px;
+    justify-content: space-around;
+  }
+  .buttonSection {
+    margin-top: 32px;
+    border-top: 1px solid #e0e0e0;
+  }
+}
 
-  .expanded {
-    border-block-start: none;
+:global {
+  #infoPanelFooter .dashboardButton.cds--btn {
+    padding-left: 0;
   }
 }
