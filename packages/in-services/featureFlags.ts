@@ -104,7 +104,11 @@ export const kubernetesTeamEnabled = isFeatureFlagEnabled('kubernetesTeamEnabled
 export const kubernetesPrometheusMetricsEnabled = isFeatureFlagEnabled('kubernetesPrometheusMetricsEnabled', false);
 
 export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', true);
-export const sliCHClusterAccessEnabled = isFeatureFlagEnabled('sliCHClusterAccessEnabled');
+// In self-hosted environments the feature flag had to be named differently:
+// sliChClusterAccessEnabled
+// compared to other places:
+// sliCHClusterAccessEnabled
+export const sliCHClusterAccessEnabled = isFeatureFlagEnabled('sliCHClusterAccessEnabled') || isFeatureFlagEnabled('sliChClusterAccessEnabled');
 export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true);
 export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
 export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', true);
