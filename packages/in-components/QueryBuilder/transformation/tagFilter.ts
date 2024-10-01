@@ -13,7 +13,7 @@ import {
   ENDS_WITH,
   NOT_ENDS_WITH
 } from 'in-components/QueryBuilder/tagFilter/operators';
-import { KEY_NUMBER_PAIR, KEY_VALUE_PAIR, BOOLEAN, NUMBER } from 'in-components/QueryBuilder/tagFilter/types';
+import { KEY_VALUE_PAIR, BOOLEAN, NUMBER } from 'in-components/QueryBuilder/tagFilter/types';
 import { STRING_MAX_LENGTH } from 'in-components/QueryBuilder/tagFilter/constraints';
 import { TagCatalog, TagFilter, TagFilterEntity, TagFilterOperator } from 'in-types';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
@@ -148,16 +148,6 @@ export function tagFilter(
   entity: TagFilterEntity = NOT_APPLICABLE,
   tagDefinition?: MinimalTagDefinition
 ): TagFilter {
-  if (tagDefinition?.type === KEY_NUMBER_PAIR) {
-    return {
-      type,
-      name,
-      operator,
-      entity,
-      stringValue: key + '=',
-      numberValue: value
-    };
-  }
   return {
     type,
     name,
