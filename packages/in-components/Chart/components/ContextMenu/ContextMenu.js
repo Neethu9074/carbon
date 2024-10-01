@@ -175,7 +175,10 @@ export default class extends React.Component {
     return (
       <>
         <div
-          className={locals.contextMenuActionsButtonsWrapper}
+          className={classNames({
+            [locals.contextMenuActionsButtonsWrapper]: true,
+            [locals.contextMenuCarbonButtonWrapper]: carbonButtonEnabled
+          })}
           style={{ left: this.getXPosition(contextMenuButtons.length) }}
         >
           {!immediatelyOpenContextMenu && this.renderButtons(contextMenuButtons)}
@@ -250,7 +253,7 @@ export default class extends React.Component {
       return null;
     }
 
-    const primaryButton = createIconButton(contextMenuButtons[0]);
+    const primaryButton = createIconButton(contextMenuButtons[0], true);
 
     if (contextMenuButtons.length === 1) {
       return primaryButton;
@@ -285,8 +288,14 @@ export default class extends React.Component {
   };
 }
 
-function createIconButton(config) {
-  const carbonProps = { hasIconOnly: true, icon: config.icon, size: 'compact' };
+function createIconButton(config, isPrimary) {
+  const carbonProps = {
+    hasIconOnly: true,
+    icon: config.icon,
+    size: 'compact',
+    style: isPrimary ? { left: '1px' } : {},
+    kind: 'tertiary'
+  };
   if (config.label) {
     carbonProps['iconDescription'] = config.label;
   }

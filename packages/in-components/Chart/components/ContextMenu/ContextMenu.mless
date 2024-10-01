@@ -56,6 +56,11 @@
     display: flex;
   }
 
+  .contextMenuCarbonButtonWrapper {
+    top: -1.99rem;
+    background: var(--ids-color-option-white);
+  }
+
   .contextMenuOpenButtonIcon {
     margin: -0.5rem;
   }
