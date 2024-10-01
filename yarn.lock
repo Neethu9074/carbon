@@ -137,20 +137,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/eslint-parser@npm:^7.12.13":
-  version: 7.18.9
-  resolution: "@babel/eslint-parser@npm:7.18.9"
-  dependencies:
-    eslint-scope: ^5.1.1
-    eslint-visitor-keys: ^2.1.0
-    semver: ^6.3.0
-  peerDependencies:
-    "@babel/core": ">=7.11.0"
-    eslint: ^7.5.0 || ^8.0.0
-  checksum: ddbe0f9425c61a23069280948c0ad9cd4d6d46087cbc6386dd407a3ae6365c62e20f401ea42608aba21fcc2142b8d3d0878eb2f2192a7e5adbe355bdbc215aad
-  languageName: node
-  linkType: hard
-
 "@babel/eslint-parser@npm:^7.17.0":
   version: 7.17.0
   resolution: "@babel/eslint-parser@npm:7.17.0"
@@ -162,6 +148,20 @@ __metadata:
     "@babel/core": ">=7.11.0"
     eslint: ^7.5.0 || ^8.0.0
   checksum: 1cedd9998dd89f779bbc5496531e3ef1b43d6f4fb7209ed5088938292b81287302cb47c0923ce074e84e83aa41b236b09bfecacdf20770f4cbfade2de9519c10
+  languageName: node
+  linkType: hard
+
+"@babel/eslint-parser@npm:^7.25.1":
+  version: 7.25.1
+  resolution: "@babel/eslint-parser@npm:7.25.1"
+  dependencies:
+    "@nicolo-ribaudo/eslint-scope-5-internals": 5.1.1-v1
+    eslint-visitor-keys: ^2.1.0
+    semver: ^6.3.1
+  peerDependencies:
+    "@babel/core": ^7.11.0
+    eslint: ^7.5.0 || ^8.0.0 || ^9.0.0
+  checksum: 73207b7e84a58bd6560d29f11cf5c6f9d64a01b9299d4d0a145423a028ea4c402be2fd09228647fdbec14b65a07d4138e751468fd33d9a9363c9698582fa80b5
   languageName: node
   linkType: hard
 
@@ -2888,60 +2888,60 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/components@npm:4.34.0, @instana/components@npm:^4.34.0":
-  version: 4.34.0
-  resolution: "@instana/components@npm:4.34.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.34.0.tgz"
+"@instana/components@npm:4.36.1, @instana/components@npm:^4.36.1":
+  version: 4.36.1
+  resolution: "@instana/components@npm:4.36.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.36.1.tgz"
   dependencies:
     "@carbon/icons-react": 11.45.0
     "@carbon/react": 1.62.1
     "@emotion/react": ^11.9.0
     "@emotion/styled": ^11.8.1
-    "@instana/design-tokens": ^1.27.6
-    "@instana/format-date": ^1.6.7
-    "@instana/format-numbers": ^1.5.5
-    "@instana/hooks": ^1.11.7
-    "@instana/i18n-react": ^1.5.7
-    "@instana/observables": ^1.7.6
+    "@instana/design-tokens": ^1.28.0
+    "@instana/format-date": ^1.7.0
+    "@instana/format-numbers": ^1.6.0
+    "@instana/hooks": ^1.12.0
+    "@instana/i18n-react": ^1.6.0
+    "@instana/observables": ^1.8.0
     "@mui/material": ^5.12.1
-    classnames: ^2.2.6
+    classnames: ^2.5.1
     lodash: ^4.17.21
     prism-react-renderer: ^1.2.1
     prismjs: ^1.24.1
   peerDependencies:
     i18next: ^19.0.0
-    react: ^17.0.0
-  checksum: 9b4ec402f7b80279ce0d145f2d8c44700a0a91278713517413c384ae8920c865cd534aa56ee709a99045679710cd489e51ae236b88eb4b088ec232b99af3b5f0
+    react: ^17.0.2
+  checksum: 7971edc92e4adab8e0874e5ca517de4b28be48721d21c81d4cef9b87e6e702e865d627ac0c98b6bc867cb791fdc4560ed4c761fbbdbdf0b5da4837aab8a213d1
   languageName: node
   linkType: hard
 
-"@instana/design-tokens@npm:1.27.6, @instana/design-tokens@npm:^1.27.6":
-  version: 1.27.6
-  resolution: "@instana/design-tokens@npm:1.27.6::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fdesign-tokens%2F-%2F%40instana%2Fdesign-tokens-1.27.6.tgz"
+"@instana/design-tokens@npm:1.28.0, @instana/design-tokens@npm:^1.28.0":
+  version: 1.28.0
+  resolution: "@instana/design-tokens@npm:1.28.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fdesign-tokens%2F-%2F%40instana%2Fdesign-tokens-1.28.0.tgz"
   dependencies:
     tslib: ^2.4.1
     typescript: ^5.1.5
-  checksum: c8ed5991e44e07f817ab8baa1c4e94aec544e1e27f5c541eef332032334ae3ec2a29af4c22b8c9265d1d661afc0128775263fe7d30d9e817ac2c897467d84606
+  checksum: c756ad7aded3a33518cbe498655c20e81ddea63bf087f3edff6bd3560d731c4c8ed24d59a45d78046c61928db89c14ae064fd053a61ec1c684f55984829b42c2
   languageName: node
   linkType: hard
 
-"@instana/eslint-config-commons@npm:1.2.3":
-  version: 1.2.3
-  resolution: "@instana/eslint-config-commons@npm:1.2.3::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Feslint-config-commons%2F-%2F%40instana%2Feslint-config-commons-1.2.3.tgz"
+"@instana/eslint-config-commons@npm:1.3.0":
+  version: 1.3.0
+  resolution: "@instana/eslint-config-commons@npm:1.3.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Feslint-config-commons%2F-%2F%40instana%2Feslint-config-commons-1.3.0.tgz"
   dependencies:
-    "@babel/eslint-parser": ^7.12.13
+    "@babel/eslint-parser": ^7.25.1
     "@typescript-eslint/eslint-plugin": ^6.4.0
     "@typescript-eslint/parser": ^6.4.0
     eslint: ^8.47.0
     eslint-plugin-header: ^3.1.1
-  checksum: 86eb984517a5e97b1b5abcd0542eee2413fd883540ede2d421a625a7f8f7462e34384e3c03aef29a9e01ef1069b098e0cd060f3363bcb16c4d29c880ac7d46a0
+  checksum: 44dd613d0b683f429b1ce61c4f4e5706357ae7155092a1708b9aeff7bf30af381dfbcb9cdfd003ff6e844f28f0221f0eee8edeed665a7089ec9bafd6150b064c
   languageName: node
   linkType: hard
 
-"@instana/format-date@npm:1.6.7, @instana/format-date@npm:^1.6.7":
-  version: 1.6.7
-  resolution: "@instana/format-date@npm:1.6.7::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fformat-date%2F-%2F%40instana%2Fformat-date-1.6.7.tgz"
+"@instana/format-date@npm:1.7.0, @instana/format-date@npm:^1.7.0":
+  version: 1.7.0
+  resolution: "@instana/format-date@npm:1.7.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fformat-date%2F-%2F%40instana%2Fformat-date-1.7.0.tgz"
   dependencies:
-    "@instana/i18n-react": ^1.5.7
+    "@instana/i18n-react": ^1.6.0
     date-fns: ^2.22.1
     date-fns-tz: ^2.0.0
     tslib: ^2.4.1
@@ -2949,42 +2949,42 @@ __metadata:
   peerDependencies:
     "@instana/i18n": ^1.3.3
     i18next: ^19.0.0 || ^20.0.0
-  checksum: c1fb27cae38e6656e907609f73c8efc936869f6c9f8f33df77677575dad36116a65246723f4a55715cc57087517b0f944a769f25eb721d770b7e126539d0272b
+  checksum: ffcf244a531c27aae8b4e9fc73891aa0fa183b26597c97eb6eedf0c33e1cc2a2c40ed1e232ab4295564d6608ea6a87bcf9a2283b057c614d66b49296dab54b3e
   languageName: node
   linkType: hard
 
-"@instana/format-numbers@npm:^1.4.1, @instana/format-numbers@npm:^1.5.5":
-  version: 1.5.5
-  resolution: "@instana/format-numbers@npm:1.5.5::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fformat-numbers%2F-%2F%40instana%2Fformat-numbers-1.5.5.tgz"
+"@instana/format-numbers@npm:^1.4.1, @instana/format-numbers@npm:^1.6.0":
+  version: 1.6.0
+  resolution: "@instana/format-numbers@npm:1.6.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fformat-numbers%2F-%2F%40instana%2Fformat-numbers-1.6.0.tgz"
   dependencies:
     tslib: ^2.4.1
     typescript: ^5.1.5
   peerDependencies:
     "@instana/i18n": ^1.3.3
-  checksum: 7308f2a3474cae46a5d3c30d47af2c9e6af14abb3e788399c9663942f178d4e59390f23470b0b159d3b97edffef2136e360fae6b65b5cbb10645b21b1fa5af54
+  checksum: 1bce1d2acdc07f58742dc92ba8aa4a5c5dee7a3ff767393bbe2ffca0c5fb965915e8f063b39445a5cf211d71d65ad227eab8d963b8bea6c94477a777f5212a9f
   languageName: node
   linkType: hard
 
-"@instana/hooks@npm:1.11.7, @instana/hooks@npm:^1.11.7":
-  version: 1.11.7
-  resolution: "@instana/hooks@npm:1.11.7::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fhooks%2F-%2F%40instana%2Fhooks-1.11.7.tgz"
+"@instana/hooks@npm:1.12.0, @instana/hooks@npm:^1.12.0":
+  version: 1.12.0
+  resolution: "@instana/hooks@npm:1.12.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fhooks%2F-%2F%40instana%2Fhooks-1.12.0.tgz"
   dependencies:
-    "@instana/observables": ^1.7.6
+    "@instana/observables": ^1.8.0
     invariant: ^2.2.4
     shallowequal: ^1.1.0
   peerDependencies:
     react: ^17.0.0
-  checksum: bcb7e4571f7334d146ac66f1f7b7db58873bb6013a8ebeaaa5d3750c00850940e112ad8248fd2039a4ebf698f83059723bc0949cd5389f41a0335aaa18a49779
+  checksum: c03372fcba621a2002170a727b76250a4de00c420a8742ab89fd4877dc47231024be7f729fd200730513e074acab458de8a0dcbb467f3040a4bf511a0104c151
   languageName: node
   linkType: hard
 
-"@instana/i18n-react@npm:1.5.7, @instana/i18n-react@npm:^1.5.7":
-  version: 1.5.7
-  resolution: "@instana/i18n-react@npm:1.5.7::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fi18n-react%2F-%2F%40instana%2Fi18n-react-1.5.7.tgz"
+"@instana/i18n-react@npm:1.6.0, @instana/i18n-react@npm:^1.6.0":
+  version: 1.6.0
+  resolution: "@instana/i18n-react@npm:1.6.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fi18n-react%2F-%2F%40instana%2Fi18n-react-1.6.0.tgz"
   dependencies:
-    "@instana/hooks": ^1.11.7
-    "@instana/observables": ^1.7.6
-    "@instana/utils": ^1.4.5
+    "@instana/hooks": ^1.12.0
+    "@instana/observables": ^1.8.0
+    "@instana/utils": ^1.5.0
     tslib: ^2.4.1
     typescript: ^5.1.5
   peerDependencies:
@@ -2992,79 +2992,79 @@ __metadata:
     i18next: ^19.0.0 || ^20.0.0
     react: ^17.0.0
     react-i18next: ^11.11.0
-  checksum: 871d86f6279e166b409ee71d698eab44bfb84bcf4ecdd00c1634ec9973afc797bb6df4958b7699226d20a37e78158eeb9dd4ff89fbdbd900e4fb29d7e9a8b22d
+  checksum: 4c8a03b005664e4fe8fd2583a1fc7280e311d409656d46beca47715dbf2e27c5625d580e223914ad5ea4ef4bcd4d15a46a491ca1e58b47e6450c5832edc40569
   languageName: node
   linkType: hard
 
 "@instana/i18n@npm:^1.4.1":
-  version: 1.5.5
-  resolution: "@instana/i18n@npm:1.5.5::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fi18n%2F-%2F%40instana%2Fi18n-1.5.5.tgz"
+  version: 1.6.0
+  resolution: "@instana/i18n@npm:1.6.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fi18n%2F-%2F%40instana%2Fi18n-1.6.0.tgz"
   dependencies:
     tslib: ^2.4.1
     typescript: ^5.1.5
-  checksum: 649fb5495c4dedae94a20b50e299641069a32364195cdb5fa37f34745b1e0f796cdadab550339aec50d765d8fb83bf3b042600a08dac5cb50ddaf1c2db9baf36
+  checksum: af36546a6a20b8568a34719753ef07ecafcd357925d5240505ba75ddbf6c5e9fbf9f2a091c256ec4e1d1b3cdbd89288fc0ac744807392d91be34e4e21cc62c64
   languageName: node
   linkType: hard
 
-"@instana/import-sort-style-simon@npm:1.3.2":
-  version: 1.3.2
-  resolution: "@instana/import-sort-style-simon@npm:1.3.2::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fimport-sort-style-simon%2F-%2F%40instana%2Fimport-sort-style-simon-1.3.2.tgz"
+"@instana/import-sort-style-simon@npm:1.4.0":
+  version: 1.4.0
+  resolution: "@instana/import-sort-style-simon@npm:1.4.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fimport-sort-style-simon%2F-%2F%40instana%2Fimport-sort-style-simon-1.4.0.tgz"
   dependencies:
     import-sort: ^6.0.0
-  checksum: 40076c112e93ddf93d8b0e1aa581bf3277317c7235e1e0e9d5aff5883f3bd650bc6f3e503c7000462fa945c68842bdd9956a39141e09f31ee68cd2a156480bf8
+  checksum: 6f748381cef427b127ab717f70050e4aa953c3768627e96e9aec127efe0a1c14c252b26ca39c6a1575fc3afb74cb514761edc13b9e42f3396b5d6d08a06b542f
   languageName: node
   linkType: hard
 
-"@instana/legacy@npm:4.2.0":
-  version: 4.2.0
-  resolution: "@instana/legacy@npm:4.2.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.2.0.tgz"
+"@instana/legacy@npm:4.3.2":
+  version: 4.3.2
+  resolution: "@instana/legacy@npm:4.3.2::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.3.2.tgz"
   dependencies:
-    "@instana/components": ^4.34.0
-    "@instana/design-tokens": ^1.27.6
-    "@instana/format-date": ^1.6.7
-    "@instana/format-numbers": ^1.5.5
-    "@instana/hooks": ^1.11.7
-    "@instana/i18n-react": ^1.5.7
-    "@instana/observables": ^1.7.6
+    "@instana/components": ^4.36.1
+    "@instana/design-tokens": ^1.28.0
+    "@instana/format-date": ^1.7.0
+    "@instana/format-numbers": ^1.6.0
+    "@instana/hooks": ^1.12.0
+    "@instana/i18n-react": ^1.6.0
+    "@instana/observables": ^1.8.0
     classnames: ^2.2.6
     lodash: ^4.17.21
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.0
-  checksum: 4f86094fd75fd1f79302a73e23ebf1f0adb8100fd7b5001176ef122c40eb84c5d8d22dc32c6201c3cb5c558df61eca536017940d03ee2b7e89db34f8aa6f45d8
+  checksum: 541e61a4566563e03c2f8845c21d777397664d4571f447e06e4cfda13094b9b166e6ff99aa616c29285ef142d2f380b4ee3994b7ee03f742816b2384ee3c1cba
   languageName: node
   linkType: hard
 
-"@instana/logger@npm:^1.3.1, @instana/logger@npm:^1.3.3":
-  version: 1.3.3
-  resolution: "@instana/logger@npm:1.3.3::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flogger%2F-%2F%40instana%2Flogger-1.3.3.tgz"
+"@instana/logger@npm:^1.3.1, @instana/logger@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "@instana/logger@npm:1.4.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flogger%2F-%2F%40instana%2Flogger-1.4.0.tgz"
   dependencies:
     invariant: ^2.2.4
-  checksum: 4c5ebddb9228b30af7fe4b2453198215006dd519eec31534c4940c6c7f3f26030acef9a1ff89e47e750dc7bb2fbb4f7286f00b9f682f2647ae156d4135ce52a7
+  checksum: 771cc2e46407f8ab0a8902ec81a2cea325e0147327fca58310171e55c27ce48a234f68a68c3426c7fa56a460019031c4d0830ec7f07703bc2d0da38d916c4994
   languageName: node
   linkType: hard
 
-"@instana/observables@npm:^1.6.1, @instana/observables@npm:^1.7.6":
-  version: 1.7.6
-  resolution: "@instana/observables@npm:1.7.6::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fobservables%2F-%2F%40instana%2Fobservables-1.7.6.tgz"
-  checksum: 750f26e50c3b8dea68a990091a6a9d55d3e704c13cf19f4cd5857544567191416c9eac029ec37c3ee849160357caf4ce0ef2c8bfcdd0f199fd8610417ff5f5d3
+"@instana/observables@npm:^1.6.1, @instana/observables@npm:^1.8.0":
+  version: 1.8.0
+  resolution: "@instana/observables@npm:1.8.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fobservables%2F-%2F%40instana%2Fobservables-1.8.0.tgz"
+  checksum: e0853a807d50dac6b720df52aa100c4d2f652f912ede5af5a0ef2d6fb39687d092fbb6b2194ef82be21c471a748495f6dd0a595bdaf3feff372f16f2794165d7
   languageName: node
   linkType: hard
 
 "@instana/pseudo-translation@npm:^1.3.1":
-  version: 1.4.5
-  resolution: "@instana/pseudo-translation@npm:1.4.5::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fpseudo-translation%2F-%2F%40instana%2Fpseudo-translation-1.4.5.tgz"
-  checksum: 8e937dfbfe2c67a49263c8849b9d7acffc90624e44f22ff53db2d62cf8cc848c408deec41a27f4dd6a98b059739b6780899453d86abbd8f9606dc08eb375b849
+  version: 1.5.0
+  resolution: "@instana/pseudo-translation@npm:1.5.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fpseudo-translation%2F-%2F%40instana%2Fpseudo-translation-1.5.0.tgz"
+  checksum: 42c0c80d3cf3fd79449f4f69a3d1ea76ee734c71477f9656b9f3efac7f20ec3eb0572a363fc7dda7d7197924d6961b8e075c27e3490b5b5f7934f7b1bb4ae343
   languageName: node
   linkType: hard
 
 "@instana/roemitter@npm:^1.3.2":
-  version: 1.3.11
-  resolution: "@instana/roemitter@npm:1.3.11::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Froemitter%2F-%2F%40instana%2Froemitter-1.3.11.tgz"
+  version: 1.4.0
+  resolution: "@instana/roemitter@npm:1.4.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Froemitter%2F-%2F%40instana%2Froemitter-1.4.0.tgz"
   dependencies:
-    "@instana/logger": ^1.3.3
-    "@instana/observables": ^1.7.6
-  checksum: 61e61f293c630a32177a8d8a1347bff804d30dda17bd08a6b1d3897b6e63ededc2b56bd8421daf24581740e3e758df683d15058b7262d381f256ef020a4b0434
+    "@instana/logger": ^1.4.0
+    "@instana/observables": ^1.8.0
+  checksum: c35a70b1a217e3e80ab208077b44fe8992613a514f32851e0fb7f339bce0f4603eb37c66473638c2b92e95088d5e43d7b815a04ced4ed5c03e477fad0d94274d
   languageName: node
   linkType: hard
 
@@ -3075,13 +3075,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/utils@npm:^1.3.1, @instana/utils@npm:^1.4.5":
-  version: 1.4.5
-  resolution: "@instana/utils@npm:1.4.5::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Futils%2F-%2F%40instana%2Futils-1.4.5.tgz"
+"@instana/utils@npm:^1.3.1, @instana/utils@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "@instana/utils@npm:1.5.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Futils%2F-%2F%40instana%2Futils-1.5.0.tgz"
   dependencies:
     tslib: ^2.4.1
     typescript: ^5.1.5
-  checksum: 49ac4583c7774e86e075d7101f506a7326576cbba7e30fbf2140cf308969a0cd095ad865f58ca5cb08d75e0cc8ca4ff1fa7b56c3ac06946f2c94447b79252a15
+  checksum: b95d6d15385f69bbf5d0798db6623f19e77478e83078ba5564de05dcddc2cdca1846c30d8aceb795e4bc03a22dfa7defabef6c76e41ff7e6ea2b84f52efa75bb
   languageName: node
   linkType: hard
 
@@ -3863,6 +3863,15 @@ __metadata:
   version: 2.1.8-no-fsevents.3
   resolution: "@nicolo-ribaudo/chokidar-2@npm:2.1.8-no-fsevents.3"
   checksum: ee55cc9241aeea7eb94b8a8551bfa4246c56c53bc71ecda0a2104018fcc328ba5723b33686bdf9cc65d4df4ae65e8016b89e0bbdeb94e0309fe91bb9ced42344
+  languageName: node
+  linkType: hard
+
+"@nicolo-ribaudo/eslint-scope-5-internals@npm:5.1.1-v1":
+  version: 5.1.1-v1
+  resolution: "@nicolo-ribaudo/eslint-scope-5-internals@npm:5.1.1-v1"
+  dependencies:
+    eslint-scope: 5.1.1
+  checksum: f2e3b2d6a6e2d9f163ca22105910c9f850dc4897af0aea3ef0a5886b63d8e1ba6505b71c99cb78a3bba24a09557d601eb21c8dede3f3213753fcfef364eb0e57
   languageName: node
   linkType: hard
 
@@ -7584,7 +7593,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"classnames@npm:2.5.1":
+"classnames@npm:2.5.1, classnames@npm:^2.5.1":
   version: 2.5.1
   resolution: "classnames@npm:2.5.1"
   checksum: da424a8a6f3a96a2e87d01a432ba19315503294ac7e025f9fece656db6b6a0f7b5003bb1fbb51cbb0d9624d964f1b9bb35a51c73af9b2434c7b292c42231c1e5
@@ -21753,16 +21762,16 @@ __metadata:
     "@codemirror/state": 6.2.0
     "@codemirror/theme-one-dark": ^6.0.0
     "@codemirror/view": 6.6.0
-    "@instana/components": 4.34.0
-    "@instana/design-tokens": 1.27.6
-    "@instana/eslint-config-commons": 1.2.3
-    "@instana/format-date": 1.6.7
+    "@instana/components": 4.36.1
+    "@instana/design-tokens": 1.28.0
+    "@instana/eslint-config-commons": 1.3.0
+    "@instana/format-date": 1.7.0
     "@instana/format-numbers": ^1.4.1
-    "@instana/hooks": 1.11.7
+    "@instana/hooks": 1.12.0
     "@instana/i18n": ^1.4.1
-    "@instana/i18n-react": 1.5.7
-    "@instana/import-sort-style-simon": 1.3.2
-    "@instana/legacy": 4.2.0
+    "@instana/i18n-react": 1.6.0
+    "@instana/import-sort-style-simon": 1.4.0
+    "@instana/legacy": 4.3.2
     "@instana/logger": ^1.3.1
     "@instana/observables": ^1.6.1
     "@instana/pseudo-translation": ^1.3.1
