@@ -8,9 +8,8 @@ import classNames from 'classnames';
 import invariant from 'invariant';
 import { debounce } from 'lodash';
 
+import { Pagination as CarbonPagination, Checkbox, DataTable as CarbonDataTable } from '@instana/components';
 import { TableErrorRows, Table, Tbody, Thead } from '@instana/legacy';
-import { Pagination as CarbonPagination } from '@instana/components';
-import { DataTable as CarbonDataTable } from '@instana/components';
 import { Card, SearchInput } from '@instana/components';
 
 import { filterColumns } from 'in-components/tables/ServerTable/internalComponents/columnBehavior';
@@ -152,8 +151,22 @@ export default function ServerTablePresenter<
       ellipsis: getEllipsisValue(item.ellipsis, item.width),
       width: getWidthValue(item.ellipsis, item.width),
       useMinimumAmountOfHorizontalSpace: item.useMinimumAmountOfHorizontalSpace ?? false,
-      widthInAbsoluteUnit: getWidthInAbsoluteUnit(item.ellipsis, item.widthInAbsoluteUnit) ?? false
+      widthInAbsoluteUnit: getWidthInAbsoluteUnit(item.ellipsis, item.widthInAbsoluteUnit) ?? false,
+      selectAllCheckbox: item.selectAllCheckbox ?? false
     }));
+
+    // for checkbox in header for selectable tables
+    // checkbox is always the first column in table.
+    if (carbonHeaders?.[0]?.selectAllCheckbox) {
+      carbonHeaders[0].header = (
+        <Checkbox
+          checked={allRowsAreSelected}
+          onChange={() => setSelectedStateForRows?.(!allRowsAreSelected)}
+          size="large"
+        />
+      );
+      carbonHeaders[0].width = '2rem';
+    }
 
     let header;
     if (rightHeader) {
