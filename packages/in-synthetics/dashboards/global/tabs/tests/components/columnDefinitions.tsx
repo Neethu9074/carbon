@@ -21,7 +21,8 @@ import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/Serv
 import { massageLocationDisplayLabel } from 'in-synthetics/utils/massageLocationDisplayLabel';
 import { meanLatencyFixed, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { syntheticsSummaryPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
-import { clickSyntheticMonitoringTestTracker } from 'in-synthetics/tracker';
+import { clickSyntheticMonitoringTestTracker } from 'in-synthetics/tracking/tracker';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getSyntheticType } from 'in-synthetics/utils/syntheticTypeMap';
@@ -65,6 +66,7 @@ export function getResolvedTimeConfig(timeConfig: TimeConfig, resultOrTime: numb
 }
 
 function TestLabelContent({ item }: { item: TestResultListItem }) {
+  const { trackCta } = useSegmentTracking();
   const { location, createHref } = useNavigation();
   location.pathname = syntheticsSummaryPath;
   const locations = item?.testResultCommonProperties?.testCommonProperties?.locationStatusList;
@@ -101,10 +103,7 @@ function TestLabelContent({ item }: { item: TestResultListItem }) {
 
   return (
     <div>
-      <Link
-        href={createHref(location)}
-        onClick={() => clickSyntheticMonitoringTestTracker({ detail: 'View Synthetic test dashboard' })}
-      >
+      <Link href={createHref(location)} onClick={() => clickSyntheticMonitoringTestTracker(trackCta)}>
         <h4 className={locals.label}>{item?.testResultCommonProperties?.testCommonProperties?.label}</h4>
       </Link>
     </div>

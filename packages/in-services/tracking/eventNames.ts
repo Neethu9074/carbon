@@ -501,6 +501,8 @@ export const SYNTHETIC_WIZARD_CREATE_BUTTON_CLICK = 'synthetic.monitoring.test.w
 
 export const SYNTHETIC_RESULTS_TAB_CLICK = 'synthetic.monitoring.results.tab.click';
 export const SYNTHETIC_CONFIGURATION_TAB_CLICK = 'synthetic.monitoring.configuration.tab.click';
+export const SYNTHETIC_CONFIGURATION_TAB_EDIT_CLICK = 'synthetic.monitoring.configuration.tab.edit.icon.click';
+export const SYNTHETIC_CONFIGURATION_TAB_DELETE_CLICK = 'synthetic.monitoring.configuration.tab.delete.icon.click';
 export const SYNTHETIC_RESULTS_LIST_DETAIL_CLICK = 'synthetic.monitoring.results.list.detail.click';
 export const SYNTHETIC_RESULTS_WIDGET_DETAIL_CLICK = 'synthetic.monitoring.results.widget.detail.click';
 

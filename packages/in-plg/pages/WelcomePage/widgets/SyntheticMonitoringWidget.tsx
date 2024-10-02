@@ -41,12 +41,13 @@ import CreateSmartAlertDialog from 'in-alerting/smart-alerts/synthetics/CreateSm
 import { massageLocationDisplayLabel } from 'in-synthetics/utils/massageLocationDisplayLabel';
 import { meanLatencyFixed, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getTestSummaryListData } from 'in-synthetics/dashboards/global/TestSummaryList';
+import { clickSyntheticMonitoringTestTracker } from 'in-synthetics/tracking/tracker';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getLocationData } from 'in-synthetics/dashboards/global/LocationList';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
-import { clickSyntheticMonitoringTestTracker } from 'in-synthetics/tracker';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getSyntheticType } from 'in-synthetics/utils/syntheticTypeMap';
 import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
@@ -92,6 +93,7 @@ export default function SyntheticMonitoringWidget({
   widgetLabel,
   dashboardTileProps
 }: SyntheticProps) {
+  const { trackCta } = useSegmentTracking();
   const [selectedType, setSelectedType] = useState(localStorage.getItem('selectedSyntheticType') ?? 'test');
   const { location, createHref, createHrefToPath } = useNavigation();
 
@@ -305,7 +307,7 @@ export default function SyntheticMonitoringWidget({
           return (
             <Link
               href={createLinkLocation(item, location)}
-              onClick={() => clickSyntheticMonitoringTestTracker({ detail: 'View Synthetic test dashboard' })}
+              onClick={() => clickSyntheticMonitoringTestTracker(trackCta)}
             >
               {item?.testResultCommonProperties?.testCommonProperties?.label}
             </Link>

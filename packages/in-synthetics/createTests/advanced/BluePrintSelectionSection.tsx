@@ -13,9 +13,10 @@ import { Menu } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/createTests/data/advancedModeBluePrints';
+import { syntheticAdvancedCreateTestTypeSwitch } from 'in-synthetics/tracking/tracker';
 import SelectedTestType from 'in-synthetics/createTests/advanced/SelectedTestType';
 import { Code, ConfigItem, TestTypeSelected } from 'in-synthetics/utils/constants';
-import { syntheticAdvancedCreateTestTypeSwitch } from 'in-synthetics/tracker';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 
 import locals from 'in-synthetics/createTests/advanced/BluePrintSelectionSection.mless';
@@ -104,6 +105,7 @@ const SelectionMenu = ({
   setScriptDetails,
   setHeaders
 }: SelectionMenuProps) => {
+  const { trackCta } = useSegmentTracking();
   return (
     <div
       className={classNames(locals.container, {
@@ -115,10 +117,8 @@ const SelectionMenu = ({
         addRightSeparator
         onItemClick={item => {
           const isSSLCertificate = item.name === 'SSL Certificate';
-          // Tracker
-          syntheticAdvancedCreateTestTypeSwitch({
-            detail: `Switched to create ${item.type} test section from advanced mode`
-          });
+          // Segment Tracker
+          syntheticAdvancedCreateTestTypeSwitch(trackCta, item);
           setCommonAttributes({ ...commonAttributes, syntheticType: isSSLCertificate ? 'SSLCertificate' : '' });
           setSelectedBlueprint(item as AdvancedBluePrint);
           //@ts-expect-error

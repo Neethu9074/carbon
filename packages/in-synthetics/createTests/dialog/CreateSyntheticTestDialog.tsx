@@ -11,10 +11,11 @@ import { isEmpty } from 'lodash';
 import CreateSyntheticTestDialogPresenter from 'in-synthetics/createTests/dialog/CreateSyntheticTestDialogPresenter';
 import { showCreateSuccessMessage, showCreateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import { Code, SlideInConfig, SliderState, TestTypeSelected } from 'in-synthetics/utils/constants';
+import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
-import { syntheticWizardCreateButtonClick } from 'in-synthetics/tracker';
+import { syntheticWizardCreateButtonClick } from 'in-synthetics/tracking/tracker';
 import { Error as ScriptError, SyntheticTest } from 'in-types';
 import { createTest } from 'in-synthetics/api';
 
@@ -23,6 +24,7 @@ interface CreateSyntheticTestDialogProps {
 }
 
 const CreateSyntheticTestDialog = ({ onClose }: CreateSyntheticTestDialogProps) => {
+  const { trackCta } = useSegmentTracking();
   const selectedBlueprint = getSimpleBlueprintConfig()[0];
   const [form, updateForm] = useState(() => {
     return createForm(true, selectedBlueprint);
@@ -54,7 +56,7 @@ const CreateSyntheticTestDialog = ({ onClose }: CreateSyntheticTestDialogProps) 
   };
 
   const handleCreateTest = () => {
-    createSyntheticTest(form, setIsSaving, simpleMode, handleOnSaveSuccess, onClose);
+    createSyntheticTest(form, setIsSaving, simpleMode, handleOnSaveSuccess, onClose, trackCta);
   };
 
   return (
@@ -88,14 +90,15 @@ const createSyntheticTest = (
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>,
   simpleMode: boolean,
   handleOnSaveSuccess: () => void,
-  onClose: () => void
+  onClose: () => void,
+  trackCta: CtaTrackingFunction
 ) => {
   setIsSaving(true);
 
   let testConfig: SyntheticTest;
   let updatedForm: MapForm<any>;
   if (simpleMode) {
-    syntheticWizardCreateButtonClick({ detail: `Create a test using wizard mode` });
+    syntheticWizardCreateButtonClick(trackCta);
     testConfig = {
       active: true,
       ...form.toJS()
