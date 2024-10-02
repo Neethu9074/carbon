@@ -391,7 +391,8 @@
     "retentionPeriod": {
       "retentionPeriod": "Retention period",
       "changeRetentionPeriod": "Change retention period",
-      "retentionDialogDescription": "Changing the retention period for logs impacts the cost and duration of \n log data available for analytics and custom dashboards.",
+      "retentionDialogDescription": "Changing the retention period for logs impacts the cost and duration of log data available for analytics and custom dashboards.",
+      "retentionDialogUserInfo":"To avoid additional overage charges, ensure that your current entitlement is sufficient to cover any changes to the log retention period.",
       "logRetentionPeriod": "Log retention period",
       "changeReason": "Change reason",
       "currentRetentionPeriod": "Current retention period",
