@@ -7,11 +7,10 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Li, Link, Ul, IconButton } from '@instana/components';
+import { Li, Link, Ul, IconButton, SvgIcon, DataTable as CarbonTable } from '@instana/components';
 import { Observable, just } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
-import { SvgIcon } from '@instana/components';
 
 import {
   getEntityIdView,
@@ -28,6 +27,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { clickTurboLinkForDetailsTracker } from 'in-automation/tracker';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
+import { carbonTableEnabled } from 'in-services/featureFlags';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getType } from 'in-automation/ActionCatalog/shared';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
@@ -260,6 +260,43 @@ export default function DetailTab({
     }
   }
 
+  const carbonHeaders = [
+    {
+      key: t('in-automation:actionHistory.property'),
+      header: t('in-automation:actionHistory.property')
+    },
+    {
+      key: t('in-automation:actionHistory.value'),
+      header: t('in-automation:actionHistory.value')
+    }
+  ];
+
+  const carbonRows = tableData
+    .filter(({ showCondition = true, actionLane = false }) => {
+      if (!showCondition || (inActionLane && !actionLane) || (!inActionLane && actionLane)) {
+        return false;
+      }
+      return true;
+    })
+    .map(({ label, value, isLink, ObservableLink, stringLink, onClick }) => {
+      return {
+        id: label,
+        [t('in-automation:actionHistory.property')]: label,
+        [t('in-automation:actionHistory.value')]: isLink ? (
+          <Link
+            target="_blank"
+            className={locals.detailsLink}
+            onClick={onClick}
+            href={ObservableLink ?? stringLink ?? undefined}
+          >
+            {value} <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />{' '}
+          </Link>
+        ) : (
+          value
+        )
+      };
+    });
+
   const renderRow = (
     label: string,
     value: React.ReactNode,
@@ -300,35 +337,48 @@ export default function DetailTab({
         [locals.instanceTabContent]: !inActionLane
       })}
     >
-      <table
-        className={classNames({
-          [locals.ActionInstanceDetailsTable]: true,
-          [locals.ActionLaneTable]: inActionLane
-        })}
-      >
-        <thead className={locals.headerRow}>
-          <tr>
-            <th>{t('in-automation:actionHistory.property')}</th>
-            <th>{t('in-automation:actionHistory.value')}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tableData.map(
-            ({ label, value, isLink, ObservableLink, stringLink, showCondition = true, actionLane = false, onClick }) =>
-              renderRow(
+      {carbonTableEnabled ? (
+        <CarbonTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
+      ) : (
+        <table
+          className={classNames({
+            [locals.ActionInstanceDetailsTable]: true,
+            [locals.ActionLaneTable]: inActionLane
+          })}
+        >
+          <thead className={locals.headerRow}>
+            <tr>
+              <th>{t('in-automation:actionHistory.property')}</th>
+              <th>{t('in-automation:actionHistory.value')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tableData.map(
+              ({
                 label,
                 value,
                 isLink,
                 ObservableLink,
                 stringLink,
-                showCondition,
-                actionLane,
-                inActionLane,
+                showCondition = true,
+                actionLane = false,
                 onClick
-              )
-          )}
-        </tbody>
-      </table>
+              }) =>
+                renderRow(
+                  label,
+                  value,
+                  isLink,
+                  ObservableLink,
+                  stringLink,
+                  showCondition,
+                  actionLane,
+                  inActionLane,
+                  onClick
+                )
+            )}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }
