@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { DataTable as CarbonDataTable } from '@instana/components';
 import { Table, Thead, Tbody, Tr, Th, Td } from '@instana/legacy';
 
 import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
@@ -17,6 +18,7 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { days, hours, minutes, seconds } from 'in-services/time';
 import { number, millis } from 'in-services/formatters/number';
+import { carbonTableEnabled } from 'in-services/featureFlags';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import EntityLink from 'in-components/EntityLink';
 import { t } from 'in-i18n';
@@ -48,6 +50,34 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
   } else if (timeConfig.windowSize >= minutes.toMillis(30)) {
     minRollup = seconds.toMillis(30);
   }
+
+  const carbonHeaders = [
+    {
+      key: 'llmonitor_agent',
+      header: t('in-forge:plugins.oTelLLM.dashboard.llmonitor_agent')
+    },
+    {
+      key: 'details',
+      header: t('in-forge:plugins.oTelLLM.dashboard.details')
+    }
+  ];
+
+  const carbonRows = [
+    {
+      key: '1',
+      ['llmonitor_agent']: 'LLM',
+      ['details']: (
+        <EntityLink
+          label={'Calls'}
+          href={getDashboardLink(snapshot.get('id'), {
+            pathname: '#/analyze;dataSource=calls',
+            to: timeConfig.to,
+            focusedMoment: timeConfig.to
+          })}
+        />
+      )
+    }
+  ];
 
   return (
     <div>
@@ -185,29 +215,35 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
       </Columize>
       <Columize>
         <DashboardSection title={t('in-forge:plugins.oTelLLM.dashboard.analytics')}>
-          <Table>
-            <Thead>
-              <Tr size="regular">
-                <Th>{t('in-forge:plugins.oTelLLM.dashboard.llmonitor_agent')}</Th>
-                <Th>{t('in-forge:plugins.oTelLLM.dashboard.details')}</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              <Tr size="regular">
-                <Td>{'LLM'}</Td>
-                <Td>
-                  <EntityLink
-                    label={'Calls'}
-                    href={getDashboardLink(snapshot.get('id'), {
-                      pathname: '#/analyze;dataSource=calls',
-                      to: timeConfig.to,
-                      focusedMoment: timeConfig.to
-                    })}
-                  />
-                </Td>
-              </Tr>
-            </Tbody>
-          </Table>
+          {/* carbon table render*/}
+          {carbonTableEnabled && (
+            <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} isExpanded={false} />
+          )}
+          {!carbonTableEnabled && (
+            <Table>
+              <Thead>
+                <Tr size="regular">
+                  <Th>{t('in-forge:plugins.oTelLLM.dashboard.llmonitor_agent')}</Th>
+                  <Th>{t('in-forge:plugins.oTelLLM.dashboard.details')}</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                <Tr size="regular">
+                  <Td>{'LLM'}</Td>
+                  <Td>
+                    <EntityLink
+                      label={'Calls'}
+                      href={getDashboardLink(snapshot.get('id'), {
+                        pathname: '#/analyze;dataSource=calls',
+                        to: timeConfig.to,
+                        focusedMoment: timeConfig.to
+                      })}
+                    />
+                  </Td>
+                </Tr>
+              </Tbody>
+            </Table>
+          )}
         </DashboardSection>
       </Columize>
       <CustomMetricsV2
