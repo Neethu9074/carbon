@@ -35,7 +35,13 @@ export default function RegularItemList({
 }: RegItemListProps) {
   if (!result || isLoading(result)) {
     numSkeletonRows = favIds ? DEFAULT_NUMBER_SKELETON_ROWS - favIds.length : DEFAULT_NUMBER_SKELETON_ROWS;
-    return <LoadingTableList numSkeletonRows={numSkeletonRows} numSkeletonColumns={columnDefinitions.length} />;
+    return (
+      <LoadingTableList
+        numSkeletonRows={numSkeletonRows}
+        numSkeletonColumns={columnDefinitions.length}
+        favPresent={!!favIds?.length}
+      />
+    );
   }
   if (hasError(result)) {
     return <ErrorList errors={result.errors} />;
@@ -47,7 +53,9 @@ export default function RegularItemList({
     .map((item: any, index: number) => (
       <Row id={`${index}`} key={index}>
         {columnDefinitions?.map(({ key, getContent }: ColumnDefinitionItem) => (
-          <Cell key={key}>{getContent({ item, result, timeConfig })}</Cell>
+          <Cell key={key} {...(key === 'favourite' && { className: 'favouriteIcon' })}>
+            {getContent({ item, result, timeConfig })}
+          </Cell>
         ))}
       </Row>
     ));

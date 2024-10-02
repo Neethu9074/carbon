@@ -12,6 +12,7 @@ import { Toggle, Button } from '@instana/components';
 import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList';
 import ExpirationDateDropdown from 'in-settings/components/ApiTokenExpiration/ExpirationDateDropdown/ExpirationDateDropdown';
 import AsyncTokenCopyButton from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/AsyncTokenCopyButton';
+import TenantInfoBanner from 'in-settings/tabs/TeamSettings/components/TenantInfoBanner/TenantInfoBanner';
 import { ProductPermission, apiTokenPermissions, productOwnerPermissions } from 'in-stores/permission';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -19,12 +20,14 @@ import { apiTokenExpirationEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-components/layout/Grid';
+import Title from 'in-components/lists/Title/Title';
 import Dialog from 'in-components/Dialog/Dialog';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
+import config from 'in-services/config';
 import { role } from 'in-stores/user';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from './ApiTokens.mless';
 
@@ -77,10 +80,16 @@ export default function ApiTokenForm({ form, onChange, disabled, createNewToken,
         </FormGroup>
       ))}
       {apiTokenExpirationEnabled && <ExpirationDateDropdown id="api-token-expiration" form={form} setForm={setForm} />}
+      <TenantInfoBanner>
+        <Trans
+          i18nKey="in-settings:tabs.apiTokenAlwaysHaveReadAccess"
+          values={{ tenantUnit: config.tenantUnit, tenant: config.tenant }}
+        />
+      </TenantInfoBanner>
       <Row>
         <Col lg>
           <FormGroup>
-            <Label>{t('in-settings:tabs.ownerPermissions')}</Label>
+            <Title>{t('in-settings:tabs.ownerPermissions')}</Title>
             {productOwnerPermissions.map((productOwnerPermission: ProductPermissionProps) => (
               <HorizontalFormGroup key={productOwnerPermission.label} helpText={productOwnerPermission.description}>
                 <Label htmlFor={`permission-${productOwnerPermission.value}`}>{productOwnerPermission.label}</Label>

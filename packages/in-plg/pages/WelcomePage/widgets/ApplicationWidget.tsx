@@ -13,13 +13,13 @@ import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 import { t } from '@instana/i18n-react';
 
-//@ts-expect-error
-import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
 import {
   ApplicationProps,
   ColumnDefinitionItem,
   GetApplicationsWithDefaultsProps
 } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
+//@ts-expect-error
+import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
 //@ts-expect-error doesn't contain type file
 import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateApplicationDialog';
 //@ts-expect-error doesn't contain type file
@@ -41,8 +41,8 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { applicationsList } from 'in-applications/navigation/paths';
+import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
 import getMetrics from 'in-applications/subscriptions/getMetrics';
-import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
 import { hasError, isLoading } from 'in-services/util/result';
 import { successObservable } from 'in-services/util/result';
 import { boundaryScopes } from 'in-applications/constants';

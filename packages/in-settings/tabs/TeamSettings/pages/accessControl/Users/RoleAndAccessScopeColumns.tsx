@@ -74,7 +74,7 @@ function mergeGroupsAndMapToPermissionSet(groups: ApiGroup[] | undefined): Permi
     syntheticCredentialKeys: [],
     syntheticTestIds: [],
     infraDfqFilter: { scopeId: '', scopeRoleId: '-1' },
-    actionFilter: { scopeId: '', scopeRoleId: '-1' }
+    actionFilter: { scopeId: undefined, scopeRoleId: '-1' }
   };
 
   // users not being member of any group fall back to a restricted default

@@ -113,6 +113,7 @@
     "Step3Headline": "Optionally, you can create an automation policy along with the action. You can also complete this step at a later time.",
     "step1Title": "Step 1: Generate or select an action",
     "step1TitleGenerateAction": "Step 1: Generate an action",
+    "step1TitleSelectAction": "Step 1: Select an action",
     "step2Title": "Step 2: Customize action",
     "step3Title": "Step 3: Create policy (optional)",
     "policyDetails": "Policy details",
@@ -444,5 +445,12 @@
     "pleaseConfirm": "Please Confirm",
     "pleaseConfirmMsg": "Are you sure you want to delete <strong>{{name}}</strong>?",
     "delete": "Delete"
+  },
+  "turboActionCategories": {
+    "compliance": "Compliance",
+    "prevention": "Prevention",
+    "efficiency": "Efficiency",
+    "savings": "Savings",
+    "performance": "Performance"
   }
 }

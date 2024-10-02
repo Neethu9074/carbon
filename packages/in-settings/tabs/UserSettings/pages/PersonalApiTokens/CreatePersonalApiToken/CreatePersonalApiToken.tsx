@@ -14,9 +14,11 @@ import { PersonalApiToken, createPersonalApiToken } from 'in-settings/tabs/UserS
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import { createPersonalApiTokenForm } from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/form';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { apiTokenExpirationEnabled } from 'in-services/featureFlags';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import { CREATED_OBJECT } from 'in-services/util/constants';
 import CancelButton from 'in-components/form/CancelButton';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
@@ -45,6 +47,7 @@ function CreateForm({ onCreated, onClose }: CreateFormProps) {
   const [form, setForm] = useState(createPersonalApiTokenForm);
   const [creating, setCreating] = useState<boolean>(false);
   const [errors, setErrors] = useState<Error[] | undefined>();
+  const { unstable_trackEvent } = useSegmentTracking();
 
   // @ts-expect-error not types available...
   const userId = user?.id ?? ('' as string);
@@ -72,6 +75,13 @@ function CreateForm({ onCreated, onClose }: CreateFormProps) {
           userId: body.userId
         });
         setCreating(false);
+
+        const customData = {
+          id: body.tokenId,
+          expiryDate: body.expiresOn,
+          expiryOption: form.toJS()['expiryOption']
+        };
+        unstable_trackEvent(CREATED_OBJECT, { objectType: 'settings.personalApiToken.create' }, customData);
       },
       () => {
         const message = t('in-settings:tabs.failedToCreatePersonalApiToken');

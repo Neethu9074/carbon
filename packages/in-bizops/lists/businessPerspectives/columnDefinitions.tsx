@@ -26,7 +26,7 @@ interface bpListProps extends ServerTablePresenterProps<BusinessPerspectiveItem>
   timeConfig: TimeConfig;
 }
 
-function BusinessPerspectiveNameColumnContent(item: BusinessPerspectiveItem) {
+const BusinessPerspectiveNameColumnContent = ({ item }: { item: BusinessPerspectiveItem }) => {
   const { location, createHref } = useNavigation();
 
   const businessPerspectiveId: string = item.businessPerspective.id;
@@ -52,7 +52,7 @@ function BusinessPerspectiveNameColumnContent(item: BusinessPerspectiveItem) {
       />
     </div>
   );
-}
+};
 
 function getSeverity(item: BusinessPerspectiveItem) {
   return get(item, ['metrics', 'maxSeverity', 0, 1], 0);
@@ -64,7 +64,7 @@ export const perspectiveColumnDefinitions: ColumnDefinition<BusinessPerspectiveI
     sortable: true,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.nameLabel'),
-    getContent: BusinessPerspectiveNameColumnContent
+    getContent: (item: BusinessPerspectiveItem) => <BusinessPerspectiveNameColumnContent item={item} />
   },
   {
     id: 'perspective_description',

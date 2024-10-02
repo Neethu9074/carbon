@@ -52,6 +52,7 @@ exports.getDevModeConfig = function getDevModeConfig(envConfig) {
     tenant: envConfig.tenant,
     tenantUnit: envConfig.tenantUnit,
     tenantUnitId: 'fake_tenantUnitId',
+    tenantUnitsCount: 2,
     tenantUnitDomainSuffix: 'pink.instana.rocks',
     butlerDomain: envConfig.butlerDomain,
     analyticsTrackingId: 'UA-66215232-4',

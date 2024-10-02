@@ -21,6 +21,7 @@ const defaultColumnDefinitions = [
   {
     id: 'description',
     width: 3,
+    sortable: false,
     getContent({ description }) {
       return (
         <Tooltip content={description} align="auto">

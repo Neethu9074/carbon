@@ -88,9 +88,11 @@ function CustomTags({ span }) {
           <ErrorDescriptionItem error={errorMessage} />
         </Dl>
       )}
-      <Card title={t('in-analyze:traceDetail.components.callDetails.tags')} hasMarginBottom>
-        <SidebarTagList tags={tags} />
-      </Card>
+      {tags.length > 0 && (
+        <Card title={t('in-analyze:traceDetail.components.callDetails.tags')} hasMarginBottom>
+          <SidebarTagList tags={tags} />
+        </Card>
+      )}
     </>
   );
 }

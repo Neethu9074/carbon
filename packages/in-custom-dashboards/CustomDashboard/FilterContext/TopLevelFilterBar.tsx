@@ -14,6 +14,8 @@ import { FormModelElement } from 'in-components/QueryBuilder/transformation/form
 import useUnifiedTagCatalog from 'in-custom-dashboards/hooks/useUnifiedTagCatalog';
 import Sections from 'in-components/workspace/Sections';
 
+import locals from 'in-custom-dashboards/CustomDashboard/FilterContext/TopLevelFilterBar.mless';
+
 interface Props {
   topLevelFilters: FormModelElement[];
   setTopLevelFilters: (filters: FormModelElement[]) => void;
@@ -23,16 +25,18 @@ export default function TopLevelFilterBar({ topLevelFilters, setTopLevelFilters 
   const topLevelTagCatalog = useUnifiedTagCatalog();
 
   return (
-    <Stack gap="xsmall">
-      <Sections>
-        <QueryBuilderSection
-          value={topLevelFilters}
-          QueryBuilder={QueryBuilder}
-          tagCatalog={topLevelTagCatalog}
-          onChange={setTopLevelFilters}
-          useLastValidStateWhenErroneous
-        />
-      </Sections>
-    </Stack>
+    <div className={locals.topLevelFilterBar}>
+      <Stack gap="xsmall">
+        <Sections>
+          <QueryBuilderSection
+            value={topLevelFilters}
+            QueryBuilder={QueryBuilder}
+            tagCatalog={topLevelTagCatalog}
+            onChange={setTopLevelFilters}
+            useLastValidStateWhenErroneous
+          />
+        </Sections>
+      </Stack>
+    </div>
   );
 }

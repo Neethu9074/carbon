@@ -14,7 +14,7 @@ import { t } from 'in-i18n';
 describe('in-alerting/components/AlertThresholdInfosPresenter', () => {
   it('renders component correctly', () => {
     const props = {
-      thresholdTypeLabel: 'Static Threshold',
+      thresholdTypeLabel: 'Static threshold',
       metricLabel: 'CPU Total',
       scopeLabel: 'Foo',
       threshold: (

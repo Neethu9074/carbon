@@ -511,7 +511,7 @@ function SloDashboard() {
 
   return (
     <MenuItem
-      id="main-nav-slo-dashboard"
+      id="main-nav-slo-dashboard-dark"
       label={t('in-components:mainNavigation.viewSwitcherLabelSlo')}
       icon="lib_service_level"
       isActive={matchLocation(isSloView)}

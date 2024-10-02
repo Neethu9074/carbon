@@ -40,5 +40,6 @@
     "projectKey": "ui-client"
   },
   "wcaForGP.enable": true,
+  "github-enterprise.uri": "https://github.ibm.com",
   "typescript.tsdk": "node_modules/typescript/lib"
 }

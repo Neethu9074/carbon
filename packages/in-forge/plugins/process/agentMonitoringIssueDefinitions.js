@@ -79,6 +79,15 @@ export default {
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
     explanationLinkHref: `https://ibm.biz/insta-noattachdir`
   },
+  jvm_instrumentation_shared_absent: {
+    issueDescription: {
+      Component: function jvmInstrumentationSharedAbsent() {
+        return <span>{t('in-forge:plugins.process.jvmInstrumentationSharedAbsentIssueDescription')}</span>;
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
+    explanationLinkHref: `https://ibm.biz/insta-instrumentation-shared-absent`
+  },
   insufficient_disk_space_for_storing_temp_files: {
     issueDescription: {
       Component: function insufficientDiskMemory() {

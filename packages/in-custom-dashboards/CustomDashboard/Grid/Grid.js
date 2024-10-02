@@ -85,10 +85,15 @@ function Grid({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const layout = config.widgets.map(widget => {
-    const { minimumWidth = 3, minimumHeight = 9 } = widgets[widget.type] ?? {};
-    return getLayoutFields(widget, minimumWidth, minimumHeight);
-  });
+  const layout = config.widgets
+    .map(widget => {
+      const { minimumWidth = 3, minimumHeight = 9 } = widgets[widget.type] ?? {};
+      return getLayoutFields(widget, minimumWidth, minimumHeight);
+    })
+    .sort((a, b) => (a.y !== b.y ? a.y - b.y : a.x - b.x)); // sort the layout based on the widget position
+
+  const orderedIds = layout.map(item => item.i);
+  const sortedWidgets = orderedIds.map(id => config.widgets.find(item => item.id === id)).filter(Boolean);
 
   return (
     <ReactGridLayout
@@ -111,7 +116,7 @@ function Grid({
       onResizeStop={forwardLayoutChange}
       draggableHandle={`.${draggableHandle || locals.dragHandle}`}
     >
-      {config.widgets.map(widget => {
+      {sortedWidgets.map(widget => {
         const content = widgets[widget.type] ? (
           <MemoizedWidgetContent
             widget={widget}

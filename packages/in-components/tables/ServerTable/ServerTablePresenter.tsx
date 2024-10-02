@@ -229,14 +229,13 @@ export default function ServerTablePresenter<
         searchText={query}
         isSearchEnabled={isSearchable}
         onClickingRow={onRowClick}
-        tableInCard={tableInCard || cardTitle != null}
-        fixedLayout={fixedLayout}
       />
     );
 
     const emptyContent = carbonRows.length == 0 && !isLoading(result);
     return (
       <Card
+        disableLayer={!tableInCard}
         title={cardTitle}
         leftHeaderContent={cardTitle ? leftHeaderContent : undefined}
         rightHeaderContent={cardTitle ? header : undefined}

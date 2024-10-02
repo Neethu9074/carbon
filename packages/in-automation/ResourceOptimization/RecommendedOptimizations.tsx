@@ -4,39 +4,28 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 
-import { Spacer, Stack, Typography } from '@instana/components';
+import { Typography } from '@instana/components';
 
 import {
   actionCategoryColumn,
   nameColumn,
-  typesColumn,
   impactedServicesColumn
 } from 'in-automation/ResourceOptimization/columnDefinitions';
-import useServerTableUrlState, {
-  ServerTableUrlState
-} from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import useNavigateToActionDetails from 'in-automation/navigation/hooks/useNavigateToActionDetails';
-import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
+import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
+import { usePaginatedResourceOptimizations } from 'in-automation/AutomationCard/useScoredActions';
 import { generateMetrics, fixedTimestamp } from 'in-test/util/generateMetrics';
 import { FormatterObject, MetricDataSeries } from 'in-components/Chart/types';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import InfoPanel from 'in-automation/components/InfoPanel/InfoPanel';
-import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
-import { TriggerSpecification } from 'in-automation/Policies/types';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
-import { isExternal } from 'in-automation/ActionCatalog/shared';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import { Event, Result, VolatileId } from 'in-types';
+import { RecommendedAction, Result } from 'in-types';
 import { chartColors } from 'in-themes/chartColors';
-import { mapData } from 'in-services/util/result';
 import { success } from 'in-services/util/result';
-import { ScoredAction } from 'in-automation/api';
-import { recommendedList } from './testData';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './RecommendedOptimizations.mless';
@@ -44,19 +33,12 @@ import locals from './RecommendedOptimizations.mless';
 const pathSegment = '/RecommendedOptimizations';
 const matrixPrefix = '';
 
-interface RecommendedOptimizationsTableProps extends ServerTablePresenterProps<ScoredAction> {
-  volatileId: VolatileId;
-  event: Event;
-  trigger: Result<TriggerSpecification>;
-}
-
-const columnDefinitions: ColumnDefinition<ScoredAction, RecommendedOptimizationsTableProps>[] = [
-  nameColumn as ColumnDefinition<ScoredAction, RecommendedOptimizationsTableProps>,
-  typesColumn,
+const columnDefinitions: ColumnDefinition<RecommendedAction, RecommendedOptimizationsTableProps>[] = [
+  nameColumn,
   impactedServicesColumn,
-  actionCategoryColumn as ColumnDefinition<ScoredAction, RecommendedOptimizationsTableProps>
+  actionCategoryColumn
 ];
-
+/*
 function useFilters({
   setServerTableUrlState,
   recommendedOptimizations
@@ -116,13 +98,13 @@ function useFilters({
       setServerTableUrlState({ page: 1, query: '' });
     }
   };
-}
+}*/
+
+interface RecommendedOptimizationsTableProps extends ServerTablePresenterProps<RecommendedAction> {}
 
 interface RecommendedOptimizationsProps {
-  volatileId: VolatileId;
-  event: Event;
-  recommendedOptimizations: Result<ScoredAction[]>;
-  trigger: Result<TriggerSpecification>;
+  recommendedActions: Result<RecommendedAction[]>;
+  totalRecommendedActions: number;
 }
 
 const oneSecond = 1000;
@@ -147,10 +129,8 @@ function generateMultipleMetrics(numSeries: number, numMetrics: number, maxValue
 }
 
 export default function RecommendedOptimizations({
-  volatileId,
-  event,
-  recommendedOptimizations,
-  trigger
+  recommendedActions,
+  totalRecommendedActions
 }: RecommendedOptimizationsProps) {
   const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
     pathSegment,
@@ -159,9 +139,13 @@ export default function RecommendedOptimizations({
     defaultOrderDirection: 'DESC',
     defaultPageSize: 7
   });
-  const { page, pageSize, orderBy, orderDirection, query } = serverTableUrlState;
-  const navigateToActionDetails = useNavigateToActionDetails();
-  recommendedOptimizations = recommendedOptimizations || recommendedList;
+  const { page, pageSize, orderBy, orderDirection } = serverTableUrlState;
+
+  const result = usePaginatedResourceOptimizations({
+    recommendedActions,
+    serverTableUrlState,
+    setServerTableUrlState
+  });
 
   const colorPalette = [
     chartColors.fiveColorPalette[1],
@@ -171,24 +155,10 @@ export default function RecommendedOptimizations({
     chartColors.fiveColorPalette[4]
   ];
 
-  const { filteredActions, types, setTypes } = useFilters({
-    recommendedOptimizations,
-    setServerTableUrlState
-  });
+  const totalHits = totalRecommendedActions;
 
-  const result = usePaginatedScoredActions({
-    actions: filteredActions,
-    serverTableUrlState,
-    setServerTableUrlState
-  });
-
-  const totalHits = result?.data?.totalHits;
-
-  const handleRowClick = (action: ScoredAction) => {
-    if (!isExternal(action.type)) {
-      navigateToActionDetails(action.id, false);
-    }
-  };
+  //TODO update with modal code
+  const handleRowClick = () => {};
 
   return (
     <div className={locals.contentContainer}>
@@ -278,11 +248,8 @@ export default function RecommendedOptimizations({
           />
         </div>
       </div>
-      <ServerTablePresenter<ScoredAction, RecommendedOptimizationsTableProps>
+      <ServerTablePresenter<RecommendedAction, RecommendedOptimizationsTableProps>
         columnDefinitions={columnDefinitions}
-        volatileId={volatileId}
-        event={event}
-        trigger={trigger}
         fixedLayout
         leftHeader={
           <Typography variant="heading-300">
@@ -297,16 +264,11 @@ export default function RecommendedOptimizations({
         searchMaxWidth={180}
         page={page}
         pageSize={pageSize}
-        query={query}
         result={result}
-        rightHeader={
-          <Stack direction="horizontal">
-            <TypeFilter type={types} setType={params => setTypes({ types: params.types })} showExternal />
-            <Spacer horizontal="small" />
-          </Stack>
-        }
+        rightHeader={null}
         searchPlaceholder={t('in-automation:searchOptimizations')}
-        onRowClick={!role?.canConfigureAutomationPolicies ? handleRowClick : undefined}
+        onRowClick={handleRowClick}
+        tableInCard={false}
       />
     </div>
   );

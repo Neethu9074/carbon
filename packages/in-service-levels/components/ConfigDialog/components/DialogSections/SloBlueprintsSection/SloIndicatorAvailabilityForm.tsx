@@ -16,7 +16,7 @@ import HeadlineFormSection from 'in-service-levels/components/ConfigDialog/compo
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 
 export default function SloIndicatorAvailabilityForm() {
-  const { form, onChange } = useContext(SloFormContext);
+  const { form, mode, onChange } = useContext(SloFormContext);
 
   const aggregationField = form.getIn(['indicator', 'aggregation']);
   const thresholdField = form.getIn(['indicator', 'threshold']);
@@ -25,6 +25,7 @@ export default function SloIndicatorAvailabilityForm() {
   const indicatorType = form.getIn(['indicator', 'type']).value;
 
   const isTimeBased = indicatorType === 'timeBased';
+  const isFormInEditMode = mode === 'EDIT';
 
   return (
     <Stack gap="medium">
@@ -33,10 +34,21 @@ export default function SloIndicatorAvailabilityForm() {
       <IndicatorFieldsSection>
         {/* Time-based SLI fields */}
         {isTimeBased && (
-          <IndicatorAggregationField availableOptions={['MEAN']} field={aggregationField} onChange={onChange} />
+          <IndicatorAggregationField
+            availableOptions={['MEAN']}
+            field={aggregationField}
+            onChange={onChange}
+            disabled={isFormInEditMode}
+          />
         )}
         {isTimeBased && (
-          <IndicatorThresholdField blueprint={blueprint} field={thresholdField} onChange={onChange} percentageValue />
+          <IndicatorThresholdField
+            blueprint={blueprint}
+            field={thresholdField}
+            onChange={onChange}
+            disabled={isFormInEditMode}
+            percentageValue
+          />
         )}
       </IndicatorFieldsSection>
     </Stack>

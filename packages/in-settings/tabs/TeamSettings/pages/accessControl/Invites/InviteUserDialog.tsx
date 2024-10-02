@@ -19,11 +19,12 @@ import {
 import { onDoInviteUser } from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserButton';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { getStrippedGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { SETTINGS_USER_INVITE_SUBMIT } from 'in-services/tracking/tracking';
 import { getInvitations$, getUsersAsResultObservable } from 'in-api/users';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { defaultRoleId, fallbackRoleId, role } from 'in-stores/user';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { submitInviteUserTracker } from 'in-settings/tracker';
 import { close } from 'in-components/DialogPresenter/store';
 import { successObservable } from 'in-services/util/result';
 import FormGroup from 'in-settings/components/FormGroup';
@@ -61,6 +62,7 @@ export interface PendingInvite {
 }
 export default function InviteUserDialog() {
   const { goToPath } = useNavigation();
+  const { trackCta } = useSegmentTracking();
   const [message, setMessage] = useState<{ type: 'error' | 'success'; text: string }>();
   const groups: any =
     useObservable(role?.canConfigureTeams ? getStrippedGroupsAsResultObservable : successObservable, []) ??
@@ -126,10 +128,11 @@ export default function InviteUserDialog() {
           groupId = (invite.get('groupId') as Field<string>).value;
           const group: ApiGroup = groups.length ? groups.find((group: ApiGroup) => group.id === groupId) : null;
           const groupName = group && group.name ? group.name : 'default';
-          submitInviteUserTracker({ group: groupName });
+
+          trackCta(SETTINGS_USER_INVITE_SUBMIT, { group: groupName });
         } else {
           groupId = defaultRoleId;
-          submitInviteUserTracker({ group: 'default' });
+          trackCta(SETTINGS_USER_INVITE_SUBMIT, { group: 'default' });
         }
       });
       const invitations = form.toJS().map((e: any) => ({

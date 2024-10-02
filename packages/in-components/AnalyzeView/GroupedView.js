@@ -18,6 +18,7 @@ import {
   Ul,
   IconButton
 } from '@instana/components';
+import { Tooltip } from '@instana/components';
 import { empty } from '@instana/observables';
 
 import {
@@ -51,7 +52,6 @@ import useCursorPagination from 'in-hooks/useCursorPagination';
 import { getFormatter } from 'in-stores/metric/formatters';
 import { aggregationLabels } from 'in-stores/metric';
 import { identity } from 'in-services/util/function';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import { scrollToTop } from 'in-services/util/dom';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
@@ -476,17 +476,23 @@ function labelColumns({
 
 function GroupLabelTooltip({ groupName, getCustomGroupLabel, groupbyTag }) {
   const groupLabel = getCustomGroupLabel ?? identity;
-  const label = groupLabel(groupName, groupbyTag);
-  return (
-    <Tooltip content={label} align="bottomLeft" delay={1000}>
-      <div
-        className={classNames({
-          [locals.italic]: groupName === UNSPECIFIED || groupName === NO_VALUE
-        })}
-      >
-        {label}
-      </div>
+  const label = groupLabel(groupName, groupbyTag) || '-';
+  const labelElement = (
+    <div
+      className={classNames({
+        [locals.italic]: groupName === UNSPECIFIED || groupName === NO_VALUE
+      })}
+    >
+      {label}
+    </div>
+  );
+
+  return label === '-' ? (
+    <Tooltip content={t('in-components:analyze.groupNameNotAvailable', { groupbyTag })} align="mousePosition">
+      {labelElement}
     </Tooltip>
+  ) : (
+    labelElement
   );
 }
 

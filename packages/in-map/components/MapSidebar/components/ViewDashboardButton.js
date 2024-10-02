@@ -19,7 +19,12 @@ export default function ViewDashboardButton({ snapshotId }) {
   const getDashboardLink = useGetDashboardLink();
 
   return (
-    <Button href={getDashboardLink(snapshotId)} className={block}>
+    <Button
+      size={carbonButtonEnabled ? 'compact' : 'normal'}
+      kind={carbonButtonEnabled ? 'tertiary' : 'primary'}
+      href={getDashboardLink(snapshotId)}
+      className={block}
+    >
       {t('in-map:openDashboard')}
     </Button>
   );

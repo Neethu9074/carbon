@@ -19,8 +19,8 @@ import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPath
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import HealthIcon from 'in-plg/components/HealthIcon/HealthIcon';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import { openEventsAtServerTime$ } from 'in-stores/events';

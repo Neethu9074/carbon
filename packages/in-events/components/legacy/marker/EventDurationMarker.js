@@ -24,7 +24,9 @@ export default connectTo(
       };
     }
 
-    const end = props.event.get('end');
+    const metadata = props.event.get('metadata');
+    const manualCloseTimestamp = metadata ? props.event.getIn(['metadata', 'manualCloseTimestamp']) : null;
+    const end = manualCloseTimestamp ? manualCloseTimestamp : props.event.get('end');
     return {
       config: serverTime$.flatMap(serverTime =>
         fireCallbacksForEventAtFocusedMomentAsStream(

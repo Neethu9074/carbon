@@ -154,8 +154,8 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiToken
     expect(getByText(token.name)).toBeInTheDocument();
     expect(getByText('my-t********************')).toBeInTheDocument();
     expect(formatDateTime).toHaveBeenCalledWith(token.createdOn);
-    expect(getByText(`formatted-${token.createdOn}`, { exact: false })).toBeInTheDocument();
-    expect(getByText(`formatted-${token.lastUsedOn}`, { exact: false })).toBeInTheDocument();
+    expect(getByText(`fromNow-${token.createdOn}`, { exact: false })).toBeInTheDocument();
+    expect(getByText(`fromNow-${token.lastUsedOn}`, { exact: false })).toBeInTheDocument();
   });
 
   it('should provide an empty table for personal api tokens', async () => {

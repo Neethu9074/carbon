@@ -9,8 +9,10 @@
     "esbenp.prettier-vscode",
     "amatiasq.sort-imports",
     "dsznajder.es7-react-js-snippets",
+    "github.vscode-pull-request-github",
+    "eamodio.gitlens",
     "suming.react-proptypes-generate",
-    "silvenon.mdx",
+    "unifiedjs.vscode-mdx",
     "Orta.vscode-jest",
     "genaitools.wca-at-ibm"
   ]

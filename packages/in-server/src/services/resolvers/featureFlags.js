@@ -558,12 +558,12 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonRadioButtonEnabled',
     instanaCtlKey: 'feature.carbon.radiobutton.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonCheckboxEnabled',
     instanaCtlKey: 'feature.carbon.checkbox.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonIconButtonEnabled',
@@ -603,7 +603,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonListEnabled',
     instanaCtlKey: 'feature.carbon.list.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonAccordionEnabled',
@@ -643,7 +643,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonComboBoxEnabled',
     instanaCtlKey: 'feature.carbon.combobox.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonDateInputEnabled',
@@ -763,7 +763,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonFileUploaderEnabled',
     instanaCtlKey: 'feature.carbon.fileuploader.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'userProfileMenuEnabled',

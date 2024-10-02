@@ -18,16 +18,16 @@
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Remove",
     "alertHeaderIsNotLatestRevisionMessage": "You are looking at revision {{description}} of this alert configuration. Please <latestRevisionButton>select the latest revision</latestRevisionButton> or <restoreRevisionButton>restore from current revision</restoreRevisionButton> if you want to make changes.",
     "alertHeaderAriaLabelSeverity": "Event has severity {{severity}}",
-    "alertHistoryListTitleWithTotalRepresentedItemCount": "Alerts Created ({{totalRepresentedItemCount}})",
+    "alertHistoryListTitleWithTotalRepresentedItemCount": "Alerts created ({{totalRepresentedItemCount}})",
     "alertStateActive": "active",
     "alertPropertyInfosLabelTitle": "Title",
-    "alertPropertyInfosLabelAlertLevel": "Alert Level",
+    "alertPropertyInfosLabelAlertLevel": "Alert level",
     "alertPropertyInfosLabelTriggersIncident": "Triggers Incident",
     "alertPropertyInfosLabelDescription": "Description",
     "noChannelSelectedText": "Currently, you have not selected an alert channel and will not receive any alerts.",
-    "scopeConfigPresenterHelpTextAdditionalFilters": "Additional Filters",
-    "groupBy": "Group By",
-    "noChannelAvailable": "No Alert Channels available",
+    "scopeConfigPresenterHelpTextAdditionalFilters": "Additional filters",
+    "groupBy": "Group by",
+    "noChannelAvailable": "No Alert channels available",
     "optional": "Optional",
     "revisionDropdownButton": {
       "revision": "Revision {{alertRevision}}",
@@ -76,18 +76,18 @@
       "dynamic": "Dynamic",
       "theNumberOfRowsIsRestrictedToMaximumNumberOfRows": "The number of rows is restricted to {{maximumNumberOfRows}}.",
       "addRow": "Add Row",
-      "noCustomPayloadConfigured": "No Custom Payloads Configured",
+      "noCustomPayloadConfigured": "No custom payloads configured",
       "keyNamesMustBeUnique": "Key names must be unique.",
       "theValueMustNotBeBlank": "The value must not be blank.",
       "onlyOrAnyAlphaNumericalAreAllowed": "Only '.', '-', '_' or any alpha-numerical are allowed.",
       "aTagNeedsToBeSelected": "A tag needs to be selected.",
       "aKeyNeedsToBeSpecified": "A key needs to be specified.",
-      "additionalCustomPayload": "Additional Custom Payloads",
-      "globalCustomPayload": "Global Custom Payloads",
-      "additionalCustomPayloadTitle": "Additional Custom Payloads ({{count}})",
-      "globalCustomPayloadTitle": "Global Custom Payloads ({{count}})",
-      "globalCustomPayloadRetrieveFailed": "Something went wrong. Could not retrieve Global Custom Payloads.",
-      "noGlobalCustomPayloadConfigured": "No Global Custom Payloads Configured"
+      "additionalCustomPayload": "Additional custom payloads",
+      "globalCustomPayload": "Global custom payloads",
+      "additionalCustomPayloadTitle": "Additional custom payloads ({{count}})",
+      "globalCustomPayloadTitle": "Global custom payloads ({{count}})",
+      "globalCustomPayloadRetrieveFailed": "Something went wrong. Could not retrieve global custom payloads.",
+      "noGlobalCustomPayloadConfigured": "No global custom payloads configured"
     },
     "previewFor": "Preview for: ",
     "groupedViewHeader": "{{formattedCount}} Results",
@@ -148,9 +148,9 @@
     "titleNoSmartAlertsConfiguredForSearchQuery": "No Smart Alert configurations found for a given search",
     "titleNoSmartAlertsCreated": "No Smart Alerts created",
     "titleCopyOf": "(Copy of) {{smartAlertTitle}}",
-    "smartAlertsTitle": "Smart Alerts",
+    "smartAlertsTitle": "Smart alerts",
     "applications": {
-      "alertConfiguration": "Alert Configuration",
+      "alertConfiguration": "Alert configuration",
       "advanced": {
         "applicationNamePlaceholder": "application-name",
         "serviceNamePlaceholder": "service-name",
@@ -258,25 +258,25 @@
             "httpStatusCodesCardTitle": "HTTP Status Codes"
           },
           "threshold": {
-            "staticOrAdaptiveTitle": "Type of Threshold",
+            "staticOrAdaptiveTitle": "Type of threshold",
             "label": "Threshold",
             "title": "Threshold: When is the condition violated?"
           },
           "timeThreshold": {
-            "label": "Time Threshold",
-            "title": "Time Threshold: When do you want to be alerted?"
+            "label": "Time threshold",
+            "title": "Time threshold: When do you want to be alerted?"
           },
           "alertChannel": {
-            "label": "Alert Channels",
-            "title": "Alert Channels: Who needs to be alerted?"
+            "label": "Alert channels",
+            "title": "Alert channels: Who needs to be alerted?"
           },
           "propertiesOptional": {
             "label": "Properties",
-            "title": "Additional Alert Properties"
+            "title": "Additional Alert properties"
           },
           "payloadsOptional": {
             "label": "Payloads",
-            "title": "Custom Payload"
+            "title": "Custom payload"
           }
         },
         "staticOrAdaptiveSwitch": {
@@ -293,11 +293,11 @@
         "noDataAvailable": "Please select a service to see the preview"
       },
       "logMessages": {
-        "messageColumn": "Log Message",
-        "levelColumn": "Log Level",
+        "messageColumn": "Log message",
+        "levelColumn": "Log level",
         "noDataMessage": "No messages found.",
         "selectLogMessageText": "Select log message as template (optional)",
-        "selectLogMessageTitle": "Select Log Message"
+        "selectLogMessageTitle": "Select log message"
       },
       "blueprintConfig": {
         "slowness": {
@@ -469,17 +469,17 @@
       },
       "simple": {
         "simpleAlertStep2Headline": "Where do you want the alert to trigger?",
-        "step1Title": "Step 1: Select Alert",
-        "step2Title": "Step 2: Select Scope",
-        "step3Title": "Step 3: Select Alert Channels"
+        "step1Title": "Step 1: Select alert",
+        "step2Title": "Step 2: Select scope",
+        "step3Title": "Step 3: Select alert Channels"
       },
       "components": {
-        "createSmartAlert": "Add Smart Alert",
-        "createGlobalSmartAlert": "Add Global Smart Alert",
-        "provideLogMessageSelectLogMessage": "Select Log Message",
-        "provideLogMessageLogLevel": "Log Level",
-        "provideLogMessageErrorMessage": "Error Message",
-        "provideStatusCodeStatusCode": "Status Code"
+        "createSmartAlert": "Add smart alert",
+        "createGlobalSmartAlert": "Add global smart alert",
+        "provideLogMessageSelectLogMessage": "Select log message",
+        "provideLogMessageLogLevel": "Log level",
+        "provideLogMessageErrorMessage": "Error message",
+        "provideStatusCodeStatusCode": "Status code"
       },
       "inventory": {
         "noData": "No Smart Alerts configured. Click the button below to configure your first smart alert.",
@@ -508,7 +508,7 @@
       },
       "details": {
         "title": "Alert Details",
-        "titleAlertProperties": "Alert Properties",
+        "titleAlertProperties": "Alert properties",
         "applicationsServiceEndpointScopeTitle": "Selected Applications/Services/Endpoints",
         "callsScopeTitle": "Included Calls"
       },
@@ -529,7 +529,7 @@
         "step3Title": "Define grouping",
         "step4Title": "Define when to get alerted",
         "alertHeadline": "Choose what you want to be alerted on",
-        "step5Title": "Define alert properties",
+        "step5Title": "Define Alert properties",
         "step6Title": "Define alert channels",
         "grouping": {
           "title": "Group calls",
@@ -550,7 +550,7 @@
           "groupByEndpoint_1": "{{count}} Endpoints",
           "groupByEndpoint_2": "{{count}} Endpoints",
           "groupbyDescription": "Based on calls made in the last 24 hours",
-          "noData": "No groupby data available.",
+          "noData": "No applications, services, or endpoints in scope have recorded any calls in the last 24 hours.",
           "groupByDataFailed": "Something went wrong. Could not retrieve group by data. Reason : {{reason}}"
         },
         "callsInScope": {
@@ -601,7 +601,8 @@
           "metricLabel": "{{metricLabel}} percentile latency",
           "minLatency": "Minimum latency",
           "maxLatency": "Maximum latency",
-          "meanLatency": "Average latency"
+          "meanLatency": "Average latency",
+          "sumLatency": "Sum latency"
         },
         "timeThreshold": {
           "title": "Set when violations trigger alerts",
@@ -630,7 +631,7 @@
           "previewTitle": "Alert preview"
         },
         "alertChannelList": {
-          "title": "Alert Channels ({{channelCount}})",
+          "title": "Alert channels ({{channelCount}})",
           "description": "Select the recipient(s) of this alert",
           "searchPlaceholder": "Search",
           "clearAll": "Clear all"
@@ -647,7 +648,7 @@
     },
     "details": {
       "header": "Details",
-      "thresholdTypeTitle": "Threshold Type",
+      "thresholdTypeTitle": "Threshold type",
       "metricTitle": "Metric",
       "threshold": "Threshold",
       "warningThresholdLabel": "Warning",
@@ -657,7 +658,7 @@
     },
     "list": {
       "header": {
-        "configuredAlerts": "Configured Alerts ({{numberOfAlerts}})"
+        "configuredAlerts": "Configured alerts ({{numberOfAlerts}})"
       },
       "columns": {
         "name": "Name"
@@ -674,6 +675,7 @@
       "ruleAggregationOptionP98": "98th",
       "ruleAggregationOptionP99": "99th",
       "ruleAggregationOptionMAX": "max",
+      "ruleAggregationOptionSUM": "sum",
       "ruleAggregationForWeeklySeasonalityOptionMEAN": "mean",
       "ruleAggregationForWeeklySeasonalityOptionP50": "50th",
       "ruleStatusCodeValueOption1": "1XX (Informational)",
@@ -767,11 +769,11 @@
         "baselineErrorMessageReason": "Reason:",
         "blueprintDescriptionButtonSelect": "Select",
         "selectAlertChannelButtonTitle": "Select alert channels",
-        "selectAlertChannelButton": "Select Alert Channels",
-        "createAlertChannelTitle": "Create Alert Channel",
+        "selectAlertChannelButton": "Select alert channels",
+        "createAlertChannelTitle": "Create alert channel",
         "alertChannelCreatedSuccess": "Alert channel created",
         "alertChannelCreatedSuccessDescription": "The alert channel was successfully created.",
-        "alertChannelSelectTypeTitle": "Alert Channel type",
+        "alertChannelSelectTypeTitle": "Alert channel type",
         "addChannel": "Add {{count}} Channel",
         "addChannel_plural": "Add {{count}} Channels",
         "addChannel_0": "Add {{count}} Channels",
@@ -828,17 +830,17 @@
         "timeThresholdDescriptionViolationsInPeriod_0": "At least {{count}} violations within the last {{formattedTimeWindow}}",
         "timeThresholdDescriptionViolationsInPeriod_1": "At least {{count}} violation within the last {{formattedTimeWindow}}",
         "timeThresholdDescriptionViolationsInPeriod_2": "At least {{count}} violations within the last {{formattedTimeWindow}}",
-        "timeThresholdConfigNumberOfConsecutiveViolations": "Number of Consecutive Metric Violations",
-        "timeThresholdConfigNumberOfConsecutiveEvaluations": "Number of Consecutive Evaluations",
-        "timeThresholdConfigNumberOfEvaluationWindows": "Number of Consecutive Violations",
-        "timeThresholdConfigImpactEvaluationMethod": "User Impact Evaluation Method",
+        "timeThresholdConfigNumberOfConsecutiveViolations": "Number of consecutive metric violations",
+        "timeThresholdConfigNumberOfConsecutiveEvaluations": "Number of consecutive evaluations",
+        "timeThresholdConfigNumberOfEvaluationWindows": "Number of consecutive violations",
+        "timeThresholdConfigImpactEvaluationMethod": "User impact evaluation method",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "Aggregate across all evaluation windows",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calculate for each evaluation window",
-        "timeThresholdConfigNumberOfViolations": "Number of Metric Violations",
-        "timeThresholdConfigEvaluationGranularity": "Evaluation Granularity",
+        "timeThresholdConfigNumberOfViolations": "Number of metric violations",
+        "timeThresholdConfigEvaluationGranularity": "Evaluation granularity",
         "granularityTooltipText": "The time granularity set here will determine the frequency at which the threshold is evaluated.",
-        "timeThresholdConfigNumberOfTracesThreshold": "Number of Impacted Traces",
-        "timeThresholdConfigNumberOfImpactedUsersThreshold": "Number of Impacted Users",
+        "timeThresholdConfigNumberOfTracesThreshold": "Number of impacted traces",
+        "timeThresholdConfigNumberOfImpactedUsersThreshold": "Number of impacted users",
         "timeThresholdConfigAtLeast": "At least",
         "timeThresholdConfigNumberOfTraces": "# of impacted traces",
         "timeThresholdConfigMinutes": "{{min}} min",
@@ -861,13 +863,13 @@
         "alertPropertiesWarning": "Warning",
         "alertPropertiesCritical": "Critical",
         "alertPropertiesTitle": "Title",
-        "alertPropertiesAlertLevel": "Alert Level",
+        "alertPropertiesAlertLevel": "Alert level",
         "alertPropertiesTriggersIncident": "Triggers Incident",
         "alertPropertiesDescription": "Description",
         "warningAlertPreviewLabel": "Warning preview",
         "criticalAlertPreviewLabel": "Critical preview",
         "alertPreviewMissingThresholdInfo": "No preview available. Please select at least one threshold value to see the preview.",
-        "alertPropertiesAlertProperties": "Alert Properties",
+        "alertPropertiesAlertProperties": "Alert properties",
         "alertPreviewDefaultTitle": "Notification title",
         "groupingPlaceholdersMissingTooltip": "Configure group(s) to access placeholder options",
         "buttonSave": "Save",
@@ -889,22 +891,22 @@
         "criticalThresholdLabel": "Critical",
         "labelSensitivity": "Sensitivity",
         "staticThresholdTypeOptionsTooltip": "A Static Daily / Weekly Threshold is a time dependent threshold based on historical data. The threshold does not change automatically and can be manually recalculated if required.",
-        "thresholdTypeOptionStaticThreshold": "Static Threshold",
+        "thresholdTypeOptionStaticThreshold": "Static threshold",
         "thresholdTypeOptionHistoricBaselineDaily": "Static Daily Seasonality",
         "thresholdTypeOptionHistoricBaselineWeekly": "Static Weekly Seasonality",
         "thresholdTypeOptionAdaptiveBaseline": "Adaptive Threshold",
         "useSuggestedvalue": "Use suggested value",
         "loadingThresholdSuggestion": "Loading threshold suggestion",
-        "alertConfigDialogPresenterTitleEditAlert_Local": "Edit Smart Alert",
-        "alertConfigDialogPresenterTitleEditAlert_Global": "Edit Global Smart Alert",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Create Smart Alert",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Create Global Smart Alert",
-        "alertConfigDialogPresenterTitleMigrateAlert": "Migrate to Smart Alert",
-        "alertConfigTearSheetEditAlert_Local": "Edit an application Smart Alert",
-        "alertConfigTearSheetEditAlert_Global": "Edit an application global Smart Alert",
-        "alertConfigTearSheetCreateNewAlert_Local": "Create an application Smart Alert",
-        "alertConfigTearSheetCreateNewAlert_Global": "Create an application global Smart Alert",
-        "alertConfigTearSheetMigrateAlert": "Migrate to application Smart Alert",
+        "alertConfigDialogPresenterTitleEditAlert_Local": "Edit smart alert",
+        "alertConfigDialogPresenterTitleEditAlert_Global": "Edit global smart alert",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Create smart alert",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Create global smart alert",
+        "alertConfigDialogPresenterTitleMigrateAlert": "Migrate to smart alert",
+        "alertConfigTearSheetEditAlert_Local": "Edit an application smart alert",
+        "alertConfigTearSheetEditAlert_Global": "Edit an application global smart alert",
+        "alertConfigTearSheetCreateNewAlert_Local": "Create an application smart alert",
+        "alertConfigTearSheetCreateNewAlert_Global": "Create an application global smart alert",
+        "alertConfigTearSheetMigrateAlert": "Migrate to application smart alert",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Switch to Advanced Mode",
         "simpleAlertConfigDialogStep3Headline": "Who should get the alerts?",
         "Loading": "Loading…",
@@ -976,17 +978,17 @@
         "thresholdTitle": "Threshold: When is the condition violated?",
         "triggerLabel": "Trigger",
         "triggerTitle": "Trigger: What do you want to be alerted on?",
-        "JSErrorMessage": "JS Error Message",
-        "HTTPStatusCode": "HTTP Status Code",
-        "timeThresholdLabel": "Time Threshold",
-        "timeThresholdTitle": "Time Threshold: When do you want to be alerted?",
-        "alertChannelsLabel": "Alert Channels",
-        "alertChannelsTitle": "Alert Channels: Who needs to be alerted?",
+        "JSErrorMessage": "JS error message",
+        "HTTPStatusCode": "HTTP status code",
+        "timeThresholdLabel": "Time threshold",
+        "timeThresholdTitle": "Time threshold: When do you want to be alerted?",
+        "alertChannelsLabel": "Alert channels",
+        "alertChannelsTitle": "Alert channels: Who needs to be alerted?",
         "propertiesLabel": "Properties",
-        "propertiesTitle": "Additional Alert Properties",
-        "thresholdValue": "Threshold Value",
+        "propertiesTitle": "Additional Alert properties",
+        "thresholdValue": "Threshold value",
         "payloadsLabel": "Payloads",
-        "payloadsTitle": "Custom Payloads",
+        "payloadsTitle": "Custom payloads",
         "evaluationSwitch": {
           "evaluationTypePERWEBSITE": {
             "shortText": "Per Website"
@@ -1059,9 +1061,9 @@
       "simple": {
         "simpleAlertConfigDialogStep1Headline": "What do you want to be alerted on?",
         "simpleAlertConfigDialogStep2Headline": "Where do you want the alert to trigger?",
-        "stepConfigsStep1Title": "Step 1: Select Alert",
-        "stepConfigsStep2Title": "Step 2: Select Scope",
-        "stepConfigsStep3Title": "Step 3: Select Alert Channels"
+        "stepConfigsStep1Title": "Step 1: Select alert",
+        "stepConfigsStep2Title": "Step 2: Select scope",
+        "stepConfigsStep3Title": "Step 3: Select alert Channels"
       },
       "customEvent": {
         "noCustomEventsFound": "No custom events found",
@@ -1145,13 +1147,13 @@
         "stepConfigsStep1Title": "Step 1: Tests",
         "simpleAlertConfigDialogStep1Headline": "Which synthetic tests you want to be alerted on?",
         "simpleAlertConfigDialogStep1Tooltip": "Individual alerts will be sent independently for each synthetic test, per location",
-        "stepConfigsStep4Title": "Step 4: Alert Channels",
+        "stepConfigsStep4Title": "Step 4: Alert channels",
         "alertDialogHeadline": "What should appear in the alert?",
         "stepConfigsStep2Title": "Step 2: Scope",
         "scopeHeadline": "What is the scope?",
         "scopeDescription": "Choose where you want the condition to be applied.",
         "stepConfigsStep3Title": "Step 3: Time Threshold",
-        "stepConfigsStep5Title": "Step 5: Alert Properties",
+        "stepConfigsStep5Title": "Step 5: Alert properties",
         "thresholdTitle": "How many consecutive failures should occur per location before alerting?",
         "thresholdTitleHelpText": "Failures determined in the PoP, based on retry interval configured in synthetic test creation.",
         "thresholdSubTitleHelpText": "If the specified number of failures occurs in every location, you will receive an alert for every location.",
@@ -1170,12 +1172,12 @@
         "alertPropertiesDescriptionPlaceholder_2": "Synthetic test failed for {{count}} consecutive times"
       },
       "advanced": {
-        "alertChannelsLabel": "Alert Channels",
+        "alertChannelsLabel": "Alert channels",
         "alertChannelsTitle": "Who should get the alerts?",
         "scopeFilterLabel": "Scope",
         "alertTestsLabel": "Synthetic Tests",
         "alertTestsTitle": "Synthetic Tests : Which synthetic tests you want to be alerted on?",
-        "propertiesLabel": "Alert Properties",
+        "propertiesLabel": "Alert properties",
         "propertiesTitle": "What should alert notification include?",
         "failureThreshold": "Time Threshold",
         "failureThresholdLabel": "Time Threshold",
@@ -1196,21 +1198,21 @@
       },
       "details": {
         "threshold": "Threshold",
-        "alertConfigurationListTitleAlertConfiguration": "Alert Configuration",
+        "alertConfigurationListTitleAlertConfiguration": "Alert configuration",
         "scope": {
           "perLocation": {
             "shortText": "Per Location"
           }
         },
         "alertConfigurationTitleAlertTests": "Selected Tests",
-        "alertConfigurationTitleAlertChannels": "Alert Channels",
-        "alertConfigurationTitleAlertProperties": "Alert Properties",
+        "alertConfigurationTitleAlertChannels": "Alert channels",
+        "alertConfigurationTitleAlertProperties": "Alert properties",
         "failureThreshold": "{{failureCount}} failures",
         "alertConfigurationTitleScope": "Scope",
         "noOfFailure": "Number of failure",
-        "timeThreshold": "Time Threshold",
-        "alertingType": "Alerting Type",
-        "noScopeConfigured": "No Scope Filter Configured"
+        "timeThreshold": "Time threshold",
+        "alertingType": "Alerting type",
+        "noScopeConfigured": "No scope filter configured"
       }
     },
     "mobileApp": {
@@ -1273,21 +1275,21 @@
         "filterApplied": "Filter Applied"
       },
       "simple": {
-        "stepConfigsStep1Title": "Step 1: Select Alert",
-        "stepConfigsStep3Title": "Step 3: Select Alert Channels",
+        "stepConfigsStep1Title": "Step 1: Select alert",
+        "stepConfigsStep3Title": "Step 3: Select alert channels",
         "simpleAlertConfigDialogStep1Headline": "What do you want to be alerted on?",
         "simpleAlertConfigDialogStep2Headline": "Where do you want the alert to trigger?",
         "stepConfigsStep2Title": "Step 2: Select Scope"
       },
       "alertDetails": {
-        "alertConfigurationListTitleAlertConfiguration": "Alert Configuration",
+        "alertConfigurationListTitleAlertConfiguration": "Alert configuration",
         "alertConfigurationTitleTrigger": "Trigger",
         "alertConfigurationTitleHTTPStatusCode": "HTTP Status Code",
         "alertConfigurationTitleCustomEvent": "Custom Event",
         "alertConfigurationTitleScope": "Scope",
-        "alertConfigurationTitleTimeThreshold": "Time Threshold",
-        "alertConfigurationTitleAlertChannels": "Alert Channels",
-        "alertConfigurationTitleAlertProperties": "Alert Properties",
+        "alertConfigurationTitleTimeThreshold": "Time threshold",
+        "alertConfigurationTitleAlertChannels": "Alert channels",
+        "alertConfigurationTitleAlertProperties": "Alert properties",
         "evaluationSwitch": {
           "evaluationTypePerMobileApp": {
             "shortText": "Per Mobile App"
@@ -1318,18 +1320,18 @@
         "triggerLabel": "Trigger",
         "triggerTitle": "Trigger: What do you want to be alerted on?",
         "HTTPStatusCode": "HTTP Status Code",
-        "alertChannelsLabel": "Alert Channels",
-        "alertChannelsTitle": "Alert Channels: Who needs to be alerted?",
-        "timeThresholdLabel": "Time Threshold",
-        "timeThresholdTitle": "Time Threshold: When do you want to be alerted?",
+        "alertChannelsLabel": "Alert channels",
+        "alertChannelsTitle": "Alert channels: Who needs to be alerted?",
+        "timeThresholdLabel": "Time threshold",
+        "timeThresholdTitle": "Time threshold: When do you want to be alerted?",
         "propertiesLabel": "Properties",
-        "propertiesTitle": "Additional Alert Properties",
+        "propertiesTitle": "Additional Alert properties",
         "scopeLabel": "Scope",
         "scopeTitle": "Scope: Where is the condition happening?",
         "thresholdLabel": "Threshold",
         "thresholdTitle": "Threshold: When is the condition violated?",
         "payloadsLabel": "Payloads",
-        "payloadsTitle": "Custom Payloads"
+        "payloadsTitle": "Custom payloads"
       }
     },
     "eum": {
@@ -1384,18 +1386,18 @@
     },
     "infrastructure": {
       "alertDetails": {
-        "alertConfiguration": "Alert Configuration",
+        "alertConfiguration": "Alert configuration",
         "alertConfigurationTitleTrigger": "Trigger",
         "alertConfigurationTitleScope": "Scope",
-        "alertConfigurationTitleAlertChannels": "Alert Channels",
-        "alertConfigurationTitleTimeThreshold": "Time Threshold",
-        "alertConfigurationTitleAlertProperties": "Alert Properties"
+        "alertConfigurationTitleAlertChannels": "Alert channels",
+        "alertConfigurationTitleTimeThreshold": "Time threshold",
+        "alertConfigurationTitleAlertProperties": "Alert properties"
       },
       "list": {
         "columns": {
           "name": {
             "subtitle": {
-              "staticThresholdType": "Static Threshold",
+              "staticThresholdType": "Static threshold",
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
               "predictiveTrigger": "Predictive Trigger"
             }
@@ -1438,21 +1440,21 @@
           "timeToFailure": "Time to Failure"
         },
         "alertChannel": {
-          "label": "Alert Channels",
-          "title": "Alert Channels: Who needs to be alerted?"
+          "label": "Alert channels",
+          "title": "Alert channels: Who needs to be alerted?"
         },
         "properties": {
           "preview": {
             "subtitle": "Metric-Name"
           },
           "label": "Properties",
-          "title": "Additional Alert Properties",
+          "title": "Additional Alert properties",
           "alertPropertiesTitlePlaceholder": "Infrastructure Smart alert",
           "alertPropertiesDescriptionPlaceholder": "Something is going wrong in your infrastructure."
         },
         "customPayloads": {
           "label": "Payloads",
-          "title": "Custom Payload"
+          "title": "Custom payload"
         },
         "valueMappings": "The numeric values of the selected metric correspond to the following string values:"
       },
@@ -1466,13 +1468,13 @@
     },
     "logs": {
       "alertDetails": {
-        "alertConfiguration": "Alert Configuration",
+        "alertConfiguration": "Alert configuration",
         "metricName": "Log count",
         "alertConfigurationTitleScope": "Scope",
         "noScopeSelected": "No scope filters or groups configured.",
-        "alertConfigurationTitleTimeThreshold": "Time Threshold",
-        "alertConfigurationTitleAlertChannels": "Alert Channels",
-        "alertConfigurationTitleAlertProperties": "Alert Properties",
+        "alertConfigurationTitleTimeThreshold": "Time threshold",
+        "alertConfigurationTitleAlertChannels": "Alert channels",
+        "alertConfigurationTitleAlertProperties": "Alert properties",
         "alertConfigurationTitleTrigger": "Trigger"
       },
       "list": {
@@ -1507,20 +1509,20 @@
           "tooltipText": "The threshold value defined here will be evaluated based on the time granularity specified below."
         },
         "timeThreshold": {
-          "label": "Time Threshold",
-          "title": "Time Threshold: When do you want to be alerted?"
+          "label": "Time threshold",
+          "title": "Time threshold: When do you want to be alerted?"
         },
         "alertChannel": {
-          "label": "Alert Channels",
-          "title": "Alert Channels: Who needs to be alerted?"
+          "label": "Alert channels",
+          "title": "Alert channels: Who needs to be alerted?"
         },
         "properties": {
           "label": "Properties",
-          "title": "Additional Alert Properties",
+          "title": "Additional Alert properties",
           "preview": {
             "subtitle": "Log Count"
           },
-          "alertPropertiesTitlePlaceholder": "Logs Smart alert",
+          "alertPropertiesTitlePlaceholder": "Logs smart alert",
           "descriptionPlaceholder": {
             "logsCount_higherThan": "The log count is higher than {{value}}.",
             "logsCount_higherEqual": "The log count is higher or equal to {{value}}.",
@@ -1530,9 +1532,9 @@
         },
         "customPayloads": {
           "label": "Payloads",
-          "title": "Custom Payload"
+          "title": "Custom payload"
         },
-        "thresholdValue": "Threshold Value"
+        "thresholdValue": "Threshold value"
       },
       "form": {
         "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
@@ -1559,14 +1561,14 @@
         "stepTitle_sloTarget": "Targets: Which SLOs do you want be alerted on?",
         "stepLabel_trigger": "Trigger",
         "stepTitle_trigger": "Trigger: What do you want to be alerted on?",
-        "stepLabel_timeThreshold": "Time Threshold",
-        "stepTitle_timeThreshold": "Time Threshold: When do you want be alerted?",
-        "stepLabel_alertChannels": "Alert Channels",
-        "stepTitle_alertChannels": "Alert Channels: Who needs to be alerted?",
-        "stepLabel_alertProperties": "Alert Properties",
-        "stepTitle_alertProperties": "Alert Properties: What should the alert notification include?",
-        "stepLabel_customPayload": "Custom Payload",
-        "stepTitle_customPayload": "Custom Payload",
+        "stepLabel_timeThreshold": "Time threshold",
+        "stepTitle_timeThreshold": "Time threshold: When do you want be alerted?",
+        "stepLabel_alertChannels": "Alert channels",
+        "stepTitle_alertChannels": "Alert channels: Who needs to be alerted?",
+        "stepLabel_alertProperties": "Alert properties",
+        "stepTitle_alertProperties": "Alert properties: What should the alert notification include?",
+        "stepLabel_customPayload": "Custom payload",
+        "stepTitle_customPayload": "Custom payload",
         "selectSloHeadline": "Select SLOs",
         "blueprintSectionTitle": "Select Blueprint",
         "blueprint_slo_not_selected": "Please, select at least one SLO to continue.",
@@ -1604,7 +1606,7 @@
         "alertPropertiesIncidentWarning": "Incidents are only applicable to SLO's associated with applications"
       },
       "details": {
-        "alertConfigurationTitle": "Alert Configuration",
+        "alertConfigurationTitle": "Alert configuration",
         "sloHeader": "SLOs",
         "thresholdInfo": "",
         "thresholdInfo_BURN_RATE": "When burn rate is {{operator}} {{percentage}}",

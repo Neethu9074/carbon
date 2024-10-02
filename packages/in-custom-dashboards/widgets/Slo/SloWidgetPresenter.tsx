@@ -23,8 +23,8 @@ export interface SloWidgetPresenterProps {
   actions: React.ReactNode;
   config: SloWidgetConfiguration;
   dragHandle: React.ReactNode;
-  isPreview?: boolean;
   isInModal?: boolean;
+  isPreview?: boolean;
   title: string;
   widgetId: string;
 }
@@ -33,6 +33,7 @@ export default function SloWidgetPresenter({
   actions,
   config,
   dragHandle,
+  isInModal,
   isPreview,
   title,
   widgetId
@@ -57,6 +58,7 @@ export default function SloWidgetPresenter({
         isPreview={isPreview}
         title={title}
         sloConfig={sloConfig}
+        isInModal={isInModal}
       />
     </SloTimeWindowProvider>
   );

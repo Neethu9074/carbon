@@ -14,6 +14,7 @@ import ServerTablePresenter, {
   ServerTablePresenterProps
 } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { carbonCheckboxEnabled } from 'in-services/featureFlags';
 import { FetchedState } from 'in-hooks/utils/types';
 
 type OverwrittenServerTableProps =
@@ -79,7 +80,15 @@ export default function EntityTable<ITEM_CONFIG extends ListItem>({
     <ServerTablePresenter<ITEM_CONFIG, ServerTablePresenterProps<ITEM_CONFIG>>
       getRowProps={getRowProps}
       result={paginatedResult}
-      onRowClick={disableRowClick ? () => null : onClickItem}
+      onRowClick={
+        disableRowClick
+          ? () => null
+          : (data, e) => {
+              // TODO Remove if condition as part of Legacy Checkbox Cleanup scheduled in INSTA-15417
+              if (carbonCheckboxEnabled) e.preventDefault();
+              onClickItem(data);
+            }
+      }
       numSkeletonRows={3}
       page={page}
       pageSize={pageSize}

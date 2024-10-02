@@ -9,10 +9,10 @@ import React from 'react';
 import { fromPromise } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
+import { carbonButtonEnabled, isUsageInfoPopupEnabled, playwithEnabled } from 'in-services/featureFlags';
 import SidebarBreadcrumb from 'in-map/components/MapSidebar/components/SidebarBreadcrumb';
 import MapSidebarHeader from 'in-map/components/MapSidebar/components/MapSidebarHeader';
 import SidebarContent from 'in-map/components/MapSidebar/components/SidebarContent';
-import { isUsageInfoPopupEnabled, playwithEnabled } from 'in-services/featureFlags';
 import { getForgeComponent } from 'in-sdk/getForgeComponent';
 import { selectedSnapshot$ } from 'in-stores/snapshot';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -32,14 +32,15 @@ export default connectTo(
     }
 
     return (
-      <div className={locals.mapSidebar} role="region">
+      <div className={carbonButtonEnabled ? locals.carbonMapSidebar : locals.mapSidebar} role="region">
         <MapSidebarHeader snapshot={snapshot} timeConfig={timeConfig} />
         <SidebarBreadcrumb snapshotId={snapshot.get('id')} />
         <div
           className={classNames({
             [locals.scrollWrapper]: true,
             [locals.scrollWrapperBanner]: isUsageInfoPopupEnabled | playwithEnabled,
-            [locals.scrollWrapperNoBanner]: !isUsageInfoPopupEnabled
+            [locals.scrollWrapperNoBanner]: !isUsageInfoPopupEnabled,
+            [locals.scrollWrapperCarbon]: carbonButtonEnabled
           })}
         >
           <SidebarContent snapshot={snapshot} ForgeDetailsComponent={SidebarImpl} />

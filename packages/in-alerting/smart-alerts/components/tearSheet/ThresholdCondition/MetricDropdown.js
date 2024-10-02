@@ -90,6 +90,8 @@ function getMetricLabelValue(label) {
     return t('in-alerting:smartAlerts.applications.tearSheet.threshold.maxLatency');
   } else if (label === 'mean') {
     return t('in-alerting:smartAlerts.applications.tearSheet.threshold.meanLatency');
+  } else if (label === 'sum') {
+    return t('in-alerting:smartAlerts.applications.tearSheet.threshold.sumLatency');
   }
   return t('in-alerting:smartAlerts.applications.tearSheet.threshold.metricLabel', { metricLabel: label });
 }

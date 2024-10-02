@@ -5,6 +5,8 @@
 
 import React, { useState } from 'react';
 
+import { CarbonLayer } from '@instana/components';
+
 import CustomTime from 'in-components/time/TimeSelectionDialogPresenter/CustomTime';
 import Releases from 'in-components/time/TimeSelectionDialogPresenter/Releases';
 import Presets from 'in-components/time/TimeSelectionDialogPresenter/Presets';
@@ -34,7 +36,9 @@ export default function TimeSelectionDialogPresenter(props) {
       {activeTabIndex == 0 ? (
         <>
           <Presets {...props} />
-          <CustomTime {...props} />
+          <CarbonLayer>
+            <CustomTime {...props} />
+          </CarbonLayer>
         </>
       ) : (
         <Releases {...props} />

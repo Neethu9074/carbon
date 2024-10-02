@@ -130,7 +130,7 @@
         "numOfApplicationPerspectives": "# APs",
         "numOfReportingApplicationPerspectives": "# Reporting APs",
         "numOfWebsites": "# Websites",
-        "numOfAlertChannels": "# Alert Channels",
+        "numOfAlertChannels": "# Alert channels",
         "numOfAlerts": "# Alerts",
         "numOfActiveAlerts": "# Active Alerts",
         "numOfReleases": "# Release Markers / # Releases",
@@ -146,7 +146,7 @@
         "metric_all_alerts": "All Alerts",
         "metric_active_alerts": "Active Alerts",
         "metric_mobile_apps": "Mobile Apps",
-        "metric_alert_channels": "Alert Channels",
+        "metric_alert_channels": "Alert channels",
         "metric_custom_dashboards": "Custom Dashboards",
         "metric_releases": "Releases"
       },

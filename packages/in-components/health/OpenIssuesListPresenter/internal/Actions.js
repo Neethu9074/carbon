@@ -5,8 +5,9 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { isLoading, hasError } from 'in-services/util/result';
 import { getButtonKindBySeverity } from 'in-stores/events';
 import { t } from 'in-i18n';
@@ -36,9 +37,10 @@ export default function Actions({ openIssuesResult, analyzeLink, getIssueLink, e
     return (
       <div className={locals.actions}>
         <Button
-          icon={isCVEIssue ? 'lib_events_cve' : 'lib_events_inverted'}
-          kind="primary"
-          className={locals.button}
+          icon={carbonButtonEnabled ? undefined : isCVEIssue ? 'lib_events_cve' : 'lib_events_inverted'}
+          size={carbonButtonEnabled ? 'compact' : 'normal'}
+          kind={carbonButtonEnabled ? 'secondary' : 'primary'}
+          className={carbonButtonEnabled ? locals.carbonButton : locals.button}
           href={analyzeLink}
         >
           {buttonText}
@@ -67,9 +69,10 @@ export default function Actions({ openIssuesResult, analyzeLink, getIssueLink, e
   return (
     <div className={locals.actions}>
       <Button
-        icon={isCVEIssue ? 'lib_events_cve' : 'lib_help_error_warning'}
-        kind={getButtonKindBySeverity(maxSeverity)}
-        className={locals.button}
+        icon={carbonButtonEnabled ? undefined : isCVEIssue ? 'lib_events_cve' : 'lib_help_error_warning'}
+        kind={carbonButtonEnabled ? 'secondary' : getButtonKindBySeverity(maxSeverity)}
+        size={carbonButtonEnabled ? 'compact' : 'normal'}
+        className={carbonButtonEnabled ? locals.carbonButton : locals.button}
         asBlock
         href={href}
       >
