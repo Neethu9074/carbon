@@ -165,7 +165,6 @@ module.exports = {
   userProfileMenuEnabled: false,
   unitForInfraMetricsEnabled: true,
   applicationSmartAlertDialogView: true,
-  increaseAggregationEnabled: false,
   carbonCodeEnabled: true,
   graphViewFromAboutInstanaEnabled: true,
   graphViewFromInfraMapEnabled: true,
