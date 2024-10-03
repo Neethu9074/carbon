@@ -183,6 +183,11 @@ export function showReleaseNotes() {
   releaseNotesVersionReadByUserStore.applyStateMutation(() => 'show again');
 }
 
+// Get Release Notes state
+export function getReleaseNotesState() {
+  return tryGet(localStorageKeyVersion);
+}
+
 /**
  * Returns the major and minor number of the currently running version of Instana as a string, that is, "1.147". Patch
  * level information is discarded. Being composed of a large number of different components that could run in different
