@@ -19,16 +19,14 @@ export default function DiagnosticCommandOverlayPresenter({ snapshot, getDiagnos
     <div className={locals.overlay}>
       <FormGroup>
         <Label>Available Commands</Label>
-        <Select
-          onChange={e => setDiagnosticCommand(e.currentTarget.value)}
-          autoComplete="off"
-          defaultValue={diagnosticCommand}
-        >
-          {commands.map(cmd => (
-            <option value={cmd} key={cmd}>
-              {cmd}
-            </option>
-          ))}
+        <Select onChange={e => setDiagnosticCommand(e.currentTarget.value)} value={diagnosticCommand}>
+          {commands
+            .map(cmd => (
+              <option value={cmd} key={cmd}>
+                {cmd}
+              </option>
+            ))
+            .toArray()}
         </Select>
       </FormGroup>
       <Button onClick={() => getDiagnosticInfo(snapshot, diagnosticCommand)}>Send Command</Button>
