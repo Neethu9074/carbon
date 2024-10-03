@@ -25,6 +25,7 @@ export declare const globalSmartAlertPath: string;
 export declare const smartAlertPath: string;
 export declare const smartAlertsTab: string;
 export declare const summaryTab: string;
+export declare const resourceOptimizationsTab: string;
 export declare const syntheticsTab: string;
 export declare const servicesList: string;
 

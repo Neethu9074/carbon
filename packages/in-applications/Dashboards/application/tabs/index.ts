@@ -4,8 +4,6 @@
  */
 
 //@ts-expect-error needs TS migration
-import ResourceOptimizationTab from 'in-applications/Dashboards/application/tabs/ResourceOptimizations';
-//@ts-expect-error needs TS migration
 import ReadOnlyConfiguration from 'in-applications/Dashboards/application/tabs/ReadOnlyConfiguration';
 //@ts-expect-error needs TS migration
 import CveVulnerabilities from 'in-applications/Dashboards/application/tabs/CveVulnerabilities';
@@ -22,6 +20,7 @@ import Services from 'in-applications/Dashboards/application/tabs/Services';
 //@ts-expect-error needs TS migration
 import Alerts from 'in-applications/Dashboards/application/tabs/Alerts';
 import SyntheticsList from 'in-applications/Dashboards/application/tabs/SyntheticsMonitoring/SyntheticsList';
+import ResourceOptimizationTab from 'in-applications/Dashboards/application/tabs/ResourceOptimizations';
 //@ts-expect-error needs TS migration
 import Map from 'in-applications/Dashboards/application/tabs/Map';
 import LogMessagesTab from 'in-logging/components/Dashboards/components/LogMessages';
@@ -91,7 +90,7 @@ const getApplicationTabs = (canConfigureApplications: boolean | null | undefined
     },
     !playwithEnabled && {
       label: t('in-applications:labelResourceOptimizations'),
-      path: `${applicationDashboard}/resourceOptimization`,
+      path: `${applicationDashboard}/resourceOptimizations`,
       component: ResourceOptimizationTab
     }
   ].filter(Boolean) as Array<Tab<any, any>>;

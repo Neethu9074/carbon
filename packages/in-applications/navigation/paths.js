@@ -77,6 +77,7 @@ export const syntheticsTab = '/synthetics';
 export const smartAlertsTab = '/alerts';
 export const configurationTab = '/configuration';
 export const endpointsTab = '/endpoints';
+export const resourceOptimizationsTab = '/resourceOptimizations';
 
 export const alertsTab = '/alerts';
 export const alertsTabListFullyQualified = `${applicationDashboard}${alertsTab}`;

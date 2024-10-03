@@ -91,7 +91,8 @@ export default function LatencyAndDistribution({
       metrics={metrics}
       urlMatrixParamConfig={urlMatrixParamConfig}
       disabledWidgetInLive={
-        renderWidgetNotSupportedIndicator && location.matrix['/summary']['latencyTab'] === tabDistribution.id
+        renderWidgetNotSupportedIndicator &&
+        location.matrix[urlMatrixParamConfig.path]['latencyTab'] === tabDistribution.id
       }
     >
       <ChartPresenter
