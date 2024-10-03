@@ -128,11 +128,11 @@ export default function Alert({
           doDisableConfig$={disableConfig}
           doDeleteConfig$={deleteConfig}
           doRestoreConfig$={restoreConfig}
-          onConfigStateChanged={enabled => {
+          onConfigStateChanged={(alertConfigId, enabled) => {
             if (enabled) {
-              trackCta(ALERTING_PAUSED, alertConfig);
+              trackCta(ALERTING_PAUSED, { alertConfigId });
             } else {
-              trackCta(ALERTING_RESUMED, alertConfig);
+              trackCta(ALERTING_RESUMED, { alertConfigId });
             }
           }}
           onConfigDeleted={() => {
