@@ -28,6 +28,12 @@ import { t } from 'in-i18n';
 
 import locals from './DeletionTable.mless';
 
+const DELETE_STATUS = {
+  inProgress: 'In Progress',
+  failed: 'Failed',
+  done: 'Done'
+} as const;
+
 const localisationStrings = {
   deleteLogs: t('in-settings:tabs.deleteLogs.deleteLogs'),
   deletionDate: t('in-settings:tabs.deleteLogs.deletionDate'),
@@ -49,7 +55,6 @@ export const DeletionTable = ({ isDeleting }: { isDeleting: boolean }) => {
   const deletionHistoryResult =
     useObservable<Result<DeleteLogsHistoryResult>, [boolean]>(() => getDeleteLogsHistory(null), [isDeleting]) ??
     pendingResult;
-
   if (carbonTableEnabled) {
     let carbonRows = [];
 
@@ -85,12 +90,7 @@ export const DeletionTable = ({ isDeleting }: { isDeleting: boolean }) => {
           [localisationStrings.status]: renderIconsByStatus(item.deletedStatus),
           [localisationStrings.deletionDate]: timestampToLocaleDateTime(item.timestamp),
           [localisationStrings.reason]: item.reason,
-          [localisationStrings.numberOfLogs]:
-            item.deletedLineCount !== null ? (
-              siPrefixCompact.formatter(item.deletedLineCount)
-            ) : (
-              <LoadingSkeleton className={locals.skeleton} />
-            ),
+          [localisationStrings.numberOfLogs]: getDeletedLineCount(item),
           [localisationStrings.triggered]: item.triggeredByUser
         }));
       return carbonRows;
@@ -222,8 +222,24 @@ const timestampToLocaleDateTime = (timestamp: number) => {
 
 const renderIconsByStatus = (status: string) => {
   const icons: Record<string, JSX.Element> = {
-    DONE: <SvgIcon type="lib_uncheck" size="s" color={themes.default.ids.color.option.green[500]} />,
-    FAILED: <SvgIcon type="lib_error_filled" size="s" color={themes.default.ids.color.option.red[500]} />
+    [DELETE_STATUS.done]: <SvgIcon type="lib_uncheck" size="s" color={themes.default.ids.color.option.green[500]} />,
+    [DELETE_STATUS.failed]: (
+      <SvgIcon type="lib_error_filled" size="s" color={themes.default.ids.color.option.red[500]} />
+    ),
+    [DELETE_STATUS.inProgress]: <div className={locals.spinner} />
   };
   return icons[status] || null;
+};
+
+const getDeletedLineCount = (item: DeleteLogsHistoryItem) => {
+  // any Until the backend types are updated
+  if (item.deletedStatus === (DELETE_STATUS.inProgress as any)) {
+    return '–';
+  }
+
+  if (item.deletedLineCount !== null) {
+    return siPrefixCompact.formatter(item.deletedLineCount);
+  }
+
+  return <LoadingSkeleton className={locals.skeleton} />;
 };
