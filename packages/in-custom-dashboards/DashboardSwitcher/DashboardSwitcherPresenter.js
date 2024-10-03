@@ -27,7 +27,7 @@ export default function DashboardSwitcherPresenter(props) {
           refSetter={refSetter}
           size="normal"
           kind={carbonButtonEnabled ? 'tertiary' : 'secondary'}
-          className={locals.button}
+          className={carbonButtonEnabled ? undefined : locals.button}
           iconSize={carbonButtonEnabled ? 'xs' : 'regular'}
         >
           {carbonButtonEnabled &&
