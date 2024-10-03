@@ -46,6 +46,10 @@
     &:hover {
       border: none;
     }
+
+    &:global(.carbonButton) {
+      white-space: nowrap;
+    }
   }
 
   .contextMenuActionsButtonsWrapper {

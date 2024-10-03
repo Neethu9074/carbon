@@ -166,7 +166,6 @@ export default class extends React.Component {
 
     if (carbonButtonEnabled) {
       buttonProps['kind'] = 'action';
-      buttonProps['style'] = { width: 'max-content' };
     }
 
     const leftAligned = this.isLeftAligned();
