@@ -257,7 +257,7 @@ const TimeoutSection = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | '
 };
 
 function filterTags(actionFilter: 'all' | ActionFilter, availableTags: Result<string[]>) {
-  if (actionFilter === 'all') {
+  if (actionFilter === 'all' || actionFilter.tags.length === 0) {
     return availableTags.data;
   } else {
     return availableTags.data?.filter(tag => actionFilter.tags.includes(tag));
@@ -275,7 +275,7 @@ const MetaDataSection = ({
   const tags = form.get('tags') as Field<string[]>;
   const availableTags = useActionTags();
   const filteredTags = filterTags(actionFilter, availableTags);
-  const isValidNewOption = actionFilter === 'all' ? undefined : () => false;
+  const isValidNewOption = actionFilter === 'all' || actionFilter.tags.length === 0 ? undefined : () => false;
   return (
     <>
       {name.map(field => (
@@ -331,6 +331,7 @@ const MetaDataSection = ({
             disabled={isNotEditable || !role?.canConfigureAutomationActions}
             isValidNewOption={isValidNewOption}
           />
+          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
         </FormGroup>
       ))}
     </>
@@ -339,7 +340,7 @@ const MetaDataSection = ({
 
 const typeOptions = [DOC_LINK_TYPE, SCRIPT_TYPE, WEBHOOK_TYPE, MANUAL_TYPE, GITHUB_TYPE, GITLAB_TYPE, JIRA_TYPE];
 function filterTypes(actionFilter: 'all' | ActionFilter) {
-  if (actionFilter === 'all') {
+  if (actionFilter === 'all' || actionFilter.types.length === 0) {
     return typeOptions;
   } else {
     return typeOptions.filter(option => actionFilter.types.includes(option));

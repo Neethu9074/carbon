@@ -304,6 +304,21 @@ function timeoutValidator(timeout: string) {
   return positiveNumberValidator(timeout);
 }
 
+function tagFilterExpressionValidator(tags: string[], actionFilter: 'all' | ActionFilter): ValidationResult {
+  if (actionFilter === 'all' || actionFilter.tags.length === 0) return null;
+  const hasRequiredTag = tags.some(tag => actionFilter.tags.includes(tag));
+  if (!hasRequiredTag) {
+    const formattedTags = actionFilter.tags.join(', ');
+    return [
+      {
+        severity: 'error',
+        message: t('in-automation:ActionCatalog.mustHaveRequiredTag', { tags: formattedTags })
+      }
+    ];
+  }
+  return null;
+}
+
 function filterType(actionFilter: 'all' | ActionFilter, type: ActionType) {
   if (actionFilter === 'all' || actionFilter.types.length === 0 || actionFilter.types.includes(type)) return type;
   return actionFilter.types[0];
@@ -338,7 +353,8 @@ function createActionFormDefinition(action: ActionFormEntity, actionFilter: 'all
     .put(
       'tags',
       createField({
-        value: tags
+        value: tags,
+        validator: tags => tagFilterExpressionValidator(tags, actionFilter)
       })
     )
     .put(
@@ -354,13 +370,13 @@ function createActionFormDefinition(action: ActionFormEntity, actionFilter: 'all
         validator: timeoutValidator
       })
     );
-  if (isDocLink(action.type)) form = putDocLinkField(form, action);
-  else if (isScript(action.type)) form = putScriptField(form, action);
-  else if (isWebhook(action.type)) form = putWebhookFields(form, action);
-  else if (isGithub(action.type)) form = putGithubFields(form, action);
-  else if (isGitlab(action.type)) form = putGitlabFields(form, action);
-  else if (isJira(action.type)) form = putJiraFields(form, action);
-  else if (isManual(action.type)) form = putManualField(form, action);
+  if (isDocLink(filteredType)) form = putDocLinkField(form, action);
+  else if (isScript(filteredType)) form = putScriptField(form, action);
+  else if (isWebhook(filteredType)) form = putWebhookFields(form, action);
+  else if (isGithub(filteredType)) form = putGithubFields(form, action);
+  else if (isGitlab(filteredType)) form = putGitlabFields(form, action);
+  else if (isJira(filteredType)) form = putJiraFields(form, action);
+  else if (isManual(filteredType)) form = putManualField(form, action);
   return form;
 }
 
