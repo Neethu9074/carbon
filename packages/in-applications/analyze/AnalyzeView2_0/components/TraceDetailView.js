@@ -6,10 +6,9 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { get } from 'lodash';
 
-import { Message, SvgIcon, Link, Pill } from '@instana/components';
+import { Message, SvgIcon, Link, Pill, Button, CarbonMenuButton, CarbonMenuItem } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
-import { Button } from '@instana/legacy';
 
 import {
   LARGE_TRACE_THRESHOLD,
@@ -44,6 +43,7 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import { getColorPool } from 'in-services/util/ColorGenerator';
 import { analyzePath } from 'in-applications/navigation/paths';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { hasError, isLoading } from 'in-services/util/result';
 import DashboardHeader from 'in-components/DashboardHeader';
@@ -334,51 +334,80 @@ function TraceDetailViewButtonLine({ traceId, result, formModel }) {
     encodeURIComponent(traceIdInUrl) +
     `/raw?retrievalSize=100&offset=0&ingestionTimestamp=${Date.now()}`;
 
-  const DownloadTraceOptions = ({ close }) => (
-    <div className={locals.downloadDropdown}>
-      <Button
-        kind="secondary"
-        noAutoMargin
-        className={locals.downloadOption}
-        onClick={() => {
-          downloadTraceClickedTracker({ rawTrace: false });
-          close();
-          window.open(traceDownloadUrl, '_blank');
-        }}
-      >
-        {t('in-applications:linkDownloadCalls')}
-      </Button>
-      <Button
-        kind="secondary"
-        noAutoMargin
-        className={locals.downloadOption}
-        onClick={() => {
-          downloadTraceClickedTracker({ rawTrace: true });
-          close();
-          window.open(rawTraceDownloadUrl, '_blank');
-        }}
-      >
-        {t('in-applications:linkDownloadRawTrace')}
-      </Button>
-    </div>
-  );
+  const DownloadTraceOptions = ({ close }) => {
+    if (carbonButtonEnabled) {
+      return (
+        <>
+          <CarbonMenuItem
+            label={t('in-applications:linkDownloadCalls')}
+            onClick={() => {
+              downloadTraceClickedTracker({ rawTrace: false });
+              window.open(traceDownloadUrl, '_blank');
+            }}
+          />
+          <CarbonMenuItem
+            onClick={() => {
+              downloadTraceClickedTracker({ rawTrace: true });
+              window.open(rawTraceDownloadUrl, '_blank');
+            }}
+            label={t('in-applications:linkDownloadRawTrace')}
+          />
+        </>
+      );
+    }
+    return (
+      <div className={locals.downloadDropdown}>
+        <Button
+          kind="secondary"
+          noAutoMargin
+          className={locals.downloadOption}
+          onClick={() => {
+            downloadTraceClickedTracker({ rawTrace: false });
+            close();
+            window.open(traceDownloadUrl, '_blank');
+          }}
+        >
+          {t('in-applications:linkDownloadCalls')}
+        </Button>
+        <Button
+          kind="secondary"
+          noAutoMargin
+          className={locals.downloadOption}
+          onClick={() => {
+            downloadTraceClickedTracker({ rawTrace: true });
+            close();
+            window.open(rawTraceDownloadUrl, '_blank');
+          }}
+        >
+          {t('in-applications:linkDownloadRawTrace')}
+        </Button>
+      </div>
+    );
+  };
 
   return (
     <>
       {isTroubleshootingModeEnabled || isInternalVisible ? (
-        <Overlay withoutWrapper content={DownloadTraceOptions} align="bottomMiddle">
-          {({ toggle, refSetter }) => (
-            <DropdownButton kind="secondary" icon="lib_actions_download" onClick={toggle} refSetter={refSetter}>
-              {t('in-applications:linkDownload')}
-            </DropdownButton>
-          )}
-        </Overlay>
+        carbonButtonEnabled ? (
+          <CarbonMenuButton size="sm" kind="secondary" label={t('in-applications:linkDownload')}>
+            <DownloadTraceOptions />
+          </CarbonMenuButton>
+        ) : (
+          <Overlay withoutWrapper content={DownloadTraceOptions} align="bottomMiddle">
+            {({ toggle, refSetter }) => (
+              <DropdownButton kind="secondary" icon="lib_actions_download" onClick={toggle} refSetter={refSetter}>
+                {t('in-applications:linkDownload')}
+              </DropdownButton>
+            )}
+          </Overlay>
+        )
       ) : (
         <Button
           icon="lib_actions_download"
           kind="secondary"
           target="_blank"
           href={traceDownloadUrl}
+          size={carbonButtonEnabled ? 'compact' : 'normal'}
           onClick={() => downloadTraceClickedTracker({ rawTrace: false })}
         >
           {t('in-applications:linkDownload')}
@@ -389,6 +418,8 @@ function TraceDetailViewButtonLine({ traceId, result, formModel }) {
         kind="secondary"
         href={createHref({ ...locationAnalyzeCallsOfThisTrace, pathname: analyzePath })}
         onClick={handleOnClickAnalyzeCall}
+        size={carbonButtonEnabled ? 'compact' : 'normal'}
+        className={carbonButtonEnabled ? locals.carbonAnalyzeButton : undefined}
       >
         {t('in-applications:analyze.analyzeCallsOfThisTrace')}
       </Button>

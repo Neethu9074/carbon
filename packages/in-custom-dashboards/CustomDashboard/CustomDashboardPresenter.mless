@@ -9,4 +9,7 @@
   .wrapper {
     margin-bottom: @grid__gutter / 2 * 1px;
   }
+  .carbonShare {
+    margin-right: 0.5rem;
+  }
 }

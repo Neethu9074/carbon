@@ -19,4 +19,9 @@
       background: var(--ids-color-option-neutral-700);
     }
   }
+  .carbonDark {
+    :global(.cds--g90) {
+      background-color: transparent;
+    }
+  }
 }

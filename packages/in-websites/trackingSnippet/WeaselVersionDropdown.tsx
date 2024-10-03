@@ -9,6 +9,7 @@ import React from 'react';
 
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-components/Button/DropdownButton';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { Option } from 'in-components/ComboBox';
 
 import locals from './WeaselVersionDropdown.mless';
@@ -34,7 +35,12 @@ export default function WeaselVersionDropdown({
       {({ elementProps, isOpen }) => (
         <div>
           {/*@ts-expect-error the 'ref' property does not match here against HTMLElement:*/}
-          <DropdownButton className={locals.buttonContent} {...elementProps} expanded={isOpen} kind="secondary">
+          <DropdownButton
+            className={carbonButtonEnabled ? undefined : locals.buttonContent}
+            {...elementProps}
+            expanded={isOpen}
+            kind="secondary"
+          >
             {selectedWeaselVersion}
           </DropdownButton>
         </div>

@@ -52,7 +52,14 @@ export default function AnalyzeHeader({
     ) : (
       <Overlay props={{ activeConfiguration, isGrouped, formModel }} withoutWrapper content={AnalyzeDataSourceSelector}>
         {({ toggle, isOpen, ref }) => (
-          <DashboardHeaderButton size="normal" className={locals.button} ref={ref} onClick={toggle} expanded={isOpen}>
+          <DashboardHeaderButton
+            isBreadCrumbButton
+            size="normal"
+            className={locals.button}
+            ref={ref}
+            onClick={toggle}
+            expanded={isOpen}
+          >
             <Label activeConfiguration={activeConfiguration} />
           </DashboardHeaderButton>
         )}

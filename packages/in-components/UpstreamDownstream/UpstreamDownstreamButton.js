@@ -22,7 +22,8 @@ export default function UpstreamDownstreamButton({
   applicationId,
   className,
   tagFilters,
-  plugin
+  plugin,
+  size
 }) {
   if (carbonButtonEnabled) {
     return (
@@ -49,7 +50,7 @@ export default function UpstreamDownstreamButton({
             icon={isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
             onClick={toggle}
             refSetter={refSetter}
-            size="compact"
+            size={size ? size : 'compact'}
             className={className}
           >
             <Stack direction="horizontal" align="center" gap="xsmall">

@@ -10,6 +10,7 @@ import { HorizontalIndicator, Button } from '@instana/components';
 
 import EntityPageMainNotificationLightCardV2 from 'in-components/EntityPageMainNotification/EntityPageMainNotificationLightCardV2';
 import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/customDashboards';
+import { carbonButtonEnabled, customDashboardTopLevelFiltersEnabled } from 'in-services/featureFlags';
 import TopLevelFilterBar from 'in-custom-dashboards/CustomDashboard/FilterContext/TopLevelFilterBar';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import { MoreMenu, MoreMenuButton, MoreMenuSetAsLandingPageButton } from 'in-components/MoreMenu';
@@ -19,7 +20,6 @@ import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardS
 import DashboardHeaderButton from 'in-components/DashboardHeader/DashboardHeaderButton';
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
 import { dashboardTvModeUrlParameter } from 'in-custom-dashboards/navigation/url';
-import { customDashboardTopLevelFiltersEnabled } from 'in-services/featureFlags';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import Grid from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
@@ -265,6 +265,7 @@ function TopLevelButtonLine({ editable, onShare, canCreatePublicCustomDashboards
       icon="lib_actions_share"
       onClick={canCreatePublicCustomDashboards ? onShare : undefined}
       disabled={!canCreatePublicCustomDashboards}
+      className={carbonButtonEnabled ? locals.carbonShare : undefined}
     >
       {t('in-custom-dashboards:customDashboard.customDashboardPresenter.share')}
     </DashboardHeaderButton>

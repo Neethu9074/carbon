@@ -17,6 +17,7 @@ import { updateTagFilterExpressionValidator } from 'in-applications/creation/for
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-components/Button/DropdownButton';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { compareIgnoreCase } from 'in-services/util/string';
 
 import locals from './ContributionFilterDropdown.mless';
@@ -114,8 +115,8 @@ export default function ContributionFilterDropdown({
           kind="secondary"
           expanded={isOpen}
           disabled={disabled}
-          className={locals.dropdownButton}
-          spanClassName={locals.span}
+          className={carbonButtonEnabled ? locals.dropdownCarbonButton : locals.dropdownButton}
+          spanClassName={carbonButtonEnabled ? undefined : locals.span}
         >
           {renderSelectedOption(options, currentRestrictingApplicationId, true)}
         </DropdownButton>

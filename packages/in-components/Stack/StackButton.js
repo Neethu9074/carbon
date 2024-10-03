@@ -25,7 +25,8 @@ export default function StackButton({
   includeSelfEntity,
   className,
   plugin,
-  syntheticCalls
+  syntheticCalls,
+  size
 }) {
   if (carbonButtonEnabled) {
     return (
@@ -52,7 +53,7 @@ export default function StackButton({
             kind="tertiary"
             icon={isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
             onClick={toggle}
-            size="compact"
+            size={size ? size : 'compact'}
             refSetter={refSetter}
             noAutoMargin={noAutoMargin}
             className={className}
