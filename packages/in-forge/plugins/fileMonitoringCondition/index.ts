@@ -17,5 +17,6 @@ registerSnapshotDefinition({
   metricDefinitions,
   technologyDescriptor: {
     label: t('in-forge:plugins.fileMonitoringCondition.fileMonitorCondition')
-  }
+  },
+  getIconType: () => 'fileMonitoring'
 });
