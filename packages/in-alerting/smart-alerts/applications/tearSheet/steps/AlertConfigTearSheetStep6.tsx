@@ -25,7 +25,7 @@ export default function AlertConfigTearSheetStep6({
         headline={t('in-alerting:smartAlerts.applications.tearSheet.AlertChannelTitle')}
         description={t('in-alerting:smartAlerts.applications.tearSheet.alertChannelList.description')}
       >
-        <ConfigureAlertChannel form={form} onChange={onChange} numberOfAlertChannelListRows={7} />
+        <ConfigureAlertChannel form={form} onChange={onChange} numberOfAlertChannelListRows={10} />
       </TearSheetStepContentWrapper>
     </>
   );
