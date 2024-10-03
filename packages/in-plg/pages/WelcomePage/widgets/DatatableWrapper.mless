@@ -12,13 +12,27 @@
           table-layout: fixed;
           // The last <th> where favourites is present.
           th:last-child:not(:has(*)) {
-            width: 1rem;
+            width: 2.5rem;
           }
           .favouriteIcon {
             position: relative;
-            padding-inline-end: 8px;
+            padding: 0 8px 0 0;
             div {
               float: right;
+            }
+          }
+          td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            span.cds--popover-container {
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              width: 100%;
+              .cds--popover-content {
+                color: var(--cds-popover-text-color);
+              }
             }
           }
         }

@@ -7,7 +7,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { IconButton, Link, Stack, Typography } from '@instana/components';
+import { IconButton, Link, Stack } from '@instana/components';
 import { EntityHealthInfo, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
@@ -28,6 +28,7 @@ import { getNewApplicationWaiterViewPath } from 'in-applications/creation/Create
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 //@ts-expect-error doesn't contain type file
 import { add, remove } from 'in-cockpit/starredItems';
+import TypographyWithTooltip from 'in-plg/components/TypographyWithTooltip/TypographyWithTooltip';
 import { createNewApplicationConfig, getApplicationConfig } from 'in-api/applicationConfigs';
 import { getApplicationsWithDefaults } from 'in-applications/subscriptions/getApplications';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
@@ -47,6 +48,7 @@ import { hasError, isLoading } from 'in-services/util/result';
 import { successObservable } from 'in-services/util/result';
 import { boundaryScopes } from 'in-applications/constants';
 import { getTimeConfig } from 'in-stores/time/config';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { role } from 'in-stores/user';
 
 function getApplicationData(params: GetApplicationsWithDefaultsProps) {
@@ -137,10 +139,8 @@ export default function ApplicationWidget({
     if (item.application.boundaryScope) {
       const boundaryScope = item.application.boundaryScope;
       if (boundaryScope !== 'ALL' && boundaryScope !== 'INBOUND') return null;
-      if (boundaryScope === 'ALL')
-        return <Typography variant="body-regular">{boundaryScopes.info['ALL'].text}</Typography>;
-      if (boundaryScope === 'INBOUND')
-        return <Typography variant="body-regular">{boundaryScopes.info['INBOUND'].text}</Typography>;
+      if (boundaryScope === 'ALL') return <TypographyWithTooltip content={boundaryScopes.info['ALL'].text} />;
+      if (boundaryScope === 'INBOUND') return <TypographyWithTooltip content={boundaryScopes.info['INBOUND'].text} />;
     }
     return null;
   }
@@ -217,9 +217,11 @@ export default function ApplicationWidget({
       key: 'name',
       getContent({ item }) {
         return (
-          <Link href={getLinkToApplicationDashboard({ applicationId: item.application.id })}>
-            {item.application.label}
-          </Link>
+          <Tooltip content={item.application.label} align="auto" caret={false}>
+            <Link href={getLinkToApplicationDashboard({ applicationId: item.application.id })}>
+              {item.application.label}
+            </Link>
+          </Tooltip>
         );
       }
     },

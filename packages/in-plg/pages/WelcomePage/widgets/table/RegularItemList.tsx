@@ -33,13 +33,14 @@ export default function RegularItemList({
   favIds,
   widgetName
 }: RegItemListProps) {
+  const favPresent = columnDefinitions.some(item => item.key === 'favourite') ?? false;
   if (!result || isLoading(result)) {
     numSkeletonRows = favIds ? DEFAULT_NUMBER_SKELETON_ROWS - favIds.length : DEFAULT_NUMBER_SKELETON_ROWS;
     return (
       <LoadingTableList
         numSkeletonRows={numSkeletonRows}
         numSkeletonColumns={columnDefinitions.length}
-        favPresent={!!favIds?.length}
+        favPresent={favPresent}
       />
     );
   }

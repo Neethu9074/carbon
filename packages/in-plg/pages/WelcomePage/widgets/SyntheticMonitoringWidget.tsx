@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { get } from 'lodash';
 
 import { LocationListItem, TestResultListItem, VersionedConfig } from '@instana/types';
-import { Link, TableTab, TableTabs, Typography } from '@instana/components';
+import { Link, TableTab, TableTabs } from '@instana/components';
 import { formatDateTime } from '@instana/format-date';
 import { LocationStatus } from '@instana/types';
 import { t } from '@instana/i18n-react';
@@ -37,6 +37,7 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getResolvedTimeConfig } from 'in-synthetics/dashboards/global/tabs/tests/components/columnDefinitions';
 import CreateSyntheticTestDialog from 'in-synthetics/createTests/dialog/CreateSyntheticTestDialog';
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
+import TypographyWithTooltip from 'in-plg/components/TypographyWithTooltip/TypographyWithTooltip';
 import CreateSmartAlertDialog from 'in-alerting/smart-alerts/synthetics/CreateSmartAlertDialog';
 import { massageLocationDisplayLabel } from 'in-synthetics/utils/massageLocationDisplayLabel';
 import { meanLatencyFixed, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -54,6 +55,7 @@ import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { Location } from 'in-stores/navigation/types';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { role } from 'in-stores/user';
 
 const syntheticArrayOptions = {
@@ -305,21 +307,21 @@ export default function SyntheticMonitoringWidget({
         key: 'name',
         getContent({ item }) {
           return (
-            <Link
-              href={createLinkLocation(item, location)}
-              onClick={() => clickSyntheticMonitoringTestTracker(trackCta)}
-            >
-              {item?.testResultCommonProperties?.testCommonProperties?.label}
-            </Link>
+            <Tooltip content={item?.testResultCommonProperties?.testCommonProperties?.label} align="auto" caret={false}>
+              <Link
+                href={createLinkLocation(item, location)}
+                onClick={() => clickSyntheticMonitoringTestTracker(trackCta)}
+              >
+                {item?.testResultCommonProperties?.testCommonProperties?.label}
+              </Link>
+            </Tooltip>
           );
         }
       },
       {
         key: 'type',
         getContent({ item }) {
-          return (
-            <Typography variant="body-regular">{item.testResultCommonProperties.testCommonProperties.type}</Typography>
-          );
+          return <TypographyWithTooltip content={item.testResultCommonProperties.testCommonProperties.type} />;
         }
       },
       {
@@ -328,13 +330,9 @@ export default function SyntheticMonitoringWidget({
           const totalRuns = get(item, ['metrics', 'total_test_runs', 0, 1], 0);
           const successRuns = get(item, ['metrics', 'successful_test_runs', 0, 1], 0);
           if (totalRuns != 0) {
-            return (
-              <Typography variant="body-regular">{percentageTwoDecimalPlaces(successRuns / totalRuns)}</Typography>
-            );
+            return <TypographyWithTooltip content={percentageTwoDecimalPlaces(successRuns / totalRuns)} />;
           } else {
-            return (
-              <Typography variant="body-regular">{t('in-plg:welcomepage.component.syntheticWidget.na')}</Typography>
-            );
+            return <TypographyWithTooltip content={t('in-plg:welcomepage.component.syntheticWidget.na')} />;
           }
         }
       },
@@ -373,25 +371,31 @@ export default function SyntheticMonitoringWidget({
       {
         key: 'name',
         getContent({ item }) {
-          return <LocationNameLink item={item} />;
+          return (
+            <Tooltip content={item?.label} align="auto" caret={false}>
+              <span>
+                <LocationNameLink item={item} />
+              </span>
+            </Tooltip>
+          );
         }
       },
       {
         key: 'type',
         getContent({ item }) {
-          return <Typography variant="body-regular">{item?.type}</Typography>;
+          return <TypographyWithTooltip content={item?.type} />;
         }
       },
       {
         key: 'lastTestRunOn',
         getContent({ item }) {
-          return <Typography variant="body-regular">{formatDateTime(item.lastRunOn)}</Typography>;
+          return <TypographyWithTooltip content={formatDateTime(item.lastRunOn) as string} />;
         }
       },
       {
         key: 'version',
         getContent({ item }) {
-          return <Typography variant="body-regular">{item?.popVersion}</Typography>;
+          return <TypographyWithTooltip content={item?.popVersion} />;
         }
       },
       {
@@ -405,9 +409,7 @@ export default function SyntheticMonitoringWidget({
           if (item.entityHealthInfo?.maxSeverity > 10) {
             maxSev = 10;
           } else if (item.entityHealthInfo?.maxSeverity === undefined) {
-            return (
-              <Typography variant="body-regular">{t('in-plg:welcomepage.component.syntheticWidget.na')}</Typography>
-            );
+            return <TypographyWithTooltip content={t('in-plg:welcomepage.component.syntheticWidget.na')} />;
           }
           return <HealthIcon severity={maxSev} iconSize="xs" />;
         }
@@ -417,19 +419,23 @@ export default function SyntheticMonitoringWidget({
       {
         key: 'name',
         getContent({ item }) {
-          return <Link href={createLinkLocation(item, location)}>{item?.name}</Link>;
+          return (
+            <Tooltip content={item?.name} align="auto" caret={false}>
+              <Link href={createLinkLocation(item, location)}>{item?.name}</Link>
+            </Tooltip>
+          );
         }
       },
       {
         key: 'timeThreshold',
         getContent({ item }) {
-          return <Typography variant="body-regular">{item?.timeThreshold.violationsCount}</Typography>;
+          return <TypographyWithTooltip content={item?.timeThreshold.violationsCount} />;
         }
       },
       {
         key: 'testsApplied',
         getContent({ item }) {
-          return <Typography variant="body-regular">{item?.syntheticTestIds.length}</Typography>;
+          return <TypographyWithTooltip content={item?.syntheticTestIds.length} />;
         }
       },
       {

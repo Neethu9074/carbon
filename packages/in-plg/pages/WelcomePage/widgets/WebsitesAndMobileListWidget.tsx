@@ -41,6 +41,7 @@ import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { hasError, isLoading } from 'in-services/util/result';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import DatatableWrapper from './DatatableWrapper';
 import { role } from 'in-stores/user';
 
@@ -180,7 +181,12 @@ export default function WebsitesAndMobileListWidget({ type, config, widgetLabel,
       getContent({ item }) {
         const { isWebsite } = item;
         const link = isWebsite ? getLinkToWebsite(getId(item)) : getLinkToMobileApp(getId(item));
-        return <Link href={link}>{isWebsite ? item.website.label : item.mobileApp.label}</Link>;
+        const content = isWebsite ? item.website.label : item.mobileApp.label;
+        return (
+          <Tooltip content={content} align="auto" caret={false}>
+            <Link href={link}>{content}</Link>
+          </Tooltip>
+        );
       }
     },
     {
