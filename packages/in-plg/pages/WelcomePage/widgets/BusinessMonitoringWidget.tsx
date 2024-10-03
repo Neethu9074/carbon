@@ -20,13 +20,12 @@ import { Observable } from '@instana/observables';
 import { t } from '@instana/i18n-react';
 
 // @ts-expect-error Module needs to be translated to TS
-import { businessProcess as businessProcessType } from 'in-cockpit/starredItems/types';
-// @ts-expect-error Module needs to be translated to TS
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 // @ts-expect-error Module needs to be translated to TS
 import { add, remove } from 'in-cockpit/starredItems';
 import { businessProcessDashboard, summaryTab, businessProcessPath } from 'in-bizops/navigation/paths';
+import { businessProcess as businessProcessType } from 'in-cockpit/starredItems/types';
 //@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';

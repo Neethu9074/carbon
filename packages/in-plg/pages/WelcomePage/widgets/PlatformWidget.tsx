@@ -20,7 +20,7 @@ import {
   phmcServer as phmcServerType,
   powervc as powervcServerType,
   sap as sapType,
-  zhmcServer as zhmcServerType //@ts-expect-error declaration file not present
+  zhmcServer as zhmcServerType
 } from 'in-cockpit/starredItems/types';
 import {
   hasKubernetesAccess,
@@ -49,14 +49,14 @@ import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
 //@ts-expect-error doesn't contain type file
 import { useOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
 //@ts-expect-error doesn't contain type file
+import { useNavigateToAbapSystemDashboard } from 'in-sap/navigation/paths';
+//@ts-expect-error doesn't contain type file
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
 //@ts-expect-error doesn't contain type file
 import { getPhmcsWithDefaults } from 'in-phmc/subscriptions/getPhmcs';
 //@ts-expect-error doesn't contain type file
 import { getZhmcsWithDefaults } from 'in-zhmc/subscriptions/getZhmcs';
 import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
-//@ts-expect-error doesn't contain type file
-import { useNavigateToAbapSystemDashboard } from 'in-sap/navigation/paths';
 //@ts-expect-error doesn't contain type file
 import { useIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
 import getAbapSystem, { getAbapSystemListsWithDefaults } from 'in-sap/subscriptions/getAbapSystemLists';
@@ -241,7 +241,7 @@ export default function PlatformWidget({ config, timeConfig, widgetLabel, dashbo
   const getVsphereDatacenterDashboard = useVspehereEntityLink('datacenter');
   const getPowervcRegionDashboard = usePowervcRegionDashboard();
   const getIbmpPhmcDashboard = useIbmpPhmcDashboard();
-  const getAbapSystemDashboard = useNavigateToAbapSystemDashboard()
+  const getAbapSystemDashboard = useNavigateToAbapSystemDashboard();
 
   function getId(item: any) {
     return item.isKubernetes ? item.cluster.id : item.id;

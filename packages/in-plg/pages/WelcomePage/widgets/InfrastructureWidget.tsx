@@ -14,8 +14,6 @@ import { t } from '@instana/i18n-react';
 
 //@ts-expect-error doesn't contain type file
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
-//@ts-expect-error doesn't contain type file
-import { host as hostType, container as containerType, process as processType } from 'in-cockpit/starredItems/types';
 import {
   InfraProps,
   StarredItemWithIdsType,
@@ -26,6 +24,7 @@ import {
 import { entityTypeToFullyQualifiedPlugin } from 'in-infrastructure/tableView/stores/snapshotIds';
 //@ts-expect-error doesn't contain type file
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
+import { host as hostType, container as containerType, process as processType } from 'in-cockpit/starredItems/types';
 import DatatableWrapper, { getFlattenedIds } from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 //@ts-expect-error doesn't contain type file
 import { add, remove } from 'in-cockpit/starredItems';
@@ -250,7 +249,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
   }
 
   function getItems({ query, infraType, timeConfig, pinnedItemIdsByType }: getItemsType) {
-    const pinnedIds = getFlattenedIds(pinnedItemIdsByType, getPinnedItemType());
+    const pinnedIds = getFlattenedIds(pinnedItemIdsByType, getPinnedItemType() as (keyof StarredItemWithIdsType)[]);
     return search({
       query,
       timeConfig,

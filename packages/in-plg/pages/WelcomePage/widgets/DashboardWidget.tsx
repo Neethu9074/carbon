@@ -14,8 +14,6 @@ import { t } from '@instana/i18n-react';
 
 //@ts-expect-error doesn't contain type file
 import { viewPathFullyQualified, dashboardIdUrlParameter } from 'in-custom-dashboards/navigation/url';
-//@ts-expect-error doesn't contain type file
-import { customDashboard as customDashboardType } from 'in-cockpit/starredItems/types';
 import useGetCustomDashboardPermissions from 'in-plg/pages/WelcomePage/widgets/hooks/useGetCustomDashboardPermissions';
 //@ts-expect-error doesn't contain type file
 import NewDashboardDialog from 'in-custom-dashboards/NewDashboardDialog';
@@ -24,6 +22,7 @@ import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widg
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 //@ts-expect-error doesn't contain type file
 import { add, remove } from 'in-cockpit/starredItems';
+import { customDashboard as customDashboardType } from 'in-cockpit/starredItems/types';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import { getCustomDashboards, getUsers } from 'in-custom-dashboards/api';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';

@@ -24,8 +24,6 @@ import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithH
 import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateApplicationDialog';
 //@ts-expect-error doesn't contain type file
 import { getNewApplicationWaiterViewPath } from 'in-applications/creation/CreateApplication';
-//@ts-expect-error doesn't contain type file
-import { application as applicationType } from 'in-cockpit/starredItems/types';
 //@ts-expect-error
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 //@ts-expect-error doesn't contain type file
@@ -37,13 +35,14 @@ import { APPLICATION_CREATION_OPEN_DIALOG_CLICK } from 'in-services/tracking/eve
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
+import { application as applicationType } from 'in-cockpit/starredItems/types';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { applicationsList } from 'in-applications/navigation/paths';
-import getMetrics from 'in-applications/subscriptions/getMetrics';
 import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
+import getMetrics from 'in-applications/subscriptions/getMetrics';
 import { hasError, isLoading } from 'in-services/util/result';
 import { successObservable } from 'in-services/util/result';
 import { boundaryScopes } from 'in-applications/constants';
