@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { Link } from '@instana/components';
@@ -10,6 +11,7 @@ import { Link } from '@instana/components';
 import { useGetLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
 import { getPhysicalHierarchy, getSnapshot } from 'in-stores/snapshot';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { emptyList } from 'in-services/fixedImmutables';
 import { entitySelectedTracker } from 'in-map/tracker';
 import { getPluginName } from 'in-sdk/pluginName';
@@ -82,7 +84,13 @@ export default connectTo(
     physicalHierarchy = physicalHierarchy.toArray();
 
     return (
-      <ul className={locals.sidebarBreadcrumb} data-walkme-id="wm-stack">
+      <ul
+        className={classNames({
+          [locals.sidebarBreadcrumb]: true,
+          [locals.reduceSidebar]: !carbonButtonEnabled
+        })}
+        data-walkme-id="wm-stack"
+      >
         {physicalHierarchy.map(id => (
           <Crumb key={id} snapshotId={id} selectedSnapshotId={snapshotId} />
         ))}
