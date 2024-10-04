@@ -6,9 +6,9 @@
 import React from 'react';
 
 import { LoadingSkeleton, Stack, SvgIcon, Tooltip } from '@instana/components';
+import { Link, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
-import { Link } from '@instana/components';
 
 import {
   isInfraEntityType,
@@ -54,6 +54,10 @@ export default function EntityInformation(props) {
 
   const entity = useObservable(determineEntityInformationCall(), [entityId]);
 
+  if (metadata && metadata.has('infraSmartAlert')) {
+    return <InfraSmartAlertEntityInformation metadata={metadata} />;
+  }
+
   if ((entity && (isLoading(entity) || hasErrors(entity))) || entity === undefined) {
     return <LoadingSkeleton />;
   }
@@ -70,6 +74,20 @@ export default function EntityInformation(props) {
     // !entityType || entityType === 'Entity10'
     return <InfraEntityInformation {...props} entity={entity} />;
   }
+}
+
+function InfraSmartAlertEntityInformation({ metadata }) {
+  // Currently infra smart does not have an unique snapshotId. Hence we are not able to find the triggering entity.
+  // Instead we display the entityName.
+  const entityName = metadata.get('entityName', '');
+
+  return (
+    <EntityInformationPresenter shouldDisplayDefaultLabel>
+      <Typography variant="body-small">
+        {t('in-events:infraSmartAlerts.pseudoAggregatedEntityLabel', { entityName: entityName })}
+      </Typography>
+    </EntityInformationPresenter>
+  );
 }
 
 function InfraEntityInformation({
