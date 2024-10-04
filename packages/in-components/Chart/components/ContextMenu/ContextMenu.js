@@ -63,20 +63,20 @@ export default class extends React.Component {
       {
         ...downloadCSVAction,
         onClick: () => downloadCSVAction.onClick(this.props.metrics, highlightedTimeframe)
-      },
-      {
-        ...(isCustomDashboard &&
-          customDashboardsExportPdfWidget && {
-            ...downloadPDFAction,
-            onClick: () => {
-              setTooltipRef(tooltipRef);
-              setShouldExportWidget(true);
-              const widgetNode = chartWrapper.closest('[id^="widget-"]');
-              downloadPDFAction.onClick({ widgetNode, setExportWidgetId });
-            }
-          })
       }
     ];
+
+    if (isCustomDashboard && customDashboardsExportPdfWidget) {
+      basicButtonConfigs.push({
+        ...downloadPDFAction,
+        onClick: () => {
+          setTooltipRef(tooltipRef);
+          setShouldExportWidget(true);
+          const widgetNode = chartWrapper.closest('[id^="widget-"]');
+          downloadPDFAction.onClick({ widgetNode, setExportWidgetId });
+        }
+      });
+    }
 
     const primaryContextMenuAction = chart.config.primaryContextMenuAction || zoomInAction.name;
     const excludedContextMenuActions = chart.config.excludedContextMenuActions || [];
