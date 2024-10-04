@@ -12,6 +12,7 @@ import { Typography } from '@instana/components';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
+import { turboActionCategoryMap } from './RecommendedOptimizations';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { viewTurboActionTracker } from 'in-automation/tracker';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -49,14 +50,6 @@ export const impactedServicesColumn: ColumnDefinition<RecommendedAction> = {
       </HorizontalFlexWrapper>
     );
   }
-};
-
-const turboActionCategoryMap = {
-  COMPLIANCE: t('in-automation:turboActionCategories.compliance'),
-  PREVENTION: t('in-automation:turboActionCategories.prevention'),
-  EFFICIENCY_IMPROVEMENT: t('in-automation:turboActionCategories.efficiency'),
-  SAVINGS: t('in-automation:turboActionCategories.savings'),
-  PERFORMANCE_ASSURANCE: t('in-automation:turboActionCategories.performance')
 };
 
 export const actionCategoryColumn: ColumnDefinition<RecommendedAction> = {

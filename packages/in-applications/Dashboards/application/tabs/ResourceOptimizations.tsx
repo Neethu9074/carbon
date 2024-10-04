@@ -9,7 +9,10 @@ import { BoundaryScope, TimeConfig, TurboActionCategory } from '@instana/types';
 
 //@ts-expect-error needs TS migration
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
-import { useResourceOptimization, useTurboRecommendedActions } from 'in-automation/AutomationCard/useScoredActions';
+import {
+  useResourceOptimization,
+  useTurboRecommendedActions
+} from 'in-automation/ResourceOptimization/useResourceOptimization';
 import RecommendedOptimizations from 'in-automation/ResourceOptimization/RecommendedOptimizations';
 import { FormatterObject, MetricDataPoint, MetricDataSeries } from 'in-components/Chart/types';
 import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';

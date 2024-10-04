@@ -7,14 +7,14 @@
 import { create, timeout } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
-import { ScoredAction, getAllActionsWithAISuggestions, getResourceOptimization } from 'in-automation/api';
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import { Event, Policy, RecommendedAction, ResourceOptimization, Result } from 'in-types';
+import { ScoredAction, getAllActionsWithAISuggestions } from 'in-automation/api';
 import { error, hasError, isLoading, success } from 'in-services/util/result';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import usePaginatedResult from 'in-automation/hooks/usePaginatedResult';
 import { TriggerSpecification } from 'in-automation/Policies/types';
 import { pendingResult } from 'in-services/fixedObjects';
+import { Event, Policy, Result } from 'in-types';
 
 interface UseScoredActionsParams {
   event: Event;
@@ -101,53 +101,6 @@ export function usePaginatedScoredActions({
       if (orderBy === 'score') {
         return [entity.score, entity.name.trim().toLowerCase()];
       }
-      return typeof value === 'string' ? value.trim().toLowerCase() : value;
-    }
-  });
-}
-
-interface UseResourceOptimizationsParams {
-  event?: Event;
-  applicationId?: string;
-}
-
-export function useResourceOptimization({ event, applicationId }: UseResourceOptimizationsParams) {
-  const targetSnapshotId = event ? event.entityId : applicationId;
-  const entityType = 'APPLICATION';
-  const result = useObservable(getResourceOptimization(targetSnapshotId ?? '', entityType), []);
-  return result ?? (pendingResult as Result<ResourceOptimization>);
-}
-
-export function useTurboRecommendedActions(resourceOptimization: Result<ResourceOptimization>) {
-  if (isLoading(resourceOptimization)) return pendingResult as Result<RecommendedAction[]>;
-  if (hasError(resourceOptimization))
-    return error<RecommendedAction[]>([{ message: 'Failed to get turbo recommended actions.', code: 'SERVER' }]);
-  const result = success(resourceOptimization?.data?.recommendedActions!);
-
-  return result;
-}
-
-interface UsePaginatedRecommendedOptimizationsParams {
-  setServerTableUrlState: (
-    serverTableUrlState: Partial<Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>>
-  ) => void;
-  serverTableUrlState: Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>;
-  recommendedActions: Result<RecommendedAction[]>;
-}
-
-export function usePaginatedResourceOptimizations({
-  recommendedActions,
-  serverTableUrlState,
-  setServerTableUrlState
-}: UsePaginatedRecommendedOptimizationsParams) {
-  return usePaginatedResult({
-    result: recommendedActions,
-    serverTableUrlState,
-    setServerTableUrlState,
-    searchAttributes: ['name', 'impactedServices', 'actionCategory'],
-    sort: entity => {
-      const { orderBy } = serverTableUrlState;
-      let value = entity[orderBy as keyof RecommendedAction];
       return typeof value === 'string' ? value.trim().toLowerCase() : value;
     }
   });

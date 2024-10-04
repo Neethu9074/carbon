@@ -450,7 +450,20 @@
     "compliance": "Compliance",
     "prevention": "Prevention",
     "efficiency": "Efficiency",
+    "efficiency_improvement": "Efficiency improvement",
     "savings": "Savings",
-    "performance": "Performance"
+    "performance": "Performance",
+    "performance_assurance": "Performance assurance"
+  },
+  "resourceOptimization": {
+    "details": "Resource optimization details",
+    "targetAgent": "Target agent",
+    "viewInTurbo": "View in Turbonomic",
+    "containerSpec": "Container spec",
+    "resourceImpact": "Resource impact",
+    "current": "Current",
+    "afterActions": "After actions",
+    "agentHelperText": "An agent encapsulates 1..* sensors, who in turn are able to raise events to the Instana backend. A triggering agent contains the sensor that raised this particular event.",
+    "proceedConfirm": "This action cannot be undone. Are you sure you want to proceed?"
   }
 }

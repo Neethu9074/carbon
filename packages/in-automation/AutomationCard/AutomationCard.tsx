@@ -10,10 +10,12 @@ import { Card, Spacer } from '@instana/components';
 
 import useScoredActions, {
   useUserRecommendedScoredActions,
-  useAIRecommendedScoredActions,
+  useAIRecommendedScoredActions
+} from 'in-automation/AutomationCard/useScoredActions';
+import {
   useResourceOptimization,
   useTurboRecommendedActions
-} from 'in-automation/AutomationCard/useScoredActions';
+} from 'in-automation/ResourceOptimization/useResourceOptimization';
 import AutomationCardButtonGroup, { useActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 import RecommendedOptimizations from 'in-automation/ResourceOptimization/RecommendedOptimizations';
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';

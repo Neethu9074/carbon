@@ -1,0 +1,35 @@
+:local {
+  .detailsRow {
+    border: 1px solid var(--cds-border-subtle);
+    display: flex;
+    width: 100%;
+  }
+  .agentRow {
+    padding: 0.5rem;
+  }
+
+  .leftSection {
+    flex: 1;
+    border-right: 1px solid var(--cds-border-subtle);
+    padding: 0.5rem;
+  }
+
+  .rightSection {
+    flex: 1;
+    padding: 0.5rem;
+  }
+  .current {
+    background-color: var(--cds-background);
+    width: 10rem;
+    > h2 {
+      margin-left: 10px;
+    }
+  }
+  .after {
+    background-color: var(--cds-highlight);
+    width: 10rem;
+    > h2 {
+      margin-left: 10px;
+    }
+  }
+}

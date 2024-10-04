@@ -14,10 +14,13 @@ import {
   impactedServicesColumn
 } from 'in-automation/ResourceOptimization/columnDefinitions';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { usePaginatedResourceOptimizations } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import { usePaginatedResourceOptimizations } from 'in-automation/AutomationCard/useScoredActions';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { useTurboAgentSnapShots } from './useResourceOptimization';
 import { RecommendedAction, Result } from 'in-types';
+import DetailsModal from './DetailsModal';
 import { t } from 'in-i18n';
 
 const pathSegment = '/RecommendedOptimizations';
@@ -28,67 +31,6 @@ const columnDefinitions: ColumnDefinition<RecommendedAction, RecommendedOptimiza
   impactedServicesColumn,
   actionCategoryColumn
 ];
-/*
-function useFilters({
-  setServerTableUrlState,
-  recommendedOptimizations
-}: {
-  recommendedOptimizations: Result<ScoredAction[]>;
-  setServerTableUrlState: (newState: Partial<Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>>) => void;
-}) {
-  const [types, setTypesState] = useState<string[] | undefined>(undefined);
-  const [aiEngine, setAiEngine] = useState<string | null>(null);
-  const [tags, setTags] = useState<string[]>([]);
-
-  const filters = [
-    {
-      key: 'types' as const,
-      value: types
-    },
-    {
-      key: 'aiEngine' as const,
-      value: aiEngine
-    },
-    {
-      key: 'tags' as const,
-      value: tags
-    }
-  ];
-
-  return {
-    filteredActions: mapData(recommendedOptimizations, data =>
-      data?.filter(action =>
-        filters.reduce((shouldInclude, filter) => {
-          const emptyFilter = !filter.value?.length;
-          if (emptyFilter) return shouldInclude;
-          switch (filter.key) {
-            case 'types':
-              return shouldInclude && (filter.value?.some(type => action.type === type) ?? false);
-            case 'aiEngine':
-              return (shouldInclude = shouldInclude && filter.value === action.aiEngine);
-            case 'tags':
-              return shouldInclude && (action.tags?.some(tag => filter.value?.includes(tag)) ?? false);
-          }
-        }, true)
-      )
-    ),
-    types,
-    setTypes: ({ types }: { types: string[] | undefined }) => {
-      setTypesState(types);
-      setServerTableUrlState({ page: 1, query: '' });
-    },
-    aiEngine,
-    setAiEngine: (aiEngine: string | null) => {
-      setAiEngine(aiEngine);
-      setServerTableUrlState({ page: 1, query: '' });
-    },
-    tags,
-    setTags: (tags: string[]) => {
-      setTags(tags);
-      setServerTableUrlState({ page: 1, query: '' });
-    }
-  };
-}*/
 
 interface RecommendedOptimizationsTableProps extends ServerTablePresenterProps<RecommendedAction> {}
 
@@ -96,6 +38,16 @@ interface RecommendedOptimizationsProps {
   recommendedActions: Result<RecommendedAction[]>;
   totalRecommendedActions: number | undefined;
 }
+
+export const turboActionCategoryMap = {
+  COMPLIANCE: t('in-automation:turboActionCategories.compliance'),
+  PREVENTION: t('in-automation:turboActionCategories.prevention'),
+  EFFICIENCY_IMPROVEMENT: t('in-automation:turboActionCategories.efficiency'),
+  SAVINGS: t('in-automation:turboActionCategories.savings'),
+  PERFORMANCE_ASSURANCE: t('in-automation:turboActionCategories.performance'),
+  PERFORMANCE_ASSURANCE_FULL: t('in-automation:turboActionCategories.performance_assurance'),
+  EFFICIENCY_IMPROVEMENT_FULL: t('in-automation:turboActionCategories.efficiency_improvement')
+};
 
 export default function RecommendedOptimizations({
   recommendedActions,
@@ -116,8 +68,17 @@ export default function RecommendedOptimizations({
     setServerTableUrlState
   });
 
-  //TODO update with modal code
-  const handleRowClick = () => {};
+  const agentSnapShots = useTurboAgentSnapShots();
+
+  const handleRowClick = async (recAction: RecommendedAction) => {
+    const currentAction = recommendedActions?.data?.find(x => {
+      return x.id === recAction.id;
+    });
+    const agents = agentSnapShots?.data?.online ?? [];
+    if (currentAction) {
+      addActiveDialog(<DetailsModal currentAction={currentAction} agents={agents} />);
+    }
+  };
 
   const totalHits = totalRecommendedActions ?? 0;
 
@@ -146,7 +107,7 @@ export default function RecommendedOptimizations({
       result={result}
       rightHeader={null}
       searchPlaceholder={t('in-automation:searchOptimizations')}
-      onRowClick={handleRowClick}
+      onRowClick={recommendedAction => handleRowClick(recommendedAction)}
       tableInCard={false}
     />
   );

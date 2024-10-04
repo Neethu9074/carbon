@@ -33,6 +33,7 @@ import {
   GlobalApplicationsSmartAlertConfigWithMetadata
 } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
+import submitTurbonomicResourceImpact from 'in-automation/subscriptions/submitTurbonomicResourceImpact';
 import turboSubmitActionExecution from 'in-automation/subscriptions/turboSubmitActionExecution';
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { DOC_LINK_TYPE, HTTP_METHODS_WITH_BODY } from 'in-automation/ActionCatalog/shared';
@@ -660,6 +661,54 @@ export function runTurboAction({
       policyId: policyId === '' ? null : policyId
     }
   });
+}
+
+interface RunResourceOptimizationAction {
+  volatileId: VolatileId;
+  actionName: string;
+  createdDate: number;
+  actionInstanceId: string;
+}
+
+// We are using a timeout here to prevent the UI from hanging if the agent is not responding (sensor not installed).
+export function runResourceOptimizationAction({
+  volatileId,
+  actionName,
+  createdDate,
+  actionInstanceId
+}: RunResourceOptimizationAction) {
+  return turboSubmitActionExecution({
+    action: 'turbonomic.executeAction',
+    target: volatileId,
+    args: {
+      createdDate,
+      actionInstanceId,
+      actionName
+    }
+  });
+}
+
+interface GetTurboResourceImpactParams {
+  volatileId: VolatileId;
+  createdDate: number;
+  actionInstanceId: string;
+}
+
+export function getTurboActionResourceImpacts({
+  volatileId,
+  actionInstanceId,
+  createdDate
+}: GetTurboResourceImpactParams) {
+  {
+    return submitTurbonomicResourceImpact({
+      action: 'turbonomic.resourceImpact',
+      target: volatileId,
+      args: {
+        createdDate,
+        actionInstanceId
+      }
+    });
+  }
 }
 
 export type DynamicParamValue = {
