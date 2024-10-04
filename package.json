@@ -100,7 +100,6 @@
     "ansi-to-html": "^0.6.2",
     "browserslist": "^4.21.4",
     "classnames": "^2.3.1",
-    "clipboard": "^1.7.1",
     "codemirror": "^5.58.2",
     "core-js": "^3.37.0",
     "d3-format": "^1.4.5",
