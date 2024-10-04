@@ -13,7 +13,7 @@ import { ThresholdOperator } from '@instana/types';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
 import { metricConfigurationPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
-import ThresholdCondition from 'in-custom-dashboards/widgets/BigNumber/components/ThresholdCondition';
+import ThresholdCondition from 'in-custom-dashboards/widgets/_shared/Threshold/ThresholdCondition';
 import { getFormatter, getFormatterUnitConversion } from 'in-stores/metric/formatters';
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';

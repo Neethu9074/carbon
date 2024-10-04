@@ -6,8 +6,8 @@
 
 import React from 'react';
 
-import { ThresholdFn } from 'in-custom-dashboards/widgets/_shared/threshold';
 import KpiCard, { KpiCardProps } from 'in-components/KpiCard/KpiCard';
+import { ThresholdFn } from 'in-components/Threshold/threshold';
 
 import locals from './KpiCard.mless';
 

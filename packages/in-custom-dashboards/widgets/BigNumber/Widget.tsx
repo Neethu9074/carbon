@@ -10,7 +10,7 @@ import {
   ConfigWithCompanionMetric,
   ConfigWithStaticCompanion
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
-import { getThreshold, ThresholdProps } from 'in-custom-dashboards/widgets/_shared/threshold';
+import { getThreshold, ThresholdProps } from 'in-components/Threshold/threshold';
 import { thresholdCustomDashboardsEnabled } from 'in-services/featureFlags';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { getFormatter } from 'in-stores/metric/formatters';
