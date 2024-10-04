@@ -5,25 +5,23 @@
 
 import React from 'react';
 
-import { BoundaryScope, TimeConfig } from '@instana/types';
+import { BoundaryScope, TimeConfig, TurboActionCategory } from '@instana/types';
 
 //@ts-expect-error needs TS migration
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
 import { useResourceOptimization, useTurboRecommendedActions } from 'in-automation/AutomationCard/useScoredActions';
 import RecommendedOptimizations from 'in-automation/ResourceOptimization/RecommendedOptimizations';
+import { FormatterObject, MetricDataPoint, MetricDataSeries } from 'in-components/Chart/types';
 import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
-import { generateMetrics, fixedTimestamp } from 'in-test/util/generateMetrics';
-import { FormatterObject, MetricDataSeries } from 'in-components/Chart/types';
 import { resourceOptimizationsTab } from 'in-applications/navigation/paths';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import InfoPanel from 'in-automation/components/InfoPanel/InfoPanel';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
-import { getChartGranularity } from 'in-stores/metric/metric';
+import { fixedTimestamp } from 'in-test/util/generateMetrics';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { boundaryScopes } from 'in-applications/constants';
 import { chartColors } from 'in-themes/chartColors';
-import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 import locals from './ResourceOptimizations.mless';
@@ -47,7 +45,6 @@ export default function ResourceOptimizationTab({ applicationId, timeConfig, bou
 
   const oneSecond = 1000;
   const oneMinute = oneSecond * 60;
-  const granularity = getChartGranularity(timeConfig);
 
   function generateTimeframe(windowSize: number) {
     return {
@@ -55,13 +52,6 @@ export default function ResourceOptimizationTab({ applicationId, timeConfig, bou
       to: fixedTimestamp,
       autoRefresh: false
     };
-  }
-  function generateMultipleMetrics(numSeries: number, numMetrics: number, maxValue: number, windowSize: number) {
-    const series = [];
-    for (let i = 0; i < numSeries; i++) {
-      series[i] = generateMetrics(numMetrics, maxValue, windowSize) as MetricDataSeries;
-    }
-    return series;
   }
 
   let tagFilters = [
@@ -74,6 +64,19 @@ export default function ResourceOptimizationTab({ applicationId, timeConfig, bou
           operator: EQUALS
         }
   ];
+
+  let pieLabels: string[] = [];
+  let pieMetrics: MetricDataSeries[] = [];
+  let actionCategories = recommendedOptimizations?.data?.actionCategoriesCount;
+  if (actionCategories) {
+    pieLabels = Object.keys(actionCategories);
+    pieMetrics = pieLabels.map(x => {
+      let dataPoint = [];
+      dataPoint.push([0, actionCategories ? actionCategories[x as TurboActionCategory] : 0] as MetricDataPoint);
+      return dataPoint;
+    });
+    pieLabels = pieLabels.map(x => (x.indexOf('_') === -1 ? x : x.substring(0, x.indexOf('_')))); //Display labels before "_" only
+  }
 
   return (
     <div className={locals.contentContainer}>
@@ -112,36 +115,17 @@ export default function ResourceOptimizationTab({ applicationId, timeConfig, bou
       <div className={locals.charts}>
         <div className={locals.box1}>
           <ResultAwareChart
-            result={success({})}
+            result={recommendedOptimizations}
             config={{
               title: t('in-automation:actionCategory'),
               timeConfig: generateTimeframe(oneMinute),
               y1: {
                 renderer: Renderer.pie,
-                labels: ['Performance', 'Prevention', 'Efficiency', 'Savings', 'Compliance'],
+                labels: pieLabels,
                 metricIds: [],
-                metrics: generateMultipleMetrics(5, 30, 10, oneMinute),
-
+                metrics: pieMetrics,
                 colors: colorPalette,
                 formatter: ((x: any) => x) as unknown as FormatterObject
-              }
-            }}
-          />
-        </div>
-        <div style={{ width: '65%', height: '295', display: 'none' }}>
-          <ResultAwareChart
-            result={success({})}
-            config={{
-              extendBar: true,
-              granularity: granularity,
-              title: 'Action types',
-              timeConfig: timeConfig,
-              y1: {
-                renderer: Renderer.bar,
-                labels: ['Type'],
-                metricIds: ['Move', 'Buy', 'Save'],
-                metrics: [generateMetrics(12, 100, oneMinute) as MetricDataSeries],
-                colors: colorPalette
               }
             }}
           />
