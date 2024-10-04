@@ -23,7 +23,7 @@
     "debug": "DETAILED_SOURCEMAPS=true DONT_OPEN_BROWSER=true && yarn dev",
     "start": "yarn dev",
     "dev:watch": "HOT_RELOAD=true yarn dev",
-    "storybook": "BUILD_DEV=true NODE_ENV=development gulp prepareTestExecution && cd storybook && yarn install && yarn run foundation-build-copy && DEV_TOOLS=eval STORYBOOK=true node --max-old-space-size=4096 node_modules/.bin/storybook dev -p 6006 -c config --no-version-updates",
+    "storybook": "BUILD_DEV=true NODE_ENV=development gulp prepareTestExecution && cd storybook && yarn install && yarn run foundation-build-copy && DEV_TOOLS=eval STORYBOOK=true BUILD_DEV=true NODE_ENV=development node --max-old-space-size=4096 node_modules/.bin/storybook dev -p 9001 -c config --no-version-updates",
     "storybookBuild": "gulp prepareTestExecution && cd storybook && yarn install && yarn run foundation-build-copy && node --max-old-space-size=4096 node_modules/.bin/storybook build -c config -o ../storybookTarget",
     "generateMetricOverview": "GENERATE_METRIC_OVERVIEW=true yarn run test:unit",
     "reformat": "prettier --write \"packages/**/*.{js,ts,tsx,less,mless,css}\"",
