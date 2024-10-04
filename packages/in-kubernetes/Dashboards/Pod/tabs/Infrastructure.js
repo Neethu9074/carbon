@@ -239,7 +239,7 @@ function UnmonitoredContainers({ containerStatuses }) {
     }
   ];
 
-  const carbonRows = containerStatuses.map((name, ready, state, message) => ({
+  const carbonRows = containerStatuses.map(({ name, ready, state, message }) => ({
     id: name,
     ['name']: (
       <Tooltip content={t('in-kubernetes:dashboards.nameTooltip')}>
