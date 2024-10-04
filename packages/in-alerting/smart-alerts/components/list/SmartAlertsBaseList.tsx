@@ -234,7 +234,7 @@ export default function SmartAlertsBaseList<AlertConfig extends AlertConfigType>
           ) : null}
           {hasError({ errors } as Result<AlertConfig>) && <ErrorList className={locals.list} errors={errors} />}
         </Ul>
-        {carbonPaginationEnabled ? (
+        {carbonPaginationEnabled && searchResultsSelected.length > 0 ? (
           <CarbonPagination
             currentPage={page}
             totalItems={searchResultsSelected.length}
