@@ -13,18 +13,28 @@ import SloErrorBudgetChart from 'in-service-levels/components/Shared/SloErrorBud
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 
 interface ErrorBudgetChartProps {
-  automaticallySized?: boolean;
+  automaticallySize?: boolean;
+  customHeight?: number;
+  customChartSkeletonHeight?: number;
   configuration: ServiceLevelObjectiveConfiguration;
   title?: string;
 }
 
-export default function ErrorBudgetChart({ automaticallySized, configuration, title }: ErrorBudgetChartProps) {
+export default function ErrorBudgetChart({
+  automaticallySize,
+  customHeight,
+  customChartSkeletonHeight,
+  configuration,
+  title
+}: ErrorBudgetChartProps) {
   const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
   const timeConfig = useContextAwareSloTimeWindowConfig();
 
   return (
     <SloErrorBudgetChart
-      automaticallySized={automaticallySized}
+      automaticallySize={automaticallySize}
+      customHeight={customHeight}
+      customChartSkeletonHeight={customChartSkeletonHeight}
       timeConfig={timeConfig}
       timeWindows={timeWindows}
       timeWindowColors={timeWindowColors}

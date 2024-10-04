@@ -4,6 +4,16 @@
  * Copyright IBM Corp. 2024
  */
 
+import { t } from '@instana/i18n-react';
+
+import {
+  dashboardConfigurationPath,
+  dashboardDeletePath,
+  dashboardSmartAlertsPath,
+  loggingDashboardPath
+} from 'in-logging/navigation/paths';
+import { role } from 'in-stores/user';
+
 export function generateQueryWithWinSize(windowSize: number): any {
   const currentTimestamp = Date.now();
   const query = {
@@ -51,3 +61,36 @@ export function generateQueryWithWinSize(windowSize: number): any {
   };
   return query;
 }
+
+// logging dashboard navigation items
+
+interface LoggingNavigationItem {
+  path: string;
+  label: string;
+  currentTab: string | ((path: string) => boolean);
+  isTabAllowed?: Boolean;
+}
+
+export const loggingNavigationItem: LoggingNavigationItem[] = [
+  {
+    path: loggingDashboardPath,
+    label: t('in-logging:dashboard.summary'),
+    currentTab: path => path === loggingDashboardPath
+  },
+  {
+    path: dashboardSmartAlertsPath,
+    label: t('in-logging:dashboard.smartAlerts'),
+    currentTab: dashboardSmartAlertsPath
+  },
+  {
+    path: dashboardDeletePath,
+    label: t('in-logging:dashboard.deleteLogs'),
+    currentTab: path => path === dashboardDeletePath,
+    isTabAllowed: role?.canDeleteLogs
+  },
+  {
+    path: dashboardConfigurationPath,
+    label: t('in-logging:dashboard.configuration'),
+    currentTab: path => path === dashboardConfigurationPath
+  }
+];

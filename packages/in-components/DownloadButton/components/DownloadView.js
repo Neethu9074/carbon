@@ -47,6 +47,7 @@ export default class extends React.Component {
             <DownloadLink
               label={t('in-components:downloadBtn.downloadViewDownloadAsJsonLabel')}
               href={formatUrl(this.props.jsonLink, this.props.queryParams)}
+              download={this.props.download}
             />
           ) : null}
         </div>
@@ -106,9 +107,9 @@ function DownloadButton({ label, onClick }) {
   );
 }
 
-function DownloadLink({ label, href }) {
+function DownloadLink({ label, href, download }) {
   return (
-    <Button key={label} className={`${block}__button`} kind="info" target="_blank" href={href}>
+    <Button key={label} className={`${block}__button`} kind="info" target="_blank" href={href} download={download}>
       {label}
     </Button>
   );

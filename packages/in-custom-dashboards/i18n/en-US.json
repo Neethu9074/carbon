@@ -17,6 +17,7 @@
         "copied": "Widget copied, use CTRL-V or CMD-V to paste on any custom dashboard",
         "duplicate": "Duplicate",
         "delete": "Delete",
+        "exportPDF": "Download PDF",
         "customDashboardWidgetTitle": "Custom dashboard widget: {{title}}"
       }
     },
@@ -69,7 +70,11 @@
       "renameDashboard": "Rename Dashboard",
       "dashboardName": "Dashboard Name",
       "rename": "Rename",
-      "failSaveDashboard": "Failed to save the dashboard."
+      "failSaveDashboard": "Failed to save the dashboard.",
+      "generatingPDFTitle": "Generating pdf",
+      "generatingPDFContent": "Please wait while the pdf is being generated.",
+      "generatedPDFTitle": "Pdf Generated",
+      "generatedPDFContent": "The pdf download will start shortly."
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "Dashboard not found",
@@ -93,6 +98,13 @@
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "Failed to parse input as JSON.",
       "jsonRootMustBeAnObject": "JSON root must be an object."
+    },
+    "filterContext": {
+      "topLevelFilterPartiallyApplied": "Some of the current dashboard filters were applied.",
+      "topLevelFilterSelectsEverything": "The current dashboard filters do not apply to this widget.",
+      "topLevelFilterSelectsNothing": "The current dashboard filters do not apply to this widget.",
+      "topLevelFilterNotSupported": "The current dashboard filters were not applied to this widget because the widget does not support filtering.",
+      "topLevelFilterAppliedToSomeDatasets": "The current dashboard filters were not fully applied to all data-sets in this widget."
     }
   },
   "dashboardSwitcher": {

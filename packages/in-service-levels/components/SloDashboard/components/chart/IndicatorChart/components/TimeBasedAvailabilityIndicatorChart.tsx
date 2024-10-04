@@ -48,14 +48,18 @@ import { pendingResult } from 'in-services/fixedObjects';
 const metricId = 'availability';
 
 interface TimeBasedAvailabilityIndicatorChartProps {
-  automaticallySized?: boolean;
+  automaticallySize?: boolean;
+  customHeight?: number;
+  customChartSkeletonHeight?: number;
   entity: SloEntityUnion;
   indicator: AvailabilityBlueprintIndicator;
   missingDataIndicator?: DateAsNumber;
   title?: string;
 }
 export default function TimeBasedAvailabilityIndicatorChart({
-  automaticallySized,
+  automaticallySize,
+  customHeight,
+  customChartSkeletonHeight,
   entity,
   indicator,
   missingDataIndicator,
@@ -96,7 +100,9 @@ export default function TimeBasedAvailabilityIndicatorChart({
   return (
     <ResultAwareChart
       config={{
-        automaticallySize: automaticallySized,
+        automaticallySize,
+        customHeight,
+        customChartSkeletonHeight,
         title,
         renderHistoricDataIndicator: true,
         hasApproximateData: true,
@@ -115,8 +121,6 @@ export default function TimeBasedAvailabilityIndicatorChart({
           formatter: percentage.detailed,
           renderer
         },
-        customHeight: 250,
-        customChartSkeletonHeight: 308,
         timeConfig,
         renderPostChartContent: props => <SloDashboardMarkerLanes entity={entity} {...props} />
       }}

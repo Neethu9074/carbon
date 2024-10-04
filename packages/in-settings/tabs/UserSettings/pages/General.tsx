@@ -20,11 +20,11 @@ import { Select } from '@instana/components';
 
 import ChooseConnectionStrategyDialog from 'in-connection/components/ChooseConnectionStrategyDialog';
 import { t, Trans, supportedLanguages, activeLanguage, collationLanguage } from 'in-i18n';
+import { carbonSliderEnabled, userSettingsThemeEnabled } from 'in-services/featureFlags';
 import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEditor';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { userSettingsThemeEnabled } from 'in-services/featureFlags';
 import Heading from 'in-settings/tabs/UserSettings/pages/Heading';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -90,16 +90,28 @@ export default function UiConfigGeneralPage() {
           text={t('in-settings:tabs.tableRefreshRate', { refreshRate: settings['tables_refreshRate'] / 1000 })}
           htmlFor="table-refresh-rate"
         />
-        <div>
-          <DistinctSlider
+        {carbonSliderEnabled ? (
+          <div>
+            <DistinctSlider
+              id="table-refresh-rate"
+              min={1}
+              max={10}
+              step={1}
+              value={Number(settings['tables_refreshRate']) / 1000}
+              onChange={(_, val) => saveSetting('tables_refreshRate', (val as number) * 1000)}
+            />
+          </div>
+        ) : (
+          <input
+            type="range"
             id="table-refresh-rate"
-            min={1}
-            max={10}
-            step={1}
-            value={Number(settings['tables_refreshRate']) / 1000}
-            onChange={(_, val) => saveSetting('tables_refreshRate', (val as number) * 1000)}
+            min={1000}
+            max={10000}
+            step={1000}
+            value={settings['tables_refreshRate']}
+            onChange={e => saveSetting('tables_refreshRate', e.target.value)}
           />
-        </div>
+        )}
       </HorizontalFormGroup>
       <HorizontalFormGroup
         helpText={<span className={locals.warning}>{t('in-settings:tabs.requiresBrowserRefreshToBecomeActive')}</span>}

@@ -24,6 +24,7 @@ import { t } from 'in-i18n';
 
 interface TopServicesProps {
   businessActivityId: string;
+  businessProcessDefinitionId: string;
 }
 
 const labels = [
@@ -33,7 +34,7 @@ const labels = [
 ];
 
 // This chart displays the top services within an activity
-export default function TopServices({ businessActivityId }: TopServicesProps) {
+export default function TopServices({ businessActivityId, businessProcessDefinitionId }: TopServicesProps) {
   const timeConfig = useTimeConfig();
   return (
     <TopListWithUrlState
@@ -44,6 +45,7 @@ export default function TopServices({ businessActivityId }: TopServicesProps) {
       ViewAll={ViewAll}
       timeConfig={timeConfig}
       businessActivityId={businessActivityId}
+      businessProcessDefinitionId={businessProcessDefinitionId}
       getList={getList}
       Renderer={TopListCardPresenter}
       Label={Label}
@@ -70,14 +72,16 @@ function ViewAll({ className }: viewAllProps) {
 
 type GetListProps = {
   businessActivityId: string;
+  businessProcessDefinitionId: string;
   timeConfig: TimeConfig;
   selectedMetric: string;
 };
 
 // Invoke the websocket to fetch business activity service list data from backend
-function getList({ businessActivityId, timeConfig, selectedMetric }: GetListProps) {
+function getList({ businessActivityId, businessProcessDefinitionId, timeConfig, selectedMetric }: GetListProps) {
   return getActivityServices({
     activityId: businessActivityId,
+    processDefinitionId: businessProcessDefinitionId,
     serviceMetrics: {
       latency: {
         metric: 'latency',

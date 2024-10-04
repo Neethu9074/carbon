@@ -37,7 +37,7 @@ describe(SummaryKPIs, () => {
     expect(screen.getByText('Avg. Response Time')).toBeVisible();
     expect(screen.getByText('Avg. Response Size')).toBeVisible();
 
-    expect(screen.queryByText('Last Run - Certificate is Valid')).toBeNull();
+    expect(screen.queryByText('Last Run - Certificate is Signed by Public CA')).toBeNull();
     expect(screen.queryByText('Last Run - Days Remaining')).toBeNull();
     expect(screen.queryByText('Last Run - Time of Expiry')).toBeNull();
   });
@@ -57,7 +57,7 @@ describe(SummaryKPIs, () => {
     expect(screen.getByText('Avg. Response Time')).toBeVisible();
     expect(screen.getByText('Avg. Response Size')).toBeVisible();
 
-    expect(screen.queryByText('Last Run - Certificate is Valid')).toBeNull();
+    expect(screen.queryByText('Last Run - Certificate is Signed by Public CA')).toBeNull();
     expect(screen.queryByText('Last Run - Days Remaining')).toBeNull();
     expect(screen.queryByText('Last Run - Time of Expiry')).toBeNull();
   });
@@ -103,7 +103,7 @@ describe(SummaryKPIs, () => {
     expect(screen.getByText('Success Rate')).toBeVisible();
     expect(screen.getByText('Locations')).toBeVisible();
     expect(screen.getByText('Avg. Response Time')).toBeVisible();
-    expect(screen.getByText('Last Run - Certificate is Valid')).toBeVisible();
+    expect(screen.getByText('Last Run - Certificate is Signed by Public CA')).toBeVisible();
     expect(screen.getByText('Last Run - Days Remaining')).toBeVisible();
     expect(screen.getByText('Last Run - Time of Expiry')).toBeVisible();
 

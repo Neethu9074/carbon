@@ -9,14 +9,13 @@ import classNames from 'classnames';
 import { Link, SvgIcon, Card, Button, ButtonKinds, IconButton } from '@instana/components';
 import { Observable } from '@instana/observables';
 
-import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
 import { carbonButtonEnabled, carbonTooltipEnabled } from 'in-services/featureFlags';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import WidgetCardHeader from 'in-components/WidgetCardHeader/WidgetCardHeader';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import Tooltip from 'in-components/Tooltip';
 import { ResultPrecision } from 'in-types';
-import { t } from 'in-i18n';
 
 import locals from './KpiCard.mless';
 
@@ -59,6 +58,7 @@ export interface KpiCardProps {
   bigNumbers?: boolean;
   icon?: string;
   iconClassName?: string;
+  extraInfo?: string;
 }
 
 export default function KpiCard({
@@ -84,7 +84,8 @@ export default function KpiCard({
   disableHeaderTooltip = false,
   bigNumbers,
   icon,
-  iconClassName
+  iconClassName,
+  extraInfo
 }: KpiCardProps) {
   const { ref, width } = useResizeObserver<HTMLDivElement>();
   const hasApproximateData = resultPrecision === 'PRECISION_APPROXIMATE';
@@ -162,26 +163,26 @@ export default function KpiCard({
     >
       <div
         className={classNames({
-          [locals.title]: true,
+          [locals.header]: true,
           [locals.hidden]: isInModal,
           [locals.centerTitle]: centerLabels
         })}
         ref={ref}
       >
-        {disableHeaderTooltip ? (
-          <span className={locals.titleText}>{title}</span>
-        ) : (
-          <Tooltip content={title} align={carbonTooltipEnabled ? 'auto' : 'bottomLeft'} overflowEllipsis>
-            <div className={locals.titleIcon}>
-              {icon && <SvgIcon type={icon} className={iconClassName} />}
-              <span className={locals.titleText}>{title}</span>
-            </div>
-          </Tooltip>
-        )}
-        <div className={locals.flexTooltip}>
-          {hasApproximateData && (
-            <MultiLineToolTipIcon withMargin lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
+        <div className={locals.titleContainer}>
+          {disableHeaderTooltip ? (
+            <span className={locals.titleText}>{title}</span>
+          ) : (
+            <Tooltip content={title} align={carbonTooltipEnabled ? 'auto' : 'bottomLeft'} overflowEllipsis>
+              <>
+                {icon && <SvgIcon type={icon} className={iconClassName} />}
+                <span className={locals.titleText}>{title}</span>
+              </>
+            </Tooltip>
           )}
+        </div>
+        <div className={locals.flexTooltip}>
+          <WidgetCardHeader renderApproximateDataTooltip={hasApproximateData} extraInfoTooltip={extraInfo} />
         </div>
         {iconAction &&
           (carbonButtonEnabled ? (

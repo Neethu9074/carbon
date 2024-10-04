@@ -122,7 +122,7 @@ export default function AnalyzeViewKPIs({
 
   /**
    * Construct the array containing the SSL KPIs for Analyze view
-   * @returns {JSX.Element[]} Array of Start Time, Status, Response Time and Certificate is Valid KPIs
+   * @returns {JSX.Element[]} Array of Start Time, Status, Response Time and Certificate is Signed by Public CA KPIs
    */
   const getKPIsForSsl = () => {
     // Remove Requests and Response Size KPIs for SSL

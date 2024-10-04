@@ -1,16 +1,12 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import { just } from '@instana/observables';
 
-import {
-  beeInstanaInfraMetricsEnabled,
-  highResolutionInfrastructureMetricsEnabled,
-  increaseAggregationEnabled
-} from 'in-services/featureFlags';
+import { beeInstanaInfraMetricsEnabled, highResolutionInfrastructureMetricsEnabled } from 'in-services/featureFlags';
 import { fixateTimeConfig, timeConfig$, timeConfigShiftedForIngestion } from 'in-stores/time/config';
 import createTimeWindowMetricAggregation from 'in-subscription/timeWindowMetricAggregation';
 import createLatestMetricsObservable from 'in-subscription/latestMetrics';
@@ -34,7 +30,7 @@ export const aggregationLabels = {
   MAX: t('aggregation', { context: 'MAX' }),
   DISTINCT_COUNT: t('aggregation', { context: 'DISTINCT_COUNT' }),
   SUM: t('aggregation', { context: 'SUM' }),
-  ...(increaseAggregationEnabled && { INCREASE: t('in-stores:metric.metric', { context: 'INCREASE' }) }),
+  INCREASE: t('in-stores:metric.metric', { context: 'INCREASE' }),
   DISTRIBUTION: t('aggregation', { context: 'DISTRIBUTION' }),
   PER_SECOND: t('aggregation', { context: 'PER_SECOND' })
 };

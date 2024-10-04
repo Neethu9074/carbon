@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { ActionType } from '@instana/types';
+
 import {
   ANSIBlE_TYPE,
   DOC_LINK_TYPE,
@@ -17,11 +19,14 @@ import {
   SCRIPT_TYPE,
   WEBHOOK_TYPE
 } from 'in-automation/ActionCatalog/shared';
+import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
+import useActionFilter from 'in-automation/hooks/useActionFilter';
+import { hasError, isLoading } from 'in-services/util/result';
 import { compareIgnoreCase } from 'in-services/util/string';
-import ComboBox from 'in-components/ComboBox/ComboBox';
+import { ActionFilter } from 'in-automation/api';
 import { t } from 'in-i18n';
 
-const baseOptions = [
+const baseOptions: Option[] = [
   { value: DOC_LINK_TYPE, label: t('in-automation:ActionCatalog.docLink') },
   { value: SCRIPT_TYPE, label: t('in-automation:ActionCatalog.script') },
   { value: WEBHOOK_TYPE, label: t('in-automation:ActionCatalog.http') },
@@ -40,13 +45,26 @@ interface TypeFilterProps {
   showExternal?: boolean;
 }
 
+function filterTypes(actionFilter: 'all' | ActionFilter, options: Option[]) {
+  if (actionFilter === 'all' || actionFilter.types.length === 0) {
+    return options;
+  } else {
+    return options.filter(({ value }) => actionFilter.types.includes(value as ActionType));
+  }
+}
 export function TypeFilter({ type, setType, showExternal = false }: TypeFilterProps) {
-  const options = [...baseOptions].sort((a, b) => compareIgnoreCase(a.label, b.label));
+  const actionFilter = useActionFilter();
+  const options = [...baseOptions];
   if (showExternal) options.push(externalOption);
+  const filteredOptions =
+    isLoading(actionFilter) || hasError(actionFilter)
+      ? []
+      : filterTypes(actionFilter.data!, options).sort((a, b) => compareIgnoreCase(a.label, b.label));
 
   return (
     <ComboBox
-      options={options}
+      disabled={isLoading(actionFilter)}
+      options={filteredOptions}
       placeholder={t('in-automation:type')}
       value={type}
       isMulti

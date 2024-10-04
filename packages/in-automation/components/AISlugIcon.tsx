@@ -6,13 +6,12 @@
 
 import React from 'react';
 
+import { Tooltip as CarbonTooltip } from '@instana/components';
 import { t } from '@instana/i18n-react';
-
-import Tooltip from 'in-components/Tooltip/Tooltip';
 
 export default function AISlugIcon() {
   return (
-    <Tooltip content={t('in-automation:AISlugContent')}>
+    <CarbonTooltip content={t('in-automation:AISlugContent')}>
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g id="AI slug">
           <rect x="0.5" y="0.5" width="31" height="31" fill="white" fillOpacity="0.01" />
@@ -24,6 +23,6 @@ export default function AISlugIcon() {
           />
         </g>
       </svg>
-    </Tooltip>
+    </CarbonTooltip>
   );
 }

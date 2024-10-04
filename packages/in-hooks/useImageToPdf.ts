@@ -18,11 +18,12 @@ import {
 export default function useImageToPdf({
   filename = defaultFilename,
   format = defaultFormat,
+  pdfSettings = defaultPdfSettings,
   imageUrl,
   imageScale,
-  pdfSettings = defaultPdfSettings
+  shouldFitPdf
 }: ImageToPdfProps) {
   return useObservable(() => {
-    return fromPromise(imageToPdf({ filename, format, imageUrl, imageScale, pdfSettings }));
+    return fromPromise(imageToPdf({ filename, format, imageUrl, imageScale, pdfSettings, shouldFitPdf }));
   }, []);
 }

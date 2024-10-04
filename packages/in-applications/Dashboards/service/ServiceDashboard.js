@@ -21,9 +21,10 @@ import { serviceDashboardUrlParameters } from 'in-applications/navigation/urlPar
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import { serviceDashboard, summaryTab } from 'in-applications/navigation/paths';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { APPLICATION_TIME_SHIFT_SELECT } from 'in-services/tracking/eventNames';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
-import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -148,7 +149,7 @@ function Header(props) {
       title={t('in-applications:labelService')}
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
-      renderButtonLineSecondary={renderButtonLineSecondary}
+      renderButtonLineSecondary={RenderButtonLineSecondary}
       renderMetaInformation={renderMetaInformation}
       contextConfigurations={contextConfigurations}
       showHistoricDataWarning={false}
@@ -185,7 +186,7 @@ function renderButtonLine({ applicationId, serviceId, boundaryScope, timeConfig,
   );
 }
 
-function renderButtonLineSecondary({
+function RenderButtonLineSecondary({
   applicationId,
   serviceId,
   timeConfig,
@@ -194,6 +195,7 @@ function renderButtonLineSecondary({
   onBoundaryStateChange,
   location
 }) {
+  const { trackCta } = useSegmentTracking();
   return (
     <>
       <InstanaServiceToCloudfoundryApplicationButton
@@ -204,7 +206,7 @@ function renderButtonLineSecondary({
       <TimeShiftDropdown
         disabled={currentTab !== summaryTab}
         onChange={offset =>
-          applicationTimeShiftSelectTracker({
+          trackCta(APPLICATION_TIME_SHIFT_SELECT, {
             area: 'service',
             offset: getTimeShiftLabel({ offset: offset }),
             windowSize: timeConfig.windowSize,

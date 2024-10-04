@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { ActionInstance, PaginatedResult, Policy, EventSpecificationInfo, Trigger } from '@instana/types';
 import { Spacer, Stack, Typography, Button } from '@instana/components';
 
 import {
@@ -23,7 +24,6 @@ import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/syn
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
 import { createTagsUrlParameter, createTypeUrlParameter } from 'in-automation/navigation/urlParameters';
-import { ActionInstance, PaginatedResult, Policy, EventSpecificationInfo, Trigger } from 'in-types';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import useNavigateToPolicyDetails from 'in-automation/navigation/hooks/useNavigateToPolicyDetails';
 import { getSubtitle as getSubtitleInfra } from 'in-alerting/smart-alerts/infrastructure/Alerts';
@@ -49,11 +49,11 @@ import { TagsFilter } from 'in-automation/components/tableFilters';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { all as allStatus } from 'in-hooks/utils/fetchStatus';
 import { all as allProgress } from 'in-hooks/utils/progress';
+import useTriggers from 'in-automation/Policies/useTriggers';
 import { close } from 'in-components/DialogPresenter/store';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { deletePolicy } from 'in-automation/api';
-import useTriggers from './useTriggers';
 import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
@@ -179,8 +179,24 @@ export function EventNameWithoutTriggerInfo({ entity }: { entity: Trigger }) {
   );
 }
 
-function Content() {
-  return useNavigateToPolicyDetails();
+function PoliciesMoreMenu({ policy }: { policy: PolicyTableEntity }) {
+  const navigateToPolicyDetails = useNavigateToPolicyDetails();
+  if (!role?.canConfigureAutomationPolicies) return null;
+  return (
+    <Stack align="end">
+      <MoreMenu kind="subtle">
+        <MoreMenuButton icon="lib_actions_edit" onClick={() => navigateToPolicyDetails(policy.id, false)}>
+          {t('in-automation:edit')}
+        </MoreMenuButton>
+        <MoreMenuButton icon="lib_actions_copy" onClick={() => navigateToPolicyDetails(policy.id, true)}>
+          {t('in-automation:copy')}
+        </MoreMenuButton>
+        <MoreMenuButton icon="lib_actions_delete" onClick={() => showConfirmationDialog(policy)}>
+          {t('in-automation:delete')}
+        </MoreMenuButton>
+      </MoreMenu>
+    </Stack>
+  );
 }
 
 const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
@@ -190,7 +206,6 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
     label: t('in-automation:policies.eventTrigger'),
     getContent: item => {
       if (isEventSpecification(item.trigger)) {
-        // return <EventName hasRowNavigation={false} entity={item.trigger} />;
         return (
           <div className={locals.eventNameWrapper}>
             {(item.trigger as EventSpecificationInfo).entityType ? (
@@ -249,7 +264,7 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
       if (isSloSmartAlert(item.trigger)) {
         return <NameColumnCell config={item.trigger} />;
       }
-      if (item.trigger) {
+      if (item.trigger && item.trigger.threshold) {
         return <NameColumnCell config={item.trigger} getSubtitle={config => getSubtitleLog(config.threshold)} />;
       }
 
@@ -265,25 +280,7 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
     id: 'actions',
     sortable: false,
     width: 5,
-    getContent: item => {
-      const navigateToPolicyDetails = Content();
-      if (!role?.canConfigureAutomationPolicies) return null;
-      return (
-        <Stack align="end">
-          <MoreMenu kind="subtle">
-            <MoreMenuButton icon="lib_actions_edit" onClick={() => navigateToPolicyDetails(item.id, false)}>
-              {t('in-automation:edit')}
-            </MoreMenuButton>
-            <MoreMenuButton icon="lib_actions_copy" onClick={() => navigateToPolicyDetails(item.id, true)}>
-              {t('in-automation:copy')}
-            </MoreMenuButton>
-            <MoreMenuButton icon="lib_actions_delete" onClick={() => showConfirmationDialog(item)}>
-              {t('in-automation:delete')}
-            </MoreMenuButton>
-          </MoreMenu>
-        </Stack>
-      );
-    }
+    getContent: policy => <PoliciesMoreMenu policy={policy} />
   }
 ];
 

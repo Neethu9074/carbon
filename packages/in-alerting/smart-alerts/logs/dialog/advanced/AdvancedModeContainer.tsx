@@ -135,7 +135,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
               onChange={onChange}
               setSliderState={setSliderState}
               setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-              numberOfAlertChannelListRows={7}
+              numberOfAlertChannelListRows={5}
             />
           )
         },

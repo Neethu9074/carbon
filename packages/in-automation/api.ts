@@ -114,25 +114,16 @@ export function getResourceOptimization(targetSnapshotId: string, entityType: st
   });
 }
 
-export function getAction(actionId: string): Observable<Action> {
+export function getAction(actionId: string) {
   return http<Action>({
     method: 'GET',
     maxRetries: 3,
-    url: `${actionUrl}/${encodeURIComponent(actionId)}`
-  }).map(response => response.body);
-}
-
-export function saveNewAction(actionSpecification: NewAction) {
-  return http<Action>({
-    method: 'POST',
-    maxRetries: 3,
-    url: actionUrl,
-    headers: getCsrfHeader(),
-    data: actionSpecification
+    url: `${actionUrl}/${encodeURIComponent(actionId)}`,
+    mapToResultObject: true
   });
 }
 
-export function saveNewActionResult(actionSpecification: NewAction) {
+export function saveNewAction(actionSpecification: NewAction) {
   return http<Action>({
     method: 'POST',
     maxRetries: 3,
@@ -149,8 +140,9 @@ export function saveAction(actionSpecification: NewAction, id: string) {
     maxRetries: 3,
     url: `${actionUrl}/${encodeURIComponent(id)}`,
     headers: getCsrfHeader(),
-    data: actionSpecification
-  }).map(response => response.body);
+    data: actionSpecification,
+    mapToResultObject: true
+  });
 }
 
 export function deleteAction(actionId: string) {
@@ -1040,7 +1032,7 @@ export function getActionNameExists(name: string, type: ActionType) {
   });
 }
 
-export type ActionFilter = { types: string[]; tags: string[] };
+export type ActionFilter = { types: ActionType[]; tags: string[] };
 export function getActionFilter() {
   return http<ActionFilter>({
     method: 'GET',

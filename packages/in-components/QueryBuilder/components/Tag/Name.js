@@ -26,7 +26,8 @@ export default React.forwardRef(function Name(
     withoutOrConjunction = false,
     withoutBrackets = false,
     getTagCatalog,
-    additionalGetTagCatalogProps
+    additionalGetTagCatalogProps,
+    addTagDefinitionToFormModel
   },
   ref
 ) {
@@ -42,7 +43,8 @@ export default React.forwardRef(function Name(
         withoutOrConjunction,
         withoutBrackets,
         getTagCatalog,
-        additionalGetTagCatalogProps
+        additionalGetTagCatalogProps,
+        addTagDefinitionToFormModel
       }}
       align="bottomMiddle"
       onCloseSideEffect={e => {

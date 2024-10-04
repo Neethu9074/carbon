@@ -9,7 +9,7 @@ import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { EventTrackerProps } from 'in-services/tracking/segment/types';
 import { CTA_CLICKED } from 'in-services/util/constants';
 
-export function maintenanceWindowCTATracker(EVENT_NAME: string, path: string, label?: string) {
+export function maintenanceWindowCTATracker(EVENT_NAME: string, path: string, label?: string, customData?: Object) {
   const { pageRootName, productArea } = getViewTrackingMetaData();
   if (pageRootName && productArea) {
     const data = {
@@ -18,7 +18,8 @@ export function maintenanceWindowCTATracker(EVENT_NAME: string, path: string, la
       CTA: EVENT_NAME,
       channel: 'maintenance windows',
       path: path,
-      label: label
+      label: label,
+      ['custom.payload']: customData
     } as EventTrackerProps['data'];
 
     eventTracker({ data, segmentEventName: CTA_CLICKED });

@@ -6,6 +6,9 @@
 @import '~in-themes/active.less';
 
 :local {
+  .carbonAnalyzeButton {
+    margin-left: 0.5rem;
+  }
   .closeIcon {
     cursor: pointer;
     fill: var(--ids-color-option-neutral-500);

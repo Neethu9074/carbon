@@ -86,7 +86,6 @@
       "essentials": "Essentials",
       "iqmHosts": "IQM 主機",
       "syntheticPops": "綜合管理的 PoPs",
-      "logging": "環境定義中的日誌",
       "resourceUnits": "已授權資源單位",
       "consumedUnits": "已耗用資源單位",
       "infrastructure": "基礎架構",
@@ -98,11 +97,7 @@
       "trendLine": "趨勢線",
       "dataUsage": "資料用量",
       "dataUsageHelperText": "在所選時間範圍內透過按類別分隔的代理程式傳送的位元組數。",
-      "syntheticsHelperText": "每一種動作所耗用的資源單位數。 單位的計算係數為 0.025（適用於簡式測試）、0.042（適用於 API 測試）及 1.000（適用於瀏覽器測試）。",
-      "loggingHelperText": {
-        "saas": "在環境定義中，日誌耗用的資源單位 (RU) 數量。<br><br>資源單位是根據汲取資料的保留時間計算：<br>• 1 GB 的資料保留 30 天耗用 1 RU。<br>• 1 GB 的資料保留 60 天的會耗用 1.2 RU。<br>- 1 GB 的資料保留 90 天會耗用 1.4 RU。",
-        "onprem": "環境定義中日誌耗用的資源單位 (RU) 數量。<br><br>資源單位根據汲取資料的數量來計算。 1 GB 的汲取資料耗用 1 RU。"
-      }
+      "syntheticsHelperText": "每一種動作所耗用的資源單位數。 單位的計算係數為 0.025（適用於簡式測試）、0.042（適用於 API 測試）及 1.000（適用於瀏覽器測試）。"
     },
     "activationAdoption": {
       "activationAdoption": "啟動與採用",

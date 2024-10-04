@@ -660,8 +660,7 @@ export function addGroupingCriteriaToFormModel(
   if (customGroupingTagFilter) {
     return joinExpressions({ expressions: [formModel, sanitizeTagFilter(customGroupingTagFilter)] });
   }
-  const tagDefinition = groupingTagCatalog?.tags.find(tag => tag.name === groupBy.groupbyTag);
-  const groupByTagType = tagDefinition?.type;
+  const groupByTagType = groupingTagCatalog?.tags.find(tag => tag.name === groupBy.groupbyTag)?.type;
   let newTagFilter;
   if (groupValue === UNSPECIFIED) {
     newTagFilter = {
@@ -669,8 +668,7 @@ export function addGroupingCriteriaToFormModel(
       operator: IS_EMPTY,
       name: groupBy.groupbyTag,
       key: groupBy.groupbyTagSecondLevelKey,
-      entity: groupBy.groupbyTagEntity,
-      tagDefinition
+      entity: groupBy.groupbyTagEntity
     };
   } else if (groupValue === NO_VALUE) {
     newTagFilter = {
@@ -678,8 +676,7 @@ export function addGroupingCriteriaToFormModel(
       operator: IS_BLANK,
       name: groupBy.groupbyTag,
       key: groupBy.groupbyTagSecondLevelKey,
-      entity: groupBy.groupbyTagEntity,
-      tagDefinition
+      entity: groupBy.groupbyTagEntity
     };
   } else if (
     (groupByTagType === KEY_VALUE_PAIR || groupByTagType === KEY_NUMBER_PAIR) &&
@@ -690,8 +687,7 @@ export function addGroupingCriteriaToFormModel(
       operator: NOT_EMPTY,
       name: groupBy.groupbyTag,
       key: groupValue,
-      entity: groupBy.groupbyTagEntity,
-      tagDefinition
+      entity: groupBy.groupbyTagEntity
     };
   } else {
     let value;
@@ -709,8 +705,7 @@ export function addGroupingCriteriaToFormModel(
       name: groupBy.groupbyTag,
       key: groupBy.groupbyTagSecondLevelKey,
       value: value,
-      entity: groupBy.groupbyTagEntity,
-      tagDefinition
+      entity: groupBy.groupbyTagEntity
     };
   }
   return joinExpressions({ expressions: [formModel, sanitizeTagFilter(newTagFilter)] });

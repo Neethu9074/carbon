@@ -7,7 +7,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { IconButton, Link, Stack, Typography } from '@instana/components';
+import { IconButton, Link, Stack } from '@instana/components';
 import { EntityHealthInfo, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
@@ -24,20 +24,21 @@ import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithH
 import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateApplicationDialog';
 //@ts-expect-error doesn't contain type file
 import { getNewApplicationWaiterViewPath } from 'in-applications/creation/CreateApplication';
-//@ts-expect-error doesn't contain type file
-import { application as applicationType } from 'in-cockpit/starredItems/types';
 //@ts-expect-error
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 //@ts-expect-error doesn't contain type file
 import { add, remove } from 'in-cockpit/starredItems';
+import TypographyWithTooltip from 'in-plg/components/TypographyWithTooltip/TypographyWithTooltip';
 import { createNewApplicationConfig, getApplicationConfig } from 'in-api/applicationConfigs';
 import { getApplicationsWithDefaults } from 'in-applications/subscriptions/getApplications';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import { applicationCreationOpenDialogClick } from 'in-applications/creation/tracker';
+import { APPLICATION_CREATION_OPEN_DIALOG_CLICK } from 'in-services/tracking/eventNames';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
+import { application as applicationType } from 'in-cockpit/starredItems/types';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { applicationsList } from 'in-applications/navigation/paths';
@@ -47,6 +48,7 @@ import { hasError, isLoading } from 'in-services/util/result';
 import { successObservable } from 'in-services/util/result';
 import { boundaryScopes } from 'in-applications/constants';
 import { getTimeConfig } from 'in-stores/time/config';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { role } from 'in-stores/user';
 
 function getApplicationData(params: GetApplicationsWithDefaultsProps) {
@@ -114,6 +116,7 @@ export default function ApplicationWidget({
   const entityResult = useObservable(getConfig, [applicationId]);
   const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
   const { createHrefToPath } = useNavigation();
+  const { trackCta } = useSegmentTracking();
 
   function addNewApplications() {
     let ele;
@@ -126,7 +129,7 @@ export default function ApplicationWidget({
         editMode
       />
     );
-    applicationCreationOpenDialogClick({
+    trackCta(APPLICATION_CREATION_OPEN_DIALOG_CLICK, {
       status: t('in-plg:welcomepage.component.applicationWidget.openCreationDialog')
     });
     return ele;
@@ -136,10 +139,8 @@ export default function ApplicationWidget({
     if (item.application.boundaryScope) {
       const boundaryScope = item.application.boundaryScope;
       if (boundaryScope !== 'ALL' && boundaryScope !== 'INBOUND') return null;
-      if (boundaryScope === 'ALL')
-        return <Typography variant="body-regular">{boundaryScopes.info['ALL'].text}</Typography>;
-      if (boundaryScope === 'INBOUND')
-        return <Typography variant="body-regular">{boundaryScopes.info['INBOUND'].text}</Typography>;
+      if (boundaryScope === 'ALL') return <TypographyWithTooltip content={boundaryScopes.info['ALL'].text} />;
+      if (boundaryScope === 'INBOUND') return <TypographyWithTooltip content={boundaryScopes.info['INBOUND'].text} />;
     }
     return null;
   }
@@ -216,9 +217,11 @@ export default function ApplicationWidget({
       key: 'name',
       getContent({ item }) {
         return (
-          <Link href={getLinkToApplicationDashboard({ applicationId: item.application.id })}>
-            {item.application.label}
-          </Link>
+          <Tooltip content={item.application.label} align="auto" caret={false}>
+            <Link href={getLinkToApplicationDashboard({ applicationId: item.application.id })}>
+              {item.application.label}
+            </Link>
+          </Tooltip>
         );
       }
     },

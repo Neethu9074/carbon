@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { ButtonSizes } from '@instana/components';
 import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error needs TS migration
@@ -27,6 +28,7 @@ interface ContextGuideProps {
   includeSelfEntity?: boolean;
   plugin?: string;
   syntheticCalls?: any;
+  size?: keyof typeof ButtonSizes;
 }
 export default function ContextGuide({
   id,
@@ -39,7 +41,8 @@ export default function ContextGuide({
   tagFilters,
   includeSelfEntity = false,
   plugin,
-  syntheticCalls
+  syntheticCalls,
+  size
 }: ContextGuideProps) {
   return (
     <>
@@ -55,6 +58,7 @@ export default function ContextGuide({
         plugin={plugin}
         syntheticCalls={syntheticCalls}
         noAutoMargin
+        size={size}
       />
       <UpstreamDownstreamButton
         snapshotId={id}
@@ -65,6 +69,7 @@ export default function ContextGuide({
         className={locals.rightButton}
         tagFilters={tagFilters}
         plugin={plugin}
+        size={size}
       />
     </>
   );

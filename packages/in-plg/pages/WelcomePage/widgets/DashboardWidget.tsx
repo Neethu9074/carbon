@@ -6,16 +6,14 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { IconButton, Link, Pill, Typography } from '@instana/components';
 import { CustomDashboard, Result, UserResult } from '@instana/types';
+import { IconButton, Link, Pill } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 import { t } from '@instana/i18n-react';
 
 //@ts-expect-error doesn't contain type file
 import { viewPathFullyQualified, dashboardIdUrlParameter } from 'in-custom-dashboards/navigation/url';
-//@ts-expect-error doesn't contain type file
-import { customDashboard as customDashboardType } from 'in-cockpit/starredItems/types';
 import useGetCustomDashboardPermissions from 'in-plg/pages/WelcomePage/widgets/hooks/useGetCustomDashboardPermissions';
 //@ts-expect-error doesn't contain type file
 import NewDashboardDialog from 'in-custom-dashboards/NewDashboardDialog';
@@ -24,6 +22,8 @@ import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widg
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 //@ts-expect-error doesn't contain type file
 import { add, remove } from 'in-cockpit/starredItems';
+import TypographyWithTooltip from 'in-plg/components/TypographyWithTooltip/TypographyWithTooltip';
+import { customDashboard as customDashboardType } from 'in-cockpit/starredItems/types';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import { getCustomDashboards, getUsers } from 'in-custom-dashboards/api';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -32,6 +32,7 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { welcomePageV2Enabled } from 'in-services/featureFlags';
 import { getCustomDashboard } from 'in-custom-dashboards/api';
 import { hasError, isLoading } from 'in-services/util/result';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 
 export default function DashboardWidget({
   config,
@@ -72,7 +73,11 @@ export default function DashboardWidget({
       key: 'name',
       getContent({ item }) {
         setOrDeleteMatrixKey(connectToLocation, dashboardIdUrlParameter.path, dashboardIdUrlParameter.name, item.id);
-        return <Link href={createHref(connectToLocation)}>{item.title}</Link>;
+        return (
+          <Tooltip content={item.title} align="auto" caret={false}>
+            <Link href={createHref(connectToLocation)}>{item.title}</Link>
+          </Tooltip>
+        );
       }
     },
     {
@@ -84,7 +89,7 @@ export default function DashboardWidget({
           return '-';
         }
 
-        return <Typography variant="body-regular">{user.fullName}</Typography>;
+        return <TypographyWithTooltip content={user.fullName} />;
       }
     },
     {

@@ -25,6 +25,7 @@ interface ConjunctionTagSelectorOverlayProps<ADDITIONAL_TAG_CATALOG_PROPS = {}> 
   withoutBrackets?: boolean;
   getTagCatalog?: GetTagCatalog;
   additionalGetTagCatalogProps?: ADDITIONAL_TAG_CATALOG_PROPS;
+  addTagDefinitionToFormModel?: boolean;
 }
 export default function ConjunctionTagSelectorOverlay({
   tagCatalog,
@@ -33,7 +34,8 @@ export default function ConjunctionTagSelectorOverlay({
   withoutOrConjunction = false,
   withoutBrackets = false,
   getTagCatalog,
-  additionalGetTagCatalogProps
+  additionalGetTagCatalogProps,
+  addTagDefinitionToFormModel
 }: ConjunctionTagSelectorOverlayProps) {
   return (
     <>
@@ -60,6 +62,7 @@ export default function ConjunctionTagSelectorOverlay({
         tagCatalog={tagCatalog}
         getTagCatalog={getTagCatalog}
         additionalGetTagCatalogProps={additionalGetTagCatalogProps}
+        addTagDefinitionToFormModel={addTagDefinitionToFormModel}
       />
     </>
   );

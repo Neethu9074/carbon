@@ -7,7 +7,7 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon, CarbonPopover, CarbonPopoverContent, IconButton, CarbonButton, Link } from '@instana/components';
+import { SvgIcon, CarbonButton } from '@instana/components';
 
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import { TYPE_NOTE, TYPE_EXT_NOTE, TYPE_EXT_F_CHANGE, TYPE_AI_SUMMARY } from '../utils';
@@ -19,7 +19,7 @@ import { EVENT_AI_SHOW_MORE } from 'in-services/tracking/eventNames';
 import { CTA_CLICKED } from 'in-services/util/constants';
 import { track } from 'in-services/tracking/trackers';
 import { user } from 'in-stores/user';
-import { Trans, t } from 'in-i18n';
+import { t } from 'in-i18n';
 
 import locals from './CommentList.mless';
 
@@ -102,7 +102,6 @@ export function CommentList(props) {
                   })}
                 >
                   {noteNameAndTimeFormat(myBubble, note, date, type)}
-                  {aiSum && <AIPopover />}
                 </div>
               </div>
               <ChatBubble noteObj={note} contents={note.contents} data={note?.data} myBubble={myBubble} type={type} />
@@ -197,78 +196,6 @@ function SummaryEntry({ summaryList }) {
         );
       })}
     </>
-  );
-}
-
-// Basic function for the rendering of the AI Popover and its inner contents
-// Each AI Popover holds his own open state so they are independent of each other
-export function AIPopover() {
-  const [showPop, setShowPop] = useState(false);
-  return (
-    <CarbonPopover open={showPop} align={'bottom-end'} caret autoAlign>
-      <SvgIcon
-        type={'lib_ai_slug'}
-        className={locals.aiIconSlug}
-        size="xs"
-        viewBox={'4 4 24 24'}
-        onClick={() => {
-          setShowPop(!showPop);
-        }}
-      />
-      <CarbonPopoverContent className={locals.popoverContent}>
-        <div className={locals.popupClose}>
-          <IconButton
-            type={'lib_openclose_cancel'}
-            size="compact"
-            onClick={() => {
-              setShowPop(!showPop);
-            }}
-          />
-        </div>
-        <AIExplainedContent />
-      </CarbonPopoverContent>
-    </CarbonPopover>
-  );
-}
-
-// Static Function that renders the text content within the popover
-// that is explaining the AI being used
-export function AIExplainedContent() {
-  return (
-    <div className={locals.popOverWrapper}>
-      <div className={locals.popupDescription}>
-        {t('in-events:notes.aiExplained')}
-        <div className={locals.popSumTitle}>{t('in-events:notes.summary')}</div>
-        <div>{t('in-events:notes.summaryDescription')}</div>
-      </div>
-      <div>
-        <div className={locals.dataTypesHeader}>{t('in-events:notes.dataTypes')}</div>
-        <div className={locals.bullet}>
-          {'- '}
-          <div style={{ paddingLeft: '.5rem' }}>
-            <Trans i18nKey={'in-events:notes.triggeringEvent'} />
-          </div>
-        </div>
-        <div className={locals.bullet}>
-          {'- '}
-          <div style={{ paddingLeft: '.5rem' }}>
-            <Trans i18nKey={'in-events:notes.relatedEvents'} />
-          </div>
-        </div>
-        <div className={locals.bullet}>
-          {'- '}
-          <div style={{ paddingLeft: '.5rem' }}>
-            <Trans i18nKey={'in-events:notes.affectedEntities'} />
-          </div>
-        </div>
-      </div>
-      <div className={locals.aimodellink}>
-        <div>{t('in-events:notes.aiModel')}</div>
-        <Link linkIconType={'lib_views_external_link'} href="https://ibm.biz/granite-13b-chat-v2" external>
-          {t('in-events:notes.granite')}
-        </Link>
-      </div>
-    </div>
   );
 }
 

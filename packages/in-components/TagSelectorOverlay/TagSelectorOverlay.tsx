@@ -37,6 +37,7 @@ interface TagSelectorOverlayProps<ADDITIONAL_TAG_CATALOG_PROPS = {}> {
   onChange: (props: OnChangeProps) => void;
   close: VoidFunction;
   showTypeBadge?: boolean;
+  addTagDefinitionToFormModel?: boolean;
 }
 
 interface OnChangeProps {
@@ -51,7 +52,8 @@ export default function TagSelectorOverlay({
   close,
   showTypeBadge = false,
   getTagCatalog,
-  additionalGetTagCatalogProps
+  additionalGetTagCatalogProps,
+  addTagDefinitionToFormModel
 }: Readonly<TagSelectorOverlayProps>) {
   const queryableOnly = useObservable(
     settings$.map(settings => get(settings, ['use_queryable_tags_enabled'], true)),
@@ -88,8 +90,7 @@ export default function TagSelectorOverlay({
           onChange({
             name: node.tagName,
             tagType: node.tagType || 'STRING',
-            tagDefinition:
-              getTagCatalog && additionalGetTagCatalogProps ? minimizeTagDefinition(node.tagDefinition) : undefined
+            tagDefinition: addTagDefinitionToFormModel ? minimizeTagDefinition(node.tagDefinition) : undefined
           });
         }
         close();

@@ -16,8 +16,10 @@ import { ActiveConfiguration, AnalyzeHeaderProps } from 'in-analyze/components/A
 import { productAreaTrackingNames, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { getActiveConfiguration } from 'in-analyze/components/AnalyzeHeader/utils';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { analyzeDocs } from 'in-analyze/components/AnalyzeHeader/constants';
 import TimeSelection from 'in-components/time/TimeSelection/TimeSelection';
+import { ANALYZE_DOCS_LINK_OPENED } from 'in-services/tracking/eventNames';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
@@ -25,7 +27,6 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import Label from 'in-analyze/components/AnalyzeHeader/Label';
 import Overlay from 'in-components/overlays/Overlay/Overlay';
 import { pageNames } from 'in-services/tracking/pageNames';
-import { clickedDocsLink } from 'in-analyze/tracker';
 import Title from 'in-components/Title/Title';
 import { t } from 'in-i18n';
 
@@ -45,14 +46,21 @@ export default function AnalyzeHeader({
 }: AnalyzeHeaderProps) {
   const location = useLocation();
   const activeConfiguration = getActiveConfiguration(location) as ActiveConfiguration;
-
+  const { trackCta } = useSegmentTracking();
   const HeaderLabel =
     label !== undefined ? (
       label
     ) : (
       <Overlay props={{ activeConfiguration, isGrouped, formModel }} withoutWrapper content={AnalyzeDataSourceSelector}>
         {({ toggle, isOpen, ref }) => (
-          <DashboardHeaderButton size="normal" className={locals.button} ref={ref} onClick={toggle} expanded={isOpen}>
+          <DashboardHeaderButton
+            isBreadCrumbButton
+            size="normal"
+            className={locals.button}
+            ref={ref}
+            onClick={toggle}
+            expanded={isOpen}
+          >
             <Label activeConfiguration={activeConfiguration} />
           </DashboardHeaderButton>
         )}
@@ -74,7 +82,7 @@ export default function AnalyzeHeader({
     const docsLink = analyzeDocs[dataSource];
     const linkLabel = t('in-analyze:analyzeHeader.readDocs');
     const handleTracking = () => {
-      clickedDocsLink(emptyObject);
+      trackCta(ANALYZE_DOCS_LINK_OPENED, emptyObject);
     };
 
     return (

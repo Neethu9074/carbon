@@ -87,7 +87,7 @@ export type TriggerSpecification =
   | ServiceLevelsAlertConfigWithMetadata;
 
 export const isEventSpecification = (item?: TriggerSpecification): item is EventSpecificationInfo =>
-  (item as EventSpecificationInfo)?.type !== undefined;
+  (item as EventSpecificationInfo)?.type !== undefined && (item as EventSpecificationInfo)?.entityType !== undefined;
 
 export const isApplicationSmartAlert = (item?: TriggerSpecification): item is ApplicationSmartAlertConfigWithMetadata =>
   (item as ApplicationSmartAlertConfigWithMetadata)?.applicationId !== undefined;

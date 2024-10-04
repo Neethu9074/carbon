@@ -44,6 +44,7 @@ export default function HistogramChartPresenter({
   onSelectionChanged,
   result,
   selection,
+  tooltipRef,
   renderWidgetNotSupportedIndicator
 }) {
   const filteredDataSeriesRef = useRef(create());
@@ -174,6 +175,7 @@ export default function HistogramChartPresenter({
             onSelectionChanged={onSelectionChanged}
             selectionAdjustable={selectionAdjustable}
             selection={selection}
+            tooltipRef={tooltipRef}
             renderWidgetNotSupportedIndicator={renderWidgetNotSupportedIndicator}
             tooltipRenderer={{
               render: function TooltipRenderer({ from, to, style }) {

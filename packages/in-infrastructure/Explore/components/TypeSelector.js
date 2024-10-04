@@ -104,6 +104,7 @@ export function TypeSelector(props) {
             onClick={toggle}
             expanded={isOpen}
             className={classNames(className, { [locals.headerButton]: header })}
+            isBreadCrumbButton
           >
             <TypeRow icon={icon} name={name} className={classNames({ [locals.header]: header })} />
           </Component>
@@ -126,13 +127,14 @@ function getTypesFromResult(availableTypesResult, excludeAllType) {
   return [allInfrastructureType].concat(availableTypes);
 }
 
-const DefaultButton = forwardRef(function DefaultButton({ className, ...buttonProps }, ref) {
+const DefaultButton = forwardRef(function DefaultButton({ className, isBreadCrumbButton, ...buttonProps }, ref) {
   return (
     <DropdownButton
       ref={ref}
       {...buttonProps}
       kind={'secondary'}
       className={classNames(className, locals.defaultButton)}
+      isBreadCrumbButton={isBreadCrumbButton}
     />
   );
 });

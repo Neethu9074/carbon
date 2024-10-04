@@ -72,7 +72,7 @@ export default function Summary() {
           />
         </Col>
         <Col lg>
-          <TopServices businessActivityId={businessActivityId} />
+          <TopServices businessActivityId={businessActivityId} businessProcessDefinitionId={businessProcessId} />
         </Col>
       </Row>
       <Row>

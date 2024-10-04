@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { ActionType, Event, Field, Result } from '@instana/types';
 
 import { NewAction, createManualField, createScriptFields } from 'in-automation/api';
+import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { isManual, isScript } from 'in-automation/ActionCatalog/shared';
 import { TriggerSpecification } from 'in-automation/Policies/types';
 import { hasError } from 'in-services/util/result';
@@ -73,12 +74,34 @@ interface UseGenerateAIActionFormParams {
   event: Event;
 }
 
+function getEventEntity(event: Event): string {
+  const triggerType = getTriggerTypeFromEvent(event);
+  switch (triggerType) {
+    case 'applicationSmartAlert':
+      return 'Application';
+    case 'websiteSmartAlert':
+      return 'Website';
+    case 'globalApplicationSmartAlert':
+      return 'Application';
+    case 'mobileAppSmartAlert':
+      return 'Mobile';
+    case 'logSmartAlert':
+      return 'Logs';
+    case 'syntheticsSmartAlert':
+      return 'Synthetic test';
+    case 'sloSmartAlert':
+      return 'Service level objective';
+    default:
+      return getPluginName(event.plugin) ?? '';
+  }
+}
+
 function createGenerateAIActionForm({ trigger, event }: UseGenerateAIActionFormParams) {
-  const name = hasError(trigger) ? event?.problem?.problemText ?? '' : trigger.data!?.name;
+  const name = event?.problem?.problemText ?? '';
   const description = hasError(trigger) ? event?.problem?.fixSuggestion ?? '' : trigger.data!?.description ?? '';
   const defaultActionName = `AI generated action for ${name}`;
   const defaultActionDescription = `This resolves event with ${description}`;
-  const entityType = getPluginName(event.plugin) ?? '';
+  const entityType = getEventEntity(event);
 
   const form: GenerateAIActionForm = createMapForm({
     items: {

@@ -10,7 +10,7 @@ import { MetricResult, Result, TagFilter, TimeConfig, UnifiedMetricConfiguration
 
 import { getTimeShiftLabel, hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
-import { ThresholdFn, ThresholdProps } from 'in-custom-dashboards/widgets/_shared/threshold';
+import { ThresholdFn, ThresholdProps } from 'in-components/Threshold/threshold';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import ResultAwareKpiCard from 'in-components/KpiCard/ResultAwareKpiCard';
 import ThresholdKpiCard from 'in-components/KpiCard/TresholdKpiCard';
@@ -60,6 +60,7 @@ export interface ResultAwareBigNumberKpiCardProps<METRIC_CONFIG extends UnifiedM
   isInModal?: boolean;
   thresholdFn?: ThresholdFn;
   raw?: boolean;
+  extraInfo?: string;
 }
 
 export function isConfigWithCompanionMetric<METRIC_CONFIG extends UnifiedMetricConfigurationUnion>(
@@ -86,7 +87,8 @@ export default function ResultAwareBigNumberKpiCard<METRIC_CONFIG extends Unifie
   result,
   isInModal,
   thresholdFn,
-  raw
+  raw,
+  extraInfo
 }: ResultAwareBigNumberKpiCardProps<METRIC_CONFIG>) {
   const timeConfig = useTimeConfig();
 
@@ -118,9 +120,11 @@ export default function ResultAwareBigNumberKpiCard<METRIC_CONFIG extends Unifie
           useMaxAvailableHeight,
           raw,
           thresholdFn,
-          isInModal
+          isInModal,
+          extraInfo
         )
       }
+      extraInfo={extraInfo}
     />
   );
 }
@@ -138,7 +142,8 @@ export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfigurationUn
   useMaxAvailableHeight: boolean | undefined,
   raw: boolean | undefined,
   thresholdFn?: ThresholdFn,
-  isInModal?: boolean
+  isInModal?: boolean,
+  extraInfo?: string
 ) {
   let value = null;
 
@@ -185,6 +190,7 @@ export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfigurationUn
       raw={raw}
       tooltipContent={lastValueTooltipContent}
       bigNumbers
+      extraInfo={extraInfo}
     />
   );
 }

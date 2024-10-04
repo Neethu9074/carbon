@@ -568,7 +568,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonIconButtonEnabled',
     instanaCtlKey: 'feature.carbon.iconbutton.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonSearchInputEnabled',
@@ -633,7 +633,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonDropdownEnabled',
     instanaCtlKey: 'feature.carbon.dropdown.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonInputEnabled',
@@ -672,7 +672,7 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'applicationSmartAlertFullScreenDesignEnabled',
-    instanaCtlKey: 'application.smart.alerts.full.screen.design.enabled',
+    instanaCtlKey: 'feature.application.smart.alert.full.screen.design.enabled',
     defaultValue: false
   },
   {
@@ -741,6 +741,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'carbonSideNavLinksEnabled',
+    instanaCtlKey: 'feature.carbon.side.nav.links.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'analyzeRelatedInstancesButtonEnabled',
     instanaCtlKey: 'feature.analyze.related.instances.button.enabled',
     defaultValue: false
@@ -777,17 +782,12 @@ module.exports = exports = [
   },
   {
     uiClientKey: 'applicationSmartAlertDialogView',
-    instanaCtlKey: 'application.smart.alerts.dialog.view',
+    instanaCtlKey: 'feature.application.smart.alert.dialog.view',
     defaultValue: true
   },
   {
     uiClientKey: 'extrapolateMissingStackedAreaValues',
     instanaCtlKey: 'feature.charts.extrapolateMissingStackedAreaValues',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'increaseAggregationEnabled',
-    instanaCtlKey: 'feature.increase.aggregation.enabled',
     defaultValue: false
   },
   {
@@ -823,6 +823,11 @@ module.exports = exports = [
   {
     uiClientKey: 'customDashboardTopLevelFiltersEnabled',
     instanaCtlKey: 'feature.custom.dashboard.top.level.filters.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'syntheticCredentialsEnabled',
+    instanaCtlKey: 'feature.synthetic.credentials.enabled',
     defaultValue: false
   }
 ];

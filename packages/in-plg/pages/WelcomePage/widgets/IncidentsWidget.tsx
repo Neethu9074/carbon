@@ -6,13 +6,14 @@
 
 import React from 'react';
 
-import { Link, Typography } from '@instana/components';
 import { RawEvent, TimeConfig } from '@instana/types';
+import { Link } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 //@ts-expect-error doesn't contain type file
 import getRawEvents from 'in-subscription/getRawEvents';
+import TypographyWithTooltip from 'in-plg/components/TypographyWithTooltip/TypographyWithTooltip';
 //@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
 import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
@@ -24,6 +25,7 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import { openEventsAtServerTime$ } from 'in-stores/events';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { concatQueries } from 'in-events/utils';
 
 export default connectTo(() => ({
@@ -107,25 +109,29 @@ export default connectTo(() => ({
     {
       key: 'title',
       getContent({ item }) {
-        return <Link href={onItemClicked(item.id)}>{item.title}</Link>;
+        return (
+          <Tooltip content={item.title} align="auto" caret={false}>
+            <Link href={onItemClicked(item.id)}>{item.title}</Link>
+          </Tooltip>
+        );
       }
     },
     {
       key: 'on',
       getContent({ item }) {
-        return <Typography variant="body-regular">{item.entityLabel}</Typography>;
+        return <TypographyWithTooltip content={item.entityLabel} />;
       }
     },
     {
       key: 'started',
       getContent({ item }) {
-        return <Typography variant="body-regular">{formatDisplayDateTime(item.start)}</Typography>;
+        return <TypographyWithTooltip content={formatDisplayDateTime(item.start) as string} />;
       }
     },
     {
       key: 'end',
       getContent({ item }) {
-        return <Typography variant="body-regular">{getEndValue(item)}</Typography>;
+        return <TypographyWithTooltip content={getEndValue(item) as string} />;
       }
     },
     {

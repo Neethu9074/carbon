@@ -64,7 +64,7 @@ export default function InboundAllCallsDropdown(props: Props) {
         // @ts-expect-error not fully matching expected type
         <DropdownButton {...elementProps} expanded={isOpen} kind="secondary" disabled={disabled}>
           <div className={locals.buttonContent}>
-            <SvgIcon className={locals.icon} type={boundaryScopeInfo.icon} />
+            <SvgIcon className={locals.icon} type={boundaryScopeInfo.icon} color="currentColor" />
             {boundaryScopeLabel}
             {defaultBoundaryScope && !disabled ? (
               <Tooltip content={defaultBoundarySCopeInfo} align="leftMiddle">

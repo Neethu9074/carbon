@@ -138,6 +138,8 @@ export default function SelectEntitiesForm<I extends Object>({
     setOrderDirection('ASC');
     setSearchQuery('');
     setOrderBy('name');
+    // Also reset select all checkbox
+    setAllVisibleRowsSelected(false);
   };
 
   const getRightHeader = (productArea: LimitableProductArea | undefined, context?: string) => {

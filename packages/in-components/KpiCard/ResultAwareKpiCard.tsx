@@ -22,6 +22,7 @@ export interface ResultAwareKpiCardProps<T> {
   useMaxAvailableHeight?: boolean;
   actions?: ReactNode;
   isInModal?: boolean;
+  extraInfo?: string;
 }
 
 export default function ResultAwareKpiCard<T>({
@@ -30,11 +31,18 @@ export default function ResultAwareKpiCard<T>({
   renderKpiCard,
   useMaxAvailableHeight,
   isInModal,
-  actions
+  actions,
+  extraInfo
 }: ResultAwareKpiCardProps<T>) {
   if (result.errors.length > 0) {
     return (
-      <KpiCard title={title} useMaxAvailableHeight={useMaxAvailableHeight} actions={actions} isInModal={isInModal}>
+      <KpiCard
+        title={title}
+        useMaxAvailableHeight={useMaxAvailableHeight}
+        actions={actions}
+        isInModal={isInModal}
+        extraInfo={extraInfo}
+      >
         <Stack align="center" distribution="center">
           <span title={result.errors[0].message}>
             <SvgIcon size="l" type="lib_help_error_error_circle" className={locals.error} />
@@ -48,7 +56,7 @@ export default function ResultAwareKpiCard<T>({
     return (
       <div className={locals.loadingBarContainer}>
         <HorizontalIndicator progress={result.progress} />
-        <KpiCard title={title} useMaxAvailableHeight={useMaxAvailableHeight} actions={actions}>
+        <KpiCard title={title} useMaxAvailableHeight={useMaxAvailableHeight} actions={actions} extraInfo={extraInfo}>
           <Stack align="start" distribution="center">
             <LoadingSkeleton className={locals.skeleton} />
           </Stack>

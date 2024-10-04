@@ -1,0 +1,6 @@
+{
+  "name": "WidgetCardHeader",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./WidgetCardHeader.tsx"
+}

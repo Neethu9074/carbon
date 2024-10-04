@@ -15,18 +15,18 @@ import {
   TimeConfig,
   BizOpsMetricConfiguration
 } from '@instana/types';
-import { IconButton, Link, Typography } from '@instana/components';
+import { IconButton, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
 import { t } from '@instana/i18n-react';
 
-// @ts-expect-error Module needs to be translated to TS
-import { businessProcess as businessProcessType } from 'in-cockpit/starredItems/types';
 // @ts-expect-error Module needs to be translated to TS
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 // @ts-expect-error Module needs to be translated to TS
 import { add, remove } from 'in-cockpit/starredItems';
 import { businessProcessDashboard, summaryTab, businessProcessPath } from 'in-bizops/navigation/paths';
+import TypographyWithTooltip from 'in-plg/components/TypographyWithTooltip/TypographyWithTooltip';
+import { businessProcess as businessProcessType } from 'in-cockpit/starredItems/types';
 //@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
@@ -41,6 +41,7 @@ import { getChartGranularity } from 'in-stores/metric/metric';
 import { number } from 'in-services/formatters/number';
 import { Location } from 'in-stores/navigation/types';
 import { timeConfig$ } from 'in-stores/time/config';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 
 interface GetBusinessDataProps {
   timeConfig: TimeConfig;
@@ -129,7 +130,7 @@ export default connectTo(() => ({
         key: 'activities'
       },
       {
-        header: t('in-plg:welcomepage.component.bizopsWidget.views'),
+        header: t('in-plg:welcomepage.component.bizopsWidget.started'),
         key: 'count'
       },
       {
@@ -175,13 +176,17 @@ export default connectTo(() => ({
     {
       key: 'name',
       getContent({ item }) {
-        return <Link href={getItemLink(item, location, createHref)}>{item?.businessProcess?.definitionName}</Link>;
+        return (
+          <Tooltip content={item?.businessProcess?.definitionName} align="auto" caret={false}>
+            <Link href={getItemLink(item, location, createHref)}>{item?.businessProcess?.definitionName}</Link>
+          </Tooltip>
+        );
       }
     },
     {
       key: 'activities',
       getContent({ item }) {
-        return <Typography variant="body-regular">{item?.metrics?.activities_count[0][1]}</Typography>;
+        return <TypographyWithTooltip content={item?.metrics?.activities_count[0][1]} />;
       }
     },
     {
@@ -201,8 +206,8 @@ export default connectTo(() => ({
             rollup={getChartGranularity(timeConfig)}
             timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
             aggregation="DISTINCT_COUNT"
-            metrics={item?.metrics?.started_processes}
-            metric={item?.metrics?.started_processes?.[0][1]}
+            metrics={item?.metrics?.started_processes_array}
+            metric={item?.metrics?.started_processes_total?.[0][1]}
             tooltipFormatter={number.compact}
           />
         );

@@ -24,11 +24,10 @@ import { Button } from '@instana/components';
 import {
   SETTINGS_MAINTENANCE_WINDOW_ADVANCED,
   SETTINGS_MAINTENANCE_WINDOW_CANCEL,
-  SETTINGS_MAINTENANCE_WINDOW_EDIT,
-  SETTINGS_MAINTENANCE_WINDOW_NEW,
   SETTINGS_MAINTENANCE_WINDOW_NEXT_STEP_ONE,
   SETTINGS_MAINTENANCE_WINDOW_NEXT_STEP_TWO,
-  SETTINGS_MAINTENANCE_WINDOW_SIMPLE
+  SETTINGS_MAINTENANCE_WINDOW_SIMPLE,
+  SETTINGS_MAINTENANCE_WINDOW_SUBMIT
 } from 'in-services/tracking/eventNames';
 import {
   advancedModeMaintenanceWindowTracker,
@@ -218,8 +217,12 @@ function RecurrentMaintenanceForm({
     <DialogFooter
       form={form}
       onSecondaryActionClick={() => {
-        if (step === 0) onClose();
-        else setStep(step - 1);
+        if (step === 0) {
+          maintenanceWindowCTATracker(SETTINGS_MAINTENANCE_WINDOW_CANCEL, location.pathname);
+          onClose();
+        } else {
+          setStep(step - 1);
+        }
       }}
       secondaryActionText={
         step === 0
@@ -233,18 +236,18 @@ function RecurrentMaintenanceForm({
               <Button
                 kind="primary"
                 onClick={() => {
-                  if (step === 1) {
+                  if (step === 0) {
                     maintenanceWindowCTATracker(
                       SETTINGS_MAINTENANCE_WINDOW_NEXT_STEP_ONE,
                       location.pathname,
-                      form.get('id')
+                      form.get('id').value
                     );
                     nextStepOneMaintenanceWindowTracker({ id: form.get('id') });
                   } else {
                     maintenanceWindowCTATracker(
                       SETTINGS_MAINTENANCE_WINDOW_NEXT_STEP_TWO,
                       location.pathname,
-                      form.get('id')
+                      form.get('id').value
                     );
                     nextStepTwoMaintenanceWindowTracker({ id: form.get('id') });
                   }
@@ -474,20 +477,29 @@ function save(
       ? (form.get('name') as Field<string>).value
       : null;
 
-  submitMaintenanceWindowTracker({
+  const instrumentationEventProperties = {
     windowStart: windowStart || null,
     query,
-    scheduling,
     mwID: config ? config.id : null,
     name: nameVal,
     isNew,
-    isSimple
-  });
+    isSimple,
+    schedulingType: scheduling.type,
+    schedulingStart: scheduling.start,
+    schedulingDurationAmount: scheduling.duration.amount,
+    schedulingDurationUnit: scheduling.duration.unit,
+    schedulingRRule: scheduling.type == 'RECURRENT' ? scheduling.rrule : '',
+    schedulingTimezoneId: scheduling.type == 'RECURRENT' ? scheduling.timezoneId : ''
+  };
+
+  submitMaintenanceWindowTracker(instrumentationEventProperties);
 
   //maintenanceWindowObjectModification(isNew ? CREATED_OBJECT : UPDATED_OBJECT, location.pathname, scheduling.type);
   maintenanceWindowCTATracker(
-    isNew ? SETTINGS_MAINTENANCE_WINDOW_NEW : SETTINGS_MAINTENANCE_WINDOW_EDIT,
-    isSimple ? 'simple_mode' : 'advanced_mode'
+    SETTINGS_MAINTENANCE_WINDOW_SUBMIT,
+    location?.pathname,
+    undefined,
+    instrumentationEventProperties
   );
   return saveMaintenanceConfigV2(
     createMaintenanceConfigV2(

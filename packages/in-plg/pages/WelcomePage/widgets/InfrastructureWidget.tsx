@@ -7,15 +7,13 @@
 import React, { useEffect, useState } from 'react';
 import { List } from 'immutable';
 
-import { Link, Typography, IconButton, TableTabs, TableTab } from '@instana/components';
+import { Link, IconButton, TableTabs, TableTab } from '@instana/components';
 import { EntityHealthInfo, TimeConfig } from '@instana/types';
 import { combineLatest, just } from '@instana/observables';
 import { t } from '@instana/i18n-react';
 
 //@ts-expect-error doesn't contain type file
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
-//@ts-expect-error doesn't contain type file
-import { host as hostType, container as containerType, process as processType } from 'in-cockpit/starredItems/types';
 import {
   InfraProps,
   StarredItemWithIdsType,
@@ -26,9 +24,11 @@ import {
 import { entityTypeToFullyQualifiedPlugin } from 'in-infrastructure/tableView/stores/snapshotIds';
 //@ts-expect-error doesn't contain type file
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
+import { host as hostType, container as containerType, process as processType } from 'in-cockpit/starredItems/types';
 import DatatableWrapper, { getFlattenedIds } from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 //@ts-expect-error doesn't contain type file
 import { add, remove } from 'in-cockpit/starredItems';
+import TypographyWithTooltip from 'in-plg/components/TypographyWithTooltip/TypographyWithTooltip';
 //@ts-expect-error doesn't contain type file
 import { getMetric } from 'in-stores/metric';
 //@ts-expect-error doesn't contain type file
@@ -50,6 +50,7 @@ import { percentage } from 'in-services/formatters/number';
 import { pendingResult } from 'in-services/fixedObjects';
 import { SnapshotMap } from 'in-components/EntityLink';
 import { getIconTypeCallback } from 'in-sdk/iconType';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { getSnapshot } from 'in-stores/snapshot';
 
 function handleFavoriteClick(id: string, item: any, isFavourite: boolean, type: string) {
@@ -250,7 +251,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
   }
 
   function getItems({ query, infraType, timeConfig, pinnedItemIdsByType }: getItemsType) {
-    const pinnedIds = getFlattenedIds(pinnedItemIdsByType, getPinnedItemType());
+    const pinnedIds = getFlattenedIds(pinnedItemIdsByType, getPinnedItemType() as (keyof StarredItemWithIdsType)[]);
     return search({
       query,
       timeConfig,
@@ -329,13 +330,15 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         key: 'name',
         getContent({ item }) {
           return (
-            <Link
-              href={getDashboardLink(item.snapshotId || item?.snapshot?.get('id'), {
-                pathname: '/physical/dashboard'
-              })}
-            >
-              {getLabel(item.snapshot)}
-            </Link>
+            <Tooltip content={getLabel(item.snapshot)} align="auto" caret={false}>
+              <Link
+                href={getDashboardLink(item.snapshotId || item?.snapshot?.get('id'), {
+                  pathname: '/physical/dashboard'
+                })}
+              >
+                {getLabel(item.snapshot)}
+              </Link>
+            </Tooltip>
           );
         }
       },
@@ -348,23 +351,23 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
       {
         key: 'technologies',
         getContent({ item }) {
-          return <Typography variant="body-regular">{item.snapshot.get('data').get('os.name')}</Typography>;
+          return <TypographyWithTooltip content={item.snapshot.get('data').get('os.name')} />;
         }
       },
       {
         key: 'os',
         getContent({ item }) {
           return (
-            <Typography variant="body-regular">{`${item.snapshot.get('data').get('os.name')} ${item.snapshot
-              .get('data')
-              .get('os.version')}`}</Typography>
+            <TypographyWithTooltip
+              content={`${item.snapshot.get('data').get('os.name')} ${item.snapshot.get('data').get('os.version')}`}
+            />
           );
         }
       },
       {
         key: 'cpuNum',
         getContent({ item }) {
-          return <Typography variant="body-regular">{item.snapshot.getIn(['data', 'cpu.count'])}</Typography>;
+          return <TypographyWithTooltip content={item.snapshot.getIn(['data', 'cpu.count'])} />;
         }
       },
       {
@@ -418,13 +421,15 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         key: 'name',
         getContent({ item }) {
           return (
-            <Link
-              href={getDashboardLink(item.snapshotId || item?.snapshot?.get('id'), {
-                pathname: '/physical/dashboard'
-              })}
-            >
-              {getLabel(item.snapshot)}
-            </Link>
+            <Tooltip content={getLabel(item.snapshot)} align="auto" caret={false}>
+              <Link
+                href={getDashboardLink(item.snapshotId || item?.snapshot?.get('id'), {
+                  pathname: '/physical/dashboard'
+                })}
+              >
+                {getLabel(item.snapshot)}
+              </Link>
+            </Tooltip>
           );
         }
       },
@@ -437,24 +442,22 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
       {
         key: 'technologies',
         getContent({ item }) {
-          return <Typography variant="body-regular">{getTechnologyType(item.snapshot)}</Typography>;
+          return <TypographyWithTooltip content={getTechnologyType(item.snapshot)} />;
         }
       },
       {
         key: 'created',
         getContent({ item }) {
-          return (
-            <Typography variant="body-regular">{formatDateTime(item.snapshot.get('data').get('Created'))}</Typography>
-          );
+          return <TypographyWithTooltip content={formatDateTime(item.snapshot.get('data').get('Created')) as string} />;
         }
       },
       {
         key: 'started',
         getContent({ item }) {
           return (
-            <Typography variant="body-regular">
-              {formatDateTime(item.snapshot.getIn(['data', 'Started'], undefined))}
-            </Typography>
+            <TypographyWithTooltip
+              content={formatDateTime(item.snapshot.getIn(['data', 'Started'], undefined)) as string}
+            />
           );
         }
       },
@@ -509,13 +512,15 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         key: 'name',
         getContent({ item }) {
           return (
-            <Link
-              href={getDashboardLink(item.snapshotId || item?.snapshot?.get('id'), {
-                pathname: '/physical/dashboard'
-              })}
-            >
-              {getLabel(item.snapshot)}
-            </Link>
+            <Tooltip content={getLabel(item.snapshot)} align="auto" caret={false}>
+              <Link
+                href={getDashboardLink(item.snapshotId || item?.snapshot?.get('id'), {
+                  pathname: '/physical/dashboard'
+                })}
+              >
+                {getLabel(item.snapshot)}
+              </Link>
+            </Tooltip>
           );
         }
       },
@@ -528,7 +533,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
       {
         key: 'technologies',
         getContent({ item }) {
-          return <Typography variant="body-regular">{getTechnologyType(item.snapshot)}</Typography>;
+          return <TypographyWithTooltip content={getTechnologyType(item.snapshot)} />;
         }
       },
       {
@@ -625,7 +630,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
     }),
 
     function GetZonesAndHosts({ snapshot }: any) {
-      return <Typography variant="body-regular">{getLabel(snapshot)}</Typography>;
+      return <TypographyWithTooltip content={getLabel(snapshot)} />;
     }
   );
 

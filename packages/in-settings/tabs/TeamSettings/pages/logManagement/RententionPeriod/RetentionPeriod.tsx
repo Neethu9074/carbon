@@ -6,7 +6,7 @@
 
 import React, { SetStateAction, useState, useEffect } from 'react';
 
-import { HorizontalIndicator, Input, Link, LoadingSkeleton, Typography, Button } from '@instana/components';
+import { HorizontalIndicator, Input, Link, LoadingSkeleton, Typography, Button, Message } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Progress } from '@instana/types';
 
@@ -40,6 +40,7 @@ const localisationStrings = {
   aboutRetentionPeriod: t('in-settings:tabs.retentionPeriod.aboutRetentionPeriod'),
   currentRetentionPeriod: t('in-settings:tabs.retentionPeriod.currentRetentionPeriod'),
   retentionDialogDescription: t('in-settings:tabs.retentionPeriod.retentionDialogDescription'),
+  retentionDialogUserInfo: t('in-settings:tabs.retentionPeriod.retentionDialogUserInfo'),
   changeRetentionPeriod: t('in-settings:tabs.retentionPeriod.changeRetentionPeriod'),
   logRetentionPeriod: t('in-settings:tabs.retentionPeriod.logRetentionPeriod'),
   changeReason: t('in-settings:tabs.retentionPeriod.changeReason'),
@@ -294,14 +295,8 @@ function RetentionPeriodDialog({
   return (
     <Dialog className={locals.modalTitle} title={localisationStrings.modalTitle} onClose={closeConfirmationDialog}>
       <section className={locals.confirmationDialogContent} data-testid="logRetentionDialog">
-        <Typography variant="body-regular">
-          {localisationStrings.retentionDialogDescription.split('\n').map((line, index) => (
-            <span key={index}>
-              {line}
-              <br />
-            </span>
-          ))}
-        </Typography>
+        <Typography variant="body-regular">{localisationStrings.retentionDialogDescription}</Typography>
+        <Message type="warning" title={localisationStrings.retentionDialogUserInfo} dismissible />
         <Label htmlFor="LogRetentionPeriod">
           {localisationStrings.logRetentionPeriod}
           <Select value={retentionPeriodInputValue} onChange={e => setRetentionPeriodInputValue(e.target.value)}>

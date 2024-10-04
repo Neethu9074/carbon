@@ -20,11 +20,11 @@ describe('Business Monitoring Widget Tests', () => {
     render(<BusinessMonitoringWidget />);
     expect(screen.getByText(t('in-plg:welcomepage.component.bizopsWidget.name'))).toBeInTheDocument();
     expect(screen.getByText(t('in-plg:welcomepage.component.bizopsWidget.activities'))).toBeInTheDocument();
-    expect(screen.getByText(t('in-plg:welcomepage.component.bizopsWidget.views'))).toBeInTheDocument();
+    expect(screen.getByText(t('in-plg:welcomepage.component.bizopsWidget.started'))).toBeInTheDocument();
     expect(screen.getByText(t('in-plg:welcomepage.component.bizopsWidget.health'))).toBeInTheDocument();
   });
 
-  it('Check if search is renedered', () => {
+  it('Check if search is rendered', () => {
     const { getByLabelText } = render(<BusinessMonitoringWidget />);
     const svgElement = getByLabelText('Handle button');
     expect(svgElement).toBeInTheDocument();

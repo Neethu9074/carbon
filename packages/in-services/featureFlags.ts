@@ -83,6 +83,7 @@ export const carbonComboBoxEnabled = isFeatureFlagEnabled('carbonComboBoxEnabled
 export const carbonCodeEnabled = isFeatureFlagEnabled('carbonCodeEnabled');
 export const carbonDateInputEnabled = isFeatureFlagEnabled('carbonDateInputEnabled');
 export const carbonExpandableGroupEnabled = isFeatureFlagEnabled('carbonExpandableGroupEnabled');
+export const carbonSideNavLinksEnabled = isFeatureFlagEnabled('carbonSideNavLinksEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
@@ -106,7 +107,11 @@ export const kubernetesTeamEnabled = isFeatureFlagEnabled('kubernetesTeamEnabled
 export const kubernetesPrometheusMetricsEnabled = isFeatureFlagEnabled('kubernetesPrometheusMetricsEnabled', false);
 
 export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', true);
-export const sliCHClusterAccessEnabled = isFeatureFlagEnabled('sliCHClusterAccessEnabled');
+// In self-hosted environments the feature flag had to be named differently:
+// sliChClusterAccessEnabled
+// compared to other places:
+// sliCHClusterAccessEnabled
+export const sliCHClusterAccessEnabled = isFeatureFlagEnabled('sliCHClusterAccessEnabled') || isFeatureFlagEnabled('sliChClusterAccessEnabled');
 export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true);
 export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
 export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', true);
@@ -141,6 +146,9 @@ export const syntheticInstanaHostedPoPEnabled = isFeatureFlagEnabled('syntheticI
 
 // Synthetic RBAC Limited Access feature flag
 export const syntheticRbacLimitedEnabled = isFeatureFlagEnabled('syntheticRbacLimitedEnabled');
+
+// Synthetic Credentials feature flag
+export const syntheticCredentialsEnabled = isFeatureFlagEnabled('syntheticCredentialsEnabled');
 
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
@@ -284,7 +292,6 @@ export const preAggregatedMetricsQueryEnabled = isFeatureFlagEnabled('preAggrega
 export const carbonFileUploaderEnabled = isFeatureFlagEnabled('carbonFileUploaderEnabled', false);
 export const userProfileMenuEnabled = isFeatureFlagEnabled('userProfileMenuEnabled', true);
 export const unitForInfraMetricsEnabled = isFeatureFlagEnabled('unitForInfraMetricsEnabled', false);
-export const increaseAggregationEnabled = isFeatureFlagEnabled('increaseAggregationEnabled', false);
 export const graphViewFromAboutInstanaEnabled = isFeatureFlagEnabled('graphViewFromAboutInstanaEnabled', false);
 export const graphViewFromInfraMapEnabled = isFeatureFlagEnabled('graphViewFromInfraMapEnabled', false);
 export const extrapolateMissingStackedAreaValuesEnabled = isFeatureFlagEnabled('extrapolateMissingStackedAreaValues');

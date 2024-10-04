@@ -5,7 +5,9 @@
  */
 
 import { createField, createMapForm } from 'formalistic';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+
+import { Action } from '@instana/types';
 
 import {
   AUTOMATIC,
@@ -23,36 +25,10 @@ import {
   scopeDfq
 } from 'in-automation/Policies/types';
 import { isAnsible, isScript, isWebhook, isGithub, isGitlab, isJira } from 'in-automation/ActionCatalog/shared';
+import { getActionConfigurationFromPolicy, getPolicyTriggerFromTriggers } from 'in-automation/Policies/shared';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notBlankValidator } from 'in-services/validators/string';
-import { isLoading } from 'in-services/util/result';
-import { Action } from 'in-types';
 import { t } from 'in-i18n';
-
-function parsePolicy(policy: PolicyFormEntity) {
-  if (!isPolicy(policy)) {
-    return {
-      actionId: '',
-      agentId: '',
-      applyOn: scopeAll,
-      query: '',
-      inputParameterValues: [],
-      tags: []
-    };
-  }
-  const typeConfiguration = policy.typeConfigurations.find(
-    typeConfiguration => typeConfiguration.name === (isManual(policy) ? MANUAL : AUTOMATIC)
-  )!;
-
-  return {
-    actionId: typeConfiguration.runnable.id,
-    agentId: typeConfiguration.runnable.runConfiguration.actions[0].agentId ?? '',
-    applyOn: typeConfiguration?.condition?.query ? scopeDfq : scopeAll,
-    query: typeConfiguration?.condition?.query ?? '',
-    inputParameterValues: typeConfiguration.runnable.runConfiguration.actions[0].inputParameterValues ?? [],
-    tags: policy.tags ?? []
-  };
-}
 
 export function getPolicyFromForm(form: PolicyForm) {
   const policySpecification: NewPolicy = {
@@ -105,11 +81,37 @@ export function getPolicyFromForm(form: PolicyForm) {
   return policySpecification;
 }
 
+function parsePolicy(policy: PolicyFormEntity) {
+  if (!isPolicy(policy)) {
+    return {
+      actionId: '',
+      agentId: '',
+      applyOn: scopeAll,
+      query: '',
+      inputParameterValues: [],
+      tags: []
+    };
+  }
+  const typeConfiguration = policy.typeConfigurations.find(
+    typeConfiguration => typeConfiguration.name === (isManual(policy) ? MANUAL : AUTOMATIC)
+  )!;
+
+  const { agentId = '', inputParameterValues = [] } = getActionConfigurationFromPolicy(policy);
+
+  return {
+    actionId: typeConfiguration.runnable.id,
+    agentId,
+    applyOn: typeConfiguration.condition?.query ? scopeDfq : scopeAll,
+    query: typeConfiguration.condition?.query ?? '',
+    inputParameterValues,
+    tags: policy.tags ?? []
+  };
+}
+
 function createPolicyFormDefinition(policy: PolicyFormEntity, actions: Action[], triggers: Triggers) {
   const { actionId, agentId, applyOn, query, inputParameterValues, tags } = parsePolicy(policy);
   const action = actions.find(action => action.id === actionId);
-  // @ts-expect-error
-  const triggerItem = triggers?.[policy.trigger.type]?.data?.find(trigger => trigger.id === policy.trigger.id);
+  const trigger = getPolicyTriggerFromTriggers(triggers, policy);
   const form: PolicyForm = createMapForm({
     items: {
       name: createField({
@@ -210,11 +212,11 @@ function createPolicyFormDefinition(policy: PolicyFormEntity, actions: Action[],
         )
       }),
       triggerType: createField({
-        value: triggerItem ? policy.trigger.type : 'builtinEvent',
+        value: trigger ? policy.trigger.type : 'builtinEvent',
         validator: notBlankValidator
       }),
       triggerId: createField({
-        value: triggerItem ? policy.trigger.id : '',
+        value: trigger ? policy.trigger.id : '',
         validator: notBlankValidator
       }),
 
@@ -244,16 +246,6 @@ function createPolicyFormDefinition(policy: PolicyFormEntity, actions: Action[],
   return form;
 }
 
-export default function usePolicyForm(
-  policy: PolicyFormEntity | undefined,
-  actions: Action[] | undefined,
-  triggers: Triggers
-) {
-  const [form, setForm] = useState<PolicyForm | null>(null);
-  useEffect(() => {
-    if (policy && actions && Object.values(triggers).every(trigger => !isLoading(trigger)) && !form) {
-      setForm(createPolicyFormDefinition(policy, actions, triggers));
-    }
-  }, [policy, actions, triggers, form]);
-  return [form, setForm] as const;
+export default function usePolicyForm(policy: PolicyFormEntity, actions: Action[], triggers: Triggers) {
+  return useState(createPolicyFormDefinition(policy, actions, triggers));
 }

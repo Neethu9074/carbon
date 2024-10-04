@@ -13,11 +13,13 @@ import { createLogger } from '@instana/logger';
 
 import cleanConfigurationForm from 'in-synthetics/dashboards/summary/tabs/configuration/actions/cleanConfigurationForm';
 import { showUpdateSuccessMessage, showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
+import { clickSyntheticMonitoringConfigurationTabEditTracker } from 'in-synthetics/tracking/tracker';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { ConfigItem, SlideInHeader, TestTypeSelected } from 'in-synthetics/utils/constants';
 import { updateForm } from 'in-synthetics/createTests/form/updateSyntheticTestForm';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
 import { updateTest } from 'in-synthetics/api';
 import { SyntheticTest } from 'in-types';
@@ -43,6 +45,7 @@ interface Props {
 }
 
 export default function EditConfigurationDialogPresenter({ test, onClose, setReloadCount }: Props) {
+  const { trackCta } = useSegmentTracking();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState(() => updateForm(test));
   const [slideInConfig, setSlideInConfig] = useState<SlideInConfig | null>(null);
@@ -164,6 +167,7 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
   };
 
   function onSubmit(form: MapForm<any>, test: SyntheticTest) {
+    clickSyntheticMonitoringConfigurationTabEditTracker(trackCta);
     setIsSubmitting(true);
     const testConfig = cleanConfigurationForm(form, test);
 

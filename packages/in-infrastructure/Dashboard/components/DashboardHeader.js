@@ -61,14 +61,14 @@ function renderButtonLine(props) {
   return (
     <>
       <EntityHealthIndicator
-        IndicatorPresenter={HealthIndicatorButtonPresenter}
+        IndicatorPresenter={props => <HealthIndicatorButtonPresenter size="normal" {...props} />}
         snapshotId={snapshot.get('id')}
         timeConfig={timeConfig}
       />
 
       {cveIssueEnabled && isContainer(snapshot) && (
         <EntityCveIndicator
-          IndicatorPresenter={CveIndicatorButtonPresenter}
+          IndicatorPresenter={props => <CveIndicatorButtonPresenter size="normal" {...props} />}
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
         />
@@ -80,6 +80,7 @@ function renderButtonLine(props) {
           timeConfig={timeConfig}
           tagFilters={getSnapshotIdTagFilter(snapshot)}
           plugin={snapshot.get('plugin')}
+          size="normal"
         />
       )}
 

@@ -391,7 +391,8 @@
     "retentionPeriod": {
       "retentionPeriod": "Retention period",
       "changeRetentionPeriod": "Change retention period",
-      "retentionDialogDescription": "Changing the retention period for logs impacts the cost and duration of \n log data available for analytics and custom dashboards.",
+      "retentionDialogDescription": "Changing the retention period for logs impacts the cost and duration of log data available for analytics and custom dashboards.",
+      "retentionDialogUserInfo":"To avoid additional overage charges, ensure that your current entitlement is sufficient to cover any changes to the log retention period.",
       "logRetentionPeriod": "Log retention period",
       "changeReason": "Change reason",
       "currentRetentionPeriod": "Current retention period",
@@ -445,7 +446,7 @@
       "deletionInfo": "Deleting logs may take a while.\n Check the status in the \"Log deletion summary\" table.",
       "deletionError": "Logs couldn't be deleted",
       "deletionWarning": "No log data to delete for the given timeframe",
-      "success": "Success",
+      "success": "Deleting logs might take a while.",
       "failure": "Failed",
       "warning": "Warning",
       "learnMore": "Learn more",
@@ -465,8 +466,8 @@
       "deletionUntilDate": "Deletion until date",
       "untilDateValidationMessage": "Date must be on or before the current date",
       "reasonValidationMessage": "Deletion reason cannot be empty",
-      "toastSuccessTitle": "Log deletion successful",
-      "toastSuccessMessage": "Logs for the selected time period are successfully deleted.",
+      "toastSuccessTitle": "Deleting logs might take a while.",
+      "toastSuccessMessage": "You can close this pop-up window and check the status in the \"Log deletion action history\" table.",
       "toastErrorTitle": "Log deletion failed",
       "toastErrorMessage": "Logs could not be deleted. Please try again.",
       "toastNoLogsMessage": "No log data to delete for the given timeframe."
@@ -485,8 +486,7 @@
       "noLogVolumeData": "No data to show",
       "logVolumeErrorTitle": "Something went wrong",
       "logVolumeErrorInfo": "We are unable to retrieve data from the database",
-      "groupingTagTootip": "{{groupingTag}} information not available",
-      "ruTooltip": "Resource units (RU) are calculated based on the volume of logs ingested and the retention period. Any amount of ingested data consumes a minimum of 1 RU"
+      "groupingTagTootip": "{{groupingTag}} information not available"
     },
     "auditTrail": "Audit trail",
     "failedToSaveConfig": "Failed to save config: {{err}}",

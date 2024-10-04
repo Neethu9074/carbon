@@ -38,10 +38,18 @@ import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { number } from 'in-services/formatters/number';
 
 interface TrafficChartProps {
+  automaticallySize?: boolean;
+  customHeight?: number;
+  customChartSkeletonHeight?: number;
   configuration: ServiceLevelObjectiveConfiguration;
 }
 
-export default function TrafficChart({ configuration }: TrafficChartProps) {
+export default function TrafficChart({
+  automaticallySize,
+  configuration,
+  customHeight,
+  customChartSkeletonHeight
+}: TrafficChartProps) {
   const { entity, createdDate, timeWindow } = configuration;
 
   const missingDataIndicator = timeWindow.type === 'fixed' ? timeWindow.startTimestamp : createdDate;
@@ -69,6 +77,9 @@ export default function TrafficChart({ configuration }: TrafficChartProps) {
   return (
     <ResultAwareChart
       config={{
+        automaticallySize,
+        customHeight,
+        customChartSkeletonHeight,
         title: t('in-service-levels:sloDashboard.components.trafficChart.title'),
         renderHistoricDataIndicator: true,
         hasApproximateData: true,
@@ -87,11 +98,7 @@ export default function TrafficChart({ configuration }: TrafficChartProps) {
         },
         granularity,
         timeConfig,
-        renderPostChartContent: props => <SloDashboardMarkerLanes entity={entity} {...props} />,
-        // FIXME: Chart height should be dynamic based on the dashboard layout and available screen size.
-        // The current values are just measures taken from the default rendering of the chart to make the sizing work
-        customHeight: 250,
-        customChartSkeletonHeight: 308
+        renderPostChartContent: props => <SloDashboardMarkerLanes entity={entity} {...props} />
       }}
       result={{ progress, errors }}
     />

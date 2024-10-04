@@ -26,7 +26,7 @@ export default function AlertChannelSelectListTearsheet({
   onSelectionUpdate,
   hiddenIds = [],
   limit = Number.MAX_VALUE, // unlimited by default
-  pageSize = 7,
+  pageSize,
   entityResult
 }) {
   const [selectedItems, setSelectedItems] = useState(selectedChannels.length > 0 ? selectedChannels : []);

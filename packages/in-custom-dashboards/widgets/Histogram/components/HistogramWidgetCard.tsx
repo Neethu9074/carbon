@@ -4,12 +4,21 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useContext, useRef } from 'react';
 import classNames from 'classnames';
 
 import { Card } from '@instana/components';
 
+import {
+  CustomDashboardContext,
+  CustomDashboardContextProps
+} from 'in-custom-dashboards/CustomDashboard/CustomDashboardContext';
+// @ts-expect-error needs ts migration
+import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
+import downloadPDFAction from 'in-components/Chart/components/ContextMenu/actions/downloadPDF';
 import useResultData from 'in-custom-dashboards/widgets/Histogram/hooks/useResultData';
+import { customDashboardsExportPdfWidget } from 'in-services/featureFlags';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import HistogramChart from 'in-components/HistogramChart/HistogramChart';
 import { HistogramConfig } from '../form';
 
@@ -35,10 +44,34 @@ export default function HistogramWidgetCard({
   useMaxAvailableHeight
 }: HistogramWidgetCardProps) {
   const result = useResultData({ config });
+  const ref = useRef<HTMLDivElement>(null);
+  const { matchLocation } = useNavigation();
+  const [tooltip, setTooltip] = React.useState<HTMLElement>(document.createElement('div'));
+  const { setExportWidgetId, setTooltipRef, setShouldExportWidget } =
+    useContext<CustomDashboardContextProps>(CustomDashboardContext);
+
+  const tooltipRef = (tooltip: HTMLElement) => (tooltip ? setTooltip(tooltip) : null);
+  const isCustomDashboard = matchLocation(customDashboardsPath);
 
   const hasNoData = result?.data?.length === 0;
   const hasNoErrors = result?.errors.length === 0;
   const isLoading = result?.progress.loading;
+
+  const selectionMenuItems = [];
+
+  // Add export to pdf only if in custom dashboards
+  if (isCustomDashboard && customDashboardsExportPdfWidget) {
+    selectionMenuItems.push({
+      ...downloadPDFAction,
+      onClick: () => {
+        const cardNode = ref.current;
+        const widgetNode = cardNode?.closest('[id^="widget-"]') as HTMLElement;
+        setTooltipRef(tooltip);
+        setShouldExportWidget(true);
+        downloadPDFAction.onClick({ widgetNode, setExportWidgetId });
+      }
+    });
+  }
 
   return (
     <Card
@@ -63,11 +96,18 @@ export default function HistogramWidgetCard({
       }
     >
       <div
+        ref={ref}
         className={classNames({
           [locals.container]: !hasNoData && hasNoErrors && !isLoading
         })}
       >
-        <HistogramChart result={result} config={config} height={height} />
+        <HistogramChart
+          tooltipRef={tooltipRef}
+          result={result}
+          config={config}
+          height={height}
+          selectionMenuItems={selectionMenuItems}
+        />
       </div>
     </Card>
   );

@@ -17,7 +17,9 @@ import { MetricDataPoint } from 'in-components/Chart/types';
 import { sloMetrics } from 'in-service-levels/metrics';
 
 interface ErrorBudgetChartProps {
-  automaticallySized?: boolean;
+  automaticallySize?: boolean;
+  customHeight?: number;
+  customChartSkeletonHeight?: number;
   timeConfig: TimeConfig;
   timeWindows: TimeConfig[];
   timeWindowColors: string[];
@@ -26,7 +28,9 @@ interface ErrorBudgetChartProps {
 }
 
 export default function ErrorBudgetChart({
-  automaticallySized,
+  automaticallySize,
+  customHeight,
+  customChartSkeletonHeight,
   timeConfig,
   timeWindows,
   timeWindowColors,
@@ -53,7 +57,9 @@ export default function ErrorBudgetChart({
 
   return (
     <ControlledSloErrorBudgetChart
-      automaticallySized={automaticallySized}
+      automaticallySize={automaticallySize}
+      customHeight={customHeight}
+      customChartSkeletonHeight={customChartSkeletonHeight}
       timeConfig={timeConfig}
       timeWindows={timeWindows}
       timeWindowColors={timeWindowColors}

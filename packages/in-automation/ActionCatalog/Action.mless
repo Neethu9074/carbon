@@ -5,19 +5,31 @@
  */
 
 :local {
+  .width100 {
+    width: 100%;
+  }
+
+  .subTextFormField {
+    color: var(--ids-color-option-neutral-600);
+    margin: 0.5rem 0 0 0.5rem;
+  }
+
+  .subErrorTextFormField {
+    margin-left: 0.5rem;
+  }
+
+  .parameterDialog {
+    height: 100%;
+    padding: 0 1.5rem;
+  }
+  .widthFitContent {
+    width: fit-content;
+  }
   .spaceBetween {
     justify-content: space-between;
-    padding-top: 1rem;
     background-color: var(--ids-color-option-white);
-    padding-left: 1.5rem;
+    padding: 0 1.5rem;
+    padding-top: 1rem;
     height: 76px;
-  }
-  .actionBody > div {
-    padding-left: 0px;
-  }
-  .actionBody {
-    fieldset {
-      padding-left: 1.5rem;
-    }
   }
 }

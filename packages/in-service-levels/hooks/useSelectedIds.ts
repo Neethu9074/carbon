@@ -11,8 +11,8 @@ import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
-import { SloData, sloConfigsToSloData } from 'in-service-levels/components/Shared/SloListSelection/SloListSelection';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
+import { SloData, sloConfigsToSloData } from 'in-service-levels/hooks/usePaginatedSloList';
 import { getAllSloConfigurations } from 'in-service-levels/api/configuration';
 import { FetchedState } from 'in-hooks/utils/types';
 import { success } from 'in-services/util/result';

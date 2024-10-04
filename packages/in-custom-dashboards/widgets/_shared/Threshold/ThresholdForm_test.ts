@@ -4,7 +4,10 @@
  * Copyright IBM Corp. 2024
  */
 
-import { containsExactMatch, shouldDisplayConvertedUnits } from 'in-custom-dashboards/widgets/BigNumber/ThresholdForm';
+import {
+  containsExactMatch,
+  shouldDisplayConvertedUnits
+} from 'in-custom-dashboards/widgets/_shared/Threshold/ThresholdForm';
 
 describe('containsExactMatch', () => {
   it('check input contains only numbers', () => {

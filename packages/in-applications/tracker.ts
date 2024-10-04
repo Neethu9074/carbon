@@ -32,11 +32,7 @@ import {
   ANALYZE_UA2_GROUP_CHANGED,
   ANALYZE_UA2_NESTING_DEPTH,
   ANALYZE_UA2_QUERY_BUILDER_FILTER_ADDED,
-  APPLICATION_CLICK_CREATE,
-  APPLICATION_CLICK_SUBMIT,
-  APPLICATION_LATENCY_JUMP_TO_UNBOUNDED_ANALYTICS,
   FLOW_MAP_CLICK,
-  APPLICATION_TIME_SHIFT_SELECT,
   track,
   FLOW_MAP_CLICK_EXPAND_LEVEL,
   FLOW_MAP_CLICK_CALLS,
@@ -47,12 +43,6 @@ import {
 
 export type FilterAddedTrackingPayload = { dataSource: string; tagName: string; tagFilter?: TagFilter };
 
-export const applicationOpenSubmitFormTracker = (e: Record<string, unknown>) => track(APPLICATION_CLICK_CREATE, e);
-export const applicationSubmitTracker = (e: Record<string, unknown>) => track(APPLICATION_CLICK_SUBMIT, e);
-export const jumpToUnboundedAnalyticsFromLatencyTracker = (e: Record<string, unknown>) =>
-  track(APPLICATION_LATENCY_JUMP_TO_UNBOUNDED_ANALYTICS, e);
-export const applicationTimeShiftSelectTracker = (e: Record<string, unknown>) =>
-  track(APPLICATION_TIME_SHIFT_SELECT, e);
 export const ua2FacetedSearchSyntheticCallsToggledTracker = (e: Record<string, unknown>) =>
   track(ANALYZE_UA2_FACETED_SEARCH_SYNTHETIC_CALLS_TOGGLED, e);
 export const ua2FacetedSearchInternalCallsToggledTracker = (e: Record<string, unknown>) =>

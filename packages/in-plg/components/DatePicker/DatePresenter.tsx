@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { DashboardButton, Stack, Typography } from '@instana/components';
+import { DashboardButton } from '@instana/components';
 
 // @ts-expect-error - Could not find a declaration file
 import { timeDisplayBottomFormat, timeDisplayTopFormat } from 'in-components/time/timeframeFormatter';
@@ -36,16 +36,13 @@ export default function DatePresenter({ onClick, timeConfig, refSetter }: TimePr
         ref={refSetter}
         icon="lib_arrow_drop_down"
         kind="tertiary"
-        className={locals.datePicker}
+        iconSize="xs"
+        className={locals.carbonTimePicker}
       >
-        <Stack gap="disabled" direction="vertical">
-          <Typography variant="body-small">
-            <div className={locals.carbonTimeSettingTop}>{timeDisplayTopFormat(timeConfig)}</div>
-          </Typography>
-          <Typography variant="body-regular" noWrap>
-            <div className={locals.carbonTimeSetting}>{timeDisplayBottomFormat(timeConfig)}</div>
-          </Typography>
-        </Stack>
+        <div className={locals.carbonDisplayTimeWrapper}>
+          <div className={locals.carbonTimeSettingTop}>{timeDisplayTopFormat(timeConfig)}</div>
+          <div className={locals.carbonTimeSetting}>{timeDisplayBottomFormat(timeConfig)}</div>
+        </div>
       </DashboardButton>
     </div>
   );

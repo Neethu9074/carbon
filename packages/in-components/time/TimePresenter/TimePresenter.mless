@@ -51,13 +51,11 @@
     line-height: 1rem;
     font-weight: normal;
   }
-
   .timeSetting {
     font-size: 1rem;
     line-height: 1rem;
     font-weight: 600;
   }
-
   .tooltip {
     display: flex;
     align-items: center;
@@ -66,5 +64,22 @@
 
   .tooltipLabel {
     margin: 0.3rem 0 0.5rem;
+  }
+  .carbonTimePicker {
+    margin-right: -1px;
+    height: 3rem;
+    z-index: 1;
+  }
+  .carbonDisplayTimeWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: -0.5rem;
+  }
+  .carbonTimeSetting {
+    font-size: 0.875rem;
+  }
+  .carbonTimeSettingTop {
+    font-size: 0.75rem;
   }
 }

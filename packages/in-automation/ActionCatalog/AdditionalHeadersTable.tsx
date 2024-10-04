@@ -5,23 +5,23 @@
  */
 
 import React, { ChangeEvent, useContext } from 'react';
-import { Field, MapForm } from 'formalistic';
+import { Field } from 'formalistic';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
-import { ActionFormEntity, isNotEditableContext } from 'in-automation/ActionCatalog/Action';
-import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
+import { isNotEditableContext, OnChange } from 'in-automation/ActionCatalog/Action';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
+import { ActionForm } from './useActionForm';
 import { t } from 'in-i18n';
 
 import locals from './ServerTablePresenterWrapperConsumer.mless';
 
 interface AdditionalHeadersProps {
-  form: MapForm<any>;
-  onChange: OnEntityChange<ActionFormEntity>;
-  setForm: SetFormFunction;
+  form: ActionForm;
+  onChange: OnChange;
+  setForm: React.Dispatch<React.SetStateAction<ActionForm>>;
 }
 
 export interface Header {

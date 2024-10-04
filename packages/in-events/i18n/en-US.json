@@ -292,7 +292,7 @@
     "updatedBy": "(updated by {{name}})",
     "showAll": "Show all",
     "collapse": "Collapse",
-    "aiModel": "Ai modal",
+    "aiModel": "AI model",
     "granite": "granite-13b-chat-v2"
   }
 }

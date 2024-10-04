@@ -47,7 +47,9 @@ import { millis } from 'in-services/formatters/number';
 
 const metricId = 'latency';
 interface TimeBasedLatencyIndicatorChartProps {
-  automaticallySized?: boolean;
+  automaticallySize?: boolean;
+  customHeight?: number;
+  customChartSkeletonHeight?: number;
   entity: SloEntityUnion;
   indicator: LatencyBlueprintIndicator;
   missingDataIndicator?: DateAsNumber;
@@ -55,7 +57,9 @@ interface TimeBasedLatencyIndicatorChartProps {
 }
 
 export default function TimeBasedLatencyIndicatorChart({
-  automaticallySized,
+  automaticallySize,
+  customHeight,
+  customChartSkeletonHeight,
   entity,
   indicator,
   missingDataIndicator,
@@ -95,7 +99,9 @@ export default function TimeBasedLatencyIndicatorChart({
   return (
     <ResultAwareChart
       config={{
-        automaticallySize: automaticallySized,
+        automaticallySize,
+        customHeight,
+        customChartSkeletonHeight,
         title,
         renderHistoricDataIndicator: true,
         hasApproximateData: true,
@@ -114,8 +120,6 @@ export default function TimeBasedLatencyIndicatorChart({
           formatter: millis.compact,
           renderer
         },
-        customHeight: 250,
-        customChartSkeletonHeight: 308,
         timeConfig,
         renderPostChartContent: props => <SloDashboardMarkerLanes entity={entity} {...props} />
       }}

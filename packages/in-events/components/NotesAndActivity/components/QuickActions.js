@@ -7,8 +7,9 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon, CarbonButton, CarbonInlineLoading, HelpText } from '@instana/components';
+import { SvgIcon, CarbonButton, CarbonInlineLoading, HelpText, PreviewPill } from '@instana/components';
 
+import { AIPopover } from 'in-events/components/NotesAndActivity/components/AiPopover';
 import { EVENT_AI_GENERATE_SUBMIT } from 'in-services/tracking/eventNames';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
@@ -54,13 +55,15 @@ export function QuickActions(props) {
     >
       {displayQuickStart && (
         <div>
-          <SvgIcon type={'lib_help_error_help_circle'} />
+          <AIPopover />
         </div>
       )}
       <div>
         {displayQuickStart && (
           <>
-            <div className={locals.quickActionsHeader}>{t('in-events:notes.summarizeIncident')}</div>
+            <div className={locals.quickActionsHeader}>
+              {t('in-events:notes.summarizeIncident')} <PreviewPill privatePreview />
+            </div>
             <div className={locals.quickActionsDescription}>{t('in-events:notes.summarizeIncidentDescription')}</div>
           </>
         )}

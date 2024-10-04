@@ -167,17 +167,20 @@ function InfrastructureTable(props: TableWidgetProps) {
         <div className={locals.header}>
           <div>
             {isShowResultsVisible && (
-              <Typography variant="body-bold">
-                {t('in-custom-dashboards:widgets.table.form.infrastructure.showResult', {
-                  loadedItems: Math.min(tableSize, totalItemsCount),
-                  totalItems: totalItemsCount
-                })}
-              </Typography>
+              <div className="show-results">
+                <Typography variant="body-bold">
+                  {t('in-custom-dashboards:widgets.table.form.infrastructure.showResult', {
+                    loadedItems: Math.min(tableSize, totalItemsCount),
+                    totalItems: totalItemsCount
+                  })}
+                </Typography>
+              </div>
             )}
           </div>
 
           {!isPreview && (
             <SearchInput
+              className="search-input"
               placeholder={t('in-custom-dashboards:widgets.table.form.infrastructure.searchPlaceholder')}
               onChange={debouncedQuery.onChange}
               query={debouncedQuery.value}
@@ -236,7 +239,11 @@ function InfrastructureTable(props: TableWidgetProps) {
         )}
 
         {viewFullTableHref && (
-          <div className={locals.viewFullTableLink}>
+          <div
+            className={classNames('view-full-table', {
+              [locals.viewFullTableLink]: true
+            })}
+          >
             <Typography variant="body-regular">
               <Trans
                 i18nKey="in-custom-dashboards:widgets.table.form.infrastructure.viewTable"

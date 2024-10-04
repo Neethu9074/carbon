@@ -8,6 +8,7 @@ import React from 'react';
 
 import DashboardSwitcherOverlayPresenter from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcherOverlayPresenter';
 import DropdownButton from 'in-components/Button/DropdownButton';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import Overlay from 'in-components/overlays/Overlay';
 import Lettering from 'in-components/Lettering';
 import { t } from 'in-i18n';
@@ -24,11 +25,15 @@ export default function DashboardSwitcherPresenter(props) {
           expanded={isOpen}
           onClick={toggle}
           refSetter={refSetter}
-          kind="secondary"
-          className={locals.button}
+          size="normal"
+          kind={carbonButtonEnabled ? 'tertiary' : 'secondary'}
+          className={carbonButtonEnabled ? undefined : locals.button}
+          iconSize={carbonButtonEnabled ? 'xs' : 'regular'}
         >
-          {isCockpit && <Lettering className={locals.lettering} tag="h1" />}
-          {!isCockpit && (
+          {carbonButtonEnabled &&
+            (activeDashboardTitle || t('in-custom-dashboards:dashboardSwitcher.dashboardSwitcherPresenter.loading'))}
+          {!carbonButtonEnabled && isCockpit && <Lettering className={locals.lettering} tag="h1" />}
+          {!carbonButtonEnabled && !isCockpit && (
             <h1 className={locals.normalText}>
               {activeDashboardTitle || t('in-custom-dashboards:dashboardSwitcher.dashboardSwitcherPresenter.loading')}
             </h1>

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { getThreshold } from 'in-custom-dashboards/widgets/_shared/threshold';
+import { getThreshold } from 'in-components/Threshold/threshold';
 
 const formatter = 'number.details';
 const percentageFormatter = 'percentage.details';

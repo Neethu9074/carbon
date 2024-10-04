@@ -97,18 +97,8 @@ const WorkerLuaVM = function KongWorkerLuaVM({ snapshotId, timeConfig }: WorkerL
           y1={{
             min: 0,
             formatter: bytesTwoDecimalPlaces,
-            metrics: [
-              `kongRequestLatencyMsBucketService.${row.key}.kongLatencyFiftyPercentile`,
-              `kongRequestLatencyMsBucketService.${row.key}.kongLatencyNinetyPercentile`,
-              `kongRequestLatencyMsBucketService.${row.key}.kongLatencyNinetyfivePercentile`,
-              `kongRequestLatencyMsBucketService.${row.key}.kongLatencyNinetyninePercentile`
-            ],
-            labels: [
-              t('in-forge:plugins.kongApigateway.kongLatencyFiftyPercentile'),
-              t('in-forge:plugins.kongApigateway.kongLatencyNinetyPercentile'),
-              t('in-forge:plugins.kongApigateway.kongLatencyNinetyfivePercentile'),
-              t('in-forge:plugins.kongApigateway.kongLatencyNinetyninePercentile')
-            ],
+            metrics: [`memoryWorkersLuaVmsBytes.${row.key}.bytes`],
+            labels: [t('in-forge:plugins.kongApigateway.allocatedBytes')],
             type: 'line'
           }}
         />

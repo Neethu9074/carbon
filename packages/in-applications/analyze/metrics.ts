@@ -5,7 +5,6 @@
 
 // @ts-expect-error needs migration
 import { newTimeMetric, wrapToDiscardNegativeValues } from 'in-analyze/metricDefinitionHelpers';
-import { callClickedTracker, traceClickedTracker } from 'in-analyze/tracker';
 import { millis, number, percentage } from 'in-services/formatters/number';
 import getTraceGroups from 'in-applications/subscriptions/getTraceGroups';
 import getCallGroups from 'in-applications/subscriptions/getCallGroups';
@@ -161,7 +160,6 @@ export const dataSourceConstants = {
     latencyTag: 'call.latency',
     getData: getCalls,
     getGroupData: getCallGroups,
-    clickedTracker: callClickedTracker,
     traceIdName: 'traceId'
   },
   traces: {
@@ -227,7 +225,6 @@ export const dataSourceConstants = {
     latencyTag: 'trace.latency',
     getData: getTraces,
     getGroupData: getTraceGroups,
-    clickedTracker: traceClickedTracker,
     traceIdName: 'id'
   }
 };

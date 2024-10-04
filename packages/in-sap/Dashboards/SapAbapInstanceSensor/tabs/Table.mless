@@ -90,4 +90,10 @@
     align-items: center;
     justify-content: flex-end;
   }
+
+  .emptyTable {
+    :global(.table-row) {
+      display: grid;
+    }
+  }
 }

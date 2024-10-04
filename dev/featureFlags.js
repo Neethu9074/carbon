@@ -71,6 +71,7 @@ module.exports = {
   carbonComboBoxEnabled: true,
   carbonDateInputEnabled: true,
   carbonExpandableGroupEnabled: true,
+  carbonSideNavLinksEnabled: true,
   pseudoLanguageEnabled: true,
   applicationHealthOverviewEnabled: true,
   agentInstallViewRestrictedToIBMSaas: false,
@@ -165,7 +166,6 @@ module.exports = {
   userProfileMenuEnabled: false,
   unitForInfraMetricsEnabled: true,
   applicationSmartAlertDialogView: true,
-  increaseAggregationEnabled: false,
   carbonCodeEnabled: true,
   graphViewFromAboutInstanaEnabled: true,
   graphViewFromInfraMapEnabled: true,
@@ -173,5 +173,6 @@ module.exports = {
   nutanixEnabled: true,
   automationActionAiGenerationUnitEnabled: true,
   carbonSliderEnabled: true,
-  customDashboardTopLevelFiltersEnabled: true
+  customDashboardTopLevelFiltersEnabled: true,
+  syntheticCredentialsEnabled: true
 };

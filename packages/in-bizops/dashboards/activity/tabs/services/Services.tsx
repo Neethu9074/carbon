@@ -53,6 +53,7 @@ export default function Services() {
 
 interface GetBusinessActivitiesListProps {
   businessActivityId: string;
+  businessProcessDefinitionId: string;
   timeConfig: TimeConfig;
   page?: number;
   pageSize?: number;
@@ -64,6 +65,7 @@ interface GetBusinessActivitiesListProps {
 
 function getBusinessProcessActivityList({
   businessActivityId,
+  businessProcessDefinitionId,
   timeConfig,
   page = 1,
   pageSize = 20,
@@ -72,6 +74,7 @@ function getBusinessProcessActivityList({
 }: GetBusinessActivitiesListProps) {
   return getActivityServices({
     activityId: businessActivityId,
+    processDefinitionId: businessProcessDefinitionId,
     serviceMetrics: {
       latency: {
         metric: 'latency',

@@ -10,6 +10,9 @@
   }
   .actionModalFontSize {
     font-size: 0.8rem;
+    dd {
+      width: 95%;
+    }
   }
   .dialog {
     width: 65%;

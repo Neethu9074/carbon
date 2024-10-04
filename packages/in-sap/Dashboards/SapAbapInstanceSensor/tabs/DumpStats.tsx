@@ -140,19 +140,10 @@ const cols = [
 export default function DumpStats({ snapshotId, timeConfig }: DumpStatsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'abapdumpstats'), [snapshotId]);
   if (!data) {
-    return (
-      <Table
-        withoutPadding
-        cardTitle={t('in-sap:dashboards.abapdumpstats')}
-        cols={cols}
-        rows={[]}
-        initialSortColumn={0}
-        initialSortDirection="asc"
-      />
-    );
+    return null;
   }
   const dumpStat = (data as SnapshotData).get('raw_payload', []);
-  if (dumpStat.size === 0) {
+  if (!dumpStat || dumpStat.size === 0) {
     return null;
   }
   const rows: DumpStatsRow[] = dumpStat

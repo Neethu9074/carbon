@@ -48,7 +48,7 @@
   "playwithinstana": {
     "content": "Ready to monitor your own environment",
     "bookdemo": " Book a live demo",
-    "freetrial": " Try it Free",
+    "freetrial": " Try it free",
     "taketour": " Take a tour"
   },
   "agentDetails": {
@@ -594,7 +594,7 @@
         "label": "Business monitoring",
         "name": "Name",
         "activities": "Activities",
-        "views": "Views",
+        "started": "Started",
         "health": "Health",
         "searchPlaceholderLabel": "business processes",
         "viewAllLabel": "business processes"

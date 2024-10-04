@@ -34,7 +34,7 @@ export default function Row({ item }) {
   );
 }
 
-function HostInformation({ hostSnapshotPreview }) {
+export function HostInformation({ hostSnapshotPreview }) {
   const getDashboardLink = useGetDashboardLink();
   if (!hostSnapshotPreview) {
     return valueMissingPlaceholder;
@@ -80,7 +80,7 @@ function getTimeConfigForSnapshot(to) {
   };
 }
 
-function getSnapshotVersionsObservable([processSnapshotId, time]) {
+export function getSnapshotVersionsObservable([processSnapshotId, time]) {
   return getSnapshotVersions(processSnapshotId)
     .filter(Boolean)
     .flatMap(versionList =>

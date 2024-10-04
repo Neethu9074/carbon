@@ -6,11 +6,15 @@
 
 import { keyBy } from 'lodash';
 
+import { AdditionalHeaders, Authen, NewAction, ScoredAction } from 'in-automation/api';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
-import { AdditionalHeaders, Authen, NewAction } from 'in-automation/api';
 import { Action, ActionType, Field } from 'in-types';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
+
+export type ActionFormEntity = NewAction | Action | ScoredAction;
+
+export const isAction = (action: NewAction | Action): action is Action => (action as Action).id !== undefined;
 
 export const getType = (type: ActionType) => {
   if (isDocLink(type)) {

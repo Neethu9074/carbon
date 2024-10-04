@@ -58,6 +58,7 @@ import useNavigateToPolicyDetails from 'in-automation/navigation/hooks/useNaviga
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { descriptionColumn, nameColumn } from 'in-automation/ActionTable/columnDefinitions';
 import useNavigateToPolicies from 'in-automation/navigation/hooks/useNavigateToPolicies';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import CreatableTagSelect from 'in-components/CreatableTagSelect/CreatableTagSelect';
 import { hasError, isLoading, listSuccess, success } from 'in-services/util/result';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
@@ -74,11 +75,11 @@ import SectionHeading from 'in-settings/components/SectionHeading';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
-import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import usePolicyTags from 'in-automation/hooks/usePolicyTags';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { merge } from 'in-services/util/resultMerger';
+import FormGroup from 'in-components/form/FormGroup';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
@@ -90,6 +91,21 @@ import { Trans, t } from 'in-i18n';
 
 import locals from './Policy.mless';
 
+export function PolicyFormHeader({ isNew, policy }: { isNew: boolean; policy: PolicyFormEntity }) {
+  return (
+    <HorizontalFlexWrapper className={locals.spaceBetween}>
+      <SubViewHeader>
+        {isNew
+          ? t('in-automation:policies.createANewPolicy')
+          : t('in-automation:policies.configurePolicyEntityName', { entityName: policy.name })}
+      </SubViewHeader>
+      <HorizontalFlexWrapper>
+        {isPolicy(policy) && role?.canConfigureAutomationPolicies && <CopyPolicyLink isNew={isNew} policy={policy} />}
+      </HorizontalFlexWrapper>
+    </HorizontalFlexWrapper>
+  );
+}
+
 export function PolicyFormBody({
   form,
   setForm,
@@ -97,12 +113,12 @@ export function PolicyFormBody({
   triggers
 }: {
   form: PolicyForm;
-  setForm: React.Dispatch<React.SetStateAction<PolicyForm | null>>;
+  setForm: React.Dispatch<React.SetStateAction<PolicyForm>>;
   actions: Action[];
   triggers: Triggers;
 }) {
   return (
-    <fieldset>
+    <LeftRightPadding>
       <Row>
         <Col lg={8}>
           <SectionHeading>{t('in-automation:policies.1PolicyDetails')}</SectionHeading>
@@ -115,22 +131,7 @@ export function PolicyFormBody({
           <SelectAction form={form} setForm={setForm} actions={actions} />
         </Col>
       </Row>
-    </fieldset>
-  );
-}
-
-export function PolicyFormHeader({ isNew, policy }: { isNew: boolean; policy: PolicyFormEntity }) {
-  return (
-    <HorizontalFlexWrapper className={locals.spaceBetween}>
-      <SubViewHeader>
-        {isNew
-          ? t('in-automation:policies.createANewPolicy')
-          : t('in-automation:policies.configurePolicyEntityName', { entityName: policy.name })}
-      </SubViewHeader>
-      <HorizontalFlexWrapper>
-        {role?.canConfigureAutomationPolicies && <CopyPolicyLink isNew={isNew} policy={policy} />}
-      </HorizontalFlexWrapper>
-    </HorizontalFlexWrapper>
+    </LeftRightPadding>
   );
 }
 
@@ -168,7 +169,7 @@ function DetailsSection({
   setForm
 }: {
   form: PolicyForm;
-  setForm: React.Dispatch<React.SetStateAction<PolicyForm | null>>;
+  setForm: React.Dispatch<React.SetStateAction<PolicyForm>>;
 }) {
   const name = form.get('name');
   const description = form.get('description');
@@ -188,7 +189,7 @@ function DetailsSection({
             value={field.value}
             disabled={!role?.canConfigureAutomationPolicies}
             onChange={e =>
-              setForm(form => form!.updateIn(['name'], item => item.setValue(e.target.value).setTouched(true)))
+              setForm(form => form.updateIn(['name'], item => item.setValue(e.target.value).setTouched(true)))
             }
             hasError={!field.valid && field.touched}
             maxLength={256}
@@ -211,7 +212,7 @@ function DetailsSection({
             disabled={!role?.canConfigureAutomationPolicies}
             onChange={e =>
               setForm(form =>
-                form!.updateIn(['description'], item =>
+                form.updateIn(['description'], item =>
                   item.setValue((e.target as HTMLTextAreaElement).value).setTouched(true)
                 )
               )
@@ -235,7 +236,7 @@ function DetailsSection({
             tags={availableTags.data}
             value={field.value}
             onChange={newTags =>
-              setForm(form => form!.updateIn(['tags'], item => item.setValue(newTags).setTouched(true)))
+              setForm(form => form.updateIn(['tags'], item => item.setValue(newTags).setTouched(true)))
             }
             disabled={!role?.canConfigureAutomationActions}
           />
@@ -250,7 +251,7 @@ function ScopeSection({
   setForm
 }: {
   form: PolicyForm;
-  setForm: React.Dispatch<React.SetStateAction<PolicyForm | null>>;
+  setForm: React.Dispatch<React.SetStateAction<PolicyForm>>;
 }) {
   const scope = form.get('scope');
   const applyOn = scope.get('applyOn');
@@ -275,7 +276,7 @@ function ScopeSection({
                 disabled={!role?.canConfigureAutomationPolicies}
                 onChange={e =>
                   setForm(form =>
-                    form!.updateIn(['scope', 'applyOn'], item =>
+                    form.updateIn(['scope', 'applyOn'], item =>
                       item.setValue((e as Option).value as ApplyOn).setTouched(true)
                     )
                   )
@@ -298,7 +299,7 @@ function ScopeSection({
                 theme="light"
                 disabled={!role?.canConfigureAutomationPolicies}
                 onQueryValueChange={value => {
-                  setForm(form => form!.updateIn(['scope', 'query'], item => item.setValue(value).setTouched(true)));
+                  setForm(form => form.updateIn(['scope', 'query'], item => item.setValue(value).setTouched(true)));
                 }}
                 queryValue={field.value}
                 manageFiltersDisabled
@@ -324,7 +325,7 @@ function TypeSection({
   setForm
 }: {
   form: PolicyForm;
-  setForm: React.Dispatch<React.SetStateAction<PolicyForm | null>>;
+  setForm: React.Dispatch<React.SetStateAction<PolicyForm>>;
 }) {
   const type = form.getIn(['action', 'type']);
   return (
@@ -338,7 +339,7 @@ function TypeSection({
             disabled={!role?.canConfigureAutomationPolicies}
             onChange={e =>
               setForm(form =>
-                form!
+                form
                   .updateIn(['action', 'type', 'manual'], item => item.setValue(e.target.checked))
                   .updateIn(['action', 'type'], item => item.setTouched(true))
               )
@@ -352,7 +353,7 @@ function TypeSection({
             disabled={!role?.canConfigureAutomationPolicies}
             onChange={e =>
               setForm(form =>
-                form!
+                form
                   .updateIn(['action', 'type', 'automatic'], item => item.setValue(e.target.checked))
                   .updateIn(['action', 'type'], item => item.setTouched(true))
               )
@@ -385,7 +386,7 @@ function SelectTrigger({
   setForm
 }: {
   form: PolicyForm;
-  setForm: React.Dispatch<React.SetStateAction<PolicyForm | null>>;
+  setForm: React.Dispatch<React.SetStateAction<PolicyForm>>;
   triggers: Triggers;
 }) {
   const triggerId = form.get('triggerId');
@@ -396,7 +397,7 @@ function SelectTrigger({
 
   const result = hasError(selectedTriggerType)
     ? {
-        data: [],
+        data: { items: [] },
         errors: selectedTriggerType.errors,
         progress: {
           loading: false
@@ -456,7 +457,7 @@ function SelectTriggerDialog({
 }: {
   form: PolicyForm;
   triggers: Triggers;
-  setForm: React.Dispatch<React.SetStateAction<PolicyForm | null>>;
+  setForm: React.Dispatch<React.SetStateAction<PolicyForm>>;
 }) {
   const selectedTriggerId = form.get('triggerId').value;
   const selectedTriggerType = form.get('triggerType').value;
@@ -492,7 +493,7 @@ function SelectTriggerDialog({
 
   function handleSubmit() {
     setForm(form =>
-      form!
+      form
         .updateIn(['triggerId'], item => item.setValue(selectedId).setTouched(true))
         .updateIn(['triggerType'], item => item.setValue(selectedType).setTouched(true))
     );
@@ -651,7 +652,7 @@ function SelectAction({
   setForm
 }: {
   form: PolicyForm;
-  setForm: React.Dispatch<React.SetStateAction<PolicyForm | null>>;
+  setForm: React.Dispatch<React.SetStateAction<PolicyForm>>;
   actions: Action[];
 }) {
   const action = form.get('action');
@@ -685,7 +686,7 @@ function SelectAction({
                 <RunActionDialog
                   handleSave={(params, volatileId) => {
                     setForm(form =>
-                      form!
+                      form
                         .updateIn(['action', 'parameters'], item => item.setValue(params).setTouched(true))
                         .updateIn(['action', 'agentId'], item => item.setValue(volatileId.host_id!).setTouched(true))
                     );
@@ -743,7 +744,7 @@ function SelectActionDialog({
 }: {
   actions: Action[];
   form: PolicyForm;
-  setForm: React.Dispatch<React.SetStateAction<PolicyForm | null>>;
+  setForm: React.Dispatch<React.SetStateAction<PolicyForm>>;
 }) {
   const selectedActionId = form.getIn(['action', 'actionId']).value;
   const [selectedId, setSelectedId] = useState(selectedActionId);
@@ -772,7 +773,7 @@ function SelectActionDialog({
   });
 
   function handleSubmit() {
-    setForm(form => form!.updateIn(['action', 'actionId'], item => item.setValue(selectedId).setTouched(true)));
+    setForm(form => form.updateIn(['action', 'actionId'], item => item.setValue(selectedId).setTouched(true)));
     close();
   }
 

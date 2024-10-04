@@ -14,7 +14,7 @@ import { success, loading } from 'in-services/util/result';
 import ServerTable from 'in-components/tables/ServerTable';
 import { t } from 'in-i18n';
 
-const PAGE_SIZE = 15;
+const PAGE_SIZE = 20;
 
 function calcOffset(page, pageSize) {
   return (page - 1) * pageSize;
@@ -71,6 +71,7 @@ export default function AccessLog() {
       }
       getResettingProps={() => ['query']}
       defaultPageSize={PAGE_SIZE}
+      defaultPageSizes={[10, 20, 50, 100, 500, 1000]}
       columnDefinitions={columnDefinitions}
       rightHeader={({ query, page, pageSize }) => (
         <AuditLogDownloadView
@@ -78,6 +79,7 @@ export default function AccessLog() {
           pageSize={pageSize}
           query={query}
           endpoint={endpoint}
+          download
         />
       )}
       getRowProps={() => ({ size: 'compact' })}

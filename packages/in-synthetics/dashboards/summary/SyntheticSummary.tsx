@@ -14,12 +14,13 @@ import { t } from '@instana/i18n-react';
 import {
   clickSyntheticMonitoringConfigurationTabTracker,
   clickSyntheticMonitoringResultsTabTracker
-} from 'in-synthetics/tracker';
+} from 'in-synthetics/tracking/tracker';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getSyntheticTest from 'in-synthetics/subscriptions/getSyntheticTest';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { TestResponse, dummyTest } from 'in-synthetics/utils/constants';
@@ -40,6 +41,7 @@ import { role } from 'in-stores/user';
 import locals from './SyntheticSummary.mless';
 
 const SyntheticSummaryDashboard = () => {
+  const { trackCta } = useSegmentTracking();
   const [count, setReloadCount] = useState(0);
 
   const location: Location = useLocation();
@@ -57,10 +59,10 @@ const SyntheticSummaryDashboard = () => {
   function trackSyntheticTabChange(tab: string) {
     switch (tab) {
       case t('in-synthetics:dashboard.summary.resultsTab'):
-        clickSyntheticMonitoringResultsTabTracker({ detail: 'Results tab from synthetic Test Dashboard' });
+        clickSyntheticMonitoringResultsTabTracker(trackCta);
         break;
       case t('in-synthetics:dashboard.summary.configurationTab'):
-        clickSyntheticMonitoringConfigurationTabTracker({ detail: 'Configuration tab from synthetic Test Dashboard' });
+        clickSyntheticMonitoringConfigurationTabTracker(trackCta);
         break;
     }
   }

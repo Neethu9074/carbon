@@ -8716,6 +8716,7 @@
       },
       "name": "Name",
       "image": "Image",
+      "isPodmanRootless": "Rootless",
       "containerId": "Container ID",
       "cpuTotalUsage": "CPU Total Usage",
       "cpuThrottlingCount": "CPU Throttling Count",
@@ -8741,6 +8742,7 @@
       "networkMode": "Network Mode",
       "command": "Command",
       "podmanVersion": "Podman Version",
+      "remoteSocketPath": "Remote Socket Path",
       "restartCount": "Restart Count"
     },
     "process": {
