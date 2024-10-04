@@ -741,6 +741,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'carbonSideNavLinksEnabled',
+    instanaCtlKey: 'feature.carbon.side.nav.links.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'analyzeRelatedInstancesButtonEnabled',
     instanaCtlKey: 'feature.analyze.related.instances.button.enabled',
     defaultValue: false
