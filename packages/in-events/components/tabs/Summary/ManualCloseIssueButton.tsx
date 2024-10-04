@@ -68,7 +68,7 @@ export default function ManualCloseIssueButton({
     return <IconButton type="lib_actions_sync" iconSpinning kind="secondary" disabled />;
   }
 
-  if (!role?.canConfigureEventsAndAlerts || !hasEventSpec) {
+  if (!role?.canManuallyCloseIssue || !hasEventSpec) {
     // at the moment the link of this button generally does not work when the canConfigureEventsAndAlerts permission is missing,
     // because we generally hide the Events & Alerts section, including the build-in events.
     return null;
