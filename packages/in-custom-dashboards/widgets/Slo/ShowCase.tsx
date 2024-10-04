@@ -7,15 +7,16 @@
 import React from 'react';
 
 import { FixedTimeWindow, ServiceLevelObjectiveConfiguration, TimeConfig } from '@instana/types';
-import { Card, Stack } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { t } from '@instana/i18n-react';
 
 import ControlledSloErrorBudgetChart from 'in-service-levels/components/Shared/ControlledSloErrorBudgetChart';
 import SloChartSummary from 'in-service-levels/components/SloChart/SloChartSummary/SloChartSummary';
 import SloWidgetLeftHeader from 'in-custom-dashboards/widgets/Slo/components/SloWidgetLeftHeader';
+import SloWidgetCard from 'in-custom-dashboards/widgets/Slo/components/SloWidgetCard';
 import { MetricDataPoint, MetricDataSeries } from 'in-components/Chart/types';
 import { calculateSloGranularity } from 'in-service-levels/utils/time';
+import { finishedProgress } from 'in-services/fixedObjects';
 import { days } from 'in-services/time/time';
 
 import locals from './ShowCase.mless';
@@ -77,44 +78,44 @@ export default function ShowCase() {
 
   return (
     <div className={locals.wrapper}>
-      <Card
+      <SloWidgetCard
         leftHeaderContent={
           <SloWidgetLeftHeader
             sloConfig={showCaseSloConfig}
             title={t('in-custom-dashboards:widgets.slo.general.demoWidgetTitle')}
           />
         }
+        progress={finishedProgress}
       >
-        <Stack>
-          <SloChartSummary
-            budgetSingleNumber={[[0, totalErrorBudget]]}
-            fromTimestamp={timeWindow.startTimestamp}
-            indicatorType={showCaseSloConfig.indicator.type}
-            metricRemaining={remainingErrorBudget}
-            metricSli={sloStatus}
-            objectiveDuration={showCaseSloConfig.timeWindow.duration}
-            objectiveDurationUnit={showCaseSloConfig.timeWindow.durationUnit}
-            showRemainingBudget
-            sloEntityType={showCaseSloConfig.entity.type}
-            status="resolved"
-            statusSingleNumber={[[0, clampedStatus]]}
-            target={showCaseSloConfig.target}
-            timeWindowType={showCaseSloConfig.timeWindow.type}
-          />
-          <ControlledSloErrorBudgetChart
-            configuration={showCaseSloConfig}
-            errors={[]}
-            progress={{ loading: false }}
-            timeConfig={staticTimeConfig}
-            timeWindows={[staticTimeConfig]}
-            timeWindowColors={[themes.default.ids.color.option.blue[400]]}
-            metrics={{
-              granularity,
-              metrics
-            }}
-          />
-        </Stack>
-      </Card>
+        <SloChartSummary
+          budgetSingleNumber={[[0, totalErrorBudget]]}
+          fromTimestamp={timeWindow.startTimestamp}
+          indicatorType={showCaseSloConfig.indicator.type}
+          metricRemaining={remainingErrorBudget}
+          metricSli={sloStatus}
+          objectiveDuration={showCaseSloConfig.timeWindow.duration}
+          objectiveDurationUnit={showCaseSloConfig.timeWindow.durationUnit}
+          showRemainingBudget
+          sloEntityType={showCaseSloConfig.entity.type}
+          status="resolved"
+          statusSingleNumber={[[0, clampedStatus]]}
+          target={showCaseSloConfig.target}
+          timeWindowType={showCaseSloConfig.timeWindow.type}
+        />
+        <ControlledSloErrorBudgetChart
+          customHeight={250}
+          configuration={showCaseSloConfig}
+          errors={[]}
+          progress={{ loading: false }}
+          timeConfig={staticTimeConfig}
+          timeWindows={[staticTimeConfig]}
+          timeWindowColors={[themes.default.ids.color.option.blue[400]]}
+          metrics={{
+            granularity,
+            metrics
+          }}
+        />
+      </SloWidgetCard>
     </div>
   );
 }

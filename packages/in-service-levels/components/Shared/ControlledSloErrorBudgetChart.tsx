@@ -23,7 +23,9 @@ import { minutes, number } from 'in-services/formatters/number';
 import { sloMetrics } from 'in-service-levels/metrics';
 
 interface ControlledSloErrorBudgetChartProps {
-  automaticallySized?: boolean;
+  automaticallySize?: boolean;
+  customHeight?: number;
+  customChartSkeletonHeight?: number;
   timeConfig: TimeConfig;
   timeWindows: TimeConfig[];
   timeWindowColors: string[];
@@ -36,7 +38,9 @@ interface ControlledSloErrorBudgetChartProps {
 }
 
 export default function ControlledSloErrorBudgetChart({
-  automaticallySized,
+  automaticallySize,
+  customHeight,
+  customChartSkeletonHeight,
   timeConfig,
   timeWindows,
   timeWindowColors,
@@ -63,7 +67,9 @@ export default function ControlledSloErrorBudgetChart({
     <ResultAwareChart
       config={{
         title,
-        automaticallySize: automaticallySized,
+        automaticallySize,
+        customHeight,
+        customChartSkeletonHeight,
         primaryContextMenuAction: sloZoomInAction.name,
         additionalContextMenuButtons: [sloZoomInAction],
         excludedContextMenuActions: [zoomInAction.name],
@@ -79,11 +85,7 @@ export default function ControlledSloErrorBudgetChart({
         },
         granularity: metrics?.granularity ?? calculateSloGranularity(timeConfig),
         timeConfig,
-        renderPostChartContent,
-        // FIXME: Chart height should be dynamic based on the dashboard layout and available screen size.
-        // The current values are just measures taken from the default rendering of the chart to make the sizing work
-        customHeight: 250,
-        customChartSkeletonHeight: 308
+        renderPostChartContent
       }}
       result={{ progress, errors }}
     />

@@ -7,8 +7,8 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 
+import WidgetCard from 'in-custom-dashboards/widgets/Apdex/components/WidgetCard/WidgetCard';
 import ApdexWidget from 'in-custom-dashboards/widgets/Apdex/components/ApdexWidget';
-import WidgetCard from 'in-custom-dashboards/widgets/_shared/WidgetCard/WidgetCard';
 import ApdexChart from 'in-custom-dashboards/widgets/Apdex/components/ApdexChart';
 import { minutes } from 'in-services/time/time';
 

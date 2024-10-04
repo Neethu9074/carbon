@@ -4,11 +4,9 @@
  * Copyright IBM Corp. 2024
  */
 
-import classNames from 'classnames';
 import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
-import { Spacer } from '@instana/components';
 
 import ContextAwareSloWidgetRightHeader from 'in-custom-dashboards/widgets/Slo/components/ContextAwareSloWidgetRightHeader';
 import IndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
@@ -17,12 +15,10 @@ import ErrorBudgetChart from 'in-service-levels/components/SloDashboard/componen
 import SloChartSummary from 'in-service-levels/components/SloChart/SloChartSummary/SloChartSummary';
 import SloWidgetLeftHeader from 'in-custom-dashboards/widgets/Slo/components/SloWidgetLeftHeader';
 import useSloWidgetMetrics from 'in-custom-dashboards/widgets/Slo/hooks/useSloWidgetMetrics';
+import SloWidgetCard from 'in-custom-dashboards/widgets/Slo/components/SloWidgetCard';
 import { SloWidgetConfiguration } from 'in-custom-dashboards/widgets/Slo/types';
 import { getValueFromSingleValueMetric } from 'in-service-levels/utils/format';
-import WidgetCard from 'in-custom-dashboards/widgets/_shared/WidgetCard';
 import { MetricDataPoint } from 'in-components/Chart/types';
-
-import locals from './SloWidget.mless';
 
 interface SloWidgetPresenterProps {
   actions: React.ReactNode;
@@ -52,43 +48,37 @@ export default function SloWidget({
   const metricSli = getValueFromSingleValueMetric(statusMetric?.values as MetricDataPoint[]);
 
   return (
-    <WidgetCard
-      rightHeaderContent={<ContextAwareSloWidgetRightHeader actions={actions} dragHandle={dragHandle} />}
+    <SloWidgetCard
+      isInModal={isInModal}
       leftHeaderContent={<SloWidgetLeftHeader sloConfig={sloConfig} isPreview={isPreview} title={title} />}
       progress={progress}
+      rightHeaderContent={<ContextAwareSloWidgetRightHeader actions={actions} dragHandle={dragHandle} />}
     >
-      <div
-        className={classNames(locals.chart, {
-          [locals.noPadding]: isInModal
-        })}
-      >
-        <SloChartSummary
-          budgetSingleNumber={remainingBudgetNumber?.values as MetricDataPoint[]}
-          fromTimestamp={sloConfig.timeWindow.type === 'fixed' ? sloConfig.timeWindow.startTimestamp : Date.now()}
-          indicatorType={sloConfig.indicator.type}
-          metricRemaining={metricRemaining}
-          metricSli={metricSli}
-          objectiveDuration={sloConfig.timeWindow.duration}
-          objectiveDurationUnit={sloConfig.timeWindow.durationUnit}
-          showRemainingBudget
-          sloEntityType={sloConfig.entity.type}
-          status={status}
-          statusSingleNumber={statusMetric?.values as MetricDataPoint[]}
-          target={sloConfig.target}
-          timeWindowType={sloConfig.timeWindow.type}
+      <SloChartSummary
+        budgetSingleNumber={remainingBudgetNumber?.values as MetricDataPoint[]}
+        fromTimestamp={sloConfig.timeWindow.type === 'fixed' ? sloConfig.timeWindow.startTimestamp : Date.now()}
+        indicatorType={sloConfig.indicator.type}
+        metricRemaining={metricRemaining}
+        metricSli={metricSli}
+        objectiveDuration={sloConfig.timeWindow.duration}
+        objectiveDurationUnit={sloConfig.timeWindow.durationUnit}
+        showRemainingBudget
+        sloEntityType={sloConfig.entity.type}
+        status={status}
+        statusSingleNumber={statusMetric?.values as MetricDataPoint[]}
+        target={sloConfig.target}
+        timeWindowType={sloConfig.timeWindow.type}
+      />
+      {config.chartType === 'ERROR_BUDGET' ? (
+        <ErrorBudgetChart configuration={sloConfig} automaticallySize={!isPreview} />
+      ) : (
+        <IndicatorChart
+          entity={sloConfig.entity}
+          indicator={sloConfig.indicator}
+          timeWindow={sloConfig.timeWindow}
+          automaticallySize={!isPreview}
         />
-        <Spacer />
-        {config.chartType === 'ERROR_BUDGET' ? (
-          <ErrorBudgetChart configuration={sloConfig} automaticallySized={!isPreview} />
-        ) : (
-          <IndicatorChart
-            entity={sloConfig.entity}
-            indicator={sloConfig.indicator}
-            timeWindow={sloConfig.timeWindow}
-            automaticallySized={!isPreview}
-          />
-        )}
-      </div>
-    </WidgetCard>
+      )}
+    </SloWidgetCard>
   );
 }
