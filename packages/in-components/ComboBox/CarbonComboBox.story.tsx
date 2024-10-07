@@ -6,9 +6,9 @@
 
 import React, { useState } from 'react';
 
-import {Pill} from '@instana/components'
+import { Pill } from '@instana/components';
 
-import {default as CarbonComboBox} from './CarbonComboBox';
+import { default as CarbonComboBox } from './CarbonComboBox';
 
 export default {
   component: CarbonComboBox
@@ -30,15 +30,15 @@ export const CarbonComboBoxDefault = () => {
   const [value, setValue] = useState(null);
   return (
     <>
-      <div style={{margin: '1rem'}}>Single selection</div>
-          <div style={{margin: '1rem'}}>Carbon</div>
-          <CarbonComboBox
-            value={value}
-            options={options}
-            onChange={(t: any) => {
-              setValue(t?.value);
-            }}
-          />
+      <div style={{ margin: '1rem' }}>Single selection</div>
+      <div style={{ margin: '1rem' }}>Carbon</div>
+      <CarbonComboBox
+        value={value}
+        options={options}
+        onChange={(t: any) => {
+          setValue(t?.value);
+        }}
+      />
     </>
   );
 };
@@ -47,20 +47,19 @@ export const CarbonComboBoxSingleNotClearable = () => {
   const [valueC, setValueC] = useState('');
   return (
     <>
-      <div style={{margin: '1rem'}}>Carbon</div>
-        <CarbonComboBox
-          value={valueC}
-          options={options}
-          onChange={(t: any) => {
-            setValueC(t?.value);
-          }}
-          isClearable={false}
-          defaultValue={options[0]}
-        />
+      <div style={{ margin: '1rem' }}>Carbon</div>
+      <CarbonComboBox
+        value={valueC}
+        options={options}
+        onChange={(t: any) => {
+          setValueC(t?.value);
+        }}
+        isClearable={false}
+        defaultValue={options[0]}
+      />
     </>
   );
 };
-
 
 export const ComboBoxSingleWithPlaceholder = () => {
   const [value, setValue] = useState('');
@@ -125,6 +124,23 @@ export const ComboBoxSingleCustom = () => {
       }}
       components={{ Decorate }}
     />
+  );
+};
+
+export const ComboBoxSingleClearable = () => {
+  const [value, setValue] = useState('');
+  return (
+    <>
+      <CarbonComboBox
+        value={value}
+        options={options}
+        onChange={(t: any) => {
+          setValue(t?.value);
+        }}
+        components={{ Decorate }}
+      />
+      <div>{`Selected value: ${value}`}</div>
+    </>
   );
 };
 

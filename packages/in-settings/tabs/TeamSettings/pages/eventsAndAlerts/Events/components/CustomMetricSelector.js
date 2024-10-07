@@ -8,7 +8,7 @@ import React from 'react';
 
 import ComboBox from 'in-components/ComboBox/ComboBox';
 
-export default function CustomMetricSelector({ onChange, value, metrics, disabled }) {
+export default function CustomMetricSelector({ onChange, value, metrics, disabled, id }) {
   const metricsList = Array.isArray(metrics) ? metrics.slice() : [];
   const parentItemForValue = metricsList.find(it => it.value === value);
 
@@ -20,6 +20,7 @@ export default function CustomMetricSelector({ onChange, value, metrics, disable
       options={metricsList}
       onChange={onChange}
       item={parentItemForValue}
+      id={id}
     />
   );
 }
@@ -28,21 +29,23 @@ CustomMetricSelector.propTypes = {
   metrics: PropTypes.arrayOf(PropTypes.object),
   disabled: PropTypes.bool,
   value: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  id: PropTypes.string
 };
 
-const AutoComplete = ({ options, resultsToShow, placeholder, onChange, item, value, disabled }) => {
+const AutoComplete = ({ options, resultsToShow, placeholder, onChange, item, value, disabled, id }) => {
   return (
     <ComboBox
       itemToString={item => (item ? item.label : '')}
       onChange={onChange}
-      initialelectedItem={item}
+      defaultValue={item}
       value={value}
       isSearchable
       isClearable
       options={options.slice(0, resultsToShow)}
       placeholder={placeholder}
       disabled={disabled}
+      id={id}
     />
   );
 };
