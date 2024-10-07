@@ -18,6 +18,7 @@ import EmptyContent from 'in-components/tables/ServerTable/internalComponents/Em
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import LoadingRows from 'in-components/tables/ServerTable/internalComponents/LoadingRows';
 import { carbonPaginationEnabled, carbonTableEnabled } from 'in-services/featureFlags';
+import { ConfigureButton } from 'in-components/tables/sharedComponents/ConfigurableTh';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import { Nullish, PaginatedResult, Result, ResultPrecision } from 'in-types';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
@@ -191,6 +192,20 @@ export default function ServerTablePresenter<
       carbonHeaders[0].width = '2rem';
     }
 
+    // For customised column header where user can select which column to render.
+    // A checklist containing all the header names to choose to rendere is got from
+    // the below component.
+    const isConfigurationColum = optionalColumns && optionalColumns.length;
+    const toolBarContent = isConfigurationColum ? (
+      <ConfigureButton
+        columnDefinitions={visibleColumns}
+        availableColumnDefinitions={availableColumns}
+        onColumnChecked={onColumnChecked}
+      >
+        {''}
+      </ConfigureButton>
+    ) : undefined;
+
     let header;
     if (rightHeader) {
       header = (
@@ -258,6 +273,7 @@ export default function ServerTablePresenter<
         tableInCard={tableInCard || cardTitle != null}
         fixedLayout={fixedLayout}
         results={result.data?.items}
+        toolBarContent={toolBarContent}
       />
     );
 
