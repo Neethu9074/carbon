@@ -140,4 +140,21 @@
   .failureTextWrapper {
     max-width: 43.75rem;
   }
+
+  .layerBackground {
+    background: var(--cds-layer);
+  }
+
+  .metricViolationsContainer {
+    padding: 1rem;
+  }
+
+  .noShrink {
+    flex-shrink: 0;
+  }
+
+  .feedbackContainer {
+    padding: 0 1rem;
+    background: var(--cds-layer);
+  }
 }

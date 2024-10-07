@@ -159,6 +159,7 @@ function Header(props) {
 
   return (
     <DashboardHeader
+      className={locals.eventsDashboardHeader}
       event={props.result.data}
       title={t('in-events:titleEvent')}
       renderIcon={() => renderIcon(props.result.data, props.timeConfig)}
@@ -261,7 +262,7 @@ export function FeedbackComponents({ eventData, textVariant = 'body-regular' }) 
   }, [feedbackState]);
 
   return (
-    <Stack direction="horizontal" gap="xxsmall" distribution="spaceBetween" align="center">
+    <Stack direction="horizontal" gap="xxsmall" distribution="start" align="center">
       <Typography variant={textVariant} align="center">
         {feedbackState === '' ? t('in-events:eventHelpfulText') : t('in-events:thankYouForYourFeedback')}
       </Typography>
