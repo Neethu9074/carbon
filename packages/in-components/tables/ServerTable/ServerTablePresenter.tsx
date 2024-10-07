@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, ReactNode } from 'react';
 import classNames from 'classnames';
 import invariant from 'invariant';
 import { debounce } from 'lodash';
@@ -57,7 +57,7 @@ export interface ServerTablePresenterProps<ItemType extends ListItem> extends Ta
 
 interface CarbonHeader<ITEM_TYPE extends Object, PROPS_TYPE extends TableProps<ITEM_TYPE> = TableProps<ITEM_TYPE>> {
   key: string;
-  header: string;
+  header: string | ReactNode;
   isSortable?: boolean;
   getContent: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>['getContent'];
   sortDirection?: OrderDirection | 'NONE';
