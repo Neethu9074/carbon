@@ -26,17 +26,6 @@ interface DetailsModalProps {
 
 export default function DetailsModal({ currentAction, agents }: DetailsModalProps) {
   const { runOptimizationTrackerSegment } = useSegmentTracker();
-  // When displayed as a title vs. as a tag, 'Performance' and 'Efficiency' actions need a different key.
-  const getCurrentActionCategoryTitle = () => {
-    const cat = currentAction?.actionCategory;
-    if (cat == 'PERFORMANCE_ASSURANCE') {
-      return turboActionCategoryMap['PERFORMANCE_ASSURANCE_FULL'];
-    } else if (cat == 'EFFICIENCY_IMPROVEMENT') {
-      return turboActionCategoryMap['EFFICIENCY_IMPROVEMENT_FULL'];
-    } else {
-      return turboActionCategoryMap[cat];
-    }
-  };
 
   const [targetAgent, setTargetAgent] = useState<AgentSnapshot | null>(agents[0]);
   const [isSavingAction, setIsSavingAction] = useState(false);
@@ -106,11 +95,33 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
   const resourceImpactSection = () => {
     if (impactLoading) {
       return (
-        <Stack direction="vertical">
-          <LoadingSkeleton />
-          <LoadingSkeleton />
-          <LoadingSkeleton />
-        </Stack>
+        <div className={locals.paddingBox}>
+          <Stack direction="vertical">
+            <LoadingSkeleton />
+            <LoadingSkeleton />
+            <Spacer />
+            <Stack direction="horizontal">
+              <Stack direction="vertical">
+                <LoadingSkeleton />
+                <LoadingSkeleton />
+                <LoadingSkeleton />
+                <LoadingSkeleton />
+              </Stack>
+              <Stack direction="vertical">
+                <LoadingSkeleton />
+                <LoadingSkeleton />
+                <LoadingSkeleton />
+                <LoadingSkeleton />
+              </Stack>
+              <Stack direction="vertical">
+                <LoadingSkeleton />
+                <LoadingSkeleton />
+                <LoadingSkeleton />
+                <LoadingSkeleton />
+              </Stack>
+            </Stack>
+          </Stack>
+        </div>
       );
     } else if (errorMessage !== '') {
       return (
@@ -121,59 +132,57 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
     }
     return (
       <>
-        {entities?.map((entity: ResourceImpactEntities) => (
-          <Stack direction="vertical" gap="small" distribution="center">
-            {/* Container Spec*/}
-            <Typography variant="heading-200" noMargin>
-              {entity?.name}
-            </Typography>
-            <Typography variant="body-small" noMargin>
-              {entity?.type}
-            </Typography>
+        {entities?.map((entity: ResourceImpactEntities, i: number) => (
+          <>
+            <Stack direction="vertical" gap="small" distribution="center">
+              {/* Container Spec*/}
+              <div className={locals.paddingBox}>
+                <Typography variant="heading-200" noMargin>
+                  {entity?.type}
+                </Typography>
+                <div className={locals.smallText}>{entity?.name}</div>
+              </div>
 
-            {(entity?.resourceImpactDataList?.length ?? 0) > 0 && (
-              <Stack direction="horizontal">
-                {/* Resource impact */}
-                <Stack direction="vertical">
-                  <Typography variant="heading-200" noMargin>
-                    {t('in-automation:resourceOptimization.resourceImpact')}
-                  </Typography>
-
-                  {entity?.resourceImpactDataList?.map(x => (
-                    <Typography variant="body-small" noMargin>
-                      {x.name}
-                    </Typography>
-                  ))}
-                </Stack>
-                {/* Current */}
-                <Stack direction="vertical">
-                  <div className={locals.current}>
-                    <Typography variant="heading-200" noMargin>
-                      {t('in-automation:resourceOptimization.current')}
-                    </Typography>
-                  </div>
-                  {entity?.resourceImpactDataList?.map(x => (
-                    <Typography variant="body-small" noMargin>
-                      {`${x.before}${x.units}`}
-                    </Typography>
-                  ))}
-                </Stack>
-                {/* After actions */}
-                {/* <Spacer horizontal="medium" /> */}
-                <Stack direction="vertical">
-                  <div className={locals.after}>
-                    <Typography variant="heading-200" noMargin>
-                      {t('in-automation:resourceOptimization.afterActions')}
-                    </Typography>
-                  </div>
-                  {entity?.resourceImpactDataList?.map(x => (
-                    <Typography variant="body-small">{`${x.after}${x.units}`}</Typography>
-                  ))}
-                </Stack>
-              </Stack>
-            )}
-            <Spacer />
-          </Stack>
+              {(entity?.resourceImpactDataList?.length ?? 0) > 0 && (
+                <div className={locals.paddingBox}>
+                  <Stack direction="horizontal">
+                    {/* Resource impact */}
+                    <Stack direction="vertical">
+                      <Typography variant="heading-200" noMargin>
+                        {t('in-automation:resourceOptimization.resourceImpact')}
+                      </Typography>
+                      {entity?.resourceImpactDataList?.map(x => (
+                        <div className={locals.smallText}>{x.name}</div>
+                      ))}
+                    </Stack>
+                    {/* Current */}
+                    <Stack direction="vertical">
+                      <div className={locals.current}>
+                        <Typography variant="heading-200" noMargin>
+                          {t('in-automation:resourceOptimization.current')}
+                        </Typography>
+                      </div>
+                      {entity?.resourceImpactDataList?.map(x => (
+                        <div className={locals.smallText}>{`${x.before} ${x.units}`}</div>
+                      ))}
+                    </Stack>
+                    {/* After actions */}
+                    <Stack direction="vertical">
+                      <div className={locals.after}>
+                        <Typography variant="heading-200" noMargin>
+                          {t('in-automation:resourceOptimization.afterActions')}
+                        </Typography>
+                      </div>
+                      {entity?.resourceImpactDataList?.map(x => (
+                        <div className={locals.smallText}>{`${x.after} ${x.units}`}</div>
+                      ))}
+                    </Stack>
+                  </Stack>
+                </div>
+              )}
+              {i + 1 < entities?.length && <hr className={locals.divider} />}
+            </Stack>
+          </>
         ))}
       </>
     );
@@ -195,17 +204,17 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
         {/* Details - Left Section */}
         <div className={locals.leftSection}>
           <Stack direction="vertical" gap={'small'} distribution="spaceEvenly">
-            <Pill> {turboActionCategoryMap[currentAction.actionCategory]}</Pill>
             <Typography variant="heading-200" noMargin>
-              {`${currentAction?.actionType} ${currentAction?.targetClass}`}
+              {t('in-automation:resourceOptimization.actionDescription')}
             </Typography>
             <Typography variant="body-regular"> {currentAction?.name}</Typography>
+            <Pill size="md"> {turboActionCategoryMap[currentAction.actionCategory]}</Pill>
             <Typography variant="heading-200" noMargin>
-              {getCurrentActionCategoryTitle()}
+              {t('in-automation:resourceOptimization.riskDescription')}
             </Typography>
             <Typography variant="body-regular"> {currentAction?.description}</Typography>
             {currentAction?.actionDetailsURL && (
-              <Link href={currentAction?.actionDetailsURL} linkIconType={'lib_views_external_link'}>
+              <Link href={currentAction?.actionDetailsURL} linkIconType={'lib_views_external_link'} external>
                 {t('in-automation:resourceOptimization.viewInTurbo')}
               </Link>
             )}
