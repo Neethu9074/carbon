@@ -36,16 +36,13 @@ let routes = [
   </Route>,
   <Route key="businessProcessDashboard" path={businessProcessDashboard}>
     {renderAsyncRouteChildren(BusinessProcessSummaryDashboard)}
-  </Route>
-];
-
-routes.push(
+  </Route>,
   <Route key="BusinessPerspectivesList" exact path={businessPerspectivesPath}>
     {renderAsyncRouteChildren(BusinessPerspectivesList)}
   </Route>,
   <Route key="BusinessPerspectiveSummary" path={businessPerspectiveDashboard}>
     {renderAsyncRouteChildren(BusinessPerspectiveSummary)}
   </Route>
-);
+];
 
 export default routes;
