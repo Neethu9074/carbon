@@ -561,6 +561,9 @@ export function toAxisConfiguration(
               if (groupLabel === 'other_group') {
                 return 'Other';
               }
+              if (groupLabel === '') {
+                return '';
+              }
               const isAMultiSeriesChart =
                 (chartConfig.y1.metrics.length && chartConfig.y2?.metrics?.length) || axis.metrics.length > 1;
               return isAMultiSeriesChart ? `${metricLabel} ${groupLabel}` : groupLabel;
