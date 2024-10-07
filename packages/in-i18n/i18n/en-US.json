@@ -23,6 +23,7 @@
       "dataTable": "Data table",
       "expandHeader": "Expand row",
       "expandRow": "Toggle expand row",
+      "select": "select row",
       "selectedRow": "Selected row"
     },
     "tableSkeleton": {
