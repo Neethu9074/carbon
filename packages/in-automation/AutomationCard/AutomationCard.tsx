@@ -21,6 +21,7 @@ import RecommendedOptimizations from 'in-automation/ResourceOptimization/Recomme
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import RecommendedActions from 'in-automation/AutomationCard/RecommendedActions';
 import AutomationPolicies from 'in-automation/AutomationCard/AutomationPolicies';
+import { resourceOptimizationActionsEnabled } from 'in-services/featureFlags';
 import usePolicies from 'in-automation/AutomationCard/usePolicies';
 import useHistory from 'in-automation/AutomationCard/useHistory';
 import useTrigger from 'in-automation/AutomationCard/useTrigger';
@@ -49,16 +50,18 @@ function AutomationCard({ volatileId, event }: AutomationCardProps) {
   const turboRecommendedActions = useTurboRecommendedActions(recommendedOptimizations);
   return (
     <>
-      <Row withoutSideMargin>
-        <Col xs>
-          <Card>
-            <RecommendedOptimizations
-              recommendedActions={turboRecommendedActions}
-              totalRecommendedActions={recommendedOptimizations?.data?.totalRecommendedActionsCount!}
-            />
-          </Card>
-        </Col>
-      </Row>
+      {resourceOptimizationActionsEnabled && (
+        <Row withoutSideMargin>
+          <Col xs>
+            <Card>
+              <RecommendedOptimizations
+                recommendedActions={turboRecommendedActions}
+                totalRecommendedActions={recommendedOptimizations?.data?.totalRecommendedActionsCount!}
+              />
+            </Card>
+          </Col>
+        </Row>
+      )}
       <Row withoutSideMargin>
         <Col xs>
           <Card>

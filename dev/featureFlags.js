@@ -144,6 +144,7 @@ module.exports = {
   infrastructureExploreTagColumnsEnabled: true,
   serviceNowAutoCloseAndCustomPayloadsEnabled: false,
   serviceNowAdvancedEnabled: true,
+  resourceOptimizationActionsEnabled: true,
   carbonTabsEnabled: true,
   shareAndInviteEnabled: true,
   automationActionInstanceFeedbackEnabled: false,

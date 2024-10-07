@@ -25,6 +25,7 @@ import ResourceOptimizationTab from 'in-applications/Dashboards/application/tabs
 import Map from 'in-applications/Dashboards/application/tabs/Map';
 import LogMessagesTab from 'in-logging/components/Dashboards/components/LogMessages';
 import { hasInfrastructureAccess, hasSyntheticsAccess } from 'in-stores/permission';
+import { resourceOptimizationActionsEnabled } from 'in-services/featureFlags';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import { Tab } from 'in-components/LocationAwareTabView/types';
 import { cveIssueEnabled } from 'in-services/featureFlags';
@@ -88,7 +89,7 @@ const getApplicationTabs = (canConfigureApplications: boolean | null | undefined
       path: `${applicationDashboard}/configuration`,
       component: canConfigureApplications ? Configuration : ReadOnlyConfiguration
     },
-    !playwithEnabled && {
+    resourceOptimizationActionsEnabled && {
       label: t('in-applications:labelResourceOptimizations'),
       path: `${applicationDashboard}/resourceOptimizations`,
       component: ResourceOptimizationTab

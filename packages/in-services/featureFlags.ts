@@ -111,7 +111,8 @@ export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', tru
 // sliChClusterAccessEnabled
 // compared to other places:
 // sliCHClusterAccessEnabled
-export const sliCHClusterAccessEnabled = isFeatureFlagEnabled('sliCHClusterAccessEnabled') || isFeatureFlagEnabled('sliChClusterAccessEnabled');
+export const sliCHClusterAccessEnabled =
+  isFeatureFlagEnabled('sliCHClusterAccessEnabled') || isFeatureFlagEnabled('sliChClusterAccessEnabled');
 export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true);
 export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
 export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', true);
@@ -283,6 +284,7 @@ export const automationActionInstanceFeedbackEnabled = isFeatureFlagEnabled(
   'automationActionInstanceFeedbackEnabled',
   false
 );
+export const resourceOptimizationActionsEnabled = isFeatureFlagEnabled('resourceOptimizationActionsEnabled', false);
 export const carbonStepProgressBarEnabled = isFeatureFlagEnabled('carbonStepProgressBarEnabled', false);
 export const carbonHorizontalIndicatorEnabled = isFeatureFlagEnabled('carbonHorizontalIndicatorEnabled', false);
 export const analyzeRelatedInstancesButtonEnabled = isFeatureFlagEnabled('analyzeRelatedInstancesButtonEnabled', false);
