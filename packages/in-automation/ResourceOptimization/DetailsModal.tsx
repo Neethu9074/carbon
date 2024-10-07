@@ -14,6 +14,7 @@ import { turboActionCategoryMap } from './RecommendedOptimizations';
 import { runResourceOptimizationAction } from 'in-automation/api';
 import { useResourceImpacts } from './useResourceOptimization';
 import { close } from 'in-components/DialogPresenter/store';
+import { useSegmentTracker } from 'in-automation/tracker';
 import { t } from 'in-i18n';
 
 import locals from './DetailsModal.mless';
@@ -24,6 +25,7 @@ interface DetailsModalProps {
 }
 
 export default function DetailsModal({ currentAction, agents }: DetailsModalProps) {
+  const { runOptimizationTrackerSegment } = useSegmentTracker();
   // When displayed as a title vs. as a tag, 'Performance' and 'Efficiency' actions need a different key.
   const getCurrentActionCategoryTitle = () => {
     const cat = currentAction?.actionCategory;
@@ -76,8 +78,14 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
       if ('errorMessage' in data && data.errorMessage != null) {
         setRunActionError(data.errorMessage);
         setRunActionResponseId(data?.actionInstanceId);
+        runOptimizationTrackerSegment({
+          actionName: currentAction.name,
+          source: 'Turbonomic',
+          errorMessage: data.errorMessage
+        });
       } else {
         setRunActionResponseId(data.actionInstanceId);
+        runOptimizationTrackerSegment({ actionName: currentAction.name, source: 'Turbonomic' }); //Turbonomic only for now and we may need to have a source parameter
         close();
       }
     });

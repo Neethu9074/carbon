@@ -418,6 +418,7 @@ export const AUTOMATION_ACTION_CREATE = 'automation.action.create';
 export const AUTOMATION_ACTION_EDIT = 'automation.action.edit';
 export const AUTOMATION_ACTION_DELETE = 'automation.action.delete';
 export const AUTOMATION_ACTION_RUN = 'automation.action.run';
+export const AUTOMATION_OPTIMIZATION_RUN_CLICK = 'automation.optimization.run.click';
 export const AUTOMATION_ACTION_HISTORY_VIEW = 'automation.action.history.view';
 export const AUTOMATION_ACTION_HISTORY_INSTANCE_VIEW = 'automation.action.history.instance.view';
 export const AUTOMATION_ACTION_HISTORY_FEEDBACK_SEND = 'automation.action.history.feedback.used';

@@ -17,6 +17,7 @@ import {
   AUTOMATION_POLICY_EDIT,
   AUTOMATION_CLICK_TURBO_LINK_FOR_DETAILS,
   AUTOMATION_VIEW_TURBO_ACTION,
+  AUTOMATION_OPTIMIZATION_RUN_CLICK,
   AUTOMATION_RECOMMENDED_ACTIONS_TAB_CLICK,
   AUTOMATION_CREATE_POLICY_FROM_RECOMMENDED_ACTIONS,
   AUTOMATION_TEST_ACTION_RUN,
@@ -75,6 +76,7 @@ export function useSegmentTracker(): {
   createActionTrackerSegment: TrackingFunction;
   editActionTrackerSegment: TrackingFunction;
   runActionTrackerSegment: TrackingFunction;
+  runOptimizationTrackerSegment: TrackingFunction;
   testActionTrackerSegment: TrackingFunction;
   createPolicyTrackerSegment: TrackingFunction;
   editPolicyTrackerSegment: TrackingFunction;
@@ -103,6 +105,10 @@ export function useSegmentTracker(): {
 
   function runActionTrackerSegment(customData?: Object): void {
     unstable_trackEvent(STARTED_PROCESS, { processType: AUTOMATION_ACTION_RUN }, customData);
+  }
+
+  function runOptimizationTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_OPTIMIZATION_RUN_CLICK, customData);
   }
 
   function testActionTrackerSegment(customData?: Object): void {
@@ -168,6 +174,7 @@ export function useSegmentTracker(): {
     createActionTrackerSegment,
     editActionTrackerSegment,
     runActionTrackerSegment,
+    runOptimizationTrackerSegment,
     testActionTrackerSegment,
     createPolicyTrackerSegment,
     editPolicyTrackerSegment,
