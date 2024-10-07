@@ -64,6 +64,7 @@
   "dependencies": {
     "@babel/runtime": "7.25.6",
     "@carbon/colors": "^11.21.0",
+    "@carbon/pictograms-react": "11.63.0",
     "@codemirror/autocomplete": "^6.0.0",
     "@codemirror/commands": "^6.0.0",
     "@codemirror/lang-javascript": "^6.1.2",
@@ -175,6 +176,7 @@
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^7.0.2",
     "@testing-library/user-event": "^14.5.2",
+    "@types/carbon__pictograms-react": "^11",
     "@types/chai": "^4.3.4",
     "@types/clipboard": "^1.5.36",
     "@types/d3-format": "^1.4.2",

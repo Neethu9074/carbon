@@ -1849,6 +1849,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@carbon/pictograms-react@npm:11.63.0":
+  version: 11.63.0
+  resolution: "@carbon/pictograms-react@npm:11.63.0"
+  dependencies:
+    "@carbon/icon-helpers": ^10.49.0
+    "@ibm/telemetry-js": ^1.5.0
+    prop-types: ^15.7.2
+  peerDependencies:
+    react: ">=16"
+  checksum: 751045ec32e8e91f5b8cdfc26f61c7a7f6ce5447465be449c6f6105267355f6775a7e0e27437bf9d41dbd07dcb7f6c50ebc56fc2b857d8b4aa8658bf679d0e25
+  languageName: node
+  linkType: hard
+
 "@carbon/react@npm:1.62.1":
   version: 1.62.1
   resolution: "@carbon/react@npm:1.62.1"
@@ -4265,6 +4278,13 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: e827570e097bd7d625a673c9c208af2d1a22fa3885c0a1646533cf24394c839c3e5f60ac1bc60c0ddcc69c0615078c9fb2c01b42596c7c582d895d974f2409ee
+  languageName: node
+  linkType: hard
+
+"@types/carbon__pictograms-react@npm:^11":
+  version: 11.46.6
+  resolution: "@types/carbon__pictograms-react@npm:11.46.6"
+  checksum: 8d82458ca66feb5d450268809b651c6eae3fc09aa81304b574f6511500664ce70afe479917db24a4dde122af5836979e109dd591f5e48972e19ac1685fbc3c11
   languageName: node
   linkType: hard
 
@@ -21703,6 +21723,7 @@ __metadata:
     "@babel/register": ^7.12.1
     "@babel/runtime": 7.25.6
     "@carbon/colors": ^11.21.0
+    "@carbon/pictograms-react": 11.63.0
     "@codemirror/autocomplete": ^6.0.0
     "@codemirror/commands": ^6.0.0
     "@codemirror/lang-javascript": ^6.1.2
@@ -21737,6 +21758,7 @@ __metadata:
     "@testing-library/react": ^12.1.5
     "@testing-library/react-hooks": ^7.0.2
     "@testing-library/user-event": ^14.5.2
+    "@types/carbon__pictograms-react": ^11
     "@types/chai": ^4.3.4
     "@types/clipboard": ^1.5.36
     "@types/d3-format": ^1.4.2
