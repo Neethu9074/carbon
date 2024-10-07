@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Typography } from '@instana/components';
+import { Typography, IconButton } from '@instana/components';
 
 import {
   actionCategoryColumn,
@@ -25,12 +25,6 @@ import { t } from 'in-i18n';
 
 const pathSegment = '/RecommendedOptimizations';
 const matrixPrefix = '';
-
-const columnDefinitions: ColumnDefinition<RecommendedAction, RecommendedOptimizationsTableProps>[] = [
-  nameColumn,
-  impactedServicesColumn,
-  actionCategoryColumn
-];
 
 interface RecommendedOptimizationsTableProps extends ServerTablePresenterProps<RecommendedAction> {}
 
@@ -70,7 +64,7 @@ export default function RecommendedOptimizations({
 
   const agentSnapShots = useTurboAgentSnapShots();
 
-  const handleRowClick = async (recAction: RecommendedAction) => {
+  const handleOpenModal = async (recAction: RecommendedAction) => {
     const currentAction = recommendedActions?.data?.find(x => {
       return x.id === recAction.id;
     });
@@ -79,6 +73,32 @@ export default function RecommendedOptimizations({
       addActiveDialog(<DetailsModal currentAction={currentAction} agents={agents} />);
     }
   };
+
+  const actionButtonColumn: ColumnDefinition<RecommendedAction, RecommendedOptimizationsTableProps> = {
+    id: 'actionButtons',
+    label: '',
+    sortable: false,
+    width: 4,
+    getContent(recAction) {
+      return (
+        <IconButton
+          kind="action"
+          type="lib_actions_play"
+          onClick={() => handleOpenModal(recAction)}
+          isWrapperedByTooltip
+          iconDescription={t('in-automation:createPolicyWithName', { actionName: recAction.name })}
+          align={'left'}
+        />
+      );
+    }
+  };
+
+  const columnDefinitions: ColumnDefinition<RecommendedAction, RecommendedOptimizationsTableProps>[] = [
+    nameColumn,
+    impactedServicesColumn,
+    actionCategoryColumn,
+    actionButtonColumn
+  ];
 
   const totalHits = totalRecommendedActions ?? 0;
 
@@ -107,7 +127,6 @@ export default function RecommendedOptimizations({
       result={result}
       rightHeader={null}
       searchPlaceholder={t('in-automation:searchOptimizations')}
-      onRowClick={recommendedAction => handleRowClick(recommendedAction)}
       tableInCard={false}
     />
   );
