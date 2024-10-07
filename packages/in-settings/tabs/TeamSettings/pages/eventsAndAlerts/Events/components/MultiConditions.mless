@@ -25,10 +25,6 @@
     outline: none;
   }
 
-  .deleteButton {
-    margin-top: 1.5rem;
-  }
-
   .logicalOperator {
     margin-top: 1rem;
     margin-bottom: 1rem;
