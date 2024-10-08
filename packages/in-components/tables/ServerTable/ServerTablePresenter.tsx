@@ -320,15 +320,29 @@ export default function ServerTablePresenter<
           )}
           {/* Pagination */}
           {result.data && result.data.totalHits > defaultPageSize ? (
-            <CarbonPagination
-              currentPage={page}
-              totalItems={result?.data?.totalHits}
-              pageSize={pageSize}
-              pageSizes={pageSizes ?? [pageSize]}
-              onChange={data => {
-                onChange({ query, orderBy, orderDirection, page: data.page, pageSize: data.pageSize, pageSizes });
-              }}
-            />
+            renderPagination ? (
+              renderPagination({
+                page,
+                totalItems: result?.data?.totalHits,
+                numPages: Math.ceil(result.data.totalHits / result.data.pageSize),
+                orderDirection,
+                onChange,
+                pageSize,
+                pageSizes,
+                query,
+                orderBy
+              })
+            ) : (
+              <CarbonPagination
+                currentPage={page}
+                totalItems={result?.data?.totalHits}
+                pageSize={pageSize}
+                pageSizes={pageSizes ?? [pageSize]}
+                onChange={data => {
+                  onChange({ query, orderBy, orderDirection, page: data.page, pageSize: data.pageSize, pageSizes });
+                }}
+              />
+            )
           ) : null}
         </Fragment>
       </Card>
