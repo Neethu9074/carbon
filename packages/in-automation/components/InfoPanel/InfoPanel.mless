@@ -8,6 +8,9 @@
   .panel {
     background-color: var(--cds-layer);
     margin-left: 16px;
+    margin-right: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
   .contentContainer {
     display: flex;

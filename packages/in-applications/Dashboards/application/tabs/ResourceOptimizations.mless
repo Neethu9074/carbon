@@ -14,14 +14,16 @@
     display: flex;
     justify-content: flex-start;
     gap: 24px;
+    margin-left: 16px;
+    margin-right: 16px;
   }
   .box1 {
-    height: 296px;
+    height: 328px;
     width: 35%;
   }
 
   .box2 {
-    height: 296px;
+    height: 328px;
     width: 65%;
   }
 }
