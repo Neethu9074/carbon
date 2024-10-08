@@ -15,7 +15,6 @@ import {
   AUTOMATION_ACTION_HISTORY_FEEDBACK_SEND,
   AUTOMATION_POLICY_CREATE,
   AUTOMATION_POLICY_EDIT,
-  AUTOMATION_CLICK_TURBO_LINK_FOR_DETAILS,
   AUTOMATION_VIEW_TURBO_ACTION,
   AUTOMATION_RECOMMENDED_ACTIONS_TAB_CLICK,
   AUTOMATION_CREATE_POLICY_FROM_RECOMMENDED_ACTIONS,
@@ -66,7 +65,6 @@ export const clickCopyAIGenaratedActionTracker = (e: object) => track(AUTOMATION
 export const clickTestAIGenaratedActionTracker = (e: object) => track(AUTOMATION_CLICK_TEST_AI_GENERATED_ACTION, e);
 
 //turbo trackers
-export const clickTurboLinkForDetailsTracker = (e: Object) => track(AUTOMATION_CLICK_TURBO_LINK_FOR_DETAILS, e);
 export const viewTurboActionTracker = (e: Object) => track(AUTOMATION_VIEW_TURBO_ACTION, e);
 
 // Segment trackers

@@ -4,12 +4,11 @@
  * Copyright IBM Corp. 2024
  */
 
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import { clickTurboLinkForDetailsTracker } from 'in-automation/tracker';
 import { formatDateTime } from 'in-services/formatters/date';
 import { ActionInstance } from 'in-types';
 import DetailTab from './DetailTab';
@@ -43,9 +42,6 @@ jest.mock('@instana/hooks', () => ({
 
 jest.mock('in-services/formatters/date', () => ({
   formatDateTime: jest.fn().mockImplementation(date => (date ? `formatted-${date}` : 'formatted-null'))
-}));
-jest.mock('in-automation/tracker', () => ({
-  clickTurboLinkForDetailsTracker: jest.fn()
 }));
 
 jest.mock('./DetailTab', () => {
@@ -184,61 +180,6 @@ describe('DetailTab', () => {
     expect(getByText('formatted-null')).toBeInTheDocument();
   });
 
-  it('calls handleTracking when action link is clicked', async () => {
-    const props: DetailTabProps = {
-      properties: {
-        actionName: 'Test Action',
-        actionId: '123',
-        type: 'EXTERNAL',
-        metadata: [{ name: 'actionEntityURL', value: 'http://example.com' }],
-        createdDate: 1,
-        returnCode: 1,
-        startDate: 12344545,
-        endDate: 445677
-      },
-      inActionLane: false
-    };
-
-    const { getByText } = render(<DetailTab {...props} />);
-
-    const actionLink = getByText('Test Action');
-    fireEvent.click(actionLink);
-
-    expect(clickTurboLinkForDetailsTracker).toHaveBeenCalledWith({
-      actionName: 'Test Action',
-      actionLink: 'http://example.com',
-      actionType: 'Turbonomic',
-      view: 'Action history'
-    });
-  });
-
-  it('calls handleTracking when action link is clicked from actionslane', async () => {
-    const props: DetailTabProps = {
-      properties: {
-        actionName: 'Test Action',
-        actionId: '123',
-        type: 'EXTERNAL',
-        metadata: [{ name: 'actionEntityURL', value: 'http://example.com' }],
-        createdDate: 1,
-        returnCode: 1,
-        startDate: 12344545,
-        endDate: 445677
-      },
-      inActionLane: true
-    };
-
-    const { getByText } = render(<DetailTab {...props} />);
-
-    const actionLink = getByText('Test Action');
-    fireEvent.click(actionLink);
-
-    expect(clickTurboLinkForDetailsTracker).toHaveBeenCalledWith({
-      actionName: 'Test Action',
-      actionLink: 'http://example.com',
-      actionType: 'Turbonomic',
-      view: 'Actions lane'
-    });
-  });
   it('renders snapshot information if available', async () => {
     // @ts-expect-error jest api apparently not supported by TS
     useObservable.mockReturnValue({ label: 'Snapshot1' });
