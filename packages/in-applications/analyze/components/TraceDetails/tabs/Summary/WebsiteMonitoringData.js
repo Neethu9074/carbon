@@ -9,15 +9,16 @@ import { Link, Card, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
+  showWebsiteDetailsInTraceView,
   hideWebsiteDetailsInTraceView,
-  navigateToPageLoadFromBackendTrace,
-  showWebsiteDetailsInTraceView
-} from 'in-websites/tracker';
+  navigateToPageLoadFromBackendTrace
+} from 'in-websites/tracking/segTracker';
 import { getCorrelatedWebsiteBeacons } from 'in-applications/analyze/components/TraceDetails/tabs/Summary/websiteCorrelation';
 import { useLinkToAnalyze, useLinkToPageLoad, useLinkToWebsite } from 'in-websites/navigation/paths';
 import BeaconUserSummary from 'in-websites/analyze/BeaconUserSummary/BeaconUserSummary';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { getAdjustedTimeConfigToIncludeTimestamp } from 'in-stores/time/config';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -31,6 +32,7 @@ import locals from './WebsiteMonitoringData.mless';
 const localStorageKey = 'traceView.showWebsiteMonitoringData';
 
 export default function WebsiteMonitoringData({ traceId, startTime, correlationId }) {
+  const { trackCta } = useSegmentTracking();
   const [showDetails, setDetails] = useState(tryGet(localStorageKey) !== 'false');
   const result = useObservable(
     () => getCorrelatedWebsiteBeacons({ correlationId, traceId, startTime }),
@@ -40,9 +42,9 @@ export default function WebsiteMonitoringData({ traceId, startTime, correlationI
   const setShowDetails = show => {
     trySet(localStorageKey, show);
     if (show) {
-      showWebsiteDetailsInTraceView();
+      showWebsiteDetailsInTraceView(trackCta);
     } else {
-      hideWebsiteDetailsInTraceView();
+      hideWebsiteDetailsInTraceView(trackCta);
     }
     setDetails(show);
   };
@@ -101,7 +103,7 @@ export default function WebsiteMonitoringData({ traceId, startTime, correlationI
                   : t('in-analyze:traceDetail.tabs.summary.showWebsiteInformation')}
               </Button>
               <Button
-                onClick={() => navigateToPageLoadFromBackendTrace()}
+                onClick={() => navigateToPageLoadFromBackendTrace(trackCta)}
                 href={pageLoadHref}
                 kind="primary"
                 size="compact"
