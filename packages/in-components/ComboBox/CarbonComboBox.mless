@@ -1,0 +1,11 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .comboHighlightedText {
+    color: var(--cds-interactive);
+    font-weight: 600;
+  }
+}
