@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { Card, Pill } from '@instana/components';
+import { Card } from '@instana/components';
 
 import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch';
 import {
@@ -29,6 +29,7 @@ import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAler
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
+import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
@@ -43,7 +44,6 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
-import { hasManualCloseFields } from 'in-events/components/eventUtil';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { emptyMap } from 'in-services/fixedImmutables';
 import EventIcon from 'in-events/components/EventIcon';
@@ -92,9 +92,7 @@ export default function ApplicationEventContent({ event, snapshot, reload }) {
   const eventType = getEventType(event);
 
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
-  const pillContent = hasManualCloseFields(event) ? (
-    <Pill type="green">{t('in-events:stateManuallyClosed')}</Pill>
-  ) : undefined;
+  const pillContent = getEventStateBadge(event);
 
   return (
     <>

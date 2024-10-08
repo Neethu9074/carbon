@@ -7,7 +7,7 @@
 import { Map } from 'immutable';
 import React from 'react';
 
-import { Card, Pill } from '@instana/components';
+import { Card } from '@instana/components';
 
 import {
   alertingEventDetailsChartTimeframe as minDurationMillis,
@@ -24,6 +24,7 @@ import { ScopeGroupingTags } from 'in-events/components/EventContent/ScopeInfraG
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
 // @ts-expect-error
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
+import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
 import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import AnalyzeInfraEventButton from 'in-events/components/AnalyzeInfraEventButton';
@@ -41,7 +42,6 @@ import { infraPredictiveDetectionEnabled } from 'in-services/featureFlags';
 import EventIcon from 'in-events/components/EventIcon';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { TagCatalog, TagFilterExpression, TimeConfig } from 'in-types';
-import { hasManualCloseFields } from 'in-events/components/eventUtil';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
@@ -110,9 +110,7 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
   }
 
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
-  const pillContent = hasManualCloseFields(event) ? (
-    <Pill type="green">{t('in-events:stateManuallyClosed')}</Pill>
-  ) : undefined;
+  const pillContent = getEventStateBadge(event);
 
   return (
     <>
