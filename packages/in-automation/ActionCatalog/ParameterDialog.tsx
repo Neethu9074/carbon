@@ -7,8 +7,8 @@
 import { Field, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
+import { RadioButton, Checkbox, Spacer } from '@instana/components';
 import { Parameter, DynamicFieldValue } from '@instana/types';
-import { RadioButton, Checkbox } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
 import {
@@ -206,6 +206,7 @@ const MetaDataSection = ({
               }
             />
           </Col>
+          <Spacer horizontal="small" />
           <Col>
             <RadioButton
               checked={type.value === 'vault'}
@@ -222,6 +223,7 @@ const MetaDataSection = ({
               }
             />
           </Col>
+          <Spacer horizontal="small" />
           <Col>
             <RadioButton
               checked={type.value === 'dynamic'}
