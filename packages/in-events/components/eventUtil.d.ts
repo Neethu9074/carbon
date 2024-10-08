@@ -6,3 +6,5 @@
 import { EventOrMap } from 'in-events/types';
 
 export declare function hasManualCloseFields(event: EventOrMap): boolean;
+
+export declare function getEventStateBadge(event: EventOrMap): JSX;

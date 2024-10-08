@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import { Card, Pill } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Card } from '@instana/components';
 
 import {
   getSnapshotId,
@@ -24,7 +24,8 @@ import {
   isSloSmartAlertEvent,
   isEntityCountVerificationEvent,
   isLogSmartAlertEvent,
-  hasManualCloseFields
+  hasManualCloseFields,
+  getEventStateBadge
 } from 'in-events/components/eventUtil';
 import {
   manuallyCloseEventEnabled,
@@ -162,10 +163,7 @@ function EventContent({ event, latestSnapshot, reload }) {
   const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
 
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
-
-  const pillContent = hasManualCloseFields(event) ? (
-    <Pill type="green">{t('in-events:stateManuallyClosed')}</Pill>
-  ) : undefined;
+  const pillContent = getEventStateBadge(event);
 
   return (
     <>

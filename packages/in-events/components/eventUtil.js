@@ -4,8 +4,12 @@
  */
 
 // FYI this class assumes 'event' is EventOrMap
+import React from 'react';
+
+import { Pill } from '@instana/components';
 
 import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
+import { t } from 'in-i18n';
 
 export function isEntityVerificationEvent(event) {
   return event?.hasIn(['metadata', 'entityVerificationSnapshotId']);
@@ -84,4 +88,12 @@ export function getSnapshotId(event, entityVerification) {
   return entityVerification
     ? event?.getIn(['metadata', 'entityVerificationSnapshotId'], '')
     : event?.getIn(['metadata', 'hostAvailabilitySnapshotId'], '');
+}
+
+export function getEventStateBadge(event) {
+  if (hasManualCloseFields(event)) {
+    return <Pill type="green">{t('in-events:stateManuallyClosed')}</Pill>;
+  } else if (event.get('state') === 'closed') {
+    return <Pill type="green">{t('in-events:labelClosed')}</Pill>;
+  }
 }

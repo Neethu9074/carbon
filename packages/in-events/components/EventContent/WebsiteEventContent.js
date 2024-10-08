@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { Card, Pill } from '@instana/components';
+import { Card } from '@instana/components';
 
 import {
   alertingEventDetailsChartTimeframe as minDurationMillis,
@@ -17,6 +17,7 @@ import { HighlightDataRetention } from 'in-events/components/EventContent/Highli
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
@@ -33,7 +34,6 @@ import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
-import { hasManualCloseFields } from 'in-events/components/eventUtil';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { emptyMap } from 'in-services/fixedImmutables';
@@ -76,7 +76,7 @@ export default function WebsiteEventContent({ event, snapshot, reload }) {
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
-  const pillContent = hasManualCloseFields(event) ? <Pill type="green">{t('in-events:labelClosed')}</Pill> : undefined;
+  const pillContent = getEventStateBadge(event);
 
   return (
     <>

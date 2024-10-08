@@ -7,7 +7,7 @@
 import { Map } from 'immutable';
 import React from 'react';
 
-import { Card, Pill } from '@instana/components';
+import { Card } from '@instana/components';
 
 import {
   alertingDialogItemPickerTimeframe as maxDurationMillis,
@@ -20,6 +20,7 @@ import { TagFilterExpression, TimeConfig, TagCatalog, GroupTagInfo, Nullish } fr
 import { ScopeGroupingTags } from 'in-events/components/EventContent/ScopeLogsGroupingTags';
 // @ts-expect-error
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
+import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
 import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import LogScopePath from 'in-alerting/smart-alerts/logs/components/LogScopePath';
@@ -36,7 +37,6 @@ import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
 // @ts-expect-error
 import EventIcon from 'in-events/components/EventIcon';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
-import { hasManualCloseFields } from 'in-events/components/eventUtil';
 import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
@@ -101,7 +101,7 @@ export default function LogEventContent({ event, snapshot, reload }: Props) {
   } as TimeConfig;
 
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
-  const pillContent = hasManualCloseFields(event) ? <Pill type="green">{t('in-events:labelClosed')}</Pill> : undefined;
+  const pillContent = getEventStateBadge(event);
 
   return (
     <>
