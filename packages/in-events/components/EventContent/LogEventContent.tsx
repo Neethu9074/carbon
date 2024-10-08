@@ -101,7 +101,9 @@ export default function LogEventContent({ event, snapshot, reload }: Props) {
   } as TimeConfig;
 
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
-  const pillContent = hasManualCloseFields(event) ? <Pill type="green">{t('in-events:labelClosed')}</Pill> : undefined;
+  const pillContent = hasManualCloseFields(event) ? (
+    <Pill type="green">{t('in-events:stateManuallyClosed')}</Pill>
+  ) : undefined;
 
   return (
     <>

@@ -76,7 +76,9 @@ export default function WebsiteEventContent({ event, snapshot, reload }) {
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
-  const pillContent = hasManualCloseFields(event) ? <Pill type="green">{t('in-events:labelClosed')}</Pill> : undefined;
+  const pillContent = hasManualCloseFields(event) ? (
+    <Pill type="green">{t('in-events:stateManuallyClosed')}</Pill>
+  ) : undefined;
 
   return (
     <>

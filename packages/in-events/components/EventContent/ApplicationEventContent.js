@@ -92,7 +92,9 @@ export default function ApplicationEventContent({ event, snapshot, reload }) {
   const eventType = getEventType(event);
 
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
-  const pillContent = hasManualCloseFields(event) ? <Pill type="green">{t('in-events:labelClosed')}</Pill> : undefined;
+  const pillContent = hasManualCloseFields(event) ? (
+    <Pill type="green">{t('in-events:stateManuallyClosed')}</Pill>
+  ) : undefined;
 
   return (
     <>

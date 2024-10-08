@@ -110,7 +110,9 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
   }
 
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
-  const pillContent = hasManualCloseFields(event) ? <Pill type="green">{t('in-events:labelClosed')}</Pill> : undefined;
+  const pillContent = hasManualCloseFields(event) ? (
+    <Pill type="green">{t('in-events:stateManuallyClosed')}</Pill>
+  ) : undefined;
 
   return (
     <>

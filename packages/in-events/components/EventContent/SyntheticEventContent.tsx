@@ -65,7 +65,9 @@ export default function SyntheticEventContent({ event, snapshot, reload }: Props
   const chartTimeConfigWithContext = getChartTimeConfig(event, syntheticTestInterval);
 
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
-  const pillContent = hasManualCloseFields(event) ? <Pill type="green">{t('in-events:labelClosed')}</Pill> : undefined;
+  const pillContent = hasManualCloseFields(event) ? (
+    <Pill type="green">{t('in-events:stateManuallyClosed')}</Pill>
+  ) : undefined;
 
   return (
     <>
