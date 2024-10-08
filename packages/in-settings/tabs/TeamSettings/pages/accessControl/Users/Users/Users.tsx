@@ -16,6 +16,7 @@ import { createAsyncViewComponent } from 'in-components/routing/createAsyncCompo
 import InviteUserDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog';
 import { getEntityIdView, teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
 import { getUsersAsResultObservable, removeUserFromTenant, UserResult } from 'in-api/users';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import useIsAnyIdPActive from 'in-settings/hooks/useIsAnyIdPActive';
@@ -28,6 +29,7 @@ import { t, Trans } from 'in-i18n';
 
 export default function Users() {
   const isAnyIDPActive = useIsAnyIdPActive();
+  const { trackCta } = useSegmentTracking();
 
   function customDialogMessage({ fullName }: UserResult) {
     return (
@@ -59,7 +61,10 @@ export default function Users() {
           isAnyIDPActive
             ? undefined
             : () => {
+                // Mixpanel tracking
                 track(USER_INVITE, emptyObject);
+                // Segment tracking
+                trackCta(USER_INVITE, emptyObject);
                 addActiveDialog(
                   shareAndInviteEnabled ? (
                     <DeferredShareAndInviteDialogBox inviteOnly permissionToShowInvite />

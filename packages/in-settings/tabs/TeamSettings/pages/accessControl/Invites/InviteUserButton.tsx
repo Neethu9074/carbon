@@ -15,6 +15,7 @@ import InviteUserDialog, {
 import { UserInvite } from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox_interfaces';
 import { createInviteForm } from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteForm';
 import { teamSettingsAccessControlInvites } from 'in-settings/navigation/paths';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { track, USER_INVITE } from 'in-services/tracking/tracking';
 import { InvitationResult, sendInvitations } from 'in-api/users';
@@ -30,11 +31,16 @@ interface UserInvitationResult {
 }
 
 export default function InviteUserButton() {
+  const { trackCta } = useSegmentTracking();
+
   return (
     <Button
       kind="action"
       onClick={() => {
+        // Mixpanel tracking
         track(USER_INVITE, emptyObject);
+        // Segment tracking
+        trackCta(USER_INVITE, emptyObject);
         addActiveDialog(<InviteUserDialog />);
       }}
       icon="lib_openclose_add_circle_outline"
