@@ -10,7 +10,6 @@ module.exports = {
   agentMonitoringIssuesEnabled: true,
   cveIssueEnabled: true,
   businessObservabilityEnabled: true,
-  bizopsPerspectivesEnabled: true,
   bizopsGenAIEnabled: true,
   bizopsStandardInclusionEnabled: true,
   containerInfoEnabled: true,

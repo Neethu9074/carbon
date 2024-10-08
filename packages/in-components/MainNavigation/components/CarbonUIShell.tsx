@@ -46,7 +46,6 @@ import {
   hasNutanixAccess
 } from 'in-stores/permission';
 import {
-  bizopsPerspectivesEnabled,
   loggingEnabled,
   logHomepageEnabled,
   playwithEnabled,
@@ -238,7 +237,7 @@ function BizOps() {
 
   // If there are no agents (hosts) detected, we want to disable the business
   // perspectives tab, and direct the users to the Processes tab directly
-  if (bizopsPerspectivesEnabled && typeof hostCount == 'number' && hostCount > 0) {
+  if (typeof hostCount == 'number' && hostCount > 0) {
     return (
       <MenuItem
         id="main-nav-bizops"

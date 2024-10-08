@@ -17,7 +17,6 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 // @ts-expect-error Module needs to be translated to TS
 import { validateFormModel } from 'in-components/QueryBuilder/validation/formModel';
 import BusinessProcessQueryBuilder from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
-import { bizopsPerspectivesEnabled, bizopsStandardInclusionEnabled } from 'in-services/featureFlags';
 import BizOpsEmptyTableState from 'in-bizops/lists/businessProcess/components/BizOpsEmptyTableState';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { processColumnDefinitions } from 'in-bizops/lists/businessProcess/columnDefinitions';
@@ -25,6 +24,7 @@ import { FormModelElement } from 'in-components/QueryBuilder/transformation/form
 import getBusinessProcessList from 'in-bizops/subscriptions/getBusinessProcessList';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import { bizopsStandardInclusionEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getBusinessMonitoringTagCatalog } from 'in-bizops/api/catalog';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
@@ -121,31 +121,29 @@ export default function BizOpsList() {
               pageRootName: pageNames.bizops_processes
             }}
           />
-          {bizopsPerspectivesEnabled && (
-            <Card className={locals.queryCard}>
-              <div className={locals.querySection}>
-                <label className={locals.queryLabel}>
-                  <SvgIcon type={'lib_actions_filter'} />
-                  <span className={locals.queryText}>Filter</span>
-                </label>
-                <div className={locals.processQueryBuilder}>
-                  <BusinessProcessQueryBuilder
-                    value={queryTagFilter}
-                    onChange={(tagFilterExpression: any) => {
-                      setQueryTagFilter(tagFilterExpression);
-                    }}
-                  />
-                </div>
-                {tagCatalog?.data && isQueryValid(tagCatalog?.data, queryTagFilter) && (
-                  <div className={locals.clearButton}>
-                    <Button kind="subtle" icon="lib_openclose_cancel" size="compact" onClick={onClear}>
-                      {t('in-components:queryBuilder.workspaceButtonClear')}
-                    </Button>
-                  </div>
-                )}
+          <Card className={locals.queryCard}>
+            <div className={locals.querySection}>
+              <label className={locals.queryLabel}>
+                <SvgIcon type={'lib_actions_filter'} />
+                <span className={locals.queryText}>Filter</span>
+              </label>
+              <div className={locals.processQueryBuilder}>
+                <BusinessProcessQueryBuilder
+                  value={queryTagFilter}
+                  onChange={(tagFilterExpression: any) => {
+                    setQueryTagFilter(tagFilterExpression);
+                  }}
+                />
               </div>
-            </Card>
-          )}
+              {tagCatalog?.data && isQueryValid(tagCatalog?.data, queryTagFilter) && (
+                <div className={locals.clearButton}>
+                  <Button kind="subtle" icon="lib_openclose_cancel" size="compact" onClick={onClear}>
+                    {t('in-components:queryBuilder.workspaceButtonClear')}
+                  </Button>
+                </div>
+              )}
+            </div>
+          </Card>
           {bizopsStandardInclusionEnabled && typeof hostCount === 'number' && hostCount < 1 ? (
             <CustomServerTableWithUrlState
               get={getBusinessProcessListData}
