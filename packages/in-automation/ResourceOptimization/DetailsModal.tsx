@@ -6,11 +6,23 @@
 
 import React, { useState } from 'react';
 
-import { CarbonDropdown, CarbonModal, LoadingSkeleton, Pill, Spacer, Stack, Typography } from '@instana/components';
+import {
+  Button,
+  CarbonDropdown,
+  CarbonModal,
+  LoadingSkeleton,
+  Pill,
+  Spacer,
+  Stack,
+  Typography
+} from '@instana/components';
 import { Link } from '@instana/components';
 
+import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { RecommendedAction, ResourceImpactEntities, AgentSnapshot } from 'in-types';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { turboActionCategoryMap } from './RecommendedOptimizations';
+import { actionHistoryPath } from 'in-automation/navigation/paths';
 import { runResourceOptimizationAction } from 'in-automation/api';
 import { useResourceImpacts } from './useResourceOptimization';
 import { close } from 'in-components/DialogPresenter/store';
@@ -26,11 +38,12 @@ interface DetailsModalProps {
 
 export default function DetailsModal({ currentAction, agents }: DetailsModalProps) {
   const { runOptimizationTrackerSegment } = useSegmentTracker();
-
   const [targetAgent, setTargetAgent] = useState<AgentSnapshot | null>(agents[0]);
   const [isSavingAction, setIsSavingAction] = useState(false);
   const [runActionError, setRunActionError] = useState('');
   const [runActionResponseId, setRunActionResponseId] = useState('');
+
+  const { location, navigate } = useNavigation();
 
   const actionInstanceId = currentAction?.id ?? '';
   const createdDate = currentAction?.createdDate ?? 0;
@@ -76,6 +89,28 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
         setRunActionResponseId(data.actionInstanceId);
         runOptimizationTrackerSegment({ actionName: currentAction.name, source: 'Turbonomic' }); //Turbonomic only for now and we may need to have a source parameter
         close();
+        addMessage(
+          {
+            type: 'info',
+            content: (
+              <Stack direction="vertical">
+                {t('in-automation:resourceOptimization.actionStartedMessage', { actionName: currentAction.name })}
+                <Button
+                  kind="tertiary"
+                  onClick={() => {
+                    location.pathname = actionHistoryPath;
+                    navigate(location);
+                    removeMessage('run-resource-optimization');
+                  }}
+                >
+                  {t('in-automation:resourceOptimization.viewActionHistory')}
+                </Button>
+              </Stack>
+            ),
+            title: t('in-automation:resourceOptimization.actionStarted')
+          },
+          'run-resource-optimization'
+        );
       }
     });
   }
@@ -86,7 +121,7 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
     } else if (runActionError !== '') {
       return 'error';
     } else if (runActionResponseId !== '') {
-      return;
+      return 'finished';
     } else {
       return 'inactive';
     }
@@ -199,6 +234,7 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
       size="lg"
       onRequestSubmit={() => handleRunAction()}
       loadingStatus={getActionLoadingStatus()}
+      loadingDescription={t('in-automation:resourceOptimization.runningAction')}
     >
       <div className={locals.detailsRow}>
         {/* Details - Left Section */}

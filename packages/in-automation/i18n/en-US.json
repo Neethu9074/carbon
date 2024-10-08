@@ -487,6 +487,10 @@
     "agentHelperText": "An agent encapsulates 1..* sensors, who in turn are able to raise events to the Instana backend. A triggering agent contains the sensor that raised this particular event.",
     "proceedConfirm": "This action cannot be undone. Are you sure you want to proceed?",
     "actionDescription": "Action description",
-    "riskDescription": "Risk description"
+    "riskDescription": "Risk description",
+    "runningAction": "Running action...",
+    "actionStarted": "Action started",
+    "actionStartedMessage": "You have executed {{actionName}}. View the progress of this action in the action history page.",
+    "viewActionHistory": "View action history"
   }
 }
