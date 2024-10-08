@@ -33,7 +33,7 @@ CustomMetricSelector.propTypes = {
   id: PropTypes.string
 };
 
-const AutoComplete = ({ options, resultsToShow, placeholder, onChange, item, value, disabled, id }) => {
+const AutoComplete = ({ options, placeholder, resultsToShow, onChange, item, value, disabled, id }) => {
   return (
     <ComboBox
       itemToString={item => (item ? item.label : '')}
@@ -42,10 +42,12 @@ const AutoComplete = ({ options, resultsToShow, placeholder, onChange, item, val
       value={value}
       isSearchable
       isClearable
-      options={options.slice(0, resultsToShow)}
+      options={options}
       placeholder={placeholder}
       disabled={disabled}
       id={id}
+      highlightFilter
+      resultsToShow={resultsToShow}
     />
   );
 };

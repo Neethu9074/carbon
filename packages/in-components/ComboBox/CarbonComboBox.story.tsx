@@ -144,6 +144,48 @@ export const ComboBoxSingleClearable = () => {
   );
 };
 
+export const ComboBoxWithFilterHighlight = () => {
+  const [value, setValue] = useState('');
+  return (
+    <>
+      <CarbonComboBox
+        value={value}
+        placeholder="Select an option"
+        options={options}
+        onChange={(t: any) => {
+          setValue(t?.value);
+        }}
+        highlightFilter
+      />
+      <div>{`Selected value: ${value}`}</div>
+    </>
+  );
+};
+
+const lotsofoptions: any = [];
+for (let i = 1; i < 500; i++) {
+  const label = `Label_${i}`;
+  lotsofoptions.push({ label: label, value: i });
+}
+
+export const ComboBoxWithRowLimit = () => {
+  const [value, setValue] = useState('');
+  return (
+    <>
+      <CarbonComboBox
+        value={value}
+        placeholder="Select an option"
+        options={lotsofoptions}
+        onChange={(t: any) => {
+          setValue(t?.value);
+        }}
+        resultsToShow={10}
+      />
+      <div>{`Selected value: ${value}`}</div>
+    </>
+  );
+};
+
 export const ComboBoxCarbon = () => {
   const [value, setValue] = useState('chocolate');
   return (

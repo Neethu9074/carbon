@@ -32,4 +32,6 @@ export interface ComboBoxProps {
   isSearchable?: boolean;
   isDisabled?: boolean;
   components?: any;
+  highlightFilter?: boolean;
+  resultsToShow?: number;
 }
