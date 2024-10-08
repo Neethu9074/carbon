@@ -9,9 +9,10 @@ import { CSVLink } from 'react-csv';
 
 // this was imported from rxjs by accident probably since fetchData returns @instana/observables/Observable in every use case
 import { Observable } from '@instana/observables';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 import { Cursor } from '@instana/types';
 
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 import locals from './CsvExporter.mless';
@@ -85,7 +86,12 @@ export default function CsvExporter({
         filename={fileName}
         target="_blank"
       >
-        <Button kind="secondary" target="_blank" className={locals.csvExporterButton}>
+        <Button
+          kind="secondary"
+          target="_blank"
+          className={locals.csvExporterButton}
+          size={carbonButtonEnabled ? 'compact' : 'normal'}
+        >
           {t('in-components:csvExporterButton.label')}
         </Button>
       </CSVLink>
@@ -106,6 +112,7 @@ export default function CsvExporter({
               kind="secondary"
               target="_blank"
               className={locals.csvExporterButton}
+              size={carbonButtonEnabled ? 'compact' : 'normal'}
             >
               {t('in-components:csvExporterButton.label')}
             </Button>

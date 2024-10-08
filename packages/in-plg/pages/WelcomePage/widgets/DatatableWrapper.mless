@@ -5,6 +5,11 @@
  */
 
 :local {
+  .truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   .dataTableWrapper {
     :global {
       .dashboardTable {
@@ -12,13 +17,31 @@
           table-layout: fixed;
           // The last <th> where favourites is present.
           th:last-child:not(:has(*)) {
-            width: 1rem;
+            width: 2.5rem;
           }
           .favouriteIcon {
             position: relative;
-            padding-inline-end: 8px;
+            padding: 0 8px 0 0;
             div {
               float: right;
+            }
+          }
+          td {
+            .truncate-text;
+            span.cds--popover-container {
+              .truncate-text;
+              width: 100%;
+              .cds--popover-content {
+                color: var(--cds-popover-text-color);
+              }
+            }
+          }
+          td:not(.viewAllTableCell) {
+            a {
+              display: inline-block;
+              max-width: 100%;
+              vertical-align: middle;
+              .truncate-text;
             }
           }
         }

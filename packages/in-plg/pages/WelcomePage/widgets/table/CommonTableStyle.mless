@@ -9,4 +9,7 @@
     width: 1rem;
     float: right;
   }
+  .errorTitleWidthForTooltip {
+    width: 0;
+  }
 }

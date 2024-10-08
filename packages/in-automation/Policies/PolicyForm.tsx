@@ -397,7 +397,7 @@ function SelectTrigger({
 
   const result = hasError(selectedTriggerType)
     ? {
-        data: [],
+        data: { items: [] },
         errors: selectedTriggerType.errors,
         progress: {
           loading: false

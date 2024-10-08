@@ -23,7 +23,7 @@ import {
   browserScriptTest,
   browserSimpleTest
 } from 'in-synthetics/utils/constants';
-import { syntheticAdvancedCreateButtonClick, syntheticCreateAdvancedButtonClick } from 'in-synthetics/tracker';
+import { syntheticAdvancedCreateButtonClick, syntheticCreateAdvancedButtonClick } from 'in-synthetics/tracking/tracker';
 import getDefaultCustomProperties from 'in-synthetics/createTests/utils/getDefaultCustomProperties';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import populateCommonAttributes from 'in-synthetics/createTests/utils/populateCommonAttributes';
@@ -32,6 +32,7 @@ import WizardModeContainer from 'in-synthetics/createTests/wizard/WizardModeCont
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import getDefaultHeaders from 'in-synthetics/createTests/utils/getDefaultHeaders';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
 import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { isNotBlank } from 'in-services/util/string';
@@ -84,6 +85,7 @@ const CreateSyntheticTestDialogPresenter = ({
   renderSectionsCounter,
   setRenderSectionsCounter
 }: CreateSyntheticTestDialogPresenterProps) => {
+  const { trackCta } = useSegmentTracking();
   const [simpleModeStep, setSimpleModeStep] = useState(0);
 
   //commonAttributes stores common SyntheticTest configuration attributes
@@ -228,8 +230,8 @@ const CreateSyntheticTestDialogPresenter = ({
         isSaving={isSaving}
         disabled={isProceedDisabledAdvanced()}
         onClick={() => {
-          // Tracker
-          syntheticAdvancedCreateButtonClick({ detail: `Create a test using advanced mode` });
+          // Segment Tracker
+          syntheticAdvancedCreateButtonClick(trackCta);
           onCreate();
         }}
       >
@@ -267,8 +269,8 @@ const CreateSyntheticTestDialogPresenter = ({
             <Button
               kind="action"
               onClick={() => {
-                // Track
-                syntheticCreateAdvancedButtonClick({ detail: 'Switch to advanced mode' });
+                // Segment Track
+                syntheticCreateAdvancedButtonClick(trackCta);
                 //@ts-expect-error
                 setTestTypeSelected((prevState: SetStateAction<any>) => {
                   return getSelectedTestSubTypes(prevState);

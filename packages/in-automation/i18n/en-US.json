@@ -272,6 +272,7 @@
     "newFeature": "New Feature",
     "view": "View",
     "content": "Content",
+    "mustHaveRequiredTag": "Action must contain atleast one of the following tags: {{tags}}",
     "deleteDialog": {
       "success": "Action was deleted successfully.",
       "failure": "Failed to delete action: {{errorMessage}}"
@@ -315,6 +316,7 @@
     "eventName": "Event Name",
     "returnCode": "Return Code",
     "errorMessage": "Error Message",
+    "risk": "Risk",
     "action": "Action",
     "host": "Host",
     "log": "Log",

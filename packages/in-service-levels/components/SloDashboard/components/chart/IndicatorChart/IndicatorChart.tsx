@@ -13,7 +13,9 @@ import TimeBasedLatencyIndicatorChart from 'in-service-levels/components/SloDash
 import EventBasedIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/EventBasedIndicatorChart';
 
 interface IndicatorChartProps {
-  automaticallySized?: boolean;
+  automaticallySize?: boolean;
+  customHeight?: number;
+  customChartSkeletonHeight?: number;
   entity: SloEntityUnion;
   indicator: ServiceLevelIndicatorUnion;
   timeWindow: TimeWindowUnion;
@@ -22,7 +24,9 @@ interface IndicatorChartProps {
 }
 
 export default function IndicatorChart({
-  automaticallySized,
+  automaticallySize,
+  customHeight,
+  customChartSkeletonHeight,
   entity,
   indicator,
   timeWindow,
@@ -33,7 +37,9 @@ export default function IndicatorChart({
   if (indicator.blueprint === 'latency' && indicator.type === 'timeBased') {
     return (
       <TimeBasedLatencyIndicatorChart
-        automaticallySized={automaticallySized}
+        automaticallySize={automaticallySize}
+        customHeight={customHeight}
+        customChartSkeletonHeight={customChartSkeletonHeight}
         indicator={indicator}
         entity={entity}
         missingDataIndicator={missingDataIndicator}
@@ -44,7 +50,9 @@ export default function IndicatorChart({
   if (indicator.blueprint === 'availability' && indicator.type === 'timeBased') {
     return (
       <TimeBasedAvailabilityIndicatorChart
-        automaticallySized={automaticallySized}
+        automaticallySize={automaticallySize}
+        customHeight={customHeight}
+        customChartSkeletonHeight={customChartSkeletonHeight}
         entity={entity}
         indicator={indicator}
         missingDataIndicator={missingDataIndicator}
@@ -55,7 +63,9 @@ export default function IndicatorChart({
   if (indicator.type === 'eventBased') {
     return (
       <EventBasedIndicatorChart
-        automaticallySized={automaticallySized}
+        automaticallySize={automaticallySize}
+        customHeight={customHeight}
+        customChartSkeletonHeight={customChartSkeletonHeight}
         entity={entity}
         indicator={indicator}
         missingDataIndicator={missingDataIndicator}
@@ -68,7 +78,8 @@ export default function IndicatorChart({
   if (indicator.type === 'customEventBased') {
     return (
       <EventBasedIndicatorChart
-        automaticallySized={automaticallySized}
+        automaticallySize={automaticallySize}
+        customHeight={customHeight}
         entity={entity}
         indicator={indicator}
         missingDataIndicator={missingDataIndicator}

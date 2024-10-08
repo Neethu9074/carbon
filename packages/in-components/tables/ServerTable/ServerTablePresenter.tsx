@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, ReactNode } from 'react';
 import classNames from 'classnames';
 import invariant from 'invariant';
 import { debounce } from 'lodash';
@@ -13,12 +13,13 @@ import { TableErrorRows, Table, Tbody, Thead } from '@instana/legacy';
 import { Card, SearchInput } from '@instana/components';
 
 import { filterColumns } from 'in-components/tables/ServerTable/internalComponents/columnBehavior';
+import { ColumnDefinition, TableProps, TableState } from 'in-components/tables/ServerTable/types';
 import EmptyContent from 'in-components/tables/ServerTable/internalComponents/EmptyContent';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import LoadingRows from 'in-components/tables/ServerTable/internalComponents/LoadingRows';
 import { carbonPaginationEnabled, carbonTableEnabled } from 'in-services/featureFlags';
+import { ConfigureButton } from 'in-components/tables/sharedComponents/ConfigurableTh';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
-import { TableProps, TableState } from 'in-components/tables/ServerTable/types';
 import { Nullish, PaginatedResult, Result, ResultPrecision } from 'in-types';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
 import { noop, pendingResult } from 'in-services/fixedObjects';
@@ -54,6 +55,31 @@ export interface ServerTablePresenterProps<ItemType extends ListItem> extends Ta
   resultPrecision?: ResultPrecision;
   shadowless?: boolean;
 }
+
+interface CarbonHeader<ITEM_TYPE extends Object, PROPS_TYPE extends TableProps<ITEM_TYPE> = TableProps<ITEM_TYPE>> {
+  key: string;
+  header: string | ReactNode;
+  isSortable?: boolean;
+  getContent: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>['getContent'];
+  sortDirection?: OrderDirection | 'NONE';
+  noWrap?: boolean;
+  ellipsis?: boolean;
+  width?: string | number;
+  useMinimumAmountOfHorizontalSpace?: boolean;
+  widthInAbsoluteUnit?: boolean;
+  selectAllCheckbox?: boolean;
+}
+
+type CarbonHeaders<ITEM_TYPE extends Object, PROPS_TYPE extends TableProps<ITEM_TYPE> = TableProps<ITEM_TYPE>> = Array<
+  CarbonHeader<ITEM_TYPE, PROPS_TYPE>
+>;
+
+interface CarbonRow {
+  id: string;
+  [key: string]: string | JSX.Element;
+}
+
+type CarbonRows = Array<CarbonRow>;
 
 export default function ServerTablePresenter<
   ItemType extends ListItem,
@@ -102,8 +128,6 @@ export default function ServerTablePresenter<
   let body = null;
   let defaultPageSize = pageSizes?.[0] ?? pageSize;
   if (carbonTableEnabled) {
-    let carbonHeaders: Array<any> = [];
-
     const debounceOnChange = debounce((searchInput: string) => {
       if (searchInput !== undefined) {
         onChange({ query: searchInput, orderBy, orderDirection, page: 1, pageSize, pageSizes });
@@ -141,9 +165,9 @@ export default function ServerTablePresenter<
       return widthInAbsoluteUnit;
     };
 
-    carbonHeaders = visibleColumns.map((item, i) => ({
-      key: item?.id || i,
-      header: item?.label,
+    const carbonHeaders: CarbonHeaders<ItemType, PropsType> = visibleColumns.map((item, i) => ({
+      key: item?.id || String(i),
+      header: item?.label || '',
       isSortable: item.sortable ?? true,
       getContent: item.getContent,
       sortDirection: item?.id === orderBy ? (orderDirection === 'ASC' ? 'ASC' : 'DESC') : 'NONE',
@@ -168,6 +192,20 @@ export default function ServerTablePresenter<
       carbonHeaders[0].width = '2rem';
     }
 
+    // For customised column header where user can select which column to render.
+    // A checklist containing all the header names to choose to rendere is got from
+    // the below component.
+    const isConfigurationColum = optionalColumns && optionalColumns.length;
+    const toolBarContent = isConfigurationColum ? (
+      <ConfigureButton
+        columnDefinitions={visibleColumns}
+        availableColumnDefinitions={availableColumns}
+        onColumnChecked={onColumnChecked}
+      >
+        {''}
+      </ConfigureButton>
+    ) : undefined;
+
     let header;
     if (rightHeader) {
       header = (
@@ -183,21 +221,14 @@ export default function ServerTablePresenter<
       ) : undefined;
 
     // when api has returned data
-    const carbonRows =
+    const carbonRows: CarbonRows =
       result.data?.items.map((item: ItemType, index: number) => {
-        let value = { id: item.id ?? String(index) };
-        carbonHeaders.map(
-          ({ key, getContent, ellipsis, width, noWrap, useMinimumAmountOfHorizontalSpace, widthInAbsoluteUnit }) => {
-            let pair;
-            if (typeof ellipsis !== 'boolean') {
-              width = ellipsis;
-              ellipsis = true;
-            }
-            if (width) {
-              if (!widthInAbsoluteUnit) {
-                width = `${width}%`;
-              }
-              pair = {
+        const idObj = { id: item.id ?? String(index) };
+        const newRow = carbonHeaders.map(({ key, getContent, ellipsis, noWrap, useMinimumAmountOfHorizontalSpace }) => {
+          const newWidth = typeof ellipsis !== 'boolean' ? ellipsis : null;
+          const content = newWidth
+            ? {
+                //get column name from carbonHeader and its value from results
                 [key]: (
                   <div
                     className={classNames({
@@ -208,15 +239,12 @@ export default function ServerTablePresenter<
                     {getContent(item, props, key)}
                   </div>
                 )
-              };
-            } else {
-              pair = { [key]: <>{getContent(item, props, key)}</> };
-            }
-            value = { ...value, ...pair };
-            return value;
-          }
-        );
-        return value;
+              }
+            : { [key]: getContent(item, props, key) };
+          return content;
+        });
+        const carbonRow = Object.assign({}, ...newRow, idObj);
+        return carbonRow;
       }) || [];
 
     body = (
@@ -245,6 +273,7 @@ export default function ServerTablePresenter<
         tableInCard={tableInCard || cardTitle != null}
         fixedLayout={fixedLayout}
         results={result.data?.items}
+        toolBarContent={toolBarContent}
       />
     );
 
@@ -291,15 +320,29 @@ export default function ServerTablePresenter<
           )}
           {/* Pagination */}
           {result.data && result.data.totalHits > defaultPageSize ? (
-            <CarbonPagination
-              currentPage={page}
-              totalItems={result?.data?.totalHits}
-              pageSize={pageSize}
-              pageSizes={pageSizes ?? [pageSize]}
-              onChange={data => {
-                onChange({ query, orderBy, orderDirection, page: data.page, pageSize: data.pageSize, pageSizes });
-              }}
-            />
+            renderPagination ? (
+              renderPagination({
+                page,
+                totalItems: result?.data?.totalHits,
+                numPages: Math.ceil(result.data.totalHits / result.data.pageSize),
+                orderDirection,
+                onChange,
+                pageSize,
+                pageSizes,
+                query,
+                orderBy
+              })
+            ) : (
+              <CarbonPagination
+                currentPage={page}
+                totalItems={result?.data?.totalHits}
+                pageSize={pageSize}
+                pageSizes={pageSizes ?? [pageSize]}
+                onChange={data => {
+                  onChange({ query, orderBy, orderDirection, page: data.page, pageSize: data.pageSize, pageSizes });
+                }}
+              />
+            )
           ) : null}
         </Fragment>
       </Card>

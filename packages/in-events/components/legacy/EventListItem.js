@@ -6,9 +6,9 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
+import { LoadingSkeleton, LoadingSpinner, SvgIcon } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
-import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
 import { getColorForEventAtFocusedMomentAsStream, getEventSeverityLabelWithEventType } from 'in-stores/events';
@@ -113,9 +113,34 @@ export default function EventListItem({
           {isExpanded || expandedFromTimeline ? <div className={locals.border} style={{ background }} /> : null}
           {isExpanded || expandedFromTimeline ? (
             <div className={locals.expandedDetails}>
-              <ListItemContent event={event} latestSnapshot={latestSnapshot} />
+              <CombinedEventListItemContent event={event} latestSnapshot={latestSnapshot} />
             </div>
           ) : null}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function EventListItemSkeleton(id) {
+  return (
+    <div
+      className={classNames({
+        [locals.inEventViewIncidentEventListItem]: true
+      })}
+      id={`event-${id}`}
+    >
+      <div className={locals.timeIndicator}>
+        <LoadingSkeleton className={locals.skeletonTime} />
+      </div>
+
+      <div className={locals.right}>
+        <div className={locals.background} style={{ background: themes.default.cds.background }} />
+
+        <div className={locals.leftBorder} style={{ background: themes.default.cds['background-active'] }} />
+
+        <div className={locals.contentWrapper}>
+          <DetailsHeaderSkeleton id={id} />
         </div>
       </div>
     </div>
@@ -172,7 +197,29 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig, setBa
   );
 }
 
-function ListItemContent({ event, latestSnapshot }) {
+function DetailsHeaderSkeleton(id) {
+  return (
+    <div className={locals.heading} id={`event-${id}`}>
+      <div className={locals.left}>
+        <div className={locals.iconWrapper}>
+          {/* <SvgIcon type="lib_actions_loading" size="xs" /> */}
+          <LoadingSpinner small withOverlay={false} />
+        </div>
+
+        <div className={locals.entity}>
+          <div>
+            <span className={locals.problemText}>
+              <LoadingSkeleton />
+            </span>
+          </div>
+          <LoadingSkeleton />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function CombinedEventListItemContent({ event, latestSnapshot }) {
   if (isSloSmartAlertEvent(event)) {
     return <SloEventListItemContent event={event} />;
   } else if (isWebsiteSmartAlertEvent(event)) {
@@ -199,7 +246,7 @@ function isApplicationSmartAlertEvent(event) {
   return event.hasIn(['metadata', 'applicationId']);
 }
 
-function getEventViewWithTimeFocusedAt(moment, windowSize, location, eventId, eventType) {
+export function getEventViewWithTimeFocusedAt(moment, windowSize, location, eventId, eventType) {
   location.query[urlQueryKeys.to] = moment;
   location.query[urlQueryKeys.focusedMoment] = moment;
   location.query[urlQueryKeys.windowSize] = windowSize;

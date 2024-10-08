@@ -7,7 +7,7 @@
 import { debounce, get } from 'lodash';
 import React from 'react';
 
-import { IconButton, Link, Typography } from '@instana/components';
+import { IconButton, Link } from '@instana/components';
 import { combineLatest } from '@instana/observables';
 import { TimeConfig } from '@instana/types';
 import { t } from '@instana/i18n-react';
@@ -20,7 +20,7 @@ import {
   phmcServer as phmcServerType,
   powervc as powervcServerType,
   sap as sapType,
-  zhmcServer as zhmcServerType //@ts-expect-error declaration file not present
+  zhmcServer as zhmcServerType
 } from 'in-cockpit/starredItems/types';
 import {
   hasKubernetesAccess,
@@ -49,14 +49,14 @@ import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
 //@ts-expect-error doesn't contain type file
 import { useOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
 //@ts-expect-error doesn't contain type file
+import { useNavigateToAbapSystemDashboard } from 'in-sap/navigation/paths';
+//@ts-expect-error doesn't contain type file
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
 //@ts-expect-error doesn't contain type file
 import { getPhmcsWithDefaults } from 'in-phmc/subscriptions/getPhmcs';
 //@ts-expect-error doesn't contain type file
 import { getZhmcsWithDefaults } from 'in-zhmc/subscriptions/getZhmcs';
 import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
-//@ts-expect-error doesn't contain type file
-import { useNavigateToAbapSystemDashboard } from 'in-sap/navigation/paths';
 //@ts-expect-error doesn't contain type file
 import { useIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
 import getAbapSystem, { getAbapSystemListsWithDefaults } from 'in-sap/subscriptions/getAbapSystemLists';
@@ -66,6 +66,7 @@ import { add, remove } from 'in-cockpit/starredItems';
 //@ts-expect-error no declaration file present
 import getZhmc from 'in-zhmc/subscriptions/getZhmc';
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
+import TypographyWithTooltip from 'in-plg/components/TypographyWithTooltip/TypographyWithTooltip';
 //@ts-expect-error doesn't contain type file
 import { getMetric } from 'in-stores/metric';
 //@ts-expect-error doesn't contain type file
@@ -85,6 +86,7 @@ import { useIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 import { hasError, isLoading } from 'in-services/util/result';
 import { compareIgnoreCase } from 'in-services/util/string';
 import getPhmc from 'in-phmc/subscriptions/getPhmc';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { success } from 'in-services/util/result';
 
 function handleFavoriteClick(id: string, item: any, isFavourite: boolean, type: string) {
@@ -241,7 +243,7 @@ export default function PlatformWidget({ config, timeConfig, widgetLabel, dashbo
   const getVsphereDatacenterDashboard = useVspehereEntityLink('datacenter');
   const getPowervcRegionDashboard = usePowervcRegionDashboard();
   const getIbmpPhmcDashboard = useIbmpPhmcDashboard();
-  const getAbapSystemDashboard = useNavigateToAbapSystemDashboard()
+  const getAbapSystemDashboard = useNavigateToAbapSystemDashboard();
 
   function getId(item: any) {
     return item.isKubernetes ? item.cluster.id : item.id;
@@ -350,13 +352,17 @@ export default function PlatformWidget({ config, timeConfig, widgetLabel, dashbo
     {
       key: 'name',
       getContent({ item }) {
-        return <Link href={getLink(item)}>{getLabel(item)}</Link>;
+        return (
+          <Tooltip content={getLabel(item)} align="auto" caret={false}>
+            <Link href={getLink(item)}>{getLabel(item)}</Link>
+          </Tooltip>
+        );
       }
     },
     {
       key: 'platform',
       getContent({ item }) {
-        return <Typography variant="body-regular">{getTechnology(item)}</Typography>;
+        return <TypographyWithTooltip content={getTechnology(item)} />;
       }
     },
     {
@@ -366,9 +372,9 @@ export default function PlatformWidget({ config, timeConfig, widgetLabel, dashbo
           return null;
         }
         return (
-          <Typography variant="body-regular">
-            {item.hosts} {t('in-plg:welcomepage.component.platformWidget.esXiHosts')}
-          </Typography>
+          <TypographyWithTooltip
+            content={`${item.hosts} ${t('in-plg:welcomepage.component.platformWidget.esXiHosts')}`}
+          />
         );
       }
     },
@@ -379,21 +385,17 @@ export default function PlatformWidget({ config, timeConfig, widgetLabel, dashbo
           return null;
         } else if (item.isPhmc || item.isZhmc) {
           return (
-            <Typography variant="body-regular">
-              {item.systems} {t('in-plg:welcomepage.component.platformWidget.systems')}
-            </Typography>
+            <TypographyWithTooltip
+              content={`${item.systems} ${t('in-plg:welcomepage.component.platformWidget.systems')}`}
+            />
           );
         } else if (item.isOpenstack || item.isSap || item.isPowervc) {
           return null;
         }
         return item.isKubernetes ? (
-          <Typography variant="body-regular">
-            {item.nodes} {t('in-plg:welcomepage.component.platformWidget.nodes')}
-          </Typography>
+          <TypographyWithTooltip content={`${item.nodes} ${t('in-plg:welcomepage.component.platformWidget.nodes')}`} />
         ) : (
-          <Typography variant="body-regular">
-            {item.vms} {t('in-plg:welcomepage.component.platformWidget.vMs')}
-          </Typography>
+          <TypographyWithTooltip content={`${item.vms} ${t('in-plg:welcomepage.component.platformWidget.vMs')}`} />
         );
       }
     },
@@ -402,23 +404,25 @@ export default function PlatformWidget({ config, timeConfig, widgetLabel, dashbo
       getContent({ item }) {
         if (item.isPcf) {
           return (
-            <Typography variant="body-regular">
-              {<InstanceMetric applicationId={item.id} />} {t('in-plg:welcomepage.component.platformWidget.instances')}
-            </Typography>
+            <TypographyWithTooltip
+              content={`${(<InstanceMetric applicationId={item.id} />)} ${t(
+                'in-plg:welcomepage.component.platformWidget.instances'
+              )}`}
+            />
           );
         } else if (item.isPhmc || item.isZhmc) {
           return (
-            <Typography variant="body-regular">
-              {item.partitions} {t('in-plg:welcomepage.component.platformWidget.partitions')}
-            </Typography>
+            <TypographyWithTooltip
+              content={`${item.partitions} ${t('in-plg:welcomepage.component.platformWidget.partitions')}`}
+            />
           );
         } else if (item.isOpenstack || item.isSap) {
           return null;
         }
         return item.isKubernetes ? (
-          <Typography variant="body-regular">
-            {item.namespaces} {t('in-plg:welcomepage.component.platformWidget.namespaces')}
-          </Typography>
+          <TypographyWithTooltip
+            content={`${item.namespaces} ${t('in-plg:welcomepage.component.platformWidget.namespaces')}`}
+          />
         ) : (
           <SparkChartWithMetricValue
             snapshotId={item.id}
@@ -435,27 +439,27 @@ export default function PlatformWidget({ config, timeConfig, widgetLabel, dashbo
       getContent({ item }) {
         if (item.isPcf) {
           return (
-            <Typography variant="body-regular">
-              {bytesZeroDecimalPlaces(item.memoryLimit)} {t('in-plg:welcomepage.component.platformWidget.memoryLimit')}
-            </Typography>
+            <TypographyWithTooltip
+              content={`${bytesZeroDecimalPlaces(item.memoryLimit)} ${t(
+                'in-plg:welcomepage.component.platformWidget.memoryLimit'
+              )}`}
+            />
           );
         } else if (item.isZhmc) {
           return (
-            <Typography variant="body-regular">
-              {item.adapters} {t('in-plg:welcomepage.component.platformWidget.adapters')}
-            </Typography>
+            <TypographyWithTooltip
+              content={`${item.adapters} ${t('in-plg:welcomepage.component.platformWidget.adapters')}`}
+            />
           );
         } else if (item.isPhmc) {
           return (
-            <Typography variant="body-regular">
-              {item.vios} {t('in-plg:welcomepage.component.platformWidget.vios')}
-            </Typography>
+            <TypographyWithTooltip content={`${item.vios} ${t('in-plg:welcomepage.component.platformWidget.vios')}`} />
           );
         }
         return item.isKubernetes ? (
-          <Typography variant="body-regular">
-            {item.workloads.pods} {t('in-plg:welcomepage.component.platformWidget.pods')}
-          </Typography>
+          <TypographyWithTooltip
+            content={`${item.workloads.pods} ${t('in-plg:welcomepage.component.platformWidget.pods')}`}
+          />
         ) : (
           <SparkChartWithMetricValue
             snapshotId={item.id}

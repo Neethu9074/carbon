@@ -50,4 +50,24 @@
       display: grid;
     }
   }
+
+  .statusIcon {
+    display: grid;
+    place-items: center;
+  }
+
+  .spinner {
+    max-height: 18px;
+    max-width: 18px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 3px solid #c6c6c6;
+    border-right-color: var(--cds-link-primary);
+    animation: l2 1s infinite linear;
+  }
+  @keyframes l2 {
+    to {
+      transform: rotate(1turn);
+    }
+  }
 }

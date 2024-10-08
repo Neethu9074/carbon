@@ -54,8 +54,13 @@ function getLabelsFromAxis(axis, list = [], updateList, metricsConfiguration, ax
     axis?.labels?.map((label, i) => {
       let defaultName = label;
       if (!label?.trim() && metricsConfiguration) {
-        // If no label is present use the metric name as default
-        defaultName = getMetricLabel(metricsConfiguration.metrics[`${axisName}-${i}`]);
+        // If no label is present use the metric name as default if possible,
+        // otherwise continue with a blank label (which can appear for metric
+        // tags).
+        var metric = metricsConfiguration.metrics[`${axisName}-${i}`];
+        if (metric) {
+          defaultName = getMetricLabel(metric);
+        }
       }
       const isToggleable =
         !axis.nonToggleableSeries ||

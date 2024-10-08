@@ -91,7 +91,7 @@ export function columnDefinitions(hasRowNavigation) {
       width: 50,
       getContent(entity) {
         return (
-          <Tooltip content={entity.name} align="topLeft" delay={500}>
+          <Tooltip content={entity.name} align="auto" delay={500}>
             <WithSubscript subscript={getKind(entity)}>
               {hasRowNavigation ? (
                 <Link href={getEntityIdView(teamSettingsAlertingAlertChannels, entity.id)} ellipsis>

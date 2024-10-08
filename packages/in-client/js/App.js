@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
-import { ThemeProvider, getThemeOverride } from '@instana/components';
+import { ThemeProvider, getThemeOverride, setThemeOverride } from '@instana/components';
 
 import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/FloatingActionButtonPresenter';
 import DeprecatedCustomEventsPopUp from 'in-events/components/DeprecatedCustomEventsPopUp';
@@ -21,12 +21,15 @@ import { playwithEnabled } from 'in-services/featureFlags';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import MessageFlyout from 'in-components/MessageFlyout';
 import routes from 'in-client/js/routes/mainRoutes';
+import { SwitchTheme } from 'in-themes/SwitchTheme';
 import GlobalTheme from 'in-themes/GlobalTheme';
 
 import locals from './App.mless';
 
 export default function App() {
-  const currentTheme = getThemeOverride() ?? 'default';
+  const themeOverride = getThemeOverride() ?? 'default';
+  const [theme, setTheme] = useState(themeOverride);
+
   return (
     <ErrorBoundary name="app">
       <LocationStateProvider>
@@ -38,7 +41,14 @@ export default function App() {
           // TODO investigate for usages and decide if it can be completely be removed.
         }
         <GlobalTheme>
-          <ThemeProvider theme={currentTheme}>
+          <SwitchTheme
+            theme={theme}
+            setOverride={theme => {
+              setThemeOverride(theme);
+              setTheme(theme);
+            }}
+          />
+          <ThemeProvider theme={theme ?? 'default'}>
             <ScrollTrackingWrapper>
               <GlobalTimeConfig>
                 <ErrorBoundary name="main-navigation">

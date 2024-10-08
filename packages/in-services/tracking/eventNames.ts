@@ -422,7 +422,6 @@ export const AUTOMATION_ACTION_HISTORY_VIEW = 'automation.action.history.view';
 export const AUTOMATION_ACTION_HISTORY_INSTANCE_VIEW = 'automation.action.history.instance.view';
 export const AUTOMATION_ACTION_HISTORY_FEEDBACK_SEND = 'automation.action.history.feedback.used';
 export const AUTOMATION_ACTION_HISTORY_INSTANCE_DELETE = 'automation.action.history.instance.delete';
-export const AUTOMATION_CLICK_TURBO_LINK_FOR_DETAILS = 'click.turbo.link.for.details';
 export const AUTOMATION_VIEW_TURBO_ACTION = 'view.turbo.action';
 export const AUTOMATION_POLICY_CREATE = 'automation.policy.create';
 export const AUTOMATION_POLICY_BULK_CREATE = 'automation.bulk.automation.policy.create';
@@ -501,6 +500,8 @@ export const SYNTHETIC_WIZARD_CREATE_BUTTON_CLICK = 'synthetic.monitoring.test.w
 
 export const SYNTHETIC_RESULTS_TAB_CLICK = 'synthetic.monitoring.results.tab.click';
 export const SYNTHETIC_CONFIGURATION_TAB_CLICK = 'synthetic.monitoring.configuration.tab.click';
+export const SYNTHETIC_CONFIGURATION_TAB_EDIT_CLICK = 'synthetic.monitoring.configuration.tab.edit.icon.click';
+export const SYNTHETIC_CONFIGURATION_TAB_DELETE_CLICK = 'synthetic.monitoring.configuration.tab.delete.icon.click';
 export const SYNTHETIC_RESULTS_LIST_DETAIL_CLICK = 'synthetic.monitoring.results.list.detail.click';
 export const SYNTHETIC_RESULTS_WIDGET_DETAIL_CLICK = 'synthetic.monitoring.results.widget.detail.click';
 

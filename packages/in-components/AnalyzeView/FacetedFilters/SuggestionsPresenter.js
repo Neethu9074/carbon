@@ -5,8 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Link, Stack } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Link, Stack, Button } from '@instana/components';
 
 import { approximateValueIndicator } from 'in-components/AnalyzeView/FacetedFilters/approximateValueIndicator';
 import { Errors, Loading } from 'in-components/AnalyzeView/FacetedFilters/Placeholders';

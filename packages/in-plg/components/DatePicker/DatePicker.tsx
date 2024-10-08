@@ -23,8 +23,6 @@ import DatePresenter from './DatePresenter';
 import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
-import locals from './DatePicker.mless';
-
 export interface DatePickerProps {
   isHidden?: boolean;
   darkTheme: boolean;
@@ -127,10 +125,8 @@ function LiveModeToggle({ isLive: isLiveProp, liveModeDisabled, liveModeDisabled
         id="live-mode-button"
         href={href}
         icon={icon}
-        iconSize={16}
+        iconSize="xs"
         kind="tertiary"
-        iconStyle={locals.liveIcon}
-        className={isLive ? locals.carbonLive : locals.carbonStatic}
         onClick={e => {
           e.stopPropagation();
           return !isLive && track(TIME_LIVE_MODE);

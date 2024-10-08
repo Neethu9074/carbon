@@ -13,7 +13,7 @@ import { Message } from '@instana/components';
 import useShouldShowMissingDataIndicator from 'in-custom-dashboards/widgets/SloLegacy/hooks/useShouldShowMissingDataIndicator';
 import useApdexWidgetContextMenu from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexWidgetContextMenu';
 import WidgetHeader from 'in-custom-dashboards/widgets/Apdex/components/WidgetHeader';
-import WidgetCard from 'in-custom-dashboards/widgets/_shared/WidgetCard/WidgetCard';
+import WidgetCard from 'in-custom-dashboards/widgets/Apdex/components/WidgetCard';
 import ApdexChart from 'in-custom-dashboards/widgets/Apdex/components/ApdexChart';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import { MetricDataSeries } from 'in-components/Chart/types';

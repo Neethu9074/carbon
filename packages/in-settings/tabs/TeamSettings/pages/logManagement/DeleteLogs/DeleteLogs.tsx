@@ -247,7 +247,7 @@ function DeleteLogsDialog({
   );
 
   return (
-    <Dialog title={localisationStrings.deleteLogs} onClose={closeConfirmationDialog}>
+    <Dialog className={locals.dialog} title={localisationStrings.deleteLogs} onClose={closeConfirmationDialog}>
       <section className={locals.confirmationDialogContent}>
         <Typography variant="body-regular">{localisationStrings.confirmationDescription}</Typography>
         <section className={locals.deleteUntilSection}>

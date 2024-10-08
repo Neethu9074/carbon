@@ -71,6 +71,8 @@ module.exports = {
   carbonComboBoxEnabled: true,
   carbonDateInputEnabled: true,
   carbonExpandableGroupEnabled: true,
+  carbonSideNavLinksEnabled: true,
+  carbonThemeSwitcherDevToolEnabled: true,
   pseudoLanguageEnabled: true,
   applicationHealthOverviewEnabled: true,
   agentInstallViewRestrictedToIBMSaas: false,

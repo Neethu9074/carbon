@@ -30,6 +30,10 @@
       background: transparent;
       color: var(--ids-color-option-teal-500);
     }
+
+    &:global(.cds--btn) {
+      min-block-size: unset;
+    }
   }
 
   .clearFacet {
@@ -38,6 +42,10 @@
 
     &:hover {
       background: transparent;
+    }
+
+    &:global(.cds--btn) {
+      min-block-size: unset;
     }
   }
 

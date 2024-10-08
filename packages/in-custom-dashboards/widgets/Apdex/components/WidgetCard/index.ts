@@ -4,6 +4,6 @@
  * Copyright IBM Corp. 2022
  */
 
-import WidgetCard from 'in-custom-dashboards/widgets/_shared/WidgetCard/WidgetCard';
+import WidgetCard from 'in-custom-dashboards/widgets/Apdex/components/WidgetCard/WidgetCard';
 
 export default WidgetCard;

@@ -9,14 +9,14 @@ import React from 'react';
 
 import { HorizontalIndicator } from '@instana/components';
 
-import WidgetCard from 'in-custom-dashboards/widgets/_shared/WidgetCard';
+import WidgetCard from 'in-custom-dashboards/widgets/Apdex/components/WidgetCard';
 
 describe('in-custom-dashboards/widgets/Apdex/components/WidgetCard', () => {
   it("should render no loading indicator if loading isn't in progress.", async () => {
     const isLoading = false;
 
     const wrapper = shallow(
-      <WidgetCard dragHandle={null} actions={[]} progress={{ loading: isLoading }} header={null}>
+      <WidgetCard progress={{ loading: isLoading }}>
         <div id="body" />
       </WidgetCard>
     );
@@ -29,7 +29,7 @@ describe('in-custom-dashboards/widgets/Apdex/components/WidgetCard', () => {
     const isLoading = true;
 
     const wrapper = shallow(
-      <WidgetCard dragHandle={null} actions={[]} progress={{ loading: isLoading }} header={null}>
+      <WidgetCard progress={{ loading: isLoading }}>
         <div id="body" />
       </WidgetCard>
     );

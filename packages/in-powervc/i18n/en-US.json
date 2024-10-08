@@ -20,6 +20,7 @@
   "totalMemory": "Total Memory",
   "totalStorage": "Total Storage",
   "totalCapacity": "Total Capacity",
+  "cpuUtilizationPercent": "CPU Utilization (%)",
   "availableCapacity": "Available Capacity",
   "volumeCount": "Volume Count",
   "cpuArch": "CPU Architecture",

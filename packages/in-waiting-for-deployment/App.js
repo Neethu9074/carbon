@@ -3,32 +3,39 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
-import { ThemeProvider } from '@instana/components';
+import { ThemeProvider, setThemeOverride, getThemeOverride } from '@instana/components';
 
 import FullViewOnboardingWidget from 'in-waiting-for-deployment/components/FullViewOnboardingWidget';
 import OnboardingWidgetPresenterV2 from 'in-plg/pages/onboarding/OnboardingWidgetPresenterV2';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
-import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import useResultFromApiPing from 'in-hooks/useResultFromApiPing';
 import createTracker from 'in-waiting-for-deployment/tracker';
 import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
+import { SwitchTheme } from 'in-themes/SwitchTheme';
 import GlobalTheme from 'in-themes/GlobalTheme';
 import config from 'in-services/config';
 
 const trackingService = createTracker('onboarding');
 
 export default function App() {
-  useDisabledBodyScroll();
+  const themeOverride = getThemeOverride() ?? 'default';
+  const [theme, setTheme] = useState(themeOverride);
 
   return (
     <ErrorBoundary name="app">
       <GlobalTheme>
-        <ThemeProvider theme="default">
+        <SwitchTheme
+          theme={theme}
+          setOverride={theme => {
+            setThemeOverride(theme);
+            setTheme(theme);
+          }}
+        />
+        <ThemeProvider theme={theme ?? 'default'}>
           <DialogPresenter />
-
           <FullViewOnboardingWidget Renderer={Renderer} />
           <TooltipPresenter />
         </ThemeProvider>

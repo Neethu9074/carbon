@@ -20,10 +20,10 @@ import {
 import MetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfigurator';
 import { getCommonFormatterForUnits, getFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
 import { onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+import ThresholdForm from 'in-custom-dashboards/widgets/_shared/Threshold/ThresholdForm';
 import TimeShiftingForm from 'in-custom-dashboards/widgets/BigNumber/TimeShiftingForm';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { defaultFormatter, getFormatterById } from 'in-stores/metric/formatters';
-import ThresholdForm from 'in-custom-dashboards/widgets/BigNumber/ThresholdForm';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { unitForInfraMetricsEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages';

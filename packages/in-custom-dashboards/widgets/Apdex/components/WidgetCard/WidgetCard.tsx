@@ -14,8 +14,8 @@ import locals from './WidgetCard.mless';
 
 interface WidgetCardProps {
   progress: Progress;
-  rightHeaderContent: React.ReactElement;
-  leftHeaderContent: React.ReactElement;
+  rightHeaderContent?: React.ReactElement;
+  leftHeaderContent?: React.ReactElement;
   children: React.ReactNode;
   isInModal?: boolean;
 }

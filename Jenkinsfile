@@ -427,7 +427,6 @@ def deployInstana(branchName, gitCommitId, version, globalEnvironment, environme
               sed -i 's/^  branch\\s*=.*\$/  branch         = \"${branchName}\"/g' ${configDir}/${globalEnvironment}.hcl
               sed -i 's/^  version\\s*=.*\$/  version        = \"${version}\"/g' ${configDir}/${globalEnvironment}.hcl
               kubectl config use-context instana-${globalEnvironment}
-              instanactl --deployment ${globalEnvironment} check --version ${version} --branch ${branchName}
               instanactl --deployment ${globalEnvironment} global migrate --branch=${branchName}
               instanactl --deployment ${globalEnvironment} global update --version=${version} --branch=${branchName}
               """
@@ -436,7 +435,6 @@ def deployInstana(branchName, gitCommitId, version, globalEnvironment, environme
           if (tenant != null && unit != null) {
             sh """
               echo "Updating tenant unit ${tenant}-${unit} in ${environment}"
-              instanactl --deployment ${environment} check --version ${version} --branch ${branchName}
               instanactl --deployment ${environment} core migrate --branch ${branchName}
               instanactl --deployment ${environment} core update --version ${version} --branch ${branchName}
               instanactl --deployment ${environment} tenantunit migrate ${tenant} ${unit} --branch ${branchName}
@@ -448,7 +446,6 @@ def deployInstana(branchName, gitCommitId, version, globalEnvironment, environme
               sed -i 's/^  branch\\s*=.*\$/  branch         = \"${branchName}\"/g' ${configDir}/${environment}.hcl
               sed -i 's/^  version\\s*=.*\$/  version        = \"${version}\"/g' ${configDir}/${environment}.hcl
               instanactl --deployment ${environment} tenantunit list
-              instanactl --deployment ${environment} check --version ${version} --branch ${branchName}
               instanactl --deployment ${environment} upgrade --version=${version} --branch=${branchName}
               """
           }

@@ -12,8 +12,12 @@ import { Order, OrderDirection, TimeConfig } from '@instana/types';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-expect-error Module needs to be translated to TS
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import {
+  businessActivityPath,
+  businessActivityServiceListPath,
+  businessProcessDashboard
+} from 'in-bizops/navigation/paths';
 import { servicesColumnDefinitions } from 'in-bizops/dashboards/activity/tabs/services/columnDefinitions';
-import { businessActivityPath, businessActivityServiceListPath } from 'in-bizops/navigation/paths';
 import getActivityServices from 'in-bizops/subscriptions/getActivityServices';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -39,6 +43,8 @@ export default function Services() {
   const location: Location = useLocation();
   const businessActivityId: string =
     getMatrixParameter(location, businessActivityPath, 'activityId') ?? t('in-bizops:dashboards.summary.pageTitle');
+  const businessProcessDefinitionId: string =
+    getMatrixParameter(location, businessProcessDashboard, 'definitionId') ?? '';
 
   return (
     <ServerTableWithUrlState
@@ -46,6 +52,7 @@ export default function Services() {
       get={getBusinessProcessActivityList}
       // The props below are needed to be passed into getBusinessProcessActivityList
       businessActivityId={businessActivityId}
+      businessProcessDefinitionId={businessProcessDefinitionId}
       timeConfig={timeConfig}
     />
   );

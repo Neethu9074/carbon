@@ -12,8 +12,9 @@ import { isEqual } from 'lodash';
 // eslint-disable-next-line import/no-deprecated
 import { mutateUrl } from 'in-stores/navigation';
 import HistogramChartContextMenu from 'in-components/HistogramChart/components/HistogramChartOverlay/components/HistogramChartContextMenu';
+import { ANALYZE_LATENCY_SELECTION_CHANGED } from 'in-services/tracking/eventNames';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { setTimeConfig, fixateTimeConfig } from 'in-stores/time/config';
-import { latencySelectionChanged } from 'in-analyze/tracker';
 import { chartSelection } from 'in-themes/chartColors';
 import { emptyArray } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -46,6 +47,7 @@ export default function HistogramChartOverlay({
   tooltipRenderer // object with a function: `render({from, to, style})` which will be used to render a tooltip,
 }) {
   const tooltipRef = useRef();
+  const { trackCta } = useSegmentTracking();
   // If the selection is adjustable the glass pane element which captures mouse events must be wider than
   // the chart on both sides (left and right) by GLASS_PANE_OFFSET, in order to:
   // - Cover completely the resizing handles which are partially outside the chart area.
@@ -398,7 +400,7 @@ export default function HistogramChartOverlay({
     if (!isEqual(selection, newSelection)) {
       // notify only if the selection really changed
       onSelectionChanged(newSelection);
-      latencySelectionChanged({
+      trackCta(ANALYZE_LATENCY_SELECTION_CHANGED, {
         selecting: mouseState?.selecting,
         resizing: mouseState?.resizingLeft || mouseState?.resizingRight,
         moving: mouseState?.moving

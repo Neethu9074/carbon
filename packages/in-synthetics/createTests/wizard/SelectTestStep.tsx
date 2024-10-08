@@ -11,8 +11,9 @@ import { Menu } from '@instana/components';
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import { BluePrint, getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
+import { syntheticWizardCreateTestTypeSwitch } from 'in-synthetics/tracking/tracker';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
-import { syntheticWizardCreateTestTypeSwitch } from 'in-synthetics/tracker';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { Script } from 'in-synthetics/utils/constants';
 import { Error as ScriptError } from 'in-types';
@@ -44,6 +45,7 @@ export default function SelectTestStep({
   simpleMode,
   setActiveTabIndex
 }: Props) {
+  const { trackCta } = useSegmentTracking();
   return (
     <SimpleModeStepContentWrapper headline={t('in-synthetics:dialog.createTest.selectTest.title')}>
       <Menu
@@ -51,10 +53,8 @@ export default function SelectTestStep({
         addRightSeparator
         initialItemSelected={selectedBlueprint}
         onItemClick={item => {
-          // Tracker
-          syntheticWizardCreateTestTypeSwitch({
-            detail: `Switched to create ${item.type} test section from wizard mode`
-          });
+          // Segment Tracker
+          syntheticWizardCreateTestTypeSwitch(trackCta, item);
           onSelectBluePrint(item);
           updateForm(createForm(simpleMode, item));
           setScript({ name: '', text: '', extension: 'js' });

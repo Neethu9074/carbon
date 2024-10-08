@@ -6,7 +6,7 @@
 import React, { MutableRefObject, RefCallback } from 'react';
 import classNames from 'classnames';
 
-import { Button, Stack } from '@instana/components';
+import { Button, ButtonSizes, Stack } from '@instana/components';
 import { Observable } from '@instana/observables';
 
 import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
@@ -27,6 +27,7 @@ export interface CveIndicatorButtonPresenterProps {
     | RefCallback<HTMLButtonElement | HTMLAnchorElement>;
   showCheckAsNeutral?: boolean;
   isOpen?: boolean;
+  size?: keyof typeof ButtonSizes;
 }
 
 export default function CveIndicatorButtonPresenter({
@@ -37,7 +38,8 @@ export default function CveIndicatorButtonPresenter({
   href$,
   refSetter,
   showCheckAsNeutral = false,
-  isOpen
+  isOpen,
+  size
 }: CveIndicatorButtonPresenterProps) {
   const isWithoutIssues = maxSeverity === 0 && showCheckAsNeutral;
   const kind = isWithoutIssues ? 'create' : getButtonKindBySeverity(maxSeverity);
@@ -50,7 +52,7 @@ export default function CveIndicatorButtonPresenter({
         kind="tertiary"
         onClick={onClick}
         href$={href$}
-        size="compact"
+        size={size ? size : 'compact'}
         refSetter={refSetter}
         className={classNames({
           [locals.noIssues]: isWithoutIssues,
@@ -58,9 +60,10 @@ export default function CveIndicatorButtonPresenter({
           [locals.danger]: isDanger
         })}
         icon={isWithoutIssues ? undefined : isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
+        disabled={!onClick && !href$}
       >
         <Stack direction="horizontal" gap="xsmall" align={isWarning ? undefined : 'center'}>
-          <HealthIcon disabled={isWithoutIssues} severity={maxSeverity} iconSize="xs" />
+          <HealthIcon disabled={!onClick && !href$} severity={maxSeverity} iconSize="xs" />
           {getLabel(openIssues, openIncidents)}
         </Stack>
       </Button>

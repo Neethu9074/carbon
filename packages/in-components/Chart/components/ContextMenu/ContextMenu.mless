@@ -46,6 +46,10 @@
     &:hover {
       border: none;
     }
+
+    &:global(.carbonButton) {
+      white-space: nowrap;
+    }
   }
 
   .contextMenuActionsButtonsWrapper {
@@ -54,6 +58,11 @@
     width: 4.25rem;
 
     display: flex;
+  }
+
+  .contextMenuCarbonButtonWrapper {
+    top: -1.99rem;
+    background: var(--ids-color-option-white);
   }
 
   .contextMenuOpenButtonIcon {

@@ -8,15 +8,16 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { DashboardTableCell as Cell } from '@instana/components';
-import { LoadingSkeleton, Message } from '@instana/components';
+import { LoadingSkeleton } from '@instana/components';
 import { TimeConfig } from '@instana/types';
 
 import { ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
+import WithPinnedItems from 'in-plg/pages/WelcomePage/widgets/table/WithPinnedItems';
 import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter';
 import { hasError, isLoading } from 'in-services/util/result';
-import WithPinnedItems from './WithPinnedItems';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 
-import locals from './SkeletonStyle.mless';
+import locals from 'in-plg/pages/WelcomePage/widgets/table/CommonTableStyle.mless';
 
 type pinnedItemsListProps = {
   pinnedItemIdsByType?: any;
@@ -79,9 +80,9 @@ export function Item({ pendingItem, timeConfig, type, columnDefinitions }: ItemP
           return (
             <Cell key={key} {...(key === FAVOURITE && { className: 'favouriteIcon' })}>
               {key === 'name' || key === 'title' ? (
-                <Message type="error" small>
-                  {getUniqueErrors(result.errors)[0]}
-                </Message>
+                <Tooltip content={getUniqueErrors(result.errors)[0]} align="auto" caret={false}>
+                  <div className={locals.errorTitleWidthForTooltip}>{'-'}</div>
+                </Tooltip>
               ) : key === FAVOURITE ? (
                 <div>{getContent({ id: id, item: null, isFavourite: true, type: type })}</div>
               ) : null}

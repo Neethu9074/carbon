@@ -86,6 +86,8 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
       <Row>
         <Col lg={4}>
           <IndicatorChart
+            customHeight={250}
+            customChartSkeletonHeight={308}
             entity={configuration.entity}
             indicator={configuration.indicator}
             timeWindow={configuration.timeWindow}
@@ -95,12 +97,14 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
         </Col>
         <Col lg={4}>
           <ErrorBudgetChart
+            customHeight={250}
+            customChartSkeletonHeight={308}
             configuration={configuration}
             title={t('in-service-levels:sloDashboard.components.errorBudgetChart.title')}
           />
         </Col>
         <Col lg={4}>
-          <TrafficChart configuration={configuration} />
+          <TrafficChart customHeight={250} customChartSkeletonHeight={308} configuration={configuration} />
         </Col>
       </Row>
     </>

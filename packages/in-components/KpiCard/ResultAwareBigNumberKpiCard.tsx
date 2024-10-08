@@ -10,7 +10,7 @@ import { MetricResult, Result, TagFilter, TimeConfig, UnifiedMetricConfiguration
 
 import { getTimeShiftLabel, hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
-import { ThresholdFn, ThresholdProps } from 'in-custom-dashboards/widgets/_shared/threshold';
+import { ThresholdFn, ThresholdProps } from 'in-components/Threshold/threshold';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import ResultAwareKpiCard from 'in-components/KpiCard/ResultAwareKpiCard';
 import ThresholdKpiCard from 'in-components/KpiCard/TresholdKpiCard';

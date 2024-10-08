@@ -5,8 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { keyCodes } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { keyCodes, Button } from '@instana/components';
 
 import { addFacetItem, getRangesFromFacets, removeFacetTag } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import FacetedExpandableCard from 'in-components/AnalyzeView/FacetedFilters/FacetedExpandableCard';

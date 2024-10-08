@@ -20,9 +20,9 @@ import {
 import { getTimeConfigBasedOnMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { MetricResult, Result, UnifiedMetricConfigurationUnion } from 'in-types';
-import { ThresholdFn } from 'in-custom-dashboards/widgets/_shared/threshold';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
+import { ThresholdFn } from 'in-components/Threshold/threshold';
 import { IconAction } from 'in-components/KpiCard/KpiCard';
 import { FormatterFn } from 'in-stores/metric/formatters';
 import { pendingResult } from 'in-services/fixedObjects';

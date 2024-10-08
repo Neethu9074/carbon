@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { IconButton, Button } from '@instana/components';
+import { Button, IconButton } from '@instana/components';
 import { interval } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
@@ -23,6 +23,7 @@ type ManualCloseIssueButtonProps = {
   iconComponent?: React.ReactNode;
   buttonKind?: any;
   eventType?: string;
+  buttonType?: 'button' | 'iconButton';
 };
 
 export default function ManualCloseIssueButton({
@@ -30,7 +31,8 @@ export default function ManualCloseIssueButton({
   iconComponent,
   reload,
   buttonKind = 'secondary',
-  eventType
+  eventType,
+  buttonType = 'button'
 }: ManualCloseIssueButtonProps) {
   const [manuallyClosed, setManuallyClosed] = useState<boolean>(false);
   const [eventIDForAfterManualCheck, setEventIDForAfterManualCheck] = useState<string>('');
@@ -68,7 +70,7 @@ export default function ManualCloseIssueButton({
     return <IconButton type="lib_actions_sync" iconSpinning kind="secondary" disabled />;
   }
 
-  if (!role?.canConfigureEventsAndAlerts || !hasEventSpec) {
+  if (!role?.canManuallyCloseIssue || !hasEventSpec) {
     // at the moment the link of this button generally does not work when the canConfigureEventsAndAlerts permission is missing,
     // because we generally hide the Events & Alerts section, including the build-in events.
     return null;
@@ -90,6 +92,26 @@ export default function ManualCloseIssueButton({
   };
 
   const isManuallyClosedButtonDisabled: boolean = state === 'closed' || hasManualCloseFields(event);
+
+  // For incident overview header types
+  if (buttonType === 'iconButton') {
+    return (
+      <IconButton
+        type="lib_openclose_cancel"
+        kind={buttonKind}
+        disabled={isManuallyClosedButtonDisabled}
+        iconSize="xs"
+        isWrapperedByTooltip
+        align="left"
+        iconDescription={
+          eventType === 'incident'
+            ? t('in-events:closeEventDialog.closeIncident')
+            : t('in-events:closeEventDialog.closeIssue')
+        }
+        onClick={handleCloseIssue}
+      />
+    );
+  }
 
   return (
     <Button

@@ -5,18 +5,7 @@
 
 import React from 'react';
 
-import {
-  getThemeOverride,
-  Link,
-  setThemeOverride,
-  Spacer,
-  Stack,
-  Toggle,
-  Button,
-  DistinctSlider
-} from '@instana/components';
-import { themes } from '@instana/design-tokens';
-import { Select } from '@instana/components';
+import { getThemeOverride, Toggle, Button, DistinctSlider, Select } from '@instana/components';
 
 import ChooseConnectionStrategyDialog from 'in-connection/components/ChooseConnectionStrategyDialog';
 import { t, Trans, supportedLanguages, activeLanguage, collationLanguage } from 'in-i18n';
@@ -24,9 +13,9 @@ import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEd
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { userSettingsThemeEnabled } from 'in-services/featureFlags';
 import Heading from 'in-settings/tabs/UserSettings/pages/Heading';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import { carbonSliderEnabled } from 'in-services/featureFlags';
 import SectionLine from 'in-settings/components/SectionLine';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { saveUserSettings } from 'in-services/userSettings';
@@ -90,16 +79,28 @@ export default function UiConfigGeneralPage() {
           text={t('in-settings:tabs.tableRefreshRate', { refreshRate: settings['tables_refreshRate'] / 1000 })}
           htmlFor="table-refresh-rate"
         />
-        <div>
-          <DistinctSlider
+        {carbonSliderEnabled ? (
+          <div>
+            <DistinctSlider
+              id="table-refresh-rate"
+              min={1}
+              max={10}
+              step={1}
+              value={Number(settings['tables_refreshRate']) / 1000}
+              onChange={(_, val) => saveSetting('tables_refreshRate', (val as number) * 1000)}
+            />
+          </div>
+        ) : (
+          <input
+            type="range"
             id="table-refresh-rate"
-            min={1}
-            max={10}
-            step={1}
-            value={Number(settings['tables_refreshRate']) / 1000}
-            onChange={(_, val) => saveSetting('tables_refreshRate', (val as number) * 1000)}
+            min={1000}
+            max={10000}
+            step={1000}
+            value={settings['tables_refreshRate']}
+            onChange={e => saveSetting('tables_refreshRate', e.target.value)}
           />
-        </div>
+        )}
       </HorizontalFormGroup>
       <HorizontalFormGroup
         helpText={<span className={locals.warning}>{t('in-settings:tabs.requiresBrowserRefreshToBecomeActive')}</span>}
@@ -186,63 +187,6 @@ export default function UiConfigGeneralPage() {
           {t('in-settings:tabs.configureConnectionStrategy')}
         </Button>
       </HorizontalFormGroup>
-      {userSettingsThemeEnabled && (
-        <HorizontalFormGroup
-          // This is a temporary feature behind a feature flag.
-          // It won't need translation yet, as it will only be available internally.
-          helpText={
-            <>
-              <span className={locals.warning}>{t('in-settings:tabs.requiresBrowserRefreshToBecomeActive')}</span>
-              <br />
-              This will set the theme for the local browser. It will not affect other users or browser windows.
-              <br />
-              It enables testing a different Carbon Theme for parts that are carbonized.
-              <br />
-              <br />
-              This setting will be kept until it will get reset again.
-            </>
-          }
-          isWarning
-        >
-          <Heading
-            text={
-              <Stack direction={'horizontal'} align={'center'}>
-                <span>{t('in-settings:tabs.themeSettings')}</span>
-                <Spacer horizontal="normal" />
-                <Link href="/#/config/user/general" size="sm">
-                  {/* no need for translation yet */}
-                  You can bookmark this settings page.
-                </Link>
-              </Stack>
-            }
-            htmlFor="theme"
-          />
-          <Select
-            id="theme"
-            name="theme"
-            value={currentTheme}
-            onChange={event => {
-              const selectTheme = event.target?.value;
-
-              // eslint-disable-next-line no-console
-              console.debug('selected theme:', selectTheme);
-
-              if (currentTheme !== selectTheme) {
-                setThemeOverride(selectTheme);
-                window.location.reload();
-              }
-            }}
-          >
-            {Object.keys(themes)
-              .filter(name => name != 'dark')
-              .map(theme => (
-                <option key={theme} value={theme}>
-                  {t('in-settings:tabs.theme', { context: theme })}
-                </option>
-              ))}
-          </Select>
-        </HorizontalFormGroup>
-      )}
     </SettingsDetailPage>
   );
 }

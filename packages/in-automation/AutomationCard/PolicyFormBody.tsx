@@ -148,7 +148,7 @@ function TriggerSection({ trigger }: { trigger: Result<TriggerSpecification> }) 
 
   const result = hasError(trigger)
     ? {
-        data: [],
+        data: { items: [] },
         errors: trigger.errors,
         progress: {
           loading: false

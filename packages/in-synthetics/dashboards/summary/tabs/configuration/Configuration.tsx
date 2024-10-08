@@ -16,6 +16,7 @@ import EditConfigurationDialogPresenter from 'in-synthetics/dashboards/summary/t
 import { showDeleteErrorMessage, showDeleteSuccessMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import CustomProperties from 'in-synthetics/dashboards/summary/tabs/configuration/sections/CustomProperties';
 import ConfigSection from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Configuration';
+import { clickSyntheticMonitoringConfigurationTabDeleteTracker } from 'in-synthetics/tracking/tracker';
 import Associations from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Associations';
 import Locations from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Locations';
 import TestType from 'in-synthetics/dashboards/summary/tabs/configuration/sections/TestType';
@@ -24,6 +25,7 @@ import Identify from 'in-synthetics/dashboards/summary/tabs/configuration/sectio
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { syntheticsPath } from 'in-synthetics/navigation/paths';
@@ -49,6 +51,7 @@ interface ActionButtonProps {
 }
 
 const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
+  const { trackCta } = useSegmentTracking();
   const { goToPath } = useNavigation();
   let testType = null;
 
@@ -156,6 +159,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
           </Button>
           <Button
             onClick={() => {
+              clickSyntheticMonitoringConfigurationTabDeleteTracker(trackCta);
               doDeleteAction(testId);
             }}
             disabled={validationInputValue !== syntheticValidation || isBlank(reasonInputValue)}

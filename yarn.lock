@@ -1849,6 +1849,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@carbon/pictograms-react@npm:11.63.0":
+  version: 11.63.0
+  resolution: "@carbon/pictograms-react@npm:11.63.0"
+  dependencies:
+    "@carbon/icon-helpers": ^10.49.0
+    "@ibm/telemetry-js": ^1.5.0
+    prop-types: ^15.7.2
+  peerDependencies:
+    react: ">=16"
+  checksum: 751045ec32e8e91f5b8cdfc26f61c7a7f6ce5447465be449c6f6105267355f6775a7e0e27437bf9d41dbd07dcb7f6c50ebc56fc2b857d8b4aa8658bf679d0e25
+  languageName: node
+  linkType: hard
+
 "@carbon/react@npm:1.62.1":
   version: 1.62.1
   resolution: "@carbon/react@npm:1.62.1"
@@ -2888,9 +2901,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/components@npm:4.36.1, @instana/components@npm:^4.36.1":
-  version: 4.36.1
-  resolution: "@instana/components@npm:4.36.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.36.1.tgz"
+"@instana/components@npm:4.39.0, @instana/components@npm:^4.39.0":
+  version: 4.39.0
+  resolution: "@instana/components@npm:4.39.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.39.0.tgz"
   dependencies:
     "@carbon/icons-react": 11.45.0
     "@carbon/react": 1.62.1
@@ -2910,7 +2923,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.2
-  checksum: 7971edc92e4adab8e0874e5ca517de4b28be48721d21c81d4cef9b87e6e702e865d627ac0c98b6bc867cb791fdc4560ed4c761fbbdbdf0b5da4837aab8a213d1
+  checksum: 205c12809401d2a7056043b27a2221ed445dfcd939e2a039745fee6996b742ddcb888e11e5685aa58fd75581a7d8896ac394f6d83d82e7f9d4865de36aa93e0d
   languageName: node
   linkType: hard
 
@@ -3015,11 +3028,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/legacy@npm:4.3.2":
-  version: 4.3.2
-  resolution: "@instana/legacy@npm:4.3.2::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.3.2.tgz"
+"@instana/legacy@npm:4.3.5":
+  version: 4.3.5
+  resolution: "@instana/legacy@npm:4.3.5::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.3.5.tgz"
   dependencies:
-    "@instana/components": ^4.36.1
+    "@instana/components": ^4.39.0
     "@instana/design-tokens": ^1.28.0
     "@instana/format-date": ^1.7.0
     "@instana/format-numbers": ^1.6.0
@@ -3031,7 +3044,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.0
-  checksum: 541e61a4566563e03c2f8845c21d777397664d4571f447e06e4cfda13094b9b166e6ff99aa616c29285ef142d2f380b4ee3994b7ee03f742816b2384ee3c1cba
+  checksum: 6339b2af1c057a008a950965f680b09c4276f11a4c9c39e350f082f5bed5e66a83051b8c5c8fb423efb63c8657d8b0eb86c6b05d7082678c7358b0a56986cfad
   languageName: node
   linkType: hard
 
@@ -3068,10 +3081,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/types@npm:1.284.649":
-  version: 1.284.649
-  resolution: "@instana/types@npm:1.284.649::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Ftypes%2F-%2F%40instana%2Ftypes-1.284.649.tgz"
-  checksum: 9d278868f40fd4b65592cb3cd86ebef64d20a656905f06f3239265e7f79adc32ed3e722ea69d9da8918247168200e6c4b9fa07976d61f3feb91ff7be6d7089eb
+"@instana/types@npm:1.284.716":
+  version: 1.284.716
+  resolution: "@instana/types@npm:1.284.716::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Ftypes%2F-%2F%40instana%2Ftypes-1.284.716.tgz"
+  checksum: 9bf00c3911507f100e99f3228e5a6b579104ff6eb306d75e95d0367b6d8eceb7b900d6c3f6386c5e6fbbdb52786c7b15eb22eaa6a46718d2184291040a1eae2a
   languageName: node
   linkType: hard
 
@@ -4265,6 +4278,13 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: e827570e097bd7d625a673c9c208af2d1a22fa3885c0a1646533cf24394c839c3e5f60ac1bc60c0ddcc69c0615078c9fb2c01b42596c7c582d895d974f2409ee
+  languageName: node
+  linkType: hard
+
+"@types/carbon__pictograms-react@npm:^11":
+  version: 11.46.6
+  resolution: "@types/carbon__pictograms-react@npm:11.46.6"
+  checksum: 8d82458ca66feb5d450268809b651c6eae3fc09aa81304b574f6511500664ce70afe479917db24a4dde122af5836979e109dd591f5e48972e19ac1685fbc3c11
   languageName: node
   linkType: hard
 
@@ -7301,9 +7321,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001272, caniuse-lite@npm:^1.0.30001274, caniuse-lite@npm:^1.0.30001280, caniuse-lite@npm:^1.0.30001517, caniuse-lite@npm:^1.0.30001587":
-  version: 1.0.30001663
-  resolution: "caniuse-lite@npm:1.0.30001663"
-  checksum: 489a642feb6826a0fc7cfd7dbc35a3341cc1439eafdf0dae79338cf9033c5d9eddaedacbef7935acaddbb3c226a51097ed53d66dc6d8128cd6938c6763e1bbc4
+  version: 1.0.30001666
+  resolution: "caniuse-lite@npm:1.0.30001666"
+  checksum: 505407ced34d6225c13da98ee18a640e58bbbfc8567687507a67c8837ae0ae798ad246602e81f0c7d7982fab22ee140c30312028d541299577e54d09822b973c
   languageName: node
   linkType: hard
 
@@ -7679,17 +7699,6 @@ __metadata:
   version: 3.0.0
   resolution: "cli-width@npm:3.0.0"
   checksum: 4c94af3769367a70e11ed69aa6095f1c600c0ff510f3921ab4045af961820d57c0233acfa8b6396037391f31b4c397e1f614d234294f979ff61430a6c166c3f6
-  languageName: node
-  linkType: hard
-
-"clipboard@npm:^1.7.1":
-  version: 1.7.1
-  resolution: "clipboard@npm:1.7.1"
-  dependencies:
-    good-listener: ^1.2.2
-    select: ^1.1.2
-    tiny-emitter: ^2.0.0
-  checksum: f718140f924ddc059eec74af94302d8afb7f18b799780aded6fa5c56b9d8361b648199c31a87e8e98fcd14ed8c63270a1f8b0bb1d19ba7f327058059a4e619f1
   languageName: node
   linkType: hard
 
@@ -9019,13 +9028,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"delegate@npm:^3.1.2":
-  version: 3.2.0
-  resolution: "delegate@npm:3.2.0"
-  checksum: d943058fe05897228b158cbd1bab05164df28c8f54127873231d6b03b0a5acc1b3ee1f98ac70ccc9b79cd84aa47118a7de111fee2923753491583905069da27d
-  languageName: node
-  linkType: hard
-
 "depd@npm:2.0.0":
   version: 2.0.0
   resolution: "depd@npm:2.0.0"
@@ -9229,17 +9231,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:^2.2.0":
-  version: 2.5.6
-  resolution: "dompurify@npm:2.5.6"
-  checksum: 1d329fe79928aa86c61539b758bdbc53df58dd90bdc5b74032a2a3a22a436e84178d8f6ad8b022c8f6fac46b26d6e7e553c0cd131a37ed5105bbed6bf87be226
-  languageName: node
-  linkType: hard
-
-"dompurify@npm:^2.4.3":
-  version: 2.4.3
-  resolution: "dompurify@npm:2.4.3"
-  checksum: b440981f2a38cada2085759cc3d1e2f94571afc34343d011a8a6aa1ad91ae6abf651adbfa4994b0e2283f0ce81f7891cdb04b67d0b234c8d190cb70e9691f026
+"dompurify@npm:^2.2.0, dompurify@npm:^2.4.3":
+  version: 2.5.7
+  resolution: "dompurify@npm:2.5.7"
+  checksum: 9652139743130b5ebaf5278fadec06d9b3920019b80c205565b9b8d52cd0cea90ff690c1994c5c0da5bc9d57a94dc19236cdf1ccabdc1c6cff7c255e1e597031
   languageName: node
   linkType: hard
 
@@ -12099,15 +12094,6 @@ __metadata:
   dependencies:
     sparkles: ^1.0.0
   checksum: 6defe24bbe0536b844ffcf0d7a546a51440b3757b9770ef994a7558172ad51d5aa1fefef357a54fc2a3a691e3d06d921195faf75bb493484d69718db431701b5
-  languageName: node
-  linkType: hard
-
-"good-listener@npm:^1.2.2":
-  version: 1.2.2
-  resolution: "good-listener@npm:1.2.2"
-  dependencies:
-    delegate: ^3.1.2
-  checksum: f39fb82c4e41524f56104cfd2d7aef1a88e72f3f75139115fbdf98cc7d844e0c1b39218b2e83438c6188727bf904ed78c7f0f2feff67b32833bc3af7f0202b33
   languageName: node
   linkType: hard
 
@@ -19703,13 +19689,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"select@npm:^1.1.2":
-  version: 1.1.2
-  resolution: "select@npm:1.1.2"
-  checksum: 4346151e94f226ea6131e44e68e6d837f3fdee64831b756dd657cc0b02f4cb5107f867cb34a1d1216ab7737d0bf0645d44546afb030bbd8d64e891f5e4c4814e
-  languageName: node
-  linkType: hard
-
 "selfsigned@npm:^2.1.1":
   version: 2.4.1
   resolution: "selfsigned@npm:2.4.1"
@@ -21302,13 +21281,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tiny-emitter@npm:^2.0.0":
-  version: 2.1.0
-  resolution: "tiny-emitter@npm:2.1.0"
-  checksum: fbcfb5145751a0e3b109507a828eb6d6d4501352ab7bb33eccef46e22e9d9ad3953158870a6966a59e57ab7c3f9cfac7cab8521db4de6a5e757012f4677df2dd
-  languageName: node
-  linkType: hard
-
 "tiny-invariant@npm:^1.0.2, tiny-invariant@npm:^1.0.6":
   version: 1.2.0
   resolution: "tiny-invariant@npm:1.2.0"
@@ -21751,6 +21723,7 @@ __metadata:
     "@babel/register": ^7.12.1
     "@babel/runtime": 7.25.6
     "@carbon/colors": ^11.21.0
+    "@carbon/pictograms-react": 11.63.0
     "@codemirror/autocomplete": ^6.0.0
     "@codemirror/commands": ^6.0.0
     "@codemirror/lang-javascript": ^6.1.2
@@ -21762,7 +21735,7 @@ __metadata:
     "@codemirror/state": 6.2.0
     "@codemirror/theme-one-dark": ^6.0.0
     "@codemirror/view": 6.6.0
-    "@instana/components": 4.36.1
+    "@instana/components": 4.39.0
     "@instana/design-tokens": 1.28.0
     "@instana/eslint-config-commons": 1.3.0
     "@instana/format-date": 1.7.0
@@ -21771,12 +21744,12 @@ __metadata:
     "@instana/i18n": ^1.4.1
     "@instana/i18n-react": 1.6.0
     "@instana/import-sort-style-simon": 1.4.0
-    "@instana/legacy": 4.3.2
+    "@instana/legacy": 4.3.5
     "@instana/logger": ^1.3.1
     "@instana/observables": ^1.6.1
     "@instana/pseudo-translation": ^1.3.1
     "@instana/roemitter": ^1.3.2
-    "@instana/types": 1.284.649
+    "@instana/types": 1.284.716
     "@instana/utils": ^1.3.1
     "@lezer/common": ^1.0.2
     "@lezer/generator": ^1.5.0
@@ -21785,6 +21758,7 @@ __metadata:
     "@testing-library/react": ^12.1.5
     "@testing-library/react-hooks": ^7.0.2
     "@testing-library/user-event": ^14.5.2
+    "@types/carbon__pictograms-react": ^11
     "@types/chai": ^4.3.4
     "@types/clipboard": ^1.5.36
     "@types/d3-format": ^1.4.2
@@ -21830,7 +21804,6 @@ __metadata:
     chalk: ^1.1.3
     classnames: ^2.3.1
     clear-module: ^3.0.0
-    clipboard: ^1.7.1
     codemirror: ^5.58.2
     core-js: ^3.37.0
     css-loader: ^6.5.1

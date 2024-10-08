@@ -5,7 +5,16 @@
 
 import React, { useState } from 'react';
 
-import { Card, Pagination as CarbonPagination, Button } from '@instana/components';
+import {
+  Card,
+  Pagination as CarbonPagination,
+  Stack,
+  Typography,
+  Collapsible,
+  CarbonLayer,
+  Button,
+  IconButton
+} from '@instana/components';
 import { combineLatest } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
@@ -25,19 +34,23 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import RootCauseSection from 'in-events/components/legacy/RootCauseSection';
 import PopulationChart from 'in-events/components/legacy/PopulationChart';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
-import { pageNumberUrlParameter } from '../../navigation/urlParameters';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import EventListItem from 'in-events/components/legacy/EventListItem';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
-import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
+import { getEventViewWithTimeFocusedAt } from './EventListItem';
+import { CombinedEventListItemContent } from './EventListItem';
 import { rcaUIEnabled } from 'in-services/featureFlags';
 import { emptyList } from 'in-services/fixedImmutables';
+import { EventListItemSkeleton } from './EventListItem';
 import EventIcon from 'in-events/components/EventIcon';
+import EventEntityDetails from './EventEntityDetails';
 import { Row, Col } from 'in-components/layout/Grid';
 import EventDetailsKPIs from '../EventDetailsKPIs';
 import { FeedbackComponents } from '../EventTable';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import Pagination from 'in-components/Pagination';
 import { getEventType } from 'in-stores/events';
-import useUrlState from 'in-hooks/useUrlState';
 import { getEvent } from 'in-stores/events';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -60,23 +73,21 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
     'probableRootCauseSnapshotMetadata'
   ]);
 
-  // const [highlightEventOnHover, setHighlightEventOnHover] = useState('');
-
   if (!triggeringEvent) return <LoadingIndicator />;
   return (
     <>
-      <Row withoutSideMargin>
-        <Col xs>
-          <Card>
-            {eventFeedbackEnabled && incident && <FeedbackComponents eventData={incident} textVariant="body-large" />}
-          </Card>
-        </Col>
-      </Row>
       {/* Event Details KPIs */}
       <EventDetailsKPIs event={incident} isIncident />
 
-      {/* Triggered event */}
-      <TriggeringEvent incident={incident} triggeringEvent={triggeringEvent} latestSnapshot={latestSnapshot} />
+      {/* Incident overview */}
+      <IncidentOverview
+        incident={incident}
+        triggeringEvent={triggeringEvent}
+        latestSnapshot={latestSnapshot}
+        triggeringProblemId={triggeringProblemId}
+        triggeringEventId={triggeringEventId}
+      />
+
       {/* RCA */}
       {incidentHasRCAProperty && rcaUIEnabled && rootCauseHasOldSnapshotMetadata && (
         <LegacyRootCauseSection
@@ -90,14 +101,6 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
       {rcaUIEnabled && !rootCauseHasOldSnapshotMetadata && (
         <RootCauseSection title={t('in-events:RCA.titlePRCA')} incident={incident} latestSnapshot={latestSnapshot} />
       )}
-
-      {/* Related events */}
-      <RelatedEvents
-        incident={incident}
-        triggeringProblemId={triggeringProblemId}
-        latestSnapshot={latestSnapshot}
-        triggeringEventId={triggeringEventId}
-      />
 
       {/* Automations */}
       <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={triggeringEvent?.toJS()} />
@@ -113,36 +116,108 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
   );
 }
 
-const TriggeringEvent = ({ incident, triggeringEvent, latestSnapshot }) => {
+const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggeringProblemId, triggeringEventId }) => {
   const colourForCard = getTriggeringEventCardColor(incident);
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
   const timeConfig = canCloseManually && incident ? getTimeConfigForSnapshotRetrieval(incident, latestSnapshot) : null;
-  const header = renderTriggeringEventHeader(incident, canCloseManually, timeConfig);
+  const incidentOverviewHeader = renderTriggeringEventHeader(incident, canCloseManually, timeConfig);
+  const { location, createHref } = useNavigation();
+  const { windowSize } = useTimeConfig();
+  const timeConfigLink = createHref(
+    getEventViewWithTimeFocusedAt(incident.get('start'), windowSize, location, incident.get('id'), incident.get('type'))
+  );
 
   return (
     <Row withoutSideMargin>
       <Col xs>
         {colourForCard && <div className={locals.cardIndicator} style={{ background: colourForCard }} />}
-        <Card title={t('in-events:titleTriggerEvent')} rightHeaderContent={header}>
-          <Row>
-            <Col xs>
-              {!triggeringEvent && <LoadingIndicator />}
-              <EventListItem
-                triggeringProblemId={incident.getIn(['problem', 'id'])}
-                event={triggeringEvent}
-                latestSnapshot={latestSnapshot}
+        <Card
+          useMaxAvailableHeight={false}
+          title={t('in-events:incident.overviewTitle')}
+          rightHeaderContent={
+            <>
+              <IconButton
+                kind="subtle"
+                data-testid="restroreConfigButton"
+                type="lib_datetime_time"
+                isWrapperedByTooltip
+                iconDescription="Set time config"
+                href={timeConfigLink}
+                align="left"
+                iconSize="xs"
               />
-            </Col>
-          </Row>
+              {incidentOverviewHeader}
+            </>
+          }
+        >
+          <TriggeringEvent incident={incident} triggeringEvent={triggeringEvent} latestSnapshot={latestSnapshot} />
         </Card>
+        {/* Metric violations */}
+        <MetricViolations triggeringEvent={triggeringEvent} latestSnapshot={latestSnapshot} incident={incident} />
+        {/* Related events */}
+        <RelatedEvents
+          incident={incident}
+          triggeringProblemId={triggeringProblemId}
+          latestSnapshot={latestSnapshot}
+          triggeringEventId={triggeringEventId}
+        />
+        {eventFeedbackEnabled && incident && (
+          <div className={locals.feedbackContainer}>
+            <FeedbackComponents eventData={incident} />
+          </div>
+        )}
       </Col>
     </Row>
   );
 };
 
+const TriggeringEvent = ({ incident, triggeringEvent, latestSnapshot }) => {
+  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const timeConfig = canCloseManually && incident ? getTimeConfigForSnapshotRetrieval(incident, latestSnapshot) : null;
+
+  return (
+    <Stack gap="xsmall">
+      <Typography variant="heading-200">{t('in-events:titleTriggerEvent')}</Typography>
+      <Stack direction="horizontal" align="center">
+        <div className={locals.noShrink} style={{ flexShrink: 0 }}>
+          <Typography variant="heading-100" noMargin>
+            {t('in-events:titleDescription')}:
+          </Typography>
+        </div>
+        <Typography variant="body-regular">{triggeringEvent.getIn(['problem', 'fixSuggestion'])}</Typography>
+      </Stack>
+      <Stack direction="horizontal" align="center">
+        <Typography variant="heading-100" noMargin>
+          {t('in-events:incident.triggeringEntity')}:
+        </Typography>
+        <EventEntityDetails triggeringEvent={triggeringEvent} timeConfig={timeConfig} />
+      </Stack>
+    </Stack>
+  );
+};
+
+const MetricViolations = ({ triggeringEvent, latestSnapshot, incident }) => {
+  const rcaFound = incident.getIn(['rca', 'found'], false);
+  return (
+    <div className={locals.layerBackground}>
+      <CarbonLayer>
+        {/* TODO: determine if RCA is valid, if valid, hide the chart */}
+        <Collapsible initiallyOpen={!rcaFound}>
+          <Collapsible.Header>{t('in-events:incident.metricViolationTitle')}</Collapsible.Header>
+          <Collapsible.Content>
+            <div className={locals.metricViolationsContainer}>
+              <CombinedEventListItemContent event={triggeringEvent} latestSnapshot={latestSnapshot} />
+            </div>
+          </Collapsible.Content>
+        </Collapsible>
+      </CarbonLayer>
+    </div>
+  );
+};
+
 const RelatedEvents = ({ incident, triggeringProblemId, latestSnapshot, triggeringEventId }) => {
+  // TODO: add back setChangesAreVisible
   const [changesAreVisible, setChangesAreVisible] = useState(true);
-  const [isExpanded, setIsExpanded] = useState(false);
 
   // recent events
   const allRecentEvents = incident
@@ -159,18 +234,16 @@ const RelatedEvents = ({ incident, triggeringProblemId, latestSnapshot, triggeri
 
   // START related events pagination
 
-  const [{ relatedEventsPage }, setPageURLState] = useUrlState({
-    bind: [pageNumberUrlParameter],
-    replaceHistory: false
-  });
+  const [relatedEventsPage, setRelatedEventsPage] = useState(1);
+  const [relatedEventsSection, setRelatedEventsSection] = useState(false);
 
-  const onPageChange = ({ page }) => setPageURLState({ relatedEventsPage: page });
-
-  const currentPage = eventsPath && relatedEventsPage ? relatedEventsPage : 1;
   const pageSize = 5;
-  const paginatedRecentEventIds = allRecentEvents?.slice(pageSize * (currentPage - 1), pageSize * currentPage);
+  const paginatedRecentEventIds = allRecentEvents?.slice(
+    pageSize * (relatedEventsPage - 1),
+    pageSize * relatedEventsPage
+  );
   const paginatedRecentEventsRaw =
-    useObservable(combineLatest(paginatedRecentEventIds.map(getEvent)).throttle(250), [incident]) ?? null;
+    useObservable(combineLatest(paginatedRecentEventIds.map(getEvent)).throttle(250), [relatedEventsPage]) ?? null;
 
   const paginatedRecentEvents = paginatedRecentEventsRaw?.filter(event => {
     if (!changesAreVisible && getEventType(event) === EVENT_TYPES.CHANGE) {
@@ -190,130 +263,117 @@ const RelatedEvents = ({ incident, triggeringProblemId, latestSnapshot, triggeri
     return <RelatedEventsEmptyState />;
   }
 
-  if (!paginatedRecentEvents) return <LoadingIndicator />;
+  if (!paginatedRecentEvents && totalRecentEvents.length === 0) return <LoadingIndicator />;
 
   return (
-    <Row withoutSideMargin>
-      <Col xs>
-        <Card
-          title={t('in-events:titleRelatedEvents', {
-            eventCount: totalRecentEvents
-          })}
-          rightHeaderContent={
-            <IncidentSummarizationHeader
-              recentEvents={paginatedRecentEventsRaw}
-              changesAreVisible={changesAreVisible}
-              setChangesAreVisible={setChangesAreVisible}
-              isExpanded={isExpanded}
-              setIsExpanded={setIsExpanded}
-            />
-          }
-        >
-          <>
-            <PopulationChart
-              incidentId={incident.get('id')}
-              recentEvents={paginatedRecentEvents}
-              changesAreVisible={changesAreVisible}
-              setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
-              setHighlightEventOnHover={setHighlightEventOnHover}
-            />
-            {paginatedRecentEvents?.map(_event => (
-              <EventListItem
-                key={_event.get('id')}
-                triggeringProblemId={triggeringProblemId}
-                event={_event}
-                latestSnapshot={latestSnapshot}
-                expandedFromTimeline={expandedEventOnClickInTimeline === _event.get('id')}
+    <div className={locals.layerBackground}>
+      <CarbonLayer>
+        <Collapsible initiallyOpen={relatedEventsSection} onOpen={() => setRelatedEventsSection(!relatedEventsSection)}>
+          <Collapsible.Header>
+            {t('in-events:titleRelatedEvents', {
+              eventCount: totalRecentEvents
+            })}
+          </Collapsible.Header>
+          <Collapsible.Content>
+            <LeftRightPadding>
+              <Stack align="end">
+                <ChangesButton
+                  recentEvents={paginatedRecentEventsRaw}
+                  changesAreVisible={changesAreVisible}
+                  setChangesAreVisible={setChangesAreVisible}
+                />
+              </Stack>
+              <PopulationChart
+                incidentId={incident.get('id')}
+                recentEvents={paginatedRecentEvents}
+                changesAreVisible={changesAreVisible}
                 setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
-                highlightEventOnHover={highlightEventOnHover === _event.get('id')}
+                setHighlightEventOnHover={setHighlightEventOnHover}
               />
-            ))}
-            {carbonPaginationEnabled && totalRecentEvents > pageSize ? (
-              <CarbonPagination
-                currentPage={currentPage}
-                totalItems={totalRecentEvents}
-                pageSize={pageSize}
-                pageSizes={[pageSize]}
-                onChange={data => {
-                  onPageChange({ page: data.page });
-                }}
-              />
-            ) : (
-              <Pagination currentPage={currentPage} numPages={numPages} onChange={page => onPageChange({ page })} />
-            )}
-          </>
-        </Card>
-      </Col>
-    </Row>
+              {allRecentEvents.length !== 0 && !paginatedRecentEvents && <LoadingIndicator size="xl" />}
+              {paginatedRecentEvents?.map(_event => (
+                <EventListItem
+                  key={_event.get('id')}
+                  triggeringProblemId={triggeringProblemId}
+                  event={_event}
+                  latestSnapshot={latestSnapshot}
+                  expandedFromTimeline={expandedEventOnClickInTimeline === _event.get('id')}
+                  setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
+                  highlightEventOnHover={highlightEventOnHover === _event.get('id')}
+                />
+              ))}
+              {allRecentEvents.length !== 0 &&
+                !paginatedRecentEvents &&
+                Array(pageSize).map((val, idx) => <EventListItemSkeleton id={idx} />)}
+              {carbonPaginationEnabled && totalRecentEvents > pageSize ? (
+                <CarbonPagination
+                  currentPage={relatedEventsPage}
+                  totalItems={totalRecentEvents}
+                  pageSize={pageSize}
+                  pageSizes={[pageSize]}
+                  onChange={data => {
+                    setRelatedEventsPage(data.page);
+                  }}
+                />
+              ) : (
+                <Pagination
+                  currentPage={relatedEventsPage}
+                  numPages={numPages}
+                  onChange={page => setRelatedEventsPage(page)}
+                />
+              )}
+            </LeftRightPadding>
+          </Collapsible.Content>
+        </Collapsible>
+      </CarbonLayer>
+    </div>
   );
 };
 
-const RelatedEventsEmptyState = () => (
-  <Row withoutSideMargin>
-    <Col xs>
-      <Card
-        title={t('in-events:titleRelatedEvents', {
-          eventCount: 0
-        })}
-      >
-        <NoDataAvailable text={t('in-events:noRelatedEvents')} />
-      </Card>
-    </Col>
-  </Row>
-);
-
-// TODO: Move this to its own component
-const IncidentSummarizationHeader = ({
-  recentEvents,
-  changesAreVisible,
-  setChangesAreVisible,
-  isExpanded,
-  setIsExpanded
-}) => {
+const ChangesButton = ({ recentEvents, changesAreVisible, setChangesAreVisible }) => {
   const numChanges = getNumberOfChanges(recentEvents);
 
+  if (numChanges === 0) {
+    return <></>;
+  }
+
   return (
-    <>
-      {shouldRenderExpandButton(recentEvents, numChanges) && (
-        <Button type="button" kind={isExpanded ? 'primaryv2' : 'secondary'} onClick={() => setIsExpanded(!isExpanded)}>
-          {isExpanded
-            ? t('in-events:buttonCollapse')
-            : t('in-events:buttonExpandEvents', { eventsLength: recentEvents.length })}
-        </Button>
-      )}
-      {numChanges > 0 && (
-        <Button
-          type="button"
-          kind={changesAreVisible ? 'primaryv2' : 'secondary'}
-          onClick={() => setChangesAreVisible(!changesAreVisible)}
-        >
-          {changesAreVisible ? t('in-events:buttonHideChanges') : t('in-events:buttonShowChanges')}
-        </Button>
-      )}
-    </>
+    <Button
+      type="button"
+      kind={changesAreVisible ? 'primaryv2' : 'secondary'}
+      onClick={() => setChangesAreVisible(!changesAreVisible)}
+      // icon={changesAreVisible ? 'lib_views_hide' : 'lib_views_show'}
+    >
+      {changesAreVisible ? t('in-events:buttonHideChanges') : t('in-events:buttonShowChanges')}
+    </Button>
   );
 };
 
-const shouldRenderExpandButton = (recentEvents, changesAreVisible, numChanges) => {
-  return recentEvents && recentEvents.length - (!changesAreVisible ? numChanges : 0) > 5;
-};
-
-function getNumberOfChanges(recentEvents) {
+const getNumberOfChanges = recentEvents => {
   if (!recentEvents) {
     return 0;
   }
+  return recentEvents.filter(event => getEventType(event) === EVENT_TYPES.CHANGE).length;
+};
 
-  let counter = 0;
-  for (let i = 0, length = recentEvents.length; i < length; i++) {
-    const event = recentEvents[i];
-    if (getEventType(event) === EVENT_TYPES.CHANGE) {
-      counter++;
-    }
-  }
-  return counter;
-}
-
-// END: IncidentSummarizationHeader
+const RelatedEventsEmptyState = () => (
+  <div className={locals.layerBackground}>
+    <CarbonLayer>
+      <Collapsible>
+        <Collapsible.Header>
+          {t('in-events:titleRelatedEvents', {
+            eventCount: 0
+          })}
+        </Collapsible.Header>
+        <Collapsible.Content>
+          <LeftRightPadding>
+            <NoDataAvailable text={t('in-events:noRelatedEvents')} />
+          </LeftRightPadding>
+        </Collapsible.Content>
+      </Collapsible>
+    </CarbonLayer>
+  </div>
+);
 
 function getTriggeringEventCardColor(incident) {
   const incidentSeverity = incident ? incident.getIn(['problem', 'severity'], 5) : null;
@@ -334,9 +394,10 @@ function getTriggeringEventCardColor(incident) {
 function renderTriggeringEventHeader(incident, canCloseManually, timeConfig) {
   return incident && canCloseManually ? (
     <ManualCloseIssueButton
-      buttonKind={'primary'}
+      buttonKind="subtle"
       eventType="incident"
       event={incident}
+      buttonType="iconButton"
       iconComponent={
         <EventIcon event={incident} tooltipLabel={getEventSeverityLabelWithEventType(incident, timeConfig)} />
       }

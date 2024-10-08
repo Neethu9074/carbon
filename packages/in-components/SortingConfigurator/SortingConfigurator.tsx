@@ -48,7 +48,7 @@ export default function SortingConfigurator({ options, orderBy, onChange }: Prop
   const ref: React.MutableRefObject<HTMLButtonElement | HTMLAnchorElement | undefined> = useRef();
 
   return (
-    <div className={locals.configurator}>
+    <div className={carbonButtonEnabled ? locals.carbonConfigurtor : locals.configurator}>
       <Overlay
         content={Options}
         props={{ options, onChange, orderBy }}

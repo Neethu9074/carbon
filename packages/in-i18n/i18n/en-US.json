@@ -22,7 +22,9 @@
       },
       "dataTable": "Data table",
       "expandHeader": "Expand row",
-      "expandRow": "Toggle expand row"
+      "expandRow": "Toggle expand row",
+      "select": "select row",
+      "selectedRow": "Selected row"
     },
     "tableSkeleton": {
       "sampleTable": "Sample table"
@@ -31,7 +33,8 @@
       "copy": "Copy",
       "copied": "Copied!",
       "showMore": "Show more",
-      "showLess": "Show less"
+      "showLess": "Show less",
+      "copytoboard": "Copy to clipboard"
     },
     "menu": {
       "sideNavigation": "Side navigation"

@@ -20,7 +20,7 @@ import { Trans, t } from 'in-i18n';
 
 import audit from '../Audit.mless';
 
-const PAGE_SIZE = 15;
+const PAGE_SIZE = 20;
 
 function calcOffset(page, pageSize) {
   return (page - 1) * pageSize;
@@ -111,6 +111,7 @@ export default function ActionLog() {
         }
         getResettingProps={() => ['query']}
         defaultPageSize={PAGE_SIZE}
+        defaultPageSizes={[10, 20, 50, 100, 500, 1000]}
         columnDefinitions={columnDefinitions}
         rightHeader={({ query, page, pageSize }) => (
           <AuditLogDownloadView
@@ -118,6 +119,7 @@ export default function ActionLog() {
             pageSize={pageSize}
             query={query}
             endpoint={endpoint}
+            download
           />
         )}
         getRowProps={() => ({ size: 'compact' })}

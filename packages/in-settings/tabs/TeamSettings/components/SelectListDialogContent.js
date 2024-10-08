@@ -25,7 +25,7 @@ export default function SelectListDialogContent({
   requiresAtLeastOneMessage = defaultRequiresAtLeastOneMessage,
   hiddenIds = [],
   limit = Number.MAX_VALUE, // unlimited by default
-  pageSize = 7,
+  pageSize = 5,
   preventCloseOnSubmit,
   renderCustomFormActions
 }) {

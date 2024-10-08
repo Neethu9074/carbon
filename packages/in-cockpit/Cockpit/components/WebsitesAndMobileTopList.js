@@ -21,18 +21,19 @@ import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetric
 import { getWebsitesWithDefaults } from 'in-websites/subscriptions/getWebsites';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { hasMobileAppsAccess, hasWebsitesAccess } from 'in-stores/permission';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { meanLatencyFixed, number } from 'in-services/formatters/number';
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
+import { websiteOpenAddFrom } from 'in-websites/tracking/segTracker';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import { mobileAppsOpenAddForm } from 'in-mobile-apps/tracker';
 import { hasError, isLoading } from 'in-services/util/result';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import TopListWidget from 'in-cockpit/widgets/TopListWidget';
 import { playwithEnabled } from 'in-services/featureFlags';
-import { websitesOpenAddForm } from 'in-websites/tracker';
 import { add, remove } from 'in-cockpit/starredItems';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
@@ -40,6 +41,7 @@ import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function WebsitesAndMobileTopList({ config }) {
+  const { trackCta } = useSegmentTracking();
   const { createHrefToPath } = useNavigation();
   const getLinkToWebsite = useGenerateLinkToWebsite();
   const getLinkToMobileApp = useGenerateLinkToMobileApp();
@@ -51,7 +53,7 @@ export default function WebsitesAndMobileTopList({ config }) {
       {role.canConfigureEumApplications && (
         <Button
           kind="action"
-          onClick={() => websitesOpenAddForm()}
+          onClick={() => websiteOpenAddFrom(trackCta)}
           icon="lib_openclose_add_circle_outline"
           href={linkToNewWebsite}
         >

@@ -136,13 +136,17 @@ function MetricSeries({ axis, reverseLegendOrder, labels, showExpandableTrigger,
               />
             )}
 
-            <span
-              className={classNames('legend-label', {
-                [locals.legendLabel]: true
-              })}
-            >
-              {name}
-            </span>
+            {name !== '' ? (
+              <span
+                className={classNames('legend-label', {
+                  [locals.legendLabel]: true
+                })}
+              >
+                {name}
+              </span>
+            ) : (
+              <span className={locals.legendLabelBlank}>{t('in-components:chart.chartLegendBlankLabel')}</span>
+            )}
 
             {slice && <LegendValue slice={slice} timeConfig={timeConfig} />}
 

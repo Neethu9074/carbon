@@ -9,12 +9,15 @@ import React from 'react';
 import { DashboardTableRow as Row, DashboardTableCell as Cell } from '@instana/components';
 import { TimeConfig } from '@instana/types';
 
+import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import { ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 import { DEFAULT_NUMBER_SKELETON_ROWS } from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
 import LoadingTableList from 'in-plg/pages/WelcomePage/widgets/table/LoadingTableList';
 import { getItemId } from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
-import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import { hasError, isLoading } from 'in-services/util/result';
+import Tooltip from 'in-components/Tooltip/Tooltip';
+
+import locals from 'in-plg/pages/WelcomePage/widgets/table/CommonTableStyle.mless';
 
 interface RegItemListProps {
   result: any;
@@ -33,18 +36,33 @@ export default function RegularItemList({
   favIds,
   widgetName
 }: RegItemListProps) {
+  const favPresent = columnDefinitions.some(item => item.key === 'favourite') ?? false;
   if (!result || isLoading(result)) {
     numSkeletonRows = favIds ? DEFAULT_NUMBER_SKELETON_ROWS - favIds.length : DEFAULT_NUMBER_SKELETON_ROWS;
     return (
       <LoadingTableList
         numSkeletonRows={numSkeletonRows}
         numSkeletonColumns={columnDefinitions.length}
-        favPresent={!!favIds?.length}
+        favPresent={favPresent}
       />
     );
   }
   if (hasError(result)) {
-    return <ErrorList errors={result.errors} />;
+    return (
+      <Row>
+        {columnDefinitions.map(({ key }: ColumnDefinitionItem) => {
+          return (
+            <Cell key={key}>
+              {(key === 'name' || key === 'title') && (
+                <Tooltip content={getUniqueErrors(result.errors)[0]} align="auto" caret={false}>
+                  <div className={locals.errorTitleWidthForTooltip}>{'-'}</div>
+                </Tooltip>
+              )}
+            </Cell>
+          );
+        })}
+      </Row>
+    );
   }
   const resultItems = result.data.items ?? result.data;
   return resultItems

@@ -264,7 +264,7 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
       if (isSloSmartAlert(item.trigger)) {
         return <NameColumnCell config={item.trigger} />;
       }
-      if (item.trigger) {
+      if (item.trigger && item.trigger.threshold) {
         return <NameColumnCell config={item.trigger} getSubtitle={config => getSubtitleLog(config.threshold)} />;
       }
 

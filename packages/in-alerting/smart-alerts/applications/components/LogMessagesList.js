@@ -16,7 +16,6 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getCallGroups from 'in-applications/subscriptions/getCallGroups';
-import { carbonTableEnabled } from 'in-services/featureFlags';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import List from 'in-settings/components/List';
 import Tooltip from 'in-components/Tooltip';
@@ -93,13 +92,7 @@ export default function LogMessagesList({
       pageSize={pageSize ?? 10}
       noDataMessage={t('in-alerting:smartAlerts.applications.logMessages.noDataMessage')}
       onRowClick={log => {
-        if (carbonTableEnabled) {
-          const message = log.cells[2].value.props.children.props.content;
-          const level = log.cells[1].value.props.children.props.children;
-          onLogMessageSelect(message, level);
-        } else {
-          onLogMessageSelect(log.message, log.level);
-        }
+        onLogMessageSelect(log.message, log.level);
         slideOut();
       }}
       isSearchable
@@ -221,7 +214,7 @@ function buildTagFilterExpression({ applicationIds, logLevel, tagFilterExpressio
 
 function LogRow(item) {
   return (
-    <Tooltip content={item.message} align="topLeft" delay={500}>
+    <Tooltip content={item.message} delay={500} align="auto" forceTheme>
       <div className={locals.row}>{item.message}</div>
     </Tooltip>
   );

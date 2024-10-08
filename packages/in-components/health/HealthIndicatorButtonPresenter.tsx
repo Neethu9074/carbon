@@ -6,7 +6,7 @@
 import React, { MutableRefObject, RefCallback } from 'react';
 import classNames from 'classnames';
 
-import { Button, Stack } from '@instana/components';
+import { Button, ButtonSizes, Stack } from '@instana/components';
 import { Observable } from '@instana/observables';
 
 import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
@@ -27,6 +27,7 @@ export interface HealthIndicatorButtonPresenterProps {
     | RefCallback<HTMLButtonElement | HTMLAnchorElement>;
   showCheckAsNeutral?: boolean;
   isOpen?: boolean;
+  size?: keyof typeof ButtonSizes;
 }
 
 export default function HealthIndicatorButtonPresenter({
@@ -37,7 +38,8 @@ export default function HealthIndicatorButtonPresenter({
   href$,
   refSetter,
   showCheckAsNeutral = false,
-  isOpen
+  isOpen,
+  size
 }: HealthIndicatorButtonPresenterProps) {
   const isWithoutIssues = maxSeverity === 0 && showCheckAsNeutral;
   const kind = isWithoutIssues ? 'create' : getButtonKindBySeverity(maxSeverity);
@@ -52,7 +54,7 @@ export default function HealthIndicatorButtonPresenter({
         onClick={onClick}
         href$={href$}
         refSetter={refSetter}
-        size="compact"
+        size={size ? size : 'compact'}
         className={classNames({
           [locals.noIssues]: isWithoutIssues,
           [locals.warning]: isWarning,

@@ -129,11 +129,7 @@ export function UsageBanner({ message }: UsageBannerProps) {
                 ),
                 linkToKubernetes: (
                   //@ts-expect-error missing translation
-                  <Link
-                    className={locals.bannerLink}
-                    external
-                    href="https://www.ibm.com/docs/obi/current?topic=kubernetes-installing-operator-based-instana-setup#312-downloading-the-license-file"
-                  />
+                  <Link className={locals.bannerLink} external href="https://ibm.biz/license-sales-key-renewal" />
                 )
               }}
             />

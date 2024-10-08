@@ -58,6 +58,9 @@
     top: 1rem;
     text-decoration: underline;
   }
+  .skeletonTime {
+    width: 3.5rem;
+  }
 
   .triggeringTime {
     font-weight: bold;

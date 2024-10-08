@@ -9,10 +9,11 @@ import { get } from 'lodash';
 
 import { interval } from '@instana/observables';
 
+import { addWebsite as addWebsiteTracker } from 'in-websites/tracking/segTracker';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import { getWaitForEntityCreationTimeConfig } from 'in-stores/time/config';
 import { useGenerateLinkToWebsite } from 'in-websites/navigation/paths';
-import { addWebsite as addWebsiteTracker } from 'in-websites/tracker';
 import { notBlankValidator } from 'in-services/validators/string';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import InputStep from 'in-websites/NewWebsiteFlow/InputStep';
@@ -26,6 +27,7 @@ import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
 export default function NewWebsiteFlow() {
+  const { trackCta } = useSegmentTracking();
   const [state, setState] = useState({
     field: createField({ value: '', validator: notBlankValidator }),
     saveError: null,
@@ -73,9 +75,7 @@ export default function NewWebsiteFlow() {
       saveError: null
     }));
 
-    addWebsiteTracker({
-      websiteName: field.value
-    });
+    addWebsiteTracker(trackCta, { websiteName: field.value });
 
     saveSubscription.current = combineDataAndError(addWebsite(field.value)).once(({ data, error }) => {
       if (error) {

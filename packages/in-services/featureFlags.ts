@@ -83,6 +83,7 @@ export const carbonComboBoxEnabled = isFeatureFlagEnabled('carbonComboBoxEnabled
 export const carbonCodeEnabled = isFeatureFlagEnabled('carbonCodeEnabled');
 export const carbonDateInputEnabled = isFeatureFlagEnabled('carbonDateInputEnabled');
 export const carbonExpandableGroupEnabled = isFeatureFlagEnabled('carbonExpandableGroupEnabled');
+export const carbonSideNavLinksEnabled = isFeatureFlagEnabled('carbonSideNavLinksEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
@@ -110,7 +111,8 @@ export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', tru
 // sliChClusterAccessEnabled
 // compared to other places:
 // sliCHClusterAccessEnabled
-export const sliCHClusterAccessEnabled = isFeatureFlagEnabled('sliCHClusterAccessEnabled') || isFeatureFlagEnabled('sliChClusterAccessEnabled');
+export const sliCHClusterAccessEnabled =
+  isFeatureFlagEnabled('sliCHClusterAccessEnabled') || isFeatureFlagEnabled('sliChClusterAccessEnabled');
 export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true);
 export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
 export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', true);

@@ -8,37 +8,15 @@ import React from 'react';
 
 import { Spacer } from '@instana/components';
 
-import {
-  ANSIBlE_TYPE,
-  EXTERNAL_TYPE,
-  SCRIPT_TYPE,
-  WEBHOOK_TYPE,
-  GITHUB_TYPE,
-  GITLAB_TYPE,
-  JIRA_TYPE
-} from 'in-automation/ActionCatalog/shared';
 import { FilterSectionProps } from 'in-automation/components/ActionHistory/constants';
+import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import ComboBox from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 
 export default function Filters({ setFilter, types, actionStatuses }: FilterSectionProps) {
   return (
     <>
-      <ComboBox
-        value={types}
-        onChange={t => Array.isArray(t) && setFilter({ types: t.map(a => a.value) })}
-        placeholder={t('in-automation:actionHistory.type')}
-        isMulti
-        options={[
-          { label: t('in-automation:ActionCatalog.http'), value: WEBHOOK_TYPE },
-          { label: t('in-automation:ActionCatalog.script'), value: SCRIPT_TYPE },
-          { label: t('in-automation:ActionCatalog.ansible'), value: ANSIBlE_TYPE },
-          { label: t('in-automation:actionHistory.external'), value: EXTERNAL_TYPE },
-          { label: t('in-automation:ActionCatalog.github'), value: GITHUB_TYPE },
-          { label: t('in-automation:ActionCatalog.gitlab'), value: GITLAB_TYPE },
-          { label: t('in-automation:ActionCatalog.jira'), value: JIRA_TYPE }
-        ]}
-      />
+      <TypeFilter type={types ?? undefined} showExternal setType={params => setFilter({ types: params.types })} />
       <Spacer horizontal="small" />
       <ComboBox
         value={actionStatuses}
