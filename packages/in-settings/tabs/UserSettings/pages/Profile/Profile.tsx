@@ -18,6 +18,7 @@ import { getUserInfo, updateUserName } from 'in-settings/api/userProfile';
 import { notBlankValidator } from 'in-services/validators/string';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import Section from 'in-settings/components/Section';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
 import Title from 'in-components/Title/Title';
@@ -47,21 +48,17 @@ function render({ form, setForm, user, setCanSaveItem }: RenderProps) {
   };
 
   return (
-    <>
+    <Section restrictWidth="50rem">
       <Title title={t('in-settings:tabs.profile.pageName')} />
       <SubViewHeader>{t('in-settings:tabs.profile.pageName')}</SubViewHeader>
       {form.get('email').map((f: any) => (
-        <div key="email">
-          <Typography variant="body-small" component="p" noMargin>
-            {t('in-settings:tabs.profile.email')}
-          </Typography>
+        <FormGroup key="email">
+          <Label htmlFor="email">{t('in-settings:tabs.profile.email')}</Label>
           <Typography variant="body-regular" component="p" noMargin>
             {f.value}
           </Typography>
-          <Typography variant="body-small" component="p">
-            {t('in-settings:tabs.profile.emailHint')}
-          </Typography>
-        </div>
+          <DescriptionText> {t('in-settings:tabs.profile.emailHint')}</DescriptionText>
+        </FormGroup>
       ))}
       {form.get('fullName').map((f: any) => (
         <FormGroup key="name">
@@ -82,7 +79,7 @@ function render({ form, setForm, user, setCanSaveItem }: RenderProps) {
           <DescriptionText>{t('in-settings:tabs.profile.nameHint')}</DescriptionText>
         </FormGroup>
       ))}
-    </>
+    </Section>
   );
 }
 
