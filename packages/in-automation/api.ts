@@ -102,16 +102,18 @@ export function getAllActionsWithAISuggestions(
   );
 }
 
-export function getResourceOptimization(targetSnapshotId: string, entityType: string) {
-  return http<ResourceOptimization>({
-    method: 'GET',
-    maxRetries: 3,
-    url: `${turboAPIBase}/recommendedActions?targetSnapshotId=${encodeURIComponent(
-      targetSnapshotId
-    )}&entityType=${entityType}`,
-    mapToResultObject: true,
-    headers: getCsrfHeader()
-  });
+export function getResourceOptimization(targetSnapshotId: string, entityType: string | null) {
+  return entityType
+    ? http<ResourceOptimization>({
+        method: 'GET',
+        maxRetries: 3,
+        url: `${turboAPIBase}/recommendedActions?targetSnapshotId=${encodeURIComponent(
+          targetSnapshotId
+        )}&entityType=${entityType}`,
+        mapToResultObject: true,
+        headers: getCsrfHeader()
+      })
+    : null;
 }
 
 export function getAction(actionId: string) {

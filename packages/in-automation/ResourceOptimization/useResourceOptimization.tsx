@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import { EntityType, TargetEntityType } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { Result, RecommendedAction, ResourceOptimization, ResourceImpactRsp, VolatileId, Event } from 'in-types';
@@ -20,9 +21,19 @@ interface UseResourceOptimizationsParams {
   applicationId?: string;
 }
 
+function convertEntityTypesToTarget(et: EntityType | undefined): TargetEntityType | null {
+  const mapping: { [key: string]: string } = {
+    Entity10: 'INFRASTRUCTURE',
+    App20: 'APPLICATION',
+    Service20: 'SERVICE',
+    Endpoint20: 'ENDPOINT'
+  };
+  return et ? (mapping[et as string] as TargetEntityType) ?? null : null;
+}
+
 export function useResourceOptimization({ event, applicationId }: UseResourceOptimizationsParams) {
   const targetSnapshotId = event ? event.entityId : applicationId;
-  const entityType = 'APPLICATION';
+  const entityType = event ? convertEntityTypesToTarget(event.entityType) : 'APPLICATION';
   const result = useObservable(getResourceOptimization(targetSnapshotId ?? '', entityType), []);
   return result ?? (pendingResult as Result<ResourceOptimization>);
 }
