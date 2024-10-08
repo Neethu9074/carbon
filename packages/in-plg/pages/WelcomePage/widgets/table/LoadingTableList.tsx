@@ -11,7 +11,7 @@ import { LoadingSkeleton } from '@instana/components';
 
 import { DEFAULT_NUMBER_SKELETON_ROWS } from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
 
-import locals from './SkeletonStyle.mless';
+import locals from 'in-plg/pages/WelcomePage/widgets/table/CommonTableStyle.mless';
 
 interface LoadingListProps {
   numSkeletonRows?: number;
