@@ -29,7 +29,8 @@ export default function GroupingConfigurator({
   loadingLabel,
   getTagCatalog,
   additionalGetTagCatalogProps,
-  addTagDefinitionToFormModel
+  addTagDefinitionToFormModel,
+  disableEntitySelection
 }) {
   const autoFocus = useRef();
 
@@ -97,6 +98,7 @@ export default function GroupingConfigurator({
                 tagCatalog={tagCatalog}
                 tagFilterExpression={tagFilterExpression}
                 autoFocus={autoFocus.current}
+                disableEntitySelection={disableEntitySelection}
               />
             )}
           </GroupingOverlay>
@@ -111,6 +113,7 @@ export default function GroupingConfigurator({
           getTagCatalog={getTagCatalog}
           additionalGetTagCatalogProps={additionalGetTagCatalogProps}
           addTagDefinitionToFormModel={addTagDefinitionToFormModel}
+          disableEntitySelection={disableEntitySelection}
         >
           {({ toggle, refSetter }) => (
             <Button
@@ -143,7 +146,8 @@ function GroupingOverlay({
   tracking,
   getTagCatalog,
   additionalGetTagCatalogProps,
-  addTagDefinitionToFormModel
+  addTagDefinitionToFormModel,
+  disableEntitySelection
 }) {
   return (
     <Overlay
@@ -169,7 +173,7 @@ function GroupingOverlay({
 
   function setEntityIfNecessary(groupbyTag, tagType, tagDefinition) {
     const tagTreeNode = tagDefinition ?? tagCatalog?.tagsByName[groupbyTag];
-    if (tagTreeNode.canApplyToSource || tagTreeNode.canApplyToDestination) {
+    if (!disableEntitySelection && (tagTreeNode.canApplyToSource || tagTreeNode.canApplyToDestination)) {
       return {
         groupbyTag,
         groupbyTagEntity: tagTreeNode.canApplyToDestination ? DESTINATION : SOURCE,
@@ -192,5 +196,6 @@ GroupingConfigurator.propTypes = {
   loadingLabel: rpt.string,
   getTagCatalog: rpt.func,
   additionalGetTagCatalogProps: rpt.object,
-  addTagDefinitionToFormModel: rpt.bool
+  addTagDefinitionToFormModel: rpt.bool,
+  disableEntitySelection: rpt.bool
 };

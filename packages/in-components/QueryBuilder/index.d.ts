@@ -70,6 +70,7 @@ interface QueryBuilderProps<
   getTagCatalog?: GetTagCatalog<ADDITIONAL_TAG_CATALOG_PROPS>;
   additionalGetTagCatalogProps?: ADDITIONAL_TAG_CATALOG_PROPS;
   addTagDefinitionToFormModel?: boolean;
+  disableEntitySelection?: boolean;
 
   tracking?: QueryBuilderTrackingFunctions;
 
@@ -86,6 +87,9 @@ interface CreateDynamicQueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS = {}, A
   getSuggestions?: GetSuggestions<ADDITIONAL_TAG_SUGGESTION_PROPS>;
   withoutOrConjunction?: boolean;
   withoutBrackets?: boolean;
+  allowEmptyKey?: boolean;
+  disableEntitySelection?: boolean;
+  addTagDefinitionToFormModel?: boolean;
   maxExpressionDepth?: number;
   getTagCatalog?: GetTagCatalog<ADDITIONAL_TAG_CATALOG_PROPS>;
 }

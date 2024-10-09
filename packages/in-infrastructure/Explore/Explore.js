@@ -299,7 +299,6 @@ function Content({
         hasError={isInvalid}
         useLastValidStateWhenErroneous
         additionalGetTagCatalogProps={{ ownerType: type }}
-        addTagDefinitionToFormModel
       />
 
       <GroupingConfiguratorSection

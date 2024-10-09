@@ -11,9 +11,23 @@ import getTagCatalog from 'in-infrastructure/Explore/services/getTagCatalog';
 import { serverSideInfraTagSearchEnabled } from 'in-services/featureFlags';
 import { createDynamicQueryBuilder } from 'in-components/QueryBuilder';
 
-const { QueryBuilder, isQueryValid: isQueryValidInternal } = createDynamicQueryBuilder<{}, {ownerType?: string, metric?: string, regex: boolean}>({
+const { QueryBuilder, isQueryValid: isQueryValidInternal } = createDynamicQueryBuilder<
+  {},
+  { ownerType?: string; metric?: string; regex: boolean }
+>({
   getSuggestions: getTagValueSuggestions,
-  getTagCatalog: serverSideInfraTagSearchEnabled ? ({timeConfig, query, ownerType, metric, regex}) => getTagCatalog({ filter: { timeConfig, tagFilterExpression: EMPTY_EXPRESSION }, ownerType, query, metric, regex }) : undefined
+  getTagCatalog: serverSideInfraTagSearchEnabled
+    ? ({ timeConfig, query, ownerType, metric, regex }) =>
+        getTagCatalog({
+          filter: { timeConfig, tagFilterExpression: EMPTY_EXPRESSION },
+          ownerType,
+          query,
+          metric,
+          regex
+        })
+    : undefined,
+  addTagDefinitionToFormModel: true,
+  disableEntitySelection: true
 });
 
 export default QueryBuilder;
