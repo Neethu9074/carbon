@@ -286,7 +286,8 @@ export default function ServerTablePresenter<
         rightHeaderContent={cardTitle ? header : undefined}
         className={classNames(
           {
-            [locals.shadowless]: shadowless
+            [locals.shadowless]: shadowless,
+            [locals.noPadding]: !tableInCard
           },
           cardTitle ? locals.carbonTitle : locals.carbonNoTitle
         )}
