@@ -122,7 +122,7 @@ export const sloRebornWidgetEnabled = isFeatureFlagEnabled('sloRebornWidgetEnabl
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', true);
 export const eumImpactedUsersForAppAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForAppAlertEnabled', false);
 
-export const apiTokenExpirationEnabled = isFeatureFlagEnabled('apiTokenExpirationEnabled', false);
+export const apiTokenExpirationEnabled = isFeatureFlagEnabled('apiTokenExpirationEnabled', true);
 
 export const disableInvitesWithIdpEnabled = isFeatureFlagEnabled('disableInvitesWithIdpEnabled', true);
 

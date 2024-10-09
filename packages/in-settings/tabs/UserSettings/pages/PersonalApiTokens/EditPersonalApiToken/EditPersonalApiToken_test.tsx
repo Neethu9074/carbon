@@ -84,6 +84,7 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/EditPersonalApiT
 
     // set new display name and submit form
     fireEvent.change(getByLabelText('in-settings:tabs.personalApiTokenNameDescription'), { target: { value: '123' } });
+    fireEvent.change(getByLabelText('in-settings:tabs.apiTokenExpiration'), { target: { value: 'Never' } });
     expect(getByText('forms.actions.save')).not.toBeDisabled();
     fireEvent.submit(container.querySelector('form') as HTMLFormElement);
 
@@ -92,7 +93,8 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/EditPersonalApiT
     expect(savePersonalApiToken).toHaveBeenCalledTimes(1);
     expect(savePersonalApiToken).toHaveBeenCalledWith({
       ...current,
-      name: '123'
+      name: '123',
+      expiresOn: null
     });
   });
 
@@ -107,6 +109,7 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/EditPersonalApiT
     expect(getByText('forms.actions.save')).toBeDisabled();
     // set new display name and press submit button
     fireEvent.change(getByLabelText('in-settings:tabs.personalApiTokenNameDescription'), { target: { value: '1234' } });
+    fireEvent.change(getByLabelText('in-settings:tabs.apiTokenExpiration'), { target: { value: 'Never' } });
     const submitBtn = getByText('forms.actions.save') as HTMLButtonElement;
     expect(submitBtn).not.toBeDisabled();
     fireEvent.click(submitBtn);
@@ -116,7 +119,8 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/EditPersonalApiT
     expect(savePersonalApiToken).toHaveBeenCalledTimes(1);
     expect(savePersonalApiToken).toHaveBeenCalledWith({
       ...current,
-      name: '1234'
+      name: '1234',
+      expiresOn: null
     });
   });
 
