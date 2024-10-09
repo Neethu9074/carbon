@@ -78,7 +78,7 @@ export default function RecommendedOptimizations({
     id: 'actionButtons',
     label: '',
     sortable: false,
-    width: 4,
+    width: 6,
     getContent(recAction) {
       return (
         <IconButton
@@ -88,6 +88,7 @@ export default function RecommendedOptimizations({
           isWrapperedByTooltip
           iconDescription={t('in-automation:createPolicyWithName', { actionName: recAction.name })}
           align={'left'}
+          size="compact"
         />
       );
     }

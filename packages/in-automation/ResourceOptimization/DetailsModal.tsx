@@ -27,7 +27,8 @@ import { runResourceOptimizationAction } from 'in-automation/api';
 import { useResourceImpacts } from './useResourceOptimization';
 import { close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracker } from 'in-automation/tracker';
-import { t } from 'in-i18n';
+import { refresh } from './useResourceOptimization';
+import { t, Trans } from 'in-i18n';
 
 import locals from './DetailsModal.mless';
 
@@ -94,7 +95,11 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
             type: 'info',
             content: (
               <Stack direction="vertical">
-                {t('in-automation:resourceOptimization.actionStartedMessage', { actionName: currentAction.name })}
+                <Trans
+                  i18nKey="in-automation:resourceOptimization.actionStartedMessage"
+                  values={{ actionName: currentAction.name }}
+                  components={{ bold: <strong /> }}
+                />
                 <Button
                   kind="tertiary"
                   onClick={() => {
@@ -111,6 +116,7 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
           },
           'run-resource-optimization'
         );
+        refresh();
       }
     });
   }

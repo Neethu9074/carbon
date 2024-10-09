@@ -8,15 +8,15 @@
   .contentContainer {
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    padding-bottom: 16px;
+    gap: 1.5rem;
+    padding-bottom: 2.5rem;
   }
   .charts {
     display: flex;
     justify-content: flex-start;
-    gap: 24px;
-    margin-left: 16px;
-    margin-right: 16px;
+    gap: 1.5rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
   }
   .box1 {
     height: 328px;

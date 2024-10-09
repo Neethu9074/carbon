@@ -490,7 +490,7 @@
     "riskDescription": "Risk description",
     "runningAction": "Running action...",
     "actionStarted": "Action started",
-    "actionStartedMessage": "You have executed {{actionName}}. View the progress of this action in the action history page.",
+    "actionStartedMessage": "You have executed <strong>{{actionName}}.</strong> View the progress of this action in the action history page.",
     "viewActionHistory": "View action history"
   }
 }

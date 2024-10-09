@@ -5,6 +5,7 @@
  */
 
 import { EntityType, TargetEntityType } from '@instana/types';
+import { create, timeout } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import { Result, RecommendedAction, ResourceOptimization, ResourceImpactRsp, VolatileId, Event } from 'in-types';
@@ -31,11 +32,21 @@ function convertEntityTypesToTarget(et: EntityType | undefined): TargetEntityTyp
   return et ? (mapping[et as string] as TargetEntityType) ?? null : null;
 }
 
+const refreshSignal = create().emit(true);
+export function refresh() {
+  timeout(1000).once(() => refreshSignal.emit(true));
+}
+
 export function useResourceOptimization({ event, applicationId }: UseResourceOptimizationsParams) {
   const targetSnapshotId = event ? event.entityId : applicationId;
-  const entityType = event ? convertEntityTypesToTarget(event.entityType) : 'APPLICATION';
-  const result = useObservable(getResourceOptimization(targetSnapshotId ?? '', entityType), []);
-  return result ?? (pendingResult as Result<ResourceOptimization>);
+  const entityType = event ? convertEntityTypesToTarget(event?.entityType) : 'APPLICATION';
+  return (
+    useObservable(() => {
+      return refreshSignal.flatMap(() => {
+        return getResourceOptimization(targetSnapshotId ?? '', entityType);
+      });
+    }, [refreshSignal]) ?? (pendingResult as Result<ResourceOptimization>)
+  );
 }
 
 export function useTurboRecommendedActions(resourceOptimization: Result<ResourceOptimization>) {
