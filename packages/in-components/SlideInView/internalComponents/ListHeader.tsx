@@ -19,7 +19,9 @@ export default function ListHeader({ title, onTitleIconClick }: ListHeaderProps)
   return (
     <div className={locals.header}>
       <span className={locals.titleContainer}>
-        <SvgIcon className={locals.icon} type="lib_arrow_expand_left" onClick={onTitleIconClick} />
+        {onTitleIconClick && (
+          <SvgIcon className={locals.icon} type="lib_arrow_expand_left" onClick={onTitleIconClick} />
+        )}
         <span className={locals.title}>{title}</span>
       </span>
     </div>

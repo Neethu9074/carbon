@@ -20,6 +20,7 @@ interface MetricSelectorOverlayProps {
   onQueryChange: (query: string) => void;
   onSelectType: (t?: string) => void;
   disabled: boolean;
+  backButton: boolean;
 }
 
 export default function MetricSelectorOverlay({
@@ -30,7 +31,8 @@ export default function MetricSelectorOverlay({
   query,
   onQueryChange,
   onSelectType,
-  disabled
+  disabled,
+  backButton
 }: Readonly<MetricSelectorOverlayProps>) {
   const options = useMemo(
     () => (metricCatalog?.tree ? toOptions(metricCatalog.tree, []) : ([] as MetricOptions[])),
@@ -58,6 +60,7 @@ export default function MetricSelectorOverlay({
       onFocusNode={focusedNode => onSelectType?.(focusedNode?.levelType)}
       disabled={disabled}
       nodesToSearchFrom={(options, focusedNode) => (focusedNode?.levelType ? [focusedNode] : options)}
+      backButton={backButton}
     />
   );
 }
