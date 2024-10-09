@@ -302,7 +302,7 @@ export default function ServerTablePresenter<
           {/* Carbon Table */}
           {body}
           {/* Empty Content */}
-          {emptyContent && (
+          {emptyContent && !hasError(result) && (
             <div className={locals.emptyTable}>
               <EmptyContent
                 cols={visibleColumns?.length}
@@ -313,7 +313,7 @@ export default function ServerTablePresenter<
             </div>
           )}
           {/* Error */}
-          {emptyContent && hasError(result) && (
+          {hasError(result) && (
             <div className={locals.emptyTable}>
               <TableErrorRows cols={visibleColumns.length} errors={result.errors} size={size} />
             </div>
