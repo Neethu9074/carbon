@@ -5,7 +5,7 @@
 
 :local {
   .comboHighlightedText {
-    color: var(--cds-interactive);
+    background: var(--cds-highlight);
     font-weight: 600;
   }
 }
