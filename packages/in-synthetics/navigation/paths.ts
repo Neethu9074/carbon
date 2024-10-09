@@ -42,6 +42,7 @@ export const syntheticConfigurationPath = `${syntheticsDashboard}${configuration
 export const syntheticDetailsPath = `/syntheticDetails`;
 export const syntheticSmartAlertsPath = '/syntheticSmartAlerts';
 export const syntheticSmartAlertsDetailsPath = '/details';
+export const syntheticCredentialPath = `/syntheticCredentials`;
 
 export const alertsTabDetailsFullyQualified = `${syntheticSmartAlertsPath}${syntheticSmartAlertsDetailsPath}`;
 export const dashboardAlertsFullyQualified = `${syntheticsDashboard}${alertsTab}`;

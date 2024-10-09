@@ -88,6 +88,7 @@ export const pageNames = Object.freeze({
   synthetic_test: 'Synthetic Test',
   synthetic_monitoring_alert: 'Synthetic Monitoring > Smart Alerts',
   synthetic_monitoring_tests: 'Synthetic Monitoring > Tests',
+  synthetic_credentials: 'Credentials',
   shared_processor_pool: 'Shared Processor Pools',
   sap_databases: 'Databases',
   ibmp_phmcs: 'IBM Power HMC',

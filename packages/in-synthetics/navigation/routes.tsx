@@ -4,6 +4,8 @@
  */
 
 // @ts-expect-error module need to be translated to TS
+import SyntheticCredentialView from 'promise-loader?global,synthetics!in-synthetics/dashboards/global/CredentialList';
+// @ts-expect-error module need to be translated to TS
 import SyntheticLocationView from 'promise-loader?global,synthetics!in-synthetics/dashboards/global/LocationList';
 // @ts-expect-error module need to be translated to TS
 import SyntheticsView from 'promise-loader?global,synthetics!in-synthetics/dashboards/global/TestSummaryList';
@@ -25,7 +27,8 @@ import {
   syntheticDetailsPath,
   syntheticSmartAlertsPath,
   alertsTabDetailsFullyQualified,
-  dashboardTestAlertsTabDetailsFullyQualified
+  dashboardTestAlertsTabDetailsFullyQualified,
+  syntheticCredentialPath
 } from 'in-synthetics/navigation/paths';
 // @ts-expect-error module need to be translated to TS
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
@@ -51,5 +54,8 @@ export default [
   </Route>,
   <Route key="syntheticDetails" path={syntheticDetailsPath}>
     {renderAsyncRouteChildren(AnalyzeView)}
+  </Route>,
+  <Route key="syntheticCredentials" path={syntheticCredentialPath}>
+    {renderAsyncRouteChildren(SyntheticCredentialView)}
   </Route>
 ];
