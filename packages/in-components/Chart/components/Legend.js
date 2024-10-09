@@ -136,7 +136,7 @@ function MetricSeries({ axis, reverseLegendOrder, labels, showExpandableTrigger,
               />
             )}
 
-            {name !== '' ? (
+            {name !== 'no_group' ? (
               <span
                 className={classNames('legend-label', {
                   [locals.legendLabel]: true

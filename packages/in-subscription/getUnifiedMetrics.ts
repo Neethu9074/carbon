@@ -8,12 +8,13 @@ import { combineLatest, Observable } from '@instana/observables';
 import { GetUnifiedMetricsQuery, HistogramMetricResult, LabeledMetricResult, MetricResult, Result } from 'in-types';
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { merge } from 'in-services/util/resultMerger';
+import { isBlank } from 'in-services/util/string';
 
 export type UnifiedMetricsResult = MetricResult | LabeledMetricResult | HistogramMetricResult;
 
 export function isLabeledMetricResult(resultData: UnifiedMetricsResult): resultData is LabeledMetricResult {
   const possiblyLabeledResult = resultData as LabeledMetricResult;
-  return possiblyLabeledResult.label != null;
+  return possiblyLabeledResult.label != null && !isBlank(possiblyLabeledResult.label);
 }
 
 const getUnifiedMetricsInternal = createResultSubscriptionFactory<

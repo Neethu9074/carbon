@@ -12,13 +12,13 @@ export function getShortMetricKey(axisName: string, indexInAxis: number): string
   return `${axisName.toUpperCase()}.${indexInAxis + 1}`;
 }
 
-export function getMetricLabel(metric: Metric): string {
+export function getMetricLabel(metric: Metric, hasGroups: boolean = false): string {
   if (metric.label) {
     return metric.label;
   }
 
   if (metric.metricLabel) {
-    return metric.metricLabel;
+    return hasGroups ? 'no_group' : metric.metricLabel;
   }
 
   if (metric.metric) {

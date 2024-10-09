@@ -191,7 +191,7 @@ function MetricSeries({
       const timeShift = axis.timeShifts?.[i] || defaultTimeShift;
 
       var labelStyle = locals.label;
-      if (label === '') {
+      if (label === 'no_group') {
         labelStyle = locals.labelBlank;
         label = t('in-components:chart.chartLegendBlankLabel');
       }

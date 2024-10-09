@@ -57,6 +57,7 @@ import { getChartGranularity } from 'in-stores/metric/metric';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { getFormatter } from 'in-stores/metric/formatters';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 export const defaultNumberOfSuggestedDatapoints = 80;
@@ -506,7 +507,7 @@ export function isGroupedMetric(grouping?: Grouping[]) {
 }
 
 export function getMetricIdForGroup(metricId: string, groupLabel: string) {
-  return `${metricId}-${groupLabel}`;
+  return isBlank(groupLabel) ? metricId : `${metricId}-${groupLabel}`;
 }
 
 export function toAxisConfiguration(
@@ -545,7 +546,7 @@ export function toAxisConfiguration(
     labels: axis.metrics.flatMap((metric: Metric, i: number): string[] => {
       let { label: metricLabel, grouping } = metric;
       if (!metricLabel) {
-        metricLabel = getMetricLabel(metric);
+        metricLabel = getMetricLabel(metric, !!grouping);
       }
       // For grouped metrics one metric configuration will result in
       // multiple data series and hence in multiple labels.
@@ -560,9 +561,6 @@ export function toAxisConfiguration(
               // Eventually we might wanna teach the backend to return the correct string right away.
               if (groupLabel === 'other_group') {
                 return 'Other';
-              }
-              if (groupLabel === '') {
-                return '';
               }
               const isAMultiSeriesChart =
                 (chartConfig.y1.metrics.length && chartConfig.y2?.metrics?.length) || axis.metrics.length > 1;
