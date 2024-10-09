@@ -34,7 +34,7 @@ import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 
 const allAllowedEntities = [SOURCE, DESTINATION];
 
-export function createTagForm(tagCatalog, tagFormModel, allowEmptyKey = false) {
+export function createTagForm(tagCatalog, tagFormModel, allowEmptyKey = false, disableEntitySelection = false) {
   tagCatalog = enrichTagCatalog(tagCatalog);
 
   const {
@@ -138,7 +138,7 @@ export function createTagForm(tagCatalog, tagFormModel, allowEmptyKey = false) {
     );
   }
 
-  if (requiresEntity) {
+  if (!disableEntitySelection && requiresEntity) {
     form = form.put(
       'entity',
       createField({

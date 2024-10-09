@@ -29,7 +29,6 @@ interface QueryBuilderSectionProps<ADDITIONAL_TAG_CATALOG_PROPS = {}> {
   getSuggestionsProps?: GetSuggestionsProps;
   getSuggestionLabel?: GetSuggestionLabel;
   additionalGetTagCatalogProps?: ADDITIONAL_TAG_CATALOG_PROPS;
-  addTagDefinitionToFormModel?: boolean;
   onChange: (formModel: FormModelElement[]) => void;
   tracking?: QueryBuilderTrackingFunctions;
   tagCatalog?: TagCatalog;
@@ -61,8 +60,7 @@ export default function QueryBuilderSection<ADDITIONAL_TAG_CATALOG_PROPS = {}>({
   getSuggestionsProps = {},
   getSuggestionLabel,
   onErrorStateChange,
-  additionalGetTagCatalogProps,
-  addTagDefinitionToFormModel
+  additionalGetTagCatalogProps
 }: QueryBuilderSectionProps<ADDITIONAL_TAG_CATALOG_PROPS>) {
   const [{ hasError: hasInternalError, errors: internalErrors }, setInternalError] = useState<{
     hasError?: boolean;
@@ -131,7 +129,6 @@ export default function QueryBuilderSection<ADDITIONAL_TAG_CATALOG_PROPS = {}>({
             getSuggestionsProps={getSuggestionsProps}
             getSuggestionLabel={getSuggestionLabel}
             additionalGetTagCatalogProps={additionalGetTagCatalogProps}
-            addTagDefinitionToFormModel={addTagDefinitionToFormModel}
           />
         </div>
         {hasInternalError &&

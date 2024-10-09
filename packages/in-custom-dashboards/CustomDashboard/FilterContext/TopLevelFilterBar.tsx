@@ -34,7 +34,6 @@ export default function TopLevelFilterBar({ topLevelFilters, setTopLevelFilters 
             tagCatalog={topLevelTagCatalog}
             onChange={setTopLevelFilters}
             useLastValidStateWhenErroneous
-            addTagDefinitionToFormModel
           />
         </Sections>
       </Stack>
