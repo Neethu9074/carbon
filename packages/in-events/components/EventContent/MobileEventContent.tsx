@@ -20,7 +20,6 @@ import { HighlightDataRetention } from 'in-events/components/EventContent/Highli
 import MobileAppScopePath from 'in-alerting/smart-alerts/mobileApp/components/MobileAppScopePath';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import AnalyzeMobileAppEventButton from 'in-events/components/AnalyzeMobileAppEventButton';
-// @ts-expect-error
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
 import MobileAppAlertConfigButton from 'in-events/components/MobileAppAlertConfigButton';

@@ -14,7 +14,6 @@ import SyntheticScopePath from 'in-alerting/smart-alerts/synthetics/components/S
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import AnalyzeSyntheticEventButton from 'in-events/components/AnalyzeSyntheticEventButton';
 import SyntheticsAlertconfigButton from 'in-events/components/SyntheticsAlertconfigButton';
-// @ts-expect-error
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';

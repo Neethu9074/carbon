@@ -22,7 +22,6 @@ import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventConten
 import InfraScopePath from 'in-alerting/smart-alerts/infrastructure/components/InfraScopePath';
 import { ScopeGroupingTags } from 'in-events/components/EventContent/ScopeInfraGroupingTags';
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
-// @ts-expect-error
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
 import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';

@@ -18,7 +18,6 @@ import { getExpressionWithLogsGroupingTags } from 'in-events/components/EventCon
 import LogAlertChartWrapper from 'in-alerting/smart-alerts/logs/components/LogAlertChartWrapper';
 import { TagFilterExpression, TimeConfig, TagCatalog, GroupTagInfo, Nullish } from 'in-types';
 import { ScopeGroupingTags } from 'in-events/components/EventContent/ScopeLogsGroupingTags';
-// @ts-expect-error
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
 import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
