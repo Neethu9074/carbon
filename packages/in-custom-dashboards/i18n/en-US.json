@@ -897,5 +897,8 @@
     "additionalFields": "This dashboard will only be visible to you. You can choose to share it with colleagues after creation",
     "create": "Create",
     "failedToCreateDashboard": "Failed to create dashboard."
+  },
+  "threshold": {
+    "label": "Threshold"
   }
 }

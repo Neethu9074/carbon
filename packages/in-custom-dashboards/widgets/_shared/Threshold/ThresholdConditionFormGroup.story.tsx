@@ -1,0 +1,23 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+import React from 'react';
+
+import ThresholdConditionFormGroup from 'in-custom-dashboards/widgets/_shared/Threshold/ThresholdConditionFormGroup';
+
+export default {
+  component: ThresholdConditionFormGroup
+};
+
+const somePadding = { padding: '0.5em' };
+
+export const simple = () => {
+  return (
+    <ThresholdConditionFormGroup iconType="lib_datetime_timerange" label="Condition">
+      <label style={somePadding}>Limit:</label>
+      <input name="limit" placeholder="minimum value of xxx" />
+    </ThresholdConditionFormGroup>
+  );
+};

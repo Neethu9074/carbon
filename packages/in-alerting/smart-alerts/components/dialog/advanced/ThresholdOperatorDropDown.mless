@@ -5,7 +5,7 @@
  */
 
 :local {
-  .thresholdTypeMinnWidth {
+  .thresholdTypeMinWidth {
     min-width: 5rem;
   }
 }

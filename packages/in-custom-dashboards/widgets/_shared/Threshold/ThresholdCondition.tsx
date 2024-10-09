@@ -10,8 +10,8 @@ import React from 'react';
 import { Spacer, Stack, Typography } from '@instana/components';
 import { ThresholdOperator } from '@instana/types';
 
-import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
-import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
+import ThresholdConditionFormGroup from 'in-custom-dashboards/widgets/_shared/Threshold/ThresholdConditionFormGroup';
+import { humanReadableThresholdOperator } from 'in-custom-dashboards/widgets/_shared/Threshold/thresholdFormData';
 import { metricConfigurationPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import Input from 'in-components/form/Input/Input';

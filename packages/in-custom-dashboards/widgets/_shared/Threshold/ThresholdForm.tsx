@@ -10,8 +10,8 @@ import React from 'react';
 import { Spacer, Stack, Toggle } from '@instana/components';
 import { ThresholdOperator } from '@instana/types';
 
-import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
-import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
+import ThresholdConditionFormGroup from 'in-custom-dashboards/widgets/_shared/Threshold/ThresholdConditionFormGroup';
+import { ThresholdOperatorDropDown } from 'in-custom-dashboards/widgets/_shared/Threshold/ThresholdOperatorDropDown';
 import { metricConfigurationPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import ThresholdCondition from 'in-custom-dashboards/widgets/_shared/Threshold/ThresholdCondition';
 import { getFormatter, getFormatterUnitConversion } from 'in-stores/metric/formatters';
@@ -81,7 +81,6 @@ export default function ThresholdForm({ form, onChange, updateForm }: ThresholdF
             <ThresholdConditionFormGroup shouldIncreaseColumns hasWhiteBackground>
               <ThresholdOperatorDropDown
                 form={metricConfigForm}
-                allOptions
                 updateForm={updateForm}
                 customOnChange={newOperator =>
                   handleCustomOnChange({
