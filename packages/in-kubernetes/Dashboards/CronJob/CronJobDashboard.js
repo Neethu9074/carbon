@@ -107,7 +107,7 @@ function Header(props) {
     <DashboardHeader
       {...props}
       title={t('in-kubernetes:dashboards.kubernetesCronJob')}
-      icon="lib_kubernetes_workload"
+      icon="lib_infra_kubernetesCronJob"
       label={get(props.result, ['data', 'name'])}
       renderButtonLine={renderButtonLine}
       renderButtonLineSecondary={() => <RenderButtonLineSecondary timeConfig={timeConfig} snapshotId={cronJobId} />}

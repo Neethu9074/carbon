@@ -27,7 +27,7 @@ import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
 import ViewAllWrapper from 'in-components/TopListCard/ViewAllWrapper';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { usePodDashboard } from 'in-kubernetes/navigation/paths';
-import { getContainerIconByPlugin } from 'in-kubernetes/icons';
+import { getContainerIconByPlugin } from 'in-kubernetes/utils';
 import { carbonTableEnabled } from 'in-services/featureFlags';
 import Capitalize from 'in-components/Capitalize';
 import connectTo from 'in-hoc/connectTo';

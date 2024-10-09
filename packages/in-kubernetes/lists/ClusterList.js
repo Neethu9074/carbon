@@ -8,8 +8,7 @@ import { get, find } from 'lodash';
 import React from 'react';
 
 import { TableEntityCounter } from '@instana/legacy';
-import { SvgIcon } from '@instana/components';
-import { Card } from '@instana/components';
+import { SvgIcon, Card } from '@instana/components';
 
 import KubernetesNoDataNotification from 'in-kubernetes/lists/components/KubernetesNoDataNotification';
 import { getKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesClusters';
@@ -46,7 +45,7 @@ const columnDefinitions = [
     id: 'namespaces',
     label: t('in-kubernetes:namespaces'),
     getContent(item) {
-      return <TableEntityCounter icon="lib_kubernetes_namespace" count={item.namespaces} />;
+      return <TableEntityCounter icon="lib_infra_kubernetesNamespace" count={item.namespaces} />;
     }
   },
   {
@@ -60,7 +59,7 @@ const columnDefinitions = [
     id: 'services',
     label: t('in-kubernetes:services'),
     getContent(item) {
-      return <TableEntityCounter icon="lib_kubernetes_service" count={item.services} />;
+      return <TableEntityCounter icon="lib_infra_kubernetesService" count={item.services} />;
     }
   },
   {
@@ -74,35 +73,35 @@ const columnDefinitions = [
     id: 'workloads.deployments',
     label: t('in-kubernetes:deployments'),
     getContent({ workloads }) {
-      return <TableEntityCounter icon="lib_kubernetes_workload" count={workloads.deployments} />;
+      return <TableEntityCounter icon="lib_infra_kubernetesDeployment" count={workloads.deployments} />;
     }
   },
   {
     id: 'workloads.deploymentConfigs',
     label: t('in-kubernetes:deploymentConfigs'),
     getContent({ workloads }) {
-      return <TableEntityCounter icon="lib_kubernetes_workload" count={workloads.deploymentConfigs} />;
+      return <TableEntityCounter icon="lib_infra_kubernetesDeployment" count={workloads.deploymentConfigs} />;
     }
   },
   {
     id: 'workloads.daemonSets',
     label: t('in-kubernetes:daemonSets'),
     getContent({ workloads }) {
-      return <TableEntityCounter icon="lib_kubernetes_workload" count={workloads.daemonSets} />;
+      return <TableEntityCounter icon="lib_infra_kubernetesDaemonSet" count={workloads.daemonSets} />;
     }
   },
   {
     id: 'workloads.statefulSets',
     label: t('in-kubernetes:statefulSets'),
     getContent({ workloads }) {
-      return <TableEntityCounter icon="lib_kubernetes_workload" count={workloads.statefulSets} />;
+      return <TableEntityCounter icon="lib_infra_kubernetesStatefulSet" count={workloads.statefulSets} />;
     }
   },
   {
     id: 'cronJobs',
     label: t('in-kubernetes:cronJobs'),
     getContent(item) {
-      return <TableEntityCounter icon="lib_kubernetes_workload" count={item.cronJobs} />;
+      return <TableEntityCounter icon="lib_infra_kubernetesCronJob" count={item.cronJobs} />;
     }
   },
   {
@@ -152,11 +151,13 @@ export default connectTo(
           FallbackComponent={() => <KubernetesNoDataNotification icon="lib_kubernetes_cluster" />}
         >
           <Card>
-            <ServerTableWithUrlState
-              get={getTableData}
-              filterColumnDefinitions={createColumnFilter}
-              timeConfig={timeConfig}
-            />
+            <div className={locals.table}>
+              <ServerTableWithUrlState
+                get={getTableData}
+                filterColumnDefinitions={createColumnFilter}
+                timeConfig={timeConfig}
+              />
+            </div>
           </Card>
         </WithEmptyStateFallback>
       </>

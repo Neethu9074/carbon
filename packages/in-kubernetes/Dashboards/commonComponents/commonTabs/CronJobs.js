@@ -30,7 +30,6 @@ const columnDefinitions = [
     label: t('in-kubernetes:dashboards.name'),
     getContent(item) {
       const { cronJob, entityHealthInfo } = item;
-
       return <CronJobLink cronJob={cronJob} entityHealthInfo={entityHealthInfo} />;
     }
   },
@@ -132,5 +131,12 @@ function getTableData({
 function CronJobLink({ cronJob, entityHealthInfo }) {
   const cronJobHref = useCronJobDashboard(cronJob.id);
 
-  return <SeverityAwareEntityLink label={cronJob.name} href={cronJobHref} severity={entityHealthInfo.maxSeverity} />;
+  return (
+    <SeverityAwareEntityLink
+      label={cronJob.name}
+      icon="lib_infra_kubernetesCronJob"
+      href={cronJobHref}
+      severity={entityHealthInfo.maxSeverity}
+    />
+  );
 }
