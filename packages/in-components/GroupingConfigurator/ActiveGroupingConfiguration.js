@@ -26,7 +26,8 @@ export default React.forwardRef(function ActiveGroupingConfiguration(
     onGroupRemoved,
     toggle,
     group: { groupbyTagEntity, groupbyTag, groupbyTagSecondLevelKey, tagDefinition },
-    autoFocus
+    autoFocus,
+    disableEntitySelection
   },
   ref
 ) {
@@ -51,7 +52,7 @@ export default React.forwardRef(function ActiveGroupingConfiguration(
 
   return (
     <div className={locals.groupingConfigurator} ref={ref}>
-      {(tagTreeNode.canApplyToSource || tagTreeNode.canApplyToDestination) && (
+      {!disableEntitySelection && (tagTreeNode.canApplyToSource || tagTreeNode.canApplyToDestination) && (
         <Entity
           groupbyTagEntity={groupbyTagEntity}
           onChange={groupbyTagEntity => onChange({ groupbyTagEntity, groupbyTag, groupbyTagSecondLevelKey })}

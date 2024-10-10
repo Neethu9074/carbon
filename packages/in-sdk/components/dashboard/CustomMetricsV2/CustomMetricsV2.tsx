@@ -43,6 +43,7 @@ interface CustomMetricProps {
   getRows?: (p: GetRowsProps) => Row[];
   customColumns?: any;
   path?: string;
+  distanceBetweenDatapointsInMillis?: number;
 }
 
 interface GetRowsProps extends CustomMetricProps {
@@ -195,6 +196,7 @@ export default function CustomMetricsV2(props: CustomMetricProps) {
     customColumns,
     timeConfig,
     snapshot,
+    distanceBetweenDatapointsInMillis,
     path = '/dashboard'
   } = props;
 
@@ -244,6 +246,7 @@ export default function CustomMetricsV2(props: CustomMetricProps) {
           maxItemsPerPage={20}
           initialSortColumn={2}
           showExpandAll
+          distanceBetweenDatapointsInMillis={distanceBetweenDatapointsInMillis}
         />
       )}
       <Table
@@ -257,12 +260,13 @@ export default function CustomMetricsV2(props: CustomMetricProps) {
         getRowDetails={getDetails}
         maxItemsPerPage={20}
         initialSortColumn={2}
+        distanceBetweenDatapointsInMillis={distanceBetweenDatapointsInMillis}
       />
     </>
   );
 }
 
-function getDetails(row: Row) {
+function getDetails(row: Row, distanceBetweenDatapointsInMillis?: number) {
   const y1Formatter = row.metrics[0].formatter;
   const y1DataSeries = row.metrics.filter(m => m.formatter === y1Formatter);
   const y2DataSeries = row.metrics.filter(m => m.formatter !== y1Formatter);
@@ -293,6 +297,7 @@ function getDetails(row: Row) {
       minRollup={adjustMetricRollup(row.type, getInfraGranularity(row.timeConfig))}
       y1={y1}
       y2={y2}
+      distanceBetweenDatapointsInMillis={distanceBetweenDatapointsInMillis}
     />
   );
 }

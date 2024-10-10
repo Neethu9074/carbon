@@ -69,7 +69,8 @@ describe('in-components/Chart/Configuration', () => {
         valuesNeedToBeStacked: true,
         valuesDependOnEachOther: true,
         minValue: 0,
-        maxValue: 1
+        maxValue: 1,
+        extrapolateMissingMetrics: false
       });
     });
 
@@ -104,6 +105,25 @@ describe('in-components/Chart/Configuration', () => {
 
         config.update({ y1: {}, timeConfig: { windowSize: 60000, to: 20000 } });
         expect(config.rollup).to.equal(3600000);
+      });
+    });
+
+    describe('enrichAxis', () => {
+      it('should enrich axis config with distance between data points per data series', () => {
+        const props = {
+          ...defaultProps,
+          metricsConfiguration: {
+            metrics: {
+              'y1-0': { type: 'openTelemetry', pollRate: 120_000 },
+              'y1-1': { type: 'host' }
+            }
+          }
+        };
+        const config = new Config(props);
+        expect(config.maxDistanceBetweenDatapointsInMillis).not.to.equal(undefined);
+        expect(config.y1).not.to.equal(undefined);
+        expect(config.y1.distanceBetweenDatapointsInMillis['y1-0']).equal(120_000);
+        expect(config.y1.distanceBetweenDatapointsInMillis['y1-1']).equal(config.maxDistanceBetweenDatapointsInMillis);
       });
     });
   });

@@ -26,7 +26,6 @@ import {
 } from 'in-bizops/navigation/paths';
 // @ts-expect-error module need to be translated to TS
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
-import { bizopsPerspectivesEnabled } from 'in-services/featureFlags';
 
 let routes = [
   <Route key="BusinessProcessesList" exact path={businessProcessPath}>
@@ -37,18 +36,13 @@ let routes = [
   </Route>,
   <Route key="businessProcessDashboard" path={businessProcessDashboard}>
     {renderAsyncRouteChildren(BusinessProcessSummaryDashboard)}
+  </Route>,
+  <Route key="BusinessPerspectivesList" exact path={businessPerspectivesPath}>
+    {renderAsyncRouteChildren(BusinessPerspectivesList)}
+  </Route>,
+  <Route key="BusinessPerspectiveSummary" path={businessPerspectiveDashboard}>
+    {renderAsyncRouteChildren(BusinessPerspectiveSummary)}
   </Route>
 ];
-
-if (bizopsPerspectivesEnabled) {
-  routes.push(
-    <Route key="BusinessPerspectivesList" exact path={businessPerspectivesPath}>
-      {renderAsyncRouteChildren(BusinessPerspectivesList)}
-    </Route>,
-    <Route key="BusinessPerspectiveSummary" path={businessPerspectiveDashboard}>
-      {renderAsyncRouteChildren(BusinessPerspectiveSummary)}
-    </Route>
-  );
-}
 
 export default routes;

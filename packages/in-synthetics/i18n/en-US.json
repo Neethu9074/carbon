@@ -385,7 +385,8 @@
       "secondaryLabels": {
         "tests": "Tests",
         "locations": "Locations",
-        "smartAlerts": "Smart Alerts"
+        "smartAlerts": "Smart Alerts",
+        "credentials": "Credentials"
       },
       "popDialog": {
         "popUpDialogTitle": "Permissions for Synthetic Monitoring",

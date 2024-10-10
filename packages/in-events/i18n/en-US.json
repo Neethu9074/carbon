@@ -17,8 +17,8 @@
   "titleMetrics": "Metrics",
   "titleScope": "Scope",
   "titleDescription": "Description",
-  "titleTriggerEvent": "Triggering Event",
-  "titleRelatedEvents": "Related Events ({{eventCount}})",
+  "titleTriggerEvent": "Triggering event",
+  "titleRelatedEvents": "Related events ({{eventCount}})",
   "noRelatedEvents": "No related events found",
   "titleLastProcess": "Last process",
   "titleLastHost": "Last host",
@@ -117,8 +117,6 @@
   "labelAll": "All",
   "buttonViewCustomEvent": "View Custom Event",
   "buttonViewBuiltInEvent": "View Built-in Event",
-  "buttonCollapse": "Collapse",
-  "buttonExpandEvents": "Expand ({{eventsLength}})",
   "buttonHideChanges": "Hide Changes",
   "buttonShowChanges": "Show Changes",
   "buttonViewAlertConfig": "View Alerting Configuration",
@@ -294,5 +292,10 @@
     "collapse": "Collapse",
     "aiModel": "AI model",
     "granite": "granite-13b-chat-v2"
+  },
+  "incident": {
+    "overviewTitle": "Incident overview",
+    "triggeringEntity": "Triggering entity",
+    "metricViolationTitle": "Metric violations"
   }
 }

@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { Stack } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Stack, Button } from '@instana/components';
 
 import { t } from 'in-i18n';
 

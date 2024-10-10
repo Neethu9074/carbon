@@ -1849,6 +1849,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@carbon/pictograms-react@npm:11.63.0":
+  version: 11.63.0
+  resolution: "@carbon/pictograms-react@npm:11.63.0"
+  dependencies:
+    "@carbon/icon-helpers": ^10.49.0
+    "@ibm/telemetry-js": ^1.5.0
+    prop-types: ^15.7.2
+  peerDependencies:
+    react: ">=16"
+  checksum: 751045ec32e8e91f5b8cdfc26f61c7a7f6ce5447465be449c6f6105267355f6775a7e0e27437bf9d41dbd07dcb7f6c50ebc56fc2b857d8b4aa8658bf679d0e25
+  languageName: node
+  linkType: hard
+
 "@carbon/react@npm:1.62.1":
   version: 1.62.1
   resolution: "@carbon/react@npm:1.62.1"
@@ -2888,9 +2901,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/components@npm:4.37.0, @instana/components@npm:^4.37.0":
-  version: 4.37.0
-  resolution: "@instana/components@npm:4.37.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.37.0.tgz"
+"@instana/components@npm:4.40.0, @instana/components@npm:^4.40.0":
+  version: 4.40.0
+  resolution: "@instana/components@npm:4.40.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.40.0.tgz"
   dependencies:
     "@carbon/icons-react": 11.45.0
     "@carbon/react": 1.62.1
@@ -2910,7 +2923,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.2
-  checksum: 11fe6ad68ca3022d56d943b56ef4311ab6eb24fc69b9f25d9f04f4c11811f0b6dc96cf410f71c31ba15779bb649829d3e2a4d9a8b09e906eefe417cfa8eb6453
+  checksum: 049d1762fc863b6e4b6cdce842a8a8c3f9eb6c2be96ece0370438da80bdf41151447c10f631a0103c703b0db8d65210b3df3d27b6ffdea369d6423792c59db23
   languageName: node
   linkType: hard
 
@@ -3015,11 +3028,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/legacy@npm:4.3.3":
-  version: 4.3.3
-  resolution: "@instana/legacy@npm:4.3.3::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.3.3.tgz"
+"@instana/legacy@npm:4.3.6":
+  version: 4.3.6
+  resolution: "@instana/legacy@npm:4.3.6::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.3.6.tgz"
   dependencies:
-    "@instana/components": ^4.37.0
+    "@instana/components": ^4.40.0
     "@instana/design-tokens": ^1.28.0
     "@instana/format-date": ^1.7.0
     "@instana/format-numbers": ^1.6.0
@@ -3031,7 +3044,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.0
-  checksum: 3506d6d3e75324b43f97ecb5edda8e0583f510b200c49061a9081286b02c35e73dc7ef3f7d84ba0ad6eb8b5ab1cdc3d51f122df1603a0902bd2c7b450d408aff
+  checksum: 539b3349ba56a88d7217466d4d2b7158d7761282f562698547663a295b36f384489ef79aec8197c501741939419af9c2423c9abfcf1c83a21607e52522505838
   languageName: node
   linkType: hard
 
@@ -3068,10 +3081,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/types@npm:1.284.649":
-  version: 1.284.649
-  resolution: "@instana/types@npm:1.284.649::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Ftypes%2F-%2F%40instana%2Ftypes-1.284.649.tgz"
-  checksum: 9d278868f40fd4b65592cb3cd86ebef64d20a656905f06f3239265e7f79adc32ed3e722ea69d9da8918247168200e6c4b9fa07976d61f3feb91ff7be6d7089eb
+"@instana/types@npm:1.285.287":
+  version: 1.285.287
+  resolution: "@instana/types@npm:1.285.287::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Ftypes%2F-%2F%40instana%2Ftypes-1.285.287.tgz"
+  checksum: 50efc59ea2cfc0c6f707fdabcd124062bda38c03dcde89e11512fec616f90ee23522c75c9130a1bde35d8d26939da74f81c7cfe3c44eed1baa768389f77f306a
   languageName: node
   linkType: hard
 
@@ -4265,6 +4278,13 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: e827570e097bd7d625a673c9c208af2d1a22fa3885c0a1646533cf24394c839c3e5f60ac1bc60c0ddcc69c0615078c9fb2c01b42596c7c582d895d974f2409ee
+  languageName: node
+  linkType: hard
+
+"@types/carbon__pictograms-react@npm:^11":
+  version: 11.46.6
+  resolution: "@types/carbon__pictograms-react@npm:11.46.6"
+  checksum: 8d82458ca66feb5d450268809b651c6eae3fc09aa81304b574f6511500664ce70afe479917db24a4dde122af5836979e109dd591f5e48972e19ac1685fbc3c11
   languageName: node
   linkType: hard
 
@@ -7301,9 +7321,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001272, caniuse-lite@npm:^1.0.30001274, caniuse-lite@npm:^1.0.30001280, caniuse-lite@npm:^1.0.30001517, caniuse-lite@npm:^1.0.30001587":
-  version: 1.0.30001663
-  resolution: "caniuse-lite@npm:1.0.30001663"
-  checksum: 489a642feb6826a0fc7cfd7dbc35a3341cc1439eafdf0dae79338cf9033c5d9eddaedacbef7935acaddbb3c226a51097ed53d66dc6d8128cd6938c6763e1bbc4
+  version: 1.0.30001667
+  resolution: "caniuse-lite@npm:1.0.30001667"
+  checksum: f3c6a40c3e4115c6e5fb46c47884d903191285d29ec8a8b092546efbc9cdedcbd7183cce72dd3cab7dfc16c4d5b2745892876b3d6dda75d4cba49f9389239aa9
   languageName: node
   linkType: hard
 
@@ -21703,6 +21723,7 @@ __metadata:
     "@babel/register": ^7.12.1
     "@babel/runtime": 7.25.6
     "@carbon/colors": ^11.21.0
+    "@carbon/pictograms-react": 11.63.0
     "@codemirror/autocomplete": ^6.0.0
     "@codemirror/commands": ^6.0.0
     "@codemirror/lang-javascript": ^6.1.2
@@ -21714,7 +21735,7 @@ __metadata:
     "@codemirror/state": 6.2.0
     "@codemirror/theme-one-dark": ^6.0.0
     "@codemirror/view": 6.6.0
-    "@instana/components": 4.37.0
+    "@instana/components": 4.40.0
     "@instana/design-tokens": 1.28.0
     "@instana/eslint-config-commons": 1.3.0
     "@instana/format-date": 1.7.0
@@ -21723,12 +21744,12 @@ __metadata:
     "@instana/i18n": ^1.4.1
     "@instana/i18n-react": 1.6.0
     "@instana/import-sort-style-simon": 1.4.0
-    "@instana/legacy": 4.3.3
+    "@instana/legacy": 4.3.6
     "@instana/logger": ^1.3.1
     "@instana/observables": ^1.6.1
     "@instana/pseudo-translation": ^1.3.1
     "@instana/roemitter": ^1.3.2
-    "@instana/types": 1.284.649
+    "@instana/types": 1.285.287
     "@instana/utils": ^1.3.1
     "@lezer/common": ^1.0.2
     "@lezer/generator": ^1.5.0
@@ -21737,6 +21758,7 @@ __metadata:
     "@testing-library/react": ^12.1.5
     "@testing-library/react-hooks": ^7.0.2
     "@testing-library/user-event": ^14.5.2
+    "@types/carbon__pictograms-react": ^11
     "@types/chai": ^4.3.4
     "@types/clipboard": ^1.5.36
     "@types/d3-format": ^1.4.2

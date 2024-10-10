@@ -245,6 +245,7 @@ export default function FormComponent({
             onUnitChange={e => setUnit(e.target.value)}
             preSelectedUnit={preSelectedUnit}
             unitField={unitField}
+            selectedType={selectedType}
           />
           <TouchedMessages field={metricField} />
           <ValidationMessages form={form} category={regexValidationError} />
@@ -333,7 +334,6 @@ export default function FormComponent({
             tagCatalog={tagCatalog}
             additionalGetTagCatalogProps={{ ownerType: type, metric, regex: isRegex }}
             withoutIcon
-            addTagDefinitionToFormModel
           />
         </Sections>
       )}

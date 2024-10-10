@@ -8,10 +8,10 @@ import React, { useState } from 'react';
 import { SvgIcon, SearchInput, Button, Checkbox } from '@instana/components';
 import { Th, SortableTh } from '@instana/legacy';
 
+import { carbonButtonEnabled, carbonTableEnabled } from 'in-services/featureFlags';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { OrderDirection, SortComparator } from 'in-types';
 import Overlay from 'in-components/overlays/Overlay';
@@ -78,7 +78,7 @@ interface ConfigurableButtonProps<ItemType extends Object> extends ContentProps<
   children?: React.ReactNode;
 }
 
-function ConfigureButton<ItemType extends Object>({
+export function ConfigureButton<ItemType extends Object>({
   availableColumnDefinitions,
   columnDefinitions,
   children,
@@ -97,7 +97,7 @@ function ConfigureButton<ItemType extends Object>({
         {({ toggle, refSetter }) => (
           <Button
             className={locals.button}
-            kind="secondary"
+            kind={carbonTableEnabled ? 'action' : 'secondary'}
             onClick={toggle}
             // Casting here because ts has trouble handling the inverted information flow of refs. I.e. ts should accept more narrow types as values for refs specifying a wider accepted type, but fails to do that
             refSetter={refSetter as React.MutableRefObject<HTMLButtonElement>}

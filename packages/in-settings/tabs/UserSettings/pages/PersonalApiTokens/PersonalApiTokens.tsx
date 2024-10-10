@@ -28,14 +28,13 @@ import CopyToClipboard from 'in-components/CopyToClipboard';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import config from 'in-services/config';
-import { user } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
 import locals from './PersonalApiTokens.mless';
 
-const loadEntities = (userId: string): Observable<PersonalApiToken[]> => {
+const loadEntities = (): Observable<PersonalApiToken[]> => {
   const observer = create<PersonalApiToken[]>();
-  getPersonalApiTokens(userId).subscribe(it => {
+  getPersonalApiTokens().subscribe(it => {
     if (it.progress?.loading) return;
 
     if (it.data) {
@@ -48,8 +47,6 @@ const loadEntities = (userId: string): Observable<PersonalApiToken[]> => {
 };
 
 export default function PersonalApiTokens() {
-  // @ts-expect-error no types available
-  const userId = user.id;
   return (
     <>
       <TenantInfoBanner>
@@ -64,7 +61,7 @@ export default function PersonalApiTokens() {
         getEntityName={entity => t('in-settings:tabs.personalApiTokenEntityName', { entityName: entity.name })}
         columnDefinitions={columnDefinitions}
         tableActions={tableActions}
-        loadEntities={() => loadEntities(userId)}
+        loadEntities={loadEntities}
         initialOrderBy="name"
         onRowClick={item => addActiveDialog(<EditPersonalApiToken onClose={close} current={item} />)}
         onCreateNew={() => addActiveDialog(<CreatePersonalApiToken onClose={close} />)}

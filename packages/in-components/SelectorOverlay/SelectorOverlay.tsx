@@ -34,6 +34,7 @@ export interface SelectorOverlayProps {
   query: string;
   onQueryChange: (value: string) => void;
   onFocusNode?: (node?: Options) => void;
+  backButton?: boolean;
   disabled?: boolean;
   shouldTriggerWindowResize?: boolean;
   nodesToSearchFrom?: (options: Options[], focusedNode?: Options) => Options[];
@@ -48,6 +49,7 @@ export default function SelectorOverlay({
   query,
   onQueryChange,
   onFocusNode,
+  backButton = true,
   disabled = false,
   shouldTriggerWindowResize = false,
   nodesToSearchFrom = (options, focusedNode) => (focusedNode ? [focusedNode] : options),
@@ -108,6 +110,7 @@ export default function SelectorOverlay({
             withIcons={withIcons}
             staticContentWrapperRef={staticContentWrapperRef}
             searchElementRef={searchElementRef}
+            backButton={backButton}
           />
         )}
       </div>
@@ -141,6 +144,7 @@ export interface DataAvailableProps {
   options: Options[];
   // special handling for focused node
   onFocusNode?: (node?: Options) => void;
+  backButton: boolean;
   nodesToSearchFrom: (options: Options[], focusedNode?: Options) => Options[];
   query: string;
   shouldTriggerWindowResize?: boolean;
@@ -154,6 +158,7 @@ function DataAvailable({
   onChange,
   options,
   onFocusNode,
+  backButton = true,
   nodesToSearchFrom,
   query,
   shouldTriggerWindowResize,
@@ -161,10 +166,8 @@ function DataAvailable({
   staticContentWrapperRef,
   searchElementRef
 }: Readonly<DataAvailableProps>) {
-  const [focusedNode, setFocusedNode] = useState<Options | undefined>(
-    onFocusNode ? findFocusedNode(options) : undefined
-  );
-  const changeFocusedNode = (focusedNode?: Options) =>
+  const [focusedNode, setFocusedNode] = useState<Options | undefined>(findFocusedNode(options));
+  const changeFocusedNode: (node?: Options) => void = (focusedNode?: Options) =>
     onFocusNode ? onFocusNode(focusedNode) : setFocusedNode(focusedNode);
 
   // We use this ref to store the last element (either search or tag groups)
@@ -175,7 +178,7 @@ function DataAvailable({
   return (
     <SlideInView
       showSlideInContent={showFocusedNode()}
-      onShowSlideInContentChange={unfocusNode}
+      onShowSlideInContentChange={backButton ? unfocusNode : undefined}
       onAfterSlideOut={() => {
         lastFocusedElementRef.current?.focus();
       }}

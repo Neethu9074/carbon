@@ -188,7 +188,7 @@ export default class Table extends React.Component {
         });
         // optionally, make rows expandable
         if (this.props.getRowDetails) {
-          carbonRow.expanded = this.props.getRowDetails(row.rowConfig);
+          carbonRow.expanded = this.props.getRowDetails(row.rowConfig, this.props.distanceBetweenDatapointsInMillis);
         }
         return carbonRow;
       });
@@ -279,7 +279,7 @@ export default class Table extends React.Component {
           rows.push(
             <tr key={`${rowData.key}--expanded`}>
               <td className={expandedCellElement} colSpan={colCount}>
-                {this.props.getRowDetails(rowData.rowConfig)}
+                {this.props.getRowDetails(rowData.rowConfig, this.props.distanceBetweenDatapointsInMillis)}
               </td>
             </tr>
           );

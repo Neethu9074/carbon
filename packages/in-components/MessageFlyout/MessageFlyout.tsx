@@ -15,11 +15,10 @@ import locals from './MessageFlyout.mless';
 
 interface MessageFlyoutProps {
   onlyShowUsageRelatedMessages?: boolean;
-  carbonVariant?: boolean | undefined;
 }
 
 export default function MessageFlyout(props: MessageFlyoutProps) {
-  const { onlyShowUsageRelatedMessages, carbonVariant } = props;
+  const { onlyShowUsageRelatedMessages } = props;
   const messages = useObservable(messages$, []);
 
   if (!messages?.length) {
@@ -31,7 +30,7 @@ export default function MessageFlyout(props: MessageFlyoutProps) {
       {!onlyShowUsageRelatedMessages &&
         messages
           .filter(message => !message.isLicenseUsageMsg)
-          .map(message => <Message key={message.id} message={message} carbonVariant={carbonVariant} />)}
+          .map(message => <Message key={message.id} message={message} />)}
     </div>
   );
 }

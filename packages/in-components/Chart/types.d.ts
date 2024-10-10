@@ -34,6 +34,8 @@ export interface Metric {
   timeShift?: TimeShiftOffset | TimeShift;
   aggregation?: AggregationType;
   unit?: string;
+  type?: string;
+  pollRate?: number;
 }
 
 export interface ChartedMetricsConfig {
@@ -148,6 +150,8 @@ export type MetricDataSeries = MetricDataPoint[];
 type AxisColor = string | null;
 export type AxisName = 'y1' | 'y2';
 
+export type DatapointsDistancePerSeries = { [id: string]: number };
+
 export interface AxisConfiguration {
   renderer: Renderer;
   metrics: MetricDataSeries[];
@@ -191,6 +195,7 @@ export interface AxisConfiguration {
   companionMetricConfigs?: CompanionMetricConfig[];
 
   lastValue?: boolean;
+  distanceBetweenDatapointsInMillis?: DatapointsDistancePerSeries;
 }
 
 export type ChartContentPostition = 'pre' | 'post';

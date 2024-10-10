@@ -25,6 +25,7 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
+import { getIcon } from 'in-kubernetes/utils';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -54,15 +55,9 @@ function MetricValue({ value }) {
 function WorkloadLink({ item, getWorkloadControllerDashboard, clusterId }) {
   const href = getWorkloadControllerDashboard(get(item, ['workloadController', 'id']), { clusterId });
   const label = get(item, ['workloadController', 'name']);
-
-  return (
-    <SeverityAwareEntityLink
-      icon="lib_kubernetes_workload"
-      label={label}
-      href={href}
-      severity={item.entityHealthInfo.maxSeverity}
-    />
-  );
+  const workloadType = get(item, ['entityIdForMetric', 'pluginId']);
+  const icon = getIcon(workloadType);
+  return <SeverityAwareEntityLink icon={icon} label={label} href={href} severity={item.entityHealthInfo.maxSeverity} />;
 }
 
 const columnDefinitions = [

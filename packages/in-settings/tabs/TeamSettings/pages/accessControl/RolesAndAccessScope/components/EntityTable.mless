@@ -5,8 +5,9 @@
  */
 
 :local {
-  .loadingSkeletonForFav {
-    width: 1rem;
-    float: right;
+  .paddingInCarbonTable {
+    :global(.cds--tile) {
+      padding: 0;
+    }
   }
 }

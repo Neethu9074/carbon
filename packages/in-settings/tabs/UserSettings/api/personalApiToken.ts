@@ -35,33 +35,36 @@ export interface PersonalApiToken {
   readonly expiresOn?: DateFormatterInput;
 }
 
-export const getPersonalApiTokensOfUserAsResultObservable = memoize(
+export const getPersonalApiTokensOfUserAsResultObservable = () =>
+  getPersonalApiTokensOfUserAsResultObservableMemoized([]);
+
+const getPersonalApiTokensOfUserAsResultObservableMemoized = memoize(
   getPersonalApiTokensOfUserInternal,
-  userId => userId,
+  () => 'PersonalApiTokens',
   60000
 );
 
-function getPersonalApiTokensOfUserInternal(userId: string) {
+function getPersonalApiTokensOfUserInternal() {
   return refreshSignal.flatMap(() =>
     createObservable(
       http<PersonalApiToken[]>({
         method: 'GET',
         maxRetries: 3,
-        url: `/api/settings/personal-api-tokens?userId=${userId}`
+        url: '/api/settings/personal-api-tokens'
       })
     )
   );
 }
 
-export const getPersonalApiTokenAsResultObservable = memoize(getPersonalApiTokenInternal, id => id, 60000);
+export const getPersonalApiTokenAsResultObservable = memoize(getPersonalApiTokenInternal, tokenId => tokenId, 60000);
 
-function getPersonalApiTokenInternal(id: string) {
+function getPersonalApiTokenInternal(tokenId: string) {
   return refreshSignal.flatMap(() =>
     createObservable(
       http<PersonalApiToken[]>({
         method: 'GET',
         maxRetries: 3,
-        url: `/api/settings/personal-api-tokens/${encodeURIComponent(id)}`
+        url: `/api/settings/personal-api-tokens/${encodeURIComponent(tokenId)}`
       })
     )
   );
@@ -87,12 +90,12 @@ export function savePersonalApiToken(personalApiToken: PersonalApiToken): Observ
   }).map(mapAndRefresh);
 }
 
-export function deletePersonalApiToken(id: string): Observable<void> {
+export function deletePersonalApiToken(tokenId: string): Observable<void> {
   return http<void>({
     method: 'DELETE',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `/api/settings/personal-api-tokens/${encodeURIComponent(id)}`
+    url: `/api/settings/personal-api-tokens/${encodeURIComponent(tokenId)}`
   }).map(mapAndRefresh);
 }
 

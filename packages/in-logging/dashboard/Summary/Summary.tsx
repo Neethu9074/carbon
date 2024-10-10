@@ -70,6 +70,7 @@ export default function Summary() {
               hideRenderer
               showHeader
               rightHeaderContent={iconWithTooltip}
+              isDashboard
             />
           </LoggingAnalyzeContextWrapper>
         )}

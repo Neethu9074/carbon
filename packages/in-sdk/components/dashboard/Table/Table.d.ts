@@ -15,6 +15,7 @@ interface TableProps {
   disableSorting?: boolean;
   showExpandAll?: boolean;
   initialSortDirection?: string;
+  distanceBetweenDatapointsInMillis?: number;
 }
 
 declare function TableComponent(props: TableProps): JSX.Element;

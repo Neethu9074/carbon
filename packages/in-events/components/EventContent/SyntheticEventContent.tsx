@@ -8,14 +8,14 @@
 import { Map } from 'immutable';
 import React from 'react';
 
-import { Card, Pill } from '@instana/components';
+import { Card } from '@instana/components';
 
 import SyntheticScopePath from 'in-alerting/smart-alerts/synthetics/components/SyntheticScopePath';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import AnalyzeSyntheticEventButton from 'in-events/components/AnalyzeSyntheticEventButton';
 import SyntheticsAlertconfigButton from 'in-events/components/SyntheticsAlertconfigButton';
-// @ts-expect-error
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
+import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
@@ -30,7 +30,6 @@ import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
 import EventIcon from 'in-events/components/EventIcon';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { hasManualCloseFields } from 'in-events/components/eventUtil';
 import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { fixateTimeConfig } from 'in-stores/time/config';
 import { number } from 'in-services/formatters/number';
@@ -65,7 +64,7 @@ export default function SyntheticEventContent({ event, snapshot, reload }: Props
   const chartTimeConfigWithContext = getChartTimeConfig(event, syntheticTestInterval);
 
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
-  const pillContent = hasManualCloseFields(event) ? <Pill type="green">{t('in-events:labelClosed')}</Pill> : undefined;
+  const pillContent = getEventStateBadge(event);
 
   return (
     <>

@@ -118,11 +118,12 @@ function KubernetesBreadcrumbs({ props }) {
 }
 
 function Header(props) {
+  const { plugin } = props;
   return (
     <DashboardHeader
       {...props}
       title={props.headerTitle}
-      icon="lib_kubernetes_workload"
+      icon={plugin ? `lib_infra_${plugin}` : `lib_kubernetes_workload`}
       label={get(props.result, ['data', 'name'])}
       renderButtonLine={renderButtonLine}
       renderButtonLineSecondary={renderButtonLineSecondary}

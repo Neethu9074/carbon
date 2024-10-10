@@ -1,5 +1,5 @@
 import { action as storybookAction } from '@storybook/addon-actions';
-import { Meta, Preview, Story } from '@storybook/addon-docs';
+import { Meta, Story, ArgsTable } from '@storybook/addon-docs';
 
 import PermanentlyVisibleOverlay from 'in-components/overlays/OverlayPresenter/stories/PermanentlyVisibleOverlay';
 import SelectorOverlay from 'in-components/SelectorOverlay/SelectorOverlay';
@@ -47,31 +47,87 @@ export const options = [
   }
 ];
 
-# Selector Overlay
+export const optionsFilteredOnALevel = [
+  {
+    label: 'Root Level Node',
+    description: 'Some description - Root Level Node',
+    icon: 'plugin:neo4j',
+    children: [
+      {
+        label: 'First Level Node',
+        description: 'Some description - First Level Node',
+        icon: 'plugin:mule',
+        children: [
+          {
+            label: 'Second Level Leaf',
+          },
+          {
+            label: 'Second Level Node',
+            description: 'Some description',
+            icon: 'plugin:mule',
+            children: [
+              {
+                label: 'Third Level Leaf',
+                description: 'Some description - Third Level Leaf',
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+];
 
-<Preview>
-  <Story name="default">
-    <PermanentlyVisibleOverlay>
-      <SelectorOverlay onChange={storybookAction('onChange')} options={options} />
-    </PermanentlyVisibleOverlay>
-  </Story>
-  <Story name="loading">
-    <PermanentlyVisibleOverlay>
-      <SelectorOverlay onChange={storybookAction('onChange')} options={[]} loading />
-    </PermanentlyVisibleOverlay>
-  </Story>
-  <Story name="no-icons">
-    <PermanentlyVisibleOverlay>
-      <SelectorOverlay onChange={storybookAction('onChange')} options={options} withIcons={false} />
-    </PermanentlyVisibleOverlay>
-  </Story>
-  <Story name="with search">
-    <PermanentlyVisibleOverlay>
-      <SelectorOverlay onChange={storybookAction('onChange')} options={options} withIcons={false} query={"a"} />
-    </PermanentlyVisibleOverlay>
-  </Story>
-</Preview>
+# Selector Overlay
 
 ### Props
 
-<Props of={SelectorOverlay} />
+<ArgsTable of={SelectorOverlay} />
+
+## Default
+
+<Story name="default">
+  <PermanentlyVisibleOverlay>
+    <SelectorOverlay onChange={storybookAction('onChange')} options={options} />
+  </PermanentlyVisibleOverlay>
+</Story>
+
+## Filtered on a specific level
+
+<Story name="filtered on a level">
+  <PermanentlyVisibleOverlay>
+    <SelectorOverlay onChange={storybookAction('onChange')} options={optionsFilteredOnALevel} />
+  </PermanentlyVisibleOverlay>
+</Story>
+
+## Filtered on a specific level but not showing the back button
+
+<Story name="filtered on a level with no back button">
+  <PermanentlyVisibleOverlay>
+    <SelectorOverlay onChange={storybookAction('onChange')} options={optionsFilteredOnALevel} backButton={false} />
+  </PermanentlyVisibleOverlay>
+</Story>
+
+## Loading
+
+<Story name="loading">
+  <PermanentlyVisibleOverlay>
+    <SelectorOverlay onChange={storybookAction('onChange')} options={[]} loading />
+  </PermanentlyVisibleOverlay>
+</Story>
+
+## Without icons
+
+<Story name="no-icons">
+  <PermanentlyVisibleOverlay>
+    <SelectorOverlay onChange={storybookAction('onChange')} options={options} withIcons={false} />
+  </PermanentlyVisibleOverlay>
+</Story>
+
+## Searching
+
+<Story name="with search">
+  <PermanentlyVisibleOverlay>
+    <SelectorOverlay onChange={storybookAction('onChange')} options={options} withIcons={false} query={"a"} />
+  </PermanentlyVisibleOverlay>
+</Story>

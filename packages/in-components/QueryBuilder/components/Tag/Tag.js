@@ -47,10 +47,11 @@ export default function Tag(props) {
     formModel,
     autoFocusInput = false,
     getSuggestionLabel,
-    allowEmptyKey
+    allowEmptyKey,
+    disableEntitySelection
   } = props;
   const { renderModelIndex, formModelIndex, name: tagName } = element;
-  const form = createTagForm(tagCatalog, element, allowEmptyKey);
+  const form = createTagForm(tagCatalog, element, allowEmptyKey, disableEntitySelection);
   const { allowedOperators, valueType, type: tagType } = getFormPresentationInformation(tagCatalog, form);
   const locals = useThemedLocals(styleDefs);
 

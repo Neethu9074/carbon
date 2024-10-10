@@ -10,25 +10,27 @@ import React from 'react';
 import { Spacer, Stack, Typography } from '@instana/components';
 import { ThresholdOperator } from '@instana/types';
 
-import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
-import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
-import { metricConfigurationPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
+import {
+  getUnit,
+  shouldDisplayConvertedUnits
+} from 'in-custom-dashboards/widgets/_shared/Threshold/thresholdUnitUtils';
+import ThresholdConditionFormGroup from 'in-custom-dashboards/widgets/_shared/Threshold/ThresholdConditionFormGroup';
+import { humanReadableThresholdOperator } from 'in-custom-dashboards/widgets/_shared/Threshold/thresholdFormData';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import { getFormatterById } from 'in-stores/metric/formatters';
 import Input from 'in-components/form/Input/Input';
 import { t } from 'in-i18n';
 
 import locals from './ThresholdCondition.mless';
 
 interface ThresholdConditionProps {
-  type: string;
+  type: 'warning' | 'critical';
   operator: ThresholdOperator;
   label: string;
-  unit: string;
   hasError: boolean;
-  formattedValue?: string | null;
-  displayConvertedUnits: boolean;
   field: Field<string>;
-  onChange: (path: string[], updater: (item: Field<string | boolean>) => Field<string | boolean>) => void;
+  change: (newValue: string) => void;
+  formatterId: string;
 }
 
 export default function ThresholdCondition({
@@ -36,30 +38,30 @@ export default function ThresholdCondition({
   label,
   field,
   operator,
-  onChange,
-  formattedValue,
-  unit,
+  change,
   hasError,
-  displayConvertedUnits
+  formatterId
 }: ThresholdConditionProps) {
+  const formatter = getFormatterById(formatterId);
+  // 1 represents the base value used to get the unit from
+  const unit = getUnit(formatter?.formatter(1));
+  const formattedValue = field?.value === '' ? undefined : formatter?.formatter(parseFloat(field?.value));
+  const displayFormattedWithUnit =
+    formatter?.unitConversion && formattedValue && shouldDisplayConvertedUnits(formattedValue);
   return (
-    <ThresholdConditionFormGroup shouldIncreaseColumns label={label}>
+    <ThresholdConditionFormGroup label={label}>
       <div className={locals.condition}>
         <Stack direction="horizontal" distribution="spaceBetween">
           <Stack direction="horizontal" align="center" gap="disabled">
             <Typography variant="body-small">
-              <div className={locals.operator}>{humanReadableThresholdOperator(operator)}</div>
+              <div className={locals.operator}>{humanReadableThresholdOperator.get(operator)}</div>
             </Typography>
             <Input
               id={`${type}-field`}
-              className={type === 'warning' ? locals.warning : locals.critical}
+              className={locals[type]}
               value={field?.value}
               hasError={(!field?.valid && field?.touched) || hasError}
-              onChange={({ target }) => {
-                onChange([metricConfigurationPath, 'threshold', type], field =>
-                  (field as Field<string>).setValue(target.value).setTouched(true)
-                );
-              }}
+              onChange={({ target: { value } }) => change(value)}
               type="number"
               step={0.01}
               min="0"
@@ -68,7 +70,7 @@ export default function ThresholdCondition({
             <Typography variant="body-small">
               {unit === 'B' ? t('in-custom-dashboards:widgets.bigNumber.thresholdForm.bytes') : unit}
             </Typography>
-            {displayConvertedUnits && (
+            {displayFormattedWithUnit && (
               <>
                 <Spacer horizontal="normal" />
                 <Typography variant="body-small">({formattedValue})</Typography>
@@ -76,7 +78,7 @@ export default function ThresholdCondition({
             )}
           </Stack>
           <Stack align="center" direction="horizontal" gap="disabled">
-            <div className={type === 'critical' ? locals.criticalColor : locals.warningColor} />
+            <div className={locals[`${type}Color`]} />
           </Stack>
         </Stack>
       </div>

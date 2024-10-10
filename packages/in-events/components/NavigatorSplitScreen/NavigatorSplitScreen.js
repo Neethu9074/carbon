@@ -13,7 +13,6 @@ import { leftArrowId, rightArrowId } from 'in-components/AnalyzeView/SplitScreen
 import { debouncedResize$, refreshWindowSizeDependingState } from 'in-services/browser';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import ResultHeader from 'in-analyze/components/ResultHeader';
-import Tooltip from 'in-components/Tooltip';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -73,69 +72,59 @@ function NavigatorSplitScreen({
                   withoutMargin
                   withMaxWidth
                 />
-
                 <div className={locals.actions}>
                   {hasPrev && (
-                    <Tooltip
-                      content={t('in-events:navigatorSplitScreen.tooltipViewPrevious', {
+                    <IconButton
+                      kind="action"
+                      type="lib_arrow_drop_left"
+                      aria-label={t('in-events:navigatorSplitScreen.tooltipViewPrevious', {
                         context: typeLabel
                       })}
-                      align={'auto'}
-                    >
-                      <IconButton
-                        kind="action"
-                        type="lib_arrow_drop_left"
-                        aria-label={t('in-events:navigatorSplitScreen.tooltipViewPrevious', {
-                          context: typeLabel
-                        })}
-                        id={leftArrowId}
-                        onClick={e =>
-                          openItem(e, prevOpenItemIndex, items, canLoadMore, loadMore, progress, customOpenItem)
-                        }
-                      />
-                    </Tooltip>
+                      id={leftArrowId}
+                      onClick={e =>
+                        openItem(e, prevOpenItemIndex, items, canLoadMore, loadMore, progress, customOpenItem)
+                      }
+                      isWrapperedByTooltip
+                      iconDescription={t('in-events:navigatorSplitScreen.tooltipViewPrevious', {
+                        context: typeLabel
+                      })}
+                      align="bottom"
+                      iconSize="s"
+                    />
                   )}
-
                   {hasNext && (
-                    <Tooltip
-                      content={t('in-events:navigatorSplitScreen.tooltipViewNext', {
+                    <IconButton
+                      kind="action"
+                      type="lib_arrow_drop_right"
+                      aria-label={t('in-events:navigatorSplitScreen.tooltipViewNext', {
                         context: typeLabel
                       })}
-                      align={'auto'}
-                    >
-                      <IconButton
-                        kind="action"
-                        type="lib_arrow_drop_right"
-                        aria-label={t('in-events:navigatorSplitScreen.tooltipViewNext', {
-                          context: typeLabel
-                        })}
-                        id={rightArrowId}
-                        onClick={e =>
-                          openItem(e, nextOpenItemIndex, items, canLoadMore, loadMore, progress, customOpenItem)
-                        }
-                      />
-                    </Tooltip>
+                      id={rightArrowId}
+                      onClick={e =>
+                        openItem(e, nextOpenItemIndex, items, canLoadMore, loadMore, progress, customOpenItem)
+                      }
+                      isWrapperedByTooltip
+                      iconDescription={t('in-events:navigatorSplitScreen.tooltipViewNext', {
+                        context: typeLabel
+                      })}
+                      align="bottom"
+                      iconSize="s"
+                    />
                   )}
-
-                  <Tooltip
-                    content={
+                  <IconButton
+                    kind="action"
+                    type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
+                    aria-label={
                       expanded
                         ? t('in-events:navigatorSplitScreen.tooltipCloseSidebar')
                         : t('in-events:navigatorSplitScreen.tooltipOpenSidebar')
                     }
-                    align={'auto'}
-                  >
-                    <IconButton
-                      kind="action"
-                      type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
-                      aria-label={
-                        expanded
-                          ? t('in-events:navigatorSplitScreen.tooltipCloseSidebar')
-                          : t('in-events:navigatorSplitScreen.tooltipOpenSidebar')
-                      }
-                      onClick={() => setExpanded(!expanded)}
-                    />
-                  </Tooltip>
+                    onClick={() => setExpanded(!expanded)}
+                    isWrapperedByTooltip
+                    iconDescription={t('in-events:navigatorSplitScreen.tooltipCloseSidebar')}
+                    align="bottom"
+                    iconSize="s"
+                  />
                 </div>
               </div>
             }
@@ -152,25 +141,16 @@ function NavigatorSplitScreen({
           <Sticky
             header={
               <div className={locals.toggleWrapper}>
-                <Tooltip
-                  content={
-                    expanded
-                      ? t('in-events:navigatorSplitScreen.tooltipCloseSidebar')
-                      : t('in-events:navigatorSplitScreen.tooltipOpenSidebar')
-                  }
-                  align={'bottomLeft'}
-                >
-                  <IconButton
-                    kind="action"
-                    type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
-                    aria-label={
-                      expanded
-                        ? t('in-events:navigatorSplitScreen.tooltipCloseSidebar')
-                        : t('in-events:navigatorSplitScreen.tooltipOpenSidebar')
-                    }
-                    onClick={() => setExpanded(!expanded)}
-                  />
-                </Tooltip>
+                <IconButton
+                  kind="action"
+                  type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
+                  aria-label={t('in-events:navigatorSplitScreen.tooltipOpenSidebar')}
+                  onClick={() => setExpanded(!expanded)}
+                  iconSize="s"
+                  isWrapperedByTooltip
+                  iconDescription={t('in-events:navigatorSplitScreen.tooltipOpenSidebar')}
+                  align="right"
+                />
               </div>
             }
           />

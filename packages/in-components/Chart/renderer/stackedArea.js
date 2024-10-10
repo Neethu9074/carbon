@@ -8,27 +8,36 @@ import { calculateMetricMap } from 'in-components/Chart/renderer/utils';
 import { drawCircleWithLine } from './utils';
 
 export default {
-  render: ({ metrics, colors, colors100, scale, config, axis }) => {
+  render: ({ metrics, colors, colors100, scale, config, axis, axisName }) => {
     let metricMap = {};
     if (!axis.calculateStackDifferences) {
-      const extrapolateMissing = extrapolateMissingStackedAreaValuesEnabled || axis.extrapolateMissingMetrics;
-      metricMap = calculateMetricMap(metrics, extrapolateMissing);
+      metricMap = calculateMetricMap(metrics, axis.extrapolateMissingMetrics);
     }
     for (let iMetric = metrics.length - 1; iMetric >= 0; iMetric--) {
-      renderDataSeries(config, colors[iMetric], colors100[iMetric], metrics[iMetric], metricMap, scale);
+      renderDataSeries(
+        config,
+        colors[iMetric],
+        colors100[iMetric],
+        metrics[iMetric],
+        metricMap,
+        scale,
+        axis,
+        `${axisName}-${iMetric}`
+      );
     }
   },
 
   enrich: (config, axis) => {
     axis.valuesNeedToBeStacked = true;
     axis.valuesDependOnEachOther = true;
+    axis.extrapolateMissingMetrics = extrapolateMissingStackedAreaValuesEnabled;
   }
 };
 
-function renderDataSeries(config, fillStyle, strokeStyle, dataSeries, metricMap, scale) {
+function renderDataSeries(config, fillStyle, strokeStyle, dataSeries, metricMap, scale, axis, metricId) {
   config.backBufferCtx.beginPath();
 
-  const blocks = config.calculateBlocks(dataSeries);
+  const blocks = config.calculateBlocks(dataSeries, axis?.distanceBetweenDatapointsInMillis?.[metricId]);
   for (let i = 0; i < blocks.length; i++) {
     drawBlock(metricMap, config, scale, blocks[i], fillStyle, strokeStyle);
   }

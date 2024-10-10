@@ -11,6 +11,7 @@ import React from 'react';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import InviteUserDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog';
 import { getPendingInvitations, PendingInvitation, revokeInvitation } from 'in-api/users';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { USER_INVITE, track } from 'in-services/tracking/tracking';
@@ -62,6 +63,8 @@ const tableActions = {
 };
 
 const Invites = () => {
+  const { trackCta } = useSegmentTracking();
+
   const customDialogMessage = ({ email }: PendingInvitation) => {
     return (
       <span>
@@ -87,7 +90,10 @@ const Invites = () => {
       loadEntities={() => getPendingInvitations([])}
       initialOrderBy="email"
       onCreateNew={() => {
+        // Mixpanel tracking
         track(USER_INVITE, emptyObject);
+        // Segment tracking
+        trackCta(USER_INVITE, emptyObject);
         addActiveDialog(
           shareAndInviteEnabled ? (
             <DeferredShareAndInviteDialogBox inviteOnly permissionToShowInvite />

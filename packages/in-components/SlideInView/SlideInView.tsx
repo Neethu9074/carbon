@@ -20,7 +20,7 @@ export const NoHeader = () => null;
 interface SlideInViewProps {
   onAfterSlideIn?: (elements: ReturnType<typeof getInteractiveElements>) => void;
   onAfterSlideOut?: (elements: ReturnType<typeof getInteractiveElements>) => void;
-  onShowSlideInContentChange: (f: boolean) => void;
+  onShowSlideInContentChange?: (f: boolean) => void;
   showSlideInContent?: boolean;
   shouldTriggerWindowResize?: boolean;
   /**
@@ -138,7 +138,7 @@ export default function SlideInView({
           <HeaderComponent
             scrollShadow={showScrollShadow}
             title={slideInContentTitle}
-            onTitleIconClick={() => onShowSlideInContentChange(!showSlideInContent)}
+            onTitleIconClick={onShowSlideInContentChange && (() => onShowSlideInContentChange(!showSlideInContent))}
           />
         )}
       </div>

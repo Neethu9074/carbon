@@ -5,8 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Stack, SearchInput } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Stack, SearchInput, Button } from '@instana/components';
 
 import { MultiSelectSuggestions } from 'in-components/AnalyzeView/FacetedFilters/MultiSelectSuggestions';
 import { CheckableSuggestion } from 'in-components/AnalyzeView/FacetedFilters/CheckableSuggestion';

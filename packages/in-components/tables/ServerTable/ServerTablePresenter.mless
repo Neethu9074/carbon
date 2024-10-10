@@ -104,4 +104,8 @@
     text-overflow: ellipsis;
     overflow: hidden;
   }
+
+  .noPadding {
+    padding: var(--cds-layout-density-padding-inline-local) 0;
+  }
 }

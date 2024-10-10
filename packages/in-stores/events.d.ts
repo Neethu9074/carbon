@@ -26,3 +26,4 @@ interface Parms {
 export function getColorBySeverity(severity: number, parms?: Parms): Property.BackgroundColor | undefined;
 export function getIcon(eventType: number): string;
 export function getEventType(event: RawEvent | EventMap): number;
+export function getEventSeverityLabelWithEventType(event: RawEvent | EventMap, timeConfig: TimeConfig): string;

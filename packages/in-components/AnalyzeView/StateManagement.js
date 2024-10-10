@@ -691,7 +691,7 @@ export function addGroupingCriteriaToFormModel(
     };
   } else {
     let value;
-    if (groupByTagType === NUMBER) {
+    if (groupByTagType === NUMBER || groupByTagType === KEY_NUMBER_PAIR) {
       value = Number(groupValue);
     } else if (groupByTagType === BOOLEAN) {
       value = groupValue === 'true';

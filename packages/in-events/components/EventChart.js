@@ -98,9 +98,10 @@ const ChartWrapper = connectTo(
     const chartConfig = getChartConfig(metric, entityType, entity);
 
     return (
-      <div className={locals.chart}>
+      <div>
         <div className={locals.buttonPanel}>
-          <DownloadButton className={locals.downloadButton}>
+          {/* TODO: Change the implementation of this to use moremenu component */}
+          <DownloadButton>
             <EventMetricChartDownloadView
               metric={metric}
               entityType={entityType}

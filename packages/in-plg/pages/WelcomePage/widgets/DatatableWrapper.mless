@@ -5,6 +5,11 @@
  */
 
 :local {
+  .truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   .dataTableWrapper {
     :global {
       .dashboardTable {
@@ -22,17 +27,21 @@
             }
           }
           td {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            .truncate-text;
             span.cds--popover-container {
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
+              .truncate-text;
               width: 100%;
               .cds--popover-content {
                 color: var(--cds-popover-text-color);
               }
+            }
+          }
+          td:not(.viewAllTableCell) {
+            a {
+              display: inline-block;
+              max-width: 100%;
+              vertical-align: middle;
+              .truncate-text;
             }
           }
         }

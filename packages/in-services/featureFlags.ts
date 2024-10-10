@@ -122,7 +122,7 @@ export const sloRebornWidgetEnabled = isFeatureFlagEnabled('sloRebornWidgetEnabl
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', true);
 export const eumImpactedUsersForAppAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForAppAlertEnabled', false);
 
-export const apiTokenExpirationEnabled = isFeatureFlagEnabled('apiTokenExpirationEnabled', false);
+export const apiTokenExpirationEnabled = isFeatureFlagEnabled('apiTokenExpirationEnabled', true);
 
 export const disableInvitesWithIdpEnabled = isFeatureFlagEnabled('disableInvitesWithIdpEnabled', true);
 
@@ -208,7 +208,6 @@ export const hiddenSearchFieldValues = {
 // Business Observability and Monitoring (BizOps) flags
 // ########################################################################################
 export const businessObservabilityEnabled = isFeatureFlagEnabled('businessObservabilityEnabled');
-export const bizopsPerspectivesEnabled = isFeatureFlagEnabled('bizopsPerspectivesEnabled');
 export const bizopsGenAIEnabled = isFeatureFlagEnabled('bizopsGenAIEnabled');
 export const bizopsStandardInclusionEnabled = isFeatureFlagEnabled('bizopsStandardInclusionEnabled');
 

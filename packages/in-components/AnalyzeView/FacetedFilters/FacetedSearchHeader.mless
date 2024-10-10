@@ -26,6 +26,9 @@
   .clearAll {
     .typoSettings();
     padding: 0;
+    &:global(.cds--btn) {
+      min-block-size: unset;
+    }
 
     &:hover {
       background: transparent;

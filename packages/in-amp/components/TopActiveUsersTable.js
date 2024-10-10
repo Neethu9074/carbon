@@ -5,8 +5,11 @@
 
 import React from 'react';
 
+import { DataTable as CarbonDataTable } from '@instana/components';
 import { Table, Thead, Tbody, Tr, Th, Td } from '@instana/legacy';
 
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
+import { carbonTableEnabled } from 'in-services/featureFlags';
 import { compare } from 'in-services/util/number';
 import { t } from 'in-i18n';
 
@@ -17,9 +20,60 @@ import { t } from 'in-i18n';
 export default function TopActiveUsersTable({ accountInfo }) {
   const dataSet = accountInfo?.data?.userUsage?.customer_last_week_top_active_users;
   if (!dataSet || Object.keys(dataSet).length === 0) {
-    return null;
+    return (
+      <>
+        <NoDataAvailable text={t('in-amp:components.activationAdoption.topUsersTable.noDataAvailable')} height={300} />
+      </>
+    );
   }
   const result = dataSet[Object.keys(dataSet)[0]];
+
+  if (carbonTableEnabled) {
+    const carbonHeaders = [
+      {
+        key: 'name',
+        header: t('in-amp:components.activationAdoption.topUsersTable.name')
+      },
+      {
+        key: 'organizationRole',
+        header: t('in-amp:components.activationAdoption.topUsersTable.organizationRole')
+      },
+      {
+        key: 'daysActive',
+        header: t('in-amp:components.activationAdoption.topUsersTable.daysActive')
+      }
+    ];
+
+    if (Object.keys(result).length === 0) {
+      return (
+        <div>
+          <NoDataAvailable
+            text={t('in-amp:components.activationAdoption.topUsersTable.noDataAvailable')}
+            height={300}
+          />
+        </div>
+      );
+    }
+
+    const carbonRows = Object.keys(result)
+      .sort((a, b) => compare(result[b], result[a]))
+      .map(entry => {
+        const values = entry.split('#');
+        return {
+          ['name']:
+            values[1] === '[not provided]'
+              ? t('in-amp:components.activationAdoption.topUsersTable.notProvided')
+              : values[1],
+          ['organizationRole']: values[2],
+          ['daysActive']: result[entry]
+        };
+      });
+    return (
+      <>
+        <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
+      </>
+    );
+  }
 
   if (Object.keys(result).length === 0) {
     return (

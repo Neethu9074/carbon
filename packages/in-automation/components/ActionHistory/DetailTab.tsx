@@ -5,11 +5,11 @@
  */
 
 import classNames from 'classnames';
+import { isEmpty } from 'lodash';
 import React from 'react';
 
 import { Li, Link, Ul, IconButton } from '@instana/components';
 import { Observable, just } from '@instana/observables';
-import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 
@@ -25,7 +25,6 @@ import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { policiesDetailsFullyQualified } from 'in-automation/navigation/paths';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { clickTurboLinkForDetailsTracker } from 'in-automation/tracker';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -68,17 +67,6 @@ export default function DetailTab({
     return createHref(path);
   }
 
-  const handleTracking = (name: string, actionLane: boolean, link: string | undefined) => {
-    if (link) {
-      clickTurboLinkForDetailsTracker({
-        actionName: name,
-        actionLink: link,
-        actionType: 'Turbonomic',
-        view: actionLane ? 'Actions lane' : 'Action history'
-      });
-    }
-  };
-
   const hrefToActionDetails = useHrefToActionDetails();
 
   const {
@@ -114,7 +102,7 @@ export default function DetailTab({
     {
       label: t('in-automation:actionHistory.errorMessage'),
       value: errorMessage,
-      showCondition: errorMessage,
+      showCondition: !isEmpty(errorMessage),
       actionLane: inActionLane
     },
     {
@@ -143,8 +131,9 @@ export default function DetailTab({
       label: t('in-automation:actionHistory.initiator'),
       value: actorName,
       isLink: true,
+      actionLane: inActionLane,
       showCondition:
-        actorName &&
+        !isEmpty(actorName) &&
         actorType !== 'ACTOR_UNKNOWN' &&
         ((actorType === 'USER' && role?.canConfigureUsers) ||
           (actorType === 'APITOKEN' && role?.canConfigureApiTokens) ||
@@ -156,16 +145,22 @@ export default function DetailTab({
       label: t('in-automation:actionHistory.event'),
       value: problemText,
       isLink: true,
-      showCondition: eventId,
+      showCondition: !isEmpty(eventId) && !isExternal(type),
       actionLane: inActionLane,
       stringLink: getLinkToEventDetails(eventId ?? '')
+    },
+    {
+      label: t('in-automation:actionHistory.risk'),
+      value: metadata?.find(data => data.name === 'riskDescription')?.value ?? '',
+      showCondition: isExternal(type),
+      actionLane: inActionLane
     },
     {
       label: t('in-automation:actionHistory.host'),
       value: snapshot?.label ?? hostSnapshotId,
       isLink: true,
       isObservable: true,
-      showCondition: hostSnapshotId && snapshot,
+      showCondition: !isEmpty(hostSnapshotId) && !isEmpty(snapshot),
       stringLink: getDashboardLink(hostSnapshotId ?? '', { pathname: `${agentsPath}/dashboard` })
     },
     {
@@ -176,18 +171,9 @@ export default function DetailTab({
     {
       label: t('in-automation:actionHistory.action'),
       value: actionName,
-      isLink: true,
+      isLink: !isExternal(type) ? true : false,
       isObservable: true,
-      stringLink:
-        type === 'EXTERNAL'
-          ? metadata?.find(obj => obj.name === 'actionEntityURL')?.value
-          : hrefToActionDetails(actionId),
-      onClick: () =>
-        handleTracking(
-          actionName,
-          inActionLane,
-          type === 'EXTERNAL' ? metadata?.find(obj => obj.name === 'actionEntityURL')?.value : undefined
-        ),
+      stringLink: type === 'EXTERNAL' ? undefined : hrefToActionDetails(actionId),
       actionLane: inActionLane
     },
     {
@@ -200,7 +186,7 @@ export default function DetailTab({
             {refSetter => (
               <span ref={refSetter}>
                 <IconButton
-                  color={themes.default.ids.color.option.blue['500']}
+                  color="var(--cds-link-primary)"
                   onClick={stopPropagationAndPreventDefault}
                   type="lib_actions_copy"
                 />
@@ -239,7 +225,7 @@ export default function DetailTab({
         isLink: true,
         stringLink: jobUrl,
         actionLane: false,
-        showCondition: ansibleJobId.value && ansibleUrl.value ? ansibleUrl.value : ''
+        showCondition: !isEmpty(ansibleJobId.value) && !isEmpty(ansibleUrl.value)
       });
     }
   }
@@ -255,7 +241,7 @@ export default function DetailTab({
         isLink: true,
         stringLink: ticketUrlValue,
         actionLane: false,
-        showCondition: id.value && url.value ? id.value : ''
+        showCondition: !isEmpty(id.value) && !isEmpty(url.value)
       });
     }
   }
@@ -266,10 +252,9 @@ export default function DetailTab({
     isLink?: boolean,
     ObservableLink?: Observable<string> | null,
     stringLink?: string | null,
-    showCondition?: string | boolean,
+    showCondition?: boolean,
     actionLane?: boolean,
-    inActionLane?: boolean,
-    onClick?: () => void
+    inActionLane?: boolean
   ) => {
     if (!showCondition || (inActionLane && !actionLane) || (!inActionLane && actionLane)) return null;
 
@@ -278,12 +263,7 @@ export default function DetailTab({
         <td>{label}</td>
         <td>
           {isLink ? (
-            <Link
-              className={locals.detailsLink}
-              target="_blank"
-              onClick={onClick}
-              href={ObservableLink ?? stringLink ?? undefined}
-            >
+            <Link className={locals.detailsLink} target="_blank" href={ObservableLink ?? stringLink ?? undefined}>
               {value} <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />
             </Link>
           ) : (
@@ -314,18 +294,8 @@ export default function DetailTab({
         </thead>
         <tbody>
           {tableData.map(
-            ({ label, value, isLink, ObservableLink, stringLink, showCondition = true, actionLane = false, onClick }) =>
-              renderRow(
-                label,
-                value,
-                isLink,
-                ObservableLink,
-                stringLink,
-                showCondition,
-                actionLane,
-                inActionLane,
-                onClick
-              )
+            ({ label, value, isLink, ObservableLink, stringLink, showCondition = true, actionLane = false }) =>
+              renderRow(label, value, isLink, ObservableLink, stringLink, showCondition, actionLane, inActionLane)
           )}
         </tbody>
       </table>

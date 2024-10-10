@@ -52,7 +52,7 @@ export function ThresholdOperatorDropDown({
           );
         }
       }}
-      className={classNames({ [locals.thresholdTypeMinnWidth]: isTearSheet })}
+      className={classNames({ [locals.thresholdTypeMinWidth]: isTearSheet })}
     >
       {options.map(items => {
         return (

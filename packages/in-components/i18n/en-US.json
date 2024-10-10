@@ -18,6 +18,7 @@
     "chartWrapperMetricNotfound": "Metric id {{metricId}} not found.",
     "chartWrapperSameAxisSameValue": "All aggregation types for one axis must have the same value.",
     "viewInAnalyticsBtnLabel": "View in Analyze",
+    "chartLegendBlankLabel": "Empty",
     "chartLendMetricTimeShifted": "Metric is time shifted to: {{timeShiftedLabel}}",
     "chartDownloadLabel": "Export to JSON",
     "chartDownloadCSVLabel": "Export to CSV",

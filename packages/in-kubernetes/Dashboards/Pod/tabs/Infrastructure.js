@@ -28,7 +28,7 @@ import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
 import { podIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
-import { getContainerIconByPlugin } from 'in-kubernetes/icons';
+import { getContainerIconByPlugin } from 'in-kubernetes/utils';
 import { carbonTableEnabled } from 'in-services/featureFlags';
 import { Row, Col } from 'in-components/layout/Grid';
 import Capitalize from 'in-components/Capitalize';
@@ -239,7 +239,7 @@ function UnmonitoredContainers({ containerStatuses }) {
     }
   ];
 
-  const carbonRows = containerStatuses.map((name, ready, state, message) => ({
+  const carbonRows = containerStatuses.map(({ name, ready, state, message }) => ({
     id: name,
     ['name']: (
       <Tooltip content={t('in-kubernetes:dashboards.nameTooltip')}>

@@ -5,9 +5,8 @@
 
 import React, { MutableRefObject } from 'react';
 
-import { Li, SvgIcon, Ul } from '@instana/components';
+import { Li, SvgIcon, Ul, Button } from '@instana/components';
 import { LogItem, LogTag } from '@instana/types';
-import { Button } from '@instana/legacy';
 
 import {
   getValueMatchTagFilter,
@@ -19,6 +18,7 @@ import {
 import { useLinkToLogs, useGenerateLinkToLogs } from 'in-logging/navigation/paths';
 import { ANALYZE_LOGGING_JUMP_TO_LOGS } from 'in-services/tracking/eventNames';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';
 
@@ -34,13 +34,18 @@ export default function AnalyzeLogsButton({ log }: AnalyzeLogsButtonProps) {
     tagFilterExpression: [getValueMatchTagFilter({ name: LOG_MESSAGE, value: log.message })]
   });
   const generateLinkToLogs = useGenerateLinkToLogs();
-  const {trackCta} = useSegmentTracking()
+  const { trackCta } = useSegmentTracking();
   return (
     <Overlay
       align="bottomLeft"
       content={() => (
         <Ul>
-          <Li href={similarLogsHref} onDefaultHrefInteractionSideEffect={() => trackCta(ANALYZE_LOGGING_JUMP_TO_LOGS,{ source: 'similar logs' })}>
+          <Li
+            href={similarLogsHref}
+            onDefaultHrefInteractionSideEffect={() =>
+              trackCta(ANALYZE_LOGGING_JUMP_TO_LOGS, { source: 'similar logs' })
+            }
+          >
             {t('in-analyze:logDetails.similarLogs')}
           </Li>
           {serviceId && (
@@ -54,7 +59,9 @@ export default function AnalyzeLogsButton({ log }: AnalyzeLogsButtonProps) {
                   })
                 ]
               })}
-              onDefaultHrefInteractionSideEffect={() => trackCta(ANALYZE_LOGGING_JUMP_TO_LOGS,{ source: 'similar services' })}
+              onDefaultHrefInteractionSideEffect={() =>
+                trackCta(ANALYZE_LOGGING_JUMP_TO_LOGS, { source: 'similar services' })
+              }
             >
               {t('in-analyze:logDetails.similarServiceLogs')}
             </Li>
@@ -69,6 +76,7 @@ export default function AnalyzeLogsButton({ log }: AnalyzeLogsButtonProps) {
           icon="lib_analyze"
           onClick={toggle}
           refSetter={refSetter as MutableRefObject<HTMLButtonElement>}
+          size={carbonButtonEnabled ? 'compact' : 'normal'}
         >
           {t('in-analyze:logDetails.analyzeLogsLabel')}
           <SvgIcon className={locals.expandIcon} type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'} />

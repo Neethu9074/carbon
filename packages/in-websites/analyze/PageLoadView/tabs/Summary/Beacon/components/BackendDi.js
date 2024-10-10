@@ -9,8 +9,9 @@ import { combineLatest } from '@instana/observables';
 import { Link } from '@instana/components';
 
 import getWebsiteBackendTraces from 'in-websites/subscriptions/getWebsiteBackendTraces';
+import { navigateToBackendTraceFromPageLoad } from 'in-websites/tracking/segTracker';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
-import { navigateToBackendTraceFromPageLoad } from 'in-websites/tracker';
 import { latencyFixed, number } from 'in-services/formatters/number';
 import { useLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { Di } from 'in-components/HorizontalDescriptionList';
@@ -38,6 +39,7 @@ export default connect(({ beacon }) => ({
 }))(BackendDi);
 
 function BackendDi({ traceSummaries }) {
+  const { trackCta } = useSegmentTracking();
   const getLinkToTraceDetail = useLinkToTraceDetail();
 
   if (traceSummaries == null || traceSummaries.length === 0) {
@@ -53,7 +55,7 @@ function BackendDi({ traceSummaries }) {
           align="topMiddle"
         >
           <div>
-            <Link href={getLinkToTraceDetail(summary.id)} onClick={() => navigateToBackendTraceFromPageLoad()}>
+            <Link href={getLinkToTraceDetail(summary.id)} onClick={() => navigateToBackendTraceFromPageLoad(trackCta)}>
               {t('in-websites:analyze.analyzeView.pageLoadView.backendDiLinkLabel', {
                 duration: latencyFixed.compact(summary.duration),
                 callCount: t('in-websites:analyze.analyzeView.pageLoadView.backendDiSummaryCallCount', {

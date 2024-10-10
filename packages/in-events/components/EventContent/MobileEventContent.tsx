@@ -7,7 +7,7 @@
 import React, { useState } from 'react';
 import { Map } from 'immutable';
 
-import { Card, Pill } from '@instana/components';
+import { Card } from '@instana/components';
 
 import {
   alertingEventDetailsChartTimeframe as minDurationMillis,
@@ -20,8 +20,8 @@ import { HighlightDataRetention } from 'in-events/components/EventContent/Highli
 import MobileAppScopePath from 'in-alerting/smart-alerts/mobileApp/components/MobileAppScopePath';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import AnalyzeMobileAppEventButton from 'in-events/components/AnalyzeMobileAppEventButton';
-// @ts-expect-error
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
+import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
 import MobileAppAlertConfigButton from 'in-events/components/MobileAppAlertConfigButton';
 import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
@@ -38,7 +38,6 @@ import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
 // @ts-expect-error
 import EventIcon from 'in-events/components/EventIcon';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
-import { hasManualCloseFields } from 'in-events/components/eventUtil';
 import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -77,7 +76,7 @@ export default function MobileEventContent({ event, snapshot, reload }: Props) {
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
-  const pillContent = hasManualCloseFields(event) ? <Pill type="green">{t('in-events:labelClosed')}</Pill> : undefined;
+  const pillContent = getEventStateBadge(event);
 
   return (
     <>

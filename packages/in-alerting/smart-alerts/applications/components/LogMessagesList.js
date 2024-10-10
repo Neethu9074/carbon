@@ -214,7 +214,7 @@ function buildTagFilterExpression({ applicationIds, logLevel, tagFilterExpressio
 
 function LogRow(item) {
   return (
-    <Tooltip content={item.message} align="topLeft" delay={500}>
+    <Tooltip content={item.message} delay={500} align="auto" forceTheme>
       <div className={locals.row}>{item.message}</div>
     </Tooltip>
   );

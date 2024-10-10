@@ -13,4 +13,13 @@
     width: 100%;
     max-width: 29.3rem;
   }
+
+  .abbreviatedContentCarbonTable {
+    display: inline-block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    max-width: 28.3rem;
+  }
 }

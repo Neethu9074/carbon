@@ -81,7 +81,7 @@ export default function ExpirationDateDropdown({ form, id, setForm }: Expiration
   return (
     <>
       <FormGroup>
-        <Label htmlFor="api-token-expiration">{t('in-settings:tabs.apiTokenExpiration')}</Label>
+        <Label htmlFor={id}>{t('in-settings:tabs.apiTokenExpiration')}</Label>
         <Select useFullWidth onChange={onChangeExpirationOptions} value={selectedExpiry} id={id} title={selectedExpiry}>
           {expirationOptions.map(({ value, label }) => (
             <option key={value} value={value}>

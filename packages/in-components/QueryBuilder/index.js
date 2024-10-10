@@ -58,6 +58,8 @@ export function createDynamicQueryBuilder({
   withoutOrConjunction = false,
   withoutBrackets = false,
   allowEmptyKey = false,
+  addTagDefinitionToFormModel = false,
+  disableEntitySelection = false,
   maxExpressionDepth,
   getTagCatalog
 }) {
@@ -72,6 +74,8 @@ export function createDynamicQueryBuilder({
           maxExpressionDepth={maxExpressionDepth}
           allowEmptyKey={allowEmptyKey}
           getTagCatalog={getTagCatalog}
+          addTagDefinitionToFormModel={addTagDefinitionToFormModel}
+          disableEntitySelection={disableEntitySelection}
         />
       );
     },
@@ -84,7 +88,8 @@ export function createDynamicQueryBuilder({
         tagCatalog: tagCatalog,
         formModel,
         maxExpressionDepth,
-        allowEmptyKey
+        allowEmptyKey,
+        disableEntitySelection
       });
       if (!isValid) {
         return errorWithData(errors, false);

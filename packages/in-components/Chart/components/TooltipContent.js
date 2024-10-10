@@ -190,6 +190,12 @@ function MetricSeries({
       const aggregation = aggregations[i];
       const timeShift = axis.timeShifts?.[i] || defaultTimeShift;
 
+      var labelStyle = locals.label;
+      if (label === 'no_group') {
+        labelStyle = locals.labelBlank;
+        label = t('in-components:chart.chartLegendBlankLabel');
+      }
+
       return (
         <li key={i} className={locals.entry}>
           <div
@@ -197,7 +203,7 @@ function MetricSeries({
             className={config.legendColorIndicatorShape === 'rect' ? locals.rect : locals.dot}
           />
 
-          <span className={locals.label}>
+          <span className={labelStyle}>
             {label}
             {timeShift.offset !== 0 && <span className={locals.timeShift}>{` (${getTimeShiftLabel(timeShift)})`}</span>}
           </span>

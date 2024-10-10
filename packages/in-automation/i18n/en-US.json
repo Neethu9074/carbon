@@ -322,6 +322,7 @@
     "eventName": "Event Name",
     "returnCode": "Return Code",
     "errorMessage": "Error Message",
+    "risk": "Risk",
     "action": "Action",
     "host": "Host",
     "log": "Log",

@@ -44,6 +44,7 @@ import {
 } from 'in-custom-dashboards/widgets/Chart/renderer';
 import getUnifiedMetrics, { isLabeledMetricResult, UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { getTimeConfigBasedOnMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
+import { DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_OTEL, oTelPlugins } from 'in-forge/constants';
 import { applyTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
@@ -57,6 +58,7 @@ import { getChartGranularity } from 'in-stores/metric/metric';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { getFormatter } from 'in-stores/metric/formatters';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 export const defaultNumberOfSuggestedDatapoints = 80;
@@ -439,13 +441,15 @@ function addForAxis(
   axisName: string,
   resultDataAsList: UnifiedMetricsResult[]
 ) {
-  axis?.metrics?.forEach(({ metric, aggregation, timeShift, grouping, unit }, i) => {
+  axis?.metrics?.forEach(({ metric, aggregation, timeShift, grouping, unit, type }, i) => {
     const metricId = getMetricId(axisName, i);
     const config: ChartMetric = {
       metric,
       aggregation,
       timeShift,
-      unit
+      unit,
+      type,
+      ...(type in oTelPlugins && { pollRate: DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_OTEL })
     };
 
     // For grouped metrics one metric configuration will result in multiple data series and
@@ -506,7 +510,7 @@ export function isGroupedMetric(grouping?: Grouping[]) {
 }
 
 export function getMetricIdForGroup(metricId: string, groupLabel: string) {
-  return `${metricId}-${groupLabel}`;
+  return isBlank(groupLabel) ? metricId : `${metricId}-${groupLabel}`;
 }
 
 export function toAxisConfiguration(
@@ -545,7 +549,7 @@ export function toAxisConfiguration(
     labels: axis.metrics.flatMap((metric: Metric, i: number): string[] => {
       let { label: metricLabel, grouping } = metric;
       if (!metricLabel) {
-        metricLabel = getMetricLabel(metric);
+        metricLabel = getMetricLabel(metric, !!grouping);
       }
       // For grouped metrics one metric configuration will result in
       // multiple data series and hence in multiple labels.

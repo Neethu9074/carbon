@@ -346,11 +346,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'bizopsPerspectivesEnabled',
-    instanaCtlKey: 'feature.bizops.perspectives.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'bizopsGenAIEnabled',
     instanaCtlKey: 'feature.bizops.genAI.enabled',
     defaultValue: false
@@ -463,7 +458,7 @@ module.exports = exports = [
   {
     uiClientKey: 'apiTokenExpirationEnabled',
     instanaCtlKey: 'feature.apitoken.expiration.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'regexMetricSelectionEnabled',

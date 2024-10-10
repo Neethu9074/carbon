@@ -5,8 +5,8 @@
 
 import React, { Fragment, useEffect } from 'react';
 
+import { ButtonGroup, LinkProps } from '@instana/components';
 import { ResultPrecisionDetails } from '@instana/types';
-import { LinkProps } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -20,7 +20,6 @@ import VerticalControlsPresenter from 'in-components/MapControls/VerticalControl
 import { getServiceLocators } from 'in-applications/FlowMap/serviceLocator/serviceLocator';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import MapButtonGroup from 'in-components/MapControls/ButtonGroup';
-import ButtonGroup from 'in-components/ButtonGroup/ButtonGroup';
 import Button from 'in-components/MapControls/Button';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -48,7 +47,7 @@ export default function Controls({ serviceLocatorUid, resultPrecisionDetails, en
 
   useEffect(() => {
     eventBusServiceLocator.emit(SIGNALS.PARTICLES, false);
-    eventBusServiceLocator.emit(SIGNALS.HEATMAP, null);
+    eventBusServiceLocator.emit(SIGNALS.HEATMAP, SIGNAL_VALUES.HEATMAP_CALLS);
   }, [eventBusServiceLocator]);
 
   return (
@@ -64,10 +63,14 @@ export default function Controls({ serviceLocatorUid, resultPrecisionDetails, en
       <VerticalControlsPresenter position="leftTop">
         <ParticlesButton onClick={toggleParticles} serviceLocatorUid={serviceLocatorUid} />
         <MapButtonGroup vertical>
-          <Tooltip themeStyle="light" align={"rightMiddle"} content={t('in-applications:applicationMap.tooltipZoomIn')}>
+          <Tooltip themeStyle="light" align={'rightMiddle'} content={t('in-applications:applicationMap.tooltipZoomIn')}>
             <Button appendBottom icon="lib_actions_zoom_in" onClick={() => zoomIn(serviceLocatorUid)} />
           </Tooltip>
-          <Tooltip themeStyle="light" align={"rightMiddle"} content={t('in-applications:applicationMap.tooltipZoomOut')}>
+          <Tooltip
+            themeStyle="light"
+            align={'rightMiddle'}
+            content={t('in-applications:applicationMap.tooltipZoomOut')}
+          >
             <Button appendTop icon="lib_actions_zoom_out" onClick={() => zoomOut(serviceLocatorUid)} />
           </Tooltip>
         </MapButtonGroup>
@@ -102,7 +105,11 @@ function ParticlesButton({ onClick, serviceLocatorUid }: ParticlesButtonProps) {
     []
   ) as boolean;
   return (
-    <Tooltip themeStyle="light" align={"rightMiddle"} content={t('in-applications:applicationMap.tooltipSimulateTraffic')}>
+    <Tooltip
+      themeStyle="light"
+      align={'rightMiddle'}
+      content={t('in-applications:applicationMap.tooltipSimulateTraffic')}
+    >
       <Button icon="lib_actions_particles" onClick={onClick} isActive={isEnabled} />
     </Tooltip>
   );
@@ -132,8 +139,6 @@ function HeatmapButtons({ serviceLocatorUid, entity }: HeatmapButtonsProps) {
 
   return (
     <ButtonGroup
-      // ContentSwitcher not used because it is not toggleable
-      // switch to different component or use a default "None" option
       buttonPropsList={[
         {
           text: t('in-applications:labelCalls'),

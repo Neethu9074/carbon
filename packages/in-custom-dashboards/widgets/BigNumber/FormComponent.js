@@ -19,13 +19,14 @@ import {
 } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import MetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfigurator';
 import { getCommonFormatterForUnits, getFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
+import { thresholdCustomDashboardsEnabled, unitForInfraMetricsEnabled } from 'in-services/featureFlags';
 import { onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import ThresholdForm from 'in-custom-dashboards/widgets/_shared/Threshold/ThresholdForm';
 import TimeShiftingForm from 'in-custom-dashboards/widgets/BigNumber/TimeShiftingForm';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { defaultFormatter, getFormatterById } from 'in-stores/metric/formatters';
+import useSubForm from 'in-custom-dashboards/widgets/_shared/useSubForm';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
-import { unitForInfraMetricsEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { getBaseUnit } from 'in-stores/metric/units';
 import Header from 'in-components/workspace/Header';
@@ -78,6 +79,12 @@ export default function BigNumberWidgetFormComponent({ form, onChange }) {
     [metricFormatter, isFormatterSelected, baseUnit]
   );
 
+  const { form: thresholdForm, update: updateThresholdForm } = useSubForm({
+    form,
+    path: [metricConfigurationPath, 'threshold'],
+    updateForm
+  });
+
   return (
     <Stack gap="normal">
       <Header>{t('in-custom-dashboards:widgets.bigNumber.formComponent.whatULikeShow')}</Header>
@@ -128,7 +135,11 @@ export default function BigNumberWidgetFormComponent({ form, onChange }) {
         withGrouping={false}
         withLastValue
         timeShiftConfiguration={<TimeShiftingForm form={form} onChange={onChange} />}
-        thresholdConfiguration={<ThresholdForm form={form} onChange={onChange} updateForm={updateForm} />}
+        thresholdConfiguration={
+          thresholdCustomDashboardsEnabled && (
+            <ThresholdForm form={thresholdForm} updateForm={updateThresholdForm} formatter={metricFormatter} />
+          )
+        }
         withUnit
       />
     </Stack>

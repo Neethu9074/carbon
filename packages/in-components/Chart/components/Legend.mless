@@ -121,6 +121,11 @@
     .ellipsis();
   }
 
+  .legendLabelBlank {
+    .ellipsis();
+    font-style: italic;
+  }
+
   .legendValue {
     display: none;
   }

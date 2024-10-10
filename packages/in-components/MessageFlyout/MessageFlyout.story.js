@@ -26,15 +26,11 @@ addMessage({
   timeout: 2000
 });
 addMessage({ type: 'neutral', title: 'Only with title, without content' });
-addMessage({ type: 'neutral', content: 'No title, only content' });
+addMessage({ type: 'neutral', content: 'No title, only content -- BAD PRACTICE -- ADD A TITLE' });
 addMessage({
   type: 'neutral',
   title: 'Some very very very long title, for testing purpose.',
   content: 'this is also a very very very long content, for testing purpose.'
 });
 
-export const MessagesWithFlyout = {
-  args: {
-    carbonVariant: true
-  }
-};
+export const MessagesWithFlyout = {};
