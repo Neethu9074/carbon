@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Typography, IconButton } from '@instana/components';
+import { IconButton } from '@instana/components';
 
 import {
   actionCategoryColumn,
@@ -31,6 +31,7 @@ interface RecommendedOptimizationsTableProps extends ServerTablePresenterProps<R
 interface RecommendedOptimizationsProps {
   recommendedActions: Result<RecommendedAction[]>;
   totalRecommendedActions: number | undefined;
+  onActionClick?: Function;
 }
 
 export const turboActionCategoryMap = {
@@ -45,7 +46,8 @@ export const turboActionCategoryMap = {
 
 export default function RecommendedOptimizations({
   recommendedActions,
-  totalRecommendedActions
+  totalRecommendedActions,
+  onActionClick = () => {}
 }: RecommendedOptimizationsProps) {
   const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
     pathSegment,
@@ -69,6 +71,7 @@ export default function RecommendedOptimizations({
       return x.id === recAction.id;
     });
     const agents = agentSnapShots?.data?.online ?? [];
+    onActionClick(currentAction, agents);
     if (currentAction) {
       addActiveDialog(<DetailsModal currentAction={currentAction} agents={agents} />);
     }
@@ -107,13 +110,7 @@ export default function RecommendedOptimizations({
     <ServerTablePresenter<RecommendedAction, RecommendedOptimizationsTableProps>
       columnDefinitions={columnDefinitions}
       fixedLayout
-      leftHeader={
-        <Typography variant="heading-300">
-          {result?.progress?.loading
-            ? t('in-automation:recommendedOptimizations')
-            : t('in-automation:recommendedOptimizationsWithCount', { count: totalHits })}
-        </Typography>
-      }
+      leftHeader={null}
       cardTitle={
         result?.progress?.loading
           ? t('in-automation:recommendedOptimizations')

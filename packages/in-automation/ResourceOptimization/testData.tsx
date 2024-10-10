@@ -4,506 +4,780 @@
  * Copyright IBM Corp. 2024
  */
 
-const data = [
-  {
-    id: 'd8edc35d-79ca-47a1-b84e-07e85287aeca',
-    name: 'Action generated for Something went offline-2',
-    description: 'Test offline event',
-    type: 'MANUAL',
-    fields: [
-      {
-        name: 'content',
-        description: 'Content for manual action',
-        encoding: 'base64',
-        value: 'CjEuIFVzZSB0aGUgY29tbWFuZCAicG9kbWFuIGluc3BlY3QiIHRvIGNoZWNrIHRoZSBzdGF0dXMgb2YgdGhlIGNvbnRhaW5lci4=',
-        secured: false
-      }
-    ],
-    inputParameters: [],
-    tags: ['watsonx'],
-    createdAt: 1725656603.278395,
-    modifiedAt: 1725656603.278395,
-    metadata: {
-      readOnly: false,
-      builtIn: false,
-      sensorImported: false,
-      aiOriginated: true,
-      ai: null
+export const testData = {
+  recommendedActions: [
+    {
+      id: '638625938196419:2024-10-09T16:45:21Z',
+      name: 'Move Container Pod openshift-console/downloads-76489d6548-cq7l5 from worker2.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"openshift-console/downloads-76489d6548-cq7l5" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187693,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196419',
+      targetClass: 'ContainerPod'
     },
-    score: 0.34816308690973763,
-    confidence: 'high',
-    aiEngine: 'NLP'
-  },
-  {
-    id: '75a4384a-7a89-4924-942c-908a22071c3e',
-    name: 'Action generated for Something went offline',
-    description: 'Test offline event',
-    type: 'MANUAL',
-    fields: [
-      {
-        name: 'content',
-        description: 'Content for manual action',
-        encoding: 'base64',
-        value:
-          'CjEuIFVzZSB0aGUgY29tbWFuZCAiY3JpbyBvZmZsaW5lIiB0byBjaGVjayBpZiB0aGUgc3lzdGVtIGlzIGluZGVlZCBvZmZsaW5lLg==',
-        secured: false
-      }
-    ],
-    inputParameters: [],
-    tags: ['watsonx'],
-    createdAt: 1725555343.65804,
-    modifiedAt: 1725555343.65804,
-    metadata: {
-      readOnly: false,
-      builtIn: false,
-      sensorImported: false,
-      aiOriginated: true,
-      ai: null
+    {
+      id: '638625938196564:2024-10-09T18:25:21Z',
+      name: 'Provision Virtual Machine similar to worker3.zturbo.cp.fyre.ibm.com',
+      description: 'Clone worker3.zturbo.cp.fyre.ibm.com on cloned openshift-monitoring/prometheus-k8s-1',
+      actionType: 'PROVISION',
+      actionCategory: 'PERFORMANCE_ASSURANCE',
+      impactedServices: 0,
+      createdDate: 1728501187693,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196564',
+      targetClass: 'VirtualMachine'
     },
-    score: 0.34816308690973763,
-    confidence: 'high',
-    aiEngine: 'NLP'
-  },
-  {
-    id: '13748ff3-9ff9-47b4-bbbd-0504b8d433a3',
-    name: 'Action generated for Something went offline-1',
-    description: 'Test offline event',
-    type: 'MANUAL',
-    fields: [
-      {
-        name: 'content',
-        description: 'Content for manual action',
-        encoding: 'base64',
-        value: 'CjEuIFVzZSB0aGUgY29tbWFuZCBgZG9ja2VyIHBzYCB0byBjaGVjayBpZiBhbnkgY29udGFpbmVycyBhcmUgb2ZmbGluZS4=',
-        secured: false
-      }
-    ],
-    inputParameters: [],
-    tags: ['watsonx'],
-    createdAt: 1725628292.026009,
-    modifiedAt: 1725628292.026009,
-    metadata: {
-      readOnly: false,
-      builtIn: false,
-      sensorImported: false,
-      aiOriginated: true,
-      ai: null
+    {
+      id: '638627166984448:2024-10-09T19:05:21Z',
+      name: 'Move Container Pod openshift-kube-storage-version-migrator/migrator-74c47b59fb-2clhx from worker4.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description:
+        '"openshift-kube-storage-version-migrator/migrator-74c47b59fb-2clhx" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187693,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638627166984448',
+      targetClass: 'ContainerPod'
     },
-    score: 0.34816308690973763,
-    confidence: 'high',
-    aiEngine: 'NLP'
-  },
-  {
-    id: 'f3705035-222e-41fc-a44a-c3c63ae33735',
-    name: "(Copy of) Fetch host's top CPU consumers_Y7F3d7bWkTuIscrl",
-    description: 'This script fetches the top 10 CPU consumers on this host.',
-    type: 'SCRIPT',
-    fields: [
-      {
-        name: 'subtype',
-        description: 'script subtype',
-        encoding: 'base64',
-        value: '',
-        secured: false
-      },
-      {
-        name: 'script_ssh',
-        description: 'script content',
-        encoding: 'base64',
-        value: 'IyEvYmluL2Jhc2gKcHMgYXV4IC0tc29ydCAtJWNwdSB8IGhlYWQgLTEx',
-        secured: false
-      },
-      {
-        name: 'timeout',
-        description: 'timeout of the action execution in seconds',
-        encoding: 'ascii',
-        value: '',
-        secured: false
-      }
-    ],
-    inputParameters: [],
-    tags: ['host', 'diagnostic', 'CPU', 'linux', 'watsonx'],
-    createdAt: 1721858362.427186,
-    modifiedAt: 1721858362.427186,
-    metadata: {
-      readOnly: false,
-      builtIn: false,
-      sensorImported: false,
-      aiOriginated: true,
-      ai: null
+    {
+      id: '638625938196422:2024-10-09T04:25:21Z',
+      name: 'Move Container Pod openshift-monitoring/thanos-querier-5f8b5bb66d-d79bh from worker2.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"openshift-monitoring/thanos-querier-5f8b5bb66d-d79bh" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187692,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196422',
+      targetClass: 'ContainerPod'
     },
-    score: 0.31108550841914145,
-    confidence: 'high',
-    aiEngine: 'NLP'
-  },
-  {
-    id: '2dd836c6-22d3-4abe-9ef0-d3b8e3223b50',
-    name: 'Copy of(Remediate a host with low disk space)_Y2sfVj18tTf1ZWRQ',
-    description: 'These steps help you diagnose and remediate a host with low disk space.',
-    type: 'MANUAL',
-    fields: [
-      {
-        name: 'content',
-        description: 'Content for manual action',
-        encoding: 'base64',
-        value:
-          'MS4gVXNlIHRoZSBgZGZgIGNvbW1hbmQgdG8gZGlzcGxheSB0aGUgYW1vdW50IG9mIGRpc2sgc3BhY2UgdXNlZCBhbmQgYXZhaWxhYmxlIG9uIGVhY2ggbW91bnRlZCBmaWxlc3lzdGVtLgoyLiBMb29rIGZvciBwYXR0ZXJucyBpbiBkaXNrIHVzYWdlLCBzdWNoIGFzIHJhcGlkIGluY3JlYXNlcyBpbiB1c2VkIHNwYWNlLgozLiBJZGVudGlmeSBhbmQgcmVtb3ZlIG9sZCBvciB1bnVzZWQgcGFja2FnZSBpbnN0YWxsYXRpb25zLgo0LiBBZGp1c3Qgc3lzdGVtIHNldHRpbmdzLCBzdWNoIGFzIHRoZSBidWZmZXIgc2l6ZSBvciBzd2FwIHNwYWNlLgo1LiBVc2UgYSBkaXNrIHVzYWdlIGFuYWx5emVyIGxpa2UgYG5hdXRpbHVzYCBvciBgZHVgIHRvIGlkZW50aWZ5IGxhcmdlIG9yIHVubmVjZXNzYXJ5IGZpbGVzIGFuZCBkaXJlY3RvcmllcyB0aGF0IGFyZSBjb25zdW1pbmcgc2lnbmlmaWNhbnQgZGlzayBzcGFjZS4gRGVsZXRlIG9yIG1vdmUgdGhlc2UgZmlsZXMgdG8gZnJlZSB1cCBzcGFjZS4KNi4gQ29uc2lkZXIgdXBncmFkaW5nIHlvdXIgc3RvcmFnZSBkZXZpY2UgdG8gYSBsYXJnZXIgY2FwYWNpdHku',
-        secured: false
-      }
-    ],
-    inputParameters: [],
-    tags: ['host', 'disk', 'watsonx'],
-    createdAt: 1718294394.28539,
-    modifiedAt: 1718294394.28539,
-    metadata: {
-      readOnly: false,
-      builtIn: false,
-      sensorImported: false,
-      aiOriginated: true,
-      ai: null
+    {
+      id: '638625938196462:2024-10-08T00:55:21Z',
+      name: 'Move Container Pod openshift-kube-scheduler/openshift-kube-scheduler-guard-master1.zturbo.cp.fyre.ibm.com from master1.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description:
+        '"openshift-kube-scheduler/openshift-kube-scheduler-guard-master1.zturbo.cp.fyre.ibm.com" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187691,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196462',
+      targetClass: 'ContainerPod'
     },
-    score: 0.2927700383214887,
-    confidence: 'medium',
-    aiEngine: 'NLP'
-  },
-  {
-    id: 'a2d914a5-b486-4ba4-a1c5-b653b38fbfa4',
-    name: '(Copy of) Diagnose a host with frequent TCP fails-3',
-    description: 'These instructions will help you diagnose frequent TCP fails on a host.',
-    type: 'MANUAL',
-    fields: [
-      {
-        name: 'content',
-        description: 'Content for manual action',
-        encoding: 'base64',
-        value: 'MS4gQ2hlY2sgZm9yIGNvbm5lY3Rpb25zIHRoYXQgZmFpbGVkIHRvIHN0YXJ0IGZyb20gdGhpcyBuZXR3b3JrIGRldmljZS4=',
-        secured: false
-      }
-    ],
-    inputParameters: [],
-    tags: ['host', 'diagnostic', 'tcp', 'watsonx'],
-    createdAt: 1717181071.854883,
-    modifiedAt: 1717181071.854883,
-    score: 0.29277002188460033,
-    confidence: 'medium',
-    aiEngine: 'NLP'
-  },
-  {
-    id: 'a4888325-fb6a-4f95-b761-ba7497e1c054',
-    name: '(Copy of) Diagnose a host with frequent TCP fails',
-    description: 'These instructions will help you diagnose frequent TCP fails on a host.',
-    type: 'MANUAL',
-    fields: [
-      {
-        name: 'content',
-        description: 'Content for manual action',
-        encoding: 'base64',
-        value: 'MS4gQ2hlY2sgZm9yIGNvbm5lY3Rpb25zIHRoYXQgZmFpbGVkIHRvIHN0YXJ0IGZyb20gdGhpcyBuZXR3b3JrIGRldmljZS4=',
-        secured: false
-      }
-    ],
-    inputParameters: [],
-    tags: ['host', 'diagnostic', 'tcp', 'watsonx'],
-    createdAt: 1716908426.689537,
-    modifiedAt: 1716908426.689537,
-    score: 0.29277002188460033,
-    confidence: 'medium',
-    aiEngine: 'NLP'
-  },
-  {
-    id: '24ef4393-d8c7-45e9-a799-1bc911abc697',
-    name: '(Copy of) Diagnose a host with frequent TCP errors',
-    description: 'These instructions will help you diagnose frequent TCP errors on a host.',
-    type: 'MANUAL',
-    fields: [
-      {
-        name: 'content',
-        description: 'Content for manual action',
-        encoding: 'base64',
-        value: 'MS4gQ2hlY2sgZm9yIGJhZCBzZWdtZW50cyByZWNlaXZlZCBpbiB0aGUgbmV0d29yayBkZXZpY2Uu',
-        secured: false
-      }
-    ],
-    inputParameters: [],
-    tags: ['host', 'diagnostic', 'tcp', 'watsonx'],
-    createdAt: 1716571815.587577,
-    modifiedAt: 1716571815.587577,
-    score: 0.29277002188460033,
-    confidence: 'medium',
-    aiEngine: 'NLP'
-  },
-  {
-    id: '70fb1b20-392b-4d61-9feb-4c054f918ec5',
-    name: 'Action generated for Something went offline-00',
-    description: 'This resolves event with Test offline event',
-    type: 'MANUAL',
-    fields: [
-      {
-        name: 'content',
-        description: 'Content for manual action',
-        encoding: 'base64',
-        value:
-          'MS4gVXNlIHRoZSBjb21tYW5kIGBjb250YWluZXJkIHN0YXR1c2AgdG8gY2hlY2sgdGhlIHN0YXR1cyBvZiB0aGUgY29udGFpbmVyIHJ1bnRpbWUu',
-        secured: false
-      }
-    ],
-    inputParameters: [],
-    tags: ['watsonx'],
-    createdAt: 1726627628.501695,
-    modifiedAt: 1726627628.501695,
-    metadata: {
-      readOnly: false,
-      builtIn: false,
-      sensorImported: false,
-      aiOriginated: true,
-      ai: null
+    {
+      id: '638625938196423:2024-10-08T16:55:21Z',
+      name: 'Move Container Pod openshift-network-diagnostics/network-check-source-648896c45f-wjrcv from worker4.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description:
+        '"openshift-network-diagnostics/network-check-source-648896c45f-wjrcv" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187691,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196423',
+      targetClass: 'ContainerPod'
     },
-    score: 0.2886795666464596,
-    confidence: 'medium',
-    aiEngine: 'NLP'
-  },
-  {
-    id: '07b31fc4-bf7b-444d-8005-d7f1f2bebe5c',
-    name: 'Copy of(Remediate high CPU system load on a host)_6-WqtPzPOnP0BmNO',
-    description: 'These steps help you diagnose and remediate high CPU system load on a host.',
-    type: 'MANUAL',
-    fields: [
-      {
-        name: 'content',
-        description: 'Content for manual action',
-        encoding: 'base64',
-        value:
-          'MS4gRmV0Y2ggbGlzdCBvZiB0b3AgQ1BVIGNvbnN1bWVycyBvbiB0aGUgaG9zdCB1c2luZyBzeXN0ZW0gY29tbWFuZHMgc3VjaCBhcyBgdG9wYC4KMi4gQ2hlY2sgZm9yIGFueSB1bnVzdWFsIGFjdGl2aXR5IGFuZCBhbnkgcGF0dGVybiB0aGF0IHJlc2VtYmxlcyB0aGUgQ1BVIHNwaWtlIG9uIHRoZSBob3N0LgozLiBUZXJtaW5hdGUgdW5uZWNlc3NhcnkgcHJvY2Vzc2VzIG9yIGFueSBwcm9jZXNzIGNvbnN1bWluZyBhbiB1bnVzdWFsIGhpZ2ggYW1vdW50IG9mIENQVS4KNC4gQ29uc2lkZXIgbW92aW5nIHdvcmtsb2FkcyBpbnRvIGFub3RoZXIgaG9zdCBvciBpbmNyZWFzaW5nIHRoZSBob3N0J3MgQ1BVIGNhcGFjaXR5LiA=',
-        secured: false
-      }
-    ],
-    inputParameters: [],
-    tags: ['host', 'CPU', 'watsonx'],
-    createdAt: 1718390612.054569,
-    modifiedAt: 1718390612.054569,
-    metadata: {
-      readOnly: false,
-      builtIn: false,
-      sensorImported: false,
-      aiOriginated: true,
-      ai: null
+    {
+      id: '638625938196460:2024-10-08T00:55:21Z',
+      name: 'Move Container Pod openshift-kube-apiserver/kube-apiserver-guard-master1.zturbo.cp.fyre.ibm.com from master1.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description:
+        '"openshift-kube-apiserver/kube-apiserver-guard-master1.zturbo.cp.fyre.ibm.com" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187690,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196460',
+      targetClass: 'ContainerPod'
     },
-    score: 0.2738612787526255,
-    confidence: 'medium',
-    aiEngine: 'NLP'
-  },
-  {
-    id: 'acd28842-4b5b-4099-8232-f2f4c7e19330',
-    name: 'bry test 1234',
-    description: 'These instructions will help you diagnose frequent TCP errors on a host.',
-    type: 'MANUAL',
-    fields: [
-      {
-        name: 'content',
-        description: 'Content for manual action',
-        encoding: 'base64',
-        value: 'MS4gQ2hlY2sgZm9yIGJhZCBzZWdtZW50cyByZWNlaXZlZCBpbiB0aGUgbmV0d29yayBkZXZpY2Uu',
-        secured: false
-      }
-    ],
-    inputParameters: [],
-    tags: ['host', 'diagnostic', 'tcp', 'watsonx'],
-    createdAt: 1717516781.350324,
-    modifiedAt: 1717516781.350324,
-    score: 0.27216738409811436,
-    confidence: 'medium',
-    aiEngine: 'NLP'
-  },
-  {
-    id: '4f6196c0-b954-386b-a621-2b0f0c938aa1',
-    name: 'Get File Space Usage Info on host',
-    type: 'ANSIBLE',
-    fields: [
-      {
-        name: 'playbookId',
-        description: 'The playbook ID',
-        encoding: 'ascii',
-        value: '44',
-        secured: false
-      },
-      {
-        name: 'playbookFileName',
-        description: 'The playbook filename',
-        encoding: 'ascii',
-        value: 'ansible/host/hostDiskUsageDebug.yaml',
-        secured: false
-      },
-      {
-        name: 'ansibleUrl',
-        description: 'The ansible url',
-        encoding: 'ascii',
-        value: 'https://9.66.244.190',
-        secured: false
-      },
-      {
-        name: 'hostId',
-        description: 'The host ID from which this action is created',
-        encoding: 'ascii',
-        value: '00:00:0a:ff:fe:15:42:42',
-        secured: false
-      }
-    ],
-    createdAt: 1712878652.280075,
-    modifiedAt: 1726745701.863438,
-    metadata: {
-      readOnly: false,
-      builtIn: false,
-      sensorImported: true,
-      aiOriginated: false,
-      ai: null
+    {
+      id: '638625938196461:2024-10-08T00:55:21Z',
+      name: 'Move Container Pod openshift-kube-controller-manager/kube-controller-manager-guard-master1.zturbo.cp.fyre.ibm.com from master1.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description:
+        '"openshift-kube-controller-manager/kube-controller-manager-guard-master1.zturbo.cp.fyre.ibm.com" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187690,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196461',
+      targetClass: 'ContainerPod'
     },
-    score: 0.25819888976719696,
-    confidence: 'medium',
-    aiEngine: 'NLP'
-  },
-  {
-    id: '5d3cdc03-4cb5-3a3a-9064-152506bf27d3',
-    name: 'Get Top Processes Memory Usage on host',
-    type: 'ANSIBLE',
-    fields: [
-      {
-        name: 'playbookId',
-        description: 'The playbook ID',
-        encoding: 'ascii',
-        value: '46',
-        secured: false
-      },
-      {
-        name: 'playbookFileName',
-        description: 'The playbook filename',
-        encoding: 'ascii',
-        value: 'ansible/host/hostMemoryTopConsumersDebug.yaml',
-        secured: false
-      },
-      {
-        name: 'ansibleUrl',
-        description: 'The ansible url',
-        encoding: 'ascii',
-        value: 'https://9.66.244.190',
-        secured: false
-      },
-      {
-        name: 'hostId',
-        description: 'The host ID from which this action is created',
-        encoding: 'ascii',
-        value: '00:00:0a:ff:fe:15:42:42',
-        secured: false
-      }
-    ],
-    createdAt: 1712878653.152321,
-    modifiedAt: 1726745702.000444,
-    metadata: {
-      readOnly: false,
-      builtIn: false,
-      sensorImported: true,
-      aiOriginated: false,
-      ai: null
+    {
+      id: '638625938196458:2024-10-08T00:55:21Z',
+      name: 'Move Container Pod openshift-kube-scheduler/openshift-kube-scheduler-guard-master0.zturbo.cp.fyre.ibm.com from master0.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description:
+        '"openshift-kube-scheduler/openshift-kube-scheduler-guard-master0.zturbo.cp.fyre.ibm.com" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187689,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196458',
+      targetClass: 'ContainerPod'
     },
-    score: 0.25819888974716115,
-    confidence: 'medium',
-    aiEngine: 'NLP'
-  },
-  {
-    id: '95893fea-ed65-366e-bcf2-19a75905dc6f',
-    name: 'Get Top Processes CPU Usage on host',
-    type: 'ANSIBLE',
-    fields: [
-      {
-        name: 'playbookId',
-        description: 'The playbook ID',
-        encoding: 'ascii',
-        value: '42',
-        secured: false
-      },
-      {
-        name: 'playbookFileName',
-        description: 'The playbook filename',
-        encoding: 'ascii',
-        value: 'ansible/host/hostCPUTopConsumersDebug.yaml',
-        secured: false
-      },
-      {
-        name: 'ansibleUrl',
-        description: 'The ansible url',
-        encoding: 'ascii',
-        value: 'https://9.66.244.190',
-        secured: false
-      },
-      {
-        name: 'hostId',
-        description: 'The host ID from which this action is created',
-        encoding: 'ascii',
-        value: '00:00:0a:ff:fe:15:42:42',
-        secured: false
-      }
-    ],
-    createdAt: 1712878653.141028,
-    modifiedAt: 1726745701.990744,
-    metadata: {
-      readOnly: false,
-      builtIn: false,
-      sensorImported: true,
-      aiOriginated: false,
-      ai: null
+    {
+      id: '638625938196459:2024-10-08T00:55:21Z',
+      name: 'Move Container Pod openshift-etcd/etcd-guard-master1.zturbo.cp.fyre.ibm.com from master1.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"openshift-etcd/etcd-guard-master1.zturbo.cp.fyre.ibm.com" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187689,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196459',
+      targetClass: 'ContainerPod'
     },
-    score: 0.25819888974716115,
-    confidence: 'medium',
-    aiEngine: 'NLP'
-  },
-  {
-    id: '68ce4660-3960-35aa-8245-9f051eb1e749',
-    name: 'cmh-top-cpu-consumers',
-    description: 'Get list of top CPU consumers on host',
-    type: 'ANSIBLE',
-    fields: [
-      {
-        name: 'playbookId',
-        description: 'The playbook ID',
-        encoding: 'ascii',
-        value: '51',
-        secured: false
-      },
-      {
-        name: 'playbookFileName',
-        description: 'The playbook filename',
-        encoding: 'ascii',
-        value: 'ansible/host/hostCPUTopConsumersDebug.yaml',
-        secured: false
-      },
-      {
-        name: 'ansibleUrl',
-        description: 'The ansible url',
-        encoding: 'ascii',
-        value: 'https://9.66.244.190',
-        secured: false
-      },
-      {
-        name: 'hostId',
-        description: 'The host ID from which this action is created',
-        encoding: 'ascii',
-        value: '00:00:0a:ff:fe:15:42:42',
-        secured: false
-      }
-    ],
-    tags: ['cpu', 'diagnostic', 'host', 'watsonx'],
-    createdAt: 1712878652.137854,
-    modifiedAt: 1726745701.723112,
-    metadata: {
-      readOnly: false,
-      builtIn: false,
-      sensorImported: true,
-      aiOriginated: false,
-      ai: null
+    {
+      id: '638625938196456:2024-10-08T00:55:21Z',
+      name: 'Move Container Pod openshift-kube-apiserver/kube-apiserver-guard-master0.zturbo.cp.fyre.ibm.com from master0.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description:
+        '"openshift-kube-apiserver/kube-apiserver-guard-master0.zturbo.cp.fyre.ibm.com" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187688,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196456',
+      targetClass: 'ContainerPod'
     },
-    score: 0.23094010767585665,
-    confidence: 'medium',
-    aiEngine: 'NLP'
-  }
-];
+    {
+      id: '638625938196457:2024-10-08T00:55:21Z',
+      name: 'Move Container Pod openshift-kube-controller-manager/kube-controller-manager-guard-master0.zturbo.cp.fyre.ibm.com from master0.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description:
+        '"openshift-kube-controller-manager/kube-controller-manager-guard-master0.zturbo.cp.fyre.ibm.com" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187688,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196457',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196454:2024-10-08T00:55:21Z',
+      name: 'Move Container Pod openshift-kube-scheduler/openshift-kube-scheduler-guard-master2.zturbo.cp.fyre.ibm.com from master2.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description:
+        '"openshift-kube-scheduler/openshift-kube-scheduler-guard-master2.zturbo.cp.fyre.ibm.com" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187687,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196454',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196455:2024-10-08T00:55:21Z',
+      name: 'Move Container Pod openshift-etcd/etcd-guard-master0.zturbo.cp.fyre.ibm.com from master0.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"openshift-etcd/etcd-guard-master0.zturbo.cp.fyre.ibm.com" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187687,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196455',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196452:2024-10-08T00:55:21Z',
+      name: 'Move Container Pod openshift-kube-apiserver/kube-apiserver-guard-master2.zturbo.cp.fyre.ibm.com from master2.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description:
+        '"openshift-kube-apiserver/kube-apiserver-guard-master2.zturbo.cp.fyre.ibm.com" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187686,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196452',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196453:2024-10-08T00:55:21Z',
+      name: 'Move Container Pod openshift-kube-controller-manager/kube-controller-manager-guard-master2.zturbo.cp.fyre.ibm.com from master2.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description:
+        '"openshift-kube-controller-manager/kube-controller-manager-guard-master2.zturbo.cp.fyre.ibm.com" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187686,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196453',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196416:2024-10-07T23:05:21Z',
+      name: 'Move Container Pod openshift-ingress/router-default-75b95c87bb-xqphr from worker2.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"openshift-ingress/router-default-75b95c87bb-xqphr" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187685,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196416',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196417:2024-10-07T23:05:21Z',
+      name: 'Move Container Pod openshift-ingress/router-default-75b95c87bb-zr8fg from worker4.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"openshift-ingress/router-default-75b95c87bb-zr8fg" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187685,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196417',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196451:2024-10-01T18:45:21Z',
+      name: 'Move Container Pod openshift-etcd/etcd-guard-master2.zturbo.cp.fyre.ibm.com from master2.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"openshift-etcd/etcd-guard-master2.zturbo.cp.fyre.ibm.com" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187684,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196451',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196560:2024-09-30T19:05:22Z',
+      name: 'Reconfigure Container Pod rook-ceph/rook-ceph-osd-1-5bd6f88bcb-wl45k to provide Segmentation',
+      description: '"rook-ceph/rook-ceph-osd-1-5bd6f88bcb-wl45k" doesn\'t comply with "Movetoworker3"',
+      actionType: 'RECONFIGURE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187683,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196560',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196561:2024-09-30T19:05:22Z',
+      name: 'Reconfigure Container Pod rook-ceph/rook-ceph-osd-4-5c9db8f57c-mj85t to provide Segmentation',
+      description: '"rook-ceph/rook-ceph-osd-4-5c9db8f57c-mj85t" doesn\'t comply with "Movetoworker3"',
+      actionType: 'RECONFIGURE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187683,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196561',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196562:2024-09-30T19:05:22Z',
+      name: 'Reconfigure Container Pod rook-ceph/rook-ceph-crashcollector-worker4.zturbo.cp.fyre.ibm.com-68bjf6d to provide Segmentation',
+      description:
+        '"rook-ceph/rook-ceph-crashcollector-worker4.zturbo.cp.fyre.ibm.com-68bjf6d" doesn\'t comply with "Movetoworker3"',
+      actionType: 'RECONFIGURE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187683,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196562',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196563:2024-09-30T19:05:22Z',
+      name: 'Reconfigure Container Pod rook-ceph/rook-ceph-mon-m-6f84966cbb-vfl4s to provide Segmentation',
+      description: '"rook-ceph/rook-ceph-mon-m-6f84966cbb-vfl4s" doesn\'t comply with "Movetoworker3"',
+      actionType: 'RECONFIGURE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187683,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196563',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196556:2024-09-30T19:05:22Z',
+      name: 'Reconfigure Container Pod rook-ceph/rook-ceph-osd-0-596d4788f6-cn8zb to provide Segmentation',
+      description: '"rook-ceph/rook-ceph-osd-0-596d4788f6-cn8zb" doesn\'t comply with "Movetoworker3"',
+      actionType: 'RECONFIGURE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187682,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196556',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196557:2024-09-30T19:05:22Z',
+      name: 'Reconfigure Container Pod rook-ceph/rook-ceph-osd-3-5f79cc6dc8-dqq9m to provide Segmentation',
+      description: '"rook-ceph/rook-ceph-osd-3-5f79cc6dc8-dqq9m" doesn\'t comply with "Movetoworker3"',
+      actionType: 'RECONFIGURE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187682,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196557',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196558:2024-09-30T19:05:22Z',
+      name: 'Reconfigure Container Pod rook-ceph/rook-ceph-crashcollector-worker1.zturbo.cp.fyre.ibm.com-6c7f5xh to provide Segmentation',
+      description:
+        '"rook-ceph/rook-ceph-crashcollector-worker1.zturbo.cp.fyre.ibm.com-6c7f5xh" doesn\'t comply with "Movetoworker3"',
+      actionType: 'RECONFIGURE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187682,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196558',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196559:2024-09-30T19:05:22Z',
+      name: 'Reconfigure Container Pod rook-ceph/rook-ceph-mon-k-77797c9785-ztnmn to provide Segmentation',
+      description: '"rook-ceph/rook-ceph-mon-k-77797c9785-ztnmn" doesn\'t comply with "Movetoworker3"',
+      actionType: 'RECONFIGURE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187682,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196559',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638610516393360:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod turbonomic/market-66d59d7ff8-gdpdh from worker5.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"turbonomic/market-66d59d7ff8-gdpdh" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187681,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638610516393360',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196555:2024-09-30T19:05:22Z',
+      name: 'Reconfigure Container Pod rook-ceph/rook-ceph-crashcollector-worker0.zturbo.cp.fyre.ibm.com-74hgzpc to provide Segmentation',
+      description:
+        '"rook-ceph/rook-ceph-crashcollector-worker0.zturbo.cp.fyre.ibm.com-74hgzpc" doesn\'t comply with "Movetoworker3"',
+      actionType: 'RECONFIGURE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187681,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196555',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638610731783104:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod turbonomic/cost-56479b994f-dt4gm from worker5.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"turbonomic/cost-56479b994f-dt4gm" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187680,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638610731783104',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638610923781520:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod turbonomic/history-747d6c976-ms9c8 from worker5.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"turbonomic/history-747d6c976-ms9c8" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187680,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638610923781520',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196449:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod turbonomic/clustermgr-78d457d96c-4x795 from worker5.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"turbonomic/clustermgr-78d457d96c-4x795" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187679,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196449',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196447:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod turbonomic/rsyslog-6c6f89ccf8-sb8z9 from worker4.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"turbonomic/rsyslog-6c6f89ccf8-sb8z9" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187678,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196447',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196448:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod turbonomic/ui-5b8b7fb456-7z2l9 from worker4.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"turbonomic/ui-5b8b7fb456-7z2l9" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187678,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196448',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196446:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod turbonomic/server-power-modeler-6c9cc9574b-dx9xk from worker0.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"turbonomic/server-power-modeler-6c9cc9574b-dx9xk" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187677,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196446',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196444:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod turbonomic/db-59ccbdb45b-v2r6f from worker1.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"turbonomic/db-59ccbdb45b-v2r6f" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187676,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196444',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196445:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod turbonomic/zookeeper-66bd985cfc-95dwg from worker1.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"turbonomic/zookeeper-66bd985cfc-95dwg" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187676,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196445',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196443:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod turbonomic/action-orchestrator-7c6494c744-hjn45 from worker1.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"turbonomic/action-orchestrator-7c6494c744-hjn45" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187675,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196443',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196441:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod turbonomic/t8c-operator-ccf78cdcd-7zgjn from worker0.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"turbonomic/t8c-operator-ccf78cdcd-7zgjn" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187674,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196441',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196442:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod turbonomic/api-d66458544-7x4h7 from worker0.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"turbonomic/api-d66458544-7x4h7" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187674,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196442',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196440:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod turbonomic/suspend-7986489cdf-zzhnl from worker0.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"turbonomic/suspend-7986489cdf-zzhnl" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187673,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196440',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196439:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod turbonomic/redis-7fdb48d7f9-qstdk from worker0.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"turbonomic/redis-7fdb48d7f9-qstdk" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187672,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196439',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196437:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod turbonomic/nginx-5b4d69c8b6-w8lwl from worker0.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"turbonomic/nginx-5b4d69c8b6-w8lwl" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187671,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196437',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196438:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod turbonomic/prometheus-kube-state-metrics-5686b46ccc-q95hj from worker0.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"turbonomic/prometheus-kube-state-metrics-5686b46ccc-q95hj" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187671,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196438',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196436:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod turbonomic/kafka-cc7d78dd4-xd7vc from worker0.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"turbonomic/kafka-cc7d78dd4-xd7vc" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187670,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196436',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196434:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod rook-ceph/rook-ceph-operator-6df5b5bfd7-tfx9j from worker0.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"rook-ceph/rook-ceph-operator-6df5b5bfd7-tfx9j" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187669,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196434',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196435:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod turbonomic/consul-5876997977-cxtcp from worker0.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"turbonomic/consul-5876997977-cxtcp" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187669,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196435',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196433:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod kubeturbo-operator/kubeturbo-operator-56d55f8dff-vrt7b from worker0.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"kubeturbo-operator/kubeturbo-operator-56d55f8dff-vrt7b" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187668,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196433',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196431:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod turbonomic/telemetry-7f4f947b77-ld649 from worker2.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"turbonomic/telemetry-7f4f947b77-ld649" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187667,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196431',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196432:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod turbonomic/prometheus-server-846d8b9f95-nk5c4 from worker2.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"turbonomic/prometheus-server-846d8b9f95-nk5c4" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187667,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196432',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196430:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod openshift-monitoring/prometheus-operator-admission-webhook-76776d7749-f9gvv from worker2.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description:
+        '"openshift-monitoring/prometheus-operator-admission-webhook-76776d7749-f9gvv" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187666,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196430',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196428:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod rook-ceph/csi-cephfsplugin-provisioner-64fb879689-hf7mw from worker1.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"rook-ceph/csi-cephfsplugin-provisioner-64fb879689-hf7mw" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187665,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196428',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196429:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod rook-ceph/csi-rbdplugin-provisioner-7db5f4d577-57g2l from worker1.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"rook-ceph/csi-rbdplugin-provisioner-7db5f4d577-57g2l" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187665,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196429',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196427:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod rook-ceph/rook-ceph-mgr-a-784fbb6668-8pbqt from worker2.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"rook-ceph/rook-ceph-mgr-a-784fbb6668-8pbqt" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187664,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196427',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196426:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod rook-ceph/rook-ceph-mds-myfs-b-65f7dd7867-7rt6b from worker0.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"rook-ceph/rook-ceph-mds-myfs-b-65f7dd7867-7rt6b" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187663,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196426',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196424:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod openshift-monitoring/kube-state-metrics-58d76bf89b-xfj89 from worker4.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"openshift-monitoring/kube-state-metrics-58d76bf89b-xfj89" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187662,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196424',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196425:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod openshift-monitoring/openshift-state-metrics-ff95cf97b-7qvgm from worker4.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description:
+        '"openshift-monitoring/openshift-state-metrics-ff95cf97b-7qvgm" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187662,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196425',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196420:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod openshift-monitoring/alertmanager-main-0 from worker2.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"openshift-monitoring/alertmanager-main-0" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187661,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196420',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638638379782656:2024-10-09T19:05:21Z',
+      name: 'Move Container Pod instana-agent/controller-manager-7d8c89b6c5-gbqzg from worker3.zturbo.cp.fyre.ibm.com to worker2.zturbo.cp.fyre.ibm.com',
+      description: 'Improve overall performance',
+      actionType: 'MOVE',
+      actionCategory: 'PREVENTION',
+      impactedServices: 0,
+      createdDate: 1728501187660,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638638379782656',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638625938196418:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod openshift-monitoring/prometheus-k8s-0 from worker2.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"openshift-monitoring/prometheus-k8s-0" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728501187660,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196418',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638610626186192:2024-09-30T19:05:22Z',
+      name: 'Move Container Pod turbonomic/mediation-webhook-8555bdf84c-c2vwz from worker5.zturbo.cp.fyre.ibm.com to worker3.zturbo.cp.fyre.ibm.com',
+      description: '"turbonomic/mediation-webhook-8555bdf84c-c2vwz" doesn\'t comply with "Movetoworker3"',
+      actionType: 'MOVE',
+      actionCategory: 'COMPLIANCE',
+      impactedServices: 0,
+      createdDate: 1728500587645,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638610626186192',
+      targetClass: 'ContainerPod'
+    },
+    {
+      id: '638638350980544:2024-10-09T18:35:21Z',
+      name: 'Move Container Pod instana-agent/controller-manager-7d8c89b6c5-gbqzg from worker3.zturbo.cp.fyre.ibm.com to worker5.zturbo.cp.fyre.ibm.com',
+      description: 'Improve overall performance',
+      actionType: 'MOVE',
+      actionCategory: 'PREVENTION',
+      impactedServices: 0,
+      createdDate: 1728500587621,
+      actionDetailsURL:
+        'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638638350980544',
+      targetClass: 'ContainerPod'
+    }
+  ],
+  actionTypesCount: {
+    MOVE: 52,
+    PROVISION: 1,
+    RECONFIGURE: 9
+  },
+  actionCategoriesCount: {
+    COMPLIANCE: 59,
+    PREVENTION: 2,
+    PERFORMANCE_ASSURANCE: 1
+  },
+  totalRecommendedActionsCount: 62
+};
 
-export const recommendedList = { data, erros: [], progress: { loading: false } };
+export const recommendedList = { data: testData.recommendedActions, erros: [], progress: { loading: false } };

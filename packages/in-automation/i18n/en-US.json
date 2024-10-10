@@ -81,7 +81,7 @@
   "tagsLabel": "Tags (optional)",
   "types": "Types",
   "actionCategory": "Categories",
-  "impactedServices": "Impacted services",
+  "impactedServices": "Impacted applications",
   "value": "Value",
   "type": "Type",
   "automationPoliciesWithCount": "Automation Policies ({{count}})",

@@ -48,6 +48,7 @@ export default function ResourceOptimizationTab({ applicationId, timeConfig, bou
 
   const oneSecond = 1000;
   const oneMinute = oneSecond * 60;
+  const showGuidance = false;
 
   function generateTimeframe(windowSize: number) {
     return {
@@ -83,45 +84,47 @@ export default function ResourceOptimizationTab({ applicationId, timeConfig, bou
 
   return (
     <div className={locals.contentContainer}>
-      <InfoPanel
-        content={{
-          //text not finalized, no i18n yet
-          title: 'Resource optimizations, powered by Turbonomic',
-          columns: [
-            {
-              title: 'Set up integration',
-              text: 'You can automate actions to comply with service level objectives and improve business efficiency.',
-              link: {
-                url: '#',
-                label: 'Set up'
+      {showGuidance && (
+        <InfoPanel
+          content={{
+            //text not finalized, no i18n yet
+            title: 'Resource optimizations, powered by Turbonomic',
+            columns: [
+              {
+                title: 'Set up integration',
+                text: 'You can automate actions to comply with service level objectives and improve business efficiency.',
+                link: {
+                  url: '#',
+                  label: 'Set up'
+                }
+              },
+              {
+                title: 'Upgrade to Instana Premium',
+                text: 'You can automate actions to comply with service levels and improve business efficiency.',
+                link: {
+                  url: '#',
+                  label: 'Upgrade'
+                }
+              },
+              {
+                title: 'View documentation',
+                text: 'You can automate actions to comply with service levels and improve business efficiency.',
+                link: {
+                  url: '#',
+                  label: 'View docs'
+                }
               }
-            },
-            {
-              title: 'Upgrade to Instana Premium',
-              text: 'You can automate actions to comply with service levels and improve business efficiency.',
-              link: {
-                url: '#',
-                label: 'Upgrade'
-              }
-            },
-            {
-              title: 'View documentation',
-              text: 'You can automate actions to comply with service levels and improve business efficiency.',
-              link: {
-                url: '#',
-                label: 'View docs'
-              }
-            }
-          ]
-        }}
-      />
+            ]
+          }}
+        />
+      )}
       <div className={locals.charts}>
         <div className={locals.box1}>
           <ResultAwareChart
             result={recommendedOptimizations}
             config={{
               title: t('in-automation:actionCategory'),
-              timeConfig: generateTimeframe(oneMinute),
+              timeConfig: generateTimeframe(oneMinute), //Not meaningful, but seems required.
               y1: {
                 renderer: Renderer.pie,
                 labels: pieLabels,
