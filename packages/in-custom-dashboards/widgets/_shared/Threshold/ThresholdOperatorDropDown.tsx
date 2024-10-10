@@ -20,10 +20,10 @@ const thresholdOperatorOptions: Options = Array.from(humanReadableThresholdOpera
 
 interface ThresholdOperatorDropDownProps {
   field: Field<ThresholdOperator>;
-  change: (newValue: ThresholdOperator) => void;
+  onChange: (newValue: ThresholdOperator) => void;
 }
 
-export function ThresholdOperatorDropDown({ field, change }: ThresholdOperatorDropDownProps) {
+export default function ThresholdOperatorDropDown({ field, onChange }: ThresholdOperatorDropDownProps) {
   // Dropdown does not export DropdownItems, using Option as a replacement with same structure
-  return <Dropdown value={field.value as string} items={thresholdOperatorOptions as Option[]} onChange={change} />;
+  return <Dropdown value={field.value as string} items={thresholdOperatorOptions as Option[]} onChange={onChange} />;
 }

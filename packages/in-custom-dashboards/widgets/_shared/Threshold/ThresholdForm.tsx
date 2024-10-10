@@ -10,7 +10,7 @@ import { Field, MapForm } from 'formalistic';
 import { Spacer, Stack, Toggle } from '@instana/components';
 
 import ThresholdConditionFormGroup from 'in-custom-dashboards/widgets/_shared/Threshold/ThresholdConditionFormGroup';
-import { ThresholdOperatorDropDown } from 'in-custom-dashboards/widgets/_shared/Threshold/ThresholdOperatorDropDown';
+import ThresholdOperatorDropDown from 'in-custom-dashboards/widgets/_shared/Threshold/ThresholdOperatorDropDown';
 import ThresholdCondition from 'in-custom-dashboards/widgets/_shared/Threshold/ThresholdCondition';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import useFormField from 'in-custom-dashboards/widgets/_shared/useFormField';
@@ -85,7 +85,7 @@ export default function ThresholdForm({ form, updateForm, formatter }: Threshold
         <Section title="" useAlternateBg>
           <Sections>
             <ThresholdConditionFormGroup label={t('in-custom-dashboards:threshold.label')} hasWhiteBackground>
-              <ThresholdOperatorDropDown field={thresholdOperatorField} change={changeOperator} />
+              <ThresholdOperatorDropDown field={thresholdOperatorField} onChange={changeOperator} />
             </ThresholdConditionFormGroup>
             <ThresholdCondition
               label={t('in-custom-dashboards:widgets.bigNumber.thresholdForm.critical')}
