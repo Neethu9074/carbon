@@ -79,7 +79,7 @@ export default function BigNumberWidgetFormComponent({ form, onChange }) {
     [metricFormatter, isFormatterSelected, baseUnit]
   );
 
-  const { form: thresholdForm, change: updateThresholdForm } = useSubForm({
+  const { form: thresholdForm, update: updateThresholdForm } = useSubForm({
     form,
     path: [metricConfigurationPath, 'threshold'],
     updateForm

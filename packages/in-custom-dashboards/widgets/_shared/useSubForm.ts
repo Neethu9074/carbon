@@ -15,6 +15,6 @@ interface UseSubFormProps<T extends MapFormItems> {
 export default function useSubForm<T extends MapFormItems>({ form, path, updateForm }: UseSubFormProps<T>) {
   const subForm = form.getIn(path as Path<T>);
 
-  const change = (subForm: MapForm<any>) => updateForm(form.updateIn(path as Path<T>, () => subForm));
-  return { form: subForm, change };
+  const update = (subForm: MapForm<any>) => updateForm(form.updateIn(path as Path<T>, () => subForm));
+  return { form: subForm, update };
 }
