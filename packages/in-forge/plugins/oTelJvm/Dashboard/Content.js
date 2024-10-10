@@ -126,6 +126,7 @@ export default function OTelJVMDashboard({ snapshot, timeConfig }) {
         timeConfig={timeConfig}
         titlePrefix={t('in-forge:plugins.oTelJvm.type')}
         specs={SPECS}
+        distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
       />
     </div>
   );

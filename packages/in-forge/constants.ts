@@ -7,6 +7,17 @@ export const ID_OF_UNMONITORED_ZONE = '5nXT64z0gY0pShCaT5VQ7wGu-0E';
 export const ID_OF_PROCESSING_STATISTICS = '_9Ct9EsdanGCFtGIG_j7wNKr5hE';
 // host: "region" - pluginId: "com.instana.forge.selfmonitoring.RegionEntity" - steadyId: "region"
 export const ID_OF_REGION = '7c238Z6UhpGTsuCTCehWnBoiaxs';
+export const DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_OTEL = 120_000;
+
+export const oTelPlugins = {
+  openTelemetry: 'openTelemetry',
+  oTelDatabase: 'oTelDatabase',
+  oTelLLM: 'oTelLLM',
+  oTelDcgm: 'oTelDcgm',
+  otelHost: 'otelHost',
+  oTelJvm: 'oTelJvm',
+  otelProcess: 'otelProcess'
+};
 
 export const nonServicePlugins = {
   aceIntegrationNode: 'aceIntegrationNode',
@@ -268,13 +279,7 @@ export const nonServicePlugins = {
   oracleDB: 'oracleDB',
   openLDAP: 'openLDAP',
   openshiftDeploymentConfig: 'openshiftDeploymentConfig',
-  openTelemetry: 'openTelemetry',
-  oTelDatabase: 'oTelDatabase',
-  oTelLLM: 'oTelLLM',
-  oTelDcgm: 'oTelDcgm',
-  otelHost: 'otelHost',
-  oTelJvm: 'oTelJvm',
-  otelProcess: 'otelProcess',
+  ...oTelPlugins,
   packet: 'packet',
   pCFApplication: 'pCFApplication',
   pCFOrganization: 'pCFOrganization',

@@ -169,7 +169,7 @@ module.exports = {
   carbonCodeEnabled: true,
   graphViewFromAboutInstanaEnabled: true,
   graphViewFromInfraMapEnabled: true,
-  extrapolateMissingStackedAreaValues: false,
+  extrapolateMissingStackedAreaValues: true,
   nutanixEnabled: true,
   automationActionAiGenerationUnitEnabled: true,
   carbonSliderEnabled: true,

@@ -136,7 +136,8 @@ export default class Chart {
     if (axis.valuesNeedToBeStacked || axis.valuesDependOnEachOther || axis.manualRenderLoop) {
       axis.renderer.render({
         axis,
-        metricIds: metricIds,
+        metricIds,
+        axisName,
         metrics,
         colors,
         colors50,

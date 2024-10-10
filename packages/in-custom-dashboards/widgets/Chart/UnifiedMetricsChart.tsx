@@ -44,6 +44,7 @@ import {
 } from 'in-custom-dashboards/widgets/Chart/renderer';
 import getUnifiedMetrics, { isLabeledMetricResult, UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { getTimeConfigBasedOnMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
+import { DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_OTEL, oTelPlugins } from 'in-forge/constants';
 import { applyTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
@@ -440,13 +441,15 @@ function addForAxis(
   axisName: string,
   resultDataAsList: UnifiedMetricsResult[]
 ) {
-  axis?.metrics?.forEach(({ metric, aggregation, timeShift, grouping, unit }, i) => {
+  axis?.metrics?.forEach(({ metric, aggregation, timeShift, grouping, unit, type }, i) => {
     const metricId = getMetricId(axisName, i);
     const config: ChartMetric = {
       metric,
       aggregation,
       timeShift,
-      unit
+      unit,
+      type,
+      ...(type in oTelPlugins && { pollRate: DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_OTEL })
     };
 
     // For grouped metrics one metric configuration will result in multiple data series and
