@@ -123,10 +123,12 @@ export default function ResourceOptimizationTab({ applicationId, timeConfig, bou
           <ResultAwareChart
             result={recommendedOptimizations}
             config={{
+              customHeight: 256,
+              customChartSkeletonHeight: 200,
               title: t('in-automation:actionCategory'),
               timeConfig: generateTimeframe(oneMinute), //Not meaningful, but seems required.
               y1: {
-                renderer: Renderer.pie,
+                renderer: recommendedOptimizations?.progress?.loading ? Renderer.area : Renderer.pie,
                 labels: pieLabels,
                 metricIds: [],
                 metrics: pieMetrics,
@@ -151,6 +153,7 @@ export default function ResourceOptimizationTab({ applicationId, timeConfig, bou
               paramMetric: 'latencyMetric'
             }}
             renderWidgetNotSupportedIndicator={timeConfig.autoRefresh}
+            customChartSkeletonHeight={200}
           />
         </div>
       </div>
