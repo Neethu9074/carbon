@@ -1,23 +1,14 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import { ThresholdOperator } from 'in-types';
 
-export const thresholdOperatorOptions = Object.freeze([
-  { value: '>=', label: humanReadableThresholdOperator('>=') },
-  { value: '>', label: humanReadableThresholdOperator('>') },
-  { value: '<=', label: humanReadableThresholdOperator('<=') },
-  { value: '<', label: humanReadableThresholdOperator('<') }
+export const humanReadableThresholdOperator = new Map<ThresholdOperator, string>([
+  ['>=', '≥'],
+  ['>', '>'],
+  ['<=', '≤'],
+  ['<', '<']
 ]);
-
-export function humanReadableThresholdOperator(operator: ThresholdOperator): string {
-  if (operator === '>=') {
-    return '≥';
-  }
-  if (operator === '<=') {
-    return '≤';
-  }
-  return operator;
-}

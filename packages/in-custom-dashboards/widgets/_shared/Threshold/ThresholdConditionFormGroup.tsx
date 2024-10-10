@@ -1,43 +1,36 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon } from '@instana/components';
-
-import { t } from 'in-i18n';
+import IconButton from 'in-components/IconButton/IconButton';
 
 import locals from './ThresholdConditionFormGroup.mless';
 
 interface ThresholdConditionFormGroupPros {
   children?: ReactNode;
-  iconType?: string;
-  label?: string;
-  shouldIncreaseColumns?: boolean;
+  label: string;
   hasWhiteBackground?: boolean;
-  showLabel?: boolean;
 }
 export default function ThresholdConditionFormGroup({
   children,
-  iconType = 'lib_alerting_threshold_icon',
-  label = t('in-custom-dashboards:threshold.label'),
-  shouldIncreaseColumns = false,
-  hasWhiteBackground = false,
-  showLabel = true
+  label,
+  hasWhiteBackground = false
 }: ThresholdConditionFormGroupPros) {
   return (
     <div
       className={classNames({
         [locals.thresholdConditionItem]: true,
-        [locals.increasedColumns]: shouldIncreaseColumns,
+        [locals.increasedColumns]: true,
         [locals.whiteBackground]: hasWhiteBackground
       })}
     >
-      {<SvgIcon className={locals.icon} type={iconType} />}
-      {showLabel && <span className={locals.label}>{label}</span>}
+      <IconButton type="lib_alerting_threshold_icon" kind="info" className={locals.icon} />
+      <span className={locals.label}>{label}</span>
       <div
         className={classNames({
           [locals.content]: true,

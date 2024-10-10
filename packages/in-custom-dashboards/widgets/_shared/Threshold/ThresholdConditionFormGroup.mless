@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 :local {
@@ -71,7 +72,6 @@
 
   .icon {
     justify-self: center;
-    fill: var(--ids-color-option-neutral-600);
   }
 
   .label {

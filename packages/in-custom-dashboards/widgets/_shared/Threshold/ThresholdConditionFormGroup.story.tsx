@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -15,7 +16,7 @@ const somePadding = { padding: '0.5em' };
 
 export const simple = () => {
   return (
-    <ThresholdConditionFormGroup iconType="lib_datetime_timerange" label="Condition">
+    <ThresholdConditionFormGroup label="Condition">
       <label style={somePadding}>Limit:</label>
       <input name="limit" placeholder="minimum value of xxx" />
     </ThresholdConditionFormGroup>

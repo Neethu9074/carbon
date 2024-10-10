@@ -1,41 +1,29 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
-import { Field, MapForm } from 'formalistic';
+import { Field } from 'formalistic';
 import React from 'react';
 
 import { Dropdown } from '@instana/components';
 
-import { thresholdOperatorOptions } from 'in-custom-dashboards/widgets/_shared/Threshold/thresholdFormData';
-import { findEntryByValue } from 'in-custom-dashboards/widgets/_shared/Threshold/formUtils';
-import { Option } from 'in-components/ComboBox/ComboBox';
+import { humanReadableThresholdOperator } from 'in-custom-dashboards/widgets/_shared/Threshold/thresholdFormData';
+import { Option, Options } from 'in-components/ComboBox/ComboBox';
+import { ThresholdOperator } from 'in-types';
+
+const thresholdOperatorOptions: Options = Array.from(humanReadableThresholdOperator).map(([value, label]) => ({
+  label,
+  value
+}));
 
 interface ThresholdOperatorDropDownProps {
-  form: MapForm<any>;
-  updateForm: (form: MapForm<any>) => void;
-  customOnChange?: (newOperator: any) => void;
+  field: Field<ThresholdOperator>;
+  change: (newValue: ThresholdOperator) => void;
 }
 
-export function ThresholdOperatorDropDown({ form, updateForm, customOnChange }: ThresholdOperatorDropDownProps) {
-  const operatorValue = form.get('threshold').get('operator').value;
-  const value = (findEntryByValue(thresholdOperatorOptions as Option[], operatorValue) ?? thresholdOperatorOptions[0])
-    ?.value;
-
-  return (
-    <Dropdown
-      value={value as string}
-      items={thresholdOperatorOptions as Option[]}
-      onChange={value => {
-        if (customOnChange) {
-          customOnChange(value);
-        } else {
-          updateForm(
-            form.updateIn(['threshold', 'operator'], f => (f as Field<string>).setValue(value).setTouched(true))
-          );
-        }
-      }}
-    />
-  );
+export function ThresholdOperatorDropDown({ field, change }: ThresholdOperatorDropDownProps) {
+  // Dropdown does not export DropdownItems, using Option as a replacement with same structure
+  return <Dropdown value={field.value as string} items={thresholdOperatorOptions as Option[]} onChange={change} />;
 }
