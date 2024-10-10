@@ -8,10 +8,11 @@ import React, { useState } from 'react';
 
 import { Pill } from '@instana/components';
 
-import { default as CarbonComboBox } from './CarbonComboBox';
+import ComboBox from './CarbonComboBox';
+import type { Option } from './types';
 
 export default {
-  component: CarbonComboBox
+  component: ComboBox
 };
 
 const options = [
@@ -32,7 +33,7 @@ export const CarbonComboBoxDefault = () => {
     <>
       <div style={{ margin: '1rem' }}>Single selection</div>
       <div style={{ margin: '1rem' }}>Carbon</div>
-      <CarbonComboBox
+      <ComboBox
         value={value}
         options={options}
         onChange={(t: any) => {
@@ -48,7 +49,7 @@ export const CarbonComboBoxSingleNotClearable = () => {
   return (
     <>
       <div style={{ margin: '1rem' }}>Carbon</div>
-      <CarbonComboBox
+      <ComboBox
         value={valueC}
         options={options}
         onChange={(t: any) => {
@@ -64,7 +65,7 @@ export const CarbonComboBoxSingleNotClearable = () => {
 export const ComboBoxSingleWithPlaceholder = () => {
   const [value, setValue] = useState('');
   return (
-    <CarbonComboBox
+    <ComboBox
       value={value}
       options={options}
       onChange={(t: any) => {
@@ -78,7 +79,7 @@ export const ComboBoxSingleWithPlaceholder = () => {
 export const ComboBoxSingleWithDisabledOption = () => {
   const [value, setValue] = useState('');
   return (
-    <CarbonComboBox
+    <ComboBox
       value={value}
       options={options1}
       isOptionDisabled={t => t?.isDisabled ?? false}
@@ -92,7 +93,7 @@ export const ComboBoxSingleWithDisabledOption = () => {
 export const ComboBoxSingleDisabled = () => {
   const [value, setValue] = useState('chocolate');
   return (
-    <CarbonComboBox
+    <ComboBox
       value={value}
       options={options}
       isDisabled
@@ -116,7 +117,7 @@ function Decorate(props: any) {
 export const ComboBoxSingleCustom = () => {
   const [value, setValue] = useState('chocolate');
   return (
-    <CarbonComboBox
+    <ComboBox
       value={value}
       options={options}
       onChange={(t: any) => {
@@ -131,7 +132,7 @@ export const ComboBoxSingleClearable = () => {
   const [value, setValue] = useState('');
   return (
     <>
-      <CarbonComboBox
+      <ComboBox
         value={value}
         options={options}
         onChange={(t: any) => {
@@ -148,7 +149,7 @@ export const ComboBoxWithFilterHighlight = () => {
   const [value, setValue] = useState('');
   return (
     <>
-      <CarbonComboBox
+      <ComboBox
         value={value}
         placeholder="Select an option"
         options={options}
@@ -162,20 +163,20 @@ export const ComboBoxWithFilterHighlight = () => {
   );
 };
 
-const lotsofoptions: any = [];
+const lotsOfOptions: Option[] = [];
 for (let i = 1; i < 500; i++) {
   const label = `Label_${i}`;
-  lotsofoptions.push({ label: label, value: i });
+  lotsOfOptions.push({ label: label, value: i.toString() });
 }
 
 export const ComboBoxWithRowLimit = () => {
   const [value, setValue] = useState('');
   return (
     <>
-      <CarbonComboBox
+      <ComboBox
         value={value}
         placeholder="Select an option"
-        options={lotsofoptions}
+        options={lotsOfOptions}
         onChange={(t: any) => {
           setValue(t?.value);
         }}
@@ -189,7 +190,7 @@ export const ComboBoxWithRowLimit = () => {
 export const ComboBoxCarbon = () => {
   const [value, setValue] = useState('chocolate');
   return (
-    <CarbonComboBox
+    <ComboBox
       value={value}
       options={options}
       onChange={(t: any) => {

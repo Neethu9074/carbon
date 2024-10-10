@@ -68,12 +68,12 @@ export default function ComboBox({ ...props }: ComboBoxProps): JSX.Element {
       ? (input: any) => {
           setFilter(input);
           if (resultsToShow) {
-            let fo = options;
+            let optionsToFilter = options;
             if (input && input !== '') {
-              fo = options.filter(item => item.label.toLowerCase().includes(input?.toLowerCase()));
+              optionsToFilter = options.filter(item => item.label.toLowerCase().includes(input?.toLowerCase()));
             }
-            fo = fo.slice(0, resultsToShow);
-            setFilteredOptions(fo);
+            optionsToFilter = optionsToFilter.slice(0, resultsToShow);
+            setFilteredOptions(optionsToFilter);
           }
         }
       : undefined;
