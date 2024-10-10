@@ -56,7 +56,7 @@ export default function RetentionPeriodDashboard() {
   return (
     <>
       {!isLoading ? (
-        <KpiCard title={localisationStrings.currentRetentionPeriod} iconAction={logRetentionIcon}>
+        <KpiCard title={localisationStrings.currentRetentionPeriod} iconAction={logRetentionIcon} noTooltipOnTitle>
           <div className={locals.body}>
             <p className={locals.retentionContent}>
               <span data-testid="retentionValue" className={locals.number}>

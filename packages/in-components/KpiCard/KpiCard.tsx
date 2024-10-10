@@ -59,6 +59,7 @@ export interface KpiCardProps {
   icon?: string;
   iconClassName?: string;
   extraInfo?: string;
+  noTooltipOnTitle?: boolean;
 }
 
 export default function KpiCard({
@@ -85,7 +86,8 @@ export default function KpiCard({
   bigNumbers,
   icon,
   iconClassName,
-  extraInfo
+  extraInfo,
+  noTooltipOnTitle
 }: KpiCardProps) {
   const { ref, width } = useResizeObserver<HTMLDivElement>();
   const hasApproximateData = resultPrecision === 'PRECISION_APPROXIMATE';
@@ -169,18 +171,32 @@ export default function KpiCard({
         })}
         ref={ref}
       >
-        <div className={locals.titleContainer}>
-          {disableHeaderTooltip ? (
-            <span className={locals.titleText}>{title}</span>
-          ) : (
-            <Tooltip content={title} align={carbonTooltipEnabled ? 'auto' : 'bottomLeft'} overflowEllipsis>
+        {!noTooltipOnTitle ? (
+          <Tooltip content={title} align={carbonTooltipEnabled ? 'auto' : 'bottomLeft'} overflowEllipsis>
+            <div className={locals.titleContainer}>
+              {disableHeaderTooltip ? (
+                <span className={locals.titleText}>{title}</span>
+              ) : (
+                <>
+                  {icon && <SvgIcon type={icon} className={iconClassName} />}
+                  <span className={locals.titleText}>{title}</span>
+                </>
+              )}
+            </div>
+          </Tooltip>
+        ) : (
+          <div className={locals.titleContainer}>
+            {disableHeaderTooltip ? (
+              <span className={locals.titleText}>{title}</span>
+            ) : (
               <>
                 {icon && <SvgIcon type={icon} className={iconClassName} />}
                 <span className={locals.titleText}>{title}</span>
               </>
-            </Tooltip>
-          )}
-        </div>
+            )}
+          </div>
+        )}
+
         <div className={locals.flexTooltip}>
           <WidgetCardHeader renderApproximateDataTooltip={hasApproximateData} extraInfoTooltip={extraInfo} />
         </div>

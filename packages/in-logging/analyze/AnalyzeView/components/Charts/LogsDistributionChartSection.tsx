@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect } from 'react';
+import classNames from 'classnames';
 
 import { LogGroupItem, TagFilterExpression, TimeConfig } from '@instana/types';
 import { Group, IngestionOffsetCursor } from '@instana/types/typeDefinitions';
@@ -35,12 +36,13 @@ const placeholderTimeConfig = { to: null, windowSize: 1, autoRefresh: false };
 const title = `${t('in-logging:logs')} ${t('in-logging:count')} (${t('in-logging:sum')})`;
 
 export default function LogsDistributionChartSection(props: LogsDistributionChartSectionProps) {
-  const { chartedMetrics, dataSource, onChartedMetricsChange, tracking, hideRenderer, disableClose } = props;
+  const { chartedMetrics, dataSource, onChartedMetricsChange, tracking, hideRenderer, disableClose, isDashboard } =
+    props;
   const showChartMetricSelector = logsChartOptions?.metrics.length > 1;
   const metric = chartedMetrics?.[0];
 
   return (
-    <Sections className={locals.wrapper}>
+    <Sections className={classNames({ [locals.wrapper]: locals.wrapper, [locals.noBorder]: isDashboard })}>
       {showChartMetricSelector && (
         <ChartingConfiguratorSection
           value={chartedMetrics?.[0]}
@@ -55,7 +57,7 @@ export default function LogsDistributionChartSection(props: LogsDistributionChar
         />
       )}
       {metric && (
-        <div className={locals.chartWrapper}>
+        <div className={classNames({ [locals.chartWrapper]: locals.chartWrapper, [locals.noBorder]: isDashboard })}>
           <Chart {...props} metric={metric} />
         </div>
       )}
