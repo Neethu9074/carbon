@@ -10,9 +10,21 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
-import { CommentList, ChatBubble } from 'in-events/components/NotesAndActivity/components/CommentList';
+import {
+  CommentList,
+  ChatBubble,
+  EditDeleteOverflowMenu
+} from 'in-events/components/NotesAndActivity/components/CommentList';
 
 import locals from './CommentList.mless';
+
+jest.mock('in-stores/user');
+
+jest.mock('in-stores/user', () => ({
+  get user() {
+    return { preferredName: 'John Doe' };
+  }
+}));
 
 describe('ChatBubble', () => {
   it('renders without errors', () => {
@@ -49,6 +61,7 @@ describe('ChatBubble', () => {
     expect(wrapper.find(`div.${locals.ext}`)).toHaveLength(0);
     expect(wrapper.find(`div.${locals.aiGenBubble}`)).toHaveLength(0);
     expect(wrapper.find(`div.${locals.bubbleContentsHeader}`)).toHaveLength(0);
+    expect(wrapper.find(EditDeleteOverflowMenu)).toHaveLength(1);
   });
 
   it('renders the text in a div with the correct class name when myBubble is false', () => {
@@ -73,6 +86,7 @@ describe('ChatBubble', () => {
     expect(wrapper.find(`div.${locals.aiGenBubble}`)).toHaveLength(0);
     expect(wrapper.find(`div.${locals.bubbleContentsHeader}`)).toHaveLength(1);
     expect(wrapper.find(`div.${locals.bubbleContentsHeader}`).text()).toEqual('Ext Note');
+    expect(wrapper.find(EditDeleteOverflowMenu)).toHaveLength(0);
   });
 
   it('renders the text in a div with the correct class name for ai_summary', () => {
@@ -84,7 +98,12 @@ describe('ChatBubble', () => {
         noteObj={{
           author: 'John Doe',
           type: 'external_note',
-          data: [new Map([['entitySummary', 'This is an ai generated message'], ['entityLabel', 'LABEL']])],
+          data: [
+            new Map([
+              ['entitySummary', 'This is an ai generated message'],
+              ['entityLabel', 'LABEL']
+            ])
+          ],
           timestamp: 1717523244282,
           label: 'AI Summary'
         }}
@@ -94,10 +113,9 @@ describe('ChatBubble', () => {
     expect(wrapper.find(`div.${locals.ext}`)).toHaveLength(0);
     expect(wrapper.find(`div.${locals.bubble}`)).toHaveLength(1);
     expect(wrapper.find(`div.${locals.myBubble}`)).toHaveLength(0);
+    expect(wrapper.find(EditDeleteOverflowMenu)).toHaveLength(0);
     expect(wrapper.find(`div.${locals.aiGenBubble}`)).toHaveLength(1);
-    expect(wrapper.find(`div.${locals.aiGenBubble}`).text()).toEqual(
-      'Summary generated:<SummaryEntry />'
-    );
+    expect(wrapper.find(`div.${locals.aiGenBubble}`).text()).toEqual('Summary generated:<SummaryEntry />');
     expect(wrapper.find(`div.${locals.bubbleContentsHeader}`)).toHaveLength(1);
     expect(wrapper.find(`div.${locals.bubbleContentsHeader}`).text()).toEqual('Summary generated:');
   });
@@ -131,6 +149,7 @@ describe('ChatBubble', () => {
     expect(wrapper.find(`div.${locals.bubble}`)).toHaveLength(1);
     expect(wrapper.find(`div.${locals.myBubble}`)).toHaveLength(0);
     expect(wrapper.find(`div.${locals.aiGenBubble}`)).toHaveLength(0);
+    expect(wrapper.find(EditDeleteOverflowMenu)).toHaveLength(0);
     expect(wrapper.find(`div.${locals.bubbleContentsHeader}`)).toHaveLength(1);
     expect(wrapper.find(`div.${locals.bubbleContentsHeader}`).text()).toEqual('Updated Status(updated by josh)');
   });
@@ -156,7 +175,7 @@ describe('CommentList', () => {
         timestamp: 1717523244282
       }
     ];
-    const wrapper = shallow(<CommentList notes={notes} preferredName={'John Doe'} />);
+    const wrapper = shallow(<CommentList notes={notes} />);
     expect(wrapper.find(`div.${locals.chatEntry}`)).toHaveLength(2);
     expect(wrapper.find(`div.${locals.myChatEntry}`)).toHaveLength(1);
     expect(wrapper.find(`div.${locals.chatEntryInfo}`)).toHaveLength(1);
@@ -169,7 +188,7 @@ describe('CommentList', () => {
 
   it(' Case for handling an empty notes list', () => {
     const notes = [];
-    const wrapper = shallow(<CommentList notes={notes} preferredName={'John Doe'} />);
+    const wrapper = shallow(<CommentList notes={notes} />);
     expect(wrapper.find(`div.${locals.chatEntry}`)).toHaveLength(0);
     expect(wrapper.find(`div.${locals.myChatEntry}`)).toHaveLength(0);
     expect(wrapper.find(`div.${locals.chatEntryInfo}`)).toHaveLength(0);

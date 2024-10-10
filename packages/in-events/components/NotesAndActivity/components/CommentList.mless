@@ -12,6 +12,12 @@
     padding: 0.125rem;
   }
 
+  .menuWrapper {
+    position: absolute;
+    right: 1rem;
+    padding-top: 10px;
+  }
+
   .snowIcon {
     fill: #62d84e;
   }

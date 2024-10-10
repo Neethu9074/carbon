@@ -5,16 +5,18 @@
  */
 
 import React, { useState } from 'react';
+import classNames from 'classnames';
 
 import { CarbonTextArea, IconButton } from '@instana/components';
 
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { EVENT_NOTES_SUBMIT } from 'in-services/tracking/eventNames';
+import { validTextEntry, handleUpdateDeleteNote } from './utils';
 import { CTA_CLICKED } from 'in-services/util/constants';
 import { track } from 'in-services/tracking/trackers';
 import { annotateEvent } from 'in-stores/events';
-import { validTextEntry } from './utils';
+import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './CommentInput.mless';
@@ -22,9 +24,8 @@ import locals from './CommentInput.mless';
 // Handle the view where inputting a note occurs
 // Carbon Text Area
 // Icon Button
-export function CommentInput(props) {
+export function CommentInput({ note, setNote, incidentId, editNoteId, setEditNoteId }) {
   const [keyBoardSubmit, onKeyBoardSubmit] = useState(false);
-  const { note, user, setNote, incidentId } = props;
   return (
     <div className={locals.commentInputWrapperNotes}>
       <CarbonTextArea
@@ -49,18 +50,64 @@ export function CommentInput(props) {
           // If shift is pressed we DONT submit (allow for carriage return)
           if (e?.keyCode === 13 && e.shiftKey === false) {
             onKeyBoardSubmit(true);
-            handleSubmitNote(incidentId, note, user, setNote);
+            // Scenario for handling editing of a note
+            if (editNoteId) {
+              handleUpdateDeleteNote(incidentId, note, setNote, setEditNoteId, editNoteId);
+            } else {
+              // submitting a new note
+              handleSubmitNote(incidentId, note, setNote);
+            }
           }
         }}
       />
-      <IconButton
-        onClick={() => handleSubmitNote(incidentId, note, user, setNote)}
-        type={'lib_message_send'}
-        size="compact"
-        kind="primary"
-        className={locals.commentInputIcon}
+      <SubmissionButtons
+        editNoteId={editNoteId}
+        setEditNoteId={setEditNoteId}
+        incidentId={incidentId}
+        note={note}
+        setNote={setNote}
       />
     </div>
+  );
+}
+
+export function SubmissionButtons({ editNoteId, setEditNoteId, incidentId, note, setNote }) {
+  return (
+    <>
+      {editNoteId && (
+        <IconButton
+          onClick={() => {
+            setEditNoteId(false);
+            setNote('');
+          }}
+          type={'lib_openclose_cancel'}
+          size="compact"
+          kind="action"
+          className={classNames({
+            [locals.commentInputIcon]: true,
+            [locals.bumpUp]: editNoteId
+          })}
+        />
+      )}
+      <IconButton
+        onClick={() => {
+          // Scenario for handling editing of a note
+          if (editNoteId) {
+            handleUpdateDeleteNote(incidentId, note, setNote, setEditNoteId, editNoteId);
+          } else {
+            // submitting a new note
+            handleSubmitNote(incidentId, note, setNote);
+          }
+        }}
+        type={(editNoteId && 'lib_check') || 'lib_message_send'}
+        size="compact"
+        kind={(editNoteId && 'action') || 'primary'}
+        className={classNames({
+          [locals.commentInputIcon]: true,
+          [locals.bumpDown]: editNoteId
+        })}
+      />
+    </>
   );
 }
 
@@ -68,7 +115,7 @@ export function CommentInput(props) {
 // Requires the incidentID, note, user, and setNote function
 // Dont allow the annotateEvent call if note is empty
 // Once you submit the event clear the note value with SetNote
-export function handleSubmitNote(incidentId, note, user, setNote) {
+export function handleSubmitNote(incidentId, note, setNote) {
   const userName = user.preferredName;
   // Dont fire off a new note without there being something written
   if (validTextEntry(note)) {
