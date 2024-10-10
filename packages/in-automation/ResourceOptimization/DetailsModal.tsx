@@ -75,7 +75,6 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
     };
 
     runResourceOptimizationAction(params).once(data => {
-      // console.log('🚀 ~ runResourceOptimizationAction ~ data:', data);
       setIsSavingAction(false);
 
       if ('errorMessage' in data && data.errorMessage != null) {
