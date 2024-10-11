@@ -8,10 +8,9 @@ import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 import React from 'react';
 
-import { Li, Link, Ul, IconButton } from '@instana/components';
+import { Li, Link, Ul, IconButton, SvgIcon, DataTable as CarbonTable } from '@instana/components';
 import { Observable, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import { SvgIcon } from '@instana/components';
 
 import {
   getEntityIdView,
@@ -27,6 +26,7 @@ import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
+import { carbonTableEnabled } from 'in-services/featureFlags';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getType } from 'in-automation/ActionCatalog/shared';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
@@ -246,6 +246,43 @@ export default function DetailTab({
     }
   }
 
+  const carbonHeaders = [
+    {
+      key: 'property',
+      header: t('in-automation:actionHistory.property')
+    },
+    {
+      key: 'value',
+      header: t('in-automation:actionHistory.value')
+    }
+  ];
+
+  const filterRows_WhenNotShowingCondition_or_actionLaneIsDifferent = ({
+    showCondition = true,
+    actionLane = false
+  }) => {
+    if (!showCondition || (inActionLane && !actionLane) || (!inActionLane && actionLane)) {
+      return false;
+    }
+    return true;
+  };
+
+  const carbonRows = tableData
+    .filter(filterRows_WhenNotShowingCondition_or_actionLaneIsDifferent)
+    .map(({ label, value, isLink, ObservableLink, stringLink }) => {
+      return {
+        id: label,
+        property: label,
+        value: isLink ? (
+          <Link target="_blank" className={locals.detailsLink} href={ObservableLink ?? stringLink ?? undefined}>
+            {value} <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />{' '}
+          </Link>
+        ) : (
+          value
+        )
+      };
+    });
+
   const renderRow = (
     label: string,
     value: React.ReactNode,
@@ -273,6 +310,18 @@ export default function DetailTab({
       </tr>
     );
   };
+
+  if (carbonTableEnabled) {
+    return (
+      <div
+        className={classNames({
+          [locals.instanceTabContent]: !inActionLane
+        })}
+      >
+        <CarbonTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
+      </div>
+    );
+  }
 
   return (
     <div
