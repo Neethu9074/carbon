@@ -22,8 +22,8 @@ import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog
 import { formToSloAlertConfiguration } from 'in-alerting/smart-alerts/slo/form/utils';
 import { SloAlertForm } from 'in-alerting/smart-alerts/slo/form/alertFormDefinition';
 import { trackAlertSaved } from 'in-alerting/smart-alerts/components/tracker';
-import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import useFormSubmission from 'in-hooks/useFormSubmission';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { noop } from 'in-services/fixedObjects';
 import { seconds } from 'in-services/time/time';

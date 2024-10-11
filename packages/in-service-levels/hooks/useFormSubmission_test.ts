@@ -5,12 +5,13 @@
  */
 
 import { renderHook } from '@testing-library/react-hooks';
+import { act } from 'react-test-renderer';
+
 import { just } from '@instana/observables';
 
-import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
+import useFormSubmission from 'in-hooks/useFormSubmission';
 import { error, success } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
-import { act } from 'react-test-renderer';
 
 describe('in-service-levels/hooks/useFormSubmission', () => {
   it('returns resolved state if callback was successful', () => {

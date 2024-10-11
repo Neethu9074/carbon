@@ -23,8 +23,8 @@ import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog
 import { createApdexConfiguration } from 'in-custom-dashboards/widgets/Apdex/api';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
-import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import useFormSubmission from 'in-hooks/useFormSubmission';
 import { seconds } from 'in-services/time/time';
 import { t } from 'in-i18n';
 

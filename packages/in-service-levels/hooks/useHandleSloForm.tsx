@@ -14,7 +14,7 @@ import useSloFormSideEffects, { SloFormSideEffectsReturnType } from 'in-service-
 import { CreateSloDialogMode, SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import { createSloConfiguration, updateSloConfiguration } from 'in-service-levels/api/configuration';
 import { createSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm';
-import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
+import useFormSubmission from 'in-hooks/useFormSubmission';
 import { FetchStatus } from 'in-hooks/utils/types';
 
 export interface UseHandleSloFormProps {
