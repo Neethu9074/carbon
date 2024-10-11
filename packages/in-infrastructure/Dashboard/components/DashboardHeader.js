@@ -116,13 +116,7 @@ function getSnapshotIdTagFilter(snapshot) {
   const id = snapshot.get('id');
   if (plugin === 'host') {
     return [{ name: 'host.snapshotId', value: id, operator: 'EQUALS' }];
-  } else if (
-    plugin === 'docker' ||
-    plugin === 'crio' ||
-    plugin === 'garden' ||
-    plugin === 'containerd' ||
-    plugin === 'awsEcsContainer'
-  ) {
+  } else if (isContainer(snapshot)) {
     return [{ name: 'container.snapshotId', value: id, operator: 'EQUALS' }];
   } else if (plugin === 'awsRds' || plugin === 'awsEs') {
     return [{ name: 'cloud.snapshotId', value: id, operator: 'EQUALS' }];
@@ -133,6 +127,6 @@ function getSnapshotIdTagFilter(snapshot) {
 
 function isContainer(snapshot) {
   const plugin = snapshot.get('plugin');
-  const containerPlugins = ['docker', 'crio', 'garden', 'containerd', 'awsEcsContainer'];
+  const containerPlugins = ['docker', 'crio', 'garden', 'containerd', 'awsEcsContainer', 'podman'];
   return containerPlugins.includes(plugin);
 }
