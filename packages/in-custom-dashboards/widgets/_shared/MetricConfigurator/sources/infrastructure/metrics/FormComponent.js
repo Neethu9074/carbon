@@ -383,7 +383,7 @@ export function getCrossSeriesAggregationTooltip(
       'in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationRestrictedHelp'
     );
   }
-  return !isCrossSeriesAggregationEnabled && aggregation !== 'SUM'
+  return !isCrossSeriesAggregationEnabled && !['SUM', 'PER_SECOND', 'INCREASE'].includes(aggregation)
     ? t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationDisabledHelp', {
         aggregation: aggregationLabels[aggregation]
       })
