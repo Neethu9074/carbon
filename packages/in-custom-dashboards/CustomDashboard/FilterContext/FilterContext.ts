@@ -207,7 +207,7 @@ function reduceTagFilter(
   source: UnifiedMetricConfiguration['source']
 ): ReducedTagFilterExpression {
   const tagDefinition = tagDefinitions[tagFilter.name];
-  if (tagDefinition.availability?.includes(source)) {
+  if (tagDefinition?.availability?.includes(source)) {
     return {
       resultCode: 'APPLIED',
       expression: tagFilter

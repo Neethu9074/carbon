@@ -12,7 +12,8 @@ const { QueryBuilder, isQueryValid: isQueryValidInternal } = createDynamicQueryB
   {},
   { ownerType?: string; metric?: string; regex: boolean }
 >({
-  getSuggestions: getTagValueSuggestions // TODO: handle suggestions
+  getSuggestions: getTagValueSuggestions, // TODO: handle suggestions
+  addTagDefinitionToFormModel: true
 });
 
 export default QueryBuilder;
