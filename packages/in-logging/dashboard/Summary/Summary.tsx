@@ -46,14 +46,12 @@ export default function Summary() {
 
   const contentToRender = (
     <div className={locals.dashboardContainer}>
-      {isLoggingAddonUser && (
-        <div className={locals.dashboardCards}>
-          <KpiGridRow sizes={[3, 3]}>
-            {role?.canConfigureLogRetentionPeriod && <RetentionPeriodDashboard />}
-            {role?.canViewLogVolume && <LogVolumeDashboard />}
-          </KpiGridRow>
-        </div>
-      )}
+      <div className={locals.dashboardCards}>
+        <KpiGridRow sizes={[3, 3]}>
+          <RetentionPeriodDashboard />
+          {role?.canViewLogVolume && isLoggingAddonUser && <LogVolumeDashboard />}
+        </KpiGridRow>
+      </div>
       <StateManagement
         path={loggingDashboardPath}
         defaultDataSource="logs"
