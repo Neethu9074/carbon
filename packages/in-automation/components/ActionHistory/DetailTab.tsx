@@ -306,35 +306,43 @@ export default function DetailTab({
     );
   };
 
+  if (carbonTableEnabled) {
+    return (
+      <div
+        className={classNames({
+          [locals.instanceTabContent]: !inActionLane
+        })}
+      >
+        <CarbonTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
+      </div>
+    );
+  }
+
   return (
     <div
       className={classNames({
         [locals.instanceTabContent]: !inActionLane
       })}
     >
-      {carbonTableEnabled ? (
-        <CarbonTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
-      ) : (
-        <table
-          className={classNames({
-            [locals.ActionInstanceDetailsTable]: true,
-            [locals.ActionLaneTable]: inActionLane
-          })}
-        >
-          <thead className={locals.headerRow}>
-            <tr>
-              <th>{t('in-automation:actionHistory.property')}</th>
-              <th>{t('in-automation:actionHistory.value')}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tableData.map(
-              ({ label, value, isLink, ObservableLink, stringLink, showCondition = true, actionLane = false }) =>
-                renderRow(label, value, isLink, ObservableLink, stringLink, showCondition, actionLane, inActionLane)
-            )}
-          </tbody>
-        </table>
-      )}
+      <table
+        className={classNames({
+          [locals.ActionInstanceDetailsTable]: true,
+          [locals.ActionLaneTable]: inActionLane
+        })}
+      >
+        <thead className={locals.headerRow}>
+          <tr>
+            <th>{t('in-automation:actionHistory.property')}</th>
+            <th>{t('in-automation:actionHistory.value')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tableData.map(
+            ({ label, value, isLink, ObservableLink, stringLink, showCondition = true, actionLane = false }) =>
+              renderRow(label, value, isLink, ObservableLink, stringLink, showCondition, actionLane, inActionLane)
+          )}
+        </tbody>
+      </table>
     </div>
   );
 }
