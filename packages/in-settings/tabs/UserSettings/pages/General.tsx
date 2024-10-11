@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { getThemeOverride, Toggle, Button, DistinctSlider, Select } from '@instana/components';
+import { Toggle, Button, DistinctSlider, Select } from '@instana/components';
 
 import ChooseConnectionStrategyDialog from 'in-connection/components/ChooseConnectionStrategyDialog';
 import { t, Trans, supportedLanguages, activeLanguage, collationLanguage } from 'in-i18n';
@@ -29,10 +29,6 @@ export default function UiConfigGeneralPage() {
   if (!settings) {
     return null;
   }
-
-  const currentTheme = getThemeOverride() ?? 'default';
-  // eslint-disable-next-line no-console
-  console.log('currentTheme', currentTheme);
 
   return (
     <SettingsDetailPage>

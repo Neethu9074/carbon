@@ -8,7 +8,10 @@ import React, { useState } from 'react';
 
 import { Pill, SvgIcon, IconButton } from '@instana/components';
 
-import { userSettingsThemeEnabled } from 'in-services/featureFlags';
+import { userSettingsThemeEnabled, carbonG10ThemeEnabled } from 'in-services/featureFlags';
+
+// `fallbackTheme` is used when getThemeOverride() does not return a theme
+export const fallbackTheme = carbonG10ThemeEnabled ? 'g10' : 'default';
 
 /**
  * This is a simplistic UI for indicating the current theme, and
@@ -26,8 +29,10 @@ export const SwitchTheme = ({ theme, setOverride }) => {
 
   if (!userSettingsThemeEnabled || closed) return null;
 
-  const isDefault = theme === 'default';
+  const hasSelectedTheme = typeof theme === 'string';
+  const isLegacyTheme = theme === 'default';
   const isG10 = theme === 'g10';
+
   return (
     <div
       style={{
@@ -42,14 +47,14 @@ export const SwitchTheme = ({ theme, setOverride }) => {
         border: '1px gold dashed'
       }}
     >
-      <span>In Dev Mode only: Override the theme:</span>
+      <span>Internal theme override</span>
       <Pill type="teal" onClick={() => setOverride('default')}>
-        {isDefault && <SvgIcon size={8} type="lib_fancy_checkbox_checked" />} Instana
+        {isLegacyTheme && <SvgIcon size={8} type="lib_fancy_checkbox_checked" />} Instana
       </Pill>
       <Pill type="blue" onClick={() => setOverride('g10')}>
-        {isG10 && <SvgIcon size={8} type="lib_fancy_checkbox_checked" />} carbon g10
+        {isG10 && <SvgIcon size={8} type="lib_fancy_checkbox_checked" />} Carbon g10
       </Pill>
-      {(isDefault || isG10) && (
+      {(hasSelectedTheme && theme !== fallbackTheme) && (
         <button type="button" onClick={() => setOverride(undefined)}>
           Reset to default
         </button>

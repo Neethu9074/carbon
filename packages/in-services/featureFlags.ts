@@ -84,6 +84,7 @@ export const carbonCodeEnabled = isFeatureFlagEnabled('carbonCodeEnabled');
 export const carbonDateInputEnabled = isFeatureFlagEnabled('carbonDateInputEnabled');
 export const carbonExpandableGroupEnabled = isFeatureFlagEnabled('carbonExpandableGroupEnabled');
 export const carbonSideNavLinksEnabled = isFeatureFlagEnabled('carbonSideNavLinksEnabled');
+export const carbonG10ThemeEnabled = isFeatureFlagEnabled('carbonG10ThemeEnabled');
 
 export const enableTroubleshootingMode = isFeatureFlagEnabled('enableTroubleshootingMode', false);
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');

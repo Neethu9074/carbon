@@ -14,14 +14,14 @@ import useResultFromApiPing from 'in-hooks/useResultFromApiPing';
 import createTracker from 'in-waiting-for-deployment/tracker';
 import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
-import { SwitchTheme } from 'in-themes/SwitchTheme';
+import { SwitchTheme, fallbackTheme } from 'in-themes/SwitchTheme';
 import GlobalTheme from 'in-themes/GlobalTheme';
 import config from 'in-services/config';
 
 const trackingService = createTracker('onboarding');
 
 export default function App() {
-  const themeOverride = getThemeOverride() ?? 'default';
+  const themeOverride = getThemeOverride() ?? fallbackTheme;
   const [theme, setTheme] = useState(themeOverride);
 
   return (
@@ -34,7 +34,7 @@ export default function App() {
             setTheme(theme);
           }}
         />
-        <ThemeProvider theme={theme ?? 'default'}>
+        <ThemeProvider theme={theme ?? fallbackTheme}>
           <DialogPresenter />
           <FullViewOnboardingWidget Renderer={Renderer} />
           <TooltipPresenter />

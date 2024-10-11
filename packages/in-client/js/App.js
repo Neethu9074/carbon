@@ -20,6 +20,7 @@ import DialogPresenter from 'in-components/DialogPresenter';
 import { playwithEnabled } from 'in-services/featureFlags';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import MessageFlyout from 'in-components/MessageFlyout';
+import { fallbackTheme } from 'in-themes/SwitchTheme';
 import routes from 'in-client/js/routes/mainRoutes';
 import { SwitchTheme } from 'in-themes/SwitchTheme';
 import GlobalTheme from 'in-themes/GlobalTheme';
@@ -27,7 +28,7 @@ import GlobalTheme from 'in-themes/GlobalTheme';
 import locals from './App.mless';
 
 export default function App() {
-  const themeOverride = getThemeOverride() ?? 'default';
+  const themeOverride = getThemeOverride() ?? fallbackTheme;
   const [theme, setTheme] = useState(themeOverride);
 
   return (
@@ -48,7 +49,7 @@ export default function App() {
               setTheme(theme);
             }}
           />
-          <ThemeProvider theme={theme ?? 'default'}>
+          <ThemeProvider theme={theme ?? fallbackTheme}>
             <ScrollTrackingWrapper>
               <GlobalTimeConfig>
                 <ErrorBoundary name="main-navigation">
