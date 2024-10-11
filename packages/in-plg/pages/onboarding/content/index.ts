@@ -14,12 +14,15 @@ import KubernetesOperator from 'in-plg/pages/onboarding/AgentList/Kubernetes/Kub
 import OpenshiftOperator from 'in-plg/pages/onboarding/AgentList/Openshift/OpenshiftOperator';
 import AzureAppService from 'in-plg/pages/onboarding/AgentList/Azure/AppService/AppService';
 import WindowsZipArchive from 'in-plg/pages/onboarding/AgentList/Windows/WindowsZipArchive';
+import WindowsAirgapped from 'in-plg/pages/onboarding/AgentList/Windows/WindowsAirgapped';
 import InstanaAwsSensor from 'in-plg/pages/onboarding/AgentList/Aws/InstanaAwsSensor';
 import LinuxAutomatic from 'in-plg/pages/onboarding/AgentList/Linux/LinuxAutomatic';
+import LinuxAirgapped from 'in-plg/pages/onboarding/AgentList/Linux/LinuxAirgapped';
 import AwsFargate from 'in-plg/pages/onboarding/AgentList/Aws/Fargate/AwsFargate';
 import Windows64Bit from 'in-plg/pages/onboarding/AgentList/Windows/Windows64Bit';
 import LinuxPackages from 'in-plg/pages/onboarding/AgentList/Linux/LinuxPackages';
 import Kubernetes from 'in-plg/pages/onboarding/AgentList/Kubernetes/Kubernetes';
+import UnixAirgapped from 'in-plg/pages/onboarding/AgentList/Unix/UnixAirgapped';
 import AwsEc2Windows from 'in-plg/pages/onboarding/AgentList/Aws/AwsEc2Windows';
 import LinuxArchive from 'in-plg/pages/onboarding/AgentList/Linux/LinuxArchive';
 import VmwareTanzu from 'in-plg/pages/onboarding/AgentList/Vmware/VmwareTanzu';
@@ -34,6 +37,7 @@ import AwsEks from 'in-plg/pages/onboarding/AgentList/Aws/AwsEks';
 import Azure from 'in-plg/pages/onboarding/AgentList/Azure/Azure';
 import MacOs from 'in-plg/pages/onboarding/AgentList/Mac/MacOs';
 import Unix from 'in-plg/pages/onboarding/AgentList/Unix/Unix';
+import MacOsAirgapped from '../AgentList/Mac/MacOsAirgapped';
 import { t } from 'in-i18n';
 
 export function getEntriesForFreeTrial() {
@@ -480,6 +484,59 @@ export function getEntriesForFreeTrial() {
         label: t('in-waiting-for-deployment:content.elasticComputingEc2Windows64Bit'),
         keyWords: 'elasticcomputeec2windows',
         Content: WindowsEC2
+      }
+    },
+    {
+      id: 'windows_airgapped',
+      title: 'Windows - Air-gapped (Installer, Archive - 32bit, 64bit)',
+      pageName: 'Windows > Air-gapped (Installer, Archive - 32bit, 64bit)', // tracking data
+      label: t('in-waiting-for-deployment:content.windows'),
+      icon: 'lib_windows',
+      category: t('in-waiting-for-deployment:content.os'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.windowsAirgapped'),
+        keyWords: 'windowsairgapped',
+        Content: WindowsAirgapped
+      }
+    },
+    {
+      id: 'linux_airgapped',
+      title: 'Linux - Air-gapped (Archive, DEB, RPM)',
+      pageName: 'Linux > Air-gapped (Archive, DEB, RPM)', // tracking data
+      label: t('in-waiting-for-deployment:content.linux'),
+      icon: 'lib_linux',
+      category: t('in-waiting-for-deployment:content.os'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.linuxAirgapped'),
+        keyWords: 'linuxairgapped',
+        Content: LinuxAirgapped
+      }
+    },
+    {
+      id: 'unix_airgapped',
+      title: 'Unix - Air-gapped (Archive)',
+      pageName: 'Unix > Air-gapped (Archive)', // tracking data
+      label: t('in-waiting-for-deployment:content.unix'),
+      icon: 'lib_unix',
+      category: t('in-waiting-for-deployment:content.os'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.unixAirgapped'),
+        keyWords: 'unixairgapped',
+        Content: UnixAirgapped
+      }
+    },
+    {
+      id: 'macos_airgapped',
+      title: 'macOs - Air-gapped (Archive)',
+      pageName: 'macOs > Air-gapped (Archive)', // tracking data
+      label: t('in-waiting-for-deployment:content.macOs'),
+      category: t('in-waiting-for-deployment:content.os'),
+      keyWords: 'macosxairgapped',
+      icon: 'lib_apple',
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.macAirgapped'),
+        keyWords: 'macosxairgapped',
+        Content: MacOsAirgapped
       }
     }
   ];
