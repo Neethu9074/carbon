@@ -406,6 +406,14 @@ export const defaultAndUnknownPluginNames = [
   'processingStatisticsMember'
 ];
 
+export const hiddenPlugins = [
+  'agentStatistics',
+  'componentMetricsInstance',
+  'entityStatisticsMember',
+  'processingStatisticsMember',
+  'steadyMetricExposureEntity'
+];
+
 export const customIssuesDisabledForPlugins = [...defaultAndUnknownPluginNames];
 
 export const fullyQualifiedPlugins = {

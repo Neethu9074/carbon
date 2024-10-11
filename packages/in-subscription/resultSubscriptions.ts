@@ -15,7 +15,7 @@ import { Result } from 'in-types';
 
 export interface Options<IN, OUT> {
   eventId: string;
-  mapResult?: (result: Object) => OUT;
+  mapResult?: (result: any) => OUT;
   memoizeFor?: number | TtiGenerator<IN, OUT>;
   disposeSubscriptionOnDocumentHidden?: boolean;
   trackSubscriptionStatistics?: boolean;
