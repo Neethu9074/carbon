@@ -28,6 +28,7 @@ import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { isDisplayColumn } from 'in-events/components/EventsList';
 import { Duration } from 'in-events/components/EventDetailsKPIs';
 import { getLabel as getSnapshotLabel } from 'in-sdk/snapshot';
+import { carbonTableEnabled } from 'in-services/featureFlags';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import EventIcon from 'in-events/components/EventIcon';
@@ -84,6 +85,40 @@ export default function EventRow({
   const width = toPercentageString(isChangeEvent ? 10 : Math.max(12, timeScaleEnd - timeScaleStart));
   const smallColumn = isPreview && headers?.length > 2 ? true : false;
 
+  const carbonRow = {
+    id: event.id,
+    icon: <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />,
+    title: (
+      <div
+        className={classNames({
+          [locals.smallColumn]: smallColumn,
+          [locals.title]: true
+        })}
+        title={event.title}
+      >
+        {event.title}
+      </div>
+    ),
+    entityLabel: <OnEntity rawEvent={event} smallColumn={smallColumn} />,
+    started: <span className={locals.text}>{formatDisplayDateTime(start, headers, isPreview)}</span>,
+    ended: <span className={locals.text}>{getEndValue(event, isChangeEvent, end, start, headers, isPreview)}</span>,
+    cvssScore: <span className={locals.text}>{cvssScore}</span>,
+    state: <span className={locals.text}>{getStateBadge(event)}</span>,
+    timeline: (
+      <div className={locals.timelineWrapper}>
+        <div style={{ left, width }} className={locals.line} />
+      </div>
+    ),
+    duration: (
+      <span className={locals.text}>
+        <Duration event={event} listView />
+      </span>
+    )
+  };
+
+  if (carbonTableEnabled) {
+    return carbonRow;
+  }
   return (
     <Tr key={event.id} size="compact" active={active} onClick={isPreview ? undefined : onClick}>
       {/* Conditional rendering based on eventType */}

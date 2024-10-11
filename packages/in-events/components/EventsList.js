@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useState } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
 import {
   Table,
@@ -17,6 +17,7 @@ import {
   Th,
   TableLoadMoreRow
 } from '@instana/legacy';
+import { DataTable as CarbonDataTable } from '@instana/components';
 import { Card } from '@instana/components';
 
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
@@ -25,6 +26,7 @@ import useTimeConfigUpdatingScale from 'in-events/components/useTimeConfigUpdati
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import EmptyEventList from 'in-events/components/EmptyEventsList';
+import { carbonTableEnabled } from 'in-services/featureFlags';
 import EventListRow from 'in-events/components/EventsListRow';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -69,8 +71,8 @@ function List(props) {
   }
 
   const timeScale = useTimeConfigUpdatingScale(timeConfig);
-
   const filteredRawEventList = filterManuallyClosedEventsByTimeScale(rawEventList, timeScale);
+  const [sortState, setSortState] = useState({ sortHeaderKey: '', sortDirection: 'NONE' });
 
   if (!progress.loading && filteredRawEventList.length === 0) {
     return (
@@ -89,6 +91,229 @@ function List(props) {
         </div>
       </Card>
     );
+  }
+
+  if (carbonTableEnabled) {
+    const sortedRows = [...filteredRawEventList].sort((a, b) => {
+      const { sortHeaderKey, sortDirection } = sortState;
+      if (!sortHeaderKey || sortDirection === 'NONE') {
+        return 0;
+      }
+      let aValue, bValue;
+      switch (sortHeaderKey) {
+        case 'title':
+          aValue = a.title.toLowerCase();
+          bValue = b.title.toLowerCase();
+          break;
+        case 'started':
+          aValue = a.start;
+          bValue = b.start;
+          break;
+        case 'ended':
+          aValue = a.end;
+          bValue = b.end;
+          break;
+        case 'state':
+          aValue = a.state;
+          bValue = b.state;
+          break;
+        default:
+          return 0;
+      }
+
+      if (aValue === bValue) {
+        return 0;
+      }
+
+      if (sortDirection === 'ASC') {
+        return aValue > bValue ? 1 : -1;
+      } else {
+        return aValue < bValue ? 1 : -1;
+      }
+    });
+
+    const carbonHeaders = [
+      ...(eventType === 'cve_issue'
+        ? [
+            isDisplayColumn(headers, 'icon') && { key: 'icon' },
+            isDisplayColumn(headers, 'title') && {
+              header: t('in-events:headerVulnerability'),
+              key: 'title',
+              isSortable: !isPreview,
+              sortDirection: sortState.sortHeaderKey === 'title' ? sortState.sortDirection : 'NONE'
+            },
+            isDisplayColumn(headers, 'entityLabel') && {
+              header: t('in-events:headerReportedOn'),
+              key: 'entityLabel'
+            },
+            isDisplayColumn(headers, 'started') && {
+              header: t('in-events:headerReportedDate'),
+              key: 'started',
+              isSortable: !isPreview,
+              sortDirection: sortState.sortHeaderKey === 'started' ? sortState.sortDirection : 'NONE'
+            },
+            isDisplayColumn(headers, 'cvssScore') && {
+              header: t('in-events:headerCvssScore'),
+              key: 'cvssScore'
+            },
+            isDisplayColumn(headers, 'state') && {
+              header: t('in-events:headerStatus'),
+              key: 'state',
+              isSortable: !isPreview,
+              sortDirection: sortState.sortHeaderKey === 'state' ? sortState.sortDirection : 'NONE'
+            }
+          ]
+        : isDenseList
+        ? [
+            {
+              header: t('in-events:headerStarted'),
+              key: 'start'
+            }
+          ]
+        : [
+            isDisplayColumn(headers, 'icon') && { key: 'icon' },
+            isDisplayColumn(headers, 'title') && {
+              header: t('in-events:headerTitle'),
+              key: 'title',
+              isSortable: !isPreview,
+              sortDirection: sortState.sortHeaderKey === 'title' ? sortState.sortDirection : 'NONE'
+            },
+            isDisplayColumn(headers, 'entityLabel') && {
+              header: t('in-events:headerOn'),
+              key: 'entityLabel'
+            },
+            isDisplayColumn(headers, 'started') && {
+              header: t('in-events:headerStarted'),
+              key: 'started',
+              isSortable: !isPreview,
+              sortDirection: sortState.sortHeaderKey === 'started' ? sortState.sortDirection : 'NONE'
+            },
+            isDisplayColumn(headers, 'ended') && {
+              header: t('in-events:headerEnd'),
+              key: 'ended',
+              isSortable: !isPreview,
+              sortDirection: sortState.sortHeaderKey === 'ended' ? sortState.sortDirection : 'NONE'
+            },
+            isDisplayColumn(headers, 'timeline') && {
+              header: t('in-events:headerTimeline'),
+              key: 'timeline'
+            },
+            canCloseManually &&
+              isDisplayColumn(headers, 'state') && {
+                header: t('in-events:headerState'),
+                key: 'state',
+                isSortable: !isPreview,
+                sortDirection: sortState.sortHeaderKey === 'state' ? sortState.sortDirection : 'NONE'
+              },
+            headers &&
+              isDisplayColumn(headers, 'duration') && {
+                header: t('in-events:titleDuration'),
+                key: 'duration'
+              }
+          ]
+      ).filter(Boolean)
+    ];
+
+    const carbonRows = sortedRows.map(event => ({
+      id: event.id,
+      ...EventListRow({
+        event,
+        selectedEventId,
+        state: event.state,
+        isDenseList,
+        isPreview,
+        timeScale,
+        timeConfig,
+        headers,
+        onItemClicked
+      })
+    }));
+
+    const onChangeSort = sortHeaderKey => {
+      setSortState(prevState => {
+        if (prevState.sortHeaderKey === sortHeaderKey) {
+          const newDirection = prevState.sortDirection === 'ASC' ? 'DESC' : 'ASC';
+          return { sortHeaderKey, sortDirection: newDirection };
+        } else {
+          return { sortHeaderKey, sortDirection: 'ASC' };
+        }
+      });
+    };
+
+    // Carbon interprets keys differently than the how the sorting works
+    // Convert the carbon row key to the request query value expected
+    const sortingMapper = {
+      title: 'problem.problemText',
+      started: 'start',
+      state: 'state',
+      ended: 'end'
+    };
+
+    if (!isDenseList) {
+      return (
+        <>
+          <Card title={title ?? null} header={cardHeader ?? null} leftHeaderContent={leftHeaderContent ?? null}>
+            <div
+              className={classNames({
+                [locals.widgetCard]: isCustomDashboard
+              })}
+            >
+              <CarbonDataTable
+                headers={carbonHeaders}
+                loading={progress.loading}
+                rows={carbonRows}
+                isSearchEnabled={false}
+                onClickingRow={e => onItemClicked(e.id)}
+                sortRow={({ sortHeaderKey }) => {
+                  if (['title', 'started', 'ended', 'state'].includes(sortHeaderKey)) {
+                    onChangeSort(sortHeaderKey);
+                    props?.onChange({
+                      orderBy: sortingMapper[sortHeaderKey],
+                      orderDirection:
+                        props?.orderBy === sortingMapper[sortHeaderKey]
+                          ? props?.orderDirection === 'ASC'
+                            ? 'DESC'
+                            : 'ASC'
+                          : 'ASC'
+                    });
+                  }
+                }}
+              />
+              {canLoadMore && (
+                <TableLoadMoreRow className={locals.carbonLoadMore} loadMore={loadMore} cols={2} size="compact" />
+              )}
+            </div>
+          </Card>
+        </>
+      );
+    } else {
+      <>
+        <CarbonDataTable
+          headers={carbonHeaders}
+          rows={carbonRows}
+          isSearchEnabled={false}
+          loading={progress.loading}
+          onClickingRow={e => onItemClicked(e.id)}
+          sortRow={({ sortHeaderKey }) => {
+            if (['title', 'started', 'end', 'state'].includes(sortHeaderKey)) {
+              onChangeSort(sortHeaderKey);
+              props?.onChange({
+                orderBy: sortingMapper[sortHeaderKey],
+                orderDirection:
+                  props?.orderBy === sortingMapper[sortHeaderKey]
+                    ? props?.orderDirection === 'ASC'
+                      ? 'DESC'
+                      : 'ASC'
+                    : 'ASC'
+              });
+            }
+          }}
+        />
+        {canLoadMore && (
+          <TableLoadMoreRow className={locals.carbonLoadMore} loadMore={loadMore} cols={2} size="compact" />
+        )}
+      </>;
+    }
   }
 
   if (!isDenseList) {

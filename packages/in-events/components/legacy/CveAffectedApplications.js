@@ -7,6 +7,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
+import { DataTable as CarbonDataTable, TableSkeleton as CarbonTableSkeleton } from '@instana/components';
 import { TableLoadingSkeletonRows, Table, Tbody, Td, Th, Thead, Tr } from '@instana/legacy';
 import { useObservable } from '@instana/hooks';
 import { Card } from '@instana/components';
@@ -18,10 +19,13 @@ import {
   useLinkToEndpointDashboard
 } from 'in-applications/navigation/paths';
 import { getStackForInfrastructure } from 'in-components/Stack/subscriptions/getStack';
+import { carbonTableEnabled } from 'in-services/featureFlags';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
+
+import locals from './CveAffectedApplications.mless';
 
 export default function AffectedApplicationPresenter({ id, timeConfig }) {
   const stackResult =
@@ -58,6 +62,54 @@ export default function AffectedApplicationPresenter({ id, timeConfig }) {
 
   const items = stackResult?.data?.application?.groups?.[0]?.items ?? [];
 
+  if (carbonTableEnabled) {
+    const carbonHeaders = [
+      {
+        key: t('in-events:affectedApplications.title'),
+        header: t('in-events:affectedApplications.title')
+      },
+      {
+        key: t('in-events:affectedApplications.totalcalls'),
+        header: t('in-events:affectedApplications.totalcalls')
+      }
+    ];
+
+    const carbonRows = items.map((item, index) => {
+      const totalCalls = item?.metrics?.callsAgg?.[0]?.[1] || 0;
+      const href = getDashboardLink(item, timeConfig);
+
+      return {
+        id: `row-${index}`,
+        [t('in-events:affectedApplications.title')]: <Link href={href}>{item.label}</Link>,
+        [t('in-events:affectedApplications.totalcalls')]: totalCalls
+      };
+    });
+
+    return (
+      <>
+        <Row withoutSideMargin>
+          <Col xs>
+            <Card title="Affected Applications">
+              <Fragment>
+                {isLoading(stackResult) ? (
+                  <CarbonTableSkeleton headers={[]} columnCount={3} rowCount={3} />
+                ) : items.length > 0 ? (
+                  <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
+                ) : (
+                  <>
+                    <CarbonDataTable headers={carbonHeaders} rows={[]} isSearchEnabled={false} />
+                    <div className={locals.noDataMessage}>
+                      {t('in-events:affectedApplications.noAffectedApplications')}
+                    </div>
+                  </>
+                )}
+              </Fragment>
+            </Card>
+          </Col>
+        </Row>
+      </>
+    );
+  }
   return (
     <Row withoutSideMargin>
       <Col xs>
@@ -90,7 +142,6 @@ export default function AffectedApplicationPresenter({ id, timeConfig }) {
                     })}
                   </>
                 )}
-
                 {items?.length === 0 && !isLoading(stackResult) && (
                   <Tr size="compact">
                     <Td colSpan={3}>{t('in-events:affectedApplications.noAffectedApplications')}</Td>

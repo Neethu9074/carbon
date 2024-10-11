@@ -11,6 +11,7 @@ import { Td, Tr } from '@instana/legacy';
 
 import { APPLICATIONS_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE } from 'in-services/tracking/tracking';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { carbonTableEnabled } from 'in-services/featureFlags';
 import { formatDateTime } from 'in-services/formatters/date';
 import unwrapLink from 'in-stores/navigation/unwrapLink';
 import { number } from 'in-services/formatters/number';
@@ -20,6 +21,24 @@ import locals from 'in-events/components/AffectedEntities/AffectedEntity.mless';
 export function AffectedEntity({ item, createItemLink, children }) {
   const { href, href$ } = unwrapLink(createItemLink(item));
   const { trackCta } = useSegmentTracking();
+
+  const carbonRow = {
+    id: item.name,
+    name: (
+      <div className={locals.cell}>
+        <Link onClick={() => trackCta(APPLICATIONS_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE)} href={href$ ?? href}>
+          {item.name}
+        </Link>
+      </div>
+    ),
+    calls: <span className={locals.labelCell}>{number.compact(item.metrics?.calls_SUM_Agg?.[0]?.[1])}</span>,
+    totalCalls: <span className={locals.labelCell}>{number.compact(item.metrics?.totalCalls_SUM_Agg?.[0]?.[1])}</span>,
+    timestamp: <span>{formatDateTime(item.timestamp)}</span>
+  };
+
+  if (carbonTableEnabled) {
+    return carbonRow;
+  }
 
   return (
     <Tr size="compact">
