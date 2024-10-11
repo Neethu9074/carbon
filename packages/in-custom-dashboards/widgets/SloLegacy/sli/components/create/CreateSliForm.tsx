@@ -22,8 +22,8 @@ import { createSliConfiguration } from 'in-custom-dashboards/widgets/SloLegacy/s
 import { sliSliNameKey } from 'in-custom-dashboards/widgets/SloLegacy/sli/sliForm';
 import { SliType } from 'in-custom-dashboards/widgets/SloLegacy/sli/sliTypes';
 import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
-import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import useFormSubmission from 'in-hooks/useFormSubmission';
 import Form from 'in-components/form/binding/Form';
 import { t } from 'in-i18n';
 
