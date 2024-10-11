@@ -246,7 +246,7 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
         <div className={locals.leftSection}>
           <Stack direction="vertical" gap={'small'} distribution="spaceEvenly">
             <Typography variant="heading-200" noMargin>
-              {t('in-automation:resourceOptimization.actionDescription')}
+              {t('in-automation:resourceOptimization.actionName')}
             </Typography>
             <Typography variant="body-regular"> {currentAction?.name}</Typography>
             <Pill size="md"> {turboActionCategoryMap[currentAction.actionCategory]}</Pill>

@@ -46,7 +46,7 @@ function AutomationCard({ volatileId, event }: AutomationCardProps) {
   const ootbActions = useScoredActions({ event, trigger, type: 'watsonx' });
   const recommendedActions = useUserRecommendedScoredActions({ actions: userActions, policies });
   const ootbRecommendedActions = useAIRecommendedScoredActions({ actions: ootbActions, policies });
-  const recommendedOptimizations = useResourceOptimization({ event });
+  const recommendedOptimizations = useResourceOptimization({ event, actionCategory: 'PERFORMANCE_ASSURANCE' });
   const turboRecommendedActions = useTurboRecommendedActions(recommendedOptimizations);
   return (
     <>

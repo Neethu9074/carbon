@@ -102,13 +102,13 @@ export function getAllActionsWithAISuggestions(
   );
 }
 
-export function getResourceOptimization(targetSnapshotId: string, entityType: string | null) {
+export function getResourceOptimization(targetSnapshotId: string, entityType: string | null, actionCategory?: string) {
   return http<ResourceOptimization>({
     method: 'GET',
     maxRetries: 3,
     url: `${turboAPIBase}/recommendedActions?targetSnapshotId=${encodeURIComponent(
       targetSnapshotId
-    )}&entityType=${entityType}`,
+    )}&entityType=${entityType}${actionCategory ? `&actionCategory=${actionCategory}` : ''}`,
     mapToResultObject: true,
     headers: getCsrfHeader()
   });

@@ -20,6 +20,7 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 interface UseResourceOptimizationsParams {
   event?: Event;
   applicationId?: string;
+  actionCategory?: string;
 }
 
 function convertEntityTypesToTarget(et: EntityType | undefined): TargetEntityType | null {
@@ -37,13 +38,13 @@ export function refresh() {
   timeout(1000).once(() => refreshSignal.emit(true));
 }
 
-export function useResourceOptimization({ event, applicationId }: UseResourceOptimizationsParams) {
+export function useResourceOptimization({ event, applicationId, actionCategory }: UseResourceOptimizationsParams) {
   const targetSnapshotId = event ? event.entityId : applicationId;
   const entityType = event ? convertEntityTypesToTarget(event?.entityType) : 'APPLICATION';
   return (
     useObservable(() => {
       return refreshSignal.flatMap(() => {
-        return getResourceOptimization(targetSnapshotId ?? '', entityType);
+        return getResourceOptimization(targetSnapshotId ?? '', entityType, actionCategory);
       });
     }, [refreshSignal]) ?? (pendingResult as Result<ResourceOptimization>)
   );
