@@ -4,10 +4,9 @@
  * Copyright IBM Corp. 2024
  */
 
-
 :local {
   .comboHighlightedText {
     background: var(--cds-highlight);
-    font-weight: 600;
+    font-weight: var(--cds-heading-01-font-weight);
   }
 }

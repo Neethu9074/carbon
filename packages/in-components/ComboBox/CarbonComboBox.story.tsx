@@ -28,7 +28,7 @@ const options1 = [
 ];
 
 export const CarbonComboBoxDefault = () => {
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState('');
   return (
     <>
       <div style={{ margin: '1rem' }}>Single selection</div>
@@ -36,8 +36,8 @@ export const CarbonComboBoxDefault = () => {
       <ComboBox
         value={value}
         options={options}
-        onChange={(t: any) => {
-          setValue(t?.value);
+        onChange={t => {
+          setValue((t as Option)?.value);
         }}
       />
     </>
@@ -52,8 +52,8 @@ export const CarbonComboBoxSingleNotClearable = () => {
       <ComboBox
         value={valueC}
         options={options}
-        onChange={(t: any) => {
-          setValueC(t?.value);
+        onChange={t => {
+          setValueC((t as Option)?.value);
         }}
         isClearable={false}
         defaultValue={options[0]}
@@ -68,8 +68,8 @@ export const ComboBoxSingleWithPlaceholder = () => {
     <ComboBox
       value={value}
       options={options}
-      onChange={(t: any) => {
-        setValue(t?.value);
+      onChange={t => {
+        setValue((t as Option)?.value);
       }}
       placeholder="Choose a flavor"
     />
@@ -83,8 +83,8 @@ export const ComboBoxSingleWithDisabledOption = () => {
       value={value}
       options={options1}
       isOptionDisabled={t => t?.isDisabled ?? false}
-      onChange={(t: any) => {
-        setValue(t?.value);
+      onChange={t => {
+        setValue((t as Option)?.value);
       }}
     />
   );
@@ -97,8 +97,8 @@ export const ComboBoxSingleDisabled = () => {
       value={value}
       options={options}
       isDisabled
-      onChange={(t: any) => {
-        setValue(t?.value);
+      onChange={t => {
+        setValue((t as Option)?.value);
       }}
     />
   );
@@ -120,8 +120,8 @@ export const ComboBoxSingleCustom = () => {
     <ComboBox
       value={value}
       options={options}
-      onChange={(t: any) => {
-        setValue(t?.value);
+      onChange={t => {
+        setValue((t as Option)?.value);
       }}
       components={{ Decorate }}
     />
@@ -135,8 +135,8 @@ export const ComboBoxSingleClearable = () => {
       <ComboBox
         value={value}
         options={options}
-        onChange={(t: any) => {
-          setValue(t?.value);
+        onChange={t => {
+          setValue((t as Option)?.value);
         }}
         components={{ Decorate }}
       />
@@ -153,8 +153,8 @@ export const ComboBoxWithFilterHighlight = () => {
         value={value}
         placeholder="Select an option"
         options={options}
-        onChange={(t: any) => {
-          setValue(t?.value);
+        onChange={t => {
+          setValue((t as Option)?.value);
         }}
         highlightFilter
       />
@@ -177,8 +177,8 @@ export const ComboBoxWithRowLimit = () => {
         value={value}
         placeholder="Select an option"
         options={lotsOfOptions}
-        onChange={(t: any) => {
-          setValue(t?.value);
+        onChange={t => {
+          setValue((t as Option)?.value);
         }}
         resultsToShow={10}
       />
@@ -193,8 +193,8 @@ export const ComboBoxCarbon = () => {
     <ComboBox
       value={value}
       options={options}
-      onChange={(t: any) => {
-        setValue(t?.value);
+      onChange={t => {
+        setValue((t as Option)?.value);
       }}
     />
   );
