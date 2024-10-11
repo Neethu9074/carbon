@@ -260,7 +260,7 @@ export const playwithTestEnabled = isFeatureFlagEnabled('playwithTestEnabled', f
 export const playWithReleaseEnabled = isFeatureFlagEnabled('playWithReleaseEnabled', false);
 
 export const rcaUIEnabled = isFeatureFlagEnabled('rcaUIEnabled', true);
-export const rcaLogsEnabled = isFeatureFlagEnabled('rcaLogsEnabled', false);
+export const rcaLogsEnabled = isFeatureFlagEnabled('rcaLogsEnabled', true);
 export const rcaFailedStateEnabled = isFeatureFlagEnabled('rcaFailedStateEnabled', false);
 export const eventFeedbackEnabled = isFeatureFlagEnabled('eventFeedbackEnabled', true);
 export const incidentSummarizationEnabled = isFeatureFlagEnabled('incidentSummarizationEnabled', false);

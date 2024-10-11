@@ -119,7 +119,7 @@ module.exports = {
   infraSmartAlertsEnabled: true,
   syntheticCustomDashboardEnabled: true,
   rcaUIEnabled: true,
-  rcaLogsEnabled: false,
+  rcaLogsEnabled: true,
   rcaFailedStateEnabled: false,
   eventFeedbackEnabled: true,
   incidentSummarizationEnabled: true,

@@ -473,7 +473,7 @@ module.exports = exports = [
   {
     uiClientKey: 'rcaLogsEnabled',
     instanaCtlKey: 'feature.rca.logs.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'rcaFailedStateEnabled',
