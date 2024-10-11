@@ -248,27 +248,32 @@ export default function DetailTab({
 
   const carbonHeaders = [
     {
-      key: t('in-automation:actionHistory.property'),
+      key: 'property',
       header: t('in-automation:actionHistory.property')
     },
     {
-      key: t('in-automation:actionHistory.value'),
+      key: 'value',
       header: t('in-automation:actionHistory.value')
     }
   ];
 
+  const filterRows_WhenNotShowingCondition_or_actionLaneIsDifferent = ({
+    showCondition = true,
+    actionLane = false
+  }) => {
+    if (!showCondition || (inActionLane && !actionLane) || (!inActionLane && actionLane)) {
+      return false;
+    }
+    return true;
+  };
+
   const carbonRows = tableData
-    .filter(({ showCondition = true, actionLane = false }) => {
-      if (!showCondition || (inActionLane && !actionLane) || (!inActionLane && actionLane)) {
-        return false;
-      }
-      return true;
-    })
+    .filter(filterRows_WhenNotShowingCondition_or_actionLaneIsDifferent)
     .map(({ label, value, isLink, ObservableLink, stringLink }) => {
       return {
         id: label,
-        [t('in-automation:actionHistory.property')]: label,
-        [t('in-automation:actionHistory.value')]: isLink ? (
+        property: label,
+        value: isLink ? (
           <Link target="_blank" className={locals.detailsLink} href={ObservableLink ?? stringLink ?? undefined}>
             {value} <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />{' '}
           </Link>
