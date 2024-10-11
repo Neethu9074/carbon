@@ -4,6 +4,7 @@
  */
 
 import React, { forwardRef } from 'react';
+import classNames from 'classnames';
 
 import TooltipContent from 'in-components/Chart/components/TooltipContent';
 
@@ -29,7 +30,7 @@ const TooltipLineAndContent = forwardRef(
     return (
       <div
         ref={ref}
-        className={locals.line}
+        className={classNames(locals.line, 'tooltip')}
         style={{
           left: cursorXPosition
         }}

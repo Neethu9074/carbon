@@ -37,7 +37,8 @@
       .show-results,
       .legend-arrow,
       .legend-dot,
-      .legend-label {
+      .legend-label,
+      .hidden {
         display: none;
       }
 

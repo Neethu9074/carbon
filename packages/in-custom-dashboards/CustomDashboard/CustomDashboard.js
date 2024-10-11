@@ -353,6 +353,8 @@ export default function CustomDashboardLoader(props) {
     if (nodeToExport) {
       if (tooltipRef) {
         handleTooltip({ tooltipRef, nodeToExport, widget: widgetNode, widgetType });
+      } else {
+        nodeToExport?.querySelector('.tooltip')?.classList?.add('hidden');
       }
 
       addMessage(
