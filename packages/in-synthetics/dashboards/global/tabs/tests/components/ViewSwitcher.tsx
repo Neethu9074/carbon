@@ -66,8 +66,7 @@ export default function ViewSwitcher() {
                 href={createHrefToPath(paths.syntheticCredentialPath)}
                 label={t('in-synthetics:dashboard.testList.secondaryLabels.credentials')}
                 isActive={isCredentialsActive && !isTestsActive && !isLocationsActive && !isSmartAlertsActive}
-                // icon needs to be updated
-                icon={'lib_synthetic'}
+                icon={'lib_synthetic_credential'}
               />
             )}
             <SecondLevelNavigationItem
