@@ -26,7 +26,6 @@ interface infoPanelProps {
   collapsible?: boolean;
   showLabel?: string;
   hideLabel?: string;
-  i18nLib?: string;
   expanded?: string | boolean;
   content: {
     title?: string;
@@ -36,13 +35,12 @@ interface infoPanelProps {
 
 export default function InfoPanel({
   id = 'infoPanel',
-  i18nLib = 'in-automation:infoPanel.',
-  ariaLabel = 'taskGuidance',
   collapsible = true,
-  showLabel = 'showTasks',
-  hideLabel = 'hideTasks',
   expanded = true,
-  content
+  content,
+  ariaLabel,
+  showLabel,
+  hideLabel
 }: infoPanelProps) {
   const [isExpanded, setIsExpanded] = useState(
     typeof expanded === 'string' ? (localStorage.getItem(expanded) as unknown as boolean) ?? true : expanded
@@ -53,7 +51,7 @@ export default function InfoPanel({
   };
 
   return (
-    <section id={id} aria-label={t(i18nLib + ariaLabel)} className={locals.panel}>
+    <section id={id} aria-label={t(ariaLabel ?? 'in-automation:infoPanel.taskGuidance')} className={locals.panel}>
       <h1 className={locals.contentTitle}>{content.title ?? null}</h1>
       {isExpanded && (
         <div className={locals.contentContainer}>
@@ -82,7 +80,14 @@ export default function InfoPanel({
             iconSize={SvgIconSizes.s}
             onClick={toggleVisibility}
           >
-            <span> {t(isExpanded ? i18nLib + hideLabel : i18nLib + showLabel)} </span>
+            <span>
+              {' '}
+              {t(
+                isExpanded
+                  ? hideLabel ?? 'in-automation:infoPanel.hideTasks'
+                  : showLabel ?? 'in-automation:infoPanel.showTasks'
+              )}{' '}
+            </span>
           </DashboardButton>
         </div>
       )}
