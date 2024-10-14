@@ -15,8 +15,6 @@
     display: flex;
     justify-content: flex-start;
     gap: 1.5rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
   }
   .box1 {
     height: 328px;

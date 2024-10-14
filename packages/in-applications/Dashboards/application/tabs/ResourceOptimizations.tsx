@@ -87,7 +87,7 @@ export default function ResourceOptimizationTab({ applicationId, timeConfig, bou
       {showGuidance && (
         <InfoPanel
           content={{
-            //text not finalized, no i18n yet
+            //The text is not approved in time for the release, so do not put them in i18n files. The infoPanel is not displayed for now.
             title: 'Resource optimizations, powered by Turbonomic',
             columns: [
               {

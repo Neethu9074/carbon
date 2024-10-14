@@ -76,7 +76,7 @@ export function usePaginatedResourceOptimizations({
     result: recommendedActions,
     serverTableUrlState,
     setServerTableUrlState,
-    searchAttributes: ['name', 'impactedServices', 'actionCategory'],
+    searchAttributes: ['name', 'actionCategory'],
     sort: entity => {
       const { orderBy } = serverTableUrlState;
       let value = entity[orderBy as keyof RecommendedAction];
