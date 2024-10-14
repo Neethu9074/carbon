@@ -51,7 +51,11 @@ export default function InfoPanel({
   };
 
   return (
-    <section id={id} aria-label={t(ariaLabel ?? 'in-automation:infoPanel.taskGuidance')} className={locals.panel}>
+    <section
+      id={id}
+      aria-label={ariaLabel ? t(ariaLabel) : t('in-automation:infoPanel.taskGuidance')}
+      className={locals.panel}
+    >
       <h1 className={locals.contentTitle}>{content.title ?? null}</h1>
       {isExpanded && (
         <div className={locals.contentContainer}>
@@ -82,11 +86,13 @@ export default function InfoPanel({
           >
             <span>
               {' '}
-              {t(
-                isExpanded
-                  ? hideLabel ?? 'in-automation:infoPanel.hideTasks'
-                  : showLabel ?? 'in-automation:infoPanel.showTasks'
-              )}{' '}
+              {isExpanded
+                ? hideLabel
+                  ? t(hideLabel)
+                  : t('in-automation:infoPanel.hideTasks')
+                : showLabel
+                ? t(showLabel)
+                : t('in-automation:infoPanel.showTasks')}{' '}
             </span>
           </DashboardButton>
         </div>
