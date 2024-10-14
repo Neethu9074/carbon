@@ -23,7 +23,7 @@ export default function ViewAllButton({ href, viewLabel, isTableEmpty = false }:
         <DashboardButton
           size="md"
           kind="ghost"
-          iconSize="xs"
+          iconSize="s"
           icon="lib_arrow_right"
           iconStyle={locals.viewAllButtonArrowIcon}
           href={href}

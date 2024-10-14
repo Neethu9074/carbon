@@ -125,7 +125,7 @@ export default function EventsChartWidget({
           <DashboardButton
             size="md"
             kind="ghost"
-            iconSize="xs"
+            iconSize="s"
             icon="lib_arrow_right"
             iconStyle={locals.viewAllButtonArrowIcon}
             href={EventsfullListViewHref ? EventsfullListViewHref : '/#/events'}
