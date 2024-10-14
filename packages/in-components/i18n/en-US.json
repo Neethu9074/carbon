@@ -646,6 +646,10 @@
     "timeFrameFormatterMinutes_1": "Last {{count}} minutes",
     "timeFrameFormatterMinutes_2": "Last {{count}} minutes"
   },
+  "timepicker": {
+    "clock_24": "24 hour",
+    "invalid_TimeFormat": "Invalid time format"
+  },
   "timeShift": {
     "changeSelectedTimeShift": "Change selected time shift",
     "timeShiftValue": "Time Shift: {{timeShiftValue}}",
