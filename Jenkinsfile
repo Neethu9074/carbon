@@ -236,7 +236,7 @@ pipeline {
       }
     }
 
-    stage('Deploy and SonarQube') {
+    stage('Deploy') {
       parallel {
         stage('Deploy') {
           steps {
@@ -285,31 +285,8 @@ pipeline {
             }
           }
         }
-
-        stage('SonarQube') {
-          steps {
-            timeout(time: 2, unit: 'HOURS') {
-              timestamps {
-                script {
-                  if (isDeliveryBranch || branchName == 'sonarqube') {
-                    awsCodeBuild credentialsType: 'jenkins',
-                      credentialsId: 'codebuild',
-                      projectName: 'ui-client',
-                      region: 'us-west-2',
-                      imageOverride: 'aws/codebuild/standard:7.0',
-                      sourceControlType: 'project',
-                      sourceVersion: gitCommitId,
-                      buildSpecFile: 'buildspec.sonarqube.yml',
-                      envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaUiClientVersion + '}, {BRANCH_NAME, ' + branchName + '}, {GIT_BRANCH, ' + branchName + '} ]'
-                  }
-                }
-              }
-            }
-          }
-        }
       }
     }
-
   }
 }
 
