@@ -773,13 +773,15 @@
         "settings": "Settings",
         "user": "User",
         "externalLink": "External Link",
-        "resultNew": "Result New"
+        "resultNew": "Result New",
+        "whatsNewLink": "Whats New Link"
       },
       "buttonNames": {
         "deployAgent": "Deploy agent",
         "addUser": "Add user",
         "documentation": "IBM documentation",
-        "releaseNotes": "Release notes"
+        "releaseNotes": "Release notes",
+        "whatsNewLink": "What’s New in Instana"
       }
     },
     "ariaLabel": {

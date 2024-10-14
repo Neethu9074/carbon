@@ -12,7 +12,11 @@ import { t } from '@instana/i18n-react';
 // @ts-expect-error no declaration file
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { QuickLinkButton } from 'in-plg/pages/WelcomePage/quickLinks/QuickLinkButton';
+import { WELCOME_PAGE_WHATS_NEW_LINK_CLICK } from 'in-services/tracking/eventNames';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { getPageType } from 'in-plg/Demo/NewPlayWithHeader';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
@@ -20,6 +24,8 @@ import locals from 'in-plg/pages/WelcomePage/quickLinks/QuickLinks.mless';
 
 export const QuickLinks = () => {
   const { createHrefToPath } = useNavigation();
+  const { trackCta } = useSegmentTracking();
+  const location = useLocation();
   return (
     <div className={locals.quickLinksWrapperStyle}>
       <Stack gap="disabled" direction="horizontal">
@@ -53,6 +59,15 @@ export const QuickLinks = () => {
           buttonName={t('in-plg:welcomepage.quickLinks.buttonNames.releaseNotes')}
           onClick={() => {
             showReleaseNotes();
+          }}
+        />
+        <QuickLinkButton
+          icon="lib_views_external_link"
+          iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.whatsNewLink')}
+          buttonName={t('in-plg:welcomepage.quickLinks.buttonNames.whatsNewLink')}
+          onClick={() => {
+            trackCta(WELCOME_PAGE_WHATS_NEW_LINK_CLICK, getPageType(location.pathname));
+            window.open('https://community.ibm.com/community/user/instana/participate/blogs ', '_blank', 'noreferrer');
           }}
         />
       </Stack>

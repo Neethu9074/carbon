@@ -230,6 +230,9 @@ export const UNIT_ONBOARDING_TAILOR_YOUR_VIEW_CLICK = 'unitOnboarding.createAppl
 export const UNIT_ONBOARDING_GET_ALERTED_CLICK = 'unitOnboarding.setUpSmartAlerts.click';
 export const UNIT_ONBOARDING_MONITOR_ENVIRONMENT_CLICK = 'unitOnboarding.startMonitoring.click';
 export const UNIT_ONBOARDING_BRING_YOUR_TEAM_CLICK = 'unitOnboarding.inviteTeammates.click';
+
+export const WELCOME_PAGE_WHATS_NEW_LINK_CLICK = 'welcomePage.whatsNewLink.click';
+
 // Owned by Team Alert Response
 // Tracking all team owned components
 export const SETTINGS_ALERT_CHANNEL_CREATE = 'settings.alertChannel.create';
