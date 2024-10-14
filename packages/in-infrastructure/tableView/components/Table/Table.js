@@ -36,7 +36,7 @@ export default class Table extends React.Component {
     super(props);
     this.state = {
       data: null,
-      selectedData: [],
+      selectedData: this.props.selectedRowKeys || [],
       pageSize: this.props.maxItemsPerPage || 10
     };
   }
@@ -298,9 +298,7 @@ export default class Table extends React.Component {
             sortRow={sortState => sortRow(sortState)}
             isSearchEnabled={false}
             isSortable
-            allRowSelected={selectedData.length > 0 && selectedData.length === carbonRows.length}
             isSelectable
-            onSelectAllRows={() => {}}
             onSelectRow={row => handleRowSelect(row)}
             rowSelected={selectedData}
             onClickingRow={(row, e) => {
