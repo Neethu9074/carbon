@@ -757,6 +757,21 @@
       "noWebsitesAssociated": "No Websites associated",
       "associatedMobileApps": "Associated Mobile Apps",
       "noMobileAppAssociated": "No Mobile Apps associated"
+    },
+    "credentialList": {
+      "mainLabel": "Credentials",
+      "name": "Name",
+      "associations": "Associations",
+      "createdAt": "Created at",
+      "createdBy": "Created by",
+      "lastModifiedBy": "Last modified by",
+      "actions": "Actions",
+      "noDataAvailable": {
+        "noCredentialsAvailableTitle": "No Synthetic credentials available",
+        "noCredentialsAvailableDescription": "There are no Synthetic credentials retrieved from the database."
+      },
+      "editAction": "Edit",
+      "deleteAction": "Delete"
     }
   }
 }

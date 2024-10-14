@@ -35,7 +35,6 @@ import {
   locationIdTagName,
   websiteIdTagName,
   mobileAppIdTagName,
-  mobileApplicationIdTagName,
   testIdTagName,
   testNameTagName,
   typeTagName
@@ -367,7 +366,7 @@ export const getTestSummaryListData = ({
           addFilter(associations?.websites!, websiteIdTagName, EQUALS, websiteTagFilterExpression);
           break;
         case 'mobileApps':
-          addFilter(associations?.mobileApps!, mobileApplicationIdTagName, EQUALS, mobileAppsTagFilterExpression);
+          addFilter(associations?.mobileApps!, mobileAppIdTagName, EQUALS, mobileAppsTagFilterExpression);
           break;
       }
     });
