@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
+import { chartColors } from 'in-themes/chartColors';
 import SparkChart from 'in-components/SparkChart';
 
 export default {
@@ -42,6 +43,24 @@ export const Default = () => (
     />
   </>
 );
+
+export const OtherColor = {
+  args: {
+    rollup: 10000,
+    timeConfig: { windowSize: 60000, to: 60000 },
+    metrics: [
+      [0, 1],
+      [10000, 1],
+      [20000, 0],
+      [30000, 2],
+      [40000, 1],
+      [50000, 2],
+      [60000, 0.5]
+    ],
+    strokeColor: chartColors.strokeColors100[2],
+    fillColor: chartColors.strokeColors25[2]
+  }
+};
 
 export const WithMostlyZeroDataPointsAndASmallSpike = () => (
   <SparkChart

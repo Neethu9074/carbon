@@ -18,6 +18,8 @@ interface Props {
   width?: number;
   height?: number;
   theme?: string;
+  strokeColor?: string;
+  fillColor?: string;
   percentageMetric?: boolean;
   showDots?: boolean;
 
@@ -53,6 +55,8 @@ export default class LineMetricRenderer {
   width: number;
   height: number;
   theme: string | undefined;
+  strokeColor?: string;
+  fillColor?: string;
   percentageMetric: boolean | undefined;
   showDots: boolean | undefined;
   xScale: ScaleType;
@@ -67,6 +71,8 @@ export default class LineMetricRenderer {
     this.height = props.height ?? 0;
     this.percentageMetric = props.percentageMetric;
     this.theme = props.theme;
+    this.strokeColor = props.strokeColor;
+    this.fillColor = props.fillColor;
     this.showDots = props.showDots;
 
     const { paddingLeft = 0, paddingRight = 0, paddingTop = 0, paddingBottom = 0 } = props;
@@ -237,14 +243,16 @@ export default class LineMetricRenderer {
     }
 
     this.ctx.lineWidth = 2;
-    this.ctx.strokeStyle = chartColors.strokeColors100[0];
+    this.ctx.strokeStyle = this.strokeColor ?? chartColors.strokeColors100[0];
 
     this.renderBlocks();
     this.renderDataPoints();
   }
 
   renderBlocks(): void {
-    if (this.theme === 'light') {
+    if (this.fillColor) {
+      this.ctx.fillStyle = this.fillColor;
+    } else if (this.theme === 'light') {
       this.ctx.fillStyle = chartColors.strokeColors25[0];
     } else {
       this.ctx.fillStyle = themes.default.ids.color.option.neutral['700'];

@@ -43,6 +43,8 @@ interface Props {
   hideChartOnEmptyMetrics?: boolean;
   horizontalMetricValue?: React.ReactNode;
   verticalMetricValue?: React.ReactNode;
+  strokeColor?: string;
+  fillColor?: string;
 }
 
 export default function SparkChartReactComponent(props: Props) {

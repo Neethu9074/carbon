@@ -12,6 +12,8 @@ export interface SparkChartProps {
   percentageMetric?: boolean;
   showDots?: boolean;
   theme?: string;
+  strokeColor?: string;
+  fillColor?: string;
 }
 
 export default class SparkChart {
@@ -20,7 +22,7 @@ export default class SparkChart {
 
   constructor(
     canvas: HTMLCanvasElement,
-    { width, height, percentageMetric, theme = 'light', showDots = false }: SparkChartProps
+    { width, height, percentageMetric, theme = 'light', strokeColor, fillColor, showDots = false }: SparkChartProps
   ) {
     this.canvas = canvas;
 
@@ -28,6 +30,8 @@ export default class SparkChart {
 
     this.lineMetricRenderer = new LineMetricRenderer(canvas, {
       theme,
+      strokeColor,
+      fillColor,
       width,
       height,
       percentageMetric,
