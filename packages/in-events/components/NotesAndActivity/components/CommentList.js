@@ -67,6 +67,7 @@ export function CommentList({ notes, setDisplayQuickStart, displayQuickStart, se
           const aiSum = type === TYPE_AI_SUMMARY;
           const serviceNow = note.origin === 'ServiceNow';
           const date = formatDateWithActiveLanguage(new Date(note.timestamp), `${dateFormat}, ${timeFormat}`);
+          const isEdited = note?.updated && note?.updated != 0;
           const iconType =
             (!aiSum && serviceNow && 'lib_snow_icon') || (!aiSum && !serviceNow && 'lib_actions_user') || 'lib_ai_slug';
           const iconSize = (aiSum && 'regular') || (!aiSum && !serviceNow && 'xs') || 'sm';
@@ -99,7 +100,7 @@ export function CommentList({ notes, setDisplayQuickStart, displayQuickStart, se
                     [locals.myChatEntryInfo]: myBubble
                   })}
                 >
-                  {noteNameAndTimeFormat(myBubble, note, date, type)}
+                  {noteNameAndTimeFormat(myBubble, note, date, type, isEdited)}
                 </div>
               </div>
               <ChatBubble
@@ -156,7 +157,16 @@ export function ChatBubble({ myBubble, contents, data, type, noteObj, setNote, s
         })}
       >
         {/* General Note Written by any user */}
-        {note && contents && <div style={{ wordWrap: 'break-word' }}>{contents}</div>}
+        {note && contents && (
+          <div
+            className={classNames({
+              [locals.wordWrap]: true,
+              [locals.spaceForEditDelete]: myBubble
+            })}
+          >
+            {contents}
+          </div>
+        )}
         {/* AI Summarization */}
         {aiSum && (
           <>

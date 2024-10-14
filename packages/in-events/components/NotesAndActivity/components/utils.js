@@ -20,15 +20,21 @@ export function validTextEntry(text) {
 // We want to display "You" instead of the user name if its
 // your chat bubble
 // Append date to end of text
-export function noteNameAndTimeFormat(myBubble, note, date, type) {
+export function noteNameAndTimeFormat(myBubble, note, date, type, isEdited = false) {
   const typeNote = type === TYPE_NOTE;
   const aiGen = type === TYPE_AI_SUMMARY;
   if (myBubble && typeNote) {
-    return `${t('in-events:notes.you', { date: date })}`;
+    return (
+      (!isEdited && `${t('in-events:notes.you', { date: date })}`) ||
+      `${t('in-events:notes.youEdited', { date: date })}`
+    );
   } else if (aiGen) {
     return `${t('in-events:notes.watsonx', { date: date })}`;
   } else if (typeNote) {
-    return `${note?.author} ${date}`;
+    return (
+      (!isEdited && `${t('in-events:notes.nameDate', { name: note?.author, date: date })}`) ||
+      `${t('in-events:notes.nameDateEdited', { name: note?.author, date: date })}`
+    );
   } else {
     return `${note?.origin} ${date}`;
   }

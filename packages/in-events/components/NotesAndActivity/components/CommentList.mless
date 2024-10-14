@@ -97,4 +97,12 @@
     display: inline-flex;
     gap: 1rem;
   }
+
+  .wordWrap {
+    overflow-wrap: break-word;
+  }
+
+  .spaceForEditDelete {
+    margin-right: 1rem;
+  }
 }
