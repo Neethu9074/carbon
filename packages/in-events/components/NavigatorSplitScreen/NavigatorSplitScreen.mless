@@ -19,6 +19,10 @@
     z-index: 125;
   }
 
+  .dialogIndex {
+    z-index: calc(var(--ids-z-index-option-dialog) - 6);
+  }
+
   .detailView {
     width: ~'calc(100% - 20rem)';
 

@@ -23,4 +23,12 @@
       align-items: center;
     }
   }
+
+  .bumpUp {
+    margin-top: -2rem;
+  }
+
+  .bumpDown {
+    margin-top: 2rem;
+  }
 }

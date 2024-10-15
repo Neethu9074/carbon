@@ -37,15 +37,31 @@ describe('noteNameAndTimeFormat', () => {
   const note = { author: 'dart', origin: 'LegendOfDragoon' };
 
   it('general cases', () => {
-    expect(noteNameAndTimeFormat(false, note, '2024-06-04, 19:41:28', 'note')).toEqual('dart 2024-06-04, 19:41:28');
-    expect(noteNameAndTimeFormat(true, note, '2024-06-04, 19:41:28', 'note')).toEqual('You 2024-06-04, 19:41:28');
-    expect(noteNameAndTimeFormat(false, note, '2024-06-04, 19:41:28', 'external_note')).toEqual(
+    expect(noteNameAndTimeFormat(false, note, '2024-06-04, 19:41:28', 'note', false)).toEqual(
+      'dart 2024-06-04, 19:41:28'
+    );
+    expect(noteNameAndTimeFormat(true, note, '2024-06-04, 19:41:28', 'note', false)).toEqual(
+      'You 2024-06-04, 19:41:28'
+    );
+    expect(noteNameAndTimeFormat(false, note, '2024-06-04, 19:41:28', 'note', true)).toEqual(
+      'dart (edited) 2024-06-04, 19:41:28'
+    );
+    expect(noteNameAndTimeFormat(true, note, '2024-06-04, 19:41:28', 'note', true)).toEqual(
+      'You (edited) 2024-06-04, 19:41:28'
+    );
+    expect(noteNameAndTimeFormat(false, note, '2024-06-04, 19:41:28', 'external_note', false)).toEqual(
       'LegendOfDragoon 2024-06-04, 19:41:28'
     );
-    expect(noteNameAndTimeFormat(true, note, '2024-06-04, 19:41:28', 'external_note')).toEqual(
+    expect(noteNameAndTimeFormat(true, note, '2024-06-04, 19:41:28', 'external_note', false)).toEqual(
       'LegendOfDragoon 2024-06-04, 19:41:28'
     );
-    expect(noteNameAndTimeFormat(false, note, '2024-06-04, 19:41:28', 'ai_summary')).toEqual(
+    expect(noteNameAndTimeFormat(true, note, '2024-06-04, 19:41:28', 'external_note', true)).toEqual(
+      'LegendOfDragoon 2024-06-04, 19:41:28'
+    );
+    expect(noteNameAndTimeFormat(false, note, '2024-06-04, 19:41:28', 'ai_summary', false)).toEqual(
+      'watsonx 2024-06-04, 19:41:28'
+    );
+    expect(noteNameAndTimeFormat(false, note, '2024-06-04, 19:41:28', 'ai_summary', true)).toEqual(
       'watsonx 2024-06-04, 19:41:28'
     );
   });

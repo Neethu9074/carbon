@@ -12,6 +12,12 @@
     padding: 0.125rem;
   }
 
+  .menuWrapper {
+    position: absolute;
+    right: 1rem;
+    padding-top: 10px;
+  }
+
   .snowIcon {
     fill: #62d84e;
   }
@@ -90,5 +96,13 @@
   .summaryList {
     display: inline-flex;
     gap: 1rem;
+  }
+
+  .wordWrap {
+    overflow-wrap: break-word;
+  }
+
+  .spaceForEditDelete {
+    margin-right: 1rem;
   }
 }

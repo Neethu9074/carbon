@@ -8,7 +8,14 @@ import Immutable from 'immutable';
 import { shallow } from 'enzyme';
 import React from 'react';
 
-import { IconButton, CarbonSearch, CarbonInlineLoading, CarbonLayer, PreviewPill } from '@instana/components';
+import {
+  IconButton,
+  CarbonSearch,
+  CarbonInlineLoading,
+  CarbonLayer,
+  PreviewPill,
+  CarbonModal
+} from '@instana/components';
 
 import { CommentInput } from 'in-events/components/NotesAndActivity/components/CommentInput';
 import { QuickActions } from 'in-events/components/NotesAndActivity/components/QuickActions';
@@ -45,6 +52,7 @@ describe('NotesAndActivity', () => {
     expect(wrapper.find(CommentList)).toHaveLength(1);
     expect(wrapper.find(CommentInput)).toHaveLength(1);
     expect(wrapper.find(QuickActions)).toHaveLength(1);
+    expect(wrapper.find(CarbonModal)).toHaveLength(1);
   });
 
   it('renders a general case for NotesAndActivity', () => {
@@ -83,5 +91,6 @@ describe('NotesAndActivity', () => {
     expect(wrapper.find(CommentList)).toHaveLength(1);
     expect(wrapper.find(CommentInput)).toHaveLength(1);
     expect(wrapper.find(QuickActions)).toHaveLength(1);
+    expect(wrapper.find(CarbonModal)).toHaveLength(1);
   });
 });

@@ -7,7 +7,7 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon, CarbonButton } from '@instana/components';
+import { SvgIcon, CarbonButton, CarbonOverflowMenu, CarbonOverflowMenuItem } from '@instana/components';
 
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import { TYPE_NOTE, TYPE_EXT_NOTE, TYPE_EXT_F_CHANGE, TYPE_AI_SUMMARY } from '../utils';
@@ -23,9 +23,7 @@ import { t } from 'in-i18n';
 
 import locals from './CommentList.mless';
 
-export function CommentList(props) {
-  const { notes, preferredName, setDisplayQuickStart, displayQuickStart } = props;
-
+export function CommentList({ notes, setDisplayQuickStart, displayQuickStart, setNote, setEditNoteId }) {
   // This adds in the scroll wheel event listener to determine the percentage
   // of the scroll height so we know if we need to collapse and expand the quick actions
   useEffect(() => {
@@ -64,11 +62,12 @@ export function CommentList(props) {
           // Using i to iterate helps us traverse backwards that way notes are displayed
           // with the newest note at the top, oldest at the bottom
           const note = notes[notes.length - i - 1];
-          const myBubble = note.author == preferredName;
+          const myBubble = note.author == user.preferredName;
           const type = note.type;
           const aiSum = type === TYPE_AI_SUMMARY;
           const serviceNow = note.origin === 'ServiceNow';
           const date = formatDateWithActiveLanguage(new Date(note.timestamp), `${dateFormat}, ${timeFormat}`);
+          const isEdited = note?.updated && note?.updated != 0;
           const iconType =
             (!aiSum && serviceNow && 'lib_snow_icon') || (!aiSum && !serviceNow && 'lib_actions_user') || 'lib_ai_slug';
           const iconSize = (aiSum && 'regular') || (!aiSum && !serviceNow && 'xs') || 'sm';
@@ -101,10 +100,18 @@ export function CommentList(props) {
                     [locals.myChatEntryInfo]: myBubble
                   })}
                 >
-                  {noteNameAndTimeFormat(myBubble, note, date, type)}
+                  {noteNameAndTimeFormat(myBubble, note, date, type, isEdited)}
                 </div>
               </div>
-              <ChatBubble noteObj={note} contents={note.contents} data={note?.data} myBubble={myBubble} type={type} />
+              <ChatBubble
+                noteObj={note}
+                contents={note.contents}
+                data={note?.data}
+                myBubble={myBubble}
+                type={type}
+                setEditNoteId={setEditNoteId}
+                setNote={setNote}
+              />
             </div>
           );
         })}
@@ -114,8 +121,7 @@ export function CommentList(props) {
 
 // Individual chat bubble that has differing colors and stylings based on
 // if the text is from me or someone else, ai generated, or external source
-export function ChatBubble(props) {
-  const { myBubble, contents, data, type, noteObj } = props;
+export function ChatBubble({ myBubble, contents, data, type, noteObj, setNote, setEditNoteId }) {
   const [showAll, setShowAll] = useState(false);
   // Currently we have 4 types of bubbles
   const note = type === TYPE_NOTE;
@@ -132,50 +138,98 @@ export function ChatBubble(props) {
   const summaryEnd = aiSum && getSummary(last);
 
   return (
-    <div
-      className={classNames({
-        [locals.myBubble]: myBubble && note,
-        [locals.ext]: extNote || extChange || (!myBubble && note),
-        [locals.bubble]: true,
-        [locals.aiGenBubble]: aiSum
-      })}
-    >
-      {note && contents && <div style={{ wordWrap: 'break-word' }}>{contents}</div>}
-      {aiSum && (
-        <>
-          <div className={locals.bubbleContentsHeader}>{t('in-events:notes.sumGenerated')}</div>
-          <SummaryEntry summaryList={summaryStart} />
-          {showAll && <SummaryEntry summaryList={summaryEnd} />}
-          {summaryEnd.length > 0 && (
-            <CarbonButton
-              size="sm"
-              onClick={() => {
-                handleShowMore(noteObj?.id);
-                setShowAll(!showAll);
-              }}
-              kind="ghost"
-            >
-              {!showAll ? t('in-events:notes.showAll') : t('in-events:notes.collapse')}
-            </CarbonButton>
-          )}
-        </>
+    <>
+      {/* Show the overflow menu to edit and delete an note IF its the current users personal message */}
+      {myBubble && note && (
+        <EditDeleteOverflowMenu
+          setNote={setNote}
+          setEditNoteId={setEditNoteId}
+          noteId={noteObj?.id}
+          contents={contents}
+        />
       )}
-      {extNote && (
-        <>
-          <div className={locals.bubbleContentsHeader}>{`${noteObj?.label}`}</div>
-          {`${noteObj.author}: `}
-          <div style={{ wordWrap: 'break-word' }}>{contents}</div>
-        </>
-      )}
-      {extChange && (
-        <>
-          <div className={locals.bubbleContentsHeader}>
-            {noteObj?.label}
-            <div style={{ fontWeight: 400 }}>{t('in-events:notes.updatedBy', { name: updatedBy })}</div>
+      <div
+        className={classNames({
+          [locals.myBubble]: myBubble && note,
+          [locals.ext]: extNote || extChange || (!myBubble && note),
+          [locals.bubble]: true,
+          [locals.aiGenBubble]: aiSum
+        })}
+      >
+        {/* General Note Written by any user */}
+        {note && contents && (
+          <div
+            className={classNames({
+              [locals.wordWrap]: true,
+              [locals.spaceForEditDelete]: myBubble
+            })}
+          >
+            {contents}
           </div>
-          {createDataString(data, updatedBy)}
-        </>
-      )}
+        )}
+        {/* AI Summarization */}
+        {aiSum && (
+          <>
+            <div className={locals.bubbleContentsHeader}>{t('in-events:notes.sumGenerated')}</div>
+            <SummaryEntry summaryList={summaryStart} />
+            {showAll && <SummaryEntry summaryList={summaryEnd} />}
+            {summaryEnd.length > 0 && (
+              <CarbonButton
+                size="sm"
+                onClick={() => {
+                  handleShowMore(noteObj?.id);
+                  setShowAll(!showAll);
+                }}
+                kind="ghost"
+              >
+                {!showAll ? t('in-events:notes.showAll') : t('in-events:notes.collapse')}
+              </CarbonButton>
+            )}
+          </>
+        )}
+        {/* External Note */}
+        {extNote && (
+          <>
+            <div className={locals.bubbleContentsHeader}>{`${noteObj?.label}`}</div>
+            {`${noteObj.author}: `}
+            <div style={{ wordWrap: 'break-word' }}>{contents}</div>
+          </>
+        )}
+        {/* External Activity Change */}
+        {extChange && (
+          <>
+            <div className={locals.bubbleContentsHeader}>
+              {noteObj?.label}
+              <div style={{ fontWeight: 400 }}>{t('in-events:notes.updatedBy', { name: updatedBy })}</div>
+            </div>
+            {createDataString(data, updatedBy)}
+          </>
+        )}
+      </div>
+    </>
+  );
+}
+
+// The overflow menu that helps with editing and deleting a users note
+export function EditDeleteOverflowMenu({ setNote, setEditNoteId, noteId, contents }) {
+  return (
+    <div className={locals.menuWrapper}>
+      <CarbonOverflowMenu size="sm" align="left" flipped>
+        <CarbonOverflowMenuItem
+          itemText={t('in-events:notes.edit')}
+          onClick={() => {
+            setNote(contents);
+            setEditNoteId([noteId, true]);
+          }}
+        />
+        <CarbonOverflowMenuItem
+          itemText={t('in-events:notes.delete')}
+          isDelete
+          onClick={() => {
+            setEditNoteId([noteId, false]);
+          }}
+        />
+      </CarbonOverflowMenu>
     </div>
   );
 }

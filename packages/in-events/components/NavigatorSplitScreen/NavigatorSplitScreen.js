@@ -162,7 +162,8 @@ function NavigatorSplitScreen({
       <div
         className={classNames({
           [locals.detailView]: true,
-          [locals.useFullWidth]: !expanded
+          [locals.useFullWidth]: !expanded,
+          [locals.dialogIndex]: true // Used for the modal dialog inside notes and activity
         })}
       >
         {children}
