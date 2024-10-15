@@ -83,6 +83,33 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
           source: 'Turbonomic',
           errorMessage: data.errorMessage
         });
+        close();
+        addMessage(
+          {
+            type: 'danger',
+            content: (
+              <Stack direction="vertical">
+                <Trans
+                  i18nKey="in-automation:resourceOptimization.actionFailedMessage"
+                  values={{ actionName: currentAction.name, message: data.errorMessage }}
+                  components={{ bold: <strong /> }}
+                />
+                <Button
+                  kind="tertiary"
+                  onClick={() => {
+                    location.pathname = actionHistoryPath;
+                    navigate(location);
+                    removeMessage('run-resource-optimization');
+                  }}
+                >
+                  {t('in-automation:resourceOptimization.viewActionHistory')}
+                </Button>
+              </Stack>
+            ),
+            title: t('in-automation:resourceOptimization.actionFailed')
+          },
+          'run-resource-optimization'
+        );
       } else {
         setRunActionResponseId(data.actionInstanceId);
         runOptimizationTrackerSegment({ actionName: currentAction.name, source: 'Turbonomic' }); //Turbonomic only for now and we may need to have a source parameter
