@@ -160,8 +160,7 @@ export default function Latency({
               ...defaultMetricConfig,
               aggregation: 'MEAN',
               label: t('in-mobile-apps:dashboard.tabs.meanLabel'),
-              color: chartColors.strokeColors100[5],
-              defaultDisabled: !timeShiftConfig.offset
+              color: chartColors.strokeColors100[5]
             }
           ],
           labels: t('in-mobile-apps:dashboard.tabs.meanLabel'),
