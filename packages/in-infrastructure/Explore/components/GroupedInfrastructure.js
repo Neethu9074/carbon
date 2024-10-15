@@ -36,13 +36,13 @@ import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/l
 import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { emptyArray, indeterminateProgress, pendingResult } from 'in-services/fixedObjects';
+import { EQUALS, IS_BLANK, IS_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { typeTag, tag_not_present_group } from 'in-infrastructure/Explore/constants';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
-import { EQUALS, IS_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { LOAD_MORE_CONTEXT } from 'in-infrastructure/Explore/services/tracking';
 import LiErrorList from 'in-infrastructure/Explore/components/LiErrorList';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
@@ -552,6 +552,13 @@ export function toTagFilters(tags) {
 }
 
 function toTagFilter(tag, value) {
+  if (value === '') {
+    return {
+      type: TAG_FILTER_TYPE,
+      operator: IS_BLANK,
+      name: tag
+    };
+  }
   if (value === tag_not_present_group) {
     return {
       type: TAG_FILTER_TYPE,
@@ -591,6 +598,8 @@ export function getGroupTagValue(group, key) {
 function replaceTagNotPresentPlaceholder(value) {
   return value === tag_not_present_group ? (
     <div className={locals.italic}>{t('in-infrastructure:explore.tagNotPresent')}</div>
+  ) : value === '' ? (
+    <div className={locals.italic}>{t('in-components:chart.chartLegendBlankLabel')}</div>
   ) : (
     value
   );

@@ -189,6 +189,7 @@ function Label({ item, config, result, tagCatalog }) {
   const groupBy = config.metricConfiguration.grouping?.[0].by;
 
   if (item.label !== 'other_group') {
+    const convertedValue = getConvertedValue(item.label);
     formModel = joinExpressions({
       expressions: [
         formModel,
@@ -204,8 +205,8 @@ function Label({ item, config, result, tagCatalog }) {
               type: TAG_FILTER,
               name: groupBy?.groupbyTag,
               key: groupBy?.groupbyTagSecondLevelKey ? groupBy?.groupbyTagSecondLevelKey : undefined,
-              value: getConvertedValue(item.label),
-              operator: operators.EQUALS,
+              value: convertedValue !== '' ? convertedValue : undefined,
+              operator: convertedValue !== '' ? operators.EQUALS : operators.IS_BLANK,
               entity: groupBy?.groupbyTagEntity
             }
       ]
@@ -299,6 +300,10 @@ function LinkContent({ item, groupBy }) {
     );
   }
 
+  if (item.label === '') {
+    return <div className={locals.italic}>{t('in-components:chart.chartLegendBlankLabel')}</div>;
+  }
+
   if (item.label === NO_VALUE) {
     const label = groupBy.groupbyTagSecondLevelKey
       ? `${groupBy.groupbyTag} > ${groupBy.groupbyTagSecondLevelKey}`
@@ -310,6 +315,9 @@ function LinkContent({ item, groupBy }) {
 }
 
 function getConvertedValue(value) {
+  if (value === '') {
+    return '';
+  }
   if (isParseableAsNumber(value)) {
     return parseFloat(value);
   }
