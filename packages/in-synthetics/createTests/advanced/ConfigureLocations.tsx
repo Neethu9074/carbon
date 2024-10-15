@@ -161,6 +161,7 @@ function SelectListDialogContent({
   const buttonGroup = (
     <div className={locals.inline}>
       <ButtonGroup
+        id="button-group-private-manage"
         buttonPropsList={locationTypes.map((locationType, index) => ({
           text: locationtypeLabels[index],
           key: locationType,

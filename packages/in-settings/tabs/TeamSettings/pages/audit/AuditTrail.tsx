@@ -45,6 +45,7 @@ export default function AuditTrail() {
       <Title title={t('in-settings:tabs.auditTrail')} />
       <SubViewHeader>{t('in-settings:tabs.auditTrail')}</SubViewHeader>
       <ButtonGroup
+        id="button-group-audit-trail"
         activeKey={visible}
         buttonPropsList={[
           {

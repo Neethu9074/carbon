@@ -118,6 +118,7 @@ export function TimeShiftAwareChartSelectorWithUrlState({
   ) : (
     tabs.length > 1 && (
       <TabChartSelector
+        cardTitle={cardTitle}
         tabs={tabs}
         selected={getActiveTab()}
         onChange={setActiveTab}
@@ -189,11 +190,14 @@ interface TabChartSelectorProps {
   selected: string;
   onChange: (tabId: string) => void;
   disabledWidgetInLive?: boolean;
+  cardTitle?: string;
 }
 
-export function TabChartSelector({ tabs, selected, onChange, disabledWidgetInLive }: TabChartSelectorProps) {
+export function TabChartSelector({ tabs, selected, onChange, disabledWidgetInLive, cardTitle }: TabChartSelectorProps) {
+  const cardTitleAlphanumeric = (cardTitle || '').replace(/[^a-zA-Z\d]/g, '');
   return (
     <ButtonGroup
+      id={`button-group-${cardTitleAlphanumeric}`}
       activeKey={selected}
       disabledWidgetInLive={disabledWidgetInLive}
       buttonPropsList={tabs.map((tab: TabProps) => ({

@@ -121,6 +121,7 @@ export default function StackTraceTranslationConfigurationPresenter({ websiteId 
 
   const buttonGroup = (totalHitsBeforeFilter, totalHitsAfterFilter) => (
     <ButtonGroup
+      id="button-group-web-ul-dl"
       segmented
       buttonPropsList={[
         {

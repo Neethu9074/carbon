@@ -40,10 +40,12 @@ export default function TopListCard(props) {
   } = props;
   const shouldRenderOnItem = showMetricSelectorsForSingleMetrics && metrics.length === 1;
 
+  const cardTitleAlphanumeric = (title || '').replace(/[^a-zA-Z\d]/g, '');
   const headerComponent =
     header ||
     ((metrics.length > 1 || shouldRenderOnItem) && (
       <ButtonGroup
+        id={`button-group-${cardTitleAlphanumeric}`}
         disabledWidgetInLive={renderWidgetNotSupportedIndicator}
         buttonPropsList={metrics.map((metric, i) => ({
           text: labels[i],

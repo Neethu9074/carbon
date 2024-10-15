@@ -465,7 +465,9 @@ export default function Infrastructure({
     });
   }
 
-  const rightHeader = <ButtonGroup buttonPropsList={buttonPropsList} activeKey={selectedType} />;
+  const rightHeader = (
+    <ButtonGroup id="button-group-app-infra-type" buttonPropsList={buttonPropsList} activeKey={selectedType} />
+  );
   const Table = tablesByType[selectedType];
 
   return (

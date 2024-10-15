@@ -139,6 +139,7 @@ function Profile({
       <div className={locals.header}>
         <div className={locals.leftSide}>
           <ButtonGroup
+            id="button-group-tree-flame"
             segmented
             buttonPropsList={[
               {
