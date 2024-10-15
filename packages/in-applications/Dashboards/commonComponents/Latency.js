@@ -91,13 +91,6 @@ export default function Latency({
       label: t('in-mobile-apps:dashboard.tabs.maxLabel'),
       color: chartColors.strokeColors100[4],
       defaultDisabled: !timeShiftConfig.offset
-    },
-    {
-      config: defaultMetricConfig,
-      aggregation: 'MEAN',
-      label: t('in-mobile-apps:dashboard.tabs.meanLabel'),
-      color: chartColors.strokeColors100[5],
-      defaultDisabled: !timeShiftConfig.offset
     }
   ];
 
@@ -162,7 +155,18 @@ export default function Latency({
           colors: colors
         },
         y2: {
-          metrics: []
+          metrics: [
+            {
+              ...defaultMetricConfig,
+              aggregation: 'MEAN',
+              label: t('in-mobile-apps:dashboard.tabs.meanLabel'),
+              color: chartColors.strokeColors100[5],
+              defaultDisabled: !timeShiftConfig.offset
+            }
+          ],
+          labels: t('in-mobile-apps:dashboard.tabs.meanLabel'),
+          formatter: 'millis.compact',
+          renderer: line.id
         },
         type: 'TIME_SERIES',
         primaryContextMenuAction: 'analyze',
