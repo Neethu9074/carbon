@@ -75,8 +75,8 @@
     "restartCount": "重新启动次数",
     "kubernetesLabels": "Kubernetes 标签",
     "podmanAnnotations": "Podman 注释",
-    "metricExplosionBeeInstana": "此仪表板可能未显示所有度量值，因为仅存储了 {{numberOfMetrics}}",
-    "metricExplosion": "由于只存储了 {{numberOfMetrics}} 高分辨率指标，因此该仪表板可能无法显示所有指标。 要查看其他指标，请使用 Analyze Infrastructure 或自定义的仪表板。"
+    "metricExplosionBeeInstana": "该仪表板可能不会显示所有指标，因为在任何特定时间最多只能捕获 {{numberOfMetrics}} 个指标。",
+    "metricExplosion": "该仪表板可能不会显示所有指标，因为在任何特定时间最多只能捕获 {{numberOfMetrics}} 个高分辨率指标。 要查看其他指标，请使用 Analyze Infrastructure 或自定义的仪表板。"
   },
   "explore": {
     "analyzeInfrastructure": "分析基础架构",

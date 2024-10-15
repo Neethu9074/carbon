@@ -75,8 +75,8 @@
     "restartCount": "Anzahl der Neustarts",
     "kubernetesLabels": "Kubernetes-Bezeichnungen",
     "podmanAnnotations": "Podman-Anmerkungen",
-    "metricExplosionBeeInstana": "In diesem Dashboard werden möglicherweise nicht alle Metriken angezeigt, da nur {{numberOfMetrics}} gespeichert wurden.",
-    "metricExplosion": "Dieses Dashboard zeigt möglicherweise nicht alle Metriken an, da nur {{numberOfMetrics}} hochauflösende Metriken gespeichert wurden. Um zusätzliche Metriken anzuzeigen, verwenden Sie \"Infrastruktur analysieren\" oder ein benutzerdefiniertes Dashboard."
+    "metricExplosionBeeInstana": "Dieses Dashboard zeigt möglicherweise nicht alle Metriken an, da maximal {{numberOfMetrics}} Metriken zu einem bestimmten Zeitpunkt erfasst werden.",
+    "metricExplosion": "Dieses Dashboard zeigt möglicherweise nicht alle Metriken an, da maximal {{numberOfMetrics}} hochauflösende Metriken zu einem bestimmten Zeitpunkt erfasst werden. Um zusätzliche Metriken anzuzeigen, verwenden Sie \"Infrastruktur analysieren\" oder ein benutzerdefiniertes Dashboard."
   },
   "explore": {
     "analyzeInfrastructure": "Infrastruktur analysieren",

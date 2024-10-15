@@ -20,7 +20,11 @@
       "tableLoadMoreRow": {
         "loadMore": "加载更多"
       },
-      "dataTable": "数据表"
+      "dataTable": "数据表",
+      "expandHeader": "展开行",
+      "expandRow": "切换展开行",
+      "select": "选择行",
+      "selectedRow": "所选行"
     },
     "tableSkeleton": {
       "sampleTable": "样本表"
@@ -29,13 +33,17 @@
       "copy": "副本",
       "copied": "已复制！",
       "showMore": "显示更多",
-      "showLess": "显示更少内容"
+      "showLess": "显示更少内容",
+      "copytoboard": "复制到剪贴板"
     },
     "menu": {
       "sideNavigation": "侧边导航"
     },
-    "carbonTabs": {
-      "tabs": "制表符"
+    "dropDown": {
+      "selectOption": "选择选项"
+    },
+    "tabsNavigation": {
+      "pageNavigation": "页面导航"
     },
     "plg": {
       "dashboardTable": {
@@ -88,7 +96,8 @@
       "previous": "上一步"
     },
     "states": {
-      "saving": "正在保存..."
+      "saving": "正在保存...",
+      "loading": "正在加载…"
     }
   },
   "language_en-US": "英语",

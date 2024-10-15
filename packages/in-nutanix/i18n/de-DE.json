@@ -1,0 +1,9 @@
+{
+  "noMonitoringDataFound": "Keine Überwachungsdaten gefunden",
+  "name": "Name",
+  "noOfClusters": "Anzahl der Cluster",
+  "noOfHosts": "Anzahl der Hosts",
+  "noOfVms": "Anzahl der virtuellen Maschinen",
+  "nutanix": "Nutanix",
+  "type": "Typ"
+}

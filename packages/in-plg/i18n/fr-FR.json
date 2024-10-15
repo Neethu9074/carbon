@@ -64,7 +64,7 @@
       "configurationOptions": "Options de configuration"
     },
     "jvmVendor": {
-      "azulZulu18": "Azul Zulu 1.8",
+      "azulZulu11": "Azul Zulu 11",
       "eclipseOpenJD11": "Eclipse OpenJ9 11"
     },
     "askForHelp": {
@@ -376,7 +376,7 @@
         "dynamic": "Dynamique",
         "static": "Statique",
         "runtime": "Environnement d'exécution",
-        "azulZulu": "Azul Zulu 1.8",
+        "azulZulu": "Azul Zulu 11",
         "eclipseOpenJ9": "Eclipse OpenJ9 11",
         "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Étape 2 : vérifiez les prérequis et exécutez le code de déploiement de l'agent.",
         "installagentOnAWSEC2": "Installez l'agent sur AWS EC2",
@@ -594,7 +594,7 @@
         "label": "Surveillance métier",
         "name": "Nom",
         "activities": "Activités",
-        "views": "Vues",
+        "started": "Démarré",
         "health": "Intégrité",
         "searchPlaceholderLabel": "processus métier",
         "viewAllLabel": "processus métier"

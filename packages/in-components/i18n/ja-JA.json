@@ -17,9 +17,11 @@
     "chartWrapperMetricNotfound": "メトリック ID {{metricId}} が見つかりません。",
     "chartWrapperSameAxisSameValue": "1 つの軸のすべての集約タイプの値は同じである必要があります。",
     "viewInAnalyticsBtnLabel": "分析で表示",
+    "chartLegendBlankLabel": "空",
     "chartLendMetricTimeShifted": "メトリックが {{timeShiftedLabel}} にタイムシフトされました",
-    "chartDownloadLabel": "JSON のダウンロード",
-    "chartDownloadCSVLabel": "CSV 形式でダウンロード",
+    "chartDownloadLabel": "JSON にエクスポート",
+    "chartDownloadCSVLabel": "CSV にエクスポート",
+    "chartDownloadPDFLabel": "PDFのダウンロード",
     "chartGlobalHighlightLabel": "すべてのグラフで強調表示",
     "chartZoomInLabel": "時刻範囲にズーム",
     "chartAlertsLanePresenterAlertsLabel": "アラート",
@@ -64,6 +66,15 @@
   },
   "touchedMessages": {
     "withPath": "{{message}} (場所: <codeWithClass>{{path}}</codeWithClass>)"
+  },
+  "graphView": {
+    "graphTitle": "グラフ",
+    "explanationHeader": "ダイナミック・グラフ・ショーケース",
+    "explanationP1": "Instana を駆動するコア・テクノロジーは、ダイナミック・グラフと呼ばれています。 このグラフは、コンポーネントのすべての物理的および論理的な依存関係を理解するアプリケーションのモデルです。 右側に、現在の環境のダイナミック・グラフが表示されています。",
+    "explanationP2": "グラフには、Instana エージェントとセンサーによって自動的に検出されたすべてのリソースとその依存関係が含まれ、グラフは常に最新の状態に保たれます。 グラフ内の各ノードはまた、メトリクス、構成データ、セマンティックな知識に基づく計算された健全性値などの状態情報で継続的に更新される。 また、この知識によってグラフ内の依存関係が分析され、サービスやアプリケーションなどの論理的なグループを検出して、そのレベルでの影響を理解し、問題の重要度を導き出します。 グラフ全体が永続的であり、前後の時間に移動して、多くの運用上のユース・ケースにグラフの知識を活用できます。",
+    "explanationP3": "インフラストラクチャー・マップでリソースを選択し、このページに戻ることで、右側のビューをフィルタリングすることができます。 リソースを選択した後、このフィルタリングを可能にする snapshotId パラメータを URL に設定する必要があります。",
+    "explanationLink": "詳しくは<linkToBlog>ブログをご覧</linkToBlog>ください。",
+    "closeBtn": "グラフを閉じる"
   },
   "releaseNotesDialog": {
     "releaseNotesTitle": "リリース・ノート"
@@ -231,6 +242,7 @@
     "labelRegion": "リージョン",
     "labelTag": "タグ",
     "labelCommit": "コミット",
+    "buttonGraphShowcase": "グラフ・ショーケース",
     "geo": {
       "title": "ジオデータ",
       "description": "この製品には、<linkToMaxMind>https://www.maxmind.com</linkToMaxMind> で入手可能な MaxMind で作成される GeoLite2 データが含まれています。"
@@ -299,8 +311,6 @@
     "labelExpandButtonForContent": "コンテンツの展開ボタン"
   },
   "featureFeedback": {
-    "labelPublicPreview": "プレビュー",
-    "labelPrivatePreview": "プレビュー",
     "linkLabelYouCanSendUsFeedback": "フィードバックをお送りください"
   },
   "geoHeatMap": {
@@ -353,7 +363,19 @@
     "openIncidents_1": "{{count}} 個のインシデント",
     "openIncidents_2": "{{count}} 個のインシデント",
     "labelWarning": "警告",
-    "labelCritical": "クリティカル"
+    "labelCritical": "クリティカル",
+    "carbonNoIssues": "問題なし",
+    "carbonOpenIssues": "{{count}} 件の問題",
+    "carbonOpenIssues_plural": "{{count}} 件の問題",
+    "carbonOpenIssues_0": "{{count}} 件の問題",
+    "carbonOpenIssues_1": "{{count}} 件の問題",
+    "carbonOpenIssues_2": "{{count}} 件の問題",
+    "carbonNoIncidents": "インシデントなし",
+    "carbonOpenIncidents": "{{count}} 件のインシデント",
+    "carbonOpenIncidents_plural": "{{count}} 件のインシデント",
+    "carbonOpenIncidents_0": "{{count}} 件のインシデント",
+    "carbonOpenIncidents_1": "{{count}} 件のインシデント",
+    "carbonOpenIncidents_2": "{{count}} 件のインシデント"
   },
   "vulnerabilities": {
     "eventType_issue": "脆弱性",
@@ -377,7 +399,19 @@
     "openIncidents_plural": "{{count}} 個のインシデント",
     "openIncidents_0": "{{count}} 個のインシデント",
     "openIncidents_1": "{{count}} 個のインシデント",
-    "openIncidents_2": "{{count}} 個のインシデント"
+    "openIncidents_2": "{{count}} 個のインシデント",
+    "carbonNoVulnerabilities": "脆弱性なし",
+    "carbonOpenVulnerabilities": "{{count}} 脆弱性",
+    "carbonOpenVulnerabilities_plural": "{{count}} 脆弱性",
+    "carbonOpenVulnerabilities_0": "{{count}} 脆弱性",
+    "carbonOpenVulnerabilities_1": "{{count}} 脆弱性",
+    "carbonOpenVulnerabilities_2": "{{count}} 脆弱性",
+    "carbonNoIncidents": "インシデントなし",
+    "carbonOpenIncidents": "{{count}} 件のインシデント",
+    "carbonOpenIncidents_plural": "{{count}} 件のインシデント",
+    "carbonOpenIncidents_0": "{{count}} 件のインシデント",
+    "carbonOpenIncidents_1": "{{count}} 件のインシデント",
+    "carbonOpenIncidents_2": "{{count}} 件のインシデント"
   },
   "inlineTabNavigation": {
     "labelSelectTab": "タブの選択"
@@ -703,6 +737,7 @@
     },
     "groupName": "グループ名",
     "groupedOnly": "グループの分析時にのみ使用可能なメトリック。",
+    "groupNameNotAvailable": "{{groupbyTag}} 情報がありません",
     "filterSidebar": {
       "groupingButton": "{{group}} によるグループ化",
       "ungroupButton": "グループ化の解除"

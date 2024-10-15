@@ -76,18 +76,18 @@
       "dynamic": "Dynamique",
       "theNumberOfRowsIsRestrictedToMaximumNumberOfRows": "Le nombre de lignes est limité à {{maximumNumberOfRows}}.",
       "addRow": "Ajouter une ligne",
-      "noCustomPayloadConfigured": "Aucun contenu personnalisé configuré",
+      "noCustomPayloadConfigured": "Aucune charge utile personnalisée configurée",
       "keyNamesMustBeUnique": "Les noms de clé doivent être uniques.",
       "theValueMustNotBeBlank": "Vous devez définir une valeur.",
       "onlyOrAnyAlphaNumericalAreAllowed": "Uniquement « . », « - », « _ » ou des caractères alphanumérique sont autorisés.",
       "aTagNeedsToBeSelected": "Vous devez sélectionner une étiquette.",
       "aKeyNeedsToBeSpecified": "Vous devez spécifier une clé.",
-      "additionalCustomPayload": "Contenus personnalisés supplémentaires",
-      "globalCustomPayload": "Contenus personnalisés mondiaux",
-      "additionalCustomPayloadTitle": "Contenus personnalisés supplémentaires ({{count}})",
-      "globalCustomPayloadTitle": "Contenus personnalisés mondiaux ({{count}})",
-      "globalCustomPayloadRetrieveFailed": "Une erreur s'est produite. Impossible d'extraire les contenus personnalisés mondiaux.",
-      "noGlobalCustomPayloadConfigured": "Aucun contenu personnalisé mondial configuré"
+      "additionalCustomPayload": "Charges utiles personnalisées supplémentaires",
+      "globalCustomPayload": "Charges utiles personnalisées globales",
+      "additionalCustomPayloadTitle": "Charges utiles personnalisées supplémentaires ({{count}})",
+      "globalCustomPayloadTitle": "Charges utiles globales personnalisées ({{count}})",
+      "globalCustomPayloadRetrieveFailed": "Une erreur s'est produite. Impossible d'extraire les charges utiles globales personnalisées.",
+      "noGlobalCustomPayloadConfigured": "Aucune charge utile globale personnalisée configurée"
     },
     "previewFor": "Aperçu pour : ",
     "groupedViewHeader": "{{formattedCount}} résultat",
@@ -264,7 +264,7 @@
           },
           "timeThreshold": {
             "label": "Seuil de temps",
-            "title": "Seuil de temps : quand voulez-vous être alerté ?"
+            "title": "Seuil de temps : quand souhaitez-vous être alerté ?"
           },
           "alertChannel": {
             "label": "Canaux d'alerte",
@@ -276,7 +276,7 @@
           },
           "payloadsOptional": {
             "label": "Contenus",
-            "title": "Contenu personnalisé"
+            "title": "Charge utile personnalisée"
           }
         },
         "staticOrAdaptiveSwitch": {
@@ -479,7 +479,7 @@
         "provideLogMessageSelectLogMessage": "Sélectionner un message de journal",
         "provideLogMessageLogLevel": "Niveau de journalisation",
         "provideLogMessageErrorMessage": "Message d'erreur",
-        "provideStatusCodeStatusCode": "Code de statut"
+        "provideStatusCodeStatusCode": "Code d'état"
       },
       "inventory": {
         "noData": "Aucune alerte intelligente définie. Cliquez sur le bouton ci-dessous pour configurer votre première alerte intelligente.",
@@ -529,7 +529,7 @@
         "step3Title": "Définir le regroupement",
         "step4Title": "Définir quand être alerté",
         "alertHeadline": "Choisissez ce sur quoi vous voulez être alerté",
-        "step5Title": "Définir les propriétés des alertes",
+        "step5Title": "Définir les propriétés d'alerte",
         "step6Title": "Définir les canaux d'alerte",
         "grouping": {
           "title": "Appels de groupe",
@@ -550,7 +550,7 @@
           "groupByEndpoint_1": "{{count}} nœuds finaux",
           "groupByEndpoint_2": "{{count}} nœuds finaux",
           "groupbyDescription": "Sur la base des appels passés au cours des dernières 24 heures",
-          "noData": "Aucune donnée de groupe n'est disponible.",
+          "noData": "Aucune application, aucun service ni aucun noeud final n'a enregistré d'appel au cours des dernières 24 heures.",
           "groupByDataFailed": "Une erreur s'est produite. Impossible de récupérer le groupe par données.  Raison : {{reason}}"
         },
         "callsInScope": {
@@ -601,7 +601,8 @@
           "metricLabel": "Temps d'attente de percentile {{metricLabel}}",
           "minLatency": "Temps d'attente minimal",
           "maxLatency": "Temps d'attente maximal",
-          "meanLatency": "Temps d'attente moyenne"
+          "meanLatency": "Temps d'attente moyenne",
+          "sumLatency": "Latence de la somme"
         },
         "timeThreshold": {
           "title": "Définir quand les violations déclenchent des alertes",
@@ -674,6 +675,7 @@
       "ruleAggregationOptionP98": "98e",
       "ruleAggregationOptionP99": "99e",
       "ruleAggregationOptionMAX": "max",
+      "ruleAggregationOptionSUM": "somme",
       "ruleAggregationForWeeklySeasonalityOptionMEAN": "moyenne",
       "ruleAggregationForWeeklySeasonalityOptionP50": "50e",
       "ruleStatusCodeValueOption1": "1XX (Informatif)",
@@ -828,13 +830,13 @@
         "timeThresholdDescriptionViolationsInPeriod_0": "Au moins {{count}} violations au cours du dernier {{formattedTimeWindow}}",
         "timeThresholdDescriptionViolationsInPeriod_1": "Au moins {{count}} violation au cours du dernier {{formattedTimeWindow}}",
         "timeThresholdDescriptionViolationsInPeriod_2": "Au moins {{count}} violations au cours du dernier {{formattedTimeWindow}}",
-        "timeThresholdConfigNumberOfConsecutiveViolations": "Nombre de violations consécutives des mesures",
+        "timeThresholdConfigNumberOfConsecutiveViolations": "Nombre de violations consécutives de métriques",
         "timeThresholdConfigNumberOfConsecutiveEvaluations": "Nombre d'évaluations consécutives",
         "timeThresholdConfigNumberOfEvaluationWindows": "Nombre de violations consécutives",
         "timeThresholdConfigImpactEvaluationMethod": "Méthode d'évaluation de l'impact sur les utilisateurs",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "Agréger toutes les fenêtres d'évaluation",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calculer pour chaque fenêtre d'évaluation",
-        "timeThresholdConfigNumberOfViolations": "Nombre de violations de mesures",
+        "timeThresholdConfigNumberOfViolations": "Nombre de violations de métriques",
         "timeThresholdConfigEvaluationGranularity": "Granularité de l'évaluation",
         "granularityTooltipText": "La granularité temporelle définie ici détermine la fréquence d'évaluation du seuil.",
         "timeThresholdConfigNumberOfTracesThreshold": "Nombre de traces impactées",
@@ -875,6 +877,7 @@
         "buttonMigrate": "Migrer",
         "selectedBlueprint": "Plan directeur sélectionné",
         "buttonRecalculateBaseline": "Recalculer la référence",
+        "buttonRecalculateBaselineDisabled": "Recalculer la ligne de base (désactivé)",
         "sensitivitySliderLow": "faible",
         "sensitivitySliderHigh": "élevé",
         "sensitivitySliderValueLabel": "{{count}} écart type",
@@ -894,16 +897,16 @@
         "thresholdTypeOptionAdaptiveBaseline": "Seuil adaptatif",
         "useSuggestedvalue": "Utiliser la valeur suggérée",
         "loadingThresholdSuggestion": "Chargement de la suggestion de seuil",
-        "alertConfigDialogPresenterTitleEditAlert_Local": "Ajouter une alerte intelligente",
-        "alertConfigDialogPresenterTitleEditAlert_Global": "Editer une alerte intelligente globale",
+        "alertConfigDialogPresenterTitleEditAlert_Local": "Modifier l'alerte intelligente",
+        "alertConfigDialogPresenterTitleEditAlert_Global": "Modifier l'alerte intelligente globale",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Créer une alerte intelligente",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Créer une alerte intelligente mondiale",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Créer une alerte intelligente globale",
         "alertConfigDialogPresenterTitleMigrateAlert": "Migrer vers une alerte intelligente",
-        "alertConfigTearSheetEditAlert_Local": "Modifier la Smart Alert d'une application",
-        "alertConfigTearSheetEditAlert_Global": "Modifier la Smart Alert globale d'une application",
-        "alertConfigTearSheetCreateNewAlert_Local": "Créer une Smart Alert pour une application",
-        "alertConfigTearSheetCreateNewAlert_Global": "Créer une Smart Alert globale pour une application",
-        "alertConfigTearSheetMigrateAlert": "Migrer vers la Smart Alert de l'application",
+        "alertConfigTearSheetEditAlert_Local": "Modifier l'alerte intelligente d'une application",
+        "alertConfigTearSheetEditAlert_Global": "Modifier l'alerte intelligente globale d'une application",
+        "alertConfigTearSheetCreateNewAlert_Local": "Créer une alerte intelligente d'application",
+        "alertConfigTearSheetCreateNewAlert_Global": "Créer une alerte intelligente globale d'application",
+        "alertConfigTearSheetMigrateAlert": "Migrer vers l'alerte intelligente d'application",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Passer en mode avancé",
         "simpleAlertConfigDialogStep3Headline": "Qui doit recevoir les alertes ?",
         "Loading": "Chargement en cours...",
@@ -976,16 +979,16 @@
         "triggerLabel": "Déclencheur",
         "triggerTitle": "Déclencheur : sur quoi souhaitez-vous être alerté ?",
         "JSErrorMessage": "Message d'erreur JS",
-        "HTTPStatusCode": "Code de statut HTTP",
+        "HTTPStatusCode": "Codes de statut HTTP",
         "timeThresholdLabel": "Seuil de temps",
-        "timeThresholdTitle": "Seuil de temps : quand voulez-vous être alerté ?",
+        "timeThresholdTitle": "Seuil de temps : quand souhaitez-vous être alerté ?",
         "alertChannelsLabel": "Canaux d'alerte",
         "alertChannelsTitle": "Canaux d'alerte : qui doit être alerté ?",
         "propertiesLabel": "Propriétés",
         "propertiesTitle": "Propriétés d'alerte supplémentaires",
         "thresholdValue": "Valeur de seuil",
         "payloadsLabel": "Contenus",
-        "payloadsTitle": "Contenus personnalisés",
+        "payloadsTitle": "Charges utiles personnalisées",
         "evaluationSwitch": {
           "evaluationTypePERWEBSITE": {
             "shortText": "Par site Web"
@@ -1079,7 +1082,17 @@
             "subtitleForStaticDailySeasonality": "Saisonnalité quotidienne statique, {{metricLabel}}",
             "subtitleForStaticWeeklySeasonality": "Saisonnalité hebdomadaire statique, {{metricLabel}}",
             "subtitleForAdaptiveThreshold": "Seuil adaptatif, {{metricLabel}}"
-          }
+          },
+          "moreFiltersWithCount": "+{{count}} filtre supplémentaire",
+          "moreFiltersWithCount_plural": "+{{count}} filtres supplémentaires",
+          "moreFiltersWithCount_0": "+{{count}} filtres supplémentaires",
+          "moreFiltersWithCount_1": "+{{count}} filtres supplémentaires",
+          "moreFiltersWithCount_2": "+{{count}} filtres supplémentaires",
+          "filter": "Filtrer",
+          "filter_plural": "Filtres",
+          "filter_0": "Filtres",
+          "filter_1": "Filtres",
+          "filter_2": "Filtres"
         }
       }
     },
@@ -1115,9 +1128,9 @@
           "moreFiltersWithCount_2": "+{{count}} filtres supplémentaires",
           "filter": "Filtrer",
           "filter_plural": "Filtres",
-          "filter_0": "filtres",
-          "filter_1": "filtres",
-          "filter_2": "filtres"
+          "filter_0": "Filtres",
+          "filter_1": "Filtres",
+          "filter_2": "Filtres"
         }
       },
       "alertList": {
@@ -1310,7 +1323,7 @@
         "alertChannelsLabel": "Canaux d'alerte",
         "alertChannelsTitle": "Canaux d'alerte : qui doit être alerté ?",
         "timeThresholdLabel": "Seuil de temps",
-        "timeThresholdTitle": "Seuil de temps : quand voulez-vous être alerté ?",
+        "timeThresholdTitle": "Seuil de temps : quand souhaitez-vous être alerté ?",
         "propertiesLabel": "Propriétés",
         "propertiesTitle": "Propriétés d'alerte supplémentaires",
         "scopeLabel": "Portée",
@@ -1318,7 +1331,7 @@
         "thresholdLabel": "Seuil",
         "thresholdTitle": "Seuil : Quand la condition n'est-elle pas respectée ?",
         "payloadsLabel": "Contenus",
-        "payloadsTitle": "Contenus personnalisés"
+        "payloadsTitle": "Charges utiles personnalisées"
       }
     },
     "eum": {
@@ -1445,7 +1458,7 @@
         },
         "customPayloads": {
           "label": "Contenus",
-          "title": "Contenu personnalisé"
+          "title": "Charge utile personnalisée"
         },
         "valueMappings": "Les valeurs numériques de la métrique sélectionnée correspondent aux valeurs de chaîne suivantes :"
       },
@@ -1501,7 +1514,7 @@
         },
         "timeThreshold": {
           "label": "Seuil de temps",
-          "title": "Seuil de temps : quand voulez-vous être alerté ?"
+          "title": "Seuil de temps : quand souhaitez-vous être alerté ?"
         },
         "alertChannel": {
           "label": "Canaux d'alerte",
@@ -1513,7 +1526,7 @@
           "preview": {
             "subtitle": "Nombre de journaux"
           },
-          "alertPropertiesTitlePlaceholder": "Consigne la Smart Alert",
+          "alertPropertiesTitlePlaceholder": "Consigne l'alerte intelligente",
           "descriptionPlaceholder": {
             "logsCount_higherThan": "Le nombre de journaux est supérieur à {{value}}.",
             "logsCount_higherEqual": "Le nombre de journaux est supérieur ou égal à {{value}}.",
@@ -1523,7 +1536,7 @@
         },
         "customPayloads": {
           "label": "Contenus",
-          "title": "Contenu personnalisé"
+          "title": "Charge utile personnalisée"
         },
         "thresholdValue": "Valeur de seuil"
       },
@@ -1558,8 +1571,8 @@
         "stepTitle_alertChannels": "Canaux d'alerte : qui doit être alerté ?",
         "stepLabel_alertProperties": "Propriétés d'alerte",
         "stepTitle_alertProperties": "Propriétés de l'alerte : que doit inclure la notification d'alerte ?",
-        "stepLabel_customPayload": "Contenu personnalisé",
-        "stepTitle_customPayload": "Contenu personnalisé",
+        "stepLabel_customPayload": "Charge utile personnalisée",
+        "stepTitle_customPayload": "Charge utile personnalisée",
         "selectSloHeadline": "Sélectionner des objectifs du niveau de service",
         "blueprintSectionTitle": "Sélectionner le plan directeur",
         "blueprint_slo_not_selected": "Veuillez sélectionner au moins un Objectif du niveau de service (SLO) pour continuer.",

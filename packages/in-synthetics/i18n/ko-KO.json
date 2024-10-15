@@ -385,7 +385,8 @@
       "secondaryLabels": {
         "tests": "테스트",
         "locations": "위치",
-        "smartAlerts": "스마트 경보"
+        "smartAlerts": "스마트 경보",
+        "credentials": "신임 정보"
       },
       "popDialog": {
         "popUpDialogTitle": "합성 모니터링에 대한 권한",
@@ -408,8 +409,6 @@
         "filterLabel": "애플리케이션",
         "singleAppHeader": "{{ number }}개 연관",
         "multiAppHeader": "{{ number }}개 연관",
-        "singleAppSpan": "{{ number }}개 연관 애플리케이션",
-        "multiAppSpan": "{{ number }}개 연관 애플리케이션",
         "noApplicationsAssociated": "연관된 애플리케이션 없음"
       },
       "multiWebDialog": {
@@ -434,7 +433,14 @@
       "successRuns": "{{successRuns}}/{{totalRuns}}개의 결과",
       "latency": "대기 시간",
       "locationLabel": "위치",
-      "locations": "{{totalLocations}}개의 위치",
+      "locationsColumn": {
+        "singleLocation": "{{number}} 위치",
+        "multipleLocations": "{{number}} 위치",
+        "singleRun": "{{number}} 위치에서 실행",
+        "multipleRun": "{{number}} 위치에서 실행",
+        "warning": "경고",
+        "noIssues": "문제 없음"
+      },
       "associationLabel": "연관",
       "health": "상태",
       "action": "조치",
@@ -512,8 +518,8 @@
       "meanLatencyFor90th": "90번째: {{meanLatencyDetail}}",
       "smartAlertsTab": "스마트 경보",
       "configurationTab": "구성",
-      "isCertificateValid": "마지막 실행 - 인증서가 올바름",
-      "resultsCertificateValid": "인증서가 유효합니다.",
+      "isCertificateValid": "마지막 실행 - 인증서가 공용 CA에 의해 서명됨",
+      "resultsCertificateValid": "공인 CA가 서명한 인증서",
       "certificateValid": "예",
       "certificateNotValid": "아니오",
       "daysRemaining": "마지막 실행 - 남은 일 수",

@@ -656,7 +656,15 @@
     "applicationArea": "어플리케이션 영역",
     "messageNumber": "메시지 번호",
     "line": "선",
-    "noVariableMsgPart": "가변 메시지 수"
+    "noVariableMsgPart": "가변 메시지 수",
+    "transportRequest": "전송 요청",
+    "category": "카테고리",
+    "target": "대상",
+    "modifiable": "수정 가능",
+    "protected": "보호됨",
+    "releasedStarted": "릴리스 시작",
+    "httpRespTime": "HTTP",
+    "httpsRespTime": "HTTPS"
   },
   "viewAllEntityName_unknownEntity_plural": "모두",
   "viewAllEntityName_unknownEntity_0": "모두",

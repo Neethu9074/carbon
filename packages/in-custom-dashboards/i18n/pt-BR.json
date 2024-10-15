@@ -17,6 +17,7 @@
         "copied": "Widget copiado, use CTRL-V ou CMD-V para colar em qualquer painel customizado",
         "duplicate": "Duplicar",
         "delete": "Excluir",
+        "exportPDF": "Fazer download do PDF",
         "customDashboardWidgetTitle": "Widget do painel customizado: {{title}}"
       }
     },
@@ -69,7 +70,11 @@
       "renameDashboard": "Renomear painel",
       "dashboardName": "Nome do painel",
       "rename": "Renomear",
-      "failSaveDashboard": "Falha ao salvar o painel."
+      "failSaveDashboard": "Falha ao salvar o painel.",
+      "generatingPDFTitle": "Gerando PDF",
+      "generatingPDFContent": "Considere aguardar enquanto o PDF está sendo gerado.",
+      "generatedPDFTitle": "PDF gerado",
+      "generatedPDFContent": "O download do PDF será iniciado em breve."
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "Painel não localizado",
@@ -93,6 +98,13 @@
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "Falha ao analisar entrada como JSON.",
       "jsonRootMustBeAnObject": "A raiz JSON deve ser um objeto."
+    },
+    "filterContext": {
+      "topLevelFilterPartiallyApplied": "Alguns dos filtros do painel atual foram aplicados.",
+      "topLevelFilterSelectsEverything": "Os filtros do painel atual não se aplicam a esse widget.",
+      "topLevelFilterSelectsNothing": "Os filtros do painel atual não se aplicam a esse widget.",
+      "topLevelFilterNotSupported": "Os filtros do painel atual não foram aplicados a esse widget pois o widget não oferece suporte à filtragem.",
+      "topLevelFilterAppliedToSomeDatasets": "Os filtros do painel atual não foram totalmente aplicados a todos os conjuntos de dados nesse widget."
     }
   },
   "dashboardSwitcher": {
@@ -435,6 +447,25 @@
       }
     },
     "slo": {
+      "general": {
+        "demoWidgetTitle": "Título do widget",
+        "sloNotFound": "Configuração SLO (Service Level Objective) não localizada"
+      },
+      "v2Form": {
+        "headline": "Selecionar um objetivo de nível de serviço",
+        "subheading": "Selecionar um SLO existente ou clicar \"Incluir novo SLO\" para criar um novo",
+        "addSloButtonLabel": "Incluir novo SLO",
+        "chartTypeSelectionLabel": "Tipo de gráfico",
+        "chartTypeOption": "",
+        "chartTypeOption_INDICATOR": "Gráfico de indicadores",
+        "chartTypeOption_ERROR_BUDGET": "Gráfico de orçamento de erros",
+        "validators": {
+          "notBlankSloValidator": "Considere escolher uma configuração SLO a partir da lista."
+        }
+      },
+      "v2WidgetHeader": {
+        "indicatorType": "Tipo de indicador:"
+      },
       "demo": {
         "title": "Título do SLO",
         "sliName": "Exemplo de Sli",

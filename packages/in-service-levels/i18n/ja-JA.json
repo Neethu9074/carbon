@@ -204,6 +204,7 @@
     "sloChartSummary": {
       "status": "状況",
       "target": "ターゲット:",
+      "errorBudgetRemaining": "残りのエラー予算",
       "errorBudgetSpent": "消費済みエラー・バジェット",
       "errorBudget": "エラー・バジェット:",
       "timeWindow": "時間枠",

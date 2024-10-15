@@ -1,14 +1,14 @@
 {
   "zhmcs": "zHMCs",
-  "hostname": "Nome do host",
+  "hostname": "Nome do Host",
   "name": "Nome",
-  "systems": "Sistemas",
+  "systems": "Systems",
   "partitions": "Partições",
   "adapters": "Adaptadores",
   "ibmzZhmcs": "HMCs do IBM Z",
   "noMonitoringDataFound": "Nenhum dado de monitoramento encontrado",
   "noData": "Nenhum dado de zHMC está disponível.",
-  "ipAddress": "Endereços IP",
+  "ipAddress": "Endereço IP",
   "machineTypeModel": "Modelo de tipo de máquina",
   "machineSerial": "Série da máquina",
   "mode": "Modo",
@@ -18,11 +18,11 @@
   "breadcrumbs": {
     "zhmc": "zHMC",
     "zhmcs": "zHMCs",
-    "systems": "Sistemas"
+    "systems": "Systems"
   },
   "dashboards": {
     "zhmc": "zHMC",
-    "systems": "Sistemas",
+    "systems": "Systems",
     "summary": "Resumo",
     "environmentalAndPower": "Ambiental e Energia",
     "channel": "Canal",
@@ -43,7 +43,6 @@
     "cryptoId": "ID de criptografia",
     "processorUsage": "Uso geral do processador",
     "name": "Nome",
-    "zvm": "Taxa de paginação de z/VM",
     "ifl": "Uso do processador IFL",
     "icf": "Uso do processador ICF",
     "cbp": "Uso do processador CBP",

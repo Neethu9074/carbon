@@ -1,0 +1,14 @@
+{
+  "generateImpactReport": {
+    "button": "Wirkungsbericht generieren"
+  },
+  "entityInfoLabelOfWebsiteOrMobile": "Auf Websites/Mobile Apps:",
+  "titleImpactedUsers": "Betroffene Benutzer",
+  "labelImpactedUsers": "Benutzer:",
+  "lastHoursOfTheIssue": "Letzte {{duration}} Stunden der Ausgabe",
+  "approximateDataIndicator": {
+    "durationTooLong": "Aufgrund der langen Dauer des Problems werden in den Abfrageergebnissen nur noch die Daten der letzten Stunden angezeigt",
+    "tooManyCalls": "Aufgrund des hohen Anrufaufkommens werden in den Abfrageergebnissen nur noch die Daten der letzten Stunden angezeigt",
+    "tooManyCallsWithEstimation": "Aufgrund des hohen Anrufvolumens (ca. {{estimatedCount}} insgesamt) werden in den Abfrageergebnissen nur noch die Daten der letzten Stunden angezeigt"
+  }
+}

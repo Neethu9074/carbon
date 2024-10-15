@@ -204,6 +204,7 @@
     "sloChartSummary": {
       "status": "Status",
       "target": "Destino:",
+      "errorBudgetRemaining": "Erro de orçamento restante",
       "errorBudgetSpent": "Orçamento gasto com erro",
       "errorBudget": "Orçamento com erro:",
       "timeWindow": "Espaço de tempo",

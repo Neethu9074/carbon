@@ -18,16 +18,16 @@
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Remover",
     "alertHeaderIsNotLatestRevisionMessage": "Você está consultando a revisão {{description}} desta configuração de alerta. <latestRevisionButton>Selecione a revisão mais recente</latestRevisionButton> ou <restoreRevisionButton>restaure da revisão atual</restoreRevisionButton> se quiser fazer mudanças.",
     "alertHeaderAriaLabelSeverity": "O evento tem a severidade {{severity}}",
-    "alertHistoryListTitleWithTotalRepresentedItemCount": "Alertas Criados ({{totalRepresentedItemCount}})",
+    "alertHistoryListTitleWithTotalRepresentedItemCount": "Alertas criados ({{totalRepresentedItemCount}})",
     "alertStateActive": "ativo",
     "alertPropertyInfosLabelTitle": "Título",
     "alertPropertyInfosLabelAlertLevel": "Nível de alerta",
     "alertPropertyInfosLabelTriggersIncident": "Incidente de acionadores",
     "alertPropertyInfosLabelDescription": "Descrição",
     "noChannelSelectedText": "Atualmente, você não selecionou um canal de alerta e não receberá nenhum alerta.",
-    "scopeConfigPresenterHelpTextAdditionalFilters": "Filtros Adicionais",
+    "scopeConfigPresenterHelpTextAdditionalFilters": "Filtros adicionais",
     "groupBy": "Agrupar por",
-    "noChannelAvailable": "Nenhum canal de alerta disponível",
+    "noChannelAvailable": "Não há nenhum canal de alerta disponível",
     "optional": "Opcional",
     "revisionDropdownButton": {
       "revision": "Revisão {{alertRevision}}",
@@ -76,7 +76,7 @@
       "dynamic": "Dinâmico",
       "theNumberOfRowsIsRestrictedToMaximumNumberOfRows": "O número de linhas é restrito a {{maximumNumberOfRows}}.",
       "addRow": "Incluir linha",
-      "noCustomPayloadConfigured": "Nenhuma carga útil customizada configurada",
+      "noCustomPayloadConfigured": "Não há nenhuma carga útil customizada configurada",
       "keyNamesMustBeUnique": "Os nomes de chave devem ser exclusivos.",
       "theValueMustNotBeBlank": "O valor não deve ficar em branco.",
       "onlyOrAnyAlphaNumericalAreAllowed": "Somente '.', '-', '_' ou qualquer alfanumérico são permitidos.",
@@ -86,8 +86,8 @@
       "globalCustomPayload": "Cargas úteis customizadas globais",
       "additionalCustomPayloadTitle": "Cargas úteis customizadas adicionais ({{count}})",
       "globalCustomPayloadTitle": "Cargas úteis customizadas globais ({{count}})",
-      "globalCustomPayloadRetrieveFailed": "Ocorreu um problema. Não foi possível recuperar as Cargas úteis customizadas globais.",
-      "noGlobalCustomPayloadConfigured": "Nenhuma carga útil customizada global configurada"
+      "globalCustomPayloadRetrieveFailed": "Ocorreu um problema. Não foi possível recuperar as cargas úteis customizadas globais.",
+      "noGlobalCustomPayloadConfigured": "Não há nenhuma carga útil customizada global configurada."
     },
     "previewFor": "Visualização para: ",
     "groupedViewHeader": "{{formattedCount}} Resultados",
@@ -150,7 +150,7 @@
     "titleCopyOf": "(Cópia de) {{smartAlertTitle}}",
     "smartAlertsTitle": "Alertas inteligentes",
     "applications": {
-      "alertConfiguration": "Configuração de alerta",
+      "alertConfiguration": "Configuração do alerta",
       "advanced": {
         "applicationNamePlaceholder": "application-name",
         "serviceNamePlaceholder": "service-name",
@@ -264,7 +264,7 @@
           },
           "timeThreshold": {
             "label": "Limite de tempo",
-            "title": "Limite de tempo: quando você quer ser alertado?"
+            "title": "Limite de tempo: quando deseja ser alertado?"
           },
           "alertChannel": {
             "label": "Canais de alerta",
@@ -294,7 +294,7 @@
       },
       "logMessages": {
         "messageColumn": "Mensagem de log",
-        "levelColumn": "Nível de log",
+        "levelColumn": "Nível de Registro",
         "noDataMessage": "Nenhuma mensagem localizada.",
         "selectLogMessageText": "Selecionar mensagem de log como modelo (opcional)",
         "selectLogMessageTitle": "Selecionar mensagem de log"
@@ -471,13 +471,13 @@
         "simpleAlertStep2Headline": "Onde você deseja que o alerta seja acionado?",
         "step1Title": "Etapa 1: selecionar alerta",
         "step2Title": "Etapa 2: selecionar escopo",
-        "step3Title": "Etapa 3: Selecionar canais de alerta"
+        "step3Title": "Etapa 3: selecionar canais de alerta"
       },
       "components": {
         "createSmartAlert": "Incluir alerta inteligente",
-        "createGlobalSmartAlert": "Incluir Alerta inteligente global",
+        "createGlobalSmartAlert": "Incluir alerta inteligente global",
         "provideLogMessageSelectLogMessage": "Selecionar mensagem de log",
-        "provideLogMessageLogLevel": "Nível de log",
+        "provideLogMessageLogLevel": "Nível de Registro",
         "provideLogMessageErrorMessage": "Mensagem de erro",
         "provideStatusCodeStatusCode": "Código de status"
       },
@@ -550,7 +550,7 @@
           "groupByEndpoint_1": "{{count}} Endpoints",
           "groupByEndpoint_2": "{{count}} Endpoints",
           "groupbyDescription": "Com base nas chamadas feitas nas últimas 24 horas",
-          "noData": "Não há dados de agrupamento disponíveis.",
+          "noData": "Não há nenhum aplicativo, serviço ou terminal no escopo que registrou chamadas nas últimas 24 horas.",
           "groupByDataFailed": "Ocorreu um problema. Não foi possível recuperar o grupo por dados. Motivo: {{reason}}"
         },
         "callsInScope": {
@@ -601,7 +601,8 @@
           "metricLabel": "{{metricLabel}} latência percentil",
           "minLatency": "Latência mínima",
           "maxLatency": "Latência máxima",
-          "meanLatency": "Latência média"
+          "meanLatency": "Latência média",
+          "sumLatency": "Soma de latência"
         },
         "timeThreshold": {
           "title": "Configurar quando as violações acionam alertas",
@@ -674,6 +675,7 @@
       "ruleAggregationOptionP98": "98º",
       "ruleAggregationOptionP99": "99º",
       "ruleAggregationOptionMAX": "máxima",
+      "ruleAggregationOptionSUM": "soma",
       "ruleAggregationForWeeklySeasonalityOptionMEAN": "média",
       "ruleAggregationForWeeklySeasonalityOptionP50": "50º",
       "ruleStatusCodeValueOption1": "1XX (Informativo)",
@@ -837,8 +839,8 @@
         "timeThresholdConfigNumberOfViolations": "Número de violações de métrica",
         "timeThresholdConfigEvaluationGranularity": "Granularidade da avaliação",
         "granularityTooltipText": "A granularidade de tempo configurada aqui determinará a frequência com que o limite é avaliado.",
-        "timeThresholdConfigNumberOfTracesThreshold": "Número de rastreios afetados",
-        "timeThresholdConfigNumberOfImpactedUsersThreshold": "Número de usuários afetados",
+        "timeThresholdConfigNumberOfTracesThreshold": "Número de rastreios impactados",
+        "timeThresholdConfigNumberOfImpactedUsersThreshold": "Número de usuários impactados",
         "timeThresholdConfigAtLeast": "Pelo menos",
         "timeThresholdConfigNumberOfTraces": "N.º de rastreios afetados",
         "timeThresholdConfigMinutes": "{{min}} mín.",
@@ -875,6 +877,7 @@
         "buttonMigrate": "Migrar",
         "selectedBlueprint": "Blueprint selecionado",
         "buttonRecalculateBaseline": "Recalcular linha de base",
+        "buttonRecalculateBaselineDisabled": "Recalcular a linha de base (desativado)",
         "sensitivitySliderLow": "baixo",
         "sensitivitySliderHigh": "alto",
         "sensitivitySliderValueLabel": "{{count}} desvio padrão",
@@ -898,12 +901,12 @@
         "alertConfigDialogPresenterTitleEditAlert_Global": "Editar alerta inteligente global",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Criar alerta Inteligente",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Criar alerta inteligente global",
-        "alertConfigDialogPresenterTitleMigrateAlert": "Migrar para o Smart Alert",
-        "alertConfigTearSheetEditAlert_Local": "Editar um aplicativo Smart Alert",
-        "alertConfigTearSheetEditAlert_Global": "Editar um aplicativo Smart Alert global",
-        "alertConfigTearSheetCreateNewAlert_Local": "Criar um aplicativo Smart Alert",
-        "alertConfigTearSheetCreateNewAlert_Global": "Criar um aplicativo Smart Alert global",
-        "alertConfigTearSheetMigrateAlert": "Migrar para o aplicativo Smart Alert",
+        "alertConfigDialogPresenterTitleMigrateAlert": "Migrar para alerta Inteligente",
+        "alertConfigTearSheetEditAlert_Local": "Editar um aplicativo de alerta inteligente",
+        "alertConfigTearSheetEditAlert_Global": "Editar um aplicativo de alerta inteligente global",
+        "alertConfigTearSheetCreateNewAlert_Local": "Criar um aplicativo de alerta inteligente",
+        "alertConfigTearSheetCreateNewAlert_Global": "Criar um aplicativo aplicativo de alerta inteligente global",
+        "alertConfigTearSheetMigrateAlert": "Migrar para aplicativo de alerta inteligente",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Alternar para o modo avançado",
         "simpleAlertConfigDialogStep3Headline": "Quem deve receber os alertas?",
         "Loading": "Carregando…",
@@ -975,10 +978,10 @@
         "thresholdTitle": "Limite: quando a condição é violada?",
         "triggerLabel": "Acionador",
         "triggerTitle": "Acionador: sobre o que você quer ser alertado?",
-        "JSErrorMessage": "Mensagem de Erro de JS",
+        "JSErrorMessage": "Mensagem de erro JS",
         "HTTPStatusCode": "Código de status HTTP",
         "timeThresholdLabel": "Limite de tempo",
-        "timeThresholdTitle": "Limite de tempo: quando você quer ser alertado?",
+        "timeThresholdTitle": "Limite de tempo: quando deseja ser alertado?",
         "alertChannelsLabel": "Canais de alerta",
         "alertChannelsTitle": "Canais de alerta: quem precisa ser alertado?",
         "propertiesLabel": "Propriedades",
@@ -1060,7 +1063,7 @@
         "simpleAlertConfigDialogStep2Headline": "Onde você deseja que o alerta seja acionado?",
         "stepConfigsStep1Title": "Etapa 1: selecionar alerta",
         "stepConfigsStep2Title": "Etapa 2: selecionar escopo",
-        "stepConfigsStep3Title": "Etapa 3: Selecionar canais de alerta"
+        "stepConfigsStep3Title": "Etapa 3: selecionar canais de alerta"
       },
       "customEvent": {
         "noCustomEventsFound": "Nenhum evento customizado localizado",
@@ -1079,7 +1082,17 @@
             "subtitleForStaticDailySeasonality": "Sazonalidade diária estática, {{metricLabel}}",
             "subtitleForStaticWeeklySeasonality": "Sazonalidade semanal estática, {{metricLabel}}",
             "subtitleForAdaptiveThreshold": "Limite adaptável, {{metricLabel}}"
-          }
+          },
+          "moreFiltersWithCount": "+{{count}} mais filtro",
+          "moreFiltersWithCount_plural": "+{{count}} mais filtros",
+          "moreFiltersWithCount_0": "+{{count}} mais filtros",
+          "moreFiltersWithCount_1": "+{{count}} mais filtros",
+          "moreFiltersWithCount_2": "+{{count}} mais filtros",
+          "filter": "Filtro",
+          "filter_plural": "Filtros",
+          "filter_0": "Filtros",
+          "filter_1": "Filtros",
+          "filter_2": "Filtros"
         }
       }
     },
@@ -1115,9 +1128,9 @@
           "moreFiltersWithCount_2": "+{{count}} mais filtros",
           "filter": "Filtro",
           "filter_plural": "Filtros",
-          "filter_0": "filtros",
-          "filter_1": "filtros",
-          "filter_2": "filtros"
+          "filter_0": "Filtros",
+          "filter_1": "Filtros",
+          "filter_2": "Filtros"
         }
       },
       "alertList": {
@@ -1185,7 +1198,7 @@
       },
       "details": {
         "threshold": "Limite",
-        "alertConfigurationListTitleAlertConfiguration": "Configuração de alerta",
+        "alertConfigurationListTitleAlertConfiguration": "Configuração do alerta",
         "scope": {
           "perLocation": {
             "shortText": "Por local"
@@ -1199,7 +1212,7 @@
         "noOfFailure": "Número de falhas",
         "timeThreshold": "Limite de tempo",
         "alertingType": "Tipo de alerta",
-        "noScopeConfigured": "Não há nenhum filtro de escopo configurado"
+        "noScopeConfigured": "Não há nenhum filtro de escopo configurado."
       }
     },
     "mobileApp": {
@@ -1263,13 +1276,13 @@
       },
       "simple": {
         "stepConfigsStep1Title": "Etapa 1: selecionar alerta",
-        "stepConfigsStep3Title": "Etapa 3: Selecionar canais de alerta",
+        "stepConfigsStep3Title": "Etapa 3: selecionar canais de alerta",
         "simpleAlertConfigDialogStep1Headline": "Sobre o que você quer ser alertado?",
         "simpleAlertConfigDialogStep2Headline": "Onde você deseja que o alerta seja acionado?",
         "stepConfigsStep2Title": "Etapa 2: selecionar escopo"
       },
       "alertDetails": {
-        "alertConfigurationListTitleAlertConfiguration": "Configuração de alerta",
+        "alertConfigurationListTitleAlertConfiguration": "Configuração do alerta",
         "alertConfigurationTitleTrigger": "Acionador",
         "alertConfigurationTitleHTTPStatusCode": "Código de status HTTP",
         "alertConfigurationTitleCustomEvent": "Evento customizado",
@@ -1310,7 +1323,7 @@
         "alertChannelsLabel": "Canais de alerta",
         "alertChannelsTitle": "Canais de alerta: quem precisa ser alertado?",
         "timeThresholdLabel": "Limite de tempo",
-        "timeThresholdTitle": "Limite de tempo: quando você quer ser alertado?",
+        "timeThresholdTitle": "Limite de tempo: quando deseja ser alertado?",
         "propertiesLabel": "Propriedades",
         "propertiesTitle": "Propriedades de alerta adicionais",
         "scopeLabel": "Escopo",
@@ -1377,7 +1390,7 @@
     },
     "infrastructure": {
       "alertDetails": {
-        "alertConfiguration": "Configuração de alerta",
+        "alertConfiguration": "Configuração do alerta",
         "alertConfigurationTitleTrigger": "Acionador",
         "alertConfigurationTitleScope": "Escopo",
         "alertConfigurationTitleAlertChannels": "Canais de alerta",
@@ -1459,7 +1472,7 @@
     },
     "logs": {
       "alertDetails": {
-        "alertConfiguration": "Configuração de alerta",
+        "alertConfiguration": "Configuração do alerta",
         "metricName": "Contagem de logs",
         "alertConfigurationTitleScope": "Escopo",
         "noScopeSelected": "Nenhum filtro ou grupo de escopos configurado.",
@@ -1501,7 +1514,7 @@
         },
         "timeThreshold": {
           "label": "Limite de tempo",
-          "title": "Limite de tempo: quando você quer ser alertado?"
+          "title": "Limite de tempo: quando deseja ser alertado?"
         },
         "alertChannel": {
           "label": "Canais de alerta",
@@ -1557,7 +1570,7 @@
         "stepLabel_alertChannels": "Canais de alerta",
         "stepTitle_alertChannels": "Canais de alerta: quem precisa ser alertado?",
         "stepLabel_alertProperties": "Propriedades de alerta",
-        "stepTitle_alertProperties": "Propriedades de alerta: o que a notificação de alerta deve incluir?",
+        "stepTitle_alertProperties": "Propriedades de alerta: o que deve ser incluído na notificação de alerta?",
         "stepLabel_customPayload": "Carga útil customizada",
         "stepTitle_customPayload": "Carga útil customizada",
         "selectSloHeadline": "Selecionar SLOs",
@@ -1597,7 +1610,7 @@
         "alertPropertiesIncidentWarning": "Incidentes são aplicáveis apenas a SLOs associados a aplicativos"
       },
       "details": {
-        "alertConfigurationTitle": "Configuração de alerta",
+        "alertConfigurationTitle": "Configuração do alerta",
         "sloHeader": "SLOs",
         "thresholdInfo": "",
         "thresholdInfo_BURN_RATE": "Quando a taxa de queima é {{operator}} {{percentage}}",

@@ -17,9 +17,11 @@
     "chartWrapperMetricNotfound": "ID da métrica {{metricId}} não localizado.",
     "chartWrapperSameAxisSameValue": "Todos os tipos de agregação para um eixo devem ter o mesmo valor.",
     "viewInAnalyticsBtnLabel": "Visualizar na análise",
+    "chartLegendBlankLabel": "Vazio",
     "chartLendMetricTimeShifted": "A métrica é o tempo deslocado para: {{timeShiftedLabel}}",
-    "chartDownloadLabel": "Fazer download do JSON",
-    "chartDownloadCSVLabel": "Fazer download do CSV",
+    "chartDownloadLabel": "Exportar para JSON",
+    "chartDownloadCSVLabel": "Exportar para CSV",
+    "chartDownloadPDFLabel": "Fazer download do PDF",
     "chartGlobalHighlightLabel": "Destacar em todos os gráficos",
     "chartZoomInLabel": "Zoom para intervalo de tempo",
     "chartAlertsLanePresenterAlertsLabel": "Alertas",
@@ -64,6 +66,15 @@
   },
   "touchedMessages": {
     "withPath": "{{message}} (em <codeWithClass>{{path}}</codeWithClass>)"
+  },
+  "graphView": {
+    "graphTitle": "Gráfico",
+    "explanationHeader": "Showcase de gráfico dinâmico",
+    "explanationP1": "A principal tecnologia de desenvolvimento da Instana consiste nos gráficos dinâmicos. Eles representam um modelo do seu aplicativo que compreende todas as dependências físicas e lógicas de componentes. À direita, você vê o gráfico dinâmico do seu ambiente atual.",
+    "explanationP2": "O gráfico contém todos os recursos e suas dependências descobertos automaticamente pelo agente Instana e sensores, de modo que o gráfico é mantido atualizado de maneira contínua. Cada nó do gráfico também é atualizado de maneira contínua, com informações de estado como métricas, dados de configuração e um valor de integridade calculado com base no conhecimento semântico. Esse conhecimento também analisa as dependências no gráfico para localizar agrupamentos lógicos, como serviços e aplicativos, para entender o impacto nesse nível e derivar a criticalidade dos problemas. Além de o gráfico inteiro ser persistente, é possível avançar e voltar no tempo para usar o conhecimento do gráfico em muitos casos de uso operacional.",
+    "explanationP3": "É possível filtrar a visualização à direita selecionando um recurso no Mapa de infraestrutura e voltando a esta página. Após selecionar um recurso, um parâmetro snapshotId deve ser definido na URL para permitir essa filtragem.",
+    "explanationLink": "<linkToBlog>Acesse nosso blog</linkToBlog> para obter informações adicionais.",
+    "closeBtn": "Fechar Gráfico"
   },
   "releaseNotesDialog": {
     "releaseNotesTitle": "Notas sobre a liberação"
@@ -231,6 +242,7 @@
     "labelRegion": "Região",
     "labelTag": "Tag",
     "labelCommit": "Confirmar",
+    "buttonGraphShowcase": "Showcase do gráfico",
     "geo": {
       "title": "Dados da região",
       "description": "Este produto inclui dados GeoLite2 criados por MaxMind, disponíveis por meio de <linkToMaxMind>https://www.maxmind.com</linkToMaxMind>."
@@ -299,8 +311,6 @@
     "labelExpandButtonForContent": "Botão Expandir para conteúdo"
   },
   "featureFeedback": {
-    "labelPublicPreview": "Visualizar",
-    "labelPrivatePreview": "Visualizar",
     "linkLabelYouCanSendUsFeedback": "É possível nos enviar um feedback"
   },
   "geoHeatMap": {
@@ -353,7 +363,19 @@
     "openIncidents_1": "{{count}} Incidente",
     "openIncidents_2": "{{count}} Incidentes",
     "labelWarning": "Aviso",
-    "labelCritical": "Crítico"
+    "labelCritical": "Crítico",
+    "carbonNoIssues": "Sem problemas",
+    "carbonOpenIssues": "{{count}} problema",
+    "carbonOpenIssues_plural": "{{count}} problemas",
+    "carbonOpenIssues_0": "{{count}} problemas",
+    "carbonOpenIssues_1": "{{count}} problema",
+    "carbonOpenIssues_2": "{{count}} problemas",
+    "carbonNoIncidents": "Nenhum incidente",
+    "carbonOpenIncidents": "{{count}} incidente",
+    "carbonOpenIncidents_plural": "{{count}} incidentes",
+    "carbonOpenIncidents_0": "{{count}} incidentes",
+    "carbonOpenIncidents_1": "{{count}} incidente",
+    "carbonOpenIncidents_2": "{{count}} incidentes"
   },
   "vulnerabilities": {
     "eventType_issue": "vulnerabilidades",
@@ -377,7 +399,19 @@
     "openIncidents_plural": "{{count}} Incidentes",
     "openIncidents_0": "{{count}} Incidentes",
     "openIncidents_1": "{{count}} Incidente",
-    "openIncidents_2": "{{count}} Incidentes"
+    "openIncidents_2": "{{count}} Incidentes",
+    "carbonNoVulnerabilities": "Não há nenhuma vulnerabilidade.",
+    "carbonOpenVulnerabilities": "{{count}} vulnerabilidade",
+    "carbonOpenVulnerabilities_plural": "{{count}} vulnerabilidades",
+    "carbonOpenVulnerabilities_0": "{{count}} vulnerabilidades",
+    "carbonOpenVulnerabilities_1": "{{count}} vulnerabilidade",
+    "carbonOpenVulnerabilities_2": "{{count}} vulnerabilidades",
+    "carbonNoIncidents": "Nenhum incidente",
+    "carbonOpenIncidents": "{{count}} incidente",
+    "carbonOpenIncidents_plural": "{{count}} incidentes",
+    "carbonOpenIncidents_0": "{{count}} incidentes",
+    "carbonOpenIncidents_1": "{{count}} incidente",
+    "carbonOpenIncidents_2": "{{count}} incidentes"
   },
   "inlineTabNavigation": {
     "labelSelectTab": "Selecionar guia"
@@ -703,6 +737,7 @@
     },
     "groupName": "Nome do grupo",
     "groupedOnly": "Métrica disponível apenas ao analisar grupos.",
+    "groupNameNotAvailable": "As informações de {{groupbyTag}} não estão disponíveis.",
     "filterSidebar": {
       "groupingButton": "Agrupar por {{group}}",
       "ungroupButton": "Remover agrupamento"

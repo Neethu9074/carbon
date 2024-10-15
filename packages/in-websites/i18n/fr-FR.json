@@ -479,10 +479,6 @@
         "alertConfigurationTitleTimeThreshold": "Seuil de temps",
         "alertConfigurationTitleAlertChannels": "Canaux d'alerte",
         "alertConfigurationTitleAlertProperties": "Propriétés d'alerte",
-        "filter": "filtre",
-        "filter_plural": "filtres",
-        "moreFiltersWithCount": "+{{count}} filtre supplémentaire",
-        "moreFiltersWithCount_plural": "+{{count}} filtres supplémentaires",
         "alertsLabelFilters": "Filtres"
       },
       "configuration": {
@@ -493,7 +489,7 @@
         "configurationRenameTitle": "Renommer le site Web",
         "configurationRenameButton": "Renommer",
         "configurationTrackingScriptTitle": "Script de suivi d'agent",
-        "configurationUserAgentVersion": "La version actuelle de votre agent est <strong>{{agentVersion}}</strong>.",
+        "configurationUserAgentVersion": "La version actuelle de votre agent est {{agentVersion}}.",
         "saved": "Sauvegardé",
         "ipMasking": {
           "title": "Masquage des adresses IP",
@@ -820,6 +816,8 @@
     "websiteDashboardTitleWebsite": "Site Web",
     "websiteDashboardButtonAnalyzePageLoads": "Analyser les chargements de page",
     "websiteDashboardButtonAnalyzePageTransitions": "Analyser les transitions de page",
+    "websiteDashboardWarnOldAgentVersion": "<strong>Vous utilisez la version {{currentVersion}} de l'agent du site Instana qui est obsolète</strong>. Mettez-le à jour avec la dernière version, {{latestVersion}}, dans l'<configTab>onglet Configuration.</configTab>",
+    "websiteDashboardWarnDeprecatedAgentVersion": "<strong>La version de l'agent du site Web Instana {{currentVersion}} sera obsolète le {{deprecationDate}}</strong> Mettez-le à jour avec la dernière version, {{latestVersion}}, dans l'<configTab>onglet Configuration.</configTab>",
     "noDataAvailable": {
       "pagesTitle": "Aucune page disponible",
       "pagesDescription": "Aucune page n'a été extraite pour la période sélectionnée",

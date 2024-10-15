@@ -17,6 +17,7 @@
         "copied": "ウィジェットがコピーされました。CTRL-V または CMD-V を使用して任意のカスタム・ダッシュボードに貼り付けます",
         "duplicate": "複製",
         "delete": "削除",
+        "exportPDF": "PDFのダウンロード",
         "customDashboardWidgetTitle": "カスタム・ダッシュボード・ウィジェット: {{title}}"
       }
     },
@@ -69,7 +70,11 @@
       "renameDashboard": "ダッシュボードの名前変更",
       "dashboardName": "ダッシュボード名",
       "rename": "名前を変更",
-      "failSaveDashboard": "ダッシュボードを保存できませんでした。"
+      "failSaveDashboard": "ダッシュボードを保存できませんでした。",
+      "generatingPDFTitle": "PDF の作成",
+      "generatingPDFContent": "PDF が生成されるまでお待ちください。",
+      "generatedPDFTitle": "作成済み PDF",
+      "generatedPDFContent": "PDF のダウンロードはまもなく開始されます。"
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "ダッシュボードが見つかりません",
@@ -93,6 +98,13 @@
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "入力を JSON として解析できませんでした。",
       "jsonRootMustBeAnObject": "JSON root はオブジェクトでなければなりません。"
+    },
+    "filterContext": {
+      "topLevelFilterPartiallyApplied": "現在のダッシュボードのフィルターの一部が適用された。",
+      "topLevelFilterSelectsEverything": "現在のダッシュボードフィルタは、このウィジェットには適用されません。",
+      "topLevelFilterSelectsNothing": "現在のダッシュボードフィルタは、このウィジェットには適用されません。",
+      "topLevelFilterNotSupported": "ウィジェットがフィルタリングをサポートしていないため、現在のダッシュボード・フィルタはこのウィジェットに適用されませんでした。",
+      "topLevelFilterAppliedToSomeDatasets": "現在のダッシュボード・フィルタは、このウィジェットのすべてのデータセットに完全に適用されていません。"
     }
   },
   "dashboardSwitcher": {
@@ -435,6 +447,25 @@
       }
     },
     "slo": {
+      "general": {
+        "demoWidgetTitle": "ウィジェット・タイトル",
+        "sloNotFound": "SLO コンフィギュレーションが見つかりません"
+      },
+      "v2Form": {
+        "headline": "サービス・レベル目標を選択する",
+        "subheading": "既存の SLO を選択するか、「新しい SLO を追加する」をクリックして新しい SLO を作成する",
+        "addSloButtonLabel": "新しい SLOを追加する",
+        "chartTypeSelectionLabel": "グラフのタイプ",
+        "chartTypeOption": "",
+        "chartTypeOption_INDICATOR": "指標チャート",
+        "chartTypeOption_ERROR_BUDGET": "エラー予算表",
+        "validators": {
+          "notBlankSloValidator": "リストから SLO 構成を選択してください。"
+        }
+      },
+      "v2WidgetHeader": {
+        "indicatorType": "指標タイプ："
+      },
       "demo": {
         "title": "SLO のタイトル",
         "sliName": "サンプル SLI",

@@ -20,7 +20,11 @@
       "tableLoadMoreRow": {
         "loadMore": "Carica altro"
       },
-      "dataTable": "Tabella dati"
+      "dataTable": "Tabella dati",
+      "expandHeader": "Espandi riga",
+      "expandRow": "Attiva/disattiva espansione riga",
+      "select": "seleziona riga",
+      "selectedRow": "Riga selezionata"
     },
     "tableSkeleton": {
       "sampleTable": "Tabella di esempio"
@@ -29,13 +33,17 @@
       "copy": "Copia",
       "copied": "Copiato.",
       "showMore": "Mostra altro",
-      "showLess": "Mostra meno"
+      "showLess": "Mostra meno",
+      "copytoboard": "Copia negli appunti"
     },
     "menu": {
       "sideNavigation": "Navigazione laterale"
     },
-    "carbonTabs": {
-      "tabs": "Schede"
+    "dropDown": {
+      "selectOption": "Selezionare un'opzione"
+    },
+    "tabsNavigation": {
+      "pageNavigation": "Navigazione pagina"
     },
     "plg": {
       "dashboardTable": {
@@ -88,7 +96,8 @@
       "previous": "Precedente"
     },
     "states": {
-      "saving": "Salvataggio in corso..."
+      "saving": "Salvataggio in corso...",
+      "loading": "Caricamento…"
     }
   },
   "language_en-US": "Inglese",

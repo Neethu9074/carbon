@@ -18,7 +18,7 @@
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "削除",
     "alertHeaderIsNotLatestRevisionMessage": "このアラート構成のリビジョン {{description}} を表示しています。 変更する場合は、<latestRevisionButton>最新の改定を選択</latestRevisionButton>するか、または<restoreRevisionButton>現在のリビジョンから復元</restoreRevisionButton>してください。",
     "alertHeaderAriaLabelSeverity": "イベントの重大度は {{severity}} です",
-    "alertHistoryListTitleWithTotalRepresentedItemCount": "作成済みのアラート ({{totalRepresentedItemCount}})",
+    "alertHistoryListTitleWithTotalRepresentedItemCount": "作成済みアラート({{totalRepresentedItemCount}})",
     "alertStateActive": "アクティブ",
     "alertPropertyInfosLabelTitle": "タイトル",
     "alertPropertyInfosLabelAlertLevel": "アラート・レベル",
@@ -26,7 +26,7 @@
     "alertPropertyInfosLabelDescription": "説明",
     "noChannelSelectedText": "現在、アラート・チャネルが選択されていないため、アラートは受信されません。",
     "scopeConfigPresenterHelpTextAdditionalFilters": "追加フィルター",
-    "groupBy": "グループ化の基準",
+    "groupBy": "GROUP BY",
     "noChannelAvailable": "使用可能なアラート・チャネルがありません",
     "optional": "オプション",
     "revisionDropdownButton": {
@@ -150,7 +150,7 @@
     "titleCopyOf": "{{smartAlertTitle}} (のコピー)",
     "smartAlertsTitle": "スマート・アラート",
     "applications": {
-      "alertConfiguration": "アラートの構成",
+      "alertConfiguration": "アラート構成",
       "advanced": {
         "applicationNamePlaceholder": "アプリケーション名",
         "serviceNamePlaceholder": "サービス名",
@@ -264,11 +264,11 @@
           },
           "timeThreshold": {
             "label": "時間しきい値",
-            "title": "時間しきい値: アラートを出すタイミング"
+            "title": "時間しきい値：いつアラートを受け取りますか。"
           },
           "alertChannel": {
             "label": "アラート・チャネル",
-            "title": "アラート・チャネル: アラートを受け取るユーザー"
+            "title": "アラート・チャネル：誰がアラートを受け取る必要がありますか。"
           },
           "propertiesOptional": {
             "label": "プロパティ－",
@@ -469,9 +469,9 @@
       },
       "simple": {
         "simpleAlertStep2Headline": "どこでアラートをトリガーしますか?",
-        "step1Title": "ステップ 1: アラートの選択",
-        "step2Title": "ステップ 2: スコープの選択",
-        "step3Title": "ステップ 3: アラート・チャネルの選択"
+        "step1Title": "ステップ 1：アラートの選択",
+        "step2Title": "ステップ 2：スコープの選択",
+        "step3Title": "ステップ 3：アラート・チャネルの選択"
       },
       "components": {
         "createSmartAlert": "スマート・アラートの追加",
@@ -508,7 +508,7 @@
       },
       "details": {
         "title": "アラート詳細",
-        "titleAlertProperties": "アラートのプロパティー",
+        "titleAlertProperties": "アラート・プロパティー",
         "applicationsServiceEndpointScopeTitle": "選択されたアプリケーション / サービス/ エンドポイント",
         "callsScopeTitle": "組み込み呼び出し"
       },
@@ -550,7 +550,7 @@
           "groupByEndpoint_1": "{{count}} エンドポイント",
           "groupByEndpoint_2": "{{count}} エンドポイント",
           "groupbyDescription": "過去 24 時間以内に発信された通話に基づきます",
-          "noData": "グループ分けのデータはない。",
+          "noData": "スコープ内のアプリケーション、サービス、エンドポイントには、過去24時間に通話を記録したものはない。",
           "groupByDataFailed": "何らかの問題が発生しました。 データでグループを取得することができません。 理由: {{reason}}"
         },
         "callsInScope": {
@@ -601,7 +601,8 @@
           "metricLabel": "{{metricLabel}} パーセンタイル・レイテンシ",
           "minLatency": "最小遅延時間",
           "maxLatency": "最大遅延時間",
-          "meanLatency": "平均遅延時間"
+          "meanLatency": "平均遅延時間",
+          "sumLatency": "合計待ち時間"
         },
         "timeThreshold": {
           "title": "違反がアラートをトリガーするタイミングを設定",
@@ -657,7 +658,7 @@
     },
     "list": {
       "header": {
-        "configuredAlerts": "構成済みアラート({{numberOfAlerts}})"
+        "configuredAlerts": "構成済みアラート ({{numberOfAlerts}})"
       },
       "columns": {
         "name": "名前"
@@ -674,6 +675,7 @@
       "ruleAggregationOptionP98": "98 パーセンタイル",
       "ruleAggregationOptionP99": "99 パーセンタイル",
       "ruleAggregationOptionMAX": "最大",
+      "ruleAggregationOptionSUM": "sum",
       "ruleAggregationForWeeklySeasonalityOptionMEAN": "平均",
       "ruleAggregationForWeeklySeasonalityOptionP50": "50 パーセンタイル",
       "ruleStatusCodeValueOption1": "1XX (Informational)",
@@ -838,7 +840,7 @@
         "timeThresholdConfigEvaluationGranularity": "評価の粒度",
         "granularityTooltipText": "ここで設定する時間の細分度によって、しきい値が評価される頻度が決まります。",
         "timeThresholdConfigNumberOfTracesThreshold": "影響を受けたトレースの数",
-        "timeThresholdConfigNumberOfImpactedUsersThreshold": "影響ユーザー数",
+        "timeThresholdConfigNumberOfImpactedUsersThreshold": "影響ユーザーの数",
         "timeThresholdConfigAtLeast": "最小",
         "timeThresholdConfigNumberOfTraces": "影響を受けたトレース数",
         "timeThresholdConfigMinutes": "{{min}} 分",
@@ -867,7 +869,7 @@
         "warningAlertPreviewLabel": "警告プレビュー",
         "criticalAlertPreviewLabel": "クリティカル・プレビュー",
         "alertPreviewMissingThresholdInfo": "使用可能なプレビューがありません。 プレビューを表示するには、少なくとも 1 つのしきい値を選択してください。",
-        "alertPropertiesAlertProperties": "アラートのプロパティー",
+        "alertPropertiesAlertProperties": "アラート・プロパティー",
         "alertPreviewDefaultTitle": "通知タイトル",
         "groupingPlaceholdersMissingTooltip": "プレースホルダ・オプションにアクセスするグループを設定する",
         "buttonSave": "保存",
@@ -875,6 +877,7 @@
         "buttonMigrate": "移行",
         "selectedBlueprint": "選択されたブループリント",
         "buttonRecalculateBaseline": "ベースラインの再計算",
+        "buttonRecalculateBaselineDisabled": "ベースラインの再計算 (無効)",
         "sensitivitySliderLow": "低",
         "sensitivitySliderHigh": "高",
         "sensitivitySliderValueLabel": "{{count}} 個の標準偏差",
@@ -978,9 +981,9 @@
         "JSErrorMessage": "JS エラー・メッセージ",
         "HTTPStatusCode": "HTTP 状況コード",
         "timeThresholdLabel": "時間しきい値",
-        "timeThresholdTitle": "時間しきい値: アラートを出すタイミング",
+        "timeThresholdTitle": "時間しきい値：いつアラートを受け取りますか。",
         "alertChannelsLabel": "アラート・チャネル",
-        "alertChannelsTitle": "アラート・チャネル: アラートを受け取るユーザー",
+        "alertChannelsTitle": "アラート・チャネル：誰がアラートを受け取る必要がありますか。",
         "propertiesLabel": "プロパティ－",
         "propertiesTitle": "追加のアラートのプロパティー",
         "thresholdValue": "しきい値",
@@ -1058,9 +1061,9 @@
       "simple": {
         "simpleAlertConfigDialogStep1Headline": "何についてアラートを出しますか?",
         "simpleAlertConfigDialogStep2Headline": "どこでアラートをトリガーしますか?",
-        "stepConfigsStep1Title": "ステップ 1: アラートの選択",
-        "stepConfigsStep2Title": "ステップ 2: スコープの選択",
-        "stepConfigsStep3Title": "ステップ 3: アラート・チャネルの選択"
+        "stepConfigsStep1Title": "ステップ 1：アラートの選択",
+        "stepConfigsStep2Title": "ステップ 2：スコープの選択",
+        "stepConfigsStep3Title": "ステップ 3：アラート・チャネルの選択"
       },
       "customEvent": {
         "noCustomEventsFound": "カスタム・イベントが見つかりません",
@@ -1079,7 +1082,17 @@
             "subtitleForStaticDailySeasonality": "静的日次季節性、 {{metricLabel}}",
             "subtitleForStaticWeeklySeasonality": "静的週次季節性、 {{metricLabel}}",
             "subtitleForAdaptiveThreshold": "適応しきい値、{{metricLabel}}"
-          }
+          },
+          "moreFiltersWithCount": "さらに {{count}} 個のフィルター",
+          "moreFiltersWithCount_plural": "さらに {{count}} 個のフィルター",
+          "moreFiltersWithCount_0": "さらに {{count}} 個のフィルター",
+          "moreFiltersWithCount_1": "さらに {{count}} 個のフィルター",
+          "moreFiltersWithCount_2": "さらに {{count}} 個のフィルター",
+          "filter": "フィルター",
+          "filter_plural": "フィルター",
+          "filter_0": "フィルター",
+          "filter_1": "フィルター",
+          "filter_2": "フィルター"
         }
       }
     },
@@ -1134,13 +1147,13 @@
         "stepConfigsStep1Title": "ステップ1: テスト",
         "simpleAlertConfigDialogStep1Headline": "どのシンセティック・テストでアラートを受け取りたいですか?",
         "simpleAlertConfigDialogStep1Tooltip": "個々のアラートは、ロケーションごと、シンセティック・テストごとに個別に送信されます",
-        "stepConfigsStep4Title": "ステップ4: アラート・チャネル",
+        "stepConfigsStep4Title": "ステップ 4: アラート・チャネル",
         "alertDialogHeadline": "アラートには何が表示されますか?",
         "stepConfigsStep2Title": "ステップ2: 範囲",
         "scopeHeadline": "スコープは何ですか?",
         "scopeDescription": "条件を適用する場所を選択します。",
         "stepConfigsStep3Title": "ステップ 3: 時間しきい値",
-        "stepConfigsStep5Title": "ステップ5: アラート・プロパティー",
+        "stepConfigsStep5Title": "ステップ 5: アラート・プロパティー",
         "thresholdTitle": "ロケーションごとに何回連続して失敗するとアラートが出されますか?",
         "thresholdTitleHelpText": "シンセティック・テストの作成で設定された再試行間隔に基づいて、 PoPで判別された失敗。",
         "thresholdSubTitleHelpText": "指定された数の障害がすべてのロケーションで発生すると、すべてのロケーションについてアラートを受け取ります。",
@@ -1164,7 +1177,7 @@
         "scopeFilterLabel": "範囲",
         "alertTestsLabel": "シンセティック・テスト",
         "alertTestsTitle": "シンセティック・テスト: どのシンセティック・テストでアラートを受け取りたいですか?",
-        "propertiesLabel": "アラートのプロパティー",
+        "propertiesLabel": "アラート・プロパティー",
         "propertiesTitle": "アラート通知には何を含める必要がありますか?",
         "failureThreshold": "時間しきい値",
         "failureThresholdLabel": "時間しきい値",
@@ -1185,7 +1198,7 @@
       },
       "details": {
         "threshold": "しきい値",
-        "alertConfigurationListTitleAlertConfiguration": "アラートの構成",
+        "alertConfigurationListTitleAlertConfiguration": "アラート構成",
         "scope": {
           "perLocation": {
             "shortText": "ロケーションごと"
@@ -1193,7 +1206,7 @@
         },
         "alertConfigurationTitleAlertTests": "選択されたテスト",
         "alertConfigurationTitleAlertChannels": "アラート・チャネル",
-        "alertConfigurationTitleAlertProperties": "アラートのプロパティー",
+        "alertConfigurationTitleAlertProperties": "アラート・プロパティー",
         "failureThreshold": "{{failureCount}} 件の失敗",
         "alertConfigurationTitleScope": "範囲",
         "noOfFailure": "失敗の数",
@@ -1262,21 +1275,21 @@
         "filterApplied": "適用されているフィルター"
       },
       "simple": {
-        "stepConfigsStep1Title": "ステップ 1: アラートの選択",
+        "stepConfigsStep1Title": "ステップ 1：アラートの選択",
         "stepConfigsStep3Title": "ステップ 3: アラート・チャネルの選択",
         "simpleAlertConfigDialogStep1Headline": "何についてアラートを出しますか?",
         "simpleAlertConfigDialogStep2Headline": "どこでアラートをトリガーしますか?",
         "stepConfigsStep2Title": "ステップ 2: スコープの選択"
       },
       "alertDetails": {
-        "alertConfigurationListTitleAlertConfiguration": "アラートの構成",
+        "alertConfigurationListTitleAlertConfiguration": "アラート構成",
         "alertConfigurationTitleTrigger": "トリガー",
         "alertConfigurationTitleHTTPStatusCode": "HTTP 状況コード",
         "alertConfigurationTitleCustomEvent": "カスタム・イベント",
         "alertConfigurationTitleScope": "範囲",
         "alertConfigurationTitleTimeThreshold": "時間しきい値",
         "alertConfigurationTitleAlertChannels": "アラート・チャネル",
-        "alertConfigurationTitleAlertProperties": "アラートのプロパティー",
+        "alertConfigurationTitleAlertProperties": "アラート・プロパティー",
         "evaluationSwitch": {
           "evaluationTypePerMobileApp": {
             "shortText": "モバイル・アプリケーションごと"
@@ -1308,9 +1321,9 @@
         "triggerTitle": "トリガー: アラートの対象",
         "HTTPStatusCode": "HTTP 状況コード",
         "alertChannelsLabel": "アラート・チャネル",
-        "alertChannelsTitle": "アラート・チャネル: アラートを受け取るユーザー",
+        "alertChannelsTitle": "アラート・チャネル：誰がアラートを受け取る必要がありますか。",
         "timeThresholdLabel": "時間しきい値",
-        "timeThresholdTitle": "時間しきい値: アラートを出すタイミング",
+        "timeThresholdTitle": "時間しきい値：いつアラートを受け取りますか。",
         "propertiesLabel": "プロパティー",
         "propertiesTitle": "追加のアラートのプロパティー",
         "scopeLabel": "範囲",
@@ -1377,12 +1390,12 @@
     },
     "infrastructure": {
       "alertDetails": {
-        "alertConfiguration": "アラートの構成",
+        "alertConfiguration": "アラート構成",
         "alertConfigurationTitleTrigger": "トリガー",
         "alertConfigurationTitleScope": "範囲",
         "alertConfigurationTitleAlertChannels": "アラート・チャネル",
         "alertConfigurationTitleTimeThreshold": "時間しきい値",
-        "alertConfigurationTitleAlertProperties": "アラートのプロパティー"
+        "alertConfigurationTitleAlertProperties": "アラート・プロパティー"
       },
       "list": {
         "columns": {
@@ -1432,7 +1445,7 @@
         },
         "alertChannel": {
           "label": "アラート・チャネル",
-          "title": "アラート・チャネル: アラートを受け取るユーザー"
+          "title": "アラート・チャネル：誰がアラートを受け取る必要がありますか。"
         },
         "properties": {
           "preview": {
@@ -1459,13 +1472,13 @@
     },
     "logs": {
       "alertDetails": {
-        "alertConfiguration": "アラートの構成",
+        "alertConfiguration": "アラート構成",
         "metricName": "ログ・カウント",
         "alertConfigurationTitleScope": "範囲",
         "noScopeSelected": "スコープ・フィルターまたはグループが構成されていません。",
         "alertConfigurationTitleTimeThreshold": "時間しきい値",
         "alertConfigurationTitleAlertChannels": "アラート・チャネル",
-        "alertConfigurationTitleAlertProperties": "アラートのプロパティー",
+        "alertConfigurationTitleAlertProperties": "アラート・プロパティー",
         "alertConfigurationTitleTrigger": "トリガー"
       },
       "list": {
@@ -1501,11 +1514,11 @@
         },
         "timeThreshold": {
           "label": "時間しきい値",
-          "title": "時間しきい値: アラートを出すタイミング"
+          "title": "時間しきい値：いつアラートを受け取りますか。"
         },
         "alertChannel": {
           "label": "アラート・チャネル",
-          "title": "アラート・チャネル: アラートを受け取るユーザー"
+          "title": "アラート・チャネル：誰がアラートを受け取る必要がありますか。"
         },
         "properties": {
           "label": "プロパティー",
@@ -1553,11 +1566,11 @@
         "stepLabel_trigger": "トリガー",
         "stepTitle_trigger": "トリガー: アラートの対象",
         "stepLabel_timeThreshold": "時間しきい値",
-        "stepTitle_timeThreshold": "時間しきい値: いつアラートを受け取りますか?",
+        "stepTitle_timeThreshold": "時間しきい値: いつアラートを受け取りますか。",
         "stepLabel_alertChannels": "アラート・チャネル",
-        "stepTitle_alertChannels": "アラート・チャネル: アラートを受け取るユーザー",
-        "stepLabel_alertProperties": "アラートのプロパティー",
-        "stepTitle_alertProperties": "アラート・プロパティー: アラート通知には何を含めますか?",
+        "stepTitle_alertChannels": "アラート・チャネル：誰がアラートを受け取る必要がありますか。",
+        "stepLabel_alertProperties": "アラート・プロパティー",
+        "stepTitle_alertProperties": "アラート・プロパティー: アラート通知には何を含めますか。",
         "stepLabel_customPayload": "カスタム・ペイロード",
         "stepTitle_customPayload": "カスタム・ペイロード",
         "selectSloHeadline": "SLOの選択",
@@ -1597,7 +1610,7 @@
         "alertPropertiesIncidentWarning": "インシデントは、SLOが関連付けられたアプリケーションにのみ適用されます"
       },
       "details": {
-        "alertConfigurationTitle": "アラートの構成",
+        "alertConfigurationTitle": "アラート構成",
         "sloHeader": "SLO",
         "thresholdInfo": "",
         "thresholdInfo_BURN_RATE": "燃焼率が {{operator}} の場合 {{percentage}}",

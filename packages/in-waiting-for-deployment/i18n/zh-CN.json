@@ -23,7 +23,7 @@
     "dynamic": "动态",
     "static": "静态 ",
     "agentJdk": "代理进程 JDK",
-    "azulZulu18": "Azul Zulu 1.8",
+    "azulZulu11": "Azul Zulu 11",
     "eclipseOpenJ911": "Eclipse OpenJ9 11",
     "theClusterNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo64CharactersLong": "集群名称必须是字母、短划线和下划线的组合，最长为 64 个字符",
     "aws": "AWS",

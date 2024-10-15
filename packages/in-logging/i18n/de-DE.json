@@ -1,6 +1,7 @@
 {
   "logs": "Protokolle",
   "sum": "Summe",
+  "count": "count",
   "bar": "Leiste",
   "logsOverTime": "Protokolle im Laufe der Zeit",
   "logsOverTime_ERROR": "Fehler",
@@ -59,6 +60,14 @@
     "summary": "Zusammenfassung",
     "smartAlerts": "Smart Alerts",
     "deleteLogs": "Protokolle löschen",
-    "configuration": "Konfiguration"
+    "configuration": "Konfiguration",
+    "logVolume": {
+      "logVolumeTitle": "Logvolumen des aktuellen Monats",
+      "gb": "GB",
+      "logVolumeIcon": "Zum Log-Volumen gehen"
+    },
+    "retentionIcon": "Aufbewahrungszeitraum ändern",
+    "noData": "Keine Daten verfügbar",
+    "analyzeLogs": "Protokolle analysieren"
   }
 }

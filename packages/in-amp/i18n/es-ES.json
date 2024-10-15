@@ -125,7 +125,7 @@
         "numOfApplicationPerspectives": "# APs",
         "numOfReportingApplicationPerspectives": "# APs de informes",
         "numOfWebsites": "# Sitios web",
-        "numOfAlertChannels": "# Canales de alerta",
+        "numOfAlertChannels": "Núm. de canales de alerta",
         "numOfAlerts": "# Alertas",
         "numOfActiveAlerts": "# Alertas activas",
         "numOfReleases": "# Marcadores de Release/# Releases",

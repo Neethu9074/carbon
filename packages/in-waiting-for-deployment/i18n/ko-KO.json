@@ -23,7 +23,7 @@
     "dynamic": "동적",
     "static": "정적",
     "agentJdk": "에이전트 JDK",
-    "azulZulu18": "Azul Zulu 1.8",
+    "azulZulu11": "Azul Zulu 11",
     "eclipseOpenJ911": "Eclipse OpenJ9 11",
     "theClusterNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo64CharactersLong": "클러스터 이름은 문자, 대시 및 밑줄의 조합으로 최대 64자여야 합니다.",
     "aws": "AWS",

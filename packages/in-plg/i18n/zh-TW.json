@@ -64,7 +64,7 @@
       "configurationOptions": "配置選項"
     },
     "jvmVendor": {
-      "azulZulu18": "Azul Zulu 1.8",
+      "azulZulu11": "Azul Zulu 11",
       "eclipseOpenJD11": "Eclipse OpenJ9 11"
     },
     "askForHelp": {
@@ -376,7 +376,7 @@
         "dynamic": "動態",
         "static": "靜態",
         "runtime": "執行時期",
-        "azulZulu": "Azul Zulu 1.8",
+        "azulZulu": "Azul Zulu 11",
         "eclipseOpenJ9": "Eclipse OpenJ9 11",
         "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "步驟 2：檢閱必要條件並執行代理程式部署程式碼。",
         "installagentOnAWSEC2": "在 AWS EC2 上安裝代理程式",
@@ -594,7 +594,7 @@
         "label": "商業監視",
         "name": "名稱",
         "activities": "活動",
-        "views": "檢視表",
+        "started": "已開始",
         "health": "性能",
         "searchPlaceholderLabel": "商業程序",
         "viewAllLabel": "商業程序"

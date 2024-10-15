@@ -18,7 +18,7 @@
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "移除",
     "alertHeaderIsNotLatestRevisionMessage": "您正在查看此警报配置的修订版 {{description}}。如果要进行更改，请<latestRevisionButton>选择最新修订版</latestRevisionButton>或<restoreRevisionButton>从当前修订版复原</restoreRevisionButton>。",
     "alertHeaderAriaLabelSeverity": "事件的严重性为 {{severity}}",
-    "alertHistoryListTitleWithTotalRepresentedItemCount": "已创建警报（{{totalRepresentedItemCount}} 个）",
+    "alertHistoryListTitleWithTotalRepresentedItemCount": "已创建的警报数（{{totalRepresentedItemCount}} 个）",
     "alertStateActive": "活动",
     "alertPropertyInfosLabelTitle": "标题",
     "alertPropertyInfosLabelAlertLevel": "警报级别",
@@ -27,7 +27,7 @@
     "noChannelSelectedText": "当前，您尚未选择警报通道，并且不会接收任何警报。",
     "scopeConfigPresenterHelpTextAdditionalFilters": "其他过滤器",
     "groupBy": "分组依据",
-    "noChannelAvailable": "没有可用的警报通道",
+    "noChannelAvailable": "没有可用的警报频道",
     "optional": "可选",
     "revisionDropdownButton": {
       "revision": "修订版 {{alertRevision}}",
@@ -84,8 +84,8 @@
       "aKeyNeedsToBeSpecified": "需要指定键。",
       "additionalCustomPayload": "其他定制有效内容",
       "globalCustomPayload": "全局定制有效内容",
-      "additionalCustomPayloadTitle": "其他定制有效内容 ({{count}})",
-      "globalCustomPayloadTitle": "全局定制有效内容 ({{count}})",
+      "additionalCustomPayloadTitle": "其他定制有效内容数（{{count}} 个）",
+      "globalCustomPayloadTitle": "全局定制有效内容数（{{count}} 个）",
       "globalCustomPayloadRetrieveFailed": "发生错误。 无法检索全局定制有效内容。",
       "noGlobalCustomPayloadConfigured": "未配置全局定制有效内容"
     },
@@ -268,7 +268,7 @@
           },
           "alertChannel": {
             "label": "警报通道",
-            "title": "警报通道：需要向谁发出警报？"
+            "title": "警报频道：需要向谁发出警报？"
           },
           "propertiesOptional": {
             "label": "属性",
@@ -470,8 +470,8 @@
       "simple": {
         "simpleAlertStep2Headline": "您希望在何处触发警报？",
         "step1Title": "步骤 1：选择警报",
-        "step2Title": "步骤 2：选择作用域",
-        "step3Title": "步骤 3：选择警报通道"
+        "step2Title": "步骤 2：选择范围",
+        "step3Title": "步骤 3：选择警报频道"
       },
       "components": {
         "createSmartAlert": "添加智能警报",
@@ -550,7 +550,7 @@
           "groupByEndpoint_1": "{{count}} 个端点",
           "groupByEndpoint_2": "{{count}} 个端点",
           "groupbyDescription": "基于过去 24 小时内进行的调用",
-          "noData": "没有分组依据数据可用。",
+          "noData": "在过去 24 小时内，范围内没有应用程序、服务或端点记录到任何调用。",
           "groupByDataFailed": "发生错误。 无法按数据检索组。 原因：{{reason}}"
         },
         "callsInScope": {
@@ -601,7 +601,8 @@
           "metricLabel": "{{metricLabel}} 延迟百分位数",
           "minLatency": "最小延迟",
           "maxLatency": "最大延迟",
-          "meanLatency": "平均延迟"
+          "meanLatency": "平均延迟",
+          "sumLatency": "总延迟"
         },
         "timeThreshold": {
           "title": "设置违例何时触发警报",
@@ -630,7 +631,7 @@
           "previewTitle": "警报预览"
         },
         "alertChannelList": {
-          "title": "警报通道数 ({{channelCount}})",
+          "title": "警报频道数（{{channelCount}}  个）",
           "description": "选择该警报的收件人",
           "searchPlaceholder": "搜索",
           "clearAll": "全部清除"
@@ -657,7 +658,7 @@
     },
     "list": {
       "header": {
-        "configuredAlerts": "已配置的警报（{{numberOfAlerts}} 个）"
+        "configuredAlerts": "已配置的警报数（{{numberOfAlerts}} 个）"
       },
       "columns": {
         "name": "名称"
@@ -674,6 +675,7 @@
       "ruleAggregationOptionP98": "第 98 个",
       "ruleAggregationOptionP99": "第 99 个",
       "ruleAggregationOptionMAX": "最大值",
+      "ruleAggregationOptionSUM": "总和",
       "ruleAggregationForWeeklySeasonalityOptionMEAN": "平均值",
       "ruleAggregationForWeeklySeasonalityOptionP50": "第 50 个",
       "ruleStatusCodeValueOption1": "1XX (Informational)",
@@ -768,10 +770,10 @@
         "blueprintDescriptionButtonSelect": "选择",
         "selectAlertChannelButtonTitle": "选择警报通道",
         "selectAlertChannelButton": "选择警报通道",
-        "createAlertChannelTitle": "创建警报通道",
+        "createAlertChannelTitle": "创建警报频道",
         "alertChannelCreatedSuccess": "已创建警报通道",
         "alertChannelCreatedSuccessDescription": "已成功创建警报通道。",
-        "alertChannelSelectTypeTitle": "警报通道类型",
+        "alertChannelSelectTypeTitle": "警报频道类型",
         "addChannel": "添加 {{count}} 个通道",
         "addChannel_plural": "添加 {{count}} 个通道",
         "addChannel_0": "添加 {{count}} 个通道",
@@ -828,13 +830,13 @@
         "timeThresholdDescriptionViolationsInPeriod_0": "至少{{count}} 个违例在过去 {{formattedTimeWindow}} 内受影响",
         "timeThresholdDescriptionViolationsInPeriod_1": "至少{{count}} 个违例在过去 {{formattedTimeWindow}} 内受影响",
         "timeThresholdDescriptionViolationsInPeriod_2": "至少{{count}} 个违例在过去 {{formattedTimeWindow}} 内受影响",
-        "timeThresholdConfigNumberOfConsecutiveViolations": "连续指标违例数",
-        "timeThresholdConfigNumberOfConsecutiveEvaluations": "连续评估数",
-        "timeThresholdConfigNumberOfEvaluationWindows": "连续违例数",
+        "timeThresholdConfigNumberOfConsecutiveViolations": "连续指标违例次数",
+        "timeThresholdConfigNumberOfConsecutiveEvaluations": "连续评估次数",
+        "timeThresholdConfigNumberOfEvaluationWindows": "连续违例次数",
         "timeThresholdConfigImpactEvaluationMethod": "用户影响评估方法",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "在所有评估窗口中聚集",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "为每个评估窗口计算",
-        "timeThresholdConfigNumberOfViolations": "指标违例数",
+        "timeThresholdConfigNumberOfViolations": "指标违例次数",
         "timeThresholdConfigEvaluationGranularity": "评估详细程度",
         "granularityTooltipText": "此处设置的时间粒度将确定对阈值进行求值的频率。",
         "timeThresholdConfigNumberOfTracesThreshold": "受影响的跟踪数",
@@ -875,6 +877,7 @@
         "buttonMigrate": "迁移",
         "selectedBlueprint": "已选择蓝图",
         "buttonRecalculateBaseline": "重新计算基线",
+        "buttonRecalculateBaselineDisabled": "重新计算基线（已禁用）",
         "sensitivitySliderLow": "低",
         "sensitivitySliderHigh": "高",
         "sensitivitySliderValueLabel": "{{count}} 个标准差",
@@ -980,7 +983,7 @@
         "timeThresholdLabel": "时间阈值",
         "timeThresholdTitle": "时间阈值：您希望何时收到警报？",
         "alertChannelsLabel": "警报通道",
-        "alertChannelsTitle": "警报通道：需要向谁发出警报？",
+        "alertChannelsTitle": "警报频道：需要向谁发出警报？",
         "propertiesLabel": "属性",
         "propertiesTitle": "其他警报属性",
         "thresholdValue": "阈值",
@@ -1059,8 +1062,8 @@
         "simpleAlertConfigDialogStep1Headline": "您希望收到关于何种内容的警报？",
         "simpleAlertConfigDialogStep2Headline": "您希望在何处触发警报？",
         "stepConfigsStep1Title": "步骤 1：选择警报",
-        "stepConfigsStep2Title": "步骤 2：选择作用域",
-        "stepConfigsStep3Title": "步骤 3：选择警报通道"
+        "stepConfigsStep2Title": "步骤 2：选择范围",
+        "stepConfigsStep3Title": "步骤 3：选择警报频道"
       },
       "customEvent": {
         "noCustomEventsFound": "找不到定制事件",
@@ -1079,7 +1082,17 @@
             "subtitleForStaticDailySeasonality": "静态每日季节性：{{metricLabel}}",
             "subtitleForStaticWeeklySeasonality": "静态每周季节性：{{metricLabel}}",
             "subtitleForAdaptiveThreshold": "自适应阈值：{{metricLabel}}"
-          }
+          },
+          "moreFiltersWithCount": "+其他 {{count}} 个过滤器",
+          "moreFiltersWithCount_plural": "+其他 {{count}} 个过滤器",
+          "moreFiltersWithCount_0": "+其他 {{count}} 个过滤器",
+          "moreFiltersWithCount_1": "+其他 {{count}} 个过滤器",
+          "moreFiltersWithCount_2": "+其他 {{count}} 个过滤器",
+          "filter": "过滤",
+          "filter_plural": "过滤器",
+          "filter_0": "过滤器",
+          "filter_1": "过滤器",
+          "filter_2": "过滤器"
         }
       }
     },
@@ -1134,7 +1147,7 @@
         "stepConfigsStep1Title": "步骤 1：测试",
         "simpleAlertConfigDialogStep1Headline": "要对哪些合成测试发出警报？",
         "simpleAlertConfigDialogStep1Tooltip": "将针对每个合成测试，每个位置单独发送单独的警报",
-        "stepConfigsStep4Title": "步骤 4：警报通道",
+        "stepConfigsStep4Title": "步骤 4：警报频道",
         "alertDialogHeadline": "警报中应该显示哪些内容？",
         "stepConfigsStep2Title": "步骤 2：作用域",
         "scopeHeadline": "作用域是什么？",
@@ -1199,7 +1212,7 @@
         "noOfFailure": "失败数",
         "timeThreshold": "时间阈值",
         "alertingType": "警报类型",
-        "noScopeConfigured": "未配置作用域过滤器"
+        "noScopeConfigured": "未配置范围过滤器"
       }
     },
     "mobileApp": {
@@ -1263,7 +1276,7 @@
       },
       "simple": {
         "stepConfigsStep1Title": "步骤 1：选择警报",
-        "stepConfigsStep3Title": "步骤 3：选择警报通道",
+        "stepConfigsStep3Title": "步骤 3：选择警报频道",
         "simpleAlertConfigDialogStep1Headline": "您希望收到关于何种内容的警报？",
         "simpleAlertConfigDialogStep2Headline": "您希望在何处触发警报？",
         "stepConfigsStep2Title": "步骤 2：选择作用域"
@@ -1308,7 +1321,7 @@
         "triggerTitle": "触发器：您希望收到关于何种内容的警报？",
         "HTTPStatusCode": "HTTP 状态码",
         "alertChannelsLabel": "警报通道",
-        "alertChannelsTitle": "警报通道：需要向谁发出警报？",
+        "alertChannelsTitle": "警报频道：需要向谁发出警报？",
         "timeThresholdLabel": "时间阈值",
         "timeThresholdTitle": "时间阈值：您希望何时收到警报？",
         "propertiesLabel": "属性",
@@ -1432,7 +1445,7 @@
         },
         "alertChannel": {
           "label": "警报通道",
-          "title": "警报通道：需要向谁发出警报？"
+          "title": "警报频道：需要向谁发出警报？"
         },
         "properties": {
           "preview": {
@@ -1505,7 +1518,7 @@
         },
         "alertChannel": {
           "label": "警报通道",
-          "title": "警报通道：需要向谁发出警报？"
+          "title": "警报频道：需要向谁发出警报？"
         },
         "properties": {
           "label": "属性",
@@ -1555,7 +1568,7 @@
         "stepLabel_timeThreshold": "时间阈值",
         "stepTitle_timeThreshold": "时间阈值：您希望何时收到警报？",
         "stepLabel_alertChannels": "警报通道",
-        "stepTitle_alertChannels": "警报通道：需要向谁发出警报？",
+        "stepTitle_alertChannels": "警报频道：需要向谁发出警报？",
         "stepLabel_alertProperties": "警报属性",
         "stepTitle_alertProperties": "警报属性：警报通知应包含哪些内容？",
         "stepLabel_customPayload": "定制有效内容",

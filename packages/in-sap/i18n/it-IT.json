@@ -656,7 +656,15 @@
     "applicationArea": "Area di applicazione",
     "messageNumber": "Numero messaggio",
     "line": "Riga",
-    "noVariableMsgPart": "Conteggio dei messaggi variabili"
+    "noVariableMsgPart": "Conteggio dei messaggi variabili",
+    "transportRequest": "Richieste di trasporto",
+    "category": "Categoria",
+    "target": "Destinazione",
+    "modifiable": "Modificabile",
+    "protected": "Protetto",
+    "releasedStarted": "Rilascio avviato",
+    "httpRespTime": "HTTP",
+    "httpsRespTime": "HTTPS"
   },
   "viewAllEntityName_unknownEntity_plural": "tutti",
   "viewAllEntityName_unknownEntity_0": "tutti",

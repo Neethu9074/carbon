@@ -385,7 +385,8 @@
       "secondaryLabels": {
         "tests": "テスト",
         "locations": "ロケーション",
-        "smartAlerts": "スマート・アラート"
+        "smartAlerts": "スマート・アラート",
+        "credentials": "資格情報"
       },
       "popDialog": {
         "popUpDialogTitle": "シンセティック・モニターのための権限",
@@ -408,8 +409,6 @@
         "filterLabel": "アプリケーション",
         "singleAppHeader": "{{ number }} 協会",
         "multiAppHeader": "{{ number }} 連想",
-        "singleAppSpan": "{{ number }} 関連アプリケーション",
-        "multiAppSpan": "{{ number }} 関連アプリケーション",
         "noApplicationsAssociated": "関連付けられたアプリケーションなし"
       },
       "multiWebDialog": {
@@ -434,7 +433,14 @@
       "successRuns": "{{successRuns}} / {{totalRuns}} 件の結果",
       "latency": "待ち時間",
       "locationLabel": "ロケーション",
-      "locations": "{{totalLocations}} カ所のロケーション",
+      "locationsColumn": {
+        "singleLocation": "{{number}} 場所",
+        "multipleLocations": "{{number}} 場所",
+        "singleRun": "{{number}} 場所で実行する",
+        "multipleRun": "{{number}} 場所で実行する",
+        "warning": "警告",
+        "noIssues": "問題なし"
+      },
       "associationLabel": "関連付け",
       "health": "正常性",
       "action": "アクション",
@@ -512,8 +518,8 @@
       "meanLatencyFor90th": "90 パーセンタイルでは {{meanLatencyDetail}}",
       "smartAlertsTab": "スマート・アラート",
       "configurationTab": "構成",
-      "isCertificateValid": "前回の実行 - 証明書は有効です",
-      "resultsCertificateValid": "証明書は有効です",
+      "isCertificateValid": "最後の実行-証明書はパブリック CA によって署名される",
+      "resultsCertificateValid": "証明書はパブリック CA によって署名される",
       "certificateValid": "はい",
       "certificateNotValid": "いいえ",
       "daysRemaining": "前回の実行 - 残り日数",

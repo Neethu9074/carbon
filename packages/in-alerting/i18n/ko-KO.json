@@ -26,7 +26,7 @@
     "alertPropertyInfosLabelDescription": "설명",
     "noChannelSelectedText": "현재 경보 채널을 선택하지 않았으므로 경보를 수신하지 않습니다.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "추가 필터",
-    "groupBy": "그룹화 기준",
+    "groupBy": "그룹별",
     "noChannelAvailable": "사용 가능한 경보 채널 없음",
     "optional": "선택적",
     "revisionDropdownButton": {
@@ -264,7 +264,7 @@
           },
           "timeThreshold": {
             "label": "시간 임계값",
-            "title": "시간 임계값: 경보를 수신하려는 항목"
+            "title": "시간 임계값: 경보를 수신하려는 시간"
           },
           "alertChannel": {
             "label": "경보 채널",
@@ -550,7 +550,7 @@
           "groupByEndpoint_1": "{{count}}개 엔드포인트",
           "groupByEndpoint_2": "{{count}}개 엔드포인트",
           "groupbyDescription": "지난 24시간 동안 이루어진 호출 기준",
-          "noData": "그룹별 데이터를 사용할 수 없습니다.",
+          "noData": "범위 내의 애플리케이션, 서비스 또는 엔드포인트에서 지난 24시간 동안 통화를 녹음한 적이 없습니다.",
           "groupByDataFailed": "문제가 발생했습니다. 데이터로 그룹을 검색할 수 없습니다. 이유 : {{reason}}"
         },
         "callsInScope": {
@@ -601,7 +601,8 @@
           "metricLabel": "{{metricLabel}} 백분위수 지연 시간",
           "minLatency": "최소 대기 시간",
           "maxLatency": "최대 대기 시간",
-          "meanLatency": "평균 대기 시간"
+          "meanLatency": "평균 대기 시간",
+          "sumLatency": "합계 지연 시간"
         },
         "timeThreshold": {
           "title": "위반이 경보를 트리거할 때 설정",
@@ -630,7 +631,7 @@
           "previewTitle": "경보 미리보기"
         },
         "alertChannelList": {
-          "title": "경보 채널({{channelCount}}개)",
+          "title": "경보 채널({{channelCount}})",
           "description": "이 경보를 받을 수신자 선택",
           "searchPlaceholder": "검색",
           "clearAll": "모두 지우기"
@@ -674,6 +675,7 @@
       "ruleAggregationOptionP98": "98번째",
       "ruleAggregationOptionP99": "99번째",
       "ruleAggregationOptionMAX": "최대",
+      "ruleAggregationOptionSUM": "합",
       "ruleAggregationForWeeklySeasonalityOptionMEAN": "평균",
       "ruleAggregationForWeeklySeasonalityOptionP50": "50번째",
       "ruleStatusCodeValueOption1": "1XX (정보)",
@@ -875,6 +877,7 @@
         "buttonMigrate": "마이그레이션",
         "selectedBlueprint": "선택한 블루프린트",
         "buttonRecalculateBaseline": "기준선 다시 계산",
+        "buttonRecalculateBaselineDisabled": "기준선 다시 계산(비활성화됨)",
         "sensitivitySliderLow": "낮음",
         "sensitivitySliderHigh": "높음",
         "sensitivitySliderValueLabel": "{{count}}개의 표준 편차",
@@ -978,7 +981,7 @@
         "JSErrorMessage": "JS 오류 메시지",
         "HTTPStatusCode": "HTTP 상태 코드",
         "timeThresholdLabel": "시간 임계값",
-        "timeThresholdTitle": "시간 임계값: 경보를 수신하려는 항목",
+        "timeThresholdTitle": "시간 임계값: 경보를 수신하려는 시간",
         "alertChannelsLabel": "경보 채널",
         "alertChannelsTitle": "경보 채널: 경보 수신 대상",
         "propertiesLabel": "특성",
@@ -1079,7 +1082,17 @@
             "subtitleForStaticDailySeasonality": "정적 일일 계절성, {{metricLabel}}",
             "subtitleForStaticWeeklySeasonality": "정적 주간 계절성, {{metricLabel}}",
             "subtitleForAdaptiveThreshold": "적응형 임계값, {{metricLabel}}"
-          }
+          },
+          "moreFiltersWithCount": "{{count}}개 추가 필터",
+          "moreFiltersWithCount_plural": "{{count}}개 추가 필터",
+          "moreFiltersWithCount_0": "{{count}}개 추가 필터",
+          "moreFiltersWithCount_1": "{{count}}개 추가 필터",
+          "moreFiltersWithCount_2": "{{count}}개 추가 필터",
+          "filter": "필터",
+          "filter_plural": "필터",
+          "filter_0": "필터",
+          "filter_1": "필터",
+          "filter_2": "필터"
         }
       }
     },
@@ -1310,7 +1323,7 @@
         "alertChannelsLabel": "경보 채널",
         "alertChannelsTitle": "경보 채널: 경보 수신 대상",
         "timeThresholdLabel": "시간 임계값",
-        "timeThresholdTitle": "시간 임계값: 경보를 수신하려는 항목",
+        "timeThresholdTitle": "시간 임계값: 경보를 수신하려는 시간",
         "propertiesLabel": "특성",
         "propertiesTitle": "추가 경보 특성",
         "scopeLabel": "범위",
@@ -1501,7 +1514,7 @@
         },
         "timeThreshold": {
           "label": "시간 임계값",
-          "title": "시간 임계값: 경보를 수신하려는 항목"
+          "title": "시간 임계값: 경보를 수신하려는 시간"
         },
         "alertChannel": {
           "label": "경보 채널",
@@ -1553,11 +1566,11 @@
         "stepLabel_trigger": "트리거",
         "stepTitle_trigger": "트리거: 경보를 수신하려는 항목",
         "stepLabel_timeThreshold": "시간 임계값",
-        "stepTitle_timeThreshold": "시간 임계값: 언제 경보를 받으시겠습니까?",
+        "stepTitle_timeThreshold": "시간 임계값: 경보를 수신하려는 시간",
         "stepLabel_alertChannels": "경보 채널",
         "stepTitle_alertChannels": "경보 채널: 경보 수신 대상",
         "stepLabel_alertProperties": "경보 특성",
-        "stepTitle_alertProperties": "경보 특성: 경보 알림에는 무엇이 포함되어야 합니까?",
+        "stepTitle_alertProperties": "경보 특성: 경보 알림에 포함되어야 하는 것",
         "stepLabel_customPayload": "사용자 정의 페이로드",
         "stepTitle_customPayload": "사용자 정의 페이로드",
         "selectSloHeadline": "SLO 선택",

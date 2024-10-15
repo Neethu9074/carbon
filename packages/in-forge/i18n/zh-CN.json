@@ -2682,6 +2682,11 @@
   "tracingTypeName_session_0": "会话调用",
   "tracingTypeName_session_1": "会话调用",
   "tracingTypeName_session_2": "会话调用",
+  "tracingTypeName_sequel": "后续",
+  "tracingTypeName_sequel_plural": "后续调用",
+  "tracingTypeName_sequel_0": "后续调用",
+  "tracingTypeName_sequel_1": "后续",
+  "tracingTypeName_sequel_2": "后续调用",
   "tracingTypeName_shell": "Shell 调用",
   "tracingTypeName_shell_plural": "Shell 调用",
   "tracingTypeName_shell_0": "Shell 调用",
@@ -6850,8 +6855,8 @@
       "labelContentionRate": "争用率",
       "labelLargeObject": "大对象",
       "labelGCTime": "GC 时间",
-      "theFollowingEnvironmentVariablesMustBeSetOnTheNetCoreProcess": "此 .NET Full Framework 应用程序的进程环境未正确配置，Instana 无法对其进行监视。必须在 .NET Core 进程上设置以下环境变量：<code>{{missing}}</code>。 请参阅文档以了解要设置的正确值。",
-      "detectedThisBasedOnTheValueOfTheInvalidEnvKeyEnvironmentVariable": "似乎由另一个工具正在监视此 .NET Full Framework 进程，可能是 {{competitor}}。Instana 主机代理程序已根据 <code>{{invalidEnvKey}}</code> 环境变量的值检测到此进程。为了使 Instana 能够跟踪此 .NET Core 进程，您需要禁用其他监视工具。",
+      "theFollowingEnvironmentVariablesMustBeSetOnTheNetCoreProcess": "此 .NET Full Framework 应用程序的进程环境未正确配置，Instana 无法对其进行监视。 必须对 .NET Framework 进程设置以下环境变量：<code>{{missing}}</code>。 请参阅文档以了解要设置的正确值。",
+      "detectedThisBasedOnTheValueOfTheInvalidEnvKeyEnvironmentVariable": "似乎由另一个工具正在监视此 .NET Full Framework 进程，可能是 {{competitor}}。 Instana 主机代理程序已根据 <code>{{invalidEnvKey}}</code> 环境变量的值检测到此进程。 为了让 Instana 能够跟踪 .NET Framework 进程，您必须禁用其他监控工具。",
       "theEnvironmentVariableInvalidEnvKeyHasTheWrongValue": "此 .NET Full Framework 应用程序的进程环境未正确配置，Instana 无法对其进行监视。环境变量 <code>{{invalidEnvKey}}</code> 的值 <code>{{invalidEnvValue}}</code> 无效。请参阅文档以获取有关将值设置为 <code>{{invalidEnvKey}}</code> 环境变量的指导。",
       "dashboard": {
         "labelAllHeaps": "所有堆",
@@ -8700,6 +8705,7 @@
       },
       "name": "名称",
       "image": "图像",
+      "isPodmanRootless": "无根",
       "containerId": "容器标识",
       "cpuTotalUsage": "CPU 总使用率",
       "cpuThrottlingCount": "CPU 调速计数",
@@ -8725,6 +8731,7 @@
       "networkMode": "网络方式",
       "command": "命令",
       "podmanVersion": "Podman 版本",
+      "remoteSocketPath": "远程套接字路径",
       "restartCount": "重新启动次数"
     },
     "process": {
@@ -8732,6 +8739,7 @@
       "troubleshootingDocs": "故障诊断文档",
       "jvmAttachSocketIssueDescription": "主机代理进程无法正确连接至此 Java 虚拟机。JVM 无法连接到动态连接期间使用的通信套接字。请尝试重新启动 JVM 以恢复其连接功能。因此，将无法跟踪此进程。请参阅主机代理进程日志以获取有关连接失败原因的更多信息。主机代理进程将每隔 10 分钟再次尝试连接到该虚拟机。但是，在成功之前，将不会收集此 JVM 的跟踪和指标。",
       "jvmAttachDirectoryIssueDescription": "主机代理无法正确连接到此 Java 虚拟机。 在动态连接期间，JVM 无法找到连接目录。 请验证主机代理 JVM 进程和目标 JVM 进程的临时目录的环境设置是否匹配，或者确保在启动目标 JVM 时使用 JVM 特定的系统属性来指定另一个连接目录。",
+      "jvmInstrumentationSharedAbsentIssueDescription": "主机代理程序必须关闭与该 Java 虚拟机的连接。 当 javaagent-loader 连接到此 JVM 时，文件 /tmp/.instana/instrumentation-shared-<version>-<pid>-<string>.jar 已被删除。 请确认系统或容器未删除该文件。",
       "insufficientDiskMemoryIssueDescription": "由于存储容量限制，主机代理程序无法在主机上或应用程序容器内装入临时文件。 请查看故障诊断文档以了解补救步骤。",
       "portUnavailableIssueDescription": "代理程序无法绑定到缺省端口 42699。 将无法以完全容量进行监视。 有关补救步骤，请查看故障诊断文档。",
       "pythonAutoTraceFailedIssueDescription": "主机代理程序已尝试并未能自动检测此 Python 进程。",
@@ -9421,29 +9429,38 @@
         "hostUsedPhysicalMemoryRatio": "主机内存使用率",
         "eventTime": "事件时间",
         "eventName": "事件名称",
-        "eventDetail": "事件详细信息",
-        "systemActive": "系统处于活动状态",
         "systemStatus": "系统状态",
-        "hostStatus": "主机状态",
-        "hostActive": "主机活动状态",
         "serviceStatus": "服务状态",
-        "databaseName": "数据库名称",
         "systemEventStats": "系统事件",
-        "errorMsg": "错误消息",
         "diskUsagePercentage": "磁盘使用率百分比",
         "diskUsageSummary": "磁盘使用情况摘要",
         "usage": "用法",
         "archiveLogBackupStats": "归档日志备份",
-        "systemId": "系统标识",
         "sourceDatabaseName": "源数据库",
-        "destinationPath": "目标路径",
         "userLockStats": "用户锁",
         "userMode": "用户方式",
         "deactivationTime": "停用时间",
         "userId": "用户标识",
         "schedulerJobStats": "调度程序作业",
         "schedulerJobName": "作业名",
-        "endTime": "结束时间"
+        "endTime": "结束时间",
+        "virtualMemory": "虚拟内存",
+        "transactionId": "事务标识",
+        "transactionType": "事务类型",
+        "transactionStatus": "事务状态",
+        "acquiredLockCount": "已获取的锁定计数",
+        "activeStatementCount": "活动语句计数",
+        "transactionStats": "事务统计信息",
+        "currentWorkloadRate": "工作负载速率（每分钟）",
+        "usedMemorySize": "已用内存",
+        "activeStatementStats": "活动语句数",
+        "destinationPath": "目标路径",
+        "systemId": "系统标识",
+        "currentStatementId": "当前语句标识",
+        "connectionId": "连接标识",
+        "statementId": "语句标识",
+        "statementString": "语句字符串",
+        "planId": "计划标识"
       },
       "systemId": "系统标识",
       "databaseName": "数据库名称",
@@ -9483,7 +9500,12 @@
       "threadsJobWorkerBlockedCount": "被阻止的作业工作程序线程",
       "threadsSqlExecutorBlockedCount": "被阻止的 SQL ececutor 线程",
       "queueingConnectionCount": "正在排队的连接计数",
-      "unableToConnect": "无法使用用户 {{user}} 的连接 url {{connectionUrl}} 连接到 {{dbName}}。"
+      "unableToConnect": "无法使用用户 {{user}} 的连接 url {{connectionUrl}} 连接到 {{dbName}}。",
+      "currentStmtExecutionRate": "当前语句执行速率",
+      "currentStmtCompilationRate": "当前语句编译速率",
+      "currentUpdateTransactionRate": "当前更新事务速率",
+      "currentRollbackRate": "当前回滚率",
+      "currentCommitRate": "当前落实率"
     },
     "service": {
       "service": "服务",
@@ -11790,7 +11812,11 @@
       "freeMem": "可用内存",
       "maxMem": "最大内存",
       "totalMem": "总内存",
-      "globalMem": "全局内存管理器"
+      "globalMem": "全局内存管理器",
+      "sourceDatastoreTimeCheckMissed": "缺少源数据存储时间检查",
+      "sourceDatastoreNetworkError": "源数据存储网络错误",
+      "targetDatastoreTimeCheckMissed": "缺少目标数据存储时间检查",
+      "targetDatastoreNetworkError": "目标数据存储网络错误"
     },
     "ibmMqChannel": {
       "dashboard": {
@@ -17155,7 +17181,14 @@
       "rollInTime": "RollIn 时间（毫秒）",
       "rollOutTime": "RollOut 时间（毫秒）",
       "queueTime": "排队时间（毫秒）",
-      "rollWaitTime": "RollWait 时间（毫秒）"
+      "rollWaitTime": "RollWait 时间（毫秒）",
+      "dvUnit": "开发部门",
+      "component": "组件",
+      "probClass": "问题类别",
+      "program": "程序",
+      "msgArea": "消息区域",
+      "developmentClass": "开发类别",
+      "appComponent": "应用程序组件"
     },
     "s3": {
       "region": "区域",
@@ -17184,6 +17217,13 @@
     "session": {
       "sessionStart": "会话启动",
       "sessionHandler": "会话处理程序"
+    },
+    "sequel": {
+      "adapter": "适配器",
+      "database": "数据库",
+      "databaseHost": "数据库主机",
+      "username": "用户名",
+      "sql": "SQL"
     },
     "shell": {
       "shellCommand": "Shell 命令"

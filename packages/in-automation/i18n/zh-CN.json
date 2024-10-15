@@ -107,6 +107,7 @@
     "Step3Headline": "（可选）您可以在创建操作的同时创建自动化策略。 您也可以稍后再完成此步骤。",
     "step1Title": "步骤 1：生成或选择操作",
     "step1TitleGenerateAction": "步骤 1：生成操作",
+    "step1TitleSelectAction": "步骤 1：选择操作",
     "step2Title": "步骤 2：定制操作",
     "step3Title": "步骤 3：创建策略（可选）",
     "policyDetails": "策略详细信息",
@@ -271,9 +272,30 @@
     "newFeature": "新建功能部件",
     "view": "视图",
     "content": "内容",
+    "mustHaveRequiredTag": "操作必须至少包含以下其中一个标记：{{tags}}",
     "deleteDialog": {
       "success": "已成功删除操作。",
       "failure": "未能删除操作: {{errorMessage}}"
+    },
+    "createDialog": {
+      "success": {
+        "title": "已成功创建操作。",
+        "content": "已成功创建操作“{{name}}”。"
+      },
+      "failure": {
+        "title": "创建操作失败。",
+        "content": "创建此操作时出现问题：{{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "已成功更新操作。",
+        "content": "已成功更新操作“{{name}}”。"
+      },
+      "failure": {
+        "title": "更新操作失败。",
+        "content": "更新此操作时出现问题：{{errorMessage}}"
+      }
     }
   },
   "actionHistory": {
@@ -294,6 +316,7 @@
     "eventName": "事件名称",
     "returnCode": "返回码",
     "errorMessage": "错误消息",
+    "risk": "风险",
     "action": "操作",
     "host": "主机",
     "log": "日志",

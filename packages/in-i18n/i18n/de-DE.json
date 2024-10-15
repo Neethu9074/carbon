@@ -20,7 +20,11 @@
       "tableLoadMoreRow": {
         "loadMore": "Mehr laden"
       },
-      "dataTable": "Datentabelle"
+      "dataTable": "Datentabelle",
+      "expandHeader": "Zeile einblenden",
+      "expandRow": "Zeile erweitern umschalten",
+      "select": "Zeile auswählen",
+      "selectedRow": "AusgewählteZeile"
     },
     "tableSkeleton": {
       "sampleTable": "Beispieltabelle"
@@ -29,13 +33,17 @@
       "copy": "Copy",
       "copied": "Kopiert!",
       "showMore": "Erweitern",
-      "showLess": "Reduzieren"
+      "showLess": "Reduzieren",
+      "copytoboard": "In Zwischenablage kopieren"
     },
     "menu": {
       "sideNavigation": "Seitennavigation"
     },
-    "carbonTabs": {
-      "tabs": "Registerkarten"
+    "dropDown": {
+      "selectOption": "Option auswählen"
+    },
+    "tabsNavigation": {
+      "pageNavigation": "Seitennavigation"
     },
     "plg": {
       "dashboardTable": {
@@ -88,7 +96,8 @@
       "previous": "Zurück"
     },
     "states": {
-      "saving": "Speichervorgang läuft..."
+      "saving": "Speichervorgang läuft...",
+      "loading": "Wird geladen..."
     }
   },
   "language_en-US": "Englisch",

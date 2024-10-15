@@ -159,6 +159,7 @@
         "cacheInteraction": "高速缓存交互",
         "instanaDoesNotMonitorTheLocationOfThisCall": "Instana 不监视此调用的 {{location}}",
         "tags": "标记",
+        "metrics": "度量",
         "loading": "正在装入调用详细信息。",
         "labelError": "意外错误",
         "retryError": "无法装入调用详细信息。",
@@ -167,7 +168,10 @@
         "networkTime": "网络时间",
         "waitingTime": "等待时间",
         "latency": "等待时间",
-        "findSQL": "在 {{type}} 中查找 SQL"
+        "findSQL": "在 {{type}} 中查找 SQL",
+        "sumOfLatencies": "延迟时间总计",
+        "elapsedTime": "耗用时间",
+        "batchTooltip": "总计 {{batchCount}} 批类型为 {{type}} 的调用。"
       },
       "callTree": {
         "expandButtonForRow": "展开所有子调用",
@@ -283,6 +287,7 @@
     "labelNetwork": "网络",
     "labelSelf": "自身",
     "labelWaiting": "正在等待",
+    "labelElapsed": "已过时间",
     "labelService": "服务",
     "labelEndpoint": "端点",
     "labelAggregatedTime": "汇总时间",

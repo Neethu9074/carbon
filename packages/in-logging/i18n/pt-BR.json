@@ -1,6 +1,7 @@
 {
   "logs": "Logs",
   "sum": "soma",
+  "count": "count",
   "bar": "Barra",
   "logsOverTime": "Logs ao longo do tempo",
   "logsOverTime_ERROR": "Erro",
@@ -59,6 +60,14 @@
     "summary": "Resumo",
     "smartAlerts": "Alertas inteligentes",
     "deleteLogs": "Excluir logs",
-    "configuration": "Configuração"
+    "configuration": "Configuração",
+    "logVolume": {
+      "logVolumeTitle": "Volume de logs do mês atual",
+      "gb": "GB",
+      "logVolumeIcon": "Acessar o volume de log"
+    },
+    "retentionIcon": "Mudar período de retenção",
+    "noData": "Dados não disponíveis",
+    "analyzeLogs": "Analisar logs"
   }
 }

@@ -159,6 +159,7 @@
         "cacheInteraction": "相互作用のキャッシュ",
         "instanaDoesNotMonitorTheLocationOfThisCall": "Instana はこの呼び出しの {{location}} をモニターしません",
         "tags": "タグ",
+        "metrics": "メトリック",
         "loading": "通話の詳細をロードしています。",
         "labelError": "予期しないエラー",
         "retryError": "通話詳細をロードできませんでした。",
@@ -167,7 +168,10 @@
         "networkTime": "ネットワーク時間",
         "waitingTime": "待機時間",
         "latency": "待ち時間",
-        "findSQL": "{{type}} で SQL を検索します"
+        "findSQL": "{{type}} で SQL を検索します",
+        "sumOfLatencies": "待ち時間の合計",
+        "elapsedTime": "経過時間",
+        "batchTooltip": "{{batchCount}} バッチコールの {{type}} の合計。"
       },
       "callTree": {
         "expandButtonForRow": "すべてのサブ呼び出しを展開",
@@ -283,6 +287,7 @@
     "labelNetwork": "ネットワーク",
     "labelSelf": "セルフ",
     "labelWaiting": "待機中",
+    "labelElapsed": "経過時間",
     "labelService": "サービス",
     "labelEndpoint": "エンドポイント",
     "labelAggregatedTime": "集約時間",

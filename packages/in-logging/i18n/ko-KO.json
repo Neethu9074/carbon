@@ -1,6 +1,7 @@
 {
   "logs": "로그",
   "sum": "합계",
+  "count": "수",
   "bar": "막대",
   "logsOverTime": "시간 경과에 따른 로그",
   "logsOverTime_ERROR": "오류",
@@ -59,6 +60,14 @@
     "summary": "요약",
     "smartAlerts": "스마트 경보",
     "deleteLogs": "로그 삭제",
-    "configuration": "구성"
+    "configuration": "구성",
+    "logVolume": {
+      "logVolumeTitle": "현재 월별 로그 볼륨",
+      "gb": "GB",
+      "logVolumeIcon": "로그 볼륨으로 이동"
+    },
+    "retentionIcon": "보존 기간 변경",
+    "noData": "사용 가능한 데이터 없음",
+    "analyzeLogs": "로그 분석"
   }
 }

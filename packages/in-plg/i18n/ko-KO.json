@@ -64,7 +64,7 @@
       "configurationOptions": "구성 옵션"
     },
     "jvmVendor": {
-      "azulZulu18": "Azul Zulu 1.8",
+      "azulZulu11": "Azul Zulu 11",
       "eclipseOpenJD11": "Eclipse OpenJ9 11"
     },
     "askForHelp": {
@@ -376,7 +376,7 @@
         "dynamic": "동적",
         "static": "정적",
         "runtime": "런타임",
-        "azulZulu": "Azul Zulu 1.8",
+        "azulZulu": "Azul Zulu 11",
         "eclipseOpenJ9": "Eclipse OpenJ9 11",
         "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "2단계: 전제조건을 검토하고 에이전트 배치 코드를 실행하십시오.",
         "installagentOnAWSEC2": "AWS EC2에 에이전트 설치",
@@ -594,7 +594,7 @@
         "label": "비즈니스 모니터링",
         "name": "이름",
         "activities": "활동",
-        "views": "보기",
+        "started": "시작됨",
         "health": "상태",
         "searchPlaceholderLabel": "비즈니스 프로세스",
         "viewAllLabel": "비즈니스 프로세스"

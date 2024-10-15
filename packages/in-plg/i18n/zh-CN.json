@@ -64,7 +64,7 @@
       "configurationOptions": "配置选项"
     },
     "jvmVendor": {
-      "azulZulu18": "Azul Zulu 1.8",
+      "azulZulu11": "Azul Zulu 11",
       "eclipseOpenJD11": "Eclipse OpenJ9 11"
     },
     "askForHelp": {
@@ -376,7 +376,7 @@
         "dynamic": "动态",
         "static": "静态",
         "runtime": "运行时",
-        "azulZulu": "Azul Zulu 1.8",
+        "azulZulu": "Azul Zulu 11",
         "eclipseOpenJ9": "Eclipse OpenJ9 11",
         "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "步骤 2：查看先决条件并运行代理程序部署代码。",
         "installagentOnAWSEC2": "在 AWS EC2 上安装代理程序",
@@ -594,7 +594,7 @@
         "label": "业务监视",
         "name": "名称",
         "activities": "活动",
-        "views": "视图数",
+        "started": "已启动",
         "health": "运行状况",
         "searchPlaceholderLabel": "业务流程",
         "viewAllLabel": "业务流程"

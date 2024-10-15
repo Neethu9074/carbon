@@ -125,7 +125,7 @@
         "numOfApplicationPerspectives": "AP 数",
         "numOfReportingApplicationPerspectives": "報告 AP 数",
         "numOfWebsites": "Web サイト数",
-        "numOfAlertChannels": "アラート・チャネル数",
+        "numOfAlertChannels": "# アラート・チャネル",
         "numOfAlerts": "アラート数",
         "numOfActiveAlerts": "アクティブ・アラート数",
         "numOfReleases": "リリース・マーカー数 / リリース数",

@@ -1,0 +1,9 @@
+{
+  "noMonitoringDataFound": "找不到監視資料",
+  "name": "名稱",
+  "noOfClusters": "叢集數目",
+  "noOfHosts": "主機的數目",
+  "noOfVms": "虛擬機器數目",
+  "nutanix": "Nutanix",
+  "type": "類型"
+}

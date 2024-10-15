@@ -385,7 +385,8 @@
       "secondaryLabels": {
         "tests": "Tests",
         "locations": "Emplacements",
-        "smartAlerts": "Alertes intelligentes"
+        "smartAlerts": "Alertes intelligentes",
+        "credentials": "Données d'identification"
       },
       "popDialog": {
         "popUpDialogTitle": "Droits d'accès pour la surveillance synthétique",
@@ -408,8 +409,6 @@
         "filterLabel": "Applications",
         "singleAppHeader": "{{ number }} association",
         "multiAppHeader": "{{ number }} associations",
-        "singleAppSpan": "{{ number }} application associée",
-        "multiAppSpan": "{{ number }} applications associées",
         "noApplicationsAssociated": "Aucune application associée"
       },
       "multiWebDialog": {
@@ -433,8 +432,15 @@
       "successRate": "Taux de réussite",
       "successRuns": "{{successRuns}} / {{totalRuns}} résultats",
       "latency": "Temps d'attente",
-      "locationLabel": "Emplacement",
-      "locations": "{{totalLocations}} emplacements",
+      "locationLabel": "Emplacements",
+      "locationsColumn": {
+        "singleLocation": "{{number}} emplacement",
+        "multipleLocations": "{{number}} emplacements",
+        "singleRun": "S'exécute dans {{number}} emplacement",
+        "multipleRun": "S'exécute dans {{number}} emplacements",
+        "warning": "Avertissement",
+        "noIssues": "Aucun problème"
+      },
       "associationLabel": "Associations",
       "health": "Intégrité",
       "action": "Action",
@@ -512,8 +518,8 @@
       "meanLatencyFor90th": "{{meanLatencyDetail}} pour 90e",
       "smartAlertsTab": "Alertes intelligentes",
       "configurationTab": "Configuration",
-      "isCertificateValid": "Dernière exécution- Le certificat est valide",
-      "resultsCertificateValid": "Le certificat est valide",
+      "isCertificateValid": "Dernière exécution - Le certificat est signé par l'autorité de certification publique",
+      "resultsCertificateValid": "Le certificat est signé par une autorité de certification publique",
       "certificateValid": "Oui",
       "certificateNotValid": "Non",
       "daysRemaining": "Dernière exécution - Jours restants",

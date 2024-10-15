@@ -107,6 +107,7 @@
     "Step3Headline": "オプションで、アクションと一緒に自動化ポリシーを作成することができます。 このステップは後で完了することもできます。",
     "step1Title": "ステップ 1: アクションの生成または選択",
     "step1TitleGenerateAction": "ステップ 1: アクションの生成",
+    "step1TitleSelectAction": "ステップ 1：アクションの選択",
     "step2Title": "ステップ2: アクションのカスタマイズ",
     "step3Title": "ステップ 3: ポリシーの作成 (オプション)",
     "policyDetails": "ポリシーの詳細",
@@ -271,9 +272,30 @@
     "newFeature": "新機能",
     "view": "表示",
     "content": "内容",
+    "mustHaveRequiredTag": "アクションには、以下のタグのうち少なくとも1つが含まれていなければなりません：{{tags}}",
     "deleteDialog": {
       "success": "アクションは正常に削除されました。",
       "failure": "アクションの削除に失敗しました: {{errorMessage}}"
+    },
+    "createDialog": {
+      "success": {
+        "title": "アクションは正常に作成されました。",
+        "content": "アクション「{{name}}」が正常に作成されました。"
+      },
+      "failure": {
+        "title": "アクションの作成に失敗しました。",
+        "content": "このアクションを作成する際に問題が発生しました：{{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "アクションは正常に更新されました。",
+        "content": "アクション「{{name}}」は正常に更新されました。"
+      },
+      "failure": {
+        "title": "アクションの更新に失敗しました。",
+        "content": "このアクションの更新に問題が発生しました：{{errorMessage}}"
+      }
     }
   },
   "actionHistory": {
@@ -294,6 +316,7 @@
     "eventName": "イベント名",
     "returnCode": "戻りコード",
     "errorMessage": "エラー・メッセージ",
+    "risk": "リスク",
     "action": "アクション",
     "host": "ホスト",
     "log": "ログ",

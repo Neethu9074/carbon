@@ -17,6 +17,7 @@
         "copied": "Widget copié. Utilisez CTRL-V ou CMD-V pour le coller dans n'importe quel tableau de bord personnalisé.",
         "duplicate": "Dupliquer",
         "delete": "Supprimer",
+        "exportPDF": "Télécharger le PDF",
         "customDashboardWidgetTitle": "Widget de tableau de bord personnalisé : {{title}}"
       }
     },
@@ -69,7 +70,11 @@
       "renameDashboard": "Renommer le tableau de bord",
       "dashboardName": "Nom du tableau de bord",
       "rename": "Renommer",
-      "failSaveDashboard": "Echec de la sauvegarde du tableau de bord."
+      "failSaveDashboard": "Echec de la sauvegarde du tableau de bord.",
+      "generatingPDFTitle": "Génération du PDF",
+      "generatingPDFContent": "Veuillez patienter pendant que le PDF est en cours de génération.",
+      "generatedPDFTitle": "PDF généré",
+      "generatedPDFContent": "Le téléchargement du PDF va bientôt commencer."
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "Tableau de bord introuvable",
@@ -93,6 +98,13 @@
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "Impossible d'analyser l'entrée en tant que JSON.",
       "jsonRootMustBeAnObject": "La racine JSON doit être un objet."
+    },
+    "filterContext": {
+      "topLevelFilterPartiallyApplied": "Certains filtres du tableau de bord actuel ont été appliqués.",
+      "topLevelFilterSelectsEverything": "Les filtres du tableau de bord actuel ne s'appliquent pas à ce widget.",
+      "topLevelFilterSelectsNothing": "Les filtres du tableau de bord actuel ne s'appliquent pas à ce widget.",
+      "topLevelFilterNotSupported": "Les filtres du tableau de bord actuel n'ont pas été appliqués à ce widget car il ne prend pas en charge le filtrage.",
+      "topLevelFilterAppliedToSomeDatasets": "Les filtres du tableau de bord actuel n'ont pas été entièrement appliqués à tous les ensembles de données de ce widget."
     }
   },
   "dashboardSwitcher": {
@@ -435,6 +447,25 @@
       }
     },
     "slo": {
+      "general": {
+        "demoWidgetTitle": "Titre du widget",
+        "sloNotFound": "Configuration SLO introuvable"
+      },
+      "v2Form": {
+        "headline": "Sélectionner un objectif de niveau de service",
+        "subheading": "Sélectionnez un SLO existant ou cliquez sur \"Ajouter un nouveau SLO\" pour en créer un nouveau",
+        "addSloButtonLabel": "Ajouter un nouveau SLO",
+        "chartTypeSelectionLabel": "Type de graphique",
+        "chartTypeOption": "",
+        "chartTypeOption_INDICATOR": "Graphique de l'indicateur",
+        "chartTypeOption_ERROR_BUDGET": "Graphique du budget des erreurs",
+        "validators": {
+          "notBlankSloValidator": "Veuillez choisir une configuration SLO dans la liste."
+        }
+      },
+      "v2WidgetHeader": {
+        "indicatorType": "Type d'indicateur :"
+      },
       "demo": {
         "title": "Titre d'objectif de niveau de service",
         "sliName": "Exemple de SLI",

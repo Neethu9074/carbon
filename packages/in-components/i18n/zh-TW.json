@@ -17,9 +17,11 @@
     "chartWrapperMetricNotfound": "找不到度量 ID {{metricId}}。",
     "chartWrapperSameAxisSameValue": "一軸的所有聚集類型都必須具有相同的值。",
     "viewInAnalyticsBtnLabel": "在分析中檢視",
+    "chartLegendBlankLabel": "空白",
     "chartLendMetricTimeShifted": "度量的時間已遷移至：{{timeShiftedLabel}}",
-    "chartDownloadLabel": "下載 JSON",
-    "chartDownloadCSVLabel": "下載 CSV",
+    "chartDownloadLabel": "匯出成 JSON",
+    "chartDownloadCSVLabel": "匯出為 CSV",
+    "chartDownloadPDFLabel": "下載 PDF",
     "chartGlobalHighlightLabel": "在所有圖表上強調顯示",
     "chartZoomInLabel": "縮放至時間範圍",
     "chartAlertsLanePresenterAlertsLabel": "警示",
@@ -64,6 +66,15 @@
   },
   "touchedMessages": {
     "withPath": "{{message}}（位於 <codeWithClass>{{path}}</codeWithClass>）"
+  },
+  "graphView": {
+    "graphTitle": "圖形",
+    "explanationHeader": "動態圖形展示",
+    "explanationP1": "推動 Instana 的核心技術我們稱為「動態圖形」。 「圖形」是您應用程式的模型，可瞭解元件的所有實體與邏輯相依關係。 在右邊，您會看到現行環境的「動態圖形」！",
+    "explanationP2": "該圖包含 Instana 代理程式和感測器自動探索到的所有資源及其相依性，以便該圖持續保持最新。 該圖中的每個節點也會不斷更新狀態資訊，例如指標、配置資料和基於語意知識計算的性能值。 此知識也會分析圖形中的相依關係，來尋找服務和應用程式等之類的邏輯分組，以瞭解對該層次的影響，並衍生問題的嚴重性。 整個圖形會持續存在，您可以適時地反覆來回，以便將圖形的知識運用於許多的作業使用案例中。",
+    "explanationP3": "您可以透過在基礎架構圖上選取資源並回到此頁面來過濾右側的視圖。 選取資源後，應在允許此過濾的 URL 中設定 snapshotId 參數。",
+    "explanationLink": "<linkToBlog>請造訪我們的部落格</linkToBlog>以獲取更多資訊。",
+    "closeBtn": "關閉圖形"
   },
   "releaseNotesDialog": {
     "releaseNotesTitle": "版本注意事項"
@@ -231,6 +242,7 @@
     "labelRegion": "地區",
     "labelTag": "標籤",
     "labelCommit": "確定",
+    "buttonGraphShowcase": "圖形展示",
     "geo": {
       "title": "地理資料",
       "description": "本產品包含透過 MaxMind 建立的 GeoLite2 資料；如需 MaxMind 相關資訊，請造訪 <linkToMaxMind>https://www.maxmind.com</linkToMaxMind>。"
@@ -299,8 +311,6 @@
     "labelExpandButtonForContent": "內容的展開按鈕"
   },
   "featureFeedback": {
-    "labelPublicPreview": "預覽",
-    "labelPrivatePreview": "預覽",
     "linkLabelYouCanSendUsFeedback": "您可以傳送意見給我們"
   },
   "geoHeatMap": {
@@ -353,7 +363,19 @@
     "openIncidents_1": "{{count}} 個事故",
     "openIncidents_2": "{{count}} 個事故",
     "labelWarning": "警告",
-    "labelCritical": "重大"
+    "labelCritical": "重大",
+    "carbonNoIssues": "沒有問題",
+    "carbonOpenIssues": "{{count}} 個問題",
+    "carbonOpenIssues_plural": "{{count}} 個問題",
+    "carbonOpenIssues_0": "{{count}} 個問題",
+    "carbonOpenIssues_1": "{{count}} 個問題",
+    "carbonOpenIssues_2": "{{count}} 個問題",
+    "carbonNoIncidents": "無記事",
+    "carbonOpenIncidents": "{{count}} 個發生事件",
+    "carbonOpenIncidents_plural": "{{count}} 個發生事件",
+    "carbonOpenIncidents_0": "{{count}} 個發生事件",
+    "carbonOpenIncidents_1": "{{count}} 個發生事件",
+    "carbonOpenIncidents_2": "{{count}} 個發生事件"
   },
   "vulnerabilities": {
     "eventType_issue": "漏洞",
@@ -377,7 +399,19 @@
     "openIncidents_plural": "{{count}} 個事故",
     "openIncidents_0": "{{count}} 個事故",
     "openIncidents_1": "{{count}} 個事故",
-    "openIncidents_2": "{{count}} 個事故"
+    "openIncidents_2": "{{count}} 個事故",
+    "carbonNoVulnerabilities": "無漏洞",
+    "carbonOpenVulnerabilities": "{{count}} 個漏洞",
+    "carbonOpenVulnerabilities_plural": "{{count}} 個漏洞",
+    "carbonOpenVulnerabilities_0": "{{count}} 個漏洞",
+    "carbonOpenVulnerabilities_1": "{{count}} 個漏洞",
+    "carbonOpenVulnerabilities_2": "{{count}} 個漏洞",
+    "carbonNoIncidents": "無記事",
+    "carbonOpenIncidents": "{{count}} 個發生事件",
+    "carbonOpenIncidents_plural": "{{count}} 個發生事件",
+    "carbonOpenIncidents_0": "{{count}} 個發生事件",
+    "carbonOpenIncidents_1": "{{count}} 個發生事件",
+    "carbonOpenIncidents_2": "{{count}} 個發生事件"
   },
   "inlineTabNavigation": {
     "labelSelectTab": "選取標籤"
@@ -703,6 +737,7 @@
     },
     "groupName": "群組名稱",
     "groupedOnly": "度量僅適用於分析群組時。",
+    "groupNameNotAvailable": "{{groupbyTag}} 資訊無法使用",
     "filterSidebar": {
       "groupingButton": "依 {{group}} 分組",
       "ungroupButton": "移除分組"

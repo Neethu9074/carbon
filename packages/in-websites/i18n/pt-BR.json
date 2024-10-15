@@ -479,10 +479,6 @@
         "alertConfigurationTitleTimeThreshold": "Limite de tempo",
         "alertConfigurationTitleAlertChannels": "Canais de alerta",
         "alertConfigurationTitleAlertProperties": "Propriedades de alerta",
-        "filter": "filtro",
-        "filter_plural": "filtros",
-        "moreFiltersWithCount": "+{{count}} mais filtro",
-        "moreFiltersWithCount_plural": "+{{count}} mais filtros",
         "alertsLabelFilters": "Filtros"
       },
       "configuration": {
@@ -493,7 +489,7 @@
         "configurationRenameTitle": "Renomear website",
         "configurationRenameButton": "Renomear",
         "configurationTrackingScriptTitle": "Script de rastreamento do agente",
-        "configurationUserAgentVersion": "A atual versão do agente é <strong>{{agentVersion}}</strong>.",
+        "configurationUserAgentVersion": "Sua versão atual do agente é {{agentVersion}}.",
         "saved": "Salvas",
         "ipMasking": {
           "title": "Mascaramento de IP",
@@ -820,6 +816,8 @@
     "websiteDashboardTitleWebsite": "Website",
     "websiteDashboardButtonAnalyzePageLoads": "Analisar carregamentos de página",
     "websiteDashboardButtonAnalyzePageTransitions": "Analisar transições de página",
+    "websiteDashboardWarnOldAgentVersion": "<strong>Você está usando a versão {{currentVersion}} do agente do site da Instana, que está desatualizada</strong>. Atualize-o para a última versão, {{latestVersion}}, na <configTab>guia Configuração.</configTab>",
+    "websiteDashboardWarnDeprecatedAgentVersion": "<strong>A versão do agente do website Instana {{currentVersion}} será descontinuada em {{deprecationDate}}.</strong> Atualize-o para a última versão, {{latestVersion}}, na <configTab>guia Configuração.</configTab>",
     "noDataAvailable": {
       "pagesTitle": "Nenhuma página disponível",
       "pagesDescription": "Não houve páginas recuperadas para o intervalo de tempo selecionado.",

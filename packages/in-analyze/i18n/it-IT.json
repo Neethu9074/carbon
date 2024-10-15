@@ -159,6 +159,7 @@
         "cacheInteraction": "Interazione cache",
         "instanaDoesNotMonitorTheLocationOfThisCall": "Instana non monitora la {{location}} di questa chiamata",
         "tags": "Tag",
+        "metrics": "Metriche",
         "loading": "Caricamento dei dettagli della chiamata.",
         "labelError": "Errore non previsto",
         "retryError": "Non è stato possibile caricare i dettagli della chiamata.",
@@ -167,7 +168,10 @@
         "networkTime": "Tempo di rete",
         "waitingTime": "Tempo di attesa",
         "latency": "Latenza",
-        "findSQL": "Trova SQL in {{type}}"
+        "findSQL": "Trova SQL in {{type}}",
+        "sumOfLatencies": "Somma delle latenze",
+        "elapsedTime": "Tempo trascorso",
+        "batchTooltip": "Totale {{type}} per {{batchCount}} chiamate batch."
       },
       "callTree": {
         "expandButtonForRow": "Espandi tutte le chiamate secondarie",
@@ -283,6 +287,7 @@
     "labelNetwork": "Rete",
     "labelSelf": "Automatico",
     "labelWaiting": "In attesa",
+    "labelElapsed": "Tempo trascorso",
     "labelService": "Servizio",
     "labelEndpoint": "Endpoint",
     "labelAggregatedTime": "Tempo aggregato",

@@ -1,6 +1,7 @@
 {
   "logs": "Registros",
   "sum": "suma",
+  "count": "count",
   "bar": "Barra",
   "logsOverTime": "Registros a lo largo del tiempo",
   "logsOverTime_ERROR": "Error",
@@ -59,6 +60,14 @@
     "summary": "Resumen",
     "smartAlerts": "Alertas inteligentes",
     "deleteLogs": "Suprimir registros",
-    "configuration": "Configuración"
+    "configuration": "Configuración",
+    "logVolume": {
+      "logVolumeTitle": "Volumen de registro del mes en curso",
+      "gb": "ES",
+      "logVolumeIcon": "Ir al volumen de registro"
+    },
+    "retentionIcon": "Cambiar periodo de retención",
+    "noData": "No hay datos disponibles.",
+    "analyzeLogs": "Analizar registros"
   }
 }

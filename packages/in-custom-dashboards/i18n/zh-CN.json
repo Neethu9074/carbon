@@ -17,6 +17,7 @@
         "copied": "已复制窗口小部件，使用 CTRL-V 或 CMD-V 在任何定制仪表板上粘贴",
         "duplicate": "复制",
         "delete": "删除",
+        "exportPDF": "下载 PDF",
         "customDashboardWidgetTitle": "定制仪表板窗口小部件：{{title}}"
       }
     },
@@ -69,7 +70,11 @@
       "renameDashboard": "重命名仪表板",
       "dashboardName": "仪表板名称",
       "rename": "重命名",
-      "failSaveDashboard": "无法保存仪表板。"
+      "failSaveDashboard": "无法保存仪表板。",
+      "generatingPDFTitle": "正在生成 pdf",
+      "generatingPDFContent": "请稍候，正在生成 PDF 文件。",
+      "generatedPDFTitle": "已生成 PDF",
+      "generatedPDFContent": "pdf 下载即将开始。"
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "仪表板找不到",
@@ -93,6 +98,13 @@
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "无法将输入解析为 JSON。",
       "jsonRootMustBeAnObject": "JSON 根必须为一个对象。"
+    },
+    "filterContext": {
+      "topLevelFilterPartiallyApplied": "应用了某些当前仪表盘过滤器。",
+      "topLevelFilterSelectsEverything": "当前仪表盘过滤器不适用于此窗口小部件。",
+      "topLevelFilterSelectsNothing": "当前仪表盘过滤器不适用于此窗口小部件。",
+      "topLevelFilterNotSupported": "当前仪表板过滤器未应用于该窗口部件，因为该窗口小部件不支持过滤操作。",
+      "topLevelFilterAppliedToSomeDatasets": "当前仪表板过滤器未完全应用于该窗口小部件中的所有数据集。"
     }
   },
   "dashboardSwitcher": {
@@ -435,6 +447,25 @@
       }
     },
     "slo": {
+      "general": {
+        "demoWidgetTitle": "窗口小部件标题",
+        "sloNotFound": "未找到 SLO 配置"
+      },
+      "v2Form": {
+        "headline": "选择服务级别目标",
+        "subheading": "选择一个现有的 SLO，或单击“添加新的 SLO”以创建一个新的 SLO",
+        "addSloButtonLabel": "添加新的 SLO",
+        "chartTypeSelectionLabel": "图表类型",
+        "chartTypeOption": "",
+        "chartTypeOption_INDICATOR": "指示符图",
+        "chartTypeOption_ERROR_BUDGET": "误差预算图",
+        "validators": {
+          "notBlankSloValidator": "请从列表中选择一个 SLO 配置。"
+        }
+      },
+      "v2WidgetHeader": {
+        "indicatorType": "指示符类型："
+      },
       "demo": {
         "title": "SLO 标题",
         "sliName": "示例 SLI",

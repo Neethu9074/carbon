@@ -26,7 +26,7 @@
     "alertPropertyInfosLabelDescription": "說明",
     "noChannelSelectedText": "目前，您尚未選取警示通道，而不會收到任何警示。",
     "scopeConfigPresenterHelpTextAdditionalFilters": "其他過濾器",
-    "groupBy": "分組依據",
+    "groupBy": "分組方式",
     "noChannelAvailable": "沒有可用的警示通道",
     "optional": "伺服器配接卡的",
     "revisionDropdownButton": {
@@ -529,7 +529,7 @@
         "step3Title": "定義分組",
         "step4Title": "定義何時收到警示",
         "alertHeadline": "選擇您想要收到警示通知的內容",
-        "step5Title": "定義警示屬性",
+        "step5Title": "定義警示內容",
         "step6Title": "定義警示通道",
         "grouping": {
           "title": "群組呼叫",
@@ -550,7 +550,7 @@
           "groupByEndpoint_1": "{{count}} 個端點",
           "groupByEndpoint_2": "{{count}} 個端點",
           "groupbyDescription": "根據過去 24 小時內進行的呼叫",
-          "noData": "沒有可用的分組資料。",
+          "noData": "過去 24 小時內，範圍內沒有應用程式、服務或端點記錄任何呼叫。",
           "groupByDataFailed": "發生錯誤。 無法擷取群組資料。 原因：{{reason}}"
         },
         "callsInScope": {
@@ -601,7 +601,8 @@
           "metricLabel": "{{metricLabel}} 百分位延遲",
           "minLatency": "最小延遲",
           "maxLatency": "最大延遲",
-          "meanLatency": "平均延遲"
+          "meanLatency": "平均延遲",
+          "sumLatency": "總延遲"
         },
         "timeThreshold": {
           "title": "在違規觸發警示時設定",
@@ -657,7 +658,7 @@
     },
     "list": {
       "header": {
-        "configuredAlerts": "已配置警示 ({{numberOfAlerts}})"
+        "configuredAlerts": "已配置的警示數 ({{numberOfAlerts}})"
       },
       "columns": {
         "name": "名稱"
@@ -674,6 +675,7 @@
       "ruleAggregationOptionP98": "第 98 個",
       "ruleAggregationOptionP99": "第 99 個",
       "ruleAggregationOptionMAX": "最大值",
+      "ruleAggregationOptionSUM": "總和",
       "ruleAggregationForWeeklySeasonalityOptionMEAN": "平均值",
       "ruleAggregationForWeeklySeasonalityOptionP50": "第 50 個",
       "ruleStatusCodeValueOption1": "1XX（參考資訊）",
@@ -828,17 +830,17 @@
         "timeThresholdDescriptionViolationsInPeriod_0": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 項違規",
         "timeThresholdDescriptionViolationsInPeriod_1": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 項違規",
         "timeThresholdDescriptionViolationsInPeriod_2": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 項違規",
-        "timeThresholdConfigNumberOfConsecutiveViolations": "連續度量違規數",
-        "timeThresholdConfigNumberOfConsecutiveEvaluations": "連續評估數",
-        "timeThresholdConfigNumberOfEvaluationWindows": "連續違規數",
+        "timeThresholdConfigNumberOfConsecutiveViolations": "連續度量違規的數目",
+        "timeThresholdConfigNumberOfConsecutiveEvaluations": "連續評估的數目",
+        "timeThresholdConfigNumberOfEvaluationWindows": "連續違規的數目",
         "timeThresholdConfigImpactEvaluationMethod": "使用者影響評估方法",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "針對所有評估範圍進行總計",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "針對每個評估範圍計算",
-        "timeThresholdConfigNumberOfViolations": "度量違規數",
+        "timeThresholdConfigNumberOfViolations": "度量違規的數目",
         "timeThresholdConfigEvaluationGranularity": "評估精度",
         "granularityTooltipText": "這裡設定的時間精度將決定評估臨界值的頻率。",
-        "timeThresholdConfigNumberOfTracesThreshold": "受到影響的追蹤數",
-        "timeThresholdConfigNumberOfImpactedUsersThreshold": "受影響使用者數",
+        "timeThresholdConfigNumberOfTracesThreshold": "受影響追蹤的數目",
+        "timeThresholdConfigNumberOfImpactedUsersThreshold": "受影響使用者的數目",
         "timeThresholdConfigAtLeast": "至少",
         "timeThresholdConfigNumberOfTraces": "受到影響的追蹤數",
         "timeThresholdConfigMinutes": "{{min}} 分鐘",
@@ -875,6 +877,7 @@
         "buttonMigrate": "移轉",
         "selectedBlueprint": "選取的藍圖",
         "buttonRecalculateBaseline": "重新計算基準線",
+        "buttonRecalculateBaselineDisabled": "重新計算基線（已停用）",
         "sensitivitySliderLow": "低",
         "sensitivitySliderHigh": "高",
         "sensitivitySliderValueLabel": "{{count}} 個標準差",
@@ -1079,7 +1082,17 @@
             "subtitleForStaticDailySeasonality": "靜態每日週期性，{{metricLabel}}",
             "subtitleForStaticWeeklySeasonality": "靜態每週週期性，{{metricLabel}}",
             "subtitleForAdaptiveThreshold": "調適性臨界值，{{metricLabel}}"
-          }
+          },
+          "moreFiltersWithCount": "+{{count}} 個以上的過濾器",
+          "moreFiltersWithCount_plural": "+{{count}} 個以上的過濾器",
+          "moreFiltersWithCount_0": "+{{count}} 個以上的過濾器",
+          "moreFiltersWithCount_1": "+{{count}} 個以上的過濾器",
+          "moreFiltersWithCount_2": "+{{count}} 個以上的過濾器",
+          "filter": "過濾器",
+          "filter_plural": "過濾器",
+          "filter_0": "過濾器",
+          "filter_1": "過濾器",
+          "filter_2": "過濾器"
         }
       }
     },

@@ -146,7 +146,7 @@
   "permissionCanViewTraceDetailsCategory": "访问控制",
   "permissionCanViewAccountAndBillingInformationLabel": "访问帐户和帐单信息",
   "permissionCanViewAccountAndBillingInformationDescription": "允许访问帐户、计费和许可证信息。",
-  "permissionCanViewAccountAndBillingInformationCategory": "帐户信息",
+  "permissionCanViewAccountAndBillingInformationCategory": "全局函数",
   "permissionCanConfigureSyntheticTestsLabel": "配置合成测试",
   "permissionCanConfigureSyntheticTestsDescription": "允许访问以创建、更新和删除合成测试。",
   "permissionCanConfigureSyntheticLocationsLabel": "配置合成位置",

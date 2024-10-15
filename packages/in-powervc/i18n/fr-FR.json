@@ -20,6 +20,7 @@
   "totalMemory": "Mémoire totale",
   "totalStorage": "Espace de stockage total",
   "totalCapacity": "Capacité totale",
+  "cpuUtilizationPercent": "Utilisation de l'unité centrale (%)",
   "availableCapacity": "Capacité disponible",
   "volumeCount": "Nombre de volumes",
   "cpuArch": "Architecture d'UC",

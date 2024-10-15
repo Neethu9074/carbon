@@ -107,6 +107,7 @@
     "Step3Headline": "선택사항으로 조치와 함께 자동화 정책을 작성할 수 있습니다. 이 단계는 나중에 완료할 수도 있습니다.",
     "step1Title": "1단계: 조치 생성 또는 선택",
     "step1TitleGenerateAction": "1단계: 조치 생성",
+    "step1TitleSelectAction": "1단계: 작업 선택",
     "step2Title": "2단계: 조치 사용자 정의",
     "step3Title": "3단계: 정책 작성(선택사항)",
     "policyDetails": "정책 세부사항",
@@ -271,9 +272,30 @@
     "newFeature": "새 기능",
     "view": "보기",
     "content": "컨텐츠",
+    "mustHaveRequiredTag": "작업에는 다음 태그 중 하나 이상이 포함되어야 합니다. {{tags}}",
     "deleteDialog": {
       "success": "액션이 삭제되었습니다.",
       "failure": "조치 삭제 실패: {{errorMessage}}"
+    },
+    "createDialog": {
+      "success": {
+        "title": "액션이 작성되었습니다.",
+        "content": "{{name}}\" 작업이 성공적으로 생성되었습니다."
+      },
+      "failure": {
+        "title": "작업을 만들지 못했습니다.",
+        "content": "이 작업을 만드는 동안 문제가 발생했습니다. {{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "작업이 성공적으로 업데이트되었습니다.",
+        "content": "\"{{name}}\" 작업이 성공적으로 업데이트되었습니다."
+      },
+      "failure": {
+        "title": "작업을 업데이트하지 못했습니다.",
+        "content": "이 작업을 업데이트하는 동안 문제가 발생했습니다. {{errorMessage}}"
+      }
     }
   },
   "actionHistory": {
@@ -294,6 +316,7 @@
     "eventName": "이벤트 이름",
     "returnCode": "리턴 코드",
     "errorMessage": "오류 메시지",
+    "risk": "위험",
     "action": "조치",
     "host": "호스트",
     "log": "log",

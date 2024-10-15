@@ -1,6 +1,7 @@
 {
   "logs": "Journaux",
   "sum": "somme",
+  "count": "nombre",
   "bar": "Barre",
   "logsOverTime": "Journaux au fil du temps",
   "logsOverTime_ERROR": "Erreur",
@@ -59,6 +60,14 @@
     "summary": "Récapitulatif",
     "smartAlerts": "Alertes intelligentes",
     "deleteLogs": "Supprimer les journaux",
-    "configuration": "Configuration"
+    "configuration": "Configuration",
+    "logVolume": {
+      "logVolumeTitle": "Volume journal du mois en cours",
+      "gb": "Go",
+      "logVolumeIcon": "Aller au volume journal"
+    },
+    "retentionIcon": "Modifier la durée de conservation",
+    "noData": "Aucune donnée disponible",
+    "analyzeLogs": "Analyser les journaux"
   }
 }

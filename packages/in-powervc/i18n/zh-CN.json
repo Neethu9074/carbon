@@ -20,6 +20,7 @@
   "totalMemory": "总内存",
   "totalStorage": "总存储容量",
   "totalCapacity": "总容量",
+  "cpuUtilizationPercent": "CPU 利用率 (%)",
   "availableCapacity": "可用容量",
   "volumeCount": "卷计数",
   "cpuArch": "CPU 体系结构",

@@ -146,7 +146,7 @@
   "permissionCanViewTraceDetailsCategory": "Zugriffssteuerung",
   "permissionCanViewAccountAndBillingInformationLabel": "Zugriff auf Account- und Rechnungsinformationen",
   "permissionCanViewAccountAndBillingInformationDescription": "Ermöglicht den Zugriff auf Konto-, Abrechnungs- und Lizenzinformationen",
-  "permissionCanViewAccountAndBillingInformationCategory": "Accountinformationen",
+  "permissionCanViewAccountAndBillingInformationCategory": "Globale Funktionen",
   "permissionCanConfigureSyntheticTestsLabel": "Konfiguration von synthetischen Tests",
   "permissionCanConfigureSyntheticTestsDescription": "Gewährt Zugriff zum Erstellen, Aktualisieren und Löschen von synthetischen Tests.",
   "permissionCanConfigureSyntheticLocationsLabel": "Konfiguration von synthetischen Standorten",

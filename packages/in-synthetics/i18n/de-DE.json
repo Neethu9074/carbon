@@ -385,7 +385,8 @@
       "secondaryLabels": {
         "tests": "Tests",
         "locations": "Standorte",
-        "smartAlerts": "Smart Alerts"
+        "smartAlerts": "Smart Alerts",
+        "credentials": "Berechtigungsnachweise"
       },
       "popDialog": {
         "popUpDialogTitle": "Berechtigungen für synthetische Überwachung",
@@ -408,8 +409,6 @@
         "filterLabel": "Anwendungen",
         "singleAppHeader": "{{ number }} Zuordnung",
         "multiAppHeader": "{{ number }} Zuordnungen",
-        "singleAppSpan": "{{ number }} Zugeordnete Anwendung",
-        "multiAppSpan": "{{ number }} Zugeordnete Anwendungen",
         "noApplicationsAssociated": "Keine zugeordneten Anwendungen"
       },
       "multiWebDialog": {
@@ -433,8 +432,15 @@
       "successRate": "Erfolgsquote",
       "successRuns": "{{successRuns}} / {{totalRuns}} Ergebnisse",
       "latency": "Latenzzeit",
-      "locationLabel": "Standort",
-      "locations": "{{totalLocations}} Positionen",
+      "locationLabel": "Standorte",
+      "locationsColumn": {
+        "singleLocation": "{{number}} Standort",
+        "multipleLocations": "{{number}} Standorte",
+        "singleRun": "Läuft in {{number}} Ort",
+        "multipleRun": "Läuft in {{number}} Orten",
+        "warning": "Warnung",
+        "noIssues": "Keine Probleme"
+      },
       "associationLabel": "Zuordnungen",
       "health": "Status",
       "action": "Aktion",
@@ -512,8 +518,8 @@
       "meanLatencyFor90th": "{{meanLatencyDetail}} für 90.",
       "smartAlertsTab": "Smart Alerts",
       "configurationTab": "Konfiguration",
-      "isCertificateValid": "Letzte Ausführung-Zertifikat ist gültig",
-      "resultsCertificateValid": "Zertifikat ist gülitg",
+      "isCertificateValid": "Letzter Lauf - Zertifikat wird von öffentlicher CA signiert",
+      "resultsCertificateValid": "Das Zertifikat ist von einer öffentlichen CA signiert",
       "certificateValid": "Ja",
       "certificateNotValid": "Nein",
       "daysRemaining": "Letzte Ausführung - Tage verbleibend",

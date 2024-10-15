@@ -64,7 +64,7 @@
       "configurationOptions": "Opzioni di configurazione"
     },
     "jvmVendor": {
-      "azulZulu18": "Azul Zulu 1.8",
+      "azulZulu11": "Azul Zulu 11",
       "eclipseOpenJD11": "Eclipse OpenJ9 11"
     },
     "askForHelp": {
@@ -376,7 +376,7 @@
         "dynamic": "Dinamico",
         "static": "Statico",
         "runtime": "Runtime",
-        "azulZulu": "Azul Zulu 1.8",
+        "azulZulu": "Azul Zulu 11",
         "eclipseOpenJ9": "Eclipse OpenJ9 11",
         "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Passo 2: esaminare i prerequisiti ed eseguire il codice di distribuzione dell'agent.",
         "installagentOnAWSEC2": "Installare l'agent su AWS EC2",
@@ -594,7 +594,7 @@
         "label": "Monitoraggio del business",
         "name": "Nome",
         "activities": "Attività",
-        "views": "Viste",
+        "started": "Avviato",
         "health": "Integrità",
         "searchPlaceholderLabel": "processi di business",
         "viewAllLabel": "processi di business"

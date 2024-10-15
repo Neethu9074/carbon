@@ -479,10 +479,6 @@
         "alertConfigurationTitleTimeThreshold": "时间阈值",
         "alertConfigurationTitleAlertChannels": "警报通道",
         "alertConfigurationTitleAlertProperties": "警报属性",
-        "filter": "过滤器",
-        "filter_plural": "过滤器",
-        "moreFiltersWithCount": "+其他 {{count}} 个过滤器",
-        "moreFiltersWithCount_plural": "+其他 {{count}} 个过滤器",
         "alertsLabelFilters": "过滤器"
       },
       "configuration": {
@@ -493,7 +489,7 @@
         "configurationRenameTitle": "重命名 Web 站点",
         "configurationRenameButton": "重命名",
         "configurationTrackingScriptTitle": "代理程序跟踪脚本",
-        "configurationUserAgentVersion": "您当前的代理程序版本为 <strong>{{agentVersion}}</strong>。",
+        "configurationUserAgentVersion": "您当前的代理程序版本为 {{agentVersion}}。",
         "saved": "已保存",
         "ipMasking": {
           "title": "IP 掩蔽",
@@ -820,6 +816,8 @@
     "websiteDashboardTitleWebsite": "Web 站点",
     "websiteDashboardButtonAnalyzePageLoads": "分析页面装入",
     "websiteDashboardButtonAnalyzePageTransitions": "分析页面转换",
+    "websiteDashboardWarnOldAgentVersion": "<strong>您正在使用的 Instana 网站代理程序版本 {{currentVersion}} 已过时</strong>。 请在<configTab>配置</configTab>选项卡中将其更新为最新版本 {{latestVersion}}。",
+    "websiteDashboardWarnDeprecatedAgentVersion": "<strong>Instana 网站代理程序的版本 {{currentVersion}} 将于 {{deprecationDate}} 被废弃。</strong> 请在<configTab>配置</configTab>选项卡中将其更新为最新版本 {{latestVersion}}。",
     "noDataAvailable": {
       "pagesTitle": "无可用页面",
       "pagesDescription": "在所选时间范围内未检索到任何页面。",

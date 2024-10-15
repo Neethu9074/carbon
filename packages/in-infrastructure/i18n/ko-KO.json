@@ -75,8 +75,8 @@
     "restartCount": "다시 시작 개수",
     "kubernetesLabels": "Kubernetes 레이블",
     "podmanAnnotations": "Podman 주석",
-    "metricExplosionBeeInstana": "{{numberOfMetrics}}개만 저장되었으므로 이 대시보드에는 모든 메트릭이 표시되지 않을 수 있음",
-    "metricExplosion": "이 대시보드에는 {{numberOfMetrics}}개의 고해상도 메트릭만 저장되었으므로 모든 메트릭이 표시되지 않을 수 있습니다. 추가 메트릭을 보려면 인프라 분석 또는 사용자 정의 대시보드를 사용하십시오."
+    "metricExplosionBeeInstana": "이 대시보드에는 주어진 시간에 최대 {{numberOfMetrics}} 지표가 캡처되므로 모든 지표가 표시되지 않을 수 있습니다.",
+    "metricExplosion": "이 대시보드에는 주어진 시간에 최대 {{numberOfMetrics}} 고해상도 지표가 캡처되므로 모든 지표가 표시되지 않을 수 있습니다. 추가 메트릭을 보려면 인프라 분석 또는 사용자 정의 대시보드를 사용하십시오."
   },
   "explore": {
     "analyzeInfrastructure": "인프라 분석",

@@ -656,7 +656,15 @@
     "applicationArea": "Anwendungsbereich",
     "messageNumber": "Nachrichtennummer",
     "line": "Linie",
-    "noVariableMsgPart": "Variable Anzahl von Meldungen"
+    "noVariableMsgPart": "Variable Anzahl von Meldungen",
+    "transportRequest": "Transportanforderungen",
+    "category": "Kategorie",
+    "target": "Ziel",
+    "modifiable": "Änderbar",
+    "protected": "Geschützt",
+    "releasedStarted": "Freigabe gestartet",
+    "httpRespTime": "HTTP",
+    "httpsRespTime": "HTTPS"
   },
   "viewAllEntityName_unknownEntity_plural": "alle",
   "viewAllEntityName_unknownEntity_0": "alle",

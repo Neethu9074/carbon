@@ -107,6 +107,7 @@
     "Step3Headline": "Facoltativamente, è possibile creare una politica di automazione insieme all'azione. È possibile completare questo passo anche in un secondo momento.",
     "step1Title": "Passo 1: Generare o selezionare un'azione",
     "step1TitleGenerateAction": "Passo 1: Generare un'azione",
+    "step1TitleSelectAction": "Passo 1: Selezionare un'azione",
     "step2Title": "Passo 2: personalizzare l'azione",
     "step3Title": "Passo 3: Creare una politica (facoltativo)",
     "policyDetails": "Dettagli politica",
@@ -271,9 +272,30 @@
     "newFeature": "Nuova funzione",
     "view": "Vista",
     "content": "Contenuto",
+    "mustHaveRequiredTag": "L'azione deve contenere almeno uno dei seguenti tag: {{tags}}",
     "deleteDialog": {
       "success": "L'azione è stata eliminata correttamente.",
       "failure": "Impossibile eliminare l'azione: {{errorMessage}} ."
+    },
+    "createDialog": {
+      "success": {
+        "title": "L'azione è stata creata correttamente.",
+        "content": "L'azione \"{{name}}\" è stata creata correttamente."
+      },
+      "failure": {
+        "title": "Impossibile creare l'azione.",
+        "content": "Si è verificato un problema durante la creazione di questa azione: {{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "L'azione è stata aggiornata correttamente.",
+        "content": "L'azione \"{{name}}\" è stata aggiornata correttamente."
+      },
+      "failure": {
+        "title": "Impossibile aggiornare l'azione.",
+        "content": "Si è verificato un problema durante l'aggiornamento di questa azione: {{errorMessage}}"
+      }
     }
   },
   "actionHistory": {
@@ -294,6 +316,7 @@
     "eventName": "Nome evento",
     "returnCode": "Codice di ritorno",
     "errorMessage": "Messaggio di errore",
+    "risk": "Rischio",
     "action": "Azione",
     "host": "Host",
     "log": "Log",

@@ -146,7 +146,7 @@
   "permissionCanViewTraceDetailsCategory": "アクセス制御",
   "permissionCanViewAccountAndBillingInformationLabel": "アカウントおよび請求情報に対するアクセス権限",
   "permissionCanViewAccountAndBillingInformationDescription": "アカウント、請求、およびライセンス情報へのアクセスを許可します。",
-  "permissionCanViewAccountAndBillingInformationCategory": "アカウント情報",
+  "permissionCanViewAccountAndBillingInformationCategory": "グローバル関数",
   "permissionCanConfigureSyntheticTestsLabel": "シンセティック・テストの構成",
   "permissionCanConfigureSyntheticTestsDescription": "シンセティック・テストを作成、更新、および削除するためのアクセスを許可します。",
   "permissionCanConfigureSyntheticLocationsLabel": "シンセティック・ロケーションの構成",

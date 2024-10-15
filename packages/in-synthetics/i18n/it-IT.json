@@ -385,7 +385,8 @@
       "secondaryLabels": {
         "tests": "Test",
         "locations": "Ubicazioni",
-        "smartAlerts": "Avvisi smart"
+        "smartAlerts": "Avvisi smart",
+        "credentials": "Credenziali"
       },
       "popDialog": {
         "popUpDialogTitle": "Autorizzazioni per il monitoraggio sintetico",
@@ -408,8 +409,6 @@
         "filterLabel": "Applicazioni",
         "singleAppHeader": "{{ number }} associazione",
         "multiAppHeader": "{{ number }} associazioni",
-        "singleAppSpan": "{{ number }} applicazione associata",
-        "multiAppSpan": "{{ number }} applicazioni associate",
         "noApplicationsAssociated": "Nessuna applicazione associata"
       },
       "multiWebDialog": {
@@ -433,8 +432,15 @@
       "successRate": "Frequenza operazioni riuscite",
       "successRuns": "{{successRuns}} / {{totalRuns}} risultati",
       "latency": "Latenza",
-      "locationLabel": "Ubicazione",
-      "locations": "{{totalLocations}} ubicazioni",
+      "locationLabel": "Ubicazioni",
+      "locationsColumn": {
+        "singleLocation": "{{number}} ubicazione",
+        "multipleLocations": "{{number}} ubicazioni",
+        "singleRun": "Esecuzioni in {{number}} ubicazione",
+        "multipleRun": "Esecuzioni in {{number}} ubicazioni",
+        "warning": "Avvertenza",
+        "noIssues": "Nessun problema"
+      },
       "associationLabel": "Associazioni",
       "health": "Integrità",
       "action": "Azione",
@@ -512,8 +518,8 @@
       "meanLatencyFor90th": "{{meanLatencyDetail}} per 90esimo",
       "smartAlertsTab": "Avvisi smart",
       "configurationTab": "Configurazione",
-      "isCertificateValid": "Ultima esecuzione - Certificato valido",
-      "resultsCertificateValid": "Il certificato è valido",
+      "isCertificateValid": "Ultima esecuzione - Il certificato è firmato da CA pubblica",
+      "resultsCertificateValid": "Il certificato è firmato da CA pubblica",
       "certificateValid": "Sì",
       "certificateNotValid": "No",
       "daysRemaining": "Ultima esecuzione - Giorni rimanenti",

@@ -204,6 +204,7 @@
     "sloChartSummary": {
       "status": "상태",
       "target": "대상:",
+      "errorBudgetRemaining": "남은 예산 오류",
       "errorBudgetSpent": "사용된 오류 예산",
       "errorBudget": "오류 예산:",
       "timeWindow": "기간",

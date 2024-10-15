@@ -107,6 +107,7 @@
     "Step3Headline": "Optional können Sie zusammen mit der Aktion auch eine Automatisierungsrichtlinie erstellen. Sie können diesen Schritt auch zu einem späteren Zeitpunkt durchführen.",
     "step1Title": "Schritt 1: Erzeugen oder Auswählen einer Aktion",
     "step1TitleGenerateAction": "Schritt 1: Erzeugen einer Aktion",
+    "step1TitleSelectAction": "Schritt 1: Wählen Sie eine Aktion",
     "step2Title": "Schritt 2: Aktion anpassen",
     "step3Title": "Schritt 3: Richtlinie erstellen (optional)",
     "policyDetails": "Richtliniendetails",
@@ -271,9 +272,30 @@
     "newFeature": "Neues Feature",
     "view": "Anzeigen",
     "content": "Inhalt",
+    "mustHaveRequiredTag": "Die Aktion muss mindestens einen der folgenden Tags enthalten: {{tags}}",
     "deleteDialog": {
       "success": "Die Aktion wurde gelöscht.",
       "failure": "Löschen der Aktion fehlgeschlagen: {{errorMessage}}"
+    },
+    "createDialog": {
+      "success": {
+        "title": "Aktion wurde erfolgreich erstellt.",
+        "content": "Die Aktion{{name}}\" wurde erfolgreich erstellt."
+      },
+      "failure": {
+        "title": "Die Aktion konnte nicht erstellt werden.",
+        "content": "Beim Erstellen dieser Aktion ist ein Problem aufgetreten: {{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "Die Aktion wurde erfolgreich aktualisiert.",
+        "content": "Die Aktion{{name}}\" wurde erfolgreich aktualisiert."
+      },
+      "failure": {
+        "title": "Aktion konnte nicht aktualisiert werden.",
+        "content": "Es gab ein Problem bei der Aktualisierung dieser Aktion: {{errorMessage}}"
+      }
     }
   },
   "actionHistory": {
@@ -294,6 +316,7 @@
     "eventName": "Ereignisname",
     "returnCode": "Rückkehrcode",
     "errorMessage": "Fehlernachricht",
+    "risk": "Risiko",
     "action": "Aktion",
     "host": "Host",
     "log": "Protokollierung",

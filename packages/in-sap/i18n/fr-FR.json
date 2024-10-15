@@ -656,7 +656,15 @@
     "applicationArea": "Domaine d'application",
     "messageNumber": "Numéro de message",
     "line": "Ligne",
-    "noVariableMsgPart": "Nombre de message de variable"
+    "noVariableMsgPart": "Nombre de message de variable",
+    "transportRequest": "Demandes de transfert",
+    "category": "Catégorie",
+    "target": "Cible",
+    "modifiable": "Modifiable",
+    "protected": "Protégé",
+    "releasedStarted": "Libération démarrée",
+    "httpRespTime": "HTTP",
+    "httpsRespTime": "HTTPS"
   },
   "viewAllEntityName_unknownEntity_plural": "tous",
   "viewAllEntityName_unknownEntity_0": "tous",

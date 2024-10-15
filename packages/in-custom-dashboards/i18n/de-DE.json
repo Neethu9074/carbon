@@ -17,6 +17,7 @@
         "copied": "Widget kopiert, verwenden Sie STRG-V oder CMD-V zum Einfügen in ein beliebiges angepasstes Dashboard",
         "duplicate": "Duplizieren",
         "delete": "Löschen",
+        "exportPDF": "PDF herunterladen",
         "customDashboardWidgetTitle": "Angepasstes Dashboard-Widget: {{title}}"
       }
     },
@@ -69,7 +70,11 @@
       "renameDashboard": "Dashboard umbenennen",
       "dashboardName": "Dashboardname",
       "rename": "Umbenennen",
-      "failSaveDashboard": "Fehler beim Speichern des Dashboards."
+      "failSaveDashboard": "Fehler beim Speichern des Dashboards.",
+      "generatingPDFTitle": "Pdf generieren",
+      "generatingPDFContent": "Bitte warten Sie, während die PDF-Datei erstellt wird.",
+      "generatedPDFTitle": "PDF Generiert",
+      "generatedPDFContent": "Der PDF-Download wird in Kürze beginnen."
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "Dashboard nicht gefunden",
@@ -93,6 +98,13 @@
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "Fehler beim Analysieren von Eingaben als JSON.",
       "jsonRootMustBeAnObject": "JSON-Root muss ein Objekt sein."
+    },
+    "filterContext": {
+      "topLevelFilterPartiallyApplied": "Einige der aktuellen Dashboard-Filter wurden angewendet.",
+      "topLevelFilterSelectsEverything": "Die aktuellen Dashboard-Filter gelten nicht für dieses Widget.",
+      "topLevelFilterSelectsNothing": "Die aktuellen Dashboard-Filter gelten nicht für dieses Widget.",
+      "topLevelFilterNotSupported": "Die aktuellen Dashboard-Filter wurden nicht auf dieses Widget angewendet, da das Widget keine Filterung unterstützt.",
+      "topLevelFilterAppliedToSomeDatasets": "Die aktuellen Dashboard-Filter wurden nicht vollständig auf alle Datensätze in diesem Widget angewendet."
     }
   },
   "dashboardSwitcher": {
@@ -435,6 +447,25 @@
       }
     },
     "slo": {
+      "general": {
+        "demoWidgetTitle": "Widgettitel",
+        "sloNotFound": "Slo-Konfiguration nicht gefunden"
+      },
+      "v2Form": {
+        "headline": "Wählen Sie ein Service-Level-Ziel",
+        "subheading": "Wählen Sie eine bestehende SLO aus oder klicken Sie auf \"Neue SLO hinzufügen\", um eine neue zu erstellen",
+        "addSloButtonLabel": "Neue SLO hinzufügen",
+        "chartTypeSelectionLabel": "Diagrammtyp",
+        "chartTypeOption": "",
+        "chartTypeOption_INDICATOR": "Indikator-Diagramm",
+        "chartTypeOption_ERROR_BUDGET": "Fehlerbudgetkarte",
+        "validators": {
+          "notBlankSloValidator": "Bitte wählen Sie eine SLO-Konfiguration aus der Liste."
+        }
+      },
+      "v2WidgetHeader": {
+        "indicatorType": "Art des Indikators:"
+      },
       "demo": {
         "title": "SLO-Titel",
         "sliName": "Beispiel-Sli",

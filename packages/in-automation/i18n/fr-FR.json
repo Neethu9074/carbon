@@ -107,6 +107,7 @@
     "Step3Headline": "(Facultatif) Vous pouvez créer une politique d'automatisation en même temps que l'action. Vous pouvez également effectuer cette étape ultérieurement.",
     "step1Title": "Étape 1 : Générer ou sélectionner une action",
     "step1TitleGenerateAction": "Étape 1 : Générer une action",
+    "step1TitleSelectAction": "Étape 1 : Sélectionner une action",
     "step2Title": "Etape 2 : Personnalisez l'action",
     "step3Title": "Étape 3 : Créer une politique (facultatif)",
     "policyDetails": "Détails de la politique",
@@ -271,9 +272,30 @@
     "newFeature": "Nouvelle fonction",
     "view": "Vue",
     "content": "Contenu",
+    "mustHaveRequiredTag": "L'action doit contenir au moins une des balises suivantes : {{tags}}",
     "deleteDialog": {
       "success": "L'action a été supprimée.",
       "failure": "Echec de la suppression de l'action : {{errorMessage}}"
+    },
+    "createDialog": {
+      "success": {
+        "title": "L'action a été créée.",
+        "content": "L'action {{name}}\" a été créée."
+      },
+      "failure": {
+        "title": "Échec de la création de l'action.",
+        "content": "Un problème est survenu lors de la création de cette action : {{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "La mise à jour de l'action a réussi.",
+        "content": "L'action {{name}}\" a été mise à jour."
+      },
+      "failure": {
+        "title": "Échec de la mise à jour de l'action.",
+        "content": "Un problème est survenu lors de la mise à jour de cette action : {{errorMessage}}"
+      }
     }
   },
   "actionHistory": {
@@ -294,6 +316,7 @@
     "eventName": "Nom de l'événement",
     "returnCode": "Code retour",
     "errorMessage": "Message d'erreur",
+    "risk": "Risque",
     "action": "Action",
     "host": "Hôte",
     "log": "Journal",

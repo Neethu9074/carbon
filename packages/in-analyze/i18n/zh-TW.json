@@ -159,6 +159,7 @@
         "cacheInteraction": "快取互動",
         "instanaDoesNotMonitorTheLocationOfThisCall": "Instana 未監視此呼叫的 {{location}}",
         "tags": "標籤",
+        "metrics": "度量值",
         "loading": "正在載入呼叫詳細資料。",
         "labelError": "非預期的錯誤",
         "retryError": "無法載入呼叫詳細資料。",
@@ -167,7 +168,10 @@
         "networkTime": "網路時間",
         "waitingTime": "等待時間",
         "latency": "延遲",
-        "findSQL": "在 {{type}} 中尋找 SQL"
+        "findSQL": "在 {{type}} 中尋找 SQL",
+        "sumOfLatencies": "延遲總和",
+        "elapsedTime": "經歷時間",
+        "batchTooltip": "總計 {{batchCount}} 批次呼叫的 {{type}}。"
       },
       "callTree": {
         "expandButtonForRow": "展開所有子呼叫",
@@ -283,6 +287,7 @@
     "labelNetwork": "網路",
     "labelSelf": "自身",
     "labelWaiting": "等待中",
+    "labelElapsed": "歷時",
     "labelService": "服務",
     "labelEndpoint": "端點",
     "labelAggregatedTime": "聚集的時間",

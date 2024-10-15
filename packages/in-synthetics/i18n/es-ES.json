@@ -385,7 +385,8 @@
       "secondaryLabels": {
         "tests": "Pruebas",
         "locations": "Ubicaciones",
-        "smartAlerts": "Alertas inteligentes"
+        "smartAlerts": "Alertas inteligentes",
+        "credentials": "Credenciales"
       },
       "popDialog": {
         "popUpDialogTitle": "Permisos para supervisión sintética",
@@ -408,8 +409,6 @@
         "filterLabel": "Aplicaciones",
         "singleAppHeader": "{{ number }} asociación",
         "multiAppHeader": "{{ number }} asociaciones",
-        "singleAppSpan": "{{ number }} aplicación asociada",
-        "multiAppSpan": "{{ number }} aplicaciones asociadas",
         "noApplicationsAssociated": "No hay aplicaciones asociadas"
       },
       "multiWebDialog": {
@@ -433,8 +432,15 @@
       "successRate": "Tasa de éxito",
       "successRuns": "Resultados de {{successRuns}} / {{totalRuns}}",
       "latency": "Latencia",
-      "locationLabel": "Ubicación",
-      "locations": "{{totalLocations}} ubicaciones",
+      "locationLabel": "Ubicaciones",
+      "locationsColumn": {
+        "singleLocation": "{{number}} ubicación",
+        "multipleLocations": "{{number}} ubicaciones",
+        "singleRun": "Se ejecuta en {{number}} ubicación",
+        "multipleRun": "Se ejecuta en {{number}} ubicaciones",
+        "warning": "Aviso",
+        "noIssues": "No hay ningún problema"
+      },
       "associationLabel": "Asociaciones",
       "health": "Estado",
       "action": "Acción",
@@ -512,8 +518,8 @@
       "meanLatencyFor90th": "{{meanLatencyDetail}} para 90º",
       "smartAlertsTab": "Alertas inteligentes",
       "configurationTab": "Configuración",
-      "isCertificateValid": "Última ejecución: el certificado es válido",
-      "resultsCertificateValid": "El certificado es válido.",
+      "isCertificateValid": "Última ejecución - El certificado está firmado por una CA pública",
+      "resultsCertificateValid": "El certificado está firmado por una CA pública",
       "certificateValid": "Sí",
       "certificateNotValid": "No",
       "daysRemaining": "Última ejecución: días restantes",

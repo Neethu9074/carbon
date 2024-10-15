@@ -1,6 +1,7 @@
 {
   "logs": "Log",
   "sum": "somma",
+  "count": "count",
   "bar": "Barra",
   "logsOverTime": "Log nel tempo",
   "logsOverTime_ERROR": "Errore",
@@ -57,8 +58,16 @@
   "logExpiration": "Conservato fino a",
   "dashboard": {
     "summary": "Riepilogo",
-    "smartAlerts": "Avvisi smart",
+    "smartAlerts": "Smart Alert",
     "deleteLogs": "Elimina log",
-    "configuration": "Configurazione"
+    "configuration": "Configurazione",
+    "logVolume": {
+      "logVolumeTitle": "Volume di log mese corrente",
+      "gb": "GB",
+      "logVolumeIcon": "Vai al volume di log"
+    },
+    "retentionIcon": "Modifica periodo di conservazione",
+    "noData": "Nessun dato disponibile",
+    "analyzeLogs": "Analizza log"
   }
 }

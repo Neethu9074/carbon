@@ -159,6 +159,7 @@
         "cacheInteraction": "캐시 상호작용",
         "instanaDoesNotMonitorTheLocationOfThisCall": "Instana는 이 호출의 {{location}}을(를) 모니터하지 않음",
         "tags": "태그",
+        "metrics": "메트릭",
         "loading": "통화 세부사항을 로드 중입니다.",
         "labelError": "예기치 않은 오류",
         "retryError": "통화 세부사항을 로드할 수 없습니다.",
@@ -167,7 +168,10 @@
         "networkTime": "네트워크 시간",
         "waitingTime": "대기 시간",
         "latency": "대기 시간",
-        "findSQL": "{{type}}에서 SQL 찾기"
+        "findSQL": "{{type}}에서 SQL 찾기",
+        "sumOfLatencies": "지연 시간 합계",
+        "elapsedTime": "경과 시간",
+        "batchTooltip": "{{batchCount}}개의 일괄 처리 통화에 대한 총 {{type}}입니다."
       },
       "callTree": {
         "expandButtonForRow": "모든 하위 호출 펼치기",
@@ -283,6 +287,7 @@
     "labelNetwork": "네트워크",
     "labelSelf": "셀프",
     "labelWaiting": "대기 중",
+    "labelElapsed": "경과",
     "labelService": "서비스",
     "labelEndpoint": "엔드포인트",
     "labelAggregatedTime": "집계된 시간",

@@ -21,7 +21,7 @@
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Avvisi creati ({{totalRepresentedItemCount}})",
     "alertStateActive": "attivo",
     "alertPropertyInfosLabelTitle": "Titolo",
-    "alertPropertyInfosLabelAlertLevel": "Livello avviso",
+    "alertPropertyInfosLabelAlertLevel": "Livello di avviso",
     "alertPropertyInfosLabelTriggersIncident": "Attiva incidente",
     "alertPropertyInfosLabelDescription": "Descrizione",
     "noChannelSelectedText": "Attualmente, non è stato selezionato un canale di avviso e non verrà ricevuto alcun avviso.",
@@ -76,7 +76,7 @@
       "dynamic": "Dinamico",
       "theNumberOfRowsIsRestrictedToMaximumNumberOfRows": "Il numero di righe è limitato a {{maximumNumberOfRows}}.",
       "addRow": "Aggiungi riga",
-      "noCustomPayloadConfigured": "Non è stato configurato alcun payload personalizzato",
+      "noCustomPayloadConfigured": "Nessun payload personalizzato configurato",
       "keyNamesMustBeUnique": "I nomi delle chiavi devono essere univoci.",
       "theValueMustNotBeBlank": "Il valore non deve essere vuoto.",
       "onlyOrAnyAlphaNumericalAreAllowed": "Sono consentiti solo i caratteri '.', '-', '_' o alfanumerici.",
@@ -148,9 +148,9 @@
     "titleNoSmartAlertsConfiguredForSearchQuery": "Non sono state rilevate configurazioni dell'avviso smart per una determinata ricerca",
     "titleNoSmartAlertsCreated": "Non è stato creato nessun avviso smart",
     "titleCopyOf": "(Copia di) {{smartAlertTitle}}",
-    "smartAlertsTitle": "Avvisi smart",
+    "smartAlertsTitle": "Smart Alert",
     "applications": {
-      "alertConfiguration": "Configurazione avviso",
+      "alertConfiguration": "Configurazione dell'avviso",
       "advanced": {
         "applicationNamePlaceholder": "nome applicazione",
         "serviceNamePlaceholder": "nome servizio",
@@ -264,11 +264,11 @@
           },
           "timeThreshold": {
             "label": "Soglia temporale",
-            "title": "Soglia temporale: quando si desidera ricevere l'avviso?"
+            "title": "Soglia temporale: Quando si desidera ricevere gli avvisi?"
           },
           "alertChannel": {
             "label": "Canali di avviso",
-            "title": "Canali di avviso: Chi deve ricevere l'avviso?"
+            "title": "Canali di avviso: Chi deve ricevere gli avvisi?"
           },
           "propertiesOptional": {
             "label": "Proprietà",
@@ -297,7 +297,7 @@
         "levelColumn": "Livello di log",
         "noDataMessage": "Nessun messaggio trovato.",
         "selectLogMessageText": "Selezionare il messaggio di log come modello (facoltativo)",
-        "selectLogMessageTitle": "Selezionare il messaggio di logo"
+        "selectLogMessageTitle": "Seleziona messaggio di log"
       },
       "blueprintConfig": {
         "slowness": {
@@ -529,7 +529,7 @@
         "step3Title": "Definisci raggruppamento",
         "step4Title": "Definisci quando ricevere un avviso",
         "alertHeadline": "Scegli su cosa vuoi essere avvisato",
-        "step5Title": "Definisci le proprietà degli avvisi",
+        "step5Title": "Definisci proprietà degli avvisi",
         "step6Title": "Definisci i canali di avviso",
         "grouping": {
           "title": "Chiamate di gruppo",
@@ -550,7 +550,7 @@
           "groupByEndpoint_1": "{{count}} endpoint",
           "groupByEndpoint_2": "{{count}} endpoint",
           "groupbyDescription": "In base alle chiamate effettuate nelle ultime 24 ore",
-          "noData": "Non sono disponibili dati groupby.",
+          "noData": "Nessuna applicazione, servizio o endpoint dell'ambito ha registrato chiamate nelle ultime 24 ore.",
           "groupByDataFailed": "Si è verificato un errore. Impossibile richiamare i dati di raggruppamento. Motivo: {{reason}}"
         },
         "callsInScope": {
@@ -601,7 +601,8 @@
           "metricLabel": "{{metricLabel}} percentile di latenza",
           "minLatency": "Latenza minima",
           "maxLatency": "Latenza massima",
-          "meanLatency": "Latenza media"
+          "meanLatency": "Latenza media",
+          "sumLatency": "Somma latenza"
         },
         "timeThreshold": {
           "title": "Imposta quando le violazioni attivano gli avvisi",
@@ -674,6 +675,7 @@
       "ruleAggregationOptionP98": "98esimo",
       "ruleAggregationOptionP99": "99esimo",
       "ruleAggregationOptionMAX": "max",
+      "ruleAggregationOptionSUM": "somma",
       "ruleAggregationForWeeklySeasonalityOptionMEAN": "media",
       "ruleAggregationForWeeklySeasonalityOptionP50": "50esimo",
       "ruleStatusCodeValueOption1": "1XX (Informational)",
@@ -828,17 +830,17 @@
         "timeThresholdDescriptionViolationsInPeriod_0": "Almeno {{count}} violazioni negli ultimi {{formattedTimeWindow}}",
         "timeThresholdDescriptionViolationsInPeriod_1": "Almeno {{count}} violazione negli ultimi {{formattedTimeWindow}}",
         "timeThresholdDescriptionViolationsInPeriod_2": "Almeno {{count}} violazioni negli ultimi {{formattedTimeWindow}}",
-        "timeThresholdConfigNumberOfConsecutiveViolations": "Numero di violazioni metriche consecutive",
+        "timeThresholdConfigNumberOfConsecutiveViolations": "Numero di violazioni di metrica consecutive",
         "timeThresholdConfigNumberOfConsecutiveEvaluations": "Numero di valutazioni consecutive",
         "timeThresholdConfigNumberOfEvaluationWindows": "Numero di violazioni consecutive",
         "timeThresholdConfigImpactEvaluationMethod": "Metodo di valutazione dell'impatto sugli utenti",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "Aggrega tutte le finestre di valutazione",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calcola per ogni finestra di valutazione",
-        "timeThresholdConfigNumberOfViolations": "Numero di violazioni metriche",
+        "timeThresholdConfigNumberOfViolations": "Numero di violazioni di metrica",
         "timeThresholdConfigEvaluationGranularity": "Granularità valutazione",
         "granularityTooltipText": "La granularità temporale qui impostata determinerà la frequenza con cui viene valutata la soglia.",
         "timeThresholdConfigNumberOfTracesThreshold": "Numero di tracce interessate",
-        "timeThresholdConfigNumberOfImpactedUsersThreshold": "Numero di utenti con impatto",
+        "timeThresholdConfigNumberOfImpactedUsersThreshold": "Numero di utenti interessati",
         "timeThresholdConfigAtLeast": "Almeno",
         "timeThresholdConfigNumberOfTraces": "N. tracce interessate",
         "timeThresholdConfigMinutes": "{{min}} min",
@@ -861,7 +863,7 @@
         "alertPropertiesWarning": "Avvertenza",
         "alertPropertiesCritical": "Critico",
         "alertPropertiesTitle": "Titolo",
-        "alertPropertiesAlertLevel": "Livello avviso",
+        "alertPropertiesAlertLevel": "Livello di avviso",
         "alertPropertiesTriggersIncident": "Attiva incidente",
         "alertPropertiesDescription": "Descrizione",
         "warningAlertPreviewLabel": "Anteprima di avviso",
@@ -875,6 +877,7 @@
         "buttonMigrate": "Migra",
         "selectedBlueprint": "Progetto iniziale selezionato",
         "buttonRecalculateBaseline": "Ricalcola baseline",
+        "buttonRecalculateBaselineDisabled": "Ricalcola baseline (disabilitato)",
         "sensitivitySliderLow": "basso",
         "sensitivitySliderHigh": "alto",
         "sensitivitySliderValueLabel": "{{count}} deviazione standard",
@@ -900,9 +903,9 @@
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Crea avviso smart globale",
         "alertConfigDialogPresenterTitleMigrateAlert": "Migra ad avviso smart",
         "alertConfigTearSheetEditAlert_Local": "Modifica un avviso smart di applicazione",
-        "alertConfigTearSheetEditAlert_Global": "Modifica un avviso smart di applicazione globale",
+        "alertConfigTearSheetEditAlert_Global": "Modifica un avviso smart globale di applicazione",
         "alertConfigTearSheetCreateNewAlert_Local": "Crea un avviso smart di applicazione",
-        "alertConfigTearSheetCreateNewAlert_Global": "Crea un avviso smart di applicazione globale",
+        "alertConfigTearSheetCreateNewAlert_Global": "Crea un avviso smart globale di applicazione",
         "alertConfigTearSheetMigrateAlert": "Migra a avviso smart di applicazione",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Passa alla modalità avanzata",
         "simpleAlertConfigDialogStep3Headline": "Chi deve ricevere gli avvisi?",
@@ -978,9 +981,9 @@
         "JSErrorMessage": "Messaggio di errore JS",
         "HTTPStatusCode": "Codice di stato HTTP",
         "timeThresholdLabel": "Soglia temporale",
-        "timeThresholdTitle": "Soglia temporale: quando si desidera ricevere l'avviso?",
+        "timeThresholdTitle": "Soglia temporale: Quando si desidera ricevere gli avvisi?",
         "alertChannelsLabel": "Canali di avviso",
-        "alertChannelsTitle": "Canali di avviso: Chi deve ricevere l'avviso?",
+        "alertChannelsTitle": "Canali di avviso: Chi deve ricevere gli avvisi?",
         "propertiesLabel": "Proprietà",
         "propertiesTitle": "Proprietà aggiuntive degli avvisi",
         "thresholdValue": "Valore soglia",
@@ -1079,7 +1082,17 @@
             "subtitleForStaticDailySeasonality": "Stagionalità giornaliera statica, {{metricLabel}}",
             "subtitleForStaticWeeklySeasonality": "Stagionalità settimanale statica, {{metricLabel}}",
             "subtitleForAdaptiveThreshold": "Soglia adattiva, {{metricLabel}}"
-          }
+          },
+          "moreFiltersWithCount": "+{{count}} altri filtri",
+          "moreFiltersWithCount_plural": "+{{count}} altri filtri",
+          "moreFiltersWithCount_0": "+{{count}} altri filtri",
+          "moreFiltersWithCount_1": "+{{count}} altri filtri",
+          "moreFiltersWithCount_2": "+{{count}} altri filtri",
+          "filter": "Filtro",
+          "filter_plural": "Filtri",
+          "filter_0": "Filtri",
+          "filter_1": "Filtri",
+          "filter_2": "Filtri"
         }
       }
     },
@@ -1115,9 +1128,9 @@
           "moreFiltersWithCount_2": "+{{count}} altri filtri",
           "filter": "Filtro",
           "filter_plural": "Filtri",
-          "filter_0": "filtri",
-          "filter_1": "filtri",
-          "filter_2": "filtri"
+          "filter_0": "Filtri",
+          "filter_1": "Filtri",
+          "filter_2": "Filtri"
         }
       },
       "alertList": {
@@ -1140,7 +1153,7 @@
         "scopeHeadline": "Qual è l'ambito?",
         "scopeDescription": "Scegliere dove si desidera applicare la condizione.",
         "stepConfigsStep3Title": "Passo 3: soglia di durata",
-        "stepConfigsStep5Title": "Passo 5: proprietà dei messaggi di avviso",
+        "stepConfigsStep5Title": "Passo 5: Proprietà degli avvisi",
         "thresholdTitle": "Quanti errori consecutivi devono verificarsi per ogni sede prima che venga emesso un avviso?",
         "thresholdTitleHelpText": "Errori determinati nel PoP, in base all'intervallo di tentativi configurato nella creazione del test sintetico.",
         "thresholdSubTitleHelpText": "Se il numero specificato di errori si verifica in ogni ubicazione, si riceverà un avviso per ogni ubicazione.",
@@ -1185,7 +1198,7 @@
       },
       "details": {
         "threshold": "Soglia",
-        "alertConfigurationListTitleAlertConfiguration": "Configurazione avviso",
+        "alertConfigurationListTitleAlertConfiguration": "Configurazione dell'avviso",
         "scope": {
           "perLocation": {
             "shortText": "Per ciascuna ubicazione"
@@ -1199,7 +1212,7 @@
         "noOfFailure": "Numero di errori",
         "timeThreshold": "Soglia temporale",
         "alertingType": "Tipo di avviso",
-        "noScopeConfigured": "Non è stato configurato alcun filtro di ambito"
+        "noScopeConfigured": "Nessun filtro di ambito configurato"
       }
     },
     "mobileApp": {
@@ -1269,7 +1282,7 @@
         "stepConfigsStep2Title": "Passo 2: Selezionare l'ambito"
       },
       "alertDetails": {
-        "alertConfigurationListTitleAlertConfiguration": "Configurazione avviso",
+        "alertConfigurationListTitleAlertConfiguration": "Configurazione dell'avviso",
         "alertConfigurationTitleTrigger": "Trigger",
         "alertConfigurationTitleHTTPStatusCode": "Codice di stato HTTP",
         "alertConfigurationTitleCustomEvent": "Evento personalizzato",
@@ -1308,9 +1321,9 @@
         "triggerTitle": "Trigger: Per cosa si desidera ricevere l'avviso?",
         "HTTPStatusCode": "Codice di stato HTTP",
         "alertChannelsLabel": "Canali di avviso",
-        "alertChannelsTitle": "Canali di avviso: Chi deve ricevere l'avviso?",
+        "alertChannelsTitle": "Canali di avviso: Chi deve ricevere gli avvisi?",
         "timeThresholdLabel": "Soglia temporale",
-        "timeThresholdTitle": "Soglia temporale: quando si desidera ricevere l'avviso?",
+        "timeThresholdTitle": "Soglia temporale: Quando si desidera ricevere gli avvisi?",
         "propertiesLabel": "Proprietà",
         "propertiesTitle": "Proprietà aggiuntive degli avvisi",
         "scopeLabel": "Ambito",
@@ -1377,7 +1390,7 @@
     },
     "infrastructure": {
       "alertDetails": {
-        "alertConfiguration": "Configurazione avviso",
+        "alertConfiguration": "Configurazione dell'avviso",
         "alertConfigurationTitleTrigger": "Trigger",
         "alertConfigurationTitleScope": "Ambito",
         "alertConfigurationTitleAlertChannels": "Canali di avviso",
@@ -1432,7 +1445,7 @@
         },
         "alertChannel": {
           "label": "Canali di avviso",
-          "title": "Canali di avviso: Chi deve ricevere l'avviso?"
+          "title": "Canali di avviso: Chi deve ricevere gli avvisi?"
         },
         "properties": {
           "preview": {
@@ -1459,7 +1472,7 @@
     },
     "logs": {
       "alertDetails": {
-        "alertConfiguration": "Configurazione avviso",
+        "alertConfiguration": "Configurazione dell'avviso",
         "metricName": "Conteggio log",
         "alertConfigurationTitleScope": "Ambito",
         "noScopeSelected": "Nessun filtro di ambito o gruppo configurato.",
@@ -1501,11 +1514,11 @@
         },
         "timeThreshold": {
           "label": "Soglia temporale",
-          "title": "Soglia temporale: quando si desidera ricevere l'avviso?"
+          "title": "Soglia temporale: Quando si desidera ricevere gli avvisi?"
         },
         "alertChannel": {
           "label": "Canali di avviso",
-          "title": "Canali di avviso: Chi deve ricevere l'avviso?"
+          "title": "Canali di avviso: Chi deve ricevere gli avvisi?"
         },
         "properties": {
           "label": "Proprietà",
@@ -1553,11 +1566,11 @@
         "stepLabel_trigger": "Trigger",
         "stepTitle_trigger": "Trigger: Per cosa si desidera ricevere l'avviso?",
         "stepLabel_timeThreshold": "Soglia temporale",
-        "stepTitle_timeThreshold": "Soglia temporale: quando si desidera essere avvisati?",
+        "stepTitle_timeThreshold": "Soglia temporale: Quando si desidera ricevere gli avvisi?",
         "stepLabel_alertChannels": "Canali di avviso",
-        "stepTitle_alertChannels": "Canali di avviso: Chi deve ricevere l'avviso?",
+        "stepTitle_alertChannels": "Canali di avviso: Chi deve ricevere gli avvisi?",
         "stepLabel_alertProperties": "Proprietà avviso",
-        "stepTitle_alertProperties": "Proprietà avviso: cosa deve includere la notifica di avviso?",
+        "stepTitle_alertProperties": "Proprietà degli avvisi: Cosa deve includere la notifica di avviso?",
         "stepLabel_customPayload": "Payload personalizzato",
         "stepTitle_customPayload": "Payload personalizzato",
         "selectSloHeadline": "Seleziona SLO",
@@ -1597,7 +1610,7 @@
         "alertPropertiesIncidentWarning": "Gli incidenti si possono applicare solo agli SLO associati alle applicazioni"
       },
       "details": {
-        "alertConfigurationTitle": "Configurazione avviso",
+        "alertConfigurationTitle": "Configurazione dell'avviso",
         "sloHeader": "SLO",
         "thresholdInfo": "",
         "thresholdInfo_BURN_RATE": "Quando la velocità di combustione è {{operator}} {{percentage}}",

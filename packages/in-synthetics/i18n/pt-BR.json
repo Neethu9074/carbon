@@ -385,7 +385,8 @@
       "secondaryLabels": {
         "tests": "Testes",
         "locations": "Locais",
-        "smartAlerts": "Alertas inteligentes"
+        "smartAlerts": "Alertas inteligentes",
+        "credentials": "Credenciais"
       },
       "popDialog": {
         "popUpDialogTitle": "Permissões para monitoramento sintético",
@@ -408,8 +409,6 @@
         "filterLabel": "Aplicativos",
         "singleAppHeader": "{{ number }} Associação",
         "multiAppHeader": "{{ number }} Associações",
-        "singleAppSpan": "{{ number }} Aplicativo Associado",
-        "multiAppSpan": "{{ number }} Aplicativos Associados",
         "noApplicationsAssociated": "Nenhum aplicativo associado"
       },
       "multiWebDialog": {
@@ -433,8 +432,15 @@
       "successRate": "Taxa de sucesso",
       "successRuns": "{{successRuns}} / {{totalRuns}} resultados",
       "latency": "Latência",
-      "locationLabel": "Local",
-      "locations": "{{totalLocations}} locais",
+      "locationLabel": "Locais",
+      "locationsColumn": {
+        "singleLocation": "{{number}} localização",
+        "multipleLocations": "{{number}} localizações",
+        "singleRun": "Executa em {{number}} localização",
+        "multipleRun": "Executa em {{number}} localizações",
+        "warning": "Aviso",
+        "noIssues": "Sem problemas"
+      },
       "associationLabel": "Associações",
       "health": "Funcionamento",
       "action": "Ação",
@@ -512,8 +518,8 @@
       "meanLatencyFor90th": "{{meanLatencyDetail}} para 90º",
       "smartAlertsTab": "Alertas inteligentes",
       "configurationTab": "Configuração",
-      "isCertificateValid": "Última execução: certificado é válido",
-      "resultsCertificateValid": "O certificado é válido",
+      "isCertificateValid": "Última execução: o certificado é assinado pela CA pública",
+      "resultsCertificateValid": "O certificado é assinado pela CA pública",
       "certificateValid": "True",
       "certificateNotValid": "Não",
       "daysRemaining": "Última execução: dias restantes",

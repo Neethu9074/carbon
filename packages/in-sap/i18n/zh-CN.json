@@ -656,7 +656,15 @@
     "applicationArea": "应用程序区域",
     "messageNumber": "消息号",
     "line": "折线图",
-    "noVariableMsgPart": "变量消息计数"
+    "noVariableMsgPart": "变量消息计数",
+    "transportRequest": "传输请求",
+    "category": "类别",
+    "target": "目标",
+    "modifiable": "可修改",
+    "protected": "受保护",
+    "releasedStarted": "发布已启动",
+    "httpRespTime": "HTTP",
+    "httpsRespTime": "HTTPS"
   },
   "viewAllEntityName_unknownEntity_plural": "全部",
   "viewAllEntityName_unknownEntity_0": "全部",

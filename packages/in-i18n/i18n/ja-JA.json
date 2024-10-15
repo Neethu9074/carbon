@@ -20,7 +20,11 @@
       "tableLoadMoreRow": {
         "loadMore": "さらにロード"
       },
-      "dataTable": "データ・テーブ"
+      "dataTable": "データ・テーブ",
+      "expandHeader": "行を展開",
+      "expandRow": "行の拡張を切り替える",
+      "select": "行を選択",
+      "selectedRow": "選択行"
     },
     "tableSkeleton": {
       "sampleTable": "サンプル表"
@@ -29,13 +33,17 @@
       "copy": "コピー",
       "copied": "コピーされました",
       "showMore": "さらに表示",
-      "showLess": "少なく表示"
+      "showLess": "少なく表示",
+      "copytoboard": "クリップボードにコピー"
     },
     "menu": {
       "sideNavigation": "サイド・ナビゲーション"
     },
-    "carbonTabs": {
-      "tabs": "タブ"
+    "dropDown": {
+      "selectOption": "オプションの選択"
+    },
+    "tabsNavigation": {
+      "pageNavigation": "ページ・ナビゲーション"
     },
     "plg": {
       "dashboardTable": {
@@ -88,7 +96,8 @@
       "previous": "前へ"
     },
     "states": {
-      "saving": "保存中…"
+      "saving": "保存中…",
+      "loading": "ロード中です…"
     }
   },
   "language_en-US": "英語",

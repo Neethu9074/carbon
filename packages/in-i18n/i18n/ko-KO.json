@@ -20,7 +20,11 @@
       "tableLoadMoreRow": {
         "loadMore": "추가 로드"
       },
-      "dataTable": "데이터 테이블"
+      "dataTable": "데이터 테이블",
+      "expandHeader": "행 펼치기",
+      "expandRow": "행 펼치기 토글",
+      "select": "행 선택",
+      "selectedRow": "선택된 행"
     },
     "tableSkeleton": {
       "sampleTable": "샘플 테이블"
@@ -29,13 +33,17 @@
       "copy": "복사",
       "copied": "복사됨!",
       "showMore": "자세히 표시",
-      "showLess": "간략히 보기"
+      "showLess": "간략히 보기",
+      "copytoboard": "클립보드에 복사"
     },
     "menu": {
       "sideNavigation": "사이드 탐색"
     },
-    "carbonTabs": {
-      "tabs": "탭"
+    "dropDown": {
+      "selectOption": "옵션 선택"
+    },
+    "tabsNavigation": {
+      "pageNavigation": "페이지 탐색"
     },
     "plg": {
       "dashboardTable": {
@@ -88,7 +96,8 @@
       "previous": "이전"
     },
     "states": {
-      "saving": "저장 중…"
+      "saving": "저장 중…",
+      "loading": "로드 중…"
     }
   },
   "language_en-US": "영어",

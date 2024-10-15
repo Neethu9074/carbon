@@ -656,7 +656,15 @@
     "applicationArea": "Área de aplicação",
     "messageNumber": "Número da mensagem",
     "line": "Linha",
-    "noVariableMsgPart": "Contagem de mensagem de variável"
+    "noVariableMsgPart": "Contagem de mensagem de variável",
+    "transportRequest": "Solicitações de transporte",
+    "category": "Categoria",
+    "target": "Target",
+    "modifiable": "Modificável",
+    "protected": "Protegido",
+    "releasedStarted": "Liberação iniciada",
+    "httpRespTime": "HTTP",
+    "httpsRespTime": "HTTPS"
   },
   "viewAllEntityName_unknownEntity_plural": "todos",
   "viewAllEntityName_unknownEntity_0": "todos",

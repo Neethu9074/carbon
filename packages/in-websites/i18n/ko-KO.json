@@ -479,10 +479,6 @@
         "alertConfigurationTitleTimeThreshold": "시간 임계값",
         "alertConfigurationTitleAlertChannels": "경보 채널",
         "alertConfigurationTitleAlertProperties": "경보 특성",
-        "filter": "필터",
-        "filter_plural": "필터",
-        "moreFiltersWithCount": "{{count}}개 추가 필터",
-        "moreFiltersWithCount_plural": "{{count}}개 추가 필터",
         "alertsLabelFilters": "필터"
       },
       "configuration": {
@@ -493,7 +489,7 @@
         "configurationRenameTitle": "웹 사이트 이름 바꾸기",
         "configurationRenameButton": "이름 바꾸기",
         "configurationTrackingScriptTitle": "에이전트 추적 스크립트",
-        "configurationUserAgentVersion": "현재 에이전트 버전은 <strong>{{agentVersion}}</strong>입니다.",
+        "configurationUserAgentVersion": "현재 에이전트 버전은 {{agentVersion}}입니다.",
         "saved": "저장됨",
         "ipMasking": {
           "title": "IP 마스킹",
@@ -820,6 +816,8 @@
     "websiteDashboardTitleWebsite": "웹 사이트",
     "websiteDashboardButtonAnalyzePageLoads": "페이지 로드 분석",
     "websiteDashboardButtonAnalyzePageTransitions": "페이지 전환 분석",
+    "websiteDashboardWarnOldAgentVersion": "<strong>오래된 버전인 {{currentVersion}} 버전의 Instana 웹사이트 에이전트를 사용하고 있습니다</strong>. <configTab>구성 탭에서</configTab> 최신 버전인 {{latestVersion}}으로 업데이트합니다.",
+    "websiteDashboardWarnDeprecatedAgentVersion": "<strong>Instana 웹사이트 에이전트 {{currentVersion}} 버전은 {{deprecationDate}}에 사용 중단됩니다.</strong> <configTab>구성 탭에서</configTab> 최신 버전인 {{latestVersion}}으로 업데이트합니다.",
     "noDataAvailable": {
       "pagesTitle": "사용 가능한 페이지가 없음",
       "pagesDescription": "선택한 시간 범위에 대해 검색된 페이지가 없습니다.",

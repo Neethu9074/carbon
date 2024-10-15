@@ -1,6 +1,7 @@
 {
   "logs": "ログ",
   "sum": "合計",
+  "count": "count",
   "bar": "バー",
   "logsOverTime": "時系列に沿ったログ",
   "logsOverTime_ERROR": "エラー",
@@ -59,6 +60,14 @@
     "summary": "サマリー",
     "smartAlerts": "スマート・アラート",
     "deleteLogs": "ログの削除",
-    "configuration": "構成"
+    "configuration": "構成",
+    "logVolume": {
+      "logVolumeTitle": "当月のログ量",
+      "gb": "GB",
+      "logVolumeIcon": "ログ・ボリュームへ"
+    },
+    "retentionIcon": "保存期間の変更",
+    "noData": "表示可能なデータがありません",
+    "analyzeLogs": "ログの分析"
   }
 }

@@ -48,7 +48,7 @@
   "playwithinstana": {
     "content": "Pronto para monitorar seu próprio ambiente",
     "bookdemo": " Agende uma demonstração ao vivo",
-    "freetrial": " Experimente Grátis",
+    "freetrial": " Experimente sem custo",
     "taketour": " Faça um tour"
   },
   "agentDetails": {
@@ -64,7 +64,7 @@
       "configurationOptions": "Opções de configuração"
     },
     "jvmVendor": {
-      "azulZulu18": "Azul Zulu 1.8",
+      "azulZulu11": "Azul Zulu 11",
       "eclipseOpenJD11": "Eclipse OpenJ9 11"
     },
     "askForHelp": {
@@ -376,7 +376,7 @@
         "dynamic": "Dinâmico",
         "static": "Estático",
         "runtime": "Tempo de execução",
-        "azulZulu": "Azul Zulu 1.8",
+        "azulZulu": "Azul Zulu 11",
         "eclipseOpenJ9": "Eclipse OpenJ9 11",
         "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Etapa 2: revise os pré-requisitos e execute o código de implementação do agente.",
         "installagentOnAWSEC2": "Instalar agente no AWS EC2",
@@ -594,7 +594,7 @@
         "label": "Monitoramento de negócios",
         "name": "Nome",
         "activities": "Atividades",
-        "views": "Visualizações",
+        "started": "Iniciado",
         "health": "Funcionamento",
         "searchPlaceholderLabel": "processos de negócios",
         "viewAllLabel": "processos de negócios"

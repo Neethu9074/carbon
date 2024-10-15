@@ -23,7 +23,7 @@
     "dynamic": "動態",
     "static": "靜態",
     "agentJdk": "代理程式 JDK",
-    "azulZulu18": "Azul Zulu 1.8",
+    "azulZulu11": "Azul Zulu 11",
     "eclipseOpenJ911": "Eclipse OpenJ9 11",
     "theClusterNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo64CharactersLong": "叢集名稱必須是字母、橫線及底線的組合，且最長 64 個字元",
     "aws": "AWS",

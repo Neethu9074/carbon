@@ -17,9 +17,11 @@
     "chartWrapperMetricNotfound": "Messwert-ID {{metricId}} nicht gefunden.",
     "chartWrapperSameAxisSameValue": "Alle Aggregationstypen für eine Achse müssen denselben Wert haben.",
     "viewInAnalyticsBtnLabel": "In Analyse anzeigen",
+    "chartLegendBlankLabel": "Leer",
     "chartLendMetricTimeShifted": "Messwert-Zeitverschiebung nach {{timeShiftedLabel}}",
-    "chartDownloadLabel": "JSON herunterladen",
-    "chartDownloadCSVLabel": "CSV herunterladen",
+    "chartDownloadLabel": "In JSON exportieren",
+    "chartDownloadCSVLabel": "In CSV exportieren",
+    "chartDownloadPDFLabel": "PDF herunterladen",
     "chartGlobalHighlightLabel": "In allen Diagrammen hervorheben",
     "chartZoomInLabel": "Zoom auf Zeitbereich",
     "chartAlertsLanePresenterAlertsLabel": "Alerts",
@@ -64,6 +66,15 @@
   },
   "touchedMessages": {
     "withPath": "{{message}} (unter <codeWithClass>{{path}}</codeWithClass>)"
+  },
+  "graphView": {
+    "graphTitle": "Diagramm",
+    "explanationHeader": "Showcase für dynamisches Diagramm",
+    "explanationP1": "Die Kerntechnologie, die Instana antreibt, ist das dynamische Diagramm. Das Diagramm ist ein Modell für Ihre Anwendung, das alle physischen und logischen Abhängigkeiten von Komponenten abbildet. Auf der rechten Seite sehen Sie das dynamische Diagramm Ihrer aktuellen Umgebung!",
+    "explanationP2": "Der Graph enthält alle Ressourcen und ihre Abhängigkeiten, die vom Instana-Agenten und den Sensoren automatisch entdeckt werden, so dass der Graph ständig auf dem neuesten Stand gehalten wird. Jeder Knoten im Graphen wird außerdem kontinuierlich mit Zustandsinformationen wie Metriken, Konfigurationsdaten und einem auf semantischem Wissen basierenden berechneten Zustandswert aktualisiert. Mit diesem Wissen werden auch die Abhängigkeiten im Diagramm analysiert, um logische Gruppierungen wie Services und Anwendungen zu finden, Auswirkungen auf diese Ebene zu verstehen und den Schweregrad von Problemen abzuleiten. Das gesamte Diagramm ist persistent und Sie können im Zeitablauf hin- und herblättern, um die Aussagen des Diagramms für viele Anwendungsfälle zu nutzen.",
+    "explanationP3": "Sie können die Ansicht auf der rechten Seite filtern, indem Sie eine Ressource auf der Infrastrukturkarte auswählen und zu dieser Seite zurückkehren. Nach der Auswahl einer Ressource sollte ein snapshotId in der URL gesetzt werden, der diese Filterung ermöglicht.",
+    "explanationLink": "<linkToBlog>Rufen Sie unseren Blog auf</linkToBlog>, um weitere Informationen zu erhalten.",
+    "closeBtn": "Diagramm schließen"
   },
   "releaseNotesDialog": {
     "releaseNotesTitle": "Releaseinformationen"
@@ -231,6 +242,7 @@
     "labelRegion": "Region",
     "labelTag": "Tag",
     "labelCommit": "Festschreiben",
+    "buttonGraphShowcase": "Diagramm-Showcase",
     "geo": {
       "title": "Geodaten",
       "description": "Dieses Produkt enthält von MaxMind erstellte GeoLite2-Daten; verfügbar unter <linkToMaxMind>https://www.maxmind.com</linkToMaxMind>."
@@ -299,8 +311,6 @@
     "labelExpandButtonForContent": "Erweiterungsschaltfläche für Inhalt"
   },
   "featureFeedback": {
-    "labelPublicPreview": "Vorschau",
-    "labelPrivatePreview": "Vorschau",
     "linkLabelYouCanSendUsFeedback": "Sie können uns Feedback senden"
   },
   "geoHeatMap": {
@@ -353,7 +363,19 @@
     "openIncidents_1": "{{count}} Vorfall",
     "openIncidents_2": "{{count}} Vorfälle",
     "labelWarning": "Warnung",
-    "labelCritical": "Kritisch"
+    "labelCritical": "Kritisch",
+    "carbonNoIssues": "Keine Probleme",
+    "carbonOpenIssues": "{{count}} Problem",
+    "carbonOpenIssues_plural": "{{count}} Probleme",
+    "carbonOpenIssues_0": "{{count}} Probleme",
+    "carbonOpenIssues_1": "{{count}} Problem",
+    "carbonOpenIssues_2": "{{count}} Probleme",
+    "carbonNoIncidents": "Keine Vorfälle",
+    "carbonOpenIncidents": "{{count}} Vorfall",
+    "carbonOpenIncidents_plural": "{{count}} Vorfälle",
+    "carbonOpenIncidents_0": "{{count}} Vorfälle",
+    "carbonOpenIncidents_1": "{{count}} Vorfall",
+    "carbonOpenIncidents_2": "{{count}} Vorfälle"
   },
   "vulnerabilities": {
     "eventType_issue": "Sicherheitslücken",
@@ -377,7 +399,19 @@
     "openIncidents_plural": "{{count}} Vorfälle",
     "openIncidents_0": "{{count}} Vorfälle",
     "openIncidents_1": "{{count}} Vorfall",
-    "openIncidents_2": "{{count}} Vorfälle"
+    "openIncidents_2": "{{count}} Vorfälle",
+    "carbonNoVulnerabilities": "Keine Schwachstellen",
+    "carbonOpenVulnerabilities": "{{count}} Schwachstelle",
+    "carbonOpenVulnerabilities_plural": "{{count}} Schwachstellen",
+    "carbonOpenVulnerabilities_0": "{{count}} Schwachstellen",
+    "carbonOpenVulnerabilities_1": "{{count}} Schwachstelle",
+    "carbonOpenVulnerabilities_2": "{{count}} Schwachstellen",
+    "carbonNoIncidents": "Keine Vorfälle",
+    "carbonOpenIncidents": "{{count}} Vorfall",
+    "carbonOpenIncidents_plural": "{{count}} Vorfälle",
+    "carbonOpenIncidents_0": "{{count}} Vorfälle",
+    "carbonOpenIncidents_1": "{{count}} Vorfall",
+    "carbonOpenIncidents_2": "{{count}} Vorfälle"
   },
   "inlineTabNavigation": {
     "labelSelectTab": "Registerkarte auswählen"
@@ -703,6 +737,7 @@
     },
     "groupName": "Gruppenname",
     "groupedOnly": "Messwert ist nur verfügbar, wenn Gruppen analysiert werden.",
+    "groupNameNotAvailable": "{{groupbyTag}} Information nicht verfügbar",
     "filterSidebar": {
       "groupingButton": "Nach {{group}} gruppieren",
       "ungroupButton": "Gruppierung entfernen"

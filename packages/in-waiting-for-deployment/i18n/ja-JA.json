@@ -23,7 +23,7 @@
     "dynamic": "動的",
     "static": "静的",
     "agentJdk": "エージェント JDK",
-    "azulZulu18": "Azul Zulu 1.8",
+    "azulZulu11": "Azul Zulu 11",
     "eclipseOpenJ911": "Eclipse Open J9 11",
     "theClusterNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo64CharactersLong": "クラスター名は、英字、ダッシュ、アンダースコアーを組み合わせて 64 文字以内で指定する必要があります",
     "aws": "AWS",

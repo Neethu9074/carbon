@@ -75,8 +75,8 @@
     "restartCount": "Nombre de redémarrages",
     "kubernetesLabels": "Libellés Kubernetes",
     "podmanAnnotations": "Annotations Podman",
-    "metricExplosionBeeInstana": "Ce tableau de bord ne peut pas afficher toutes les métriques car seules {{numberOfMetrics}} ont été stockées",
-    "metricExplosion": "Il se peut que ce tableau de bord n'affiche pas toutes les métriques, car seules {{numberOfMetrics}} métriques haute résolution ont été stockées. Pour afficher d'autres métriques, utilisez Analyser l'infrastructure ou un tableau de bord personnalisé."
+    "metricExplosionBeeInstana": "Ce tableau de bord peut ne pas afficher toutes les métriques, car un maximum de {{numberOfMetrics}} métriques sont capturées à un moment donné.",
+    "metricExplosion": "Ce tableau de bord peut ne pas afficher toutes les métriques, car un maximum de {{numberOfMetrics}} métriques haute résolution sont capturées à un moment donné. Pour afficher d'autres métriques, utilisez Analyser l'infrastructure ou un tableau de bord personnalisé."
   },
   "explore": {
     "analyzeInfrastructure": "Analyser l'infrastructure",

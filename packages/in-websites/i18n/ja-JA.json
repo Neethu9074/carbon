@@ -479,10 +479,6 @@
         "alertConfigurationTitleTimeThreshold": "時間しきい値",
         "alertConfigurationTitleAlertChannels": "アラート・チャネル",
         "alertConfigurationTitleAlertProperties": "アラート・プロパティー",
-        "filter": "フィルター",
-        "filter_plural": "フィルター",
-        "moreFiltersWithCount": "さらに {{count}} 個のフィルター",
-        "moreFiltersWithCount_plural": "さらに {{count}} 個のフィルター",
         "alertsLabelFilters": "フィルター"
       },
       "configuration": {
@@ -493,7 +489,7 @@
         "configurationRenameTitle": "Webサイトの名前変更",
         "configurationRenameButton": "名前を変更",
         "configurationTrackingScriptTitle": "エージェント・トラッキング・スクリプト",
-        "configurationUserAgentVersion": "現在のエージェントのバージョンは <strong>{{agentVersion}}</strong> です。",
+        "configurationUserAgentVersion": "現在のエージェントのバージョンは {{agentVersion}} です。",
         "saved": "保存",
         "ipMasking": {
           "title": "IPマスキング",
@@ -820,6 +816,8 @@
     "websiteDashboardTitleWebsite": "Web サイト",
     "websiteDashboardButtonAnalyzePageLoads": "ページ・ロードの分析",
     "websiteDashboardButtonAnalyzePageTransitions": "ページ遷移の分析",
+    "websiteDashboardWarnOldAgentVersion": "<strong>Instana Web サイト・エージェントのバージョン {{currentVersion}} を使用していますが、これは古いもの</strong>です。 <configTab>構成タブ</configTab>で最新 {{latestVersion}} に更新してください。",
+    "websiteDashboardWarnDeprecatedAgentVersion": "<strong>Instana ウェブサイトのエージェント {{currentVersion}} のバージョンは、{{deprecationDate}} に廃止されます。</strong> <configTab>構成タブ</configTab>で最新 {{latestVersion}} に更新してください。",
     "noDataAvailable": {
       "pagesTitle": "使用可能なページがありません",
       "pagesDescription": "選択された時刻範囲で取得されたページはありません。",

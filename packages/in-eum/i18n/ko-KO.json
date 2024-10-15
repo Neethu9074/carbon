@@ -1,0 +1,14 @@
+{
+  "generateImpactReport": {
+    "button": "영향 보고서 생성"
+  },
+  "entityInfoLabelOfWebsiteOrMobile": "웹사이트/모바일 앱에서:",
+  "titleImpactedUsers": "영향받는 사용자",
+  "labelImpactedUsers": "사용자:",
+  "lastHoursOfTheIssue": "문제의 마지막 {{duration}} 시간",
+  "approximateDataIndicator": {
+    "durationTooLong": "문제가 오래 지속되었기 때문에 이제 쿼리 결과에는 지난 몇 시간의 데이터만 표시됩니다.",
+    "tooManyCalls": "통화량이 많기 때문에 이제 쿼리 결과에는 지난 몇 시간의 데이터만 표시됩니다.",
+    "tooManyCallsWithEstimation": "통화량이 많기 때문에(총 약 {{estimatedCount}}) 이제 쿼리 결과에는 최근 몇 시간 동안의 데이터만 표시됩니다."
+  }
+}

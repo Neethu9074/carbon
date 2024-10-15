@@ -159,6 +159,7 @@
         "cacheInteraction": "Interação do cache",
         "instanaDoesNotMonitorTheLocationOfThisCall": "A Instana não monitora o {{location}} desta chamada",
         "tags": "Tags",
+        "metrics": "Métrica",
         "loading": "Carregando os detalhes da chamada.",
         "labelError": "Erro inesperado",
         "retryError": "Os detalhes da chamada não puderam ser carregados.",
@@ -167,7 +168,10 @@
         "networkTime": "Tempo de rede",
         "waitingTime": "Tempo de espera",
         "latency": "Latência",
-        "findSQL": "Localizar SQL em {{type}}"
+        "findSQL": "Localizar SQL em {{type}}",
+        "sumOfLatencies": "Soma das latências",
+        "elapsedTime": "Tempo decorrido",
+        "batchTooltip": "Total {{type}} para chamadas em {{batchCount}}."
       },
       "callTree": {
         "expandButtonForRow": "Expandir todas as subchamadas",
@@ -283,6 +287,7 @@
     "labelNetwork": "Rede",
     "labelSelf": "Próprio",
     "labelWaiting": "Esperando",
+    "labelElapsed": "Decorrido",
     "labelService": "Serviço",
     "labelEndpoint": "Terminal",
     "labelAggregatedTime": "Tempo agregado",

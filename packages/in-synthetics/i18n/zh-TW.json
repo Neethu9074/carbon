@@ -385,7 +385,8 @@
       "secondaryLabels": {
         "tests": "測試",
         "locations": "位置",
-        "smartAlerts": "智慧型警示"
+        "smartAlerts": "智慧型警示",
+        "credentials": "認證"
       },
       "popDialog": {
         "popUpDialogTitle": "Synthetic Monitoring 的許可權",
@@ -408,8 +409,6 @@
         "filterLabel": "應用程式",
         "singleAppHeader": "{{ number }} 個關聯",
         "multiAppHeader": "{{ number }} 個關聯",
-        "singleAppSpan": "{{ number }} 個關聯的應用程式",
-        "multiAppSpan": "{{ number }} 個關聯的應用程式",
         "noApplicationsAssociated": "沒有相關聯的應用程式"
       },
       "multiWebDialog": {
@@ -434,7 +433,14 @@
       "successRuns": "{{successRuns}} / {{totalRuns}} 個結果",
       "latency": "延遲",
       "locationLabel": "位置",
-      "locations": "{{totalLocations}} 個位置",
+      "locationsColumn": {
+        "singleLocation": "{{number}} 個位置",
+        "multipleLocations": "{{number}} 個位置",
+        "singleRun": "在 {{number}} 個位置中執行",
+        "multipleRun": "在 {{number}} 個位置中執行",
+        "warning": "警告",
+        "noIssues": "沒有問題"
+      },
       "associationLabel": "關聯",
       "health": "性能",
       "action": "動作",
@@ -512,8 +518,8 @@
       "meanLatencyFor90th": "第 90 個的 {{meanLatencyDetail}}",
       "smartAlertsTab": "智慧型警示",
       "configurationTab": "配置",
-      "isCertificateValid": "前次執行 - 憑證有效",
-      "resultsCertificateValid": "憑證有效",
+      "isCertificateValid": "上次執行 - 憑證由公開 CA 簽署",
+      "resultsCertificateValid": "憑證由公開 CA 簽署",
       "certificateValid": "是",
       "certificateNotValid": "否",
       "daysRemaining": "前次執行 - 剩餘天數",

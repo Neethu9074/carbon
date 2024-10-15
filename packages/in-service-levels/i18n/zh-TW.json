@@ -204,6 +204,7 @@
     "sloChartSummary": {
       "status": "狀態",
       "target": "目標：",
+      "errorBudgetRemaining": "剩餘的錯誤預算",
       "errorBudgetSpent": "所耗費的錯誤預算",
       "errorBudget": "錯誤預算：",
       "timeWindow": "時間範圍",

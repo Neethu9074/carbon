@@ -1,0 +1,9 @@
+{
+  "noMonitoringDataFound": "找不到监控数据",
+  "name": "名称",
+  "noOfClusters": "聚类数",
+  "noOfHosts": "主机数",
+  "noOfVms": "虚拟机数",
+  "nutanix": "Nutanix",
+  "type": "Type"
+}

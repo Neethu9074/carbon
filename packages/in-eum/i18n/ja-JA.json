@@ -1,0 +1,14 @@
+{
+  "generateImpactReport": {
+    "button": "インパクト・レポートの作成"
+  },
+  "entityInfoLabelOfWebsiteOrMobile": "ウェブサイト/モバイル・アプリ：",
+  "titleImpactedUsers": "影響を受けるユーザー",
+  "labelImpactedUsers": "ユーザー：",
+  "lastHoursOfTheIssue": "問題の最後の {{duration}} 時間",
+  "approximateDataIndicator": {
+    "durationTooLong": "問題の発生期間が長かったため、クエリー結果には過去数時間のデータしか表示されなくなりました",
+    "tooManyCalls": "問い合わせが集中したため、問い合わせ結果には過去数時間のデータしか表示されなくなりました",
+    "tooManyCallsWithEstimation": "大量のコール (合計で {{estimatedCount}}) があったため、クエリー結果には過去数時間のデータしか表示されなくなりました"
+  }
+}

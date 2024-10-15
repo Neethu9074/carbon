@@ -146,7 +146,7 @@
   "permissionCanViewTraceDetailsCategory": "存取控制",
   "permissionCanViewAccountAndBillingInformationLabel": "存取帳戶和計費資訊",
   "permissionCanViewAccountAndBillingInformationDescription": "允許存取帳戶、計費及授權資訊。",
-  "permissionCanViewAccountAndBillingInformationCategory": "帳戶資訊",
+  "permissionCanViewAccountAndBillingInformationCategory": "廣域函數",
   "permissionCanConfigureSyntheticTestsLabel": "綜合測試的配置",
   "permissionCanConfigureSyntheticTestsDescription": "允許建立、更新及刪除綜合測試。",
   "permissionCanConfigureSyntheticLocationsLabel": "綜合位置的配置",

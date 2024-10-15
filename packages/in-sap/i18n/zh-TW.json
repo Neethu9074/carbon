@@ -656,7 +656,15 @@
     "applicationArea": "應用領域",
     "messageNumber": "訊息號碼",
     "line": "字行",
-    "noVariableMsgPart": "可變訊息計數"
+    "noVariableMsgPart": "可變訊息計數",
+    "transportRequest": "傳輸要求",
+    "category": "種類",
+    "target": "目標",
+    "modifiable": "可修改",
+    "protected": "受保護",
+    "releasedStarted": "已開始釋放",
+    "httpRespTime": "HTTP",
+    "httpsRespTime": "HTTPS"
   },
   "viewAllEntityName_unknownEntity_plural": "全部",
   "viewAllEntityName_unknownEntity_0": "全部",

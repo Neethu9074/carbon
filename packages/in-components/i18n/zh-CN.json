@@ -17,9 +17,11 @@
     "chartWrapperMetricNotfound": "找不到指标标识 {{metricId}}。",
     "chartWrapperSameAxisSameValue": "一个轴的所有汇总类型必须具有相同的值。",
     "viewInAnalyticsBtnLabel": "查看分析",
+    "chartLegendBlankLabel": "空",
     "chartLendMetricTimeShifted": "指标时移到：{{timeShiftedLabel}}",
-    "chartDownloadLabel": "下载 JSON",
-    "chartDownloadCSVLabel": "下载 CSV",
+    "chartDownloadLabel": "导出为 JSON",
+    "chartDownloadCSVLabel": "导出为 CSV",
+    "chartDownloadPDFLabel": "下载 PDF",
     "chartGlobalHighlightLabel": "在所有图表上突出显示",
     "chartZoomInLabel": "缩放到时间范围",
     "chartAlertsLanePresenterAlertsLabel": "警报",
@@ -64,6 +66,15 @@
   },
   "touchedMessages": {
     "withPath": "{{message}}（位于 <codeWithClass>{{path}}</codeWithClass>)"
+  },
+  "graphView": {
+    "graphTitle": "图形",
+    "explanationHeader": "Dynamic Graph 展示",
+    "explanationP1": "Dynamic Graph 是支持 Instana 的核心技术。 这是一种应用程序模型，可方便您了解组件的所有物理和逻辑依赖关系。 在右侧，您会看到当前环境的 Dynamic Graph！",
+    "explanationP2": "该图包含 Instana 代理程序和传感器自动发现的所有资源及其依赖项，因此一直保持最新状态。 图中的每个节点也会使用状态信息持续更新，例如指标、配置数据和基于语义知识计算出的运行状况值。 这些知识还会分析该图中的依赖关系以查找服务和应用程序等逻辑分组，继而了解对该级别的影响并推理出问题的严重程度。 整个图具有持久性，您可以来回调整时间以将该图的知识用于多个操作用例。",
+    "explanationP3": "您可以在基础架构图上选择一个资源，然后返回本页，以便对右侧的视图进行过滤。 选择资源后，应在 URL 中设置 snapshotId 参数，以允许此过滤操作。",
+    "explanationLink": "<linkToBlog>请访问我们的博客</linkToBlog>以了解更多信息。",
+    "closeBtn": "关闭图形"
   },
   "releaseNotesDialog": {
     "releaseNotesTitle": "发行说明"
@@ -231,6 +242,7 @@
     "labelRegion": "区域",
     "labelTag": "标记",
     "labelCommit": "落实",
+    "buttonGraphShowcase": "图形展示",
     "geo": {
       "title": "地理数据",
       "description": "此产品包含 MaxMind 创建的 GeoLite2 数据，可从以下站点获取：<linkToMaxMind>https://www.maxmind.com</linkToMaxMind>."
@@ -299,8 +311,6 @@
     "labelExpandButtonForContent": "展开内容按钮"
   },
   "featureFeedback": {
-    "labelPublicPreview": "预览",
-    "labelPrivatePreview": "预览",
     "linkLabelYouCanSendUsFeedback": "您可以向我们发送反馈"
   },
   "geoHeatMap": {
@@ -353,7 +363,19 @@
     "openIncidents_1": "{{count}} 个突发事件",
     "openIncidents_2": "{{count}} 个突发事件",
     "labelWarning": "警告",
-    "labelCritical": "严重"
+    "labelCritical": "严重",
+    "carbonNoIssues": "没有问题",
+    "carbonOpenIssues": "{{count}} 个问题",
+    "carbonOpenIssues_plural": "{{count}} 个问题",
+    "carbonOpenIssues_0": "{{count}} 个问题",
+    "carbonOpenIssues_1": "{{count}} 个问题",
+    "carbonOpenIssues_2": "{{count}} 个问题",
+    "carbonNoIncidents": "无事件",
+    "carbonOpenIncidents": "{{count}} 个突发事件",
+    "carbonOpenIncidents_plural": "{{count}} 个突发事件",
+    "carbonOpenIncidents_0": "{{count}} 个突发事件",
+    "carbonOpenIncidents_1": "{{count}} 个突发事件",
+    "carbonOpenIncidents_2": "{{count}} 个突发事件"
   },
   "vulnerabilities": {
     "eventType_issue": "漏洞",
@@ -377,7 +399,19 @@
     "openIncidents_plural": "{{count}} 个突发事件",
     "openIncidents_0": "{{count}} 个突发事件",
     "openIncidents_1": "{{count}} 个突发事件",
-    "openIncidents_2": "{{count}} 个突发事件"
+    "openIncidents_2": "{{count}} 个突发事件",
+    "carbonNoVulnerabilities": "无漏洞",
+    "carbonOpenVulnerabilities": "{{count}} 个漏洞",
+    "carbonOpenVulnerabilities_plural": "{{count}} 个漏洞",
+    "carbonOpenVulnerabilities_0": "{{count}} 个漏洞",
+    "carbonOpenVulnerabilities_1": "{{count}} 个漏洞",
+    "carbonOpenVulnerabilities_2": "{{count}} 个漏洞",
+    "carbonNoIncidents": "无事件",
+    "carbonOpenIncidents": "{{count}} 个突发事件",
+    "carbonOpenIncidents_plural": "{{count}} 个突发事件",
+    "carbonOpenIncidents_0": "{{count}} 个突发事件",
+    "carbonOpenIncidents_1": "{{count}} 个突发事件",
+    "carbonOpenIncidents_2": "{{count}} 个突发事件"
   },
   "inlineTabNavigation": {
     "labelSelectTab": "选择选项卡"
@@ -703,6 +737,7 @@
     },
     "groupName": "组名称",
     "groupedOnly": "指标仅在分析组时可用。",
+    "groupNameNotAvailable": "{{groupbyTag}} 信息可不用",
     "filterSidebar": {
       "groupingButton": "按 {{group}} 分组",
       "ungroupButton": "移除分组"

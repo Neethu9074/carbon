@@ -2682,6 +2682,11 @@
   "tracingTypeName_session_0": "세션 호출",
   "tracingTypeName_session_1": "세션 호출",
   "tracingTypeName_session_2": "세션 호출",
+  "tracingTypeName_sequel": "속편",
+  "tracingTypeName_sequel_plural": "속편 통화",
+  "tracingTypeName_sequel_0": "속편 통화",
+  "tracingTypeName_sequel_1": "속편",
+  "tracingTypeName_sequel_2": "속편 통화",
   "tracingTypeName_shell": "쉘 호출",
   "tracingTypeName_shell_plural": "쉘 호출",
   "tracingTypeName_shell_0": "쉘 호출",
@@ -6850,8 +6855,8 @@
       "labelContentionRate": "경합 비율",
       "labelLargeObject": "대형 오브젝트",
       "labelGCTime": "GC 시간",
-      "theFollowingEnvironmentVariablesMustBeSetOnTheNetCoreProcess": "이 .NET Full Framework 애플리케이션에 대한 프로세스 환경은 Instana가 모니터할 수 있도록 올바르게 구성되어 있지 않습니다. 다음 <code>{{missing}}</code>환경 변수를 .NET Core 프로세스에 설정해야 합니다. 설정할 올바른 값은 문서를 참조하십시오.",
-      "detectedThisBasedOnTheValueOfTheInvalidEnvKeyEnvironmentVariable": "{{competitor}}과(와) 같은 다른 도구가 이 .Net Full Framework 프로세스를 모니터하고 있는 것 같습니다. Instana 호스트 에이전트가 <code>{{invalidEnvKey}}</code> 환경 변수 값을 기반으로 이를 발견했습니다. Instana에서 이 .NET Core 프로세스를 추적할 수 있으려면 다른 모니터링 도구를 사용 안함으로 설정해야 합니다.",
+      "theFollowingEnvironmentVariablesMustBeSetOnTheNetCoreProcess": "이 .NET Full Framework 애플리케이션에 대한 프로세스 환경은 Instana가 모니터할 수 있도록 올바르게 구성되어 있지 않습니다. .NET Framework 프로세스에서 다음 환경 변수를 설정해야 합니다. <code>{{missing}}</code>. 설정할 올바른 값은 문서를 참조하십시오.",
+      "detectedThisBasedOnTheValueOfTheInvalidEnvKeyEnvironmentVariable": "{{competitor}}과(와) 같은 다른 도구가 이 .Net Full Framework 프로세스를 모니터하고 있는 것 같습니다. Instana 호스트 에이전트가 <code>{{invalidEnvKey}}</code> 환경 변수 값을 기반으로 이를 발견했습니다. Instana에서 이 .NET Framework 프로세스를 추적하려면 다른 모니터링 도구를 비활성화해야 합니다.",
       "theEnvironmentVariableInvalidEnvKeyHasTheWrongValue": "이 .NET Full Framework 애플리케이션에 대한 프로세스 환경은 Instana가 모니터할 수 있도록 올바르게 구성되어 있지 않습니다. 환경 변수 <code>{{invalidEnvKey}}</code>에 잘못된 값 <code>{{invalidEnvValue}}</code>이(가) 있습니다. <code>{{invalidEnvKey}}</code> 환경 변수에 어떤 값을 설정할지에 대한 안내는 해당 문서를 참조하십시오.",
       "dashboard": {
         "labelAllHeaps": "모든 힙",
@@ -8700,6 +8705,7 @@
       },
       "name": "이름",
       "image": "이미지",
+      "isPodmanRootless": "루트리스",
       "containerId": "컨테이너 ID",
       "cpuTotalUsage": "CPU 총 사용량",
       "cpuThrottlingCount": "CPU 스로틀링 개수",
@@ -8725,6 +8731,7 @@
       "networkMode": "네트워크 모드",
       "command": "명령",
       "podmanVersion": "Podman 버전",
+      "remoteSocketPath": "원격 소켓 경로",
       "restartCount": "다시 시작 개수"
     },
     "process": {
@@ -8732,6 +8739,7 @@
       "troubleshootingDocs": "문제점 해결 문서",
       "jvmAttachSocketIssueDescription": "호스트 에이전트가 이 JVM(Java Virtual Machine)에 올바르게 접속할 수 없습니다. JVM은 동적 접속 중에 사용된 통신 소켓에 연결할 수 없습니다. 해당 접속 기능을 복원하려면 JVM을 다시 시작해 보십시오. 따라서 이 프로세스는 추적되지 않습니다. 접속 실패 이유에 관한 자세한 정보는 호스트 에이전트 로그를 참조하십시오. 호스트 에이전트는 10분마다 이 가상 머신에 다시 연결하려고 시도합니다. 그러나 성공할 때까지, 이 JVM에 대한 추적 또는 메트릭은 수집되지 않습니다.",
       "jvmAttachDirectoryIssueDescription": "호스트 에이전트가 이 JVM(Java Virtual Machine)에 올바르게 연결할 수 없습니다. JVM이 동적 연결 중에 연결 디렉토리를 찾지 못했습니다. 호스트 에이전트 JVM 프로세스와 대상 JVM 프로세스의 임시 디렉토리에 대한 환경 설정이 일치하는지 확인하거나, JVM 고유 시스템 특성을 사용하여 대상 JVM을 시작할 때 다른 연결 디렉토리를 지정하십시오.",
+      "jvmInstrumentationSharedAbsentIssueDescription": "호스트 에이전트는 이 Java 가상 머신에 대한 첨부 파일을 닫아야 했습니다. Javaagent-loader가 이 JVM에 연결될 때 /tmp/.instana/instrumentation-shared-<version>-<pid>-<string>.jar 파일이 삭제되었습니다. 시스템 또는 컨테이너가 이 파일을 삭제하지 않았는지 확인하세요.",
       "insufficientDiskMemoryIssueDescription": "호스트 에이전트는 스토리지 용량 한계로 인해 호스트 시스템에서 또는 애플리케이션 컨테이너 내에서 임시 파일을 로드할 수 없습니다. 수정 단계는 문제점 해결 문서를 확인하십시오.",
       "portUnavailableIssueDescription": "에이전트는 기본 포트 42699에 바인드할 수 없습니다. 전체 용량에서 모니터링은 가능하지 않습니다. 수정 단계는 문제점 해결 문서를 참조하십시오.",
       "pythonAutoTraceFailedIssueDescription": "호스트 에이전트가 이 Python 프로세스를 자동으로 인스트루먼트하려고 시도했으나 실패했습니다.",
@@ -9421,29 +9429,38 @@
         "hostUsedPhysicalMemoryRatio": "호스트 메모리 사용량",
         "eventTime": "이벤트 시간",
         "eventName": "이벤트 이름",
-        "eventDetail": "이벤트 세부사항",
-        "systemActive": "시스템 활성",
         "systemStatus": "시스템 상태",
-        "hostStatus": "호스트 상태",
-        "hostActive": "호스트 활성 상태",
         "serviceStatus": "서비스 상태",
-        "databaseName": "데이터베이스 이름",
         "systemEventStats": "시스템 이벤트",
-        "errorMsg": "오류 메시지",
         "diskUsagePercentage": "디스크 사용률",
         "diskUsageSummary": "디스크 사용량 요약",
         "usage": "사용량",
         "archiveLogBackupStats": "아카이브 로그 백업",
-        "systemId": "시스템 ID",
         "sourceDatabaseName": "소스 데이터베이스",
-        "destinationPath": "대상 경로",
         "userLockStats": "사용자 잠금",
         "userMode": "사용자 모드",
         "deactivationTime": "비활성화 시간",
         "userId": "사용자 ID",
         "schedulerJobStats": "스케줄러 작업",
         "schedulerJobName": "작업 이름",
-        "endTime": "종료 시간"
+        "endTime": "종료 시간",
+        "virtualMemory": "가상 메모리",
+        "transactionId": "트랜잭션 ID",
+        "transactionType": "트랜잭션 유형",
+        "transactionStatus": "트랜잭션 상태",
+        "acquiredLockCount": "확보한 잠금 수",
+        "activeStatementCount": "현재 명령문 수",
+        "transactionStats": "트랜잭션 통계",
+        "currentWorkloadRate": "워크로드 속도(분당)",
+        "usedMemorySize": "사용된 메모리",
+        "activeStatementStats": "활성 명령문",
+        "destinationPath": "대상 경로",
+        "systemId": "시스템 ID",
+        "currentStatementId": "현재 명령문 ID",
+        "connectionId": "연결 ID",
+        "statementId": "명령문 ID",
+        "statementString": "명령문 스트링",
+        "planId": "계획 ID"
       },
       "systemId": "시스템 ID",
       "databaseName": "데이터베이스 이름",
@@ -9483,7 +9500,12 @@
       "threadsJobWorkerBlockedCount": "차단된 작업자 스레드",
       "threadsSqlExecutorBlockedCount": "차단된 SQL 실행기 스레드",
       "queueingConnectionCount": "큐 연결 수",
-      "unableToConnect": "사용자 {{user}}에 대해 연결 URL {{connectionUrl}}을(를) 사용하여 {{dbName}}에 연결할 수 없습니다."
+      "unableToConnect": "사용자 {{user}}에 대해 연결 URL {{connectionUrl}}을(를) 사용하여 {{dbName}}에 연결할 수 없습니다.",
+      "currentStmtExecutionRate": "현재 명령문 실행률",
+      "currentStmtCompilationRate": "현재 명령문 컴파일 속도",
+      "currentUpdateTransactionRate": "현재 업데이트 트랜잭션 비율",
+      "currentRollbackRate": "현재 롤백 속도",
+      "currentCommitRate": "현재 커밋 속도"
     },
     "service": {
       "service": "서비스",
@@ -11790,7 +11812,11 @@
       "freeMem": "사용 가능한 메모리",
       "maxMem": "최대 메모리",
       "totalMem": "총 메모리",
-      "globalMem": "글로벌 메모리 관리자"
+      "globalMem": "글로벌 메모리 관리자",
+      "sourceDatastoreTimeCheckMissed": "소스 데이터스토어 시간 확인 누락",
+      "sourceDatastoreNetworkError": "소스 데이터스토어 네트워크 오류",
+      "targetDatastoreTimeCheckMissed": "대상 데이터스토어 시간 확인 누락",
+      "targetDatastoreNetworkError": "타겟 데이터스토어 네트워크 오류"
     },
     "ibmMqChannel": {
       "dashboard": {
@@ -17155,7 +17181,14 @@
       "rollInTime": "RollIn 시간(밀리초)",
       "rollOutTime": "RollOut 시간(밀리초)",
       "queueTime": "큐 시간(밀리초)",
-      "rollWaitTime": "RollWait 시간(밀리초)"
+      "rollWaitTime": "RollWait 시간(밀리초)",
+      "dvUnit": "개발 단위",
+      "component": "컴포넌트",
+      "probClass": "문제 클래스",
+      "program": "프로그램",
+      "msgArea": "메시지 영역",
+      "developmentClass": "개발 클래스",
+      "appComponent": "애플리케이션 컴포넌트"
     },
     "s3": {
       "region": "지역",
@@ -17184,6 +17217,13 @@
     "session": {
       "sessionStart": "세션 시작",
       "sessionHandler": "세션 핸들러"
+    },
+    "sequel": {
+      "adapter": "어댑터",
+      "database": "데이터베이스",
+      "databaseHost": "데이터베이스 호스트",
+      "username": "사용자 이름",
+      "sql": "SQL"
     },
     "shell": {
       "shellCommand": "쉘 명령"

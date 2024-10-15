@@ -146,7 +146,7 @@
   "permissionCanViewTraceDetailsCategory": "액세스 제어",
   "permissionCanViewAccountAndBillingInformationLabel": "계정 및 청구 정보에 대한 액세스",
   "permissionCanViewAccountAndBillingInformationDescription": "계정, 청구 및 라이센스 정보에 대한 액세스를 허용합니다.",
-  "permissionCanViewAccountAndBillingInformationCategory": "계정 정보",
+  "permissionCanViewAccountAndBillingInformationCategory": "전역 함수",
   "permissionCanConfigureSyntheticTestsLabel": "합성 테스트의 구성",
   "permissionCanConfigureSyntheticTestsDescription": "합성 테스트를 작성, 업데이트 및 삭제하기 위한 액세스를 허용합니다.",
   "permissionCanConfigureSyntheticLocationsLabel": "합성 위치의 구성",

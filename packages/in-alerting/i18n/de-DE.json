@@ -550,7 +550,7 @@
           "groupByEndpoint_1": "{{count}} Endpunkte",
           "groupByEndpoint_2": "{{count}} Endpunkte",
           "groupbyDescription": "Basierend auf den Aufrufen der letzten 24 Stunden",
-          "noData": "Es sind keine Daten für die Gruppierung verfügbar.",
+          "noData": "Keine der betroffenen Anwendungen, Dienste oder Endpunkte haben in den letzten 24 Stunden Anrufe aufgezeichnet.",
           "groupByDataFailed": "Es ist ein Fehler aufgetreten. Die Daten der Gruppe nach konnten nicht abgerufen werden. Grund : {{reason}}"
         },
         "callsInScope": {
@@ -601,7 +601,8 @@
           "metricLabel": "{{metricLabel}} Prozentuale Latenzzeit",
           "minLatency": "Mindestlatenzzeit",
           "maxLatency": "Maximale Latenzzeit",
-          "meanLatency": "Durchschnittliche Latenz"
+          "meanLatency": "Durchschnittliche Latenz",
+          "sumLatency": "Summe Latenzzeit"
         },
         "timeThreshold": {
           "title": "Festlegen, wenn Verstöße Alerts auslösen",
@@ -647,7 +648,7 @@
     },
     "details": {
       "header": "Details",
-      "thresholdTypeTitle": "Schwellenwerttyp",
+      "thresholdTypeTitle": "Schwellenwerttyp:",
       "metricTitle": "Metrik",
       "threshold": "Schwellenwert",
       "warningThresholdLabel": "Warnung",
@@ -674,6 +675,7 @@
       "ruleAggregationOptionP98": "98.",
       "ruleAggregationOptionP99": "99.",
       "ruleAggregationOptionMAX": "Max.",
+      "ruleAggregationOptionSUM": "Summe",
       "ruleAggregationForWeeklySeasonalityOptionMEAN": "Mittelwert",
       "ruleAggregationForWeeklySeasonalityOptionP50": "50.",
       "ruleStatusCodeValueOption1": "1XX (Information)",
@@ -875,6 +877,7 @@
         "buttonMigrate": "Migrieren",
         "selectedBlueprint": "Ausgewählter Blueprint",
         "buttonRecalculateBaseline": "Grundlinie neu berechnen",
+        "buttonRecalculateBaselineDisabled": "Neuberechnung der Basislinie (deaktiviert)",
         "sensitivitySliderLow": "niedrig",
         "sensitivitySliderHigh": "hoch",
         "sensitivitySliderValueLabel": "{{count}} Standardabweichung",
@@ -896,8 +899,8 @@
         "loadingThresholdSuggestion": "Vorschlag für Schwellenwert",
         "alertConfigDialogPresenterTitleEditAlert_Local": "Smart Alert bearbeiten",
         "alertConfigDialogPresenterTitleEditAlert_Global": "Globalen Smart Alert bearbeiten",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Smart Alert erstellen",
-        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Globalen Smart Alert erstellen",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Intelligenten Alert erstellen",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Globalen intelligenten Alert erstellen",
         "alertConfigDialogPresenterTitleMigrateAlert": "Auf Smart Alert migrieren",
         "alertConfigTearSheetEditAlert_Local": "Bearbeiten einer Anwendung Smart Alert",
         "alertConfigTearSheetEditAlert_Global": "Bearbeiten einer globalen Smart Alert-Anwendung",
@@ -1079,7 +1082,17 @@
             "subtitleForStaticDailySeasonality": "Statische tägliche Saisonalität, {{metricLabel}}",
             "subtitleForStaticWeeklySeasonality": "Statische wöchentliche Saisonalität, {{metricLabel}}",
             "subtitleForAdaptiveThreshold": "Adaptiver Schwellenwert, {{metricLabel}}"
-          }
+          },
+          "moreFiltersWithCount": "+{{count}} weiterer Filter",
+          "moreFiltersWithCount_plural": "+{{count}} weitere Filter",
+          "moreFiltersWithCount_0": "+{{count}} weitere Filter",
+          "moreFiltersWithCount_1": "+{{count}} weitere Filter",
+          "moreFiltersWithCount_2": "+{{count}} weitere Filter",
+          "filter": "Filter",
+          "filter_plural": "Filter",
+          "filter_0": "Filter",
+          "filter_1": "Filter",
+          "filter_2": "Filter"
         }
       }
     },

@@ -2682,6 +2682,11 @@
   "tracingTypeName_session_0": "Llamadas de sesión",
   "tracingTypeName_session_1": "Llamada de sesión",
   "tracingTypeName_session_2": "Llamadas de sesión",
+  "tracingTypeName_sequel": "Secuela",
+  "tracingTypeName_sequel_plural": "Llamadas de secuelas",
+  "tracingTypeName_sequel_0": "Llamadas de secuelas",
+  "tracingTypeName_sequel_1": "Secuela",
+  "tracingTypeName_sequel_2": "Llamadas de secuelas",
   "tracingTypeName_shell": "Llamada de shell",
   "tracingTypeName_shell_plural": "Llamadas de shell",
   "tracingTypeName_shell_0": "Llamadas de shell",
@@ -6850,8 +6855,8 @@
       "labelContentionRate": "Tasa de contención",
       "labelLargeObject": "Objetos grandes",
       "labelGCTime": "Tiempo GC",
-      "theFollowingEnvironmentVariablesMustBeSetOnTheNetCoreProcess": "El entorno de proceso para esta aplicación .NET Full Framework no está configurado correctamente para que lo pueda supervisar Instana. Las variables de entorno siguientes se deben establecer en el proceso de .NET Core: <code>{{missing}}</code>. Consulte la documentación para obtener los valores correctos que se deben establecer.",
-      "detectedThisBasedOnTheValueOfTheInvalidEnvKeyEnvironmentVariable": "Aparentemente otra herramienta está supervisando este proceso .NET Full Framework, probablemente {{competitor}}. El agente de host Instana lo ha detectado basándose en el valor de la variable de entorno <code>{{invalidEnvKey}}</code>. Para que Instana pueda rastrear este proceso .NET Core, necesita debe inhabilitar la otra herramienta de supervisión.",
+      "theFollowingEnvironmentVariablesMustBeSetOnTheNetCoreProcess": "El entorno de proceso para esta aplicación .NET Full Framework no está configurado correctamente para que lo pueda supervisar Instana. Las siguientes variables de entorno deben establecerse en el proceso .NET Framework: <code>{{missing}}</code>. Consulte la documentación para obtener los valores correctos que se deben establecer.",
+      "detectedThisBasedOnTheValueOfTheInvalidEnvKeyEnvironmentVariable": "Aparentemente otra herramienta está supervisando este proceso .NET Full Framework, probablemente {{competitor}}. El agente de host Instana lo ha detectado basándose en el valor de la variable de entorno <code>{{invalidEnvKey}}</code>. Para que Instana pueda rastrear este proceso de .NET Framework, debe desactivar la otra herramienta de supervisión.",
       "theEnvironmentVariableInvalidEnvKeyHasTheWrongValue": "El entorno de proceso para esta aplicación .NET Full Framework no está configurado correctamente para que lo pueda supervisar Instana. La variable de entorno <code>{{invalidEnvKey}}</code> tiene el valor incorrecto <code>{{invalidEnvValue}}</code>. Consulte la documentación para obtener las instrucciones sobre qué valor se debe establecerse en la variable de entorno <code>{{invalidEnvKey}}</code>.",
       "dashboard": {
         "labelAllHeaps": "Todos los almacenamientos dinámicos",
@@ -8700,6 +8705,7 @@
       },
       "name": "Nombre",
       "image": "Imagen",
+      "isPodmanRootless": "Sin raíz",
       "containerId": "ID de contenedor",
       "cpuTotalUsage": "Uso total de CPU",
       "cpuThrottlingCount": "Número de regulaciones de CPU",
@@ -8725,6 +8731,7 @@
       "networkMode": "Nodo de red",
       "command": "Mandato",
       "podmanVersion": "Versión de Podman",
+      "remoteSocketPath": "Vía de acceso de socket remoto",
       "restartCount": "Recuento de reinicios"
     },
     "process": {
@@ -8732,6 +8739,7 @@
       "troubleshootingDocs": "Documentos de resolución de problemas",
       "jvmAttachSocketIssueDescription": "El agente de host no se puede conectar correctamente a esta máquina virtual Java. La JVM no puede conectarse a un socket de comunicación utilizado durante la conexión dinámica. Intente reiniciar la JVM para restaurar la función de conexión. Por lo tanto, este proceso no se rastreará. Consulte los registros del agente de host para obtener más información sobre por qué ha fallado el archivo adjunto. El agente de host intentará volver a conectarse a esta máquina virtual cada diez minutos. Sin embargo, hasta que lo consiga, no se recopilarán rastreos ni métricas para esta JVM.",
       "jvmAttachDirectoryIssueDescription": "El agente de host no se puede conectar correctamente a esta máquina virtual Java. La JVM no ha podido localizar el directorio de conexión durante la conexión dinámica. Verifique que los valores de entorno para los directorios temporales del proceso de JVM del agente de host y el proceso de JVM de destino coincidan, o bien asegúrese de utilizar la propiedad del sistema específica de JVM para especificar otro directorio de conexión al iniciar la JVM de destino.",
+      "jvmInstrumentationSharedAbsentIssueDescription": "El agente de host ha tenido que cerrar la conexión con esta máquina virtual Java. El archivo /tmp/.instana/instrumentation-shared-<version>-<pid>-<string>.jar se ha suprimido cuando el javaagent-loader se ha conectado a esta JVM. Compruebe que el sistema o el contenedor no suprimen este archivo.",
       "insufficientDiskMemoryIssueDescription": "El agente de host no puede cargar archivos temporales en la máquina host o dentro de contenedores de aplicación debido a los límites de capacidad de almacenamiento. Consulte la documentación sobre resolución de problemas para ver los pasos de corrección.",
       "portUnavailableIssueDescription": "El agente no puede enlazar con el puerto predeterminado 42699. La supervisión a plena capacida<d no será posible. Para ver los pasos de corrección, consulte la documentación sobre resolución de problemas.",
       "pythonAutoTraceFailedIssueDescription": "El agente de host ha intentado instrumentar automáticamente este proceso Python y no ha podido.",
@@ -9421,29 +9429,38 @@
         "hostUsedPhysicalMemoryRatio": "Uso de memoria de host",
         "eventTime": "Hora de suceso",
         "eventName": "Nombre de suceso",
-        "eventDetail": "Detalle de suceso",
-        "systemActive": "Sistema activo",
         "systemStatus": "Estado del sistema",
-        "hostStatus": "Estado de host",
-        "hostActive": "Estado activo del host",
         "serviceStatus": "Estado del servicio",
-        "databaseName": "Nombre de base de datos",
         "systemEventStats": "Sucesos del sistema",
-        "errorMsg": "Mensaje de error",
         "diskUsagePercentage": "Porcentaje de uso del disco",
         "diskUsageSummary": "Resumen de uso de disco",
         "usage": "Uso",
         "archiveLogBackupStats": "Copia de seguridad del registro de archivos",
-        "systemId": "ID del sistema",
         "sourceDatabaseName": "Base de datos de origen",
-        "destinationPath": "Vía de acceso de destino",
         "userLockStats": "Bloqueos de usuario",
         "userMode": "Modalidad de usuario",
         "deactivationTime": "Hora de desactivación",
         "userId": "ID de usuario",
         "schedulerJobStats": "Trabajos de planificador",
         "schedulerJobName": "Nombre de trabajo",
-        "endTime": "Hora de finalización"
+        "endTime": "Hora de finalización",
+        "virtualMemory": "Memoria virtual",
+        "transactionId": "ID de transacción",
+        "transactionType": "Tipo de transacción",
+        "transactionStatus": "Estado de transacción",
+        "acquiredLockCount": "Recuento de bloqueos adquiridos",
+        "activeStatementCount": "Recuento de sentencias activas",
+        "transactionStats": "Estadísticas de transacciones",
+        "currentWorkloadRate": "Tasa de carga de trabajo (por min)",
+        "usedMemorySize": "Memoria utilizada",
+        "activeStatementStats": "Sentencias activas",
+        "destinationPath": "Vía de acceso de destino",
+        "systemId": "ID del sistema",
+        "currentStatementId": "ID de sentencia actual",
+        "connectionId": "ID de conexión",
+        "statementId": "ID de sentencia",
+        "statementString": "Serie de sentencia",
+        "planId": "ID de plan"
       },
       "systemId": "ID del sistema",
       "databaseName": "Nombre de base de datos",
@@ -9483,7 +9500,12 @@
       "threadsJobWorkerBlockedCount": "Hebras de trabajo bloqueadas",
       "threadsSqlExecutorBlockedCount": "Hebras de ejecución de SQL bloqueadas",
       "queueingConnectionCount": "Recuento de conexiones en cola",
-      "unableToConnect": "No se puede conectar a {{dbName}} utilizando la url de conexión {{connectionUrl}} para el usuario {{user}}."
+      "unableToConnect": "No se puede conectar a {{dbName}} utilizando la url de conexión {{connectionUrl}} para el usuario {{user}}.",
+      "currentStmtExecutionRate": "Tasa actual de ejecución de sentencias",
+      "currentStmtCompilationRate": "Tasa actual de compilación de sentencias",
+      "currentUpdateTransactionRate": "Tasa actual de actualización de transacciones",
+      "currentRollbackRate": "Tasa actual de retrotracciones",
+      "currentCommitRate": "Tasa actual de confirmaciones"
     },
     "service": {
       "service": "Servicio",
@@ -11790,7 +11812,11 @@
       "freeMem": "Memoria libre",
       "maxMem": "Memoria máxima",
       "totalMem": "Memoria total",
-      "globalMem": "Gestor global de memoria"
+      "globalMem": "Gestor global de memoria",
+      "sourceDatastoreTimeCheckMissed": "Se ha omitido la comprobación de tiempo del almacén de datos de origen",
+      "sourceDatastoreNetworkError": "Error de red del almacén de datos de origen",
+      "targetDatastoreTimeCheckMissed": "Se ha omitido la comprobación de tiempo del almacén de datos de destino",
+      "targetDatastoreNetworkError": "Error de red del almacén de datos de destino"
     },
     "ibmMqChannel": {
       "dashboard": {
@@ -17155,7 +17181,14 @@
       "rollInTime": "Tiempo de RollIn (ms)",
       "rollOutTime": "Tiempo de RollOut (ms)",
       "queueTime": "Tiempo en cola (ms)",
-      "rollWaitTime": "Tiempo de RollWait (ms)"
+      "rollWaitTime": "Tiempo de RollWait (ms)",
+      "dvUnit": "Unidad de desarrollo",
+      "component": "Componente",
+      "probClass": "Clase de problema",
+      "program": "Program",
+      "msgArea": "Área de mensajes",
+      "developmentClass": "Clase de desarrollo",
+      "appComponent": "Componente de aplicación"
     },
     "s3": {
       "region": "Región",
@@ -17184,6 +17217,13 @@
     "session": {
       "sessionStart": "Inicio de sesión",
       "sessionHandler": "Manejador de sesión"
+    },
+    "sequel": {
+      "adapter": "Adaptador",
+      "database": "Base de datos",
+      "databaseHost": "Host de base de datos",
+      "username": "Nombre de usuario",
+      "sql": "SQL"
     },
     "shell": {
       "shellCommand": "Mandato de shell"

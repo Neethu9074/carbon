@@ -107,6 +107,7 @@
     "Step3Headline": "Opcionalmente, é possível criar uma política de automação junto com a ação. Também é possível concluir essa etapa em um momento posterior.",
     "step1Title": "Etapa 1: gerar ou selecionar uma ação",
     "step1TitleGenerateAction": "Etapa 1: gerar uma ação",
+    "step1TitleSelectAction": "Etapa 1: selecionar uma ação",
     "step2Title": "Etapa 2: Customizar ação",
     "step3Title": "Etapa 3: criar política (opcional)",
     "policyDetails": "Detalhes da política",
@@ -271,9 +272,30 @@
     "newFeature": "Novo Recurso",
     "view": "Visualizar",
     "content": "Conteúdo",
+    "mustHaveRequiredTag": "A ação deve conter pelo menos uma das tags a seguir: {{tags}}",
     "deleteDialog": {
       "success": "A ação foi excluída com sucesso.",
       "failure": "Falha ao excluir a ação: {{errorMessage}}"
+    },
+    "createDialog": {
+      "success": {
+        "title": "A ação foi criada com sucesso.",
+        "content": "A ação {{name}}\" foi criada com sucesso."
+      },
+      "failure": {
+        "title": "Falha ao criar a ação.",
+        "content": "Houve um problema ao criar esta ação: {{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "A ação foi atualizada com sucesso.",
+        "content": "A ação {{name}}\" foi atualizada com sucesso."
+      },
+      "failure": {
+        "title": "Falha ao atualizar a ação.",
+        "content": "Houve um problema ao atualizar esta ação: {{errorMessage}}"
+      }
     }
   },
   "actionHistory": {
@@ -294,6 +316,7 @@
     "eventName": "Nome do evento",
     "returnCode": "Códigos de retorno",
     "errorMessage": "Mensagem de erro",
+    "risk": "Risco",
     "action": "Ação",
     "host": "Host",
     "log": "Log",

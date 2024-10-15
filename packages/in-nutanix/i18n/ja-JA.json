@@ -1,0 +1,9 @@
+{
+  "noMonitoringDataFound": "監視データが見つかりません",
+  "name": "名前",
+  "noOfClusters": "クラスターの数",
+  "noOfHosts": "ホストの数",
+  "noOfVms": "仮想マシンの数",
+  "nutanix": "Nutanix",
+  "type": "タイプ"
+}

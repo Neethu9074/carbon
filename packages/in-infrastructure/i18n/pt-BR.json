@@ -75,8 +75,8 @@
     "restartCount": "Contagem de reinicializações",
     "kubernetesLabels": "Rótulos do Kubernetes",
     "podmanAnnotations": "Anotações do Podman",
-    "metricExplosionBeeInstana": "Este painel pode não exibir todas as métricas, pois apenas {{numberOfMetrics}} foram armazenadas",
-    "metricExplosion": "Este painel pode não exibir todas as métricas, pois apenas {{numberOfMetrics}} métricas de alta resolução foram armazenadas. Para visualizar métricas adicionais, use o Analyze Infrastructure ou um painel customizado."
+    "metricExplosionBeeInstana": "Esse painel pode não exibir todas as métricas, pois um máximo de {{numberOfMetrics}} métricas é capturado em um determinado momento.",
+    "metricExplosion": "Esse painel pode não exibir todas as métricas, pois um máximo de {{numberOfMetrics}} métricas de alta resolução são capturadas em um determinado momento. Para visualizar métricas adicionais, use o Analyze Infrastructure ou um painel customizado."
   },
   "explore": {
     "analyzeInfrastructure": "Analisar a infraestrutura",

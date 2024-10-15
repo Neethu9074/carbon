@@ -656,7 +656,15 @@
     "applicationArea": "アプリケーション領域",
     "messageNumber": "メッセージ番号",
     "line": "ライン",
-    "noVariableMsgPart": "可変メッセージ数"
+    "noVariableMsgPart": "可変メッセージ数",
+    "transportRequest": "トランスポート要求",
+    "category": "カテゴリー",
+    "target": "ターゲット",
+    "modifiable": "変更可能",
+    "protected": "保護あり",
+    "releasedStarted": "リリース開始",
+    "httpRespTime": "HTTP",
+    "httpsRespTime": "HTTPS"
   },
   "viewAllEntityName_unknownEntity_plural": "すべて",
   "viewAllEntityName_unknownEntity_0": "すべて",

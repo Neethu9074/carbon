@@ -64,7 +64,7 @@
       "configurationOptions": "構成オプション"
     },
     "jvmVendor": {
-      "azulZulu18": "Azul Zulu 1.8",
+      "azulZulu11": "Azul Zulu 11",
       "eclipseOpenJD11": "Eclipse Open J9 11"
     },
     "askForHelp": {
@@ -376,7 +376,7 @@
         "dynamic": "動的",
         "static": "静的",
         "runtime": "Runtime",
-        "azulZulu": "Azul Zulu 1.8",
+        "azulZulu": "Azul Zulu 11",
         "eclipseOpenJ9": "Eclipse Open J9 11",
         "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "ステップ 2: 前提条件を確認し、エージェント・デプロイメント・コードを実行します。",
         "installagentOnAWSEC2": "AWS EC2 へのエージェントのインストール",
@@ -594,7 +594,7 @@
         "label": "ビジネス・モニタリング",
         "name": "名前",
         "activities": "アクティビティー",
-        "views": "ビュー",
+        "started": "開始済み",
         "health": "正常性",
         "searchPlaceholderLabel": "ビジネス・プロセス",
         "viewAllLabel": "ビジネス・プロセス"

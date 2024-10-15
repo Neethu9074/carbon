@@ -107,6 +107,7 @@
     "Step3Headline": "您可以選擇在動作中建立自動化原則。 也可以稍後再完成此步驟。",
     "step1Title": "步驟 1：產生或選取動作",
     "step1TitleGenerateAction": "步驟 1：產生動作",
+    "step1TitleSelectAction": "步驟 1：選取一個動作",
     "step2Title": "步驟 2：自訂動作",
     "step3Title": "步驟 3：建立原則（選用）",
     "policyDetails": "原則詳細資料",
@@ -271,9 +272,30 @@
     "newFeature": "新增特性",
     "view": "檢視",
     "content": "内容",
+    "mustHaveRequiredTag": "動作必須包含以下標籤中的至少一個：{{tags}}",
     "deleteDialog": {
       "success": "已順利刪除動作。",
       "failure": "無法刪除動作：{{errorMessage}}"
+    },
+    "createDialog": {
+      "success": {
+        "title": "動作已成功建立。",
+        "content": "動作 \"{{name}}\" 已順利建立。"
+      },
+      "failure": {
+        "title": "無法建立動作。",
+        "content": "建立此動作時發生了問題：{{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "動作已順利更新。",
+        "content": "動作 \"{{name}}\" 已順利更新。"
+      },
+      "failure": {
+        "title": "無法更新動作。",
+        "content": "更新此動作時發生了問題：{{errorMessage}}"
+      }
     }
   },
   "actionHistory": {
@@ -294,6 +316,7 @@
     "eventName": "事件名稱",
     "returnCode": "回覆碼",
     "errorMessage": "錯誤訊息",
+    "risk": "風險",
     "action": "動作",
     "host": "主機",
     "log": "日誌",

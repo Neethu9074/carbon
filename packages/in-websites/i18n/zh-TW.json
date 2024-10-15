@@ -479,10 +479,6 @@
         "alertConfigurationTitleTimeThreshold": "時間臨界值",
         "alertConfigurationTitleAlertChannels": "警示通道",
         "alertConfigurationTitleAlertProperties": "警示內容",
-        "filter": "過濾器",
-        "filter_plural": "過濾器",
-        "moreFiltersWithCount": "+{{count}} 個以上的過濾器",
-        "moreFiltersWithCount_plural": "+{{count}} 個以上的過濾器",
         "alertsLabelFilters": "過濾器"
       },
       "configuration": {
@@ -493,7 +489,7 @@
         "configurationRenameTitle": "重新命名網站",
         "configurationRenameButton": "重新命名",
         "configurationTrackingScriptTitle": "代理程式追蹤 Script",
-        "configurationUserAgentVersion": "您目前的代理程式版本是 <strong>{{agentVersion}}</strong>。",
+        "configurationUserAgentVersion": "您目前的代理程式版本是 {{agentVersion}}。",
         "saved": "已儲存",
         "ipMasking": {
           "title": "IP 遮罩",
@@ -820,6 +816,8 @@
     "websiteDashboardTitleWebsite": "網站",
     "websiteDashboardButtonAnalyzePageLoads": "分析頁面載入",
     "websiteDashboardButtonAnalyzePageTransitions": "分析頁面轉移",
+    "websiteDashboardWarnOldAgentVersion": "<strong>您正在使用的 Instana 網站代理程式版本 {{currentVersion}} 已過時</strong>。 在<configTab>「配置」</configTab>索引標籤中將其更新到最新版本 {{latestVersion}}。",
+    "websiteDashboardWarnDeprecatedAgentVersion": "<strong>Instana 網站代理程式的版本 {{currentVersion}} 將於 {{deprecationDate}} 被淘汰。</strong> 在<configTab>「配置」</configTab>索引標籤中將其更新到最新版本 {{latestVersion}}。",
     "noDataAvailable": {
       "pagesTitle": "沒有可用的頁面",
       "pagesDescription": "所選的時間範圍內未擷取到任何的頁面。",

@@ -2682,6 +2682,11 @@
   "tracingTypeName_session_0": "Sitzungsaufrufe",
   "tracingTypeName_session_1": "Sitzungsaufruf",
   "tracingTypeName_session_2": "Sitzungsaufrufe",
+  "tracingTypeName_sequel": "Anschluss",
+  "tracingTypeName_sequel_plural": "Anschlussanrufe",
+  "tracingTypeName_sequel_0": "Anschlussanrufe",
+  "tracingTypeName_sequel_1": "Anschluss",
+  "tracingTypeName_sequel_2": "Anschlussanrufe",
   "tracingTypeName_shell": "Shell-Aufruf",
   "tracingTypeName_shell_plural": "Shell-Aufrufe",
   "tracingTypeName_shell_0": "Shell-Aufrufe",
@@ -6850,8 +6855,8 @@
       "labelContentionRate": "Konfliktrate",
       "labelLargeObject": "Große Objekte",
       "labelGCTime": "GC-Zeit",
-      "theFollowingEnvironmentVariablesMustBeSetOnTheNetCoreProcess": "Die Prozessumgebung für diese .NET Full Framework-Anwendung ist für die Überwachung durch Instana nicht richtig konfiguriert. Die folgenden Umgebungsvariablen müssen für den .NET-Core-Prozess festgelegt sein: <code>{{missing}}</code>. In der Dokumentation finden Sie Informationen zu den richtigen festzulegenden Werten.",
-      "detectedThisBasedOnTheValueOfTheInvalidEnvKeyEnvironmentVariable": "Anscheinend überwacht ein anderes Tool diesen .NET Full Framework-Prozess, vermutlich {{competitor}}. Der Instana-Hostagent hat dies basierend auf dem Wert der Umgebungsvariable <code>{{invalidEnvKey}}</code> erkannt. Damit Instana diesen .NET-Core-Prozess verfolgen kann, müssen Sie das andere Überwachungstool inaktivieren.",
+      "theFollowingEnvironmentVariablesMustBeSetOnTheNetCoreProcess": "Die Prozessumgebung für diese .NET Full Framework-Anwendung ist für die Überwachung durch Instana nicht richtig konfiguriert. Die folgenden Umgebungsvariablen müssen auf dem .NET Framework-Prozess gesetzt sein: <code>{{missing}}</code>. In der Dokumentation finden Sie Informationen zu den richtigen festzulegenden Werten.",
+      "detectedThisBasedOnTheValueOfTheInvalidEnvKeyEnvironmentVariable": "Anscheinend überwacht ein anderes Tool diesen .NET Full Framework-Prozess, vermutlich {{competitor}}. Der Instana-Hostagent hat dies basierend auf dem Wert der Umgebungsvariable <code>{{invalidEnvKey}}</code> erkannt. Damit Instana diesen .NET Framework-Prozess verfolgen kann, müssen Sie das andere Überwachungstool deaktivieren.",
       "theEnvironmentVariableInvalidEnvKeyHasTheWrongValue": "Die Prozessumgebung für diese .NET Full Framework-Anwendung ist für die Überwachung durch Instana nicht richtig konfiguriert. Die Umgebungsvariable <code>{{invalidEnvKey}}</code> hat den falschen Wert <code>{{invalidEnvValue}}</code>. In der Dokumentation finden Sie Informationen dazu, auf welchen Wert Sie die Umgebungsvariable <code>{{invalidEnvKey}}</code> setzen müssen.",
       "dashboard": {
         "labelAllHeaps": "Alle Heapspeicher",
@@ -8700,6 +8705,7 @@
       },
       "name": "Name",
       "image": "Image",
+      "isPodmanRootless": "Wurzellos",
       "containerId": "Container-ID",
       "cpuTotalUsage": "CPU-Gesamtauslastung",
       "cpuThrottlingCount": "Anzahl der CPU-Drosselungen",
@@ -8725,6 +8731,7 @@
       "networkMode": "Netzmodus",
       "command": "Befehl",
       "podmanVersion": "Podman-Version",
+      "remoteSocketPath": "Entfernter Socket-Pfad",
       "restartCount": "Anzahl der Neustarts"
     },
     "process": {
@@ -8732,6 +8739,7 @@
       "troubleshootingDocs": "Fehlerbehebungshandbücher",
       "jvmAttachSocketIssueDescription": "Der Hostagent kann nicht ordnungsgemäß an diese Java Virtual Machine angehängt werden. Die JVM kann keine Verbindung zu einem Kommunikationssocket herstellen, das während eines dynamischen Anhängevorgangs verwendet wird. Versuchen Sie, die JVM erneut zu starten, um die zugehörige Anhängefunktion wiederherzustellen. Daher wird dieser Prozess nicht verfolgt. Weitere Informationen dazu, warum das Anhängen fehlgeschlagen ist, finden Sie in den Protokollen des Hostagenten. Der Hostagent versucht alle 10 Minuten, erneut eine Verbindung zu dieser virtuellen Maschine herzustellen. Bis dieser Versuch erfolgreich ist, werden jedoch weder Traces noch Messdaten für diese JVM erfasst.",
       "jvmAttachDirectoryIssueDescription": "Der Hostagent kann dieser Java Virtual Machine nicht ordnungsgemäß zugeordnet werden. Die JVM konnte das angehängte Verzeichnis während der dynamischen Zuordnung nicht lokalisieren. Stellen Sie sicher, dass die Umgebungseinstellungen für temporäre Verzeichnisse des JVM-Prozesses des Hostagenten und des JVM-Zielprozesses übereinstimmen, oder verwenden Sie die JVM-spezifische Systemeigenschaft, um beim Starten der Ziel-JVM ein anderes Zuordnungsverzeichnis anzugeben.",
+      "jvmInstrumentationSharedAbsentIssueDescription": "Der Host-Agent musste die Verbindung zu dieser Java Virtual Machine schließen. Die Datei /tmp/.instana/instrumentation-shared-<version>-<pid>-<string>.jar wurde gelöscht, als der Javaagent-Loader eine Verbindung zu dieser JVM herstellte. Bitte stellen Sie sicher, dass das System oder der Container diese Datei nicht löscht.",
       "insufficientDiskMemoryIssueDescription": "Der Hostagent kann aufgrund der Grenzwerte für die Speicherkapazität keine temporären Dateien auf der Hostmaschine oder in Anwendungscontainern laden. Suchen Sie in den Docs zur Fehlerbehebung nach den Korrekturschritten.",
       "portUnavailableIssueDescription": "Der Agent kann keine Bindung zum Standardport 42699 herstellen. Eine Überwachung in voller Kapazität ist nicht möglich. Die Korrekturschritte finden Sie in den Docs zur Fehlerbehebung.",
       "pythonAutoTraceFailedIssueDescription": "Der Hostagent hat vergeblich versucht, diesen Python-Prozess automatisch zu instrumentieren.",
@@ -9421,29 +9429,38 @@
         "hostUsedPhysicalMemoryRatio": "Arbeitsspeichernutzung des Hosts",
         "eventTime": "Ereigniszeit",
         "eventName": "Ereignisname",
-        "eventDetail": "Ereignisdetails",
-        "systemActive": "System aktiv",
         "systemStatus": "Systemstatus",
-        "hostStatus": "Hoststatus",
-        "hostActive": "Host Aktiv Status",
         "serviceStatus": "Servicestatus",
-        "databaseName": "Datenbankname",
         "systemEventStats": "Systemereignisse",
-        "errorMsg": "Fehlernachricht",
         "diskUsagePercentage": "Prozentsatz der Festplattennutzung",
         "diskUsageSummary": "Plattenbelegung - Zusammenfassung",
         "usage": "Nutzung",
         "archiveLogBackupStats": "Archivierung der Log-Sicherung",
-        "systemId": "System-ID",
         "sourceDatabaseName": "Quellendatenbank",
-        "destinationPath": "Zielpfad",
         "userLockStats": "Benutzer Sperren",
         "userMode": "Benutzermodus",
         "deactivationTime": "Deaktivierungszeit",
         "userId": "Benutzer-ID",
         "schedulerJobStats": "Scheduler-Jobs",
         "schedulerJobName": "Jobname",
-        "endTime": "Endzeit"
+        "endTime": "Endzeit",
+        "virtualMemory": "Virtueller Speicher",
+        "transactionId": "Transaktions-ID",
+        "transactionType": "Transaktionstyp",
+        "transactionStatus": "Transaktionsstatus",
+        "acquiredLockCount": "Anzahl der angeforderten Sperren",
+        "activeStatementCount": "Anzahl der aktiven Anweisungen",
+        "transactionStats": "Transaktionsstatistiken",
+        "currentWorkloadRate": "Arbeitsbelastung (pro Minute)",
+        "usedMemorySize": "Belegter Speicher",
+        "activeStatementStats": "Aktive Anweisungen",
+        "destinationPath": "Zielpfad",
+        "systemId": "System-ID",
+        "currentStatementId": "ID der aktuellen Anweisung",
+        "connectionId": "Verbindungs-ID",
+        "statementId": "Anweisungs-ID",
+        "statementString": "Anweisungszeichenfolge",
+        "planId": "Plan-ID"
       },
       "systemId": "System-ID",
       "databaseName": "Datenbankname",
@@ -9483,7 +9500,12 @@
       "threadsJobWorkerBlockedCount": "Geblockte Job-Worker-Threads",
       "threadsSqlExecutorBlockedCount": "Geblockte SQL-Ececutor-Threads",
       "queueingConnectionCount": "Anzahl der Warteschlangenverbindungen",
-      "unableToConnect": "Verbindung zu {{dbName}} unter Verwendung der Verbindungs-URL {{connectionUrl}} für Benutzer {{user}} nicht möglich."
+      "unableToConnect": "Verbindung zu {{dbName}} unter Verwendung der Verbindungs-URL {{connectionUrl}} für Benutzer {{user}} nicht möglich.",
+      "currentStmtExecutionRate": "Aktuelle Ausführungsrate von Anweisungen",
+      "currentStmtCompilationRate": "Aktueller Satz für die Erstellung von Erklärungen",
+      "currentUpdateTransactionRate": "Kurze Aktualisierungsrate der Transaktionen",
+      "currentRollbackRate": "Derzeitige Rollback-Rate",
+      "currentCommitRate": "Aktuelle Mittelbindungsrate"
     },
     "service": {
       "service": "Service",
@@ -11790,7 +11812,11 @@
       "freeMem": "Freier Speicher",
       "maxMem": "Maximaler Hauptspeicher",
       "totalMem": "Gesamtspeicher",
-      "globalMem": "Globaler Speichermanager"
+      "globalMem": "Globaler Speichermanager",
+      "sourceDatastoreTimeCheckMissed": "Zeitprüfung des Quelldatenspeichers fehlgeschlagen",
+      "sourceDatastoreNetworkError": "Fehler im Netzwerk des Quelldatenspeichers",
+      "targetDatastoreTimeCheckMissed": "Zeitprüfung des Zieldatenspeichers fehlgeschlagen",
+      "targetDatastoreNetworkError": "Netzwerkfehler des Zieldatenspeichers"
     },
     "ibmMqChannel": {
       "dashboard": {
@@ -17155,7 +17181,14 @@
       "rollInTime": "RollIn-Zeit (ms)",
       "rollOutTime": "RollOut-Zeit (ms)",
       "queueTime": "Warteschlangenzeit (ms)",
-      "rollWaitTime": "RollWait-Zeit (ms)"
+      "rollWaitTime": "RollWait-Zeit (ms)",
+      "dvUnit": "Referat Entwicklung",
+      "component": "Komponente",
+      "probClass": "Problemklasse",
+      "program": "Programm",
+      "msgArea": "Nachrichtenbereich",
+      "developmentClass": "Entwicklungsklasse",
+      "appComponent": "Anwendungskomponente"
     },
     "s3": {
       "region": "Region",
@@ -17184,6 +17217,13 @@
     "session": {
       "sessionStart": "Sitzungsstart",
       "sessionHandler": "Sitzungshandler"
+    },
+    "sequel": {
+      "adapter": "Adapter",
+      "database": "Datenbank",
+      "databaseHost": "Datenbankhost",
+      "username": "Benutzername",
+      "sql": "SQL"
     },
     "shell": {
       "shellCommand": "Shellbefehl"
