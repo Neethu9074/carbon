@@ -20,6 +20,7 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { isBlank, containsIgnoreCase } from 'in-services/util/string';
 import DropdownButton from 'in-components/Button/DropdownButton';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import Overlay from 'in-components/overlays/Overlay';
 import { isLoading } from 'in-services/util/result';
 import { t } from 'in-i18n';
@@ -87,7 +88,7 @@ export default function APSelection({
       {({ toggle, refSetter, isOpen }) => (
         <HorizontalFlexWrapper>
           <DropdownButton
-            kind="secondary"
+            kind={carbonButtonEnabled ? 'tertiary' : 'secondary'}
             size="compact"
             refSetter={refSetter}
             onClick={toggle}
