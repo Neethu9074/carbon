@@ -110,7 +110,7 @@ export default class MainScene extends SceneObject {
       antialias: this.antialias === 'browserAA' ? true : false
     }));
 
-    renderer.setClearColor(0x445b63, 1.0);
+    renderer.setClearColor(0x262626, 1.0);
     renderer.setPixelRatio(this.pixelRatio);
 
     // objects organize matrix updates by themselves
