@@ -136,8 +136,8 @@ export default function Latency({
       defaultDisabled: m.defaultDisabled,
       ...m.config
     }));
-    colorsY2 = latencyMetricsY2.map(m => m.color);
     colors = latencyMetrics.map(m => m.color);
+    colorsY2 = latencyMetricsY2.map(m => m.color);
     renderer = integral.id;
     metricConfigsY2 = latencyMetricsY2.map(m => ({
       label: m.label,
