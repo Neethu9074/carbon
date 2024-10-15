@@ -48,6 +48,12 @@ const metrics = [
     tab: tabOverTime.id
   },
   {
+    id: 'mean',
+    label: t('in-mobile-apps:dashboard.tabs.meanLabel'),
+    value: 'MEAN',
+    tab: tabOverTime.id
+  },
+  {
     id: 'max',
     label: t('in-mobile-apps:dashboard.tabs.maxLabel'),
     value: 'MAX',

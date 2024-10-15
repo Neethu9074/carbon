@@ -95,10 +95,23 @@ export default function Latency({
   ];
 
   let metricConfigs;
+  let metricConfigsY2 = [];
   let renderer;
   let colors;
+  let colorsY2;
+  const latencyMetricsY2 = [
+    {
+      config: defaultMetricConfig,
+      aggregation: 'MEAN',
+      label: t('in-mobile-apps:dashboard.tabs.meanLabel'),
+      color: chartColors.strokeColors100[5]
+    }
+  ];
   if (timeShiftConfig.offset) {
-    const timeShiftChartMetric = latencyMetrics.find(m => m.aggregation === timeShiftAggregation) ?? latencyMetrics[0];
+    const timeShiftChartMetric =
+      latencyMetrics.find(m => m.aggregation === timeShiftAggregation) ??
+      latencyMetricsY2.find(m => m.aggregation === timeShiftAggregation) ??
+      latencyMetrics[0];
     const timeShiftMetricConfig = {
       label: timeShiftChartMetric.label,
       aggregation: timeShiftChartMetric.aggregation,
@@ -123,8 +136,15 @@ export default function Latency({
       defaultDisabled: m.defaultDisabled,
       ...m.config
     }));
+    colorsY2 = latencyMetricsY2.map(m => m.color);
     colors = latencyMetrics.map(m => m.color);
     renderer = integral.id;
+    metricConfigsY2 = latencyMetricsY2.map(m => ({
+      label: m.label,
+      aggregation: m.aggregation,
+      defaultDisabled: m.defaultDisabled,
+      ...m.config
+    }));
   }
   return (
     <UnifiedMetricsChart
@@ -155,17 +175,11 @@ export default function Latency({
           colors: colors
         },
         y2: {
-          metrics: [
-            {
-              ...defaultMetricConfig,
-              aggregation: 'MEAN',
-              label: t('in-mobile-apps:dashboard.tabs.meanLabel'),
-              color: chartColors.strokeColors100[5]
-            }
-          ],
+          metrics: metricConfigsY2,
           labels: t('in-mobile-apps:dashboard.tabs.meanLabel'),
           formatter: 'millis.compact',
-          renderer: line.id
+          renderer: line.id,
+          colors: colorsY2
         },
         type: 'TIME_SERIES',
         primaryContextMenuAction: 'analyze',
