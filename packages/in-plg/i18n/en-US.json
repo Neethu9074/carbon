@@ -774,14 +774,14 @@
         "user": "User",
         "externalLink": "External Link",
         "resultNew": "Result New",
-        "whatsNewLink": "Whats New Link"
+        "whatsNewLink": "Whats new Link"
       },
       "buttonNames": {
         "deployAgent": "Deploy agent",
         "addUser": "Add user",
         "documentation": "IBM documentation",
         "releaseNotes": "Release notes",
-        "whatsNewLink": "What’s New in Instana"
+        "whatsNewLink": "What’s new in Instana"
       }
     },
     "ariaLabel": {
