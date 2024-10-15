@@ -5,6 +5,7 @@
  */
 
 import React, { useState } from 'react';
+import classNames from 'classnames';
 import invariant from 'invariant';
 
 import { PreviewPill, RadioButton, Stack } from '@instana/components';
@@ -21,22 +22,40 @@ export interface MenuItem {
   isBeta?: boolean;
 }
 
+type Direction = 'vertical' | 'horizontal' | undefined;
+
 export interface MenuProps<T extends MenuItem> {
   items: T[] | readonly T[];
   onItemClick: (item: T) => any;
   initialItemSelected: MenuItem;
+  direction: Direction;
+  addRightSeparator: boolean;
 }
 
-export default function Menu<T extends MenuItem>({ items, onItemClick, initialItemSelected }: MenuProps<T>) {
+export default function Menu<T extends MenuItem>({
+  items,
+  onItemClick,
+  initialItemSelected,
+  direction,
+  addRightSeparator
+}: MenuProps<T>) {
   validateInitialItemSelected(initialItemSelected, items);
 
   const [itemSelected, setItemSelected] = useState(() => {
     return initialItemSelected;
   });
 
+  const isHorizontal = direction === 'horizontal';
+
   return (
-    <div className={locals.container}>
-      <Stack direction="horizontal" gap="large">
+    <div
+      className={classNames({
+        [locals.verticalContainer]: !isHorizontal,
+        [locals.horizontalContainer]: isHorizontal,
+        [locals.rightSeparator]: addRightSeparator
+      })}
+    >
+      <Stack direction={direction} {...(isHorizontal ? { gap: 'large' } : {})}>
         {items.map((item, i) => (
           <span className={locals.checkboxLabel} key={i}>
             <RadioButton

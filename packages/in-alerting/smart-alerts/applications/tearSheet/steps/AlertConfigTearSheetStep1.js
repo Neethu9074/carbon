@@ -36,6 +36,7 @@ export default function AlertConfigTearSheetStep1({ form, updateForm, blueprintC
           updateForm(createBlueprintForm(form, item.type, item.thresholdDefaults, false));
         }}
         initialItemSelected={blueprintConfig}
+        direction="horizontal"
       />
 
       <AlertTypeSwitch

@@ -6,8 +6,6 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-import { Menu } from '@instana/components';
-
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import { BluePrint, getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
@@ -15,6 +13,7 @@ import { syntheticWizardCreateTestTypeSwitch } from 'in-synthetics/tracking/trac
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
+import Menu from 'in-alerting/smart-alerts/components/Menu';
 import { Script } from 'in-synthetics/utils/constants';
 import { Error as ScriptError } from 'in-types';
 import { t } from 'in-i18n';
@@ -61,6 +60,7 @@ export default function SelectTestStep({
           setScriptErrors([] as ScriptError[]);
           setActiveTabIndex(0);
         }}
+        direction="vertical"
       />
       <div className={locals.presenterWrapper}>
         <SelectedBlueprintPresenter title={selectedBlueprint.headline}>

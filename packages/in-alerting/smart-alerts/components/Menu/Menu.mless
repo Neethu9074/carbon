@@ -5,7 +5,16 @@
  */
 
 :local {
-  .container {
+  .horizontalContainer {
     margin: 2rem 0 2rem 0;
+  }
+
+  .verticalContainer {
+    margin-top: 0.65rem;
+  }
+
+  .rightSeparator {
+    border-right: 1px solid var(--ids-color-option-neutral-300);
+    padding-right: 1rem;
   }
 }
