@@ -4,13 +4,15 @@
  * Copyright IBM Corp. 2024
  */
 
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
+import { runResourceOptimizationAction } from 'in-automation/api';
 import { useResourceImpacts } from './useResourceOptimization';
 import { AgentSnapshot, RecommendedAction } from 'in-types';
+import { useSegmentTracker } from 'in-automation/tracker';
 import DetailsModal from './DetailsModal';
 
 jest.mock('@instana/hooks', () => ({
@@ -20,6 +22,32 @@ jest.mock('@instana/hooks', () => ({
 jest.mock('./useResourceOptimization', () => ({
   useResourceImpacts: jest.fn()
 }));
+
+jest.mock('in-automation/api', () => ({
+  runResourceOptimizationAction: jest.fn()
+}));
+
+jest.mock('in-automation/tracker', () => ({
+  useSegmentTracker: jest.fn()
+}));
+
+const mockRunOptimizationTrackerSegment = jest.fn();
+
+beforeEach(() => {
+  (useObservable as jest.Mock).mockImplementation(() => mockResourceImpactResult);
+  (useResourceImpacts as jest.Mock).mockImplementation(() => mockResourceImpactResult);
+  (runResourceOptimizationAction as jest.Mock).mockImplementation(() => ({
+    once: (func: Function) =>
+      func({
+        actionName: 'Test',
+        source: 'Turbonomic',
+        errorMessage: 'Test message'
+      })
+  }));
+  (useSegmentTracker as jest.Mock).mockImplementation(() => ({
+    runOptimizationTrackerSegment: mockRunOptimizationTrackerSegment
+  }));
+});
 
 interface DetailsModalProps {
   currentAction: RecommendedAction;
@@ -194,10 +222,6 @@ const mockResourceImpactResult = {
 
 describe('DetailsModal Initial Render', () => {
   beforeEach(jest.clearAllMocks);
-  beforeEach(() => {
-    (useObservable as jest.Mock).mockImplementation(() => mockResourceImpactResult);
-    (useResourceImpacts as jest.Mock).mockImplementation(() => mockResourceImpactResult);
-  });
 
   it('Resource optimization details modal renders ', () => {
     render(<DetailsModal {...props} />);
@@ -245,5 +269,21 @@ describe('DetailsModal Initial Render', () => {
     const { container } = render(<DetailsModal {...props} />);
     const element = container.querySelector('.cds--skeleton__placeholder');
     expect(element).toBeInTheDocument();
+  });
+
+  it('react to run action button click', () => {
+    render(<DetailsModal {...props} />);
+    const runButton = screen.getByText('Run action');
+    fireEvent.click(runButton);
+    expect(mockRunOptimizationTrackerSegment).toHaveBeenCalled();
+    (runResourceOptimizationAction as jest.Mock).mockImplementation(() => ({
+      once: (func: Function) =>
+        func({
+          actionName: 'Test',
+          source: 'Turbonomic'
+        })
+    }));
+    fireEvent.click(runButton);
+    expect(mockRunOptimizationTrackerSegment).toHaveBeenCalled();
   });
 });
