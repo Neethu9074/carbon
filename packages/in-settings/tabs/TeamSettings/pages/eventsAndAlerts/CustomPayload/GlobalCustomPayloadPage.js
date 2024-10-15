@@ -12,17 +12,16 @@ import { Message } from '@instana/components';
 import { Link } from '@instana/components';
 
 import {
-  SETTINGS_ALERT_CUSTOM_PAYLOAD_ADD_ITEM,
-  SETTINGS_ALERT_CUSTOM_PAYLOAD_EDIT_ITEM,
-  SETTINGS_ALERT_CUSTOM_PAYLOAD_REMOVE_ITEM,
-  SETTINGS_ALERT_CUSTOM_PAYLOAD_SUBMIT
-} from 'in-services/tracking/tracking';
-import {
   deleteItemColumnDefinition,
   valueColumnDefinition,
   keyColumnDefinition,
   typeColumnDefinition
 } from 'in-alerting/components/CustomPayload/customPayloadColumnDefinitions';
+import {
+  SETTINGS_ALERT_CUSTOM_PAYLOAD_ADD_ITEM,
+  SETTINGS_ALERT_CUSTOM_PAYLOAD_REMOVE_ITEM,
+  SETTINGS_ALERT_CUSTOM_PAYLOAD_SUBMIT
+} from 'in-services/tracking/tracking';
 import { createTagBasedPayloadConfigurator } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import {
   getGlobalCustomPayloadAsResultObservable,
@@ -154,7 +153,6 @@ export function GlobalCustomPayload(props) {
           customPayloadForm={form}
           canConfigureAlertPayload={canConfigureGlobalAlertPayload}
           enabled={enabled}
-          trackChange={trackCta(SETTINGS_ALERT_CUSTOM_PAYLOAD_EDIT_ITEM)}
           suggestionsAlignedLeft
         />
 

@@ -11,7 +11,7 @@ import { useObservable } from '@instana/hooks';
 
 import {
   CUSTOM_DASHBOARD_SHARE,
-  CUSTOM_DASHBOARD_EDIT,
+  CUSTOM_DASHBOARD_EDIT_SAVE,
   CUSTOM_DASHBOARD_DELETE,
   CUSTOM_DASHBOARD_ADD_WIDGET_START,
   CUSTOM_DASHBOARD_ADD_WIDGET_FINISH,
@@ -319,7 +319,7 @@ export default function CustomDashboardLoader(props) {
 
   function onSaveConfiguration() {
     setSaving(true);
-    trackCta(CUSTOM_DASHBOARD_EDIT, { title: config.title });
+    trackCta(CUSTOM_DASHBOARD_EDIT_SAVE, { title: config.title });
     updateCustomDashboard(config).subscribe(result => {
       if (result.progress.loading) {
         return;

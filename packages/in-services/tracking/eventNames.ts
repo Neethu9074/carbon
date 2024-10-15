@@ -10,7 +10,7 @@ export const URL_SHORTENER_OPEN = 'url.shortener.open';
 
 export const CUSTOM_DASHBOARD_CREATE = 'custom.dashboard.create';
 export const CUSTOM_DASHBOARD_SHARE = 'custom.dashboard.share';
-export const CUSTOM_DASHBOARD_EDIT = 'custom.dashboard.edit';
+export const CUSTOM_DASHBOARD_EDIT_SAVE = 'custom.dashboard.edit.save';
 export const CUSTOM_DASHBOARD_DELETE = 'custom.dashboard.delete';
 export const CUSTOM_DASHBOARD_ADD_WIDGET_START = 'custom.dashboard.add.widget.start';
 export const CUSTOM_DASHBOARD_ADD_WIDGET_FINISH = 'custom.dashboard.add.widget.finish';
@@ -250,7 +250,6 @@ export const SETTINGS_ALERT_TOGGLE = 'settings.alert.toggle';
 export const SETTINGS_ALERT_OPEN_SUBMIT_FORM = 'settings.alert.new';
 export const SETTINGS_ALERT_CUSTOM_PAYLOAD_SUBMIT = 'settings.alert.customPayload.submit';
 export const SETTINGS_ALERT_CUSTOM_PAYLOAD_ADD_ITEM = 'settings.alert.customPayload.addItem';
-export const SETTINGS_ALERT_CUSTOM_PAYLOAD_EDIT_ITEM = 'settings.alert.customPayload.editItem';
 export const SETTINGS_ALERT_CUSTOM_PAYLOAD_REMOVE_ITEM = 'settings.alert.customPayload.removeItem';
 
 //Events
