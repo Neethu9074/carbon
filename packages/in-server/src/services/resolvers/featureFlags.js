@@ -643,7 +643,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonDateInputEnabled',
     instanaCtlKey: 'feature.carbon.dateinput.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'notesAndActivityEnabled',
