@@ -19,6 +19,7 @@ import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineTo
 import LoadingRows from 'in-components/tables/ServerTable/internalComponents/LoadingRows';
 import { carbonPaginationEnabled, carbonTableEnabled } from 'in-services/featureFlags';
 import { ConfigureButton } from 'in-components/tables/sharedComponents/ConfigurableTh';
+import { carbonSortHandler } from 'in-components/tables/ServerTable/carbonSortHandler';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import { Nullish, PaginatedResult, Result, ResultPrecision } from 'in-types';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
@@ -56,12 +57,16 @@ export interface ServerTablePresenterProps<ItemType extends ListItem> extends Ta
   shadowless?: boolean;
 }
 
-interface CarbonHeader<ITEM_TYPE extends Object, PROPS_TYPE extends TableProps<ITEM_TYPE> = TableProps<ITEM_TYPE>> {
+export interface CarbonHeader<
+  ITEM_TYPE extends Object,
+  PROPS_TYPE extends TableProps<ITEM_TYPE> = TableProps<ITEM_TYPE>
+> {
   key: string;
   header: string | ReactNode;
   isSortable?: boolean;
   getContent: ColumnDefinition<ITEM_TYPE, PROPS_TYPE>['getContent'];
   sortDirection?: OrderDirection | 'NONE';
+  defaultOrderDirection?: OrderDirection;
   noWrap?: boolean;
   ellipsis?: boolean;
   width?: string | number;
@@ -76,7 +81,7 @@ type CarbonHeaders<ITEM_TYPE extends Object, PROPS_TYPE extends TableProps<ITEM_
 
 interface CarbonRow {
   id: string;
-  [key: string]: string | JSX.Element;
+  [key: string]: string | ReactNode;
 }
 
 type CarbonRows = Array<CarbonRow>;
@@ -127,6 +132,7 @@ export default function ServerTablePresenter<
   const { availableColumns, visibleColumns, optionalColumns, onColumnChecked } = filterColumns(props);
   let body = null;
   let defaultPageSize = pageSizes?.[0] ?? pageSize;
+
   if (carbonTableEnabled) {
     const debounceOnChange = debounce((searchInput: string) => {
       if (searchInput !== undefined) {
@@ -171,6 +177,7 @@ export default function ServerTablePresenter<
       isSortable: item.sortable ?? true,
       getContent: item.getContent,
       sortDirection: item?.id === orderBy ? (orderDirection === 'ASC' ? 'ASC' : 'DESC') : 'NONE',
+      defaultOrderDirection: item.defaultOrderDirection,
       noWrap: item.noWrap ?? false,
       ellipsis: getEllipsisValue(item.ellipsis, item.width),
       width: getWidthValue(item.ellipsis, item.width),
@@ -243,9 +250,11 @@ export default function ServerTablePresenter<
             : { [key]: getContent(item, props, key) };
           return content;
         });
-        const carbonRow = Object.assign({}, ...newRow, idObj);
+        const carbonRow: CarbonRow = Object.assign({}, ...newRow, idObj);
         return carbonRow;
-      }) || [];
+      }) ?? [];
+
+    const sortRow = carbonSortHandler(carbonHeaders, onChange, query, pageSize, pageSizes);
 
     body = (
       <CarbonDataTable
@@ -255,18 +264,7 @@ export default function ServerTablePresenter<
         filterRows={(value: React.ChangeEvent<HTMLInputElement>) => {
           filterRows(value?.target?.value);
         }}
-        sortRow={(sortState: { sortHeaderKey: string; sortDirection: string }) => {
-          let orderBy = sortState.sortHeaderKey;
-          let orderDirection = sortState.sortDirection as OrderDirection;
-          // backend APIs as of now doesnt support NONE sort direction option, so will be
-          // changing it to ASC to maintain the current behaviour.
-          if (sortState.sortDirection === 'NONE' || sortState.sortDirection === 'ASC') {
-            orderDirection = 'DESC';
-          } else if (sortState.sortDirection === 'DESC') {
-            orderDirection = 'ASC';
-          }
-          onChange({ query, orderBy, orderDirection, page: 1, pageSize, pageSizes });
-        }}
+        sortRow={sortRow}
         searchText={query}
         isSearchEnabled={isSearchable}
         onClickingRow={onRowClick}
@@ -349,6 +347,7 @@ export default function ServerTablePresenter<
       </Card>
     );
   }
+
   if (isLoading(result)) {
     body = <LoadingRows cols={visibleColumns.length} progress={result.progress} numSkeletonRows={numSkeletonRows} />;
   } else if (hasError(result)) {

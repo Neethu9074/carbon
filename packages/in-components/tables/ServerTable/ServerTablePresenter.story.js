@@ -125,6 +125,7 @@ function columnDefinitions() {
     },
     {
       id: 'Endpoints',
+      defaultSortOrder: 'DESC',
       label: 'Number of Endpoints',
       getContent(item) {
         return <>{item.length}</>;
