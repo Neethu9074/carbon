@@ -255,9 +255,11 @@ describe('in-settings/tabs/AuthSettings/pages/indentityProviders/Ldap/Ldap', () 
     });
 
     const expectedMsg = popupClass === 'message-error' ? `${t('in-settings:tabs.ldapTestFailed')} ${msg}` : msg;
+    const icon = popupClass === 'message-error' ? /error icon/i : /success icon/i;
 
     expect(screen.getByText(t('in-settings:tabs.testConfiguration'))).not.toHaveClass('button-disabled');
     expect(screen.getByText(expectedMsg)).toBeInTheDocument();
-    expect(screen.getByText(expectedMsg).closest('.' + popupClass)).toBeInTheDocument();
+    expect(screen.getByText(expectedMsg).closest('.carbon-message')).toBeInTheDocument();
+    expect(screen.getByText(icon)).toBeValid();
   }
 });
