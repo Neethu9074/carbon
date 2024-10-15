@@ -34,7 +34,7 @@ export default createStickyNote(
       }
 
       return (
-        <CarbonTag className={locals.inStickyNoteButton} onClick={() => setSelectedSnapshotId(id)}>
+        <CarbonTag size="sm" className={locals.inStickyNoteButton} onClick={() => setSelectedSnapshotId(id)}>
           {label}
         </CarbonTag>
       );
