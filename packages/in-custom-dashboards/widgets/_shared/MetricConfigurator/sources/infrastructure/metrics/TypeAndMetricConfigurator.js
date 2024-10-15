@@ -35,7 +35,7 @@ export default function TypeAndMetricConfigurator({
         <Overlay content={SelectorOverlay} props={props} align="bottomLeft">
           {({ toggle, refSetter }) => (
             <DropdownButton
-              kind="secondary"
+              kind={carbonButtonEnabled ? 'tertiary' : 'secondary'}
               size="compact"
               onClick={toggle}
               refSetter={refSetter}
@@ -103,7 +103,7 @@ function TypeAndMetricLabel({ selectMetric, path, label, loading, metric }) {
   if (loading) {
     return (
       <div className={locals.loadingWrapper}>
-        <IndeterminateLoadingIndicator size={'xs'} />
+        <IndeterminateLoadingIndicator customStyle={{ strokeColor: 'currentColor' }} size={'xs'} />
         <span className={locals.loadingText}>
           {t('in-custom-dashboards:widgets.srcInfrastructure.typeAndMetricConfigurator.loadingMetrics')}
         </span>
