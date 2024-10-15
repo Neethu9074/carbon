@@ -29,9 +29,6 @@ import { hasAutomationAccess } from 'in-stores/permission';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { Event, VolatileId } from 'in-types';
 
-// import { getResourceOptimizations } from 'in-automation/api';
-// import { useObservable } from '@instana/hooks';
-
 interface AutomationCardProps {
   volatileId: VolatileId;
   event: Event;

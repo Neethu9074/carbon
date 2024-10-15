@@ -58,10 +58,8 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
 
   const impactLoading = resourceImpactResult?.progress?.loading;
 
-  //TODO: TS errors due to an unknown type mismatch - need to investigate further.
   //@ts-expect-error
   const entities = resourceImpactResult?.data?.entitiesList;
-  // console.log('🚀 ~ entities:', entities);
   //@ts-expect-error
   const errorMessage = resourceImpactResult?.data?.errorMessage;
 

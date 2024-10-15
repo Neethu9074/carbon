@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -29,35 +30,39 @@ import { t } from 'in-i18n';
 
 import locals from './ResourceOptimizations.mless';
 
-type tabProps = {
+type ResourceOptimizationTabProps = {
   applicationId: string;
   timeConfig: TimeConfig;
   boundaryScope: BoundaryScope;
 };
 
-export default function ResourceOptimizationTab({ applicationId, timeConfig, boundaryScope }: tabProps) {
+const colorPalette = [
+  chartColors.fiveColorPalette[1],
+  chartColors.fiveColorPalette[2],
+  chartColors.fiveColorPalette[0],
+  chartColors.fiveColorPalette[3],
+  chartColors.fiveColorPalette[4]
+];
+
+const oneSecond = 1000;
+const oneMinute = oneSecond * 60;
+const showGuidance = false;
+
+function generateTimeframe(windowSize: number) {
+  return {
+    windowSize,
+    to: fixedTimestamp,
+    autoRefresh: false
+  };
+}
+
+export default function ResourceOptimizationTab({
+  applicationId,
+  timeConfig,
+  boundaryScope
+}: ResourceOptimizationTabProps) {
   const recommendedOptimizations = useResourceOptimization({ applicationId });
   const turboRecommendedActions = useTurboRecommendedActions(recommendedOptimizations);
-  const colorPalette = [
-    chartColors.fiveColorPalette[1],
-    chartColors.fiveColorPalette[2],
-    chartColors.fiveColorPalette[0],
-    chartColors.fiveColorPalette[3],
-    chartColors.fiveColorPalette[4]
-  ];
-
-  const oneSecond = 1000;
-  const oneMinute = oneSecond * 60;
-  const showGuidance = false;
-
-  function generateTimeframe(windowSize: number) {
-    return {
-      windowSize,
-      to: fixedTimestamp,
-      autoRefresh: false
-    };
-  }
-
   let tagFilters = [
     boundaryScope === boundaryScopes.all
       ? { stringValue: applicationId, name: 'application.id', entity: DESTINATION, operator: EQUALS }
@@ -119,7 +124,7 @@ export default function ResourceOptimizationTab({ applicationId, timeConfig, bou
         />
       )}
       <div className={locals.charts}>
-        <div className={locals.box1}>
+        <div className={locals.categoriesChart}>
           <ResultAwareChart
             result={recommendedOptimizations}
             config={{
@@ -138,7 +143,7 @@ export default function ResourceOptimizationTab({ applicationId, timeConfig, bou
             }}
           />
         </div>
-        <div className={locals.box2}>
+        <div className={locals.latencyAndDistributionChart}>
           <LatencyAndDistribution
             cardTitle={t('in-applications:labelLatency')}
             applicationId={applicationId}
