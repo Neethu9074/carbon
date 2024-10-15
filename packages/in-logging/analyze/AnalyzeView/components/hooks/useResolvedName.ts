@@ -33,7 +33,7 @@ import { t } from 'in-i18n';
 
 type LinkResolver = (tag: LogTag) => Observable<string>;
 
-const tagNameResolver = new Map<string, LinkResolver>([
+export const tagNameResolver = new Map<string, LinkResolver>([
   [LOG_SERVICE_NAME, () => just(t('in-logging:service'))],
   [LOG_STREAM_NAME, () => just(t('in-logging:stream'))],
   [LOG_KUBERNETES_CLUSTER_NAME, () => just(t('in-logging:cluster'))],
@@ -52,7 +52,7 @@ const tagNameResolver = new Map<string, LinkResolver>([
   [GARDEN_SNAPSHOT_ID, () => just(t('in-logging:gardenContainer'))]
 ]);
 
-function getCustomKeyLabel(key: string): string {
+export function getCustomKeyLabel(key: string): string {
   if (key === LOG_CUSTOM_KEY_APPLICATION_IDS) {
     return t('in-logging:applications');
   } else if (key === LOG_CUSTOM_KEY_ENDPOINT_NAME) {

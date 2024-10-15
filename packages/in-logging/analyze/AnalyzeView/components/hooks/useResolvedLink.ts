@@ -36,7 +36,7 @@ import { LogItem, LogTag } from 'in-types';
 
 type LinkResolverString = (tag: LogTag, log: LogItem) => string | null;
 
-function getServiceId(tags: LogTag[]): string | null {
+export function getServiceId(tags: LogTag[]): string | null {
   return tags.find(({ name, key }) => name === LOG_CUSTOM && key === LOG_CUSTOM_KEY_SERVICE_ID)?.stringValue ?? null;
 }
 
