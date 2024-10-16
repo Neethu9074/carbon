@@ -23,7 +23,7 @@ export default function IbmDb2SpanDetailView({ span }) {
             <Code code={formatSql(statement)} lang="sql" showLineNumbers={false} />
           </Di>
         ) : null}
-        {databaseIntegrations && <ExternalIntegrationLink integrations={databaseIntegrations} />}
+        {databaseIntegrations && <ExternalIntegrationLink integrations={databaseIntegrations} statement={statement} />}
       </Dl>
     </div>
   );
