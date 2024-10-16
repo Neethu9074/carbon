@@ -374,6 +374,22 @@
     "credentialFeedback": {
       "successMessageDelete": "Successfully deleted the credential",
       "failureMesssage": "{{errorMessage}}"
+    },
+    "createCredential": {
+      "createButton": "New Credential",
+      "namePassword": "Name and password",
+      "associations": "Associations",
+      "newCredentials": "Create a synthetic credential",
+      "steps": {
+        "placeholder": "{{value}}",
+        "labelText": "{{value}}",
+        "invalidText": "{{value}}",
+        "associationsDescription": "Associating a credential with an application, website or mobile app grants access rights to all users who have access to those entities."
+      },
+      "feedback": {
+        "successMessage": "Successfully created credential",
+        "failureMessageCreate": "Failed to create the credential: {{errorMessage}}"
+      }
     }
   },
   "createSmartAlert": {

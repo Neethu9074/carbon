@@ -12,7 +12,8 @@ import {
   CatalogUseCase,
   TagCatalog,
   TimeConfig,
-  MetricSource
+  MetricSource,
+  SyntheticCredential
 } from 'in-types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
@@ -233,6 +234,16 @@ export const getDatacenterLicense = (): Observable<any> => {
     mapToResultObject: true
   }).map(result => deepFreeze(result));
 };
+
+export function createCredential(credentialConfig: SyntheticCredential): Observable<unknown> {
+  return http({
+    method: 'POST',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: credentialUrl,
+    data: credentialConfig
+  }).map(response => deepFreeze(response.body));
+}
 
 export function deleteCredential(credentialName: string): Observable<unknown> {
   return http({

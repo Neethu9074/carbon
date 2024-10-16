@@ -28,7 +28,10 @@ export function showSuccessMessage(type?: ActionType, context?: string): void {
   let message;
   switch (type) {
     case 'create':
-      message = t('in-synthetics:dialog.feedback.successMessageCreate');
+      message =
+        context === 'credential'
+          ? t('in-synthetics:dialog.createCredential.feedback.successMessage')
+          : t('in-synthetics:dialog.feedback.successMessageCreate');
       break;
     case 'update':
       message = t('in-synthetics:dialog.feedback.successMessageUpdate');
@@ -58,7 +61,10 @@ export function showErrorMessage(type?: ActionType, context?: string, error?: st
   let message;
   switch (type) {
     case 'create':
-      message = t('in-synthetics:dialog.feedback.failureMessageCreate', { errorMessage: error });
+      message =
+        context === 'credential'
+          ? t('in-synthetics:dialog.createCredential.feedback.failureMessageCreate', { errorMessage: error })
+          : t('in-synthetics:dialog.feedback.failureMessageCreate', { errorMessage: error });
       break;
     case 'update':
       message = t('in-synthetics:dialog.feedback.failureMessageUpdate', { errorMessage: error });
@@ -84,13 +90,13 @@ export function showErrorMessage(type?: ActionType, context?: string, error?: st
   });
 }
 
-export const showCreateErrorMessage = (error: string) => showErrorMessage('create', undefined, error);
+export const showCreateErrorMessage = (error: string, context?: string) => showErrorMessage('create', context, error);
 
 export const showUpdateErrorMessage = (error: string) => showErrorMessage('update', undefined, error);
 
 export const showDeleteErrorMessage = (error: string, context?: string) => showErrorMessage('delete', context, error);
 
-export const showCreateSuccessMessage = () => showSuccessMessage('create');
+export const showCreateSuccessMessage = (context?: string) => showSuccessMessage('create', context);
 
 export const showUpdateSuccessMessage = () => showSuccessMessage('update');
 

@@ -10,6 +10,7 @@ import { OrderDirection, TagFilterExpression } from '@instana/types';
 
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import CreateCredentialsButton from 'in-synthetics/dashboards/global/tabs/tests/components/CreateCredentialsButton';
 import columnDefinitions from 'in-synthetics/dashboards/global/tabs/credentials/components/columnDefinitions';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
@@ -48,6 +49,9 @@ export default function CredentialList() {
     pathSegment,
     matrixPrefix
   });
+  const rightHeader = () => {
+    return <CreateCredentialsButton />;
+  };
 
   return (
     <Sticky header={<ViewSwitcher />}>
@@ -63,6 +67,7 @@ export default function CredentialList() {
           get={getCredentialData}
           timeConfig={timeConfig}
           cardTitle={t('in-synthetics:dashboard.credentialList.mainLabel')}
+          rightHeader={rightHeader}
         />
       </LeftRightPadding>
       <Footer />
