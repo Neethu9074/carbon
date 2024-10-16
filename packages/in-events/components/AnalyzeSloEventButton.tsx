@@ -13,22 +13,43 @@ import {
   SloEntity,
   TimeConfig
 } from '@instana/types';
-import { Button } from '@instana/components';
+import { Button, CarbonMenuItem, SvgIcon } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import useHrefToUnboundedAnalytics from 'in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics';
 import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { parseUrl } from 'in-stores/navigation/routing/parser';
 
 interface AnalyzeSloEventButtonProps {
   sloConfig: ServiceLevelObjectiveConfiguration;
   timeConfig: TimeConfig;
+  as?: 'button' | 'menuItem';
 }
 
 export default function AnalyzeSloEventButton({
   sloConfig: { indicator, entity },
-  timeConfig
+  timeConfig,
+  as = 'button'
 }: AnalyzeSloEventButtonProps) {
   const linkToAnalyze = useHrefToUnboundedAnalytics({ indicator, entity, timeConfig, withLabels: true });
+  const { navigate } = useNavigation();
+
+  if (as === 'menuItem') {
+    return (
+      <CarbonMenuItem
+        label={t('in-service-levels:analyzeSloEventsButton.analyze', { entity: getLabel(entity) })}
+        renderIcon={() => {
+          const iconType = getIconType(entity);
+          if (iconType) {
+            return <SvgIcon type={iconType} size="xs" />;
+          }
+          return null;
+        }}
+        onClick={() => navigate(parseUrl(linkToAnalyze || '/', true))}
+      />
+    );
+  }
 
   return (
     <Button kind="primary" icon={getIconType(entity)} href={linkToAnalyze}>

@@ -219,18 +219,18 @@ function DetailsHeaderSkeleton(id) {
   );
 }
 
-export function CombinedEventListItemContent({ event, latestSnapshot }) {
+export function CombinedEventListItemContent({ event, latestSnapshot, justChart = false }) {
   if (isSloSmartAlertEvent(event)) {
-    return <SloEventListItemContent event={event} />;
+    return <SloEventListItemContent event={event} justChart={justChart} />;
   } else if (isWebsiteSmartAlertEvent(event)) {
-    return <WebsiteEventListItemContent event={event} />;
+    return <WebsiteEventListItemContent event={event} justChart={justChart} />;
   } else if (isApplicationSmartAlertEvent(event)) {
-    return <ApplicationEventListItemContent event={event} />;
+    return <ApplicationEventListItemContent event={event} justChart={justChart} />;
   } else if (isMobileAppSmartAlertEvent(event)) {
-    return <MobileAppEventListItemContent event={event} />;
+    return <MobileAppEventListItemContent event={event} justChart={justChart} />;
   }
 
-  return <EventListItemContent event={event} latestSnapshot={latestSnapshot} />;
+  return <EventListItemContent event={event} latestSnapshot={latestSnapshot} justChart={justChart} />;
 }
 
 function hasServiceImpact(event) {
@@ -238,11 +238,11 @@ function hasServiceImpact(event) {
   return isAppDataEntityType(entityType);
 }
 
-function isWebsiteSmartAlertEvent(event) {
+export function isWebsiteSmartAlertEvent(event) {
   return event.hasIn(['metadata', 'websiteId']);
 }
 
-function isApplicationSmartAlertEvent(event) {
+export function isApplicationSmartAlertEvent(event) {
   return event.hasIn(['metadata', 'applicationId']);
 }
 

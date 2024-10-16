@@ -27,7 +27,7 @@ import { t } from 'in-i18n';
 
 import locals from './EventListItemContent.mless';
 
-export default function WebsiteEventListItemContent({ event }) {
+export default function WebsiteEventListItemContent({ event, justChart = false }) {
   const eventEntity = useWebsiteEventEntity(event);
   const alertConfig = useWebsiteEventAlertConfig(event);
 
@@ -57,15 +57,19 @@ export default function WebsiteEventListItemContent({ event }) {
 
   return (
     <>
-      <ProblemDescription fixSuggestion={fixSuggestion} />
-      <DescriptionButtons>
-        <WebsiteAlertConfigButton alertConfig={alertConfig} />
-        <AnalyzeWebsiteEventButton
-          alertConfig={alertConfig}
-          websiteName={eventEntity.websiteName}
-          timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
-        />
-      </DescriptionButtons>
+      {!justChart && (
+        <>
+          <ProblemDescription fixSuggestion={fixSuggestion} />
+          <DescriptionButtons>
+            <WebsiteAlertConfigButton alertConfig={alertConfig} />
+            <AnalyzeWebsiteEventButton
+              alertConfig={alertConfig}
+              websiteName={eventEntity.websiteName}
+              timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
+            />
+          </DescriptionButtons>
+        </>
+      )}
       <div className={locals.sectionWrapper}>
         <WebsitesAlertingChartWithErrorMessage
           alertConfigWithFormModel={{

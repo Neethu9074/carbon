@@ -116,6 +116,24 @@ describe('in-stores/navigation/routing/parser', () => {
       });
     });
 
+    it('must remove has if the option is provided', () => {
+      expect(parseUrl('/#/first;a=b/second;k=v/third?foo=bar', true)).toEqual({
+        pathname: '/first/second/third',
+        query: {
+          foo: 'bar'
+        },
+        matrix: {
+          '/first': {
+            a: 'b'
+          },
+          '/second': {
+            k: 'v'
+          },
+          '/third': {}
+        }
+      });
+    });
+
     it('must decode matrix parameters', () => {
       expect(parseUrl('/foo;b=c%20%2Fd%2520e')).toEqual({
         pathname: '/foo',

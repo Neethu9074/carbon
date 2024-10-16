@@ -6,8 +6,8 @@
 
 import React from 'react';
 
+import { Button, CarbonMenuItem, SvgIcon } from '@instana/components';
 import { MobileAppAlertConfig } from '@instana/types';
-import { Button } from '@instana/components';
 
 import {
   getBlueprintConfig,
@@ -19,8 +19,10 @@ import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/tr
 import { defaultGroupings } from 'in-mobile-apps/tags';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
+import { parseUrl } from 'in-stores/navigation/routing/parser';
 import { FixedTimeConfig } from 'in-stores/time/config';
 import { t } from 'in-i18n';
 
@@ -28,13 +30,16 @@ interface AnalyzeMobileAppEventButtonProps {
   alertConfig: MobileAppAlertConfig;
   mobileAppName: string;
   timeConfig: FixedTimeConfig;
+  as?: 'button' | 'menuItem';
 }
 
 export default function AnalyzeMobileAppEventButton({
   alertConfig,
   mobileAppName,
-  timeConfig
+  timeConfig,
+  as = 'button'
 }: AnalyzeMobileAppEventButtonProps) {
+  const { navigate } = useNavigation();
   const getLinkToMobileAppAnalyze = useLinkToAnalyze();
   const { rule, tagFilterExpression } = alertConfig;
   const { alertType, metricName } = rule;
@@ -58,6 +63,19 @@ export default function AnalyzeMobileAppEventButton({
       })
     })
   );
+
+  if (as === 'menuItem') {
+    return (
+      <CarbonMenuItem
+        renderIcon={() => <SvgIcon size="xs" type={getIcon(alertType)} />}
+        style={{ outline: '10px red' }}
+        label={getLinkTitle(alertType, metricName)}
+        onClick={() => {
+          navigate(parseUrl(linkToUA, true));
+        }}
+      />
+    );
+  }
 
   return (
     <Button kind="primary" icon={getIcon(alertType)} href={linkToUA} style={{ outline: '10px red' }}>

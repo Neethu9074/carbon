@@ -28,7 +28,7 @@ import { t } from 'in-i18n';
 
 import locals from './EventListItemContent.mless';
 
-export default function MobileAppEventListItemContent({ event }) {
+export default function MobileAppEventListItemContent({ event, justChart = false }) {
   const eventEntity = useMobileAppEventEntity(event);
   const alertConfig = useMobileAppEventAlertConfig(event);
 
@@ -58,15 +58,19 @@ export default function MobileAppEventListItemContent({ event }) {
 
   return (
     <>
-      <ProblemDescription fixSuggestion={fixSuggestion} />
-      <DescriptionButtons>
-        <MobileAppAlertConfigButton alertConfig={alertConfig} />
-        <AnalyzeMobileAppEventButton
-          alertConfig={alertConfig}
-          mobileAppName={eventEntity.mobileAppName}
-          timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
-        />
-      </DescriptionButtons>
+      {!justChart && (
+        <>
+          <ProblemDescription fixSuggestion={fixSuggestion} />
+          <DescriptionButtons>
+            <MobileAppAlertConfigButton alertConfig={alertConfig} />
+            <AnalyzeMobileAppEventButton
+              alertConfig={alertConfig}
+              mobileAppName={eventEntity.mobileAppName}
+              timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
+            />
+          </DescriptionButtons>
+        </>
+      )}
       <div className={locals.sectionWrapper}>
         <MobileAppAlertingChartWithErrorMessage
           alertConfigWithFormModel={{

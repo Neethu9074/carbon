@@ -30,7 +30,7 @@ import { t } from 'in-i18n';
 
 import locals from './ApplicationEventListItemContent.mless';
 
-export default function ApplicationEventListItemContent({ event }) {
+export default function ApplicationEventListItemContent({ event, justChart = false }) {
   const alertConfig = useApplicationEventAlertConfig(event);
   const eventEntity = useApplicationEventEntity(event);
 
@@ -58,20 +58,24 @@ export default function ApplicationEventListItemContent({ event }) {
   const { QueryBuilder } = getQueryBuilderForAlertType(alertType, thresholdType);
   return (
     <>
-      <ProblemDescription fixSuggestion={fixSuggestion} />
-      <DescriptionButtons>
-        <ApplicationAlertConfigButton
-          applicationId={applicationId}
-          alertConfig={alertConfig}
-          isGlobalSmartAlert={isGlobalSmartAlert}
-        />
-        <AnalyzeApplicationEventButton
-          {...eventEntity}
-          alertConfig={alertConfig}
-          timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
-          adaptiveBaselineInfo={adaptiveBaselineInfo.toJS()}
-        />
-      </DescriptionButtons>
+      {!justChart && (
+        <>
+          <ProblemDescription fixSuggestion={fixSuggestion} />
+          <DescriptionButtons>
+            <ApplicationAlertConfigButton
+              applicationId={applicationId}
+              alertConfig={alertConfig}
+              isGlobalSmartAlert={isGlobalSmartAlert}
+            />
+            <AnalyzeApplicationEventButton
+              {...eventEntity}
+              alertConfig={alertConfig}
+              timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
+              adaptiveBaselineInfo={adaptiveBaselineInfo.toJS()}
+            />
+          </DescriptionButtons>
+        </>
+      )}
       <div className={locals.sectionWrapper}>
         <ApplicationAlertingChartWithErrorMessage
           alertConfigWithFormModel={{

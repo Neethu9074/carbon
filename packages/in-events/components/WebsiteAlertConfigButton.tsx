@@ -5,18 +5,34 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button, CarbonMenuItem } from '@instana/components';
 
 import { websitesAlertingEventDetailsViewEditConfig } from 'in-alerting/smart-alerts/websites/tracker';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useGetAlertConfigLink } from 'in-websites/navigation/paths';
+import { parseUrl } from 'in-stores/navigation/routing/parser';
 import { WebsiteAlertConfigWithMetadata } from 'in-types';
 import { t } from 'in-i18n';
 
 interface PropsType {
   alertConfig: WebsiteAlertConfigWithMetadata;
+  as?: 'button' | 'menuItem';
 }
-export default function WebsiteAlertConfigButton({ alertConfig }: PropsType) {
+export default function WebsiteAlertConfigButton({ alertConfig, as = 'button' }: PropsType) {
   const getLinkToAlertConfig = useGetAlertConfigLink();
+  const { navigate } = useNavigation();
+
+  if (as === 'menuItem') {
+    return (
+      <CarbonMenuItem
+        label={t('in-events:buttonViewAlertConfig')}
+        onClick={() => {
+          websitesAlertingEventDetailsViewEditConfig({ id: alertConfig.id });
+          navigate(parseUrl(getLinkToAlertConfig(alertConfig.id, alertConfig.websiteId, alertConfig.created), true));
+        }}
+      />
+    );
+  }
 
   return (
     <Button

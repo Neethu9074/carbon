@@ -25,14 +25,14 @@ import {
   eventFeedbackEnabled,
   businessObservabilityEnabled
 } from 'in-services/featureFlags';
-import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
+import IncidentActions from 'in-events/components/IncidentPage/IncidentOverview/IncidentActions';
 import LegacyRootCauseSection from 'in-events/components/legacy/LegacyRootCauseSection';
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
 import { getTimeConfigForSnapshotRetrieval } from 'in-events/components/eventUtil';
-import { EVENT_TYPES, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import RootCauseSection from 'in-events/components/legacy/RootCauseSection';
 import PopulationChart from 'in-events/components/legacy/PopulationChart';
+import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import EventListItem from 'in-events/components/legacy/EventListItem';
@@ -40,10 +40,10 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { getEventViewWithTimeFocusedAt } from './EventListItem';
 import { CombinedEventListItemContent } from './EventListItem';
+import { toHtml } from 'in-services/formatters/markdown';
 import { rcaUIEnabled } from 'in-services/featureFlags';
 import { emptyList } from 'in-services/fixedImmutables';
 import { EventListItemSkeleton } from './EventListItem';
-import EventIcon from 'in-events/components/EventIcon';
 import EventEntityDetails from './EventEntityDetails';
 import { Row, Col } from 'in-components/layout/Grid';
 import EventDetailsKPIs from '../EventDetailsKPIs';
@@ -51,6 +51,7 @@ import { FeedbackComponents } from '../EventTable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Pagination from 'in-components/Pagination';
 import { getEventType } from 'in-stores/events';
+import { EVENT_TYPES } from 'in-stores/events';
 import { getEvent } from 'in-stores/events';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -118,9 +119,6 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
 
 const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggeringProblemId, triggeringEventId }) => {
   const colourForCard = getTriggeringEventCardColor(incident);
-  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
-  const timeConfig = canCloseManually && incident ? getTimeConfigForSnapshotRetrieval(incident, latestSnapshot) : null;
-  const incidentOverviewHeader = renderTriggeringEventHeader(incident, canCloseManually, timeConfig);
   const { location, createHref } = useNavigation();
   const { windowSize } = useTimeConfig();
   const timeConfigLink = createHref(
@@ -141,12 +139,11 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
                 data-testid="restroreConfigButton"
                 type="lib_datetime_time"
                 isWrapperedByTooltip
-                iconDescription="Set time config"
+                iconDescription={t('in-events:incident.setTimeConfig')}
                 href={timeConfigLink}
                 align="left"
                 iconSize="xs"
               />
-              {incidentOverviewHeader}
             </>
           }
         >
@@ -184,13 +181,24 @@ const TriggeringEvent = ({ incident, triggeringEvent, latestSnapshot }) => {
             {t('in-events:titleDescription')}:
           </Typography>
         </div>
-        <Typography variant="body-regular">{triggeringEvent.getIn(['problem', 'fixSuggestion'])}</Typography>
+        <DangerousHtmlPresenter
+          className={locals.descriptionText}
+          html={toHtml(triggeringEvent.getIn(['problem', 'fixSuggestion']))}
+        />
       </Stack>
       <Stack direction="horizontal" align="center">
         <Typography variant="heading-100" noMargin>
           {t('in-events:incident.triggeringEntity')}:
         </Typography>
-        <EventEntityDetails triggeringEvent={triggeringEvent} timeConfig={timeConfig} />
+        <EventEntityDetails
+          shouldDisplayDefaultLabel={false}
+          triggeringEvent={triggeringEvent}
+          timeConfig={timeConfig}
+        />
+      </Stack>
+      <Stack direction="horizontal" align="center">
+        {/* Incident actions */}
+        <IncidentActions incident={incident} triggeringEvent={triggeringEvent} latestSnapshot={latestSnapshot} />
       </Stack>
     </Stack>
   );
@@ -206,7 +214,7 @@ const MetricViolations = ({ triggeringEvent, latestSnapshot, incident }) => {
           <Collapsible.Header>{t('in-events:incident.metricViolationTitle')}</Collapsible.Header>
           <Collapsible.Content>
             <div className={locals.metricViolationsContainer}>
-              <CombinedEventListItemContent event={triggeringEvent} latestSnapshot={latestSnapshot} />
+              <CombinedEventListItemContent event={triggeringEvent} latestSnapshot={latestSnapshot} justChart />
             </div>
           </Collapsible.Content>
         </Collapsible>
@@ -389,18 +397,4 @@ function getTriggeringEventCardColor(incident) {
     colorForCard = themes.default.ids.color.option.red[500];
   }
   return colorForCard;
-}
-
-function renderTriggeringEventHeader(incident, canCloseManually, timeConfig) {
-  return incident && canCloseManually ? (
-    <ManualCloseIssueButton
-      buttonKind="subtle"
-      eventType="incident"
-      event={incident}
-      buttonType="iconButton"
-      iconComponent={
-        <EventIcon event={incident} tooltipLabel={getEventSeverityLabelWithEventType(incident, timeConfig)} />
-      }
-    />
-  ) : null;
 }

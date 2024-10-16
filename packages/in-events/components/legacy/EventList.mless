@@ -157,4 +157,10 @@
     padding: 0 1rem;
     background: var(--cds-layer);
   }
+
+  .descriptionText {
+    p {
+      margin-bottom: 0;
+    }
+  }
 }

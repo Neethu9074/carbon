@@ -20,9 +20,10 @@ import locals from './EventListItemContent.mless';
 
 interface SloEventListItemContentProps {
   event: EventOrMap;
+  justChart?: boolean;
 }
 
-export default function SloEventListItemContent({ event }: SloEventListItemContentProps) {
+export default function SloEventListItemContent({ event, justChart = false }: SloEventListItemContentProps) {
   const timeConfig = getTimeConfigFromEvent(event);
   const configId = event.getIn(['metadata', 'eventSpecificationId']);
   const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
@@ -34,11 +35,15 @@ export default function SloEventListItemContent({ event }: SloEventListItemConte
 
   return (
     <>
-      <ProblemDescription fixSuggestion={fixSuggestion} />
-      <DescriptionButtons>
-        <SloAlertConfigButton sloId={eventEntity.sloConfig.id!} alertConfig={alertConfig} />
-        <AnalyzeSloEventButton sloConfig={eventEntity.sloConfig} timeConfig={timeConfig} />
-      </DescriptionButtons>
+      {!justChart && (
+        <>
+          <ProblemDescription fixSuggestion={fixSuggestion} />
+          <DescriptionButtons>
+            <SloAlertConfigButton sloId={eventEntity.sloConfig.id!} alertConfig={alertConfig} />
+            <AnalyzeSloEventButton sloConfig={eventEntity.sloConfig} timeConfig={timeConfig} />
+          </DescriptionButtons>
+        </>
+      )}
       <div className={locals.sectionWrapper}>
         <SloExpandedErrorBudgetChart sloConfig={eventEntity.sloConfig} timeConfig={timeConfig} />
       </div>

@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Button, IconButton } from '@instana/components';
+import { Button, CarbonMenuItem, IconButton, SvgIcon } from '@instana/components';
 import { interval } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
@@ -23,7 +23,7 @@ type ManualCloseIssueButtonProps = {
   iconComponent?: React.ReactNode;
   buttonKind?: any;
   eventType?: string;
-  buttonType?: 'button' | 'iconButton';
+  buttonType?: 'button' | 'iconButton' | 'menuItem';
 };
 
 export default function ManualCloseIssueButton({
@@ -109,6 +109,22 @@ export default function ManualCloseIssueButton({
             : t('in-events:closeEventDialog.closeIssue')
         }
         onClick={handleCloseIssue}
+      />
+    );
+  }
+
+  // for menuButtons
+  if (buttonType === 'menuItem') {
+    return (
+      <CarbonMenuItem
+        label={
+          eventType === 'incident'
+            ? t('in-events:closeEventDialog.closeIncident')
+            : t('in-events:closeEventDialog.closeIssue')
+        }
+        onClick={handleCloseIssue}
+        renderIcon={() => <SvgIcon type="lib_openclose_cancel" size="xs" />}
+        disabled={isManuallyClosedButtonDisabled}
       />
     );
   }

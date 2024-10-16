@@ -305,6 +305,8 @@
   "incident": {
     "overviewTitle": "Incident overview",
     "triggeringEntity": "Triggering entity",
-    "metricViolationTitle": "Metric violations"
+    "metricViolationTitle": "Metric violations",
+    "setTimeConfig": "Set time config",
+    "actionOpenTriggeringEvent": "Open triggering event"
   }
 }

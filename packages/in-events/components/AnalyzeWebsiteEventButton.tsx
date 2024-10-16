@@ -5,8 +5,8 @@
 
 import React from 'react';
 
+import { Button, CarbonMenuItem, SvgIcon } from '@instana/components';
 import { AggregationType, WebsiteAlertConfig } from '@instana/types';
-import { Button } from '@instana/components';
 
 import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
@@ -15,8 +15,10 @@ import { websitesAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alert
 import { defaultGroupings } from 'in-websites/tags';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { useLinkToAnalyze } from 'in-websites/navigation/paths';
+import { parseUrl } from 'in-stores/navigation/routing/parser';
 import { FixedTimeConfig } from 'in-stores/time/config';
 import { t } from 'in-i18n';
 
@@ -25,13 +27,15 @@ interface AnalyzeWebsiteEventButtonProps {
   websiteName: string;
   timeConfig: FixedTimeConfig;
   adaptiveBaselineInfo?: Record<string, number>;
+  as?: 'button' | 'menuItem';
 }
 
 export default function AnalyzeWebsiteEventButton({
   alertConfig,
   websiteName,
   timeConfig,
-  adaptiveBaselineInfo
+  adaptiveBaselineInfo,
+  as = 'button'
 }: AnalyzeWebsiteEventButtonProps) {
   const { rule, tagFilterExpression } = alertConfig;
   const { alertType, metricName, aggregation } = rule;
@@ -55,6 +59,21 @@ export default function AnalyzeWebsiteEventButton({
     })
   });
   const linkToUAWithoutParams = urlWithoutQueryParameter(linkToUA!);
+  const { navigate } = useNavigation();
+
+  if (as === 'menuItem') {
+    return (
+      <CarbonMenuItem
+        label={getLinkTitle(alertType, metricName)}
+        renderIcon={() => <SvgIcon size="xs" type={getIcon(alertType)} />}
+        onClick={() => {
+          websitesAlertingEventDetailsGoToAnalyze({ beaconType });
+          navigate(parseUrl(linkToUAWithoutParams, true));
+        }}
+        style={{ outline: '10px red' }}
+      />
+    );
+  }
 
   return (
     <Button
