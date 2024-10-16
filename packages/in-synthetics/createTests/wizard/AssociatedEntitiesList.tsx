@@ -61,6 +61,7 @@ export default function AssociatedEntitiesList({
       extraFilters={createFilters(hiddenIds ?? [])}
       searchPlaceholder={t('in-settings:tabs.filter')}
       onRowClick={onRowClick}
+      withBottomPadding
     />
   );
 }

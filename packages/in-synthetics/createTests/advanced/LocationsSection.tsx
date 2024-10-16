@@ -65,6 +65,7 @@ export default function LocationsSection({
       extraFilters={createFilters(hiddenIds ?? [])}
       searchPlaceholder={t('in-settings:tabs.filter')}
       onRowClick={onRowClick}
+      withBottomPadding
     />
   );
 }
