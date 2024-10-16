@@ -6,12 +6,15 @@
 import React, { Fragment } from 'react';
 
 import { TableActionColumn, TableErrorRows, Table, Tbody, Thead, Tr } from '@instana/legacy';
+import { Button, Stack } from '@instana/components';
 
 import { filterColumns } from 'in-components/tables/ServerTable/internalComponents/columnBehavior';
 import EmptyContent from 'in-components/tables/ServerTable/internalComponents/EmptyContent';
 import LoadingRows from 'in-components/tables/ServerTable/internalComponents/LoadingRows';
+import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
+import { carbonTableEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export default function CursorPaginatedTable(props) {
@@ -51,6 +54,62 @@ export default function CursorPaginatedTable(props) {
   const hasItems = items?.length > 0;
 
   const { availableColumns, visibleColumns, optionalColumns, onColumnChecked } = filterColumns(props);
+
+  /**
+   * Carbon datatable migration START
+   */
+
+  if (carbonTableEnabled) {
+    const visColumns = visibleColumns.map(header => {
+      // seeing this one off case where the label has data object
+      // the code will break when header.label has object
+      // so converting to the format thats needed.
+      const newHeader = { ...header };
+      if (header?.label?.data) {
+        newHeader.label = header.label.data;
+      }
+      return newHeader;
+    });
+
+    return (
+      <Fragment>
+        <ServerTablePresenter
+          {...props}
+          columnDefinitions={visColumns}
+          orderBy={orderBy}
+          orderDirection={orderDirection}
+          getRowProps={getRowProps}
+          onRowClick={onRowClick}
+          fixedLayout={fixedLayout}
+          numSkeletonRows={numSkeletonRows}
+          isSearchable={false}
+          size={size}
+          cardTitle={cardTitle}
+          tableInCard={tableInCard}
+          noDataMessage={noDataMessage}
+          allRowsAreSelected={allRowsAreSelected}
+          setSelectedStateForRows={setSelectedStateForRows}
+          renderNoDataAvailable={renderNoDataAvailable}
+          onChange={onChange}
+          onRowMouseEnter={onRowMouseEnter}
+          onRowMouseLeave={onRowMouseLeave}
+          result={isLoading ? null : { data: { items } }}
+        />
+        <TableLoadMoreRow
+          cols={visibleColumns.length}
+          loadMore={canLoadMore && loadMore}
+          label={loadMoreLabel}
+          filterByOnClick={filterByOnClick}
+          filterByLabel={t('in-components:tables.serverTable.cursorPaginatedTableFilterByLabel')}
+          filterByHref={filterByHref}
+        />
+      </Fragment>
+    );
+  }
+
+  /**
+   * Carbon datatable migration END
+   */
 
   return (
     <Fragment>
@@ -125,6 +184,23 @@ function TableLoadMoreRow({
   const filterByCols = loadMore ? cols - 2 : cols;
   const supportsFilterBy = Boolean(filterByHref || filterByOnClick);
   const loadMoreCols = supportsFilterBy ? cols - filterByCols : cols;
+
+  if (carbonTableEnabled) {
+    return (
+      <Stack distribution="center" align="center">
+        {supportsFilterBy && (
+          <Button kind="action" onClick={filterByOnClick} href={filterByHref}>
+            {label}
+          </Button>
+        )}
+        {loadMore && (
+          <Button kind="action" onClick={loadMore}>
+            {label}
+          </Button>
+        )}
+      </Stack>
+    );
+  }
   return (
     <Tr depth={depth} size={size} className={className}>
       {supportsFilterBy && (
