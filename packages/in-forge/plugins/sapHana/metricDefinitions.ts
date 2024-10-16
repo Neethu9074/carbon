@@ -561,5 +561,44 @@ export default [
     category: [t('in-forge:plugins.sapHana.dashboard.activeStatementStats')],
     min: 0,
     formatter: bytes
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('ioStats', 'totalReadSize', t('in-forge:plugins.sapHana.dashboard.totalReadSize')),
+      getDynamicMetricMatch('ioStats', 'totalReadSize', t('in-forge:plugins.sapHana.dashboard.totalWriteSize'))
+    ],
+    labels: [
+      t('in-forge:plugins.sapHana.dashboard.totalReadSize'),
+      t('in-forge:plugins.sapHana.dashboard.totalWriteSize')
+    ],
+    category: [t('in-forge:plugins.sapHana.dashboard.ioStats')],
+    min: 0,
+    formatter: bytes
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('ioStats', 'totalFailedReads', t('in-forge:plugins.sapHana.dashboard.totalFailedReads')),
+      getDynamicMetricMatch('ioStats', 'totalFailedWrites', t('in-forge:plugins.sapHana.dashboard.totalFailedWrites'))
+    ],
+    labels: [
+      t('in-forge:plugins.sapHana.dashboard.totalFailedReads'),
+      t('in-forge:plugins.sapHana.dashboard.totalFailedWrites')
+    ],
+    category: [t('in-forge:plugins.sapHana.dashboard.ioStats')],
+    min: 0,
+    formatter: bytes
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('ioStats', 'totalReadTime', t('in-forge:plugins.sapHana.dashboard.totalReadTime')),
+      getDynamicMetricMatch('ioStats', 'totalWriteTime', t('in-forge:plugins.sapHana.dashboard.totalWriteTime'))
+    ],
+    labels: [
+      t('in-forge:plugins.sapHana.dashboard.totalReadTime'),
+      t('in-forge:plugins.sapHana.dashboard.totalWriteTime')
+    ],
+    category: [t('in-forge:plugins.sapHana.dashboard.ioStats')],
+    min: 0,
+    formatter: bytes
   }
 ];

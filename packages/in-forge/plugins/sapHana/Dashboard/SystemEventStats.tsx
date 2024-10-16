@@ -86,23 +86,21 @@ const cols = [
 
 export default function SystemEventStatsList({ snapshotId, timeConfig }: SystemEventStatsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'systemEventStats'), [snapshotId]);
-  if (!data) {
-    return null;
-  }
-  const systemEventStat = (data as SnapshotData).get('raw_payload', []);
+  const systemEventStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: SystemEventStatsRow[] = systemEventStat
-    .keySeq()
-    .toArray()
-    .map((key: string) => {
-      const systemEventStats = systemEventStat.get(key);
-
-      return {
-        key,
-        snapshotId,
-        timeConfig,
-        systemEventStats
-      };
-    });
+    ? systemEventStat
+        .keySeq()
+        .toArray()
+        .map((key: string) => {
+          const systemEventStats = systemEventStat.get(key);
+          return {
+            key,
+            snapshotId,
+            timeConfig,
+            systemEventStats
+          };
+        })
+    : [];
 
   return (
     <Table

@@ -107,23 +107,21 @@ const cols = [
 
 export default function ServiceDetailsStatsList({ snapshotId, timeConfig }: ServiceDetailsStatsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'serviceDetailsStats'), [snapshotId]);
-  if (!data) {
-    return null;
-  }
-  const serviceDetailsStat = (data as SnapshotData).get('raw_payload', []);
+  const serviceDetailsStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: ServiceDetailsStatsRow[] = serviceDetailsStat
-    .keySeq()
-    .toArray()
-    .map((key: string) => {
-      const serviceDetailsStats = serviceDetailsStat.get(key);
-
-      return {
-        key,
-        snapshotId,
-        timeConfig,
-        serviceDetailsStats
-      };
-    });
+    ? serviceDetailsStat
+        .keySeq()
+        .toArray()
+        .map((key: string) => {
+          const serviceDetailsStats = serviceDetailsStat.get(key);
+          return {
+            key,
+            snapshotId,
+            timeConfig,
+            serviceDetailsStats
+          };
+        })
+    : [];
   function getDetails(row: ServiceDetailsStatsRow) {
     return (
       <div>

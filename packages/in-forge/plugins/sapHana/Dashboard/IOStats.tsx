@@ -13,20 +13,20 @@ import { TimeConfig } from '@instana/types';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import { bytesTwoDecimalPlaces, millis, number } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
-interface GarbageCollectionStatsRow {
+interface IOStatsRow {
   key: string;
   snapshotId: string;
-  garbageCollectionStats: Map<string, object>;
+  ioStats: Map<string, object>;
 }
 
-interface GarbageCollectionStatsProps {
+interface IOStatsProps {
   snapshotId: string;
   timeConfig: TimeConfig;
 }
@@ -36,8 +36,8 @@ const cols = [
     title: t('in-forge:plugins.sapHana.dashboard.host'),
     type: 'string',
     typeArgs: {
-      getValue(row: GarbageCollectionStatsRow) {
-        return row.garbageCollectionStats.get('host');
+      getValue(row: IOStatsRow) {
+        return row.ioStats.get('host');
       }
     }
   },
@@ -45,8 +45,8 @@ const cols = [
     title: t('in-forge:plugins.sapHana.dashboard.port'),
     type: 'string',
     typeArgs: {
-      getValue(row: GarbageCollectionStatsRow) {
-        return row.garbageCollectionStats.get('port');
+      getValue(row: IOStatsRow) {
+        return row.ioStats.get('port');
       }
     }
   },
@@ -54,41 +54,50 @@ const cols = [
     title: t('in-forge:plugins.sapHana.dashboard.volumeId'),
     type: 'string',
     typeArgs: {
-      getValue(row: GarbageCollectionStatsRow) {
-        return row.garbageCollectionStats.get('volumeId');
+      getValue(row: IOStatsRow) {
+        return row.ioStats.get('volumeId');
       }
     }
   },
   {
-    title: t('in-forge:plugins.sapHana.dashboard.storeType'),
+    title: t('in-forge:plugins.sapHana.dashboard.fileType'),
     type: 'string',
     typeArgs: {
-      getValue(row: GarbageCollectionStatsRow) {
-        return row.garbageCollectionStats.get('storeType');
+      getValue(row: IOStatsRow) {
+        return row.ioStats.get('type');
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.sapHana.dashboard.fileSystemPath'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: IOStatsRow) {
+        return row.ioStats.get('path');
       }
     }
   }
 ];
 
-export default function GarbageCollectionStatsList({ snapshotId, timeConfig }: GarbageCollectionStatsProps) {
-  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'garbageCollectionStats'), [snapshotId]);
-  const garbageCollectionStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
-  const rows: GarbageCollectionStatsRow[] = garbageCollectionStat
-    ? garbageCollectionStat
+export default function IOStatsList({ snapshotId, timeConfig }: IOStatsProps) {
+  const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'ioStats'), [snapshotId]);
+  const ioStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
+  const rows: IOStatsRow[] = ioStat
+    ? ioStat
         .keySeq()
         .toArray()
         .map((key: string) => {
-          const garbageCollectionStats = garbageCollectionStat.get(key);
+          const ioStats = ioStat.get(key);
           return {
             key,
             snapshotId,
             timeConfig,
-            garbageCollectionStats
+            ioStats
           };
         })
     : [];
 
-  function getDetails(row: GarbageCollectionStatsRow) {
+  function getDetails(row: IOStatsRow) {
     return (
       <div>
         <Columize>
@@ -98,13 +107,27 @@ export default function GarbageCollectionStatsList({ snapshotId, timeConfig }: G
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: [
-                  `garbageCollectionStats.${row.key}.historyCount`,
-                  `garbageCollectionStats.${row.key}.waiterCount`
-                ],
+                metrics: [`ioStats.${row.key}.totalReadSize`, `ioStats.${row.key}.totalWriteSize`],
                 labels: [
-                  t('in-forge:plugins.sapHana.dashboard.historyCount'),
-                  t('in-forge:plugins.sapHana.dashboard.waiterCount')
+                  t('in-forge:plugins.sapHana.dashboard.totalReadSize'),
+                  t('in-forge:plugins.sapHana.dashboard.totalWriteSize')
+                ],
+                type: 'line',
+                formatter: bytesTwoDecimalPlaces
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+          <DashboardSection>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                metrics: [`ioStats.${row.key}.totalFailedReads`, `ioStats.${row.key}.totalFailedWrites`],
+                labels: [
+                  t('in-forge:plugins.sapHana.dashboard.totalFailedReads'),
+                  t('in-forge:plugins.sapHana.dashboard.totalFailedWrites')
                 ],
                 type: 'line',
                 formatter: number.compact
@@ -118,30 +141,13 @@ export default function GarbageCollectionStatsList({ snapshotId, timeConfig }: G
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: [
-                  `garbageCollectionStats.${row.key}.startedJobs`,
-                  `garbageCollectionStats.${row.key}.processedJobs`
-                ],
+                metrics: [`ioStats.${row.key}.totalReadTime`, `ioStats.${row.key}.totalWriteTime`],
                 labels: [
-                  t('in-forge:plugins.sapHana.dashboard.startedJobs'),
-                  t('in-forge:plugins.sapHana.dashboard.processedJobs')
+                  t('in-forge:plugins.sapHana.dashboard.totalReadTime'),
+                  t('in-forge:plugins.sapHana.dashboard.totalWriteTime')
                 ],
                 type: 'line',
-                formatter: number.compact
-              }}
-              renderPostChartContent={PluginDashboardsMarkerLanes}
-            />
-          </DashboardSection>
-          <DashboardSection>
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                min: 0,
-                metrics: [`garbageCollectionStats.${row.key}.queueLoads`],
-                labels: [t('in-forge:plugins.sapHana.dashboard.queueLoads')],
-                type: 'line',
-                formatter: number.compact
+                formatter: millis.detailed
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
@@ -153,7 +159,7 @@ export default function GarbageCollectionStatsList({ snapshotId, timeConfig }: G
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.sapHana.dashboard.garbageCollectionStats')}
+      cardTitle={t('in-forge:plugins.sapHana.dashboard.ioStats')}
       cols={cols}
       rows={rows}
       initialSortColumn={0}

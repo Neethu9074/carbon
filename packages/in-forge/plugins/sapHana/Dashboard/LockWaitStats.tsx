@@ -95,23 +95,21 @@ const cols = [
 
 export default function LockWaitStatsList({ snapshotId, timeConfig }: LockWaitStatsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'lockWaitStats'), [snapshotId]);
-  if (!data) {
-    return null;
-  }
-  const lockWaitStat = (data as SnapshotData).get('raw_payload', []);
+  const lockWaitStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: LockWaitStatsRow[] = lockWaitStat
-    .keySeq()
-    .toArray()
-    .map((key: string) => {
-      const lockWaitStats = lockWaitStat.get(key);
-
-      return {
-        key,
-        snapshotId,
-        timeConfig,
-        lockWaitStats
-      };
-    });
+    ? lockWaitStat
+        .keySeq()
+        .toArray()
+        .map((key: string) => {
+          const lockWaitStats = lockWaitStat.get(key);
+          return {
+            key,
+            snapshotId,
+            timeConfig,
+            lockWaitStats
+          };
+        })
+    : [];
   function getDetails(row: LockWaitStatsRow) {
     return (
       <div>

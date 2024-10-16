@@ -86,23 +86,21 @@ const cols = [
 ];
 export default function SchedulerJobsStatsList({ snapshotId, timeConfig }: SchedulerJobsStatsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'schedulerJobStats'), [snapshotId]);
-  if (!data) {
-    return null;
-  }
-  const schedulerJobsStat = (data as SnapshotData).get('raw_payload', []);
+  const schedulerJobsStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: SchedulerJobsStatsRow[] = schedulerJobsStat
-    .keySeq()
-    .toArray()
-    .map((key: string) => {
-      const schedulerJobsStats = schedulerJobsStat.get(key);
-
-      return {
-        key,
-        snapshotId,
-        timeConfig,
-        schedulerJobsStats
-      };
-    });
+    ? schedulerJobsStat
+        .keySeq()
+        .toArray()
+        .map((key: string) => {
+          const schedulerJobsStats = schedulerJobsStat.get(key);
+          return {
+            key,
+            snapshotId,
+            timeConfig,
+            schedulerJobsStats
+          };
+        })
+    : [];
   return (
     <Table
       withoutPadding

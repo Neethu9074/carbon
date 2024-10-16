@@ -104,23 +104,22 @@ const cols = [
 
 export default function AggregatedCacheStatsList({ snapshotId, timeConfig }: AggregatedCacheStatsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'aggregatedCacheStats'), [snapshotId]);
-  if (!data) {
-    return null;
-  }
-  const aggregatedCacheStat = (data as SnapshotData).get('raw_payload', []);
+  const aggregatedCacheStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: AggregatedCacheStatsRow[] = aggregatedCacheStat
-    .keySeq()
-    .toArray()
-    .map((key: string) => {
-      const aggregatedCacheStats = aggregatedCacheStat.get(key);
+    ? aggregatedCacheStat
+        .keySeq()
+        .toArray()
+        .map((key: string) => {
+          const aggregatedCacheStats = aggregatedCacheStat.get(key);
 
-      return {
-        key,
-        snapshotId,
-        timeConfig,
-        aggregatedCacheStats
-      };
-    });
+          return {
+            key,
+            snapshotId,
+            timeConfig,
+            aggregatedCacheStats
+          };
+        })
+    : [];
   function getDetails(row: AggregatedCacheStatsRow) {
     return (
       <div>

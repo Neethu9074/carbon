@@ -68,23 +68,21 @@ const cols = [
 
 export default function UserLockStatsList({ snapshotId, timeConfig }: UserLockStatsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'userLockStats'), [snapshotId]);
-  if (!data) {
-    return null;
-  }
-  const systemEventStat = (data as SnapshotData).get('raw_payload', []);
-  const rows: UserLockStatsRow[] = systemEventStat
-    .keySeq()
-    .toArray()
-    .map((key: string) => {
-      const userLockStats = systemEventStat.get(key);
-
-      return {
-        key,
-        snapshotId,
-        timeConfig,
-        userLockStats
-      };
-    });
+  const userLockStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
+  const rows: UserLockStatsRow[] = userLockStat
+    ? userLockStat
+        .keySeq()
+        .toArray()
+        .map((key: string) => {
+          const userLockStats = userLockStat.get(key);
+          return {
+            key,
+            snapshotId,
+            timeConfig,
+            userLockStats
+          };
+        })
+    : [];
 
   return (
     <Table

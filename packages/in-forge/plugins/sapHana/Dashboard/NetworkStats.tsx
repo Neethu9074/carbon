@@ -88,23 +88,21 @@ const cols = [
 
 export default function NetworkStatsList({ snapshotId, timeConfig }: NetworkStatsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'networkStats'), [snapshotId]);
-  if (!data) {
-    return null;
-  }
-  const networkStat = (data as SnapshotData).get('raw_payload', []);
+  const networkStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: NetworkStatsRow[] = networkStat
-    .keySeq()
-    .toArray()
-    .map((key: string) => {
-      const networkStats = networkStat.get(key);
-
-      return {
-        key,
-        snapshotId,
-        timeConfig,
-        networkStats
-      };
-    });
+    ? networkStat
+        .keySeq()
+        .toArray()
+        .map((key: string) => {
+          const networkStats = networkStat.get(key);
+          return {
+            key,
+            snapshotId,
+            timeConfig,
+            networkStats
+          };
+        })
+    : [];
   function getDetails(row: NetworkStatsRow) {
     return (
       <div>

@@ -148,23 +148,22 @@ function getDetails(row: ArchiveLogBackupStatsRow) {
 
 export default function ArchiveLogBackupStatsList({ snapshotId, timeConfig }: ArchiveLogBackupStatsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'archiveLogBackupStats'), [snapshotId]);
-  if (!data) {
-    return null;
-  }
-  const archiveLogBackupStat = (data as SnapshotData).get('raw_payload', []);
+  const archiveLogBackupStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: ArchiveLogBackupStatsRow[] = archiveLogBackupStat
-    .keySeq()
-    .toArray()
-    .map((key: string) => {
-      const archiveLogBackupStats = archiveLogBackupStat.get(key);
+    ? archiveLogBackupStat
+        .keySeq()
+        .toArray()
+        .map((key: string) => {
+          const archiveLogBackupStats = archiveLogBackupStat.get(key);
 
-      return {
-        key,
-        snapshotId,
-        timeConfig,
-        archiveLogBackupStats
-      };
-    });
+          return {
+            key,
+            snapshotId,
+            timeConfig,
+            archiveLogBackupStats
+          };
+        })
+    : [];
 
   return (
     <Table

@@ -36,6 +36,7 @@ import UserLockStatsList from 'in-forge/plugins/sapHana/Dashboard/UserLockStats'
 import NetworkStatsList from 'in-forge/plugins/sapHana/Dashboard/NetworkStats';
 import BackupStatsList from 'in-forge/plugins/sapHana/Dashboard/BackupStats';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import IOStatsList from 'in-forge/plugins/sapHana/Dashboard/IOStats';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -427,6 +428,7 @@ export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
       <UserLockStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <SchedulerJobsStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <TransactionStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+      <IOStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <AlertsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );

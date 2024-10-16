@@ -110,23 +110,22 @@ const cols = [
 
 export default function ActiveStatementStatsList({ snapshotId, timeConfig }: ActiveStatementStatsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'activeStatementStats'), [snapshotId]);
-  if (!data) {
-    return null;
-  }
-  const activeStatementStat = (data as SnapshotData).get('raw_payload', []);
+  const activeStatementStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: ActiveStatementStatsRow[] = activeStatementStat
-    .keySeq()
-    .toArray()
-    .map((key: string) => {
-      const activeStatementStats = activeStatementStat.get(key);
+    ? activeStatementStat
+        .keySeq()
+        .toArray()
+        .map((key: string) => {
+          const activeStatementStats = activeStatementStat.get(key);
 
-      return {
-        key,
-        snapshotId,
-        timeConfig,
-        activeStatementStats
-      };
-    });
+          return {
+            key,
+            snapshotId,
+            timeConfig,
+            activeStatementStats
+          };
+        })
+    : [];
 
   function getDetails(row: ActiveStatementStatsRow) {
     return (

@@ -95,23 +95,21 @@ const cols = [
 
 export default function TableSizeStatsList({ snapshotId, timeConfig }: TableSizeStatsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'tableSizeStats'), [snapshotId]);
-  if (!data) {
-    return null;
-  }
-  const tableSizeStat = (data as SnapshotData).get('raw_payload', []);
+  const tableSizeStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: TableSizeStatsRow[] = tableSizeStat
-    .keySeq()
-    .toArray()
-    .map((key: string) => {
-      const tableSizeStats = tableSizeStat.get(key);
-
-      return {
-        key,
-        snapshotId,
-        timeConfig,
-        tableSizeStats
-      };
-    });
+    ? tableSizeStat
+        .keySeq()
+        .toArray()
+        .map((key: string) => {
+          const tableSizeStats = tableSizeStat.get(key);
+          return {
+            key,
+            snapshotId,
+            timeConfig,
+            tableSizeStats
+          };
+        })
+    : [];
   function getDetails(row: TableSizeStatsRow) {
     return (
       <div>

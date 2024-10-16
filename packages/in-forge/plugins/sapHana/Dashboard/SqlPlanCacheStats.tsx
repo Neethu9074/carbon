@@ -89,23 +89,21 @@ const cols = [
 
 export default function SqlPlanCacheStatsList({ snapshotId, timeConfig }: SqlPlanCacheStatsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'sqlPlanCacheStats'), [snapshotId]);
-  if (!data) {
-    return null;
-  }
-  const sqlPlanCacheStat = (data as SnapshotData).get('raw_payload', []);
+  const sqlPlanCacheStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: SqlPlanCacheStatsRow[] = sqlPlanCacheStat
-    .keySeq()
-    .toArray()
-    .map((key: string) => {
-      const sqlPlanCacheStats = sqlPlanCacheStat.get(key);
-
-      return {
-        key,
-        snapshotId,
-        timeConfig,
-        sqlPlanCacheStats
-      };
-    });
+    ? sqlPlanCacheStat
+        .keySeq()
+        .toArray()
+        .map((key: string) => {
+          const sqlPlanCacheStats = sqlPlanCacheStat.get(key);
+          return {
+            key,
+            snapshotId,
+            timeConfig,
+            sqlPlanCacheStats
+          };
+        })
+    : [];
   function extractQuery(row: SqlPlanCacheStatsRow) {
     return row.key
       ? formatSql(row.sqlPlanCacheStats.get('statementString'))

@@ -147,22 +147,21 @@ function getDetails(row: TransactionStatsRow) {
 
 export default function TransactionStatsList({ snapshotId, timeConfig }: TransactionStatsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'transactionStats'), [snapshotId]);
-  if (!data) {
-    return null;
-  }
-  const transactionStat = (data as SnapshotData).get('raw_payload', []);
+  const transactionStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: TransactionStatsRow[] = transactionStat
-    .keySeq()
-    .toArray()
-    .map((key: string) => {
-      const transactionStats = transactionStat.get(key);
-      return {
-        key,
-        snapshotId,
-        timeConfig,
-        transactionStats
-      };
-    });
+    ? transactionStat
+        .keySeq()
+        .toArray()
+        .map((key: string) => {
+          const transactionStats = transactionStat.get(key);
+          return {
+            key,
+            snapshotId,
+            timeConfig,
+            transactionStats
+          };
+        })
+    : [];
   return (
     <Table
       withoutPadding

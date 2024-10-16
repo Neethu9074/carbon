@@ -144,23 +144,22 @@ const cols = [
 
 export default function BackupStatsList({ snapshotId, timeConfig }: BackupStatsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'backupStats'), [snapshotId]);
-  if (!data) {
-    return null;
-  }
-  const backupStat = (data as SnapshotData).get('raw_payload', []);
+  const backupStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: BackupStatsRow[] = backupStat
-    .keySeq()
-    .toArray()
-    .map((key: string) => {
-      const backupStats = backupStat.get(key);
+    ? backupStat
+        .keySeq()
+        .toArray()
+        .map((key: string) => {
+          const backupStats = backupStat.get(key);
 
-      return {
-        key,
-        snapshotId,
-        timeConfig,
-        backupStats
-      };
-    });
+          return {
+            key,
+            snapshotId,
+            timeConfig,
+            backupStats
+          };
+        })
+    : [];
 
   return (
     <Table
