@@ -31,6 +31,7 @@ export default function TimePresenter({ onClick, timeConfig, expanded, refSetter
   if (carbonButtonEnabled) {
     return (
       <DashboardHeaderButton
+        data-test-id="time-picker"
         expanded={expanded}
         darkTheme={darkTheme}
         onClick={(e: FirstArgumentType<typeof stopPropagationAndPreventDefault>) => {
