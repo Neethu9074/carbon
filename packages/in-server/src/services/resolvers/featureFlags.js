@@ -753,7 +753,7 @@ module.exports = exports = [
   {
     uiClientKey: 'maxMetricsLimitForBeeinstanaEnabled',
     instanaCtlKey: 'feature.max.metrics.limit.for.beeinstana.enabled',
-    defaultValue: true
+    defaultValue: false
   },
   {
     uiClientKey: 'serverSideInfraTagSearchEnabled',
