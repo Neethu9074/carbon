@@ -5,7 +5,10 @@
 
 import React from 'react';
 
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { percentage } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
@@ -118,6 +121,23 @@ const cols = [
         return `logicalPartitions.${row.key}.cbpProcessorUsage`;
       },
       getContent: percentage.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-zhmc:dashboards.lparPowerConsumption'),
+    id: 'lparPowerConsumption',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.data.id;
+      },
+      getMetricName(row) {
+        return `logicalPartitions.${row.key}.lparPowerConsumption`;
+      },
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -240,6 +260,7 @@ export default function Partitions({ data, timeConfig }) {
         withoutPadding
         cols={version.includes(data.hmcVersion) ? cols : cols.filter(col => col.id !== 'cbp')}
         rows={rows}
+        getRowDetails={getRowDetails}
         initialSortDirection="desc"
       />
     );
@@ -269,4 +290,19 @@ export default function Partitions({ data, timeConfig }) {
       />
     );
   }
+}
+
+function getRowDetails(row) {
+  return (
+    <Chart
+      snapshotId={row.data.id}
+      timeConfig={row.timeConfig}
+      y1={{
+        metrics: [`logicalPartitions.${row.key}.lparPowerConsumption`],
+        labels: [t('in-zhmc:dashboards.lparPowerConsumption')],
+        type: 'stackedArea'
+      }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
+    />
+  );
 }

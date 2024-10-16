@@ -158,18 +158,19 @@ export default [
       getDynamicMetricMatch('logicalPartitions', 'iflProcessorUsage', t('in-forge:plugins.zhmcCpc.logicalPartition')),
       getDynamicMetricMatch('logicalPartitions', 'icfProcessorUsage', t('in-forge:plugins.zhmcCpc.logicalPartition')),
       getDynamicMetricMatch('logicalPartitions', 'iipProcessorUsage', t('in-forge:plugins.zhmcCpc.logicalPartition')),
-      getDynamicMetricMatch('logicalPartitions', 'cbpProcessorUsage', t('in-forge:plugins.zhmcCpc.logicalPartition'))
+      getDynamicMetricMatch('logicalPartitions', 'cbpProcessorUsage', t('in-forge:plugins.zhmcCpc.logicalPartition')),
+      getDynamicMetricMatch('logicalPartitions', 'lparPowerConsumption', t('in-forge:plugins.zhmcCpc.logicalPartition'))
     ],
     labels: [
       t('in-forge:plugins.zhmcCpc.cp'),
       t('in-forge:plugins.zhmcCpc.ifl'),
       t('in-forge:plugins.zhmcCpc.icf'),
       t('in-forge:plugins.zhmcCpc.iip'),
-      t('in-forge:plugins.zhmcCpc.cbp')
+      t('in-forge:plugins.zhmcCpc.cbp'),
+      t('in-forge:plugins.zhmcCpc.lparPowerConsumption')
     ],
     category: [t('in-forge:plugins.zhmcCpc.logicalPartition')],
-    min: 0,
-    formatter: percentage
+    min: 0
   },
   {
     metrics: [
