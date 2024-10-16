@@ -5,8 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Select } from '@instana/components';
+import { SvgIcon, Stack, Select } from '@instana/components';
 import { just } from '@instana/observables';
 
 import List from 'in-settings/components/List';
@@ -19,22 +18,19 @@ const SHOW_ALL = t('in-settings:tabs.showAll');
 
 const defaultColumnDefinitions = [
   {
-    id: 'description',
-    width: 3,
-    sortable: false,
-    getContent({ description }) {
-      return (
-        <Tooltip content={description} align="auto">
-          <SvgIcon type="lib_help_error_info_outline" size="s" />
-        </Tooltip>
-      );
-    }
-  },
-  {
     id: 'permission',
     label: t('in-settings:tabs.permission'),
-    getContent({ label }) {
-      return label;
+    getContent({ label, description }) {
+      return (
+        <Stack gap="xsmall" direction="horizontal" align="center">
+          <span>{label}</span>
+          {description && (
+            <Tooltip content={description} align="auto">
+              <SvgIcon type="lib_help_error_info_outline" size="s" />
+            </Tooltip>
+          )}
+        </Stack>
+      );
     }
   },
   {

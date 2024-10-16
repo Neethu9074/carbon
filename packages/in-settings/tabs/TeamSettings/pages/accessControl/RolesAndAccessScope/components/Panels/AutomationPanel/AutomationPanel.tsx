@@ -8,7 +8,7 @@ import { MapFormItems } from 'formalistic';
 import { parse, stringify } from 'qs';
 import React from 'react';
 
-import { SvgIcon, Stack, StackItem, Typography, Checkbox, Label } from '@instana/components';
+import { Stack, StackItem, Typography, Checkbox, Label } from '@instana/components';
 import { PermissionSet, ScopeBinding } from '@instana/types';
 
 import {
@@ -41,7 +41,6 @@ import { getType, ACTION_TYPES } from 'in-automation/ActionCatalog/shared';
 import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import useActionTags from 'in-automation/hooks/useActionTags';
-import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './AutomationPanel.mless';
@@ -178,9 +177,6 @@ export default function AutomationAccessPanel<FORM_TYPE extends MapFormItems>({
                 label={
                   <Stack gap="xsmall" direction="horizontal" align="start">
                     <span>{productPermission.label}</span>
-                    <Tooltip content={productPermission.description} align="rightMiddle">
-                      <SvgIcon type="lib_help_error_info_outline" size="s" color={'#172429'} />
-                    </Tooltip>
                   </Stack>
                 }
               />

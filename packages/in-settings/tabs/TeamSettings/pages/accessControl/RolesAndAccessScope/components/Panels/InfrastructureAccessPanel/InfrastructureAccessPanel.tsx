@@ -109,9 +109,11 @@ export default function InfrastructureAccessPanel<FORM_TYPE extends MapFormItems
             label={
               <Stack gap="xsmall" direction="horizontal" align="start">
                 <span>{productPermission.label}</span>
-                <Tooltip content={productPermission.description} align="rightMiddle">
-                  <SvgIcon type="lib_help_error_info_outline" size="s" color={'#172429'} />
-                </Tooltip>
+                {productPermission.description && (
+                  <Tooltip content={productPermission.description} align="auto">
+                    <SvgIcon type="lib_help_error_info_outline" size="s" color={'#172429'} />
+                  </Tooltip>
+                )}
               </Stack>
             }
           />

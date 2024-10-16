@@ -6,7 +6,6 @@
 
 import React from 'react';
 
-import { carbonTableEnabled } from 'in-services/featureFlags';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 
 import locals from './EntityTableCellWithOverflow.mless';
@@ -27,9 +26,7 @@ interface Props {
 export default function EntityTableCellWithOverflow({ content }: Props) {
   return (
     <Tooltip content={content} align="topLeft">
-      <div className={carbonTableEnabled ? locals.abbreviatedContentCarbonTable : locals.abbreviatedContent}>
-        {content}
-      </div>
+      <div className={locals.abbreviatedContent}>{content}</div>
     </Tooltip>
   );
 }

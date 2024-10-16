@@ -7,7 +7,7 @@
 import { MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
 
-import { IconButton, Stack, StackItem, SvgIcon, Button, Typography } from '@instana/components';
+import { IconButton, Stack, StackItem, Button, Typography, Tooltip } from '@instana/components';
 import { PermissionSet, ScopeBinding, Result, OrderDirection } from '@instana/types';
 import { Observable } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
@@ -57,10 +57,9 @@ import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import Divider from 'in-components/workspace/Divider/Divider';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { FetchedState } from 'in-hooks/utils/types';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import { Capability } from 'in-stores/permission';
 import { noop } from 'in-services/fixedObjects';
-import { Trans, t } from 'in-i18n';
+import { t } from 'in-i18n';
 
 interface LimitedAccessPanelProps<I extends Object, FORM_TYPE extends MapFormItems>
   extends FormControlProps<FORM_TYPE>,
@@ -116,9 +115,7 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
   const isAppContributionFilterConfigured =
     permissionSetField?.value?.restrictedApplicationFilter?.tagFilterExpression?.type !== undefined;
   const restrictingApplicationId = permissionSetField?.value?.restrictedApplicationFilter?.restrictingApplicationId;
-  const restrictedApplicationToolTipText = (
-    <Trans i18nKey="in-settings:permissionScope.applicationCreatedUsingContributionFilter" />
-  );
+  const restrictedApplicationToolTipText = t('in-settings:permissionScope.applicationCreatedUsingContributionFilter');
   const selectedApplicationIds = getFilteredScopeIds(applicationScopeBindings, isAppWithContributorFeature);
   const selectedWebsiteIds = getFilteredScopeIds(websiteScopeBindings);
   const selectedMobileAppIds = getFilteredScopeIds(mobileAppScopeBindings);
@@ -234,8 +231,13 @@ export default function LimitedAccessPanel<I extends Object, FORM_TYPE extends M
         const id = extractId(entity);
         const name = extractName(entity);
         return restrictingApplicationId === id ? (
-          <Tooltip content={restrictedApplicationToolTipText} delay={500} align="bottomMiddle">
-            <SvgIcon type="lib_help_error_info_outline" />
+          <Tooltip content={restrictedApplicationToolTipText} delay={500} align="auto">
+            <IconButton
+              kind="info"
+              type="lib_help_error_info_outline"
+              aria-label={restrictedApplicationToolTipText}
+              iconSize="regular"
+            />
           </Tooltip>
         ) : (
           <IconButton

@@ -6,7 +6,7 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
-import { Toggle, Button } from '@instana/components';
+import { Toggle, Button, SvgIcon, Stack } from '@instana/components';
 
 // @ts-expect-error needs migration to typescript
 import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList';
@@ -91,8 +91,15 @@ export default function ApiTokenForm({ form, onChange, disabled, createNewToken,
           <FormGroup>
             <Title>{t('in-settings:tabs.ownerPermissions')}</Title>
             {productOwnerPermissions.map((productOwnerPermission: ProductPermissionProps) => (
-              <HorizontalFormGroup key={productOwnerPermission.label} helpText={productOwnerPermission.description}>
-                <Label htmlFor={`permission-${productOwnerPermission.value}`}>{productOwnerPermission.label}</Label>
+              <HorizontalFormGroup key={productOwnerPermission.label} noHelpTextSpacer>
+                <Stack gap="xsmall" direction="horizontal" align="center">
+                  <Label htmlFor={`permission-${productOwnerPermission.value}`}>{productOwnerPermission.label}</Label>
+                  {productOwnerPermission.description && (
+                    <Tooltip content={productOwnerPermission.description} align="auto">
+                      <SvgIcon type="lib_help_error_info_outline" size="s" />
+                    </Tooltip>
+                  )}
+                </Stack>
                 <Toggle
                   id={`permission-${productOwnerPermission.keyForApiTokenApi}`}
                   checked={form.get(productOwnerPermission.keyForApiTokenApi).value}

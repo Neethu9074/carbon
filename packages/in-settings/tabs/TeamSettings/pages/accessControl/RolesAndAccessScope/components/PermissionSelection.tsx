@@ -83,13 +83,15 @@ export default function PermissionSelection<FORM_TYPE extends MapFormItems>({
             label={
               <Stack gap="xsmall" direction="horizontal" align="start">
                 <span className={classNames({ [locals.clickable]: true })}>{productPermission.label}</span>
-                <Tooltip content={productPermission.description} align="rightMiddle">
-                  {productPermission.isOwnerPermission ? (
-                    <SvgIcon type="lib_help_error_warning_outline" size="s" color={'#172429'} />
-                  ) : (
-                    <SvgIcon type="lib_help_error_info_outline" size="s" color={'#172429'} />
-                  )}
-                </Tooltip>
+                {productPermission.description && (
+                  <Tooltip content={productPermission.description} align="auto">
+                    {productPermission.isOwnerPermission ? (
+                      <SvgIcon type="lib_help_error_warning_outline" size="s" color={'#172429'} />
+                    ) : (
+                      <SvgIcon type="lib_help_error_info_outline" size="s" color={'#172429'} />
+                    )}
+                  </Tooltip>
+                )}
               </Stack>
             }
           />

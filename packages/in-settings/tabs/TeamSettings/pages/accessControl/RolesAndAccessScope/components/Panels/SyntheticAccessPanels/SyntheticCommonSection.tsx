@@ -79,13 +79,15 @@ export default function SyntheticCredentialSection<FORM_TYPE extends MapFormItem
           label={
             <Stack gap="xsmall" direction="horizontal" align="start">
               <span>{productPermission.label}</span>
-              <Tooltip content={productPermission.description} align="rightMiddle">
-                <SvgIcon
-                  type="lib_help_error_info_outline"
-                  size="s"
-                  color={themes.default.ids.color.option.neutral['800']}
-                />
-              </Tooltip>
+              {productPermission.description && (
+                <Tooltip content={productPermission.description} align="auto">
+                  <SvgIcon
+                    type="lib_help_error_info_outline"
+                    size="s"
+                    color={themes.default.ids.color.option.neutral['800']}
+                  />
+                </Tooltip>
+              )}
             </Stack>
           }
         />
