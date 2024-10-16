@@ -662,7 +662,6 @@ interface RunResourceOptimizationAction {
   actionInstanceId: string;
 }
 
-// We are using a timeout here to prevent the UI from hanging if the agent is not responding (sensor not installed).
 export function runResourceOptimizationAction({
   volatileId,
   actionName,

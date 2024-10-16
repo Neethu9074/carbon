@@ -16,17 +16,18 @@ import {
   Stack,
   Typography
 } from '@instana/components';
+import { RecommendedAction, ResourceImpactEntities, AgentSnapshot } from '@instana/types';
 import { Link } from '@instana/components';
 
+import { turboActionCategoryMap } from 'in-automation/ResourceOptimization/RecommendedOptimizations';
 import useNavigateToActionHistory from 'in-automation/navigation/hooks/useNavigateToActionHistory';
+import { useResourceImpacts } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
-import { RecommendedAction, ResourceImpactEntities, AgentSnapshot } from 'in-types';
-import { turboActionCategoryMap } from './RecommendedOptimizations';
+import { ActionInstance } from 'in-automation/subscriptions/turboSubmitActionExecution';
+import { refresh } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import { runResourceOptimizationAction } from 'in-automation/api';
-import { useResourceImpacts } from './useResourceOptimization';
 import { close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracker } from 'in-automation/tracker';
-import { refresh } from './useResourceOptimization';
 import { t, Trans } from 'in-i18n';
 
 import locals from './DetailsModal.mless';
@@ -60,6 +61,45 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
   //@ts-expect-error
   const errorMessage = resourceImpactResult?.data?.errorMessage;
 
+  function showToastNotification(data: ActionInstance) {
+    const error = 'errorMessage' in data && data.errorMessage != null;
+    return addMessage(
+      {
+        type: error ? 'danger' : 'info',
+        content: (
+          <Stack direction="vertical">
+            {error ? (
+              <Trans
+                i18nKey="in-automation:resourceOptimization.actionFailedMessage"
+                values={{ actionName: currentAction.name, message: data.errorMessage }}
+                components={{ bold: <strong /> }}
+              />
+            ) : (
+              <Trans
+                i18nKey="in-automation:resourceOptimization.actionStartedMessage"
+                values={{ actionName: currentAction.name }}
+                components={{ bold: <strong /> }}
+              />
+            )}
+            <Button
+              kind="tertiary"
+              onClick={() => {
+                navigateToActionHistory(data?.actionInstanceId);
+                removeMessage('run-resource-optimization');
+              }}
+            >
+              {t('in-automation:resourceOptimization.viewActionHistory')}
+            </Button>
+          </Stack>
+        ),
+        title: error
+          ? t('in-automation:resourceOptimization.actionFailed')
+          : t('in-automation:resourceOptimization.actionStarted')
+      },
+      'run-resource-optimization'
+    );
+  }
+
   function handleRunAction() {
     setIsSavingAction(true);
     const params = {
@@ -81,60 +121,12 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
           errorMessage: data.errorMessage
         });
         close();
-        addMessage(
-          {
-            type: 'danger',
-            content: (
-              <Stack direction="vertical">
-                <Trans
-                  i18nKey="in-automation:resourceOptimization.actionFailedMessage"
-                  values={{ actionName: currentAction.name, message: data.errorMessage }}
-                  components={{ bold: <strong /> }}
-                />
-                <Button
-                  kind="tertiary"
-                  onClick={() => {
-                    navigateToActionHistory(data?.actionInstanceId);
-                    removeMessage('run-resource-optimization');
-                  }}
-                >
-                  {t('in-automation:resourceOptimization.viewActionHistory')}
-                </Button>
-              </Stack>
-            ),
-            title: t('in-automation:resourceOptimization.actionFailed')
-          },
-          'run-resource-optimization'
-        );
+        showToastNotification(data);
       } else {
         setRunActionResponseId(data.actionInstanceId);
         runOptimizationTrackerSegment({ actionName: currentAction.name, source: 'Turbonomic' }); //Turbonomic only for now and we may need to have a source parameter
         close();
-        addMessage(
-          {
-            type: 'info',
-            content: (
-              <Stack direction="vertical">
-                <Trans
-                  i18nKey="in-automation:resourceOptimization.actionStartedMessage"
-                  values={{ actionName: currentAction.name }}
-                  components={{ bold: <strong /> }}
-                />
-                <Button
-                  kind="tertiary"
-                  onClick={() => {
-                    navigateToActionHistory(data?.actionInstanceId);
-                    removeMessage('run-resource-optimization');
-                  }}
-                >
-                  {t('in-automation:resourceOptimization.viewActionHistory')}
-                </Button>
-              </Stack>
-            ),
-            title: t('in-automation:resourceOptimization.actionStarted')
-          },
-          'run-resource-optimization'
-        );
+        showToastNotification(data);
         refresh();
       }
     });
@@ -254,8 +246,8 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
       open
       onRequestClose={close}
       modalHeading={t('in-automation:resourceOptimization.details')}
-      primaryButtonText="Run action"
-      secondaryButtonText="Cancel"
+      primaryButtonText={t('in-automation:runAction')}
+      secondaryButtonText={t('in-automation:cancel')}
       size="lg"
       onRequestSubmit={() => handleRunAction()}
       loadingStatus={getActionLoadingStatus()}

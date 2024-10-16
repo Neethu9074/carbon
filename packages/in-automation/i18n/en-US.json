@@ -3,6 +3,7 @@
   "edit": "Edit",
   "delete": "Delete",
   "test": "Test",
+  "cancel": "Cancel",
   "recommendedActionsWithCount": "Recommended Actions ({{count}})",
   "recommendedActions": "Recommended Actions",
   "recommendedOptimizationsWithCount": "Recommended resource actions ({{count}})",

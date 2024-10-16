@@ -26,6 +26,7 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { boundaryScopes } from 'in-applications/constants';
 import { chartColors } from 'in-themes/chartColors';
+import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';
 
 import locals from './ResourceOptimizations.mless';
@@ -44,8 +45,6 @@ const colorPalette = [
   chartColors.fiveColorPalette[4]
 ];
 
-const oneSecond = 1000;
-const oneMinute = oneSecond * 60;
 const showGuidance = false;
 
 function generateTimeframe(windowSize: number) {
@@ -131,7 +130,7 @@ export default function ResourceOptimizationTab({
               customHeight: 256,
               customChartSkeletonHeight: 200,
               title: t('in-automation:actionCategory'),
-              timeConfig: generateTimeframe(oneMinute), //Not meaningful, but seems required.
+              timeConfig: generateTimeframe(minutes.toMillis(1)), //Not meaningful, but seems required.
               y1: {
                 renderer: recommendedOptimizations?.progress?.loading ? Renderer.area : Renderer.pie,
                 labels: pieLabels,

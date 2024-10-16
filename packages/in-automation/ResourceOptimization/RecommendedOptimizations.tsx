@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { RecommendedAction, Result } from '@instana/types';
 import { IconButton } from '@instana/components';
 
 import {
@@ -15,12 +16,11 @@ import {
 } from 'in-automation/ResourceOptimization/columnDefinitions';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { usePaginatedResourceOptimizations } from 'in-automation/ResourceOptimization/useResourceOptimization';
+import { useTurboAgentSnapShots } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
+import DetailsModal from 'in-automation/ResourceOptimization/DetailsModal';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { useTurboAgentSnapShots } from './useResourceOptimization';
-import { RecommendedAction, Result } from 'in-types';
-import DetailsModal from './DetailsModal';
 import { t } from 'in-i18n';
 
 const pathSegment = '/RecommendedOptimizations';
@@ -66,7 +66,7 @@ export default function RecommendedOptimizations({
 
   const agentSnapShots = useTurboAgentSnapShots();
 
-  const handleOpenModal = async (recAction: RecommendedAction) => {
+  const handleOpenModal = (recAction: RecommendedAction) => {
     const currentAction = recommendedActions?.data?.find(x => {
       return x.id === recAction.id;
     });

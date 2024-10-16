@@ -14,7 +14,6 @@ import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
 import { turboActionCategoryMap } from './RecommendedOptimizations';
 import WithSubscript from 'in-settings/components/WithSubscript';
-import { viewTurboActionTracker } from 'in-automation/tracker';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
@@ -59,12 +58,4 @@ export const actionCategoryColumn: ColumnDefinition<RecommendedAction> = {
   getContent(recAction) {
     return <DynamicTagList tags={[turboActionCategoryMap[recAction.actionCategory]]} />;
   }
-};
-
-export const handleTurboTracking = (name: string) => {
-  viewTurboActionTracker({
-    actionName: name,
-    actionType: 'Turbonomic',
-    page: 'Recommended actions'
-  });
 };
