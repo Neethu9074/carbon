@@ -19,8 +19,8 @@ import { SnapshotData } from 'in-stores/snapshot';
 import { t } from 'in-i18n';
 
 interface SubscriptionProps {
-  snapshotId: SnapshotData;
   timeConfig: TimeConfig;
+  snapshot: SnapshotData;
 }
 
 interface SubscriptionRow {
@@ -28,6 +28,8 @@ interface SubscriptionRow {
   snapshotId: string;
   timeConfig: TimeConfig;
   subscriptionTable: Map<string, string | number>;
+  snapshot: any;
+  state: string;
 }
 
 const cols = [
@@ -37,6 +39,33 @@ const cols = [
     typeArgs: {
       getSnapshotId(row: SubscriptionRow) {
         return row.key;
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmInfosphereCdc.state'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: any) {
+        return row.snapshot.getIn(['data', 'state']);
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmInfosphereCdc.sourceDatastore'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: any) {
+        return row.snapshot.getIn(['data', 'source']);
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmInfosphereCdc.targetDataStore'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: any) {
+        return row.snapshot.getIn(['data', 'target']);
       }
     }
   },
@@ -74,11 +103,14 @@ const cols = [
   }
 ];
 
-const SubscriptionInterfacesTable = ({ snapshotId, timeConfig }: SubscriptionProps) => {
+const SubscriptionInterfacesTable = ({ snapshot, timeConfig }: SubscriptionProps) => {
+  const snapshotId = snapshot.get('id') as string;
+
   const subscriptionInterfaces: any = useObservable(
     () => timeConfig$.flatMap(timeConfig => getSubscriptionforCdc({ snapshotId, timeConfig })).flatMap(getSnapshots),
     [snapshotId, timeConfig]
   );
+  const data = snapshot.get('data');
   if (!subscriptionInterfaces) {
     return null;
   }
@@ -86,8 +118,10 @@ const SubscriptionInterfacesTable = ({ snapshotId, timeConfig }: SubscriptionPro
     return {
       key: subscriptionInterface.get('id'),
       snapshotId: subscriptionInterface.get('id'),
+      state: data.get('state'),
       subscriptionTable: subscriptionInterface,
-      timeConfig
+      timeConfig,
+      snapshot: subscriptionInterface
     };
   });
   return (

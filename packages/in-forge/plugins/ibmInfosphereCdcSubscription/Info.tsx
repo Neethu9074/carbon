@@ -24,6 +24,9 @@ export default function IbmInfosphereSubscriptionInfo({ snapshot }: { snapshot: 
       <DescriptionItem title={t('in-forge:plugins.ibmInfosphereCdcSubscription.targetDataStore')}>
         {data.get('target')}
       </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmInfosphereCdcSubscription.state')}>
+        {data.get('state')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

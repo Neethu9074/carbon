@@ -17,11 +17,9 @@ interface IbmInfosphereCdcDashboardProps {
 }
 
 const IbmInfosphereCdcDashboard = ({ snapshot, timeConfig }: IbmInfosphereCdcDashboardProps) => {
-  const snapshotId = snapshot.get('id');
-
   return (
     <div>
-      <Subscription snapshotId={snapshotId} timeConfig={timeConfig} />
+      <Subscription snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 };

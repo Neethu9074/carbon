@@ -11760,7 +11760,10 @@
       "port": "Port",
       "name": "Name",
       "subscriptions": "Subscriptions",
-      "version": "Version"
+      "version": "Version",
+      "state": "State",
+      "sourceDatastore": "Source Datastore",
+      "targetDataStore": "Target Datastore"
     },
     "ibmInfosphereCdcSubscription": {
       "dashboard": {
@@ -11772,6 +11775,7 @@
       },
       "ibmInfosphereSubscription": "Subscription",
       "subscriptionName": "Name",
+      "state": "State",
       "sourceDatastore": "Source Datastore",
       "targetDataStore": "Target Datastore",
       "sourceEngine": "Source Engine",
