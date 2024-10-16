@@ -15,8 +15,8 @@ import {
 } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/utils';
 import {
   createApplicationIdTagFilter,
-  createEndpointNameTagFilter,
-  createServiceNameTagFilter
+  createServiceNameTagFilter,
+  createEndpointNameTagFilter
 } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/tagFilterCreators';
 import {
   selectApplication,
@@ -26,19 +26,18 @@ import { stateManagementPropType } from 'in-alerting/smart-alerts/applications/s
 import EndpointsList from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/EndpointsList';
 import SharedList from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/SharedList';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
-import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getService from 'in-applications/subscriptions/getService';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { propTypeTimeConfig } from 'in-stores/time/config';
-import { isNotBlank } from 'in-services/util/string';
 import { isLoading } from 'in-services/util/result';
+import { isBlank } from 'in-services/util/string';
 
 export default function ServicesList({ getServicesCursorPaginated, parentIds, ...props }) {
-  const { boundaryScope, timeConfig, includeSynthetic, readOnly } = props;
+  const { boundaryScope, timeConfig, includeSynthetic, includeInternal, readOnly, searchType } = props;
   const searchQuery = props.searchQuery?.trim();
-  const applicationIdTagFilter = createApplicationIdTagFilter(parentIds.applicationId, boundaryScope);
 
   const { items, ...tableProps } = useCursorPagination(
     ({ cursor }) =>
@@ -54,24 +53,12 @@ export default function ServicesList({ getServicesCursorPaginated, parentIds, ..
         metrics: {},
         filter: {
           timeConfig,
-          includeSyntheticCalls: includeSynthetic
+          includeSyntheticCalls: includeSynthetic,
+          includeInternalCalls: includeInternal
         },
-        tagFilterExpression: isNotBlank(searchQuery)
-          ? toBackendQueryModel(
-              joinExpressions({
-                logicalOperator: and,
-                expressions: [
-                  applicationIdTagFilter,
-                  joinExpressions({
-                    logicalOperator: or,
-                    expressions: [createServiceNameTagFilter(searchQuery), createEndpointNameTagFilter(searchQuery)]
-                  })
-                ]
-              })
-            )
-          : applicationIdTagFilter
+        tagFilterExpression: toTagFilterExpression(searchType, searchQuery, parentIds.applicationId, boundaryScope)
       }),
-    [searchQuery, boundaryScope, includeSynthetic, timeConfig]
+    [searchType, searchQuery, boundaryScope, includeSynthetic, includeInternal, timeConfig]
   );
 
   const { state } = props.stateManagement;
@@ -86,7 +73,6 @@ export default function ServicesList({ getServicesCursorPaginated, parentIds, ..
     // only ever recalculate if items array changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items]);
-
   return (
     <SharedList
       {...props}
@@ -98,9 +84,9 @@ export default function ServicesList({ getServicesCursorPaginated, parentIds, ..
           : listData
       }
       /* eslint-disable-next-line react/display-name */
-      renderSubList={({ applicationId, serviceId }) => () => (
-        <EndpointsList {...props} parentIds={{ applicationId, serviceId }} />
-      )}
+      renderSubList={({ applicationId, serviceId }) =>
+        () =>
+          <EndpointsList {...props} parentIds={{ applicationId, serviceId }} />}
       stateProcessors={{
         entityType: 'SERVICE',
         getTooltipSettings() {
@@ -138,10 +124,39 @@ export default function ServicesList({ getServicesCursorPaginated, parentIds, ..
         },
         getStaleEntity$: getService
       }}
-      initiallyOpen={Boolean(searchQuery) && items.length > 0}
+      initiallyOpen={Boolean(searchQuery) && searchType === 'ENDPOINT'}
       viewOnly={readOnly}
     />
   );
+}
+
+function toTagFilterExpression(searchType, searchQuery, applicationId, boundaryScope) {
+  const applicationIdTagFilter = createApplicationIdTagFilter(applicationId, boundaryScope);
+
+  if (searchType === 'APPLICATION' || isBlank(searchQuery)) {
+    return toBackendQueryModel(
+      joinExpressions({
+        logicalOperator: and,
+        expressions: [applicationIdTagFilter]
+      })
+    );
+  } else if (searchType === 'SERVICE') {
+    return toBackendQueryModel(
+      joinExpressions({
+        logicalOperator: and,
+        expressions: [applicationIdTagFilter, createServiceNameTagFilter(searchQuery)]
+      })
+    );
+  } else if (searchType === 'ENDPOINT') {
+    return toBackendQueryModel(
+      joinExpressions({
+        logicalOperator: and,
+        expressions: [applicationIdTagFilter, createEndpointNameTagFilter(searchQuery)]
+      })
+    );
+  }
+
+  return null;
 }
 
 function enhanceParentIdsWithChildId(parentIds) {
@@ -161,8 +176,10 @@ ServicesList.propTypes = {
   stateManagement: stateManagementPropType.isRequired,
   timeConfig: propTypeTimeConfig.isRequired,
   searchQuery: PropTypes.string,
+  searchType: PropTypes.string,
   showInteractedItemsOnly: PropTypes.bool,
   editMode: PropTypes.bool,
   readOnly: PropTypes.bool,
-  includeSynthetic: PropTypes.bool.isRequired
+  includeSynthetic: PropTypes.bool.isRequired,
+  includeInternal: PropTypes.bool.isRequired
 };

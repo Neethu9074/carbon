@@ -25,19 +25,18 @@ import {
 import { stateManagementPropType } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import SharedList from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/SharedList';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
-import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getEndpoint from 'in-applications/subscriptions/getEndpoint';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { isLoading } from 'in-services/util/result';
+import { isBlank } from 'in-services/util/string';
 
 export default function EndpointsList({ getEndpointsCursorPaginated, parentIds, ...props }) {
-  const { boundaryScope, timeConfig, includeSynthetic, readOnly } = props;
+  const { boundaryScope, timeConfig, includeSynthetic, includeInternal, readOnly, searchType } = props;
   const searchQuery = props.searchQuery?.trim();
-  const applicationIdTagFilter = createApplicationIdTagFilter(parentIds.applicationId, boundaryScope);
-  const serviceIdTagFilter = createServiceIdTagFilter(parentIds.serviceId);
 
   const { items, ...tableProps } = useCursorPagination(
     ({ cursor }) =>
@@ -52,24 +51,19 @@ export default function EndpointsList({ getEndpointsCursorPaginated, parentIds, 
         },
         filter: {
           timeConfig,
-          includeSyntheticCalls: includeSynthetic
+          includeSyntheticCalls: includeSynthetic,
+          includeInternalCalls: includeInternal
         },
         metrics: {},
-        tagFilterExpression: toBackendQueryModel(
-          joinExpressions({
-            logicalOperator: and,
-            expressions: [
-              applicationIdTagFilter,
-              serviceIdTagFilter,
-              joinExpressions({
-                logicalOperator: or,
-                expressions: [createEndpointNameTagFilter(searchQuery)]
-              })
-            ]
-          })
+        tagFilterExpression: toTagFilterExpression(
+          searchType,
+          searchQuery,
+          parentIds.applicationId,
+          boundaryScope,
+          parentIds.serviceId
         )
       }),
-    [searchQuery, boundaryScope, includeSynthetic, timeConfig]
+    [searchType, searchQuery, boundaryScope, includeSynthetic, includeInternal, timeConfig]
   );
 
   const { state } = props.stateManagement;
@@ -154,6 +148,27 @@ export default function EndpointsList({ getEndpointsCursorPaginated, parentIds, 
   );
 }
 
+function toTagFilterExpression(searchType, searchQuery, applicationId, boundaryScope, serviceId) {
+  const applicationIdTagFilter = createApplicationIdTagFilter(applicationId, boundaryScope);
+  const serviceIdTagFilter = createServiceIdTagFilter(serviceId);
+
+  if (searchType !== 'ENDPOINT' || isBlank(searchQuery)) {
+    return toBackendQueryModel(
+      joinExpressions({
+        logicalOperator: and,
+        expressions: [applicationIdTagFilter, serviceIdTagFilter]
+      })
+    );
+  }
+
+  return toBackendQueryModel(
+    joinExpressions({
+      logicalOperator: and,
+      expressions: [applicationIdTagFilter, serviceIdTagFilter, createEndpointNameTagFilter(searchQuery)]
+    })
+  );
+}
+
 function enhanceParentIdsWithChildId(parentIds) {
   return id => ({ ...parentIds, endpointId: id });
 }
@@ -172,8 +187,10 @@ EndpointsList.propTypes = {
   stateManagement: stateManagementPropType.isRequired,
   timeConfig: propTypeTimeConfig.isRequired,
   searchQuery: PropTypes.string,
+  searchType: PropTypes.string,
   showInteractedItemsOnly: PropTypes.bool,
   editMode: PropTypes.bool,
   readOnly: PropTypes.bool,
-  includeSynthetic: PropTypes.bool.isRequired
+  includeSynthetic: PropTypes.bool.isRequired,
+  includeInternal: PropTypes.bool.isRequired
 };
