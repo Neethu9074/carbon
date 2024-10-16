@@ -34,6 +34,7 @@ import InfrastructureList, { pagesLoaded } from 'in-infrastructure/Explore/compo
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
 import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { extremeValueInSeries, getThresholdColors } from 'in-components/Threshold/threshold';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { emptyArray, indeterminateProgress, pendingResult } from 'in-services/fixedObjects';
 import { EQUALS, IS_BLANK, IS_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -690,7 +691,8 @@ export function getMetricsColumn({ metrics, metricMetadatas, timeConfig, granula
       isFormatterSelected,
       label: metricLabel,
       lastValue,
-      unit
+      unit,
+      threshold
     }) => {
       const metadata = mapData(metricMetadatas, data => data[metric]);
       const label = { data: metricLabel } ?? mapData(metadata, data => data?.label);
@@ -705,7 +707,8 @@ export function getMetricsColumn({ metrics, metricMetadatas, timeConfig, granula
         formatterId,
         isFormatterSelected,
         lastValue,
-        unit
+        unit,
+        threshold
       };
       const metricsColumns = getMetricsColumns(isTableMode, sharedProps);
 
@@ -748,7 +751,8 @@ function generateMetric({
   formatterId,
   isFormatterSelected,
   lastValue,
-  unit
+  unit,
+  threshold
 }) {
   const { metrics } = item;
 
@@ -761,6 +765,8 @@ function generateMetric({
   const series = metrics[seriesKey];
   const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
   const customValueTooltip = lastValue && getLastValueTooltipLabel(timeConfig);
+  const extremeValue = extremeValueInSeries(threshold, series);
+  const { strokeColor, fillColor } = getThresholdColors(threshold, extremeValue, formatterId);
 
   return (
     <SparkChart
@@ -773,6 +779,8 @@ function generateMetric({
       rollup={granularity}
       metrics={series}
       customValueTooltip={customValueTooltip}
+      strokeColor={strokeColor}
+      fillColor={fillColor}
     />
   );
 }

@@ -10,14 +10,14 @@ import {
   ConfigWithCompanionMetric,
   ConfigWithStaticCompanion
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
-import { getThreshold, ThresholdProps } from 'in-components/Threshold/threshold';
 import { thresholdCustomDashboardsEnabled } from 'in-services/featureFlags';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
+import { Threshold, UnifiedMetricConfigurationUnion } from 'in-types';
+import { getThreshold } from 'in-components/Threshold/threshold';
 import { getFormatter } from 'in-stores/metric/formatters';
-import { UnifiedMetricConfigurationUnion } from 'in-types';
 
 type MetricProps = UnifiedMetricConfigurationUnion & {
-  threshold?: ThresholdProps;
+  threshold?: Threshold;
 };
 
 type ConfigProps =

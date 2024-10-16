@@ -50,7 +50,8 @@ export function createForm(savedState: Partial<TableFormConfiguration>) {
           withMetricFormatter: true,
           withRenderer: false,
           withFormatter: false,
-          withEmptyValueFilter: true
+          withEmptyValueFilter: true,
+          withThresholdConfiguration: true
         }),
         sorting: createSortingField(savedState),
         countGroup: createCountGroupField(savedState),

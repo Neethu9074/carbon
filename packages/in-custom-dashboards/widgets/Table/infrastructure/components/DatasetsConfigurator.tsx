@@ -58,7 +58,8 @@ export default function DatasetsConfigurator({
     withEnablePotentialProblems: true,
     withColorConfiguration: true,
     withMetricFormatter: true,
-    withEmptyValueFilter: true
+    withEmptyValueFilter: true,
+    withThresholdConfiguration: true
   });
 
   const previousMetrics = getMetrics(previousMetricsForm);

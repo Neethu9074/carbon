@@ -19,10 +19,10 @@ import {
 } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 // @ts-expect-error
 import MetricConfiguration from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricConfiguration';
+import { thresholdCustomDashboardsEnabled, unitForInfraMetricsEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { getFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
-import { unitForInfraMetricsEnabled } from 'in-services/featureFlags';
 import Sections from 'in-components/workspace/Sections/Sections';
 import { getFormatterById } from 'in-stores/metric/formatters';
 import Section from 'in-components/workspace/Section';
@@ -142,6 +142,7 @@ export default function DatasetsColumn({
               </Sections>
             }
             withUnit
+            withThreshold={thresholdCustomDashboardsEnabled}
           />
         );
       })}

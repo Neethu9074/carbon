@@ -133,7 +133,8 @@ export function createMetricForm(
     withCompareToTimeShifted: true,
     withEnablePotentialProblems: true,
     withColorConfiguration: true,
-    withMetricFormatter: false
+    withMetricFormatter: false,
+    withThresholdConfiguration: true
   }
 ) {
   return createMetricConfigurationForm(savedState, options);

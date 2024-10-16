@@ -7,7 +7,13 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 
-import { AggregationType, Group, TagFilterExpression, TagFilterExpressionElementUnion } from '@instana/types';
+import {
+  AggregationType,
+  Group,
+  TagFilterExpression,
+  TagFilterExpressionElementUnion,
+  Threshold
+} from '@instana/types';
 import { Card, Link, Spacer, Typography, SearchInput } from '@instana/components';
 
 // @ts-expect-error
@@ -47,6 +53,7 @@ export interface MetricItem {
   lastValue?: boolean;
   required?: boolean;
   unit?: string;
+  threshold?: Threshold;
 }
 
 export default function InfrastructureTableWidget(props: TableWidgetProps) {
@@ -275,7 +282,8 @@ function getUniqueMetricsAndLabels(metrics: MetricItem[]) {
       regex,
       lastValue,
       required,
-      unit
+      unit,
+      threshold
     }) => ({
       aggregation,
       crossSeriesAggregation,
@@ -287,7 +295,8 @@ function getUniqueMetricsAndLabels(metrics: MetricItem[]) {
       regex,
       lastValue,
       required,
-      unit
+      unit,
+      threshold
     })
   );
 

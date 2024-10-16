@@ -6,15 +6,22 @@
 import React, { ReactNode } from 'react';
 import { find } from 'lodash';
 
-import { MetricResult, Result, TagFilter, TimeConfig, UnifiedMetricConfigurationUnion } from '@instana/types';
+import {
+  MetricResult,
+  Result,
+  TagFilter,
+  Threshold,
+  TimeConfig,
+  UnifiedMetricConfigurationUnion
+} from '@instana/types';
 
 import { getTimeShiftLabel, hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
-import { ThresholdFn, ThresholdProps } from 'in-components/Threshold/threshold';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import ResultAwareKpiCard from 'in-components/KpiCard/ResultAwareKpiCard';
 import ThresholdKpiCard from 'in-components/KpiCard/TresholdKpiCard';
 import Badge from 'in-custom-dashboards/widgets/BigNumber/Badge';
+import { ThresholdFn } from 'in-components/Threshold/threshold';
 import { IconAction } from 'in-components/KpiCard/KpiCard';
 import { percentage } from 'in-services/formatters/number';
 import { FormatterFn } from 'in-stores/metric/formatters';
@@ -32,7 +39,7 @@ export interface Config<METRIC_CONFIG extends UnifiedMetricConfigurationUnion> {
   formatter?: string;
   tagFilters?: TagFilter[];
   getColor?: (metricValue: number | Nullish) => string | undefined;
-  getThreshold?: (formatter: string, threshold?: ThresholdProps) => ThresholdFn;
+  getThreshold?: (formatter: string, threshold?: Threshold) => ThresholdFn;
   comparisonIncreaseColor?: string;
   comparisonDecreaseColor?: string;
 }

@@ -25,6 +25,7 @@ import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/Me
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
 import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
 import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
+import { extremeValueInSeries, getThresholdColors } from 'in-components/Threshold/threshold';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import { ChartsPresenter } from 'in-infrastructure/Explore/components/ChartsPresenter';
@@ -399,7 +400,8 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
         isFormatterSelected,
         label: metricLabel,
         lastValue,
-        unit
+        unit,
+        threshold
       }) => {
         const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
         const metadata = mapData(metricMetadatas, data => data[metric]);
@@ -436,6 +438,9 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
             const metricValue = getMetricValue(kpi, formatter);
             const customValueTooltip = lastValue && getLastValueTooltipLabel(timeConfig);
 
+            const extremeValue = extremeValueInSeries(threshold, series);
+            const { strokeColor, fillColor } = getThresholdColors(threshold, extremeValue, formatterId);
+
             return (
               <SparkChart
                 horizontalMetricValue={metricValue}
@@ -447,6 +452,8 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
                 rollup={granularity}
                 label={renderedLabel}
                 customValueTooltip={customValueTooltip}
+                strokeColor={strokeColor}
+                fillColor={fillColor}
               />
             );
           },
