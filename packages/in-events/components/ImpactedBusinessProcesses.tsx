@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { MetricConfiguration, OrderDirection, TagFilterExpression, TimeConfig } from '@instana/types';
+import { OrderDirection, TagFilterExpressionElementUnion, TimeConfig } from '@instana/types';
 
 // @ts-expect-error Module needs to be translated to TS
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -14,12 +14,11 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 // @ts-expect-error Module needs to be translated to TS
 import { isServiceEntity } from 'in-services/entityUtils';
+import getBusinessProcessesWithDefaults from 'in-bizops/subscriptions/helpers/getBusinessProcessesWithDefaults';
 import { processColumnDefinitions } from 'in-bizops/lists/businessProcess/columnDefinitions';
-import getBusinessProcessList from 'in-bizops/subscriptions/getBusinessProcessList';
-import { EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { businessProcessPath } from 'in-bizops/navigation/paths';
-import { getChartGranularity } from 'in-stores/metric/metric';
 import { Row, Col } from 'in-components/layout/Grid/Grid';
 import { urlParameters } from 'in-stores/time/config';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -51,7 +50,7 @@ export default function ImpactedBusinessProcesses({ eventType, entityType, entit
     <Row withoutSideMargin>
       <Col xs>
         <ServerTableWithUrlState
-          get={getBusinessProcessListData}
+          get={getBusinessProcessData}
           timeConfig={timeConfig}
           serviceId={entityId}
           cardTitle={cardTitle}
@@ -85,65 +84,30 @@ interface GetBusinessProcessListProps {
   query: string;
 }
 
-export function getBusinessProcessListData({
+export function getBusinessProcessData({
   timeConfig,
   serviceId,
-  orderBy = 'process_name',
-  orderDirection = 'ASC',
-  page = 1,
-  pageSize = 20
+  orderBy,
+  orderDirection,
+  page,
+  pageSize
 }: GetBusinessProcessListProps) {
-  const sparkChartGranularity = getChartGranularity(timeConfig);
-  const started_processes_total: MetricConfiguration = {
-    metric: 'started_processes',
-    granularity: 0,
-    aggregation: 'DISTINCT_COUNT'
-  };
+  const tagFilterExpressionElements: TagFilterExpressionElementUnion[] = [
+    {
+      name: 'service_id',
+      operator: EQUALS,
+      value: serviceId,
+      entity: NOT_APPLICABLE,
+      type: 'TAG_FILTER'
+    }
+  ];
 
-  const started_processes_array: MetricConfiguration = {
-    metric: 'started_processes',
-    granularity: sparkChartGranularity,
-    aggregation: 'DISTINCT_COUNT'
-  };
-
-  let tagFilterExpression: TagFilterExpression = {
-    type: 'EXPRESSION',
-    logicalOperator: 'AND',
-    elements: []
-  };
-
-  // hide any entry with blank process name
-  tagFilterExpression.elements.push({
-    name: 'bpm_process_definition_name',
-    operator: NOT_EQUAL,
-    value: '',
-    entity: NOT_APPLICABLE,
-    type: 'TAG_FILTER'
-  });
-
-  tagFilterExpression.elements.push({
-    name: 'service_id',
-    operator: EQUALS,
-    value: serviceId,
-    entity: NOT_APPLICABLE,
-    type: 'TAG_FILTER'
-  });
-
-  return getBusinessProcessList({
-    pagination: {
-      page,
-      pageSize
-    },
-    order: {
-      by: orderBy,
-      direction: orderDirection
-    },
-    dataType: 'PROCESS',
-    metrics: {
-      started_processes_total: started_processes_total,
-      started_processes_array: started_processes_array
-    },
+  return getBusinessProcessesWithDefaults({
+    orderBy,
+    orderDirection,
+    page,
+    pageSize,
     timeConfig,
-    tagFilterExpression
+    tagFilterExpressionElements
   });
 }

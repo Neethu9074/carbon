@@ -20,7 +20,7 @@ import TopListWidget from 'in-cockpit/widgets/TopListWidget';
 // @ts-expect-error Module needs to be translated to TS
 import { add, remove } from 'in-cockpit/starredItems';
 import { businessProcessDashboard, summaryTab, businessProcessPath } from 'in-bizops/navigation/paths';
-import { getBusinessProcessListData } from 'in-bizops/lists/businessProcess/BusinessProcessList';
+import { getBusinessProcessListWithDefaults } from 'in-bizops/subscriptions/getBusinessProcessList';
 import { businessProcess as businessProcessType } from 'in-cockpit/starredItems/types';
 import getBusinessProcess from 'in-bizops/subscriptions/getBusinessProcess';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -38,7 +38,7 @@ export default function BusinessMonitoringTopList({ config }: any) {
   return (
     <TopListWidget
       {...config}
-      getItems={getBusinessProcessListData} // subscription to get data for list
+      getItems={getBusinessProcessListWithDefaults} // subscription to get data for list
       getItem={getItem}
       pinnedItemTypes={businessProcessType}
       getId={getId}

@@ -1,12 +1,12 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import React, { useState } from 'react';
 
-import { MetricConfiguration, OrderDirection, TagCatalog, TagFilterExpression, TimeConfig } from '@instana/types';
+import { OrderDirection, TagCatalog, TagFilterExpressionElementUnion, TimeConfig } from '@instana/types';
 import { Card, SvgIcon, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
@@ -17,20 +17,18 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 // @ts-expect-error Module needs to be translated to TS
 import { validateFormModel } from 'in-components/QueryBuilder/validation/formModel';
 import BusinessProcessQueryBuilder from 'in-bizops/lists/businessPerspectives/components/BusinessProcessQueryBuilder';
+import getBusinessProcessesWithDefaults from 'in-bizops/subscriptions/helpers/getBusinessProcessesWithDefaults';
 import BizOpsEmptyTableState from 'in-bizops/lists/businessProcess/components/BizOpsEmptyTableState';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { processColumnDefinitions } from 'in-bizops/lists/businessProcess/columnDefinitions';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import getBusinessProcessList from 'in-bizops/subscriptions/getBusinessProcessList';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { bizopsStandardInclusionEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getBusinessMonitoringTagCatalog } from 'in-bizops/api/catalog';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { businessProcessPath } from 'in-bizops/navigation/paths';
 import { productAreas } from 'in-services/tracking/productAreas';
-import { getChartGranularity } from 'in-stores/metric/metric';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import ViewSwitcher from 'in-bizops/components/ViewSwitcher';
 import { pageNames } from 'in-services/tracking/pageNames';
@@ -172,84 +170,38 @@ export default function BizOpsList() {
 
 type GetBusinessProcessList = {
   timeConfig: TimeConfig;
-  orderBy?: string;
   orderDirection?: OrderDirection;
-  page: number;
-  pageSize: number;
-  query: string;
-  queryTagFilter: FormModelElement[];
-  tagCatalog: TagCatalog;
+  orderBy?: string;
+  page?: number;
+  pageSize?: number;
+  query?: string;
+  queryTagFilter?: FormModelElement[];
+  tagCatalog?: TagCatalog;
+  tagFilterExpressionElements?: TagFilterExpressionElementUnion[];
 };
 
 export function getBusinessProcessListData({
   timeConfig,
-  orderBy = 'process_name',
-  orderDirection = 'ASC',
-  page = 1,
-  pageSize = 20,
+  orderDirection,
+  orderBy,
+  page,
+  pageSize,
   query = '',
   queryTagFilter = [],
-  tagCatalog = { tagTree: [], tags: [] }
+  tagCatalog = { tagTree: [], tags: [] },
+  tagFilterExpressionElements = []
 }: GetBusinessProcessList) {
-  const sparkChartGranularity = getChartGranularity(timeConfig);
-
-  const started_processes_total: MetricConfiguration = {
-    metric: 'started_processes',
-    granularity: 0,
-    aggregation: 'DISTINCT_COUNT'
-  };
-
-  const started_processes_array: MetricConfiguration = {
-    metric: 'started_processes',
-    granularity: sparkChartGranularity,
-    aggregation: 'DISTINCT_COUNT'
-  };
-
-  let tagFilterExpression: TagFilterExpression = {
-    type: 'EXPRESSION',
-    logicalOperator: 'AND',
-    elements: []
-  };
-
-  // hide any entry with blank process name
-  tagFilterExpression.elements.push({
-    name: 'bpm_process_definition_name',
-    operator: 'NOT_EQUAL',
-    value: '',
-    entity: NOT_APPLICABLE,
-    type: 'TAG_FILTER'
-  });
-
-  //search against bpm_process_definition_name
-  if (query && query.length > 0) {
-    tagFilterExpression.elements.push({
-      name: 'bpm_process_definition_name',
-      operator: 'CONTAINS',
-      stringValue: query,
-      entity: NOT_APPLICABLE,
-      type: 'TAG_FILTER'
-    });
-  }
-
-  // add the tag filters from the query builder after validation
   if (isQueryValid(tagCatalog, queryTagFilter)) {
-    let queryFilterExpression = toBackendQueryModel(queryTagFilter);
-    tagFilterExpression.elements.push(queryFilterExpression);
+    tagFilterExpressionElements.push(toBackendQueryModel(queryTagFilter));
   }
-
-  return getBusinessProcessList({
-    pagination: {
-      page,
-      pageSize
-    },
-    order: { by: orderBy, direction: orderDirection },
-    dataType: 'PROCESS',
-    metrics: {
-      started_processes_total: started_processes_total,
-      started_processes_array: started_processes_array
-    },
+  return getBusinessProcessesWithDefaults({
     timeConfig,
-    tagFilterExpression
+    query,
+    tagFilterExpressionElements,
+    orderDirection,
+    orderBy,
+    page,
+    pageSize
   });
 }
 

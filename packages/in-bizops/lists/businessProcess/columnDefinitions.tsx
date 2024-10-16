@@ -116,7 +116,7 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpL
     }
   },
   {
-    id: 'health',
+    id: 'maxSeverity',
     sortable: true,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.healthLabel'),
