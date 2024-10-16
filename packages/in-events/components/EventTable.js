@@ -120,7 +120,7 @@ function EventTable(props) {
   }
 
   if (!selectedEventId) {
-    return <EventsList {...props} items={items} onItemClicked={onItemClicked} progress={progress} />;
+    return <EventsList {...props} items={items} onItemClicked={onItemClicked} progress={progress} disableCard />;
   }
 
   return (

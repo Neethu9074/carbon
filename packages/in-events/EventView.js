@@ -8,6 +8,7 @@ import { get } from 'lodash';
 
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
+import { Stack } from '@instana/components';
 
 import { eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter } from 'in-events/navigation/urlParameters';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
@@ -30,7 +31,6 @@ import { pendingResult } from 'in-services/fixedObjects';
 import { eventsPath } from 'in-events/navigation/paths';
 import getRawEvents from 'in-subscription/getRawEvents';
 import { getTimeConfig } from 'in-stores/time/config';
-import { Row, Col } from 'in-components/layout/Grid';
 import { query$ } from 'in-stores/search/query';
 import useUrlState from 'in-hooks/useUrlState';
 import { getEvent } from 'in-stores/events';
@@ -173,16 +173,10 @@ function EventViewComponent(props) {
         <EventTable {...props} {...tableProps} eventType={eventType} selectedEventId={eventId} />
       ) : (
         <LeftRightPadding>
-          <Row>
-            <Col lg={12}>
-              <EventsChart eventType={eventType} query={query} timeConfig={timeConfig} />
-            </Col>
-          </Row>
-          <Row>
-            <Col lg={12}>
-              <EventTable {...props} {...tableProps} eventType={eventType} />
-            </Col>
-          </Row>
+          <Stack gap="normal">
+            <EventsChart eventType={eventType} query={query} timeConfig={timeConfig} />
+            <EventTable {...props} {...tableProps} eventType={eventType} />
+          </Stack>
         </LeftRightPadding>
       )}
     </Sticky>

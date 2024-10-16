@@ -57,7 +57,8 @@ function List(props) {
     title,
     cardHeader,
     leftHeaderContent,
-    isCustomDashboard
+    isCustomDashboard,
+    disableCard = false
   } = props;
 
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
@@ -250,6 +251,35 @@ function List(props) {
     };
 
     if (!isDenseList) {
+      let content = (
+        <>
+          <CarbonDataTable
+            headers={carbonHeaders}
+            loading={progress.loading}
+            rows={carbonRows}
+            isSearchEnabled={false}
+            onClickingRow={e => onItemClicked(e.id)}
+            sortRow={({ sortHeaderKey }) => {
+              if (['title', 'started', 'ended', 'state'].includes(sortHeaderKey)) {
+                onChangeSort(sortHeaderKey);
+                props?.onChange({
+                  orderBy: sortingMapper[sortHeaderKey],
+                  orderDirection:
+                    props?.orderBy === sortingMapper[sortHeaderKey]
+                      ? props?.orderDirection === 'ASC'
+                        ? 'DESC'
+                        : 'ASC'
+                      : 'ASC'
+                });
+              }
+            }}
+          />
+          {canLoadMore && (
+            <TableLoadMoreRow className={locals.carbonLoadMore} loadMore={loadMore} cols={2} size="compact" />
+          )}
+        </>
+      );
+      if (disableCard) return content;
       return (
         <>
           <Card title={title ?? null} header={cardHeader ?? null} leftHeaderContent={leftHeaderContent ?? null}>
