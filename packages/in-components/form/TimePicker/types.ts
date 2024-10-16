@@ -14,54 +14,53 @@ export type TimePickerProps = {
    */
   id?: string;
   /**
+   *  Hide label - should not be false for accessibility
+   */
+  hideLabel?: boolean;
+  /**
    *  Specify whether the control is currently invalid
+   *  other than format error
    */
   invalid?: boolean;
   /**
    *  Provide the text that is displayed when the control is in an invalid state
+   *  other than format error
    */
   invalidText?: React.ReactNode;
   /**
-   *
+   *  Label text -- required for accessibility
    */
   labelText?: React.ReactNode;
   /**
-   *
-   */
-  maxLength?: number;
-  /**
-   *
+   *  Provide an onblur handler (optional)
    */
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
   /**
-   *
+   *  Required onChange handler
    */
-  onChange?: (time: string) => void;
+  onChange: (time: string) => void;
   /**
-   *
+   *  Optional placeholder text
    */
   placeholder?: string;
   /**
-   *
+   * Specify whether <input> should be read-only
    */
   readOnly?: boolean;
   /**
-   *
+   * Specify the size of the TimePicker, md (medium) is the default
    */
   size?: 'sm' | 'md' | 'lg';
   /**
-   *
+   * Specify the value of the input
    */
   value?: string;
   /**
-   *
+   * Specify a warning message
    */
   warning?: boolean;
   /**
-   *
+   * Specify the warning text
    */
   warningText?: boolean;
-  /**
-   *
-   */
 };
