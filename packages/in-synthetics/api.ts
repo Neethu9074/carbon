@@ -28,6 +28,7 @@ const locationUrl = `/api/synthetics/settings/locations`;
 const resultUrl = `/api/synthetics/results`;
 const applicationsListUrl = `/api/application-monitoring/settings/application`;
 const tagCatalogUrl = `/api/synthetics/catalog`;
+const credentialUrl = `/api/synthetics/settings/credentials`;
 
 export function getLocations(): Observable<unknown> {
   return http({
@@ -232,3 +233,12 @@ export const getDatacenterLicense = (): Observable<any> => {
     mapToResultObject: true
   }).map(result => deepFreeze(result));
 };
+
+export function deleteCredential(credentialName: string): Observable<unknown> {
+  return http({
+    method: 'DELETE',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: credentialUrl + '/' + credentialName
+  }).map(response => deepFreeze(response));
+}

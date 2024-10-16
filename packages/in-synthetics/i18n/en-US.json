@@ -370,6 +370,10 @@
       "status": {
         "pending": "Pending"
       }
+    },
+    "credentialFeedback": {
+      "successMessageDelete": "Successfully deleted the credential",
+      "failureMesssage": "{{errorMessage}}"
     }
   },
   "createSmartAlert": {
@@ -771,7 +775,14 @@
         "noCredentialsAvailableDescription": "There are no Synthetic credentials retrieved from the database."
       },
       "editAction": "Edit",
-      "deleteAction": "Delete"
+      "deleteAction": {
+        "deleteActionLabel": "Delete",
+        "deleteCredentialTitle": "Delete synthetic credential {{credentialName}}",
+        "credentialNameValidation": "Enter the credentials full name to confirm deletion",
+        "deleteButtonLabel": "Delete credential",
+        "cancelButtonLabel": "Cancel",
+        "deletionSuccess": "The credential has been deleted"
+      }
     }
   }
 }

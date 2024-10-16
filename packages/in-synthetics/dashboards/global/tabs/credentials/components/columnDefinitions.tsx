@@ -59,10 +59,10 @@ const columnDefinitions: ColumnDefinition<SyntheticCredential>[] = [
     id: 'action',
     label: t('in-synthetics:dashboard.credentialList.actions'),
     sortable: false,
-    getContent() {
+    getContent(item) {
       return (
         <HorizontalFlexWrapper>
-          <CredentialListActionsColumn />
+          <CredentialListActionsColumn item={item} />
         </HorizontalFlexWrapper>
       );
     }

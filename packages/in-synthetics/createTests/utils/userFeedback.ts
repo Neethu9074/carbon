@@ -8,6 +8,20 @@ import { t } from 'in-i18n';
 
 type ActionType = 'create' | 'delete' | 'update' | 'deactivate' | 'activate';
 
+const getDeletionFailureMessage = (context?: string, error?: string) => {
+  if (context === 'locations')
+    return t('in-synthetics:dialog.locationFeedback.failureMesssage', { errorMessage: error });
+  else if (context === 'credentials')
+    return t('in-synthetics:dialog.credentialFeedback.failureMesssage', { errorMessage: error });
+  else return t('in-synthetics:dialog.feedback.failureMesssageDelete', { errorMessage: error });
+};
+
+const getDeletionSuccessMessage = (context?: string) => {
+  if (context === 'locations') return t('in-synthetics:dialog.locationFeedback.successMessageDelete');
+  else if (context === 'credentials') return t('in-synthetics:dialog.credentialFeedback.successMessageDelete');
+  else return t('in-synthetics:dialog.feedback.successMessageDelete');
+};
+
 // Contexts available will be "test" deletion dialog and "location" deletion dialog
 
 export function showSuccessMessage(type?: ActionType, context?: string): void {
@@ -20,10 +34,7 @@ export function showSuccessMessage(type?: ActionType, context?: string): void {
       message = t('in-synthetics:dialog.feedback.successMessageUpdate');
       break;
     case 'delete':
-      message =
-        context === 'locations'
-          ? t('in-synthetics:dialog.locationFeedback.successMessageDelete')
-          : t('in-synthetics:dialog.feedback.successMessageDelete');
+      message = getDeletionSuccessMessage(context);
       break;
     case 'deactivate':
       message = t('in-synthetics:dialog.locationFeedback.successMessageDeactivate');
@@ -53,10 +64,7 @@ export function showErrorMessage(type?: ActionType, context?: string, error?: st
       message = t('in-synthetics:dialog.feedback.failureMessageUpdate', { errorMessage: error });
       break;
     case 'delete':
-      message =
-        context === 'locations'
-          ? t('in-synthetics:dialog.locationFeedback.failureMesssage', { errorMessage: error })
-          : t('in-synthetics:dialog.feedback.failureMesssageDelete', { errorMessage: error });
+      message = getDeletionFailureMessage(context, error);
       break;
     case 'deactivate':
       message = t('in-synthetics:dialog.locationFeedback.failureMesssage', { errorMessage: error });

@@ -6,16 +6,22 @@
 
 import React from 'react';
 
+import { SyntheticCredential } from '@instana/types';
 import { IconButton } from '@instana/components';
 
+import DeleteSelectedCredential from 'in-synthetics/dashboards/global/tabs/credentials/components/DeleteSelectedCredential';
 // @ts-expect-error Could not find a declaration file
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { InteractiveElementsProps } from 'in-components/MoreMenu/MoreMenu';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { stopPropagation } from 'in-services/util/function';
 import { t } from 'in-i18n';
 
-const CredentialListActionsColumn = () => {
+const CredentialListActionsColumn = ({ item }: { item: SyntheticCredential }) => {
+  const showDeleteDialog = () => {
+    return addActiveDialog(<DeleteSelectedCredential item={item} />);
+  };
   return (
     <HorizontalFlexWrapper>
       <MoreMenu
@@ -34,8 +40,8 @@ const CredentialListActionsColumn = () => {
         <MoreMenuButton icon="lib_actions_edit">
           {t('in-synthetics:dashboard.credentialList.editAction')}
         </MoreMenuButton>
-        <MoreMenuButton icon="lib_actions_delete">
-          {t('in-synthetics:dashboard.credentialList.deleteAction')}
+        <MoreMenuButton icon="lib_actions_delete" onClick={showDeleteDialog}>
+          {t('in-synthetics:dashboard.credentialList.deleteAction.deleteActionLabel')}
         </MoreMenuButton>
       </MoreMenu>
     </HorizontalFlexWrapper>
