@@ -158,7 +158,7 @@ module.exports = {
   logHomepageEnabled: true,
   carbonHorizontalIndicatorEnabled: true,
   analyzeRelatedInstancesButtonEnabled: true,
-  maxMetricsLimitForBeeinstanaEnabled: true,
+  maxMetricsLimitForBeeinstanaEnabled: false,
   serverSideInfraTagSearchEnabled: true,
   preAggregatedMetricsQueryEnabled: false,
   carbonFileUploaderEnabled: true,
