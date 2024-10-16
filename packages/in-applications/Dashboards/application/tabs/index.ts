@@ -20,10 +20,12 @@ import Services from 'in-applications/Dashboards/application/tabs/Services';
 //@ts-expect-error needs TS migration
 import Alerts from 'in-applications/Dashboards/application/tabs/Alerts';
 import SyntheticsList from 'in-applications/Dashboards/application/tabs/SyntheticsMonitoring/SyntheticsList';
+import ResourceOptimizationTab from 'in-applications/Dashboards/application/tabs/ResourceOptimizations';
 //@ts-expect-error needs TS migration
 import Map from 'in-applications/Dashboards/application/tabs/Map';
 import LogMessagesTab from 'in-logging/components/Dashboards/components/LogMessages';
 import { hasInfrastructureAccess, hasSyntheticsAccess } from 'in-stores/permission';
+import { resourceOptimizationActionsEnabled } from 'in-services/featureFlags';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import { Tab } from 'in-components/LocationAwareTabView/types';
 import { cveIssueEnabled } from 'in-services/featureFlags';
@@ -86,6 +88,11 @@ const getApplicationTabs = (canConfigureApplications: boolean | null | undefined
       label: t('in-applications:labelConfiguration'),
       path: `${applicationDashboard}/configuration`,
       component: canConfigureApplications ? Configuration : ReadOnlyConfiguration
+    },
+    resourceOptimizationActionsEnabled && {
+      label: t('in-applications:labelResourceOptimizations'),
+      path: `${applicationDashboard}/resourceOptimizations`,
+      component: ResourceOptimizationTab
     }
   ].filter(Boolean) as Array<Tab<any, any>>;
 };

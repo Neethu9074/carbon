@@ -1,0 +1,28 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+:local {
+  .contentContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding-bottom: 2.5rem;
+  }
+  .charts {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1.5rem;
+  }
+  .categoriesChart {
+    height: 328px;
+    width: 35%;
+  }
+
+  .latencyAndDistributionChart {
+    height: 328px;
+    width: 65%;
+  }
+}

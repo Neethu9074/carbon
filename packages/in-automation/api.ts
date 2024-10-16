@@ -25,13 +25,15 @@ import {
   SyntheticAlertConfigWithMetadata,
   ServiceLevelsAlertConfigWithMetadata,
   ActionType,
-  ActionNameExists
+  ActionNameExists,
+  ResourceOptimization
 } from 'in-types';
 import {
   ApplicationSmartAlertConfigWithMetadata,
   GlobalApplicationsSmartAlertConfigWithMetadata
 } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
+import submitTurbonomicResourceImpact from 'in-automation/subscriptions/submitTurbonomicResourceImpact';
 import turboSubmitActionExecution from 'in-automation/subscriptions/turboSubmitActionExecution';
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { DOC_LINK_TYPE, HTTP_METHODS_WITH_BODY } from 'in-automation/ActionCatalog/shared';
@@ -44,6 +46,7 @@ import http from 'in-services/http';
 import { t } from 'in-i18n';
 
 const automationAPIBase = '/api/automation';
+const turboAPIBase = '/api/turbonomic';
 const actionUrl = `${automationAPIBase}/actions` as const;
 const policiesUrl = `${automationAPIBase}/policies` as const;
 
@@ -97,6 +100,18 @@ export function getAllActionsWithAISuggestions(
       actions.map(({ action, score, confidence, aiEngine }) => ({ ...action, score, confidence, aiEngine }))
     )
   );
+}
+
+export function getResourceOptimization(targetSnapshotId: string, entityType: string | null, actionCategory?: string) {
+  return http<ResourceOptimization>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `${turboAPIBase}/recommendedActions?targetSnapshotId=${encodeURIComponent(
+      targetSnapshotId
+    )}&entityType=${entityType}${actionCategory ? `&actionCategory=${actionCategory}` : ''}`,
+    mapToResultObject: true,
+    headers: getCsrfHeader()
+  });
 }
 
 export function getAction(actionId: string) {
@@ -638,6 +653,53 @@ export function runTurboAction({
       policyId: policyId === '' ? null : policyId
     }
   });
+}
+
+interface RunResourceOptimizationAction {
+  volatileId: VolatileId;
+  actionName: string;
+  createdDate: number;
+  actionInstanceId: string;
+}
+
+export function runResourceOptimizationAction({
+  volatileId,
+  actionName,
+  createdDate,
+  actionInstanceId
+}: RunResourceOptimizationAction) {
+  return turboSubmitActionExecution({
+    action: 'turbonomic.executeAction',
+    target: volatileId,
+    args: {
+      createdDate,
+      actionInstanceId,
+      actionName
+    }
+  });
+}
+
+interface GetTurboResourceImpactParams {
+  volatileId: VolatileId;
+  createdDate: number;
+  actionInstanceId: string;
+}
+
+export function getTurboActionResourceImpacts({
+  volatileId,
+  actionInstanceId,
+  createdDate
+}: GetTurboResourceImpactParams) {
+  {
+    return submitTurbonomicResourceImpact({
+      action: 'turbonomic.resourceImpact',
+      target: volatileId,
+      args: {
+        createdDate,
+        actionInstanceId
+      }
+    });
+  }
 }
 
 export type DynamicParamValue = {

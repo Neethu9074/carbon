@@ -3,8 +3,11 @@
   "edit": "Edit",
   "delete": "Delete",
   "test": "Test",
+  "cancel": "Cancel",
   "recommendedActionsWithCount": "Recommended Actions ({{count}})",
   "recommendedActions": "Recommended Actions",
+  "recommendedOptimizationsWithCount": "Recommended resource actions ({{count}})",
+  "recommendedOptimizations": "Recommended resource actions",
   "actionName": "Action Name",
   "validVaultParameter": "Vault parameters marked as optional must be either both blank or both not blank.",
   "newAction": "New Action",
@@ -77,12 +80,15 @@
   "theValueMustNotBeBlank": "The value must not be blank.",
   "tags": "Tags",
   "tagsLabel": "Tags (optional)",
+  "actionCategory": "Action categories",
+  "impactedServices": "Impacted applications",
   "value": "Value",
   "type": "Type",
   "automationPoliciesWithCount": "Automation Policies ({{count}})",
   "automationPolicies": "Automation Policies",
   "copyOf": "(Copy of) {{name}}",
   "searchActions": "Search Actions",
+  "searchOptimizations": "Search optimizations",
   "hostsLimitHelpText": "Limit execution to the specified target host. Select the value that matches how the system is represented in Ansible inventory, or enter a string supported by Ansible limit syntax.",
   "aiEngine": "AI Engine",
   "engine": "Engine",
@@ -452,9 +458,41 @@
     "createPolicies": "Create Policies",
     "websiteSmartAlert": "Website Smart Alert"
   },
+  "infoPanel": {
+    "taskGuidance": "User guidance",
+    "hideTasks": "Hide",
+    "showTasks": "Show"
+  },
   "deleteDialog": {
     "pleaseConfirm": "Please Confirm",
     "pleaseConfirmMsg": "Are you sure you want to delete <strong>{{name}}</strong>?",
     "delete": "Delete"
+  },
+  "turboActionCategories": {
+    "compliance": "Compliance",
+    "prevention": "Prevention",
+    "efficiency": "Efficiency",
+    "efficiency_improvement": "Efficiency improvement",
+    "savings": "Savings",
+    "performance": "Performance",
+    "performance_assurance": "Performance assurance"
+  },
+  "resourceOptimization": {
+    "details": "Resource optimization details",
+    "targetAgent": "Target agent",
+    "viewInTurbo": "View in Turbonomic",
+    "resourceImpact": "Resource impact",
+    "current": "Current",
+    "afterActions": "After actions",
+    "agentHelperText": "An agent encapsulates 1..* sensors, who in turn are able to raise events to the Instana backend. A triggering agent contains the sensor that raised this particular event.",
+    "proceedConfirm": "This action cannot be undone. Are you sure you want to proceed?",
+    "riskDescription": "Risk description",
+    "runningAction": "Running action...",
+    "actionStarted": "Action started",
+    "actionFailed": "Action failed",
+    "actionStartedMessage": "You have executed <strong>{{actionName}}.</strong> View the progress of this action in the action history page.",
+    "actionFailedMessage": "The request to execute action <strong>{{actionName}}</strong> has failed: {{message}}.",
+    "viewActionHistory": "View action history",
+    "actionName": "Action name"
   }
 }
