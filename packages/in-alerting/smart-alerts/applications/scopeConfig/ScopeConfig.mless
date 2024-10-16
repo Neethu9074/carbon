@@ -21,7 +21,6 @@
 
   .lightCardHeaderControlsSearchInputWrapper {
     width: 9.375rem;
-    margin-left: 1rem;
   }
 
   .lightCardHeaderControlsDirtyStateIndicator {
@@ -103,5 +102,9 @@
     display: flex;
     gap: 0.5rem;
     align-items: center;
+  }
+
+  .searchContext {
+    width: 9rem;
   }
 }

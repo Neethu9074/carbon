@@ -785,6 +785,7 @@
         "scopeConfigSelectOneEntryMessage": "Please select at least one entry.",
         "scopeConfigTitleTooltip": "Showing available entities for the last 24 hours",
         "scopeConfigSubTitle": "Based on the last 24 hours",
+        "scopeConfigSearchApplicationsPlaceholder": "Search applications…",
         "scopeMigrationMessage_FAILED": "The scope could not be automatically migrated. Please pick the corresponding tag filters for the below Dynamic Focus Query:",
         "scopeMigrationMessage_PARTIAL": "The scope could not be fully migrated. Please pick the corresponding tag filters for the below Dynamic Focus Query:",
         "scopeMigrationMessage_FULL": "The applied scope is based on the previously used Dynamic Focus Query:",

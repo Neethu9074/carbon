@@ -22,10 +22,22 @@ import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/Expa
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { carbonCheckboxEnabled } from 'in-services/featureFlags';
+import Dropdown from 'in-alerting/components/Dropdown';
 import { days } from 'in-services/time';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig.mless';
+
+const gsaSearchTypeOptions = Object.freeze([
+  { value: 'APPLICATION', label: t('in-applications:labelApplications') },
+  { value: 'SERVICE', label: t('in-applications:labelServices') },
+  { value: 'ENDPOINT', label: t('in-applications:labelEndpoints') }
+]);
+
+const saSearchTypeOptions = Object.freeze([
+  { value: 'SERVICE', label: t('in-applications:labelServices') },
+  { value: 'ENDPOINT', label: t('in-applications:labelEndpoints') }
+]);
 
 /**
  * Timeframe used for both the entities listed in the advanced AP/Service/Endpoint selector and for the tag-suggestions
@@ -56,6 +68,7 @@ export default function ScopeConfig({
   const thresholdType = form.get('threshold').get('type').value;
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchType, setSearchType] = useState(isGlobalSmartAlert ? 'APPLICATION' : 'SERVICE');
   const [filterBySelectionState, setFilterBySelectionState] = useState(Boolean(editMode));
   const shouldDisplayAlertConfigurator = !isBuiltIn || tagFilterExpression.length > 0;
 
@@ -84,8 +97,11 @@ export default function ScopeConfig({
             <LightCardHeaderControls
               filterBySelectionState={filterBySelectionState}
               setSearchQuery={setSearchQuery}
+              setSearchType={setSearchType}
+              searchType={searchType}
               setFilterBySelectionState={setFilterBySelectionState}
               tearSheetView={tearSheetView}
+              isGlobalSmartAlert={isGlobalSmartAlert}
             />
           </div>
         </>
@@ -123,7 +139,10 @@ export default function ScopeConfig({
             <LightCardHeaderControls
               filterBySelectionState={filterBySelectionState}
               setSearchQuery={setSearchQuery}
+              setSearchType={setSearchType}
+              searchType={searchType}
               setFilterBySelectionState={setFilterBySelectionState}
+              isGlobalSmartAlert={isGlobalSmartAlert}
             />
           )
         }
@@ -159,6 +178,7 @@ export default function ScopeConfig({
                 includeInternal={includeInternal}
                 includeSynthetic={includeSynthetic}
                 searchQuery={searchQuery}
+                searchType={searchType}
                 editMode={editMode}
                 showInteractedItemsOnly={filterBySelectionState}
                 isGlobalSmartAlert={isGlobalSmartAlert}
@@ -214,10 +234,16 @@ export default function ScopeConfig({
   );
 }
 
-function LightCardHeaderControls({ filterBySelectionState, setSearchQuery, setFilterBySelectionState, tearSheetView }) {
-  // search in the GSA is not working, so temporarily hiding this from the UI,
-  // and once the issue with the search is fixed, `hideSearchInput` can be removed and enable the search.
-  const hideSearchInput = true;
+function LightCardHeaderControls({
+  filterBySelectionState,
+  setSearchQuery,
+  searchType,
+  setSearchType,
+  setFilterBySelectionState,
+  tearSheetView,
+  isGlobalSmartAlert
+}) {
+  const searchTypeOptions = isGlobalSmartAlert ? gsaSearchTypeOptions : saSearchTypeOptions;
 
   return (
     <HorizontalFlexWrapper className={locals.alignRight}>
@@ -243,11 +269,15 @@ function LightCardHeaderControls({ filterBySelectionState, setSearchQuery, setFi
         />
         {!tearSheetView && <Spacer horizontal="xsmall" />}
       </HorizontalFlexWrapper>
-      {!hideSearchInput && (
-        <div className={locals.lightCardHeaderControlsSearchInputWrapper}>
-          <ServicesAndEndpointsSearchInput onChange={query => setSearchQuery(query)} />
-        </div>
-      )}
+      <Dropdown
+        className={locals.searchContext}
+        value={searchType}
+        items={searchTypeOptions}
+        onChange={setSearchType}
+      />
+      <div className={locals.lightCardHeaderControlsSearchInputWrapper}>
+        <ServicesAndEndpointsSearchInput onChange={setSearchQuery} />
+      </div>
     </HorizontalFlexWrapper>
   );
 }

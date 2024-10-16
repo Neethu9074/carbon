@@ -115,7 +115,7 @@ export default function ServicesAndEndpointsListPresenter({
   }
 }
 
-export function ServicesAndEndpointsSearchInput({ query = '', onChange }) {
+export function ServicesAndEndpointsSearchInput({ query = '', placeholderText, onChange }) {
   const { value, onChange: debouncedOnChange } = useDebouncedValue(
     query,
     value => {
@@ -124,25 +124,18 @@ export function ServicesAndEndpointsSearchInput({ query = '', onChange }) {
     500
   );
 
-  // search in the GSA is not working, so temporarily hiding this from the UI,
-  // and once the issue with the search is fixed, `hideSearchInput` can be removed and enable the search.
-  const hideSearchInput = true;
-  if (hideSearchInput) {
-    return null;
-  }
-
   return (
     <SearchInput
       onChange={debouncedOnChange}
       query={value}
-      placeholder={t('in-components:searchInput.placeholderSearch')}
+      placeholder={placeholderText ?? t('in-components:searchInput.placeholderSearch')}
     />
   );
 }
 
 ServicesAndEndpointsListPresenter.propTypes = {
   /**
-   * Only needed for storybook/testing otherwise yopu may not want to inject custom API subscriptions
+   * Only needed for storybook/testing otherwise you may not want to inject custom API subscriptions
    */
   apiSubscriptions: PropTypes.shape({
     getApplicationsCursorPaginated: PropTypes.func.isRequired,

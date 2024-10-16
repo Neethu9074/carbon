@@ -205,10 +205,26 @@ function ServiceEndpointSelectionCard({ alertConfig, isGlobalSmartAlert }) {
 
   const moreThanOneSelection = applications && Object.values(applications).length > 1;
 
+  // FIXME In the current read-only mode of this control, when the fake API-subscriptions are passed,
+  //       we currently need to hide the entity search, because it turns out that it was broken since at least R234,
+  //       and simply never returns any results. The respective dead code should either be fixed, or removed.
+  //       Potentially related PR: https://github.ibm.com/instana/ui-client/pull/10139
+  const showSearch = false;
+
   return (
     <ExpandableLightCard
       title={t('in-alerting:smartAlerts.applications.details.applicationsServiceEndpointScopeTitle')}
-      header={moreThanOneSelection && <ServicesAndEndpointsSearchInput onChange={setSearchQuery} />}
+      header={
+        moreThanOneSelection &&
+        showSearch && (
+          <ServicesAndEndpointsSearchInput
+            placeholderText={t(
+              'in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigSearchApplicationsPlaceholder'
+            )}
+            onChange={setSearchQuery}
+          />
+        )
+      }
       headerClassName={locals.lightCardHeader}
       openByDefault
       bodyWithoutPadding
