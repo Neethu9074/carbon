@@ -363,8 +363,7 @@
         "placeholder": "Placeholder",
         "logicalOperator_AND": "AND",
         "logicalOperator_OR": "OR",
-        "logicalOperatorInfo": "Selected logical operator will be applied to the following conditions.",
-        "clearMetricSeclection": "Clear selection"
+        "logicalOperatorInfo": "Selected logical operator will be applied to the following conditions."
       },
       "customPayload": {
         "unknownTag": "Unknown tag: {{tagName}}"
