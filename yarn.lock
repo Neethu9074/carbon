@@ -1942,6 +1942,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@carbon/utilities@npm:^0.1.0":
+  version: 0.1.1
+  resolution: "@carbon/utilities@npm:0.1.1"
+  dependencies:
+    "@ibm/telemetry-js": ^1.6.1
+  checksum: 91c2c9311ccbb039b486c4c01216b70a9110f86edf2bba0fe67fd1db21bc9f92a58934b65e55feab33f7eb3cfdb9a49763cf8b1c2c20f729583f0b21ac3edac1
+  languageName: node
+  linkType: hard
+
 "@codemirror/autocomplete@npm:^6.0.0":
   version: 6.3.4
   resolution: "@codemirror/autocomplete@npm:6.3.4"
@@ -2898,6 +2907,15 @@ __metadata:
   bin:
     ibmtelemetry: dist/collect.js
   checksum: 882ed2b770d393e2c9197b1d1d5b5859e1aee1da183a2e4b754fdc491b8fd74ba3e0bbfaa0202e971273c92403c09fdab44345aa76862189c8811e7f478dd832
+  languageName: node
+  linkType: hard
+
+"@ibm/telemetry-js@npm:^1.6.1":
+  version: 1.6.1
+  resolution: "@ibm/telemetry-js@npm:1.6.1"
+  bin:
+    ibmtelemetry: dist/collect.js
+  checksum: 84c452472d8ced7773e2cc88b50742ea07e8968181e6e0ccbc24519e02a2195d556c1be3ce2ff19ba468e392b4241e931be0a49ba94d376f2ea929307054b63b
   languageName: node
   linkType: hard
 
@@ -21724,6 +21742,7 @@ __metadata:
     "@babel/runtime": 7.25.6
     "@carbon/colors": ^11.21.0
     "@carbon/pictograms-react": 11.63.0
+    "@carbon/utilities": ^0.1.0
     "@codemirror/autocomplete": ^6.0.0
     "@codemirror/commands": ^6.0.0
     "@codemirror/lang-javascript": ^6.1.2

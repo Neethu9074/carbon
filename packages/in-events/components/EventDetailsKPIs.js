@@ -3,8 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+// @ts-expect-error no typedef for carbon utilities yet
+import { dateTimeFormat as carbonDateTimeFormat } from '@carbon/utilities';
 import React from 'react';
 
+import { Stack, Tooltip } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
@@ -14,17 +17,18 @@ import {
   fireCallbacksForEventAtFocusedMomentAsStream,
   getEventSeverityLabel
 } from 'in-stores/events';
-import { formatDurationAccurately } from 'in-services/formatters/date';
-import DateTimeKpiCard from 'in-components/KpiCard/DateTimeKpiCard';
+import { formatDurationAccurately, formatTime } from 'in-services/formatters/date';
 import { formatDate } from 'in-services/formatters/date';
 import { emptyList } from 'in-services/fixedImmutables';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { Row, Col } from 'in-components/layout/Grid';
 import { serverTime$ } from 'in-stores/serverTime';
 import KpiCard from 'in-components/KpiCard';
+import { activeLanguage, t } from 'in-i18n';
 import { getEvents } from 'in-events/api';
 import connectTo from 'in-hoc/connectTo';
-import { t } from 'in-i18n';
+
+import dateTimeLocals from 'in-components/KpiCard/DateTimeKpiCard.mless';
 
 export default function EventDetailsKPIs({ event, isIncident }) {
   const eventType = getEventType(event);
@@ -39,11 +43,10 @@ export default function EventDetailsKPIs({ event, isIncident }) {
 
 function EventKPIs({ event }) {
   const started = getEventType(event) === EVENT_TYPES.CHANGE ? t('in-events:titleTime') : t('in-events:headerStarted');
-
   return (
     <Row withoutSideMargin>
       <Col xs>
-        <DateTimeKpiCard title={started} time={event.get('start')} />
+        <CarbonDateTimeKpiCard title={started} time={event.get('start')} />
       </Col>
       <Col xs>
         <Ended event={event} />
@@ -64,7 +67,7 @@ const IncidentKPIs = ({ event }) => {
   return (
     <Row withoutSideMargin>
       <Col xs>
-        <DateTimeKpiCard title={t('in-events:titleTriggered')} time={event.get('start')} />
+        <CarbonDateTimeKpiCard title={t('in-events:titleTriggered')} time={event.get('start')} />
       </Col>
       <Col xs>
         <Ended event={event} />
@@ -112,7 +115,7 @@ export const Ended = ({ event }) => {
   const endTime = manualCloseTimestamp ? manualCloseTimestamp : event.get('end');
   const isOpen = event.get('state') === 'open';
 
-  return <DateTimeKpiCard title={t('in-events:titleEnded')} time={!isOpen && hasDuration ? endTime : null} />;
+  return <CarbonDateTimeKpiCard title={t('in-events:titleEnded')} time={!isOpen && hasDuration ? endTime : null} />;
 };
 
 export const Duration = connectTo(
@@ -179,4 +182,26 @@ export const Severity = connectTo(
       </Col>
     );
   }
+);
+
+const CarbonDateTimeKpiCard = ({ title, time }) => (
+  <KpiCard
+    title={title}
+    noTooltipOnTitle
+    value={time}
+    renderValue={value => (
+      <Tooltip content={`${formatDate(time)} ${formatTime(time)}`}>
+        <Stack gap="xxsmall">
+          <span className={dateTimeLocals.row}>
+            {carbonDateTimeFormat.absolute.formatDate(value, { locale: activeLanguage })}
+          </span>
+          <span className={dateTimeLocals.row}>
+            {carbonDateTimeFormat.absolute.formatTime(value, { locale: activeLanguage, style: 'medium' })}
+          </span>
+        </Stack>
+      </Tooltip>
+    )}
+    raw
+    borderless
+  />
 );
