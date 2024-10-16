@@ -9540,7 +9540,21 @@
         "compute": "Compute",
         "cloudServices": "Cloud services",
         "total": "Total",
-        "warehouseUsage": "Warehouse usage"
+        "warehouseUsage": "Warehouse usage",
+        "storageUsage": "Storage",
+        "totalStageBytes": "Total stage bytes",
+        "totalFailSafeBytes": "Total fail safe bytes",
+        "avgByteSpilledToLocalStorage": "Average bytes spilled to local storage",
+        "bytesSpilled": "Bytes spilled",
+        "avgByteSpilledToRemoteStorage": "Average bytes spilled to remote storage",
+        "loginAttempts": "Login attempts",
+        "successful": "Successful",
+        "failed": "Failed",
+        "longestRunningQueries": "Top 10 longest running queries",
+        "queryId": "Query id",
+        "queryText": "Query text",
+        "execTime": "Execution time",
+        "warehouseUsed": "Warehouse used"
       }
     },
     "solr": {
