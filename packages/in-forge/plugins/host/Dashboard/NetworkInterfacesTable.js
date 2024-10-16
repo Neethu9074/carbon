@@ -15,6 +15,7 @@ import {
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { emptyMap, emptyList } from 'in-services/fixedImmutables';
+import { isIbmiOs } from 'in-forge/plugins/host/hostUtils';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
@@ -116,6 +117,10 @@ const cols = [
 ];
 
 export default function NetworkInterfacesTable({ snapshot, timeConfig }) {
+  if (isIbmiOs(snapshot)) {
+    return null;
+  }
+
   const rows = snapshot
     .getIn(['data', 'interfaces'], emptyMap)
     .map((iface, name) => {
