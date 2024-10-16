@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import React from 'react';
 
 // features available on customer units
@@ -232,9 +232,6 @@ export default function Internal() {
     <Route key="internalEumComponentMetrics" path="/internal/thisUnit/eum" component={EumComponentMetrics} />,
     <Route key="internalLanding" exact path="/internal">
       {wrapInInternalView(Landing)}
-    </Route>,
-    <Route key="internalRedirect" path="*">
-      <Redirect to="/internal" />
     </Route>
   );
   return internalRoutes;
