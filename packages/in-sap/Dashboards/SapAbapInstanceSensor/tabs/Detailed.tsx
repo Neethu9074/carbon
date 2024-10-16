@@ -45,15 +45,15 @@ export default function Detailed({ data }: { data: SnapshotData }) {
       <JobDetails snapshotId={snapshotId} timeConfig={timeConfig} />
       <TotalMemory snapshotId={snapshotId} timeConfig={timeConfig} />
       <BufferStatistics snapshotId={snapshotId} timeConfig={timeConfig} />
-      <DiskSummaryStats snapshotId={snapshotId} timeConfig={timeConfig} />
       <DBConnectionProvider snapshotId={snapshotId} timeConfig={timeConfig} />
       <DatabaseHitList snapshotId={snapshotId} timeConfig={timeConfig} />
+      <DiskSummaryStats snapshotId={snapshotId} timeConfig={timeConfig} />
       <FileSystemMetrics snapshotId={snapshotId} timeConfig={timeConfig} />
       <UpdateError snapshotId={snapshotId} timeConfig={timeConfig} />
-      <DumpStats snapshotId={snapshotId} timeConfig={timeConfig} />
       <SystemLogStats snapshotId={snapshotId} timeConfig={timeConfig} />
       <SystemConfiguration snapshotId={snapshotId} timeConfig={timeConfig} />
       <UserConfigurationChanges snapshotId={snapshotId} timeConfig={timeConfig} />
+      <DumpStats snapshotId={snapshotId} timeConfig={timeConfig} />
       <LockEntryList snapshotId={snapshotId} />
     </>
   );

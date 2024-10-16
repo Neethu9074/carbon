@@ -184,15 +184,27 @@ export default function WorkProcessListMetric({ snapshotId, timeConfig }: WorkPr
               metrics: [
                 `workprocessList.${row.key}.wpIStatus`,
                 `workprocessList.${row.key}.wpDumps`,
-                `workprocessList.${row.key}.wpRestart`,
-                `workprocessList.${row.key}.wpMutex`
+                `workprocessList.${row.key}.wpRestart`
               ],
               labels: [
                 t('in-sap:dashboards.workProcessStatus'),
                 t('in-sap:dashboards.workProcessDumps'),
-                t('in-sap:dashboards.workProcessRestart'),
-                t('in-sap:dashboards.workProcessMutex')
+                t('in-sap:dashboards.workProcessRestart')
               ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: number.compact,
+              metrics: [`workprocessList.${row.key}.wpMutex`],
+              labels: [t('in-sap:dashboards.workProcessMutex')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}

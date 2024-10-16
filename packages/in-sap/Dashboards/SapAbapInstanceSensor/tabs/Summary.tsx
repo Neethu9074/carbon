@@ -98,7 +98,7 @@ export default function Summary({ data }: { data: SnapshotData }) {
             <MetricValue
               snapshotId={snapshotId}
               metric={'sapMetricsStats.totalInboundIdocError'}
-              formatter={percentage.detailed}
+              formatter={number.compact}
             />
           </KpiCard>
         </Col>
@@ -349,6 +349,20 @@ export default function Summary({ data }: { data: SnapshotData }) {
         </DashboardSection>
       </Columize>
       <Columize>
+        <DashboardSection title={t('in-sap:dashboards.icm')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['icminfodatastats.curConn', 'icminfodatastats.curQueue', 'icminfodatastats.curThr'],
+              labels: [t('in-sap:dashboards.curConn'), t('in-sap:dashboards.curQueue'), t('in-sap:dashboards.curThr')],
+              type: 'line',
+              formatter: number.compact
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
         <DashboardSection title={t('in-sap:dashboards.loginAttempts')}>
           <Chart
             snapshotId={snapshotId}

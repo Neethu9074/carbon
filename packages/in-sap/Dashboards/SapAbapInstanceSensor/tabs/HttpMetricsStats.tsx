@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -99,29 +99,25 @@ const cols = [
 
 export default function HttpMetricsStats({ snapshotId, timeConfig }: HttpMetricProps) {
   const httpData = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'httpMetricsStats'), [snapshotId]);
-  if (!httpData) {
-    return null;
-  }
-  const httpMetricStat = (httpData as SnapshotData).get('raw_payload', []);
-  if (!httpMetricStat || httpMetricStat.size === 0) {
-    return null;
-  }
+  const httpMetricStat = httpData ? (httpData as SnapshotData).get('raw_payload', []) : null;
   const rows: HttpRow[] = httpMetricStat
-    .keySeq()
-    .toArray()
-    .map((key: string) => {
-      const http = httpMetricStat.get(key);
-      return {
-        key,
-        snapshotId,
-        timeConfig,
-        http
-      };
-    })
-    .filter((row: HttpRow) => {
-      const userValue = row.http.get('account');
-      return typeof userValue === 'string' && userValue !== 'UNKNOWN';
-    });
+    ? httpMetricStat
+        .keySeq()
+        .toArray()
+        .map((key: string) => {
+          const http = httpMetricStat.get(key);
+          return {
+            key,
+            snapshotId,
+            timeConfig,
+            http
+          };
+        })
+        .filter((row: HttpRow) => {
+          const userValue = row.http.get('account');
+          return typeof userValue === 'string' && userValue !== 'UNKNOWN';
+        })
+    : [];
 
   function getDetails(row: HttpRow) {
     return (

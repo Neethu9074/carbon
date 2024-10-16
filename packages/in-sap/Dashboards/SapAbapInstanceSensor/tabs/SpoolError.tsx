@@ -78,21 +78,15 @@ const cols = [
 
 export default function SpoolError({ snapshotId }: SnapshotData) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'spoolErrorStats'), [snapshotId]);
-  if (!data) {
-    return null;
-  }
-
-  const spoolErrorEntrys = (data as SnapshotData).get('raw_payload');
-  if (spoolErrorEntrys.size === 0) {
-    return null;
-  }
-
-  const rows: SpoolErrorRow[] = spoolErrorEntrys.toArray().map((spoolErrorEntry: any, idx: any) => {
-    return {
-      key: String(idx),
-      spoolErrorEntry
-    };
-  });
+  const spoolErrorEntrys = data ? (data as SnapshotData).get('raw_payload') : null;
+  const rows: SpoolErrorRow[] = spoolErrorEntrys
+    ? spoolErrorEntrys.toArray().map((spoolErrorEntry: any, idx: any) => {
+        return {
+          key: String(idx),
+          spoolErrorEntry
+        };
+      })
+    : [];
 
   return (
     <Table

@@ -139,25 +139,21 @@ const cols = [
 
 export default function DumpStats({ snapshotId, timeConfig }: DumpStatsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'abapdumpstats'), [snapshotId]);
-  if (!data) {
-    return null;
-  }
-  const dumpStat = (data as SnapshotData).get('raw_payload', []);
-  if (!dumpStat || dumpStat.size === 0) {
-    return null;
-  }
+  const dumpStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: DumpStatsRow[] = dumpStat
-    .keySeq()
-    .toArray()
-    .map((key: string) => {
-      const dumpStats = dumpStat.get(key);
-      return {
-        key,
-        snapshotId,
-        timeConfig,
-        dumpStats
-      };
-    });
+    ? dumpStat
+        .keySeq()
+        .toArray()
+        .map((key: string) => {
+          const dumpStats = dumpStat.get(key);
+          return {
+            key,
+            snapshotId,
+            timeConfig,
+            dumpStats
+          };
+        })
+    : [];
 
   return (
     <Table

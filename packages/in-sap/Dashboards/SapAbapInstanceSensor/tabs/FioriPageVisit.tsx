@@ -114,23 +114,22 @@ const cols = [
 
 export default function FioriPageVisit({ snapshotId, timeConfig }: FioriCallStatsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'fioriCallMetrics'), [snapshotId]);
-  if (!data) {
-    return null;
-  }
-  const fioriCallStat = (data as SnapshotData).get('raw_payload', []);
+  const fioriCallStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: FioriCallStatsRow[] = fioriCallStat
-    .keySeq()
-    .toArray()
-    .map((key: string) => {
-      const fioriCallStats = fioriCallStat.get(key);
+    ? fioriCallStat
+        .keySeq()
+        .toArray()
+        .map((key: string) => {
+          const fioriCallStats = fioriCallStat.get(key);
 
-      return {
-        key,
-        snapshotId,
-        timeConfig,
-        fioriCallStats
-      };
-    });
+          return {
+            key,
+            snapshotId,
+            timeConfig,
+            fioriCallStats
+          };
+        })
+    : [];
 
   function getDetails(row: FioriCallStatsRow) {
     return (

@@ -176,7 +176,7 @@ export default function JobDetailsMetrics({ snapshotId, timeConfig }: JobDetails
       cols={cols}
       rows={rows}
       initialSortColumn={0}
-      initialSortDirection="asc"
+      initialSortDirection="desc"
       getRowDetails={getDetails}
       // @ts-expect-error Module needs to be translated to TS
       rightHeader={rightHeader}

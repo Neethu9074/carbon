@@ -113,21 +113,15 @@ const cols = [
 
 export default function OutboundQueueRfcInfo({ snapshotId }: SnapshotData) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'outboundQRfcInfo'), [snapshotId]);
-  if (!data) {
-    return null;
-  }
-
-  const tRFCDetails = (data as SnapshotData).get('raw_payload');
-  if (tRFCDetails.size === 0) {
-    return null;
-  }
-
-  const rows: ICMOutboundQRFCRow[] = tRFCDetails.toArray().map((tRFCDetail: any, idx: any) => {
-    return {
-      key: String(idx),
-      tRFCDetail
-    };
-  });
+  const tRFCDetails = data ? (data as SnapshotData).get('raw_payload') : null;
+  const rows: ICMOutboundQRFCRow[] = tRFCDetails
+    ? tRFCDetails.toArray().map((tRFCDetail: any, idx: any) => {
+        return {
+          key: String(idx),
+          tRFCDetail
+        };
+      })
+    : [];
 
   return (
     <Table

@@ -27,6 +27,8 @@ export const getHumanReadablePluginName = function (value) {
       return 'Web Dispatcher';
     case 'sapAbapSystemSensor':
       return 'ABAP System';
+    case 'sapHana':
+      return 'SAP HANA';
     default:
       return 'ABAP System';
   }

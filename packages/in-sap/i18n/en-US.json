@@ -622,7 +622,7 @@
     "successLogins": "Success",
     "failureLogins": "Failure",
     "loginAttempts": "Login Attempts",
-    "workProcess": "Work Process",
+    "workProcess": "Work Process (Total/Free)",
     "severity1": "Severity 1",
     "severity2": "Severity 2",
     "aborted": "Aborted",
@@ -669,7 +669,7 @@
     "spoolMetricStat": "Spool metric statistics",
     "deviceName": "Device name",
     "accessMethod": "Access method",
-    "updateError": "Update error",
+    "updateError": "Update errors",
     "moduleID": "Module Id",
     "function": "Function",
     "applicationArea": "Application area",
@@ -683,7 +683,8 @@
     "protected": "Protected",
     "releasedStarted": "Release started",
     "httpRespTime": "HTTP",
-    "httpsRespTime": "HTTPS"
+    "httpsRespTime": "HTTPS",
+    "curThr": "Current Threads"
   },
   "viewAllEntityName_unknownEntity_plural": "all",
   "viewAllEntityName_unknownEntity_0": "all",

@@ -132,21 +132,15 @@ const cols = [
 
 export default function LockEntryList({ snapshotId }: SnapshotData) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'lockEntryStats'), [snapshotId]);
-  if (!data) {
-    return null;
-  }
-
-  const lockEntrys = (data as SnapshotData).get('raw_payload');
-  if (!lockEntrys || lockEntrys.size === 0) {
-    return null;
-  }
-
-  const rows: LockEntryRow[] = lockEntrys.toArray().map((lockEntry: any, idx: any) => {
-    return {
-      key: String(idx),
-      lockEntry
-    };
-  });
+  const lockEntrys = data ? (data as SnapshotData).get('raw_payload') : null;
+  const rows: LockEntryRow[] = lockEntrys
+    ? lockEntrys.toArray().map((lockEntry: any, idx: any) => {
+        return {
+          key: String(idx),
+          lockEntry
+        };
+      })
+    : [];
 
   return (
     <Table

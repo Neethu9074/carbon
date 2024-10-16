@@ -12,40 +12,16 @@ import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHea
 import { GetSpecificDashboard } from 'in-sap/Dashboards/tables/getDashboardSpecifics';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { percentage, number, percentagePlain } from 'in-services/formatters/number';
+import getWorkProcessStatus from 'in-sap/Dashboards/tables/WorkProcessHelper.tsx';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getRelatedResources from 'in-sap/subscriptions/getRelatedResources';
-import { getOverallStatus } from 'in-sap/Dashboards/tables/OverallStatus';
 import { colorFormatter } from 'in-sap/Dashboards/tables/ColorFormatter';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
-import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 
 const pathSegment = '/abapsystem';
 const matrixPrefix = 'abapsystemssensor.';
 var systemSnapshotId = '';
-
-const workProcessObj = [
-  {
-    key: 'DIA',
-    metrics: ['workloadcounts.dialogProcessWaiting', 'workloadcounts.numberOfDialogProcess']
-  },
-  {
-    key: 'UPD',
-    metrics: ['workloadcounts.updateProcessWaiting', 'workloadcounts.numberOfUpdateProcess']
-  },
-  {
-    key: 'BTC',
-    metrics: ['workloadcounts.batchProcessWaiting', 'workloadcounts.numberOfBatchProcess']
-  },
-  {
-    key: 'SPO',
-    metrics: ['workloadcounts.spoolProcessWaiting', 'workloadcounts.numberOfSpoolProcess']
-  },
-  {
-    key: 'UPD2',
-    metrics: ['workloadcounts.update2ProcessWaiting', 'workloadcounts.numberOfUpdate2Process']
-  }
-];
 
 const columnDefinitions = [
   {
@@ -57,15 +33,14 @@ const columnDefinitions = [
   },
   {
     id: 'overallRating',
-    label: t('in-sap:dashboards.overallRating'),
+    label: t('in-sap:dashboards.status'),
     getContent(item) {
-      return <Badge color={colorFormatter(item.overallRating)}>{getOverallStatus(item.overallRating)}</Badge>;
+      return <Badge color={colorFormatter(item.overallRating)}>{item.overallRating}</Badge>;
     }
   },
   {
     id: 'cpu',
     label: t('in-sap:dashboards.cpuUsage'),
-    sortable: false,
     getContent(item, { timeConfig }) {
       return (
         <InfrastructureMetricSparkChart
@@ -80,7 +55,6 @@ const columnDefinitions = [
   {
     id: 'memory',
     label: t('in-sap:dashboards.memoryUsage'),
-    sortable: false,
     getContent(item, { timeConfig }) {
       return (
         <InfrastructureMetricSparkChart
@@ -95,7 +69,6 @@ const columnDefinitions = [
   {
     id: 'user',
     label: t('in-sap:dashboards.userSessions'),
-    sortable: false,
     getContent(item, { timeConfig }) {
       return (
         <InfrastructureMetricSparkChart
@@ -112,17 +85,7 @@ const columnDefinitions = [
     label: t('in-sap:dashboards.workProcess'),
     sortable: false,
     getContent(item) {
-      return (
-        <div>
-          {workProcessObj.map((resource, index) => (
-            <span key={resource.key}>
-              {resource.key} <MetricValue snapshotId={item.id} metric={resource.metrics[0]} />/
-              <MetricValue snapshotId={item.id} metric={resource.metrics[1]} />
-              {index !== 4 && ' | '}
-            </span>
-          ))}
-        </div>
-      );
+      return getWorkProcessStatus(item);
     }
   },
   {
@@ -146,7 +109,7 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   paginationResettingUrlParameters: [...timeConfigUrlParameters],
   columnDefinitions,
-  defaultOrderBy: 'label',
+  defaultOrderBy: 'issues',
   defaultOrderDirection: 'ASC',
   pathSegment,
   matrixPrefix

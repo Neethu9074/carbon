@@ -114,21 +114,15 @@ const cols = [
 
 export default function GatewayStats({ snapshotId }: SnapshotData) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'gatewayStats'), [snapshotId]);
-  if (!data) {
-    return null;
-  }
-
-  const gatewayEntrys = (data as SnapshotData).get('raw_payload');
-  if (gatewayEntrys.size === 0) {
-    return null;
-  }
-
-  const rows: GatewayEntryRow[] = gatewayEntrys.toArray().map((gatewayEntry: any, idx: any) => {
-    return {
-      key: String(idx),
-      gatewayEntry
-    };
-  });
+  const gatewayEntrys = data ? (data as SnapshotData).get('raw_payload') : null;
+  const rows: GatewayEntryRow[] = gatewayEntrys
+    ? gatewayEntrys.toArray().map((gatewayEntry: any, idx: any) => {
+        return {
+          key: String(idx),
+          gatewayEntry
+        };
+      })
+    : [];
 
   return (
     <Table
