@@ -18,11 +18,10 @@ import {
 } from '@instana/components';
 import { Link } from '@instana/components';
 
+import useNavigateToActionHistory from 'in-automation/navigation/hooks/useNavigateToActionHistory';
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { RecommendedAction, ResourceImpactEntities, AgentSnapshot } from 'in-types';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { turboActionCategoryMap } from './RecommendedOptimizations';
-import { actionHistoryPath } from 'in-automation/navigation/paths';
 import { runResourceOptimizationAction } from 'in-automation/api';
 import { useResourceImpacts } from './useResourceOptimization';
 import { close } from 'in-components/DialogPresenter/store';
@@ -44,8 +43,6 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
   const [runActionError, setRunActionError] = useState('');
   const [runActionResponseId, setRunActionResponseId] = useState('');
 
-  const { location, navigate } = useNavigation();
-
   const actionInstanceId = currentAction?.id ?? '';
   const createdDate = currentAction?.createdDate ?? 0;
   const volatileId = targetAgent?.volatileId ?? {};
@@ -55,7 +52,7 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
     actionInstanceId,
     createdDate
   });
-
+  const navigateToActionHistory = useNavigateToActionHistory();
   const impactLoading = resourceImpactResult?.progress?.loading;
 
   //@ts-expect-error
@@ -97,8 +94,7 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
                 <Button
                   kind="tertiary"
                   onClick={() => {
-                    location.pathname = actionHistoryPath;
-                    navigate(location);
+                    navigateToActionHistory(data?.actionInstanceId);
                     removeMessage('run-resource-optimization');
                   }}
                 >
@@ -127,8 +123,7 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
                 <Button
                   kind="tertiary"
                   onClick={() => {
-                    location.pathname = actionHistoryPath;
-                    navigate(location);
+                    navigateToActionHistory(data?.actionInstanceId);
                     removeMessage('run-resource-optimization');
                   }}
                 >
