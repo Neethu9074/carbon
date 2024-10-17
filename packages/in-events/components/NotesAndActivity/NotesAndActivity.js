@@ -86,6 +86,7 @@ export function NotesAndActivity(props) {
   const [openSearch, setOpenSearch] = useState(false);
   const [displayQuickStart, setDisplayQuickStart] = useState(true);
   const [stretchOverlay, setStretchOverlay] = useState(false);
+  const [needOverlay, setNeedOverlay] = useState(false);
 
   // We ONLY want to display Notes and Activity for incidents
   if (eventType != 'incident') {
@@ -176,6 +177,7 @@ export function NotesAndActivity(props) {
                 setDisplayQuickStart={setDisplayQuickStart}
                 setNote={setNote}
                 setEditNoteId={setEditNoteId}
+                setNeedOverlay={setNeedOverlay}
               />
               <CommentInput
                 note={note}
@@ -189,24 +191,32 @@ export function NotesAndActivity(props) {
         </div>
       </CarbonLayer>
       {/* Danger modal for deleting a note */}
-      <CarbonModal
-        danger
-        open={editNoteId && editNoteId[1] == false}
-        modalHeading={t('in-events:notes.confirmDelete')}
-        primaryButtonText={t('in-events:notes.delete')}
-        secondaryButtonText={t('in-events:notes.cancel')}
-        onRequestSubmit={() => {
-          handleUpdateDeleteNote(incidentId, note, setNote, setEditNoteId, editNoteId);
-        }}
-        onRequestClose={() => {
-          setEditNoteId(false);
-        }}
-      >
-        {t('in-events:notes.sureYouWantToDelete')}
-        <br />
-        <br />
-        {t('in-events:notes.actionUndone')}
-      </CarbonModal>
+      <div className={classNames({ carbonDeleteModalOpen: needOverlay })}>
+        <CarbonModal
+          danger
+          open={editNoteId && editNoteId[1] == false}
+          modalHeading={t('in-events:notes.confirmDelete')}
+          primaryButtonText={t('in-events:notes.delete')}
+          secondaryButtonText={t('in-events:notes.cancel')}
+          onRequestSubmit={() => {
+            handleUpdateDeleteNote(incidentId, note, setNote, setEditNoteId, editNoteId);
+          }}
+          onRequestClose={() => {
+            // This silly setTimeout is needed because of clashing z-index values
+            // 500 value is the time it takes for the fading out of the modal
+            // Once faded we no longer need the overlay
+            setTimeout(() => {
+              setNeedOverlay(false);
+            }, 500);
+            setEditNoteId(false);
+          }}
+        >
+          {t('in-events:notes.sureYouWantToDelete')}
+          <br />
+          <br />
+          {t('in-events:notes.actionUndone')}
+        </CarbonModal>
+      </div>
     </>
   );
 }

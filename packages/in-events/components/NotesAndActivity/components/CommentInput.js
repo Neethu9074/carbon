@@ -72,9 +72,10 @@ export function CommentInput({ note, setNote, incidentId, editNoteId, setEditNot
 }
 
 export function SubmissionButtons({ editNoteId, setEditNoteId, incidentId, note, setNote }) {
+  const isEditing = editNoteId && editNoteId[1];
   return (
     <>
-      {editNoteId && (
+      {isEditing && (
         <IconButton
           onClick={() => {
             setEditNoteId(false);
@@ -92,19 +93,19 @@ export function SubmissionButtons({ editNoteId, setEditNoteId, incidentId, note,
       <IconButton
         onClick={() => {
           // Scenario for handling editing of a note
-          if (editNoteId) {
+          if (isEditing) {
             handleUpdateDeleteNote(incidentId, note, setNote, setEditNoteId, editNoteId);
           } else {
             // submitting a new note
             handleSubmitNote(incidentId, note, setNote);
           }
         }}
-        type={(editNoteId && 'lib_check') || 'lib_message_send'}
+        type={(isEditing && 'lib_check') || 'lib_message_send'}
         size="compact"
-        kind={(editNoteId && 'action') || 'primary'}
+        kind={(isEditing && 'action') || 'primary'}
         className={classNames({
           [locals.commentInputIcon]: true,
-          [locals.bumpDown]: editNoteId
+          [locals.bumpDown]: isEditing
         })}
       />
     </>

@@ -23,7 +23,14 @@ import { t } from 'in-i18n';
 
 import locals from './CommentList.mless';
 
-export function CommentList({ notes, setDisplayQuickStart, displayQuickStart, setNote, setEditNoteId }) {
+export function CommentList({
+  notes,
+  setDisplayQuickStart,
+  displayQuickStart,
+  setNote,
+  setEditNoteId,
+  setNeedOverlay
+}) {
   // This adds in the scroll wheel event listener to determine the percentage
   // of the scroll height so we know if we need to collapse and expand the quick actions
   useEffect(() => {
@@ -110,6 +117,7 @@ export function CommentList({ notes, setDisplayQuickStart, displayQuickStart, se
                 myBubble={myBubble}
                 type={type}
                 setEditNoteId={setEditNoteId}
+                setNeedOverlay={setNeedOverlay}
                 setNote={setNote}
               />
             </div>
@@ -121,7 +129,7 @@ export function CommentList({ notes, setDisplayQuickStart, displayQuickStart, se
 
 // Individual chat bubble that has differing colors and stylings based on
 // if the text is from me or someone else, ai generated, or external source
-export function ChatBubble({ myBubble, contents, data, type, noteObj, setNote, setEditNoteId }) {
+export function ChatBubble({ myBubble, contents, data, type, noteObj, setNote, setEditNoteId, setNeedOverlay }) {
   const [showAll, setShowAll] = useState(false);
   // Currently we have 4 types of bubbles
   const note = type === TYPE_NOTE;
@@ -144,6 +152,7 @@ export function ChatBubble({ myBubble, contents, data, type, noteObj, setNote, s
         <EditDeleteOverflowMenu
           setNote={setNote}
           setEditNoteId={setEditNoteId}
+          setNeedOverlay={setNeedOverlay}
           noteId={noteObj?.id}
           contents={contents}
         />
@@ -211,7 +220,7 @@ export function ChatBubble({ myBubble, contents, data, type, noteObj, setNote, s
 }
 
 // The overflow menu that helps with editing and deleting a users note
-export function EditDeleteOverflowMenu({ setNote, setEditNoteId, noteId, contents }) {
+export function EditDeleteOverflowMenu({ setNote, setEditNoteId, setNeedOverlay, noteId, contents }) {
   return (
     <div className={locals.menuWrapper}>
       <CarbonOverflowMenu size="sm" align="left" flipped>
@@ -226,6 +235,8 @@ export function EditDeleteOverflowMenu({ setNote, setEditNoteId, noteId, content
           itemText={t('in-events:notes.delete')}
           isDelete
           onClick={() => {
+            setNote('');
+            setNeedOverlay(true);
             setEditNoteId([noteId, false]);
           }}
         />
