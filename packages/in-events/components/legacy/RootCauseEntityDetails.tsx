@@ -78,7 +78,7 @@ export default function RootCauseEntityDetails({
   explainabilityMetadata,
   probabilityScore,
   relatedAPID,
-  incidentTimeWindow,
+  incidentTimeWindow: timeWindow,
   associatedEvents,
   latestSnapshot
 }: RootCauseEntityDetailsParams) {
@@ -98,8 +98,9 @@ export default function RootCauseEntityDetails({
   // Used only for infra entities to set physical hierarchy query
   const [hierarchyQuery, setHierarchyQuery] = useState<Observable<List<string>> | null>(null);
 
+  const [timeWindowForHierarchyQuery, setTimeWindowForHierarchyQuery] = useState<TimeConfig>(timeWindow);
+
   // Time window variable used for generating links to analyze page and sending query for entity, can be re-set by our infra query
-  const [timeWindow, setTimeWindow] = useState(incidentTimeWindow);
 
   // Service query observable variable that gets service label information that a given entity belongs to
   const [serviceQuery, setServiceQuery] = useState<Observable<ServiceLabel | undefined> | null>(null);
@@ -133,14 +134,14 @@ export default function RootCauseEntityDetails({
   // Holds the result of our physical hierarchy query
   const hierarchySnapshots = useObservable(() => {
     if (hierarchyQuery) {
-      return hierarchyQuery.flatMap(item =>
-        combineLatest(
+      return hierarchyQuery.flatMap(item => {
+        return combineLatest(
           item
             .toArray()
             .filter(id => id !== rcaSnapshotID) //filter out selected entity to avoid duplication for hosts
-            .map(id => getSnapshot(id, timeWindow))
-        )
-      );
+            .map(id => getSnapshot(id, timeWindowForHierarchyQuery))
+        );
+      });
     } else {
       return null;
     }
@@ -165,8 +166,7 @@ export default function RootCauseEntityDetails({
                 to,
                 focusedMoment: to
               } as TimeConfig;
-              setTimeConfig(location, timeConfigFromSnapVersion);
-              setTimeWindow(timeConfigFromSnapVersion);
+              setTimeWindowForHierarchyQuery(timeConfigFromSnapVersion);
               setHierarchyQuery(
                 getPhysicalHierarchy({ snapshotId: rcaSnapshotID, timeConfig: timeConfigFromSnapVersion })
               );
@@ -236,11 +236,17 @@ export default function RootCauseEntityDetails({
     rcaSnapshotID,
     relatedApplicationInformation,
     entityData,
-    incidentTimeWindow,
+    timeWindow,
     nonInfraServiceLabelInformation
   );
   // Generate links to dashboard page for given entity
-  const linkToEntityDashboard = useGenerateLinkToDashboard(rcaEntityType, rcaSnapshotID, location, relatedAPID);
+  const linkToEntityDashboard = useGenerateLinkToDashboard(
+    rcaEntityType,
+    rcaSnapshotID,
+    location,
+    relatedAPID,
+    timeWindow
+  );
 
   // If no snapshot ID just don't display RCA
   if (!rcaSnapshotID) return null;
@@ -281,6 +287,7 @@ export default function RootCauseEntityDetails({
                 serviceLabelInformation={nonInfraServiceLabelInformation}
                 entityType={rcaEntityType}
                 originalID={rcaSnapshotID}
+                timeWindow={timeWindow}
               />
             )}
             {entityData !== null &&
@@ -295,6 +302,7 @@ export default function RootCauseEntityDetails({
                   entityId={entityID}
                   entityType={rcaEntityType}
                   originalID={rcaSnapshotID}
+                  timeWindow={timeWindow}
                 />
               )}
             {(entityData === null ||
@@ -365,7 +373,7 @@ export default function RootCauseEntityDetails({
             relatedApplicationInformation={relatedApplicationInformation}
             rcaEntityType={rcaEntityType}
             entityData={entityData}
-            incidentTimeWindow={incidentTimeWindow}
+            incidentTimeWindow={timeWindow}
           />
         </>
       ) : undefined}
@@ -435,6 +443,7 @@ interface EntityPathProps {
   originalID: string;
   serviceLabelInformation: ServiceLabel | null | undefined;
   entityType: string;
+  timeWindow: TimeConfig;
 }
 
 function EntityPath({
@@ -442,7 +451,8 @@ function EntityPath({
   entityInformation,
   originalID,
   serviceLabelInformation,
-  entityType
+  entityType,
+  timeWindow
 }: EntityPathProps) {
   const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
   const { trackCta } = useSegmentTracking();
@@ -459,7 +469,7 @@ function EntityPath({
   const relatedServiceID = serviceLabelInformation ? serviceLabelInformation.id : null;
 
   // Generate links to dashboards
-  const linkToEntity = useGenerateLinkToDashboard(entityType, originalID, location, relatedAPID);
+  const linkToEntity = useGenerateLinkToDashboard(entityType, originalID, location, relatedAPID, timeWindow);
   return (
     <Stack gap="xsmall">
       <Stack gap="xsmall">
@@ -489,6 +499,7 @@ function EntityPath({
           relatedAPID={relatedAPID}
           displayLabel={t('in-events:RCA.inService')}
           renderIcon={<SvgIcon type={getIconForRCADisplay('service')} color={themes.default.cds.link.primary} />}
+          timeWindow={timeWindow}
         />
       )}
       {relatedAPlabel && relatedAPID && (
@@ -501,6 +512,7 @@ function EntityPath({
           renderIcon={
             <SvgIcon type={getIconForRCADisplay('application')} color={themes.default.cds.link.primary} size="s" />
           }
+          timeWindow={timeWindow}
         />
       )}
     </Stack>
@@ -515,6 +527,7 @@ interface InfrastructureVisualHierarchyProps {
   serviceLabelInformation: ServiceLabel[] | null | undefined;
   entityId: Map<string, string>;
   entityType: string;
+  timeWindow: TimeConfig;
 }
 interface RelevantSnapshotData {
   label: string;
@@ -529,7 +542,8 @@ function InfrastructureVisualHierarchy({
   originalID,
   serviceLabelInformation,
   entityId,
-  entityType
+  entityType,
+  timeWindow
 }: InfrastructureVisualHierarchyProps) {
   const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
   const { trackCta } = useSegmentTracking();
@@ -564,13 +578,20 @@ function InfrastructureVisualHierarchy({
     firstServiceID = serviceLabelInformation[0].id;
   }
 
+  setTimeConfig(location, timeWindow);
+
   const AdditionalServices = () => {
     return (
       <Stack direction="horizontal" gap="xsmall" align="center">
         <Typography variant="body-small">{`+ ${serviceLabelInformation?.length} services`}</Typography>
         <MoreMenu icon="lib_openclose_add_box" size="compact">
           {serviceLabelInformation?.map(service => (
-            <ServiceLink serviceID={service.id} serviceLabel={service.label} relatedAPID={relatedAPID} />
+            <ServiceLink
+              serviceID={service.id}
+              serviceLabel={service.label}
+              relatedAPID={relatedAPID}
+              timeWindow={timeWindow}
+            />
           ))}
         </MoreMenu>
       </Stack>
@@ -589,7 +610,7 @@ function InfrastructureVisualHierarchy({
     : null;
 
   // Generate links to dashboards
-  const linkToEntity = useGenerateLinkToDashboard(entityType, originalID, location, relatedAPID);
+  const linkToEntity = useGenerateLinkToDashboard(entityType, originalID, location, relatedAPID, timeWindow);
 
   const pluginToShortPluginName = translateFullyQualifiedPluginToShortPluginName(entityId.get('pluginId')) || 'entity';
   return (
@@ -630,6 +651,7 @@ function InfrastructureVisualHierarchy({
               color={themes.default.cds.link.primary}
             />
           }
+          timeWindow={timeWindow}
         />
       )}
       {podDataFromHierarchy && relatedPodID && (
@@ -645,6 +667,7 @@ function InfrastructureVisualHierarchy({
               color={themes.default.cds.link.primary}
             />
           }
+          timeWindow={timeWindow}
         />
       )}
       {containerDContainerFromHierarchy && relatedContainerdID && (
@@ -660,6 +683,7 @@ function InfrastructureVisualHierarchy({
               color={themes.default.cds.link.primary}
             />
           }
+          timeWindow={timeWindow}
         />
       )}
       {firstServiceLabel && firstServiceID && isServiceLabelValidToDisplayInRCA(firstServiceLabel) && (
@@ -670,7 +694,10 @@ function InfrastructureVisualHierarchy({
           relatedAPID={relatedAPID}
           displayLabel={t('in-events:RCA.inService')}
           renderIcon={<SvgIcon type={getIconForRCADisplay('service')} color={themes.default.cds.link.primary} />}
-          testing={serviceLabelInformation && serviceLabelInformation?.length > 1 ? AdditionalServices() : undefined}
+          AdditionalServices={
+            serviceLabelInformation && serviceLabelInformation?.length > 1 ? AdditionalServices() : undefined
+          }
+          timeWindow={timeWindow}
         />
       )}
       {relatedAPlabel && relatedAPID && (
@@ -683,6 +710,7 @@ function InfrastructureVisualHierarchy({
           renderIcon={
             <SvgIcon type={getIconForRCADisplay('application')} color={themes.default.cds.link.primary} size="s" />
           }
+          timeWindow={timeWindow}
         />
       )}
     </Stack>
@@ -696,7 +724,8 @@ interface InfraEntityDisplayProps {
   relatedAPID: string | null;
   displayLabel: string;
   renderIcon: ReactElement;
-  testing?: ReactElement;
+  timeWindow: TimeConfig;
+  AdditionalServices?: ReactElement;
 }
 
 function EntityDisplay({
@@ -706,14 +735,15 @@ function EntityDisplay({
   relatedAPID,
   displayLabel,
   renderIcon,
-  testing
+  AdditionalServices,
+  timeWindow
 }: InfraEntityDisplayProps) {
   const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
   const { trackCta } = useSegmentTracking();
 
   const { location } = useNavigation();
 
-  const linkToEntity = useGenerateLinkToDashboard(entityType, entityID, location, relatedAPID);
+  const linkToEntity = useGenerateLinkToDashboard(entityType, entityID, location, relatedAPID, timeWindow);
 
   return (
     <Stack direction="horizontal" gap="xsmall" align="center">
@@ -737,15 +767,22 @@ function EntityDisplay({
           </Typography>
         </Stack>
       </Link>
-      {testing}
+      {AdditionalServices}
     </Stack>
   );
 }
 
-function ServiceLink({ serviceID, serviceLabel, relatedAPID }: any) {
+interface ServiceLinkProps {
+  serviceID: string;
+  serviceLabel: string;
+  relatedAPID: string | null;
+  timeWindow: TimeConfig;
+}
+
+function ServiceLink({ serviceID, serviceLabel, relatedAPID, timeWindow }: ServiceLinkProps) {
   const { location } = useNavigation();
 
-  const linkToService = useGenerateLinkToDashboard('service', serviceID, location, relatedAPID);
+  const linkToService = useGenerateLinkToDashboard('service', serviceID, location, relatedAPID, timeWindow);
   return <MoreMenuButton href={linkToService}>{serviceLabel}</MoreMenuButton>;
 }
 

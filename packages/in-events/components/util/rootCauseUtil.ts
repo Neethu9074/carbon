@@ -16,6 +16,7 @@ import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
+import { setTimeConfig } from 'in-stores/time/config';
 import { Nullish } from 'in-types';
 
 const endpointIDURLParameter = 'endpointId';
@@ -251,9 +252,11 @@ export function useGenerateLinkToDashboard(
   entityType: string,
   originalID: string | null | undefined,
   location: Location,
-  relatedAPID: string | null
+  relatedAPID: string | null,
+  incidentTimeWindow: TimeConfig
 ) {
   const { createHref } = useNavigation();
+  setTimeConfig(location, incidentTimeWindow);
   const query = { ...location.query };
   const matrixParam = {} as MatrixParameters;
   let pathname = '';
