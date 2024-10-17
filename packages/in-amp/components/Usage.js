@@ -34,7 +34,7 @@ function Usage({
   getCurrentTenantOption,
   canShowAggregatedMetrics,
   hasSyntheticAddon,
-  hasLoggingAddon
+  environments
 }) {
   const initialState =
     (canShowAggregatedMetrics ? aggregatedState : getCurrentTenantOption(unitSelectorOptions)?.value) ??
@@ -82,7 +82,7 @@ function Usage({
         tenantUnit={tenantUnit}
         showAggregatedMetrics={showAggregatedMetrics}
         hasSyntheticAddon={hasSyntheticAddon}
-        hasLoggingAddon={hasLoggingAddon}
+        loggingAddonDetails={getLoggingAddonDetails(environments, tenantUnit)}
         presentation={presentation}
       />
 
@@ -109,4 +109,19 @@ function Usage({
       </Row>
     </>
   );
+}
+
+function getLoggingAddonDetails(environments, getCurrentTenantOption) {
+  const { tenant, unit } = getCurrentTenantOption;
+
+  const environment = environments.find(env => env.tenant === tenant && env.unit === unit);
+
+  if (environment && environment?.activeLicenses) {
+    const license = environment.activeLicenses?.[0]; // There will be only one active license for a TU.
+    if (license.licenseSpecs && license.licenseSpecs.addons && license.licenseSpecs.addons.LOGGING_RETENTION) {
+      return license.licenseSpecs.addons.LOGGING_RETENTION;
+    }
+  }
+
+  return null;
 }

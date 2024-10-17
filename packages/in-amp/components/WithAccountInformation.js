@@ -33,14 +33,13 @@ function WithAccountInformation({ children, environments }) {
   const canShowAggregatedMetrics = !onPremLicenseInformationEnabled && containsPaidLicenses(environments);
   const unitSelectorOptions = environments.map(mapEnvironmentToComboBoxItem);
   const hasSyntheticAddon = syntheticAddons(environments);
-  const hasLoggingAddon = loggingAddons(environments);
 
   return children({
     getCurrentTenantOption,
     unitSelectorOptions,
     canShowAggregatedMetrics,
     hasSyntheticAddon,
-    hasLoggingAddon
+    environments
   });
 }
 
@@ -54,15 +53,6 @@ function syntheticAddons(licenses) {
     }
   }
   return false;
-}
-
-function loggingAddons(licenses) {
-  return licenses.some(
-    licObj =>
-      licObj?.activeLicenses?.some(lic => lic.licenseSpecs?.addons?.LOG_VOLUME?.resourceUnits > 0) ||
-      licObj?.expiredLicenses?.some(lic => lic.licenseSpecs?.addons?.LOG_VOLUME?.resourceUnits > 0) ||
-      licObj?.queuedLicense?.some(lic => lic.licenseSpecs?.addons?.LOG_VOLUME?.resourceUnits > 0)
-  );
 }
 
 function getCurrentTenantOption(unitSelectorOptions) {
