@@ -199,6 +199,9 @@ export function NotesAndActivity(props) {
           primaryButtonText={t('in-events:notes.delete')}
           secondaryButtonText={t('in-events:notes.cancel')}
           onRequestSubmit={() => {
+            setTimeout(() => {
+              setNeedOverlay(false);
+            }, 500);
             handleUpdateDeleteNote(incidentId, note, setNote, setEditNoteId, editNoteId);
           }}
           onRequestClose={() => {
