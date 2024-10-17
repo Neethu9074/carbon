@@ -111,6 +111,7 @@ export default function MonthlyFrequency({ form, setFormRRule, rrule }: MonthlyF
             value={posDay}
             onChange={v => setPosDay((v as Option).value)}
             placeholder={t('in-settings:maintenanceWindow.number')}
+            disabled={onDay}
           />
           <ComboBox
             options={[
@@ -147,6 +148,7 @@ export default function MonthlyFrequency({ form, setFormRRule, rrule }: MonthlyF
             onChange={v => setWeekDay((v as Option).value)}
             isClearable={false}
             placeholder={t('in-settings:maintenanceWindow.weekday')}
+            disabled={onDay}
           />
         </Stack>
       </Stack>

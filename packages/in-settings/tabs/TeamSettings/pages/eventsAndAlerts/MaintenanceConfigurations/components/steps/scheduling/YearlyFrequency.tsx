@@ -44,21 +44,21 @@ export default function YearlyFrequency({ form, setFormRRule, rrule }: YearlyFre
     'December'
   ];
 
-  const dayNum = rrule.options.bymonthday ? rrule.options.bymonthday[0] : undefined;
   const dayMonth = rrule.options.bymonth ? rrule.options.bymonth[0] : undefined;
   const nweekday = rrule.options.bynweekday ? rrule.options.bynweekday[0] : undefined;
-  //const specificDayFirstLast = rrule.options.bysetpos ? rrule.options.bysetpos[0] : undefined;
-  //const specificDayWeekDay = rrule.options.byweekday ? rrule.options.byweekday[0] : undefined;
+
+  const dayNum = rrule.options.bymonthday ? rrule.options.bymonthday[0] : undefined;
+  const [onMonth, setOnMonth] = useState(dayNum !== 0 && !nweekday);
 
   const [posDay, setPosDay] = useState<string | undefined>(nweekday?.length === 2 ? nweekday[1].toString() : undefined);
   const [weekDay, setWeekDay] = useState<string | undefined>(
     nweekday?.length === 2 ? nweekday[0].toString() : undefined
   );
-  const [onMonth, setOnMonth] = useState(dayNum !== 0 && !nweekday);
 
   const setSpecificMonth = (val: number) => {
     setFormRRule(form, setRRuleByMonth(rrule, val));
   };
+
   const setDayNum = (val: number) => {
     setFormRRule(form, setRRuleByMonthDay(rrule, val, true));
   };
@@ -102,7 +102,7 @@ export default function YearlyFrequency({ form, setFormRRule, rrule }: YearlyFre
               id="monthly-recurrence-day"
               placeholder={t('in-settings:maintenanceWindow.dayNum')}
               disabled={!onMonth}
-              value={dayNum}
+              value={dayNum || undefined}
               onChange={v => setDayNum(v.target.valueAsNumber)}
               className={locals.medInput}
               min="1"
