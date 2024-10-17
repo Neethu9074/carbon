@@ -14667,6 +14667,7 @@
       "cbp": "Container Based Processor",
       "cp": "Central Processor",
       "iip": "Integrated Information Processor",
+      "lparPowerConsumption": "Logical Partition Power Consumption Watts",
       "heatLoad": "Heat Load",
       "heatLoadForcedAir": "Heat Load (Forced Air)",
       "heatLoadWater": "Heat Load (Water)",

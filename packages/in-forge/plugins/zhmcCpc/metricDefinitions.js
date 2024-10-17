@@ -173,6 +173,17 @@ export default [
   },
   {
     metrics: [
+      getDynamicMetricMatch('logicalPartitions', 'lparPowerConsumption', t('in-forge:plugins.zhmcCpc.logicalPartition'))
+    ],
+    labels:[
+      t('in-forge:plugins.zhmcCpc.lparPowerConsumption')
+    ],
+    category: [t('in-forge:plugins.zhmcCpc.logicalPartition')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
       getDynamicMetricMatch('networkPorts', 'utilization', t('in-forge:plugins.zhmcCpc.networkPort')),
       getDynamicMetricMatch('networkPorts', 'flags', t('in-forge:plugins.zhmcCpc.networkPort')),
       getDynamicMetricMatch('networkPorts', 'networkPortId', t('in-forge:plugins.zhmcCpc.networkPort'))
