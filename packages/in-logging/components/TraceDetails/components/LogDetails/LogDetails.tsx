@@ -8,8 +8,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import classNames from 'classnames';
 
+import { SpanExcerpt, TraceActivityTreeNode } from '@instana/types/typeDefinitions';
 import { LogItem, LogMessageItem, LogTag } from '@instana/types';
-import { SpanExcerpt } from '@instana/types/typeDefinitions';
 import { Stack, Typography } from '@instana/components';
 import { ExpandableGroup } from '@instana/components';
 
@@ -81,54 +81,45 @@ function LogDetails(props: LogDetailsSwitchProps) {
 
   const { selectedLog } = useLogsInCallsContext();
 
-  const useLoggingData = loggingEnabled && loggingLog;
+  const useLoggingData = Boolean(loggingEnabled && loggingLog);
 
-  const logLevel = useLoggingData
-    ? getLogLevel(loggingLog.tags)
-    : callLog.data.log?.level || (callLog.errorCount > 0 ? 'ERROR' : 'WARN');
-
+  const logLevel = getLogLevelFromLog(callLog, loggingLog, useLoggingData);
+  const logMessage = getLogMessage(callLog, loggingLog, useLoggingData);
   const logLevelColor = getLogLevelColor(logLevel);
 
-  const logMessage = (useLoggingData ? loggingLog?.message : callLog.data.log?.message) ?? '';
-
-  const isExpandedLog = isLogItem(selectedLog)
-    ? loggingLog?.itemId === selectedLog.itemId
-    : selectedLog?.label.replace('WARN:', '').replace('ERROR:', '') === logMessage;
+  const isExpandedLog = isLogSelected(selectedLog, loggingLog, logMessage);
 
   useEffect(() => {
-    setIsExpanded(isExpandedLog);
-  }, [isExpandedLog]);
+    if (isExpandedLog !== isExpanded) {
+      setIsExpanded(isExpandedLog);
+    }
+  }, [isExpanded, isExpandedLog]);
 
-  const ref = useCallback(
+  const scrollToRef = useCallback(
     node => {
-      if (node !== null && isExpanded) {
-        setTimeout(() => node.scrollIntoView(true, { block: 'start' }), 200);
+      if (node && isExpanded) {
+        node.scrollIntoView({ block: 'start' });
       }
     },
     [isExpanded]
   );
 
+  const handleToggle = () => setIsExpanded(expanded => !expanded);
+
   const title = (
     <div className={classNames(locals.title, justTitle && locals.justTitle)}>
       <aside>
-        <div
-          className={logIndicatorLocals.logIndicator}
-          style={{
-            borderTopColor: logLevelColor
-          }}
-        />
+        <div className={logIndicatorLocals.logIndicator} style={{ borderTopColor: logLevelColor }} />
       </aside>
       <header>
         <span className={locals.titleLevel}>{logLevel}</span>
-        {useLoggingData ? <LogMessage tags={loggingLog?.tags} message={logMessage} /> : <span>{logMessage}</span>}
+        {useLoggingData ? <LogMessage tags={loggingLog?.tags ?? []} message={logMessage} /> : <span>{logMessage}</span>}
       </header>
     </div>
   );
 
-  const handleToggle = () => setIsExpanded(expanded => !expanded);
-
   return (
-    <aside ref={ref} className={classNames(locals.logDetails, justTitle && locals.minusMargin)}>
+    <aside ref={scrollToRef} className={classNames(locals.logDetails, justTitle && locals.minusMargin)}>
       {justTitle ? (
         title
       ) : (
@@ -211,3 +202,29 @@ const ExpandedLogWithoutLogging = (props: LogDetailsSwitchProps) => {
     </Stack>
   );
 };
+
+function getLogLevelFromLog(
+  callLog: LogSpanExcerpt | undefined,
+  loggingLog: LogItem | undefined,
+  useLoggingData: boolean
+) {
+  if (useLoggingData) {
+    return getLogLevel(loggingLog?.tags ?? []);
+  }
+  return callLog?.data?.log?.level || (callLog?.errorCount && callLog?.errorCount > 0 ? 'ERROR' : 'WARN');
+}
+
+function getLogMessage(callLog: LogSpanExcerpt | undefined, loggingLog: LogItem | undefined, useLoggingData: boolean) {
+  return (useLoggingData ? loggingLog?.message : callLog?.data?.log?.message) ?? '';
+}
+
+function isLogSelected(
+  selectedLog: LogItem | TraceActivityTreeNode | null,
+  loggingLog: LogItem | undefined,
+  logMessage: string
+) {
+  if (!selectedLog) return false;
+  return isLogItem(selectedLog)
+    ? loggingLog?.itemId === selectedLog.itemId
+    : selectedLog.label.replace('WARN:', '').replace('ERROR:', '') === logMessage;
+}

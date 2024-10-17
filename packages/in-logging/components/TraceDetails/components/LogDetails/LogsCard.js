@@ -65,20 +65,16 @@ const LogsCard = ({ call, processSnapshotId }) => {
       <ExpandableGroup onToggle={handleToggle} key={!!selectedLog} defaultExpanded={!!selectedLog} title={cardTitle}>
         {loggingEnabled && hasLoggingLogs
           ? logsResult.data.items.map((log, i) => (
-              <>
-                <LogDetails
-                  callLog={logs[i]}
-                  callId={call.id}
-                  loggingLog={log}
-                  processSnapshotId={processSnapshotId}
-                  key={i}
-                />
-              </>
+              <LogDetails
+                callLog={logs[i]}
+                callId={call.id}
+                loggingLog={log}
+                processSnapshotId={processSnapshotId}
+                key={i}
+              />
             ))
           : logs.map((log, i) => (
-              <>
-                <LogDetails callId={call.id} callLog={log} processSnapshotId={processSnapshotId} key={i} />
-              </>
+              <LogDetails callId={call.id} callLog={log} processSnapshotId={processSnapshotId} key={i} />
             ))}
       </ExpandableGroup>
       {!isToggled && role.canViewLogs && (
