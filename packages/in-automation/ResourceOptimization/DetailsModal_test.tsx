@@ -61,7 +61,7 @@ const props: DetailsModalProps = {
     description: '"openshift-monitoring/prometheus-k8s-0" doesn\'t comply with "Movetoworker3"',
     actionType: 'MOVE',
     actionCategory: 'COMPLIANCE',
-    impactedServices: 0,
+    impactedServices: '0',
     createdDate: 1728531187625,
     actionDetailsURL:
       'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196418',
