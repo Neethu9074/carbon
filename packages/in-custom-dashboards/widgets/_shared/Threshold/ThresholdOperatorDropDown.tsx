@@ -9,7 +9,7 @@ import React from 'react';
 
 import { Dropdown } from '@instana/components';
 
-import { humanReadableThresholdOperator } from 'in-custom-dashboards/widgets/_shared/Threshold/thresholdFormData';
+import { humanReadableThresholdOperator } from 'in-components/Threshold/threshold';
 import { Option, Options } from 'in-components/ComboBox/ComboBox';
 import { ThresholdOperator } from 'in-types';
 

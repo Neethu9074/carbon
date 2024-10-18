@@ -71,3 +71,10 @@ export function getThresholdColors(threshold: Threshold, value?: number, formatt
   const thresholdLevel = getThreshold(threshold, formatter)(value);
   return { strokeColor: strokeColors[thresholdLevel], fillColor: fillColors[thresholdLevel] };
 }
+
+export const humanReadableThresholdOperator = new Map<ThresholdOperator, string>([
+  ['>=', '≥'],
+  ['>', '>'],
+  ['<=', '≤'],
+  ['<', '<']
+]);

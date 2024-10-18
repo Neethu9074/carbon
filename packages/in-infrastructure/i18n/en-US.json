@@ -141,5 +141,10 @@
     "buttonSelectTags": "Select tags",
     "titleAddATag": "Add a tag",
     "messagePleaseSelectAtMostTags": "Please select at most {{maximumNumberOfTags}} tags."
+  },
+  "threshold": {
+    "label": "Threshold",
+    "critical": "Critical when {{operator}} {{level}}",
+    "warning": "Warning when {{operator}} {{level}}"
   }
 }
