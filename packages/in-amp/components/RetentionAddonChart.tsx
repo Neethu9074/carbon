@@ -13,21 +13,24 @@ import UsageChart from 'in-amp/components/UsageChart';
 import { carbonAlert } from 'in-themes/chartColors';
 import { t, Trans } from 'in-i18n';
 
+const BUCKET30DAYS = 'bucket30Days';
+const BUCKET60DAYS = 'bucket60Days';
+const BUCKET90DAYS = 'bucket90Days';
 // The order of the object will be how the buttons will be generated.
 export const ADDON_METRIC = {
-  '30DAYS': {
+  [BUCKET30DAYS]: {
     CONSUMPTION: 'logging_retention_30_days_bytes',
     TOTAL: 'licensed_logging_retention_bucket_30_days',
     KEY: 'bucket30Days',
     LABEL: '30 days'
   },
-  '60DAYS': {
+  [BUCKET60DAYS]: {
     CONSUMPTION: 'logging_retention_60_days_bytes',
     TOTAL: 'licensed_logging_retention_bucket_60_days',
     KEY: 'bucket60Days',
     LABEL: '60 days'
   },
-  '90DAYS': {
+  [BUCKET90DAYS]: {
     CONSUMPTION: 'logging_retention_90_days_bytes',
     TOTAL: 'licensed_logging_retention_bucket_90_days',
     KEY: 'bucket90Days',
@@ -42,9 +45,9 @@ const RetentionAddonChart = ({
   timeRange,
   to,
   showAggregatedMetrics,
-  loggingAddonDetails
+  hasLoggingAddon
 }: RetentionAddonChartProp) => {
-  const [loggingRetention, setLoggingRetention] = useState(setInititalLoggingRetention(loggingAddonDetails));
+  const [loggingRetention, setLoggingRetention] = useState(setInititalLoggingRetention(hasLoggingAddon));
 
   // Logging Addon Chart Y1 and Y2 definitions
   const LoggingAddonChartY1 = {
@@ -85,7 +88,7 @@ const RetentionAddonChart = ({
       rightHeaderContent={
         <ButtonGroup
           activeKey="1"
-          buttonPropsList={generateButtonPropsList(loggingAddonDetails, setLoggingRetention)}
+          buttonPropsList={generateButtonPropsList(hasLoggingAddon, setLoggingRetention)}
           carbonVariant
         />
       }
@@ -104,12 +107,7 @@ const RetentionAddonChart = ({
 
 export default RetentionAddonChart;
 
-export interface LoggingLicenseDetailsProp {
-  bucket90Days?: number;
-  bucket30Days?: number;
-  licensed: boolean;
-  bucket60Days?: number;
-}
+type HasLoggingAddonProp = Array<typeof BUCKET30DAYS | typeof BUCKET60DAYS | typeof BUCKET90DAYS> | null;
 
 interface RetentionAddonChartProp {
   onPremLicenseInformationEnabled: boolean;
@@ -118,7 +116,7 @@ interface RetentionAddonChartProp {
   timeRange: any;
   to: any;
   showAggregatedMetrics: any;
-  loggingAddonDetails: LoggingLicenseDetailsProp;
+  hasLoggingAddon: HasLoggingAddonProp;
 }
 
 type setLoggingRetentionType = React.Dispatch<
@@ -134,12 +132,12 @@ type setLoggingRetentionType = React.Dispatch<
  * @param loggingAddonDetails
  * @returns An object with "consumption" & "total" keys
  */
-const setInititalLoggingRetention = (loggingAddonDetails: LoggingLicenseDetailsProp) => {
-  const daysOrder = Object.keys(ADDON_METRIC) as Array<keyof typeof ADDON_METRIC>;
+const setInititalLoggingRetention = (hasLoggingAddon: HasLoggingAddonProp) => {
+  const addonDayOrder = Object.keys(ADDON_METRIC) as Array<keyof typeof ADDON_METRIC>;
 
-  for (let days of daysOrder) {
-    const metric = ADDON_METRIC[days];
-    if (loggingAddonDetails?.[metric.KEY as keyof Omit<LoggingLicenseDetailsProp, 'licensed'>] !== undefined) {
+  for (let addonDay of addonDayOrder) {
+    if (hasLoggingAddon?.includes(addonDay)) {
+      const metric = ADDON_METRIC[addonDay];
       return {
         consumption: metric.CONSUMPTION,
         total: metric.TOTAL
@@ -157,14 +155,13 @@ const setInititalLoggingRetention = (loggingAddonDetails: LoggingLicenseDetailsP
  * @returns
  */
 const generateButtonPropsList = (
-  loggingAddonDetails: LoggingLicenseDetailsProp,
+  hasLoggingAddon: HasLoggingAddonProp,
   setLoggingRetention: setLoggingRetentionType
 ) => {
   let buttonPropsList: { key: string; onClick: () => void; text: string }[] = [];
   let i = 1;
   (Object.keys(ADDON_METRIC) as Array<keyof typeof ADDON_METRIC>).forEach(key => {
-    const bucketKey = ADDON_METRIC[key].KEY;
-    if (loggingAddonDetails?.[bucketKey as keyof Omit<LoggingLicenseDetailsProp, 'licensed'>]) {
+    if (hasLoggingAddon && hasLoggingAddon.includes(key)) {
       buttonPropsList.push({
         key: `${i++}`,
         onClick: () => {

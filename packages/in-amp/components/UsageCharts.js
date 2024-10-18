@@ -10,8 +10,8 @@ import { useObservable } from '@instana/hooks';
 import { Card } from '@instana/components';
 
 import { getAccountAsResultObservable, getActiveLicensesAsResultObservable } from 'in-amp/api/account';
-import RetentionAddonChart, { ADDON_METRIC } from 'in-amp/components/RetentionAddonChart';
 import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
+import RetentionAddonChart from 'in-amp/components/RetentionAddonChart';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DataIngestTable from 'in-amp/components/DataIngestTable';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -30,7 +30,7 @@ export default function UsageCharts({
   showPurchasedMetric = true,
   showAggregatedMetrics = false,
   hasSyntheticAddon = false,
-  loggingAddonDetails,
+  hasLoggingAddon,
   presentation
 }) {
   const showDataIngestTable = !tenantUnit?.tenant && !onPremLicenseInformationEnabled;
@@ -43,7 +43,7 @@ export default function UsageCharts({
   const accountObservableResult = useObservable(getAccountAsResultObservable(), []);
 
   // Show the add-on section (or not)
-  const showAddOnSection = showAggregatedMetrics && hasSyntheticAddon;
+  const showAddOnSection = showAggregatedMetrics && (hasSyntheticAddon || hasLoggingAddon);
 
   const fupOverride = accountObservableResult?.data?.fupOverride;
 
@@ -294,23 +294,23 @@ export default function UsageCharts({
               </Col>
             </Row>
           )}
+          {hasLoggingAddon && (
+            <Row>
+              <Col xs={12}>
+                <RetentionAddonChart
+                  onPremLicenseInformationEnabled={onPremLicenseInformationEnabled}
+                  isCumulativeTimeRange={isCumulativeTimeRange}
+                  tenantUnit={tenantUnit}
+                  windowSize={windowSize}
+                  timeRange={timeRange}
+                  to={to}
+                  showAggregatedMetrics={showAggregatedMetrics}
+                  hasLoggingAddon={hasLoggingAddon}
+                />
+              </Col>
+            </Row>
+          )}
         </>
-      )}
-      {checkLicenseAndBuckets(loggingAddonDetails) && (
-        <Row>
-          <Col xs={12}>
-            <RetentionAddonChart
-              onPremLicenseInformationEnabled={onPremLicenseInformationEnabled}
-              isCumulativeTimeRange={isCumulativeTimeRange}
-              tenantUnit={tenantUnit}
-              windowSize={windowSize}
-              timeRange={timeRange}
-              to={to}
-              showAggregatedMetrics={showAggregatedMetrics}
-              loggingAddonDetails={loggingAddonDetails}
-            />
-          </Col>
-        </Row>
       )}
     </>
   );
@@ -322,13 +322,4 @@ function getEmptyMetricConfig() {
     labels: [],
     colors: []
   };
-}
-
-// Checks if license is true and any of the bucket is present.
-function checkLicenseAndBuckets(obj) {
-  if (!obj) return false;
-  if (ADDON_METRIC['30DAYS'].KEY in obj || ADDON_METRIC['60DAYS'].KEY in obj || ADDON_METRIC['90DAYS'].KEY in obj) {
-    return true;
-  }
-  return false;
 }
