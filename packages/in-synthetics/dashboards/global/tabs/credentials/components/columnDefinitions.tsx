@@ -48,7 +48,7 @@ const columnDefinitions: ColumnDefinition<SyntheticCredential>[] = [
     }
   },
   {
-    id: 'lastModifiedBy',
+    id: 'modifiedBy',
     label: t('in-synthetics:dashboard.credentialList.lastModifiedBy'),
     defaultOrderDirection: 'ASC',
     getContent(item) {
