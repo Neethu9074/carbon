@@ -32,6 +32,7 @@ const ExternalIntegrationLink = ({ integrations, statement }: { integrations: In
         const normalizedUrl = integration.url.replace(/\/$/, '');
         return (
           <Button
+            key={integration.url}
             href={`${normalizedUrl}${queryPaths[integration.type]}${encodeURIComponent(statement)}`}
             target="_blank"
             kind="action"
