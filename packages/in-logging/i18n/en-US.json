@@ -56,6 +56,9 @@
   "fileOnHost": "on",
   "file": "File",
   "logExpiration": "Retained Until",
+  "stacktraceLogMessage":"Stacktrace",
+  "logTraceTitle": "Stacktrace",
+  "stackTraceHeader": "Stacktrace Message",
   "dashboard": {
     "summary": "Summary",
     "smartAlerts": "Smart alerts",
