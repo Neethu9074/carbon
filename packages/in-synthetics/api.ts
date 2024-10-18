@@ -245,6 +245,16 @@ export function createCredential(credentialConfig: SyntheticCredential): Observa
   }).map(response => deepFreeze(response.body));
 }
 
+export function updateCredential(credentialConfig: SyntheticCredential): Observable<unknown> {
+  return http({
+    method: 'PUT',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${credentialUrl}/${credentialConfig.credentialName}`,
+    data: credentialConfig
+  }).map(response => deepFreeze(response.body));
+}
+
 export function deleteCredential(credentialName: string): Observable<unknown> {
   return http({
     method: 'DELETE',

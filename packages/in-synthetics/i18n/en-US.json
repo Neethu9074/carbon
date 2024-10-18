@@ -388,7 +388,16 @@
       },
       "feedback": {
         "successMessage": "Successfully created credential",
-        "failureMessageCreate": "Failed to create the credential: {{errorMessage}}"
+        "failureMessageCreate": "Failed to create the credential: {{errorMessage}}",
+        "updateSuccessMessage": "Successfully updated credential",
+        "failureMessageUpdate": "Failed to update the credential: {{errorMessage}}"
+      },
+      "edit": {
+        "dialogTitle": "Edit synthetic credential {{credentialName}}",
+        "associations": "Associations",
+        "saveButton": "Save",
+        "textInputHelperText": "Credential name cannot be edited, is a readOnly field",
+        "passwordInputHelperText": "Type a new credential value if you want to update the current one."
       }
     }
   },
