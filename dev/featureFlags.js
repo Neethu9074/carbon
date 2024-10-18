@@ -12,6 +12,7 @@ module.exports = {
   businessObservabilityEnabled: true,
   bizopsGenAIEnabled: true,
   bizopsStandardInclusionEnabled: true,
+  bizopsProcessFlowMapEnabled: true,
   containerInfoEnabled: true,
   entityCountWidgetEnabled: true,
   infraMetricsWidgetEnabled: true,

@@ -356,6 +356,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'bizopsProcessFlowMapEnabled',
+    instanaCtlKey: 'feature.bizops.process.flow.map.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
     instanaCtlKey: 'feature.trace.limit.visible.nesting.levels.enabled',
     defaultValue: false

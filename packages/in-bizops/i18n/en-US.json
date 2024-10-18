@@ -124,6 +124,9 @@
         "businessPerspectiveUpdatedDetails": "\"{{perspectiveName}}\" was edited and your changes have been saved.",
         "error": "Error"
       }
+    },
+    "flowMap": {
+      "tabLabel": "Flow"
     }
   }
 }

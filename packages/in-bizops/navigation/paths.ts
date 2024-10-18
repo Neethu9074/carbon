@@ -9,17 +9,21 @@ import { getRootPathPredicate } from 'in-stores/navigation/paths';
 // Generalized path names
 export const summaryTab = '/summary';
 export const activitiesTab = '/activities';
+export const flowMapTab = '/flowMap';
 export const alertsTab = '/alerts';
 export const servicesTab = '/services';
 export const configurationTab = '/configuration';
 
-// Processes and activities
+// Processes
 export const businessProcessPath = '/businessProcesses';
 export const businessProcessDashboard = '/businessProcess';
-export const businessActivityPath = '/businessActivity';
-export const businessActivityDashboard = `${businessProcessDashboard}${businessActivityPath}`;
 export const businessProcessSummaryPath = `${businessProcessDashboard}${summaryTab}`;
 export const businessProcessActivityListPath = `${businessProcessDashboard}${activitiesTab}`;
+export const businessProcessFlowMapPath = `${businessProcessDashboard}${flowMapTab}`;
+
+// Activities
+export const businessActivityPath = '/businessActivity';
+export const businessActivityDashboard = `${businessProcessDashboard}${businessActivityPath}`;
 export const businessActivitySummaryPath = `${businessActivityDashboard}${summaryTab}`;
 
 // Perspective paths
@@ -32,9 +36,7 @@ export const businessActivityServiceListPath = `${businessActivityDashboard}${se
 
 export const isBizOpsView = getRootPathPredicate(
   businessProcessPath,
+  businessProcessDashboard,
   businessPerspectivesPath,
-  businessPerspectiveDashboard,
-  businessProcessSummaryPath,
-  businessProcessActivityListPath,
-  businessActivitySummaryPath
+  businessPerspectiveDashboard
 );
