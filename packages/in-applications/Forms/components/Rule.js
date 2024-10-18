@@ -21,7 +21,8 @@ const Rule = forwardRef(function Rule(
     isUnspecified,
     onToggleEnable,
     onEdit,
-    onRemove
+    onRemove,
+    editDisabled
   },
   ref
 ) {
@@ -61,6 +62,7 @@ const Rule = forwardRef(function Rule(
                 type="lib_actions_edit"
                 onClick={isInstanaDefaultRule ? null : () => onEdit()}
                 buttonType="button"
+                disabled={editDisabled}
               />
               {onRemove && (
                 <IconButton

@@ -93,7 +93,12 @@ export function getFilters({
   }
 
   if (namespaceName) {
-    filters.push({ name: 'kubernetes.namespace', value: namespaceName, operator: 'EQUALS', entity: 'DESTINATION' });
+    filters.push({
+      name: 'kubernetes.namespace.name',
+      value: namespaceName,
+      operator: 'EQUALS',
+      entity: 'DESTINATION'
+    });
   }
 
   if (daemonSetName) {

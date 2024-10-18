@@ -228,7 +228,7 @@ export const blueprintConfig = Object.freeze([
           'kubernetes.container.name',
           'kubernetes.deployment.namespace',
           'kubernetes.deployment.label',
-          'kubernetes.namespace',
+          'kubernetes.namespace.name',
           'kubernetes.node.name',
           'kubernetes.pod.label',
           'kubernetes.pod.name',

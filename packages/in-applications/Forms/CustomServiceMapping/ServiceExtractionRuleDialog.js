@@ -10,12 +10,12 @@ import { Pill, Select, Button, IconButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
 import EditConfigDialog from 'in-applications/Forms/components/EditConfigDialog';
-import { customServiceMappingTagKeys, getTagType } from 'in-applications/tags';
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { close } from 'in-components/DialogPresenter/store';
 import FormGroup from 'in-components/form/FormGroup';
+import { getTagType } from 'in-applications/tags';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
@@ -48,7 +48,14 @@ class BasicDialog extends React.Component {
   }
 
   render() {
-    const { serviceConfigIndex, onRemove, addMatchSpecification, removeMatchSpecification, updateForm } = this.props;
+    const {
+      serviceConfigIndex,
+      onRemove,
+      addMatchSpecification,
+      removeMatchSpecification,
+      updateForm,
+      serviceMappingTagCatalog
+    } = this.props;
     const { form } = this.state;
     const serviceConfiguration = form.get(serviceConfigIndex);
 
@@ -124,7 +131,7 @@ class BasicDialog extends React.Component {
                         autoComplete="off"
                         hasError={!field.valid && field.touched}
                       >
-                        {getCustomServiceMappingTagValuesAsOptions()}
+                        {getCustomServiceMappingTagValuesAsOptions(serviceMappingTagCatalog)}
                       </Select>
                       <TouchedMessages field={field} />
                     </FormGroup>
@@ -253,7 +260,8 @@ class BasicDialog extends React.Component {
   };
 }
 
-function getCustomServiceMappingTagValuesAsOptions() {
+function getCustomServiceMappingTagValuesAsOptions(serviceMappingTagCatalog) {
+  const customServiceMappingTagKeys = serviceMappingTagCatalog.tags.map(t => t.name);
   return [{ value: '', label: t('in-applications:labelPleaseSelect') }]
     .concat(customServiceMappingTagKeys.sort().map(key => ({ label: key, value: key })))
     .map(tag => (

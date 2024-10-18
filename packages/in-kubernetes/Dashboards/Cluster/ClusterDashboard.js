@@ -155,7 +155,7 @@ function renderButtonLine({ clusterId, timeConfig, result }) {
 
       <AnalyzeCallsButton
         clusterName={get(result, ['data', 'label'], '')}
-        groupBy={createGroupBy('kubernetes.namespace', DESTINATION)}
+        groupBy={createGroupBy('kubernetes.namespace.name', DESTINATION)}
         timeConfig={timeConfig}
       />
     </>
