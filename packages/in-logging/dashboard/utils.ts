@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
 import {
@@ -12,6 +13,7 @@ import {
   dashboardSmartAlertsPath,
   loggingDashboardPath
 } from 'in-logging/navigation/paths';
+import { isAddonUserCached } from 'in-logging/api/licence';
 import { role } from 'in-stores/user';
 
 export function generateQueryWithWinSize(windowSize: number): any {
@@ -71,26 +73,35 @@ interface LoggingNavigationItem {
   isTabAllowed?: Boolean;
 }
 
-export const loggingNavigationItem: LoggingNavigationItem[] = [
-  {
-    path: loggingDashboardPath,
-    label: t('in-logging:dashboard.summary'),
-    currentTab: path => path === loggingDashboardPath
-  },
-  {
-    path: dashboardSmartAlertsPath,
-    label: t('in-logging:dashboard.smartAlerts'),
-    currentTab: dashboardSmartAlertsPath
-  },
-  {
-    path: dashboardDeletePath,
-    label: t('in-logging:dashboard.deleteLogs'),
-    currentTab: path => path === dashboardDeletePath,
-    isTabAllowed: role?.canDeleteLogs
-  },
-  {
-    path: dashboardConfigurationPath,
-    label: t('in-logging:dashboard.configuration'),
-    currentTab: path => path === dashboardConfigurationPath
-  }
-];
+export const useLoggingNavigationItems = (): LoggingNavigationItem[] => {
+  const isLoggingAddonUser = useObservable(isAddonUserCached, []);
+
+  return [
+    {
+      path: loggingDashboardPath,
+      label: t('in-logging:dashboard.summary'),
+      currentTab: path => path === loggingDashboardPath
+    },
+    {
+      path: dashboardSmartAlertsPath,
+      label: t('in-logging:dashboard.smartAlerts'),
+      currentTab: dashboardSmartAlertsPath
+    },
+    {
+      path: dashboardDeletePath,
+      label: t('in-logging:dashboard.deleteLogs'),
+      currentTab: path => path === dashboardDeletePath,
+      isTabAllowed: Boolean(role?.canDeleteLogs)
+    },
+    {
+      path: dashboardConfigurationPath,
+      label: t('in-logging:dashboard.configuration'),
+      currentTab: path => path === dashboardConfigurationPath,
+      isTabAllowed: Boolean(
+        (isLoggingAddonUser && role?.canConfigureLogRetentionPeriod) ||
+          (isLoggingAddonUser && role?.canViewLogVolume) ||
+          role?.canConfigureIntegrations
+      )
+    }
+  ];
+};

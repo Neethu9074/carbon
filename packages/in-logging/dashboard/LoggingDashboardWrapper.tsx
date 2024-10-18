@@ -14,8 +14,8 @@ import DashboardHeaderShadowModule from 'in-components/DashboardHeader/Dashboard
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import LoggingPermissionWrapper from 'in-logging/navigation/LoggingPermissionWrapper';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { useLoggingNavigationItems } from 'in-logging/dashboard/utils';
 import { logsPathWithDataSource } from 'in-logging/navigation/paths';
-import { loggingNavigationItem } from 'in-logging/dashboard/utils';
 import DashboardHeader from 'in-components/DashboardHeader';
 
 import locals from './LoggingDashboardWrapper.mless';
@@ -29,6 +29,8 @@ function LoggingDashboardWrapper(props: Props) {
   const { children, withPadding = false } = props;
 
   const { location, createHref, matchLocation } = useNavigation();
+
+  const loggingNavigationItems = useLoggingNavigationItems();
 
   return (
     <LoggingPermissionWrapper
@@ -44,7 +46,7 @@ function LoggingDashboardWrapper(props: Props) {
       />
       <DashboardHeaderModule>
         <SecondLevelNavigation>
-          {loggingNavigationItem.map(
+          {loggingNavigationItems.map(
             ({ path, label, currentTab, isTabAllowed = true }) =>
               isTabAllowed && (
                 <SecondLevelNavigationItem

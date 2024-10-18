@@ -50,7 +50,7 @@ const defaultProps = {
 
 const DEFAULT_TAG_NAME: TagNames = '';
 
-function LogVolume() {
+export function LogVolume() {
   const [timePeriod, setTimePeriod] = useState<number>(1);
   const [groupingTag, setGroupingTag] = useState<TagNames>(DEFAULT_TAG_NAME);
   const [groupingTagLabel, setGroupingTaglabel] = useState<string | null>(DEFAULT_TAG_NAME);

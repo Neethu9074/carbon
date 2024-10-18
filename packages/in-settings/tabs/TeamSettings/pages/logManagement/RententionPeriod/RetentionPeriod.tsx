@@ -64,7 +64,7 @@ const localisationStrings = {
 
 const useMock = false; // Activate mock response
 
-export default function RententionPeriod() {
+export default function RetentionPeriod() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isChangingRetention, setIsChangingRetention] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
