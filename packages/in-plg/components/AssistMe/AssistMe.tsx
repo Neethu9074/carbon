@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { LicenseBannerButton } from '@instana/components';
 
@@ -13,6 +13,20 @@ import { activeLanguage, t } from 'in-i18n';
 
 export default function AssistMe() {
   const [isExpanded, setIsExpanded] = useState(false);
+  useEffect(() => {
+    const handleEscKey = (event: any) => {
+      if (event.key === 'Escape' && isExpanded) {
+        //@ts-expect-error defined in AssistMe controller.js
+        assistMeController.close();
+        setIsExpanded(false);
+      }
+    };
+    document.addEventListener('keydown', handleEscKey);
+
+    return () => {
+      document.removeEventListener('keydown', handleEscKey);
+    };
+  }, [isExpanded]);
   return (
     <div data-search-context={AssistMeSearchKeyword()}>
       <LicenseBannerButton
