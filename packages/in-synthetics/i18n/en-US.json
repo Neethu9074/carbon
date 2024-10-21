@@ -377,7 +377,7 @@
     },
     "createCredential": {
       "createButton": "New Credential",
-      "namePassword": "Name and password",
+      "nameValue": "Name and value",
       "associations": "Associations",
       "newCredentials": "Create a synthetic credential",
       "steps": {

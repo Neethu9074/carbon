@@ -44,7 +44,7 @@ const CreateCredentialDialog = ({ onClose }: Props) => {
   };
 
   const stepConfigs = [
-    { title: t('in-synthetics:dialog.createCredential.namePassword') },
+    { title: t('in-synthetics:dialog.createCredential.nameValue') },
     { title: t('in-synthetics:dialog.createCredential.associations') }
   ];
 
@@ -96,7 +96,7 @@ const CreateCredentialDialog = ({ onClose }: Props) => {
             switch (step) {
               case 0:
                 return (
-                  <SimpleModeStepContentWrapper headline={t('in-synthetics:dialog.createCredential.namePassword')}>
+                  <SimpleModeStepContentWrapper headline={t('in-synthetics:dialog.createCredential.nameValue')}>
                     <StepOne form={form} updateForm={updateForm} />
                   </SimpleModeStepContentWrapper>
                 );

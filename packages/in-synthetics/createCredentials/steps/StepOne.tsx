@@ -55,11 +55,11 @@ const StepOne = ({ form, updateForm }: Props) => {
               )
             );
           }}
-          placeholder={t('in-synthetics:dialog.createCredential.steps.placeholder', { value: 'Credential Password' })}
+          placeholder={t('in-synthetics:dialog.createCredential.steps.placeholder', { value: 'Credential value' })}
           labelText={t('in-synthetics:dialog.createCredential.steps.labelText', { value: 'Value' })}
           invalid={!credentialValue.valid && credentialValue.touched}
           invalidText={t('in-synthetics:dialog.createCredential.steps.invalidText', {
-            value: 'Password should not be empty'
+            value: 'Value should not be empty'
           })}
         />
       </Stack>
