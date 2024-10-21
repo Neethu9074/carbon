@@ -21,33 +21,25 @@ export default function ThresholdTooltip({ threshold }: ThresholdTooltipProps) {
   const operator = humanReadableThresholdOperator.get(threshold.operator);
   return (
     <>
-      <div>
-        <Typography onDark variant="body-bold">
-          {t('in-infrastructure:threshold.label')}
+      <Typography onDark variant="body-bold" component="div">
+        {t('in-infrastructure:threshold.label')}
+      </Typography>
+      {threshold.critical && (
+        <Typography onDark variant="body-regular" component="div">
+          {t('in-infrastructure:threshold.critical', {
+            operator,
+            level: threshold.critical
+          })}
         </Typography>
-      </div>
-      <div>
-        {threshold.critical && (
-          <div>
-            <Typography onDark variant="body-regular">
-              {t('in-infrastructure:threshold.critical', {
-                operator,
-                level: threshold.critical
-              })}
-            </Typography>
-          </div>
-        )}
-        {threshold.warning && (
-          <div>
-            <Typography onDark variant="body-regular">
-              {t('in-infrastructure:threshold.warning', {
-                operator,
-                level: threshold.warning
-              })}
-            </Typography>
-          </div>
-        )}
-      </div>
+      )}
+      {threshold.warning && (
+        <Typography onDark variant="body-regular" component="div">
+          {t('in-infrastructure:threshold.warning', {
+            operator,
+            level: threshold.warning
+          })}
+        </Typography>
+      )}
     </>
   );
 }
