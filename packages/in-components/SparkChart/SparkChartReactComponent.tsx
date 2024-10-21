@@ -38,6 +38,7 @@ interface Props {
   percentageMetric?: boolean;
   tooltipFormatter?: NumberFormatter;
   customValueTooltip?: React.ReactNode;
+  customChartTooltip?: React.ReactNode;
   aggregation?: string;
   showNullValuesChartOnEmptyMetrics?: boolean;
   hideChartOnEmptyMetrics?: boolean;
@@ -57,6 +58,7 @@ export default function SparkChartReactComponent(props: Props) {
     rollup = getChartGranularity(timeConfig),
     label,
     customValueTooltip,
+    customChartTooltip,
     verticalMetricValue,
     aggregation,
     showNullValuesChartOnEmptyMetrics,
@@ -94,6 +96,13 @@ export default function SparkChartReactComponent(props: Props) {
         metrics={metrics!}
       />
     );
+    if (customChartTooltip) {
+      sparkChart = (
+        <Tooltip align="bottomMiddle" content={customChartTooltip}>
+          {sparkChart}
+        </Tooltip>
+      );
+    }
   }
 
   if (horizontalMetricValue != null) {

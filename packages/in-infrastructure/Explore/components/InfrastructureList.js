@@ -30,6 +30,7 @@ import { default as MetricLabel } from 'in-infrastructure/Explore/components/Met
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import { ChartsPresenter } from 'in-infrastructure/Explore/components/ChartsPresenter';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
+import ThresholdTooltip from 'in-infrastructure/Explore/components/ThresholdTooltip';
 import { default as TagLabel } from 'in-infrastructure/Explore/components/TagLabel';
 import { default as TagValue } from 'in-infrastructure/Explore/components/TagValue';
 import { fixOrderForBackwardsCompatibility } from 'in-infrastructure/Explore/utils';
@@ -454,6 +455,7 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
                 customValueTooltip={customValueTooltip}
                 strokeColor={strokeColor}
                 fillColor={fillColor}
+                customChartTooltip={<ThresholdTooltip threshold={threshold} />}
               />
             );
           },

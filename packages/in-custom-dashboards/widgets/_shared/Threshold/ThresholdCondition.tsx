@@ -15,7 +15,7 @@ import {
   shouldDisplayConvertedUnits
 } from 'in-custom-dashboards/widgets/_shared/Threshold/thresholdUnitUtils';
 import ThresholdConditionFormGroup from 'in-custom-dashboards/widgets/_shared/Threshold/ThresholdConditionFormGroup';
-import { humanReadableThresholdOperator } from 'in-custom-dashboards/widgets/_shared/Threshold/thresholdFormData';
+import { humanReadableThresholdOperator } from 'in-components/Threshold/threshold';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { getFormatterById } from 'in-stores/metric/formatters';
 import Input from 'in-components/form/Input/Input';

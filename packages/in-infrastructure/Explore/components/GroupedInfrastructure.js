@@ -43,6 +43,7 @@ import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginat
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { typeTag, tag_not_present_group } from 'in-infrastructure/Explore/constants';
+import ThresholdTooltip from 'in-infrastructure/Explore/components/ThresholdTooltip';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
 import { LOAD_MORE_CONTEXT } from 'in-infrastructure/Explore/services/tracking';
 import LiErrorList from 'in-infrastructure/Explore/components/LiErrorList';
@@ -781,6 +782,7 @@ function generateMetric({
       customValueTooltip={customValueTooltip}
       strokeColor={strokeColor}
       fillColor={fillColor}
+      customChartTooltip={<ThresholdTooltip threshold={threshold} />}
     />
   );
 }
