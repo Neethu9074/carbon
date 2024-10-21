@@ -31,7 +31,7 @@ export interface FeedbackConfigRMWForm extends MapFormItems {
 
 export function saveFeedbackForm(config: FeedbackConfigRMW) {
   maintenanceWindowFeedbackSubmitTracker(config);
-  maintenanceWindowCTATracker(SETTINGS_MAINTENANCE_WINDOW_FEEDBACK_SUBMIT, '', undefined, config);
+  maintenanceWindowCTATracker(SETTINGS_MAINTENANCE_WINDOW_FEEDBACK_SUBMIT, '', undefined, JSON.stringify(config));
 }
 
 export function createFeedbackForm(): FeedbackConfigRMW {

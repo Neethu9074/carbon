@@ -499,7 +499,7 @@ function save(
     SETTINGS_MAINTENANCE_WINDOW_SUBMIT,
     location?.pathname,
     undefined,
-    instrumentationEventProperties
+    JSON.stringify(instrumentationEventProperties)
   );
   return saveMaintenanceConfigV2(
     createMaintenanceConfigV2(
