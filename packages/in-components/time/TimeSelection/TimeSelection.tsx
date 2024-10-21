@@ -135,7 +135,7 @@ function LiveModeToggle({
   const icon = isLive ? 'lib_actions_stop' : 'lib_actions_play';
 
   return (
-    <Tooltip content={liveModeDisabledTooltip}>
+    <Tooltip align="bottomRight" content={liveModeDisabledTooltip}>
       <DashboardHeaderButton
         disabled={liveModeDisabled}
         id="live-mode-button"
