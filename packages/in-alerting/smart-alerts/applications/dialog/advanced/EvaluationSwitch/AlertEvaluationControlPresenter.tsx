@@ -80,7 +80,6 @@ export function AlertEvaluationControlPresenter({
       checked={type === evaluationType}
       onChange={() => setEvaluationType(type)}
       disabled={disabled}
-      carbonVariant
     />
   );
 

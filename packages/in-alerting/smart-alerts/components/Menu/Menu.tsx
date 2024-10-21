@@ -81,7 +81,6 @@ export default function Menu<T extends MenuItem>({
                 setItemSelected(item);
                 onItemClick(item);
               }}
-              carbonVariant
             />
           </span>
         ))}

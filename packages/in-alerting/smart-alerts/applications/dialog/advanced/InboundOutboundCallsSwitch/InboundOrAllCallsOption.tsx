@@ -40,7 +40,6 @@ export default function InboundOrAllCallsOption({
           label={<LabelDescriptionWithIcon icon={icon} label={text} description={dashboard} />}
           checked={scope === boundaryScope}
           onChange={() => onBoundaryStateChange({ boundaryScope: scope })}
-          carbonVariant
         />
       )}
       {!tearSheetView && (
