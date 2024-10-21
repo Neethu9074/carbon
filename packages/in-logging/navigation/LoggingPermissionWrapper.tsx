@@ -10,7 +10,7 @@ import RestrictedAccessMessage from 'in-components/rbac/RestrictedAccessMessage'
 import { role } from 'in-stores/user';
 import { Role } from 'in-types';
 
-interface LoggingPermissionWrapperProps {
+export interface LoggingPermissionWrapperProps {
   requiredPermission: keyof Role;
   permissionLabel: string;
   children: React.ReactNode;
