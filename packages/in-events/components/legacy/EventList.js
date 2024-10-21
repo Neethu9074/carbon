@@ -160,7 +160,7 @@ const IncidentOverview = ({ incident, triggeringEvent, latestSnapshot, triggerin
         />
         {eventFeedbackEnabled && incident && (
           <div className={locals.feedbackContainer}>
-            <FeedbackComponents eventData={incident} />
+            <FeedbackComponents iconSize="xs" eventData={incident} />
           </div>
         )}
       </Col>

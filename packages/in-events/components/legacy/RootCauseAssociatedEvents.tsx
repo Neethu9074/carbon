@@ -8,12 +8,13 @@ import { useState, useEffect } from 'react';
 import { List } from 'immutable';
 import React from 'react';
 
-import { Card, Typography, IconButton } from '@instana/components';
+import { Typography, CarbonLayer, Collapsible } from '@instana/components';
 import { Observable, combineLatest } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
-import { EVENT_RCA_EXPANDED_CARD, EVENT_RCA_ASSOCIATED_EVENTS_CLICK } from 'in-services/tracking/tracking';
+import { EVENT_RCA_ASSOCIATED_EVENTS_CLICK, EVENT_RCA_EXPANDED_CARD } from 'in-services/tracking/tracking';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 //@ts-expect-error
@@ -23,7 +24,9 @@ import EventListItem from './EventListItem';
 import { Snapshot } from 'in-types';
 import { t } from 'in-i18n';
 
-import locals from 'in-events/components/legacy/EventList.mless';
+import locals from './EventList.mless';
+
+//import locals from 'in-events/components/legacy/EventList.mless';
 
 interface AssociatedEventsProps {
   associatedEvents: List<string>;
@@ -35,7 +38,7 @@ export default function AssociatedEvents({ associatedEvents, latestSnapshot }: A
   const { trackCta } = useSegmentTracking();
 
   const [associatedEventsObservables, setAssociatedEventsObservables] = useState<Observable<EventOrMap[]> | null>(null);
-  const [expanded, setExpanded] = useState<boolean>(false);
+  //const [expanded, setExpanded] = useState<boolean>(false);
 
   const associatedEventsData = useObservable(associatedEventsObservables, [associatedEventsObservables]);
 
@@ -46,46 +49,45 @@ export default function AssociatedEvents({ associatedEvents, latestSnapshot }: A
   if (!associatedEventsData) return <LoadingIndicator />;
 
   return (
-    <Card
-      leftHeaderContent={
-        <Typography variant="body-bold">
-          {t('in-events:RCA.relatedEventsLabel', {
-            number_of_events: Array.isArray(associatedEventsData) ? associatedEventsData.length : 0
-          })}
-        </Typography>
-      }
-      onHeaderBackgroundClicked={() => {
-        const instrumentationEventProperties = { expanded: !expanded };
-        trackCta(EVENT_RCA_ASSOCIATED_EVENTS_CLICK, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
-        setExpanded(!expanded);
-      }}
-      headerClassName={locals.associatedEventsCardHeader}
-      rightHeaderContent={
-        <IconButton color="black" type={expanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'} size="compact" />
-      }
-      className={locals.associatedEventsCard}
-      hasMarginBottom={expanded}
-      useMaxAvailableHeight={false}
-    >
-      {expanded &&
-        associatedEventsData?.map((_event: EventOrMap) => (
-          <div
-            onClick={() => {
-              trackCta(EVENT_RCA_EXPANDED_CARD, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
-            }}
-          >
-            <EventListItem
-              key={_event.get('id') as string}
-              triggeringProblemId={
-                associatedEventsData.length > 0 ? (associatedEventsData[0].get('id') as string) : undefined
-              }
-              event={_event}
-              latestSnapshot={latestSnapshot}
-              setBackground={themes.default.ids.color.option['deep-purple'][500]}
-              setIconColor={themes.default.ids.color.option.white}
-            />
-          </div>
-        ))}
-    </Card>
+    <div className={locals.layerBackground}>
+      <CarbonLayer>
+        <Collapsible
+          onOpen={() => {
+            const instrumentationEventProperties = { expanded: true };
+            trackCta(EVENT_RCA_ASSOCIATED_EVENTS_CLICK, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
+          }}
+        >
+          <Collapsible.Header>
+            <Typography variant="body-regular">
+              {t('in-events:RCA.relatedEventsLabel', {
+                number_of_events: Array.isArray(associatedEventsData) ? associatedEventsData.length : 0
+              })}
+            </Typography>
+          </Collapsible.Header>
+          <Collapsible.Content>
+            <LeftRightPadding>
+              {associatedEventsData?.map((_event: EventOrMap) => (
+                <div
+                  onClick={() => {
+                    trackCta(EVENT_RCA_EXPANDED_CARD, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
+                  }}
+                >
+                  <EventListItem
+                    key={_event.get('id') as string}
+                    triggeringProblemId={
+                      associatedEventsData.length > 0 ? (associatedEventsData[0].get('id') as string) : undefined
+                    }
+                    event={_event}
+                    latestSnapshot={latestSnapshot}
+                    setBackground={themes.default.ids.color.option['deep-purple'][500]}
+                    setIconColor={themes.default.ids.color.option.white}
+                  />
+                </div>
+              ))}
+            </LeftRightPadding>
+          </Collapsible.Content>
+        </Collapsible>
+      </CarbonLayer>
+    </div>
   );
 }

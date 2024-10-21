@@ -4,21 +4,10 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement } from 'react';
 import { List, Map } from 'immutable';
 
-import {
-  Button,
-  Card,
-  IconButton,
-  Link,
-  LoadingSkeleton,
-  Spacer,
-  Stack,
-  SvgIcon,
-  Typography
-} from '@instana/components';
-import { Observable, combineLatest } from '@instana/observables';
+import { Button, CarbonTabPanel, Link, LoadingSkeleton, Spacer, Stack, SvgIcon, Typography } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { t, Trans } from '@instana/i18n-react';
@@ -32,30 +21,20 @@ import {
   useGenerateLinkToDashboard,
   useGenerateLinkToAnalyzePage
 } from 'in-events/components/util/rootCauseUtil';
-import {
-  EVENT_RCA_ANALYZE_CLICK,
-  EVENT_RCA_ENTITY_CLICK,
-  EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK
-} from 'in-services/tracking/tracking';
-//@ts-expect-error
-import { SnapshotData, getPhysicalHierarchy, getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
-import { getStackForInfrastructure } from 'in-components/Stack/subscriptions/getStack';
-import { Application, Endpoint, ServiceLabel, Snapshot, TimeConfig } from 'in-types';
+import useFetchAppropriateRCAEntityData from 'in-events/components/legacy/useFetchAppropriateRCAEntityData';
+import { EVENT_RCA_ANALYZE_CLICK, EVENT_RCA_ENTITY_CLICK } from 'in-services/tracking/tracking';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import AIProbabilityBadge from 'in-events/components/legacy/AIProbabilityBadge';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
-import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import RootCauseContextDashboard from './RootCauseContextDashboard';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
+import { Application, ServiceLabel, TimeConfig } from 'in-types';
 import PluginIcon from 'in-components/PluginIcon/PluginIcon';
-import AssociatedEvents from './RootCauseAssociatedEvents';
-import { rcaLogsEnabled } from 'in-services/featureFlags';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { setTimeConfig } from 'in-stores/time/config';
+import { SnapshotData } from 'in-stores/snapshot';
 
 import locals from 'in-events/components/legacy/EventList.mless';
 
@@ -67,8 +46,6 @@ interface RootCauseEntityDetailsParams {
   probabilityScore: number;
   relatedAPID: string | null;
   incidentTimeWindow: TimeConfig;
-  associatedEvents: List<string>;
-  latestSnapshot: Snapshot;
 }
 
 export default function RootCauseEntityDetails({
@@ -78,9 +55,7 @@ export default function RootCauseEntityDetails({
   explainabilityMetadata,
   probabilityScore,
   relatedAPID,
-  incidentTimeWindow: timeWindow,
-  associatedEvents,
-  latestSnapshot
+  incidentTimeWindow: timeWindow
 }: RootCauseEntityDetailsParams) {
   const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
   const { trackCta } = useSegmentTracking();
@@ -90,37 +65,18 @@ export default function RootCauseEntityDetails({
     These can be dynamic based on the given type of entity hence why they are state vars
   */
 
-  // Generic query observable variable that gets information on a given endpoint/servce/infra/app set by the useEffect below
-  const [entityQuery, setEntityQuery] = useState<
-    Observable<SnapshotData> | Observable<Endpoint | undefined> | Observable<ServiceLabel | undefined> | null
-  >(null);
-
-  // Used only for infra entities to set physical hierarchy query
-  const [hierarchyQuery, setHierarchyQuery] = useState<Observable<List<string>> | null>(null);
-
-  const [timeWindowForHierarchyQuery, setTimeWindowForHierarchyQuery] = useState<TimeConfig>(timeWindow);
-
-  // Time window variable used for generating links to analyze page and sending query for entity, can be re-set by our infra query
-
-  // Service query observable variable that gets service label information that a given entity belongs to
-  const [serviceQuery, setServiceQuery] = useState<Observable<ServiceLabel | undefined> | null>(null);
-
-  // Used to make a app stack query for infrastructure entities
-  const [stackQuery, setStackQuery] = useState<Observable<any> | null>(null);
-
-  const { location } = useNavigation();
+  const {
+    entityData,
+    entityStackData,
+    hierarchySnapshots,
+    location,
+    infraServiceLabelInformation,
+    nonInfraServiceLabelInformation
+  } = useFetchAppropriateRCAEntityData(rcaEntityType, rcaSnapshotID, timeWindow);
 
   /*
     These are data variables that maintain the result of the above query variables
   */
-
-  // Holds the result of our entity observable
-  const entityData = useObservable(entityQuery, [entityQuery]) ?? null;
-
-  // Holds the result of our service label observable
-  const nonInfraServiceLabelInformation = useObservable(serviceQuery, [serviceQuery]) ?? null;
-
-  const [infraServiceLabelInfromation, setInfraServiceLabelInfromation] = useState<ServiceLabel[]>([]);
 
   // Holds the result of our related application perspective observable
   const relatedApplicationInformation = useObservable(
@@ -131,100 +87,6 @@ export default function RootCauseEntityDetails({
       : null,
     [rcaSnapshotID]
   );
-  // Holds the result of our physical hierarchy query
-  const hierarchySnapshots = useObservable(() => {
-    if (hierarchyQuery) {
-      return hierarchyQuery.flatMap(item => {
-        return combineLatest(
-          item
-            .toArray()
-            .filter(id => id !== rcaSnapshotID) //filter out selected entity to avoid duplication for hosts
-            .map(id => getSnapshot(id, timeWindowForHierarchyQuery))
-        );
-      });
-    } else {
-      return null;
-    }
-  }, [timeWindow, hierarchyQuery]);
-
-  // Holds the result of our infra entity stack query
-  const entityStackData = useObservable(stackQuery, [stackQuery]) ?? null;
-
-  // This useEffect sets the entity query state variables + necessary infrastructure query variables
-  useEffect(() => {
-    if (rcaEntityType === 'infrastructure' || rcaEntityType === 'process') {
-      // Need to get snapshot versions first and then retrieve appropriate snapshot
-      setEntityQuery(
-        getSnapshotVersions(rcaSnapshotID).map((versions: List<string>) => {
-          if (List.isList(versions)) {
-            const snapVersions = versions.toJS();
-            if (snapVersions.length > 0) {
-              const { to, from } = snapVersions[snapVersions.length - 1];
-
-              const timeConfigFromSnapVersion = {
-                windowSize: (to || Date.now()) - from,
-                to,
-                focusedMoment: to
-              } as TimeConfig;
-              setTimeWindowForHierarchyQuery(timeConfigFromSnapVersion);
-              setHierarchyQuery(
-                getPhysicalHierarchy({ snapshotId: rcaSnapshotID, timeConfig: timeConfigFromSnapVersion })
-              );
-              setEntityQuery(getSnapshot(rcaSnapshotID, timeConfigFromSnapVersion));
-              setStackQuery(getStackForInfrastructure({ id: rcaSnapshotID, timeConfig: timeConfigFromSnapVersion }));
-            }
-          }
-        })
-      );
-    } else if (rcaEntityType === 'endpoint') {
-      setEntityQuery(
-        getEndpointInfo({ id: rcaSnapshotID })
-          .map(data => data.data)
-          .throttle(250)
-      );
-    } else if (rcaEntityType === 'service') {
-      setEntityQuery(
-        getServiceLabel({ id: rcaSnapshotID })
-          .map(data => data.data)
-          .throttle(250)
-      );
-    } else if (rcaEntityType === 'application') {
-      setEntityQuery(
-        getApplication({ id: rcaSnapshotID })
-          .map(data => data.data)
-          .throttle(250)
-      );
-    }
-  }, [rcaSnapshotID, rcaEntityType, location]);
-
-  // This useEffect will set the service label query variable
-  useEffect(() => {
-    if (
-      !serviceQuery &&
-      rcaEntityType !== 'infrastructure' &&
-      rcaEntityType !== 'process' &&
-      entityData &&
-      entityData.serviceId
-    ) {
-      setServiceQuery(
-        getServiceLabel({ id: entityData.serviceId })
-          .map(data => data.data)
-          .throttle(250)
-      );
-    } else if (
-      !serviceQuery &&
-      (rcaEntityType === 'infrastructure' || rcaEntityType === 'process') &&
-      entityStackData &&
-      !entityStackData.progress.loading &&
-      entityStackData.data
-    ) {
-      entityStackData.data.application.groups.map((appStackItem: any) => {
-        if (appStackItem.type === 'service' && appStackItem.itemCount >= 1) {
-          setInfraServiceLabelInfromation(appStackItem.items);
-        }
-      });
-    }
-  }, [entityData, rcaSnapshotID, serviceQuery, rcaEntityType, entityStackData]);
 
   /*
     The following hooks generate the necessary links for the analyze page and dashboard pages
@@ -276,110 +138,103 @@ export default function RootCauseEntityDetails({
       : rcaEntityType;
 
   return (
-    <div className={locals.entityDescription}>
-      <Stack gap="small">
-        <Stack direction="horizontal">
-          <Stack gap="xxsmall">
-            {entityData !== null && rcaEntityType !== 'infrastructure' && rcaEntityType !== 'process' && (
-              <EntityPath
-                relatedApplicationInformation={relatedApplicationInformation}
-                entityInformation={entityData}
-                serviceLabelInformation={nonInfraServiceLabelInformation}
-                entityType={rcaEntityType}
-                originalID={rcaSnapshotID}
-                timeWindow={timeWindow}
-              />
-            )}
-            {entityData !== null &&
-              hierarchySnapshots &&
-              !entityStackData?.progress.loading &&
-              (rcaEntityType === 'infrastructure' || rcaEntityType === 'process') && (
-                <InfrastructureVisualHierarchy
-                  relatedApplicationInformation={relatedApplicationInformation}
-                  hierarchySnapshots={hierarchySnapshots}
-                  entityInformation={entityData}
-                  serviceLabelInformation={infraServiceLabelInfromation}
-                  entityId={entityID}
-                  entityType={rcaEntityType}
-                  originalID={rcaSnapshotID}
-                  timeWindow={timeWindow}
-                />
-              )}
-            {(entityData === null ||
-              ((rcaEntityType === 'infrastructure' || rcaEntityType === 'process') &&
-                entityStackData?.progress.loading)) && <LoadingSkeleton className={locals.loadingEntity} />}
-          </Stack>
-          <AIProbabilityBadge probabilityScore={probabilityScore} loading={entityData === null} />
-        </Stack>
-        {explainabilityMetadata && (
-          <Stack gap="xxsmall">
-            <Typography variant="body-bold">{t('in-events:RCA.evidence')}</Typography>
-            <Trans
-              i18nKey="in-events:RCA.evidenceTextFailed"
-              components={{
-                //@ts-expect-error
-                linkToEntity: <Link href={linkToEntityDashboard} />,
-                entityIcon: (
-                  <SvgIcon
-                    type={getIconForRCADisplay(rcaEntityType, entityTypeName)}
-                    color={themes.default.cds.link.primary}
-                    size="xs"
+    <>
+      <CarbonTabPanel
+        key={rcaSnapshotID}
+        className={locals.tabPanel}
+        style={{ background: themes.default.cds.field['02'] }}
+      >
+        <div className={locals.entityDescription}>
+          <Stack gap="small">
+            <Stack direction="horizontal">
+              <Stack gap="xxsmall">
+                {entityData !== null && rcaEntityType !== 'infrastructure' && rcaEntityType !== 'process' && (
+                  <EntityPath
+                    relatedApplicationInformation={relatedApplicationInformation}
+                    entityInformation={entityData}
+                    serviceLabelInformation={nonInfraServiceLabelInformation}
+                    entityType={rcaEntityType}
+                    originalID={rcaSnapshotID}
+                    timeWindow={timeWindow}
                   />
-                )
-              }}
-              values={{
-                root_cause_entity_type: entityTypeName,
-                root_cause_entity_name: Map.isMap(entityData) ? entityData?.get('label') : entityData?.label,
-                rca_error_percent: rcaErrorPercent.toFixed(2)
-              }}
-              parent="span"
-            />
-            <FailedText
-              rcaErrorPercent={rcaErrorPercent}
-              notThroughRCAErrorPercent={notThroughRCAErrorPercent}
-              rootCauseEntityType={entityTypeName}
-              rootCauseEntityName={Map.isMap(entityData) ? entityData?.get('label') : entityData?.label}
-              linkToEntity={linkToEntityDashboard}
-              entityIcon={
-                <SvgIcon
-                  type={getIconForRCADisplay(rcaEntityType, entityTypeName)}
-                  color={themes.default.cds.link.primary}
-                  size="xs"
+                )}
+                {entityData !== null &&
+                  hierarchySnapshots &&
+                  !entityStackData?.progress.loading &&
+                  (rcaEntityType === 'infrastructure' || rcaEntityType === 'process') && (
+                    <InfrastructureVisualHierarchy
+                      relatedApplicationInformation={relatedApplicationInformation}
+                      hierarchySnapshots={hierarchySnapshots}
+                      entityInformation={entityData}
+                      serviceLabelInformation={infraServiceLabelInformation}
+                      entityId={entityID}
+                      entityType={rcaEntityType}
+                      originalID={rcaSnapshotID}
+                      timeWindow={timeWindow}
+                    />
+                  )}
+                {(entityData === null ||
+                  ((rcaEntityType === 'infrastructure' || rcaEntityType === 'process') &&
+                    entityStackData?.progress.loading)) && <LoadingSkeleton className={locals.loadingEntity} />}
+              </Stack>
+              <AIProbabilityBadge probabilityScore={probabilityScore} loading={entityData === null} />
+            </Stack>
+            {explainabilityMetadata && (
+              <Stack gap="xxsmall">
+                <Typography variant="body-bold">{t('in-events:RCA.evidence')}</Typography>
+                <Trans
+                  i18nKey="in-events:RCA.evidenceTextFailed"
+                  components={{
+                    //@ts-expect-error
+                    linkToEntity: <Link href={linkToEntityDashboard} />,
+                    entityIcon: (
+                      <SvgIcon
+                        type={getIconForRCADisplay(rcaEntityType, entityTypeName)}
+                        color={themes.default.cds.link.primary}
+                        size="xs"
+                      />
+                    )
+                  }}
+                  values={{
+                    root_cause_entity_type: entityTypeName,
+                    root_cause_entity_name: Map.isMap(entityData) ? entityData?.get('label') : entityData?.label,
+                    rca_error_percent: rcaErrorPercent.toFixed(2)
+                  }}
+                  parent="span"
                 />
-              }
-            />
+                <FailedText
+                  rcaErrorPercent={rcaErrorPercent}
+                  notThroughRCAErrorPercent={notThroughRCAErrorPercent}
+                  rootCauseEntityType={entityTypeName}
+                  rootCauseEntityName={Map.isMap(entityData) ? entityData?.get('label') : entityData?.label}
+                  linkToEntity={linkToEntityDashboard}
+                  entityIcon={
+                    <SvgIcon
+                      type={getIconForRCADisplay(rcaEntityType, entityTypeName)}
+                      color={themes.default.cds.link.primary}
+                      size="xs"
+                    />
+                  }
+                />
+              </Stack>
+            )}
+            <Button
+              kind="primary"
+              icon="lib_application_call"
+              href={urlForAnalysisPage}
+              size="compact"
+              onClick={() => {
+                const instrumentationEventProperties = { urlForEntity: urlForAnalysisPage };
+                trackCta(EVENT_RCA_ANALYZE_CLICK, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
+              }}
+              className={locals.analyzeButton}
+            >
+              {t('in-applications:buttonAnalyzeCalls')}
+            </Button>
           </Stack>
-        )}
-        <Button
-          kind="primary"
-          icon="lib_application_call"
-          href={urlForAnalysisPage}
-          size="compact"
-          onClick={() => {
-            const instrumentationEventProperties = { urlForEntity: urlForAnalysisPage };
-            trackCta(EVENT_RCA_ANALYZE_CLICK, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
-          }}
-          className={locals.analyzeButton}
-        >
-          {t('in-applications:buttonAnalyzeCalls')}
-        </Button>
-      </Stack>
-      {rcaLogsEnabled ? (
-        <>
-          <div className={locals.sectionLine} />
-          <TraceLogs
-            nonInfraServiceLabelInformation={nonInfraServiceLabelInformation}
-            infraServiceLabelInformation={infraServiceLabelInfromation}
-            relatedApplicationInformation={relatedApplicationInformation}
-            rcaEntityType={rcaEntityType}
-            entityData={entityData}
-            incidentTimeWindow={timeWindow}
-          />
-        </>
-      ) : undefined}
-      <div className={locals.sectionLine} />
-      <AssociatedEvents associatedEvents={associatedEvents} latestSnapshot={latestSnapshot} />
-    </div>
+        </div>
+      </CarbonTabPanel>
+    </>
   );
 }
 
@@ -784,58 +639,4 @@ function ServiceLink({ serviceID, serviceLabel, relatedAPID, timeWindow }: Servi
 
   const linkToService = useGenerateLinkToDashboard('service', serviceID, location, relatedAPID, timeWindow);
   return <MoreMenuButton href={linkToService}>{serviceLabel}</MoreMenuButton>;
-}
-
-interface RootCauseTraceLogsProps {
-  nonInfraServiceLabelInformation: ServiceLabel | null;
-  infraServiceLabelInformation: ServiceLabel[];
-  relatedApplicationInformation: Application | null | undefined;
-  rcaEntityType: string;
-  entityData: SnapshotData;
-  incidentTimeWindow: TimeConfig;
-}
-
-function TraceLogs({
-  nonInfraServiceLabelInformation,
-  infraServiceLabelInformation,
-  relatedApplicationInformation,
-  rcaEntityType,
-  entityData,
-  incidentTimeWindow
-}: RootCauseTraceLogsProps) {
-  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
-  const { trackCta } = useSegmentTracking();
-
-  const [expanded, setExpanded] = useState<boolean>(true);
-
-  return (
-    <Card
-      leftHeaderContent={<Typography variant="body-bold">{t('in-events:RCA.relatedMessagesAndLogsLabel')}</Typography>}
-      onHeaderBackgroundClicked={() => {
-        const instrumentationEventProperties = { expanded: !expanded };
-        trackCta(EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
-        setExpanded(!expanded);
-      }}
-      headerClassName={locals.associatedEventsCardHeader}
-      rightHeaderContent={
-        <IconButton color="black" type={expanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'} size="compact" />
-      }
-      className={locals.associatedEventsCard}
-      hasMarginBottom={expanded}
-      useMaxAvailableHeight={false}
-    >
-      {expanded && entityData !== null && (
-        <RootCauseContextDashboard
-          applicationBoundaryScope="ALL"
-          serviceId={nonInfraServiceLabelInformation?.id || infraServiceLabelInformation[0]?.id}
-          serviceName={nonInfraServiceLabelInformation?.label || infraServiceLabelInformation[0]?.label}
-          applicationId={relatedApplicationInformation?.id}
-          applicationName={relatedApplicationInformation?.label}
-          endpointId={rcaEntityType === 'endpoint' ? entityData.steadyId : undefined}
-          endpointName={rcaEntityType === 'endpoint' ? entityData.label : undefined}
-          timeConfig={incidentTimeWindow}
-        />
-      )}
-    </Card>
-  );
 }

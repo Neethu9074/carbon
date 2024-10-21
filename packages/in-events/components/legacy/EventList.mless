@@ -36,7 +36,6 @@
     width: 28rem;
   }
   .entityDescription {
-    margin-bottom: 1rem;
     border-radius: 0.25rem;
     width: 99.4%;
   }

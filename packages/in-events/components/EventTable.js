@@ -216,7 +216,7 @@ function renderMetaInformation({ event }) {
   return <TriggeredMarker event={event} />;
 }
 
-export function FeedbackComponents({ eventData, textVariant = 'body-regular' }) {
+export function FeedbackComponents({ eventData, textVariant = 'body-regular', iconSize = 's' }) {
   const { trackCta } = useSegmentTracking();
   const SEGMENT_EVENT_PROPERTY_CHANNEL = 'event feedback';
   const tup = 'thumbsUp';
@@ -275,7 +275,7 @@ export function FeedbackComponents({ eventData, textVariant = 'body-regular' }) 
           color={feedbackState === tup ? themes.default.ids.color.option.neutral['300'] : undefined}
           size="compact"
           type="lib_thumbs_up"
-          iconSize="s"
+          iconSize={iconSize}
           onClick={() => {
             const instrumentationEventProperties = {
               eventID: location.matrix[eventsPath]?.eventId,
@@ -295,7 +295,7 @@ export function FeedbackComponents({ eventData, textVariant = 'body-regular' }) 
           //TODO: Find an alternative to this (i.e. bring in a filled in thumbs down icon)
           color={feedbackState === tdown ? themes.default.ids.color.option.neutral['300'] : undefined}
           size="compact"
-          iconSize="s"
+          iconSize={iconSize}
           type="lib_thumbs_down"
           onClick={() => {
             const instrumentationEventProperties = {
