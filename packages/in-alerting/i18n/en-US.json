@@ -41,6 +41,8 @@
     "chart": {
       "alertingChartLabelThreshold": "Threshold",
       "alertingChartLabelViolations": "Violations",
+      "alertingChartLabelWarningViolations": "Warning Violations",
+      "alertingChartLabelCriticalViolations": "Critical Violations",
       "alertingChartLabelWarningThreshold": "Warning Threshold",
       "alertingChartLabelCriticalThreshold": "Critical Threshold",
       "alertingChartLabelForecast": "Forecast",

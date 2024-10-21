@@ -25,6 +25,7 @@ import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details
 import { getLogMessageRuleOperatorLabel } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/applications/details/AlertThresholdInfos';
 import getEndpointsCursorPaginated from 'in-applications/subscriptions/getEndpointsCursorPaginated';
+import { isMultiThresholdEnabled } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import getServicesCursorPaginated from 'in-applications/subscriptions/getServicesCursorPaginated';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
@@ -52,17 +53,21 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const {
     name,
-    rule: { operator, alertType, message, level, aggregation, metricName },
-    threshold,
     evaluationType,
     timeThreshold,
     alertChannelIds,
     tagFilterExpression,
     applications,
     boundaryScope,
-    customPayloadFields
+    customPayloadFields,
+    rules
   } = alertConfig;
-
+  const ruleWithThreshold = rules[0];
+  const {
+    rule: { operator, alertType, message, level, aggregation, metricName },
+    thresholdOperator,
+    thresholds: thresholdsMap
+  } = ruleWithThreshold;
   const blueprintConfig = getBlueprintConfig(alertType);
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
   const TagBasedPayloadConfigurator = useTagBasedApplicationPayloadConfigurator(applications, boundaryScope);
@@ -76,7 +81,8 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
         darkFrame
       >
         <AlertThresholdInfos
-          threshold={threshold}
+          thresholdOperator={thresholdOperator}
+          thresholdsMap={thresholdsMap}
           evaluationType={evaluationType}
           rule={{ alertType, aggregation, metricName }}
         />
@@ -177,6 +183,7 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
           renderCustomTitle={() =>
             getAlertTitleWithPlaceholderHighlighting({ configName: name, evaluationType: evaluationType })
           }
+          shouldDisplayAlertLevelSection={!isMultiThresholdEnabled}
         />
       </ExpandableLightCard>
       <GlobalCustomPayloadCard context="APPLICATION" />

@@ -3,7 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { AdaptiveBaselineData, Granularity, HistoricBaselineData, Nullish, Result, ThresholdConfig } from 'in-types';
+import {
+  AdaptiveBaselineData,
+  Granularity,
+  HistoricBaselineData,
+  Nullish,
+  Result,
+  Severity,
+  ThresholdConfig
+} from 'in-types';
 import { hasError, isLoading } from 'in-services/util/result';
 import { FixedTimeConfig } from 'in-stores/time/config';
 import { days } from 'in-services/time';
@@ -103,18 +111,29 @@ export function extractBaselineFromResultsOrUseErrorFallback(
   return { baseline };
 }
 
+export const isMultiThresholdEnabled: boolean = false; // Multi-threshold is only available for Applications
+
+export const WARNING_SEVERITY: Severity = 'WARNING';
+export const CRITICAL_SEVERITY: Severity = 'CRITICAL';
+
+export const severityMap: Record<number, Severity> = {
+  5: 'WARNING',
+  10: 'CRITICAL'
+};
+
 export function extractMultiBaselineFromResultsOrUseErrorFallback(
   persistedBaselineResult: Result<[number, number, number][]> | Nullish,
-  errorFallbackBaseline: [number, number, number][]
+  errorFallbackBaseline: [number, number][],
+  eventSeverity: number | undefined
 ): {
-  baseline: [number, number, number][];
+  baseline: [number, number, number][] | [number, number][];
   error?: boolean;
 } {
   const fetchError = persistedBaselineResult && hasError(persistedBaselineResult);
-
   if (fetchError) {
     // if a fallback baseline exists, hide the error
     if (errorFallbackBaseline?.length > 0) {
+      // only in case of events view
       return { baseline: errorFallbackBaseline };
     }
     return {
@@ -129,8 +148,27 @@ export function extractMultiBaselineFromResultsOrUseErrorFallback(
 
   let baseline: [number, number, number][] = persistedBaselineResult?.data ?? [];
 
-  if (baseline?.length < errorFallbackBaseline?.length) {
-    baseline = errorFallbackBaseline;
+  if (eventSeverity) {
+    // For the events view
+    const violatedBaselineFromPersistedBaseline = extractBaselineForSeverity(baseline, severityMap[eventSeverity]);
+    return {
+      baseline:
+        violatedBaselineFromPersistedBaseline.length < errorFallbackBaseline.length
+          ? errorFallbackBaseline
+          : violatedBaselineFromPersistedBaseline
+    };
   }
   return { baseline };
+}
+
+export function extractBaselineForSeverity(
+  baseline: [number, number, number][],
+  eventSeverity: Severity
+): [number, number][] {
+  if (baseline === undefined || baseline?.length === 0) {
+    return [];
+  }
+  return baseline.map(([timestamp, warningValue, criticalValue]) => {
+    return eventSeverity === WARNING_SEVERITY ? [timestamp, warningValue] : [timestamp, criticalValue];
+  });
 }

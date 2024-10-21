@@ -64,7 +64,7 @@ export default function LogAlertChartWrapper({
 
   const chartViewConfig = createDefaultChartConfig(timeConfig);
 
-  const renderer = getRendererBasedOnThresholdType(threshold, highlight, granularity, [], false);
+  const renderer = getRendererBasedOnThresholdType(threshold.operator, threshold, highlight, granularity, [], false);
 
   const enrichedTagFilterExpression = selectedMetricGroup
     ? getExpressionWithLogsGroupingTags(tagFilterExpression as TagFilterExpression, [selectedMetricGroup])
@@ -83,6 +83,7 @@ export default function LogAlertChartWrapper({
       renderer,
       granularity,
       threshold,
+      threshold.operator,
       [],
       chartViewConfig
     )

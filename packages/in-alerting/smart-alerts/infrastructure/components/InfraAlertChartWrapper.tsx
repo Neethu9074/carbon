@@ -33,6 +33,11 @@ import {
 // @ts-expect-error TS migration
 import AlertsPreviewLane from 'in-alerting/components/Chart/AlertsPreviewLane/AlertsPreviewLane';
 import {
+  severityMap,
+  WARNING_SEVERITY,
+  CRITICAL_SEVERITY
+} from 'in-alerting/smart-alerts/components/utils/baselineUtils';
+import {
   createLineWithMultiStaticThreshold,
   createLineWithThreshold
 } from 'in-alerting/components/Chart/renderer/Renderer';
@@ -73,11 +78,6 @@ interface InfraAlertChartWrapperProps {
   eventSeverity?: number;
 }
 
-const severityMap: Record<number, Severity> = {
-  5: 'WARNING',
-  10: 'CRITICAL'
-};
-
 export default function InfraAlertChartWrapper({
   alertConfig,
   timeConfig,
@@ -104,8 +104,8 @@ export default function InfraAlertChartWrapper({
   const displayPredictions = predictions && predictions?.length > 0 ? true : false;
 
   // we only support static threshold(s) in Infra SA.
-  const warningThreshold = (thresholdsMap['WARNING'] as StaticThresholdRule)?.value;
-  const criticalThreshold = (thresholdsMap['CRITICAL'] as StaticThresholdRule)?.value;
+  const warningThreshold = (thresholdsMap[WARNING_SEVERITY] as StaticThresholdRule)?.value;
+  const criticalThreshold = (thresholdsMap[CRITICAL_SEVERITY] as StaticThresholdRule)?.value;
   const violatedThresholdValue = (violatedThreshold as StaticThresholdRule)?.value;
   const thresholdOperator = firstRule.thresholdOperator;
   const renderer = isEventDetailPage
@@ -124,10 +124,11 @@ export default function InfraAlertChartWrapper({
         renderer,
         granularity,
         violatedThreshold,
+        thresholdOperator,
         [],
         chartViewConfig,
-        displayPredictions,
-        eventSeverity === 5 ? carbonCategorical.yellow50 : carbonAlert.red60
+        eventSeverity === 5 ? carbonCategorical.yellow50 : carbonAlert.red60,
+        displayPredictions
       )
     : getY1ForMultiThreshold(
         metricName,
@@ -136,8 +137,8 @@ export default function InfraAlertChartWrapper({
         renderer,
         granularity,
         thresholdOperator,
-        warningThreshold,
-        criticalThreshold
+        thresholdsMap[WARNING_SEVERITY],
+        thresholdsMap[CRITICAL_SEVERITY]
       );
 
   // chartProps to render the metric values and threshold to the chart
@@ -261,8 +262,8 @@ export function useGetMetricLabel(entityType: string, metricName: string, aggreg
  * In the alert preview, we pass the warning threshold if it is present. Otherwise, critical threshold.
  */
 function getThresholdWithLowestSeverity(thresholdsMap: { [P in Severity]?: SmartAlertThresholdRuleUnion }) {
-  if (!isEmpty((thresholdsMap['WARNING'] as StaticThresholdRule)?.value)) {
-    return thresholdsMap['WARNING'];
+  if (!isEmpty((thresholdsMap[WARNING_SEVERITY] as StaticThresholdRule)?.value)) {
+    return thresholdsMap[WARNING_SEVERITY];
   }
 
   return thresholdsMap['CRITICAL'];

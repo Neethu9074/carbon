@@ -6,6 +6,7 @@
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { Result, GetApplicationAdaptiveBaselinePredictionsQuery } from 'in-types';
+
 type AdaptiveBaselinePrediction = [number, number, number][];
 export default createResultSubscriptionFactory<
   GetApplicationAdaptiveBaselinePredictionsQuery,

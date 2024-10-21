@@ -93,6 +93,7 @@ export default function ApplicationEventContent({ event, snapshot, reload }) {
 
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
   const pillContent = getEventStateBadge(event);
+  const eventSeverity = event.getIn(['problem', 'severity'], '');
 
   return (
     <>
@@ -185,6 +186,7 @@ export default function ApplicationEventContent({ event, snapshot, reload }) {
               eventBasedAdaptiveBaseline={Object.entries(adaptiveBaselineInfo).sort((a, b) => a[0] - b[0])}
               setMetricResultPrecision={setMetricResultPrecision}
               isEventsView
+              eventSeverity={eventSeverity}
             />
           </Card>
         </Col>

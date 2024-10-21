@@ -59,7 +59,7 @@ function renderBackgroundWithGaps(
   });
 }
 
-function calculateSegments(timebasePoints: DataSeries, maxDistanceBetweenDatapointsInMillis: number) {
+export function calculateSegments(timebasePoints: DataSeries, maxDistanceBetweenDatapointsInMillis: number) {
   const segments: DataSeries[] = [];
 
   let currentSeg: DataSeries = [];
@@ -127,8 +127,6 @@ export function renderThresholdLineAndBackgrounds(
     return;
   }
 
-  const { backBufferCtx, markerPaneHeight, y1 } = config;
-
   const chartHeight = scale.getRangeFrom();
   const thresholdColor = colors100[1]!;
   const alrightColor = colors50[0]!;
@@ -144,13 +142,26 @@ export function renderThresholdLineAndBackgrounds(
   const segments = indicateGaps ? getSegments() : [oneSidedThresholdInTimeframe];
 
   renderBackgroundWithGaps(segments, chartHeight, isGreaterOp ? alrightColor : violationColor, scale, config);
-  renderBackgroundWithGaps(segments, markerPaneHeight, isGreaterOp ? violationColor : alrightColor, scale, config);
+  renderBackgroundWithGaps(
+    segments,
+    config.markerPaneHeight,
+    isGreaterOp ? violationColor : alrightColor,
+    scale,
+    config
+  );
 
   // one-sided time-dependent threshold line
+  drawThresholdLine(oneSidedThresholdInTimeframe, thresholdColor, config, scale);
+}
+
+// draw one-sided time-dependent threshold line
+export function drawThresholdLine(dataSeries: DataSeries, color: string, config: RenderConfig, scale: ScaleType) {
+  const { backBufferCtx, y1 } = config;
+
   backBufferCtx.save();
   line.render({
-    dataSeries: oneSidedThresholdInTimeframe,
-    color: thresholdColor,
+    dataSeries: dataSeries,
+    color: color,
     scale,
     config: {
       ...config,

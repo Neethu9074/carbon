@@ -21,10 +21,11 @@ interface useFetchAdaptiveBaselineProps {
   applicationId: string;
   serviceId?: string;
   endpointId?: string;
+  eventSeverity?: number;
 }
 
 export function useFetchAdaptiveBaselineOrUseFallbackFromEvent(props: useFetchAdaptiveBaselineProps): {
-  baseline: [number, number][];
+  baseline: [number, number, number][] | [number, number][]; // just [number, number] in case of events view
   error?: boolean;
 } {
   const {
@@ -33,7 +34,8 @@ export function useFetchAdaptiveBaselineOrUseFallbackFromEvent(props: useFetchAd
     applicationId,
     serviceId,
     endpointId,
-    eventBasedAdaptiveBaseline
+    eventBasedAdaptiveBaseline,
+    eventSeverity
   } = props;
 
   const { created, id, granularity } = alertConfigWithFormModel;
@@ -48,57 +50,14 @@ export function useFetchAdaptiveBaselineOrUseFallbackFromEvent(props: useFetchAd
     granularity
   };
 
+  // the result will be [number, number, number]
   const persistedBaseline = useObservable(
     selectedEntityId ? getBaselinePredictions(queryParams).startWith(pendingResult) : null,
     [id, created, applicationId, selectedEntityId, timeConfig]
   );
-  const extractedResult = extractMultiBaselineFromResultsOrUseErrorFallback(
+  return extractMultiBaselineFromResultsOrUseErrorFallback(
     persistedBaseline,
-    transformEventBasedAdaptiveBaseline(eventBasedAdaptiveBaseline, alertConfigWithFormModel)
+    eventBasedAdaptiveBaseline,
+    eventSeverity
   );
-  return extractBaselineFromResult(alertConfigWithFormModel, extractedResult);
-}
-
-function isOnlyCriticalDefined(alertConfigWithFormModel: ApplicationSmartAlertConfigWithMetadata): boolean {
-  const thresholds = alertConfigWithFormModel.rules?.[0]?.thresholds;
-  return Boolean(thresholds?.CRITICAL);
-}
-
-function transformEventBasedAdaptiveBaseline(
-  baseline: [number, number][],
-  alertConfigWithFormModel: ApplicationSmartAlertConfigWithMetadata
-): [number, number, number][] {
-  if (!baseline) {
-    return [];
-  }
-  const isCritical = isOnlyCriticalDefined(alertConfigWithFormModel);
-
-  return baseline.map(datapoint => {
-    return !isCritical ? [datapoint[0], datapoint[1], 0] : [datapoint[0], 0, datapoint[1]];
-  });
-}
-
-function extractBaselineFromResult(
-  alertConfigWithFormModel: ApplicationSmartAlertConfigWithMetadata,
-  extractedPersistedBaselineResult: {
-    baseline: [number, number, number][];
-    error?: boolean;
-  }
-): {
-  baseline: [number, number][];
-  error?: boolean;
-} {
-  const { baseline, error } = extractedPersistedBaselineResult;
-  if (error) {
-    return {
-      baseline: [],
-      error: true
-    };
-  }
-  const isCritical = isOnlyCriticalDefined(alertConfigWithFormModel);
-  const finalBaseline: [number, number][] = baseline.map(datapoint => {
-    return isCritical ? [datapoint[0], datapoint[2]] : [datapoint[0], datapoint[1]];
-  });
-
-  return { baseline: finalBaseline };
 }

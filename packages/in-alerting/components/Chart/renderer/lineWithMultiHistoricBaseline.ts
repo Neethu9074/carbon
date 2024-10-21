@@ -1,19 +1,21 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import { Granularity, ThresholdOperator } from '@instana/types';
 
 import { Highlight, renderHighlight } from 'in-alerting/components/Chart/renderer/renderThresholdAndBackgrounds';
+import { HistoricBaselineDataForMultiThreshold } from 'in-alerting/components/Chart/renderer/historicBaseline';
+import { renderMultiHistoricBaseline } from 'in-alerting/components/Chart/renderer/historicBaseline';
 import { MultiMetricRenderProps, RenderAxis, Renderer } from 'in-components/Chart/renderer/types';
-import { renderHistoricBaseline } from 'in-alerting/components/Chart/renderer/historicBaseline';
 import line from 'in-components/Chart/renderer/line';
-import { HistoricBaselineData } from 'in-types';
 
-export const createLineWithBaselineAndOptionalPotentialProblem = (
-  thresholdOperator: ThresholdOperator,
-  thresholdConfig: HistoricBaselineData,
+export const createLineWithMultiHistoricBaselineAndOptionalPotentialProblem = (
+  operator: ThresholdOperator,
+  warningThreshold: HistoricBaselineDataForMultiThreshold | undefined,
+  criticalThreshold: HistoricBaselineDataForMultiThreshold | undefined,
   granularity: Granularity,
   highlight?: Highlight
 ): Renderer<MultiMetricRenderProps> => {
@@ -21,13 +23,14 @@ export const createLineWithBaselineAndOptionalPotentialProblem = (
     render: ({ colors50, colors100, scale, config, metrics }): void => {
       const metric = metrics[0];
 
-      renderHistoricBaseline(
+      renderMultiHistoricBaseline(
         config,
         scale,
         colors50,
         colors100,
-        thresholdOperator,
-        thresholdConfig,
+        operator,
+        warningThreshold,
+        criticalThreshold,
         granularity,
         metric
       );
