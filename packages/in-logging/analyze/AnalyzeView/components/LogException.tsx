@@ -34,14 +34,6 @@ export default function LogExceptionWrapper({ item, isToggled }: LogExceptionWra
   const exceptionMessageTag = useMemo(() => tags.find(({ name }) => name === LOG_EXCEPTION_MESSAGE), [tags]);
   const exceptionStackTraceMessage = useMemo(() => tags.find(({ name }) => name === LOG_EXCEPTION_STACK_TRACE), [tags]);
 
-  const hasExceptionAndStackTrace = useMemo(() => {
-    return (
-      Array.isArray(tags) &&
-      tags.some(({ name }) => name === (LOG_EXCEPTION_MESSAGE || LOG_EXCEPTION_TYPE)) &&
-      tags.some(({ name }) => name === LOG_EXCEPTION_STACK_TRACE)
-    );
-  }, [tags]);
-
   if (!exceptionTypeTag && !exceptionMessageTag) {
     return null;
   }
@@ -52,7 +44,9 @@ export default function LogExceptionWrapper({ item, isToggled }: LogExceptionWra
       message={exceptionMessageTag?.stringValue}
       stackTraceMessage={exceptionStackTraceMessage?.stringValue}
       item={item}
-      hasExceptionAndStackTrace={hasExceptionAndStackTrace}
+      hasExceptionAndStackTrace={
+        Boolean(exceptionMessageTag || exceptionTypeTag) && Boolean(exceptionStackTraceMessage)
+      }
       isToggled={isToggled}
     />
   );
@@ -69,21 +63,26 @@ function LogException({
   if (!type && !message) {
     return null;
   }
-  const openLogExceptionDialog = () => addActiveDialog(<LogExceptionDialog onClose={close} item={item} />);
+
   return (
     <div>
-      {!isToggled && (
+      {!isToggled ? (
         <Stack direction="horizontal" gap="normal">
           {(type || message) && (
-            <span className={type ? locals.type : locals.message} onClick={openLogExceptionDialog}>
+            <span
+              className={type ? locals.type : locals.message}
+              onClick={e => {
+                e.stopPropagation();
+                addActiveDialog(<LogExceptionDialog onClose={close} item={item} />);
+              }}
+            >
               {hasExceptionAndStackTrace && <span>{t('in-logging:stacktraceLogMessage')} & </span>}
               {type && `${type}: `}
-              {} {message}
+              {message}
             </span>
           )}
         </Stack>
-      )}
-      {isToggled && (
+      ) : (
         <div className={locals.exceptionContentWrapper}>
           {type && <b>{type}:</b>}
           {message && <div className={locals.logExceptionMessage}>{message}</div>}

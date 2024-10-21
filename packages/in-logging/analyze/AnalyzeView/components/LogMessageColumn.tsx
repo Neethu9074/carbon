@@ -27,24 +27,22 @@ export default function LogMessageColumn(props: ColumnContentProps) {
   }, [tags]);
 
   if (hasOnlyStackTrace) {
-    return (
-      <>
-        {!isToggled && (
-          <div className={locals.stackTraceMessageWrapper}>
-            <span
-              className={locals.stackTrace}
-              onClick={() => addActiveDialog(<LogExceptionDialog onClose={close} item={item} />)}
-            >
-              {t('in-logging:stacktraceLogMessage')}
-            </span>
-          </div>
-        )}
-        {isToggled && (
-          <div className={locals.stackTraceMessageWrapper}>
-            <LogMessage tags={tags} message={message} />
-          </div>
-        )}
-      </>
+    return !isToggled ? (
+      <div className={locals.stackTraceMessageWrapper}>
+        <span
+          className={locals.stackTrace}
+          onClick={e => {
+            e.stopPropagation();
+            addActiveDialog(<LogExceptionDialog onClose={close} item={item} />);
+          }}
+        >
+          {t('in-logging:stacktraceLogMessage')}
+        </span>
+      </div>
+    ) : (
+      <div className={locals.stackTraceMessageWrapper}>
+        <LogMessage tags={tags} message={message} />
+      </div>
     );
   }
   return (
