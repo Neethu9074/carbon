@@ -17,7 +17,7 @@ export function refresh() {
 
 // observables
 
-export const getConfigAsResultObservable = memoize(getConfigAsResultObservableInternal, () => '', 60000);
+export const getConfigAsResultObservable = memoize(getConfigAsResultObservableInternal, () => 'SamlConfig', 60000);
 function getConfigAsResultObservableInternal() {
   return refreshSignal.flatMap(() =>
     createObservable(

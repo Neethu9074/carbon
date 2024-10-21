@@ -17,7 +17,7 @@ export function refresh() {
 
 export const getSessionSettingsAsResultObservable = memoize(
   getSessionSettingsAsResultObservableInternal,
-  () => '',
+  () => 'SessionSettings',
   60000
 );
 function getSessionSettingsAsResultObservableInternal() {

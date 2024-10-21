@@ -18,7 +18,7 @@ export function refresh() {
 // observables
 
 export const getConfigAsResultObservableNotMemoized = getConfigAsResultObservableInternal;
-export const getConfigAsResultObservable = memoize(getConfigAsResultObservableInternal, () => '', 60000);
+export const getConfigAsResultObservable = memoize(getConfigAsResultObservableInternal, () => 'LdapConfig', 60000);
 function getConfigAsResultObservableInternal() {
   return refreshSignal.flatMap(() =>
     createObservable(

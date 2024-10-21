@@ -55,7 +55,7 @@ export interface UserResult {
   readonly tfaEnabled: boolean | null | undefined;
 }
 
-export const getUsersAsResultObservable = memoize(getUsersAsResultObservableInternal, () => '', 60000);
+export const getUsersAsResultObservable = memoize(getUsersAsResultObservableInternal, () => 'Users', 60000);
 function getUsersAsResultObservableInternal() {
   return refreshSignalUsers.flatMap(() => createObservable(getUsersInternal()));
 }
@@ -107,7 +107,7 @@ export function removeUserFromTenant(userId: string) {
 
 const refreshSignalInvitations = create().emit(true);
 
-export const getInvitations$ = memoize(getInvitationsInternal, () => '', 60000);
+export const getInvitations$ = memoize(getInvitationsInternal, () => 'Invitations', 60000);
 function getInvitationsInternal() {
   return refreshSignalInvitations.flatMap(() =>
     createObservable(
@@ -120,7 +120,7 @@ function getInvitationsInternal() {
   );
 }
 
-export const getPendingInvitations = memoize(getPendingInvitationsInternal, () => '', 60000);
+export const getPendingInvitations = memoize(getPendingInvitationsInternal, () => 'PendingInvitations', 60000);
 function getPendingInvitationsInternal(): Observable<PendingInvitation[]> {
   return refreshSignalInvitations.flatMap(() =>
     http<PendingInvitation[]>({

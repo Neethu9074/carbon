@@ -15,7 +15,7 @@ export function refresh() {
   refreshSignal.emit(true);
 }
 
-export const getConfigAsResultObservable = memoize(getConfigAsResultObservableInternal, () => '', 60000);
+export const getConfigAsResultObservable = memoize(getConfigAsResultObservableInternal, () => 'OidcConfig', 60000);
 function getConfigAsResultObservableInternal() {
   return refreshSignal.flatMap(() =>
     createObservable(

@@ -100,7 +100,7 @@ function getGroupsOfASingleUserInternal(email: string) {
 export const getStrippedGroupsWithIdpFlagAsResultObservable = (userId: string) =>
   memoize(
     () => getStrippedGroupsWithIdpFlagAsResultObservableInternal(userId),
-    () => '',
+    () => 'StrippedGroupsWithIdpFlag',
     60000
   );
 function getStrippedGroupsWithIdpFlagAsResultObservableInternal(userId: string) {
