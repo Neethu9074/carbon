@@ -13,16 +13,18 @@ import {
   teamSettingsAccessControlGroups,
   teamSettingsAlertingCustomPayloadConfiguration,
   teamSettingsAlertingMaintenanceConfigurations,
-  teamSettingsIntegrationsDatabase
+  teamSettingsIntegrationsDatabase,
+  googleSSO,
+  saml,
+  ldap,
+  groupMapping,
+  timeouts
 } from 'in-settings/navigation/paths';
 import { productOwnerPermissions } from 'in-stores/permission';
 import { role } from 'in-stores/user';
 
-export function roleHasAnyTeamPermissions() {
+export function roleHasAnyGlobalPermissions() {
   return (
-    role.canConfigureUsers ||
-    role.canConfigureTeams ||
-    role.canConfigureApiTokens ||
     role.canConfigureEventsAndAlerts ||
     role.canConfigureIntegrations ||
     role.canConfigureMaintenanceWindows ||
@@ -36,16 +38,17 @@ export function roleHasAnyTeamPermissions() {
   );
 }
 
-export function findFirstPermittedTeamPage() {
-  if (role.canConfigureUsers) {
-    return teamSettingsAccessControlUsers;
-  }
-  if (role.canConfigureTeams) {
-    return teamSettingsAccessControlGroups;
-  }
-  if (role.canConfigureApiTokens) {
-    return teamSettingsAccessControlApiTokens;
-  }
+export function roleHasAnySecurityAccessPermissions() {
+  return (
+    role.canConfigureUsers ||
+    role.canConfigureTeams ||
+    role.canConfigureApiTokens ||
+    role.canConfigureAuthenticationMethods ||
+    role.canConfigureSessionSettings
+  );
+}
+
+export function findFirstPermittedGlobalPage() {
   if (role.canConfigureEventsAndAlerts) {
     return teamSettingsAlertingEvents;
   }
@@ -58,14 +61,45 @@ export function findFirstPermittedTeamPage() {
   if (role.canConfigureGlobalAlertPayload) {
     return teamSettingsAlertingCustomPayloadConfiguration;
   }
-  if (role.canViewAuditLog) {
-    return teamSettingsActionLog;
-  }
   if (role.canConfigureLogManagement) {
     return teamSettingsIntegrationsLoggingHumio;
   }
   if (role.canConfigureDatabaseManagement) {
     return teamSettingsIntegrationsDatabase;
+  }
+}
+
+export function findFirstPermittedSecurityAndAccessPage(isGoogleSSOAvailable, isSamlAvailable, isLdapAvailable) {
+  if (role.canConfigureUsers) {
+    return teamSettingsAccessControlUsers;
+  }
+  if (role.canConfigureTeams) {
+    return teamSettingsAccessControlGroups;
+  }
+  if (role.canConfigureApiTokens) {
+    return teamSettingsAccessControlApiTokens;
+  }
+  if (role.canViewAuditLog) {
+    return teamSettingsActionLog;
+  }
+  if (role.canConfigureAuthenticationMethods) {
+    if (isGoogleSSOAvailable) {
+      return googleSSO;
+    }
+
+    if (isSamlAvailable) {
+      return saml;
+    }
+
+    if (isLdapAvailable) {
+      return ldap;
+    }
+  }
+  if (role.canConfigureTeams) {
+    return groupMapping;
+  }
+  if (role.canConfigureSessionSettings) {
+    return timeouts;
   }
 }
 

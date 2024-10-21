@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { isAvailableCached } from 'in-settings/tabs/UserSettings/api/changePassword';
 import { disableInvitesWithIdpEnabled } from 'in-services/featureFlags';
 
-const useIsAnyIdPActive = (): Boolean => {
+const useIsAnyIdPActive = (): boolean => {
   const [isAnyIdPActive, setIsAnyIdPActive] = useState(false);
 
   useEffect(() => {

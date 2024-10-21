@@ -13,6 +13,7 @@ import { t } from '@instana/i18n-react';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { QuickLinkButton } from 'in-plg/pages/WelcomePage/quickLinks/QuickLinkButton';
 import { WELCOME_PAGE_WHATS_NEW_LINK_CLICK } from 'in-services/tracking/eventNames';
+import { teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
@@ -42,7 +43,7 @@ export const QuickLinks = () => {
             icon="lib_actions_user"
             iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.user')}
             buttonName={t('in-plg:welcomepage.quickLinks.buttonNames.addUser')}
-            href={createHrefToPath('/config/team/accessControl/users')}
+            href={createHrefToPath(teamSettingsAccessControlUsers)}
           />
         )}
         <QuickLinkButton

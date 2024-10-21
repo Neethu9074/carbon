@@ -44,6 +44,7 @@ import { events, teamSettingsAlertingEvents } from 'in-settings/navigation/paths
 import { createAsyncComponent } from 'in-components/routing/createAsyncComponent';
 import { carbonButtonEnabled, playwithEnabled } from 'in-services/featureFlags';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
 import PlatformsTopList from 'in-cockpit/Cockpit/components/PlatformsTopList';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import EventChartCard from 'in-cockpit/Cockpit/components/EventChartCard';
@@ -214,7 +215,7 @@ function Header() {
                 size={carbonButtonEnabled ? 'compact' : 'normal'}
                 kind="secondaryDarker"
                 icon="lib_alerts_user_impacted"
-                href={createHrefToPath('/config/team/accessControl/users')}
+                href={createHrefToPath(teamSettingsAccessControlUsers)}
               >
                 {t('in-cockpit:cockpit.addUser')}
               </Button>

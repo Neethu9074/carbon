@@ -8,17 +8,7 @@ import React, { Fragment } from 'react';
 import { useObservable } from '@instana/hooks';
 
 import {
-  teamSettings,
-  teamSettingsAccessControlApiTokenDuplicate,
-  teamSettingsAccessControlApiTokenEdit,
-  teamSettingsAccessControlApiTokenNew,
-  teamSettingsAccessControlApiTokens,
-  teamSettingsAccessControlGroupEdit,
-  teamSettingsAccessControlGroupNew,
-  teamSettingsAccessControlGroups,
-  teamSettingsAccessControlInvites,
-  teamSettingsAccessControlUserEdit,
-  teamSettingsAccessControlUsers,
+  globalSettings,
   teamSettingsAlertingAlertChannelEdit,
   teamSettingsAlertingAlertChannelEditDetails,
   teamSettingsAlertingAlertChannelNew,
@@ -44,11 +34,7 @@ import {
   teamSettingsIntegrationsLoggingMezmo,
   teamSettingsIntegrationsLoggingSplunk,
   teamSettingsIntegrationsDatabase,
-  teamSettingsIntegrationsDatabaseDbMarlin,
-  teamSettingsAudit,
-  teamSettingsActionLog,
-  teamSettingsAccessLog,
-  teamSettingsActionLogRetention
+  teamSettingsIntegrationsDatabaseDbMarlin
 } from 'in-settings/navigation/paths';
 import RecurrentMaintenanceWindowsListPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceWindowsList';
 import RecurrentMaintenanceWindowFormPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceConfigForm';
@@ -66,7 +52,6 @@ import RetentionPeriodPage from 'in-settings/tabs/TeamSettings/pages/logManageme
 import DbIntegrations from 'in-settings/tabs/TeamSettings/pages/integrations/database/Integrations/DbIntegrations';
 import LogIntegrations from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Integrations/Integrations';
 import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
-import ApiTokenFormDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokenFormDialog';
 import AlertChannelPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannel';
 import CoralogixPage from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Coralogix/Coralogix';
 import BuiltInEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltInEvent';
@@ -74,22 +59,14 @@ import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts
 import DeleteLogsPage from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/DeleteLogs';
 import DbMarlin from 'in-settings/tabs/TeamSettings/pages/integrations/database/DbMarlin/DbMarlin';
 import LogVolumePage from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/LogVolume';
-import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
 import SplunkPage from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Splunk/Splunk';
 import MezmoPage from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Mezmo/Mezmo';
 import HumioPage from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Humio/Humio';
-import InvitesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/Invites';
 import EventsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import AlertsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alerts';
-import GroupsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Groups';
 import AlertPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
-import GroupPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Group';
 import ElkPage from 'in-settings/tabs/TeamSettings/pages/integrations/logging/Elk/Elk';
-import UsersPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users';
-import UserPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/User';
-import AuditTrailPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditTrail';
-import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
-import useIsAnyIdPActive from 'in-settings/hooks/useIsAnyIdPActive';
+import { findFirstPermittedGlobalPage } from 'in-settings/tabs/permissions';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
@@ -98,79 +75,8 @@ import { isAddonUserCached } from 'in-logging/api/licence';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-function navigationTreeForRole(role, isAnyIDPActive, isAddonUser) {
+function navigationTreeForRole(role, isAddonUser) {
   const navigationTree = [];
-
-  if (role.canConfigureUsers || role.canConfigureTeams || role.canConfigureApiTokens) {
-    const accessControlPages = [];
-
-    if (role.canConfigureUsers) {
-      accessControlPages.push({
-        path: teamSettingsAccessControlUsers,
-        label: t('in-settings:tabs.users'),
-        component: UsersPage,
-        subPages: [
-          {
-            path: teamSettingsAccessControlUserEdit,
-            component: UserPage
-          }
-        ]
-      });
-      if (!isAnyIDPActive) {
-        accessControlPages.push({
-          path: teamSettingsAccessControlInvites,
-          label: t('in-settings:tabs.pendingInvitations'),
-          component: InvitesPage
-        });
-      }
-    }
-
-    if (role.canConfigureTeams) {
-      accessControlPages.push({
-        path: teamSettingsAccessControlGroups,
-        label: t('in-settings:tabs.groups'),
-        component: GroupsPage,
-        subPages: [
-          {
-            path: teamSettingsAccessControlGroupNew,
-            component: GroupPage
-          },
-          {
-            path: teamSettingsAccessControlGroupEdit,
-            component: GroupPage
-          }
-        ]
-      });
-    }
-
-    if (role.canConfigureApiTokens) {
-      accessControlPages.push({
-        path: teamSettingsAccessControlApiTokens,
-        label: t('in-settings:tabs.apiTokens'),
-        component: ApiTokensPage,
-        subPages: [
-          {
-            path: teamSettingsAccessControlApiTokenEdit,
-            component: ApiTokenFormDialog
-          },
-          {
-            path: teamSettingsAccessControlApiTokenNew,
-            component: ApiTokenFormDialog
-          },
-          {
-            path: teamSettingsAccessControlApiTokenDuplicate,
-            component: ApiTokenFormDialog
-          }
-        ]
-      });
-    }
-
-    navigationTree.push({
-      title: t('in-settings:tabs.accessControl'),
-      pages: accessControlPages
-    });
-  }
-
   if (
     role.canConfigureEventsAndAlerts ||
     role.canConfigureIntegrations ||
@@ -322,33 +228,6 @@ function navigationTreeForRole(role, isAnyIDPActive, isAddonUser) {
     });
   }
 
-  if (role.canViewAuditLog) {
-    navigationTree.push({
-      title: t('in-settings:tabs.audit'),
-      pages: [
-        {
-          path: teamSettingsAudit,
-          label: t('in-settings:tabs.auditTrail'),
-          component: AuditTrailPage,
-          subPages: [
-            {
-              path: teamSettingsActionLog,
-              component: AuditTrailPage
-            },
-            {
-              path: teamSettingsActionLogRetention,
-              component: AuditTrailPage
-            },
-            {
-              path: teamSettingsAccessLog,
-              component: AuditTrailPage
-            }
-          ]
-        }
-      ]
-    });
-  }
-
   if (role.canConfigureLogManagement || role.canConfigureDatabaseManagement) {
     let pages = [];
 
@@ -415,7 +294,6 @@ function navigationTreeForRole(role, isAnyIDPActive, isAddonUser) {
 
 export default function View(props) {
   const isLoggingAddonUser = useObservable(isAddonUserCached, []);
-  const isAnyIDPActive = useIsAnyIdPActive();
 
   return (
     <Fragment>
@@ -427,9 +305,9 @@ export default function View(props) {
       />
 
       <StickySidebarNavigationAndContent
-        navigationTree={navigationTreeForRole(role, isAnyIDPActive, isLoggingAddonUser)}
-        redirectToDefaultPage={findFirstPermittedTeamPage()}
-        redirectFrom={teamSettings}
+        navigationTree={navigationTreeForRole(role, isLoggingAddonUser)}
+        redirectToDefaultPage={findFirstPermittedGlobalPage()}
+        redirectFrom={globalSettings}
         NotFoundPage={NotFoundPage}
         {...props}
       />

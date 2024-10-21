@@ -3,19 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 
-import { userSettings, teamSettings, authSettings, ampSettings } from 'in-settings/navigation/paths';
-import { roleHasAnyTeamPermissions } from 'in-settings/tabs/permissions';
+import { userSettings, globalSettings, ampSettings, securityAndAccessSettings } from 'in-settings/navigation/paths';
+import { roleHasAnyGlobalPermissions, roleHasAnySecurityAccessPermissions } from 'in-settings/tabs/permissions';
+import SecurityAndAccessSettings from 'in-settings/tabs/SecurityAndAccessSettings/View';
 import UserSettings from 'in-settings/tabs/UserSettings/View';
 import TeamSettings from 'in-settings/tabs/TeamSettings/View';
-import AuthSettings from 'in-settings/tabs/AuthSettings/View';
 import { ampEnabled } from 'in-services/featureFlags';
 import AmpSettings from 'in-settings/tabs/AMP/View';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-const teamTab = {
-  label: t('in-settings:tabs.teamSettings'),
-  path: teamSettings,
+const globalTab = {
+  label: t('in-settings:tabs.globalSettings'),
+  path: globalSettings,
   component: TeamSettings
 };
 
@@ -25,10 +25,10 @@ const userTab = {
   component: UserSettings
 };
 
-const authTab = {
-  label: t('in-settings:tabs.authentication'),
-  path: authSettings,
-  component: AuthSettings
+const securityAndAccessTab = {
+  label: t('in-settings:tabs.securityAndAccess'),
+  path: securityAndAccessSettings,
+  component: SecurityAndAccessSettings
 };
 
 const ampTab = {
@@ -39,9 +39,11 @@ const ampTab = {
 
 export default function getTabs() {
   const ampTabVisible = ampEnabled && role.canViewAccountAndBillingInformation;
-  const authVisible = role.canConfigureAuthenticationMethods || role.canConfigureSessionSettings;
 
-  return [roleHasAnyTeamPermissions() && teamTab, userTab, authVisible && authTab, ampTabVisible && ampTab].filter(
-    Boolean
-  );
+  return [
+    roleHasAnyGlobalPermissions() && globalTab,
+    userTab,
+    roleHasAnySecurityAccessPermissions() && securityAndAccessTab,
+    ampTabVisible && ampTab
+  ].filter(Boolean);
 }

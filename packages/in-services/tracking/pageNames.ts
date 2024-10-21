@@ -59,7 +59,7 @@ export const pageNames = Object.freeze({
   cluster_summary: 'Cluster > summary',
   vsphere: 'vSphereDatacenters',
   user_settings: 'User Settings',
-  team_settings: 'Team Settings',
+  global_settings: 'Global Settings',
   cron_job_summary: 'Cron Jobs > Summary',
   namespace_summary: 'Namespaces > Summary',
   node_summary: 'Nodes > Summary',

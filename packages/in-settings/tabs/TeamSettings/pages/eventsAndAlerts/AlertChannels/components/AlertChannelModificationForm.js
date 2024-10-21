@@ -263,7 +263,7 @@ AlertChannelModificationForm.propTypes = {
    */
   setForm: PropTypes.func.isRequired,
   /**
-   * Sets whether the form page should have a minimum height or not. Used in team settings page to push footer to bottom
+   * Sets whether the form page should have a minimum height or not. Used in global settings page to push footer to bottom
    */
   setMinHeight: PropTypes.bool
 };

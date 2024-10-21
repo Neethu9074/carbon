@@ -23,9 +23,10 @@ export const userSettingsPasswordChange = `${userSettings}/password/change`;
 export const userSettingsTwoFactor = `${userSettings}/2fa`;
 export const userSettingsProfile = `${userSettings}/profile`;
 
-export const teamSettings = `${settingsPath}/team`;
+export const globalSettings = `${settingsPath}/global`;
 
-export const accessControl = `${teamSettings}/accessControl`;
+export const securityAndAccessSettings = `${settingsPath}/securityAndAccess`;
+export const accessControl = `${securityAndAccessSettings}/accessControl`;
 export const teamSettingsAccessControlUsers = `${accessControl}/users`;
 export const teamSettingsAccessControlUserEdit = `${accessControl}/users/:id`;
 export const teamSettingsAccessControlInvites = `${accessControl}/invites`;
@@ -40,18 +41,16 @@ export const teamSettingsAccessControlApiTokenDuplicate = `${accessControl}/apiT
 export const teamSettingsAccessControlApiTokenNew = `${accessControl}/apiTokens/new`;
 export const teamSettingsAccessControlApiTokens = `${accessControl}/apiTokens`;
 
-export const authSettings = `${settingsPath}/auth`;
+export const googleSSO = `${securityAndAccessSettings}/googleSingleSignOn`;
+export const saml = `${securityAndAccessSettings}/saml`;
+export const oidc = `${securityAndAccessSettings}/oidc`;
+export const ldap = `${securityAndAccessSettings}/ldap`;
+export const groupMapping = `${securityAndAccessSettings}/groupMapping`;
 
-export const googleSSO = `${authSettings}/googleSingleSignOn`;
-export const saml = `${authSettings}/saml`;
-export const oidc = `${authSettings}/oidc`;
-export const ldap = `${authSettings}/ldap`;
-export const groupMapping = `${authSettings}/groupMapping`;
-
-const session = `${authSettings}/session`;
+const session = `${securityAndAccessSettings}/session`;
 export const timeouts = `${session}/timeouts`;
 
-export const alerting = `${teamSettings}/alerting`;
+export const alerting = `${globalSettings}/alerting`;
 const channels = `/channels`;
 
 // amp
@@ -82,7 +81,7 @@ export const teamSettingsAlertingMaintenanceConfigurations = `${alerting}/mainte
 export const teamSettingsAlertingCustomPayloadConfiguration = `${alerting}/customPayload`;
 
 // legacy knowledge management paths (prior to unification of alerting configuration in 2019-02)
-const knowledgeManagement = `${teamSettings}/knowledgeManagement`;
+const knowledgeManagement = `${globalSettings}/knowledgeManagement`;
 export const teamSettingsKnowledgeManagementBuiltInRuleEdit = `${knowledgeManagement}/builtInRules/:id`;
 export const teamSettingsKnowledgeManagementBuiltInRules = `${knowledgeManagement}/builtInRules`;
 export const teamSettingsKnowledgeManagementCustomRuleEdit = `${knowledgeManagement}/customRules/:id`;
@@ -104,7 +103,7 @@ export const teamSettingsAlertingIntegrationNew = `${alerting}/integrations/new`
 export const teamSettingsAlertingIntegrations = `${alerting}/integrations`;
 
 // legacy logging integration paths (until 2024-07)
-export const logManagement = `${teamSettings}/logManagement`;
+export const logManagement = `${globalSettings}/logManagement`;
 const legacyIntegrations = '/integrations';
 export const teamSettingsLogManagementRetentionPeriod = `${logManagement}/retentionPeriod`;
 export const teamSettingsLogManagementIntegrations = `${logManagement}${legacyIntegrations}`;
@@ -116,13 +115,13 @@ export const teamSettingsLogManagementSplunk = `${logManagement}/splunkConfigura
 export const teamSettingsLogManagementHumio = `${logManagement}/humioConfiguration`;
 export const teamSettingsLogManagementElk = `${logManagement}/elkConfiguration`;
 
-export const teamSettingsAudit = `${teamSettings}/audit`;
+export const teamSettingsAudit = `${securityAndAccessSettings}/audit`;
 export const teamSettingsActionLog = `${teamSettingsAudit}/actionlog`;
 export const teamSettingsActionLogRetention = `${teamSettingsAudit}/actionlog/retention`;
 export const teamSettingsAccessLog = `${teamSettingsAudit}/accessLog`;
 
 // integrations
-const integrations = `${teamSettings}/integrations`;
+const integrations = `${globalSettings}/integrations`;
 // database integrations
 export const teamSettingsIntegrationsDatabase = `${integrations}/database`;
 export const teamSettingsIntegrationsDatabaseDbMarlin = `${teamSettingsIntegrationsDatabase}/dbMarlinConfiguration`;
