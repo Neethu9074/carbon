@@ -12,8 +12,21 @@ import {
   loggingDashboardPath
 } from 'in-logging/navigation/paths';
 // eslint-disable-next-line no-restricted-imports
-import { generateQueryWithWinSize, loggingNavigationItem } from '../utils';
+import { generateQueryWithWinSize, useLoggingNavigationItems } from '../utils';
 import { t } from 'in-i18n';
+
+jest.mock('@instana/hooks', () => ({
+  useObservable: jest.fn(() => true)
+}));
+
+jest.mock('in-stores/user', () => ({
+  role: {
+    canDeleteLogs: true,
+    canConfigureLogRetentionPeriod: true,
+    canViewLogVolume: true,
+    canConfigureIntegrations: true
+  }
+}));
 
 describe('generateQueryWithWinSize', () => {
   it('should generate query with correct window size', () => {
@@ -75,8 +88,10 @@ describe('generateQueryWithWinSize', () => {
   });
 });
 
-describe('loggingNavigationItem', () => {
+describe('useLoggingNavigationItems', () => {
   it('should generate correct navigation items', () => {
+    const loggingNavigationItem = useLoggingNavigationItems();
+
     const expectedItems = [
       {
         path: loggingDashboardPath,
@@ -91,19 +106,22 @@ describe('loggingNavigationItem', () => {
       {
         path: dashboardDeletePath,
         label: t('in-logging:dashboard.deleteLogs'),
-        currentTab: expect.any(Function)
+        currentTab: expect.any(Function),
+        isTabAllowed: true
       },
       {
         path: dashboardConfigurationPath,
         label: t('in-logging:dashboard.configuration'),
-        currentTab: expect.any(Function)
+        currentTab: expect.any(Function),
+        isTabAllowed: true
       }
     ];
 
     expect(loggingNavigationItem).toEqual(expectedItems);
   });
 
-  it('should correctly evaluate currentTab functions', () => {
+  it('should correctly evaluate currentTab functions for loggingDashboardPath', () => {
+    const loggingNavigationItem = useLoggingNavigationItems();
     const summaryTab = loggingNavigationItem.find(item => item.path === loggingDashboardPath);
 
     if (typeof summaryTab?.currentTab === 'function') {
@@ -113,6 +131,7 @@ describe('loggingNavigationItem', () => {
   });
 
   it('should correctly evaluate currentTab for dashboardDeletePath', () => {
+    const loggingNavigationItem = useLoggingNavigationItems();
     const deleteTab = loggingNavigationItem.find(item => item.path === dashboardDeletePath);
 
     if (typeof deleteTab?.currentTab === 'function') {
@@ -122,11 +141,22 @@ describe('loggingNavigationItem', () => {
   });
 
   it('should correctly evaluate currentTab for dashboardConfigurationPath', () => {
+    const loggingNavigationItem = useLoggingNavigationItems();
     const configTab = loggingNavigationItem.find(item => item.path === dashboardConfigurationPath);
 
     if (typeof configTab?.currentTab === 'function') {
       expect(configTab.currentTab(dashboardConfigurationPath)).toBe(true);
       expect(configTab.currentTab(dashboardSmartAlertsPath)).toBe(false);
     }
+  });
+
+  it('should handle the isTabAllowed logic correctly', () => {
+    const loggingNavigationItem = useLoggingNavigationItems();
+
+    const deleteTab = loggingNavigationItem.find(item => item.path === dashboardDeletePath);
+    expect(deleteTab?.isTabAllowed).toBe(true);
+
+    const configTab = loggingNavigationItem.find(item => item.path === dashboardConfigurationPath);
+    expect(configTab?.isTabAllowed).toBe(true);
   });
 });
