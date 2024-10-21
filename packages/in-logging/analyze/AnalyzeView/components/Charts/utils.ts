@@ -88,7 +88,7 @@ export const getLogsChartConfig = (
   return config;
 };
 
-const getNextLogLevelForChart = (logGroups?: LogGroupItem[]): LogGroupItem | null => {
+export const getNextLogLevelForChart = (logGroups?: LogGroupItem[]): LogGroupItem | null => {
   if (!logGroups) return null;
 
   const otherLogLevels = logGroups

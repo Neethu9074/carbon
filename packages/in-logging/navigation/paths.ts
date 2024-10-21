@@ -47,7 +47,7 @@ export function useGenerateLinkToLogs() {
     getLogsHref(location, createHref, tagFilterExpression, timeConfig);
 }
 
-function getLogsHref(
+export function getLogsHref(
   location: Location,
   createHref: (target: Location) => string,
   tagFilterExpression?: QueryBuilderTag | TagFilterExpression | Array<QueryBuilderTag | TagFilterExpression>,

@@ -133,7 +133,7 @@ export const getSnapshotId = (tag: LogTag, item: LogItem) => {
 };
 
 export function getIconBySeverity(severity: number) {
-  if (severity > 0) {
+  if (severity > 0 && severity <= 5) {
     return 'lib_help_error_warning';
   } else if (severity > 5) {
     return 'lib_help_error_error_circle';

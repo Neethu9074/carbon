@@ -47,7 +47,7 @@ export const handleLogCallsWithFilters = (
   });
 };
 
-function extractTagNames(expression: TagFilterExpressionElementUnion): string[] {
+export function extractTagNames(expression: TagFilterExpressionElementUnion): string[] {
   const tagNames: string[] = [];
 
   if (expression.type === 'TAG_FILTER') {
