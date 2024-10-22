@@ -63,6 +63,9 @@ function additionalStepCheck(step: number, form: GenerateAIScriptActionForm) {
   return true;
 }
 
+function onClose() {
+  close();
+}
 function useOnSubmit() {
   const { createActionTrackerSegment, AIActionContentModifiedTrackerSegment } = useSegmentTracker();
   const [result, setResult] = useState<Result<any> | null>(null);
@@ -134,6 +137,7 @@ function useOnCancel(step: number) {
         <CloseDialogConfirmation
           step={step}
           dialogHeader={t('in-automation:GenerateAIActionDialog.generateScriptDialog.dialogHeader')}
+          onClose={onClose}
         />
       );
     } else {
