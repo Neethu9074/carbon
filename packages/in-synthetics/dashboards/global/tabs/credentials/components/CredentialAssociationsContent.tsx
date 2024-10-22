@@ -7,8 +7,9 @@
 import React from 'react';
 
 import AssociationsContentPresenter from 'in-synthetics/dashboards/global/tabs/tests/components/AssociationsContentPresenter';
+import { SyntheticCredential } from 'in-types';
 
-const CredentialAssociationsContent = ({ item }: any) => {
+const CredentialAssociationsContent = ({ item }: { item: SyntheticCredential }) => {
   const applicationLabels = item?.applicationLabels ?? [];
   const applicationIds = item?.applications ?? [];
   const websiteLabels = item?.websiteLabels ?? [];
