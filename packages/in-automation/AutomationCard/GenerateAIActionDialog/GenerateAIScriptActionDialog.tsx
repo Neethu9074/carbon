@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { Typography, Spacer } from '@instana/components';
+import { Typography, Spacer, PreviewPill } from '@instana/components';
 import { Result } from '@instana/types';
 
 import useGenerateAIScriptActionForm, {
@@ -172,9 +172,13 @@ export default function GenerateAIScriptActionDialog({ manualContent, actionName
   return (
     <DialogWithSlideInView
       title={
-        <Typography variant="heading-400">
-          {t('in-automation:GenerateAIActionDialog.generateScriptDialog.dialogHeader')}
-        </Typography>
+        <>
+          <Typography variant="heading-400">
+            {t('in-automation:GenerateAIActionDialog.generateScriptDialog.dialogHeader')}
+          </Typography>
+          <Spacer horizontal="small" />
+          <PreviewPill />
+        </>
       }
       onClose={onCancel}
       doNotCloseOnOutsideClick
