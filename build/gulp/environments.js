@@ -14,11 +14,6 @@ exports = module.exports = {
     unit: 'test',
     baseDomain: 'pink.instana.rocks'
   },
-  'K8s Test (heliconia)': {
-    tenant: 'tenant1',
-    unit: 'unit1',
-    baseDomain: 'instanatest.rocks'
-  },
   'Custom SaaS (run local UI against an arbitrary tenant unit in one of our SaaS or internal regions)': {
     // special case: Handled in `devModeQuestions`
     custom: 'saas'
@@ -27,10 +22,11 @@ exports = module.exports = {
     // special case: Handled in `devModeQuestions`
     custom: 'selfhosted'
   },
-  'Local (manually started) Backend (run local UI against fully local backend or against a partially local backend with ssh tunnels)': {
-    // special case: Handled in `devModeQuestions`
-    local: true
-  },
+  'Local (manually started) Backend (run local UI against fully local backend or against a partially local backend with ssh tunnels)':
+    {
+      // special case: Handled in `devModeQuestions`
+      local: true
+    },
   'K8s Nightly (pink)': {
     tenant: 'instana',
     unit: 'nightly',
