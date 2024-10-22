@@ -9,7 +9,6 @@ import React, { useState } from 'react';
 import { Action, Error, Event, Result } from '@instana/types';
 import { Typography } from '@instana/components';
 
-import { createPolicyFromRecommendedActionsTracker, useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import usePolicyForm, { PolicyForm } from 'in-automation/AutomationCard/CreatePolicyDialog/usePolicyForm';
 import CreatePolicyStep from 'in-automation/AutomationCard/CreatePolicyDialog/Steps/CreatePolicyStep';
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
@@ -18,6 +17,7 @@ import { setActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonG
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import { StepConfigs } from 'in-components/BlueprintFormMultistep/StepConfigs';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
+import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createBasePolicy } from 'in-automation/AutomationCard/shared';
 import { TriggerSpecification } from 'in-automation/Policies/types';
@@ -122,12 +122,6 @@ function createPolicy({
           policyType: 'manual',
           aiOriginated: isAIActionCopy(action!) ? true : false,
           triggerName: event.problem?.problemText
-        });
-        createPolicyFromRecommendedActionsTracker({
-          name: policy.name,
-          triggerName: event.problem?.problemText,
-          actionName: action.name,
-          type: 'manual'
         });
         refresh();
         setActiveKey('automationPolicies');

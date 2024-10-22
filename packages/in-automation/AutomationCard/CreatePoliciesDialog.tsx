@@ -18,13 +18,13 @@ import useServerTableUrlState, {
   ServerTableUrlState
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { TrackingFunction, createBulkPoliciesTracker, useSegmentTracker } from 'in-automation/tracker';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { isAIActionCopy, isExternal } from 'in-automation/ActionCatalog/shared';
 import { NewPolicy, TriggerSpecification } from 'in-automation/Policies/types';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { TrackingFunction, useSegmentTracker } from 'in-automation/tracker';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
@@ -70,7 +70,6 @@ function onCreateFailed(error: Error) {
 
 function onCreate(
   policies: NewPolicy[],
-  actionNames: string[],
   policyActionMapping: Map<string, ScoredAction>,
   createPolicyTrackerSegment: TrackingFunction,
   triggerName?: string
@@ -90,10 +89,6 @@ function onCreate(
         });
       });
 
-      createBulkPoliciesTracker({
-        triggerName: triggerName ?? '',
-        actionNames
-      });
       close();
       refresh();
     },
@@ -227,9 +222,8 @@ export default function CreatePoliciesDialog({ event, actions, trigger }: Create
       return policy;
     });
     const triggerName = trigger.data?.name;
-    const actionNames = selectedActions.map(({ name }) => name);
 
-    onCreate(policies, actionNames, policyActionMapping, createPolicyTrackerSegment, triggerName);
+    onCreate(policies, policyActionMapping, createPolicyTrackerSegment, triggerName);
   }
 
   function onSelect(action: ScoredAction) {

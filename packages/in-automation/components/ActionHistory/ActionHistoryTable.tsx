@@ -20,12 +20,6 @@ import {
   actionStatusesUrlParameter,
   getActorType
 } from 'in-automation/components/ActionHistory/constants';
-import {
-  actionHistoryInstanceDeleteTracker,
-  actionHistoryInstanceViewTracker,
-  useSegmentTracker,
-  TrackingFunction
-} from 'in-automation/tracker';
 // @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-expect-error
@@ -36,6 +30,7 @@ import getActionInstances from 'in-automation/subscriptions/getActionInstances';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -203,13 +198,6 @@ function onDelete(
       if (res.deletedDocumentsCount && Number(res.deletedDocumentsCount) > 0) {
         onDeleteSuccess();
         refresh();
-        actionHistoryInstanceDeleteTracker({
-          actionName: actionInstance.actionName,
-          actionType: actionInstance.type,
-          metadata: actionInstance.metadata,
-          actionInstanceId
-        });
-
         actionHistoryInstanceDeleteTrackerSegment({
           actionName: actionInstance.actionName,
           actionType: actionInstance.type,
@@ -339,10 +327,6 @@ export default function ActionHistoryTable({ eventId }: { eventId?: string }) {
       onRowClick={(row: ActionInstance) => {
         addActiveDialog(<ActionInstanceDetail id={row.actionInstanceId} title={row.actionName} />);
         actionHistoryInstanceViewTrackerSegment({
-          actionInstanceId: row.actionInstanceId,
-          actionName: row.actionName
-        });
-        actionHistoryInstanceViewTracker({
           actionInstanceId: row.actionInstanceId,
           actionName: row.actionName
         });

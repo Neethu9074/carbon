@@ -33,7 +33,6 @@ import { refresh, usePaginatedPolicies } from 'in-automation/AutomationCard/useP
 import CreatePoliciesDialog from 'in-automation/AutomationCard/CreatePoliciesDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { runActionTracker, useSegmentTracker } from 'in-automation/tracker';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -42,6 +41,7 @@ import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import { ScoredAction, deletePolicy } from 'in-automation/api';
 import { Event, Policy, Result, VolatileId } from 'in-types';
+import { useSegmentTracker } from 'in-automation/tracker';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { mapData } from 'in-services/util/result';
 import { role } from 'in-stores/user';
@@ -190,13 +190,6 @@ function ExecuteButton({ policy, volatileId, event }: { policy: Policy; volatile
             policyType: 'manual',
             aiOriginated: false
           });
-
-          runActionTracker({
-            actionType: action.type,
-            actionName: action.name,
-            policyId: policy.id,
-            policyName: policy.name
-          });
         }}
         href={value}
       >
@@ -235,14 +228,6 @@ function ExecuteButton({ policy, volatileId, event }: { policy: Policy; volatile
             policyName: policy.name,
             policyType: 'manual',
             aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
-          });
-
-          runActionTracker({
-            actionType: action.type,
-            aIGeneratedAction: isAIAction(action) || isAIActionCopy(action),
-            actionName: action.name,
-            policyId: policy.id,
-            policyName: policy.name
           });
         }}
         noAutoMargin

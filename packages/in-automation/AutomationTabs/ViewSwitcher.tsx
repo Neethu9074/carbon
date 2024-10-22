@@ -11,9 +11,9 @@ import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/compo
 import { actionCatalogFullyQualified, actionHistoryPath, policiesFullyQualified } from 'in-automation/navigation/paths';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
-import { actionHistoryTracker, useSegmentTracker } from 'in-automation/tracker';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader from 'in-components/DashboardHeader';
+import { useSegmentTracker } from 'in-automation/tracker';
 import { t } from 'in-i18n';
 
 const dashboardHeaderProps = {
@@ -45,7 +45,6 @@ export default function ViewSwitcher() {
             isActive={isHistoryActive}
             onClick={() => {
               actionHistoryTrackerSegment();
-              actionHistoryTracker();
             }}
           />
           <SecondLevelNavigationItem

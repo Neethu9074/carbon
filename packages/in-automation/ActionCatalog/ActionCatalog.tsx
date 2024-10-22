@@ -9,12 +9,6 @@ import React from 'react';
 import { Button, Spacer, Stack, Typography } from '@instana/components';
 
 import {
-  viewAIGenaratedActionTracker,
-  clickCopyAIGenaratedActionTracker,
-  clickTestAIGenaratedActionTracker,
-  useSegmentTracker
-} from 'in-automation/tracker';
-import {
   createTagsUrlParameter,
   createTypeUrlParameter,
   createTabTypeUrlParameter
@@ -41,6 +35,7 @@ import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
+import { useSegmentTracker } from 'in-automation/tracker';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { deleteAction } from 'in-automation/api';
 import { Action, Error, Result } from 'in-types';
@@ -91,7 +86,6 @@ export default function ActionCatalog({
         navigateToActionDetails(item.id, false);
         if (!isUserActions) {
           viewAIGenaratedActionTrackerSegment({ actionName: item.name, actionType: item.type });
-          viewAIGenaratedActionTracker({ actionName: item.name });
         }
       }}
       cardTitle={
@@ -147,8 +141,6 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
               } else {
                 addActiveDialog(<RunActionDialog test action={action} volatileId={{}} />);
               }
-
-              if (!isUserActions) clickTestAIGenaratedActionTracker({ actionName: action.name });
             }}
           >
             {t('in-automation:test')}
@@ -164,13 +156,7 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
             <MoreMenuButton
               disabled={isAnsible(action.type)}
               icon="lib_actions_copy"
-              onClick={() => {
-                navigateToActionDetails(action.id, true);
-                if (!isUserActions)
-                  clickCopyAIGenaratedActionTracker({
-                    actionName: action.name
-                  });
-              }}
+              onClick={() => navigateToActionDetails(action.id, true)}
             >
               {t('in-automation:copy')}
             </MoreMenuButton>

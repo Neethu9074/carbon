@@ -36,13 +36,6 @@ import RunActionContent, {
   TRIGGERING_HOST_IP,
   TRIGGERING_HOST_IP_OPTION
 } from 'in-automation/RunActionDialog/RunActionDialogContent';
-import {
-  runActionTracker,
-  testActionTracker,
-  testAIGenaratedActionTracker,
-  useSegmentTracker,
-  TrackingFunction
-} from 'in-automation/tracker';
 import { ResolvedDynamicParamValue, resolveDynamicParameters, runTurboAction, runAction } from 'in-automation/api';
 import { isManual as isManualPolicy, isAutomatic as isAutomaticPolicy } from 'in-automation/Policies/types';
 import useNavigateToActionHistory from 'in-automation/navigation/hooks/useNavigateToActionHistory';
@@ -51,6 +44,7 @@ import { Action, Event, ParameterValue, VolatileId, Policy, AgentSnapshot } from
 import { setActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { ActionInstance } from 'in-automation/subscriptions/submitActionExecution';
+import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { refreshHistory } from 'in-automation/AutomationCard/useHistory';
 import { refresh } from 'in-automation/AutomationCard/useScoredActions';
 import { notBlankValidator } from 'in-services/validators/string';
@@ -484,18 +478,6 @@ function onSave(
       actionType: action.type,
       aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
     });
-
-    if (isAIAction(action) || isAIActionCopy(action)) {
-      testAIGenaratedActionTracker({
-        actionType: action.type,
-        actionName: action.name
-      });
-    } else {
-      testActionTracker({
-        actionType: action.type,
-        actionName: action.name
-      });
-    }
   } else {
     // Set policyType when running an action via a policy
     let policyType;
@@ -516,12 +498,6 @@ function onSave(
       policyName: executePolicy?.name ?? '',
       policyType,
       aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
-    });
-
-    runActionTracker({
-      actionType: action.type,
-      actionName: action.name,
-      aIGeneratedAction: isAIAction(action) || isAIActionCopy(action)
     });
   }
 }

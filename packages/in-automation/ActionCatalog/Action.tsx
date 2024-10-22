@@ -10,12 +10,6 @@ import React, { createContext } from 'react';
 import { themes } from '@instana/design-tokens';
 import { Action, Error } from '@instana/types';
 
-import {
-  createActionTracker,
-  editActionTracker,
-  copyAIGenaratedActionTracker,
-  useSegmentTracker
-} from 'in-automation/tracker';
 import { isNotEditable, isAIAction, isAIActionCopy, ActionFormEntity } from 'in-automation/ActionCatalog/shared';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import { ActionFormBody, ActionFormFooter, ActionFormHeader } from 'in-automation/ActionCatalog/ActionForm';
@@ -36,6 +30,7 @@ import { hasError, isLoading } from 'in-services/util/result';
 import SectionLine from 'in-settings/components/SectionLine';
 import useFormSubmission from 'in-hooks/useFormSubmission';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { useSegmentTracker } from 'in-automation/tracker';
 import Form from 'in-components/form/binding/Form';
 import useUrlState from 'in-hooks/useUrlState';
 import Title from 'in-components/Title/Title';
@@ -135,17 +130,8 @@ function useActionFormSubmission() {
         aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
       });
 
-      createActionTracker({
-        actionType: actionSpecification.type,
-        actionName: actionSpecification.name
-      });
       // we also want to add aiOriginated: true true to ai generated copy actions chidren and grand chidren too.
       if ((isAIAction(action) || isAIActionCopy(action)) && isCopy) {
-        copyAIGenaratedActionTracker({
-          actionType: actionSpecification.type,
-          actionName: actionSpecification.name,
-          copiedFromRecommendationCard: false
-        });
         // add aiOriginated flag to indicates that these are copied from OOTB AI action.
         const updatedCopiedAIAction = {
           metadata: { readOnly: false, builtIn: false, sensorImported: false, aiOriginated: true },
@@ -161,10 +147,6 @@ function useActionFormSubmission() {
         aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
       });
 
-      editActionTracker({
-        actionType: actionSpecification.type,
-        actionName: actionSpecification.name
-      });
       return saveAction(actionSpecification, id!);
     }
   });

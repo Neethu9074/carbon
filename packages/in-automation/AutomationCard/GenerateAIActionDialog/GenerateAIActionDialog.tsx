@@ -15,12 +15,6 @@ import useGenerateAIActionForm, {
   getActionFromForm
 } from 'in-automation/AutomationCard/GenerateAIActionDialog/useGenerateAIActionForm';
 import {
-  copyAIGenaratedActionTracker,
-  createPolicyFromAIActionTracker,
-  useSegmentTracker,
-  TrackingFunction
-} from 'in-automation/tracker';
-import {
   setGeneratedAction,
   useGeneratedAction
 } from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/PromptStep';
@@ -41,6 +35,7 @@ import { AIActionContent } from 'in-automation/subscriptions/generateAIAction';
 import { StepConfigs } from 'in-components/BlueprintFormMultistep/StepConfigs';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { setViewTrackingDataValues } from 'in-components/ViewTrackingMeta';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -153,12 +148,6 @@ function useOnSubmit() {
           }
         });
       }
-
-      copyAIGenaratedActionTracker({
-        actionType: action.type,
-        actionName: action.name,
-        copiedFromRecommendationCard: true
-      });
     }
     const action = getActionFromForm(form);
     if (!both) {
@@ -214,13 +203,6 @@ function useOnSubmit() {
               policyType: 'manual',
               aiOriginated: true,
               triggerName: event.problem?.problemText
-            });
-            createPolicyFromAIActionTracker({
-              name: result.data?.name,
-              triggerName: event.problem?.problemText,
-              actionName: action.name,
-              type: 'manual',
-              fromRecommendedActioncard: true
             });
             setActiveKey('automationPolicies');
             onCreatePolicySuccess(result.data?.name!, result.data?.id!);

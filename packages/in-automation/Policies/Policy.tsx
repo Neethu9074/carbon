@@ -10,12 +10,6 @@ import { Action, Error, Policy, Result } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
-import {
-  createPolicyTracker,
-  editPolicyTracker,
-  createPolicyFromAIActionTracker,
-  useSegmentTracker
-} from 'in-automation/tracker';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import { PolicyForm, PolicyFormEntity, Triggers, isAutomatic, isManual } from 'in-automation/Policies/types';
 import { getPolicyActionFromActions, getPolicyTriggerFromTriggers } from 'in-automation/Policies/shared';
@@ -37,6 +31,7 @@ import SectionLine from 'in-settings/components/SectionLine';
 import useTriggers from 'in-automation/Policies/useTriggers';
 import useFormSubmission from 'in-hooks/useFormSubmission';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { useSegmentTracker } from 'in-automation/tracker';
 import usePolicy from 'in-automation/Policies/usePolicy';
 import { pendingResult } from 'in-services/fixedObjects';
 import Form from 'in-components/form/binding/Form';
@@ -139,37 +134,12 @@ function usePolicyFormSubmission() {
       triggerName: trigger?.name
     };
 
-    const trackerDetails = {
-      name: policy.name,
-      triggerName: trigger?.name,
-      actionName: selectedAction.name,
-      type: isManual(policy) && isAutomatic(policy) ? 'both' : isManual(policy) ? 'manual' : 'automatic'
-    };
-
     if (isNew) {
       createPolicyTrackerSegment(trackerDetailsSegment);
-
-      if (isAIActionCopy(selectedAction)) {
-        createPolicyFromAIActionTracker({
-          fromRecommendedActioncard: false,
-          ...trackerDetails
-        });
-      } else {
-        createPolicyTracker(trackerDetails);
-      }
 
       return saveNewPolicy(policy);
     } else {
       editPolicyTrackerSegment(trackerDetailsSegment);
-
-      if (isAIActionCopy(selectedAction)) {
-        createPolicyFromAIActionTracker({
-          fromRecommendedActioncard: false,
-          ...trackerDetails
-        });
-      } else {
-        editPolicyTracker(trackerDetails);
-      }
 
       return savePolicy(policy, id!);
     }

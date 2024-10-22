@@ -7,8 +7,8 @@
 import { render, fireEvent } from '@testing-library/react';
 import React from 'react';
 
-import { actionHistoryTracker, useSegmentTracker } from 'in-automation/tracker';
 import * as NavigationHooks from 'in-stores/navigation/hooks/useNavigation';
+import { useSegmentTracker } from 'in-automation/tracker';
 import ViewSwitcher from './ViewSwitcher';
 import { t } from 'in-i18n';
 
@@ -19,7 +19,6 @@ jest.mock('in-stores/navigation/hooks/useNavigation', () => ({
   useNavigation: jest.fn()
 }));
 jest.mock('in-automation/tracker', () => ({
-  actionHistoryTracker: jest.fn(),
   useSegmentTracker: jest.fn()
 }));
 
@@ -30,7 +29,6 @@ const mockActionHistoryTrackerSegment = jest.fn();
 beforeEach(() => {
   // Reset all implementations
   t.mockClear();
-  actionHistoryTracker.mockClear();
   mockMatchLocation.mockReset();
   mockCreateHrefToPath.mockReset();
   mockActionHistoryTrackerSegment.mockReset();
@@ -65,7 +63,6 @@ describe('ViewSwitcher Component', () => {
     const { getByText } = render(<ViewSwitcher />);
     const actionHistoryLink = getByText('in-automation:actionHistory.actionHistory');
     fireEvent.click(actionHistoryLink);
-    expect(actionHistoryTracker).toHaveBeenCalled();
     expect(mockActionHistoryTrackerSegment).toHaveBeenCalled();
   });
 });

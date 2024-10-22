@@ -10,7 +10,6 @@ import React, { useEffect, useState } from 'react';
 import { Message, Stack, RadioButton } from '@instana/components';
 import { TextArea } from '@instana/components';
 
-import { actionHistoryInstanceFeedbackTracker } from 'in-automation/tracker';
 import { positiveNumberValidator } from 'in-services/validators/number';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
@@ -172,12 +171,6 @@ const handleSubmit = ({
           setSuccess(false);
         }, 5 * 1000)
       );
-      // tracks feedback and comment
-      actionHistoryInstanceFeedbackTracker({
-        actionInstanceId: id,
-        actionInstanceFeedback: newFeedback,
-        actionInstanceComment: newComment
-      });
     },
     () => {
       setIsSaving(false);

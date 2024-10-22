@@ -9,7 +9,7 @@ import React from 'react';
 import { ButtonGroup } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-import { recommendedActionsTabClickTracker, useSegmentTracker } from 'in-automation/tracker';
+import { useSegmentTracker } from 'in-automation/tracker';
 import { createStore } from 'in-stores/store';
 import { t } from 'in-i18n';
 
@@ -60,7 +60,6 @@ export default function AutomationCardButtonGroup({
       onClick: () => {
         setActiveKey('recommendedActions');
         recommendedActionsTabClickTrackerSegment();
-        recommendedActionsTabClickTracker();
       }
     },
     {
