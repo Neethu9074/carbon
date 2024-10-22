@@ -24,7 +24,7 @@ export const locationTypeTagName = 'synthetic.locationType';
 // Field obtained from GK Location through a temp table join
 export const locationNameTagName = 'synthetic.locationName';
 export const locationLabelTagName = 'synthetic.locationLabel';
-export const credentialNameTagName = 'synthetic.credentialName';
+
 /*
 Will assign the following names when needed
   'synthetic.metricsBlocking',

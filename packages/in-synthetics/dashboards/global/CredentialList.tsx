@@ -24,7 +24,6 @@ import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import { credentialNameTagName } from 'in-synthetics/tags';
 import { pageNames } from 'in-services/tracking/pageNames';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Sticky from 'in-components/Sticky';
@@ -98,7 +97,7 @@ export function getCredentialData({
   if (query && query.length > 0) {
     baseTagFilterExpression.elements.push({
       value: query,
-      name: credentialNameTagName,
+      name: 'credentialName',
       operator: CONTAINS,
       entity: NOT_APPLICABLE,
       type: 'TAG_FILTER'
