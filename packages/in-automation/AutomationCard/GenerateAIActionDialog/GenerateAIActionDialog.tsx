@@ -14,10 +14,12 @@ import useGenerateAIActionForm, {
   GenerateAIActionForm,
   getActionFromForm
 } from 'in-automation/AutomationCard/GenerateAIActionDialog/useGenerateAIActionForm';
+import { CreateActionSuccessNotification } from 'in-automation/AutomationCard/GenerateAIActionDialog/CreateActionSuccessNotification';
 import {
   setGeneratedAction,
   useGeneratedAction
 } from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/PromptStep';
+import { CloseDialogConfirmation } from 'in-automation/AutomationCard/GenerateAIActionDialog/CloseDialogConfirmation';
 import { setSelectedAction } from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/SelectActionStep';
 import CreatePolicyStep from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/CreatePolicyStep';
 import ReviewActionStep from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/ReviewActionStep';
@@ -25,7 +27,6 @@ import CopyActionStep from 'in-automation/AutomationCard/GenerateAIActionDialog/
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import { ScoredAction, getActionNameExists, saveNewAction, saveNewPolicy } from 'in-automation/api';
 import { refresh as refreshScoredActions } from 'in-automation/AutomationCard/useScoredActions';
-import useHrefToActionDetails from 'in-automation/navigation/hooks/useHrefToActionDetails';
 import useHrefToPolicyDetails from 'in-automation/navigation/hooks/useHrefToPolicyDetails';
 import { setActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 import { refresh as refreshPolicies } from 'in-automation/AutomationCard/usePolicies';
@@ -37,7 +38,6 @@ import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { setViewTrackingDataValues } from 'in-components/ViewTrackingMeta';
-import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createBasePolicy } from 'in-automation/AutomationCard/shared';
 import { error, hasError, isLoading } from 'in-services/util/result';
@@ -159,7 +159,7 @@ function useOnSubmit() {
             setResult(result);
             if (hasError(result)) return;
             trackAction();
-            onCreateActionSuccess(result.data?.name!, result.data?.id!);
+            CreateActionSuccessNotification(result.data?.name!, result.data?.id!);
             refreshScoredActions();
             onClose();
           },
@@ -181,7 +181,7 @@ function useOnSubmit() {
         .flatMap<Result<Action | Policy>>(result => {
           setResult(result);
           if (hasError(result)) return just(result);
-          onCreateActionSuccess(result.data?.name!, result.data?.id!);
+          CreateActionSuccessNotification(result.data?.name!, result.data?.id!);
           trackAction();
           const policyForm = form.get('policy');
           const policy = createBasePolicy(event, result.data!, {
@@ -269,43 +269,14 @@ function onClose() {
   close();
 }
 
-function CloseDialogConfirmation({ step }: { step: number }) {
-  const { AIActionLeaveGenerateDialogTrackerSegment } = useSegmentTracker();
-  return (
-    <ConfirmationDialog
-      header={
-        <Typography variant="body-regular" noWrap noMargin>
-          {t('in-automation:generateWithWatsonx')}
-        </Typography>
-      }
-      description={
-        <>
-          <Typography variant="heading-200" noWrap noMargin>
-            {t('in-automation:GenerateAIActionDialog.closeDialogDescription')}
-          </Typography>
-          <Spacer vertical="medium" />
-          <Typography variant="body-regular" noWrap noMargin>
-            {t('in-automation:GenerateAIActionDialog.closeDialogSubDescription')}
-          </Typography>
-        </>
-      }
-      confirmButtonLabel={t('in-automation:GenerateAIActionDialog.confirmButtonLabel')}
-      secondaryButtonLabel={t('in-automation:GenerateAIActionDialog.cancelButtonLabel')}
-      onSubmit={() => {
-        close();
-        AIActionLeaveGenerateDialogTrackerSegment({ step: step });
-        onClose();
-      }}
-    />
-  );
-}
-
 function useOnCancel(step: number) {
   const generatedAction = useGeneratedAction();
 
   return () => {
     if (generatedAction) {
-      return addActiveDialog(<CloseDialogConfirmation step={step} />);
+      return addActiveDialog(
+        <CloseDialogConfirmation step={step} onClose={onClose} dialogHeader={t('in-automation:generateWithWatsonx')} />
+      );
     } else {
       onClose();
     }
@@ -407,31 +378,6 @@ function onCreatePolicySuccess(name: string, id: string) {
     timeout: 5000,
     title: t('in-automation:GenerateAIActionDialog.policy.success.title'),
     content: <PolicySuccess name={name} id={id} />
-  });
-}
-
-function ActionSuccess({ name, id }: { name: string; id: string }) {
-  const hrefToActionDetails = useHrefToActionDetails();
-  return (
-    <Trans
-      i18nKey={'in-automation:GenerateAIActionDialog.action.success.content'}
-      values={{
-        name
-      }}
-      components={{
-        // @ts-expect-error
-        Link: <Link external href={hrefToActionDetails(id)} />
-      }}
-    />
-  );
-}
-
-function onCreateActionSuccess(name: string, id: string) {
-  addMessage({
-    type: 'info',
-    timeout: 5000,
-    title: t('in-automation:GenerateAIActionDialog.action.success.title'),
-    content: <ActionSuccess name={name} id={id} />
   });
 }
 

@@ -9,23 +9,27 @@ import React from 'react';
 import { Button, Spacer, Stack, Typography } from '@instana/components';
 
 import {
-  createTagsUrlParameter,
-  createTypeUrlParameter,
-  createTabTypeUrlParameter
-} from 'in-automation/navigation/urlParameters';
-import {
   getDocLinkFromFields,
   isAnsible,
   isDocLink,
   isManual,
-  isNotEditable
+  isNotEditable,
+  useHasAccessToScript,
+  getManualContentFromFields
 } from 'in-automation/ActionCatalog/shared';
+import {
+  createTagsUrlParameter,
+  createTypeUrlParameter,
+  createTabTypeUrlParameter
+} from 'in-automation/navigation/urlParameters';
+import GenerateAIScriptActionDialog from 'in-automation/AutomationCard/GenerateAIActionDialog/GenerateAIScriptActionDialog';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { descriptionColumn, lastModifiedColumn, nameColumn } from 'in-automation/ActionTable/columnDefinitions';
 import useActionCatalogFilterUrlState from 'in-automation/ActionCatalog/useActionCatalogFilterUrlState';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import useNavigateToActionDetails from 'in-automation/navigation/hooks/useNavigateToActionDetails';
 import { refresh, usePaginatedActions } from 'in-automation/ActionCatalog/useActions';
+import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
@@ -127,7 +131,16 @@ export default function ActionCatalog({
 
 function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUserActions: boolean }) {
   const navigateToActionDetails = useNavigateToActionDetails();
+  const hasAccessToScript = useHasAccessToScript();
   const hasPermisson = role?.canConfigureAutomationActions || role?.canRunAutomationActions;
+  let manualContent = '';
+
+  if (isManual(action.type)) {
+    const content = getManualContentFromFields(action.fields);
+    if (content.encoding === 'base64') {
+      manualContent = atob(content.value);
+    }
+  }
   if (!hasPermisson) return null;
   return (
     <Stack align="end">
@@ -160,6 +173,18 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
             >
               {t('in-automation:copy')}
             </MoreMenuButton>
+            {isManual(action.type) && automationActionAiGenerationUnitEnabled && hasAccessToScript && (
+              <MoreMenuButton
+                icon="lib_launch_ai"
+                onClick={() => {
+                  addActiveDialog(
+                    <GenerateAIScriptActionDialog manualContent={manualContent} actionName={action.name} />
+                  );
+                }}
+              >
+                {t('in-automation:GenerateAIActionDialog.generateScriptDialog.generateScriptButton')}
+              </MoreMenuButton>
+            )}
             {isUserActions && (
               <MoreMenuButton
                 disabled={isNotEditable(action, false)}

@@ -31,6 +31,8 @@ import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { Trans, t } from 'in-i18n';
 
+import locals from 'in-automation/AutomationCard/GenerateAIActionDialog/GenerateAIActionDialog.mless';
+
 const generatedActionStore = createStore<Result<AIActionContent> | null>({
   name: 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/PromptStep',
   initialValue: null,
@@ -214,7 +216,11 @@ function GenerateButton({
 function EmptySection() {
   return (
     <FormGroup>
-      <Label>{t('in-automation:titleScriptContentReadOnly')}</Label>
+      <div className={locals.header}>
+        <Typography variant="heading-200" component="h2">
+          {t('in-automation:titleContentReadOnly')}
+        </Typography>
+      </div>
       <NoDataAvailable
         height={500}
         title={t('in-automation:GenerateAIActionDialog.noResultsYet')}

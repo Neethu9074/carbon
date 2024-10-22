@@ -181,7 +181,11 @@ function ScriptSection({ action }: { action: ScoredAction }) {
     <>
       <ActionName name={action.name} />
       <FormGroup>
-        <Label>{t('in-automation:titleScriptContentReadOnly')}</Label>
+        <div className={locals.header}>
+          <Typography variant="heading-200" component="h2">
+            {t('in-automation:GenerateAIActionDialog.generateScriptDialog.titleGeneratedCodeReadOnly')}
+          </Typography>
+        </div>
         <div className={locals.CodeWithAISlug}>
           <Code withExpandButton withoutCopyButton code={plaintextScript} lang={'bash'} softWrap />
           <AISlugIcon />
@@ -196,7 +200,11 @@ function EmptySection() {
     <>
       <ActionName />
       <FormGroup>
-        <Label>{t('in-automation:titleScriptContentReadOnly')}</Label>
+        <div className={locals.header}>
+          <Typography variant="heading-200" component="h2">
+            {t('in-automation:titleContentReadOnly')}
+          </Typography>
+        </div>
         <NoDataAvailable
           height={450}
           title={t('in-automation:GenerateAIActionDialog.noResultsYet')}

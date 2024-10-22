@@ -5,16 +5,23 @@
  */
 
 :local {
+  .selectManualStepDiv {
+    margin-bottom: 5rem;
+  }
+
   .dialog {
     width: 80vw;
     height: 40vw;
     overflow-y: auto;
   }
+
+  .stepsTile {
+    border-bottom: 1px solid var(--cds-layer-selected-01);
+  }
   .contentSection {
     display: inline-flex;
     > div {
       min-height: 400px;
-      width: 100%;
     }
 
     div {
@@ -35,6 +42,7 @@
 
   .CodeWithAISlug {
     display: inline-flex;
+    height: 450px;
     justify-content: space-between;
     background-color: var(--cds-layer);
     div {
@@ -50,5 +58,36 @@
     padding: 0.6rem;
     background: var(--cds-layer-selected-01);
     align-items: center;
+  }
+
+  .promptCode {
+    height: 395px;
+    div {
+      &:nth-child(1) {
+        background-color: var(--cds-layer);
+        &:nth-child(1) {
+          background-color: var(--cds-layer);
+          height: 450px;
+          padding: 0.15rem;
+        }
+      }
+    }
+  }
+
+  .noResults {
+    background-color: var(--cds-layer);
+  }
+  .step2Description {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .generateScriptStep {
+    margin-bottom: 4rem;
+  }
+
+  .generateScriptButton {
+    position: absolute;
+    right: 10px;
   }
 }
