@@ -27,6 +27,7 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { playwithEnabled } from 'in-services/featureFlags';
 import SaveButton from 'in-components/form/SaveButton';
 import WithTvMode from 'in-components/WithTvMode';
 import Tooltip from 'in-components/Tooltip';
@@ -211,7 +212,7 @@ function SecondaryButtonLine({
       )}
 
       <MoreMenu kind="secondaryDarker">
-        <MoreMenuButton icon="lib_actions_maximize" onClick={() => setTvModeEnabled(true)}>
+        <MoreMenuButton icon="lib_actions_maximize" disabled={playwithEnabled} onClick={() => setTvModeEnabled(true)}>
           {t('in-custom-dashboards:customDashboard.customDashboardPresenter.tvMode')}
         </MoreMenuButton>
         <MoreMenuSetAsLandingPageButton
@@ -228,7 +229,7 @@ function SecondaryButtonLine({
             {t('in-custom-dashboards:customDashboard.customDashboardPresenter.editAsJson')}
           </MoreMenuButton>
         ) : (
-          <MoreMenuButton icon="lib_views_file" onClick={onViewAsJson}>
+          <MoreMenuButton icon="lib_views_file" disabled={playwithEnabled} onClick={onViewAsJson}>
             {t('in-custom-dashboards:customDashboard.customDashboardPresenter.viewAsJson')}
           </MoreMenuButton>
         )}
@@ -237,12 +238,12 @@ function SecondaryButtonLine({
           successText={t('in-custom-dashboards:customDashboard.customDashboardPresenter.copiedAllWidgets')}
         >
           {copyToClipboardRef => (
-            <MoreMenuButton icon="lib_actions_copy" ref={copyToClipboardRef}>
+            <MoreMenuButton icon="lib_actions_copy" disabled={playwithEnabled} ref={copyToClipboardRef}>
               {t('in-custom-dashboards:customDashboard.customDashboardPresenter.copyAllWidgets')}
             </MoreMenuButton>
           )}
         </CopyToClipboard>
-        <MoreMenuButton icon="lib_group_by" onClick={onDuplicateDashboard}>
+        <MoreMenuButton icon="lib_group_by" disabled={playwithEnabled} onClick={onDuplicateDashboard}>
           {t('in-custom-dashboards:customDashboard.customDashboardPresenter.duplicate')}
         </MoreMenuButton>
         {editable && (
