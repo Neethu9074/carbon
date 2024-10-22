@@ -45,7 +45,7 @@ const EditCredentialInputs = ({ form, updateForm }: Props) => {
             );
           }}
           placeholder={t('in-synthetics:dialog.createCredential.steps.placeholder', {
-            value: 'Credential Password'
+            value: 'Credential Value'
           })}
           labelText={t('in-synthetics:dialog.createCredential.steps.labelText', { value: 'Value' })}
           helperText={t('in-synthetics:dialog.createCredential.edit.passwordInputHelperText')}
