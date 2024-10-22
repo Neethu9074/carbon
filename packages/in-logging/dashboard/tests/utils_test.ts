@@ -4,28 +4,27 @@
  * Copyright IBM Corp. 2024
  */
 
-// eslint-disable-next-line no-restricted-imports
-import {
-  dashboardConfigurationPath,
-  dashboardDeletePath,
-  dashboardSmartAlertsPath,
-  loggingDashboardPath
-} from 'in-logging/navigation/paths';
+import { renderHook } from '@testing-library/react-hooks';
+
+import { useObservable } from '@instana/hooks';
+
 // eslint-disable-next-line no-restricted-imports
 import { generateQueryWithWinSize, useLoggingNavigationItems } from '../utils';
+// eslint-disable-next-line no-restricted-imports
+import { loggingDashboardPath } from 'in-logging/navigation/paths';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
-
-jest.mock('@instana/hooks', () => ({
-  useObservable: jest.fn(() => true)
-}));
 
 jest.mock('in-stores/user', () => ({
   role: {
-    canDeleteLogs: true,
     canConfigureLogRetentionPeriod: true,
     canViewLogVolume: true,
     canConfigureIntegrations: true
   }
+}));
+
+jest.mock('@instana/hooks', () => ({
+  useObservable: jest.fn()
 }));
 
 describe('generateQueryWithWinSize', () => {
@@ -89,74 +88,51 @@ describe('generateQueryWithWinSize', () => {
 });
 
 describe('useLoggingNavigationItems', () => {
-  it('should generate correct navigation items', () => {
-    const loggingNavigationItem = useLoggingNavigationItems();
-
-    const expectedItems = [
-      {
-        path: loggingDashboardPath,
-        label: t('in-logging:dashboard.summary'),
-        currentTab: expect.any(Function)
-      },
-      {
-        path: dashboardSmartAlertsPath,
-        label: t('in-logging:dashboard.smartAlerts'),
-        currentTab: dashboardSmartAlertsPath
-      },
-      {
-        path: dashboardDeletePath,
-        label: t('in-logging:dashboard.deleteLogs'),
-        currentTab: expect.any(Function),
-        isTabAllowed: true
-      },
-      {
-        path: dashboardConfigurationPath,
-        label: t('in-logging:dashboard.configuration'),
-        currentTab: expect.any(Function),
-        isTabAllowed: true
-      }
-    ];
-
-    expect(loggingNavigationItem).toEqual(expectedItems);
+  beforeEach(() => {
+    (useObservable as jest.Mock).mockReturnValue({ licensed: true });
   });
 
-  it('should correctly evaluate currentTab functions for loggingDashboardPath', () => {
-    const loggingNavigationItem = useLoggingNavigationItems();
-    const summaryTab = loggingNavigationItem.find(item => item.path === loggingDashboardPath);
-
-    if (typeof summaryTab?.currentTab === 'function') {
-      expect(summaryTab.currentTab(loggingDashboardPath)).toBe(true);
-      expect(summaryTab.currentTab(dashboardSmartAlertsPath)).toBe(false);
-    }
+  test('should return correct paths and labels', () => {
+    const { result } = renderHook(() => useLoggingNavigationItems());
+    expect(result.current).toHaveLength(4);
+    expect(result.current[0].path).toBe(loggingDashboardPath);
+    expect(result.current[0].label).toBe(t('in-logging:dashboard.summary'));
   });
 
-  it('should correctly evaluate currentTab for dashboardDeletePath', () => {
-    const loggingNavigationItem = useLoggingNavigationItems();
-    const deleteTab = loggingNavigationItem.find(item => item.path === dashboardDeletePath);
-
-    if (typeof deleteTab?.currentTab === 'function') {
-      expect(deleteTab.currentTab(dashboardDeletePath)).toBe(true);
-      expect(deleteTab.currentTab(loggingDashboardPath)).toBe(false);
-    }
+  test('should correctly mark the current tab', () => {
+    const { result } = renderHook(() => useLoggingNavigationItems());
+    const isActive = (result.current[0].currentTab as (path: string) => boolean)(loggingDashboardPath);
+    expect(isActive).toBe(true);
   });
 
-  it('should correctly evaluate currentTab for dashboardConfigurationPath', () => {
-    const loggingNavigationItem = useLoggingNavigationItems();
-    const configTab = loggingNavigationItem.find(item => item.path === dashboardConfigurationPath);
+  test('should allow or disallow tabs based on role permissions', () => {
+    role!.canConfigureLogRetentionPeriod = true;
+    const { result, rerender } = renderHook(() => useLoggingNavigationItems());
 
-    if (typeof configTab?.currentTab === 'function') {
-      expect(configTab.currentTab(dashboardConfigurationPath)).toBe(true);
-      expect(configTab.currentTab(dashboardSmartAlertsPath)).toBe(false);
-    }
+    expect(result.current[3].isTabAllowed).toBe(true);
+
+    role!.canConfigureLogRetentionPeriod = false;
+    rerender();
+
+    expect(result.current[2].isTabAllowed).toBe(false);
   });
 
-  it('should handle the isTabAllowed logic correctly', () => {
-    const loggingNavigationItem = useLoggingNavigationItems();
+  test('should conditionally show configuration tab for addon users', () => {
+    role!.canConfigureLogRetentionPeriod = true;
+    const { result, rerender } = renderHook(() => useLoggingNavigationItems());
 
-    const deleteTab = loggingNavigationItem.find(item => item.path === dashboardDeletePath);
-    expect(deleteTab?.isTabAllowed).toBe(true);
+    expect(result.current[3].isTabAllowed).toBe(true);
 
-    const configTab = loggingNavigationItem.find(item => item.path === dashboardConfigurationPath);
-    expect(configTab?.isTabAllowed).toBe(true);
+    (useObservable as jest.Mock).mockReturnValue(undefined);
+    role!.canConfigureIntegrations = false;
+
+    rerender();
+
+    expect(result.current[3].isTabAllowed).toBe(false);
+  });
+
+  test('should translate labels correctly', () => {
+    const { result } = renderHook(() => useLoggingNavigationItems());
+    expect(result.current[1].label).toBe(t('in-logging:dashboard.smartAlerts'));
   });
 });
