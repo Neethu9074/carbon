@@ -13,9 +13,11 @@ import EditCredentialInputs from 'in-synthetics/dashboards/global/tabs/credentia
 import editCredentialForm from 'in-synthetics/dashboards/global/tabs/credentials/components/editCredentialForm';
 import { showUpdateErrorMessage, showUpdateSuccessMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import AssociationsCommonSection from 'in-synthetics/createTests/wizard/AssociationsCommonSection';
+import { syntheticCredentialEditSubmitButtonClick } from 'in-synthetics/tracking/tracker';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { SlideInConfig, SliderState } from 'in-synthetics/utils/constants';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { close } from 'in-components/DialogPresenter/store';
@@ -34,6 +36,7 @@ const EditSelectedCredential = ({ item }: Props) => {
   const [form, updateForm] = useState(() => editCredentialForm(item));
   const [slideInViewVisible, setSlideInViewVisible] = useState(false);
   const [slideInConfig, setSlideConfig] = useState<SlideInConfig | null>(null);
+  const { trackCta } = useSegmentTracking();
 
   const setSliderState = ({ slideInConfig, isVisible }: SliderState) => {
     if (slideInConfig) {
@@ -43,6 +46,7 @@ const EditSelectedCredential = ({ item }: Props) => {
   };
 
   const handleEditCredential = () => {
+    syntheticCredentialEditSubmitButtonClick(trackCta);
     let credentialConfig: SyntheticCredential;
 
     credentialConfig = {

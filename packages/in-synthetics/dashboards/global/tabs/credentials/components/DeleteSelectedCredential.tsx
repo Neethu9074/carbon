@@ -11,7 +11,9 @@ import { Button } from '@instana/components';
 
 import { ModalNotification } from 'in-synthetics/dashboards/global/tabs/locations/components/ModalNotification';
 import { showDeleteSuccessMessage, showDeleteErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
+import { syntheticCredentialDeleteSubmitButtonClick } from 'in-synthetics/tracking/tracker';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { NotificationState } from 'in-synthetics/utils/constants';
 import { close } from 'in-components/DialogPresenter/store';
 import { deleteCredential } from 'in-synthetics/api';
@@ -26,11 +28,13 @@ import locals from './CredentialListActionsColumn.mless';
 const DeleteSelectedCredential = ({ item }: { item: SyntheticCredential }) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [credentialNameInputValue, setCredentialNameInputvalue] = useState('');
+  const { trackCta } = useSegmentTracking();
   const [notification, setNotification] = useState<NotificationState>({ show: false });
 
   const { credentialName }: SyntheticCredential = item;
 
   const doDeleteAction = () => {
+    syntheticCredentialDeleteSubmitButtonClick(trackCta);
     setIsDeleting(true);
 
     const action$ = deleteCredential(credentialName);

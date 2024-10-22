@@ -508,6 +508,13 @@ export const SYNTHETIC_CONFIGURATION_TAB_DELETE_CLICK = 'synthetic.monitoring.co
 export const SYNTHETIC_RESULTS_LIST_DETAIL_CLICK = 'synthetic.monitoring.results.list.detail.click';
 export const SYNTHETIC_RESULTS_WIDGET_DETAIL_CLICK = 'synthetic.monitoring.results.widget.detail.click';
 
+export const SYNTHETIC_CREDENTIAL_OPEN_CREATE_DIALOG_CLICK = 'synthetic.monitoring.credential.open.create.dialog.click';
+export const SYNTHETIC_CREDENTIAL_SWITCH_TAB_CLICK = 'synthetic.monitoring.credential.switch_tab_click';
+export const SYNTHETIC_CREDENTIAL_CREATE_BUTTON_CLICK = 'synthetic.monitoring.credential.create.button.click';
+export const SYNTHETIC_CREDENTIAL_EDIT_SUBMIT_BUTTON_CLICK = 'synthetic.monitoring.credential.edit.submit.button.click';
+export const SYNTHETIC_CREDENTIAL_DELETE_SUBMIT_BUTTON_CLICK =
+  'synthetic.monitoring.credential.delete.submit.button.click';
+
 // Events Page RCA Tracking
 export const EVENT_RCA_SUGGESTION_HELPFUL = 'event.rca.suggestion.helpful';
 export const EVENT_RCA_SUGGESTION_UNHELPFUL = 'event.rca.suggestion.unhelpful';

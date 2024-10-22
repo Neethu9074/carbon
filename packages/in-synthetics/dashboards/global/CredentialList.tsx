@@ -18,6 +18,8 @@ import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getCredentialList from 'in-synthetics/subscriptions/getCredentialList';
+import { syntheticSwitchCredentialTab } from 'in-synthetics/tracking/tracker';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { CONTAINS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { syntheticCredentialPath } from 'in-synthetics/navigation/paths';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
@@ -33,6 +35,7 @@ import { t } from 'in-i18n';
 export default function CredentialList() {
   const timeConfig = useTimeConfig();
   const location = useLocation();
+  const { trackCta } = useSegmentTracking();
   const pathSegment = syntheticCredentialPath;
   const matrixPrefix = '';
   const ServerTableWithUrlState = createServerTableWithUrlState({
@@ -48,6 +51,7 @@ export default function CredentialList() {
     pathSegment,
     matrixPrefix
   });
+  syntheticSwitchCredentialTab(trackCta);
   const rightHeader = () => {
     return <CreateCredentialsButton />;
   };

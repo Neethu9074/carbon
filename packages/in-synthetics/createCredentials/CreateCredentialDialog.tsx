@@ -13,8 +13,10 @@ import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/S
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import createCredentialForm from 'in-synthetics/createCredentials/createCredentialForm';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
+import { syntheticCreateCredentialButtonClick } from 'in-synthetics/tracking/tracker';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { SlideInConfig, SliderState } from 'in-synthetics/utils/constants';
 import StepOne from 'in-synthetics/createCredentials/steps/StepOne';
 import StepTwo from 'in-synthetics/createCredentials/steps/StepTwo';
@@ -35,6 +37,7 @@ const CreateCredentialDialog = ({ onClose }: Props) => {
   const [form, updateForm] = useState(() => createCredentialForm());
   const [slideInViewVisible, setSlideInViewVisible] = useState(false);
   const [slideInConfig, setSlideConfig] = useState<SlideInConfig | null>(null);
+  const { trackCta } = useSegmentTracking();
 
   const setSliderState = ({ slideInConfig, isVisible }: SliderState) => {
     if (slideInConfig) {
@@ -49,6 +52,7 @@ const CreateCredentialDialog = ({ onClose }: Props) => {
   ];
 
   const onCreate = () => {
+    syntheticCreateCredentialButtonClick(trackCta);
     let credentialConfig: SyntheticCredential;
 
     credentialConfig = {

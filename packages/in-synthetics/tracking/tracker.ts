@@ -18,7 +18,12 @@ import {
   SYNTHETIC_RESULTS_LIST_DETAIL_CLICK,
   SYNTHETIC_RESULTS_WIDGET_DETAIL_CLICK,
   SYNTHETIC_CONFIGURATION_TAB_EDIT_CLICK,
-  SYNTHETIC_CONFIGURATION_TAB_DELETE_CLICK
+  SYNTHETIC_CONFIGURATION_TAB_DELETE_CLICK,
+  SYNTHETIC_CREDENTIAL_OPEN_CREATE_DIALOG_CLICK,
+  SYNTHETIC_CREDENTIAL_SWITCH_TAB_CLICK,
+  SYNTHETIC_CREDENTIAL_CREATE_BUTTON_CLICK,
+  SYNTHETIC_CREDENTIAL_EDIT_SUBMIT_BUTTON_CLICK,
+  SYNTHETIC_CREDENTIAL_DELETE_SUBMIT_BUTTON_CLICK
 } from 'in-services/tracking/tracking';
 import { AdvancedBluePrint } from 'in-synthetics/createTests/data/advancedModeBluePrints';
 import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
@@ -106,5 +111,40 @@ export const clickSyntheticMonitoringConfigurationTabDeleteTracker = (trackCta: 
   trackCta(SYNTHETIC_CONFIGURATION_TAB_DELETE_CLICK, {
     type: 'Button',
     text: 'Delete action from edit dialog view.'
+  });
+};
+
+export const syntheticSwitchCredentialTab = (trackCta: CtaTrackingFunction) => {
+  trackCta(SYNTHETIC_CREDENTIAL_SWITCH_TAB_CLICK, {
+    type: 'Tab',
+    text: 'Switch to credential view.'
+  });
+};
+
+export const syntheticOpenCredentialDialogButtonClick = (trackCta: CtaTrackingFunction) => {
+  trackCta(SYNTHETIC_CREDENTIAL_OPEN_CREATE_DIALOG_CLICK, {
+    type: 'Button',
+    text: 'Open create credentials dialog.'
+  });
+};
+
+export const syntheticCreateCredentialButtonClick = (trackCta: CtaTrackingFunction) => {
+  trackCta(SYNTHETIC_CREDENTIAL_CREATE_BUTTON_CLICK, {
+    type: 'Button',
+    text: 'Create credential button clicked.'
+  });
+};
+
+export const syntheticCredentialEditSubmitButtonClick = (trackCta: CtaTrackingFunction) => {
+  trackCta(SYNTHETIC_CREDENTIAL_EDIT_SUBMIT_BUTTON_CLICK, {
+    type: 'Button',
+    text: 'Update credential button clicked'
+  });
+};
+
+export const syntheticCredentialDeleteSubmitButtonClick = (trackCta: CtaTrackingFunction) => {
+  trackCta(SYNTHETIC_CREDENTIAL_DELETE_SUBMIT_BUTTON_CLICK, {
+    type: 'Button',
+    text: 'Delete credential button clicked'
   });
 };
