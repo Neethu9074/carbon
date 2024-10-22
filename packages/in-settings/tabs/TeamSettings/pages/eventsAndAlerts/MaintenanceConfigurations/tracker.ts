@@ -9,20 +9,20 @@ import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { EventTrackerProps } from 'in-services/tracking/segment/types';
 import { CTA_CLICKED } from 'in-services/util/constants';
 
-export function maintenanceWindowCTATracker(EVENT_NAME: string, path: string, label?: string, customData?: Object) {
+export function maintenanceWindowCTATracker(EVENT_NAME: string, path: string, label?: string, data?: string) {
   const { pageRootName, productArea } = getViewTrackingMetaData();
   if (pageRootName && productArea) {
-    const data = {
+    const instrumentationInfo = {
       parentPageName: pageRootName,
       parentPageCategory: productArea,
       CTA: EVENT_NAME,
       channel: 'maintenance windows',
       path: path,
       label: label,
-      ['custom.payload']: customData
+      data: data
     } as EventTrackerProps['data'];
 
-    eventTracker({ data, segmentEventName: CTA_CLICKED });
+    eventTracker({ data: instrumentationInfo, segmentEventName: CTA_CLICKED });
   }
 }
 
