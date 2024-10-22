@@ -4,6 +4,7 @@
 > All this will help in getting your PR merged faster.
 
 # Why
+
 <!--
 > Please describe why you are proposing this code change. This should include
 > at least a single text paragraph. When possible formulate this from the
@@ -11,6 +12,7 @@
 -->
 
 # What
+
 <!--
 > Please explain what you did. For small/trivial changes a single paragraph is
 > probably sufficient. For any larger changes this should include design
@@ -18,14 +20,16 @@
 -->
 
 # How to test
+
 <!--
 > Add instructions for people testing this change if necessary
 > Eventually, provide any URL for local testing, and/or Release URL for Release QA Testing
 -->
 
 # Checklist
+
 <!--
-> Please tick of these checklist items. 
+> Please tick of these checklist items.
 > When some of these aren't necessary for this PR, remove them.
 -->
 
@@ -38,39 +42,46 @@
 - [ ] User facing change? Release Notes PR created and linked in references
 - [ ] Documentation needs an update? Docs PR created and linked in references
 - [ ] [Pull Request Guidelines](https://github.ibm.com/instana/ui-notion-pages/blob/main/Frontend-Enablement/Process/Pull-Request-Guidelines.md) applied
-- [ ] Ensure [Mixpanel Instrumentation](https://github.ibm.com/instana/ui-notion-pages/blob/main/UI-Community/Product-Analytics/mixpanel-instrumentation.md) is done for Team wise product analytics.
+- [ ] Ensure Segment Instrumentation is done for team-wise product analytics.
 
 <!--
 Really, if not applicable, please REMOVE it.
 -->
+
 # References
+
 <!--
 > Please include links to other artifacts related to this code change.
 -->
+
 - Story: INSTA-12345
 - [Documentation](http://example.com)
 - [CSP Case](http://example.com)
 - [Release Notes PR](https://github.ibm.com/instana/docs/compare)
 - [Documentation PR](https://github.ibm.com/instana/docs/compare)
 
-
 # Screenshots
+
 <!--
 > Please include one or more screenshots that show what this code change looks
 > like in the UI. Please include screenshots to highlight special / edge cases.
 
 > You can add screenshots either in a table side-by-side or for bigger screenshots, you can use the sections.
 -->
+
 | Before | After |
 | ------ | ----- |
 |        |       |
 |        |       |
 
 ## After
+
 <!--
 > Please add any screenshot here to show how it looks after applying the changes. This helps to spot the visual changes easier.
 -->
+
 ## Before
+
 <!--
 > Please add any screenshot of how it looked before the changes for easier comparison.
 -->
