@@ -90,7 +90,7 @@ export default function Tooltip({
       const { isActive, timeoutHandle, domNode: previousDomNode } = tooltipState.current || {};
 
       // Dispose old state if any
-      if (previousDomNode) {
+      if (previousDomNode && previousDomNode.removeEventListener) {
         previousDomNode.removeEventListener('mouseleave', onMouseOut, false);
         previousDomNode.removeEventListener('mouseenter', onMouseIn, false);
       }
@@ -108,7 +108,7 @@ export default function Tooltip({
         content: content
       };
       // set up new listeners
-      if (domNode) {
+      if (domNode && domNode.addEventListener) {
         try {
           domNode.addEventListener('mouseenter', onMouseIn, false);
           domNode.addEventListener('mouseleave', onMouseOut, false);
