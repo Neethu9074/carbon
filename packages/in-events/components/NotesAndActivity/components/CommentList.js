@@ -219,6 +219,7 @@ export function ChatBubble({
               <CarbonIconButton
                 kind={'ghost'}
                 size={'sm'}
+                label="Share"
                 onClick={() => {
                   setNeedOverlay(true);
                   setShareOpen(true);
@@ -230,6 +231,7 @@ export function ChatBubble({
               <CarbonIconButton
                 kind={'ghost'}
                 size={'sm'}
+                label="Copy"
                 onClick={() => {
                   copyToClipboard(convertSummaryToString(getSummary(sumData)));
                 }}

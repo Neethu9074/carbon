@@ -82,10 +82,13 @@ export function NotesAndActivity(props) {
   // Boolean to control when the notes section is opened
   // Current value of the typed out note
   const [note, setNote] = useState('');
+  // Edit note when set is an array with first index bing the noteID
+  // and the second index determining if its editing (true) or delete (false)
   const [editNoteId, setEditNoteId] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const [openSearch, setOpenSearch] = useState(false);
   const [displayQuickStart, setDisplayQuickStart] = useState(true);
+  // Controls when the side panel has been expanded
   const [stretchOverlay, setStretchOverlay] = useState(false);
   const [needOverlay, setNeedOverlay] = useState(false);
   // Share Modal visible

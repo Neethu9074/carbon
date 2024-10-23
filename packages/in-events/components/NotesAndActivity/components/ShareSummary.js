@@ -8,22 +8,22 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import { CarbonModal, CarbonTextArea, CarbonTextInput, CarbonForm } from '@instana/components';
+import { user } from 'in-stores/user';
+import { shareEventSummary } from 'in-stores/events';
 
 import locals from './ShareSummary.mless';
-
-// import { convertSummaryToString  } from './utils';
-
 // import { Trans, t } from 'in-i18n';
 
 export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay }) {
   const [textSummary, setTextSummary] = useState(summary);
   const [manualInput, setManualInput] = useState(false);
   const [subject, setSubject] = useState('');
+  const [recipients, setRecipients] = useState('');
   const [summaryTextFocused, setSummaryTextFocused] = useState('');
 
   return (
     <>
-      <CarbonModal
+        <CarbonModal
         open={open}
         onRequestClose={() => {
           setTimeout(() => {
@@ -31,7 +31,9 @@ export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay }) {
           }, 500);
           setTextSummary(summary);
           setShareOpen(false);
+          setManualInput(false);
         }}
+        onRequestSubmit={() => {handleShareSummary(recipients, textSummary, subject)}}
         modalHeading={'Share summary'}
         primaryButtonText={'Add'}
         secondaryButtonText={'Cancel'}
@@ -61,6 +63,7 @@ export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay }) {
           />
           <CarbonTextArea
             labelText="Body"
+            helperText={manualInput && "(with manual edits)"}
             value={(!manualInput && summary) || textSummary}
             rows={7}
             onFocus={() => {
@@ -70,12 +73,8 @@ export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay }) {
               setSummaryTextFocused(false);
             }}
             onChange={e => {
-              if (!manualInput) {
-                setManualInput(true);
-                setTextSummary(e.target.value + ` (with manual edits)`);
-              } else {
-                setTextSummary(e.target.value);
-              }
+              setManualInput(true);
+              setTextSummary(e.target.value);
             }}
             className={classNames({
               [locals.labelInField]: true,
@@ -88,4 +87,30 @@ export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay }) {
       </CarbonModal>
     </>
   );
+}
+
+
+
+// data: {
+//   "recipients": recipients,
+//   "timestamp": timestamp,
+//   "sender": sender,
+//   "subject": subject,
+//   "content": body,
+//   "link": link
+// }
+
+export function handleShareSummary(recipients, body, subject) {
+  const userName = user.preferredName;
+  const milliseconds = Date.now();
+  const incidentLink = window.location.href
+  const shareData = {
+    recipients: recipients,
+    timestamp: milliseconds,
+    sender: userName,
+    subject: subject,
+    content: body,
+    link: incidentLink
+  };
+  shareEventSummary(shareData);
 }

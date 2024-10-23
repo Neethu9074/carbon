@@ -38,6 +38,11 @@
       border-top: 2px solid var(--cds-focus, #0f62fe);
     }
 
+    :global(.cds--form__helper-text) {
+      position: absolute;
+      bottom: -1.5rem;
+    }
+
     :global(.cds--text-area__label-wrapper) {
       position: absolute;
       z-index: 1;
