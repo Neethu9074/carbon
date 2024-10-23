@@ -12,15 +12,14 @@ import { CarbonModal, CarbonTextArea, CarbonTextInput, CarbonForm } from '@insta
 import { shareEventSummary } from 'in-stores/events';
 import { validRecipients } from './utils';
 import { user } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 import locals from './ShareSummary.mless';
-
-// import { Trans, t } from 'in-i18n';
 
 export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay }) {
   const [textSummary, setTextSummary] = useState(summary);
   const [manualInput, setManualInput] = useState(false);
-  const [subject, setSubject] = useState('Sharing incident summarization');
+  const [subject, setSubject] = useState(t('in-events:notes.shareIncidentSummarySubject'));
   const [recipients, setRecipients] = useState('');
   const [summaryTextFocused, setSummaryTextFocused] = useState('');
   const [validForm, setValidForm] = useState(true);
@@ -36,24 +35,27 @@ export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay }) {
           setTextSummary(summary);
           setShareOpen(false);
           setManualInput(false);
+          setValidForm(true);
         }}
         onRequestSubmit={() => {
           setValidForm(validRecipients(recipients));
           if (validForm) {
-            handleShareSummary(recipients, textSummary, subject);
+            // If there is manual modifications to the summary we need to specify that in the body
+            const summary = manualInput && `${textSummary}\n\n${t('in-events:notes.withManualEdits')}`;
+            handleShareSummary(recipients, summary, subject);
           }
         }}
-        modalHeading={'Share summary'}
-        primaryButtonText={'Add'}
-        secondaryButtonText={'Cancel'}
+        modalHeading={t('in-events:notes.shareSummary')}
+        primaryButtonText={t('in-events:notes.share')}
+        secondaryButtonText={t('in-events:notes.cancel')}
       >
-        {'Take some time to review and potentially modify the summary before sharing with others.'}
+        {t('in-events:notes.takeSomeTimeReview')}
         <CarbonForm className={locals.formWrapper}>
-          <div className={locals.summarySubHeader}>{'Summary Email'}</div>
+          <div className={locals.summarySubHeader}>{t('in-events:notes.summaryEmail')}</div>
           <CarbonTextInput
-            labelText="Recipients"
+            labelText={t('in-events:notes.recipients')}
             type="text"
-            invalidText={'Email must be valid (user@domain) separated by commas'}
+            invalidText={t('in-events:notes.invalidEmail')}
             invalid={!validForm}
             onChange={e => {
               setRecipients(e.target.value);
@@ -64,7 +66,7 @@ export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay }) {
             })}
           />
           <CarbonTextInput
-            labelText="Subject"
+            labelText={t('in-events:notes.subject')}
             type="text"
             value={subject}
             onChange={e => {
@@ -76,8 +78,8 @@ export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay }) {
             })}
           />
           <CarbonTextArea
-            labelText="Body"
-            helperText={manualInput && '(with manual edits)'}
+            labelText={t('in-events:notes.body')}
+            helperText={manualInput && t('in-events:notes.withManualEdits')}
             value={(!manualInput && summary) || textSummary}
             rows={7}
             onFocus={() => {
@@ -103,15 +105,7 @@ export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay }) {
   );
 }
 
-// data: {
-//   "recipients": recipients,
-//   "timestamp": timestamp,
-//   "sender": sender,
-//   "subject": subject,
-//   "content": body,
-//   "link": link
-// }
-
+// Construct the share object needed to send to the backend
 export function handleShareSummary(recipients, body, subject) {
   const userName = user.preferredName;
   const milliseconds = Date.now();
