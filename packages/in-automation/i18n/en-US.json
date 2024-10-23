@@ -510,6 +510,6 @@
     "viewActionHistory": "View action history",
     "actionName": "Action name",
     "recommendedActionHistoryWithCount": "Recommended action history ({{count}})",
-    "recommendedActionHistory": "Recommended actions"
+    "recommendedActionHistory": "Recommended action history"
   }
 }

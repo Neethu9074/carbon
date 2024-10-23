@@ -52,8 +52,10 @@ export default function OptimizationsButtonGroup({
     {
       text:
         optimizationHistoryCount !== undefined
-          ? t('in-automation:actionHistory.recommendedActionHistoryWithCount', { count: optimizationHistoryCount })
-          : t('in-automation:actionHistory.recommendedActionHistory'),
+          ? t('in-automation:resourceOptimization.recommendedActionHistoryWithCount', {
+              count: optimizationHistoryCount
+            })
+          : t('in-automation:resourceOptimization.recommendedActionHistory'),
       key: 'optimizationHistory',
       onClick: () => setActiveKey('optimizationHistory')
     }

@@ -16,6 +16,7 @@ import {
 } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import RecommendedOptimizations from 'in-automation/ResourceOptimization/RecommendedOptimizations';
 import { FormatterObject, MetricDataPoint, MetricDataSeries } from 'in-components/Chart/types';
+import OptimizationsButtonGroup from 'in-automation/AutomationCard/OptimizationsButtonGroup';
 import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { resourceOptimizationsTab } from 'in-applications/navigation/paths';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -161,6 +162,10 @@ export default function ResourceOptimizationTab({
           />
         </div>
       </div>
+      <OptimizationsButtonGroup
+        recommendedOptimizationsCount={recommendedOptimizations?.data?.totalRecommendedActionsCount!}
+        optimizationHistoryCount={undefined} //TODO: Update after adding turbo action history api connection
+      />
       <RecommendedOptimizations
         recommendedActions={turboRecommendedActions}
         totalRecommendedActions={recommendedOptimizations?.data?.totalRecommendedActionsCount}
