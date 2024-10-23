@@ -7,8 +7,7 @@
 import { CodeSyntax } from '@carbon/pictograms-react';
 import React from 'react';
 
-import { PreviewPill, IconButton, Typography, Spacer } from '@instana/components';
-import { CarbonTile } from '@instana/components';
+import { PreviewPill, IconButton, Typography, Spacer, CarbonTile } from '@instana/components';
 
 import GenerateAIScriptActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
@@ -46,7 +45,7 @@ export default function GenerateScriptTileComponent({
         <Spacer vertical="medium" />
         <IconButton
           color="var(--cds-link-primary)"
-          id={'generate_script'}
+          id="generate_script"
           className={locals.generateScriptArrow}
           onClick={() => {
             generateAIButtonClickTrackerSegment({
