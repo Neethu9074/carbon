@@ -10,6 +10,7 @@ import classNames from 'classnames';
 import { CarbonModal, CarbonTextArea, CarbonTextInput, CarbonForm } from '@instana/components';
 import { user } from 'in-stores/user';
 import { shareEventSummary } from 'in-stores/events';
+import { validRecipients } from './utils';
 
 import locals from './ShareSummary.mless';
 // import { Trans, t } from 'in-i18n';
@@ -20,10 +21,11 @@ export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay }) {
   const [subject, setSubject] = useState('');
   const [recipients, setRecipients] = useState('');
   const [summaryTextFocused, setSummaryTextFocused] = useState('');
+  const [validForm, setValidForm] = useState(true);
 
   return (
     <>
-        <CarbonModal
+      <CarbonModal
         open={open}
         onRequestClose={() => {
           setTimeout(() => {
@@ -33,7 +35,12 @@ export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay }) {
           setShareOpen(false);
           setManualInput(false);
         }}
-        onRequestSubmit={() => {handleShareSummary(recipients, textSummary, subject)}}
+        onRequestSubmit={() => {
+          setValidForm(validRecipients(recipients))
+          if(validForm) {
+            handleShareSummary(recipients, textSummary, subject)
+          }
+        }}
         modalHeading={'Share summary'}
         primaryButtonText={'Add'}
         secondaryButtonText={'Cancel'}
@@ -44,6 +51,10 @@ export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay }) {
           <CarbonTextInput
             labelText="Recipients"
             type="text"
+            invalid={!validForm}
+            onChange={e => {
+              setRecipients(e.target.value);
+            }}
             className={classNames({
               [locals.labelInField]: true,
               [locals.separator]: true

@@ -117,3 +117,23 @@ export function convertSummaryToString(data) {
 
   return stringSummary;
 }
+
+
+// Check to make sure the recipients are valid
+// Expects a string split by commas 
+export function validRecipients(recipients) {
+  const validEmails = []
+  const recipientsList = recipients.split(',')
+  recipientsList.map(email => {
+    const validateEmail = (email) => {
+      return String(email)
+        .toLowerCase()
+        .match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+    };
+    validEmails.push(validateEmail)
+  })
+  // If false exists then there is an error
+  return !validEmails.includes(false)
+}
