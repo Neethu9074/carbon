@@ -26,10 +26,10 @@ import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { meanLatencyFixed, number } from 'in-services/formatters/number';
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { useMobileTracker } from 'in-mobile-apps/tracking/segTracker';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import { websiteOpenAddFrom } from 'in-websites/tracking/segTracker';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
-import { mobileAppsOpenAddForm } from 'in-mobile-apps/tracker';
 import { hasError, isLoading } from 'in-services/util/result';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import TopListWidget from 'in-cockpit/widgets/TopListWidget';
@@ -41,6 +41,7 @@ import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function WebsitesAndMobileTopList({ config }) {
+  const { mobileAppsOpenAddForm } = useMobileTracker();
   const { trackCta } = useSegmentTracking();
   const { createHrefToPath } = useNavigation();
   const getLinkToWebsite = useGenerateLinkToWebsite();

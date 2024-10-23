@@ -5,7 +5,7 @@
 
 import { MobileAppBeaconTagGroup, TagFilter, TagFilterOperator } from '@instana/types';
 
-import { DashboardTagFiltersTracker } from 'in-mobile-apps/tracker';
+import { DashboardTagFiltersTracker } from 'in-mobile-apps/tracking/segTracker';
 import { noop } from 'in-services/util/function';
 
 interface TagFilterManipulator {

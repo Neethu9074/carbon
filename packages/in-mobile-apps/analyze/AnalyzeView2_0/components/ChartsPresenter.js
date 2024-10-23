@@ -9,7 +9,7 @@ import { themes } from '@instana/design-tokens';
 
 import { addDataSourceToBackendQueryModel } from 'in-mobile-apps/analyze/AnalyzeView2_0/util';
 import { metricRenderers } from 'in-mobile-apps/analyze/AnalyzeView2_0/metrics';
-import { ua2ChartChangedTracker } from 'in-mobile-apps/tracker';
+import { useMobileTracker } from 'in-mobile-apps/tracking/segTracker';
 import Chart from 'in-components/AnalyzeView/Charting/Chart';
 import Charting from 'in-components/AnalyzeView/Charting';
 import Sections from 'in-components/workspace/Sections';
@@ -23,6 +23,7 @@ function isErroneousMetric(metricConfig) {
 }
 
 export function ChartsPresenter(props) {
+  const { ua2ChartChangedTracker } = useMobileTracker();
   const { chartedMetrics, dataSource, isGrouped, chartableDataSeries } = props;
 
   return (

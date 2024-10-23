@@ -14,8 +14,8 @@ import { Disposable } from '@instana/observables';
 import HelpParagraph from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/HelpParagraph';
 // @ts-expect-error needs migration to TS
 import { mobileAppsPathFullyQualified } from 'in-mobile-apps/navigation/paths';
-import { removeMobileApp as removeMobileAppTracker } from 'in-mobile-apps/tracker';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { useMobileTracker } from 'in-mobile-apps/tracking/segTracker';
 import { removeMobileApp } from 'in-mobile-apps/api/mobileApps';
 import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
@@ -49,6 +49,7 @@ const Remove = (props: Props) => {
     mobileAppId
   } = props;
 
+  const { removeMobileAppTracker } = useMobileTracker();
   const [state, setState] = useState<State>(initialState);
   const { checkboxChecked, removeError, loading } = state;
 
