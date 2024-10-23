@@ -14,4 +14,11 @@
     padding-right: 0.125rem;
     padding-top: 4px;
   }
+  .iconContainer {
+    display: flex;
+    align-items: center;
+  }
+  .icon {
+    margin-left: 0.5rem;
+  }
 }

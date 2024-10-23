@@ -10,7 +10,6 @@ import { Card, Link, Stack, SvgIcon } from '@instana/components';
 import { create, just } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
-import { Pill } from '@instana/components';
 
 import ServiceComponent from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/ServiceComponent';
 import { getCorrelatedWebsiteBeacons } from 'in-applications/analyze/components/TraceDetails/tabs/Summary/websiteCorrelation';
@@ -33,7 +32,7 @@ import { seconds } from 'in-services/time';
 import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';
 
-import locals from './CallDetails.mless';
+import locals from 'in-applications/analyze/components/TraceDetails/components/CallDetails/CallDetails.mless';
 
 const MAX_RETRIES = 1;
 const RECENCY_WINDOW = seconds.toMillis(40);
@@ -106,7 +105,7 @@ export default function CallDetails(props) {
           ? t('in-analyze:traceDetail.components.callDetails.sumOfLatencies')
           : t('in-analyze:traceDetail.components.callDetails.latency'),
         duration: call.duration,
-        showPill: isBatched,
+        showInfoIcon: isBatched,
         toolTipLabel: t('in-analyze:traceDetail.components.callDetails.latency')
       },
       {
@@ -116,7 +115,7 @@ export default function CallDetails(props) {
         duration: call.minSelfTime || call.selfTime,
         totalDuration: call.duration,
         showDurationInpercent: !isBatched,
-        showPill: isBatched
+        showInfoIcon: isBatched
       },
       {
         label: t('in-analyze:traceDetail.components.callDetails.networkTime'),
@@ -239,7 +238,7 @@ function DisplayTimeData({ values, batchCount }) {
   return (
     <Dl>
       {values.map(value => {
-        const { label, duration, totalDuration, showDurationInpercent, showPill, toolTipLabel } = value;
+        const { label, duration, totalDuration, showDurationInpercent, showInfoIcon, toolTipLabel } = value;
         const formatter = value.formatter ?? latencyFixed.compact;
         const durationValue = duration == null ? valueMissingPlaceholder : `${formatter(duration)}`;
         const durationInPercent =
@@ -248,7 +247,7 @@ function DisplayTimeData({ values, batchCount }) {
             : null;
         return (
           <Di title={label} key={label}>
-            {showPill ? (
+            {showInfoIcon ? (
               <Tooltip
                 content={t('in-analyze:traceDetail.components.callDetails.batchTooltip', {
                   batchCount: batchCount,
@@ -256,13 +255,19 @@ function DisplayTimeData({ values, batchCount }) {
                 })}
                 align="topMiddle"
               >
-                <Pill type="gray" kind="lighter">
+                <div className={locals.iconContainer}>
                   {durationValue}
-                </Pill>
+                  <SvgIcon
+                    type="lib_help_error_info_outline"
+                    size="xxs"
+                    color={themes.default.ids.color.option.neutral['700']}
+                    className={locals.icon}
+                  />
+                </div>
               </Tooltip>
             ) : (
               durationValue
-            )}{' '}
+            )}
             {durationInPercent !== null ? ` ${durationInPercent}` : ''}
           </Di>
         );
