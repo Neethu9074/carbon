@@ -45,17 +45,19 @@ export default function SelectManualStep({
   actionName: string;
 }) {
   const promptForm = form.get('prompt');
-  const selectedManualStep = promptForm.get('selectedManualStep');
+  const selectedManualStepId = promptForm.get('selectedManualStepID');
+  const tasksJson = generateTasksJson(manualContent);
   const onChangeValue = (val: string) => {
     setGeneratedAction(null);
-    setForm(form => form.updateIn(['prompt', 'selectedManualStep'], item => item.setValue(val).setTouched(true)));
-    setForm(form => form.updateIn(['prompt', 'promptStep'], item => item.setValue(val).setTouched(true)));
+    const task = tasksJson.find(task => task.id === val);
+    const taskStep = task ? task.step : '';
     setForm(form =>
-      form.updateIn(['action', 'description'], item => item.setValue(`This has script for  ${val}`).setTouched(true))
+      form
+        .updateIn(['prompt', 'selectedManualStepID'], item => item.setValue(val).setTouched(true))
+        .updateIn(['prompt', 'selectedManualStep'], item => item.setValue(taskStep).setTouched(true))
+        .updateIn(['prompt', 'promptStep'], item => item.setValue(taskStep.replace(/^\d+\./, '')).setTouched(true))
     );
   };
-
-  const tasksJson = generateTasksJson(manualContent);
 
   return (
     <div className={locals.selectManualStepDiv}>
@@ -69,9 +71,14 @@ export default function SelectManualStep({
           {actionName}
         </Typography>
       </div>
-      <CarbonTileGroup name="select steps" defaultSelected={selectedManualStep.value} onChange={onChangeValue} required>
+      <CarbonTileGroup
+        name="select steps"
+        defaultSelected={selectedManualStepId.value}
+        onChange={onChangeValue}
+        required
+      >
         {tasksJson.map(task => (
-          <CarbonRadioTile key={task.id} className={locals.stepsTile} value={task.step}>
+          <CarbonRadioTile key={task.id} className={locals.stepsTile} value={task.id}>
             <h6>{task?.step}</h6>
           </CarbonRadioTile>
         ))}

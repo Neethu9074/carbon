@@ -15,6 +15,7 @@ import { isScript } from 'in-automation/ActionCatalog/shared';
 type GenerateAIScriptActionFormItems = {
   prompt: MapForm<{
     selectedManualStep: FormField<string>;
+    selectedManualStepID: FormField<string>;
     promptStep: FormField<string>;
   }>;
   action: MapForm<{
@@ -55,14 +56,15 @@ const defaultActionTags = ['watsonx'];
 const defaultActionType: ActionType = 'SCRIPT';
 
 function createGenerateAIActionForm() {
-  const selectedStep = '';
-  const defaultActionDescription = `This action has script for  ${selectedStep}`;
-
   const form: GenerateAIScriptActionForm = createMapForm({
     items: {
       prompt: createMapForm({
         items: {
           selectedManualStep: createField({
+            value: '',
+            validator: notBlankValidator
+          }),
+          selectedManualStepID: createField({
             value: '',
             validator: notBlankValidator
           }),
@@ -79,7 +81,7 @@ function createGenerateAIActionForm() {
             validator: notBlankValidator
           }),
           description: createField({
-            value: defaultActionDescription,
+            value: '',
             validator: notBlankValidator
           }),
           tags: createField({

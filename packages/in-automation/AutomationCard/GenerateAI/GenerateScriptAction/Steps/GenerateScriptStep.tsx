@@ -103,6 +103,9 @@ function generateAIActionForm({
           form
             .updateIn(['action', 'script'], item => item.setValue(res.data?.content!))
             .updateIn(['action', 'aiGeneratedContent'], item => item.setValue(res.data?.content!))
+            .updateIn(['action', 'description'], item =>
+              item.setValue(`This has script for: ${promptStep.value}`).setTouched(true)
+            )
         );
       },
       () => {

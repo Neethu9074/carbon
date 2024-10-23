@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Typography } from '@instana/components';
+import { Typography, Spacer } from '@instana/components';
 
 import { GenerateAIActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/useGenerateAIActionForm';
 import CopyActionStepForm, { ActionForm } from 'in-automation/AutomationCard/GenerateAI/CopyActionStepForm';
@@ -27,6 +27,7 @@ export default function CopyActionStep({
 
   return (
     <div>
+      <Spacer vertical="normal" />
       <Typography variant="body-regular">{t('in-automation:GenerateAIActionDialog.Step2Headline')}</Typography>
       <CopyActionStepForm
         form={actionForm}
