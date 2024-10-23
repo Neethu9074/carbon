@@ -37,12 +37,10 @@ const StepOne = ({ form, updateForm }: Props) => {
               )
             );
           }}
-          placeholder={t('in-synthetics:dialog.createCredential.steps.placeholder', { value: 'Credential Name' })}
-          labelText={t('in-synthetics:dialog.createCredential.steps.labelText', { value: 'Name' })}
+          placeholder={t('in-synthetics:dialog.createCredential.steps.textInput.placeholder')}
+          labelText={t('in-synthetics:dialog.createCredential.steps.textInput.labelText')}
           invalid={!credentialName.valid && credentialName.touched}
-          invalidText={t('in-synthetics:dialog.createCredential.steps.invalidText', {
-            value: 'Credential name should not be empty'
-          })}
+          invalidText={t('in-synthetics:dialog.createCredential.steps.textInput.invalidText')}
         />
         <PasswordInput
           id={generateUniqueShortId()}
@@ -55,12 +53,12 @@ const StepOne = ({ form, updateForm }: Props) => {
               )
             );
           }}
-          placeholder={t('in-synthetics:dialog.createCredential.steps.placeholder', { value: 'Credential value' })}
-          labelText={t('in-synthetics:dialog.createCredential.steps.labelText', { value: 'Value' })}
+          placeholder={t('in-synthetics:dialog.createCredential.steps.passwordInput.placeholder')}
+          labelText={t('in-synthetics:dialog.createCredential.steps.passwordInput.labelText')}
           invalid={!credentialValue.valid && credentialValue.touched}
-          invalidText={t('in-synthetics:dialog.createCredential.steps.invalidText', {
-            value: 'Value should not be empty'
-          })}
+          invalidText={t('in-synthetics:dialog.createCredential.steps.passwordInput.invalidText')}
+          hidePasswordLabel={t('in-synthetics:dialog.createCredential.tooltipLabels.hide')}
+          showPasswordLabel={t('in-synthetics:dialog.createCredential.tooltipLabels.show')}
         />
       </Stack>
     </div>

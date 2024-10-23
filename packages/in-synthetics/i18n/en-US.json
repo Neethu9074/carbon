@@ -381,9 +381,16 @@
       "associations": "Associations",
       "newCredentials": "Create a synthetic credential",
       "steps": {
-        "placeholder": "{{value}}",
-        "labelText": "{{value}}",
-        "invalidText": "{{value}}",
+        "textInput": {
+          "placeholder": "Credential name",
+          "labelText": "Name",
+          "invalidText": "Credential name should not be empty."
+        },
+        "passwordInput": {
+          "placeholder": "Credential value",
+          "labelText": "Value",
+          "invalidText": "Value should not be empty."
+        },
         "associationsDescription": "Associating a credential with an application, website or mobile app grants access rights to all users who have access to those entities."
       },
       "feedback": {
@@ -398,6 +405,10 @@
         "saveButton": "Save",
         "textInputHelperText": "Credential name cannot be edited, is a readOnly field",
         "passwordInputHelperText": "Type a new credential value if you want to update the current one."
+      },
+      "tooltipLabels": {
+        "hide": "Hide credential value",
+        "show": "Show credential value"
       }
     }
   },
