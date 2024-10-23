@@ -52,7 +52,7 @@ export default function ManualActionContent({
             </Typography>
           </div>
         ) : (
-          <Typography variant="heading-01">{t('in-automation:ActionCatalog:content')}</Typography>
+          <Typography variant="heading-01">{t('in-automation:ActionCatalog.content')}</Typography>
         )}
         <div className={locals.manualContentMarkdown}>
           <DangerousHtmlPresenter html={htmlContent} className={locals.codeBlock} />
