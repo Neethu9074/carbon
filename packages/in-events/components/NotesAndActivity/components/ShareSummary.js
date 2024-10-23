@@ -8,17 +8,19 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import { CarbonModal, CarbonTextArea, CarbonTextInput, CarbonForm } from '@instana/components';
-import { user } from 'in-stores/user';
+
 import { shareEventSummary } from 'in-stores/events';
 import { validRecipients } from './utils';
+import { user } from 'in-stores/user';
 
 import locals from './ShareSummary.mless';
+
 // import { Trans, t } from 'in-i18n';
 
 export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay }) {
   const [textSummary, setTextSummary] = useState(summary);
   const [manualInput, setManualInput] = useState(false);
-  const [subject, setSubject] = useState('');
+  const [subject, setSubject] = useState('Sharing incident summarization');
   const [recipients, setRecipients] = useState('');
   const [summaryTextFocused, setSummaryTextFocused] = useState('');
   const [validForm, setValidForm] = useState(true);
@@ -36,9 +38,9 @@ export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay }) {
           setManualInput(false);
         }}
         onRequestSubmit={() => {
-          setValidForm(validRecipients(recipients))
-          if(validForm) {
-            handleShareSummary(recipients, textSummary, subject)
+          setValidForm(validRecipients(recipients));
+          if (validForm) {
+            handleShareSummary(recipients, textSummary, subject);
           }
         }}
         modalHeading={'Share summary'}
@@ -51,6 +53,7 @@ export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay }) {
           <CarbonTextInput
             labelText="Recipients"
             type="text"
+            invalidText={'Email must be valid (user@domain) separated by commas'}
             invalid={!validForm}
             onChange={e => {
               setRecipients(e.target.value);
@@ -74,7 +77,7 @@ export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay }) {
           />
           <CarbonTextArea
             labelText="Body"
-            helperText={manualInput && "(with manual edits)"}
+            helperText={manualInput && '(with manual edits)'}
             value={(!manualInput && summary) || textSummary}
             rows={7}
             onFocus={() => {
@@ -100,8 +103,6 @@ export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay }) {
   );
 }
 
-
-
 // data: {
 //   "recipients": recipients,
 //   "timestamp": timestamp,
@@ -114,7 +115,7 @@ export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay }) {
 export function handleShareSummary(recipients, body, subject) {
   const userName = user.preferredName;
   const milliseconds = Date.now();
-  const incidentLink = window.location.href
+  const incidentLink = window.location.href;
   const shareData = {
     recipients: recipients,
     timestamp: milliseconds,
