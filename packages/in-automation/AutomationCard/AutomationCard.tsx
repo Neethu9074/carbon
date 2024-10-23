@@ -17,6 +17,9 @@ import {
   useResourceOptimization,
   useTurboRecommendedActions
 } from 'in-automation/ResourceOptimization/useResourceOptimization';
+import OptimizationsButtonGroup, {
+  useActiveOptimizationsKey
+} from 'in-automation/AutomationCard/OptimizationsButtonGroup';
 import AutomationCardButtonGroup, { useActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 import RecommendedOptimizations from 'in-automation/ResourceOptimization/RecommendedOptimizations';
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
@@ -24,7 +27,6 @@ import RecommendedActions from 'in-automation/AutomationCard/RecommendedActions'
 import AutomationPolicies from 'in-automation/AutomationCard/AutomationPolicies';
 import { resourceOptimizationActionsEnabled } from 'in-services/featureFlags';
 import usePolicies from 'in-automation/AutomationCard/usePolicies';
-import OptimizationsButtonGroup from './OptimizationsButtonGroup';
 import useHistory from 'in-automation/AutomationCard/useHistory';
 import useTrigger from 'in-automation/AutomationCard/useTrigger';
 import { hasAutomationAccess } from 'in-stores/permission';
@@ -37,6 +39,7 @@ interface AutomationCardProps {
 
 function AutomationCard({ volatileId, event }: AutomationCardProps) {
   const activeKey = useActiveKey();
+  const activeOptimizatonsKey = useActiveOptimizationsKey();
   const policies = usePolicies({ event });
   const historyCount = useHistory({ eventId: event.id });
   const trigger = useTrigger({ event });

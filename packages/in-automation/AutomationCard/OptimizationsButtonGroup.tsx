@@ -28,7 +28,7 @@ const activeKeyStore = createStore<OptimizationsButtonKey>({
 });
 const activeKey$ = activeKeyStore.observable;
 
-export const useActiveKey = () => useObservable(activeKey$, []) ?? initialActiveKey;
+export const useActiveOptimizationsKey = () => useObservable(activeKey$, []) ?? initialActiveKey;
 
 export const setActiveKey = (activeKey: OptimizationsButtonKey) => activeKeyStore.mutateTo(activeKey);
 
@@ -36,7 +36,7 @@ export default function OptimizationsButtonGroup({
   recommendedOptimizationsCount,
   optimizationHistoryCount
 }: OptimizationsButtonGroupProps) {
-  const activeKey = useActiveKey();
+  const activeKey = useActiveOptimizationsKey();
 
   const buttonProps = [
     {

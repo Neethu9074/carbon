@@ -14,10 +14,13 @@ import {
   useResourceOptimization,
   useTurboRecommendedActions
 } from 'in-automation/ResourceOptimization/useResourceOptimization';
+import OptimizationsButtonGroup, {
+  useActiveOptimizationsKey
+} from 'in-automation/AutomationCard/OptimizationsButtonGroup';
 import RecommendedOptimizations from 'in-automation/ResourceOptimization/RecommendedOptimizations';
 import { FormatterObject, MetricDataPoint, MetricDataSeries } from 'in-components/Chart/types';
-import OptimizationsButtonGroup from 'in-automation/AutomationCard/OptimizationsButtonGroup';
 import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import { resourceOptimizationsTab } from 'in-applications/navigation/paths';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import InfoPanel from 'in-automation/components/InfoPanel/InfoPanel';
@@ -86,6 +89,8 @@ export default function ResourceOptimizationTab({
     });
     pieLabels = pieLabels.map(x => (x.indexOf('_') === -1 ? x : x.substring(0, x.indexOf('_')))); //Display labels before "_" only
   }
+
+  const activeOptimizatonsKey = useActiveOptimizationsKey();
 
   return (
     <div className={locals.contentContainer}>
@@ -166,10 +171,14 @@ export default function ResourceOptimizationTab({
         recommendedOptimizationsCount={recommendedOptimizations?.data?.totalRecommendedActionsCount!}
         optimizationHistoryCount={undefined} //TODO: Update after adding turbo action history api connection
       />
-      <RecommendedOptimizations
-        recommendedActions={turboRecommendedActions}
-        totalRecommendedActions={recommendedOptimizations?.data?.totalRecommendedActionsCount}
-      />
+      {activeOptimizatonsKey === 'recommendedOptimizations' && (
+        <RecommendedOptimizations
+          recommendedActions={turboRecommendedActions}
+          totalRecommendedActions={recommendedOptimizations?.data?.totalRecommendedActionsCount}
+        />
+      )}
+      {/* TODO: Replace with turbo optimization history only table */}
+      {activeOptimizatonsKey === 'optimizationHistory' && <ActionHistoryTable />}
     </div>
   );
 }
