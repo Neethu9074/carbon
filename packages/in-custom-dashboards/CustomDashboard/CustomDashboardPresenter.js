@@ -181,6 +181,7 @@ function ButtonLine({ onSaveConfiguration, hasChanges, editable, isSaving, onDis
         onClick={onSaveConfiguration}
         type="button"
         isSaving={isSaving}
+        disabled={playwithEnabled}
       >
         {t('in-custom-dashboards:customDashboard.customDashboardPresenter.saveChange')}
       </SaveButton>
