@@ -21,7 +21,7 @@ export interface ComboBoxProps {
   value: string | ReadonlyArray<string> | Nullish;
   defaultValue?: any;
   className?: string;
-  placeholder?: React.ReactNode;
+  placeholder?: string;
   onChange: (option: Option | Options | null) => void;
   autoComplete?: string;
   autoFocus?: boolean;

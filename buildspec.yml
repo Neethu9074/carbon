@@ -48,7 +48,8 @@ phases:
           npx create-artifactory-access-config
       # Install project dependencies
       - npm install -g yarn@1.22.19
-      - yarn install --immutable
+      # reduce redundant build output
+      - IBM_TELEMETRY_DISABLED='true' yarn install --immutable
       - cd packages/in-server && yarn install --ignore-optional --frozen-lockfile --prod && cd ../..
   build:
     commands:

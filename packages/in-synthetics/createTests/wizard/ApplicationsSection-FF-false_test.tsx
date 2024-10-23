@@ -46,7 +46,7 @@ describe('ApplicationsSection when syntheticRbacLimitedEnabled is false', () => 
     render(<ApplicationsSection form={form} updateForm={updateForm} applications={applications} />);
 
     expect(screen.getByText('Select an Application')).toBeInTheDocument();
-    expect(document.querySelectorAll('input[type="checkbox"].radiobutton')).toHaveLength(2);
+    expect(document.querySelectorAll('input.cds--radio-button')).toHaveLength(2);
     expect(screen.getByText('mehtest500')).toBeInTheDocument();
     expect(screen.getByText("Marat's test AP without calls")).toBeInTheDocument();
   });

@@ -45,6 +45,7 @@ phases:
           npx create-artifactory-access-config
       # Install project dependencies
       - npm install -g yarn@1.22.19
+      # reduce redundant build output
       - yarn install --frozen-lockfile
   build:
     commands:

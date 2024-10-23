@@ -16,7 +16,7 @@ import { t } from 'in-i18n';
 
 import locals from './CarbonComboBox.mless';
 
-export default function ComboBox({ ...props }: ComboBoxProps): JSX.Element {
+export default function ComboBox(props: ComboBoxProps): JSX.Element {
   const { options, resultsToShow, placeholder, value, components, highlightFilter } = props;
   const [filter, setFilter] = useState('');
   const [filteredOptions, setFilteredOptions] = useState(resultsToShow ? options.slice(0, resultsToShow) : options);

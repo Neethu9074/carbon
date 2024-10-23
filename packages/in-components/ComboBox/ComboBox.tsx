@@ -6,15 +6,14 @@
 
 import React from 'react';
 
+import { default as LegacyComboBox } from 'in-components/ComboBox/LegacyComboBox';
+import { default as CarbonComboBox } from 'in-components/ComboBox/CarbonComboBox';
+import { hasMultipleValuesSelected } from 'in-components/ComboBox/LegacyComboBox';
 import { carbonComboBoxEnabled } from 'in-services/featureFlags';
-import { default as LegacyComboBox } from './LegacyComboBox';
-import { default as CarbonComboBox } from './CarbonComboBox';
 import { ComboBoxProps } from './types';
 
-export type {Option, Options, ComboBoxProps} from './types';
-import { hasMultipleValuesSelected } from './LegacyComboBox';
+export type { Option, Options, ComboBoxProps } from 'in-components/ComboBox/types';
 export { hasMultipleValuesSelected };
-
 
 export default function ComboBox({ isClearable = true, ...props }: ComboBoxProps): JSX.Element {
   if (!props?.isMulti && carbonComboBoxEnabled) {
@@ -22,4 +21,3 @@ export default function ComboBox({ isClearable = true, ...props }: ComboBoxProps
   }
   return <LegacyComboBox {...props} isClearable={isClearable} />;
 }
-
