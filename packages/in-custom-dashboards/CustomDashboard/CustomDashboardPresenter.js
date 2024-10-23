@@ -213,7 +213,7 @@ function SecondaryButtonLine({
       )}
 
       <MoreMenu kind="secondaryDarker">
-        <MoreMenuButton icon="lib_actions_maximize" disabled={playwithEnabled} onClick={() => setTvModeEnabled(true)}>
+        <MoreMenuButton icon="lib_actions_maximize" onClick={() => setTvModeEnabled(true)}>
           {t('in-custom-dashboards:customDashboard.customDashboardPresenter.tvMode')}
         </MoreMenuButton>
         <MoreMenuSetAsLandingPageButton
@@ -230,7 +230,7 @@ function SecondaryButtonLine({
             {t('in-custom-dashboards:customDashboard.customDashboardPresenter.editAsJson')}
           </MoreMenuButton>
         ) : (
-          <MoreMenuButton icon="lib_views_file" disabled={playwithEnabled} onClick={onViewAsJson}>
+          <MoreMenuButton icon="lib_views_file" onClick={onViewAsJson}>
             {t('in-custom-dashboards:customDashboard.customDashboardPresenter.viewAsJson')}
           </MoreMenuButton>
         )}
@@ -239,7 +239,7 @@ function SecondaryButtonLine({
           successText={t('in-custom-dashboards:customDashboard.customDashboardPresenter.copiedAllWidgets')}
         >
           {copyToClipboardRef => (
-            <MoreMenuButton icon="lib_actions_copy" disabled={playwithEnabled} ref={copyToClipboardRef}>
+            <MoreMenuButton icon="lib_actions_copy" ref={copyToClipboardRef}>
               {t('in-custom-dashboards:customDashboard.customDashboardPresenter.copyAllWidgets')}
             </MoreMenuButton>
           )}
@@ -248,7 +248,7 @@ function SecondaryButtonLine({
           {t('in-custom-dashboards:customDashboard.customDashboardPresenter.duplicate')}
         </MoreMenuButton>
         {editable && (
-          <MoreMenuButton icon="lib_actions_delete" onClick={onDeleteCustomDashboard}>
+          <MoreMenuButton icon="lib_actions_delete" disabled={playwithEnabled} onClick={onDeleteCustomDashboard}>
             {t('in-custom-dashboards:customDashboard.customDashboardPresenter.delete')}
           </MoreMenuButton>
         )}
