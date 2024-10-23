@@ -6,13 +6,7 @@
 
 import React from 'react';
 
-import {
-  ApplicationSloEntity,
-  isApplicationSloEntity,
-  isWebsiteSloEntity,
-  SloEntityType,
-  WebsiteSloEntity
-} from '@instana/types';
+import { ApplicationSloEntity, isApplicationSloEntity, isWebsiteSloEntity, WebsiteSloEntity } from '@instana/types';
 import { KeyValue } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
@@ -28,6 +22,7 @@ import { useApplicationQueryBuilder } from 'in-service-levels/hooks/useApplicati
 import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
 import QueryBuilderFilter from 'in-service-levels/components/QueryBuilderFilter';
 import { getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
+import { SupportedSloEntityTypes } from 'in-service-levels/types';
 
 import locals from './ScopeSection.mless';
 
@@ -35,7 +30,7 @@ interface ScopeSectionProps {
   data: SloTabData | ApplicationSloTabData;
 }
 
-const contentDefinitions: Record<SloEntityType, RowDefinition[]> = {
+const contentDefinitions: Record<SupportedSloEntityTypes, RowDefinition[]> = {
   application: [
     {
       id: 'boundaryScope',
@@ -73,7 +68,7 @@ export default function ScopeSection({ data }: ScopeSectionProps) {
     <SloConfigSection
       data={data}
       label={t('in-service-levels:sloDashboard.components.scopeSection.title')}
-      contentDefinitions={contentDefinitions[type] ?? []}
+      contentDefinitions={contentDefinitions[type as SupportedSloEntityTypes] ?? []}
     />
   );
 }

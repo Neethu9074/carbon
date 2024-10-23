@@ -6,18 +6,26 @@
 
 import { get } from 'lodash';
 
-import { BoundaryScope, Result, SloEntityUnion, TagFilter, TagFilterExpression } from '@instana/types';
+import {
+  BoundaryScope,
+  isSyntheticSloEntity,
+  Result,
+  SloEntityUnion,
+  TagFilter,
+  TagFilterExpression
+} from '@instana/types';
 import { combineLatest, just, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import { createTagFilterExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { ENDPOINT, SERVICE, entityTypes } from 'in-analyze/applicationFilter';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { tagFilterForBoundaryScope } from 'in-analyze/navigation/paths';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { ENDPOINT, SERVICE, entityTypes } from 'in-analyze/applicationFilter';
+import { ServiceLevelErrors } from 'in-service-levels/constants';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { alwaysNull } from 'in-services/fixedStreams';
 
@@ -31,6 +39,8 @@ export default function useBasicTagFilterExpression({
   withLabels
 }: UseBasicTagFilterExpressionProps): TagFilterExpression {
   const { tagFilterExpression } = entity;
+
+  if (isSyntheticSloEntity(entity)) throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
 
   const basicTagFilter =
     useObservable(() => {

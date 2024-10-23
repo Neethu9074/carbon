@@ -6,10 +6,10 @@
 
 import {
   isApplicationSloEntity,
+  isSyntheticSloEntity,
   isWebsiteSloEntity,
   ServiceLevelObjectiveConfiguration,
-  SloEntity,
-  SloEntityType
+  SloEntity
 } from '@instana/types';
 import { combineLatest, just, Observable } from '@instana/observables';
 import { generateStableHash } from '@instana/utils';
@@ -17,10 +17,11 @@ import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
+import { LabeledEntity, SupportedSloEntityTypes } from 'in-service-levels/types';
 import getApplication from 'in-applications/subscriptions/getApplication';
+import { ServiceLevelErrors } from 'in-service-levels/constants';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { pendingResult } from 'in-services/fixedObjects';
-import { LabeledEntity } from 'in-service-levels/types';
 import { Application, Result, Website } from 'in-types';
 import { FetchedState } from 'in-hooks/utils/types';
 import { isBlank } from 'in-services/util/string';
@@ -64,12 +65,14 @@ export function loadEntity(entity: SloEntity): Observable<Result<MonitoredEntity
     id = entity.applicationId;
   } else if (isWebsiteSloEntity(entity)) {
     id = entity.websiteId;
+  } else if (isSyntheticSloEntity(entity)) {
+    throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
   }
-  return loadEntityByTypeAndId(entity.type, id);
+  return loadEntityByTypeAndId(entity.type as SupportedSloEntityTypes, id);
 }
 
 export function loadEntityByTypeAndId(
-  entityType: SloEntityType,
+  entityType: SupportedSloEntityTypes,
   entityId: string
 ): Observable<Result<MonitoredEntity>> {
   if (isBlank(entityType)) {

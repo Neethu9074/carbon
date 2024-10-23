@@ -12,7 +12,6 @@ import {
   isApplicationSloEntity,
   isWebsiteSloEntity,
   Result,
-  SloEntityUnion,
   TagFilterExpression,
   TimeConfig,
   UnifiedMetricConfigurationUnion
@@ -39,6 +38,7 @@ import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
 import { calculateTrafficGranularity } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
+import { SupportedSloEntityUnion } from 'in-service-levels/types';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { successObservable } from 'in-services/util/result';
@@ -51,7 +51,7 @@ interface TimeBasedAvailabilityIndicatorChartProps {
   automaticallySize?: boolean;
   customHeight?: number;
   customChartSkeletonHeight?: number;
-  entity: SloEntityUnion;
+  entity: SupportedSloEntityUnion;
   indicator: AvailabilityBlueprintIndicator;
   missingDataIndicator?: DateAsNumber;
   title?: string;
@@ -130,7 +130,7 @@ export default function TimeBasedAvailabilityIndicatorChart({
 }
 
 function getMetricConfig(
-  entity: SloEntityUnion,
+  entity: SupportedSloEntityUnion,
   timeConfig: TimeConfig,
   indicator: AvailabilityBlueprintIndicator,
   tagFilterExpression: TagFilterExpression,

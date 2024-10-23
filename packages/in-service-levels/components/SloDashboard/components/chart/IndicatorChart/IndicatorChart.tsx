@@ -6,17 +6,18 @@
 
 import React from 'react';
 
-import { DateAsNumber, ServiceLevelIndicatorUnion, SloEntityUnion, TimeWindowUnion } from '@instana/types';
+import { DateAsNumber, ServiceLevelIndicatorUnion, TimeWindowUnion } from '@instana/types';
 
 import TimeBasedAvailabilityIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/TimeBasedAvailabilityIndicatorChart';
 import TimeBasedLatencyIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/TimeBasedLatencyIndicatorChart';
 import EventBasedIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/EventBasedIndicatorChart';
+import { SupportedSloEntityUnion } from 'in-service-levels/types';
 
 interface IndicatorChartProps {
   automaticallySize?: boolean;
   customHeight?: number;
   customChartSkeletonHeight?: number;
-  entity: SloEntityUnion;
+  entity: SupportedSloEntityUnion;
   indicator: ServiceLevelIndicatorUnion;
   timeWindow: TimeWindowUnion;
   createdDate?: DateAsNumber;

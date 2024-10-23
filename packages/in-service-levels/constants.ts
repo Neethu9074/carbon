@@ -7,7 +7,7 @@
 import { BlueprintType, SloEntityType } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
-import { SloAggregationOptions } from 'in-service-levels/types';
+import { SloAggregationOptions, SupportedSloEntityTypes } from 'in-service-levels/types';
 import { deepFreeze } from 'in-services/util/object';
 
 export const SLO_TARGET_DECIMAL_PRECISION = 2;
@@ -18,7 +18,7 @@ interface EntityTypeData {
   value: SloEntityType;
 }
 
-export const entityTypes: Record<SloEntityType, EntityTypeData> = {
+export const entityTypes: Record<SupportedSloEntityTypes, EntityTypeData> = {
   application: {
     label: t('in-service-levels:general.entityTypes.label', { context: 'application' }),
     value: 'application'

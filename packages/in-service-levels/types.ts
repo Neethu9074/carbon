@@ -6,14 +6,19 @@
 
 import {
   AggregationType,
+  ApplicationSloEntity,
   AvailabilityBlueprintIndicator,
   CustomBlueprintIndicator,
   LatencyBlueprintIndicator,
   ServiceLevelIndicatorUnion,
-  TrafficBlueprintIndicator
+  TrafficBlueprintIndicator,
+  WebsiteSloEntity
 } from '@instana/types';
 
 import { SloTimeWindowTypes, timeAggregationOptions } from 'in-service-levels/constants';
+
+export type SupportedSloEntityUnion = ApplicationSloEntity | WebsiteSloEntity;
+export type SupportedSloEntityTypes = 'application' | 'website';
 
 export type AggregatedServiceLevelIndicator = AvailabilityBlueprintIndicator | LatencyBlueprintIndicator;
 

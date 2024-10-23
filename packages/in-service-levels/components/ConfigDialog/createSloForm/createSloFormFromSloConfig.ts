@@ -6,7 +6,7 @@
 
 import { createField, createMapForm, Field } from 'formalistic';
 
-import { isApplicationSloEntity, ServiceLevelObjectiveConfiguration } from '@instana/types';
+import { isApplicationSloEntity, isSyntheticSloEntity, ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { DurationUnitType } from '@instana/types';
 import { formatTime } from '@instana/format-date';
 
@@ -41,6 +41,9 @@ import { formatDate } from 'in-services/formatters/date';
 
 export const getEntityFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveConfiguration): SloEntityFields => {
   const { entity } = sloConfig;
+
+  if (isSyntheticSloEntity(entity)) throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
+
   return {
     entityId: createField({
       value: isApplicationSloEntity(entity) ? entity.applicationId : entity.websiteId,
@@ -51,6 +54,8 @@ export const getEntityFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveCon
 };
 
 export const getScopeFieldsFromSloConfig = ({ entity }: ServiceLevelObjectiveConfiguration): SloScopeFields => {
+  if (isSyntheticSloEntity(entity)) throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
+
   if (isApplicationSloEntity(entity)) {
     const { boundaryScope, endpointId, includeInternal, includeSynthetic, serviceId, tagFilterExpression } = entity;
 

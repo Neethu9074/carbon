@@ -16,7 +16,6 @@ import {
   WebsiteBeaconType,
   ServiceLevelIndicatorUnion,
   TagFilterExpression,
-  SloEntityUnion,
   TagFilterExpressionElementUnion
 } from '@instana/types';
 
@@ -33,13 +32,13 @@ import {
 } from 'in-analyze/navigation/paths';
 import { createTagFilterExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
+import { isAggregatedServiceLevelIndicator, SupportedSloEntityUnion } from 'in-service-levels/types';
 import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { analyze as applicationAnalyzePath } from 'in-analyze/navigation/constants';
 import { ServiceLevelErrors, defaultBlueprint } from 'in-service-levels/constants';
 import { toSimplifiedFormModelElements } from 'in-service-levels/utils/tagFilter';
 import { hiddenCallsMatrixParameter } from 'in-applications/navigation/matrix';
-import { isAggregatedServiceLevelIndicator } from 'in-service-levels/types';
 import { Location, ParameterDefinition } from 'in-stores/navigation/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
@@ -48,7 +47,7 @@ import { setTimeConfig } from 'in-stores/time/config';
 
 interface UseHrefToUnboundedAnalyticsProps {
   indicator: ServiceLevelIndicatorUnion;
-  entity: SloEntityUnion;
+  entity: SupportedSloEntityUnion;
   timeConfig: TimeConfig;
   additionalTagFilterExpression?: TagFilterExpressionElementUnion;
   withLabels?: boolean;
@@ -82,7 +81,7 @@ export default function useHrefToUnboundedAnalytics({
 interface UseLocationToUnboundedAnalyticsProps {
   location: Location;
   indicator: ServiceLevelIndicatorUnion;
-  entity: SloEntityUnion;
+  entity: SupportedSloEntityUnion;
   timeConfig: TimeConfig;
   tagFilterExpression: TagFilterExpression;
 }
