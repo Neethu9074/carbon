@@ -21,6 +21,7 @@ const applePlugin = plugins.host + '_apple';
 const windowsPlugin = plugins.host + '_windows';
 const aixPlugin = plugins.host + '_aix';
 const solarisPlugin = plugins.host + '_solaris';
+const ibmIPlugin = 'ibmIOs';
 
 registerSnapshotDefinition({
   plugin: plugins.host,
@@ -51,6 +52,8 @@ registerSnapshotDefinition({
         return applePlugin;
       } else if (os.match(/z\/os/i)) {
         return zosPlugin;
+      } else if (os.match(/os\/400/i)) {
+        return ibmIPlugin;
       }
     }
     return linuxPlugin;
