@@ -24,6 +24,7 @@ import RecommendedActions from 'in-automation/AutomationCard/RecommendedActions'
 import AutomationPolicies from 'in-automation/AutomationCard/AutomationPolicies';
 import { resourceOptimizationActionsEnabled } from 'in-services/featureFlags';
 import usePolicies from 'in-automation/AutomationCard/usePolicies';
+import OptimizationsButtonGroup from './OptimizationsButtonGroup';
 import useHistory from 'in-automation/AutomationCard/useHistory';
 import useTrigger from 'in-automation/AutomationCard/useTrigger';
 import { hasAutomationAccess } from 'in-stores/permission';
@@ -85,6 +86,10 @@ function RecommendedOptimizationsRow({ event }: { event: Event }) {
     <Row withoutSideMargin>
       <Col xs>
         <Card>
+          <OptimizationsButtonGroup
+            recommendedOptimizationsCount={recommendedOptimizations?.data?.totalRecommendedActionsCount!}
+            optimizationHistoryCount={undefined}
+          />
           <RecommendedOptimizations
             recommendedActions={turboRecommendedActions}
             totalRecommendedActions={recommendedOptimizations?.data?.totalRecommendedActionsCount!}

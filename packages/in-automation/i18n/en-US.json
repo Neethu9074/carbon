@@ -508,6 +508,8 @@
     "actionStartedMessage": "You have executed <strong>{{actionName}}.</strong> View the progress of this action in the action history page.",
     "actionFailedMessage": "The request to execute action <strong>{{actionName}}</strong> has failed: {{message}}.",
     "viewActionHistory": "View action history",
-    "actionName": "Action name"
+    "actionName": "Action name",
+    "recommendedActionHistoryWithCount": "Recommended action history ({{count}})",
+    "recommendedActionHistory": "Recommended actions"
   }
 }

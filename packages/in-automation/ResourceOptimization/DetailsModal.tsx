@@ -185,56 +185,54 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
     return (
       <>
         {entities?.map((entity: ResourceImpactEntities, i: number) => (
-          <>
-            <Stack direction="vertical" gap="small" distribution="center">
-              {/* Container Spec*/}
-              <div className={locals.paddingBox}>
-                <Typography variant="heading-200" noMargin>
-                  {entity?.type}
-                </Typography>
-                <div className={locals.smallText}>{entity?.name}</div>
-              </div>
+          <Stack direction="vertical" gap="small" distribution="center">
+            {/* Container Spec*/}
+            <div className={locals.paddingBox}>
+              <Typography variant="heading-200" noMargin>
+                {entity?.type}
+              </Typography>
+              <div className={locals.smallText}>{entity?.name}</div>
+            </div>
 
-              {(entity?.resourceImpactDataList?.length ?? 0) > 0 && (
-                <div className={locals.paddingBox}>
-                  <Stack direction="horizontal">
-                    {/* Resource impact */}
-                    <Stack direction="vertical">
-                      <Typography variant="heading-200" noMargin>
-                        {t('in-automation:resourceOptimization.resourceImpact')}
-                      </Typography>
-                      {entity?.resourceImpactDataList?.map(x => (
-                        <div className={locals.smallText}>{x.name}</div>
-                      ))}
-                    </Stack>
-                    {/* Current */}
-                    <Stack direction="vertical">
-                      <div className={locals.current}>
-                        <Typography variant="heading-200" noMargin>
-                          {t('in-automation:resourceOptimization.current')}
-                        </Typography>
-                      </div>
-                      {entity?.resourceImpactDataList?.map(x => (
-                        <div className={locals.smallText}>{`${x.before} ${x.units}`}</div>
-                      ))}
-                    </Stack>
-                    {/* After actions */}
-                    <Stack direction="vertical">
-                      <div className={locals.after}>
-                        <Typography variant="heading-200" noMargin>
-                          {t('in-automation:resourceOptimization.afterActions')}
-                        </Typography>
-                      </div>
-                      {entity?.resourceImpactDataList?.map(x => (
-                        <div className={locals.smallText}>{`${x.after} ${x.units}`}</div>
-                      ))}
-                    </Stack>
+            {(entity?.resourceImpactDataList?.length ?? 0) > 0 && (
+              <div className={locals.paddingBox}>
+                <Stack direction="horizontal">
+                  {/* Resource impact */}
+                  <Stack direction="vertical">
+                    <Typography variant="heading-200" noMargin>
+                      {t('in-automation:resourceOptimization.resourceImpact')}
+                    </Typography>
+                    {entity?.resourceImpactDataList?.map(x => (
+                      <div className={locals.smallText}>{x.name}</div>
+                    ))}
                   </Stack>
-                </div>
-              )}
-              {i + 1 < entities?.length && <hr className={locals.divider} />}
-            </Stack>
-          </>
+                  {/* Current */}
+                  <Stack direction="vertical">
+                    <div className={locals.current}>
+                      <Typography variant="heading-200" noMargin>
+                        {t('in-automation:resourceOptimization.current')}
+                      </Typography>
+                    </div>
+                    {entity?.resourceImpactDataList?.map(x => (
+                      <div className={locals.smallText}>{`${x.before} ${x.units}`}</div>
+                    ))}
+                  </Stack>
+                  {/* After actions */}
+                  <Stack direction="vertical">
+                    <div className={locals.after}>
+                      <Typography variant="heading-200" noMargin>
+                        {t('in-automation:resourceOptimization.afterActions')}
+                      </Typography>
+                    </div>
+                    {entity?.resourceImpactDataList?.map(x => (
+                      <div className={locals.smallText}>{`${x.after} ${x.units}`}</div>
+                    ))}
+                  </Stack>
+                </Stack>
+              </div>
+            )}
+            {i + 1 < entities?.length && <hr className={locals.divider} />}
+          </Stack>
         ))}
       </>
     );
