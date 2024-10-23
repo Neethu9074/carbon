@@ -27,6 +27,7 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { playwithEnabled } from 'in-services/featureFlags';
 import SaveButton from 'in-components/form/SaveButton';
 import WithTvMode from 'in-components/WithTvMode';
 import Tooltip from 'in-components/Tooltip';
@@ -180,6 +181,7 @@ function ButtonLine({ onSaveConfiguration, hasChanges, editable, isSaving, onDis
         onClick={onSaveConfiguration}
         type="button"
         isSaving={isSaving}
+        disabled={playwithEnabled}
       >
         {t('in-custom-dashboards:customDashboard.customDashboardPresenter.saveChange')}
       </SaveButton>
@@ -242,11 +244,11 @@ function SecondaryButtonLine({
             </MoreMenuButton>
           )}
         </CopyToClipboard>
-        <MoreMenuButton icon="lib_group_by" onClick={onDuplicateDashboard}>
+        <MoreMenuButton icon="lib_group_by" disabled={playwithEnabled} onClick={onDuplicateDashboard}>
           {t('in-custom-dashboards:customDashboard.customDashboardPresenter.duplicate')}
         </MoreMenuButton>
         {editable && (
-          <MoreMenuButton icon="lib_actions_delete" onClick={onDeleteCustomDashboard}>
+          <MoreMenuButton icon="lib_actions_delete" disabled={playwithEnabled} onClick={onDeleteCustomDashboard}>
             {t('in-custom-dashboards:customDashboard.customDashboardPresenter.delete')}
           </MoreMenuButton>
         )}
