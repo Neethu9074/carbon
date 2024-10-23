@@ -177,6 +177,7 @@ import './ibmiNetworkInfo';
 import './azureDatabricks';
 import './azurePostgreSQL';
 import './tibcoASDataGrid';
+import './activeDirectory';
 import './awsAutoScaling';
 import './drbdConnection';
 import './drbdPeerDevice';

@@ -23,6 +23,7 @@ export const nonServicePlugins = {
   aceIntegrationNode: 'aceIntegrationNode',
   aceIntegrationServer: 'aceIntegrationServer',
   aceMessageFlow: 'aceMessageFlow',
+  activeDirectory: 'activeDirectory',
   activeMQ: 'activeMQ',
   activeMQArtemis: 'activeMQArtemis',
   aerospike: 'aerospike',
@@ -421,6 +422,7 @@ export const fullyQualifiedPlugins = {
   aceIntegrationServer:
     'com.instana.forge.infrastructure.messaging.ace.derivedentity.aceIntegrationServer.AceIntegrationServer',
   aceMessageFlow: 'com.instana.forge.infrastructure.messaging.ace.derivedentity.aceMessageFlow.AceMessageFlow',
+  activeDirectory: 'com.instana.forge.infrastructure.directory.activedirectory.ActiveDirectory',
   activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ',
   activeMQArtemis: 'com.instana.forge.infrastructure.messaging.activemqartemis.ActiveMQArtemis',
   aerospike: 'aerospike',

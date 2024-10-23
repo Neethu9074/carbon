@@ -14,6 +14,11 @@
   "pluginName_aceMessageFlow_1": "IBM ACE Message Flows",
   "pluginName_aceMessageFlow_2": "IBM ACE Message Flows",
   "pluginName_aceMessageFlow": "IBM ACE Message Flow",
+  "pluginName_activeDirectory_plural": "Active Directories",
+  "pluginName_activeDirectory_0": "Active Directories",
+  "pluginName_activeDirectory_1": "Active Directories",
+  "pluginName_activeDirectory_2": "Active Directories",
+  "pluginName_activeDirectory": "Active Directory",
   "pluginName_activeMQ_plural": "ActiveMQs",
   "pluginName_activeMQ_0": "ActiveMQs",
   "pluginName_activeMQ_1": "ActiveMQs",
@@ -2952,6 +2957,9 @@
     "rfc": "RFC"
   },
   "plugins": {
+    "activedirectory" : {
+      "ActiveDirectory": "Active Directory"
+    },
     "titleARN": "ARN",
     "titleVPC": "VPC",
     "titleCPU": "CPU",
@@ -3558,6 +3566,33 @@
       "invocations": "Invocations",
       "inputTerminals": "Number of Input-type Terminals",
       "outputTerminals": "Number of Output-type Terminals"
+    },
+    "activeDirectory":{
+      "computerName": "Host",
+      "lightweightDirectoryAccessProtocol": "Lightweight Directory Access Protocol (LDAP)",
+      "ldap": {
+        "operations": "Operations",
+        "operationRates": "Operation Rates (per second)",
+        "add": "Add",
+        "delete": "Delete",
+        "modifyDN": "Modify DN",
+        "modify": "Modify",
+        "write": "Write",
+        "search": "Search",
+        "udp": "UDP",
+        "connections": "Connections",
+        "connectionRates": "Connection Rates (per second)",
+        "clientSessions": "Client Sessions",
+        "closedConnections": "Closed Connections",
+        "sslConnections": "SSL Connections",
+        "threads": "Threads",
+        "sleepingOnBusy": "Sleeping on BUSY",
+        "active": "Active",
+        "busyretries": "Busy Retries",
+        "batch": "Batches",
+        "availableBatchSlots": "Available Batch Slots",
+        "outboundBytes": "Outbound Bytes"
+      }
     },
     "activeMQ": {
       "jmxIsNotEnabledYouCanEnableItInActivemqConfigBySettingTheBrokerPropertyUseJmxToTrue": "Jmx is not enabled. You can enable it in activemq config by setting the broker property useJmx to true.",
