@@ -144,8 +144,8 @@
     background: var(--cds-layer);
   }
 
-  .metricViolationsContainer {
-    padding: 1rem;
+  .accordionContent {
+    padding: 0 1rem;
   }
 
   .noShrink {

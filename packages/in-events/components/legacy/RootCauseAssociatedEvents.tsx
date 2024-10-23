@@ -14,7 +14,6 @@ import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import { EVENT_RCA_ASSOCIATED_EVENTS_CLICK, EVENT_RCA_EXPANDED_CARD } from 'in-services/tracking/tracking';
-import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 //@ts-expect-error
@@ -65,7 +64,7 @@ export default function AssociatedEvents({ associatedEvents, latestSnapshot }: A
             </Typography>
           </Collapsible.Header>
           <Collapsible.Content>
-            <LeftRightPadding>
+            <div className={locals.accordionContent}>
               {associatedEventsData?.map((_event: EventOrMap) => (
                 <div
                   onClick={() => {
@@ -84,7 +83,7 @@ export default function AssociatedEvents({ associatedEvents, latestSnapshot }: A
                   />
                 </div>
               ))}
-            </LeftRightPadding>
+            </div>
           </Collapsible.Content>
         </Collapsible>
       </CarbonLayer>

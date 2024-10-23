@@ -12,7 +12,6 @@ import { useObservable } from '@instana/hooks';
 import useFetchAppropriateRCAEntityData from 'in-events/components/legacy/useFetchAppropriateRCAEntityData';
 import RootCauseContextDashboard from 'in-events/components/legacy/RootCauseContextDashboard';
 import { EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK } from 'in-services/tracking/eventNames';
-import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { TimeConfig } from 'in-types';
@@ -67,7 +66,7 @@ export default function RootCauseLogsSection({
             <Typography variant="body-regular">{t('in-events:RCA.relatedMessagesAndLogsLabel')}</Typography>
           </Collapsible.Header>
           <Collapsible.Content>
-            <LeftRightPadding>
+            <div className={locals.accordionContent}>
               {entityData !== null && (
                 <RootCauseContextDashboard
                   applicationBoundaryScope="ALL"
@@ -80,7 +79,7 @@ export default function RootCauseLogsSection({
                   timeConfig={incidentTimeWindow}
                 />
               )}
-            </LeftRightPadding>
+            </div>
           </Collapsible.Content>
         </Collapsible>
       </CarbonLayer>

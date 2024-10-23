@@ -213,7 +213,7 @@ const MetricViolations = ({ triggeringEvent, latestSnapshot, incident }) => {
         <Collapsible initiallyOpen={!rcaFound}>
           <Collapsible.Header>{t('in-events:incident.metricViolationTitle')}</Collapsible.Header>
           <Collapsible.Content>
-            <div className={locals.metricViolationsContainer}>
+            <div className={locals.accordionContent}>
               <CombinedEventListItemContent event={triggeringEvent} latestSnapshot={latestSnapshot} justChart />
             </div>
           </Collapsible.Content>

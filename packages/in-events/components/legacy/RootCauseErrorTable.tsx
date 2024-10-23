@@ -28,8 +28,6 @@ import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { number } from 'in-services/formatters/number';
 import { collationLanguage, t } from 'in-i18n';
 
-import locals from 'in-logging/components/Dashboards/components/MessagesTable.mless';
-
 const pathSegment = '/errorMessages';
 const matrixPrefix = 'error.';
 
@@ -149,7 +147,6 @@ export default function RootCauseErrorMessagesTable({
           applicationName={applicationName}
           serviceName={serviceName}
           endpointName={endpointName}
-          className={locals.analyzeButton}
           boundaryScope={boundaryScope}
           query={headerProps.query}
           includeInternal
@@ -266,7 +263,7 @@ interface AnalyzeErrorMessagesButtonProps {
   applicationName: string;
   serviceName: string;
   endpointName: string;
-  className: string;
+  className?: string;
   boundaryScope: ApplicationBoundaryScope;
   query: any;
   includeInternal: boolean;
