@@ -24,7 +24,7 @@ export function CloseDialogConfirmation({ step, onClose, dialogHeader }: CloseDi
 
   const handleSubmit = () => {
     close();
-    AIActionLeaveGenerateDialogTrackerSegment({ step });
+    AIActionLeaveGenerateDialogTrackerSegment({ step, dialog: { dialogHeader } });
     if (onClose) {
       onClose();
     }

@@ -125,7 +125,8 @@ function GenerateAIActionButton({
       kind="action"
       onClick={() => {
         generateAIButtonClickTrackerSegment({
-          eventName: name
+          eventName: name,
+          type: 'manual'
         });
         addActiveDialog(
           <GenerateAIActionDialog event={event} trigger={trigger} ootbRecommendedActions={ootbRecommendedActions} />

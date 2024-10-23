@@ -13,17 +13,21 @@ import { CarbonTile } from '@instana/components';
 import GenerateAIScriptActionDialog from 'in-automation/AutomationCard/GenerateAIActionDialog/GenerateAIScriptActionDialog';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { useSegmentTracker } from 'in-automation/tracker';
 import { t } from 'in-i18n';
 
 import locals from 'in-automation/ActionCatalog/Action.mless';
 
 export default function GenerateScriptTileComponent({
   manualContent,
-  actionName
+  actionName,
+  actionId
 }: {
   manualContent: string;
   actionName: string;
+  actionId: string | undefined;
 }) {
+  const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
   return (
     <div>
       <CarbonTile className={locals.scriptGenerationTile}>
@@ -45,9 +49,12 @@ export default function GenerateScriptTileComponent({
           id={'generate_script'}
           className={locals.generateScriptArrow}
           onClick={() => {
-            // generateAIButtonClickTrackerSegment({
-            //   eventName: name
-            // });
+            generateAIButtonClickTrackerSegment({
+              type: 'script',
+              location: 'action details',
+              actionName: actionName,
+              actionId: actionId
+            });
             addActiveDialog(<GenerateAIScriptActionDialog manualContent={manualContent} actionName={actionName} />);
           }}
           buttonType="button"

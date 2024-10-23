@@ -132,6 +132,7 @@ export default function ActionCatalog({
 function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUserActions: boolean }) {
   const navigateToActionDetails = useNavigateToActionDetails();
   const hasAccessToScript = useHasAccessToScript();
+  const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
   const hasPermisson = role?.canConfigureAutomationActions || role?.canRunAutomationActions;
   let manualContent = '';
 
@@ -177,6 +178,12 @@ function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUs
               <MoreMenuButton
                 icon="lib_launch_ai"
                 onClick={() => {
+                  generateAIButtonClickTrackerSegment({
+                    type: 'script',
+                    location: 'action catalog',
+                    actionName: action.name,
+                    actionId: action?.id
+                  });
                   addActiveDialog(
                     <GenerateAIScriptActionDialog manualContent={manualContent} actionName={action.name} />
                   );

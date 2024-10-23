@@ -16,6 +16,7 @@ import generateAIAction, { AIActionContent } from 'in-automation/subscriptions/g
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { error, hasError, isLoading } from 'in-services/util/result';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { carbonButtonEnabled } from 'in-services/featureFlags';
@@ -66,22 +67,16 @@ function EmptySection() {
 
 function generateAIActionForm({
   form,
-  setForm
-}: // event,
-// generateAIClickPromptStepTrackerSegment
-{
+  setForm,
+  aiActionScriptGenerateAIButtonTrackerSegment
+}: {
   form: GenerateAIScriptActionForm;
   setForm: React.Dispatch<React.SetStateAction<GenerateAIScriptActionForm>>;
-  // event: Event;
-  // generateAIClickPromptStepTrackerSegment: TrackingFunction;
+  aiActionScriptGenerateAIButtonTrackerSegment: TrackingFunction;
 }) {
   const promptForm = form.get('prompt');
-  // const eventName = promptForm.get('eventName').value;
-  // const eventDescription = promptForm.get('eventDescription').value;
-  // const eventEntityType = promptForm.get('eventEntityType').value;
 
   const promptStep = promptForm.get('promptStep');
-  // const eventId = event.id;
   const generateAIScriptActionPayload = {
     actionType: 'SCRIPT' as GeneratedActionType,
     tasks: [
@@ -100,10 +95,10 @@ function generateAIActionForm({
       res => {
         setGeneratedAction(res);
         // tracker tracks prompt input and output
-        // generateAIClickPromptStepTrackerSegment({
-        //   generateAIActionPayload,
-        //   resultContent: res.data?.content!
-        // });
+        aiActionScriptGenerateAIButtonTrackerSegment({
+          generateAIScriptActionPayload,
+          resultContent: res.data?.content!
+        });
         setForm(form =>
           form
             .updateIn(['action', 'script'], item => item.setValue(res.data?.content!))
@@ -127,8 +122,7 @@ function GenerateScriptButton({
 }) {
   const generatedAction = useGeneratedAction();
   const promptForm = form.get('prompt');
-  // const promptStep = promptForm.get('promptStep');
-  // const { generateAIClickPromptStepTrackerSegment } = useSegmentTracker();
+  const { aiActionScriptGenerateAIButtonTrackerSegment } = useSegmentTracker();
   return (
     <Button
       kind={carbonButtonEnabled ? 'secondary' : 'primaryv2'}
@@ -141,7 +135,7 @@ function GenerateScriptButton({
           setForm(form.updateIn(['prompt'], promptForm => promptForm.setTouched(true, { recurse: true })));
           return;
         }
-        generateAIActionForm({ form, setForm });
+        generateAIActionForm({ form, setForm, aiActionScriptGenerateAIButtonTrackerSegment });
       }}
       icon="lib_launch_ai"
     >

@@ -25,11 +25,11 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPad
 import { StepConfigs } from 'in-components/BlueprintFormMultistep/StepConfigs';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { close, addActiveDialog } from 'in-components/DialogPresenter/store';
+import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { setViewTrackingDataValues } from 'in-components/ViewTrackingMeta';
 import { error, hasError, isLoading } from 'in-services/util/result';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { pageNames } from 'in-services/tracking/pageNames';
-import { useSegmentTracker } from 'in-automation/tracker';
 import { pendingResult } from 'in-services/fixedObjects';
 import { saveNewAction } from 'in-automation/api';
 import { t } from 'in-i18n';
@@ -70,12 +70,10 @@ function useOnSubmit() {
   const { createActionTrackerSegment, AIActionContentModifiedTrackerSegment } = useSegmentTracker();
   const [result, setResult] = useState<Result<any> | null>(null);
   const navigateToActionCatalog = useNavigateToActionCatalog();
-  // const generatedAction = useGeneratedAction();
   function onSubmit({ form }: { form: GenerateAIScriptActionForm }) {
-    const liveAIGeneration = true;
-    const actionContent = form.get('action').get('script').value;
-    const aiGeneratedContent = form.get('action').get('aiGeneratedContent').value;
-    const userChangedAIGeneratedContent = actionContent === aiGeneratedContent;
+    const actionScript = form.get('action').get('script').value;
+    const aiGeneratedScript = form.get('action').get('aiGeneratedContent').value;
+    const userChangedAIGeneratedContent = actionScript === aiGeneratedScript;
 
     function trackAction() {
       setViewTrackingDataValues(productAreas.events, pageNames.event_generate_with_watsonx);
@@ -83,17 +81,16 @@ function useOnSubmit() {
         actionName: action.name,
         actionType: action.type,
         aiOriginated: true,
-        // createActionAndPolicyButtonClicked: both,
-        liveAIGeneration,
+        liveAIGeneration: true,
         userChangedAIGeneratedContent
       });
-      if (!userChangedAIGeneratedContent && liveAIGeneration) {
+      if (!userChangedAIGeneratedContent) {
         const promptForm = form.get('prompt');
         const selectedManualStep = promptForm.get('selectedManualStep').value;
         const promptStep = promptForm.get('promptStep').value;
         AIActionContentModifiedTrackerSegment({
-          actionContent,
-          aiGeneratedContent,
+          actionScript,
+          aiGeneratedScript,
           prompt: {
             selectedManualStep,
             promptStep
@@ -146,28 +143,49 @@ function useOnCancel(step: number) {
   };
 }
 
+function onStepChange(
+  oldStep: number,
+  newStep: number,
+  aiActionScriptSelectStepNextTrackerSegment: TrackingFunction,
+  form: GenerateAIScriptActionForm,
+  setForm: React.Dispatch<React.SetStateAction<GenerateAIScriptActionForm>>,
+  aiActionScriptGenerateStepNextClickTrackerSegment: TrackingFunction
+) {
+  if (oldStep === 1 && newStep === 0) {
+    setForm(form => form.updateIn(['action', 'script'], item => item.setValue('').setTouched(true)));
+    return true;
+  }
+
+  if (oldStep === 0 && newStep === 1) {
+    const promptForm = form.get('prompt');
+    const selectedManualStep = promptForm.get('selectedManualStep').value;
+    aiActionScriptSelectStepNextTrackerSegment({ selectedManualStep: selectedManualStep });
+    return true;
+  }
+
+  if (oldStep === 1 && newStep === 2) {
+    const promptForm = form.get('prompt');
+    const selectedManualStep = promptForm.get('selectedManualStep').value;
+    const promptStep = promptForm.get('promptStep').value;
+    aiActionScriptGenerateStepNextClickTrackerSegment({ selectedManualStep: selectedManualStep, prompt: promptStep });
+    return true;
+  }
+  return true;
+}
+
 export default function GenerateAIScriptActionDialog({ manualContent, actionName }: GenerateAIScriptActionDialogProps) {
   const [step, setStep] = useState(0);
 
   const [form, setForm] = useGenerateAIScriptActionForm();
   const { result, onSubmit } = useOnSubmit();
-  // const generatedAction = useGeneratedAction();
   const onCancel = useOnCancel(step);
+  const { aiActionScriptSelectStepNextTrackerSegment, aiActionScriptGenerateStepNextClickTrackerSegment } =
+    useSegmentTracker();
 
   const isSaving = (result && isLoading(result)) ?? false;
   const onCreate = () => {
     onSubmit({ form });
   };
-
-  function onStepChange(oldStep: number, newStep: number) {
-    if (oldStep === 1 && newStep === 0) {
-      // const liveAIGeneration = generatedAction ? true : false;
-      // selectNextPromptStepClickTrackerSegment({ liveAIGeneration });
-      setForm(form => form.updateIn(['action', 'script'], item => item.setValue('').setTouched(true)));
-      return true;
-    }
-    return true;
-  }
 
   return (
     <DialogWithSlideInView
@@ -191,7 +209,16 @@ export default function GenerateAIScriptActionDialog({ manualContent, actionName
           updateForm={setForm}
           isSaving={isSaving}
           onClose={onCancel}
-          onStepChanged={(oldStep, nextStep) => onStepChange(oldStep, nextStep)}
+          onStepChanged={(oldStep, nextStep) =>
+            onStepChange(
+              oldStep,
+              nextStep,
+              aiActionScriptSelectStepNextTrackerSegment,
+              form,
+              setForm,
+              aiActionScriptGenerateStepNextClickTrackerSegment
+            )
+          }
           simpleModeStep={step}
           setSimpleModeStep={setStep}
           renderStep={step => {

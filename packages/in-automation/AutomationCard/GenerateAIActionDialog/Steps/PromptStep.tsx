@@ -21,6 +21,7 @@ import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages'
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { error, hasError, isLoading } from 'in-services/util/result';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import TextArea from 'in-components/form/TextArea/TextArea';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
@@ -195,7 +196,7 @@ function GenerateButton({
   const { generateAIClickPromptStepTrackerSegment } = useSegmentTracker();
   return (
     <Button
-      kind="primary"
+      kind={carbonButtonEnabled ? 'secondary' : 'primaryv2'}
       disabled={
         (!promptForm.hierarchyValid && promptForm.hierarchyTouched) || (!!generatedAction && isLoading(generatedAction))
       }
