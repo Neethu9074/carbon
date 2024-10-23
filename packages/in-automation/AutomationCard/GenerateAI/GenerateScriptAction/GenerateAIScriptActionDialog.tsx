@@ -11,14 +11,14 @@ import { Result } from '@instana/types';
 
 import useGenerateAIScriptActionForm, {
   getActionFromForm
-} from 'in-automation/AutomationCard/GenerateAIActionDialog/useGenerateAIScriptActionForm';
-import { CreateActionSuccessNotification } from 'in-automation/AutomationCard/GenerateAIActionDialog/CreateActionSuccessNotification';
-import { GenerateAIScriptActionForm } from 'in-automation/AutomationCard/GenerateAIActionDialog/useGenerateAIScriptActionForm';
-import CopyActionStepScriptAction from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/CopyActionStepScriptAction';
-import { CloseDialogConfirmation } from 'in-automation/AutomationCard/GenerateAIActionDialog/CloseDialogConfirmation';
-import { useGeneratedAction } from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/GenerateScriptStep';
-import GenerateScriptStep from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/GenerateScriptStep';
-import SelectManualStep from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/SelectManualStep';
+} from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/useGenerateAIScriptActionForm';
+import { GenerateAIScriptActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/useGenerateAIScriptActionForm';
+import CopyActionStepScriptAction from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/Steps/CopyActionStepScriptAction';
+import { useGeneratedAction } from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/Steps/GenerateScriptStep';
+import { CreateActionSuccessNotification } from 'in-automation/AutomationCard/GenerateAI/CreateActionSuccessNotification';
+import GenerateScriptStep from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/Steps/GenerateScriptStep';
+import SelectManualStep from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/Steps/SelectManualStep';
+import { CloseDialogConfirmation } from 'in-automation/AutomationCard/GenerateAI/CloseDialogConfirmation';
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
@@ -34,7 +34,7 @@ import { pendingResult } from 'in-services/fixedObjects';
 import { saveNewAction } from 'in-automation/api';
 import { t } from 'in-i18n';
 
-import locals from './GenerateAIScriptActionDialog.mless';
+import locals from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog.mless';
 
 const stepConfigs: StepConfigs = [
   {

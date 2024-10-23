@@ -9,9 +9,9 @@ import React from 'react';
 import { Typography, Spacer } from '@instana/components';
 import { Result } from '@instana/types';
 
-import { GenerateAIScriptActionForm } from 'in-automation/AutomationCard/GenerateAIActionDialog/useGenerateAIScriptActionForm';
-import CopyActionStepForm from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/CopyActionStepForm';
+import { GenerateAIScriptActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/useGenerateAIScriptActionForm';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
+import CopyActionStepForm from 'in-automation/AutomationCard/GenerateAI/CopyActionStepForm';
 import { t } from 'in-i18n';
 
 export default function CopyActionStep({

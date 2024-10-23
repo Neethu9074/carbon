@@ -13,17 +13,17 @@ import { just } from '@instana/observables';
 import useGenerateAIActionForm, {
   GenerateAIActionForm,
   getActionFromForm
-} from 'in-automation/AutomationCard/GenerateAIActionDialog/useGenerateAIActionForm';
-import { CreateActionSuccessNotification } from 'in-automation/AutomationCard/GenerateAIActionDialog/CreateActionSuccessNotification';
+} from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/useGenerateAIActionForm';
 import {
   setGeneratedAction,
   useGeneratedAction
-} from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/PromptStep';
-import { CloseDialogConfirmation } from 'in-automation/AutomationCard/GenerateAIActionDialog/CloseDialogConfirmation';
-import { setSelectedAction } from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/SelectActionStep';
-import CreatePolicyStep from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/CreatePolicyStep';
-import ReviewActionStep from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/ReviewActionStep';
-import CopyActionStep from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/CopyActionStep';
+} from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/Steps/PromptStep';
+import { CreateActionSuccessNotification } from 'in-automation/AutomationCard/GenerateAI/CreateActionSuccessNotification';
+import { setSelectedAction } from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/Steps/SelectActionStep';
+import CreatePolicyStep from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/Steps/CreatePolicyStep';
+import ReviewActionStep from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/Steps/ReviewActionStep';
+import CopyActionStep from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/Steps/CopyActionStep';
+import { CloseDialogConfirmation } from 'in-automation/AutomationCard/GenerateAI/CloseDialogConfirmation';
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import { ScoredAction, getActionNameExists, saveNewAction, saveNewPolicy } from 'in-automation/api';
 import { refresh as refreshScoredActions } from 'in-automation/AutomationCard/useScoredActions';
@@ -49,7 +49,7 @@ import { pendingResult } from 'in-services/fixedObjects';
 import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
-import locals from './GenerateAIActionDialog.mless';
+import locals from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/GenerateAIActionDialog.mless';
 
 const formId = 'createPolicyAIForm';
 

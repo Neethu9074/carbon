@@ -10,8 +10,8 @@ import { Button, Spacer, Typography, PreviewPill } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Event, Result } from '@instana/types';
 
-import { GenerateAIActionForm } from 'in-automation/AutomationCard/GenerateAIActionDialog/useGenerateAIActionForm';
-import { setSelectedAction } from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/SelectActionStep';
+import { GenerateAIActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/useGenerateAIActionForm';
+import { setSelectedAction } from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/Steps/SelectActionStep';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import ManualActionContent from 'in-automation/components/ManualActionContent/ManualActionContent';
 import generateAIAction, { AIActionContent } from 'in-automation/subscriptions/generateAIAction';
@@ -32,7 +32,7 @@ import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { Trans, t } from 'in-i18n';
 
-import locals from 'in-automation/AutomationCard/GenerateAIActionDialog/GenerateAIActionDialog.mless';
+import locals from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/GenerateAIActionDialog.mless';
 
 const generatedActionStore = createStore<Result<AIActionContent> | null>({
   name: 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/PromptStep',

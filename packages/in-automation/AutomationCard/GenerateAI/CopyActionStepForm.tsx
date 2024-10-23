@@ -25,7 +25,7 @@ import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
-import locals from 'in-automation/AutomationCard/GenerateAIActionDialog/GenerateAIActionDialog.mless';
+import locals from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/GenerateAIActionDialog.mless';
 
 type ActionFormItems = {
   name: FormField<string>;

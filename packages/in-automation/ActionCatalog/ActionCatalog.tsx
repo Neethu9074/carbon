@@ -22,7 +22,7 @@ import {
   createTypeUrlParameter,
   createTabTypeUrlParameter
 } from 'in-automation/navigation/urlParameters';
-import GenerateAIScriptActionDialog from 'in-automation/AutomationCard/GenerateAIActionDialog/GenerateAIScriptActionDialog';
+import GenerateAIScriptActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { descriptionColumn, lastModifiedColumn, nameColumn } from 'in-automation/ActionTable/columnDefinitions';
 import useActionCatalogFilterUrlState from 'in-automation/ActionCatalog/useActionCatalogFilterUrlState';

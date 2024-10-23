@@ -8,10 +8,10 @@ import React from 'react';
 
 import { Typography, Spacer, CarbonTileGroup, CarbonRadioTile } from '@instana/components';
 
-import { GenerateAIScriptActionForm } from 'in-automation/AutomationCard/GenerateAIActionDialog/useGenerateAIScriptActionForm';
+import { GenerateAIScriptActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/useGenerateAIScriptActionForm';
 import { t } from 'in-i18n';
 
-import locals from 'in-automation/AutomationCard/GenerateAIActionDialog/GenerateAIScriptActionDialog.mless';
+import locals from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog.mless';
 
 type Task = {
   id: string;

@@ -17,8 +17,8 @@ import {
 import useServerTableUrlState, {
   ServerTableUrlState
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
+import GenerateAIActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/GenerateAIActionDialog';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import GenerateAIActionDialog from 'in-automation/AutomationCard/GenerateAIActionDialog/GenerateAIActionDialog';
 import CreatePolicyDialog from 'in-automation/AutomationCard/CreatePolicyDialog/CreatePolicyDialog';
 import useNavigateToActionDetails from 'in-automation/navigation/hooks/useNavigateToActionDetails';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';

@@ -10,7 +10,7 @@ import React from 'react';
 import { PreviewPill, IconButton, Typography, Spacer } from '@instana/components';
 import { CarbonTile } from '@instana/components';
 
-import GenerateAIScriptActionDialog from 'in-automation/AutomationCard/GenerateAIActionDialog/GenerateAIScriptActionDialog';
+import GenerateAIScriptActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { useSegmentTracker } from 'in-automation/tracker';

@@ -10,7 +10,7 @@ import { Result, GeneratedActionType, GeneratedActionInterpreter } from '@instan
 import { Typography, Spacer, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-import { GenerateAIScriptActionForm } from 'in-automation/AutomationCard/GenerateAIActionDialog/useGenerateAIScriptActionForm';
+import { GenerateAIScriptActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/useGenerateAIScriptActionForm';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import generateAIAction, { AIActionContent } from 'in-automation/subscriptions/generateAIAction';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
@@ -29,7 +29,7 @@ import CodeComponent from 'in-components/Code';
 import { createStore } from 'in-stores/store';
 import { t, Trans } from 'in-i18n';
 
-import locals from 'in-automation/AutomationCard/GenerateAIActionDialog/GenerateAIScriptActionDialog.mless';
+import locals from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog.mless';
 
 const generatedActionStore = createStore<Result<AIActionContent> | null>({
   name: 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/GenerateScriptStep',
