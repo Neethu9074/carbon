@@ -93,6 +93,19 @@ export default function getBusinessProcessesWithDefaults({
         metric: 'started_processes',
         granularity: 0,
         aggregation: 'DISTINCT_COUNT'
+      },
+      activities_count: {
+        metric: 'activity_count_distinct',
+        granularity: 0,
+        aggregation: 'DISTINCT_COUNT'
+      },
+      openIssues: {
+        metric: 'openIssues',
+        aggregation: 'DISTINCT_COUNT'
+      },
+      maxSeverity: {
+        metric: 'maxSeverity',
+        aggregation: 'MAX'
       }
     },
     timeConfig,
