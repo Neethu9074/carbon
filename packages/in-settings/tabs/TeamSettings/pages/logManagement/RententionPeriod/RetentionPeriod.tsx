@@ -19,8 +19,10 @@ import useRetentionPeriodForm from 'in-settings/tabs/TeamSettings/pages/logManag
 import { analyzeDocs } from 'in-analyze/components/AnalyzeHeader/constants';
 // eslint-disable-next-line no-restricted-imports
 import { ModalNotification, NotificationState } from './ModalNotification';
+import { SETTINGS_LOG_MANAGEMENT_RETENTION_PERIOD_SUBMITTED } from 'in-services/tracking/eventNames';
 import { getEntityIdView, teamSettingsActionLogRetention } from 'in-settings/navigation/paths';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import SubViewHeaderComponent from 'in-settings/components/SubViewHeader';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
@@ -187,7 +189,7 @@ function RetentionPeriodDialog({
   retentionValue
 }: RetentionPeriodDialogProps) {
   const [notification, setNotification] = useState<NotificationState>({ show: false });
-
+  const { trackCta } = useSegmentTracking();
   const handlePostRequest = async (payload: RetentionLogsRequest) => {
     await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -223,6 +225,7 @@ function RetentionPeriodDialog({
     };
 
     if (canSubmit) {
+      trackCta(SETTINGS_LOG_MANAGEMENT_RETENTION_PERIOD_SUBMITTED, queryParams);
       setSubmitted(false);
       setRetentionValue(+retentionPeriodInputValue);
       resetForm();
