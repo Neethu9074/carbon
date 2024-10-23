@@ -50,7 +50,6 @@ export default function CopyActionStepForm({
   actionNameExists?: null | boolean;
   clearActionNameExists?: () => void;
 }) {
-  // const actionForm = form.get('action');
   const name = form.get('name');
   const description = form.get('description');
   const type = form.get('type');
