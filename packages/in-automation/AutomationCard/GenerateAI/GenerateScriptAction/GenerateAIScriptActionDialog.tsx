@@ -12,9 +12,12 @@ import { Result } from '@instana/types';
 import useGenerateAIScriptActionForm, {
   getActionFromForm
 } from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/useGenerateAIScriptActionForm';
+import {
+  setGeneratedAction,
+  useGeneratedAction
+} from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/Steps/GenerateScriptStep';
 import { GenerateAIScriptActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/useGenerateAIScriptActionForm';
 import CopyActionStepScriptAction from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/Steps/CopyActionStepScriptAction';
-import { useGeneratedAction } from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/Steps/GenerateScriptStep';
 import { CreateActionSuccessNotification } from 'in-automation/AutomationCard/GenerateAI/CreateActionSuccessNotification';
 import GenerateScriptStep from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/Steps/GenerateScriptStep';
 import SelectManualStep from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/Steps/SelectManualStep';
@@ -64,6 +67,7 @@ function additionalStepCheck(step: number, form: GenerateAIScriptActionForm) {
 }
 
 function onClose() {
+  setGeneratedAction(null);
   close();
 }
 function useOnSubmit() {
@@ -109,7 +113,7 @@ function useOnSubmit() {
           trackAction();
           CreateActionSuccessNotification(result.data?.name!, result.data?.id!);
           navigateToActionCatalog();
-          close();
+          onClose();
         },
         () => {
           const err = error([

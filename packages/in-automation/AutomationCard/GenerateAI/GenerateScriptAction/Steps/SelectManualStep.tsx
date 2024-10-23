@@ -9,6 +9,7 @@ import React from 'react';
 import { Typography, Spacer, CarbonTileGroup, CarbonRadioTile } from '@instana/components';
 
 import { GenerateAIScriptActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/useGenerateAIScriptActionForm';
+import { setGeneratedAction } from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/Steps/GenerateScriptStep';
 import { t } from 'in-i18n';
 
 import locals from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog.mless';
@@ -46,6 +47,7 @@ export default function SelectManualStep({
   const promptForm = form.get('prompt');
   const selectedManualStep = promptForm.get('selectedManualStep');
   const onChangeValue = (val: string) => {
+    setGeneratedAction(null);
     setForm(form => form.updateIn(['prompt', 'selectedManualStep'], item => item.setValue(val).setTouched(true)));
     setForm(form => form.updateIn(['prompt', 'promptStep'], item => item.setValue(val).setTouched(true)));
     setForm(form =>
