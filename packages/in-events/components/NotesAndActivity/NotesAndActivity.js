@@ -24,6 +24,7 @@ import Tooltip from 'in-components/Tooltip';
 import { handleUpdateDeleteNote } from 'in-events/components/NotesAndActivity/components/utils';
 import { CommentInput } from 'in-events/components/NotesAndActivity/components/CommentInput';
 import { QuickActions } from 'in-events/components/NotesAndActivity/components/QuickActions';
+import { ShareSummary } from 'in-events/components/NotesAndActivity/components/ShareSummary';
 import { CommentList } from 'in-events/components/NotesAndActivity/components/CommentList';
 import { EVENT_SIDE_PANEL_CLICK } from 'in-services/tracking/eventNames';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
@@ -87,6 +88,10 @@ export function NotesAndActivity(props) {
   const [displayQuickStart, setDisplayQuickStart] = useState(true);
   const [stretchOverlay, setStretchOverlay] = useState(false);
   const [needOverlay, setNeedOverlay] = useState(false);
+  // Share Modal visible
+  const [shareOpen, setShareOpen] = useState(false);
+  // Summary Data to pass to the Modal
+  const [summaryData, setSummaryData] = useState([]);
 
   // We ONLY want to display Notes and Activity for incidents
   if (eventType != 'incident') {
@@ -178,6 +183,8 @@ export function NotesAndActivity(props) {
                 setNote={setNote}
                 setEditNoteId={setEditNoteId}
                 setNeedOverlay={setNeedOverlay}
+                setShareOpen={setShareOpen}
+                setSummaryData={setSummaryData}
               />
               <CommentInput
                 note={note}
@@ -220,6 +227,12 @@ export function NotesAndActivity(props) {
           {t('in-events:notes.actionUndone')}
         </CarbonModal>
       </div>
+      <ShareSummary
+        summary={summaryData}
+        open={shareOpen}
+        setShareOpen={setShareOpen}
+        setNeedOverlay={setNeedOverlay}
+      />
     </>
   );
 }

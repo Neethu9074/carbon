@@ -105,3 +105,15 @@ export function handleUpdateDeleteNote(incidentId, note, setNote, setEditNoteId,
 function sendUpdateDeleteNote(note) {
   annotateEvent(note);
 }
+
+// Taking in the response of the getSummary function above [{label: 'label', summary: 'summary'}]
+// And converting it to a string
+export function convertSummaryToString(data) {
+  var stringSummary = `This summary is AI generated\n\n`;
+  data?.map(entry => {
+    stringSummary += `${entry.label}\n`;
+    stringSummary += `${entry.summary}\n`;
+  });
+
+  return stringSummary;
+}
