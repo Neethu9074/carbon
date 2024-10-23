@@ -224,7 +224,7 @@ export default function GenerateScriptStep({
               </Typography>
             </div>
             <div className={locals.promptCode}>
-              <Code mode="shell" lineWrapping value={field.value} onChange={onChangeValue} />
+              <Code mode="markdown" lineWrapping value={field.value} onChange={onChangeValue} />
             </div>
             <TouchedMessages field={field} />
           </FormGroup>
