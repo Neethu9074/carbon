@@ -18,7 +18,7 @@ import {
   setGeneratedAction,
   useGeneratedAction
 } from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/Steps/PromptStep';
-import { CreateActionSuccessNotification } from 'in-automation/AutomationCard/GenerateAI/CreateActionSuccessNotification';
+import { createActionSuccessNotification } from 'in-automation/AutomationCard/GenerateAI/CreateActionSuccessNotification';
 import { setSelectedAction } from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/Steps/SelectActionStep';
 import CreatePolicyStep from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/Steps/CreatePolicyStep';
 import ReviewActionStep from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/Steps/ReviewActionStep';
@@ -159,7 +159,7 @@ function useOnSubmit() {
             setResult(result);
             if (hasError(result)) return;
             trackAction();
-            CreateActionSuccessNotification(result.data?.name!, result.data?.id!);
+            createActionSuccessNotification(result.data?.name!, result.data?.id!);
             refreshScoredActions();
             onClose();
           },
@@ -181,7 +181,7 @@ function useOnSubmit() {
         .flatMap<Result<Action | Policy>>(result => {
           setResult(result);
           if (hasError(result)) return just(result);
-          CreateActionSuccessNotification(result.data?.name!, result.data?.id!);
+          createActionSuccessNotification(result.data?.name!, result.data?.id!);
           trackAction();
           const policyForm = form.get('policy');
           const policy = createBasePolicy(event, result.data!, {

@@ -58,7 +58,7 @@ export default function GenerateScriptTileComponent({
           }}
           buttonType="button"
           kind="primaryv2"
-          type={'lib_arrow_right'}
+          type="lib_arrow_right"
         />
       </CarbonTile>
     </div>

@@ -180,7 +180,7 @@ function ScriptSection({
     setForm
   });
   const originalValue = form.get('aiGeneratedContent').value;
-
+  if (!script) return null;
   return script?.map(field => (
     <FormGroup>
       <Label htmlFor="action-script" hasError={!field.valid && field.touched}>

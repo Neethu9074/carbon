@@ -15,7 +15,7 @@ import { t } from 'in-i18n';
 
 interface CloseDialogConfirmationProps {
   step: number;
-  onClose?: () => void;
+  onClose: () => void;
   dialogHeader: string;
 }
 
@@ -25,9 +25,7 @@ export function CloseDialogConfirmation({ step, onClose, dialogHeader }: CloseDi
   const handleSubmit = () => {
     close();
     AIActionLeaveGenerateDialogTrackerSegment({ step, dialog: { dialogHeader } });
-    if (onClose) {
-      onClose();
-    }
+    onClose(); // This closes parent dialog
   };
 
   return (

@@ -12,7 +12,7 @@ import useHrefToActionDetails from 'in-automation/navigation/hooks/useHrefToActi
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { Trans, t } from 'in-i18n';
 
-export function ActionSuccess({ name, id }: { name: string; id: string }) {
+function ActionSuccess({ name, id }: { name: string; id: string }) {
   const hrefToActionDetails = useHrefToActionDetails();
   return (
     <Trans
@@ -28,7 +28,7 @@ export function ActionSuccess({ name, id }: { name: string; id: string }) {
   );
 }
 
-export function CreateActionSuccessNotification(name: string, id: string) {
+export function createActionSuccessNotification(name: string, id: string) {
   addMessage({
     type: 'info',
     timeout: 5000,

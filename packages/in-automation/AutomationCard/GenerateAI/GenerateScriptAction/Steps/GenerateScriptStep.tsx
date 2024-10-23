@@ -6,9 +6,9 @@
 
 import React from 'react';
 
-import { Result, GeneratedActionType, GeneratedActionInterpreter } from '@instana/types';
 import { Typography, Spacer, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
+import { Result } from '@instana/types';
 
 import { GenerateAIScriptActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/useGenerateAIScriptActionForm';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
@@ -78,11 +78,11 @@ function generateAIActionForm({
 
   const promptStep = promptForm.get('promptStep');
   const generateAIScriptActionPayload = {
-    actionType: 'SCRIPT' as GeneratedActionType,
+    actionType: 'SCRIPT' as const,
     tasks: [
       {
         id: '0',
-        interpreter: 'BASH' as GeneratedActionInterpreter,
+        interpreter: 'BASH' as const,
         task: promptStep.value
       }
     ]
@@ -155,28 +155,26 @@ function ActionPreview({ form }: { form: GenerateAIScriptActionForm }) {
 }
 
 function ScriptSection({ form }: { form: GenerateAIScriptActionForm }) {
-  let plaintextScript = form.get('action').get('script').value;
+  const plaintextScript = form.get('action').get('script').value;
   return (
-    <>
-      <FormGroup>
-        <div className={locals.header}>
-          <Typography variant="heading-200" component="h2">
-            {t('in-automation:GenerateAIActionDialog.generateScriptDialog.titleGeneratedCodeReadOnly')}
-          </Typography>
-        </div>
-        <div className={locals.CodeWithAISlug}>
-          <CodeComponent
-            withExpandButton
-            linesToShow={20}
-            withoutCopyButton
-            code={plaintextScript}
-            lang={'bash'}
-            softWrap
-          />
-          <AISlugIcon />
-        </div>
-      </FormGroup>
-    </>
+    <FormGroup>
+      <div className={locals.header}>
+        <Typography variant="heading-200" component="h2">
+          {t('in-automation:GenerateAIActionDialog.generateScriptDialog.titleGeneratedCodeReadOnly')}
+        </Typography>
+      </div>
+      <div className={locals.CodeWithAISlug}>
+        <CodeComponent
+          withExpandButton
+          linesToShow={20}
+          withoutCopyButton
+          code={plaintextScript}
+          lang={'bash'}
+          softWrap
+        />
+        <AISlugIcon />
+      </div>
+    </FormGroup>
   );
 }
 
@@ -223,7 +221,7 @@ export default function GenerateScriptStep({
               </Typography>
             </div>
             <div className={locals.promptCode}>
-              <Code mode={'shell'} lineWrapping value={field.value} onChange={onChangeValue} />
+              <Code mode="shell" lineWrapping value={field.value} onChange={onChangeValue} />
             </div>
             <TouchedMessages field={field} />
           </FormGroup>

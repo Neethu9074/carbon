@@ -9,8 +9,7 @@ import React from 'react';
 import { Typography } from '@instana/components';
 
 import { GenerateAIActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/useGenerateAIActionForm';
-import CopyActionStepForm from 'in-automation/AutomationCard/GenerateAI/CopyActionStepForm';
-import { ActionForm } from 'in-automation/AutomationCard/GenerateAI/CopyActionStepForm';
+import CopyActionStepForm, { ActionForm } from 'in-automation/AutomationCard/GenerateAI/CopyActionStepForm';
 import { t } from 'in-i18n';
 
 export default function CopyActionStep({
