@@ -225,11 +225,11 @@ export default function GenerateScriptStep({
             </div>
             <div className={locals.promptCode}>
               <Code mode="markdown" lineWrapping value={field.value} onChange={onChangeValue} />
+              <GenerateScriptButton form={form} setForm={setForm} />
             </div>
             <TouchedMessages field={field} />
           </FormGroup>
         ))}
-        <GenerateScriptButton form={form} setForm={setForm} />
       </Col>
       <Col lg={6}>
         <Spacer vertical="normal" />

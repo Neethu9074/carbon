@@ -61,16 +61,28 @@
   }
 
   .promptCode {
-    height: 395px;
-    div {
-      &:nth-child(1) {
-        background-color: var(--cds-layer);
-        &:nth-child(1) {
-          background-color: var(--cds-layer);
-          height: 450px;
-          padding: 0.15rem;
-        }
-      }
+    // To allow the script button to be absolutely placed
+    position: relative;
+    > div {
+      // Remove wrappper padding as it conflicts with overriding the background
+      padding: initial;
+      // Background for margin of .CodeMirror
+      background-color: var(--cds-layer);
+    }
+    :global .CodeMirror {
+      // Prevent text overflowing button
+      margin-bottom: 2.5rem;
+      // Add back padding we removed from wrapper
+      padding: 0.25rem 0 0.25rem 0.5rem;
+      // Desired height - margin for button
+      height: calc(450px - 2.5rem);
+      // Editor background
+      background-color: var(--cds-layer);
+    }
+    .generateScriptButton {
+      position: absolute;
+      right: 0;
+      bottom: 0;
     }
   }
 
@@ -84,10 +96,5 @@
 
   .generateScriptStep {
     margin-bottom: 4rem;
-  }
-
-  .generateScriptButton {
-    position: absolute;
-    right: 10px;
   }
 }
