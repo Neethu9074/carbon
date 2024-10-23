@@ -25,7 +25,7 @@ export default function GenerateScriptTileComponent({
 }: {
   manualContent: string;
   actionName: string;
-  actionId: string | undefined;
+  actionId: string | null;
 }) {
   const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
   return (

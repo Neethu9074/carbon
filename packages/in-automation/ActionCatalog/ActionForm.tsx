@@ -88,9 +88,9 @@ import {
 import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
 import GenerateScriptTileComponent from 'in-automation/ActionCatalog/GenerateScriptTileComponent';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
+import useActionDetailsUrlParams from 'in-automation/ActionCatalog/useActionDetailsUrlParams';
 import AdditionalHeadersTable from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
-import { actionDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
 import { isNotEditableContext, OnChange } from 'in-automation/ActionCatalog/Action';
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
@@ -112,7 +112,6 @@ import { isLoading } from 'in-services/util/result';
 import { FetchStatus } from 'in-hooks/utils/types';
 import { ActionFilter } from 'in-automation/api';
 import Code from 'in-components/form/Code/Code';
-import useUrlState from 'in-hooks/useUrlState';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { ActionForm } from './useActionForm';
@@ -151,9 +150,7 @@ export function ActionFormBody({ form, setForm, onChange, action, isCreate, acti
   const type = (form.get('type') as Field<ActionType>).value;
   const showTimeoutSection = isScript(type) || isWebhook(type) || isAnsible(type);
   const hasAccessToScript = useHasAccessToScript();
-  const [{ id }] = useUrlState<{ id?: string }>({
-    bind: [actionDetailsUrlParameters.id]
-  });
+  const { id } = useActionDetailsUrlParams();
 
   return (
     <LeftRightPadding>
