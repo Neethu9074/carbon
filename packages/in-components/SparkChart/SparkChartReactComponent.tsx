@@ -99,7 +99,7 @@ export default function SparkChartReactComponent(props: Props) {
     if (customChartTooltip) {
       sparkChart = (
         <Tooltip align="bottomMiddle" content={customChartTooltip}>
-          {sparkChart}
+          <div>{sparkChart}</div>
         </Tooltip>
       );
     }

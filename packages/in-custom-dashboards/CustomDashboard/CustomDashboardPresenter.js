@@ -181,6 +181,7 @@ function ButtonLine({ onSaveConfiguration, hasChanges, editable, isSaving, onDis
         onClick={onSaveConfiguration}
         type="button"
         isSaving={isSaving}
+        disabled={playwithEnabled}
       >
         {t('in-custom-dashboards:customDashboard.customDashboardPresenter.saveChange')}
       </SaveButton>
@@ -247,7 +248,7 @@ function SecondaryButtonLine({
           {t('in-custom-dashboards:customDashboard.customDashboardPresenter.duplicate')}
         </MoreMenuButton>
         {editable && (
-          <MoreMenuButton icon="lib_actions_delete" onClick={onDeleteCustomDashboard}>
+          <MoreMenuButton icon="lib_actions_delete" disabled={playwithEnabled} onClick={onDeleteCustomDashboard}>
             {t('in-custom-dashboards:customDashboard.customDashboardPresenter.delete')}
           </MoreMenuButton>
         )}
