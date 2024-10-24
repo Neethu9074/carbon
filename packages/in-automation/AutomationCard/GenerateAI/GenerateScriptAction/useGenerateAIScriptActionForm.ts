@@ -9,8 +9,9 @@ import { useState } from 'react';
 
 import { ActionType, Field } from '@instana/types';
 
-import { NewAction, createScriptFields } from 'in-automation/api';
-import { isScript } from 'in-automation/ActionCatalog/shared';
+import { createScriptFields } from 'in-automation/utils/actionField';
+import { ACTION_TYPE } from 'in-automation/constants';
+import { NewAction } from 'in-automation/types';
 
 type GenerateAIScriptActionFormItems = {
   prompt: MapForm<{
@@ -38,7 +39,7 @@ export function getActionFromForm(form: GenerateAIScriptActionForm): NewAction {
   const type = actionForm.get('type').value;
   const tags = actionForm.get('tags').value;
   const fields: Field[] = [];
-  if (isScript(type)) {
+  if (type === ACTION_TYPE.SCRIPT) {
     const value = actionForm.get('script').value;
     fields.push(...createScriptFields({ value, subtype: '', timeout: '' }));
   }
@@ -104,7 +105,7 @@ function createGenerateAIActionForm() {
         },
         validator: form => {
           const type = form.type.value;
-          if (isScript(type)) {
+          if (type === ACTION_TYPE.SCRIPT) {
             return notBlankValidator(form.script.value);
           }
           return null;

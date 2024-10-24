@@ -11,8 +11,8 @@ import { Spacer, Typography, IconButton, ValidationBlock } from '@instana/compon
 import { ActionType } from '@instana/types';
 
 import CreatableTagSelect from 'in-components/CreatableTagSelect/CreatableTagSelect';
-import { getType, isManual, isScript } from 'in-automation/ActionCatalog/shared';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import { ACTION_TRANSLATIONS, ACTION_TYPE } from 'in-automation/constants';
 import useActionTags from 'in-automation/hooks/useActionTags';
 import AISlugIcon from 'in-automation/components/AISlugIcon';
 import HelpText from 'in-components/form/HelpText/HelpText';
@@ -126,7 +126,7 @@ export default function CopyActionStepForm({
         {type.map(field => (
           <FormGroup>
             <Label htmlFor="action-type">{t('in-automation:type')}</Label>
-            <Typography variant="body-regular">{getType(field.value)}</Typography>
+            <Typography variant="body-regular">{ACTION_TRANSLATIONS[field.value]}</Typography>
           </FormGroup>
         ))}
       </Col>
@@ -136,10 +136,8 @@ export default function CopyActionStepForm({
           <Label>{t('in-automation:actionName')}</Label>
           <Typography variant="heading-01">{name.value || '-'}</Typography>
         </FormGroup>
-        {isScript(type.value) && <ScriptSection form={form} setForm={setForm} />}
-        {isManual(type.value) && form.get('content')?.value !== undefined && (
-          <ManualSection form={form} setForm={setForm} />
-        )}
+        {type.value === ACTION_TYPE.SCRIPT && <ScriptSection form={form} setForm={setForm} />}
+        {type.value === ACTION_TYPE.MANUAL && <ManualSection form={form} setForm={setForm} />}
       </Col>
     </Row>
   );

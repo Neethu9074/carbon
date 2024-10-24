@@ -10,21 +10,22 @@ import React, { createContext } from 'react';
 import { themes } from '@instana/design-tokens';
 import { Action, Error } from '@instana/types';
 
-import { isNotEditable, isAIAction, isAIActionCopy, ActionFormEntity } from 'in-automation/ActionCatalog/shared';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
+import { aiOriginatedMetadata, isAIAction, isAIActionCopy, isNotEditable } from 'in-automation/utils/action';
 import { ActionFormBody, ActionFormFooter, ActionFormHeader } from 'in-automation/ActionCatalog/ActionForm';
 import useActionForm, { ActionForm, getActionFromForm } from 'in-automation/ActionCatalog/useActionForm';
 import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
 import { actionDetailsUrlParameters } from 'in-automation/navigation/urlParameters';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { saveAction, saveNewAction, ActionFilter } from 'in-automation/api';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { setViewTrackingDataValues } from 'in-components/ViewTrackingMeta';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
 import useActionFilter from 'in-automation/hooks/useActionFilter';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { productAreas } from 'in-services/tracking/productAreas';
+import { saveAction, saveNewAction } from 'in-automation/api';
 import useAction from 'in-automation/ActionCatalog/useAction';
 import { hasError, isLoading } from 'in-services/util/result';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -32,6 +33,7 @@ import useFormSubmission from 'in-hooks/useFormSubmission';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { useSegmentTracker } from 'in-automation/tracker';
 import Form from 'in-components/form/binding/Form';
+import { ActionFilter } from 'in-automation/types';
 import useUrlState from 'in-hooks/useUrlState';
 import Title from 'in-components/Title/Title';
 import { seconds } from 'in-services/time';
@@ -123,18 +125,19 @@ function useActionFormSubmission() {
 
   return useFormSubmission<SubmitPayload, Action>(({ form, action }) => {
     const actionSpecification = getActionFromForm(form, action);
+    const aiOriginated = isAIAction(action) || isAIActionCopy(action);
     if (isNew) {
       createActionTrackerSegment({
         actionName: actionSpecification.name,
         actionType: actionSpecification.type,
-        aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
+        aiOriginated: aiOriginated ? true : false
       });
 
       // we also want to add aiOriginated: true true to ai generated copy actions chidren and grand chidren too.
-      if ((isAIAction(action) || isAIActionCopy(action)) && isCopy) {
+      if (aiOriginated && isCopy) {
         // add aiOriginated flag to indicates that these are copied from OOTB AI action.
         const updatedCopiedAIAction = {
-          metadata: { readOnly: false, builtIn: false, sensorImported: false, aiOriginated: true },
+          metadata: aiOriginatedMetadata,
           ...actionSpecification
         };
         return saveNewAction(updatedCopiedAIAction);
@@ -144,7 +147,7 @@ function useActionFormSubmission() {
       editActionTrackerSegment({
         actionName: actionSpecification.name,
         actionType: actionSpecification.type,
-        aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
+        aiOriginated: aiOriginated ? true : false
       });
 
       return saveAction(actionSpecification, id!);

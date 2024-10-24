@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { Card, Spacer } from '@instana/components';
+import { Event, VolatileId } from '@instana/types';
 
 import useScoredActions, {
   useUserRecommendedScoredActions,
@@ -27,7 +28,6 @@ import useHistory from 'in-automation/AutomationCard/useHistory';
 import useTrigger from 'in-automation/AutomationCard/useTrigger';
 import { hasAutomationAccess } from 'in-stores/permission';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
-import { Event, VolatileId } from 'in-types';
 
 interface AutomationCardProps {
   volatileId: VolatileId;

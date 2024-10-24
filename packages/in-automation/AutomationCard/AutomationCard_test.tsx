@@ -7,8 +7,9 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 
+import { Event, VolatileId } from '@instana/types';
+
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
-import { Event, VolatileId } from 'in-types';
 import { t } from 'in-i18n';
 
 jest.mock('in-services/featureFlags', () => ({

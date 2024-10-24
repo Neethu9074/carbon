@@ -12,9 +12,6 @@ import { ActionType, Field as ActionField } from '@instana/types';
 import { generateUniqueShortId } from '@instana/utils';
 
 import {
-  API_KEY,
-  BASIC_AUTH,
-  BEARER_TOKEN,
   getAuthenFromFields,
   getDocLinkFromFields,
   getManualContentFromFields,
@@ -24,51 +21,65 @@ import {
   getWebhookFields,
   getGithubOpenTicketFields,
   getCloseAndCommentFields,
-  isDocLink,
-  isScript,
-  isWebhook,
-  isAnsible,
-  isGithub,
-  isGitlab,
-  isJira,
-  isManual,
-  OPEN,
-  CLOSE,
-  ADD_COMMENT,
   getGithubFields,
   getGitlabFields,
   getGitlabOpenTicketFields,
   getJiraFields,
-  getJiraOpenTicketFields,
-  ActionFormEntity,
-  NO_AUTH
-} from 'in-automation/ActionCatalog/shared';
+  getJiraOpenTicketFields
+} from 'in-automation/utils/actionField';
 import {
-  ActionFilter,
-  ApiKeyAuth,
-  BasicAuth,
-  BearerAuth,
-  AdditionalHeaders,
-  Authen,
   TicketTypes,
   createDocLinkField,
   createScriptFields,
   createManualField,
   createWebhookFields,
-  NewAction,
   createGithubFields,
   createGitlabFields,
   createJiraFields
-} from 'in-automation/api';
+} from 'in-automation/utils/actionField';
+import { NewAction, ActionFilter, ApiKeyAuth, BasicAuth, BearerAuth, NoAuth } from 'in-automation/types';
+import { ACTION_TYPE, AUTH_TYPE, OPEN, CLOSE, ADD_COMMENT } from 'in-automation/constants';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { Header } from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import { positiveNumberValidator } from 'in-services/validators/number';
+import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
 import { notBlankValidator } from 'in-services/validators/string';
 import { Label } from 'in-automation/ActionCatalog/FieldsTable';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
+function getAuthenFromForm(form: ActionForm) {
+  const authType = (form.get('authType') as Field<string>).value;
+  if (authType === AUTH_TYPE.BASIC_AUTH) {
+    const username = (form.get('username') as Field<string>).value;
+    const password = (form.get('password') as Field<string>).value;
+    return {
+      type: AUTH_TYPE.BASIC_AUTH,
+      username,
+      password
+    } as BasicAuth;
+  } else if (authType === AUTH_TYPE.BEARER_TOKEN) {
+    const bearerToken = (form.get('bearerToken') as Field<string>).value;
+    return {
+      type: AUTH_TYPE.BEARER_TOKEN,
+      bearerToken
+    } as BearerAuth;
+  } else if (authType === AUTH_TYPE.API_KEY) {
+    const apiKey = (form.get('apiKey') as Field<string>).value;
+    const apiKeyValue = (form.get('apiKeyValue') as Field<string>).value;
+    const apiKeyAddTo = (form.get('apiKeyAddTo') as Field<string>).value;
+    return {
+      type: AUTH_TYPE.API_KEY,
+      apiKey,
+      apiKeyValue,
+      apiKeyAddTo
+    } as ApiKeyAuth;
+  }
+  return {
+    type: AUTH_TYPE.NO_AUTH
+  } as NoAuth;
+}
 export function getActionFromForm(form: ActionForm, action: ActionFormEntity): NewAction {
   const name = (form.get('name') as Field<string>).value;
   const description = (form.get('description') as Field<string>).value;
@@ -77,17 +88,17 @@ export function getActionFromForm(form: ActionForm, action: ActionFormEntity): N
   const parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
   const timeout = (form.get('timeout') as Field<string>).value;
   const fields: ActionField[] = [];
-  if (isDocLink(type)) {
+  if (type === ACTION_TYPE.DOC_LINK) {
     const docLink = (form.get('docLink') as Field<string>).value;
     fields.push(createDocLinkField(docLink));
-  } else if (isManual(type)) {
+  } else if (type === ACTION_TYPE.MANUAL) {
     const content = (form.get('manualContent') as Field<string>).value;
     fields.push(createManualField(content));
-  } else if (isScript(type)) {
+  } else if (type === ACTION_TYPE.SCRIPT) {
     const value = (form.get('script') as Field<string>).value;
     const subtype = (form.get('subtype') as Field<string>).value;
     fields.push(...createScriptFields({ value, subtype, timeout }));
-  } else if (isGithub(type)) {
+  } else if (type === ACTION_TYPE.GITHUB) {
     const owner = (form.get('owner') as Field<string>).value;
     const repo = (form.get('repo') as Field<string>).value;
     const ticketActionType = (form.get('ticketActionType') as Field<string>).value;
@@ -120,7 +131,7 @@ export function getActionFromForm(form: ActionForm, action: ActionFormEntity): N
       };
     }
     fields.push(...createGithubFields({ owner: owner, repo: repo, ticketActionType: type }));
-  } else if (isGitlab(type)) {
+  } else if (type === ACTION_TYPE.GITLAB) {
     const projectId = (form.get('projectId') as Field<string>).value;
     const ticketActionType = (form.get('ticketActionType') as Field<string>).value;
     let type: TicketTypes | null = null;
@@ -151,7 +162,7 @@ export function getActionFromForm(form: ActionForm, action: ActionFormEntity): N
       };
     }
     fields.push(...createGitlabFields({ projectId: projectId, ticketActionType: type }));
-  } else if (isJira(type)) {
+  } else if (type === ACTION_TYPE.JIRA) {
     const project = (form.get('project') as Field<string>).value;
     const ticketActionType = (form.get('ticketActionType') as Field<string>).value;
     let type: TicketTypes | null = null;
@@ -184,7 +195,7 @@ export function getActionFromForm(form: ActionForm, action: ActionFormEntity): N
       };
     }
     fields.push(...createJiraFields({ project: project, ticketActionType: type }));
-  } else if (isWebhook(type)) {
+  } else if (type === ACTION_TYPE.HTTP) {
     const host = (form.get('host') as Field<string>).value;
     const method = (form.get('method') as Field<string>).value;
     const accept = (form.get('accept') as Field<string>).value;
@@ -193,35 +204,7 @@ export function getActionFromForm(form: ActionForm, action: ActionFormEntity): N
     const additionalHeaders = (form.get('additionalHeaders') as Field<Header[]>).value;
     const body = (form.get('body') as Field<string>).value;
     const ignoreCertErrors = (form.get('ignoreCertErrors') as Field<boolean>).value;
-    const authType = (form.get('authType') as Field<string>).value;
-    let authen: Authen = {
-      type: NO_AUTH
-    };
-    if (authType === BASIC_AUTH) {
-      const username = (form.get('username') as Field<string>).value;
-      const password = (form.get('password') as Field<string>).value;
-      authen = {
-        type: BASIC_AUTH,
-        username,
-        password
-      };
-    } else if (authType === BEARER_TOKEN) {
-      const bearerToken = (form.get('bearerToken') as Field<string>).value;
-      authen = {
-        type: BEARER_TOKEN,
-        bearerToken
-      };
-    } else if (authType === API_KEY) {
-      const apiKey = (form.get('apiKey') as Field<string>).value;
-      const apiKeyValue = (form.get('apiKeyValue') as Field<string>).value;
-      const apiKeyAddTo = (form.get('apiKeyAddTo') as Field<string>).value;
-      authen = {
-        type: API_KEY,
-        apiKey,
-        apiKeyValue,
-        apiKeyAddTo
-      };
-    }
+    const authen = getAuthenFromForm(form);
     fields.push(
       ...createWebhookFields({
         timeout,
@@ -230,7 +213,7 @@ export function getActionFromForm(form: ActionForm, action: ActionFormEntity): N
         accept,
         acceptLanguage,
         contentType,
-        additionalHeaders: additionalHeaders.reduce<AdditionalHeaders>(
+        additionalHeaders: additionalHeaders.reduce(
           (headers, header) => ({
             ...headers,
             [header.value[0]]: header.value[1]
@@ -242,10 +225,10 @@ export function getActionFromForm(form: ActionForm, action: ActionFormEntity): N
         ignoreCertErrors
       })
     );
-  } else if (isAnsible(type)) {
+  } else if (type === ACTION_TYPE.ANSIBLE) {
     fields.push(...(action?.fields ?? []));
   }
-  const inputParameters = isDocLink(type) ? [] : parameters.map(parameter => parameter.value);
+  const inputParameters = type === ACTION_TYPE.DOC_LINK ? [] : parameters.map(parameter => parameter.value);
   return {
     name,
     description,
@@ -340,7 +323,7 @@ function createActionFormDefinition(action: ActionFormEntity, actionFilter: 'all
       'description',
       createField({
         value: description,
-        validator: isAnsible(type) ? undefined : notBlankValidator
+        validator: type === ACTION_TYPE.ANSIBLE ? undefined : notBlankValidator
       })
     )
     .put(
@@ -370,13 +353,13 @@ function createActionFormDefinition(action: ActionFormEntity, actionFilter: 'all
         validator: timeoutValidator
       })
     );
-  if (isDocLink(filteredType)) form = putDocLinkField(form, action);
-  else if (isScript(filteredType)) form = putScriptField(form, action);
-  else if (isWebhook(filteredType)) form = putWebhookFields(form, action);
-  else if (isGithub(filteredType)) form = putGithubFields(form, action);
-  else if (isGitlab(filteredType)) form = putGitlabFields(form, action);
-  else if (isJira(filteredType)) form = putJiraFields(form, action);
-  else if (isManual(filteredType)) form = putManualField(form, action);
+  if (filteredType === ACTION_TYPE.DOC_LINK) form = putDocLinkField(form, action);
+  else if (filteredType === ACTION_TYPE.SCRIPT) form = putScriptField(form, action);
+  else if (filteredType === ACTION_TYPE.HTTP) form = putWebhookFields(form, action);
+  else if (filteredType === ACTION_TYPE.GITHUB) form = putGithubFields(form, action);
+  else if (filteredType === ACTION_TYPE.GITLAB) form = putGitlabFields(form, action);
+  else if (filteredType === ACTION_TYPE.JIRA) form = putJiraFields(form, action);
+  else if (filteredType === ACTION_TYPE.MANUAL) form = putManualField(form, action);
   return form;
 }
 
@@ -839,9 +822,9 @@ export function putWebhookFields(form: ActionForm, action: ActionFormEntity) {
         validator: additionalHeadersValidator
       })
     );
-  if (authenParsed.type == BASIC_AUTH) form = putBasicFields(form, action);
-  else if (authenParsed.type == BEARER_TOKEN) form = putBearerField(form, action);
-  else if (authenParsed.type == API_KEY) form = putApiKeyFields(form, action);
+  if (authenParsed.type == AUTH_TYPE.BASIC_AUTH) form = putBasicFields(form, action);
+  else if (authenParsed.type == AUTH_TYPE.BEARER_TOKEN) form = putBearerField(form, action);
+  else if (authenParsed.type == AUTH_TYPE.API_KEY) form = putApiKeyFields(form, action);
   return form;
 }
 

@@ -6,14 +6,15 @@
 
 import { get, sortBy } from 'lodash';
 
+import { PaginatedResult, Result } from '@instana/types';
+
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import { Nullish, PaginatedResult, Result } from 'in-types';
 import { listSuccess } from 'in-services/util/result';
 
 type SortFunction<T> = (entity: T) => any;
 
 interface UsePaginatedResultParams<T> {
-  result: Result<T[]> | Nullish;
+  result: Result<T[]> | null | undefined;
   serverTableUrlState: Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>;
   setServerTableUrlState: (
     serverTableUrlState: Partial<Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>>

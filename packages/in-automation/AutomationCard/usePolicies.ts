@@ -5,15 +5,15 @@
  */
 
 import { create, timeout } from '@instana/observables';
+import { Event, Policy, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { getTriggerIdFromEvent, getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
+import { setActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 import usePaginatedResult from 'in-automation/hooks/usePaginatedResult';
 import { getPoliciesForTrigger } from 'in-automation/api';
 import { pendingResult } from 'in-services/fixedObjects';
-import { Event, Policy, Result } from 'in-types';
-import { setActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 
 interface UsePoliciesParams {
   event: Event;

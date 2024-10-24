@@ -20,13 +20,13 @@ import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailabl
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { error, hasError, isLoading } from 'in-services/util/result';
+import { createManualField } from 'in-automation/utils/actionField';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { carbonButtonEnabled } from 'in-services/featureFlags';
 import TextArea from 'in-components/form/TextArea/TextArea';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import { pendingResult } from 'in-services/fixedObjects';
-import { createManualField } from 'in-automation/api';
 import { createStore } from 'in-stores/store';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';

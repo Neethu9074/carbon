@@ -7,8 +7,8 @@
 import { createMapForm, createField, Field, MapForm } from 'formalistic';
 import React, { useEffect, useState } from 'react';
 
-import { Message, Stack, RadioButton } from '@instana/components';
-import { TextArea } from '@instana/components';
+import { Message, Stack, RadioButton, TextArea } from '@instana/components';
+import { TimeConfig } from '@instana/types';
 
 import { positiveNumberValidator } from 'in-services/validators/number';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
@@ -19,7 +19,6 @@ import CancelButton from 'in-components/form/CancelButton';
 import Form from 'in-components/form/binding/Form';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Label from 'in-components/form/Label/Label';
-import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './Feedback.mless';

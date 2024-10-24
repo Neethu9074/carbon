@@ -7,12 +7,13 @@
 import { createField, createMapForm, Field, MapForm, ValidationResult } from 'formalistic';
 import { isEmpty } from 'lodash';
 
+import { DynamicFieldValue } from '@instana/types';
+
 import { needsTagAndSecondKeyMayNotBeMissingValidator } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import { ParameterDialogProps } from 'in-automation/ActionCatalog/ParameterDialog';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { notBlankValidator } from 'in-services/validators/string';
-import { DynamicFieldValue } from 'in-types';
 import { t } from 'in-i18n';
 
 interface CreateFormParams extends Pick<ParameterDialogProps, 'form' | 'idToEdit'> {

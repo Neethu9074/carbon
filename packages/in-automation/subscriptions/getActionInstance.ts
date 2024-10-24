@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
+import { GetActionInstanceQuery, ActionInstance, Result } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { GetActionInstanceQuery, ActionInstance, Result } from 'in-types';
 
 const getActionInstance = createResultSubscriptionFactory<GetActionInstanceQuery, Result<ActionInstance>>({
   eventId: 'getActionInstanceDetails',

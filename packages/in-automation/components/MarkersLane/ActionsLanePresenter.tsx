@@ -6,7 +6,7 @@
 
 import React, { forwardRef, ForwardedRef, useEffect, useMemo } from 'react';
 
-import { ActionInstance } from '@instana/types';
+import { ActionInstance, TimeConfig, ApplicationBoundaryScope } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 
 import MarkerLane, { LaneItemProps, MarkerLaneEvent } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
@@ -19,7 +19,6 @@ import HoverLine from 'in-components/Chart/markerLanes/MarkerLane/HoverLine';
 import HoverArea from 'in-components/Chart/markerLanes/MarkerLane/HoverArea';
 import LaneIcon from 'in-components/Chart/markerLanes/MarkerLane/LaneIcon';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { TimeConfig, ApplicationBoundaryScope } from 'in-types';
 import { formatDateTime } from 'in-services/formatters/date';
 import { t } from 'in-i18n';
 

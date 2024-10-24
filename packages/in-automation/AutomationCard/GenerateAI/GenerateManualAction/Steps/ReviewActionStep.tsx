@@ -14,7 +14,7 @@ import SelectActionStep from 'in-automation/AutomationCard/GenerateAI/GenerateMa
 import PromptStep from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/Steps/PromptStep';
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
-import { ScoredAction } from 'in-automation/api';
+import { ScoredAction } from 'in-automation/types';
 import { t } from 'in-i18n';
 
 type ButtonKey = 'builtinActions' | 'generate';

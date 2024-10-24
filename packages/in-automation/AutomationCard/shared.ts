@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
-import { NewPolicy } from 'in-automation/Policies/types';
-import { Action, Event, TriggerType } from 'in-types';
+import { Action, Event, TriggerType } from '@instana/types';
+
+import { NewPolicy } from 'in-automation/types';
 
 export const getTriggerTypeFromEvent = (event: Event): TriggerType => {
   if (event.metadata?.globalSmartAlert) {

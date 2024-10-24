@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
+import { ActionInstance, PaginatedResult, Result } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { ActionInstance, PaginatedResult, Result } from 'in-types';
 
 const getApplicationActionInstancesForCluster = createResultSubscriptionFactory<
   any,

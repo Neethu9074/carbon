@@ -4,31 +4,50 @@
  * Copyright IBM Corp. 2023
  */
 
-import { createField, createMapForm } from 'formalistic';
+import { createField, createMapForm, Field, MapForm } from 'formalistic';
 import { useState } from 'react';
 
-import { Action } from '@instana/types';
+import { Action, ParameterValue, TriggerType } from '@instana/types';
 
 import {
-  AUTOMATIC,
-  ApplyOn,
-  MANUAL,
-  NewPolicy,
-  NewTypeConfiguration,
-  PolicyForm,
-  PolicyFormEntity,
-  Triggers,
+  getActionConfigurationFromPolicy,
+  getPolicyTriggerFromTriggers,
   isAutomatic,
-  isManual,
-  isPolicy,
-  scopeAll,
-  scopeDfq
-} from 'in-automation/Policies/types';
-import { isAnsible, isScript, isWebhook, isGithub, isGitlab, isJira } from 'in-automation/ActionCatalog/shared';
-import { getActionConfigurationFromPolicy, getPolicyTriggerFromTriggers } from 'in-automation/Policies/shared';
+  isManual
+} from 'in-automation/utils/policy';
+import { isPolicy, NewTypeConfiguration, NewPolicy, Triggers } from 'in-automation/types';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { EXECUTABLE_ACTIONS, POLICY_TYPE } from 'in-automation/constants';
 import { notBlankValidator } from 'in-services/validators/string';
+import { PolicyFormEntity } from 'in-automation/Policies/types';
 import { t } from 'in-i18n';
+
+export const scopeAll = 'all' as const;
+export const scopeDfq = 'dfq' as const;
+export type ApplyOn = typeof scopeAll | typeof scopeDfq;
+
+type PolicyFormItems = {
+  name: Field<string>;
+  description: Field<string>;
+  tags: Field<string[]>;
+  triggerType: Field<TriggerType>;
+  triggerId: Field<string>;
+  scope: MapForm<{
+    applyOn: Field<ApplyOn>;
+    query: Field<string>;
+  }>;
+  action: MapForm<{
+    actionId: Field<string>;
+    agentId: Field<string>;
+    parameters: Field<ParameterValue[]>;
+    type: MapForm<{
+      manual: Field<boolean>;
+      automatic: Field<boolean>;
+    }>;
+  }>;
+};
+
+export type PolicyForm = MapForm<PolicyFormItems>;
 
 export function getPolicyFromForm(form: PolicyForm) {
   const policySpecification: NewPolicy = {
@@ -66,14 +85,14 @@ export function getPolicyFromForm(form: PolicyForm) {
 
   if (action.get('type').get('manual').value) {
     policySpecification.typeConfigurations.push({
-      name: MANUAL,
+      name: POLICY_TYPE.MANUAL,
       ...typeConfiguration
     });
   }
 
   if (action.get('type').get('automatic').value) {
     policySpecification.typeConfigurations.push({
-      name: AUTOMATIC,
+      name: POLICY_TYPE.AUTOMATIC,
       ...typeConfiguration
     });
   }
@@ -93,7 +112,7 @@ function parsePolicy(policy: PolicyFormEntity) {
     };
   }
   const typeConfiguration = policy.typeConfigurations.find(
-    typeConfiguration => typeConfiguration.name === (isManual(policy) ? MANUAL : AUTOMATIC)
+    typeConfiguration => typeConfiguration.name === (isManual(policy) ? POLICY_TYPE.MANUAL : POLICY_TYPE.AUTOMATIC)
   )!;
 
   const { agentId = '', inputParameterValues = [] } = getActionConfigurationFromPolicy(policy);
@@ -163,15 +182,9 @@ function createPolicyFormDefinition(policy: PolicyFormEntity, actions: Action[],
           form => notBlankValidator(form.actionId.value),
           form => {
             const action = actions.find(action => action.id === form.actionId.value);
-            const executableAction =
-              isScript(action?.type) ||
-              isWebhook(action?.type) ||
-              isAnsible(action?.type) ||
-              isGithub(action?.type) ||
-              isGitlab(action?.type) ||
-              isJira(action?.type);
+            const isExecutableAction = action ? EXECUTABLE_ACTIONS.includes(action.type) : false;
 
-            if (!executableAction && form.type.get('automatic').value) {
+            if (!isExecutableAction && form.type.get('automatic').value) {
               return [
                 {
                   severity: 'error',

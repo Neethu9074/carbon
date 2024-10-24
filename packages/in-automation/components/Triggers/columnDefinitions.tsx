@@ -6,6 +6,14 @@
 
 import React from 'react';
 
+import {
+  EventSpecificationInfo,
+  LogAlertConfigWithMetadata,
+  MobileAppAlertConfigWithMetadata,
+  ServiceLevelsAlertConfigWithMetadata,
+  SyntheticAlertConfigWithMetadata,
+  WebsiteAlertConfigWithMetadata
+} from '@instana/types';
 import { Spacer, Typography } from '@instana/components';
 
 import {
@@ -18,15 +26,7 @@ import {
   isSloSmartAlert,
   isSyntheticsSmartAlert,
   isWebsiteSmartAlert
-} from 'in-automation/Policies/types';
-import {
-  EventSpecificationInfo,
-  LogAlertConfigWithMetadata,
-  MobileAppAlertConfigWithMetadata,
-  ServiceLevelsAlertConfigWithMetadata,
-  SyntheticAlertConfigWithMetadata,
-  WebsiteAlertConfigWithMetadata
-} from 'in-types';
+} from 'in-automation/types';
 import {
   ApplicationSmartAlertConfigWithMetadata,
   GlobalApplicationsSmartAlertConfigWithMetadata

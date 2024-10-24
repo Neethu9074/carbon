@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 
 import { Button, Checkbox, Spacer, Stack, Typography } from '@instana/components';
+import { Event, Result } from '@instana/types';
 
 import {
   nameColumn as actionNameColumn,
@@ -21,22 +22,22 @@ import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/t
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
-import { isAIActionCopy, isExternal } from 'in-automation/ActionCatalog/shared';
-import { NewPolicy, TriggerSpecification } from 'in-automation/Policies/types';
+import { ScoredAction, NewPolicy, TriggerSpecification } from 'in-automation/types';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { TrackingFunction, useSegmentTracker } from 'in-automation/tracker';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { isAIAction, isAIActionCopy } from 'in-automation/utils/action';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import { createBasePolicy } from 'in-automation/AutomationCard/shared';
 import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import { refresh } from 'in-automation/AutomationCard/usePolicies';
-import { ScoredAction, saveBulkPolicies } from 'in-automation/api';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import { close } from 'in-components/DialogPresenter/store';
+import { ACTION_TYPE } from 'in-automation/constants';
+import { saveBulkPolicies } from 'in-automation/api';
 import { mapData } from 'in-services/util/result';
 import Dialog from 'in-components/Dialog/Dialog';
-import { Event, Result } from 'in-types';
 import { Trans, t } from 'in-i18n';
 
 const pathSegment = '/createPolicies';
@@ -124,8 +125,8 @@ function useActionFilters({
     filteredActions: mapData(actions, data =>
       data.filter(
         action =>
-          !isExternal(action.type) &&
-          !(action.metadata?.builtIn && action.metadata?.ai !== null) &&
+          action.type !== ACTION_TYPE.EXTERNAL &&
+          !isAIAction(action) &&
           filters.reduce((shouldInclude, filter) => {
             const emptyFilter = !filter.value?.length;
             if (emptyFilter) return shouldInclude;

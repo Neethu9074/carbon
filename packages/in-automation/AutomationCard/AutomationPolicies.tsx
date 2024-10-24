@@ -7,43 +7,34 @@
 import React, { useState } from 'react';
 
 import { Button, IconButton, Spacer, Typography, Link, SvgIcon } from '@instana/components';
+import { Event, Policy, Result, VolatileId } from '@instana/types';
 import { themes } from '@instana/design-tokens';
 
-import {
-  getDocLinkFromFields,
-  isAIAction,
-  isAIActionCopy,
-  isAnsible,
-  isDocLink,
-  isGithub,
-  isGitlab,
-  isJira,
-  isManual,
-  isScript,
-  isWebhook
-} from 'in-automation/ActionCatalog/shared';
 import useServerTableUrlState, {
   ServerTableUrlState
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { nameColumn, actionNameColumn as policyActionNameColumn } from 'in-automation/PolicyTable/columnDefinitions';
 import useNavigateToPolicyDetails from 'in-automation/navigation/hooks/useNavigateToPolicyDetails';
-import { TriggerSpecification, isManual as isManualPolicy } from 'in-automation/Policies/types';
 import { refresh, usePaginatedPolicies } from 'in-automation/AutomationCard/usePolicies';
 import CreatePoliciesDialog from 'in-automation/AutomationCard/CreatePoliciesDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { ACTION_TYPE, EXECUTABLE_ACTIONS } from 'in-automation/constants';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { ScoredAction, TriggerSpecification } from 'in-automation/types';
+import { isAIAction, isAIActionCopy } from 'in-automation/utils/action';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
+import { getDocLinkFromFields } from 'in-automation/utils/actionField';
 import { TagsFilter } from 'in-automation/components/tableFilters';
-import { ScoredAction, deletePolicy } from 'in-automation/api';
-import { Event, Policy, Result, VolatileId } from 'in-types';
 import { useSegmentTracker } from 'in-automation/tracker';
+import { isManual } from 'in-automation/utils/policy';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { mapData } from 'in-services/util/result';
+import { deletePolicy } from 'in-automation/api';
 import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
@@ -171,12 +162,11 @@ interface AutomationPoliciesTableProps extends ServerTablePresenterProps<Policy>
 function ExecuteButton({ policy, volatileId, event }: { policy: Policy; volatileId: VolatileId; event: Event }) {
   const { runActionTrackerSegment } = useSegmentTracker();
 
-  if (!isManualPolicy(policy)) return null;
+  if (!isManual(policy)) return null;
   const action = policy.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action;
   const { type, fields } = action;
-  const isExecutable =
-    isScript(type) || isWebhook(type) || isAnsible(type) || isGithub(type) || isGitlab(type) || isJira(type);
-  if (isDocLink(type)) {
+  const isExecutable = EXECUTABLE_ACTIONS.includes(type);
+  if (type === ACTION_TYPE.DOC_LINK) {
     const value = getDocLinkFromFields(fields).value;
     return (
       <Link
@@ -213,7 +203,7 @@ function ExecuteButton({ policy, volatileId, event }: { policy: Policy; volatile
         {t('in-automation:ActionCatalog.run')}
       </Button>
     );
-  } else if (isManual(type)) {
+  } else if (type === ACTION_TYPE.MANUAL) {
     return (
       <Button
         kind="action"

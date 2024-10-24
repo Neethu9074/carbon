@@ -7,6 +7,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
+import { ActionInstance } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import ActionlaneDialogControls from 'in-automation/components/MarkersLane/ActionlaneDialogControls';
@@ -18,7 +19,6 @@ import DetailTab from 'in-automation/components/ActionHistory/DetailTab';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { ActionInstance } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ActionInstanceContent.mless';

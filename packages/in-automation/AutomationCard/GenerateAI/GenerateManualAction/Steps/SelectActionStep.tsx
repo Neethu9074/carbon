@@ -10,17 +10,12 @@ import { FormGroup, Label, RadioButton, Spacer, Typography } from '@instana/comp
 import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
 
-import {
-  getManualContentFromFields,
-  getScriptFromFields,
-  isManual,
-  isScript
-} from 'in-automation/ActionCatalog/shared';
 import { GenerateAIActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/useGenerateAIActionForm';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { setGeneratedAction } from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/Steps/PromptStep';
 import ManualActionContent from 'in-automation/components/ManualActionContent/ManualActionContent';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
+import { getManualContentFromFields, getScriptFromFields } from 'in-automation/utils/actionField';
 import { descriptionColumn, nameColumn } from 'in-automation/ActionTable/columnDefinitions';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
@@ -28,7 +23,8 @@ import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import AISlugIcon from 'in-automation/components/AISlugIcon';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
-import { ScoredAction } from 'in-automation/api';
+import { ACTION_TYPE } from 'in-automation/constants';
+import { ScoredAction } from 'in-automation/types';
 import { createStore } from 'in-stores/store';
 import Code from 'in-components/Code';
 import { t } from 'in-i18n';
@@ -83,7 +79,7 @@ function onSelect({
       .updateIn(['action', 'description'], item => item.setValue(action.description ?? '').setTouched(true))
       .updateIn(['action', 'tags'], item => item.setValue(action.tags ?? []).setTouched(true))
       .updateIn(['action', 'type'], item => item.setValue(action.type).setTouched(true));
-    if (isScript(action.type)) {
+    if (action.type === ACTION_TYPE.SCRIPT) {
       const script = getScriptFromFields(action.fields);
       let plaintextScript = script.value;
       if (script.encoding === 'base64') {
@@ -93,7 +89,7 @@ function onSelect({
       updatedForm = updatedForm.updateIn(['action', 'script'], item => item.setValue(plaintextScript));
       updatedForm = updatedForm.updateIn(['action', 'aiGeneratedContent'], item => item.setValue(plaintextScript));
     }
-    if (isManual(action.type)) {
+    if (action.type === ACTION_TYPE.MANUAL) {
       const content = getManualContentFromFields(action.fields);
       let plaintextContent = content.value;
       if (content.encoding === 'base64') {

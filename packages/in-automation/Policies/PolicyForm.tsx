@@ -17,6 +17,7 @@ import {
   RadioButton,
   Checkbox
 } from '@instana/components';
+import { Action, TriggerType } from '@instana/types';
 
 import {
   appFilterAppliedColumn,
@@ -30,17 +31,6 @@ import {
   triggerNameColumn,
   websiteFilterAppliedColumn
 } from 'in-automation/components/Triggers/columnDefinitions';
-import {
-  ApplyOn,
-  PolicyForm,
-  PolicyFormEntity,
-  TriggerSpecification,
-  Triggers,
-  getTriggerType,
-  isPolicy,
-  scopeAll,
-  scopeDfq
-} from 'in-automation/Policies/types';
 import TabSelect, {
   TabSelectHeader,
   TabSelectItem,
@@ -52,7 +42,7 @@ import useServerTableUrlState, {
   ServerTableUrlState
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { isAnsible, isScript, isWebhook, isGithub, isGitlab, isJira } from 'in-automation/ActionCatalog/shared';
+import { getPolicyFromForm, scopeAll, scopeDfq, ApplyOn, PolicyForm } from 'in-automation/Policies/usePolicyForm';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import useNavigateToPolicyDetails from 'in-automation/navigation/hooks/useNavigateToPolicyDetails';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
@@ -66,16 +56,19 @@ import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages'
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { getPolicyFromForm } from 'in-automation/Policies/usePolicyForm';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import usePaginatedResult from 'in-automation/hooks/usePaginatedResult';
+import { TriggerSpecification, isPolicy } from 'in-automation/types';
 import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import { PolicyFormEntity } from 'in-automation/Policies/types';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import usePolicyTags from 'in-automation/hooks/usePolicyTags';
+import { getTriggerType } from 'in-automation/utils/trigger';
+import { EXECUTABLE_ACTIONS } from 'in-automation/constants';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { merge } from 'in-services/util/resultMerger';
@@ -85,7 +78,7 @@ import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
 import { FetchStatus } from 'in-hooks/utils/types';
 import Dialog from 'in-components/Dialog/Dialog';
-import { Action, TriggerType } from 'in-types';
+import { Triggers } from 'in-automation/types';
 import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
@@ -666,14 +659,8 @@ function SelectAction({
     descriptionColumn,
     tagsColumn as ColumnDefinition<Action>
   ];
-  const executableAction =
-    isScript(selectedAction?.type) ||
-    isWebhook(selectedAction?.type) ||
-    isAnsible(selectedAction?.type) ||
-    isGithub(selectedAction?.type) ||
-    isGitlab(selectedAction?.type) ||
-    isJira(selectedAction?.type);
-  if (executableAction && role?.canConfigureAutomationPolicies) {
+  const isExecutableAction = selectedAction ? EXECUTABLE_ACTIONS.includes(selectedAction.type) : false;
+  if (isExecutableAction && role?.canConfigureAutomationPolicies) {
     columnDefinitions.push({
       id: 'configure',
       label: '',

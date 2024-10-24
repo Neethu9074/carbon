@@ -7,10 +7,10 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 
+import { ActionInstance } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { formatDateTime } from 'in-services/formatters/date';
-import { ActionInstance } from 'in-types';
 import DetailTab from './DetailTab';
 import { t } from 'in-i18n';
 

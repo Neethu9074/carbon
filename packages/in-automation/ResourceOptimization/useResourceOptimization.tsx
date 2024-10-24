@@ -4,11 +4,11 @@
  * Copyright IBM Corp. 2024
  */
 
+import { Result, RecommendedAction, ResourceOptimization, ResourceImpactRsp, VolatileId, Event } from '@instana/types';
 import { EntityType, TargetEntityType } from '@instana/types';
 import { create, timeout } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
-import { Result, RecommendedAction, ResourceOptimization, ResourceImpactRsp, VolatileId, Event } from 'in-types';
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { getResourceOptimization, getTurboActionResourceImpacts } from 'in-automation/api';

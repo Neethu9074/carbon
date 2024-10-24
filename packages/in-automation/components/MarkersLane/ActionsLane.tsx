@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { ApplicationBoundaryScope, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 //@ts-expect-error TS migration
@@ -14,8 +15,6 @@ import getApplicationActionInstancesForCluster from 'in-automation/subscriptions
 import ActionsLanePresenter from 'in-automation/components/MarkersLane/ActionsLanePresenter';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
-import { ApplicationBoundaryScope } from 'in-types';
-import { TimeConfig } from 'in-types';
 
 export default function ActionsLane({
   snapshotId,
