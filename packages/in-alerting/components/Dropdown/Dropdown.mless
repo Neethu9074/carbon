@@ -11,4 +11,12 @@
       background-color: transparent;
     }
   }
+
+  // Carbon has a visually hidden label that is getting used however it is
+  // causing a positioning clash and a scroll bar.
+  .visuallyHiddenLabel {
+    :global .cds--visually-hidden {
+      position: fixed;
+    }
+  }
 }
