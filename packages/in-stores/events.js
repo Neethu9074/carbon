@@ -389,18 +389,6 @@ export function generateJournalSummary(incidentId) {
   return obj.map(response => fromJS(response.body)).once();
 }
 
-
-// endpoint : POST /api/journal/ai-summary/<event id>/share-result
-// payload:
-// {
-//     "recipients" : ["user1@instanamail1.fyre.ibm.com"], <list>
-//     "timestamp" : 1729432883000, <millis>
-//     "sender" : "stan@instana.com", <sender name. any string>
-//     "subject" : "AI generated subject", <subject of the e-mail>
-//     "content" : "AI generated summary will be placed here\nthe second line starts here",
-//     "link" : "https://test-instana.pink.instana.rocks/#/events;view=incident" <FQ URL of the event>
-// }
-
 export function shareEventSummary(incidentId, recipients, timestamp, sender, subject, body, link) {
   const obj = http({
     method: 'POST',
@@ -408,12 +396,12 @@ export function shareEventSummary(incidentId, recipients, timestamp, sender, sub
     url: `/api/journal/ai-summary/${incidentId}/share-result`,
     headers: getCsrfHeader(),
     data: {
-      "recipients": recipients,
-      "timestamp": timestamp,
-      "sender": sender,
-      "subject": subject,
-      "content": body,
-      "link": link
+      recipients: recipients,
+      timestamp: timestamp,
+      sender: sender,
+      subject: subject,
+      content: body,
+      link: link
     }
   });
   return obj.map(response => fromJS(response.body)).once();

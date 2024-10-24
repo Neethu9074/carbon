@@ -235,6 +235,7 @@ export function NotesAndActivity(props) {
         open={shareOpen}
         setShareOpen={setShareOpen}
         setNeedOverlay={setNeedOverlay}
+        incidentId={incidentId}
       />
     </>
   );

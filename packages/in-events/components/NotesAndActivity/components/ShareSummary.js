@@ -16,7 +16,7 @@ import { t } from 'in-i18n';
 
 import locals from './ShareSummary.mless';
 
-export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay }) {
+export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay, incidentId }) {
   const [textSummary, setTextSummary] = useState(summary);
   const [manualInput, setManualInput] = useState(false);
   const [subject, setSubject] = useState(t('in-events:notes.shareIncidentSummarySubject'));
@@ -38,11 +38,14 @@ export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay }) {
           setValidForm(true);
         }}
         onRequestSubmit={() => {
-          setValidForm(validRecipients(recipients));
-          if (validForm) {
+          const recipientsResult = validRecipients(recipients);
+          setValidForm(recipientsResult);
+          if (recipientsResult) {
             // If there is manual modifications to the summary we need to specify that in the body
-            const summary = manualInput && `${textSummary}\n\n${t('in-events:notes.withManualEdits')}`;
-            handleShareSummary(recipients, summary, subject);
+            const summaryToShare =
+              (manualInput && `${textSummary}\n\n${t('in-events:notes.withManualEdits')}`) || summary;
+            const recipientsList = recipients.replace(/\s/g, '').split(',');
+            handleShareSummary(incidentId, recipientsList, summaryToShare, subject);
           }
         }}
         modalHeading={t('in-events:notes.shareSummary')}
@@ -106,17 +109,9 @@ export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay }) {
 }
 
 // Construct the share object needed to send to the backend
-export function handleShareSummary(recipients, body, subject) {
+export function handleShareSummary(incidentId, recipients, body, subject) {
   const userName = user.preferredName;
   const milliseconds = Date.now();
   const incidentLink = window.location.href;
-  const shareData = {
-    recipients: recipients,
-    timestamp: milliseconds,
-    sender: userName,
-    subject: subject,
-    content: body,
-    link: incidentLink
-  };
-  shareEventSummary(shareData);
+  shareEventSummary(incidentId, recipients, milliseconds, userName, subject, body, incidentLink);
 }
