@@ -7,12 +7,12 @@ import React, { Fragment } from 'react';
 
 import { Link } from '@instana/components';
 
+import useGetHrefWithMutator from 'in-stores/navigation/hooks/useGetHrefWithMutator';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
 import { linkToTenantUnit } from 'in-internal/components/crossUnitLinks';
 import { percentage, number } from 'in-services/formatters/number';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -28,18 +28,7 @@ const cols = [
       getValue(row) {
         return row.snapshot.get('label');
       },
-      getContent(val, row) {
-        return (
-          <Link
-            href={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/agents')).map(href =>
-              linkToTenantUnit(href, row.snapshot.getIn(['data', 'tenant']), row.snapshot.getIn(['data', 'unit']))
-            )}
-            external
-          >
-            {val}
-          </Link>
-        );
-      }
+      getContent: (val, row) => <AgentLink val={val} row={row} />
     }
   },
   {
@@ -319,5 +308,22 @@ function getRowDetails(row) {
         }}
       />
     </Fragment>
+  );
+}
+
+function AgentLink({ val, row }) {
+  const getHref = useGetHrefWithMutator();
+
+  return (
+    <Link
+      href={linkToTenantUnit(
+        getHref(params => (params.pathname = '/internal/thisUnit/agents')),
+        row.snapshot.getIn(['data', 'tenant']),
+        row.snapshot.getIn(['data', 'unit'])
+      )}
+      external
+    >
+      {val}
+    </Link>
   );
 }
