@@ -16,9 +16,9 @@ import {
   isManual,
   isScript
 } from 'in-automation/ActionCatalog/shared';
+import { GenerateAIActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/useGenerateAIActionForm';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { GenerateAIActionForm } from 'in-automation/AutomationCard/GenerateAIActionDialog/useGenerateAIActionForm';
-import { setGeneratedAction } from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/PromptStep';
+import { setGeneratedAction } from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/Steps/PromptStep';
 import ManualActionContent from 'in-automation/components/ManualActionContent/ManualActionContent';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { descriptionColumn, nameColumn } from 'in-automation/ActionTable/columnDefinitions';
@@ -33,7 +33,7 @@ import { createStore } from 'in-stores/store';
 import Code from 'in-components/Code';
 import { t } from 'in-i18n';
 
-import locals from 'in-automation/AutomationCard/GenerateAIActionDialog/GenerateAIActionDialog.mless';
+import locals from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/GenerateAIActionDialog.mless';
 
 const pathSegment = '/recommendedActions';
 const matrixPrefix = '';
@@ -181,7 +181,11 @@ function ScriptSection({ action }: { action: ScoredAction }) {
     <>
       <ActionName name={action.name} />
       <FormGroup>
-        <Label>{t('in-automation:titleScriptContentReadOnly')}</Label>
+        <div className={locals.header}>
+          <Typography variant="heading-200" component="h2">
+            {t('in-automation:GenerateAIActionDialog.generateScriptDialog.titleGeneratedCodeReadOnly')}
+          </Typography>
+        </div>
         <div className={locals.CodeWithAISlug}>
           <Code withExpandButton withoutCopyButton code={plaintextScript} lang={'bash'} softWrap />
           <AISlugIcon />
@@ -196,7 +200,11 @@ function EmptySection() {
     <>
       <ActionName />
       <FormGroup>
-        <Label>{t('in-automation:titleScriptContentReadOnly')}</Label>
+        <div className={locals.header}>
+          <Typography variant="heading-200" component="h2">
+            {t('in-automation:titleContentReadOnly')}
+          </Typography>
+        </div>
         <NoDataAvailable
           height={450}
           title={t('in-automation:GenerateAIActionDialog.noResultsYet')}

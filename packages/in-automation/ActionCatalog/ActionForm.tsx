@@ -82,13 +82,17 @@ import {
   JIRA_OPERATIONS,
   ActionFormEntity,
   isAction,
-  isAIAction
+  isAIAction,
+  useHasAccessToScript
 } from 'in-automation/ActionCatalog/shared';
 import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
+import GenerateScriptTileComponent from 'in-automation/ActionCatalog/GenerateScriptTileComponent';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
+import useActionDetailsUrlParams from 'in-automation/ActionCatalog/useActionDetailsUrlParams';
 import AdditionalHeadersTable from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import { isNotEditableContext, OnChange } from 'in-automation/ActionCatalog/Action';
+import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import ParametersTable from 'in-automation/ActionCatalog/ParametersTable';
@@ -145,6 +149,8 @@ interface ActionFormBodyProps {
 export function ActionFormBody({ form, setForm, onChange, action, isCreate, actionFilter }: ActionFormBodyProps) {
   const type = (form.get('type') as Field<ActionType>).value;
   const showTimeoutSection = isScript(type) || isWebhook(type) || isAnsible(type);
+  const hasAccessToScript = useHasAccessToScript();
+  const { id } = useActionDetailsUrlParams();
 
   return (
     <LeftRightPadding>
@@ -182,6 +188,16 @@ export function ActionFormBody({ form, setForm, onChange, action, isCreate, acti
             </>
           )}
         </Col>
+
+        {isManual(type) && automationActionAiGenerationUnitEnabled && hasAccessToScript && (
+          <Col lg={4}>
+            <GenerateScriptTileComponent
+              manualContent={form.get('manualContent').value}
+              actionName={form.get('name').value}
+              actionId={id}
+            />
+          </Col>
+        )}
       </Row>
     </LeftRightPadding>
   );
