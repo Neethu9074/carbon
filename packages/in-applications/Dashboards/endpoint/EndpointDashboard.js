@@ -20,11 +20,10 @@ import ServiceContextIcon from 'in-applications/components/ServiceContext/Servic
 import InvalidUrlAlert from 'in-applications/Dashboards/commonComponents/InvalidUrlAlert';
 import { endpointDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { endpointDashboard, summaryTab } from 'in-applications/navigation/paths';
-import { APPLICATION_TIME_SHIFT_SELECT } from 'in-services/tracking/eventNames';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import { useLinkToServiceDashboard } from 'in-applications/navigation/paths';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import ServiceContext from 'in-applications/components/ServiceContext';
@@ -218,13 +217,13 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
 }
 
 function RenderButtonLineSecondary({ currentTab, applicationId, boundaryScope, onBoundaryStateChange, timeConfig }) {
-  const { trackCta } = useSegmentTracking();
+  const { trackApplicationTimeShiftSelected } = useApplicationTracker();
   return (
     <>
       <TimeShiftDropdown
         disabled={currentTab !== summaryTab}
         onChange={offset =>
-          trackCta(APPLICATION_TIME_SHIFT_SELECT, {
+          trackApplicationTimeShiftSelected({
             area: 'endpoint',
             offset: getTimeShiftLabel({ offset: offset }),
             windowSize: timeConfig.windowSize,

@@ -32,13 +32,12 @@ import TypographyWithTooltip from 'in-plg/components/TypographyWithTooltip/Typog
 import { createNewApplicationConfig, getApplicationConfig } from 'in-api/applicationConfigs';
 import { getApplicationsWithDefaults } from 'in-applications/subscriptions/getApplications';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import { APPLICATION_CREATION_OPEN_DIALOG_CLICK } from 'in-services/tracking/eventNames';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import { application as applicationType } from 'in-cockpit/starredItems/types';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { applicationsList } from 'in-applications/navigation/paths';
@@ -116,7 +115,7 @@ export default function ApplicationWidget({
   const entityResult = useObservable(getConfig, [applicationId]);
   const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
   const { createHrefToPath } = useNavigation();
-  const { trackCta } = useSegmentTracking();
+  const { trackApplicationCreationOpenDialogClicked } = useApplicationTracker();
 
   function addNewApplications() {
     let ele;
@@ -129,7 +128,7 @@ export default function ApplicationWidget({
         editMode
       />
     );
-    trackCta(APPLICATION_CREATION_OPEN_DIALOG_CLICK, {
+    trackApplicationCreationOpenDialogClicked({
       status: t('in-plg:welcomepage.component.applicationWidget.openCreationDialog')
     });
     return ele;

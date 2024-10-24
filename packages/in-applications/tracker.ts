@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import { TagFilter } from '@instana/types';
@@ -42,7 +43,6 @@ import {
 } from 'in-services/tracking/tracking';
 
 export type FilterAddedTrackingPayload = { dataSource: string; tagName: string; tagFilter?: TagFilter };
-
 export const ua2FacetedSearchSyntheticCallsToggledTracker = (e: Record<string, unknown>) =>
   track(ANALYZE_UA2_FACETED_SEARCH_SYNTHETIC_CALLS_TOGGLED, e);
 export const ua2FacetedSearchInternalCallsToggledTracker = (e: Record<string, unknown>) =>
