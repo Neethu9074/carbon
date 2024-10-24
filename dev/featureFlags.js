@@ -141,7 +141,7 @@ module.exports = {
   lastValueForNonTimeSeriesWidgetEnabled: true,
   logSmartAlertsEnabled: true,
   applicationSmartAlertFullScreenDesignEnabled: true,
-  welcomePageV2Enabled: false,
+  welcomePageV2Enabled: true,
   infrastructureExploreTagColumnsEnabled: true,
   serviceNowAutoCloseAndCustomPayloadsEnabled: false,
   serviceNowAdvancedEnabled: true,
