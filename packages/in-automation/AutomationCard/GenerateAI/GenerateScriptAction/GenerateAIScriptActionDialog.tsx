@@ -152,14 +152,8 @@ function onStepChange(
   newStep: number,
   aiActionScriptSelectStepNextTrackerSegment: TrackingFunction,
   form: GenerateAIScriptActionForm,
-  setForm: React.Dispatch<React.SetStateAction<GenerateAIScriptActionForm>>,
   aiActionScriptGenerateStepNextClickTrackerSegment: TrackingFunction
 ) {
-  if (oldStep === 1 && newStep === 0) {
-    setForm(form => form.updateIn(['action', 'script'], item => item.setValue('').setTouched(true)));
-    return true;
-  }
-
   if (oldStep === 0 && newStep === 1) {
     const promptForm = form.get('prompt');
     const selectedManualStep = promptForm.get('selectedManualStep').value;
@@ -219,7 +213,6 @@ export default function GenerateAIScriptActionDialog({ manualContent, actionName
               nextStep,
               aiActionScriptSelectStepNextTrackerSegment,
               form,
-              setForm,
               aiActionScriptGenerateStepNextClickTrackerSegment
             )
           }
