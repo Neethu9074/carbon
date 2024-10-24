@@ -623,7 +623,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonMenuEnabled',
     instanaCtlKey: 'feature.carbon.menu.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonDropdownEnabled',
@@ -743,7 +743,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonSideNavLinksEnabled',
     instanaCtlKey: 'feature.carbon.side.nav.links.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonG10ThemeEnabled',
