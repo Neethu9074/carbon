@@ -748,7 +748,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonG10ThemeEnabled',
     instanaCtlKey: 'feature.carbon.g10.theme.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'analyzeRelatedInstancesButtonEnabled',
