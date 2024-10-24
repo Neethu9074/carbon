@@ -9,8 +9,7 @@ import React from 'react';
 
 import { Checkbox, Button } from '@instana/components';
 
-import { ANALYZE_LATENCY_PERCENTILE_MENU_CLICK } from 'in-services/tracking/eventNames';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';
 
@@ -19,12 +18,12 @@ import locals from './PercentileMenu.mless';
 export const ALL_PERCENTILES = List.of(50, 90, 95, 99);
 
 export default function PercentileMenu(props) {
-  const { trackCta } = useSegmentTracking();
+  const { trackLatencyPercentileMenuClicked } = useAnalyzeTracker();
   return (
     <Overlay withoutWrapper content={PercentileMenuContent} props={props}>
       {({ toggle, refSetter }) => {
         const trackAndToggle = () => {
-          trackCta(ANALYZE_LATENCY_PERCENTILE_MENU_CLICK, {});
+          trackLatencyPercentileMenuClicked();
           toggle();
         };
         return (

@@ -7,9 +7,10 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { just } from '@instana/observables';
 
+import useGetHrefWithMutator from 'in-stores/navigation/hooks/useGetHrefWithMutator';
 import EntityLink from 'in-components/EntityLink/EntityLink';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import { Row, Col } from 'in-components/layout/Grid';
 import { getPluginName } from 'in-sdk/pluginName';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -20,6 +21,8 @@ import connectTo from 'in-hoc/connectTo';
 import locals from './GraphExplorer.mless';
 
 export default function GraphExplorer({ connected, onClick }) {
+  const getHref = useGetHrefWithMutator();
+
   return (
     <div className={locals.map}>
       <Row>
@@ -36,10 +39,12 @@ export default function GraphExplorer({ connected, onClick }) {
           <div className={locals.flexWrapper}>
             <Entry
               id={connected.selectedSnapshotId}
-              href$={getModifiedUrlStream(params => {
-                params.pathname = '/internal/thisUnit/snapshotVersions';
-                return (params.matrix = { '/snapshotVersions': { snapshotId: connected.selectedSnapshotId } });
-              })}
+              href$={just(
+                getHref(params => {
+                  params.pathname = '/internal/thisUnit/snapshotVersions';
+                  return (params.matrix = { '/snapshotVersions': { snapshotId: connected.selectedSnapshotId } });
+                })
+              )}
             />
           </div>
         </Col>

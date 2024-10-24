@@ -10,7 +10,7 @@ import { Button } from '@instana/components';
 
 import { createNewApplicationConfig, getApplicationConfigWithAlerting } from 'in-api/applicationConfigs';
 import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateApplicationDialog';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { newApplicationWaiterView } from 'in-applications/navigation/paths';
 import { successObservable } from 'in-services/util/result';
@@ -26,10 +26,10 @@ export default function CreateApplication({
   location
 }) {
   const entityResult = useObservable(getConfig, [applicationId]);
-  const { trackCta } = useSegmentTracking();
+  const { trackApplicationCreationOpenDialogClicked } = useApplicationTracker();
   useEffect(() => {
     if (location.pathname === '/applications/new' && entityResult) {
-      trackCta('APPLICATION_CREATION_OPEN_DIALOG_CLICK', { message: 'Open Creation Dialog' });
+      trackApplicationCreationOpenDialogClicked({ message: 'Open Creation Dialog' });
       addActiveDialog(
         <CreateApplicationDialog
           timeConfig={timeConfig || getTimeConfig({ pathname: '/applications', query: {} })}
@@ -47,7 +47,7 @@ export default function CreateApplication({
       kind={kind}
       icon={icon}
       onClick={() => {
-        trackCta('APPLICATION_CREATION_OPEN_DIALOG_CLICK', { message: 'Open Creation Dialog' });
+        trackApplicationCreationOpenDialogClicked({ message: 'Open Creation Dialog' });
         addActiveDialog(
           <CreateApplicationDialog
             timeConfig={timeConfig || getTimeConfig({ pathname: '/applications', query: {} })}

@@ -64,7 +64,7 @@ export default function BigNumberKpiCard({
 }: BigNumberKpiCardProps) {
   const timeConfig = useTimeConfig();
   const usedTimeConfig = getTimeConfigBasedOnMetricConfiguration(config.metricConfiguration, timeConfig);
-  const { metricConfiguration, resultCode } = useFilteredMetricConfiguration(config.metricConfiguration);
+  const { metricConfiguration, result: filterResult } = useFilteredMetricConfiguration(config.metricConfiguration);
 
   const metricDefaults = {
     timeShift: {
@@ -119,7 +119,7 @@ export default function BigNumberKpiCard({
         ) : undefined
       }
       raw={raw}
-      extraInfo={getFilterResultNote(resultCode)}
+      extraInfo={getFilterResultNote(filterResult)}
     />
   );
 }

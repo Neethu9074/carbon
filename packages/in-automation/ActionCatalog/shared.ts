@@ -8,6 +8,7 @@ import { keyBy } from 'lodash';
 
 import { AdditionalHeaders, Authen, NewAction, ScoredAction } from 'in-automation/api';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
+import useActionFilter from 'in-automation/hooks/useActionFilter';
 import { Action, ActionType, Field } from 'in-types';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -401,3 +402,8 @@ export const doesParameterExist = (parameters: MappedParameter[], paramName: str
 export const isAIAction = (action: Action | NewAction) => action?.metadata?.builtIn && action?.metadata?.ai !== null;
 
 export const isAIActionCopy = (action: Action | NewAction) => action?.metadata && action?.metadata?.aiOriginated;
+
+export function useHasAccessToScript() {
+  const actionFilter = useActionFilter();
+  return actionFilter.data === 'all' ? true : actionFilter.data?.types.includes(SCRIPT_TYPE) ?? false;
+}

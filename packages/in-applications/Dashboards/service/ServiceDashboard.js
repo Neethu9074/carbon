@@ -19,11 +19,10 @@ import ApplicationSwitcherContext from 'in-applications/components/ApplicationSw
 import InvalidUrlAlert from 'in-applications/Dashboards/commonComponents/InvalidUrlAlert';
 import { serviceDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { serviceDashboard, summaryTab } from 'in-applications/navigation/paths';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { APPLICATION_TIME_SHIFT_SELECT } from 'in-services/tracking/eventNames';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
@@ -195,7 +194,7 @@ function RenderButtonLineSecondary({
   onBoundaryStateChange,
   location
 }) {
-  const { trackCta } = useSegmentTracking();
+  const { trackApplicationTimeShiftSelected } = useApplicationTracker();
   return (
     <>
       <InstanaServiceToCloudfoundryApplicationButton
@@ -206,7 +205,7 @@ function RenderButtonLineSecondary({
       <TimeShiftDropdown
         disabled={currentTab !== summaryTab}
         onChange={offset =>
-          trackCta(APPLICATION_TIME_SHIFT_SELECT, {
+          trackApplicationTimeShiftSelected({
             area: 'service',
             offset: getTimeShiftLabel({ offset: offset }),
             windowSize: timeConfig.windowSize,
