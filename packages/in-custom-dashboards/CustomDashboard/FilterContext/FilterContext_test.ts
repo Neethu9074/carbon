@@ -15,14 +15,16 @@ import {
   TAG
 } from 'in-components/QueryBuilder/transformation/formModel';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { FilterableMetricConfiguration, applyFilteredConfiguration } from './FilterContext';
+import { MaybeFilterable, applyFilteredConfiguration } from './FilterContext';
 
 describe('in-custom-dashboards/CustomDashboard/FilterContext/applyFilteredConfiguration', () => {
   it('must statically remove not-applicable filters', () => {
-    const { metricConfiguration, resultCode } = applyFilteredConfiguration(
-      createMetricConfiguration('INFRASTRUCTURE_METRICS'),
-      [createTagFilter('endpoint.name', 'GET /foo', ENDPOINT_NAME_TAG_DEFINITION)]
-    );
+    const {
+      metricConfiguration,
+      result: { code: resultCode }
+    } = applyFilteredConfiguration(createMetricConfiguration('INFRASTRUCTURE_METRICS'), [
+      createTagFilter('endpoint.name', 'GET /foo', ENDPOINT_NAME_TAG_DEFINITION)
+    ]);
 
     expect(resultCode).to.equal('OMITTED_SELECTS_NOTHING');
     expect(metricConfiguration.tagFilterExpression).to.deep.equal(EMPTY_EXPRESSION);
@@ -30,10 +32,10 @@ describe('in-custom-dashboards/CustomDashboard/FilterContext/applyFilteredConfig
 
   it('must apply applicable filters', () => {
     const appName = createTagFilter('jvm.app.name', 'my application', APP_NAME_TAG_DEFINITION);
-    const { metricConfiguration, resultCode } = applyFilteredConfiguration(
-      createMetricConfiguration('INFRASTRUCTURE_METRICS'),
-      [appName]
-    );
+    const {
+      metricConfiguration,
+      result: { code: resultCode }
+    } = applyFilteredConfiguration(createMetricConfiguration('INFRASTRUCTURE_METRICS'), [appName]);
 
     expect(resultCode).to.equal('APPLIED');
     expect(metricConfiguration.tagFilterExpression).to.deep.equal(appName);
@@ -42,10 +44,14 @@ describe('in-custom-dashboards/CustomDashboard/FilterContext/applyFilteredConfig
   it('must statically remove non-applicable filters from multiple filter expression', () => {
     const hostName = createTagFilter('host.name', 'my host', HOST_NAME_TAG_DEFINITION);
     const appName = createTagFilter('jvm.app.name', 'my app', APP_NAME_TAG_DEFINITION);
-    const { metricConfiguration, resultCode } = applyFilteredConfiguration(
-      createMetricConfiguration('INFRASTRUCTURE_METRICS', hostName),
-      [createTagFilter('endpoint.name', 'GET /foo', ENDPOINT_NAME_TAG_DEFINITION), OR, appName]
-    );
+    const {
+      metricConfiguration,
+      result: { code: resultCode }
+    } = applyFilteredConfiguration(createMetricConfiguration('INFRASTRUCTURE_METRICS', hostName), [
+      createTagFilter('endpoint.name', 'GET /foo', ENDPOINT_NAME_TAG_DEFINITION),
+      OR,
+      appName
+    ]);
 
     expect(resultCode).to.equal('PARTIALLY_APPLIED');
     expect(metricConfiguration.tagFilterExpression).to.deep.equal({
@@ -57,10 +63,14 @@ describe('in-custom-dashboards/CustomDashboard/FilterContext/applyFilteredConfig
 
   it('must ignore non-applicable negative filters', () => {
     const appName = createTagFilter('jvm.app.name', 'my app', APP_NAME_TAG_DEFINITION);
-    const { metricConfiguration, resultCode } = applyFilteredConfiguration(
-      createMetricConfiguration('INFRASTRUCTURE_METRICS', EMPTY_EXPRESSION),
-      [createTagFilter('endpoint.name', 'ignored', ENDPOINT_NAME_TAG_DEFINITION, 'NOT_EQUAL'), AND, appName]
-    );
+    const {
+      metricConfiguration,
+      result: { code: resultCode }
+    } = applyFilteredConfiguration(createMetricConfiguration('INFRASTRUCTURE_METRICS', EMPTY_EXPRESSION), [
+      createTagFilter('endpoint.name', 'ignored', ENDPOINT_NAME_TAG_DEFINITION, 'NOT_EQUAL'),
+      AND,
+      appName
+    ]);
 
     expect(resultCode).to.equal('PARTIALLY_APPLIED');
     expect(metricConfiguration.tagFilterExpression).to.deep.equal(appName);
@@ -117,7 +127,7 @@ function createTagFilter(
 function createMetricConfiguration(
   source: UnifiedMetricConfiguration['source'],
   tagFilterExpression: TagFilterExpressionElementUnion = EMPTY_EXPRESSION
-): FilterableMetricConfiguration {
+): UnifiedMetricConfiguration & MaybeFilterable {
   return {
     source,
     aggregation: 'MEAN',

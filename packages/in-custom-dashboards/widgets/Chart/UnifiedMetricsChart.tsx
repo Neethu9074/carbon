@@ -18,7 +18,7 @@ import { useObservable } from '@instana/hooks';
 
 import {
   applyFilteredConfiguration,
-  FilterResultCode,
+  FilterResult,
   summarizeFilterResult,
   useFilterContext
 } from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
@@ -244,10 +244,10 @@ export function useResultData(
   const adjustedGranularity = resultType === 'SINGLE_NUMBER' ? undefined : granularity;
 
   const filter = useFilterContext();
-  const filterResultCodes: FilterResultCode[] = [];
+  const filterResults: FilterResult[] = [];
 
   for (const axis of AxisNames) {
-    const { filterResultCodes: metricFilterResult } = addUnifiedMetricsConfigForMetrics(
+    const { filterResults: metricFilterResult } = addUnifiedMetricsConfigForMetrics(
       axis,
       config,
       resultType,
@@ -256,7 +256,7 @@ export function useResultData(
       metrics,
       filter
     );
-    const { filterResultCodes: companionFilterResult } = addUnifiedMetricsConfigForCompanionMetrics(
+    const { filterResults: companionFilterResult } = addUnifiedMetricsConfigForCompanionMetrics(
       axis,
       config,
       resultType,
@@ -265,9 +265,9 @@ export function useResultData(
       companionMetrics,
       filter
     );
-    filterResultCodes.push(...metricFilterResult, ...companionFilterResult);
+    filterResults.push(...metricFilterResult, ...companionFilterResult);
   }
-  const filterResultNode = summarizeFilterResult(filterResultCodes);
+  const filterResultNode = summarizeFilterResult(filterResults);
 
   //The extra logic and transformation of the metric config and the results is needed due to the missing support for
   //timeShift, aggregation, resultType, autoRefresh
@@ -289,7 +289,7 @@ export function useResultData(
 }
 
 interface ConfigurationResult {
-  filterResultCodes: FilterResultCode[];
+  filterResults: FilterResult[];
 }
 
 function addUnifiedMetricsConfigForMetrics(
@@ -301,7 +301,7 @@ function addUnifiedMetricsConfigForMetrics(
   metrics: UnifiedMetricsConfigObject,
   filter: FormModelElement[]
 ): ConfigurationResult {
-  const filterResultCodes: FilterResultCode[] = [];
+  const filterResults: FilterResult[] = [];
   metricConfig[axisName]?.metrics.forEach((metricConfiguration, i) => {
     const updatedTimeConfig = isInfraMetricConfiguration(metricConfiguration as UnifiedMetricConfigurationUnion)
       ? getTimeConfigBasedOnMetricConfiguration(metricConfiguration as UnifiedMetricConfigurationUnion, timeConfig)
@@ -317,11 +317,11 @@ function addUnifiedMetricsConfigForMetrics(
       filter
     );
     metrics[getMetricId(axisName, i)] = filterResult.metricConfiguration;
-    if (filterResult.resultCode) {
-      filterResultCodes.push(filterResult.resultCode);
+    if (filterResult.result) {
+      filterResults.push(filterResult.result);
     }
   });
-  return { filterResultCodes };
+  return { filterResults };
 }
 
 function addUnifiedMetricsConfigForCompanionMetrics(
@@ -333,7 +333,7 @@ function addUnifiedMetricsConfigForCompanionMetrics(
   metrics: UnifiedMetricsConfigObject,
   filter: FormModelElement[]
 ): ConfigurationResult {
-  const filterResultCodes: FilterResultCode[] = [];
+  const filterResults: FilterResult[] = [];
   metricConfig[axisName]?.companionMetricConfigs?.forEach((metricConfiguration: any, i: number) => {
     const filterResult = applyFilteredConfiguration(
       {
@@ -346,9 +346,9 @@ function addUnifiedMetricsConfigForCompanionMetrics(
       filter
     );
     metrics[getMetricId(axisName, i)] = filterResult.metricConfiguration;
-    filterResultCodes.push(filterResult.resultCode);
+    filterResults.push(filterResult.result);
   });
-  return { filterResultCodes };
+  return { filterResults };
 }
 
 export function parseMetricId(metricId: string) {
