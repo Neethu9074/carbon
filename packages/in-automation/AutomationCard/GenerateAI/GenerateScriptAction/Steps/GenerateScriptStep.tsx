@@ -158,7 +158,7 @@ function ActionPreview({ form }: { form: GenerateAIScriptActionForm }) {
 }
 
 function ScriptSection({ form }: { form: GenerateAIScriptActionForm }) {
-  const plaintextScript = form.get('action').get('script').value;
+  const plaintextScript = form.get('action').get('aiGeneratedContent').value;
   return (
     <FormGroup>
       <div className={locals.header}>
