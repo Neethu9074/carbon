@@ -7,7 +7,6 @@
 import React, { useMemo } from 'react';
 
 import { aggregationLabels } from 'in-stores/metric/beeInstant';
-import { ua2ChartChangedTracker } from 'in-websites/tracker';
 import Charting from 'in-components/AnalyzeView/Charting';
 import Sections from 'in-components/workspace/Sections';
 
@@ -23,10 +22,13 @@ export function ChartsPresenter(props) {
     isValid,
     isLoading,
     tagFilterExpression,
-    type
+    type,
+    tracking
   } = props;
 
   const dataSource = 'infrastructure';
+
+  const { onChartChanged } = tracking;
 
   const chartableMetricCatalog = useMemo(
     () => getChartableMetricCatalog(metricCatalog, metricMetadatas),
@@ -55,8 +57,9 @@ export function ChartsPresenter(props) {
         disableClose={false}
         hideRenderer
         tracking={{
-          onChartChanged: ({ templateId, metricId, aggregationId }) =>
-            ua2ChartChangedTracker({ dataSource, template: templateId, metric: metricId, aggregation: aggregationId })
+          onChartChanged: ({ templateId, metricId, aggregationId }) => {
+            onChartChanged({ dataSource, template: templateId, metric: metricId, aggregation: aggregationId });
+          }
         }}
         mapMetricConfiguration={(metricConfiguration, { dataSource }) => {
           if (metricConfiguration.metric === 'count') {

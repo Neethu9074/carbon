@@ -184,6 +184,7 @@ export default function InfrastructureList({
           onChartedMetricsChange={onChartedMetricsChange}
           tagFilterExpression={backendQueryModel}
           type={type}
+          tracking={tracking}
         />
       )}
       {showHeader && (

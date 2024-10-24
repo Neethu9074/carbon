@@ -19,6 +19,7 @@ import {
   INFRA_EXPLORE_METRIC_REMOVED,
   INFRA_EXPLORE_METRIC_AGGREGATION_CHANGED,
   INFRA_EXPLORE_SORTED,
+  INFRA_EXPLORE_CHART_CHANGED,
   track
 } from 'in-services/tracking/tracking';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -159,6 +160,14 @@ export function useSegmentTracker() {
     };
   }
 
+  function chartChangedTracker(getInfraExploreState) {
+    return function ({ dataSource, template, metric, aggregation }) {
+      const context = serializeContext(getInfraExploreState(), { dataSource, template, metric, aggregation });
+      unstable_trackEvent(UI_INTERACTION, { objectType: INFRA_EXPLORE_CHART_CHANGED }, context);
+      track(INFRA_EXPLORE_CHART_CHANGED, context);
+    };
+  }
+
   return {
     filterAddedTracker,
     filterRemovedTracker,
@@ -174,7 +183,8 @@ export function useSegmentTracker() {
     metricAddedTracker,
     metricRemovedTracker,
     metricAggregationChangedTracker,
-    sortingTracker
+    sortingTracker,
+    chartChangedTracker
   };
 }
 

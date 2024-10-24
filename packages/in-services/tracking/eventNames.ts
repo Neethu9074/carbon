@@ -314,6 +314,7 @@ export const INFRA_EXPLORE_TYPE_SELECTOR_STATE_CHANGED = 'infra.explore.type.sel
 export const INFRA_EXPLORE_FILTER_ADDED = 'infra.explore.filter.added';
 export const INFRA_EXPLORE_FILTER_REMOVED = 'infra.explore.filter.removed';
 export const INFRA_EXPLORE_FILTERS_CLEARED = 'infra.explore.filters.cleared';
+export const INFRA_EXPLORE_CHART_CHANGED = 'infra.explore.chart.changed';
 export const INFRA_EXPLORE_GROUP_ADDED = 'infra.explore.group.added';
 export const INFRA_EXPLORE_GROUP_REMOVED = 'infra.explore.group.removed';
 export const INFRA_EXPLORE_GROUP_EXPANDED = 'infra.explore.group.expanded';
