@@ -5,13 +5,15 @@
 
 import React from 'react';
 
+import useGetHrefWithMutator from 'in-stores/navigation/hooks/useGetHrefWithMutator';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import { t } from 'in-i18n';
 
 export default function UnitsBreadcrumb() {
+  const getHref = useGetHrefWithMutator();
+
   return (
-    <Breadcrumb href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/units'))}>
+    <Breadcrumb href={getHref(params => (params.pathname = '/internal/monitoringUnit/units'))}>
       {t('in-internal:monitoringUnit.units.unitsBreadcrumb.units')}
     </Breadcrumb>
   );
