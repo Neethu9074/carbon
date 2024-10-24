@@ -121,9 +121,11 @@ export function convertSummaryToString(data) {
 // Check to make sure the recipients are valid
 // Expects a string split by commas
 export function validRecipients(recipients) {
+  const isString = typeof recipients === 'string';
+  if (!isString) return false;
   const validEmails = [];
-  const recipientsList = recipients.split(',');
-  recipientsList.map(e => {
+  const recipientsList = recipients?.split(',');
+  recipientsList?.map(e => {
     const validateEmail = email => {
       return String(email)
         .toLowerCase()
@@ -136,5 +138,5 @@ export function validRecipients(recipients) {
     validEmails.push(valid);
   });
   // If false exists then there is an error
-  return !validEmails.includes(false);
+  return recipientsList && !validEmails.includes(false);
 }

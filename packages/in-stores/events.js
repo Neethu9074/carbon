@@ -404,5 +404,5 @@ export function shareEventSummary(incidentId, recipients, timestamp, sender, sub
       link: link
     }
   });
-  return obj.map(response => fromJS(response.body)).once();
+  return obj.map(response => response.body);
 }

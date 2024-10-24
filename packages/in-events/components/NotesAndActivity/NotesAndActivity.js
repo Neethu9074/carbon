@@ -76,7 +76,7 @@ export function NotesAndActivity(props) {
   const notes = getNotes(event);
   const incidentId = event?.get('id');
   const eventType = event?.get('type');
-
+  const problemText = event?.get('problem')?.get('problemText');
   const loading = event == undefined;
 
   // Boolean to control when the notes section is opened
@@ -236,6 +236,7 @@ export function NotesAndActivity(props) {
         setShareOpen={setShareOpen}
         setNeedOverlay={setNeedOverlay}
         incidentId={incidentId}
+        problemText={problemText}
       />
     </>
   );

@@ -204,6 +204,7 @@ export function ChatBubble({
             <SummaryEntry summaryList={summaryStart} />
             {showAll && <SummaryEntry summaryList={summaryEnd} />}
             <div style={{ display: 'flex' }}>
+              {/* Show all button / Collapse */}
               {summaryEnd.length > 0 && (
                 <CarbonButton
                   size="sm"
@@ -216,6 +217,7 @@ export function ChatBubble({
                   {!showAll ? t('in-events:notes.showAll') : t('in-events:notes.collapse')}
                 </CarbonButton>
               )}
+              {/* Share summarization button */}
               <CarbonIconButton
                 kind={'ghost'}
                 size={'sm'}
@@ -228,6 +230,7 @@ export function ChatBubble({
               >
                 <SvgIcon type="lib_actions_share" size="xs" />
               </CarbonIconButton>
+              {/* Copy summarization button */}
               <CarbonIconButton
                 kind={'ghost'}
                 size={'sm'}

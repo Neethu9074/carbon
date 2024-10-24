@@ -20,6 +20,11 @@
     font-size: 16px;
   }
 
+  .errorMessage {
+    padding-top: 1rem;
+    color: var(--cds-text-error);
+  }
+
   .noDefaultBorder {
     :global(.cds--text-area) {
       outline: unset;
