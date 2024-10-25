@@ -5,9 +5,9 @@
 
 import React, { useEffect } from 'react';
 
-import { keyCodes, PreviewPill, Stack } from '@instana/components';
+import { keyCodes, Stack } from '@instana/components';
 
-import sources, { isBetaSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
+import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext';
 import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -90,7 +90,6 @@ export default function MetricConfigurator({
   const additionalDataSourceSelectorContent = (
     <Stack inline direction="horizontal">
       <LeftRightPadding>
-        {isBetaSource(sourceField.value) && <PreviewPill />}
         <TouchedMessages field={sourceField} />
       </LeftRightPadding>
     </Stack>

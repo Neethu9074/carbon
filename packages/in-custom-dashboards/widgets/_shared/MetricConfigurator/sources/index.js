@@ -32,11 +32,3 @@ if (logWidgetsEnabled) {
 export default all;
 
 export const enabledDataSources = Object.fromEntries(Object.entries(all).filter(entry => entry[1].enabled));
-
-export function isBetaSource(source) {
-  const betaSource = ['LOG'];
-
-  if (!source) return false;
-
-  return betaSource.includes(source);
-}
