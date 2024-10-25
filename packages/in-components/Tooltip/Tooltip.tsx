@@ -13,6 +13,7 @@ import { createLogger } from '@instana/logger';
 
 import { Align, ThemeStyle, setActiveTooltip, clearActiveTooltip } from 'in-components/Tooltip/store';
 import { carbonTooltipEnabled } from 'in-services/featureFlags';
+import useResizeObserver from 'in-hooks/useResizeObserver';
 
 const logger = createLogger('in-components/Tooltip');
 
@@ -48,6 +49,14 @@ export default function Tooltip({
   overflowEllipsis = false, // Used to pass to new Carbon component
   forceTheme = false
 }: Props) {
+  /*
+   * Listening for size changes on the parent was needed to listen to size changes, and
+   * to avoid triggering an endless resize loop:
+   *
+   * ResizeObserver loop completed with undelivered notifications.
+   */
+  const { ref: toolTipWrapperRef } = useResizeObserver();
+
   // Use the Carbon tooltip if the feature flag is set and NOT Legacy being used
   // Content is sometimes undefined and if its undefined we have nothing to show then
   // skip the carbon tooltip and let the legacy handle the undefined scenario
@@ -55,18 +64,21 @@ export default function Tooltip({
     // For carbon convert mousePosition -> auto
     const updatedAlign = (align == 'mousePosition' && 'auto') || align;
     const themeToPass = (forceTheme && themeStyle) || 'dark';
+
     return (
-      <CarbonTooltip
-        align={updatedAlign}
-        delay={delay}
-        content={content}
-        caret={caret}
-        overwriteBlock={overwriteBlock}
-        themeStyle={themeToPass}
-        overflowEllipsis={overflowEllipsis}
-      >
-        {children}
-      </CarbonTooltip>
+      <span ref={toolTipWrapperRef}>
+        <CarbonTooltip
+          align={updatedAlign}
+          delay={delay}
+          content={content}
+          caret={caret}
+          overwriteBlock={overwriteBlock}
+          themeStyle={themeToPass}
+          overflowEllipsis={overflowEllipsis}
+        >
+          {children}
+        </CarbonTooltip>
+      </span>
     );
   }
 
