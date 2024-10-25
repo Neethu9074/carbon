@@ -9,10 +9,16 @@ import React from 'react';
 import { Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
+import {
+  WELCOME_PAGE_ADD_USER_CLICK,
+  WELCOME_PAGE_DEPLOY_AGENT_CLICK,
+  WELCOME_PAGE_IBM_DOCUMENTATION_CLICK,
+  WELCOME_PAGE_RELEASE_NOTES_CLICK,
+  WELCOME_PAGE_WHATS_NEW_LINK_CLICK
+} from 'in-services/tracking/eventNames';
 // @ts-expect-error no declaration file
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { QuickLinkButton } from 'in-plg/pages/WelcomePage/quickLinks/QuickLinkButton';
-import { WELCOME_PAGE_WHATS_NEW_LINK_CLICK } from 'in-services/tracking/eventNames';
 import { teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -36,6 +42,9 @@ export const QuickLinks = () => {
             iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.settings')}
             buttonName={t('in-plg:welcomepage.quickLinks.buttonNames.deployAgent')}
             href={createHrefToPath('/agents/installation')}
+            onClick={() => {
+              trackCta(WELCOME_PAGE_DEPLOY_AGENT_CLICK, getPageType(location.pathname));
+            }}
           />
         )}
         {!playwithEnabled && role?.canConfigureUsers && (
@@ -44,6 +53,9 @@ export const QuickLinks = () => {
             iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.user')}
             buttonName={t('in-plg:welcomepage.quickLinks.buttonNames.addUser')}
             href={createHrefToPath(teamSettingsAccessControlUsers)}
+            onClick={() => {
+              trackCta(WELCOME_PAGE_ADD_USER_CLICK, getPageType(location.pathname));
+            }}
           />
         )}
         <QuickLinkButton
@@ -51,6 +63,7 @@ export const QuickLinks = () => {
           iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.externalLink')}
           buttonName={t('in-plg:welcomepage.quickLinks.buttonNames.documentation')}
           onClick={() => {
+            trackCta(WELCOME_PAGE_IBM_DOCUMENTATION_CLICK, getPageType(location.pathname));
             window.open('https://www.ibm.com/docs/en/obi/current', '_blank', 'noreferrer');
           }}
         />
@@ -59,6 +72,7 @@ export const QuickLinks = () => {
           iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.resultNew')}
           buttonName={t('in-plg:welcomepage.quickLinks.buttonNames.releaseNotes')}
           onClick={() => {
+            trackCta(WELCOME_PAGE_RELEASE_NOTES_CLICK, getPageType(location.pathname));
             showReleaseNotes();
           }}
         />
