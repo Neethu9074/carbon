@@ -13,6 +13,7 @@ import globalHighlightAction from 'in-components/Chart/components/ContextMenu/ac
 import downloadJSONAction from 'in-components/Chart/components/ContextMenu/actions/downloadJSON';
 import downloadCSVAction from 'in-components/Chart/components/ContextMenu/actions/downloadCSV';
 import downloadPDFAction from 'in-components/Chart/components/ContextMenu/actions/downloadPDF';
+import { CUSTOM_DASHBOARD_WIDGET_DOWNLOAD_PDF } from 'in-services/tracking/tracking';
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { customDashboardsExportPdfWidget } from 'in-services/featureFlags';
@@ -41,6 +42,7 @@ export default class extends React.Component {
       setExportWidgetId,
       setTooltipRef,
       setShouldExportWidget,
+      trackCta,
       tooltipRef
     } = props;
 
@@ -73,7 +75,9 @@ export default class extends React.Component {
           setTooltipRef(tooltipRef);
           setShouldExportWidget(true);
           const widgetNode = chartWrapper.closest('[id^="widget-"]');
-          downloadPDFAction.onClick({ widgetNode, setExportWidgetId });
+          const widgetId = widgetNode?.id.replace(/^widget-/, '') || '';
+          trackCta(CUSTOM_DASHBOARD_WIDGET_DOWNLOAD_PDF, { widgetId });
+          downloadPDFAction.onClick({ widgetId, setExportWidgetId });
         }
       });
     }

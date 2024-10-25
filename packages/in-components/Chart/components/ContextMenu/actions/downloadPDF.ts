@@ -14,13 +14,12 @@ const config = {
 };
 
 interface Props {
-  widgetNode: HTMLElement;
+  widgetId: string;
   setExportWidgetId: (id: string) => void;
 }
 
 export default config;
 
-async function download({ widgetNode, setExportWidgetId }: Props) {
-  const widgetId = widgetNode?.id.replace(/^widget-/, '') || '';
+async function download({ widgetId, setExportWidgetId }: Props) {
   setExportWidgetId(widgetId);
 }

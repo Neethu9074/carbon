@@ -22,6 +22,7 @@ export const CUSTOM_DASHBOARD_DELETE_WIDGET = 'custom.dashboard.delete.widget';
 export const CUSTOM_DASHBOARD_VIEW_WIDGET = 'custom.dashboard.view.widget';
 export const CUSTOM_DASHBOARD_ZOOM_WIDGET_START = 'custom.dashboard.zoom.widget.start';
 export const CUSTOM_DASHBOARD_ZOOM_WIDGET_FINISH = 'custom.dashboard.zoom.widget.finish';
+export const CUSTOM_DASHBOARD_WIDGET_DOWNLOAD_PDF = 'custom.dashboard.widget.download.pdf';
 
 export const ANALYZE_VIEW_SELECTED = 'analyze.view.selected';
 export const ANALYZE_CALL_CLICK = 'analyze.call.click';
