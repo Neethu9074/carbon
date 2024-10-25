@@ -618,7 +618,7 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonTableEnabled',
     instanaCtlKey: 'feature.carbon.table.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonMenuEnabled',
