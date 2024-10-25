@@ -175,7 +175,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
             ) : null}
             {label &&
               (typeof label === 'string' ? (
-                <Tooltip content={label} delay={500}>
+                <Tooltip overflowEllipsis content={label} delay={500}>
                   <h1 className={locals.label}>{label}</h1>
                 </Tooltip>
               ) : (
