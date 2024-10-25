@@ -15,7 +15,7 @@ const presets = [
     presentation: 'cumulative',
     label: t('in-amp:components.presentationPresets.cumulative'),
     isDisabled: timeRange => {
-      // Disable cumulated setting for on-premise scenarios
+      // Disable cumulated setting for inapplicable time ranges
       return 'this_month' !== timeRange && 'last_month' !== timeRange;
     }
   }
