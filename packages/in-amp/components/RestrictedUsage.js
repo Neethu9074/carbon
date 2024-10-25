@@ -13,18 +13,36 @@ import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
 export default function RestrictedUsage() {
-  const { windowSize, setWindowSize, tenantUnit } = useAmpUrlInformation({
-    tenant: config.tenant,
-    unit: config.tenantUnit
-  });
+  const { windowSize, setWindowSize, tenantUnit, timeRange, setTimeRange, to, setTo, presentation, setPresentation } =
+    useAmpUrlInformation({
+      tenant: config.tenant,
+      unit: config.tenantUnit
+    });
 
   return (
     <>
       <Title title={t('in-amp:components.restrictedUsage.accountUsage')} />
 
-      <AmpInformationModifier windowSize={windowSize} setWindowSize={setWindowSize} tenantUnit={tenantUnit} />
+      <AmpInformationModifier
+        windowSize={windowSize}
+        setWindowSize={setWindowSize}
+        tenantUnit={tenantUnit}
+        timeRange={timeRange}
+        setTimeRange={setTimeRange}
+        setTo={setTo}
+        presentation={presentation}
+        setPresentation={setPresentation}
+      />
 
-      <UsageCharts windowSize={windowSize} tenantUnit={tenantUnit} showPurchasedMetric={false} />
+      <UsageCharts
+        windowSize={windowSize}
+        timeRange={timeRange}
+        to={to}
+        tenantUnit={tenantUnit}
+        showAggregatedMetrics={false}
+        presentation={presentation}
+        showPurchasedMetric={false}
+      />
     </>
   );
 }
