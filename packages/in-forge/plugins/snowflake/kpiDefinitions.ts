@@ -11,7 +11,7 @@ export default [
   {
     label: t('in-forge:plugins.snowflake.dashboard.creditUsagePerHour'),
     metric: 'credit.hourly_usage',
-    formatter: number.compact
+    formatter: number.detailed
   },
   {
     label: t('in-forge:plugins.snowflake.dashboard.totalStorageBytes'),

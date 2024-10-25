@@ -9588,7 +9588,7 @@
         "warehouseUsage": "Warehouse usage",
         "storageUsage": "Storage",
         "totalStageBytes": "Total stage bytes",
-        "totalFailSafeBytes": "Total fail safe bytes",
+        "totalFailSafeBytes": "Total fail-safe bytes",
         "avgByteSpilledToLocalStorage": "Average bytes spilled to local storage",
         "bytesSpilled": "Bytes spilled",
         "avgByteSpilledToRemoteStorage": "Average bytes spilled to remote storage",
