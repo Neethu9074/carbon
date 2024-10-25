@@ -13,7 +13,8 @@
   .contentSection {
     display: inline-flex;
     > div {
-      min-height: 450px;
+      min-height: 400px;
+      width: 100%;
     }
 
     div {
@@ -42,5 +43,12 @@
         margin-right: 0.5rem;
       }
     }
+  }
+
+  .header {
+    display: flex;
+    padding: 0.6rem;
+    background: var(--cds-layer-selected-01);
+    align-items: center;
   }
 }

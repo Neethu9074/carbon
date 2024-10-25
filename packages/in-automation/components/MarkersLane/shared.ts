@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { ActionInstance, ApplicationBoundaryScope } from 'in-types';
+import { ActionInstance, ApplicationBoundaryScope } from '@instana/types';
 
 export type ActionListCalloutProps = {
   actionInstances: ActionInstance[];

@@ -9,10 +9,10 @@ import React from 'react';
 import { Typography } from '@instana/components';
 import { Policy } from '@instana/types';
 
+import { getActionConfigurationFromPolicy, isAutomatic, isManual } from 'in-automation/utils/policy';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { isAutomatic, isManual } from 'in-automation/Policies/types';
 import WithSubscript from 'in-settings/components/WithSubscript';
-import { getType } from 'in-automation/ActionCatalog/shared';
+import { ACTION_TRANSLATIONS } from 'in-automation/constants';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
@@ -48,20 +48,18 @@ export const nameColumn: ColumnDefinition<Policy> = {
 export const actionNameColumn: ColumnDefinition<Policy> = {
   id: 'actionName',
   label: t('in-automation:actionName'),
-  getContent: item => (
-    <Tooltip
-      content={item.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.name}
-      align="topLeft"
-      delay={500}
-      overwriteBlock
-    >
-      <WithSubscript subscript={getType(item.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.type)}>
-        <Typography noWrap variant="body-regular">
-          {item.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.name}
-        </Typography>
-      </WithSubscript>
-    </Tooltip>
-  ),
+  getContent: item => {
+    const action = getActionConfigurationFromPolicy(item).action;
+    return (
+      <Tooltip content={action.name} align="topLeft" delay={500} overwriteBlock>
+        <WithSubscript subscript={ACTION_TRANSLATIONS[action.type]}>
+          <Typography noWrap variant="body-regular">
+            {action.name}
+          </Typography>
+        </WithSubscript>
+      </Tooltip>
+    );
+  },
   width: 23,
   sortable: true
 };

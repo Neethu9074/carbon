@@ -7,11 +7,11 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 
+import { AgentSnapshot, RecommendedAction } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { runResourceOptimizationAction } from 'in-automation/api';
 import { useResourceImpacts } from './useResourceOptimization';
-import { AgentSnapshot, RecommendedAction } from 'in-types';
 import { useSegmentTracker } from 'in-automation/tracker';
 import DetailsModal from './DetailsModal';
 

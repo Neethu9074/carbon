@@ -151,13 +151,7 @@ export const DeletionTable = ({ isDeleting }: { isDeleting: boolean }) => {
           <Td>{renderIconsByStatus(item.deletedStatus)}</Td>
           <Td>{timestampToLocaleDateTime(item.timestamp)}</Td>
           <Td>{item.reason}</Td>
-          <Td>
-            {item.deletedLineCount !== null ? (
-              siPrefixCompact.formatter(item.deletedLineCount)
-            ) : (
-              <LoadingSkeleton className={locals.skeleton} />
-            )}
-          </Td>
+          <Td>{getDeletedLineCount(item)}</Td>
           <Td>{item.triggeredByUser}</Td>
         </Tr>
       ));
@@ -232,8 +226,7 @@ const renderIconsByStatus = (status: string) => {
 };
 
 const getDeletedLineCount = (item: DeleteLogsHistoryItem) => {
-  // any Until the backend types are updated
-  if (item.deletedStatus === (DELETE_STATUS.inProgress as any)) {
+  if (item.deletedStatus === DELETE_STATUS.inProgress) {
     return '–';
   }
 

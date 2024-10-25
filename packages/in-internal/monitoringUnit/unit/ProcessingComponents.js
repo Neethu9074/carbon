@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React from 'react';
 
+import { Card } from '@instana/components';
+
+import useGetHrefWithMutator from 'in-stores/navigation/hooks/useGetHrefWithMutator';
 import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
 import { getPhysicalStack } from 'in-internal/components/dataRetrieval';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -42,6 +43,9 @@ export default connectTo(
 
 function DashboardLinkItem({ tenant, unit, componentName, components = [] }) {
   components = components.filter(({ docker }) => docker.get('label').includes(`${tenant}-${unit}-${componentName}`));
+
+  const getHref = useGetHrefWithMutator();
+
   if (components.length === 0) {
     return <LinkListItem label={componentName} />;
   }
@@ -54,7 +58,7 @@ function DashboardLinkItem({ tenant, unit, componentName, components = [] }) {
           <LinkListItem
             key={i}
             label={components.length === 1 ? componentName : `${componentName} (${host.getIn(['data', 'hostname'])})`}
-            href$={getModifiedUrlStream(params => {
+            href={getHref(params => {
               params.pathname = '/physical/dashboard';
               params.query.snapshotId = dropwizardApplicationContainer.get('id');
             })}

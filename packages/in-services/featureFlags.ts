@@ -57,7 +57,6 @@ export const logHomepageEnabled = isFeatureFlagEnabled('logHomepageEnabled');
 export const carbonPillEnabled = isFeatureFlagEnabled('carbonPillEnabled');
 export const logRetentionPageEnabled = isFeatureFlagEnabled('logRetentionPageEnabled');
 export const notesAndActivityEnabled = isFeatureFlagEnabled('notesAndActivityEnabled');
-export const carbonMessageEnabled = isFeatureFlagEnabled('carbonMessageEnabled');
 export const carbonIconButtonEnabled = isFeatureFlagEnabled('carbonIconButtonEnabled');
 export const carbonSearchInputEnabled = isFeatureFlagEnabled('carbonSearchInputEnabled');
 export const carbonMoreMenuEnabled = isFeatureFlagEnabled('carbonMoreMenuEnabled');
@@ -271,7 +270,7 @@ export const flowMapEnabled = isFeatureFlagEnabled('flowMapEnabled', true);
 
 export const enableCarbonIcons = isFeatureFlagEnabled('enableCarbonIcons', false);
 
-export const welcomePageV2Enabled = isFeatureFlagEnabled('welcomePageV2Enabled', false);
+export const welcomePageV2Enabled = isFeatureFlagEnabled('welcomePageV2Enabled', true);
 export const shareAndInviteEnabled = isFeatureFlagEnabled('shareAndInviteEnabled', true);
 
 export const agentInstallationV2Enabled = isFeatureFlagEnabled('agentInstallationV2Enabled', false);

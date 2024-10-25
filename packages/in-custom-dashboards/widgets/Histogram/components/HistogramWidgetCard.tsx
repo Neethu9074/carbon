@@ -17,6 +17,8 @@ import {
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import downloadPDFAction from 'in-components/Chart/components/ContextMenu/actions/downloadPDF';
 import useResultData from 'in-custom-dashboards/widgets/Histogram/hooks/useResultData';
+import { CUSTOM_DASHBOARD_WIDGET_DOWNLOAD_PDF } from 'in-services/tracking/tracking';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { customDashboardsExportPdfWidget } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import HistogramChart from 'in-components/HistogramChart/HistogramChart';
@@ -49,6 +51,7 @@ export default function HistogramWidgetCard({
   const [tooltip, setTooltip] = React.useState<HTMLElement>(document.createElement('div'));
   const { setExportWidgetId, setTooltipRef, setShouldExportWidget } =
     useContext<CustomDashboardContextProps>(CustomDashboardContext);
+  const { trackCta } = useSegmentTracking();
 
   const tooltipRef = (tooltip: HTMLElement) => (tooltip ? setTooltip(tooltip) : null);
   const isCustomDashboard = matchLocation(customDashboardsPath);
@@ -66,9 +69,11 @@ export default function HistogramWidgetCard({
       onClick: () => {
         const cardNode = ref.current;
         const widgetNode = cardNode?.closest('[id^="widget-"]') as HTMLElement;
+        const widgetId = widgetNode?.id.replace(/^widget-/, '') || '';
+        trackCta(CUSTOM_DASHBOARD_WIDGET_DOWNLOAD_PDF, { widgetId });
         setTooltipRef(tooltip);
         setShouldExportWidget(true);
-        downloadPDFAction.onClick({ widgetNode, setExportWidgetId });
+        downloadPDFAction.onClick({ widgetId, setExportWidgetId });
       }
     });
   }

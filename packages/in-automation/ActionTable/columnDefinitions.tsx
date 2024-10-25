@@ -12,11 +12,11 @@ import { Action } from '@instana/types';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWrapper';
+import { ACTION_TRANSLATIONS, ACTION_TYPE } from 'in-automation/constants';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { getType, isExternal } from 'in-automation/ActionCatalog/shared';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import { ScoredAction } from 'in-automation/api';
+import { ScoredAction } from 'in-automation/types';
 import { t } from 'in-i18n';
 
 export const nameColumn: ColumnDefinition<Action | ScoredAction> = {
@@ -25,15 +25,15 @@ export const nameColumn: ColumnDefinition<Action | ScoredAction> = {
   ellipsis: true,
   getContent(action) {
     const description = action.description ?? action.name;
-    const name = isExternal(action.type) ? description : action.name;
+    const name = action.type === ACTION_TYPE.EXTERNAL ? description : action.name;
     return (
       <Tooltip content={name} align="auto" delay={500} overwriteBlock caret={false}>
-        {isExternal(action.type) ? (
+        {action.type === ACTION_TYPE.EXTERNAL ? (
           <Link ellipsis href={action.name} external>
             <span>{name}</span>
           </Link>
         ) : (
-          <WithSubscript subscript={getType(action.type)}>
+          <WithSubscript subscript={ACTION_TRANSLATIONS[action.type]}>
             <Typography noWrap variant="body-regular">
               {name}
             </Typography>
@@ -77,7 +77,7 @@ export const scoreColumn: ColumnDefinition<ScoredAction> = {
   width: 10,
   sortable: true,
   getContent(action) {
-    if (isExternal(action.type)) return null;
+    if (action.type === ACTION_TYPE.EXTERNAL) return null;
     return (
       <Tooltip
         content={t('in-automation:ActionCatalog.confidenceHelpText', { source: action.aiEngine })}

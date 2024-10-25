@@ -129,7 +129,7 @@ export default function GroupedInfrastructure(props) {
 
   return (
     <Presenter
-      backendQueryModel={backendQueryModel}
+      backendQueryModel
       groupBy={groupBy}
       backendGroupBy={backendGroupBy}
       retrievalSize={retrievalSize}

@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 
 import { Button, IconButton, Spacer, Stack, Typography } from '@instana/components';
+import { Event, Result, VolatileId } from '@instana/types';
 
 import {
   aiEngineColumn,
@@ -17,8 +18,8 @@ import {
 import useServerTableUrlState, {
   ServerTableUrlState
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
+import GenerateAIActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/GenerateAIActionDialog';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import GenerateAIActionDialog from 'in-automation/AutomationCard/GenerateAIActionDialog/GenerateAIActionDialog';
 import CreatePolicyDialog from 'in-automation/AutomationCard/CreatePolicyDialog/CreatePolicyDialog';
 import useNavigateToActionDetails from 'in-automation/navigation/hooks/useNavigateToActionDetails';
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
@@ -26,21 +27,19 @@ import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilte
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { MANUAL_TYPE, isExternal } from 'in-automation/ActionCatalog/shared';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
+import useHasAccessToManual from 'in-automation/hooks/useHasAccessToManual';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { ScoredAction, TriggerSpecification } from 'in-automation/types';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { TriggerSpecification } from 'in-automation/Policies/types';
 import { TagsFilter } from 'in-automation/components/tableFilters';
-import useActionFilter from 'in-automation/hooks/useActionFilter';
 import { useSegmentTracker } from 'in-automation/tracker';
-import { Event, Result, VolatileId } from 'in-types';
+import { ACTION_TYPE } from 'in-automation/constants';
 import { isLoading } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { hasError } from 'in-services/util/result';
 import { mapData } from 'in-services/util/result';
-import { ScoredAction } from 'in-automation/api';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -60,7 +59,9 @@ const actionColumn: ColumnDefinition<ScoredAction, RecommendedActionsTableProps>
   width: 8,
   getContent(action, { volatileId, event, trigger }) {
     const isManualExternal =
-      action?.metadata?.ai && action?.metadata?.ai[0]?.turbonomicActionMode === 'MANUAL' && isExternal(action.type);
+      action?.metadata?.ai &&
+      action?.metadata?.ai[0]?.turbonomicActionMode === 'MANUAL' &&
+      action.type === ACTION_TYPE.EXTERNAL;
     if (isManualExternal) {
       if (!role?.canRunAutomationActions) return null;
       return (
@@ -77,7 +78,7 @@ const actionColumn: ColumnDefinition<ScoredAction, RecommendedActionsTableProps>
         </Button>
       );
     }
-    if (!role?.canConfigureAutomationPolicies || isExternal(action.type)) return null;
+    if (!role?.canConfigureAutomationPolicies || action.type === ACTION_TYPE.EXTERNAL) return null;
     return (
       <Tooltip content={t('in-automation:createPolicyWithName', { actionName: action.name })} delay={500}>
         <IconButton
@@ -101,11 +102,6 @@ const columnDefinitions: ColumnDefinition<ScoredAction, RecommendedActionsTableP
   scoreColumn,
   actionColumn
 ];
-function useHasAccessToManual() {
-  const actionFilter = useActionFilter();
-  return actionFilter.data === 'all' ? true : actionFilter.data?.types.includes(MANUAL_TYPE) ?? false;
-}
-
 function GenerateAIActionButton({
   event,
   trigger,
@@ -125,7 +121,8 @@ function GenerateAIActionButton({
       kind="action"
       onClick={() => {
         generateAIButtonClickTrackerSegment({
-          eventName: name
+          eventName: name,
+          type: 'manual'
         });
         addActiveDialog(
           <GenerateAIActionDialog event={event} trigger={trigger} ootbRecommendedActions={ootbRecommendedActions} />
@@ -240,7 +237,7 @@ export default function RecommendedActions({
   const totalHits = result?.data?.totalHits;
 
   const handleRowClick = (action: ScoredAction) => {
-    if (!isExternal(action.type)) {
+    if (action.type !== ACTION_TYPE.EXTERNAL) {
       navigateToActionDetails(action.id, false);
     }
   };

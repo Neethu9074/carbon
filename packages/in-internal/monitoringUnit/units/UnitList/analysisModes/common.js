@@ -7,9 +7,23 @@ import React from 'react';
 
 import { Link } from '@instana/components';
 
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import { t } from 'in-i18n';
+
+function UnitLink({ val, row }) {
+  const { createHref, location } = useNavigation();
+
+  const getHref = () => {
+    location.pathname = '/internal/monitoringUnit/unit';
+    setOrDeleteMatrixKey(location, '/unit', 'tenant', row.tenant);
+    setOrDeleteMatrixKey(location, '/unit', 'unit', row.unit);
+
+    return createHref(location);
+  };
+
+  return <Link href={getHref()}>{val}</Link>;
+}
 
 export const unitColumn = {
   id: 'unit',
@@ -19,18 +33,6 @@ export const unitColumn = {
     getValue(row) {
       return `${row.tenant}-${row.unit}`;
     },
-    getContent(val, row) {
-      return (
-        <Link
-          href={getModifiedUrlStream(params => {
-            params.pathname = '/internal/monitoringUnit/unit';
-            setOrDeleteMatrixKey(params, '/unit', 'tenant', row.tenant);
-            setOrDeleteMatrixKey(params, '/unit', 'unit', row.unit);
-          })}
-        >
-          {val}
-        </Link>
-      );
-    }
+    getContent: (val, row) => <UnitLink val={val} row={row} />
   }
 };

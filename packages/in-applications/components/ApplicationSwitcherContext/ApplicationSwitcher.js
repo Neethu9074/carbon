@@ -9,12 +9,10 @@ import { SvgIcon, Button } from '@instana/components';
 
 import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
 import { applicationId as matrixApplicationId } from 'in-applications/navigation/matrix';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import WithHealthIndication from 'in-components/health/WithHealthIndication';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { APPLICATION_CLICK_CREATE } from 'in-services/tracking/eventNames';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { CREATED_OBJECT } from 'in-services/util/constants';
 import { t, Trans } from 'in-i18n';
 
 import locals from './ApplicationSwitcher.mless';
@@ -47,7 +45,7 @@ export default function ApplicationSwitcher({ applicationId, applications, viewP
 }
 
 function ApplicationButtonItem({ item, viewPath }) {
-  const { unstable_trackEvent } = useSegmentTracking();
+  const { trackApplicationOpenSubmitForm } = useApplicationTracker();
   const { location, createHref } = useNavigation();
   setOrDeleteMatrixKey(location, viewPath, matrixApplicationId, item.application.id);
 
@@ -57,7 +55,7 @@ function ApplicationButtonItem({ item, viewPath }) {
         className={locals.button}
         kind="subtle"
         href={createHref(location)}
-        onClick={() => unstable_trackEvent(CREATED_OBJECT, { objectType: APPLICATION_CLICK_CREATE }, {})}
+        onClick={() => trackApplicationOpenSubmitForm()}
         icon="lib_application"
       >
         {item.application.label}

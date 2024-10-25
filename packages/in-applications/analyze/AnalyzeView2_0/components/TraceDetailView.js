@@ -332,7 +332,7 @@ function TraceDetailViewButtonLine({ traceId, result, formModel }) {
   const rawTraceDownloadUrl =
     `/api/application-monitoring/analyze/traces/` +
     encodeURIComponent(traceIdInUrl) +
-    `/raw?retrievalSize=100&offset=0&ingestionTimestamp=${Date.now()}`;
+    `/raw?retrievalSize=100&offset=0&ingestionTime=${Date.now()}`;
 
   const DownloadTraceOptions = ({ close }) => {
     if (carbonButtonEnabled) {

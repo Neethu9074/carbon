@@ -10,8 +10,8 @@ import { Button, Spacer, Typography, PreviewPill } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Event, Result } from '@instana/types';
 
-import { GenerateAIActionForm } from 'in-automation/AutomationCard/GenerateAIActionDialog/useGenerateAIActionForm';
-import { setSelectedAction } from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/SelectActionStep';
+import { GenerateAIActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/useGenerateAIActionForm';
+import { setSelectedAction } from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/Steps/SelectActionStep';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import ManualActionContent from 'in-automation/components/ManualActionContent/ManualActionContent';
 import generateAIAction, { AIActionContent } from 'in-automation/subscriptions/generateAIAction';
@@ -20,16 +20,19 @@ import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailabl
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { error, hasError, isLoading } from 'in-services/util/result';
+import { createManualField } from 'in-automation/utils/actionField';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import TextArea from 'in-components/form/TextArea/TextArea';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import { pendingResult } from 'in-services/fixedObjects';
-import { createManualField } from 'in-automation/api';
 import { createStore } from 'in-stores/store';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { Trans, t } from 'in-i18n';
+
+import locals from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/GenerateAIActionDialog.mless';
 
 const generatedActionStore = createStore<Result<AIActionContent> | null>({
   name: 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/PromptStep',
@@ -193,7 +196,7 @@ function GenerateButton({
   const { generateAIClickPromptStepTrackerSegment } = useSegmentTracker();
   return (
     <Button
-      kind="primary"
+      kind={carbonButtonEnabled ? 'secondary' : 'primaryv2'}
       disabled={
         (!promptForm.hierarchyValid && promptForm.hierarchyTouched) || (!!generatedAction && isLoading(generatedAction))
       }
@@ -214,7 +217,11 @@ function GenerateButton({
 function EmptySection() {
   return (
     <FormGroup>
-      <Label>{t('in-automation:titleScriptContentReadOnly')}</Label>
+      <div className={locals.header}>
+        <Typography variant="heading-200" component="h2">
+          {t('in-automation:titleContentReadOnly')}
+        </Typography>
+      </div>
       <NoDataAvailable
         height={500}
         title={t('in-automation:GenerateAIActionDialog.noResultsYet')}

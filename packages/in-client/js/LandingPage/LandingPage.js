@@ -6,10 +6,14 @@
 import React from 'react';
 
 import { getActiveConfiguration } from 'in-client/js/LandingPage/activeConfigration';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import RedirectWithHash from 'in-components/RedirectWithHash';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 
 export default function LandingPage() {
   const { pageKey, resolve } = getActiveConfiguration();
-  return <RedirectWithHash from="/" to$={getModifiedUrlStream(location => resolve(location, pageKey))} />;
+  const { location, createHref } = useNavigation();
+
+  resolve(location, pageKey);
+
+  return <RedirectWithHash from="/" href={createHref(location)} />;
 }

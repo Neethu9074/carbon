@@ -42,7 +42,6 @@ import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { pendingResult, emptyArray } from 'in-services/fixedObjects';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { productAreas } from 'in-services/tracking/productAreas';
-import { carbonMessageEnabled } from 'in-services/featureFlags';
 import { isLoading, hasError } from 'in-services/util/result';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import Notification from 'in-components/form/Notification';
@@ -120,13 +119,7 @@ export function GlobalCustomPayload(props) {
             <Trans
               i18nKey="in-settings:tabs.eachKeyValuePairWillBeIncludedAsAdditionalPayload"
               components={{
-                docLink: (
-                  <Link
-                    size={carbonMessageEnabled ? 'md' : 'sm'}
-                    href="https://ibm.biz/alerts-custom-payloads"
-                    external
-                  />
-                )
+                docLink: <Link size={'md'} href="https://ibm.biz/alerts-custom-payloads" external />
               }}
             />
           </span>

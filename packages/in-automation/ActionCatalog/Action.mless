@@ -32,4 +32,21 @@
     padding-top: 1rem;
     height: 76px;
   }
+
+  .spaceBetweenSvgs {
+    justify-content: space-between;
+  }
+
+  .scriptGenerationTile {
+    height: 35%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
+  .generateScriptArrow {
+    position: absolute;
+    right: 1rem;
+  }
 }

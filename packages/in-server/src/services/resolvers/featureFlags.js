@@ -546,14 +546,9 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'carbonMessageEnabled',
-    instanaCtlKey: 'feature.carbon.message.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'carbonButtonEnabled',
     instanaCtlKey: 'feature.carbon.button.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonRadioButtonEnabled',
@@ -618,17 +613,17 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonPaginationEnabled',
     instanaCtlKey: 'feature.carbon.pagination.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonTableEnabled',
     instanaCtlKey: 'feature.carbon.table.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonMenuEnabled',
     instanaCtlKey: 'feature.carbon.menu.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonDropdownEnabled',
@@ -678,7 +673,7 @@ module.exports = exports = [
   {
     uiClientKey: 'welcomePageV2Enabled',
     instanaCtlKey: 'feature.welcomepage.v2.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'shareAndInviteEnabled',
@@ -748,12 +743,12 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonSideNavLinksEnabled',
     instanaCtlKey: 'feature.carbon.side.nav.links.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonG10ThemeEnabled',
     instanaCtlKey: 'feature.carbon.g10.theme.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'analyzeRelatedInstancesButtonEnabled',

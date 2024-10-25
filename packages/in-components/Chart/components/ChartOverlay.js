@@ -150,6 +150,7 @@ export default connectTo(
               isCustomDashboard={this.props.isCustomDashboard}
               setExportWidgetId={this.props.setExportWidgetId}
               setTooltipRef={this.props.setTooltipRef}
+              trackCta={this.props.trackCta}
               setShouldExportWidget={this.props.setShouldExportWidget}
               setShowContextMenu={showContextMenu => this.setState({ showContextMenu })}
             />

@@ -24,18 +24,16 @@ import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import { ScopeRoles } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/constants';
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
-import { clickSyntheticMonitoringTabInApplicationsTracker } from 'in-synthetics/tracking/tracker';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import InvalidUrlAlert from 'in-applications/Dashboards/commonComponents/InvalidUrlAlert';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import getApplicationTabs from 'in-applications/Dashboards/application/tabs/index';
-import { APPLICATION_TIME_SHIFT_SELECT } from 'in-services/tracking/eventNames';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
@@ -64,7 +62,7 @@ const urlStateDefinition = {
 const boundaryScopeDropdownDisabledTabs = [dependencyMapTab, smartAlertsTab, syntheticsTab, configurationTab];
 
 export default function ApplicationDashboard({ location }: { location: Location }) {
-  const { trackCta } = useSegmentTracking();
+  const { trackSyntheticMonitoringTabInApplicationsClicked } = useApplicationTracker();
   const [{ appId, boundaryScope }, setUrlState] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
 
@@ -136,7 +134,7 @@ export default function ApplicationDashboard({ location }: { location: Location 
         })}
         tabChangeTracker={({ tab }) =>
           tab === t('in-applications:labelSyntheticMonitoring')
-            ? clickSyntheticMonitoringTabInApplicationsTracker(trackCta)
+            ? trackSyntheticMonitoringTabInApplicationsClicked
             : null
         }
       />
@@ -228,13 +226,13 @@ function RenderButtonLineSecondary({
   onBoundaryStateChange,
   timeConfig
 }: ButtonLineSecondaryProps) {
-  const { trackCta } = useSegmentTracking();
+  const { trackApplicationTimeShiftSelected } = useApplicationTracker();
   return (
     <>
       <TimeShiftDropdown
         disabled={currentTab !== summaryTab}
         onChange={(offset: number) =>
-          trackCta(APPLICATION_TIME_SHIFT_SELECT, {
+          trackApplicationTimeShiftSelected({
             area: 'application',
             offset: getTimeShiftLabel({ offset: offset }),
             windowSize: timeConfig.windowSize,

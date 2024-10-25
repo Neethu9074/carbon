@@ -16,17 +16,16 @@ import { ActiveConfiguration, AnalyzeHeaderProps } from 'in-analyze/components/A
 import { productAreaTrackingNames, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { getActiveConfiguration } from 'in-analyze/components/AnalyzeHeader/utils';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { analyzeDocs } from 'in-analyze/components/AnalyzeHeader/constants';
 import TimeSelection from 'in-components/time/TimeSelection/TimeSelection';
-import { ANALYZE_DOCS_LINK_OPENED } from 'in-services/tracking/eventNames';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
-import { emptyArray, emptyObject } from 'in-services/fixedObjects';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import Label from 'in-analyze/components/AnalyzeHeader/Label';
 import Overlay from 'in-components/overlays/Overlay/Overlay';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { emptyArray } from 'in-services/fixedObjects';
 import Title from 'in-components/Title/Title';
 import { t } from 'in-i18n';
 
@@ -46,7 +45,7 @@ export default function AnalyzeHeader({
 }: AnalyzeHeaderProps) {
   const location = useLocation();
   const activeConfiguration = getActiveConfiguration(location) as ActiveConfiguration;
-  const { trackCta } = useSegmentTracking();
+  const { trackClickedDocsLink } = useAnalyzeTracker();
   const HeaderLabel =
     label !== undefined ? (
       label
@@ -81,9 +80,7 @@ export default function AnalyzeHeader({
     const { beta, dataSource } = activeConfiguration;
     const docsLink = analyzeDocs[dataSource];
     const linkLabel = t('in-analyze:analyzeHeader.readDocs');
-    const handleTracking = () => {
-      trackCta(ANALYZE_DOCS_LINK_OPENED, emptyObject);
-    };
+    const handleTracking = () => trackClickedDocsLink();
 
     return (
       <div className={locals.metaInformation}>

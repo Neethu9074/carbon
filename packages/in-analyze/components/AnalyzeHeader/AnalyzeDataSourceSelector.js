@@ -27,7 +27,6 @@ import {
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { infraExploreDataEnabled, loggingEnabled, mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import { useLinkToAnalyze as useLinkToProfileAnalyze } from 'in-components/Profiling/navigation/paths';
-import { ANALYZE_VIEW_SELECTED, ANALYZE_LOGGING_JUMP_TO_LOGS } from 'in-services/tracking/eventNames';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { default as useApplicationTagCatalog } from 'in-applications/hooks/useTagCatalog';
 import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
@@ -35,9 +34,9 @@ import { default as useMobileTagCatalog } from 'in-mobile-apps/hooks/useTagCatal
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import { default as useWebsiteTagCatalog } from 'in-websites/hooks/useTagCatalog';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useGenerateLinkToAnalyze } from 'in-websites/navigation/paths';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import { useGenerateLinkToLogs } from 'in-logging/navigation/paths';
 import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
@@ -49,7 +48,7 @@ import locals from './AnalyzeDataSourceSelector.mless';
 export default function AnalyzeDataSourceSelector({ activeConfiguration, isGrouped, formModel = emptyArray, close }) {
   const getLinkToMobileAppAnalyze = useLinkToAnalyze();
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
-  const { trackCta } = useSegmentTracking();
+  const { trackJumpToLogs } = useAnalyzeTracker();
   const websiteTagCatalogs = {
     websiteTagCatalogPageLoad: useWebsiteTagCatalog('pageLoad'),
     websiteTagCatalogPageChange: useWebsiteTagCatalog('pageChange'),
@@ -81,7 +80,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
         {
           dataSource: 'logs',
           getHref: generateLogsHref,
-          onClickSideEffect: () => trackCta(ANALYZE_LOGGING_JUMP_TO_LOGS, { source: 'navigation' })
+          onClickSideEffect: () => trackJumpToLogs({ source: 'navigation' })
         }
       ]
     },
@@ -338,7 +337,7 @@ function ProductAreaEntry({
   activeConfiguration,
   beta
 }) {
-  const { trackCta } = useSegmentTracking();
+  const { trackAnalyzeViewSelected } = useAnalyzeTracker();
   const [onClickNotificationMessage, setOnClickNotificationMessage] = useState();
   const isEnabled = useObservable(enabled$, []) ?? !enabled$;
 
@@ -378,7 +377,7 @@ function ProductAreaEntry({
             timeout: 5000
           });
         }
-        trackCta(ANALYZE_VIEW_SELECTED, { target: dataSource });
+        trackAnalyzeViewSelected({ target: dataSource });
 
         if (onClickSideEffect) {
           onClickSideEffect();

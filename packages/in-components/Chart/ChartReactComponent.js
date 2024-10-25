@@ -14,6 +14,7 @@ import { CustomDashboardContext } from 'in-custom-dashboards/CustomDashboard/Cus
 import ExternallyDefinedWidthAndHeight from 'in-components/layout/ExternallyDefinedWidthAndHeight';
 import { HEIGHT as commonLegendHeight } from 'in-components/Chart/components/Legend';
 import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import ChartOverlay from 'in-components/Chart/components/ChartOverlay';
 import ChartLegend from 'in-components/Chart/components/ChartLegend';
@@ -75,6 +76,7 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
   const { ref: postContentRef, height: calculatedPostContentHeight = 0 } = useResizeObserver();
 
   const { matchLocation } = useNavigation();
+  const { trackCta } = useSegmentTracking();
 
   const actualLegendHeight = calculatedLegendHeight ?? commonLegendHeight;
   let chartHeight = heightOfWrapper - actualLegendHeight;
@@ -182,6 +184,7 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
               setExportWidgetId={setExportWidgetId}
               setShouldExportWidget={setShouldExportWidget}
               setTooltipRef={setTooltipRef}
+              trackCta={trackCta}
               isHighlightedOnDisabledChart$={isHighlightedOnDisabledChart$}
             />
           )}

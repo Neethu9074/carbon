@@ -11,7 +11,7 @@ import { Action, Result } from '@instana/types';
 
 import { PolicyForm } from 'in-automation/AutomationCard/CreatePolicyDialog/usePolicyForm';
 import PolicyFormBody from 'in-automation/AutomationCard/PolicyFormBody';
-import { TriggerSpecification } from 'in-automation/Policies/types';
+import { TriggerSpecification } from 'in-automation/types';
 import { t } from 'in-i18n';
 
 export default function CreatePolicyStep({

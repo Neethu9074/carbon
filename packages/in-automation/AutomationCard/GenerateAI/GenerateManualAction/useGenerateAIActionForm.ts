@@ -9,12 +9,14 @@ import { useState } from 'react';
 
 import { ActionType, Event, Field, Result } from '@instana/types';
 
-import { NewAction, createManualField, createScriptFields } from 'in-automation/api';
+import { createManualField, createScriptFields } from 'in-automation/utils/actionField';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
-import { isManual, isScript } from 'in-automation/ActionCatalog/shared';
-import { TriggerSpecification } from 'in-automation/Policies/types';
+import { aiOriginatedMetadata } from 'in-automation/utils/action';
+import { TriggerSpecification } from 'in-automation/types';
+import { ACTION_TYPE } from 'in-automation/constants';
 import { hasError } from 'in-services/util/result';
 import { getPluginName } from 'in-sdk/pluginName';
+import { NewAction } from 'in-automation/types';
 
 type GenerateAIActionFormItems = {
   prompt: MapForm<{
@@ -47,11 +49,11 @@ export function getActionFromForm(form: GenerateAIActionForm): NewAction {
   const type = actionForm.get('type').value;
   const tags = actionForm.get('tags').value;
   const fields: Field[] = [];
-  if (isManual(type)) {
+  if (type === ACTION_TYPE.MANUAL) {
     const content = actionForm.get('content').value;
     fields.push(createManualField(content));
   }
-  if (isScript(type)) {
+  if (type === ACTION_TYPE.SCRIPT) {
     const value = actionForm.get('script').value;
     fields.push(...createScriptFields({ value, subtype: '', timeout: '' }));
   }
@@ -62,7 +64,7 @@ export function getActionFromForm(form: GenerateAIActionForm): NewAction {
     type,
     tags,
     inputParameters: [],
-    metadata: { readOnly: false, builtIn: false, sensorImported: false, aiOriginated: true }
+    metadata: aiOriginatedMetadata
   };
 }
 
@@ -150,10 +152,10 @@ function createGenerateAIActionForm({ trigger, event }: UseGenerateAIActionFormP
         },
         validator: form => {
           const type = form.type.value;
-          if (isManual(type)) {
+          if (type === ACTION_TYPE.MANUAL) {
             return notBlankValidator(form.content.value);
           }
-          if (isScript(type)) {
+          if (type === ACTION_TYPE.SCRIPT) {
             return notBlankValidator(form.script.value);
           }
           return null;

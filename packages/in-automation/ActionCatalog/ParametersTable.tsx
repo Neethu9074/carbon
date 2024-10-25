@@ -10,18 +10,12 @@ import { Field } from 'formalistic';
 import { Link, Typography } from '@instana/components';
 import { ActionType, Parameter } from '@instana/types';
 
-import {
-  isAnsible as isAnsibleFn,
-  isGithub as isGithubFn,
-  isGitlab as isGitlabFn,
-  isJira as isJiraFn,
-  doesParameterExist
-} from 'in-automation/ActionCatalog/shared';
 import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
 import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWrapper';
 import { isNotEditableContext, OnChange } from 'in-automation/ActionCatalog/Action';
 import ParameterDialog from 'in-automation/ActionCatalog/ParameterDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { ACTION_TYPE } from 'in-automation/constants';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import Label from 'in-components/form/Label/Label';
 import { ActionForm } from './useActionForm';
@@ -127,12 +121,12 @@ const getColumnDefinitions = ({
 
 export default function ParametersTable({ form, setForm, onChange }: ParametersTableProps) {
   const isNotEditable = useContext(isNotEditableContext);
-  const isAnsible = isAnsibleFn((form.get('type') as Field<ActionType>).value);
-  const isGithub = isGithubFn((form.get('type') as Field<ActionType>).value);
-  const isGitlab = isGitlabFn((form.get('type') as Field<ActionType>).value);
-  const isJira = isJiraFn((form.get('type') as Field<ActionType>).value);
+  const type = (form.get('type') as Field<ActionType>).value;
   const parameters = (form.get('parameters') as Field<MappedParameter[]>).value;
-  const ticketIdParameterExist = (isGithub || isGitlab || isJira) && doesParameterExist(parameters, 'id');
+  const isAnsible = type === ACTION_TYPE.ANSIBLE;
+  const ticketIdParameterExist =
+    [ACTION_TYPE.GITHUB, ACTION_TYPE.GITLAB, ACTION_TYPE.JIRA].includes(type) &&
+    parameters.some(param => param.value.name === 'id');
   const columnDefinitions = getColumnDefinitions({ form, onChange, isNotEditable, isAnsible, ticketIdParameterExist });
 
   return (

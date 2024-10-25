@@ -9,12 +9,12 @@ import React, { useState } from 'react';
 import { ButtonGroup, Spacer, Stack } from '@instana/components';
 import { Event, Result } from '@instana/types';
 
-import { GenerateAIActionForm } from 'in-automation/AutomationCard/GenerateAIActionDialog/useGenerateAIActionForm';
-import SelectActionStep from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/SelectActionStep';
-import PromptStep from 'in-automation/AutomationCard/GenerateAIActionDialog/Steps/PromptStep';
+import { GenerateAIActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/useGenerateAIActionForm';
+import SelectActionStep from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/Steps/SelectActionStep';
+import PromptStep from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/Steps/PromptStep';
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
-import { ScoredAction } from 'in-automation/api';
+import { ScoredAction } from 'in-automation/types';
 import { t } from 'in-i18n';
 
 type ButtonKey = 'builtinActions' | 'generate';

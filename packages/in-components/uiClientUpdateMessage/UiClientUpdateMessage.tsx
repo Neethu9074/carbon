@@ -5,19 +5,17 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Link } from '@instana/components';
 
 import { t } from 'in-i18n';
 
-import locals from './UiClientUpdateMessage.mless';
-
 export default function UiClientUpdateMessage() {
   return (
-    <div className={locals.container}>
-      <nav className={locals.controls}>
-        <Button kind="action" onClick={() => window.location.reload()}>
+    <div>
+      <nav>
+        <Link href="#" onClick={() => window.location.reload()}>
           {t('in-components:uiClinetUpdateMessage.buttonReloadToUpdate')}
-        </Button>
+        </Link>
       </nav>
     </div>
   );

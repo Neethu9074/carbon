@@ -11,7 +11,11 @@ import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+// @ts-expect-error
+import { formatSql } from 'in-forge/tracing/jdbc/sql';
+import { millis } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
+import Code from 'in-components/Code';
 import { t } from 'in-i18n';
 
 interface LongestRunningQueryRow {
@@ -36,21 +40,13 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.snowflake.dashboard.queryText'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: LongestRunningQueryRow) {
-        return row.queries.get('query_text');
-      }
-    }
-  },
-  {
     title: t('in-forge:plugins.snowflake.dashboard.execTime'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row: LongestRunningQueryRow) {
         return row.queries.get('query_exec_time');
-      }
+      },
+      getContent: millis.detailed
     }
   },
   {
@@ -76,12 +72,31 @@ const LongRunningQueries = function LongRunningQueries({ snapshotId, timeConfig 
 
   const longestRunningQueries: any = (data as SnapshotData).get('raw_payload');
 
-  const rows: LongestRunningQueryRow = longestRunningQueries.toArray().map((queries: SnapshotData, index: number) => {
+  const rows: LongestRunningQueryRow[] = longestRunningQueries.toArray().map((queries: SnapshotData, index: number) => {
     return {
       key: String(index),
       queries
     };
   });
+
+  if (rows.length === 0) {
+    return null;
+  }
+
+  function getQueryDetails(row: LongestRunningQueryRow) {
+    return (
+      <div>
+        <p>
+          <label>
+            <strong>{t('in-forge:plugins.snowflake.dashboard.queryText')}</strong>
+            {' : '}
+          </label>
+          <Code code={formatSql(row.queries.get('query_text'))} lang="sql" softWrap />
+        </p>
+      </div>
+    );
+  }
+
   return (
     <Table
       cardTitle={t('in-forge:plugins.snowflake.dashboard.longestRunningQueries')}
@@ -89,9 +104,9 @@ const LongRunningQueries = function LongRunningQueries({ snapshotId, timeConfig 
       cols={cols}
       rows={rows}
       maxItemsPerPage={5}
-      initialSortColumn={2}
+      initialSortColumn={1}
       initialSortDirection="desc"
-      disableSorting
+      getRowDetails={getQueryDetails}
     />
   );
 };

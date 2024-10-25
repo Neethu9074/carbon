@@ -34,4 +34,11 @@
     align-items: center;
     height: 100%;
   }
+
+  // Style clash when using the carbon table on this page
+  .withOverflow {
+    :global(.carbon-card-wrapper) {
+      height: auto;
+    }
+  }
 }

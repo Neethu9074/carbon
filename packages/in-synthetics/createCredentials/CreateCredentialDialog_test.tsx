@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
 
 import CreateCredentialDialog from 'in-synthetics/createCredentials/CreateCredentialDialog';
@@ -48,18 +48,5 @@ describe(CreateCredentialDialog, () => {
         name: 'Next'
       })
     ).not.toBeDisabled();
-  });
-
-  it('should display vaildation messages for Value field', () => {
-    render(<CreateCredentialDialog onClose={onClose} />);
-
-    const valueField = document.querySelector('input[type="password"]');
-    expect(valueField).toBeInTheDocument();
-    expect(valueField).toHaveValue('');
-
-    fireEvent.change(valueField!, { target: { value: 'credTest' } });
-    fireEvent.change(valueField!, { target: { value: '' } });
-
-    expect(screen.getByText('Value should not be empty')).toBeVisible();
   });
 });

@@ -21,8 +21,10 @@ import {
 } from 'in-custom-dashboards/CustomDashboard/Grid/settings';
 import { carbonMoreMenuEnabled, customDashboardsExportPdfWidget, zoomWidgetEnabled } from 'in-services/featureFlags';
 import { CustomDashboardContext } from 'in-custom-dashboards/CustomDashboard/CustomDashboardContext';
+import { CUSTOM_DASHBOARD_WIDGET_DOWNLOAD_PDF } from 'in-services/tracking/tracking';
 import ViewTracker from 'in-custom-dashboards/CustomDashboard/Grid/ViewTracker';
 import { gridGutter } from 'in-custom-dashboards/CustomDashboard/Grid/settings';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { ViewLogsButton } from 'in-logging/components/ViewLogsButton';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import CopyToClipboard from 'in-components/CopyToClipboard';
@@ -77,6 +79,8 @@ function Grid({
   // as intended.
   const [disabledTransitions, setDisabledTransitions] = useState(true);
 
+  const { trackCta } = useSegmentTracking();
+
   const { setExportWidgetId, setShouldExportWidget } = useContext(CustomDashboardContext);
 
   useEffect(() => {
@@ -130,7 +134,10 @@ function Grid({
             onZoomWidget={onZoomWidget}
             onRemoveWidget={onRemoveWidget}
             setExportWidgetId={setExportWidgetId}
-            setShouldExportWidget={setShouldExportWidget}
+            setShouldExportWidget={value => {
+              trackCta(CUSTOM_DASHBOARD_WIDGET_DOWNLOAD_PDF, { widgetId: widget.id });
+              setShouldExportWidget(value);
+            }}
             isDraggable={isDraggable}
             scrollAreaDomNode={scrollAreaDomNode}
           />

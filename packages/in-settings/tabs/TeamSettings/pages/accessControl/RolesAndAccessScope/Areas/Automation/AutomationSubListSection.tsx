@@ -16,11 +16,14 @@ import {
 import { CapabilitySubsection } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/components/CapabilitySubsection';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/context';
 import { getAreaRoleFromPermissionSet } from 'in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/form';
-import { ACTION_TYPES, getType } from 'in-automation/ActionCatalog/shared';
+import { ACTION_TRANSLATIONS, ACTION_TYPES } from 'in-automation/constants';
 import { t } from 'in-i18n';
 
 function formatScopeId(scopeId: string) {
-  return ACTION_TYPES.reduce((formattedScopeId, type) => formattedScopeId.split(type).join(getType(type)), scopeId);
+  return ACTION_TYPES.reduce(
+    (formattedScopeId, type) => formattedScopeId.split(type).join(ACTION_TRANSLATIONS[type]),
+    scopeId
+  );
 }
 
 export function AutomationSubListSection() {

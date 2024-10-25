@@ -37,7 +37,7 @@ import RoleFormGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/Rol
 import ComboBox, { hasMultipleValuesSelected, Options } from 'in-components/ComboBox/ComboBox';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { CapabilityType, productPermissionsObject } from 'in-stores/permission';
-import { getType, ACTION_TYPES } from 'in-automation/ActionCatalog/shared';
+import { ACTION_TRANSLATIONS, ACTION_TYPES } from 'in-automation/constants';
 import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import useActionTags from 'in-automation/hooks/useActionTags';
@@ -47,7 +47,7 @@ import locals from './AutomationPanel.mless';
 
 const typeOptions = ACTION_TYPES.map(type => ({
   value: type,
-  label: getType(type)
+  label: ACTION_TRANSLATIONS[type]
 }));
 
 const mapToOption = (value: string) => ({ value, label: value });

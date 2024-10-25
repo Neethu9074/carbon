@@ -4,14 +4,15 @@
  * Copyright IBM Corp. 2024
  */
 
+import { Field as FormField, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
 import { Spacer, Typography, IconButton, ValidationBlock } from '@instana/components';
+import { ActionType } from '@instana/types';
 
-import { GenerateAIActionForm } from 'in-automation/AutomationCard/GenerateAIActionDialog/useGenerateAIActionForm';
 import CreatableTagSelect from 'in-components/CreatableTagSelect/CreatableTagSelect';
-import { getType, isManual, isScript } from 'in-automation/ActionCatalog/shared';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import { ACTION_TRANSLATIONS, ACTION_TYPE } from 'in-automation/constants';
 import useActionTags from 'in-automation/hooks/useActionTags';
 import AISlugIcon from 'in-automation/components/AISlugIcon';
 import HelpText from 'in-components/form/HelpText/HelpText';
@@ -24,31 +25,40 @@ import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
-import locals from 'in-automation/AutomationCard/GenerateAIActionDialog/GenerateAIActionDialog.mless';
+import locals from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/GenerateAIActionDialog.mless';
 
-export default function CopyActionStep({
+type ActionFormItems = {
+  name: FormField<string>;
+  description: FormField<string>;
+  tags: FormField<string[]>;
+  type: FormField<ActionType>;
+  script: FormField<string>;
+  content: FormField<string>;
+  aiGeneratedContent: FormField<string>;
+};
+
+export type ActionForm = MapForm<ActionFormItems>;
+
+export default function CopyActionStepForm({
   form,
   setForm,
   actionNameExists,
   clearActionNameExists
 }: {
-  form: GenerateAIActionForm;
-  setForm: React.Dispatch<React.SetStateAction<GenerateAIActionForm>>;
-  actionNameExists: null | boolean;
-  clearActionNameExists: () => void;
+  form: ActionForm;
+  setForm: (setValueFunc: (value: ActionForm) => ActionForm) => void;
+  actionNameExists?: null | boolean;
+  clearActionNameExists?: () => void;
 }) {
-  const actionForm = form.get('action');
-  const name = actionForm.get('name');
-  const description = actionForm.get('description');
-  const type = actionForm.get('type');
-  const tags = actionForm.get('tags');
+  const name = form.get('name');
+  const description = form.get('description');
+  const type = form.get('type');
+  const tags = form.get('tags');
   const availableTags = useActionTags();
 
   return (
     <Row>
       <Col lg={7}>
-        <Spacer vertical="normal" />
-        <Typography variant="body-regular">{t('in-automation:GenerateAIActionDialog.Step2Headline')}</Typography>
         <Spacer vertical="normal" />
         <Typography variant="heading-02">{t('in-automation:GenerateAIActionDialog.actionDetails')}</Typography>
         {name.map(field => (
@@ -61,10 +71,8 @@ export default function CopyActionStep({
               type="text"
               value={field.value}
               onChange={e => {
-                setForm(form =>
-                  form.updateIn(['action', 'name'], item => item.setValue(e.target.value).setTouched(true))
-                );
-                clearActionNameExists();
+                setForm(form => form.updateIn(['name'], item => item.setValue(e.target.value).setTouched(true)));
+                if (clearActionNameExists) clearActionNameExists();
               }}
               hasError={(!field.valid && field.touched) || (actionNameExists ?? false)}
               maxLength={256}
@@ -89,7 +97,7 @@ export default function CopyActionStep({
               value={field.value}
               onChange={e =>
                 setForm(form =>
-                  form.updateIn(['action', 'description'], item =>
+                  form.updateIn(['description'], item =>
                     item.setValue((e.target as HTMLTextAreaElement).value).setTouched(true)
                   )
                 )
@@ -110,9 +118,7 @@ export default function CopyActionStep({
               isLoading={isLoading(availableTags)}
               tags={availableTags.data}
               value={field.value}
-              onChange={tags =>
-                setForm(form => form.updateIn(['action', 'tags'], item => item.setValue(tags).setTouched(true)))
-              }
+              onChange={tags => setForm(form => form.updateIn(['tags'], item => item.setValue(tags).setTouched(true)))}
             />
           </FormGroup>
         ))}
@@ -120,7 +126,7 @@ export default function CopyActionStep({
         {type.map(field => (
           <FormGroup>
             <Label htmlFor="action-type">{t('in-automation:type')}</Label>
-            <Typography variant="body-regular">{getType(field.value)}</Typography>
+            <Typography variant="body-regular">{ACTION_TRANSLATIONS[field.value]}</Typography>
           </FormGroup>
         ))}
       </Col>
@@ -130,8 +136,8 @@ export default function CopyActionStep({
           <Label>{t('in-automation:actionName')}</Label>
           <Typography variant="heading-01">{name.value || '-'}</Typography>
         </FormGroup>
-        {isScript(type.value) && <ScriptSection form={form} setForm={setForm} />}
-        {isManual(type.value) && <ManualSection form={form} setForm={setForm} />}
+        {type.value === ACTION_TYPE.SCRIPT && <ScriptSection form={form} setForm={setForm} />}
+        {type.value === ACTION_TYPE.MANUAL && <ManualSection form={form} setForm={setForm} />}
       </Col>
     </Row>
   );
@@ -143,14 +149,15 @@ function useRestoreActionContent({
   setForm
 }: {
   field: 'content' | 'script';
-  form: GenerateAIActionForm;
-  setForm: React.Dispatch<React.SetStateAction<GenerateAIActionForm>>;
+  form: ActionForm;
+  setForm: (setValueFunc: (value: ActionForm) => ActionForm) => void;
 }) {
   const [key, setKey] = useState(1);
   return {
     restore: () => {
-      const originalValue = form.get('action').get('aiGeneratedContent').value;
-      setForm(form => form.updateIn(['action', field], item => item.setValue(originalValue).setTouched(true)));
+      const originalValue = form.get('aiGeneratedContent').value;
+
+      setForm(form => form.updateIn([field], item => item.setValue(originalValue).setTouched(true)));
       setKey(key => key + 1);
     },
     key
@@ -161,18 +168,17 @@ function ScriptSection({
   form,
   setForm
 }: {
-  form: GenerateAIActionForm;
-  setForm: React.Dispatch<React.SetStateAction<GenerateAIActionForm>>;
+  form: ActionForm;
+  setForm: (setValueFunc: (value: ActionForm) => ActionForm) => void;
 }) {
-  const script = form.get('action').get('script');
-  const originalValue = form.get('action').get('aiGeneratedContent').value;
+  const script = form.get('script');
   const { restore, key } = useRestoreActionContent({
     field: 'script',
     form,
     setForm
   });
-
-  return script.map(field => (
+  const originalValue = form.get('aiGeneratedContent').value;
+  return script?.map(field => (
     <FormGroup>
       <Label htmlFor="action-script" hasError={!field.valid && field.touched}>
         {t('in-automation:ActionCatalog.script')}
@@ -183,9 +189,7 @@ function ScriptSection({
           lineWrapping
           key={key}
           value={field.value}
-          onChange={value =>
-            setForm(form => form.updateIn(['action', 'script'], item => item.setValue(value).setTouched(true)))
-          }
+          onChange={value => setForm(form => form.updateIn(['script'], item => item.setValue(value).setTouched(true)))}
         />
         {field.touched && field.value !== originalValue ? (
           <IconButton kind="primaryv2" type="lib_actions_revert" onClick={restore} alignment="right" />
@@ -202,17 +206,18 @@ function ManualSection({
   form,
   setForm
 }: {
-  form: GenerateAIActionForm;
-  setForm: React.Dispatch<React.SetStateAction<GenerateAIActionForm>>;
+  form: ActionForm;
+  setForm: (setValueFunc: (value: ActionForm) => ActionForm) => void;
 }) {
-  const content = form.get('action').get('content');
-  const originalValue = form.get('action').get('aiGeneratedContent').value;
+  const content = form.get('content');
+  const originalValue = form.get('aiGeneratedContent').value;
+
   const { restore, key } = useRestoreActionContent({
     field: 'content',
     form,
     setForm
   });
-  return content.map(field => (
+  return content?.map(field => (
     <FormGroup>
       <Label htmlFor="action-content" hasError={!field.valid && field.touched}>
         {t('in-automation:ActionCatalog.content')}
@@ -224,9 +229,7 @@ function ManualSection({
           value={field.value}
           key={key}
           lineWrapping
-          onChange={value =>
-            setForm(form => form.updateIn(['action', 'content'], item => item.setValue(value).setTouched(true)))
-          }
+          onChange={value => setForm(form => form.updateIn(['content'], item => item.setValue(value).setTouched(true)))}
         />
         {field.touched && field.value !== originalValue ? (
           <IconButton kind="primaryv2" type="lib_actions_revert" onClick={restore} alignment="right" />

@@ -45,7 +45,15 @@ export default function ManualActionContent({
         </FormGroup>
       )}
       <FormGroup>
-        <Label>{t('in-automation:titleScriptContentReadOnly')}</Label>
+        {withAISlug ? (
+          <div className={locals.header}>
+            <Typography variant="heading-200" component="h2">
+              {t('in-automation:titleContentReadOnly')}
+            </Typography>
+          </div>
+        ) : (
+          <Typography variant="heading-01">{t('in-automation:ActionCatalog.content')}</Typography>
+        )}
         <div className={locals.manualContentMarkdown}>
           <DangerousHtmlPresenter html={htmlContent} className={locals.codeBlock} />
           {addCopyButton && (

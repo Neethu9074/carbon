@@ -9,11 +9,10 @@ import React from 'react';
 import { Spacer, Typography } from '@instana/components';
 import { Result } from '@instana/types';
 
-import { GenerateAIActionForm } from 'in-automation/AutomationCard/GenerateAIActionDialog/useGenerateAIActionForm';
+import { GenerateAIActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateManualAction/useGenerateAIActionForm';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import PolicyFormBody from 'in-automation/AutomationCard/PolicyFormBody';
-import { TriggerSpecification } from 'in-automation/Policies/types';
-import { NewAction } from 'in-automation/api';
+import { NewAction, TriggerSpecification } from 'in-automation/types';
 import { t } from 'in-i18n';
 
 export default function CreatePolicyStep({

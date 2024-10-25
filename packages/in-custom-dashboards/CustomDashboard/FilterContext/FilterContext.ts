@@ -33,8 +33,16 @@ export function useFilterContext() {
   return useContext(FilterContext);
 }
 
-export interface FilterableMetricConfiguration extends UnifiedMetricConfiguration {
-  tagFilterExpression: TagFilterExpressionElementUnion;
+export interface MaybeFilterable {
+  tagFilterExpression?: TagFilterExpressionElementUnion;
+}
+
+export type HasSource = Required<Pick<UnifiedMetricConfiguration, 'source'>>;
+
+interface MaybeLabeled {
+  label?: string;
+  metricLabel?: string;
+  metric?: string;
 }
 
 export type FilterResultCode =
@@ -44,9 +52,14 @@ export type FilterResultCode =
   | 'APPLIED'
   | 'NOT_SUPPORTED';
 
+export interface FilterResult {
+  code: FilterResultCode;
+  dataset?: string;
+}
+
 export interface FilteringResult<T> {
   metricConfiguration: T;
-  resultCode: FilterResultCode;
+  result: FilterResult;
 }
 
 const NOTES: { [resultCode in FilterResultCode]?: string } = {
@@ -56,42 +69,52 @@ const NOTES: { [resultCode in FilterResultCode]?: string } = {
   NOT_SUPPORTED: t('in-custom-dashboards:customDashboard.filterContext.topLevelFilterNotSupported')
 };
 
-export function getFilterResultNote(resultCode?: FilterResultCode): string | undefined {
-  return resultCode && NOTES[resultCode];
+export function getFilterResultNote(result?: FilterResult): string | undefined {
+  return result && NOTES[result.code];
 }
 
-export function summarizeFilterResult(resultCodes: FilterResultCode[]): string | undefined {
-  const uniqueCodes = uniq(resultCodes);
+export function summarizeFilterResult(result: FilterResult[]): string | undefined {
+  const uniqueCodes = uniq(result.map(r => r.code));
+  const notAppliedDatasets = uniq(result.filter(r => r.code !== 'APPLIED').map(r => r.dataset));
   if (uniqueCodes.length === 0) {
     return undefined;
   } else if (uniqueCodes.length === 1) {
     return NOTES[uniqueCodes[0]];
   } else {
-    return t('in-custom-dashboards:customDashboard.filterContext.topLevelFilterAppliedToSomeDatasets');
+    return t('in-custom-dashboards:customDashboard.filterContext.topLevelFilterAppliedToSomeDatasets', {
+      datasets: notAppliedDatasets.join(', ')
+    });
   }
 }
 
-export function useFilteredMetricConfiguration<T extends FilterableMetricConfiguration | UnifiedMetricConfiguration>(
+export function useFilteredMetricConfiguration<T extends MaybeLabeled & MaybeFilterable & HasSource>(
   metricConfiguration: T
 ): FilteringResult<T> {
   const formModel = useFilterContext();
   return applyFilteredConfiguration(metricConfiguration, formModel);
 }
 
-export function applyFilteredConfiguration<T extends FilterableMetricConfiguration | UnifiedMetricConfiguration>(
+export function applyFilteredConfiguration<T extends MaybeLabeled & MaybeFilterable & HasSource>(
   metricConfiguration: T,
   filter: FormModelElement[]
 ): FilteringResult<T> {
+  const dataset = getDataset(metricConfiguration);
   if (!filter || filter.length === 0) {
     return {
       metricConfiguration,
-      resultCode: 'APPLIED'
+      result: {
+        code: 'APPLIED',
+        dataset
+      }
     };
   }
   if (!('tagFilterExpression' in metricConfiguration)) {
     return {
       metricConfiguration,
-      resultCode: 'NOT_SUPPORTED'
+      result: {
+        code: 'NOT_SUPPORTED',
+        dataset
+      }
     };
   }
   const { expression, resultCode } = reduceFormModel(filter, metricConfiguration.source);
@@ -101,7 +124,10 @@ export function applyFilteredConfiguration<T extends FilterableMetricConfigurati
         ...metricConfiguration,
         tagFilterExpression: expression
       },
-      resultCode
+      result: {
+        code: resultCode,
+        dataset
+      }
     };
   } else {
     return {
@@ -113,20 +139,28 @@ export function applyFilteredConfiguration<T extends FilterableMetricConfigurati
           elements: [metricConfiguration.tagFilterExpression, expression]
         }
       },
-      resultCode
+      result: {
+        code: resultCode,
+        dataset
+      }
     };
   }
 }
 
-function reduceFilterExpressionElement(
-  tagFilterExpression: TagFilterExpressionElementUnion,
-  tagDefinitions: { [name: string]: MinimalTagDefinition },
-  source: UnifiedMetricConfiguration['source']
-): ReducedTagFilterExpression {
-  if (isTagFilterExpression(tagFilterExpression)) {
-    return reduceExpression(tagFilterExpression, tagDefinitions, source);
+function getDataset(metricConfiguration: MaybeLabeled) {
+  if (metricConfiguration.label) {
+    return metricConfiguration.label;
   }
-  return reduceTagFilter(tagFilterExpression, tagDefinitions, source);
+
+  if (metricConfiguration.metricLabel) {
+    return metricConfiguration.metricLabel;
+  }
+
+  if (metricConfiguration.metric) {
+    return metricConfiguration.metric;
+  }
+
+  return t('in-custom-dashboards:customDashboard.filterContext.unnamedDataset');
 }
 
 function reduceFormModel(
@@ -147,6 +181,17 @@ function reduceFormModel(
 interface ReducedTagFilterExpression {
   resultCode: FilterResultCode;
   expression: TagFilterExpressionElementUnion;
+}
+
+function reduceFilterExpressionElement(
+  tagFilterExpression: TagFilterExpressionElementUnion,
+  tagDefinitions: { [name: string]: MinimalTagDefinition },
+  source: UnifiedMetricConfiguration['source']
+): ReducedTagFilterExpression {
+  if (isTagFilterExpression(tagFilterExpression)) {
+    return reduceExpression(tagFilterExpression, tagDefinitions, source);
+  }
+  return reduceTagFilter(tagFilterExpression, tagDefinitions, source);
 }
 
 // note: NOT_BLANK and NOT_EMPTY are not included because they both imply a value is present

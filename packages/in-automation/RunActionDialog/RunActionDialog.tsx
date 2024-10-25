@@ -8,26 +8,11 @@ import { createField, createListForm, createMapForm, Field, ListForm, MapForm } 
 import React, { useEffect, useState } from 'react';
 import { isEmpty } from 'lodash';
 
+import { Action, Event, ParameterValue, VolatileId, Policy, AgentSnapshot } from '@instana/types';
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
-import {
-  getTimeoutFromFields,
-  isAnsible,
-  isScript,
-  isExternal,
-  isWebhook,
-  isJira,
-  parseDynamicParameter,
-  parseVaultParameter,
-  isGithub,
-  isGitlab,
-  isManual,
-  getAnsibleHostIdFromFields,
-  isAIAction,
-  isAIActionCopy
-} from 'in-automation/ActionCatalog/shared';
 import RunActionContent, {
   shouldHideParameter,
   TRIGGERING_AGENT,
@@ -36,24 +21,27 @@ import RunActionContent, {
   TRIGGERING_HOST_IP,
   TRIGGERING_HOST_IP_OPTION
 } from 'in-automation/RunActionDialog/RunActionDialogContent';
-import { ResolvedDynamicParamValue, resolveDynamicParameters, runTurboAction, runAction } from 'in-automation/api';
-import { isManual as isManualPolicy, isAutomatic as isAutomaticPolicy } from 'in-automation/Policies/types';
+import { getTimeoutFromFields, getAnsibleHostIdFromFields } from 'in-automation/utils/actionField';
 import useNavigateToActionHistory from 'in-automation/navigation/hooks/useNavigateToActionHistory';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
-import { Action, Event, ParameterValue, VolatileId, Policy, AgentSnapshot } from 'in-types';
+import { resolveDynamicParameters, runTurboAction, runAction } from 'in-automation/api';
 import { setActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { ActionInstance } from 'in-automation/subscriptions/submitActionExecution';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
+import { ResolvedDynamicParamValue, NewPolicy } from 'in-automation/types';
 import { refreshHistory } from 'in-automation/AutomationCard/useHistory';
+import { isAIAction, isAIActionCopy } from 'in-automation/utils/action';
 import { refresh } from 'in-automation/AutomationCard/useScoredActions';
+import { isAutomatic, isManual } from 'in-automation/utils/policy';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { Option, Options } from 'in-components/ComboBox/ComboBox';
 import { hasError, isLoading } from 'in-services/util/result';
 import { close } from 'in-components/DialogPresenter/store';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
-import { NewPolicy } from 'in-automation/Policies/types';
+import { safeParseJSON } from 'in-automation/utils/json';
+import { ACTION_TYPE } from 'in-automation/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
@@ -85,7 +73,7 @@ export default function RunActionDialog({
   const agentSnapShots = useAgentSnapShots({ action });
   // we usually see rec actions only when agents available. some times, when agent is stopped, we will have 10 minute window to updates actions.
   // This flag here sets true which uses to disable the run button when agent is unavailable
-  const noTurboAgents = isExternal(action.type) && agentSnapShots?.data?.online.length === 0;
+  const noTurboAgents = action.type === ACTION_TYPE.EXTERNAL && agentSnapShots?.data?.online.length === 0;
   const { resolvedDynamicParameters, errorResolvingDynamicParameters } = useResolvedDynamicParameters({
     action,
     event
@@ -102,7 +90,7 @@ export default function RunActionDialog({
   return (
     <Dialog
       className={locals.dialog}
-      titleIconType={isManual(action.type) ? undefined : 'lib_help_error_error_circle'}
+      titleIconType={action.type === ACTION_TYPE.MANUAL ? undefined : 'lib_help_error_error_circle'}
       title={getTitle({ action, error, actionInstanceId, test, policy })}
       onClose={() => onClose({ error, actionInstanceId })}
       withoutBodyPadding
@@ -123,7 +111,7 @@ export default function RunActionDialog({
           />
         </div>
         <FormFooter>
-          {isManual(action.type) ? (
+          {action.type === ACTION_TYPE.MANUAL ? (
             <CancelButton onClick={close}>{t('in-automation:close')}</CancelButton>
           ) : (
             <RunActionFooter
@@ -173,12 +161,12 @@ interface GetTitleParams extends Pick<RunActionDialogProps, 'action' | 'test' | 
   error: string;
 }
 const getTitle = ({ action, error, actionInstanceId, test, policy }: GetTitleParams) => {
-  const actionName = isExternal(action.type) ? action?.description : action.name;
+  const actionName = action.type === ACTION_TYPE.EXTERNAL ? action?.description : action.name;
   if (policy) return t('in-automation:configureAutomation', { actionName });
   if (error) return t('in-automation:failedToInitiate', { actionName });
   if (actionInstanceId) return t('in-automation:hasBeenInitiated', { actionName });
   if (test) return t('in-automation:chosenToTest', { actionName });
-  if (isManual(action.type)) return t('in-automation:viewManualAction', { actionName });
+  if (action.type === ACTION_TYPE.MANUAL) return t('in-automation:viewManualAction', { actionName });
   return t('in-automation:chosenToRun', { actionName });
 };
 
@@ -206,19 +194,19 @@ function filterAgentSnapShotsArray(hostId: string, agents: OUT | null | undefine
 function useAgentSnapShots({ action }: { action: Action }) {
   const timeConfig = useTimeConfig();
   let query = '';
-  if (isScript(action.type)) query = 'entity.agent.capability:action-script';
-  else if (isWebhook(action.type)) query = 'entity.agent.capability:action-http';
-  else if (isAnsible(action.type)) query = 'entity.agent.capability:action-ansible';
-  else if (isGithub(action.type)) query = 'entity.agent.capability:action-github';
-  else if (isGitlab(action.type)) query = 'entity.agent.capability:action-gitlab';
-  else if (isJira(action.type)) query = 'entity.agent.capability:action-jira';
-  else if (isExternal(action.type)) query = 'entity.agent.capability:turbonomic-action';
+  if (action.type === ACTION_TYPE.SCRIPT) query = 'entity.agent.capability:action-script';
+  else if (action.type === ACTION_TYPE.HTTP) query = 'entity.agent.capability:action-http';
+  else if (action.type === ACTION_TYPE.ANSIBLE) query = 'entity.agent.capability:action-ansible';
+  else if (action.type === ACTION_TYPE.GITHUB) query = 'entity.agent.capability:action-github';
+  else if (action.type === ACTION_TYPE.GITLAB) query = 'entity.agent.capability:action-gitlab';
+  else if (action.type === ACTION_TYPE.JIRA) query = 'entity.agent.capability:action-jira';
+  else if (action.type === ACTION_TYPE.EXTERNAL) query = 'entity.agent.capability:turbonomic-action';
   const agentSnapShots: OUT | null | undefined = useObservable(
     () => getAgentSnapshotsInTimeframe({ timeConfig, query }),
     [timeConfig]
   );
 
-  if (isAnsible(action.type)) {
+  if (action.type === ACTION_TYPE.ANSIBLE) {
     const hostId = getAnsibleHostIdFromFields(action.fields).value;
     // filtering agent snapshot with host id (show only the agent that the action definition is associated with)
     return hostId ? filterAgentSnapShotsArray(hostId, agentSnapShots) : agentSnapShots;
@@ -243,14 +231,14 @@ const useResolvedDynamicParameters = ({ action, event }: { action: Action; event
   const resolvedDynamicParameters = useObservable(() => {
     if (!event) return emptyParametersArray;
     const dynamicParameters = action.inputParameters?.filter(({ type }) => type === 'dynamic') ?? [];
-    if (dynamicParameters.length === 0 && !isAnsible(action.type)) return emptyParametersArray;
+    if (dynamicParameters.length === 0 && action.type !== ACTION_TYPE.ANSIBLE) return emptyParametersArray;
     const parsedParameters = dynamicParameters.map(({ value, name }) => ({
       name,
       ...parseDynamicParameter(value)
     }));
     const timestamp: number =
       event.metadata?.triggerTime != null ? Math.min(event.start, event.metadata.triggerTime) : event.start;
-    if (isAnsible(action.type)) {
+    if (action.type === ACTION_TYPE.ANSIBLE) {
       parsedParameters.push(...ansibleHostQueries);
     }
     return resolveDynamicParameters({ eventId: event.id, parameters: parsedParameters, timestamp }).map(result => {
@@ -290,6 +278,30 @@ const useRunActionForm = ({
   return [form, setForm] as const;
 };
 
+type VaultParameter = { secretKey: string; secretPath: string };
+const isVaultParameter = (param: VaultParameter | {}): param is VaultParameter => {
+  return 'secretKey' in param && 'secretPath' in param;
+};
+function parseVaultParameter(str?: string) {
+  const vaultParameter = safeParseJSON<VaultParameter>(str);
+  if (!isVaultParameter(vaultParameter)) {
+    return { secretKey: '', secretPath: '' };
+  }
+  return vaultParameter;
+}
+
+type DynamicParameter = { key?: string; tagName: string };
+const isDynamicParameter = (param: DynamicParameter | {}): param is DynamicParameter => {
+  return 'tagName' in param;
+};
+function parseDynamicParameter(str?: string) {
+  const dynamicParameter = safeParseJSON<DynamicParameter>(str);
+  if (!isDynamicParameter(dynamicParameter)) {
+    return { key: '', tagName: '' };
+  }
+  return dynamicParameter;
+}
+
 interface OnSaveParams extends Pick<RunActionDialogProps, 'action' | 'event'> {
   form: MapForm<any> | undefined;
   setForm: React.Dispatch<React.SetStateAction<MapForm<any> | undefined>>;
@@ -323,7 +335,7 @@ function onSave(
 ) {
   // when user have single turbonomic agent we just show it as static text and run action. we do not have any form.valid case in that scenario.
   // when user have multiple turbonomic agents, we show dropdown with agents and, we have to execute below code in that scenario.
-  if (!form?.hierarchyValid && !(isExternal(action.type) && agentSnapShots?.data?.online.length === 1)) {
+  if (!form?.hierarchyValid && !(action.type === ACTION_TYPE.EXTERNAL && agentSnapShots?.data?.online.length === 1)) {
     setForm(form?.setTouched(true, { recurse: true }));
     return;
   }
@@ -399,7 +411,7 @@ function onSave(
       setActionInstanceId(response?.actionInstanceId);
     } else {
       setActionInstanceId(response.actionInstanceId);
-      if (isExternal(action.type)) {
+      if (action.type === ACTION_TYPE.EXTERNAL) {
         refresh();
       }
     }
@@ -428,11 +440,9 @@ function onSave(
 
   // Run the action
   if (
-    isScript(action.type) ||
-    isGithub(action.type) ||
-    isGitlab(action.type) ||
-    isJira(action.type) ||
-    isWebhook(action.type)
+    [ACTION_TYPE.SCRIPT, ACTION_TYPE.GITHUB, ACTION_TYPE.GITLAB, ACTION_TYPE.JIRA, ACTION_TYPE.HTTP].includes(
+      action.type
+    )
   ) {
     runAction({
       volatileId: selectedVolatileId,
@@ -443,7 +453,7 @@ function onSave(
       policyId: executePolicyId,
       inputParameters: allInputParameters
     }).once(handleActionResponse);
-  } else if (isExternal(action.type)) {
+  } else if (action.type === ACTION_TYPE.EXTERNAL) {
     const volatileId =
       Object.keys(selectedVolatileId).length === 0 ? agentSnapShots?.data?.online[0]?.volatileId : selectedVolatileId;
     const actionInstanceId = action?.metadata?.ai ? action?.metadata?.ai[0]?.turbonomicActionInstanceId : '';
@@ -458,7 +468,7 @@ function onSave(
       actionInstanceId: actionInstanceId,
       policyId: executePolicyId
     }).once(handleActionResponse);
-  } else if (isAnsible(action.type)) {
+  } else if (action.type === ACTION_TYPE.ANSIBLE) {
     runAction({
       volatileId: selectedVolatileId,
       eventId: event?.id,
@@ -483,9 +493,9 @@ function onSave(
     let policyType;
     if (executePolicy) {
       policyType =
-        isManualPolicy(executePolicy) && isAutomaticPolicy(executePolicy)
+        isManual(executePolicy) && isAutomatic(executePolicy)
           ? 'both'
-          : isManualPolicy(executePolicy)
+          : isManual(executePolicy)
           ? 'manual'
           : 'automatic';
     } else {

@@ -6,14 +6,15 @@
 
 import React from 'react';
 
-import { AUTOMATIC, MANUAL } from 'in-automation/Policies/types';
+import { TypeConfigurationType } from '@instana/types';
+
 import ComboBox from 'in-components/ComboBox/ComboBox';
-import { TypeConfigurationType } from 'in-types';
+import { POLICY_TYPE } from 'in-automation/constants';
 import { t } from 'in-i18n';
 
 const options = [
-  { label: t('in-automation:policies.manual'), value: MANUAL },
-  { label: t('in-automation:policies.automatic'), value: AUTOMATIC }
+  { label: t('in-automation:policies.manual'), value: POLICY_TYPE.MANUAL },
+  { label: t('in-automation:policies.automatic'), value: POLICY_TYPE.AUTOMATIC }
 ] as const;
 
 interface PolicyTypeFilterProps {
