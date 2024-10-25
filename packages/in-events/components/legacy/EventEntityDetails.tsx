@@ -20,6 +20,7 @@ import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity
 import MobileAppScopePath from 'in-alerting/smart-alerts/mobileApp/components/MobileAppScopePath';
 //@ts-expect-error
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
+import { extendWindowSizeForLateData } from 'in-events/components/EventContent/analyzeUtils';
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
 import SloScopePath from 'in-alerting/smart-alerts/slo/components/SloScopePath';
 import useMobileAppEventEntity from 'in-events/hooks/useMobileAppEventEntity';
@@ -66,11 +67,16 @@ function ApplicationEntityDetails({ triggeringEvent }: { triggeringEvent: EventO
     return null;
   }
 
+  const extendedDashboardTimeConfig = extendWindowSizeForLateData(
+    getTimeConfigFromEvent(triggeringEvent),
+    alertConfig.granularity
+  );
+
   return (
     <ApplicationScopePath
       {...eventEntity}
       boundaryScope={alertConfig.boundaryScope}
-      timeConfig={getTimeConfigFromEvent(triggeringEvent)}
+      timeConfig={extendedDashboardTimeConfig}
       iconSize="xs"
       showDashboardLinks
       noBottomMargin

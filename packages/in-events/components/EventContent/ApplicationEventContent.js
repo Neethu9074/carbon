@@ -19,12 +19,15 @@ import {
   businessObservabilityEnabled
 } from 'in-services/featureFlags';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
+import {
+  getSmartAlertAnalyzeTimeConfig,
+  extendWindowSizeForLateData
+} from 'in-events/components/EventContent/analyzeUtils';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { SmartAlertAffectedEntities } from 'in-events/components/EventContent/SmartAlertAffectedEntities';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import { HighlightDataRetention } from 'in-events/components/EventContent/HighlightDataRetention';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAlertImpactedUsers';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
@@ -68,7 +71,7 @@ export default function ApplicationEventContent({ event, snapshot, reload }) {
   const adaptiveBaselineInfo = event.getIn(['metadata', 'adaptiveBaselineInfo'], emptyMap).toJS();
 
   const { applicationId } = eventEntity;
-  const { tagFilterExpression, rule, boundaryScope, threshold } = alertConfig;
+  const { tagFilterExpression, rule, boundaryScope, threshold, granularity } = alertConfig;
   const { alertType } = rule;
   const thresholdType = threshold.type;
   const { QueryBuilder } = getQueryBuilderForAlertType(alertType, thresholdType);
@@ -82,6 +85,12 @@ export default function ApplicationEventContent({ event, snapshot, reload }) {
     autoRefresh: false,
     ...(windowSize && { windowSize })
   };
+
+  const extendedDashboardTimeConfig = extendWindowSizeForLateData(getTimeConfigFromEvent(event), granularity);
+  const extendedAnalyzeTimeConfig = extendWindowSizeForLateData(
+    getSmartAlertAnalyzeTimeConfig(event, alertConfig),
+    granularity
+  );
 
   const chartViewConfig = createDefaultChartConfig(timeConfig);
 
@@ -103,7 +112,7 @@ export default function ApplicationEventContent({ event, snapshot, reload }) {
             <ApplicationScopePath
               {...eventEntity}
               boundaryScope={boundaryScope}
-              timeConfig={getTimeConfigFromEvent(event)}
+              timeConfig={extendedDashboardTimeConfig}
               showDashboardLinks
             />
             <ProblemDescription fixSuggestion={fixSuggestion} />
@@ -119,7 +128,7 @@ export default function ApplicationEventContent({ event, snapshot, reload }) {
                   <AnalyzeApplicationEventButton
                     {...eventEntity}
                     alertConfig={alertConfig}
-                    timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
+                    timeConfig={extendedAnalyzeTimeConfig}
                     adaptiveBaselineInfo={adaptiveBaselineInfo}
                   />
                 </DescriptionButtons>
@@ -143,7 +152,7 @@ export default function ApplicationEventContent({ event, snapshot, reload }) {
                 <AnalyzeApplicationEventButton
                   {...eventEntity}
                   alertConfig={alertConfig}
-                  timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
+                  timeConfig={extendedAnalyzeTimeConfig}
                   adaptiveBaselineInfo={adaptiveBaselineInfo}
                 />
               </DescriptionButtons>
