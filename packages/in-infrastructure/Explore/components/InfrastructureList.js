@@ -96,7 +96,6 @@ export default function InfrastructureList({
     metrics
   });
   const order = useMemo(() => fixOrderForBackwardsCompatibility(incomingOrder, metrics), [incomingOrder, metrics]);
-
   const {
     items,
     totalHits,
@@ -110,7 +109,17 @@ export default function InfrastructureList({
     ...tableProps
   } = useCursorPagination(
     ({ cursor }) =>
-      getTableData({ timeConfig, granularity, retrievalSize, backendQueryModel, order, tags, type, metrics, cursor }),
+      getTableData({
+        timeConfig,
+        granularity,
+        retrievalSize,
+        backendQueryModel,
+        order,
+        tags,
+        type,
+        metrics,
+        cursor
+      }),
     [timeConfig, retrievalSize, backendQueryModel, type, order, ...dependencies]
   );
 

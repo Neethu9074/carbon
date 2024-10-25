@@ -37,6 +37,8 @@ export interface MaybeFilterable {
   tagFilterExpression?: TagFilterExpressionElementUnion;
 }
 
+export type HasSource = Required<Pick<UnifiedMetricConfiguration, 'source'>>;
+
 interface MaybeLabeled {
   label?: string;
   metricLabel?: string;
@@ -85,14 +87,14 @@ export function summarizeFilterResult(result: FilterResult[]): string | undefine
   }
 }
 
-export function useFilteredMetricConfiguration<T extends MaybeLabeled & MaybeFilterable & UnifiedMetricConfiguration>(
+export function useFilteredMetricConfiguration<T extends MaybeLabeled & MaybeFilterable & HasSource>(
   metricConfiguration: T
 ): FilteringResult<T> {
   const formModel = useFilterContext();
   return applyFilteredConfiguration(metricConfiguration, formModel);
 }
 
-export function applyFilteredConfiguration<T extends MaybeLabeled & MaybeFilterable & UnifiedMetricConfiguration>(
+export function applyFilteredConfiguration<T extends MaybeLabeled & MaybeFilterable & HasSource>(
   metricConfiguration: T,
   filter: FormModelElement[]
 ): FilteringResult<T> {

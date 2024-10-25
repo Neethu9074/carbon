@@ -259,9 +259,6 @@ export function useResultData(
     const { filterResults: companionFilterResult } = addUnifiedMetricsConfigForCompanionMetrics(
       axis,
       config,
-      resultType,
-      adjustedGranularity,
-      timeConfig,
       companionMetrics,
       filter
     );
@@ -327,24 +324,12 @@ function addUnifiedMetricsConfigForMetrics(
 function addUnifiedMetricsConfigForCompanionMetrics(
   axisName: AxisName,
   metricConfig: Config,
-  resultType: ResultType,
-  adjustedGranularity: number | undefined,
-  timeConfig: TimeConfig,
   metrics: UnifiedMetricsConfigObject,
   filter: FormModelElement[]
 ): ConfigurationResult {
   const filterResults: FilterResult[] = [];
   metricConfig[axisName]?.companionMetricConfigs?.forEach((metricConfiguration: any, i: number) => {
-    const filterResult = applyFilteredConfiguration(
-      {
-        ...metricConfiguration,
-        resultType,
-        granularity: adjustedGranularity,
-        timeConfig: timeConfig,
-        timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
-      } as UnifiedMetricConfigurationUnion,
-      filter
-    );
+    const filterResult = applyFilteredConfiguration({ ...metricConfiguration }, filter);
     metrics[getMetricId(axisName, i)] = filterResult.metricConfiguration;
     filterResults.push(filterResult.result);
   });

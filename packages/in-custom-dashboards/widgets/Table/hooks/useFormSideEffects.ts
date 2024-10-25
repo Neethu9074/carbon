@@ -9,10 +9,11 @@ import { Field, Item, MapForm } from 'formalistic';
 import useFormSideEffects, { CHANGE_TYPES, EffectFunction } from 'in-hooks/useFormSideEffects';
 import { sourcePath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import { createForm } from 'in-custom-dashboards/widgets/Table/form';
+import { WidgetSource } from '../types';
 
 // @ts-expect-error not fully matching EffectFunction
 const handleDataSourceChange: EffectFunction = (form: MapForm<any>): Item => {
-  const sourceField = form.get('source') as Field<string>;
+  const sourceField = form.get('source') as Field<WidgetSource>;
   const source = sourceField?.value;
   // re-create a new form for given data source:
   const updatedForm = createForm({ source });

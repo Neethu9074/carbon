@@ -16,6 +16,10 @@ import {
 } from '@instana/types';
 import { Card, Link, Spacer, Typography, SearchInput } from '@instana/components';
 
+import {
+  getFilterResultNote,
+  useFilteredMetricConfiguration
+} from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
 // @ts-expect-error
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 // @ts-expect-error
@@ -23,14 +27,16 @@ import GroupedInfrastructure from 'in-infrastructure/Explore/components/GroupedI
 import { removeDuplicatesFromArrayObjects, getUniqueMetricsLabels } from 'in-custom-dashboards/widgets/Chart/util';
 // @ts-expect-error
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
-import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
+import WidgetCardHeader from 'in-components/WidgetCardHeader/WidgetCardHeader';
 import { TableWidgetProps } from 'in-custom-dashboards/widgets/Table/types';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
+import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { defaultOrder } from 'in-infrastructure/Explore/constants';
 import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
@@ -83,8 +89,14 @@ function InfrastructureTable(props: TableWidgetProps) {
   } = config;
 
   const isGroup = groupBy && groupBy?.length > 0;
+  const { metricConfiguration, result: filterResult } = useFilteredMetricConfiguration({
+    tagFilterExpression: baseTagFilterExpression,
+    source: config.source
+  });
+  const appliedTagFilterExpression = metricConfiguration?.tagFilterExpression ?? baseTagFilterExpression;
+  const [tagFilterExpression, setTagFilterExpression] = useState(appliedTagFilterExpression);
+  const stableTagFilterExpression = useStableObjectInstance(appliedTagFilterExpression);
 
-  const [tagFilterExpression, setTagFilterExpression] = useState(baseTagFilterExpression);
   const isShowResultsVisible = tableSize > 0 && totalItemsCount;
 
   const kpiDefinitions = getKpiDefinitions(type);
@@ -98,9 +110,9 @@ function InfrastructureTable(props: TableWidgetProps) {
     setTotalItemsCount(undefined);
 
     if (query === '') {
-      setTagFilterExpression(baseTagFilterExpression);
+      setTagFilterExpression(stableTagFilterExpression);
     }
-  }, [sorting, tagFilterExpression, baseTagFilterExpression, query]);
+  }, [sorting, stableTagFilterExpression, query]);
 
   const metricsArray = datasets?.metrics ?? [];
   const metrics = getUniqueMetricsAndLabels(metricsArray);
@@ -114,7 +126,7 @@ function InfrastructureTable(props: TableWidgetProps) {
     getTagFilterExpressionFromQuery({
       query,
       backendGroupBy,
-      tagFilterExpression: baseTagFilterExpression,
+      tagFilterExpression: stableTagFilterExpression,
       setTagFilterExpression
     });
   };
@@ -124,7 +136,6 @@ function InfrastructureTable(props: TableWidgetProps) {
 
   const metricCatalog = useMetricCatalog({
     getMetricCatalog,
-    // @ts-expect-error
     tagFilterExpression,
     type,
     query: catalogQuery.debouncedValue,
@@ -159,7 +170,10 @@ function InfrastructureTable(props: TableWidgetProps) {
       bodyClassName={classNames({
         [locals.modal]: isInModal
       })}
-      leftHeaderContent={isInModal ? undefined : <Typography variant="heading-300">{title}</Typography>}
+      title={isInModal ? undefined : title}
+      leftHeaderContent={
+        isInModal ? undefined : <WidgetCardHeader extraInfoTooltip={getFilterResultNote(filterResult)} />
+      }
       rightHeaderContent={
         isInModal ? undefined : (
           <>
@@ -318,10 +332,8 @@ function getTagFilterExpressionFromQuery({
 }: {
   backendGroupBy: string[];
   query: string;
-  setTagFilterExpression: React.Dispatch<
-    React.SetStateAction<FormModelElement | FormModelElement[] | TagFilterExpressionElementUnion>
-  >;
-  tagFilterExpression: FormModelElement[] | TagFilterExpressionElementUnion | FormModelElement;
+  setTagFilterExpression: React.Dispatch<React.SetStateAction<TagFilterExpressionElementUnion>>;
+  tagFilterExpression: TagFilterExpressionElementUnion;
 }) {
   if (query.trim() !== '') {
     const tagFiltersFromEntity = tagFilter('label', 'CONTAINS', query);

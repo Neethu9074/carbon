@@ -3,19 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Context } from '@instana/types/typeDefinitions';
+import { Context, TagFilterExpressionElementUnion } from '@instana/types/typeDefinitions';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 import { TimeConfig } from '@instana/types';
 
 import { getMetricCatalogOnce, GetMetricCatalog } from 'in-services/metrics/metricCatalog';
-import { MetricCatalog, Result, TagFilterExpression } from 'in-types';
+import { MetricCatalog, Result } from 'in-types';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 export interface UseMetricCatalogOptions {
   getMetricCatalog: GetMetricCatalog;
-  tagFilterExpression: TagFilterExpression;
+  tagFilterExpression: TagFilterExpressionElementUnion;
   type?: string;
   query?: string;
   context?: Context;
