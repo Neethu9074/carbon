@@ -14,11 +14,14 @@ import {
   getEnrichedAnalyzeTagFilterFormModel,
   tagNamesToUseEndpointGrouping
 } from 'in-events/components/AnalyzeApplicationEventButton';
+import {
+  analyzeQueryTimeframeLimit,
+  extendWindowSizeForLateData
+} from 'in-events/components/EventContent/analyzeUtils';
 import { containsTagName, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { APPLICATIONS_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE } from 'in-services/tracking/tracking';
 import { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
-import { analyzeQueryTimeframeLimit } from 'in-events/components/EventContent/analyzeUtils';
 import AffectedEntities from 'in-events/components/AffectedEntities/AffectedEntities';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { fixateTimeConfig, trimTimeConfigEnd } from 'in-stores/time/config';
@@ -38,7 +41,7 @@ export function SmartAlertAffectedEntities({
   leftHeaderContent,
   setApproxDataForAffectedEntities
 }) {
-  const { rule, includeInternal, includeSynthetic } = alertConfig;
+  const { rule, includeInternal, includeSynthetic, granularity } = alertConfig;
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
   const { trackCta } = useSegmentTracking();
 
@@ -52,7 +55,8 @@ export function SmartAlertAffectedEntities({
   const eventEntityType = event.get('entityType');
   const adaptiveBaselineInfo = (event.getIn(['metadata', 'adaptiveBaselineInfo'], Map({})) ?? Map({})).toJS();
   const timeConfig = getTimeConfigFromEvent(event);
-  const fixedTimeConfig = fixateTimeConfig(timeConfig);
+  const extendedTimeConfig = extendWindowSizeForLateData(timeConfig, granularity);
+  const fixedTimeConfig = fixateTimeConfig(extendedTimeConfig);
   const trimmedTimeConfig = trimTimeConfigEnd(fixedTimeConfig, analyzeQueryTimeframeLimit);
   const tagFilterExpression = getTagFilterExpression();
   const totalTagFilterExpression = getTotalTagFilterExpression();
