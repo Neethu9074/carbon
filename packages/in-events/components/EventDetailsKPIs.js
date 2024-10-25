@@ -123,8 +123,12 @@ export const Duration = connectTo(
         config: alwaysNull
       };
     }
-    const manualCloseTimestamp = props.event.getIn(['metadata', 'manualCloseTimestamp'], null);
-    const end = manualCloseTimestamp ? manualCloseTimestamp : props.event.get('end', props.event.end);
+    let end;
+    const isImmutableObject = !!props.event.get;
+    // if props.event is a map
+    if (isImmutableObject) end = props.event.getIn(['metadata', 'manualCloseTimestamp'], props.event.get('end'));
+    // if props.event is an object
+    else end = props.event.manualCloseTimestamp || props.event.end;
     return {
       config: serverTime$.flatMap(serverTime =>
         fireCallbacksForEventAtFocusedMomentAsStream(
