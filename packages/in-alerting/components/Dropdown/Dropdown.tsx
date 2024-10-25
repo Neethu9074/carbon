@@ -4,6 +4,7 @@
  */
 
 import { arrayOf, func, shape, string } from 'prop-types';
+import classNames from 'classnames';
 import React from 'react';
 
 import { Dropdown as CarbonDropdown } from '@instana/components';
@@ -26,7 +27,17 @@ export default function Dropdown({ items, value, onChange, className }: Dropdown
   const selectedLabel = (value && items?.find?.(item => item.value === value)?.label) ?? items[0]?.label;
 
   if (carbonDropdownEnabled) {
-    return <CarbonDropdown className={className} items={items} value={value} onChange={onChange} size="sm" />;
+    return (
+      <CarbonDropdown
+        className={classNames(className, {
+          [locals.visuallyHiddenLabel]: true
+        })}
+        items={items}
+        value={value}
+        onChange={onChange}
+        size="sm"
+      />
+    );
   }
   return (
     <ComboBoxBehavior<string>
