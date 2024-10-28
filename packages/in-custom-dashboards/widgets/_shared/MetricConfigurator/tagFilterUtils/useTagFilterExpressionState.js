@@ -13,7 +13,7 @@ import { validateFormModel } from 'in-components/QueryBuilder/validation/formMod
 
 // Unfortunately, we persist the backend model within the form while the UI has to operate on
 // the form model. This disconnect causes the form elements to be unnecessarily complicated.
-export function useTagFilterExpressionState({ tagCatalogResult, onChange, form }) {
+export function useTagFilterExpressionState({ tagCatalogResult, onChange, form, disableEntitySelection }) {
   const [tagFilterExpression, setTagFilterExpression] = useState(() => {
     const tagFilterExpression = form.get('tagFilterExpression')?.value ?? invalidMarker;
     if (isEqual(tagFilterExpression, invalidMarker)) {
@@ -34,7 +34,8 @@ export function useTagFilterExpressionState({ tagCatalogResult, onChange, form }
       tagCatalogResult.data &&
       validateFormModel({
         formModel: tagFilterExpression,
-        tagCatalog: tagCatalogResult.data
+        tagCatalog: tagCatalogResult.data,
+        disableEntitySelection
       }).isValid
     ) {
       change = toBackendQueryModel(tagFilterExpression, false);
