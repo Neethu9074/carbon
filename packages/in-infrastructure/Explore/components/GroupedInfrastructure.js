@@ -782,7 +782,7 @@ function generateMetric({
       customValueTooltip={customValueTooltip}
       strokeColor={strokeColor}
       fillColor={fillColor}
-      customChartTooltip={<ThresholdTooltip threshold={threshold} />}
+      customChartTooltip={<ThresholdTooltip threshold={threshold} formatter={formatter} />}
     />
   );
 }
