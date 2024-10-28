@@ -9,7 +9,6 @@ import React from 'react';
 
 import { SuggestionsList } from 'in-components/QueryBuilder/SimpleValueSelector/SimpleValueSelector';
 import Typeahead from 'in-components/Typeahead';
-import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/SecondKeyValueSelector.mless';
@@ -62,7 +61,7 @@ function RenderInputField({
     <>
       <Tooltip content={inputValue} align="bottomMiddle" delay={500} overwriteBlock>
         <div className={locals.inputFillSpace}>
-          <Input
+          <input
             {...remainingInputProps}
             hasError={!valid}
             onChange={event => onChange(event.target.value)}
@@ -74,7 +73,6 @@ function RenderInputField({
             })}
             {...getInputProps({ onFocus: openMenu })}
             autoFocus={autoFocus}
-            carbonVariant={false}
           />
         </div>
       </Tooltip>

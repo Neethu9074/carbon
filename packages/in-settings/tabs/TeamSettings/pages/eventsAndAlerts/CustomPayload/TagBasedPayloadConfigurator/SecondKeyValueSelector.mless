@@ -44,7 +44,20 @@
 
   .input {
     .ellipsis();
-    background: var(--ids-color-option-white);
+    box-sizing: border-box;
+    height: 2rem;
+    padding: 0 0.5rem;
+    color: var(--ids-color-option-neutral-900);
+    background: var(--ids-color-option-neutral-50);
+    background-image: none;
+    border: 1px solid var(--ids-color-option-neutral-400);
+    border-radius: var(--ids-border-radius-option-small);
+    transition: border-color ease-in-out 0.15s;
+
+    &[disabled] {
+      color: rgba(58, 75, 81, 0.48);
+      cursor: not-allowed;
+    }
 
     flex: 1;
     min-width: 2rem;
@@ -69,6 +82,7 @@
     border-left: 1px solid var(--ids-color-option-red-500);
     border-right: 1px solid var(--ids-color-option-red-500);
     background: @lib__colors__failure10; //@lib__colors__failure10 could not be replaced
+    border-color: var(--ids-color-option-red-500);
   }
 
   // To enforce expanding and filling the possible width
