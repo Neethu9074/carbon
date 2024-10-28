@@ -200,41 +200,41 @@ export default function GenerateScriptStep({
   };
 
   return (
-    <Row className={locals.generateScriptStep}>
-      <div>
-        <Spacer vertical="large" />
-        <div className={locals.step2Description}>
-          <Typography variant="body-regular">
-            {t('in-automation:GenerateAIActionDialog.generateScriptDialog.step2Headline1')}
-          </Typography>
-          <Typography variant="body-regular">
-            {t('in-automation:GenerateAIActionDialog.generateScriptDialog.step2Headline2')}
-          </Typography>
-        </div>
-        <Spacer vertical="large" />
+    <>
+      <Spacer vertical="large" />
+      <div className={locals.step2Description}>
+        <Typography variant="body-regular">
+          {t('in-automation:GenerateAIActionDialog.generateScriptDialog.step2Headline1')}
+        </Typography>
+        <Typography variant="body-regular">
+          {t('in-automation:GenerateAIActionDialog.generateScriptDialog.step2Headline2')}
+        </Typography>
       </div>
-      <Col lg={6}>
-        <Spacer vertical="normal" />
+      <Spacer vertical="large" />
+      <Row className={locals.generateScriptStep}>
+        <Col lg={6}>
+          <Spacer vertical="normal" />
 
-        {promptStep.map(field => (
-          <FormGroup>
-            <div className={locals.header}>
-              <Typography variant="heading-200" component="h2">
-                {t('in-automation:GenerateAIActionDialog.generateScriptDialog.promptTitle')}
-              </Typography>
-            </div>
-            <div className={locals.promptCode}>
-              <Code mode="markdown" lineWrapping value={field.value} onChange={onChangeValue} />
-              <GenerateScriptButton form={form} setForm={setForm} />
-            </div>
-            <TouchedMessages field={field} />
-          </FormGroup>
-        ))}
-      </Col>
-      <Col lg={6}>
-        <Spacer vertical="normal" />
-        <ActionPreview form={form} />
-      </Col>
-    </Row>
+          {promptStep.map(field => (
+            <FormGroup>
+              <div className={locals.header}>
+                <Typography variant="heading-200" component="h2">
+                  {t('in-automation:GenerateAIActionDialog.generateScriptDialog.promptTitle')}
+                </Typography>
+              </div>
+              <div className={locals.promptCode}>
+                <Code mode="markdown" lineWrapping value={field.value} onChange={onChangeValue} />
+                <GenerateScriptButton form={form} setForm={setForm} />
+              </div>
+              <TouchedMessages field={field} />
+            </FormGroup>
+          ))}
+        </Col>
+        <Col lg={6}>
+          <Spacer vertical="normal" />
+          <ActionPreview form={form} />
+        </Col>
+      </Row>
+    </>
   );
 }
