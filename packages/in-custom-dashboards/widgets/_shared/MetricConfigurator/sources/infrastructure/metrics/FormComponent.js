@@ -117,7 +117,8 @@ export default function FormComponent({
   const [tagFilterExpression, setTagFilterExpression] = useTagFilterExpressionState({
     tagCatalogResult: tagCatalog ? success(tagCatalog) : pendingResult,
     form,
-    onChange
+    onChange,
+    disableEntitySelection: true
   });
 
   const catalogQuery = useDebouncedValue('', noop, 800);

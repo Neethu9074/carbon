@@ -45,7 +45,8 @@ export function InfrastructureTableForm({ form, onChange }: Props) {
   const [tagFilterExpression, setTagFilterExpression] = useTagFilterExpressionState({
     tagCatalogResult: tagCatalog ? success(tagCatalog) : pendingResult,
     form,
-    onChange
+    onChange,
+    disableEntitySelection: true
   });
 
   const { tableResult } = useInfrastructureEntities({
