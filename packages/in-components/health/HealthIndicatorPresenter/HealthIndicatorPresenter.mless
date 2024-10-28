@@ -20,10 +20,10 @@
 
   .iconWarning {
     path:first-of-type {
-      fill: black;
+      fill: black !important;
     }
     path:last-of-type {
-      fill: #8e6a00;
+      fill: #8e6a00 !important;
     }
   }
 
