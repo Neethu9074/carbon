@@ -19,7 +19,7 @@ export default function AggregationSymbol({ aggregation }) {
     return null;
   }
 
-  if (aggregation.startsWith('P')) {
+  if (aggregation.startsWith('P') && aggregation.size === 3) {
     return (
       <Tooltip content={label} align="mousePosition">
         <small className={locals.percentile}>
