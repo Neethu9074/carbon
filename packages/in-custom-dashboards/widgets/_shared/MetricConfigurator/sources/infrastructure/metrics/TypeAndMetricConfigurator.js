@@ -39,7 +39,7 @@ export default function TypeAndMetricConfigurator({
               size="compact"
               onClick={toggle}
               refSetter={refSetter}
-              className={carbonButtonEnabled ? undefined : locals.configurator}
+              className={carbonButtonEnabled ? locals.carbonConfigurator : locals.configurator}
             >
               <TypeAndMetricLabel selectMetric={selectMetric} {...metricMetadata} />
             </DropdownButton>

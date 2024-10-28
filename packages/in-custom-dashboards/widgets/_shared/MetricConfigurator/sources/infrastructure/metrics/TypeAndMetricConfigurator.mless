@@ -23,6 +23,9 @@
 
     cursor: pointer;
   }
+  .carbonConfigurator {
+    overflow-wrap: anywhere;
+  }
   .loadingWrapper {
     display: flex;
     align-items: center;
