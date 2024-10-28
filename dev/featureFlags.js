@@ -153,6 +153,7 @@ module.exports = {
   carbonTileEnabled: true,
   carbonStepProgressBarEnabled: true,
   thresholdCustomDashboardsEnabled: true,
+  thresholdCustomDashboardsTableWidgetEnabled: true,
   carbonPaginationEnabled: true,
   carbonTableEnabled: true,
   logVolumePageEnabled: true,

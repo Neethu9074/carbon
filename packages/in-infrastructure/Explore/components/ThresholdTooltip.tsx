@@ -9,13 +9,15 @@ import React from 'react';
 import { Typography } from '@instana/components';
 
 import { humanReadableThresholdOperator } from 'in-components/Threshold/threshold';
+import { FormatterFn } from 'in-stores/metric/formatters';
 import { Threshold } from 'in-types';
 import { t } from 'in-i18n';
 
 export interface ThresholdTooltipProps {
   threshold: Threshold;
+  formatter: FormatterFn;
 }
-export default function ThresholdTooltip({ threshold }: ThresholdTooltipProps) {
+export default function ThresholdTooltip({ threshold, formatter }: ThresholdTooltipProps) {
   if (!threshold || !threshold.thresholdEnabled || !threshold.operator || (!threshold.critical && !threshold.warning))
     return null;
   const operator = humanReadableThresholdOperator.get(threshold.operator);
@@ -28,7 +30,7 @@ export default function ThresholdTooltip({ threshold }: ThresholdTooltipProps) {
         <Typography onDark variant="body-regular" component="div">
           {t('in-infrastructure:threshold.critical', {
             operator,
-            level: threshold.critical
+            level: formatter(parseFloat(threshold.critical))
           })}
         </Typography>
       )}
@@ -36,7 +38,7 @@ export default function ThresholdTooltip({ threshold }: ThresholdTooltipProps) {
         <Typography onDark variant="body-regular" component="div">
           {t('in-infrastructure:threshold.warning', {
             operator,
-            level: threshold.warning
+            level: formatter(parseFloat(threshold.warning))
           })}
         </Typography>
       )}
