@@ -10,8 +10,11 @@ interface EventListItemProps {
   event: Map;
   background?: string;
   latestSnapshot: Map;
-  setBackground: string;
-  setIconColor: string;
+  setBackground?: string;
+  setIconColor?: string;
+  expandedFromTimeline?: boolean;
+  setExpandedEventOnClickInTimeline?: (expandedId: string) => void;
+  highlightEventOnHover?: boolean;
 }
 
 export default function EventListItem(props: EventListItemProps): JSX.Element;
