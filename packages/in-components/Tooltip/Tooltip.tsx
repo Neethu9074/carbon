@@ -37,6 +37,21 @@ interface TooltipState {
   content: ReactNode;
 }
 
+/**
+ * Tooltip using Carbon Tooltip, when not enabling the legacy property.
+ * (which was only needed on 10 locations)
+ *
+ * Technically, the underlying CarbonTooltip is a critical implementation,
+ * and was only meant to make the migration to carbon easier.
+ *
+ * Main issue is the translation of the "auto" alignment into the autoAlign
+ * feature in Carbon/PopOver under the hood, which is only an experimental
+ * feature.
+ *
+ * In rare cases (but reproducible), it leads to this error:
+ *
+ * "ResizeObserver loop completed with undelivered notifications."
+ */
 export default function Tooltip({
   align = 'auto',
   delay = 0,
@@ -49,12 +64,7 @@ export default function Tooltip({
   overflowEllipsis = false, // Used to pass to new Carbon component
   forceTheme = false
 }: Props) {
-  /*
-   * Listening for size changes on the parent was needed to listen to size changes, and
-   * to avoid triggering an endless resize loop:
-   *
-   * ResizeObserver loop completed with undelivered notifications.
-   */
+  /* Intentionally, the width and height are not used. */
   const { ref: toolTipWrapperRef } = useResizeObserver();
 
   // Use the Carbon tooltip if the feature flag is set and NOT Legacy being used
