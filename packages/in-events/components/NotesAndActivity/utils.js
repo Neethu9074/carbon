@@ -35,6 +35,7 @@ export function getNotes(event) {
           parent: x.get('parent'),
           timestamp: x.get('timestamp'),
           author: x.get('author'),
+          authorId: x.get('authorId'),
           metadata: x.get('metadata'),
           contents: x.get('contents'),
           updated: x.get('updated'),

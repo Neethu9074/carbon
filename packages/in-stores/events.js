@@ -369,6 +369,7 @@ export function annotateEvent(note) {
       timestamp: Date.now(),
       type: 'note',
       author: note.author,
+      authorId: note.authorId,
       action: note.action,
       contents: (note.contents && note.contents.trim()) || undefined,
       currentId: note.currentId || undefined,
