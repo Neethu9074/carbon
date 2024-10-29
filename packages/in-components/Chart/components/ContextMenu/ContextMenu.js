@@ -22,6 +22,7 @@ import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { containsIgnoreCase } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
 import { minutes } from 'in-services/time';
+import { t } from 'in-i18n';
 
 import locals from './ContextMenu.mless';
 
@@ -286,6 +287,7 @@ export default class extends React.Component {
   renderContextMenu = () => {
     return createIconButton({
       icon: 'lib_menu_more_horizontal',
+      label: carbonButtonEnabled && t('in-components:analyze.options'),
       onClick: this.toggleContextMenu
     });
   };
