@@ -61,7 +61,7 @@ export default function ViewSwitcher() {
               isActive={isLocationsActive && !isTestsActive && !isCredentialsActive && !isSmartAlertsActive}
               icon={'lib_synthetic_location'}
             />
-            {syntheticCredentialsEnabled && (
+            {syntheticCredentialsEnabled && role?.canUseSyntheticCredentials && (
               <SecondLevelNavigationItem
                 href={createHrefToPath(paths.syntheticCredentialPath)}
                 label={t('in-synthetics:dashboard.testList.secondaryLabels.credentials')}
