@@ -6,7 +6,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { get } from 'lodash';
 
-import { Card, Link, Stack, SvgIcon } from '@instana/components';
+import { Card, Link, Stack, SvgIcon, Spacer } from '@instana/components';
 import { create, just } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
@@ -246,28 +246,31 @@ function DisplayTimeData({ values, batchCount }) {
             ? '(' + (((duration / totalDuration) * 100) | 0) + '%)'
             : null;
         return (
-          <Di title={label} key={label}>
-            {showInfoIcon ? (
-              <Tooltip
-                content={t('in-analyze:traceDetail.components.callDetails.batchTooltip', {
-                  batchCount: batchCount,
-                  type: String(toolTipLabel ?? label).toLocaleLowerCase()
-                })}
-                align="topMiddle"
-              >
-                <div className={locals.iconContainer}>
-                  {durationValue}
-                  <SvgIcon
-                    type="lib_help_error_info_outline"
-                    size="xxs"
-                    color={themes.default.ids.color.option.neutral['700']}
-                    className={locals.icon}
-                  />
-                </div>
-              </Tooltip>
-            ) : (
-              durationValue
-            )}
+          <Di
+            title={
+              <div className={locals.iconContainer}>
+                {label}
+                <Spacer horizontal="xsmall" />
+
+                {showInfoIcon && (
+                  <Tooltip
+                    content={t('in-analyze:traceDetail.components.callDetails.batchTooltip', {
+                      batchCount: batchCount,
+                      type: String(toolTipLabel ?? label).toLocaleLowerCase()
+                    })}
+                  >
+                    <SvgIcon
+                      type="lib_help_error_info_outline"
+                      size="xxs"
+                      color={themes.default.ids.color.option.neutral['700']}
+                    />
+                  </Tooltip>
+                )}
+              </div>
+            }
+            key={label}
+          >
+            {durationValue}
             {durationInPercent !== null ? ` ${durationInPercent}` : ''}
           </Di>
         );

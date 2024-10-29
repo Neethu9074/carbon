@@ -11,7 +11,7 @@ import { isBlank } from 'in-services/util/string';
 import locals from './HorizontalDescriptionList.mless';
 
 interface DiProps {
-  title: string;
+  title: ReactNode;
   children?: ReactNode;
   ddClassName?: string;
   rowClassName?: string;
