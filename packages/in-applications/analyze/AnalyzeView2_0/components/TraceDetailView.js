@@ -389,7 +389,7 @@ function TraceDetailViewButtonLine({ traceId, result, formModel }) {
     <>
       {isTroubleshootingModeEnabled || isInternalVisible ? (
         carbonButtonEnabled ? (
-          <CarbonMenuButton size="sm" kind="secondary" label={t('in-applications:linkDownload')}>
+          <CarbonMenuButton size="sm" kind="primary" label={t('in-applications:linkDownload')}>
             <DownloadTraceOptions />
           </CarbonMenuButton>
         ) : (

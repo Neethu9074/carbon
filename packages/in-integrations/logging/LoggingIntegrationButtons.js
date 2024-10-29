@@ -63,7 +63,7 @@ export function LoggingIntegrationButtonsRenderer({ addMargin, ...props }) {
         })}
         size="sm"
         label={t('in-integrations:logging.goToLogs')}
-        kind="secondary"
+        kind="primary"
       >
         {integrations}
       </CarbonMenuButton>
