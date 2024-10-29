@@ -65,6 +65,8 @@ export default function HealthIndicatorButtonPresenter({
         iconDescription={kind}
         disabled={!onClick && !href$}
         icon={isWithoutIssues || iconButton ? undefined : isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
+        aria-haspopup
+        aria-expanded={isOpen}
       >
         <Stack direction="horizontal" gap="xsmall" align={isWarning ? undefined : 'center'}>
           <HealthIcon disabled={!onClick && !href$} severity={maxSeverity} iconSize="xs" />

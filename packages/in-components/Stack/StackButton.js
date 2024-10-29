@@ -57,6 +57,8 @@ export default function StackButton({
             refSetter={refSetter}
             noAutoMargin={noAutoMargin}
             className={className}
+            aria-haspopup
+            aria-expanded={isOpen}
           >
             <StackComponent direction="horizontal" align="center" gap="xsmall">
               <SvgIcon type="lib_context_guide_stack" size="xs" />
