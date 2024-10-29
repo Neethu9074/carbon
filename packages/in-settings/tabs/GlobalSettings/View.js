@@ -38,14 +38,15 @@ import {
 } from 'in-settings/navigation/paths';
 import RecurrentMaintenanceWindowsListPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceWindowsList';
 import RecurrentMaintenanceWindowFormPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/RecurrentMaintenanceConfigForm';
-import MaintenanceWindowsPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
-import MaintenanceWindowPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
-import AlertChannelModificationPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
 import {
   recurrentMaintenanceWindowEnabled,
   logRetentionPageEnabled,
-  logVolumePageEnabled
+  logVolumePageEnabled,
+  logHomepageEnabled
 } from 'in-services/featureFlags';
+import MaintenanceWindowsPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
+import MaintenanceWindowPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
+import AlertChannelModificationPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
 import GlobalCustomPayloadPage from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/GlobalCustomPayloadPage';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
 import RetentionPeriodPage from 'in-settings/tabs/GlobalSettings/pages/logManagement/RententionPeriod/RetentionPeriod';
@@ -208,7 +209,7 @@ function navigationTreeForRole(role, isAddonUser) {
     component: LogVolumePage
   };
 
-  if (role.canDeleteLogs || role.canViewLogVolume || role.canConfigureLogRetentionPeriod) {
+  if ((role.canDeleteLogs || role.canViewLogVolume || role.canConfigureLogRetentionPeriod) && !logHomepageEnabled) {
     let pages = [];
 
     if (role.canDeleteLogs) {
