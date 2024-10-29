@@ -61,6 +61,7 @@ const EditSelectedCredential = ({ item }: Props) => {
       _result => {
         showUpdateSuccessMessage('credential');
         close();
+        window.location.reload();
       },
       error => {
         showUpdateErrorMessage(deserializeErrorMessage(error.message), 'credential');
