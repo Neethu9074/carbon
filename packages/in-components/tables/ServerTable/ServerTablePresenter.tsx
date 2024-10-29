@@ -171,9 +171,17 @@ export default function ServerTablePresenter<
       return widthInAbsoluteUnit;
     };
 
+    const getHeader = (item: ColumnDefinition<ItemType, PropsType>) => {
+      if (item.renderLabel) {
+        const label = typeof item.label === 'string' ? ({ data: item.label } as unknown as string) : item.label;
+        return item.renderLabel({ ...item, label });
+      }
+      return item.label;
+    };
+
     const carbonHeaders: CarbonHeaders<ItemType, PropsType> = visibleColumns.map((item, i) => ({
       key: item?.id || String(i),
-      header: item?.label || '',
+      header: getHeader(item) ?? '',
       isSortable: item.sortable ?? true,
       getContent: item.getContent,
       sortDirection: item?.id === orderBy ? (orderDirection === 'ASC' ? 'ASC' : 'DESC') : 'NONE',

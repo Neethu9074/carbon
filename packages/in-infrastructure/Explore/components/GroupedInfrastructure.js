@@ -51,6 +51,7 @@ import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
+import { carbonTableEnabled } from 'in-services/featureFlags';
 import { fixOrderForBackwardsCompatibility } from '../utils';
 import { getFormatter } from 'in-stores/metric/formatters';
 import { getBaseUnit } from 'in-stores/metric/units';
@@ -345,7 +346,7 @@ function columns({
   const countLabel = snapshotDefinition ? getPluginName(type, 2) : 'Count';
 
   const iconColumn = {
-    width: '3rem',
+    width: carbonTableEnabled ? '2.5rem' : '3rem',
     id: 'icon',
     getId: () => 'icon',
     widthInAbsoluteUnit: true,
@@ -366,6 +367,19 @@ function columns({
         })
   };
 
+  const groupKeyLabel = groupKey => {
+    if (carbonTableEnabled) {
+      return (
+        <Tooltip content={groupKey} align="auto">
+          <bdi className={locals.bdi}>
+            <div className={locals.carbonHeaderEllipsis}>{groupKey}</div>
+          </bdi>
+        </Tooltip>
+      );
+    }
+    return groupKey;
+  };
+
   const groupsColumn = groupBy.map(groupKey => {
     return {
       width: getColumnWidth(groupBy, metrics, isTableMode),
@@ -378,8 +392,13 @@ function columns({
       ...(isTableMode
         ? {
             sortable: true,
-            label: groupKey,
+            // need to add some css style changes for carbon table
+            label: groupKeyLabel(groupKey),
             getContent(item) {
+              // need to modify the styles for carbon table to render the content in the right format
+              if (carbonTableEnabled) {
+                return <div className={locals.carbonRowWordBreak}>{getGroupTagValue(item, groupKey)}</div>;
+              }
               return getGroupTagValue(item, groupKey);
             }
           }
@@ -402,11 +421,21 @@ function columns({
     }
   };
 
+  const countLabelForTable = carbonTableEnabled ? (
+    <Tooltip content={countLabel} align="auto">
+      <bdi className={locals.bdi}>
+        <div className={locals.carbonHeaderEllipsis}>{countLabel}</div>
+      </bdi>
+    </Tooltip>
+  ) : (
+    countLabel
+  );
+
   const countLabelColumnTable = {
-    width: '6rem',
+    width: carbonTableEnabled ? '3rem' : '6rem',
     id: countLabel,
     getId: () => countLabel,
-    label: countLabel,
+    label: countLabelForTable,
     sortable: false,
     getContent(item) {
       return item.count;
