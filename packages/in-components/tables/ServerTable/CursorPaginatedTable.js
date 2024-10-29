@@ -187,10 +187,10 @@ function TableLoadMoreRow({
 
   if (carbonTableEnabled) {
     return (
-      <Stack distribution="center" align="center">
+      <Stack distribution="spaceEvenly" direction="horizontal">
         {supportsFilterBy && (
           <Button kind="action" onClick={filterByOnClick} href={filterByHref}>
-            {label}
+            {filterByLabel}
           </Button>
         )}
         {loadMore && (
