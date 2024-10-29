@@ -124,6 +124,7 @@
       "entititiesDescription": "There were no entities retrieved for the selected time range."
     },
     "sharedComponents": {
+      "settings": "Settings",
       "configurableThSearchItemPlaceholder": "Search {{len}} items",
       "configurableThNoMatchesTxt": "No matches"
     }
