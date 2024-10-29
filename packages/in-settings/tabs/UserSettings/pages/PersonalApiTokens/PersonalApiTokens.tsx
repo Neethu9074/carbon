@@ -15,8 +15,8 @@ import {
   getPersonalApiTokensOfUserAsResultObservable as getPersonalApiTokens
 } from 'in-settings/tabs/UserSettings/api/personalApiToken';
 import CreatePersonalApiToken from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/CreatePersonalApiToken';
+import TenantInfoBanner from 'in-settings/tabs/SecurityAndAccess/components/TenantInfoBanner/TenantInfoBanner';
 import EditPersonalApiToken from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/EditPersonalApiToken';
-import TenantInfoBanner from 'in-settings/tabs/TeamSettings/components/TenantInfoBanner/TenantInfoBanner';
 import { getApiTokenStatus } from 'in-settings/components/ApiTokenExpiration/utils';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';

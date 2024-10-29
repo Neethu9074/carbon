@@ -11,8 +11,8 @@ import { useObservable } from '@instana/hooks';
 
 import {
   getEntityIdView,
-  teamSettingsAlertingEventBuiltIn,
-  teamSettingsAlertingEventCustom
+  globalSettingsAlertingEventBuiltIn,
+  globalSettingsAlertingEventCustom
 } from 'in-settings/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { parseUrl } from 'in-stores/navigation/routing/parser';
@@ -81,7 +81,7 @@ export default function EventSpecificationLink({
 }
 
 export function getEventSpecificationSettingsBasePath(isCustom: boolean) {
-  return isCustom ? teamSettingsAlertingEventCustom : teamSettingsAlertingEventBuiltIn;
+  return isCustom ? globalSettingsAlertingEventCustom : globalSettingsAlertingEventBuiltIn;
 }
 
 function isCustomEvent(event: Event): boolean {

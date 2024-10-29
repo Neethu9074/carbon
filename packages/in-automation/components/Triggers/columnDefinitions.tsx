@@ -34,8 +34,8 @@ import {
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
+import { EntityType, EventName } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/Events';
 import ListEntityNameColumn from 'in-alerting/smart-alerts/applications/list/columns/ListEntityNameColumn';
-import { EntityType, EventName } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import ListFilterColumn from 'in-alerting/smart-alerts/applications/list/columns/ListFiltersColumn';
 import { getSubtitle as getSubtitleInfra } from 'in-alerting/smart-alerts/infrastructure/Alerts';

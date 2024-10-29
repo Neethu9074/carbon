@@ -14,7 +14,7 @@ import {
   websitePathFullyQualified,
   configurationOptionsFullyQualified
 } from 'in-websites/navigation/paths';
-import { MessageContentModernDesign } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
+import { MessageContentModernDesign } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior';
 import { pageId as matrixPageId, websiteId as matrixWebsiteId } from 'in-websites/navigation/matrix';
 import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';

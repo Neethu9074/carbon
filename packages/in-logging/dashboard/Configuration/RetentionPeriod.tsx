@@ -8,7 +8,7 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import RetentionPeriodContent from 'in-settings/tabs/TeamSettings/pages/logManagement/RententionPeriod/RetentionPeriod';
+import RetentionPeriodContent from 'in-settings/tabs/GlobalSettings/pages/logManagement/RententionPeriod/RetentionPeriod';
 import Breadcrumbs from 'in-logging/dashboard/Configuration/Breadcrumbs';
 import { isAddonUserCached } from 'in-logging/api/licence';
 import RestrictedAccessMessage from 'in-components/rbac';

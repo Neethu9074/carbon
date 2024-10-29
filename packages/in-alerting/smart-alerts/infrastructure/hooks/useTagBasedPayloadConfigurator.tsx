@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 
 import { TimeConfig } from '@instana/types';
 
-import { createTagBasedInfraPayloadConfigurator } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import { createTagBasedInfraPayloadConfigurator } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 //@ts-expect-error
 import getTagValueSuggestions from 'in-infrastructure/Explore/services/getTagValueSuggestions';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';

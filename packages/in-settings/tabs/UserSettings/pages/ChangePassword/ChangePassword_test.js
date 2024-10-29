@@ -9,7 +9,7 @@ import React from 'react';
 import ChangePassword from 'in-settings/tabs/UserSettings/pages/ChangePassword/ChangePassword';
 import { t } from 'in-i18n';
 
-describe('in-settings/tabs/AuthSettings/pages/password/ChangePassword', () => {
+describe('in-settings/tabs/UserSettings/pages/ChangePassword/ChangePassword', () => {
   function fillInputs(passwordScreen, currentPassword, newPassword, repeatPassword) {
     const passInput = passwordScreen.getByLabelText(t('in-settings:tabs.newPassword'));
     fireEvent.change(passInput, { target: { value: newPassword } });

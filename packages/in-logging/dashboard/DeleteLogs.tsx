@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import DeleteLogsPage from 'in-settings/tabs/TeamSettings/pages/logManagement/DeleteLogs/DeleteLogs';
+import DeleteLogsPage from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeleteLogs';
 import LoggingPermissionWrapper from 'in-logging/navigation/LoggingPermissionWrapper';
 import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';
 import { t } from 'in-i18n';

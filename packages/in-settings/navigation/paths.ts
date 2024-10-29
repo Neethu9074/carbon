@@ -23,10 +23,29 @@ export const userSettingsPasswordChange = `${userSettings}/password/change`;
 export const userSettingsTwoFactor = `${userSettings}/2fa`;
 export const userSettingsProfile = `${userSettings}/profile`;
 
+export const teamSettings = `${settingsPath}/team`;
+export const accessControl = `${teamSettings}/accessControl`;
+
 export const globalSettings = `${settingsPath}/global`;
 
-export const securityAndAccessSettings = `${settingsPath}/securityAndAccess`;
-export const accessControl = `${securityAndAccessSettings}/accessControl`;
+export const securityAndAccess = `${settingsPath}/securityAndAccess`;
+export const securityAndAccessAccessControl = `${securityAndAccess}/accessControl`;
+
+// current access control configuration paths (after unification of access control permissions in 2024)
+export const securityAndAccessAccessControlUsers = `${securityAndAccessAccessControl}/users`;
+export const securityAndAccessAccessControlUserEdit = `${securityAndAccessAccessControl}/users/:id`;
+export const securityAndAccessAccessControlInvites = `${securityAndAccessAccessControl}/invites`;
+export const securityAndAccessAccessControlRoleEdit = `${securityAndAccessAccessControl}/roles/:id`;
+export const securityAndAccessAccessControlRoleNew = `${securityAndAccessAccessControl}/roles/new`;
+export const securityAndAccessAccessControlRoles = `${securityAndAccessAccessControl}/roles`;
+export const securityAndAccessAccessControlGroupEdit = `${securityAndAccessAccessControl}/groups/:id`;
+export const securityAndAccessAccessControlGroupNew = `${securityAndAccessAccessControl}/groups/new`;
+export const securityAndAccessAccessControlGroups = `${securityAndAccessAccessControl}/groups`;
+export const securityAndAccessAccessControlApiTokenEdit = `${securityAndAccessAccessControl}/apiTokens/:id`;
+export const securityAndAccessAccessControlApiTokenDuplicate = `${securityAndAccessAccessControl}/apiTokens/new/:duplicateFrom`;
+export const securityAndAccessAccessControlApiTokenNew = `${securityAndAccessAccessControl}/apiTokens/new`;
+export const securityAndAccessAccessControlApiTokens = `${securityAndAccessAccessControl}/apiTokens`;
+
 export const teamSettingsAccessControlUsers = `${accessControl}/users`;
 export const teamSettingsAccessControlUserEdit = `${accessControl}/users/:id`;
 export const teamSettingsAccessControlInvites = `${accessControl}/invites`;
@@ -41,16 +60,31 @@ export const teamSettingsAccessControlApiTokenDuplicate = `${accessControl}/apiT
 export const teamSettingsAccessControlApiTokenNew = `${accessControl}/apiTokens/new`;
 export const teamSettingsAccessControlApiTokens = `${accessControl}/apiTokens`;
 
-export const googleSSO = `${securityAndAccessSettings}/googleSingleSignOn`;
-export const saml = `${securityAndAccessSettings}/saml`;
-export const oidc = `${securityAndAccessSettings}/oidc`;
-export const ldap = `${securityAndAccessSettings}/ldap`;
-export const groupMapping = `${securityAndAccessSettings}/groupMapping`;
+export const authSettings = `${settingsPath}/auth`;
 
-const session = `${securityAndAccessSettings}/session`;
+export const googleSSO = `${authSettings}/googleSingleSignOn`;
+export const saml = `${authSettings}/saml`;
+export const oidc = `${authSettings}/oidc`;
+export const ldap = `${authSettings}/ldap`;
+export const groupMapping = `${authSettings}/groupMapping`;
+
+// current auth settings paths (after unification of access control permissions in 2024)
+export const securityAndAccessAuth = `${securityAndAccess}/auth`;
+
+export const securityAndAccessGoogleSSO = `${securityAndAccessAuth}/googleSingleSignOn`;
+export const securityAndAccessSaml = `${securityAndAccessAuth}/saml`;
+export const securityAndAccessOidc = `${securityAndAccessAuth}/oidc`;
+export const securityAndAccessLdap = `${securityAndAccessAuth}/ldap`;
+export const securityAndAccessGroupMapping = `${securityAndAccessAuth}/groupMapping`;
+
+const session = `${authSettings}/session`;
 export const timeouts = `${session}/timeouts`;
 
-export const alerting = `${globalSettings}/alerting`;
+// current session settings paths (after unification of access control permissions in 2024)
+const securityAndAccessSession = `${securityAndAccess}/session`;
+export const securityAndAccessTimeouts = `${securityAndAccessSession}/timeouts`;
+
+export const alerting = `${teamSettings}/alerting`;
 const channels = `/channels`;
 
 // amp
@@ -80,6 +114,27 @@ export const teamSettingsAlertingMaintenanceConfigurationNew = `${alerting}/main
 export const teamSettingsAlertingMaintenanceConfigurations = `${alerting}/maintenanceConfigurations`;
 export const teamSettingsAlertingCustomPayloadConfiguration = `${alerting}/customPayload`;
 
+// current global settings paths for alerts (after renaming team settings to global settings in 2024)
+export const globalAlerting = `${globalSettings}/alerting`;
+
+export const globalSettingsAlertingEventBuiltIn = `${globalAlerting}${events}/builtIn`;
+export const globalSettingsAlertingEventBuiltInEdit = `${globalAlerting}${events}/builtIn/:id`;
+export const globalSettingsAlertingEventCustom = `${globalAlerting}${events}/custom`;
+export const globalSettingsAlertingEventCustomEdit = `${globalAlerting}${events}/custom/:id`;
+export const globalSettingsAlertingEventCustomNew = `${globalAlerting}${events}/custom/new`;
+export const globalSettingsAlertingEvents = `${globalAlerting}${events}`;
+export const globalSettingsAlertingAlertEdit = `${globalAlerting}/alerts/:id`;
+export const globalSettingsAlertingAlertNew = `${globalAlerting}/alerts/new`;
+export const globalSettingsAlertingAlerts = `${globalAlerting}/alerts`;
+export const globalSettingsAlertingAlertChannelEdit = `${globalAlerting}${channels}/:id`;
+export const globalSettingsAlertingAlertChannelEditDetails = `${globalAlerting}${channels}/detail/:id`;
+export const globalSettingsAlertingAlertChannelNew = `${globalAlerting}${channels}/new`;
+export const globalSettingsAlertingAlertChannels = `${globalAlerting}${channels}`;
+export const globalSettingsAlertingMaintenanceConfigurationEdit = `${globalAlerting}/maintenanceConfigurations/:id`;
+export const globalSettingsAlertingMaintenanceConfigurationNew = `${globalAlerting}/maintenanceConfigurations/new`;
+export const globalSettingsAlertingMaintenanceConfigurations = `${globalAlerting}/maintenanceConfigurations`;
+export const globalSettingsAlertingCustomPayloadConfiguration = `${globalAlerting}/customPayload`;
+
 // legacy knowledge management paths (prior to unification of alerting configuration in 2019-02)
 const knowledgeManagement = `${globalSettings}/knowledgeManagement`;
 export const teamSettingsKnowledgeManagementBuiltInRuleEdit = `${knowledgeManagement}/builtInRules/:id`;
@@ -102,8 +157,16 @@ export const teamSettingsAlertingIntegrationEdit = `${alerting}/integrations/:id
 export const teamSettingsAlertingIntegrationNew = `${alerting}/integrations/new`;
 export const teamSettingsAlertingIntegrations = `${alerting}/integrations`;
 
+// current alerting paths (after renaming team settings to global settings in 2024)
+export const globalSettingsAlertingConfigurationEdit = `${globalAlerting}/configurations/:id`;
+export const globalSettingsAlertingConfigurationNew = `${globalAlerting}/configurations/new`;
+export const globalSettingsAlertingConfigurations = `${globalAlerting}/configurations`;
+export const globalSettingsAlertingIntegrationEdit = `${globalAlerting}/integrations/:id`;
+export const globalSettingsAlertingIntegrationNew = `${globalAlerting}/integrations/new`;
+export const globalSettingsAlertingIntegrations = `${globalAlerting}/integrations`;
+
 // legacy logging integration paths (until 2024-07)
-export const logManagement = `${globalSettings}/logManagement`;
+export const logManagement = `${teamSettings}/logManagement`;
 const legacyIntegrations = '/integrations';
 export const teamSettingsLogManagementRetentionPeriod = `${logManagement}/retentionPeriod`;
 export const teamSettingsLogManagementIntegrations = `${logManagement}${legacyIntegrations}`;
@@ -115,16 +178,40 @@ export const teamSettingsLogManagementSplunk = `${logManagement}/splunkConfigura
 export const teamSettingsLogManagementHumio = `${logManagement}/humioConfiguration`;
 export const teamSettingsLogManagementElk = `${logManagement}/elkConfiguration`;
 
-export const teamSettingsAudit = `${securityAndAccessSettings}/audit`;
+export const teamSettingsAudit = `${teamSettings}/audit`;
 export const teamSettingsActionLog = `${teamSettingsAudit}/actionlog`;
 export const teamSettingsActionLogRetention = `${teamSettingsAudit}/actionlog/retention`;
 export const teamSettingsAccessLog = `${teamSettingsAudit}/accessLog`;
 
+// current global settings paths for logManagement (after renaming team settings to global settings in 2024)
+export const globalLogManagement = `${globalSettings}/logManagement`;
+export const globalSettingsLogManagementRetentionPeriod = `${globalLogManagement}/retentionPeriod`;
+export const globalSettingsLogManagementIntegrations = `${globalLogManagement}${legacyIntegrations}`;
+export const globalSettingsLogManagementCoralogix = `${globalLogManagement}${legacyIntegrations}/coralogixConfiguration`;
+export const globalSettingsLogManagementDeleteLogs = `${globalLogManagement}/deleteLogs`;
+export const globalSettingsLogManagementLogVolume = `${globalLogManagement}/logVolume`;
+export const globalSettingsLogManagementMezmo = `${globalLogManagement}/mezmoConfiguration`;
+export const globalSettingsLogManagementSplunk = `${globalLogManagement}/splunkConfiguration`;
+export const globalSettingsLogManagementHumio = `${globalLogManagement}/humioConfiguration`;
+export const globalSettingsLogManagementElk = `${globalLogManagement}/elkConfiguration`;
+
+// current audit trail paths (after unification of access control permissions in 2024)
+export const securityAndAccessAudit = `${securityAndAccess}/audit`;
+export const securityAndAccessActionLog = `${securityAndAccessAudit}/actionlog`;
+export const securityAndAccessActionLogRetention = `${securityAndAccessAudit}/actionlog/retention`;
+export const securityAndAccessAccessLog = `${securityAndAccessAudit}/accessLog`;
+
 // integrations
-const integrations = `${globalSettings}/integrations`;
+const integrations = `${teamSettings}/integrations`;
 // database integrations
 export const teamSettingsIntegrationsDatabase = `${integrations}/database`;
 export const teamSettingsIntegrationsDatabaseDbMarlin = `${teamSettingsIntegrationsDatabase}/dbMarlinConfiguration`;
+
+// current global settings paths for integrations (after renaming team settings to global settings in 2024)
+const globalIntegrations = `${globalSettings}/integrations`;
+// database integrations
+export const globalSettingsIntegrationsDatabase = `${globalIntegrations}/database`;
+export const globalSettingsIntegrationsDatabaseDbMarlin = `${globalSettingsIntegrationsDatabase}/dbMarlinConfiguration`;
 // logging integrations (from 2024-07)
 export const teamSettingsIntegrationsLogging = `${integrations}/logging`;
 export const teamSettingsIntegrationsLoggingCoralogix = `${teamSettingsIntegrationsLogging}/coralogixConfiguration`;
@@ -132,6 +219,14 @@ export const teamSettingsIntegrationsLoggingMezmo = `${teamSettingsIntegrationsL
 export const teamSettingsIntegrationsLoggingSplunk = `${teamSettingsIntegrationsLogging}/splunkConfiguration`;
 export const teamSettingsIntegrationsLoggingHumio = `${teamSettingsIntegrationsLogging}/humioConfiguration`;
 export const teamSettingsIntegrationsLoggingElk = `${teamSettingsIntegrationsLogging}/elkConfiguration`;
+
+// logging integrations (from 2024-07)
+export const globalSettingsIntegrationsLogging = `${globalIntegrations}/logging`;
+export const globalSettingsIntegrationsLoggingCoralogix = `${globalSettingsIntegrationsLogging}/coralogixConfiguration`;
+export const globalSettingsIntegrationsLoggingMezmo = `${globalSettingsIntegrationsLogging}/mezmoConfiguration`;
+export const globalSettingsIntegrationsLoggingSplunk = `${globalSettingsIntegrationsLogging}/splunkConfiguration`;
+export const globalSettingsIntegrationsLoggingHumio = `${globalSettingsIntegrationsLogging}/humioConfiguration`;
+export const globalSettingsIntegrationsLoggingElk = `${globalSettingsIntegrationsLogging}/elkConfiguration`;
 
 // config migration
 export const migSettings = `${settingsPath}/migration`;
@@ -164,7 +259,7 @@ export function goToIntegrationView(kind: string): void {
 export function goToAlertChannelView(kind: string): void {
   // eslint-disable-next-line
   mutateUrl(location => {
-    location.pathname = teamSettingsAlertingAlertChannelNew;
+    location.pathname = globalSettingsAlertingAlertChannelNew;
     setOrDeleteMatrixKey(location, '/channels', 'kind', kind);
   });
 }

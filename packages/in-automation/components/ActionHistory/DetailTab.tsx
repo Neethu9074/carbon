@@ -15,8 +15,8 @@ import { useObservable } from '@instana/hooks';
 
 import {
   getEntityIdView,
-  teamSettingsAccessControlUsers,
-  teamSettingsAccessControlApiTokens
+  securityAndAccessAccessControlUsers,
+  securityAndAccessAccessControlApiTokens
 } from 'in-settings/navigation/paths';
 import useHrefToActionDetails from 'in-automation/navigation/hooks/useHrefToActionDetails';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -357,9 +357,9 @@ export default function DetailTab({
 function getActorLink(actorType?: ActorType, actorId?: string) {
   switch (actorType) {
     case 'USER':
-      return getEntityIdView(teamSettingsAccessControlUsers, actorId ?? '');
+      return getEntityIdView(securityAndAccessAccessControlUsers, actorId ?? '');
     case 'APITOKEN':
-      return getEntityIdView(teamSettingsAccessControlApiTokens, actorId ?? '');
+      return getEntityIdView(securityAndAccessAccessControlApiTokens, actorId ?? '');
     default:
       return null;
   }

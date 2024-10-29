@@ -16,7 +16,7 @@ import {
   createTagBasedPayloadConfigurator,
   toFormModel,
   toViewModel
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+} from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import {
   createForm,
   addStaticField,

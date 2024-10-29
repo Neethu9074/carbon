@@ -9,7 +9,7 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
-import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
+import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import { getTestsAsResultObservable, getTestsAsResultObservableInternal } from 'in-synthetics/api';
 import AlertTestsList from 'in-alerting/smart-alerts/synthetics/components/AlertTestsList';
 import NoItemSelected from 'in-alerting/smart-alerts/components/NoItemSelected';

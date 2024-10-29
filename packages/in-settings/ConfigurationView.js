@@ -6,11 +6,11 @@
 import { generatePath, matchPath } from 'react-router';
 import React from 'react';
 
+import { isAvailable as isGoogleSSOAvailable } from 'in-settings/tabs/SecurityAndAccess/api/googleSSO';
 import { settingsBasePath, globalSettings, userSettingsGeneral } from 'in-settings/navigation/paths';
-import { isAvailable as isGoogleSSOAvailable } from 'in-settings/tabs/AuthSettings/api/googleSSO';
-import { isAvailable as isSamlAvailable } from 'in-settings/tabs/AuthSettings/api/saml';
-import { isAvailable as isLdapAvailable } from 'in-settings/tabs/AuthSettings/api/ldap';
-import { isAvailable as isOidcAvailable } from 'in-settings/tabs/AuthSettings/api/oidc';
+import { isAvailable as isSamlAvailable } from 'in-settings/tabs/SecurityAndAccess/api/saml';
+import { isAvailable as isLdapAvailable } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
+import { isAvailable as isOidcAvailable } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
 import { roleHasAnyGlobalPermissions } from 'in-settings/tabs/permissions';
 import legacyRedirects from 'in-settings/navigation/legacy-redirects';
 import TabView from 'in-components/LocationAwareTabView/TabView';

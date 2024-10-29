@@ -29,7 +29,7 @@ import useNavigateToPolicyDetails from 'in-automation/navigation/hooks/useNaviga
 import { getSubtitle as getSubtitleInfra } from 'in-alerting/smart-alerts/infrastructure/Alerts';
 import { getSubtitle as getSubtitleMobileApp } from 'in-alerting/smart-alerts/mobileApp/Alerts';
 import usePolicies, { refresh, usePaginatedPolicies } from 'in-automation/Policies/usePolicies';
-import { EventName } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
+import { EventName } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/Events';
 import { getSubtitle as getSubtitleWebsite } from 'in-alerting/smart-alerts/websites/Alerts';
 import { actionNameColumn, nameColumn } from 'in-automation/PolicyTable/columnDefinitions';
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';

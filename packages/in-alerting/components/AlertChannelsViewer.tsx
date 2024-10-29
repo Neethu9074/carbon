@@ -5,9 +5,9 @@
 
 import React from 'react';
 
-import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
+import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 //@ts-expect-error TS migration
-import AlertChannelsList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
+import AlertChannelsList from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
 //@ts-expect-error TS migration
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import NoChannelSelected from 'in-alerting/components/NoChannelSelected';

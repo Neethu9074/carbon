@@ -14,7 +14,7 @@ import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 // eslint-disable-next-line no-restricted-imports
-import SelectListDialogContentComponent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
+import SelectListDialogContentComponent from 'in-settings/tabs/GlobalSettings/components/SelectListDialogContent';
 import LocationsSection, { LocationsListProps } from 'in-synthetics/createTests/advanced/LocationsSection';
 import memoize, { ObservableCreator, TtiGenerator } from 'in-services/util/memoizingObservableGenerator';
 import ConfigSlideContentWrapper from 'in-synthetics/createTests/advanced/ConfigSlideContentWrapper';

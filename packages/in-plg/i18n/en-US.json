@@ -817,7 +817,7 @@
       "analyzeCalls": "analyzing traces and calls",
       "settingsTab": "managing user access",
       "userSettings": "user settings",
-      "securityAndAccessSettings": "configuring security and access",
+      "securityAndAccess": "configuring security and access",
       "auditLogs": "viewing audit logs",
       "automation": "managing actions",
       "customEvents": "defining custom events",

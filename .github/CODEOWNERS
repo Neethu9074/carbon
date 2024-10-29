@@ -237,8 +237,8 @@ packages/in-logging                 @Instana-IBM-GitHub-Enterprise @instana/eng-
 packages/in-components/Logging      @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/logging @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
 packages/in-integrations/logging    @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
-packages/in-settings/tabs/TeamSettings/pages/logManagement @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
-packages/in-settings/tabs/TeamSettings/pages/integrations/logging @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
+packages/in-settings/tabs/GlobalSettings/pages/logManagement @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
+packages/in-settings/tabs/GlobalSettings/pages/integrations/logging @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
 
 # No clear ownership: Fallback to eng-ui
 packages/in-map                     @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
@@ -270,13 +270,13 @@ packages/in-services/featureFlags.ts
 packages/in-services/tracking/eventNames.ts
 packages/in-services/metrics                                                              @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
 packages/in-settings                                                                      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-issue-detection @instana/eng-access-control @instana/eng-application @instana/eng-alert-response
-packages/in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/Areas/BusinessMonitoring @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-access-control @instana/eng-bizops
-packages/in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/Panels/BusinessMonitoringPanels     @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-access-control @instana/eng-bizops
-packages/in-settings/tabs/TeamSettings/pages/accessControl/RolesAndAccessScope/components/PermissionSectionBusinessMonitoring @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-access-control @instana/eng-bizops
-packages/in-settings/tabs/TeamSettings/pages/accessControl/Invites/ShareAndInviteDialogBox @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-plg @instana/eng-access-control
-packages/in-settings/tabs/TeamSettings/pages/automation                                   @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
-packages/in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alert-response
-packages/in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alert-response
+packages/in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/BusinessMonitoring @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-access-control @instana/eng-bizops
+packages/in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/components/Panels/BusinessMonitoringPanels     @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-access-control @instana/eng-bizops
+packages/in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/components/PermissionSectionBusinessMonitoring @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-access-control @instana/eng-bizops
+packages/in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/ShareAndInviteDialogBox @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-plg @instana/eng-access-control
+packages/in-settings/tabs/GlobalSettings/pages/automation                                   @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-remediation
+packages/in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alert-response
+packages/in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations    @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alert-response
 # Deliberately mentioning without any code owners. This is intended to reduce code review requests triggered by changes in these files.
 packages/in-settings/i18n
 

@@ -111,7 +111,111 @@ const redirects = [
   { from: paths.teamSettingsLogManagementElk, to: paths.teamSettingsIntegrationsLoggingElk },
   { from: paths.teamSettingsLogManagementHumio, to: paths.teamSettingsIntegrationsLoggingHumio },
   { from: paths.teamSettingsLogManagementMezmo, to: paths.teamSettingsIntegrationsLoggingMezmo },
-  { from: paths.teamSettingsLogManagementSplunk, to: paths.teamSettingsIntegrationsLoggingSplunk }
+  { from: paths.teamSettingsLogManagementSplunk, to: paths.teamSettingsIntegrationsLoggingSplunk },
+
+  // redirects as we moved access control sections inside security & access tab from teamSettings tab (after unification of access control permissions in 2024)
+  { from: paths.teamSettingsAccessControlUsers, to: paths.securityAndAccessAccessControlUsers },
+  { from: paths.teamSettingsAccessControlUserEdit, to: paths.securityAndAccessAccessControlUserEdit },
+  { from: paths.teamSettingsAccessControlInvites, to: paths.securityAndAccessAccessControlInvites },
+  { from: paths.teamSettingsAccessControlRoleEdit, to: paths.securityAndAccessAccessControlRoleEdit },
+  { from: paths.teamSettingsAccessControlRoleNew, to: paths.securityAndAccessAccessControlRoleNew },
+  { from: paths.teamSettingsAccessControlRoles, to: paths.securityAndAccessAccessControlRoles },
+  { from: paths.teamSettingsAccessControlGroupEdit, to: paths.securityAndAccessAccessControlGroupEdit },
+  { from: paths.teamSettingsAccessControlGroupNew, to: paths.securityAndAccessAccessControlGroupNew },
+  { from: paths.teamSettingsAccessControlGroups, to: paths.securityAndAccessAccessControlGroups },
+  { from: paths.teamSettingsAccessControlApiTokenEdit, to: paths.securityAndAccessAccessControlApiTokenEdit },
+  {
+    from: paths.teamSettingsAccessControlApiTokenDuplicate,
+    to: paths.securityAndAccessAccessControlApiTokenDuplicate
+  },
+  { from: paths.teamSettingsAccessControlApiTokenNew, to: paths.securityAndAccessAccessControlApiTokenNew },
+  { from: paths.teamSettingsAccessControlApiTokens, to: paths.securityAndAccessAccessControlApiTokens },
+
+  // redirects as we moved audit trail sections inside security & access tab from teamSettings tab (after unification of access control permissions in 2024)
+
+  { from: paths.teamSettingsActionLog, to: paths.securityAndAccessActionLog },
+  { from: paths.teamSettingsActionLogRetention, to: paths.securityAndAccessActionLogRetention },
+  { from: paths.teamSettingsAccessLog, to: paths.securityAndAccessAccessLog },
+
+  // redirects as we moved auth settings paths under security & access tab (after unification of access control permissions in 2024)
+  {
+    from: paths.googleSSO,
+    to: paths.securityAndAccessGoogleSSO
+  },
+  { from: paths.saml, to: paths.securityAndAccessSaml },
+  { from: paths.oidc, to: paths.securityAndAccessOidc },
+  { from: paths.ldap, to: paths.securityAndAccessLdap },
+  { from: paths.groupMapping, to: paths.securityAndAccessGroupMapping },
+
+  { from: paths.timeouts, to: paths.securityAndAccessTimeouts },
+
+  // redirects events & alerting settings paths as we renamed team settings to global settings in 2024
+  { from: paths.teamSettingsAlertingEventBuiltIn, to: paths.globalSettingsAlertingEventBuiltIn },
+  { from: paths.teamSettingsAlertingEventBuiltInEdit, to: paths.globalSettingsAlertingEventBuiltInEdit },
+  { from: paths.teamSettingsAlertingEventCustom, to: paths.globalSettingsAlertingEventCustom },
+  { from: paths.teamSettingsAlertingEventCustomEdit, to: paths.globalSettingsAlertingEventCustomEdit },
+
+  { from: paths.teamSettingsAlertingEventCustomNew, to: paths.globalSettingsAlertingEventCustomNew },
+  { from: paths.teamSettingsAlertingEvents, to: paths.globalSettingsAlertingEvents },
+  { from: paths.teamSettingsAlertingAlertEdit, to: paths.globalSettingsAlertingAlertEdit },
+  { from: paths.teamSettingsAlertingAlertNew, to: paths.globalSettingsAlertingAlertNew },
+
+  { from: paths.teamSettingsAlertingAlerts, to: paths.globalSettingsAlertingAlerts },
+  { from: paths.teamSettingsAlertingAlertChannelEdit, to: paths.globalSettingsAlertingAlertChannelEdit },
+  { from: paths.teamSettingsAlertingAlertChannelEditDetails, to: paths.globalSettingsAlertingAlertChannelEditDetails },
+  { from: paths.teamSettingsAlertingAlertChannelNew, to: paths.globalSettingsAlertingAlertChannelNew },
+
+  { from: paths.teamSettingsAlertingAlertChannels, to: paths.globalSettingsAlertingAlertChannels },
+  {
+    from: paths.teamSettingsAlertingMaintenanceConfigurationEdit,
+    to: paths.globalSettingsAlertingMaintenanceConfigurationEdit
+  },
+  {
+    from: paths.teamSettingsAlertingMaintenanceConfigurationNew,
+    to: paths.globalSettingsAlertingMaintenanceConfigurationNew
+  },
+  {
+    from: paths.teamSettingsAlertingMaintenanceConfigurations,
+    to: paths.globalSettingsAlertingMaintenanceConfigurations
+  },
+  {
+    from: paths.teamSettingsAlertingCustomPayloadConfiguration,
+    to: paths.globalSettingsAlertingCustomPayloadConfiguration
+  },
+
+  { from: paths.teamSettingsAlertingConfigurationEdit, to: paths.globalSettingsAlertingConfigurationEdit },
+  { from: paths.teamSettingsAlertingConfigurationNew, to: paths.globalSettingsAlertingConfigurationNew },
+  { from: paths.teamSettingsAlertingConfigurations, to: paths.globalSettingsAlertingConfigurations },
+  { from: paths.teamSettingsAlertingIntegrationEdit, to: paths.globalSettingsAlertingIntegrationEdit },
+  { from: paths.teamSettingsAlertingIntegrationNew, to: paths.globalSettingsAlertingIntegrationNew },
+  { from: paths.teamSettingsAlertingIntegrations, to: paths.globalSettingsAlertingIntegrations },
+
+  { from: paths.teamSettingsAlertingAlerts, to: paths.globalSettingsAlertingAlerts },
+  { from: paths.teamSettingsAlertingAlertChannelEdit, to: paths.globalSettingsAlertingAlertChannelEdit },
+  { from: paths.teamSettingsAlertingAlertChannelEditDetails, to: paths.globalSettingsAlertingAlertChannelEditDetails },
+  { from: paths.teamSettingsAlertingAlertChannelNew, to: paths.globalSettingsAlertingAlertChannelNew },
+
+  // redirects for Log Management as we renamed team settings to global settings in 2024
+  { from: paths.teamSettingsLogManagementRetentionPeriod, to: paths.globalSettingsLogManagementRetentionPeriod },
+  { from: paths.teamSettingsLogManagementIntegrations, to: paths.globalSettingsLogManagementIntegrations },
+  { from: paths.teamSettingsLogManagementCoralogix, to: paths.globalSettingsLogManagementCoralogix },
+  { from: paths.teamSettingsLogManagementDeleteLogs, to: paths.globalSettingsLogManagementDeleteLogs },
+  { from: paths.teamSettingsLogManagementLogVolume, to: paths.globalSettingsLogManagementLogVolume },
+  { from: paths.teamSettingsLogManagementMezmo, to: paths.globalSettingsLogManagementMezmo },
+  { from: paths.teamSettingsLogManagementSplunk, to: paths.globalSettingsLogManagementSplunk },
+  { from: paths.teamSettingsLogManagementHumio, to: paths.globalSettingsLogManagementHumio },
+  { from: paths.teamSettingsLogManagementElk, to: paths.globalSettingsLogManagementElk },
+
+  // redirects for database integrations as we renamed team settings to global settings in 2024
+  { from: paths.teamSettingsIntegrationsDatabase, to: paths.globalSettingsIntegrationsDatabase },
+  { from: paths.teamSettingsIntegrationsDatabaseDbMarlin, to: paths.globalSettingsIntegrationsDatabaseDbMarlin },
+
+  // redirects for logging integrations as we renamed team settings to global settings in 2024
+  { from: paths.teamSettingsIntegrationsLoggingCoralogix, to: paths.globalSettingsIntegrationsLoggingCoralogix },
+  { from: paths.teamSettingsIntegrationsLoggingMezmo, to: paths.globalSettingsIntegrationsLoggingMezmo },
+  { from: paths.teamSettingsIntegrationsLoggingSplunk, to: paths.globalSettingsIntegrationsLoggingSplunk },
+  { from: paths.teamSettingsIntegrationsLoggingHumio, to: paths.globalSettingsIntegrationsLoggingHumio },
+  { from: paths.teamSettingsIntegrationsLoggingElk, to: paths.globalSettingsIntegrationsLoggingElk }
 ];
 
 export default redirects;
