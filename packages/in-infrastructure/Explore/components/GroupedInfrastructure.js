@@ -22,7 +22,7 @@ import { just } from '@instana/observables';
 import {
   firstValue,
   getGranularity,
-  getMetricFormatterFromUnitOrMetadata,
+  getMetricFormatterFromUnitOrDefault,
   getMetricKey,
   getMetricValue,
   getSeriesKey,
@@ -760,7 +760,7 @@ function generateMetric({
   const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
   const formatter = isFormatterSelected
     ? getFormatter(formatterId)
-    : getMetricFormatterFromUnitOrMetadata(getBaseUnit(unit), mapData(metadata, data => data?.formatter).data);
+    : getMetricFormatterFromUnitOrDefault(getBaseUnit(unit), mapData(metadata, data => data?.formatter).data);
   const seriesKey = getSeriesKey(id);
   const kpi = lastValue ? lastValueForMetric(metrics[seriesKey]) : firstValue(metrics[id]);
   const series = metrics[seriesKey];

@@ -19,7 +19,7 @@ import {
   getMetricValue,
   getSeriesKey,
   lastValueForMetric,
-  getMetricFormatterFromUnitOrMetadata
+  getMetricFormatterFromUnitOrDefault
 } from 'in-infrastructure/Explore/services/metrics';
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
@@ -426,10 +426,7 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
             const metadata = mapData(metricMetadatas, data => data[metric]);
             const formatter = isFormatterSelected
               ? getFormatter(formatterId)
-              : getMetricFormatterFromUnitOrMetadata(
-                  getBaseUnit(unit),
-                  mapData(metadata, data => data?.formatter).data
-                );
+              : getMetricFormatterFromUnitOrDefault(getBaseUnit(unit), mapData(metadata, data => data?.formatter).data);
 
             const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
             const seriesKey = getSeriesKey(id);

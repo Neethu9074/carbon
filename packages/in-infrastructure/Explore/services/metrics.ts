@@ -7,7 +7,6 @@ import { AggregationType, TimeConfig } from '@instana/types';
 
 import { getCommonFormatterForUnits } from 'in-custom-dashboards/widgets/_shared/formatters';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { Metadata } from 'in-infrastructure/hooks/useMetricMetadatas';
 import { MetricItem } from 'in-infrastructure/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import { FormatterFn } from 'in-stores/metric/formatters';
@@ -84,6 +83,6 @@ export function getMetricValue(kpi: number, formatter: FormatterFn) {
   return valueMissingPlaceholder;
 }
 
-export function getMetricFormatterFromUnitOrMetadata(unit: BaseUnit, metadata: Metadata) {
-  return unit ? getCommonFormatterForUnits(unit)[0]?.formatter : metadata?.formatter;
+export function getMetricFormatterFromUnitOrDefault(unit: BaseUnit, defaultFormatter: FormatterFn): FormatterFn {
+  return unit ? getCommonFormatterForUnits(unit)[0]?.formatter : defaultFormatter;
 }
