@@ -176,5 +176,6 @@ module.exports = {
   automationActionAiGenerationUnitEnabled: true,
   carbonSliderEnabled: true,
   customDashboardTopLevelFiltersEnabled: true,
-  syntheticCredentialsEnabled: true
+  syntheticCredentialsEnabled: true,
+  infraSmartAlertFullScreenDesignEnabled: false
 };

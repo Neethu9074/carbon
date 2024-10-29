@@ -151,6 +151,7 @@
     "titleNoSmartAlertsCreated": "No Smart Alerts created",
     "titleCopyOf": "(Copy of) {{smartAlertTitle}}",
     "smartAlertsTitle": "Smart alerts",
+    "labelNew": "(New)",
     "applications": {
       "alertConfiguration": "Alert configuration",
       "advanced": {
