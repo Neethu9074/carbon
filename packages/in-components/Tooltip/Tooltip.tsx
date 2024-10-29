@@ -76,8 +76,11 @@ export default function Tooltip({
     const themeToPass = (forceTheme && themeStyle) || 'dark';
 
     return (
+      // TODO: Later, when implemented in the underlying ui-foundation component, remove the wrapping span
       <span ref={toolTipWrapperRef}>
         <CarbonTooltip
+          // LATER: add, when this is implemented in the underlying ui-foundation component
+          // ref={toolTipWrapperRef}
           align={updatedAlign}
           delay={delay}
           content={content}
