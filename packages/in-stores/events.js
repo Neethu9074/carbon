@@ -388,3 +388,21 @@ export function generateJournalSummary(incidentId) {
   });
   return obj.map(response => fromJS(response.body)).once();
 }
+
+export function shareEventSummary(incidentId, recipients, timestamp, sender, subject, body, link) {
+  const obj = http({
+    method: 'POST',
+    maxRetries: 3,
+    url: `/api/journal/ai-summary/${incidentId}/share-result`,
+    headers: getCsrfHeader(),
+    data: {
+      recipients: recipients,
+      timestamp: timestamp,
+      sender: sender,
+      subject: subject,
+      content: body,
+      link: link
+    }
+  });
+  return obj.map(response => response.body);
+}

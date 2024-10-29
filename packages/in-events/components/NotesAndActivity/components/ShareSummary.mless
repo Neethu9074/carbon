@@ -1,0 +1,76 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+:local {
+  .formWrapper {
+    padding: 1rem;
+  }
+
+  .separator {
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .summarySubHeader {
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+    font-size: 16px;
+  }
+
+  .errorMessage {
+    padding-top: 1rem;
+    color: var(--cds-text-error);
+  }
+
+  .noDefaultBorder {
+    :global(.cds--text-area) {
+      outline: unset;
+    }
+  }
+
+  .focusBorder {
+    outline: 2px solid var(--cds-focus, #0f62fe);
+    :global(.cds--text-area) {
+      outline: unset;
+    }
+  }
+
+  .labelInField {
+    :global(.cds--text-area__label-wrapper):has(:global(.cds--text-area:active)) {
+      border-top: 2px solid var(--cds-focus, #0f62fe);
+    }
+
+    :global(.cds--form__helper-text) {
+      position: absolute;
+      bottom: -1.5rem;
+    }
+
+    :global(.cds--text-area__label-wrapper) {
+      position: absolute;
+      z-index: 1;
+      padding-left: 1rem;
+      padding-top: 1rem;
+      width: 97%;
+      background-color: var(--cds-field);
+    }
+
+    :global(.cds--text-input__label-wrapper) {
+      position: absolute;
+      z-index: 1;
+      padding-left: 1rem;
+      padding-top: 1rem;
+    }
+
+    :global(.cds--text-area) {
+      padding-top: 3rem;
+    }
+
+    :global(.cds--text-input) {
+      height: 4.5rem;
+      padding-top: 1.5rem;
+    }
+  }
+}

@@ -24,6 +24,7 @@ import Tooltip from 'in-components/Tooltip';
 import { handleUpdateDeleteNote } from 'in-events/components/NotesAndActivity/components/utils';
 import { CommentInput } from 'in-events/components/NotesAndActivity/components/CommentInput';
 import { QuickActions } from 'in-events/components/NotesAndActivity/components/QuickActions';
+import { ShareSummary } from 'in-events/components/NotesAndActivity/components/ShareSummary';
 import { CommentList } from 'in-events/components/NotesAndActivity/components/CommentList';
 import { EVENT_SIDE_PANEL_CLICK } from 'in-services/tracking/eventNames';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
@@ -75,18 +76,25 @@ export function NotesAndActivity(props) {
   const notes = getNotes(event);
   const incidentId = event?.get('id');
   const eventType = event?.get('type');
-
+  const problemText = event?.get('problem')?.get('problemText');
   const loading = event == undefined;
 
   // Boolean to control when the notes section is opened
   // Current value of the typed out note
   const [note, setNote] = useState('');
+  // Edit note when set is an array with first index bing the noteID
+  // and the second index determining if its editing (true) or delete (false)
   const [editNoteId, setEditNoteId] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const [openSearch, setOpenSearch] = useState(false);
   const [displayQuickStart, setDisplayQuickStart] = useState(true);
+  // Controls when the side panel has been expanded
   const [stretchOverlay, setStretchOverlay] = useState(false);
   const [needOverlay, setNeedOverlay] = useState(false);
+  // Share Modal visible
+  const [shareOpen, setShareOpen] = useState(false);
+  // Summary Data to pass to the Modal
+  const [summaryData, setSummaryData] = useState([]);
 
   // We ONLY want to display Notes and Activity for incidents
   if (eventType != 'incident') {
@@ -178,6 +186,8 @@ export function NotesAndActivity(props) {
                 setNote={setNote}
                 setEditNoteId={setEditNoteId}
                 setNeedOverlay={setNeedOverlay}
+                setShareOpen={setShareOpen}
+                setSummaryData={setSummaryData}
               />
               <CommentInput
                 note={note}
@@ -220,6 +230,14 @@ export function NotesAndActivity(props) {
           {t('in-events:notes.actionUndone')}
         </CarbonModal>
       </div>
+      <ShareSummary
+        summary={summaryData}
+        open={shareOpen}
+        setShareOpen={setShareOpen}
+        setNeedOverlay={setNeedOverlay}
+        incidentId={incidentId}
+        problemText={problemText}
+      />
     </>
   );
 }
