@@ -7,14 +7,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import {
-  BusinessDataQuery,
-  BusinessProcessItem,
-  Result,
-  TagFilterExpression,
-  TimeConfig,
-  BizOpsMetricConfiguration
-} from '@instana/types';
+import { BusinessProcessItem, Result, TimeConfig, BizOpsMetricConfiguration } from '@instana/types';
 import { IconButton, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
 import { t } from '@instana/i18n-react';
@@ -22,6 +15,7 @@ import { t } from '@instana/i18n-react';
 // @ts-expect-error Module needs to be translated to TS
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
+import getBusinessProcessesWithDefaults from 'in-bizops/subscriptions/helpers/getBusinessProcessesWithDefaults';
 // @ts-expect-error Module needs to be translated to TS
 import { add, remove } from 'in-cockpit/starredItems';
 import { businessProcessDashboard, summaryTab, businessProcessPath } from 'in-bizops/navigation/paths';
@@ -30,8 +24,6 @@ import { businessProcess as businessProcessType } from 'in-cockpit/starredItems/
 //@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
-import getBusinessProcesses from 'in-bizops/subscriptions/getBusinessProcesses';
-import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getBusinessProcess from 'in-bizops/subscriptions/getBusinessProcess';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -49,58 +41,7 @@ interface GetBusinessDataProps {
 }
 
 function getBusinessData({ timeConfig, query: search }: GetBusinessDataProps) {
-  let tagFilterExpression: TagFilterExpression = {
-    type: 'EXPRESSION',
-    logicalOperator: 'AND',
-    elements: []
-  };
-
-  // Don't include processes with blank names
-  tagFilterExpression.elements.push({
-    name: 'bpm_process_definition_name',
-    operator: 'NOT_EQUAL',
-    value: '',
-    entity: NOT_APPLICABLE,
-    type: 'TAG_FILTER'
-  });
-
-  // Filter result by user's search query
-  if (search && search.length > 0) {
-    tagFilterExpression.elements.push({
-      name: 'bpm_process_definition_name',
-      operator: 'CONTAINS',
-      stringValue: search,
-      entity: NOT_APPLICABLE,
-      type: 'TAG_FILTER'
-    });
-  }
-
-  const query: BusinessDataQuery = {
-    dataType: 'PROCESS',
-    metrics: {
-      started_processes_total: {
-        metric: 'started_processes',
-        granularity: 0,
-        aggregation: 'DISTINCT_COUNT'
-      },
-      started_processes_array: {
-        metric: 'started_processes',
-        granularity: getChartGranularity(timeConfig),
-        aggregation: 'DISTINCT_COUNT'
-      }
-    },
-    order: {
-      by: 'process_name',
-      direction: 'ASC'
-    },
-    pagination: {
-      page: 1,
-      pageSize: 5
-    },
-    tagFilterExpression,
-    timeConfig: timeConfig
-  };
-  return getBusinessProcesses(query);
+  return getBusinessProcessesWithDefaults({ timeConfig, query: search });
 }
 
 function handleFavoriteClick(id: string, item: any, isFavourite: boolean) {
