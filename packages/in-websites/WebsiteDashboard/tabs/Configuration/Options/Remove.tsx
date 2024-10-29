@@ -11,10 +11,9 @@ import { Card, Button } from '@instana/components';
 import { Disposable } from '@instana/observables';
 
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
-import { removeWebsite as removeWebsiteTracker } from 'in-websites/tracking/segTracker';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { websitesPathFullyQualified } from 'in-websites/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { useWebsiteTracker } from 'in-websites/tracking/segTracker';
 import { combineDataAndError } from 'in-services/util/ro';
 import { removeWebsite } from 'in-websites/api/websites';
 import SaveError from 'in-components/form/SaveError';
@@ -43,7 +42,7 @@ const initialState = {
 };
 
 const Remove = (props: Props) => {
-  const { trackCta } = useSegmentTracking();
+  const { removeWebsiteTracker } = useWebsiteTracker();
   const {
     data: { label },
     websiteLabel,
@@ -72,7 +71,7 @@ const Remove = (props: Props) => {
       removeError: null
     }));
 
-    removeWebsiteTracker(trackCta, { websiteName: websiteLabel });
+    removeWebsiteTracker({ websiteName: websiteLabel });
 
     subscriptionRef.current = combineDataAndError(removeWebsite(websiteId)).once(({ error }) => {
       if (error) {

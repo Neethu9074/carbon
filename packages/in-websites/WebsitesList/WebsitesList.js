@@ -22,12 +22,11 @@ import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getWebsitesWithDefaults } from 'in-websites/subscriptions/getWebsites';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { meanLatencyFixed, number } from 'in-services/formatters/number';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import { websiteOpenAddFrom } from 'in-websites/tracking/segTracker';
+import { useWebsiteTracker } from 'in-websites/tracking/segTracker';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { playwithEnabled } from 'in-services/featureFlags';
@@ -125,13 +124,13 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 });
 
 const RightHeader = () => {
-  const { trackCta } = useSegmentTracking();
+  const { websiteOpenAddFrom } = useWebsiteTracker();
   const linkToNewWebsite = useLinkToNewWebsite();
   if (role.canConfigureEumApplications && !playwithEnabled) {
     return (
       <Button
         kind="action"
-        onClick={() => websiteOpenAddFrom(trackCta)}
+        onClick={() => websiteOpenAddFrom()}
         className={locals.button}
         icon="lib_openclose_add_circle_outline"
         href={linkToNewWebsite}

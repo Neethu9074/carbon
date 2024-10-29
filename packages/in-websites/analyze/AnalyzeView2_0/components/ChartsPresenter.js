@@ -7,7 +7,7 @@ import React from 'react';
 
 import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeView2_0/util';
 import { metricRenderers } from 'in-websites/analyze/AnalyzeView2_0/metrics';
-import { ua2ChartChangedTracker } from 'in-websites/tracker';
+import { useWebsiteTracker } from 'in-websites/tracking/segTracker';
 import Chart from 'in-components/AnalyzeView/Charting/Chart';
 import Charting from 'in-components/AnalyzeView/Charting';
 import Sections from 'in-components/workspace/Sections';
@@ -22,6 +22,7 @@ function isErroneousMetric(metricConfig) {
 }
 
 export function ChartsPresenter(props) {
+  const { ua2ChartChangedTracker } = useWebsiteTracker();
   const { chartedMetrics, dataSource, isGrouped, chartableDataSeries } = props;
 
   return (

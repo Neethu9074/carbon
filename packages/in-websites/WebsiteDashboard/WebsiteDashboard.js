@@ -21,6 +21,7 @@ import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import WebsiteContextIcon from 'in-websites/WebsiteDashboard/components/WebsiteContextIcon';
+import { dashboardTagFilters as tagFiltersTrackers } from 'in-websites/tracking/segTracker';
 import { tagFiltersInDashboardUrlParameter } from 'in-websites/navigation/urlParameters';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import getJsAgentVersionsInfo from 'in-websites/subscriptions/getJsAgentVersionsInfo';
@@ -28,13 +29,13 @@ import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGr
 import WebsiteContext from 'in-websites/WebsiteDashboard/components/WebsiteContext';
 import { toTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import CreateSmartAlert from 'in-alerting/smart-alerts/websites/CreateSmartAlert';
-import { dashboardTagFilters as tagFiltersTrackers } from 'in-websites/tracker';
 import { pageTabs, websiteTabs } from 'in-websites/WebsiteDashboard/tabs/index';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useTagFilterManipulators } from 'in-websites/tagFiltersHoc';
+import { useWebsiteTracker } from 'in-websites/tracking/segTracker';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -43,7 +44,6 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import DashboardHeader from 'in-components/DashboardHeader';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
-import { tabChange } from 'in-websites/tracking/segTracker';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { getTimeConfig } from 'in-stores/time/config';
 import useUrlState from 'in-hooks/useUrlState';
@@ -61,6 +61,7 @@ const urlStateDefinition = {
 const deprecationTimeFrame = 1728000000;
 export default function WebsiteDashboard() {
   const { trackCta } = useSegmentTracking();
+  const { tabChange } = useWebsiteTracker();
   const [weaselVersion, setWeaselVersion] = useState('');
   const [latestVersion, setLatestVersion] = useState('');
   const [deprecatedVersion, setDeprecatedVersion] = useState([]);
@@ -82,7 +83,7 @@ export default function WebsiteDashboard() {
       tagFilters: tagFilters.filter(f => f.name !== 'beacon.website.id' && f.name !== 'beacon.page.name')
     });
 
-  const tagFilterManipulators = useTagFilterManipulators(tagFiltersTrackers, customTagFilters, setUrlNew);
+  const tagFilterManipulators = useTagFilterManipulators(tagFiltersTrackers(trackCta), customTagFilters, setUrlNew);
   const props = {
     websiteId: getMatrixParameter(location, websitePath, matrixWebsiteId),
     pageId: getMatrixParameter(location, websitePath, matrixPageId),
@@ -160,7 +161,7 @@ export default function WebsiteDashboard() {
         HeaderComponent={Header}
         location={location}
         tabs={props.pageId ? pageTabs : websiteTabs}
-        tabChangeTracker={tabChange(trackCta)}
+        tabChangeTracker={tabChange}
         props={{ ...props, tagFilters, customTagFilters }}
         withoutBreadcrumb
         withProps={({ result }) => ({
