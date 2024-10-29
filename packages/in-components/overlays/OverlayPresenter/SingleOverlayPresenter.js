@@ -25,9 +25,7 @@ export default connectTo(
     componentDidMount() {
       this.position();
       // Once the Overlay gets mounted(opened) we want to apply focus to it
-      if (this.props.id) {
-        document.getElementById(this.props.id)?.focus();
-      }
+      this.tooltipElement?.focus();
     }
 
     componentDidUpdate() {
@@ -106,7 +104,6 @@ export default connectTo(
       return (
         <div
           data-overlay-id={id}
-          id={id}
           ref={r => (this.tooltipElement = r)}
           className={classNames({
             [locals.overlay]: true,

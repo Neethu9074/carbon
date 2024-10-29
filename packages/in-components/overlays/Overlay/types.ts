@@ -54,6 +54,7 @@ export interface OverlayProps<FORWARDED_CONTENT_PROPS> {
   autoClose?: boolean;
   content: React.ComponentType<OverlayContentProps & OverlayMounterContentProps & FORWARDED_CONTENT_PROPS>;
   focusOnClose?: boolean;
+
   onToggle?: (b: boolean) => void;
   onCloseSideEffect?: (e?: any) => void;
 }
@@ -87,5 +88,4 @@ export interface OverlayMounterProps {
   behindSidebar?: boolean;
   align?: Align;
   forceConfiguredAlignment?: boolean;
-  tabIndex?: string;
 }
