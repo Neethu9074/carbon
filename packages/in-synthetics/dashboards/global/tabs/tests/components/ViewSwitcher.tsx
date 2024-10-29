@@ -85,7 +85,9 @@ export default function ViewSwitcher() {
                 syntheticAcceptorURL={popProperties.data?.syntheticAcceptorURL || ''}
               />
             )}
-          {role?.canConfigureSyntheticLocations && syntheticInstanaHostedPoPEnabled && <NewLocationButton />}
+          {role?.canConfigureSyntheticLocations && syntheticInstanaHostedPoPEnabled && !isCredentialsActive && (
+            <NewLocationButton />
+          )}
         </div>
       </DashboardHeaderModule>
       <DashboardHeaderShadowModule />
