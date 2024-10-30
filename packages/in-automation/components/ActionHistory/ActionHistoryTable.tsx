@@ -306,7 +306,15 @@ export function GetActionInstanceListData({
   );
 }
 
-export default function ActionHistoryTable({ eventId }: { eventId?: string }) {
+export default function ActionHistoryTable({
+  eventId,
+  actionTypes,
+  noFilters
+}: {
+  eventId?: string;
+  actionTypes?: string[];
+  noFilters?: boolean;
+}) {
   const [{ types, actionStatuses }, setFilter] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
   const { actionHistoryInstanceViewTrackerSegment, actionHistoryInstanceDeleteTrackerSegment } = useSegmentTracker();
@@ -315,10 +323,10 @@ export default function ActionHistoryTable({ eventId }: { eventId?: string }) {
       get={GetActionInstanceListData}
       timeConfig={timeConfig}
       actionHistoryInstanceDeleteTrackerSegment={actionHistoryInstanceDeleteTrackerSegment}
-      rightHeader={<Filters setFilter={setFilter} types={types} actionStatuses={actionStatuses} />}
+      rightHeader={!noFilters && <Filters setFilter={setFilter} types={types} actionStatuses={actionStatuses} />}
       title={t('in-automation:actionHistory.actionHistory')}
       showHeaderCount
-      types={types}
+      types={actionTypes || types}
       actionStatuses={
         actionStatuses.length === 0
           ? ['SUCCESS', 'FAILED', 'IN_PROGRESS', 'STATUS_UNKNOWN', 'SUBMITTED', 'TIMEOUT']

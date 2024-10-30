@@ -39,7 +39,6 @@ interface AutomationCardProps {
 
 function AutomationCard({ volatileId, event }: AutomationCardProps) {
   const activeKey = useActiveKey();
-  const activeOptimizatonsKey = useActiveOptimizationsKey();
   const policies = usePolicies({ event });
   const historyCount = useHistory({ eventId: event.id });
   const trigger = useTrigger({ event });
@@ -85,6 +84,8 @@ function AutomationCard({ volatileId, event }: AutomationCardProps) {
 function RecommendedOptimizationsRow({ event }: { event: Event }) {
   const recommendedOptimizations = useResourceOptimization({ event, actionCategory: 'PERFORMANCE_ASSURANCE' });
   const turboRecommendedActions = useTurboRecommendedActions(recommendedOptimizations);
+  const activeOptimizatonsKey = useActiveOptimizationsKey();
+
   return (
     <Row withoutSideMargin>
       <Col xs>
@@ -93,10 +94,13 @@ function RecommendedOptimizationsRow({ event }: { event: Event }) {
             recommendedOptimizationsCount={recommendedOptimizations?.data?.totalRecommendedActionsCount!}
             optimizationHistoryCount={undefined}
           />
-          <RecommendedOptimizations
-            recommendedActions={turboRecommendedActions}
-            totalRecommendedActions={recommendedOptimizations?.data?.totalRecommendedActionsCount!}
-          />
+          {activeOptimizatonsKey === 'recommendedOptimizations' && (
+            <RecommendedOptimizations
+              recommendedActions={turboRecommendedActions}
+              totalRecommendedActions={recommendedOptimizations?.data?.totalRecommendedActionsCount!}
+            />
+          )}
+          {activeOptimizatonsKey === 'optimizationHistory' && <ActionHistoryTable eventId={event.id} />}
         </Card>
       </Col>
     </Row>

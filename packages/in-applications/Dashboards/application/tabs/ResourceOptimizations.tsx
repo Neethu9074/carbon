@@ -17,6 +17,7 @@ import {
 import OptimizationsButtonGroup, {
   useActiveOptimizationsKey
 } from 'in-automation/AutomationCard/OptimizationsButtonGroup';
+import { useResourceActionHistoryCount } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import RecommendedOptimizations from 'in-automation/ResourceOptimization/RecommendedOptimizations';
 import { FormatterObject, MetricDataPoint, MetricDataSeries } from 'in-components/Chart/types';
 import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
@@ -169,7 +170,7 @@ export default function ResourceOptimizationTab({
       </div>
       <OptimizationsButtonGroup
         recommendedOptimizationsCount={recommendedOptimizations?.data?.totalRecommendedActionsCount!}
-        optimizationHistoryCount={undefined} //TODO: Update after adding turbo action history api connection
+        optimizationHistoryCount={useResourceActionHistoryCount({ types: ['EXTERNAL'] })}
       />
       {activeOptimizatonsKey === 'recommendedOptimizations' && (
         <RecommendedOptimizations
@@ -177,8 +178,7 @@ export default function ResourceOptimizationTab({
           totalRecommendedActions={recommendedOptimizations?.data?.totalRecommendedActionsCount}
         />
       )}
-      {/* TODO: Replace with turbo optimization history only table */}
-      {activeOptimizatonsKey === 'optimizationHistory' && <ActionHistoryTable />}
+      {activeOptimizatonsKey === 'optimizationHistory' && <ActionHistoryTable actionTypes={['EXTERNAL']} noFilters />}
     </div>
   );
 }
