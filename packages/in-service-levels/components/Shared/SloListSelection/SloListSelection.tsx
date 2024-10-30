@@ -18,6 +18,7 @@ import usePaginatedSloList, { SloData } from 'in-service-levels/hooks/usePaginat
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import useSelectedIds from 'in-service-levels/hooks/useSelectedIds';
 import Sections from 'in-components/workspace/Sections/Sections';
+import { removeAmbiguous } from 'in-service-levels/utils/array';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { t } from 'in-i18n';
 
@@ -72,7 +73,7 @@ export default function SloListSelection({ sloIdsField, entityTypeField, onChang
     ({ id }) => !initiallySelectedIds.current.includes(id)
   );
   const filteredList = sloList.filter(({ id }) => !selectedIds.includes(id));
-  const sortedList = removeAmbiguousItems([
+  const sortedList = removeAmbiguous([
     ...initiallySelectedSlos,
     ...sortedSloDataByLabel([...selectedSlosWithoutInitiallySelectedSlos, ...filteredList])
   ]);
@@ -158,9 +159,4 @@ export function useSloList(selectedIds: string[], entityType: SloEntityType): Us
 
 function isMultiSelect(sloIdsField: Field<string[]> | Field<string>): sloIdsField is Field<string[]> {
   return typeof sloIdsField.value !== 'string';
-}
-
-function removeAmbiguousItems(sloData: Array<SloData>): Array<SloData> {
-  const uniqueSet = new Set(sloData.map(slo => JSON.stringify(slo)));
-  return Array.from(uniqueSet).map(sloJson => JSON.parse(sloJson) as SloData);
 }

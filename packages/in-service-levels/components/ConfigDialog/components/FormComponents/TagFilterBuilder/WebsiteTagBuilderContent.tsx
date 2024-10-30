@@ -28,11 +28,11 @@ export default function WebsiteTagFilterBuilderContent({
 }: WebsiteTagFilterBuilderContentProps) {
   const beaconTypeField = form.getIn(['scope', 'beaconType']);
   const tagFilterExpressionField = form.getIn(['scope', 'tagFilterExpression']);
-  const websiteIdField = form.getIn(['entity', 'entityId']);
+  const websiteIdField = form.getIn(['entity', 'entityIds']);
 
   const { QueryBuilder } = useWebsiteQueryBuilder({
     beaconType: beaconTypeField.value,
-    websiteId: websiteIdField.value
+    websiteId: websiteIdField.value[0]
   });
 
   const shouldRenderExplanationText = readOnly && tagFilterExpressionField.value.length === 0;

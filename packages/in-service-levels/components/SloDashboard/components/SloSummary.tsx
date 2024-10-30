@@ -21,7 +21,6 @@ import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowCon
 import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { SLO_SUMMARY_VIEW } from 'in-services/tracking/eventNames';
-import { SupportedSloEntityUnion } from 'in-service-levels/types';
 import { Col, Row } from 'in-components/layout/Grid';
 import { Nullish } from 'in-types';
 
@@ -89,7 +88,7 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
           <IndicatorChart
             customHeight={250}
             customChartSkeletonHeight={308}
-            entity={configuration.entity as SupportedSloEntityUnion}
+            entity={configuration.entity}
             indicator={configuration.indicator}
             timeWindow={configuration.timeWindow}
             createdDate={configuration.createdDate}

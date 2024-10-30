@@ -7,21 +7,21 @@
 import {
   GetUnifiedMetricsQuery,
   ServiceLevelIndicator,
+  SloEntityUnion,
   TagFilterExpression,
   TimeConfig,
   UnifiedMetricConfigurationUnion
 } from '@instana/types';
 
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
-import { SupportedSloEntityUnion } from 'in-service-levels/types';
 
 export default function useSliMetricConfiguration<INDICATOR_TYPE extends ServiceLevelIndicator>(
-  entity: SupportedSloEntityUnion,
+  entity: SloEntityUnion,
   indicator: INDICATOR_TYPE,
   granularity: number,
   timeWindows: TimeConfig[],
   getMetricConfig: (
-    entity: SupportedSloEntityUnion,
+    entity: SloEntityUnion,
     timeConfig: TimeConfig,
     indicator: INDICATOR_TYPE,
     tagFilterExpression: TagFilterExpression,

@@ -28,9 +28,11 @@ export default function SloBlueprintsSection() {
   const { form, mode, onChange } = useContext(SloFormContext);
 
   const blueprintField = form.getIn(['indicator', 'blueprint']);
+  const entityTypeField = form.getIn(['entity', 'type']);
   const indicatorTypeField = form.getIn(['indicator', 'type']);
 
   const isFormInEditMode = mode === 'EDIT';
+  const isSyntheticsSlo = entityTypeField.value === 'synthetic';
 
   // Temporary workaround to force the indicator type for custom blueprints to always be event-based.
   // Can be removed once we have time-based indicator support for custom blueprints.
@@ -61,9 +63,11 @@ export default function SloBlueprintsSection() {
           <TabSelectItem<BlueprintType> forId="availability" disabled={isFormInEditMode} withRadioButton>
             <span>{t('in-service-levels:general.availability')}</span>
           </TabSelectItem>
-          <TabSelectItem<BlueprintType> forId="custom" disabled={isFormInEditMode} withRadioButton>
-            <span>{t('in-service-levels:general.custom')}</span>
-          </TabSelectItem>
+          {!isSyntheticsSlo && (
+            <TabSelectItem<BlueprintType> forId="custom" disabled={isFormInEditMode} withRadioButton>
+              <span>{t('in-service-levels:general.custom')}</span>
+            </TabSelectItem>
+          )}
         </TabSelectMenu>
         <TabSelectPanels>
           <TabSelectPanel<BlueprintType> id="latency">
@@ -72,9 +76,11 @@ export default function SloBlueprintsSection() {
           <TabSelectPanel<BlueprintType> id="availability">
             <SloIndicatorAvailabilityForm />
           </TabSelectPanel>
-          <TabSelectPanel<BlueprintType> id="custom">
-            <SloIndicatorCustomForm />
-          </TabSelectPanel>
+          {!isSyntheticsSlo && (
+            <TabSelectPanel<BlueprintType> id="custom">
+              <SloIndicatorCustomForm />
+            </TabSelectPanel>
+          )}
         </TabSelectPanels>
       </TabSelect>
     </SloDialogSection>

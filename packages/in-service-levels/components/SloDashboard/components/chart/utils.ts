@@ -12,8 +12,15 @@ import { MetricDataPoint, MetricDataSeries } from 'in-components/Chart/types';
 import { calculateSloGranularity } from 'in-service-levels/utils/time';
 import { getChartGranularity } from 'in-stores/metric';
 
-export function findMinMaxMetricValues(metrics: MetricDataSeries): { min: number; max: number } {
-  return metrics.reduce<{ min: number; max: number }>(
+interface FindMinMaxMetricValuesOptions {
+  withBuffer?: boolean;
+}
+
+export function findMinMaxMetricValues(
+  metrics: MetricDataSeries,
+  { withBuffer }: FindMinMaxMetricValuesOptions = {}
+): { min: number; max: number } {
+  const minMax = metrics.reduce<{ min: number; max: number }>(
     (acc, [, value], index) => {
       if (index === 0) {
         acc.min = value;
@@ -26,6 +33,17 @@ export function findMinMaxMetricValues(metrics: MetricDataSeries): { min: number
     },
     { min: Infinity, max: -Infinity }
   );
+
+  if (!withBuffer) return minMax;
+
+  const range = minMax.max - minMax.min;
+  const fallbackBuffer = minMax.max * 0.8;
+  const buffer = Math.max(range * 0.2, fallbackBuffer);
+
+  return {
+    max: minMax.max + buffer,
+    min: minMax.min === 0 ? minMax.min : minMax.min - buffer
+  };
 }
 
 export function findMinMetricValue(metrics: MetricDataSeries): number {

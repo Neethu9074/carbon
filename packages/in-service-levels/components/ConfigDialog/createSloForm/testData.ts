@@ -28,7 +28,7 @@ export const testWebsiteForm: SloForm = createMapForm({
   items: {
     entity: createMapForm({
       items: {
-        entityId: createField<string>({ value: '22222' }),
+        entityIds: createField<string[]>({ value: ['22222'] }),
         type: createField<SloEntityType>({ value: 'website' })
       }
     }),
@@ -80,7 +80,7 @@ export const testApplicationForm: SloForm = createMapForm({
   items: {
     entity: createMapForm({
       items: {
-        entityId: createField<string>({ value: '11111' }),
+        entityIds: createField<string[]>({ value: ['11111'] }),
         type: createField<SloEntityType>({ value: 'application' })
       }
     }),

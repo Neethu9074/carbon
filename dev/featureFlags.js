@@ -113,6 +113,7 @@ module.exports = {
   sloEnabled: true,
   sloSmartAlertsEnabled: true,
   sloRebornWidgetEnabled: true,
+  sloSyntheticsEnabled: true,
   customWidgetEventsTableEnabled: true,
   customWidgetTableInfraDataSourceEnabled: true,
   customDashboardsExportPdfWidget: true,

@@ -21,8 +21,8 @@ export default function SloWebsiteEntityEditSection() {
   const { form } = useContext(SloFormContext);
 
   const sloEntityTypeField = form.getIn(['entity', 'type']);
-  const entityIdField = form.getIn(['entity', 'entityId']);
-  const entityId = entityIdField.value;
+  const entityIdField = form.getIn(['entity', 'entityIds']);
+  const entityId = entityIdField.value[0];
 
   const [selectedWebsite, , , progress] = useWebsite(entityId);
 
@@ -33,7 +33,13 @@ export default function SloWebsiteEntityEditSection() {
           {t('in-service-levels:general.select', { entity: sloEntityTypeField.value })}
         </Typography>
       </SloTableHeader>
-      <SloEntityTable disabled entityList={[selectedWebsite] as Website[]} onChange={noop} progress={progress} />
+      <SloEntityTable
+        asRadioButton
+        disabled
+        entityList={[selectedWebsite] as Website[]}
+        onChange={noop}
+        progress={progress}
+      />
     </Sections>
   );
 }

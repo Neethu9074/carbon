@@ -1,31 +1,30 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import React, { useContext, useState } from 'react';
 
-import { Typography, SearchInput } from '@instana/components';
-import { Application } from '@instana/types';
+import { SearchInput, Typography, ValidationBlock } from '@instana/components';
 
 import SloEntityTable, {
   EntityData,
-  SloEntityTablePageSize
+  SloEntityTablePageSize,
+  SyntheticTestWithId
 } from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable';
 import SloTableHeader from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloTableHeader';
+import useSyntheticTestsCursorPaginated from 'in-service-levels/hooks/useSyntheticTestsCursorPaginated';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
-import useApplicationEntities from 'in-service-levels/hooks/useApplicationEntities';
-import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
-import useApplication from 'in-applications/hooks/useApplication';
+import useSyntheticTests from 'in-service-levels/hooks/useSyntheticTests';
 import Sections from 'in-components/workspace/Sections/Sections';
 import { finishedProgress } from 'in-services/fixedObjects';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { all } from 'in-hooks/utils/progress';
 import { t } from 'in-i18n';
 
-export default function SloApplicationEntitySection() {
+export default function SloSynthethicEntitySection() {
   const { form, onChange } = useContext(SloFormContext);
   const [query, setQuery] = useState('');
   const {
@@ -36,32 +35,30 @@ export default function SloApplicationEntitySection() {
 
   const sloEntityTypeField = form.getIn(['entity', 'type']);
   const entityIdsField = form.getIn(['entity', 'entityIds']);
-  const entityId = entityIdsField.value[0];
-  const isEntityIdFieldValid = isFieldValid(entityIdsField);
+  const entityIds = entityIdsField.value;
+  const isEntityIdsFieldValid = isFieldValid(entityIdsField);
 
-  const [separatelyLoadedEntity, , , labelProgress] = useApplication(entityId);
-  const [entityResult, , , entitiesProgress] = useApplicationEntities({
-    query: debouncedQuery,
-    options: { retrievalSize: SloEntityTablePageSize }
-  });
+  const [separatelyLoadedEntities, , , labelProgress] = useSyntheticTests({ testIds: entityIds });
+  const [entityResult, , , entitiesProgress] = useSyntheticTestsCursorPaginated(
+    { query: debouncedQuery },
+    SloEntityTablePageSize
+  );
 
-  const entityList = entityResult?.entities;
+  const entityList = entityResult?.tests;
   const { canLoadMore, loadMore } = entityResult ?? {};
 
-  // If entityList already contains the selected entity then we can avoid waiting for the extra loading operation for entity
-  const previouslyLoadedEntity = entityList?.find(({ id }) => id === entityId);
-  const entityAlreadyLoaded = Boolean(previouslyLoadedEntity);
-
   const onEntityChange = ({ id }: EntityData) => {
-    onChange(['entity', 'entityIds'], () => entityIdsField.setValue([id]).setTouched(true));
+    const alreadySelected = entityIds.includes(id);
+    const newEntityIds = alreadySelected ? entityIds.filter(entityId => entityId !== id) : [...entityIds, id];
+    onChange(['entity', 'entityIds'], () => entityIdsField.setValue(newEntityIds).setTouched(true));
   };
 
   const sortedEntities = [
-    previouslyLoadedEntity ?? separatelyLoadedEntity,
-    ...(entityList?.filter(({ id }) => id !== entityId) ?? [])
-  ].filter(Boolean) as Application[];
+    ...(separatelyLoadedEntities ?? []),
+    ...(entityList?.filter(({ id }) => !entityIds.includes(id!)) ?? [])
+  ].filter(Boolean) as SyntheticTestWithId[];
 
-  const progress = all(entityAlreadyLoaded || !entityId ? finishedProgress : labelProgress, entitiesProgress);
+  const progress = all(!entityIds ? finishedProgress : labelProgress, entitiesProgress);
 
   return (
     <Sections>
@@ -70,20 +67,19 @@ export default function SloApplicationEntitySection() {
           {t('in-service-levels:general.select', { entity: sloEntityTypeField.value })}
         </Typography>
         <SearchInput
-          query={queryInput}
           onChange={q => setQueryDebounced(q)}
           placeholder={t('in-components:searchInput.placeholderSearch')}
+          query={queryInput}
         />
       </SloTableHeader>
-      {!isEntityIdFieldValid &&
+      {!isEntityIdsFieldValid &&
         entityIdsField.messages.map(({ message, path }, index) => (
           <ValidationBlock key={`${path}:${index}`}>{message}</ValidationBlock>
         ))}
       <SloEntityTable
-        asRadioButton
         canLoadMore={canLoadMore}
         entityList={sortedEntities}
-        hasError={!isEntityIdFieldValid}
+        hasError={!isEntityIdsFieldValid}
         loadMore={loadMore}
         onChange={onEntityChange}
         progress={progress}

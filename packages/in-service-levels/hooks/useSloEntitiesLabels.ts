@@ -6,10 +6,11 @@
 
 import {
   isApplicationSloEntity,
-  isSyntheticSloEntity,
   isWebsiteSloEntity,
   ServiceLevelObjectiveConfiguration,
-  SloEntity
+  SloEntity,
+  SloEntityType,
+  SyntheticTest
 } from '@instana/types';
 import { combineLatest, just, Observable } from '@instana/observables';
 import { generateStableHash } from '@instana/utils';
@@ -17,18 +18,18 @@ import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
-import { LabeledEntity, SupportedSloEntityTypes } from 'in-service-levels/types';
+import getSyntheticTest from 'in-synthetics/subscriptions/getSyntheticTest';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import { ServiceLevelErrors } from 'in-service-levels/constants';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { pendingResult } from 'in-services/fixedObjects';
+import { LabeledEntity } from 'in-service-levels/types';
 import { Application, Result, Website } from 'in-types';
 import { FetchedState } from 'in-hooks/utils/types';
 import { isBlank } from 'in-services/util/string';
 import { error } from 'in-services/util/result';
 import { all } from 'in-hooks/utils/progress';
 
-export type MonitoredEntity = Application | Website;
+export type MonitoredEntity = Application | Website | SyntheticTest;
 
 export default function useSloEntitiesLabels(
   configurations: ServiceLevelObjectiveConfiguration[]
@@ -65,14 +66,12 @@ export function loadEntity(entity: SloEntity): Observable<Result<MonitoredEntity
     id = entity.applicationId;
   } else if (isWebsiteSloEntity(entity)) {
     id = entity.websiteId;
-  } else if (isSyntheticSloEntity(entity)) {
-    throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
   }
-  return loadEntityByTypeAndId(entity.type as SupportedSloEntityTypes, id);
+  return loadEntityByTypeAndId(entity.type, id);
 }
 
 export function loadEntityByTypeAndId(
-  entityType: SupportedSloEntityTypes,
+  entityType: SloEntityType,
   entityId: string
 ): Observable<Result<MonitoredEntity>> {
   if (isBlank(entityType)) {
@@ -89,5 +88,8 @@ export function loadEntityByTypeAndId(
 
     case 'website':
       return getWebsite({ id: entityId });
+
+    case 'synthetic':
+      return getSyntheticTest({ testId: entityId });
   }
 }

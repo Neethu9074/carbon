@@ -7,26 +7,18 @@
 import { BlueprintType, SloEntityType } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
-import { SloAggregationOptions, SupportedSloEntityTypes } from 'in-service-levels/types';
+import { SloAggregationOptions } from 'in-service-levels/types';
 import { deepFreeze } from 'in-services/util/object';
+import { sloSyntheticsEnabled } from 'in-services/featureFlags';
+import { hasSyntheticsAccess } from 'in-stores/permission';
+
+export const hasSyntheticsSloAccess = sloSyntheticsEnabled && hasSyntheticsAccess;
 
 export const SLO_TARGET_DECIMAL_PRECISION = 2;
 export const titleWidth = '14.7rem';
-
-interface EntityTypeData {
-  label: string;
-  value: SloEntityType;
-}
-
-export const entityTypes: Record<SupportedSloEntityTypes, EntityTypeData> = {
-  application: {
-    label: t('in-service-levels:general.entityTypes.label', { context: 'application' }),
-    value: 'application'
-  },
-  website: { label: t('in-service-levels:general.entityTypes.label', { context: 'website' }), value: 'website' }
-};
-
-export const sloEntityTypes = Object.keys(entityTypes) as SloEntityType[];
+export const sloEntityTypes: Readonly<SloEntityType[]> = Object.freeze(
+  hasSyntheticsSloAccess ? (['application', 'website', 'synthetic'] as const) : (['application', 'website'] as const)
+);
 
 export interface LabeledEntity {
   label: string;

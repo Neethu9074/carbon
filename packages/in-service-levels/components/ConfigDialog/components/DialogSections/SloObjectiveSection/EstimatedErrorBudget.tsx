@@ -7,12 +7,16 @@
 import React, { useContext } from 'react';
 
 import { Stack, Typography } from '@instana/components';
+import { isSyntheticSloEntity } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import EventBasedErrorBudgetPreview from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloObjectiveSection/EventBasedErrorBudgetPreview';
 import TimeBasedErrorBudgetPreview from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloObjectiveSection/TimeBasedErrorBudgetPreview';
 import { formToEntity, formToTimeWindow } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import Sections from 'in-components/workspace/Sections/Sections';
+
+import locals from './SloObjectiveSection.mless';
 
 export default function EstimatedErrorBudget() {
   const { form } = useContext(SloFormContext);
@@ -24,15 +28,22 @@ export default function EstimatedErrorBudget() {
 
   const isEventBased = indicator === 'eventBased';
   const isTimeBased = indicator === 'timeBased';
+  const isSyntheticEntity = isSyntheticSloEntity(entity);
+
+  if (isSyntheticEntity && isEventBased) return <></>;
 
   return (
-    <Stack direction="vertical">
-      <Typography variant="body-regular">
-        {t('in-service-levels:createSloDialog.errorBudgetPreviewTitle', { context: indicator })}
-      </Typography>
+    <Sections className={locals.estimatedBudgetSection}>
+      <Stack direction="vertical">
+        <Typography variant="body-regular">
+          {t('in-service-levels:createSloDialog.errorBudgetPreviewTitle', { context: indicator })}
+        </Typography>
 
-      {isTimeBased && <TimeBasedErrorBudgetPreview timeWindow={timeWindow} target={target} />}
-      {isEventBased && <EventBasedErrorBudgetPreview entity={entity} target={target} timeWindow={timeWindow} />}
-    </Stack>
+        {isTimeBased && <TimeBasedErrorBudgetPreview timeWindow={timeWindow} target={target} />}
+        {!isSyntheticEntity && isEventBased && (
+          <EventBasedErrorBudgetPreview entity={entity} target={target} timeWindow={timeWindow} />
+        )}
+      </Stack>
+    </Sections>
   );
 }

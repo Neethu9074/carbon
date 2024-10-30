@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { isSyntheticSloEntity, ServiceLevelObjectiveConfiguration } from '@instana/types';
+import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 
 import ContextAwareSloWidgetRightHeader from 'in-custom-dashboards/widgets/Slo/components/ContextAwareSloWidgetRightHeader';
 import IndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
@@ -18,7 +18,6 @@ import useSloWidgetMetrics from 'in-custom-dashboards/widgets/Slo/hooks/useSloWi
 import SloWidgetCard from 'in-custom-dashboards/widgets/Slo/components/SloWidgetCard';
 import { SloWidgetConfiguration } from 'in-custom-dashboards/widgets/Slo/types';
 import { getValueFromSingleValueMetric } from 'in-service-levels/utils/format';
-import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { MetricDataPoint } from 'in-components/Chart/types';
 
 interface SloWidgetPresenterProps {
@@ -48,10 +47,6 @@ export default function SloWidget({
   const metricRemaining = getValueFromSingleValueMetric(remainingBudgetNumber?.values as MetricDataPoint[]);
   const metricSli = getValueFromSingleValueMetric(statusMetric?.values as MetricDataPoint[]);
 
-  const { entity } = sloConfig;
-
-  if (isSyntheticSloEntity(entity)) throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
-
   return (
     <SloWidgetCard
       isInModal={isInModal}
@@ -67,7 +62,6 @@ export default function SloWidget({
         metricSli={metricSli}
         objectiveDuration={sloConfig.timeWindow.duration}
         objectiveDurationUnit={sloConfig.timeWindow.durationUnit}
-        showRemainingBudget
         sloEntityType={sloConfig.entity.type}
         status={status}
         statusSingleNumber={statusMetric?.values as MetricDataPoint[]}
@@ -78,7 +72,7 @@ export default function SloWidget({
         <ErrorBudgetChart configuration={sloConfig} automaticallySize={!isPreview} />
       ) : (
         <IndicatorChart
-          entity={entity}
+          entity={sloConfig.entity}
           indicator={sloConfig.indicator}
           timeWindow={sloConfig.timeWindow}
           automaticallySize={!isPreview}
