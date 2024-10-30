@@ -5,8 +5,7 @@
 
 import React, { useCallback } from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link, Spacer, SvgIcon } from '@instana/components';
 
 import { FacetedSearchPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
 import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedView/UngroupedViewTable';
@@ -192,16 +191,6 @@ function getColumnDefinitions(dataSource) {
       width: '3rem'
     },
     {
-      id: `${type}_icon`,
-      label: '',
-      sortable: false,
-      getContent() {
-        return <SvgIcon type={`lib_application_${type}`} />;
-      },
-      widthInAbsoluteUnit: true,
-      width: '3rem'
-    },
-    {
       id: type,
       label: namePerDataSource[dataSource],
       sortable: false,
@@ -209,6 +198,8 @@ function getColumnDefinitions(dataSource) {
         const label = item[type].label;
         return (
           <div className={locals.batchedLine}>
+            <SvgIcon type={`lib_application_${type}`} color="var(--cds-link-primary)" size="s" />
+            <Spacer horizontal="xsmall" />
             <LinkToDetailPage
               item={item}
               dataSource={dataSource}
@@ -227,7 +218,9 @@ function getColumnDefinitions(dataSource) {
             />
           </div>
         );
-      }
+      },
+      widthInAbsoluteUnit: true,
+      width: '30vw'
     },
     {
       id: 'service',
@@ -235,7 +228,9 @@ function getColumnDefinitions(dataSource) {
       sortable: false,
       getContent(item) {
         return <LabelServiceContent item={item} type={type} />;
-      }
+      },
+      widthInAbsoluteUnit: true,
+      width: '25vw'
     }
   ];
 }
