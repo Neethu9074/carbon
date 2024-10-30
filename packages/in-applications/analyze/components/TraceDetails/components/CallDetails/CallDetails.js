@@ -19,14 +19,14 @@ import Header from 'in-applications/analyze/components/TraceDetails/components/C
 import getTraceActivityTreeNodeDetails from 'in-applications/subscriptions/getTraceActivityTreeNodeDetails';
 import { hasOnlyExitSpan } from 'in-applications/analyze/components/TraceDetails/components/callHelper';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { downloadCallDetailsClickedTracker } from 'in-applications/tracker';
-import { emptyObject, pendingResult } from 'in-services/fixedObjects';
 import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { hasError, isLoading } from 'in-services/util/result';
 import { latencyFixed } from 'in-services/formatters/number';
 import { formatDateTime } from 'in-services/formatters/date';
+import { pendingResult } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip';
 import { seconds } from 'in-services/time';
 import { minutes } from 'in-services/time';
@@ -154,6 +154,7 @@ export default function CallDetails(props) {
 }
 
 function ActionButtons({ traceId, callId, onClose }) {
+  const { trackDownloadCallDetailsClicked } = useApplicationTracker();
   const downloadUrl = `/api/application-monitoring/v2/analyze/traces/${encodeURIComponent(
     traceId
   )}/calls/${encodeURIComponent(callId)}/details?pretty`;
@@ -167,7 +168,7 @@ function ActionButtons({ traceId, callId, onClose }) {
         href={downloadUrl}
         className={locals.downloadLink}
         target="_blank"
-        onClick={() => downloadCallDetailsClickedTracker(emptyObject)}
+        onClick={() => trackDownloadCallDetailsClicked()}
       >
         <Tooltip content={downloadLabel}>
           <SvgIcon size="xs" aria-label={downloadLabel} type="lib_actions_download" color={svgIconColor} />

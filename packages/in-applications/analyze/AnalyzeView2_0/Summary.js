@@ -26,14 +26,12 @@ import { FAKE_ROOT_CALL_ID } from '../components/TraceDetails/components/CallTre
 import CallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree';
 import ContentWrapper from 'in-components/LocationAwareTabView/components/ContentWrapper';
 import LogsInCallsContext from 'in-logging/components/TraceDetails/LogsInCallsContext';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import RestrictedAccessMessage from 'in-components/rbac/RestrictedAccessMessage';
-import {
-  ANALYZE_LOGGING_JUMP_TO_LOGS,
-} from 'in-services/tracking/tracking';
 import useLogsInCalls from 'in-logging/components/TraceDetails/useLogsInCalls';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { countOtelLogs } from 'in-logging/components/TraceDetails/utils';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import { refreshWindowSizeDependingState } from 'in-services/browser';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import Logs from 'in-logging/components/TraceDetails/components/Logs';
@@ -42,7 +40,6 @@ import { getTraceIdTagFilter } from 'in-logging/queryBuilder';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { loggingEnabled } from 'in-services/featureFlags';
 import ErrorBoundary from 'in-components/ErrorBoundary';
-import { emptyObject } from 'in-services/fixedObjects';
 import { scrollIntoView } from 'in-services/util/dom';
 import { Col, Row } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
@@ -60,10 +57,15 @@ export default function Summary({
   traceId,
   setCallId,
   colorCodeType,
-  setColorCodeMechanism,
-  tracker
+  setColorCodeMechanism
 }) {
   const isInternalVisible = useObservable(isInternalVisible$, []) || false;
+  const { trackJumpToLogs } = useAnalyzeTracker();
+  const {
+    trackTraceViewCallTimelineDetailClicked,
+    trackTraceViewCallTreeDetailClicked,
+    trackTraceViewTraceServiceEndpointListClicked
+  } = useApplicationTracker();
 
   const [showLargeTrace, setShowLargeTrace] = useState(false);
   const largeTrace = isLargeTrace(trace);
@@ -130,10 +132,8 @@ export default function Summary({
 
   const onCallClicked = call => {
     setCallId(call.id);
-    tracker.traceViewCallTimelineDetailClickedTracker(emptyObject);
+    trackTraceViewCallTimelineDetailClicked();
   };
-
-  const {trackCta} = useSegmentTracking()
 
   const hasWebsiteCorrelationId = trace.eumCorrelationId != null && trace.eumCorrelationType === 'web';
   const hasMobileCorrelationId = trace.eumCorrelationId != null && trace.eumCorrelationType === 'mobile';
@@ -322,7 +322,7 @@ export default function Summary({
                       domElement.focus();
                       scrollIntoView(domElement);
                     }
-                    tracker.traceViewCallTreeDetailClickedTracker(emptyObject);
+                    trackTraceViewCallTreeDetailClicked();
                   }}
                   onCallClicked={onCallClicked}
                   openedCallId={effectiveCallId}
@@ -351,7 +351,7 @@ export default function Summary({
                         kind="secondary"
                         icon="lib_analyze"
                         href={logsHref}
-                        onClick={() => trackCta(ANALYZE_LOGGING_JUMP_TO_LOGS,{ source: 'analyze logs' })}
+                        onClick={() => trackJumpToLogs({ source: 'analyze logs' })}
                       >
                         {t('in-analyze:traceDetail.tabs.summary.analyzeLogs')}
                       </Button>
@@ -384,9 +384,7 @@ export default function Summary({
                 getColor={getColor}
                 onListItemMouseEnter={service => hoveredServiceEndpoint$.emit(service)}
                 onListItemMouseLeave={() => hoveredServiceEndpoint$.emit(null)}
-                onClickTracker={e => {
-                  tracker.traceViewTraceServiceEndpointListClickedTracker(e);
-                }}
+                onClickTracker={e => trackTraceViewTraceServiceEndpointListClicked(e)}
               />
             </Card>
           </Col>

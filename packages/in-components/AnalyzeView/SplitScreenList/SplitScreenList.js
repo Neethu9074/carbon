@@ -23,7 +23,6 @@ import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import ResultHeader from 'in-components/AnalyzeView/ResultHeader';
-import { emptyObject } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip';
 import { minutes } from 'in-services/time';
 import Sticky from 'in-components/Sticky';
@@ -36,9 +35,7 @@ export default function SplitScreenList(props) {
 
   function handleExpansionWithTracking(event) {
     setExpanded(event);
-    if (props.tracker?.collapseOrExpandTraceDetailSidebar) {
-      props.tracker.collapseOrExpandTraceDetailSidebar(emptyObject);
-    }
+    props.tracker?.trackCollapseOrExpandTraceDetailSidebar?.();
   }
 
   return (
