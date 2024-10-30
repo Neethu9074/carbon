@@ -37,6 +37,43 @@ interface TooltipState {
   content: ReactNode;
 }
 
+const CarbonTooltipWithObserver = ({
+  align,
+  forceTheme,
+  themeStyle,
+  delay,
+  content,
+  caret,
+  overwriteBlock,
+  overflowEllipsis,
+  children
+}: Props) => {
+  /* Intentionally, the width and height are not used. */
+  const { ref: toolTipWrapperRef } = useResizeObserver();
+  // For carbon convert mousePosition -> auto
+  const updatedAlign = (align == 'mousePosition' && 'auto') || align;
+  const themeToPass = (forceTheme && themeStyle) || 'dark';
+
+  return (
+    // TODO: Later, when implemented in the underlying ui-foundation component, remove the wrapping span
+    <span ref={toolTipWrapperRef}>
+      <CarbonTooltip
+        // LATER: add, when this is implemented in the underlying ui-foundation component
+        // ref={toolTipWrapperRef}
+        align={updatedAlign}
+        delay={delay}
+        content={content}
+        caret={caret}
+        overwriteBlock={overwriteBlock}
+        themeStyle={themeToPass}
+        overflowEllipsis={overflowEllipsis}
+      >
+        {children}
+      </CarbonTooltip>
+    </span>
+  );
+};
+
 /**
  * Tooltip using Carbon Tooltip, when not enabling the legacy property.
  * (which was only needed on 10 locations)
@@ -64,34 +101,23 @@ export default function Tooltip({
   overflowEllipsis = false, // Used to pass to new Carbon component
   forceTheme = false
 }: Props) {
-  /* Intentionally, the width and height are not used. */
-  const { ref: toolTipWrapperRef } = useResizeObserver();
-
   // Use the Carbon tooltip if the feature flag is set and NOT Legacy being used
   // Content is sometimes undefined and if its undefined we have nothing to show then
   // skip the carbon tooltip and let the legacy handle the undefined scenario
   if (carbonTooltipEnabled && !legacy && content) {
-    // For carbon convert mousePosition -> auto
-    const updatedAlign = (align == 'mousePosition' && 'auto') || align;
-    const themeToPass = (forceTheme && themeStyle) || 'dark';
-
     return (
-      // TODO: Later, when implemented in the underlying ui-foundation component, remove the wrapping span
-      <span ref={toolTipWrapperRef}>
-        <CarbonTooltip
-          // LATER: add, when this is implemented in the underlying ui-foundation component
-          // ref={toolTipWrapperRef}
-          align={updatedAlign}
-          delay={delay}
-          content={content}
-          caret={caret}
-          overwriteBlock={overwriteBlock}
-          themeStyle={themeToPass}
-          overflowEllipsis={overflowEllipsis}
-        >
-          {children}
-        </CarbonTooltip>
-      </span>
+      <CarbonTooltipWithObserver
+        align={align}
+        forceTheme={forceTheme}
+        themeStyle={themeStyle}
+        delay={delay}
+        content={content}
+        caret={caret}
+        overwriteBlock={overwriteBlock}
+        overflowEllipsis={overflowEllipsis}
+      >
+        {children}
+      </CarbonTooltipWithObserver>
     );
   }
 
