@@ -63,6 +63,7 @@ const props: DetailsModalProps = {
     actionCategory: 'COMPLIANCE',
     impactedServices: '0',
     createdDate: 1728531187625,
+    targetSnapshotId: 'testID',
     actionDetailsURL:
       'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196418',
     targetClass: 'ContainerPod'
