@@ -116,6 +116,7 @@ module.exports = {
   customWidgetEventsTableEnabled: true,
   customWidgetTableInfraDataSourceEnabled: true,
   customDashboardsExportPdfWidget: true,
+  customDashboardsExportPdfEntireDashboard: true,
   infraSmartAlertsEnabled: true,
   syntheticCustomDashboardEnabled: true,
   rcaUIEnabled: true,

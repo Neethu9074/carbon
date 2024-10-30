@@ -451,6 +451,12 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'customDashboardsExportPdfEntireDashboard',
+    instanaCtlKey: 'feature.custom.dashboards.export.pdf.entire.dashboard.enabled',
+    defaultValue: false
+  },
+
+  {
     uiClientKey: 'playwithTestEnabled',
     instanaCtlKey: 'feature.playwithTestEnabled.enabled',
     defaultValue: false

@@ -37,7 +37,7 @@ const ExportWidgetContainer = forwardRef(({ widget, setIsReadyToExport }: Props,
   useEffect(() => {
     const checkLoadingStatus = () => {
       const reference = ref.current;
-      const loadingSelectors = ['carbonSkeleton', 'loading-indicator'];
+      const loadingSelectors = ['carbonSkeleton', 'loading-indicator', 'cds--skeleton'];
       if (reference) {
         const isLoading = loadingSelectors.some(selector => reference.querySelectorAll(`.${selector}`).length > 0);
         if (!isLoading && !hasLoaded) {
@@ -47,6 +47,7 @@ const ExportWidgetContainer = forwardRef(({ widget, setIsReadyToExport }: Props,
         }
       }
     };
+
     const interval = setInterval(checkLoadingStatus, 200);
 
     return () => {

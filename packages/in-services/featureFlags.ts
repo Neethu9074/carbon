@@ -166,6 +166,9 @@ export const thresholdCustomDashboardsTableWidgetEnabled = isFeatureFlagEnabled(
   'thresholdCustomDashboardsTableWidgetEnabled'
 );
 export const customDashboardsExportPdfWidget = isFeatureFlagEnabled('customDashboardsExportPdfWidget');
+export const customDashboardsExportPdfEntireDashboard = isFeatureFlagEnabled(
+  'customDashboardsExportPdfEntireDashboard'
+);
 
 // Infrastructure Smart Alerts
 export const infraSmartAlertsEnabled = isFeatureFlagEnabled('infraSmartAlertsEnabled');
