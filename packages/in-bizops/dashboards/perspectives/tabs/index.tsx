@@ -11,11 +11,13 @@ import { t } from 'in-i18n';
 
 export const tabs = [
   {
+    id: 'processes',
     label: t('in-bizops:dashboards.perspectives.processes.tabLabel'),
     path: `${businessPerspectiveSummaryPath}`,
     component: Processes
   },
   {
+    id: 'config',
     label: t('in-bizops:dashboards.perspectives.configuration.tabLabel'),
     path: `${businessPerspectiveConfigPath}`,
     component: PerspectiveConfiguration

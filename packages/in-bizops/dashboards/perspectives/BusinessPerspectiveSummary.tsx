@@ -18,6 +18,7 @@ import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
 import { bizopsTabClick } from 'in-bizops/tracker';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './BusinessPerspectiveSummary.mless';
@@ -42,6 +43,9 @@ export default function BusinessPerspectiveSummary() {
     onSyntheticCallsStateChange: {}
   };
 
+  const configDisabled = role?.limitedBizOpsScope;
+  const filteredTabs = configDisabled ? tabs.filter(tab => tab.id != 'config') : tabs;
+
   return (
     <div className={locals.perspectiveSummaryDiv}>
       <ViewTrackingMeta
@@ -54,7 +58,7 @@ export default function BusinessPerspectiveSummary() {
         HeaderComponent={Header}
         location={location}
         props={props}
-        tabs={tabs}
+        tabs={filteredTabs}
         tabChangeTracker={props => bizopsTabClick({ tab: props.tab, path: location.pathname })}
       />
     </div>

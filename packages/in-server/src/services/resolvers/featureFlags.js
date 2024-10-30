@@ -361,6 +361,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'bizopsRbacLimitedEnabled',
+    instanaCtlKey: 'feature.bizops.rbac.limited.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'bizopsProcessFlowMapEnabled',
     instanaCtlKey: 'feature.bizops.process.flow.map.enabled',
     defaultValue: false

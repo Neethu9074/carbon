@@ -22,6 +22,7 @@ import {
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/form';
 import PermissionSectionSyntheticMonitoring from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/components/PermissionSectionSyntheticMonitoring';
 import PermissionSectionBusinessMonitoring from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/components/PermissionSectionBusinessMonitoring';
+import { getAllBusinessPerspectivesForEntitySelectionWithDefaults } from 'in-bizops/subscriptions/helpers/getAllBusinessPerspectivesForEntitySelectionWithDefaults';
 import {
   AreaRoleWithContributor,
   ProductArea,
@@ -219,10 +220,15 @@ export default function EditAccessScopeDialog<FORM_TYPE extends MapFormItems>({
           accessAllDescription={t('in-settings:permissionScope.description_access_all_bizops')}
           noAccessTitle={t('in-settings:permissionScope.title_no_access_bizops')}
           noAccessDescription={t('in-settings:permissionScope.description_no_access_bizops')}
+          limitedAccessTitle={t('in-settings:permissionScope.title_limited_access_bizops')}
+          limitedAccessDescription={t('in-settings:permissionScope.description_limited_access_bizops')}
           productArea={ProductArea.BIZOPS}
           icon="lib_bizops"
           {...formControlProps}
           {...slideControlProps}
+          extractId={({ id }) => id}
+          extractName={({ name }) => name}
+          observable={() => getAllBusinessPerspectivesForEntitySelectionWithDefaults({ timeConfig })}
         />
       )
     },
