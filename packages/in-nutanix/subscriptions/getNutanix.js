@@ -7,7 +7,7 @@
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 const getNutanix = createResultSubscriptionFactory({
-  eventId: 'getNutanixConsoles'
+  eventId: 'getNutanixDatacenters'
 });
 export default getNutanix;
 
