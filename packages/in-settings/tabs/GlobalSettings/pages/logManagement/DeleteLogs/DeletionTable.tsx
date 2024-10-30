@@ -7,232 +7,184 @@
 import React from 'react';
 
 import {
-  LoadingSkeleton,
-  SvgIcon,
-  Typography,
-  TableSkeleton as CarbonTableSkeleton,
+  Button,
+  CarbonEmptyState,
+  Card,
   DataTable as CarbonDataTable,
-  Card
+  SvgIcon,
+  TableSkeleton,
+  Typography
 } from '@instana/components';
-import { Table, TableLoadingSkeletonRows, Tbody, Td, Th, Thead, Tr } from '@instana/legacy';
-import { DeleteLogsHistoryItem, DeleteLogsHistoryResult, Result } from '@instana/types';
-import { themes } from '@instana/design-tokens';
+import { Table, TableLoadingSkeletonRows, Tbody, Th, Thead, Tr } from '@instana/legacy';
+import { DeleteLogsHistoryResult, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
+import {
+  carbonHeaders,
+  getCarbonDataRows,
+  getDataRows,
+  getTableState,
+  TableState
+} from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/utils';
+import { deletionTableLocalisationStrings } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
 import getDeleteLogsHistory from 'in-logging/subscriptions/getDeleteLogsHistory';
-import { siPrefixCompact } from 'in-stores/metric/formatters';
-import { hasError, isLoading } from 'in-services/util/result';
 import { carbonTableEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
-import { t } from 'in-i18n';
 
 import locals from './DeletionTable.mless';
 
-const DELETE_STATUS = {
-  inProgress: 'In Progress',
-  failed: 'Failed',
-  done: 'Done'
-} as const;
+const DeleteButton = ({ openConfirmationDialog }: { openConfirmationDialog: () => void }) => (
+  <Button onClick={openConfirmationDialog} kind="danger" icon="lib_actions_delete">
+    {deletionTableLocalisationStrings.deleteLogs}
+  </Button>
+);
 
-const localisationStrings = {
-  deleteLogs: t('in-settings:tabs.deleteLogs.deleteLogs'),
-  deletionDate: t('in-settings:tabs.deleteLogs.deletionDate'),
-  reason: t('in-settings:tabs.deleteLogs.reason'),
-  numberOfLogs: t('in-settings:tabs.deleteLogs.numberOfLogs'),
-  triggered: t('in-settings:tabs.deleteLogs.triggered'),
-  status: t('in-settings:tabs.deleteLogs.status'),
-  noData: t('in-settings:tabs.deleteLogs.noData'),
-  noDataInfo: t('in-settings:tabs.deleteLogs.noDataInfo'),
-  summary: t('in-settings:tabs.deleteLogs.summary'),
-  wrong: t('in-settings:tabs.deleteLogs.wrong'),
-  errorInfo: t('in-settings:tabs.deleteLogs.errorInfo'),
-  success: t('in-settings:tabs.deleteLogs.success'),
-  failed: t('in-settings:tabs.deleteLogs.failed'),
-  inProgress: t('in-settings:tabs.deleteLogs.inProgress')
-};
+const CarbonDeletionTable = ({
+  result,
+  openConfirmationDialog
+}: {
+  result: Result<DeleteLogsHistoryResult>;
+  openConfirmationDialog: () => void;
+}) => {
+  const LoadingSkeleton = <TableSkeleton headers={carbonHeaders} showHeader showToolbar />;
 
-export const DeletionTable = ({ isDeleting }: { isDeleting: boolean }) => {
-  const deletionHistoryResult =
-    useObservable<Result<DeleteLogsHistoryResult>, [boolean]>(() => getDeleteLogsHistory(null), [isDeleting]) ??
-    pendingResult;
-  if (carbonTableEnabled) {
-    let carbonRows = [];
-
-    let carbonHeaders: Array<{ key: string; header: string }> = [
-      {
-        key: localisationStrings.status,
-        header: localisationStrings.status
-      },
-      {
-        key: localisationStrings.deletionDate,
-        header: localisationStrings.deletionDate
-      },
-      {
-        key: localisationStrings.reason,
-        header: localisationStrings.reason
-      },
-      {
-        key: localisationStrings.numberOfLogs,
-        header: localisationStrings.numberOfLogs
-      },
-      {
-        key: localisationStrings.triggered,
-        header: localisationStrings.triggered
-      }
-    ];
-
-    const getCarbonDataRows = () => {
-      carbonRows = deletionHistoryResult.data?.deletions
-        .slice()
-        .sort((a: DeleteLogsHistoryItem, b: DeleteLogsHistoryItem) => b.timestamp - a.timestamp)
-        .map((item: DeleteLogsHistoryItem, i: number) => ({
-          id: i,
-          [localisationStrings.status]: renderIconsByStatus(item.deletedStatus),
-          [localisationStrings.deletionDate]: timestampToLocaleDateTime(item.timestamp),
-          [localisationStrings.reason]: item.reason,
-          [localisationStrings.numberOfLogs]: getDeletedLineCount(item),
-          [localisationStrings.triggered]: item.triggeredByUser
-        }));
-      return carbonRows;
-    };
-
-    if (deletionHistoryResult.data) carbonRows = getCarbonDataRows();
-
-    return (
-      <section>
-        <Card size="s" disableLayer title={localisationStrings.summary} className={locals.deleteLogsSummaryCard}>
-          {/* render skeleton table */}
-          {isLoading(deletionHistoryResult) && (
-            <CarbonTableSkeleton headers={carbonHeaders} columnCount={5} rowCount={3} />
-          )}
-        </Card>
-        {/* render data table */}
-        <Card size="s" className={locals.deleteLogsTableCard}>
-          {deletionHistoryResult.data?.deletions.length > 0 && (
-            <CarbonDataTable headers={carbonHeaders} rows={carbonRows} />
-          )}
-          {/* render noData table */}
-          {deletionHistoryResult.data?.deletions.length === 0 && (
-            <div className={locals.emptyTable}>
-              <CarbonDataTable headers={carbonHeaders} rows={[]} isSearchEnabled={false} />
-              <section className={locals.stateContainer}>
-                <div data-testid="deletionTableEmpty" className={locals.emptyState}>
-                  <SvgIcon type={'lib_help_error_info_outline'} size="xxxl" />
-                  <Typography variant={'body-bold'}>{localisationStrings.noData}</Typography>
-                  <Typography variant={'body-regular'}>{localisationStrings.noDataInfo}</Typography>
-                </div>
-              </section>
-            </div>
-          )}
-          {/* render errorInfo table */}
-          {hasError(deletionHistoryResult) && (
-            <div className={locals.emptyTable}>
-              <CarbonDataTable headers={carbonHeaders} rows={[]} isSearchEnabled={false} />
-              <section className={locals.stateContainer}>
-                <div data-testid={'deletionTableErrorMessage'} className={locals.emptyState}>
-                  <SvgIcon type={'lib_help_error_error_circle'} size="xxxl" />
-                  <Typography variant={'body-bold'}>{localisationStrings.wrong}</Typography>
-                  <Typography variant={'body-regular'}>{localisationStrings.errorInfo}</Typography>
-                </div>
-              </section>
-            </div>
-          )}
-        </Card>
+  const EmptyState = (
+    <div className={locals.emptyTable}>
+      <CarbonDataTable
+        headers={carbonHeaders}
+        rows={[]}
+        toolBarContent={<DeleteButton openConfirmationDialog={openConfirmationDialog} />}
+      />
+      <section className={locals.stateContainer}>
+        <div data-testid="deletionTableEmpty" className={locals.emptyState}>
+          <CarbonEmptyState
+            icon="lib_carbon_empty_state"
+            text={deletionTableLocalisationStrings.noDataInfo}
+            title={deletionTableLocalisationStrings.noData}
+          />
+        </div>
       </section>
-    );
-  }
+    </div>
+  );
 
-  const getDataRows = () => {
-    return deletionHistoryResult.data?.deletions
-      .slice()
-      .sort((a: DeleteLogsHistoryItem, b: DeleteLogsHistoryItem) => b.timestamp - a.timestamp)
-      .map((item: DeleteLogsHistoryItem, i: number) => (
-        <Tr data-testid="deleteLogsHistoryRow" key={i}>
-          <Td>{renderIconsByStatus(item.deletedStatus)}</Td>
-          <Td>{timestampToLocaleDateTime(item.timestamp)}</Td>
-          <Td>{item.reason}</Td>
-          <Td>{getDeletedLineCount(item)}</Td>
-          <Td>{item.triggeredByUser}</Td>
-        </Tr>
-      ));
+  const ErrorState = (
+    <div className={locals.emptyTable}>
+      <CarbonDataTable
+        headers={carbonHeaders}
+        rows={[]}
+        toolBarContent={<DeleteButton openConfirmationDialog={openConfirmationDialog} />}
+      />
+      <section className={locals.stateContainer}>
+        <div data-testid={'deletionTableErrorMessage'} className={locals.emptyState}>
+          <CarbonEmptyState
+            icon="lib_carbon_empty_state"
+            text={deletionTableLocalisationStrings.errorInfo}
+            title={deletionTableLocalisationStrings.wrong}
+          />
+        </div>
+      </section>
+    </div>
+  );
+
+  const DataTable = (
+    <CarbonDataTable
+      title={deletionTableLocalisationStrings.summary}
+      headers={carbonHeaders}
+      rows={getCarbonDataRows(result)}
+      toolBarContent={<DeleteButton openConfirmationDialog={openConfirmationDialog} />}
+    />
+  );
+
+  const content = {
+    [TableState.LOADING]: LoadingSkeleton,
+    [TableState.EMPTY]: EmptyState,
+    [TableState.ERROR]: ErrorState,
+    [TableState.SUCCESS]: DataTable
   };
 
   return (
     <section>
-      <Card size="s" disableLayer className={locals.deleteLogsTableCard}>
+      <Card className={locals.deleteLogsTableCard}>{content[getTableState(result)]}</Card>
+    </section>
+  );
+};
+
+const InstanaDeletionTable = ({ result }: { result: Result<DeleteLogsHistoryResult> }) => {
+  const LoadingSkeleton = <TableLoadingSkeletonRows cols={5} rows={3} />;
+
+  const EmptyState = (
+    <Tr>
+      <td colSpan={4}>
+        <section className={locals.stateContainer}>
+          <div className={locals.emptyState}>
+            <SvgIcon type="lib_help_error_info_outline" size="xxxl" />
+            <Typography variant="body-bold">{deletionTableLocalisationStrings.noData}</Typography>
+            <Typography variant="body-regular">{deletionTableLocalisationStrings.noDataInfo}</Typography>
+          </div>
+        </section>
+      </td>
+    </Tr>
+  );
+
+  const ErrorState = (
+    <Tr>
+      <td colSpan={4}>
+        <section className={locals.stateContainer}>
+          <div className={locals.emptyState}>
+            <SvgIcon type="lib_help_error_error_circle" size="xxxl" />
+            <Typography variant="body-bold">{deletionTableLocalisationStrings.wrong}</Typography>
+            <Typography variant="body-regular">{deletionTableLocalisationStrings.errorInfo}</Typography>
+          </div>
+        </section>
+      </td>
+    </Tr>
+  );
+
+  const DataTable = result.data && getDataRows(result);
+
+  const content = {
+    [TableState.LOADING]: LoadingSkeleton,
+    [TableState.EMPTY]: EmptyState,
+    [TableState.ERROR]: ErrorState,
+    [TableState.SUCCESS]: DataTable
+  };
+
+  return (
+    <section>
+      <Card className={locals.deleteLogsTableCard}>
         <div className={locals.deleteLogsSummaryCard}>
-          <Typography variant={'heading-200'}>{localisationStrings.summary}</Typography>
+          <Typography variant="heading-200">{deletionTableLocalisationStrings.summary}</Typography>
         </div>
         <Table style={{ borderCollapse: 'collapse' }} fixedLayout className={locals.deletionTable}>
           <Thead>
             <Tr size="regular">
-              <Th>{localisationStrings.status}</Th>
-              <Th>{localisationStrings.deletionDate}</Th>
-              <Th>{localisationStrings.reason}</Th>
-              <Th>{localisationStrings.numberOfLogs}</Th>
-              <Th>{localisationStrings.triggered}</Th>
+              <Th>{deletionTableLocalisationStrings.status}</Th>
+              <Th>{deletionTableLocalisationStrings.deletionDate}</Th>
+              <Th>{deletionTableLocalisationStrings.reason}</Th>
+              <Th>{deletionTableLocalisationStrings.numberOfLogs}</Th>
+              <Th>{deletionTableLocalisationStrings.triggered}</Th>
             </Tr>
           </Thead>
-          <Tbody>
-            {isLoading(deletionHistoryResult) && <TableLoadingSkeletonRows cols={5} rows={3} />}
-            {hasError(deletionHistoryResult) && (
-              <Tr>
-                <td colSpan={4}>
-                  <section className={locals.stateContainer}>
-                    <div className={locals.emptyState}>
-                      <SvgIcon type={'lib_help_error_error_circle'} size="xxxl" />
-                      <Typography variant={'body-bold'}>{localisationStrings.wrong}</Typography>
-                      <Typography variant={'body-regular'}>{localisationStrings.errorInfo}</Typography>
-                    </div>
-                  </section>
-                </td>
-              </Tr>
-            )}
-            {deletionHistoryResult.data?.deletions.length === 0 && (
-              <Tr>
-                <td colSpan={4}>
-                  <section className={locals.stateContainer}>
-                    <div className={locals.emptyState}>
-                      <SvgIcon type={'lib_help_error_info_outline'} size="xxxl" />
-                      <Typography variant={'body-bold'}>{localisationStrings.noData}</Typography>
-                      <Typography variant={'body-regular'}>{localisationStrings.noDataInfo}</Typography>
-                    </div>
-                  </section>
-                </td>
-              </Tr>
-            )}
-            {deletionHistoryResult.data && getDataRows()}
-          </Tbody>
+          <Tbody>{content[getTableState(result)]}</Tbody>
         </Table>
       </Card>
     </section>
   );
 };
 
-const timestampToLocaleDateTime = (timestamp: number) => {
-  const timestampDate = new Date(Math.round(timestamp / 1000000));
-  return timestampDate.toISOString().slice(0, 16).replace('T', ', ');
-};
+export const DeletionTable = ({
+  isDeleting,
+  openConfirmationDialog
+}: {
+  isDeleting: boolean;
+  openConfirmationDialog: () => void;
+}) => {
+  const deletionHistoryResult =
+    useObservable<Result<DeleteLogsHistoryResult>, [boolean]>(() => getDeleteLogsHistory(null), [isDeleting]) ??
+    pendingResult;
 
-const renderIconsByStatus = (status: string) => {
-  const icons: Record<string, JSX.Element> = {
-    [DELETE_STATUS.done]: <SvgIcon type="lib_uncheck" size="s" color={themes.default.ids.color.option.green[500]} />,
-    [DELETE_STATUS.failed]: (
-      <SvgIcon type="lib_error_filled" size="s" color={themes.default.ids.color.option.red[500]} />
-    ),
-    [DELETE_STATUS.inProgress]: <div className={locals.spinner} />
-  };
-  return icons[status] || null;
-};
+  if (carbonTableEnabled)
+    return <CarbonDeletionTable openConfirmationDialog={openConfirmationDialog} result={deletionHistoryResult} />;
 
-const getDeletedLineCount = (item: DeleteLogsHistoryItem) => {
-  if (item.deletedStatus === DELETE_STATUS.inProgress) {
-    return '–';
-  }
-
-  if (item.deletedLineCount !== null) {
-    return siPrefixCompact.formatter(item.deletedLineCount);
-  }
-
-  return <LoadingSkeleton className={locals.skeleton} />;
+  return <InstanaDeletionTable result={deletionHistoryResult} />;
 };
