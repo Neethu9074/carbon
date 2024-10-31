@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import { EntityHealthInfo, Result, TimeConfig, Event } from '@instana/types';
 import { useObservable } from '@instana/hooks';
@@ -15,7 +15,6 @@ import getApplicationEntityHealthInfo from 'in-applications/subscriptions/getApp
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { eventsPath } from 'in-events/navigation/paths';
 
 interface BizOpsOpenIssuesListProps {
@@ -33,7 +32,6 @@ export default function BizOpsOpenIssuesList({
   timeConfig
 }: BizOpsOpenIssuesListProps) {
   const additionalDFQFilter = getAdditionalFilters({ serviceIds });
-  const getLinkToEventsViewFilteredByOr = useLinkToEventsViewFilteredByOr();
   const eventsViewFilteredByOrQuery = getEventsViewFilteredByOrQuery(serviceIds);
 
   interface maxWidthContentProps {
@@ -92,7 +90,7 @@ export default function BizOpsOpenIssuesList({
       <OpenIssuesListPresenter
         close={close}
         openIssuesResult={openIssuesResult}
-        analyzeLink={getLinkToEventsViewFilteredByOr(eventsViewFilteredByOrQuery)}
+        analyzeLink={useLinkToEventsViewFilteredByOr(eventsViewFilteredByOrQuery)}
         getIssueLink={(eventId: string) => {
           // get the service ID that corresponds to this event
           let serviceId = '';
@@ -134,23 +132,17 @@ function getEventsViewFilteredByOrQuery(serviceIds: string[]) {
   return query;
 }
 
-function useLinkToEventsViewFilteredByOr() {
+function useLinkToEventsViewFilteredByOr(query: string) {
   const { createHref, location } = useNavigation();
 
-  return useCallback(
-    (query: string) => {
-      const clonedLocation = cloneLocation(location);
+  location.pathname = eventsPath;
+  if (query) {
+    location.query.q = query;
+  }
 
-      clonedLocation.pathname = eventsPath;
-      if (query) {
-        clonedLocation.query.q = query;
-      }
-      setOrDeleteMatrixKey(clonedLocation, eventsPath, 'view', 'issue');
+  setOrDeleteMatrixKey(location, eventsPath, 'view', 'issue');
 
-      return createHref(clonedLocation);
-    },
-    [location, createHref]
-  );
+  return createHref(location);
 }
 
 interface BizOpsAdditionalFiltersProps {
