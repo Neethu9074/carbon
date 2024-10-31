@@ -100,8 +100,8 @@
       "dataUsageHelperText": "Amount of bytes sent through agents separated by category in the chosen timeframe.",
       "syntheticsHelperText": "Number of resource units consumed by each type of action. Units are calculated with a factor of 0.025 for simple tests, 0.042 for API tests, and 1.000 for browser tests.",
       "loggingHelperText": {
-        "saas": "Number of resource units (RU) consumed by logs in context.<br><br>Resource units are calculated based on how long ingested data is retained:<br>• 1 GB of data retained for 30 days consumes 1 RU.<br>• 1 GB of data retained for 60 days consumes 1.2 RUs.<br>• 1 GB of data retained for 90 days consumes 1.4 RUs.",
-        "onprem": "Number of resource units (RU) consumed by logs in context.<br><br>Resource units are calculated based on how much data is ingested. 1 GB of ingested data consumes 1 RU."
+        "saas": "Amount of data in bytes used by the logging add-on for the chosen retention period.",
+        "onprem": "Amount of data in bytes used by the logging add-on for the chosen retention period."
       }
     },
     "activationAdoption": {
