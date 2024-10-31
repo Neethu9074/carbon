@@ -6,6 +6,8 @@
 
 import { TimeConfig } from '@instana/types';
 
+import { FilterResult } from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
+
 export interface WidgetProps<T> {
   actions: React.ReactNode;
   config: T;
@@ -14,4 +16,5 @@ export interface WidgetProps<T> {
   isPreview?: boolean;
   timeConfig: TimeConfig;
   isInModal?: boolean;
+  filterResult?: FilterResult;
 }

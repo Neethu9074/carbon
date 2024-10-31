@@ -20,7 +20,15 @@ interface Config {
   metricConfiguration: InfraMetricConfiguration;
 }
 
-const InfraTopListCatalog = ({ config, title, actions, dragHandle, isInModal, timeConfig }: WidgetProps<Config>) => {
+const InfraTopListCatalog = ({
+  config,
+  title,
+  actions,
+  dragHandle,
+  isInModal,
+  timeConfig,
+  filterResult
+}: WidgetProps<Config>) => {
   const result = useTopListResultData(config, timeConfig) ?? pendingResult;
   const isErroneous =
     config.metricConfiguration.metric === 'erroneousCalls' || config.metricConfiguration.metric === 'errors';
@@ -36,6 +44,7 @@ const InfraTopListCatalog = ({ config, title, actions, dragHandle, isInModal, ti
       isInModal={isInModal}
       actions={actions}
       timeConfig={timeConfig}
+      filterResult={filterResult}
     />
   );
 };

@@ -46,7 +46,7 @@ export interface HistogramWidgetCardProps {
 
 export default function HistogramWidgetCard({
   title,
-  config,
+  config: baseConfig,
   actions,
   dragHandle,
   isInModal,
@@ -54,13 +54,11 @@ export default function HistogramWidgetCard({
   useMaxAvailableHeight
 }: HistogramWidgetCardProps) {
   const { metricConfiguration, result: filterResult } = useFilteredMetricConfiguration(
-    config[metricConfigurationPath] as UnifiedMetricConfigurationUnion
+    baseConfig[metricConfigurationPath] as UnifiedMetricConfigurationUnion
   );
-  const stableConfig = useStableObjectInstance({
-    ...config,
-    metricConfiguration
-  });
-  const result = useResultData({ config: stableConfig });
+  //Using stable instance to avoid unnecessary rendering
+  const config = useStableObjectInstance({ ...baseConfig, metricConfiguration });
+  const result = useResultData({ config });
   const ref = useRef<HTMLDivElement>(null);
   const { matchLocation } = useNavigation();
   const [tooltip, setTooltip] = React.useState<HTMLElement>(document.createElement('div'));
