@@ -55,7 +55,6 @@
   .contextMenuActionsButtonsWrapper {
     position: absolute;
     top: -1.75rem;
-    width: 4.25rem;
 
     display: flex;
   }

@@ -14,9 +14,9 @@ import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloF
 
 export default function ApplicationTagFilterBuilder() {
   const { form } = useContext(SloFormContext);
-  const applicationIdField = form.getIn(['entity', 'entityId']);
+  const applicationIdField = form.getIn(['entity', 'entityIds']);
   const boundaryScopeField = form.getIn(['scope', 'boundaryScope']);
-  const isScopeSelected = boundaryScopeField.value && applicationIdField.value;
+  const isScopeSelected = boundaryScopeField.value && applicationIdField.value[0];
 
   return !isScopeSelected ? (
     <StackItem>

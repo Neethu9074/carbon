@@ -123,6 +123,7 @@ export function handleSubmitNote(incidentId, note, setNote) {
     const newNote = {
       incidentId: incidentId,
       author: userName,
+      authorId: user.id,
       action: 'create',
       contents: note
     };

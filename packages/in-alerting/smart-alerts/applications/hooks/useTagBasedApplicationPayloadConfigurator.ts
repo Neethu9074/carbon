@@ -6,7 +6,7 @@
 
 import { ReactNode, useMemo } from 'react';
 
-import { createTagBasedApplicationPayloadConfigurator } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import { createTagBasedApplicationPayloadConfigurator } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import { getApplicationTagSuggestions } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { ApplicationBoundaryScope, ApplicationNode, TimeConfig } from 'in-types';

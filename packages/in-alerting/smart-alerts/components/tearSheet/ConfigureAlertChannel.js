@@ -11,7 +11,7 @@ import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
 import AlertChannelSelectListTearsheet from 'in-alerting/smart-alerts/components/tearSheet/AlertChannelSelectListTearsheet';
-import { limitForConnectedAlertChannels } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
+import { limitForConnectedAlertChannels } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/Alert';
 import { channelListLoading$ } from 'in-alerting/smart-alerts/components/tearSheet/AlertChannelsList';
 import AlertChannelCreation from 'in-alerting/smart-alerts/components/dialog/AlertChannelCreation';
 import AlertChannelsList from 'in-alerting/smart-alerts/components/tearSheet/AlertChannelsList';

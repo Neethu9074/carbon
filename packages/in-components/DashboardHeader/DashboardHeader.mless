@@ -51,6 +51,7 @@
   }
 
   .rightContent {
+    flex-shrink: 0;
     justify-content: flex-end;
   }
 

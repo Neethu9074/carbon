@@ -11,7 +11,7 @@ import { Progress, Error, ServiceLevelObjectiveConfiguration, TimeConfig } from 
 import { useLineWithMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithMissingDataIndicator';
 import {
   copyFirstBucketOfSubsequentDataSeries,
-  findMinMetricValue
+  findMinMaxMetricValues
 } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
@@ -62,6 +62,7 @@ export default function ControlledSloErrorBudgetChart({
   });
 
   const chartMetrics = copyFirstBucketOfSubsequentDataSeries(metrics?.metrics);
+  const { min, max } = findMinMaxMetricValues(chartMetrics.flat(1), { withBuffer: true });
 
   return (
     <ResultAwareChart
@@ -76,7 +77,8 @@ export default function ControlledSloErrorBudgetChart({
         y1: {
           metricIds: timeWindows.map((_, index) => `timeWindows${index}`),
           metrics: chartMetrics,
-          min: findMinMetricValue(chartMetrics.flat(1)),
+          min,
+          max,
           renderAllTickLabels: true,
           labels: timeWindows.map(() => sloMetrics.remainingBudget.label),
           colors: timeWindowColors,

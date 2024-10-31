@@ -23,11 +23,17 @@ describe(StepOne, () => {
     expect(screen.getByLabelText('Name')).toBeInTheDocument();
     expect(screen.getByLabelText('Value')).toBeInTheDocument();
 
-    expect(screen.getByTitle('Credential Name')).toBeInTheDocument();
-    expect(screen.getByTitle('Credential Name')).toHaveValue('');
+    expect(screen.getByTitle('Credential name')).toBeInTheDocument();
+    expect(screen.getByTitle('Credential name')).toHaveValue('');
 
-    const valueField = document.querySelector('input[type="password"]');
+    const valueField = document.querySelector('input[placeholder="Credential value"]');
     expect(valueField).toBeInTheDocument();
     expect(valueField).toHaveValue('');
+  });
+
+  it('should display tooltip messages for Value field', () => {
+    render(<StepOne form={createCredentialForm()} updateForm={updateForm} />);
+
+    expect(screen.getByText('Hide credential value')).toBeVisible();
   });
 });

@@ -35,9 +35,9 @@ export default function SloApplicationEntitySection() {
   } = useDebouncedValue(query, setQuery);
 
   const sloEntityTypeField = form.getIn(['entity', 'type']);
-  const entityIdField = form.getIn(['entity', 'entityId']);
-  const entityId = entityIdField.value;
-  const isEntityIdFieldValid = isFieldValid(entityIdField);
+  const entityIdsField = form.getIn(['entity', 'entityIds']);
+  const entityId = entityIdsField.value[0];
+  const isEntityIdFieldValid = isFieldValid(entityIdsField);
 
   const [separatelyLoadedEntity, , , labelProgress] = useApplication(entityId);
   const [entityResult, , , entitiesProgress] = useApplicationEntities({
@@ -53,7 +53,7 @@ export default function SloApplicationEntitySection() {
   const entityAlreadyLoaded = Boolean(previouslyLoadedEntity);
 
   const onEntityChange = ({ id }: EntityData) => {
-    onChange(['entity', 'entityId'], () => entityIdField.setValue(id).setTouched(true));
+    onChange(['entity', 'entityIds'], () => entityIdsField.setValue([id]).setTouched(true));
   };
 
   const sortedEntities = [
@@ -76,16 +76,17 @@ export default function SloApplicationEntitySection() {
         />
       </SloTableHeader>
       {!isEntityIdFieldValid &&
-        entityIdField.messages.map(({ message, path }, index) => (
+        entityIdsField.messages.map(({ message, path }, index) => (
           <ValidationBlock key={`${path}:${index}`}>{message}</ValidationBlock>
         ))}
       <SloEntityTable
-        hasError={!isEntityIdFieldValid}
+        asRadioButton
+        canLoadMore={canLoadMore}
         entityList={sortedEntities}
+        hasError={!isEntityIdFieldValid}
+        loadMore={loadMore}
         onChange={onEntityChange}
         progress={progress}
-        canLoadMore={canLoadMore}
-        loadMore={loadMore}
       />
     </Sections>
   );

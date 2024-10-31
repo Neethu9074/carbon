@@ -36,7 +36,8 @@ export default function renderListInsideCard(props) {
           totalFilteredItems,
           pageItems,
           itemName,
-          isLoading
+          isLoading,
+          pageSize
         } = _props;
 
         if (isLoading) {
@@ -66,8 +67,8 @@ export default function renderListInsideCard(props) {
                 <CarbonPagination
                   currentPage={page}
                   totalItems={totalFilteredItems}
-                  pageSize={numPages}
-                  pageSizes={[numPages]}
+                  pageSize={pageSize}
+                  pageSizes={[pageSize]}
                   onChange={p => setPage(p.page)}
                 />
               </div>

@@ -4,20 +4,37 @@
  * Copyright IBM Corp. 2023
  */
 
-import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { Group, Order, TagFilterExpressionElementUnion } from 'in-types';
 
 export interface Grouping extends Group {
   tagType: string;
 }
 
+export type WidgetSource =
+  | 'APDEX'
+  | 'APPLICATION'
+  | 'BIZOPS'
+  | 'EUM'
+  | 'EVENT'
+  | 'INFRASTRUCTURE_METRICS'
+  | 'LOG'
+  | 'MOBILE_APP'
+  | 'SLI'
+  | 'SLO'
+  | 'SLO_PREVIEW'
+  | 'SYNTHETICS_DETAIL'
+  | 'SYNTHETICS'
+  | 'UNKNOWN'
+  | 'USAGE'
+  | 'WEBSITE';
+
 export interface TableFormConfiguration {
-  source: string;
+  source: WidgetSource;
   dynamicFocusQuery?: string;
   columns?: string[];
   tableSize?: number;
   entityType?: string;
-  tagFilterExpression: FormModelElement[] | TagFilterExpressionElementUnion | FormModelElement;
+  tagFilterExpression: TagFilterExpressionElementUnion;
   grouping?: Grouping[];
   datasets?: any;
   sorting?: Order;
@@ -32,5 +49,6 @@ export interface TableWidgetProps {
   actions?: React.ReactNode;
   isPreview: boolean;
   isInModal?: boolean;
+  topLevelFilterNote?: string;
   refreshFixatedTimeConfig: () => void;
 }

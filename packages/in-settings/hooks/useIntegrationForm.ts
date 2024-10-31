@@ -12,7 +12,7 @@ import {
   Integration,
   IntegrationForm,
   IntegrationFormPath
-} from 'in-settings/tabs/TeamSettings/pages/integrations/database/types';
+} from 'in-settings/tabs/GlobalSettings/pages/integrations/database/types';
 import { t } from 'in-i18n';
 
 export interface IntegrationFormParameters {

@@ -16,9 +16,9 @@ import {
   getKind,
   getStringifiedParameters,
   createFilters
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
+} from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
 import List, { defaultHeaderWithCount, areAllRowsOnAllPagesSelected } from 'in-settings/components/List';
-import { getEntityHref, teamSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
+import { getEntityHref, globalSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
 import { clickAlertChannelTracker } from 'in-settings/tracker';
 import { t } from 'in-i18n';
 
@@ -78,7 +78,7 @@ export default function AlertChannelsList({
                 alertChannelId: entity.id ?? '',
                 alertChannelKind: entity.kind ?? ''
               });
-              return getEntityHref(teamSettingsAlertingAlertChannels, entity.id);
+              return getEntityHref(globalSettingsAlertingAlertChannels, entity.id);
             }
       }
     />

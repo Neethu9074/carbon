@@ -8,7 +8,6 @@ import React from 'react';
 
 import {
   isApplicationSloEntity,
-  isSyntheticSloEntity,
   isWebsiteSloEntity,
   ServiceLevelObjectiveConfiguration,
   SloEntity
@@ -19,7 +18,6 @@ import { t } from '@instana/i18n-react';
 import useHrefToUnboundedAnalytics from 'in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics';
 import { createGoodBadTagFilterExpression } from 'in-service-levels/utils/tagFilter';
 import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
-import { ServiceLevelErrors } from 'in-service-levels/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 interface AnalyzeSloCallsButtonProps {
@@ -27,8 +25,6 @@ interface AnalyzeSloCallsButtonProps {
 }
 
 export default function AnalyzeSloEventsButtons({ configuration: { indicator, entity } }: AnalyzeSloCallsButtonProps) {
-  if (isSyntheticSloEntity(entity)) throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
-
   const { bad: badEventsFilterExpression } = createGoodBadTagFilterExpression({ entity, indicator });
 
   const timeConfig = useTimeConfig();

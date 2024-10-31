@@ -51,9 +51,9 @@
     "entityTypes": {
       "label": "Unknown Entity",
       "label_application": "Application",
-      "label_website": "Website"
+      "label_website": "Website",
+      "label_synthetic": "Synthetic Tests"
     },
-    "preview": "Preview",
     "type": "Type",
     "selectLabel": "Selection: {{selectedLabel}}",
     "serviceLevelObjective": "Service Level Objective",
@@ -113,7 +113,12 @@
       "event_application_plural": "{{formatted}} calls",
       "event_application_0": "{{formatted}} calls",
       "event_application_1": "{{formatted}} call",
-      "event_application_2": "{{formatted}} calls"
+      "event_application_2": "{{formatted}} calls",
+      "event_synthetic": "{{formatted}} result",
+      "event_synthetic_plural": "{{formatted}} results",
+      "event_synthetic_0": "{{formatted}} results",
+      "event_synthetic_1": "{{formatted}} results",
+      "event_synthetic_2": "{{formatted}} results"
     },
     "deleteDialog": {
       "pleaseConfirm": "Please Confirm",
@@ -187,26 +192,21 @@
       "setBadCall": "Set the bad calls to a service (Optional)"
     },
     "previewSection": {
-      "dataInfo": "Preview data is shown only up to 7 days in the past. The SLO will only include data from the time it was created"
+      "dataInfo": "Preview data is shown only up to 7 days in the past. The SLO will only include data from the time it was created",
+      "title": "Preview",
+      "title_synthetic": "Sample"
     }
   },
   "sloChart": {
     "sloFormatter": {
-      "unit": "call",
-      "unit_application": "call",
-      "unit_website": "beacon",
-      "unit_plural": "calls",
-      "unit_application_plural": "calls",
-      "unit_website_plural": "beacons",
-      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
-      "callsFormat": "{{formattedCount}} $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
+      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:general.format.event {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
+      "callsFormat": "{{formattedCount}} $t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
     },
     "sloChartSummary": {
       "status": "Status",
       "target": "Target:",
-      "errorBudgetRemaining": "Error Budget Remaining",
+      "errorBudgetRemaining": "Remaining:",
       "errorBudgetSpent": "Error Budget Spent",
-      "errorBudget": "Error Budget:",
       "timeWindow": "Time Window",
       "timeWindowType_dynamic": "Dynamic time window",
       "timeWindowType_rolling": "Rolling time window",

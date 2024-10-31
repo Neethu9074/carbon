@@ -10,12 +10,6 @@ import { themes } from '@instana/design-tokens';
 import { t } from '@instana/i18n-react';
 
 import {
-  ua2ApiQueryPressedTracker,
-  ua2GroupChangedTracker,
-  ua2NestingDepthTracker,
-  ua2QueryBuilderFilterAddedTracker
-} from 'in-websites/tracker';
-import {
   getMaximumExpressionDepth,
   toBackendQueryModel
 } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -28,6 +22,7 @@ import { ActionSection } from 'in-components/workspace/ActionSection/ActionSecti
 import * as queryBuildersByDataSource from 'in-websites/queryBuilder';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { dataSourceTypes, defaultGroupings } from 'in-websites/tags';
+import { useWebsiteTracker } from '../../../tracking/segTracker';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
 import { emptyArray } from 'in-services/fixedObjects';
@@ -57,6 +52,12 @@ export default function WebsiteQueryBuilderWorkspace(props) {
   } = props;
 
   const { hasError, errors } = validate(formModel);
+  const {
+    ua2ApiQueryPressedTracker,
+    ua2GroupChangedTracker,
+    ua2NestingDepthTracker,
+    ua2QueryBuilderFilterAddedTracker
+  } = useWebsiteTracker();
   const timeConfig = useTimeConfig();
   const hasNoGrouping = !groupBy || !Object.keys(groupBy).length;
   const docLink = `https://instana.github.io/openapi/#operation/getBeaconGroups`;

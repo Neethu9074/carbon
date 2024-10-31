@@ -4,21 +4,21 @@
  */
 
 import {
-  teamSettingsAccessControlUsers,
-  teamSettingsAccessControlApiTokens,
-  teamSettingsAlertingEvents,
-  teamSettingsAlertingAlertChannels,
-  teamSettingsActionLog,
-  teamSettingsIntegrationsLoggingHumio,
-  teamSettingsAccessControlGroups,
-  teamSettingsAlertingCustomPayloadConfiguration,
-  teamSettingsAlertingMaintenanceConfigurations,
-  teamSettingsIntegrationsDatabase,
-  googleSSO,
-  saml,
-  ldap,
-  groupMapping,
-  timeouts
+  securityAndAccessAccessControlUsers,
+  securityAndAccessAccessControlApiTokens,
+  globalSettingsAlertingEvents,
+  globalSettingsAlertingAlertChannels,
+  securityAndAccessActionLog,
+  globalSettingsIntegrationsLoggingHumio,
+  securityAndAccessAccessControlGroups,
+  globalSettingsAlertingCustomPayloadConfiguration,
+  globalSettingsAlertingMaintenanceConfigurations,
+  globalSettingsIntegrationsDatabase,
+  securityAndAccessGoogleSSO,
+  securityAndAccessSaml,
+  securityAndAccessLdap,
+  securityAndAccessGroupMapping,
+  securityAndAccessTimeouts
 } from 'in-settings/navigation/paths';
 import { productOwnerPermissions } from 'in-stores/permission';
 import { role } from 'in-stores/user';
@@ -50,56 +50,56 @@ export function roleHasAnySecurityAccessPermissions() {
 
 export function findFirstPermittedGlobalPage() {
   if (role.canConfigureEventsAndAlerts) {
-    return teamSettingsAlertingEvents;
+    return globalSettingsAlertingEvents;
   }
   if (role.canConfigureIntegrations) {
-    return teamSettingsAlertingAlertChannels;
+    return globalSettingsAlertingAlertChannels;
   }
   if (role.canConfigureMaintenanceWindows) {
-    return teamSettingsAlertingMaintenanceConfigurations;
+    return globalSettingsAlertingMaintenanceConfigurations;
   }
   if (role.canConfigureGlobalAlertPayload) {
-    return teamSettingsAlertingCustomPayloadConfiguration;
+    return globalSettingsAlertingCustomPayloadConfiguration;
   }
   if (role.canConfigureLogManagement) {
-    return teamSettingsIntegrationsLoggingHumio;
+    return globalSettingsIntegrationsLoggingHumio;
   }
   if (role.canConfigureDatabaseManagement) {
-    return teamSettingsIntegrationsDatabase;
+    return globalSettingsIntegrationsDatabase;
   }
 }
 
 export function findFirstPermittedSecurityAndAccessPage(isGoogleSSOAvailable, isSamlAvailable, isLdapAvailable) {
   if (role.canConfigureUsers) {
-    return teamSettingsAccessControlUsers;
+    return securityAndAccessAccessControlUsers;
   }
   if (role.canConfigureTeams) {
-    return teamSettingsAccessControlGroups;
+    return securityAndAccessAccessControlGroups;
   }
   if (role.canConfigureApiTokens) {
-    return teamSettingsAccessControlApiTokens;
+    return securityAndAccessAccessControlApiTokens;
   }
   if (role.canViewAuditLog) {
-    return teamSettingsActionLog;
+    return securityAndAccessActionLog;
   }
   if (role.canConfigureAuthenticationMethods) {
     if (isGoogleSSOAvailable) {
-      return googleSSO;
+      return securityAndAccessGoogleSSO;
     }
 
     if (isSamlAvailable) {
-      return saml;
+      return securityAndAccessSaml;
     }
 
     if (isLdapAvailable) {
-      return ldap;
+      return securityAndAccessLdap;
     }
   }
   if (role.canConfigureTeams) {
-    return groupMapping;
+    return securityAndAccessGroupMapping;
   }
   if (role.canConfigureSessionSettings) {
-    return timeouts;
+    return securityAndAccessTimeouts;
   }
 }
 

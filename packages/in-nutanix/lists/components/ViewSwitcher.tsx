@@ -13,7 +13,7 @@ import { t } from 'in-i18n';
 export default function NutanixViewSwitcher() {
   return (
     <>
-      <DashboardHeader label={t('in-nutanix:nutanix')} title={t('in-nutanix:nutanix')} />
+      <DashboardHeader icon="lib_nutanix" label={t('in-nutanix:nutanix')} title={t('in-nutanix:nutanix')} />
       <DashboardHeaderShadowModule />
     </>
   );

@@ -20,11 +20,13 @@ import {
   CUSTOM_DASHBOARD_DELETE_WIDGET,
   CUSTOM_DASHBOARD_ZOOM_WIDGET_START,
   CUSTOM_DASHBOARD_ZOOM_WIDGET_FINISH,
-  CUSTOM_DASHBOARD_ADD_WIDGET_DUPLICATE
+  CUSTOM_DASHBOARD_ADD_WIDGET_DUPLICATE,
+  CUSTOM_DASHBOARD_DOWNLOAD_PDF_START
 } from 'in-services/tracking/tracking';
 import ExportWidgetContainer from 'in-custom-dashboards/CustomDashboard/ExportWidgetContainer/ExportWidgetContainer';
 import WidgetEditorDialog from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialog';
 import { getCustomDashboard, updateCustomDashboard, removeCustomDashboard } from 'in-custom-dashboards/api';
+import DownloadPdfDialog from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/DownloadPdfDialog';
 import ZoomWidgetDialog from 'in-custom-dashboards/CustomDashboard/ZoomWidgetDialog/ZoomWidgetDialog';
 import EditAsJsonDialog from 'in-custom-dashboards/CustomDashboard/EditAsJsonDialog/EditAsJsonDialog';
 import { CustomDashboardContext } from 'in-custom-dashboards/CustomDashboard/CustomDashboardContext';
@@ -40,7 +42,7 @@ import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getTrackingMeta } from 'in-custom-dashboards/tracker';
 import { nodeToImage } from 'in-services/util/nodeToImage';
-import { imageToPdf } from 'in-services/util/imageToPdf';
+import { imagesToPdf } from 'in-services/util/imagesToPdf';
 import { cockpit } from 'in-cockpit/navigation/paths';
 import widgets from 'in-custom-dashboards/widgets';
 import { deepCopy } from 'in-services/util/object';
@@ -64,6 +66,7 @@ export default function CustomDashboardLoader(props) {
   const [isReadyToExport, setIsReadyToExport] = useState(false);
   const [exportWidgetId, setExportWidgetId] = useState(null);
   const [shouldExportWidget, setShouldExportWidget] = useState(false);
+  const [downloadDashboard, setDownloadDashboard] = useState(false);
   const [tooltipRef, setTooltipRef] = useState(null);
   const exportWidgetContainerRef = useRef(null);
 
@@ -143,9 +146,15 @@ export default function CustomDashboardLoader(props) {
         onZoomWidget={onZoomWidget}
         onRemoveWidget={onRemoveWidget}
         onDiscardChanges={onDiscardChanges}
+        onPDFDashboardDownload={() => {
+          setDownloadDashboard(true);
+          trackCta(CUSTOM_DASHBOARD_DOWNLOAD_PDF_START, { customDashboardId: dashboardId });
+          onPDFDashboardDownload(dashboardId);
+        }}
         onShare={onShare}
         onEditAsJson={onEditAsJson}
         onViewAsJson={onViewAsJson}
+        shouldWidgetRenderOutsideViewport={downloadDashboard}
         canCreatePublicCustomDashboards={role.canCreatePublicCustomDashboards}
         topLevelFilters={topLevelFilters}
         setTopLevelFilters={setTopLevelFilters}
@@ -367,20 +376,22 @@ export default function CustomDashboardLoader(props) {
         'custom-dashboard-pdf-generation'
       );
 
-      const imageUrl = await nodeToImage({ node: nodeToExport }).finally(() => {
-        setExportWidgetId(null);
-        setTooltipRef(null);
-      });
+      const imagesUrls = [
+        await nodeToImage({ node: nodeToExport }).finally(() => {
+          setExportWidgetId(null);
+          setTooltipRef(null);
+        })
+      ];
 
-      imageToPdf({
+      imagesToPdf({
         imageScale: 2,
-        imageUrl,
+        imagesUrls,
         filename: id,
         shouldFitPdf: true,
         pdfSettings: {
           orientation
         }
-      }).then(onfulfilled => {
+      }).then(({ onfulfilled }) => {
         if (onfulfilled) {
           addMessage(
             {
@@ -394,6 +405,26 @@ export default function CustomDashboardLoader(props) {
         }
       });
     }
+  }
+
+  function onPDFDashboardDownload(customDashboardId) {
+    const node = document.querySelector('.react-grid-layout');
+
+    if (!node) {
+      setDownloadDashboard(false);
+      return;
+    }
+
+    addActiveDialog(
+      <DownloadPdfDialog
+        customDashboardId={customDashboardId}
+        close={() => {
+          setDownloadDashboard(false);
+          close();
+        }}
+        node={node}
+      />
+    );
   }
 }
 

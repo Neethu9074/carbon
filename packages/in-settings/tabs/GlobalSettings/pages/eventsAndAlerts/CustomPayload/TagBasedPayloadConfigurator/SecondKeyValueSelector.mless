@@ -1,0 +1,110 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
+ */
+
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .list {
+    position: absolute;
+    z-index: var(--ids-z-index-option-overlays);
+
+    // align popup above the input field
+    right: 0;
+    bottom: 2rem;
+    max-height: 12.875rem;
+    overflow: auto;
+
+    min-width: 15rem;
+    max-width: 30rem;
+
+    cursor: default;
+
+    // needs to be placed here, to have more CSS priority and overrides other rules
+    .option {
+      justify-content: flex-start;
+      width: 100%;
+
+      font-weight: 600;
+      font-size: 0.75rem;
+      padding: 0.4rem 0.8rem;
+    }
+  }
+
+  .alignLeft {
+    left: 0;
+  }
+
+  .highlighted {
+    background: var(--ids-color-option-blue-500);
+  }
+
+  .input {
+    .ellipsis();
+    box-sizing: border-box;
+    height: 2rem;
+    padding: 0 0.5rem;
+    color: var(--ids-color-option-neutral-900);
+    background: var(--ids-color-option-neutral-50);
+    background-image: none;
+    border: 1px solid var(--ids-color-option-neutral-400);
+    border-radius: var(--ids-border-radius-option-small);
+    transition: border-color ease-in-out 0.15s;
+
+    &[disabled] {
+      color: rgba(58, 75, 81, 0.48);
+      cursor: not-allowed;
+    }
+
+    flex: 1;
+    min-width: 2rem;
+
+    line-height: 2;
+
+    &:focus,
+    &:active,
+    &:hover {
+      outline: 0;
+      color: var(--ids-color-option-blue-400);
+    }
+
+    &::placeholder {
+      color: var(--ids-color-option-neutral-400);
+      opacity: 1; /* Firefox */
+    }
+  }
+
+  .invalid:not(:focus),
+  .invalid:focus:not(.hideValidityInformationOnFocus) {
+    border-left: 1px solid var(--ids-color-option-red-500);
+    border-right: 1px solid var(--ids-color-option-red-500);
+    background: @lib__colors__failure10; //@lib__colors__failure10 could not be replaced
+    border-color: var(--ids-color-option-red-500);
+  }
+
+  // To enforce expanding and filling the possible width
+  .inputFillSpace {
+    display: flex;
+    flex-direction: column;
+    min-height: 2rem;
+  }
+
+  /** used to style SimpleValueSelector > SuggestionsList */
+
+  .ellipsis {
+    .ellipsis();
+  }
+
+  .skeleton {
+    margin: 0.375rem 0;
+    height: 0.75rem;
+  }
+
+  .moreOptionsLabel {
+    font-size: 0.6875rem;
+    color: var(--ids-color-option-neutral-600);
+  }
+}

@@ -14,6 +14,7 @@ import SloWebsiteEntitySection from 'in-service-levels/components/ConfigDialog/c
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import SloEntityTypeSelector from 'in-service-levels/components/Shared/SloEntityTypeSelector';
 import { t } from 'in-i18n';
+import SloSynthethicEntitySection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloSynthethicEntitySection';
 
 export default function SloEntitySection() {
   const { form, mode, onChange } = useContext(SloFormContext);
@@ -35,6 +36,7 @@ export default function SloEntitySection() {
       />
       {sloSloEntityTypeField.value === 'application' && <SloApplicationEntitySection />}
       {sloSloEntityTypeField.value === 'website' && <SloWebsiteEntitySection />}
+      {sloSloEntityTypeField.value === 'synthetic' && <SloSynthethicEntitySection />}
     </>
   );
 }

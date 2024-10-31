@@ -53,7 +53,7 @@ describe('in-components/TabSelect/components/TabSelectItem', () => {
 
     // Then
     expect(baseElement.querySelector('.local-css-item').className).toContain('local-css-itemActive');
-    baseElement.expect(baseElement.querySelector('input.cds--radio-button')).toBeChecked();
+    expect(baseElement.querySelector('input.cds--radio-button')).toBeChecked();
   });
 
   it('renders as inactive if activePanelId in context does not equal the given forId', () => {
@@ -139,7 +139,7 @@ describe('in-components/TabSelect/components/TabSelectItem', () => {
       </TabSelectContext.Provider>
     );
 
-    fireEvent.click(getByRole('checkbox'));
+    fireEvent.click(getByRole('radio'));
 
     // Then
     expect(onChange).toHaveBeenNthCalledWith(1, 'panel-1');

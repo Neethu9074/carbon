@@ -18,8 +18,8 @@ import Tooltip from 'in-components/Tooltip';
 import { ResultPrecision } from 'in-types';
 import { t } from 'in-i18n';
 
+import local from 'in-kubernetes/components/MultiMetricKpiCard.mless';
 import locals from 'in-components/KpiCard/KpiCard.mless';
-import local from './MultiMetricKpiCard.mless';
 
 const valueSplitRegExp = new RegExp(`^([0-9\\${decimalSeparator}\\${thousandsSeparator}]+)(.*)$`);
 
@@ -76,8 +76,8 @@ export default function MultiMetricKpiCard({
   const { ref, width } = useResizeObserver<HTMLDivElement>();
   const hasApproximateData = resultPrecision === 'PRECISION_APPROXIMATE';
 
-  var resource;
-  var percentage;
+  let resource;
+  let percentage;
   if (value) {
     resource = value[0];
     percentage = value[1];
@@ -94,12 +94,12 @@ export default function MultiMetricKpiCard({
   let content;
   if (raw) {
     if (percentage !== null) {
-      var splitFormattedValueUnit = formattedValue.split(' ');
-      var val;
-      var unit;
-      var hasUnitAndVal = splitFormattedValueUnit.length > 1;
-      var percentageNumber = percentage.replace('%', '').replace(',', '.');
-      var percentageOfCapLabel = timeshift !== 0 ? '%)' : '% of cap.)';
+      let splitFormattedValueUnit = formattedValue.split(' ');
+      let val;
+      let unit;
+      let hasUnitAndVal = splitFormattedValueUnit.length > 1;
+      let percentageNumber = percentage.replace('%', '').replace(',', '.');
+      let percentageOfCapLabel = timeshift !== 0 ? '%)' : '% of cap.)';
       if (hasUnitAndVal) {
         val = splitFormattedValueUnit[0];
         unit = splitFormattedValueUnit[1];
@@ -165,6 +165,7 @@ export default function MultiMetricKpiCard({
       <div
         className={classNames({
           [locals.title]: true,
+          [locals.header]: true,
           [locals.centerTitle]: centerLabels
         })}
         ref={ref}
@@ -202,8 +203,10 @@ export default function MultiMetricKpiCard({
         )}
         {actions && <div className={locals.actions}>{actions}</div>}
       </div>
-      {content}
-      {companionValue && <span className={locals.companion}>{companionValue}</span>}
+      <div className={locals.contentText}>
+        {content}
+        {companionValue && <span className={locals.companion}>{companionValue}</span>}
+      </div>
     </Card>
   );
 }

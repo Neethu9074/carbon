@@ -35,8 +35,8 @@ export default function SloWebsiteEntitySection() {
   } = useDebouncedValue(query, setQuery);
 
   const entityTypeField = form.getIn(['entity', 'type']);
-  const entityIdField = form.getIn(['entity', 'entityId']);
-  const entityId = entityIdField.value;
+  const entityIdField = form.getIn(['entity', 'entityIds']);
+  const entityId = entityIdField.value[0];
 
   const [separatelyLoadedEntity, , , labelProgress] = useWebsite(entityId);
   const [entityResult, , , entitiesProgress] = useWebsiteEntities({
@@ -54,7 +54,7 @@ export default function SloWebsiteEntitySection() {
   const isEntityIdFieldValid = isFieldValid(entityIdField);
 
   const onEntityChange = ({ id }: EntityData) => {
-    onChange(['entity', 'entityId'], () => entityIdField.setValue(id).setTouched(true));
+    onChange(['entity', 'entityIds'], () => entityIdField.setValue([id]).setTouched(true));
   };
 
   const sortedEntities = [
@@ -81,12 +81,13 @@ export default function SloWebsiteEntitySection() {
           <ValidationBlock key={`${path}:${index}`}>{message}</ValidationBlock>
         ))}
       <SloEntityTable
-        hasError={!isEntityIdFieldValid}
+        asRadioButton
+        canLoadMore={canLoadMore}
         entityList={sortedEntities}
+        hasError={!isEntityIdFieldValid}
+        loadMore={loadMore}
         onChange={onEntityChange}
         progress={progress}
-        canLoadMore={canLoadMore}
-        loadMore={loadMore}
       />
     </Sections>
   );

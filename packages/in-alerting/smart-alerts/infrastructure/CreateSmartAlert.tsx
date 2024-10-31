@@ -6,7 +6,12 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import CreateSmartAlertDialog from 'in-alerting/smart-alerts/infrastructure/CreateSmartAlertDialog';
+import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
+import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
+import { infraSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import FloatingActionButton from 'in-components/FloatingActionButton';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -15,6 +20,34 @@ import { t } from 'in-i18n';
 
 export default function CreateSmartAlert() {
   const { trackCta } = useSegmentTracking();
+  const labelNew = t('in-alerting:smartAlerts.labelNew');
+
+  if (infraSmartAlertFullScreenDesignEnabled) {
+    return (
+      <FloatingActionButtons>
+        <FloatingActionButtonMenu>
+          <Button
+            icon="lib_alerts_create"
+            onClick={() => {
+              trackCta(ALERTING_CREATE);
+              addActiveDialog(<CreateSmartAlertDialog />);
+            }}
+          >
+            {t('in-alerting:smartAlerts.addSmartAlert')}
+          </Button>
+          <Button
+            icon="lib_alerts_create"
+            onClick={() => {
+              trackCta(ALERTING_CREATE);
+              addActiveDialog(<CreateSmartAlertDialog />);
+            }}
+          >
+            {`${t('in-alerting:smartAlerts.addSmartAlert')} ${labelNew}`}
+          </Button>
+        </FloatingActionButtonMenu>
+      </FloatingActionButtons>
+    );
+  }
   return (
     <FloatingActionButton
       icon="lib_alerts_create"

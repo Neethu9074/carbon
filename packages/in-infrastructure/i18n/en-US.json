@@ -89,7 +89,6 @@
     "search": "Search for a type",
     "explore": "Explore",
     "health": "Health",
-    "noIssues": "No Issues",
     "count": "Count",
     "errors": {
       "maximumNumberOfGroups": "This query has too many results. Please narrow your search using a more restrictive filter or narrow your time-range and try again.",

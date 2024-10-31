@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { userSettings, globalSettings, ampSettings, securityAndAccessSettings } from 'in-settings/navigation/paths';
 import { roleHasAnyGlobalPermissions, roleHasAnySecurityAccessPermissions } from 'in-settings/tabs/permissions';
-import SecurityAndAccessSettings from 'in-settings/tabs/SecurityAndAccessSettings/View';
+import { userSettings, globalSettings, ampSettings, securityAndAccess } from 'in-settings/navigation/paths';
+import SecurityAndAccess from 'in-settings/tabs/SecurityAndAccess/View';
+import GlobalSettings from 'in-settings/tabs/GlobalSettings/View';
 import UserSettings from 'in-settings/tabs/UserSettings/View';
-import TeamSettings from 'in-settings/tabs/TeamSettings/View';
 import { ampEnabled } from 'in-services/featureFlags';
 import AmpSettings from 'in-settings/tabs/AMP/View';
 import { role } from 'in-stores/user';
@@ -16,7 +16,7 @@ import { t } from 'in-i18n';
 const globalTab = {
   label: t('in-settings:tabs.globalSettings'),
   path: globalSettings,
-  component: TeamSettings
+  component: GlobalSettings
 };
 
 const userTab = {
@@ -27,8 +27,8 @@ const userTab = {
 
 const securityAndAccessTab = {
   label: t('in-settings:tabs.securityAndAccess'),
-  path: securityAndAccessSettings,
-  component: SecurityAndAccessSettings
+  path: securityAndAccess,
+  component: SecurityAndAccess
 };
 
 const ampTab = {

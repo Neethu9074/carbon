@@ -21,7 +21,6 @@ import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowCon
 import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import { createSloEventFormatter } from 'in-service-levels/utils/format';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
-import { SupportedSloEntityUnion } from 'in-service-levels/types';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { FormatterFn } from 'in-stores/metric/formatters';
 import { number } from 'in-services/formatters/number';
@@ -35,10 +34,7 @@ interface TrafficKpiCardProps {
 export default function TrafficKpiCard({ configuration }: TrafficKpiCardProps) {
   const { entity } = configuration;
   const timeConfig = useTimeConfig();
-  const { primaryMetricConfiguration, companionMetricConfiguration } = useMetricConfiguration(
-    entity as SupportedSloEntityUnion,
-    timeConfig
-  );
+  const { primaryMetricConfiguration, companionMetricConfiguration } = useMetricConfiguration(entity, timeConfig);
   const { timeWindows } = useSloTimeWindowContext();
   const hasMatchingTimeWindows = timeWindows.length > 0;
 
@@ -65,7 +61,7 @@ interface MetricConfigurations {
   companionMetricConfiguration?: UnifiedMetricConfigurationUnion;
 }
 
-function useMetricConfiguration(entity: SupportedSloEntityUnion, timeConfig: TimeConfig): MetricConfigurations {
+function useMetricConfiguration(entity: SloEntityUnion, timeConfig: TimeConfig): MetricConfigurations {
   const tagFilterExpression = useBasicTagFilterExpression({ entity });
   if (isApplicationSloEntity(entity)) {
     const metricProps = { entity, tagFilterExpression, timeConfig };

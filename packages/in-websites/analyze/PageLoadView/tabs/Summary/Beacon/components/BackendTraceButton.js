@@ -10,8 +10,7 @@ import { empty } from '@instana/observables';
 import { Button } from '@instana/components';
 
 import getWebsiteBackendTraces from 'in-websites/subscriptions/getWebsiteBackendTraces';
-import { navigateToBackendTraceFromPageLoad } from 'in-websites/tracking/segTracker';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { useWebsiteTracker } from 'in-websites/tracking/segTracker';
 import { useLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import connect from 'in-hoc/connectTo';
@@ -26,7 +25,7 @@ const InternalBackendTraceButton = connect(({ beacon }) => ({
       })
     : empty
 }))(function InternalBackendTraceButton({ result }) {
-  const { trackCta } = useSegmentTracking();
+  const { navigateToBackendTraceFromPageLoad } = useWebsiteTracker();
   const getLinkToTraceDetail = useLinkToTraceDetail();
 
   if (!result || !result.data) {
@@ -45,7 +44,7 @@ const InternalBackendTraceButton = connect(({ beacon }) => ({
         href={getLinkToTraceDetail(traces[0].traceId, { callId: 'ROOT' })}
         onClick={e => {
           e.stopPropagation();
-          navigateToBackendTraceFromPageLoad(trackCta);
+          navigateToBackendTraceFromPageLoad();
         }}
         size="compact"
       >
@@ -60,7 +59,7 @@ const InternalBackendTraceButton = connect(({ beacon }) => ({
             key={traceId}
             href={getLinkToTraceDetail(traceId, { callId: 'ROOT' })}
             onClick={() => {
-              navigateToBackendTraceFromPageLoad(trackCta);
+              navigateToBackendTraceFromPageLoad();
             }}
           >
             {t('in-websites:analyze.analyzeView.pageLoadView.backendTraceButtonID', { traceId: traceId })}

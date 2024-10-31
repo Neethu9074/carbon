@@ -14,8 +14,8 @@ import { Stack } from '@instana/components';
 import AlertChannelModificationForm, {
   createForm,
   save
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/components/AlertChannelModificationForm';
-import configs from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
+} from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/components/AlertChannelModificationForm';
+import configs from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { createAlertChannel, getAlertChannel } from 'in-api/alertChannels';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';

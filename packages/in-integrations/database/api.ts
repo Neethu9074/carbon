@@ -6,7 +6,7 @@
 
 import { Observable } from '@instana/observables';
 
-import { Integration } from 'in-settings/tabs/TeamSettings/pages/integrations/database/types';
+import { Integration } from 'in-settings/tabs/GlobalSettings/pages/integrations/database/types';
 import { getHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
 

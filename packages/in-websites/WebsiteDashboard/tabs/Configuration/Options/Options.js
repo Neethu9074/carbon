@@ -9,12 +9,14 @@ import TrackingScript from 'in-websites/WebsiteDashboard/tabs/Configuration/Opti
 import Row from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/OptionsRow';
 import Rename from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/Rename';
 import Remove from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/Remove';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 
 export default function Options(props) {
+  const { trackCta } = useSegmentTracking();
   return (
     <>
       <Row>
-        <Rename {...props} />
+        <Rename {...props} trackCta={trackCta} />
       </Row>
       <Row>
         <TrackingScript {...props} />

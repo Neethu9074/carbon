@@ -23,4 +23,11 @@
     margin-top: 0.4rem;
     margin-right: 0.4rem;
   }
+
+  .header {
+    display: flex;
+    padding: 0.6rem;
+    background: var(--cds-layer-selected-01);
+    align-items: center;
+  }
 }

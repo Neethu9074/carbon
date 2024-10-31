@@ -8,36 +8,28 @@ import React from 'react';
 
 import { ActionType } from '@instana/types';
 
-import {
-  ANSIBlE_TYPE,
-  DOC_LINK_TYPE,
-  EXTERNAL_TYPE,
-  GITHUB_TYPE,
-  GITLAB_TYPE,
-  JIRA_TYPE,
-  MANUAL_TYPE,
-  SCRIPT_TYPE,
-  WEBHOOK_TYPE
-} from 'in-automation/ActionCatalog/shared';
+import { ACTION_TYPE, ACTION_TRANSLATIONS } from 'in-automation/constants';
 import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import useActionFilter from 'in-automation/hooks/useActionFilter';
 import { hasError, isLoading } from 'in-services/util/result';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { ActionFilter } from 'in-automation/api';
+import { ActionFilter } from 'in-automation/types';
 import { t } from 'in-i18n';
 
-const baseOptions: Option[] = [
-  { value: DOC_LINK_TYPE, label: t('in-automation:ActionCatalog.docLink') },
-  { value: SCRIPT_TYPE, label: t('in-automation:ActionCatalog.script') },
-  { value: WEBHOOK_TYPE, label: t('in-automation:ActionCatalog.http') },
-  { value: MANUAL_TYPE, label: t('in-automation:ActionCatalog.manual') },
-  { value: ANSIBlE_TYPE, label: t('in-automation:ActionCatalog.ansible') },
-  { value: GITHUB_TYPE, label: t('in-automation:ActionCatalog.github') },
-  { value: GITLAB_TYPE, label: t('in-automation:ActionCatalog.gitlab') },
-  { value: JIRA_TYPE, label: t('in-automation:ActionCatalog.jira') }
-];
+const mapToOption = (type: ActionType): Option => ({ value: type, label: ACTION_TRANSLATIONS[type] });
 
-const externalOption = { value: EXTERNAL_TYPE, label: t('in-automation:actionHistory.external') };
+const baseOptions = [
+  ACTION_TYPE.DOC_LINK,
+  ACTION_TYPE.SCRIPT,
+  ACTION_TYPE.HTTP,
+  ACTION_TYPE.MANUAL,
+  ACTION_TYPE.ANSIBLE,
+  ACTION_TYPE.GITHUB,
+  ACTION_TYPE.GITLAB,
+  ACTION_TYPE.JIRA
+].map(mapToOption);
+
+const externalOption = mapToOption(ACTION_TYPE.EXTERNAL);
 
 interface TypeFilterProps {
   type: string[] | undefined;

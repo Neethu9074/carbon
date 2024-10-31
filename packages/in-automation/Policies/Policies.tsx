@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { ActionInstance, PaginatedResult, Policy, EventSpecificationInfo, Trigger } from '@instana/types';
+import { PaginatedResult, Policy, EventSpecificationInfo, Trigger, Result } from '@instana/types';
 import { Spacer, Stack, Typography, Button } from '@instana/components';
 
 import {
@@ -19,7 +19,7 @@ import {
   isSloSmartAlert,
   isSyntheticsSmartAlert,
   isWebsiteSmartAlert
-} from 'in-automation/Policies/types';
+} from 'in-automation/types';
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
@@ -28,27 +28,24 @@ import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useSe
 import useNavigateToPolicyDetails from 'in-automation/navigation/hooks/useNavigateToPolicyDetails';
 import { getSubtitle as getSubtitleInfra } from 'in-alerting/smart-alerts/infrastructure/Alerts';
 import { getSubtitle as getSubtitleMobileApp } from 'in-alerting/smart-alerts/mobileApp/Alerts';
-import { EventName } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
+import usePolicies, { refresh, usePaginatedPolicies } from 'in-automation/Policies/usePolicies';
+import { EventName } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/Events';
 import { getSubtitle as getSubtitleWebsite } from 'in-alerting/smart-alerts/websites/Alerts';
 import { actionNameColumn, nameColumn } from 'in-automation/PolicyTable/columnDefinitions';
-import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 import usePoliciesFilterUrlState from 'in-automation/Policies/usePoliciesFilterUrlState';
 import { getSubtitle as getSubtitleLog } from 'in-alerting/smart-alerts/logs/Alerts';
-import { hasError, isLoading, listSuccess } from 'in-services/util/result';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import usePolicies, { refresh } from 'in-automation/Policies/usePolicies';
 import { PolicyTypeFilter } from 'in-automation/PolicyTable/tableFilters';
 import AutomationTabs from 'in-automation/AutomationTabs/AutomationTabs';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
+import { hasError, isLoading, mapData } from 'in-services/util/result';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import WithSubscript from 'in-settings/components/WithSubscript';
-import { all as allStatus } from 'in-hooks/utils/fetchStatus';
-import { all as allProgress } from 'in-hooks/utils/progress';
 import useTriggers from 'in-automation/Policies/useTriggers';
 import { close } from 'in-components/DialogPresenter/store';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
@@ -79,58 +76,44 @@ export default function Policies() {
 
   const [{ tags, type }, setFilter] = usePoliciesFilterUrlState({ pathSegment, matrixPrefix });
 
-  const [[policies, policyStatus, policiesErrors, policiesProgress], availableTags] = usePolicies({
-    serverTableUrlState,
-    setServerTableUrlState,
-    tags,
-    type
-  });
+  const policies = usePolicies();
 
-  const [history, historyStatus, historyErrors, historyProgress] = useActionHistory();
+  const paginatedPolicies = usePaginatedPolicies({ policies, serverTableUrlState, setServerTableUrlState, tags, type });
+
+  const availableTags = [...new Set(policies?.data?.flatMap(({ tags }) => tags ?? []))];
 
   const triggers = useTriggers();
-  const actualPage = policies?.page ?? page;
-  const actualPageSize = policies?.pageSize ?? pageSize;
 
-  const progress = allProgress(policiesProgress, historyProgress);
-  const status = allStatus(policyStatus, historyStatus);
-  const errors = [...policiesErrors, ...historyErrors];
-
+  const result: Result<PaginatedResult<PolicyTableEntity>> = mapData(paginatedPolicies, data => ({
+    ...data,
+    items: data.items.map(policy => {
+      const triggerType = policy.trigger.type;
+      const triggerItem = isLoading(triggers[triggerType])
+        ? null
+        : hasError(triggers[triggerType])
+        ? policy.trigger
+        : // @ts-expect-error
+          triggers?.[triggerType]?.data?.find(trigger => trigger.id === policy.trigger.id);
+      return {
+        ...policy,
+        trigger: triggerItem
+      };
+    })
+  }));
   const navigateToPolicyDetails = useNavigateToPolicyDetails();
-  const result: PaginatedResult<PolicyTableEntity> | undefined =
-    status === 'resolved'
-      ? {
-          ...policies!,
-          items: policies!.items?.map(policy => {
-            const historyItem = history?.items?.find(item => (item as any).policyId === policy.id);
-            const triggerType = policy.trigger.type;
-            const triggerItem = isLoading(triggers[triggerType])
-              ? null
-              : hasError(triggers[triggerType])
-              ? policy.trigger
-              : // @ts-expect-error
-                triggers?.[triggerType]?.data?.find(trigger => trigger.id === policy.trigger.id);
-            return {
-              ...policy,
-              history: historyItem,
-              trigger: triggerItem
-            };
-          })
-        }
-      : undefined;
-  const totalHits = result?.totalHits;
+  const totalHits = result.data?.totalHits;
 
   return (
     <AutomationTabs>
       <ServerTablePresenter<PolicyTableEntity, ServerTablePresenterProps<PolicyTableEntity>>
         onChange={setServerTableUrlState}
-        pageSize={actualPageSize}
-        page={actualPage}
+        pageSize={pageSize}
+        page={page}
         searchPlaceholder={t('in-automation:policies.searchPolicies')}
         searchMaxWidth={180}
         onRowClick={item => navigateToPolicyDetails(item.id, false)}
         cardTitle={
-          policiesProgress.loading
+          isLoading(policies)
             ? t('in-automation:policies.policies')
             : t('in-automation:policies.policiesWithCount', { count: totalHits })
         }
@@ -154,11 +137,7 @@ export default function Policies() {
         orderBy={orderBy}
         orderDirection={orderDirection}
         query={query}
-        result={{
-          progress,
-          errors,
-          data: result
-        }}
+        result={result}
         columnDefinitions={columnDefinition}
         noDataMessage={t('in-automation:policies.noPolicies')}
         fixedLayout
@@ -167,7 +146,7 @@ export default function Policies() {
   );
 }
 
-export function EventNameWithoutTriggerInfo({ entity }: { entity: Trigger }) {
+function EventNameWithoutTriggerInfo({ entity }: { entity: Trigger }) {
   const { name } = entity;
 
   return (
@@ -336,8 +315,4 @@ function onDeleteFailed() {
     },
     'policy-delete-error'
   );
-}
-
-function useActionHistory() {
-  return resultToFetchedStateResponse(listSuccess<ActionInstance>([]));
 }

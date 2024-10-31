@@ -7,8 +7,7 @@ import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
 import InboundOrAllCallsChoiceVertical from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsChoiceVertical';
-import { APPLICATION_CREATION_BOUNDARY_SCOPE_SELECT } from 'in-services/tracking/eventNames';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import FormGroup from 'in-components/form/FormGroup';
 
 import locals from './InboundAllCalls.mless';
@@ -19,7 +18,7 @@ interface InboundAllCallsProps {
 }
 export default function InboundAllCalls({ form, updateForm }: InboundAllCallsProps): JSX.Element {
   const boundaryScopeField = form.get('boundaryScope');
-  const { trackCta } = useSegmentTracking();
+  const { trackApplicationCreationBoundaryScopeSelected } = useApplicationTracker();
 
   return (
     <div className={locals.inboundOrAllCallsSwitchContainer}>
@@ -27,7 +26,7 @@ export default function InboundAllCalls({ form, updateForm }: InboundAllCallsPro
         <InboundOrAllCallsChoiceVertical
           boundaryScope={boundaryScopeField.value}
           onBoundaryStateChange={value => {
-            trackCta(APPLICATION_CREATION_BOUNDARY_SCOPE_SELECT, { value });
+            trackApplicationCreationBoundaryScopeSelected({ value });
             updateForm(
               form.updateIn(['boundaryScope'], field =>
                 (field as Field<string>).setValue(value.boundaryScope).setTouched(true)

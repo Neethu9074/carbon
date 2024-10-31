@@ -57,7 +57,6 @@ export const logHomepageEnabled = isFeatureFlagEnabled('logHomepageEnabled');
 export const carbonPillEnabled = isFeatureFlagEnabled('carbonPillEnabled');
 export const logRetentionPageEnabled = isFeatureFlagEnabled('logRetentionPageEnabled');
 export const notesAndActivityEnabled = isFeatureFlagEnabled('notesAndActivityEnabled');
-export const carbonMessageEnabled = isFeatureFlagEnabled('carbonMessageEnabled');
 export const carbonIconButtonEnabled = isFeatureFlagEnabled('carbonIconButtonEnabled');
 export const carbonSearchInputEnabled = isFeatureFlagEnabled('carbonSearchInputEnabled');
 export const carbonMoreMenuEnabled = isFeatureFlagEnabled('carbonMoreMenuEnabled');
@@ -119,6 +118,7 @@ export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
 export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', true);
 export const sloSmartAlertsEnabled = isFeatureFlagEnabled('sloSmartAlertsEnabled', true);
 export const sloRebornWidgetEnabled = isFeatureFlagEnabled('sloRebornWidgetEnabled', true);
+export const sloSyntheticsEnabled = isFeatureFlagEnabled('sloSyntheticsEnabled', false);
 
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', true);
 export const eumImpactedUsersForAppAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForAppAlertEnabled', false);
@@ -163,7 +163,13 @@ export const customWidgetTableInfraDataSourceEnabled = isFeatureFlagEnabled('cus
 
 // Custom Dashboards
 export const thresholdCustomDashboardsEnabled = isFeatureFlagEnabled('thresholdCustomDashboardsEnabled');
+export const thresholdCustomDashboardsTableWidgetEnabled = isFeatureFlagEnabled(
+  'thresholdCustomDashboardsTableWidgetEnabled'
+);
 export const customDashboardsExportPdfWidget = isFeatureFlagEnabled('customDashboardsExportPdfWidget');
+export const customDashboardsExportPdfEntireDashboard = isFeatureFlagEnabled(
+  'customDashboardsExportPdfEntireDashboard'
+);
 
 // Infrastructure Smart Alerts
 export const infraSmartAlertsEnabled = isFeatureFlagEnabled('infraSmartAlertsEnabled');
@@ -192,6 +198,9 @@ export const applicationSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled
 
 export const applicationSmartAlertDialogView = isFeatureFlagEnabled('applicationSmartAlertDialogView');
 
+// infra SA full screen design
+export const infraSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled('infraSmartAlertFullScreenDesignEnabled');
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################
@@ -211,6 +220,7 @@ export const hiddenSearchFieldValues = {
 export const businessObservabilityEnabled = isFeatureFlagEnabled('businessObservabilityEnabled');
 export const bizopsGenAIEnabled = isFeatureFlagEnabled('bizopsGenAIEnabled');
 export const bizopsStandardInclusionEnabled = isFeatureFlagEnabled('bizopsStandardInclusionEnabled');
+export const bizopsRbacLimitedEnabled = isFeatureFlagEnabled('bizopsRbacLimitedEnabled');
 export const bizopsProcessFlowMapEnabled = isFeatureFlagEnabled('bizopsProcessFlowMapEnabled');
 
 // ########################################################################################
@@ -271,7 +281,7 @@ export const flowMapEnabled = isFeatureFlagEnabled('flowMapEnabled', true);
 
 export const enableCarbonIcons = isFeatureFlagEnabled('enableCarbonIcons', false);
 
-export const welcomePageV2Enabled = isFeatureFlagEnabled('welcomePageV2Enabled', false);
+export const welcomePageV2Enabled = isFeatureFlagEnabled('welcomePageV2Enabled', true);
 export const shareAndInviteEnabled = isFeatureFlagEnabled('shareAndInviteEnabled', true);
 
 export const agentInstallationV2Enabled = isFeatureFlagEnabled('agentInstallationV2Enabled', false);

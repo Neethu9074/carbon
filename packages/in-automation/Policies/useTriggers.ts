@@ -32,8 +32,8 @@ import {
 } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { pendingResult } from 'in-services/fixedObjects';
-import { Triggers } from 'in-automation/Policies/types';
 import { mapData } from 'in-services/util/result';
+import { Triggers } from 'in-automation/types';
 
 export default function useTriggers(): Triggers {
   const eventSpecification =

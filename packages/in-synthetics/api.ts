@@ -130,8 +130,8 @@ export function getSyntheticTestsAsResult(): Observable<Result<SyntheticTest[]>>
   });
 }
 
-export function getTests(): Observable<unknown> {
-  return http({
+export function getTests(): Observable<Result<SyntheticTest[]>> {
+  return http<SyntheticTest[]>({
     method: 'GET',
     maxRetries: 3,
     url: testsUrl,
@@ -139,8 +139,8 @@ export function getTests(): Observable<unknown> {
   }).map(response => deepFreeze(response));
 }
 
-export function getTest(testId: string): Observable<unknown> {
-  return http({
+export function getTest(testId: string): Observable<Result<SyntheticTest>> {
+  return http<SyntheticTest>({
     method: 'GET',
     maxRetries: 3,
     url: testsUrl + '/' + testId,

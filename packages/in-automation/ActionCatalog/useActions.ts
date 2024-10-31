@@ -4,17 +4,17 @@
  * Copyright IBM Corp. 2024
  */
 
+import { Action, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
 
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { error, hasError, isLoading, success } from 'in-services/util/result';
 import usePaginatedResult from 'in-automation/hooks/usePaginatedResult';
-import { isAIAction } from 'in-automation/ActionCatalog/shared';
 import { pendingResult } from 'in-services/fixedObjects';
+import { isAIAction } from 'in-automation/utils/action';
 import { mapData } from 'in-services/util/result';
 import { getActions } from 'in-automation/api';
-import { Action, Result } from 'in-types';
 
 const refreshSignal = create().emit(true);
 export function refresh() {
@@ -85,7 +85,7 @@ export function usePaginatedActions({
         if (emptyFilter) return shouldInclude;
         switch (filter.key) {
           case 'types':
-            return shouldInclude && (filter.value?.some(type => action.type ===type) ?? false);
+            return shouldInclude && (filter.value?.some(type => action.type === type) ?? false);
           case 'tags':
             return shouldInclude && (action.tags?.some(tag => filter.value?.includes(tag)) ?? false);
           default:

@@ -31,6 +31,7 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-bizops/lists/businessPerspectives/BusinessPerspectivesList.mless';
@@ -42,7 +43,11 @@ function NewPerspectiveButton() {
   const { location } = useNavigation();
   const trackerProps = {
     path: location.pathname
-  }
+  };
+
+  const createDisabled = role?.limitedBizOpsScope;
+
+  if (createDisabled) return <></>;
   return (
     <Button
       kind="action"

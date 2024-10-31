@@ -19,6 +19,7 @@ const chai = require('chai');
 require('babel-plugin-require-context-hook/register')();
 
 require('@testing-library/jest-dom');
+require('jest-canvas-mock');
 
 // eslint-disable-next-line no-restricted-imports
 const i18n = require('i18next');

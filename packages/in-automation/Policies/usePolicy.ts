@@ -7,9 +7,10 @@
 import { Policy, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
-import { NewPolicy, PolicyFormEntity } from 'in-automation/Policies/types';
 import { mapData, successObservable } from 'in-services/util/result';
+import { PolicyFormEntity } from 'in-automation/Policies/types';
 import { pendingResult } from 'in-services/fixedObjects';
+import { NewPolicy } from 'in-automation/types';
 import { getPolicy } from 'in-automation/api';
 import { t } from 'in-i18n';
 

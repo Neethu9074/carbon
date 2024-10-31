@@ -5,6 +5,7 @@
  */
 
 import { formatDate } from '@instana/format-date';
+
 import {
   createSloFormFromForm,
   getEntityFieldsFromForm,
@@ -33,7 +34,7 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
       // When
       const entityFields = getEntityFieldsFromForm(websiteForm);
 
-      const entityIdValue = entityFields.entityId.value;
+      const entityIdValue = entityFields.entityIds.value[0];
       const entityTypeValue = entityFields.type.value;
 
       // Then
@@ -73,7 +74,7 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
       // When
       const entityFields = getEntityFieldsFromForm(applicationForm);
 
-      const entityIdValue = entityFields.entityId.value;
+      const entityIdValue = entityFields.entityIds.value[0];
       const entityTypeValue = entityFields.type.value;
 
       // Then
@@ -115,7 +116,7 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
         const websiteForm = createSloFormFromForm(givenWebsiteForm);
 
         const entityTypeValue = websiteForm.getIn(['entity', 'type']).value;
-        const entityIdIdValue = websiteForm.getIn(['entity', 'entityId']).value;
+        const entityIdIdValue = websiteForm.getIn(['entity', 'entityIds']).value[0];
         const beaconTypeValue = websiteForm.getIn(['scope', 'beaconType']).value;
         const boundaryScopeValue = websiteForm.getIn(['scope', 'boundaryScope']).value;
         const includeInternalValue = websiteForm.getIn(['scope', 'includeInternal']).value;
@@ -164,7 +165,7 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
         const applicationForm = createSloFormFromForm(givenApplicationForm);
 
         const entityTypeValue = applicationForm.getIn(['entity', 'type']).value;
-        const entityIdIdValue = applicationForm.getIn(['entity', 'entityId']).value;
+        const entityIdIdValue = applicationForm.getIn(['entity', 'entityIds']).value[0];
         const beaconTypeValue = applicationForm.getIn(['scope', 'beaconType']).value;
         const boundaryScopeValue = applicationForm.getIn(['scope', 'boundaryScope']).value;
         const includeInternalValue = applicationForm.getIn(['scope', 'includeInternal']).value;

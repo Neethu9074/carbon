@@ -6,7 +6,7 @@
 
 import React, { useContext } from 'react';
 
-import { Application, Progress, Website } from '@instana/types';
+import { Application, Progress, SyntheticTest, Website } from '@instana/types';
 
 import SloTableSelection from 'in-service-levels/components/Shared/SloTableSelection/SloTableSelection';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
@@ -18,17 +18,23 @@ export interface EntityData {
   label: string;
 }
 
+export interface SyntheticTestWithId extends Omit<SyntheticTest, 'id'> {
+  id: string;
+}
+
 interface SloEntityTableProps {
+  asRadioButton?: boolean;
+  canLoadMore?: boolean;
   disabled?: boolean;
-  entityList?: Application[] | Website[];
+  entityList?: Application[] | Website[] | SyntheticTestWithId[];
+  hasError?: boolean;
+  loadMore?: () => void;
   onChange: (entityData: EntityData) => void;
   progress: Progress;
-  canLoadMore?: boolean;
-  loadMore?: () => void;
-  hasError?: boolean;
 }
 
 export default function SloEntityTable({
+  asRadioButton,
   canLoadMore,
   disabled = false,
   entityList,
@@ -39,20 +45,20 @@ export default function SloEntityTable({
 }: SloEntityTableProps) {
   const { form } = useContext(SloFormContext);
 
-  const entityId = form.getIn(['entity', 'entityId']).value;
+  const entityIds = form.getIn(['entity', 'entityIds']).value;
 
   return (
     <SloTableSelection
-      columns={['label']}
-      onChange={onChange}
-      progress={progress}
-      selectedIds={[entityId]}
+      asRadioButton={asRadioButton}
       canLoadMore={canLoadMore}
+      columns={['label']}
       disabled={disabled}
       hasError={hasError}
       itemList={entityList}
       loadMore={loadMore}
-      asRadioButton
+      onChange={onChange}
+      progress={progress}
+      selectedIds={entityIds}
     />
   );
 }

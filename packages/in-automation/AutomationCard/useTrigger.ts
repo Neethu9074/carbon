@@ -6,6 +6,7 @@
 
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { Event, Result } from '@instana/types';
 
 import {
   getApplicationSmartAlertConfig,
@@ -19,9 +20,8 @@ import {
   getWebsiteSmartAlertConfig
 } from 'in-automation/api';
 import { getTriggerIdFromEvent, getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
-import { TriggerSpecification } from 'in-automation/Policies/types';
+import { TriggerSpecification } from 'in-automation/types';
 import { pendingResult } from 'in-services/fixedObjects';
-import { Event, Result } from 'in-types';
 
 interface UseTriggerParams {
   event: Event;

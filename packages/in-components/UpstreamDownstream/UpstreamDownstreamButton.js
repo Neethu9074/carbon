@@ -52,6 +52,8 @@ export default function UpstreamDownstreamButton({
             refSetter={refSetter}
             size={size ? size : 'compact'}
             className={className}
+            aria-haspopup
+            aria-expanded={isOpen}
           >
             <Stack direction="horizontal" align="center" gap="xsmall">
               <SvgIcon color="currentColor" type="lib_context_guide_upstream" size="xs" />

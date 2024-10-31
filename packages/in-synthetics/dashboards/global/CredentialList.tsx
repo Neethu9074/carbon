@@ -30,6 +30,7 @@ import { pageNames } from 'in-services/tracking/pageNames';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function CredentialList() {
@@ -53,7 +54,7 @@ export default function CredentialList() {
   });
   syntheticSwitchCredentialTab(trackCta);
   const rightHeader = () => {
-    return <CreateCredentialsButton />;
+    return role?.canConfigureSyntheticCredentials && <CreateCredentialsButton />;
   };
 
   return (

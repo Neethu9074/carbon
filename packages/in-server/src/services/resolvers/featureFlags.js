@@ -281,6 +281,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'sloSyntheticsEnabled',
+    instanaCtlKey: 'feature.slo.synthetics.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'smartAlertsLogsBlueprintEnabled',
     instanaCtlKey: 'feature.application.smart.alerts.logs.blueprint.enabled',
     defaultValue: false
@@ -354,6 +359,11 @@ module.exports = exports = [
     uiClientKey: 'bizopsStandardInclusionEnabled',
     instanaCtlKey: 'feature.bizops.standard.inclusion.enabled',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'bizopsRbacLimitedEnabled',
+    instanaCtlKey: 'feature.bizops.rbac.limited.enabled',
+    defaultValue: false
   },
   {
     uiClientKey: 'bizopsProcessFlowMapEnabled',
@@ -441,10 +451,21 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'thresholdCustomDashboardsTableWidgetEnabled',
+    instanaCtlKey: 'feature.threshold.custom.dashboards.table.widget.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'customDashboardsExportPdfWidget',
     instanaCtlKey: 'feature.custom.dashboards.export.pdf.widget.enabled',
     defaultValue: false
   },
+  {
+    uiClientKey: 'customDashboardsExportPdfEntireDashboard',
+    instanaCtlKey: 'feature.custom.dashboards.export.pdf.entire.dashboard.enabled',
+    defaultValue: false
+  },
+
   {
     uiClientKey: 'playwithTestEnabled',
     instanaCtlKey: 'feature.playwithTestEnabled.enabled',
@@ -546,14 +567,9 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'carbonMessageEnabled',
-    instanaCtlKey: 'feature.carbon.message.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'carbonButtonEnabled',
     instanaCtlKey: 'feature.carbon.button.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonRadioButtonEnabled',
@@ -618,17 +634,17 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonPaginationEnabled',
     instanaCtlKey: 'feature.carbon.pagination.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonTableEnabled',
     instanaCtlKey: 'feature.carbon.table.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonMenuEnabled',
     instanaCtlKey: 'feature.carbon.menu.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonDropdownEnabled',
@@ -678,7 +694,7 @@ module.exports = exports = [
   {
     uiClientKey: 'welcomePageV2Enabled',
     instanaCtlKey: 'feature.welcomepage.v2.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'shareAndInviteEnabled',
@@ -748,12 +764,12 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonSideNavLinksEnabled',
     instanaCtlKey: 'feature.carbon.side.nav.links.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonG10ThemeEnabled',
     instanaCtlKey: 'feature.carbon.g10.theme.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'analyzeRelatedInstancesButtonEnabled',
@@ -838,6 +854,11 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticCredentialsEnabled',
     instanaCtlKey: 'feature.synthetic.credentials.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'infraSmartAlertFullScreenDesignEnabled',
+    instanaCtlKey: 'feature.infra.Smart.alert.full.screen.design.enabled',
     defaultValue: false
   }
 ];

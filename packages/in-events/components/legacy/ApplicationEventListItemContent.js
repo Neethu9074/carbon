@@ -11,10 +11,13 @@ import { DescriptionItem } from '@instana/components';
 import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch';
 import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
+import {
+  extendWindowSizeForLateData,
+  getSmartAlertAnalyzeTimeConfig
+} from 'in-events/components/EventContent/analyzeUtils';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
@@ -42,7 +45,7 @@ export default function ApplicationEventListItemContent({ event, justChart = fal
   const isGlobalSmartAlert = event.getIn(['metadata', 'globalSmartAlert'], false);
   const adaptiveBaselineInfo = event.getIn(['metadata', 'adaptiveBaselineInfo'], Map({})) ?? Map({});
   const { applicationId } = eventEntity;
-  const { rule, threshold } = alertConfig;
+  const { rule, threshold, granularity } = alertConfig;
   const { alertType } = rule;
 
   const blueprintConfig = getBlueprintConfig(alertType);
@@ -50,6 +53,11 @@ export default function ApplicationEventListItemContent({ event, justChart = fal
     ...getChartTimeConfigByEvent(event),
     windowSize: alertingEventDetailsChartTimeframe
   };
+
+  const extendedAnalyzeTimeConfig = extendWindowSizeForLateData(
+    getSmartAlertAnalyzeTimeConfig(event, alertConfig),
+    granularity
+  );
 
   const chartViewConfig = createDefaultChartConfig(timeConfig);
   const tagFilterFormModel = fromBackendModel(alertConfig.tagFilterExpression);
@@ -70,7 +78,7 @@ export default function ApplicationEventListItemContent({ event, justChart = fal
             <AnalyzeApplicationEventButton
               {...eventEntity}
               alertConfig={alertConfig}
-              timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
+              timeConfig={extendedAnalyzeTimeConfig}
               adaptiveBaselineInfo={adaptiveBaselineInfo.toJS()}
             />
           </DescriptionButtons>

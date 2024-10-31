@@ -10,6 +10,7 @@ import InfrastructureDataStatistics from 'in-internal/monitoringUnit/unit/Infras
 import ApplicationDataStatistics from 'in-internal/monitoringUnit/unit/ApplicationDataStatistics';
 import ProfileDataStatistics from 'in-internal/monitoringUnit/unit/ProfileDataStatistics';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import useGetHrefWithMutator from 'in-stores/navigation/hooks/useGetHrefWithMutator';
 import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import EntityStatistics from 'in-internal/monitoringUnit/unit/EntityStatistics';
@@ -22,7 +23,6 @@ import Landing from 'in-internal/monitoringUnit/unit/Landing';
 import Logging from 'in-internal/monitoringUnit/unit/Logging';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import Switch from 'in-components/FragmentSupportingSwitch';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import Stan from 'in-internal/monitoringUnit/unit/Stan';
 import Eum from 'in-internal/monitoringUnit/unit/Eum';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -53,13 +53,15 @@ export default connectTo(({ location }) => {
   const tenant = getMatrixParameter(location, '/unit', 'tenant');
   const unit = getMatrixParameter(location, '/unit', 'unit');
 
+  const getHref = useGetHrefWithMutator();
+
   return (
     <InternalViewWrapper>
       <Breadcrumbs
         items={[
           <UnitsBreadcrumb />,
           <Breadcrumb
-            href$={getModifiedUrlStream(params => {
+            href={getHref(params => {
               params.pathname = '/internal/monitoringUnit/unit';
               setOrDeleteMatrixKey(params, '/unit', 'tenant', tenant);
               setOrDeleteMatrixKey(params, '/unit', 'unit', unit);
@@ -128,47 +130,51 @@ export default connectTo(({ location }) => {
 });
 
 function Navigation({ tenant, unit }) {
+  const getHref = useGetHrefWithMutator();
+
   return (
     <LinkList>
       <LinkListItem
         label={t('in-internal:monitoringUnit.unit.tenantUnit.home')}
-        href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit'))}
+        href={getHref(p => (p.pathname = '/internal/monitoringUnit/unit'))}
       />
       <LinkListItem
         label={t('in-internal:monitoringUnit.unit.tenantUnit.agents')}
         external
-        href$={getModifiedUrlStream(params => (params.pathname = '/internal/thisUnit/agents')).map(href =>
-          linkToTenantUnit(href, tenant, unit)
+        href={linkToTenantUnit(
+          getHref(params => (params.pathname = '/internal/thisUnit/agents')),
+          tenant,
+          unit
         )}
       />
       <LinkListItem
         label={t('in-internal:monitoringUnit.unit.tenantUnit.application')}
-        href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/applicationDataStatistics'))}
+        href={getHref(p => (p.pathname = '/internal/monitoringUnit/unit/applicationDataStatistics'))}
       />
       <LinkListItem
         label={t('in-internal:monitoringUnit.unit.tenantUnit.endUserMonitor')}
-        href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/eum'))}
+        href={getHref(p => (p.pathname = '/internal/monitoringUnit/unit/eum'))}
       />
       <LinkListItem
         label={t('in-internal:monitoringUnit.unit.tenantUnit.logging')}
-        href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/logging'))}
+        href={getHref(p => (p.pathname = '/internal/monitoringUnit/unit/logging'))}
       />
       <LinkListItem
         label={t('in-internal:monitoringUnit.unit.tenantUnit.entityStatistic')}
-        href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/entityStatistics'))}
+        href={getHref(p => (p.pathname = '/internal/monitoringUnit/unit/entityStatistics'))}
       />
       <LinkListItem
         label={t('in-internal:monitoringUnit.unit.tenantUnit.infrastructure')}
-        href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/infrastructureDataStatistics'))}
+        href={getHref(p => (p.pathname = '/internal/monitoringUnit/unit/infrastructureDataStatistics'))}
       />
       <LinkListItem
         label={t('in-internal:monitoringUnit.unit.tenantUnit.profile')}
-        href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/profileDataStatistics'))}
+        href={getHref(p => (p.pathname = '/internal/monitoringUnit/unit/profileDataStatistics'))}
       />
       {canSeeExtendedInternalMonitoring && (
         <LinkListItem
           label={t('in-internal:monitoringUnit.unit.tenantUnit.sloViolations')}
-          href$={getModifiedUrlStream(p => {
+          href={getHref(p => {
             p.pathname = '/events';
             p.query.q = `(event.text:"[SLO]" OR event.text:"[experimental SLO]") AND event.state:open entity.label:"${tenant}-${unit}-*"`;
           })}
@@ -176,7 +182,7 @@ function Navigation({ tenant, unit }) {
       )}
       <LinkListItem
         label={t('in-internal:monitoringUnit.unit.tenantUnit.stan')}
-        href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/stan'))}
+        href={getHref(p => (p.pathname = '/internal/monitoringUnit/unit/stan'))}
       />
     </LinkList>
   );

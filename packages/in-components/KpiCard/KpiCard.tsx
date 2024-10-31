@@ -157,7 +157,8 @@ export default function KpiCard({
         [locals.borderless]: borderless,
         [locals.shadowless]: shadowless || isInModal,
         [locals.centerValue]: centerLabels,
-        [locals.modal]: isInModal
+        [locals.modal]: isInModal,
+        [locals.hasInfo]: !!extraInfo
       })}
       bodyClassName={locals.kpibody}
       headerClassName={locals.kpiheader}

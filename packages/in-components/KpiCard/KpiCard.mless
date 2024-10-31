@@ -146,4 +146,8 @@
       color: var(--ids-color-option-yellow-500);
     }
   }
+
+  .hasInfo {
+    background-color: var(--ids-color-option-neutral-50);
+  }
 }

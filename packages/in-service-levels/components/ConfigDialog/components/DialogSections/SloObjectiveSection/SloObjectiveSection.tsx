@@ -26,9 +26,7 @@ export default function SloObjectiveSection() {
             <TargetSection />
             <TimeWindowSelector />
           </Sections>
-          <Sections className={locals.estimatedBudgetSection}>
-            <EstimatedErrorBudget />
-          </Sections>
+          <EstimatedErrorBudget />
         </Stack>
       </Stack>
     </SloDialogSection>

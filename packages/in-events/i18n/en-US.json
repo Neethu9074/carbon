@@ -300,7 +300,21 @@
     "showAll": "Show all",
     "collapse": "Collapse",
     "aiModel": "AI model",
-    "granite": "granite-13b-chat-v2"
+    "granite": "granite-13b-chat-v2",
+    "withManualEdits": "(with manual edits)",
+    "shareIncidentSummarySubject": "Summarization of incident: {{problemText}}",
+    "share": "Share",
+    "copy": "Copy",
+    "sharedSuccess": "Shared successfully!",
+    "sumSent": "Your summarization has been sent.",
+    "somethingWrong": "Something went wrong!",
+    "shareSummary": "Share summary",
+    "summaryEmail": "Summary email",
+    "recipients": "Recipients",
+    "subject": "Subject",
+    "body": "Body",
+    "takeSomeTimeReview": "Take some time to review and potentially modify the summary before sharing with others.",
+    "invalidEmail": "Email must be valid (user@domain) separated by commas"
   },
   "incident": {
     "overviewTitle": "Incident overview",

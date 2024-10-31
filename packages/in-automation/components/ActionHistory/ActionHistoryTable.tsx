@@ -7,6 +7,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { OrderDirection, TimeConfig, ActionInstance } from '@instana/types';
 import { Spacer, Typography, IconButton } from '@instana/components';
 import { create } from '@instana/observables';
 
@@ -34,11 +35,10 @@ import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { OrderDirection, TimeConfig, ActionInstance } from 'in-types';
 import Filters from 'in-automation/components/ActionHistory/Filters';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import WithSubscript from 'in-settings/components/WithSubscript';
-import { getType } from 'in-automation/ActionCatalog/shared';
+import { ACTION_TRANSLATIONS } from 'in-automation/constants';
 import { formatDateTime } from 'in-services/formatters/date';
 import { deleteActionInstance } from 'in-automation/api';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -57,7 +57,7 @@ const columnDefinitions: ColumnDefinition<ActionInstance>[] = [
     getContent(row: ActionInstance) {
       return (
         <Tooltip content={row.actionName} align="topLeft" delay={500} overwriteBlock>
-          <WithSubscript subscript={getType(row.type)}>
+          <WithSubscript subscript={ACTION_TRANSLATIONS[row.type]}>
             <div
               className={classNames({
                 [locals.smallColumn]: row.actionName.length > 60,

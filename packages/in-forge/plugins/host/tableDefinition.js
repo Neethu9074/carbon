@@ -30,7 +30,6 @@ export default {
     {
       title: t('in-forge:plugins.host.name'),
       type: 'snapshotLink',
-      width: '20vw',
       typeArgs: {
         getSnapshotId(row) {
           return row.snapshotId;
@@ -49,7 +48,6 @@ export default {
     {
       title: t('in-forge:plugins.host.os'),
       type: 'string',
-      width: '20vw',
       typeArgs: {
         getValue(row) {
           const data = row.snapshot.get('data');

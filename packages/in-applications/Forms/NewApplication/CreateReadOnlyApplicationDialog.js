@@ -14,9 +14,9 @@ import ConfigTabBuiltInSmartAlertsSelectionList from 'in-alerting/smart-alerts/a
 import { createUserRestrictedApplication } from 'in-applications/Forms/NewApplication/CreateApplicationDialog';
 import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import ContributionFilterDropdown from 'in-applications/creation/components/ContributionFilterDropdown';
-import { getGroupInfoByRestrictingApplicationId } from 'in-settings/tabs/TeamSettings/api/groups';
+import { getGroupInfoByRestrictingApplicationId } from 'in-settings/tabs/SecurityAndAccess/api/groups';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import { teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
+import { securityAndAccessAccessControlGroups } from 'in-settings/navigation/paths';
 import { getApplicationConfigWithAlerting } from 'in-api/applicationConfigs';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { hasError, isLoading } from 'in-services/util/result';
@@ -58,7 +58,11 @@ export default function CreateReadOnlyApplicationDialog({ applicationId }) {
               }}
               components={{
                 bold: <span className={locals.bold} />,
-                linkToGroupConfig: groupId ? <Link href={`#${teamSettingsAccessControlGroups}/${groupId}`} /> : <></>
+                linkToGroupConfig: groupId ? (
+                  <Link href={`#${securityAndAccessAccessControlGroups}/${groupId}`} />
+                ) : (
+                  <></>
+                )
               }}
             />
           ))}

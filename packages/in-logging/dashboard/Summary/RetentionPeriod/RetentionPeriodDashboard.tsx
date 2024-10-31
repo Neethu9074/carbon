@@ -9,8 +9,8 @@ import React, { useState } from 'react';
 import { HorizontalIndicator, LoadingSkeleton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-import { retentionLogsGET } from 'in-settings/tabs/TeamSettings/pages/logManagement/RententionPeriod/RetentionPeriod';
-import { getEntityIdView, teamSettingsLogManagementRetentionPeriod } from 'in-settings/navigation/paths';
+import { retentionLogsGET } from 'in-settings/tabs/GlobalSettings/pages/logManagement/RententionPeriod/RetentionPeriod';
+import { getEntityIdView, globalSettingsLogManagementRetentionPeriod } from 'in-settings/navigation/paths';
 import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
 import { isAddonUserCached } from 'in-logging/api/licence';
 import { role } from 'in-stores/user';
@@ -30,7 +30,7 @@ export default function RetentionPeriodDashboard() {
     loading: isLoading
   };
 
-  const logRetentionHref = useObservable(getEntityIdView(teamSettingsLogManagementRetentionPeriod, ''), []);
+  const logRetentionHref = useObservable(getEntityIdView(globalSettingsLogManagementRetentionPeriod, ''), []);
   const isLoggingAddonUser = useObservable(isAddonUserCached, []);
 
   const logRetentionIcon: IconAction | undefined =

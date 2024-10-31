@@ -6,11 +6,11 @@
 
 import { create, timeout } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
 
 import { GetActionInstanceListData } from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { TimeConfig } from 'in-types';
 
 const refreshSignal = create().emit(true);
 export function refreshHistory() {

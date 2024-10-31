@@ -11,7 +11,8 @@ import {
   millis,
   number,
   percentage,
-  siPrefix
+  siPrefix,
+  scale
 } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
@@ -115,6 +116,18 @@ export const perSecondDetailed: Formatter = {
   formatter: number.perSecond.detailed,
   unitConversion: true
 };
+export const scaleCompact: Formatter = {
+  id: 'scale.compact',
+  label: t('in-stores:metric.formatterLabelNumber', { example: scale.compact(3146340) }),
+  formatter: scale.compact,
+  unitConversion: false
+};
+export const scaleDetailed: Formatter = {
+  id: 'scale.detailed',
+  label: t('in-stores:metric.formatterLabelNumber', { example: scale.detailed(3146340) }),
+  formatter: scale.detailed,
+  unitConversion: false
+};
 
 // BEFORE YOU EXTEND THIS!
 // Consider that adding more formatters will mean additional formatters
@@ -136,7 +149,9 @@ export const publicFormatters: Formatter[] = [
   millisDetailed,
   latencyDetailed,
   siPrefixCompact,
-  siPrefixDetailed
+  siPrefixDetailed,
+  scaleCompact,
+  scaleDetailed
 ];
 
 // These formatters should not be selectable by end-users.

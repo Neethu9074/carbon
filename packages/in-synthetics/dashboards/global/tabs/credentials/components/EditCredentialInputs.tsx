@@ -28,14 +28,14 @@ const EditCredentialInputs = ({ form, updateForm }: Props) => {
           id={generateUniqueShortId()}
           type="text"
           value={credentialName.value}
-          placeholder={t('in-synthetics:dialog.createCredential.steps.placeholder', { value: 'Credential Name' })}
-          labelText={t('in-synthetics:dialog.createCredential.steps.labelText', { value: 'Name' })}
+          placeholder={t('in-synthetics:dialog.createCredential.steps.textInput.placeholder')}
+          labelText={t('in-synthetics:dialog.createCredential.steps.textInput.labelText')}
           helperText={t('in-synthetics:dialog.createCredential.edit.textInputHelperText')}
           readOnly
         />
         <PasswordInput
           id={generateUniqueShortId()}
-          type="password"
+          type="text"
           value={credentialValue.value}
           onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
             updateForm(
@@ -44,11 +44,11 @@ const EditCredentialInputs = ({ form, updateForm }: Props) => {
               )
             );
           }}
-          placeholder={t('in-synthetics:dialog.createCredential.steps.placeholder', {
-            value: 'Credential Value'
-          })}
-          labelText={t('in-synthetics:dialog.createCredential.steps.labelText', { value: 'Value' })}
+          placeholder={t('in-synthetics:dialog.createCredential.steps.passwordInput.placeholder')}
+          labelText={t('in-synthetics:dialog.createCredential.steps.passwordInput.labelText')}
           helperText={t('in-synthetics:dialog.createCredential.edit.passwordInputHelperText')}
+          hidePasswordLabel={t('in-synthetics:dialog.createCredential.tooltipLabels.hide')}
+          showPasswordLabel={t('in-synthetics:dialog.createCredential.tooltipLabels.show')}
         />
       </Stack>
     </div>

@@ -12,16 +12,18 @@ import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloF
 
 export default function SloScopeServiceEndpointPanel() {
   const { form, mode, onChange } = useContext(SloFormContext);
-  const applicationIdField = form.getIn(['entity', 'entityId']);
+  const applicationIdField = form.getIn(['entity', 'entityIds']);
   const endpointIdField = form.getIn(['scope', 'endpointId']);
   const boundaryField = form.getIn(['scope', 'boundaryScope']);
   const isFormInEditMode = mode === 'EDIT';
   const serviceIdField = form.getIn(['scope', 'serviceId']);
 
+  const applicationId = applicationIdField.value[0];
+
   return (
     <>
       <ServiceSelectBox
-        applicationId={applicationIdField.value}
+        applicationId={applicationId}
         boundaryScope={boundaryField.value}
         disabled={isFormInEditMode}
         hasError={!serviceIdField.valid && serviceIdField.touched}
@@ -29,7 +31,7 @@ export default function SloScopeServiceEndpointPanel() {
         value={serviceIdField.value}
       />
       <EndpointSelectBox
-        applicationId={applicationIdField.value}
+        applicationId={applicationId}
         boundaryScope={boundaryField.value}
         disabled={isFormInEditMode}
         hasError={!endpointIdField.valid && endpointIdField.touched}

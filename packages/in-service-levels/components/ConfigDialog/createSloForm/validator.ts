@@ -114,8 +114,8 @@ export function noInvalidTagFilterExpression(tagFilterExpression: FormModelEleme
   return undefined;
 }
 
-export function noBlankEntitySelection(entityId: string): ValidationResult {
-  if (entityId) return;
+export function noBlankEntitySelection(entityIds: string[]): ValidationResult {
+  if (entityIds && entityIds.length > 0) return;
 
   return [
     {

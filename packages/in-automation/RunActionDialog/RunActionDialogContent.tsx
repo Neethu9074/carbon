@@ -10,50 +10,43 @@ import { fromJS } from 'immutable';
 import React from 'react';
 
 import { Typography, Spacer, Link, DescriptionList, DescriptionItem } from '@instana/components';
+import { Action, Parameter, VolatileId, DynamicFieldValue } from '@instana/types';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import {
-  AUTH_TYPES,
   getAnsibleFields,
   getInterpreterToUse,
   getScriptFromFields,
   getDocLinkFromFields,
-  getType,
   getWebhookFields,
   getGithubFields,
-  isAnsible,
-  isScript,
-  isManual,
-  isExternal,
-  isWebhook,
-  isGithub,
-  isGitlab,
-  isJira,
-  GH_TICKET_TYPES,
   getGitlabFields,
   getJiraFields,
-  JIRA_OPERATIONS,
-  isDocLink,
   getManualContentFromFields
-} from 'in-automation/ActionCatalog/shared';
-import { toViewModel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+} from 'in-automation/utils/actionField';
+import { toViewModel } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import {
+  ACTION_TRANSLATIONS,
+  ACTION_TYPE,
+  AUTH_TRANSLATIONS,
+  GIT_OPERATIONS,
+  JIRA_OPERATIONS
+} from 'in-automation/constants';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import ManualActionContent from 'in-automation/components/ManualActionContent/ManualActionContent';
 import { TagBasedPayloadConfigurator } from 'in-automation/ActionCatalog/ParameterDialog';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import { Action, Parameter, VolatileId, DynamicFieldValue } from 'in-types';
+import { ResolvedDynamicParamValue, NewPolicy } from 'in-automation/types';
 import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
 import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
-import { ResolvedDynamicParamValue } from 'in-automation/api';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import Notification from 'in-components/form/Notification';
-import { NewPolicy } from 'in-automation/Policies/types';
 import { Col } from 'in-components/layout/Grid/Grid';
 import { Row } from 'in-components/layout/Grid/Grid';
 import Label from 'in-components/form/Label/Label';
@@ -116,11 +109,11 @@ export default function RunActionDialogContent({
       </Typography>
     );
   }
-  if (isManual(action.type)) {
+  if (action.type === ACTION_TYPE.MANUAL) {
     return <ManualActionContent content={getManualContentFromFields(action.fields)} addCopyButton />;
   }
 
-  if (isExternal(action.type)) {
+  if (action.type === ACTION_TYPE.EXTERNAL) {
     return <ExternalActionContent action={action} agentSnapShots={agentSnapShots} form={form} setForm={setForm} />;
   }
   return (
@@ -128,7 +121,7 @@ export default function RunActionDialogContent({
       <Col lg={8}>
         <div className={locals.borderRight}>
           <MetadataActionContent action={action} viewRecommendedAction={false} />
-          {isAnsible(action.type) && (
+          {action.type === ACTION_TYPE.ANSIBLE && (
             <AnsibleActionContent
               form={form}
               setForm={setForm}
@@ -344,19 +337,19 @@ export function MetadataActionContent({
           className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
           title={t('in-automation:titleActionType')}
         >
-          {getType(action.type)}
+          {ACTION_TRANSLATIONS[action.type]}
         </DescriptionItem>
       </DescriptionList>
-      {isScript(action.type) && <ScriptActionContent action={action} />}
-      {isDocLink(action.type) && <DocActionContent action={action} />}
-      {isWebhook(action.type) && <WebhookActionContent action={action} />}
-      {isGithub(action.type) && <GithubActionContent action={action} />}
-      {isManual(action.type) && (
+      {action.type === ACTION_TYPE.SCRIPT && <ScriptActionContent action={action} />}
+      {action.type === ACTION_TYPE.DOC_LINK && <DocActionContent action={action} />}
+      {action.type === ACTION_TYPE.HTTP && <WebhookActionContent action={action} />}
+      {action.type === ACTION_TYPE.GITHUB && <GithubActionContent action={action} />}
+      {action.type === ACTION_TYPE.MANUAL && (
         <ManualActionContent content={getManualContentFromFields(action.fields)} addCopyButton />
       )}
-      {isGitlab(action.type) && <GitlabActionContent action={action} />}
-      {isJira(action.type) && <JiraActionContent action={action} />}
-      {isAnsible(action.type) && viewRecommendedAction && <AnsibleActionMetadata action={action} />}
+      {action.type === ACTION_TYPE.GITLAB && <GitlabActionContent action={action} />}
+      {action.type === ACTION_TYPE.JIRA && <JiraActionContent action={action} />}
+      {action.type === ACTION_TYPE.ANSIBLE && viewRecommendedAction && <AnsibleActionMetadata action={action} />}
     </>
   );
 }
@@ -381,7 +374,7 @@ function DocActionContent({ action }: Pick<RunActionDialogContentProps, 'action'
 function WebhookActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
   const { host, method, body, headerParsed, authenParsed } = getWebhookFields(action);
   const headerEntries = Object.entries(headerParsed);
-  const authType = AUTH_TYPES.find(a => a.value === authenParsed.type)?.translation;
+  const authType = AUTH_TRANSLATIONS[authenParsed.type];
   return (
     <DescriptionList inComponents>
       <DescriptionItem
@@ -424,7 +417,7 @@ function WebhookActionContent({ action }: Pick<RunActionDialogContentProps, 'act
 
 function GithubActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
   const { owner, repo, ticketActionType } = getGithubFields(action);
-  const ticketTypeTranslated = GH_TICKET_TYPES.find(a => a.value === ticketActionType.value)?.translation;
+  const ticketTypeTranslated = GIT_OPERATIONS.find(a => a.value === ticketActionType.value)?.translation;
   return (
     <DescriptionList inComponents>
       <DescriptionItem
@@ -450,7 +443,7 @@ function GithubActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
 
 function GitlabActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
   const { projectId, ticketActionType } = getGitlabFields(action);
-  const ticketTypeTranslated = GH_TICKET_TYPES.find(a => a.value === ticketActionType.value)?.translation;
+  const ticketTypeTranslated = GIT_OPERATIONS.find(a => a.value === ticketActionType.value)?.translation;
   return (
     <DescriptionList inComponents>
       <DescriptionItem

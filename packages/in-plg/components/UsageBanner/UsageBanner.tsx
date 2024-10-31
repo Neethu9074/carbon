@@ -5,7 +5,7 @@
  */
 
 // @ts-expect-error
-import ShareAndInviteDialogBox from 'promise-loader?global,shareAndInvite!in-settings/tabs/TeamSettings/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox';
+import ShareAndInviteDialogBox from 'promise-loader?global,shareAndInvite!in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox';
 import { useHistory } from 'react-router';
 import React, { useEffect } from 'react';
 

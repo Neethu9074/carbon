@@ -10,11 +10,10 @@ import { Card, IconButton } from '@instana/components';
 import LatencyDistributionBase10Chart from 'in-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
 import getLatencyDistributionBase10 from 'in-applications/subscriptions/getLatencyDistributionBase10';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
-import { APPLICATION_LATENCY_JUMP_TO_UNBOUNDED_ANALYTICS } from 'in-services/tracking/eventNames';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { createChartedMetric, createOrderBy } from 'in-analyze/navigation/paths';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { filterByEndpointType } from './includeEndpointTypes';
@@ -38,7 +37,7 @@ export default function LatencyDistributionHistogram({
   renderHistoricDataIndicator = false,
   renderWidgetNotSupportedIndicator = false
 }) {
-  const { trackCta } = useSegmentTracking();
+  const { trackAumpToUnboundedAnalyticsFromLatency } = useApplicationTracker();
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
   const [selectedLatencyRange, setSelectedLatencyRange] = useState({ from: null, to: null });
@@ -135,7 +134,7 @@ export default function LatencyDistributionHistogram({
                 getLinkToApplicationAnalyze
               ),
             onClick: () => {
-              trackCta(APPLICATION_LATENCY_JUMP_TO_UNBOUNDED_ANALYTICS, {
+              trackAumpToUnboundedAnalyticsFromLatency({
                 applicationId: applicationId,
                 serviceId: serviceId,
                 endpointId: endpointId,

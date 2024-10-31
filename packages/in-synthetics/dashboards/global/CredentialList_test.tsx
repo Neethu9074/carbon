@@ -15,12 +15,11 @@ describe('CredentialList', () => {
 
     expect(screen.getByText('Credentials')).toBeVisible();
 
-    expect(container.getElementsByTagName('th').length).toBe(6);
+    expect(container.getElementsByTagName('th').length).toBe(5);
     expect(container.getElementsByTagName('th')[0]).toHaveTextContent('Name');
     expect(container.getElementsByTagName('th')[1]).toHaveTextContent('Associations');
     expect(container.getElementsByTagName('th')[2]).toHaveTextContent('Created at');
     expect(container.getElementsByTagName('th')[3]).toHaveTextContent('Created by');
     expect(container.getElementsByTagName('th')[4]).toHaveTextContent('Last modified by');
-    expect(container.getElementsByTagName('th')[5]).toHaveTextContent('Actions');
   });
 });

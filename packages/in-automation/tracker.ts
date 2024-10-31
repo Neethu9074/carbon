@@ -23,7 +23,10 @@ import {
   AUTOMATION_AI_SELECT_NEXT_PROMPT_STEP_CLICK,
   AUTOMATION_AI_SELECT_NEXT_CUSTOMIZE_ACTION_STEP_CLICK,
   AUTOMATION_AI_ACTION_CONTENT_MODIFIED,
-  AUTOMATION_AI_LEAVE_GENERATE_DIALOG
+  AUTOMATION_AI_LEAVE_GENERATE_DIALOG,
+  AUTOMATION_AI_SCRIPT_SELECT_STEP_NEXT_CLICK,
+  AUTOMATION_GENERATE_AI_SCRIPT_BUTTON_CLICK_STEP2,
+  AUTOMATION_AI_SCRIPT_GENERATE_STEP_NEXT_CLICK
 } from 'in-services/tracking/tracking';
 import { CREATED_OBJECT, STARTED_PROCESS, UPDATED_OBJECT } from 'in-services/util/constants';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -50,6 +53,9 @@ export function useSegmentTracker(): {
   selectNextCustomizeActionStepClickTrackerSegment: TrackingFunction;
   AIActionContentModifiedTrackerSegment: TrackingFunction;
   AIActionLeaveGenerateDialogTrackerSegment: TrackingFunction;
+  aiActionScriptSelectStepNextTrackerSegment: TrackingFunction;
+  aiActionScriptGenerateAIButtonTrackerSegment: TrackingFunction;
+  aiActionScriptGenerateStepNextClickTrackerSegment: TrackingFunction;
 } {
   const { trackCta, unstable_trackEvent } = useSegmentTracking();
 
@@ -128,6 +134,18 @@ export function useSegmentTracker(): {
     trackCta(AUTOMATION_AI_LEAVE_GENERATE_DIALOG, customData);
   }
 
+  function aiActionScriptSelectStepNextTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_AI_SCRIPT_SELECT_STEP_NEXT_CLICK, customData);
+  }
+
+  function aiActionScriptGenerateAIButtonTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_GENERATE_AI_SCRIPT_BUTTON_CLICK_STEP2, customData);
+  }
+
+  function aiActionScriptGenerateStepNextClickTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_AI_SCRIPT_GENERATE_STEP_NEXT_CLICK, customData);
+  }
+
   return {
     createActionTrackerSegment,
     editActionTrackerSegment,
@@ -147,6 +165,9 @@ export function useSegmentTracker(): {
     selectNextPromptStepClickTrackerSegment,
     selectNextCustomizeActionStepClickTrackerSegment,
     AIActionContentModifiedTrackerSegment,
-    AIActionLeaveGenerateDialogTrackerSegment
+    AIActionLeaveGenerateDialogTrackerSegment,
+    aiActionScriptSelectStepNextTrackerSegment,
+    aiActionScriptGenerateAIButtonTrackerSegment,
+    aiActionScriptGenerateStepNextClickTrackerSegment
   };
 }

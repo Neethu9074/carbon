@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { Card, Spacer } from '@instana/components';
+import { Event, VolatileId } from '@instana/types';
 
 import useScoredActions, {
   useUserRecommendedScoredActions,
@@ -27,7 +28,6 @@ import useHistory from 'in-automation/AutomationCard/useHistory';
 import useTrigger from 'in-automation/AutomationCard/useTrigger';
 import { hasAutomationAccess } from 'in-stores/permission';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
-import { Event, VolatileId } from 'in-types';
 
 interface AutomationCardProps {
   volatileId: VolatileId;
@@ -43,58 +43,68 @@ function AutomationCard({ volatileId, event }: AutomationCardProps) {
   const ootbActions = useScoredActions({ event, trigger, type: 'watsonx' });
   const recommendedActions = useUserRecommendedScoredActions({ actions: userActions, policies });
   const ootbRecommendedActions = useAIRecommendedScoredActions({ actions: ootbActions, policies });
+  return (
+    <Row withoutSideMargin>
+      <Col xs>
+        <Card>
+          <AutomationCardButtonGroup
+            policyCount={policies?.data?.length}
+            recommendedActionsCount={recommendedActions?.data?.length}
+            actionHistoryCount={historyCount}
+          />
+          {(activeKey === 'automationPolicies' || activeKey === 'recommendedActions') && <Spacer vertical="small" />}
+          {activeKey === 'automationPolicies' && (
+            <AutomationPolicies
+              volatileId={volatileId}
+              event={event}
+              actions={userActions}
+              policies={policies}
+              trigger={trigger}
+            />
+          )}
+          {activeKey === 'recommendedActions' && (
+            <RecommendedActions
+              event={event}
+              volatileId={volatileId}
+              trigger={trigger}
+              recommendedActions={recommendedActions}
+              ootbRecommendedActions={ootbRecommendedActions}
+            />
+          )}
+          {activeKey === 'actionHistory' && <ActionHistoryTable eventId={event.id} />}
+        </Card>
+      </Col>
+    </Row>
+  );
+}
+
+function RecommendedOptimizationsRow({ event }: { event: Event }) {
   const recommendedOptimizations = useResourceOptimization({ event, actionCategory: 'PERFORMANCE_ASSURANCE' });
   const turboRecommendedActions = useTurboRecommendedActions(recommendedOptimizations);
   return (
+    <Row withoutSideMargin>
+      <Col xs>
+        <Card>
+          <RecommendedOptimizations
+            recommendedActions={turboRecommendedActions}
+            totalRecommendedActions={recommendedOptimizations?.data?.totalRecommendedActionsCount!}
+          />
+        </Card>
+      </Col>
+    </Row>
+  );
+}
+
+function AutomationCardWithOptimization({ volatileId, event }: AutomationCardProps) {
+  return (
     <>
-      {resourceOptimizationActionsEnabled && (
-        <Row withoutSideMargin>
-          <Col xs>
-            <Card>
-              <RecommendedOptimizations
-                recommendedActions={turboRecommendedActions}
-                totalRecommendedActions={recommendedOptimizations?.data?.totalRecommendedActionsCount!}
-              />
-            </Card>
-          </Col>
-        </Row>
-      )}
-      <Row withoutSideMargin>
-        <Col xs>
-          <Card>
-            <AutomationCardButtonGroup
-              policyCount={policies?.data?.length}
-              recommendedActionsCount={recommendedActions?.data?.length}
-              actionHistoryCount={historyCount}
-            />
-            {(activeKey === 'automationPolicies' || activeKey === 'recommendedActions') && <Spacer vertical="small" />}
-            {activeKey === 'automationPolicies' && (
-              <AutomationPolicies
-                volatileId={volatileId}
-                event={event}
-                actions={userActions}
-                policies={policies}
-                trigger={trigger}
-              />
-            )}
-            {activeKey === 'recommendedActions' && (
-              <RecommendedActions
-                event={event}
-                volatileId={volatileId}
-                trigger={trigger}
-                recommendedActions={recommendedActions}
-                ootbRecommendedActions={ootbRecommendedActions}
-              />
-            )}
-            {activeKey === 'actionHistory' && <ActionHistoryTable eventId={event.id} />}
-          </Card>
-        </Col>
-      </Row>
+      <AutomationCard volatileId={volatileId} event={event} />
+      {resourceOptimizationActionsEnabled && <RecommendedOptimizationsRow event={event} />}
     </>
   );
 }
 
 export default function AutomationCardWrapper({ volatileId, event }: AutomationCardProps) {
   if (!hasAutomationAccess) return null;
-  return <AutomationCard volatileId={volatileId} event={event} />;
+  return <AutomationCardWithOptimization volatileId={volatileId} event={event} />;
 }

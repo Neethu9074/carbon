@@ -25,4 +25,19 @@
     width: 100%;
     height: 1rem;
   }
+  .bdi {
+    table-layout: fixed;
+    width: 100%;
+    display: table;
+    direction: rtl;
+  }
+  .carbonHeadercontent {
+    display: flex;
+    :global(.carbonTooltipPopoverWrapper) {
+      text-align: left;
+    }
+  }
+  .carbonHeaderEllipsis {
+    .ellipsis();
+  }
 }

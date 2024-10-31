@@ -39,7 +39,6 @@ export default function SloErrorBudgetWidget({ sloConfig }: SloErrorBudgetWidget
         metricSli={metricSli}
         objectiveDuration={sloConfig.timeWindow.duration}
         objectiveDurationUnit={sloConfig.timeWindow.durationUnit}
-        showRemainingBudget
         sloEntityType={sloConfig.entity.type}
         status={status}
         statusSingleNumber={statusMetric?.values as MetricDataPoint[]}

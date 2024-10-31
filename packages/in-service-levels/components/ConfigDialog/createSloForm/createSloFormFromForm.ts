@@ -39,11 +39,11 @@ export const getNameTagFieldsFromForm = (form: SloForm): SloNameTagsFields => {
 };
 
 export const getEntityFieldsFromForm = (form: SloForm): SloEntityFields => {
-  const entityIdValue = form.getIn(['entity', 'entityId']).value;
+  const entityIdsValue = form.getIn(['entity', 'entityIds']).value;
   const entityTypeValue = form.getIn(['entity', 'type']).value;
 
   return {
-    entityId: createField({ value: entityIdValue, validator: noBlankEntitySelection }),
+    entityIds: createField({ value: entityIdsValue, validator: noBlankEntitySelection }),
     type: createField({ value: entityTypeValue })
   };
 };

@@ -13,7 +13,7 @@ import {
   toggle,
   setAllOnCurrentPage,
   setAllOnAllPages
-} from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
+} from 'in-settings/tabs/GlobalSettings/components/SelectListDialogContent';
 import NoChannelSelected from 'in-alerting/components/NoChannelSelected';
 import { t } from 'in-i18n';
 

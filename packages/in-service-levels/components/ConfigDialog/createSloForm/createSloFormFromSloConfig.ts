@@ -6,7 +6,7 @@
 
 import { createField, createMapForm, Field } from 'formalistic';
 
-import { isApplicationSloEntity, isSyntheticSloEntity, ServiceLevelObjectiveConfiguration } from '@instana/types';
+import { isApplicationSloEntity, isWebsiteSloEntity, ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { DurationUnitType } from '@instana/types';
 import { formatTime } from '@instana/format-date';
 
@@ -37,16 +37,14 @@ import { fromBackendModel } from 'in-components/QueryBuilder/transformation/form
 import { isCustomBlueprintIndicator, SloBeaconTypes } from 'in-service-levels/types';
 import { defaultBlueprint, ServiceLevelErrors } from 'in-service-levels/constants';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { getSloEntityIds } from 'in-service-levels/utils/sloConfig';
 import { formatDate } from 'in-services/formatters/date';
 
 export const getEntityFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveConfiguration): SloEntityFields => {
   const { entity } = sloConfig;
-
-  if (isSyntheticSloEntity(entity)) throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
-
   return {
-    entityId: createField({
-      value: isApplicationSloEntity(entity) ? entity.applicationId : entity.websiteId,
+    entityIds: createField({
+      value: getSloEntityIds(entity),
       validator: noBlankEntitySelection
     }),
     type: createField({ value: entity.type })
@@ -54,8 +52,6 @@ export const getEntityFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveCon
 };
 
 export const getScopeFieldsFromSloConfig = ({ entity }: ServiceLevelObjectiveConfiguration): SloScopeFields => {
-  if (isSyntheticSloEntity(entity)) throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
-
   if (isApplicationSloEntity(entity)) {
     const { boundaryScope, endpointId, includeInternal, includeSynthetic, serviceId, tagFilterExpression } = entity;
 
@@ -73,18 +69,22 @@ export const getScopeFieldsFromSloConfig = ({ entity }: ServiceLevelObjectiveCon
     };
   }
 
-  return {
-    beaconType: createField({ value: entity.beaconType }) as Field<SloBeaconTypes>,
-    boundaryScope: createField({ value: 'ALL' }),
-    endpointId: createField({ value: '' }),
-    includeInternal: createField({ value: false }),
-    includeSynthetic: createField({ value: false }),
-    serviceId: createField({ value: '' }),
-    tagFilterExpression: createField({
-      value: fromBackendModel(entity.tagFilterExpression),
-      validator: noInvalidTagFilterExpression
-    })
-  };
+  if (isWebsiteSloEntity(entity)) {
+    return {
+      beaconType: createField({ value: entity.beaconType }) as Field<SloBeaconTypes>,
+      boundaryScope: createField({ value: 'ALL' }),
+      endpointId: createField({ value: '' }),
+      includeInternal: createField({ value: false }),
+      includeSynthetic: createField({ value: false }),
+      serviceId: createField({ value: '' }),
+      tagFilterExpression: createField({
+        value: fromBackendModel(entity.tagFilterExpression),
+        validator: noInvalidTagFilterExpression
+      })
+    };
+  }
+
+  throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
 };
 
 export const getIndicatorFormFieldsFromSloConfig = (

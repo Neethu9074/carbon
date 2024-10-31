@@ -15,11 +15,6 @@ import {
   isLazyLoadedCallTreeSupported,
   shouldUseLazyLoadedCallTree
 } from 'in-applications/analyze/AnalyzeView2_0/traceSummary';
-import {
-  analyzeCallsOfTraceClickedTracker,
-  downloadTraceClickedTracker,
-  traceViewTrackIfLargeTrace
-} from 'in-applications/tracker';
 import SplitScreenTraceDetailContent from 'in-applications/analyze/AnalyzeView2_0/components/SplitScreenTraceDetailContent';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { analyzeTagFilterExpression } from 'in-applications/analyze/AnalyzeView2_0/components/analyzeTagFilter';
@@ -30,13 +25,13 @@ import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboa
 import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { getAdjustedTimeConfigToIncludeTimestamp } from 'in-stores/time/config';
+import { useApplicationTracker } from '../../../hooks/useApplicationTracker';
 import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
 import { updateLocationToAnalyze } from 'in-applications/navigation/paths';
 import tabs from 'in-applications/analyze/AnalyzeView2_0/components/tabs';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { emptyObject, pendingResult } from 'in-services/fixedObjects';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -48,6 +43,7 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { hasError, isLoading } from 'in-services/util/result';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { pendingResult } from 'in-services/fixedObjects';
 import { getColor } from 'in-applications/endpointTypes';
 import { getChartGranularity } from 'in-stores/metric';
 import Overlay from 'in-components/overlays/Overlay';
@@ -67,6 +63,7 @@ const RETRY_DELAY = seconds.toMillis(15);
 
 export default function TraceDetailView(props) {
   const dataSource = props.dataSource;
+  const { trackCollapseOrExpandTraceDetailSidebar } = useApplicationTracker();
 
   const {
     detailId: { callId, traceId, colorCode, logId },
@@ -92,7 +89,7 @@ export default function TraceDetailView(props) {
             title={t('in-applications:labelAnalytic')}
             icon={getIconByType(dataSource, 'application')}
             label={getLabelByType(dataSource)}
-            contextConfigurations={[{ renderContext, contextIcon: 'lib_analyze_inverted' }]}
+            contextConfigurations={[{ renderContext: RenderContext, contextIcon: 'lib_analyze_inverted' }]}
             withBorderBottom
             showHistoricDataWarning={false}
             liveModeDisabled
@@ -105,6 +102,8 @@ export default function TraceDetailView(props) {
           ListItemContent={SplitScreenTraceDetailContent}
           getHrefToDetailId={getHrefToDetailId}
           subLabel={isFromSameTrace ? t('in-applications:analyze.filteredInThisTrace') : undefined}
+          // putting the tracker into props which is less explicit but this way we keep AP specific code out of in-components area
+          tracker={{ trackCollapseOrExpandTraceDetailSidebar }}
         >
           <TabView
             key={traceId}
@@ -212,7 +211,7 @@ function Header(props) {
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
       renderMetaInformation={renderMetaInformation}
-      renderTimeSelection={renderTimeSelection}
+      renderTimeSelection={RenderTimeSelection}
       hideUrlShortener
     />
   );
@@ -272,6 +271,7 @@ function renderButtonLine(props) {
 function TraceDetailViewButtonLine({ traceId, result, formModel }) {
   const timeConfig = useTimeConfig();
   const { location, createHref } = useNavigation();
+  const { trackAnalyzeCallsOfTraceClicked, trackDownloadTraceClicked } = useApplicationTracker();
 
   const isInternalVisible = useObservable(isInternalVisible$, []);
   const isTroubleshootingModeEnabled = useObservable(isTroubleshootingModeEnabled$, []);
@@ -320,7 +320,7 @@ function TraceDetailViewButtonLine({ traceId, result, formModel }) {
         'adjustedTimeConfig'
       );
     }
-    analyzeCallsOfTraceClickedTracker(emptyObject);
+    trackAnalyzeCallsOfTraceClicked();
   }
 
   const traceDownloadUrl = isLazyLoadedCallTreeSupported(result?.data)
@@ -332,7 +332,7 @@ function TraceDetailViewButtonLine({ traceId, result, formModel }) {
   const rawTraceDownloadUrl =
     `/api/application-monitoring/analyze/traces/` +
     encodeURIComponent(traceIdInUrl) +
-    `/raw?retrievalSize=100&offset=0&ingestionTimestamp=${Date.now()}`;
+    `/raw?retrievalSize=100&offset=0&ingestionTime=${Date.now()}`;
 
   const DownloadTraceOptions = ({ close }) => {
     if (carbonButtonEnabled) {
@@ -341,13 +341,13 @@ function TraceDetailViewButtonLine({ traceId, result, formModel }) {
           <CarbonMenuItem
             label={t('in-applications:linkDownloadCalls')}
             onClick={() => {
-              downloadTraceClickedTracker({ rawTrace: false });
+              trackDownloadTraceClicked({ rawTrace: false });
               window.open(traceDownloadUrl, '_blank');
             }}
           />
           <CarbonMenuItem
             onClick={() => {
-              downloadTraceClickedTracker({ rawTrace: true });
+              trackDownloadTraceClicked({ rawTrace: true });
               window.open(rawTraceDownloadUrl, '_blank');
             }}
             label={t('in-applications:linkDownloadRawTrace')}
@@ -362,7 +362,7 @@ function TraceDetailViewButtonLine({ traceId, result, formModel }) {
           noAutoMargin
           className={locals.downloadOption}
           onClick={() => {
-            downloadTraceClickedTracker({ rawTrace: false });
+            trackDownloadTraceClicked({ rawTrace: false });
             close();
             window.open(traceDownloadUrl, '_blank');
           }}
@@ -374,7 +374,7 @@ function TraceDetailViewButtonLine({ traceId, result, formModel }) {
           noAutoMargin
           className={locals.downloadOption}
           onClick={() => {
-            downloadTraceClickedTracker({ rawTrace: true });
+            trackDownloadTraceClicked({ rawTrace: true });
             close();
             window.open(rawTraceDownloadUrl, '_blank');
           }}
@@ -389,7 +389,7 @@ function TraceDetailViewButtonLine({ traceId, result, formModel }) {
     <>
       {isTroubleshootingModeEnabled || isInternalVisible ? (
         carbonButtonEnabled ? (
-          <CarbonMenuButton size="sm" kind="secondary" label={t('in-applications:linkDownload')}>
+          <CarbonMenuButton size="sm" kind="primary" label={t('in-applications:linkDownload')}>
             <DownloadTraceOptions />
           </CarbonMenuButton>
         ) : (
@@ -408,7 +408,7 @@ function TraceDetailViewButtonLine({ traceId, result, formModel }) {
           target="_blank"
           href={traceDownloadUrl}
           size={carbonButtonEnabled ? 'compact' : 'normal'}
-          onClick={() => downloadTraceClickedTracker({ rawTrace: false })}
+          onClick={() => trackDownloadTraceClicked({ rawTrace: false })}
         >
           {t('in-applications:linkDownload')}
         </Button>
@@ -427,11 +427,12 @@ function TraceDetailViewButtonLine({ traceId, result, formModel }) {
   );
 }
 
-function renderContext({ getHrefToUngroupedView, tracker }) {
+function RenderContext({ getHrefToUngroupedView }) {
+  const { trackTraceViewNavigateBackToUa } = useApplicationTracker();
   return (
     <DashboardHeaderContext
       href={getHrefToUngroupedView()}
-      onClick={() => tracker.traceViewNavigateBackToUa(emptyObject)}
+      onClick={() => trackTraceViewNavigateBackToUa()}
       label={t('in-applications:labelAnalytic')}
     />
   );
@@ -444,11 +445,13 @@ function renderMetaInformation({ traceId, result }) {
 function MetaInformation({ traceId, result }) {
   const displayedTraceId = result?.data?.id ?? traceId;
   const lazyLoadedCallTree = shouldUseLazyLoadedCallTree(result?.data);
+  const { trackTraceViewTrackIfLargeTrace } = useApplicationTracker();
 
   useEffect(() => {
     if (lazyLoadedCallTree) {
-      traceViewTrackIfLargeTrace(emptyObject);
+      trackTraceViewTrackIfLargeTrace();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lazyLoadedCallTree]);
 
   return (
@@ -473,9 +476,10 @@ function MetaInformation({ traceId, result }) {
   );
 }
 
-function renderTimeSelection({ getHrefToUngroupedView, tracker }) {
+function RenderTimeSelection({ getHrefToUngroupedView }) {
+  const { trackTraceViewClosed } = useApplicationTracker();
   return (
-    <Link href={getHrefToUngroupedView()} onClick={() => tracker.traceViewClosedTracker()}>
+    <Link href={getHrefToUngroupedView()} onClick={() => trackTraceViewClosed()}>
       <Tooltip content={t('in-applications:analyze.closeTraceDetail')}>
         <SvgIcon
           className={locals.closeIcon}

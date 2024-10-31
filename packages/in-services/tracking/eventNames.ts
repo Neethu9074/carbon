@@ -22,6 +22,13 @@ export const CUSTOM_DASHBOARD_DELETE_WIDGET = 'custom.dashboard.delete.widget';
 export const CUSTOM_DASHBOARD_VIEW_WIDGET = 'custom.dashboard.view.widget';
 export const CUSTOM_DASHBOARD_ZOOM_WIDGET_START = 'custom.dashboard.zoom.widget.start';
 export const CUSTOM_DASHBOARD_ZOOM_WIDGET_FINISH = 'custom.dashboard.zoom.widget.finish';
+export const CUSTOM_DASHBOARD_WIDGET_DOWNLOAD_PDF = 'custom.dashboard.widget.download.pdf';
+export const CUSTOM_DASHBOARD_DOWNLOAD_PDF_START = 'custom.dashboard.download.pdf.start';
+export const CUSTOM_DASHBOARD_DOWNLOAD_PDF_FINISH = 'custom.dashboard.download.pdf.finish';
+export const CUSTOM_DASHBOARD_DOWNLOAD_PDF_ORIENTATION = 'custom.dashboard.download.pdf.orientation';
+export const CUSTOM_DASHBOARD_DOWNLOAD_PDF_LAYOUT = 'custom.dashboard.download.pdf.layout';
+export const CUSTOM_DASHBOARD_DOWNLOAD_PDF_DISPLAY = 'custom.dashboard.download.pdf.display';
+export const CUSTOM_DASHBOARD_DOWNLOAD_PDF_GENERATE_PREVIEW = 'custom.dashboard.download.pdf.generate.preview';
 
 export const ANALYZE_VIEW_SELECTED = 'analyze.view.selected';
 export const ANALYZE_CALL_CLICK = 'analyze.call.click';
@@ -231,6 +238,10 @@ export const UNIT_ONBOARDING_GET_ALERTED_CLICK = 'unitOnboarding.setUpSmartAlert
 export const UNIT_ONBOARDING_MONITOR_ENVIRONMENT_CLICK = 'unitOnboarding.startMonitoring.click';
 export const UNIT_ONBOARDING_BRING_YOUR_TEAM_CLICK = 'unitOnboarding.inviteTeammates.click';
 
+export const WELCOME_PAGE_DEPLOY_AGENT_CLICK = 'welcomePage.deployAgent.click';
+export const WELCOME_PAGE_ADD_USER_CLICK = 'welcomePage.addUser.click';
+export const WELCOME_PAGE_IBM_DOCUMENTATION_CLICK = 'welcomePage.ibmDocumentation.click';
+export const WELCOME_PAGE_RELEASE_NOTES_CLICK = 'welcomePage.releaseNotes.click';
 export const WELCOME_PAGE_WHATS_NEW_LINK_CLICK = 'welcomePage.whatsNewLink.click';
 
 // Owned by Team Alert Response
@@ -314,6 +325,7 @@ export const INFRA_EXPLORE_TYPE_SELECTOR_STATE_CHANGED = 'infra.explore.type.sel
 export const INFRA_EXPLORE_FILTER_ADDED = 'infra.explore.filter.added';
 export const INFRA_EXPLORE_FILTER_REMOVED = 'infra.explore.filter.removed';
 export const INFRA_EXPLORE_FILTERS_CLEARED = 'infra.explore.filters.cleared';
+export const INFRA_EXPLORE_CHART_CHANGED = 'infra.explore.chart.changed';
 export const INFRA_EXPLORE_GROUP_ADDED = 'infra.explore.group.added';
 export const INFRA_EXPLORE_GROUP_REMOVED = 'infra.explore.group.removed';
 export const INFRA_EXPLORE_GROUP_EXPANDED = 'infra.explore.group.expanded';
@@ -448,6 +460,10 @@ export const AUTOMATION_AI_SELECT_NEXT_CUSTOMIZE_ACTION_STEP_CLICK =
   'automation.ai.select.next.customize.action.step.click';
 export const AUTOMATION_AI_ACTION_CONTENT_MODIFIED = 'automation.ai.action.content.modified';
 export const AUTOMATION_AI_LEAVE_GENERATE_DIALOG = 'automation.ai.leave.generate.dialog';
+
+export const AUTOMATION_AI_SCRIPT_SELECT_STEP_NEXT_CLICK = 'automation.ai.script.select.step.next.click';
+export const AUTOMATION_GENERATE_AI_SCRIPT_BUTTON_CLICK_STEP2 = 'automation.generate.ai.script.button.click.step2';
+export const AUTOMATION_AI_SCRIPT_GENERATE_STEP_NEXT_CLICK = 'automation.ai.script.generate.step.next.click';
 
 export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
 

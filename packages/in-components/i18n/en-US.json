@@ -124,6 +124,7 @@
       "entititiesDescription": "There were no entities retrieved for the selected time range."
     },
     "sharedComponents": {
+      "settings": "Settings",
       "configurableThSearchItemPlaceholder": "Search {{len}} items",
       "configurableThNoMatchesTxt": "No matches"
     }
@@ -740,6 +741,7 @@
     "groupName": "Group Name",
     "groupedOnly": "Metric only available when analyzing groups.",
     "groupNameNotAvailable":"{{groupbyTag}} Information not available",
+    "options": "Options",
     "filterSidebar": {
       "groupingButton": "Group by {{group}}",
       "ungroupButton": "Remove grouping"

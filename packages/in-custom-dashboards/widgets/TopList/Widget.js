@@ -8,6 +8,10 @@ import React from 'react';
 import { themes } from '@instana/design-tokens';
 import { Link } from '@instana/components';
 
+import {
+  getFilterResultNote,
+  useFilteredMetricConfiguration
+} from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
 import { default as SyntheticTopListCatalog } from 'in-custom-dashboards/widgets/TopList/catalogs/SyntheticTopListCatalog';
 import { default as WebsiteTopListCatalog } from 'in-custom-dashboards/widgets/TopList/catalogs/WebsiteTopListCatalog';
 import { default as MobileTopListCatalog } from 'in-custom-dashboards/widgets/TopList/catalogs/MobileTopListCatalog';
@@ -37,7 +41,9 @@ import { t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/TopList/Widget.mless';
 
-export default function ListWidget({ config, title, actions, isInModal, dragHandle }) {
+export default function ListWidget({ config: baseConfig, title, actions, isInModal, dragHandle }) {
+  const { metricConfiguration, result: filterResult } = useFilteredMetricConfiguration(baseConfig.metricConfiguration);
+  const config = { ...baseConfig, metricConfiguration };
   const timeConfig = useTimeConfig();
   switch (config.metricConfiguration.source) {
     case 'APPLICATION':
@@ -49,6 +55,7 @@ export default function ListWidget({ config, title, actions, isInModal, dragHand
           isInModal={isInModal}
           dragHandle={dragHandle}
           timeConfig={timeConfig}
+          filterResult={filterResult}
         />
       );
     case 'MOBILE_APP':
@@ -60,6 +67,7 @@ export default function ListWidget({ config, title, actions, isInModal, dragHand
           isInModal={isInModal}
           dragHandle={dragHandle}
           timeConfig={timeConfig}
+          filterResult={filterResult}
         />
       );
     case 'WEBSITE':
@@ -71,6 +79,7 @@ export default function ListWidget({ config, title, actions, isInModal, dragHand
           isInModal={isInModal}
           dragHandle={dragHandle}
           timeConfig={timeConfig}
+          filterResult={filterResult}
         />
       );
     case 'SYNTHETICS':
@@ -82,6 +91,7 @@ export default function ListWidget({ config, title, actions, isInModal, dragHand
           isInModal={isInModal}
           dragHandle={dragHandle}
           timeConfig={timeConfig}
+          filterResult={filterResult}
         />
       );
     case 'INFRASTRUCTURE_METRICS':
@@ -93,6 +103,7 @@ export default function ListWidget({ config, title, actions, isInModal, dragHand
           isInModal={isInModal}
           dragHandle={dragHandle}
           timeConfig={timeConfig}
+          filterResult={filterResult}
         />
       );
   }
@@ -107,7 +118,8 @@ export function ListWidgetRenderer({
   actions,
   isInModal,
   dragHandle,
-  timeConfig
+  timeConfig,
+  filterResult
 }) {
   const hasApproximateData =
     result?.data?.filter(elem => elem?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE').length > 0;
@@ -134,6 +146,7 @@ export function ListWidgetRenderer({
         </>
       }
       timeConfig={timeConfig}
+      topLevelFilterInfo={getFilterResultNote(filterResult)}
     />
   );
 }

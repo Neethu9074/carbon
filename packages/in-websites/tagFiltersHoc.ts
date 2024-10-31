@@ -5,7 +5,7 @@
 
 import { WebsiteBeaconTagGroup, TagFilter, TagFilterOperator } from '@instana/types';
 
-import { DashboardTagFiltersTracker } from 'in-websites/tracker';
+import { DashboardTagFiltersTracker } from 'in-websites/tracking/segTracker';
 import { noop } from 'in-services/util/function';
 
 interface TagFilterManipulator {

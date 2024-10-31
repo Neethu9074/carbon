@@ -37,6 +37,8 @@ const DropdownButton = React.forwardRef<HTMLButtonElement, Props>(function Dropd
       size={size ? size : isCarbonUsed ? 'compact' : undefined}
       icon={isCarbonUsed ? (expanded ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down') : icon}
       className={classNames(className, { [locals.dropdownButton]: !isCarbonUsed })}
+      aria-haspopup
+      aria-expanded={expanded}
     >
       {isCarbonUsed ? (
         <>

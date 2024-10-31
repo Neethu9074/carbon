@@ -34,14 +34,14 @@ describe(EditCredentialInputs, () => {
     expect(screen.getByLabelText('Name')).toBeInTheDocument();
     expect(screen.getByLabelText('Value')).toBeInTheDocument();
 
-    expect(screen.getByTitle('Credential Name')).toBeInTheDocument();
-    expect(screen.getByTitle('Credential Name')).toHaveValue('credTest');
-    expect(screen.getByTitle('Credential Name')).toHaveAttribute('readonly');
+    expect(screen.getByTitle('Credential name')).toBeInTheDocument();
+    expect(screen.getByTitle('Credential name')).toHaveValue('credTest');
+    expect(screen.getByTitle('Credential name')).toHaveAttribute('readonly');
 
     expect(screen.getByText('Credential name cannot be edited, is a readOnly field')).toBeTruthy();
     expect(screen.getByText('Type a new credential value if you want to update the current one.')).toBeTruthy();
 
-    expect(document.querySelector('input[type="password"]')).toBeInTheDocument();
-    expect(document.querySelector('input[type="password"]')).toHaveValue('');
+    expect(document.querySelector('input[type="text"]')).toBeInTheDocument();
+    expect(document.querySelector('input[type="text"]')).toHaveValue('credTest');
   });
 });

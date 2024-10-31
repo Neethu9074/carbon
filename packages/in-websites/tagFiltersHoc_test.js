@@ -8,13 +8,15 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import React from 'react';
 
-import { analyzeTagFilters as tagFiltersTrackers } from 'in-websites/tracker';
+import { analyzeTagFilters as tagFiltersTrackers } from 'in-websites/tracking/segTracker';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useTagFilterManipulators } from 'in-websites/tagFiltersHoc';
 import { NoopComponent } from 'in-test/enzymeTestUtils';
 
 function TestComponent(props) {
+  const { trackCta } = useSegmentTracking();
   const { tagFilters, setTagFilters } = props;
-  const tagFilterManipulators = useTagFilterManipulators(tagFiltersTrackers, tagFilters, setTagFilters);
+  const tagFilterManipulators = useTagFilterManipulators(tagFiltersTrackers(trackCta), tagFilters, setTagFilters);
 
   return <NoopComponent {...props} {...tagFilterManipulators} />;
 }

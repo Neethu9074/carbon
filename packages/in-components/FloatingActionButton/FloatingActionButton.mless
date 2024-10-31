@@ -31,6 +31,23 @@
     }
   }
 
+  // :global(.g10) can be removed after the carbonG10ThemeEnabled feature flag is removed
+  :global(.g10) {
+    .primaryv2 {
+      background-color: var(--cds-button-primary);
+      &:hover {
+        background-color: var(--cds-button-primary-hover);
+      }
+    }
+
+    .action {
+      background-color: var(--cds-button-secondary);
+      &:hover {
+        background-color: var(--cds-button-secondary-hover);
+      }
+    }
+  }
+
   .hasIcon {
     padding-right: 1.25rem;
   }

@@ -8,7 +8,7 @@ import React from 'react';
 
 import { just } from '@instana/observables';
 
-import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
+import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import AlertTestsList from 'in-alerting/smart-alerts/synthetics/components/AlertTestsList';
 import NoItemSelected from 'in-alerting/smart-alerts/components/NoItemSelected';
 import { t } from 'in-i18n';

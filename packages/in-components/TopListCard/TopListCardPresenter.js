@@ -36,7 +36,8 @@ export default function TopListCard(props) {
     isScrollbarVisible = false,
     helpInfo,
     isInModal,
-    noDataMessage
+    noDataMessage,
+    topLevelFilterInfo
   } = props;
   const shouldRenderOnItem = showMetricSelectorsForSingleMetrics && metrics.length === 1;
 
@@ -86,12 +87,29 @@ export default function TopListCard(props) {
         )}
         {renderWidgetNotSupportedIndicator && (
           <Tooltip content={t('in-components:liveModeIndicator.widgetNotSupportedInLiveMode')}>
-            <IconButton type="lib_help_error_info_outline" className={locals.infoIconWithoutPadding} />
+            <IconButton
+              iconDescription={t('in-components:liveModeIndicator.widgetNotSupportedInLiveMode')}
+              type="lib_help_error_info_outline"
+              className={locals.infoIconWithoutPadding}
+            />
           </Tooltip>
         )}
         {helpInfo && (
           <Tooltip content={helpInfo}>
-            <IconButton type="lib_help_error_info_outline" className={locals.infoIconWithoutPadding} />
+            <IconButton
+              iconDescription={helpInfo}
+              type="lib_help_error_info_outline"
+              className={locals.infoIconWithoutPadding}
+            />
+          </Tooltip>
+        )}
+        {topLevelFilterInfo && (
+          <Tooltip content={topLevelFilterInfo}>
+            <IconButton
+              iconDescription={topLevelFilterInfo}
+              type="lib_help_error_info_outline"
+              className={locals.infoIconWithoutPadding}
+            />
           </Tooltip>
         )}
       </>

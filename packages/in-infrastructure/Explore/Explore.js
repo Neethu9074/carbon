@@ -98,7 +98,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
     metricAddedTracker,
     metricRemovedTracker,
     metricAggregationChangedTracker,
-    typeSelectorChangedTracker
+    typeSelectorChangedTracker,
+    chartChangedTracker
   } = useSegmentTracker();
 
   const [
@@ -148,7 +149,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
     onNavigateToEntity: navigateToEntityTracker(getInfraExploreState),
     onMetricAdded: metricAddedTracker(getInfraExploreState),
     onMetricRemoved: metricRemovedTracker(getInfraExploreState),
-    onMetricAggregationChanged: metricAggregationChangedTracker(getInfraExploreState)
+    onMetricAggregationChanged: metricAggregationChangedTracker(getInfraExploreState),
+    onChartChanged: chartChangedTracker(getInfraExploreState)
   };
 
   const isInitPage =

@@ -5,16 +5,16 @@
  */
 
 import { create, timeout } from '@instana/observables';
+import { Event, Policy, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import { ScoredAction, getAllActionsWithAISuggestions } from 'in-automation/api';
 import { error, hasError, isLoading, success } from 'in-services/util/result';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
+import { ScoredAction, TriggerSpecification } from 'in-automation/types';
 import usePaginatedResult from 'in-automation/hooks/usePaginatedResult';
-import { TriggerSpecification } from 'in-automation/Policies/types';
+import { getAllActionsWithAISuggestions } from 'in-automation/api';
 import { pendingResult } from 'in-services/fixedObjects';
-import { Event, Policy, Result } from 'in-types';
 
 interface UseScoredActionsParams {
   event: Event;

@@ -10,7 +10,7 @@ import { SloEntityType } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import ComboBox, { hasMultipleValuesSelected, Option } from 'in-components/ComboBox';
-import { entityTypes } from 'in-service-levels/constants';
+import { sloEntityTypes } from 'in-service-levels/constants';
 
 interface Props {
   value: SloEntityType | undefined;
@@ -18,7 +18,10 @@ interface Props {
   disabled?: boolean;
 }
 
-const options: Option[] = Object.entries(entityTypes).map(([key, data]) => ({ value: key, label: data.label }));
+const options: Option[] = sloEntityTypes.map(entityType => ({
+  value: entityType,
+  label: t('in-service-levels:general.entityTypes.label', { context: entityType })
+}));
 
 export default function EntityTypeFilter({ value, onChange, disabled }: Props) {
   return (

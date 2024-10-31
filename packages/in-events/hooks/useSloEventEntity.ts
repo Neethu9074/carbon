@@ -15,6 +15,7 @@ import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
 import useSloConfiguration from 'in-service-levels/hooks/useSloConfiguration';
+import { getSloEntityIds } from 'in-service-levels/utils/sloConfig';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { Nullish } from 'in-types';
 
@@ -29,15 +30,15 @@ interface UseSloEventEntityProps {
 export default function useSloEventEntity(event: any | Nullish): UseSloEventEntityProps | undefined {
   const sloId = event?.getIn(['metadata', 'sloId']);
   const [sloConfig] = useSloConfiguration(sloId);
-
-  const entity = sloConfig?.entity;
-  if (entity && isSyntheticSloEntity(entity)) throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
-
   const entityType = event.get('plugin');
   const entityLabel = event.getIn(['metadata', 'entityLabel'], '');
-  const isApplicationEntity = entity && isApplicationSloEntity(entity);
-  const boundaryScope = isApplicationEntity ? entity.boundaryScope : undefined;
-  const sloConfigEntityId = isApplicationEntity ? entity.applicationId : entity?.websiteId;
+  const isSyntheticEntity = sloConfig?.entity && isSyntheticSloEntity(sloConfig.entity);
+  const isApplicationEntity = sloConfig?.entity && isApplicationSloEntity(sloConfig.entity);
+
+  if (isSyntheticEntity) throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
+
+  const boundaryScope = isApplicationEntity ? sloConfig.entity.boundaryScope : undefined;
+  const sloConfigEntityId = sloConfig?.entity ? getSloEntityIds(sloConfig.entity) : undefined;
 
   return (
     useObservable(() => {

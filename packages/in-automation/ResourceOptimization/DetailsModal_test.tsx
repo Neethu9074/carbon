@@ -7,11 +7,11 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import React from 'react';
 
+import { AgentSnapshot, RecommendedAction } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { runResourceOptimizationAction } from 'in-automation/api';
 import { useResourceImpacts } from './useResourceOptimization';
-import { AgentSnapshot, RecommendedAction } from 'in-types';
 import { useSegmentTracker } from 'in-automation/tracker';
 import DetailsModal from './DetailsModal';
 
@@ -63,6 +63,7 @@ const props: DetailsModalProps = {
     actionCategory: 'COMPLIANCE',
     impactedServices: '0',
     createdDate: 1728531187625,
+    targetSnapshotId: 'testID',
     actionDetailsURL:
       'https://nginx-turbonomic.apps.zturbo.cp.fyre.ibm.com/app/index.html#/view/main/action/638625938196418',
     targetClass: 'ContainerPod'

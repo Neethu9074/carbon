@@ -6,14 +6,14 @@
 
 import {
   userSettings,
-  securityAndAccessSettings,
-  teamSettingsAudit,
+  securityAndAccess,
+  securityAndAccessAudit,
   accessControl,
-  teamSettingsAlertingMaintenanceConfigurations,
-  teamSettingsAlertingEvents,
-  teamSettingsAlertingAlerts,
-  teamSettingsAlertingAlertChannels,
-  teamSettingsAlertingCustomPayloadConfiguration,
+  globalSettingsAlertingMaintenanceConfigurations,
+  globalSettingsAlertingEvents,
+  globalSettingsAlertingAlerts,
+  globalSettingsAlertingAlertChannels,
+  globalSettingsAlertingCustomPayloadConfiguration,
   logManagement
 } from 'in-settings/navigation/paths';
 import {
@@ -104,14 +104,14 @@ const SEARCH_WORD_MAP = {
   [actionHistoryPath]: t('in-plg:assistme.dataSearchContext.automation'),
   [accessControl]: t('in-plg:assistme.dataSearchContext.settingsTab'),
   [userSettings]: t('in-plg:assistme.dataSearchContext.userSettings'),
-  [teamSettingsAlertingEvents]: t('in-plg:assistme.dataSearchContext.customEvents'),
-  [teamSettingsAlertingAlerts]: t('in-plg:assistme.dataSearchContext.configuringAlerts'),
-  [teamSettingsAlertingAlertChannels]: t('in-plg:assistme.dataSearchContext.alertChannel'),
-  [teamSettingsAlertingMaintenanceConfigurations]: t('in-plg:assistme.dataSearchContext.maintenanceWindow'),
-  [teamSettingsAlertingCustomPayloadConfiguration]: t('in-plg:assistme.dataSearchContext.customPayload'),
+  [globalSettingsAlertingEvents]: t('in-plg:assistme.dataSearchContext.customEvents'),
+  [globalSettingsAlertingAlerts]: t('in-plg:assistme.dataSearchContext.configuringAlerts'),
+  [globalSettingsAlertingAlertChannels]: t('in-plg:assistme.dataSearchContext.alertChannel'),
+  [globalSettingsAlertingMaintenanceConfigurations]: t('in-plg:assistme.dataSearchContext.maintenanceWindow'),
+  [globalSettingsAlertingCustomPayloadConfiguration]: t('in-plg:assistme.dataSearchContext.customPayload'),
   [logManagement]: t('in-plg:assistme.dataSearchContext.logManagement'),
-  [teamSettingsAudit]: t('in-plg:assistme.dataSearchContext.auditLogs'),
-  [securityAndAccessSettings]: t('in-plg:assistme.dataSearchContext.securityAndAccessSettings'),
+  [securityAndAccessAudit]: t('in-plg:assistme.dataSearchContext.auditLogs'),
+  [securityAndAccess]: t('in-plg:assistme.dataSearchContext.securityAndAccess'),
   [agentsPath]: t('in-plg:assistme.dataSearchContext.installAgent'),
   [customDashboardsPath]: t('in-plg:assistme.dataSearchContext.customDashboard')
 };

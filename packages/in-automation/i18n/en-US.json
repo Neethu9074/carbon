@@ -103,7 +103,7 @@
   "AISlugContent": "AI was used to generate this content",
   "createPolicyWithName": "View action {{actionName}} and create policy",
   "viewActionCreatePolicy": "View action and create policy",
-  "titleScriptContentReadOnly": "Content (Read only)",
+  "titleContentReadOnly": "Generated content (Read only)",
   "GenerateAIActionDialog": {
     "actionConfiguration": "Action configuration",
     "actionDetails": "Action details",
@@ -149,7 +149,22 @@
     "nameExists": "An action already exists with name: {{name}}, and type: {{type}}",
     "failedToGenerateAction": "Failed to generate action.",
     "failedToCreateActionPolicy": "Failed to create action and policy.",
-    "failedToCreateAction": "Failed to create action."
+    "failedToCreateAction": "Failed to create action.",
+    "generateScriptDialog": {
+      "dialogHeader": "Generate a script from manual action",
+      "step1Title": "Step 1: Select step",
+      "step2Title": "Step 2: Generate a script",
+      "step3Title": "Step 3: Configure and create  action",
+      "step1Headline": "Select one manual action step you intend to generate a script for. You may make edits to the manual action step in the next step.",
+      "step2Headline1": "Review the details for the action step and make any edits needed. Then click Generate script to see the results from watsonx.",
+      "step2Headline2": "You can edit and generate again to see different results.",
+      "noDataAvailableLive": "Click the generate button to generate script",
+      "generateScriptButton": "Generate script",
+      "titleGeneratedCodeReadOnly": "Generated code (Read only)",
+      "promptTitle": "Prompt",
+      "generateScriptTileHeader": "Generate a script from a manual action step",
+      "generateScriptTileDescription": "Using watsonx AI you can quickly create a bash script from a manual action step as a prompt and add it to your action catalog in a few short steps."
+    }
   },
   "CreatePolicyDialog": {
     "Step1Headline": "View recommended action and create automation policy for this event.",

@@ -22,7 +22,7 @@ jest.mock('in-stores/user');
 
 jest.mock('in-stores/user', () => ({
   get user() {
-    return { preferredName: 'John Doe' };
+    return { preferredName: 'John Doe', id: 'asdf' };
   }
 }));
 
@@ -164,12 +164,14 @@ describe('CommentList', () => {
     const notes = [
       {
         author: 'John Doe',
+        authorId: 'asdf',
         type: 'note',
         contents: 'This is a test note.',
         timestamp: 1717523244282
       },
       {
         author: 'Jane Doe',
+        authorId: 'asdfasdf',
         type: 'note',
         note: 'This is another test note.',
         timestamp: 1717523244282

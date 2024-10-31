@@ -30,7 +30,7 @@ function InputStory(size) {
     <div style={{ width: '50%' }}>
       <h2 style={{ paddingBottom: '1rem' }}>{`Carbon input form - ${sz}`}</h2>
       <Form>
-        <HelpText carbonVariant>Helper text that should be moved as a property of individual imput components</HelpText>
+        <HelpText>Helper text that should be moved as a property of individual imput components</HelpText>
         <ValidationBlock>
           This is block of validation text that should be moved as a property of individual input components
         </ValidationBlock>
@@ -72,17 +72,10 @@ function InputStory(size) {
           />
         </FormGroup>
         <FormGroup>
-          <TextArea labelText="Multiple line text input" carbonVariant />
+          <TextArea labelText="Multiple line text input" />
         </FormGroup>
         <FormGroup>
-          <Select
-            labelText="Field label"
-            noLabel={false}
-            onChange={() => {}}
-            autoComplete="off"
-            carbonVariant
-            size={size}
-          >
+          <Select labelText="Field label" noLabel={false} onChange={() => {}} autoComplete="off" size={size}>
             <option value="foo">foo</option>
             <option value="bar">bar</option>
             <option value="baz">baz</option>
@@ -113,7 +106,7 @@ export function SelectStory() {
       <Form>
         <Stack gap="large">
           <FormGroup>
-            <Select labelText="Field label" noLabel={false} onChange={() => {}} autoComplete="off" carbonVariant>
+            <Select labelText="Field label" noLabel={false} onChange={() => {}} autoComplete="off">
               <option value="foo">foo</option>
               <option value="bar">bar</option>
               <option value="baz">baz</option>
@@ -122,14 +115,7 @@ export function SelectStory() {
 
           <FormGroup>
             <FormLabel>Disabled</FormLabel>
-            <Select
-              labelText="Field label"
-              noLabel={false}
-              carbonVariant
-              disabled
-              onChange={() => {}}
-              autoComplete="off"
-            >
+            <Select labelText="Field label" noLabel={false} disabled onChange={() => {}} autoComplete="off">
               <option value="foo">foo</option>
               <option value="bar">bar</option>
               <option value="baz">baz</option>
@@ -138,14 +124,7 @@ export function SelectStory() {
 
           <FormGroup>
             <FormLabel>Read only</FormLabel>
-            <Select
-              carbonVariant
-              labelText="Field label"
-              noLabel={false}
-              readOnly
-              onChange={() => {}}
-              autoComplete="off"
-            >
+            <Select labelText="Field label" noLabel={false} readOnly onChange={() => {}} autoComplete="off">
               <option value="foo">foo</option>
               <option value="bar">bar</option>
               <option value="baz">baz</option>

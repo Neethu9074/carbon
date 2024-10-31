@@ -47,52 +47,39 @@ import {
   createTicketIdParameter
 } from 'in-automation/ActionCatalog/useActionForm';
 import {
-  API_KEY,
-  AUTH_TYPES,
-  BASIC_AUTH,
-  BEARER_TOKEN,
-  DOC_LINK_TYPE,
-  GITHUB_TYPE,
+  ACTION_TRANSLATIONS,
+  ACTION_TYPE,
+  ACTION_TYPES,
+  NON_CREATABLE_ACTION_TYPES,
   HTTP_METHODS,
   HTTP_METHODS_WITH_BODY,
-  isDocLink,
-  isScript,
-  isWebhook,
-  NO_AUTH,
-  SCRIPT_TYPE,
-  WEBHOOK_TYPE,
-  getType,
-  MANUAL_TYPE,
-  isManual,
-  isAnsible,
-  getAnsibleFields,
-  isGithub,
-  isGitlab,
-  isJira,
-  GH_TICKET_TYPES,
+  AUTH_TYPE,
+  AUTH_TRANSLATIONS,
+  AUTH_TYPES,
+  GIT_OPERATIONS,
   OPEN,
   CLOSE,
   ADD_COMMENT,
-  doesParameterExist,
   GL_ISSUE_TYPES,
-  GITLAB_TYPE,
-  JIRA_TYPE,
   JIRA_ISSUE_TYPES,
-  getHelpTextType,
-  JIRA_OPERATIONS,
-  ActionFormEntity,
-  isAction,
-  isAIAction
-} from 'in-automation/ActionCatalog/shared';
+  JIRA_OPERATIONS
+} from 'in-automation/constants';
 import useNavigateToActionCatalog from 'in-automation/navigation/hooks/useNavigateToActionCatalog';
+import GenerateScriptTileComponent from 'in-automation/ActionCatalog/GenerateScriptTileComponent';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
+import useActionDetailsUrlParams from 'in-automation/ActionCatalog/useActionDetailsUrlParams';
 import AdditionalHeadersTable from 'in-automation/ActionCatalog/AdditionalHeadersTable';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import { isNotEditableContext, OnChange } from 'in-automation/ActionCatalog/Action';
+import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
+import useHasAccessToScript from 'in-automation/hooks/useHasAccessToScript';
 import ParametersTable from 'in-automation/ActionCatalog/ParametersTable';
 import CopyActionLink from 'in-automation/ActionCatalog/CopyActionLink';
+import { ActionForm } from 'in-automation/ActionCatalog/useActionForm';
+import { ActionFormEntity } from 'in-automation/ActionCatalog/types';
+import { getAnsibleFields } from 'in-automation/utils/actionField';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import FieldsTable from 'in-automation/ActionCatalog/FieldsTable';
 import CreatableTagSelect from 'in-components/CreatableTagSelect';
@@ -100,21 +87,25 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { carbonInputEnabled } from 'in-services/featureFlags';
 import useActionTags from 'in-automation/hooks/useActionTags';
+import { isAction, ActionFilter } from 'in-automation/types';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
+import { isAIAction } from 'in-automation/utils/action';
 import FormGroup from 'in-components/form/FormGroup';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { isLoading } from 'in-services/util/result';
 import { FetchStatus } from 'in-hooks/utils/types';
-import { ActionFilter } from 'in-automation/api';
 import Code from 'in-components/form/Code/Code';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import { ActionForm } from './useActionForm';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './Action.mless';
+
+const doesParameterExist = (parameters: MappedParameter[], paramName: string) => {
+  return parameters.some(param => param.value.name === paramName);
+};
 
 export function ActionFormHeader({ isNew, action }: { isNew: boolean; action: ActionFormEntity }) {
   return (
@@ -144,7 +135,10 @@ interface ActionFormBodyProps {
 
 export function ActionFormBody({ form, setForm, onChange, action, isCreate, actionFilter }: ActionFormBodyProps) {
   const type = (form.get('type') as Field<ActionType>).value;
-  const showTimeoutSection = isScript(type) || isWebhook(type) || isAnsible(type);
+  const showTimeoutSection = [ACTION_TYPE.SCRIPT, ACTION_TYPE.HTTP, ACTION_TYPE.ANSIBLE].includes(type);
+
+  const hasAccessToScript = useHasAccessToScript();
+  const { id } = useActionDetailsUrlParams();
 
   return (
     <LeftRightPadding>
@@ -160,20 +154,28 @@ export function ActionFormBody({ form, setForm, onChange, action, isCreate, acti
             isCreate={isCreate}
             actionFilter={actionFilter}
           />
-          {isDocLink(type) && <DocLinkSection form={form} onChange={onChange} />}
-          {isScript(type) && <ScriptSection form={form} onChange={onChange} />}
-          {isWebhook(type) && <WebhookSection setForm={setForm} form={form} onChange={onChange} action={action} />}
-          {isAnsible(type) && <AnsibleSection action={action} />}
-          {isGithub(type) && <GithubSection form={form} onChange={onChange} setForm={setForm} action={action} />}
-          {isGitlab(type) && <GitlabSection form={form} onChange={onChange} setForm={setForm} action={action} />}
-          {isJira(type) && <JiraSection form={form} onChange={onChange} setForm={setForm} action={action} />}
-          {isManual(type) && <ManualSection form={form} onChange={onChange} />}
+          {type === ACTION_TYPE.DOC_LINK && <DocLinkSection form={form} onChange={onChange} />}
+          {type === ACTION_TYPE.SCRIPT && <ScriptSection form={form} onChange={onChange} />}
+          {type === ACTION_TYPE.HTTP && (
+            <WebhookSection setForm={setForm} form={form} onChange={onChange} action={action} />
+          )}
+          {type === ACTION_TYPE.ANSIBLE && <AnsibleSection action={action} />}
+          {type === ACTION_TYPE.GITHUB && (
+            <GithubSection form={form} onChange={onChange} setForm={setForm} action={action} />
+          )}
+          {type === ACTION_TYPE.GITLAB && (
+            <GitlabSection form={form} onChange={onChange} setForm={setForm} action={action} />
+          )}
+          {type === ACTION_TYPE.JIRA && (
+            <JiraSection form={form} onChange={onChange} setForm={setForm} action={action} />
+          )}
+          {type === ACTION_TYPE.MANUAL && <ManualSection form={form} onChange={onChange} />}
           {showTimeoutSection && (
             <>
               <TimeoutSection form={form} onChange={onChange} />
             </>
           )}
-          {!isDocLink(type) && !isManual(type) && (
+          {![ACTION_TYPE.DOC_LINK, ACTION_TYPE.MANUAL].includes(type) && (
             <>
               <SectionHeading>{t('in-automation:ActionCatalog.3ParamaterDetails')}</SectionHeading>
               <FormGroup>
@@ -182,6 +184,16 @@ export function ActionFormBody({ form, setForm, onChange, action, isCreate, acti
             </>
           )}
         </Col>
+
+        {type === ACTION_TYPE.MANUAL && automationActionAiGenerationUnitEnabled && hasAccessToScript && (
+          <Col lg={4}>
+            <GenerateScriptTileComponent
+              manualContent={form.get('manualContent').value}
+              actionName={form.get('name').value}
+              actionId={id}
+            />
+          </Col>
+        )}
       </Row>
     </LeftRightPadding>
   );
@@ -242,7 +254,7 @@ const TimeoutSection = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | '
             id="action-timeout"
             type="number"
             // NOTE: Timeout is a special field we want to allow to be editable for Ansible actions
-            disabled={isNotEditable && !isAnsible(type)}
+            disabled={isNotEditable && type !== ACTION_TYPE.ANSIBLE}
             value={isNaN(parseInt(field.value)) ? '' : field.value}
             onChange={e => onChange('timeout', e.target.value)}
             hasError={!field.valid && field.touched}
@@ -338,7 +350,7 @@ const MetaDataSection = ({
   );
 };
 
-const typeOptions = [DOC_LINK_TYPE, SCRIPT_TYPE, WEBHOOK_TYPE, MANUAL_TYPE, GITHUB_TYPE, GITLAB_TYPE, JIRA_TYPE];
+const typeOptions = ACTION_TYPES.filter(type => !NON_CREATABLE_ACTION_TYPES.includes(type));
 function filterTypes(actionFilter: 'all' | ActionFilter) {
   if (actionFilter === 'all' || actionFilter.types.length === 0) {
     return typeOptions;
@@ -351,7 +363,7 @@ export function onTypeChange(type: ActionType, action: ActionFormEntity, onChang
   onChange('type', type, updatedForm => {
     // WILL NEED TO UPDATE THIS FOR NEW TYPES
     const type = (updatedForm.get('type') as Field<ActionType>).value;
-    if (isDocLink(type)) {
+    if (type === ACTION_TYPE.DOC_LINK) {
       updatedForm = removeScriptField(updatedForm);
       updatedForm = removeWebhookFields(updatedForm);
       updatedForm = removeGithubFields(updatedForm);
@@ -359,7 +371,7 @@ export function onTypeChange(type: ActionType, action: ActionFormEntity, onChang
       updatedForm = removeJiraFields(updatedForm);
       updatedForm = removeManualContentField(updatedForm);
       updatedForm = putDocLinkField(updatedForm, action);
-    } else if (isScript(type)) {
+    } else if (type === ACTION_TYPE.SCRIPT) {
       updatedForm = removeDocLinkField(updatedForm);
       updatedForm = removeWebhookFields(updatedForm);
       updatedForm = removeGithubFields(updatedForm);
@@ -367,7 +379,7 @@ export function onTypeChange(type: ActionType, action: ActionFormEntity, onChang
       updatedForm = removeJiraFields(updatedForm);
       updatedForm = removeManualContentField(updatedForm);
       updatedForm = putScriptField(updatedForm, action);
-    } else if (isWebhook(type)) {
+    } else if (type === ACTION_TYPE.HTTP) {
       updatedForm = removeDocLinkField(updatedForm);
       updatedForm = removeScriptField(updatedForm);
       updatedForm = removeGithubFields(updatedForm);
@@ -375,7 +387,7 @@ export function onTypeChange(type: ActionType, action: ActionFormEntity, onChang
       updatedForm = removeJiraFields(updatedForm);
       updatedForm = removeManualContentField(updatedForm);
       updatedForm = putWebhookFields(updatedForm, action);
-    } else if (isManual(type)) {
+    } else if (type === ACTION_TYPE.MANUAL) {
       updatedForm = removeDocLinkField(updatedForm);
       updatedForm = removeScriptField(updatedForm);
       updatedForm = removeWebhookFields(updatedForm);
@@ -383,7 +395,7 @@ export function onTypeChange(type: ActionType, action: ActionFormEntity, onChang
       updatedForm = removeJiraFields(updatedForm);
       updatedForm = removeGithubFields(updatedForm);
       updatedForm = putManualField(updatedForm, action);
-    } else if (isGithub(type)) {
+    } else if (type === ACTION_TYPE.GITHUB) {
       updatedForm = removeDocLinkField(updatedForm);
       updatedForm = removeScriptField(updatedForm);
       updatedForm = removeWebhookFields(updatedForm);
@@ -391,7 +403,7 @@ export function onTypeChange(type: ActionType, action: ActionFormEntity, onChang
       updatedForm = removeJiraFields(updatedForm);
       updatedForm = removeManualContentField(updatedForm);
       updatedForm = putGithubFields(updatedForm, action);
-    } else if (isGitlab(type)) {
+    } else if (type === ACTION_TYPE.GITLAB) {
       updatedForm = removeDocLinkField(updatedForm);
       updatedForm = removeScriptField(updatedForm);
       updatedForm = removeWebhookFields(updatedForm);
@@ -399,7 +411,7 @@ export function onTypeChange(type: ActionType, action: ActionFormEntity, onChang
       updatedForm = removeJiraFields(updatedForm);
       updatedForm = removeManualContentField(updatedForm);
       updatedForm = putGitlabFields(updatedForm, action);
-    } else if (isJira(type)) {
+    } else if (type === ACTION_TYPE.JIRA) {
       updatedForm = removeDocLinkField(updatedForm);
       updatedForm = removeScriptField(updatedForm);
       updatedForm = removeWebhookFields(updatedForm);
@@ -410,6 +422,27 @@ export function onTypeChange(type: ActionType, action: ActionFormEntity, onChang
     }
     return updatedForm;
   });
+}
+
+function getHelpTextType(type: ActionType) {
+  switch (type) {
+    case 'SCRIPT':
+      return t('in-automation:ActionCatalog.scripthelpText');
+    case 'HTTP':
+      return t('in-automation:ActionCatalog.httpHelpText');
+    case 'GITHUB':
+      return t('in-automation:ActionCatalog.githubHelpText');
+    case 'GITLAB':
+      return t('in-automation:ActionCatalog.gitlabHelpText');
+    case 'JIRA':
+      return t('in-automation:ActionCatalog.jiraHelpText');
+    case 'MANUAL':
+      return t('in-automation:ActionCatalog.manualHelpText');
+    case 'DOC_LINK':
+      return t('in-automation:ActionCatalog.docLinkHelpText');
+    default:
+      return '';
+  }
 }
 
 const TypeSection = ({
@@ -437,7 +470,7 @@ const TypeSection = ({
           >
             {filteredTypes.map(type => (
               <option key={type} value={type}>
-                {getType(type)}
+                {ACTION_TRANSLATIONS[type]}
               </option>
             ))}
           </Select>
@@ -445,7 +478,7 @@ const TypeSection = ({
           <HelpText className={locals.subTextFormField}>{getHelpTextType(type.value)}</HelpText>
         </>
       ) : (
-        <Typography variant="body-regular">{getType(action.type)}</Typography>
+        <Typography variant="body-regular">{ACTION_TRANSLATIONS[action.type]}</Typography>
       )}
     </FormGroup>
   ));
@@ -634,7 +667,7 @@ const GithubSection = ({
                 }
                 hasError={!field.valid && field.touched}
               >
-                {GH_TICKET_TYPES.map(({ value, translation }) => (
+                {GIT_OPERATIONS.map(({ value, translation }) => (
                   <option key={value} value={value}>
                     {translation}
                   </option>
@@ -834,7 +867,7 @@ const GitlabSection = ({
                 }
                 hasError={!field.valid && field.touched}
               >
-                {GH_TICKET_TYPES.map(({ value, translation }) => (
+                {GIT_OPERATIONS.map(({ value, translation }) => (
                   <option key={value} value={value}>
                     {translation}
                   </option>
@@ -1155,6 +1188,8 @@ const JiraOpenSection = ({ form, onChange, setForm }: Pick<ActionFormBodyProps, 
   );
 };
 
+const authOptions = AUTH_TYPES.map(type => ({ value: type, label: AUTH_TRANSLATIONS[type] }));
+
 const WebhookSection = ({
   form,
   setForm,
@@ -1286,15 +1321,15 @@ const WebhookSection = ({
                 onChange={e =>
                   onChange('authType', e.target.value, updatedForm => {
                     const authType = (updatedForm.get('authType') as Field<string>).value;
-                    if (authType == NO_AUTH) {
+                    if (authType == AUTH_TYPE.NO_AUTH) {
                       updatedForm = removeBasicFields(updatedForm);
                       updatedForm = removeBearerField(updatedForm);
                       updatedForm = removeApiKeyFields(updatedForm);
-                    } else if (authType == BASIC_AUTH) {
+                    } else if (authType == AUTH_TYPE.BASIC_AUTH) {
                       updatedForm = putBasicFields(updatedForm, action);
-                    } else if (authType == BEARER_TOKEN) {
+                    } else if (authType == AUTH_TYPE.BEARER_TOKEN) {
                       updatedForm = putBearerField(updatedForm, action);
-                    } else if (authType == API_KEY) {
+                    } else if (authType == AUTH_TYPE.API_KEY) {
                       updatedForm = putApiKeyFields(updatedForm, action);
                     }
                     return updatedForm;
@@ -1302,9 +1337,9 @@ const WebhookSection = ({
                 }
                 hasError={!field.valid && field.touched}
               >
-                {AUTH_TYPES.map(({ value, translation }) => (
+                {authOptions.map(({ value, label }) => (
                   <option key={value} value={value}>
-                    {translation}
+                    {label}
                   </option>
                 ))}
               </Select>
@@ -1313,9 +1348,9 @@ const WebhookSection = ({
           ))}
         </Col>
       </Row>
-      {authType.value === BASIC_AUTH && <BasicAuth form={form} onChange={onChange} />}
-      {authType.value === BEARER_TOKEN && <BearerAuth form={form} onChange={onChange} />}
-      {authType.value === API_KEY && <APIAuth form={form} onChange={onChange} />}
+      {authType.value === AUTH_TYPE.BASIC_AUTH && <BasicAuth form={form} onChange={onChange} />}
+      {authType.value === AUTH_TYPE.BEARER_TOKEN && <BearerAuth form={form} onChange={onChange} />}
+      {authType.value === AUTH_TYPE.API_KEY && <APIAuth form={form} onChange={onChange} />}
       <Row>
         <Col lg={6}>
           {accept.map(field => (

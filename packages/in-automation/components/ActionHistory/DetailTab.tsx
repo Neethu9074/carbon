@@ -9,31 +9,30 @@ import { isEmpty } from 'lodash';
 import React from 'react';
 
 import { Li, Link, Ul, IconButton, SvgIcon, DataTable as CarbonTable } from '@instana/components';
+import { ActionInstance, ActorType } from '@instana/types';
 import { Observable, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import {
   getEntityIdView,
-  teamSettingsAccessControlUsers,
-  teamSettingsAccessControlApiTokens
+  securityAndAccessAccessControlUsers,
+  securityAndAccessAccessControlApiTokens
 } from 'in-settings/navigation/paths';
-import { isAnsible, isGithub, isGitlab, isJira, isExternal } from 'in-automation/ActionCatalog/shared';
 import useHrefToActionDetails from 'in-automation/navigation/hooks/useHrefToActionDetails';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { policiesDetailsFullyQualified } from 'in-automation/navigation/paths';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { ACTION_TRANSLATIONS, ACTION_TYPE } from 'in-automation/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
 import { carbonTableEnabled } from 'in-services/featureFlags';
 import { formatDateTime } from 'in-services/formatters/date';
-import { getType } from 'in-automation/ActionCatalog/shared';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { getSnapshot } from 'in-stores/snapshot/snapshot';
 import { eventsPath } from 'in-events/navigation/paths';
-import { ActionInstance, ActorType } from 'in-types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -114,7 +113,7 @@ export default function DetailTab({
         (output === null || output?.trim().length === 0) &&
         status !== 'SUBMITTED' &&
         status !== 'TIMEOUT' &&
-        !isExternal(type)
+        type !== ACTION_TYPE.EXTERNAL
     },
     {
       label: t('in-automation:actionHistory.startTime'),
@@ -145,14 +144,14 @@ export default function DetailTab({
       label: t('in-automation:actionHistory.event'),
       value: problemText,
       isLink: true,
-      showCondition: !isEmpty(eventId) && !isExternal(type),
+      showCondition: !isEmpty(eventId) && type !== ACTION_TYPE.EXTERNAL,
       actionLane: inActionLane,
       stringLink: getLinkToEventDetails(eventId ?? '')
     },
     {
       label: t('in-automation:actionHistory.risk'),
       value: metadata?.find(data => data.name === 'riskDescription')?.value ?? '',
-      showCondition: isExternal(type),
+      showCondition: type === ACTION_TYPE.EXTERNAL,
       actionLane: inActionLane
     },
     {
@@ -165,15 +164,15 @@ export default function DetailTab({
     },
     {
       label: t('in-automation:titleActionType'),
-      value: getType(type),
+      value: ACTION_TRANSLATIONS[type],
       actionLane: inActionLane
     },
     {
       label: t('in-automation:actionHistory.action'),
       value: actionName,
-      isLink: !isExternal(type) ? true : false,
+      isLink: type !== ACTION_TYPE.EXTERNAL ? true : false,
       isObservable: true,
-      stringLink: type === 'EXTERNAL' ? undefined : hrefToActionDetails(actionId),
+      stringLink: type === ACTION_TYPE.EXTERNAL ? undefined : hrefToActionDetails(actionId),
       actionLane: inActionLane
     },
     {
@@ -199,7 +198,7 @@ export default function DetailTab({
     {
       label: t('in-automation:actionHistory.hostsLimit'),
       actionLane: false,
-      showCondition: isAnsible(type),
+      showCondition: type === ACTION_TYPE.ANSIBLE,
       value: (
         <Ul framed={false}>
           {(() => {
@@ -214,7 +213,7 @@ export default function DetailTab({
       )
     }
   ];
-  if (isAnsible(type)) {
+  if (type === ACTION_TYPE.ANSIBLE) {
     const ansibleUrl = metadata?.find(data => data.name === 'ansibleUrl');
     const ansibleJobId = metadata?.find(data => data.name === 'ansibleJobId');
     if (ansibleUrl && ansibleJobId) {
@@ -230,13 +229,16 @@ export default function DetailTab({
     }
   }
 
-  if (isGithub(type) || isGitlab(type) || isJira(type)) {
+  if ([ACTION_TYPE.GITHUB, ACTION_TYPE.GITLAB, ACTION_TYPE.JIRA].includes(type)) {
     const id = metadata?.find(data => data.name === 'id');
     const url = metadata?.find(data => data.name === 'url');
     if (id && url) {
       const ticketUrlValue = `${url.value}`;
       tableData.push({
-        label: isJira(type) ? t('in-automation:actionHistory.taskUrl') : t('in-automation:actionHistory.issueUrl'),
+        label:
+          type === ACTION_TYPE.JIRA
+            ? t('in-automation:actionHistory.taskUrl')
+            : t('in-automation:actionHistory.issueUrl'),
         value: id.value ?? '',
         isLink: true,
         stringLink: ticketUrlValue,
@@ -355,9 +357,9 @@ export default function DetailTab({
 function getActorLink(actorType?: ActorType, actorId?: string) {
   switch (actorType) {
     case 'USER':
-      return getEntityIdView(teamSettingsAccessControlUsers, actorId ?? '');
+      return getEntityIdView(securityAndAccessAccessControlUsers, actorId ?? '');
     case 'APITOKEN':
-      return getEntityIdView(teamSettingsAccessControlApiTokens, actorId ?? '');
+      return getEntityIdView(securityAndAccessAccessControlApiTokens, actorId ?? '');
     default:
       return null;
   }

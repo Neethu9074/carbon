@@ -18,14 +18,13 @@ import { createNewApplicationConfig, getApplicationConfig } from 'in-api/applica
 import { getNewApplicationWaiterViewPath } from 'in-applications/creation/CreateApplication';
 import { getApplicationsWithDefaults } from 'in-applications/subscriptions/getApplications';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import { APPLICATION_CREATION_OPEN_DIALOG_CLICK } from 'in-services/tracking/eventNames';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { application as applicationType } from 'in-cockpit/starredItems/types';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { applicationsList } from 'in-applications/navigation/paths';
@@ -47,7 +46,7 @@ export default function ApplicationsTopList({ applicationId, config }) {
   const entityResult = useObservable(getConfig, [applicationId]);
   const { createHrefToPath } = useNavigation();
   const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
-  const { trackCta } = useSegmentTracking();
+  const { trackApplicationCreationOpenDialogClicked } = useApplicationTracker();
 
   const header =
     role.canConfigureApplications && !playwithEnabled ? (
@@ -64,7 +63,7 @@ export default function ApplicationsTopList({ applicationId, config }) {
               editMode
             />
           );
-          trackCta(APPLICATION_CREATION_OPEN_DIALOG_CLICK, {
+          trackApplicationCreationOpenDialogClicked({
             status: t('in-cockpit:component.applTopList.openCreationDialog')
           });
         }}

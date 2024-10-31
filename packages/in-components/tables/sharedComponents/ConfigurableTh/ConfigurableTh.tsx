@@ -94,9 +94,12 @@ export function ConfigureButton<ItemType extends Object>({
         content={Content}
         props={{ availableColumnDefinitions, columnDefinitions, onColumnChecked }}
       >
-        {({ toggle, refSetter }) => (
+        {({ toggle, refSetter, isOpen }) => (
           <Button
             className={locals.button}
+            aria-label={t('in-components:tables.sharedComponents.settings')}
+            aria-haspopup="true"
+            aria-expanded={isOpen}
             kind={carbonTableEnabled ? 'action' : 'secondary'}
             onClick={toggle}
             // Casting here because ts has trouble handling the inverted information flow of refs. I.e. ts should accept more narrow types as values for refs specifying a wider accepted type, but fails to do that

@@ -33,7 +33,7 @@ import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { formatDate, formatTime } from 'in-services/formatters/date';
 
 export const getDefaultEntityFields = (entityType: SloEntityType): SloEntityFields => ({
-  entityId: createField({ value: '', validator: noBlankEntitySelection }),
+  entityIds: createField({ value: [], validator: noBlankEntitySelection }),
   type: createField({ value: entityType })
 });
 
