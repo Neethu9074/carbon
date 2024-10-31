@@ -77,7 +77,7 @@ export function CommentList({
           // Using i to iterate helps us traverse backwards that way notes are displayed
           // with the newest note at the top, oldest at the bottom
           const note = notes[notes.length - i - 1];
-          const myBubble = note.author == user.preferredName;
+          const myBubble = note.authorId == user.id;
           const type = note.type;
           const aiSum = type === TYPE_AI_SUMMARY;
           const serviceNow = note.origin === 'ServiceNow';
