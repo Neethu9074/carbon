@@ -98,8 +98,8 @@ function RecommendedOptimizationsRow({ event }: { event: Event }) {
 function AutomationCardWithOptimization({ volatileId, event }: AutomationCardProps) {
   return (
     <>
-      {resourceOptimizationActionsEnabled && <RecommendedOptimizationsRow event={event} />}
       <AutomationCard volatileId={volatileId} event={event} />
+      {resourceOptimizationActionsEnabled && <RecommendedOptimizationsRow event={event} />}
     </>
   );
 }
