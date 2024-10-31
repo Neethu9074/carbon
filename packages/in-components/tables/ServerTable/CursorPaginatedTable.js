@@ -6,7 +6,7 @@
 import React, { Fragment } from 'react';
 
 import { TableActionColumn, TableErrorRows, Table, Tbody, Thead, Tr } from '@instana/legacy';
-import { Button, Stack } from '@instana/components';
+import { Button, HorizontalIndicator, Stack } from '@instana/components';
 
 import { filterColumns } from 'in-components/tables/ServerTable/internalComponents/columnBehavior';
 import EmptyContent from 'in-components/tables/ServerTable/internalComponents/EmptyContent';
@@ -93,8 +93,10 @@ export default function CursorPaginatedTable(props) {
           onChange={onChange}
           onRowMouseEnter={onRowMouseEnter}
           onRowMouseLeave={onRowMouseLeave}
-          result={isLoading ? null : { data: { items } }}
+          useMaxAvailableHeight={false}
+          result={{ data: { items } }}
         />
+        {isLoading && <HorizontalIndicator progress={progress} />}
         <TableLoadMoreRow
           cols={visibleColumns.length}
           loadMore={canLoadMore && loadMore}
