@@ -44,7 +44,7 @@ const StepOne = ({ form, updateForm }: Props) => {
         />
         <PasswordInput
           id={generateUniqueShortId()}
-          type="password"
+          type="text"
           value={credentialValue.value}
           onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
             updateForm(
