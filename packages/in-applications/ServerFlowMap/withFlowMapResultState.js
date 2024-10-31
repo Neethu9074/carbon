@@ -7,7 +7,6 @@ import React, { Component } from 'react';
 
 import { create } from '@instana/observables';
 
-import { flowMapLevelExpandedTracker } from 'in-applications/tracker';
 import FlowMapState from 'in-applications/ServerFlowMap/FlowMapState';
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
 
@@ -175,7 +174,7 @@ export default () => ComposedComponent => {
 
         // servicePath.length is only 1 on the initial expansion which happens on page laod
         if (servicePath.length > 1) {
-          flowMapLevelExpandedTracker({
+          this.props.trackFlowMapLevelExpanded({
             entity: endpointId != null ? 'endpoint' : 'service',
             direction,
             targetedLevel: servicePath.length

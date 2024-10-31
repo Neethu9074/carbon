@@ -9,11 +9,11 @@ import { useObservable } from '@instana/hooks';
 
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
 import getEndpointFlowNodes from 'in-applications/subscriptions/getEndpointFlowNodes';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { hideUpstream, hideDownstream } from 'in-applications/navigation/matrix';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import getMetrics from 'in-applications/subscriptions/getMetrics';
 import getService from 'in-applications/subscriptions/getService';
-import { flowMapClickedTracker } from 'in-applications/tracker';
 import { boundaryScopes } from 'in-applications/constants';
 import ServerFlowMap from 'in-applications/ServerFlowMap';
 import useUrlState from 'in-hooks/useUrlState';
@@ -33,8 +33,10 @@ const urlStateDefinition = {
 
 export default function EndpointFlowMap({ data, applicationId, serviceId, endpointId, timeConfig }) {
   useDisabledBodyScroll();
+  const { trackFlowMapClicked, trackFlowMapLevelExpanded } = useApplicationTracker();
   useEffect(() => {
-    flowMapClickedTracker({ entity: 'endpoint' });
+    trackFlowMapClicked({ entity: 'endpoint' });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [{ hideUpstream, hideDownstream }] = useUrlState(urlStateDefinition);
@@ -65,6 +67,7 @@ export default function EndpointFlowMap({ data, applicationId, serviceId, endpoi
           getFlowNodes={getEndpointFlowNodes}
           collapseLeft={hideUpstream}
           collapseRight={hideDownstream}
+          trackFlowMapLevelExpanded={trackFlowMapLevelExpanded}
         />
       )}
     />

@@ -19,13 +19,7 @@ import {
   ANALYZE_UA2_GROUP_CHANGED,
   ANALYZE_UA2_NESTING_DEPTH,
   ANALYZE_UA2_QUERY_BUILDER_FILTER_ADDED,
-  FLOW_MAP_CLICK,
-  track,
-  FLOW_MAP_CLICK_EXPAND_LEVEL,
-  FLOW_MAP_CLICK_CALLS,
-  FLOW_MAP_CLICK_LATENCY,
-  FLOW_MAP_CLICK_ERROR,
-  FLOW_MAP_CLICK_SIMULATION
+  track
 } from 'in-services/tracking/tracking';
 
 export type FilterAddedTrackingPayload = { dataSource: string; tagName: string; tagFilter?: TagFilter };
@@ -46,10 +40,3 @@ export const ua2FormModelChangedTracker = (e: Record<string, unknown>) => track(
 export const ua2FacetsChangedTracker = (e: Record<string, unknown>) => track(ANALYZE_UA2_FACETS_CHANGED, e);
 export const ua2ExpandCollapseGroupedListItem = (e: Record<string, unknown>) =>
   track(ANALYZE_UA2_EXPAND_COLLAPSE_GROUPED_LIST_ITEM, e);
-
-export const flowMapClickedTracker = (e: Record<string, unknown>) => track(FLOW_MAP_CLICK, e);
-export const flowMapCallsClickedTracker = (e: Record<string, unknown>) => track(FLOW_MAP_CLICK_CALLS, e);
-export const flowMapLatencyClickedTracker = (e: Record<string, unknown>) => track(FLOW_MAP_CLICK_LATENCY, e);
-export const flowMapErrorClickedTracker = (e: Record<string, unknown>) => track(FLOW_MAP_CLICK_ERROR, e);
-export const flowMapSimulationClickedTracker = (e: Record<string, unknown>) => track(FLOW_MAP_CLICK_SIMULATION, e);
-export const flowMapLevelExpandedTracker = (e: Record<string, unknown>) => track(FLOW_MAP_CLICK_EXPAND_LEVEL, e);
