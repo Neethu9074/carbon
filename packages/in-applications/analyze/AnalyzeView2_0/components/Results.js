@@ -18,12 +18,11 @@ import { useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
+import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
 import getTraces from 'in-applications/subscriptions/getTraces';
 import getCalls from 'in-applications/subscriptions/getCalls';
-import HealthDot from 'in-components/health/HealthDot';
 import { number } from 'in-services/formatters/number';
 import { collationLanguage, t } from 'in-i18n';
-import Tooltip from 'in-components/Tooltip';
 
 import locals from './Results.mless';
 
@@ -172,23 +171,24 @@ function getColumnDefinitions(dataSource) {
   return [
     {
       id: 'erroneous',
-      label: <div className={locals.dot} />,
+      label: t('in-applications:labelStatus'),
       sortable: false,
       getContent(item) {
         const severity = getServerity({ item, dataSource });
         return (
-          <Tooltip
-            content={severity > 0 ? t('in-applications:analyze.containsErrors') : t('in-applications:analyze.noErrors')}
-            align="rightMiddle"
-          >
-            <div className={locals.erroneous}>
-              <HealthDot severity={severity} iconSize={10} />
-            </div>
-          </Tooltip>
+          <div className={locals.healthIcon}>
+            <HealthIcon
+              severity={severity}
+              explanation={
+                severity === 0 ? t('in-applications:analyze.noErrors') : t('in-applications:analyze.containsErrors')
+              }
+              iconSize="xs"
+            />
+          </div>
         );
       },
       widthInAbsoluteUnit: true,
-      width: '3rem'
+      width: '5rem'
     },
     {
       id: type,

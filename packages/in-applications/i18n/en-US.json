@@ -6,6 +6,7 @@
   "labelAnalytic": "Analytics",
   "labelCall": "Call",
   "labelTrace": "Trace",
+  "labelStatus": "Status",
   "linkDownload": "Download",
   "linkDownloadCalls": "Download calls",
   "linkDownloadRawTrace": "Download raw trace",
@@ -462,7 +463,7 @@
       "endpointsDescription": "There were no endpoints retrieved for the selected time range."
     },
     "pageCannotBeFound": "Page cannot be found",
-    "idNotPresent":"{{id}} is not present in the URL."
+    "idNotPresent": "{{id}} is not present in the URL."
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "The service is not in the current application.",
