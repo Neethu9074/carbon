@@ -46,7 +46,8 @@ describe('ApplicationsSection when syntheticRbacLimitedEnabled is true', () => {
     render(<ApplicationsSection form={form} updateForm={updateForm} applications={applications} />);
 
     expect(screen.getByText('Select Applications')).toBeInTheDocument();
-    expect(document.querySelectorAll('input[type="checkbox"].checkbox')).toHaveLength(2);
+    screen.debug();
+    expect(document.querySelectorAll('input[type="checkbox"].cds--checkbox')).toHaveLength(2);
     expect(screen.getByText('mehtest500')).toBeInTheDocument();
     expect(screen.getByText("Marat's test AP without calls")).toBeInTheDocument();
   });
