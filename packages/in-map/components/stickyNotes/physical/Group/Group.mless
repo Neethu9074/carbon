@@ -5,10 +5,13 @@
 
 :local {
   .inStickyNoteButton {
-    color: var(--cds-text-inverse);
     border: 1px solid var(--cds-border-strong) !important;
     background-color: #525252;
     cursor: pointer;
+
+    :global(.cds--tag__label) {
+      color: var(--cds-text-inverse);
+    }
 
     &:hover {
       background-color: var(--cds-button-secondary-active);
