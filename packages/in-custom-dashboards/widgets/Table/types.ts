@@ -49,5 +49,6 @@ export interface TableWidgetProps {
   actions?: React.ReactNode;
   isPreview: boolean;
   isInModal?: boolean;
+  topLevelFilterNote?: string;
   refreshFixatedTimeConfig: () => void;
 }

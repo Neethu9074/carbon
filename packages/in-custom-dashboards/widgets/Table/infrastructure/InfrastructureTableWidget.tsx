@@ -16,10 +16,6 @@ import {
 } from '@instana/types';
 import { Card, Link, Spacer, Typography, SearchInput } from '@instana/components';
 
-import {
-  getFilterResultNote,
-  useFilteredMetricConfiguration
-} from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
 // @ts-expect-error
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 // @ts-expect-error
@@ -36,7 +32,6 @@ import { TableWidgetProps } from 'in-custom-dashboards/widgets/Table/types';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
-import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { defaultOrder } from 'in-infrastructure/Explore/constants';
 import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
@@ -75,7 +70,7 @@ function InfrastructureTable(props: TableWidgetProps) {
   const { goToPath } = useNavigation();
   const [totalItemsCount, setTotalItemsCount] = useState();
 
-  const { config, title, actions, dragHandle, isInModal, isPreview } = props;
+  const { config, title, actions, dragHandle, isInModal, isPreview, topLevelFilterNote } = props;
 
   const {
     entityType: type = '',
@@ -89,13 +84,7 @@ function InfrastructureTable(props: TableWidgetProps) {
   } = config;
 
   const isGroup = groupBy && groupBy?.length > 0;
-  const { metricConfiguration, result: filterResult } = useFilteredMetricConfiguration({
-    tagFilterExpression: baseTagFilterExpression,
-    source: config.source
-  });
-  const appliedTagFilterExpression = metricConfiguration?.tagFilterExpression ?? baseTagFilterExpression;
-  const [tagFilterExpression, setTagFilterExpression] = useState(appliedTagFilterExpression);
-  const stableTagFilterExpression = useStableObjectInstance(appliedTagFilterExpression);
+  const [tagFilterExpression, setTagFilterExpression] = useState(baseTagFilterExpression);
 
   const isShowResultsVisible = tableSize > 0 && totalItemsCount;
 
@@ -110,9 +99,9 @@ function InfrastructureTable(props: TableWidgetProps) {
     setTotalItemsCount(undefined);
 
     if (query === '') {
-      setTagFilterExpression(stableTagFilterExpression);
+      setTagFilterExpression(baseTagFilterExpression);
     }
-  }, [sorting, stableTagFilterExpression, query]);
+  }, [sorting, tagFilterExpression, baseTagFilterExpression, query]);
 
   const metricsArray = datasets?.metrics ?? [];
   const metrics = getUniqueMetricsAndLabels(metricsArray);
@@ -126,7 +115,7 @@ function InfrastructureTable(props: TableWidgetProps) {
     getTagFilterExpressionFromQuery({
       query,
       backendGroupBy,
-      tagFilterExpression: stableTagFilterExpression,
+      tagFilterExpression: baseTagFilterExpression,
       setTagFilterExpression
     });
   };
@@ -171,9 +160,7 @@ function InfrastructureTable(props: TableWidgetProps) {
         [locals.modal]: isInModal
       })}
       title={isInModal ? undefined : title}
-      leftHeaderContent={
-        isInModal ? undefined : <WidgetCardHeader extraInfoTooltip={getFilterResultNote(filterResult)} />
-      }
+      leftHeaderContent={isInModal ? undefined : <WidgetCardHeader extraInfoTooltip={topLevelFilterNote} />}
       rightHeaderContent={
         isInModal ? undefined : (
           <>

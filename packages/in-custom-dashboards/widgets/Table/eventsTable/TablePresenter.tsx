@@ -151,7 +151,8 @@ export const TablePresenter = (props: TablePresenterProps) => {
     showCaseView = false,
     config,
     mouseMoveSignal$,
-    isInModal
+    isInModal,
+    topLevelFilterNote
   } = props;
 
   const { location, navigate } = useNavigation();
@@ -212,7 +213,7 @@ export const TablePresenter = (props: TablePresenterProps) => {
           onItemClicked={onItemClicked}
           loadMore={showCaseView ? loadMoreShowcaseData : loadMoreData}
           onChange={sortTable}
-          title={!isInModal && <EventsTitle title={title} config={config} />}
+          title={!isInModal && <EventsTitle title={title} config={config} topLevelFilterNote={topLevelFilterNote} />}
           cardHeader={
             <>
               {dragHandle}
@@ -240,13 +241,21 @@ function setListSorting(orderByColumn: string) {
   };
 }
 
-export function EventsTitle({ title, config }: { title?: string; config?: TableFormConfiguration }) {
+export function EventsTitle({
+  title,
+  config,
+  topLevelFilterNote
+}: {
+  title?: string;
+  config?: TableFormConfiguration;
+  topLevelFilterNote?: string;
+}) {
   const dynamicFocusQuery = config?.dynamicFocusQuery;
-
   return (
     <Typography variant="heading-03">
       <span className={locals.title}>
-        <span>{title || '–'}</span> <TableConfigInfo dynamicFocusQuery={dynamicFocusQuery} />
+        <span>{title || '–'}</span>{' '}
+        <TableConfigInfo dynamicFocusQuery={dynamicFocusQuery} topLevelFilterNote={topLevelFilterNote} />
       </span>
     </Typography>
   );
