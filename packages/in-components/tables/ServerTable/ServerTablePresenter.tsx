@@ -55,6 +55,7 @@ export interface ServerTablePresenterProps<ItemType extends ListItem> extends Ta
   scopeNotification?: React.ReactNode;
   resultPrecision?: ResultPrecision;
   shadowless?: boolean;
+  useMaxAvailableHeight?: boolean;
 }
 
 export interface CarbonHeader<
@@ -123,6 +124,7 @@ export default function ServerTablePresenter<
     scopeNotification,
     resultPrecision,
     shadowless,
+    useMaxAvailableHeight = true,
     // events
     onChange = noop,
     onRowMouseEnter = noop,
@@ -288,6 +290,7 @@ export default function ServerTablePresenter<
       <Card
         disableLayer={!tableInCard}
         title={cardTitle}
+        useMaxAvailableHeight={useMaxAvailableHeight}
         leftHeaderContent={cardTitle ? leftHeaderContent : undefined}
         rightHeaderContent={cardTitle ? header : undefined}
         className={classNames(
@@ -484,6 +487,7 @@ export default function ServerTablePresenter<
       <Card
         title={cardTitle}
         leftHeaderContent={leftHeaderContent}
+        useMaxAvailableHeight={useMaxAvailableHeight}
         rightHeaderContent={header}
         className={classNames({
           [locals.shadowless]: shadowless
