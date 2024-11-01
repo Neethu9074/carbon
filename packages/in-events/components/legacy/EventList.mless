@@ -162,4 +162,8 @@
       margin-bottom: 0;
     }
   }
+
+  .hovered {
+    background: var(--cds-layer-hover);
+  }
 }
