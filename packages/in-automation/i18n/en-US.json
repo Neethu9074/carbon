@@ -509,7 +509,7 @@
     "actionFailedMessage": "The request to execute action <strong>{{actionName}}</strong> has failed: {{message}}.",
     "viewActionHistory": "View action history",
     "actionName": "Action name",
-    "recommendedActionHistoryWithCount": "Recommended action history ({{count}})",
-    "recommendedActionHistory": "Recommended action history"
+    "recommendedActionHistoryWithCount": "Resource action history ({{count}})",
+    "recommendedActionHistory": "Resource action history"
   }
 }

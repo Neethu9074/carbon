@@ -139,7 +139,7 @@ function GetActionInstanceListDataFunc({ timeConfig, eventId, types }: GetAction
     timeConfig,
     eventId,
     types: types ?? [],
-    actionStatuses: []
+    actionStatuses: ['SUCCESS', 'FAILED', 'IN_PROGRESS', 'STATUS_UNKNOWN', 'SUBMITTED', 'TIMEOUT']
   }).startWith(pendingResult);
 }
 

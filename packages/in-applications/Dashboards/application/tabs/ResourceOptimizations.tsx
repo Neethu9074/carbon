@@ -92,6 +92,7 @@ export default function ResourceOptimizationTab({
   }
 
   const activeOptimizatonsKey = useActiveOptimizationsKey();
+  const historyCount = useResourceActionHistoryCount({ types: ['EXTERNAL'] });
 
   return (
     <div className={locals.contentContainer}>
@@ -170,7 +171,7 @@ export default function ResourceOptimizationTab({
       </div>
       <OptimizationsButtonGroup
         recommendedOptimizationsCount={recommendedOptimizations?.data?.totalRecommendedActionsCount!}
-        optimizationHistoryCount={useResourceActionHistoryCount({ types: ['EXTERNAL'] })}
+        optimizationHistoryCount={historyCount}
       />
       {activeOptimizatonsKey === 'recommendedOptimizations' && (
         <RecommendedOptimizations
@@ -178,7 +179,20 @@ export default function ResourceOptimizationTab({
           totalRecommendedActions={recommendedOptimizations?.data?.totalRecommendedActionsCount}
         />
       )}
-      {activeOptimizatonsKey === 'optimizationHistory' && <ActionHistoryTable actionTypes={['EXTERNAL']} noFilters />}
+      {activeOptimizatonsKey === 'optimizationHistory' && (
+        <ActionHistoryTable
+          cardTitle={
+            historyCount !== undefined
+              ? t('in-automation:resourceOptimization.recommendedActionHistoryWithCount', {
+                  count: historyCount
+                })
+              : t('in-automation:resourceOptimization.recommendedActionHistory')
+          }
+          customActionTypes={['EXTERNAL']}
+          noFilters
+          noEvent
+        />
+      )}
     </div>
   );
 }
