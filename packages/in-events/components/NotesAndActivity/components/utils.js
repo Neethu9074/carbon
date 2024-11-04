@@ -4,7 +4,12 @@
  * Copyright IBM Corp. 2024
  */
 
+import { EVENT_NOTES_EDIT_SUBMIT, EVENT_NOTES_DELETE_SUBMIT } from 'in-services/tracking/eventNames';
+import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
+import { eventTracker } from 'in-services/tracking/segment/EventTracker';
+import { CTA_CLICKED } from 'in-services/util/constants';
 import { TYPE_NOTE, TYPE_AI_SUMMARY } from '../utils';
+import { track } from 'in-services/tracking/trackers';
 import { annotateEvent } from 'in-stores/events';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -85,10 +90,16 @@ export function handleUpdateDeleteNote(incidentId, note, setNote, setEditNoteId,
   sendUpdateDeleteNote({
     incidentId: incidentId,
     author: user.preferredName,
+    authorId: user.id,
     action: actionToTake,
     contents: note,
     currentId: editNoteId[0]
   });
+  if (actionToTake == 'delete') {
+    handleTracking(incidentId, EVENT_NOTES_DELETE_SUBMIT);
+  } else if (actionToTake == 'edit') {
+    handleTracking(incidentId, EVENT_NOTES_EDIT_SUBMIT);
+  }
   // On submission we want to clear the note text field and reset edit note state
   setNote('');
   setEditNoteId(false);
@@ -139,4 +150,19 @@ export function validRecipients(recipients) {
   });
   // If false exists then there is an error
   return recipientsList && !validEmails.includes(false);
+}
+
+// We want to track the clicks to segment
+export function handleTracking(id, trackingName) {
+  const { pageRootName, productArea } = getViewTrackingMetaData();
+  if (pageRootName && productArea) {
+    const data = {
+      parentPageName: pageRootName,
+      parentPageCategory: productArea,
+      CTA: trackingName,
+      path: location.hash
+    };
+    eventTracker({ data, segmentEventName: CTA_CLICKED });
+  }
+  track(trackingName, { id, author: user.preferredName });
 }
