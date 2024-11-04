@@ -728,7 +728,7 @@
     "fromUnit": "From ({{unit}})",
     "to": "To",
     "toUnit": "To ({{unit}})",
-    "fromto": "Define from and to range",
+    "fromto": "Define from-to range",
     "rangeSelected": "Range selected",
     "rangeOrder": "The range has to be in ascending order.",
     "earliestTimestamp": "Earliest Timestamp",
