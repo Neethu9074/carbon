@@ -17,11 +17,11 @@ import { removeFacetTag, tagFiltersFromFacets } from 'in-components/AnalyzeView/
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import { ua2OrderByChangedTracker, ua2OrderByGroupChangedTracker } from 'in-components/tracker';
 import { useCustomMetricSuggestions } from 'in-applications/hooks/useCustomMetricSuggestions';
 import { ua2FacetsChangedTracker, ua2FormModelChangedTracker } from 'in-applications/tracker';
 import { isValid as isValidGrouping } from 'in-components/GroupingConfigurator/validation';
 import { sanitizeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { validateFormModel } from 'in-components/QueryBuilder/validation/formModel';
 import { NO_VALUE, UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
 import { emptyArray, emptyObject, pendingResult } from 'in-services/fixedObjects';
@@ -214,6 +214,7 @@ function AnalyzeStateManagement({
     supportedCustomMetrics
   } = dataSourceConfigurations[dataSource];
 
+  const { trackUa2OrderByChanged, trackUa2OrderByGroupChanged } = useApplicationTracker();
   const formModel = useStableObjectInstance(urlState.formModel);
   const onFormModelChange = formModel => {
     ua2FormModelChangedTracker({
@@ -501,12 +502,12 @@ function AnalyzeStateManagement({
 
     orderBy,
     onOrderByChange: orderBy => {
-      ua2OrderByChangedTracker({ dataSource, ...orderBy });
+      trackUa2OrderByChanged({ dataSource, ...orderBy });
       onChange({ orderBy });
     },
     orderByGroups,
     onOrderByGroupsChange: orderByGroups => {
-      ua2OrderByGroupChangedTracker({ dataSource, ...orderByGroups });
+      trackUa2OrderByGroupChanged({ dataSource, ...orderByGroups });
       onChange({ orderByGroups });
     },
     selectableFields,

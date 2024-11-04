@@ -7,11 +7,8 @@ import React, { useEffect, useState } from 'react';
 
 import { Stack, Checkbox } from '@instana/components';
 
-import {
-  ua2FacetedSearchInternalCallsToggledTracker,
-  ua2FacetedSearchSyntheticCallsToggledTracker
-} from 'in-applications/tracker';
 import FacetedExpandableCard from 'in-components/AnalyzeView/FacetedFilters/FacetedExpandableCard';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -38,7 +35,8 @@ export default function FacetedFilterHiddenCalls({
   const hasIsInternal = (formModelWithFacets ?? formModel).some(
     ({ name, operator, value }) => name === 'call.type' && operator === EQUALS && value === 'INTERNAL'
   );
-
+  const { trackUa2FacetedSearchSyntheticCallsToggled, trackUa2FacetedSearchInternalCallsToggled } =
+    useApplicationTracker();
   useEffect(() => {
     if (hasIsSynthetic) {
       setSyntheticAutoEnabled(!includeSynthetic);
@@ -49,6 +47,7 @@ export default function FacetedFilterHiddenCalls({
         setSyntheticAutoEnabled(false);
       }
     }
+    // trigger only when hasIsSynthetic is changed
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasIsSynthetic]);
 
@@ -62,6 +61,7 @@ export default function FacetedFilterHiddenCalls({
         setInternalAutoEnabled(false);
       }
     }
+    // trigger only when hasIsInternal is changed
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasIsInternal]);
 
@@ -73,7 +73,7 @@ export default function FacetedFilterHiddenCalls({
           checked={includeSynthetic || hasIsSynthetic}
           disabled={hasIsSynthetic}
           onChange={() => {
-            ua2FacetedSearchSyntheticCallsToggledTracker({ dataSource, value: !includeSynthetic });
+            trackUa2FacetedSearchSyntheticCallsToggled({ dataSource, value: !includeSynthetic });
             setIncludeSynthetic(!includeSynthetic);
           }}
           disabledTooltipContent={t('in-applications:analyze.facetedSearch.defaultTurnedOnSynthetic')}
@@ -83,7 +83,7 @@ export default function FacetedFilterHiddenCalls({
           checked={includeInternal || hasIsInternal}
           disabled={hasIsInternal}
           onChange={() => {
-            ua2FacetedSearchInternalCallsToggledTracker({ dataSource, value: !includeInternal });
+            trackUa2FacetedSearchInternalCallsToggled({ dataSource, value: !includeInternal });
             setIncludeInternal(!includeInternal);
           }}
           disabledTooltipContent={t('in-applications:analyze.facetedSearch.defaultTurnedOnInternal')}

@@ -21,6 +21,16 @@ import {
   ANALYZE_UA2_FORMMODEL_CHANGED,
   ANALYZE_UA2_FACETS_CHANGED,
   ANALYZE_UA2_EXPAND_COLLAPSE_GROUPED_LIST_ITEM,
+  ANALYZE_UA2_METRIC_ADDED,
+  ANALYZE_UA2_METRIC_REMOVED,
+  ANALYZE_UA2_LOAD_MORE,
+  ANALYZE_UA2_ORDER_BY_CHANGED,
+  ANALYZE_UA2_ORDER_BY_GROUP_CHANGED,
+  ANALYZE_UA2_FACETED_SEARCH_FILTER_ADDED,
+  ANALYZE_UA2_FACETED_SEARCH_GROUP_REMOVED,
+  ANALYZE_UA2_FACETED_SEARCH_GROUP_CHANGED,
+  ANALYZE_UA2_FACETED_SEARCH_FILTER_OPENED,
+  ANALYZE_UA2_FACETED_SEARCH_FILTER_CLOSED,
   ANALYZE_TRACE_VIEW_CLOSED,
   ANALYZE_TRACE_VIEW_NAVIGATE_TO_UA,
   ANALYZE_TRACE_VIEW_TRACE_LIST_CLICK,
@@ -54,7 +64,7 @@ import {
 } from 'in-services/tracking/eventNames';
 import { clickSyntheticMonitoringTabInApplicationsTracker } from 'in-synthetics/tracking/tracker';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { CREATED_OBJECT } from 'in-services/util/constants';
+import { CREATED_OBJECT, UI_INTERACTION } from 'in-services/util/constants';
 
 export interface TrackingFunctions {
   trackApplicationOpenSubmitForm: (payload?: object) => void;
@@ -104,6 +114,16 @@ export interface TrackingFunctions {
   trackApplicationCreationTagRemoved: (payload?: Object) => void;
   trackApplicationCreationBoundaryScopeSelected: (payload?: Object) => void;
   trackApplicationCreationScopeSelected: (payload?: Object) => void;
+  trackUa2MetricAdded: (payload?: Object) => void;
+  trackUa2MetricRemoved: (payload?: Object) => void;
+  trackUa2LoadMore: (payload?: object) => void;
+  trackUa2OrderByChanged: (payload?: object) => void;
+  trackUa2OrderByGroupChanged: (payload?: object) => void;
+  trackUa2FacetedSearchGroupChanged: (payload?: object) => void;
+  trackUa2FacetedSearchGroupRemoved: (payload?: object) => void;
+  trackUa2FacetedSearchFilterOpened: (payload?: object) => void;
+  trackUa2FacetedSearchFilterClosed: (payload?: object) => void;
+  trackUa2FacetedSearchFilterAdded: (payload?: object) => void;
 }
 
 export const useApplicationTracker = (): TrackingFunctions => {
@@ -131,6 +151,26 @@ export const useApplicationTracker = (): TrackingFunctions => {
   const trackUa2FacetsChanged = (payload?: object) => trackCta(ANALYZE_UA2_FACETS_CHANGED, payload);
   const trackUa2ExpandCollapseGroupedListItem = (payload?: object) =>
     trackCta(ANALYZE_UA2_EXPAND_COLLAPSE_GROUPED_LIST_ITEM, payload);
+
+  const trackUa2MetricAdded = (payload?: object) =>
+    unstable_trackEvent(CREATED_OBJECT, { objectType: ANALYZE_UA2_METRIC_ADDED }, payload);
+  const trackUa2MetricRemoved = (payload?: object) =>
+    unstable_trackEvent(CREATED_OBJECT, { objectType: ANALYZE_UA2_METRIC_REMOVED }, payload);
+  const trackUa2LoadMore = (payload?: object) =>
+    unstable_trackEvent(UI_INTERACTION, { objectType: ANALYZE_UA2_LOAD_MORE }, payload);
+  const trackUa2OrderByChanged = (payload?: object) => trackCta(ANALYZE_UA2_ORDER_BY_CHANGED, payload);
+  const trackUa2OrderByGroupChanged = (payload?: object) => trackCta(ANALYZE_UA2_ORDER_BY_GROUP_CHANGED, payload);
+  const trackUa2FacetedSearchGroupChanged = (payload?: object) =>
+    trackCta(ANALYZE_UA2_FACETED_SEARCH_GROUP_CHANGED, payload);
+  const trackUa2FacetedSearchFilterAdded = (payload?: object) =>
+    trackCta(ANALYZE_UA2_FACETED_SEARCH_FILTER_ADDED, payload);
+  const trackUa2FacetedSearchGroupRemoved = (payload?: object) =>
+    trackCta(ANALYZE_UA2_FACETED_SEARCH_GROUP_REMOVED, payload);
+  const trackUa2FacetedSearchFilterOpened = (payload?: object) =>
+    trackCta(ANALYZE_UA2_FACETED_SEARCH_FILTER_OPENED, payload);
+  const trackUa2FacetedSearchFilterClosed = (payload?: object) =>
+    trackCta(ANALYZE_UA2_FACETED_SEARCH_FILTER_CLOSED, payload);
+
   const trackTraceViewClosed = (payload?: object) => trackCta(ANALYZE_TRACE_VIEW_CLOSED, payload);
   const trackTraceViewNavigateBackToUa = (payload?: object) => trackCta(ANALYZE_TRACE_VIEW_NAVIGATE_TO_UA, payload);
   const trackTraceViewTraceListClicked = (payload?: object) => trackCta(ANALYZE_TRACE_VIEW_TRACE_LIST_CLICK, payload);
@@ -231,6 +271,16 @@ export const useApplicationTracker = (): TrackingFunctions => {
     trackApplicationCreationTagAdded,
     trackApplicationCreationTagRemoved,
     trackApplicationCreationBoundaryScopeSelected,
-    trackApplicationCreationScopeSelected
+    trackApplicationCreationScopeSelected,
+    trackUa2MetricAdded,
+    trackUa2MetricRemoved,
+    trackUa2LoadMore,
+    trackUa2OrderByChanged,
+    trackUa2OrderByGroupChanged,
+    trackUa2FacetedSearchGroupChanged,
+    trackUa2FacetedSearchGroupRemoved,
+    trackUa2FacetedSearchFilterOpened,
+    trackUa2FacetedSearchFilterClosed,
+    trackUa2FacetedSearchFilterAdded
   };
 };

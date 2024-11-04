@@ -14,7 +14,7 @@ import { Stack } from '@instana/components';
 import MetricAndSortingConfigurator from 'in-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
 // @ts-expect-error needs TS migration
 import { getAvailableMetrics } from 'in-components/AnalyzeView/metrics';
-import { ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-components/tracker';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { UngroupedViewProps } from 'in-components/AnalyzeView/UngroupedView/types';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
@@ -60,6 +60,7 @@ export default function UngroupedView(props: UngroupedViewProps) {
   const backendMetrics = useStableObjectInstance(
     fields.filter(({ type }) => type === metricType).map(metric => metric.metricId)
   );
+  const { trackUa2MetricAdded, trackUa2MetricRemoved } = useApplicationTracker();
 
   const cursorPaginationState = (useCursorPaginationStrategy ?? useCursorPagination)(
     params =>
@@ -150,10 +151,10 @@ export default function UngroupedView(props: UngroupedViewProps) {
             }
             withAdjustedWindowSizeTooltip={Boolean(adjustedWindowSize)}
             tracking={{
-              onMetricAdded: ({ metric, aggregation }) => ua2MetricAddedTracker({ dataSource, metric, aggregation }),
+              onMetricAdded: ({ metric, aggregation }) => trackUa2MetricAdded({ dataSource, metric, aggregation }),
               onMetricAggregationChanged: ({ metric, aggregation }) =>
-                ua2MetricAddedTracker({ dataSource, metric, aggregation }),
-              onMetricRemoved: ({ metric, aggregation }) => ua2MetricRemovedTracker({ dataSource, metric, aggregation })
+                trackUa2MetricAdded({ dataSource, metric, aggregation }),
+              onMetricRemoved: ({ metric, aggregation }) => trackUa2MetricRemoved({ dataSource, metric, aggregation })
             }}
             renderHistoricDataIndicator={resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE'}
             CustomHeaderActions={headerActions}

@@ -9,7 +9,7 @@ import { Stack, SearchInput } from '@instana/components';
 
 import FacetedExpandableCard from 'in-components/AnalyzeView/FacetedFilters/FacetedExpandableCard';
 import SuggestionsPresenter from 'in-components/AnalyzeView/FacetedFilters/SuggestionsPresenter';
-import { uaFacetedTracker } from 'in-components/AnalyzeView/FacetedFilters/tracking';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import ExistingValue from 'in-components/AnalyzeView/FacetedFilters/ExistingValue';
 import { removeFacetItem } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import { useSuggestions } from 'in-components/AnalyzeView/useSuggestions';
@@ -58,7 +58,13 @@ export default function FacetedFilterGeneric(props) {
       return t('in-components:analyze.activeFacets', { count: selectedValues.length });
     }
   };
-
+  const { trackUa2FacetedSearchGroupChanged, trackUa2FacetedSearchFilterAdded, trackUa2FacetedSearchGroupRemoved } =
+    useApplicationTracker();
+  const uaFacetedTracker = {
+    groupClicked: trackUa2FacetedSearchGroupChanged,
+    suggestionClicked: trackUa2FacetedSearchFilterAdded,
+    groupRemoved: trackUa2FacetedSearchGroupRemoved
+  };
   const trackerMethods = {
     ...uaFacetedTracker,
     ...(tracker ?? {})

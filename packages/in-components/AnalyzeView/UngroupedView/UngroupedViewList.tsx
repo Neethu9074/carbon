@@ -17,10 +17,10 @@ import {
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
 import UngroupedView, { retrievalSize } from 'in-components/AnalyzeView/UngroupedView/UngroupedView';
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import { ListItem } from 'in-components/AnalyzeView/UngroupedView/ListItem';
 import useInfiniteScroll from 'in-hooks/useInfiniteScroll';
-import { ua2LoadedMore } from 'in-components/tracker';
 
 import locals from './UngroupedView.mless';
 
@@ -68,14 +68,15 @@ function List(props: UngroupedViewListPresenterProps) {
     initialLogLines,
     time
   };
-
+  const { trackUa2LoadMore } = useApplicationTracker();
   const infiniteScrollCallback = useCallback(
     ([element]: IntersectionObserverEntry[]) => {
       if (element.isIntersecting && !isLoading && canLoadMore) {
         loadMore?.();
-        ua2LoadedMore({ dataSource });
+        trackUa2LoadMore({ dataSource });
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [canLoadMore, isLoading, loadMore]
   );
 
@@ -98,6 +99,7 @@ function List(props: UngroupedViewListPresenterProps) {
         },
         'loadingComplete'
       );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [canLoadMore, isLoading]);
 
   const MappedListItems = items.map(item => {
@@ -136,7 +138,7 @@ function List(props: UngroupedViewListPresenterProps) {
               //@ts-expect-error bad typing in foundation component
               loadMore={() => {
                 loadMore?.();
-                ua2LoadedMore({ dataSource });
+                trackUa2LoadMore({ dataSource });
               }}
             />
           )}
