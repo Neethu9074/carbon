@@ -62,27 +62,25 @@ export default function ExpandableCardWithSubtitle({
     <div className={classNames(locals.header, locals.right)}>
       {rightHeaderContent}
       {!disabled && (
-        <>
-          <IconButton
-            isWrapperedByTooltip={!tooltipDisabled}
-            iconDescription={
-              expanded
-                ? t('in-components:expandableCard.tooltipShowLess')
-                : t('in-components:expandableCard.tooltipShowMore')
-            }
-            aria-expanded={expanded}
-            kind="action"
-            className={locals.icon}
-            type={expanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
-            onClick={() => {
-              expansionTracker?.({
-                expanded: !expanded
-              });
-              setExpanded(!expanded);
-            }}
-            size="compact"
-          />
-        </>
+        <IconButton
+          isWrapperedByTooltip={!tooltipDisabled}
+          iconDescription={
+            expanded
+              ? t('in-components:expandableCard.tooltipShowLess')
+              : t('in-components:expandableCard.tooltipShowMore')
+          }
+          aria-expanded={expanded}
+          kind="action"
+          className={locals.icon}
+          type={expanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
+          onClick={() => {
+            expansionTracker?.({
+              expanded: !expanded
+            });
+            setExpanded(!expanded);
+          }}
+          size="compact"
+        />
       )}
     </div>
   );

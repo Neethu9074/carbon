@@ -16,7 +16,6 @@ import locals from './FacetedExpandableCard.mless';
 function HeaderButton({ type, onClick, href, className, tooltip }) {
   return (
     <IconButton
-      isWrapperedByTooltip
       iconDescription={tooltip}
       kind="action"
       className={className}
@@ -24,6 +23,7 @@ function HeaderButton({ type, onClick, href, className, tooltip }) {
       onClick={onClick}
       size="compact"
       href={href}
+      isWrapperedByTooltip
     />
   );
 }
