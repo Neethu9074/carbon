@@ -22,10 +22,10 @@ import { isTroubleshootingModeEnabled$ } from 'in-applications/isTroubleshooting
 import DashboardHeaderContext from 'in-components/DashboardHeader/DashboardHeaderContext';
 import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScreenList';
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { getAdjustedTimeConfigToIncludeTimestamp } from 'in-stores/time/config';
-import { useApplicationTracker } from '../../../hooks/useApplicationTracker';
 import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
 import { updateLocationToAnalyze } from 'in-applications/navigation/paths';
 import tabs from 'in-applications/analyze/AnalyzeView2_0/components/tabs';
@@ -55,7 +55,7 @@ import Sticky from 'in-components/Sticky';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-import locals from './TraceDetailView.mless';
+import locals from 'in-applications/analyze/AnalyzeView2_0/components/TraceDetailView/TraceDetailView.mless';
 
 const maximumNumberOfCallsForLargeTraceConsideration = LARGE_TRACE_THRESHOLD;
 const MAX_RETRIES = 3;
