@@ -21,10 +21,10 @@
   .iconWarning {
     svg {
       path:first-of-type {
-        fill: black !important;
+        fill: black;
       }
       path:last-of-type {
-        fill: #8e6a00 !important;
+        fill: #8e6a00;
       }
     }
   }
