@@ -18,6 +18,7 @@ module.exports = {
         'in-api',
         'in-applications',
         'in-automation',
+        'in-bizops',
         'in-components',
         'in-connection',
         'in-events',

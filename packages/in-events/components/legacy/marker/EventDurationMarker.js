@@ -49,9 +49,13 @@ export default connectTo(
       )
     };
   },
-  function EventDurationMarker({ event, config }) {
+  function EventDurationMarker({ event, config, justText }) {
     if (!config) {
       return null;
+    }
+
+    if (justText) {
+      return `${formatDurationAccurately(config.to - event.get('start'), 1000)}`;
     }
 
     return (

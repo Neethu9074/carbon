@@ -93,6 +93,6 @@ function onEventClick(event, setExpandedEventOnClickInTimeline) {
   const eventElement = document.getElementById(`event-${eventId}`);
 
   //scrollElement.scrollTop = eventElement.offsetTop;
-  eventElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  eventElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   setExpandedEventOnClickInTimeline(event.get('id'));
 }

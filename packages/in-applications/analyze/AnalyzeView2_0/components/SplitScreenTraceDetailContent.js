@@ -9,6 +9,7 @@ import { KeyValue } from '@instana/components';
 
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator/BatchingIndicator';
 import { getServerity } from 'in-applications/analyze/AnalyzeView2_0/components/utils';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -23,14 +24,15 @@ const typePerDataSource = {
   traces: 'trace'
 };
 
-export default function SplitScreenTraceDetailContent({ dataSource, ungroupedViewConfiguration, tracker, ...props }) {
+export default function SplitScreenTraceDetailContent({ dataSource, ungroupedViewConfiguration, ...props }) {
+  const { trackTraceViewTraceListClicked } = useApplicationTracker();
   const type = typePerDataSource[dataSource];
   const item = props[type];
   const { label, duration, batchCount } = item;
   const timestamp = item[ungroupedViewConfiguration.timestampName];
   const severity = getServerity({ item: props, dataSource });
   return (
-    <div className={locals.wrapper} onClick={() => tracker.traceViewTraceListClickedTracker({ label })}>
+    <div className={locals.wrapper} onClick={() => trackTraceViewTraceListClicked({ label })}>
       <Tooltip
         content={severity === 0 ? t('in-applications:analyze.noErrors') : t('in-applications:analyze.containsErrors')}
         align="rightMiddle"

@@ -24,6 +24,7 @@ import { joinExpressions } from 'in-components/QueryBuilder/transformation/formM
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import useCursorPagination from 'in-hooks/useCursorPagination';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import Overlay from 'in-components/overlays/Overlay';
 import { isLoading } from 'in-services/util/result';
 import { isBlank } from 'in-services/util/string';
@@ -171,7 +172,7 @@ export default function ServiceOrEndpointSelection({
       {({ toggle, refSetter, isOpen }) => (
         <HorizontalFlexWrapper>
           <DropdownButton
-            kind="secondary"
+            kind={carbonButtonEnabled ? 'tertiary' : 'secondary'}
             size="compact"
             refSetter={refSetter}
             onClick={toggle}

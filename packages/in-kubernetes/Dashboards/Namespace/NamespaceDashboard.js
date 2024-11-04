@@ -55,7 +55,6 @@ export default function NamespaceDashboard({ location }) {
           pageRootName: pageNames.namespace_summary
         }}
       />
-
       <KubernetesIdsForBreadcrumb
         timeConfig={props.timeConfig}
         namespaceId={props.namespaceId}
@@ -69,7 +68,6 @@ export default function NamespaceDashboard({ location }) {
           />
         )}
       />
-
       <TabView
         result$={getKubernetesNamespace({
           id: props.namespaceId,
@@ -105,7 +103,6 @@ export default function NamespaceDashboard({ location }) {
           </CenterAlignmentColumn>
         )}
       />
-
       <Footer />
     </>
   );

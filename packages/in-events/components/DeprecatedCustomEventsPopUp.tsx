@@ -13,14 +13,13 @@ import {
   APPLICATIONS_ALERTING_MIGRATION_NOTIFICATION_DOCS,
   APPLICATIONS_ALERTING_MIGRATION_NOTIFICATION_EVENTS
 } from 'in-services/tracking/tracking';
-import { smartAlertMigrationUrl } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
-
+import { smartAlertMigrationUrl } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getLegacyAlertConfigStats';
-import { deprecatedValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
-import { addMessage, Message, removeMessage } from 'in-components/MessageFlyout/stores/messages';
-import { events, teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { deprecatedValue } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/util';
 import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { addMessage, Message, removeMessage } from 'in-components/MessageFlyout/stores/messages';
+import { events, globalSettingsAlertingEvents } from 'in-settings/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { tryGet, trySet } from 'in-services/localStorage';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -42,7 +41,7 @@ const localStorageKey = 'nextReminderAfter';
 
 export function useLinkToDeprecatedCustomEvents() {
   const { location, createHref } = useNavigation();
-  location.pathname = teamSettingsAlertingEvents;
+  location.pathname = globalSettingsAlertingEvents;
   setOrDeleteMatrixKey(location, events, 'type', deprecatedValue);
 
   return createHref(location);

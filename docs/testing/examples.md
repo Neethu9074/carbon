@@ -18,7 +18,7 @@
 
 ## Mocking HTTP APIs
 
- - [AccessLog](../../packages/in-settings/tabs/TeamSettings/pages/audit/AccessLog/AccessLog_test.js)
+ - [AccessLog](../../packages/in-settings/tabs/SecurityAndAccess/pages/audit/AccessLog/AccessLog_test.js)
 
 ## Hooks
 

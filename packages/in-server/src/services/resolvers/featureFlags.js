@@ -281,6 +281,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'sloSyntheticsEnabled',
+    instanaCtlKey: 'feature.slo.synthetics.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'smartAlertsLogsBlueprintEnabled',
     instanaCtlKey: 'feature.application.smart.alerts.logs.blueprint.enabled',
     defaultValue: false
@@ -354,6 +359,11 @@ module.exports = exports = [
     uiClientKey: 'bizopsStandardInclusionEnabled',
     instanaCtlKey: 'feature.bizops.standard.inclusion.enabled',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'bizopsRbacLimitedEnabled',
+    instanaCtlKey: 'feature.bizops.rbac.limited.enabled',
+    defaultValue: false
   },
   {
     uiClientKey: 'bizopsProcessFlowMapEnabled',
@@ -450,6 +460,12 @@ module.exports = exports = [
     instanaCtlKey: 'feature.custom.dashboards.export.pdf.widget.enabled',
     defaultValue: false
   },
+  {
+    uiClientKey: 'customDashboardsExportPdfEntireDashboard',
+    instanaCtlKey: 'feature.custom.dashboards.export.pdf.entire.dashboard.enabled',
+    defaultValue: false
+  },
+
   {
     uiClientKey: 'playwithTestEnabled',
     instanaCtlKey: 'feature.playwithTestEnabled.enabled',

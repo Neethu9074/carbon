@@ -29,22 +29,22 @@ import {
   hasSAPAccess,
   hasBizOpsAccess
 } from 'in-stores/permission';
-import { MessageContentModernDesign } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
+import { MessageContentModernDesign } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getLegacyAlertConfigStats';
 import { isLandingPage, setLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
-import { deprecatedValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+import { deprecatedValue } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/util';
 import BusinessMonitoringTopList from 'in-cockpit/Cockpit/components/BusinessMonitoringTopList';
 import { APPLICATIONS_ALERTING_MIGRATION_BANNER_EVENTS } from 'in-services/tracking/tracking';
 import WebsitesAndMobileTopList from 'in-cockpit/Cockpit/components/WebsitesAndMobileTopList';
 import InfrastructureTopList from 'in-cockpit/Cockpit/components/InfrastructureTopList';
 import ApplicationsTopList from 'in-cockpit/Cockpit/components/ApplicationsTopList';
 import OpenIncidentsButton from 'in-cockpit/Cockpit/components/OpenIncidentsButton';
-import { events, teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
+import { events, globalSettingsAlertingEvents } from 'in-settings/navigation/paths';
+import { securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
 import { createAsyncComponent } from 'in-components/routing/createAsyncComponent';
 import { carbonButtonEnabled, playwithEnabled } from 'in-services/featureFlags';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
 import PlatformsTopList from 'in-cockpit/Cockpit/components/PlatformsTopList';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import EventChartCard from 'in-cockpit/Cockpit/components/EventChartCard';
@@ -215,7 +215,7 @@ function Header() {
                 size={carbonButtonEnabled ? 'compact' : 'normal'}
                 kind="secondaryDarker"
                 icon="lib_alerts_user_impacted"
-                href={createHrefToPath(teamSettingsAccessControlUsers)}
+                href={createHrefToPath(securityAndAccessAccessControlUsers)}
               >
                 {t('in-cockpit:cockpit.addUser')}
               </Button>
@@ -240,7 +240,7 @@ function Header() {
 
 function CustomEventDeprecatedWarning({ legacyAlertConfigStats }) {
   const { location, createHref } = useNavigation();
-  const affectedEventsListTarget = { ...location, pathname: teamSettingsAlertingEvents };
+  const affectedEventsListTarget = { ...location, pathname: globalSettingsAlertingEvents };
   setOrDeleteMatrixKey(affectedEventsListTarget, events, 'type', deprecatedValue);
   const { trackCta } = useSegmentTracking();
 

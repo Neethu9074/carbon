@@ -9,9 +9,9 @@ import { just } from '@instana/observables';
 import { TimeConfig } from '@instana/types';
 
 import { getMetricCatalogOnce, GetMetricCatalog } from 'in-services/metrics/metricCatalog';
-import { MetricCatalog, Result } from 'in-types';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { MetricCatalog, Result } from 'in-types';
 
 export interface UseMetricCatalogOptions {
   getMetricCatalog: GetMetricCatalog;

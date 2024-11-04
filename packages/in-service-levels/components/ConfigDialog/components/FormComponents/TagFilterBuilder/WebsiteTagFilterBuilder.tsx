@@ -19,9 +19,9 @@ export default function WebsiteTagFilterBuilder({ readOnly = false, width }: Web
   const { form, onChange } = useContext(SloFormContext);
 
   const beaconTypeField = form.getIn(['scope', 'beaconType']);
-  const websiteIdField = form.getIn(['entity', 'entityId']);
+  const websiteIdField = form.getIn(['entity', 'entityIds']);
 
-  const isScopeSelected = beaconTypeField.value && websiteIdField.value;
+  const isScopeSelected = beaconTypeField.value && websiteIdField.value[0];
 
   if (!isScopeSelected) return <DisabledTagFilterButton width={width} />;
 

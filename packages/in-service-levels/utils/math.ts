@@ -30,6 +30,7 @@ export function calculateAvailableErrorBudget(
   target: number
 ): number {
   const { duration, durationUnit } = timeWindow;
+
   let minutes = 0;
   switch (durationUnit) {
     case 'day':
@@ -40,7 +41,19 @@ export function calculateAvailableErrorBudget(
       break;
     case 'month':
       minutes = days.toHours(30 * duration) * hours.toMinutes(1);
+      break;
   }
 
   return Math.round((1 - target) * minutes);
+}
+
+export function truncFloat(num: number, decimalCount: number): number {
+  const strNum = String(num);
+  const [intStr, decStr] = strNum.split('.');
+
+  if ((decStr ?? '').length > decimalCount) {
+    return parseFloat(`${intStr}.${decStr.substring(0, decimalCount)}`);
+  }
+
+  return num;
 }

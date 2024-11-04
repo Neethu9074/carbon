@@ -21,7 +21,6 @@ import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import Header from 'in-components/QueryBuilder/components/Header';
 import GroupedViewOnlyIndicator from './GroupedViewOnlyIndicator';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import { traceViewTracker } from 'in-applications/tracker';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 import locals from './UngroupedView.mless';
@@ -108,7 +107,6 @@ export default function UngroupedView(props: UngroupedViewProps) {
         hasErrors={hasErrors}
         hasItems={hasItems}
         ListItemContent={SplitScreenListItemContent}
-        tracker={traceViewTracker}
       />
     );
   }

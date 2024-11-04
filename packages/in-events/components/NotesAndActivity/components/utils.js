@@ -105,3 +105,38 @@ export function handleUpdateDeleteNote(incidentId, note, setNote, setEditNoteId,
 function sendUpdateDeleteNote(note) {
   annotateEvent(note);
 }
+
+// Taking in the response of the getSummary function above [{label: 'label', summary: 'summary'}]
+// And converting it to a string
+export function convertSummaryToString(data) {
+  var stringSummary = `This summary is AI generated\n\n`;
+  data?.map(entry => {
+    stringSummary += `${entry.label}\n`;
+    stringSummary += `${entry.summary}\n`;
+  });
+
+  return stringSummary;
+}
+
+// Check to make sure the recipients are valid
+// Expects a string split by commas
+export function validRecipients(recipients) {
+  const isString = typeof recipients === 'string';
+  if (!isString) return false;
+  const validEmails = [];
+  const recipientsList = recipients?.split(',');
+  recipientsList?.map(e => {
+    const validateEmail = email => {
+      return String(email)
+        .toLowerCase()
+        .match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+    };
+    // Null means its invalid
+    const valid = validateEmail(e.trim()) != null;
+    validEmails.push(valid);
+  });
+  // If false exists then there is an error
+  return recipientsList && !validEmails.includes(false);
+}

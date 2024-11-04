@@ -7,11 +7,17 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon, CarbonButton, CarbonOverflowMenu, CarbonOverflowMenuItem } from '@instana/components';
+import {
+  SvgIcon,
+  CarbonButton,
+  CarbonOverflowMenu,
+  CarbonOverflowMenuItem,
+  CarbonIconButton
+} from '@instana/components';
 
+import { noteNameAndTimeFormat, createDataString, getSummary, convertSummaryToString } from './utils';
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import { TYPE_NOTE, TYPE_EXT_NOTE, TYPE_EXT_F_CHANGE, TYPE_AI_SUMMARY } from '../utils';
-import { noteNameAndTimeFormat, createDataString, getSummary } from './utils';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { dateFormat, timeFormat } from 'in-services/formatters/date';
@@ -29,7 +35,9 @@ export function CommentList({
   displayQuickStart,
   setNote,
   setEditNoteId,
-  setNeedOverlay
+  setNeedOverlay,
+  setShareOpen,
+  setSummaryData
 }) {
   // This adds in the scroll wheel event listener to determine the percentage
   // of the scroll height so we know if we need to collapse and expand the quick actions
@@ -69,7 +77,7 @@ export function CommentList({
           // Using i to iterate helps us traverse backwards that way notes are displayed
           // with the newest note at the top, oldest at the bottom
           const note = notes[notes.length - i - 1];
-          const myBubble = note.author == user.preferredName;
+          const myBubble = note.authorId == user.id;
           const type = note.type;
           const aiSum = type === TYPE_AI_SUMMARY;
           const serviceNow = note.origin === 'ServiceNow';
@@ -119,6 +127,8 @@ export function CommentList({
                 setEditNoteId={setEditNoteId}
                 setNeedOverlay={setNeedOverlay}
                 setNote={setNote}
+                setShareOpen={setShareOpen}
+                setSummaryData={setSummaryData}
               />
             </div>
           );
@@ -129,7 +139,18 @@ export function CommentList({
 
 // Individual chat bubble that has differing colors and stylings based on
 // if the text is from me or someone else, ai generated, or external source
-export function ChatBubble({ myBubble, contents, data, type, noteObj, setNote, setEditNoteId, setNeedOverlay }) {
+export function ChatBubble({
+  myBubble,
+  contents,
+  data,
+  type,
+  noteObj,
+  setNote,
+  setEditNoteId,
+  setNeedOverlay,
+  setShareOpen,
+  setSummaryData
+}) {
   const [showAll, setShowAll] = useState(false);
   // Currently we have 4 types of bubbles
   const note = type === TYPE_NOTE;
@@ -182,18 +203,45 @@ export function ChatBubble({ myBubble, contents, data, type, noteObj, setNote, s
             <div className={locals.bubbleContentsHeader}>{t('in-events:notes.sumGenerated')}</div>
             <SummaryEntry summaryList={summaryStart} />
             {showAll && <SummaryEntry summaryList={summaryEnd} />}
-            {summaryEnd.length > 0 && (
-              <CarbonButton
-                size="sm"
+            <div style={{ display: 'flex' }}>
+              {/* Show all button / Collapse */}
+              {summaryEnd.length > 0 && (
+                <CarbonButton
+                  size="sm"
+                  onClick={() => {
+                    handleShowMore(noteObj?.id);
+                    setShowAll(!showAll);
+                  }}
+                  kind="ghost"
+                >
+                  {!showAll ? t('in-events:notes.showAll') : t('in-events:notes.collapse')}
+                </CarbonButton>
+              )}
+              {/* Share summarization button */}
+              <CarbonIconButton
+                kind={'ghost'}
+                size={'sm'}
+                label={t('in-events:notes.share')}
                 onClick={() => {
-                  handleShowMore(noteObj?.id);
-                  setShowAll(!showAll);
+                  setNeedOverlay(true);
+                  setShareOpen(true);
+                  setSummaryData(convertSummaryToString(getSummary(sumData)));
                 }}
-                kind="ghost"
               >
-                {!showAll ? t('in-events:notes.showAll') : t('in-events:notes.collapse')}
-              </CarbonButton>
-            )}
+                <SvgIcon type="lib_actions_share" size="xs" />
+              </CarbonIconButton>
+              {/* Copy summarization button */}
+              <CarbonIconButton
+                kind={'ghost'}
+                size={'sm'}
+                label={t('in-events:notes.copy')}
+                onClick={() => {
+                  copyToClipboard(convertSummaryToString(getSummary(sumData)));
+                }}
+              >
+                <SvgIcon type="lib_actions_copy" size="xs" />
+              </CarbonIconButton>
+            </div>
           </>
         )}
         {/* External Note */}
@@ -277,4 +325,8 @@ function handleShowMore(id) {
     eventTracker({ data, segmentEventName: CTA_CLICKED });
   }
   track(EVENT_AI_SHOW_MORE, { id, author: user.preferredName });
+}
+
+function copyToClipboard(str) {
+  navigator.clipboard.writeText(str);
 }

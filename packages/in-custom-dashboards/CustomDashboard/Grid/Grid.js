@@ -68,6 +68,7 @@ function Grid({
   onRemoveWidget,
   tvMode,
   scrollAreaDomNode,
+  shouldWidgetRenderOutsideViewport,
   width
 }) {
   // react-grid-layout has transitions enabled on each widget element. This means at the time of
@@ -128,6 +129,7 @@ function Grid({
           <MemoizedWidgetContent
             widget={widget}
             isConfigurable={isConfigurable}
+            shouldRenderOutsideViewport={shouldWidgetRenderOutsideViewport}
             onEditWidget={onEditWidget}
             onCopyWidget={onCopyWidget}
             onDuplicateWidget={onDuplicateWidget}

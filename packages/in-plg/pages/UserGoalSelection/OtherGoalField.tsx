@@ -55,7 +55,6 @@ const OtherGoalField = (props: OtherGoal) => {
           <StackItem>
             <TextArea
               className={locals.textArea}
-              carbonVariant={false}
               id="event-description"
               rows={6}
               placeholder={t('in-plg:userGoalSelectionDialog.otherGoalPlaceholder')}

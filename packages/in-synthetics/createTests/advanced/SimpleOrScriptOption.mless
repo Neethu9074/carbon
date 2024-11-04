@@ -21,7 +21,7 @@
   }
 
   .title {
-    color: var(--ids-color-option-teal-500);
+    color: var(--cds-text-primary);
     font-size: 1rem;
     font-weight: 600;
     display: flex;

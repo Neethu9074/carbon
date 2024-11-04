@@ -44,16 +44,17 @@ export default function ErrorBudgetInfo({ configuration, remainingErrorBudget }:
     <KeyValue
       label={t('in-service-levels:sloList.components.errorBudgetInfo.timeWindow', {
         context: timeWindowType,
-        durationUnit,
         duration,
+        durationUnit,
+        entityType,
         remaining: remainingErrorBudget == null ? valueMissingPlaceholder : formatDuration(timeRemaining)
       })}
       value={t('in-service-levels:sloList.components.errorBudgetInfo.budget', {
+        budget: remainingErrorBudget == null ? valueMissingPlaceholder : minutes.fixedCompact(minutesInTimeWindow),
         context: indicatorType,
         entityType,
         remaining: remainingErrorBudget ?? 0,
-        remainingFormatted: formatRemainingBudget(indicatorType, remainingErrorBudget),
-        budget: remainingErrorBudget == null ? valueMissingPlaceholder : minutes.fixedCompact(minutesInTimeWindow)
+        remainingFormatted: formatRemainingBudget(indicatorType, remainingErrorBudget)
       })}
       inverted
     />

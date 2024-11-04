@@ -59,7 +59,6 @@
     .textArea {
       width: 100%;
       border: 0;
-      border-bottom: 1px solid var(--cds-border-strong);
       font-size: var(--ids-font-size-option-body-regular);
       padding: 1rem;
     }

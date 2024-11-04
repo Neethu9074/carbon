@@ -12,7 +12,7 @@ import { t } from '@instana/i18n-react';
 import ExpiryDateTimePicker, {
   ExpiryDateTimePickerProps
 } from 'in-settings/components/ApiTokenExpiration/ExpiryDateTimePicker/ExpiryDateTimePicker';
-import { createForm } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
+import { createForm } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/ApiTokens/ApiToken';
 
 jest.mock('in-services/featureFlags', () => ({
   apiTokenExpirationEnabled: true

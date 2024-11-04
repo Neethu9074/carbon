@@ -29,6 +29,7 @@ export interface Role {
   canSeeExtendedInternalMonitoring: boolean;
   limitedInfrastructureScope: boolean;
   limitedAutomationScope: boolean;
+  limitedBizOpsScope: boolean;
   // pre-evaluated permissions from backend
   canConfigureApplications: boolean;
   canConfigureServiceLevelIndicators: boolean;
@@ -43,13 +44,15 @@ export interface Role {
   canViewLogs: boolean;
   canConfigureLogRetentionPeriod: boolean;
   canViewAuditLog: boolean;
+  canConfigureSyntheticCredentials: boolean;
+  canUseSyntheticCredentials: boolean;
   canConfigureSyntheticLocations: boolean;
   canConfigureSyntheticTests: boolean;
+  canViewSyntheticTests: boolean;
   canConfigureGlobalApplicationSmartAlerts: boolean;
   canConfigureGlobalSyntheticSmartAlerts: boolean;
   canConfigureGlobalInfraSmartAlerts: boolean;
   canConfigureGlobalLogSmartAlerts: boolean;
-  canViewSyntheticTests: boolean;
   canConfigureUsers: boolean;
   canConfigureTeams: boolean;
   canConfigureAgents: boolean;

@@ -10,7 +10,7 @@ import React from 'react';
 import { FormGroup, Label, Select, Spacer } from '@instana/components';
 
 //@ts-expect-error not migrated to typescript yet
-import { DescriptionTextWithCurrentTimeZone } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurationForm';
+import { DescriptionTextWithCurrentTimeZone } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurationForm';
 import {
   addFormForExpiryTimeStamp,
   ExpiryOptionType,

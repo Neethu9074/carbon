@@ -11,7 +11,7 @@ import { Stack, Card, Button } from '@instana/components';
 
 import SaveIndicator from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/SaveIndicator';
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
-import { renameWebsite as renameWebsiteTracker } from 'in-websites/tracker';
+import { renameWebsite as renameWebsiteTracker } from 'in-websites/tracking/segTracker';
 import { renameWebsite, getWebsites } from 'in-websites/api/websites';
 import { notBlankValidator } from 'in-services/validators/string';
 import ValidationBlock from 'in-components/form/ValidationBlock';
@@ -69,6 +69,7 @@ export default class Rename extends React.PureComponent {
     e.preventDefault();
 
     const { field } = this.state;
+    const { trackCta } = this.props;
     if (!field.valid) {
       this.setState({
         field: this.state.field.setTouched(true)
@@ -78,7 +79,7 @@ export default class Rename extends React.PureComponent {
       return;
     }
 
-    renameWebsiteTracker({
+    renameWebsiteTracker(trackCta, {
       newName: field.value,
       previousName: this.props.data.label
     });

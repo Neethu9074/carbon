@@ -19,12 +19,13 @@ import {
   getMetricValue,
   getSeriesKey,
   lastValueForMetric,
-  getMetricFormatterFromUnitOrMetadata
+  getMetricFormatterFromUnitOrDefault
 } from 'in-infrastructure/Explore/services/metrics';
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
 import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
 import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
+import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import { extremeValueInSeries, getThresholdColors } from 'in-components/Threshold/threshold';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
@@ -168,14 +169,16 @@ export default function InfrastructureList({
       widthInAbsoluteUnit: true,
       sortable: false,
       getContent(item) {
-        const problems = getAllIssues(
-          item.entityHealthInfo?.openIssues,
-          item.entityHealthInfo?.maxSeverity,
-          t('in-infrastructure:explore.noIssues')
+        return (
+          <EntityHealthIndicator
+            openIssues={item.entityHealthInfo?.openIssues?.length ?? 0}
+            maxSeverity={item.entityHealthInfo?.maxSeverity ?? 0}
+            IndicatorPresenter={HealthIndicatorPresenter}
+            timeConfig={timeConfig}
+            snapshotId={item.snapshotId}
+            inContentArea
+          />
         );
-        const openIssues = item.entityHealthInfo?.openIssues?.length ?? 0;
-        const maxSeverity = item.entityHealthInfo?.maxSeverity ?? 0;
-        return <HealthIndicatorPresenter openIssues={openIssues} maxSeverity={maxSeverity} tooltipLabel={problems} />;
       }
     }
   ];
@@ -436,10 +439,7 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
             const metadata = mapData(metricMetadatas, data => data[metric]);
             const formatter = isFormatterSelected
               ? getFormatter(formatterId)
-              : getMetricFormatterFromUnitOrMetadata(
-                  getBaseUnit(unit),
-                  mapData(metadata, data => data?.formatter).data
-                );
+              : getMetricFormatterFromUnitOrDefault(getBaseUnit(unit), mapData(metadata, data => data?.formatter).data);
 
             const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
             const seriesKey = getSeriesKey(id);

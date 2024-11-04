@@ -19,7 +19,7 @@ import {
 // @ts-expect-error no declaration file
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { QuickLinkButton } from 'in-plg/pages/WelcomePage/quickLinks/QuickLinkButton';
-import { teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
+import { securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
@@ -52,7 +52,7 @@ export const QuickLinks = () => {
             icon="lib_actions_user"
             iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.user')}
             buttonName={t('in-plg:welcomepage.quickLinks.buttonNames.addUser')}
-            href={createHrefToPath(teamSettingsAccessControlUsers)}
+            href={createHrefToPath(securityAndAccessAccessControlUsers)}
             onClick={() => {
               trackCta(WELCOME_PAGE_ADD_USER_CLICK, getPageType(location.pathname));
             }}

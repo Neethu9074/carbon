@@ -8,6 +8,7 @@ import React from 'react';
 import { LoadingSkeleton } from '@instana/components';
 
 import AggregationSymbol from 'in-components/AggregationSymbol';
+import { carbonTableEnabled } from 'in-services/featureFlags';
 import { isLoading } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { Result } from 'in-types';
@@ -28,6 +29,35 @@ export default function MetricLabel({
       </div>
     );
   }
+
+  if (carbonTableEnabled) {
+    const labelSpan = (
+      <bdi className={label.data && label.data.length > 20 ? locals.bdi : undefined}>
+        <div className={locals.carbonHeaderEllipsis}>{label.data}</div>
+      </bdi>
+    );
+
+    const labelWithTooltip =
+      label.data && label.data.length > 10 ? (
+        <Tooltip content={label.data ? label.data : label} align="auto">
+          {labelSpan}
+        </Tooltip>
+      ) : (
+        labelSpan
+      );
+
+    return (
+      <div className={locals.carbonHeadercontent}>
+        {labelWithTooltip}
+        {aggregation && (
+          <span className={locals.aggregation}>
+            <AggregationSymbol aggregation={aggregation} />
+          </span>
+        )}
+      </div>
+    );
+  }
+
   const labelSpan = (
     <div className={locals.label}>
       <bdi>{label.data}</bdi>

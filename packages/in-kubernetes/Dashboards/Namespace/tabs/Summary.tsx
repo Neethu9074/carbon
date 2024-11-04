@@ -233,9 +233,8 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
             config={[
               {
                 metricConfiguration: {
-                  metric: 'pods.count',
-                  ...defaultBigNumberMetricConfig,
-                  ...isPodCountMetric
+                  metric: 'used_pods',
+                  ...defaultBigNumberMetricConfig
                 },
                 ...comparisonColors
               },

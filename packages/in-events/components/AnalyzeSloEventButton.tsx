@@ -8,7 +8,6 @@ import React from 'react';
 
 import {
   isApplicationSloEntity,
-  isSyntheticSloEntity,
   isWebsiteSloEntity,
   ServiceLevelObjectiveConfiguration,
   SloEntity,
@@ -20,7 +19,6 @@ import { t } from '@instana/i18n-react';
 import useHrefToUnboundedAnalytics from 'in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics';
 import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { parseUrl } from 'in-stores/navigation/routing/parser';
 
 interface AnalyzeSloEventButtonProps {
@@ -34,8 +32,6 @@ export default function AnalyzeSloEventButton({
   timeConfig,
   as = 'button'
 }: AnalyzeSloEventButtonProps) {
-  if (isSyntheticSloEntity(entity)) throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
-
   const linkToAnalyze = useHrefToUnboundedAnalytics({ indicator, entity, timeConfig, withLabels: true });
   const { navigate } = useNavigation();
 

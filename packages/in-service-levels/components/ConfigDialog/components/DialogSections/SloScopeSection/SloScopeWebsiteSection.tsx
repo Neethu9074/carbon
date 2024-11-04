@@ -19,7 +19,7 @@ import { t } from 'in-i18n';
 export default function SloScopeWebsiteSection() {
   const { form, mode, onChange } = useContext(SloFormContext);
 
-  const websiteIdField = form.getIn(['entity', 'entityId']);
+  const websiteIdField = form.getIn(['entity', 'entityIds']);
   const beaconTypeField = form.getIn(['scope', 'beaconType']);
 
   const isFormInEditMode = mode === 'EDIT';

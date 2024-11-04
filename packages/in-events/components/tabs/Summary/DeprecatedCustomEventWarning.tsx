@@ -16,8 +16,8 @@ import {
   MessageContentModernDesign,
   onLinkClickForSegmentTracking,
   smartAlertMigrationUrl
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
-import { isDeprecatedAppDataEntityType } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+} from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
+import { isDeprecatedAppDataEntityType } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/util';
 import { getCustomEventSpecificationMutable } from 'in-api/eventSpecifications';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { Col, Row } from 'in-components/layout/Grid';

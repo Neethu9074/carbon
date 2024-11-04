@@ -25,7 +25,7 @@ import { disableMigratedCustomEventSpecification } from 'in-api/eventSpecificati
 import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
+import { globalSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isLoading } from 'in-services/util/result';
@@ -43,7 +43,7 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
   // active to e.g. ensure the dialog cannot be opened multiple times, and to disable the button in that period.
   const [migrationInProgress, setMigrationInProgress] = useState(false);
 
-  const onSuccess = () => goToPath(teamSettingsAlertingEvents);
+  const onSuccess = () => goToPath(globalSettingsAlertingEvents);
   const isGlobalSmartAlertConfig = useObservable(
     getAlertConfigFromLegacyEvent({ eventSpecificationId }).map(({ data }) => {
       return data && data.globalSmartAlert;

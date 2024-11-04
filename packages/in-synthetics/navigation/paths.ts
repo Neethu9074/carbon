@@ -55,7 +55,8 @@ export const isSyntheticMonitoringView = getRootPathPredicate(
   syntheticsSummaryPath,
   syntheticResultsListPath,
   syntheticDetailsPath,
-  syntheticSmartAlertsPath
+  syntheticSmartAlertsPath,
+  syntheticCredentialPath
 );
 
 export function useSyntheticTestDashboard() {

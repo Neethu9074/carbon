@@ -29,7 +29,6 @@ interface SloChartSummaryProps {
   objectiveDuration: number;
   objectiveDurationUnit: string;
   statusSingleNumber?: MetricDataPoint[];
-  showRemainingBudget?: boolean;
   sloEntityType?: SloEntityType;
   status?: FetchStatus;
   target?: number;
@@ -49,8 +48,7 @@ function SloChartSummary({
   status,
   statusSingleNumber,
   target,
-  timeWindowType,
-  showRemainingBudget
+  timeWindowType
 }: SloChartSummaryProps) {
   const isCompact = !useMediaQuery('(min-width: 1300px)');
   const sliFormatter = useSloFormatter({ indicatorType, sloEntityType });
@@ -80,24 +78,14 @@ function SloChartSummary({
         budgetSpent={sloSpent}
         compact={isCompact}
       />
-      {showRemainingBudget ? (
-        <SloTile
-          budget={budget !== undefined ? sliFormatter(budget) : undefined}
-          budgetSpent={budgetSpent}
-          title={t('in-service-levels:sloChart.sloChartSummary.errorBudgetRemaining')}
-          value={budget !== undefined ? sliFormatter(budget) : undefined}
-          compact={isCompact}
-        />
-      ) : (
-        <SloTile
-          title={t('in-service-levels:sloChart.sloChartSummary.errorBudgetSpent')}
-          value={consumedBudget !== undefined ? sliFormatter(consumedBudget) : undefined}
-          budgetTitle={t('in-service-levels:sloChart.sloChartSummary.errorBudget')}
-          budget={budget !== undefined ? sliFormatter(budget) : undefined}
-          budgetSpent={budgetSpent}
-          compact={isCompact}
-        />
-      )}
+      <SloTile
+        title={t('in-service-levels:sloChart.sloChartSummary.errorBudgetSpent')}
+        value={consumedBudget !== undefined ? sliFormatter(consumedBudget) : undefined}
+        budgetTitle={t('in-service-levels:sloChart.sloChartSummary.errorBudgetRemaining')}
+        budget={budget !== undefined ? sliFormatter(budget) : undefined}
+        budgetSpent={budgetSpent}
+        compact={isCompact}
+      />
       <SloTimeTile
         compact={isCompact}
         objectiveDuration={objectiveDuration}

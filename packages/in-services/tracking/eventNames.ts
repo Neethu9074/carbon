@@ -23,6 +23,12 @@ export const CUSTOM_DASHBOARD_VIEW_WIDGET = 'custom.dashboard.view.widget';
 export const CUSTOM_DASHBOARD_ZOOM_WIDGET_START = 'custom.dashboard.zoom.widget.start';
 export const CUSTOM_DASHBOARD_ZOOM_WIDGET_FINISH = 'custom.dashboard.zoom.widget.finish';
 export const CUSTOM_DASHBOARD_WIDGET_DOWNLOAD_PDF = 'custom.dashboard.widget.download.pdf';
+export const CUSTOM_DASHBOARD_DOWNLOAD_PDF_START = 'custom.dashboard.download.pdf.start';
+export const CUSTOM_DASHBOARD_DOWNLOAD_PDF_FINISH = 'custom.dashboard.download.pdf.finish';
+export const CUSTOM_DASHBOARD_DOWNLOAD_PDF_ORIENTATION = 'custom.dashboard.download.pdf.orientation';
+export const CUSTOM_DASHBOARD_DOWNLOAD_PDF_LAYOUT = 'custom.dashboard.download.pdf.layout';
+export const CUSTOM_DASHBOARD_DOWNLOAD_PDF_DISPLAY = 'custom.dashboard.download.pdf.display';
+export const CUSTOM_DASHBOARD_DOWNLOAD_PDF_GENERATE_PREVIEW = 'custom.dashboard.download.pdf.generate.preview';
 
 export const ANALYZE_VIEW_SELECTED = 'analyze.view.selected';
 export const ANALYZE_CALL_CLICK = 'analyze.call.click';

@@ -397,7 +397,7 @@ export default connectTo(
                 formatter: number.perSecond.compact,
                 metrics: cashierrollups.map(
                   () =>
-                    'metrics.timers.com.instana.cashiershared.jdbi.dao.HourRollupDao.createAndInsertHourlyPayloadRollups.rate'
+                    'metrics.timers.com.instana.cashiershared.jdbi.dao.HourRollupDao.createAndInsertHourlyRollups.rate'
                 ),
                 labels: cashierrollupsLabels,
                 type: 'stackedArea'
@@ -414,7 +414,7 @@ export default connectTo(
                 formatter: millis.fixedCompact,
                 metrics: cashierrollups.map(
                   () =>
-                    'metrics.timers.com.instana.cashiershared.jdbi.dao.HourRollupDao.createAndInsertHourlyPayloadRollups.mean'
+                    'metrics.timers.com.instana.cashiershared.jdbi.dao.HourRollupDao.createAndInsertHourlyRollups.mean'
                 ),
                 labels: cashierrollupsLabels,
                 type: 'line'
@@ -429,7 +429,7 @@ export default connectTo(
                 formatter: millis.fixedCompact,
                 metrics: cashierrollups.map(
                   () =>
-                    'metrics.timers.com.instana.cashiershared.jdbi.dao.HourRollupDao.createAndInsertHourlyPayloadRollups.50th'
+                    'metrics.timers.com.instana.cashiershared.jdbi.dao.HourRollupDao.createAndInsertHourlyRollups.50th'
                 ),
                 labels: cashierrollupsLabels,
                 type: 'line'
@@ -444,7 +444,7 @@ export default connectTo(
                 formatter: millis.fixedCompact,
                 metrics: cashierrollups.map(
                   () =>
-                    'metrics.timers.com.instana.cashiershared.jdbi.dao.HourRollupDao.createAndInsertHourlyPayloadRollups.99th'
+                    'metrics.timers.com.instana.cashiershared.jdbi.dao.HourRollupDao.createAndInsertHourlyRollups.99th'
                 ),
                 labels: cashierrollupsLabels,
                 type: 'line'

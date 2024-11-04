@@ -21,14 +21,13 @@ import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetric
 import { getWebsitesWithDefaults } from 'in-websites/subscriptions/getWebsites';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { hasMobileAppsAccess, hasWebsitesAccess } from 'in-stores/permission';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { meanLatencyFixed, number } from 'in-services/formatters/number';
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useMobileTracker } from 'in-mobile-apps/tracking/segTracker';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
-import { websiteOpenAddFrom } from 'in-websites/tracking/segTracker';
+import { useWebsiteTracker } from 'in-websites/tracking/segTracker';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import { hasError, isLoading } from 'in-services/util/result';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
@@ -42,7 +41,7 @@ import { t } from 'in-i18n';
 
 export default function WebsitesAndMobileTopList({ config }) {
   const { mobileAppsOpenAddForm } = useMobileTracker();
-  const { trackCta } = useSegmentTracking();
+  const { websiteOpenAddFrom } = useWebsiteTracker();
   const { createHrefToPath } = useNavigation();
   const getLinkToWebsite = useGenerateLinkToWebsite();
   const getLinkToMobileApp = useGenerateLinkToMobileApp();
@@ -54,7 +53,7 @@ export default function WebsitesAndMobileTopList({ config }) {
       {role.canConfigureEumApplications && (
         <Button
           kind="action"
-          onClick={() => websiteOpenAddFrom(trackCta)}
+          onClick={() => websiteOpenAddFrom()}
           icon="lib_openclose_add_circle_outline"
           href={linkToNewWebsite}
         >

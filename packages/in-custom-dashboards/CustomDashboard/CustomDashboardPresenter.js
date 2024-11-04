@@ -8,9 +8,13 @@ import React from 'react';
 
 import { HorizontalIndicator, Button } from '@instana/components';
 
+import {
+  carbonButtonEnabled,
+  customDashboardTopLevelFiltersEnabled,
+  customDashboardsExportPdfEntireDashboard
+} from 'in-services/featureFlags';
 import EntityPageMainNotificationLightCardV2 from 'in-components/EntityPageMainNotification/EntityPageMainNotificationLightCardV2';
 import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/customDashboards';
-import { carbonButtonEnabled, customDashboardTopLevelFiltersEnabled } from 'in-services/featureFlags';
 import TopLevelFilterBar from 'in-custom-dashboards/CustomDashboard/FilterContext/TopLevelFilterBar';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import { MoreMenu, MoreMenuButton, MoreMenuSetAsLandingPageButton } from 'in-components/MoreMenu';
@@ -52,7 +56,8 @@ export default function CustomDashboardPresenter(props) {
     onDuplicateWidget,
     onZoomWidget,
     topLevelFilters,
-    setTopLevelFilters
+    setTopLevelFilters,
+    shouldWidgetRenderOutsideViewport
   } = props;
 
   let titleOverwrite = config?.title;
@@ -90,6 +95,7 @@ export default function CustomDashboardPresenter(props) {
                   <Grid
                     tvMode
                     scrollAreaDomNode={wrapperDomNode}
+                    shouldWidgetRenderOutsideViewport={shouldWidgetRenderOutsideViewport}
                     width={width}
                     config={config}
                     isResizable={false}
@@ -152,6 +158,7 @@ export default function CustomDashboardPresenter(props) {
                         onCopyWidget={onCopyWidget}
                         onDuplicateWidget={onDuplicateWidget}
                         onZoomWidget={onZoomWidget}
+                        shouldWidgetRenderOutsideViewport={shouldWidgetRenderOutsideViewport}
                         isResizable={editable}
                         isConfigurable={editable}
                         isDraggable={editable}
@@ -199,6 +206,7 @@ function SecondaryButtonLine({
   onDeleteCustomDashboard,
   onRenameDashboard,
   onDuplicateDashboard,
+  onPDFDashboardDownload,
   editable,
   onEditAsJson,
   onViewAsJson,
@@ -244,6 +252,15 @@ function SecondaryButtonLine({
             </MoreMenuButton>
           )}
         </CopyToClipboard>
+        {customDashboardsExportPdfEntireDashboard && (
+          <MoreMenuButton
+            icon="lib_actions_download"
+            disabled={playwithEnabled}
+            onClick={() => onPDFDashboardDownload(customDashboardId)}
+          >
+            {t('in-custom-dashboards:customDashboard.grid.grid.exportPDF')}
+          </MoreMenuButton>
+        )}
         <MoreMenuButton icon="lib_group_by" disabled={playwithEnabled} onClick={onDuplicateDashboard}>
           {t('in-custom-dashboards:customDashboard.customDashboardPresenter.duplicate')}
         </MoreMenuButton>

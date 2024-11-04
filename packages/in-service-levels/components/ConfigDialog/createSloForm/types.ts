@@ -48,7 +48,7 @@ export type SloTargetFields = {
 };
 
 export type SloEntityFields = {
-  entityId: Field<string>;
+  entityIds: Field<string[]>;
   type: Field<SloEntityType>;
 };
 

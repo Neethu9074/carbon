@@ -12,8 +12,8 @@ import { useObservable } from '@instana/hooks';
 
 // eslint-disable-next-line no-restricted-imports
 import { generateQueryWithWinSize } from 'in-logging/dashboard/utils';
-import { getEntityIdView, teamSettingsLogManagementLogVolume } from 'in-settings/navigation/paths';
-import { transformData } from 'in-settings/tabs/TeamSettings/pages/logManagement/LogVolume/utils';
+import { getEntityIdView, globalSettingsLogManagementLogVolume } from 'in-settings/navigation/paths';
+import { transformData } from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/utils';
 import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { isAddonUserCached } from 'in-logging/api/licence';
@@ -39,7 +39,7 @@ export default function LogVolumeDashboard() {
     setTimePeriod(timeConfig);
   }, [timeConfig]);
 
-  const logVolumeHref = useObservable(getEntityIdView(teamSettingsLogManagementLogVolume, ''), []);
+  const logVolumeHref = useObservable(getEntityIdView(globalSettingsLogManagementLogVolume, ''), []);
   const isLoggingAddonUser = useObservable(isAddonUserCached, []);
 
   const logVolumeIcon: IconAction | undefined =

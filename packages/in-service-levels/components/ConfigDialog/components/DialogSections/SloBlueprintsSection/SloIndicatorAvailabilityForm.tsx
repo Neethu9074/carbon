@@ -8,12 +8,12 @@ import React, { useContext } from 'react';
 
 import { Stack } from '@instana/components';
 
-import SloIndicatorTypeSelectorFormSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorTypeSelectorFormSection';
-import IndicatorAggregationField from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/IndicatorAggregationField';
-import IndicatorThresholdField from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/IndicatorThresholdField';
-import IndicatorFieldsSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/IndicatorFieldsSection';
 import HeadlineFormSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/HeadlineFormSection';
+import IndicatorAggregationField from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/IndicatorAggregationField';
+import IndicatorFieldsSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/IndicatorFieldsSection';
+import IndicatorThresholdField from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/IndicatorThresholdField';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import SloIndicatorTypeSelectorFormSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorTypeSelectorFormSection';
 
 export default function SloIndicatorAvailabilityForm() {
   const { form, mode, onChange } = useContext(SloFormContext);
@@ -22,10 +22,12 @@ export default function SloIndicatorAvailabilityForm() {
   const thresholdField = form.getIn(['indicator', 'threshold']);
 
   const blueprint = form.getIn(['indicator', 'blueprint']).value;
+  const entityType = form.getIn(['entity', 'type']).value;
   const indicatorType = form.getIn(['indicator', 'type']).value;
 
-  const isTimeBased = indicatorType === 'timeBased';
   const isFormInEditMode = mode === 'EDIT';
+  const isSyntheticEntity = entityType === 'synthetic';
+  const isTimeBased = indicatorType === 'timeBased';
 
   return (
     <Stack gap="medium">
@@ -33,7 +35,7 @@ export default function SloIndicatorAvailabilityForm() {
       <SloIndicatorTypeSelectorFormSection />
       <IndicatorFieldsSection>
         {/* Time-based SLI fields */}
-        {isTimeBased && (
+        {isTimeBased && !isSyntheticEntity && (
           <IndicatorAggregationField
             availableOptions={['MEAN']}
             field={aggregationField}

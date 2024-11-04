@@ -8,8 +8,11 @@ import { Item } from 'formalistic';
 
 import {
   ApplicationSloEntity,
+  FixedTimeWindow,
+  RollingTimeWindow,
   ServiceLevelIndicatorUnion,
   ServiceLevelObjectiveConfiguration,
+  SyntheticSloEntity,
   TimeWindow,
   WebsiteSloEntity
 } from '@instana/types';
@@ -25,10 +28,6 @@ export function isFieldValid(field: Item): boolean {
 }
 
 export function formToSloConfiguration(form: SloForm, id?: string): ServiceLevelObjectiveConfiguration {
-  const date = form.getIn(['objective', 'startTimestamp', 'date']).value;
-  const time = form.getIn(['objective', 'startTimestamp', 'time']).value;
-  const startTimestamp = parseDateTime(`${date} ${time}`).getTime();
-
   return {
     name: form.getIn(['nameTags', 'name']).value,
     tags: form.getIn(['nameTags', 'tags']).value,
@@ -39,14 +38,21 @@ export function formToSloConfiguration(form: SloForm, id?: string): ServiceLevel
       duration: form.getIn(['objective', 'duration']).value,
       durationUnit: form.getIn(['objective', 'durationUnit']).value,
       type: form.getIn(['objective', 'type']).value,
-      startTimestamp
+      startTimestamp: formToStartTimeStamp(form)
     },
     target: form.getIn(['objective', 'target']).value ?? 0
   };
 }
 
-export function formToEntity(form: SloForm): ApplicationSloEntity | WebsiteSloEntity {
+export function formToEntity(form: SloForm): ApplicationSloEntity | WebsiteSloEntity | SyntheticSloEntity {
   const entityType = form.getIn(['entity', 'type']).value;
+
+  if (entityType === 'synthetic') {
+    return {
+      type: 'synthetic',
+      syntheticTestIds: form.getIn(['entity', 'entityIds']).value
+    };
+  }
 
   const tagFilterExpressionField = form.getIn(['scope', 'tagFilterExpression']);
   const tagFilterExpression = tagFilterExpressionField.valid
@@ -55,7 +61,7 @@ export function formToEntity(form: SloForm): ApplicationSloEntity | WebsiteSloEn
 
   if (entityType === 'application') {
     return {
-      applicationId: form.getIn(['entity', 'entityId']).value,
+      applicationId: form.getIn(['entity', 'entityIds']).value[0],
       boundaryScope: form.getIn(['scope', 'boundaryScope']).value,
       serviceId: form.getIn(['scope', 'serviceId']).value || undefined,
       endpointId: form.getIn(['scope', 'endpointId']).value || undefined,
@@ -68,7 +74,7 @@ export function formToEntity(form: SloForm): ApplicationSloEntity | WebsiteSloEn
 
   if (entityType === 'website') {
     return {
-      websiteId: form.getIn(['entity', 'entityId']).value,
+      websiteId: form.getIn(['entity', 'entityIds']).value[0],
       beaconType: form.getIn(['scope', 'beaconType']).value,
       tagFilterExpression,
       type: 'website'
@@ -114,14 +120,38 @@ export function formToIndicator(form: SloForm): ServiceLevelIndicatorUnion {
   throw new Error(ServiceLevelErrors.UNHANDLED_SLI_TYPE);
 }
 
-export function formToTimeWindow(form: SloForm): TimeWindow {
+export function formToStartTimeStamp(form: SloForm): number {
+  const date = form.getIn(['objective', 'startTimestamp', 'date']).value;
+  const time = form.getIn(['objective', 'startTimestamp', 'time']).value;
+  return parseDateTime(`${date} ${time}`).getTime();
+}
+
+export function formToTimeWindow(form: SloForm): TimeWindow | FixedTimeWindow | RollingTimeWindow {
   const duration = form.getIn(['objective', 'duration']).value;
   const durationUnit = form.getIn(['objective', 'durationUnit']).value;
   const type = form.getIn(['objective', 'type']).value;
-
-  return {
+  const timeWindow = {
     duration,
     durationUnit,
     type
   };
+
+  if (type === 'fixed') {
+    const fixedTimeWindow: FixedTimeWindow = {
+      ...timeWindow,
+      type,
+      startTimestamp: formToStartTimeStamp(form)
+    };
+    return fixedTimeWindow;
+  }
+
+  if (type === 'rolling') {
+    const rollingTimeWindow: RollingTimeWindow = {
+      ...timeWindow,
+      type
+    };
+    return rollingTimeWindow;
+  }
+
+  return timeWindow;
 }

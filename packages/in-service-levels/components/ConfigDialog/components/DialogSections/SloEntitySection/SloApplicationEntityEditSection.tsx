@@ -21,8 +21,8 @@ export default function SloApplicationEntityEditSection() {
   const { form } = useContext(SloFormContext);
 
   const sloEntityTypeField = form.getIn(['entity', 'type']);
-  const entityIdField = form.getIn(['entity', 'entityId']);
-  const entityId = entityIdField.value;
+  const entityIdsField = form.getIn(['entity', 'entityIds']);
+  const entityId = entityIdsField.value[0];
 
   const [selectedApplication, , , progress] = useApplication(entityId);
 
@@ -34,6 +34,7 @@ export default function SloApplicationEntityEditSection() {
         </Typography>
       </SloTableHeader>
       <SloEntityTable
+        asRadioButton
         disabled
         entityList={[selectedApplication] as Application[]}
         onChange={noop}

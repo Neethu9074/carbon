@@ -83,7 +83,7 @@ const formSideEffects: Effect<SloForm>[] = [
     effects: [resetEntity, resetScopes, resetIndicatorForm]
   },
   {
-    path: ['entity', 'entityId'],
+    path: ['entity', 'entityIds'],
     effects: [resetScopes, resetIndicatorForm]
   },
   {

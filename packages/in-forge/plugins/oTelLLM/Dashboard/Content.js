@@ -9,15 +9,14 @@ import React from 'react';
 import { DataTable as CarbonDataTable } from '@instana/components';
 import { Table, Thead, Tbody, Tr, Th, Td } from '@instana/legacy';
 
-import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
 import TotalUsageBigNumber from 'in-forge/plugins/oTelLLM/Dashboard/TotalUsageBigNumber';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import TopListByModel from 'in-forge/plugins/oTelLLM/Dashboard/TopListByModel';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { number, millis, scale } from 'in-services/formatters/number';
 import { days, hours, minutes, seconds } from 'in-services/time';
-import { number, millis } from 'in-services/formatters/number';
 import { carbonTableEnabled } from 'in-services/featureFlags';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import EntityLink from 'in-components/EntityLink';
@@ -92,7 +91,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
           title={t('in-forge:plugins.oTelLLM.dashboard.totalCost')}
           metricName="metrics.gauges.llm.usage.cost"
           tagFilter={instanceId}
-          formatter="number.detailed"
+          formatter="scale.compact"
         />
         <TotalUsageBigNumber
           title={t('in-forge:plugins.oTelLLM.dashboard.totalCount')}
@@ -113,7 +112,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
           title={t('in-forge:plugins.oTelLLM.dashboard.totalCostByModel')}
           metricName="metrics.gauges.llm.usage.cost"
           tagFilter={instanceId}
-          formatter="number.detailed"
+          formatter="scale.compact"
         />
         <TopListByModel
           title={t('in-forge:plugins.oTelLLM.dashboard.totalCountByModel')}
@@ -154,7 +153,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
             minRollup={minRollup}
             y1={{
               min: 0,
-              formatter: number.detailed,
+              formatter: scale.detailed,
               metrics: costs ? costs : [],
               labels: costs?.map(matric => {
                 if (matric.split('.').length > 3) {
@@ -246,14 +245,6 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
           )}
         </DashboardSection>
       </Columize>
-      <CustomMetricsV2
-        snapshot={snapshot}
-        timeConfig={timeConfig}
-        titlePrefix={t('in-forge:plugins.oTelLLM.oTelLLM')}
-        specs={SPECS}
-      />
     </div>
   );
 }
-
-export const SPECS = [AVAILABLE_SPECS.GAUGE, AVAILABLE_SPECS.HISTOGRAM, AVAILABLE_SPECS.SUM, AVAILABLE_SPECS.SUMMARY];

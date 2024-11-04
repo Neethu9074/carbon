@@ -7,17 +7,20 @@
 import { get } from 'lodash';
 
 import {
+  ApplicationSloEntity,
   BoundaryScope,
   isSyntheticSloEntity,
   Result,
-  SloEntityUnion,
+  SyntheticSloEntity,
   TagFilter,
-  TagFilterExpression
+  TagFilterExpression,
+  WebsiteSloEntity
 } from '@instana/types';
 import { combineLatest, just, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import { createTagFilterExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { ENDPOINT, SERVICE, entityTypes } from 'in-analyze/applicationFilter';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
@@ -25,12 +28,11 @@ import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { tagFilterForBoundaryScope } from 'in-analyze/navigation/paths';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { ServiceLevelErrors } from 'in-service-levels/constants';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { alwaysNull } from 'in-services/fixedStreams';
 
 export interface UseBasicTagFilterExpressionProps {
-  entity: SloEntityUnion;
+  entity: ApplicationSloEntity | WebsiteSloEntity | SyntheticSloEntity;
   withLabels?: boolean;
 }
 
@@ -38,12 +40,13 @@ export default function useBasicTagFilterExpression({
   entity,
   withLabels
 }: UseBasicTagFilterExpressionProps): TagFilterExpression {
+  const isSyntheticEntity = isSyntheticSloEntity(entity);
   const { tagFilterExpression } = entity;
-
-  if (isSyntheticSloEntity(entity)) throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
 
   const basicTagFilter =
     useObservable(() => {
+      if (isSyntheticEntity) return just([]);
+
       if (!withLabels) return just(getInternalIdTagFilter(entity));
 
       return getLabels(entity).map((labels: GetLabelsTagFilterExpressionProps) =>
@@ -51,6 +54,7 @@ export default function useBasicTagFilterExpression({
       );
     }, [entity, withLabels]) ?? [];
 
+  if (isSyntheticEntity) return emptyTagFilterExpression;
   if (tagFilterExpression) return createTagFilterExpression('AND', [...basicTagFilter, tagFilterExpression]);
 
   return createTagFilterExpression('AND', basicTagFilter);

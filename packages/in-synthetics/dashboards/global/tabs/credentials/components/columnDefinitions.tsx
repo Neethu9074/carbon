@@ -12,6 +12,7 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/Ho
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { formatDateTime } from 'in-services/formatters/date';
 import { SyntheticCredential } from 'in-types';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 const columnDefinitions: ColumnDefinition<SyntheticCredential>[] = [
@@ -54,8 +55,10 @@ const columnDefinitions: ColumnDefinition<SyntheticCredential>[] = [
     getContent(item) {
       return <div>{item.modifiedBy}</div>;
     }
-  },
-  {
+  }
+];
+if (role?.canConfigureSyntheticCredentials) {
+  columnDefinitions.push({
     id: 'action',
     label: t('in-synthetics:dashboard.credentialList.actions'),
     sortable: false,
@@ -66,7 +69,7 @@ const columnDefinitions: ColumnDefinition<SyntheticCredential>[] = [
         </HorizontalFlexWrapper>
       );
     }
-  }
-];
+  });
+}
 
 export default columnDefinitions;

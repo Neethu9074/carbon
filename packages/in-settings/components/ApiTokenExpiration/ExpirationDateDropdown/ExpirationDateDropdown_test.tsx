@@ -8,7 +8,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 
 import ExpirationDateDropdown from 'in-settings/components/ApiTokenExpiration/ExpirationDateDropdown/ExpirationDateDropdown';
-import { createForm } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
+import { createForm } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/ApiTokens/ApiToken';
 import { t } from 'in-i18n';
 
 jest.mock('in-services/featureFlags', () => ({

@@ -16,15 +16,17 @@ import { t } from 'in-i18n';
 
 export default function ApplicationTagFilterBuilderContent() {
   const { form, mode, onChange } = useContext(SloFormContext);
-  const applicationIdField = form.getIn(['entity', 'entityId']);
+  const applicationIdField = form.getIn(['entity', 'entityIds']);
   const boundaryScopeField = form.getIn(['scope', 'boundaryScope']);
   const service = form.getIn(['scope', 'serviceId']);
   const endpoint = form.getIn(['scope', 'endpointId']);
   const tagFilterExpressionField = form.getIn(['scope', 'tagFilterExpression']);
+
+  const applicationId = applicationIdField.value[0];
   const isCustomTag = tagFilterExpressionField.value.length > 0;
   const { QueryBuilder } = useApplicationQueryBuilder({
     boundaryScope: boundaryScopeField.value,
-    applicationId: applicationIdField.value
+    applicationId: applicationId
   });
   const custom = useMergedServiceEndpointCustomFilters(form);
 
@@ -42,7 +44,7 @@ export default function ApplicationTagFilterBuilderContent() {
       )}
       {!shouldRenderExplanationText && !isFormInEditMode && (
         <ClearableTagFilterQueryBuilder
-          applicationId={applicationIdField.value}
+          applicationId={applicationId}
           onChange={newFilterExpression =>
             onChange(['scope', 'tagFilterExpression'], () =>
               tagFilterExpressionField.setValue(newFilterExpression).setTouched(true)

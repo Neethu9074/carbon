@@ -20,7 +20,14 @@ interface Config {
   metricConfiguration: MobileAppMetricConfiguration;
 }
 
-const MobileTopListCatalog = ({ config, title, actions, dragHandle, timeConfig }: WidgetProps<Config>) => {
+const MobileTopListCatalog = ({
+  config,
+  title,
+  actions,
+  dragHandle,
+  timeConfig,
+  filterResult
+}: WidgetProps<Config>) => {
   const result = useTopListResultData(config, timeConfig) ?? pendingResult;
   const isErroneous =
     config.metricConfiguration.metric === 'erroneousCalls' || config.metricConfiguration.metric === 'errors';
@@ -34,6 +41,7 @@ const MobileTopListCatalog = ({ config, title, actions, dragHandle, timeConfig }
       tagCatalog={useMobileAppTagCatalog(config.metricConfiguration.beaconType)}
       config={config}
       actions={actions}
+      filterResult={filterResult}
     />
   );
 };

@@ -62,6 +62,7 @@ export const thousandsSeparator = (isLocaleAware && window.instana.numberLocale?
 export const zeroDecimalPlaces = format(',.0f');
 export const oneDecimalPlaces = format(',.1f');
 export const twoDecimalPlaces = format(',.2f');
+export const sevenDecimalPlaces = format(',.7f');
 export const upToTwoDecimalPlaces = format(',.2~f');
 export const fourDecimalPlaces = format(',.4f');
 export const number = markAsFormatterType(
@@ -84,6 +85,14 @@ export const number = markAsFormatterType(
       compact: twoDecimalPlaces,
       detailed: twoDecimalPlaces
     }
+  },
+  NUMBER_FORMATTER_TYPE
+);
+
+export const scale = markAsFormatterType(
+  {
+    compact: (v: number) => twoDecimalPlaces(v / 10000),
+    detailed: (v: number) => sevenDecimalPlaces(v / 10000)
   },
   NUMBER_FORMATTER_TYPE
 );

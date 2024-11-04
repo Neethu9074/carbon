@@ -64,7 +64,7 @@ export function getCommonFormatterForUnits(...baseUnits: BaseUnit[]): Formatter[
     : getInfrastructureMetricFormatter('NUMBER');
 }
 
-function getInfrastructureMetricFormatter(baseUnit?: BaseUnit): Formatter[] {
+export function getInfrastructureMetricFormatter(baseUnit?: BaseUnit): Formatter[] {
   switch (baseUnit) {
     case 'NUMBER':
       return [defaultFormatter, numberCompact];

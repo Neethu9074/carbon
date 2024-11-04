@@ -28,10 +28,10 @@ import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuild
 import { findInvalidTraceIdTagFilter } from 'in-analyze/AnalyzeView/validationUtils';
 import { ActionSection } from 'in-components/workspace/ActionSection/ActionSection';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { useWebsiteTracker } from 'in-websites/tracking/segTracker';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
 import { defaultGroupings } from 'in-applications/tags';
-import { ua2FilterRemoved } from 'in-websites/tracker';
 import { emptyArray } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getPluginName } from 'in-sdk/pluginName';
@@ -51,6 +51,7 @@ const groupingConfiguratorPerDataSource = {
 };
 
 export default function ApplicationsQueryBuilderWorkspace(props) {
+  const { ua2FilterRemoved } = useWebsiteTracker();
   const {
     formModel,
     onFormModelChange,

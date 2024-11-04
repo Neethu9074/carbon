@@ -9,7 +9,7 @@ import React from 'react';
 import { Li, Ul, KeyValue } from '@instana/components';
 import { DynamicFieldValue } from '@instana/types';
 
-import * as tagBasedPayload from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import * as tagBasedPayload from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import { CustomPayloadCardProps } from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';

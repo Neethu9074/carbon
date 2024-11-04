@@ -7,7 +7,7 @@
 :local {
   .loadMore {
     justify-content: center;
-    color: var(--ids-color-option-teal-500);
+    color: var(--cds-link-primary);
   }
 
   .checkBoxItem {

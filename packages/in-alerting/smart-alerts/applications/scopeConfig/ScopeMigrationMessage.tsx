@@ -14,7 +14,7 @@ import {
   scopeDfq,
   scopeApplication,
   scopeEverything
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
+} from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/shared';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeMigrationMessage.mless';

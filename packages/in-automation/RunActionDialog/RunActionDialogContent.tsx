@@ -25,7 +25,7 @@ import {
   getJiraFields,
   getManualContentFromFields
 } from 'in-automation/utils/actionField';
-import { toViewModel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import { toViewModel } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import {
   ACTION_TRANSLATIONS,
   ACTION_TYPE,

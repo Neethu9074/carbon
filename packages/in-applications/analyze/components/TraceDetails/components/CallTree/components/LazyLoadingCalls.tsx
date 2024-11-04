@@ -20,13 +20,8 @@ import {
 } from 'in-applications/analyze/components/TraceDetails/components/CallTree/lazyCallTree';
 import { useLoadLazyRelatedCalls } from 'in-applications/analyze/components/TraceDetails/components/CallTree/hooks/useLoadLazyRelatedCalls';
 import { useLoadLazyParentNode } from 'in-applications/analyze/components/TraceDetails/components/CallTree/hooks/useLoadLazyParentNode';
-import {
-  loadChildCallClickedTracker,
-  loadRootCallClickedTracker,
-  retryCallClickedTracker
-} from 'in-applications/tracker';
 import CallTreeHeader from 'in-applications/analyze/AnalyzeView2_0/components/CallTreeHeader';
-import { emptyObject } from 'in-services/fixedObjects';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { Error } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -92,29 +87,19 @@ interface LoadButtonOrSkeletonProps {
   errors?: Error[];
 }
 
-function trackLoadMore(parent: boolean, retry?: boolean) {
-  if (retry) {
-    retryCallClickedTracker(emptyObject);
-    return;
-  }
-
-  if (parent) {
-    loadRootCallClickedTracker(emptyObject);
-  } else {
-    loadChildCallClickedTracker(emptyObject);
-  }
-}
-
 function LoadButtonOrSkeleton({ startLoading, setStartLoading, parent = false, errors }: LoadButtonOrSkeletonProps) {
+  const { trackRetryCallClicked, trackLoadRootCallClicked, trackLoadChildCallClicked } = useApplicationTracker();
   if (startLoading) {
     return <LoadingSkeleton className={locals.skeleton} />;
   }
 
   function handleOnClick(retry?: boolean) {
     if (retry) {
-      trackLoadMore(parent, retry);
+      trackRetryCallClicked();
+    } else if (parent) {
+      trackLoadRootCallClicked();
     } else {
-      trackLoadMore(parent);
+      trackLoadChildCallClicked();
     }
     setStartLoading(true);
   }

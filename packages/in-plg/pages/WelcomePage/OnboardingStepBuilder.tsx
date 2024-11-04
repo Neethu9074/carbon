@@ -29,7 +29,7 @@ import {
   unitOnboardingTailorYourViewClick,
   unitOnboardingTraceInteractionsClick
 } from 'in-settings/tracker';
-import { teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
+import { securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
@@ -82,7 +82,7 @@ export default function OnboardingStepBuilder({ activation }: { activation: any 
       } else if (currentTile === 'traceInteractions') {
         return 'https://ibm.biz/instana-tracing';
       } else if (currentTile === 'inviteUsers' || currentTile === 'inviteTeammates') {
-        return createHrefToPath(teamSettingsAccessControlUsers);
+        return createHrefToPath(securityAndAccessAccessControlUsers);
       } else if (currentTile === 'appPerspective') {
         return createHrefToPath('/applications');
       } else if (currentTile === 'smartAlerts') {
@@ -90,7 +90,7 @@ export default function OnboardingStepBuilder({ activation }: { activation: any 
       } else if (currentTile === 'startMonitoring') {
         return createHrefToPath('/websiteMonitoring/websites');
       } else {
-        return createHrefToPath(teamSettingsAccessControlUsers);
+        return createHrefToPath(securityAndAccessAccessControlUsers);
       }
     },
     [createHrefToPath]

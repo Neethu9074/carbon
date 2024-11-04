@@ -61,7 +61,7 @@ export default function ViewSwitcher() {
               isActive={isLocationsActive && !isTestsActive && !isCredentialsActive && !isSmartAlertsActive}
               icon={'lib_synthetic_location'}
             />
-            {syntheticCredentialsEnabled && (
+            {syntheticCredentialsEnabled && role?.canUseSyntheticCredentials && (
               <SecondLevelNavigationItem
                 href={createHrefToPath(paths.syntheticCredentialPath)}
                 label={t('in-synthetics:dashboard.testList.secondaryLabels.credentials')}
@@ -85,7 +85,9 @@ export default function ViewSwitcher() {
                 syntheticAcceptorURL={popProperties.data?.syntheticAcceptorURL || ''}
               />
             )}
-          {role?.canConfigureSyntheticLocations && syntheticInstanaHostedPoPEnabled && <NewLocationButton />}
+          {role?.canConfigureSyntheticLocations && syntheticInstanaHostedPoPEnabled && !isCredentialsActive && (
+            <NewLocationButton />
+          )}
         </div>
       </DashboardHeaderModule>
       <DashboardHeaderShadowModule />

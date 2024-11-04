@@ -9,8 +9,8 @@ import React from 'react';
 import { Result, CustomPayloadConfigurationWithLastUpdated, CustomPayloadContext } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
-import { GlobalTagBasedPayloadConfigurator } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/GlobalCustomPayloadPage';
-import { getGlobalCustomPayloadAsResultObservable } from 'in-settings/tabs/TeamSettings/api/customPayload';
+import { GlobalTagBasedPayloadConfigurator } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/GlobalCustomPayloadPage';
+import { getGlobalCustomPayloadAsResultObservable } from 'in-settings/tabs/GlobalSettings/api/customPayload';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';

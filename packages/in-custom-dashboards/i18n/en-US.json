@@ -99,6 +99,24 @@
       "failedToParseInputAsJson": "Failed to parse input as JSON.",
       "jsonRootMustBeAnObject": "JSON root must be an object."
     },
+    "downloadPdfDialog": {
+      "downloadPdf": "Download pdf",
+      "settings": "Settings",
+      "pdfOrientation": "Orientation",
+      "portrait": "Portrait",
+      "landscape": "Landscape",
+      "pdfLayout": "Layout",
+      "widgetsDisplay": "Display",
+      "singlePage": "Single Page",
+      "singlePageInfo": "Fit all widgets on one page (content will be resized if necessary).",
+      "multiPages": "Multiple Pages",
+      "multiPagesInfo": "Allow content to flow across multiple pages if needed.",
+      "stackWidgetsTitle": "Stack widgets",
+      "stackWidgetsInfo": "Display widgets one below the other across multiple pages.",
+      "loadingWidget": "Loading widget {{widgetIndex}} of {{totalNodes}}",
+      "generatePreview": "Generate Preview",
+      "generatingPreview": "Generating pdf preview"
+    },
     "filterContext": {
       "topLevelFilterPartiallyApplied": "Some of the current dashboard filters were applied.",
       "topLevelFilterSelectsEverything": "The current dashboard filters do not apply to this widget.",

@@ -8,7 +8,7 @@
 :local {
   .sectionHeading {
     align-items: center;
-    color: var(--ids-color-option-teal-500);
+    color: var(--cds-text-primary);
     display: flex;
     font-size: 1rem;
     font-weight: bold;

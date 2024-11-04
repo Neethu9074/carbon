@@ -12,7 +12,7 @@ import {
   ruleTypeHostAvailability,
   ruleTypeEntityCount,
   ruleTypeEntityCountVerification
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
+} from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
