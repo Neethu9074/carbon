@@ -132,14 +132,7 @@ export default {
       .put(
         'intermediateTable',
         createField({
-          value: alertChannel
-            ? alertChannel.get('autoCloseIncidents') ||
-              alertChannel.get('resolutionOfIncident') ||
-              alertChannel.get('enableSendInstanaNotes') ||
-              alertChannel.get('manuallyClosedIncidents') ||
-              alertChannel.get('enableSendServiceNowWorkNotes') ||
-              alertChannel.get('enableSendServiceNowActivities')
-            : false
+          value: alertChannel ? true : false
         })
       );
     return mapForm;
