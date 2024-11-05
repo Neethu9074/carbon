@@ -14,10 +14,10 @@ import { Stack } from '@instana/components';
 import MetricAndSortingConfigurator from 'in-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
 // @ts-expect-error needs TS migration
 import { getAvailableMetrics } from 'in-components/AnalyzeView/metrics';
-import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { UngroupedViewProps } from 'in-components/AnalyzeView/UngroupedView/types';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import Header from 'in-components/QueryBuilder/components/Header';
 import GroupedViewOnlyIndicator from './GroupedViewOnlyIndicator';
 import useCursorPagination from 'in-hooks/useCursorPagination';
@@ -60,7 +60,7 @@ export default function UngroupedView(props: UngroupedViewProps) {
   const backendMetrics = useStableObjectInstance(
     fields.filter(({ type }) => type === metricType).map(metric => metric.metricId)
   );
-  const { trackUa2MetricAdded, trackUa2MetricRemoved } = useApplicationTracker();
+  const { trackUa2MetricAdded, trackUa2MetricRemoved } = useAnalyzeTracker();
 
   const cursorPaginationState = (useCursorPaginationStrategy ?? useCursorPagination)(
     params =>

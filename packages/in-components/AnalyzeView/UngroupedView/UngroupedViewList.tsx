@@ -17,9 +17,9 @@ import {
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
 import UngroupedView, { retrievalSize } from 'in-components/AnalyzeView/UngroupedView/UngroupedView';
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
-import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import { ListItem } from 'in-components/AnalyzeView/UngroupedView/ListItem';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import useInfiniteScroll from 'in-hooks/useInfiniteScroll';
 
 import locals from './UngroupedView.mless';
@@ -68,7 +68,7 @@ function List(props: UngroupedViewListPresenterProps) {
     initialLogLines,
     time
   };
-  const { trackUa2LoadMore } = useApplicationTracker();
+  const { trackUa2LoadMore } = useAnalyzeTracker();
   const infiniteScrollCallback = useCallback(
     ([element]: IntersectionObserverEntry[]) => {
       if (element.isIntersecting && !isLoading && canLoadMore) {

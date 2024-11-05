@@ -7,8 +7,8 @@ import React, { useEffect, useState } from 'react';
 
 import FacetedExpandableCard from 'in-components/AnalyzeView/FacetedFilters/FacetedExpandableCard';
 import { addFacetItem, removeFacetItem } from 'in-components/AnalyzeView/FacetedFilters/facets';
-import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { MultiSelect } from 'in-components/AnalyzeView/FacetedFilters/MultiSelect';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import { t } from 'in-i18n';
 
 export default function FacetedFilterMultiSelect(props) {
@@ -58,7 +58,7 @@ export default function FacetedFilterMultiSelect(props) {
     }
   };
   const { trackUa2FacetedSearchGroupChanged, trackUa2FacetedSearchGroupRemoved, trackUa2FacetedSearchFilterAdded } =
-    useApplicationTracker();
+    useAnalyzeTracker();
   const uaFacetedTracker = {
     groupClicked: trackUa2FacetedSearchGroupChanged,
     suggestionClicked: trackUa2FacetedSearchFilterAdded,

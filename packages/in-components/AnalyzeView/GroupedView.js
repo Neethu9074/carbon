@@ -37,12 +37,12 @@ import { getLabel as defaultGetLabel, GROUP_COLORS } from 'in-components/Analyze
 import { getFormatter as getBackendFormatter } from 'in-services/formatters/backendFormatter';
 import { joinExpressions, TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
-import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { EQUALS, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { NO_VALUE, UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import { tagFilter } from '../QueryBuilder/transformation/tagFilter';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { getSparkChartGranularity } from 'in-applications/metrics';
@@ -256,7 +256,7 @@ export default function GroupedView(props) {
   const headerActions =
     CustomHeaderActions ||
     (props => <MetricAndSortingConfigurator {...props} metricOptions={props.availableMetrics} />);
-  const { trackUa2MetricAdded, trackUa2MetricRemoved, trackUa2LoadMore } = useApplicationTracker();
+  const { trackUa2MetricAdded, trackUa2MetricRemoved, trackUa2LoadMore } = useAnalyzeTracker();
   return (
     <>
       <Stack direction={'horizontal'} gap={'disabled'}>

@@ -9,28 +9,6 @@ import {
   APPLICATION_CLICK_SUBMIT,
   APPLICATION_LATENCY_JUMP_TO_UNBOUNDED_ANALYTICS,
   APPLICATION_TIME_SHIFT_SELECT,
-  ANALYZE_UA2_FACETED_SEARCH_SYNTHETIC_CALLS_TOGGLED,
-  ANALYZE_UA2_FACETED_SEARCH_INTERNAL_CALLS_TOGGLED,
-  ANALYZE_UA2_QUERY_BUILDER_FILTER_ADDED,
-  ANALYZE_UA2_GROUP_CHANGED,
-  ANALYZE_UA2_CHART_CHANGED,
-  ANALYZE_UA2_CHART_REMOVED,
-  ANALYZE_UA2_API_QUERY_PRESSED,
-  ANALYZE_UA2_NESTING_DEPTH,
-  ANALYZE_UA2_FAST_QUERY_MODE_CHANGED,
-  ANALYZE_UA2_FORMMODEL_CHANGED,
-  ANALYZE_UA2_FACETS_CHANGED,
-  ANALYZE_UA2_EXPAND_COLLAPSE_GROUPED_LIST_ITEM,
-  ANALYZE_UA2_METRIC_ADDED,
-  ANALYZE_UA2_METRIC_REMOVED,
-  ANALYZE_UA2_LOAD_MORE,
-  ANALYZE_UA2_ORDER_BY_CHANGED,
-  ANALYZE_UA2_ORDER_BY_GROUP_CHANGED,
-  ANALYZE_UA2_FACETED_SEARCH_FILTER_ADDED,
-  ANALYZE_UA2_FACETED_SEARCH_GROUP_REMOVED,
-  ANALYZE_UA2_FACETED_SEARCH_GROUP_CHANGED,
-  ANALYZE_UA2_FACETED_SEARCH_FILTER_OPENED,
-  ANALYZE_UA2_FACETED_SEARCH_FILTER_CLOSED,
   ANALYZE_TRACE_VIEW_CLOSED,
   ANALYZE_TRACE_VIEW_NAVIGATE_TO_UA,
   ANALYZE_TRACE_VIEW_TRACE_LIST_CLICK,
@@ -64,25 +42,14 @@ import {
 } from 'in-services/tracking/eventNames';
 import { clickSyntheticMonitoringTabInApplicationsTracker } from 'in-synthetics/tracking/tracker';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { CREATED_OBJECT, UI_INTERACTION } from 'in-services/util/constants';
+import { CREATED_OBJECT } from 'in-services/util/constants';
 
 export interface TrackingFunctions {
   trackApplicationOpenSubmitForm: (payload?: object) => void;
   trackApplicationSubmitted: (payload?: object) => void;
   trackAumpToUnboundedAnalyticsFromLatency: (payload?: object) => void;
   trackApplicationTimeShiftSelected: (payload?: object) => void;
-  trackUa2FacetedSearchSyntheticCallsToggled: (payload?: object) => void;
-  trackUa2FacetedSearchInternalCallsToggled: (payload?: object) => void;
-  trackUa2QueryBuilderFilterAdded: (payload?: object) => void;
-  trackUa2GroupChanged: (payload?: object) => void;
-  trackUa2ChartChanged: (payload?: object) => void;
-  trackUa2ChartRemoved: (payload?: object) => void;
-  trackUa2ApiQueryPressed: (payload?: object) => void;
-  trackUa2NestingDepth: (payload?: object) => void;
-  trackUa2FastQueryModeChanged: (payload?: object) => void;
-  trackUa2FormModelChanged: (payload?: object) => void;
-  trackUa2FacetsChanged: (payload?: object) => void;
-  trackUa2ExpandCollapseGroupedListItem: (payload?: object) => void;
+
   trackTraceViewClosed: (payload?: object) => void;
   trackTraceViewNavigateBackToUa: (payload?: object) => void;
   trackTraceViewTraceListClicked: (payload?: object) => void;
@@ -114,16 +81,6 @@ export interface TrackingFunctions {
   trackApplicationCreationTagRemoved: (payload?: Object) => void;
   trackApplicationCreationBoundaryScopeSelected: (payload?: Object) => void;
   trackApplicationCreationScopeSelected: (payload?: Object) => void;
-  trackUa2MetricAdded: (payload?: Object) => void;
-  trackUa2MetricRemoved: (payload?: Object) => void;
-  trackUa2LoadMore: (payload?: object) => void;
-  trackUa2OrderByChanged: (payload?: object) => void;
-  trackUa2OrderByGroupChanged: (payload?: object) => void;
-  trackUa2FacetedSearchGroupChanged: (payload?: object) => void;
-  trackUa2FacetedSearchGroupRemoved: (payload?: object) => void;
-  trackUa2FacetedSearchFilterOpened: (payload?: object) => void;
-  trackUa2FacetedSearchFilterClosed: (payload?: object) => void;
-  trackUa2FacetedSearchFilterAdded: (payload?: object) => void;
 }
 
 export const useApplicationTracker = (): TrackingFunctions => {
@@ -135,41 +92,6 @@ export const useApplicationTracker = (): TrackingFunctions => {
   const trackAumpToUnboundedAnalyticsFromLatency = (payload?: object) =>
     trackCta(APPLICATION_LATENCY_JUMP_TO_UNBOUNDED_ANALYTICS, payload);
   const trackApplicationTimeShiftSelected = (payload?: object) => trackCta(APPLICATION_TIME_SHIFT_SELECT, payload);
-  const trackUa2FacetedSearchSyntheticCallsToggled = (payload?: object) =>
-    trackCta(ANALYZE_UA2_FACETED_SEARCH_SYNTHETIC_CALLS_TOGGLED, payload);
-  const trackUa2FacetedSearchInternalCallsToggled = (payload?: object) =>
-    trackCta(ANALYZE_UA2_FACETED_SEARCH_INTERNAL_CALLS_TOGGLED, payload);
-  const trackUa2QueryBuilderFilterAdded = (payload?: object) =>
-    trackCta(ANALYZE_UA2_QUERY_BUILDER_FILTER_ADDED, payload);
-  const trackUa2GroupChanged = (payload?: object) => trackCta(ANALYZE_UA2_GROUP_CHANGED, payload);
-  const trackUa2ChartChanged = (payload?: object) => trackCta(ANALYZE_UA2_CHART_CHANGED, payload);
-  const trackUa2ChartRemoved = (payload?: object) => trackCta(ANALYZE_UA2_CHART_REMOVED, payload);
-  const trackUa2ApiQueryPressed = (payload?: object) => trackCta(ANALYZE_UA2_API_QUERY_PRESSED, payload);
-  const trackUa2NestingDepth = (payload?: object) => trackCta(ANALYZE_UA2_NESTING_DEPTH, payload);
-  const trackUa2FastQueryModeChanged = (payload?: object) => trackCta(ANALYZE_UA2_FAST_QUERY_MODE_CHANGED, payload);
-  const trackUa2FormModelChanged = (payload?: object) => trackCta(ANALYZE_UA2_FORMMODEL_CHANGED, payload);
-  const trackUa2FacetsChanged = (payload?: object) => trackCta(ANALYZE_UA2_FACETS_CHANGED, payload);
-  const trackUa2ExpandCollapseGroupedListItem = (payload?: object) =>
-    trackCta(ANALYZE_UA2_EXPAND_COLLAPSE_GROUPED_LIST_ITEM, payload);
-
-  const trackUa2MetricAdded = (payload?: object) =>
-    unstable_trackEvent(CREATED_OBJECT, { objectType: ANALYZE_UA2_METRIC_ADDED }, payload);
-  const trackUa2MetricRemoved = (payload?: object) =>
-    unstable_trackEvent(CREATED_OBJECT, { objectType: ANALYZE_UA2_METRIC_REMOVED }, payload);
-  const trackUa2LoadMore = (payload?: object) =>
-    unstable_trackEvent(UI_INTERACTION, { objectType: ANALYZE_UA2_LOAD_MORE }, payload);
-  const trackUa2OrderByChanged = (payload?: object) => trackCta(ANALYZE_UA2_ORDER_BY_CHANGED, payload);
-  const trackUa2OrderByGroupChanged = (payload?: object) => trackCta(ANALYZE_UA2_ORDER_BY_GROUP_CHANGED, payload);
-  const trackUa2FacetedSearchGroupChanged = (payload?: object) =>
-    trackCta(ANALYZE_UA2_FACETED_SEARCH_GROUP_CHANGED, payload);
-  const trackUa2FacetedSearchFilterAdded = (payload?: object) =>
-    trackCta(ANALYZE_UA2_FACETED_SEARCH_FILTER_ADDED, payload);
-  const trackUa2FacetedSearchGroupRemoved = (payload?: object) =>
-    trackCta(ANALYZE_UA2_FACETED_SEARCH_GROUP_REMOVED, payload);
-  const trackUa2FacetedSearchFilterOpened = (payload?: object) =>
-    trackCta(ANALYZE_UA2_FACETED_SEARCH_FILTER_OPENED, payload);
-  const trackUa2FacetedSearchFilterClosed = (payload?: object) =>
-    trackCta(ANALYZE_UA2_FACETED_SEARCH_FILTER_CLOSED, payload);
 
   const trackTraceViewClosed = (payload?: object) => trackCta(ANALYZE_TRACE_VIEW_CLOSED, payload);
   const trackTraceViewNavigateBackToUa = (payload?: object) => trackCta(ANALYZE_TRACE_VIEW_NAVIGATE_TO_UA, payload);
@@ -229,18 +151,6 @@ export const useApplicationTracker = (): TrackingFunctions => {
     trackApplicationSubmitted,
     trackAumpToUnboundedAnalyticsFromLatency,
     trackApplicationTimeShiftSelected,
-    trackUa2FacetedSearchSyntheticCallsToggled,
-    trackUa2FacetedSearchInternalCallsToggled,
-    trackUa2QueryBuilderFilterAdded,
-    trackUa2GroupChanged,
-    trackUa2ChartChanged,
-    trackUa2ChartRemoved,
-    trackUa2ApiQueryPressed,
-    trackUa2NestingDepth,
-    trackUa2FastQueryModeChanged,
-    trackUa2FormModelChanged,
-    trackUa2FacetsChanged,
-    trackUa2ExpandCollapseGroupedListItem,
     trackTraceViewClosed,
     trackTraceViewNavigateBackToUa,
     trackTraceViewTraceListClicked,
@@ -271,16 +181,6 @@ export const useApplicationTracker = (): TrackingFunctions => {
     trackApplicationCreationTagAdded,
     trackApplicationCreationTagRemoved,
     trackApplicationCreationBoundaryScopeSelected,
-    trackApplicationCreationScopeSelected,
-    trackUa2MetricAdded,
-    trackUa2MetricRemoved,
-    trackUa2LoadMore,
-    trackUa2OrderByChanged,
-    trackUa2OrderByGroupChanged,
-    trackUa2FacetedSearchGroupChanged,
-    trackUa2FacetedSearchGroupRemoved,
-    trackUa2FacetedSearchFilterOpened,
-    trackUa2FacetedSearchFilterClosed,
-    trackUa2FacetedSearchFilterAdded
+    trackApplicationCreationScopeSelected
   };
 };

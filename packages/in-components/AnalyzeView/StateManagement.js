@@ -21,13 +21,13 @@ import { useCustomMetricSuggestions } from 'in-applications/hooks/useCustomMetri
 import { ua2FacetsChangedTracker, ua2FormModelChangedTracker } from 'in-applications/tracker';
 import { isValid as isValidGrouping } from 'in-components/GroupingConfigurator/validation';
 import { sanitizeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { validateFormModel } from 'in-components/QueryBuilder/validation/formModel';
 import { NO_VALUE, UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
 import { emptyArray, emptyObject, pendingResult } from 'in-services/fixedObjects';
 import { getSingleNumberMetricId } from 'in-components/AnalyzeView/metrics';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import { getTagCatalogOnce } from 'in-services/tags/tagCatalog';
 import { noResultObservable } from 'in-services/util/result';
 import { aggregationLabels } from 'in-stores/metric/metric';
@@ -214,7 +214,7 @@ function AnalyzeStateManagement({
     supportedCustomMetrics
   } = dataSourceConfigurations[dataSource];
 
-  const { trackUa2OrderByChanged, trackUa2OrderByGroupChanged } = useApplicationTracker();
+  const { trackUa2OrderByChanged, trackUa2OrderByGroupChanged } = useAnalyzeTracker();
   const formModel = useStableObjectInstance(urlState.formModel);
   const onFormModelChange = formModel => {
     ua2FormModelChangedTracker({

@@ -8,11 +8,11 @@ import React from 'react';
 
 //@ts-expect-error needs TS migration
 import FacetedFilterMultiSelect from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterMultiSelect';
-import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { FacetedSearchItem } from 'in-components/AnalyzeView/StateManagement';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 
 export default function FacetedFilterRenderer(props: FacetedSearchItem) {
-  const { trackUa2FacetedSearchFilterAdded, trackUa2FacetedSearchGroupChanged } = useApplicationTracker();
+  const { trackUa2FacetedSearchFilterAdded, trackUa2FacetedSearchGroupChanged } = useAnalyzeTracker();
   return (
     <FacetedFilterMultiSelect
       {...props}

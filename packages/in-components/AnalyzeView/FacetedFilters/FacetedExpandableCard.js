@@ -7,7 +7,7 @@ import React from 'react';
 
 import { IconButton, Button } from '@instana/components';
 
-import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import ExpandableCard from './ExpandableCardWithSubtitle';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -105,7 +105,7 @@ export default function FacetedExpandableCard(props) {
     title
   } = props;
 
-  const { trackUa2FacetedSearchFilterOpened, trackUa2FacetedSearchFilterClosed } = useApplicationTracker();
+  const { trackUa2FacetedSearchFilterOpened, trackUa2FacetedSearchFilterClosed } = useAnalyzeTracker();
   return (
     <ExpandableCard
       disabled={disabled}

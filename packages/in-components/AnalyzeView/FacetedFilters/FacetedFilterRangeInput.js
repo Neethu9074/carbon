@@ -9,7 +9,7 @@ import { keyCodes, Button } from '@instana/components';
 
 import { addFacetItem, getRangesFromFacets, removeFacetTag } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import FacetedExpandableCard from 'in-components/AnalyzeView/FacetedFilters/FacetedExpandableCard';
-import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { Col, Row } from 'in-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
@@ -35,7 +35,7 @@ export default function FacetedFilterRangeInput({
   const [maxInput, setMaxInput] = useState('');
   const [effectiveRange, setEffectiveRange] = useState({});
   const [isErroneous, setError] = useState(false);
-  const { trackUa2FacetedSearchFilterAdded } = useApplicationTracker();
+  const { trackUa2FacetedSearchFilterAdded } = useAnalyzeTracker();
 
   useEffect(() => {
     setError(false);

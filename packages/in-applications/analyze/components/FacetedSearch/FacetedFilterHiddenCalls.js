@@ -8,8 +8,8 @@ import React, { useEffect, useState } from 'react';
 import { Stack, Checkbox } from '@instana/components';
 
 import FacetedExpandableCard from 'in-components/AnalyzeView/FacetedFilters/FacetedExpandableCard';
-import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -35,8 +35,7 @@ export default function FacetedFilterHiddenCalls({
   const hasIsInternal = (formModelWithFacets ?? formModel).some(
     ({ name, operator, value }) => name === 'call.type' && operator === EQUALS && value === 'INTERNAL'
   );
-  const { trackUa2FacetedSearchSyntheticCallsToggled, trackUa2FacetedSearchInternalCallsToggled } =
-    useApplicationTracker();
+  const { trackUa2FacetedSearchSyntheticCallsToggled, trackUa2FacetedSearchInternalCallsToggled } = useAnalyzeTracker();
   useEffect(() => {
     if (hasIsSynthetic) {
       setSyntheticAutoEnabled(!includeSynthetic);
