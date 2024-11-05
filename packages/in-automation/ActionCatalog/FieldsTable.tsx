@@ -42,7 +42,7 @@ const getColumnDefinitions = ({
   label
 }: LabelsTableProps & { isNotEditable: boolean }) => [
   {
-    id: 'id',
+    id: 'value',
     sortable: false,
     label: label ?? 'labels',
     getContent(item: Label) {
