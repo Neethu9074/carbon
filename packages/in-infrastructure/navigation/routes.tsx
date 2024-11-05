@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc. 2022
  */
 
+//@ts-expect-error module need to be translated to TS
+import AlertConfigTearSheet from 'promise-loader?global,infrastructure!in-alerting/smart-alerts/infrastructure/tearsheet/AlertConfigTearSheet';
 // @ts-expect-error module need to be translated to TS
 import InfraExploreView from 'promise-loader?global,infrastructure!in-infrastructure/Explore/Explore';
 // @ts-expect-error module need to be translated to TS
@@ -18,20 +20,21 @@ import Map from 'promise-loader?global,infrastructure!in-map/index';
 import { Route } from 'react-router-dom';
 import React from 'react';
 
-// @ts-expect-error module need to be translated to TS
-import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import {
   containerPath,
   graphPath,
   physicalPath,
   tablePath,
-  infraSmartAlerts
+  infraSmartAlerts,
+  infraSmartAlertsFullScreen
 } from 'in-stores/navigation/paths/mainPaths';
 // @ts-expect-error module need to be translated to TS
+import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
+// @ts-expect-error module need to be translated to TS
 import { infraExplorePath } from 'in-infrastructure/navigation/paths';
+import { infraSmartAlertsEnabled, infraSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import { infraAlertDetailsFullyQualifiedPath } from 'in-stores/navigation/paths/mainPaths';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
-import { infraSmartAlertsEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 const infrastructureRoutes = [
@@ -45,6 +48,11 @@ const infrastructureRoutes = [
   infraSmartAlertsEnabled && !role?.limitedInfrastructureScope && (
     <Route key="infraSmartAlert" path={infraSmartAlerts}>
       {renderAsyncRouteChildren(SmartAlertView)}
+    </Route>
+  ),
+  infraSmartAlertFullScreenDesignEnabled && !role?.limitedInfrastructureScope && (
+    <Route key="infraSmartAlert" path={infraSmartAlertsFullScreen}>
+      {renderAsyncRouteChildren(AlertConfigTearSheet)}
     </Route>
   ),
   <Route key="infraContainer" path={containerPath}>

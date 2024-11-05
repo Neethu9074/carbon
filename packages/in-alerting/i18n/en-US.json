@@ -1468,7 +1468,30 @@
       },
       "count": "Count",
       "selectEntityType": "Please select an entity type",
-      "regexNotValid": "Regex is not valid"
+      "regexNotValid": "Regex is not valid",
+      "tearSheet": {
+        "createTitle": "Create an infrastructure Smart Alert",
+        "steps": {
+          "step1Title": "Define the condition",
+          "step2Title": "Define when to get alerted",
+          "step3Title": "Define alert properties",
+          "step4Title": "Define alert channels"
+        },
+        "step1": {
+          "header": "Choose the metric and aggregation to determine when an alert should trigger"
+        },
+        "step2": {
+          "header": "Set a value for the violation threshold",
+          "description": "Select a metric, violation threshold and time window to evaluate the violation."
+        },
+        "step3": {
+          "header": "What properties do you want to set for this alert?"
+        },
+        "step4": {
+          "header": "What do you want to be notified for this alert?",
+          "description": "Select the recipient(s) of this alert"
+        }
+      }
     },
     "logs": {
       "alertDetails": {

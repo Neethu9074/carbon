@@ -14,6 +14,7 @@ import AlertingTearSheetFooter from 'in-alerting/components/AlertingTearSheetFoo
 import AlertingTearSheetSteps from 'in-alerting/components/AlertingTearSheetSteps';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { Nullish } from 'in-types';
 
 import locals from 'in-alerting/components/AlertingTearSheet.mless';
 
@@ -21,8 +22,8 @@ export type AlertingFooterActions = {
   kind: string;
   isLeftAlign: boolean;
   label: string;
-  onClick: (arg?: React.MouseEvent<Element, MouseEvent> | number) => void;
-  href?: string;
+  onClick?: ((arg: number) => void) | (() => void);
+  href?: string | Nullish;
 };
 
 export type AlertingTearSheetStepConfigs = {

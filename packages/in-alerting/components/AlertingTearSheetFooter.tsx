@@ -53,7 +53,7 @@ export default function AlertingTearSheetFooter({
               action.kind === 'ghost' && (
                 <CancelButton
                   key={action.label}
-                  href={action.href}
+                  href={action.href ?? undefined}
                   onClick={() => {
                     trackCta(ALERTING_CANCEL_CLICKED, { cancelClickedStep: stepTitle, ...formConfig });
                   }}
@@ -93,7 +93,9 @@ export default function AlertingTearSheetFooter({
                       setForm?.(form.setTouched(true, { recurse: true }));
                       return;
                     }
-                    action.onClick();
+                    if (action.onClick) {
+                      (action.onClick as () => void)();
+                    }
                   }}
                   disabled={isLastStep && isSaving}
                 >
