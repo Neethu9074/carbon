@@ -522,6 +522,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'disableEventConfigEnabled',
+    instanaCtlKey: 'feature.disable.event.config.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'playWithReleaseEnabled',
     instanaCtlKey: 'feature.play.with.release.enabled',
     defaultValue: false
