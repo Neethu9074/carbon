@@ -7,7 +7,7 @@ import React from 'react';
 
 import { IconButton, Button } from '@instana/components';
 
-import { ua2FacetedSearchFilterClosedTracker, ua2FacetedSearchFilterOpenedTracker } from 'in-components/tracker';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import ExpandableCard from './ExpandableCardWithSubtitle';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -105,13 +105,14 @@ export default function FacetedExpandableCard(props) {
     title
   } = props;
 
+  const { trackUa2FacetedSearchFilterOpened, trackUa2FacetedSearchFilterClosed } = useAnalyzeTracker();
   return (
     <ExpandableCard
       disabled={disabled}
       useMaxAvailableHeight={false}
       hasMarginBottom
       expansionTracker={({ expanded }) => {
-        const tracker = expanded ? ua2FacetedSearchFilterOpenedTracker : ua2FacetedSearchFilterClosedTracker;
+        const tracker = expanded ? trackUa2FacetedSearchFilterOpened : trackUa2FacetedSearchFilterClosed;
         tracker({
           tag,
           dataSource

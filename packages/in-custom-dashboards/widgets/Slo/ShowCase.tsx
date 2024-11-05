@@ -12,13 +12,13 @@ import { t } from '@instana/i18n-react';
 
 import ControlledSloErrorBudgetChart from 'in-service-levels/components/Shared/ControlledSloErrorBudgetChart';
 import SloChartSummary from 'in-service-levels/components/SloChart/SloChartSummary/SloChartSummary';
-import SloWidgetCard from 'in-custom-dashboards/widgets/Slo/components/SloWidgetCard';
 import SloWidgetLeftHeader from 'in-custom-dashboards/widgets/Slo/components/SloWidgetLeftHeader';
-import { calculateSloGranularity } from 'in-service-levels/utils/time';
-import { days } from 'in-services/time/time';
-import { finishedProgress } from 'in-services/fixedObjects';
+import SloWidgetCard from 'in-custom-dashboards/widgets/Slo/components/SloWidgetCard';
 import { generateSloErrorBudgetSampleMetrics } from 'in-service-levels/utils/sample';
+import { calculateSloGranularity } from 'in-service-levels/utils/time';
+import { finishedProgress } from 'in-services/fixedObjects';
 import { truncFloat } from 'in-service-levels/utils/math';
+import { days } from 'in-services/time/time';
 
 import locals from './ShowCase.mless';
 

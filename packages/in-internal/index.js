@@ -27,6 +27,7 @@ import SnapshotVersions from 'in-internal/thisUnit/SnapshotVersions/SnapshotVers
 import SyntheticsReader from 'in-internal/monitoringUnit/synthetics/SyntheticsReader';
 import SyntheticsWriter from 'in-internal/monitoringUnit/synthetics/SyntheticsWriter';
 import BeeInstanaIngestors from 'in-internal/monitoringUnit/sre/BeeInstanaIngestors';
+import TagProcessorState from 'in-internal/thisUnit/TagProcessor/TagProcessorState';
 import EumHealthProcessor from 'in-internal/monitoringUnit/eum/EumHealthProcessor';
 import LogHealthProcessor from 'in-internal/monitoringUnit/log/LogHealthProcessor';
 import SloViolations from 'in-internal/monitoringUnit/SloViolations/SloViolations';
@@ -232,6 +233,9 @@ export default function Internal() {
     <Route key="internalEumComponentMetrics" path="/internal/thisUnit/eum" component={EumComponentMetrics} />,
     <Route key="internalLanding" exact path="/internal">
       {wrapInInternalView(Landing)}
+    </Route>,
+    <Route key="internalTagProcessorState" path="/internal/thisUnit/tagProcessorState">
+      {wrapInInternalView(TagProcessorState)}
     </Route>
   );
   return internalRoutes;

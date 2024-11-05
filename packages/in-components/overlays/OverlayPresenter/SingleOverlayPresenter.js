@@ -24,6 +24,8 @@ export default connectTo(
   class SingleOverlayPresenter extends React.PureComponent {
     componentDidMount() {
       this.position();
+      // Once the Overlay gets mounted(opened) we want to apply focus to it
+      this.tooltipElement?.focus();
     }
 
     componentDidUpdate() {
@@ -110,6 +112,7 @@ export default connectTo(
           })}
           onMouseEnter={autoOpen ? delayedOpen : undefined}
           onMouseLeave={autoClose ? delayedClose : undefined}
+          tabIndex={'0'}
         >
           <Content {...props} />
         </div>

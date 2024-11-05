@@ -322,5 +322,8 @@
     "metricViolationTitle": "Metric violations",
     "setTimeConfig": "Set time config",
     "actionOpenTriggeringEvent": "Open triggering event"
+  },
+  "relatedEvents": {
+    "openEvent": "Open event"
   }
 }

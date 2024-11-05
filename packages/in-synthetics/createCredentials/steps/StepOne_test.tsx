@@ -26,7 +26,7 @@ describe(StepOne, () => {
     expect(screen.getByTitle('Credential name')).toBeInTheDocument();
     expect(screen.getByTitle('Credential name')).toHaveValue('');
 
-    const valueField = document.querySelector('input[type="password"]');
+    const valueField = document.querySelector('input[placeholder="Credential value"]');
     expect(valueField).toBeInTheDocument();
     expect(valueField).toHaveValue('');
   });
@@ -34,6 +34,6 @@ describe(StepOne, () => {
   it('should display tooltip messages for Value field', () => {
     render(<StepOne form={createCredentialForm()} updateForm={updateForm} />);
 
-    expect(screen.getByText('Show credential value')).toBeVisible();
+    expect(screen.getByText('Hide credential value')).toBeVisible();
   });
 });

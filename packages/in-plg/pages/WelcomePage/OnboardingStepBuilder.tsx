@@ -19,16 +19,6 @@ import {
   UNIT_ONBOARDING_TAILOR_YOUR_VIEW_CLICK,
   UNIT_ONBOARDING_TRACE_INTERACTIONS_CLICK
 } from 'in-services/tracking/eventNames';
-import {
-  unitOnboardingBringInMoreDataClick,
-  unitOnboardingBringYourTeamClick,
-  unitOnboardingConnectWithExpertClick,
-  unitOnboardingGetAlertedClick,
-  unitOnboardingMonitorEnvClick,
-  unitOnboardingStartIntegratingClick,
-  unitOnboardingTailorYourViewClick,
-  unitOnboardingTraceInteractionsClick
-} from 'in-settings/tracker';
 import { securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
@@ -124,7 +114,6 @@ export default function OnboardingStepBuilder({ activation }: { activation: any 
         isActionCompleted: statusFlags.firstAgentInstalled,
         onButtonClick: () => {
           sendEventsToSegment(UNIT_ONBOARDING_START_INTEGRATING_CLICK);
-          unitOnboardingStartIntegratingClick();
         }
       },
       {
@@ -137,7 +126,6 @@ export default function OnboardingStepBuilder({ activation }: { activation: any 
         isActionCompleted: statusFlags.tracingReported,
         onButtonClick: () => {
           sendEventsToSegment(UNIT_ONBOARDING_TRACE_INTERACTIONS_CLICK);
-          unitOnboardingTraceInteractionsClick();
           window.open(createRedirectHref('traceInteractions'), '_blank', 'noreferrer');
         }
       },
@@ -152,7 +140,6 @@ export default function OnboardingStepBuilder({ activation }: { activation: any 
         isActionCompleted: statusFlags.additionalUserInvited,
         onButtonClick: () => {
           sendEventsToSegment(UNIT_ONBOARDING_CONNECT_WITH_EXPERTS_CLICK);
-          unitOnboardingConnectWithExpertClick();
         }
       },
       {
@@ -166,7 +153,6 @@ export default function OnboardingStepBuilder({ activation }: { activation: any 
         isActionCompleted: statusFlags.threeAgentsInstalled,
         onButtonClick: () => {
           sendEventsToSegment(UNIT_ONBOARDING_BRING_IN_MORE_DATA_CLICK);
-          unitOnboardingBringInMoreDataClick();
         }
       },
       {
@@ -180,7 +166,6 @@ export default function OnboardingStepBuilder({ activation }: { activation: any 
         isActionCompleted: statusFlags.twoApplicationPerspectivesCreated,
         onButtonClick: () => {
           sendEventsToSegment(UNIT_ONBOARDING_TAILOR_YOUR_VIEW_CLICK);
-          unitOnboardingTailorYourViewClick();
         }
       },
       {
@@ -194,7 +179,6 @@ export default function OnboardingStepBuilder({ activation }: { activation: any 
         isActionCompleted: statusFlags.oneAlertSetUpAndActivated,
         onButtonClick: () => {
           sendEventsToSegment(UNIT_ONBOARDING_GET_ALERTED_CLICK);
-          unitOnboardingGetAlertedClick();
         }
       },
       {
@@ -208,7 +192,6 @@ export default function OnboardingStepBuilder({ activation }: { activation: any 
         isActionCompleted: statusFlags.oneWebsiteMonitored,
         onButtonClick: () => {
           sendEventsToSegment(UNIT_ONBOARDING_MONITOR_ENVIRONMENT_CLICK);
-          unitOnboardingMonitorEnvClick();
         }
       },
       {
@@ -222,7 +205,6 @@ export default function OnboardingStepBuilder({ activation }: { activation: any 
         isActionCompleted: statusFlags.fiveUsers,
         onButtonClick: () => {
           sendEventsToSegment(UNIT_ONBOARDING_BRING_YOUR_TEAM_CLICK);
-          unitOnboardingBringYourTeamClick();
         }
       }
     ],

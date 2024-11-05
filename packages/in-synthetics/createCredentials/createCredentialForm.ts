@@ -4,12 +4,13 @@
  * Copyright IBM Corp. 2024
  */
 
-import { createField, createMapForm } from 'formalistic';
+import { createField, createMapForm, ValidationResult } from 'formalistic';
 
 import { arrayValidator, stringValidator } from 'in-services/validators/jsonType';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
+import { t } from 'in-i18n';
 
 const createCredentialForm = (savedState?: Record<string, any>) => {
   savedState = savedState ?? {};
@@ -19,7 +20,12 @@ const createCredentialForm = (savedState?: Record<string, any>) => {
       'credentialName',
       createField({
         value: savedState?.credentialName ?? '',
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          credentialNameValidator
+        )
       })
     )
     .put(
@@ -51,5 +57,19 @@ const createCredentialForm = (savedState?: Record<string, any>) => {
       })
     );
 };
+
+export function credentialNameValidator(str?: string): ValidationResult {
+  const regExp = /^[A-Za-z][A-Za-z0-9_]*$/;
+  if (!regExp.test(str!)) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-synthetics:dialog.createCredential.steps.textInput.invalidText')
+      }
+    ];
+  }
+
+  return null;
+}
 
 export default createCredentialForm;

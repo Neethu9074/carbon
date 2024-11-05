@@ -40,11 +40,11 @@ const StepOne = ({ form, updateForm }: Props) => {
           placeholder={t('in-synthetics:dialog.createCredential.steps.textInput.placeholder')}
           labelText={t('in-synthetics:dialog.createCredential.steps.textInput.labelText')}
           invalid={!credentialName.valid && credentialName.touched}
-          invalidText={t('in-synthetics:dialog.createCredential.steps.textInput.invalidText')}
+          invalidText={credentialName.messages[0]?.message ?? ''}
         />
         <PasswordInput
           id={generateUniqueShortId()}
-          type="password"
+          type="text"
           value={credentialValue.value}
           onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
             updateForm(

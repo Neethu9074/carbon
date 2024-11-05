@@ -41,7 +41,7 @@ describe(EditCredentialInputs, () => {
     expect(screen.getByText('Credential name cannot be edited, is a readOnly field')).toBeTruthy();
     expect(screen.getByText('Type a new credential value if you want to update the current one.')).toBeTruthy();
 
-    expect(document.querySelector('input[type="password"]')).toBeInTheDocument();
-    expect(document.querySelector('input[type="password"]')).toHaveValue('');
+    expect(document.querySelector('input[type="text"]')).toBeInTheDocument();
+    expect(document.querySelector('input[type="text"]')).toHaveValue('credTest');
   });
 });

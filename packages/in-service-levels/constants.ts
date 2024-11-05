@@ -8,9 +8,9 @@ import { BlueprintType, SloEntityType } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import { SloAggregationOptions } from 'in-service-levels/types';
-import { deepFreeze } from 'in-services/util/object';
 import { sloSyntheticsEnabled } from 'in-services/featureFlags';
 import { hasSyntheticsAccess } from 'in-stores/permission';
+import { deepFreeze } from 'in-services/util/object';
 
 export const hasSyntheticsSloAccess = sloSyntheticsEnabled && hasSyntheticsAccess;
 
