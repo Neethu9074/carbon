@@ -17,9 +17,6 @@ import {
   useResourceOptimization,
   useTurboRecommendedActions
 } from 'in-automation/ResourceOptimization/useResourceOptimization';
-import OptimizationsButtonGroup, {
-  useActiveOptimizationsKey
-} from 'in-automation/AutomationCard/OptimizationsButtonGroup';
 import AutomationCardButtonGroup, { useActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 import RecommendedOptimizations from 'in-automation/ResourceOptimization/RecommendedOptimizations';
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
@@ -84,23 +81,15 @@ function AutomationCard({ volatileId, event }: AutomationCardProps) {
 function RecommendedOptimizationsRow({ event }: { event: Event }) {
   const recommendedOptimizations = useResourceOptimization({ event, actionCategory: 'PERFORMANCE_ASSURANCE' });
   const turboRecommendedActions = useTurboRecommendedActions(recommendedOptimizations);
-  const activeOptimizatonsKey = useActiveOptimizationsKey();
 
   return (
     <Row withoutSideMargin>
       <Col xs>
         <Card>
-          <OptimizationsButtonGroup
-            recommendedOptimizationsCount={recommendedOptimizations?.data?.totalRecommendedActionsCount!}
-            optimizationHistoryCount={undefined}
+          <RecommendedOptimizations
+            recommendedActions={turboRecommendedActions}
+            totalRecommendedActions={recommendedOptimizations?.data?.totalRecommendedActionsCount!}
           />
-          {activeOptimizatonsKey === 'recommendedOptimizations' && (
-            <RecommendedOptimizations
-              recommendedActions={turboRecommendedActions}
-              totalRecommendedActions={recommendedOptimizations?.data?.totalRecommendedActionsCount!}
-            />
-          )}
-          {activeOptimizatonsKey === 'optimizationHistory' && <ActionHistoryTable eventId={event.id} />}
         </Card>
       </Col>
     </Row>
