@@ -44,6 +44,19 @@ gulp.task('try-build', cb => {
   )(cb);
 });
 
+gulp.task('try-build-release', cb => {
+  gulp.series(
+    copyServerSources,
+    gulp.parallel(
+      startTryBuildReleaseProxy,
+      copyServerSources,
+      openTryBuildReleaseUrlInBrowser,
+      writeTryBuildReleaseServerConfigFile
+    ),
+    startTryBuildServer
+  )(cb);
+});
+
 function copyServerSources() {
   return gulp
     .src(paths.allServerSourcesSelector, {
@@ -198,5 +211,70 @@ function startTryBuildProxy(cb) {
 
 function openTryBuildUrlInBrowser(cb) {
   buildUtil.openBrowser('https://local-instana.pink.instana.rocks:4000');
+  cb();
+}
+
+function writeTryBuildReleaseServerConfigFile(cb) {
+  var config = {
+    baseUrl: 'https://local-instana.release.instana.rocks:4000',
+    uiBackendBaseUrl: 'https://release-instana.instana.rocks',
+    groundskeeperBaseUrl: 'http://127.0.0.1:8280',
+    butlerBaseUrl: 'https://release-instana.instana.rocks',
+    port: 3131,
+    adminPort: 3132,
+    bindAddress: '0.0.0.0',
+    cookie: {
+      name: 'in-token-stable'
+    },
+    mixpanelToken: '3f2a70afd2509a7a526380e354dce94b',
+    segmentKey: 'K8GUn26weHMSk0fXYVNyiKtDPHmzr9Fj',
+    eum: {
+      apiKey: 'hUD6LIQpRaeFDkvAf5X4Yg',
+      domain: 'magenta.instana.rocks/eum/',
+      retrievalDomain: 'magenta.instana.rocks/eum'
+    },
+    clientConfig: buildUtil.getDevModeReleaseConfig({
+      uiBackendUrl: 'https://release-instana.instana.rocks',
+      butlerUrl: 'https://release-instana.instana.rocks',
+      tenant: 'instana',
+      tenantUnit: 'release',
+      tenantUnitId: 'fake_tenantUnitId',
+      region: 'magenta',
+      environment: 'saas',
+      butlerDomain: 'test-fullstack-0-us-west-2.instana.io'
+    })
+  };
+  fs.writeFileSync(path.join(paths.targetDir, 'serverConfig.json'), JSON.stringify(config, 0, 2));
+  cb();
+}
+
+function startTryBuildReleaseProxy(cb) {
+  buildUtil.startProxrox({
+    serverName: 'local-instana.instana.io',
+    port: 4000,
+    root: false,
+    ssi: true,
+    tls: true,
+    tlsCertificateFile: path.join(__dirname, '..', 'cert', 'server.crt'),
+    tlsCertificateKeyFile: path.join(__dirname, '..', 'cert', 'server.key'),
+    proxy: {
+      '/': 'http://127.0.0.1:3131',
+      '/api/': 'https://release-instana.instana.rocks/api/',
+      '/auth/': 'https://release-instana.instana.rocks/auth/',
+      '/assets/': 'https://release-instana.instana.rocks/assets/',
+      '/notifications/': 'https://instana.github.io/ui-notifications/content/',
+      '/integrations/': 'https://release-instana.instana.rocks/integrations/',
+      '/tos-privacy-agreement/storeUserAcceptance':
+        'https://release-instana.instana.rocks/tos-privacy-agreement/storeUserAcceptance'
+    },
+    websocketProxy: {
+      '/api/data/': 'https://release-instana.instana.rocks'
+    }
+  });
+  cb();
+}
+
+function openTryBuildReleaseUrlInBrowser(cb) {
+  buildUtil.openBrowser('https://local-instana.release.instana.rocks:4000');
   cb();
 }
