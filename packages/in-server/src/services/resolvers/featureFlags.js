@@ -453,7 +453,7 @@ module.exports = exports = [
   {
     uiClientKey: 'thresholdCustomDashboardsTableWidgetEnabled',
     instanaCtlKey: 'feature.threshold.custom.dashboards.table.widget.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'customDashboardsExportPdfWidget',
