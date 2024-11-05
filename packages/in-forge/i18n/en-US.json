@@ -1624,6 +1624,11 @@
   "pluginName_solrCloudCluster_1": "Solr Cloud Clusters",
   "pluginName_solrCloudCluster_2": "Solr Cloud Clusters",
   "pluginName_solrCloudCluster": "Solr Cloud Cluster",
+  "pluginName_snowflakeOrganization_plural": "Snowflake Organizations",
+  "pluginName_snowflakeOrganization_0": "Snowflake Organizations",
+  "pluginName_snowflakeOrganization_1": "Snowflake Organizations",
+  "pluginName_snowflakeOrganization_2": "Snowflake Organizations",
+  "pluginName_snowflakeOrganization": "Snowflake Organization",
   "pluginName_sparkApplication_plural": "Spark Applications",
   "pluginName_sparkApplication_0": "Spark Applications",
   "pluginName_sparkApplication_1": "Spark Applications",
@@ -9600,6 +9605,17 @@
         "queryText": "Query text",
         "execTime": "Execution time",
         "warehouseUsed": "Warehouse used"
+      }
+    },
+    "snowflakeOrganization": {
+      "organization": "Organization",
+      "dashboard": {
+        "overallCreditUsage": "Overall credit usage",
+        "totalStorageBytes": "Total storage bytes",
+        "availableBalance": "Available balance",
+        "topFiveBillingAccountsByCreditUsage": "Top 5 Billing Accounts by Credit Usage",
+        "availableBalanceInCurrency": "Available balance in currency",
+        "balance": "Balance"
       }
     },
     "solr": {
