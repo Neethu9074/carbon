@@ -180,5 +180,6 @@ module.exports = {
   carbonSliderEnabled: true,
   customDashboardTopLevelFiltersEnabled: true,
   syntheticCredentialsEnabled: true,
-  infraSmartAlertFullScreenDesignEnabled: false
+  infraSmartAlertFullScreenDesignEnabled: false,
+  alertChannelPerSeverityInfraSaEnabled: false
 };

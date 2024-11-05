@@ -20,9 +20,8 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import useIsAnyIdPActive from 'in-settings/hooks/useIsAnyIdPActive';
-import { USER_INVITE, track } from 'in-services/tracking/tracking';
 import { shareAndInviteEnabled } from 'in-services/featureFlags';
-import { emptyObject } from 'in-services/fixedObjects';
+import { USER_INVITE } from 'in-services/tracking/tracking';
 import UserIcon from 'in-components/UserIcon/UserIcon';
 import { noop } from 'in-services/fixedObjects';
 import { t, Trans } from 'in-i18n';
@@ -61,10 +60,7 @@ export default function Users() {
           isAnyIDPActive
             ? undefined
             : () => {
-                // Mixpanel tracking
-                track(USER_INVITE, emptyObject);
-                // Segment tracking
-                trackCta(USER_INVITE, emptyObject);
+                trackCta(USER_INVITE);
                 addActiveDialog(
                   shareAndInviteEnabled ? (
                     <DeferredShareAndInviteDialogBox inviteOnly permissionToShowInvite />

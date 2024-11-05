@@ -540,6 +540,11 @@ export default connectTo(
                       description={t('in-internal:components.landing.eumDescription')}
                     />
                     <LinkListItem
+                      label={t('in-internal:components.landing.tagProcessorState')}
+                      href={createHref({ ...location, pathname: '/internal/thisUnit/tagProcessorState' })}
+                      description={t('in-internal:components.landing.tagProcessorStateDescription')}
+                    />
+                    <LinkListItem
                       // needs i18n...:
                       label="Feature Flags"
                       href={createHref({ ...location, pathname: '/internal/featureflags' })}

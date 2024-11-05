@@ -14,11 +14,10 @@ import { getPendingInvitations, PendingInvitation, revokeInvitation } from 'in-a
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { USER_INVITE, track } from 'in-services/tracking/tracking';
 import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import { formatDateTime } from 'in-services/formatters/date';
+import { USER_INVITE } from 'in-services/tracking/tracking';
 import UserIcon from 'in-components/UserIcon/UserIcon';
-import { emptyObject } from 'in-services/fixedObjects';
 import { config } from 'in-services/config';
 import { t, Trans } from 'in-i18n';
 
@@ -90,10 +89,7 @@ const Invites = () => {
       loadEntities={() => getPendingInvitations([])}
       initialOrderBy="email"
       onCreateNew={() => {
-        // Mixpanel tracking
-        track(USER_INVITE, emptyObject);
-        // Segment tracking
-        trackCta(USER_INVITE, emptyObject);
+        trackCta(USER_INVITE);
         addActiveDialog(
           shareAndInviteEnabled ? (
             <DeferredShareAndInviteDialogBox inviteOnly permissionToShowInvite />

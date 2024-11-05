@@ -9,8 +9,8 @@ import { useMemo } from 'react';
 
 import { isFixedTimeWindow, isRollingTimeWindow, TimeConfig, TimeWindow } from '@instana/types';
 
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getAddForTimeWindowUnit, getSubForTimeWindowUnit, toFixedTimeConfig } from 'in-service-levels/utils/time';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 
 /**
  * Calculates and adjusted timeConfig that represents the full SLO time window in effect at the end of the current time context.

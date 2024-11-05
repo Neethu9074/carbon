@@ -138,7 +138,9 @@
       "eumDescription": "Metrics for end-user monitoring components within this unit.",
       "logMonitoring": "Log Monitoring",
       "logMonitoringDesc": "Information about our log processing pipeline.",
-      "logHealthProcessor": "log-health-processor (health rule execution)"
+      "logHealthProcessor": "log-health-processor (health rule execution)",
+      "tagProcessorState": "Tag Processor State",
+      "tagProcessorStateDescription": "Explore tag processor's state graph"
     },
     "internalViewWrapper": {
       "internal": "Internal"
@@ -1038,7 +1040,7 @@
       },
       "eum": {
         "websiteMonitoring": "Website Monitoring",
-        "mobileAppMonitoring":"Mobile App Monitoring",
+        "mobileAppMonitoring": "Mobile App Monitoring",
         "UsedStorageSize": "Total External Storage Used",
         "sourceMapUploadedFilesSize": "Total Size of Uploaded Source Map Files",
         "symbolicationUploadedFilesSize": "Total Size of Uploaded Symbol Files"
@@ -1051,6 +1053,20 @@
     },
     "metrics": {
       "enterSnapshotId": "Enter a snapshot id"
+    },
+    "tagProcessor": {
+      "enterTaggedObjectId": "Enter taggedObjectId",
+      "sources": "Sources",
+      "destinations": "Destinations",
+      "snapshot": "Snapshot",
+      "taggedMetric": "Tagged Metric",
+      "chain": "Chain",
+      "tagSetGenerating": "Tag Set Generating",
+      "dependency": "Dependency",
+      "selfTags": "Self Tags",
+      "tagsInheritedFrom": "Tags inherited from ",
+      "more": "+{{more}} more",
+      "info": "{{tagCount}} tags, {{connectionCount}} connections"
     },
     "graphExplorer": {
       "snapshotId": "snapshotId..."
