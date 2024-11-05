@@ -14,7 +14,7 @@ import {
   getEntityIdView,
   getModifyAlertChannelUrl,
   globalSettingsAlertingAlertChannels,
-  globalSettingsAlertingConfigurations
+  teamSettingsAlertingAlerts
 } from 'in-settings/navigation/paths';
 import {
   useAlertConfig as useApplicationsAlertConfig,
@@ -331,7 +331,7 @@ function AlertChannelLabel({ entity }) {
   } else if (type === 'ServiceLevelSmartAlert') {
     href = getServiceLevelAlertConfigLink(id, entity.created);
   } else {
-    href$ = getEntityIdView(globalSettingsAlertingConfigurations, id);
+    href$ = getEntityIdView(teamSettingsAlertingAlerts, id);
   }
 
   return (
