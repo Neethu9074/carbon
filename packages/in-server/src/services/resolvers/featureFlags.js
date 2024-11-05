@@ -860,5 +860,10 @@ module.exports = exports = [
     uiClientKey: 'infraSmartAlertFullScreenDesignEnabled',
     instanaCtlKey: 'feature.infra.Smart.alert.full.screen.design.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'alertChannelPerSeverityInfraSaEnabled',
+    instanaCtlKey: 'feature.alert.channel.per.severity.infra.sa.enabled',
+    defaultValue: false
   }
 ];
