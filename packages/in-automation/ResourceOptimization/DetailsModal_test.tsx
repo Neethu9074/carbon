@@ -61,6 +61,7 @@ const props: DetailsModalProps = {
     description: '"openshift-monitoring/prometheus-k8s-0" doesn\'t comply with "Movetoworker3"',
     actionType: 'MOVE',
     actionCategory: 'COMPLIANCE',
+    actionMode: 'MANUAL',
     impactedServices: '0',
     createdDate: 1728531187625,
     targetSnapshotId: 'testID',
