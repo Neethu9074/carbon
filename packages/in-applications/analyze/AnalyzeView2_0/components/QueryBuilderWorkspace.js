@@ -9,12 +9,6 @@ import { Message, Stack } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
 import {
-  ua2ApiQueryPressedTracker,
-  ua2GroupChangedTracker,
-  ua2NestingDepthTracker,
-  ua2QueryBuilderFilterAddedTracker
-} from 'in-applications/tracker';
-import {
   getMaximumExpressionDepth,
   toBackendQueryModel
 } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -26,6 +20,7 @@ import TraceQueryBuilder from 'in-applications/analyze/components/workspace/Trac
 import CallQueryBuilder from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { findInvalidTraceIdTagFilter } from 'in-analyze/AnalyzeView/validationUtils';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { ActionSection } from 'in-components/workspace/ActionSection/ActionSection';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { useWebsiteTracker } from 'in-websites/tracking/segTracker';
@@ -52,6 +47,8 @@ const groupingConfiguratorPerDataSource = {
 
 export default function ApplicationsQueryBuilderWorkspace(props) {
   const { ua2FilterRemoved } = useWebsiteTracker();
+  const { trackUa2QueryBuilderFilterAdded, trackUa2NestingDepth, trackUa2GroupChanged, trackUa2ApiQueryPressed } =
+    useApplicationTracker();
   const {
     formModel,
     onFormModelChange,
@@ -141,9 +138,9 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
               QueryBuilder={queryBuilderPerDataSource[dataSource]}
               useLastValidStateWhenErroneous={useLastValidStateWhenErroneous}
               tracking={{
-                onTagAdded: tagFilter => ua2QueryBuilderFilterAddedTracker({ dataSource, tagName: tagFilter.name }),
+                onTagAdded: tagFilter => trackUa2QueryBuilderFilterAdded({ dataSource, tagName: tagFilter.name }),
                 onQueryChanged: formModel =>
-                  ua2NestingDepthTracker({
+                  trackUa2NestingDepth({
                     dataSource,
                     nestingDepth: getMaximumExpressionDepth(toBackendQueryModel(formModel))
                   }),
@@ -163,7 +160,7 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
               GroupingConfigurator={groupingConfiguratorPerDataSource[dataSource]}
               tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
               tracking={{
-                onGroupAdded: group => ua2GroupChangedTracker({ dataSource, tagName: group.groupbyTag })
+                onGroupAdded: group => trackUa2GroupChanged({ dataSource, tagName: group.groupbyTag })
               }}
             />
 
@@ -179,7 +176,7 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
                     backendQueryModel={backendQueryModel}
                     backendQueryModelWithFacets={backendQueryModelWithFacets}
                     tracking={{
-                      onClick: () => ua2ApiQueryPressedTracker({ dataSource })
+                      onClick: () => trackUa2ApiQueryPressed({ dataSource })
                     }}
                     docsLink={docLink}
                     endpointUrl={endpointUrl}

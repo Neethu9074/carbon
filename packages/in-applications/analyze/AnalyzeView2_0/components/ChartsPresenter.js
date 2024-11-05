@@ -15,7 +15,7 @@ import {
   toBackendQueryModel
 } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import LatencyDistributionChart from 'in-applications/analyze/components/ChartingPresenter/LatencyDistributionChart';
-import { ua2ChartChangedTracker, ua2ChartRemovedTracker } from 'in-applications/tracker';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { metricRenderers } from 'in-applications/analyze/AnalyzeView2_0/metrics';
 import Chart from 'in-components/AnalyzeView/Charting/Chart';
 import Charting from 'in-components/AnalyzeView/Charting';
@@ -80,7 +80,7 @@ export function ChartsPresenter(props) {
     chartableDataSeries,
     fastQueryModeEnabled
   } = props;
-
+  const { trackUa2ChartChanged, trackUa2ChartRemoved } = useApplicationTracker();
   return (
     <Sections className={locals.chartWrapper}>
       <Charting
@@ -106,13 +106,13 @@ export function ChartsPresenter(props) {
         hideRenderer
         tracking={{
           onChartChanged: ({ templateId, metricId, aggregationId }) =>
-            ua2ChartChangedTracker({
+            trackUa2ChartChanged({
               dataSource,
               template: templateId,
               metric: metricId,
               aggregation: aggregationId
             }),
-          onChartRemoved: ua2ChartRemovedTracker(emptyObject)
+          onChartRemoved: trackUa2ChartRemoved(emptyObject)
         }}
         CustomChartFactory={({ metricConfig, chartProps }) => {
           if (isLatencyDistributionChart(metricConfig)) {

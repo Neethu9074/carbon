@@ -9,8 +9,8 @@ import { FacetedSearchPresenter } from 'in-applications/analyze/AnalyzeView2_0/c
 import QueryBuilderWorkspace from 'in-applications/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
 import FastQueryModeToggle from 'in-applications/analyze/AnalyzeView2_0/components/FastQueryModeToggle';
 import { ChartsPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/ChartsPresenter';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
-import { ua2ExpandCollapseGroupedListItem } from 'in-applications/tracker';
 import getTraceGroups from 'in-applications/subscriptions/getTraceGroups';
 import getCallGroups from 'in-applications/subscriptions/getCallGroups';
 import GroupedView from 'in-components/AnalyzeView/GroupedView';
@@ -20,10 +20,6 @@ import { collationLanguage } from 'in-i18n';
 const getDataPerDataSource = {
   calls: getCallGroups,
   traces: getTraceGroups
-};
-
-const tracker = {
-  onToggleContentRow: () => ua2ExpandCollapseGroupedListItem(emptyObject)
 };
 
 export default function GroupedResults(props) {
@@ -39,6 +35,11 @@ export default function GroupedResults(props) {
     params => getTableData({ ...params, hiddenCalls, fastQueryModeEnabled }),
     [hiddenCalls, fastQueryModeEnabled]
   );
+  const { trackUa2ExpandCollapseGroupedListItem } = useApplicationTracker();
+  const tracker = {
+    onToggleContentRow: () => trackUa2ExpandCollapseGroupedListItem(emptyObject)
+  };
+
   return (
     <QueryBuilderWorkspace
       {...props}

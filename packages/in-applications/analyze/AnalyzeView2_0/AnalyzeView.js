@@ -39,6 +39,7 @@ import { custom as customType, metric as metricType } from 'in-components/Analyz
 import FacetedFilterGeneric from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterGeneric';
 import GroupedResults from 'in-applications/analyze/AnalyzeView2_0/components/GroupedResults';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator/BatchingIndicator';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
@@ -47,7 +48,6 @@ import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { LESS_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { getMetricTemplates } from 'in-applications/api/metricTemplates';
-import { ua2FastQueryModeChangedTracker } from 'in-applications/tracker';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { getMetricCatalog } from 'in-applications/api/metricCatalog';
@@ -154,7 +154,7 @@ export default function ApplicationsAnalyzeView() {
     bind: [dataSourceMatrixParameter, hiddenCallsMatrixParameter, fastQueryModeEnabledMatrixParameter],
     replaceHistory: false
   });
-
+  const { trackUa2FastQueryModeChanged } = useApplicationTracker();
   const location = useLocation();
   const [skipHiddenTagConversion, setSkipHiddenTagConversion] = useState(
     alreadyConvertedAnalyticsWithHiddenTagsLocation(location)
@@ -168,7 +168,7 @@ export default function ApplicationsAnalyzeView() {
   );
 
   const onChangeFastQueryModeEnabled = fastQueryModeEnabled => {
-    ua2FastQueryModeChangedTracker({ dataSource, enabled: fastQueryModeEnabled });
+    trackUa2FastQueryModeChanged({ dataSource, enabled: fastQueryModeEnabled });
     onChange({ fastQueryModeEnabled });
   };
   const dataSourceConfigurations = useMemo(
