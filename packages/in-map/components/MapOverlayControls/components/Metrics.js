@@ -27,11 +27,9 @@ export default function Metrics() {
 
   useEffect(() => {
     return () => {
-      if (activeMetric) {
-        clearActiveMetric();
-      }
+      clearActiveMetric();
     };
-  }, [activeMetric]);
+  }, []);
 
   return (
     <Control
