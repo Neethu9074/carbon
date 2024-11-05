@@ -362,6 +362,7 @@ const columnDefinitions = [
     id: 'label',
     label: t('in-settings:tabs.name'),
     width: 50,
+    ellipsis: true,
     getContent: entity => <AlertChannelLabel entity={entity} />
   },
   {
