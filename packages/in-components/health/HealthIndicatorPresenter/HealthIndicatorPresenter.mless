@@ -19,11 +19,13 @@
   }
 
   .iconWarning {
-    path:first-of-type {
-      fill: black;
-    }
-    path:last-of-type {
-      fill: #8e6a00;
+    svg {
+      path:first-of-type {
+        fill: black;
+      }
+      path:last-of-type {
+        fill: #8e6a00;
+      }
     }
   }
 
