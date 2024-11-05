@@ -9,7 +9,7 @@ import { keyCodes, Button } from '@instana/components';
 
 import { addFacetItem, getRangesFromFacets, removeFacetTag } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import FacetedExpandableCard from 'in-components/AnalyzeView/FacetedFilters/FacetedExpandableCard';
-import { ua2FacetedSearchFilterAddedTracker } from 'in-components/tracker';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { Col, Row } from 'in-components/layout/Grid';
 import Input from 'in-components/form/Input';
@@ -34,6 +34,7 @@ export default function FacetedFilterRangeInput({
   const [maxInput, setMaxInput] = useState('');
   const [effectiveRange, setEffectiveRange] = useState({});
   const [isErroneous, setError] = useState(false);
+  const { trackUa2FacetedSearchFilterAdded } = useAnalyzeTracker();
 
   useEffect(() => {
     setError(false);
@@ -83,12 +84,30 @@ export default function FacetedFilterRangeInput({
                 onChange={e => (Number(e.target.value) > 0 ? setMinInput(Number(e.target.value)) : setMinInput(''))}
                 onBlur={() =>
                   (effectiveRange.from !== minInput || isErroneous) &&
-                  validateInputAndSetFacetFilter(tag, minInput, maxInput, facets, updateFacets, setError, dataSource)
+                  validateInputAndSetFacetFilter(
+                    tag,
+                    minInput,
+                    maxInput,
+                    facets,
+                    updateFacets,
+                    setError,
+                    dataSource,
+                    trackUa2FacetedSearchFilterAdded
+                  )
                 }
                 onKeyDown={e =>
                   isReturn(e) &&
                   (effectiveRange.from !== minInput || isErroneous) &&
-                  validateInputAndSetFacetFilter(tag, minInput, maxInput, facets, updateFacets, setError, dataSource)
+                  validateInputAndSetFacetFilter(
+                    tag,
+                    minInput,
+                    maxInput,
+                    facets,
+                    updateFacets,
+                    setError,
+                    dataSource,
+                    trackUa2FacetedSearchFilterAdded
+                  )
                 }
               />
             </div>
@@ -108,12 +127,30 @@ export default function FacetedFilterRangeInput({
                 onChange={e => (Number(e.target.value) > 0 ? setMaxInput(Number(e.target.value)) : setMaxInput(''))}
                 onBlur={() =>
                   (effectiveRange.to !== maxInput || isErroneous) &&
-                  validateInputAndSetFacetFilter(tag, minInput, maxInput, facets, updateFacets, setError, dataSource)
+                  validateInputAndSetFacetFilter(
+                    tag,
+                    minInput,
+                    maxInput,
+                    facets,
+                    updateFacets,
+                    setError,
+                    dataSource,
+                    trackUa2FacetedSearchFilterAdded
+                  )
                 }
                 onKeyDown={e =>
                   isReturn(e) &&
                   (effectiveRange.to !== maxInput || isErroneous) &&
-                  validateInputAndSetFacetFilter(tag, minInput, maxInput, facets, updateFacets, setError, dataSource)
+                  validateInputAndSetFacetFilter(
+                    tag,
+                    minInput,
+                    maxInput,
+                    facets,
+                    updateFacets,
+                    setError,
+                    dataSource,
+                    trackUa2FacetedSearchFilterAdded
+                  )
                 }
               />
             </div>
@@ -143,13 +180,14 @@ function validateInputAndSetFacetFilter(
   facetedSearchSelection,
   updateFacets,
   setError,
-  dataSource
+  dataSource,
+  trackUa2FacetedSearchFilterAdded
 ) {
   if (minInput > maxInput && maxInput !== '') {
     setError(true);
   } else {
     setError(false);
-    ua2FacetedSearchFilterAddedTracker({ dataSource, tagName: tag });
+    trackUa2FacetedSearchFilterAdded({ dataSource, tagName: tag });
     const removedRange = removeFacetTag(facetedSearchSelection, tag);
     if (!isValidNumberRange(minInput, maxInput)) {
       updateFacets(removedRange);
