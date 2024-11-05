@@ -49,6 +49,7 @@ export default function FacetedFilterHiddenCalls({
         setSyntheticAutoEnabled(false);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasIsSynthetic]);
 
   useEffect(() => {
@@ -61,6 +62,7 @@ export default function FacetedFilterHiddenCalls({
         setInternalAutoEnabled(false);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasIsInternal]);
 
   return (
@@ -94,18 +96,7 @@ export default function FacetedFilterHiddenCalls({
 function HiddenCallCheck({ label, checked, onChange, disabled, disabledTooltipContent }) {
   return (
     <Tooltip content={disabled && disabledTooltipContent} align="rightMiddle" delay={1000}>
-      <div>
-        <Checkbox
-          labelClassName={locals.label}
-          wrapperClassName={locals.checkboxWrapper}
-          className={locals.leftAlignedCheckbox}
-          label={label}
-          checked={checked}
-          onChange={onChange}
-          disabled={disabled}
-          size={'large'}
-        />
-      </div>
+      <Checkbox labelClassName={locals.label} label={label} checked={checked} onChange={onChange} disabled={disabled} />
     </Tooltip>
   );
 }
