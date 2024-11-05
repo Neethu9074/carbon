@@ -17,35 +17,26 @@ import { ManualCloseInfoForm, manuallyCloseIssue } from 'in-events/api';
 import { Error, ErrorCode, ManualCloseInfo } from 'in-types';
 import { close } from 'in-components/DialogPresenter/store';
 import { toHtml } from 'in-services/formatters/markdown';
-import { EventOrMap } from 'in-events/types';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './MultiCloseIssueConfigForm.mless';
 
-interface ManualCloseIssueConfigFormProps {
+interface MultiCloseIssueConfigFormProps {
   onSaveSuccess: () => void;
   onClose?: () => void;
-  event: EventOrMap;
-  problem: string;
-  description?: string;
-  iconComponent?: React.ReactNode;
+  eventIds: string[];
   eventType?: string;
 }
 
-export default function ManualCloseIssueConfigForm({
+export default function MultiCloseIssueConfigForm({
   onSaveSuccess,
-  problem,
   onClose = close,
-  event,
-  description,
-  iconComponent,
+  eventIds,
   eventType
-}: ManualCloseIssueConfigFormProps) {
+}: MultiCloseIssueConfigFormProps) {
   const [form, setForm] = useState<MapForm<ManualCloseInfoForm>>(createForm());
   const [error, setError] = useState<Error[]>([]);
-
-  const eventId = event.get('id') as string;
 
   if (!form) return <LoadingIndicator size="regular" />;
 
@@ -78,7 +69,9 @@ export default function ManualCloseIssueConfigForm({
       form.setTouched(true, { recurse: true });
       return;
     }
-    save(form, eventId, onSaveSuccess, onError);
+    eventIds.forEach(eventId => {
+      save(form, eventId, onSaveSuccess, onError);
+    });
   };
 
   const setValue = (form: MapForm<any>, path: string[], value: any) => {
@@ -96,13 +89,7 @@ export default function ManualCloseIssueConfigForm({
           <Stack>
             <ErroneousResultPresenter errors={error} />
             <Stack gap="xxsmall">
-              {problem && (
-                <Stack direction="horizontal" gap="xxsmall">
-                  {iconComponent}
-                  <Typography variant="body-regular">{problem}</Typography>
-                </Stack>
-              )}
-              <DangerousHtmlPresenter html={toHtml(description)} />
+              <DangerousHtmlPresenter html={toHtml(t('in-events:titleManualCloseIncident'))} />
             </Stack>
             <Stack gap="xxsmall">
               <Typography variant="body-small">

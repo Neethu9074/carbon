@@ -155,6 +155,7 @@
   },
   "itemsSelected": "items selected",
   "closeIncidents": "Close Incidents",
+  "closeIssues": "Close Issues",
   "cancelSelection": "Cancel",
 
   "ibmMqFileTransfer": {

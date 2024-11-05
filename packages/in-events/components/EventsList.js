@@ -23,7 +23,9 @@ import { DataTable as CarbonDataTable } from '@instana/components';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import HighlightedTimeframeMarkerRow from 'in-events/components/HighlightedTimeframeMarkerRow';
 import useTimeConfigUpdatingScale from 'in-events/components/useTimeConfigUpdatingScale';
+import MultiCloseIssueConfigForm from 'in-events/components/MultiCloseIssueConfigForm';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import EmptyEventList from 'in-events/components/EmptyEventsList';
 import { carbonTableEnabled } from 'in-services/featureFlags';
@@ -67,6 +69,7 @@ function List(props) {
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
 
+  const isMultiSelectEnabled = eventType === 'incident' || eventType === 'issue';
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
   const isDenseList = !!selectedEventId;
   let cols = 0;
@@ -74,7 +77,11 @@ function List(props) {
   if (isDenseList) {
     cols = 2;
   } else {
-    cols = canCloseManually ? 8 : 7;
+    if (isMultiSelectEnabled) {
+      cols = canCloseManually ? 8 : 7;
+    } else {
+      cols = canCloseManually ? 7 : 6;
+    }
   }
 
   const timeScale = useTimeConfigUpdatingScale(timeConfig);
@@ -130,9 +137,22 @@ function List(props) {
     }
   };
 
-  // Function to clsoe incidents
+  // Function to close incidents
   const closeSelectedIncidents = () => {
-    // setshowCloseIncidentForm(true);
+    addActiveDialog(
+      <MultiCloseIssueConfigForm
+        onSaveSuccess={() => {
+          rawEventList.forEach(event => {
+            if (selectedRows.includes(event.id)) {
+              event.state = 'manually_closed';
+            }
+          });
+          setSelectedRows([]);
+          setSelectAll(false);
+        }}
+        eventType={eventType}
+      />
+    );
   };
 
   const handleCancel = () => {
@@ -142,7 +162,7 @@ function List(props) {
 
   // Rendering the top row when checkboxes are selected
   const renderTopRow = () => {
-    if (selectedRows.length > 0) {
+    if (selectedRows.length > 0 && isMultiSelectEnabled) {
       return (
         <div className={locals.topRowBorder}>
           <Stack direction="horizontal" gap="disabled" align="center">
@@ -150,7 +170,7 @@ function List(props) {
               {selectedRows.length} {t('in-events:itemsSelected')}
             </div>
             <Button kind="primary" darkTheme="true" onClick={closeSelectedIncidents}>
-              {t('in-events:closeIncidents')}
+              {eventType === 'incident' ? t('in-events:closeIncidents') : t('in-events:closeIssues')}
             </Button>
             <div className={locals.divider} />
             <Button kind="primary" darkTheme="true" onClick={handleCancel}>
@@ -163,6 +183,17 @@ function List(props) {
     return null;
   };
 
+  const renderTableHeader = () => {
+    if (!isMultiSelectEnabled) {
+      return null;
+    }
+
+    return (
+      <Th useMinimumAmountOfHorizontalSpace>
+        <Checkbox onChange={handleSelectAll} checked={isChecked} indeterminate={isIndeterminate} />
+      </Th>
+    );
+  };
 
   if (carbonTableEnabled) {
     const sortedRows = filteredRawEventList;
@@ -381,9 +412,7 @@ function List(props) {
             <Table fixedLayout={!isCustomDashboard && eventType !== 'cve_issue'}>
               <Thead>
                 <Tr size="compact">
-                  <Th useMinimumAmountOfHorizontalSpace>
-                    <Checkbox onChange={handleSelectAll} checked={isChecked} indeterminate={isIndeterminate} />
-                  </Th>
+                  {renderTableHeader()}
                   <Th useMinimumAmountOfHorizontalSpace />
                   {eventType === 'cve_issue' ? (
                     <>
@@ -477,9 +506,7 @@ function List(props) {
       <Table fixedLayout>
         <Thead>
           <Tr size="compact">
-            <Th useMinimumAmountOfHorizontalSpace>
-              <Checkbox onChange={handleSelectAll} checked={isChecked} indeterminate={isIndeterminate} />
-            </Th>
+            {renderTableHeader()}
             <Th useMinimumAmountOfHorizontalSpace />
             {isDenseList ? (
               <SortableColumn {...props} technicalName="start">

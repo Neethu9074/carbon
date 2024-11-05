@@ -78,6 +78,24 @@ export default function EventRow({
   const start = event.start;
   const end = event.manualCloseTimestamp || event.end || Date.now();
   const eventType = getEventType(event);
+  const isMultiSelectEnabled = event.type === 'incident' || event.type === 'issue';
+
+  const renderCheckboxes = () => {
+    if (!isMultiSelectEnabled) {
+      return null;
+    }
+
+    return (
+      <Td>
+        <Checkbox
+          disabled={isEventClosed}
+          checked={selectedRows.includes(event.id)}
+          onChange={() => handleSelectRow(event.id)}
+        />
+      </Td>
+    );
+  };
+
   const isChangeEvent = eventType === EVENT_TYPES.CHANGE;
 
   const cvssScore = event.metadata?.cve.cvssScore;
@@ -129,13 +147,7 @@ export default function EventRow({
       {event.type === 'cve_issue' ? (
         // Custom rendering logic for cve_issue
         <>
-          <Td>
-            <Checkbox
-              disabled={isEventClosed}
-              checked={selectedRows.includes(event.id)}
-              onChange={() => handleSelectRow(event.id)}
-            />
-          </Td>
+          {renderCheckboxes()}
           <Td onClick={onClick}>
             <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
           </Td>
@@ -176,13 +188,7 @@ export default function EventRow({
       ) : (
         // Default rendering logic
         <>
-          <Td>
-            <Checkbox
-              disabled={isEventClosed}
-              checked={selectedRows.includes(event.id)}
-              onChange={() => handleSelectRow(event.id)}
-            />
-          </Td>
+          {renderCheckboxes()}
           <Td onClick={onClick}>
             <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
           </Td>
