@@ -9,16 +9,12 @@ import React from 'react';
 import { Button, CarbonMenuButton, CarbonMenuItem, Stack, PreviewPill } from '@instana/components';
 
 import {
-  clickAddAlertChannelTracker,
-  clickAddAlertChannelMenuTracker,
-  alertChannelCTATrackerSegment
-} from 'in-settings/tracker';
-import {
   SETTINGS_ALERT_CHANNEL_ADD_CLICK,
   SETTINGS_ALERT_CHANNEL_ADD_MENU_CLICK
 } from 'in-services/tracking/eventNames';
 import configs from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { alertChannelCTATrackerSegment } from 'in-settings/tracker';
 import { goToAlertChannelView } from 'in-settings/navigation/paths';
 import { carbonButtonEnabled } from 'in-services/featureFlags';
 import MultiButton from 'in-components/MultiButton';
@@ -37,7 +33,6 @@ export default function NewChannelButton(props) {
         size="sm"
         label={t('in-settings:tabs.addAlertChannel')}
         onClick={() => {
-          clickAddAlertChannelMenuTracker();
           alertChannelCTATrackerSegment({
             EVENT_NAME: SETTINGS_ALERT_CHANNEL_ADD_MENU_CLICK,
             path: location.pathname,
@@ -58,7 +53,6 @@ export default function NewChannelButton(props) {
       icon="lib_openclose_add_circle_outline"
       label={t('in-settings:tabs.addAlertChannel')}
       trackEventDropdown={() => {
-        clickAddAlertChannelMenuTracker();
         alertChannelCTATrackerSegment({
           EVENT_NAME: SETTINGS_ALERT_CHANNEL_ADD_MENU_CLICK,
           path: location.pathname,
@@ -84,7 +78,6 @@ function AlertChannelButton({ type, className }) {
           })}
           onClick={() => {
             goToAlertChannelView(type);
-            clickAddAlertChannelTracker({ alertChannelType: configs[type].label });
             alertChannelCTATrackerSegment({
               EVENT_NAME: SETTINGS_ALERT_CHANNEL_ADD_CLICK,
               path: location.pathname,
@@ -122,7 +115,6 @@ function AlertChannelButton({ type, className }) {
         kind="secondary"
         onClick={() => {
           goToAlertChannelView(type);
-          clickAddAlertChannelTracker({ alertChannelType: configs[type].label });
           alertChannelCTATrackerSegment({
             EVENT_NAME: SETTINGS_ALERT_CHANNEL_ADD_CLICK,
             path: location.pathname,
