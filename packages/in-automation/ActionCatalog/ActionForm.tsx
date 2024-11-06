@@ -1581,11 +1581,15 @@ const SecuredInput = ({
 };
 
 const AnsibleSection = ({ action }: Pick<ActionFormBodyProps, 'action'>) => {
-  const { jobTemplateUrl } = getAnsibleFields(action);
+  const { jobTemplateUrl, isWorkflowJobTemplate } = getAnsibleFields(action);
   return (
     <>
       <FormGroup className={locals.widthFitContent}>
-        <Label>{t('in-automation:jobTemplate')}</Label>
+        {isWorkflowJobTemplate ? (
+          <Label>{t('in-automation:workflowJobTemplate')}</Label>
+        ) : (
+          <Label>{t('in-automation:jobTemplate')}</Label>
+        )}
         <Link external href={jobTemplateUrl}>
           {action.name}
         </Link>
