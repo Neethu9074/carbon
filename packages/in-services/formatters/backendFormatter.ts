@@ -13,7 +13,8 @@ import {
   latency,
   NumberFormatter,
   kiloBytes,
-  megaBytes
+  megaBytes,
+  percentagePlain
 } from 'in-services/formatters/number';
 
 interface FormatterWithDefault {
@@ -33,11 +34,12 @@ export type BackendFormatterType =
   | 'MILLIS'
   | 'NUMBER'
   | 'PERCENTAGE'
+  | 'PERCENTAGE_100'
   | 'RATE'
   | 'SECONDS'
   | 'LATENCY_WITH_DECIMALS';
 
-export type InternalFormatterTypes = 'NUMBER' | 'PERCENTAGE' | 'BYTES' | 'MILLIS' | 'LATENCY';
+export type InternalFormatterTypes = 'NUMBER' | 'PERCENTAGE' | 'PERCENTAGE_100' | 'BYTES' | 'MILLIS' | 'LATENCY';
 
 const mappings: {
   readonly [key in BackendFormatterType]: FormatterWithDefault;
@@ -46,6 +48,7 @@ const mappings: {
   RATE: createFormatterWithDefault(number.perSecond, 'detailed'),
 
   PERCENTAGE: createFormatterWithDefault(percentage, 'detailed'),
+  PERCENTAGE_100: createFormatterWithDefault(percentagePlain, 'detailed'),
 
   BYTES: createFormatterWithDefault(bytes, 'detailed'),
   KILO_BYTES: createFormatterWithDefault(kiloBytes, 'detailed'),
@@ -86,6 +89,7 @@ const mappingsToUiInternalNames: {
 } = {
   NUMBER: 'number.compact',
   PERCENTAGE: 'percentage.detailed',
+  PERCENTAGE_100: 'percentagePlain.detailed',
   BYTES: 'bytes.detailed',
   MILLIS: 'millis.compact',
   LATENCY: 'latency.detailed'
@@ -99,6 +103,7 @@ export const mappingsBackendTypesToUiMetrics = {
   NUMBER: 'number.compact',
   RATE: 'perSecond.detailed',
   PERCENTAGE: 'percentage.detailed',
+  PERCENTAGE_100: 'percentagePlain.detailed',
   BYTES: 'bytes.detailed',
   KILO_BYTES: 'kilobytes.detailed',
   MEGA_BYTES: 'megabytes.detailed',
