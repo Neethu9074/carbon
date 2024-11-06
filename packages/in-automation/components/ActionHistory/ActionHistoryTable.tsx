@@ -181,7 +181,7 @@ interface ActionHistoryTableProps {
   customActionTypes?: string[];
   noFilters?: boolean;
   noEvent?: boolean;
-  cardTitle?: string;
+  title?: string;
 }
 
 export default function ActionHistoryTable({
@@ -189,7 +189,7 @@ export default function ActionHistoryTable({
   customActionTypes,
   noFilters,
   noEvent,
-  cardTitle
+  title
 }: ActionHistoryTableProps) {
   let columnDefinitions: ColumnDefinition<ActionInstance>[] = [
     {
@@ -320,7 +320,7 @@ export default function ActionHistoryTable({
   const ServerTableWithUrlState = createServerTableWithUrlState({
     Renderer: withEmptyTableState({
       columnDefinitions: columnDefinitions,
-      title: t('in-automation:actionHistory.actionHistory'),
+      title: title ?? t('in-automation:actionHistory.actionHistory'),
       description: t('in-automation:actionHistory.noActionInstances')
     }),
     paginationResettingUrlParameters: [...timeConfigUrlParameters, actionTypesUrlParameter, actionStatusesUrlParameter],
@@ -336,9 +336,8 @@ export default function ActionHistoryTable({
       get={GetActionInstanceListData}
       timeConfig={timeConfig}
       actionHistoryInstanceDeleteTrackerSegment={actionHistoryInstanceDeleteTrackerSegment}
-      rightHeader={!noFilters && <Filters setFilter={setFilter} types={types} actionStatuses={actionStatuses} />}
-      title={t('in-automation:actionHistory.actionHistory')}
-      cardTitle={cardTitle}
+      rightHeader={!noFilters ? <Filters setFilter={setFilter} types={types} actionStatuses={actionStatuses} /> : <></>}
+      title={title ?? t('in-automation:actionHistory.actionHistory')}
       showHeaderCount
       types={customActionTypes || types}
       actionStatuses={

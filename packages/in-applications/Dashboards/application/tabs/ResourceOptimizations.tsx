@@ -17,11 +17,11 @@ import {
 import OptimizationsButtonGroup, {
   useActiveOptimizationsKey
 } from 'in-automation/AutomationCard/OptimizationsButtonGroup';
-import { useResourceActionHistoryCount } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import RecommendedOptimizations from 'in-automation/ResourceOptimization/RecommendedOptimizations';
 import { FormatterObject, MetricDataPoint, MetricDataSeries } from 'in-components/Chart/types';
 import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
+import useActionHistoryCount from 'in-automation/AutomationCard/useHistory';
 import { resourceOptimizationsTab } from 'in-applications/navigation/paths';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import InfoPanel from 'in-automation/components/InfoPanel/InfoPanel';
@@ -92,7 +92,10 @@ export default function ResourceOptimizationTab({
   }
 
   const activeOptimizatonsKey = useActiveOptimizationsKey();
-  const historyCount = useResourceActionHistoryCount({ types: ['EXTERNAL'] });
+  const historyCount = useActionHistoryCount({
+    types: ['EXTERNAL'],
+    actionStatuses: ['SUCCESS', 'FAILED', 'IN_PROGRESS', 'STATUS_UNKNOWN', 'SUBMITTED', 'TIMEOUT']
+  });
 
   return (
     <div className={locals.contentContainer}>
@@ -181,14 +184,8 @@ export default function ResourceOptimizationTab({
       )}
       {activeOptimizatonsKey === 'optimizationHistory' && (
         <ActionHistoryTable
-          cardTitle={
-            historyCount !== undefined
-              ? t('in-automation:resourceOptimization.recommendedActionHistoryWithCount', {
-                  count: historyCount
-                })
-              : t('in-automation:resourceOptimization.recommendedActionHistory')
-          }
           customActionTypes={['EXTERNAL']}
+          title={t('in-automation:resourceOptimization.recommendedActionHistory')}
           noFilters
           noEvent
         />

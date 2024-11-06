@@ -81,7 +81,6 @@ function AutomationCard({ volatileId, event }: AutomationCardProps) {
 function RecommendedOptimizationsRow({ event }: { event: Event }) {
   const recommendedOptimizations = useResourceOptimization({ event, actionCategory: 'PERFORMANCE_ASSURANCE' });
   const turboRecommendedActions = useTurboRecommendedActions(recommendedOptimizations);
-
   return (
     <Row withoutSideMargin>
       <Col xs>

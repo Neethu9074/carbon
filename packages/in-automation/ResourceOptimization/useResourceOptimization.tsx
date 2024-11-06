@@ -4,20 +4,11 @@
  * Copyright IBM Corp. 2024
  */
 
-import {
-  Result,
-  RecommendedAction,
-  ResourceOptimization,
-  ResourceImpactRsp,
-  VolatileId,
-  Event,
-  TimeConfig
-} from '@instana/types';
+import { Result, RecommendedAction, ResourceOptimization, ResourceImpactRsp, VolatileId, Event } from '@instana/types';
 import { EntityType, TargetEntityType } from '@instana/types';
 import { create, timeout } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
-import { GetActionInstanceListData } from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { getResourceOptimization, getTurboActionResourceImpacts } from 'in-automation/api';
@@ -126,29 +117,4 @@ export function useResourceImpacts({ volatileId, actionInstanceId, createdDate }
   if (hasError(result))
     return error<ResourceImpactRsp>([{ message: 'Failed to get resource impact.', code: 'SERVER' }]);
   return success(result as Result<ResourceImpactRsp>);
-}
-
-interface GetActionInstanceListDataParams {
-  timeConfig: TimeConfig;
-  eventId?: string;
-  types?: string[];
-}
-
-function GetActionInstanceListDataFunc({ timeConfig, eventId, types }: GetActionInstanceListDataParams) {
-  return GetActionInstanceListData({
-    timeConfig,
-    eventId,
-    types: types ?? [],
-    actionStatuses: ['SUCCESS', 'FAILED', 'IN_PROGRESS', 'STATUS_UNKNOWN', 'SUBMITTED', 'TIMEOUT']
-  }).startWith(pendingResult);
-}
-
-export function useResourceActionHistoryCount({ eventId, types }: { eventId?: string; types?: string[] }) {
-  const timeConfig = useTimeConfig();
-  const result =
-    useObservable(
-      () => refreshSignal.flatMap(() => GetActionInstanceListDataFunc({ timeConfig, eventId, types })),
-      []
-    ) ?? pendingResult;
-  return result?.data?.totalHits;
 }
