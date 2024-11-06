@@ -12,7 +12,8 @@ import {
   number,
   percentage,
   siPrefix,
-  scale
+  scale,
+  percentagePlain
 } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
@@ -48,6 +49,12 @@ export const percentageDetailed: Formatter = {
   id: 'percentage.detailed',
   label: t('in-stores:metric.formatterLabelPercentage', { example: percentage.detailed(0.4215) }),
   formatter: percentage.detailed,
+  unitConversion: false
+};
+export const percentagePlainDetailed: Formatter = {
+  id: 'percentagePlain.detailed',
+  label: t('in-stores:metric.formatterLabelPercentage', { example: percentagePlain.detailed(0.4215) }),
+  formatter: percentagePlain.detailed,
   unitConversion: false
 };
 export const bytesCompact: Formatter = {
@@ -155,7 +162,7 @@ export const publicFormatters: Formatter[] = [
 ];
 
 // These formatters should not be selectable by end-users.
-const privateFormatters: Formatter[] = [fourDecimalPlacesDetailed, perSecondDetailed];
+const privateFormatters: Formatter[] = [fourDecimalPlacesDetailed, perSecondDetailed, percentagePlainDetailed];
 
 const allFormatters: Formatter[] = [...publicFormatters, ...privateFormatters];
 

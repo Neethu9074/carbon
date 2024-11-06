@@ -18,6 +18,7 @@ export type FormatterType =
   | 'MINUTES'
   | 'NUMBER'
   | 'PERCENTAGE'
+  | 'PERCENTAGE_100'
   | 'RATE'
   | 'SECONDS'
   | 'UNDEFINED';
@@ -45,6 +46,7 @@ export const MILLIS_FORMATTER_TYPE: FormatterType = 'MILLIS';
 export const MINUTES_FORMATTER_TYPE: FormatterType = 'MINUTES';
 export const NUMBER_FORMATTER_TYPE: FormatterType = 'NUMBER';
 export const PERCENTAGE_FORMATTER_TYPE: FormatterType = 'PERCENTAGE';
+export const PERCENTAGE_100_FORMATTER_TYPE: FormatterType = 'PERCENTAGE_100';
 export const RATE_FORMATTER_TYPE: FormatterType = 'RATE';
 export const SECONDS_FORMATTER_TYPE: FormatterType = 'SECONDS';
 export const UNDEFINED_FORMATTER_TYPE: FormatterType = 'UNDEFINED';
