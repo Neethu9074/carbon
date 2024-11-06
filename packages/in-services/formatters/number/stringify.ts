@@ -22,7 +22,8 @@ import {
   RATE_FORMATTER_TYPE,
   SECONDS_FORMATTER_TYPE,
   MINUTES_FORMATTER_TYPE,
-  NANOS_FORMATTER_TYPE
+  NANOS_FORMATTER_TYPE,
+  PERCENTAGE_100_FORMATTER_TYPE
 } from 'in-services/formatters/number/types';
 import { getSingle } from 'in-services/settings';
 
@@ -135,7 +136,7 @@ export const percentagePlain = markAsFormatterType(
     compact: percentagePlainZeroDecimalPlaces,
     detailed: percentagePlainTwoDecimalPlaces
   },
-  PERCENTAGE_FORMATTER_TYPE
+  PERCENTAGE_100_FORMATTER_TYPE
 );
 
 export const bytesZeroDecimalPlaces = (d: number) => formatBytes(d, zeroDecimalPlaces, false);
