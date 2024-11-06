@@ -57,6 +57,7 @@ import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { perSecondDetailed } from 'in-stores/metric/formatters';
 import { analyzePath } from 'in-applications/navigation/paths';
 import { getTagCatalog } from 'in-applications/api/tagCatalog';
+import { formatDateTime } from 'in-services/formatters/date';
 import { latencyFixed } from 'in-services/formatters/number';
 import { getPluginName } from 'in-sdk/pluginName';
 import useUrlState from 'in-hooks/useUrlState';
@@ -292,6 +293,9 @@ function getCustomGroupLabel(groupName, groupbyTag) {
   }
   if (groupbyTag === 'call.latency' && groupName === '0') {
     return '< 1';
+  }
+  if (groupbyTag === 'call.ingestion_time') {
+    return `${formatDateTime(new Date(Number(groupName)))} (${groupName})`;
   }
   return groupName;
 }
