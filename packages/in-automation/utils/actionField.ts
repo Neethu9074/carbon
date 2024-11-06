@@ -123,13 +123,13 @@ export function getWebhookFields(action: Action | NewAction): {
 }
 
 export function getAnsibleFields(action: Action | NewAction): {
-  isWorkflowJobTemplate: Field | null;
+  isWorkflowJobTemplate: boolean;
   jobTemplateUrl: string;
 } {
   const workflowId = getWorkflowIdFromFields(action.fields);
   const playbookId = getPlaybookIdFromFields(action.fields);
   const ansibleUrl = getAnsibleUrlFromFields(action.fields);
-  const isWorkflowJobTemplate = getFieldsByNames(action.fields)?.workflowId;
+  const isWorkflowJobTemplate = workflowId?.value !== '';
   const ansibleId = isWorkflowJobTemplate ? workflowId : playbookId;
   const templateName = isWorkflowJobTemplate ? 'workflow_job_template' : 'job_template';
   const jobTemplateUrl = `${ansibleUrl.value}/#/templates/${templateName}/${ansibleId.value}`;
