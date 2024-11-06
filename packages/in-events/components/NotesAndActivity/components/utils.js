@@ -120,10 +120,21 @@ function sendUpdateDeleteNote(note) {
 // Taking in the response of the getSummary function above [{label: 'label', summary: 'summary'}]
 // And converting it to a string
 export function convertSummaryToString(data) {
-  var stringSummary = `This summary is AI generated\n\n`;
+  var stringSummary = `This summary is AI generated\n\nSummary generated:\n\n`;
   data?.map(entry => {
     stringSummary += `${entry.label}\n`;
     stringSummary += `${entry.summary}\n`;
+  });
+
+  return stringSummary;
+}
+
+// Taking the in the response of the actions and converting it to a string
+export function convertActionsToString(data) {
+  var stringSummary = `Actions taken for similar incidents:\n\n`;
+  data?.map(entry => {
+    stringSummary += `${entry.name}\n`;
+    stringSummary += `type: ${entry.type}\n`;
   });
 
   return stringSummary;

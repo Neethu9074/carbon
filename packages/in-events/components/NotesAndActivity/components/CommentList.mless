@@ -94,7 +94,7 @@
   }
 
   .summaryList {
-    display: inline-flex;
+    display: flex;
     gap: 1rem;
   }
 

@@ -15,7 +15,14 @@ import {
   CarbonIconButton
 } from '@instana/components';
 
-import { noteNameAndTimeFormat, createDataString, getSummary, convertSummaryToString, handleTracking } from './utils';
+import {
+  noteNameAndTimeFormat,
+  createDataString,
+  getSummary,
+  convertSummaryToString,
+  convertActionsToString,
+  handleTracking
+} from './utils';
 import { EVENT_AI_SHOW_MORE, EVENT_AI_SHARE_OPENED } from 'in-services/tracking/eventNames';
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import { TYPE_NOTE, TYPE_EXT_NOTE, TYPE_EXT_F_CHANGE, TYPE_AI_SUMMARY } from '../utils';
@@ -161,6 +168,20 @@ export function ChatBubble({
   const last = aiSum && subArray(sumData, 5, sumData.size);
   const summaryStart = aiSum && getSummary(firstFive);
   const summaryEnd = aiSum && getSummary(last);
+  const summaryString = aiSum && convertSummaryToString(getSummary(sumData));
+  // Action history test
+  const actionHistory = {
+    actionHistory: [
+      {
+        name: 'Kubernetes Cron Job Status',
+        type: 'ANSIBLE'
+      },
+      {
+        name: 'Run status CPU clear',
+        type: 'HTTP'
+      }
+    ]
+  };
 
   return (
     <>
@@ -199,20 +220,27 @@ export function ChatBubble({
             <div className={locals.bubbleContentsHeader}>{t('in-events:notes.sumGenerated')}</div>
             <SummaryEntry summaryList={summaryStart} />
             {showAll && <SummaryEntry summaryList={summaryEnd} />}
-            <div style={{ display: 'flex' }}>
-              {/* Show all button / Collapse */}
-              {summaryEnd.length > 0 && (
-                <CarbonButton
-                  size="sm"
-                  onClick={() => {
-                    handleTracking(noteObj?.id, EVENT_AI_SHOW_MORE);
-                    setShowAll(!showAll);
-                  }}
-                  kind="ghost"
-                >
-                  {!showAll ? t('in-events:notes.showAll') : t('in-events:notes.collapse')}
-                </CarbonButton>
-              )}
+            {/* Show all button */}
+            {summaryEnd.length > 0 && (
+              <CarbonButton
+                size="sm"
+                onClick={() => {
+                  handleTracking(noteObj?.id, EVENT_AI_SHOW_MORE);
+                  setShowAll(!showAll);
+                }}
+                kind="ghost"
+              >
+                {!showAll ? t('in-events:notes.showAll') : t('in-events:notes.collapse')}
+              </CarbonButton>
+            )}
+            <div style={{ paddingTop: '1rem' }}>
+              <div style={{ display: 'flex', gap: '.5rem' }} className={locals.bubbleContentsHeader}>
+                {'Actions taken for similar incidents:'}
+              </div>
+              <ActionEntry actionList={actionHistory.actionHistory} />
+            </div>
+
+            <div style={{ display: 'flex', paddingTop: '.5rem' }}>
               {/* Share summarization button */}
               <CarbonIconButton
                 kind={'ghost'}
@@ -221,7 +249,7 @@ export function ChatBubble({
                 onClick={() => {
                   setNeedOverlay(true);
                   setShareOpen(true);
-                  setSummaryData(convertSummaryToString(getSummary(sumData)));
+                  setSummaryData(`${summaryString}${convertActionsToString(actionHistory.actionHistory)}`);
                   handleTracking(noteObj?.id, EVENT_AI_SHARE_OPENED);
                 }}
               >
@@ -233,7 +261,7 @@ export function ChatBubble({
                 size={'sm'}
                 label={t('in-events:notes.copy')}
                 onClick={() => {
-                  copyToClipboard(convertSummaryToString(getSummary(sumData)));
+                  copyToClipboard(`${summaryString}${convertActionsToString(actionHistory.actionHistory)}`);
                 }}
               >
                 <SvgIcon type="lib_actions_copy" size="xs" />
@@ -301,6 +329,25 @@ function SummaryEntry({ summaryList }) {
             <div>
               <div style={{ fontWeight: '700' }}>{entity.label}</div>
               {entity.summary}
+            </div>
+          </div>
+        );
+      })}
+    </>
+  );
+}
+
+// Function to reduce duplicate code for looping through action history bullet points
+function ActionEntry({ actionList }) {
+  return (
+    <>
+      {actionList.map(entity => {
+        return (
+          <div key={entity.name} className={locals.summaryList}>
+            {`- `}
+            <div>
+              <div style={{ fontWeight: '700' }}>{`${entity.name}`}</div>
+              {`type: ${entity.type}`}
             </div>
           </div>
         );
