@@ -747,11 +747,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'carbonTileEnabled',
-    instanaCtlKey: 'feature.carbon.tile.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'carbonStepProgressBarEnabled',
     instanaCtlKey: 'feature.carbon.stepprogressbar.enabled',
     defaultValue: true
