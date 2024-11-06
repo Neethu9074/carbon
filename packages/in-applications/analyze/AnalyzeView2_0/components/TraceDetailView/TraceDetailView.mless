@@ -48,10 +48,6 @@
     }
   }
 
-  .downloadDropdown {
-    display: flex;
-    flex-direction: column;
-  }
   .downloadOption {
     justify-content: flex-start;
     width: 100%;

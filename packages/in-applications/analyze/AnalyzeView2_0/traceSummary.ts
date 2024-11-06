@@ -26,3 +26,15 @@ export function isLazyLoadedCallTreeSupported(traceSummaryData?: TraceSummary): 
 export function shouldUseLazyLoadedCallTree(traceSummaryData?: TraceSummary): boolean {
   return Boolean(isLazyLoadedCallTreeSupported(traceSummaryData) && isLargeTrace(traceSummaryData));
 }
+
+export const traceDownloadUrl = (traceId: string, traceSummary?: TraceSummary) =>
+  isLazyLoadedCallTreeSupported(traceSummary)
+    ? `/api/application-monitoring/v2/analyze/traces/${encodeURIComponent(
+        traceId
+      )}?pretty&retrievalSize=200&offset=0&ingestionTime=${Date.now()}`
+    : `/api/application-monitoring/analyze/traces;id=${encodeURIComponent(traceId)}?pretty`;
+
+export const rawTraceDownloadUrl = (traceId: string) =>
+  `/api/application-monitoring/analyze/traces/${encodeURIComponent(
+    traceId
+  )}/raw?retrievalSize=100&offset=0&ingestionTime=${Date.now()}`;
