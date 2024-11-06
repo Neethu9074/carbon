@@ -203,15 +203,15 @@ export default function KpiCard({
         </div>
         {iconAction &&
           (carbonButtonEnabled ? (
-            <Tooltip content={iconAction.text}>
-              <IconButton
-                href$={iconAction.href$}
-                href={iconAction.href}
-                kind={iconAction.kind}
-                type={iconAction.icon}
-                onClick={iconAction.onClick}
-              />
-            </Tooltip>
+            <IconButton
+              iconDescription={iconAction.text}
+              href$={iconAction.href$}
+              href={iconAction.href}
+              kind={iconAction.kind}
+              type={iconAction.icon}
+              onClick={iconAction.onClick}
+              isWrapperedByTooltip
+            />
           ) : (
             <div
               className={classNames({
