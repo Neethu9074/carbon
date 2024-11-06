@@ -9,8 +9,6 @@ import React, { useState } from 'react';
 import { Button, IconButton, Spacer, Stack, Typography } from '@instana/components';
 import { Event, Result, VolatileId } from '@instana/types';
 
-// import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
-import useHasAccessToManual from 'in-automation/hooks/useHasAccessToManual';
 import {
   aiEngineColumn,
   descriptionColumn,
@@ -29,6 +27,7 @@ import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilte
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import useHasAccessToManual from 'in-automation/hooks/useHasAccessToManual';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { ScoredAction, TriggerSpecification } from 'in-automation/types';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
