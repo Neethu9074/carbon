@@ -717,7 +717,7 @@
     "setEnabledMessagePressESCToDisableTVMode": "Press ESC to disable TV mode."
   },
   "analyze": {
-    "facettedFilters": "Facetted filters",
+    "facettedFilters": "Faceted filters",
     "loadMoreWithCount": "Load {{count}} more",
     "loadMore": "Load more",
     "activeFacets": "{{count}} Selected",
