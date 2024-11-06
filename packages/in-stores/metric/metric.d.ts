@@ -7,7 +7,6 @@ import { Observable } from '@instana/observables';
 
 import { TimeConfig } from 'in-types';
 
-// TODO: verify if Pick<> works as expected here
 export function getChartGranularity(
   tc: Pick<TimeConfig, 'windowSize'>,
   maxDataPoints?: number,
