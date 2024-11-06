@@ -9,10 +9,10 @@ import { FacetedSearchPresenter } from 'in-applications/analyze/AnalyzeView2_0/c
 import QueryBuilderWorkspace from 'in-applications/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
 import FastQueryModeToggle from 'in-applications/analyze/AnalyzeView2_0/components/FastQueryModeToggle';
 import { ChartsPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/ChartsPresenter';
-import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
 import getTraceGroups from 'in-applications/subscriptions/getTraceGroups';
 import getCallGroups from 'in-applications/subscriptions/getCallGroups';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import GroupedView from 'in-components/AnalyzeView/GroupedView';
 import { emptyObject } from 'in-services/fixedObjects';
 import { collationLanguage } from 'in-i18n';
@@ -35,7 +35,7 @@ export default function GroupedResults(props) {
     params => getTableData({ ...params, hiddenCalls, fastQueryModeEnabled }),
     [hiddenCalls, fastQueryModeEnabled]
   );
-  const { trackUa2ExpandCollapseGroupedListItem } = useApplicationTracker();
+  const { trackUa2ExpandCollapseGroupedListItem } = useAnalyzeTracker();
   const tracker = {
     onToggleContentRow: () => trackUa2ExpandCollapseGroupedListItem(emptyObject)
   };

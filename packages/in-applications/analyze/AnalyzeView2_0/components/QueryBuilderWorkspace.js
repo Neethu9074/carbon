@@ -20,8 +20,8 @@ import TraceQueryBuilder from 'in-applications/analyze/components/workspace/Trac
 import CallQueryBuilder from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { findInvalidTraceIdTagFilter } from 'in-analyze/AnalyzeView/validationUtils';
-import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { ActionSection } from 'in-components/workspace/ActionSection/ActionSection';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { useWebsiteTracker } from 'in-websites/tracking/segTracker';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
@@ -48,7 +48,7 @@ const groupingConfiguratorPerDataSource = {
 export default function ApplicationsQueryBuilderWorkspace(props) {
   const { ua2FilterRemoved } = useWebsiteTracker();
   const { trackUa2QueryBuilderFilterAdded, trackUa2NestingDepth, trackUa2GroupChanged, trackUa2ApiQueryPressed } =
-    useApplicationTracker();
+    useAnalyzeTracker();
   const {
     formModel,
     onFormModelChange,

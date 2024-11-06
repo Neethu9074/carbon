@@ -18,9 +18,9 @@ import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/Grou
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import LogsQueryBuilder from 'in-logging/analyze/AnalyzeView/workspace/LogsQueryBuilder';
 import { StateManagementChildProps } from 'in-components/AnalyzeView/StateManagement';
-import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { QueryBuilderTrackingFunctions } from 'in-components/QueryBuilder';
 import ViewSwitcher from 'in-logging/analyze/AnalyzeView/ViewSwitcher';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { logSmartAlertsEnabled } from 'in-services/featureFlags';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
@@ -49,7 +49,7 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
     isLoading,
     groupBy
   } = props;
-  const { trackUa2QueryBuilderFilterAdded, trackUa2NestingDepth, trackUa2GroupChanged } = useApplicationTracker();
+  const { trackUa2QueryBuilderFilterAdded, trackUa2NestingDepth, trackUa2GroupChanged } = useAnalyzeTracker();
   type FilterAddedTrackingPayload = { dataSource: string; tagName: string; tagFilter?: TagFilter };
   const tracking: QueryBuilderTrackingFunctions = {
     onTagAdded: tagFilter => {

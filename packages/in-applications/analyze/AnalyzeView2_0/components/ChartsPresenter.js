@@ -15,8 +15,8 @@ import {
   toBackendQueryModel
 } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import LatencyDistributionChart from 'in-applications/analyze/components/ChartingPresenter/LatencyDistributionChart';
-import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { metricRenderers } from 'in-applications/analyze/AnalyzeView2_0/metrics';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import Chart from 'in-components/AnalyzeView/Charting/Chart';
 import Charting from 'in-components/AnalyzeView/Charting';
 import Sections from 'in-components/workspace/Sections';
@@ -80,7 +80,7 @@ export function ChartsPresenter(props) {
     chartableDataSeries,
     fastQueryModeEnabled
   } = props;
-  const { trackUa2ChartChanged, trackUa2ChartRemoved } = useApplicationTracker();
+  const { trackUa2ChartChanged, trackUa2ChartRemoved } = useAnalyzeTracker();
   return (
     <Sections className={locals.chartWrapper}>
       <Charting

@@ -39,7 +39,6 @@ import { custom as customType, metric as metricType } from 'in-components/Analyz
 import FacetedFilterGeneric from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterGeneric';
 import GroupedResults from 'in-applications/analyze/AnalyzeView2_0/components/GroupedResults';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator/BatchingIndicator';
-import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
@@ -49,6 +48,7 @@ import { LESS_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { getMetricTemplates } from 'in-applications/api/metricTemplates';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { getMetricCatalog } from 'in-applications/api/metricCatalog';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
@@ -154,7 +154,7 @@ export default function ApplicationsAnalyzeView() {
     bind: [dataSourceMatrixParameter, hiddenCallsMatrixParameter, fastQueryModeEnabledMatrixParameter],
     replaceHistory: false
   });
-  const { trackUa2FastQueryModeChanged } = useApplicationTracker();
+  const { trackUa2FastQueryModeChanged } = useAnalyzeTracker();
   const location = useLocation();
   const [skipHiddenTagConversion, setSkipHiddenTagConversion] = useState(
     alreadyConvertedAnalyticsWithHiddenTagsLocation(location)

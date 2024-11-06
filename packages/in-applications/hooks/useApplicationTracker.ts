@@ -81,16 +81,6 @@ export interface TrackingFunctions {
   trackApplicationCreationTagRemoved: (payload?: Object) => void;
   trackApplicationCreationBoundaryScopeSelected: (payload?: Object) => void;
   trackApplicationCreationScopeSelected: (payload?: Object) => void;
-  trackUa2MetricAdded: (payload?: Object) => void;
-  trackUa2MetricRemoved: (payload?: Object) => void;
-  trackUa2LoadMore: (payload?: object) => void;
-  trackUa2OrderByChanged: (payload?: object) => void;
-  trackUa2OrderByGroupChanged: (payload?: object) => void;
-  trackUa2FacetedSearchGroupChanged: (payload?: object) => void;
-  trackUa2FacetedSearchGroupRemoved: (payload?: object) => void;
-  trackUa2FacetedSearchFilterOpened: (payload?: object) => void;
-  trackUa2FacetedSearchFilterClosed: (payload?: object) => void;
-  trackUa2FacetedSearchFilterAdded: (payload?: object) => void;
 }
 
 export const useApplicationTracker = (): TrackingFunctions => {

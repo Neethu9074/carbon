@@ -61,7 +61,7 @@ export default function TimeFixatingAnalyzeStateManagement(props) {
 
   // Ensure that we only ever receive the tag catalog once (per time config).
   const getTagCatalog = useMemo(() => getTagCatalogOnce(props.getTagCatalog), [props.getTagCatalog]);
-  const { trackUa2FacetsChanged, trackUa2FormModelChanged } = useApplicationTracker();
+  const { trackUa2FacetsChanged, trackUa2FormModelChanged } = useAnalyzeTracker();
   return (
     <FixatedTimeConfigContextModification>
       {({ refresh }) => (
