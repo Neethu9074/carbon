@@ -35,6 +35,7 @@ interface LoggingQueryBuilderWorkspaceProps extends StateManagementChildProps {
   children: React.ReactNode;
   validationError?: string;
 }
+type FilterAddedTrackingPayload = { dataSource: string; tagName: string; tagFilter?: TagFilter };
 export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderWorkspaceProps) {
   const {
     formModel,
@@ -50,7 +51,6 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
     groupBy
   } = props;
   const { trackUa2QueryBuilderFilterAdded, trackUa2NestingDepth, trackUa2GroupChanged } = useAnalyzeTracker();
-  type FilterAddedTrackingPayload = { dataSource: string; tagName: string; tagFilter?: TagFilter };
   const tracking: QueryBuilderTrackingFunctions = {
     onTagAdded: tagFilter => {
       const tagName = (tagFilter as TagFilter).name;

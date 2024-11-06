@@ -8,7 +8,6 @@ import React, { useEffect, useState } from 'react';
 import { Stack, Checkbox } from '@instana/components';
 
 import FacetedExpandableCard from 'in-components/AnalyzeView/FacetedFilters/FacetedExpandableCard';
-import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import Tooltip from 'in-components/Tooltip';
