@@ -14,6 +14,8 @@ module.exports = {
   bizopsStandardInclusionEnabled: true,
   bizopsRbacLimitedEnabled: true,
   bizopsProcessFlowMapEnabled: true,
+  bizopsProcessStackEnabled: true,
+  bizopsActivityStackEnabled: false,
   containerInfoEnabled: true,
   entityCountWidgetEnabled: true,
   infraMetricsWidgetEnabled: true,

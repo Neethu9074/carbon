@@ -223,6 +223,8 @@ export const bizopsGenAIEnabled = isFeatureFlagEnabled('bizopsGenAIEnabled');
 export const bizopsStandardInclusionEnabled = isFeatureFlagEnabled('bizopsStandardInclusionEnabled');
 export const bizopsRbacLimitedEnabled = isFeatureFlagEnabled('bizopsRbacLimitedEnabled');
 export const bizopsProcessFlowMapEnabled = isFeatureFlagEnabled('bizopsProcessFlowMapEnabled');
+export const bizopsProcessStackEnabled = isFeatureFlagEnabled('bizopsProcessStackEnabled');
+export const bizopsActivityStackEnabled = isFeatureFlagEnabled('bizopsActivityStackEnabled');
 
 // ########################################################################################
 // Chart gap hiding
