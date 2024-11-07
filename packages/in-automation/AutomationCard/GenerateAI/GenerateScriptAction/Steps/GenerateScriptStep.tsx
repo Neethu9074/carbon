@@ -51,7 +51,7 @@ function EmptySection() {
         </Typography>
       </div>
       <NoDataAvailable
-        height={450}
+        height={400}
         className={locals.noResults}
         title={t('in-automation:GenerateAIActionDialog.noResultsYet')}
         // @ts-expect-error
