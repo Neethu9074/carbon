@@ -25,6 +25,8 @@ import {
 } from './utils';
 import { EVENT_AI_SHOW_MORE, EVENT_AI_SHARE_OPENED } from 'in-services/tracking/eventNames';
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
+import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { TYPE_NOTE, TYPE_EXT_NOTE, TYPE_EXT_F_CHANGE, TYPE_AI_SUMMARY } from '../utils';
 import { dateFormat, timeFormat } from 'in-services/formatters/date';
 import { user } from 'in-stores/user';
@@ -40,7 +42,8 @@ export function CommentList({
   setEditNoteId,
   setNeedOverlay,
   setShareOpen,
-  setSummaryData
+  setSummaryData,
+  event
 }) {
   // This adds in the scroll wheel event listener to determine the percentage
   // of the scroll height so we know if we need to collapse and expand the quick actions
@@ -132,6 +135,7 @@ export function CommentList({
                 setNote={setNote}
                 setShareOpen={setShareOpen}
                 setSummaryData={setSummaryData}
+                event={event}
               />
             </div>
           );
@@ -152,7 +156,8 @@ export function ChatBubble({
   setEditNoteId,
   setNeedOverlay,
   setShareOpen,
-  setSummaryData
+  setSummaryData,
+  event
 }) {
   const [showAll, setShowAll] = useState(false);
   // Currently we have 4 types of bubbles
@@ -237,7 +242,7 @@ export function ChatBubble({
               <div style={{ display: 'flex', gap: '.5rem' }} className={locals.bubbleContentsHeader}>
                 {'Actions taken for similar incidents:'}
               </div>
-              <ActionEntry actionList={actionHistory.actionHistory} />
+              <ActionEntry actionList={actionHistory.actionHistory} event={event}/>
             </div>
 
             <div style={{ display: 'flex', paddingTop: '.5rem' }}>
@@ -325,7 +330,7 @@ function SummaryEntry({ summaryList }) {
       {summaryList.map(entity => {
         return (
           <div key={entity.label} className={locals.summaryList}>
-            {`- `}
+            {`-`}
             <div>
               <div style={{ fontWeight: '700' }}>{entity.label}</div>
               {entity.summary}
@@ -338,17 +343,47 @@ function SummaryEntry({ summaryList }) {
 }
 
 // Function to reduce duplicate code for looping through action history bullet points
-function ActionEntry({ actionList }) {
+function ActionEntry({ actionList, event }) {
+
+  const testAction = {
+    'createdAt': 1710635670.462481,
+    'id': "33038086-1b14-3a25-8588-0f9e48943f17",
+    'modifiedAt': 1730981279.138593,
+    'name': "Get iNodes Usage Info on host",
+    'type': "ANSIBLE",
+    'fields': [
+      {'name': 'playbookId','description': 'The playbook ID', 'encoding': 'ascii', 'value': '45', 'secured': false},
+      {'name': 'playbookFileName', 'description': 'The playbook filename', 'encoding': 'ascii', 'value': 'ansible/host/hostiNodesDebug.yaml', 'secured': false},
+      {'name': 'ansibleUrl', 'description': 'The ansible url', 'encoding': 'ascii', 'value': 'https://9.66.244.190', 'secured': false},
+      {'name': 'ansibleUrl', 'description': 'The ansible url', 'encoding': 'ascii', 'value': 'https://9.66.244.190', 'secured': false}
+    ],
+    'metadata': {'readOnly': false, 'builtIn': false, 'sensorImported': true, 'aiOriginated': false, 'ai': null}
+  }
   return (
     <>
       {actionList.map(entity => {
         return (
           <div key={entity.name} className={locals.summaryList}>
-            {`- `}
+            {`-`}
             <div>
-              <div style={{ fontWeight: '700' }}>{`${entity.name}`}</div>
+              <div style={{ fontWeight: '700' }}>
+                {`${entity.name}`}
+              </div>
               {`type: ${entity.type}`}
             </div>
+            <CarbonIconButton
+              kind={'ghost'}
+              size={'sm'}
+              align={'left'}
+              label={t('in-automation:ActionCatalog.run')}
+              onClick={() => {
+                addActiveDialog(
+                  <RunActionDialog action={testAction} /*executePolicy={policy}*/ volatileId={{}} event={Object.fromEntries(event)} />
+                );
+              }}
+            >
+              <SvgIcon type="lib_actions_play" size="xs" />
+            </CarbonIconButton>
           </div>
         );
       })}

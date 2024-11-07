@@ -96,6 +96,10 @@
   .summaryList {
     display: flex;
     gap: 1rem;
+
+    :global(.cds--popover-container) {
+      margin-left: auto;
+    }
   }
 
   .wordWrap {
