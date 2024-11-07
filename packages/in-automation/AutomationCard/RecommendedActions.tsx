@@ -25,8 +25,10 @@ import useNavigateToActionDetails from 'in-automation/navigation/hooks/useNaviga
 import { usePaginatedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
 import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import useHasAccessToManual from 'in-automation/hooks/useHasAccessToManual';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { ScoredAction, TriggerSpecification } from 'in-automation/types';
@@ -55,40 +57,39 @@ const actionColumn: ColumnDefinition<ScoredAction, RecommendedActionsTableProps>
   id: 'action',
   label: '',
   sortable: false,
-  width: 8,
-  getContent(action, { event, trigger }) {
-    // const isManualExternal =
-    //   action?.metadata?.ai &&
-    //   action?.metadata?.ai[0]?.turbonomicActionMode === 'MANUAL' &&
-    //   action.type === ACTION_TYPE.EXTERNAL;
-    // if (isManualExternal) {
-    //   if (!role?.canRunAutomationActions) return null;
-    //   return (
-    //     <Button
-    //       kind="action"
-    //       icon="lib_actions_play"
-    //       onClick={e => {
-    //         stopPropagationAndPreventDefault(e);
-    //         addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
-    //       }}
-    //       noAutoMargin
-    //     >
-    //       {t('in-automation:ActionCatalog.run')}
-    //     </Button>
-    //   );
-    // }
-    if (!role?.canConfigureAutomationPolicies || action.type === ACTION_TYPE.EXTERNAL) return null;
+  width: 17,
+  getContent(action, { volatileId, event, trigger }) {
+    if (!role?.canRunAutomationActions && !role?.canConfigureAutomationPolicies) return null;
     return (
-      <Tooltip content={t('in-automation:createPolicyWithName', { actionName: action.name })} delay={500}>
-        <IconButton
-          kind="primaryv2"
-          type="lib_openclose_add_circle_outline"
-          onClick={e => {
-            stopPropagationAndPreventDefault(e);
-            addActiveDialog(<CreatePolicyDialog trigger={trigger} action={action} event={event} />);
-          }}
-        />
-      </Tooltip>
+      <HorizontalFlexWrapper>
+        {action.type !== ACTION_TYPE.DOC_LINK && role?.canRunAutomationActions && (
+          <Button
+            kind="action"
+            icon={action.type === ACTION_TYPE.MANUAL ? 'lib_views_show' : 'lib_actions_play'}
+            onClick={e => {
+              stopPropagationAndPreventDefault(e);
+              addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
+            }}
+            noAutoMargin
+          >
+            {action.type === ACTION_TYPE.MANUAL
+              ? t('in-automation:ActionCatalog.view')
+              : t('in-automation:ActionCatalog.run')}
+          </Button>
+        )}
+        {role?.canConfigureAutomationPolicies && (
+          <Tooltip content={t('in-automation:createPolicyWithName', { actionName: action.name })} delay={500}>
+            <IconButton
+              kind="primaryv2"
+              type="lib_openclose_add_circle_outline"
+              onClick={e => {
+                stopPropagationAndPreventDefault(e);
+                addActiveDialog(<CreatePolicyDialog trigger={trigger} action={action} event={event} />);
+              }}
+            />
+          </Tooltip>
+        )}
+      </HorizontalFlexWrapper>
     );
   }
 };

@@ -18,6 +18,7 @@
   "triggeringAgent": "{{hostname}} (triggering agent)",
   "targetAgentDescription": "An Agent encapsulates 1..* Sensors, who in turn are able to raise Events to the Instana backend. A triggering Agent contains the Sensor that raised this particular Event.",
   "chosenToRun": "You have chosen to run {{actionName}} from your Action Catalog.",
+  "chosenToRunRecActions": "You have chosen to run {{actionName}} from your recommended actions.",
   "viewManualAction": "View Manual Action {{actionName}}",
   "chosenToTest": "You have chosen to test {{actionName}} from your Action Catalog.",
   "failedToInitiate": "{{actionName}} failed to initiate.",

@@ -54,7 +54,7 @@ export const descriptionColumn: ColumnDefinition<Action | ScoredAction> = {
 export const aiEngineColumn: ColumnDefinition<ScoredAction> = {
   label: t('in-automation:aiEngine'),
   id: 'engine',
-  width: 15,
+  width: 8,
   getContent(action) {
     return (
       <Typography variant="body-regular">
@@ -67,7 +67,7 @@ export const aiEngineColumn: ColumnDefinition<ScoredAction> = {
 export const scoreColumn: ColumnDefinition<ScoredAction> = {
   label: t('in-automation:ActionCatalog.confidenceTitle'),
   id: 'score',
-  width: 10,
+  width: 8,
   sortable: true,
   getContent(action) {
     return (
