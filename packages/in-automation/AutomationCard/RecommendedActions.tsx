@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { Button, IconButton, Spacer, Stack, Typography } from '@instana/components';
+import { Button, IconButton, Spacer, Stack, Typography, Link, SvgIcon } from '@instana/components';
 import { Event, Result, VolatileId } from '@instana/types';
 
 import {
@@ -33,6 +33,7 @@ import useHasAccessToManual from 'in-automation/hooks/useHasAccessToManual';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { ScoredAction, TriggerSpecification } from 'in-automation/types';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
+import { getDocLinkFromFields } from 'in-automation/utils/actionField';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import { useSegmentTracker } from 'in-automation/tracker';
@@ -62,6 +63,47 @@ const actionColumn: ColumnDefinition<ScoredAction, RecommendedActionsTableProps>
     if (!role?.canRunAutomationActions && !role?.canConfigureAutomationPolicies) return null;
     return (
       <HorizontalFlexWrapper>
+        {/*
+if (type === ACTION_TYPE.DOC_LINK) {
+    const value = getDocLinkFromFields(fields).value;
+    return (
+      <Link
+        target="_blank"
+        onClick={e => {
+          e.stopPropagation();
+          runActionTrackerSegment({
+            actionName: action.name,
+            actionType: action.type,
+            policyName: policy.name,
+            policyType: 'manual',
+            aiOriginated: false
+          });
+        }}
+        href={value}
+      >
+        {t('in-automation:ActionCatalog.launch')}{' '}
+        <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />
+      </Link>
+    );
+  }*/}
+        {action.type === ACTION_TYPE.DOC_LINK && (
+          <Link
+            target="_blank"
+            onClick={e => {
+              e.stopPropagation();
+              // runActionTrackerSegment({
+              //   actionName: action.name,
+              //   actionType: action.type,
+              //   policyType: 'manual',
+              //   aiOriginated: false
+              // });
+            }}
+            href={getDocLinkFromFields(action.fields).value}
+          >
+            {t('in-automation:ActionCatalog.launch')}{' '}
+            <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />
+          </Link>
+        )}
         {action.type !== ACTION_TYPE.DOC_LINK && role?.canRunAutomationActions && (
           <Button
             kind="action"
