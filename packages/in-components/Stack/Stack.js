@@ -11,7 +11,9 @@ import {
   getStackForInfrastructure,
   getStackForApplication,
   getStackForService,
-  getStackForEndpoint
+  getStackForEndpoint,
+  getStackForBusinessProcess,
+  getStackForBusinessActivity
 } from 'in-components/Stack/subscriptions/getStack';
 import {
   useLinkToApplicationDashboard,
@@ -37,6 +39,10 @@ export function getStackResult({ id, applicationId, timeConfig, productArea }) {
       return getStackForService({ id, applicationId, timeConfig });
     case 'endpoint':
       return getStackForEndpoint({ id, applicationId, timeConfig });
+    case 'businessProcess':
+      return getStackForBusinessProcess({ id, timeConfig });
+    case 'businessActivity':
+      return getStackForBusinessActivity({ id, applicationId, timeConfig });
     default:
       return getStackForInfrastructure({ id, timeConfig });
   }

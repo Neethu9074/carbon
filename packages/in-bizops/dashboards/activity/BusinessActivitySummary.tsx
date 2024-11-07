@@ -21,9 +21,12 @@ import DashboardHeader, {
 } from 'in-components/DashboardHeader/DashboardHeader';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
+// @ts-expect-error needs TS migration
+import StackButton from 'in-components/Stack/StackButton';
 import { bizopsTabClick, bizopsBreadcrumbClick } from 'in-bizops/tracker';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { bizopsActivityStackEnabled } from 'in-services/featureFlags';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -99,6 +102,9 @@ export default function BusinessActivitySummary() {
       getMatrixParameter(location, businessActivityPath, 'activityName') ??
       t('in-bizops:dashboards.activity.pageTitle');
 
+    const businessActivityId: string =
+      getMatrixParameter(location, businessActivityPath, 'activityId') ?? t('in-bizops:dashboards.summary.pageTitle');
+
     return (
       <>
         <ApplicationEntityHealthIndicatorBehavior
@@ -106,6 +112,16 @@ export default function BusinessActivitySummary() {
           serviceId={serviceId}
           timeConfig={timeConfig}
         />
+        {bizopsActivityStackEnabled && (
+          <StackButton
+            id={businessActivityId}
+            applicationId={businessProcessId}
+            timeConfig={timeConfig}
+            productArea={'businessActivity'}
+            className={locals.leftButton}
+            noAutoMargin
+          />
+        )}
         <AnalyzeButton
           businessProcessId={businessProcessId}
           businessProcessName={businessProcessName}

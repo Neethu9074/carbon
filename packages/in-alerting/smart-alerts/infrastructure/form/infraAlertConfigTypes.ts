@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { InfraAlertRuleUnion, RuleWithThreshold, ThresholdConfigUnion } from '@instana/types/typeDefinitions';
+import { InfraAlertRuleUnion, RuleWithThreshold, Severity, ThresholdConfigUnion } from '@instana/types/typeDefinitions';
 import { InfraAlertConfigWithMetadata } from '@instana/types';
 
 import { InfraAlertConfig } from 'in-types';
@@ -14,6 +14,8 @@ export interface InfraSmartAlertConfig extends InfraAlertConfig {
   rules: RuleWithThreshold<InfraAlertRuleUnion>[];
   severity: number;
   threshold: ThresholdConfigUnion;
+  alertChannelIds: string[];
+  alertChannels: { [P in Severity]?: string[] };
 }
 
 export interface InfraSmartAlertConfigWithMetadata extends InfraAlertConfigWithMetadata {
@@ -21,4 +23,6 @@ export interface InfraSmartAlertConfigWithMetadata extends InfraAlertConfigWithM
   rules: RuleWithThreshold<InfraAlertRuleUnion>[];
   severity: number;
   threshold: ThresholdConfigUnion;
+  alertChannelIds: string[];
+  alertChannels: { [P in Severity]?: string[] };
 }

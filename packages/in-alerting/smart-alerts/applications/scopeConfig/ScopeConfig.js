@@ -65,8 +65,7 @@ export default function ScopeConfig({
   const includeSynthetic = form.get('includeSynthetic').value;
   const isBuiltIn = form.get('builtIn').value;
   const alertType = form.get('rule').get('alertType').value;
-  const thresholdType = form.get('threshold').get('type').value;
-
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const [searchQuery, setSearchQuery] = useState('');
   const [searchType, setSearchType] = useState(isGlobalSmartAlert ? 'APPLICATION' : 'SERVICE');
   const [filterBySelectionState, setFilterBySelectionState] = useState(Boolean(editMode));

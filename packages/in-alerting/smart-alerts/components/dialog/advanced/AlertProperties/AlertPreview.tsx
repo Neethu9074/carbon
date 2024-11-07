@@ -16,7 +16,7 @@ import locals from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPro
 interface AlertPreviewProps {
   form: MapForm<any>;
   renderHeadline: () => ReactNode;
-  getDescriptionPlaceholder: (form: MapForm<any>) => string;
+  getDescriptionPlaceholder: (form: MapForm<any>, severity?: number) => string;
   entityLabel?: string;
   entityIconType: string;
   entityLabel2?: string;
@@ -86,7 +86,10 @@ export function AlertPreview({
             </span>
           )}
         </p>
-        <p>{description || getDescriptionPlaceholder(form)}</p>
+        <p>
+          {description ||
+            (isMultiThreshold ? getDescriptionPlaceholder(form, severity) : getDescriptionPlaceholder(form))}
+        </p>
       </div>
     </div>
   );

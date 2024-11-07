@@ -32,5 +32,6 @@ addMessage({
   title: 'Some very very very long title, for testing purpose.',
   content: 'this is also a very very very long content, for testing purpose.'
 });
+addMessage({ type: 'success', title: 'Successful', content: 'Action was successful' });
 
 export const MessagesWithFlyout = {};

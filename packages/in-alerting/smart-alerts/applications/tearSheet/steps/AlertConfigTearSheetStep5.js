@@ -26,7 +26,6 @@ import locals from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertC
 export default function AlertConfigTearSheetStep5({ form, updateForm, onChange, applicationLabel }) {
   const evaluationType = form.get('evaluationType').value;
   const description = form.get('description').value;
-  const severity = Number(form.get('severity').value);
   const triggering = form.get('triggering').value;
   const boundaryScope = form.get('boundaryScope')?.value || 'ALL';
   const applications = form.get('applications')?.value || {};
@@ -54,6 +53,7 @@ export default function AlertConfigTearSheetStep5({ form, updateForm, onChange, 
                 />
               )}
               isTearSheet
+              shouldDisplayAlertLevelSelection={false}
             />
           )}
           renderAlertPreview={() => (
@@ -66,7 +66,6 @@ export default function AlertConfigTearSheetStep5({ form, updateForm, onChange, 
                 description={description}
                 applicationLabel={applicationLabel}
                 evaluationType={evaluationType}
-                severity={severity}
                 triggering={triggering}
                 isTearSheet
               />

@@ -30,7 +30,7 @@ export default connectTo(
           <Breadcrumb
             href={getNutanixDatacenterDashboard(datacenter.id)}
             label={t('in-nutanix:breadcrumbs.nutanixDatacenter')}
-            icon="lib_nutanix_datacenter"
+            icon="lib_nutanix"
           >
             {datacenter.label}
           </Breadcrumb>

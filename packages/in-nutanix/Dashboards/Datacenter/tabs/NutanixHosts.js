@@ -86,7 +86,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'memTotal',
+    id: 'noOfDisks',
     label: t('in-nutanix:dashboards.noOfDisks'),
     sortable: true,
     getContent(item) {

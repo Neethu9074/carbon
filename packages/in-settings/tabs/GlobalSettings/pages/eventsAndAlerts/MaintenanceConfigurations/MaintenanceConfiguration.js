@@ -24,7 +24,6 @@ import {
 import MaintenanceConfigurationForm from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurationForm';
 import { maintenanceWindowCTATracker } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/tracker';
 import { applicationIdsToDfq, parseQuery } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/shared';
-import { cancelMaintenanceWindowTracker, submitMaintenanceWindowTracker } from 'in-settings/tracker.ts';
 import { globalSettingsAlertingMaintenanceConfigurations } from 'in-settings/navigation/paths';
 import { formatTime, formatDate, parseDateTime } from 'in-services/formatters/date';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -107,7 +106,6 @@ const Form = entityForm(function MaintenanceForm(props) {
         isCreate={isCreate}
         listPath={globalSettingsAlertingMaintenanceConfigurations}
         onClickCancelButton={() => {
-          cancelMaintenanceWindowTracker();
           maintenanceWindowCTATracker(
             SETTINGS_MAINTENANCE_WINDOW_CANCEL,
             globalSettingsAlertingMaintenanceConfigurations
@@ -127,15 +125,6 @@ function save(config, form, isNew) {
   // the query field might not exist in case 'Apply on ALL' is selected,
   // which corresponds to an empty query
   const query = getQueryFromFormField(form);
-
-  submitMaintenanceWindowTracker({
-    isNew,
-    windowStart: windowStart || null,
-    windowEnd: windowEnd || null,
-    query,
-    mwID: config ? config.get('id') : null,
-    name: form && form.get('name') && form.get('name').value ? form.get('name').value : null
-  }); //Mixpanel tracking
 
   //maintenanceWindowObjectModification(isNew ? CREATED_OBJECT : UPDATED_OBJECT, location.pathname, 'legacy');
   maintenanceWindowCTATracker(

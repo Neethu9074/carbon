@@ -20,11 +20,11 @@ import {
 } from '@instana/components';
 
 import {
-  logManagementDeleteLogsClickedTracker,
-  logManagementDeleteLogsErrorTracker,
-  logManagementDeleteLogsSubmittedTracker,
-  logManagementDeleteLogsSuccessTracker
-} from 'in-settings/tracker';
+  SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_CLICKED,
+  SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUBMITTED,
+  SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUCCESS,
+  SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_ERROR
+} from 'in-services/tracking/tracking';
 import { deleteLogsLocalisationStrings } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
 // eslint-disable-next-line no-restricted-imports
 import { analyzeDocs } from 'in-analyze/components/AnalyzeHeader/constants';
@@ -33,12 +33,12 @@ import { deleteLogs, DeleteLogsRequest } from 'in-settings/tabs/GlobalSettings/p
 import useDeleteLogsForm from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/useDeleteLogsForm';
 import { DeletionTable } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeletionTable';
 import { NotificationState } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/types';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import TimePicker from 'in-components/form/TimePicker/TimePicker';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { carbonTableEnabled } from 'in-services/featureFlags';
 import { parseDateTime } from 'in-services/formatters/date';
-import { emptyObject } from 'in-services/fixedObjects';
 import Title from 'in-components/Title/Title';
 import Label from 'in-components/form/Label';
 import { user } from 'in-stores/user';
@@ -49,8 +49,9 @@ export default function DeleteLogs() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [retryCount, setRetryCount] = useState(0);
+  const { trackCta } = useSegmentTracking();
   const openConfirmationDialog = () => {
-    logManagementDeleteLogsClickedTracker(emptyObject);
+    trackCta(SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_CLICKED);
     setShowConfirmation(true);
   };
 
@@ -132,6 +133,7 @@ function DeleteLogsModal({
     resetForm,
     touchForm
   } = useDeleteLogsForm();
+  const { trackCta } = useSegmentTracking();
 
   const isDeleteDisabled = !canSubmit || isDeleting;
 
@@ -155,7 +157,7 @@ function DeleteLogsModal({
     entity.retryCount = retryCount;
     entity.upToTimeDateFormat = `${dateInputValue} ${timeInputValue}`;
     setIsDeleting(true);
-    logManagementDeleteLogsSubmittedTracker(entity);
+    trackCta(SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUBMITTED, entity);
     setNotification({ show: false });
     resetForm();
 
@@ -164,7 +166,7 @@ function DeleteLogsModal({
       entity.status = data.statusText;
       setNotification({ show: true, variant: 'success' });
       setIsDeleting(false);
-      logManagementDeleteLogsSuccessTracker(entity);
+      trackCta(SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUCCESS, entity);
       addMessage(
         {
           type: 'info',
@@ -195,7 +197,7 @@ function DeleteLogsModal({
         ? deleteLogsLocalisationStrings.warning
         : deleteLogsLocalisationStrings.toastErrorTitle;
 
-      logManagementDeleteLogsErrorTracker(entity);
+      trackCta(SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_ERROR, entity);
       setRetryCount(retryCount => retryCount + 1);
       setNotification({ show: true, variant: isNoLogsWarning ? 'warning' : 'error' });
       setIsDeleting(false);

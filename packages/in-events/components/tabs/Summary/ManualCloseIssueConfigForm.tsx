@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { MapForm, createMapForm, createField, notBlankValidator } from 'formalistic';
+import { MapForm, createMapForm, createField, notBlankValidator, Field } from 'formalistic';
 import React, { FormEvent, useState } from 'react';
 
-import { Message, Stack, TextArea, Typography } from '@instana/components';
+import { Message, Stack, TextArea, Typography, Toggle, Tooltip, SvgIcon } from '@instana/components';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
@@ -14,6 +14,7 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { ManualCloseInfoForm, manuallyCloseIssue } from 'in-events/api';
+import { disableEventConfigEnabled } from 'in-services/featureFlags';
 import { Error, ErrorCode, ManualCloseInfo } from 'in-types';
 import { close } from 'in-components/DialogPresenter/store';
 import { toHtml } from 'in-services/formatters/markdown';
@@ -46,6 +47,8 @@ export default function ManualCloseIssueConfigForm({
   const [error, setError] = useState<Error[]>([]);
 
   const eventId = event.get('id') as string;
+
+  const canSuppressAlertAndDisableEvent = disableEventConfigEnabled && user?.role?.canConfigureEventsAndAlerts;
 
   if (!form) return <LoadingIndicator size="regular" />;
 
@@ -124,10 +127,54 @@ export default function ManualCloseIssueConfigForm({
             </Stack>
 
             <Message type="warning" className={locals.warningBox} withIcon>
-              {eventType === 'incident'
-                ? t('in-events:closeEventDialog.warningIncident')
-                : t('in-events:closeEventDialog.warningIssue')}
+              {t('in-events:closeEventDialog.warning')}
             </Message>
+
+            {canSuppressAlertAndDisableEvent && (
+              <Stack gap="xxsmall">
+                <Stack direction="horizontal" gap="xxsmall" align="center">
+                  <Typography variant="body-small">{t('in-events:closeEventDialog.suppressAlerts')}</Typography>
+                  <Tooltip
+                    content={
+                      eventType === 'incident'
+                        ? t('in-events:closeEventDialog.suppressAlertsIncidentTooltip')
+                        : t('in-events:closeEventDialog.suppressAlertsIssueTooltip')
+                    }
+                  >
+                    <SvgIcon type="lib_help_error_info_outline" size="xs" />
+                  </Tooltip>
+                </Stack>
+
+                <Toggle
+                  id="mute-alerts"
+                  name="mute-alerts"
+                  checked={form.get('muteAlerts').value}
+                  onToggle={checked => setValue(form, ['muteAlerts'], checked)}
+                  labelA={t('in-events:closeEventDialog.labelOff')}
+                  labelB={t('in-events:closeEventDialog.labelOn')}
+                />
+
+                <Stack direction="horizontal" gap="xxsmall" align="center">
+                  <Typography variant="body-small">
+                    {eventType === 'incident'
+                      ? t('in-events:closeEventDialog.disableIncident')
+                      : t('in-events:closeEventDialog.disableIssue')}
+                  </Typography>
+                  <Tooltip content={t('in-events:closeEventDialog.disableEventsTooltip')}>
+                    <SvgIcon type="lib_help_error_info_outline" size="xs" />
+                  </Tooltip>
+                </Stack>
+
+                <Toggle
+                  id="disable-event-config"
+                  name="disable-event-config"
+                  checked={form.get('disableEvent').value}
+                  onToggle={checked => setValue(form, ['disableEvent'], checked)}
+                  labelA={t('in-events:closeEventDialog.labelOff')}
+                  labelB={t('in-events:closeEventDialog.labelOn')}
+                />
+              </Stack>
+            )}
           </Stack>
         </div>
       </DialogWithSlideInView>
@@ -138,7 +185,9 @@ export default function ManualCloseIssueConfigForm({
 function createForm(): MapForm<ManualCloseInfoForm> {
   return createMapForm<ManualCloseInfoForm>({
     items: {
-      reasonForClosing: createField({ value: '', validator: notBlankValidator })
+      reasonForClosing: createField({ value: '', validator: notBlankValidator }),
+      muteAlerts: createField({ value: false }),
+      disableEvent: createField({ value: false })
     }
   });
 }
@@ -151,13 +200,15 @@ function save(
 ) {
   const closeTimestamp = Date.now();
   const reasonForClosing = form.get('reasonForClosing').value;
+  const muteAlerts = form.get('muteAlerts').value;
+  const disableEvent = form.get('disableEvent').value;
   //@ts-expect-error
   const username = user?.email || user?.fullName || user?.id;
 
   const config: ManualCloseInfo = {
     closeTimestamp,
-    muteAlerts: false,
-    disableEvent: false,
+    muteAlerts,
+    disableEvent,
     reasonForClosing,
     username
   };

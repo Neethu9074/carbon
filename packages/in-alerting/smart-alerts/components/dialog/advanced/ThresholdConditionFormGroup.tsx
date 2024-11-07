@@ -21,6 +21,7 @@ interface ThresholdConditionFormGroupPros {
   hasWhiteBackground?: boolean;
   isTearSheet?: boolean;
   showLabel?: boolean;
+  isMultiThreshold?: boolean;
 }
 export default function ThresholdConditionFormGroup({
   children,
@@ -29,7 +30,8 @@ export default function ThresholdConditionFormGroup({
   shouldIncreaseColumns = false,
   hasWhiteBackground = false,
   isTearSheet = false,
-  showLabel = true
+  showLabel = true,
+  isMultiThreshold = false
 }: ThresholdConditionFormGroupPros) {
   return (
     <div
@@ -43,7 +45,10 @@ export default function ThresholdConditionFormGroup({
       {!isTearSheet && <SvgIcon className={locals.icon} type={iconType} />}
       {showLabel && (
         <span className={classNames({ [locals.label]: true, [locals.tearSheetLabel]: isTearSheet })}>
-          {isTearSheet ? <AlertTypography variant="body-regular" color="color900" content={label} /> : label}
+          {isTearSheet && !isMultiThreshold && (
+            <AlertTypography variant="body-regular" color="color900" content={label} />
+          )}
+          {!isTearSheet && label}
         </span>
       )}
       <div

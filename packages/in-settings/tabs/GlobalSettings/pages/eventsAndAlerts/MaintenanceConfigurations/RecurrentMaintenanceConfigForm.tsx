@@ -30,14 +30,6 @@ import {
   SETTINGS_MAINTENANCE_WINDOW_SUBMIT
 } from 'in-services/tracking/eventNames';
 import {
-  advancedModeMaintenanceWindowTracker,
-  cancelMaintenanceWindowTracker,
-  nextStepOneMaintenanceWindowTracker,
-  nextStepTwoMaintenanceWindowTracker,
-  simpleModeMaintenanceWindowTracker,
-  submitMaintenanceWindowTracker
-} from 'in-settings/tracker';
-import {
   createMaintenanceConfigV2,
   createMaintenanceWindowV2,
   getMaintenanceConfigV2,
@@ -242,14 +234,12 @@ function RecurrentMaintenanceForm({
                       location.pathname,
                       form.get('id').value
                     );
-                    nextStepOneMaintenanceWindowTracker({ id: form.get('id') });
                   } else {
                     maintenanceWindowCTATracker(
                       SETTINGS_MAINTENANCE_WINDOW_NEXT_STEP_TWO,
                       location.pathname,
                       form.get('id').value
                     );
-                    nextStepTwoMaintenanceWindowTracker({ id: form.get('id') });
                   }
                   setStep(step + 1);
                 }}
@@ -278,7 +268,6 @@ function RecurrentMaintenanceForm({
       primaryActionText={isCreate ? t('in-components:blueprintFormMultistep.buttonCreate') : t('in-settings:tabs.save')}
       primaryActionDisabled={!form.hierarchyValid || validateStep(form, stepConfigs, step)}
       onSecondaryActionClick={() => {
-        cancelMaintenanceWindowTracker({});
         maintenanceWindowCTATracker(SETTINGS_MAINTENANCE_WINDOW_CANCEL, location.pathname);
         onClose();
       }}
@@ -297,7 +286,6 @@ function RecurrentMaintenanceForm({
         doNotCloseOnOutsideClick
         onSlideInViewTitleClick={() => setSlideInViewVisible(!slideInViewVisible)}
         onClose={() => {
-          cancelMaintenanceWindowTracker({});
           maintenanceWindowCTATracker(SETTINGS_MAINTENANCE_WINDOW_CANCEL, location.pathname);
           onClose();
         }}
@@ -306,10 +294,8 @@ function RecurrentMaintenanceForm({
             onClick={() => {
               const newMode = !simpleMode;
               if (simpleMode) {
-                advancedModeMaintenanceWindowTracker({});
                 maintenanceWindowCTATracker(SETTINGS_MAINTENANCE_WINDOW_ADVANCED, location.pathname);
               } else {
-                simpleModeMaintenanceWindowTracker({});
                 maintenanceWindowCTATracker(SETTINGS_MAINTENANCE_WINDOW_SIMPLE, location.pathname);
               }
               setSimpleMode(newMode);
@@ -491,8 +477,6 @@ function save(
     schedulingRRule: scheduling.type == 'RECURRENT' ? scheduling.rrule : '',
     schedulingTimezoneId: scheduling.type == 'RECURRENT' ? scheduling.timezoneId : ''
   };
-
-  submitMaintenanceWindowTracker(instrumentationEventProperties);
 
   //maintenanceWindowObjectModification(isNew ? CREATED_OBJECT : UPDATED_OBJECT, location.pathname, scheduling.type);
   maintenanceWindowCTATracker(

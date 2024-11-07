@@ -10,8 +10,8 @@ import { useObservable } from '@instana/hooks';
 import { empty } from '@instana/observables';
 
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
+import { updateMultiThresholdInForm } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { isValidChartViewEntitySelection } from 'in-alerting/smart-alerts/applications/form/formUtils';
-import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
@@ -29,12 +29,12 @@ export function useThresholdSuggestion(form, updateForm, setThresholdResult, con
     if (!thresholdResult || thresholdResult.progress?.loading) return;
 
     setThresholdResult(thresholdResult);
-    const { data, errors, time } = thresholdResult;
+    const { data, errors } = thresholdResult;
 
-    const isAdaptiveBaseline = alertConfigWithFormModel.threshold.type === ADAPTIVE_BASELINE;
+    const isAdaptiveBaseline = alertConfigWithFormModel.threshold.warningThreshold.type === ADAPTIVE_BASELINE;
 
     if ((!isGlobalSmartAlert || isAdaptiveBaseline) && isValid) {
-      updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode);
+      updateMultiThresholdInForm(createThresholdForm, form, updateForm, data, errors, simpleMode);
     }
 
     if (isGlobalSmartAlert && !isAdaptiveBaseline) {
@@ -45,9 +45,7 @@ export function useThresholdSuggestion(form, updateForm, setThresholdResult, con
 }
 
 function isValidEntitySelection(alertConfigWithFormModel) {
-  const {
-    threshold: { type }
-  } = alertConfigWithFormModel;
+  const type = alertConfigWithFormModel.threshold.warningThreshold.type;
 
   if (type !== ADAPTIVE_BASELINE) {
     return true;
@@ -73,7 +71,7 @@ function resolveThresholdRequest(alertConfigWithFormModel, isGlobalSmartAlert, b
   const {
     rule: { metricName },
     rule,
-    threshold: { operator, seasonality = null, type },
+    threshold,
     includeInternal,
     includeSynthetic,
     granularity,
@@ -97,11 +95,12 @@ function resolveThresholdRequest(alertConfigWithFormModel, isGlobalSmartAlert, b
     }
     // In simple mode, user does not have a choice to change threshold type, so we set it to HISTORIC_BASELINE for
     // blueprint where baseline is enabled and here we need to select DAILY seasonality as default!
-    return isSimpleMode ? DAILY : seasonality;
+    return isSimpleMode ? DAILY : threshold.warningThreshold?.seasonality || threshold.criticalThreshold?.seasonality;
   };
 
   const thresholdSuggestionRequest = blueprintConfig.getThresholdSuggestionRequest(metricName);
-
+  const operator = threshold.operator;
+  const type = threshold.warningThreshold?.type || threshold.criticalThreshold?.type;
   return thresholdSuggestionRequest({
     tagFilterExpression: toBackendQueryModel(enrichedTagFilterFormModel),
     includeInternal,
@@ -121,7 +120,7 @@ function resolveThresholdRequest(alertConfigWithFormModel, isGlobalSmartAlert, b
 }
 
 function getEnrichedTagFilterFormModel(isGlobalSmartAlert, alertConfigWithFormModel, blueprintConfig) {
-  const isAdaptiveBaseline = alertConfigWithFormModel.threshold.type === ADAPTIVE_BASELINE;
+  const isAdaptiveBaseline = alertConfigWithFormModel.threshold.warningThreshold.type === ADAPTIVE_BASELINE;
 
   if (isAdaptiveBaseline) {
     const { applicationId, serviceId, endpointId } = alertConfigWithFormModel.hiddenFields.chartViewEntitySelection;

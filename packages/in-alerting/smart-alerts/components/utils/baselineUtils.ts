@@ -10,7 +10,9 @@ import {
   Nullish,
   Result,
   Severity,
-  ThresholdConfig
+  RuleWithThreshold,
+  ApplicationAlertRuleUnion,
+  AdaptiveBaselineConfig
 } from 'in-types';
 import { hasError, isLoading } from 'in-services/util/result';
 import { FixedTimeConfig } from 'in-stores/time/config';
@@ -65,10 +67,13 @@ export function getAdaptiveBaselineValue(
 }
 
 export function getApproximatedAdaptiveBaselineThresholdValue(
-  threshold: ThresholdConfig,
-  adaptiveBaselineInfo: Record<string, number>
+  threshold: RuleWithThreshold<ApplicationAlertRuleUnion> | AdaptiveBaselineConfig,
+  adaptiveBaselineInfo: Record<string, number>,
+  isMultiThreshold?: Boolean
 ) {
-  const { operator } = threshold;
+  const operator = isMultiThreshold
+    ? (threshold as RuleWithThreshold<ApplicationAlertRuleUnion>).thresholdOperator
+    : (threshold as AdaptiveBaselineConfig).operator;
   const isGreaterOp = operator === '>=' || operator === '>';
   const baselineValues = Object.values(adaptiveBaselineInfo);
 
@@ -111,7 +116,7 @@ export function extractBaselineFromResultsOrUseErrorFallback(
   return { baseline };
 }
 
-export const isMultiThresholdEnabled: boolean = false; // Multi-threshold is only available for Applications
+export const isMultiThresholdEnabled: boolean = true; // Multi-threshold is only available for Applications
 
 export const WARNING_SEVERITY: Severity = 'WARNING';
 export const CRITICAL_SEVERITY: Severity = 'CRITICAL';

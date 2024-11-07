@@ -4,13 +4,7 @@
  */
 
 :local {
-  .aggregation {
-    display: inline-flex;
-    align-items: center;
-    font-weight: 400;
-
-    &:hover {
-      cursor: default;
-    }
+  .selected {
+    background: var(--cds-layer-selected);
   }
 }

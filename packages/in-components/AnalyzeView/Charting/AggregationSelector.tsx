@@ -5,9 +5,8 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { CarbonMenuButton as MenuButton, CarbonMenuItem as MenuItem } from '@instana/components';
 
-import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 // @ts-expect-error
 import { aggregationLabels } from 'in-stores/metric';
 import { AggregationType } from 'in-types';
@@ -32,27 +31,32 @@ export type AggregationSelectorProps = {
 };
 
 export default function AggregationSelector({ aggregations, selectedAggregation, onChange }: AggregationSelectorProps) {
+  const onClick = (item: AggregationSelectorOption) => {
+    if (onChange) {
+      onChange(item.value);
+    }
+  };
+
   return (
-    <ComboBoxBehavior
-      options={aggregations}
-      value={selectedAggregation}
-      disableAutomaticOptionSorting
-      onChange={onChange}
-      requiresCustomInteractivity
+    <MenuButton
+      kind="ghost"
+      size="sm"
+      label={aggregationLabels[selectedAggregation]}
       aria-label={t('in-components:chartingConfigurator.labelChangeSelectedAggregation')}
+      menuAlignment="bottom-start"
     >
-      {({ elementProps }) => (
-        <Button
-          {...elementProps}
-          kind="subtle"
-          size="compact"
-          icon="lib_arrow_drop_down"
-          iconSize="xs"
-          className={locals.aggregation}
-        >
-          <span>{aggregationLabels[selectedAggregation]}</span>
-        </Button>
-      )}
-    </ComboBoxBehavior>
+      {aggregations?.length
+        ? aggregations.map(item => {
+            return (
+              <MenuItem
+                key={item.label}
+                label={item.label}
+                onClick={() => onClick(item)}
+                className={item.value === selectedAggregation ? locals.selected : undefined}
+              />
+            );
+          })
+        : null}
+    </MenuButton>
   );
 }

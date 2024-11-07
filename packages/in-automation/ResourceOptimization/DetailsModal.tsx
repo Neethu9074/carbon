@@ -247,6 +247,7 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
       onRequestClose={close}
       modalHeading={t('in-automation:resourceOptimization.details')}
       primaryButtonText={t('in-automation:runAction')}
+      primaryButtonDisabled={currentAction?.actionMode === 'RECOMMEND'}
       secondaryButtonText={t('in-automation:cancel')}
       size="lg"
       onRequestSubmit={() => handleRunAction()}

@@ -12,9 +12,9 @@ import { Card, Checkbox, DashboardButton, Stack, SvgIcon, Typography } from '@in
 import { UserSettings, userSettings as userSettingsGlobal } from 'in-services/userSettings/globals';
 import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { GOAL_SELECTION, GOALS, TOGGLER } from 'in-plg/pages/UserGoalSelection/utils/consts';
-import { carbonCheckboxEnabled, carbonTileEnabled } from 'in-services/featureFlags';
 import { close as dialogClose } from 'in-components/DialogPresenter/store';
 import OtherGoalField from 'in-plg/pages/UserGoalSelection/OtherGoalField';
+import { carbonCheckboxEnabled } from 'in-services/featureFlags';
 import { UserGoal } from 'in-plg/pages/UserGoalSelection/types';
 import { saveUserSettings } from 'in-services/userSettings';
 import { DialogContent } from 'in-plg/components/Dialog';
@@ -68,8 +68,7 @@ const UserGoalSelectionDialog = () => {
                     bodyClassName={locals.cardBody}
                     className={classNames({
                       [locals.card]: true,
-                      [locals.borderedCard]: isGoalSelected(goal),
-                      [locals.legacyCard]: !carbonTileEnabled
+                      [locals.borderedCard]: isGoalSelected(goal)
                     })}
                     headerClassName={locals.cardHeader}
                     leftHeaderContent={<span className={locals.leftHeader}>{goal.text}</span>}

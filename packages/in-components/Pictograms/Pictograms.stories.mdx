@@ -1,0 +1,91 @@
+import { Meta } from '@storybook/addon-docs';
+import { Airplane } from '@carbon/pictograms-react';
+
+<Meta title="in-components/Pictograms/Docs" />
+
+# Pictograms
+
+Use pictograms to communicate in a glance, offer interactivity, or simplify complex ideas.
+
+## Useful Links
+
+[Carbon Pictograms Usage page](https://carbondesignsystem.com/elements/pictograms/usage/)
+
+## usage
+
+You can import a pictogram component into your project by referring to its name:
+
+```js
+import { Airplane } from '@carbon/pictograms-react';
+```
+
+### Icon fill
+
+All icons from the library support being styled by the fill property. You can change the color of an icon by passing in a custom class name that sets this property (preferred), or by passing in an inline style. For example:
+
+```css
+/* CSS custom class name to set the fill of the icon to the `--cds-link-interactive` CSS variable */
+svg.my-custom-class {
+  fill: var(--cds-link-interactive);
+}
+```
+
+```javascript
+  import { Airplane } from '@carbon/pictograms-react';
+
+function MyComponent() {
+  return (
+    <button>
+      <Airplane aria-label="Add" className="my-custom-class" />
+    </button>
+  );
+}
+```
+
+### width and color
+
+You can pass width and color of the icon if needed.
+
+```javascript
+import { CalendarEvent } from '@carbon/pictograms-react';
+
+function MyComponent() {
+  return (
+    <button>
+      <CalendarEvent width={56} color="#0F62FE" />
+    </button>
+  );
+}
+```
+
+### Focus and aria-label
+
+By default, the icon components from @carbon/pictograms-react are treated as decorative content. This means that we set aria-hidden="true" unless certain props are passed to the component.
+
+If you would like the icon to be announced by a screen reader, you can supply an aria-label or aria-labelledby. For example:
+
+```javascript
+import { Airplane } from '@carbon/pictograms-react';
+
+function MyComponent() {
+  return (
+    <button>
+      <Airplane aria-label="Add" />
+    </button>
+  );
+}
+```
+
+Doing this will add the appropriate role to the `<svg\>` node, as well.
+
+If you would like the `<svg\>` to receive focus, you will need to pass in a `tabIndex` value. For example:
+
+```javascript
+import { Airplane } from '@carbon/pictograms-react';
+
+function MyComponent() {
+  return <Airplane aria-label="Add" tabIndex="0" />;
+}
+```
+
+Including `tabIndex` and ``aria-label (or `aria-labelledby`) will set the corresponding `tabindex` on the underlying \<svg\> and verify support in older browsers like Internet Explorer 11 by setting focusable to true.

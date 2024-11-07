@@ -9,8 +9,9 @@ import React, { Fragment } from 'react';
 import { themes } from '@instana/design-tokens';
 import { Card } from '@instana/components';
 
-import { bytesPerSecondZeroDecimalPlaces, millis, bytes, percentage } from 'in-services/formatters/number';
+import { bytesPerSecondZeroDecimalPlaces, percentage } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { capitalizeValue } from 'in-components/Capitalize';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -32,38 +33,36 @@ export default function Summary({ timeConfig, data: cluster }) {
           borderless
         />
         <KpiCard
-          title={t('in-nutanix:dashboards.hostsCount')}
-          value={cluster.noOfHosts}
+          title={t('in-nutanix:operationMode')}
+          value={cluster.operationMode}
           renderValue={capitalizeValue}
           raw
           borderless
         />
-        <KpiCard
+        <InfraMetricKpiCard
           title={t('in-nutanix:dashboards.cpuUsage')}
-          value={cluster.cpuUsage}
-          renderValue={percentage.detailed}
-          raw
-          borderless
+          snapshotId={snapshotId}
+          metric="cpuUsage"
+          formatter={percentage.detailed}
         />
-        <KpiCard
-          title={t('in-nutanix:dashboards.memoryUsage')}
-          value={cluster.memoryUsage}
-          renderValue={percentage.detailed}
-          raw
-          borderless
+        <InfraMetricKpiCard
+          title={t('in-vsphere:dashboards.memoryUsage')}
+          snapshotId={snapshotId}
+          metric="memoryUsage"
+          formatter={percentage.detailed}
         />
       </KpiGridRow>
 
       <Row verticallyStretchColumns>
         <Col lg={6}>
-          <Card title={t('in-nutanix:dashboards.cpuResources')} useMaxAvailableHeight>
+          <Card title={t('in-nutanix:dashboards.memoryUsage')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 formatter: percentage.detailed,
-                metrics: ['cpuUsage'],
-                labels: [t('in-nutanix:dashboards.usage')],
+                metrics: ['memoryUsage'],
+                labels: [t('in-nutanix:dashboards.memoryUsage')],
                 type: 'line',
                 colors: [usage]
               }}
@@ -71,14 +70,14 @@ export default function Summary({ timeConfig, data: cluster }) {
           </Card>
         </Col>
         <Col lg={6}>
-          <Card title={t('in-nutanix:dashboards.memoryResources')} useMaxAvailableHeight>
+          <Card title={t('in-nutanix:dashboards.cpuUsage')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 formatter: percentage.detailed,
-                metrics: ['memoryUsage'],
-                labels: [t('in-nutanix:dashboards.usage')],
+                metrics: ['cpuUsage'],
+                labels: [t('in-nutanix:dashboards.cpuUsage')],
                 type: 'line',
                 colors: [usage]
               }}
@@ -89,14 +88,13 @@ export default function Summary({ timeConfig, data: cluster }) {
 
       <Row verticallyStretchColumns>
         <Col lg={6}>
-          <Card title={t('in-nutanix:dashboards.vmBalloonMemory')} useMaxAvailableHeight>
+          <Card title={t('in-nutanix:dashboards.ioOps')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                formatter: bytes.compact,
-                metrics: ['mem.vmmemctl.bytes.average'],
-                labels: [t('in-nutanix:dashboards.vmBalloonMemory')],
+                metrics: ['controllerReadIops', 'controllerWriteIops'],
+                labels: [t('in-nutanix:dashboards.ioReads'), t('in-nutanix:dashboards.ioWrites')],
                 type: 'line'
               }}
             />
@@ -109,26 +107,10 @@ export default function Summary({ timeConfig, data: cluster }) {
               timeConfig={timeConfig}
               y1={{
                 formatter: bytesPerSecondZeroDecimalPlaces,
-                metrics: ['net.usage.average.bytesPerSecond'],
-                labels: [t('in-nutanix:dashboards.netUsage')],
+                metrics: ['datacenterAverageIoLatency'],
+                labels: [t('in-nutanix:dashboards.networkLatency')],
                 type: 'line',
                 colors: [usage]
-              }}
-            />
-          </Card>
-        </Col>
-      </Row>
-      <Row verticallyStretchColumns>
-        <Col lg={12}>
-          <Card title={t('in-nutanix:dashboards.cpu')} useMaxAvailableHeight>
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                formatter: millis.compact,
-                metrics: ['cpu.wait.summation.milliseconds', 'cpu.system.summation.milliseconds'],
-                labels: [t('in-nutanix:dashboards.wait'), t('in-nutanix:dashboards.system')],
-                type: 'line'
               }}
             />
           </Card>
