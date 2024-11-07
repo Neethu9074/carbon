@@ -371,16 +371,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'bizopsProcessStackEnabled',
-    instanaCtlKey: 'feature.bizops.process.stack.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'bizopsActivityStackEnabled',
-    instanaCtlKey: 'feature.bizops.activity.stack.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
     instanaCtlKey: 'feature.trace.limit.visible.nesting.levels.enabled',
     defaultValue: false
@@ -602,13 +592,18 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'carbonSearchInputEnabled',
-    instanaCtlKey: 'feature.carbon.search.input.enabled',
+    uiClientKey: 'carbonMoreMenuEnabled',
+    instanaCtlKey: 'feature.carbon.more.menu.enabled',
     defaultValue: true
   },
   {
-    uiClientKey: 'carbonMoreMenuEnabled',
-    instanaCtlKey: 'feature.carbon.more.menu.enabled',
+    uiClientKey: 'carbonLoadingSkeletonFeatureEnabled',
+    instanaCtlKey: 'feature.carbon.loading.skeleton.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'carbonLoadingSpinnerEnabled',
+    instanaCtlKey: 'feature.carbon.loading.spinner.enabled',
     defaultValue: true
   },
   {
@@ -627,8 +622,8 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'carbonSelectEnabled',
-    instanaCtlKey: 'feature.carbon.select.enabled',
+    uiClientKey: 'carbonAccordionEnabled',
+    instanaCtlKey: 'feature.carbon.accordion.enabled',
     defaultValue: true
   },
   {
@@ -644,16 +639,6 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonMenuEnabled',
     instanaCtlKey: 'feature.carbon.menu.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonDropdownEnabled',
-    instanaCtlKey: 'feature.carbon.dropdown.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonInputEnabled',
-    instanaCtlKey: 'feature.carbon.input.enabled',
     defaultValue: true
   },
   {

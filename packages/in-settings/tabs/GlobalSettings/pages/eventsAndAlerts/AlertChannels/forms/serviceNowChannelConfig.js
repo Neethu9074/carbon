@@ -4,12 +4,12 @@
  */
 
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
-import React, { useState } from 'react';
+import React from 'react';
 
-import { SvgIcon, IconButton, DescriptionList, DescriptionItem, Checkbox } from '@instana/components';
+import { SvgIcon, DescriptionList, DescriptionItem, Checkbox } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
-import { serviceNowAutoCloseAndCustomPayloadsEnabled, carbonInputEnabled } from 'in-services/featureFlags';
+import { serviceNowAutoCloseAndCustomPayloadsEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Label from 'in-components/form/Label';
@@ -137,8 +137,6 @@ export default {
 };
 
 function Form({ form, onChange }) {
-  const [showPassword, setShowPassword] = useState(false);
-
   return (
     <fieldset>
       {form.get('name').map(field => (
@@ -210,33 +208,13 @@ function Form({ form, onChange }) {
           <div className={`${block}__input_with_icon`}>
             <Input
               id="password"
-              className={!carbonInputEnabled && `${block}__input`}
-              type={showPassword ? 'text' : 'password'}
+              type="password"
               placeholder={'*******************'}
               value={field.value}
               onChange={e => onChange('password', e.target.value)}
               hasError={!field.valid && field.touched}
               maxLength={256}
             />
-            {!carbonInputEnabled && (
-              <Tooltip
-                content={
-                  showPassword ? t('in-settings:tabs.hidePasswordTooltip') : t('in-settings:tabs.showPasswordTooltip')
-                }
-              >
-                <IconButton
-                  kind="info"
-                  type={showPassword ? 'lib_views_hide' : 'lib_views_show'}
-                  onClick={e => {
-                    e.preventDefault();
-                    setShowPassword(!showPassword);
-                  }}
-                  iconSize="xs"
-                  alignment="right"
-                  className="icon_button"
-                />
-              </Tooltip>
-            )}
           </div>
           <TouchedMessages field={field} />
         </FormGroup>
