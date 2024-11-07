@@ -57,26 +57,6 @@ const actionColumn: ColumnDefinition<ScoredAction, RecommendedActionsTableProps>
   sortable: false,
   width: 8,
   getContent(action, { event, trigger }) {
-    // const isManualExternal =
-    //   action?.metadata?.ai &&
-    //   action?.metadata?.ai[0]?.turbonomicActionMode === 'MANUAL' &&
-    //   action.type === ACTION_TYPE.EXTERNAL;
-    // if (isManualExternal) {
-    //   if (!role?.canRunAutomationActions) return null;
-    //   return (
-    //     <Button
-    //       kind="action"
-    //       icon="lib_actions_play"
-    //       onClick={e => {
-    //         stopPropagationAndPreventDefault(e);
-    //         addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
-    //       }}
-    //       noAutoMargin
-    //     >
-    //       {t('in-automation:ActionCatalog.run')}
-    //     </Button>
-    //   );
-    // }
     if (!role?.canConfigureAutomationPolicies || action.type === ACTION_TYPE.EXTERNAL) return null;
     return (
       <Tooltip content={t('in-automation:createPolicyWithName', { actionName: action.name })} delay={500}>
