@@ -27,7 +27,6 @@ import { AiEngineFilter, TypeFilter } from 'in-automation/ActionTable/tableFilte
 import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import useHasAccessToManual from 'in-automation/hooks/useHasAccessToManual';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { ScoredAction, TriggerSpecification } from 'in-automation/types';
@@ -57,27 +56,7 @@ const actionColumn: ColumnDefinition<ScoredAction, RecommendedActionsTableProps>
   label: '',
   sortable: false,
   width: 8,
-  getContent(action, { volatileId, event, trigger }) {
-    const isManualExternal =
-      action?.metadata?.ai &&
-      action?.metadata?.ai[0]?.turbonomicActionMode === 'MANUAL' &&
-      action.type === ACTION_TYPE.EXTERNAL;
-    if (isManualExternal) {
-      if (!role?.canRunAutomationActions) return null;
-      return (
-        <Button
-          kind="action"
-          icon="lib_actions_play"
-          onClick={e => {
-            stopPropagationAndPreventDefault(e);
-            addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
-          }}
-          noAutoMargin
-        >
-          {t('in-automation:ActionCatalog.run')}
-        </Button>
-      );
-    }
+  getContent(action, { event, trigger }) {
     if (!role?.canConfigureAutomationPolicies || action.type === ACTION_TYPE.EXTERNAL) return null;
     return (
       <Tooltip content={t('in-automation:createPolicyWithName', { actionName: action.name })} delay={500}>
@@ -237,9 +216,7 @@ export default function RecommendedActions({
   const totalHits = result?.data?.totalHits;
 
   const handleRowClick = (action: ScoredAction) => {
-    if (action.type !== ACTION_TYPE.EXTERNAL) {
-      navigateToActionDetails(action.id, false);
-    }
+    navigateToActionDetails(action.id, false);
   };
   const showOotbActions =
     getTriggerTypeFromEvent(event) === 'builtinEvent' && (ootbRecommendedActions.data?.length ?? 0) > 0;
@@ -271,7 +248,7 @@ export default function RecommendedActions({
           {(showOotbActions || automationActionAiGenerationUnitEnabled) && !isLoading(trigger) && (
             <GenerateAIActionButton event={event} trigger={trigger} ootbRecommendedActions={ootbRecommendedActions} />
           )}
-          <TypeFilter type={types} setType={params => setTypes({ types: params.types })} showExternal />
+          <TypeFilter type={types} setType={params => setTypes({ types: params.types })} />
           <AiEngineFilter availableAiEngines={availableAiEngines} aiEngine={aiEngine} setAiEngine={setAiEngine} />
           <TagsFilter availableTags={availableTags} tags={tags} setTags={setTags} />
           <Spacer horizontal="small" />
