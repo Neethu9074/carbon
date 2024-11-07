@@ -161,7 +161,6 @@ module.exports = {
   maxMetricsLimitForBeeinstanaEnabled: false,
   serverSideInfraTagSearchEnabled: true,
   preAggregatedMetricsQueryEnabled: false,
-  carbonFileUploaderEnabled: true,
   assistmeEnabled: true,
   userProfileMenuEnabled: false,
   unitForInfraMetricsEnabled: true,
