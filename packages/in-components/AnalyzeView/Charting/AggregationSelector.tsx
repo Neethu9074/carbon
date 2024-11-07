@@ -7,7 +7,6 @@ import React from 'react';
 
 import { CarbonMenuButton as MenuButton, CarbonMenuItem as MenuItem } from '@instana/components';
 
-//import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 // @ts-expect-error
 import { aggregationLabels } from 'in-stores/metric';
 import { AggregationType } from 'in-types';
