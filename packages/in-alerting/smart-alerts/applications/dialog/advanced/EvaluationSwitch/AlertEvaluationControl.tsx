@@ -16,8 +16,11 @@ import {
   BluePrint,
   getBlueprintConfig
 } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
+//@ts-expect-error
+import { getThresholdData } from 'in-alerting/smart-alerts/applications/dialog/advanced/ThresholdSection';
+import { WARNING_SEVERITY, CRITICAL_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
+import { AlertEvaluationType, ThresholdType, RuleWithThreshold, ApplicationAlertRuleUnion } from 'in-types';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
-import { AlertEvaluationType, ThresholdConfigUnion, ThresholdType } from 'in-types';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
 interface Props {
@@ -31,7 +34,7 @@ export default function AlertEvaluationControl({ form, updateForm, isGlobalSmart
   const evaluationType = (form.get('evaluationType') as Field<AlertEvaluationType>).value;
   const alertType = ((form.get('rule') as MapForm<any>)!.get('alertType') as Field<ApplicationAlertType>)!.value;
   const isBuiltIn = (form.get('builtIn') as Field<boolean>).value;
-  const thresholdType = ((form.get('threshold') as MapForm<any>).get('type') as Field<ThresholdType>)?.value;
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const isAdaptiveThreshold = thresholdType === ADAPTIVE_BASELINE;
   const evaluationCount = form.get('hiddenFields').get('evaluationGroupByCount').value;
 
@@ -40,7 +43,10 @@ export default function AlertEvaluationControl({ form, updateForm, isGlobalSmart
     if (newEvaluationType !== evaluationType) {
       // we need to reset the type, if only Static Threshold is
       const blueprintConfig = getBlueprintConfig(alertType);
-      const threshold = (form.get('threshold') as Field<object>).toJS();
+      const warningThresholdField = form.get('threshold').get('warningThreshold');
+      const criticalThresholdField = form.get('threshold').get('criticalThreshold');
+      const warningThreshold = getThresholdData(thresholdType, warningThresholdField, WARNING_SEVERITY);
+      const criticalThreshold = getThresholdData(thresholdType, criticalThresholdField, CRITICAL_SEVERITY);
 
       // reset to static threshold in case historic baseline is not supported
       const newThresholdType = getThresholdTypeForUpdatedEvaluationType(
@@ -50,17 +56,36 @@ export default function AlertEvaluationControl({ form, updateForm, isGlobalSmart
         thresholdType
       );
 
-      const newThreshold = {
-        ...threshold,
-        type: newThresholdType
-      } as ThresholdConfigUnion;
+      const newWarningThreshold = {
+        WARNING: {
+          ...warningThreshold.WARNING,
+          type: newThresholdType,
+          value: warningThresholdField.get('isCheckboxSelected')?.value === true ? 0 : null,
+          isCheckboxSelected: warningThresholdField.get('isCheckboxSelected')?.value
+        }
+      };
+
+      const newCriticalThreshold = {
+        CRITICAL: {
+          ...criticalThreshold.CRITICAL,
+          type: newThresholdType,
+          value: criticalThresholdField.get('isCheckboxSelected')?.value === true ? 0 : null,
+          isCheckboxSelected: criticalThresholdField.get('isCheckboxSelected')?.value
+        }
+      };
+
+      const ruleWithThreshold: RuleWithThreshold<ApplicationAlertRuleUnion> = {
+        rule: form.get('rule').toJS(),
+        thresholdOperator: form.get('threshold').get('operator').value,
+        thresholds: { ...newWarningThreshold, ...newCriticalThreshold }
+      };
 
       updateForm(
         form
           .updateIn(['evaluationType'], f =>
             (f as Field<AlertEvaluationType>).setValue(newEvaluationType).setTouched(true)
           )
-          .put('threshold', createThresholdForm(newThreshold, alertType))
+          .put('threshold', createThresholdForm(ruleWithThreshold, alertType, true))
       );
     }
   };
