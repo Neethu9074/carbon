@@ -53,15 +53,17 @@ const RetentionAddonChart = ({
   const LoggingAddonChartY1 = {
     ...tenantUnit,
     metrics: [loggingRetention?.consumption],
-    labels: [t('in-amp:components.usageCharts.consumedUnits')],
-    colors: ['#17A1E6']
+    labels: [t('in-amp:components.usageCharts.consumedData')],
+    colors: ['#17A1E6'],
+    formatter: 'bytes.compact'
   };
 
   const LoggingAddonChartY2 = {
     ...tenantUnit,
     metrics: [loggingRetention?.total],
-    labels: [t('in-amp:components.usageCharts.resourceUnits')],
-    colors: [carbonAlert.red60]
+    labels: [t('in-amp:components.usageCharts.entitledData')],
+    colors: [carbonAlert.red60],
+    formatter: 'bytes.compact'
   };
 
   return (
