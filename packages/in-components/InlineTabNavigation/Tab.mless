@@ -30,7 +30,7 @@
 
       &.active {
         cursor: default;
-        border-bottom-color: var(--ids-color-option-teal-500);
+        border-bottom-color: var(--cds-border-interactive);
         font-weight: 600;
       }
     }
