@@ -17,16 +17,32 @@ interface Integration {
   type: string;
 }
 
-const ExternalIntegrationLink = ({ integrations }: { integrations: Integration[] }) => {
+interface QueryPaths {
+  [key: string]: string;
+}
+
+const queryPaths: QueryPaths = {
+  DBMARLIN: '/sql-search?sql='
+};
+
+const ExternalIntegrationLink = ({ integrations, statement }: { integrations: Integration[]; statement: string }) => {
   return (
     <>
-      {integrations.map((integration: Integration) => (
-        <Button href={integration.url} target="_blank" kind="action" className={locals.marginBottom}>
-          {t('in-analyze:traceDetail.components.callDetails.findSQL', {
-            type: integration.type
-          })}
-        </Button>
-      ))}
+      {integrations.map((integration: Integration) => {
+        const normalizedUrl = integration.url.replace(/\/$/, '');
+        return (
+          <Button
+            href={`${normalizedUrl}${queryPaths[integration.type]}${encodeURIComponent(statement)}`}
+            target="_blank"
+            kind="action"
+            className={locals.marginBottom}
+          >
+            {t('in-analyze:traceDetail.components.callDetails.findSQL', {
+              type: integration.type
+            })}
+          </Button>
+        );
+      })}
     </>
   );
 };

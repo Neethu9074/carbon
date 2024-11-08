@@ -29,7 +29,7 @@ export default function MySqlSpanDetailView({ span }) {
           <Code code={formatSql(statement)} lang="sql" showLineNumbers={false} />
         </Di>
       ) : null}
-      {databaseIntegrations && <ExternalIntegrationLink integrations={databaseIntegrations} />}
+      {databaseIntegrations && <ExternalIntegrationLink integrations={databaseIntegrations} statement={statement} />}
     </Dl>
   );
 }
