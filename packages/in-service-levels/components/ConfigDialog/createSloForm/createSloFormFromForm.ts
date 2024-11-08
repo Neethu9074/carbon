@@ -64,7 +64,7 @@ export const getScopeFieldsFromForm = (form: SloForm): SloScopeFields => {
     includeInternal: createField({ value: includeInternalValue }),
     includeSynthetic: createField({ value: includeSyntheticValue }),
     serviceId: createField({ value: serviceIdValue }),
-    tagFilterExpression: createField({ value: tagFilterExpressionValue, validator: noInvalidTagFilterExpression })
+    tagFilterExpression: createField({ value: tagFilterExpressionValue ?? [], validator: noInvalidTagFilterExpression })
   };
 };
 

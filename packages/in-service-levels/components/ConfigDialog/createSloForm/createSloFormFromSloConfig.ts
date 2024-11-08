@@ -6,7 +6,12 @@
 
 import { createField, createMapForm, Field } from 'formalistic';
 
-import { isApplicationSloEntity, isWebsiteSloEntity, ServiceLevelObjectiveConfiguration } from '@instana/types';
+import {
+  isApplicationSloEntity,
+  isSyntheticSloEntity,
+  isWebsiteSloEntity,
+  ServiceLevelObjectiveConfiguration
+} from '@instana/types';
 import { DurationUnitType } from '@instana/types';
 import { formatTime } from '@instana/format-date';
 
@@ -26,21 +31,26 @@ import {
   SloIndicatorFields,
   SloObjectiveFields,
   SloScopeFields,
-  TimeStamp
+  TimeStampFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import {
   createIndicatorThresholdField,
   createSloNameTagsFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
+import {
+  defaultBeaconType,
+  defaultBlueprint,
+  defaultBoundaryScope,
+  ServiceLevelErrors
+} from 'in-service-levels/constants';
 import { numericValidator, positiveNumberValidator } from 'in-services/validators/number';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { isCustomBlueprintIndicator, SloBeaconTypes } from 'in-service-levels/types';
-import { defaultBlueprint, ServiceLevelErrors } from 'in-service-levels/constants';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { getSloEntityIds } from 'in-service-levels/utils/sloConfig';
 import { formatDate } from 'in-services/formatters/date';
 
-export const getEntityFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveConfiguration): SloEntityFields => {
+export function getEntityFieldsFromSloConfig(sloConfig: ServiceLevelObjectiveConfiguration): SloEntityFields {
   const { entity } = sloConfig;
   return {
     entityIds: createField({
@@ -49,14 +59,14 @@ export const getEntityFieldsFromSloConfig = (sloConfig: ServiceLevelObjectiveCon
     }),
     type: createField({ value: entity.type })
   };
-};
+}
 
-export const getScopeFieldsFromSloConfig = ({ entity }: ServiceLevelObjectiveConfiguration): SloScopeFields => {
+export function getScopeFieldsFromSloConfig({ entity }: ServiceLevelObjectiveConfiguration): SloScopeFields {
   if (isApplicationSloEntity(entity)) {
     const { boundaryScope, endpointId, includeInternal, includeSynthetic, serviceId, tagFilterExpression } = entity;
 
     return {
-      beaconType: createField({ value: 'httpRequest' }),
+      beaconType: createField({ value: defaultBeaconType }),
       boundaryScope: createField({ value: boundaryScope }),
       endpointId: createField({ value: endpointId ?? '' }),
       includeInternal: createField({ value: includeInternal ?? false }),
@@ -72,7 +82,7 @@ export const getScopeFieldsFromSloConfig = ({ entity }: ServiceLevelObjectiveCon
   if (isWebsiteSloEntity(entity)) {
     return {
       beaconType: createField({ value: entity.beaconType }) as Field<SloBeaconTypes>,
-      boundaryScope: createField({ value: 'ALL' }),
+      boundaryScope: createField({ value: defaultBoundaryScope }),
       endpointId: createField({ value: '' }),
       includeInternal: createField({ value: false }),
       includeSynthetic: createField({ value: false }),
@@ -84,12 +94,22 @@ export const getScopeFieldsFromSloConfig = ({ entity }: ServiceLevelObjectiveCon
     };
   }
 
-  throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
-};
+  if (isSyntheticSloEntity(entity)) {
+    return {
+      beaconType: createField({ value: undefined }),
+      boundaryScope: createField({ value: undefined }),
+      endpointId: createField({ value: undefined }),
+      includeInternal: createField({ value: undefined }),
+      includeSynthetic: createField({ value: undefined }),
+      serviceId: createField({ value: undefined }),
+      tagFilterExpression: createField({ value: undefined })
+    };
+  }
 
-export const getIndicatorFormFieldsFromSloConfig = (
-  sloConfig: ServiceLevelObjectiveConfiguration
-): SloIndicatorFields => {
+  throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
+}
+
+export function getIndicatorFormFieldsFromSloConfig(sloConfig: ServiceLevelObjectiveConfiguration): SloIndicatorFields {
   const { indicator } = sloConfig;
   const { type } = indicator;
 
@@ -123,11 +143,9 @@ export const getIndicatorFormFieldsFromSloConfig = (
   }
 
   throw new Error(ServiceLevelErrors.UNHANDLED_SLI_TYPE);
-};
+}
 
-export const getObjectiveFormFieldsFromSloConfig = (
-  sloConfig: ServiceLevelObjectiveConfiguration
-): SloObjectiveFields => {
+export function getObjectiveFormFieldsFromSloConfig(sloConfig: ServiceLevelObjectiveConfiguration): SloObjectiveFields {
   return {
     target: createField<number | undefined>({
       value: sloConfig.target,
@@ -138,14 +156,14 @@ export const getObjectiveFormFieldsFromSloConfig = (
       validator: composeAndShortCircuitOnError(numericValidator, positiveNumberValidator)
     }),
     durationUnit: createField<DurationUnitType>({ value: sloConfig.timeWindow.durationUnit }),
-    startTimestamp: createMapForm<TimeStamp>({
-      items: getDefaultTimestampField(sloConfig)
+    startTimestamp: createMapForm<TimeStampFields>({
+      items: getDefaultTimestampFields(sloConfig)
     }),
     type: createField({ value: sloConfig.timeWindow.type })
   };
-};
+}
 
-export const getDefaultTimestampField = (sloConfig: ServiceLevelObjectiveConfiguration) => {
+export function getDefaultTimestampFields(sloConfig: ServiceLevelObjectiveConfiguration) {
   const timeWindowType = sloConfig.timeWindow?.type;
   const timeStamp = new Date().setHours(0, 0, 0, 0);
   if (timeWindowType === 'fixed') {
@@ -167,9 +185,9 @@ export const getDefaultTimestampField = (sloConfig: ServiceLevelObjectiveConfigu
       validator: timeFieldValidator
     })
   };
-};
+}
 
-export const createSloFormFromSloConfig = (sloConfig: ServiceLevelObjectiveConfiguration): SloForm => {
+export function createSloFormFromSloConfig(sloConfig: ServiceLevelObjectiveConfiguration): SloForm {
   return createMapForm({
     items: {
       entity: createMapForm({
@@ -191,4 +209,4 @@ export const createSloFormFromSloConfig = (sloConfig: ServiceLevelObjectiveConfi
       })
     }
   });
-};
+}
