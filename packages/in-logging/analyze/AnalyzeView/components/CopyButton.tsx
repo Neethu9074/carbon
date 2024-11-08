@@ -22,6 +22,7 @@ export function CopyButton({ message, className }: CopyColumnProps) {
       <CopyToClipboard getText={() => message}>
         {(copyToClipboardRef: React.ForwardedRef<HTMLButtonElement>) => (
           <IconButton
+            data-testid="copy-button"
             color="var(--ids-color-option-neutral-900)"
             className={className}
             ref={copyToClipboardRef}

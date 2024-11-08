@@ -17,9 +17,8 @@ import { createInviteForm } from 'in-settings/tabs/SecurityAndAccess/pages/acces
 import { securityAndAccessAccessControlInvites } from 'in-settings/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { track, USER_INVITE } from 'in-services/tracking/tracking';
 import { InvitationResult, sendInvitations } from 'in-api/users';
-import { emptyObject } from 'in-services/fixedObjects';
+import { USER_INVITE } from 'in-services/tracking/tracking';
 import { t } from 'in-i18n';
 
 const logger = createLogger('InviteUserButton');
@@ -37,10 +36,7 @@ export default function InviteUserButton() {
     <Button
       kind="action"
       onClick={() => {
-        // Mixpanel tracking
-        track(USER_INVITE, emptyObject);
-        // Segment tracking
-        trackCta(USER_INVITE, emptyObject);
+        trackCta(USER_INVITE);
         addActiveDialog(<InviteUserDialog />);
       }}
       icon="lib_openclose_add_circle_outline"

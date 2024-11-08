@@ -12,7 +12,7 @@ export type MessageId = number | string;
 
 export interface Message {
   id?: MessageId;
-  type: 'info' | 'warning' | 'danger';
+  type: 'info' | 'warning' | 'danger' | 'success';
   icon?: string;
   title?: string;
   content: React.ReactNode;

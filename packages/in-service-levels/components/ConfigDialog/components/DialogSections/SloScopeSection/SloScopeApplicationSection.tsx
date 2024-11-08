@@ -13,7 +13,7 @@ import HiddenCallsConfigurator from 'in-service-levels/components/ConfigDialog/c
 import ScopeSelection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/ScopeSelection';
 import SloDialogSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/Shared/SloDialogSection';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
-import { titleWidth } from 'in-service-levels/constants';
+import { defaultBoundaryScope, titleWidth } from 'in-service-levels/constants';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
@@ -25,6 +25,7 @@ export default function SloScopeApplicationSection() {
   const includeInternalField = form.getIn(['scope', 'includeInternal']);
   const includeSyntheticField = form.getIn(['scope', 'includeSynthetic']);
 
+  const boundaryScope = boundaryField.value ?? defaultBoundaryScope;
   const isFormInEditMode = mode === 'EDIT';
 
   return (
@@ -37,7 +38,7 @@ export default function SloScopeApplicationSection() {
               onChange={scope =>
                 onChange(['scope', 'boundaryScope'], () => boundaryField.setValue(scope).setTouched(true))
               }
-              value={boundaryField.value}
+              value={boundaryScope}
             />
           </Section>
           <Section title={t('in-custom-dashboards:widgets.slo.sliFormPresenter.hiddenCalls')} titleWidth={titleWidth}>

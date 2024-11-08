@@ -7,20 +7,20 @@
 import { createField, createMapForm } from 'formalistic';
 
 import {
-  ApplicationBoundaryScope,
   ServiceLevelIndicatorType,
   SloEntityType,
   TimeWindowType,
   DurationUnitType,
   AggregationType,
   ServiceLevelObjectiveConfiguration,
-  BlueprintType
+  BlueprintType,
+  SLIThresholdOperator,
+  TrafficIndicatorType
 } from '@instana/types';
 
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
-import { defaultBlueprint } from 'in-service-levels/constants';
-import { SloBeaconTypes } from 'in-service-levels/types';
+import { SloForm, SloScopeFields } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import { defaultBlueprint, defaultSliThresholdOperator } from 'in-service-levels/constants';
 
 export const testDate = new Date('2020-01-01');
 
@@ -37,20 +37,22 @@ export const testWebsiteForm: SloForm = createMapForm({
         aggregation: createField<AggregationType>({ value: 'P90' }),
         badEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
         blueprint: createField<BlueprintType>({ value: 'latency' }),
+        operator: createField<SLIThresholdOperator>({ value: defaultSliThresholdOperator }),
+        trafficType: createField<TrafficIndicatorType | undefined>({ value: undefined }),
         goodEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
         threshold: createField<number | undefined>({ value: 55 }),
         type: createField<ServiceLevelIndicatorType | undefined>({ value: 'eventBased' })
       }
     }),
-    scope: createMapForm({
+    scope: createMapForm<SloScopeFields>({
       items: {
-        beaconType: createField<SloBeaconTypes>({ value: 'pageLoad' }),
-        boundaryScope: createField<ApplicationBoundaryScope>({ value: 'INBOUND' }),
+        beaconType: createField({ value: 'pageLoad' }),
+        boundaryScope: createField({ value: 'INBOUND' }),
         endpointId: createField({ value: '' }),
         includeInternal: createField({ value: false }),
         includeSynthetic: createField({ value: false }),
         serviceId: createField({ value: '' }),
-        tagFilterExpression: createField<FormModelElement[]>({ value: fromBackendModel(undefined) })
+        tagFilterExpression: createField({ value: fromBackendModel(undefined) })
       }
     }),
     objective: createMapForm({
@@ -89,20 +91,22 @@ export const testApplicationForm: SloForm = createMapForm({
         aggregation: createField<AggregationType>({ value: 'MAX' }),
         badEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
         blueprint: createField<BlueprintType>({ value: defaultBlueprint }),
+        operator: createField<SLIThresholdOperator>({ value: defaultSliThresholdOperator }),
+        trafficType: createField<TrafficIndicatorType | undefined>({ value: undefined }),
         goodEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
         threshold: createField<number | undefined>({ value: 66 }),
         type: createField<ServiceLevelIndicatorType | undefined>({ value: 'timeBased' })
       }
     }),
-    scope: createMapForm({
+    scope: createMapForm<SloScopeFields>({
       items: {
-        beaconType: createField<SloBeaconTypes>({ value: 'pageLoad' }),
-        boundaryScope: createField<ApplicationBoundaryScope>({ value: 'ALL' }),
-        endpointId: createField<string>({ value: 'endpoindNotEmpty' }),
-        includeInternal: createField<boolean>({ value: true }),
-        includeSynthetic: createField<boolean>({ value: false }),
-        serviceId: createField<string>({ value: '12345' }),
-        tagFilterExpression: createField<FormModelElement[]>({ value: fromBackendModel(undefined) })
+        beaconType: createField({ value: 'pageLoad' }),
+        boundaryScope: createField({ value: 'ALL' }),
+        endpointId: createField({ value: 'endpoindNotEmpty' }),
+        includeInternal: createField({ value: true }),
+        includeSynthetic: createField({ value: false }),
+        serviceId: createField({ value: '12345' }),
+        tagFilterExpression: createField({ value: fromBackendModel(undefined) })
       }
     }),
     objective: createMapForm({

@@ -23,7 +23,8 @@ export default function ApplicationTagFilterBuilderContent() {
   const tagFilterExpressionField = form.getIn(['scope', 'tagFilterExpression']);
 
   const applicationId = applicationIdField.value[0];
-  const isCustomTag = tagFilterExpressionField.value.length > 0;
+  const tagFilterExpression = tagFilterExpressionField.value ?? [];
+  const isCustomTag = tagFilterExpression.length > 0;
   const { QueryBuilder } = useApplicationQueryBuilder({
     boundaryScope: boundaryScopeField.value,
     applicationId: applicationId
@@ -33,7 +34,7 @@ export default function ApplicationTagFilterBuilderContent() {
   const isFormInEditMode = mode === 'EDIT';
   // We need to show the config in case a customer wants to edit an existing SLO, that already has been created by using the old UI and has defined a specific service or endpoint and also some custom tag filters.
   const requiresMergedFilters = (isFormInEditMode && isCustomTag && Boolean(service.value)) || Boolean(endpoint.value);
-  const shouldRenderExplanationText = isFormInEditMode && tagFilterExpressionField.value.length === 0;
+  const shouldRenderExplanationText = isFormInEditMode && tagFilterExpression.length === 0;
 
   return (
     <StackItem>
@@ -50,7 +51,7 @@ export default function ApplicationTagFilterBuilderContent() {
               tagFilterExpressionField.setValue(newFilterExpression).setTouched(true)
             )
           }
-          value={requiresMergedFilters ? custom : tagFilterExpressionField.value}
+          value={requiresMergedFilters ? custom : tagFilterExpression}
         />
       )}
       {!shouldRenderExplanationText && isFormInEditMode && (
@@ -61,7 +62,7 @@ export default function ApplicationTagFilterBuilderContent() {
             )
           }
           readOnly={isFormInEditMode}
-          value={requiresMergedFilters ? custom : tagFilterExpressionField.value}
+          value={requiresMergedFilters ? custom : tagFilterExpression}
         />
       )}
     </StackItem>

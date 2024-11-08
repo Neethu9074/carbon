@@ -62,7 +62,7 @@ export default function Summary({ timeConfig, data: vm }) {
 
       <Row verticallyStretchColumns>
         <Col lg={12}>
-          <Card title={t('in-nutanix:dashboards.cpu')} useMaxAvailableHeight>
+          <Card title={t('in-nutanix:dashboards.ioOps')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}

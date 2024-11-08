@@ -11,6 +11,7 @@ import { BlueprintType } from '@instana/types';
 
 import SloIndicatorAvailabilityForm from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorAvailabilityForm';
 import SloIndicatorLatencyForm from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorLatencyForm';
+import SloIndicatorTrafficForm from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorTrafficForm';
 import SloIndicatorCustomForm from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorCustomForm';
 import TabSelect, {
   TabSelectHeader,
@@ -63,6 +64,9 @@ export default function SloBlueprintsSection() {
           <TabSelectItem<BlueprintType> forId="availability" disabled={isFormInEditMode} withRadioButton>
             <span>{t('in-service-levels:general.availability')}</span>
           </TabSelectItem>
+          <TabSelectItem<BlueprintType> forId="traffic" disabled={isFormInEditMode} withRadioButton>
+            <span>{t('in-service-levels:general.traffic')}</span>
+          </TabSelectItem>
           {!isSyntheticsSlo && (
             <TabSelectItem<BlueprintType> forId="custom" disabled={isFormInEditMode} withRadioButton>
               <span>{t('in-service-levels:general.custom')}</span>
@@ -75,6 +79,9 @@ export default function SloBlueprintsSection() {
           </TabSelectPanel>
           <TabSelectPanel<BlueprintType> id="availability">
             <SloIndicatorAvailabilityForm />
+          </TabSelectPanel>
+          <TabSelectPanel<BlueprintType> id="traffic">
+            <SloIndicatorTrafficForm />
           </TabSelectPanel>
           {!isSyntheticsSlo && (
             <TabSelectPanel<BlueprintType> id="custom">

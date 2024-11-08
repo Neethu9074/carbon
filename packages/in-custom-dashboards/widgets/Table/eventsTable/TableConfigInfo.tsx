@@ -8,6 +8,7 @@ import React from 'react';
 
 import { StackItem, SvgIcon } from '@instana/components';
 
+import WidgetCardHeader from 'in-components/WidgetCardHeader/WidgetCardHeader';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -20,6 +21,13 @@ interface TableConfigInfoProps {
 
 export default function TableConfigInfo({ dynamicFocusQuery, topLevelFilterNote }: TableConfigInfoProps) {
   if (!dynamicFocusQuery) {
+    if (topLevelFilterNote) {
+      return (
+        <div className={locals.tooltipLeft}>
+          <WidgetCardHeader extraInfoTooltip={topLevelFilterNote} />
+        </div>
+      );
+    }
     return null;
   }
   return (

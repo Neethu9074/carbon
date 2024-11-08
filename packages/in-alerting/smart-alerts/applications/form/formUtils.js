@@ -99,19 +99,19 @@ export function getTitlePlaceholder(form) {
   }
 }
 
-export function getDescriptionPlaceholder(form) {
+export function getDescriptionPlaceholder(form, severity) {
   const ruleForm = form.get('rule');
   const alertType = ruleForm.get('alertType').value;
   const thresholdForm = form.get('threshold');
   const thresholdOperator = thresholdForm.get('operator').value;
-  const thresholdType = thresholdForm.get('type').value;
+  const thresholdType = thresholdForm.get('warningThreshold').get('type').value;
 
   switch (alertType) {
     case 'errors': {
       const metricName = ruleForm.get('metricName').value;
       const percentageMetric = isPercentageMetric(metricName);
       if (thresholdType === STATIC_THRESHOLD) {
-        const thresholdValue = thresholdForm.get('value').value;
+        const thresholdValue = getThresholdValue(thresholdForm, severity);
         return t(
           percentageMetric
             ? 'in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.errorRateStaticThreshold'
@@ -135,7 +135,7 @@ export function getDescriptionPlaceholder(form) {
       const aggregation = ruleForm.get('aggregation').value;
 
       if (thresholdType === STATIC_THRESHOLD) {
-        const thresholdValue = thresholdForm.get('value').value;
+        const thresholdValue = getThresholdValue(thresholdForm, severity);
         return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.slownessStaticThreshold', {
           context: getSlowerOrBelowOperatorContext(thresholdOperator),
           thresholdValue: thresholdValue,
@@ -153,7 +153,7 @@ export function getDescriptionPlaceholder(form) {
       const level = ruleForm.get('level').value;
       const levelText = getLogLevelRuleOperatorLabel(level);
 
-      const thresholdValue = thresholdForm.get('value').value;
+      const thresholdValue = getThresholdValue(thresholdForm, severity);
       if (ruleOperator === operators.NOT_EMPTY) {
         return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.logsNotEmpty', {
           context: getHigherOrLowerOperatorContext(thresholdOperator),
@@ -178,7 +178,7 @@ export function getDescriptionPlaceholder(form) {
       const metricName = ruleForm.get('metricName').value;
       const percentageMetric = isPercentageMetric(metricName);
       if (thresholdType === STATIC_THRESHOLD) {
-        const thresholdValue = thresholdForm.get('value').value;
+        const thresholdValue = getThresholdValue(thresholdForm, severity);
         return t(
           percentageMetric
             ? 'in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.statusCodeRateStaticThreshold'
@@ -203,7 +203,7 @@ export function getDescriptionPlaceholder(form) {
     }
     case 'throughput': {
       if (thresholdType === STATIC_THRESHOLD) {
-        const thresholdValue = thresholdForm.get('value').value;
+        const thresholdValue = getThresholdValue(thresholdForm, severity);
         return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.throughputStaticThreshold', {
           context: getHigherOrLowerOperatorContext(thresholdOperator),
           thresholdValue: thresholdValue
@@ -292,6 +292,12 @@ function getHigherOrLowerOperatorDescriptionContext(operatorDescription, operato
     default:
       throw Error('Unsupported operator: ' + operator);
   }
+}
+
+export function getThresholdValue(thresholdForm, severity) {
+  return severity == 5
+    ? thresholdForm?.get('warningThreshold')?.get('value')?.value
+    : thresholdForm?.get('criticalThreshold')?.get('value')?.value;
 }
 
 export function isEntitySelectionValid(entitySelection, isGlobalAlert) {

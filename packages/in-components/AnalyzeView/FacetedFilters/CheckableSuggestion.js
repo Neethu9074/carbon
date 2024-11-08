@@ -18,14 +18,7 @@ export function CheckableSuggestion({ label, count, checked, onChange }) {
   return (
     <Tooltip content={`${label}`} align="rightMiddle" delay={1000} overwriteBlock>
       <Stack direction="horizontal" align="center" distribution="spaceBetween">
-        <Checkbox
-          checked={checked}
-          label={label}
-          onChange={onChange}
-          labelClassName={locals.label}
-          className={locals.leftAlignedCheckbox}
-          size={'large'}
-        />
+        <Checkbox checked={checked} label={label} onChange={onChange} labelClassName={locals.label} />
         {count && (
           <div className={locals.count}>
             <span>{approximateValueIndicator} </span>

@@ -8,12 +8,12 @@ import React, { useContext } from 'react';
 
 import { Stack } from '@instana/components';
 
-import HeadlineFormSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/HeadlineFormSection';
-import IndicatorAggregationField from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/IndicatorAggregationField';
-import IndicatorFieldsSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/IndicatorFieldsSection';
-import IndicatorThresholdField from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/IndicatorThresholdField';
-import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import SloIndicatorTypeSelectorFormSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorTypeSelectorFormSection';
+import IndicatorAggregationField from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/IndicatorAggregationField';
+import IndicatorThresholdField from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/IndicatorThresholdField';
+import IndicatorFieldsSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/IndicatorFieldsSection';
+import HeadlineFormSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/HeadlineFormSection';
+import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 
 export default function SloIndicatorAvailabilityForm() {
   const { form, mode, onChange } = useContext(SloFormContext);

@@ -48,7 +48,7 @@ describe('DownloadPdfDialog Component', () => {
     const { getByText } = render(<DownloadPdfDialog customDashboardId="test-pdf" node={mockNode} close={() => {}} />);
 
     // Click to generate preview
-    fireEvent.click(getByText('Generate Preview'));
+    fireEvent.click(getByText('Generate preview'));
 
     await waitFor(() => {
       expect(jsPDF).toHaveBeenCalledTimes(1);
@@ -64,7 +64,7 @@ describe('DownloadPdfDialog Component', () => {
     fireEvent.click(getByText('Portrait'));
 
     // Click to generate preview
-    fireEvent.click(getByText('Generate Preview'));
+    fireEvent.click(getByText('Generate preview'));
 
     await waitFor(() => {
       expect(jsPDF).toHaveBeenCalledTimes(2);

@@ -79,7 +79,7 @@ function Header(props) {
     <DashboardHeader
       {...props}
       title={t('in-nutanix:dashboards.nutanixDatacenter')}
-      icon="lib_nutanix_datacenter"
+      icon="lib_nutanix"
       label={get(props.result, ['data', 'label'])}
       renderMetaInformation={RenderMetaInformation}
     />

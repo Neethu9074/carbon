@@ -13,8 +13,8 @@ import {
   filterThresholdTypeOptionsForEvaluationType,
   getOptionsFilterForThresholdTyp
 } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
-import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/dialog/advanced/RecalculateBaselineButton';
-import { getThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormHelper';
+import RecalculateMultiThresholdBaselineButton from 'in-alerting/smart-alerts/components/dialog/advanced/RecalculateMultiThresholdBaselineButton';
+import { getMultiThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormHelper';
 import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/form/thresholdTypeForm';
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { DAILY, WEEKLY } from 'in-alerting/smart-alerts/data/seasonalities';
@@ -30,15 +30,15 @@ export default function ThresholdTypeSelection({
   isGlobalSmartAlert,
   thresholdTypeOptions
 }) {
-  const thresholdType = form.get('threshold').get('type')?.value;
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const evaluationType = form.get('evaluationType').value;
-  const seasonality = form.get('threshold')?.get('seasonality')?.value;
+  const seasonality = form.get('threshold')?.get('warningThreshold').get('seasonality')?.value;
   const options = filterThresholdTypeOptionsForEvaluationType(
     thresholdTypeOptions,
     evaluationType,
     isGlobalSmartAlert
   ).filter(getOptionsFilterForThresholdTyp(thresholdType));
-  const thresholdComboBoxValue = getThresholdComboBoxValue(form);
+  const thresholdComboBoxValue = getMultiThresholdComboBoxValue(form);
 
   return (
     <>
@@ -71,7 +71,7 @@ export default function ThresholdTypeSelection({
             />
           </Stack>
           {thresholdType === HISTORIC_BASELINE && (
-            <RecalculateBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
+            <RecalculateMultiThresholdBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
           )}
         </div>
       )}

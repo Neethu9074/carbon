@@ -11,10 +11,12 @@ import {
   StaticThresholdConfig,
   ThresholdConfig,
   ThresholdType,
-  VersionedConfig
+  VersionedConfig,
+  RuleWithThreshold,
+  ApplicationAlertRuleUnion
 } from 'in-types';
+import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
-import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { InfraAlertType } from 'in-alerting/smart-alerts/infrastructure/data/blueprintConfig';
 import { WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
@@ -82,6 +84,83 @@ export function updateThresholdInForm<
   updateForm(newForm);
 }
 
+export function updateMultiThresholdInForm(
+  createThresholdForm: (
+    ruleWithThreshold: RuleWithThreshold<ApplicationAlertRuleUnion> | undefined,
+    alertType: ApplicationAlertType,
+    editMode?: boolean,
+    simpleMode?: boolean
+  ) => MapForm<any>,
+  form: MapForm<any>,
+  updateForm: (form: MapForm<any>) => void,
+  data: { type: string; value: any },
+  errors: string | any[],
+  simpleMode: boolean
+): void {
+  thresholdOrBaselineLoadingSignal$.emit(false);
+  const currentThresholdForm = form.get('threshold') as MapForm<any>;
+  const warningThresholdField = currentThresholdForm.get('warningThreshold');
+  const criticalThresholdField = currentThresholdForm.get('criticalThreshold');
+  const alertType = ((form.get('rule') as MapForm<any>)!.get('alertType') as Field<ApplicationAlertType>)!.value;
+
+  let ruleWithThreshold = {
+    rule: form.get('rule').toJS(),
+    thresholdOperator: form.get('threshold').get('operator').value,
+    thresholds: {
+      WARNING: createThresholdByType(warningThresholdField),
+      CRITICAL: createThresholdByType(criticalThresholdField)
+    }
+  };
+
+  function createThresholdByType(thresholdField: MapForm<any>): any {
+    const currentThreshold = thresholdField.toJS();
+
+    let thresholdData;
+    if (errors.length === 0) {
+      thresholdData = {
+        ...currentThreshold,
+        ...data
+      };
+      if (thresholdField === criticalThresholdField) {
+        thresholdData.value = simpleMode ? null : currentThreshold?.value ?? null;
+      }
+    } else {
+      thresholdData = {
+        ...currentThreshold,
+        value: null,
+        isCheckboxSelected: currentThreshold.type === STATIC_THRESHOLD ? false : currentThreshold.isCheckboxSelected,
+        baseline: []
+      };
+    }
+
+    return thresholdData;
+  }
+
+  let updatedThresholdForm = createThresholdForm(ruleWithThreshold, alertType, true, simpleMode);
+  updatedThresholdForm = shouldAddNewMultiThresholdData(simpleMode, currentThresholdForm)
+    ? updatedThresholdForm
+    : currentThresholdForm;
+  // preserve touched state on staticThreshold types
+  // we need to do this because, createThresholdForm discards all touched states from the threshold form
+  // and because we use the touched state to decide if we should overwrite the current threshold input with new suggestions
+  // automatically
+  if (data?.type === STATIC_THRESHOLD && warningThresholdField.containsKey('value')) {
+    const staticThresholdValue = warningThresholdField.get('value');
+    const oldState = (staticThresholdValue as Field<string>).touched;
+    updatedThresholdForm = updatedThresholdForm!.updateIn(['warningThreshold', 'value'], f =>
+      (f as Field<any>).setTouched(oldState)
+    );
+  }
+
+  let newForm = form
+    .put('threshold', updatedThresholdForm!)
+    .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => (f as Field<boolean>).setValue(false))
+    // @ts-expect-error ts has problems with nested fields on MapForm<any>, because it cant know the contents
+    .updateIn(['hiddenFields', 'suggestedThresholdValue'], f => (f as Field<number>).setValue(data?.value));
+
+  updateForm(newForm);
+}
+
 export function duplicateAlertConfig<
   T extends VersionedConfig & {
     name: string;
@@ -129,6 +208,23 @@ function shouldAddNewThresholdData(simpleMode: boolean, thresholdForm: MapForm<a
   }
 
   return !thresholdForm?.get('baseline')?.touched;
+}
+
+function shouldAddNewMultiThresholdData(simpleMode: boolean, thresholdForm: MapForm<any>): boolean {
+  if (simpleMode) return true;
+
+  const type = (thresholdForm?.get('warningThreshold')?.get('type') as Field<ThresholdType>)?.value;
+
+  if (type === STATIC_THRESHOLD) {
+    return !thresholdForm?.hierarchyTouched;
+  }
+  if (type === HISTORIC_BASELINE) {
+    return !thresholdForm?.get('warningThreshold')?.get('baseline')?.touched;
+  }
+  if (type === ADAPTIVE_BASELINE) {
+    return !thresholdForm?.get('baseline')?.touched;
+  }
+  return true;
 }
 
 export function isEmpty(value: any) {

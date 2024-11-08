@@ -216,8 +216,11 @@ export default function DetailTab({
   if (type === ACTION_TYPE.ANSIBLE) {
     const ansibleUrl = metadata?.find(data => data.name === 'ansibleUrl');
     const ansibleJobId = metadata?.find(data => data.name === 'ansibleJobId');
+    const ansibleWorkflowJobId = metadata?.find(data => data.name === 'ansibleWorkflowId');
     if (ansibleUrl && ansibleJobId) {
-      const jobUrl = `${ansibleUrl.value}/#/jobs/playbook/${ansibleJobId.value}`;
+      const isAnsibleWorkflow = ansibleWorkflowJobId?.value !== '';
+      const templateName = isAnsibleWorkflow ? 'workflow' : 'playbook';
+      const jobUrl = `${ansibleUrl.value}/#/jobs/${templateName}/${ansibleJobId.value}`;
       tableData.push({
         label: t('in-automation:actionHistory.ansibleJob'),
         value: ansibleJobId.value ?? '',

@@ -30,6 +30,7 @@ export function LinkButton({ itemId, time, groupKey, className }: LinkButtonProp
       <CopyToClipboard getText={() => link.toString()}>
         {(copyToClipboardRef: React.ForwardedRef<HTMLButtonElement>) => (
           <IconButton
+            data-testid="link-button"
             color="var(--ids-color-option-neutral-900)"
             className={className}
             ref={copyToClipboardRef}

@@ -11,7 +11,6 @@
       }
     },
     "applicationIds": ["rZKBzrADRPWYLnu6QwgFJA"],
-    "severity": 10,
     "triggering": true,
     "tagFilterExpression": {
       "type": "EXPRESSION",
@@ -20,17 +19,22 @@
     },
     "includeInternal": true,
     "includeSynthetic": true,
-    "rule": {
-      "alertType": "errors",
-      "metricName": "errors",
-      "aggregation": "MEAN"
-    },
-    "threshold": {
-      "type": "staticThreshold",
-      "operator": ">=",
-      "value": 0.13,
-      "lastUpdated": 0
-    },
+    "rules": [
+      {
+        "rule": {
+          "alertType": "errors",
+          "metricName": "errors",
+          "aggregation": "MEAN"
+        },
+        "thresholdOperator": ">=",
+        "thresholds": {
+          "WARNING": {
+            "type": "staticThreshold",
+            "value": 0.13
+          }
+        }
+      }
+    ],
     "alertChannelIds": ["iYCMUdyggaRAdHQt", "jNjhzEIcJsmxt8Wr", "rq2yKfqQJFd_EnAl", "A_5EsBb228e9TQFY"],
     "granularity": 1200000,
     "timeThreshold": {

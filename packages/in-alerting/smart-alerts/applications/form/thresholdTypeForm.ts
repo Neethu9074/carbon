@@ -6,18 +6,27 @@
 import { Field, MapForm } from 'formalistic';
 
 import {
+  AlertEvaluationType,
+  ThresholdType,
+  Granularity,
+  SmartAlertThresholdRuleUnion,
+  StaticThresholdRule,
+  StaticBaselineThresholdRule,
+  AdaptiveThresholdRule
+} from 'in-types';
+import {
   PER_AP_ENDPOINT,
   PER_AP_SERVICE
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { defaultAdaptiveBaselineTimeWindow } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
+import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { updateFormIfHistoricBaseline } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdUtil';
 import { defaultAdaptiveBaselineGranularity } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
-import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/dialog/trackingHelpers';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { perEndpointAdaptiveBaselineEnabled } from 'in-services/featureFlags';
-import { AlertEvaluationType, ThresholdType, Granularity } from 'in-types';
+import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 
 export function onThresholdTypeChange(
   typeWithOptionalSeasonality: string,
@@ -27,22 +36,63 @@ export function onThresholdTypeChange(
 ): void {
   const typeSeasonalityParts = typeWithOptionalSeasonality.split('.');
   const updatedThresholdType: ThresholdType = typeSeasonalityParts[0] as ThresholdType;
+  const warningThresholdField = form.get('threshold').get('warningThreshold');
+  const criticalThresholdField = form.get('threshold').get('criticalThreshold');
 
   const rule = form.get('rule')!.toJS();
   const { alertType } = rule;
   let newThresholdForm: MapForm<any> = createThresholdForm(
     {
-      ...form.get('threshold')!.toJS(),
-      type: updatedThresholdType
+      rule,
+      thresholdOperator: form.get('threshold').get('operator').value,
+      thresholds: {
+        WARNING: createThresholdByType(updatedThresholdType, warningThresholdField),
+        CRITICAL: createThresholdByType(updatedThresholdType, criticalThresholdField)
+      }
     },
-    alertType
+    alertType,
+    true
   );
+
+  function createThresholdByType(type: string, thresholdField: MapForm<any>): SmartAlertThresholdRuleUnion {
+    switch (type) {
+      case STATIC_THRESHOLD:
+        return {
+          type: 'staticThreshold',
+          value:
+            thresholdField.get('value')?.value ?? thresholdField.get('isCheckboxSelected')?.value === true ? 0 : null,
+          isCheckboxSelected: thresholdField.get('isCheckboxSelected')?.value
+        } as unknown as StaticThresholdRule;
+      case HISTORIC_BASELINE:
+        return {
+          type: 'historicBaseline',
+          deviationFactor:
+            thresholdField.get('deviationFactor')?.value ?? thresholdField.get('isCheckboxSelected')?.value === true
+              ? 3
+              : 0,
+          baseline: thresholdField.get('baseline')?.value ?? [],
+          seasonality: thresholdField.get('seasonality')?.value ?? DAILY,
+          isCheckboxSelected: thresholdField.get('isCheckboxSelected')?.value
+        } as unknown as StaticBaselineThresholdRule;
+      case ADAPTIVE_BASELINE:
+        return {
+          type: 'adaptiveBaseline',
+          deviationFactor:
+            thresholdField.get('deviationFactor')?.value ?? thresholdField.get('isCheckboxSelected')?.value === true
+              ? 3
+              : 0,
+          isCheckboxSelected: thresholdField.get('isCheckboxSelected')?.value
+        } as unknown as AdaptiveThresholdRule;
+      default:
+        throw new Error('Unknown threshold type');
+    }
+  }
 
   if (updatedThresholdType === HISTORIC_BASELINE) {
     const seasonality = typeSeasonalityParts[1];
-    newThresholdForm = newThresholdForm.updateIn(['seasonality'], f =>
-      (f as Field<string>).setValue(seasonality).setTouched(true)
-    );
+    newThresholdForm = newThresholdForm
+      .updateIn(['warningThreshold', 'seasonality'], f => (f as Field<string>).setValue(seasonality).setTouched(true))
+      .updateIn(['criticalThreshold', 'seasonality'], f => (f as Field<string>).setValue(seasonality).setTouched(true));
   }
 
   const newRuleForm = createRuleForm({ ...rule });

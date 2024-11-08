@@ -13,7 +13,7 @@ import locals from './TearSheetStepContentWrapper.mless';
 
 export interface TearSheetStepContentWrapperProps {
   headline: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   description?: string;
   hidePadding?: boolean;
 }

@@ -9,7 +9,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
+import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useApplicationSmartAlertFormSideEffects';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
@@ -18,17 +18,24 @@ import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 describe('in-alerting/smart-alerts/applications/hooks/useSmartAlertFormSideEffects', () => {
   const initialAlertData = {
     boundaryScope: 'INBOUND',
-    rule: {
-      alertType: 'slowness',
-      operator: 'EQUALS',
-      metricName: 'latency'
-    },
-    threshold: {
-      type: HISTORIC_BASELINE,
-      value: 0.0,
-      seasonality: DAILY,
-      baseline: [1]
-    },
+    rules: [
+      {
+        rule: {
+          alertType: 'slowness',
+          operator: 'EQUALS',
+          metricName: 'latency'
+        },
+        thresholdOperator: '>=',
+        thresholds: {
+          WARNING: {
+            type: HISTORIC_BASELINE,
+            value: 0.0,
+            seasonality: DAILY,
+            baseline: [1]
+          }
+        }
+      }
+    ],
     calculateThresholdOnBackend: false,
     includeSynthetic: false,
     applications: getEntitySelection('foo')
@@ -43,7 +50,7 @@ describe('in-alerting/smart-alerts/applications/hooks/useSmartAlertFormSideEffec
       updateForm(form.updateIn(['boundaryScope'], f => f.setValue('ALL')));
 
       expect(setForm.lastArg.get('hiddenFields').get('calculateThresholdOnBackend').value).to.be.true;
-      expect(setForm.lastArg.get('threshold').get('baseline').value).to.be.empty;
+      expect(setForm.lastArg.get('threshold').get('warningThreshold').get('baseline').value).to.be.empty;
     });
 
     it('resetting the threshold also requests a new baseline', () => {

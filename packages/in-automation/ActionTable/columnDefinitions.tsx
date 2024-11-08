@@ -6,15 +6,15 @@
 
 import React from 'react';
 
-import { Typography, Link } from '@instana/components';
 import { formatDateTime } from '@instana/format-date';
+import { Typography } from '@instana/components';
 import { Action } from '@instana/types';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWrapper';
-import { ACTION_TRANSLATIONS, ACTION_TYPE } from 'in-automation/constants';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import WithSubscript from 'in-settings/components/WithSubscript';
+import { ACTION_TRANSLATIONS } from 'in-automation/constants';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { ScoredAction } from 'in-automation/types';
 import { t } from 'in-i18n';
@@ -24,21 +24,14 @@ export const nameColumn: ColumnDefinition<Action | ScoredAction> = {
   label: t('in-automation:name'),
   ellipsis: true,
   getContent(action) {
-    const description = action.description ?? action.name;
-    const name = action.type === ACTION_TYPE.EXTERNAL ? description : action.name;
+    const name = action.name;
     return (
       <Tooltip content={name} align="auto" delay={500} overwriteBlock caret={false}>
-        {action.type === ACTION_TYPE.EXTERNAL ? (
-          <Link ellipsis href={action.name} external>
-            <span>{name}</span>
-          </Link>
-        ) : (
-          <WithSubscript subscript={ACTION_TRANSLATIONS[action.type]}>
-            <Typography noWrap variant="body-regular">
-              {name}
-            </Typography>
-          </WithSubscript>
-        )}
+        <WithSubscript subscript={ACTION_TRANSLATIONS[action.type]}>
+          <Typography noWrap variant="body-regular">
+            {name}
+          </Typography>
+        </WithSubscript>
       </Tooltip>
     );
   },
@@ -77,7 +70,6 @@ export const scoreColumn: ColumnDefinition<ScoredAction> = {
   width: 10,
   sortable: true,
   getContent(action) {
-    if (action.type === ACTION_TYPE.EXTERNAL) return null;
     return (
       <Tooltip
         content={t('in-automation:ActionCatalog.confidenceHelpText', { source: action.aiEngine })}

@@ -11,8 +11,8 @@ import { Typography } from '@instana/components';
 import WebsiteTagFilterBuilder from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/WebsiteTagFilterBuilder';
 import BeaconSelector from 'in-service-levels/components/ConfigDialog/components/FormComponents/BeaconSelector';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
+import { defaultBeaconType, titleWidth } from 'in-service-levels/constants';
 import Sections from 'in-components/workspace/Sections/Sections';
-import { titleWidth } from 'in-service-levels/constants';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
 
@@ -22,6 +22,7 @@ export default function SloScopeWebsiteSection() {
   const websiteIdField = form.getIn(['entity', 'entityIds']);
   const beaconTypeField = form.getIn(['scope', 'beaconType']);
 
+  const beaconType = beaconTypeField.value ?? defaultBeaconType;
   const isFormInEditMode = mode === 'EDIT';
 
   return (
@@ -36,7 +37,7 @@ export default function SloScopeWebsiteSection() {
             onChange={newBeaconType =>
               onChange(['scope', 'beaconType'], () => beaconTypeField.setValue(newBeaconType).setTouched(true))
             }
-            value={beaconTypeField.value}
+            value={beaconType}
           />
         </Section>
         <WebsiteTagFilterBuilder readOnly={isFormInEditMode} width={titleWidth} />

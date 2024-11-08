@@ -113,9 +113,6 @@ export default function RunActionDialogContent({
     return <ManualActionContent content={getManualContentFromFields(action.fields)} addCopyButton />;
   }
 
-  if (action.type === ACTION_TYPE.EXTERNAL) {
-    return <ExternalActionContent action={action} agentSnapShots={agentSnapShots} form={form} setForm={setForm} />;
-  }
   return (
     <HorizontalFlexWrapper className={locals.alignStretch}>
       <Col lg={8}>
@@ -161,48 +158,6 @@ export default function RunActionDialogContent({
         </DescriptionList>
       </Col>
     </HorizontalFlexWrapper>
-  );
-}
-
-function TurboAgentSelection({
-  form,
-  setForm,
-  agentSnapShots
-}: Pick<RunActionDialogContentProps, 'form' | 'setForm' | 'agentSnapShots'>) {
-  const targetAgent = form?.get('targetAgent') as Field<string> | undefined;
-
-  const options = agentSnapShots?.data?.online?.map(agent => {
-    const hostname = agent.label ?? '';
-    return {
-      label: hostname,
-      value: agent.volatileId?.host_id ?? ''
-    };
-  });
-
-  return (
-    <>
-      {targetAgent?.map(field => (
-        <FormGroup>
-          <Label htmlFor="target-agent" hasError={!field.valid && field.touched}>
-            {t('in-automation:targetAgent')}
-          </Label>
-          <ComboBox
-            options={options ?? []}
-            id="target-agent"
-            value={field.value}
-            isClearable={false}
-            onChange={o => {
-              const updatedForm = form?.updateIn(['targetAgent'], field =>
-                (field as Field<string>).setValue((o as Option).value).setTouched(true)
-              );
-              setForm(updatedForm);
-            }}
-          />
-          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-          <HelpText className={locals.subTextFormField}>{t('in-automation:targetAgentDescription')}</HelpText>
-        </FormGroup>
-      ))}
-    </>
   );
 }
 
@@ -489,48 +444,6 @@ function JiraActionContent({ action }: Pick<RunActionDialogContentProps, 'action
   );
 }
 
-function ExternalActionContent({
-  action,
-  agentSnapShots,
-  form,
-  setForm
-}: Pick<RunActionDialogContentProps, 'action' | 'agentSnapShots' | 'form' | 'setForm'>) {
-  const noTurboAgents = agentSnapShots?.data?.online?.length === 0; // this sets true when  when agent is unavailable to run turbo action;
-  const numberOfTurboAgents = agentSnapShots?.data?.online?.length ?? 1;
-  const targetAgentForTurbo = agentSnapShots?.data?.online[0]?.label;
-
-  return (
-    <DescriptionList inComponents>
-      <DescriptionItem
-        inComponents
-        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-        title={t('in-automation:name')}
-      >
-        {action.description}
-      </DescriptionItem>
-      {numberOfTurboAgents > 1 ? (
-        <TurboAgentSelection form={form} setForm={setForm} agentSnapShots={agentSnapShots} />
-      ) : !noTurboAgents ? (
-        <DescriptionItem
-          inComponents
-          className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-          title={t('in-automation:targetAgent')}
-        >
-          {targetAgentForTurbo}
-        </DescriptionItem>
-      ) : (
-        <DescriptionItem
-          inComponents
-          className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-          title={t('in-automation:targetAgent')}
-        >
-          {t('in-automation:noTargetAgent')}
-        </DescriptionItem>
-      )}
-    </DescriptionList>
-  );
-}
-
 function ParameterInput({
   action,
   form,
@@ -775,7 +688,7 @@ function AnsibleActionContent({
 }
 
 function AnsibleActionMetadata({ action }: Pick<RunActionDialogContentProps, 'action'>) {
-  const { jobTemplateUrl } = getAnsibleFields(action);
+  const { jobTemplateUrl, isWorkflowJobTemplate } = getAnsibleFields(action);
 
   return (
     <>
@@ -783,7 +696,7 @@ function AnsibleActionMetadata({ action }: Pick<RunActionDialogContentProps, 'ac
         <DescriptionItem
           inComponents
           className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-          title={t('in-automation:jobTemplate')}
+          title={isWorkflowJobTemplate ? t('in-automation:workflowJobTemplate') : t('in-automation:jobTemplate')}
         >
           <Link external href={jobTemplateUrl}>
             {action.name}
