@@ -42,12 +42,19 @@
     line-height: 18px;
   }
   .linkButton {
-    border: 1px solid;
+    border: 0;
     width: 136px;
-    justify-content: space-around;
+    height: 32px;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .linkButton:hover:global(.cds--link) {
+    background-color: var(--cds-button-primary);
+    color: #ffffff;
+    text-decoration: none;
   }
   .buttonSection {
-    margin-top: 32px;
+    margin-top: 16px;
     border-top: 1px solid #e0e0e0;
   }
 }
