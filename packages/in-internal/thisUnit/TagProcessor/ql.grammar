@@ -1,0 +1,31 @@
+@top Expression { OrExpression? ( GroupByKeyword GroupByExpression )? }
+
+GroupByExpression { TagKey ( Comma TagKey )* }
+
+OrExpression { AndExpression ( OrKeyword AndExpression )* }
+
+AndExpression { Term ( AndKeyword Term )* }
+
+Term { Filter | OpenParentheses OrExpression CloseParentheses }
+
+Filter { TagKey FilterOperator TagValue }
+
+TagKey { String }
+
+TagValue { String | QuotedString }
+
+@skip { space }
+
+@tokens {
+  String { $[A-Za-z0-9_.-/]+ }
+  QuotedString { "\"" !["]* "\"" }
+  OrKeyword { "or" | "OR" }
+  AndKeyword { "and" | "AND" }
+  GroupByKeyword { "group by" | "GROUP BY" }
+  FilterOperator { "=" | "!=" }
+  Comma { "," }
+  OpenParentheses[closedBy="CloseParentheses"] { "(" }
+  CloseParentheses { ")" }
+  space { @whitespace+ }
+  @precedence { GroupByKeyword, String }
+}
