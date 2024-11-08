@@ -7,13 +7,15 @@
 :local {
   .panel {
     background-color: var(--cds-layer);
-    padding-left: 16px;
-    padding-right: 16px;
+    margin-left: -24px;
+    margin-right: -24px;
     padding-top: 16px;
   }
   .contentContainer {
     display: flex;
     width: 100%;
+    margin-left: 36px;
+    margin-right: 36px;
     gap: 24px;
     justify-content: flex-start;
   }
@@ -28,6 +30,7 @@
     font-size: 32px;
     font-weight: 400;
     line-height: 40px;
+    margin-left: 36px;
     margin-bottom: 16px;
   }
   .columnTitle {
@@ -55,6 +58,7 @@
   }
   .buttonSection {
     margin-top: 16px;
+    padding-left: 36px;
     border-top: 1px solid #e0e0e0;
   }
 }
