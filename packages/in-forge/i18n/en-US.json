@@ -9581,6 +9581,8 @@
       "region": "Region",
       "organization": "Organization",
       "version": "Version",
+      "accountLocator": "Account Locator",
+      "accountName": "Account Name",
       "dashboard": {
         "creditUsagePerHour": "Credit usage per hour",
         "totalStorageBytes": "Total storage bytes",
@@ -9612,10 +9614,13 @@
       "dashboard": {
         "overallCreditUsage": "Overall credit usage",
         "totalStorageBytes": "Total storage bytes",
-        "availableBalance": "Available balance",
+        "usageInCurrency": "Usage In Currency",
         "topFiveBillingAccountsByCreditUsage": "Top 5 Billing Accounts by Credit Usage",
-        "availableBalanceInCurrency": "Available balance in currency",
-        "balance": "Balance"
+        "remainingBalanceInCurrency": "Remaining balance in currency",
+        "balance": "Balance",
+        "accountName": "Account Name",
+        "credits": "Credits",
+        "TopBillingAccounts": "Top 5 Billing Accounts"
       }
     },
     "solr": {

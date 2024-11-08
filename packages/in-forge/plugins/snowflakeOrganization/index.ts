@@ -13,7 +13,8 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.snowflakeOrganization,
-  kpiDefinitions
+  kpiDefinitions,
+  getIconType: () => 'snowflake'
   //metricDefinitions,
   //agentMonitoringIssueDefinitions
 });
