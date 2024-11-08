@@ -15,6 +15,9 @@
       "toggleExtraContent": "Toggle extra content",
       "initiateDefaultAction": "Initiate default action"
     },
+    "link": {
+      "opensInNewTab": "(opens in new tab)"
+    },
     "table": {
       "tableErrorRows": {
         "unexpectedError": "An unexpected error occurred. Please refresh the page or try again later."
