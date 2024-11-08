@@ -62,7 +62,6 @@ module.exports = {
   carbonMenuEnabled: true,
   carbonDropdownEnabled: true,
   notesAndActivityEnabled: true,
-  carbonLoadingSkeletonFeatureEnabled: true,
   carbonLoadingSpinnerEnabled: true,
   carbonDescriptionListEnabled: true,
   carbonTooltipEnabled: true,
