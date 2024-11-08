@@ -25,7 +25,7 @@ interface DownloadOptionsDropdownProps {
   traceSummary?: TraceSummary;
 }
 
-export function DownloadOptionsDropdown({ traceId, traceSummary }: DownloadOptionsDropdownProps) {
+export function DownloadOptionsDropdown({ traceId, traceSummary }: DownloadOptionsDropdownProps): JSX.Element {
   const ref: React.MutableRefObject<HTMLButtonElement | HTMLAnchorElement | undefined> = useRef();
   const { trackDownloadTraceClicked } = useApplicationTracker();
 
@@ -54,25 +54,25 @@ export function DownloadOptionsDropdown({ traceId, traceSummary }: DownloadOptio
     <Stack gap="disabled">
       <Button
         kind="subtle"
-        noAutoMargin
         className={locals.downloadOption}
         onClick={() => {
           trackDownloadTraceClicked({ rawTrace: false });
           close();
           window.open(traceDownloadUrl(traceId, traceSummary), '_blank');
         }}
+        noAutoMargin
       >
         {t('in-applications:linkDownloadCalls')}
       </Button>
       <Button
         kind="subtle"
-        noAutoMargin
         className={locals.downloadOption}
         onClick={() => {
           trackDownloadTraceClicked({ rawTrace: true });
           close();
           window.open(rawTraceDownloadUrl(traceId), '_blank');
         }}
+        noAutoMargin
       >
         {t('in-applications:linkDownloadRawTrace')}
       </Button>
