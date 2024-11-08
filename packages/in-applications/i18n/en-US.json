@@ -687,6 +687,21 @@
     "alternativeServicesProblem": "<bold>No</bold>, if the name of the current service comes from the HTTP \"Host\" header (service mapping rule whose id is call.http.host) and the name of the alternative service does not (because its name comes from a rule which is based on infrastructure tags), or vice versa. These are duplicate services.",
     "alternativeServicesPossibleProblem": "<bold>Maybe</bold>, if the current service and the alternative service names do not come from the HTTP \"Host\" header, then they are either services sitting behind a proxy (good) or they are duplicate services (bad): some of the services are fully linked to infra, while others are partially linked to infra."
   },
+  "infoBanner": {
+    "title": "Resource actions, powered by Turbonomic",
+    "tryLabel": "Try before you buy",
+    "tryText": "Start a free trial to see how resource actions can help your applications.",
+    "tryButtonLabel": "Start a trial",
+    "learnLabel": "Learn more",
+    "learnText": "Check out some blogs and additional media to stay updated about this feature.",
+    "learnButtonLabel": "Visit us online",
+    "connectLabel": "Connect with sales",
+    "connectText": "Reach out to our sales team and let them know you are interested.",
+    "connectButtonLabel": "Buy now",
+    "helpLabel": "Help us grow",
+    "helpText": "Share your thoughts with us so we can continue to provide the features you want the most.",
+    "helpButtonLabel": "Give feedback"
+  },
   "labelSyntheticMonitoring": "Synthetic Monitoring",
   "labelResourceOptimizations": "Optimizations"
 }

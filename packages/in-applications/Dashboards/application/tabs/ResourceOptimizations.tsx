@@ -45,7 +45,7 @@ const colorPalette = [
   chartColors.fiveColorPalette[4]
 ];
 
-const showGuidance = false;
+const showGuidance = true;
 
 function generateTimeframe(windowSize: number) {
   return {
@@ -91,31 +91,38 @@ export default function ResourceOptimizationTab({
       {showGuidance && (
         <InfoPanel
           content={{
-            //The text is not approved in time for the release, so do not put them in i18n files. The infoPanel is not displayed for now.
-            title: 'Resource optimizations, powered by Turbonomic',
+            title: t('in-applications:infoBanner.title'),
             columns: [
               {
-                title: 'Set up integration',
-                text: 'You can automate actions to comply with service level objectives and improve business efficiency.',
+                title: t('in-applications:infoBanner.tryLabel'),
+                text: t('in-applications:infoBanner.tryText'),
                 link: {
                   url: '#',
-                  label: 'Set up'
+                  label: t('in-applications:infoBanner.tryButtonLabel')
                 }
               },
               {
-                title: 'Upgrade to Instana Premium',
-                text: 'You can automate actions to comply with service levels and improve business efficiency.',
+                title: t('in-applications:infoBanner.learnLabel'),
+                text: t('in-applications:infoBanner.learnText'),
                 link: {
                   url: '#',
-                  label: 'Upgrade'
+                  label: t('in-applications:infoBanner.learnButtonLabel')
                 }
               },
               {
-                title: 'View documentation',
-                text: 'You can automate actions to comply with service levels and improve business efficiency.',
+                title: t('in-applications:infoBanner.connectLabel'),
+                text: t('in-applications:infoBanner.connectText'),
                 link: {
                   url: '#',
-                  label: 'View docs'
+                  label: t('in-applications:infoBanner.connectButtonLabel')
+                }
+              },
+              {
+                title: t('in-applications:infoBanner.helpLabel'),
+                text: t('in-applications:infoBanner.helpText'),
+                link: {
+                  url: '#',
+                  label: t('in-applications:infoBanner.helpButtonLabel')
                 }
               }
             ]

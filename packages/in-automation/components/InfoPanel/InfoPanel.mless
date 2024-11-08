@@ -7,8 +7,6 @@
 :local {
   .panel {
     background-color: var(--cds-layer);
-    margin-left: 16px;
-    margin-right: 16px;
     padding-left: 16px;
     padding-right: 16px;
     padding-top: 16px;
@@ -36,6 +34,7 @@
     font-size: 14px;
     font-weight: 600;
     line-height: 20px;
+    margin-bottom: 12px;
   }
   .columnText {
     font-size: 14px;
