@@ -4,12 +4,17 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
 import { render } from '@testing-library/react';
-import EntityHealthIcon from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/EntityHealthIcon';
+import React from 'react';
+
 import { useObservable } from '@instana/hooks';
-import {healthColors} from 'in-stores/events'
-const getMockSeverityInfo = (maxSeverity: number) => (new Map(Object.entries({maxSeverity, numberOfOpenEvent: maxSeverity ? 1 : 0,"eventWithMaxSeverity":null,"eventIds":[]})))
+
+import EntityHealthIcon from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/EntityHealthIcon';
+import { healthColors } from 'in-stores/events';
+const getMockSeverityInfo = (maxSeverity: number) =>
+  new Map(
+    Object.entries({ maxSeverity, numberOfOpenEvent: maxSeverity ? 1 : 0, eventWithMaxSeverity: null, eventIds: [] })
+  );
 
 jest.mock('@instana/hooks', () => ({
   useObservable: jest.fn()
@@ -40,6 +45,6 @@ describe('EntityHealthIcon', () => {
 
     const iconSvg = container.querySelector('svg');
 
-    expect(iconSvg).toHaveStyle({ 'fill': expectedColor});
+    expect(iconSvg).toHaveStyle({ fill: expectedColor });
   });
 });

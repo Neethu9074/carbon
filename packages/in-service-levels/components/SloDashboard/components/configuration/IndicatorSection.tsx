@@ -15,6 +15,7 @@ import SloConfigSection, {
 } from 'in-service-levels/components/SloDashboard/components/configuration/SloConfigSection';
 import TagFilterQueryBuilder from 'in-service-levels/components/SloDashboard/components/configuration/components/TagFilterQueryBuilder';
 import { createGoodBadTagFilterExpression } from 'in-service-levels/utils/tagFilter';
+import { defaultSliThresholdOperator } from 'in-service-levels/constants';
 import { percentage } from 'in-services/formatters/number';
 
 interface IndicatorSectionProps {
@@ -33,7 +34,19 @@ const contentDefinitions: RowDefinition[] = [
   },
   {
     id: 'aggregation',
-    columns: [{ getContent: ThresholdColumn }, { getContent: AggregationColumn }],
+    columns: [
+      {
+        getContent: ThresholdColumn
+      },
+      {
+        getContent: AggregationColumn,
+        shouldRender: ({ configuration: { indicator } }) => indicator.blueprint !== 'traffic'
+      },
+      {
+        getContent: TrafficTypeColumn,
+        shouldRender: ({ configuration: { indicator } }) => indicator.blueprint === 'traffic'
+      }
+    ],
     shouldRender: ({ configuration: { indicator } }) =>
       !(indicator.type === 'eventBased' && ['availability', 'custom'].includes(indicator.blueprint))
   }
@@ -72,18 +85,43 @@ function ThresholdColumn({ data }: IndicatorSectionProps) {
   const { indicator } = data.configuration;
   if (indicator.blueprint === 'custom' && indicator.type === 'eventBased') return null;
 
-  const { threshold, blueprint } = indicator;
+  const { threshold, blueprint, operator } = indicator;
+
+  const value =
+    blueprint === 'availability'
+      ? percentage.detailed(threshold)
+      : blueprint === 'traffic'
+      ? `${operator ?? defaultSliThresholdOperator} ${threshold}`
+      : threshold;
 
   return (
     <KeyValue
       label={t('in-service-levels:sloDashboard.components.indicatorSection.thresholdLabel', { context: blueprint })}
-      value={blueprint === 'availability' ? percentage.detailed(threshold) : threshold}
+      value={value}
+    />
+  );
+}
+
+function TrafficTypeColumn({ data }: IndicatorSectionProps) {
+  const { indicator, entity } = data.configuration;
+  if (indicator.blueprint !== 'traffic') return null;
+
+  const { trafficType } = indicator;
+  const { type } = entity;
+
+  return (
+    <KeyValue
+      label={t('in-service-levels:sloDashboard.components.indicatorSection.trafficTypeLabel')}
+      value={t(`in-service-levels:general.indicator.${type}.trafficType`, {
+        context: trafficType
+      })}
     />
   );
 }
 
 function AggregationColumn({ data }: IndicatorSectionProps) {
-  if (data.configuration.indicator.type !== 'timeBased') return null;
+  if (data.configuration.indicator.type !== 'timeBased' || data.configuration.indicator.blueprint === 'traffic')
+    return null;
 
   return (
     <KeyValue

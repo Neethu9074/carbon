@@ -13,12 +13,14 @@ import {
   DurationUnitType,
   AggregationType,
   ServiceLevelObjectiveConfiguration,
-  BlueprintType
+  BlueprintType,
+  SLIThresholdOperator,
+  TrafficIndicatorType
 } from '@instana/types';
 
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { SloForm, SloScopeFields } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
-import { defaultBlueprint } from 'in-service-levels/constants';
+import { defaultBlueprint, defaultSliThresholdOperator } from 'in-service-levels/constants';
 
 export const testDate = new Date('2020-01-01');
 
@@ -35,6 +37,8 @@ export const testWebsiteForm: SloForm = createMapForm({
         aggregation: createField<AggregationType>({ value: 'P90' }),
         badEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
         blueprint: createField<BlueprintType>({ value: 'latency' }),
+        operator: createField<SLIThresholdOperator>({ value: defaultSliThresholdOperator }),
+        trafficType: createField<TrafficIndicatorType | undefined>({ value: undefined }),
         goodEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
         threshold: createField<number | undefined>({ value: 55 }),
         type: createField<ServiceLevelIndicatorType | undefined>({ value: 'eventBased' })
@@ -87,6 +91,8 @@ export const testApplicationForm: SloForm = createMapForm({
         aggregation: createField<AggregationType>({ value: 'MAX' }),
         badEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
         blueprint: createField<BlueprintType>({ value: defaultBlueprint }),
+        operator: createField<SLIThresholdOperator>({ value: defaultSliThresholdOperator }),
+        trafficType: createField<TrafficIndicatorType | undefined>({ value: undefined }),
         goodEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
         threshold: createField<number | undefined>({ value: 66 }),
         type: createField<ServiceLevelIndicatorType | undefined>({ value: 'timeBased' })

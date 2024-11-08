@@ -7,12 +7,12 @@
 import { createField, createMapForm, Field } from 'formalistic';
 
 import {
+  DurationUnitType,
   isApplicationSloEntity,
   isSyntheticSloEntity,
   isWebsiteSloEntity,
   ServiceLevelObjectiveConfiguration
 } from '@instana/types';
-import { DurationUnitType } from '@instana/types';
 import { formatTime } from '@instana/format-date';
 
 import {
@@ -34,6 +34,7 @@ import {
   TimeStampFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import {
+  createIndicatorOperatorField,
   createIndicatorThresholdField,
   createSloNameTagsFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
@@ -41,11 +42,12 @@ import {
   defaultBeaconType,
   defaultBlueprint,
   defaultBoundaryScope,
+  defaultSliThresholdOperator,
   ServiceLevelErrors
 } from 'in-service-levels/constants';
+import { isCustomBlueprintIndicator, isTrafficBlueprintIndicator, SloBeaconTypes } from 'in-service-levels/types';
 import { numericValidator, positiveNumberValidator } from 'in-services/validators/number';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { isCustomBlueprintIndicator, SloBeaconTypes } from 'in-service-levels/types';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { getSloEntityIds } from 'in-service-levels/utils/sloConfig';
 import { formatDate } from 'in-services/formatters/date';
@@ -115,10 +117,18 @@ export function getIndicatorFormFieldsFromSloConfig(sloConfig: ServiceLevelObjec
 
   if (indicator.type === 'timeBased') {
     const blueprint = indicator.blueprint ?? defaultBlueprint;
+    const isTrafficBlueprint = isTrafficBlueprintIndicator(indicator);
     return {
       aggregation: createField({ value: indicator.aggregation ?? 'MEAN' }),
       blueprint: createField({ value: blueprint }),
       threshold: createIndicatorThresholdField({ value: indicator.threshold, blueprint, indicatorType: type }),
+      trafficType: createField({
+        value: isTrafficBlueprint ? indicator.trafficType : undefined
+      }),
+      operator: createIndicatorOperatorField({
+        value: indicator.operator ?? defaultSliThresholdOperator,
+        blueprint
+      }),
       badEventsFilter: createField({ value: [] }),
       goodEventsFilter: createField({ value: [] }),
       type: createField({ value: type })
@@ -128,12 +138,18 @@ export function getIndicatorFormFieldsFromSloConfig(sloConfig: ServiceLevelObjec
   if (indicator.type === 'eventBased') {
     const blueprint = indicator.blueprint ?? defaultBlueprint;
     const isCustomBlueprint = isCustomBlueprintIndicator(indicator);
+    const isTrafficBlueprint = isTrafficBlueprintIndicator(indicator);
 
     return {
       aggregation: createField({ value: 'MEAN' }),
       blueprint: createField({ value: blueprint }),
       badEventsFilter: createField({ value: isCustomBlueprint ? fromBackendModel(indicator.badEventsFilter) : [] }),
       goodEventsFilter: createField({ value: isCustomBlueprint ? fromBackendModel(indicator.goodEventsFilter) : [] }),
+      operator: createIndicatorOperatorField({
+        value: indicator.operator ?? defaultSliThresholdOperator,
+        blueprint
+      }),
+      trafficType: createField({ value: isTrafficBlueprint ? indicator.trafficType : undefined }),
       threshold: createField({
         value: indicator.threshold ?? undefined,
         validator: createThresholdFieldValidator(blueprint, type)
