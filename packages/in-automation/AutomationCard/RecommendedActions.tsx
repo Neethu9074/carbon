@@ -33,6 +33,7 @@ import useHasAccessToManual from 'in-automation/hooks/useHasAccessToManual';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { ScoredAction, TriggerSpecification } from 'in-automation/types';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
+import { isAIAction, isAIActionCopy } from 'in-automation/utils/action';
 import { getDocLinkFromFields } from 'in-automation/utils/actionField';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { TagsFilter } from 'in-automation/components/tableFilters';
@@ -59,56 +60,46 @@ const actionColumn: ColumnDefinition<ScoredAction, RecommendedActionsTableProps>
   label: '',
   sortable: false,
   width: 17,
-  getContent(action, { volatileId, event, trigger }) {
+  getContent: function Content(action, { volatileId, event, trigger }) {
+    const { runActionTrackerSegment } = useSegmentTracker();
     if (!role?.canRunAutomationActions && !role?.canConfigureAutomationPolicies) return null;
     return (
       <HorizontalFlexWrapper>
-        {/*
-if (type === ACTION_TYPE.DOC_LINK) {
-    const value = getDocLinkFromFields(fields).value;
-    return (
-      <Link
-        target="_blank"
-        onClick={e => {
-          e.stopPropagation();
-          runActionTrackerSegment({
-            actionName: action.name,
-            actionType: action.type,
-            policyName: policy.name,
-            policyType: 'manual',
-            aiOriginated: false
-          });
-        }}
-        href={value}
-      >
-        {t('in-automation:ActionCatalog.launch')}{' '}
-        <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />
-      </Link>
-    );
-  }*/}
-        {action.type === ACTION_TYPE.DOC_LINK && (
-          <Link
-            target="_blank"
-            onClick={e => {
-              e.stopPropagation();
-              // runActionTrackerSegment({
-              //   actionName: action.name,
-              //   actionType: action.type,
-              //   policyType: 'manual',
-              //   aiOriginated: false
-              // });
-            }}
-            href={getDocLinkFromFields(action.fields).value}
-          >
-            {t('in-automation:ActionCatalog.launch')}{' '}
-            <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />
-          </Link>
+        {action.type === ACTION_TYPE.DOC_LINK && role?.canRunAutomationActions && (
+          <>
+            <Spacer horizontal="small" />
+            <Link
+              target="_blank"
+              onClick={e => {
+                e.stopPropagation();
+                runActionTrackerSegment({
+                  actionName: action.name,
+                  actionType: action.type,
+                  fromRecommendedActions: true,
+                  aiOriginated: false
+                });
+              }}
+              href={getDocLinkFromFields(action.fields).value}
+            >
+              {t('in-automation:ActionCatalog.launch')}{' '}
+              <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />
+            </Link>
+          </>
         )}
         {action.type !== ACTION_TYPE.DOC_LINK && role?.canRunAutomationActions && (
           <Button
             kind="action"
             icon={action.type === ACTION_TYPE.MANUAL ? 'lib_views_show' : 'lib_actions_play'}
             onClick={e => {
+              // Track manual action viewed
+              if (action.type === ACTION_TYPE.MANUAL) {
+                runActionTrackerSegment({
+                  actionName: action.name,
+                  actionType: action.type,
+                  fromRecommendedActions: true,
+                  aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
+                });
+              }
               stopPropagationAndPreventDefault(e);
               addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
             }}
@@ -119,6 +110,7 @@ if (type === ACTION_TYPE.DOC_LINK) {
               : t('in-automation:ActionCatalog.run')}
           </Button>
         )}
+        <Spacer horizontal="small" />
         {role?.canConfigureAutomationPolicies && (
           <Tooltip content={t('in-automation:createPolicyWithName', { actionName: action.name })} delay={500}>
             <IconButton
