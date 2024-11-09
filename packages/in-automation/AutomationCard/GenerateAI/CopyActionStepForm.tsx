@@ -132,10 +132,6 @@ export default function CopyActionStepForm({
       </Col>
       <Col className={locals.rightContent} lg={5}>
         <Spacer vertical="large" />
-        <FormGroup>
-          <Label>{t('in-automation:actionName')}</Label>
-          <Typography variant="heading-01">{name.value || '-'}</Typography>
-        </FormGroup>
         {type.value === ACTION_TYPE.SCRIPT && <ScriptSection form={form} setForm={setForm} />}
         {type.value === ACTION_TYPE.MANUAL && <ManualSection form={form} setForm={setForm} />}
       </Col>
