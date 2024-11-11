@@ -612,11 +612,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'carbonLoadingSpinnerEnabled',
-    instanaCtlKey: 'feature.carbon.loading.spinner.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'carbonDescriptionListEnabled',
     instanaCtlKey: 'feature.carbon.description.list.enabled',
     defaultValue: true
