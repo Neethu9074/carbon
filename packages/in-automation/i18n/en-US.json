@@ -114,7 +114,7 @@
     "step1Title": "Step 1: Generate or select an action",
     "step1TitleGenerateAction": "Step 1: Generate an action",
     "step1TitleSelectAction": "Step 1: Select an action",
-    "step2Title": "Step 2: Customize action",
+    "step2Title": "Step 2: Configure action",
     "step3Title": "Step 3: Create policy (optional)",
     "policyDetails": "Policy details",
     "policy": {
@@ -129,7 +129,7 @@
         "content": "Action <Link>\"{{name}}\"</Link> has been created successfully."
       }
     },
-    "generateAction": "Generate Action",
+    "generateAction": "Generate with AI",
     "closeDialogDescription": " Are you sure you want to navigate away from this page?",
     "closeDialogSubDescription": "If you leave this page, any information you've entered or selected will not be saved.",
     "liveGeneration": "Live generation",
