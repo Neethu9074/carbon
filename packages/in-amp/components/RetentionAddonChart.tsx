@@ -86,11 +86,7 @@ const RetentionAddonChart = ({
         </Stack>
       }
       rightHeaderContent={
-        <ButtonGroup
-          activeKey="1"
-          buttonPropsList={generateButtonPropsList(hasLoggingAddon, setLoggingRetention)}
-          carbonVariant
-        />
+        <ButtonGroup activeKey="1" buttonPropsList={generateButtonPropsList(hasLoggingAddon, setLoggingRetention)} />
       }
     >
       <UsageChart
