@@ -63,6 +63,7 @@ import UnitList from 'in-internal/monitoringUnit/units/UnitList';
 import FillerStats from 'in-internal/monitoringUnit/FillerStats';
 import Appdata from 'in-internal/monitoringUnit/Appdata/Appdata';
 import Acceptors from 'in-internal/monitoringUnit/sre/Acceptors';
+import TagSets from 'in-internal/thisUnit/TagProcessor/TagSets';
 import Metrics from 'in-internal/thisUnit/Metrics/Metrics';
 import Kafka from 'in-internal/monitoringUnit/sre/Kafka';
 import Unit from 'in-internal/monitoringUnit/unit/Unit';
@@ -236,6 +237,9 @@ export default function Internal() {
     </Route>,
     <Route key="internalTagProcessorState" path="/internal/thisUnit/tagProcessorState">
       {wrapInInternalView(TagProcessorState)}
+    </Route>,
+    <Route key="internalTagSets" path="/internal/thisUnit/tagSets">
+      {wrapInInternalView(TagSets)}
     </Route>
   );
   return internalRoutes;

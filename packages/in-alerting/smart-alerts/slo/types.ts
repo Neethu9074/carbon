@@ -10,8 +10,11 @@ import {
   ServiceLevelsAlertRuleUnion,
   ServiceLevelsObjectiveAlertMetric,
   ErrorBudgetAlertMetric,
-  AlertingDurationUnitType
+  AlertingDurationUnitType,
+  ThresholdOperator
 } from '@instana/types';
+
+import { sloAlertThresholdOperators } from 'in-alerting/smart-alerts/slo/constants';
 
 export type SloAlertTypes = ServiceLevelsAlertRuleUnion['alertType'];
 export type SloAlertMetricTypes = ErrorBudgetAlertMetric | ServiceLevelsObjectiveAlertMetric;
@@ -21,4 +24,8 @@ export function isServiceLevelAlertConfigWithMetaData(
   sloAlertConfig: ServiceLevelsAlertConfig | ServiceLevelsAlertConfigWithMetadata
 ): sloAlertConfig is ServiceLevelsAlertConfigWithMetadata {
   return 'id' in sloAlertConfig && sloAlertConfig.id != null;
+}
+
+export function isSloAlertThresholdOperator(operator: string): operator is ThresholdOperator {
+  return sloAlertThresholdOperators.includes(operator as ThresholdOperator);
 }

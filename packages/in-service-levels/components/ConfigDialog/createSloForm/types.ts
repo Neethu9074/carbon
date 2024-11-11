@@ -13,7 +13,9 @@ import {
   DurationUnitType,
   ServiceLevelIndicatorType,
   SloEntityType,
-  TimeWindowType
+  TimeWindowType,
+  SLIThresholdOperator,
+  TrafficIndicatorType
 } from '@instana/types';
 
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
@@ -66,6 +68,8 @@ export type SloIndicatorFields = {
   aggregation: Field<AggregationType>;
   badEventsFilter: Field<FormModelElement[]>;
   blueprint: Field<BlueprintType>;
+  trafficType: Field<TrafficIndicatorType | undefined>;
+  operator: Field<SLIThresholdOperator>;
   goodEventsFilter: Field<FormModelElement[]>;
   threshold: Field<number | undefined>;
   type: Field<ServiceLevelIndicatorType | undefined>;

@@ -17,7 +17,12 @@ import {
   WebsiteSloEntity
 } from '@instana/types';
 
-import { defaultBeaconType, defaultBoundaryScope, ServiceLevelErrors } from 'in-service-levels/constants';
+import {
+  defaultBeaconType,
+  defaultBoundaryScope,
+  defaultTrafficType,
+  ServiceLevelErrors
+} from 'in-service-levels/constants';
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
@@ -116,6 +121,17 @@ export function formToIndicator(form: SloForm): ServiceLevelIndicatorUnion {
         type: 'timeBased'
       };
     }
+  }
+
+  if (blueprintType === 'traffic') {
+    return {
+      aggregation: 'SUM',
+      threshold: form.getIn(['indicator', 'threshold']).value ?? 0,
+      blueprint: 'traffic',
+      type: 'timeBased',
+      operator: form.getIn(['indicator', 'operator']).value,
+      trafficType: form.getIn(['indicator', 'trafficType']).value ?? defaultTrafficType
+    };
   }
 
   throw new Error(ServiceLevelErrors.UNHANDLED_SLI_TYPE);

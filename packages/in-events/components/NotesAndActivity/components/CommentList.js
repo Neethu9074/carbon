@@ -15,15 +15,11 @@ import {
   CarbonIconButton
 } from '@instana/components';
 
-import { noteNameAndTimeFormat, createDataString, getSummary, convertSummaryToString } from './utils';
+import { noteNameAndTimeFormat, createDataString, getSummary, convertSummaryToString, handleTracking } from './utils';
+import { EVENT_AI_SHOW_MORE, EVENT_AI_SHARE_OPENED } from 'in-services/tracking/eventNames';
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import { TYPE_NOTE, TYPE_EXT_NOTE, TYPE_EXT_F_CHANGE, TYPE_AI_SUMMARY } from '../utils';
-import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
-import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { dateFormat, timeFormat } from 'in-services/formatters/date';
-import { EVENT_AI_SHOW_MORE } from 'in-services/tracking/eventNames';
-import { CTA_CLICKED } from 'in-services/util/constants';
-import { track } from 'in-services/tracking/trackers';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -209,7 +205,7 @@ export function ChatBubble({
                 <CarbonButton
                   size="sm"
                   onClick={() => {
-                    handleShowMore(noteObj?.id);
+                    handleTracking(noteObj?.id, EVENT_AI_SHOW_MORE);
                     setShowAll(!showAll);
                   }}
                   kind="ghost"
@@ -226,6 +222,7 @@ export function ChatBubble({
                   setNeedOverlay(true);
                   setShareOpen(true);
                   setSummaryData(convertSummaryToString(getSummary(sumData)));
+                  handleTracking(noteObj?.id, EVENT_AI_SHARE_OPENED);
                 }}
               >
                 <SvgIcon type="lib_actions_share" size="xs" />
@@ -310,21 +307,6 @@ function SummaryEntry({ summaryList }) {
       })}
     </>
   );
-}
-
-// We want to track the clicks done on the show more button
-function handleShowMore(id) {
-  const { pageRootName, productArea } = getViewTrackingMetaData();
-  if (pageRootName && productArea) {
-    const data = {
-      parentPageName: pageRootName,
-      parentPageCategory: productArea,
-      CTA: EVENT_AI_SHOW_MORE,
-      path: location.hash
-    };
-    eventTracker({ data, segmentEventName: CTA_CLICKED });
-  }
-  track(EVENT_AI_SHOW_MORE, { id, author: user.preferredName });
 }
 
 function copyToClipboard(str) {
