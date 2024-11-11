@@ -216,7 +216,7 @@ function openTryBuildUrlInBrowser(cb) {
 
 function writeTryBuildReleaseServerConfigFile(cb) {
   var config = {
-    baseUrl: 'https://local-instana.release.instana.rocks:4000',
+    baseUrl: 'https:/release-instana.release-instana.instana.rocks:4000',
     uiBackendBaseUrl: 'https://release-instana.instana.rocks',
     groundskeeperBaseUrl: 'http://127.0.0.1:8280',
     butlerBaseUrl: 'https://release-instana.instana.rocks',
@@ -275,6 +275,6 @@ function startTryBuildReleaseProxy(cb) {
 }
 
 function openTryBuildReleaseUrlInBrowser(cb) {
-  buildUtil.openBrowser('https://local-instana.release.instana.rocks:4000');
+  buildUtil.openBrowser('https://release-instana.release-instana.instana.rocks:4000');
   cb();
 }
