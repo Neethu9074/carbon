@@ -42,7 +42,7 @@
 
   .CodeWithAISlug {
     display: inline-flex;
-    height: 400px;
+    min-height: 400px;
     justify-content: space-between;
     background-color: var(--cds-layer);
     div {
@@ -55,7 +55,7 @@
 
   @media (max-width: 1500px) and (min-height: 600px) {
     .CodeWithAISlug {
-      height: 300px;
+      min-height: 300px;
     }
   }
 
