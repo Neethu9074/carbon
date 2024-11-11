@@ -27,12 +27,9 @@ import { QuickActions } from 'in-events/components/NotesAndActivity/components/Q
 import { ShareSummary } from 'in-events/components/NotesAndActivity/components/ShareSummary';
 import { CommentList } from 'in-events/components/NotesAndActivity/components/CommentList';
 import { EVENT_SIDE_PANEL_CLICK } from 'in-services/tracking/eventNames';
-import { eventTracker } from 'in-services/tracking/segment/EventTracker';
-import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { incidentSummarizationEnabled } from 'in-services/featureFlags';
 import { getNotes, filterSearchNotes, getSummaryCount } from './utils';
-import { CTA_CLICKED } from 'in-services/util/constants';
-import { track } from 'in-services/tracking/trackers';
+import { handleTracking } from './components/utils';
 import { t } from 'in-i18n';
 
 import locals from './NotesAndActivity.mless';
@@ -41,19 +38,7 @@ export function OpenNotesAndActivity({ displayNotes, setDisplayNotes, event }) {
   const incidentId = event?.get('id');
 
   const openNotes = () => {
-    const { pageRootName, productArea } = getViewTrackingMetaData();
-    if (pageRootName && productArea) {
-      const data = {
-        parentPageName: pageRootName,
-        parentPageCategory: productArea,
-        CTA: EVENT_SIDE_PANEL_CLICK,
-        path: location.hash
-      };
-      eventTracker({ data, segmentEventName: CTA_CLICKED });
-    }
-
-    track(EVENT_SIDE_PANEL_CLICK, { incidentId });
-
+    handleTracking(incidentId, EVENT_SIDE_PANEL_CLICK);
     setDisplayNotes(true);
   };
 
@@ -141,7 +126,7 @@ export function NotesAndActivity(props) {
                   setSearchInput('');
                   setOpenSearch(false);
                   setDisplayNotes(!displayNotes);
-                  toggleSidePanel(incidentId);
+                  handleTracking(incidentId, EVENT_SIDE_PANEL_CLICK);
                 }}
                 type={displayNotes ? 'lib_sidebar_to_right' : 'lib_sidebar_to_left'}
                 size="compact"
@@ -250,20 +235,4 @@ function EmptyState() {
       <p className={locals.emptyInfo}>{t('in-events:notes.noActivityDetails')}</p>
     </div>
   );
-}
-
-// Open the side panel and track the activity click
-function toggleSidePanel(incidentId) {
-  const { pageRootName, productArea } = getViewTrackingMetaData();
-  if (pageRootName && productArea) {
-    const data = {
-      parentPageName: pageRootName,
-      parentPageCategory: productArea,
-      CTA: EVENT_SIDE_PANEL_CLICK,
-      path: location.hash
-    };
-    eventTracker({ data, segmentEventName: CTA_CLICKED });
-  }
-
-  track(EVENT_SIDE_PANEL_CLICK, { incidentId });
 }

@@ -18,16 +18,17 @@ import {
   timeWindowValidator
 } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
 import {
+  createIndicatorOperatorField,
+  createIndicatorThresholdField,
+  createSloNameTagsFields
+} from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
+import {
   SloEntityFields,
   SloForm,
   SloIndicatorFields,
   SloNameTagsFields,
   SloScopeFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
-import {
-  createIndicatorThresholdField,
-  createSloNameTagsFields
-} from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
 import { numericValidator, positiveNumberValidator } from 'in-services/validators/number';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 
@@ -72,9 +73,11 @@ export const getIndicatorFieldsFromForm = (form: SloForm): SloIndicatorFields =>
   const aggregationFieldValue = form.getIn(['indicator', 'aggregation']).value;
   const badEventsFilterFieldValue = form.getIn(['indicator', 'badEventsFilter']).value;
   const blueprintFieldValue = form.getIn(['indicator', 'blueprint']).value;
+  const operatorField = form.getIn(['indicator', 'operator']);
   const goodEventsFilterFieldValue = form.getIn(['indicator', 'goodEventsFilter']).value;
   const thresholdField = form.getIn(['indicator', 'threshold']);
   const indicatorTypeValue = form.getIn(['indicator', 'type']).value;
+  const indicatorTrafficTypeField = form.getIn(['indicator', 'trafficType']);
 
   return {
     aggregation: createField({ value: aggregationFieldValue }),
@@ -84,6 +87,12 @@ export const getIndicatorFieldsFromForm = (form: SloForm): SloIndicatorFields =>
     blueprint: createField({ value: blueprintFieldValue }),
     goodEventsFilter: createField({
       value: goodEventsFilterFieldValue
+    }),
+    trafficType: createField({ value: indicatorTrafficTypeField.value }),
+    operator: createIndicatorOperatorField({
+      value: operatorField.value,
+      touched: operatorField.touched,
+      blueprint: blueprintFieldValue
     }),
     threshold: createIndicatorThresholdField({
       value: thresholdField.value,

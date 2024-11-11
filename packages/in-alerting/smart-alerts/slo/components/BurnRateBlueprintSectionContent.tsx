@@ -12,10 +12,11 @@ import {
   calculateTimeWindowInMilliseconds,
   getSloWithMinDurationTimeWindow
 } from 'in-alerting/smart-alerts/slo/form/utils';
+import OperatorDropdown from 'in-service-levels/components/Shared/FormComponents/OperatorDropdown/OperatorDropdown';
 import { useSloAlertFormContext } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormContext';
 import TimeOptionsDropdown from 'in-alerting/smart-alerts/slo/components/TimeOptionsDropdown';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
-import OperatorDropdown from 'in-alerting/smart-alerts/slo/components/OperatorDropdown';
+import { sloAlertThresholdOperators } from 'in-alerting/smart-alerts/slo/constants';
 import useSloConfigurations from 'in-service-levels/hooks/useSloConfigurations';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { Trans, t } from 'in-i18n';
@@ -210,6 +211,7 @@ export default function BurnRateBlueprintSectionContent() {
           >
             Notify me when the burn rate is
             <OperatorDropdown
+              operators={sloAlertThresholdOperators}
               value={operatorField.value}
               onChange={operator => onChange(['operator'], () => operatorField.setValue(operator).setTouched(true))}
             />

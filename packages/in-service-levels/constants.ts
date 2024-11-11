@@ -4,7 +4,13 @@
  * Copyright IBM Corp. 2023
  */
 
-import { ApplicationBoundaryScope, BlueprintType, SloEntityType } from '@instana/types';
+import {
+  ApplicationBoundaryScope,
+  BlueprintType,
+  SLIThresholdOperator,
+  SloEntityType,
+  TrafficIndicatorType
+} from '@instana/types';
 import { t } from '@instana/i18n-react';
 
 import { SloAggregationOptions, SloBeaconTypes } from 'in-service-levels/types';
@@ -52,6 +58,12 @@ export const timeAggregationOptions: Partial<SloAggregationOptions> = Object.fre
 });
 
 export const defaultBlueprint: BlueprintType = 'availability';
+
+export const defaultTrafficType: TrafficIndicatorType = 'all';
+
+export const defaultSliThresholdOperator: SLIThresholdOperator = '>';
+
+export const sliThresholdOperators: SLIThresholdOperator[] = ['>', '>=', '<', '<='];
 
 export const SloTimeWindowTypes = Object.freeze({
   SELECTED_TIME: 'SELECTED_TIME',

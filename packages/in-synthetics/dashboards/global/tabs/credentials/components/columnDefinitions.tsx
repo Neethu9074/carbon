@@ -8,6 +8,7 @@ import React from 'react';
 
 import CredentialAssociationsContent from 'in-synthetics/dashboards/global/tabs/credentials/components/CredentialAssociationsContent';
 import CredentialListActionsColumn from 'in-synthetics/dashboards/global/tabs/credentials/components/CredentialListActionsColumn';
+import ModifiedByColumnDetails from 'in-synthetics/dashboards/global/tabs/credentials/components/ModifiedByColumnDetails';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -45,7 +46,7 @@ const columnDefinitions: ColumnDefinition<SyntheticCredential>[] = [
     label: t('in-synthetics:dashboard.credentialList.createdBy'),
     defaultOrderDirection: 'ASC',
     getContent(item) {
-      return <div>{item.createdBy}</div>;
+      return <ModifiedByColumnDetails modifiedBy={item.createdBy} />;
     }
   },
   {
@@ -53,7 +54,7 @@ const columnDefinitions: ColumnDefinition<SyntheticCredential>[] = [
     label: t('in-synthetics:dashboard.credentialList.lastModifiedBy'),
     defaultOrderDirection: 'ASC',
     getContent(item) {
-      return <div>{item.modifiedBy}</div>;
+      return <ModifiedByColumnDetails modifiedBy={item.modifiedBy} />;
     }
   }
 ];
