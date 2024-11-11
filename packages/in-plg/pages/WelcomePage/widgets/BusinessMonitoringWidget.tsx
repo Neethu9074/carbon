@@ -118,7 +118,7 @@ export default connectTo(() => ({
       key: 'name',
       getContent({ item }) {
         return (
-          <Tooltip content={item?.businessProcess?.definitionName} align="auto" caret={false}>
+          <Tooltip content={item?.businessProcess?.definitionName} align="auto" caret={false} delay={300}>
             <Link href={getItemLink(item, location, createHref)}>{item?.businessProcess?.definitionName}</Link>
           </Tooltip>
         );

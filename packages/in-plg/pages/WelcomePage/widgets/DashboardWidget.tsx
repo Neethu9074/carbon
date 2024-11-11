@@ -74,7 +74,7 @@ export default function DashboardWidget({
       getContent({ item }) {
         setOrDeleteMatrixKey(connectToLocation, dashboardIdUrlParameter.path, dashboardIdUrlParameter.name, item.id);
         return (
-          <Tooltip content={item.title} align="auto" caret={false}>
+          <Tooltip content={item.title} align="auto" caret={false} delay={300}>
             <Link href={createHref(connectToLocation)}>{item.title}</Link>
           </Tooltip>
         );

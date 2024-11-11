@@ -216,7 +216,7 @@ export default function ApplicationWidget({
       key: 'name',
       getContent({ item }) {
         return (
-          <Tooltip content={item.application.label} align="auto" caret={false}>
+          <Tooltip content={item.application.label} align="auto" caret={false} delay={300}>
             <Link href={getLinkToApplicationDashboard({ applicationId: item.application.id })}>
               {item.application.label}
             </Link>

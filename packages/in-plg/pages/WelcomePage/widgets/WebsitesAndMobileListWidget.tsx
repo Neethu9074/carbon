@@ -183,7 +183,7 @@ export default function WebsitesAndMobileListWidget({ type, config, widgetLabel,
         const link = isWebsite ? getLinkToWebsite(getId(item)) : getLinkToMobileApp(getId(item));
         const content = isWebsite ? item.website.label : item.mobileApp.label;
         return (
-          <Tooltip content={content} align="auto" caret={false}>
+          <Tooltip content={content} align="auto" caret={false} delay={300}>
             <Link href={link}>{content}</Link>
           </Tooltip>
         );
