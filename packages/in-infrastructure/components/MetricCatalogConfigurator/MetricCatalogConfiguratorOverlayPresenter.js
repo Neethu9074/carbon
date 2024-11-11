@@ -111,13 +111,11 @@ function Content({
     <>
       <Col xs={5}>
         {metric.get('metric').map(field => (
-          <Label
-            htmlFor={`metric-configuration-metric-${i}`}
-            hasError={!field.valid && field.touched}
-            className={locals.label}
-          >
-            <MetricLabel label={{ data: uniqueMetricsLabels[i] }} />
-          </Label>
+          <div className={locals.label}>
+            <Label htmlFor={`metric-configuration-metric-${i}`} hasError={!field.valid && field.touched}>
+              <MetricLabel label={{ data: uniqueMetricsLabels[i] }} />
+            </Label>
+          </div>
         ))}
       </Col>
 
