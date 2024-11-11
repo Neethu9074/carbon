@@ -15,7 +15,7 @@ import AlertTypography from 'in-alerting/components/AlertTypography';
 
 import locals from 'in-alerting/smart-alerts/components/pageHeaderTemplate/AlertingPageHeader.mless';
 
-export default function AlertingPageHeader({ title, messageData }: { title: string; messageData: EnrichedError }) {
+export default function AlertingPageHeader({ title, messageData }: { title: string; messageData?: EnrichedError }) {
   return (
     <div className={locals.spaceBetween}>
       <div className={locals.iconTitle}>

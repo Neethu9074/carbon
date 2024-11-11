@@ -4,17 +4,18 @@
  */
 
 import {
+  AdaptiveBaselineData,
   AggregationType,
   ApplicationAlertRule,
-  HistoricBaselineConfig,
   HistoricBaselineData,
   LogsApplicationAlertRule,
-  StaticThresholdConfig,
+  StaticBaselineThresholdRule,
+  StaticThresholdRule,
   StatusCodeApplicationAlertRule,
   ThresholdConfig,
   ThresholdOperator,
-  isAdaptiveBaselineConfig,
-  isStaticThresholdConfig
+  isAdaptiveThresholdRule,
+  isStaticThresholdRule
 } from 'in-types';
 import {
   applicationThresholdTypeOptions,
@@ -176,7 +177,6 @@ const errorsBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   tearSheetHeadline: t('in-alerting:smartAlerts.applications.blueprintConfig.errors.tearSheetHeadline'),
   tearSheetDescription: t('in-alerting:smartAlerts.applications.blueprintConfig.errors.tearSheetDescription'),
   baselineEnabled: true,
-  enrichWithDefaultThresholdValues: enrichWithDefaultStaticThresholdValues,
   defaultMetric: 'errors',
   getMetricName: (alertRule: ApplicationAlertRule) => alertRule.metricName,
   getMetricLabel: (metricName: MetricName) => errorMetricLabelsByName[metricName],
@@ -371,12 +371,13 @@ function getExtraSlownessAnalyzeLinkTagFilterFormModel(
 ): FormModelElement[] {
   let value: number;
 
-  const { threshold } = alertConfig;
+  const { rules } = alertConfig;
+  const threshold = rules[0].thresholds.WARNING ?? rules[0].thresholds.CRITICAL;
 
-  if (isStaticThresholdConfig(threshold)) {
+  if (isStaticThresholdRule(threshold!)) {
     value = threshold.value;
-  } else if (isAdaptiveBaselineConfig(threshold)) {
-    value = getApproximatedAdaptiveBaselineThresholdValue(threshold, adaptiveBaselineInfo);
+  } else if (isAdaptiveThresholdRule(threshold!)) {
+    value = getApproximatedAdaptiveBaselineThresholdValue(rules[0], adaptiveBaselineInfo, true);
   } else {
     // HISTORIC_BASELINE
     value = getApproximatedHistoricBaselineThresholdValue(
@@ -386,41 +387,77 @@ function getExtraSlownessAnalyzeLinkTagFilterFormModel(
     );
   }
 
-  return [tagFilter('call.latency', toTagFilterNumberOperator(alertConfig.threshold.operator), value)];
+  return [tagFilter('call.latency', toTagFilterNumberOperator(rules[0].thresholdOperator), value)];
 }
 
 function enrichWithDefaultStaticThresholdValues(alertConfig: ApplicationSmartAlertConfig): ApplicationSmartAlertConfig {
-  const { threshold } = alertConfig;
+  const { rules } = alertConfig;
+
   return {
     ...alertConfig,
-    threshold: {
-      ...threshold,
-      // as this should already be introducing the right threshold when invoked from the blueprint,
-      // using casting to the different Threshold Types here should be fine, to make TS happy, and
-      // to prepare the next step to refactor this away. Actually, the rendering should be resilient and
-      // do not need these defaults...
-      // @ts-expect-error-error needs to be refactored
-      value: (threshold as StaticThresholdConfig)?.value ?? null
-    }
+    rules: [
+      {
+        ...rules[0],
+        thresholds: {
+          ...rules[0].thresholds,
+          // as this should already be introducing the right threshold when invoked from the blueprint,
+          // using casting to the different Threshold Types here should be fine, to make TS happy, and
+          // to prepare the next step to refactor this away. Actually, the rendering should be resilient and
+          // do not need these defaults...
+          // @ts-expect-error-error needs to be refactored
+          WARNING: {
+            ...rules[0]?.thresholds?.WARNING,
+            value: (rules[0]?.thresholds?.WARNING as StaticThresholdRule)?.value ?? null
+          },
+          // @ts-expect-error-error needs to be refactored
+          CRITICAL: {
+            ...rules[0]?.thresholds?.CRITICAL,
+            value: (rules[0]?.thresholds?.CRITICAL as StaticThresholdRule)?.value ?? null
+          }
+        }
+      },
+      ...rules.slice(1)
+    ]
   };
 }
 
 function enrichWithDefaultThresholdValuesForBaselines(
   alertConfig: ApplicationSmartAlertConfig
 ): ApplicationSmartAlertConfig {
-  const { threshold } = alertConfig;
+  const { rules } = alertConfig;
+
   return {
     ...alertConfig,
-    threshold: {
-      ...threshold,
-      // as this should already be introducing the right threshold when invoked from the blueprint,
-      // using casting to the different Threshold Types here should be fine, to make TS happy, and
-      // to prepare the next step to refactor this away. Actually, the rendering should be resilient and
-      // do not need these defaults, but needs another double-check with the different use cases.
-      value: (threshold as StaticThresholdConfig)?.value ?? null,
-      // @ts-expect-error-error needs to be refactored
-      baseline: (threshold as HistoricBaselineConfig).baseline ?? [],
-      deviationFactor: (threshold as HistoricBaselineConfig).deviationFactor ?? 0
-    }
+    rules: [
+      {
+        ...rules[0],
+        thresholds: {
+          ...rules[0].thresholds,
+          // as this should already be introducing the right threshold when invoked from the blueprint,
+          // using casting to the different Threshold Types here should be fine, to make TS happy, and
+          // to prepare the next step to refactor this away. Actually, the rendering should be resilient and
+          // do not need these defaults, but needs another double-check with the different use cases.
+          // @ts-expect-error-error needs to be refactored
+          WARNING: {
+            ...rules[0]?.thresholds?.WARNING,
+            value: (rules[0]?.thresholds?.WARNING as StaticThresholdRule)?.value ?? null,
+            baseline:
+              (rules[0]?.thresholds?.WARNING as StaticBaselineThresholdRule)?.baseline ??
+              (rules[0]?.thresholds?.WARNING as AdaptiveBaselineData)?.baseline,
+            deviationFactor: (rules[0]?.thresholds?.WARNING as StaticBaselineThresholdRule)?.deviationFactor ?? null
+          },
+          // @ts-expect-error-error needs to be refactored
+          CRITICAL: {
+            ...rules[0]?.thresholds?.CRITICAL,
+            value: (rules[0]?.thresholds?.CRITICAL as StaticThresholdRule)?.value ?? null,
+            baseline:
+              (rules[0]?.thresholds?.CRITICAL as StaticBaselineThresholdRule)?.baseline ??
+              (rules[0]?.thresholds?.WARNING as AdaptiveBaselineData)?.baseline,
+            deviationFactor: (rules[0]?.thresholds?.CRITICAL as StaticBaselineThresholdRule)?.deviationFactor ?? null
+          }
+        }
+      },
+      ...rules.slice(1)
+    ]
   };
 }

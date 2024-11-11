@@ -61,13 +61,11 @@ export default function AdvancedModeContainer(props) {
     initialConfiguredApplications = {}
   } = props;
   const description = form.get('description').value;
-  const severity = Number(form.get('severity').value);
   const triggering = form.get('triggering').value;
   const evaluationType = form.get('evaluationType').value;
   const ruleForm = form.get('rule');
   const alertType = ruleForm.get('alertType').value;
-  const thresholdType = form.get('threshold').get('type').value;
-
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const blueprintConfig = getBlueprintConfig(alertType);
   const blueprintConfigList =
     smartAlertsLogsBlueprintEnabled || blueprintConfig?.type === 'logs'
@@ -75,8 +73,6 @@ export default function AdvancedModeContainer(props) {
       : blueprintConfigs.filter(config => config?.type !== 'logs');
 
   const ruleComplete = blueprintConfig?.isRuleComplete(ruleForm.toJS());
-
-  const alertConfigWithFormModel = blueprintConfig.enrichWithDefaultThresholdValues(form.toJS());
 
   const isLogsBlueprint = blueprintConfig.type === 'logs';
   const isStatusCodeBluePrint = blueprintConfig.type === 'statusCode';
@@ -107,7 +103,12 @@ export default function AdvancedModeContainer(props) {
               withoutPadding
               darkFrame
             >
-              <StaticOrAdaptiveSwitch form={form} setForm={updateForm} onThresholdTypeChange={onThresholdTypeChange} />
+              <StaticOrAdaptiveSwitch
+                form={form}
+                setForm={updateForm}
+                onThresholdTypeChange={onThresholdTypeChange}
+                isMultiThreshold
+              />
             </LightCard>
           )}
         </>
@@ -148,7 +149,6 @@ export default function AdvancedModeContainer(props) {
       content: (
         <>
           <ThresholdSection
-            alertConfigWithFormModel={alertConfigWithFormModel}
             alertType={alertType}
             blueprintConfig={blueprintConfig}
             editMode={editMode}
@@ -218,6 +218,7 @@ export default function AdvancedModeContainer(props) {
                   getTitlePlaceholder={getTitlePlaceholder}
                 />
               )}
+              shouldDisplayAlertLevelSelection={false}
             />
           )}
           renderAlertPreview={() => (
@@ -226,7 +227,6 @@ export default function AdvancedModeContainer(props) {
               description={description}
               applicationLabel={applicationLabel}
               evaluationType={evaluationType}
-              severity={severity}
               triggering={triggering}
             />
           )}
@@ -256,7 +256,7 @@ export default function AdvancedModeContainer(props) {
   return <StepsContainer messages={messages} navItems={navItems} />;
 
   function isThresholdSectionValid() {
-    if (fieldTouchedAndInvalid(form.get('threshold')?.get('value'))) {
+    if (fieldTouchedAndInvalid(form.get('threshold'))) {
       return false;
     }
     if (thresholdType === HISTORIC_BASELINE && !isTagFilterFormModelValid) {

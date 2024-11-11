@@ -44,18 +44,17 @@ const alertConfigData = {
     type: 'violationsInSequence'
   },
   triggering: false,
-  rule: {
-    aggregation: 'P90',
-    alertType: 'slowness',
-    metricName: 'latency'
-  },
-  severity: 5,
-  threshold: {
-    lastUpdated: 0,
-    operator: '>=',
-    type: 'staticThreshold',
-    value: null
-  }
+  rules: [
+    {
+      rule: {
+        aggregation: 'P90',
+        alertType: 'slowness',
+        metricName: 'latency'
+      },
+      thresholdOperator: '>=',
+      thresholds: {}
+    }
+  ]
 };
 
 describe('in-alerting/smart-alerts/applications/tearSheet/components/AlertConfigHelper', () => {
@@ -104,17 +103,34 @@ describe('in-alerting/smart-alerts/applications/tearSheet/components/AlertConfig
           metricName: 'latency',
           statusCodeEnd: 123,
           statusCodeStart: 123
-        }
+        },
+        rules: [
+          {
+            ...alertConfigData.rules[0],
+            rule: {
+              aggregation: 'P90',
+              alertType: 'statusCode',
+              metricName: 'latency',
+              statusCodeEnd: 123,
+              statusCodeStart: 123
+            }
+          }
+        ]
       };
 
       const expectedResult = {
         ...alertConfig,
-        rule: {
-          statusCode: { statusCodeEnd: 123, statusCodeStart: 123 },
-          aggregation: 'P90',
-          alertType: 'statusCode',
-          metricName: 'latency'
-        }
+        rules: [
+          {
+            ...alertConfigData.rules[0],
+            rule: {
+              statusCode: { statusCodeEnd: 123, statusCodeStart: 123 },
+              aggregation: 'P90',
+              alertType: 'statusCode',
+              metricName: 'latency'
+            }
+          }
+        ]
       };
       expect(fromAlertConfig(alertConfig)).toEqual(expectedResult);
     });
@@ -126,7 +142,25 @@ describe('in-alerting/smart-alerts/applications/tearSheet/components/AlertConfig
       expect(config).toEqual({
         threshold: {
           type: STATIC_THRESHOLD
-        }
+        },
+        rules: [
+          {
+            rule: {
+              aggregation: 'P90',
+              alertType: 'slowness',
+              metricName: 'latency'
+            },
+            thresholdOperator: '>=',
+            thresholds: {
+              WARNING: {
+                type: STATIC_THRESHOLD
+              },
+              CRITICAL: {
+                type: STATIC_THRESHOLD
+              }
+            }
+          }
+        ]
       });
     });
 
@@ -135,6 +169,28 @@ describe('in-alerting/smart-alerts/applications/tearSheet/components/AlertConfig
       expect(config).toEqual({
         boundaryScope: 'scope',
         threshold: { type: HISTORIC_BASELINE, value: 0, seasonality: DAILY },
+        rules: [
+          {
+            rule: {
+              aggregation: 'P90',
+              alertType: 'slowness',
+              metricName: 'latency'
+            },
+            thresholdOperator: '>=',
+            thresholds: {
+              WARNING: {
+                type: HISTORIC_BASELINE,
+                seasonality: 'DAILY',
+                deviationFactor: 3
+              },
+              CRITICAL: {
+                type: HISTORIC_BASELINE,
+                seasonality: 'DAILY',
+                value: 0
+              }
+            }
+          }
+        ],
         calculateThresholdOnBackend: true,
         includeSynthetic: false,
         applications: {

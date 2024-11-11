@@ -6,7 +6,7 @@
 :local {
   .dialog {
     max-width: 30rem;
-    max-height: 32rem;
+    max-height: 36rem;
     padding-bottom: 4rem;
   }
   .description {

@@ -48,45 +48,43 @@ export default function AssociatedEvents({ associatedEvents, latestSnapshot }: A
   if (!associatedEventsData) return <LoadingIndicator />;
 
   return (
-    <div className={locals.layerBackground}>
-      <CarbonLayer>
-        <Collapsible
-          onOpen={() => {
-            const instrumentationEventProperties = { expanded: true };
-            trackCta(EVENT_RCA_ASSOCIATED_EVENTS_CLICK, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
-          }}
-        >
-          <Collapsible.Header>
-            <Typography variant="body-regular">
-              {t('in-events:RCA.relatedEventsLabel', {
-                number_of_events: Array.isArray(associatedEventsData) ? associatedEventsData.length : 0
-              })}
-            </Typography>
-          </Collapsible.Header>
-          <Collapsible.Content>
-            <div className={locals.accordionContent}>
-              {associatedEventsData?.map((_event: EventOrMap) => (
-                <div
-                  onClick={() => {
-                    trackCta(EVENT_RCA_EXPANDED_CARD, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
-                  }}
-                >
-                  <EventListItem
-                    key={_event.get('id') as string}
-                    triggeringProblemId={
-                      associatedEventsData.length > 0 ? (associatedEventsData[0].get('id') as string) : undefined
-                    }
-                    event={_event}
-                    latestSnapshot={latestSnapshot}
-                    setBackground={themes.default.ids.color.option['deep-purple'][500]}
-                    setIconColor={themes.default.ids.color.option.white}
-                  />
-                </div>
-              ))}
-            </div>
-          </Collapsible.Content>
-        </Collapsible>
-      </CarbonLayer>
-    </div>
+    <CarbonLayer>
+      <Collapsible
+        onOpen={() => {
+          const instrumentationEventProperties = { expanded: true };
+          trackCta(EVENT_RCA_ASSOCIATED_EVENTS_CLICK, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
+        }}
+      >
+        <Collapsible.Header>
+          <Typography variant="body-regular">
+            {t('in-events:RCA.relatedEventsLabel', {
+              number_of_events: Array.isArray(associatedEventsData) ? associatedEventsData.length : 0
+            })}
+          </Typography>
+        </Collapsible.Header>
+        <Collapsible.Content>
+          <div className={locals.accordionContent}>
+            {associatedEventsData?.map((_event: EventOrMap) => (
+              <div
+                onClick={() => {
+                  trackCta(EVENT_RCA_EXPANDED_CARD, {}, SEGMENT_EVENT_PROPERTY_CHANNEL);
+                }}
+              >
+                <EventListItem
+                  key={_event.get('id') as string}
+                  triggeringProblemId={
+                    associatedEventsData.length > 0 ? (associatedEventsData[0].get('id') as string) : undefined
+                  }
+                  event={_event}
+                  latestSnapshot={latestSnapshot}
+                  setBackground={themes.default.ids.color.option['deep-purple'][500]}
+                  setIconColor={themes.default.ids.color.option.white}
+                />
+              </div>
+            ))}
+          </div>
+        </Collapsible.Content>
+      </Collapsible>
+    </CarbonLayer>
   );
 }

@@ -120,6 +120,8 @@
 
   .titleContainer {
     margin-right: 1rem;
+    display: flex;
+    align-items: flex-start;
   }
 
   .titleText {

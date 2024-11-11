@@ -9,11 +9,12 @@ import {
   AvailabilityBlueprintIndicator,
   CustomBlueprintIndicator,
   LatencyBlueprintIndicator,
+  SLIThresholdOperator,
   ServiceLevelIndicatorUnion,
   TrafficBlueprintIndicator
 } from '@instana/types';
 
-import { SloTimeWindowTypes, timeAggregationOptions } from 'in-service-levels/constants';
+import { SloTimeWindowTypes, sliThresholdOperators, timeAggregationOptions } from 'in-service-levels/constants';
 
 export type AggregatedServiceLevelIndicator = AvailabilityBlueprintIndicator | LatencyBlueprintIndicator;
 
@@ -62,3 +63,7 @@ export type SloBeaconTypes = 'httpRequest' | 'pageLoad' | 'custom';
 
 export type SloAggregationOptions = Record<AggregationType, string>;
 export type TimeAggregationOptions = keyof typeof timeAggregationOptions;
+
+export function isSliThresholdOperator(operator: string): operator is SLIThresholdOperator {
+  return sliThresholdOperators.includes(operator as SLIThresholdOperator);
+}

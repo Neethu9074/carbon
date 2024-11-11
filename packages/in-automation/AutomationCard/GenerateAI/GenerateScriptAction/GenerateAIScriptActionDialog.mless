@@ -42,7 +42,7 @@
 
   .CodeWithAISlug {
     display: inline-flex;
-    height: 450px;
+    height: 400px;
     justify-content: space-between;
     background-color: var(--cds-layer);
     div {
@@ -50,6 +50,12 @@
         margin-top: 0.5rem;
         margin-right: 0.5rem;
       }
+    }
+  }
+
+  @media (max-width: 1500px) and (min-height: 600px) {
+    .CodeWithAISlug {
+      height: 300px;
     }
   }
 
@@ -75,9 +81,14 @@
       // Add back padding we removed from wrapper
       padding: 0.25rem 0 0.25rem 0.5rem;
       // Desired height - margin for button
-      height: calc(450px - 2.5rem);
+      height: calc(400px - 2.5rem);
       // Editor background
       background-color: var(--cds-layer);
+    }
+    @media (max-width: 1500px) and (min-height: 600px) {
+      :global .CodeMirror {
+        height: calc(300px - 2.5rem);
+      }
     }
     .generateScriptButton {
       position: absolute;

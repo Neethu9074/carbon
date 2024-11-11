@@ -21,10 +21,11 @@ import { flatten } from 'in-forge/tracing/sdk/flatten';
 import { t } from 'in-i18n';
 
 export default function SpanDetails({ call, span }) {
-  const convertedSpan = fromJS(convert(span));
+  const convertedSpan = fromJS(convert(span, call));
   const spanDefinition = getSpanDefinition(span.name, span);
   const isInternalVisible = useObservable(isInternalVisible$, []);
   const hasCxfType = isInternalVisible && span.data?.cxf?.type;
+
   if (hasCxfType) {
     var cxfType = span.data.cxf.type;
     switch (span.data.cxf.type) {

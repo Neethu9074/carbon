@@ -8,9 +8,9 @@ import { ValidationResult } from 'formalistic';
 
 import { SloAlertBurnRateTimeWindowsFields } from 'in-alerting/smart-alerts/slo/form/alertFormDefinition';
 import { isSloAlertDurationUnit } from 'in-alerting/smart-alerts/slo/components/TimeOptionsDropdown';
-import { isSloAlertOperator } from 'in-alerting/smart-alerts/slo/components/OperatorDropdown';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import { calculateTimeWindowInMilliseconds } from 'in-alerting/smart-alerts/slo/form/utils';
+import { isSloAlertThresholdOperator } from 'in-alerting/smart-alerts/slo/types';
 import { t } from 'in-i18n';
 
 export function noEmptySloIds(sloIds: string[]): ValidationResult {
@@ -38,7 +38,7 @@ export function notLessThanOrEqualToZero(value: number): ValidationResult {
 }
 
 export function noInvalidOperator(operator: string): ValidationResult {
-  if (!isSloAlertOperator(operator)) {
+  if (!isSloAlertThresholdOperator(operator)) {
     return [
       {
         severity: 'error',

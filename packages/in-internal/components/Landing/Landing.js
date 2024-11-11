@@ -545,6 +545,11 @@ export default connectTo(
                       description={t('in-internal:components.landing.tagProcessorStateDescription')}
                     />
                     <LinkListItem
+                      label="Tag Sets"
+                      href={createHref({ ...location, pathname: '/internal/thisUnit/tagSets' })}
+                      description="Analyze tag sets"
+                    />
+                    <LinkListItem
                       // needs i18n...:
                       label="Feature Flags"
                       href={createHref({ ...location, pathname: '/internal/featureflags' })}

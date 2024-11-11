@@ -36,7 +36,7 @@ export interface TimeResult {
   time: number;
 }
 
-function BusinessProcessNameColumnContent(item: BusinessProcessItem) {
+const BusinessProcessNameColumnContent = ({ item }: { item: BusinessProcessItem }) => {
   const { location, createHref } = useNavigation();
 
   const businessProcessId: string = item.businessProcess.definitionId;
@@ -68,7 +68,7 @@ function BusinessProcessNameColumnContent(item: BusinessProcessItem) {
       <SeverityAwareEntityLink severity={getSeverity(item)} label={businessProcessName} href={createHref(location)} />
     </div>
   );
-}
+};
 
 function getSeverity(item: BusinessProcessItem) {
   return get(item, ['metrics', 'maxSeverity', 0, 1], 0);
@@ -80,7 +80,7 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpL
     sortable: true,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.nameLabel'),
-    getContent: BusinessProcessNameColumnContent
+    getContent: (item: BusinessProcessItem) => <BusinessProcessNameColumnContent item={item} />
   },
   {
     id: 'started_processes',

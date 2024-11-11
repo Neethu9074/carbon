@@ -22,7 +22,8 @@ import {
   RATE_FORMATTER_TYPE,
   SECONDS_FORMATTER_TYPE,
   MINUTES_FORMATTER_TYPE,
-  NANOS_FORMATTER_TYPE
+  NANOS_FORMATTER_TYPE,
+  PERCENTAGE_100_FORMATTER_TYPE
 } from 'in-services/formatters/number/types';
 import { getSingle } from 'in-services/settings';
 
@@ -144,7 +145,7 @@ export const percentagePlain = markAsFormatterType(
     compact: percentagePlainZeroDecimalPlaces,
     detailed: percentagePlainTwoDecimalPlaces
   },
-  PERCENTAGE_FORMATTER_TYPE
+  PERCENTAGE_100_FORMATTER_TYPE
 );
 
 export const bytesZeroDecimalPlaces = (d: number) => formatBytes(d, zeroDecimalPlaces, false);
@@ -488,6 +489,10 @@ export const ms = markAsFormatterType(
   MILLIS_FORMATTER_TYPE
 );
 
+export const nanoSecondsZeroDecimalPlaces = (d: number) =>
+  t('in-services:formatters.timeUnits', { context: 'ns', num: zeroDecimalPlaces(d) });
+export const nanoSecondsTwoDecimalPlaces = (d: number) =>
+  t('in-services:formatters.timeUnits', { context: 'ns', num: twoDecimalPlaces(d) });
 export const muSecondsZeroDecimalPlaces = (d: number) =>
   t('in-services:formatters.timeUnits', { context: 'us', num: zeroDecimalPlaces(d) });
 export const muSecondsTwoDecimalPlaces = (d: number) =>
@@ -517,6 +522,9 @@ export const hitRate = markAsFormatterType(
 );
 
 export const time = (_ms: number) => {
+  if (_ms * 1000 < 1) {
+    return nanoSecondsZeroDecimalPlaces(_ms * 1000_000);
+  }
   if (_ms < 1) {
     return muSecondsZeroDecimalPlaces(_ms * 1000);
   }

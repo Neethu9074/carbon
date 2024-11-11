@@ -13,9 +13,11 @@ import {
 } from 'in-settings/tabs/SecurityAndAccess/api/sessionSettings';
 import { getSessionSettingsAsResultObservable } from 'in-settings/tabs/SecurityAndAccess/api/sessionSettings';
 import DebouncedDistinctSlider from 'in-components/Slider/DebouncedDistinctSlider';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
+import { UPDATED_OBJECT } from 'in-services/util/constants';
 import { days, minutes, hours } from 'in-services/time';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
@@ -27,8 +29,11 @@ import locals from './SessionSettings.mless';
 const minTokenLifeTime = minutes.toMillis(15);
 const maxTokenLifeTime = days.toMillis(7);
 const tokenLifeTimeDomain = maxTokenLifeTime - minTokenLifeTime;
+const idleTimeInMillisDefault = hours.toMillis(8);
+const tokenLifeTimeInMillisDefault = 1;
 
 export default function SessionSettings() {
+  const { unstable_trackEvent } = useSegmentTracking();
   return (
     <ApiItemView
       getObservables={() => ({
@@ -36,9 +41,9 @@ export default function SessionSettings() {
       })}
       onCancelClick={refresh}
       enrichForm={enrichForm}
-      deleteItem={deleteItem}
+      deleteItem={data => deleteItem({ ...data, unstable_trackEvent })}
       deleteLabel={t('in-settings:tabs.reset')}
-      saveItem={saveItem}
+      saveItem={data => saveItem({ ...data, unstable_trackEvent })}
       render={render}
     />
   );
@@ -148,15 +153,21 @@ function FormInput({ form, fieldName, labeledTicks, label, description, onChange
   ));
 }
 
-function deleteItem({ setMessage }) {
+function deleteItem({ setMessage, unstable_trackEvent }) {
   setMessage({ message: t('in-settings:tabs.deletingTimeouts'), type: 'neutral', isSaving: true });
   const deleteConfigResult$ = deleteSessionSettings();
   deleteConfigResult$.once(
-    () =>
+    () => {
       setMessage({
         text: t('in-settings:tabs.timeoutsSuccessfullyDeleted'),
         type: 'success'
-      }),
+      });
+      unstable_trackEvent(
+        UPDATED_OBJECT,
+        { objectType: 'settings.sessionTimeout.update' },
+        { idleTimeInMillis: idleTimeInMillisDefault, tokenLifeTimeInMillis: tokenLifeTimeInMillisDefault }
+      );
+    },
     error =>
       setMessage({
         text: t('in-settings:tabs.failedToDeleteTimeouts', { err: error.message }),
@@ -165,7 +176,7 @@ function deleteItem({ setMessage }) {
   );
 }
 
-function saveItem({ form, setMessage }) {
+function saveItem({ form, setMessage, unstable_trackEvent }) {
   const configToSave = {
     idleTimeInMillis: form.get('idleTimeInMillis').value,
     tokenLifeTimeInMillis:
@@ -183,11 +194,13 @@ function saveItem({ form, setMessage }) {
 
   const setConfigResult$ = setSessionSettings(configToSave);
   setConfigResult$.once(
-    () =>
+    () => {
       setMessage({
         text: t('in-settings:tabs.timeoutsSuccessfullySaved'),
         type: 'success'
-      }),
+      });
+      unstable_trackEvent(UPDATED_OBJECT, { objectType: 'settings.sessionTimeout.update' }, configToSave);
+    },
     error => setMessage({ text: t('in-settings:tabs.failedToSaveTimeouts', { err: error.message }), type: 'error' })
   );
 }
@@ -200,10 +213,10 @@ function enrichForm(form, { setCanDeleteItem, result: { config } }) {
     .put(
       'tokenLifeTimeInMillis',
       createField({
-        value: config ? getNormalizedTokenValue(config.tokenLifeTimeInMillis) : 1
+        value: config ? getNormalizedTokenValue(config.tokenLifeTimeInMillis) : tokenLifeTimeInMillisDefault
       })
     )
-    .put('idleTimeInMillis', createField({ value: config ? config.idleTimeInMillis : hours.toMillis(8) }));
+    .put('idleTimeInMillis', createField({ value: config ? config.idleTimeInMillis : idleTimeInMillisDefault }));
 }
 
 function getNormalizedTokenValue(timespan) {

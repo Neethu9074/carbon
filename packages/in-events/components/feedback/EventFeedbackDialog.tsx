@@ -216,7 +216,9 @@ function createForm(): MapForm<FeedbackConfigEventForm> {
       id: createField({ value: generateUniqueShortId() }),
       thingsWentWrong: createField({ value: '' }),
       contactMe: createField({ value: undefined }),
-      closureComments: createField({ value: '' })
+      closureComments: createField({ value: '' }),
+      muteAlerts: createField({ value: false }),
+      disableEvent: createField({ value: false })
     }
   });
 }

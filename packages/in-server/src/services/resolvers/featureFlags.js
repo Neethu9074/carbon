@@ -363,11 +363,21 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsRbacLimitedEnabled',
     instanaCtlKey: 'feature.bizops.rbac.limited.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'bizopsProcessFlowMapEnabled',
     instanaCtlKey: 'feature.bizops.process.flow.map.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'bizopsProcessStackEnabled',
+    instanaCtlKey: 'feature.bizops.process.stack.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'bizopsActivityStackEnabled',
+    instanaCtlKey: 'feature.bizops.activity.stack.enabled',
     defaultValue: false
   },
   {
@@ -522,6 +532,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'disableEventConfigEnabled',
+    instanaCtlKey: 'feature.disable.event.config.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'playWithReleaseEnabled',
     instanaCtlKey: 'feature.play.with.release.enabled',
     defaultValue: false
@@ -594,16 +609,6 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonMoreMenuEnabled',
     instanaCtlKey: 'feature.carbon.more.menu.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonLoadingSkeletonFeatureEnabled',
-    instanaCtlKey: 'feature.carbon.loading.skeleton.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonLoadingSpinnerEnabled',
-    instanaCtlKey: 'feature.carbon.loading.spinner.enabled',
     defaultValue: true
   },
   {
@@ -742,11 +747,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'carbonTileEnabled',
-    instanaCtlKey: 'feature.carbon.tile.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'carbonStepProgressBarEnabled',
     instanaCtlKey: 'feature.carbon.stepprogressbar.enabled',
     defaultValue: true
@@ -859,6 +859,11 @@ module.exports = exports = [
   {
     uiClientKey: 'infraSmartAlertFullScreenDesignEnabled',
     instanaCtlKey: 'feature.infra.Smart.alert.full.screen.design.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'alertChannelPerSeverityInfraSaEnabled',
+    instanaCtlKey: 'feature.alert.channel.per.severity.infra.sa.enabled',
     defaultValue: false
   }
 ];

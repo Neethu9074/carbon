@@ -7,11 +7,12 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
-import { Message, Stack, TextArea, Typography } from '@instana/components';
+import { Message, Stack, TextArea, Typography, Toggle, Tooltip, SvgIcon } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import { FeedbackStepConfigs } from 'in-events/components/feedback/eventStepConfig';
 import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
+import { disableEventConfigEnabled } from 'in-services/featureFlags';
 import { EVENT_TYPES, getEventType } from 'in-stores/events';
 import { role } from 'in-stores/user';
 
@@ -22,6 +23,8 @@ export default function FeedbackStepThree({ form, setForm, nextStep, eventData }
     //@ts-expect-error error for typing
     setForm(form.updateIn(path, item => (item as Field<any>).setValue(value).setTouched(true)));
   };
+
+  const canSuppressAlertAndDisableEvent = disableEventConfigEnabled && role?.canConfigureEventsAndAlerts;
 
   if (
     eventData?.get('state') === 'manually_closed' ||
@@ -56,7 +59,44 @@ export default function FeedbackStepThree({ form, setForm, nextStep, eventData }
           />
         </Stack>
       </div>
-      <Message type="warning">{t('in-events:closeEventDialog.warningIncident')}</Message>
+
+      <Message type="warning">{t('in-events:closeEventDialog.warning')}</Message>
+
+      {canSuppressAlertAndDisableEvent && (
+        <Stack gap="xxsmall">
+          <Stack direction="horizontal" gap="xxsmall" align="center">
+            <Typography variant="body-small">{t('in-events:closeEventDialog.suppressAlerts')}</Typography>
+            <Tooltip content={t('in-events:closeEventDialog.suppressAlertsIncidentTooltip')}>
+              <SvgIcon type="lib_help_error_info_outline" size="xs" />
+            </Tooltip>
+          </Stack>
+
+          <Toggle
+            id="mute-alerts"
+            name="mute-alerts"
+            checked={form.get('muteAlerts').value}
+            onToggle={checked => setValue(form, ['muteAlerts'], checked)}
+            labelA={t('in-events:closeEventDialog.labelOff')}
+            labelB={t('in-events:closeEventDialog.labelOn')}
+          />
+
+          <Stack direction="horizontal" gap="xxsmall" align="center">
+            <Typography variant="body-small">{t('in-events:closeEventDialog.disableIncident')}</Typography>
+            <Tooltip content={t('in-events:closeEventDialog.disableEventsTooltip')}>
+              <SvgIcon type="lib_help_error_info_outline" size="xs" />
+            </Tooltip>
+          </Stack>
+
+          <Toggle
+            id="disable-event-config"
+            name="disable-event-config"
+            checked={form.get('disableEvent').value}
+            onToggle={checked => setValue(form, ['disableEvent'], checked)}
+            labelA={t('in-events:closeEventDialog.labelOff')}
+            labelB={t('in-events:closeEventDialog.labelOn')}
+          />
+        </Stack>
+      )}
     </Stack>
   );
 }
