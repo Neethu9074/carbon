@@ -59,7 +59,6 @@ export function NotesAndActivity(props) {
   const { event, displayNotes, setDisplayNotes } = props;
   // Extract the notes from the event
   const notes = getNotes(event);
-  console.log('notes', notes)
   const incidentId = event?.get('id');
   const eventType = event?.get('type');
   const problemText = event?.get('problem')?.get('problemText');

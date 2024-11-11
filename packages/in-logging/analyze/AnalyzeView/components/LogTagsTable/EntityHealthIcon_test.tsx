@@ -11,7 +11,6 @@ import { useObservable } from '@instana/hooks';
 
 import EntityHealthIcon from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/EntityHealthIcon';
 import { healthColors } from 'in-stores/events';
-
 const getMockSeverityInfo = (maxSeverity: number) =>
   new Map(
     Object.entries({ maxSeverity, numberOfOpenEvent: maxSeverity ? 1 : 0, eventWithMaxSeverity: null, eventIds: [] })

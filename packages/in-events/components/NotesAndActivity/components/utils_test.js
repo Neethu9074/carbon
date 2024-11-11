@@ -103,13 +103,21 @@ describe('createDataString', () => {
 describe('convertSummaryToString', () => {
   test('should convert the summary object to a string', () => {
     const summaryData = [
-      { label: 'Label 1', summary: 'Summary 1' },
-      { label: 'Label 2', summary: 'Summary 2' }
+      new Map([
+        ['entityLabel', 'Label 1'],
+        ['entitySummary', 'Summary 1']
+      ]),
+      new Map([
+        ['entityLabel', 'Label 2'],
+        ['entitySummary', 'Summary 2']
+      ])
     ];
 
     const result = convertSummaryToString(summaryData);
 
-    expect(result).toBe('This summary is AI generated\n\nLabel 1\nSummary 1\nLabel 2\nSummary 2\n');
+    expect(result).toBe(
+      'This summary is AI generated\n\nSummary generated:\n\nLabel 1\nSummary 1\n\nLabel 2\nSummary 2\n\n'
+    );
   });
 
   test('should handle an empty array', () => {
@@ -117,7 +125,7 @@ describe('convertSummaryToString', () => {
 
     const result = convertSummaryToString(summaryData);
 
-    expect(result).toBe('This summary is AI generated\n\n');
+    expect(result).toBe('This summary is AI generated\n\nSummary generated:\n\n');
   });
 
   test('should handle null input', () => {
@@ -125,23 +133,27 @@ describe('convertSummaryToString', () => {
 
     const result = convertSummaryToString(summaryData);
 
-    expect(result).toBe('This summary is AI generated\n\n');
+    expect(result).toBe('This summary is AI generated\n\nSummary generated:\n\n');
   });
 
   test('should handle long labels and summaries', () => {
     const summaryData = [
-      {
-        label:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.',
-        summary:
+      new Map([
+        [
+          'entityLabel',
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.'
-      }
+        ],
+        [
+          'entitySummary',
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.'
+        ]
+      ])
     ];
 
     const result = convertSummaryToString(summaryData);
 
     expect(result).toBe(
-      'This summary is AI generated\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.\n'
+      'This summary is AI generated\n\nSummary generated:\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.\n\n'
     );
   });
 });
