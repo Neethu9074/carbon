@@ -110,7 +110,7 @@ describe('in-settings/tabs/UserSettings/pages/TwoFactorSettings/TwoFactorSetting
   it('should call verifyTwoFactorToken api when click on submit button', async () => {
     mockHttp();
     const { container } = renderApiToken();
-    const TwoFaToken_input: any = container.querySelector('.local-css-input');
+    const TwoFaToken_input: any = document.getElementById('2faToken_input');
     const form: any = container.querySelector('form');
     fireEvent.change(TwoFaToken_input, { target: { value: 345 } });
     fireEvent.submit(form);
@@ -126,9 +126,9 @@ describe('in-settings/tabs/UserSettings/pages/TwoFactorSettings/TwoFactorSetting
 
   it('should call toggleTwoFactor api when click on delete button', async () => {
     mockHttp();
-    const { getByText, container } = renderApiToken();
-    const TwoFaToken_input: any = container.querySelector('.local-css-input');
-    const deleteButton: any = getByText(t('in-settings:tabs.disableTwoFactor'));
+    const { getByText } = renderApiToken();
+    const TwoFaToken_input: any = document.getElementById('2faToken_input');
+    const deleteButton: Element = getByText(t('in-settings:tabs.disableTwoFactor'));
     fireEvent.change(TwoFaToken_input, { target: { value: 345 } });
     fireEvent.click(deleteButton);
     expect(http).toHaveBeenCalledWith(

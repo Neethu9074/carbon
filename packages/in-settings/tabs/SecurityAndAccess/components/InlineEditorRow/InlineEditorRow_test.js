@@ -75,7 +75,7 @@ describe('in-settings/tabs/SecurityAndAccess/components/InlineEditorRow', () => 
 
     const labelElement = container.querySelector('.local-css-readonlyLabel');
     const extraElement = container.querySelector('.local-css-readonlyExtra');
-    const inputElement = container.querySelector('.local-css-inputField');
+    const inputElement = container.querySelector('.local-css-inputField input');
 
     expect(labelElement).toBeNull();
     expect(extraElement).toBeNull();
@@ -183,7 +183,7 @@ describe('in-settings/tabs/SecurityAndAccess/components/InlineEditorRow', () => 
     );
 
     fireEvent.click(getByRole('button', { hidden: true }));
-    fireEvent.change(container.querySelector('.local-css-inputField'), { target: { value: 'foo' } });
+    fireEvent.change(container.querySelector('.local-css-inputField input'), { target: { value: 'foo' } });
 
     expect(onInputChange).toHaveBeenCalledTimes(1);
     expect(onInputChange).toHaveBeenCalledWith('foo');
