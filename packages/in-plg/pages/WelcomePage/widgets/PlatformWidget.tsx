@@ -353,7 +353,7 @@ export default function PlatformWidget({ config, timeConfig, widgetLabel, dashbo
       key: 'name',
       getContent({ item }) {
         return (
-          <Tooltip content={getLabel(item)} align="auto" caret={false}>
+          <Tooltip content={getLabel(item)} align="auto" caret={false} delay={300}>
             <Link href={getLink(item)}>{getLabel(item)}</Link>
           </Tooltip>
         );

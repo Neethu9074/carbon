@@ -29,7 +29,6 @@ import {
 } from 'in-components/AnalyzeView/metrics';
 import { addGroupingCriteriaToFormModel, childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManagement';
 import MetricAndSortingConfigurator from 'in-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
-import { ua2LoadedMore, ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-components/tracker';
 import { BOOLEAN, KEY_NUMBER_PAIR, KEY_VALUE_PAIR } from 'in-components/QueryBuilder/tagFilter/types';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
@@ -43,6 +42,7 @@ import { NO_VALUE, UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import { tagFilter } from '../QueryBuilder/transformation/tagFilter';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { getSparkChartGranularity } from 'in-applications/metrics';
@@ -256,7 +256,7 @@ export default function GroupedView(props) {
   const headerActions =
     CustomHeaderActions ||
     (props => <MetricAndSortingConfigurator {...props} metricOptions={props.availableMetrics} />);
-
+  const { trackUa2MetricAdded, trackUa2MetricRemoved, trackUa2LoadMore } = useAnalyzeTracker();
   return (
     <>
       <Stack direction={'horizontal'} gap={'disabled'}>
@@ -295,10 +295,10 @@ export default function GroupedView(props) {
             withResultsInGroups={withResultsInGroups}
             withAdjustedWindowSizeTooltip={Boolean(adjustedWindowSize)}
             tracking={{
-              onMetricAdded: ({ metric, aggregation }) => ua2MetricAddedTracker({ dataSource, metric, aggregation }),
+              onMetricAdded: ({ metric, aggregation }) => trackUa2MetricAdded({ dataSource, metric, aggregation }),
               onMetricAggregationChanged: ({ metric, aggregation }) =>
-                ua2MetricAddedTracker({ dataSource, metric, aggregation }),
-              onMetricRemoved: ({ metric, aggregation }) => ua2MetricRemovedTracker({ dataSource, metric, aggregation })
+                trackUa2MetricAdded({ dataSource, metric, aggregation }),
+              onMetricRemoved: ({ metric, aggregation }) => trackUa2MetricRemoved({ dataSource, metric, aggregation })
             }}
             renderHistoricDataIndicator={resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE'}
             CustomHeaderActions={headerActions}
@@ -380,7 +380,7 @@ export default function GroupedView(props) {
                 <LiLoadMore
                   loadMore={() => {
                     loadMore();
-                    ua2LoadedMore({
+                    trackUa2LoadMore({
                       dataSource,
                       groupbyTag: groupBy.groupbyTag,
                       groupbyTagSecondLevelKey: groupBy.groupbyTagSecondLevelKey

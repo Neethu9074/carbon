@@ -688,7 +688,7 @@ function AnsibleActionContent({
 }
 
 function AnsibleActionMetadata({ action }: Pick<RunActionDialogContentProps, 'action'>) {
-  const { jobTemplateUrl } = getAnsibleFields(action);
+  const { jobTemplateUrl, isWorkflowJobTemplate } = getAnsibleFields(action);
 
   return (
     <>
@@ -696,7 +696,7 @@ function AnsibleActionMetadata({ action }: Pick<RunActionDialogContentProps, 'ac
         <DescriptionItem
           inComponents
           className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-          title={t('in-automation:jobTemplate')}
+          title={isWorkflowJobTemplate ? t('in-automation:workflowJobTemplate') : t('in-automation:jobTemplate')}
         >
           <Link external href={jobTemplateUrl}>
             {action.name}

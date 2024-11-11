@@ -5,10 +5,13 @@
  */
 
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
+import { getRuleWithThreshold } from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
+import { defaultAlertRule } from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { t } from 'in-i18n';
 
@@ -27,17 +30,21 @@ export function getHeaderTitle(isGlobalSmartAlert, editMode, isMigration) {
 }
 
 export function toAlertConfig(form) {
+  const ruleWithThreshold = getRuleWithThreshold(form);
   let alertConfig = form
     .remove('hiddenFields')
+    .remove('rule')
+    .remove('threshold')
     .updateIn(['tagFilterExpression'], f =>
       f.setValue(toBackendQueryModel(form.get('tagFilterExpression').value, false))
     )
     .toJS();
 
-  if (alertConfig.rule.alertType === 'statusCode') {
+  alertConfig.rules = [ruleWithThreshold];
+
+  if (alertConfig.rules[0].rule.alertType === 'statusCode') {
     alertConfig = mapStatusCodeSelection(alertConfig);
   }
-
   alertConfig.applicationId = undefined;
   alertConfig.name = alertConfig.name || getTitlePlaceholder(form);
   alertConfig.description = alertConfig.description || getDescriptionPlaceholder(form);
@@ -46,41 +53,74 @@ export function toAlertConfig(form) {
 
 function mapStatusCodeSelection(alertConfig) {
   const {
-    rule: {
-      statusCode: { statusCodeStart, statusCodeEnd },
-      ...remainingRule
-    }
+    rules: [
+      {
+        rule: {
+          statusCode: { statusCodeStart, statusCodeEnd },
+          ...remainingRule
+        }
+      }
+    ]
   } = alertConfig;
 
-  alertConfig.rule = {
+  alertConfig.rules[0].rule = {
     statusCodeStart,
     statusCodeEnd,
     ...remainingRule
   };
+
   return alertConfig;
 }
 
 export function fromAlertConfig(alertConfig) {
-  if (alertConfig?.rule?.alertType === 'statusCode') {
+  if (alertConfig?.rules?.[0]?.rule?.alertType === 'statusCode') {
     alertConfig = mapStatusCodeConfig(alertConfig);
   }
+
+  const ruleWithThreshold = alertConfig?.rules?.[0];
+
+  if (ruleWithThreshold?.thresholds) {
+    const thresholds = { ...ruleWithThreshold.thresholds };
+
+    if (!thresholds.WARNING && thresholds.CRITICAL) {
+      thresholds.WARNING = { ...thresholds.CRITICAL, value: null, deviationFactor: 0 };
+    } else if (!thresholds.CRITICAL && thresholds.WARNING) {
+      thresholds.CRITICAL = { ...thresholds.WARNING, value: null, deviationFactor: 0 };
+    }
+
+    return {
+      ...alertConfig,
+      rules: [
+        {
+          ...ruleWithThreshold,
+          thresholds
+        }
+      ]
+    };
+  }
+
   return alertConfig;
 }
 
 function mapStatusCodeConfig(alertConfig) {
   const {
     rule: { statusCodeStart, statusCodeEnd, ...remainingRule }
-  } = alertConfig;
+  } = alertConfig.rules[0];
 
   return {
     ...alertConfig,
-    rule: {
-      statusCode: {
-        statusCodeEnd,
-        statusCodeStart
-      },
-      ...remainingRule
-    }
+    rules: [
+      {
+        ...alertConfig.rules[0],
+        rule: {
+          statusCode: {
+            statusCodeEnd,
+            statusCodeStart
+          },
+          ...remainingRule
+        }
+      }
+    ]
   };
 }
 
@@ -92,11 +132,43 @@ export function generateAlertConfig(
   endpointId,
   includeSynthetic
 ) {
+  const defaultRules = [
+    {
+      rule: defaultAlertRule,
+      thresholdOperator: '>=',
+      thresholds: {
+        WARNING: {
+          type: HISTORIC_BASELINE,
+          deviationFactor: defaultDeviationFactor,
+          seasonality: DAILY
+        },
+        CRITICAL: {
+          type: HISTORIC_BASELINE,
+          value: 0.0,
+          seasonality: DAILY
+        }
+      }
+    }
+  ];
   if (isGlobalSmartAlert) {
     return {
       threshold: {
         type: STATIC_THRESHOLD
-      }
+      },
+      rules: [
+        {
+          rule: defaultAlertRule,
+          thresholdOperator: '>=',
+          thresholds: {
+            WARNING: {
+              type: STATIC_THRESHOLD
+            },
+            CRITICAL: {
+              type: STATIC_THRESHOLD
+            }
+          }
+        }
+      ]
     };
   }
   return {
@@ -108,7 +180,8 @@ export function generateAlertConfig(
     },
     calculateThresholdOnBackend: true,
     includeSynthetic,
-    applications: applicationId && getEntitySelection(applicationId, serviceId, endpointId)
+    applications: applicationId && getEntitySelection(applicationId, serviceId, endpointId),
+    rules: defaultRules
   };
 }
 

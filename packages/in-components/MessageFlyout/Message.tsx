@@ -25,6 +25,9 @@ export default function Message({ message }: MessageProps) {
     case 'danger':
       baseType = MessageTypes.error;
       break;
+    case 'success':
+      baseType = MessageTypes.success;
+      break;
     default:
       baseType = MessageTypes.neutral;
   }

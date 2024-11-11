@@ -55,7 +55,7 @@ describe('in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearS
     it('test the headline and Description when slowness BP is selected ', () => {
       const slownessAlertConfig = {
         ...alertConfig,
-        rule: { aggregation: 'P90', alertType: 'slowness', metricName: 'latency' }
+        rules: [{ rule: { aggregation: 'P90', alertType: 'slowness', metricName: 'latency' } }]
       };
       const props = {
         form: createSmartAlertForm(slownessAlertConfig, true, true),
@@ -85,7 +85,7 @@ describe('in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearS
     it('test the headline and Description when statusCode BP is selected ', () => {
       const statusCodeAlertConfig = {
         ...alertConfig,
-        rule: { ...rule, alertType: 'statusCode' }
+        rules: [{ rule: { ...rule, alertType: 'statusCode' } }]
       };
       const props = {
         form: createSmartAlertForm(statusCodeAlertConfig, true, true),
@@ -115,7 +115,7 @@ describe('in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearS
     it('test the headline and Description when throughput BP is selected ', () => {
       const throughputAlertConfig = {
         ...alertConfig,
-        rule: { ...rule, alertType: 'throughput' }
+        rules: [{ rule: { ...rule, alertType: 'throughput' } }]
       };
       const props = {
         form: createSmartAlertForm(throughputAlertConfig, true, true),

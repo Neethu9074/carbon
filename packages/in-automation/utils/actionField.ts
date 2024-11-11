@@ -36,6 +36,8 @@ export const getTimeoutFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.timeout ?? { value: '', encoding: 'ascii', name: 'timeout' };
 export const getPlaybookIdFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.playbookId ?? { value: '', encoding: 'ascii', name: 'playbookId' };
+export const getWorkflowIdFromFields = (fields: Field[] | undefined): Field =>
+  getFieldsByNames(fields)?.workflowId ?? { value: '', encoding: 'ascii', name: 'workflowId' };
 export const getPlaybookFileNameFromFields = (fields: Field[] | undefined): Field =>
   getFieldsByNames(fields)?.playbookFileName ?? { value: '', encoding: 'ascii', name: 'playbookFileName' };
 export const getAnsibleUrlFromFields = (fields: Field[] | undefined): Field =>
@@ -121,16 +123,17 @@ export function getWebhookFields(action: Action | NewAction): {
 }
 
 export function getAnsibleFields(action: Action | NewAction): {
-  playbookId: Field;
-  playbookFileName: Field;
-  ansibleUrl: Field;
+  isWorkflowJobTemplate: boolean;
   jobTemplateUrl: string;
 } {
+  const workflowId = getWorkflowIdFromFields(action.fields);
   const playbookId = getPlaybookIdFromFields(action.fields);
-  const playbookFileName = getPlaybookFileNameFromFields(action.fields);
   const ansibleUrl = getAnsibleUrlFromFields(action.fields);
-  const jobTemplateUrl = `${ansibleUrl.value}/#/templates/job_template/${playbookId.value}`;
-  return { playbookId, playbookFileName, ansibleUrl, jobTemplateUrl };
+  const isWorkflowJobTemplate = workflowId?.value !== '';
+  const ansibleId = isWorkflowJobTemplate ? workflowId : playbookId;
+  const templateName = isWorkflowJobTemplate ? 'workflow_job_template' : 'job_template';
+  const jobTemplateUrl = `${ansibleUrl.value}/#/templates/${templateName}/${ansibleId.value}`;
+  return { jobTemplateUrl, isWorkflowJobTemplate };
 }
 
 export function getGithubFields(action: Action | NewAction): {

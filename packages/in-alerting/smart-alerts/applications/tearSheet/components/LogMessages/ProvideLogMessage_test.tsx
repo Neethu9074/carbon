@@ -18,7 +18,7 @@ import { t } from 'in-i18n';
 describe('ProvideLogMessage', () => {
   const logsAlertConfig = {
     ...alertConfig,
-    rule: { level: 'ERROR', alertType: 'logs', message: '', metricName: 'calls', operator: 'EQUALS' }
+    rules: [{ rule: { level: 'ERROR', alertType: 'logs', message: '', metricName: 'calls', operator: 'EQUALS' } }]
   };
   let props: any;
   beforeEach(() => {

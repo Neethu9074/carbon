@@ -20,6 +20,7 @@ import {
 // @ts-expect-error
 import MetricConfiguration from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricConfiguration';
 import { thresholdCustomDashboardsTableWidgetEnabled, unitForInfraMetricsEnabled } from 'in-services/featureFlags';
+import { datasets } from 'in-custom-dashboards/widgets/Table/infrastructure/form';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { getFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -28,7 +29,6 @@ import { getFormatterById } from 'in-stores/metric/formatters';
 import Section from 'in-components/workspace/Section';
 import { getBaseUnit } from 'in-stores/metric/units';
 import { MetricSource } from 'in-types';
-import { datasets } from '../form';
 import { t } from 'in-i18n';
 
 interface DatasetsColumnProps {
@@ -60,7 +60,7 @@ export default function DatasetsColumn({
         const formatters = getFormatter(source, metric, aggregation, getBaseUnit(unit));
         const required = metricForm.get('required')?.value ?? false;
 
-        //Backward compatibility, add existing formatter to list of available formatters
+        // Backward compatibility, add existing formatter to list of available formatters
         const formatterSelected = metricForm.get(formatterSelectedPath)?.value;
         if (formatterSelected) {
           const selectedFormatter = getFormatterById(formatter);

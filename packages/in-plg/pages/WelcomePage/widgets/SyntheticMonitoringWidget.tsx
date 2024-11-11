@@ -307,7 +307,12 @@ export default function SyntheticMonitoringWidget({
         key: 'name',
         getContent({ item }) {
           return (
-            <Tooltip content={item?.testResultCommonProperties?.testCommonProperties?.label} align="auto" caret={false}>
+            <Tooltip
+              content={item?.testResultCommonProperties?.testCommonProperties?.label}
+              align="auto"
+              caret={false}
+              delay={300}
+            >
               <Link
                 href={createLinkLocation(item, location)}
                 onClick={() => clickSyntheticMonitoringTestTracker(trackCta)}
@@ -372,7 +377,7 @@ export default function SyntheticMonitoringWidget({
         key: 'name',
         getContent({ item }) {
           return (
-            <Tooltip content={item?.label} align="auto" caret={false}>
+            <Tooltip content={item?.label} align="auto" caret={false} delay={300}>
               <span>
                 <LocationNameLink item={item} />
               </span>
@@ -420,7 +425,7 @@ export default function SyntheticMonitoringWidget({
         key: 'name',
         getContent({ item }) {
           return (
-            <Tooltip content={item?.name} align="auto" caret={false}>
+            <Tooltip content={item?.name} align="auto" caret={false} delay={300}>
               <Link href={createLinkLocation(item, location)}>{item?.name}</Link>
             </Tooltip>
           );

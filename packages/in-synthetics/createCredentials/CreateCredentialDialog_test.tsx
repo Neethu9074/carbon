@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 
 import CreateCredentialDialog from 'in-synthetics/createCredentials/CreateCredentialDialog';
@@ -16,7 +16,7 @@ describe(CreateCredentialDialog, () => {
     render(<CreateCredentialDialog onClose={onClose} />);
   });
 
-  it('Renders the Create a synthetic credential dialog title correctly', () => {
+  it('renders the Create a synthetic credential dialog title correctly', () => {
     render(<CreateCredentialDialog onClose={onClose} />);
 
     expect(screen.getByText('Create a synthetic credential')).toBeInTheDocument();
@@ -47,6 +47,51 @@ describe(CreateCredentialDialog, () => {
       screen.getByRole('button', {
         name: 'Next'
       })
+    ).toBeDisabled();
+  });
+
+  it('verify Next button is disabled initially and enabled when Name and Value are valid', () => {
+    render(<CreateCredentialDialog onClose={onClose} />);
+
+    const nameField = document.querySelector('input[placeholder="Credential name"]');
+    const valueField = document.querySelector('input[placeholder="Credential value"]');
+
+    expect(
+      screen.getByRole('button', {
+        name: 'Next'
+      })
+    ).toBeTruthy();
+
+    expect(
+      screen.getByRole('button', {
+        name: 'Next'
+      })
+    ).toBeDisabled();
+
+    fireEvent.change(nameField!, { target: { value: 'cred1' } });
+    fireEvent.change(valueField!, { target: { value: 123 } });
+
+    expect(
+      screen.getByRole('button', {
+        name: 'Next'
+      })
     ).not.toBeDisabled();
+
+    fireEvent.change(nameField!, { target: { value: '1cred1' } });
+
+    expect(
+      screen.getByRole('button', {
+        name: 'Next'
+      })
+    ).toBeDisabled();
+
+    fireEvent.change(nameField!, { target: { value: 'cred1' } });
+    fireEvent.change(valueField!, { target: { value: '' } });
+
+    expect(
+      screen.getByRole('button', {
+        name: 'Next'
+      })
+    ).toBeDisabled();
   });
 });

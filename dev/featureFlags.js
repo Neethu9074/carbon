@@ -14,6 +14,8 @@ module.exports = {
   bizopsStandardInclusionEnabled: true,
   bizopsRbacLimitedEnabled: true,
   bizopsProcessFlowMapEnabled: true,
+  bizopsProcessStackEnabled: true,
+  bizopsActivityStackEnabled: false,
   containerInfoEnabled: true,
   entityCountWidgetEnabled: true,
   infraMetricsWidgetEnabled: true,
@@ -60,8 +62,6 @@ module.exports = {
   carbonMenuEnabled: true,
   carbonDropdownEnabled: true,
   notesAndActivityEnabled: true,
-  carbonLoadingSkeletonFeatureEnabled: true,
-  carbonLoadingSpinnerEnabled: true,
   carbonDescriptionListEnabled: true,
   carbonTooltipEnabled: true,
   carbonListEnabled: true,
@@ -153,7 +153,6 @@ module.exports = {
   automationActionInstanceFeedbackEnabled: false,
   infraExploreFilterEmptyValueEnabled: true,
   weaselSubresourceIntegrityEnabled: true,
-  carbonTileEnabled: true,
   carbonStepProgressBarEnabled: true,
   thresholdCustomDashboardsEnabled: true,
   thresholdCustomDashboardsTableWidgetEnabled: true,
@@ -177,8 +176,10 @@ module.exports = {
   extrapolateMissingStackedAreaValues: true,
   nutanixEnabled: true,
   automationActionAiGenerationUnitEnabled: true,
+  disableEventConfigEnabled: true,
   carbonSliderEnabled: true,
   customDashboardTopLevelFiltersEnabled: true,
   syntheticCredentialsEnabled: true,
-  infraSmartAlertFullScreenDesignEnabled: false
+  infraSmartAlertFullScreenDesignEnabled: false,
+  alertChannelPerSeverityInfraSaEnabled: false
 };

@@ -27,6 +27,7 @@ import ValidationMessages, {
 } from 'in-custom-dashboards/widgets/Chart/FormComponent/ValidationMessages';
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
 import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
+import { getInfrastructureMetricFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import { unitPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
@@ -144,8 +145,13 @@ export default function FormComponent({
       : getUnitByFormatter(getFormatterIdByFn(metricMetadatas?.[metric]?.formatter))
     : undefined;
 
-  const metricDefaultFormatter =
-    isFormatterSelected || (metric && formatter !== defaultFormatter.id) ? formatter : uiMetricFormatter;
+  const metricDefaultFormatter = getMetricDefaultFormatter({
+    baseUnit: preSelectedUnit?.baseUnit,
+    formatter,
+    isFormatterSelected,
+    metric,
+    uiMetricFormatter
+  });
 
   const {
     setMetadata,
@@ -177,17 +183,6 @@ export default function FormComponent({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [metricCatalog, typeField.value, metricField.value]);
 
-  // Update metric formatter with builtin one
-  useEffect(() => {
-    if (autoFormatterTimeSeriesEnabled) {
-      onChange([], form =>
-        form.updateIn(['formatter'], field => field.setValue(metricDefaultFormatter).setTouched(true))
-      );
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [metricDefaultFormatter]);
-
   // In case multi group is enabled, it should change the groupKey from "by" to "groupBys" for backward compatibility.
   useEffect(() => {
     if (isMultiGroup && grouping && !grouping?.groupBys) {
@@ -197,13 +192,23 @@ export default function FormComponent({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMultiGroup]);
 
-  // Update metric unit with pre-selected one
+  // Update metric formatter with builtin one
   useEffect(() => {
-    if (preSelectedUnit) {
-      onChange([], form => form.updateIn([unitPath], field => field.setValue(preSelectedUnit?.id).setTouched(true)));
-    }
+    onChange([], form => {
+      let f = form;
+
+      if (autoFormatterTimeSeriesEnabled) {
+        f = f.updateIn(['formatter'], field => field.setValue(metricDefaultFormatter).setTouched(true));
+      }
+
+      if (preSelectedUnit) {
+        f = f.updateIn([unitPath], field => field.setValue(preSelectedUnit?.id).setTouched(true));
+      }
+
+      return f;
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [preSelectedUnit, metricMetadatas]);
+  }, [metricDefaultFormatter, preSelectedUnit, metricMetadatas]);
 
   const metricMetadata = {
     metric,
@@ -417,4 +422,16 @@ export function getGroups({ isMultiGroup, infraExploreGrouping }) {
 
 export function includesInSelectedAggregations(aggregationFieldValue) {
   return ['MEAN', 'MIN', 'MAX'].includes(aggregationFieldValue);
+}
+
+function getMetricDefaultFormatter({ baseUnit, isFormatterSelected, metric, formatter, uiMetricFormatter }) {
+  const formatters = getInfrastructureMetricFormatter(baseUnit);
+  const isFormatterAvailable = formatters.find(formatter => formatter.id === formatter);
+
+  const metricDefaultFormatter =
+    isFormatterSelected || (metric && formatter !== defaultFormatter.id && isFormatterAvailable)
+      ? formatter
+      : uiMetricFormatter;
+
+  return metricDefaultFormatter;
 }

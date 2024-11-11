@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { CarbonLayer, Collapsible, Typography } from '@instana/components';
+import { Collapsible, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import useFetchAppropriateRCAEntityData from 'in-events/components/legacy/useFetchAppropriateRCAEntityData';
@@ -49,40 +49,31 @@ export default function RootCauseLogsSection({
   );
 
   return (
-    <div className={locals.layerBackground}>
-      <CarbonLayer>
-        <Collapsible
-          onOpen={() => {
-            const instrumentationEventProperties = { expanded: true };
-            trackCta(
-              EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK,
-              instrumentationEventProperties,
-              SEGMENT_EVENT_PROPERTY_CHANNEL
-            );
-          }}
-          initiallyOpen
-        >
-          <Collapsible.Header>
-            <Typography variant="body-regular">{t('in-events:RCA.relatedMessagesAndLogsLabel')}</Typography>
-          </Collapsible.Header>
-          <Collapsible.Content>
-            <div className={locals.accordionContent}>
-              {entityData !== null && (
-                <RootCauseContextDashboard
-                  applicationBoundaryScope="ALL"
-                  serviceId={nonInfraServiceLabelInformation?.id || infraServiceLabelInformation[0]?.id}
-                  serviceName={nonInfraServiceLabelInformation?.label || infraServiceLabelInformation[0]?.label}
-                  applicationId={relatedApplicationInformation?.id}
-                  applicationName={relatedApplicationInformation?.label}
-                  endpointId={rcaEntityType === 'endpoint' ? entityData.steadyId : undefined}
-                  endpointName={rcaEntityType === 'endpoint' ? entityData.label : undefined}
-                  timeConfig={incidentTimeWindow}
-                />
-              )}
-            </div>
-          </Collapsible.Content>
-        </Collapsible>
-      </CarbonLayer>
-    </div>
+    <Collapsible
+      onOpen={() => {
+        const instrumentationEventProperties = { expanded: true };
+        trackCta(EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
+      }}
+    >
+      <Collapsible.Header style={{ background: 'none' }}>
+        <Typography variant="body-regular">{t('in-events:RCA.relatedMessagesAndLogsLabel')}</Typography>
+      </Collapsible.Header>
+      <Collapsible.Content>
+        <div className={locals.accordionContent}>
+          {entityData !== null && (
+            <RootCauseContextDashboard
+              applicationBoundaryScope="ALL"
+              serviceId={nonInfraServiceLabelInformation?.id || infraServiceLabelInformation[0]?.id}
+              serviceName={nonInfraServiceLabelInformation?.label || infraServiceLabelInformation[0]?.label}
+              applicationId={relatedApplicationInformation?.id}
+              applicationName={relatedApplicationInformation?.label}
+              endpointId={rcaEntityType === 'endpoint' ? entityData.steadyId : undefined}
+              endpointName={rcaEntityType === 'endpoint' ? entityData.label : undefined}
+              timeConfig={incidentTimeWindow}
+            />
+          )}
+        </div>
+      </Collapsible.Content>
+    </Collapsible>
   );
 }

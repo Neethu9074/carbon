@@ -25,7 +25,7 @@ import { all } from 'in-hooks/utils/progress';
 import { t } from 'in-i18n';
 
 export default function SloSynthethicEntitySection() {
-  const { form, onChange } = useContext(SloFormContext);
+  const { form, mode, onChange } = useContext(SloFormContext);
   const [query, setQuery] = useState('');
   const {
     value: queryInput,
@@ -38,9 +38,11 @@ export default function SloSynthethicEntitySection() {
   const entityIds = entityIdsField.value;
   const isEntityIdsFieldValid = isFieldValid(entityIdsField);
 
+  const isEditMode = mode === 'EDIT';
+
   const [separatelyLoadedEntities, , , labelProgress] = useSyntheticTests({ testIds: entityIds });
   const [entityResult, , , entitiesProgress] = useSyntheticTestsCursorPaginated(
-    { query: debouncedQuery },
+    { query: debouncedQuery, skip: isEditMode },
     SloEntityTablePageSize
   );
 
@@ -66,11 +68,13 @@ export default function SloSynthethicEntitySection() {
         <Typography variant="heading-200" component="h2">
           {t('in-service-levels:general.select', { entity: sloEntityTypeField.value })}
         </Typography>
-        <SearchInput
-          onChange={q => setQueryDebounced(q)}
-          placeholder={t('in-components:searchInput.placeholderSearch')}
-          query={queryInput}
-        />
+        {!isEditMode && (
+          <SearchInput
+            onChange={q => setQueryDebounced(q)}
+            placeholder={t('in-components:searchInput.placeholderSearch')}
+            query={queryInput}
+          />
+        )}
       </SloTableHeader>
       {!isEntityIdsFieldValid &&
         entityIdsField.messages.map(({ message, path }, index) => (
@@ -83,6 +87,7 @@ export default function SloSynthethicEntitySection() {
         loadMore={loadMore}
         onChange={onEntityChange}
         progress={progress}
+        disabled={isEditMode}
       />
     </Sections>
   );

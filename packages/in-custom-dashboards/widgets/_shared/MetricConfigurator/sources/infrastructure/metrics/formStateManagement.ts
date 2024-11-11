@@ -31,7 +31,7 @@ export function formCallbacks({ onChange, metricDefaultFormatter, isCrossSeriesA
   return {
     onMetricChange({ metric, levelType, allowedCrossSeriesAggregations, label, parentLabels }: Node) {
       onChange([], form => {
-        var f = form
+        let f = form
           .updateIn(['metric'], field => field.setValue(metric).setTouched(true))
           .updateIn(['type'], field => field.setValue(levelType).setTouched(true))
           .updateIn(['metricPath'], field => field.setValue(parentLabels).setTouched(true))

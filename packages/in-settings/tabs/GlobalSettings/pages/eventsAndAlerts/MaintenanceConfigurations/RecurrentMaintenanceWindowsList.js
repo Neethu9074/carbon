@@ -11,21 +11,14 @@ import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import {
-  editMaintenanceWindowTracker,
-  newMaintenanceWindowTracker,
-  pauseMaintenanceWindowTracker,
-  removeMaintenanceWindowTracker,
-  resumeMaintenanceWindowTracker,
-  switchToActiveMaintenanceWindowsTabTracker,
-  switchToExpiredMaintenanceWindowsTabTracker,
-  switchToScheduledMaintenanceWindowsTabTracker
-} from 'in-settings/tracker';
-import {
   SETTINGS_MAINTENANCE_WINDOW_EDIT,
   SETTINGS_MAINTENANCE_WINDOW_NEW,
   SETTINGS_MAINTENANCE_WINDOW_PAUSE,
   SETTINGS_MAINTENANCE_WINDOW_REMOVE,
-  SETTINGS_MAINTENANCE_WINDOW_RESUME
+  SETTINGS_MAINTENANCE_WINDOW_RESUME,
+  SETTINGS_MAINTENANCE_WINDOW_ACTIVE_TAB,
+  SETTINGS_MAINTENANCE_WINDOW_SCHEDULED_TAB,
+  SETTINGS_MAINTENANCE_WINDOW_EXPIRED_TAB
 } from 'in-services/tracking/eventNames';
 import {
   pauseMaintenanceConfig,
@@ -47,6 +40,7 @@ import { getQueryBuilder } from 'in-alerting/smart-alerts/synthetics/components/
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEditor';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { indeterminateProgress } from 'in-services/fixedObjects';
@@ -98,12 +92,6 @@ export default function RecurrentMaintenanceWindowsList(props) {
   const tableActions = {
     delete: {
       deleteEntity: entity => {
-        removeMaintenanceWindowTracker({
-          mwID: entity.id,
-          name: entity.name || null,
-          type: entity.scheduling.type,
-          currentState: entity.state
-        });
         // Sending type of maintenance window deleted
         maintenanceWindowCTATracker(SETTINGS_MAINTENANCE_WINDOW_REMOVE, location.pathname, entity.scheduling.type);
         setSaved(true);
@@ -120,7 +108,6 @@ export default function RecurrentMaintenanceWindowsList(props) {
           currentState: entity.state
         };
         if (entity.paused) {
-          resumeMaintenanceWindowTracker(entityEventObject);
           maintenanceWindowCTATracker(
             SETTINGS_MAINTENANCE_WINDOW_RESUME,
             location.pathname,
@@ -129,7 +116,6 @@ export default function RecurrentMaintenanceWindowsList(props) {
           );
           return resumeMaintenanceConfig(entity.id);
         } else {
-          pauseMaintenanceWindowTracker(entityEventObject);
           maintenanceWindowCTATracker(
             SETTINGS_MAINTENANCE_WINDOW_PAUSE,
             location.pathname,
@@ -198,14 +184,10 @@ export default function RecurrentMaintenanceWindowsList(props) {
           addActiveDialog(<RecurrentMaintenanceConfigForm {...props} onClose={close} setSaved={setSaved} />);
         }}
         getDetailsHref={entity => {
-          editMaintenanceWindowTracker();
           maintenanceWindowCTATracker(SETTINGS_MAINTENANCE_WINDOW_EDIT, location.pathname);
           return getEntityHref(globalSettingsAlertingMaintenanceConfigurations, entity.id);
         }}
-        trackEvent={() =>
-          maintenanceWindowCTATracker(SETTINGS_MAINTENANCE_WINDOW_NEW, location.pathname) &&
-          newMaintenanceWindowTracker()
-        }
+        trackEvent={() => maintenanceWindowCTATracker(SETTINGS_MAINTENANCE_WINDOW_NEW, location.pathname)}
         searchAttributes={['name', 'query', getStartAsString, getEndAsString, 'state']}
         extraFilters={recurrentMaintenanceWindowsTabsEnabled ? [element => filteringMWList(element, mwTypeView)] : []}
       />
@@ -378,6 +360,8 @@ const columnDefinitions = [
 ];
 
 const DisplayMWTypes = ({ mwTypeView, setMwTypeView, numbers }) => {
+  const { trackCta } = useSegmentTracking();
+
   return (
     <div>
       <HorizontalFlexWrapper>
@@ -387,7 +371,7 @@ const DisplayMWTypes = ({ mwTypeView, setMwTypeView, numbers }) => {
               text: `${t('in-settings:maintenanceWindow.status', { context: 'active' })} (${numbers.active})`,
               key: 'ACTIVE',
               onClick: () => {
-                switchToActiveMaintenanceWindowsTabTracker({});
+                trackCta(SETTINGS_MAINTENANCE_WINDOW_ACTIVE_TAB);
                 setMwTypeView('ACTIVE');
               }
             },
@@ -395,7 +379,7 @@ const DisplayMWTypes = ({ mwTypeView, setMwTypeView, numbers }) => {
               text: `${t('in-settings:maintenanceWindow.status', { context: 'scheduled' })} (${numbers.scheduled})`,
               key: 'SCHEDULED',
               onClick: () => {
-                switchToScheduledMaintenanceWindowsTabTracker({});
+                trackCta(SETTINGS_MAINTENANCE_WINDOW_SCHEDULED_TAB);
                 setMwTypeView('SCHEDULED');
               }
             },
@@ -403,7 +387,7 @@ const DisplayMWTypes = ({ mwTypeView, setMwTypeView, numbers }) => {
               text: `${t('in-settings:maintenanceWindow.status', { context: 'expired' })} (${numbers.expired})`,
               key: 'EXPIRED',
               onClick: () => {
-                switchToExpiredMaintenanceWindowsTabTracker({});
+                trackCta(SETTINGS_MAINTENANCE_WINDOW_EXPIRED_TAB);
                 setMwTypeView('EXPIRED');
               }
             }

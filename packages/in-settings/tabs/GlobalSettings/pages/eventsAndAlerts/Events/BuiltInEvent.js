@@ -11,18 +11,19 @@ import { useObservable } from '@instana/hooks';
 import { createBuiltinEventFormDefinition } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/BuiltinEventFormContent';
 import { createCustomThresholdBasedEventSpecification } from 'in-api/eventSpecificationsHelpers';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { globalSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { getBuiltInEventSpecification } from 'in-api/eventSpecifications';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getFormatter } from 'in-services/formatters/backendFormatter';
+import { SETTINGS_EVENT_VIEW } from 'in-services/tracking/tracking';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import FormGroup from 'in-settings/components/FormGroup';
-import { viewEventTracker } from 'in-settings/tracker';
 import Table from 'in-sdk/components/dashboard/Table';
 import Section from 'in-settings/components/Section';
 import { getPlainMetricList } from 'in-sdk/metrics';
@@ -45,12 +46,19 @@ const paramCols = [
 
 export default function BuiltinEvent(props) {
   const { goToPath } = useNavigation();
+  const { trackCta } = useSegmentTracking();
   const entityId = props.match.params.id;
   const entityData = useObservable(() => getBuiltInEventSpecification(entityId), []);
 
   useEffect(() => {
-    if (entityData && entityData?.get('shortPluginId'))
-      viewEventTracker({ id: entityId, entityType: entityData.get('shortPluginId'), type: 'BUILT_IN' });
+    if (entityData && entityData?.get('shortPluginId')) {
+      // Segment event tracking
+      trackCta(SETTINGS_EVENT_VIEW, {
+        id: entityId,
+        entityType: entityData.get('shortPluginId'),
+        type: 'BUILT_IN'
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entityData]);
 

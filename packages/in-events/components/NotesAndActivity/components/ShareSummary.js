@@ -10,8 +10,9 @@ import classNames from 'classnames';
 import { CarbonModal, CarbonTextArea, CarbonTextInput, CarbonForm } from '@instana/components';
 
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { EVENT_AI_SHARE_SUBMIT } from 'in-services/tracking/eventNames';
+import { validRecipients, handleTracking } from './utils';
 import { shareEventSummary } from 'in-stores/events';
-import { validRecipients } from './utils';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -69,6 +70,7 @@ export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay, inci
         <CarbonForm className={locals.formWrapper}>
           <div className={locals.summarySubHeader}>{t('in-events:notes.summaryEmail')}</div>
           <CarbonTextInput
+            id={'share-recipients'}
             labelText={t('in-events:notes.recipients')}
             type="text"
             invalidText={t('in-events:notes.invalidEmail')}
@@ -82,6 +84,7 @@ export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay, inci
             })}
           />
           <CarbonTextInput
+            id={'share-subject'}
             labelText={t('in-events:notes.subject')}
             type="text"
             value={subject}
@@ -148,6 +151,7 @@ export function handleShareSummary(incidentId, recipients, body, subject, setHas
         },
         'shared-summarization-generated'
       );
+      handleTracking(incidentId, EVENT_AI_SHARE_SUBMIT);
     },
     // On Error
     error => {

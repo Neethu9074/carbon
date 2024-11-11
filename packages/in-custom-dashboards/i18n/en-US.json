@@ -100,21 +100,21 @@
       "jsonRootMustBeAnObject": "JSON root must be an object."
     },
     "downloadPdfDialog": {
-      "downloadPdf": "Download pdf",
+      "downloadPdf": "Download PDF file",
       "settings": "Settings",
       "pdfOrientation": "Orientation",
       "portrait": "Portrait",
       "landscape": "Landscape",
       "pdfLayout": "Layout",
       "widgetsDisplay": "Display",
-      "singlePage": "Single Page",
-      "singlePageInfo": "Fit all widgets on one page (content will be resized if necessary).",
-      "multiPages": "Multiple Pages",
-      "multiPagesInfo": "Allow content to flow across multiple pages if needed.",
+      "singlePage": "Single page",
+      "singlePageInfo": "Fit the entire dashboard on one page, with content resized to fit.",
+      "multiPages": "Multiple pages",
+      "multiPagesInfo": "Distribute the dashboard across multiple pages, keeping the original layout. Some widgets may be cut off.",
       "stackWidgetsTitle": "Stack widgets",
-      "stackWidgetsInfo": "Display widgets one below the other across multiple pages.",
+      "stackWidgetsInfo": "Display widgets in a vertical stack across multiple pages.",
       "loadingWidget": "Loading widget {{widgetIndex}} of {{totalNodes}}",
-      "generatePreview": "Generate Preview",
+      "generatePreview": "Generate preview",
       "generatingPreview": "Generating pdf preview"
     },
     "filterContext": {

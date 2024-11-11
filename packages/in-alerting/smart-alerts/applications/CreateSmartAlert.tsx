@@ -13,9 +13,11 @@ import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/compon
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 import { isDialogAndTearSheetEnabled } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
+import { defaultAlertRule } from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { alertsTabListFullyQualified } from 'in-applications/navigation/paths';
@@ -173,6 +175,25 @@ export function generateAlertConfig({
   endpointId,
   includeSynthetic
 }: GenerateAlertConfigProps) {
+  const defaultRules = [
+    {
+      rule: defaultAlertRule,
+      thresholdOperator: '>=',
+      thresholds: {
+        WARNING: {
+          type: HISTORIC_BASELINE,
+          deviationFactor: defaultDeviationFactor,
+          seasonality: DAILY
+        },
+        CRITICAL: {
+          type: HISTORIC_BASELINE,
+          value: 0.0,
+          seasonality: DAILY
+        }
+      }
+    }
+  ];
+
   return {
     boundaryScope,
     threshold: {
@@ -182,6 +203,7 @@ export function generateAlertConfig({
     },
     calculateThresholdOnBackend: true,
     includeSynthetic,
-    applications: getEntitySelection(applicationId, serviceId, endpointId)
+    applications: getEntitySelection(applicationId, serviceId, endpointId),
+    rules: defaultRules
   };
 }

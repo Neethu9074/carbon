@@ -6,9 +6,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import ThresholdValueFormGroupForMultiStaticThreshold from 'in-alerting/smart-alerts/dialog/advanced/ThresholdValueFormGroupForMultiStaticThreshold';
 import FixedThresholdConditionForBuiltInAlert from 'in-alerting/smart-alerts/applications/dialog/advanced/FixedThresholdConditionForBuiltInAlert';
-import ThresholdValueFormGroupForStaticThreshold from 'in-alerting/smart-alerts/dialog/advanced/ThresholdValueFormGroupForStaticThreshold';
-import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdDeviationSliderForm';
+import { MultiThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/MultiThresholdDeviationSliderForm';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/applications/dialog/advanced/ThresholdTypeSelection';
@@ -31,7 +31,7 @@ export default function ErrorRateThresholdCondition({
   isGlobalSmartAlert
 }) {
   const isBuiltIn = form.get('builtIn').value;
-  const thresholdType = form.get('threshold').get('type')?.value;
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
@@ -73,19 +73,18 @@ export default function ErrorRateThresholdCondition({
       </ThresholdConditionFormGroup>
 
       {thresholdType === STATIC_THRESHOLD && (
-        <ThresholdValueFormGroupForStaticThreshold
+        <ThresholdValueFormGroupForMultiStaticThreshold
           form={form}
           updateForm={updateForm}
           maxValue={maxValue}
           metricUnitPostfix={metricUnitPostfix}
           isGlobalSmartAlert={isGlobalSmartAlert}
-          hasSmallInputField
           percentageMetric={percentageMetric}
         />
       )}
 
       {thresholdType !== STATIC_THRESHOLD && (
-        <ThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
+        <MultiThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
       )}
     </>
   );

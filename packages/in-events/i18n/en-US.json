@@ -6,7 +6,7 @@
     "earliestTimestamp": "Earliest Timestamp"
   },
   "affectedApplications": {
-    "noAffectedApplications":"No affected applications found.",
+    "noAffectedApplications": "No affected applications found.",
     "title": "Tittle",
     "totalcalls": "Affected Calls",
     "errorLoadingData": "Error loading data."
@@ -53,8 +53,8 @@
   "titleEmptyEvents_change": "No changes available",
   "titleEmptyEvents_monitoringIssue": "No monitoring issues available",
   "titleEmptyEvents_cveIssue": "No CVE issues available",
-  "titleManualCloseIssue": "Close Issue",
-  "titleManualCloseIncident": "Close Incident",
+  "titleManualCloseIssue": "Close issue",
+  "titleManualCloseIncident": "Close incident",
   "closeIssue": "Close this issue",
   "explanationEmptyEvents_event": "There were no events retrieved for the selected time range",
   "explanationEmptyEvents_incident": "There were no incidents retrieved for the selected time range",
@@ -204,9 +204,10 @@
     "moderateProbabilityBadgeText": "This probability rating is based on the probability that the entity in question is unhealthy. It is likely that this entity is the root cause however more analysis is needed.",
     "lowProbabilityBadgeText": "This probability rating is based on the probability that the entity in question is unhealthy. Given present information, this component has a low likelihood of being unhealthy, but warrants being further investigated.",
     "naProbabilityBadgeText": "This probability rating is based on the probability that the entity in question is unhealthy. Unfortunately the probability rating for this incident could not be ascertained.",
-    "evidenceTextFailed": "Calls going through the <linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity> have an aggregated high error rate of: {{rca_error_percent}}%.",
-    "evidence": "Evidence",
-    "evidenceTextNotFailedLower": "Calls from the same entities that do not go through the <linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity> have a lower error rate of: {{non_rca_error_rate}}%.",
+    "evidenceTextFailed": "of aggregated calls going through the <linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity> are erroneous.",
+    "evidence": "Evidence:",
+    "evidenceTextNotFailed": "of aggregated calls from the same entities that do not go through the <linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity> are erroneous.",
+    "evidenceTextNotFailedLower": "of calls from the same entities that do not go through the <linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity> are erroneous.",
     "evidenceTextNotFailedHigher": "Calls from the same entities that do not go through the <linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity> have a higher error rate of: {{non_rca_error_rate}}%.",
     "evidenceTextNotFailedSame": "Calls from the same entities that do not go through the <linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity> have an error rate of: {{non_rca_error_rate}}%.",
     "reEvaluateRootCause": "Re-Evaluate Probable Root Cause",
@@ -253,16 +254,23 @@
     "titleImpactedBusinessProcessesIncident": "Impacted Business Processes for Triggering Event"
   },
   "closeEventDialog": {
-    "reason": "Let us know the reason you are closing the issue",
-    "warningIncident": "The closure of this incident is irreversible",
-    "warningIssue": "The closure of this issue is irreversible",
+    "reason": "Let us know the reason you are closing the issue.",
+    "warning": "This action cannot be undone.",
     "comments": "Comments",
-    "closeIssue": "Close Issue",
+    "suppressAlerts": "Suppress notifications",
+    "suppressAlertsIssueTooltip": "You will not receive a close notification for this issue.",
+    "suppressAlertsIncidentTooltip": "You will not receive a close notification for this incident.",
+    "disableIncident": "Disable event configuration for this incident",
+    "disableIssue": "Disable event configuration for this issue",
+    "disableEventsTooltip": "No further events will be triggered for this configuration.",
+    "closeIssue": "Close this issue",
     "closeIncident": "Close this incident",
     "closedByLabel": "Closed by",
     "reasonForClosing": "Include a reason for closing this incident. Your comments will be logged to the triggering event page.",
     "closingWillAlsoCloseWarning": "Closing <strong>{{event_problem_text}}</strong> will also close the triggering issue. Any related events will remain open.",
-    "closeIncidentFeedbackTitle": "Would you like to close this incident?"
+    "closeIncidentFeedbackTitle": "Would you like to close this incident?",
+    "labelOn": "On",
+    "labelOff": "Off"
   },
   "notes": {
     "openNotes": "Open notes and activity",
@@ -322,5 +330,8 @@
     "metricViolationTitle": "Metric violations",
     "setTimeConfig": "Set time config",
     "actionOpenTriggeringEvent": "Open triggering event"
+  },
+  "relatedEvents": {
+    "openEvent": "Open event"
   }
 }

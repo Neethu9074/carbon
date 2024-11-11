@@ -11,10 +11,13 @@ import { ColumnizedContent, ColumnizedDefinition, Li, Typography, Ul } from '@in
 import { ApplicationSloTabData, SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 
 export type SloConfigSectionData = SloTabData | ApplicationSloTabData;
+
+type ShouldRender = (data: SloConfigSectionData) => boolean;
+
 export interface RowDefinition {
   id: string;
-  columns: ColumnizedDefinition[];
-  shouldRender?: (data: SloConfigSectionData) => boolean;
+  columns: (ColumnizedDefinition & { shouldRender?: ShouldRender })[];
+  shouldRender?: ShouldRender;
 }
 
 interface SloConfigSectionProps {
@@ -33,12 +36,17 @@ export default function SloConfigSection({ data, label, contentDefinitions }: Sl
               return (
                 <Li key={row.id} noAlternatingBg>
                   <ColumnizedContent
-                    columnDefinitions={row.columns.map(col => ({
-                      width: '50%',
-                      shrink: false,
-                      verticallyCenter: true,
-                      ...col
-                    }))}
+                    columnDefinitions={row.columns.flatMap(col => {
+                      const { shouldRender, ...originalCol } = col;
+                      return shouldRender?.(data) ?? true
+                        ? {
+                            width: '50%',
+                            shrink: false,
+                            verticallyCenter: true,
+                            ...originalCol
+                          }
+                        : [];
+                    })}
                     data={data}
                   />
                 </Li>

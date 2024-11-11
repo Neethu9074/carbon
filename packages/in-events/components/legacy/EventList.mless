@@ -39,9 +39,6 @@
     border-radius: 0.25rem;
     width: 99.4%;
   }
-  .tabPanel {
-    background: var(--ids-color-option-neutral-50);
-  }
   .confidencePilled {
     margin-left: auto;
   }
@@ -104,10 +101,6 @@
   .regenerateButton {
     width: fit-content;
   }
-  .cardIndicator {
-    height: 0.25rem;
-    border-radius: 0.5rem 0.5rem 0 0;
-  }
   .associatedEventsCardHeader {
     cursor: pointer;
     background: var(--ids-color-option-neutral-50);
@@ -148,6 +141,10 @@
     padding: 0 1rem;
   }
 
+  .evidenceContainer {
+    width: 50%;
+  }
+
   .noShrink {
     flex-shrink: 0;
   }
@@ -161,5 +158,9 @@
     p {
       margin-bottom: 0;
     }
+  }
+
+  .hovered {
+    background: var(--cds-layer-hover);
   }
 }

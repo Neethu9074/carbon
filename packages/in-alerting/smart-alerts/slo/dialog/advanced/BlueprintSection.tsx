@@ -15,11 +15,12 @@ import TabSelect, {
   TabSelectPanel,
   TabSelectPanels
 } from 'in-components/TabSelect';
+import OperatorDropdown from 'in-service-levels/components/Shared/FormComponents/OperatorDropdown/OperatorDropdown';
 import BurnRateBlueprintSectionPanel from 'in-alerting/smart-alerts/slo/components/BurnRateBlueprintSectionPanel';
 import { useSloAlertFormContext } from 'in-alerting/smart-alerts/slo/hooks/useSloAlertFormContext';
 import BlueprintSectionPanel from 'in-alerting/smart-alerts/slo/components/BlueprintSectionPanel';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
-import OperatorDropdown from 'in-alerting/smart-alerts/slo/components/OperatorDropdown';
+import { sloAlertThresholdOperators } from 'in-alerting/smart-alerts/slo/constants';
 import PercentageInput from 'in-service-levels/components/PercentageInput';
 import { SloAlertMetricTypes } from 'in-alerting/smart-alerts/slo/types';
 import { Trans, t } from 'in-i18n';
@@ -78,6 +79,7 @@ export default function BlueprintSection() {
                 >
                   When
                   <OperatorDropdown
+                    operators={sloAlertThresholdOperators}
                     value={operatorField.value}
                     onChange={operator =>
                       onChange(['operator'], () => operatorField.setValue(operator).setTouched(true))
@@ -110,6 +112,7 @@ export default function BlueprintSection() {
                 >
                   When SLO target is
                   <OperatorDropdown
+                    operators={sloAlertThresholdOperators}
                     value={operatorField.value}
                     onChange={operator =>
                       onChange(['operator'], () => operatorField.setValue(operator).setTouched(true))
