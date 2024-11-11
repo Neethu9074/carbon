@@ -73,7 +73,12 @@ export default function InfoPanel({
                   <div className={locals.columnTitle}>{item?.title}</div>
                   <div className={locals.columnText}>{item?.text}</div>
                 </div>
-                <Link className={locals.linkButton} href={item?.link?.url} linkIconType="lib_arrow_short_right">
+                <Link
+                  className={locals.linkButton}
+                  href={item?.link?.url}
+                  external
+                  linkIconType="lib_arrow_short_right"
+                >
                   <span>{item?.link?.label}</span>
                 </Link>
               </div>

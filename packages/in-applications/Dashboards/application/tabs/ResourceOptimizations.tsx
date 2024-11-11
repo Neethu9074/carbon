@@ -98,7 +98,7 @@ export default function ResourceOptimizationTab({
                 title: t('in-applications:infoBanner.tryLabel'),
                 text: t('in-applications:infoBanner.tryText'),
                 link: {
-                  url: '#',
+                  url: 'https://www.ibm.com/account/reg/us-en/signup?formid=urx-52345',
                   label: t('in-applications:infoBanner.tryButtonLabel')
                 }
               },
@@ -106,7 +106,7 @@ export default function ResourceOptimizationTab({
                 title: t('in-applications:infoBanner.learnLabel'),
                 text: t('in-applications:infoBanner.learnText'),
                 link: {
-                  url: '#',
+                  url: 'https://www.ibm.com/products/instana/automated-resource-optimization',
                   label: t('in-applications:infoBanner.learnButtonLabel')
                 }
               },
@@ -114,7 +114,7 @@ export default function ResourceOptimizationTab({
                 title: t('in-applications:infoBanner.connectLabel'),
                 text: t('in-applications:infoBanner.connectText'),
                 link: {
-                  url: '#',
+                  url: 'https://www.ibm.com/account/reg/us-en/signup?formid=MAIL-automateinstana',
                   label: t('in-applications:infoBanner.connectButtonLabel')
                 }
               },
@@ -122,7 +122,7 @@ export default function ResourceOptimizationTab({
                 title: t('in-applications:infoBanner.helpLabel'),
                 text: t('in-applications:infoBanner.helpText'),
                 link: {
-                  url: '#',
+                  url: 'https://your.feedback.ibm.com/jfe/form/SV_eLsdmgUrNwcTrpQ',
                   label: t('in-applications:infoBanner.helpButtonLabel')
                 }
               }
