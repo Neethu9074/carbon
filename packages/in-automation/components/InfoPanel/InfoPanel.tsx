@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 
 import { DashboardButton, SvgIconSizes, Link } from '@instana/components';
 
+import { tryGet, trySet } from 'in-services/localStorage';
 import { t } from 'in-i18n';
 
 import locals from './InfoPanel.mless';
@@ -44,11 +45,16 @@ export default function InfoPanel({
   hideLabel
 }: infoPanelProps) {
   const [isExpanded, setIsExpanded] = useState(
-    typeof expanded === 'string' ? (localStorage.getItem(expanded) as unknown as boolean) ?? true : expanded
+    typeof expanded === 'string' ? (tryGet(expanded) ?? 'true') === 'true' : expanded
   );
 
   const toggleVisibility = () => {
-    setIsExpanded((prev: boolean) => !prev);
+    setIsExpanded((prev: boolean) => {
+      if (typeof expanded === 'string') {
+        trySet(expanded, !prev ? 'true' : 'false');
+      }
+      return !prev;
+    });
   };
 
   return (

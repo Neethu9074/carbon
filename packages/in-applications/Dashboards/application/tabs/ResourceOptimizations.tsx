@@ -90,6 +90,7 @@ export default function ResourceOptimizationTab({
     <div className={locals.contentContainer}>
       {showGuidance && (
         <InfoPanel
+          expanded="showResourceActionInfoPanel"
           content={{
             title: t('in-applications:infoBanner.title'),
             columns: [
