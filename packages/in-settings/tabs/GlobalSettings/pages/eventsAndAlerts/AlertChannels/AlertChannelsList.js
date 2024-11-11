@@ -91,7 +91,7 @@ export function columnDefinitions(hasRowNavigation) {
       width: 50,
       getContent(entity) {
         return (
-          <Tooltip content={entity.name} align="auto" delay={500}>
+          <Tooltip content={entity.name} align="auto" delay={500} overwriteBlock overflowEllipsis>
             <WithSubscript subscript={getKind(entity)}>
               {hasRowNavigation ? (
                 <Link href={getEntityIdView(globalSettingsAlertingAlertChannels, entity.id)} ellipsis>
@@ -120,7 +120,14 @@ export function columnDefinitions(hasRowNavigation) {
         return (
           <div className={locals.allProperties}>
             {Object.keys(entity.properties).map((property, index) => (
-              <Tooltip key={property} content={`${property}: ${entity.properties[property]}`} delay={500}>
+              <Tooltip
+                key={property}
+                content={`${property}: ${entity.properties[property]}`}
+                align="auto"
+                delay={500}
+                overwriteBlock
+                overflowEllipsis
+              >
                 <PropertyInTable label={property} value={entity.properties[property]} key={index} />
               </Tooltip>
             ))}
