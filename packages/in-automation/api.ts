@@ -23,6 +23,7 @@ import {
   ServiceLevelsAlertConfigWithMetadata,
   ActionType,
   ActionNameExists,
+  ImpactedApplicationDetails,
   ResourceOptimization
 } from '@instana/types';
 
@@ -102,6 +103,19 @@ export function getResourceOptimization(targetSnapshotId: string, entityType: st
       targetSnapshotId: encodeURIComponent(targetSnapshotId),
       entityType,
       actionCategory: actionCategory ? actionCategory : undefined
+    },
+    mapToResultObject: true,
+    headers: getCsrfHeader()
+  });
+}
+
+export function getTurboActionImpactedApplications(targetSnapshotId: string) {
+  return http<ImpactedApplicationDetails>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `${turboAPIBase}/impactedApplications`,
+    queryParams: {
+      targetSnapshotId: encodeURIComponent(targetSnapshotId)
     },
     mapToResultObject: true,
     headers: getCsrfHeader()

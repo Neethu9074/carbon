@@ -4,14 +4,26 @@
  * Copyright IBM Corp. 2024
  */
 
-import { Result, RecommendedAction, ResourceOptimization, ResourceImpactRsp, VolatileId, Event } from '@instana/types';
+import {
+  Result,
+  RecommendedAction,
+  ResourceOptimization,
+  ResourceImpactRsp,
+  VolatileId,
+  Event,
+  ImpactedApplicationDetails
+} from '@instana/types';
 import { EntityType, TargetEntityType } from '@instana/types';
 import { create, timeout } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
+import {
+  getResourceOptimization,
+  getTurboActionImpactedApplications,
+  getTurboActionResourceImpacts
+} from 'in-automation/api';
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
-import { getResourceOptimization, getTurboActionResourceImpacts } from 'in-automation/api';
 import { error, hasError, isLoading, success } from 'in-services/util/result';
 import usePaginatedResult from 'in-automation/hooks/usePaginatedResult';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -47,6 +59,14 @@ export function useResourceOptimization({ event, applicationId, actionCategory }
         return getResourceOptimization(targetSnapshotId ?? '', entityType, actionCategory);
       });
     }, [refreshSignal]) ?? (pendingResult as Result<ResourceOptimization>)
+  );
+}
+
+export function useActionImpactedApplications({ targetSnapshotId }: { targetSnapshotId: string }) {
+  return (
+    useObservable(() => {
+      return getTurboActionImpactedApplications(targetSnapshotId ?? '');
+    }, [targetSnapshotId]) ?? (pendingResult as Result<ImpactedApplicationDetails>)
   );
 }
 

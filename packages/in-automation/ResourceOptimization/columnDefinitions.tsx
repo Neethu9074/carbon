@@ -37,8 +37,8 @@ export const nameColumn: ColumnDefinition<RecommendedAction> = {
   sortable: true
 };
 
-export const impactedServicesColumn: ColumnDefinition<RecommendedAction> = {
-  label: t('in-automation:impactedServices'),
+export const impactedApplicationsColumn: ColumnDefinition<RecommendedAction> = {
+  label: t('in-automation:resourceOptimization.impactedApplications'),
   id: 'score',
   width: 10,
   sortable: true,
