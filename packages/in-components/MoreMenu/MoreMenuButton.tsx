@@ -13,7 +13,7 @@ import locals from './MoreMenuButton.mless';
 
 export default forwardRef<HTMLLIElement, MoreMenuButtonProps>(function MoreMenuButton(props, ref) {
   if (carbonMoreMenuEnabled) {
-    return <CarbonMoreMenuButton carbonVariant={carbonMoreMenuEnabled} {...props} ref={ref} />;
+    return <CarbonMoreMenuButton {...props} ref={ref} />;
   }
   return (
     <li className={locals.item} ref={ref}>
