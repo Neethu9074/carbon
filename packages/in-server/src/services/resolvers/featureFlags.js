@@ -623,11 +623,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'carbonAccordionEnabled',
-    instanaCtlKey: 'feature.carbon.accordion.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'carbonPaginationEnabled',
     instanaCtlKey: 'feature.carbon.pagination.enabled',
     defaultValue: true
