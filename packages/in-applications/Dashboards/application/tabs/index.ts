@@ -79,6 +79,11 @@ const getApplicationTabs = (canConfigureApplications: boolean | null | undefined
       path: `${applicationDashboard}/CveVulnerabilities`,
       component: CveVulnerabilities
     },
+    resourceOptimizationActionsEnabled && {
+      label: t('in-applications:labelResourceOptimizations'),
+      path: `${applicationDashboard}/resourceOptimizations`,
+      component: ResourceOptimizationTab
+    },
     {
       label: t('in-applications:labelSmartAlerts'),
       path: `${applicationDashboard}/alerts`,
@@ -88,11 +93,6 @@ const getApplicationTabs = (canConfigureApplications: boolean | null | undefined
       label: t('in-applications:labelConfiguration'),
       path: `${applicationDashboard}/configuration`,
       component: canConfigureApplications ? Configuration : ReadOnlyConfiguration
-    },
-    resourceOptimizationActionsEnabled && {
-      label: t('in-applications:labelResourceOptimizations'),
-      path: `${applicationDashboard}/resourceOptimizations`,
-      component: ResourceOptimizationTab
     }
   ].filter(Boolean) as Array<Tab<any, any>>;
 };
