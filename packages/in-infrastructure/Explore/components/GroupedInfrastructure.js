@@ -788,7 +788,7 @@ function generateMetric({
 
   const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
 
-  const formatterType = formatterId.split('.')[1];
+  const formatterType = formatterId?.split('.')[1];
   const formatter = isFormatterSelected
     ? getFormatter(formatterId)
     : getMetricFormatterFromUnitOrDefault(
