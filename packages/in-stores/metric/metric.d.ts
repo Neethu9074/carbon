@@ -7,7 +7,11 @@ import { Observable } from '@instana/observables';
 
 import { TimeConfig } from 'in-types';
 
-export function getChartGranularity(tc: TimeConfig, maxDataPoints?: number, minGranularity?: number): number;
+export function getChartGranularity(
+  tc: Pick<TimeConfig, 'windowSize'>,
+  maxDataPoints?: number,
+  minGranularity?: number
+): number;
 
 export function getFinestAvailableGranularity(tc: TimeConfig, minimumGranularity?: number): number;
 
