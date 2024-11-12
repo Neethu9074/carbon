@@ -58,7 +58,7 @@ export const carbonPillEnabled = isFeatureFlagEnabled('carbonPillEnabled');
 export const logRetentionPageEnabled = isFeatureFlagEnabled('logRetentionPageEnabled');
 export const notesAndActivityEnabled = isFeatureFlagEnabled('notesAndActivityEnabled');
 export const carbonIconButtonEnabled = isFeatureFlagEnabled('carbonIconButtonEnabled');
-
+export const carbonMoreMenuEnabled = isFeatureFlagEnabled('carbonMoreMenuEnabled');
 export const carbonContentSwitcherEnabled = isFeatureFlagEnabled('carbonContentSwitcherEnabled');
 export const carbonTabsEnabled = isFeatureFlagEnabled('carbonTabsEnabled');
 export const carbonButtonEnabled = isFeatureFlagEnabled('carbonButtonEnabled', false);

@@ -205,17 +205,16 @@ function Form({ form, onChange }) {
           <Label htmlFor="password" hasError={!field.valid && field.touched}>
             {t('in-settings:tabs.password')}
           </Label>
-          <div className={`${block}__input_with_icon`}>
-            <Input
-              id="password"
-              type="password"
-              placeholder={'*******************'}
-              value={field.value}
-              onChange={e => onChange('password', e.target.value)}
-              hasError={!field.valid && field.touched}
-              maxLength={256}
-            />
-          </div>
+          <Input
+            id="password"
+            type="password"
+            placeholder={'*******************'}
+            value={field.value}
+            onChange={e => onChange('password', e.target.value)}
+            hasError={!field.valid && field.touched}
+            maxLength={256}
+          />
+
           <TouchedMessages field={field} />
         </FormGroup>
       ))}

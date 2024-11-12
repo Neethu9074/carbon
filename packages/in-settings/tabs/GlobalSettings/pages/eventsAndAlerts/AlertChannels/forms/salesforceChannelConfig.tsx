@@ -7,7 +7,6 @@ import { createMapForm, createField, Field, MapForm, MapFormItems } from 'formal
 import React from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
-import { Stack } from '@instana/components';
 
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -204,15 +203,13 @@ function Form({ form, onChange }: FormProps): JSX.Element {
           <Label htmlFor="clientSecret" hasError={!field.valid && field.touched}>
             {t('in-settings:tabs.consumerSecret')}
           </Label>
-          <Stack direction="horizontal" gap="small" align="center">
-            <Input
-              id="clientSecret"
-              type="password"
-              placeholder="*******************"
-              value={field.value}
-              onChange={e => onChange('clientSecret', e.target.value)}
-            />
-          </Stack>
+          <Input
+            id="clientSecret"
+            type="password"
+            placeholder="*******************"
+            value={field.value}
+            onChange={e => onChange('clientSecret', e.target.value)}
+          />
           <TouchedMessages field={field} />
         </FormGroup>
       ))}
