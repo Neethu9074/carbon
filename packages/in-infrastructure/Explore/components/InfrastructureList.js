@@ -437,9 +437,14 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
           getContent(item) {
             const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
             const metadata = mapData(metricMetadatas, data => data[metric]);
+            const formatterType = formatterId.split('.')[1];
             const formatter = isFormatterSelected
               ? getFormatter(formatterId)
-              : getMetricFormatterFromUnitOrDefault(getBaseUnit(unit), mapData(metadata, data => data?.formatter).data);
+              : getMetricFormatterFromUnitOrDefault(
+                  getBaseUnit(unit),
+                  mapData(metadata, data => data?.formatter).data,
+                  formatterType
+                );
 
             const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
             const seriesKey = getSeriesKey(id);
