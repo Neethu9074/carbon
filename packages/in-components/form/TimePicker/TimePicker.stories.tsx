@@ -46,3 +46,7 @@ export const Default: Story = {};
 export const CustomError = () => {
   return <TimePicker onChange={() => {}} value="13:00" invalid invalidText="Only morning hours are supported" />;
 };
+
+export const WithSeconds = () => {
+  return <TimePicker onChange={() => {}} value="13:00:00" seconds />;
+};

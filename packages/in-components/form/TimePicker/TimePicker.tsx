@@ -14,12 +14,11 @@ import { CarbonTimePicker } from '@instana/components';
 import { timeValidator } from 'in-services/validators/date';
 import { TimePickerProps } from './types';
 
-const timeInputFormat = 'HH:mm';
-
 const TimePicker = ({ ...props }: TimePickerProps): JSX.Element => {
-  const { onChange, value, id, invalid, invalidText, placeholder } = props;
+  const { onChange, value, id, invalid, invalidText, placeholder, seconds } = props;
 
-  const timePattern24 = '([01]d|2[0-3]):?([0-5]d)(\\s)?';
+  const timePattern24 = seconds ? '([01]d|2[0-3]):?([0-5]d):?([0-5]d))(\\s)?' : '([01]d|2[0-3]):?([0-5]d)(\\s)?';
+  const timeInputFormat = seconds ? 'HH:mm:ss' : 'HH:mm';
 
   const [isInvalidTimeFormat, setIsInvalidTimeFormat] = useState(false);
   const [invalidTimeFormatText, setInvalidTimeFormatText] = useState<string | null>();
@@ -57,7 +56,7 @@ const TimePicker = ({ ...props }: TimePickerProps): JSX.Element => {
     pattern: timePattern24,
     invalid: invalid || isInvalidTimeFormat,
     invalidText: invalidText || invalidTimeFormatText,
-    maxLength: 5,
+    maxLength: seconds ? 8 : 5,
     onChange: changeTimeInput,
     placeholder: placeholder || timeInputFormat,
     value: timeInput

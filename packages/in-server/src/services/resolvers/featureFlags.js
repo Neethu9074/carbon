@@ -612,11 +612,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'carbonDateInputEnabled',
-    instanaCtlKey: 'feature.carbon.dateinput.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'notesAndActivityEnabled',
     instanaCtlKey: 'feature.incident.notes.enabled',
     defaultValue: false
