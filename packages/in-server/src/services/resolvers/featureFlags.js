@@ -601,11 +601,7 @@ module.exports = exports = [
     instanaCtlKey: 'feature.carbon.iconbutton.enabled',
     defaultValue: true
   },
-  {
-    uiClientKey: 'carbonSearchInputEnabled',
-    instanaCtlKey: 'feature.carbon.search.input.enabled',
-    defaultValue: true
-  },
+
   {
     uiClientKey: 'carbonMoreMenuEnabled',
     instanaCtlKey: 'feature.carbon.more.menu.enabled',
@@ -627,16 +623,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'carbonAccordionEnabled',
-    instanaCtlKey: 'feature.carbon.accordion.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonSelectEnabled',
-    instanaCtlKey: 'feature.carbon.select.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'carbonPaginationEnabled',
     instanaCtlKey: 'feature.carbon.pagination.enabled',
     defaultValue: true
@@ -649,16 +635,6 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonMenuEnabled',
     instanaCtlKey: 'feature.carbon.menu.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonDropdownEnabled',
-    instanaCtlKey: 'feature.carbon.dropdown.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonInputEnabled',
-    instanaCtlKey: 'feature.carbon.input.enabled',
     defaultValue: true
   },
   {
@@ -790,11 +766,6 @@ module.exports = exports = [
     uiClientKey: 'preAggregatedMetricsQueryEnabled',
     instanaCtlKey: 'feature.pre.aggregated.metrics.query.enabled',
     defaultValue: false
-  },
-  {
-    uiClientKey: 'carbonFileUploaderEnabled',
-    instanaCtlKey: 'feature.carbon.fileuploader.enabled',
-    defaultValue: true
   },
   {
     uiClientKey: 'userProfileMenuEnabled',

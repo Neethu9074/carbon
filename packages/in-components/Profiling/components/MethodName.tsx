@@ -7,7 +7,7 @@ import React from 'react';
 
 import locals from './MethodName.mless';
 
-export default function MethodName({ methodName }) {
+export default function MethodName({ methodName }: { methodName: string }) {
   return (
     <span className={locals.methodName}>
       {`<`}

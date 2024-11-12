@@ -96,6 +96,7 @@ export default function ApplicationEventListItemContent({ event, justChart = fal
           applicationId={eventEntity.applicationId}
           serviceId={eventEntity.serviceId}
           endpointId={eventEntity.endpointId}
+          eventBasedAdaptiveBaseline={Object.entries(adaptiveBaselineInfo.toJS()).sort((a, b) => a[0] - b[0])}
           isEventsView
           eventSeverity={eventSeverity}
         />

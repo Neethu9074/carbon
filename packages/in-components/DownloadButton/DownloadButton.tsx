@@ -3,22 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 
-import rpt from 'prop-types';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { IconButton } from '@instana/components';
 
 import './DownloadButton.less';
 
 const block = 'in-download-button';
-
-export default class extends React.Component {
+interface Props {
+  className: string;
+  children: ReactNode[];
+}
+export default class extends React.Component<Props> {
   static displayName = 'DownloadButton';
-
-  static propTypes = {
-    className: rpt.string,
-    children: rpt.any
-  };
 
   state = {
     isExpanded: false

@@ -13,7 +13,7 @@ import { selectedSnapshots$ } from 'in-infrastructure/tableView/stores/selectedS
 import { metrics$, removeMetric } from 'in-infrastructure/tableView/stores/metrics';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { plugin$ } from 'in-infrastructure/tableView/stores/snapshotIds';
-import DownloadButton from 'in-components/DownloadButton';
+import DownloadButton from 'in-components/DownloadButton/DownloadButton';
 import { getTableDefinition } from 'in-sdk/snapshot';
 import { getMetricDefinition } from 'in-sdk/metrics';
 import { timeConfig$ } from 'in-stores/time/config';

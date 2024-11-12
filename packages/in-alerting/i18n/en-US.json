@@ -438,7 +438,8 @@
           "throughputDefault_higherThan": "The number of calls is higher than expected.",
           "throughputDefault_higherEqual": "The number of calls is higher or equal to expected.",
           "throughputDefault_lowerThan": "The number of calls is lower than expected.",
-          "throughputDefault_lowerEqual": "The number of calls is lower or equal to expected."
+          "throughputDefault_lowerEqual": "The number of calls is lower or equal to expected.",
+          "expected": "expected"
         },
         "customStatusCodeFullText": "between {{statusCodeStart}} and {{statusCodeEnd}}"
       },

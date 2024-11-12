@@ -20,11 +20,35 @@
     padding: 0.5rem;
   }
 
+  .leftContent {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    height: 100%;
+  }
+
+  .turboLink {
+    margin-top: auto;
+  }
+
   .rightSection {
     flex: 1;
   }
   .paddingBox {
     padding: 0.5rem;
+  }
+
+  .resourceImpactsSection {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+
+    .resourceImpactsCol {
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      gap: 1rem;
+    }
   }
 
   .smallText {
@@ -54,5 +78,32 @@
     background-color: var(--cds-border-subtle);
     border: none;
     width: 100%;
+  }
+  .appsScroll {
+    overflow-y: auto;
+    max-height: 9rem;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .impactedAppsSection {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .impactedAppsTitleRow {
+      display: flex;
+    }
+    .impactedAppsTitle {
+      flex: 1;
+    }
+
+    .impactedAppsCol {
+      gap: 1rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      flex-shrink: 0;
+    }
   }
 }

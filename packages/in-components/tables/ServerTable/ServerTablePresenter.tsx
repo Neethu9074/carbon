@@ -206,7 +206,7 @@ export default function ServerTablePresenter<
           size="large"
         />
       );
-      carbonHeaders[0].width = '2rem';
+      carbonHeaders[0].width = '2.5rem';
     }
 
     // For customised column header where user can select which column to render.

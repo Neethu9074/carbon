@@ -152,7 +152,7 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
                   </Label>
 
                   <Select
-                    value={field.value.key}
+                    value={field.value}
                     id="idpType"
                     onChange={e => {
                       setForm(form.updateIn(['idpType'], f => f.setValue(e.target.value).setTouched(true)));

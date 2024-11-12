@@ -10,8 +10,11 @@ import React from 'react';
 import { AgentSnapshot, RecommendedAction } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
+import {
+  useActionImpactedApplications,
+  useResourceImpacts
+} from 'in-automation/ResourceOptimization/useResourceOptimization';
 import { runResourceOptimizationAction } from 'in-automation/api';
-import { useResourceImpacts } from './useResourceOptimization';
 import { useSegmentTracker } from 'in-automation/tracker';
 import DetailsModal from './DetailsModal';
 
@@ -20,7 +23,8 @@ jest.mock('@instana/hooks', () => ({
 }));
 
 jest.mock('./useResourceOptimization', () => ({
-  useResourceImpacts: jest.fn()
+  useResourceImpacts: jest.fn(),
+  useActionImpactedApplications: jest.fn()
 }));
 
 jest.mock('in-automation/api', () => ({
@@ -36,6 +40,7 @@ const mockRunOptimizationTrackerSegment = jest.fn();
 beforeEach(() => {
   (useObservable as jest.Mock).mockImplementation(() => mockResourceImpactResult);
   (useResourceImpacts as jest.Mock).mockImplementation(() => mockResourceImpactResult);
+  (useActionImpactedApplications as jest.Mock).mockImplementation(() => mockImpactedAppsResult);
   (runResourceOptimizationAction as jest.Mock).mockImplementation(() => ({
     once: (func: Function) =>
       func({
@@ -222,6 +227,37 @@ const mockResourceImpactResult = {
   time: 1728532976599
 };
 
+const mockImpactedAppsResult = {
+  errors: [],
+  data: {
+    impactedApplications: [
+      {
+        id: '34Ha2qeOS0qeOb_dLPbbbA',
+        name: 'All Services',
+        servicesCount: '26'
+      },
+      {
+        id: 'C3EPTRVSSi-BKMTx2i1p1w',
+        name: 'qotd',
+        servicesCount: '7'
+      },
+      {
+        id: 'rnZiVbQqSXKiIUMosbtnFg',
+        name: 'turbonomic',
+        servicesCount: '19'
+      },
+      {
+        id: 'gw9LneXdSpOkcJ5kvznNXA',
+        name: 'robot-shop',
+        servicesCount: '1'
+      }
+    ],
+    targetSnapshotId: 'umnip5bCalsu3E0JoghWNSbmWWY'
+  },
+  progress: { loading: false },
+  time: 1730931497615
+};
+
 describe('DetailsModal Initial Render', () => {
   beforeEach(jest.clearAllMocks);
 
@@ -240,11 +276,15 @@ describe('DetailsModal Initial Render', () => {
   });
 
   it('displays resource impacts', async () => {
-    (useResourceImpacts as jest.Mock).mockImplementationOnce(() => mockResourceImpactResult);
-
     render(<DetailsModal {...props} />);
     expect(screen.getByText('worker3.zturbo.cp.fyre.ibm.com')).toBeInTheDocument();
     expect(screen.getByText('openshift-monitoring/prometheus-k8s-0')).toBeInTheDocument();
+  });
+
+  it('displays impacted applications', async () => {
+    render(<DetailsModal {...props} />);
+    expect(screen.getByText('qotd')).toBeInTheDocument();
+    expect(screen.getByText('26')).toBeInTheDocument();
   });
 
   it('displays error messages when errors are present', () => {

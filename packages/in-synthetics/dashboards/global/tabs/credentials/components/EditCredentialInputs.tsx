@@ -7,7 +7,7 @@
 import { Field, Item, MapForm } from 'formalistic';
 import React, { ChangeEvent } from 'react';
 
-import { PasswordInput, Stack, TextInput } from '@instana/components';
+import { CarbonPasswordInput as PasswordInput, Stack, CarbonTextInput as TextInput } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
 import { t } from 'in-i18n';

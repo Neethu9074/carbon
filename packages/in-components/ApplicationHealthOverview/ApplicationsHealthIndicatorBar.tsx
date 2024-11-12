@@ -13,7 +13,17 @@ import { t } from 'in-i18n';
 
 import locals from './ApplicationsHealthIndicatorBar.mless';
 
-const ApplicationsHealthIndicatorBar = ({ critical = 0, warning = 0, total = 0, label }) => {
+const ApplicationsHealthIndicatorBar = ({
+  critical = 0,
+  warning = 0,
+  total = 0,
+  label
+}: {
+  critical: number;
+  warning: number;
+  total: number;
+  label: string;
+}) => {
   const barStyle = {
     critical: {
       flex: critical

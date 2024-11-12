@@ -77,12 +77,21 @@ export function lastValueForMetric(metrics?: Number[][]) {
 
 export function getMetricValue(kpi: number, formatter: FormatterFn) {
   if (kpi !== undefined && kpi !== null) {
-    //checking if kpi is falsy, valid kpi can be 0 as well
+    // checking if kpi is falsy, valid kpi can be 0 as well
     return formatter ? formatter(kpi) : kpi;
   }
   return valueMissingPlaceholder;
 }
 
-export function getMetricFormatterFromUnitOrDefault(unit: BaseUnit, defaultFormatter: FormatterFn): FormatterFn {
-  return unit ? getCommonFormatterForUnits(unit)[0]?.formatter : defaultFormatter;
+export function getMetricFormatterFromUnitOrDefault(
+  unit: BaseUnit,
+  defaultFormatter: FormatterFn,
+  formatterType: string
+): FormatterFn {
+  if (!unit) return defaultFormatter;
+  const commonFormatters = getCommonFormatterForUnits(unit);
+  const selectedFormatter =
+    commonFormatters.find(item => item.id.includes(formatterType))?.formatter ?? commonFormatters[0]?.formatter;
+
+  return selectedFormatter ?? defaultFormatter;
 }
