@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Field } from 'formalistic';
 
-import { Link, Spacer, Typography, Toggle, IconButton, TextArea, Select } from '@instana/components';
+import { Link, Spacer, Typography, Toggle, TextArea, Select } from '@instana/components';
 import { ActionType, Result } from '@instana/types';
 
 import {
@@ -85,14 +85,12 @@ import FieldsTable from 'in-automation/ActionCatalog/FieldsTable';
 import CreatableTagSelect from 'in-components/CreatableTagSelect';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import { carbonInputEnabled } from 'in-services/featureFlags';
 import useActionTags from 'in-automation/hooks/useActionTags';
 import { isAction, ActionFilter } from 'in-automation/types';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { isAIAction } from 'in-automation/utils/action';
 import FormGroup from 'in-components/form/FormGroup';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import { isLoading } from 'in-services/util/result';
 import { FetchStatus } from 'in-hooks/utils/types';
 import Code from 'in-components/form/Code/Code';
@@ -1544,7 +1542,6 @@ const SecuredInput = ({
   onChange,
   fieldKey
 }: Pick<ActionFormBodyProps, 'form' | 'onChange'> & { fieldKey: keyof typeof tooltipTranslation }) => {
-  const [showPassword, setShowPassword] = useState(false);
   const field = form.get(fieldKey) as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
 
@@ -1553,7 +1550,7 @@ const SecuredInput = ({
       <Input
         className={locals.width100}
         id="action-password"
-        type={showPassword ? 'text' : 'password'}
+        type="password"
         disabled={isNotEditable}
         placeholder={'*******************'}
         value={field.value}
@@ -1562,20 +1559,6 @@ const SecuredInput = ({
         maxLength={256}
       />
       <Spacer horizontal="xsmall" />
-      {!carbonInputEnabled && (
-        <Tooltip content={showPassword ? tooltipTranslation[fieldKey][0] : tooltipTranslation[fieldKey][1]}>
-          <IconButton
-            buttonType="button"
-            kind="info"
-            type={showPassword ? 'lib_views_hide' : 'lib_views_show'}
-            onClick={() => {
-              setShowPassword(showPassword => !showPassword);
-            }}
-            iconSize="xs"
-            alignment="right"
-          />
-        </Tooltip>
-      )}
     </HorizontalFlexWrapper>
   );
 };

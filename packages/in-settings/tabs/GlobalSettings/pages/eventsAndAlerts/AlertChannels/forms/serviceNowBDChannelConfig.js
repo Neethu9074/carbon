@@ -7,15 +7,14 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Collapsible, IconButton, DescriptionList, DescriptionItem, RadioButton, Link } from '@instana/components';
+import { Collapsible, DescriptionList, DescriptionItem, RadioButton, Link } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
-import { serviceNowAdvancedEnabled, carbonInputEnabled } from 'in-services/featureFlags';
+import { serviceNowAdvancedEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import Tooltip from 'in-components/Tooltip';
 import { config } from 'in-services/config';
 import { t, Trans } from 'in-i18n';
 
@@ -161,7 +160,6 @@ export default {
 };
 
 function Form({ form, onChange }) {
-  const [showPassword, setShowPassword] = useState(false);
   const [propagate, setPropagate] = useState(form?.get('intermediateTable')?.value);
 
   return (
@@ -224,37 +222,17 @@ function Form({ form, onChange }) {
           <Label htmlFor="password" hasError={!field.valid && field.touched}>
             {t('in-settings:tabs.password')}
           </Label>
-          <div className={`${block}__input_with_icon`}>
-            <Input
-              id="password"
-              className={!carbonInputEnabled && `${block}__input`}
-              type={showPassword ? 'text' : 'password'}
-              placeholder={'*******************'}
-              value={field.value}
-              onChange={e => onChange('password', e.target.value)}
-              hasError={!field.valid && field.touched}
-              maxLength={256}
-            />
-            {!carbonInputEnabled && (
-              <Tooltip
-                content={
-                  showPassword ? t('in-settings:tabs.hidePasswordTooltip') : t('in-settings:tabs.showPasswordTooltip')
-                }
-              >
-                <IconButton
-                  kind="info"
-                  type={showPassword ? 'lib_views_hide' : 'lib_views_show'}
-                  onClick={e => {
-                    e.preventDefault();
-                    setShowPassword(!showPassword);
-                  }}
-                  iconSize="xs"
-                  alignment="right"
-                  className="icon_button"
-                />
-              </Tooltip>
-            )}
-          </div>
+
+          <Input
+            id="password"
+            type="password"
+            placeholder={'*******************'}
+            value={field.value}
+            onChange={e => onChange('password', e.target.value)}
+            hasError={!field.valid && field.touched}
+            maxLength={256}
+          />
+
           <TouchedMessages field={field} />
         </FormGroup>
       ))}
