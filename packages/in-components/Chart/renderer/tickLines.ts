@@ -8,7 +8,7 @@ import { themes } from '@instana/design-tokens';
 import { RenderConfig } from 'in-components/Chart/renderer/types';
 import { ScaleType } from 'in-services/scale';
 
-export default function axis(config: RenderConfig) {
+export default function axis(config: RenderConfig): void {
   const backBufferCtx = config.backBufferCtx;
   backBufferCtx.save();
   backBufferCtx.globalCompositeOperation = 'multiply';
@@ -19,17 +19,17 @@ export default function axis(config: RenderConfig) {
   // @ts-expect-error scales is not yet defined on config
   drawTickPositionsForAxis(config.scales.y1);
   // @ts-expect-error scales is not yet defined on config
-  rawTickPositionsForAxis(config.scales.y2);
+  drawTickPositionsForAxis(config.scales.y2);
 
   backBufferCtx.fill();
   backBufferCtx.restore();
 
-  function drawTickPositionsForAxis(axis: ScaleType) {
+  function drawTickPositionsForAxis(axis: ScaleType): void {
     if (!axis) {
       return;
     }
 
-    const tickPositions = axis.tickPositions ? axis.tickPositions : [];
+    const tickPositions = axis.tickPositions ?? [];
     for (let i = 0; i < tickPositions?.length; i++) {
       const tick = tickPositions[i];
       backBufferCtx.rect(
