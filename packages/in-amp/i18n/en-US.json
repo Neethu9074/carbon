@@ -89,6 +89,8 @@
       "logging": "Logs in context",
       "resourceUnits": "Entitled resource units",
       "consumedUnits": "Consumed resource units",
+      "entitledData": "Entitled data",
+      "consumedData": "Consumed data",
       "infrastructure": "Infrastructure",
       "synthetics": "Synthetics",
       "traces": "Traces",
@@ -100,8 +102,8 @@
       "dataUsageHelperText": "Amount of bytes sent through agents separated by category in the chosen timeframe.",
       "syntheticsHelperText": "Number of resource units consumed by each type of action. Units are calculated with a factor of 0.025 for simple tests, 0.042 for API tests, and 1.000 for browser tests.",
       "loggingHelperText": {
-        "saas": "Amount of data in bytes used by the logging add-on for the chosen retention period.",
-        "onprem": "Amount of data in bytes used by the logging add-on for the chosen retention period."
+        "saas": "This chart displays the amount of data in bytes used by the logging add-on for the chosen retention period.",
+        "onprem": "This chart displays the amount of data in bytes used by the logging add-on for the chosen retention period."
       }
     },
     "activationAdoption": {
