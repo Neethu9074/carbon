@@ -89,7 +89,7 @@ export default function RunActionDialog({
     <Dialog
       className={locals.dialog}
       titleIconType={action.type === ACTION_TYPE.MANUAL ? undefined : 'lib_help_error_error_circle'}
-      title={getTitle({ action, error, actionInstanceId, test, policy, executePolicy })}
+      title={getTitle({ action, error, actionInstanceId, test, policy })}
       onClose={() => onClose({ error, actionInstanceId })}
       withoutBodyPadding
     >
@@ -152,18 +152,17 @@ function onClose({ error, actionInstanceId }: { error?: string; actionInstanceId
   }
   close();
 }
-interface GetTitleParams extends Pick<RunActionDialogProps, 'action' | 'test' | 'policy' | 'executePolicy'> {
+interface GetTitleParams extends Pick<RunActionDialogProps, 'action' | 'test' | 'policy'> {
   actionInstanceId: string;
   error: string;
 }
-const getTitle = ({ action, error, actionInstanceId, test, policy, executePolicy }: GetTitleParams) => {
+const getTitle = ({ action, error, actionInstanceId, test, policy }: GetTitleParams) => {
   const actionName = action.type === ACTION_TYPE.EXTERNAL ? action?.description : action.name;
   if (policy) return t('in-automation:configureAutomation', { actionName });
   if (error) return t('in-automation:failedToInitiate', { actionName });
   if (actionInstanceId) return t('in-automation:hasBeenInitiated', { actionName });
   if (test) return t('in-automation:chosenToTest', { actionName });
   if (action.type === ACTION_TYPE.MANUAL) return t('in-automation:viewManualAction', { actionName });
-  if (!policy && !test && !executePolicy) return t('in-automation:chosenToRunRecActions', { actionName });
   return t('in-automation:chosenToRun', { actionName });
 };
 
