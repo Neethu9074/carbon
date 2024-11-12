@@ -11,10 +11,18 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 export default function useNavigateToActionHistory() {
   const { location, navigate } = useNavigation();
 
-  return (actionInstanceId: string) => {
+  return (actionInstanceId: string, local: boolean = true) => {
     const path = location;
-    path.pathname = actionHistoryPath;
-    setOrDeleteMatrixKey(path, actionHistory, 'query', actionInstanceId);
+    if (!local) {
+      path.pathname = actionHistoryPath;
+      setOrDeleteMatrixKey(path, actionHistory, 'query', actionInstanceId);
+    } else {
+      const loc = location.pathname.lastIndexOf('/');
+      if (loc != -1) {
+        const relpath = location.pathname.substring(loc);
+        setOrDeleteMatrixKey(path, relpath, 'resourceActionsTab', 'history');
+      }
+    }
     navigate(location);
   };
 }

@@ -10,18 +10,10 @@ import { BoundaryScope, TimeConfig, TurboActionCategory } from '@instana/types';
 
 //@ts-expect-error needs TS migration
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
-import {
-  useResourceOptimization,
-  useTurboRecommendedActions
-} from 'in-automation/ResourceOptimization/useResourceOptimization';
-import OptimizationsButtonGroup, {
-  useActiveOptimizationsKey
-} from 'in-automation/AutomationCard/OptimizationsButtonGroup';
-import RecommendedOptimizations from 'in-automation/ResourceOptimization/RecommendedOptimizations';
+import RecommendedActionsWithHistory from 'in-automation/ResourceOptimization/RecommendedActionsWithHistory';
+import { useResourceOptimization } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import { FormatterObject, MetricDataPoint, MetricDataSeries } from 'in-components/Chart/types';
 import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
-import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
-import useActionHistoryCount from 'in-automation/AutomationCard/useHistory';
 import { resourceOptimizationsTab } from 'in-applications/navigation/paths';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import InfoPanel from 'in-automation/components/InfoPanel/InfoPanel';
@@ -66,7 +58,6 @@ export default function ResourceOptimizationTab({
   boundaryScope
 }: ResourceOptimizationTabProps) {
   const recommendedOptimizations = useResourceOptimization({ applicationId });
-  const turboRecommendedActions = useTurboRecommendedActions(recommendedOptimizations);
   let tagFilters = [
     boundaryScope === boundaryScopes.all
       ? { stringValue: applicationId, name: 'application.id', entity: DESTINATION, operator: EQUALS }
@@ -90,12 +81,6 @@ export default function ResourceOptimizationTab({
     });
     pieLabels = pieLabels.map(x => (x.indexOf('_') === -1 ? x : x.substring(0, x.indexOf('_')))); //Display labels before "_" only
   }
-
-  const activeOptimizatonsKey = useActiveOptimizationsKey();
-  const historyCount = useActionHistoryCount({
-    types: ['EXTERNAL'],
-    actionStatuses: ['SUCCESS', 'FAILED', 'IN_PROGRESS', 'STATUS_UNKNOWN', 'SUBMITTED', 'TIMEOUT']
-  });
 
   return (
     <div className={locals.contentContainer}>
@@ -172,7 +157,8 @@ export default function ResourceOptimizationTab({
           />
         </div>
       </div>
-      <OptimizationsButtonGroup
+      <RecommendedActionsWithHistory recommendedActions={recommendedOptimizations} />
+      {/* <OptimizationsButtonGroup
         recommendedOptimizationsCount={recommendedOptimizations?.data?.totalRecommendedActionsCount!}
         optimizationHistoryCount={historyCount}
       />
@@ -189,7 +175,7 @@ export default function ResourceOptimizationTab({
           noFilters
           noEvent
         />
-      )}
+      )} */}
     </div>
   );
 }

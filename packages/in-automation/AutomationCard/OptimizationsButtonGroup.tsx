@@ -4,11 +4,12 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { ButtonGroup } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { createStore } from 'in-stores/store';
 import { t } from 'in-i18n';
 
@@ -17,9 +18,9 @@ interface OptimizationsButtonGroupProps {
   optimizationHistoryCount: number | undefined;
 }
 
-type OptimizationsButtonKey = 'recommendedOptimizations' | 'optimizationHistory';
+type OptimizationsButtonKey = 'recommended' | 'history';
 
-const initialActiveKey: OptimizationsButtonKey = 'recommendedOptimizations';
+const initialActiveKey: OptimizationsButtonKey = 'recommended';
 
 const activeKeyStore = createStore<OptimizationsButtonKey>({
   name: 'in-automation/AutomationCard/OptimizationsButtonGroup/activeKeyStore',
@@ -37,6 +38,17 @@ export default function OptimizationsButtonGroup({
   optimizationHistoryCount
 }: OptimizationsButtonGroupProps) {
   const activeKey = useActiveOptimizationsKey();
+  const { location } = useNavigation();
+  useEffect(() => {
+    const loc = location.pathname.lastIndexOf('/');
+    if (loc != -1) {
+      const relpath = location.pathname.substring(loc);
+      const pageActiveKey = location.matrix[relpath]
+        ? location.matrix[relpath]['resourceActionsTab']
+        : initialActiveKey;
+      setActiveKey(pageActiveKey as unknown as OptimizationsButtonKey);
+    }
+  }, [location.matrix, location.pathname]);
 
   const buttonProps = [
     {
@@ -44,9 +56,9 @@ export default function OptimizationsButtonGroup({
         recommendedOptimizationsCount !== undefined
           ? t('in-automation:recommendedOptimizationsWithCount', { count: recommendedOptimizationsCount })
           : t('in-automation:recommendedOptimizations'),
-      key: 'recommendedOptimizations',
+      key: 'recommended',
       onClick: () => {
-        setActiveKey('recommendedOptimizations');
+        setActiveKey('recommended');
       }
     },
     {
@@ -56,8 +68,8 @@ export default function OptimizationsButtonGroup({
               count: optimizationHistoryCount
             })
           : t('in-automation:resourceOptimization.recommendedActionHistory'),
-      key: 'optimizationHistory',
-      onClick: () => setActiveKey('optimizationHistory')
+      key: 'history',
+      onClick: () => setActiveKey('history')
     }
   ];
 
