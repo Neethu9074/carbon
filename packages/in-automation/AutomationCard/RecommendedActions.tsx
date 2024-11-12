@@ -55,115 +55,88 @@ interface RecommendedActionsTableProps extends ServerTablePresenterProps<ScoredA
   volatileId: VolatileId;
   event: Event;
   trigger: Result<TriggerSpecification>;
+  runActionTrackerSegment: TrackingFunction;
 }
 
-const getColumnDefinitions = ({
-  runActionTrackerSegment
-}: {
-  runActionTrackerSegment: TrackingFunction;
-}): ColumnDefinition<ScoredAction, RecommendedActionsTableProps>[] => [
+const actionColumn: ColumnDefinition<ScoredAction, RecommendedActionsTableProps> = {
+  id: 'action',
+  label: '',
+  sortable: false,
+  width: 17,
+  getContent(action, { volatileId, event, trigger, runActionTrackerSegment }) {
+    if (!role?.canRunAutomationActions && !role?.canConfigureAutomationPolicies) return null;
+    return (
+      <HorizontalFlexWrapper className={locals.rowActions}>
+        {action.type === ACTION_TYPE.DOC_LINK && role?.canRunAutomationActions && (
+          <div>
+            <Spacer horizontal="medium" />
+            <Link
+              target="_blank"
+              onClick={e => {
+                e.stopPropagation();
+                runActionTrackerSegment({
+                  actionName: action.name,
+                  actionType: action.type,
+                  fromRecommendedActions: true,
+                  aiOriginated: false
+                });
+              }}
+              href={getDocLinkFromFields(action.fields).value}
+            >
+              {t('in-automation:ActionCatalog.launch')}{' '}
+              <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />
+            </Link>
+          </div>
+        )}
+        {action.type !== ACTION_TYPE.DOC_LINK && role?.canRunAutomationActions && (
+          <Button
+            kind="action"
+            icon={action.type === ACTION_TYPE.MANUAL ? 'lib_views_show' : 'lib_actions_play'}
+            onClick={e => {
+              // Track manual action viewed
+              stopPropagationAndPreventDefault(e);
+              addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
+              if (action.type === ACTION_TYPE.MANUAL) {
+                runActionTrackerSegment({
+                  actionName: action.name,
+                  actionType: action.type,
+                  fromRecommendedActions: true,
+                  aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
+                });
+              }
+            }}
+            noAutoMargin
+          >
+            {action.type === ACTION_TYPE.MANUAL
+              ? t('in-automation:ActionCatalog.view')
+              : t('in-automation:ActionCatalog.run')}
+          </Button>
+        )}
+        {role?.canConfigureAutomationPolicies && (
+          <Tooltip content={t('in-automation:createPolicyWithName', { actionName: action.name })} delay={500}>
+            <IconButton
+              kind="primaryv2"
+              type="lib_openclose_add_circle_outline"
+              onClick={e => {
+                stopPropagationAndPreventDefault(e);
+                addActiveDialog(<CreatePolicyDialog trigger={trigger} action={action} event={event} />);
+              }}
+            />
+          </Tooltip>
+        )}
+      </HorizontalFlexWrapper>
+    );
+  }
+};
+
+const columnDefinitions: ColumnDefinition<ScoredAction, RecommendedActionsTableProps>[] = [
   nameColumn as ColumnDefinition<ScoredAction, RecommendedActionsTableProps>,
   descriptionColumn as ColumnDefinition<ScoredAction, RecommendedActionsTableProps>,
   tagsColumn as ColumnDefinition<ScoredAction, RecommendedActionsTableProps>,
   aiEngineColumn,
   scoreColumn,
-  {
-    label: '',
-    id: 'actions',
-    sortable: false,
-    width: 17,
-    getContent: (action, { volatileId, event, trigger }) => (
-      <RowActions
-        action={action}
-        runActionTrackerSegment={runActionTrackerSegment}
-        volatileId={volatileId}
-        event={event}
-        trigger={trigger}
-      />
-    )
-  }
+  actionColumn
 ];
-
-function RowActions({
-  action,
-  runActionTrackerSegment,
-  volatileId,
-  event,
-  trigger
-}: {
-  action: ScoredAction;
-  runActionTrackerSegment: TrackingFunction;
-  volatileId: VolatileId;
-  event: Event;
-  trigger: Result<TriggerSpecification>;
-}) {
-  if (!role?.canRunAutomationActions && !role?.canConfigureAutomationPolicies) {
-    return null;
-  }
-
-  return (
-    <HorizontalFlexWrapper className={locals.rowActions}>
-      {action.type === ACTION_TYPE.DOC_LINK && role?.canRunAutomationActions && (
-        <div>
-          <Spacer horizontal="medium" />
-          <Link
-            target="_blank"
-            onClick={e => {
-              e.stopPropagation();
-              runActionTrackerSegment({
-                actionName: action.name,
-                actionType: action.type,
-                fromRecommendedActions: true,
-                aiOriginated: false
-              });
-            }}
-            href={getDocLinkFromFields(action.fields).value}
-          >
-            {t('in-automation:ActionCatalog.launch')}{' '}
-            <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />
-          </Link>
-        </div>
-      )}
-      {action.type !== ACTION_TYPE.DOC_LINK && role?.canRunAutomationActions && (
-        <Button
-          kind="action"
-          icon={action.type === ACTION_TYPE.MANUAL ? 'lib_views_show' : 'lib_actions_play'}
-          onClick={e => {
-            // Track manual action viewed
-            stopPropagationAndPreventDefault(e);
-            addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
-            if (action.type === ACTION_TYPE.MANUAL) {
-              runActionTrackerSegment({
-                actionName: action.name,
-                actionType: action.type,
-                fromRecommendedActions: true,
-                aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
-              });
-            }
-          }}
-          noAutoMargin
-        >
-          {action.type === ACTION_TYPE.MANUAL
-            ? t('in-automation:ActionCatalog.view')
-            : t('in-automation:ActionCatalog.run')}
-        </Button>
-      )}
-      {/* <Spacer horizontal="small" /> */}
-      {role?.canConfigureAutomationPolicies && (
-        <Tooltip content={t('in-automation:createPolicyWithName', { actionName: action.name })} delay={500}>
-          <IconButton
-            kind="primaryv2"
-            type="lib_openclose_add_circle_outline"
-            onClick={e => {
-              stopPropagationAndPreventDefault(e);
-              addActiveDialog(<CreatePolicyDialog trigger={trigger} action={action} event={event} />);
-            }}
-          />
-        </Tooltip>
-      )}
-    </HorizontalFlexWrapper>
-  );
-}
 
 function GenerateAIActionButton({
   event,
@@ -306,13 +279,10 @@ export default function RecommendedActions({
   const showOotbActions =
     getTriggerTypeFromEvent(event) === 'builtinEvent' && (ootbRecommendedActions.data?.length ?? 0) > 0;
 
-  const columnDefinitions: ColumnDefinition<ScoredAction, RecommendedActionsTableProps>[] = getColumnDefinitions({
-    runActionTrackerSegment
-  });
-
   return (
     <ServerTablePresenter<ScoredAction, RecommendedActionsTableProps>
       columnDefinitions={columnDefinitions}
+      runActionTrackerSegment={runActionTrackerSegment}
       volatileId={volatileId}
       event={event}
       trigger={trigger}
