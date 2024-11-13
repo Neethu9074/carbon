@@ -13,7 +13,9 @@ import {
   percentage,
   siPrefix,
   scale,
-  percentagePlain
+  percentagePlain,
+  micros,
+  nanos
 } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
@@ -93,6 +95,30 @@ export const millisDetailed: Formatter = {
   formatter: millis.detailed,
   unitConversion: true
 };
+export const microsCompact: Formatter = {
+  id: 'micros.compact',
+  label: t('in-stores:metric.formatterLabelMicroseconds', { example: micros.compact(42.15) }),
+  formatter: micros.compact,
+  unitConversion: true
+};
+export const microsDetailed: Formatter = {
+  id: 'micros.detailed',
+  label: t('in-stores:metric.formatterLabelMicroseconds', { example: micros.detailed(42.15) }),
+  formatter: micros.detailed,
+  unitConversion: true
+};
+export const nanosCompact: Formatter = {
+  id: 'nanos.compact',
+  label: t('in-stores:metric.formatterLabelNanoseconds', { example: nanos.compact(42.15) }),
+  formatter: nanos.compact,
+  unitConversion: true
+};
+export const nanosDetailed: Formatter = {
+  id: 'nanos.detailed',
+  label: t('in-stores:metric.formatterLabelNanoseconds', { example: nanos.detailed(42.15) }),
+  formatter: nanos.detailed,
+  unitConversion: true
+};
 export const latencyDetailed: Formatter = {
   id: 'latency.detailed',
   label: t('in-stores:metric.formatterLabelLatency', { example: latency.detailed(0) }),
@@ -115,6 +141,12 @@ export const fourDecimalPlacesDetailed: Formatter = {
   id: 'fourDecimalPlaces.detailed',
   label: t('in-stores:metric.formatterLabelNumber', { example: fourDecimalPlaces(42.15) }),
   formatter: fourDecimalPlaces,
+  unitConversion: true
+};
+export const perSecondCompact: Formatter = {
+  id: 'perSecond.compact',
+  label: t('in-stores:metric.formatterLabelNumber', { example: number.perSecond.compact(42.15) }),
+  formatter: number.perSecond.compact,
   unitConversion: true
 };
 export const perSecondDetailed: Formatter = {
@@ -162,7 +194,17 @@ export const publicFormatters: Formatter[] = [
 ];
 
 // These formatters should not be selectable by end-users.
-const privateFormatters: Formatter[] = [fourDecimalPlacesDetailed, perSecondDetailed, percentagePlainDetailed];
+const privateFormatters: Formatter[] = [
+  fourDecimalPlacesDetailed,
+  perSecondDetailed,
+  percentagePlainDetailed,
+  microsCompact,
+  microsDetailed,
+  nanosCompact,
+  nanosDetailed,
+  perSecondCompact,
+  perSecondDetailed
+];
 
 const allFormatters: Formatter[] = [...publicFormatters, ...privateFormatters];
 

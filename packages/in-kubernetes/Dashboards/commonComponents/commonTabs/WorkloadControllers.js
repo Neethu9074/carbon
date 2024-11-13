@@ -143,8 +143,8 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     deploymentIdUrlParameter
   ],
   columnDefinitions,
-  defaultOrderBy: 'name',
-  defaultOrderDirection: 'ASC',
+  defaultOrderBy: 'health',
+  defaultOrderDirection: 'DESC',
   matrixPrefix
 });
 
@@ -171,8 +171,8 @@ function getTableData({
   query = '',
   page = 1,
   pageSize = 20,
-  orderBy = 'name',
-  orderDirection = 'ASC',
+  orderBy = 'health',
+  orderDirection = 'DESC',
   timeConfig,
   clusterId,
   namespaceId,

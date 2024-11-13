@@ -62,7 +62,7 @@ describe('in-plg/pages/UserGoalSelectionDialog', () => {
 
   test('should instrument the close action of goal selection to the segment', () => {
     const { container } = render(<UserGoalSelectionDialog />);
-    const closeButton = container.querySelector('.legacyIconButton button');
+    const closeButton = container.querySelector('button');
     fireEvent.click(closeButton as any);
     expect(trackCta).toHaveBeenLastCalledWith(GOAL_SELECTION.SEGMENT_MESSAGE.CLOSE);
   });

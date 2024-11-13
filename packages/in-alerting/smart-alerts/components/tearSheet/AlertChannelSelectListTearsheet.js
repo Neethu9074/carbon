@@ -40,7 +40,7 @@ export default function AlertChannelSelectListTearsheet({
   }, [selectedItems]);
 
   return (
-    <div className={locals.channelListTable}>
+    <div>
       {errorMessage && (
         <Message type="warning" fullInlineWidth withIcon title={errorMessage} className={locals.errorMessage} />
       )}

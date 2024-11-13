@@ -39,10 +39,9 @@ export default connectTo(
               `plugin.${plugins.instanaAgent}Mode2`,
               `plugin.${plugins.instanaAgent}Mode1`,
               `plugin.${plugins.instanaAgent}Mode0`,
-              `plugin.${plugins.instanaAgent}Mode3`,
               `plugin.${plugins.instanaAgent}Unknown`
             ],
-            labels: [modes[2], modes[1], modes[0], modes[3], modes[4]],
+            labels: [modes[2], modes[1], modes[0], modes[3]],
             formatter: n => number.compact(Math.ceil(n)),
             type: 'stackedBar',
             aggregation: 'mean'

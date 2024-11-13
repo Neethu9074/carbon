@@ -5,13 +5,10 @@
  */
 
 :local {
-  .createAlertChannelButton {
-    margin-right: 1rem;
-  }
-  div:has(> .createAlertChannelButton) {
-    margin-top: 1rem;
-  }
   .channelDialogWidth {
     min-width: 80%;
+  }
+  .createAlertChannelButton {
+    margin-bottom: 0.5rem;
   }
 }

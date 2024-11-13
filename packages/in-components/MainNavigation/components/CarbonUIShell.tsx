@@ -55,18 +55,19 @@ import {
   welcomePageV2Enabled
 } from 'in-services/featureFlags';
 import {
-  useLinkToAnalyze as useLinkToMobileAppAnalyze,
-  isAnalyzeView as isMobileAppAnalyzeView,
-  mobileAppMonitoringPath
-} from 'in-mobile-apps/navigation/paths';
-import {
   isTableView,
   physicalPath,
   agentsPath,
   containerPath,
   infraSmartAlerts,
+  infraSmartAlertsFullScreen,
   settingsPath
 } from 'in-stores/navigation/paths/mainPaths';
+import {
+  useLinkToAnalyze as useLinkToMobileAppAnalyze,
+  isAnalyzeView as isMobileAppAnalyzeView,
+  mobileAppMonitoringPath
+} from 'in-mobile-apps/navigation/paths';
 import {
   isAnalyzeView as isLogsAnalyzeView,
   isLoggingView,
@@ -385,7 +386,8 @@ function Infrastructure() {
     return null;
   }
 
-  const isActive = matchLocation(physicalPath, containerPath, infraSmartAlerts) || isTableViewActive;
+  const isActive =
+    matchLocation(physicalPath, containerPath, infraSmartAlerts, infraSmartAlertsFullScreen) || isTableViewActive;
 
   return (
     <MenuItem

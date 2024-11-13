@@ -21,10 +21,10 @@ import EventMetricChartDownloadView from 'in-components/DownloadButton/component
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import DownloadButton from 'in-components/DownloadButton/DownloadButton';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
 import { always, alwaysNull } from 'in-services/fixedStreams';
-import DownloadButton from 'in-components/DownloadButton';
 import { emptyList } from 'in-services/fixedImmutables';
 import { getInfraGranularity } from 'in-stores/metric';
 import { getSnapshot } from 'in-stores/snapshot';

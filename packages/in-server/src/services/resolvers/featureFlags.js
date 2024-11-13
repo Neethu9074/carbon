@@ -181,11 +181,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'kubernetesTeamEnabled',
-    instanaCtlKey: 'feature.kubernetes.explore.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'kubernetesPrometheusMetricsEnabled',
     instanaCtlKey: 'feature.kubernetes.prometheus.metrics.enabled',
     defaultValue: false
@@ -368,6 +363,16 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsProcessFlowMapEnabled',
     instanaCtlKey: 'feature.bizops.process.flow.map.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'bizopsProcessStackEnabled',
+    instanaCtlKey: 'feature.bizops.process.stack.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'bizopsActivityStackEnabled',
+    instanaCtlKey: 'feature.bizops.activity.stack.enabled',
     defaultValue: false
   },
   {
@@ -591,29 +596,10 @@ module.exports = exports = [
     instanaCtlKey: 'feature.carbon.iconbutton.enabled',
     defaultValue: true
   },
-  {
-    uiClientKey: 'carbonSearchInputEnabled',
-    instanaCtlKey: 'feature.carbon.search.input.enabled',
-    defaultValue: true
-  },
+
   {
     uiClientKey: 'carbonMoreMenuEnabled',
     instanaCtlKey: 'feature.carbon.more.menu.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonLoadingSkeletonFeatureEnabled',
-    instanaCtlKey: 'feature.carbon.loading.skeleton.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonLoadingSpinnerEnabled',
-    instanaCtlKey: 'feature.carbon.loading.spinner.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonDescriptionListEnabled',
-    instanaCtlKey: 'feature.carbon.description.list.enabled',
     defaultValue: true
   },
   {
@@ -624,16 +610,6 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonListEnabled',
     instanaCtlKey: 'feature.carbon.list.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonAccordionEnabled',
-    instanaCtlKey: 'feature.carbon.accordion.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonSelectEnabled',
-    instanaCtlKey: 'feature.carbon.select.enabled',
     defaultValue: true
   },
   {
@@ -649,16 +625,6 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonMenuEnabled',
     instanaCtlKey: 'feature.carbon.menu.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonDropdownEnabled',
-    instanaCtlKey: 'feature.carbon.dropdown.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonInputEnabled',
-    instanaCtlKey: 'feature.carbon.input.enabled',
     defaultValue: true
   },
   {
@@ -792,11 +758,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'carbonFileUploaderEnabled',
-    instanaCtlKey: 'feature.carbon.fileuploader.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'userProfileMenuEnabled',
     instanaCtlKey: 'feature.user.profileMenu.enabled',
     defaultValue: true
@@ -864,6 +825,11 @@ module.exports = exports = [
   {
     uiClientKey: 'alertChannelPerSeverityInfraSaEnabled',
     instanaCtlKey: 'feature.alert.channel.per.severity.infra.sa.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'alertChannelPerSeverityApplicationSaEnabled',
+    instanaCtlKey: 'feature.alert.channel.per.severity.application.sa.enabled',
     defaultValue: false
   }
 ];

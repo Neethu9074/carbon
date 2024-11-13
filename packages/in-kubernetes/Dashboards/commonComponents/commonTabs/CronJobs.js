@@ -80,8 +80,8 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterIdUrlParameter, namespaceIdUrlParameter],
   columnDefinitions,
-  defaultOrderBy: 'cronJobName',
-  defaultOrderDirection: 'ASC',
+  defaultOrderBy: 'health',
+  defaultOrderDirection: 'DESC',
   pathSegment,
   matrixPrefix
 });
@@ -89,7 +89,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 export default function CronJobs(props) {
   return (
     <>
-      <K8sAgentMonitoringIssueNotifications {...props} entityName={'cronjobs'} />
+      <K8sAgentMonitoringIssueNotifications {...props} entityName="cronjobs" />
       <Card>
         <ServerTableWithUrlState get={getTableData} {...props} />
       </Card>
@@ -101,8 +101,8 @@ function getTableData({
   query = '',
   page = 1,
   pageSize = 20,
-  orderBy = 'type',
-  orderDirection = 'ASC',
+  orderBy = 'health',
+  orderDirection = 'DESC',
   timeConfig,
   clusterId,
   namespaceId,

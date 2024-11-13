@@ -53,6 +53,11 @@
       "title": "Product User Analytics",
       "purpose": "Registers a unique ID that is used to generate statistical data on how the visitor uses the website."
     },
+    "walkme": {
+      "title": "Product Onboarding and Guidance",
+      "purpose": "Registers a unique ID that is used to generate statistical data on how the visitor uses the website.",
+      "category": "Product Onboarding and Guidance"
+    },
     "appcues": {
       "title": "Tailored Onboarding Experience and NPS Surveys",
       "purpose": "User Onboarding and NPS store survey."
@@ -1358,7 +1363,10 @@
     "changeEvent": "Change event",
     "advancedSettingsMessage": "By enabling this, you'll have the option to personalize the subject for event alerts you receive based on their type. If you prefer not to customize email subjects, you can simply disregard this option.",
     "customSubjectNotProvided": "If a custom subject is not provided, Instana will send an alert email with predefined subject.",
-    "sendTestEmail": "Send test email"
+    "sendTestEmail": "Send test email",
+    "alertTitleAdditions": "Alert Title",
+    "alertTitleAdditionsTooltip": "The name of the entity for which this alert is triggered on appears in the title of the alert. By default, the entity name is only visible in the body of an alert",
+    "includeEntityNameInLegacyAlerts": "Include entity name in alert title"
   },
   "languageSelection": {
     "language": "Language",

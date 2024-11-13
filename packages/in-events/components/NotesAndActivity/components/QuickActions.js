@@ -11,12 +11,8 @@ import { SvgIcon, CarbonButton, CarbonInlineLoading, HelpText, PreviewPill } fro
 
 import { AIPopover } from 'in-events/components/NotesAndActivity/components/AiPopover';
 import { EVENT_AI_GENERATE_SUBMIT } from 'in-services/tracking/eventNames';
-import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
-import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { generateJournalSummary } from 'in-stores/events';
-import { CTA_CLICKED } from 'in-services/util/constants';
-import { track } from 'in-services/tracking/trackers';
-import { user } from 'in-stores/user';
+import { handleTracking } from './utils';
 import { t } from 'in-i18n';
 
 import locals from './QuickActions.mless';
@@ -89,7 +85,9 @@ export function QuickActions(props) {
             // Start the loading spinner
             setLoadingSummary(true);
             // Generate API Call
-            handleAIGenerateNote(incidentId);
+            generateJournalSummary(incidentId);
+            // Tacking clicks
+            handleTracking(incidentId, EVENT_AI_GENERATE_SUBMIT);
             // Timeout is started for a max of 2 mins and then the
             // spinner will terminate and we will show a timeout message
             const id = setTimeout(() => {
@@ -105,21 +103,4 @@ export function QuickActions(props) {
       </div>
     </div>
   );
-}
-
-// Handle the button click for ai generation
-// Track the clicks
-export function handleAIGenerateNote(incidentId) {
-  generateJournalSummary(incidentId);
-  const { pageRootName, productArea } = getViewTrackingMetaData();
-  if (pageRootName && productArea) {
-    const data = {
-      parentPageName: pageRootName,
-      parentPageCategory: productArea,
-      CTA: EVENT_AI_GENERATE_SUBMIT,
-      path: location.hash
-    };
-    eventTracker({ data, segmentEventName: CTA_CLICKED });
-  }
-  track(EVENT_AI_GENERATE_SUBMIT, { incidentId, author: user.preferredName });
 }

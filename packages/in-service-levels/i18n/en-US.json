@@ -19,11 +19,14 @@
     "select": "Select $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{entity}}\"})",
     "noSelection": "None selected",
     "loadMore": "Load more",
+    "threshold": "Threshold",
     "noData": "No data available",
+    "trafficType": "Traffic type",
     "noMatchingTimeWindows": "There is no matching time window for the selected period. This usually happens if the selected time window is prior the creation date of the SLO.",
     "serverErrors": {
       "sloLimitReachedError": "The maximum number of service level objective configurations ({{0}}) has been reached. Please contact Instana support to request an increase for this limit."
     },
+    "traffic": "Traffic",
     "indicator": {
       "type": "Unknown type",
       "type_eventBased": "Event Count",
@@ -32,6 +35,7 @@
       "blueprint": "Unknown blueprint",
       "blueprint_latency": "Latency",
       "blueprint_availability": "Availability",
+      "blueprint_traffic": "Traffic",
       "blueprint_custom": "Custom",
       "aggregation": "Unknown",
       "aggregation_MEAN": "mean",
@@ -44,7 +48,15 @@
       "aggregation_P90": "90th",
       "aggregation_P95": "95th",
       "aggregation_P98": "98th",
-      "aggregation_P99": "99th"
+      "aggregation_P99": "99th",
+      "application": {
+        "trafficType_all": "All calls",
+        "trafficType_erroneous": "Erroneous calls"
+      },
+      "website": {
+        "trafficType_all": "All beacon count",
+        "trafficType_erroneous": "Beacon error count"
+      }
     },
     "latency": "Latency",
     "time": "Time",
@@ -101,7 +113,9 @@
       "errors": "Erroneous Call Rate",
       "beaconErrorRate": "Beacon Error Rate",
       "goodEvents": "Good Events",
-      "badEvents": "Bad Events"
+      "badEvents": "Bad Events",
+      "erroneousCalls": "Erroneous Calls",
+      "beaconErrorCount": "Beacon Error Count"
     },
     "format": {
       "event_website": "{{formatted}} beacon",
@@ -125,6 +139,9 @@
       "pleaseConfirmMsg": "Are you sure you want to delete <strong>{{name}}</strong>?",
       "delete": "Delete"
     }
+  },
+  "validators": {
+    "noInvalidOperator": "Please select an operator from the list."
   },
   "components": {
     "tagFilterBuilder": {
@@ -181,6 +198,7 @@
       "description_custom": "Measures the count of good and/or bad events by using user-defined filters.",
       "description_latency": "Measures how fast the service responded above a set threshold. For example, the measure of how fast your checkout-service responds faster than 100ms.",
       "description_availability": "Measures how often a service responds appropriately. For example, how often your HTTP calls are erroneous.",
+      "description_traffic": "Measures how much demand is being placed on a system using a high-level system-specific metric. For example, a web service is usually measured in HTTP beacons per second.",
       "timeTypeExplanation": "Good vs bad calls grouped aggregated by minute",
       "eventTypeExplanation": "Total count of good vs bad calls",
       "eventCount": "Event Count",
@@ -189,7 +207,14 @@
       "thresholdLabel_latency": "Threshold (ms)",
       "thresholdLabel_availability": "Error Rate (%)",
       "setGoodCall": "Set the good calls to a service",
-      "setBadCall": "Set the bad calls to a service (Optional)"
+      "setBadCall": "Set the bad calls to a service (Optional)",
+      "thresholdDescription_GT": "A good minute is defined by a count of more than {{thresholdValue}} calls per minute. A bad minute is defined by a count of less than or equal to {{thresholdValue}} calls per minute.",
+      "thresholdDescription_GTE": "A good minute is defined by a count of more than or equal to {{thresholdValue}} calls per minute. A bad minute is defined by a count of less than {{thresholdValue}} calls per minute.",
+      "thresholdDescription_LT": "A good minute is defined by a count of less than {{thresholdValue}} calls per minute. A bad minute is defined by a count of more than or equal to {{thresholdValue}} calls per minute.",
+      "thresholdDescription_LTE": "A good minute is defined by a count of less than or equal to {{thresholdValue}} calls per minute. A bad minute is defined by a count of more than {{thresholdValue}} calls per minute.",
+      "thresholdInput": "<Stack>Set a threshold of<HorizontalStack><OperatorDropdown /><ThresholdInput />calls per minute<HorizontalStack/><Stack />",
+      "allCalls": "All calls",
+      "erroneousCalls": "Erroneous calls"
     },
     "previewSection": {
       "dataInfo": "Preview data is shown only up to 7 days in the past. The SLO will only include data from the time it was created",
@@ -341,11 +366,13 @@
         "thresholdLabel": "Threshold (unknown unit)",
         "thresholdLabel_availability": "Threshold",
         "thresholdLabel_latency": "Threshold (ms)",
+        "thresholdLabel_traffic": "Threshold",
         "aggregationLabel": "Aggregation",
         "goodEventsLabel": "Events type (good events)",
         "goodEventsLabel_application": "Events type (good calls)",
         "badEventsLabel": "Events type (bad events)",
-        "badEventsLabel_application": "Events type (bad calls)"
+        "badEventsLabel_application": "Events type (bad calls)",
+        "trafficTypeLabel": "Traffic type"
       },
       "objectiveSection": {
         "title": "Objective",

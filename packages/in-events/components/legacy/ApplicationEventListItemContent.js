@@ -41,6 +41,7 @@ export default function ApplicationEventListItemContent({ event, justChart = fal
     return null;
   }
 
+  const eventSeverity = event.getIn(['problem', 'severity'], '');
   const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
   const isGlobalSmartAlert = event.getIn(['metadata', 'globalSmartAlert'], false);
   const adaptiveBaselineInfo = event.getIn(['metadata', 'adaptiveBaselineInfo'], Map({})) ?? Map({});
@@ -95,7 +96,9 @@ export default function ApplicationEventListItemContent({ event, justChart = fal
           applicationId={eventEntity.applicationId}
           serviceId={eventEntity.serviceId}
           endpointId={eventEntity.endpointId}
+          eventBasedAdaptiveBaseline={Object.entries(adaptiveBaselineInfo.toJS()).sort((a, b) => a[0] - b[0])}
           isEventsView
+          eventSeverity={eventSeverity}
         />
       </div>
       <div className={locals.sectionWrapper}>

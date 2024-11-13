@@ -17,9 +17,9 @@ import {
 import StaticOrAdaptiveOption from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveOption';
 import { PER_AP_ENDPOINT } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { STATIC_THRESHOLD, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { AlertEvaluationType, ThresholdType } from 'in-types';
 import { Col, Row } from 'in-components/layout/Grid';
 import { noop } from 'in-services/util/function';
+import { AlertEvaluationType } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch.mless';
@@ -36,6 +36,7 @@ interface Props {
   isTearSheet?: boolean;
   isDisabled?: boolean;
   bluePrint?: string;
+  isMultiThreshold?: boolean;
 }
 
 export default function StaticOrAdaptiveSwitch({
@@ -44,9 +45,12 @@ export default function StaticOrAdaptiveSwitch({
   onThresholdTypeChange,
   isTearSheet,
   isDisabled,
-  bluePrint
+  bluePrint,
+  isMultiThreshold = false
 }: Props) {
-  const thresholdType = ((form.get('threshold') as MapForm<any>)?.get('type') as Field<ThresholdType>)?.value;
+  const thresholdType = isMultiThreshold
+    ? form.get('threshold')?.get('warningThreshold')?.get('type')?.value
+    : form.get('threshold')?.get('type')?.value;
   const evaluationType = (form.get('evaluationType') as Field<AlertEvaluationType>)?.value;
   const currentType = thresholdType === ADAPTIVE_BASELINE ? types.adaptive : types.static;
   const ruleForm = form.get('rule');

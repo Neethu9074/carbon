@@ -50,6 +50,16 @@ export default function PotentialProblemContentControls({
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl();
   const smartAlertCreatePath = getLinkToCreateSmartAlert({ isGlobal: false, migration: false, potentialProblem: true });
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+  const rules = [
+    {
+      rule: rule,
+      thresholdOperator: threshold.operator,
+      thresholds: {
+        WARNING: { ...threshold },
+        CRITICAL: { type: threshold.type, deviationFactor: 0, value: null }
+      }
+    }
+  ];
   const linkToUnboundAnalytics = getLinkToUnboundAnalytics(
     {
       applicationId,
@@ -59,6 +69,7 @@ export default function PotentialProblemContentControls({
         applications,
         rule,
         threshold,
+        rules,
         tagFilterExpression,
         includeSynthetic,
         includeInternal,

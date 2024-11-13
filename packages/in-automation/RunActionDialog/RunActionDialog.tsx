@@ -24,15 +24,14 @@ import RunActionContent, {
 import { getTimeoutFromFields, getAnsibleHostIdFromFields } from 'in-automation/utils/actionField';
 import useNavigateToActionHistory from 'in-automation/navigation/hooks/useNavigateToActionHistory';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
-import { resolveDynamicParameters, runTurboAction, runAction } from 'in-automation/api';
 import { setActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { ActionInstance } from 'in-automation/subscriptions/submitActionExecution';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { ResolvedDynamicParamValue, NewPolicy } from 'in-automation/types';
 import { refreshHistory } from 'in-automation/AutomationCard/useHistory';
+import { resolveDynamicParameters, runAction } from 'in-automation/api';
 import { isAIAction, isAIActionCopy } from 'in-automation/utils/action';
-import { refresh } from 'in-automation/AutomationCard/useScoredActions';
 import { isAutomatic, isManual } from 'in-automation/utils/policy';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
@@ -73,7 +72,6 @@ export default function RunActionDialog({
   const agentSnapShots = useAgentSnapShots({ action });
   // we usually see rec actions only when agents available. some times, when agent is stopped, we will have 10 minute window to updates actions.
   // This flag here sets true which uses to disable the run button when agent is unavailable
-  const noTurboAgents = action.type === ACTION_TYPE.EXTERNAL && agentSnapShots?.data?.online.length === 0;
   const { resolvedDynamicParameters, errorResolvingDynamicParameters } = useResolvedDynamicParameters({
     action,
     event
@@ -120,13 +118,11 @@ export default function RunActionDialog({
               test={test}
               actionInstanceId={actionInstanceId}
               isSaving={isSaving}
-              noTurboAgents={noTurboAgents}
               form={form}
               onSave={() =>
                 onSave(
                   {
                     form,
-                    setForm,
                     setIsSaving,
                     action,
                     agentSnapShots,
@@ -200,7 +196,6 @@ function useAgentSnapShots({ action }: { action: Action }) {
   else if (action.type === ACTION_TYPE.GITHUB) query = 'entity.agent.capability:action-github';
   else if (action.type === ACTION_TYPE.GITLAB) query = 'entity.agent.capability:action-gitlab';
   else if (action.type === ACTION_TYPE.JIRA) query = 'entity.agent.capability:action-jira';
-  else if (action.type === ACTION_TYPE.EXTERNAL) query = 'entity.agent.capability:turbonomic-action';
   const agentSnapShots: OUT | null | undefined = useObservable(
     () => getAgentSnapshotsInTimeframe({ timeConfig, query }),
     [timeConfig]
@@ -304,7 +299,6 @@ function parseDynamicParameter(str?: string) {
 
 interface OnSaveParams extends Pick<RunActionDialogProps, 'action' | 'event'> {
   form: MapForm<any> | undefined;
-  setForm: React.Dispatch<React.SetStateAction<MapForm<any> | undefined>>;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
   agentSnapShots: OUT | null | undefined;
   setError: React.Dispatch<React.SetStateAction<string>>;
@@ -318,7 +312,6 @@ interface OnSaveParams extends Pick<RunActionDialogProps, 'action' | 'event'> {
 function onSave(
   {
     form,
-    setForm,
     setIsSaving,
     action,
     agentSnapShots,
@@ -333,12 +326,6 @@ function onSave(
   runActionTrackerSegment: TrackingFunction,
   testActionTrackerSegment: TrackingFunction
 ) {
-  // when user have single turbonomic agent we just show it as static text and run action. we do not have any form.valid case in that scenario.
-  // when user have multiple turbonomic agents, we show dropdown with agents and, we have to execute below code in that scenario.
-  if (!form?.hierarchyValid && !(action.type === ACTION_TYPE.EXTERNAL && agentSnapShots?.data?.online.length === 1)) {
-    setForm(form?.setTouched(true, { recurse: true }));
-    return;
-  }
   setIsSaving(true);
 
   const targetAgent = form?.get('targetAgent') as Field<string>;
@@ -411,9 +398,6 @@ function onSave(
       setActionInstanceId(response?.actionInstanceId);
     } else {
       setActionInstanceId(response.actionInstanceId);
-      if (action.type === ACTION_TYPE.EXTERNAL) {
-        refresh();
-      }
     }
   };
 
@@ -452,21 +436,6 @@ function onSave(
       actionId,
       policyId: executePolicyId,
       inputParameters: allInputParameters
-    }).once(handleActionResponse);
-  } else if (action.type === ACTION_TYPE.EXTERNAL) {
-    const volatileId =
-      Object.keys(selectedVolatileId).length === 0 ? agentSnapShots?.data?.online[0]?.volatileId : selectedVolatileId;
-    const actionInstanceId = action?.metadata?.ai ? action?.metadata?.ai[0]?.turbonomicActionInstanceId : '';
-    const createdTime = action?.metadata?.ai ? action?.metadata?.ai[0]?.turbonomicActionInstanceCreatedDate : 0;
-    runTurboAction({
-      volatileId: volatileId ?? {},
-      event,
-      createdDate: createdTime,
-      actionName: action?.description ?? '',
-      timeout,
-      actionId,
-      actionInstanceId: actionInstanceId,
-      policyId: executePolicyId
     }).once(handleActionResponse);
   } else if (action.type === ACTION_TYPE.ANSIBLE) {
     runAction({
@@ -520,19 +489,9 @@ interface RunActionFooterProps {
   onSave: () => void;
   test?: boolean;
   policy?: NewPolicy;
-  noTurboAgents?: boolean;
 }
 
-function RunActionFooter({
-  error,
-  actionInstanceId,
-  isSaving,
-  form,
-  onSave,
-  test,
-  policy,
-  noTurboAgents = false
-}: RunActionFooterProps) {
+function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave, test, policy }: RunActionFooterProps) {
   const navigateToActionHistory = useNavigateToActionHistory();
   if (error || actionInstanceId) {
     return (
@@ -567,7 +526,7 @@ function RunActionFooter({
   return (
     <>
       <CancelButton isSaving={isSaving} onClick={close} />
-      <SaveButton kind="primary" form={form} disabled={!form || noTurboAgents} isSaving={isSaving} onClick={onSave}>
+      <SaveButton kind="primary" form={form} disabled={!form} isSaving={isSaving} onClick={onSave}>
         {policy
           ? t('in-automation:actionHistory.saveButton')
           : test

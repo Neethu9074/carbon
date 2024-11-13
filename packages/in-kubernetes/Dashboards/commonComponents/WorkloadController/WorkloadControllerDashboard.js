@@ -67,7 +67,6 @@ export default function WorkloadControllerDashboard({
           pageRootName: pageNames.deployment_summary
         }}
       />
-
       <KubernetesBreadcrumbs props={props} />
       <TabView
         result$={workloadControllerSubscriptionName({
@@ -92,7 +91,6 @@ export default function WorkloadControllerDashboard({
           </CenterAlignmentColumn>
         )}
       />
-
       <Footer />
     </>
   );

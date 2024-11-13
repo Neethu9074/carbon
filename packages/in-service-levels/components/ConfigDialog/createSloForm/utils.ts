@@ -17,10 +17,15 @@ import {
   WebsiteSloEntity
 } from '@instana/types';
 
+import {
+  defaultBeaconType,
+  defaultBoundaryScope,
+  defaultTrafficType,
+  ServiceLevelErrors
+} from 'in-service-levels/constants';
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { SloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
-import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { parseDateTime } from 'in-services/formatters/date';
 
 export function isFieldValid(field: Item): boolean {
@@ -50,7 +55,8 @@ export function formToEntity(form: SloForm): ApplicationSloEntity | WebsiteSloEn
   if (entityType === 'synthetic') {
     return {
       type: 'synthetic',
-      syntheticTestIds: form.getIn(['entity', 'entityIds']).value
+      syntheticTestIds: form.getIn(['entity', 'entityIds']).value,
+      tagFilterExpression: emptyTagFilterExpression
     };
   }
 
@@ -62,7 +68,7 @@ export function formToEntity(form: SloForm): ApplicationSloEntity | WebsiteSloEn
   if (entityType === 'application') {
     return {
       applicationId: form.getIn(['entity', 'entityIds']).value[0],
-      boundaryScope: form.getIn(['scope', 'boundaryScope']).value,
+      boundaryScope: form.getIn(['scope', 'boundaryScope']).value ?? defaultBoundaryScope,
       serviceId: form.getIn(['scope', 'serviceId']).value || undefined,
       endpointId: form.getIn(['scope', 'endpointId']).value || undefined,
       includeInternal: form.getIn(['scope', 'includeInternal']).value,
@@ -75,7 +81,7 @@ export function formToEntity(form: SloForm): ApplicationSloEntity | WebsiteSloEn
   if (entityType === 'website') {
     return {
       websiteId: form.getIn(['entity', 'entityIds']).value[0],
-      beaconType: form.getIn(['scope', 'beaconType']).value,
+      beaconType: form.getIn(['scope', 'beaconType']).value ?? defaultBeaconType,
       tagFilterExpression,
       type: 'website'
     };
@@ -115,6 +121,17 @@ export function formToIndicator(form: SloForm): ServiceLevelIndicatorUnion {
         type: 'timeBased'
       };
     }
+  }
+
+  if (blueprintType === 'traffic') {
+    return {
+      aggregation: 'SUM',
+      threshold: form.getIn(['indicator', 'threshold']).value ?? 0,
+      blueprint: 'traffic',
+      type: 'timeBased',
+      operator: form.getIn(['indicator', 'operator']).value,
+      trafficType: form.getIn(['indicator', 'trafficType']).value ?? defaultTrafficType
+    };
   }
 
   throw new Error(ServiceLevelErrors.UNHANDLED_SLI_TYPE);

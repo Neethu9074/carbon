@@ -19,6 +19,7 @@ import { isDialogAndTearSheetEnabled } from 'in-alerting/smart-alerts/components
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { alertsList, alertsTabListFullyQualified } from 'in-applications/navigation/paths';
+import { defaultAlertRule } from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -123,8 +124,21 @@ CreateGlobalSmartAlertButton.propTypes = {
 
 function generateAlertConfig() {
   return {
-    threshold: {
-      type: STATIC_THRESHOLD
-    }
+    rules: [
+      {
+        rule: defaultAlertRule,
+        thresholdOperator: '>=',
+        thresholds: {
+          WARNING: {
+            type: STATIC_THRESHOLD,
+            isCheckboxSelected: false
+          },
+          CRITICAL: {
+            type: STATIC_THRESHOLD,
+            isCheckboxSelected: false
+          }
+        }
+      }
+    ]
   };
 }

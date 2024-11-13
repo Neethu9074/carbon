@@ -5,7 +5,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.70
+    app.kubernetes.io/version: 1.2.74
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -14,7 +14,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.70
+    app.kubernetes.io/version: 1.2.74
 ---
 apiVersion: v1
 kind: Service
@@ -23,7 +23,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.70
+    app.kubernetes.io/version: 1.2.74
 spec:
   selector:
     app.kubernetes.io/name: instana-agent
@@ -34,6 +34,21 @@ spec:
       port: 42699
       targetPort: 42699
     
+    # OpenTelemetry original default port
+    - name: opentelemetry
+      protocol: TCP
+      port: 55680
+      targetPort: 55680
+    # OpenTelemetry as registered and reserved by IANA
+    - name: opentelemetry-iana
+      protocol: TCP
+      port: 4317
+      targetPort: 4317
+    # OpenTelemetry HTTP port
+    - name: opentelemetry-http
+      protocol: TCP
+      port: 4318
+      targetPort: 4318
   internalTrafficPolicy: Local
 ---
 apiVersion: v1
@@ -43,7 +58,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.70
+    app.kubernetes.io/version: 1.2.74
 spec:
   clusterIP: None
   selector:
@@ -54,6 +69,22 @@ spec:
       protocol: TCP
       port: 42699
       targetPort: 42699
+    
+    # OpenTelemetry original default port
+    - name: opentelemetry
+      protocol: TCP
+      port: 55680
+      targetPort: 55680
+    # OpenTelemetry as registered and reserved by IANA
+    - name: opentelemetry-iana
+      protocol: TCP
+      port: 4317
+      targetPort: 4317
+    # OpenTelemetry HTTP port
+    - name: opentelemetry-http
+      protocol: TCP
+      port: 4318
+      targetPort: 4318
 ---
 apiVersion: v1
 kind: Secret
@@ -62,7 +93,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.70
+    app.kubernetes.io/version: 1.2.74
 type: Opaque
 data:
   key: ${agentKey}
@@ -75,7 +106,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.70
+    app.kubernetes.io/version: 1.2.74
 data:
   cluster_name: "${clusterName}"
   configuration.yaml: |
@@ -115,6 +146,13 @@ data:
     
 
   
+  configuration-opentelemetry.yaml: |
+    com.instana.plugin.opentelemetry: 
+      grpc:
+        enabled: true
+      http:
+        enabled: true
+  
   configuration-disable-kubernetes-sensor.yaml: |
     com.instana.plugin.kubernetes:
       enabled: false
@@ -127,7 +165,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.70
+    app.kubernetes.io/version: 1.2.74
 spec:
   selector:
     matchLabels:
@@ -136,11 +174,12 @@ spec:
     type: RollingUpdate
     rollingUpdate:
       maxUnavailable: 1
+  minReadySeconds: 0
   template:
     metadata:
       labels:
         app.kubernetes.io/name: instana-agent
-        app.kubernetes.io/version: 1.2.70
+        app.kubernetes.io/version: 1.2.74
         instana/agent-mode: "APM"
       annotations:
         # To ensure that changes to agent.configuration_yaml or agent.additional_backends trigger a Pod recreation, we keep a SHA here
@@ -182,6 +221,8 @@ spec:
                   optional: true
             - name: INSTANA_MVN_REPOSITORY_URL
               value: "${instanaMvnRepoUrl}"
+            - name: ENABLE_AGENT_SOCKET
+              value: "true"
             - name: INSTANA_AGENT_POD_NAME
               valueFrom:
                 fieldRef:
@@ -223,6 +264,9 @@ spec:
             - name: configuration # TODO: These shouldn't have the same name
               subPath: configuration-disable-kubernetes-sensor.yaml
               mountPath: /opt/instana/agent/etc/instana/configuration-disable-kubernetes-sensor.yaml
+            - name: configuration
+              subPath: configuration-opentelemetry.yaml
+              mountPath: /opt/instana/agent/etc/instana/configuration-opentelemetry.yaml
           livenessProbe:
             httpGet:
               host: 127.0.0.1 # localhost because Pod has hostNetwork=true
@@ -263,6 +307,7 @@ spec:
         - name: var-data
           hostPath:
             path: /var/data
+            type: DirectoryOrCreate
         - name: machine-id
           hostPath:
             path: /etc/machine-id
@@ -276,7 +321,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.70
+    app.kubernetes.io/version: 1.2.74
 rules:
 - nonResourceURLs:
     - "/version"
@@ -305,7 +350,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.70
+    app.kubernetes.io/version: 1.2.74
 subjects:
 - kind: ServiceAccount
   name: instana-agent
@@ -322,7 +367,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.70
+    app.kubernetes.io/version: 1.2.74
 data:
   backend: ${agentEndpoint}:${agentEndpointPort}
 ---
@@ -334,7 +379,7 @@ metadata:
   labels:
     app: k8sensor
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.70
+    app.kubernetes.io/version: 1.2.74
 spec:
   replicas: 3
   selector:
@@ -347,7 +392,7 @@ spec:
         
         app: k8sensor
         app.kubernetes.io/name: instana-agent-k8s-sensor
-        app.kubernetes.io/version: 1.2.70
+        app.kubernetes.io/version: 1.2.74
         instana/agent-mode: KUBERNETES
       annotations:
         # To ensure that changes to agent.configuration_yaml or agent.additional_backends trigger a Pod recreation, we keep a SHA here
@@ -401,9 +446,9 @@ spec:
           resources:
             requests:
               memory: "128Mi"
-              cpu: 10m
+              cpu: 120m
             limits:
-              memory: "1536Mi"
+              memory: "2048Mi"
               cpu: 500m
           ports:
             - containerPort: 42699
@@ -423,6 +468,7 @@ spec:
                   - KUBERNETES
               topologyKey: kubernetes.io/hostname
             weight: 100
+  minReadySeconds: 0
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -430,7 +476,7 @@ metadata:
   name: k8sensor
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.70
+    app.kubernetes.io/version: 1.2.74
 rules:
   -
     nonResourceURLs:
@@ -510,16 +556,7 @@ rules:
       - watch
   -
     apiGroups:
-      - autoscaling/v1
-    resources:
-      - horizontalpodautoscalers
-    verbs:
-      - get
-      - list
-      - watch
-  -
-    apiGroups:
-      - autoscaling/v2
+      - autoscaling
     resources:
       - horizontalpodautoscalers
     verbs:
@@ -551,7 +588,7 @@ metadata:
   name: k8sensor
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.70
+    app.kubernetes.io/version: 1.2.74
 roleRef:
   kind: ClusterRole
   name: k8sensor
@@ -568,4 +605,4 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.70
+    app.kubernetes.io/version: 1.2.74

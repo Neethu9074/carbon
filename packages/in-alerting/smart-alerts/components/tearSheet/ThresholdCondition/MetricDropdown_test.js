@@ -49,7 +49,7 @@ describe('MetricDropdown', () => {
   it('test slowness BP', () => {
     const slownessAlertConfig = {
       ...alertConfig,
-      rule: { aggregation: 'P90', alertType: 'slowness', metricName: 'latency' }
+      rules: [{ rule: { aggregation: 'P90', alertType: 'slowness', metricName: 'latency' } }]
     };
 
     props = {

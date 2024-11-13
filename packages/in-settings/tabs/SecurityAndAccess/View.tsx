@@ -60,7 +60,7 @@ export default function View(props: ViewProps) {
       <ViewTrackingMeta
         data={{
           productArea: productAreas.settings,
-          pageRootName: pageNames.global_settings
+          pageRootName: pageNames.securityAndAccess
         }}
       />
 

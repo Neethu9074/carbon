@@ -9,12 +9,13 @@ import React from 'react';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
 import ChartViewConfiguratorWithEntitySelection from 'in-alerting/smart-alerts/applications/chart/ChartViewConfiguratorWithEntitySelection';
 import IncompleteChartPlaceholder from 'in-alerting/smart-alerts/components/dialog/IncompleteChartPlaceholder';
+import { toAlertConfig } from 'in-alerting/smart-alerts/applications/dialog/advanced/ThresholdSection';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/simple/SimpleAlertConfigDialogChart.mless';
 
 export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigChange, selectedChartViewConfigIndex }) {
-  const alertConfigWithFormModel = form.toJS();
+  const alertConfigWithFormModel = toAlertConfig(form);
   const alertType = alertConfigWithFormModel.rule.alertType;
   const blueprintConfig = getBlueprintConfig(alertType);
   const isRuleComplete = blueprintConfig.isRuleComplete(alertConfigWithFormModel.rule);

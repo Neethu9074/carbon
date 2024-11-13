@@ -16,12 +16,15 @@ import {
   Stack,
   Typography
 } from '@instana/components';
-import { RecommendedAction, ResourceImpactEntities, AgentSnapshot } from '@instana/types';
+import { RecommendedAction, ResourceImpactEntities, AgentSnapshot, ImpactedApplicationDetails } from '@instana/types';
 import { Link } from '@instana/components';
 
+import {
+  useResourceImpacts,
+  useActionImpactedApplications
+} from 'in-automation/ResourceOptimization/useResourceOptimization';
 import { turboActionCategoryMap } from 'in-automation/ResourceOptimization/RecommendedOptimizations';
 import useNavigateToActionHistory from 'in-automation/navigation/hooks/useNavigateToActionHistory';
-import { useResourceImpacts } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { ActionInstance } from 'in-automation/subscriptions/turboSubmitActionExecution';
 import { refresh } from 'in-automation/ResourceOptimization/useResourceOptimization';
@@ -35,6 +38,19 @@ import locals from './DetailsModal.mless';
 interface DetailsModalProps {
   currentAction: RecommendedAction;
   agents: AgentSnapshot[];
+}
+
+function LoadingSkeletons({ n = 3 }: { n?: number }) {
+  if (n <= 0 || n > 10) {
+    n = 1;
+  }
+  return (
+    <>
+      {Array.from({ length: n }, (__, i) => (
+        <LoadingSkeleton key={i} />
+      ))}
+    </>
+  );
 }
 
 export default function DetailsModal({ currentAction, agents }: DetailsModalProps) {
@@ -53,13 +69,21 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
     actionInstanceId,
     createdDate
   });
+  const appImpactResult = useActionImpactedApplications({
+    targetSnapshotId: currentAction?.targetSnapshotId ?? ''
+  });
   const navigateToActionHistory = useNavigateToActionHistory();
-  const impactLoading = resourceImpactResult?.progress?.loading;
+  const resImpactLoading = resourceImpactResult?.progress?.loading;
+  const appImpactLoading = appImpactResult?.progress?.loading;
 
   //@ts-expect-error
   const entities = resourceImpactResult?.data?.entitiesList;
   //@ts-expect-error
-  const errorMessage = resourceImpactResult?.data?.errorMessage;
+  const errorMessageResourceImpact = resourceImpactResult?.data?.errorMessage;
+  //@ts-expect-error
+  const impactedApplications = appImpactResult?.data?.impactedApplications;
+  //@ts-expect-error
+  const errorMessageAppImpact = appImpactResult?.data?.errorMessage;
 
   function showToastNotification(data: ActionInstance) {
     const error = 'errorMessage' in data && data.errorMessage != null;
@@ -144,97 +168,134 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
     }
   }
 
+  const ApplicationImpactSection = () => {
+    return (
+      <div className={locals.impactedAppsSection}>
+        {/* Headers Row */}
+        <div className={locals.impactedAppsTitleRow}>
+          <div className={locals.impactedAppsTitle}>
+            <Typography variant="heading-200" noMargin>
+              {t('in-automation:resourceOptimization.impactedApplications')}
+            </Typography>
+          </div>
+          <div className={locals.impactedAppsTitle}>
+            <Typography variant="heading-200" noMargin>
+              {t('in-automation:resourceOptimization.services')}
+            </Typography>
+          </div>
+        </div>
+
+        {/* Scrollable content */}
+
+        <div className={locals.appsScroll}>
+          <div className={locals.impactedAppsCol}>
+            {appImpactLoading && (
+              <Stack direction="vertical">
+                <LoadingSkeletons />
+              </Stack>
+            )}
+            {!appImpactLoading &&
+              impactedApplications.map((app: ImpactedApplicationDetails) => {
+                return <div className={locals.smallText}>{app?.name}</div>;
+              })}
+          </div>
+
+          <div className={locals.impactedAppsCol}>
+            {!appImpactLoading &&
+              impactedApplications.map((app: ImpactedApplicationDetails) => {
+                return <div className={locals.smallText}>{app?.servicesCount}</div>;
+              })}
+          </div>
+        </div>
+        {errorMessageAppImpact !== '' && (
+          <Typography variant="body-small" noMargin>
+            {errorMessageAppImpact}
+          </Typography>
+        )}
+      </div>
+    );
+  };
+
   const resourceImpactSection = () => {
-    if (impactLoading) {
+    if (resImpactLoading) {
       return (
         <div className={locals.paddingBox}>
           <Stack direction="vertical">
-            <LoadingSkeleton />
-            <LoadingSkeleton />
+            <LoadingSkeletons n={2} />
             <Spacer />
             <Stack direction="horizontal">
               <Stack direction="vertical">
-                <LoadingSkeleton />
-                <LoadingSkeleton />
-                <LoadingSkeleton />
-                <LoadingSkeleton />
+                <LoadingSkeletons n={4} />
               </Stack>
               <Stack direction="vertical">
-                <LoadingSkeleton />
-                <LoadingSkeleton />
-                <LoadingSkeleton />
-                <LoadingSkeleton />
+                <LoadingSkeletons n={4} />
               </Stack>
               <Stack direction="vertical">
-                <LoadingSkeleton />
-                <LoadingSkeleton />
-                <LoadingSkeleton />
-                <LoadingSkeleton />
+                <LoadingSkeletons n={4} />
               </Stack>
             </Stack>
           </Stack>
         </div>
       );
-    } else if (errorMessage !== '') {
+    } else if (errorMessageResourceImpact !== '') {
       return (
         <Typography variant="body-small" noMargin>
-          {errorMessage}
+          {errorMessageResourceImpact}
         </Typography>
       );
     }
     return (
       <>
         {entities?.map((entity: ResourceImpactEntities, i: number) => (
-          <>
-            <Stack direction="vertical" gap="small" distribution="center">
-              {/* Container Spec*/}
-              <div className={locals.paddingBox}>
-                <Typography variant="heading-200" noMargin>
-                  {entity?.type}
-                </Typography>
-                <div className={locals.smallText}>{entity?.name}</div>
-              </div>
+          <Stack direction="vertical" gap="small" distribution="center">
+            {/* Container Spec*/}
+            <div className={locals.paddingBox}>
+              <Typography variant="heading-200" noMargin>
+                {entity?.type}
+              </Typography>
+              <div className={locals.smallText}>{entity?.name}</div>
+            </div>
 
-              {(entity?.resourceImpactDataList?.length ?? 0) > 0 && (
-                <div className={locals.paddingBox}>
-                  <Stack direction="horizontal">
-                    {/* Resource impact */}
-                    <Stack direction="vertical">
+            {(entity?.resourceImpactDataList?.length ?? 0) > 0 && (
+              <div className={locals.paddingBox}>
+                <div className={locals.resourceImpactsSection}>
+                  {/* Resource impact */}
+                  <div className={locals.resourceImpactsCol}>
+                    <Typography variant="heading-200" noMargin>
+                      {t('in-automation:resourceOptimization.resourceImpact')}
+                    </Typography>
+                    {entity?.resourceImpactDataList?.map(x => (
+                      <div className={locals.smallText}>{x.name}</div>
+                    ))}
+                  </div>
+                  {/* Current */}
+                  <div className={locals.resourceImpactsCol}>
+                    <div className={locals.current}>
                       <Typography variant="heading-200" noMargin>
-                        {t('in-automation:resourceOptimization.resourceImpact')}
+                        {t('in-automation:resourceOptimization.current')}
                       </Typography>
-                      {entity?.resourceImpactDataList?.map(x => (
-                        <div className={locals.smallText}>{x.name}</div>
-                      ))}
-                    </Stack>
-                    {/* Current */}
-                    <Stack direction="vertical">
-                      <div className={locals.current}>
-                        <Typography variant="heading-200" noMargin>
-                          {t('in-automation:resourceOptimization.current')}
-                        </Typography>
-                      </div>
-                      {entity?.resourceImpactDataList?.map(x => (
-                        <div className={locals.smallText}>{`${x.before} ${x.units}`}</div>
-                      ))}
-                    </Stack>
-                    {/* After actions */}
-                    <Stack direction="vertical">
-                      <div className={locals.after}>
-                        <Typography variant="heading-200" noMargin>
-                          {t('in-automation:resourceOptimization.afterActions')}
-                        </Typography>
-                      </div>
-                      {entity?.resourceImpactDataList?.map(x => (
-                        <div className={locals.smallText}>{`${x.after} ${x.units}`}</div>
-                      ))}
-                    </Stack>
-                  </Stack>
+                    </div>
+                    {entity?.resourceImpactDataList?.map(x => (
+                      <div className={locals.smallText}>{`${x.before} ${x.units}`}</div>
+                    ))}
+                  </div>
+                  {/* After actions */}
+                  <div className={locals.resourceImpactsCol}>
+                    <div className={locals.after}>
+                      <Typography variant="heading-200" noMargin>
+                        {t('in-automation:resourceOptimization.afterActions')}
+                      </Typography>
+                    </div>
+                    {entity?.resourceImpactDataList?.map(x => (
+                      <div className={locals.smallText}>{`${x.after} ${x.units}`}</div>
+                    ))}
+                  </div>
                 </div>
-              )}
-              {i + 1 < entities?.length && <hr className={locals.divider} />}
-            </Stack>
-          </>
+              </div>
+            )}
+            {/* Include dividers for all but the last section */}
+            {i + 1 < entities?.length && <hr className={locals.divider} />}
+          </Stack>
         ))}
       </>
     );
@@ -247,6 +308,7 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
       onRequestClose={close}
       modalHeading={t('in-automation:resourceOptimization.details')}
       primaryButtonText={t('in-automation:runAction')}
+      primaryButtonDisabled={currentAction?.actionMode === 'RECOMMEND'}
       secondaryButtonText={t('in-automation:cancel')}
       size="lg"
       onRequestSubmit={() => handleRunAction()}
@@ -256,7 +318,7 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
       <div className={locals.detailsRow}>
         {/* Details - Left Section */}
         <div className={locals.leftSection}>
-          <Stack direction="vertical" gap={'small'} distribution="spaceEvenly">
+          <div className={locals.leftContent}>
             <Typography variant="heading-200" noMargin>
               {t('in-automation:resourceOptimization.actionName')}
             </Typography>
@@ -266,12 +328,15 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
               {t('in-automation:resourceOptimization.riskDescription')}
             </Typography>
             <Typography variant="body-regular"> {currentAction?.description}</Typography>
+            <ApplicationImpactSection />
             {currentAction?.actionDetailsURL && (
-              <Link href={currentAction?.actionDetailsURL} linkIconType={'lib_views_external_link'} external>
-                {t('in-automation:resourceOptimization.viewInTurbo')}
-              </Link>
+              <div className={locals.turboLink}>
+                <Link href={currentAction?.actionDetailsURL} linkIconType={'lib_views_external_link'} external>
+                  {t('in-automation:resourceOptimization.viewInTurbo')}
+                </Link>
+              </div>
             )}
-          </Stack>
+          </div>
         </div>
 
         {/* Resource Impact - Right Section */}

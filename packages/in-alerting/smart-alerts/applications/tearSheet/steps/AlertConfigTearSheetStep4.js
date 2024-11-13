@@ -27,6 +27,7 @@ import EntitySelectionFormUpdater from 'in-alerting/smart-alerts/applications/ch
 import IncompleteChartPlaceholder from 'in-alerting/smart-alerts/components/dialog/IncompleteChartPlaceholder';
 import MetricDropdown from 'in-alerting/smart-alerts/components/tearSheet/ThresholdCondition/MetricDropdown';
 import EvaluationGranularity from 'in-alerting/smart-alerts/components/tearSheet/EvaluationGranularity';
+import { toAlertConfig } from 'in-alerting/smart-alerts/applications/dialog/advanced/ThresholdSection';
 import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/form/thresholdTypeForm';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/AlertTypeSwitch';
@@ -59,7 +60,7 @@ export default function AlertConfigTearSheetStep4(props) {
 
   const ruleForm = form.get('rule');
   const alertType = ruleForm.get('alertType').value;
-  const thresholdType = form.get('threshold').get('type').value;
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const applications = form.get('applications').value;
   const boundaryScope = form.get('boundaryScope').value;
   const tagFilterExpression = form.get('tagFilterExpression').value;
@@ -68,7 +69,7 @@ export default function AlertConfigTearSheetStep4(props) {
 
   const ruleComplete = blueprintConfig?.isRuleComplete(ruleForm.toJS());
 
-  const alertConfigWithFormModel = blueprintConfig.enrichWithDefaultThresholdValues(form.toJS());
+  const alertConfigWithFormModel = blueprintConfig.enrichWithDefaultThresholdValues(toAlertConfig(form));
 
   const { QueryBuilder } = useMemo(() => {
     return createBoundedAlertQueryBuilder(
@@ -118,6 +119,7 @@ export default function AlertConfigTearSheetStep4(props) {
               isTearSheet
               isDisabled={!blueprintConfig?.baselineEnabled}
               bluePrint={blueprintConfig.name}
+              isMultiThreshold
             />
           </div>
 

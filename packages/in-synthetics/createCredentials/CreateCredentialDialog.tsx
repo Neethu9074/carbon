@@ -5,6 +5,7 @@
  */
 
 import React, { useState } from 'react';
+import { Field } from 'formalistic';
 
 import { Spacer, Typography } from '@instana/components';
 
@@ -38,6 +39,9 @@ const CreateCredentialDialog = ({ onClose }: Props) => {
   const [slideInViewVisible, setSlideInViewVisible] = useState(false);
   const [slideInConfig, setSlideConfig] = useState<SlideInConfig | null>(null);
   const { trackCta } = useSegmentTracking();
+
+  const credentialNameField = form.get('credentialName') as Field<string>;
+  const credentialValueField = form.get('credentialValue') as Field<string>;
 
   const setSliderState = ({ slideInConfig, isVisible }: SliderState) => {
     if (slideInConfig) {
@@ -115,6 +119,10 @@ const CreateCredentialDialog = ({ onClose }: Props) => {
             }
           }}
           onStepChanged={noop}
+          additionalStepCheck={(step: number) => {
+            return !(step === 0 && (!credentialNameField.valid || !credentialValueField.valid));
+          }}
+          noStepCheckOnFirstStep
         />
       </LeftRightPadding>
       <Spacer vertical="large" />

@@ -16,17 +16,15 @@ import { PER_AP } from 'in-alerting/smart-alerts/applications/dialog/advanced/Ev
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
 import createRuleForm, { defaultAlertRule } from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { applyEditMode } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { MAX_LONG_STRING_LENGTH, MAX_LABEL_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
-import { ThresholdType, ThresholdConfigUnion } from 'in-types';
+import { ThresholdType, SmartAlertThresholdRuleUnion } from 'in-types';
 import { boundaryScopes } from 'in-applications/constants';
 import { t } from 'in-i18n';
 
-const defaultSeverity = 5;
 export const defaultGranularity = 600000;
 export const defaultAdaptiveBaselineGranularity = 1200000;
 
@@ -51,7 +49,10 @@ interface OptionalIndividualApplicationAlertConfig extends Partial<ApplicationSm
  * this button is pressed, a different partial alert config can be passed, while the remaining fields are overridden with default
  * values that are internally defined.
  */
-type CreateApplicationAlertConfig = (OptionalGlobalApplicationsAlertConfig | OptionalIndividualApplicationAlertConfig) &
+export type CreateApplicationAlertConfig = (
+  | OptionalGlobalApplicationsAlertConfig
+  | OptionalIndividualApplicationAlertConfig
+) &
   AlertConfigHiddenFields &
   UiExtraData;
 
@@ -78,15 +79,13 @@ export function createSmartAlertForm(
     includeInternal,
     name,
     readOnly,
-    rule,
-    severity,
     tagFilterExpression,
-    threshold,
     timeThreshold,
-    triggering
+    triggering,
+    rules
   } = alertConfig;
 
-  const form = createMapForm({
+  return createMapForm({
     items: {
       name: createField({
         value: name ?? '',
@@ -108,9 +107,6 @@ export function createSmartAlertForm(
       includeInternal: createField({
         value: includeInternal || false
       }),
-      severity: createField({
-        value: severity ?? defaultSeverity
-      }),
       triggering: createField({
         value: triggering ?? false
       }),
@@ -124,7 +120,7 @@ export function createSmartAlertForm(
         value: alertChannelIds ?? []
       }),
       granularity: createField({
-        value: granularity ?? getDefaultGranularity(threshold)
+        value: granularity ?? getDefaultGranularity(rules?.[0]?.thresholds?.WARNING)
       }),
       id: createField({
         value: id ?? ''
@@ -166,27 +162,33 @@ export function createSmartAlertForm(
           }
         }
       }),
-      rule: createRuleForm(rule ?? defaultAlertRule),
-      timeThreshold: createTimeThresholdForm(timeThreshold, granularity, threshold?.type as ThresholdType),
-      hiddenFields: createHiddenFieldsForm(alertConfig),
+      rule: createRuleForm(rules?.[0]?.rule ?? defaultAlertRule),
+      timeThreshold: createTimeThresholdForm(
+        timeThreshold,
+        granularity,
+        rules?.[0]?.thresholds?.WARNING?.type as ThresholdType
+      ),
+      hiddenFields: createHiddenFieldsForm(alertConfig, editMode),
       customPayloadFields: createListFormForCustomPayloads(customPayloadFields ?? [], false),
-      threshold: createThresholdForm(threshold, (rule?.alertType ?? defaultAlertRule.alertType) as ApplicationAlertType)
+      threshold: createThresholdForm(
+        rules?.[0],
+        (rules?.[0].rule.alertType ?? defaultAlertRule.alertType) as ApplicationAlertType,
+        editMode
+      )
     }
   });
-
-  return applyEditMode(form, editMode ?? false);
 }
 
-function getDefaultGranularity(threshold?: ThresholdConfigUnion) {
+function getDefaultGranularity(threshold?: SmartAlertThresholdRuleUnion) {
   return threshold?.type === ADAPTIVE_BASELINE ? defaultAdaptiveBaselineGranularity : defaultGranularity;
 }
 
-function createHiddenFieldsForm({ calculateThresholdOnBackend }: AlertConfigHiddenFields) {
+function createHiddenFieldsForm({ calculateThresholdOnBackend }: AlertConfigHiddenFields, editMode?: boolean) {
   return createMapForm<{}>()
     .put(
       'calculateThresholdOnBackend',
       createField({
-        value: Boolean(calculateThresholdOnBackend)
+        value: editMode ? true : Boolean(calculateThresholdOnBackend)
       })
     )
     .put(

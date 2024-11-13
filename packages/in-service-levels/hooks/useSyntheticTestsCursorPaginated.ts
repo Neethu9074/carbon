@@ -10,6 +10,7 @@ import { useObservable } from '@instana/hooks';
 import { SyntheticTest } from '@instana/types';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
+import { successObservable } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import { FetchedState } from 'in-hooks/utils/types';
 import { getTests } from 'in-synthetics/api';
@@ -29,10 +30,11 @@ interface UseSyntheticTestsCursorPaginatedProps {
   query?: string;
   location?: string;
   retrievalSize?: number;
+  skip?: boolean;
 }
 
 export default function useSyntheticTestsCursorPaginated(
-  { query, location }: UseSyntheticTestsCursorPaginatedProps,
+  { query, location, skip }: UseSyntheticTestsCursorPaginatedProps,
   retrievalSize: number = 10
 ): FetchedState<SyntheticTestsResult> {
   const [{ limit, offset }, setPaginatedCursor] = useState<PaginatedCursorState>({ limit: retrievalSize, offset: 0 });
@@ -42,6 +44,9 @@ export default function useSyntheticTestsCursorPaginated(
 
   const result =
     useObservable(() => {
+      // skip loading anything - e.g. when config dialog is in edit mode
+      if (skip) return successObservable<SyntheticTest[]>([]);
+
       // reset pagination when query or location has changed and return pending
       if (queryRef.current !== query || locationRef.current !== location) {
         queryRef.current = query;

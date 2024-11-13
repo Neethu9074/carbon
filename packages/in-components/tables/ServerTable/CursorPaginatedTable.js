@@ -15,6 +15,7 @@ import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePr
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
 import { carbonTableEnabled } from 'in-services/featureFlags';
+import { pendingResult } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
 export default function CursorPaginatedTable(props) {
@@ -75,6 +76,7 @@ export default function CursorPaginatedTable(props) {
       <Fragment>
         <ServerTablePresenter
           {...props}
+          pendingResult={pendingResult}
           columnDefinitions={visColumns}
           orderBy={orderBy}
           orderDirection={orderDirection}
@@ -94,7 +96,7 @@ export default function CursorPaginatedTable(props) {
           onRowMouseEnter={onRowMouseEnter}
           onRowMouseLeave={onRowMouseLeave}
           useMaxAvailableHeight={false}
-          result={{ data: { items } }}
+          result={!isLoading || items?.length > 0 ? { data: { items } } : undefined}
         />
         {isLoading && <HorizontalIndicator progress={progress} />}
         <TableLoadMoreRow

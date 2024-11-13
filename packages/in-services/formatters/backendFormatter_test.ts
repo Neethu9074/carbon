@@ -53,4 +53,22 @@ describe('in-services/formatters/backendFormatter', () => {
     formatter = getFormatter('PERCENTAGE');
     expect(formatter(0.25)).to.equal('25.00%');
   });
+
+  it('should format micros metrics appropriately', () => {
+    let formatter = getFormatter('MICROS');
+    expect(formatter(1)).to.equal('1µs');
+    expect(formatter(1000)).to.equal('1ms');
+  });
+
+  it('should format nanos metrics appropriately', () => {
+    let formatter = getFormatter('NANOS');
+    expect(formatter(1)).to.equal('1ns');
+    expect(formatter(1000)).to.equal('1µs');
+  });
+
+  it('should format rate metrics appropriately', () => {
+    let formatter = getFormatter('RATE');
+    expect(formatter(1)).to.equal('1.00/s');
+    expect(formatter(1000)).to.equal('1,000.00/s');
+  });
 });

@@ -202,7 +202,7 @@ export function setTimeConfig(location: Location, timeConfig: Partial<TimeConfig
 export function getAdjustedTimeConfigToIncludeTimestamp(
   timeConfig: TimeConfig,
   timestamp: number,
-  granularityProvider: (config: { windowSize: number }) => number,
+  granularityProvider: (config: Pick<TimeConfig, 'windowSize'>) => number,
   // allow to inject 'now' for testing
   nowFunc: () => number = Date.now
 ): TimeConfig {
