@@ -246,6 +246,11 @@ export const automationAdditionalCapabilities: Array<CapabilityType> = [
   ...automationOwnerCapabilities
 ];
 
+export const syntheticCredentialCapabilities: Array<CapabilityType> = [
+  Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
+  Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS
+];
+
 export const unionGlobalCapabilities: Array<CapabilityType> = [
   ...mixedCapabilities,
   ...eventAndAlertCapabilities,
