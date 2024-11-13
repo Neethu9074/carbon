@@ -45,8 +45,6 @@ const colorPalette = [
   chartColors.fiveColorPalette[4]
 ];
 
-const showGuidance = true;
-
 function generateTimeframe(windowSize: number) {
   return {
     windowSize,
@@ -88,48 +86,46 @@ export default function ResourceOptimizationTab({
 
   return (
     <div className={locals.contentContainer}>
-      {showGuidance && (
-        <InfoPanel
-          expanded="showResourceActionInfoPanel"
-          content={{
-            title: t('in-applications:infoBanner.title'),
-            columns: [
-              {
-                title: t('in-applications:infoBanner.tryLabel'),
-                text: t('in-applications:infoBanner.tryText'),
-                link: {
-                  url: 'https://www.ibm.com/account/reg/us-en/signup?formid=urx-52345',
-                  label: t('in-applications:infoBanner.tryButtonLabel')
-                }
-              },
-              {
-                title: t('in-applications:infoBanner.learnLabel'),
-                text: t('in-applications:infoBanner.learnText'),
-                link: {
-                  url: 'https://www.ibm.com/products/instana/automated-resource-optimization',
-                  label: t('in-applications:infoBanner.learnButtonLabel')
-                }
-              },
-              {
-                title: t('in-applications:infoBanner.connectLabel'),
-                text: t('in-applications:infoBanner.connectText'),
-                link: {
-                  url: 'https://www.ibm.com/account/reg/us-en/signup?formid=MAIL-automateinstana',
-                  label: t('in-applications:infoBanner.connectButtonLabel')
-                }
-              },
-              {
-                title: t('in-applications:infoBanner.helpLabel'),
-                text: t('in-applications:infoBanner.helpText'),
-                link: {
-                  url: 'https://your.feedback.ibm.com/jfe/form/SV_eLsdmgUrNwcTrpQ',
-                  label: t('in-applications:infoBanner.helpButtonLabel')
-                }
+      <InfoPanel
+        expanded="showResourceActionInfoPanel"
+        content={{
+          title: t('in-applications:infoBanner.title'),
+          columns: [
+            {
+              title: t('in-applications:infoBanner.tryLabel'),
+              text: t('in-applications:infoBanner.tryText'),
+              link: {
+                url: 'https://www.ibm.com/account/reg/us-en/signup?formid=urx-52345',
+                label: t('in-applications:infoBanner.tryButtonLabel')
               }
-            ]
-          }}
-        />
-      )}
+            },
+            {
+              title: t('in-applications:infoBanner.learnLabel'),
+              text: t('in-applications:infoBanner.learnText'),
+              link: {
+                url: 'https://www.ibm.com/products/instana/automated-resource-optimization',
+                label: t('in-applications:infoBanner.learnButtonLabel')
+              }
+            },
+            {
+              title: t('in-applications:infoBanner.connectLabel'),
+              text: t('in-applications:infoBanner.connectText'),
+              link: {
+                url: 'https://www.ibm.com/account/reg/us-en/signup?formid=MAIL-automateinstana',
+                label: t('in-applications:infoBanner.connectButtonLabel')
+              }
+            },
+            {
+              title: t('in-applications:infoBanner.helpLabel'),
+              text: t('in-applications:infoBanner.helpText'),
+              link: {
+                url: 'https://your.feedback.ibm.com/jfe/form/SV_eLsdmgUrNwcTrpQ',
+                label: t('in-applications:infoBanner.helpButtonLabel')
+              }
+            }
+          ]
+        }}
+      />
       <div className={locals.charts}>
         <div className={locals.categoriesChart}>
           <ResultAwareChart
