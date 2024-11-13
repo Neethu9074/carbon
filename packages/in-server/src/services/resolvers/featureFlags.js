@@ -608,11 +608,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'carbonDescriptionListEnabled',
-    instanaCtlKey: 'feature.carbon.description.list.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'carbonTooltipEnabled',
     instanaCtlKey: 'feature.carbon.tooltip.enabled',
     defaultValue: false
