@@ -143,7 +143,7 @@ const BillingAccounts = function BillingAccounts({ snapshotId, timeConfig }: Top
 
   return (
     <Table
-      cardTitle={t('in-forge:plugins.snowflakeOrganization.dashboard.TopBillingAccounts')}
+      cardTitle={t('in-forge:plugins.snowflakeOrganization.dashboard.topFiveBillingAccounts')}
       withoutPadding
       cols={cols}
       rows={rows}

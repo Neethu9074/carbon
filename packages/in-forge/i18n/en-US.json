@@ -9615,12 +9615,14 @@
         "overallCreditUsage": "Overall credit usage",
         "totalStorageBytes": "Total storage bytes",
         "usageInCurrency": "Usage In Currency",
-        "topFiveBillingAccountsByCreditUsage": "Top 5 Billing Accounts by Credit Usage",
+        "topFiveBillingAccounts": "Top 5 billing accounts",
         "remainingBalanceInCurrency": "Remaining balance in currency",
         "balance": "Balance",
         "accountName": "Account Name",
         "credits": "Credits",
-        "TopBillingAccounts": "Top 5 Billing Accounts"
+        "name": "Name",
+        "region": "Region",
+        "accountsMonitored": "Accounts Monitored by Instana"
       }
     },
     "solr": {

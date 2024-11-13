@@ -14,6 +14,7 @@ import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 //import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import MetricValue from 'in-components/MetricValue';
 import BillingAccounts from 'in-forge/plugins/snowflakeOrganization/Dashboard/BillingAccounts';
+import AccountsTable from 'in-forge/plugins/snowflakeOrganization/Dashboard/AccountsTable';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -28,14 +29,14 @@ export default function SnowflakeOrganizationDashboard({
   timeConfig: TimeConfig;
 }) {
   const snapshotId: string = snapshot.get('id');
-  function CurrencyFromatter(value: number): string {
+  function CurrencyFormatter(value: number): string {
     const data: any = useObservable(
       () => getRawPayloadWithTimestamp(snapshotId, 'organization_usage.remaining_balance.currency', timeConfig),
       [snapshotId, timeConfig]
     );
     if (!data) {
       //console.log('data currency is null');
-      return '232342';
+      return '';
     }
     //console.log('data currency is:' , data);
     const currency: any = (data as SnapshotData).get('raw_payload');
@@ -98,10 +99,11 @@ export default function SnowflakeOrganizationDashboard({
             metrics: ['organization_usage.remaining_balance.capacity_balance'],
             labels: [t('in-forge:plugins.snowflakeOrganization.dashboard.balance')],
             type: 'line',
-            formatter: CurrencyFromatter
+            formatter: CurrencyFormatter
           }}
         />
       </DashboardSection>
+      <AccountsTable snapshotId={snapshotId} timeConfig={timeConfig} />
     </div>
   );
 }
