@@ -48,5 +48,9 @@ export const CustomError = () => {
 };
 
 export const WithSeconds = () => {
-  return <TimePicker onChange={() => {}} value="13:00:00" seconds />;
+  return <TimePicker onChange={() => {}} value="13:00:00" seconds labelText="Enter time with seconds" />;
+};
+
+export const SizeSmall = () => {
+  return <TimePicker onChange={() => {}} value="13:00:00" seconds size="sm" labelText="Enter time with seconds" />;
 };
