@@ -92,7 +92,7 @@ const cols = [
     width: 130,
     typeArgs: {
       getValue(row) {
-        return modes[row.snapshot.getIn(['data', 'mode'])];
+        return row.snapshot.getIn(['data', 'mode']) ? modes[row.snapshot.getIn(['data', 'mode'])] : modes[3];
       }
     }
   },

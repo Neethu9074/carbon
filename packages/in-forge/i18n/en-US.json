@@ -2957,7 +2957,7 @@
     "rfc": "RFC"
   },
   "plugins": {
-    "activedirectory" : {
+    "activedirectory": {
       "ActiveDirectory": "Active Directory"
     },
     "titleARN": "ARN",
@@ -3567,7 +3567,7 @@
       "inputTerminals": "Number of Input-type Terminals",
       "outputTerminals": "Number of Output-type Terminals"
     },
-    "activeDirectory":{
+    "activeDirectory": {
       "computerName": "Host",
       "lightweightDirectoryAccessProtocol": "Lightweight Directory Access Protocol (LDAP)",
       "ldap": {
@@ -9504,16 +9504,15 @@
         "statementId": "Statement ID",
         "statementString": "Statement String",
         "planId": "Plan ID",
-        "totalReadSize" : "Read Size",
-        "totalWriteSize" : "Write Size",
-        "totalFailedReads" : "Failed Reads",
-        "totalFailedWrites" : "Failed Writes",
-        "totalReadTime" : "Read Time",
-        "totalWriteTime" : "Write Time",
-        "fileSystemPath" : "File System Path",
-        "fileType" : "File Type",
-        "ioStats" : "I/O Statistics"
-
+        "totalReadSize": "Read Size",
+        "totalWriteSize": "Write Size",
+        "totalFailedReads": "Failed Reads",
+        "totalFailedWrites": "Failed Writes",
+        "totalReadTime": "Read Time",
+        "totalWriteTime": "Write Time",
+        "fileSystemPath": "File System Path",
+        "fileType": "File Type",
+        "ioStats": "I/O Statistics"
       },
       "systemId": "System ID",
       "databaseName": "Database Name",
@@ -12477,7 +12476,6 @@
       "disabled": "Disabled",
       "infrastructure": "Infrastructure",
       "apm": "APM",
-      "k8s": "Kubernetes",
       "unknown": "Unknown",
       "theLookupOfWhichProcessIsSendingTracesToThisAgentUsingTraceEndpoints": "The lookup of which process is sending traces to this agent using trace endpoints like OpenTelemetry, Jaeger, Zipkin or Web Trace SDK cannot be performed because the following utilities are missing: <strong><code>{{missing}}</code></strong>. Please refer to your Linux distribution docs on how to install these utilities.",
       "theInstanaPcpProcessSeemsNotToBeRunningOnThisHostWhichPreventsTheHostAgentFromTracingNetApplications": "The InstanaPCP process seems not to be running on this host, which prevents the host agent from tracing .NET applications.",
