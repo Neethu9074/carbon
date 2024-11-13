@@ -9,7 +9,7 @@ import {
 } from 'in-service-levels/components/SloDashboard/components/chart/renderer/missingDataIndicator';
 import {
   drawLines,
-  fillTopBackground,
+  fillBackground,
   getLineWidth,
   Vertex
 } from 'in-service-levels/components/SloDashboard/components/chart/renderer/utils';
@@ -72,7 +72,7 @@ function createStairwayRenderer({
       config.backBufferCtx.stroke();
 
       if (metricConfiguration?.[metricId ?? 'default']?.fillTopBackground) {
-        fillTopBackground(lineVertices, config, color, markerPaneHeight);
+        fillBackground(lineVertices, config, color, markerPaneHeight);
       }
 
       if (timeWindowIncludesFirstCollectionTimestamp(firstCollectedMetricTimestamp, config.timeConfig)) {

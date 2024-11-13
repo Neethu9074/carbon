@@ -12,13 +12,16 @@ import { RenderWithMissingDataIndicatorProps } from 'in-service-levels/component
 import { lineWithThreshold } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThreshold';
 import { RenderProps, Renderer } from 'in-components/Chart/renderer/types';
 
+type RenderWithThresholdAndMissingDataIndicatorProps = RenderWithMissingDataIndicatorProps & { isGreaterOp?: boolean };
+
 function createLineWithThresholdAndMissingDataIndicatorRenderer({
-  firstCollectedMetricTimestamp = 0
-}: RenderWithMissingDataIndicatorProps): Renderer {
+  firstCollectedMetricTimestamp = 0,
+  isGreaterOp = true
+}: RenderWithThresholdAndMissingDataIndicatorProps): Renderer {
   return {
     id: 'lineWithThresholdAndMissingDataIndicator',
     render: ({ color, scale, config, dataSeries, metricId }: RenderProps) => {
-      lineWithThreshold.render({ color, scale, config, dataSeries, metricId });
+      lineWithThreshold.render({ color, scale, config, dataSeries, metricId, isGreaterOp });
 
       if (timeWindowIncludesFirstCollectionTimestamp(firstCollectedMetricTimestamp, config.timeConfig)) {
         renderMissingDataIndicator(config, firstCollectedMetricTimestamp);
@@ -26,7 +29,9 @@ function createLineWithThresholdAndMissingDataIndicatorRenderer({
     }
   };
 }
-export function useLineWithThresholdAndMissingDataIndicatorRenderer(props: RenderWithMissingDataIndicatorProps) {
+export function useLineWithThresholdAndMissingDataIndicatorRenderer(
+  props: RenderWithThresholdAndMissingDataIndicatorProps
+) {
   return createLineWithThresholdAndMissingDataIndicatorRenderer(props);
 }
 
