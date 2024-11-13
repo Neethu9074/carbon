@@ -3,12 +3,12 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { Fragment, useState } from 'react';
 import { createMapForm } from 'formalistic';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { fromJS } from 'immutable';
 
-import { Button, Card, IconButton, Link, Message, Stack, Typography } from '@instana/components';
+import { Button, Collapsible, Link, Message, Stack, Typography } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { Pill } from '@instana/components';
 
@@ -48,8 +48,6 @@ function AlertChannelModificationForm(props) {
     listPath,
     setMinHeight = false
   } = props;
-
-  const [expandedCard, setExpandedCard] = useState(getDefaultStateOfAdvancedSection(entity, form));
 
   if (!entity || !form) {
     return <LoadingIndicator />;
@@ -138,24 +136,20 @@ function AlertChannelModificationForm(props) {
           />
         )}
 
-        {AdvancedFormSettings && <SectionLine />}
-
-        {AdvancedFormSettings && (
-          <Card
-            leftHeaderContent={<Typography variant="heading-200">{'Advanced'}</Typography>}
-            headerClassName={locals.advancedCardHeader}
-            onHeaderBackgroundClicked={() => setExpandedCard(!expandedCard)}
-            rightHeaderContent={
-              <IconButton
-                color="black"
-                type={expandedCard ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
-                size="compact"
-              />
-            }
-          >
-            {expandedCard && <AdvancedFormSettings {...props} />}
-          </Card>
-        )}
+        {
+          <Collapsible initiallyOpen={getDefaultStateOfAdvancedSection(entity, form)}>
+            <Collapsible.Header style={{ paddingInlineStart: 0 }}>
+              <Typography variant="heading-02" noMargin>
+                {t('in-settings:tabs.advanced')}
+              </Typography>
+            </Collapsible.Header>
+            <Collapsible.Content>
+              <div className={locals.advancedFormContainer}>
+                <AdvancedFormSettings {...props} />
+              </div>
+            </Collapsible.Content>
+          </Collapsible>
+        }
       </SettingsDetailPage>
       {renderCustomFormActions?.({ form, loading }) ?? (
         <SubmissionButton form={form} message={message} loading={loading} isCreate={isCreate} listPath={listPath} />

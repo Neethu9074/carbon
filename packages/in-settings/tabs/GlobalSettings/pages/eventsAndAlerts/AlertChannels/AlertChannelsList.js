@@ -89,6 +89,7 @@ export function columnDefinitions(hasRowNavigation) {
       id: 'name',
       label: t('in-settings:tabs.name'),
       width: 50,
+      ellipsis: true,
       getContent(entity) {
         return (
           <Tooltip content={entity.name} align="auto" delay={500} overwriteBlock overflowEllipsis>
