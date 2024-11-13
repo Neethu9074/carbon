@@ -94,7 +94,6 @@ export const hideAppDataLegacyEventsEnabled = isFeatureFlagEnabled('hideAppDataL
 export const perEndpointAdaptiveBaselineEnabled = isFeatureFlagEnabled('perEndpointAdaptiveBaselineEnabled', false);
 
 export const kubernetesExploreEnabled = isFeatureFlagEnabled('kubernetesExploreEnabled', false);
-export const kubernetesTeamEnabled = isFeatureFlagEnabled('kubernetesTeamEnabled', false);
 export const kubernetesPrometheusMetricsEnabled = isFeatureFlagEnabled('kubernetesPrometheusMetricsEnabled', false);
 
 export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', true);

@@ -5,22 +5,30 @@
 
 import React from 'react';
 
+import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
+
+import {
+  useKubernetesClustersConfigs,
+  useKubernetesNamespacesConfigs
+} from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/Platforms/hooks';
 import {
   clusterListFullyQualified,
   namespaceListFullyQualified,
-  exploreFullyQualified,
-  k8sTeamFullyQualified
+  exploreFullyQualified
 } from 'in-kubernetes/navigation/paths';
-import { kubernetesExploreEnabled, kubernetesTeamEnabled, playwithEnabled } from 'in-services/featureFlags';
-import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
+import { kubernetesExploreEnabled, playwithEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { t } from 'in-i18n';
 
 export default function KubernetesViewSwitcher() {
   const { matchLocation, createHrefToPath } = useNavigation();
+  const [clusters] = useKubernetesClustersConfigs();
+  const [namespaces] = useKubernetesNamespacesConfigs();
+  const clusterLabel = `${t('in-kubernetes:clusters')} (${clusters?.length ?? 0})`;
+  const namespacesLabel = `${t('in-kubernetes:namespaces')} (${namespaces?.length ?? 0})`;
 
   return (
     <>
@@ -34,13 +42,13 @@ export default function KubernetesViewSwitcher() {
           <SecondLevelNavigationItem
             href={createHrefToPath(clusterListFullyQualified)}
             icon="lib_kubernetes_cluster"
-            label={t('in-kubernetes:clusters')}
+            label={clusterLabel}
             isActive={matchLocation(clusterListFullyQualified)}
           />
           <SecondLevelNavigationItem
             href={createHrefToPath(namespaceListFullyQualified)}
             icon="lib_kubernetes_namespace"
-            label={t('in-kubernetes:namespaces')}
+            label={namespacesLabel}
             isActive={matchLocation(namespaceListFullyQualified)}
           />
           {kubernetesExploreEnabled && !playwithEnabled && (
@@ -49,14 +57,6 @@ export default function KubernetesViewSwitcher() {
               icon="lib_kubernetes"
               label={t('in-kubernetes:explore')}
               isActive={matchLocation(exploreFullyQualified)}
-            />
-          )}
-          {kubernetesTeamEnabled && !playwithEnabled && (
-            <SecondLevelNavigationItem
-              href={createHrefToPath(k8sTeamFullyQualified)}
-              icon="lib_kubernetes"
-              label={t('in-kubernetes:k8sTeam')}
-              isActive={matchLocation(k8sTeamFullyQualified)}
             />
           )}
         </SecondLevelNavigation>

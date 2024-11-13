@@ -80,7 +80,6 @@ module.exports = {
   smartAlertsLogsBlueprintEnabled: true,
   syntheticsEnabled: true,
   kubernetesExploreEnabled: true,
-  kubernetesTeamEnabled: true,
   kubernetesPrometheusMetricsEnabled: true,
   configMigrationFeatureEnabled: true,
   actionAutomationEnabled: true,

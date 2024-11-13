@@ -181,11 +181,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'kubernetesTeamEnabled',
-    instanaCtlKey: 'feature.kubernetes.explore.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'kubernetesPrometheusMetricsEnabled',
     instanaCtlKey: 'feature.kubernetes.prometheus.metrics.enabled',
     defaultValue: false
