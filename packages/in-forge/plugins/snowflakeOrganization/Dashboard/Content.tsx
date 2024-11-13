@@ -28,6 +28,7 @@ export default function SnowflakeOrganizationDashboard({
   timeConfig: TimeConfig;
 }) {
   const snapshotId: string = snapshot.get('id');
+
   function CurrencyFormatter(value: number): string {
     const data: any = useObservable(
       () => getRawPayloadWithTimestamp(snapshotId, 'organization_usage.remaining_balance.currency', timeConfig),
@@ -40,6 +41,7 @@ export default function SnowflakeOrganizationDashboard({
 
     return value.toString() + ' ' + currency;
   }
+
   return (
     <div>
       <KpiSection>
