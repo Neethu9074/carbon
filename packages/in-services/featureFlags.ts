@@ -169,6 +169,9 @@ export const infraPredictiveDetectionEnabled = isFeatureFlagEnabled('infraPredic
 export const infraSmartAlertsPredictionsEnabled = isFeatureFlagEnabled('infraSmartAlertsPredictionsEnabled');
 
 export const alertChannelPerSeverityInfraSaEnabled = isFeatureFlagEnabled('alertChannelPerSeverityInfraSaEnabled');
+export const alertChannelPerSeverityApplicationSaEnabled = isFeatureFlagEnabled(
+  'alertChannelPerSeverityApplicationSaEnabled'
+);
 
 export const regexMetricSelectionEnabled = isFeatureFlagEnabled('regexMetricSelectionEnabled');
 

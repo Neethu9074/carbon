@@ -836,5 +836,10 @@ module.exports = exports = [
     uiClientKey: 'alertChannelPerSeverityInfraSaEnabled',
     instanaCtlKey: 'feature.alert.channel.per.severity.infra.sa.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'alertChannelPerSeverityApplicationSaEnabled',
+    instanaCtlKey: 'feature.alert.channel.per.severity.application.sa.enabled',
+    defaultValue: false
   }
 ];
