@@ -115,15 +115,7 @@ describe('ChatBubble', () => {
     expect(wrapper.find(`div.${locals.myBubble}`)).toHaveLength(0);
     expect(wrapper.find(EditDeleteOverflowMenu)).toHaveLength(0);
     expect(wrapper.find(`div.${locals.aiGenBubble}`)).toHaveLength(1);
-    expect(wrapper.find(`div.${locals.aiGenBubble}`).text()).toEqual(
-      'Summary of incident:<SummaryEntry />Summary of notes:<NotesEntry />Actions taken for similar incidents:<ActionEntry />'
-    );
-    expect(wrapper.find(`div.${locals.bubbleContentsHeader}`)).toHaveLength(3);
-    expect(wrapper.find(`div.${locals.bubbleContentsHeader}`).at(0).text()).toEqual('Summary of incident:');
-    expect(wrapper.find(`div.${locals.bubbleContentsHeader}`).at(1).text()).toEqual('Summary of notes:');
-    expect(wrapper.find(`div.${locals.bubbleContentsHeader}`).at(2).text()).toEqual(
-      'Actions taken for similar incidents:'
-    );
+    expect(wrapper.find(`div.${locals.aiGenBubble}`).text()).toEqual('<AISummary />');
   });
 
   it('renders the text in a div with the correct class name for external_field_change', () => {

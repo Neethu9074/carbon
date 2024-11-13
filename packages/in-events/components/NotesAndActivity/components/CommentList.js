@@ -4,33 +4,16 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
 
-import {
-  SvgIcon,
-  CarbonButton,
-  CarbonOverflowMenu,
-  CarbonOverflowMenuItem,
-  CarbonIconButton,
-  CarbonInlineLoading
-} from '@instana/components';
+import { SvgIcon, CarbonOverflowMenu, CarbonOverflowMenuItem } from '@instana/components';
 
-import {
-  noteNameAndTimeFormat,
-  createDataString,
-  convertSummaryToString,
-  convertActionsToString,
-  convertNotesSummaryToString,
-  handleTracking
-} from './utils';
-import { EVENT_AI_SHOW_MORE, EVENT_AI_SHARE_OPENED } from 'in-services/tracking/eventNames';
+import { AISummary } from 'in-events/components/NotesAndActivity/components/NoteTypes/AISummary';
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import { TYPE_NOTE, TYPE_EXT_NOTE, TYPE_EXT_F_CHANGE, TYPE_AI_SUMMARY } from '../utils';
-import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
-import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { noteNameAndTimeFormat, createDataString } from './utils';
 import { dateFormat, timeFormat } from 'in-services/formatters/date';
-import useAction from 'in-automation/ActionCatalog/useAction';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -161,75 +144,12 @@ export function ChatBubble({
   setSummaryData,
   event
 }) {
-  // Action history test data
-  const actionHistory = {
-    actionHistory: [
-      // {
-      //   name: 'Kubernetes Cron Job Status',
-      //   type: 'ANSIBLE'
-      // },
-      // {
-      //   name: 'Run status CPU clear',
-      //   type: 'HTTP'
-      // },
-      // {
-      //   name: 'Kubernetes Cron Job Status2',
-      //   type: 'ANSIBLE'
-      // },
-      // {
-      //   name: 'Run status CPU clear2',
-      //   type: 'HTTP'
-      // },
-      // {
-      //   name: 'Kubernetes Cron Job Status3',
-      //   type: 'ANSIBLE'
-      // },
-      // {
-      //   name: 'Run status CPU clear3',
-      //   type: 'HTTP'
-      // }
-    ]
-  };
-  // Test data for notes Summary
-  const notesSummaryData = [
-    // '1. Restarted the pod as a temporary measure.',
-    // '2. This incident has been previously reported and is being handled as a duplicate.',
-    // "3. No action required from the user's side.",
-    // '4. The previous incident was likely due to high error rates in the GET endpoint.',
-    // '5. The team needs to investigate the root cause of the persistent failure of the GET endpoint.',
-    // '6. Josh added this to test the show more button.'
-  ];
-
-  // Show alls that handle showing more incidents / Notes / Actions
-  const [showAllIncidents, setShowAllIncidents] = useState(false);
-  const [showAllNotes, setShowAllNotes] = useState(false);
-  const [showAllActions, setShowAllActions] = useState(false);
-
   // Currently we have 4 types of bubbles
   const note = type === TYPE_NOTE;
   const extNote = type === TYPE_EXT_NOTE;
   const extChange = type === TYPE_EXT_F_CHANGE;
   const updatedBy = (extChange && noteObj?.metadata?.get('updatedBy')) || '';
   const aiSum = type === TYPE_AI_SUMMARY;
-
-  // Little Slice function for grabbing the first 5 entries for incidents / notes / actions
-  const subArray = (arr, i = 0, n = 1) => arr?.slice(i, n);
-
-  // Calculate the first 5 and last values for incidents / notes / actions
-  // These are used to determine if their show more buttons should be visible
-  const sumData = noteObj?.data || [];
-  const firstFive = aiSum && subArray(sumData, 0, 5);
-  const last = aiSum && subArray(sumData, 5, sumData.size);
-  const firstFiveNotesSum = aiSum && subArray(notesSummaryData, 0, 5);
-  const lastNotesSum = aiSum && subArray(notesSummaryData, 5, notesSummaryData.length);
-  const firstFiveActionSum = aiSum && subArray(actionHistory.actionHistory, 0, 5);
-  const lastActionSum = aiSum && subArray(actionHistory.actionHistory, 5, actionHistory.actionHistory.length);
-  // The full summarization that includes incident, notes, and action summary
-  // Used for copy and share button
-  const incidentSummary = aiSum && convertSummaryToString(sumData);
-  const notesSummary = aiSum && convertNotesSummaryToString(notesSummaryData);
-  const actionHistorySummary = aiSum && convertActionsToString(actionHistory.actionHistory);
-  const fullSummaryText = aiSum && `${incidentSummary}${notesSummary}\n${actionHistorySummary}`;
 
   return (
     <>
@@ -264,83 +184,13 @@ export function ChatBubble({
         )}
         {/* AI Summarization */}
         {aiSum && (
-          <>
-            <div className={locals.bubbleContentsHeader}>{t('in-events:notes.sumGenerated')}</div>
-
-            {/* Summarization of incident */}
-            <SummaryEntry summaryList={firstFive} />
-            {showAllIncidents && <SummaryEntry summaryList={last} />}
-            {last.size > 0 && (
-              <ShowAllButton
-                setShowAllType={setShowAllIncidents}
-                showAllValue={showAllIncidents}
-                trackingType={EVENT_AI_SHOW_MORE}
-                noteId={noteObj?.id}
-              />
-            )}
-
-            {/* Summarization of notes */}
-            <div style={{ paddingTop: '1rem' }}>
-              <div style={{ display: 'flex', gap: '.5rem' }} className={locals.bubbleContentsHeader}>
-                {t('in-events:notes.sumNotes')}
-              </div>
-              <NotesEntry notesList={firstFiveNotesSum} />
-              {showAllNotes && <NotesEntry notesList={lastNotesSum} />}
-              {lastNotesSum.length > 0 && (
-                <ShowAllButton
-                  setShowAllType={setShowAllNotes}
-                  showAllValue={showAllNotes}
-                  trackingType={EVENT_AI_SHOW_MORE}
-                  noteId={noteObj?.id}
-                />
-              )}
-            </div>
-
-            {/* Summarization of Actions to take */}
-            <div style={{ paddingTop: '1rem' }}>
-              <div style={{ display: 'flex', gap: '.5rem' }} className={locals.bubbleContentsHeader}>
-                {t('in-events:notes.sumActions')}
-              </div>
-              <ActionEntry actionList={firstFiveActionSum} event={event} />
-              {showAllActions && <ActionEntry actionList={lastActionSum} event={event} />}
-              {lastActionSum.length > 0 && (
-                <ShowAllButton
-                  setShowAllType={setShowAllActions}
-                  showAllValue={showAllActions}
-                  trackingType={EVENT_AI_SHOW_MORE}
-                  noteId={noteObj?.id}
-                />
-              )}
-            </div>
-
-            <div style={{ display: 'flex', paddingTop: '.5rem' }}>
-              {/* Share summarization button */}
-              <CarbonIconButton
-                kind={'ghost'}
-                size={'sm'}
-                label={t('in-events:notes.share')}
-                onClick={() => {
-                  setNeedOverlay(true);
-                  setShareOpen(true);
-                  setSummaryData(fullSummaryText);
-                  handleTracking(noteObj?.id, EVENT_AI_SHARE_OPENED);
-                }}
-              >
-                <SvgIcon type="lib_actions_share" size="xs" />
-              </CarbonIconButton>
-              {/* Copy summarization button */}
-              <CarbonIconButton
-                kind={'ghost'}
-                size={'sm'}
-                label={t('in-events:notes.copy')}
-                onClick={() => {
-                  copyToClipboard(fullSummaryText);
-                }}
-              >
-                <SvgIcon type="lib_actions_copy" size="xs" />
-              </CarbonIconButton>
-            </div>
-          </>
+          <AISummary
+            noteObj={noteObj}
+            setNeedOverlay={setNeedOverlay}
+            setShareOpen={setShareOpen}
+            setSummaryData={setSummaryData}
+            event={event}
+          />
         )}
         {/* External Note */}
         {extNote && (
@@ -389,146 +239,4 @@ export function EditDeleteOverflowMenu({ setNote, setEditNoteId, setNeedOverlay,
       </CarbonOverflowMenu>
     </div>
   );
-}
-
-// Function to reduce duplicate code for looping through summary bullet points
-function SummaryEntry({ summaryList }) {
-  return (
-    <>
-      {summaryList.map(entity => {
-        const props = Object.fromEntries(entity);
-        const entityLabel = (props.entityLabel && props.entityLabel !== '' && props.entityLabel) || props.entityName;
-        const entitySummary = `${props.entitySummary}\n`;
-        return (
-          <div key={entityLabel} className={locals.summaryList}>
-            {`-`}
-            <div>
-              <div style={{ fontWeight: '700' }}>{entityLabel}</div>
-              {entitySummary}
-            </div>
-          </div>
-        );
-      })}
-    </>
-  );
-}
-
-// Function to reduce duplicate code for looping through notes summary
-function NotesEntry({ notesList }) {
-  const noNotes = notesList.length == 0;
-  return (
-    <>
-      {noNotes && t('in-events:notes.noSumNotes')}
-      {notesList.map(entity => {
-        return (
-          <div key={entity} className={locals.summaryList}>
-            {`-`}
-            <div>{entity}</div>
-          </div>
-        );
-      })}
-    </>
-  );
-}
-
-// Function to reduce duplicate code for looping through action history bullet points
-function ActionEntry({ actionList, event }) {
-  const actionIDtesting = '64a495b6-8680-4049-89c2-1aea9ed3c180';
-  // const actionIDtesting = 'badid';
-  const noActions = actionList.length == 0;
-  return (
-    <>
-      {noActions && t('in-events:notes.noSumActions')}
-      {actionList.map(entity => {
-        return (
-          <div key={entity.name} className={locals.summaryList}>
-            {`-`}
-            <div>
-              <div style={{ fontWeight: '700' }}>{`${entity.name}`}</div>
-              {`type: ${entity.type}`}
-            </div>
-            <ActionHistoryButton actionId={actionIDtesting} event={event} />
-          </div>
-        );
-      })}
-    </>
-  );
-}
-
-// Action History Button
-// This function will make an API call when actionID is passed in
-// When its loading a spinner will be displayed, otherwise button
-// can be clicked
-function ActionHistoryButton({ actionId, event }) {
-  // const testAction = {
-  //   'createdAt': 1710635670.462481,
-  //   // 'id': "33038086-1b14-3a25-8588-0f9e48943f17",
-  //   'id': "64a495b6-8680-4049-89c2-1aea9ed3c180",
-  //   'modifiedAt': 1730981279.138593,
-  //   'name': "Get iNodes Usage Info on host",
-  //   'type': "ANSIBLE",
-  //   'fields': [
-  //     {'name': 'playbookId','description': 'The playbook ID', 'encoding': 'ascii', 'value': '45', 'secured': false},
-  //     {'name': 'playbookFileName', 'description': 'The playbook filename', 'encoding': 'ascii', 'value': 'ansible/host/hostiNodesDebug.yaml', 'secured': false},
-  //     {'name': 'ansibleUrl', 'description': 'The ansible url', 'encoding': 'ascii', 'value': 'https://9.66.244.190', 'secured': false},
-  //     {'name': 'ansibleUrl', 'description': 'The ansible url', 'encoding': 'ascii', 'value': 'https://9.66.244.190', 'secured': false}
-  //   ],
-  //   'metadata': {'readOnly': false, 'builtIn': false, 'sensorImported': true, 'aiOriginated': false, 'ai': null}
-  // }
-  // API call to get the action object which contains the field params
-  // which is needed to pass to the RunActionDialog
-  const actionResult = useAction(actionId, false);
-  const isLoading = actionResult && actionResult?.progress?.loading;
-  const hasErrors = actionResult && actionResult?.errors.length > 0;
-  return (
-    <>
-      {isLoading && <CarbonInlineLoading />}
-      {hasErrors && <CarbonInlineLoading status="error" />}
-      {!isLoading && !hasErrors && (
-        <CarbonIconButton
-          kind={'ghost'}
-          size={'sm'}
-          align={'left'}
-          label={t('in-automation:ActionCatalog.run')}
-          onClick={() => {
-            handleRunActionClick(actionResult, event);
-          }}
-        >
-          <SvgIcon type="lib_actions_play" size="xs" />
-        </CarbonIconButton>
-      )}
-    </>
-  );
-}
-
-function ShowAllButton({ setShowAllType, showAllValue, trackingType, noteId }) {
-  return (
-    <CarbonButton
-      size="sm"
-      onClick={() => {
-        handleTracking(noteId, trackingType);
-        setShowAllType(!showAllValue);
-      }}
-      kind="ghost"
-    >
-      {!showAllValue ? t('in-events:notes.showAll') : t('in-events:notes.collapse')}
-    </CarbonButton>
-  );
-}
-
-function handleRunActionClick(action, event) {
-  if (action.data && action.progress.loading == false) {
-    // handleTracking(incidentId, EVENT_AI_SHARE_SUBMIT);
-    addActiveDialog(
-      <RunActionDialog
-        action={action.data}
-        /*executePolicy={policy}*/ volatileId={{}}
-        event={Object.fromEntries(event)}
-      />
-    );
-  }
-}
-
-function copyToClipboard(str) {
-  navigator.clipboard.writeText(str);
 }

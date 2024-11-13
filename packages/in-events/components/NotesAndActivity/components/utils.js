@@ -107,47 +107,6 @@ function sendUpdateDeleteNote(note) {
   annotateEvent(note);
 }
 
-// And converting it to a string
-export function convertSummaryToString(data) {
-  var stringSummary = `${t('in-events:notes.summaryAIGen')}\n\n${t('in-events:notes.summaryGenerated')}\n\n`;
-  data?.map(entry => {
-    const props = Object.fromEntries(entry);
-    const entityLabel = (props.entityLabel && props.entityLabel !== '' && props.entityLabel) || props.entityName;
-    const entitySummary = `${props.entitySummary}\n`;
-    stringSummary += `${entityLabel}\n`;
-    stringSummary += `${entitySummary}\n`;
-  });
-
-  return stringSummary;
-}
-
-// Taking the in the response of the notes summary and converting it to a string
-export function convertNotesSummaryToString(data) {
-  var stringSummary = `${t('in-events:notes.sumNotes')}\n\n`;
-  if (data.length == 0) {
-    stringSummary += `${t('in-events:notes.noSumNotes')}\n`;
-  }
-  data?.map(entry => {
-    stringSummary += `${entry}\n`;
-  });
-
-  return stringSummary;
-}
-
-// Taking the in the response of the actions and converting it to a string
-export function convertActionsToString(data) {
-  var stringSummary = `${t('in-events:notes.sumActions')}\n\n`;
-  if (data.length == 0) {
-    stringSummary += `${t('in-events:notes.noSumActions')}\n`;
-  }
-  data?.map(entry => {
-    stringSummary += `${entry.name}\n`;
-    stringSummary += `type: ${entry.type}\n`;
-  });
-
-  return stringSummary;
-}
-
 // Check to make sure the recipients are valid
 // Expects a string split by commas
 export function validRecipients(recipients) {
