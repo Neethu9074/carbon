@@ -11,13 +11,9 @@ import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
-//import { millis } from 'in-services/formatters/number';
-import Table from 'in-sdk/components/dashboard/Table';
-// import Code from 'in-components/Code';
-import { t } from 'in-i18n';
 import { number } from 'in-services/formatters/number';
-
-//import { number } from 'prop-types';
+import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 interface TopBillingAccountsRow {
   key: string;
@@ -40,61 +36,6 @@ const cols = [
       }
     }
   },
-  // {
-  //   title: t('in-forge:plugins.snowflake.dashboard.execTime'),
-  //   type: 'metric',
-  //   typeArgs: {
-  //     getValue(row: TopBillingAccountsRow) {
-  //       return row.accounts.get('credits');
-  //     },
-  //     getContent: number.compact
-  //   }
-  // }
-  // {
-  //   title: t('in-forge:plugins.snowflake.dashboard.execTime'),
-  //   type: 'metric',
-  //   typeArgs: {
-  //     getSnapshotId(row) {
-  //       return row.snapshotId;
-  //     },
-  //     getMetricName(row) {
-  //       return 'queues.' + row.key + '.messagesAdded';
-  //     },
-  //     getContent: number.compact,
-  //     getTimeWindowAggregation() {
-  //       return 'mean';
-  //     }
-  //   }
-  // }
-  // {
-  //   title: t('in-forge:plugins.snowflake.dashboard.execTime'),
-  //   type: 'number',
-  //   typeArgs: {
-  //     getValue(row: TopBillingAccountsRow) {
-  //       return row.accounts.get('credits');
-  //     },
-  //     getContent: number
-  //   }
-  // }
-  // {
-  //   title: t('in-forge:plugins.azureDatabricks.labelTotalSchemas'),
-  //   type: 'metric',
-  //   typeArgs: {
-  //     getSnapshotId({ snapshotId }: TopBillingAccountsRow) {
-  //       return snapshotId;
-  //     },
-  //     getMetricName() {
-  //       return 'credits';
-  //     },
-  //     // getValue(row: TopBillingAccountsRow) {
-  //     //   return row.accounts.get('credits');
-  //     // },
-  //     getContent: number.compact,
-  //     getTimeWindowAggregation() {
-  //       return 'mean';
-  //     }
-  //   }
-  // },
   {
     title: t('in-forge:plugins.snowflakeOrganization.dashboard.credits'),
     type: 'number',
@@ -105,15 +46,6 @@ const cols = [
       getContent: number.detailed
     }
   }
-  // {
-  //   title: t('in-forge:plugins.snowflake.dashboard.warehouseUsed'),
-  //   type: 'string',
-  //   typeArgs: {
-  //     getValue(row: TopBillingAccountsRow) {
-  //       return row.accounts.get('query_warehouse_used');
-  //     }
-  //   }
-  // }
 ];
 
 const BillingAccounts = function BillingAccounts({ snapshotId, timeConfig }: TopBillingAccountsProps) {
@@ -121,15 +53,12 @@ const BillingAccounts = function BillingAccounts({ snapshotId, timeConfig }: Top
     () => getRawPayloadWithTimestamp(snapshotId, 'organization_usage.top_billing_accounts', timeConfig),
     [snapshotId, timeConfig]
   );
-  //console.log('data is:' , data);
   if (!data) {
-    //console.log('data is null');
     return null;
   }
-  //console.log('random:',getRawPayloadWithTimestamp(snapshotId, 'random', timeConfig))
 
   const TopBillingAccounts: any = (data as SnapshotData).get('raw_payload');
-  //console.log('TopBillingAccounts is' , TopBillingAccounts);
+
   const rows: TopBillingAccountsRow[] = TopBillingAccounts.toArray().map((accounts: SnapshotData, index: number) => {
     return {
       key: String(index),
@@ -147,7 +76,6 @@ const BillingAccounts = function BillingAccounts({ snapshotId, timeConfig }: Top
       withoutPadding
       cols={cols}
       rows={rows}
-      //maxItemsPerPage={5}
       initialSortColumn={1}
       initialSortDirection="desc"
     />

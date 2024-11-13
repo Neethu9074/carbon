@@ -11,14 +11,13 @@ import { TimeConfig } from '@instana/types';
 
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
-//import { SnapshotData } from 'in-stores/snapshot/snapshot';
-import MetricValue from 'in-components/MetricValue';
 import BillingAccounts from 'in-forge/plugins/snowflakeOrganization/Dashboard/BillingAccounts';
 import AccountsTable from 'in-forge/plugins/snowflakeOrganization/Dashboard/AccountsTable';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { bytes, number } from 'in-services/formatters/number';
+import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 
 export default function SnowflakeOrganizationDashboard({
@@ -35,18 +34,10 @@ export default function SnowflakeOrganizationDashboard({
       [snapshotId, timeConfig]
     );
     if (!data) {
-      //console.log('data currency is null');
       return '';
     }
-    //console.log('data currency is:' , data);
     const currency: any = (data as SnapshotData).get('raw_payload');
 
-    // let currency: string = data.get('organization_usage.remaining_balance.currency');
-
-    //console.log("currency: ",currency);
-    // if(currency ===null){
-    //   currency = "";
-    // }
     return value.toString() + ' ' + currency;
   }
   return (
@@ -74,22 +65,6 @@ export default function SnowflakeOrganizationDashboard({
           />
         </KpiKeyValue>
       </KpiSection>
-      {/* <DashboardSection title={t('in-forge:plugins.snowflakeOrganization.dashboard.topFiveBillingAccountsByCreditUsage')}>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            metrics: ['txnBeginCount', 'txnCommitCount', 'txnRollbackCount'],
-            labels: [
-              t('in-forge:plugins.tibcoASDataGrid.txnBeginCount'),
-              t('in-forge:plugins.tibcoASDataGrid.txnCommitCount'),
-              t('in-forge:plugins.tibcoASDataGrid.txnRollbackCount')
-            ],
-            type: 'line',
-            formatter: number.compact
-          }}
-        />
-      </DashboardSection> */}
       <BillingAccounts snapshotId={snapshotId} timeConfig={timeConfig} />
       <DashboardSection title={t('in-forge:plugins.snowflakeOrganization.dashboard.remainingBalanceInCurrency')}>
         <Chart

@@ -4,17 +4,13 @@
  * Copyright IBM Corp. 2024
  */
 
-//import agentMonitoringIssueDefinitions from 'in-forge/plugins/snowflake/agentMonitoringIssueDefinitions';
+import kpiDefinitions from 'in-forge/plugins/snowflakeOrganization/kpiDefinitions';
 //@ts-expect-error
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-//import metricDefinitions from 'in-forge/plugins/snowflakeCluster/metricDefinitions';
-import kpiDefinitions from 'in-forge/plugins/snowflakeOrganization/kpiDefinitions';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.snowflakeOrganization,
   kpiDefinitions,
   getIconType: () => 'snowflake'
-  //metricDefinitions,
-  //agentMonitoringIssueDefinitions
 });
