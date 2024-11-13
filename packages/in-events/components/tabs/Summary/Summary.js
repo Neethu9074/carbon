@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import { isEmpty } from 'lodash';
 import React from 'react';
 
+import { Button, Card, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Card } from '@instana/components';
 
 import {
   getSnapshotId,
@@ -62,6 +63,8 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { getEventUrl } from 'in-events/components/legacy/EventListItem';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
@@ -162,7 +165,6 @@ function EventContent({ event, latestSnapshot, reload }) {
   const hasEventSpec = event.getIn(['metadata', 'eventSpecificationId'], '') !== '';
   const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
 
-  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
   const pillContent = getEventStateBadge(event);
 
   return (
@@ -195,36 +197,7 @@ function EventContent({ event, latestSnapshot, reload }) {
             ) : (
               <ProblemDescription fixSuggestion={fixSuggestion} />
             )}
-            {canCloseManually && hasManualCloseFields(event) ? (
-              <div>
-                <ManualCloseDescription event={event} />
-                <DescriptionButtons>
-                  <ManualCloseIssueButton
-                    event={event}
-                    reload={reload}
-                    iconComponent={
-                      <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
-                    }
-                  />
-                  <EventSpecificationLink event={event.toJS()} />
-                  <AnalyzeIssueCallsButton event={event} />
-                </DescriptionButtons>
-              </div>
-            ) : (
-              <DescriptionButtons>
-                {canCloseManually && (
-                  <ManualCloseIssueButton
-                    event={event}
-                    reload={reload}
-                    iconComponent={
-                      <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
-                    }
-                  />
-                )}
-                <EventSpecificationLink event={event.toJS()} />
-                <AnalyzeIssueCallsButton event={event} />
-              </DescriptionButtons>
-            )}
+            <EventActions event={event} reload={reload} latestSnapshot={latestSnapshot} />
           </Card>
         </Col>
       </Row>
@@ -291,6 +264,45 @@ function EventContent({ event, latestSnapshot, reload }) {
     </>
   );
 }
+
+const EventActions = ({ event, reload, latestSnapshot }) => {
+  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const timeConfig = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
+  const triggeredIncident = event.getIn(['metadata', 'triggeredIncident'], '');
+  const hasTriggeredIncident = !isEmpty(triggeredIncident);
+
+  const { location, navigate } = useNavigation();
+
+  const goToIncident = e => {
+    e.preventDefault();
+    const incidentURL = getEventUrl(triggeredIncident, location, 'incident');
+    navigate(incidentURL);
+  };
+
+  return (
+    <Stack gap="xxsmall">
+      {canCloseManually && hasManualCloseFields(event) && <ManualCloseDescription event={event} />}
+      <DescriptionButtons>
+        {canCloseManually && (
+          <ManualCloseIssueButton
+            event={event}
+            reload={reload}
+            iconComponent={
+              <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
+            }
+          />
+        )}
+        {hasTriggeredIncident && (
+          <Button kind="secondary" onClick={goToIncident} size="md">
+            {t('in-events:issues.actionOpenTriggeredIncident')}
+          </Button>
+        )}
+        <EventSpecificationLink event={event.toJS()} />
+        <AnalyzeIssueCallsButton event={event} />
+      </DescriptionButtons>
+    </Stack>
+  );
+};
 
 function ProcessContent({ snapshot, timeConfig }) {
   if (!snapshot || (snapshot.progress && snapshot.progress.loading)) {

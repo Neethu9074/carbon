@@ -329,7 +329,10 @@
     "triggeringEntity": "Triggering entity",
     "metricViolationTitle": "Metric violations",
     "setTimeConfig": "Set time config",
-    "actionOpenTriggeringEvent": "Open triggering event"
+    "actionOpenTriggeringEvent": "View triggering event"
+  },
+  "issues": {
+    "actionOpenTriggeredIncident": "View triggered incident"
   },
   "relatedEvents": {
     "openEvent": "Open event"
