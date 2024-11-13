@@ -191,24 +191,6 @@ export default function ResourceOptimizationTab({
         </div>
       </div>
       <RecommendedActionsWithHistory recommendedActions={recommendedOptimizations} />
-      {/* <OptimizationsButtonGroup
-        recommendedOptimizationsCount={recommendedOptimizations?.data?.totalRecommendedActionsCount!}
-        optimizationHistoryCount={historyCount}
-      />
-      {activeOptimizatonsKey === 'recommendedOptimizations' && (
-        <RecommendedOptimizations
-          recommendedActions={turboRecommendedActions}
-          totalRecommendedActions={recommendedOptimizations?.data?.totalRecommendedActionsCount}
-        />
-      )}
-      {activeOptimizatonsKey === 'optimizationHistory' && (
-        <ActionHistoryTable
-          customActionTypes={['EXTERNAL']}
-          title={t('in-automation:resourceOptimization.recommendedActionHistory')}
-          noFilters
-          noEvent
-        />
-      )} */}
     </div>
   );
 }
