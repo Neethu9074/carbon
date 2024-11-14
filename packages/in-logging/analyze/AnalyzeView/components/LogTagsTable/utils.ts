@@ -32,6 +32,7 @@ import { ClickedTag, GroupedTags, GroupingTag } from 'in-logging/analyze/Analyze
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { capitalize } from 'in-services/formatters/string';
 import { LogItem, LogTag } from 'in-types';
+import { formatDate } from '@instana/format-date';
 
 const infraTags = [...containerSnapshotIds, ID_HOST];
 
@@ -140,3 +141,8 @@ export function getIconBySeverity(severity: number) {
   }
   return 'lib_uncheck';
 }
+
+export const timestampToLocaleDate = (timestamp: number) => {
+  const timestampDate = new Date(timestamp * 1000);
+  return formatDate(timestampDate)?.toString();
+};

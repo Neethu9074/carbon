@@ -37,9 +37,9 @@ export default function ApplicationsListTag(props: {
       align="leftMiddle"
     >
       {({ toggle }: ToggleProps) => (
-        <span className={locals.link} onClick={toggle}>
+        <a className={locals.appListLink} onClick={toggle}>
           {props.resolvedValue}
-        </span>
+        </a>
       )}
     </Overlay>
   );

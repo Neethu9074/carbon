@@ -77,6 +77,7 @@ export interface UngroupedViewProps<Item = any> extends StateManagementChildProp
   columnDefinitions: ColumnizedDefinition[];
   useCursorPaginationStrategy: CursorPaginationStrategy;
   getColor?: (item: unknown, i: number, groupBy: Group) => string;
+  wrapperClassNames?: string;
 }
 
 export interface UngroupedViewListProps<Item> extends Omit<UngroupedViewProps, 'Presenter'> {

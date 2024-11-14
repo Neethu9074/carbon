@@ -5,16 +5,13 @@
  */
 
 import React, { useState } from 'react';
-import classNames from 'classnames';
 
-import { ColumnizedContent, IconButton, Li, Link } from '@instana/components';
+import { CarbonContainedListItem, IconButton, Link } from '@instana/components';
 import { LogTag, TagFilter } from '@instana/types';
-import { formatDate } from '@instana/format-date';
 import { useObservable } from '@instana/hooks';
 
 import {
   ApplicationsListTag,
-  columnDefinitions,
   createGroupingTag,
   createTagFilter,
   EntityHealthIcon,
@@ -44,88 +41,83 @@ import { t } from 'in-i18n';
 
 import locals from 'in-logging/analyze/AnalyzeView/components/LogTagsTable.mless';
 
+export function Actions({
+  allowedTagsForGrouping,
+  getHrefToGroupedView,
+  tag,
+  resolvedValue,
+  onSelectTagHref,
+  uniqueTagName,
+  item
+}: GetContentType) {
+  const { trackCta } = useSegmentTracking();
+  const { location, navigate } = useNavigation();
+
+  const iconColor = 'var(--ids-color-option-neutral-900)';
+  const value = !longValues.includes(uniqueTagName) ? tag.stringValue || '' : tag.longValue || 0;
+
+  return (
+    <div className={locals.actions}>
+      {allowedTagsForGrouping?.has(tag.name || '') && getHrefToGroupedView && (
+        <Tooltip align={'bottomRight'} content={t('in-logging:tooltipAddAsGroup')}>
+          <IconButton
+            id="group-action"
+            color={iconColor}
+            iconSize={'xs'}
+            type="lib_group_by"
+            onClick={() => {
+              location.pathname += getHrefToGroupedView(createGroupingTag(tag.name, tag.key));
+              trackGroupClick(trackCta, resolvedValue);
+              navigate(location);
+            }}
+          />
+        </Tooltip>
+      )}
+      {onSelectTagHref && (
+        <Tooltip align={'bottomRight'} content={t('in-logging:tooltipAddAsFilter')}>
+          <IconButton
+            id="filter-action"
+            color={iconColor}
+            iconSize={'xs'}
+            type="lib_actions_filter"
+            onClick={() => {
+              location.pathname += onSelectTagHref(createTagFilter(value, item.tags, tag.name, tag.key) as TagFilter);
+              trackFilterClick(trackCta, tag, value);
+              navigate(location);
+            }}
+          />
+        </Tooltip>
+      )}
+      <Tooltip align={'bottomRight'} content={t('in-logging:tooltipCopyToClipboard')}>
+        <CopyToClipboard getText={() => resolvedValue}>
+          {copyToClipboardRef => (
+            <IconButton
+              id="copy-action"
+              color={iconColor}
+              ref={copyToClipboardRef}
+              iconSize={'xs'}
+              type="lib_actions_copy"
+            />
+          )}
+        </CopyToClipboard>
+      </Tooltip>
+    </div>
+  );
+}
+
 export function TagName({ tag, tagToLabelMap }: TagEntryProps) {
   const name = useResolvedName(tag, tagToLabelMap);
 
-  return <span className={locals.tagName}>{name}</span>;
+  return <span>{name}</span>;
 }
 
-export function TagValue({
-  tag,
-  uniqueTagName,
-  isHovered,
-  allowedTagsForGrouping,
-  onSelectTagHref,
-  getHrefToGroupedView,
-  item
-}: GetContentType) {
-  const value = !longValues.includes(uniqueTagName) ? tag.stringValue || '' : tag.longValue || 0;
-  const resolvedValue = useResolvedValue(uniqueTagName, tag);
-  const { trackCta } = useSegmentTracking();
-
+export function TagValue({ tag, uniqueTagName, resolvedValue, item }: GetContentType) {
   const entitySnapshotId = getSnapshotId(tag, item);
-  const iconColor = 'var(--ids-color-option-neutral-900)';
-
-  const { location, navigate } = useNavigation();
 
   return (
     <div className={locals.tagValue}>
-      <div className={locals.tagLink}>
-        {entitySnapshotId && <EntityHealthIcon snapshotId={entitySnapshotId} />}
-        <ResolvedLink tag={tag} item={item} resolvedValue={resolvedValue} uniqueTagName={uniqueTagName} />
-      </div>
-      {isHovered && tag.key !== LOG_CUSTOM_KEY_APPLICATION_IDS && (
-        <div className={locals.tagActions}>
-          {allowedTagsForGrouping?.has(tag.name || '') && getHrefToGroupedView && (
-            <Tooltip content={t('in-logging:tooltipAddAsGroup')}>
-              <IconButton
-                id="group-action"
-                color={iconColor}
-                iconSize={'xs'}
-                type="lib_group_by"
-                onClick={() => {
-                  location.pathname += getHrefToGroupedView(createGroupingTag(tag.name, tag.key));
-                  trackGroupClick(trackCta, resolvedValue);
-                  navigate(location);
-                }}
-                className={locals.squareHover}
-              />
-            </Tooltip>
-          )}
-          {onSelectTagHref && (
-            <Tooltip content={t('in-logging:tooltipAddAsFilter')}>
-              <IconButton
-                id="filter-action"
-                color={iconColor}
-                iconSize={'xs'}
-                type="lib_actions_filter"
-                onClick={() => {
-                  location.pathname += onSelectTagHref(
-                    createTagFilter(value, item.tags, tag.name, tag.key) as TagFilter
-                  );
-                  trackFilterClick(trackCta, tag, value);
-                  navigate(location);
-                }}
-                className={locals.squareHover}
-              />
-            </Tooltip>
-          )}
-          <Tooltip content={t('in-logging:tooltipCopyToClipboard')}>
-            <CopyToClipboard getText={() => resolvedValue}>
-              {copyToClipboardRef => (
-                <IconButton
-                  id="copy-action"
-                  color={iconColor}
-                  className={locals.squareHover}
-                  ref={copyToClipboardRef}
-                  iconSize={'xs'}
-                  type="lib_actions_copy"
-                />
-              )}
-            </CopyToClipboard>
-          </Tooltip>
-        </div>
-      )}
+      {entitySnapshotId && <EntityHealthIcon snapshotId={entitySnapshotId} />}
+      <ResolvedLink tag={tag} item={item} resolvedValue={resolvedValue} uniqueTagName={uniqueTagName} />
     </div>
   );
 }
@@ -166,7 +158,6 @@ function ResolvedLink({ uniqueTagName, resolvedValue, tag, item }: ResolvedLinkP
   if (resolvedLink) {
     return (
       <Link
-        className={locals.value}
         href={resolvedLink}
         onClick={() =>
           trackCta(ANALYZE_LOGGING_LOG_MESSAGE_TAG_CLICKED, {
@@ -179,55 +170,54 @@ function ResolvedLink({ uniqueTagName, resolvedValue, tag, item }: ResolvedLinkP
     );
   }
 
-  return <span className={locals.value}>{resolvedValue}</span>;
+  return <span>{resolvedValue}</span>;
 }
 
 export const TagGroupHeader = ({ groupLabel }: TagGroupHeaderProps) => {
   return (
-    <Li className={locals.liGroup} size="compact">
+    <CarbonContainedListItem className={locals.groupHeader}>
       <strong>{groupLabel}</strong>
-    </Li>
+    </CarbonContainedListItem>
   );
 };
 
 export function TagEntry(props: TagEntryProps) {
   const { tag, item, uniqueTagName, tagToLabelMap, allowedTagsForGrouping, onSelectTagHref, getHrefToGroupedView } =
     props;
+
   const [isHovered, setIsHovered] = useState(false);
   const isContainerTag = containerSnapshotIds.includes(tag.name as string);
+  const resolvedValue = useResolvedValue(uniqueTagName, tag);
+
+  const handleHover = {
+    onMouseEnter: () => setIsHovered(true),
+    onMouseLeave: () => setIsHovered(false)
+  };
+
+  const TagActions = (
+    <Actions
+      onSelectTagHref={onSelectTagHref}
+      item={item}
+      tag={tag}
+      allowedTagsForGrouping={allowedTagsForGrouping}
+      resolvedValue={resolvedValue}
+      uniqueTagName={uniqueTagName}
+      getHrefToGroupedView={getHrefToGroupedView}
+    />
+  );
+
   return (
-    <>
-      <Li
-        className={classNames(locals.li, isContainerTag && locals.sparkchartsLi)}
-        size="compact"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <ColumnizedContent
-          columnDefinitions={columnDefinitions}
-          onSelectTagHref={onSelectTagHref}
-          getHrefToGroupedView={getHrefToGroupedView}
-          item={item}
-          tag={tag}
-          tagToLabelMap={tagToLabelMap}
-          allowedTagsForGrouping={allowedTagsForGrouping}
-          uniqueTagName={uniqueTagName}
-          isHovered={isHovered}
-        />
+    <CarbonContainedListItem {...handleHover}>
+      <div className={locals.tagContent}>
+        <TagName uniqueTagName={uniqueTagName} tag={tag} item={item} tagToLabelMap={tagToLabelMap} />
+        <TagValue resolvedValue={resolvedValue} item={item} tag={tag} uniqueTagName={uniqueTagName} />
         {isContainerTag && (
-          <>
-            <div className={locals.break} />
-            <div className={locals.sparkcharts}>
-              <ContainerPerformanceSparkcharts snapshotId={tag.stringValue} />
-            </div>
-          </>
+          <div className={locals.sparkcharts}>
+            <ContainerPerformanceSparkcharts snapshotId={tag.stringValue} />
+          </div>
         )}
-      </Li>
-    </>
+        {isHovered && TagActions}
+      </div>
+    </CarbonContainedListItem>
   );
 }
-
-export const timestampToLocaleDate = (timestamp: number) => {
-  const timestampDate = new Date(timestamp * 1000);
-  return formatDate(timestampDate)?.toString();
-};
