@@ -136,7 +136,7 @@ function AlertChannelModificationForm(props) {
           />
         )}
 
-        {
+        {AdvancedFormSettings && (
           <Collapsible initiallyOpen={getDefaultStateOfAdvancedSection(entity, form)}>
             <Collapsible.Header style={{ paddingInlineStart: 0 }}>
               <Typography variant="heading-02" noMargin>
@@ -149,7 +149,7 @@ function AlertChannelModificationForm(props) {
               </div>
             </Collapsible.Content>
           </Collapsible>
-        }
+        )}
       </SettingsDetailPage>
       {renderCustomFormActions?.({ form, loading }) ?? (
         <SubmissionButton form={form} message={message} loading={loading} isCreate={isCreate} listPath={listPath} />
