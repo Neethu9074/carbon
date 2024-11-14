@@ -95,7 +95,7 @@ export default function ResourceOptimizationTab({
               title: t('in-applications:infoBanner.tryLabel'),
               text: t('in-applications:infoBanner.tryText'),
               link: {
-                url: 'https://www.ibm.com/account/reg/us-en/signup?formid=urx-52345',
+                url: 'https://www.ibm.com/account/reg/us-en/signup?formid=urx-52198',
                 label: t('in-applications:infoBanner.tryButtonLabel')
               }
             },
