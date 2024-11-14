@@ -11,6 +11,11 @@ import { BoundaryScope, TimeConfig, TurboActionCategory } from '@instana/types';
 //@ts-expect-error needs TS migration
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
 import {
+  AUTOMATION_TURBO_BUY_CLICK,
+  AUTOMATION_TURBO_SUPPORT_CLICK,
+  AUTOMATION_TURBO_TRY_CLICK
+} from 'in-services/tracking/eventNames';
+import {
   useResourceOptimization,
   useTurboRecommendedActions
 } from 'in-automation/ResourceOptimization/useResourceOptimization';
@@ -96,7 +101,8 @@ export default function ResourceOptimizationTab({
               text: t('in-applications:infoBanner.tryText'),
               link: {
                 url: 'https://www.ibm.com/account/reg/us-en/signup?formid=urx-52198',
-                label: t('in-applications:infoBanner.tryButtonLabel')
+                label: t('in-applications:infoBanner.tryButtonLabel'),
+                trackKey: AUTOMATION_TURBO_TRY_CLICK
               }
             },
             {
@@ -112,7 +118,8 @@ export default function ResourceOptimizationTab({
               text: t('in-applications:infoBanner.connectText'),
               link: {
                 url: 'https://www.ibm.com/account/reg/us-en/signup?formid=MAIL-automateinstana',
-                label: t('in-applications:infoBanner.connectButtonLabel')
+                label: t('in-applications:infoBanner.connectButtonLabel'),
+                trackKey: AUTOMATION_TURBO_BUY_CLICK
               }
             },
             {
@@ -120,7 +127,8 @@ export default function ResourceOptimizationTab({
               text: t('in-applications:infoBanner.helpText'),
               link: {
                 url: 'https://your.feedback.ibm.com/jfe/form/SV_eLsdmgUrNwcTrpQ',
-                label: t('in-applications:infoBanner.helpButtonLabel')
+                label: t('in-applications:infoBanner.helpButtonLabel'),
+                trackKey: AUTOMATION_TURBO_SUPPORT_CLICK
               }
             }
           ]
