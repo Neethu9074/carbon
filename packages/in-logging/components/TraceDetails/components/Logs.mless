@@ -7,4 +7,8 @@
   .selectedRow {
     font-weight: bold;
   }
+
+  .alignContent {
+    align-items: flex-start;
+  }
 }

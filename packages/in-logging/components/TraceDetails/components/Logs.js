@@ -71,7 +71,8 @@ export default function Logs(props) {
             }}
             key={id}
             className={classNames({
-              [locals.selectedRow]: isSelected
+              [locals.selectedRow]: isSelected,
+              [locals.alignContent]: true
             })}
             renderNestedContent={() => <LogTagsTable item={log} />}
             toggleContentOnRowClick
