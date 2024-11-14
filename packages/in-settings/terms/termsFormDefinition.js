@@ -37,12 +37,6 @@ export default function termsFormDefinition(userSettings) {
       })
     )
     .put(
-      'walkmeAnalyticsServices',
-      createField({
-        value: userSettings ? userSettings.walkmeAnalyticsServices : ''
-      })
-    )
-    .put(
       'allSupportAndResearchServices',
       createField({
         value: userSettings ? userSettings.allSupportAndResearchServices : ''

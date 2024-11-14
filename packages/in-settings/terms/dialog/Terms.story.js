@@ -20,7 +20,6 @@ export default {
 
 const userSettings = {
   allAnalyticsServices: false,
-  walkmeAnalyticsServices: false,
   allSupportAndResearchServices: false,
   lastUpdated: 0,
   marketingMessages: false,

@@ -175,7 +175,7 @@ export function UsageBanner({ message }: UsageBannerProps) {
               <div className={locals.verticalLine} />
             </>
           )}
-          {assistmeEnabled && window.instana.termsAndPrivacySettings.walkmeAnalyticsServices && <AssistMe />}
+          {assistmeEnabled && <AssistMe />}
         </>
       )}
     </Stack>
