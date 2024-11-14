@@ -81,6 +81,7 @@ module.exports = {
   syntheticsEnabled: true,
   kubernetesExploreEnabled: true,
   kubernetesPrometheusMetricsEnabled: true,
+  kubernetesCloudNativeExperience: false,
   configMigrationFeatureEnabled: true,
   actionAutomationEnabled: true,
   pluginMetricStatisticsEnabled: true,
