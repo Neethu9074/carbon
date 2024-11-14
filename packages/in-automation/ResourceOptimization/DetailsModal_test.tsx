@@ -14,15 +14,15 @@ import {
   useActionImpactedApplications,
   useResourceImpacts
 } from 'in-automation/ResourceOptimization/useResourceOptimization';
+import DetailsModal from 'in-automation/ResourceOptimization/DetailsModal';
 import { runResourceOptimizationAction } from 'in-automation/api';
 import { useSegmentTracker } from 'in-automation/tracker';
-import DetailsModal from './DetailsModal';
 
 jest.mock('@instana/hooks', () => ({
   useObservable: jest.fn()
 }));
 
-jest.mock('./useResourceOptimization', () => ({
+jest.mock('in-automation/ResourceOptimization/useResourceOptimization', () => ({
   useResourceImpacts: jest.fn(),
   useActionImpactedApplications: jest.fn()
 }));

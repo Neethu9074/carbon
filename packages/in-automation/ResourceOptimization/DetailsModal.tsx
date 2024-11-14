@@ -168,7 +168,7 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
     }
   }
 
-  const ApplicationImpactSection = () => {
+  function ApplicationImpactSection() {
     return (
       <div className={locals.impactedAppsSection}>
         {/* Headers Row */}
@@ -214,7 +214,7 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
         )}
       </div>
     );
-  };
+  }
 
   const resourceImpactSection = () => {
     if (resImpactLoading) {

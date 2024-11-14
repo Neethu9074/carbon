@@ -6,10 +6,9 @@
 
 import React from 'react';
 
-import { t } from '@instana/i18n-react';
-
 import ComboBox, { hasMultipleValuesSelected } from 'in-components/ComboBox/ComboBox';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { t } from 'in-i18n';
 
 function mapTags(tags: string[]) {
   if (!tags.length) {

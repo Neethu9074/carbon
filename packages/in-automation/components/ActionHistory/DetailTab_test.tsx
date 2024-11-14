@@ -10,8 +10,8 @@ import React from 'react';
 import { ActionInstance } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
+import DetailTab from 'in-automation/components/ActionHistory/DetailTab';
 import { formatDateTime } from 'in-services/formatters/date';
-import DetailTab from './DetailTab';
 import { t } from 'in-i18n';
 
 jest.mock('@instana/hooks', () => ({
@@ -44,8 +44,8 @@ jest.mock('in-services/formatters/date', () => ({
   formatDateTime: jest.fn().mockImplementation(date => (date ? `formatted-${date}` : 'formatted-null'))
 }));
 
-jest.mock('./DetailTab', () => {
-  const originalModule = jest.requireActual('./DetailTab');
+jest.mock('in-automation/components/ActionHistory/DetailTab', () => {
+  const originalModule = jest.requireActual('in-automation/components/ActionHistory/DetailTab');
   return {
     ...originalModule,
     getActorLink: jest.fn().mockReturnValue('mocked-user-link')
