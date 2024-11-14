@@ -9576,7 +9576,6 @@
     "snowflake": {
       "connectErrorIssueDescription": "Agent could not connect to snowflake. Connection failed with error: <code>{{error}}</code>",
       "troubleshootingDocs": "Troubleshooting docs",
-      "snowflake": "Snowflake",
       "account": "Account",
       "region": "Region",
       "organization": "Organization",
