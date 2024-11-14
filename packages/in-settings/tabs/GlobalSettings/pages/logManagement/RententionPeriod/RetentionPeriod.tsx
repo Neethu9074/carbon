@@ -6,7 +6,21 @@
 
 import React, { SetStateAction, useState, useEffect } from 'react';
 
-import { HorizontalIndicator, Input, Link, LoadingSkeleton, Typography, Button, Message } from '@instana/components';
+import {
+  HorizontalIndicator,
+  Link,
+  LoadingSkeleton,
+  Typography,
+  Button,
+  Message,
+  CarbonModal as Dialog,
+  CarbonForm as Form,
+  CarbonFormGroup as FormGroup,
+  CarbonStack as Stack,
+  CarbonTextInput as TextInput,
+  CarbonSelect as Select,
+  CarbonSelectItem as SelectItem
+} from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Progress } from '@instana/types';
 
@@ -21,15 +35,11 @@ import { analyzeDocs } from 'in-analyze/components/AnalyzeHeader/constants';
 import { ModalNotification, NotificationState } from './ModalNotification';
 import { SETTINGS_LOG_MANAGEMENT_RETENTION_PERIOD_SUBMITTED } from 'in-services/tracking/eventNames';
 import { getEntityIdView, securityAndAccessActionLogRetention } from 'in-settings/navigation/paths';
-import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import SubViewHeaderComponent from 'in-settings/components/SubViewHeader';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
-import Select from 'in-components/form/Select/Select';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import Label from 'in-components/form/Label/Label';
-import Dialog from 'in-components/Dialog/Dialog';
 import Title from 'in-components/Title/Title';
 import http from 'in-services/http/http';
 import { role } from 'in-stores/user';
@@ -64,15 +74,11 @@ const localisationStrings = {
   toastMessageFailedInGet: t('in-settings:tabs.retentionPeriod.toastMessageFailedInGet')
 };
 
-const useMock = false; // Activate mock response
-
 export default function RetentionPeriod() {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isChangingRetention, setIsChangingRetention] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [retentionValue, setRetentionValue] = useState<number | undefined | string>(
-    useMock ? mockData().retention : 'Loading...'
-  );
+  const [retentionValue, setRetentionValue] = useState<number | undefined | string>('');
   const progress: Progress = {
     loading: isLoading
   };
@@ -82,27 +88,21 @@ export default function RetentionPeriod() {
   useEffect(() => {
     let timer: NodeJS.Timeout;
 
-    if (!useMock) {
-      const getRetentionPeriod$ = retentionLogsGET();
+    const getRetentionPeriod$ = retentionLogsGET();
 
-      getRetentionPeriod$.once(response => {
-        setRetentionValue(response.body.retentionDays);
-        setIsLoading(false);
-      });
-      getRetentionPeriod$.errors().once(_ => {
-        errorFeedback(
-          setIsChangingRetention,
-          locals,
-          localisationStrings.toastTitleFailedInGet,
-          localisationStrings.toastMessageFailedInGet,
-          localisationStrings.contactSupport
-        );
-      });
-    } else {
-      timer = setTimeout(() => {
-        setIsLoading(false);
-      }, 2000);
-    }
+    getRetentionPeriod$.once(response => {
+      setRetentionValue(response.body.retentionDays);
+      setIsLoading(false);
+    });
+    getRetentionPeriod$.errors().once(_ => {
+      errorFeedback(
+        setIsChangingRetention,
+        locals,
+        localisationStrings.toastTitleFailedInGet,
+        localisationStrings.toastMessageFailedInGet,
+        localisationStrings.contactSupport
+      );
+    });
 
     return () => {
       if (timer) {
@@ -190,16 +190,6 @@ function RetentionPeriodDialog({
 }: RetentionPeriodDialogProps) {
   const [notification, setNotification] = useState<NotificationState>({ show: false });
   const { trackCta } = useSegmentTracking();
-  const handlePostRequest = async (payload: RetentionLogsRequest) => {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    //We can modify this to make any test case
-    if (!payload.reasonForChange || ![30, 60, 90].includes(payload.retentionDays)) {
-      return 400;
-    }
-
-    return 200;
-  };
 
   const daysDropdownValues = [30, 60, 90];
 
@@ -230,32 +220,15 @@ function RetentionPeriodDialog({
       setRetentionValue(+retentionPeriodInputValue);
       resetForm();
 
-      if (!useMock) {
-        const postRetentionLogs$ = retentionLogsPOST(queryParams);
+      const postRetentionLogs$ = retentionLogsPOST(queryParams);
 
-        postRetentionLogs$.once(_ =>
-          succesFeedback(setIsChangingRetention, locals, localisationStrings.toastTitleSuccesful, setNotification)
-        );
+      postRetentionLogs$.once(_ =>
+        succesFeedback(setIsChangingRetention, locals, localisationStrings.toastTitleSuccesful, setNotification)
+      );
 
-        postRetentionLogs$
-          .errors()
-          .once(_ =>
-            errorFeedback(
-              setIsChangingRetention,
-              locals,
-              localisationStrings.toastTitleFailed,
-              localisationStrings.toastMessageFailed,
-              localisationStrings.contactSupport,
-              setNotification
-            )
-          );
-      } else {
-        // MOCK POST
-        const postRetentionStatusNumber = await handlePostRequest(queryParams);
-
-        if (postRetentionStatusNumber === 200) {
-          succesFeedback(setIsChangingRetention, locals, localisationStrings.toastTitleSuccesful, setNotification);
-        } else {
+      postRetentionLogs$
+        .errors()
+        .once(_ =>
           errorFeedback(
             setIsChangingRetention,
             locals,
@@ -263,32 +236,10 @@ function RetentionPeriodDialog({
             localisationStrings.toastMessageFailed,
             localisationStrings.contactSupport,
             setNotification
-          );
-        }
-      }
+          )
+        );
     }
   };
-
-  const ConfirmationButtons = (
-    <>
-      <Button
-        data-testid="changeRetentionCancelButton"
-        className={locals.changeRetentionButton}
-        kind="secondary"
-        onClick={() => closeConfirmationDialog()}
-      >
-        {localisationStrings.cancel}
-      </Button>
-      <Button
-        data-testid="changeRetentionConfirmButton"
-        className={locals.changeRetentionButton}
-        onClick={handleSubmit}
-        kind="primary"
-      >
-        {localisationStrings.changeRetentionPeriod}
-      </Button>
-    </>
-  );
 
   const closeConfirmationDialog = () => {
     setShowConfirmation(false);
@@ -296,54 +247,64 @@ function RetentionPeriodDialog({
   };
 
   return (
-    <Dialog className={locals.modalTitle} title={localisationStrings.modalTitle} onClose={closeConfirmationDialog}>
-      <section className={locals.confirmationDialogContent} data-testid="logRetentionDialog">
-        <Typography variant="body-regular">{localisationStrings.retentionDialogDescription}</Typography>
-        <Message type="warning" title={localisationStrings.retentionDialogUserInfo} dismissible />
-        <Label htmlFor="LogRetentionPeriod">
-          {localisationStrings.logRetentionPeriod}
-          <Select value={retentionPeriodInputValue} onChange={e => setRetentionPeriodInputValue(e.target.value)}>
-            {daysDropdownValues.map(val => (
-              <option key={val} value={val}>{`${val} ${localisationStrings.days}`}</option>
-            ))}
-          </Select>
-        </Label>
-        <Label htmlFor="reason">
-          {localisationStrings.changeReason}
-          <Input
-            disabled={isChangingRetention}
-            value={reasonInputValue}
-            hasError={!!reasonValidationMessage}
-            onChange={e => setReasonInputValue(e.target.value)}
-            name="reason"
-          />
-          {reasonValidationMessage && (
-            <ValidationBlock className={locals.validationMessage}>{reasonValidationMessage}</ValidationBlock>
-          )}
-        </Label>
-        <Label htmlFor="typingValidation">
-          {localisationStrings.typeToConfirm}
-          <Input
-            autoComplete="off"
-            disabled={isChangingRetention}
-            value={validationInputValue}
-            hasError={!!validationValidationMessage}
-            onChange={e => setValidationInputValue(e.target.value)}
-            name="typingValidation"
-          />
-          {validationValidationMessage && (
-            <ValidationBlock className={locals.validationMessage}>{validationValidationMessage}</ValidationBlock>
-          )}
-        </Label>
-        {notification.show && (
-          <ModalNotification
-            onClick={() => setNotification({ show: false })}
-            variant={notification.variant}
-            valueDays={retentionValue}
-          />
-        )}
-      </section>
-      <section className={locals.buttons}>{ConfirmationButtons}</section>
+    <Dialog
+      open
+      className={locals.modalContainer}
+      modalHeading={localisationStrings.modalTitle}
+      onRequestSubmit={handleSubmit}
+      onRequestClose={closeConfirmationDialog}
+      primaryButtonText={localisationStrings.changeRetentionPeriod}
+      secondaryButtonText={localisationStrings.cancel}
+      primaryButtonDisabled={!canSubmit}
+    >
+      <Form>
+        <FormGroup legendText="">
+          <Stack gap={6}>
+            <Typography variant="body-regular">{localisationStrings.retentionDialogDescription}</Typography>
+            <Message type="warning" title={localisationStrings.retentionDialogUserInfo} dismissible />
+            <Select
+              labelText={localisationStrings.logRetentionPeriod}
+              id={localisationStrings.logRetentionPeriod}
+              value={retentionPeriodInputValue}
+              onChange={e => setRetentionPeriodInputValue(e.target.value)}
+            >
+              {daysDropdownValues.map(val => (
+                <SelectItem key={val} value={val} text={`${val} ${localisationStrings.days}`} />
+              ))}
+            </Select>
+            <TextInput
+              id={localisationStrings.changeReason}
+              autoComplete="off"
+              disabled={isChangingRetention}
+              value={reasonInputValue}
+              invalid={!!reasonValidationMessage}
+              invalidText={reasonValidationMessage}
+              onChange={e => setReasonInputValue(e.target.value)}
+              name="reason"
+              labelText={localisationStrings.changeReason}
+            />
+            <TextInput
+              id={localisationStrings.typeToConfirm}
+              autoComplete="off"
+              disabled={isChangingRetention}
+              value={validationInputValue}
+              invalid={!!validationValidationMessage}
+              invalidText={validationValidationMessage}
+              onChange={e => setValidationInputValue(e.target.value)}
+              placeholder="CHANGE RETENTION"
+              name="typingValidation"
+              labelText={localisationStrings.typeToConfirm}
+            />
+            {notification.show && (
+              <ModalNotification
+                onClick={() => setNotification({ show: false })}
+                variant={notification.variant}
+                valueDays={retentionValue}
+              />
+            )}
+          </Stack>
+        </FormGroup>
+      </Form>
     </Dialog>
   );
 }
@@ -374,10 +335,4 @@ export function retentionLogsGET() {
     headers: getCsrfHeader(),
     url: `/api/logging/retention/v1`
   });
-}
-
-function mockData() {
-  return {
-    retention: 5
-  };
 }
