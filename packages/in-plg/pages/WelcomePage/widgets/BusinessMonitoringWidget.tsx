@@ -97,9 +97,19 @@ export default connectTo(() => ({
   }
 
   function getItem(id: string, timeConfig: TimeConfig): Observable<Result<BusinessProcessItem>> {
-    const started_processes: BizOpsMetricConfiguration = {
+    const started_processes_array: BizOpsMetricConfiguration = {
       metric: 'started_processes',
       granularity: getChartGranularity(timeConfig),
+      aggregation: 'DISTINCT_COUNT'
+    };
+    const started_processes_total: BizOpsMetricConfiguration = {
+      metric: 'started_processes',
+      granularity: 0,
+      aggregation: 'DISTINCT_COUNT'
+    };
+    const activities_count: BizOpsMetricConfiguration = {
+      metric: 'activity_count_distinct',
+      granularity: 0,
       aggregation: 'DISTINCT_COUNT'
     };
 
@@ -108,7 +118,11 @@ export default connectTo(() => ({
     // to how the StarredItemList works
     return getBusinessProcess({
       timeConfig,
-      metrics: { started_processes: started_processes },
+      metrics: {
+        started_processes_array: started_processes_array,
+        started_processes_total: started_processes_total,
+        activities_count: activities_count
+      },
       processDefinitionId: id
     });
   }
@@ -131,7 +145,7 @@ export default connectTo(() => ({
       }
     },
     {
-      key: 'count',
+      key: 'started',
       getContent({
         item,
         result,
