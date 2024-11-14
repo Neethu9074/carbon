@@ -471,6 +471,8 @@
       "deletionUntilDate": "Deletion until date",
       "untilDateValidationMessage": "Date must be on or before the current date",
       "reasonValidationMessage": "Deletion reason cannot be empty",
+      "untilTimeValidationMessage": "Time must be on or before the current time",
+      "correctTimeFormat": "Please enter a valid time in HH:mm format",
       "toastSuccessTitle": "Deleting logs might take a while.",
       "toastSuccessMessage": "You can close this pop-up window and check the status in the \"Log deletion action history\" table.",
       "toastErrorTitle": "Log deletion failed",
