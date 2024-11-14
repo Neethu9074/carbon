@@ -5,6 +5,7 @@
  */
 
 import React, { useState } from 'react';
+import classNames from 'classnames';
 
 import { DashboardButton, SvgIconSizes, Link } from '@instana/components';
 
@@ -29,6 +30,7 @@ interface infoPanelProps {
   showLabel?: string;
   hideLabel?: string;
   expanded?: string | boolean;
+  stickyTitle?: boolean;
   content: {
     title?: string;
     columns: contentColumn[];
@@ -39,6 +41,7 @@ export default function InfoPanel({
   id = 'infoPanel',
   collapsible = true,
   expanded = true,
+  stickyTitle = false,
   content,
   ariaLabel,
   showLabel,
@@ -57,13 +60,18 @@ export default function InfoPanel({
     });
   };
 
+  const showTitle = stickyTitle || isExpanded;
+
   return (
     <section
       id={id}
       aria-label={ariaLabel ? t(ariaLabel) : t('in-automation:infoPanel.taskGuidance')}
-      className={locals.panel}
+      className={classNames({
+        [locals.panel]: showTitle,
+        [locals.panelEmpty]: !showTitle
+      })}
     >
-      <h1 className={locals.contentTitle}>{content.title ?? null}</h1>
+      {showTitle && <h1 className={locals.contentTitle}>{content.title ?? null}</h1>}
       {isExpanded && (
         <div className={locals.contentContainer}>
           {content.columns.map(item => {
