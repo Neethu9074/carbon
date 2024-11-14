@@ -519,3 +519,9 @@ export function useNavigationToAlertConfig() {
     navigate(location);
   };
 }
+
+export function useLinkToUngroupedView() {
+  const { location, createHref } = useNavigation();
+  setOrDeleteMatrixKey(location, analyzePath, 'detailId');
+  return createHref(location);
+}
