@@ -75,7 +75,7 @@ export function getDefaultConfig() {
       value: 2.0,
       lastUpdated: 1703006690644
     },
-    predictiveTrigger: null,
+    forecastingConfig: null,
     alertChannelIds: [],
     granularity: 60000,
     timeThreshold: {

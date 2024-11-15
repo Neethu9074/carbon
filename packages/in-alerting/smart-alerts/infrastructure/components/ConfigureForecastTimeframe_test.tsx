@@ -8,17 +8,17 @@ import { render, screen } from '@testing-library/react';
 import { shallow } from 'enzyme';
 import React from 'react';
 
-import ConfigureTimeToFailure, {
-  ConfigureTimeToFailureProps
-} from 'in-alerting/smart-alerts/infrastructure/components/ConfigureTimeToFailure';
+import ConfigureForecastTimeframe, {
+  ConfigureForecastTimeframeProps
+} from 'in-alerting/smart-alerts/infrastructure/components/ConfigureForecastTimeframe';
 //@ts-expect-error
 import { alertConfig } from 'in-alerting/smart-alerts/infrastructure/data/testData';
 import alertFormDefinition from 'in-alerting/smart-alerts/infrastructure/form/alertFormDefinition';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { t } from 'in-i18n';
 
-describe('in-alerting/smart-alerts/infrastructure/components/ConfigureTimeToFailure.tsx', () => {
-  const props: ConfigureTimeToFailureProps = {
+describe('in-alerting/smart-alerts/infrastructure/components/ConfigureForecastTimeframe.tsx', () => {
+  const props: ConfigureForecastTimeframeProps = {
     form: alertFormDefinition(alertConfig, false),
     updateForm: jest.fn()
   };
@@ -27,21 +27,21 @@ describe('in-alerting/smart-alerts/infrastructure/components/ConfigureTimeToFail
     jest.clearAllMocks();
   });
 
-  it('should contain predictiveTrigger timeToFailure label', () => {
+  it('should contain predictiveTrigger forecastTimeframe label', () => {
     // GIVEN
-    render(<ConfigureTimeToFailure {...props} />);
+    render(<ConfigureForecastTimeframe {...props} />);
 
     // THEN
     expect(
       screen.getByText(
-        t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.predictiveTrigger.timeToFailure')
+        t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.predictiveTrigger.forecastTimeframe')
       )
     ).toBeInTheDocument();
   });
 
   it('should call the updateForm function when the user selects an option from the dropdown menu', () => {
     // GIVEN
-    const wrapper = shallow(<ConfigureTimeToFailure {...props} />);
+    const wrapper = shallow(<ConfigureForecastTimeframe {...props} />);
 
     // WHEN
     const select = wrapper.find(SelectInSection);
@@ -51,9 +51,9 @@ describe('in-alerting/smart-alerts/infrastructure/components/ConfigureTimeToFail
     expect(props.updateForm).toHaveBeenCalled();
   });
 
-  it('test ConfigureTimeToFailure without updateForm', () => {
+  it('test ConfigureForecastTimeframe without updateForm', () => {
     // GIVEN
-    const wrapper = shallow(<ConfigureTimeToFailure form={alertFormDefinition(alertConfig, false)} />);
+    const wrapper = shallow(<ConfigureForecastTimeframe form={alertFormDefinition(alertConfig, false)} />);
 
     // WHEN
     const select = wrapper.find(SelectInSection);
@@ -65,7 +65,7 @@ describe('in-alerting/smart-alerts/infrastructure/components/ConfigureTimeToFail
 
   it('should set the predictiveTrigger field to 0', () => {
     // GIVEN
-    const wrapper = shallow(<ConfigureTimeToFailure form={alertFormDefinition(alertConfig, false)} />);
+    const wrapper = shallow(<ConfigureForecastTimeframe form={alertFormDefinition(alertConfig, false)} />);
 
     // WHEN
     const select = wrapper.find(SelectInSection);

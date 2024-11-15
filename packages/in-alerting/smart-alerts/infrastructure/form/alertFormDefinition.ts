@@ -4,7 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
-import { createField, createMapForm, MapForm } from 'formalistic';
+import { createField, createMapForm, MapForm, ValidationResult } from 'formalistic';
+
+import { ForecastingConfig } from '@instana/types';
 
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
@@ -17,6 +19,7 @@ import createRuleForm from 'in-alerting/smart-alerts/infrastructure/form/ruleFor
 import { groupbyTag } from 'in-alerting/smart-alerts/utils/groupingUtils';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
 import { ThresholdType, VersionedConfig } from 'in-types';
+import { t } from 'in-i18n';
 
 export const defaultAdaptiveBaselineGranularity = 1200000;
 export const fieldNames = Object.freeze({
@@ -27,7 +30,7 @@ export const fieldNames = Object.freeze({
   granularity: 'granularity',
   groupBy: 'groupBy',
   name: 'name',
-  predictiveTrigger: 'predictiveTrigger',
+  forecastingConfig: 'forecastingConfig',
   rule: 'rule',
   tagFilterExpression: 'tagFilterExpression',
   threshold: 'threshold',
@@ -53,7 +56,7 @@ export default function alertFormDefinition(
     granularity = 600000,
     groupBy = [],
     name = '',
-    predictiveTrigger = null,
+    forecastingConfig = undefined,
     tagFilterExpression,
     id = ''
   } = alertConfig;
@@ -101,9 +104,10 @@ export default function alertFormDefinition(
       })
     )
     .put(
-      fieldNames.predictiveTrigger,
+      fieldNames.forecastingConfig,
       createField({
-        value: predictiveTrigger
+        value: forecastingConfig,
+        validator: forecastingConfigValidator
       })
     )
     .put(
@@ -161,4 +165,17 @@ export function createHiddenFieldsForm(calculateThresholdOnBackend = false, aler
         value: alertChannelList
       })
     );
+}
+
+function forecastingConfigValidator(forecastingConfig?: ForecastingConfig): ValidationResult {
+  if (forecastingConfig && forecastingConfig.fitTimeframe < forecastingConfig.forecastTimeframe * 2) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.predictiveTrigger.invalidTimeframes')
+      }
+    ];
+  }
+
+  return null;
 }

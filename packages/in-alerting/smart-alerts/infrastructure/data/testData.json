@@ -3,8 +3,9 @@
     "alertChannelIds": [],
     "description": "",
     "groupBy": [],
-    "predictiveTrigger": {
-      "timeToFailure": 1800000
+    "forecastingConfig": {
+      "fitTimeframe": 86400000,
+      "forecastTimeframe": 3600000
     },
     "name": "",
     "rule": {

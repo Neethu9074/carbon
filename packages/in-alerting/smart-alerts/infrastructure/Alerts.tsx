@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { ThresholdConfigUnion, InfraAlertRuleUnion, PredictiveTrigger } from '@instana/types';
+import { ThresholdConfigUnion, InfraAlertRuleUnion, ForecastingConfig } from '@instana/types';
 
 import {
   infraAlertsDetailsPath,
@@ -55,7 +55,7 @@ export default function Alerts() {
           actionHandlers={handlers}
           getAlertConfigs={() => getAllAlertConfigsWithResult()}
           createRowLinkLocation={createRowLinkLocation}
-          getSubtitle={config => getSubtitle(config.rule, config.threshold, config.predictiveTrigger)}
+          getSubtitle={config => getSubtitle(config.rule, config.threshold, config.forecastingConfig)}
           sortOptions={sortOptions}
           alertsTab={infraSmartAlerts}
           renderName={replaceTitlePlaceholdersWithMarkup}
@@ -70,7 +70,7 @@ export default function Alerts() {
 export function getSubtitle(
   rule: InfraAlertRuleUnion,
   threshold: ThresholdConfigUnion & { value?: number },
-  predictiveTrigger?: PredictiveTrigger
+  forecastingConfig?: ForecastingConfig
 ) {
   const { type, operator, value } = threshold;
   const { entityType, metricName, aggregation } = rule;
@@ -85,7 +85,7 @@ export function getSubtitle(
         aggregation={aggregation}
         humanReadableOperator={humanReadableOperator}
         value={value ?? 0}
-        predictiveTrigger={predictiveTrigger ?? null}
+        forecastingConfig={forecastingConfig ?? null}
       />
     );
   }
