@@ -12,8 +12,8 @@ import { Tooltip as CarbonTooltip } from '@instana/components';
 import { createLogger } from '@instana/logger';
 
 import { Align, ThemeStyle, setActiveTooltip, clearActiveTooltip } from 'in-components/Tooltip/store';
+import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import { carbonTooltipEnabled } from 'in-services/featureFlags';
-import useResizeObserver from 'in-hooks/useResizeObserver';
 
 const logger = createLogger('in-components/Tooltip');
 
@@ -49,28 +49,24 @@ const CarbonTooltipWithObserver = ({
   children
 }: Props) => {
   /* Intentionally, the width and height are not used. */
-  const { ref: toolTipWrapperRef } = useResizeObserver();
+  const { ref: toolTipWrapperRef } = useResizeObserverCustom<HTMLDivElement>();
   // For carbon convert mousePosition -> auto
   const updatedAlign = (align == 'mousePosition' && 'auto') || align;
   const themeToPass = (forceTheme && themeStyle) || 'dark';
 
   return (
-    // TODO: Later, when implemented in the underlying ui-foundation component, remove the wrapping span
-    <span ref={toolTipWrapperRef}>
-      <CarbonTooltip
-        // LATER: add, when this is implemented in the underlying ui-foundation component
-        // ref={toolTipWrapperRef}
-        align={updatedAlign}
-        delay={delay}
-        content={content}
-        caret={caret}
-        overwriteBlock={overwriteBlock}
-        themeStyle={themeToPass}
-        overflowEllipsis={overflowEllipsis}
-      >
-        {children}
-      </CarbonTooltip>
-    </span>
+    <CarbonTooltip
+      ref={toolTipWrapperRef}
+      align={updatedAlign}
+      delay={delay}
+      content={content}
+      caret={caret}
+      overwriteBlock={overwriteBlock}
+      themeStyle={themeToPass}
+      overflowEllipsis={overflowEllipsis}
+    >
+      {children}
+    </CarbonTooltip>
   );
 };
 
