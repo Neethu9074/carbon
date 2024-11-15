@@ -8,10 +8,10 @@ import React from 'react';
 import { Button } from '@instana/components';
 
 import AddUserToGroupDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Users/AddUserToGroupDialog';
-import { SETTINGS_USER_ADD_USER_TO_GROUP } from 'in-services/tracking/tracking';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { saveGroups } from 'in-settings/tabs/SecurityAndAccess/api/groups';
+import { SETTINGS_USER_GROUP_ADDED } from 'in-services/tracking/tracking';
 import { t } from 'in-i18n';
 
 export default function AddUserToGroupButton({ userId, refresh }) {
@@ -51,7 +51,7 @@ function addUserToGroup(userId, refresh, newGroupsToAdd, setIsSaving, setErrors,
   result$.once(
     () => {
       setIsSaving(false);
-      trackCta(SETTINGS_USER_ADD_USER_TO_GROUP, { userId: userId, groupIds: newGroupsToAdd?.map(group => group.id) });
+      trackCta(SETTINGS_USER_GROUP_ADDED, { userId: userId, groupIds: newGroupsToAdd?.map(group => group.id) });
       if (refresh) {
         refresh();
       }
