@@ -21,6 +21,7 @@ import { ThresholdType, VersionedConfig } from 'in-types';
 export const defaultAdaptiveBaselineGranularity = 1200000;
 export const fieldNames = Object.freeze({
   alertChannelIds: 'alertChannelIds',
+  alertChannels: 'alertChannels',
   customPayloadFields: 'customPayloadFields',
   description: 'description',
   granularity: 'granularity',
@@ -47,6 +48,7 @@ export default function alertFormDefinition(
 ): MapForm<any> {
   const {
     alertChannelIds = [],
+    alertChannels = { WARNING: [], CRITICAL: [] },
     description = '',
     granularity = 600000,
     groupBy = [],
@@ -55,13 +57,20 @@ export default function alertFormDefinition(
     tagFilterExpression,
     id = ''
   } = alertConfig;
-
+  const alertChannelList = [...new Set([...(alertChannels?.WARNING ?? []), ...(alertChannels?.CRITICAL ?? [])])];
   //@ts-expect-error
   return createMapForm({ validator: regexValidator })
     .put(
       fieldNames.alertChannelIds,
       createField({
         value: alertChannelIds,
+        validator: stringMaxLengthValidator(MAX_LONG_STRING_LENGTH)
+      })
+    )
+    .put(
+      fieldNames.alertChannels,
+      createField({
+        value: alertChannels,
         validator: stringMaxLengthValidator(MAX_LONG_STRING_LENGTH)
       })
     )
@@ -116,11 +125,11 @@ export default function alertFormDefinition(
       createTimeThresholdForm(alertConfig.timeThreshold, granularity, alertConfig.threshold?.type as ThresholdType)
     )
     .put('threshold', createThresholdForm(alertConfig.rules[0] ?? {}, editMode))
-    .put('hiddenFields', createHiddenFieldsForm(editMode))
+    .put('hiddenFields', createHiddenFieldsForm(editMode, alertChannelList))
     .put(fieldNames.customPayloadFields, createListFormForCustomPayloads(alertConfig.customPayloadFields ?? [], false));
 }
 
-export function createHiddenFieldsForm(calculateThresholdOnBackend = false) {
+export function createHiddenFieldsForm(calculateThresholdOnBackend = false, alertChannelList: string[]) {
   return createMapForm()
     .put(
       'calculateThresholdOnBackend',
@@ -144,6 +153,12 @@ export function createHiddenFieldsForm(calculateThresholdOnBackend = false) {
       'suggestedThresholdValue',
       createField({
         value: null
+      })
+    )
+    .put(
+      'selectedChannelList',
+      createField({
+        value: alertChannelList
       })
     );
 }

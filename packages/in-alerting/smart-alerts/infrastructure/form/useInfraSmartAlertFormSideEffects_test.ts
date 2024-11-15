@@ -42,6 +42,7 @@ describe('in-alerting/smart-alerts/infrastructure/form/useInfraSmartAlertFormSid
           calculateThresholdOnBackend: true,
           metricLabel: null,
           metricPath: null,
+          selectedChannelList: [],
           suggestedThresholdValue: null
         }
       })

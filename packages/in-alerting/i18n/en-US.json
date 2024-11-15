@@ -152,6 +152,13 @@
     "titleCopyOf": "(Copy of) {{smartAlertTitle}}",
     "smartAlertsTitle": "Smart alerts",
     "labelNew": "(New)",
+    "alertChannelList": {
+      "selectAllWarning": "Select all warning",
+      "selectAllCritical": "Select all critical",
+      "alertLevel": "Alert Level",
+      "critical": "Critical",
+      "warning": "Warning"
+    },
     "applications": {
       "alertConfiguration": "Alert configuration",
       "advanced": {

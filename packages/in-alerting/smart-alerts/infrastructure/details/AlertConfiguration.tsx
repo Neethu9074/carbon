@@ -36,6 +36,7 @@ import { toUIGrouping } from 'in-alerting/smart-alerts/aggregated/utils/groupfil
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
 import { AlertGrouping } from 'in-alerting/smart-alerts/aggregated/components/AlertGrouping';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { alertChannelPerSeverityInfraSaEnabled } from 'in-services/featureFlags';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
@@ -66,6 +67,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
     timeThreshold,
     granularity,
     alertChannelIds,
+    alertChannels,
     tagFilterExpression,
     customPayloadFields,
     groupBy,
@@ -200,7 +202,11 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
         darkFrame
       >
         <div className={locals.alertChannelsWrapper}>
-          <AlertChannelsViewer alertChannelIds={alertChannelIds} />
+          <AlertChannelsViewer
+            alertChannelIds={alertChannelIds}
+            alertChannels={alertChannels}
+            alertChannelPerSeverityEnabled={alertChannelPerSeverityInfraSaEnabled}
+          />
         </div>
       </ExpandableLightCard>
       <ExpandableLightCard

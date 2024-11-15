@@ -174,6 +174,6 @@ module.exports = {
   customDashboardTopLevelFiltersEnabled: true,
   syntheticCredentialsEnabled: true,
   infraSmartAlertFullScreenDesignEnabled: false,
-  alertChannelPerSeverityInfraSaEnabled: false,
+  alertChannelPerSeverityInfraSaEnabled: true,
   alertChannelPerSeverityApplicationSaEnabled: false
 };

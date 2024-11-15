@@ -7,6 +7,11 @@
 import React from 'react';
 
 import {
+  infraPredictiveDetectionEnabled,
+  oneMinuteGranularityForStaticThresholdEnabled,
+  alertChannelPerSeverityInfraSaEnabled
+} from 'in-services/featureFlags';
+import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
@@ -17,18 +22,15 @@ import {
   fieldTouchedAndInvalid,
   isCustomPayloadValidOrUntouched
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
-import {
-  infraPredictiveDetectionEnabled,
-  oneMinuteGranularityForStaticThresholdEnabled
-} from 'in-services/featureFlags';
+import ConfigureAlertChannelMT from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/ConfigureAlertChannel';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
 import InfraPredictiveTrigger from 'in-alerting/smart-alerts/infrastructure/components/InfraPredictiveTrigger';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
-import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
+import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import ScopeSection from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeSection';
 import regexValidator from 'in-alerting/smart-alerts/infrastructure/data/regexValidator';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
@@ -122,13 +124,26 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           title: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.alertChannel.title'),
           valid: true,
           content: (
-            <ConfigureAlertChannel
-              form={form}
-              onChange={onChange}
-              setSliderState={setSliderState}
-              setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-              numberOfAlertChannelListRows={5}
-            />
+            <>
+              {alertChannelPerSeverityInfraSaEnabled ? (
+                <ConfigureAlertChannelMT
+                  form={form}
+                  onChange={onChange}
+                  updateForm={updateForm}
+                  setSliderState={setSliderState}
+                  setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+                  numberOfAlertChannelListRows={5}
+                />
+              ) : (
+                <ConfigureAlertChannel
+                  form={form}
+                  onChange={onChange}
+                  setSliderState={setSliderState}
+                  setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+                  numberOfAlertChannelListRows={5}
+                />
+              )}
+            </>
           )
         },
         {
