@@ -5,20 +5,27 @@
  */
 
 import React, { useState } from 'react';
+import classNames from 'classnames';
 
 import { DashboardButton, SvgIconSizes, Link } from '@instana/components';
 
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { tryGet, trySet } from 'in-services/localStorage';
 import { t } from 'in-i18n';
 
 import locals from './InfoPanel.mless';
 
+interface linkSpec {
+  label: string;
+  url?: string;
+  trackKey?: string;
+  trackCustom?: object;
+}
+
 interface contentColumn {
   title: string;
   text?: string;
-  link?: {
-    label: string;
-    url?: string;
-  };
+  link?: linkSpec;
 }
 
 interface infoPanelProps {
@@ -28,6 +35,7 @@ interface infoPanelProps {
   showLabel?: string;
   hideLabel?: string;
   expanded?: string | boolean;
+  stickyTitle?: boolean;
   content: {
     title?: string;
     columns: contentColumn[];
@@ -38,26 +46,46 @@ export default function InfoPanel({
   id = 'infoPanel',
   collapsible = true,
   expanded = true,
+  stickyTitle = false,
   content,
   ariaLabel,
   showLabel,
   hideLabel
 }: infoPanelProps) {
   const [isExpanded, setIsExpanded] = useState(
-    typeof expanded === 'string' ? (localStorage.getItem(expanded) as unknown as boolean) ?? true : expanded
+    typeof expanded === 'string' ? (tryGet(expanded) ?? 'true') === 'true' : expanded
   );
+  const { trackCta } = useSegmentTracking();
+
+  function onLinkClick(param: linkSpec | undefined) {
+    return function () {
+      if (param?.trackKey) {
+        trackCta(param.trackKey, param?.trackCustom ?? {});
+      }
+    };
+  }
 
   const toggleVisibility = () => {
-    setIsExpanded((prev: boolean) => !prev);
+    setIsExpanded((prev: boolean) => {
+      if (typeof expanded === 'string') {
+        trySet(expanded, !prev ? 'true' : 'false');
+      }
+      return !prev;
+    });
   };
+
+  const showTitle = stickyTitle || isExpanded;
 
   return (
     <section
       id={id}
       aria-label={ariaLabel ? t(ariaLabel) : t('in-automation:infoPanel.taskGuidance')}
-      className={locals.panel}
+      className={classNames({
+        [locals.panel]: showTitle,
+        [locals.panelEmpty]: !showTitle
+      })}
     >
-      <h1 className={locals.contentTitle}>{content.title ?? null}</h1>
+      {showTitle && <h1 className={locals.contentTitle}>{content.title ?? null}</h1>}
       {isExpanded && (
         <div className={locals.contentContainer}>
           {content.columns.map(item => {
@@ -67,7 +95,13 @@ export default function InfoPanel({
                   <div className={locals.columnTitle}>{item?.title}</div>
                   <div className={locals.columnText}>{item?.text}</div>
                 </div>
-                <Link className={locals.linkButton} href={item?.link?.url} linkIconType="lib_arrow_short_right">
+                <Link
+                  className={locals.linkButton}
+                  href={item?.link?.url}
+                  onClick={onLinkClick(item?.link)}
+                  external
+                  linkIconType="lib_arrow_short_right"
+                >
                   <span>{item?.link?.label}</span>
                 </Link>
               </div>
