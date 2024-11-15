@@ -59,7 +59,7 @@ interface TraceDetailViewProps {
   dataSource: 'calls' | 'traces';
   detailId: DetailId;
   backendQueryModel: TagFilterExpressionElementUnion;
-  getHrefToDetailId: (id: string) => string;
+  getHrefToDetailId: (detailId: DetailId, groupValue?: string) => string;
   setDetailId: (detailId: DetailId) => void;
 }
 
