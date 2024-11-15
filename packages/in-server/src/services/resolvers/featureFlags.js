@@ -371,6 +371,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'bizopsCustomDashboardEnabled',
+    instanaCtlKey: 'feature.bizops.custom.dashboard.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'bizopsProcessStackEnabled',
     instanaCtlKey: 'feature.bizops.process.stack.enabled',
     defaultValue: false

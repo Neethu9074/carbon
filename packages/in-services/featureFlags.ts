@@ -220,6 +220,7 @@ export const bizopsRbacLimitedEnabled = isFeatureFlagEnabled('bizopsRbacLimitedE
 export const bizopsProcessFlowMapEnabled = isFeatureFlagEnabled('bizopsProcessFlowMapEnabled');
 export const bizopsProcessStackEnabled = isFeatureFlagEnabled('bizopsProcessStackEnabled');
 export const bizopsActivityStackEnabled = isFeatureFlagEnabled('bizopsActivityStackEnabled');
+export const bizopsCustomDashboardEnabled = isFeatureFlagEnabled('bizopsCustomDashboardEnabled');
 
 // ########################################################################################
 // Chart gap hiding

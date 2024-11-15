@@ -19,6 +19,13 @@
     "unnamedActivity": "(Unnamed Activity) {{activityType}}",
     "unnamedService": "(Unnamed Service)"
   },
+  "customDashboards": {
+    "activityCountMetric": "Activities count",
+    "erroneousActivityCallsCountLabel": "Erroneous Activity Calls (count)",
+    "erroneousActivityCallsCategory": "Erroneous Activity Calls",
+    "erroneousActivityCallsRateLabel": "Erroneous Activity Calls (rate)",
+    "latency": "Latency"
+  },
   "processes": {
     "deployAgent": "Deploy agent"
   },
