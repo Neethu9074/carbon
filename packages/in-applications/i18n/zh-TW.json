@@ -6,6 +6,7 @@
   "labelAnalytic": "分析",
   "labelCall": "呼叫",
   "labelTrace": "追蹤",
+  "labelStatus": "狀態",
   "linkDownload": "下載",
   "linkDownloadCalls": "下載呼叫",
   "linkDownloadRawTrace": "下載原始追蹤",
@@ -686,5 +687,6 @@
     "alternativeServicesProblem": "<bold>否</bold>，如果現行服務的名稱來自 HTTP \"Host\" 標頭（ID 為 call.http.host 的服務對映規則），而替代服務的名稱則不是（因為其名稱來自基於基礎架構標籤的規則），反之亦然。 這些是重複的服務。",
     "alternativeServicesPossibleProblem": "<bold>可能</bold>，如果現行服務及替代服務名稱不是來自 HTTP \"Host\" 標頭，則它們是位於 Proxy 後面的服務（良好）或重複服務（不良）：部分服務完全鏈結至基礎架構，而其他服務部分鏈結至基礎架構。"
   },
-  "labelSyntheticMonitoring": "綜合監視"
+  "labelSyntheticMonitoring": "綜合監視",
+  "labelResourceOptimizations": "最佳化"
 }

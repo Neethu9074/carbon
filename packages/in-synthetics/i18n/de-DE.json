@@ -370,6 +370,46 @@
       "status": {
         "pending": "Anstehend"
       }
+    },
+    "credentialFeedback": {
+      "successMessageDelete": "Die Zugangsdaten wurden erfolgreich gelöscht",
+      "failureMesssage": "{{errorMessage}}"
+    },
+    "createCredential": {
+      "createButton": "Neuer Berechtigungsnachweis",
+      "nameValue": "Name und Wert",
+      "associations": "Zuordnungen",
+      "newCredentials": "Erstellen einer synthetischen Berechtigung",
+      "steps": {
+        "textInput": {
+          "placeholder": "Berechtigungsnachweisname",
+          "labelText": "Name",
+          "invalidText": "Der Name der Berechtigung muss mit einem Buchstaben beginnen und darf nur Buchstaben, Zahlen und Unterstriche enthalten."
+        },
+        "passwordInput": {
+          "placeholder": "Wert des Berechtigungsnachweises",
+          "labelText": "Wert",
+          "invalidText": "Der Wert sollte nicht leer sein."
+        },
+        "associationsDescription": "Die Verknüpfung eines Berechtigungsnachweises mit einer Anwendung, einer Website oder einer mobilen Anwendung gewährt allen Benutzern, die Zugang zu diesen Einheiten haben, Zugriffsrechte."
+      },
+      "feedback": {
+        "successMessage": "Erfolgreich erstellter Berechtigungsnachweis",
+        "failureMessageCreate": "Die Zugangsdaten konnten nicht erstellt werden: {{errorMessage}}",
+        "updateSuccessMessage": "Erfolgreich aktualisierte Anmeldeinformationen",
+        "failureMessageUpdate": "Die Aktualisierung der Anmeldeinformationen ist fehlgeschlagen: {{errorMessage}}"
+      },
+      "edit": {
+        "dialogTitle": "Synthetischen Berechtigungsnachweis bearbeiten {{credentialName}}",
+        "associations": "Zuordnungen",
+        "saveButton": "Speichern",
+        "textInputHelperText": "Der Name des Berechtigungsnachweises kann nicht bearbeitet werden, er ist ein readOnly Feld",
+        "passwordInputHelperText": "Geben Sie einen neuen Berechtigungswert ein, wenn Sie den aktuellen Wert aktualisieren möchten."
+      },
+      "tooltipLabels": {
+        "hide": "Berechtigungsnachweiswert ausblenden",
+        "show": "Berechtigungsnachweiswert anzeigen"
+      }
     }
   },
   "createSmartAlert": {
@@ -757,6 +797,28 @@
       "noWebsitesAssociated": "Keine zugeordneten Websites",
       "associatedMobileApps": "Zugeordnete Mobile Apps",
       "noMobileAppAssociated": "Keine zugeordneten Mobile Apps"
+    },
+    "credentialList": {
+      "mainLabel": "Berechtigungsnachweise",
+      "name": "Name",
+      "associations": "Zuordnungen",
+      "createdAt": "Erstellt am",
+      "createdBy": "Erstellt von",
+      "lastModifiedBy": "Letzte Änderung durch",
+      "actions": "Aktionen",
+      "noDataAvailable": {
+        "noCredentialsAvailableTitle": "Keine synthetischen Nachweise verfügbar",
+        "noCredentialsAvailableDescription": "Es werden keine synthetischen Anmeldeinformationen aus der Datenbank abgerufen."
+      },
+      "editAction": "Bearbeiten",
+      "deleteAction": {
+        "deleteActionLabel": "Löschen",
+        "deleteCredentialTitle": "Synthetischen Berechtigungsnachweis löschen {{credentialName}}",
+        "credentialNameValidation": "Geben Sie den vollständigen Namen des Berechtigungsnachweises ein, um die Löschung zu bestätigen",
+        "deleteButtonLabel": "Berechtigungsnachweis löschen",
+        "cancelButtonLabel": "Abbrechen",
+        "deletionSuccess": "Der Berechtigungsnachweis wurde gelöscht"
+      }
     }
   }
 }

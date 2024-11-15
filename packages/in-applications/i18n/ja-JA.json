@@ -6,6 +6,7 @@
   "labelAnalytic": "分析",
   "labelCall": "呼び出し",
   "labelTrace": "トレース",
+  "labelStatus": "状況",
   "linkDownload": "ダウンロード",
   "linkDownloadCalls": "呼び出しのダウンロード",
   "linkDownloadRawTrace": "ロー・トレースのダウンロード",
@@ -686,5 +687,6 @@
     "alternativeServicesProblem": "<bold>いいえ</bold>。現行のサービスの名前がHTTPの「Host」ヘッダー(IDがcall.http.hostのサービス・マッピング・ルール)に由来し、代替のサービスの名前がそうでない場合(その名前がインフラストラクチャー・タグに基づくルールにのため)、またはその逆の場合。 これらは重複するサービスです。",
     "alternativeServicesPossibleProblem": "<bold>多分</bold>は、現在のサービス名と代替サービス名がHTTPの「Host」ヘッダーからのものでない場合、それらはプロキシーの後ろにあるサービス(良好)か、重複するサービス(不良)のいずれかです。一部のサービスは完全にインフラストラクチャーにリンクされ、その他のサービスは部分的にインフラストラクチャーにリンクされます。"
   },
-  "labelSyntheticMonitoring": "シンセティック・モニタリング"
+  "labelSyntheticMonitoring": "シンセティック・モニタリング",
+  "labelResourceOptimizations": "最適化"
 }

@@ -53,6 +53,11 @@
       "title": "產品使用者分析",
       "purpose": "請登錄唯一 ID，以便就訪客如何使用網站，產生相關的統計資料。"
     },
+    "walkme": {
+      "title": "產品上線與指引",
+      "purpose": "請登錄唯一 ID，以便就訪客如何使用網站，產生相關的統計資料。",
+      "category": "產品上線與指引"
+    },
     "appcues": {
       "title": "自訂上架體驗和 NPS 意見調查",
       "purpose": "使用者上架和 NPS 商店意見調查。"
@@ -165,6 +170,7 @@
     "limitedAccessKubernetes_namespaces": "名稱空間",
     "limitedAccessKubernetes_addCluster": "新增叢集",
     "limitedAccessKubernetes_addNamespace": "新增名稱空間",
+    "addButton_bizopsPerspectives": "新增商業視景",
     "addButton_syntheticTests": "新增綜合測試",
     "descriptionAccessAll_synthetics": "可以使用選取的角色來存取所有虛構測試。",
     "descriptionLimitedAccess_synthetics": "選取角色並在下面新增虛構測試以授與存取權。",
@@ -215,6 +221,8 @@
     "description_access_all": "不受限制地存取全部",
     "title_access_all_bizops": "無限制存取",
     "title_no_access_bizops": "拒絕存取",
+    "title_limited_access_bizops": "受限存取權",
+    "description_limited_access_bizops": "僅存取列出的商業視景及其商業程序。",
     "description_access_all_bizops": "商業監視的所有特性都可存取，不受限制。",
     "description_no_access_bizops": "拒絕存取商業監視。",
     "description_access_all_except_contributor": "全部存取 - 除了以貢獻者身分存取的項目之外",
@@ -363,8 +371,7 @@
         "placeholder": "位置保留元",
         "logicalOperator_AND": "AND",
         "logicalOperator_OR": "OR",
-        "logicalOperatorInfo": "選取的邏輯運算子將套用至下列條件。",
-        "clearMetricSeclection": "清除選擇項"
+        "logicalOperatorInfo": "選取的邏輯運算子將套用至下列條件。"
       },
       "customPayload": {
         "unknownTag": "不明標籤：{{tagName}}"
@@ -438,7 +445,10 @@
     },
     "deleteLogs": {
       "deleteLogs": "刪除日誌",
-      "info": "如果您遇到 Instana 日誌安全資訊外洩的情況，您可以繼續刪除特定時段內的日誌。 ",
+      "info": "如果您遇到 Instana 日誌安全資訊外洩的情況，您可以",
+      "info2": "繼續刪除特定時段內的日誌。",
+      "confirmDeletion": "確認刪除",
+      "modalDescription": "刪除日誌會永久刪除 Instana 中指定的結束日期和結束時間之前的所有日誌。 這個動作無法還原",
       "confirmationDescription": "刪除日誌將永久地從 Instana 中刪除日誌。 這個動作無法復原。 ",
       "deletionReason": "刪除原因",
       "typeToContinue": "鍵入 {{logs}} 以繼續",
@@ -455,8 +465,8 @@
       "numberOfLogs": "日誌數",
       "triggered": "觸發者",
       "status": "狀態",
-      "noData": "沒有資料可顯示",
-      "noDataInfo": "若要刪除日誌，請按一下「刪除」日誌",
+      "noData": "尚未刪除任何日誌",
+      "noDataInfo": "若要刪除日誌，請按一下刪除日誌",
       "summary": "日誌刪除動作歷史記錄",
       "wrong": "發生一些問題",
       "errorInfo": "我們無法從資料庫中擷取資料",
@@ -927,9 +937,9 @@
     "users": "使用者",
     "session": "階段作業",
     "timeouts": "逾時",
-    "teamSettings": "團隊設定",
+    "globalSettings": "廣域設定",
     "userSettings": "使用者設定",
-    "authentication": "鑑別",
+    "securityAndAccess": "安全與存取",
     "settingsPageNotFound": "找不到設定頁面",
     "weCouldNotFindTheSettingsPageYouWereLookingFor": "我們找不到您要尋找的設定頁面。我們對此感到抱歉。或許您想嘗試改用下列其中一個鏈結？",
     "pleaseSelectAtLeastOneItem": "請選取至少一個項目。",
@@ -1285,13 +1295,13 @@
     "deletedEventMessage": "您正在查看已刪除的事件配置。 無法修改。",
     "serviceNowUrl": "ServiceNow URL",
     "serviceNow": "ServiceNow",
-    "serviceNowBD": "ServiceNow 應用程式",
+    "serviceNowBD": "ServiceNow ITSM 應用程式",
     "intermediateTable": "事件傳播到中介表",
     "propIncidentTable": "允許 Instana 將事件傳送到 ServiceNow 發生事件表",
     "propIncidentTableDesc": "傳播 IBM Instana 中介表後，Instana 會更新 ServiceNow 中的發生事件表。 這會開啟和關閉與 Instana 發生事件同步的 ServiceNow 發生事件，並在 Instana 和 ServiceNow 之間同步備註和活動。 在 ServiceNow 中修改發生事件表的任何現有業務規則也將正常運作。",
     "restIncidentTable": "將 Instana 限制為僅進行中介表的傳播",
     "restIncidentTableDesc": "Instana 僅會將發生事件資料傳播到 IBM Instana 中介表，而不對 ServiceNow 發生事件表進行任何進一步更新。 若要啟用事件、備註和活動的完全同步，您需要更新您的 ServiceNow 業務規則。 如需詳細資料，請參閱<documentationLink>文件</documentationLink>。",
-    "serviceNowAlertChannel": "ServiceNow 警示通道",
+    "serviceNowAlertChannel": "ServiceNow 應用程式警示通道",
     "serviceNowUsernameTooltip": "使用者名稱和密碼應該用於具有建立事件權限的 ServiceNow 使用者。",
     "autoCloseIncidents": "自動關閉發生事件",
     "advancedIntro": "建立此警示通道將使 Instana 能夠在 ServiceNow 中建立發生事件/票證。 您可以自訂事件的更新方式。<br/><br/>",
@@ -1352,7 +1362,10 @@
     "changeEvent": "變更事件",
     "advancedSettingsMessage": "透過啟用此選項，您將可以選擇根據事件警示的類型來個人化所接收事件警示的主旨。 如果您不想要自訂電子郵件主旨，則可以直接忽略此選項。",
     "customSubjectNotProvided": "如果未提供自訂主旨，Instana 將傳送包含預先定義主旨的警示電子郵件。",
-    "sendTestEmail": "傳送測試電子郵件"
+    "sendTestEmail": "傳送測試電子郵件",
+    "alertTitleAdditions": "警示標題",
+    "alertTitleAdditionsTooltip": "觸發此警示的實體名稱會顯示在警示的標題中。 預設情況下，實體名稱僅在警示內文中可見",
+    "includeEntityNameInLegacyAlerts": "在警示標題中包含實體名稱"
   },
   "languageSelection": {
     "language": "語言",
@@ -1401,7 +1414,7 @@
     "the": "The",
     "number": "數目",
     "first": "第一個",
-    "second": "第二",
+    "second": "秒",
     "third": "第三",
     "fourth": "第四個",
     "last": "最後一個",

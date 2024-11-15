@@ -99,12 +99,31 @@
       "failedToParseInputAsJson": "入力を JSON として解析できませんでした。",
       "jsonRootMustBeAnObject": "JSON root はオブジェクトでなければなりません。"
     },
+    "downloadPdfDialog": {
+      "downloadPdf": "PDF ファイルをダウンロード",
+      "settings": "設定",
+      "pdfOrientation": "方向",
+      "portrait": "縦長",
+      "landscape": "横長",
+      "pdfLayout": "レイアウト",
+      "widgetsDisplay": "Display",
+      "singlePage": "シングルページ",
+      "singlePageInfo": "コンテンツをサイズに合わせてリサイズして、ダッシュボード全体を 1 ページに収めてください。",
+      "multiPages": "複数ページ",
+      "multiPagesInfo": "元のレイアウトを維持したまま、ダッシュボードを複数のページに分散させる。 一部のウィジェットがカットされる場合があります。",
+      "stackWidgetsTitle": "スタック・ウィジェット",
+      "stackWidgetsInfo": "複数のページにわたってウィジェットを垂直スタックで表示します。",
+      "loadingWidget": "{{totalNodes}} のウィジェット {{widgetIndex}} をロードする",
+      "generatePreview": "プレビューを生成します",
+      "generatingPreview": "pdf プレビューを生成中"
+    },
     "filterContext": {
       "topLevelFilterPartiallyApplied": "現在のダッシュボードのフィルターの一部が適用された。",
       "topLevelFilterSelectsEverything": "現在のダッシュボードフィルタは、このウィジェットには適用されません。",
       "topLevelFilterSelectsNothing": "現在のダッシュボードフィルタは、このウィジェットには適用されません。",
       "topLevelFilterNotSupported": "ウィジェットがフィルタリングをサポートしていないため、現在のダッシュボード・フィルタはこのウィジェットに適用されませんでした。",
-      "topLevelFilterAppliedToSomeDatasets": "現在のダッシュボード・フィルタは、このウィジェットのすべてのデータセットに完全に適用されていません。"
+      "topLevelFilterAppliedToSomeDatasets": "現在のダッシュボードのフィルターが以下のデータセットに完全に適用されていませんでした: {{datasets}}",
+      "unnamedDataset": "無名データセット"
     }
   },
   "dashboardSwitcher": {
@@ -897,5 +916,8 @@
     "additionalFields": "このダッシュボードは、自分に対してのみ表示されます。 作成後に同僚と共有することを選択できます",
     "create": "作成",
     "failedToCreateDashboard": "ダッシュボードを作成できませんでした。"
+  },
+  "threshold": {
+    "label": "しきい値"
   }
 }

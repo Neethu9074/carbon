@@ -53,6 +53,11 @@
       "title": "产品用户分析",
       "purpose": "注册唯一标识，用于生成有关访客如何使用 Web 站点的统计数据。"
     },
+    "walkme": {
+      "title": "产品入门和指南",
+      "purpose": "注册唯一标识，用于生成有关访客如何使用 Web 站点的统计数据。",
+      "category": "产品入门和指南"
+    },
     "appcues": {
       "title": "量身打造的入职体验和 NPS 调查",
       "purpose": "用户入职和 NPS 店铺调查。"
@@ -165,6 +170,7 @@
     "limitedAccessKubernetes_namespaces": "名称空间",
     "limitedAccessKubernetes_addCluster": "添加集群",
     "limitedAccessKubernetes_addNamespace": "添加名称空间",
+    "addButton_bizopsPerspectives": "添加业务透视图",
     "addButton_syntheticTests": "添加合成测试",
     "descriptionAccessAll_synthetics": "可以使用所选角色访问所有合成测试。",
     "descriptionLimitedAccess_synthetics": "选择角色并在下面添加合成测试以授予访问权。",
@@ -215,6 +221,8 @@
     "description_access_all": "全部访问，但不限于",
     "title_access_all_bizops": "无限制访问",
     "title_no_access_bizops": "访问被拒绝",
+    "title_limited_access_bizops": "访问受限",
+    "description_limited_access_bizops": "只能访问所列的业务透视图及其业务流程。",
     "description_access_all_bizops": "业务监控的所有功能都可访问，无任何限制。",
     "description_no_access_bizops": "对业务监视的访问遭到拒绝。",
     "description_access_all_except_contributor": "全部访问 - 作为添加者访问的对象除外",
@@ -363,8 +371,7 @@
         "placeholder": "占位符",
         "logicalOperator_AND": "AND",
         "logicalOperator_OR": "OR",
-        "logicalOperatorInfo": "所选逻辑运算符将应用于以下条件。",
-        "clearMetricSeclection": "清除选择"
+        "logicalOperatorInfo": "所选逻辑运算符将应用于以下条件。"
       },
       "customPayload": {
         "unknownTag": "未知标记：{{tagName}}"
@@ -438,7 +445,10 @@
     },
     "deleteLogs": {
       "deleteLogs": "删除日志",
-      "info": "如果您遇到安全信息泄露到 Instana 日志的情况，可以删除特定时间段内的日志。 ",
+      "info": "如果您遇到安全信息泄漏到 Instana 日志的情况，您可以",
+      "info2": "开始删除特定时间段内的日志。",
+      "confirmDeletion": "确认删除",
+      "modalDescription": "删除日志将永久擦除 Instana 在指定结束日期和结束时间之前的所有日志。 此操作无法撤销",
       "confirmationDescription": "删除日志将永久删除 Instana 中的日志。 此操作不可撤销。 ",
       "deletionReason": "删除原因",
       "typeToContinue": "输入 {{logs}} 以继续",
@@ -455,7 +465,7 @@
       "numberOfLogs": "日志数",
       "triggered": "触发者",
       "status": "状态",
-      "noData": "没有要显示的数据",
+      "noData": "尚未删除任何日志",
       "noDataInfo": "要删除日志，请单击“删除日志”",
       "summary": "日志删除操作历史记录",
       "wrong": "发生错误",
@@ -927,9 +937,9 @@
     "users": "用户",
     "session": "会话",
     "timeouts": "超时数",
-    "teamSettings": "团队设置",
+    "globalSettings": "全局设置",
     "userSettings": "用户设置",
-    "authentication": "认证",
+    "securityAndAccess": "安全与访问",
     "settingsPageNotFound": "未找到设置页面",
     "weCouldNotFindTheSettingsPageYouWereLookingFor": "我们找不到您正在查找的设置页面。我们对此感到遗憾。您是否希望尝试以下链接之一 ?",
     "pleaseSelectAtLeastOneItem": "请至少选择一项。",
@@ -1285,13 +1295,13 @@
     "deletedEventMessage": "您正在查看已删除的事件配置。 无法进行修改。",
     "serviceNowUrl": "ServiceNow URL",
     "serviceNow": "ServiceNow",
-    "serviceNowBD": "ServiceNow 应用",
+    "serviceNowBD": "ServiceNow ITSM 应用程序",
     "intermediateTable": "事件传播到中间表",
     "propIncidentTable": "允许 Instana 向 ServiceNow 突发事件表发送事件",
     "propIncidentTableDesc": "传播 IBM Instana 中间表后，Instana 会更新 ServiceNow 中的突发事件表。 这将与 Instana 的突发事件同步打开和关闭 ServiceNow 突发事件，并在 Instana 和 ServiceNow 之间同步备注和活动。 用于修改 ServiceNow 中突发事件表的任何现有业务规则也将正常工作。",
     "restIncidentTable": "将 Instana 限制为仅执行中间表传播",
     "restIncidentTableDesc": "Instana 只会将突发事件数据传播到 IBM Instana 中间表，而不会进一步更新 ServiceNow 突发事件表。 要启用事件、备注和活动的完全同步，您需要更新 ServiceNow 业务规则。 有关详细信息，请参阅<documentationLink>文档</documentationLink>。",
-    "serviceNowAlertChannel": "ServiceNow 警报通道",
+    "serviceNowAlertChannel": "ServiceNow 应用程序 Alert Channel",
     "serviceNowUsernameTooltip": "用户名和密码应该是具有创建突发事件许可权的 ServiceNow 用户的用户名和密码。",
     "autoCloseIncidents": "自动关闭事件",
     "advancedIntro": "创建此警报频道将使 Instana 能够在 ServiceNow 中创建突发事件/凭单。 您可以自定义事故的更新方式。<br/><br/>",
@@ -1352,7 +1362,10 @@
     "changeEvent": "变更事件",
     "advancedSettingsMessage": "通过启用此选项，您可以选择根据所收到的事件警报的类型对其主题进行个性化设置。 如果您不想定制电子邮件主题，那么可以直接忽略此选项。",
     "customSubjectNotProvided": "如果未提供定制主题，Instana 将发送具有预定义主题的警报电子邮件。",
-    "sendTestEmail": "发送测试电子邮件"
+    "sendTestEmail": "发送测试电子邮件",
+    "alertTitleAdditions": "警报标题",
+    "alertTitleAdditionsTooltip": "触发此警报的实体名称将显示在警报标题中。 缺省情况下，实体名称只在警报正文中可见",
+    "includeEntityNameInLegacyAlerts": "在警报标题中包含实体名称"
   },
   "languageSelection": {
     "language": "语言",
@@ -1400,8 +1413,8 @@
     "on": "ON",
     "the": "该",
     "number": "编号",
-    "first": "第一",
-    "second": "第二",
+    "first": "first",
+    "second": "秒",
     "third": "第三",
     "fourth": "第四",
     "last": "last",

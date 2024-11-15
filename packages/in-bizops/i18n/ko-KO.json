@@ -124,6 +124,9 @@
         "businessPerspectiveUpdatedDetails": "\"{{perspectiveName}}\"이(가) 편집되었으며 변경 내용이 저장되었습니다.",
         "error": "오류"
       }
+    },
+    "flowMap": {
+      "tabLabel": "플로우"
     }
   }
 }

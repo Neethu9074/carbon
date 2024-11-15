@@ -19,11 +19,14 @@
     "select": "選取 $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{entity}}\"})",
     "noSelection": "未選取任何項目",
     "loadMore": "載入更多",
+    "threshold": "臨界值",
     "noData": "沒有可用的資料",
+    "trafficType": "資料流量類型",
     "noMatchingTimeWindows": "所選期間沒有相符的時間範圍。 如果選取的時間範圍早於 SLO 的建立日期，則通常會發生此情況。",
     "serverErrors": {
       "sloLimitReachedError": "已達到服務水準目標配置數目上限 ({{0}})。 請聯絡 Instana 支援中心，以要求增加此限制。"
     },
+    "traffic": "資料流量",
     "indicator": {
       "type": "不明類型",
       "type_eventBased": "事件計數",
@@ -32,6 +35,7 @@
       "blueprint": "不明藍圖",
       "blueprint_latency": "延遲",
       "blueprint_availability": "可用性",
+      "blueprint_traffic": "資料流量",
       "blueprint_custom": "自訂",
       "aggregation": "不明",
       "aggregation_MEAN": "平均值",
@@ -44,16 +48,24 @@
       "aggregation_P90": "90th",
       "aggregation_P95": "95th",
       "aggregation_P98": "98th",
-      "aggregation_P99": "99th"
+      "aggregation_P99": "99th",
+      "application": {
+        "trafficType_all": "所有呼叫",
+        "trafficType_erroneous": "錯誤呼叫"
+      },
+      "website": {
+        "trafficType_all": "所有引標計數",
+        "trafficType_erroneous": "引標錯誤計數"
+      }
     },
     "latency": "延遲",
     "time": "時間",
     "entityTypes": {
       "label": "不明的實體",
       "label_application": "應用程式",
-      "label_website": "網站"
+      "label_website": "網站",
+      "label_synthetic": "綜合測試"
     },
-    "preview": "預覽",
     "type": "類型",
     "selectLabel": "選項：{{selectedLabel}}",
     "serviceLevelObjective": "服務水準目標",
@@ -101,7 +113,9 @@
       "errors": "錯誤呼叫率",
       "beaconErrorRate": "引標錯誤率",
       "goodEvents": "良好事件",
-      "badEvents": "不當事件"
+      "badEvents": "不當事件",
+      "erroneousCalls": "錯誤呼叫",
+      "beaconErrorCount": "引標錯誤計數"
     },
     "format": {
       "event_website": "{{formatted}} 信標",
@@ -113,13 +127,21 @@
       "event_application_plural": "{{formatted}} 呼叫",
       "event_application_0": "{{formatted}} 呼叫",
       "event_application_1": "{{formatted}} 呼叫",
-      "event_application_2": "{{formatted}} 呼叫"
+      "event_application_2": "{{formatted}} 呼叫",
+      "event_synthetic": "{{formatted}} 個結果",
+      "event_synthetic_plural": "{{formatted}} 個結果",
+      "event_synthetic_0": "{{formatted}} 個結果",
+      "event_synthetic_1": "{{formatted}} 個結果",
+      "event_synthetic_2": "{{formatted}} 個結果"
     },
     "deleteDialog": {
       "pleaseConfirm": "請確認",
       "pleaseConfirmMsg": "您確定要刪除 <strong>{{name}}</strong> 嗎？",
       "delete": "刪除"
     }
+  },
+  "validators": {
+    "noInvalidOperator": "請從清單中選取運算子。"
   },
   "components": {
     "tagFilterBuilder": {
@@ -176,6 +198,7 @@
       "description_custom": "使用使用者定義的過濾器來測量良好及/或不良事件的計數。",
       "description_latency": "測量服務回應超過設定臨界值的速度。 例如，測量您的移出服務回應速度比 100 毫秒還快的速度。",
       "description_availability": "測量服務適當回應的頻率。 例如，HTTP 呼叫錯誤的頻率。",
+      "description_traffic": "使用高階系統特定度量來測量對系統的需求量。 例如，Web 服務通常以每秒的 HTTP 引標來測量。",
       "timeTypeExplanation": "依分鐘分組的良好與不正確呼叫數",
       "eventTypeExplanation": "良好與不良呼叫總數",
       "eventCount": "事件計數",
@@ -184,29 +207,31 @@
       "thresholdLabel_latency": "臨界值（毫秒）",
       "thresholdLabel_availability": "錯誤率 (%)",
       "setGoodCall": "將良好呼叫設為服務",
-      "setBadCall": "將不正確的呼叫設為服務（選用）"
+      "setBadCall": "將不正確的呼叫設為服務（選用）",
+      "thresholdDescription_GT": "良好的一分鐘定義為每分鐘的呼叫次數超過 {{thresholdValue}}。 糟糕的一分鐘定義為每分鐘的呼叫次數小於或等於 {{thresholdValue}}。",
+      "thresholdDescription_GTE": "良好的一分鐘定義為每分鐘的呼叫次數大於或等於 {{thresholdValue}}。 糟糕的一分鐘定義為每分鐘的呼叫次數少於 {{thresholdValue}}。",
+      "thresholdDescription_LT": "良好的一分鐘定義為每分鐘的呼叫次數少於 {{thresholdValue}}。 糟糕的一分鐘定義為每分鐘的呼叫次數大於或等於 {{thresholdValue}}。",
+      "thresholdDescription_LTE": "良好的一分鐘定義為每分鐘的呼叫次數小於或等於 {{thresholdValue}}。 糟糕的一分鐘定義為每分鐘的呼叫次數超過 {{thresholdValue}}。",
+      "thresholdInput": "<Stack>設定每分鐘呼叫次數的 <HorizontalStack><OperatorDropdown /><ThresholdInput />臨界值<HorizontalStack/><Stack />",
+      "allCalls": "所有呼叫",
+      "erroneousCalls": "錯誤呼叫"
     },
     "previewSection": {
-      "dataInfo": "預覽資料在過去最多只會顯示 7 天。 SLO 將只包含自建立以來的資料"
+      "dataInfo": "預覽資料在過去最多只會顯示 7 天。 SLO 將只包含自建立以來的資料",
+      "title": "預覽",
+      "title_synthetic": "範例"
     }
   },
   "sloChart": {
     "sloFormatter": {
-      "unit": "呼叫",
-      "unit_application": "呼叫",
-      "unit_website": "引標",
-      "unit_plural": "呼叫",
-      "unit_application_plural": "呼叫",
-      "unit_website_plural": "引標",
-      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
-      "callsFormat": "{{formattedCount}} $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
+      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:general.format.event {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
+      "callsFormat": "{{formattedCount}} $t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
     },
     "sloChartSummary": {
       "status": "狀態",
       "target": "目標：",
-      "errorBudgetRemaining": "剩餘的錯誤預算",
+      "errorBudgetRemaining": "剩餘：",
       "errorBudgetSpent": "所耗費的錯誤預算",
-      "errorBudget": "錯誤預算：",
       "timeWindow": "時間範圍",
       "timeWindowType_dynamic": "動態時間範圍",
       "timeWindowType_rolling": "輪詢時間範圍",
@@ -341,11 +366,13 @@
         "thresholdLabel": "臨界值（不明裝置）",
         "thresholdLabel_availability": "臨界值",
         "thresholdLabel_latency": "臨界值（毫秒）",
+        "thresholdLabel_traffic": "臨界值",
         "aggregationLabel": "聚集",
         "goodEventsLabel": "事件類型（良好事件）",
         "goodEventsLabel_application": "事件類型（良好呼叫）",
         "badEventsLabel": "事件類型（不正確的事件）",
-        "badEventsLabel_application": "事件類型（不正確的呼叫）"
+        "badEventsLabel_application": "事件類型（不正確的呼叫）",
+        "trafficTypeLabel": "資料流量類型"
       },
       "objectiveSection": {
         "title": "目標",

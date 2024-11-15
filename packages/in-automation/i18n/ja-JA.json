@@ -3,20 +3,22 @@
   "edit": "編集",
   "delete": "削除",
   "test": "テスト",
+  "cancel": "キャンセル",
   "recommendedActionsWithCount": "推奨アクション ({{count}})",
   "recommendedActions": "推奨アクション",
+  "recommendedOptimizationsWithCount": "推奨されるリソース・アクション {{count}})",
+  "recommendedOptimizations": "推奨されるリソース・アクション",
   "actionName": "アクション名",
   "validVaultParameter": "オプションとしてマークされたボールト・パラメーターは、両方ともブランクであるか、あるいは両方ともブランクではない必要があります。",
   "newAction": "新規アクション",
   "runAction": "アクションの実行",
   "testAction": "テスト・アクション",
   "targetAgent": "ターゲット・エージェント",
-  "noTargetAgent": "このアクションを実行するために使用できるターゲット・エージェントがありません。",
   "triggeringAgent": "{{hostname}} (エージェントのトリガー)",
   "targetAgentDescription": "エージェントは 1 ..* をカプセル化します。 センサーは、Instana バックエンドにイベントを発生させることができます。 トリガー・エージェントには、この特定のイベントを発生させたセンサーが含まれています。",
-  "chosenToRun": "アクション・カタログから {{actionName}} を実行することを選択しました。",
+  "chosenToRun": "アクションの実行 {{actionName}}",
   "viewManualAction": "手動アクション {{actionName}} の表示",
-  "chosenToTest": "アクション・カタログから {{actionName}} をテストすることを選択しています。",
+  "chosenToTest": "テスト・アクション {{actionName}}",
   "failedToInitiate": "{{actionName}} の開始に失敗しました。",
   "hasBeenInitiated": "{{actionName}} が開始されました。",
   "configureAutomation": "{{actionName}} の自動化の構成",
@@ -46,6 +48,7 @@
   "failedToResolveDynamicParameters": "動的パラメーターの解決に失敗しました。",
   "deletePolicyWithName": "ポリシー {{actionName}} の削除",
   "jobTemplate": "ジョブ・テンプレート",
+  "workflowJobTemplate": "ワークフロー・ジョブ・テンプレート",
   "hostsLimit": "ホスト制限 (オプション)",
   "ownerInfo": "所有者/組織: {{owner}}",
   "repoInfo": "リポジトリー: {{repo}}",
@@ -77,12 +80,14 @@
   "theValueMustNotBeBlank": "値をブランクにすることはできません。",
   "tags": "タグ",
   "tagsLabel": "タグ (オプション)",
+  "actionCategory": "行動カテゴリー",
   "value": "値",
   "type": "タイプ",
   "automationPoliciesWithCount": "自動化ポリシー ({{count}})",
   "automationPolicies": "自動化ポリシー",
   "copyOf": "{{name}}(のコピー)",
   "searchActions": "検索アクション",
+  "searchOptimizations": "検索の最適化",
   "hostsLimitHelpText": "指定されたターゲット・ホストに実行を制限します。 Ansible インベントリーでのシステムの表示方法に一致する値を選択するか、Ansible 制限構文でサポートされるストリングを入力します。",
   "aiEngine": "AI エンジン",
   "engine": "エンジン",
@@ -97,7 +102,7 @@
   "AISlugContent": "このコンテンツを生成するためにAIが使用されました",
   "createPolicyWithName": "アクション {{actionName}} の表示およびポリシーの作成",
   "viewActionCreatePolicy": "アクションの表示およびポリシーの作成",
-  "titleScriptContentReadOnly": "コンテンツ (読み取り専用)",
+  "titleContentReadOnly": "生成されたコンテンツ (読み取り専用)",
   "GenerateAIActionDialog": {
     "actionConfiguration": "アクション構成",
     "actionDetails": "アクションの詳細",
@@ -108,7 +113,7 @@
     "step1Title": "ステップ 1: アクションの生成または選択",
     "step1TitleGenerateAction": "ステップ 1: アクションの生成",
     "step1TitleSelectAction": "ステップ 1：アクションの選択",
-    "step2Title": "ステップ2: アクションのカスタマイズ",
+    "step2Title": "ステップ 2: アクションの設定",
     "step3Title": "ステップ 3: ポリシーの作成 (オプション)",
     "policyDetails": "ポリシーの詳細",
     "policy": {
@@ -123,7 +128,7 @@
         "content": "アクション <Link>\"{{name}}\"</Link> が正常に作成されました。"
       }
     },
-    "generateAction": "アクションの生成",
+    "generateAction": "AIで生成",
     "closeDialogDescription": " このページから移動しますか?",
     "closeDialogSubDescription": "このページを終了すると、入力または選択した情報は保存されません。",
     "liveGeneration": "ライブ・ジェネレーション",
@@ -143,7 +148,22 @@
     "nameExists": "アクションはすでに次の名前で存在します: {{name}}、およびタイプ: {{type}}",
     "failedToGenerateAction": "アクションの生成に失敗しました。",
     "failedToCreateActionPolicy": "アクションとポリシーの生成に失敗しました。",
-    "failedToCreateAction": "アクションの作成に失敗しました。"
+    "failedToCreateAction": "アクションの作成に失敗しました。",
+    "generateScriptDialog": {
+      "dialogHeader": "手動操作からスクリプトを生成する",
+      "step1Title": "ステップ 1: ステップの選択",
+      "step2Title": "ステップ 2: スクリプトの作成",
+      "step3Title": "ステップ 3: アクションの設定と作成",
+      "step1Headline": "スクリプトを生成する予定の手動アクション ステップを 1 つ選択します。 次のステップで、マニュアル・アクション・ステップを編集することができます。",
+      "step2Headline1": "アクション・ステップの詳細を確認し、必要な編集を行う。 次にスクリプトの生成をクリックすると、watsonx の結果が表示されます。",
+      "step2Headline2": "編集して再度生成し、別の結果を見ることができます。",
+      "noDataAvailableLive": "生成ボタンをクリックして、スクリプトを生成する",
+      "generateScriptButton": "スクリプトの生成",
+      "titleGeneratedCodeReadOnly": "生成コード (読み取り専用)",
+      "promptTitle": "プロンプト",
+      "generateScriptTileHeader": "手動アクション・ステップからスクリプトを生成する",
+      "generateScriptTileDescription": "watsonx AI を使用すると、手動アクション・ステップから bash スクリプトをプロンプトとして素早く作成し、数ステップでアクション・カタログに追加することができます。"
+    }
   },
   "CreatePolicyDialog": {
     "Step1Headline": "推奨アクションを表示し、このイベントの自動化ポリシーを作成します。",
@@ -452,9 +472,43 @@
     "createPolicies": "ポリシーの作成",
     "websiteSmartAlert": "Web サイト・スマート・アラート"
   },
+  "infoPanel": {
+    "taskGuidance": "ユーザー・ガイド",
+    "hideTasks": "非表示",
+    "showTasks": "表示"
+  },
   "deleteDialog": {
     "pleaseConfirm": "ご確認ください",
     "pleaseConfirmMsg": "<strong>{{name}}</strong> を削除してよろしいですか?",
     "delete": "削除"
+  },
+  "turboActionCategories": {
+    "compliance": "コンプライアンス",
+    "prevention": "防止",
+    "efficiency": "効率性",
+    "efficiency_improvement": "効率改善",
+    "savings": "貯金",
+    "performance": "パフォーマンス",
+    "performance_assurance": "パフォーマンスの保証"
+  },
+  "resourceOptimization": {
+    "details": "リソース最適化の詳細",
+    "targetAgent": "ターゲット・エージェント",
+    "viewInTurbo": "Turbonomic で見る",
+    "resourceImpact": "リソースの影響",
+    "impactedApplications": "影響を受けるアプリケーション",
+    "services": "サービス",
+    "current": "現在",
+    "afterActions": "アクション後",
+    "agentHelperText": "エージェントは 1 ..* をカプセル化します センサーは、Instana バックエンドにイベントを発生させることができます。 トリガー・エージェントには、この特定のイベントを発生させたセンサーが含まれています。",
+    "proceedConfirm": "この操作は元に戻せません。 続行しますか?",
+    "riskDescription": "リスクの説明",
+    "runningAction": "実行アクション...",
+    "actionStarted": "アクションは開始しました",
+    "actionFailed": "アクション失敗",
+    "actionStartedMessage": "<strong>{{actionName}} を実行しました。</strong> アクション履歴ページでこのアクションの進行状況を見る。",
+    "actionFailedMessage": "アクション <strong>{{actionName}}</strong> の実行要求に失敗しました: {{message}}。",
+    "viewActionHistory": "アクション履歴の表示",
+    "actionName": "アクション名"
   }
 }

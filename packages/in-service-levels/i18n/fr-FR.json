@@ -19,11 +19,14 @@
     "select": "Sélectionnez $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{entity}}\"})",
     "noSelection": "Aucun élément sélectionné",
     "loadMore": "Charger plus",
+    "threshold": "Seuil",
     "noData": "Aucune donnée disponible",
+    "trafficType": "Type de trafic",
     "noMatchingTimeWindows": "Il n'existe pas de fenêtre de temps correspondante pour la période sélectionnée. En général, c'est parce que la fenêtre de temps sélectionnée est antérieure à la date de création de l'objectif du niveau de service.",
     "serverErrors": {
       "sloLimitReachedError": "Le nombre maximal de configurations d'objectif du niveau de service ({{0}}) a été atteint. Contactez le support Instana pour demander une augmentation de cette limite."
     },
+    "traffic": "Trafic",
     "indicator": {
       "type": "Type inconnu",
       "type_eventBased": "Nombre d'événements",
@@ -32,6 +35,7 @@
       "blueprint": "Plan directeur inconnu",
       "blueprint_latency": "Temps d'attente",
       "blueprint_availability": "Disponibilité",
+      "blueprint_traffic": "Trafic",
       "blueprint_custom": "Personnalisé",
       "aggregation": "Inconnu",
       "aggregation_MEAN": "moyenne",
@@ -44,16 +48,24 @@
       "aggregation_P90": "90th",
       "aggregation_P95": "95th",
       "aggregation_P98": "98th",
-      "aggregation_P99": "99th"
+      "aggregation_P99": "99th",
+      "application": {
+        "trafficType_all": "Tous les appels",
+        "trafficType_erroneous": "Appels erronés"
+      },
+      "website": {
+        "trafficType_all": "Nombre de toutes les balises",
+        "trafficType_erroneous": "Nombre d'erreurs de balises"
+      }
     },
     "latency": "Temps d'attente",
     "time": "Durée",
     "entityTypes": {
       "label": "Entité inconnue",
       "label_application": "Application",
-      "label_website": "Site Web"
+      "label_website": "Site Web",
+      "label_synthetic": "Tests synthétiques"
     },
-    "preview": "Aperçu",
     "type": "Type",
     "selectLabel": "Sélection : {{selectedLabel}}",
     "serviceLevelObjective": "Objectif de niveau de service",
@@ -101,7 +113,9 @@
       "errors": "Taux d'appels erronés",
       "beaconErrorRate": "Taux d'erreurs de balise",
       "goodEvents": "Evénements corrects",
-      "badEvents": "Evénements incorrects"
+      "badEvents": "Evénements incorrects",
+      "erroneousCalls": "Appels erronés",
+      "beaconErrorCount": "Nombre d'erreurs de balises"
     },
     "format": {
       "event_website": "Balise {{formatted}}",
@@ -113,13 +127,21 @@
       "event_application_plural": "Appels {{formatted}}",
       "event_application_0": "Appels {{formatted}}",
       "event_application_1": "Appel {{formatted}}",
-      "event_application_2": "Appels {{formatted}}"
+      "event_application_2": "Appels {{formatted}}",
+      "event_synthetic": "{{formatted}} résultat",
+      "event_synthetic_plural": "{{formatted}} résultats",
+      "event_synthetic_0": "{{formatted}} résultats",
+      "event_synthetic_1": "{{formatted}} résultats",
+      "event_synthetic_2": "{{formatted}} résultats"
     },
     "deleteDialog": {
       "pleaseConfirm": "Veuillez confirmer",
       "pleaseConfirmMsg": "Voulez-vous vraiment supprimer <strong>{{name}}</strong> ?",
       "delete": "Supprimer"
     }
+  },
+  "validators": {
+    "noInvalidOperator": "Sélectionnez un opérateur dans la liste."
   },
   "components": {
     "tagFilterBuilder": {
@@ -176,6 +198,7 @@
       "description_custom": "Mesure le nombre d'événements corrects et.ou incorrects à l'aide de filtres définis par l'utilisateur.",
       "description_latency": "Mesure la vitesse à laquelle le service a répondu au-delà d'un seuil défini. Par exemple, la vitesse au-delà de 100 ms à laquelle votre service de paiement répond.",
       "description_availability": "Mesure la fréquence à laquelle un service répond de manière appropriée. Par exemple, la fréquence à laquelle vos appels HTTP sont erronés.",
+      "description_traffic": "Mesure l'ampleur de la demande imposée à un système à l'aide d'une métrique de haut niveau spécifique au système. Par exemple, un service Web est généralement mesuré en balises HTTP par seconde.",
       "timeTypeExplanation": "Appels corrects/incorrects regroupés par minute",
       "eventTypeExplanation": "Nombre total d'appels corrects par rapport aux appels incorrects",
       "eventCount": "Nombre d'événements",
@@ -184,29 +207,31 @@
       "thresholdLabel_latency": "Seuil (ms)",
       "thresholdLabel_availability": "Taux d'erreur (%)",
       "setGoodCall": "Définir les appels corrects à un service",
-      "setBadCall": "Définir les appels incorrects à un service (facultatif)"
+      "setBadCall": "Définir les appels incorrects à un service (facultatif)",
+      "thresholdDescription_GT": "Une bonne minute est définie par un nombre d'appels supérieur à {{thresholdValue}} par minute. Une mauvaise minute est définie par un nombre d'appels inférieur ou égal à {{thresholdValue}} par minute.",
+      "thresholdDescription_GTE": "Une bonne minute est définie par un nombre d'appels supérieur ou égal à {{thresholdValue}} par minute. Une mauvaise minute est définie par un nombre d'appels inférieur à {{thresholdValue}} par minute.",
+      "thresholdDescription_LT": "Une bonne minute est définie par un nombre d'appels inférieur à {{thresholdValue}} par minute. Une mauvaise minute est définie par un nombre d'appels supérieur ou égal à {{thresholdValue}} par minute.",
+      "thresholdDescription_LTE": "Une bonne minute est définie par un nombre d'appels inférieur ou égal à {{thresholdValue}} par minute. Une mauvaise minute est définie par un nombre d'appels supérieur à {{thresholdValue}} par minute.",
+      "thresholdInput": "<Stack>Définissez un seuil de<HorizontalStack><OperatorDropdown /><ThresholdInput />appels par minute<HorizontalStack/><Stack />",
+      "allCalls": "Tous les appels",
+      "erroneousCalls": "Appels erronés"
     },
     "previewSection": {
-      "dataInfo": "Les données d'aperçu ne remontent que jusqu'à 7 jours. L'objectif de niveau de service inclut uniquement les données à partir de la date de création."
+      "dataInfo": "Les données d'aperçu ne remontent que jusqu'à 7 jours. L'objectif de niveau de service inclut uniquement les données à partir de la date de création.",
+      "title": "Aperçu",
+      "title_synthetic": "Exemple"
     }
   },
   "sloChart": {
     "sloFormatter": {
-      "unit": "appel",
-      "unit_application": "appel",
-      "unit_website": "alarme",
-      "unit_plural": "appels",
-      "unit_application_plural": "appels",
-      "unit_website_plural": "alarmes",
-      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
-      "callsFormat": "{{formattedCount}} $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
+      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:general.format.event {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
+      "callsFormat": "{{formattedCount}} $t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
     },
     "sloChartSummary": {
       "status": "Statut",
       "target": "Cible :",
-      "errorBudgetRemaining": "Erreur budget restant",
+      "errorBudgetRemaining": "Restant :",
       "errorBudgetSpent": "Budget d'erreurs dépensé",
-      "errorBudget": "Budget d'erreurs :",
       "timeWindow": "Fenêtre de temps",
       "timeWindowType_dynamic": "Fenêtre de temps dynamique",
       "timeWindowType_rolling": "Fenêtre de temps glissante",
@@ -341,11 +366,13 @@
         "thresholdLabel": "Seuil (unité inconnue)",
         "thresholdLabel_availability": "Seuil",
         "thresholdLabel_latency": "Seuil (ms)",
+        "thresholdLabel_traffic": "Seuil",
         "aggregationLabel": "Agrégation",
         "goodEventsLabel": "Type d'événement (événements corrects)",
         "goodEventsLabel_application": "Type d'événements (appels corrects)",
         "badEventsLabel": "Type d'événement (événements incorrects)",
-        "badEventsLabel_application": "Type d'événement (appels incorrects)"
+        "badEventsLabel_application": "Type d'événement (appels incorrects)",
+        "trafficTypeLabel": "Type de trafic"
       },
       "objectiveSection": {
         "title": "Objectif",

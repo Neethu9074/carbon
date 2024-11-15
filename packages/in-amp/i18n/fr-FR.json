@@ -86,8 +86,11 @@
       "essentials": "Essentials",
       "iqmHosts": "Hôtes IQM",
       "syntheticPops": "PoP gérés synthétiques",
+      "logging": "Journaux en contexte",
       "resourceUnits": "Unités de ressources habilitées",
       "consumedUnits": "Unités de ressources consommées",
+      "entitledData": "Données autorisées",
+      "consumedData": "Données consommées",
       "infrastructure": "Infrastructure",
       "synthetics": "Synthétiques",
       "traces": "Traces",
@@ -97,7 +100,11 @@
       "trendLine": "Ligne de tendance",
       "dataUsage": "Utilisation des données",
       "dataUsageHelperText": "Quantité d'octets envoyés par des agents séparés par catégorie dans la période choisie.",
-      "syntheticsHelperText": "Nombre d'unités de ressource consommées par chaque type d'action. Les unités sont calculées avec un facteur de 0,025 pour les tests simples, 0,042 pour les tests d'API et 1,000 pour les tests de navigateur."
+      "syntheticsHelperText": "Nombre d'unités de ressource consommées par chaque type d'action. Les unités sont calculées avec un facteur de 0,025 pour les tests simples, 0,042 pour les tests d'API et 1,000 pour les tests de navigateur.",
+      "loggingHelperText": {
+        "saas": "Ce graphique affiche la quantité de données en octets utilisée par le module complémentaire de journalisation pour la période de conservation choisie.",
+        "onprem": "Ce graphique affiche la quantité de données en octets utilisée par le module complémentaire de journalisation pour la période de conservation choisie."
+      }
     },
     "activationAdoption": {
       "activationAdoption": "Activation &amp;TWBAMP; Adoption",

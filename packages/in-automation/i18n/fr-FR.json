@@ -3,20 +3,22 @@
   "edit": "Editer",
   "delete": "Supprimer",
   "test": "Test",
+  "cancel": "Annuler",
   "recommendedActionsWithCount": "Actions recommandées ({{count}})",
   "recommendedActions": "Actions recommandées",
+  "recommendedOptimizationsWithCount": "Actions de ressources recommandées ({{count}})",
+  "recommendedOptimizations": "Actions de ressources recommandées",
   "actionName": "Nom d'action",
   "validVaultParameter": "Les paramètres de coffre marqués comme facultatifs doivent être soit tous les deux vides, soit tous les deux non vides.",
   "newAction": "Nouvelle action",
   "runAction": "Exécuter l'action",
   "testAction": "Tester l'action",
   "targetAgent": "Agent cible",
-  "noTargetAgent": "Aucun agent cible n'est disponible pour exécuter cette action.",
   "triggeringAgent": "{{hostname}} (agent de déclenchement)",
   "targetAgentDescription": "Un agent encapsule 1..* Capteurs, qui à leur tour sont capables d'émettre des événements vers le système de back end Instana. Un agent de déclenchement contient le détecteur qui a émis cet événement particulier.",
-  "chosenToRun": "Vous avez choisi d'exécuter {{actionName}} à partir de votre catalogue d'actions.",
+  "chosenToRun": "Exécuter l'action {{actionName}}",
   "viewManualAction": "Afficher l'action manuelle {{actionName}}",
-  "chosenToTest": "Vous avez choisi de tester {{actionName}} depuis votre catalogue d'actions.",
+  "chosenToTest": "Tester l'action {{actionName}}",
   "failedToInitiate": "Le lancement de {{actionName}} a échoué.",
   "hasBeenInitiated": "L'action {{actionName}} a été lancée.",
   "configureAutomation": "Configurer l'automatisation pour {{actionName}}",
@@ -46,6 +48,7 @@
   "failedToResolveDynamicParameters": "Échec de la résolution des paramètres dynamiques.",
   "deletePolicyWithName": "Supprimer la règle {{actionName}}",
   "jobTemplate": "Modèle de travail",
+  "workflowJobTemplate": "Modèle de travail de flux de travaux",
   "hostsLimit": "Limite d'hôtes (facultatif)",
   "ownerInfo": "Propriétaire/Organisation: {{owner}}",
   "repoInfo": "Référentiel : {{repo}}",
@@ -77,12 +80,14 @@
   "theValueMustNotBeBlank": "Vous devez définir une valeur.",
   "tags": "Étiquettes",
   "tagsLabel": "Etiquettes (facultatif)",
+  "actionCategory": "Catégories d'action",
   "value": "Valeur",
   "type": "Type",
   "automationPoliciesWithCount": "Stratégies d'automatisation ({{count}})",
   "automationPolicies": "Stratégies d'automatisation",
   "copyOf": "(Copie de) {{name}}",
   "searchActions": "Rechercher des actions",
+  "searchOptimizations": "Optimisation de la recherche",
   "hostsLimitHelpText": "Limiter l'exécution à l'hôte cible spécifié. Sélectionnez la valeur qui correspond à la façon dont le système est représenté dans l'inventaire Ansible ou entrez une chaîne prise en charge par la syntaxe de limite Ansible.",
   "aiEngine": "Moteur d'IA",
   "engine": "Moteur",
@@ -97,7 +102,7 @@
   "AISlugContent": "L'IA a été utilisée pour générer ce contenu",
   "createPolicyWithName": "Afficher l'action {{actionName}} et créer la règle",
   "viewActionCreatePolicy": "Afficher l'action et créer la règle",
-  "titleScriptContentReadOnly": "Contenu (lecture seule)",
+  "titleContentReadOnly": "Contenu généré (lecture seule)",
   "GenerateAIActionDialog": {
     "actionConfiguration": "Configuration d'action",
     "actionDetails": "Détails de l'action",
@@ -108,7 +113,7 @@
     "step1Title": "Étape 1 : Générer ou sélectionner une action",
     "step1TitleGenerateAction": "Étape 1 : Générer une action",
     "step1TitleSelectAction": "Étape 1 : Sélectionner une action",
-    "step2Title": "Etape 2 : Personnalisez l'action",
+    "step2Title": "Étape 2 : Configurer l'action",
     "step3Title": "Étape 3 : Créer une politique (facultatif)",
     "policyDetails": "Détails de la politique",
     "policy": {
@@ -123,7 +128,7 @@
         "content": "L'action <Link>\"{{name}}\"</Link> a été créée."
       }
     },
-    "generateAction": "Générer une action",
+    "generateAction": "Générer avec l'IA",
     "closeDialogDescription": " Voulez-vous vraiment quitter cette page ?",
     "closeDialogSubDescription": "Si vous quittez cette page, les informations que vous avez entrées ou sélectionnées ne seront pas sauvegardées.",
     "liveGeneration": "Génération en direct",
@@ -143,7 +148,22 @@
     "nameExists": "Une action existe déjà sous le nom : {{name}} et le type : {{type}}",
     "failedToGenerateAction": "Échec de génération de l'action.",
     "failedToCreateActionPolicy": "Échec de la création des actions et de la politique.",
-    "failedToCreateAction": "Échec de la création de l'action."
+    "failedToCreateAction": "Échec de la création de l'action.",
+    "generateScriptDialog": {
+      "dialogHeader": "Générer un script à partir d'une action manuelle",
+      "step1Title": "Étape 1 : Sélectionner une étape",
+      "step2Title": "Étape 2 : Générer un script",
+      "step3Title": "Étape 3 : Configurer et créer une action",
+      "step1Headline": "Sélectionnez une étape d'action manuelle pour laquelle vous souhaitez générer un script. Vous pouvez modifier l'étape d'action manuelle à l'étape suivante.",
+      "step2Headline1": "Examinez les détails de l'étape d'action et apportez les modifications nécessaires. Cliquez ensuite sur Générer un script pour voir les résultats de watsonx.",
+      "step2Headline2": "Vous pouvez modifier et générer à nouveau pour obtenir des résultats différents.",
+      "noDataAvailableLive": "Cliquez sur le bouton \"Générer\" pour générer un script",
+      "generateScriptButton": "Générer un script",
+      "titleGeneratedCodeReadOnly": "Code généré (lecture seule)",
+      "promptTitle": "Invite",
+      "generateScriptTileHeader": "Générer un script à partir d'une étape d'action manuelle",
+      "generateScriptTileDescription": "En utilisant l'IA watsonx, vous pouvez rapidement créer un script bash à partir d'une étape d'action manuelle en tant qu'invite et l'ajouter dans votre catalogue d'actions en quelques étapes."
+    }
   },
   "CreatePolicyDialog": {
     "Step1Headline": "Afficher l'action recommandée et créer une règle d'automatisation pour cet événement",
@@ -452,9 +472,43 @@
     "createPolicies": "Créer des politiques",
     "websiteSmartAlert": "Alerte intelligente du site Web"
   },
+  "infoPanel": {
+    "taskGuidance": "Guide de l'utilisateur",
+    "hideTasks": "Masquer",
+    "showTasks": "Afficher"
+  },
   "deleteDialog": {
     "pleaseConfirm": "Veuillez confirmer",
     "pleaseConfirmMsg": "Voulez-vous vraiment supprimer <strong>{{name}}</strong> ?",
     "delete": "Supprimer"
+  },
+  "turboActionCategories": {
+    "compliance": "Conformité",
+    "prevention": "Prévention",
+    "efficiency": "Efficiency",
+    "efficiency_improvement": "Amélioration de l'efficacité",
+    "savings": "Compte d'épargne",
+    "performance": "Performance",
+    "performance_assurance": "Garantie de performances"
+  },
+  "resourceOptimization": {
+    "details": "Détails de l'optimisation des ressources",
+    "targetAgent": "Agent cible",
+    "viewInTurbo": "Voir dans Turbonomic",
+    "resourceImpact": "Impact sur les ressources",
+    "impactedApplications": "Applications affectées",
+    "services": "services",
+    "current": "En cours",
+    "afterActions": "Après les actions",
+    "agentHelperText": "Un agent encapsule 1..* des capteurs, qui à leur tour sont capables d'émettre des événements vers le système de back end Instana. Un agent de déclenchement contient le capteur qui a émis cet événement particulier.",
+    "proceedConfirm": "Cette action ne peut pas être annulée. Voulez-vous continuer ?",
+    "riskDescription": "Description du risque",
+    "runningAction": "Action en cours d'exécution...",
+    "actionStarted": "Action démarrée",
+    "actionFailed": "Échec de l'action",
+    "actionStartedMessage": "Vous avez exécuté <strong>{{actionName}}.</strong> Consultez l'état d'avancement de cette action dans la page d'historique des actions.",
+    "actionFailedMessage": "La demande d'exécution de l'action <strong>{{actionName}}</strong> a échoué : {{message}}.",
+    "viewActionHistory": "Afficher l'historique des actions",
+    "actionName": "Nom de l'action"
   }
 }

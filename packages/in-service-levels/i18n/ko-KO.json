@@ -19,11 +19,14 @@
     "select": "$t(in-service-levels:general.entityTypes.label, {\"context\":\"{{entity}}\"}) 선택",
     "noSelection": "선택되지 않음",
     "loadMore": "추가 로드",
+    "threshold": "임계값",
     "noData": "사용 가능한 데이터 없음",
+    "trafficType": "트래픽 유형",
     "noMatchingTimeWindows": "선택한 기간에 대해 일치하는 시간 창이 없습니다. 이는 일반적으로 선택된 시간 창이 SLO의 작성 날짜 이전인 경우에 발생합니다.",
     "serverErrors": {
       "sloLimitReachedError": "SLO(Service Level Objective) 구성의 최대 수({{0}})에 도달했습니다. 이 한계를 늘리도록 요청하려면 Instana 지원에 문의하십시오."
     },
+    "traffic": "트래픽",
     "indicator": {
       "type": "알 수 없는 유형",
       "type_eventBased": "이벤트 개수",
@@ -32,6 +35,7 @@
       "blueprint": "알 수 없는 Blueprint",
       "blueprint_latency": "대기 시간",
       "blueprint_availability": "Availability",
+      "blueprint_traffic": "트래픽",
       "blueprint_custom": "사용자 정의",
       "aggregation": "알 수 없음",
       "aggregation_MEAN": "평균",
@@ -44,16 +48,24 @@
       "aggregation_P90": "90th",
       "aggregation_P95": "95th",
       "aggregation_P98": "98th",
-      "aggregation_P99": "99th"
+      "aggregation_P99": "99th",
+      "application": {
+        "trafficType_all": "모든 호출",
+        "trafficType_erroneous": "잘못된 호출"
+      },
+      "website": {
+        "trafficType_all": "모든 비컨 수",
+        "trafficType_erroneous": "비컨 오류 계수"
+      }
     },
     "latency": "대기 시간",
     "time": "시간",
     "entityTypes": {
       "label": "알 수 없는 엔티티",
       "label_application": "애플리케이션",
-      "label_website": "웹 사이트"
+      "label_website": "웹 사이트",
+      "label_synthetic": "합성 테스트"
     },
-    "preview": "미리보기",
     "type": "유형",
     "selectLabel": "선택사항: {{selectedLabel}}",
     "serviceLevelObjective": "서비스 레벨 목표(SLO)",
@@ -101,7 +113,9 @@
       "errors": "잘못된 호출 비율",
       "beaconErrorRate": "비컨 오류 비율",
       "goodEvents": "양호 이벤트",
-      "badEvents": "잘못된 이벤트"
+      "badEvents": "잘못된 이벤트",
+      "erroneousCalls": "잘못된 호출",
+      "beaconErrorCount": "비컨 오류 계수"
     },
     "format": {
       "event_website": "{{formatted}} 비컨",
@@ -113,13 +127,21 @@
       "event_application_plural": "{{formatted}} 호출",
       "event_application_0": "{{formatted}} 호출",
       "event_application_1": "{{formatted}} 호출",
-      "event_application_2": "{{formatted}} 호출"
+      "event_application_2": "{{formatted}} 호출",
+      "event_synthetic": "{{formatted}} 결과",
+      "event_synthetic_plural": "{{formatted}} 결과",
+      "event_synthetic_0": "{{formatted}} 결과",
+      "event_synthetic_1": "{{formatted}} 결과",
+      "event_synthetic_2": "{{formatted}} 결과"
     },
     "deleteDialog": {
       "pleaseConfirm": "확인하십시오.",
       "pleaseConfirmMsg": "<strong>{{name}}</strong>을(를) 삭제하시겠습니까?",
       "delete": "삭제"
     }
+  },
+  "validators": {
+    "noInvalidOperator": "목록에서 연산자를 선택하십시오."
   },
   "components": {
     "tagFilterBuilder": {
@@ -176,6 +198,7 @@
       "description_custom": "사용자 정의 필터를 사용하여 양호 및/또는 불량 이벤트 수를 측정합니다.",
       "description_latency": "서비스가 설정된 임계값을 초과하여 응답하는 속도를 측정합니다. 예를 들어, 체크아웃 서비스가 100ms보다 빠르게 응답하는 속도의 측정값입니다.",
       "description_availability": "서비스가 적절히 응답하는 빈도를 측정합니다. 예를 들어, HTTP 호출에 오류가 발생하는 빈도입니다.",
+      "description_traffic": "높은 레벨의 시스템별 메트릭을 사용하여 시스템에 얼마나 많은 수요가 발생하고 있는지 측정합니다. 예를 들어, 웹 서비스는 일반적으로 초당 HTTP 비컨으로 측정됩니다.",
       "timeTypeExplanation": "양호한 호출과 불량한 호출이 그룹화됨(분 단위로 집계됨)",
       "eventTypeExplanation": "양호한 호출과 불량한 호출의 총 개수",
       "eventCount": "이벤트 개수",
@@ -184,29 +207,31 @@
       "thresholdLabel_latency": "임계값(ms)",
       "thresholdLabel_availability": "오류 비율(%)",
       "setGoodCall": "서비스에 대한 양호한 호출 설정",
-      "setBadCall": "서비스에 대한 불량한 호출 설정(선택사항)"
+      "setBadCall": "서비스에 대한 불량한 호출 설정(선택사항)",
+      "thresholdDescription_GT": "양호한 시간(1분)은 분당 {{thresholdValue}} 이상의 호출 수로 정의됩니다. 불량한 시간(1분)은 분당 {{thresholdValue}} 이하의 호출 수로 정의됩니다.",
+      "thresholdDescription_GTE": "양호한 시간(1분)은 분당 {{thresholdValue}} 이상의 호출 수로 정의됩니다. 불량한 시간(1분)은 분당 {{thresholdValue}} 미만의 호출 수로 정의됩니다.",
+      "thresholdDescription_LT": "양호한 시간(1분)은 분당 {{thresholdValue}} 미만의 호출 수로 정의됩니다. 불량한 시간(1분)은 분당 {{thresholdValue}} 이상의 호출 수로 정의됩니다.",
+      "thresholdDescription_LTE": "양호한 시간(1분)은 분당 {{thresholdValue}} 이하의 호출 수로 정의됩니다. 불량한 시간(1분)은 분당 {{thresholdValue}} 초과의 호출 수로 정의됩니다.",
+      "thresholdInput": "<Stack><HorizontalStack><OperatorDropdown의 임계값 설정 /><ThresholdInput />분<HorizontalStack/><스택당 호출 수/>",
+      "allCalls": "모든 호출",
+      "erroneousCalls": "잘못된 호출"
     },
     "previewSection": {
-      "dataInfo": "미리보기 데이터는 과거에 대해 7일까지만 표시됩니다. SLO에는 작성된 시간의 데이터만 포함됩니다."
+      "dataInfo": "미리보기 데이터는 과거에 대해 7일까지만 표시됩니다. SLO에는 작성된 시간의 데이터만 포함됩니다.",
+      "title": "미리보기",
+      "title_synthetic": "샘플"
     }
   },
   "sloChart": {
     "sloFormatter": {
-      "unit": "호출",
-      "unit_application": "호출",
-      "unit_website": "경고",
-      "unit_plural": "호출",
-      "unit_application_plural": "호출",
-      "unit_website_plural": "경고",
-      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
-      "callsFormat": "{{formattedCount}} $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
+      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:general.format.event {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
+      "callsFormat": "{{formattedCount}} $t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
     },
     "sloChartSummary": {
       "status": "상태",
       "target": "대상:",
-      "errorBudgetRemaining": "남은 예산 오류",
+      "errorBudgetRemaining": "남은 항목:",
       "errorBudgetSpent": "사용된 오류 예산",
-      "errorBudget": "오류 예산:",
       "timeWindow": "기간",
       "timeWindowType_dynamic": "동적 시간 창",
       "timeWindowType_rolling": "롤링 시간 창",
@@ -341,11 +366,13 @@
         "thresholdLabel": "임계값(알 수 없는 단위)",
         "thresholdLabel_availability": "임계값",
         "thresholdLabel_latency": "임계값(ms)",
+        "thresholdLabel_traffic": "임계값",
         "aggregationLabel": "집계",
         "goodEventsLabel": "이벤트 유형(양호한 이벤트)",
         "goodEventsLabel_application": "이벤트 유형(양호한 호출)",
         "badEventsLabel": "이벤트 유형(불량한 이벤트)",
-        "badEventsLabel_application": "이벤트 유형(불량한 호출)"
+        "badEventsLabel_application": "이벤트 유형(불량한 호출)",
+        "trafficTypeLabel": "트래픽 유형"
       },
       "objectiveSection": {
         "title": "목표",

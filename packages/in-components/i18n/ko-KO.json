@@ -96,7 +96,7 @@
     "formStateLabel": "상태"
   },
   "searchBar": {
-    "usingTheSearchBar": "3D 맵, 비교 테이블 및 인시던트 보기를 필터링하는 데 Instana 동적 초점 검색 기능을 사용할 수 있습니다. 검색 표시줄에는\n 부울 연산자뿐만 아니라 퍼지 및 와일드카드 검색을 사용하여 검색할 수 있는 광범위한 기능이 있습니다. 예를 들어, 다음\n조회는 CPU가 네 개 미만인 프로덕션 호스트로 보기를 제한합니다.\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## 구문\n동적 초점은 [lucene 조회 구문](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html)을 활용하며 Lucene 표준과 다음과 같은 차이가 있습니다.\n- **기본 연산자:** `AND`\n- **구문 제한조건:** 은 [문서](https://ibm.biz/dynamic-focus-syntax-constraints)에 나열되어 있습니다.\n## 검색 표시줄 상호작용\n검색 표시줄은 검색 필드에 대한 자동 완성을 지원하며 입력하는 동안 lucene 조회를 구문 강조표시합니다.\n입력하면 검색 표시줄은 현재 입력과 일치하는 검색 필드를 제안합니다. `RETURN`을\n눌러 제안된 필드를 수락할 수 있습니다. `CTRL+SPACE` 를 눌러 자동 완성 팝업을 여십시오.\n## Lucene 조회 구문 치트 시트\n- **필드 검색:** `entity.host.cpu.count:>4`\n- **부울 연산자:** `entity.host.cpu.count:<4 AND entity.zone:production`\n- **그룹화:** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n- **와일드카드 검색:** `entity.type:container*`\n\n자세한 정보는 [문서](https://ibm.biz/filtering-dynamic-focus)를 참조하십시오.",
+    "usingTheSearchBar": "3D 맵, 비교 테이블 및 인시던트 보기를 필터링하는 데 Instana 동적 초점 검색 기능을 사용할 수 있습니다. 검색 표시줄에는\n 부울 연산자뿐만 아니라 퍼지 및 와일드카드 검색을 사용하여 검색할 수 있는 광범위한 기능이 있습니다. 예를 들어, 다음\n조회는 CPU가 네 개 미만인 프로덕션 호스트로 보기를 제한합니다.\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## 구문\n동적 초점은 [lucene 조회 구문](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html)을 활용하며 Lucene 표준과 다음과 같은 차이가 있습니다.\n- ** 기본 연산자:** `AND`\n- ** 구문 제한조건:**은 [문서](https://ibm.biz/dynamic-focus-syntax-constraints)에 나열되어 있습니다.\n## 검색 표시줄 상호작용\n검색 표시줄은 검색 필드에 대한 자동 완성을 지원하며 입력하는 동안 lucene 조회를 구문 강조표시합니다.\n입력하면 검색 표시줄은 현재 입력과 일치하는 검색 필드를 제안합니다. \"RETURN\"을 \n눌러 제안된 필드를 수락할 수 있습니다. \"CTRL+SPACE\"를 눌러 자동 완성 팝업을 여십시오.\n## Lucene 조회 구문 치트 시트\n - **필드 검색:** `entity.host.cpu.count:>4`\n- **부울 연산자:** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **그룹화:** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n- **와일드카드 검색:** `entity.type:container*`\n\n자세한 정보는 [문서](https://ibm.biz/filtering-dynamic-focus)를 참조하십시오.",
     "filtersBtn": "필터",
     "filterPresetsMenuHeading": "필터",
     "filterPresetsSaveFilters": "여기에 쉽게 액세스하기 위해 필터 저장",
@@ -123,6 +123,7 @@
       "entititiesDescription": "선택한 시간 범위에 대해 검색된 엔티티가 없습니다."
     },
     "sharedComponents": {
+      "settings": "설정",
       "configurableThSearchItemPlaceholder": "{{len}} 항목 검색",
       "configurableThNoMatchesTxt": "일치사항 없음"
     }
@@ -738,6 +739,7 @@
     "groupName": "그룹 이름",
     "groupedOnly": "메트릭은 그룹 분석 시에만 사용 가능합니다.",
     "groupNameNotAvailable": "{{groupingTag}} 정보를 사용할 수 없음",
+    "options": "옵션",
     "filterSidebar": {
       "groupingButton": "{{group}}별로 그룹화",
       "ungroupButton": "그룹화 제거"

@@ -48,6 +48,7 @@
     "cbp": "Uso do processador CBP",
     "cp": "Uso do processador CP",
     "iip": "Uso do processador IIP",
+    "lparPowerConsumption": "Consumo de energia da LPAR (Watts)",
     "smt": "Uso do SMT",
     "thread0": "Uso de tópico 0",
     "thread1": "Uso de tópico 1",
