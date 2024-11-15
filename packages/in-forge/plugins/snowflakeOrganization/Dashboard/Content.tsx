@@ -35,7 +35,7 @@ export default function SnowflakeOrganizationDashboard({
       [snapshotId, timeConfig]
     );
     if (!data) {
-      return '';
+      return value.toString();
     }
     const currency: any = (data as SnapshotData).get('raw_payload');
 
