@@ -124,6 +124,9 @@
         "businessPerspectiveUpdatedDetails": "\"{{perspectiveName}}\" wurde bearbeitet und Ihre Änderungen wurden gespeichert.",
         "error": "Fehler"
       }
+    },
+    "flowMap": {
+      "tabLabel": "Datenfluss"
     }
   }
 }

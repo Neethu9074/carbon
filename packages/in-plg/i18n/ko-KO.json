@@ -141,7 +141,12 @@
       "selectThePlatformArchitecture": "플랫폼 아키텍처 선택",
       "platformArchitecture": "플랫폼 아키텍처",
       "previewPrerequisites": "전제조건 미리보기",
-      "installingInstanaAgent": "Instana 에이전트 설치"
+      "installingInstanaAgent": "Instana 에이전트 설치",
+      "unix_airgapped": {
+        "step1DownloadTheInstallArchive": "1단계. 설치 아카이브를 다운로드하십시오.",
+        "airgappedArchives": "아카이브",
+        "installUsingAnArchive": "아카이브를 사용하여 설치"
+      }
     },
     "aws": {
       "step1": "1단계: ",
@@ -342,6 +347,11 @@
         "installTheScriptOnTheVirtualMachine": "가상 머신에 Windows 서비스로 스크립트를 설치한 후 자동으로 시작하십시오.",
         "installAgentOnAWSEC2Windows": "AWS EC2에 에이전트 설치 (Windows)",
         "runCommandsOnAWSEC2": "AWS EC2에서 명령 실행"
+      },
+      "windows_airgapped": {
+        "step1DownloadTheInstallPackageOrArchive": "1단계. 설치 프로그램 또는 아카이브를 다운로드하십시오.",
+        "airgappedPackagesOrArchive": "아카이브 및 Windows 설치 프로그램(32비트 및 64비트)",
+        "installUsingAPackageOrArchive": "설치 프로그램 또는 아카이브를 사용하여 설치"
       }
     },
     "linux": {
@@ -369,6 +379,11 @@
           "linuxRhel6X8664": "Linux (64Bit - RHEL6 x86_64)",
           "linuxRhel7X8664": "Linux (64Bit - RHEL7 x86_64)"
         }
+      },
+      "linux_airgapped": {
+        "step1DownloadTheInstallPackage": "1단계. 설치 패키지를 다운로드하십시오.",
+        "airgappedPackages": "아카이브, DEB 및 RPM 패키지",
+        "installUsingAPackage": "패키지 또는 아카이브를 사용하여 설치"
       },
       "linux_ec2": {
         "selectTheAgentPackagingMode": "1단계: 에이전트 패키징 모드 선택",
@@ -485,7 +500,12 @@
     },
     "mac": {
       "selectAgentPackagingMode": "1단계: 에이전트 패키징 모드를 선택하십시오.",
-      "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "2단계: 전제조건을 검토하고 에이전트 배치 코드를 실행하십시오."
+      "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "2단계: 전제조건을 검토하고 에이전트 배치 코드를 실행하십시오.",
+      "mac_airgapped": {
+        "step1DownloadTheInstallArchive": "1단계. 설치 아카이브를 다운로드하십시오.",
+        "airgappedArchives": "아카이브",
+        "installUsingAnArchive": "아카이브를 사용하여 설치"
+      }
     }
   },
   "welcomepage": {
@@ -753,13 +773,15 @@
         "settings": "설정",
         "user": "사용자",
         "externalLink": "외부 링크",
-        "resultNew": "새로운 결과"
+        "resultNew": "새로운 결과",
+        "whatsNewLink": "새로운 기능 링크"
       },
       "buttonNames": {
         "deployAgent": "에이전트 배치",
         "addUser": "사용자 추가",
         "documentation": "IBM 문서",
-        "releaseNotes": "릴리스 정보"
+        "releaseNotes": "릴리스 정보",
+        "whatsNewLink": "Instana의 새로운 기능"
       }
     },
     "ariaLabel": {
@@ -795,7 +817,7 @@
       "analyzeCalls": "추적 및 호출 분석",
       "settingsTab": "사용자 액세스 관리",
       "userSettings": "사용자 설정",
-      "authSettings": "인증 구성",
+      "securityAndAccess": "보안 및 액세스 구성",
       "auditLogs": "감사 로그 보기",
       "automation": "조치 관리",
       "customEvents": "사용자 정의 이벤트 정의",

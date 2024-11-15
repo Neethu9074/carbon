@@ -86,8 +86,11 @@
       "essentials": "Essentials",
       "iqmHosts": "IQM 主机",
       "syntheticPops": "合成受管 PoPs",
+      "logging": "上下文中的日志",
       "resourceUnits": "有权利的资源单位",
       "consumedUnits": "消耗的资源单位",
+      "entitledData": "授权数据",
+      "consumedData": "使用的数据",
       "infrastructure": "基础架构",
       "synthetics": "合成",
       "traces": "跟踪",
@@ -97,7 +100,11 @@
       "trendLine": "趋势线",
       "dataUsage": "数据使用量",
       "dataUsageHelperText": "在所选时间范围内，通过代理程序发送的字节数（按类别划分）。",
-      "syntheticsHelperText": "每种类型的操作所使用的资源单元数。 对于简单测试，将使用系数 0.025 计算单位，对于 API 测试，将使用系数 0.042 计算单位，对于浏览器测试，将使用系数 1.000 计算单位。"
+      "syntheticsHelperText": "每种类型的操作所使用的资源单元数。 对于简单测试，将使用系数 0.025 计算单位，对于 API 测试，将使用系数 0.042 计算单位，对于浏览器测试，将使用系数 1.000 计算单位。",
+      "loggingHelperText": {
+        "saas": "此图表显示日志记录附加组件在所选保留期内使用的数据量（以字节为单位）。",
+        "onprem": "此图表显示日志记录附加组件在所选保留期内使用的数据量（以字节为单位）。"
+      }
     },
     "activationAdoption": {
       "activationAdoption": "激活并采用",

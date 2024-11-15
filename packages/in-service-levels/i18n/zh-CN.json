@@ -19,11 +19,14 @@
     "select": "选择 $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{entity}}\"})",
     "noSelection": "未选择任何项",
     "loadMore": "加载更多",
+    "threshold": "阈值",
     "noData": "无可用数据",
+    "trafficType": "流量类型",
     "noMatchingTimeWindows": "所选时间段没有匹配的时间窗口。 如果所选时间窗口早于 SLO 的创建日期，那么通常会发生此情况。",
     "serverErrors": {
       "sloLimitReachedError": "已达到最大服务级别目标配置数 ({{0}})。 请联系 Instana 支持人员以请求提高此限量。"
     },
+    "traffic": "流量",
     "indicator": {
       "type": "未知类型",
       "type_eventBased": "事件计数",
@@ -32,6 +35,7 @@
       "blueprint": "未知蓝图",
       "blueprint_latency": "等待时间",
       "blueprint_availability": "可用性",
+      "blueprint_traffic": "流量",
       "blueprint_custom": "定制",
       "aggregation": "未知",
       "aggregation_MEAN": "平均值",
@@ -44,16 +48,24 @@
       "aggregation_P90": "90th",
       "aggregation_P95": "95th",
       "aggregation_P98": "98th",
-      "aggregation_P99": "99th"
+      "aggregation_P99": "99th",
+      "application": {
+        "trafficType_all": "所有调用",
+        "trafficType_erroneous": "错误调用数"
+      },
+      "website": {
+        "trafficType_all": "所有信标计数",
+        "trafficType_erroneous": "信标错误计数"
+      }
     },
     "latency": "等待时间",
     "time": "时间",
     "entityTypes": {
       "label": "未知实体",
       "label_application": "应用程序",
-      "label_website": "Web 站点"
+      "label_website": "Web 站点",
+      "label_synthetic": "合成测试"
     },
-    "preview": "预览",
     "type": "Type",
     "selectLabel": "选择：{{selectedLabel}}",
     "serviceLevelObjective": "服务级别目标",
@@ -101,7 +113,9 @@
       "errors": "错误调用率",
       "beaconErrorRate": "信标错误率",
       "goodEvents": "良性事件",
-      "badEvents": "恶性事件"
+      "badEvents": "恶性事件",
+      "erroneousCalls": "错误调用数",
+      "beaconErrorCount": "信标错误计数"
     },
     "format": {
       "event_website": "{{formatted}} 信标",
@@ -113,13 +127,21 @@
       "event_application_plural": "{{formatted}} 调用",
       "event_application_0": "{{formatted}} 调用",
       "event_application_1": "{{formatted}} 调用",
-      "event_application_2": "{{formatted}} 调用"
+      "event_application_2": "{{formatted}} 调用",
+      "event_synthetic": "{{formatted}} 结果",
+      "event_synthetic_plural": "{{formatted}} 结果",
+      "event_synthetic_0": "{{formatted}} 结果",
+      "event_synthetic_1": "{{formatted}} 结果",
+      "event_synthetic_2": "{{formatted}} 结果"
     },
     "deleteDialog": {
       "pleaseConfirm": "请确认",
       "pleaseConfirmMsg": "确定要删除 <strong>{{name}}</strong> 吗？",
       "delete": "删除"
     }
+  },
+  "validators": {
+    "noInvalidOperator": "请从列表中选择运算符。"
   },
   "components": {
     "tagFilterBuilder": {
@@ -176,6 +198,7 @@
       "description_custom": "通过使用用户定义的过滤器来度量好事件和/或坏事件的计数。",
       "description_latency": "度量服务响应速度高于设置的阈值的速度。 例如，检出服务响应速度超过 100ms 的度量。",
       "description_availability": "度量服务适当响应的频率。 例如，HTTP 调用出错的频率。",
+      "description_traffic": "使用特定于系统的高级指标来衡量对系统的需求量。 例如，通常以每秒 HTTP 信标数来度量 Web 服务。",
       "timeTypeExplanation": "按分钟分组的正确调用数与错误调用数",
       "eventTypeExplanation": "正确调用与错误调用的总计数",
       "eventCount": "事件计数",
@@ -184,29 +207,31 @@
       "thresholdLabel_latency": "阈值 (ms)",
       "thresholdLabel_availability": "出错率（百分比）",
       "setGoodCall": "设置对服务的正确调用",
-      "setBadCall": "设置对服务的错误调用（可选）"
+      "setBadCall": "设置对服务的错误调用（可选）",
+      "thresholdDescription_GT": "每分钟呼叫次数超过 {{thresholdValue}} 即为有效分钟。 每分钟呼叫次数小于或等于 {{thresholdValue}} 即为无效分钟。",
+      "thresholdDescription_GTE": "每分钟呼叫数大于或等于 {{thresholdValue}} 即为有效分钟。 每分钟呼叫数小于 {{thresholdValue}} 即为无效分钟。",
+      "thresholdDescription_LT": "每分钟呼叫数小于 {{thresholdValue}} 即为有效分钟。 每分钟呼叫数大于或等于 {{thresholdValue}} 即为无效分钟。",
+      "thresholdDescription_LTE": "每分钟呼叫数小于或等于 {{thresholdValue}} 即为有效分钟。 每分钟呼叫数大于 {{thresholdValue}} 即为无效分钟。",
+      "thresholdInput": "<Stack>将阈值设置为每分钟 <HorizontalStack><OperatorDropdown /><ThresholdInput /> 呼叫<HorizontalStack/><Stack />",
+      "allCalls": "所有调用",
+      "erroneousCalls": "错误调用数"
     },
     "previewSection": {
-      "dataInfo": "最多仅显示过去 7 天的预览数据。 SLO 将仅包含创建时的数据"
+      "dataInfo": "最多仅显示过去 7 天的预览数据。 SLO 将仅包含创建时的数据",
+      "title": "预览",
+      "title_synthetic": "样本"
     }
   },
   "sloChart": {
     "sloFormatter": {
-      "unit": "调用",
-      "unit_application": "调用",
-      "unit_website": "信标",
-      "unit_plural": "调用数",
-      "unit_application_plural": "调用数",
-      "unit_website_plural": "信标",
-      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
-      "callsFormat": "{{formattedCount}} $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
+      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:general.format.event {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
+      "callsFormat": "{{formattedCount}} $t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
     },
     "sloChartSummary": {
       "status": "状态",
       "target": "目标：",
-      "errorBudgetRemaining": "错误预算剩余",
+      "errorBudgetRemaining": "剩余：",
       "errorBudgetSpent": "已花费的错误预算",
-      "errorBudget": "错误预算：",
       "timeWindow": "时间窗口",
       "timeWindowType_dynamic": "动态时间窗口",
       "timeWindowType_rolling": "滚动时间窗口",
@@ -341,11 +366,13 @@
         "thresholdLabel": "阈值（未知单元）",
         "thresholdLabel_availability": "阈值",
         "thresholdLabel_latency": "阈值 (ms)",
+        "thresholdLabel_traffic": "阈值",
         "aggregationLabel": "汇总",
         "goodEventsLabel": "事件类型（正确事件）",
         "goodEventsLabel_application": "事件类型（正确调用）",
         "badEventsLabel": "事件类型（错误事件）",
-        "badEventsLabel_application": "事件类型（错误调用）"
+        "badEventsLabel_application": "事件类型（错误调用）",
+        "trafficTypeLabel": "流量类型"
       },
       "objectiveSection": {
         "title": "目标",

@@ -6,6 +6,7 @@
   "labelAnalytic": "分析",
   "labelCall": "调用",
   "labelTrace": "跟踪",
+  "labelStatus": "状态",
   "linkDownload": "下载",
   "linkDownloadCalls": "下载调用",
   "linkDownloadRawTrace": "下载原始跟踪",
@@ -686,5 +687,6 @@
     "alternativeServicesProblem": "<bold>否</bold>，如果当前服务的名称来自 HTTP“主机”头（标识为 call.http.host 的服务映射规则），并且替代服务的名称不存在（因为其名称来自基于基础架构标记的规则），或者反之亦然。 这些是重复服务。",
     "alternativeServicesPossibleProblem": "<bold>可能</bold>，如果当前服务和替代服务名称不是来自 HTTP“主机”头，那么它们要么是位于代理后面的服务（良好），要么是重复的服务（较差）：某些服务完全链接到基础架构，而其他服务部分链接到基础架构。"
   },
-  "labelSyntheticMonitoring": "合成监视"
+  "labelSyntheticMonitoring": "合成监视",
+  "labelResourceOptimizations": "优化"
 }

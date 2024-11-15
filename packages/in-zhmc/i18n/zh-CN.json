@@ -48,6 +48,7 @@
     "cbp": "CBP 处理器使用情况",
     "cp": "CP 处理器使用情况",
     "iip": "IIP 处理器使用情况",
+    "lparPowerConsumption": "LPAR 功耗（瓦特）",
     "smt": "SMT 使用情况",
     "thread0": "线程 0 用法",
     "thread1": "线程 1 用法",

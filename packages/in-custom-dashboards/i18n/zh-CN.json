@@ -99,12 +99,31 @@
       "failedToParseInputAsJson": "无法将输入解析为 JSON。",
       "jsonRootMustBeAnObject": "JSON 根必须为一个对象。"
     },
+    "downloadPdfDialog": {
+      "downloadPdf": "下载 PDF 文件",
+      "settings": "设置",
+      "pdfOrientation": "定向",
+      "portrait": "纵向",
+      "landscape": "横向",
+      "pdfLayout": "布局",
+      "widgetsDisplay": "显示",
+      "singlePage": "单页",
+      "singlePageInfo": "使整个仪表板适合单页大小，并调整内容大小。",
+      "multiPages": "多页",
+      "multiPagesInfo": "将仪表板分布在多个页面上，保持原来的布局。 某些窗口小部件可能会被切断。",
+      "stackWidgetsTitle": "堆叠窗口小部件",
+      "stackWidgetsInfo": "在多个页面上以垂直堆叠的方式显示窗口小部件。",
+      "loadingWidget": "加载 {{totalNodes}} 的窗口小部件 {{widgetIndex}}",
+      "generatePreview": "生成预览",
+      "generatingPreview": "生成 pdf 预览"
+    },
     "filterContext": {
       "topLevelFilterPartiallyApplied": "应用了某些当前仪表盘过滤器。",
       "topLevelFilterSelectsEverything": "当前仪表盘过滤器不适用于此窗口小部件。",
       "topLevelFilterSelectsNothing": "当前仪表盘过滤器不适用于此窗口小部件。",
       "topLevelFilterNotSupported": "当前仪表板过滤器未应用于该窗口部件，因为该窗口小部件不支持过滤操作。",
-      "topLevelFilterAppliedToSomeDatasets": "当前仪表板过滤器未完全应用于该窗口小部件中的所有数据集。"
+      "topLevelFilterAppliedToSomeDatasets": "当前仪表板过滤器未完全应用于以下数据集：{{datasets}}",
+      "unnamedDataset": "未命名的数据集"
     }
   },
   "dashboardSwitcher": {
@@ -897,5 +916,8 @@
     "additionalFields": "此仪表板将仅对您可见。您可以选择在创建后将其与同事共享",
     "create": "创建",
     "failedToCreateDashboard": "无法创建仪表板。"
+  },
+  "threshold": {
+    "label": "阈值"
   }
 }

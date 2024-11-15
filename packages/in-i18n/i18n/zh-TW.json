@@ -10,8 +10,13 @@
     },
     "list": {
       "loadMore": "載入更多",
+      "expand": "展開",
+      "collapse": "收合",
       "toggleExtraContent": "切換額外內容",
       "initiateDefaultAction": "起始預設動作"
+    },
+    "link": {
+      "opensInNewTab": "（在新標籤中開啟）"
     },
     "table": {
       "tableErrorRows": {

@@ -56,6 +56,9 @@
   "fileOnHost": "em",
   "file": "Arquivo",
   "logExpiration": "Retido até",
+  "stacktraceLogMessage": "Rastreio de pilha",
+  "logTraceTitle": "Rastreio de pilha",
+  "stackTraceHeader": "Mensagem do Stacktrace",
   "dashboard": {
     "summary": "Resumo",
     "smartAlerts": "Alertas inteligentes",
@@ -68,6 +71,14 @@
     },
     "retentionIcon": "Mudar período de retenção",
     "noData": "Dados não disponíveis",
-    "analyzeLogs": "Analisar logs"
+    "analyzeLogs": "Analisar logs",
+    "configurationPage": {
+      "logVolume": "Volume de log",
+      "logVolumeDescription": "Visualize o volume de log de até 12 meses e agrupe por tags de infraestrutura sob demanda.",
+      "logIntegrations": "Integrações de log",
+      "logIntegrationsDescription": "Conecte suas soluções de gerenciamento de log e configure-as para atender às suas necessidades.",
+      "retentionPeriod": "Período de retenção",
+      "retentionPeriodDescription": "A mudança do período de retenção afeta o tempo em que os logs são retidos e disponibilizados em aplicativos, painéis e análises de dados e possui um impacto em custo e faturamento."
+    }
   }
 }

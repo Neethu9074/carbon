@@ -604,7 +604,7 @@
     "successLogins": "成功",
     "failureLogins": "障害",
     "loginAttempts": "ログイン試行",
-    "workProcess": "ワーク・プロセス",
+    "workProcess": "作業工程 (合計/フリー)",
     "severity1": "重要度 1",
     "severity2": "重要度 2",
     "aborted": "異常終了",
@@ -664,7 +664,8 @@
     "protected": "保護あり",
     "releasedStarted": "リリース開始",
     "httpRespTime": "HTTP",
-    "httpsRespTime": "HTTPS"
+    "httpsRespTime": "HTTPS",
+    "curThr": "現在のスレッド"
   },
   "viewAllEntityName_unknownEntity_plural": "すべて",
   "viewAllEntityName_unknownEntity_0": "すべて",

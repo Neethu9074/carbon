@@ -10,8 +10,13 @@
     },
     "list": {
       "loadMore": "Carregar mais",
+      "expand": "Expandir",
+      "collapse": "Reduzir",
       "toggleExtraContent": "Alternar conteúdo extra",
       "initiateDefaultAction": "Iniciar ação padrão"
+    },
+    "link": {
+      "opensInNewTab": "(abre em uma nova guia)"
     },
     "table": {
       "tableErrorRows": {

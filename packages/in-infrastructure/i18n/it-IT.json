@@ -76,7 +76,7 @@
     "kubernetesLabels": "Etichette Kubernetes",
     "podmanAnnotations": "Annotazioni Podman",
     "metricExplosionBeeInstana": "Questo dashboard potrebbe non visualizzare tutte le metriche, poiché in un determinato momento viene acquisito un massimo di {{numberOfMetrics}} metriche.",
-    "metricExplosion": "Questo dashboard potrebbe non visualizzare tutte le metriche, poiché in un determinato momento viene acquisito un massimo di {{numberOfMetrics}} metriche ad alta risoluzione. Per visualizzare altre metriche, utilizzare Analizza infrastruttura o un dashboard personalizzato."
+    "metricExplosion": "Questo dashboard potrebbe non visualizzare tutte le metriche, poiché in un determinato momento viene acquisito un massimo di {{numberOfMetrics}} metriche ad alta risoluzione. Per visualizzare altre metriche etichettate, utilizzare Analizza infrastruttura o un dashboard personalizzato."
   },
   "explore": {
     "analyzeInfrastructure": "Analizza infrastruttura",
@@ -89,7 +89,6 @@
     "search": "Ricerca un tipo",
     "explore": "Esplora",
     "health": "Integrità",
-    "noIssues": "Nessun problema",
     "count": "Conteggio",
     "errors": {
       "maximumNumberOfGroups": "Questa query ha troppi risultati. Delimitare la ricerca utilizzando un filtro più restrittivo oppure abbreviare l'intervallo di tempo e ripetere l'operazione.",
@@ -141,5 +140,10 @@
     "buttonSelectTags": "Seleziona tag",
     "titleAddATag": "Aggiungi un tag",
     "messagePleaseSelectAtMostTags": "Selezionare al massimo {{maximumNumberOfTags}} tag."
+  },
+  "threshold": {
+    "label": "Soglia",
+    "critical": "Critico quando {{operator}} {{level}}",
+    "warning": "Avviso quando {{operator}} {{level}}"
   }
 }

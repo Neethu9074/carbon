@@ -14,6 +14,11 @@
   "pluginName_aceMessageFlow_1": "Flujos de mensajes de IBM ACE",
   "pluginName_aceMessageFlow_2": "Flujos de mensajes de IBM ACE",
   "pluginName_aceMessageFlow": "Flujo de mensajes de IBM ACE",
+  "pluginName_activeDirectory_plural": "Directorios activos",
+  "pluginName_activeDirectory_0": "Directorios activos",
+  "pluginName_activeDirectory_1": "Directorios activos",
+  "pluginName_activeDirectory_2": "Directorios activos",
+  "pluginName_activeDirectory": "Active Directory",
   "pluginName_activeMQ_plural": "ActiveMQs",
   "pluginName_activeMQ_0": "ActiveMQs",
   "pluginName_activeMQ_1": "ActiveMQs",
@@ -2951,6 +2956,9 @@
     "rfc": "RFC"
   },
   "plugins": {
+    "activedirectory": {
+      "ActiveDirectory": "Active Directory"
+    },
     "titleARN": "ARN",
     "titleVPC": "VPC",
     "titleCPU": "CPU",
@@ -3557,6 +3565,33 @@
       "invocations": "Invocaciones",
       "inputTerminals": "Número de terminales de tipo de entrada",
       "outputTerminals": "Número de terminales de tipo de salida"
+    },
+    "activeDirectory": {
+      "computerName": "Host",
+      "lightweightDirectoryAccessProtocol": "protocolo LDAP (Lightweight Directory Access Protocol)",
+      "ldap": {
+        "operations": "Operaciones",
+        "operationRates": "Tasas de funcionamiento (por segundo)",
+        "add": "Añadir",
+        "delete": "Suprimir",
+        "modifyDN": "Modificar DN",
+        "modify": "Modificar",
+        "write": "Escribir",
+        "search": "Búsqueda",
+        "udp": "UDP",
+        "connections": "Conexiones",
+        "connectionRates": "Tasas de conexión (por segundo)",
+        "clientSessions": "Sesiones de cliente",
+        "closedConnections": "Conexiones cerradas",
+        "sslConnections": "Conexiones SSL",
+        "threads": "Hebras",
+        "sleepingOnBusy": "En pausa en BUSY",
+        "active": "Activo",
+        "busyretries": "Reintentos de ocupado",
+        "batch": "Lotes",
+        "availableBatchSlots": "Ranuras de lotes disponibles",
+        "outboundBytes": "Bytes de salida"
+      }
     },
     "activeMQ": {
       "jmxIsNotEnabledYouCanEnableItInActivemqConfigBySettingTheBrokerPropertyUseJmxToTrue": "Jmx no está habilitado. Puede habilitarlo en activemq config estableciendo la propiedad useJmx del intermediario en true.",
@@ -7558,8 +7593,6 @@
       "lockMode": "Modalidad de bloqueo",
       "lockModeRequested": "Modalidad de bloqueo solicitada",
       "lockObjectType": "Tipo de objeto de bloqueo",
-      "startTime": "Hora de inicio",
-      "endTime": "Hora de finalización",
       "durationSec": "Duración",
       "objNameQualifier": "Calificador de nombre de objeto",
       "objName": "Nombre de objeto",
@@ -7678,10 +7711,12 @@
       "oldConfigUsed": "Ahora, el sensor de Db2 da soporte a la supervisión de varias instancias y bases de datos en el host donde se está ejecutando el agente de Instana. Consulte la documentación para ver el nuevo formato de configuración.",
       "autoResize": "Redimensionar automáticamente",
       "hadrLogGap": "Desfase de registro HADR",
-      "type": "Tipo",
+      "startTime": "Hora de inicio",
+      "endTime": "Hora de finalización",
       "backupDuration": "Duración de copia de seguridad",
       "owner": "Propietario",
       "tbspace": "Espacio de tablas",
+      "type": "Tipo",
       "tbspState": "Estado del espacio de tablas",
       "uowExecutors": "Conexiones en ejecución",
       "db2MemberNumber": "Nodos miembro",
@@ -9460,7 +9495,16 @@
         "connectionId": "ID de conexión",
         "statementId": "ID de sentencia",
         "statementString": "Serie de sentencia",
-        "planId": "ID de plan"
+        "planId": "ID de plan",
+        "totalReadSize": "Tamaño de lectura",
+        "totalWriteSize": "Tamaño de escritura",
+        "totalFailedReads": "Lecturas fallidas",
+        "totalFailedWrites": "Escrituras fallidas",
+        "totalReadTime": "Tiempo de lectura",
+        "totalWriteTime": "Tiempo de grabación",
+        "fileSystemPath": "Vía de acceso del sistema de archivos",
+        "fileType": "Tipo de archivo",
+        "ioStats": "Estadísticas de E/S"
       },
       "systemId": "ID del sistema",
       "databaseName": "Nombre de base de datos",
@@ -9529,7 +9573,21 @@
         "compute": "Computación",
         "cloudServices": "Servicios en la nube",
         "total": "Total",
-        "warehouseUsage": "Uso del almacén"
+        "warehouseUsage": "Uso del almacén",
+        "storageUsage": "Almacenamiento",
+        "totalStageBytes": "Bytes totales de la etapa",
+        "totalFailSafeBytes": "Total bytes a prueba de fallos",
+        "avgByteSpilledToLocalStorage": "Promedio de bytes vertidos al almacenamiento local",
+        "bytesSpilled": "Bytes vertidos",
+        "avgByteSpilledToRemoteStorage": "Promedio de bytes vertidos al almacenamiento remoto",
+        "loginAttempts": "Intentos de inicio de sesión",
+        "successful": "Correcto",
+        "failed": "Fallidas",
+        "longestRunningQueries": "Las 10 consultas de ejecución más larga",
+        "queryId": "ID de consulta",
+        "queryText": "Texto de consulta",
+        "execTime": "Tiempo de ejecución",
+        "warehouseUsed": "Almacén utilizado"
       }
     },
     "solr": {
@@ -11099,7 +11157,6 @@
     },
     "ibmCloudMongoDb": {
       "connections": "Conexiones",
-      "cpuUsedPercent": "Porcentaje de CPU utilizada",
       "diskIoUtilizationPercentAverage5m": "Utilización de E/S (5 min de prom.)",
       "diskIopsReadWriteTotal": "Total de l/e IOPS",
       "diskReadLatencyMean": "Media de latencia de lectura de disco",
@@ -11127,6 +11184,7 @@
       "total": "Total",
       "usedPercent": "Utilización",
       "cpu": "CPU",
+      "cpuUsedPercent": "Porcentaje de CPU utilizada",
       "memory": "Memoria",
       "disk": "Disco",
       "locks": "Bloqueos",
@@ -11722,7 +11780,10 @@
       "port": "Puerto",
       "name": "Nombre",
       "subscriptions": "Suscripciones",
-      "version": "Versión"
+      "version": "Versión",
+      "state": "Estado",
+      "sourceDatastore": "Almacén de datos de origen",
+      "targetDataStore": "Almacén de datos de destino"
     },
     "ibmInfosphereCdcSubscription": {
       "dashboard": {
@@ -11734,6 +11795,7 @@
       },
       "ibmInfosphereSubscription": "Suscripción",
       "subscriptionName": "Nombre",
+      "state": "Estado",
       "sourceDatastore": "Almacén de datos de origen",
       "targetDataStore": "Almacén de datos de destino",
       "sourceEngine": "Motor de origen",
@@ -14621,6 +14683,7 @@
       "cbp": "Procesador basado en contenedor",
       "cp": "Procesador central",
       "iip": "Integrated Information Processor",
+      "lparPowerConsumption": "Partición lógica Consumo de energía Vatios",
       "heatLoad": "Carga de calor",
       "heatLoadForcedAir": "Carga de calor (Aire forzado)",
       "heatLoadWater": "Carga de calor (Agua)",
@@ -16566,18 +16629,13 @@
     },
     "bpm": {
       "titleBusinessKey": "Clave de empresa",
-      "titleCaseIntanceId": "ID de instancia de caso",
       "titleRootProcessUUID": "UUID de proceso raíz",
-      "titleProcessId": "ID de proceso",
+      "titleProcessDefinitionId": "ID de definición de proceso",
       "titleProcessName": "Nombre de proceso",
       "titleActivityId": "ID de actividad",
       "titleActivityName": "Nombre de actividad",
       "titleActivityDesc": "Descripción de actividad",
       "titleActivityType": "Tipo de actividad",
-      "titleExternalTaskWorkerId": "ID de trabajador de tarea externa",
-      "titleExternalTaskTopic": "Tema de tarea externa",
-      "titleExternalTaskId": "ID de tarea externa",
-      "titleExternalTaskRetries": "Reintentos",
       "titleBusinessVariable": "{{businessVariableKey}}"
     },
     "cassandra": {
