@@ -71,7 +71,6 @@ interface RelatedEventProps {
 type TYPE_RECENT_EVENTS = EventOrMap[] | unknown[] | null | undefined;
 
 const RelatedEvents = ({ incident, triggeringProblemId, latestSnapshot, triggeringEventId }: RelatedEventProps) => {
-  // TODO: add back setChangesAreVisible
   const [changesAreVisible, setChangesAreVisible] = useState(true);
 
   // recent events
@@ -355,7 +354,6 @@ const RelatedEventsTable = ({
                       // @ts-expect-error
                       event={relatedEvents.find(re => re.get('id') === row.id)}
                       latestSnapshot={latestSnapshot}
-                      justChart
                     />
                   </CarbonTableExpandedRow>
                 </Fragment>

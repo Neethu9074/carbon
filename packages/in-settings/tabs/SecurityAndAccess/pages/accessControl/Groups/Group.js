@@ -24,6 +24,8 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import InlineEditorRow from 'in-settings/tabs/SecurityAndAccess/components/InlineEditorRow';
 import Users from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/Users';
 import { securityAndAccessAccessControlGroups } from 'in-settings/navigation/paths';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { CREATED_OBJECT, UPDATED_OBJECT } from 'in-services/util/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { refresh } from 'in-settings/tabs/SecurityAndAccess/api/groups';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -41,6 +43,7 @@ import locals from './Group.mless';
 export default function Group({ match }) {
   const [groupId, setGroupId] = useState(match.params.id);
   const { navigate, goToPath } = useNavigation();
+  const { unstable_trackEvent } = useSegmentTracking();
 
   function updateGroupId(id) {
     setGroupId(id);
@@ -68,6 +71,7 @@ export default function Group({ match }) {
         // additional props which are passed down
         groupId={groupId}
         updateGroupId={updateGroupId}
+        unstable_trackEvent={unstable_trackEvent}
       />
     </>
   );
@@ -77,8 +81,30 @@ function renderLoadingState() {
   return <LoadingGroup />;
 }
 
+const trackGroupUpdate = (unstable_trackEvent, isExistingGroup, group) => {
+  const permissionSet = group.permissionSet;
+  const groupObject = {
+    groupId: group.id,
+    permissions: permissionSet.permissions,
+    applicationsCount: permissionSet.applicationIds.length,
+    websitesCount: permissionSet.websiteIds.length,
+    mobileAppsCount: permissionSet.mobileAppIds.length,
+    businessPerspectivesCount: permissionSet.businessPerspectiveIds.length,
+    syntheticTestsCount: permissionSet.syntheticTestIds.length,
+    syntheticCredentialsCount: permissionSet.syntheticCredentialKeys.length,
+    kubernetesClusterUUIDsCount: permissionSet.kubernetesClusterUUIDs.length,
+    kubernetesNamespaceUIDsCount: permissionSet.kubernetesNamespaceUIDs.length
+  };
+
+  if (isExistingGroup) {
+    unstable_trackEvent(UPDATED_OBJECT, { objectType: 'settings.accessControl.updateGroup' }, groupObject);
+  } else {
+    unstable_trackEvent(CREATED_OBJECT, { objectType: 'settings.accessControl.createGroup' }, groupObject);
+  }
+};
+
 function renderGroup(props) {
-  const { setForm, form, group, setMessage, updateGroupId, result } = props;
+  const { setForm, form, group, setMessage, updateGroupId, result, unstable_trackEvent } = props;
   const isOwnerGroup = group.id === ownerRoleId;
   const isSystemGroup = isOwnerGroup || group.id === defaultRoleId;
   const isExistingGroup = !!group.id;
@@ -132,7 +158,9 @@ function renderGroup(props) {
           setForm={setForm}
           readOnly={isOwnerGroup}
           editMode={isExistingGroup}
-          onSave={form => saveItem({ form, setMessage, setCanSaveItem: noop, setForm, updateGroupId })}
+          onSave={form =>
+            saveItem({ form, setMessage, setCanSaveItem: noop, setForm, updateGroupId, unstable_trackEvent })
+          }
           result={result}
         />
       </Row>
@@ -201,7 +229,7 @@ function getPermissionSetWithApFilters(permissionSet, form) {
   return permissionSetWithFilter;
 }
 
-function saveItem({ form, setMessage, setCanSaveItem, setForm, updateGroupId = noop }) {
+function saveItem({ form, setMessage, setCanSaveItem, setForm, updateGroupId = noop, unstable_trackEvent }) {
   const isRestrictedFilter = form.get('tagFilterExpression').value?.length > 0;
   let permissionSet = form.get('permissionSet').value;
   if (!form.hierarchyValid) {
@@ -241,7 +269,7 @@ function saveItem({ form, setMessage, setCanSaveItem, setForm, updateGroupId = n
       setMessage({ text: t('in-settings:tabs.groupSuccessfullySaved'), type: 'success' });
       setForm(form.updateIn(['id'], f => f.setValue(savedGroup.id)));
       setCanSaveItem(false);
-
+      trackGroupUpdate(unstable_trackEvent, group.id === savedGroup.id, savedGroup);
       if (group.id !== savedGroup.id) {
         updateGroupId(savedGroup.id);
       }

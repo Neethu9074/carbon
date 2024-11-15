@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { MetricSource, TagFilterExpression } from '@instana/types';
+import { TagFilterExpression } from '@instana/types';
 
 import { businessActivityPath, businessProcessDashboard } from 'in-bizops/navigation/paths';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
@@ -72,7 +72,7 @@ export default function DurationOverTime({ rightHeaderContent }: DurationOverTim
   const defaultMetricConfig = {
     granularity,
     metric: 'activityDuration',
-    source: 'BIZOPS' as MetricSource,
+    source: 'BIZOPS',
     tagFilterExpression: tagFilters,
     timeConfig: timeConfig,
     timeShift: 0

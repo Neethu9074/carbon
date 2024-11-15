@@ -141,7 +141,12 @@
       "selectThePlatformArchitecture": "Selecione a arquitetura da plataforma",
       "platformArchitecture": "Arquitetura da plataforma",
       "previewPrerequisites": "Visualizar os pré-requisitos",
-      "installingInstanaAgent": "Instalando o agente Instana"
+      "installingInstanaAgent": "Instalando o agente Instana",
+      "unix_airgapped": {
+        "step1DownloadTheInstallArchive": "Etapa 1. Faça o download do archive de instalação.",
+        "airgappedArchives": "Archives",
+        "installUsingAnArchive": "Instalar usando um archive"
+      }
     },
     "aws": {
       "step1": "Etapa 1: ",
@@ -342,6 +347,11 @@
         "installTheScriptOnTheVirtualMachine": "Instale o script na máquina virtual como um Serviço do Windows e, em seguida, inicie-o automaticamente.",
         "installAgentOnAWSEC2Windows": "Instalar agente no AWS EC2 (Windows)",
         "runCommandsOnAWSEC2": "Execute comandos no AWS EC2"
+      },
+      "windows_airgapped": {
+        "step1DownloadTheInstallPackageOrArchive": "Etapa 1. Faça o download do instalador ou do archive.",
+        "airgappedPackagesOrArchive": "Archives e instaladores do Windows (32 bits e 64 bits)",
+        "installUsingAPackageOrArchive": "Instalar usando um instalador ou um archive"
       }
     },
     "linux": {
@@ -369,6 +379,11 @@
           "linuxRhel6X8664": "Linux (64Bit - RHEL6 x86_64)",
           "linuxRhel7X8664": "Linux (64Bit - RHEL7 x86_64)"
         }
+      },
+      "linux_airgapped": {
+        "step1DownloadTheInstallPackage": "Etapa 1. faça download do pacote de instalação.",
+        "airgappedPackages": "Archives, pacotes RPM e DEB",
+        "installUsingAPackage": "Instalar usando um pacote ou um archive"
       },
       "linux_ec2": {
         "selectTheAgentPackagingMode": "Etapa 1: selecione o modo de empacotamento do agente",
@@ -485,7 +500,12 @@
     },
     "mac": {
       "selectAgentPackagingMode": "Etapa 1: selecione o modo de empacotamento do agente.",
-      "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Etapa 2: revise os pré-requisitos e execute o código de implementação do agente."
+      "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Etapa 2: revise os pré-requisitos e execute o código de implementação do agente.",
+      "mac_airgapped": {
+        "step1DownloadTheInstallArchive": "Etapa 1. Faça o download do archive de instalação.",
+        "airgappedArchives": "Archives",
+        "installUsingAnArchive": "Instalar usando um archive"
+      }
     }
   },
   "welcomepage": {
@@ -753,13 +773,15 @@
         "settings": "Configurações",
         "user": "Usuário",
         "externalLink": "Link externo",
-        "resultNew": "Resultado novo"
+        "resultNew": "Resultado novo",
+        "whatsNewLink": "Link para O que há de novo"
       },
       "buttonNames": {
         "deployAgent": "Implementar agente",
         "addUser": "Incluir usuário",
         "documentation": "Documentação IBM",
-        "releaseNotes": "Notas sobre a liberação"
+        "releaseNotes": "Notas sobre a liberação",
+        "whatsNewLink": "O que há de novo no Instana"
       }
     },
     "ariaLabel": {
@@ -795,7 +817,7 @@
       "analyzeCalls": "analisando rastreios e chamadas",
       "settingsTab": "gerenciando o acesso do usuário",
       "userSettings": "configurações do usuário",
-      "authSettings": "configurando a autenticação",
+      "securityAndAccess": "Configurando a segurança e o acesso",
       "auditLogs": "visualizando logs de auditoria",
       "automation": "gerenciando ações",
       "customEvents": "definindo eventos customizados",

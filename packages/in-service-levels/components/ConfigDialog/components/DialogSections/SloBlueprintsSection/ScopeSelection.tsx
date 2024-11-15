@@ -24,7 +24,8 @@ export default function ScopeSelection() {
   const { form, mode, onChange, setForm } = useContext(SloFormContext);
 
   const tagFilterExpressionField = form.getIn(['scope', 'tagFilterExpression']);
-  const isCustomTag = tagFilterExpressionField.value.length > 0;
+  const tagFilterExpression = tagFilterExpressionField.value ?? [];
+  const isCustomTag = tagFilterExpression.length > 0;
   const scopeSelection = isCustomTag ? 'custom' : 'serviceEndpoint';
   const [scope, setScope] = useState(scopeSelection);
   const isFormInEditMode = mode === 'EDIT';

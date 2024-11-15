@@ -48,6 +48,7 @@
     "cbp": "CBP 프로세서 사용량",
     "cp": "CP 프로세서 사용량",
     "iip": "IIP 프로세서 사용량",
+    "lparPowerConsumption": "LPAR 소비전력(와트)",
     "smt": "SMT 사용",
     "thread0": "스레드 0 사용",
     "thread1": "스레드 1 사용",

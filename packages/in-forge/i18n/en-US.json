@@ -2957,7 +2957,7 @@
     "rfc": "RFC"
   },
   "plugins": {
-    "activedirectory" : {
+    "activedirectory": {
       "ActiveDirectory": "Active Directory"
     },
     "titleARN": "ARN",
@@ -3567,7 +3567,7 @@
       "inputTerminals": "Number of Input-type Terminals",
       "outputTerminals": "Number of Output-type Terminals"
     },
-    "activeDirectory":{
+    "activeDirectory": {
       "computerName": "Host",
       "lightweightDirectoryAccessProtocol": "Lightweight Directory Access Protocol (LDAP)",
       "ldap": {
@@ -7600,8 +7600,6 @@
       "lockMode": "Lock Mode",
       "lockModeRequested": "Lock Mode Requested",
       "lockObjectType": "Lock Object Type",
-      "startTime": "Start Time",
-      "endTime": "End Time",
       "durationSec": "Duration",
       "objNameQualifier": "Object Name Qualifier",
       "objName": "Object Name",
@@ -7720,7 +7718,6 @@
       "oldConfigUsed": "Db2 Sensor now supports monitoring of multiple instances and databases on the host where Instana Agent is running. Please refer to the docs for the new configuration format.",
       "autoResize": "Auto Resize",
       "hadrLogGap": "HADR Log Gap",
-      "type": "Backup type",
       "startTime": "Start time",
       "endTime": "End time",
       "backupDuration": "Backup duration",
@@ -9507,16 +9504,15 @@
         "statementId": "Statement ID",
         "statementString": "Statement String",
         "planId": "Plan ID",
-        "totalReadSize" : "Read Size",
-        "totalWriteSize" : "Write Size",
-        "totalFailedReads" : "Failed Reads",
-        "totalFailedWrites" : "Failed Writes",
-        "totalReadTime" : "Read Time",
-        "totalWriteTime" : "Write Time",
-        "fileSystemPath" : "File System Path",
-        "fileType" : "File Type",
-        "ioStats" : "I/O Statistics"
-
+        "totalReadSize": "Read Size",
+        "totalWriteSize": "Write Size",
+        "totalFailedReads": "Failed Reads",
+        "totalFailedWrites": "Failed Writes",
+        "totalReadTime": "Read Time",
+        "totalWriteTime": "Write Time",
+        "fileSystemPath": "File System Path",
+        "fileType": "File Type",
+        "ioStats": "I/O Statistics"
       },
       "systemId": "System ID",
       "databaseName": "Database Name",
@@ -11169,7 +11165,6 @@
     },
     "ibmCloudMongoDb": {
       "connections": "Connections",
-      "cpuUsedPercent": "CPU used",
       "diskIoUtilizationPercentAverage5m": "IO utilization (5 min avg)",
       "diskIopsReadWriteTotal": "IOPS r/w total",
       "diskReadLatencyMean": "Disk read latency mean",
@@ -11268,7 +11263,6 @@
       "labelUsedBytes": "Used Bytes",
       "titleUsedPercent": "Utilization",
       "titleCPU": "CPU",
-      "cpuUsedPercent": "CPU Used Percent",
       "cpuUtilization": "CPU Utilization",
       "titleDisk": "Disk",
       "disk": "Disk",
@@ -11302,7 +11296,6 @@
       "read": "Read",
       "write": "Write",
       "latency": "Latency",
-      "cache": "Cache",
       "files": "Files",
       "replica": "Replica",
       "readReplicaReplicationLagBytes": "Read replica replication lag",
@@ -12483,7 +12476,6 @@
       "disabled": "Disabled",
       "infrastructure": "Infrastructure",
       "apm": "APM",
-      "k8s": "Kubernetes",
       "unknown": "Unknown",
       "theLookupOfWhichProcessIsSendingTracesToThisAgentUsingTraceEndpoints": "The lookup of which process is sending traces to this agent using trace endpoints like OpenTelemetry, Jaeger, Zipkin or Web Trace SDK cannot be performed because the following utilities are missing: <strong><code>{{missing}}</code></strong>. Please refer to your Linux distribution docs on how to install these utilities.",
       "theInstanaPcpProcessSeemsNotToBeRunningOnThisHostWhichPreventsTheHostAgentFromTracingNetApplications": "The InstanaPCP process seems not to be running on this host, which prevents the host agent from tracing .NET applications.",
@@ -16387,7 +16379,6 @@
       "loadAvg5": "5 minutes",
       "loadAvg15": "15 minutes",
       "loadAverage": "Load Average",
-      "count": "Count",
       "systemLogStatistics": "System Log Statistics",
       "stopped": "Stopped",
       "shutdown": "Shutdown",
@@ -16653,18 +16644,13 @@
     },
     "bpm": {
       "titleBusinessKey": "Business Key",
-      "titleCaseIntanceId": "Case Instance ID",
       "titleRootProcessUUID": "Root Process UUID",
-      "titleProcessId": "Process ID",
+      "titleProcessDefinitionId": "Process Definition ID",
       "titleProcessName": "Process Name",
       "titleActivityId": "Activity ID",
       "titleActivityName": "Activity Name",
       "titleActivityDesc": "Activity Description",
       "titleActivityType": "Activity Type",
-      "titleExternalTaskWorkerId": "External Task Worker ID",
-      "titleExternalTaskTopic": "External Task Topic",
-      "titleExternalTaskId": "External Task ID",
-      "titleExternalTaskRetries": "Retries",
       "titleBusinessVariable": "{{businessVariableKey}}"
     },
     "cassandra": {

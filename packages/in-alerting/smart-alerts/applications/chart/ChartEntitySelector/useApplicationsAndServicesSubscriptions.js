@@ -22,16 +22,9 @@ export default function useApplicationsAndServicesSubscriptions({
   applicationIds,
   queryWindowSize
 }) {
-  const {
-    applications,
-    boundaryScope,
-    tagFilterExpression,
-    includeSynthetic,
-    rule,
-    threshold
-  } = alertConfigWithFormModel;
+  const { applications, boundaryScope, tagFilterExpression, includeSynthetic, rules } = alertConfigWithFormModel;
 
-  const { isQueryValid } = getQueryBuilderForAlertType(rule.alertType, threshold.type);
+  const { isQueryValid } = getQueryBuilderForAlertType(rules[0].rule.alertType, rules[0].thresholds.WARNING?.type);
 
   // only pass the user-defined part of the query, because the generated part is valid anyway, and the validation
   // would reject the entity-filter anyway, because the user is not allowed to use them

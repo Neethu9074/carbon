@@ -9,8 +9,8 @@ import React from 'react';
 
 import { Spacer } from '@instana/components';
 
-import ThresholdValueFormGroupForStaticThreshold from 'in-alerting/smart-alerts/dialog/advanced/ThresholdValueFormGroupForStaticThreshold';
-import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdDeviationSliderForm';
+import ThresholdValueFormGroupForMultiStaticThreshold from 'in-alerting/smart-alerts/dialog/advanced/ThresholdValueFormGroupForMultiStaticThreshold';
+import { MultiThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/MultiThresholdDeviationSliderForm';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/components/tearSheet/ThresholdCondition/ThresholdTypeSelection';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
@@ -24,7 +24,7 @@ import locals from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertC
 
 export default function LogsThresholdCondition({ form, updateForm, blueprintConfig, editMode, isGlobalSmartAlert }) {
   const metricName = form.get('rule').get('metricName').value;
-  const thresholdType = form.get('threshold').get('type')?.value;
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
   const thresholdTypeOptions = blueprintConfig.getThresholdTypeOptions();
@@ -47,26 +47,31 @@ export default function LogsThresholdCondition({ form, updateForm, blueprintConf
             content={t('in-alerting:smartAlerts.applications.tearSheet.threshold.thresholdValue')}
           />
         </span>
-        <ThresholdOperatorDropDown form={form} updateForm={updateForm} allOptions isTearSheet />
-        {thresholdType === STATIC_THRESHOLD && (
-          <ThresholdValueFormGroupForStaticThreshold
-            form={form}
-            updateForm={updateForm}
-            maxValue={maxValue}
-            metricUnitPostfix={metricUnitPostfix}
-            isGlobalSmartAlert={isGlobalSmartAlert}
-            hasSmallInputField
-            isTearSheet
-            showLabel={false}
-          />
-        )}
+        <div>
+          <ThresholdOperatorDropDown form={form} updateForm={updateForm} allOptions isTearSheet />
+          {thresholdType === STATIC_THRESHOLD && (
+            <ThresholdValueFormGroupForMultiStaticThreshold
+              form={form}
+              updateForm={updateForm}
+              maxValue={maxValue}
+              metricUnitPostfix={metricUnitPostfix}
+              isGlobalSmartAlert={isGlobalSmartAlert}
+              isTearSheet
+              showLabel={false}
+            />
+          )}
+        </div>
       </div>
 
       {thresholdType !== STATIC_THRESHOLD && (
         <>
           <Spacer vertical="xsmall" />
           <Spacer vertical="normal" />
-          <ThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
+          <MultiThresholdDeviationSliderForm
+            form={form}
+            updateForm={updateForm}
+            defaultValue={defaultDeviationFactor}
+          />
         </>
       )}
     </>

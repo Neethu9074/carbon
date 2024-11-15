@@ -8,8 +8,8 @@ import { render, fireEvent } from '@testing-library/react';
 import React from 'react';
 
 import * as NavigationHooks from 'in-stores/navigation/hooks/useNavigation';
+import ViewSwitcher from 'in-automation/AutomationTabs/ViewSwitcher';
 import { useSegmentTracker } from 'in-automation/tracker';
-import ViewSwitcher from './ViewSwitcher';
 import { t } from 'in-i18n';
 
 jest.mock('in-i18n', () => ({

@@ -32,6 +32,7 @@ import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { setViewTrackingDataValues } from 'in-components/ViewTrackingMeta';
 import { error, hasError, isLoading } from 'in-services/util/result';
 import { productAreas } from 'in-services/tracking/productAreas';
+import { refresh } from 'in-automation/ActionCatalog/useActions';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
 import { saveNewAction } from 'in-automation/api';
@@ -113,6 +114,7 @@ function useOnSubmit() {
           trackAction();
           createActionSuccessNotification(result.data?.name!, result.data?.id!);
           navigateToActionCatalog();
+          refresh();
           onClose();
         },
         () => {

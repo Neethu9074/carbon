@@ -53,6 +53,11 @@
       "title": "Analyse de l'utilisateur du produit",
       "purpose": "Enregistre un ID unique qui est utilisé pour générer des données statistiques sur la façon dont le visiteur utilise le site Web."
     },
+    "walkme": {
+      "title": "Intégration du produit et conseils",
+      "purpose": "Enregistre un ID unique qui est utilisé pour générer des données statistiques sur la façon dont le visiteur utilise le site Web.",
+      "category": "Intégration du produit et conseils"
+    },
     "appcues": {
       "title": "Expérience d'intégration personnalisée et enquêtes NPS",
       "purpose": "Enquête sur l'intégration des utilisateurs et le NPS en magasin."
@@ -165,6 +170,7 @@
     "limitedAccessKubernetes_namespaces": "Espaces de nom",
     "limitedAccessKubernetes_addCluster": "Ajouter un cluster",
     "limitedAccessKubernetes_addNamespace": "Ajouter un espace de noms",
+    "addButton_bizopsPerspectives": "Ajouter des perspectives métier",
     "addButton_syntheticTests": "Ajouter des tests synthétiques",
     "descriptionAccessAll_synthetics": "Tous les tests synthétiques sont accessibles avec le rôle sélectionné.",
     "descriptionLimitedAccess_synthetics": "Sélectionnez le rôle et ajoutez des tests synthétiques ci-dessous pour accorder l'accès.",
@@ -215,6 +221,8 @@
     "description_access_all": "Accéder à tout sans limitation",
     "title_access_all_bizops": "Accès illimité",
     "title_no_access_bizops": "Accès refusé",
+    "title_limited_access_bizops": "Accès limité",
+    "description_limited_access_bizops": "Accédez uniquement aux perspectives métier répertoriées et à leurs processus métier.",
     "description_access_all_bizops": "Toutes les fonctions de surveillance métier sont accessibles sans limitation.",
     "description_no_access_bizops": "L'accès à la surveillance métier est refusé.",
     "description_access_all_except_contributor": "Tous les accès, sauf les accès Contributeur",
@@ -363,8 +371,7 @@
         "placeholder": "Marque de réservation",
         "logicalOperator_AND": "ET",
         "logicalOperator_OR": "OU",
-        "logicalOperatorInfo": "L'opérateur logique sélectionné sera appliqué aux conditions suivantes.",
-        "clearMetricSeclection": "Effacer la sélection"
+        "logicalOperatorInfo": "L'opérateur logique sélectionné sera appliqué aux conditions suivantes."
       },
       "customPayload": {
         "unknownTag": "Balise inconnue : {{tagName}}"
@@ -438,7 +445,10 @@
     },
     "deleteLogs": {
       "deleteLogs": "Supprimer les journaux",
-      "info": "Si vous constatez une fuite d'informations sécurisées dans les journaux d'Instana, vous pouvez procéder à la suppression des journaux pour une période spécifique. ",
+      "info": "Si vous constatez une fuite d'informations sécurisées dans les journaux Instana, vous pouvez",
+      "info2": "supprimer les journaux pour une période spécifique.",
+      "confirmDeletion": "Confirmer la suppression",
+      "modalDescription": "La suppression des journaux efface définitivement tous les journaux d'Instana jusqu'à la date et l'heure de fin spécifiées. Cette action est irréversible",
       "confirmationDescription": "La suppression des journaux supprimera définitivement les journaux d'Instana. Cette action ne peut pas être annulée. ",
       "deletionReason": "Raisons de la suppression",
       "typeToContinue": "Entrez {{logs}} pour continuer",
@@ -455,8 +465,8 @@
       "numberOfLogs": "Nombre de journaux",
       "triggered": "Déclenché par",
       "status": "Statut",
-      "noData": "Aucune donnée à afficher",
-      "noDataInfo": "Pour supprimer des journaux, cliquez sur Supprimer des journaux.",
+      "noData": "Aucun journal n'est encore supprimé",
+      "noDataInfo": "Pour supprimer les journaux, cliquez sur Supprimer les journaux",
       "summary": "Historique des actions de suppression des journaux",
       "wrong": "Un problème s'est produit",
       "errorInfo": "Impossible d'extraire les données de la base de données",
@@ -927,9 +937,9 @@
     "users": "Utilisateurs",
     "session": "Session",
     "timeouts": "Dépassements du délai d'attente",
-    "teamSettings": "Paramètres d'équipe",
+    "globalSettings": "Paramètres généraux",
     "userSettings": "Paramètres utilisateur",
-    "authentication": "Authentification",
+    "securityAndAccess": "Sécurité et accès",
     "settingsPageNotFound": "Page de paramètres introuvable",
     "weCouldNotFindTheSettingsPageYouWereLookingFor": "Nous n'avons pas trouvé la page de paramètres que vous recherchiez. Nous en sommes désolés. Peut-être aimeriez-vous plutôt essayer l'un des liens suivants ?",
     "pleaseSelectAtLeastOneItem": "Sélectionnez au moins un élément.",
@@ -1285,13 +1295,13 @@
     "deletedEventMessage": "Vous recherchez une configuration d'événement supprimée. Les modifications ne sont pas possibles.",
     "serviceNowUrl": "URL ServiceNow",
     "serviceNow": "ServiceNow",
-    "serviceNowBD": "Appli ServiceNow",
+    "serviceNowBD": "Application ServiceNow ITSM",
     "intermediateTable": "Propagation des événements vers les tables intermédiaires",
     "propIncidentTable": "Permettre à Instana d'envoyer des événements à la table d'incidents dans ServiceNow",
     "propIncidentTableDesc": "Après avoir propagé la table intermédiaire IBM Instana, Instana met à jour la table d'incidents dans ServiceNow. Cela permet d'ouvrir et de fermer les incidents ServiceNow en synchronisation avec les incidents Instana, ainsi que de synchroniser les notes et les activités entre Instana et ServiceNow. Toutes les règles de gestion existantes pour modifier votre table d'incidents dans ServiceNow fonctionneront également normalement.",
     "restIncidentTable": "Limiter Instana à la propagation des tables intermédiaires",
     "restIncidentTableDesc": "Instana ne fait que propager les données d'incidents dans la table intermédiaire IBM Instana sans autre mise à jour de la table d'incidents ServiceNow. Pour permettre la synchronisation complète des événements, des notes et des activités, vous devrez mettre à jour les règles de gestion de ServiceNow. Pour obtenir des détails, voir la <documentationLink>documentation</documentationLink>.",
-    "serviceNowAlertChannel": "Canal d'alerte ServiceNow",
+    "serviceNowAlertChannel": "Canal d'alerte de l'application ServiceNow",
     "serviceNowUsernameTooltip": "Le nom d'utilisateur et le mot de passe doivent être ceux d'un utilisateur ServiceNow autorisé à créer des incidents.",
     "autoCloseIncidents": "Fermeture automatique des incidents",
     "advancedIntro": "La création de ce canal d'alerte permettra à Instana de créer des incidents/tickets dans ServiceNow. Vous pouvez personnaliser la façon dont les incidents sont mis à jour.<br/><br/>",
@@ -1352,7 +1362,10 @@
     "changeEvent": "Evénement de modification",
     "advancedSettingsMessage": "En activant cette option, vous aurez la possibilité de personnaliser l'objet des alertes d'événement que vous recevez en fonction de leur type. Si vous préférez ne pas personnaliser les objets d'e-mail, vous pouvez simplement ignorer cette option.",
     "customSubjectNotProvided": "Si aucun objet personnalisé n'est fourni, Instana envoie un e-mail d'alerte avec un objet prédéfini.",
-    "sendTestEmail": "Envoyer un courrier test"
+    "sendTestEmail": "Envoyer un courrier test",
+    "alertTitleAdditions": "Titre de l'alerte",
+    "alertTitleAdditionsTooltip": "Le nom de l'entité pour laquelle cette alerte est déclenchée apparaît dans le titre de l'alerte. Par défaut, le nom de l'entité n'est visible que dans le corps d'une alerte",
+    "includeEntityNameInLegacyAlerts": "Inclure le nom de l'entité dans le titre de l'alerte"
   },
   "languageSelection": {
     "language": "Langue",

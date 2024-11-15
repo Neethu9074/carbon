@@ -14,6 +14,11 @@
   "pluginName_aceMessageFlow_1": "IBM ACE 消息流",
   "pluginName_aceMessageFlow_2": "IBM ACE 消息流",
   "pluginName_aceMessageFlow": "IBM ACE 消息流",
+  "pluginName_activeDirectory_plural": "Active Directory",
+  "pluginName_activeDirectory_0": "Active Directory",
+  "pluginName_activeDirectory_1": "Active Directory",
+  "pluginName_activeDirectory_2": "Active Directory",
+  "pluginName_activeDirectory": "Active Directory",
   "pluginName_activeMQ_plural": "ActiveMQ",
   "pluginName_activeMQ_0": "ActiveMQ",
   "pluginName_activeMQ_1": "ActiveMQ",
@@ -2951,6 +2956,9 @@
     "rfc": "RFC"
   },
   "plugins": {
+    "activedirectory": {
+      "ActiveDirectory": "Active Directory"
+    },
     "titleARN": "ARN",
     "titleVPC": "VPC",
     "titleCPU": "CPU",
@@ -3557,6 +3565,33 @@
       "invocations": "调用次数",
       "inputTerminals": "输入类型终端数",
       "outputTerminals": "输出类型终端数"
+    },
+    "activeDirectory": {
+      "computerName": "主机",
+      "lightweightDirectoryAccessProtocol": "轻量级目录访问协议 (Lightweight Directory Access Protocol, LDAP)",
+      "ldap": {
+        "operations": "操作",
+        "operationRates": "运行速率（每秒）",
+        "add": "添加",
+        "delete": "删除",
+        "modifyDN": "修改 DN",
+        "modify": "修改",
+        "write": "写入",
+        "search": "搜索",
+        "udp": "UDP",
+        "connections": "连接",
+        "connectionRates": "连接速率（每秒）",
+        "clientSessions": "客户机会话",
+        "closedConnections": "关闭的连接",
+        "sslConnections": "SSL 连接",
+        "threads": "线程",
+        "sleepingOnBusy": "忙时休眠",
+        "active": "活动",
+        "busyretries": "忙时重试",
+        "batch": "批次数",
+        "availableBatchSlots": "可用的批处理插槽",
+        "outboundBytes": "出站字节数"
+      }
     },
     "activeMQ": {
       "jmxIsNotEnabledYouCanEnableItInActivemqConfigBySettingTheBrokerPropertyUseJmxToTrue": "未启用 jmx。您可以通过将代理属性 useJmx 设置为 true，在 activemq 配置中将其启用。",
@@ -7558,8 +7593,6 @@
       "lockMode": "锁定方式",
       "lockModeRequested": "请求的锁定方式",
       "lockObjectType": "锁定对象类型",
-      "startTime": "开始时间",
-      "endTime": "结束时间",
       "durationSec": "持续时间",
       "objNameQualifier": "对象名限定符",
       "objName": "对象名",
@@ -7678,10 +7711,12 @@
       "oldConfigUsed": "Db2 传感器现在支持监视正在运行 Instana 代理程序的主机上的多个实例和数据库。 请参阅文档，以了解新的配置格式。",
       "autoResize": "自动调整大小",
       "hadrLogGap": "HADR 日志间隔",
-      "type": "Type",
+      "startTime": "开始时间",
+      "endTime": "结束时间",
       "backupDuration": "备份持续时间",
       "owner": "所有者",
       "tbspace": "表空间",
+      "type": "Type",
       "tbspState": "表空间状态",
       "uowExecutors": "执行中的连接",
       "db2MemberNumber": "成员节点",
@@ -9448,7 +9483,7 @@
         "transactionId": "事务标识",
         "transactionType": "事务类型",
         "transactionStatus": "事务状态",
-        "acquiredLockCount": "已获取的锁定计数",
+        "acquiredLockCount": "已获取锁定计数",
         "activeStatementCount": "活动语句计数",
         "transactionStats": "事务统计信息",
         "currentWorkloadRate": "工作负载速率（每分钟）",
@@ -9460,7 +9495,16 @@
         "connectionId": "连接标识",
         "statementId": "语句标识",
         "statementString": "语句字符串",
-        "planId": "计划标识"
+        "planId": "计划标识",
+        "totalReadSize": "读取大小",
+        "totalWriteSize": "写入大小",
+        "totalFailedReads": "失败的读取数",
+        "totalFailedWrites": "失败的写入数",
+        "totalReadTime": "读取时间",
+        "totalWriteTime": "写入时间",
+        "fileSystemPath": "文件系统路径",
+        "fileType": "文件类型",
+        "ioStats": "I/O 统计信息"
       },
       "systemId": "系统标识",
       "databaseName": "数据库名称",
@@ -9529,7 +9573,21 @@
         "compute": "计算",
         "cloudServices": "云服务",
         "total": "总计",
-        "warehouseUsage": "仓库使用情况"
+        "warehouseUsage": "仓库使用情况",
+        "storageUsage": "存储器",
+        "totalStageBytes": "阶段总字节数",
+        "totalFailSafeBytes": "故障安全总字节数",
+        "avgByteSpilledToLocalStorage": "溢出到本地存储器的平均字节数",
+        "bytesSpilled": "溢出的字节数",
+        "avgByteSpilledToRemoteStorage": "溢出到远程存储器的平均字节数",
+        "loginAttempts": "登录尝试次数",
+        "successful": "成功",
+        "failed": "失败",
+        "longestRunningQueries": "运行时间最长的 10 个查询",
+        "queryId": "查询标识",
+        "queryText": "查询文本",
+        "execTime": "执行时间",
+        "warehouseUsed": "使用的仓库"
       }
     },
     "solr": {
@@ -11099,7 +11157,6 @@
     },
     "ibmCloudMongoDb": {
       "connections": "连接数",
-      "cpuUsedPercent": "已用 CPU 百分比",
       "diskIoUtilizationPercentAverage5m": "IO 利用率（5 分钟内平均值）",
       "diskIopsReadWriteTotal": "IOPS 总读写数",
       "diskReadLatencyMean": "磁盘读取平均等待时间",
@@ -11127,6 +11184,7 @@
       "total": "总时间",
       "usedPercent": "使用率",
       "cpu": "CPU",
+      "cpuUsedPercent": "已用 CPU 百分比",
       "memory": "内存",
       "disk": "磁盘",
       "locks": "锁定数",
@@ -11722,7 +11780,10 @@
       "port": "端口",
       "name": "名称",
       "subscriptions": "订购",
-      "version": "版本"
+      "version": "版本",
+      "state": "状态",
+      "sourceDatastore": "源数据存储",
+      "targetDataStore": "目标数据存储"
     },
     "ibmInfosphereCdcSubscription": {
       "dashboard": {
@@ -11734,6 +11795,7 @@
       },
       "ibmInfosphereSubscription": "订购",
       "subscriptionName": "名称",
+      "state": "状态",
       "sourceDatastore": "源数据存储",
       "targetDataStore": "目标数据存储",
       "sourceEngine": "源引擎",
@@ -14621,6 +14683,7 @@
       "cbp": "基于容器的处理器",
       "cp": "中央处理器",
       "iip": "集成信息处理器",
+      "lparPowerConsumption": "逻辑分区功耗（瓦特）",
       "heatLoad": "热负荷",
       "heatLoadForcedAir": "热负荷（强制通风）",
       "heatLoadWater": "热负荷（水）",
@@ -16566,18 +16629,13 @@
     },
     "bpm": {
       "titleBusinessKey": "业务键",
-      "titleCaseIntanceId": "实例标识标识",
       "titleRootProcessUUID": "根进程 UUID",
-      "titleProcessId": "进程标识",
+      "titleProcessDefinitionId": "流程定义标识",
       "titleProcessName": "进程名称",
       "titleActivityId": "活动标识",
       "titleActivityName": "活动名称",
       "titleActivityDesc": "活动描述",
       "titleActivityType": "活动类型",
-      "titleExternalTaskWorkerId": "外部任务工作程序标识",
-      "titleExternalTaskTopic": "外部任务主题",
-      "titleExternalTaskId": "外部任务标识",
-      "titleExternalTaskRetries": "重试次数",
       "titleBusinessVariable": "{{businessVariableKey}}"
     },
     "cassandra": {

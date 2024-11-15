@@ -56,6 +56,7 @@ export interface ContextMenuButton {
 
 interface ResultAwareChartConfig {
   frontBufferWidth?: number;
+  backBufferWidth?: number;
   customHeight?: number;
   customChartSkeletonHeight?: number;
   showNoDataInfoWhenEmpty?: boolean;

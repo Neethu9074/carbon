@@ -164,7 +164,7 @@ function generateAIActionForm({
           form
             .updateIn(['action', 'name'], item => item.setValue(`Action generated for ${eventName}`).setTouched(false))
             .updateIn(['action', 'description'], item =>
-              item.setValue(`This resolves event with ${eventDescription}`).setTouched(false)
+              item.setValue(`This resolves event: ${eventDescription}`).setTouched(false)
             )
             .updateIn(['action', 'content'], item => item.setValue(res.data?.content!))
             .updateIn(['action', 'tags'], item => item.setValue(['watsonx']).setTouched(true))
@@ -243,7 +243,7 @@ function ActionPreview() {
   if (isLoading(generatedAction))
     return <LoadingIndicator text={t('in-automation:GenerateAIActionDialog.watsonxLoadingContent')} />;
   if (hasError(generatedAction)) return <ErroneousResultPresenter errors={generatedAction.errors} />;
-  return <ManualActionContent content={createManualField(generatedAction.data?.content!)} withAISlug />;
+  return <ManualActionContent content={createManualField(generatedAction.data?.content!)} withAISlug addCopyButton />;
 }
 
 export default function PromptStep({
@@ -262,6 +262,9 @@ export default function PromptStep({
         <PreviewPill privatePreview />
         <Spacer vertical="normal" />
         <Typography variant="body-regular">{t('in-automation:GenerateAIActionDialog.Step1HeadlinePrompt')}</Typography>
+        <Typography variant="body-regular">
+          {t('in-automation:GenerateAIActionDialog.generateScriptDialog.step2Headline2')}
+        </Typography>
         <Spacer vertical="normal" />
         <PromptInputs form={form} setForm={setForm} />
         <GenerateButton form={form} setForm={setForm} event={event} />

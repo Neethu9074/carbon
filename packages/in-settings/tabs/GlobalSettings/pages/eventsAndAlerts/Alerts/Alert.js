@@ -206,6 +206,12 @@ function createForm(alertEntity, isCreate) {
     .put(
       'customPayloadFields',
       createListFormForCustomPayloads(alertEntity.get('customPayloadFields', List([])).toJS(), false)
+    )
+    .put(
+      'includeEntityNameInLegacyAlerts',
+      createField({
+        value: alertEntity.get('includeEntityNameInLegacyAlerts')
+      })
     );
 
   if (eventSelectionMode === modeEventTypes) {
@@ -444,7 +450,8 @@ function save(alertEntity, form, isCreate, trackCta) {
         query,
         selectedEventTypes,
         selectedApplicationAlertConfigs,
-        form.get('customPayloadFields').toJS()
+        form.get('customPayloadFields').toJS(),
+        form.get('includeEntityNameInLegacyAlerts').value
       )
     )
   );

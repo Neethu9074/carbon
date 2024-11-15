@@ -9,7 +9,6 @@ import { Select } from '@instana/components';
 
 import PaginatedMetricList from 'in-components/MetricConfigurator/PaginatedMetricList';
 import DraggableItemSelector from 'in-components/DraggableItemSelector';
-import { carbonSelectEnabled } from 'in-services/featureFlags';
 import { Col } from 'in-components/layout/Grid';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
@@ -98,7 +97,7 @@ function Content({
       </Col>
 
       {metric.get('aggregation').map(field => (
-        <Col xs={carbonSelectEnabled ? 4 : 3}>
+        <Col xs={4}>
           <Select
             id={`metric-configuration-aggregation-${i}`}
             value={field.value}

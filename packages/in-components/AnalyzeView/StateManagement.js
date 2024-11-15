@@ -17,9 +17,7 @@ import { removeFacetTag, tagFiltersFromFacets } from 'in-components/AnalyzeView/
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import { ua2OrderByChangedTracker, ua2OrderByGroupChangedTracker } from 'in-components/tracker';
 import { useCustomMetricSuggestions } from 'in-applications/hooks/useCustomMetricSuggestions';
-import { ua2FacetsChangedTracker, ua2FormModelChangedTracker } from 'in-applications/tracker';
 import { isValid as isValidGrouping } from 'in-components/GroupingConfigurator/validation';
 import { sanitizeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { validateFormModel } from 'in-components/QueryBuilder/validation/formModel';
@@ -28,6 +26,7 @@ import { emptyArray, emptyObject, pendingResult } from 'in-services/fixedObjects
 import { getSingleNumberMetricId } from 'in-components/AnalyzeView/metrics';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import { getTagCatalogOnce } from 'in-services/tags/tagCatalog';
 import { noResultObservable } from 'in-services/util/result';
 import { aggregationLabels } from 'in-stores/metric/metric';
@@ -62,7 +61,7 @@ export default function TimeFixatingAnalyzeStateManagement(props) {
 
   // Ensure that we only ever receive the tag catalog once (per time config).
   const getTagCatalog = useMemo(() => getTagCatalogOnce(props.getTagCatalog), [props.getTagCatalog]);
-
+  const { trackUa2FacetsChanged, trackUa2FormModelChanged } = useAnalyzeTracker();
   return (
     <FixatedTimeConfigContextModification>
       {({ refresh }) => (
@@ -71,6 +70,8 @@ export default function TimeFixatingAnalyzeStateManagement(props) {
           urlStateDefinition={urlStateDefinition}
           getTagCatalog={getTagCatalog}
           refreshFixatedTimeConfig={refresh}
+          trackUa2FacetsChanged={trackUa2FacetsChanged}
+          trackUa2FormModelChanged={trackUa2FormModelChanged}
         />
       )}
     </FixatedTimeConfigContextModification>
@@ -196,7 +197,9 @@ function AnalyzeStateManagement({
   urlStateDefinition,
   dataSourceConfigurations,
   getCustomGroupingTagFilter,
-  children
+  children,
+  trackUa2FacetsChanged,
+  trackUa2FormModelChanged
 }) {
   const timeConfig = useTimeConfig();
   const [urlState, onChange, getChangeAsUrl] = useUrlState(urlStateDefinition);
@@ -214,9 +217,10 @@ function AnalyzeStateManagement({
     supportedCustomMetrics
   } = dataSourceConfigurations[dataSource];
 
+  const { trackUa2OrderByChanged, trackUa2OrderByGroupChanged } = useAnalyzeTracker();
   const formModel = useStableObjectInstance(urlState.formModel);
   const onFormModelChange = formModel => {
-    ua2FormModelChangedTracker({
+    trackUa2FormModelChanged({
       formModel,
       url: getChangeAsUrl({ formModel }),
       tagName: formModel?.filter(form => form.name).map(form => form.name),
@@ -235,7 +239,7 @@ function AnalyzeStateManagement({
   };
 
   const onFacetedSearchChange = facets => {
-    ua2FacetsChangedTracker({ facets, url: getChangeAsUrl({ facets }) });
+    trackUa2FacetsChanged({ facets, url: getChangeAsUrl({ facets }) });
     onChange({ facets });
   };
 
@@ -501,12 +505,12 @@ function AnalyzeStateManagement({
 
     orderBy,
     onOrderByChange: orderBy => {
-      ua2OrderByChangedTracker({ dataSource, ...orderBy });
+      trackUa2OrderByChanged({ dataSource, ...orderBy });
       onChange({ orderBy });
     },
     orderByGroups,
     onOrderByGroupsChange: orderByGroups => {
-      ua2OrderByGroupChangedTracker({ dataSource, ...orderByGroups });
+      trackUa2OrderByGroupChanged({ dataSource, ...orderByGroups });
       onChange({ orderByGroups });
     },
     selectableFields,

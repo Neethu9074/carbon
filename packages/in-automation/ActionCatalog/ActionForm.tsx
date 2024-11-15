@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Field } from 'formalistic';
 
-import { Link, Spacer, Typography, Toggle, IconButton, TextArea, Select } from '@instana/components';
+import { Link, Spacer, Typography, Toggle, TextArea, Select } from '@instana/components';
 import { ActionType, Result } from '@instana/types';
 
 import {
@@ -85,14 +85,12 @@ import FieldsTable from 'in-automation/ActionCatalog/FieldsTable';
 import CreatableTagSelect from 'in-components/CreatableTagSelect';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import { carbonInputEnabled } from 'in-services/featureFlags';
 import useActionTags from 'in-automation/hooks/useActionTags';
 import { isAction, ActionFilter } from 'in-automation/types';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { isAIAction } from 'in-automation/utils/action';
 import FormGroup from 'in-components/form/FormGroup';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import { isLoading } from 'in-services/util/result';
 import { FetchStatus } from 'in-hooks/utils/types';
 import Code from 'in-components/form/Code/Code';
@@ -239,7 +237,7 @@ export function ActionFormFooter({
   );
 }
 
-const TimeoutSection = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChange'>) => {
+function TimeoutSection({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChange'>) {
   const timeout = form.get('timeout') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
   const type = (form.get('type') as Field<ActionType>).value;
@@ -266,7 +264,7 @@ const TimeoutSection = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | '
       ))}
     </>
   );
-};
+}
 
 function filterTags(actionFilter: 'all' | ActionFilter, availableTags: Result<string[]>) {
   if (actionFilter === 'all' || actionFilter.tags.length === 0) {
@@ -276,11 +274,11 @@ function filterTags(actionFilter: 'all' | ActionFilter, availableTags: Result<st
   }
 }
 
-const MetaDataSection = ({
+function MetaDataSection({
   form,
   onChange,
   actionFilter
-}: Pick<ActionFormBodyProps, 'form' | 'setForm' | 'onChange' | 'actionFilter'>) => {
+}: Pick<ActionFormBodyProps, 'form' | 'setForm' | 'onChange' | 'actionFilter'>) {
   const name = form.get('name') as Field<string>;
   const description = form.get('description') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
@@ -348,7 +346,7 @@ const MetaDataSection = ({
       ))}
     </>
   );
-};
+}
 
 const typeOptions = ACTION_TYPES.filter(type => !NON_CREATABLE_ACTION_TYPES.includes(type));
 function filterTypes(actionFilter: 'all' | ActionFilter) {
@@ -531,7 +529,7 @@ const ManualSection = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'o
   ));
 };
 
-const ScriptSection = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChange'>) => {
+function ScriptSection({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChange'>) {
   const script = form.get('script') as Field<string>;
   const subtype = form.get('subtype') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
@@ -573,14 +571,14 @@ const ScriptSection = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'o
       ))}
     </>
   );
-};
+}
 
-const GithubSection = ({
+function GithubSection({
   form,
   onChange,
   setForm,
   action: action
-}: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'setForm' | 'action'>) => {
+}: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'setForm' | 'action'>) {
   const owner = form.get('owner') as Field<string>;
   const repo = form.get('repo') as Field<string>;
   const ticketActionType = form.get('ticketActionType') as Field<string>;
@@ -683,9 +681,9 @@ const GithubSection = ({
       {ticketActionType.value === ADD_COMMENT && <TicketCloseAndCommentSection form={form} onChange={onChange} />}
     </>
   );
-};
+}
 
-const GithubOpenSection = ({ form, onChange, setForm }: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'setForm'>) => {
+function GithubOpenSection({ form, onChange, setForm }: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'setForm'>) {
   const title = form.get('title') as Field<string>;
   const body = form.get('body') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
@@ -764,13 +762,13 @@ const GithubOpenSection = ({ form, onChange, setForm }: Pick<ActionFormBodyProps
       </FormGroup>
     </>
   );
-};
+}
 
-const TicketCloseAndCommentSection = ({
+function TicketCloseAndCommentSection({
   form,
   onChange,
   close = false
-}: Pick<ActionFormBodyProps, 'form' | 'onChange'> & { close?: boolean }) => {
+}: Pick<ActionFormBodyProps, 'form' | 'onChange'> & { close?: boolean }) {
   const comment = form.get('comment') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
 
@@ -793,14 +791,14 @@ const TicketCloseAndCommentSection = ({
       ))}
     </>
   );
-};
+}
 
-const GitlabSection = ({
+function GitlabSection({
   form,
   onChange,
   setForm,
   action: action
-}: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'setForm' | 'action'>) => {
+}: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'setForm' | 'action'>) {
   const projectId = form.get('projectId') as Field<string>;
   const ticketActionType = form.get('ticketActionType') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
@@ -883,9 +881,9 @@ const GitlabSection = ({
       {ticketActionType.value === ADD_COMMENT && <TicketCloseAndCommentSection form={form} onChange={onChange} />}
     </>
   );
-};
+}
 
-const GitlabOpenSection = ({ form, onChange, setForm }: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'setForm'>) => {
+function GitlabOpenSection({ form, onChange, setForm }: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'setForm'>) {
   const title = form.get('title') as Field<string>;
   const body = form.get('body') as Field<string>;
   const issue_type = form.get('issue_type') as Field<string>;
@@ -977,14 +975,14 @@ const GitlabOpenSection = ({ form, onChange, setForm }: Pick<ActionFormBodyProps
       </FormGroup>
     </>
   );
-};
+}
 
-const JiraSection = ({
+function JiraSection({
   form,
   onChange,
   setForm,
   action: action
-}: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'setForm' | 'action'>) => {
+}: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'setForm' | 'action'>) {
   const project = form.get('project') as Field<string>;
   const ticketActionType = form.get('ticketActionType') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
@@ -1067,9 +1065,9 @@ const JiraSection = ({
       {ticketActionType.value === ADD_COMMENT && <TicketCloseAndCommentSection form={form} onChange={onChange} />}
     </>
   );
-};
+}
 
-const JiraOpenSection = ({ form, onChange, setForm }: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'setForm'>) => {
+function JiraOpenSection({ form, onChange, setForm }: Pick<ActionFormBodyProps, 'form' | 'onChange' | 'setForm'>) {
   const summary = form.get('summary') as Field<string>;
   const body = form.get('body') as Field<string>;
   const assignee = form.get('assignee') as Field<string>;
@@ -1186,16 +1184,16 @@ const JiraOpenSection = ({ form, onChange, setForm }: Pick<ActionFormBodyProps, 
       </FormGroup>
     </>
   );
-};
+}
 
 const authOptions = AUTH_TYPES.map(type => ({ value: type, label: AUTH_TRANSLATIONS[type] }));
 
-const WebhookSection = ({
+function WebhookSection({
   form,
   setForm,
   onChange,
   action: action
-}: Pick<ActionFormBodyProps, 'form' | 'setForm' | 'onChange' | 'action'>) => {
+}: Pick<ActionFormBodyProps, 'form' | 'setForm' | 'onChange' | 'action'>) {
   const host = form.get('host') as Field<string>;
   const method = form.get('method') as Field<string>;
   const accept = form.get('accept') as Field<string>;
@@ -1402,9 +1400,9 @@ const WebhookSection = ({
       </FormGroup>
     </>
   );
-};
+}
 
-const BasicAuth = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChange'>) => {
+function BasicAuth({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChange'>) {
   const username = form.get('username') as Field<string>;
   const password = form.get('password') as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
@@ -1443,9 +1441,9 @@ const BasicAuth = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onCha
       </Col>
     </Row>
   );
-};
+}
 
-const BearerAuth = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChange'>) => {
+function BearerAuth({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChange'>) {
   const bearerToken = form.get('bearerToken') as Field<string>;
 
   return (
@@ -1463,9 +1461,9 @@ const BearerAuth = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onCh
       </Col>
     </Row>
   );
-};
+}
 
-const APIAuth = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChange'>) => {
+function APIAuth({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChange'>) {
   const apiKey = form.get('apiKey') as Field<string>;
   const apiKeyValue = form.get('apiKeyValue') as Field<string>;
   const apiKeyAddTo = form.get('apiKeyAddTo') as Field<string>;
@@ -1525,7 +1523,7 @@ const APIAuth = ({ form, onChange }: Pick<ActionFormBodyProps, 'form' | 'onChang
       </Col>
     </Row>
   );
-};
+}
 
 const tooltipTranslation = {
   apiKeyValue: [t('in-automation:ActionCatalog.hideAPIKeyTooltip'), t('in-automation:ActionCatalog.showAPIKeyTooltip')],
@@ -1539,12 +1537,11 @@ const tooltipTranslation = {
   ]
 } as const;
 
-const SecuredInput = ({
+function SecuredInput({
   form,
   onChange,
   fieldKey
-}: Pick<ActionFormBodyProps, 'form' | 'onChange'> & { fieldKey: keyof typeof tooltipTranslation }) => {
-  const [showPassword, setShowPassword] = useState(false);
+}: Pick<ActionFormBodyProps, 'form' | 'onChange'> & { fieldKey: keyof typeof tooltipTranslation }) {
   const field = form.get(fieldKey) as Field<string>;
   const isNotEditable = useContext(isNotEditableContext);
 
@@ -1553,7 +1550,7 @@ const SecuredInput = ({
       <Input
         className={locals.width100}
         id="action-password"
-        type={showPassword ? 'text' : 'password'}
+        type="password"
         disabled={isNotEditable}
         placeholder={'*******************'}
         value={field.value}
@@ -1562,34 +1559,24 @@ const SecuredInput = ({
         maxLength={256}
       />
       <Spacer horizontal="xsmall" />
-      {!carbonInputEnabled && (
-        <Tooltip content={showPassword ? tooltipTranslation[fieldKey][0] : tooltipTranslation[fieldKey][1]}>
-          <IconButton
-            buttonType="button"
-            kind="info"
-            type={showPassword ? 'lib_views_hide' : 'lib_views_show'}
-            onClick={() => {
-              setShowPassword(showPassword => !showPassword);
-            }}
-            iconSize="xs"
-            alignment="right"
-          />
-        </Tooltip>
-      )}
     </HorizontalFlexWrapper>
   );
-};
+}
 
-const AnsibleSection = ({ action }: Pick<ActionFormBodyProps, 'action'>) => {
-  const { jobTemplateUrl } = getAnsibleFields(action);
+function AnsibleSection({ action }: Pick<ActionFormBodyProps, 'action'>) {
+  const { jobTemplateUrl, isWorkflowJobTemplate } = getAnsibleFields(action);
   return (
     <>
       <FormGroup className={locals.widthFitContent}>
-        <Label>{t('in-automation:jobTemplate')}</Label>
+        {isWorkflowJobTemplate ? (
+          <Label>{t('in-automation:workflowJobTemplate')}</Label>
+        ) : (
+          <Label>{t('in-automation:jobTemplate')}</Label>
+        )}
         <Link external href={jobTemplateUrl}>
           {action.name}
         </Link>
       </FormGroup>
     </>
   );
-};
+}

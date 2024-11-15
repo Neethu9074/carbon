@@ -16,13 +16,13 @@ import {
   LOG_RETENTION_TIME
 } from 'in-logging/queryBuilder';
 // eslint-disable-next-line no-restricted-imports
-import { timestampToLocaleDate } from '../LogTagsTable/Tag';
 import getApplication from 'in-applications/subscriptions/getApplication';
 // @ts-expect-error
 import { getLabel } from 'in-sdk/snapshot';
 import { Application, LogTag, Result } from 'in-types';
 import { getSnapshot } from 'in-stores/snapshot';
 import { t } from 'in-i18n';
+import { timestampToLocaleDate } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
 
 type LinkResolver = (tag: LogTag) => Observable<string>;
 

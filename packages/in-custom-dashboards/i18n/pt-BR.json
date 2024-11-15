@@ -99,12 +99,31 @@
       "failedToParseInputAsJson": "Falha ao analisar entrada como JSON.",
       "jsonRootMustBeAnObject": "A raiz JSON deve ser um objeto."
     },
+    "downloadPdfDialog": {
+      "downloadPdf": "Fazer download do arquivo PDF",
+      "settings": "Configurações",
+      "pdfOrientation": "Orientação",
+      "portrait": "Retrato",
+      "landscape": "Paisagem",
+      "pdfLayout": "Layout",
+      "widgetsDisplay": "Exibir",
+      "singlePage": "Página única",
+      "singlePageInfo": "Coloque todo o painel em uma página, com o conteúdo redimensionado para caber na página.",
+      "multiPages": "Diversas páginas",
+      "multiPagesInfo": "Distribua o painel entre diversas páginas, mantendo o layout original. A exibição de alguns widgets pode ficar cortada.",
+      "stackWidgetsTitle": "Empilhar widgets",
+      "stackWidgetsInfo": "Exiba widgets em uma pilha vertical entre as diversas páginas.",
+      "loadingWidget": "Carregando o widget {{widgetIndex}} de {{totalNodes}}",
+      "generatePreview": "Gerar visualização",
+      "generatingPreview": "Gerando a visualização em PDF"
+    },
     "filterContext": {
       "topLevelFilterPartiallyApplied": "Alguns dos filtros do painel atual foram aplicados.",
       "topLevelFilterSelectsEverything": "Os filtros do painel atual não se aplicam a esse widget.",
       "topLevelFilterSelectsNothing": "Os filtros do painel atual não se aplicam a esse widget.",
       "topLevelFilterNotSupported": "Os filtros do painel atual não foram aplicados a esse widget pois o widget não oferece suporte à filtragem.",
-      "topLevelFilterAppliedToSomeDatasets": "Os filtros do painel atual não foram totalmente aplicados a todos os conjuntos de dados nesse widget."
+      "topLevelFilterAppliedToSomeDatasets": "Os filtros do painel atual não foram totalmente aplicados aos conjuntos de dados a seguir: {{datasets}}",
+      "unnamedDataset": "Conjunto de dados não nomeado"
     }
   },
   "dashboardSwitcher": {
@@ -897,5 +916,8 @@
     "additionalFields": "Este painel estará visível somente para você. É possível optar por compartilhá-lo com seus colegas após a criação",
     "create": "Criar",
     "failedToCreateDashboard": "Falha ao criar painel."
+  },
+  "threshold": {
+    "label": "Limite"
   }
 }

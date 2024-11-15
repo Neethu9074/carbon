@@ -6,6 +6,7 @@
   "labelAnalytic": "분석",
   "labelCall": "호출",
   "labelTrace": "추적",
+  "labelStatus": "상태",
   "linkDownload": "다운로드",
   "linkDownloadCalls": "다운로드 호출",
   "linkDownloadRawTrace": "원시 추적 다운로드",
@@ -686,5 +687,6 @@
     "alternativeServicesProblem": "<bold>아니오</bold>, 현재 서비스의 이름이 HTTP \"Host\" 헤더(ID가 call.http.host인 서비스 맵핑 규칙)에서 나오고 대체 서비스의 이름은 그렇지 않은 경우(해당 이름이 인프라 태그를 기반으로 하는 규칙에서 오기 때문에) 또는 그 반대의 경우입니다. 중복된 서비스입니다.",
     "alternativeServicesPossibleProblem": "<bold>아마도</bold>, 현재 서비스 및 대체 서비스 이름이 HTTP \"Host\" 헤더에서 오지 않는 경우에는 프록시 뒤에 있는 서비스(좋음) 또는 중복 서비스(나쁨)입니다. 일부 서비스는 인프라에 완전히 링크되어 있는 반면 다른 서비스는 부분적으로 링크되어 있습니다."
   },
-  "labelSyntheticMonitoring": "합성 모니터링"
+  "labelSyntheticMonitoring": "합성 모니터링",
+  "labelResourceOptimizations": "최적화"
 }

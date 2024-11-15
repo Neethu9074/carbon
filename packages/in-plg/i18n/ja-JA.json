@@ -141,7 +141,12 @@
       "selectThePlatformArchitecture": "プラットフォーム・アーキテクチャーの選択",
       "platformArchitecture": "プラットフォームのアーキテクチャー",
       "previewPrerequisites": "前提条件のプレビュー",
-      "installingInstanaAgent": "Instana エージェントのインストール"
+      "installingInstanaAgent": "Instana エージェントのインストール",
+      "unix_airgapped": {
+        "step1DownloadTheInstallArchive": "ステップ 1. インストール・アーカイブをダウンロードします。",
+        "airgappedArchives": "アーカイブ",
+        "installUsingAnArchive": "アーカイブを使ってインストールする"
+      }
     },
     "aws": {
       "step1": "ステップ 1: ",
@@ -342,6 +347,11 @@
         "installTheScriptOnTheVirtualMachine": "スクリプトを Windows サービスとして仮想マシンにインストールし、自動的に開始します。",
         "installAgentOnAWSEC2Windows": "AWS EC2 へのエージェントのインストール (Windows)",
         "runCommandsOnAWSEC2": "AWS EC2 でのコマンドの実行"
+      },
+      "windows_airgapped": {
+        "step1DownloadTheInstallPackageOrArchive": "ステップ 1. インストーラーまたはアーカイブをダウンロードします。",
+        "airgappedPackagesOrArchive": "アーカイブおよび Windows インストーラ (32bit および 64bit)",
+        "installUsingAPackageOrArchive": "インストーラーまたはアーカイブを使ってインストールする"
       }
     },
     "linux": {
@@ -369,6 +379,11 @@
           "linuxRhel6X8664": "Linux (64Bit - RHEL6 x86_64)",
           "linuxRhel7X8664": "Linux (64Bit - RHEL7 x86_64)"
         }
+      },
+      "linux_airgapped": {
+        "step1DownloadTheInstallPackage": "ステップ 1. インストール・パッケージをダウンロードします。",
+        "airgappedPackages": "アーカイブ、DEB、RPM パッケージ",
+        "installUsingAPackage": "パッケージまたはアーカイブを使用してインストールする"
       },
       "linux_ec2": {
         "selectTheAgentPackagingMode": "ステップ 1: エージェント・パッケージ化モードの選択",
@@ -485,7 +500,12 @@
     },
     "mac": {
       "selectAgentPackagingMode": "ステップ 1: エージェントのパッケージ化モードを選択します。",
-      "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "ステップ 2: 前提条件を確認し、エージェント・デプロイメント・コードを実行します。"
+      "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "ステップ 2: 前提条件を確認し、エージェント・デプロイメント・コードを実行します。",
+      "mac_airgapped": {
+        "step1DownloadTheInstallArchive": "ステップ 1. インストール・アーカイブをダウンロードします。",
+        "airgappedArchives": "アーカイブ",
+        "installUsingAnArchive": "アーカイブを使ってインストールする"
+      }
     }
   },
   "welcomepage": {
@@ -753,13 +773,15 @@
         "settings": "設定",
         "user": "ユーザー",
         "externalLink": "外部リンク",
-        "resultNew": "結果 新規"
+        "resultNew": "結果 新規",
+        "whatsNewLink": "新着情報 リンク"
       },
       "buttonNames": {
         "deployAgent": "エージェントのデプロイ",
         "addUser": "ユーザーの追加",
         "documentation": "IBM 資料",
-        "releaseNotes": "リリース情報"
+        "releaseNotes": "リリース情報",
+        "whatsNewLink": "インスタナの新機能"
       }
     },
     "ariaLabel": {
@@ -795,7 +817,7 @@
       "analyzeCalls": "トレースおよび呼び出しの分析",
       "settingsTab": "ユーザー・アクセスの管理",
       "userSettings": "ユーザー設定",
-      "authSettings": "認証の構成",
+      "securityAndAccess": "セキュリティとアクセスの設定",
       "auditLogs": "監査ログの表示",
       "automation": "アクションの管理",
       "customEvents": "カスタム・イベントの定義",

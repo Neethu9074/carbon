@@ -23,14 +23,6 @@
       :global .carbon-card-layer {
         justify-content: space-between;
       }
-      &.legacyCard {
-        background-color: var(--cds-layer);
-        box-shadow: none;
-        padding-bottom: 1rem;
-        .cardHeader {
-          padding: 1rem;
-        }
-      }
       .cardLegacyCheckBox {
         filter: grayscale(100%) brightness(0);
         height: 1rem;

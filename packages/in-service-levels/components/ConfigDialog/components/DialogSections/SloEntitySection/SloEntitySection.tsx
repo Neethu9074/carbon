@@ -10,11 +10,11 @@ import { Typography } from '@instana/components';
 
 import SloEntityEditModeSectionContent from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityEditModeSectionContent';
 import SloApplicationEntitySection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloApplicationEntitySection';
+import SloSynthethicEntitySection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloSynthethicEntitySection';
 import SloWebsiteEntitySection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloWebsiteEntitySection';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import SloEntityTypeSelector from 'in-service-levels/components/Shared/SloEntityTypeSelector';
 import { t } from 'in-i18n';
-import SloSynthethicEntitySection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloSynthethicEntitySection';
 
 export default function SloEntitySection() {
   const { form, mode, onChange } = useContext(SloFormContext);

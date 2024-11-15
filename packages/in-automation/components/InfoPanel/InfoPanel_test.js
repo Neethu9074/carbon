@@ -7,7 +7,7 @@
 import { render, fireEvent } from '@testing-library/react';
 import React from 'react';
 
-import InfoPanel from './InfoPanel';
+import InfoPanel from 'in-automation/components/InfoPanel/InfoPanel';
 
 const testData = {
   //The text is not approved in time for the release, so do not put them in i18n files. The infoPanel is not displayed for now.

@@ -35,8 +35,9 @@ export default function WebsiteTagFilterBuilderContent({
     websiteId: websiteIdField.value[0]
   });
 
-  const shouldRenderExplanationText = readOnly && tagFilterExpressionField.value.length === 0;
-  const shouldRenderClearButton = tagFilterExpressionField.value.length !== 0 && !readOnly;
+  const tagFilterExpression = tagFilterExpressionField.value ?? [];
+  const shouldRenderExplanationText = readOnly && tagFilterExpression.length === 0;
+  const shouldRenderClearButton = tagFilterExpression.length !== 0 && !readOnly;
 
   return (
     <Section
@@ -69,7 +70,7 @@ export default function WebsiteTagFilterBuilderContent({
             )
           }
           readOnly={readOnly}
-          value={tagFilterExpressionField.value}
+          value={tagFilterExpression}
         />
       )}
     </Section>

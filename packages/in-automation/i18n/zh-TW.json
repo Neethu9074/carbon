@@ -3,20 +3,22 @@
   "edit": "編輯",
   "delete": "刪除",
   "test": "測試",
+  "cancel": "取消",
   "recommendedActionsWithCount": "建議動作 ({{count}})",
   "recommendedActions": "建議的動作",
+  "recommendedOptimizationsWithCount": "建議的資源動作 ({{count}})",
+  "recommendedOptimizations": "建議的資源動作",
   "actionName": "動作名稱",
   "validVaultParameter": "標示為選用的儲存庫參數必須同時空白或兩者都不是空白。",
   "newAction": "新增動作",
   "runAction": "執行動作",
   "testAction": "測試動作",
   "targetAgent": "目標代理程式",
-  "noTargetAgent": "沒有目標代理程式可用來執行此動作。",
   "triggeringAgent": "{{hostname}}（觸發代理程式）",
   "targetAgentDescription": "代理程式封裝 1..* 感應器，進而能夠將「事件」提升至 Instana 後端。 觸發代理程式包含引發此特定事件的感應器。",
-  "chosenToRun": "您已選擇從「動作型錄」執行 {{actionName}}。",
+  "chosenToRun": "執行動作 {{actionName}}",
   "viewManualAction": "檢視手動動作 {{actionName}}",
-  "chosenToTest": "您已選擇從「動作型錄」測試 {{actionName}} 。",
+  "chosenToTest": "測試動作 {{actionName}}",
   "failedToInitiate": "{{actionName}} 無法起始。",
   "hasBeenInitiated": "已起始 {{actionName}}。",
   "configureAutomation": "配置 {{actionName}} 的自動化",
@@ -46,6 +48,7 @@
   "failedToResolveDynamicParameters": "無法解析動態參數。",
   "deletePolicyWithName": "刪除原則 {{actionName}}",
   "jobTemplate": "工作範本",
+  "workflowJobTemplate": "工作流程工作範本",
   "hostsLimit": "主機限制（選用）",
   "ownerInfo": "擁有者/組織：{{owner}}",
   "repoInfo": "儲存庫：{{repo}}",
@@ -77,12 +80,14 @@
   "theValueMustNotBeBlank": "值不得空白。",
   "tags": "標籤",
   "tagsLabel": "標籤（選用項目）",
+  "actionCategory": "動作種類",
   "value": "值",
   "type": "類型",
   "automationPoliciesWithCount": "自動化原則 ({{count}})",
   "automationPolicies": "自動化原則",
   "copyOf": "（副本）{{name}}",
   "searchActions": "搜尋動作",
+  "searchOptimizations": "搜尋最佳化",
   "hostsLimitHelpText": "將執行限制為指定的目標主機。 選取符合 Ansible 庫存中系統呈現方式的值，或輸入 Ansible 限制語法所支援的字串。",
   "aiEngine": "AI 引擎",
   "engine": "引擎",
@@ -97,7 +102,7 @@
   "AISlugContent": "已使用 AI 來產生此內容",
   "createPolicyWithName": "檢視動作 {{actionName}} 並建立原則",
   "viewActionCreatePolicy": "檢視動作並建立原則",
-  "titleScriptContentReadOnly": "內容（唯讀）",
+  "titleContentReadOnly": "產生的內容（唯讀）",
   "GenerateAIActionDialog": {
     "actionConfiguration": "動作配置",
     "actionDetails": "動作詳細資料",
@@ -108,7 +113,7 @@
     "step1Title": "步驟 1：產生或選取動作",
     "step1TitleGenerateAction": "步驟 1：產生動作",
     "step1TitleSelectAction": "步驟 1：選取一個動作",
-    "step2Title": "步驟 2：自訂動作",
+    "step2Title": "步驟 2：配置動作",
     "step3Title": "步驟 3：建立原則（選用）",
     "policyDetails": "原則詳細資料",
     "policy": {
@@ -123,7 +128,7 @@
         "content": "動作 <Link>\"{{name}}\"</Link> 已成功建立。"
       }
     },
-    "generateAction": "產生動作",
+    "generateAction": "利用 AI 產生",
     "closeDialogDescription": " 您確定要離開這個頁面嗎？",
     "closeDialogSubDescription": "如果您離開此頁面，將不會儲存您輸入或選取的任何資訊。",
     "liveGeneration": "即時產生",
@@ -143,7 +148,22 @@
     "nameExists": "已存在一個動作，名稱為：{{name}}，且類型為：{{type}}",
     "failedToGenerateAction": "產生動作失敗。",
     "failedToCreateActionPolicy": "無法建立動作和原則。",
-    "failedToCreateAction": "建立動作失敗。"
+    "failedToCreateAction": "建立動作失敗。",
+    "generateScriptDialog": {
+      "dialogHeader": "從手動動作產生 Script",
+      "step1Title": "步驟 1：選取步驟",
+      "step2Title": "步驟 2：產生 script",
+      "step3Title": "步驟 3：配置並建立動作",
+      "step1Headline": "選取您想要為其產生 Script 的手動動作步驟。 您可以在下一個步驟對手動動作步驟進行編輯。",
+      "step2Headline1": "檢閱動作步驟的詳細資料並進行所需的任何編輯。 然後按一下產生 Script 以查看 watsonx 的結果。",
+      "step2Headline2": "您可以再次編輯並產生，以查看不同的結果。",
+      "noDataAvailableLive": "按一下產生按鈕以產生 Script",
+      "generateScriptButton": "產生 Script",
+      "titleGeneratedCodeReadOnly": "產生的程式碼（唯讀）",
+      "promptTitle": "提示",
+      "generateScriptTileHeader": "從手動動作步驟產生 Script",
+      "generateScriptTileDescription": "使用 watsonx AI，您可以透過手動動作步驟快速建立 bash Script 作為提示，並透過幾個簡短的步驟將其新增至您的動作型錄。"
+    }
   },
   "CreatePolicyDialog": {
     "Step1Headline": "檢視建議的動作，並建立此事件的自動化原則。",
@@ -452,9 +472,43 @@
     "createPolicies": "建立原則",
     "websiteSmartAlert": "網站智慧型警示"
   },
+  "infoPanel": {
+    "taskGuidance": "使用者指引",
+    "hideTasks": "隱藏",
+    "showTasks": "顯示"
+  },
   "deleteDialog": {
     "pleaseConfirm": "請確認",
     "pleaseConfirmMsg": "您確定要刪除 <strong>{{name}}</strong> 嗎？",
     "delete": "刪除"
+  },
+  "turboActionCategories": {
+    "compliance": "合規性",
+    "prevention": "預防",
+    "efficiency": "有效性",
+    "efficiency_improvement": "提高效率",
+    "savings": "節省",
+    "performance": "效能",
+    "performance_assurance": "效能保證"
+  },
+  "resourceOptimization": {
+    "details": "資源最佳化詳細資料",
+    "targetAgent": "目標代理程式",
+    "viewInTurbo": "在 Turbonomic 中檢視",
+    "resourceImpact": "資源影響",
+    "impactedApplications": "受影響的應用程式",
+    "services": "服務",
+    "current": "現行",
+    "afterActions": "在動作之後",
+    "agentHelperText": "代理程式封裝 1..* 感應器，進而能夠將「事件」提升至 Instana 後端。 觸發代理程式包含引發此特定事件的感應器。",
+    "proceedConfirm": "這個動作無法復原。 您確定要繼續嗎？",
+    "riskDescription": "風險說明",
+    "runningAction": "執行中動作...",
+    "actionStarted": "動作已開始",
+    "actionFailed": "動作失敗",
+    "actionStartedMessage": "您已執行 <strong>{{actionName}}。</strong> 在動作歷程頁面中檢視該動作的進度。",
+    "actionFailedMessage": "執行動作 <strong>{{actionName}}</strong> 的要求失敗：{{message}}。",
+    "viewActionHistory": "檢視動作歷程",
+    "actionName": "動作名稱"
   }
 }

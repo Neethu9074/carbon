@@ -5,11 +5,14 @@
  */
 
 import { Field, MapForm } from 'formalistic';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Checkbox, Stack, SvgIcon } from '@instana/components';
+import { Severity } from '@instana/types/typeDefinitions';
 
 import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
+//@ts-expect-error TS migration
+import { updateAlertChannelIds } from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 import {
   getMaxMetricValue,
   getThresholdTypeOptions
@@ -39,12 +42,36 @@ export default function InfraMultiThresholdCondition({
 }: InfraMultiThresholdConditionProps) {
   const maxValue = getMaxMetricValue(percentageMetric);
   const thresholdType = getThresholdTypeOptions();
-  const warningThresholdField = form.get('threshold').get('warningThreshold') as MapForm<any>;
-  const criticalThresholdField = form.get('threshold').get('criticalThreshold') as MapForm<any>;
-  const warningThresholdValue = warningThresholdField.get('value').value;
-  const criticalThresholdValue = criticalThresholdField.get('value').value;
+  const warningThresholdField = form.get('threshold').get('warningThreshold').get('value');
+  const criticalThresholdField = form.get('threshold').get('criticalThreshold').get('value');
+
+  const warningThresholdValue = warningThresholdField.value;
+  const criticalThresholdValue = criticalThresholdField.value;
   const warningThresholdValuePresent = !isEmpty(warningThresholdValue);
   const criticalThresholdValuePresent = !isEmpty(criticalThresholdValue);
+  const alertChannelSelection = form.get('alertChannels').value;
+
+  useEffect(() => {
+    updateAlertChannelSelectionOnWarningThresholdFieldChange(
+      alertChannelSelection,
+      warningThresholdValuePresent,
+      criticalThresholdValuePresent,
+      form,
+      updateForm
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [warningThresholdField]);
+
+  useEffect(() => {
+    updateAlertChannelSelectionOnCriticalThresholdFieldChange(
+      alertChannelSelection,
+      warningThresholdValuePresent,
+      criticalThresholdValuePresent,
+      form,
+      updateForm
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [criticalThresholdField]);
 
   return (
     <div className={locals.gridWrapper}>
@@ -54,7 +81,6 @@ export default function InfraMultiThresholdCondition({
         <ThresholdOperatorDropDown form={form} updateForm={updateForm} allOptions />
         <span>{thresholdType[0].label}</span>
       </div>
-
       <span />
       <Checkbox
         label={t('in-alerting:smartAlerts.components.smartAlertDialog.warningThresholdLabel')}
@@ -69,7 +95,7 @@ export default function InfraMultiThresholdCondition({
           updateForm={updateForm}
           percentageMetric={percentageMetric}
           metricUnitPostfix={metricUnitPostfix}
-          thresholdField={warningThresholdField.get('value')}
+          thresholdField={warningThresholdField}
           getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'warningThreshold')}
           isMultiThreshold
           id="warningThreshold"
@@ -81,13 +107,12 @@ export default function InfraMultiThresholdCondition({
             updateForm={updateForm}
             metricUnitPostfix={metricUnitPostfix}
             percentageMetric={percentageMetric}
-            thresholdField={warningThresholdField.get('value')}
+            thresholdField={warningThresholdField}
             isMultiThreshold
             getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'warningThreshold')}
           />
         )}
       </Stack>
-
       <span />
       <Checkbox
         label={t('in-alerting:smartAlerts.components.smartAlertDialog.criticalThresholdLabel')}
@@ -103,12 +128,11 @@ export default function InfraMultiThresholdCondition({
         updateForm={updateForm}
         percentageMetric={percentageMetric}
         metricUnitPostfix={metricUnitPostfix}
-        thresholdField={criticalThresholdField.get('value')}
+        thresholdField={criticalThresholdField}
         getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'criticalThreshold')}
         isMultiThreshold
         id="criticalThreshold"
       />
-
       <span />
       <span />
       <Stack gap="small">
@@ -129,5 +153,47 @@ export default function InfraMultiThresholdCondition({
 
   function updatedThresholdCheckboxSelection(isChecked: boolean, thresholdType: string) {
     return updatedThresholdValue(isChecked ? null : 0, thresholdType);
+  }
+}
+
+function updateAlertChannelSelectionOnWarningThresholdFieldChange(
+  alertChannelSelection: { [P in Severity]?: string[] },
+  warningThresholdValuePresent: boolean,
+  criticalThresholdValuePresent: boolean,
+  form: MapForm<any>,
+  updateForm: (form: MapForm<any>) => void
+) {
+  const { WARNING: warningChannels = [], CRITICAL: criticalChannels = [] } = alertChannelSelection;
+
+  if (!warningThresholdValuePresent && warningChannels.length > 0) {
+    // If warning threshold is not present, move WARNING channels not in CRITICAL to CRITICAL
+    const remainingChannels = warningChannels.filter((channelId: string) => !criticalChannels.includes(channelId));
+    updateAlertChannelIds(form, updateForm, [], [...criticalChannels, ...remainingChannels]);
+  }
+
+  if (warningThresholdValuePresent && !criticalThresholdValuePresent && criticalChannels.length > 0) {
+    // If only warning threshold is present, clear CRITICAL selections and keep WARNING channels in CRITICAL
+    updateAlertChannelIds(form, updateForm, [...criticalChannels], []);
+  }
+}
+
+function updateAlertChannelSelectionOnCriticalThresholdFieldChange(
+  alertChannelSelection: { [P in Severity]?: string[] },
+  warningThresholdValuePresent: boolean,
+  criticalThresholdValuePresent: boolean,
+  form: MapForm<any>,
+  updateForm: (form: MapForm<any>) => void
+) {
+  const { WARNING: warningChannels = [], CRITICAL: criticalChannels = [] } = alertChannelSelection;
+
+  if (!criticalThresholdValuePresent && criticalChannels.length > 0) {
+    // If critical threshold is not present, move CRITICAL channels not in WARNING to WARNING
+    const remainingChannels = criticalChannels.filter((channelId: string) => !warningChannels.includes(channelId));
+    updateAlertChannelIds(form, updateForm, [...warningChannels, ...remainingChannels], []);
+  }
+
+  if (criticalThresholdValuePresent && !warningThresholdValuePresent && warningChannels.length > 0) {
+    // If only critical threshold is present, reset WARNING selections and move them to CRITICAL
+    updateAlertChannelIds(form, updateForm, [], [...warningChannels]);
   }
 }

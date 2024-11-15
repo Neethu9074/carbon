@@ -21,6 +21,8 @@ export const infraSmartAlerts = '/infraAlerts';
 export const infraAlertsDetailsPath = '/infraAlertdetails';
 export const infraAlertDetailsFullyQualifiedPath = `${infraSmartAlerts}${infraAlertsDetailsPath}`;
 
+export const infraSmartAlertsFullScreen = '/infraSmartAlerts';
+
 export function useGetLinkToCurrentViewWithViewGrouping(view: string, vg: string) {
   const { createHref, location } = useNavigation();
 

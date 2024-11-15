@@ -13,8 +13,10 @@ import UserList, {
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/UserList';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { setUsersToGroup } from 'in-settings/tabs/SecurityAndAccess/api/groups';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import withSelectableItems from 'in-settings/components/withSelectableItems';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { SETTINGS_GROUP_USER_ADDED } from 'in-services/tracking/tracking';
 import ActionBar from 'in-settings/components/Dialog/ActionBar';
 import Dialog from 'in-components/Dialog/Dialog';
 import { find } from 'in-services/arrayUtils';
@@ -23,6 +25,8 @@ import { t } from 'in-i18n';
 import locals from './AddUserButton.mless';
 
 export default function AddUserButton({ members, addUsers, groupId }) {
+  const { trackCta } = useSegmentTracking();
+
   const onSubmit = (users, setIsSaving, setErrors) => {
     const handleError = (message, code) => {
       if (!code) {
@@ -40,6 +44,7 @@ export default function AddUserButton({ members, addUsers, groupId }) {
       data => {
         if (Number.isInteger(data.status) && data.status > 199 && data.status < 300) {
           setIsSaving(false);
+          trackCta(SETTINGS_GROUP_USER_ADDED, { groupId: groupId, userIds: userIds });
           addUsers(users);
           close();
         } else {

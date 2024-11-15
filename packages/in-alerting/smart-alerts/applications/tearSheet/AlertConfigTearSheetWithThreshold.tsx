@@ -34,8 +34,8 @@ import { channelListLoading$ } from 'in-alerting/smart-alerts/components/tearShe
 import { ApplicationSmartAlertConfig } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import useAlertConfigValidation from 'in-alerting/smart-alerts/applications/hooks/useAlertConfigValidation';
-import AlertingTearSheet, { AlertingFooterActions } from 'in-alerting/components/AlertingTearSheet';
 import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
+import AlertingTearSheet from 'in-alerting/components/AlertingTearSheet';
 import { MessageType } from 'in-components/MessageStack/MessageStack';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { days } from 'in-services/time/time';
@@ -160,14 +160,7 @@ function SmartAlertConfigTearSheetWithQueryValidation({
     onClose: withTrackClose
   });
 
-  //@ts-expect-error
-  const actions: AlertingFooterActions[] = getFooterActions(
-    backOrCancel,
-    cancelTearSheet,
-    handleSubmit,
-    editMode,
-    migrationMode
-  );
+  const actions = getFooterActions(backOrCancel, cancelTearSheet, handleSubmit, editMode, migrationMode);
 
   const navItems = useAlertConfigValidation(
     stepConfigs,

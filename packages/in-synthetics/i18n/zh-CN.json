@@ -370,6 +370,46 @@
       "status": {
         "pending": "暂挂"
       }
+    },
+    "credentialFeedback": {
+      "successMessageDelete": "成功删除了凭证",
+      "failureMesssage": "{{errorMessage}}"
+    },
+    "createCredential": {
+      "createButton": "新建凭证",
+      "nameValue": "名称和值",
+      "associations": "关联",
+      "newCredentials": "创建合成凭证",
+      "steps": {
+        "textInput": {
+          "placeholder": "凭证名称",
+          "labelText": "名称",
+          "invalidText": "凭证名称必须以字母开头，并且只包含字母、数字和下划线。"
+        },
+        "passwordInput": {
+          "placeholder": "凭证值",
+          "labelText": "值",
+          "invalidText": "值不应为空。"
+        },
+        "associationsDescription": "将凭证与应用程序、Web 站点或移动应用程序相关联，可向所有可访问这些实体的用户授予访问权限。"
+      },
+      "feedback": {
+        "successMessage": "成功创建了凭证",
+        "failureMessageCreate": "创建凭证失败：{{errorMessage}}",
+        "updateSuccessMessage": "成功更新了凭证",
+        "failureMessageUpdate": "更新凭证失败：{{errorMessage}}"
+      },
+      "edit": {
+        "dialogTitle": "编辑合成凭证 {{credentialName}}",
+        "associations": "关联",
+        "saveButton": "保存",
+        "textInputHelperText": "凭证名称不可编辑，并且是一个 readOnly 字段",
+        "passwordInputHelperText": "如果要更新当前凭证，请键入新的凭证值。"
+      },
+      "tooltipLabels": {
+        "hide": "隐藏凭证值",
+        "show": "显示凭证值"
+      }
     }
   },
   "createSmartAlert": {
@@ -757,6 +797,28 @@
       "noWebsitesAssociated": "无关联的网站",
       "associatedMobileApps": "关联的移动应用",
       "noMobileAppAssociated": "无关联的移动应用"
+    },
+    "credentialList": {
+      "mainLabel": "凭证",
+      "name": "名称",
+      "associations": "关联",
+      "createdAt": "创建时间",
+      "createdBy": "创建者",
+      "lastModifiedBy": "上次修改者",
+      "actions": "操作",
+      "noDataAvailable": {
+        "noCredentialsAvailableTitle": "无可用的合成凭证",
+        "noCredentialsAvailableDescription": "没有从数据库中检索到合成凭证。"
+      },
+      "editAction": "编辑",
+      "deleteAction": {
+        "deleteActionLabel": "删除",
+        "deleteCredentialTitle": "删除合成凭证 {{credentialName}}",
+        "credentialNameValidation": "输入凭证全名以确认删除",
+        "deleteButtonLabel": "删除凭证",
+        "cancelButtonLabel": "取消",
+        "deletionSuccess": "已删除凭证"
+      }
     }
   }
 }

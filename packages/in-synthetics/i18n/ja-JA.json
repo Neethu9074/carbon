@@ -370,6 +370,46 @@
       "status": {
         "pending": "保留中"
       }
+    },
+    "credentialFeedback": {
+      "successMessageDelete": "クレデンシャルの削除に成功",
+      "failureMesssage": "{{errorMessage}}"
+    },
+    "createCredential": {
+      "createButton": "新規資格情報",
+      "nameValue": "名前と値",
+      "associations": "関連付け",
+      "newCredentials": "合成クレデンシャルの作成",
+      "steps": {
+        "textInput": {
+          "placeholder": "資格情報名",
+          "labelText": "名前",
+          "invalidText": "クレデンシャル名は、文字で始まり、文字、数字、アンダースコアのみを含む必要がある。"
+        },
+        "passwordInput": {
+          "placeholder": "資格情報値",
+          "labelText": "値",
+          "invalidText": "値は空であってはならない。"
+        },
+        "associationsDescription": "クレデンシャルをアプリケーション、Web サイト、またはモバイル・アプリに関連付けると、それらのエンティティにアクセスできるすべてのユーザにアクセス権が付与されます。"
+      },
+      "feedback": {
+        "successMessage": "クレデンシャルの作成に成功",
+        "failureMessageCreate": "クレデンシャルの作成に失敗しました: {{errorMessage}}",
+        "updateSuccessMessage": "クレデンシャルの更新に成功しました",
+        "failureMessageUpdate": "クレデンシャルの更新に失敗しました: {{errorMessage}}"
+      },
+      "edit": {
+        "dialogTitle": "合成クレデンシャル {{credentialName}} を編集する",
+        "associations": "関連付け",
+        "saveButton": "保存",
+        "textInputHelperText": "クレデンシャル名は編集できず、readOnly フィールドです",
+        "passwordInputHelperText": "現在のクレデンシャルを更新する場合は、新しいクレデンシャル値を入力する。"
+      },
+      "tooltipLabels": {
+        "hide": "クレデンシャルの値を非表示にします",
+        "show": "クレデンシャルの値を表示する"
+      }
     }
   },
   "createSmartAlert": {
@@ -757,6 +797,28 @@
       "noWebsitesAssociated": "関連サイトなし",
       "associatedMobileApps": "関連モバイル・アプリ",
       "noMobileAppAssociated": "モバイル・アプリは関連なし"
+    },
+    "credentialList": {
+      "mainLabel": "資格情報",
+      "name": "名前",
+      "associations": "関連付け",
+      "createdAt": "作成日時",
+      "createdBy": "作成者",
+      "lastModifiedBy": "最終変更者",
+      "actions": "アクション",
+      "noDataAvailable": {
+        "noCredentialsAvailableTitle": "合成証明書なし",
+        "noCredentialsAvailableDescription": "データベースから取得された合成クレデンシャルはありません。"
+      },
+      "editAction": "編集",
+      "deleteAction": {
+        "deleteActionLabel": "削除",
+        "deleteCredentialTitle": "合成クレデンシャル {{credentialName}} を削除する",
+        "credentialNameValidation": "削除を確認するため、認証情報のフルネームを入力します",
+        "deleteButtonLabel": "資格情報の削除",
+        "cancelButtonLabel": "キャンセル",
+        "deletionSuccess": "クレデンシャルが削除されました"
+      }
     }
   }
 }

@@ -60,6 +60,7 @@ export const pageNames = Object.freeze({
   vsphere: 'vSphereDatacenters',
   user_settings: 'User Settings',
   global_settings: 'Global Settings',
+  securityAndAccess: 'Security & Access',
   cron_job_summary: 'Cron Jobs > Summary',
   namespace_summary: 'Namespaces > Summary',
   node_summary: 'Nodes > Summary',

@@ -7,11 +7,7 @@ import React from 'react';
 
 import { themes } from '@instana/design-tokens';
 
-import {
-  withSiPrefixThreeDecimalPlaces,
-  timeByMillisTwoDecimalPlaces,
-  withSiPrefixZeroDecimalPlaces
-} from 'in-services/formatters/number';
+import { withSiPrefixThreeDecimalPlaces, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import CustomMetricsV2 from 'in-sdk/components/dashboard/CustomMetricsV2';
 import { t } from 'in-i18n';
 
@@ -38,7 +34,7 @@ export const SPECS = [
     metrics: [
       {
         label: t('in-forge:plugins.jvmRuntimePlatform.value'),
-        formatter: withSiPrefixThreeDecimalPlaces
+        formatter: timeByMillisTwoDecimalPlaces
       }
     ]
   },
@@ -93,7 +89,7 @@ export const SPECS = [
     metrics: [
       {
         label: t('in-forge:plugins.jvmRuntimePlatform.value'),
-        formatter: withSiPrefixZeroDecimalPlaces
+        formatter: timeByMillisTwoDecimalPlaces
       }
     ]
   },

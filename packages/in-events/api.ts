@@ -36,12 +36,14 @@ export function getManualCloseInfo(eventId: string): Observable<ManualCloseInfo>
 export function createManualCloseInfo(
   closeTimestamp: number = Date.now(),
   reasonForClosing: string = '',
-  username: string = ''
+  username: string = '',
+  muteAlerts: boolean = false,
+  disableEvent: boolean = false
 ): ManualCloseInfo {
   return {
     closeTimestamp,
-    muteAlerts: false,
-    disableEvent: false,
+    muteAlerts,
+    disableEvent,
     reasonForClosing,
     username
   };
@@ -49,6 +51,8 @@ export function createManualCloseInfo(
 
 export interface ManualCloseInfoForm extends MapFormItems {
   reasonForClosing: Field<string>;
+  muteAlerts: Field<boolean>;
+  disableEvent: Field<boolean>;
 }
 
 export function getEvents(eventsList: string[]) {

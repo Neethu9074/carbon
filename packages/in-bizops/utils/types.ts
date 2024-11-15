@@ -43,3 +43,19 @@ export interface HttpResponse {
     };
   };
 }
+
+// The params needed to populate the URL for a specific business process dashboard
+export interface ProcessMatrixParams {
+  name: string;
+  definitionId: string;
+  serviceId: string;
+}
+
+// The params needed to populate the URL for a specific business activity dashboard
+export interface ActivityMatrixParams {
+  process: ProcessMatrixParams;
+  activity: {
+    name: string;
+    id: string;
+  };
+}

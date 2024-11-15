@@ -41,6 +41,8 @@
     "chart": {
       "alertingChartLabelThreshold": "Schwellenwert",
       "alertingChartLabelViolations": "Verstöße",
+      "alertingChartLabelWarningViolations": "Warnung Verstöße",
+      "alertingChartLabelCriticalViolations": "Kritische Verstöße",
       "alertingChartLabelWarningThreshold": "Schwellenwert für Warnung",
       "alertingChartLabelCriticalThreshold": "Kritischer Schwellenwert",
       "alertingChartLabelForecast": "Prognose",
@@ -149,6 +151,7 @@
     "titleNoSmartAlertsCreated": "Keine Smart Alerts erstellt",
     "titleCopyOf": "(Kopie von) {{smartAlertTitle}}",
     "smartAlertsTitle": "Smart Alerts",
+    "labelNew": "(Neu)",
     "applications": {
       "alertConfiguration": "Alertkonfiguration",
       "advanced": {
@@ -435,7 +438,8 @@
           "throughputDefault_higherThan": "Die Anzahl der Aufrufe ist höher als erwartet.",
           "throughputDefault_higherEqual": "Die Anzahl der Aufrufe ist höher als erwartet oder wie erwartet.",
           "throughputDefault_lowerThan": "Die Anzahl der Aufrufe ist kleiner als erwartet.",
-          "throughputDefault_lowerEqual": "Die Anzahl der Aufrufe ist kleiner als erwartet oder wie erwartet."
+          "throughputDefault_lowerEqual": "Die Anzahl der Aufrufe ist kleiner als erwartet oder wie erwartet.",
+          "expected": "Erwartet"
         },
         "customStatusCodeFullText": "zwischen {{statusCodeStart}} und {{statusCodeEnd}}"
       },
@@ -464,8 +468,9 @@
         "ruleFormPleaseProvideAStartStatusCode": "Geben Sie einen gültigen HTTP-Startstatuscode an",
         "ruleFormPleaseProvideAEndStatusCode": "Geben Sie einen gültigen HTTP-Endstatuscode an",
         "smartAlertFormValueIsReadOnly": "Der Wert ist schreibgeschützt und kann nicht geändert werden.",
-        "thresholdFormPleaseProvideANumber0": "Geben Sie eine Zahl >= 0 an",
-        "thresholdFormBaselineIsEmpty": "Vergleichsdaten sind leer"
+        "thresholdFormBaselineIsEmpty": "Vergleichsdaten sind leer",
+        "selectAtLeastOneThreshold": "Bitte geben Sie für mindestens einen der Schwellenwerte einen Wert an.",
+        "selectAtLeastOneSensitivity": "Bitte wählen Sie mindestens eine der Sensibilitäten aus."
       },
       "simple": {
         "simpleAlertStep2Headline": "An welcher Stelle soll der Alert ausgelöst werden?",
@@ -749,7 +754,8 @@
       "ruleStatusCodeValueOption511": "511 (Netzauthentifizierung erforderlich)",
       "ruleStatusCodeValueOption599": "599 (Zeitüberschreitung für Netzverbindung)",
       "warningThresholdValidator": "Warnungsschwellenwert muss größer als kritischer Schwellenwert für Operatoren < und < = sein.",
-      "criticalThresholdValidator": "Der kritische Schwellenwert muss größer als der Warnungsschwellenwert für die Operatoren > und >= sein."
+      "criticalThresholdValidator": "Der kritische Schwellenwert muss größer als der Warnungsschwellenwert für die Operatoren > und >= sein.",
+      "sensitivityValidator": "Die kritische Empfindlichkeit sollte geringer sein als die Warnempfindlichkeit."
     },
     "components": {
       "smartAlertDialog": {
@@ -787,6 +793,7 @@
         "scopeConfigSelectOneEntryMessage": "Wählen Sie mindestens einen Eintrag aus.",
         "scopeConfigTitleTooltip": "Verfügbare Entitäten für die letzten 24 Stunden anzeigen",
         "scopeConfigSubTitle": "Basierend auf den letzten 24 Stunden",
+        "scopeConfigSearchApplicationsPlaceholder": "Anwendungen suchen...",
         "scopeMigrationMessage_FAILED": "Der Bereich konnte nicht automatisch migriert werden. Wählen Sie die entsprechenden Tagfilter für die folgende dynamische Fokusabfrage aus:",
         "scopeMigrationMessage_PARTIAL": "Der Bereich konnte nicht vollständig migriert werden. Wählen Sie die entsprechenden Tagfilter für die folgende dynamische Fokusabfrage aus:",
         "scopeMigrationMessage_FULL": "Der angewendete Bereich basiert auf der zuvor verwendeten dynamischen Fokusabfrage:",
@@ -1468,7 +1475,30 @@
       },
       "count": "Anzahl",
       "selectEntityType": "Wählen Sie einen Entitätstyp aus",
-      "regexNotValid": "Regulärer Ausdruck ist ungültig"
+      "regexNotValid": "Regulärer Ausdruck ist ungültig",
+      "tearSheet": {
+        "createTitle": "Erstellen Sie einen Smart Alert für die Infrastruktur",
+        "steps": {
+          "step1Title": "Bedingung definieren",
+          "step2Title": "Zeitpunkt für Alertausgabe definieren",
+          "step3Title": "Alerteigenschaften definieren",
+          "step4Title": "Alertkanäle definieren"
+        },
+        "step1": {
+          "header": "Wählen Sie die Metrik und die Aggregation, um zu bestimmen, wann ein Alarm ausgelöst werden soll"
+        },
+        "step2": {
+          "header": "Legen Sie einen Wert für den Schwellenwert für Verstöße fest",
+          "description": "Wählen Sie die Metrik, den Schwellenwert für Verstöße und das Zeitfenster aus, um den Verstoß auszuwerten."
+        },
+        "step3": {
+          "header": "Welche Eigenschaften sollen für diesen Alert festgelegt werden?"
+        },
+        "step4": {
+          "header": "Worüber möchten Sie bei dieser Ausschreibung benachrichtigt werden?",
+          "description": "Wählen Sie den/die Empfänger dieser Warnmeldung"
+        }
+      }
     },
     "logs": {
       "alertDetails": {

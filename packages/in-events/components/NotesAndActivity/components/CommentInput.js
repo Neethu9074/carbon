@@ -9,12 +9,8 @@ import classNames from 'classnames';
 
 import { CarbonTextArea, IconButton } from '@instana/components';
 
-import { eventTracker } from 'in-services/tracking/segment/EventTracker';
-import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
+import { validTextEntry, handleUpdateDeleteNote, handleTracking } from './utils';
 import { EVENT_NOTES_SUBMIT } from 'in-services/tracking/eventNames';
-import { validTextEntry, handleUpdateDeleteNote } from './utils';
-import { CTA_CLICKED } from 'in-services/util/constants';
-import { track } from 'in-services/tracking/trackers';
 import { annotateEvent } from 'in-stores/events';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -129,16 +125,6 @@ export function handleSubmitNote(incidentId, note, setNote) {
     };
     annotateEvent(newNote);
     setNote('');
-    const { pageRootName, productArea } = getViewTrackingMetaData();
-    if (pageRootName && productArea) {
-      const data = {
-        parentPageName: pageRootName,
-        parentPageCategory: productArea,
-        CTA: EVENT_NOTES_SUBMIT,
-        path: location.hash
-      };
-      eventTracker({ data, segmentEventName: CTA_CLICKED });
-    }
-    track(EVENT_NOTES_SUBMIT, { incidentId, author: userName });
+    handleTracking(incidentId, EVENT_NOTES_SUBMIT);
   }
 }

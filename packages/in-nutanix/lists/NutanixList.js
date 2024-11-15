@@ -25,10 +25,10 @@ import { t } from 'in-i18n';
 const pathSegment = nutanixClusterList;
 const matrixPrefix = 'datacenter.';
 
-const NutanixDatacenterLink = ({ label, id }) => {
+const NutanixDatacenterLink = ({ name, id }) => {
   const getNutanixDatacenterDashboard = useNutanixEntityLink('datacenter');
 
-  return <EntityLink label={label} href={getNutanixDatacenterDashboard(id)} icon="lib_nutanix" />;
+  return <EntityLink label={name} href={getNutanixDatacenterDashboard(id)} icon="lib_nutanix" />;
 };
 
 const columnDefinitions = [
@@ -41,7 +41,7 @@ const columnDefinitions = [
     id: 'label',
     label: t('in-nutanix:type'),
     getContent(item) {
-      return item.label;
+      return item.type;
     }
   },
   {

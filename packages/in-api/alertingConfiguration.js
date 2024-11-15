@@ -81,7 +81,8 @@ export function createAlertingConfig(
   query = '',
   eventTypes = [],
   applicationAlertConfigIds = [],
-  customPayloadFields = []
+  customPayloadFields = [],
+  includeEntityNameInLegacyAlerts = false
 ) {
   return {
     id: id || generateUniqueShortId(),
@@ -94,6 +95,7 @@ export function createAlertingConfig(
       eventTypes,
       applicationAlertConfigIds
     },
+    includeEntityNameInLegacyAlerts,
     customPayloadFields
   };
 }

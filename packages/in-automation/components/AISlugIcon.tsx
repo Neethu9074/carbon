@@ -7,7 +7,8 @@
 import React from 'react';
 
 import { Tooltip as CarbonTooltip } from '@instana/components';
-import { t } from '@instana/i18n-react';
+
+import { t } from 'in-i18n';
 
 export default function AISlugIcon() {
   return (

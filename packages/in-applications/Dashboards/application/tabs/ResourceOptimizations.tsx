@@ -17,7 +17,9 @@ import {
 import RecommendedOptimizations from 'in-automation/ResourceOptimization/RecommendedOptimizations';
 import { FormatterObject, MetricDataPoint, MetricDataSeries } from 'in-components/Chart/types';
 import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import { resourceOptimizationsTab } from 'in-applications/navigation/paths';
+import ActionsLane from 'in-automation/components/MarkersLane/ActionsLane';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import InfoPanel from 'in-automation/components/InfoPanel/InfoPanel';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
@@ -35,6 +37,13 @@ type ResourceOptimizationTabProps = {
   applicationId: string;
   timeConfig: TimeConfig;
   boundaryScope: BoundaryScope;
+};
+
+type RenderActionsLaneProps = {
+  applicationId: string;
+  serviceId?: string;
+  endpointId?: string;
+  boundaryScope?: BoundaryScope;
 };
 
 const colorPalette = [
@@ -55,6 +64,29 @@ function generateTimeframe(windowSize: number) {
   };
 }
 
+function renderActionsLane({
+  applicationId,
+  serviceId,
+  endpointId,
+  boundaryScope,
+  ...remainingProps
+}: RenderActionsLaneProps) {
+  return function MarkerLanesApplications(lanesProps: any) {
+    return (
+      <MarkerLanesPresenter {...lanesProps}>
+        <ActionsLane
+          applicationId={applicationId}
+          {...lanesProps}
+          {...remainingProps}
+          serviceId={serviceId}
+          endpointId={endpointId}
+          boundaryScope={boundaryScope}
+        />
+      </MarkerLanesPresenter>
+    );
+  };
+}
+
 export default function ResourceOptimizationTab({
   applicationId,
   timeConfig,
@@ -62,6 +94,7 @@ export default function ResourceOptimizationTab({
 }: ResourceOptimizationTabProps) {
   const recommendedOptimizations = useResourceOptimization({ applicationId });
   const turboRecommendedActions = useTurboRecommendedActions(recommendedOptimizations);
+  const postChartContent = renderActionsLane({ applicationId, boundaryScope });
   let tagFilters = [
     boundaryScope === boundaryScopes.all
       ? { stringValue: applicationId, name: 'application.id', entity: DESTINATION, operator: EQUALS }
@@ -150,7 +183,7 @@ export default function ResourceOptimizationTab({
             boundaryScope={boundaryScope}
             tagFilters={tagFilters}
             percentileGroupBy={createGroupBy('service.name', DESTINATION)}
-            renderPostChartContent={() => {}}
+            renderPostChartContent={postChartContent}
             urlMatrixParamConfig={{
               path: resourceOptimizationsTab,
               paramTab: 'latencyTab',

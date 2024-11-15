@@ -787,9 +787,15 @@ function generateMetric({
   const { metrics } = item;
 
   const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
+
+  const formatterType = formatterId?.split('.')[1];
   const formatter = isFormatterSelected
     ? getFormatter(formatterId)
-    : getMetricFormatterFromUnitOrDefault(getBaseUnit(unit), mapData(metadata, data => data?.formatter).data);
+    : getMetricFormatterFromUnitOrDefault(
+        getBaseUnit(unit),
+        mapData(metadata, data => data?.formatter).data,
+        formatterType
+      );
   const seriesKey = getSeriesKey(id);
   const kpi = lastValue ? lastValueForMetric(metrics[seriesKey]) : firstValue(metrics[id]);
   const series = metrics[seriesKey];

@@ -14,6 +14,7 @@ import {
   UnifiedMetricConfiguration,
   isTagFilterExpression
 } from '@instana/types';
+import { MetricSource } from '@instana/types/typeDefinitions';
 import { t } from '@instana/i18n-react';
 
 import {
@@ -252,7 +253,13 @@ function reduceTagFilter(
   source: UnifiedMetricConfiguration['source']
 ): ReducedTagFilterExpression {
   const tagDefinition = tagDefinitions[tagFilter.name];
-  if (tagDefinition?.availability?.includes(source)) {
+  // FIXME: there is a clash in the types:
+  // UnifiedMetricConfiguration.source contains SUBTRACE while
+  // MetricSource contains SUBTRACES
+  // this seems to be a bug on the server-side, and needs further
+  // investigation
+  // casting to MetricSource here, is for fixing this current build, only
+  if (tagDefinition?.availability?.includes(source as MetricSource)) {
     return {
       resultCode: 'APPLIED',
       expression: tagFilter

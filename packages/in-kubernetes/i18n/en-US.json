@@ -228,7 +228,7 @@
     "delete": "Delete",
     "update": "Update",
     "operations": "Operations",
-    "nameTooltip":"The host of the container doesn't have an Instana Agent installed. See our documentation for more Information",
+    "nameTooltip": "The host of the container doesn't have an Instana Agent installed. See our documentation for more Information",
     "noDataAvailable": {
       "servicesTitle": "No services available",
       "servicesDescription": "There were no services retrieved for the selected time range.",
@@ -296,7 +296,6 @@
   "health": "Health",
   "clusters": "Clusters",
   "explore": "Explore (Tech Preview)",
-  "k8sTeam": "K8s Team",
   "noMonitoringDataFound": "No Monitoring Data Found",
   "clusterName": "Cluster Name",
   "running": "Running",

@@ -23,8 +23,10 @@ import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/
 import Filters from 'in-synthetics/dashboards/global/tabs/locations/components/Filters';
 import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import NewLocationButton from 'in-synthetics/createLocation/NewLocationButton';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { locationNameTagName, locationTypeTagName } from 'in-synthetics/tags';
+import { syntheticInstanaHostedPoPEnabled } from 'in-services/featureFlags';
 import getLocationList from 'in-synthetics/subscriptions/getLocationList';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -34,6 +36,7 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
 import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 const pathSegment = '/syntheticLocations';
@@ -82,7 +85,15 @@ export default function LocationList() {
     return Filter({ locationTypes, isFilterAllowed, setFilter });
   }
 
-  const rightHeader = useFilterHeader(true);
+  function RightHeader() {
+    const filterHeader = useFilterHeader(true);
+    return (
+      <>
+        {role?.canConfigureSyntheticLocations && syntheticInstanaHostedPoPEnabled && <NewLocationButton />}
+        {filterHeader}
+      </>
+    );
+  }
 
   return (
     <Sticky header={<ViewSwitcher />}>
@@ -96,7 +107,7 @@ export default function LocationList() {
         <ServerTableWithUrlState
           get={getLocationData}
           timeConfig={timeConfig}
-          rightHeader={rightHeader}
+          rightHeader={RightHeader}
           locationTypes={locationTypes}
           cardTitle={t('in-synthetics:dashboard.testList.secondaryLabels.locations')}
         />

@@ -12,21 +12,19 @@ import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 import { Result } from '@instana/types';
 
-// eslint-disable-next-line no-restricted-imports
-import LogVolumeGroupingConfigurator from './workspaces/LogVolumeGroupingConfigurator';
+import LogVolumeGroupingConfigurator from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/workspaces/LogVolumeGroupingConfigurator';
 import {
   generateQuery,
   getLabelByName,
   transformData
 } from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/utils';
 import LogVolumeDetails from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/LogVolumeDetails';
+import { TagNames, TagObject } from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/types';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-// eslint-disable-next-line no-restricted-imports
-import { TagNames, TagObject } from './types';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import { ua2GroupChangedTracker } from 'in-applications/tracker';
 import { dataSource } from 'in-applications/navigation/matrix';
 import Select from 'in-components/form/Select/Select';
 import { hasError } from 'in-services/util/result';
@@ -83,6 +81,7 @@ export function LogVolume() {
     setGroupingTaglabel(newTagLabel);
     handleUpdateExpandedRetention({});
   };
+  const { trackUa2GroupChanged } = useAnalyzeTracker();
   return (
     <>
       <section className={locals.page}>
@@ -117,7 +116,7 @@ export function LogVolume() {
                 GroupingConfigurator={LogVolumeGroupingConfigurator}
                 tagFilterExpression={defaultProps.backendQueryModel || toBackendQueryModel([])}
                 tracking={{
-                  onGroupAdded: group => ua2GroupChangedTracker({ dataSource, tagName: group.groupbyTag })
+                  onGroupAdded: group => trackUa2GroupChanged({ dataSource, tagName: group.groupbyTag })
                 }}
               />
             </Ul>

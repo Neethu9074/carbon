@@ -9,7 +9,7 @@ import DebouncedDistinctSlider from 'in-components/Slider/DebouncedDistinctSlide
 import { round } from 'in-alerting/smart-alerts/components/utils/formatUtils';
 import { t } from 'in-i18n';
 
-export const DebouncedSensitivitySlider = ({ value, defaultValue, onChange }) => {
+export const DebouncedSensitivitySlider = ({ value, defaultValue, onChange, disabled }) => {
   const sliderStepCount = 600;
   const linearScaleValueOne = 2; // slider-scale value that yields a sensitivity-scale of 1
   const defaultValueLog = Math.log(defaultValue);
@@ -35,6 +35,7 @@ export const DebouncedSensitivitySlider = ({ value, defaultValue, onChange }) =>
       onChange={sliderValue => {
         onChange(toSensitivityScale(sliderValue));
       }}
+      disabled={disabled}
     />
   );
 

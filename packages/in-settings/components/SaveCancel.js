@@ -8,9 +8,9 @@ import React, { Fragment } from 'react';
 import { Button } from '@instana/components';
 
 import { savingMessage as entityFormSavingMessage } from 'in-hoc/entityForm';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import SectionLine from 'in-settings/components/SectionLine';
 import Section from 'in-settings/components/Section';
-import { goToPath } from 'in-stores/navigation';
 import { t } from 'in-i18n';
 
 import locals from './SaveCancel.mless';
@@ -28,6 +28,7 @@ export default function SaveCancel({
   hasCancelButton = true,
   type = ''
 }) {
+  const { goToPath } = useNavigation();
   const saving = loading && message === entityFormSavingMessage;
   const saveButtonLabel = isCreate
     ? t('forms.actions.create')
@@ -48,7 +49,7 @@ export default function SaveCancel({
         )}
         {hasSaveButton && (
           <Button
-            kind={type !== "integration" ? "create" : "info"}
+            kind={type !== 'integration' ? 'create' : 'info'}
             type="submit"
             className={type !== 'integration' ? locals.button : locals.integrationButton}
             disabled={(!form.hierarchyValid && form.touched) || loading || saving || !saveEnabled}

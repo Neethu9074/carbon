@@ -9,18 +9,6 @@ import {
   APPLICATION_CLICK_SUBMIT,
   APPLICATION_LATENCY_JUMP_TO_UNBOUNDED_ANALYTICS,
   APPLICATION_TIME_SHIFT_SELECT,
-  ANALYZE_UA2_FACETED_SEARCH_SYNTHETIC_CALLS_TOGGLED,
-  ANALYZE_UA2_FACETED_SEARCH_INTERNAL_CALLS_TOGGLED,
-  ANALYZE_UA2_QUERY_BUILDER_FILTER_ADDED,
-  ANALYZE_UA2_GROUP_CHANGED,
-  ANALYZE_UA2_CHART_CHANGED,
-  ANALYZE_UA2_CHART_REMOVED,
-  ANALYZE_UA2_API_QUERY_PRESSED,
-  ANALYZE_UA2_NESTING_DEPTH,
-  ANALYZE_UA2_FAST_QUERY_MODE_CHANGED,
-  ANALYZE_UA2_FORMMODEL_CHANGED,
-  ANALYZE_UA2_FACETS_CHANGED,
-  ANALYZE_UA2_EXPAND_COLLAPSE_GROUPED_LIST_ITEM,
   ANALYZE_TRACE_VIEW_CLOSED,
   ANALYZE_TRACE_VIEW_NAVIGATE_TO_UA,
   ANALYZE_TRACE_VIEW_TRACE_LIST_CLICK,
@@ -61,18 +49,7 @@ export interface TrackingFunctions {
   trackApplicationSubmitted: (payload?: object) => void;
   trackAumpToUnboundedAnalyticsFromLatency: (payload?: object) => void;
   trackApplicationTimeShiftSelected: (payload?: object) => void;
-  trackUa2FacetedSearchSyntheticCallsToggled: (payload?: object) => void;
-  trackUa2FacetedSearchInternalCallsToggled: (payload?: object) => void;
-  trackUa2QueryBuilderFilterAdded: (payload?: object) => void;
-  trackUa2GroupChanged: (payload?: object) => void;
-  trackUa2ChartChanged: (payload?: object) => void;
-  trackUa2ChartRemoved: (payload?: object) => void;
-  trackUa2ApiQueryPressed: (payload?: object) => void;
-  trackUa2NestingDepth: (payload?: object) => void;
-  trackUa2FastQueryModeChanged: (payload?: object) => void;
-  trackUa2FormModelChanged: (payload?: object) => void;
-  trackUa2FacetsChanged: (payload?: object) => void;
-  trackUa2ExpandCollapseGroupedListItem: (payload?: object) => void;
+
   trackTraceViewClosed: (payload?: object) => void;
   trackTraceViewNavigateBackToUa: (payload?: object) => void;
   trackTraceViewTraceListClicked: (payload?: object) => void;
@@ -115,22 +92,7 @@ export const useApplicationTracker = (): TrackingFunctions => {
   const trackAumpToUnboundedAnalyticsFromLatency = (payload?: object) =>
     trackCta(APPLICATION_LATENCY_JUMP_TO_UNBOUNDED_ANALYTICS, payload);
   const trackApplicationTimeShiftSelected = (payload?: object) => trackCta(APPLICATION_TIME_SHIFT_SELECT, payload);
-  const trackUa2FacetedSearchSyntheticCallsToggled = (payload?: object) =>
-    trackCta(ANALYZE_UA2_FACETED_SEARCH_SYNTHETIC_CALLS_TOGGLED, payload);
-  const trackUa2FacetedSearchInternalCallsToggled = (payload?: object) =>
-    trackCta(ANALYZE_UA2_FACETED_SEARCH_INTERNAL_CALLS_TOGGLED, payload);
-  const trackUa2QueryBuilderFilterAdded = (payload?: object) =>
-    trackCta(ANALYZE_UA2_QUERY_BUILDER_FILTER_ADDED, payload);
-  const trackUa2GroupChanged = (payload?: object) => trackCta(ANALYZE_UA2_GROUP_CHANGED, payload);
-  const trackUa2ChartChanged = (payload?: object) => trackCta(ANALYZE_UA2_CHART_CHANGED, payload);
-  const trackUa2ChartRemoved = (payload?: object) => trackCta(ANALYZE_UA2_CHART_REMOVED, payload);
-  const trackUa2ApiQueryPressed = (payload?: object) => trackCta(ANALYZE_UA2_API_QUERY_PRESSED, payload);
-  const trackUa2NestingDepth = (payload?: object) => trackCta(ANALYZE_UA2_NESTING_DEPTH, payload);
-  const trackUa2FastQueryModeChanged = (payload?: object) => trackCta(ANALYZE_UA2_FAST_QUERY_MODE_CHANGED, payload);
-  const trackUa2FormModelChanged = (payload?: object) => trackCta(ANALYZE_UA2_FORMMODEL_CHANGED, payload);
-  const trackUa2FacetsChanged = (payload?: object) => trackCta(ANALYZE_UA2_FACETS_CHANGED, payload);
-  const trackUa2ExpandCollapseGroupedListItem = (payload?: object) =>
-    trackCta(ANALYZE_UA2_EXPAND_COLLAPSE_GROUPED_LIST_ITEM, payload);
+
   const trackTraceViewClosed = (payload?: object) => trackCta(ANALYZE_TRACE_VIEW_CLOSED, payload);
   const trackTraceViewNavigateBackToUa = (payload?: object) => trackCta(ANALYZE_TRACE_VIEW_NAVIGATE_TO_UA, payload);
   const trackTraceViewTraceListClicked = (payload?: object) => trackCta(ANALYZE_TRACE_VIEW_TRACE_LIST_CLICK, payload);
@@ -189,18 +151,6 @@ export const useApplicationTracker = (): TrackingFunctions => {
     trackApplicationSubmitted,
     trackAumpToUnboundedAnalyticsFromLatency,
     trackApplicationTimeShiftSelected,
-    trackUa2FacetedSearchSyntheticCallsToggled,
-    trackUa2FacetedSearchInternalCallsToggled,
-    trackUa2QueryBuilderFilterAdded,
-    trackUa2GroupChanged,
-    trackUa2ChartChanged,
-    trackUa2ChartRemoved,
-    trackUa2ApiQueryPressed,
-    trackUa2NestingDepth,
-    trackUa2FastQueryModeChanged,
-    trackUa2FormModelChanged,
-    trackUa2FacetsChanged,
-    trackUa2ExpandCollapseGroupedListItem,
     trackTraceViewClosed,
     trackTraceViewNavigateBackToUa,
     trackTraceViewTraceListClicked,

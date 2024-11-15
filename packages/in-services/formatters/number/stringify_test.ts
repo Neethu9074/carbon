@@ -244,7 +244,7 @@ describe('in-services.formatter.number', () => {
     expect(muSecondsZeroDecimalPlaces(null as any)).toEqual('0µs');
     expect(percentageTwoDecimalPlaces(null as any)).toEqual('0.00%');
     expect(percentageZeroDecimalPlaces(null as any)).toEqual('0%');
-    expect(time(null as any)).toEqual('0µs');
+    expect(time(null as any)).toEqual('0ns');
     expect(timeByMicroTwoDecimalPlaces(null as any)).toEqual('0µs');
     expect(withSiMultiplyPrefixThreeDecimalPlaces(null as any)).toEqual('0.000');
     expect(withSiMultiplyPrefixZeroDecimalPlaces(null as any)).toEqual('0');

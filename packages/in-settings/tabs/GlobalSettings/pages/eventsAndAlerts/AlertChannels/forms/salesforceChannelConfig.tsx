@@ -4,17 +4,14 @@
  */
 
 import { createMapForm, createField, Field, MapForm, MapFormItems } from 'formalistic';
-import React, { useState } from 'react';
+import React from 'react';
 
-import { Stack, IconButton } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { OnEntityChange } from 'in-settings/hooks/useEntityForm';
-import { carbonInputEnabled } from 'in-services/featureFlags';
 import FormGroup from 'in-settings/components/FormGroup';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
@@ -146,7 +143,6 @@ export default {
 };
 
 function Form({ form, onChange }: FormProps): JSX.Element {
-  const [showToken, setShowToken] = useState(false);
   return (
     <fieldset>
       {form.get('name').map(field => (
@@ -207,34 +203,13 @@ function Form({ form, onChange }: FormProps): JSX.Element {
           <Label htmlFor="clientSecret" hasError={!field.valid && field.touched}>
             {t('in-settings:tabs.consumerSecret')}
           </Label>
-          <Stack direction="horizontal" gap="small" align="center">
-            <Input
-              className={(!carbonInputEnabled && `${block}__input`) || ''}
-              id="clientSecret"
-              type={showToken ? 'text' : 'password'}
-              placeholder="*******************"
-              value={field.value}
-              onChange={e => onChange('clientSecret', e.target.value)}
-            />
-            {!carbonInputEnabled && (
-              <Tooltip
-                content={
-                  showToken ? t('in-settings:tabs.hidePasswordTooltip') : t('in-settings:tabs.showPasswordTooltip')
-                }
-              >
-                <IconButton
-                  kind="info"
-                  type={showToken ? 'lib_views_hide' : 'lib_views_show'}
-                  onClick={e => {
-                    e.preventDefault();
-                    setShowToken(!showToken);
-                  }}
-                  iconSize="xs"
-                  alignment="right"
-                />
-              </Tooltip>
-            )}
-          </Stack>
+          <Input
+            id="clientSecret"
+            type="password"
+            placeholder="*******************"
+            value={field.value}
+            onChange={e => onChange('clientSecret', e.target.value)}
+          />
           <TouchedMessages field={field} />
         </FormGroup>
       ))}

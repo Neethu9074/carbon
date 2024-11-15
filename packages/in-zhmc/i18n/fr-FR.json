@@ -48,6 +48,7 @@
     "cbp": "Utilisation du processeur CBP",
     "cp": "Utilisation du processeur CP",
     "iip": "Utilisation des processeurs IIP",
+    "lparPowerConsumption": "Consommation électrique de la partition logique (watts)",
     "smt": "Utilisation SMT",
     "thread0": "Utilisation de l'unité d'exécution 0",
     "thread1": "Utilisation de l'unité d'exécution 1",

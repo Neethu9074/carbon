@@ -13,11 +13,11 @@ import { t } from 'in-i18n';
 
 import locals from './ActionInstanceDetail.mless';
 
-export const ActionInstanceDialogTitle = ({ title, status }: { title: string; status: string }) => {
+export function ActionInstanceDialogTitle({ title, status }: { title: string; status: string }) {
   return (
     <HorizontalFlexWrapper className={locals.titleWrapper}>
       <Title title={title} />
       {status ? <div>{getStatus(status)}</div> : <span>{t('in-automation:actionHistory.unknown')}</span>}
     </HorizontalFlexWrapper>
   );
-};
+}

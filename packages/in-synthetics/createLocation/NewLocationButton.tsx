@@ -20,9 +20,9 @@ const NewLocationButton = () => {
   return (
     <Button
       onClick={handleClick}
-      kind="info"
+      kind="action"
       icon="lib_synthetic_location"
-      {...(carbonButtonEnabled ? { size: 'compact' } : {})}
+      size={carbonButtonEnabled ? 'compact' : 'normal'}
     >
       {t('in-synthetics:dialog.createLocation.newLocation')}
     </Button>

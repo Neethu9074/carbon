@@ -9,19 +9,22 @@ import { List, Map } from 'immutable';
 
 import {
   IconButton,
-  SecondLevelNavigation,
-  SecondLevelNavigationItem,
   Stack,
   TextArea,
   Typography,
   DescriptionList,
-  DescriptionItem
+  DescriptionItem,
+  CarbonTabs,
+  CarbonTabList,
+  CarbonTab,
+  CarbonTabPanels,
+  CarbonTabPanel,
+  CarbonDropdown
 } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
 import { Button } from '@instana/components';
 
 import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
-import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 //@ts-expect-error
 import Lettering from 'in-components/Lettering';
 import { notBlankValidator } from 'in-services/validators/string';
@@ -421,14 +424,7 @@ function AdvancedFormSettings({ form, setForm }: AdvancedFormProps): JSX.Element
   return (
     <fieldset>
       <Stack gap="large">
-        <Typography
-          variant="body-regular"
-          component={() => (
-            <div className={locals.descriptionText}>{t('in-settings:tabs.advancedSettingsMessage')}</div>
-          )}
-        >
-          {t('in-settings:tabs.advancedSettingsMessage')}
-        </Typography>
+        <Typography variant="body-regular">{t('in-settings:tabs.advancedSettingsMessage')}</Typography>
         <EmailCustomPrefixParent fieldMetadata={fieldMetadata} form={form} setForm={setForm} />
         <Stack gap="xxsmall">
           <Typography variant="heading-100">{t('in-settings:tabs.preview')}</Typography>
@@ -541,29 +537,26 @@ function CustomEmailPrefixDropdown({
   return (
     <Stack>
       <Stack direction="horizontal">
-        <ComboBox
-          options={fieldMetadata.map(val => {
-            if (dropdownStack.includes(val.value)) {
-              val.isDisabled = true;
-            } else {
-              val.isDisabled = false;
-            }
-            return val;
-          })}
-          value={currentField}
-          placeholder={t('in-settings:tabs.selectEventType')}
+        <CarbonDropdown
+          items={fieldMetadata.filter(field => !dropdownStack.includes(field.value))}
+          defaultValue={''}
+          className={locals.emailsEventTypeDropdown}
           onChange={newVal => {
-            const currentEventType = currentField || defaultNewValue;
-            if (newVal as Option) {
-              const newField = (newVal as Option).value;
-              setDropdownStack(dropdownStack.map((val, idx) => (idx === currentIdx ? newField : val)));
-            } else {
-              if (currentEventType !== defaultNewValue)
-                setDropdownStack(dropdownStack.map((val, idx) => (idx === currentIdx ? defaultNewValue : val)));
+            const { selectedItem } = newVal;
+
+            if (selectedItem) {
+              setDropdownStack(dropdownStack.map((item, idx) => (idx === currentIdx ? selectedItem.value : item)));
             }
           }}
-          className={locals.emailsEventTypeDropdown}
-          isClearable={false}
+          id={`email-type-dropdown-${currentIdx}`}
+          label=""
+          key={currentIdx}
+          selectedItem={
+            currentField
+              ? fieldMetadata[fieldMetadata.findIndex(val => val.value === currentField)]
+              : { label: t('in-settings:tabs.selectEventType'), value: '' }
+          }
+          renderSelectedItem={item => (item ? item.label : t('in-settings:tabs.selectEventType'))}
         />
         <IconButton
           type="lib_actions_delete"
@@ -679,79 +672,78 @@ interface EmailCustomPrefixPreviewProps {
 }
 
 function EmailCustomPrefixPreviewSection({ fieldMetadata }: EmailCustomPrefixPreviewProps) {
-  const [currentField, setCurrentField] = useState<string>('incident');
-
-  const currentMapField = fieldMetadata.find(val => val.value === currentField);
-
   return (
     <Stack>
-      <SecondLevelNavigation>
-        {fieldMetadata.map(eventTypeInfo => (
-          <SecondLevelNavigationItem
-            isActive={currentField === eventTypeInfo.value}
-            label={eventTypeInfo.label}
-            onClick={() => setCurrentField(eventTypeInfo.value)}
-          />
-        ))}
-      </SecondLevelNavigation>
-      {currentMapField?.isOpenClose && (
-        <Stack>
-          <Typography variant="body-regular">
-            {t('in-settings:tabs.openEventType', {
-              event_type: currentMapField.label
-            })}
-          </Typography>
-          <div className={locals.previewBox}>
-            <Stack gap="large">
-              <Stack gap="small">
-                <Typography variant="body-regular">{`[Instana] - ${
-                  (currentMapField.field?.get('openValue') as Field<string>).value
-                } ${currentMapField.label} - Test Zone - HOST "Test Entity" - CPU Load is Too High`}</Typography>
-                <div className={locals.previewOpenStatus} />
-              </Stack>
-              <Stack align="center">
-                <Lettering className={locals.lettering} />
-              </Stack>
-            </Stack>
-          </div>
-          <Typography variant="body-regular">
-            {t('in-settings:tabs.closeEventType', {
-              event_type: currentMapField.label
-            })}
-          </Typography>
-          <div className={locals.previewBox}>
-            <Stack gap="large">
-              <Stack gap="small">
-                <Typography variant="body-regular">{`[Instana] - ${
-                  (currentMapField.field?.get('closeValue') as Field<string>).value
-                } ${currentMapField.label} Closed - Test Zone - HOST "Test Entity" - CPU Load is Too High`}</Typography>
-                <div className={locals.previewClosedStatus} />
-              </Stack>
-              <Stack align="center">
-                <Lettering className={locals.lettering} />
-              </Stack>
-            </Stack>
-          </div>
-        </Stack>
-      )}
-      {currentMapField?.isOpenClose === false && (
-        <Stack>
-          <Typography variant="body-regular">{t('in-settings:tabs.changeEvent')}</Typography>
-          <div className={locals.previewBox}>
-            <Stack gap="large">
-              <Stack gap="small">
-                <Typography variant="body-regular">{`[Instana] - ${
-                  (currentMapField.field?.get('changeValue') as Field<string>).value
-                } ${currentMapField.label.toUpperCase()} Online - JVM "sever" on "Test Entity"`}</Typography>
-                <div className={locals.previewChangeStatus} />
-              </Stack>
-              <Stack align="center">
-                <Lettering className={locals.lettering} />
-              </Stack>
-            </Stack>
-          </div>
-        </Stack>
-      )}
+      <CarbonTabs>
+        <CarbonTabList aria-label="list of types of email headers">
+          {fieldMetadata.map((field, idx) => (
+            <CarbonTab key={idx}>{field.label}</CarbonTab>
+          ))}
+        </CarbonTabList>
+        <CarbonTabPanels>
+          {fieldMetadata.map((field, idx) => (
+            <CarbonTabPanel key={idx}>
+              {field.isOpenClose ? (
+                <Stack>
+                  <Typography variant="body-regular">
+                    {t('in-settings:tabs.openEventType', {
+                      event_type: field.label
+                    })}
+                  </Typography>
+                  <div className={locals.previewBox}>
+                    <Stack gap="large">
+                      <Stack gap="small">
+                        <Typography variant="body-regular">{`[Instana] - ${
+                          (field.field?.get('openValue') as Field<string>).value
+                        } ${field.label} - Test Zone - HOST "Test Entity" - CPU Load is Too High`}</Typography>
+                        <div className={locals.previewOpenStatus} />
+                      </Stack>
+                      <Stack align="center">
+                        <Lettering className={locals.lettering} />
+                      </Stack>
+                    </Stack>
+                  </div>
+                  <Typography variant="body-regular">
+                    {t('in-settings:tabs.closeEventType', {
+                      event_type: field.label
+                    })}
+                  </Typography>
+                  <div className={locals.previewBox}>
+                    <Stack gap="large">
+                      <Stack gap="small">
+                        <Typography variant="body-regular">{`[Instana] - ${
+                          (field.field?.get('closeValue') as Field<string>).value
+                        } ${field.label} Closed - Test Zone - HOST "Test Entity" - CPU Load is Too High`}</Typography>
+                        <div className={locals.previewClosedStatus} />
+                      </Stack>
+                      <Stack align="center">
+                        <Lettering className={locals.lettering} />
+                      </Stack>
+                    </Stack>
+                  </div>
+                </Stack>
+              ) : (
+                <Stack>
+                  <Typography variant="body-regular">{t('in-settings:tabs.changeEvent')}</Typography>
+                  <div className={locals.previewBox}>
+                    <Stack gap="large">
+                      <Stack gap="small">
+                        <Typography variant="body-regular">{`[Instana] - ${
+                          (field.field?.get('changeValue') as Field<string>).value
+                        } ${field.label.toUpperCase()} Online - JVM "sever" on "Test Entity"`}</Typography>
+                        <div className={locals.previewChangeStatus} />
+                      </Stack>
+                      <Stack align="center">
+                        <Lettering className={locals.lettering} />
+                      </Stack>
+                    </Stack>
+                  </div>
+                </Stack>
+              )}
+            </CarbonTabPanel>
+          ))}
+        </CarbonTabPanels>
+      </CarbonTabs>
     </Stack>
   );
 }

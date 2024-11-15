@@ -28,13 +28,13 @@ export default function useAlertConfigValidation(
   const isLogsBlueprint = blueprintConfig.type === 'logs';
   const ruleForm = form.get('rule');
   const isStatusCodeBluePrint = blueprintConfig.type === 'statusCode';
-  const thresholdType = form.get('threshold').get('type').value;
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const ruleComplete = blueprintConfig?.isRuleComplete((ruleForm as any).toJS());
 
   const isCalculatingThreshold = useObservable(thresholdOrBaselineLoadingSignal$, []);
 
   function isThresholdSectionValid() {
-    if (fieldTouchedAndInvalid(form.get('threshold')?.get('value'))) {
+    if (fieldTouchedAndInvalid(form.get('threshold'))) {
       return false;
     }
     if (thresholdType === HISTORIC_BASELINE && !isTagFilterFormModelValid) {

@@ -49,7 +49,7 @@ export default function useTimeWindowAwareSloChartMetrics(
 
   const result = useObservable(
     () => getUnifiedMetrics({ metrics: metricConfigs }),
-    [id, generateStableHash(timeWindows)]
+    [id, generateStableHash(timeWindows), generateStableHash(metricConfigs)]
   );
 
   if (!result || isLoading(result) || hasError(result)) {

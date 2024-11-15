@@ -23,12 +23,12 @@ import { useObservable } from '@instana/hooks';
 import { Select } from '@instana/components';
 
 import {
-  firstMappingAdded,
-  mappingChanged,
-  mappingRemoved,
-  enabledRestrictedAccess,
-  disabledRestrictedAccess
-} from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/GroupMapping/tracker';
+  ENTERPRISE_IDP_MAPPING_FIRST,
+  ENTERPRISE_IDP_MAPPING_CHANGED,
+  ENTERPRISE_IDP_MAPPING_REMOVED,
+  ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS,
+  ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS_REMOVE
+} from 'in-services/tracking/tracking';
 import {
   refresh,
   getMappings,
@@ -45,6 +45,7 @@ import { getConfigAsResultObservable as oidcConfig } from 'in-settings/tabs/Secu
 // @ts-expect-error
 import { getConfigAsResultObservable as samlConfig } from 'in-settings/tabs/SecurityAndAccess/api/saml';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { getGroupsAsResultObservable } from 'in-settings/tabs/SecurityAndAccess/api/groups';
 // @ts-expect-error
 import ApiItemView from 'in-settings/components/ApiItemView';
@@ -95,6 +96,7 @@ interface RenderProps {
 export default function GroupMapping() {
   const [page, setPage] = useState<number>(1);
   const [searchQuery, setSearchQuery] = useState<string | undefined>('');
+  const { trackCta } = useSegmentTracking();
   const pageSize = 100;
 
   function getMappingData() {
@@ -124,8 +126,40 @@ export default function GroupMapping() {
       return resultData;
     });
   }
+
   const mappingData = getMappingData();
   const data = useObservable(mappingData, []) ?? pendingResult;
+
+  function saveItem({ form, setMessage, setForm }: { form: any; setMessage: any; setForm: any }) {
+    setMessage({ message: t('in-settings:tabs.savingGroupMapping'), type: 'neutral', isSaving: true });
+    const setMappingsResult = setMappings(form.get(GROUP_MAPPINGS).toJS());
+    trackDifference(form, trackCta);
+    setMappingsResult.once(
+      () => {
+        const denyCheckValue: IdentityProviderPatch = {
+          restrictEmptyIdpGroups: form.get(DENY_ACCESS).toJS()
+        };
+        const denyCheckResult = setIdpRestriction(denyCheckValue);
+        setForm(
+          form.updateIn([TRACKING], () =>
+            createMapForm({
+              items: {
+                initialSize: createField({ value: form.get('groupMappings').size }),
+                initialRestrictAccessFlag: createField({ value: form.get('denyAccess').value })
+              }
+            })
+          )
+        );
+        denyCheckResult.once(
+          () => setMessage({ text: t('in-settings:tabs.groupMappingSuccessfullySaved'), type: 'success' }),
+          error =>
+            setMessage({ text: t('in-settings:tabs.groupMappingFailedToSave', { err: error.message }), type: 'error' })
+        );
+      },
+      error =>
+        setMessage({ text: t('in-settings:tabs.groupMappingFailedToSave', { err: error.message }), type: 'error' })
+    );
+  }
 
   function render({ form, setForm }: RenderProps): JSX.Element {
     if (!form.get('hasIdp')?.value) {
@@ -457,55 +491,30 @@ function RightHeader({ addRow }: { addRow: () => void }): JSX.Element {
   );
 }
 
-function saveItem({ form, setMessage, setForm }: { form: any; setMessage: any; setForm: any }) {
-  setMessage({ message: t('in-settings:tabs.savingGroupMapping'), type: 'neutral', isSaving: true });
-  const setMappingsResult = setMappings(form.get(GROUP_MAPPINGS).toJS());
-  trackDifference(form);
-  setMappingsResult.once(
-    () => {
-      const denyCheckValue: IdentityProviderPatch = {
-        restrictEmptyIdpGroups: form.get(DENY_ACCESS).toJS()
-      };
-      const denyCheckResult = setIdpRestriction(denyCheckValue);
-      setForm(
-        form.updateIn([TRACKING], () =>
-          createMapForm({
-            items: {
-              initialSize: createField({ value: form.get('groupMappings').size }),
-              initialRestrictAccessFlag: createField({ value: form.get('denyAccess').value })
-            }
-          })
-        )
-      );
-      denyCheckResult.once(
-        () => setMessage({ text: t('in-settings:tabs.groupMappingSuccessfullySaved'), type: 'success' }),
-        error =>
-          setMessage({ text: t('in-settings:tabs.groupMappingFailedToSave', { err: error.message }), type: 'error' })
-      );
-    },
-    error => setMessage({ text: t('in-settings:tabs.groupMappingFailedToSave', { err: error.message }), type: 'error' })
-  );
-}
-
-function trackDifference(form: MapForm<any>) {
+function trackDifference(form: MapForm<any>, trackCta: CtaTrackingFunction) {
   const tracking: MapForm<any> = form.get('tracking');
 
   if (form.get('groupMappings').size > 0) {
     if (tracking.get('initialSize').value === 0) {
-      firstMappingAdded({ groupMappings: form.get('groupMappings')?.toJS() });
+      // Segment tracking
+      trackCta(ENTERPRISE_IDP_MAPPING_FIRST, { groupMappings: form.get('groupMappings')?.toJS() });
     } else {
-      mappingChanged({ groupMappings: form.get('groupMappings')?.toJS() });
+      // Segment tracking
+      trackCta(ENTERPRISE_IDP_MAPPING_CHANGED, { groupMappings: form.get('groupMappings')?.toJS() });
     }
   } else {
-    mappingRemoved();
+    // Segment tracking
+    trackCta(ENTERPRISE_IDP_MAPPING_REMOVED);
   }
 
   const initialRestrictAccessFlag: Field<boolean> = tracking.get('initialRestrictAccessFlag');
   if (form.get('denyAccess').value != initialRestrictAccessFlag.value) {
     if (form.get('denyAccess').value) {
-      enabledRestrictedAccess();
+      // Segment tracking
+      trackCta(ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS);
     } else {
-      disabledRestrictedAccess();
+      // Segment tracking
+      trackCta(ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS_REMOVE);
     }
   }
 }

@@ -10,8 +10,13 @@
     },
     "list": {
       "loadMore": "추가 로드",
+      "expand": "펼치기",
+      "collapse": "접기",
       "toggleExtraContent": "추가 컨텐츠 전환",
       "initiateDefaultAction": "기본 조치 시작"
+    },
+    "link": {
+      "opensInNewTab": "(새 탭에서 열림)"
     },
     "table": {
       "tableErrorRows": {

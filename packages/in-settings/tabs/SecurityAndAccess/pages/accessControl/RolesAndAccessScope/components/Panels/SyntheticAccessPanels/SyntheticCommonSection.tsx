@@ -14,14 +14,15 @@ import { PermissionSet } from '@instana/types';
 import {
   AreaRole,
   AreaRoleWithCustomType,
-  ProductArea
+  ProductArea,
+  syntheticCredentialCapabilities
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
 import { FormControlProps } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import {
   getField,
   updateFormField
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/form';
-import { Capability, productPermissionsObject } from 'in-stores/permission';
+import { Capability, CapabilityType, productPermissionsObject } from 'in-stores/permission';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -56,15 +57,21 @@ export default function SyntheticCredentialSection<FORM_TYPE extends MapFormItem
     setForm(updateFormField(form, 'permissionSet', permissionSet, true));
   };
 
-  const updatePermission = (value: string) => {
+  const updatePermission = (value: CapabilityType) => {
     if (!permissionSet) return;
 
     const hasToggledCapability = permissionSet.permissions.includes(value);
     const newPermissions = hasToggledCapability
       ? permissionSet.permissions.filter(permission => permission !== value)
       : [...permissionSet.permissions, value];
-
-    updatePermissionSet({ ...permissionSet, permissions: newPermissions });
+    const hasCredentialPermission = newPermissions.some(permission =>
+      syntheticCredentialCapabilities.includes(permission as CapabilityType)
+    );
+    if (hasToggledCapability && syntheticCredentialCapabilities.includes(value) && !hasCredentialPermission) {
+      updatePermissionSet({ ...permissionSet, permissions: newPermissions, ['syntheticCredentialKeys']: [] });
+    } else {
+      updatePermissionSet({ ...permissionSet, permissions: newPermissions });
+    }
   };
 
   return (

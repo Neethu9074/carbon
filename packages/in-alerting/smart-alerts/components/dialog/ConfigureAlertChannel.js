@@ -45,8 +45,8 @@ export default function ConfigureAlertChannel({
         rightHeader={
           !isTearSheet && (
             <Button
-              className={locals.selectButton}
               kind="action"
+              className={locals.createAlertChannelButton}
               onClick={() =>
                 setSliderState({
                   slideInConfig: {
@@ -101,7 +101,6 @@ function SelectListDialogContent({
             listComponentRightHeader={
               role.canConfigureIntegrations && (
                 <Button
-                  className={locals.createAlertChannelButton}
                   kind="action"
                   icon="lib_actions_build_outline"
                   onClick={() => {

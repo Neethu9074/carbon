@@ -22,9 +22,9 @@ import { resolveInfraLabel, default as useResolvedValue } from '../useResolvedVa
 // eslint-disable-next-line no-restricted-imports
 import getApplication from 'in-applications/subscriptions/getApplication';
 // eslint-disable-next-line no-restricted-imports
-import { timestampToLocaleDate } from '../../LogTagsTable/Tag';
 // @ts-expect-error
 import { getLabel } from 'in-sdk/snapshot';
+import { timestampToLocaleDate } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
 import { Application, LogTag, Result } from 'in-types';
 import { getSnapshot } from 'in-stores/snapshot';
 import { t } from 'in-i18n';
@@ -37,7 +37,7 @@ jest.mock('in-sdk/snapshot', () => ({
   getLabel: jest.fn()
 }));
 
-jest.mock('../../LogTagsTable/Tag', () => ({
+jest.mock('../../LogTagsTable/utils', () => ({
   timestampToLocaleDate: jest.fn()
 }));
 
@@ -71,7 +71,6 @@ describe('resolveInfraLabel', () => {
       done();
     }, done.fail);
   });
-  
 });
 
 describe('useResolvedValue', () => {

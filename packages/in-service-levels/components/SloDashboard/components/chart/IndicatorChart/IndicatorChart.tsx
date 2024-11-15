@@ -9,6 +9,7 @@ import React from 'react';
 import { DateAsNumber, ServiceLevelIndicatorUnion, SloEntityUnion, TimeWindowUnion } from '@instana/types';
 
 import TimeBasedAvailabilityIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/TimeBasedAvailabilityIndicatorChart';
+import TimeBasedTrafficIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/TimeBasedTrafficIndicatorChart';
 import TimeBasedLatencyIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/TimeBasedLatencyIndicatorChart';
 import EventBasedIndicatorChart from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/components/EventBasedIndicatorChart';
 
@@ -80,6 +81,20 @@ export default function IndicatorChart({
       <EventBasedIndicatorChart
         automaticallySize={automaticallySize}
         customHeight={customHeight}
+        entity={entity}
+        indicator={indicator}
+        missingDataIndicator={missingDataIndicator}
+        title={title}
+      />
+    );
+  }
+
+  if (indicator.blueprint === 'traffic') {
+    return (
+      <TimeBasedTrafficIndicatorChart
+        automaticallySize={automaticallySize}
+        customHeight={customHeight}
+        customChartSkeletonHeight={customChartSkeletonHeight}
         entity={entity}
         indicator={indicator}
         missingDataIndicator={missingDataIndicator}

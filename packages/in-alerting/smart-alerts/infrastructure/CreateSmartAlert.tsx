@@ -8,6 +8,7 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
+import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/infrastructure/hooks/useSmartAlertCreateUrl';
 import CreateSmartAlertDialog from 'in-alerting/smart-alerts/infrastructure/CreateSmartAlertDialog';
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
@@ -18,9 +19,11 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { ALERTING_CREATE } from 'in-services/tracking/eventNames';
 import { t } from 'in-i18n';
 
+const labelNew = t('in-alerting:smartAlerts.labelNew');
+
 export default function CreateSmartAlert() {
   const { trackCta } = useSegmentTracking();
-  const labelNew = t('in-alerting:smartAlerts.labelNew');
+  const getLinkToCreateSmartAlert = useSmartAlertCreateUrl();
 
   if (infraSmartAlertFullScreenDesignEnabled) {
     return (
@@ -39,8 +42,8 @@ export default function CreateSmartAlert() {
             icon="lib_alerts_create"
             onClick={() => {
               trackCta(ALERTING_CREATE);
-              addActiveDialog(<CreateSmartAlertDialog />);
             }}
+            href={getLinkToCreateSmartAlert}
           >
             {`${t('in-alerting:smartAlerts.addSmartAlert')} ${labelNew}`}
           </Button>

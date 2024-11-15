@@ -139,11 +139,7 @@ export default function RootCauseEntityDetails({
 
   return (
     <>
-      <CarbonTabPanel
-        key={rcaSnapshotID}
-        className={locals.tabPanel}
-        style={{ background: themes.default.cds.field['02'] }}
-      >
+      <CarbonTabPanel key={rcaSnapshotID} style={{ background: 'none' }}>
         <div className={locals.entityDescription}>
           <Stack gap="small">
             <Stack direction="horizontal">
@@ -180,46 +176,54 @@ export default function RootCauseEntityDetails({
               <AIProbabilityBadge probabilityScore={probabilityScore} loading={entityData === null} />
             </Stack>
             {explainabilityMetadata && (
-              <Stack gap="xxsmall">
+              <Stack gap="xsmall">
                 <Typography variant="body-bold">{t('in-events:RCA.evidence')}</Typography>
-                <Trans
-                  i18nKey="in-events:RCA.evidenceTextFailed"
-                  components={{
-                    //@ts-expect-error
-                    linkToEntity: <Link href={linkToEntityDashboard} />,
-                    entityIcon: (
-                      <SvgIcon
-                        type={getIconForRCADisplay(rcaEntityType, entityTypeName)}
-                        color={themes.default.cds.link.primary}
-                        size="xs"
+                <Stack direction="horizontal" distribution="spaceBetween">
+                  <div className={locals.evidenceContainer}>
+                    <Stack gap="disabled">
+                      <Typography variant="heading-04">{rcaErrorPercent.toFixed(2)}%</Typography>
+                      <Trans
+                        i18nKey="in-events:RCA.evidenceTextFailed"
+                        components={{
+                          //@ts-expect-error
+                          linkToEntity: <Link href={linkToEntityDashboard} />,
+                          entityIcon: (
+                            <SvgIcon
+                              type={getIconForRCADisplay(rcaEntityType, entityTypeName)}
+                              color={themes.default.cds.link.primary}
+                              size="xs"
+                            />
+                          )
+                        }}
+                        values={{
+                          root_cause_entity_type: entityTypeName,
+                          root_cause_entity_name: Map.isMap(entityData) ? entityData?.get('label') : entityData?.label,
+                          rca_error_percent: rcaErrorPercent.toFixed(2)
+                        }}
+                        parent="span"
                       />
-                    )
-                  }}
-                  values={{
-                    root_cause_entity_type: entityTypeName,
-                    root_cause_entity_name: Map.isMap(entityData) ? entityData?.get('label') : entityData?.label,
-                    rca_error_percent: rcaErrorPercent.toFixed(2)
-                  }}
-                  parent="span"
-                />
-                <FailedText
-                  rcaErrorPercent={rcaErrorPercent}
-                  notThroughRCAErrorPercent={notThroughRCAErrorPercent}
-                  rootCauseEntityType={entityTypeName}
-                  rootCauseEntityName={Map.isMap(entityData) ? entityData?.get('label') : entityData?.label}
-                  linkToEntity={linkToEntityDashboard}
-                  entityIcon={
-                    <SvgIcon
-                      type={getIconForRCADisplay(rcaEntityType, entityTypeName)}
-                      color={themes.default.cds.link.primary}
-                      size="xs"
+                    </Stack>
+                  </div>
+                  <div className={locals.evidenceContainer}>
+                    <FailedText
+                      notThroughRCAErrorPercent={notThroughRCAErrorPercent}
+                      rootCauseEntityType={entityTypeName}
+                      rootCauseEntityName={Map.isMap(entityData) ? entityData?.get('label') : entityData?.label}
+                      linkToEntity={linkToEntityDashboard}
+                      entityIcon={
+                        <SvgIcon
+                          type={getIconForRCADisplay(rcaEntityType, entityTypeName)}
+                          color={themes.default.cds.link.primary}
+                          size="xs"
+                        />
+                      }
                     />
-                  }
-                />
+                  </div>
+                </Stack>
               </Stack>
             )}
             <Button
-              kind="primary"
+              kind="tertiary"
               icon="lib_application_call"
               href={urlForAnalysisPage}
               size="compact"
@@ -239,14 +243,12 @@ export default function RootCauseEntityDetails({
 }
 
 function FailedText({
-  rcaErrorPercent,
   notThroughRCAErrorPercent,
   rootCauseEntityType,
   rootCauseEntityName,
   linkToEntity,
   entityIcon
 }: {
-  rcaErrorPercent: number;
   notThroughRCAErrorPercent: number;
   rootCauseEntityType: string;
   rootCauseEntityName: string;
@@ -259,37 +261,18 @@ function FailedText({
     non_rca_error_rate: notThroughRCAErrorPercent.toFixed(2)
   };
 
-  if (notThroughRCAErrorPercent < rcaErrorPercent) {
-    return (
+  return (
+    <Stack gap="disabled">
+      <Typography variant="heading-04">{translationDataObject.non_rca_error_rate}%</Typography>
       <Trans
-        i18nKey="in-events:RCA.evidenceTextNotFailedLower"
+        i18nKey="in-events:RCA.evidenceTextNotFailed"
         //@ts-expect-error
         components={{ linkToEntity: <Link href={linkToEntity} />, entityIcon: entityIcon }}
         values={translationDataObject}
         parent="span"
       />
-    );
-  } else if (notThroughRCAErrorPercent === rcaErrorPercent) {
-    return (
-      <Trans
-        i18nKey="in-events:RCA.evidenceTextNotFailedSame"
-        //@ts-expect-error
-        components={{ linkToEntity: <Link href={linkToEntity} />, entityIcon: entityIcon }}
-        values={translationDataObject}
-        parent="span"
-      />
-    );
-  } else {
-    return (
-      <Trans
-        i18nKey="in-events:RCA.evidenceTextNotFailedHigher"
-        //@ts-expect-error
-        components={{ linkToEntity: <Link href={linkToEntity} />, entityIcon: entityIcon }}
-        values={translationDataObject}
-        parent="span"
-      />
-    );
-  }
+    </Stack>
+  );
 }
 
 interface EntityPathProps {

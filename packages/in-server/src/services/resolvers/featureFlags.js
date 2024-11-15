@@ -181,8 +181,8 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'kubernetesTeamEnabled',
-    instanaCtlKey: 'feature.kubernetes.explore.enabled',
+    uiClientKey: 'kubernetesCloudNativeExperience',
+    instanaCtlKey: 'feature.kubernetes.cloud.native.experience.enabled',
     defaultValue: false
   },
   {
@@ -363,11 +363,21 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsRbacLimitedEnabled',
     instanaCtlKey: 'feature.bizops.rbac.limited.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'bizopsProcessFlowMapEnabled',
     instanaCtlKey: 'feature.bizops.process.flow.map.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'bizopsProcessStackEnabled',
+    instanaCtlKey: 'feature.bizops.process.stack.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'bizopsActivityStackEnabled',
+    instanaCtlKey: 'feature.bizops.activity.stack.enabled',
     defaultValue: false
   },
   {
@@ -453,7 +463,7 @@ module.exports = exports = [
   {
     uiClientKey: 'thresholdCustomDashboardsTableWidgetEnabled',
     instanaCtlKey: 'feature.threshold.custom.dashboards.table.widget.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'customDashboardsExportPdfWidget',
@@ -522,6 +532,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'disableEventConfigEnabled',
+    instanaCtlKey: 'feature.disable.event.config.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'playWithReleaseEnabled',
     instanaCtlKey: 'feature.play.with.release.enabled',
     defaultValue: false
@@ -586,29 +601,10 @@ module.exports = exports = [
     instanaCtlKey: 'feature.carbon.iconbutton.enabled',
     defaultValue: true
   },
-  {
-    uiClientKey: 'carbonSearchInputEnabled',
-    instanaCtlKey: 'feature.carbon.search.input.enabled',
-    defaultValue: true
-  },
+
   {
     uiClientKey: 'carbonMoreMenuEnabled',
     instanaCtlKey: 'feature.carbon.more.menu.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonLoadingSkeletonFeatureEnabled',
-    instanaCtlKey: 'feature.carbon.loading.skeleton.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonLoadingSpinnerEnabled',
-    instanaCtlKey: 'feature.carbon.loading.spinner.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonDescriptionListEnabled',
-    instanaCtlKey: 'feature.carbon.description.list.enabled',
     defaultValue: true
   },
   {
@@ -619,16 +615,6 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonListEnabled',
     instanaCtlKey: 'feature.carbon.list.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonAccordionEnabled',
-    instanaCtlKey: 'feature.carbon.accordion.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonSelectEnabled',
-    instanaCtlKey: 'feature.carbon.select.enabled',
     defaultValue: true
   },
   {
@@ -644,16 +630,6 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonMenuEnabled',
     instanaCtlKey: 'feature.carbon.menu.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonDropdownEnabled',
-    instanaCtlKey: 'feature.carbon.dropdown.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonInputEnabled',
-    instanaCtlKey: 'feature.carbon.input.enabled',
     defaultValue: true
   },
   {
@@ -742,11 +718,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'carbonTileEnabled',
-    instanaCtlKey: 'feature.carbon.tile.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'carbonStepProgressBarEnabled',
     instanaCtlKey: 'feature.carbon.stepprogressbar.enabled',
     defaultValue: true
@@ -790,11 +761,6 @@ module.exports = exports = [
     uiClientKey: 'preAggregatedMetricsQueryEnabled',
     instanaCtlKey: 'feature.pre.aggregated.metrics.query.enabled',
     defaultValue: false
-  },
-  {
-    uiClientKey: 'carbonFileUploaderEnabled',
-    instanaCtlKey: 'feature.carbon.fileuploader.enabled',
-    defaultValue: true
   },
   {
     uiClientKey: 'userProfileMenuEnabled',
@@ -859,6 +825,16 @@ module.exports = exports = [
   {
     uiClientKey: 'infraSmartAlertFullScreenDesignEnabled',
     instanaCtlKey: 'feature.infra.Smart.alert.full.screen.design.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'alertChannelPerSeverityInfraSaEnabled',
+    instanaCtlKey: 'feature.alert.channel.per.severity.infra.sa.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'alertChannelPerSeverityApplicationSaEnabled',
+    instanaCtlKey: 'feature.alert.channel.per.severity.application.sa.enabled',
     defaultValue: false
   }
 ];

@@ -51,7 +51,7 @@ function EmptySection() {
         </Typography>
       </div>
       <NoDataAvailable
-        height={450}
+        height={400}
         className={locals.noResults}
         title={t('in-automation:GenerateAIActionDialog.noResultsYet')}
         // @ts-expect-error
@@ -103,9 +103,7 @@ function generateAIActionForm({
           form
             .updateIn(['action', 'script'], item => item.setValue(res.data?.content!))
             .updateIn(['action', 'aiGeneratedContent'], item => item.setValue(res.data?.content!))
-            .updateIn(['action', 'description'], item =>
-              item.setValue(`This has script for: ${promptStep.value}`).setTouched(true)
-            )
+            .updateIn(['action', 'description'], item => item.setValue(promptStep.value).setTouched(true))
         );
       },
       () => {
@@ -167,14 +165,7 @@ function ScriptSection({ form }: { form: GenerateAIScriptActionForm }) {
         </Typography>
       </div>
       <div className={locals.CodeWithAISlug}>
-        <CodeComponent
-          withExpandButton
-          linesToShow={20}
-          withoutCopyButton
-          code={plaintextScript}
-          lang={'bash'}
-          softWrap
-        />
+        <CodeComponent withExpandButton linesToShow={20} code={plaintextScript} lang={'bash'} softWrap />
         <AISlugIcon />
       </div>
     </FormGroup>

@@ -53,6 +53,11 @@
       "title": "Análisis de usuarios de productos",
       "purpose": "Registra un ID exclusivo que se utiliza para generar datos estadísticos sobre cómo el visitante utiliza el sitio web."
     },
+    "walkme": {
+      "title": "Incorporación de productos y orientación",
+      "purpose": "Registra un ID exclusivo que se utiliza para generar datos estadísticos sobre cómo el visitante utiliza el sitio web.",
+      "category": "Incorporación de productos y orientación"
+    },
     "appcues": {
       "title": "Experiencia de integración personalizada y encuestas NPS",
       "purpose": "Integración de usuario y encuesta del almacén NPS."
@@ -165,6 +170,7 @@
     "limitedAccessKubernetes_namespaces": "Espacios de nombres",
     "limitedAccessKubernetes_addCluster": "Añadir clúster",
     "limitedAccessKubernetes_addNamespace": "Añadir espacio de nombres",
+    "addButton_bizopsPerspectives": "Añadir perspectivas empresariales",
     "addButton_syntheticTests": "Añadir pruebas sintéticas",
     "descriptionAccessAll_synthetics": "Se puede acceder a todas las pruebas sintéticas con el rol seleccionado.",
     "descriptionLimitedAccess_synthetics": "Seleccione el rol y añada Pruebas sintéticas a continuación para otorgar acceso.",
@@ -215,6 +221,8 @@
     "description_access_all": "Acceso a todos sin limitación",
     "title_access_all_bizops": "Acceso ilimitado",
     "title_no_access_bizops": "Acceso denegado",
+    "title_limited_access_bizops": "Acceso limitado",
+    "description_limited_access_bizops": "Acceda únicamente a las perspectivas empresariales enumeradas y a sus procesos empresariales.",
     "description_access_all_bizops": "Todas las características de la supervisión empresarial son accesibles sin limitación.",
     "description_no_access_bizops": "Se ha denegado el acceso a la supervisión empresarial.",
     "description_access_all_except_contributor": "Acceder a todos, excepto a los que se accede como colaborador",
@@ -363,8 +371,7 @@
         "placeholder": "Marcador de posición",
         "logicalOperator_AND": "Y",
         "logicalOperator_OR": "O",
-        "logicalOperatorInfo": "El operador lógico seleccionado se aplicará a las condiciones siguientes.",
-        "clearMetricSeclection": "Borrar selección"
+        "logicalOperatorInfo": "El operador lógico seleccionado se aplicará a las condiciones siguientes."
       },
       "customPayload": {
         "unknownTag": "Etiqueta desconocida: {{tagName}}"
@@ -438,7 +445,10 @@
     },
     "deleteLogs": {
       "deleteLogs": "Suprimir registros",
-      "info": "Si está experimentando una filtración de información segura a los registros de Instana, puede proceder a suprimir los registros de un periodo de tiempo específico. ",
+      "info": "Si experimenta una fuga de información segura a los registros de Instana, puede",
+      "info2": "suprimir los registros de un periodo de tiempo específico.",
+      "confirmDeletion": "Confirmar supresión",
+      "modalDescription": "La supresión de registros borra de forma permanente todos los registros de Instana hasta la fecha y hora de finalización especificadas. Esta acción no se puede deshacer",
       "confirmationDescription": "La supresión de registros de Instana es permanente. Esta acción no se puede deshacer. ",
       "deletionReason": "Motivos de la supresión",
       "typeToContinue": "Escriba {{logs}} para continuar",
@@ -455,8 +465,8 @@
       "numberOfLogs": "Número de registros",
       "triggered": "Desencadenado por",
       "status": "Estado",
-      "noData": "No hay datos que mostrar",
-      "noDataInfo": "Para suprimir los registros, pulse Suprimir registros",
+      "noData": "Todavía no se ha suprimido ningún registro",
+      "noDataInfo": "Para suprimir registros, pulse suprimir registros",
       "summary": "Historial de acciones de supresión de registros",
       "wrong": "Algo está mal",
       "errorInfo": "No se pueden recuperar datos de la base de datos",
@@ -927,9 +937,9 @@
     "users": "Usuarios",
     "session": "Sesión",
     "timeouts": "Tiempos de espera",
-    "teamSettings": "Valores del equipo",
+    "globalSettings": "Valores globales",
     "userSettings": "Valores de usuario",
-    "authentication": "Autenticación",
+    "securityAndAccess": "Seguridad y acceso",
     "settingsPageNotFound": "No se ha encontrado la página de valores",
     "weCouldNotFindTheSettingsPageYouWereLookingFor": "No se ha podido encontrar la página de valores que está buscando. Lo sentimos. Es posible que desee probar uno de los enlaces siguientes.",
     "pleaseSelectAtLeastOneItem": "Seleccione al menos un elemento.",
@@ -1285,13 +1295,13 @@
     "deletedEventMessage": "Está buscando una configuración de suceso suprimida. Las modificaciones no son posibles.",
     "serviceNowUrl": "URL de ServiceNow",
     "serviceNow": "ServiceNow",
-    "serviceNowBD": "Aplicación ServiceNow",
+    "serviceNowBD": "Aplicación ITSM ServiceNow",
     "intermediateTable": "Propagación de eventos a la tabla intermedia",
     "propIncidentTable": "Permitir a Instana enviar sucesos a la tabla de incidencias de ServiceNow",
     "propIncidentTableDesc": "Después de propagar la tabla intermedia de IBM Instana, Instana actualiza la tabla de incidencias en ServiceNow. Esto abre y cierra las incidencias de ServiceNow en sincronización con las incidencias de Instana y sincroniza notas y actividad entre Instana y ServiceNow. Cualquier regla de negocio existente para modificar su tabla de incidencias en ServiceNow también funcionará con normalidad.",
     "restIncidentTable": "Restringir Instana solo a la propagación de tablas intermedias",
     "restIncidentTableDesc": "Instana solo propaga los datos de incidencias a la tabla intermedia de IBM Instana sin más actualizaciones en la tabla de incidencias de ServiceNow. Para habilitar la sincronización completa de sucesos, notas y actividades, necesitará actualizar sus reglas de negocio de ServiceNow. Para obtener detalles, consulte la <documentationLink>documentación</documentationLink>.",
-    "serviceNowAlertChannel": "Canal de alerta de ServiceNow",
+    "serviceNowAlertChannel": "Canal de alertas de la aplicación ServiceNow",
     "serviceNowUsernameTooltip": "El nombre de usuario y la contraseña deben ser para un usuario de ServiceNow con permiso para crear incidencias.",
     "autoCloseIncidents": "Cerrar automáticamente las incidencias",
     "advancedIntro": "La creación de este canal de alerta permitirá a Instana crear incidencias/tickets en ServiceNow. Puede personalizar la forma en que se actualizan las incidencias.<br/><br/>",
@@ -1352,7 +1362,10 @@
     "changeEvent": "Suceso de cambio",
     "advancedSettingsMessage": "Al habilitarlo, tendrá la opción de personalizar el asunto para las alertas de sucesos que reciba en función de su tipo. Si prefiere no personalizar los asuntos de correo electrónico, simplemente puede ignorar esta opción.",
     "customSubjectNotProvided": "Si no se proporciona un asunto personalizado, Instana enviará un correo electrónico de alerta con el asunto predefinido.",
-    "sendTestEmail": "Enviar correo electrónico de prueba"
+    "sendTestEmail": "Enviar correo electrónico de prueba",
+    "alertTitleAdditions": "Título de alerta",
+    "alertTitleAdditionsTooltip": "El nombre de la entidad sobre la que se activa esta alerta aparece en el título de la alerta. De forma predeterminada, el nombre de la entidad solo es visible en el cuerpo de una alerta",
+    "includeEntityNameInLegacyAlerts": "Incluir el nombre de la entidad en el título de la alerta"
   },
   "languageSelection": {
     "language": "Idioma",

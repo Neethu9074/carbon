@@ -152,6 +152,13 @@
     "titleCopyOf": "(Copy of) {{smartAlertTitle}}",
     "smartAlertsTitle": "Smart alerts",
     "labelNew": "(New)",
+    "alertChannelList": {
+      "selectAllWarning": "Select all warning",
+      "selectAllCritical": "Select all critical",
+      "alertLevel": "Alert Level",
+      "critical": "Critical",
+      "warning": "Warning"
+    },
     "applications": {
       "alertConfiguration": "Alert configuration",
       "advanced": {
@@ -438,7 +445,8 @@
           "throughputDefault_higherThan": "The number of calls is higher than expected.",
           "throughputDefault_higherEqual": "The number of calls is higher or equal to expected.",
           "throughputDefault_lowerThan": "The number of calls is lower than expected.",
-          "throughputDefault_lowerEqual": "The number of calls is lower or equal to expected."
+          "throughputDefault_lowerEqual": "The number of calls is lower or equal to expected.",
+          "expected": "expected"
         },
         "customStatusCodeFullText": "between {{statusCodeStart}} and {{statusCodeEnd}}"
       },
@@ -467,8 +475,9 @@
         "ruleFormPleaseProvideAStartStatusCode": "Please provide a valid start HTTP status code",
         "ruleFormPleaseProvideAEndStatusCode": "Please provide a valid end HTTP status code",
         "smartAlertFormValueIsReadOnly": "The value is read only and cannot be changed",
-        "thresholdFormPleaseProvideANumber0": "Please provide a number >= 0",
-        "thresholdFormBaselineIsEmpty": "baseline is empty"
+        "thresholdFormBaselineIsEmpty": "baseline is empty",
+        "selectAtLeastOneThreshold": "Please provide value for at least one of the thresholds.",
+        "selectAtLeastOneSensitivity": "Please select at least one of the sensitivities."
       },
       "simple": {
         "simpleAlertStep2Headline": "Where do you want the alert to trigger?",
@@ -752,7 +761,8 @@
       "ruleStatusCodeValueOption511": "511 (Network Authentication Required)",
       "ruleStatusCodeValueOption599": "599 (Network Connect Timeout Error)",
       "warningThresholdValidator": "Warning threshold should be greater than critical threshold for < and <= operators.",
-      "criticalThresholdValidator": "Critical threshold should be greater than warning threshold for > and >= operators."
+      "criticalThresholdValidator": "Critical threshold should be greater than warning threshold for > and >= operators.",
+      "sensitivityValidator": "Critical sensitivity should be smaller than warning sensitivity."
     },
     "components": {
       "smartAlertDialog": {
@@ -1468,7 +1478,30 @@
       },
       "count": "Count",
       "selectEntityType": "Please select an entity type",
-      "regexNotValid": "Regex is not valid"
+      "regexNotValid": "Regex is not valid",
+      "tearSheet": {
+        "createTitle": "Create an infrastructure Smart Alert",
+        "steps": {
+          "step1Title": "Define the condition",
+          "step2Title": "Define when to get alerted",
+          "step3Title": "Define alert properties",
+          "step4Title": "Define alert channels"
+        },
+        "step1": {
+          "header": "Choose the metric and aggregation to determine when an alert should trigger"
+        },
+        "step2": {
+          "header": "Set a value for the violation threshold",
+          "description": "Select a metric, violation threshold and time window to evaluate the violation."
+        },
+        "step3": {
+          "header": "What properties do you want to set for this alert?"
+        },
+        "step4": {
+          "header": "What do you want to be notified for this alert?",
+          "description": "Select the recipient(s) of this alert"
+        }
+      }
     },
     "logs": {
       "alertDetails": {

@@ -88,7 +88,9 @@ export default function AlertingChart({
           numeratorTagFilterExpression,
           aggregation,
           granularity,
-          threshold,
+          threshold: isMultiThresholdEnabled
+            ? { ...threshold, operator: getThresholdOperator(alertConfigWithFormModel, isMultiThresholdEnabled) }
+            : threshold,
           timeThreshold
         });
 
@@ -636,7 +638,7 @@ function shouldRequestAlertsPreview(threshold) {
   if (threshold.type === 'staticThreshold') {
     return threshold.value != null;
   }
-  return threshold.baseline;
+  return threshold.type && threshold.deviationFactor && threshold.baseline;
 }
 
 function enhanceLabels(label, highlight, displayPredictions) {

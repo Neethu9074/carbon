@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2023
  */
 
+import { addDays, addMonths, addWeeks, subDays, subMonths, subWeeks } from 'date-fns';
+
 import {
   AdjustedTimeframe,
   DurationUnitType,
@@ -12,11 +14,10 @@ import {
   TimeConfig,
   TimeWindow
 } from '@instana/types';
-import { addDays, addMonths, addWeeks, subDays, subMonths, subWeeks } from 'date-fns';
-import { ServiceLevelErrors } from 'in-service-levels/constants';
 
-import { days, hours, minutes } from 'in-services/time/time';
+import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
+import { days, hours, minutes } from 'in-services/time/time';
 
 export function applyAdjustedTimeframe(timeConfig: TimeConfig, adjustedTimeframe?: AdjustedTimeframe): TimeConfig {
   return {

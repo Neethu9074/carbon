@@ -115,18 +115,39 @@ export default function PotentialProblemsLanePresenter({
         getPotentialProblemConfig={dialogProps => {
           return {
             ...remainingProps,
-            ...dialogProps
+            ...dialogProps,
+            rules: [
+              {
+                rule: dialogProps.rule,
+                thresholdOperator: dialogProps.threshold.operator,
+                thresholds: {
+                  WARNING: { ...dialogProps.threshold },
+                  CRITICAL: { type: dialogProps.threshold.type, deviationFactor: 0, value: null }
+                }
+              }
+            ]
           };
         }}
         renderSmartAlertDialogComponent={dialogProps => {
           const { applicationLabel } = remainingProps;
+          const alertConfig = {
+            ...remainingProps,
+            ...dialogProps,
+            rules: [
+              {
+                rule: dialogProps.rule,
+                thresholdOperator: dialogProps.threshold.operator,
+                thresholds: {
+                  WARNING: { ...dialogProps.threshold },
+                  CRITICAL: { type: dialogProps.threshold.type, deviationFactor: 0, value: null }
+                }
+              }
+            ]
+          };
           return (
             <DeferredAlertConfigDialog
               applicationLabel={applicationLabel}
-              alertConfig={{
-                ...remainingProps,
-                ...dialogProps
-              }}
+              alertConfig={alertConfig}
               onClose={close}
               startWithSimpleMode
             />

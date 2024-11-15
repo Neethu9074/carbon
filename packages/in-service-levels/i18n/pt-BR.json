@@ -19,11 +19,14 @@
     "select": "Selecione $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{entity}}\"})",
     "noSelection": "Nenhum(a) selecionado(a)",
     "loadMore": "Carregar mais",
+    "threshold": "Limite",
     "noData": "Dados não disponíveis",
+    "trafficType": "Tipo de tráfego",
     "noMatchingTimeWindows": "Não há nenhum período de tempo correspondente ao período selecionado. Isso geralmente acontece se o período de tempo selecionado for anterior à data de criação do SLO.",
     "serverErrors": {
       "sloLimitReachedError": "O número máximo de configurações de objetivo de nível de serviço ({{0}}) foi atingido. Entre em contato com o suporte Instana para solicitar um aumento para este limite."
     },
+    "traffic": "Tráfego",
     "indicator": {
       "type": "Tipo desconhecido",
       "type_eventBased": "Contagem de evento",
@@ -32,6 +35,7 @@
       "blueprint": "Blueprint desconhecido",
       "blueprint_latency": "Latência",
       "blueprint_availability": "Disponibilidade",
+      "blueprint_traffic": "Tráfego",
       "blueprint_custom": "Customizado",
       "aggregation": "Desconhecido",
       "aggregation_MEAN": "média",
@@ -44,16 +48,24 @@
       "aggregation_P90": "90th",
       "aggregation_P95": "95th",
       "aggregation_P98": "98th",
-      "aggregation_P99": "99th"
+      "aggregation_P99": "99th",
+      "application": {
+        "trafficType_all": "Todas as chamadas",
+        "trafficType_erroneous": "Chamadas errôneas"
+      },
+      "website": {
+        "trafficType_all": "Contagem de todos os indicadores.",
+        "trafficType_erroneous": "Contagem de erros do indicador"
+      }
     },
     "latency": "Latência",
     "time": "Hora",
     "entityTypes": {
       "label": "Entidade desconhecida",
       "label_application": "Aplicativo",
-      "label_website": "Website"
+      "label_website": "Website",
+      "label_synthetic": "Testes sintéticos"
     },
-    "preview": "Visualizar",
     "type": "Tipo",
     "selectLabel": "Seleção: {{selectedLabel}}",
     "serviceLevelObjective": "Objetivo de Nível de Serviço",
@@ -101,7 +113,9 @@
       "errors": "Taxa de chamada errônea",
       "beaconErrorRate": "Taxa de erro do indicador",
       "goodEvents": "Eventos bons",
-      "badEvents": "Eventos ruins"
+      "badEvents": "Eventos ruins",
+      "erroneousCalls": "Chamadas errôneas",
+      "beaconErrorCount": "Contagem de erros do indicador"
     },
     "format": {
       "event_website": "{{formatted}} indicador",
@@ -113,13 +127,21 @@
       "event_application_plural": "{{formatted}} chamadas",
       "event_application_0": "{{formatted}} chamadas",
       "event_application_1": "{{formatted}} chamada",
-      "event_application_2": "{{formatted}} chamadas"
+      "event_application_2": "{{formatted}} chamadas",
+      "event_synthetic": "{{formatted}} resultado",
+      "event_synthetic_plural": "{{formatted}} resultados",
+      "event_synthetic_0": "{{formatted}} resultados",
+      "event_synthetic_1": "{{formatted}} resultados",
+      "event_synthetic_2": "{{formatted}} resultados"
     },
     "deleteDialog": {
       "pleaseConfirm": "Confirme",
       "pleaseConfirmMsg": "Tem certeza de que deseja excluir <strong>{{name}}</strong>?",
       "delete": "Excluir"
     }
+  },
+  "validators": {
+    "noInvalidOperator": "Selecione um operador na lista."
   },
   "components": {
     "tagFilterBuilder": {
@@ -176,6 +198,7 @@
       "description_custom": "Mede a contagem de eventos válidos e/ou inválidos usando filtros definidos pelo usuário.",
       "description_latency": "Mede a velocidade com que o serviço respondeu acima de um limite configurado. Por exemplo, a medida da rapidez com que seu serviço de check-out responde mais rápido que 100ms.",
       "description_availability": "Mede com que frequência um serviço responde apropriadamente. Por exemplo, a frequência com que suas chamadas HTTP são erradas.",
+      "description_traffic": "Mede a quantidade de demanda que está sendo colocada em um sistema usando uma métrica de alto nível específica do sistema. Por exemplo, um serviço da web geralmente é medido em indicadores HTTP por segundo.",
       "timeTypeExplanation": "Chamadas válidas versus inválidas agrupadas agregadas por minuto",
       "eventTypeExplanation": "Contagem total de chamadas válidas versus inválidas",
       "eventCount": "Contagem de evento",
@@ -184,29 +207,31 @@
       "thresholdLabel_latency": "Limite (ms)",
       "thresholdLabel_availability": "Taxa de erros (%)",
       "setGoodCall": "Configure as chamadas válidas para um serviço",
-      "setBadCall": "Configure as chamadas inválidas para um serviço (opcional)"
+      "setBadCall": "Configure as chamadas inválidas para um serviço (opcional)",
+      "thresholdDescription_GT": "Um bom minuto é definido por uma contagem de mais de {{thresholdValue}} chamadas por minuto. Um minuto ruim é definido por uma contagem de menos ou igual a {{thresholdValue}} chamadas por minuto.",
+      "thresholdDescription_GTE": "Um bom minuto é definido por uma contagem de mais ou igual a {{thresholdValue}} chamadas por minuto. Um minuto ruim é definido por uma contagem de menos de {{thresholdValue}} chamadas por minuto.",
+      "thresholdDescription_LT": "Um bom minuto é definido por uma contagem de menos de {{thresholdValue}} chamadas por minuto. Um minuto ruim é definido por uma contagem de mais ou igual a {{thresholdValue}} chamadas por minuto.",
+      "thresholdDescription_LTE": "Um bom minuto é definido por uma contagem de menos ou igual a {{thresholdValue}} chamadas por minuto. Um minuto ruim é definido por uma contagem de mais de {{thresholdValue}} chamadas por minuto.",
+      "thresholdInput": "<Stack>Set a threshold of<HorizontalStack><OperatorDropdown /><ThresholdInput />calls per minute<HorizontalStack/><Stack />",
+      "allCalls": "Todas as chamadas",
+      "erroneousCalls": "Chamadas errôneas"
     },
     "previewSection": {
-      "dataInfo": "Os dados de visualização são mostrados apenas até 7 dias no passado. O SLO incluirá dados apenas a partir do momento em que foi criado"
+      "dataInfo": "Os dados de visualização são mostrados apenas até 7 dias no passado. O SLO incluirá dados apenas a partir do momento em que foi criado",
+      "title": "Visualizar",
+      "title_synthetic": "Amostra"
     }
   },
   "sloChart": {
     "sloFormatter": {
-      "unit": "Chamada",
-      "unit_application": "Chamada",
-      "unit_website": "indicador",
-      "unit_plural": "chamadas",
-      "unit_application_plural": "chamadas",
-      "unit_website_plural": "indicadores",
-      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
-      "callsFormat": "{{formattedCount}} $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
+      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:general.format.event {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
+      "callsFormat": "{{formattedCount}} $t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
     },
     "sloChartSummary": {
       "status": "Status",
       "target": "Destino:",
-      "errorBudgetRemaining": "Erro de orçamento restante",
+      "errorBudgetRemaining": "Restante:",
       "errorBudgetSpent": "Orçamento gasto com erro",
-      "errorBudget": "Orçamento com erro:",
       "timeWindow": "Espaço de tempo",
       "timeWindowType_dynamic": "Espaço de tempo dinâmico",
       "timeWindowType_rolling": "Espaço de tempo contínuo",
@@ -341,11 +366,13 @@
         "thresholdLabel": "Limite (unidade desconhecida)",
         "thresholdLabel_availability": "Limite",
         "thresholdLabel_latency": "Limite (ms)",
+        "thresholdLabel_traffic": "Limite",
         "aggregationLabel": "Agregação",
         "goodEventsLabel": "Tipo de eventos (eventos válidos)",
         "goodEventsLabel_application": "Tipo de eventos (chamadas válidas)",
         "badEventsLabel": "Tipo de eventos (eventos inválidos)",
-        "badEventsLabel_application": "Tipo de eventos (chamadas inválidas)"
+        "badEventsLabel_application": "Tipo de eventos (chamadas inválidas)",
+        "trafficTypeLabel": "Tipo de tráfego"
       },
       "objectiveSection": {
         "title": "Objetivo",

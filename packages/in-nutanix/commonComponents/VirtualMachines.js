@@ -9,7 +9,6 @@ import React from 'react';
 
 import { TableEntityCounter } from '@instana/legacy';
 
-import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
@@ -20,7 +19,6 @@ import { useNutanixEntityLink } from 'in-nutanix/navigation/paths';
 import getNutanixVms from 'in-nutanix/subscriptions/getNutanixVms';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import EntityLink from 'in-components/EntityLink/EntityLink';
-import { percentage } from 'in-services/formatters/number';
 import Capitalize from 'in-components/Capitalize';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
@@ -41,59 +39,47 @@ const columnDefinitions = [
   {
     id: 'label',
     label: t('in-nutanix:name'),
-    getContent: item => <VmLabel item={item} />
+    getContent(item) {
+      return <Capitalize>{get(item, ['id'], valueMissingPlaceholder)}</Capitalize>;
+    }
   },
   {
-    id: 'guestState',
+    id: 'type',
+    label: t('in-nutanix:type'),
+    sortable: true,
+    getContent(item) {
+      return <Capitalize>{get(item, ['machineType'], valueMissingPlaceholder)}</Capitalize>;
+    }
+  },
+  {
+    id: 'state',
     label: t('in-nutanix:dashboards.state'),
     sortable: true,
     getContent(item) {
-      return <Capitalize>{get(item, ['guestState'], valueMissingPlaceholder)}</Capitalize>;
+      return <Capitalize>{get(item, ['state'], valueMissingPlaceholder)}</Capitalize>;
     }
   },
   {
-    id: 'cpu.usage.maximum.percent',
-    label: t('in-nutanix:cpuUsage'),
-    sortable: true,
-    getContent(item, props, columnId) {
-      return (
-        <ServerSideSortedMetricValue
-          snapshotId={item.id}
-          metric="cpu.usage.maximum.percent"
-          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
-          formatter={percentage.compact}
-        />
-      );
-    }
-  },
-  {
-    id: 'cpuTotal',
-    label: t('in-nutanix:cpuResources'),
+    id: 'noOfCpus',
+    label: t('in-nutanix:dashboards.noOfCpus'),
     sortable: true,
     getContent(item) {
-      return <TableEntityCounter count={item.cpuTotal} />;
+      return <TableEntityCounter count={item.noOfCpus} />;
     }
   },
   {
-    id: 'mem.usage.average.percent',
-    label: t('in-nutanix:memoryUsage'),
-    getContent(item, props, columnId) {
-      return (
-        <ServerSideSortedMetricValue
-          snapshotId={item.id}
-          metric="mem.usage.average.percent"
-          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
-          formatter={percentage.compact}
-        />
-      );
+    id: 'noOfCores',
+    label: t('in-nutanix:dashboards.noOfCores'),
+    getContent(item) {
+      return <TableEntityCounter count={item.noOfCores} />;
     }
   },
   {
-    id: 'memTotal',
-    label: t('in-nutanix:memoryResources'),
+    id: 'memoryAllocated',
+    label: t('in-nutanix:memoryAllocated'),
     sortable: true,
     getContent(item) {
-      return <MemoryTotal count={item.memTotal} />;
+      return <MemoryTotal count={item.memory} />;
     }
   }
 ];

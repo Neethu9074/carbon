@@ -90,7 +90,6 @@ export default function Summary({ timeConfig, data: deployment }: SummaryProps) 
   return (
     <>
       <MissingK8sPermissions resourceSnapshotId={deployment.id} timeConfig={timeConfig} />
-
       <Row>
         <Col lg={2}>
           <BigNumberKpiCard
@@ -163,7 +162,6 @@ export default function Summary({ timeConfig, data: deployment }: SummaryProps) 
           />
         </Col>
       </Row>
-
       <Row>
         <Col lg={4}>
           <KubernetesTimeShiftChartPresenter
@@ -277,13 +275,11 @@ export default function Summary({ timeConfig, data: deployment }: SummaryProps) 
           />
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
           <LogsChartInteractionWrapper tagFilterExpression={logsChartQuery} timeConfig={timeConfig} />
         </Col>
       </Row>
-
       <Row>
         <Col lg={6}>
           <KubernetesTimeShiftChartPresenter
@@ -335,7 +331,6 @@ export default function Summary({ timeConfig, data: deployment }: SummaryProps) 
           />
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
           <ConditionsTableCard conditions={deployment.conditions} viewAllHref={viewAllHref} />

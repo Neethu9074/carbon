@@ -7,8 +7,8 @@ import React, { useEffect, useState } from 'react';
 
 import FacetedExpandableCard from 'in-components/AnalyzeView/FacetedFilters/FacetedExpandableCard';
 import { addFacetItem, removeFacetItem } from 'in-components/AnalyzeView/FacetedFilters/facets';
-import { uaFacetedTracker } from 'in-components/AnalyzeView/FacetedFilters/tracking';
 import { MultiSelect } from 'in-components/AnalyzeView/FacetedFilters/MultiSelect';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import { t } from 'in-i18n';
 
 export default function FacetedFilterMultiSelect(props) {
@@ -56,6 +56,13 @@ export default function FacetedFilterMultiSelect(props) {
     } else if (selectedValues.length > 0) {
       return t('in-components:analyze.activeFacets', { count: selectedValues.length });
     }
+  };
+  const { trackUa2FacetedSearchGroupChanged, trackUa2FacetedSearchGroupRemoved, trackUa2FacetedSearchFilterAdded } =
+    useAnalyzeTracker();
+  const uaFacetedTracker = {
+    groupClicked: trackUa2FacetedSearchGroupChanged,
+    suggestionClicked: trackUa2FacetedSearchFilterAdded,
+    groupRemoved: trackUa2FacetedSearchGroupRemoved
   };
 
   const trackerMethods = {

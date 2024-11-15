@@ -330,7 +330,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         key: 'name',
         getContent({ item }) {
           return (
-            <Tooltip content={getLabel(item.snapshot)} align="auto" caret={false}>
+            <Tooltip content={getLabel(item.snapshot)} align="auto" caret={false} delay={300}>
               <Link
                 href={getDashboardLink(item.snapshotId || item?.snapshot?.get('id'), {
                   pathname: '/physical/dashboard'
@@ -421,7 +421,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         key: 'name',
         getContent({ item }) {
           return (
-            <Tooltip content={getLabel(item.snapshot)} align="auto" caret={false}>
+            <Tooltip content={getLabel(item.snapshot)} align="auto" caret={false} delay={300}>
               <Link
                 href={getDashboardLink(item.snapshotId || item?.snapshot?.get('id'), {
                   pathname: '/physical/dashboard'
@@ -512,7 +512,7 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         key: 'name',
         getContent({ item }) {
           return (
-            <Tooltip content={getLabel(item.snapshot)} align="auto" caret={false}>
+            <Tooltip content={getLabel(item.snapshot)} align="auto" caret={false} delay={300}>
               <Link
                 href={getDashboardLink(item.snapshotId || item?.snapshot?.get('id'), {
                   pathname: '/physical/dashboard'

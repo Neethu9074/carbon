@@ -217,6 +217,10 @@ export const MOBILE_APPS_DASHBOARD_RENAME_MOBILE_APP = 'mobileApps.dashboard.ren
 export const MOBILE_APPS_DASHBOARD_TAB_CHANGE = 'mobileApps.dashboard.tabChange';
 export const MOBILE_APPS_DASHBOARD_VIEW_DEPRECATION_DETAILS = 'mobileApps.dashboard.viewDeprecationDetails';
 
+export const SETTINGS_AUDIT_TRAIL_ACCESS_LOG_CLICK = 'settings.auditTrail.accessLog.click';
+export const SETTINGS_AUDIT_TRAIL_ACTION_LOG_CLICK = 'settings.auditTrail.actionLog.click';
+export const SETTINGS_GROUP_USER_ADDED = 'settings.group.user.added';
+export const SETTINGS_USER_GROUP_ADDED = 'settings.user.group.added';
 export const SETTINGS_USER_INVITE_SUBMIT = 'settings.user.invite.submit';
 export const SETTINGS_ROLE_SUBMIT = 'settings.role.submit';
 export const SETTINGS_ROLE_OPEN_SUBMIT_FORM = 'settings.role.new';
@@ -555,8 +559,12 @@ export const EVENT_FEEDBACK_NEGATIVE = 'event.feedback.negative';
 
 // Event Enrichment Tracking
 export const EVENT_NOTES_SUBMIT = 'event.notes.submit';
+export const EVENT_NOTES_EDIT_SUBMIT = 'event.notes.edit.submit';
+export const EVENT_NOTES_DELETE_SUBMIT = 'event.notes.delete.submit';
 export const EVENT_AI_GENERATE_SUBMIT = 'event.ai.generate.submit';
 export const EVENT_AI_SHOW_MORE = 'event.ai.show.more';
+export const EVENT_AI_SHARE_OPENED = 'event.ai.share.opened';
+export const EVENT_AI_SHARE_SUBMIT = 'event.ai.share.submit';
 export const EVENT_SIDE_PANEL_CLICK = 'event.side.panel.click';
 
 // Flow Map Tracking (services and endpoints)

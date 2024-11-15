@@ -1,32 +1,40 @@
 > :warning: Please update the description with all the elements below.
 > If there are parts which do not apply, please remove them.
-> Do remove the comments once they have been addressed.
-> All this will help in getting your PR merged faster.
+> _Do remove_ the comments once they have been addressed. This will also show
+> that this PR is complete and ready to review. THX
+>
+> All this will help in getting your PR merged faster 🏎️.
 
 # Why
 
 <!--
-> Please describe why you are proposing this code change. This should include
-> at least a single text paragraph. When possible formulate this from the
-> perspective of the product team.
+> Please describe why you are proposing this code change. 
+> This should include at least a single text paragraph. 
+> When possible formulate this from the perspective of the product team.
 -->
 
 # What
 
 <!--
 > Please explain what you did. For small/trivial changes a single paragraph is
-> probably sufficient. For any larger changes this should include design
-> choices.
+> probably sufficient. 
+> For any larger changes this might include design choices.
 -->
 
 # How to test
 
 <!--
-> Add instructions for people testing this change if necessary
-> Eventually, provide any URL for local testing, and/or Release URL for Release QA Testing
+> Add instructions for people testing this change if necessary.
+>
+> Ideally, provide an URL for local testing.
 -->
 
 # Checklist
+
+
+- Targeting a `release-xxx` branch?
+  - Switch to the [Release Branch PR template](?expand=1&template=release_branch.md)!
+
 
 <!--
 > Please tick of these checklist items.
