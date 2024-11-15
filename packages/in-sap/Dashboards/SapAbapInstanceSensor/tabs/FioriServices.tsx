@@ -10,8 +10,6 @@ import { get } from 'lodash';
 import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error needs TS migration
-import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
-// @ts-expect-error needs TS migration
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
@@ -57,7 +55,7 @@ export default function FioriServices({ snapshotId }: FioriServiceProps) {
       selectedMetricFormatter={number.compact}
       showMetricSelectorsForSingleMetrics
       header={t('in-sap:dashboards.count')}
-      title={<TimeOfLastUpdateCardTitle title={t('in-sap:dashboards.fioriServiceName')} />}
+      title={'Top Services'}
       result={{
         progress: {
           loading: false
