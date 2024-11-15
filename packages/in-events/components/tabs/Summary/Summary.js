@@ -3,10 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { isEmpty } from 'lodash';
 import React from 'react';
 
-import { Button, Card, Stack } from '@instana/components';
+import { Card, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -39,6 +38,7 @@ import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/Ib
 import { DeprecatedCustomEventWarning } from 'in-events/components/tabs/Summary/DeprecatedCustomEventWarning';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
+import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import IncidentContent from 'in-events/components/tabs/Summary/IncidentDetailPage/IncidentContent';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import ApplicationEventContent from 'in-events/components/EventContent/ApplicationEventContent';
@@ -63,8 +63,6 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { getEventUrl } from 'in-events/components/legacy/EventListItem';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
@@ -268,16 +266,6 @@ function EventContent({ event, latestSnapshot, reload }) {
 const EventActions = ({ event, reload, latestSnapshot }) => {
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
   const timeConfig = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
-  const triggeredIncident = event.getIn(['metadata', 'triggeredIncident'], '');
-  const hasTriggeredIncident = !isEmpty(triggeredIncident);
-
-  const { location, navigate } = useNavigation();
-
-  const goToIncident = e => {
-    e.preventDefault();
-    const incidentURL = getEventUrl(triggeredIncident, location, 'incident');
-    navigate(incidentURL);
-  };
 
   return (
     <Stack gap="xxsmall">
@@ -292,11 +280,7 @@ const EventActions = ({ event, reload, latestSnapshot }) => {
             }
           />
         )}
-        {hasTriggeredIncident && (
-          <Button kind="secondary" onClick={goToIncident} size="md">
-            {t('in-events:issues.actionOpenTriggeredIncident')}
-          </Button>
-        )}
+        <TriggeredIncidentButton event={event} />
         <EventSpecificationLink event={event.toJS()} />
         <AnalyzeIssueCallsButton event={event} />
       </DescriptionButtons>
