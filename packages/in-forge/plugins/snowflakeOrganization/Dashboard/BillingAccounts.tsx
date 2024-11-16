@@ -53,12 +53,11 @@ const BillingAccounts = function BillingAccounts({ snapshotId, timeConfig }: Top
     () => getRawPayloadWithTimestamp(snapshotId, 'organization_usage.top_billing_accounts', timeConfig),
     [snapshotId, timeConfig]
   );
-  if (!data) {
+  if (!data || null == (data as SnapshotData).get('raw_payload')) {
     return null;
   }
 
   const TopBillingAccounts: any = (data as SnapshotData).get('raw_payload');
-
   const rows: TopBillingAccountsRow[] = TopBillingAccounts.toArray().map((accounts: SnapshotData, index: number) => {
     return {
       key: String(index),

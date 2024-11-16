@@ -66,7 +66,7 @@ const LongRunningQueries = function LongRunningQueries({ snapshotId, timeConfig 
     [snapshotId, timeConfig]
   );
 
-  if (!data) {
+  if (!data || null == (data as SnapshotData).get('raw_payload')) {
     return null;
   }
 
