@@ -8,13 +8,14 @@ import React, { FormEvent, useState } from 'react';
 
 import { Message, Stack, TextArea, Typography } from '@instana/components';
 
+// import { disableEventConfigEnabled } from 'in-services/featureFlags';
+import { Error, ErrorCode, ManualCloseInfo } from 'in-types';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
-import { ManualCloseInfoForm, manuallyCloseIssue } from 'in-events/api';
-import { Error, ErrorCode, ManualCloseInfo } from 'in-types';
+import { ManualCloseInfoForm, manuallyCloseIssues } from 'in-events/api';
 import { close } from 'in-components/DialogPresenter/store';
 import { toHtml } from 'in-services/formatters/markdown';
 import { user } from 'in-stores/user';
@@ -24,6 +25,7 @@ import locals from './MultiCloseIssueConfigForm.mless';
 
 interface MultiCloseIssueConfigFormProps {
   onSaveSuccess: () => void;
+  onSaveError: (eventIds: string[]) => void;
   onClose?: () => void;
   eventIds: string[];
   eventType?: string;
@@ -32,16 +34,18 @@ interface MultiCloseIssueConfigFormProps {
 export default function MultiCloseIssueConfigForm({
   onSaveSuccess,
   onClose = close,
+  onSaveError,
   eventIds,
   eventType
 }: MultiCloseIssueConfigFormProps) {
   const [form, setForm] = useState<MapForm<ManualCloseInfoForm>>(createForm());
   const [error, setError] = useState<Error[]>([]);
 
+  // const canSuppressAlertAndDisableEvent = disableEventConfigEnabled && user?.role?.canConfigureEventsAndAlerts;
+
   if (!form) return <LoadingIndicator size="regular" />;
 
-  const buttonText =
-    eventType === 'incident' ? t('in-events:closeEventDialog.closeIncident') : t('in-events:closeIssue');
+  const buttonText = eventType === 'incident' ? t('in-events:closeMultiIncidents') : t('in-events:closeMultiIssues');
 
   const footer = (
     <DialogFooter
@@ -69,9 +73,7 @@ export default function MultiCloseIssueConfigForm({
       form.setTouched(true, { recurse: true });
       return;
     }
-    eventIds.forEach(eventId => {
-      save(form, eventId, onSaveSuccess, onError);
-    });
+    save(form, eventIds, onSaveSuccess, onSaveError, onError);
   };
 
   const setValue = (form: MapForm<any>, path: string[], value: any) => {
@@ -80,7 +82,7 @@ export default function MultiCloseIssueConfigForm({
   };
 
   const dialogTitle =
-    eventType === 'incident' ? t('in-events:titleManualCloseIncident') : t('in-events:titleManualCloseIssue');
+    eventType === 'incident' ? t('in-events:titleMultiCloseIncidents') : t('in-events:titleMultiCloseIssues');
 
   return (
     <form onSubmit={onSubmit}>
@@ -89,7 +91,13 @@ export default function MultiCloseIssueConfigForm({
           <Stack>
             <ErroneousResultPresenter errors={error} />
             <Stack gap="xxsmall">
-              <DangerousHtmlPresenter html={toHtml(t('in-events:titleManualCloseIncident'))} />
+              <DangerousHtmlPresenter
+                html={toHtml(
+                  eventType === 'incident'
+                    ? t('in-events:multiCloseIncidentsDescription')
+                    : t('in-events:multiCloseIssuesDescription')
+                )}
+              />
             </Stack>
             <Stack gap="xxsmall">
               <Typography variant="body-small">
@@ -99,7 +107,11 @@ export default function MultiCloseIssueConfigForm({
 
               <TextArea
                 className={locals.commentsTextArea}
-                placeholder={t('in-events:closeEventDialog.reason')}
+                placeholder={
+                  eventType === 'incident'
+                    ? t('in-events:closeEventDialog.reasonIncidents')
+                    : t('in-events:closeEventDialog.reasonIssues')
+                }
                 onChange={e => {
                   if (e.target) {
                     const target = e.target as HTMLTextAreaElement;
@@ -111,9 +123,7 @@ export default function MultiCloseIssueConfigForm({
             </Stack>
 
             <Message type="warning" className={locals.warningBox} withIcon>
-              {eventType === 'incident'
-                ? t('in-events:closeEventDialog.warningIncident')
-                : t('in-events:closeEventDialog.warningIssue')}
+              {t('in-events:closeEventDialog.warning')}
             </Message>
           </Stack>
         </div>
@@ -125,32 +135,44 @@ export default function MultiCloseIssueConfigForm({
 function createForm(): MapForm<ManualCloseInfoForm> {
   return createMapForm<ManualCloseInfoForm>({
     items: {
-      reasonForClosing: createField({ value: '', validator: notBlankValidator })
+      reasonForClosing: createField({ value: '', validator: notBlankValidator }),
+      muteAlerts: createField({ value: false }),
+      disableEvent: createField({ value: false }),
+      eventIds: createField({ value: [] })
     }
   });
 }
 
 function save(
   form: MapForm<ManualCloseInfoForm>,
-  eventId: string,
+  eventIds: string[],
   onSaveSuccess: () => void,
+  onSaveError: (eventIds: string[]) => void,
   onError: (data: any) => void
 ) {
   const closeTimestamp = Date.now();
   const reasonForClosing = form.get('reasonForClosing').value;
+  const muteAlerts = form.get('muteAlerts').value;
+  const disableEvent = form.get('disableEvent').value;
   //@ts-expect-error
   const username = user?.email || user?.fullName || user?.id;
 
   const config: ManualCloseInfo = {
     closeTimestamp,
-    muteAlerts: false,
+    muteAlerts,
     reasonForClosing,
-    username
+    username,
+    disableEvent,
+    eventIds
   };
-  const result$ = manuallyCloseIssue(eventId, config);
+  const result$ = manuallyCloseIssues(config);
 
-  result$.once(() => {
-    onSaveSuccess();
+  result$.once(result => {
+    if (result.status === 207) {
+      onSaveError(result.body.failedRequests);
+    } else {
+      onSaveSuccess();
+    }
     close();
   });
 

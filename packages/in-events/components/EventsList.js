@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import {
@@ -24,7 +24,9 @@ import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/Heig
 import HighlightedTimeframeMarkerRow from 'in-events/components/HighlightedTimeframeMarkerRow';
 import useTimeConfigUpdatingScale from 'in-events/components/useTimeConfigUpdatingScale';
 import MultiCloseIssueConfigForm from 'in-events/components/MultiCloseIssueConfigForm';
+import FailedIncidentsList from 'in-events/components/FailedIncidentsList.tsx';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import EmptyEventList from 'in-events/components/EmptyEventsList';
@@ -68,6 +70,43 @@ function List(props) {
   // Added state for selected events and select all
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
+
+  // addMessage({
+  //   type: 'danger',
+  //   // timeout: 5000,
+  //   title: t('in-events:closeUnsuccessTitle'),
+  //   content: (
+  //     <div>
+  //       <p>{t('in-events:multipleCloseMessageUnsuccessful', { count: ['2'].length })}</p>
+  //       <Button
+  //         kind="tertiary"
+  //         onClick={() =>
+  //           addActiveDialog(
+  //             <FailedIncidentsList failedEventIds={['MTk7BSvOQKGlNmZQDWj4qg', '7mlS8WefR0W-oTUDqVmPug', 'kCtopVe8TpS7-P3VeIme8A', 'f6knDuv3SlqVN2CehwCV6A', 'XNm_3FZMQpy1cEtQlKDWlQ', 'lGNuY_64SOeMxcuEQrwwbw', '1o1atPYeQGCu5HJAZaC-uA']} eventType={eventType} eventIds={selectedRows} />
+  //           )
+  //         }
+  //       >
+  //         {t('in-events:viewUnsuccessfulEventsList')}
+  //       </Button>
+  //     </div>
+  //   )
+  // });
+
+  // addMessage({
+  //   type: 'success',
+  //   timeout: 5000,
+  //   title: t('in-events:closeSuccessTitle'),
+  //   content: (
+  //     <div>
+  //       <p>{t('in-events:multipleCloseSuccessMessage', { count: ['2'].length })}</p>
+  //     </div>
+  //   )
+  // });
+
+  useEffect(() => {
+    setSelectedRows([]);
+    setSelectAll(false);
+  }, [eventType]);
 
   const isMultiSelectEnabled = eventType === 'incident' || eventType === 'issue';
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
@@ -115,7 +154,6 @@ function List(props) {
     );
   }
 
-
   const handleSelectRow = id => {
     if (selectedRows.includes(id)) {
       setSelectedRows(selectedRows.filter(rowId => rowId !== id));
@@ -147,10 +185,52 @@ function List(props) {
               event.state = 'manually_closed';
             }
           });
+
+          addMessage({
+            type: 'success',
+            timeout: 5000,
+            title: t('in-events:closeSuccessTitle'),
+            content: (
+              <div>
+                <p>{t('in-events:multipleCloseSuccessMessage', { count: selectedRows.length })}</p>
+              </div>
+            )
+          });
+
           setSelectedRows([]);
           setSelectAll(false);
         }}
+        eventIds={selectedRows}
         eventType={eventType}
+        onSaveError={failedEvents => {
+          addMessage({
+            type: 'danger',
+            // timeout: 5000,
+            title: t('in-events:closeUnsuccessTitle'),
+            content: (
+              <div>
+                <p>{t('in-events:multipleCloseMessageUnsuccessful', { count: failedEvents.length })}</p>
+                <Button
+                  kind="tertiary"
+                  size="compact"
+                  onClick={() =>
+                    addActiveDialog(
+                      <FailedIncidentsList
+                        failedEventIds={failedEvents}
+                        eventType={eventType}
+                        eventIds={selectedRows}
+                      />
+                    )
+                  }
+                >
+                  {t('in-events:viewUnsuccessfulEventsList')}
+                </Button>
+              </div>
+            )
+          });
+          setSelectedRows(failedEvents);
+          setSelectAll(false);
+        }}
       />
     );
   };
@@ -309,6 +389,7 @@ function List(props) {
         <>
           {/* TODO: convert this to a carbon datagrid */}
           <CarbonDataTable
+            isSelectable
             headers={carbonHeaders}
             loading={progress.loading}
             rows={carbonRows}
@@ -506,7 +587,6 @@ function List(props) {
       <Table fixedLayout>
         <Thead>
           <Tr size="compact">
-            {renderTableHeader()}
             <Th useMinimumAmountOfHorizontalSpace />
             {isDenseList ? (
               <SortableColumn {...props} technicalName="start">
