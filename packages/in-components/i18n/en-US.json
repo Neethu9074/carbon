@@ -457,6 +457,7 @@
     "viewSwitcherLabelEvents": "Events",
     "viewSwitcherlabelInfrastructure": "Infrastructure",
     "viewSwitcherLabelApplications": "Applications",
+    "viewVulnerabilityCenter": "Vulnerabilities",
     "viewSwitcherLabelSlo": "Service Levels",
     "viewSwitcherLabelLogs": "Logs",
     "viewSwitcherLabelAnalytics": "Analytics",
