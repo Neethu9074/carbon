@@ -219,6 +219,8 @@ export const MOBILE_APPS_DASHBOARD_VIEW_DEPRECATION_DETAILS = 'mobileApps.dashbo
 
 export const SETTINGS_AUDIT_TRAIL_ACCESS_LOG_CLICK = 'settings.auditTrail.accessLog.click';
 export const SETTINGS_AUDIT_TRAIL_ACTION_LOG_CLICK = 'settings.auditTrail.actionLog.click';
+
+export const SETTINGS_GROUP_APPLICATION_FILTER_ADDED = 'settings.group.application.filter.added';
 export const SETTINGS_GROUP_USER_ADDED = 'settings.group.user.added';
 export const SETTINGS_USER_GROUP_ADDED = 'settings.user.group.added';
 export const SETTINGS_USER_INVITE_SUBMIT = 'settings.user.invite.submit';
