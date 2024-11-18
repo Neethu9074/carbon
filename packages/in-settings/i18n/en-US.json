@@ -824,6 +824,7 @@
     "username": "Username",
     "usernameDescription": "The user to be related in Instana as owner user. A login is tried as a test before the settings are saved, the credentials are not stored.",
     "usernamePasswordDescription": "The LDAP password of the user",
+    "ldapCannotbeConfiguredWithOtherIdPActive": "LDAP is not configurable as long as you have another active identity provider configuration.",
     "ldapTestFailed": "LDAP test failed:",
     "thisAccountIsAutomaticallyAssignedAnAdminRole": "Enter an email to be automatically assigned to the owner group.",
     "thisAccountIsAutomaticallyAssignedAnAdminRoleLDAP": "Enter an account to be automatically assigned to the owner group. Use the account's LDAP attribute aligned to the user query search template.",
