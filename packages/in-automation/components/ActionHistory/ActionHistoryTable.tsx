@@ -187,8 +187,8 @@ interface ActionHistoryTableProps {
 export default function ActionHistoryTable({
   eventId,
   customActionTypes,
-  noFilters,
-  noEvent,
+  noFilters = false,
+  noEvent = false,
   title
 }: ActionHistoryTableProps) {
   let columnDefinitions: ColumnDefinition<ActionInstance>[] = [
