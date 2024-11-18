@@ -308,11 +308,6 @@
     "tooltipShowLess": "Show less",
     "tooltipShowMore": "Show more"
   },
-  "expandableGroup": {
-    "tooltipShowContent": "Show content",
-    "tooltipHideContent": "Hide content",
-    "labelExpandButtonForContent": "Expand button for content"
-  },
   "featureFeedback": {
     "linkLabelYouCanSendUsFeedback": "You can send us feedback"
   },
