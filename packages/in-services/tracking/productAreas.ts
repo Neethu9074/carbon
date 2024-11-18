@@ -27,7 +27,8 @@ export const productAreas = Object.freeze({
   custom_dashboard: 'Custom Dashboard',
   agents: 'Agents',
   power_vc: 'PowerVC',
-  automation: 'Automation'
+  automation: 'Automation',
+  vulnerability: 'Vulnerability'
 } as const);
 
 type ProductAreaKey = keyof typeof productAreas;
