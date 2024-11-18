@@ -60,7 +60,6 @@ module.exports = {
   carbonMenuEnabled: true,
   notesAndActivityEnabled: true,
   carbonTooltipEnabled: true,
-  carbonListEnabled: true,
   carbonRadioButtonEnabled: true,
   carbonCheckboxEnabled: true,
   carbonComboBoxEnabled: true,
