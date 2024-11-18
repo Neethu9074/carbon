@@ -48,6 +48,7 @@
     "cbp": "CBP 處理器用量",
     "cp": "CP 處理器用量",
     "iip": "IIP 處理器用量",
+    "lparPowerConsumption": "LPAR 功耗（瓦）",
     "smt": "SMT 用量",
     "thread0": "執行緒 0 用量",
     "thread1": "執行緒 1 用量",

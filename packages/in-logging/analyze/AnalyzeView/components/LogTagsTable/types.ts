@@ -32,8 +32,8 @@ export interface LogTagsTableProps {
 export interface GetContentType extends LogTagsTableProps {
   tag: LogTag;
   uniqueTagName: string;
-  isHovered: boolean;
   allowedTagsForGrouping?: Set<string>;
+  resolvedValue: string;
 }
 
 export interface TagEntryProps extends LogTagsTableProps {

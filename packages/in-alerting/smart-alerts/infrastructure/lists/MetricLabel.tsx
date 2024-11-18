@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { AggregationType, PredictiveTrigger } from '@instana/types';
+import { AggregationType, ForecastingConfig } from '@instana/types';
 
 import { getFormatter, getMetricFormat } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
@@ -19,7 +19,7 @@ interface MetricLabelProps {
   aggregation: AggregationType;
   humanReadableOperator: string;
   value: number;
-  predictiveTrigger: PredictiveTrigger | null;
+  forecastingConfig: ForecastingConfig | null;
 }
 
 export function MetricLabel({
@@ -28,13 +28,12 @@ export function MetricLabel({
   aggregation,
   humanReadableOperator,
   value,
-  predictiveTrigger
+  forecastingConfig
 }: MetricLabelProps): JSX.Element {
   const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
   const formatter = getFormatter(entityType, metricName);
   const metricFormat = getMetricFormat(formatter);
   const formattedValue = formatMetricValue(metricFormat, value);
-  const timeToFailure = predictiveTrigger?.timeToFailure;
 
   const subtitleElements = [t('in-alerting:smartAlerts.infrastructure.list.columns.name.subtitle.staticThresholdType')];
 
@@ -48,9 +47,9 @@ export function MetricLabel({
     );
   }
 
-  if (timeToFailure) {
+  if (forecastingConfig != null) {
     subtitleElements.push(
-      t('in-alerting:smartAlerts.infrastructure.list.columns.name.subtitle.predictiveTrigger', {
+      t('in-alerting:smartAlerts.infrastructure.list.columns.name.subtitle.forecastAlerting', {
         metricName: metricLabel,
         operator: humanReadableOperator,
         value: formattedValue

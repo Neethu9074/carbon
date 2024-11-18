@@ -16,6 +16,7 @@ module.exports = {
   bizopsProcessFlowMapEnabled: true,
   bizopsProcessStackEnabled: true,
   bizopsActivityStackEnabled: false,
+  bizopsCustomDashboardEnabled: true,
   containerInfoEnabled: true,
   entityCountWidgetEnabled: true,
   infraMetricsWidgetEnabled: true,
@@ -81,6 +82,7 @@ module.exports = {
   syntheticsEnabled: true,
   kubernetesExploreEnabled: true,
   kubernetesPrometheusMetricsEnabled: true,
+  kubernetesCloudNativeExperience: false,
   configMigrationFeatureEnabled: true,
   actionAutomationEnabled: true,
   pluginMetricStatisticsEnabled: true,
@@ -173,6 +175,6 @@ module.exports = {
   customDashboardTopLevelFiltersEnabled: true,
   syntheticCredentialsEnabled: true,
   infraSmartAlertFullScreenDesignEnabled: false,
-  alertChannelPerSeverityInfraSaEnabled: false,
+  alertChannelPerSeverityInfraSaEnabled: true,
   alertChannelPerSeverityApplicationSaEnabled: false
 };

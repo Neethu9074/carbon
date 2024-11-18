@@ -370,6 +370,46 @@
       "status": {
         "pending": "En attente"
       }
+    },
+    "credentialFeedback": {
+      "successMessageDelete": "La suppression des données d'identification a abouti",
+      "failureMesssage": "{{errorMessage}}"
+    },
+    "createCredential": {
+      "createButton": "Nouvelles données d'identification",
+      "nameValue": "Nom et valeur",
+      "associations": "Associations",
+      "newCredentials": "Créer des données d'identification synthétiques",
+      "steps": {
+        "textInput": {
+          "placeholder": "Nom des données d'identification",
+          "labelText": "Nom",
+          "invalidText": "Le nom des données d'identification doit commencer par une lettre et ne contenir que des lettres, des chiffres et des traits de soulignement."
+        },
+        "passwordInput": {
+          "placeholder": "Valeur de données d'identification",
+          "labelText": "Valeur",
+          "invalidText": "La valeur ne doit pas être vide."
+        },
+        "associationsDescription": "L'association des données d'identification à une application, un site Web ou une application mobile confère des droits d'accès à tous les utilisateurs qui ont accès à ces entités."
+      },
+      "feedback": {
+        "successMessage": "La création de données d'identification a abouti",
+        "failureMessageCreate": "La création de données d'identification a échoué : {{errorMessage}}",
+        "updateSuccessMessage": "La mise à jour des données d'identification a abouti",
+        "failureMessageUpdate": "La mise à jour des données d'identification a échoué : {{errorMessage}}"
+      },
+      "edit": {
+        "dialogTitle": "Modifier les données d'identification synthétiques {{credentialName}}",
+        "associations": "Associations",
+        "saveButton": "Sauvegarder",
+        "textInputHelperText": "Le nom des données d'identification ne peut pas être modifié ; il s'agit d'une zone en lecture seule (readOnly)",
+        "passwordInputHelperText": "Entrez une nouvelle valeur de données d'identification si vous souhaitez mettre à jour la valeur actuelle."
+      },
+      "tooltipLabels": {
+        "hide": "Masquer la valeur de données d'identification",
+        "show": "Afficher la valeur de données d'identification"
+      }
     }
   },
   "createSmartAlert": {
@@ -757,6 +797,28 @@
       "noWebsitesAssociated": "Aucun site Web associé",
       "associatedMobileApps": "Applications mobiles associées",
       "noMobileAppAssociated": "Aucune application mobile associée"
+    },
+    "credentialList": {
+      "mainLabel": "Données d'identification",
+      "name": "Nom",
+      "associations": "Associations",
+      "createdAt": "Créé à",
+      "createdBy": "Créé par",
+      "lastModifiedBy": "Dernière modification par",
+      "actions": "Actions",
+      "noDataAvailable": {
+        "noCredentialsAvailableTitle": "Pas de données d'identification synthétiques disponibles",
+        "noCredentialsAvailableDescription": "Aucune donnée d'identification synthétique n'a été extraite de la base de données."
+      },
+      "editAction": "Editer",
+      "deleteAction": {
+        "deleteActionLabel": "Supprimer",
+        "deleteCredentialTitle": "Supprimer les données d'identification synthétiques {{credentialName}}",
+        "credentialNameValidation": "Entrez le nom complet des données d'identification pour confirmer la suppression",
+        "deleteButtonLabel": "Supprimer les données d'identification",
+        "cancelButtonLabel": "Annuler",
+        "deletionSuccess": "Les données d'identification ont été supprimées"
+      }
     }
   }
 }

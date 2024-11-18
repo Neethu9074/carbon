@@ -181,6 +181,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'kubernetesCloudNativeExperience',
+    instanaCtlKey: 'feature.kubernetes.cloud.native.experience.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'kubernetesPrometheusMetricsEnabled',
     instanaCtlKey: 'feature.kubernetes.prometheus.metrics.enabled',
     defaultValue: false
@@ -363,6 +368,11 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsProcessFlowMapEnabled',
     instanaCtlKey: 'feature.bizops.process.flow.map.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'bizopsCustomDashboardEnabled',
+    instanaCtlKey: 'feature.bizops.custom.dashboard.enabled',
     defaultValue: false
   },
   {

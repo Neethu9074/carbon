@@ -11,8 +11,8 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/Ho
 import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
 import { isNotEditableContext, OnChange } from 'in-automation/ActionCatalog/Action';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import { ActionForm } from 'in-automation/ActionCatalog/useActionForm';
 import Input from 'in-components/form/Input/Input';
-import { ActionForm } from './useActionForm';
 
 import locals from './ServerTablePresenterWrapperConsumer.mless';
 

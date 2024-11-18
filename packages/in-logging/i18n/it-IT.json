@@ -56,6 +56,9 @@
   "fileOnHost": "su",
   "file": "File",
   "logExpiration": "Conservato fino a",
+  "stacktraceLogMessage": "Traccia di stack",
+  "logTraceTitle": "Traccia di stack",
+  "stackTraceHeader": "Messaggio di stacktrace",
   "dashboard": {
     "summary": "Riepilogo",
     "smartAlerts": "Smart Alert",
@@ -68,6 +71,14 @@
     },
     "retentionIcon": "Modifica periodo di conservazione",
     "noData": "Nessun dato disponibile",
-    "analyzeLogs": "Analizza log"
+    "analyzeLogs": "Analizza log",
+    "configurationPage": {
+      "logVolume": "Volume di log",
+      "logVolumeDescription": "Visualizzate il volume dei log per un massimo di 12 mesi e raggruppate per tag di infrastruttura su richiesta.",
+      "logIntegrations": "Integrazioni log",
+      "logIntegrationsDescription": "Collegare le soluzioni di gestione dei log e configurarle in base alle proprie esigenze.",
+      "retentionPeriod": "Periodo di conservazione",
+      "retentionPeriodDescription": "La modifica del periodo di conservazione influisce sul tempo in cui i log vengono conservati e sono disponibili nelle applicazioni, nei dashboard e nelle analisi e ha un impatto sui costi e sulla fatturazione."
+    }
   }
 }

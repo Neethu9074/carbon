@@ -10,10 +10,10 @@ import { Field } from 'formalistic';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
 import { isNotEditableContext, OnChange } from 'in-automation/ActionCatalog/Action';
+import { ActionForm } from 'in-automation/ActionCatalog/useActionForm';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import { ActionForm } from './useActionForm';
 import { t } from 'in-i18n';
 
 import locals from './ServerTablePresenterWrapperConsumer.mless';

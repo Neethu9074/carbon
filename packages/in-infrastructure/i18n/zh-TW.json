@@ -76,7 +76,7 @@
     "kubernetesLabels": "Kubernetes 標籤",
     "podmanAnnotations": "Podman 註釋",
     "metricExplosionBeeInstana": "此儀表板可能不會顯示所有指標，因為在任何給定時間最多只能擷取 {{numberOfMetrics}} 個指標。",
-    "metricExplosion": "此儀表板可能不會顯示所有指標，因為在任何給定時間最多只能擷取 {{numberOfMetrics}} 個高解析度指標。 若要檢視其他度量，請使用分析基礎架構或自訂儀表板。"
+    "metricExplosion": "此儀表板可能不會顯示所有指標，因為在任何給定時間最多只能擷取 {{numberOfMetrics}} 個高解析度指標。 若要檢視其他已標記度量，請使用分析基礎架構或自訂儀表板。"
   },
   "explore": {
     "analyzeInfrastructure": "分析基礎架構",
@@ -89,7 +89,6 @@
     "search": "搜尋類型",
     "explore": "瀏覽",
     "health": "性能",
-    "noIssues": "沒有問題",
     "count": "計數",
     "errors": {
       "maximumNumberOfGroups": "此查詢有太多結果。 請使用限制性較強的過濾器來縮小搜尋範圍，或縮小時間範圍，然後再試一次。",
@@ -141,5 +140,10 @@
     "buttonSelectTags": "選取標籤",
     "titleAddATag": "新增標籤",
     "messagePleaseSelectAtMostTags": "請最多選取 {{maximumNumberOfTags}} 個標籤。"
+  },
+  "threshold": {
+    "label": "臨界值",
+    "critical": "當 {{operator}} {{level}} 時為嚴重",
+    "warning": "當 {{operator}} {{level}} 時為警告"
   }
 }

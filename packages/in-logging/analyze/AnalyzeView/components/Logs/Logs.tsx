@@ -155,6 +155,7 @@ export default function Logs(props: LogsProps) {
       initialLines={initialLogLines}
       withEmbeddedLoadingIndicator
       infiniteScroll={infiniteScroll}
+      wrapperClassNames={locals.removeBackground}
     />
   );
 

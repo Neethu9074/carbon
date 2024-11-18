@@ -52,6 +52,7 @@ export default function TabSwitch<TabData, TabProps extends {} = {}>({
     <Switch>
       {tabs.map(tab => (
         <Route key={tab.path} path={tab.path}>
+          <h2 className="cds--assistive-text">{tab.label}</h2>
           <ViewWrapper<TabData, TabProps>
             tab={tab}
             data={result ? result.data : null}

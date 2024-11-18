@@ -68,11 +68,13 @@ export default function HistogramChartPresenter({
     min,
     max,
     formatter,
-    formatterY
+    formatterY,
+    conversionFn
   } = getHistogram({
     result,
     chartWidth,
-    formatter: config?.formatter
+    formatter: config?.formatter,
+    unit: config?.metricConfiguration?.unit
   });
 
   if (isDataMissing) {
@@ -114,6 +116,7 @@ export default function HistogramChartPresenter({
     minHistogramValue: min,
     maxHistogramValue: max,
     applyFormatter: formatter,
+    conversionFn,
     total
   });
 

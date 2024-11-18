@@ -370,6 +370,46 @@
       "status": {
         "pending": "Pendiente"
       }
+    },
+    "credentialFeedback": {
+      "successMessageDelete": "Se ha suprimido correctamente la credencial",
+      "failureMesssage": "{{errorMessage}}"
+    },
+    "createCredential": {
+      "createButton": "Nueva credencial",
+      "nameValue": "Nombre y valor",
+      "associations": "Asociaciones",
+      "newCredentials": "Crear una credencial sintética",
+      "steps": {
+        "textInput": {
+          "placeholder": "Nombre de credencial",
+          "labelText": "Nombre",
+          "invalidText": "El nombre de la credencial debe empezar por una letra y contener solo letras, números y guiones bajos."
+        },
+        "passwordInput": {
+          "placeholder": "Valor de credencial",
+          "labelText": "Valor",
+          "invalidText": "El valor no debe estar vacío."
+        },
+        "associationsDescription": "Al asociar una credencial a una aplicación, el sitio web o aplicación móvil otorga derechos de acceso a todos los usuarios que tienen acceso a esas entidades."
+      },
+      "feedback": {
+        "successMessage": "Credencial creada correctamente",
+        "failureMessageCreate": "Error al crear la credencial: {{errorMessage}}",
+        "updateSuccessMessage": "Credencial actualizada correctamente",
+        "failureMessageUpdate": "Error al actualizar la credencial: {{errorMessage}}"
+      },
+      "edit": {
+        "dialogTitle": "Editar credencial sintética {{credentialName}}",
+        "associations": "Asociaciones",
+        "saveButton": "Guardar",
+        "textInputHelperText": "El nombre de la credencial no se puede editar, es un campo de solo lectura",
+        "passwordInputHelperText": "Escriba un nuevo valor de credencial si desea actualizar el actual."
+      },
+      "tooltipLabels": {
+        "hide": "Ocultar valor de credencial",
+        "show": "Mostrar valor de credencial"
+      }
     }
   },
   "createSmartAlert": {
@@ -757,6 +797,28 @@
       "noWebsitesAssociated": "No hay sitios web asociados",
       "associatedMobileApps": "Aplicaciones móviles asociadas",
       "noMobileAppAssociated": "No hay aplicaciones móviles asociadas"
+    },
+    "credentialList": {
+      "mainLabel": "Credenciales",
+      "name": "Nombre",
+      "associations": "Asociaciones",
+      "createdAt": "Creado el",
+      "createdBy": "Creado por",
+      "lastModifiedBy": "Modificado por última vez por",
+      "actions": "Acciones",
+      "noDataAvailable": {
+        "noCredentialsAvailableTitle": "No hay credenciales sintéticas disponibles",
+        "noCredentialsAvailableDescription": "No hay credenciales sintéticas recuperadas de la base de datos."
+      },
+      "editAction": "Editar",
+      "deleteAction": {
+        "deleteActionLabel": "Suprimir",
+        "deleteCredentialTitle": "Suprimir credencial sintética {{credentialName}}",
+        "credentialNameValidation": "Especifique el nombre completo de las credenciales para confirmar la supresión",
+        "deleteButtonLabel": "Suprimir credencial",
+        "cancelButtonLabel": "Cancelar",
+        "deletionSuccess": "Se ha suprimido la credencial"
+      }
     }
   }
 }

@@ -141,7 +141,12 @@
       "selectThePlatformArchitecture": "Plattformarchitektur auswählen",
       "platformArchitecture": "Plattformarchitektur",
       "previewPrerequisites": "Vorschau der Voraussetzungen anzeigen",
-      "installingInstanaAgent": "Instanzagenten installieren"
+      "installingInstanaAgent": "Instanzagenten installieren",
+      "unix_airgapped": {
+        "step1DownloadTheInstallArchive": "Schritt 1. Laden Sie das Installationsarchiv herunter.",
+        "airgappedArchives": "Archivierungen",
+        "installUsingAnArchive": "Installation über ein Archiv"
+      }
     },
     "aws": {
       "step1": "Schritt 1: ",
@@ -342,6 +347,11 @@
         "installTheScriptOnTheVirtualMachine": "Installieren Sie das Script auf der virtuellen Maschine als Windows-Dienst und starten Sie es automatisch.",
         "installAgentOnAWSEC2Windows": "Agenten unter AWS EC2 installieren (Windows)",
         "runCommandsOnAWSEC2": "Befehle auf AWS EC2 ausführen"
+      },
+      "windows_airgapped": {
+        "step1DownloadTheInstallPackageOrArchive": "Schritt 1. Laden Sie das Installationsprogramm oder das Archiv herunter.",
+        "airgappedPackagesOrArchive": "Archive und Windows-Installationsprogramme32bit und 64bit)",
+        "installUsingAPackageOrArchive": "Installation mit einem Installationsprogramm oder einem Archiv"
       }
     },
     "linux": {
@@ -369,6 +379,11 @@
           "linuxRhel6X8664": "Linux (64Bit - RHEL6 x86_64)",
           "linuxRhel7X8664": "Linux (64Bit - RHEL7 x86_64)"
         }
+      },
+      "linux_airgapped": {
+        "step1DownloadTheInstallPackage": "Schritt 1. Laden Sie das Installationspaket herunter.",
+        "airgappedPackages": "Archive, DEB- und RPM-Pakete",
+        "installUsingAPackage": "Installation über ein Paket oder ein Archiv"
       },
       "linux_ec2": {
         "selectTheAgentPackagingMode": "Schritt 1: Wählen Sie den Paketierungsmodus für den Agenten aus.",
@@ -485,7 +500,12 @@
     },
     "mac": {
       "selectAgentPackagingMode": "Schritt 1: Wählen Sie den Paketierungsmodus für Agenten aus.",
-      "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Schritt 2: Überprüfen Sie die Voraussetzungen und führen Sie den Agentenimplementierungscode aus."
+      "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Schritt 2: Überprüfen Sie die Voraussetzungen und führen Sie den Agentenimplementierungscode aus.",
+      "mac_airgapped": {
+        "step1DownloadTheInstallArchive": "Schritt 1. Laden Sie das Installationsarchiv herunter.",
+        "airgappedArchives": "Archivierungen",
+        "installUsingAnArchive": "Installation über ein Archiv"
+      }
     }
   },
   "welcomepage": {
@@ -753,13 +773,15 @@
         "settings": "Einstellungen",
         "user": "Benutzer",
         "externalLink": "Externer Link",
-        "resultNew": "Ergebnis Neu"
+        "resultNew": "Ergebnis Neu",
+        "whatsNewLink": "Was neu ist Link"
       },
       "buttonNames": {
         "deployAgent": "Agenten implementieren",
         "addUser": "Benutzer hinzufügen",
         "documentation": "IBM Dokumentation",
-        "releaseNotes": "Releaseinformationen"
+        "releaseNotes": "Releaseinformationen",
+        "whatsNewLink": "Was ist neu in Instana"
       }
     },
     "ariaLabel": {
@@ -795,7 +817,7 @@
       "analyzeCalls": "Analysieren von Traces und Aufrufen",
       "settingsTab": "Benutzerzugriff verwalten",
       "userSettings": "Benutzereinstellungen",
-      "authSettings": "Authentifizierung konfigurieren",
+      "securityAndAccess": "konfiguration von Sicherheit und Zugang",
       "auditLogs": "Prüfprotokolle anzeigen",
       "automation": "Aktionen verwalten",
       "customEvents": "benutzerdefinierte Ereignisse definieren",

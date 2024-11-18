@@ -20,13 +20,13 @@
     "wait":"Wait",
     "nutanixDatacenter": "Nutanix datacenter",
     "summary": "Summary",
-    "hosts": "Nutanix hosts",
+    "hosts": "Hosts",
     "virtualMachines": "Virtual machines",
     "cpuUsage": "CPU usage",
     "memoryUsage": "Memory usage",
     "usage": "Usage",
-    "network": "Network",
-    "networkLatency": "Network latency",
+    "ioLatency": "IO Latency",
+    "averageIoLatency": "Average IO Latency",
     "ioOps": "IO details",
     "ioReads": "IO reads",
     "ioWrites": "IO writes",
@@ -57,6 +57,7 @@
     "noOfCores":"CPU Cores",
     "noOfCpus":"Number of CPU",
     "noOfDisks":"Disks attached",
+    "network":"Network",
     "host": {
       "bytesReceived": "Bytes received",
       "bytesTransmitted": "Bytes transmitted",
@@ -83,10 +84,10 @@
     },
     "nutanixVm": "Nutanix VM",
     "noDataAvailable": {
-      "nutanixVMTitle": "No nutanix VMs available",
-      "nutanixVMDescription": "There were no nutanix VMs retrieved for the selected time range.",
-      "nutanixHostTitle": "No ESXi Hosts available",
-      "nutanixHostDescription": "There were no ESXi Hosts retrieved for the selected time range."
+      "nutanixVMTitle": "No virtual machines available",
+      "nutanixVMDescription": "There were no virtual machines retrieved for the selected time range.",
+      "nutanixHostTitle": "No hosts available",
+      "nutanixHostDescription": "There were no hosts retrieved for the selected time range."
     }
   }
 }

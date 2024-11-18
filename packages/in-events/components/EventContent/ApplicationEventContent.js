@@ -38,6 +38,7 @@ import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartView
 import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
+import TriggeredIncidentButton from '../tabs/Summary/common/TriggeredIncidentButton';
 import { isApproximatePrecision } from 'in-events/components/util/metricResultUtil';
 import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity';
 import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
@@ -120,6 +121,7 @@ export default function ApplicationEventContent({ event, snapshot, reload }) {
               <div>
                 <ManualCloseDescription event={event} />
                 <DescriptionButtons>
+                  <TriggeredIncidentButton event={event} />
                   <ApplicationAlertConfigButton
                     applicationId={applicationId}
                     alertConfig={alertConfig}
@@ -144,6 +146,7 @@ export default function ApplicationEventContent({ event, snapshot, reload }) {
                     }
                   />
                 )}
+                <TriggeredIncidentButton event={event} />
                 <ApplicationAlertConfigButton
                   applicationId={applicationId}
                   alertConfig={alertConfig}

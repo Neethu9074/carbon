@@ -14,17 +14,19 @@ import {
   groupBinsByFormattedValue
 } from 'in-components/HistogramChart/components/HistogramChartPresenter/utils/utils';
 import { formatters } from 'in-components/HistogramChart/components/HistogramChartPresenter/utils';
+import { getUnit } from 'in-stores/metric/units';
 
 interface Props {
   result: Result<HistogramMetricResult[]>;
   chartWidth: number;
   formatter: string;
+  unit: string;
 }
 
 const bucketLabelWidth = 5;
 const defaultMaxLabelCharsCount = 15;
 
-export default function getHistogram({ result, chartWidth, formatter }: Props) {
+export default function getHistogram({ result, chartWidth, formatter, unit }: Props) {
   const histogramData = result?.data?.[0];
   const hasError = result.errors.length > 0;
   const isLoading = result.progress.loading;
@@ -45,6 +47,7 @@ export default function getHistogram({ result, chartWidth, formatter }: Props) {
   const [name, type] = formatter.split('.');
   const applyFormatter = formatters[name][type];
   const formatterY = formatters.number;
+  const conversionFn = getUnit(unit)?.converter;
 
   const { values, count: total, min, max } = histogramData;
 
@@ -53,7 +56,8 @@ export default function getHistogram({ result, chartWidth, formatter }: Props) {
   // Get formatted bins
   const formattedBins = formatBins({
     bins: values as Bins,
-    formatter: { type, applyFormatter }
+    formatter: { type, applyFormatter },
+    converter: { unit, conversionFn }
   });
 
   // Group bins and remove duplicates
@@ -88,6 +92,7 @@ export default function getHistogram({ result, chartWidth, formatter }: Props) {
     total,
     formatter: applyFormatter,
     formatterY,
+    conversionFn,
     min,
     max
   };

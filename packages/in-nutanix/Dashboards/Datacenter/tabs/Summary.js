@@ -9,9 +9,9 @@ import React, { Fragment } from 'react';
 import { themes } from '@instana/design-tokens';
 import { Card } from '@instana/components';
 
-import { bytesPerSecondZeroDecimalPlaces, percentage } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
+import { millis, percentage } from 'in-services/formatters/number';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { capitalizeValue } from 'in-components/Capitalize';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -101,14 +101,14 @@ export default function Summary({ timeConfig, data: cluster }) {
           </Card>
         </Col>
         <Col lg={6}>
-          <Card title={t('in-nutanix:dashboards.network')} useMaxAvailableHeight>
+          <Card title={t('in-nutanix:dashboards.ioLatency')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
-                formatter: bytesPerSecondZeroDecimalPlaces,
+                formatter: millis,
                 metrics: ['datacenterAverageIoLatency'],
-                labels: [t('in-nutanix:dashboards.networkLatency')],
+                labels: [t('in-nutanix:dashboards.averageIoLatency')],
                 type: 'line',
                 colors: [usage]
               }}

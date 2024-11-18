@@ -42,6 +42,7 @@ describe('in-alerting/smart-alerts/infrastructure/form/useInfraSmartAlertFormSid
           calculateThresholdOnBackend: true,
           metricLabel: null,
           metricPath: null,
+          selectedChannelList: [],
           suggestedThresholdValue: null
         }
       })
@@ -74,7 +75,7 @@ export function getDefaultConfig() {
       value: 2.0,
       lastUpdated: 1703006690644
     },
-    predictiveTrigger: null,
+    forecastingConfig: null,
     alertChannelIds: [],
     granularity: 60000,
     timeThreshold: {

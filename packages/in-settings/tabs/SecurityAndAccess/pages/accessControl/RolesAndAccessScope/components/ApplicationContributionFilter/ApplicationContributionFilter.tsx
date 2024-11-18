@@ -20,7 +20,9 @@ import {
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/form';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { contributionFilterNameExists } from 'in-settings/tabs/SecurityAndAccess/api/groups';
+import { SETTINGS_GROUP_APPLICATION_FILTER_ADDED } from 'in-services/tracking/tracking';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import DescriptionText from 'in-components/form/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import useDebounce from 'in-settings/hooks/useDebounce';
@@ -50,6 +52,8 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
   const [initialfilterName] = useState(filterNameField?.value);
   const [isFilterNameValid, setFilterNameValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>('');
+  const { trackCta } = useSegmentTracking();
+
   let appsDisposable: Disposable;
 
   const debouncedValidation = useDebounce(() => {
@@ -130,6 +134,10 @@ export default function ApplicationContributionFilter<FORM_TYPE extends MapFormI
             value={tagFilterExpression}
             onChange={(tagFilterExpression: FormModelElement[]) => {
               setTagFilterExpression(tagFilterExpression, form, setForm);
+            }}
+            tracking={{
+              onTagAdded: () =>
+                trackCta(SETTINGS_GROUP_APPLICATION_FILTER_ADDED, { groupId: getField(form, 'id')?.value })
             }}
           />
         </div>

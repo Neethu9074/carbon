@@ -141,7 +141,12 @@
       "selectThePlatformArchitecture": "選取平台架構",
       "platformArchitecture": "平台架構",
       "previewPrerequisites": "預覽必要條件",
-      "installingInstanaAgent": "安裝 Instana 代理程式"
+      "installingInstanaAgent": "安裝 Instana 代理程式",
+      "unix_airgapped": {
+        "step1DownloadTheInstallArchive": "步驟 1. 下載安裝保存檔。",
+        "airgappedArchives": "保存檔",
+        "installUsingAnArchive": "使用保存檔安裝"
+      }
     },
     "aws": {
       "step1": "步驟 1： ",
@@ -342,6 +347,11 @@
         "installTheScriptOnTheVirtualMachine": "將 Script 作為 Windows 服務安裝在虛擬機器上，然後將其自動啟動。",
         "installAgentOnAWSEC2Windows": "在 AWS EC2 上安裝代理程式 (Windows)",
         "runCommandsOnAWSEC2": "在 AWS EC2 上執行指令"
+      },
+      "windows_airgapped": {
+        "step1DownloadTheInstallPackageOrArchive": "步驟 1. 下載安裝程式或保存檔。",
+        "airgappedPackagesOrArchive": "保存檔和 Windows 安裝程式（32bit 和 64bit）",
+        "installUsingAPackageOrArchive": "使用安裝程式或保存檔進行安裝"
       }
     },
     "linux": {
@@ -369,6 +379,11 @@
           "linuxRhel6X8664": "Linux (64Bit - RHEL6 x86_64)",
           "linuxRhel7X8664": "Linux (64Bit - RHEL7 x86_64)"
         }
+      },
+      "linux_airgapped": {
+        "step1DownloadTheInstallPackage": "步驟 1. 下載安裝套件。",
+        "airgappedPackages": "保存檔、DEB 和 RPM 套件",
+        "installUsingAPackage": "使用套件或保存檔安裝"
       },
       "linux_ec2": {
         "selectTheAgentPackagingMode": "步驟 1：選取代理程式包裝模式",
@@ -485,7 +500,12 @@
     },
     "mac": {
       "selectAgentPackagingMode": "步驟 1：選取代理程式包裝模式。",
-      "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "步驟 2：檢閱必要條件並執行代理程式部署程式碼。"
+      "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "步驟 2：檢閱必要條件並執行代理程式部署程式碼。",
+      "mac_airgapped": {
+        "step1DownloadTheInstallArchive": "步驟 1. 下載安裝保存檔。",
+        "airgappedArchives": "保存檔",
+        "installUsingAnArchive": "使用保存檔安裝"
+      }
     }
   },
   "welcomepage": {
@@ -753,13 +773,15 @@
         "settings": "設定",
         "user": "使用者",
         "externalLink": "外部鏈結",
-        "resultNew": "新結果"
+        "resultNew": "新結果",
+        "whatsNewLink": "新增功能鏈結"
       },
       "buttonNames": {
         "deployAgent": "部署代理程式",
         "addUser": "新增使用者",
         "documentation": "IBM 說明文件",
-        "releaseNotes": "版本注意事項"
+        "releaseNotes": "版本注意事項",
+        "whatsNewLink": "Instana 的新增功能"
       }
     },
     "ariaLabel": {
@@ -795,7 +817,7 @@
       "analyzeCalls": "分析追蹤資料和呼叫",
       "settingsTab": "管理使用者存取權",
       "userSettings": "使用者設定",
-      "authSettings": "配置鑑別",
+      "securityAndAccess": "配置安全性和存取",
       "auditLogs": "檢視審核日誌",
       "automation": "管理動作",
       "customEvents": "定義自訂事件",

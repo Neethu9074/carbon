@@ -96,7 +96,7 @@
     "formStateLabel": "État"
   },
   "searchBar": {
-    "usingTheSearchBar": "La fonctionnalité de recherche Instana Dynamic Focus peut être utilisée pour filtrer les mappes 3D, les tables de comparaison et les vues d'incident. La barre de recherche offre des possibilités étendues de recherche à l'aide de recherches approximatives, de caractères génériques et d'opérateurs booléens. Par exemple, la requête suivante\nlimite les vues aux hôtes de production dotés de moins de quatre unités centrales :\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Syntaxe\nDynamic Focus utilise la [syntaxe de requête lucene](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) avec les différences suivantes par rapport à la norme Lucene :\n- **L'opérateur par défaut :** `ET`\n- **les contraintes de syntaxe :**  sont répertoriés dans la [documentation](https://ibm.biz/dynamic-focus-syntax-constraints)\n## Interaction avec la barre de recherche\nLa barre de recherche prend en charge la saisie semi-automatique dans les zones de recherche et met en évidence la syntaxe de la requête lucene lors de la saisie.\nUne fois la saisie effectuée, la barre de recherche propose des zones de recherche correspondant à la saisie actuelle. Vous pouvez accepter les zones proposées en appuyant sur `RETOUR`'. Appuyez sur `CTRL + BARRE D'ESPACEMENT` pour ouvrir la fenêtre de saisie semi-automatique.\n## Fiche technique de la syntaxe de requête Lucene\n - **Recherche par zone :** `entity.host.cpu.count:>4`\n - **Opérateurs booléens :** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **Regroupement :** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **Recherches avec des caractères génériques :** `entity.type:container*`\n\nPour plus d'informations, voir la [documentation](https://ibm.biz/filtering-dynamic-focus).",
+    "usingTheSearchBar": "La fonctionnalité de recherche Instana Dynamic Focus peut être utilisée pour filtrer les mappes 3D, les tables de comparaison et les vues d'incident. La barre de recherche offre des possibilités étendues de recherche à l'aide de recherches approximatives, de caractères génériques et d'opérateurs booléens. Par exemple, la requête suivante\nlimite les vues aux hôtes de production dotés de moins de quatre unités centrales :\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Syntaxe\nDynamic Focus utilise la [syntaxe de requête lucene] (https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) avec les différences suivantes par rapport à la norme Lucene :\n- **L'opérateur par défaut :** `ET`\n- **les contraintes de syntaxe :**  sont répertoriés dans la [documentation] (https://ibm.biz/dynamic-focus-syntax-constraints)\n## Interaction avec la barre de recherche\nLa barre de recherche prend en charge la saisie semi-automatique dans les zones de recherche et met en évidence la syntaxe de la requête lucene lors de la saisie.\nUne fois la saisie effectuée, la barre de recherche propose des zones de recherche correspondant à la saisie actuelle. Vous pouvez accepter les zones proposées en appuyant sur 'RETOUR'. Appuyez sur 'CTRL + BARRE D'ESPACEMENT' pour ouvrir la fenêtre de saisie semi-automatique.## Fiche technique de la syntaxe de requête Lucene\n - **Recherche par zone :** `entity.host.cpu.count:>4`\n - **Opérateurs booléens :** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **Regroupement :** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **Recherches avec des caractères génériques :** `entity.type:container*`\n\nPour plus d'informations, voir la [documentation] (https://ibm.biz/filtering-dynamic-focus).",
     "filtersBtn": "Filtres",
     "filterPresetsMenuHeading": "Filtres",
     "filterPresetsSaveFilters": "Sauvegarder les filtres pour un accès facile ici",
@@ -123,6 +123,7 @@
       "entititiesDescription": "Aucune entité n'a été extraite pour la période sélectionnée"
     },
     "sharedComponents": {
+      "settings": "Paramètres",
       "configurableThSearchItemPlaceholder": "Rechercher {{len}} éléments",
       "configurableThNoMatchesTxt": "Aucune correspondance"
     }
@@ -738,6 +739,7 @@
     "groupName": "Nom du groupe",
     "groupedOnly": "Métrique uniquement disponible lors de l'analyse des groupes",
     "groupNameNotAvailable": "Information {{groupbyTag}} non disponible",
+    "options": "Options",
     "filterSidebar": {
       "groupingButton": "Regrouper par {{group}}",
       "ungroupButton": "Retirer le regroupement"

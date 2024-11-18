@@ -41,14 +41,14 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'vms',
+    id: 'noOfVms',
     label: t('in-nutanix:dashboards.virtualMachines'),
     getContent(item) {
-      return <TableEntityCounter icon="lib_nutanix_vm" count={item.noOfVms} />;
+      return <TableEntityCounter count={item.noOfVms} />;
     }
   },
   {
-    id: 'cpuUsage',
+    id: 'hostCpuUsage',
     label: t('in-nutanix:dashboards.cpuUsage'),
     sortable: true,
     getContent(item, props, columnId) {
@@ -63,7 +63,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'cpuTotal',
+    id: 'noOfCpus',
     label: t('in-nutanix:dashboards.noOfCpus'),
     sortable: true,
     getContent(item) {
@@ -71,7 +71,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'memoryUsage',
+    id: 'hostMemoryUsage',
     label: t('in-nutanix:dashboards.memoryUsage'),
     sortable: true,
     getContent(item, props, columnId) {

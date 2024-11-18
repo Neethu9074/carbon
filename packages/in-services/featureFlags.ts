@@ -95,6 +95,7 @@ export const perEndpointAdaptiveBaselineEnabled = isFeatureFlagEnabled('perEndpo
 
 export const kubernetesExploreEnabled = isFeatureFlagEnabled('kubernetesExploreEnabled', false);
 export const kubernetesPrometheusMetricsEnabled = isFeatureFlagEnabled('kubernetesPrometheusMetricsEnabled', false);
+export const kubernetesCloudNativeExperience = isFeatureFlagEnabled('kubernetesCloudNativeExperience', false);
 
 export const apdexWidgetEnabled = isFeatureFlagEnabled('apdexWidgetEnabled', true);
 // In self-hosted environments the feature flag had to be named differently:
@@ -219,6 +220,7 @@ export const bizopsRbacLimitedEnabled = isFeatureFlagEnabled('bizopsRbacLimitedE
 export const bizopsProcessFlowMapEnabled = isFeatureFlagEnabled('bizopsProcessFlowMapEnabled');
 export const bizopsProcessStackEnabled = isFeatureFlagEnabled('bizopsProcessStackEnabled');
 export const bizopsActivityStackEnabled = isFeatureFlagEnabled('bizopsActivityStackEnabled');
+export const bizopsCustomDashboardEnabled = isFeatureFlagEnabled('bizopsCustomDashboardEnabled');
 
 // ########################################################################################
 // Chart gap hiding

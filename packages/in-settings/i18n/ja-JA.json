@@ -53,6 +53,11 @@
       "title": "製品ユーザー分析",
       "purpose": "訪問者による Web サイトの利用状況に関する統計データを生成するために使用する固有の ID を登録します。"
     },
+    "walkme": {
+      "title": "製品のオンボーディングとガイダンス",
+      "purpose": "訪問者による Web サイトの利用状況に関する統計データを生成するために使用する固有の ID を登録します。",
+      "category": "製品のオンボーディングとガイダンス"
+    },
     "appcues": {
       "title": "調整済みオンボーディング・エクスペリエンスと NPS 調査",
       "purpose": "ユーザー・オンボーディングと NPS ストア調査。"
@@ -165,6 +170,7 @@
     "limitedAccessKubernetes_namespaces": "名前空間",
     "limitedAccessKubernetes_addCluster": "クラスターの追加",
     "limitedAccessKubernetes_addNamespace": "ネーム・スペースの追加",
+    "addButton_bizopsPerspectives": "ビジネスの視点を加える",
     "addButton_syntheticTests": "シンセティック・テストの追加",
     "descriptionAccessAll_synthetics": "選択した役割ですべてのシンセティック・テストにアクセスできます。",
     "descriptionLimitedAccess_synthetics": "役割を選択し、以下のシンセティック・テストを追加してアクセス権限を付与します。",
@@ -215,6 +221,8 @@
     "description_access_all": "制限なしですべてにアクセス",
     "title_access_all_bizops": "無制限のアクセス",
     "title_no_access_bizops": "アクセスが拒否されました。",
+    "title_limited_access_bizops": "制限付きアクセス",
+    "description_limited_access_bizops": "リストされたビジネス・パースペクティブとそのビジネス・プロセスのみにアクセスします。",
     "description_access_all_bizops": "ビジネス・モニターのすべての機能に制限なくアクセスできます。",
     "description_no_access_bizops": "ビジネス・モニターへのアクセスが拒否されました。",
     "description_access_all_except_contributor": "すべてにアクセス-コントリビューターとしてアクセスされるものを除く",
@@ -363,8 +371,7 @@
         "placeholder": "プレースホルダー",
         "logicalOperator_AND": "AND",
         "logicalOperator_OR": "OR",
-        "logicalOperatorInfo": "選択された論理演算子は、以下の条件に適用されます。",
-        "clearMetricSeclection": "選択のクリア"
+        "logicalOperatorInfo": "選択された論理演算子は、以下の条件に適用されます。"
       },
       "customPayload": {
         "unknownTag": "不明なタグ: {{tagName}}"
@@ -438,7 +445,10 @@
     },
     "deleteLogs": {
       "deleteLogs": "ログの削除",
-      "info": "Instana のログに安全な情報が漏れている場合、特定の期間のログを削除するように進めることができます。 ",
+      "info": "セキュアな情報が Instana のログに流出した場合、次のことが可能です",
+      "info2": "特定の期間のログを削除します。",
+      "confirmDeletion": "削除の確認",
+      "modalDescription": "ログを削除すると、指定した終了日および終了時刻まで、Instana のすべてのログが永久に消去されます。 このアクションは元に戻せません",
       "confirmationDescription": "ログを削除すると、Instana からログが完全に削除されます。 この操作は元に戻せません。 ",
       "deletionReason": "削除の理由",
       "typeToContinue": "続行するには {{logs}} を入力してください",
@@ -455,8 +465,8 @@
       "numberOfLogs": "ログの数",
       "triggered": "トリガー:",
       "status": "状況",
-      "noData": "表示するデータがありません",
-      "noDataInfo": "ログを削除するには「ログの削除」をクリックする",
+      "noData": "ログはまだ削除されていない",
+      "noDataInfo": "ログを削除するには、ログの削除をクリックします",
       "summary": "ログ削除アクション履歴",
       "wrong": "何らかの問題が発生しました",
       "errorInfo": "データベースからデータを取得できません",
@@ -927,9 +937,9 @@
     "users": "ユーザー",
     "session": "セッション",
     "timeouts": "タイムアウト",
-    "teamSettings": "チーム設定",
+    "globalSettings": "グローバル設定",
     "userSettings": "ユーザー設定",
-    "authentication": "認証",
+    "securityAndAccess": "セキュリティ & アクセス",
     "settingsPageNotFound": "設定ページが見つかりません",
     "weCouldNotFindTheSettingsPageYouWereLookingFor": "お探しの設定ページが見つかりませんでした。 恐れ入りますが、 代わりに次のいずれかのリンクをお試しください。",
     "pleaseSelectAtLeastOneItem": "項目を少なくとも 1 つ選択してください。",
@@ -1285,13 +1295,13 @@
     "deletedEventMessage": "削除されたイベント構成を表示しています。 変更することはできません。",
     "serviceNowUrl": "ServiceNow の URL",
     "serviceNow": "ServiceNow",
-    "serviceNowBD": "ServiceNow アプリ",
+    "serviceNowBD": "ServiceNow ITSM アプリ",
     "intermediateTable": "中間テーブルへのイベント伝播",
     "propIncidentTable": "Instana が ServiceNow のインシデント・テーブルにイベントを送信できるようにする",
     "propIncidentTableDesc": "IBM Instana 中間テーブルを伝播した後、Instana はServiceNow のインシデントテーブルを更新します。 これは、Instana のインシデントと同期して ServiceNow のインシデントを開き、閉じるだけでなく、Instana と ServiceNow の間でメモとアクティビティを同期します。 ServiceNow のインシデント・テーブルを修正する既存のビジネスルールも正常に機能します。",
     "restIncidentTable": "Instana を中間テーブルの伝播のみに制限する",
     "restIncidentTableDesc": "Instanaは、ServiceNow のインシデント・テーブルをそれ以上更新することなく、インシデント・データのみを IBM Instana の中間テーブルに伝播します。 イベント、メモ、アクティビティの完全な同期を有効にするには、ServiceNow ビジネス・ルールを更新する必要があります。 詳細は<documentationLink>ドキュメント</documentationLink>を参照してください。",
-    "serviceNowAlertChannel": "ServiceNow のアラート・チャネル",
+    "serviceNowAlertChannel": "ServiceNow アプリ アラート・チャンネル",
     "serviceNowUsernameTooltip": "ユーザー名とパスワードは、インシデントを作成する権限を持つ ServiceNow ユーザーのものでなければなりません。",
     "autoCloseIncidents": "インシデントの自動クローズ",
     "advancedIntro": "このアラート・チャネルを作成すると、Instana が ServiceNow でインシデント/チケットを作成できるようになります。 <br/><br/> インシデントの更新方法をカスタマイズすることができます",
@@ -1352,7 +1362,10 @@
     "changeEvent": "変更イベント",
     "advancedSettingsMessage": "これを有効にすることで、受信するイベント・アラートのタイプに基づいて、そのサブジェクトを個別設定できるようになります。 Eメールのサブジェクトをカスタマイズしない場合は、このオプションを無視してかまいません。",
     "customSubjectNotProvided": "カスタム・サブジェクトが指定されていない場合、Instanaは事前定義されたサブジェクトを使用してアラートEメールを送信します。",
-    "sendTestEmail": "テスト E メールの送信"
+    "sendTestEmail": "テスト E メールの送信",
+    "alertTitleAdditions": "アラート・タイトル",
+    "alertTitleAdditionsTooltip": "このアラートがトリガーされるエンティティの名前は、アラートのタイトルに表示されます。 デフォルトでは、エンティティ名はアラート本文でのみ表示されます",
+    "includeEntityNameInLegacyAlerts": "アラート・タイトルにエンティティ名を含める"
   },
   "languageSelection": {
     "language": "言語",
@@ -1401,7 +1414,7 @@
     "the": "この",
     "number": "数値",
     "first": "1 番目",
-    "second": "2 番目",
+    "second": "秒",
     "third": "3 番目",
     "fourth": "4 番目",
     "last": "最終日",

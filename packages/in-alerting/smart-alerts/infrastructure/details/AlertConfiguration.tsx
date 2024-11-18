@@ -16,8 +16,8 @@ import {
 } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/infrastructure/hooks/useTagBasedPayloadConfigurator';
 import { getMetrics } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
-import PredictiveTriggerDescription from 'in-alerting/smart-alerts/infrastructure/details/PredictiveTriggerDescription';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
+import ForecastAlertingDescription from 'in-alerting/smart-alerts/infrastructure/details/ForecastAlertingDescription';
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 // eslint-disable-next-line no-restricted-imports
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
@@ -36,6 +36,7 @@ import { toUIGrouping } from 'in-alerting/smart-alerts/aggregated/utils/groupfil
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
 import { AlertGrouping } from 'in-alerting/smart-alerts/aggregated/components/AlertGrouping';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { alertChannelPerSeverityInfraSaEnabled } from 'in-services/featureFlags';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
@@ -66,10 +67,11 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
     timeThreshold,
     granularity,
     alertChannelIds,
+    alertChannels,
     tagFilterExpression,
     customPayloadFields,
     groupBy,
-    predictiveTrigger,
+    forecastingConfig,
     rules
   } = alertConfig;
 
@@ -190,7 +192,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
         darkFrame
       >
         <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
-        <PredictiveTriggerDescription predictiveTrigger={predictiveTrigger} />
+        <ForecastAlertingDescription forecastingConfig={forecastingConfig} />
       </ExpandableLightCard>
       <ExpandableLightCard
         title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleAlertChannels')}
@@ -200,7 +202,11 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
         darkFrame
       >
         <div className={locals.alertChannelsWrapper}>
-          <AlertChannelsViewer alertChannelIds={alertChannelIds} />
+          <AlertChannelsViewer
+            alertChannelIds={alertChannelIds}
+            alertChannels={alertChannels}
+            alertChannelPerSeverityEnabled={alertChannelPerSeverityInfraSaEnabled}
+          />
         </div>
       </ExpandableLightCard>
       <ExpandableLightCard

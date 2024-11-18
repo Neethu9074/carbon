@@ -124,6 +124,9 @@
         "businessPerspectiveUpdatedDetails": "\"{{perspectiveName}}\" a été édité et vos modifications ont été enregistrées.",
         "error": "Erreur"
       }
+    },
+    "flowMap": {
+      "tabLabel": "Flux"
     }
   }
 }

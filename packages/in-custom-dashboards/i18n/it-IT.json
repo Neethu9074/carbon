@@ -99,12 +99,31 @@
       "failedToParseInputAsJson": "Impossibile analizzare l'input come JSON.",
       "jsonRootMustBeAnObject": "La root JSON deve essere un oggetto"
     },
+    "downloadPdfDialog": {
+      "downloadPdf": "Scarica il file PDF",
+      "settings": "Impostazioni",
+      "pdfOrientation": "Orientamento",
+      "portrait": "Verticale",
+      "landscape": "Scenario",
+      "pdfLayout": "Layout",
+      "widgetsDisplay": "Visualizzazione",
+      "singlePage": "Pagina singola",
+      "singlePageInfo": "L'intero dashboard si trova in una sola pagina, con i contenuti ridimensionati per adattarsi.",
+      "multiPages": "Pagine multiple",
+      "multiPagesInfo": "Distribuire il dashboard su più pagine, mantenendo il layout originale. Alcuni widget potrebbero essere interrotti.",
+      "stackWidgetsTitle": "Widget stack",
+      "stackWidgetsInfo": "Visualizzare i widget in uno stack verticale su più pagine.",
+      "loadingWidget": "Caricamento del widget {{widgetIndex}} di {{totalNodes}}",
+      "generatePreview": "Generare l'anteprima",
+      "generatingPreview": "Generazione dell'anteprima pdf"
+    },
     "filterContext": {
       "topLevelFilterPartiallyApplied": "Sono stati applicati alcuni dei filtri del dashboard corrente.",
       "topLevelFilterSelectsEverything": "I filtri del dashboard corrente non si applicano a questo widget.",
       "topLevelFilterSelectsNothing": "I filtri del dashboard corrente non si applicano a questo widget.",
       "topLevelFilterNotSupported": "I filtri del dashboard corrente non sono stati applicati a questo widget perché il widget non supporta i filtri.",
-      "topLevelFilterAppliedToSomeDatasets": "I filtri del dashboard corrente non sono stati applicati completamente a tutti i dataset in questo widget."
+      "topLevelFilterAppliedToSomeDatasets": "I filtri del dashboard attuale non sono stati applicati completamente ai seguenti set di dati: {{datasets}}",
+      "unnamedDataset": "Set di dati senza nome"
     }
   },
   "dashboardSwitcher": {
@@ -897,5 +916,8 @@
     "additionalFields": "Questo dashboard sarà visibile solo all'utente corrente. Dopo la creazione sarà possibile decidere di condividerlo con i colleghi.",
     "create": "Crea",
     "failedToCreateDashboard": "Impossibile creare un dashboard."
+  },
+  "threshold": {
+    "label": "Soglia"
   }
 }

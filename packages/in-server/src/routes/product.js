@@ -181,13 +181,9 @@ router.get('/', async (req, res) => {
     clientConfig.activeLicenseType = activeLicenseInfo;
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
     const injectWalkMeScript =
-      clientConfig.featureFlags?.playwithEnabled ||
-      (clientConfig.featureFlags?.playWithReleaseEnabled &&
-        window.instana.termsAndPrivacySettings.walkmeAnalyticsServices);
-    const isAssistMeEnabled =
-      clientConfig.featureFlags?.assistmeEnabled && window.instana.termsAndPrivacySettings.walkmeAnalyticsServices;
-    const injectWalkMeTestScript =
-      clientConfig.featureFlags?.playwithTestEnabled && window.instana.termsAndPrivacySettings.walkmeAnalyticsServices;
+      clientConfig.featureFlags?.playwithEnabled || clientConfig.featureFlags?.playWithReleaseEnabled;
+    const isAssistMeEnabled = clientConfig.featureFlags?.assistmeEnabled;
+    const injectWalkMeTestScript = clientConfig.featureFlags?.playwithTestEnabled;
     res.set('Content-Security-Policy', getCsp(nonce, isAssistMeEnabled, injectWalkMeScript || injectWalkMeTestScript));
     res.send(
       compiledTemplate({

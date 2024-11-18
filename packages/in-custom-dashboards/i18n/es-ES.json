@@ -99,12 +99,31 @@
       "failedToParseInputAsJson": "No se ha podido analizar la entrada como JSON.",
       "jsonRootMustBeAnObject": "La raíz JSON debe ser un objeto."
     },
+    "downloadPdfDialog": {
+      "downloadPdf": "Descargar archivo PDF",
+      "settings": "Valores",
+      "pdfOrientation": "Orientación",
+      "portrait": "Vertical",
+      "landscape": "Horizontal",
+      "pdfLayout": "Diseño",
+      "widgetsDisplay": "Visualización",
+      "singlePage": "Una sola página",
+      "singlePageInfo": "Incluir todo el panel de control en una página, con el contenido adaptado a su tamaño.",
+      "multiPages": "Varias páginas",
+      "multiPagesInfo": "Distribuir el panel de control en varias páginas, manteniendo el diseño original. Puede que algunos widgets aparezcan cortados.",
+      "stackWidgetsTitle": "Apilar widgets",
+      "stackWidgetsInfo": "Mostrar widgets en una pila vertical en múltiples páginas.",
+      "loadingWidget": "Cargando widget {{widgetIndex}} de {{totalNodes}}",
+      "generatePreview": "Generar vista previa",
+      "generatingPreview": "Generando vista previa en pdf"
+    },
     "filterContext": {
       "topLevelFilterPartiallyApplied": "Se han aplicado algunos de los filtros actuales del panel de control.",
       "topLevelFilterSelectsEverything": "Los filtros actuales del panel de control no se aplican a este widget.",
       "topLevelFilterSelectsNothing": "Los filtros actuales del panel de control no se aplican a este widget.",
       "topLevelFilterNotSupported": "Los filtros actuales del panel de control no se han aplicado a este widget porque no admite filtros.",
-      "topLevelFilterAppliedToSomeDatasets": "Los filtros actuales del panel de control no se han aplicado por completo a todos los conjuntos de datos de este widget."
+      "topLevelFilterAppliedToSomeDatasets": "Los filtros actuales del panel de control no se han aplicado por completo a los siguientes conjuntos de datos: {{datasets}}",
+      "unnamedDataset": "Conjunto de datos sin nombre"
     }
   },
   "dashboardSwitcher": {
@@ -897,5 +916,8 @@
     "additionalFields": "Este panel de control solo lo puede visualizar usted. Puede optar por compartirlo con sus compañeros después de crearlo",
     "create": "Crear",
     "failedToCreateDashboard": "La creación del panel de control ha fallado."
+  },
+  "threshold": {
+    "label": "Umbral"
   }
 }

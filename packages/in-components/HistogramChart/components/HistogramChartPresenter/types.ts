@@ -5,6 +5,7 @@
  */
 
 import { FormatterFn } from 'in-stores/metric/formatters';
+import { ConversionFn } from 'in-stores/metric/units';
 import { Nullish } from 'in-types';
 
 export interface Bucket {
@@ -18,4 +19,9 @@ export interface Bucket {
 export interface Formatter {
   type: string;
   applyFormatter: FormatterFn;
+}
+
+export interface Converter {
+  unit: string;
+  conversionFn: ConversionFn;
 }

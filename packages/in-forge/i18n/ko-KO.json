@@ -14,6 +14,11 @@
   "pluginName_aceMessageFlow_1": "IBM ACE 메시지 플로우",
   "pluginName_aceMessageFlow_2": "IBM ACE 메시지 플로우",
   "pluginName_aceMessageFlow": "IBM ACE 메시지 플로우",
+  "pluginName_activeDirectory_plural": "활성 디렉토리",
+  "pluginName_activeDirectory_0": "활성 디렉토리",
+  "pluginName_activeDirectory_1": "활성 디렉토리",
+  "pluginName_activeDirectory_2": "활성 디렉토리",
+  "pluginName_activeDirectory": "Active Directory",
   "pluginName_activeMQ_plural": "ActiveMQ",
   "pluginName_activeMQ_0": "ActiveMQ",
   "pluginName_activeMQ_1": "ActiveMQ",
@@ -2951,6 +2956,9 @@
     "rfc": "RFC"
   },
   "plugins": {
+    "activedirectory": {
+      "ActiveDirectory": "Active Directory"
+    },
     "titleARN": "ARN",
     "titleVPC": "VPC",
     "titleCPU": "CPU",
@@ -3557,6 +3565,33 @@
       "invocations": "호출",
       "inputTerminals": "입력 유형 터미널 수",
       "outputTerminals": "출력 유형 터미널 수"
+    },
+    "activeDirectory": {
+      "computerName": "호스트",
+      "lightweightDirectoryAccessProtocol": "LDAP(Lightweight Directory Access Protocol)",
+      "ldap": {
+        "operations": "조작",
+        "operationRates": "작동 속도(초당)",
+        "add": "추가",
+        "delete": "삭제",
+        "modifyDN": "DN 수정",
+        "modify": "수정",
+        "write": "쓰기",
+        "search": "검색",
+        "udp": "UDP",
+        "connections": "연결",
+        "connectionRates": "연결 속도(초당)",
+        "clientSessions": "클라이언트 세션",
+        "closedConnections": "닫힌 연결",
+        "sslConnections": "SSL 연결",
+        "threads": "스레드",
+        "sleepingOnBusy": "일시 정지(sleep) 중(BUSY)",
+        "active": "활성",
+        "busyretries": "사용 중 재시도",
+        "batch": "일괄처리",
+        "availableBatchSlots": "사용 가능한 배치 슬롯",
+        "outboundBytes": "아웃바운드 바이트 수"
+      }
     },
     "activeMQ": {
       "jmxIsNotEnabledYouCanEnableItInActivemqConfigBySettingTheBrokerPropertyUseJmxToTrue": "JMX가 사용으로 설정되어 있지 않습니다. 브로커 특성 useJmx를 true로 설정하여 activemq 구성에서 사용으로 설정할 수 있습니다.",
@@ -7558,8 +7593,6 @@
       "lockMode": "잠금 모드",
       "lockModeRequested": "잠금 모드 요청됨",
       "lockObjectType": "잠금 오브젝트 유형",
-      "startTime": "시작 시간",
-      "endTime": "종료 시간",
       "durationSec": "기간",
       "objNameQualifier": "오브젝트 이름 규정자",
       "objName": "오브젝트 이름",
@@ -7678,10 +7711,12 @@
       "oldConfigUsed": "이제 Db2 센서는 Instana Agent가 실행 중인 호스트에서 여러 인스턴스 및 데이터베이스의 모니터링을 지원합니다. 새 구성 형식에 대해서는 해당 문서를 참조하십시오.",
       "autoResize": "자동 크기 조정",
       "hadrLogGap": "HADR 로그 간격",
-      "type": "유형",
+      "startTime": "시작 시간",
+      "endTime": "종료 시간",
       "backupDuration": "백업 지속 기간",
       "owner": "소유자",
       "tbspace": "테이블스페이스",
+      "type": "유형",
       "tbspState": "테이블스페이스 상태",
       "uowExecutors": "실행 중인 Connections",
       "db2MemberNumber": "멤버 노드",
@@ -9459,8 +9494,17 @@
         "currentStatementId": "현재 명령문 ID",
         "connectionId": "연결 ID",
         "statementId": "명령문 ID",
-        "statementString": "명령문 스트링",
-        "planId": "계획 ID"
+        "statementString": "명령문 문자열",
+        "planId": "계획 ID",
+        "totalReadSize": "읽기 크기",
+        "totalWriteSize": "쓰기 크기",
+        "totalFailedReads": "실패한 읽기",
+        "totalFailedWrites": "실패한 쓰기",
+        "totalReadTime": "읽기 시간",
+        "totalWriteTime": "쓰기 시간",
+        "fileSystemPath": "파일 시스템 경로",
+        "fileType": "파일 유형",
+        "ioStats": "입출력 통계"
       },
       "systemId": "시스템 ID",
       "databaseName": "데이터베이스 이름",
@@ -9529,7 +9573,21 @@
         "compute": "컴퓨팅",
         "cloudServices": "클라우드 서비스",
         "total": "총계",
-        "warehouseUsage": "웨어하우스 사용량"
+        "warehouseUsage": "웨어하우스 사용량",
+        "storageUsage": "스토리지",
+        "totalStageBytes": "총 스테이지 바이트 수",
+        "totalFailSafeBytes": "총 fail-safe 바이트 수",
+        "avgByteSpilledToLocalStorage": "로컬 스토리지에 유출된 평균 바이트 수",
+        "bytesSpilled": "유출된 바이트 수",
+        "avgByteSpilledToRemoteStorage": "원격 스토리지로 유출된 평균 바이트 수",
+        "loginAttempts": "로그인 시도",
+        "successful": "성공",
+        "failed": "실패함",
+        "longestRunningQueries": "가장 오래 실행되는 상위 10개 쿼리",
+        "queryId": "쿼리 ID",
+        "queryText": "쿼리 텍스트",
+        "execTime": "실행 시간",
+        "warehouseUsed": "웨어하우스 사용됨"
       }
     },
     "solr": {
@@ -11099,7 +11157,6 @@
     },
     "ibmCloudMongoDb": {
       "connections": "연결",
-      "cpuUsedPercent": "사용된 CPU 백분율",
       "diskIoUtilizationPercentAverage5m": "IO 사용률(5분 평균)",
       "diskIopsReadWriteTotal": "IOPS r/w 총계",
       "diskReadLatencyMean": "평균 디스크 읽기 대기 시간",
@@ -11127,6 +11184,7 @@
       "total": "총계",
       "usedPercent": "활용도",
       "cpu": "CPU",
+      "cpuUsedPercent": "사용된 CPU 백분율",
       "memory": "메모리",
       "disk": "디스크",
       "locks": "잠금",
@@ -11722,7 +11780,10 @@
       "port": "포트",
       "name": "이름",
       "subscriptions": "구독",
-      "version": "버전"
+      "version": "버전",
+      "state": "상태",
+      "sourceDatastore": "소스 데이터 저장소",
+      "targetDataStore": "대상 데이터 저장소"
     },
     "ibmInfosphereCdcSubscription": {
       "dashboard": {
@@ -11734,6 +11795,7 @@
       },
       "ibmInfosphereSubscription": "구독",
       "subscriptionName": "이름",
+      "state": "상태",
       "sourceDatastore": "소스 데이터 저장소",
       "targetDataStore": "대상 데이터 저장소",
       "sourceEngine": "소스 엔진",
@@ -14621,6 +14683,7 @@
       "cbp": "컨테이너 기반 프로세서",
       "cp": "중앙 프로세서",
       "iip": "통합 정보 프로세서",
+      "lparPowerConsumption": "논리 파티션 전력 소비 와트",
       "heatLoad": "열부하",
       "heatLoadForcedAir": "열부하(강제 공기 주입)",
       "heatLoadWater": "열부하(물)",
@@ -16566,18 +16629,13 @@
     },
     "bpm": {
       "titleBusinessKey": "비즈니스 키",
-      "titleCaseIntanceId": "케이스 인스턴스 ID",
       "titleRootProcessUUID": "루트 프로세스 UUID",
-      "titleProcessId": "프로세스 ID",
+      "titleProcessDefinitionId": "프로세스 정의 ID",
       "titleProcessName": "프로세스 이름",
       "titleActivityId": "활동 ID",
       "titleActivityName": "활동 이름",
       "titleActivityDesc": "활동 설명",
       "titleActivityType": "활동 유형",
-      "titleExternalTaskWorkerId": "외부 태스크 작업자 ID",
-      "titleExternalTaskTopic": "외부 태스크 주제",
-      "titleExternalTaskId": "외부 태스크 ID",
-      "titleExternalTaskRetries": "재시도",
       "titleBusinessVariable": "{{businessVariableKey}}"
     },
     "cassandra": {

@@ -95,8 +95,7 @@ export default connectTo(
                       min: 0,
                       formatter: number.detailed,
                       metrics: rows.map(
-                        () =>
-                          `metrics.gauges.com.instana.eum.health.model.RelevantAlertConfigs.assigned-website-configs`
+                        () => `metrics.gauges.com.instana.health.model.RelevantAlertConfigs.assigned-website-configs`
                       ),
                       labels: labels,
                       type: 'stackedArea'
@@ -313,8 +312,7 @@ export default connectTo(
                       min: 0,
                       formatter: number.detailed,
                       metrics: rows.map(
-                        () =>
-                          `metrics.gauges.com.instana.eum.health.model.RelevantAlertConfigs.assigned-mobile-app-configs`
+                        () => `metrics.gauges.com.instana.health.model.RelevantAlertConfigs.assigned-mobile-app-configs`
                       ),
                       labels: labels,
                       type: 'stackedArea'

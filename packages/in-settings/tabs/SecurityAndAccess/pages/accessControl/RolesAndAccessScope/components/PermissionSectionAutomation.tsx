@@ -72,7 +72,9 @@ export default function PermissionSectionAutomation<FORM_TYPE extends MapFormIte
 
     const newActionFilter =
       limitation === ScopedPermissionItem.LIMITED_ACCESS
-        ? initalActionFilter
+        ? initalActionFilter?.scopeId
+          ? initalActionFilter
+          : { scopeId: '', scopeRoleId: '-1' }
         : { scopeId: undefined, scopeRoleId: '-1' };
 
     let updatedForm = updateFormField(form, entityPermissionKey, newActionFilter, true);

@@ -604,7 +604,7 @@
     "successLogins": "성공",
     "failureLogins": "실패",
     "loginAttempts": "로그인 시도",
-    "workProcess": "작업 프로세스",
+    "workProcess": "작업 프로세스(전체/해제)",
     "severity1": "심각도 1",
     "severity2": "심각도 2",
     "aborted": "중단됨",
@@ -664,7 +664,8 @@
     "protected": "보호됨",
     "releasedStarted": "릴리스 시작",
     "httpRespTime": "HTTP",
-    "httpsRespTime": "HTTPS"
+    "httpsRespTime": "HTTPS",
+    "curThr": "현재 스레드 수"
   },
   "viewAllEntityName_unknownEntity_plural": "모두",
   "viewAllEntityName_unknownEntity_0": "모두",

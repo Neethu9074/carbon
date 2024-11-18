@@ -444,11 +444,13 @@ export default function HistogramChartOverlay({
   const contextMenuLeftAligned = selectedBuckets && selectedBuckets.toIndex < buckets.length / 2;
   const cursor = mouseState?.cursor || cursors.pointer;
 
-  const tooltip = tooltipRenderer.render({
-    from: tooltipFrom,
-    to: tooltipTo,
-    style: { ...tooltipPositionStyle, bottom: height }
-  });
+  const tooltip = tooltipFrom
+    ? tooltipRenderer.render({
+        from: tooltipFrom,
+        to: tooltipTo,
+        style: { ...tooltipPositionStyle, bottom: height }
+      })
+    : undefined;
 
   useEffect(() => {
     getTooltipRef?.(tooltipRef?.current);

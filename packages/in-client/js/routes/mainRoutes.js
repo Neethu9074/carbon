@@ -30,6 +30,7 @@ import {
 } from 'in-stores/permission';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import customDashboardsRoutes from 'in-custom-dashboards/navigation/routes';
+import vulnerabilityRoutes from 'in-vulnerability-center/navigation/routes';
 import mobileAppMonitoringRoutes from 'in-mobile-apps/navigation/routes';
 import { role, canSeeExtendedInternalMonitoring } from 'in-stores/user';
 import infrastructureRoutes from 'in-infrastructure/navigation/routes';
@@ -92,6 +93,7 @@ export default (
     {hasZHMCAccess && zhmcRoutes}
     {hasWebsitesAccess && websiteMonitoringRoutes}
     {hasMobileAppsAccess && mobileAppMonitoringRoutes}
+    {vulnerabilityRoutes}
     {integrationRoutes}
     {customDashboardsRoutes}
     {welcomePageV2Enabled ? welcomePageRoutes : cockpitRoutes}

@@ -99,12 +99,31 @@
       "failedToParseInputAsJson": "無法剖析 JSON 形式的輸入。",
       "jsonRootMustBeAnObject": "JSON root 必須是物件。"
     },
+    "downloadPdfDialog": {
+      "downloadPdf": "下載 PDF 檔案",
+      "settings": "設定",
+      "pdfOrientation": "方向",
+      "portrait": "直印",
+      "landscape": "橫印",
+      "pdfLayout": "佈置",
+      "widgetsDisplay": "顯示",
+      "singlePage": "單一頁面",
+      "singlePageInfo": "將整個儀表板放在一頁上，並調整內容至合適大小。",
+      "multiPages": "多頁",
+      "multiPagesInfo": "將儀表板分佈在多個頁面上，保持原始佈置。 某些小組件可能會被截斷。",
+      "stackWidgetsTitle": "堆疊小組件",
+      "stackWidgetsInfo": "在多個頁面的垂直堆疊中顯示小組件。",
+      "loadingWidget": "正在載入小組件 {{widgetIndex}}，共 {{totalNodes}} 個",
+      "generatePreview": "產生預覽",
+      "generatingPreview": "產生 pdf 預覽"
+    },
     "filterContext": {
       "topLevelFilterPartiallyApplied": "套用了一些目前的儀表板過濾器。",
       "topLevelFilterSelectsEverything": "目前的儀表板過濾器不會套用於此小組件。",
       "topLevelFilterSelectsNothing": "目前的儀表板過濾器不會套用於此小組件。",
       "topLevelFilterNotSupported": "目前的儀表板過濾器未套用於此小組件，因為該小組件不支援過濾。",
-      "topLevelFilterAppliedToSomeDatasets": "目前的儀表板過濾器未完全套用於此小組件中的所有資料集。"
+      "topLevelFilterAppliedToSomeDatasets": "目前的儀表板過濾器未完全套用至以下資料集：{{datasets}}",
+      "unnamedDataset": "未命名資料集"
     }
   },
   "dashboardSwitcher": {
@@ -897,5 +916,8 @@
     "additionalFields": "只有您可看見此儀表板。在建立之後，您可以選擇分享給同事",
     "create": "建立",
     "failedToCreateDashboard": "無法建立儀表板。"
+  },
+  "threshold": {
+    "label": "臨界值"
   }
 }

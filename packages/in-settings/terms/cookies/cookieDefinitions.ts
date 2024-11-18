@@ -20,19 +20,6 @@ export const cookieDefinitions = [
     ]
   },
   {
-    key: 'walkmeAnalyticsServices',
-    title: t('in-settings:cookies.walkme.title'),
-    cookieProduct: 'WalkMe',
-    details: [
-      {
-        category: t('in-settings:cookies.walkme.category'),
-        name: 'ajs_anonymous_id',
-        purpose: t('in-settings:cookies.walkme.purpose'),
-        moreInformation: t('in-settings:cookies.expiration.afterSession')
-      }
-    ]
-  },
-  {
     key: 'allSupportAndResearchServices',
     title: t('in-settings:cookies.appcues.title'),
     cookieProduct: 'Appcues',

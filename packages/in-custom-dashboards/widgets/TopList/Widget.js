@@ -257,11 +257,16 @@ function Label({ item, config, result, tagCatalog }) {
       expressions: filteredTags
     });
   }
-
+  const { includeInternal = false, includeSynthetic = false } = config.metricConfiguration;
+  const hiddenCalls = {
+    includeInternal,
+    includeSynthetic
+  };
   let link = config.metricConfiguration.tagFilterExpression
     ? getLinkToApplicationAnalyze({
         dataSource: 'calls',
-        formModel
+        formModel,
+        hiddenCalls
       })
     : tagCatalog &&
       getLinkToAnalyzeDeprecated({

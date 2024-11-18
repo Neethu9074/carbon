@@ -45,7 +45,14 @@
 
   .centeredCopyButtonWrapper {
     align-items: flex-start;
-
     height: 100%;
+  }
+
+  .removeBackground {
+    :global {
+      .li-nestedContent {
+        background: white !important;
+      }
+    }
   }
 }

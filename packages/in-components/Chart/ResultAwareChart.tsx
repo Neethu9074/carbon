@@ -12,12 +12,12 @@ import Renderer, { extendTimeConfigForBarRenderer } from 'in-components/Chart/re
 import Chart, { ChartReactComponentProps } from 'in-components/Chart/ChartReactComponent';
 import { clickhouseTimeoutErrorMessage } from 'in-components/AnalyzeView/utils';
 import WidgetCardHeader from 'in-components/WidgetCardHeader/WidgetCardHeader';
-import { FormatterFn, getFormatterId } from 'in-stores/metric/formatters';
+import { getUnit, getUnitByFormatterFn } from 'in-stores/metric/units';
 import { unitForInfraMetricsEnabled } from 'in-services/featureFlags';
-import { getUnit, getUnitByFormatter } from 'in-stores/metric/units';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 // @ts-expect-error
 import PieChart from 'in-components/PieChart';
+import { FormatterFn } from 'in-stores/metric/formatters';
 import { Result } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -84,6 +84,9 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
   } else {
     const rendererId = config.y1?.renderer.id;
     if (rendererId === Renderer.pie.id) {
+      if (unitForInfraMetricsEnabled) {
+        config = convertMetricForAxis(config as ChartReactComponentProps);
+      }
       content = <PieChart renderLegend={renderLegend} config={config} />;
     } else {
       if (extendBar && granularity && (rendererId === Renderer.bar.id || rendererId === Renderer.stackedBar.id)) {
@@ -110,6 +113,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
 
   const card = (
     <Card
+      headingVariant="heading-3"
       className={renderWidgetNotSupportedIndicator ? locals.disabledChart : ''}
       title={title}
       useMaxAvailableHeight={config.cardUseMaxAvailableHeight}
@@ -192,25 +196,18 @@ function getConvertedMetricForUnits(
   axisConfig: AxisConfiguration,
   metricConfig: MetricsConfiguration
 ): AxisConfiguration {
-  const convertedAxisConfig = {
-    ...axisConfig
-  };
-  axisConfig?.metricIds?.forEach(id => {
-    const unitId = metricConfig?.metrics[id]?.unit;
-    if (unitId) {
-      const metricIndex = Number(id.split('-')[1]);
-      const appliedFormatter = getFormatterId(axisConfig?.formatter as FormatterFn);
-      const unit = getUnit(unitId);
-      if (unit?.baseUnit === getUnitByFormatter(appliedFormatter)?.baseUnit) {
-        const newValues = axisConfig?.metrics[metricIndex].map(data => [
-          data[0],
-          unit.converter(data[1])
-        ]) as MetricDataPoint[];
-        convertedAxisConfig.metrics[metricIndex] = newValues;
-      }
+  const units = axisConfig?.metricIds?.map(id => getUnit(metricConfig?.metrics[id]?.unit ?? 'number'));
+  const appliedUnit = getUnitByFormatterFn(axisConfig?.formatter as FormatterFn);
+  const metrics = axisConfig?.metrics?.map((dataSeries: MetricDataPoint[], index) => {
+    if (units[index]?.baseUnit === appliedUnit?.baseUnit) {
+      return dataSeries.map(data => [data[0], units[index]?.converter(data[1])]) as MetricDataPoint[];
     }
+    return dataSeries;
   });
-  return convertedAxisConfig;
+  return {
+    ...axisConfig,
+    ...(metrics.length && { metrics })
+  };
 }
 
 function normalizeTimeShiftedTimestamps(config: ChartReactComponentProps) {

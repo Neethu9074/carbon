@@ -41,6 +41,8 @@
     "chart": {
       "alertingChartLabelThreshold": "阈值",
       "alertingChartLabelViolations": "违例",
+      "alertingChartLabelWarningViolations": "警告违例",
+      "alertingChartLabelCriticalViolations": "严重违例",
       "alertingChartLabelWarningThreshold": "警告阈值",
       "alertingChartLabelCriticalThreshold": "关键阈值",
       "alertingChartLabelForecast": "预测",
@@ -149,6 +151,7 @@
     "titleNoSmartAlertsCreated": "未创建智能警报",
     "titleCopyOf": "{{smartAlertTitle}}（的副本）",
     "smartAlertsTitle": "智能警报",
+    "labelNew": "（新）",
     "applications": {
       "alertConfiguration": "警报配置",
       "advanced": {
@@ -435,7 +438,8 @@
           "throughputDefault_higherThan": "调用数高于预期数目。",
           "throughputDefault_higherEqual": "调用数大于或等于预期数目。",
           "throughputDefault_lowerThan": "调用数低于预期数目。",
-          "throughputDefault_lowerEqual": "调用数小于或等于预期数目。"
+          "throughputDefault_lowerEqual": "调用数小于或等于预期数目。",
+          "expected": "预期"
         },
         "customStatusCodeFullText": "在 {{statusCodeStart}} 和 {{statusCodeEnd}} 之间"
       },
@@ -464,8 +468,9 @@
         "ruleFormPleaseProvideAStartStatusCode": "请提供有效的起始 HTTP 状态码",
         "ruleFormPleaseProvideAEndStatusCode": "请提供有效的结束 HTTP 状态码",
         "smartAlertFormValueIsReadOnly": "该值为只读值，无法更改",
-        "thresholdFormPleaseProvideANumber0": "请提供大于或等于 0 的数字",
-        "thresholdFormBaselineIsEmpty": "基线为空"
+        "thresholdFormBaselineIsEmpty": "基线为空",
+        "selectAtLeastOneThreshold": "请提供至少一个阈值的值。",
+        "selectAtLeastOneSensitivity": "请至少选择一种敏感度。"
       },
       "simple": {
         "simpleAlertStep2Headline": "您希望在何处触发警报？",
@@ -749,7 +754,8 @@
       "ruleStatusCodeValueOption511": "511（需要网络认证）",
       "ruleStatusCodeValueOption599": "599（网络连接错误）",
       "warningThresholdValidator": "对于 < 和 <= 运算符，警告阈值应大于临界阈值。",
-      "criticalThresholdValidator": "对于 > 和 >= 运算符，临界阈值应大于警告阈值。"
+      "criticalThresholdValidator": "对于 > 和 >= 运算符，临界阈值应大于警告阈值。",
+      "sensitivityValidator": "“严重”敏感度应小于“警告”敏感度。"
     },
     "components": {
       "smartAlertDialog": {
@@ -787,6 +793,7 @@
         "scopeConfigSelectOneEntryMessage": "请至少选择一个条目。",
         "scopeConfigTitleTooltip": "显示过去 24 小时内的可用实体",
         "scopeConfigSubTitle": "基于过去 24 小时",
+        "scopeConfigSearchApplicationsPlaceholder": "搜索应用程序…",
         "scopeMigrationMessage_FAILED": "无法自动迁移该作用域。 请为以下动态焦点查询选取相应的标记过滤器：",
         "scopeMigrationMessage_PARTIAL": "无法完全迁移该作用域。 请为以下动态焦点查询选取相应的标记过滤器：",
         "scopeMigrationMessage_FULL": "应用的作用域基于先前使用的动态焦点查询：",
@@ -1468,7 +1475,30 @@
       },
       "count": "计数",
       "selectEntityType": "请选择实体类型",
-      "regexNotValid": "正则表达式无效"
+      "regexNotValid": "正则表达式无效",
+      "tearSheet": {
+        "createTitle": "创建基础架构智能警报",
+        "steps": {
+          "step1Title": "定义条件",
+          "step2Title": "定义何时收到警报",
+          "step3Title": "定义警报属性",
+          "step4Title": "定义警报通道"
+        },
+        "step1": {
+          "header": "选择指标和汇总以确定何时触发警报"
+        },
+        "step2": {
+          "header": "设置违例阈值的值",
+          "description": "选择一个指标、违例阈值和时间窗口以评估违例情况。"
+        },
+        "step3": {
+          "header": "要为此警报设置哪些属性？"
+        },
+        "step4": {
+          "header": "您希望通过此警报来通知哪些内容？",
+          "description": "选择该警报的收件人"
+        }
+      }
     },
     "logs": {
       "alertDetails": {

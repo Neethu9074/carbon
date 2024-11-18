@@ -16,11 +16,11 @@ import {
 import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
 import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
+import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import { HighlightDataRetention } from 'in-events/components/EventContent/HighlightDataRetention';
 import MobileAppScopePath from 'in-alerting/smart-alerts/mobileApp/components/MobileAppScopePath';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import AnalyzeMobileAppEventButton from 'in-events/components/AnalyzeMobileAppEventButton';
-import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
 import MobileAppAlertConfigButton from 'in-events/components/MobileAppAlertConfigButton';
 import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
@@ -38,6 +38,7 @@ import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
 // @ts-expect-error
 import EventIcon from 'in-events/components/EventIcon';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
+import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -89,6 +90,7 @@ export default function MobileEventContent({ event, snapshot, reload }: Props) {
               <div>
                 <ManualCloseDescription event={event} />
                 <DescriptionButtons>
+                  <TriggeredIncidentButton event={event} />
                   <MobileAppAlertConfigButton alertConfig={alertConfig} />
                   <AnalyzeMobileAppEventButton
                     mobileAppName={eventEntity.mobileAppName}
@@ -108,6 +110,7 @@ export default function MobileEventContent({ event, snapshot, reload }: Props) {
                     }
                   />
                 )}
+                <TriggeredIncidentButton event={event} />
                 <MobileAppAlertConfigButton alertConfig={alertConfig} />
                 <AnalyzeMobileAppEventButton
                   mobileAppName={eventEntity.mobileAppName}

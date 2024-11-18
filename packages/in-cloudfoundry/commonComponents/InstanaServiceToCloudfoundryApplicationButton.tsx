@@ -6,30 +6,46 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Td, Table, Tbody, Tr } from '@instana/legacy';
-import { SvgIcon, Button } from '@instana/components';
+import { CloudfoundryApplicationLink, TimeConfig } from '@instana/types';
+import { Table, Tbody, Td, Tr } from '@instana/legacy';
+import { Button, SvgIcon } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
-import getCloudfoundryApplicationForInstanaApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplicationForInstanaApplication';
+// @ts-expect-error import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
+// @ts-expect-error import EntityWithType from 'in-components/EntityWithType';
+import EntityWithType from 'in-components/EntityWithType/EntityWithType';
+import getCloudfoundryApplicationForInstanaApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplicationForInstanaApplication';
 import { useNavigateToApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import EntityWithType from 'in-components/EntityWithType';
 import Overlay from 'in-components/overlays/Overlay';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 import locals from './InstanaServiceToCloudfoundryApplicationButton.mless';
 
-export default connectTo(
-  ({ applicationId, serviceId, timeConfig }) => ({
-    pcfApplications: getCloudfoundryApplicationForInstanaApplication({ applicationId, serviceId, timeConfig }).map(
+export default function InstanaServiceToCloudfoundryApplicationButton({
+  applicationId,
+  serviceId,
+  timeConfig
+}: {
+  applicationId: string;
+  serviceId: string;
+  timeConfig: TimeConfig;
+}) {
+  const pcfApplications = useObservable(
+    getCloudfoundryApplicationForInstanaApplication({ applicationId, serviceId, timeConfig }).map(
       result => result.data
-    )
-  }),
-  InstanaServiceToCloudfoundryApplicationButton
-);
+    ),
+    [applicationId, serviceId, timeConfig]
+  );
+  return <InstanaServiceToCloudfoundryApplicationButtonPresenter pcfApplications={pcfApplications} />;
+}
 
-export function InstanaServiceToCloudfoundryApplicationButton({ pcfApplications }) {
+export function InstanaServiceToCloudfoundryApplicationButtonPresenter({
+  pcfApplications
+}: {
+  pcfApplications: CloudfoundryApplicationLink[];
+}) {
   if (!pcfApplications || pcfApplications.length === 0) {
     return null;
   }
@@ -37,22 +53,21 @@ export function InstanaServiceToCloudfoundryApplicationButton({ pcfApplications 
   const relevantPCFApps = pcfApplications.filter(app => app.guid !== '' && app.name !== '');
   const uniquePCFApps = Array.from(new Set(relevantPCFApps.map(app => app.snapshotId))).map(snapshotId => {
     const pcfAppDistinctSnapshotId = relevantPCFApps.find(app => app.snapshotId === snapshotId);
-
-    return {
-      snapshotId: snapshotId,
-      guid: pcfAppDistinctSnapshotId.guid,
-      name: pcfAppDistinctSnapshotId.name,
-      space: pcfAppDistinctSnapshotId.space,
-      organization: pcfAppDistinctSnapshotId.organization
-    };
+    return pcfAppDistinctSnapshotId
+      ? {
+          snapshotId: snapshotId,
+          guid: pcfAppDistinctSnapshotId.guid,
+          name: pcfAppDistinctSnapshotId.name,
+          space: pcfAppDistinctSnapshotId.space,
+          organization: pcfAppDistinctSnapshotId.organization
+        }
+      : undefined;
   });
-
   if (!uniquePCFApps || uniquePCFApps.length === 0) {
     return null;
   }
-
+  // @ts-expect-error Type undefined is not assignable to type CloudfoundryApplicationLink
   pcfApplications = uniquePCFApps;
-
   return (
     <Overlay align="bottomLeft" content={ServiceList} props={{ pcfApplications }} withoutWrapper>
       {({ toggle, isOpen, refSetter }) => (
@@ -61,6 +76,7 @@ export function InstanaServiceToCloudfoundryApplicationButton({ pcfApplications 
           kind="secondary"
           icon="lib_cloudfoundry_application"
           onClick={toggle}
+          // @ts-expect-error ignoring ts error on ref type narrowing issues
           refSetter={refSetter}
         >
           {t('in-cloudfoundry:cfApplicationsWithCount', {
@@ -73,9 +89,8 @@ export function InstanaServiceToCloudfoundryApplicationButton({ pcfApplications 
   );
 }
 
-function ServiceList({ pcfApplications }) {
+function ServiceList({ pcfApplications }: { pcfApplications: CloudfoundryApplicationLink[] }) {
   const getApplicationDashboardLink = useNavigateToApplicationDashboard();
-
   return (
     <div className={locals.tableWrapper}>
       <Table>

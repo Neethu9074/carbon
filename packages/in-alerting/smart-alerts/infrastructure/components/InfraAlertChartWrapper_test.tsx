@@ -66,7 +66,7 @@ describe('in-alerting/components/InfraAlertChartWrapper', () => {
       granularity: 600000,
       groupBy: [],
       name: '',
-      predictiveTrigger: null,
+      forecastingConfig: null,
       tagFilterExpression: {
         type: 'EXPRESSION',
         logicalOperator: 'AND',

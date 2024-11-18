@@ -8,6 +8,11 @@ import React from 'react';
 
 import { BoundaryScope, TimeConfig, TurboActionCategory } from '@instana/types';
 
+import {
+  AUTOMATION_TURBO_BUY_CLICK,
+  AUTOMATION_TURBO_SUPPORT_CLICK,
+  AUTOMATION_TURBO_TRY_CLICK
+} from 'in-services/tracking/eventNames';
 //@ts-expect-error needs TS migration
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
 import RecommendedActionsWithHistory from 'in-automation/ResourceOptimization/RecommendedActionsWithHistory';
@@ -50,8 +55,6 @@ const colorPalette = [
   chartColors.fiveColorPalette[3],
   chartColors.fiveColorPalette[4]
 ];
-
-const showGuidance = false;
 
 function generateTimeframe(windowSize: number) {
   return {
@@ -117,40 +120,49 @@ export default function ResourceOptimizationTab({
 
   return (
     <div className={locals.contentContainer}>
-      {showGuidance && (
-        <InfoPanel
-          content={{
-            //The text is not approved in time for the release, so do not put them in i18n files. The infoPanel is not displayed for now.
-            title: 'Resource optimizations, powered by Turbonomic',
-            columns: [
-              {
-                title: 'Set up integration',
-                text: 'You can automate actions to comply with service level objectives and improve business efficiency.',
-                link: {
-                  url: '#',
-                  label: 'Set up'
-                }
-              },
-              {
-                title: 'Upgrade to Instana Premium',
-                text: 'You can automate actions to comply with service levels and improve business efficiency.',
-                link: {
-                  url: '#',
-                  label: 'Upgrade'
-                }
-              },
-              {
-                title: 'View documentation',
-                text: 'You can automate actions to comply with service levels and improve business efficiency.',
-                link: {
-                  url: '#',
-                  label: 'View docs'
-                }
+      <InfoPanel
+        expanded="showResourceActionInfoPanel"
+        content={{
+          title: t('in-applications:infoBanner.title'),
+          columns: [
+            {
+              title: t('in-applications:infoBanner.tryLabel'),
+              text: t('in-applications:infoBanner.tryText'),
+              link: {
+                url: 'https://www.ibm.com/account/reg/us-en/signup?formid=urx-52198',
+                label: t('in-applications:infoBanner.tryButtonLabel'),
+                trackKey: AUTOMATION_TURBO_TRY_CLICK
               }
-            ]
-          }}
-        />
-      )}
+            },
+            {
+              title: t('in-applications:infoBanner.learnLabel'),
+              text: t('in-applications:infoBanner.learnText'),
+              link: {
+                url: 'https://www.ibm.com/products/instana/automated-resource-optimization',
+                label: t('in-applications:infoBanner.learnButtonLabel')
+              }
+            },
+            {
+              title: t('in-applications:infoBanner.connectLabel'),
+              text: t('in-applications:infoBanner.connectText'),
+              link: {
+                url: 'https://www.ibm.com/account/reg/us-en/signup?formid=MAIL-automateinstana',
+                label: t('in-applications:infoBanner.connectButtonLabel'),
+                trackKey: AUTOMATION_TURBO_BUY_CLICK
+              }
+            },
+            {
+              title: t('in-applications:infoBanner.helpLabel'),
+              text: t('in-applications:infoBanner.helpText'),
+              link: {
+                url: 'https://your.feedback.ibm.com/jfe/form/SV_eLsdmgUrNwcTrpQ',
+                label: t('in-applications:infoBanner.helpButtonLabel'),
+                trackKey: AUTOMATION_TURBO_SUPPORT_CLICK
+              }
+            }
+          ]
+        }}
+      />
       <div className={locals.charts}>
         <div className={locals.categoriesChart}>
           <ResultAwareChart

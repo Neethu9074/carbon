@@ -76,7 +76,7 @@
     "kubernetesLabels": "Libellés Kubernetes",
     "podmanAnnotations": "Annotations Podman",
     "metricExplosionBeeInstana": "Ce tableau de bord peut ne pas afficher toutes les métriques, car un maximum de {{numberOfMetrics}} métriques sont capturées à un moment donné.",
-    "metricExplosion": "Ce tableau de bord peut ne pas afficher toutes les métriques, car un maximum de {{numberOfMetrics}} métriques haute résolution sont capturées à un moment donné. Pour afficher d'autres métriques, utilisez Analyser l'infrastructure ou un tableau de bord personnalisé."
+    "metricExplosion": "Ce tableau de bord peut ne pas afficher toutes les métriques, car un maximum de {{numberOfMetrics}} métriques haute résolution sont capturées à un moment donné. Pour afficher d'autres métriques balisées, utilisez Analyser l'infrastructure ou un tableau de bord personnalisé."
   },
   "explore": {
     "analyzeInfrastructure": "Analyser l'infrastructure",
@@ -89,7 +89,6 @@
     "search": "Rechercher un type",
     "explore": "Explorer",
     "health": "Intégrité",
-    "noIssues": "Aucun problème détecté",
     "count": "Nombre",
     "errors": {
       "maximumNumberOfGroups": "Cette requête a trop de résultats. Affinez votre recherche à l'aide d'un filtre plus restrictif ou réduisez l'intervalle et réessayez.",
@@ -141,5 +140,10 @@
     "buttonSelectTags": "Sélectionner des étiquettes",
     "titleAddATag": "Ajouter une balise",
     "messagePleaseSelectAtMostTags": "Sélectionnez au maximum {{maximumNumberOfTags}} étiquettes."
+  },
+  "threshold": {
+    "label": "Seuil",
+    "critical": "Critique quand {{operator}} {{level}}",
+    "warning": "Avertissement quand {{operator}} {{level}}"
   }
 }

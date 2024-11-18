@@ -19,8 +19,10 @@ import {
 import { isAnotherIdpActivated } from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/configuredIdPCheck';
 import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/SecurityAndAccess/api/saml';
+import { SETTINGS_IDP_LDAP_TEST_CONFIGURATION } from 'in-services/tracking/tracking';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessageV2';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { disableInvitesWithIdpEnabled } from 'in-services/featureFlags';
 import { notBlankValidator } from 'in-services/validators/string.ts';
@@ -45,6 +47,8 @@ import locals from './Ldap.mless';
 
 export default function Ldap(props) {
   const [testResultMessage, setTestResultMessage] = useState({ waitingForTest: false, messageProps: null });
+  const { trackCta } = useSegmentTracking();
+
   return (
     <ApiItemView
       getObservables={() => ({
@@ -75,7 +79,7 @@ export default function Ldap(props) {
         } else saveItem(data);
       }}
       deleteItem={deleteItem}
-      render={render}
+      render={data => render({ ...data, trackCta })}
       testResultMessage={testResultMessage}
       setTestResultMessage={setTestResultMessage}
     />
@@ -86,7 +90,7 @@ function isAnyInvitationsPending(props) {
   return disableInvitesWithIdpEnabled && props.invitations?.data?.length > 0;
 }
 
-function render({ form, setForm, testResultMessage, setTestResultMessage, result }) {
+function render({ form, setForm, testResultMessage, setTestResultMessage, result, trackCta }) {
   const allFieldsFilled =
     form.get('url').value &&
     form.get('url').value !== '' &&
@@ -116,7 +120,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
       <Title title={t('in-settings:tabs.configureLdap')} />
       <SubViewHeader>{t('in-settings:tabs.ldapConfiguration')}</SubViewHeader>
       {isAnotherIdpActivated([result.oidcConfig?.activated, result.samlConfig?.activated]) ? (
-        <h2>LDAP is not configurable as long as you have another active identity provider configuration.</h2>
+        <h2>{t('in-settings:tabs.ldapCannotbeConfiguredWithOtherIdPActive')}</h2>
       ) : (
         <>
           <p>
@@ -332,6 +336,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
                             type: msgType
                           }
                         });
+                        trackCta(SETTINGS_IDP_LDAP_TEST_CONFIGURATION, { result: msgType });
                         setForm(form.setTouched(true, { recurse: true }));
                       });
                       result$.errors().once(e => {
