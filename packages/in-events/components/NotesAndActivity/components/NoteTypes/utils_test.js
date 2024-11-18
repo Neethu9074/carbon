@@ -83,7 +83,9 @@ describe('convertActionsToString', () => {
 
     const result = convertActionsToString(actionData);
 
-    expect(result).toBe('Actions taken for similar incidents:\n\nLabel 1\ntype: Summary 1\nLabel 2\ntype: Summary 2\n');
+    expect(result).toBe(
+      'Successful actions taken for similar incidents:\n\nLabel 1\ntype: Summary 1\nLabel 2\ntype: Summary 2\n'
+    );
   });
 
   test('should handle an empty array', () => {
@@ -92,7 +94,7 @@ describe('convertActionsToString', () => {
     const result = convertActionsToString(actionData);
 
     expect(result).toBe(
-      'Actions taken for similar incidents:\n\nNo data available at the time the summary was generated.\n'
+      'Successful actions taken for similar incidents:\n\nNo data available at the time the summary was generated.\n'
     );
   });
 
@@ -101,7 +103,7 @@ describe('convertActionsToString', () => {
 
     const result = convertActionsToString(actionData);
 
-    expect(result).toBe('Actions taken for similar incidents:\n\n');
+    expect(result).toBe('Successful actions taken for similar incidents:\n\n');
   });
 
   test('should handle long names and types', () => {
@@ -121,7 +123,7 @@ describe('convertActionsToString', () => {
     const result = convertActionsToString(actionData);
 
     expect(result).toBe(
-      'Actions taken for similar incidents:\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.\ntype: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.\n'
+      'Successful actions taken for similar incidents:\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.\ntype: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.\n'
     );
   });
 });

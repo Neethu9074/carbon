@@ -295,7 +295,7 @@
     "addComment": "Add comment",
     "notesLabelText": "Add incident notes",
     "sumGenerated": "Summary of incident:",
-    "sumActions": "Actions taken for similar incidents:",
+    "sumActions": "Successful actions taken for similar incidents:",
     "noSumActions": "No data available at the time the summary was generated.",
     "sumNotes": "Summary of notes:",
     "noSumNotes": "No notes available at the time the summary was generated.",

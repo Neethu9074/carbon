@@ -29,4 +29,13 @@
   .summarySection {
     padding-top: 1rem;
   }
+
+  .shareCopyWrapper {
+    display: flex;
+    padding-top: 0.5rem;
+  }
+
+  .bold {
+    font-weight: 700;
+  }
 }

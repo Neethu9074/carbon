@@ -10,7 +10,6 @@ import { SvgIcon, CarbonButton, CarbonIconButton, CarbonInlineLoading } from '@i
 
 import {
   EVENT_AI_SHOW_MORE_INCIDENTS,
-  EVENT_AI_SHOW_MORE_NOTES,
   EVENT_AI_SHOW_MORE_ACTIONS,
   EVENT_AI_SHARE_OPENED,
   EVENT_AI_RUN_ACTION
@@ -25,34 +24,23 @@ import { t } from 'in-i18n';
 import locals from './AISummary.mless';
 
 export function AISummary({ noteObj, setNeedOverlay, setShareOpen, setSummaryData, event }) {
-  // Test data for notes Summary
-  const notesSummaryData = [
-    // '1. Restarted the pod as a temporary measure.',
-    // '2. This incident has been previously reported and is being handled as a duplicate.',
-    // "3. No action required from the user's side.",
-    // '4. The previous incident was likely due to high error rates in the GET endpoint.',
-    // '5. The team needs to investigate the root cause of the persistent failure of the GET endpoint.',
-    // '6. Josh added this to test the show more button.'
-  ];
-
-  // Show alls that handle showing more incidents / Notes / Actions
+  // Show alls that handle showing more incidents / Actions
   const [showAllIncidents, setShowAllIncidents] = useState(false);
-  const [showAllNotes, setShowAllNotes] = useState(false);
   const [showAllActions, setShowAllActions] = useState(false);
 
-  // Little Slice function for grabbing the first 5 entries for incidents / notes / actions
+  // Little Slice function for grabbing the first 5 entries for incidents / actions
   const subArray = (arr, i = 0, n = 1) => arr?.slice(i, n);
 
-  // Calculate the first 5 and last values for incidents / notes / actions
+  // Calculate the first 5 and last values for incidents / actions
   // These are used to determine if their show more buttons should be visible
-  const relatedEventSummary = noteObj?.data?.get('relatedEventSummary') || [];
+  const relatedEventSummary = noteObj?.data?.get('watsonxSummary')?.get('recentEventsSummary') || [];
   const firstFiveRelated = subArray(relatedEventSummary, 0, 5);
   const lastRelated = subArray(relatedEventSummary, 5, relatedEventSummary.size);
-  const firstFiveNotes = subArray(notesSummaryData, 0, 5);
-  const lastNotes = subArray(notesSummaryData, 5, notesSummaryData.length);
   const actionHistory = noteObj?.data?.get('actionHistorySummary') || [];
   const firstFiveAction = subArray(actionHistory, 0, 5);
   const lastAction = subArray(actionHistory, 5, actionHistory.size);
+  // Only one entry so dont need show more
+  const notesSummaryData = noteObj?.data?.get('watsonxSummary')?.get('notesSummary') || [];
   // The full summarization that includes incident, notes, and action summary
   // Used for copy and share button
   const incidentSummary = convertIncidentSummaryToString(relatedEventSummary);
@@ -79,23 +67,14 @@ export function AISummary({ noteObj, setNeedOverlay, setShareOpen, setSummaryDat
       {/* Summarization of notes */}
       <div className={locals.summarySection}>
         <div className={locals.contentsHeader}>{t('in-events:notes.sumNotes')}</div>
-        <NotesEntry notesList={firstFiveNotes} />
-        {showAllNotes && <NotesEntry notesList={lastNotes} />}
-        {lastNotes.size > 0 && (
-          <ShowAllButton
-            setShowAllType={setShowAllNotes}
-            showAllValue={showAllNotes}
-            trackingType={EVENT_AI_SHOW_MORE_NOTES}
-            noteId={noteObj?.id}
-          />
-        )}
+        <NotesEntry notesList={notesSummaryData} />
       </div>
 
       {/* Summarization of Actions to take */}
       <div className={locals.summarySection}>
         <div className={locals.contentsHeader}>{t('in-events:notes.sumActions')}</div>
         <ActionEntry actionList={firstFiveAction} noteId={noteObj?.id} event={event} />
-        {showAllActions && <ActionEntry actionList={lastAction} noteId={noteObj?.id} event={event} />}
+        {showAllActions && <ActionEntry actionList={lastAction} event={event} />}
         {lastAction.size > 0 && (
           <ShowAllButton
             setShowAllType={setShowAllActions}
@@ -106,7 +85,7 @@ export function AISummary({ noteObj, setNeedOverlay, setShareOpen, setSummaryDat
         )}
       </div>
 
-      <div style={{ display: 'flex', paddingTop: '.5rem' }}>
+      <div className={locals.shareCopyWrapper}>
         {/* Share summarization button */}
         <CarbonIconButton
           kind={'ghost'}
@@ -149,7 +128,7 @@ export function SummaryEntry({ summaryList }) {
           <div key={entityLabel} className={locals.summaryList}>
             {`-`}
             <div>
-              <div style={{ fontWeight: '700' }}>{entityLabel}</div>
+              <div className={locals.bold}>{entityLabel}</div>
               {entitySummary}
             </div>
           </div>
@@ -166,12 +145,7 @@ export function NotesEntry({ notesList }) {
     <>
       {noNotes && t('in-events:notes.noSumNotes')}
       {notesList.map(entity => {
-        return (
-          <div key={entity} className={locals.summaryList}>
-            {`-`}
-            <div>{entity}</div>
-          </div>
-        );
+        return <div>{entity}</div>;
       })}
     </>
   );
@@ -180,6 +154,11 @@ export function NotesEntry({ notesList }) {
 // Function to reduce duplicate code for looping through action history bullet points
 export function ActionEntry({ actionList, noteId, event }) {
   const noActions = actionList.size == 0;
+
+  const triggeringEvent = event?.get('triggeringEvent') || '';
+  // Action Dialog needs the event to reference just the id so we can make that
+  // from the triggering event
+  const eventObjId = { id: triggeringEvent };
   return (
     <>
       {noActions && t('in-events:notes.noSumActions')}
@@ -192,10 +171,10 @@ export function ActionEntry({ actionList, noteId, event }) {
           <div key={actionName} className={locals.summaryList}>
             {`-`}
             <div>
-              <div style={{ fontWeight: '700' }}>{`${actionName}`}</div>
+              <div className={locals.bold}>{`${actionName}`}</div>
               {`type: ${actionType}`}
             </div>
-            <ActionHistoryButton actionId={actionId} noteId={noteId} event={event} />
+            <ActionHistoryButton actionId={actionId} noteId={noteId} eventObjId={eventObjId} />
           </div>
         );
       })}
@@ -207,7 +186,7 @@ export function ActionEntry({ actionList, noteId, event }) {
 // This function will make an API call when actionID is passed in
 // When its loading a spinner will be displayed, otherwise button
 // can be clicked
-function ActionHistoryButton({ actionId, noteId, event }) {
+function ActionHistoryButton({ actionId, noteId, eventObjId }) {
   // API call to get the action object which contains the field params
   // which is needed to pass to the RunActionDialog
   const actionResult = useAction(actionId, false);
@@ -224,7 +203,7 @@ function ActionHistoryButton({ actionId, noteId, event }) {
           align={'left'}
           label={t('in-automation:ActionCatalog.run')}
           onClick={() => {
-            handleRunActionClick(actionResult, noteId, event);
+            handleRunActionClick(actionResult, noteId, eventObjId);
           }}
         >
           <SvgIcon type="lib_actions_play" size="xs" />
@@ -249,10 +228,10 @@ export function ShowAllButton({ setShowAllType, showAllValue, trackingType, note
   );
 }
 
-function handleRunActionClick(action, noteId, event) {
+function handleRunActionClick(action, noteId, eventObjId) {
   if (action.data && action.progress.loading == false) {
     handleTracking(noteId, EVENT_AI_RUN_ACTION);
-    addActiveDialog(<RunActionDialog action={action.data} volatileId={{}} event={Object.fromEntries(event)} />);
+    addActiveDialog(<RunActionDialog action={action.data} volatileId={{}} event={eventObjId} />);
   }
 }
 
