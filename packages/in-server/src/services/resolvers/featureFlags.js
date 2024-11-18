@@ -618,11 +618,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'carbonListEnabled',
-    instanaCtlKey: 'feature.carbon.list.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'carbonPaginationEnabled',
     instanaCtlKey: 'feature.carbon.pagination.enabled',
     defaultValue: true
