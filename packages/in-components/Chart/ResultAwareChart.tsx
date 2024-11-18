@@ -110,6 +110,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
 
   const card = (
     <Card
+      headingVariant="heading-3"
       className={renderWidgetNotSupportedIndicator ? locals.disabledChart : ''}
       title={title}
       useMaxAvailableHeight={config.cardUseMaxAvailableHeight}
