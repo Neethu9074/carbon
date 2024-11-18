@@ -29,7 +29,6 @@ export function roleHasAnyGlobalPermissions() {
     role.canConfigureIntegrations ||
     role.canConfigureMaintenanceWindows ||
     role.canConfigureGlobalAlertPayload ||
-    role.canViewAuditLog ||
     role.canConfigureLogRetentionPeriod ||
     role.canConfigureLogManagement ||
     role.canConfigureDatabaseManagement ||
@@ -43,6 +42,7 @@ export function roleHasAnySecurityAccessPermissions() {
     role.canConfigureUsers ||
     role.canConfigureTeams ||
     role.canConfigureApiTokens ||
+    role.canViewAuditLog ||
     role.canConfigureAuthenticationMethods ||
     role.canConfigureSessionSettings
   );
