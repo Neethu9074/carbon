@@ -4,7 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
-import { Bucket, Formatter } from 'in-components/HistogramChart/components/HistogramChartPresenter/types';
+import { Bucket, Converter, Formatter } from 'in-components/HistogramChart/components/HistogramChartPresenter/types';
+import { FormatterFn } from 'in-stores/metric/formatters';
+import { ConversionFn } from 'in-stores/metric/units';
 
 export type Bins = [string | number | null, number][];
 
@@ -154,9 +156,10 @@ export function getMaxLabelCharsCount(bins: Bins) {
 interface FormatBinsProps {
   bins: Bins;
   formatter: Formatter;
+  converter?: Converter;
 }
 
-export function formatBins({ bins, formatter }: FormatBinsProps) {
+export function formatBins({ bins, formatter, converter }: FormatBinsProps) {
   if (bins.length === 0) {
     return [];
   }
@@ -173,7 +176,10 @@ export function formatBins({ bins, formatter }: FormatBinsProps) {
       decimalPlaces: isFormatterCompact ? 0 : 2
     });
 
-    const value = binValue === null ? null : applyFormatter(roudedUpValue);
+    const value =
+      binValue === null
+        ? null
+        : convertAndFormat({ value: roudedUpValue, formatter: applyFormatter, converter: converter?.conversionFn });
 
     return [value, count];
   }) as Bins;
@@ -201,4 +207,17 @@ export function roundUp({ value, decimalPlaces }: RoundUpProps) {
   const multiplier = 10 ** decimalPlaces;
 
   return Math.ceil(value * multiplier) / multiplier;
+}
+
+interface ConversionAndFormattingProps {
+  value: number;
+  formatter: FormatterFn;
+  converter?: ConversionFn;
+}
+
+function convertAndFormat({ value, formatter, converter }: ConversionAndFormattingProps) {
+  if (converter) {
+    return formatter(converter(value));
+  }
+  return formatter(value);
 }
