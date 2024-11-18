@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useMemo, useState } from 'react';
-import { debounce, find } from 'lodash';
+import React, { useMemo, useState } from 'react';
+import { find } from 'lodash';
 
 import { Message } from '@instana/components';
 import { Link } from '@instana/components';
@@ -17,17 +17,12 @@ import DateTimeKpiCard from 'in-components/KpiCard/DateTimeKpiCard';
 import { useLinkToWebsite } from 'in-websites/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import { Col, Row } from 'in-components/layout/Grid';
-import { openPageLoad } from 'in-websites/tracker';
 import KpiCard from 'in-components/KpiCard';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
 
-// avoid potential high-refrequency updates when the user is just flicking through
-// views very quickly.
-const debouncedOpenPageLoad = debounce(openPageLoad, 1000);
-
-export default function Summary({ beacons, pageLoadLabel, pageLoadId, detailId }) {
+export default function Summary({ beacons, detailId }) {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState('');
   const [filterTypes, setFilterTypes] = useState([]);
@@ -37,13 +32,6 @@ export default function Summary({ beacons, pageLoadLabel, pageLoadId, detailId }
   beacons = useMemo(() => beacons.slice().sort(beaconsComparator), [beacons]);
   const pageLoad = find(beacons, b => b.type === 'pageLoad');
   const firstBeacon = pageLoad || beacons[0];
-
-  useEffect(() => {
-    debouncedOpenPageLoad({
-      pageLoadId,
-      pageLoadLabel
-    });
-  }, [pageLoadId, pageLoadLabel]);
 
   const websiteHref = useLinkToWebsite(firstBeacon.websiteId);
 
