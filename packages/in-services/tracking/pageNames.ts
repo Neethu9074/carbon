@@ -84,6 +84,7 @@ export const pageNames = Object.freeze({
   vsphere_vm: 'vSphere VM',
   vsphere_esxi_host: 'vSphere ESXi Host',
   vsphere_data_center: 'vSphere Datacenter',
+  vulnerability_overview: 'Vulnerability Overview',
   synthetic_monitoring: 'Synthetic Monitoring',
   synthetic_test_result: 'Synthetic Test Result >  Details',
   synthetic_test: 'Synthetic Test',
