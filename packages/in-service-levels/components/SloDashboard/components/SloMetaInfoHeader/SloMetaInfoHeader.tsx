@@ -7,27 +7,34 @@
 import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 
+import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { ButtonGroup } from '@instana/components';
 import { Stack } from '@instana/components';
-import { t } from '@instana/i18n-react';
 
 import SloDashboardMetaInfo from 'in-service-levels/components/SloDashboard/components/SloDashboardMetaInfo';
 import AdditionalDashboardHeader from 'in-components/AdditionalDashboardHeader/AdditionalDashboardHeader';
-import tabs, { ApplicationSloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
+import tabs from 'in-service-levels/components/SloDashboard/tabs';
 import { SloTimeWindowTypes } from 'in-service-levels/constants';
+import { LabeledEntity } from 'in-service-levels/types';
+import { t } from 'in-i18n';
 
 import locals from './SloMetaInfoHeader.mless';
 
-type SloMetaInfoHeaderProps = Partial<ApplicationSloTabData>;
+interface SloMetaInfoHeaderProps {
+  configuration?: ServiceLevelObjectiveConfiguration;
+  entities?: LabeledEntity[];
+  service?: LabeledEntity;
+  endpoint?: LabeledEntity;
+}
 
-export default function SloMetaInfoHeader({ configuration, entity, service, endpoint }: SloMetaInfoHeaderProps) {
+export default function SloMetaInfoHeader({ configuration, entities, service, endpoint }: SloMetaInfoHeaderProps) {
   if (!configuration) return null;
 
   return (
     <AdditionalDashboardHeader className={locals.metaInfoHeader}>
       <Stack align="start" direction="horizontal" distribution="spaceBetween" wrap>
-        <SloDashboardMetaInfo configuration={configuration} entity={entity} service={service} endpoint={endpoint} />
+        <SloDashboardMetaInfo configuration={configuration} entities={entities} service={service} endpoint={endpoint} />
         <TabButtons />
       </Stack>
     </AdditionalDashboardHeader>

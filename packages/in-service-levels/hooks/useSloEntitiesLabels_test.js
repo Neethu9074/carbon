@@ -40,7 +40,9 @@ describe('in-service-levels/hooks/useSloEntitiesLabels', () => {
     expect(getApplication).toHaveBeenCalledWith({ id: 'Snack Vending Id' });
     expect(status).toEqual('resolved');
     expect(labels).toEqual(
-      expect.objectContaining({ 'snack slo': expect.objectContaining({ label: 'Snack Vending Application Label' }) })
+      expect.objectContaining({
+        'snack slo': expect.arrayContaining([expect.objectContaining({ label: 'Snack Vending Application Label' })])
+      })
     );
   });
 
@@ -60,7 +62,9 @@ describe('in-service-levels/hooks/useSloEntitiesLabels', () => {
     expect(getWebsite).toHaveBeenCalledWith({ id: 'Snack Blog Id' });
     expect(status).toEqual('resolved');
     expect(labels).toEqual(
-      expect.objectContaining({ 'snack blog slo': expect.objectContaining({ label: 'Snack Blog Website Label' }) })
+      expect.objectContaining({
+        'snack blog slo': expect.arrayContaining([expect.objectContaining({ label: 'Snack Blog Website Label' })])
+      })
     );
   });
 
@@ -85,8 +89,8 @@ describe('in-service-levels/hooks/useSloEntitiesLabels', () => {
     expect(status).toEqual('resolved');
     expect(labels).toEqual(
       expect.objectContaining({
-        'snack slo': expect.objectContaining({ label: 'Snack Vending Application Label' }),
-        'snack blog slo': expect.objectContaining({ label: 'Snack Blog Website Label' })
+        'snack slo': expect.arrayContaining([expect.objectContaining({ label: 'Snack Vending Application Label' })]),
+        'snack blog slo': expect.arrayContaining([expect.objectContaining({ label: 'Snack Blog Website Label' })])
       })
     );
   });

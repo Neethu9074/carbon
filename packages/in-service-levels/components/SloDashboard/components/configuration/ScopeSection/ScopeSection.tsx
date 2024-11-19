@@ -29,7 +29,6 @@ import { useApplicationQueryBuilder } from 'in-service-levels/hooks/useApplicati
 import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
 import QueryBuilderFilter from 'in-service-levels/components/QueryBuilderFilter';
 import { getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
-import { ServiceLevelErrors } from 'in-service-levels/constants';
 
 import locals from './ScopeSection.mless';
 
@@ -71,7 +70,7 @@ export default function ScopeSection({ data }: ScopeSectionProps) {
   const { configuration } = data;
   const { entity } = configuration;
 
-  if (isSyntheticSloEntity(entity)) throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
+  if (isSyntheticSloEntity(entity)) return <></>;
 
   const { type } = entity;
 

@@ -101,7 +101,7 @@ function getColumnDefinitions({
 
 export interface SloListItem {
   configuration: ServiceLevelObjectiveConfiguration;
-  entity: LabeledEntity;
+  entities: LabeledEntity[];
   status?: number;
   remainingBudget?: number;
   burnDown: MetricDataSeries;

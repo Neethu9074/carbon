@@ -271,16 +271,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'sloSmartAlertsEnabled',
-    instanaCtlKey: 'feature.slo.smart.alerts.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'sloRebornWidgetEnabled',
-    instanaCtlKey: 'feature.slo.reborn.widget.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'sloSyntheticsEnabled',
     instanaCtlKey: 'feature.slo.synthetics.enabled',
     defaultValue: false

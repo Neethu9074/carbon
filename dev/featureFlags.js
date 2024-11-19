@@ -106,8 +106,6 @@ module.exports = {
   sliCHClusterAccessEnabled: true,
   sloV2Enabled: true,
   sloEnabled: true,
-  sloSmartAlertsEnabled: true,
-  sloRebornWidgetEnabled: true,
   sloSyntheticsEnabled: true,
   customWidgetEventsTableEnabled: true,
   customWidgetTableInfraDataSourceEnabled: true,

@@ -56,7 +56,12 @@
       "website": {
         "trafficType_all": "All beacon count",
         "trafficType_erroneous": "Beacon error count"
-      }
+      },
+      "synthetic": {
+        "trafficType_all": "All results",
+        "trafficType_erroneous": "Erroneous results"
+      },
+      "trafficTypeLabel": "$t(in-service-levels:general.indicator.{{entityType}}.trafficType, {\"context\": \"{{trafficType}}\" })"
     },
     "latency": "Latency",
     "time": "Time",
@@ -108,8 +113,10 @@
       "beaconCount": "Beacon Count",
       "calls": "Calls",
       "latency": "Latency",
+      "results": "Results",
       "beaconDuration": "Beacon Duration",
       "threshold": "Threshold",
+      "failureRate": "Failure Rate",
       "errors": "Erroneous Call Rate",
       "beaconErrorRate": "Beacon Error Rate",
       "goodEvents": "Good Events",
@@ -132,7 +139,9 @@
       "event_synthetic_plural": "{{formatted}} results",
       "event_synthetic_0": "{{formatted}} results",
       "event_synthetic_1": "{{formatted}} results",
-      "event_synthetic_2": "{{formatted}} results"
+      "event_synthetic_2": "{{formatted}} results",
+      "event_test": "{{count}} test",
+      "event_test_plural": "{{count}} tests"
     },
     "deleteDialog": {
       "pleaseConfirm": "Please Confirm",
@@ -212,9 +221,7 @@
       "thresholdDescription_GTE": "A good minute is defined by a count of more than or equal to {{thresholdValue}} calls per minute. A bad minute is defined by a count of less than {{thresholdValue}} calls per minute.",
       "thresholdDescription_LT": "A good minute is defined by a count of less than {{thresholdValue}} calls per minute. A bad minute is defined by a count of more than or equal to {{thresholdValue}} calls per minute.",
       "thresholdDescription_LTE": "A good minute is defined by a count of less than or equal to {{thresholdValue}} calls per minute. A bad minute is defined by a count of more than {{thresholdValue}} calls per minute.",
-      "thresholdInput": "<Stack>Set a threshold of<HorizontalStack><OperatorDropdown /><ThresholdInput />calls per minute<HorizontalStack/><Stack />",
-      "allCalls": "All calls",
-      "erroneousCalls": "Erroneous calls"
+      "thresholdInput": "<Stack>Set a threshold of<HorizontalStack><OperatorDropdown /><ThresholdInput />calls per minute<HorizontalStack/><Stack />"
     },
     "previewSection": {
       "dataInfo": "Preview data is shown only up to 7 days in the past. The SLO will only include data from the time it was created",

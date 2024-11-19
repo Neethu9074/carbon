@@ -64,7 +64,7 @@ export function buildSloListItem({
   timeConfig: tc
 }: {
   configuration: ServiceLevelObjectiveConfiguration;
-  labels?: Record<string, LabeledEntity>;
+  labels?: Record<string, LabeledEntity[]>;
   metrics?: Record<string, SloMetricsResultMap>;
   timeConfig: TimeConfig;
 }): SloListItem {
@@ -77,9 +77,10 @@ export function buildSloListItem({
   const granularity = remainingBudgetSpark?.granularity ?? calculateSloGranularity(timeConfig);
   const status = getSingleNumberMetricValue(statusMetrics);
   const remainingBudget = getSingleNumberMetricValue(remainingBudgetMetrics);
+
   return {
     configuration,
-    entity: labels?.[configuration.id!] ?? { label: '' },
+    entities: labels?.[configuration.id!] ?? [{ id: '', label: '' }],
     status,
     remainingBudget,
     burnDown: (remainingBudgetSpark?.values ?? []) as MetricDataSeries,

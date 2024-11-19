@@ -8,6 +8,7 @@ import React from 'react';
 
 import {
   isApplicationSloEntity,
+  isSyntheticSloEntity,
   isWebsiteSloEntity,
   ServiceLevelObjectiveConfiguration,
   SloEntityUnion,
@@ -20,6 +21,7 @@ import { t } from '@instana/i18n-react';
 // eslint-disable-next-line no-restricted-imports -- We cant specifically allow parts of a otherwise restricted package
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
 import { useLineWithMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithMissingDataIndicator';
+import SyntheticsSloTrafficChart from 'in-service-levels/components/SloDashboard/components/chart/TrafficChart/components/SyntheticsSloTrafficChart';
 import {
   copyFirstBucketOfSubsequentDataSeries,
   findMinMaxMetricValues
@@ -39,12 +41,38 @@ import { number } from 'in-services/formatters/number';
 
 interface TrafficChartProps {
   automaticallySize?: boolean;
-  customHeight?: number;
-  customChartSkeletonHeight?: number;
   configuration: ServiceLevelObjectiveConfiguration;
+  customChartSkeletonHeight?: number;
+  customHeight?: number;
 }
 
 export default function TrafficChart({
+  automaticallySize,
+  configuration,
+  customChartSkeletonHeight,
+  customHeight
+}: TrafficChartProps) {
+  if (isSyntheticSloEntity(configuration.entity))
+    return (
+      <SyntheticsSloTrafficChart
+        automaticallySize={automaticallySize}
+        configuration={configuration}
+        customChartSkeletonHeight={customChartSkeletonHeight}
+        customHeight={customHeight}
+      />
+    );
+
+  return (
+    <AppWebsiteTrafficChart
+      automaticallySize={automaticallySize}
+      configuration={configuration}
+      customChartSkeletonHeight={customChartSkeletonHeight}
+      customHeight={customHeight}
+    />
+  );
+}
+
+function AppWebsiteTrafficChart({
   automaticallySize,
   configuration,
   customHeight,
