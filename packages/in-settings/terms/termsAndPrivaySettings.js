@@ -26,6 +26,7 @@ export function setAndSave(settings, successCallback, errorCallback) {
 export function formUserSettingsObject(form) {
   return Object.freeze({
     allAnalyticsServices: form.get('allAnalyticsServices').value,
+    walkmeAnalyticsServices: form.get('walkmeAnalyticsServices').value,
     allSupportAndResearchServices: form.get('allSupportAndResearchServices').value,
     marketingMessages: form.get('marketingMessages').value,
     productTips: form.get('productTips').value,

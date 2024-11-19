@@ -53,6 +53,11 @@
       "title": "Product User Analytics",
       "purpose": "Registers a unique ID that is used to generate statistical data on how the visitor uses the website."
     },
+    "walkme": {
+      "title": "Product user analytics and guidance",
+      "purpose": "Registers a unique ID that is used to generate statistical data on how the visitor uses the product.",
+      "category": "Functional"
+    },
     "appcues": {
       "title": "Tailored Onboarding Experience and NPS Surveys",
       "purpose": "User Onboarding and NPS store survey."

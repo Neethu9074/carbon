@@ -40,8 +40,9 @@
     //   "currency": ["", "\u00a0€"]
     // };
   </script>
+      <!-- WalkeMe Inject -->
    <script type="text/javascript">
-      if (window.instana.config.featureFlags.playwithTestEnabled) {
+      if (window.instana.termsAndPrivacySettings.walkmeAnalyticsServices && window.instana.config.featureFlags.playwithTestEnabled) {
     (function() {
       var walkme = document.createElement('script');
       walkme.type = 'text/javascript'; walkme.async = true;
@@ -51,6 +52,21 @@
       window._walkmeConfig = {smartLoad:true}; })();
     }
       </script>
+      <!-- WalkeMe script end-->
+      <!-- AssistMe Start-->
+      <script type="text/javascript">
+        if (window.instana.termsAndPrivacySettings.walkmeAnalyticsServices && window.instana.config.featureFlags.playwithTestEnabled) {
+          var script = document.createElement('script');
+          script.type = 'text/javascript';
+          script.src = 'https://ibmassistme-dev.zll1vg8lrcq.us-south.codeengine.appdomain.cloud/resources/assist-me/controller.js';
+          script.async = true;
+          script.defer = true;
+          script.crossOrigin = 'anonymous';
+          document.head.appendChild(script);
+        }
+      </script>
+
+      <!-- Assitme script end -->
   <script>
     var req = new XMLHttpRequest();
     req.open("GET", "/csrf/token");

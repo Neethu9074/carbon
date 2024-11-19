@@ -173,6 +173,8 @@ router.get('/', async (req, res) => {
       clientConfig
     ] = await (subRequestPromises || initializeSubRequestPromises(req));
 
+    const featureFlags = clientConfig.featureFlags;
+
     const nonce = uuidv4();
     const loggedUser = getParsedUser(userStr);
     clientConfig.walkmeUuid = loggedUser;
@@ -181,9 +183,11 @@ router.get('/', async (req, res) => {
     clientConfig.activeLicenseType = activeLicenseInfo;
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
     const injectWalkMeScript =
-      clientConfig.featureFlags?.playwithEnabled || clientConfig.featureFlags?.playWithReleaseEnabled;
-    const isAssistMeEnabled = clientConfig.featureFlags?.assistmeEnabled;
-    const injectWalkMeTestScript = clientConfig.featureFlags?.playwithTestEnabled;
+      featureFlags?.playwithEnabled ||
+      (featureFlags?.playWithReleaseEnabled && termsAndPrivacy.walkmeAnalyticsServices);
+    const isAssistMeEnabled = featureFlags?.assistmeEnabled && termsAndPrivacy.walkmeAnalyticsServices;
+    const injectWalkMeTestScript = featureFlags?.playwithTestEnabled && termsAndPrivacy.walkmeAnalyticsServices;
+
     res.set('Content-Security-Policy', getCsp(nonce, isAssistMeEnabled, injectWalkMeScript || injectWalkMeTestScript));
     res.send(
       compiledTemplate({
