@@ -94,6 +94,7 @@ export default function CustomEventForm({ form, setForm, onChange, hideLegacyApp
         <>
           <SectionHeading>{t('in-settings:tabs.3Scope')}</SectionHeading>
           <ScopeSelection
+            key={`${form.get('dataSource')?.value}_${form.get('systemRule')?.value}`}
             form={form}
             selectedApplicationIds={selectedApplicationIds}
             disabled={disabled}

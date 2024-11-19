@@ -65,4 +65,10 @@
       padding: 0 0 1rem 0;
     }
   }
+
+  .tableContent {
+    :global .cds--data-table-content {
+      overflow-x: visible;
+    }
+  }
 }

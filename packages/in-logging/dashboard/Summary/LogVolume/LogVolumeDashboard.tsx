@@ -12,10 +12,11 @@ import { useObservable } from '@instana/hooks';
 
 // eslint-disable-next-line no-restricted-imports
 import { generateQueryWithWinSize } from 'in-logging/dashboard/utils';
-import { getEntityIdView, globalSettingsLogManagementLogVolume } from 'in-settings/navigation/paths';
 import { transformData } from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/utils';
+import { dashboardLogVolumePath } from 'in-logging/navigation/paths';
 import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
+import { getEntityIdView } from 'in-settings/navigation/paths';
 import { isAddonUserCached } from 'in-logging/api/licence';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { TimeConfig } from 'in-types';
@@ -39,7 +40,8 @@ export default function LogVolumeDashboard() {
     setTimePeriod(timeConfig);
   }, [timeConfig]);
 
-  const logVolumeHref = useObservable(getEntityIdView(globalSettingsLogManagementLogVolume, ''), []);
+  const logVolumeHrefToLogginHomepage = useObservable(getEntityIdView(dashboardLogVolumePath, ''), []);
+
   const isLoggingAddonUser = useObservable(isAddonUserCached, []);
 
   const logVolumeIcon: IconAction | undefined =
@@ -48,7 +50,7 @@ export default function LogVolumeDashboard() {
           text: t('in-logging:dashboard.logVolume.logVolumeIcon'),
           kind: 'subtle',
           icon: 'lib_analyze',
-          href: logVolumeHref || ''
+          href: logVolumeHrefToLogginHomepage || ''
         }
       : undefined;
 

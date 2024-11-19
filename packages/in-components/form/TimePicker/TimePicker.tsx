@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import uniqueId from 'lodash/uniqueId';
 
 // Customized version of Carbon TimePicker for simplified usage.
@@ -26,6 +26,11 @@ const TimePicker = ({ ...props }: TimePickerProps): JSX.Element => {
 
   // For now use only 24hr clock
   const [timeInput, setTimeInput] = useState(value);
+
+  //Added this useEffect to reflect the currentTime in the component when re-renders ocurrs and is not the first time.
+  useEffect(() => {
+    setTimeInput(value);
+  }, [value]);
 
   const changeTimeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     let time = event.target.value;
