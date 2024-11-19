@@ -17,8 +17,8 @@ import { t } from '@instana/i18n-react';
 //@ts-expect-error
 import { SnapshotData, getPhysicalHierarchy, getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import AIProbabilityBadge from 'in-events/components/RootCauseAnalysis/AIProbabilityBadge';
 import { ENDPOINT, SERVICE, entityTypes, operators } from 'in-analyze/applicationFilter';
-import AIProbabilityBadge from 'in-events/components/legacy/AIProbabilityBadge';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';

@@ -20,11 +20,11 @@ import {
   isServiceLabelValidToDisplayInRCA,
   useGenerateLinkToDashboard,
   useGenerateLinkToAnalyzePage
-} from 'in-events/components/util/rootCauseUtil';
-import useFetchAppropriateRCAEntityData from 'in-events/components/legacy/useFetchAppropriateRCAEntityData';
+} from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
+import useFetchAppropriateRCAEntityData from 'in-events/components/RootCauseAnalysis/hooks/useFetchAppropriateRCAEntityData';
 import { EVENT_RCA_ANALYZE_CLICK, EVENT_RCA_ENTITY_CLICK } from 'in-services/tracking/tracking';
+import AIProbabilityBadge from 'in-events/components/RootCauseAnalysis/AIProbabilityBadge';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
-import AIProbabilityBadge from 'in-events/components/legacy/AIProbabilityBadge';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';

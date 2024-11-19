@@ -9,15 +9,15 @@ import React from 'react';
 import { Collapsible, Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-import useFetchAppropriateRCAEntityData from 'in-events/components/legacy/useFetchAppropriateRCAEntityData';
-import RootCauseContextDashboard from 'in-events/components/legacy/RootCauseContextDashboard';
+import useFetchAppropriateRCAEntityData from 'in-events/components/RootCauseAnalysis/hooks/useFetchAppropriateRCAEntityData';
+import RootCauseContextDashboard from 'in-events/components/RootCauseAnalysis/Logs/RootCauseContextDashboard';
 import { EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK } from 'in-services/tracking/eventNames';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
-import locals from './EventList.mless';
+import locals from 'in-events/components/legacy/EventList.mless';
 
 interface RootCauseLogsSectionProps {
   rcaEntityType: string;

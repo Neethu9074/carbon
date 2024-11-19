@@ -8,8 +8,8 @@ import React, { Fragment, useState } from 'react';
 
 import { ButtonGroup } from '@instana/components';
 
-import { ApplicationBoundaryScope, TimeConfig } from 'in-types';
 import RootCauseErrorMessagesTable from './RootCauseErrorTable';
+import { ApplicationBoundaryScope, TimeConfig } from 'in-types';
 import RootCauseLogMessagesTable from './RootCauseLogTable';
 import { t } from 'in-i18n';
 

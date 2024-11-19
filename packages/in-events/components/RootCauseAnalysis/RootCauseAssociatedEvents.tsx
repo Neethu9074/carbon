@@ -18,14 +18,12 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 //@ts-expect-error
 import { getEvent } from 'in-stores/events';
+import EventListItem from '../legacy/EventListItem';
 import { EventOrMap } from 'in-events/types';
-import EventListItem from './EventListItem';
 import { Snapshot } from 'in-types';
 import { t } from 'in-i18n';
 
-import locals from './EventList.mless';
-
-//import locals from 'in-events/components/legacy/EventList.mless';
+import locals from 'in-events/components/legacy/EventList.mless';
 
 interface AssociatedEventsProps {
   associatedEvents: List<string>;

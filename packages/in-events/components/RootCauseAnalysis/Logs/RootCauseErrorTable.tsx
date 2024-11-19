@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import { ApplicationBoundaryScope, LogMessageItem, OrderDirection, Result, TimeConfig } from '@instana/types';
-import { Button, Link, Pill } from '@instana/components';
+import { ApplicationBoundaryScope, ErrorMessageItem, OrderDirection, Result, TimeConfig } from '@instana/types';
+import { Button, Link } from '@instana/components';
 
 //@ts-expect-error Needs TS migration
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -17,59 +17,36 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { getResolvedTimeConfig, getSparkChartGranularity, TimeResult } from 'in-applications/metrics';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
-import { LOGGING_CLICKED_APPLICATION_PERSPECTIVE_LINK } from 'in-services/tracking/eventNames';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import { CONTAINS, EQUALS, IS_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { ColumnDefinition, TableProps } from 'in-components/tables/ServerTable/types';
 import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { logPillColorMap } from 'in-logging/analyze/AnalyzeView/utils/constants';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import getLogMessages from 'in-applications/subscriptions/getLogMessages';
+import getErrorMessages from 'in-applications/subscriptions/getErrorMessages';
 import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { number } from 'in-services/formatters/number';
 import { collationLanguage, t } from 'in-i18n';
 
-import locals from 'in-logging/components/Dashboards/components/MessagesTable.mless';
+const pathSegment = '/errorMessages';
+const matrixPrefix = 'error.';
 
-const pathSegment = '/logMessages';
-const matrixPrefix = 'log.';
-
-interface ColumnDefinitionProps extends TableProps<LogMessageItem> {
+interface ColumnDefinitionProps extends TableProps<ErrorMessageItem> {
   boundaryScope: ApplicationBoundaryScope;
   timeConfig?: TimeConfig;
   applicationName: string;
   serviceName: string;
   endpointName: string;
-  columnDefinitions: ColumnDefinition<LogMessageItem>[];
+  columnDefinitions: ColumnDefinition<ErrorMessageItem>[];
   orderBy: string;
   orderDirection: OrderDirection;
-  result?: Result<LogMessageItem>;
+  result?: Result<ErrorMessageItem>;
 }
 
-const columnDefinitions: ColumnDefinition<LogMessageItem, ColumnDefinitionProps>[] = [
+const columnDefinitions: ColumnDefinition<ErrorMessageItem, ColumnDefinitionProps>[] = [
   {
-    id: 'logLevel',
-    width: '4.5rem',
-    widthInAbsoluteUnit: true,
-    label: t('in-applications:labelLogLevel'),
-    headCellProps: {
-      className: locals.headCell
-    },
-    cellClassName: locals.logLevelPillCell,
-    getContent(item: LogMessageItem) {
-      const color = logPillColorMap[item.level.toLowerCase()] ?? 'high-contrast';
-      return (
-        <Pill className={locals.logLevelPill} type={color}>
-          {item.level}
-        </Pill>
-      );
-    }
-  },
-  {
-    id: 'logMessage',
-    label: t('in-applications:labelLogMessage'),
+    id: 'errorMessage',
+    label: t('in-applications:labelErrorMessage'),
     getContent(item, { applicationName, serviceName, endpointName, boundaryScope, timeConfig }) {
       return (
         <Message
@@ -86,8 +63,8 @@ const columnDefinitions: ColumnDefinition<LogMessageItem, ColumnDefinitionProps>
     ellipsis: '50vw'
   },
   {
-    id: 'logsAgg',
-    label: t('in-applications:labelCount'),
+    id: 'erroneousCallsAgg',
+    label: t('in-applications:labelErroneousCallCount'),
     defaultOrderDirection: 'DESC',
     getContent(item, { result, timeConfig }) {
       return (
@@ -97,8 +74,8 @@ const columnDefinitions: ColumnDefinition<LogMessageItem, ColumnDefinitionProps>
             loading={result?.progress?.loading}
             rollup={getSparkChartGranularity(timeConfig)}
             timeConfig={getResolvedTimeConfig(timeConfig, result as TimeResult)}
-            metrics={item.metrics.logs}
-            metric={item.metrics.logsAgg}
+            metrics={item.metrics.erroneousCalls}
+            metric={item.metrics.erroneousCallsAgg}
             tooltipFormatter={number.compact}
           />
         )
@@ -110,8 +87,8 @@ const columnDefinitions: ColumnDefinition<LogMessageItem, ColumnDefinitionProps>
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
-    title: t('in-applications:dashboards.noDataAvailable.logMessagesTitle'),
-    description: t('in-applications:dashboards.noDataAvailable.logMessagesDescription')
+    title: t('in-applications:dashboards.noDataAvailable.errorMessagesTitle'),
+    description: t('in-applications:dashboards.noDataAvailable.errorMessagesDescription')
   }),
   paginationResettingUrlParameters: [
     ...timeConfigUrlParameters,
@@ -120,15 +97,16 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     applicationDashboardUrlParameters.endpointId
   ],
   columnDefinitions,
-  defaultOrderBy: 'logsAgg',
+  defaultOrderBy: 'erroneousCallsAgg',
   defaultOrderDirection: 'DESC',
   defaultPageSize: 3,
+  defaultPageSizes: [3, 5, 20],
   isSearchable: false,
   pathSegment,
   matrixPrefix
 });
 
-interface RootCauseLogMessageTableProps {
+interface RootCauseErrorMessageTableProps {
   applicationId?: string;
   serviceId?: string;
   endpointId?: string;
@@ -140,7 +118,7 @@ interface RootCauseLogMessageTableProps {
   cardTitle: JSX.Element;
 }
 
-export default function RootCauseLogMessagesTable({
+export default function RootCauseErrorMessagesTable({
   applicationId,
   serviceId,
   endpointId,
@@ -150,7 +128,7 @@ export default function RootCauseLogMessagesTable({
   serviceName,
   endpointName,
   cardTitle
-}: RootCauseLogMessageTableProps) {
+}: RootCauseErrorMessageTableProps) {
   return (
     <ServerTableWithUrlState
       size="compact"
@@ -165,12 +143,11 @@ export default function RootCauseLogMessagesTable({
       timeConfig={timeConfig}
       cardTitle={cardTitle}
       rightHeader={(headerProps: { query: string }) => (
-        <AnalyzeTraceLogsButton
-          groupByTagName="log.message"
+        <AnalyzeErrorMessagesButton
+          groupByTagName="call.error.message"
           applicationName={applicationName}
           serviceName={serviceName}
           endpointName={endpointName}
-          className={locals.analyzeButton}
           boundaryScope={boundaryScope}
           query={headerProps.query}
           includeInternal
@@ -185,12 +162,12 @@ export default function RootCauseLogMessagesTable({
 function getTableData({
   query = '',
   page = 1,
-  pageSize = 2,
-  orderBy = 'logsAgg',
+  pageSize = 3,
+  orderBy = 'erroneousCallsAgg',
   orderDirection = 'DESC',
   applicationId,
   serviceId,
-  endpointName,
+  endpointId,
   boundaryScope,
   timeConfig
 }: {
@@ -201,11 +178,11 @@ function getTableData({
   orderDirection: OrderDirection;
   applicationId: string;
   serviceId: string;
-  endpointName: string;
+  endpointId: string;
   boundaryScope: ApplicationBoundaryScope;
   timeConfig: TimeConfig;
 }) {
-  return getLogMessages({
+  return getErrorMessages({
     pagination: {
       page,
       pageSize
@@ -220,19 +197,19 @@ function getTableData({
       timeConfig,
       application: applicationId,
       service: serviceId,
-      endpointName: endpointName,
+      endpoint: endpointId,
       applicationBoundaryScope: boundaryScope,
       includeInternalCalls: false,
       includeSyntheticCalls: false,
       useLongTermDataOnly: false
     },
     metrics: {
-      logsAgg: {
-        metric: 'logs',
+      erroneousCallsAgg: {
+        metric: 'erroneousCalls',
         aggregation: 'SUM'
       },
-      logs: {
-        metric: 'logs',
+      erroneousCalls: {
+        metric: 'erroneousCalls',
         aggregation: 'SUM',
         granularity: getSparkChartGranularity(timeConfig)
       }
@@ -251,36 +228,43 @@ interface MessageProps {
 }
 function Message({ message, applicationName, serviceName, endpointName, boundaryScope, timeConfig }: MessageProps) {
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
-  const {trackCta} = useSegmentTracking()
-  const trackLinkClick = () => {
-    trackCta(LOGGING_CLICKED_APPLICATION_PERSPECTIVE_LINK);
-  };
+
+  let displayedMessage;
+  let errorMessageFilter;
+  const erroneousFilter = tagFilter('call.erroneous', EQUALS, true);
+
+  if (!message || message === '') {
+    displayedMessage = t('in-applications:dashboards.errorCallWithoutMessage');
+    errorMessageFilter = tagFilter('call.error.message', IS_EMPTY);
+  } else {
+    displayedMessage = message;
+    errorMessageFilter = tagFilter('call.error.message', EQUALS, message);
+  }
 
   return (
     <Link
-      onClick={trackLinkClick}
       href={getLinkToApplicationAnalyze({
         applicationName,
         serviceName,
         endpointName,
         dataSource: 'calls',
-        formModel: [message ? tagFilter('log.message', EQUALS, message) : tagFilter('log.message', IS_EMPTY)],
+        formModel: joinExpressions({ expressions: [erroneousFilter, errorMessageFilter] }),
         hiddenCalls: { includeInternal: true, includeSynthetic: true },
         boundaryScope,
-        timeConfig: timeConfig
+        timeConfig
       })}
     >
-      {message ? message : <div className={locals.italic}>{t('in-applications:dashboards.noLogMessage')}</div>}
+      {displayedMessage}
     </Link>
   );
 }
 
-interface AnalyzeTraceLogsButtonProps {
+interface AnalyzeErrorMessagesButtonProps {
   groupByTagName: string;
   applicationName: string;
   serviceName: string;
   endpointName: string;
-  className: string;
+  className?: string;
   boundaryScope: ApplicationBoundaryScope;
   query: any;
   includeInternal: boolean;
@@ -288,7 +272,7 @@ interface AnalyzeTraceLogsButtonProps {
   timeConfig: TimeConfig | undefined;
 }
 
-function AnalyzeTraceLogsButton({
+function AnalyzeErrorMessagesButton({
   groupByTagName,
   applicationName,
   serviceName,
@@ -299,7 +283,7 @@ function AnalyzeTraceLogsButton({
   includeInternal,
   includeSynthetic,
   timeConfig
-}: AnalyzeTraceLogsButtonProps) {
+}: AnalyzeErrorMessagesButtonProps) {
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
 
   const groupBy = { groupbyTag: groupByTagName };
@@ -307,6 +291,8 @@ function AnalyzeTraceLogsButton({
   if (query.length > 0) {
     formModel = joinExpressions({ expressions: [formModel, tagFilter(groupByTagName, CONTAINS, query)] });
   }
+
+  formModel = joinExpressions({ expressions: [formModel, tagFilter('call.erroneous', EQUALS, true)] });
 
   const hiddenCalls = includeInternal || includeSynthetic ? { includeInternal, includeSynthetic } : null;
 
@@ -335,7 +321,7 @@ function AnalyzeTraceLogsButton({
         timeConfig
       })}
     >
-      {t('in-events:RCA.analyzeTraceLogs')}
+      {t('in-events:RCA.analyzeErrors')}
     </Button>
   );
 }

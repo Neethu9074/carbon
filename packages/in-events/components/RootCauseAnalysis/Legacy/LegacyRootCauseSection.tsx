@@ -20,9 +20,9 @@ import {
   EVENT_RCA_FEEDBACK_CLOSED_MANUALLY,
   EVENT_RCA_FEEDBACK_SUBMIT
 } from 'in-services/tracking/tracking';
+import LegacyRootCauseEntityDetails from 'in-events/components/RootCauseAnalysis/Legacy/LegacyRootCauseEntityDetails';
 // @ts-expect-error
 import { rcaStepConfig } from 'in-events/components/feedback/rcaStepConfig.tsx';
-import LegacyRootCauseEntityDetails from 'in-events/components/legacy/LegacyRootCauseEntityDetails';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';

@@ -34,13 +34,13 @@ import {
   EVENT_RCA_FEEDBACK_CLOSED_MANUALLY,
   EVENT_RCA_FEEDBACK_SUBMIT
 } from 'in-services/tracking/tracking';
+import { ExplainabilityKeys, ProbableCauseType } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
 import { carbonButtonEnabled, rcaFailedStateEnabled, rcaLogsEnabled } from 'in-services/featureFlags';
-import { ExplainabilityKeys, ProbableCauseType } from 'in-events/components/util/rootCauseUtil';
-import RootCauseEntityDetails from 'in-events/components/legacy/RootCauseEntityDetails';
-import AssociatedEvents from 'in-events/components/legacy/RootCauseAssociatedEvents';
+import RootCauseLogsSection from 'in-events/components/RootCauseAnalysis/Logs/RootCauseLogsSection';
+import RootCauseEntityDetails from 'in-events/components/RootCauseAnalysis/RootCauseEntityDetails';
+import AssociatedEvents from 'in-events/components/RootCauseAnalysis/RootCauseAssociatedEvents';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
-import RootCauseLogsSection from 'in-events/components/legacy/RootCauseLogsSection';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { rcaStepConfig } from 'in-events/components/feedback/rcaStepConfig';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';

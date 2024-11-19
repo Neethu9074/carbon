@@ -14,13 +14,13 @@ import {
   eventFeedbackEnabled,
   businessObservabilityEnabled
 } from 'in-services/featureFlags';
+import LegacyRootCauseSection from 'in-events/components/RootCauseAnalysis/Legacy/LegacyRootCauseSection';
 import IncidentActions from 'in-events/components/IncidentPage/IncidentOverview/IncidentActions';
 import RelatedEvents from 'in-events/components/IncidentPage/RelatedEvents/RelatedEvents';
-import LegacyRootCauseSection from 'in-events/components/legacy/LegacyRootCauseSection';
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
+import RootCauseSection from 'in-events/components/RootCauseAnalysis/RootCauseSection';
 import { getTimeConfigForSnapshotRetrieval } from 'in-events/components/eventUtil';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import RootCauseSection from 'in-events/components/legacy/RootCauseSection';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
