@@ -30,6 +30,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getChartGranularity } from 'in-stores/metric/metric';
+import { bizopsProcessesListSelect } from 'in-bizops/tracker';
 import { number } from 'in-services/formatters/number';
 import { Location } from 'in-stores/navigation/types';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -131,9 +132,20 @@ export default connectTo(() => ({
     {
       key: 'name',
       getContent({ item }) {
+        const processTracking = {
+          path: location.pathname,
+          processId: item?.businessProcess?.definitionId,
+          processName: item?.businessProcess?.definitionName
+        };
+
         return (
           <Tooltip content={item?.businessProcess?.definitionName} align="auto" caret={false} delay={300}>
-            <Link href={getItemLink(item, location, createHref)}>{item?.businessProcess?.definitionName}</Link>
+            <Link
+              href={getItemLink(item, location, createHref)}
+              onClick={() => bizopsProcessesListSelect(processTracking)}
+            >
+              {item?.businessProcess?.definitionName}
+            </Link>
           </Tooltip>
         );
       }
