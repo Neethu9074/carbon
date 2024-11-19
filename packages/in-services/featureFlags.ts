@@ -69,7 +69,6 @@ export const carbonPaginationEnabled = isFeatureFlagEnabled('carbonPaginationEna
 export const carbonTableEnabled = isFeatureFlagEnabled('carbonTableEnabled');
 export const carbonMenuEnabled = isFeatureFlagEnabled('carbonMenuEnabled', false);
 export const carbonComboBoxEnabled = isFeatureFlagEnabled('carbonComboBoxEnabled');
-export const carbonCodeEnabled = isFeatureFlagEnabled('carbonCodeEnabled');
 export const carbonDateInputEnabled = isFeatureFlagEnabled('carbonDateInputEnabled');
 export const carbonExpandableGroupEnabled = isFeatureFlagEnabled('carbonExpandableGroupEnabled');
 export const carbonSideNavLinksEnabled = isFeatureFlagEnabled('carbonSideNavLinksEnabled');
