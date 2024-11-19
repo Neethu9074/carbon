@@ -56,7 +56,7 @@ export function ShareSummary({ summary, open, setShareOpen, setNeedOverlay, inci
           if (recipientsResult) {
             // If there is manual modifications to the summary we need to specify that in the body
             const summaryToShare =
-              (manualInput && `${textSummary}\n${t('in-events:notes.withManualEdits')}`) || `${summary}`;
+              (manualInput && `${textSummary}\n\n${t('in-events:notes.withManualEdits')}`) || `${summary}`;
             // Here we know the recipients are valid -- remove white space and create the array needed for the api
             const recipientsList = recipients.replace(/\s/g, '').split(',');
             handleShareSummary(incidentId, recipientsList, summaryToShare, subject, setHasError, setShareOpen);
