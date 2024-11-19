@@ -64,3 +64,20 @@ export default function CreateSmartAlert() {
     </FloatingActionButton>
   );
 }
+
+export function CreateSmartAlertButton() {
+  const { trackCta } = useSegmentTracking();
+  return (
+    <Button
+      kind="primaryv2"
+      icon="lib_openclose_add"
+      onClick={() => {
+        trackCta(ALERTING_CREATE);
+        addActiveDialog(<CreateSmartAlertDialog />);
+      }}
+      size="xl"
+    >
+      {t('in-alerting:smartAlerts.createSmartAlert')}
+    </Button>
+  );
+}

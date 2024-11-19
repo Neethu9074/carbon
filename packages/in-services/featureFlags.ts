@@ -196,6 +196,9 @@ export const applicationSmartAlertDialogView = isFeatureFlagEnabled('application
 // infra SA full screen design
 export const infraSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled('infraSmartAlertFullScreenDesignEnabled');
 
+// SA carbon table
+export const smartAlertCarbonTableEnabled = isFeatureFlagEnabled('smartAlertCarbonTableEnabled');
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################

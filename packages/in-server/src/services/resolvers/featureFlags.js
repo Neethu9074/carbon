@@ -836,5 +836,10 @@ module.exports = exports = [
     uiClientKey: 'alertChannelPerSeverityApplicationSaEnabled',
     instanaCtlKey: 'feature.alert.channel.per.severity.application.sa.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'smartAlertCarbonTableEnabled',
+    instanaCtlKey: 'feature.smart.alert.carbon.table.enabled',
+    defaultValue: false
   }
 ];

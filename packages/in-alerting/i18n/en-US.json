@@ -144,6 +144,7 @@
   },
   "smartAlerts": {
     "addSmartAlert": "Add Smart Alert",
+    "createSmartAlert": "Create Smart Alert",
     "applicationSmartAlert": "Application Smart Alert",
     "globalApplicationSmartAlert": "Global Application Smart Alert",
     "titleNoSmartAlertsConfigured": "No Smart Alerts configured",
@@ -1426,7 +1427,9 @@
         "filter_plural": "Filters",
         "filter_0": "Filters",
         "filter_1": "Filters",
-        "filter_2": "Filters"
+        "filter_2": "Filters",
+        "noDataHeader": "No infrastructure Smart Alerts",
+        "noDataDescription": "To get started, click Create Smart Alert."
       },
       "advancedModeContainer": {
         "scope": {
@@ -1688,5 +1691,23 @@
         "failedTitle_EDIT": "There was a problem updating this SLO Smart Alert"
       }
     }
+  },
+  "table": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "triggeringAction": "Triggering condition",
+    "status": "Status",
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "filter": "Filter",
+    "alertType": "Alert type",
+    "notificationChannel": "Notification channel",
+    "tableDataSettings": "Table data settings",
+    "pause": "Pause",
+    "delete": "Delete",
+    "warningAndCritical": "Warning and Critical",
+    "warning": "Warning",
+    "critical": "Critical",
+    "searchPlaceholder": "Search"
   }
 }

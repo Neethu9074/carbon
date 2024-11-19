@@ -65,7 +65,7 @@ export function refreshSmartAlertConfigsList() {
   refreshSignal.emit(true);
 }
 
-type AlertFetchFunction<AlertConfig extends AlertConfigType> = () => Observable<Result<AlertConfig[]>>;
+export type AlertFetchFunction<AlertConfig extends AlertConfigType> = () => Observable<Result<AlertConfig[]>>;
 
 type ExtraSearchAttributes<AlertConfig extends AlertConfigType> = ((entity: AlertConfig) => string)[];
 
@@ -257,7 +257,7 @@ export default function SmartAlertsBaseList<AlertConfig extends AlertConfigType>
   );
 }
 
-function getSearchResults<AlertConfig extends AlertConfigType>({
+export function getSearchResults<AlertConfig extends AlertConfigType>({
   query,
   fetchedGlobalAlerts,
   fetchedLocalAlerts,
@@ -276,7 +276,7 @@ function getSearchResults<AlertConfig extends AlertConfigType>({
   return { globalSearchResults, localSearchResults };
 }
 
-function getConfigByCategory<AlertConfig extends AlertConfigType>({
+export function getConfigByCategory<AlertConfig extends AlertConfigType>({
   configsCategory,
   fetchedGlobalAlerts,
   fetchedLocalAlerts
@@ -310,7 +310,7 @@ type FetchedConfigs<AlertConfig extends AlertConfigType> = {
   errors: Error[];
 };
 
-function useSmartAlertConfigs<AlertConfig extends AlertConfigType>(
+export function useSmartAlertConfigs<AlertConfig extends AlertConfigType>(
   getAlertConfigFetchFunction: AlertFetchFunction<AlertConfig> = () => successObservable<AlertConfig[]>([])
 ): FetchedConfigs<AlertConfig> {
   const result =
@@ -349,7 +349,7 @@ function useOnNoData<AlertConfig extends AlertConfigType>({
   }, [loadingFinished, hasNoConfigsForEveryCategory, onNoData]);
 }
 
-function sortBy<AlertConfig extends AlertConfigType>(orderBy: string, orderDirection: OrderDirection) {
+export function sortBy<AlertConfig extends AlertConfigType>(orderBy: string, orderDirection: OrderDirection) {
   return (a: AlertConfig, b: AlertConfig) => {
     if (orderBy === 'name') {
       return orderDirection === 'ASC' ? compareIgnoreCase(a.name, b.name) : compareIgnoreCase(b.name, a.name);
@@ -386,7 +386,10 @@ function getNoAlertConfiguredLabel(query: string) {
     : t('in-alerting:smartAlerts.titleNoSmartAlertsConfigured');
 }
 
-function useOptionalExternalState(externalState: TableState, setExternalState: (state: Partial<TableState>) => void) {
+export function useOptionalExternalState(
+  externalState: TableState,
+  setExternalState: (state: Partial<TableState>) => void
+) {
   const [state, defaultSetState] = useState(defaultState);
   const setState = (newState: Partial<TableState>) => defaultSetState({ ...state, ...newState });
   if (setExternalState) {
