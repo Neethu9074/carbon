@@ -15,8 +15,11 @@
     display: flex;
   }
   .dropdownCarbonButton {
-    width: 64rem;
     max-width: none;
+    align-items: center;
+    &:global(.carbonButton) {
+      color: var(--cds-text-primary);
+    }
   }
   .span {
     width: 95%;
