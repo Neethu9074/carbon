@@ -49,122 +49,6 @@ import { Trans, t } from 'in-i18n';
 
 import locals from './ActionHistoryTable.mless';
 
-const columnDefinitions: ColumnDefinition<ActionInstance>[] = [
-  {
-    label: t('in-automation:actionHistory.name'),
-    id: 'actionName',
-    width: 20,
-    getContent(row: ActionInstance) {
-      return (
-        <Tooltip content={row.actionName} align="topLeft" delay={500} overwriteBlock>
-          <WithSubscript subscript={ACTION_TRANSLATIONS[row.type]}>
-            <div
-              className={classNames({
-                [locals.smallColumn]: row.actionName.length > 60,
-                [locals.ellipsis]: true
-              })}
-            >
-              <Typography variant="body-regular">{row.actionName}</Typography>
-            </div>
-          </WithSubscript>
-        </Tooltip>
-      );
-    }
-  },
-  {
-    label: t('in-automation:actionHistory.initiator'),
-    id: 'actorName',
-    width: 15,
-    getContent(row: ActionInstance) {
-      return (
-        <Tooltip content={row.actorName} align="topLeft" delay={500} overwriteBlock>
-          <WithSubscript subscript={getActorType(row.actorType ?? 'ACTOR_UNKNOWN')}>
-            <div
-              className={classNames({
-                [locals.smallColumn]: row.actorName && row.actorName.length > 60,
-                [locals.ellipsis]: true
-              })}
-            >
-              <Typography variant="body-regular">{row.actorName}</Typography>
-            </div>
-          </WithSubscript>
-        </Tooltip>
-      );
-    }
-  },
-  {
-    label: t('in-automation:actionHistory.startTime'),
-    id: 'startDate',
-    width: 15,
-    getContent(row: ActionInstance) {
-      return row.startDate ? formatDateTime(row.startDate) : formatDateTime(null);
-    }
-  },
-  {
-    label: t('in-automation:actionHistory.endTime'),
-    id: 'endDate',
-    width: 15,
-    getContent(row: ActionInstance) {
-      return row.endDate ? formatDateTime(row.endDate) : formatDateTime(null);
-    }
-  },
-  {
-    label: t('in-automation:actionHistory.eventName'),
-    id: 'problemText',
-    width: 25,
-    getContent(row: ActionInstance) {
-      return (
-        <Tooltip content={row.problemText} align="topLeft" delay={500}>
-          <div
-            className={classNames({
-              [locals.smallColumn]: row?.problemText && row?.problemText.length > 60
-            })}
-          >
-            <Typography variant="body-regular">{row.problemText}</Typography>
-          </div>
-        </Tooltip>
-      );
-    }
-  },
-  {
-    label: t('in-automation:actionHistory.status'),
-    id: 'status',
-    sortable: true,
-    width: 10,
-    getContent(row: ActionInstance) {
-      return row.status ? getStatus(row.status) : t('in-automation:actionHistory.unknown');
-    }
-  }
-];
-
-const deleteColumn: ColumnDefinition<ActionInstance> = {
-  label: '',
-  id: 'delete',
-  sortable: false,
-  width: 5,
-  getContent: function Content(row) {
-    const { actionHistoryInstanceDeleteTrackerSegment } = useSegmentTracker();
-
-    if (!isStatusFinished(row.status)) return null;
-    return (
-      <Tooltip content={t('in-automation:actionHistory.deleteTooltip')} delay={500}>
-        <IconButton
-          kind="action"
-          type="lib_actions_delete"
-          onClick={e => {
-            stopPropagationAndPreventDefault(e);
-            showConfirmationDialog(row, actionHistoryInstanceDeleteTrackerSegment);
-          }}
-        />
-      </Tooltip>
-    );
-  }
-};
-
-if (role?.canDeleteAutomationActionHistory) {
-  columnDefinitions.push(deleteColumn);
-}
-
 function showConfirmationDialog(
   actionInstance: ActionInstance,
   actionHistoryInstanceDeleteTrackerSegment: TrackingFunction
@@ -244,20 +128,6 @@ const urlStateDefinition = {
   })
 };
 
-const ServerTableWithUrlState = createServerTableWithUrlState({
-  Renderer: withEmptyTableState({
-    columnDefinitions: columnDefinitions,
-    title: t('in-automation:actionHistory.actionHistory'),
-    description: t('in-automation:actionHistory.noActionInstances')
-  }),
-  paginationResettingUrlParameters: [...timeConfigUrlParameters, actionTypesUrlParameter, actionStatusesUrlParameter],
-  columnDefinitions: columnDefinitions,
-  defaultOrderBy: 'startDate',
-  defaultOrderDirection: 'DESC',
-  pathSegment,
-  matrixPrefix
-});
-
 const refreshSignal = create().emit(true);
 function refresh() {
   refreshSignal.emit(true);
@@ -306,19 +176,170 @@ export function GetActionInstanceListData({
   );
 }
 
-export default function ActionHistoryTable({ eventId }: { eventId?: string }) {
+interface ActionHistoryTableProps {
+  eventId?: string;
+  customActionTypes?: string[];
+  noFilters?: boolean;
+  noEvent?: boolean;
+  title?: string;
+}
+
+export default function ActionHistoryTable({
+  eventId,
+  customActionTypes,
+  noFilters = false,
+  noEvent = false,
+  title
+}: ActionHistoryTableProps) {
+  let columnDefinitions: ColumnDefinition<ActionInstance>[] = [
+    {
+      label: t('in-automation:actionHistory.name'),
+      id: 'actionName',
+      width: 20,
+      getContent(row: ActionInstance) {
+        return (
+          <Tooltip content={row.actionName} align="topLeft" delay={500} overwriteBlock>
+            <WithSubscript subscript={ACTION_TRANSLATIONS[row.type]}>
+              <div
+                className={classNames({
+                  [locals.smallColumn]: row.actionName.length > 60,
+                  [locals.ellipsis]: true
+                })}
+              >
+                <Typography variant="body-regular">{row.actionName}</Typography>
+              </div>
+            </WithSubscript>
+          </Tooltip>
+        );
+      }
+    },
+    {
+      label: t('in-automation:actionHistory.initiator'),
+      id: 'actorName',
+      width: 15,
+      getContent(row: ActionInstance) {
+        return (
+          <Tooltip content={row.actorName} align="topLeft" delay={500} overwriteBlock>
+            <WithSubscript subscript={getActorType(row.actorType ?? 'ACTOR_UNKNOWN')}>
+              <div
+                className={classNames({
+                  [locals.smallColumn]: row.actorName && row.actorName.length > 60,
+                  [locals.ellipsis]: true
+                })}
+              >
+                <Typography variant="body-regular">{row.actorName}</Typography>
+              </div>
+            </WithSubscript>
+          </Tooltip>
+        );
+      }
+    },
+    {
+      label: t('in-automation:actionHistory.startTime'),
+      id: 'startDate',
+      width: 15,
+      getContent(row: ActionInstance) {
+        return row.startDate ? formatDateTime(row.startDate) : formatDateTime(null);
+      }
+    },
+    {
+      label: t('in-automation:actionHistory.endTime'),
+      id: 'endDate',
+      width: 15,
+      getContent(row: ActionInstance) {
+        return row.endDate ? formatDateTime(row.endDate) : formatDateTime(null);
+      }
+    },
+    {
+      label: t('in-automation:actionHistory.eventName'),
+      id: 'problemText',
+      width: 25,
+      getContent(row: ActionInstance) {
+        return (
+          <Tooltip content={row.problemText} align="topLeft" delay={500}>
+            <div
+              className={classNames({
+                [locals.smallColumn]: row?.problemText && row?.problemText.length > 60
+              })}
+            >
+              <Typography variant="body-regular">{row.problemText}</Typography>
+            </div>
+          </Tooltip>
+        );
+      }
+    },
+    {
+      label: t('in-automation:actionHistory.status'),
+      id: 'status',
+      sortable: true,
+      width: 10,
+      getContent(row: ActionInstance) {
+        return row.status ? getStatus(row.status) : t('in-automation:actionHistory.unknown');
+      }
+    }
+  ];
+
+  const deleteColumn: ColumnDefinition<ActionInstance> = {
+    label: '',
+    id: 'delete',
+    sortable: false,
+    width: 5,
+    getContent: function Content(row) {
+      const { actionHistoryInstanceDeleteTrackerSegment } = useSegmentTracker();
+
+      if (!isStatusFinished(row.status)) return null;
+      return (
+        <Tooltip content={t('in-automation:actionHistory.deleteTooltip')} delay={500}>
+          <IconButton
+            kind="action"
+            type="lib_actions_delete"
+            onClick={e => {
+              stopPropagationAndPreventDefault(e);
+              showConfirmationDialog(row, actionHistoryInstanceDeleteTrackerSegment);
+            }}
+          />
+        </Tooltip>
+      );
+    }
+  };
+
+  if (role?.canDeleteAutomationActionHistory) {
+    columnDefinitions.push(deleteColumn);
+  }
+
+  if (noEvent) {
+    columnDefinitions = columnDefinitions.filter(col => {
+      return col.id !== 'problemText';
+    });
+  }
+
   const [{ types, actionStatuses }, setFilter] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
   const { actionHistoryInstanceViewTrackerSegment, actionHistoryInstanceDeleteTrackerSegment } = useSegmentTracker();
+
+  const ServerTableWithUrlState = createServerTableWithUrlState({
+    Renderer: withEmptyTableState({
+      columnDefinitions: columnDefinitions,
+      title: title ?? t('in-automation:actionHistory.actionHistory'),
+      description: t('in-automation:actionHistory.noActionInstances')
+    }),
+    paginationResettingUrlParameters: [...timeConfigUrlParameters, actionTypesUrlParameter, actionStatusesUrlParameter],
+    columnDefinitions: columnDefinitions,
+    defaultOrderBy: 'startDate',
+    defaultOrderDirection: 'DESC',
+    pathSegment,
+    matrixPrefix
+  });
+
   return (
     <ServerTableWithUrlState
       get={GetActionInstanceListData}
       timeConfig={timeConfig}
       actionHistoryInstanceDeleteTrackerSegment={actionHistoryInstanceDeleteTrackerSegment}
-      rightHeader={<Filters setFilter={setFilter} types={types} actionStatuses={actionStatuses} />}
-      title={t('in-automation:actionHistory.actionHistory')}
+      rightHeader={!noFilters ? <Filters setFilter={setFilter} types={types} actionStatuses={actionStatuses} /> : <></>}
+      title={title ?? t('in-automation:actionHistory.actionHistory')}
       showHeaderCount
-      types={types}
+      types={customActionTypes || types}
       actionStatuses={
         actionStatuses.length === 0
           ? ['SUCCESS', 'FAILED', 'IN_PROGRESS', 'STATUS_UNKNOWN', 'SUBMITTED', 'TIMEOUT']

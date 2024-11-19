@@ -62,13 +62,17 @@ function Application({ applicationId, item }: ApplicationProps) {
   const resolvedLink =
     useResolvedLink(LOG_CUSTOM_KEY_APPLICATION_ID, { stringValue: applicationId }, item) || undefined;
   const resolvedValue = useResolvedValue(LOG_CUSTOM_KEY_APPLICATION_ID, { stringValue: applicationId });
-  const {trackCta} = useSegmentTracking()
+  const { trackCta } = useSegmentTracking();
   return (
     <Li>
       <Link
         className={locals.value}
         href={resolvedLink}
-        onClick={() => trackCta(ANALYZE_LOGGING_LOG_MESSAGE_TAG_CLICKED,{ tag: { name: LOG_CUSTOM_KEY_APPLICATION_ID, value: resolvedValue } })}
+        onClick={() =>
+          trackCta(ANALYZE_LOGGING_LOG_MESSAGE_TAG_CLICKED, {
+            tag: { name: LOG_CUSTOM_KEY_APPLICATION_ID, value: resolvedValue }
+          })
+        }
       >
         {resolvedValue}
       </Link>

@@ -8,18 +8,15 @@ import React from 'react';
 
 import { BoundaryScope, TimeConfig, TurboActionCategory } from '@instana/types';
 
-//@ts-expect-error needs TS migration
-import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
 import {
   AUTOMATION_TURBO_BUY_CLICK,
   AUTOMATION_TURBO_SUPPORT_CLICK,
   AUTOMATION_TURBO_TRY_CLICK
 } from 'in-services/tracking/eventNames';
-import {
-  useResourceOptimization,
-  useTurboRecommendedActions
-} from 'in-automation/ResourceOptimization/useResourceOptimization';
-import RecommendedOptimizations from 'in-automation/ResourceOptimization/RecommendedOptimizations';
+//@ts-expect-error needs TS migration
+import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
+import RecommendedActionsWithHistory from 'in-automation/ResourceOptimization/RecommendedActionsWithHistory';
+import { useResourceOptimization } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import { FormatterObject, MetricDataPoint, MetricDataSeries } from 'in-components/Chart/types';
 import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
@@ -96,7 +93,6 @@ export default function ResourceOptimizationTab({
   boundaryScope
 }: ResourceOptimizationTabProps) {
   const recommendedOptimizations = useResourceOptimization({ applicationId });
-  const turboRecommendedActions = useTurboRecommendedActions(recommendedOptimizations);
   const postChartContent = renderActionsLane({ applicationId, boundaryScope });
   let tagFilters = [
     boundaryScope === boundaryScopes.all
@@ -206,10 +202,7 @@ export default function ResourceOptimizationTab({
           />
         </div>
       </div>
-      <RecommendedOptimizations
-        recommendedActions={turboRecommendedActions}
-        totalRecommendedActions={recommendedOptimizations?.data?.totalRecommendedActionsCount}
-      />
+      <RecommendedActionsWithHistory recommendedActions={recommendedOptimizations} />
     </div>
   );
 }

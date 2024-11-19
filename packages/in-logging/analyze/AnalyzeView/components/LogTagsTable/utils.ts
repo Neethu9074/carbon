@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2022
  */
 
+import { formatDate } from '@instana/format-date';
+
 import {
   CONTAINERD_ID,
   CONTAINERD_SNAPSHOT_ID,
@@ -32,7 +34,6 @@ import { ClickedTag, GroupedTags, GroupingTag } from 'in-logging/analyze/Analyze
 import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { capitalize } from 'in-services/formatters/string';
 import { LogItem, LogTag } from 'in-types';
-import { formatDate } from '@instana/format-date';
 
 const infraTags = [...containerSnapshotIds, ID_HOST];
 
