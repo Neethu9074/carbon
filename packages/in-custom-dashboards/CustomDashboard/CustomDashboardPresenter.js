@@ -56,7 +56,7 @@ export default function CustomDashboardPresenter(props) {
     onDuplicateWidget,
     onZoomWidget,
     topLevelFilters,
-    setTopLevelFilters,
+    onTopLevelFiltersChange,
     shouldWidgetRenderOutsideViewport
   } = props;
 
@@ -122,14 +122,14 @@ export default function CustomDashboardPresenter(props) {
                       }
                       renderTopLevelButtonLine={config && (() => <TopLevelButtonLine {...props} />)}
                     />
-
                     {customDashboardTopLevelFiltersEnabled && (
-                      <TopLevelFilterBar topLevelFilters={topLevelFilters} setTopLevelFilters={setTopLevelFilters} />
+                      <TopLevelFilterBar
+                        topLevelFilters={topLevelFilters}
+                        onTopLevelFiltersChange={onTopLevelFiltersChange}
+                      />
                     )}
-
                     {result && <HorizontalIndicator progress={result.progress} />}
                     <DashboardHeaderShadowModule />
-
                     <Title
                       title={t('in-custom-dashboards:customDashboard.customDashboardPresenter.customDashboard')}
                       dynamic={config && config.title}

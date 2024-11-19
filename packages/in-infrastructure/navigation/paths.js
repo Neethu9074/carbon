@@ -211,7 +211,7 @@ export const defaultInfraExploreViewParams = Object.freeze({
 
 function setMatrixKey(params, matrixParameter, value) {
   const serializer = matrixParameter.serializer || String;
-  setOrDeleteMatrixKey(params, infraExplorePath, matrixParameter.name, serializer(value));
+  setOrDeleteMatrixKey(params, matrixParameter.path, matrixParameter.name, serializer(value));
 }
 
 export const useGetAlertConfigLink = () => {
