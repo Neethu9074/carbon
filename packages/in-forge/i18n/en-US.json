@@ -9580,7 +9580,7 @@
       "region": "Region",
       "organization": "Organization",
       "version": "Version",
-      "accountLocator": "Account Locator",
+      "accountLocator": "Account locator",
       "accountName": "Account Name",
       "dashboard": {
         "creditUsagePerHour": "Credit usage per hour",
@@ -9613,15 +9613,15 @@
       "dashboard": {
         "overallCreditUsage": "Overall credit usage",
         "totalStorageBytes": "Total storage bytes",
-        "usageInCurrency": "Usage In Currency",
+        "usageInCurrency": "Usage in currency",
         "topFiveBillingAccounts": "Top 5 billing accounts",
         "remainingBalanceInCurrency": "Remaining balance in currency",
         "balance": "Balance",
-        "accountName": "Account Name",
+        "accountName": "Account name",
         "credits": "Credits",
         "name": "Name",
         "region": "Region",
-        "accountsMonitored": "Accounts Monitored by Instana"
+        "accountsMonitored": "Accounts monitored by instana"
       }
     },
     "solr": {
