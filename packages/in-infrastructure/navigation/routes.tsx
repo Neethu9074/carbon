@@ -6,6 +6,8 @@
 //@ts-expect-error module need to be translated to TS
 import AlertConfigTearSheet from 'promise-loader?global,infrastructure!in-alerting/smart-alerts/infrastructure/tearsheet/AlertConfigTearSheet';
 // @ts-expect-error module need to be translated to TS
+import GraphExplorerView from 'promise-loader?global,graph-explorer-view!in-infrastructure/GraphExplorer/GraphExplorer';
+// @ts-expect-error module need to be translated to TS
 import InfraExploreView from 'promise-loader?global,infrastructure!in-infrastructure/Explore/Explore';
 // @ts-expect-error module need to be translated to TS
 import TableView from 'promise-loader?global,infrastructure!in-infrastructure/tableView/TableView';
@@ -23,6 +25,7 @@ import React from 'react';
 import {
   containerPath,
   graphPath,
+  graphExplorerPath,
   physicalPath,
   tablePath,
   infraSmartAlerts,
@@ -63,6 +66,9 @@ const infrastructureRoutes = [
   </Route>,
   <Route key="infraGraph" path={graphPath}>
     {renderAsyncRouteChildren(GraphView)}
+  </Route>,
+  <Route key="infraGraphExplorer" path={graphExplorerPath}>
+    {renderAsyncRouteChildren(GraphExplorerView)}
   </Route>
 ];
 if (hasInfrastructureAnalyzeAccess) {

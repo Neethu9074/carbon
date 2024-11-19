@@ -14,13 +14,14 @@ import {
   containerPath,
   isTableView,
   infraSmartAlerts,
-  infraAlertDetailsFullyQualifiedPath
+  infraAlertDetailsFullyQualifiedPath,
+  graphExplorerPath
 } from 'in-stores/navigation/paths/mainPaths';
+import { graphTabEnabled, infraSmartAlertsEnabled } from 'in-services/featureFlags';
 import { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { infraSmartAlertsEnabled } from 'in-services/featureFlags';
+import { canSeeExtendedInternalMonitoring, role } from 'in-stores/user';
 import SearchBar from 'in-components/SearchBar';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './ViewSwitcher.mless';
@@ -30,6 +31,7 @@ export default function InfrastructureViewSwitcher({ showSearchBar = true, theme
 
   const isMapActive = matchLocation(physicalPath) || matchLocation(containerPath);
   const isAlertActive = matchLocation(infraSmartAlerts) || matchLocation(infraAlertDetailsFullyQualifiedPath);
+  const isGraphActive = matchLocation(graphExplorerPath);
   const isTableActive = useObservable(isTableView('physical'), []);
 
   const darkTheme = theme === themes.dark;
@@ -56,6 +58,13 @@ export default function InfrastructureViewSwitcher({ showSearchBar = true, theme
               </>
             }
             isActive={isAlertActive}
+          />
+        )}
+        {graphTabEnabled && canSeeExtendedInternalMonitoring && (
+          <SecondLevelNavigationItem
+            href={createHrefToPath(graphExplorerPath)}
+            label={t('in-infrastructure:tableView.graph')}
+            isActive={isGraphActive}
           />
         )}
       </SecondLevelNavigation>

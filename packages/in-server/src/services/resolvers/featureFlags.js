@@ -798,6 +798,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'graphTabEnabled',
+    instanaCtlKey: 'feature.graph.tab.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'applicationSubtracesEnabled',
     instanaCtlKey: 'feature.application.subtraces.enabled',
     defaultValue: false

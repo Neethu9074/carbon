@@ -54,6 +54,7 @@ export const pageNames = Object.freeze({
   infra_smart_alert_deatils: 'Infra Smart Alerts Details Page',
   infra_smart_alerts: 'Infra Smart Alerts',
   infra_comparison_table: 'Infrastructure > Comparison table',
+  infra_graph_explorer: 'Infrastructure > Graph explorer',
   clusters: 'Clusters',
   kubernetes_clusters: 'Kubernetes > Clusters',
   kubernetes_namespaces: 'Kubernetes > Namespaces',
