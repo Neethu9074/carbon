@@ -1624,6 +1624,11 @@
   "pluginName_solrCloudCluster_1": "Solr Cloud Clusters",
   "pluginName_solrCloudCluster_2": "Solr Cloud Clusters",
   "pluginName_solrCloudCluster": "Solr Cloud Cluster",
+  "pluginName_snowflakeOrganization_plural": "Snowflake Organizations",
+  "pluginName_snowflakeOrganization_0": "Snowflake Organizations",
+  "pluginName_snowflakeOrganization_1": "Snowflake Organizations",
+  "pluginName_snowflakeOrganization_2": "Snowflake Organizations",
+  "pluginName_snowflakeOrganization": "Snowflake Organization",
   "pluginName_sparkApplication_plural": "Spark Applications",
   "pluginName_sparkApplication_0": "Spark Applications",
   "pluginName_sparkApplication_1": "Spark Applications",
@@ -9615,11 +9620,12 @@
     "snowflake": {
       "connectErrorIssueDescription": "Agent could not connect to snowflake. Connection failed with error: <code>{{error}}</code>",
       "troubleshootingDocs": "Troubleshooting docs",
-      "snowflake": "Snowflake",
       "account": "Account",
       "region": "Region",
       "organization": "Organization",
       "version": "Version",
+      "accountLocator": "Account locator",
+      "accountName": "Account Name",
       "dashboard": {
         "creditUsagePerHour": "Credit usage per hour",
         "totalStorageBytes": "Total storage bytes",
@@ -9644,6 +9650,22 @@
         "queryText": "Query text",
         "execTime": "Execution time",
         "warehouseUsed": "Warehouse used"
+      }
+    },
+    "snowflakeOrganization": {
+      "organization": "Organization",
+      "dashboard": {
+        "overallCreditUsage": "Overall credit usage",
+        "totalStorageBytes": "Total storage bytes",
+        "usageInCurrency": "Usage in currency",
+        "topFiveBillingAccounts": "Top 5 billing accounts",
+        "remainingBalanceInCurrency": "Remaining balance in currency",
+        "balance": "Balance",
+        "accountName": "Account name",
+        "credits": "Credits",
+        "name": "Name",
+        "region": "Region",
+        "accountsMonitored": "Accounts monitored by instana"
       }
     },
     "solr": {

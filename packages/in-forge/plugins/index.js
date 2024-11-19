@@ -68,6 +68,7 @@ import './sapAbapInstanceSensor';
 import './azureServiceBusQueues';
 import './azureServiceBusTopics';
 import './awsDocumentDbInstance';
+import './snowflakeOrganization';
 import './redisEnterpriseShard';
 import './tuxedoAppApplication';
 import './ibmCloudClinicalData';

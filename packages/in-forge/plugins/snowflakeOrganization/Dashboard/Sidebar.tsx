@@ -8,14 +8,14 @@ import React from 'react';
 
 import { Collapsible } from '@instana/components';
 
+import Info from 'in-forge/plugins/snowflakeOrganization/Info';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
-import Info from 'in-forge/plugins/snowflake/Info';
 import { t } from 'in-i18n';
 
-export default function SnowflakeSidebar({ snapshot }: { snapshot: SnapshotData }) {
+export default function SnowflakeOrganizationSidebar({ snapshot }: { snapshot: SnapshotData }) {
   return (
     <Collapsible initiallyOpen>
-      <Collapsible.Header>{t('in-forge:plugins.snowflake.account')}</Collapsible.Header>
+      <Collapsible.Header>{t('in-forge:plugins.snowflakeOrganization.organization')}</Collapsible.Header>
       <Collapsible.Content>
         <Info snapshot={snapshot} />
       </Collapsible.Content>
