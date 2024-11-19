@@ -77,6 +77,8 @@ function List(props) {
     setSelectAll(false);
   }, [eventType]);
 
+  // const canMultiCloseEvent = multiCloseEnabled && role?.canConfigureEventsAndAlerts;
+
   const eventTypeSupported = eventType === 'incident' || eventType === 'issue';
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
   const isDenseList = !!selectedEventId;

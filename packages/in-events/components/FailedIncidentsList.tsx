@@ -34,7 +34,9 @@ interface FailedIncidentsListProps {
 
 export default function FailedIncidentsList({ failedEventIds, eventType, eventIds }: FailedIncidentsListProps) {
   const dialogTitle =
-    eventType === 'incident' ? t('in-events:titleFailtoCloseIncidents') : t('in-events:titleFailtoCloseIssues');
+    eventType === 'incident'
+      ? t('in-events:multiClose.titleFailtoCloseIncidents')
+      : t('in-events:multiClose.titleFailtoCloseIssues');
 
   const failedEvents = useObservable(getEvents(failedEventIds), [failedEventIds]);
 
