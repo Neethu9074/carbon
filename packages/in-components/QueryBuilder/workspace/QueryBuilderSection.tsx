@@ -5,7 +5,7 @@
 
 import React, { ReactNode, useEffect, useState } from 'react';
 
-import { Message, Stack, Button } from '@instana/components';
+import { Message, Stack, Button, PreviewPill } from '@instana/components';
 import { TagCatalog } from '@instana/types';
 
 import {
@@ -19,6 +19,7 @@ import { FormModelElement } from 'in-components/QueryBuilder/transformation/form
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { emptyObject } from 'in-services/fixedObjects';
 import Section from 'in-components/workspace/Section';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
 export const DEFAULT_MAX_EXPRESSION_DEPTH = 5;
@@ -36,6 +37,7 @@ interface QueryBuilderSectionProps<ADDITIONAL_TAG_CATALOG_PROPS = {}> {
   useLastValidStateWhenErroneous?: boolean;
 
   withOptionalMarker?: boolean;
+  withTechnicalPreview?: string;
 
   hasError?: boolean;
   errors?: string[];
@@ -54,6 +56,7 @@ export default function QueryBuilderSection<ADDITIONAL_TAG_CATALOG_PROPS = {}>({
   actions,
   useLastValidStateWhenErroneous = false,
   withOptionalMarker = false,
+  withTechnicalPreview = undefined,
   hasError: hasExternalError,
   errors: externalErrors,
   tagCatalog,
@@ -84,13 +87,22 @@ export default function QueryBuilderSection<ADDITIONAL_TAG_CATALOG_PROPS = {}>({
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasInternalError]);
 
-  const title = withOptionalMarker ? (
-    <SectionLabelWithSubtext subtext={t('in-components:queryBuilder.optional')}>
-      {t('in-components:queryBuilder.workspaceTitleFilter')}
-    </SectionLabelWithSubtext>
-  ) : (
-    t('in-components:queryBuilder.workspaceTitleFilter')
-  );
+  let title = <>{t('in-components:queryBuilder.workspaceTitleFilter')}</>;
+  if (withOptionalMarker) {
+    title = (
+      <SectionLabelWithSubtext subtext={t('in-components:queryBuilder.optional')}>{title}</SectionLabelWithSubtext>
+    );
+  }
+  if (withTechnicalPreview) {
+    title = (
+      <Tooltip content={withTechnicalPreview}>
+        <div>
+          {title}
+          <PreviewPill privatePreview />
+        </div>
+      </Tooltip>
+    );
+  }
 
   return (
     <Section

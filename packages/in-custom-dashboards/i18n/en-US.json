@@ -123,7 +123,8 @@
       "topLevelFilterSelectsNothing": "The current dashboard filters do not apply to this widget.",
       "topLevelFilterNotSupported": "The current dashboard filters were not applied to this widget because the widget does not support filtering.",
       "topLevelFilterAppliedToSomeDatasets": "The current dashboard filters were not fully applied to the following datasets: {{datasets}}",
-      "unnamedDataset": "Unnamed dataset"
+      "unnamedDataset": "Unnamed dataset",
+      "previewExplanation": "Filters will apply to all widgets wherever applicable"
     }
   },
   "dashboardSwitcher": {
