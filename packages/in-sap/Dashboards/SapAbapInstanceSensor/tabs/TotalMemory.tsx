@@ -15,9 +15,9 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import { taskTypeMap, taskTypeList } from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/TaskType';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import Table from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Table';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import { bytes } from 'in-services/formatters/number';
-import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
 import locals from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ComboBox.mless';
@@ -219,7 +219,6 @@ export default function TotalMemory({ snapshotId, timeConfig }: TotalMemoryProps
       initialSortColumn={7}
       initialSortDirection="desc"
       getRowDetails={getDetails}
-      // @ts-expect-error Module needs to be translated to TS
       rightHeader={rightHeader}
     />
   );

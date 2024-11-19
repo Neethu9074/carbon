@@ -16,10 +16,10 @@ import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import { taskTypeMap, taskTypeList } from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/TaskType';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Table from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Table';
 import { millis, number } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import ComboBox from 'in-components/ComboBox/ComboBox';
-import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
 import locals from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ComboBox.mless';
@@ -184,7 +184,6 @@ export default function DBConnectionProvider({ snapshotId, timeConfig }: DbConne
       initialSortColumn={4}
       initialSortDirection="desc"
       getRowDetails={getDetails}
-      // @ts-expect-error Module needs to be translated to TS
       rightHeader={rightHeader}
     />
   );

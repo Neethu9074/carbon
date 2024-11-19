@@ -149,6 +149,7 @@ export function ConditionsSection({
           rulesForm?.size >= 1 &&
           !deprecatedAppDataEntityType && (
             <TimeWindowFormGroup
+              key={form.get('entityType')?.value}
               form={rulesForm.get(0)}
               onChange={getOnTimeWindowChangeUpdateAllRules(onChange)}
               disabled={disabled}
@@ -188,6 +189,7 @@ export function ConditionsSection({
       )}
 
       <MultiConditions
+        key={form.get('entityType')?.value}
         builtInDataSourceSelected={builtInDataSourceSelected}
         customDataSourceSelected={customDataSourceSelected}
         entityType={entityType}

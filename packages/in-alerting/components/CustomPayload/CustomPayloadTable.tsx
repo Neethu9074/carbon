@@ -71,7 +71,8 @@ export default function CustomPayloadTable(props: CustomPayloadTableProps) {
   return (
     <div
       className={classNames({
-        [locals.customPayloadTearsheet]: isTearSheet
+        [locals.customPayloadTearsheet]: isTearSheet,
+        [locals.tableContent]: true
       })}
     >
       <ServerTablePresenter<CustomPayloadItem, ServerTableCustomPayloadConfig>

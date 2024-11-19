@@ -11,12 +11,11 @@ import { useObservable } from '@instana/hooks';
 
 // eslint-disable-next-line no-restricted-imports
 import RetentionPeriodDashboard from './RetentionPeriod/RetentionPeriodDashboard';
+// @ts-ignore
+import { CreateLogsSmartAlertFloatingButton } from 'in-logging/navigation/createLogsSmartAlertFloatingButton';
 import LogsDistributionChartSection from 'in-logging/analyze/AnalyzeView/components/Charts/LogsDistributionChartSection';
 // eslint-disable-next-line no-restricted-imports
 import LogVolumeDashboard from './LogVolume/LogVolumeDashboard';
-// @ts-ignore
-import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
-import { CreateLogsSmartAlertFloatingButton } from 'in-logging/navigation/createLogsSmartAlertFloatingButton';
 import { LoggingAnalyzeContextWrapper } from 'in-logging/analyze/AnalyzeView/LoggingAnalyzeContext';
 import { loggingDashboardPath, logsPathWithDataSource } from 'in-logging/navigation/paths';
 import { dataSourceConfigurations } from 'in-logging/analyze/AnalyzeView/utils/constants';
@@ -77,9 +76,5 @@ export default function Summary() {
     </div>
   );
 
-  return (
-    <LoggingDashboardWrapper>
-      <HeightRestrictedView render={() => contentToRender} />
-    </LoggingDashboardWrapper>
-  );
+  return <LoggingDashboardWrapper>{contentToRender}</LoggingDashboardWrapper>;
 }

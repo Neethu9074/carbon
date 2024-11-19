@@ -159,3 +159,13 @@ export const getTableState = (result: Result<DeleteLogsHistoryResult>): TableSta
   }
   return TableState.EMPTY;
 };
+
+export function addSecondsIfValidFormat(timeInputValue: string) {
+  const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9]$/;
+
+  if (regex.test(timeInputValue)) {
+    return `${timeInputValue}:00`;
+  }
+
+  return timeInputValue;
+}

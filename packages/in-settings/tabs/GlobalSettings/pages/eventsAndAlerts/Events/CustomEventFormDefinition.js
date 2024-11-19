@@ -666,7 +666,7 @@ export function updateFormDefinitionForDataSource(form, previousDataSource, even
     form = removeHostAvailabilityDetectionFields(form);
     form = removeEntityCountDetectionFields(form);
     form = putApplyOnField(form);
-  } else if (previousDataSource) {
+  } else if (previousDataSource && nextDataSource !== previousDataSource) {
     // switching between built-in- and custom-rules
     form = removeMetricPatternFields(form);
     // clear multi-conditions, when switching between non-system configs
