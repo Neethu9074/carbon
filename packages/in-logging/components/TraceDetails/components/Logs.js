@@ -18,6 +18,7 @@ import { getCallIdFromTags } from 'in-logging/components/TraceDetails/utils';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import { LOG_SPAN_ID } from 'in-logging/queryBuilder';
 
+import analyzeLocals from 'in-logging/analyze/AnalyzeView/components/Logs.mless';
 import locals from 'in-logging/components/TraceDetails/components/Logs.mless';
 
 const columnDefinitions = [
@@ -52,7 +53,7 @@ export default function Logs(props) {
   };
 
   return (
-    <Ul space="disabled">
+    <Ul className={analyzeLocals.removeBackground} space="disabled">
       {items.map(log => {
         const id = log.itemId;
         const spanId = getSpanIdFromTags(log.tags);

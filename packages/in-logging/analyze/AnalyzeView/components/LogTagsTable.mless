@@ -6,9 +6,9 @@
 :local {
   .tagContent {
     display: grid;
-    grid-template-columns: 16rem auto 10rem;
+    grid-template-columns: 16rem auto 6rem;
     gap: 1rem 0;
-    align-items: center;
+    align-items: start;
     padding: 0;
   }
 
@@ -16,6 +16,7 @@
     display: flex;
     gap: 0.5rem;
     align-items: center;
+    word-break: break-word;
   }
 
   .groupHeader {
@@ -33,6 +34,7 @@
     justify-self: end;
     grid-column: 3;
     position: absolute;
+    top: 0;
   }
 
   a.appListLink.appListLink {
