@@ -8,14 +8,13 @@ import React, { FormEvent, useState } from 'react';
 
 import { Message, Stack, TextArea, Typography } from '@instana/components';
 
-// import { disableEventConfigEnabled } from 'in-services/featureFlags';
-import { Error, ErrorCode, ManualCloseInfo } from 'in-types';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { ManualCloseInfoForm, manuallyCloseIssues } from 'in-events/api';
+import { Error, ErrorCode, ManualCloseInfo } from 'in-types';
 import { close } from 'in-components/DialogPresenter/store';
 import { toHtml } from 'in-services/formatters/markdown';
 import { user } from 'in-stores/user';
@@ -41,11 +40,12 @@ export default function MultiCloseIssueConfigForm({
   const [form, setForm] = useState<MapForm<ManualCloseInfoForm>>(createForm());
   const [error, setError] = useState<Error[]>([]);
 
-  // const canSuppressAlertAndDisableEvent = disableEventConfigEnabled && user?.role?.canConfigureEventsAndAlerts;
-
   if (!form) return <LoadingIndicator size="regular" />;
 
-  const buttonText = eventType === 'incident' ? t('in-events:closeMultiIncidents') : t('in-events:closeMultiIssues');
+  const buttonText =
+    eventType === 'incident'
+      ? t('in-events:multiClose.closeMultiIncidents')
+      : t('in-events:multiClose.closeMultiIssues');
 
   const footer = (
     <DialogFooter
@@ -82,7 +82,13 @@ export default function MultiCloseIssueConfigForm({
   };
 
   const dialogTitle =
-    eventType === 'incident' ? t('in-events:titleMultiCloseIncidents') : t('in-events:titleMultiCloseIssues');
+    eventIds.length > 1
+      ? eventType === 'incident'
+        ? t('in-events:titleMultiCloseIncidents')
+        : t('in-events:titleMultiCloseIssues')
+      : eventType === 'incident'
+      ? t('in-events:titleManualCloseIncident')
+      : t('in-events:titleManualCloseIssue');
 
   return (
     <form onSubmit={onSubmit}>
@@ -93,9 +99,13 @@ export default function MultiCloseIssueConfigForm({
             <Stack gap="xxsmall">
               <DangerousHtmlPresenter
                 html={toHtml(
-                  eventType === 'incident'
-                    ? t('in-events:multiCloseIncidentsDescription')
-                    : t('in-events:multiCloseIssuesDescription')
+                  eventIds.length > 1
+                    ? eventType === 'incident'
+                      ? t('in-events:multiClose.multiCloseIncidentsDescription')
+                      : t('in-events:multiClose.multiCloseIssuesDescription')
+                    : eventType === 'incident'
+                    ? t('in-events:multiClose.singleCloseIncidentsDescription')
+                    : t('in-events:multiClose.singleCloseIssuesDescription')
                 )}
               />
             </Stack>
@@ -108,9 +118,13 @@ export default function MultiCloseIssueConfigForm({
               <TextArea
                 className={locals.commentsTextArea}
                 placeholder={
-                  eventType === 'incident'
-                    ? t('in-events:closeEventDialog.reasonIncidents')
-                    : t('in-events:closeEventDialog.reasonIssues')
+                  eventIds.length > 1
+                    ? eventType === 'incident'
+                      ? t('in-events:closeEventDialog.reasonIncidents')
+                      : t('in-events:closeEventDialog.reasonIssues')
+                    : eventType === 'incident'
+                    ? t('in-events:closeEventDialog.reasonIncident')
+                    : t('in-events:closeEventDialog.reasonIssue')
                 }
                 onChange={e => {
                   if (e.target) {

@@ -157,7 +157,7 @@ module.exports = {
   thresholdCustomDashboardsEnabled: true,
   thresholdCustomDashboardsTableWidgetEnabled: true,
   carbonPaginationEnabled: true,
-  carbonTableEnabled: false,
+  carbonTableEnabled: true,
   logVolumePageEnabled: true,
   logHomepageEnabled: true,
   carbonHorizontalIndicatorEnabled: true,

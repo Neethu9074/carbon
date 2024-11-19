@@ -17,6 +17,8 @@ import {
   isWebsiteEntityType,
   isInfraEntityType
 } from 'in-services/entityUtils';
+// import { carbonTableEnabled } from 'in-services/featureFlags';
+import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { getEventType, EVENT_TYPES, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
@@ -28,8 +30,6 @@ import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { isDisplayColumn } from 'in-events/components/EventsList';
 import { Duration } from 'in-events/components/EventDetailsKPIs';
 import { getLabel as getSnapshotLabel } from 'in-sdk/snapshot';
-import { carbonTableEnabled } from 'in-services/featureFlags';
-import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import EventIcon from 'in-events/components/EventIcon';
 import { UNKNOWN_LABEL } from 'in-sdk/snapshot/legacy';
@@ -55,7 +55,8 @@ export default function EventRow({
   headers,
   isPreview,
   selectedRows,
-  handleSelectRow
+  handleSelectRow,
+  selectedType
 }) {
   const active = event.id === selectedEventId;
   const onClick = () => onItemClicked(event.id);
@@ -78,10 +79,10 @@ export default function EventRow({
   const start = event.start;
   const end = event.manualCloseTimestamp || event.end || Date.now();
   const eventType = getEventType(event);
-  const isMultiSelectEnabled = event.type === 'incident' || event.type === 'issue';
+  const eventTypeSupported = selectedType === 'incident' || selectedType === 'issue';
 
   const renderCheckboxes = () => {
-    if (!isMultiSelectEnabled) {
+    if (!eventTypeSupported) {
       return null;
     }
 
@@ -107,40 +108,40 @@ export default function EventRow({
   const width = toPercentageString(isChangeEvent ? 10 : Math.max(12, timeScaleEnd - timeScaleStart));
   const smallColumn = isPreview && headers?.length > 2 ? true : false;
 
-  const carbonRow = {
-    id: event.id,
-    icon: <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />,
-    title: (
-      <div
-        className={classNames({
-          [locals.smallColumn]: smallColumn,
-          [locals.title]: true
-        })}
-        title={event.title}
-      >
-        {event.title}
-      </div>
-    ),
-    entityLabel: <OnEntity rawEvent={event} smallColumn={smallColumn} />,
-    started: <span className={locals.text}>{formatDisplayDateTime(start, headers, isPreview)}</span>,
-    ended: <span className={locals.text}>{getEndValue(event, isChangeEvent, end, start, headers, isPreview)}</span>,
-    cvssScore: <span className={locals.text}>{cvssScore}</span>,
-    state: <span className={locals.text}>{getStateBadge(event)}</span>,
-    timeline: (
-      <div className={locals.timelineWrapper}>
-        <div style={{ left, width }} className={locals.line} />
-      </div>
-    ),
-    duration: (
-      <span className={locals.text}>
-        <Duration event={event} listView />
-      </span>
-    )
-  };
+  // const carbonRow = {
+  //   id: event.id,
+  //   icon: <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />,
+  //   title: (
+  //     <div
+  //       className={classNames({
+  //         [locals.smallColumn]: smallColumn,
+  //         [locals.title]: true
+  //       })}
+  //       title={event.title}
+  //     >
+  //       {event.title}
+  //     </div>
+  //   ),
+  //   entityLabel: <OnEntity rawEvent={event} smallColumn={smallColumn} />,
+  //   started: <span className={locals.text}>{formatDisplayDateTime(start, headers, isPreview)}</span>,
+  //   ended: <span className={locals.text}>{getEndValue(event, isChangeEvent, end, start, headers, isPreview)}</span>,
+  //   cvssScore: <span className={locals.text}>{cvssScore}</span>,
+  //   state: <span className={locals.text}>{getStateBadge(event)}</span>,
+  //   timeline: (
+  //     <div className={locals.timelineWrapper}>
+  //       <div style={{ left, width }} className={locals.line} />
+  //     </div>
+  //   ),
+  //   duration: (
+  //     <span className={locals.text}>
+  //       <Duration event={event} listView />
+  //     </span>
+  //   )
+  // };
 
-  if (carbonTableEnabled) {
-    return carbonRow;
-  }
+  // if (carbonTableEnabled) {
+  //   return carbonRow;
+  // }
   return (
     <Tr key={event.id} size="compact" active={active}>
       {/* Conditional rendering based on eventType */}

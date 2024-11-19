@@ -18,8 +18,9 @@ import {
   TableLoadMoreRow
 } from '@instana/legacy';
 import { Card, Checkbox, Stack, Button } from '@instana/components';
-import { DataTable as CarbonDataTable } from '@instana/components';
 
+// import { carbonTableEnabled } from 'in-services/featureFlags';
+import EventListRow from 'in-events/components/EventsListRow';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import HighlightedTimeframeMarkerRow from 'in-events/components/HighlightedTimeframeMarkerRow';
 import useTimeConfigUpdatingScale from 'in-events/components/useTimeConfigUpdatingScale';
@@ -30,12 +31,12 @@ import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import EmptyEventList from 'in-events/components/EmptyEventsList';
-import { carbonTableEnabled } from 'in-services/featureFlags';
-import EventListRow from 'in-events/components/EventsListRow';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './EventsList.mless';
+
+// import { DataTable as CarbonDataTable } from '@instana/components';
 
 export default function EventsList(props) {
   const list = <List {...props} />;
@@ -61,54 +62,22 @@ function List(props) {
     title,
     cardHeader,
     leftHeaderContent,
-    isCustomDashboard,
-    orderBy,
-    orderDirection,
-    disableCard = false
+    isCustomDashboard
+    // orderBy,
+    // orderDirection,
+    // disableCard = false
   } = props;
 
   // Added state for selected events and select all
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
 
-  // addMessage({
-  //   type: 'danger',
-  //   // timeout: 5000,
-  //   title: t('in-events:closeUnsuccessTitle'),
-  //   content: (
-  //     <div>
-  //       <p>{t('in-events:multipleCloseMessageUnsuccessful', { count: ['2'].length })}</p>
-  //       <Button
-  //         kind="tertiary"
-  //         onClick={() =>
-  //           addActiveDialog(
-  //             <FailedIncidentsList failedEventIds={['MTk7BSvOQKGlNmZQDWj4qg', '7mlS8WefR0W-oTUDqVmPug', 'kCtopVe8TpS7-P3VeIme8A', 'f6knDuv3SlqVN2CehwCV6A', 'XNm_3FZMQpy1cEtQlKDWlQ', 'lGNuY_64SOeMxcuEQrwwbw', '1o1atPYeQGCu5HJAZaC-uA']} eventType={eventType} eventIds={selectedRows} />
-  //           )
-  //         }
-  //       >
-  //         {t('in-events:viewUnsuccessfulEventsList')}
-  //       </Button>
-  //     </div>
-  //   )
-  // });
-
-  // addMessage({
-  //   type: 'success',
-  //   timeout: 5000,
-  //   title: t('in-events:closeSuccessTitle'),
-  //   content: (
-  //     <div>
-  //       <p>{t('in-events:multipleCloseSuccessMessage', { count: ['2'].length })}</p>
-  //     </div>
-  //   )
-  // });
-
   useEffect(() => {
     setSelectedRows([]);
     setSelectAll(false);
   }, [eventType]);
 
-  const isMultiSelectEnabled = eventType === 'incident' || eventType === 'issue';
+  const eventTypeSupported = eventType === 'incident' || eventType === 'issue';
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
   const isDenseList = !!selectedEventId;
   let cols = 0;
@@ -116,7 +85,7 @@ function List(props) {
   if (isDenseList) {
     cols = 2;
   } else {
-    if (isMultiSelectEnabled) {
+    if (eventTypeSupported) {
       cols = canCloseManually ? 8 : 7;
     } else {
       cols = canCloseManually ? 7 : 6;
@@ -189,10 +158,21 @@ function List(props) {
           addMessage({
             type: 'success',
             timeout: 5000,
-            title: t('in-events:closeSuccessTitle'),
+            title:
+              eventType === 'incident'
+                ? t('in-events:multiClose.incidentsCloseSuccessTitle')
+                : t('in-events:multiClose.issuesCloseSuccessTitle'),
             content: (
               <div>
-                <p>{t('in-events:multipleCloseSuccessMessage', { count: selectedRows.length })}</p>
+                <p>
+                  {selectedRows.length > 1
+                    ? eventType === 'incident'
+                      ? t('in-events:multiClose.multipleIncidentsCloseSuccessMessage', { count: selectedRows.length })
+                      : t('in-events:multiClose.multipleIssuesCloseSuccessMessage', { count: selectedRows.length })
+                    : eventType === 'incident'
+                    ? t('in-events:multiClose.singleCloseIncidentSuccessMessage')
+                    : t('in-events:multiClose.singleCloseIssueSuccessMessage')}
+                </p>
               </div>
             )
           });
@@ -205,11 +185,23 @@ function List(props) {
         onSaveError={failedEvents => {
           addMessage({
             type: 'danger',
-            // timeout: 5000,
-            title: t('in-events:closeUnsuccessTitle'),
+            title:
+              eventType === 'incident'
+                ? t('in-events:multiClose.incidentsCloseUnsuccessTitle')
+                : t('in-events:multiClose.issuesCloseUnsuccessTitle'),
             content: (
               <div>
-                <p>{t('in-events:multipleCloseMessageUnsuccessful', { count: failedEvents.length })}</p>
+                <p>
+                  {failedEvents.length > 1
+                    ? eventType === 'incident'
+                      ? t('in-events:multiClose.multipleIncidentsCloseMessageUnsuccessful', {
+                          count: failedEvents.length
+                        })
+                      : t('in-events:multiClose.multipleIssuesCloseMessageUnsuccessful', { count: failedEvents.length })
+                    : eventType === 'incident'
+                    ? t('in-events:multiClose.singleIncidentCloseMessageUnsuccessful')
+                    : t('in-events:multiClose.singleIssueCloseMessageUnsuccessful')}
+                </p>
                 <Button
                   kind="tertiary"
                   size="compact"
@@ -223,7 +215,7 @@ function List(props) {
                     )
                   }
                 >
-                  {t('in-events:viewUnsuccessfulEventsList')}
+                  {t('in-events:multiClose.viewUnsuccessfulEventsList')}
                 </Button>
               </div>
             )
@@ -242,19 +234,21 @@ function List(props) {
 
   // Rendering the top row when checkboxes are selected
   const renderTopRow = () => {
-    if (selectedRows.length > 0 && isMultiSelectEnabled) {
+    if (selectedRows.length > 0 && eventTypeSupported) {
       return (
         <div className={locals.topRowBorder}>
           <Stack direction="horizontal" gap="disabled" align="center">
             <div className={locals.topRowGap}>
-              {selectedRows.length} {t('in-events:itemsSelected')}
+              {selectedRows.length} {t('in-events:multiClose.itemsSelected')}
             </div>
             <Button kind="primary" darkTheme="true" onClick={closeSelectedIncidents}>
-              {eventType === 'incident' ? t('in-events:closeIncidents') : t('in-events:closeIssues')}
+              {eventType === 'incident'
+                ? t('in-events:multiClose.closeIncidents')
+                : t('in-events:multiClose.closeIssues')}
             </Button>
             <div className={locals.divider} />
             <Button kind="primary" darkTheme="true" onClick={handleCancel}>
-              {t('in-events:cancelSelection')}
+              {t('in-events:multiClose.cancelSelection')}
             </Button>
           </Stack>
         </div>
@@ -264,7 +258,7 @@ function List(props) {
   };
 
   const renderTableHeader = () => {
-    if (!isMultiSelectEnabled) {
+    if (!eventTypeSupported) {
       return null;
     }
 
@@ -275,209 +269,210 @@ function List(props) {
     );
   };
 
-  if (carbonTableEnabled) {
-    const sortedRows = filteredRawEventList;
+  // if (carbonTableEnabled) {
+  //   const sortedRows = filteredRawEventList;
 
-    // Carbon interprets keys differently than the how the sorting works
-    // Convert the carbon row key to the request query value expected
-    const sortingMapper = {
-      title: 'problem.problemText',
-      started: 'start',
-      state: 'state',
-      ended: 'end'
-    };
+  //   // Carbon interprets keys differently than the how the sorting works
+  //   // Convert the carbon row key to the request query value expected
+  //   const sortingMapper = {
+  //     title: 'problem.problemText',
+  //     started: 'start',
+  //     state: 'state',
+  //     ended: 'end'
+  //   };
 
-    const carbonHeaders = [
-      ...(eventType === 'cve_issue'
-        ? [
-            isDisplayColumn(headers, 'icon') && { key: 'icon' },
-            isDisplayColumn(headers, 'title') && {
-              header: t('in-events:headerVulnerability'),
-              key: 'title',
-              isSortable: !isPreview,
-              sortDirection: orderBy === sortingMapper.title ? orderDirection : 'NONE'
-            },
-            isDisplayColumn(headers, 'entityLabel') && {
-              header: t('in-events:headerReportedOn'),
-              key: 'entityLabel'
-            },
-            isDisplayColumn(headers, 'started') && {
-              header: t('in-events:headerReportedDate'),
-              key: 'started',
-              isSortable: !isPreview,
-              sortDirection: orderBy === sortingMapper.started ? orderDirection : 'NONE'
-            },
-            isDisplayColumn(headers, 'cvssScore') && {
-              header: t('in-events:headerCvssScore'),
-              key: 'cvssScore'
-            },
-            isDisplayColumn(headers, 'state') && {
-              header: t('in-events:headerStatus'),
-              key: 'state',
-              isSortable: !isPreview,
-              sortDirection: orderBy === sortingMapper.state ? orderDirection : 'NONE'
-            }
-          ]
-        : isDenseList
-        ? [
-            {
-              header: t('in-events:headerStarted'),
-              key: 'start'
-            }
-          ]
-        : [
-            isDisplayColumn(headers, 'icon') && { key: 'icon' },
-            isDisplayColumn(headers, 'title') && {
-              header: t('in-events:headerTitle'),
-              key: 'title',
-              isSortable: !isPreview,
-              sortDirection: orderBy === sortingMapper.title ? orderDirection : 'NONE'
-            },
-            isDisplayColumn(headers, 'entityLabel') && {
-              header: t('in-events:headerOn'),
-              key: 'entityLabel'
-            },
-            isDisplayColumn(headers, 'started') && {
-              header: t('in-events:headerStarted'),
-              key: 'started',
-              isSortable: !isPreview,
-              sortDirection: orderBy === sortingMapper.started ? orderDirection : 'NONE'
-            },
-            isDisplayColumn(headers, 'ended') && {
-              header: t('in-events:headerEnd'),
-              key: 'ended',
-              isSortable: !isPreview,
-              sortDirection: orderBy === sortingMapper.ended ? orderDirection : 'NONE'
-            },
-            isDisplayColumn(headers, 'timeline') && {
-              header: t('in-events:headerTimeline'),
-              key: 'timeline'
-            },
-            canCloseManually &&
-              isDisplayColumn(headers, 'state') && {
-                header: t('in-events:headerState'),
-                key: 'state',
-                isSortable: !isPreview,
-                sortDirection: orderBy === sortingMapper.state ? orderDirection : 'NONE'
-              },
-            headers &&
-              isDisplayColumn(headers, 'duration') && {
-                header: t('in-events:titleDuration'),
-                key: 'duration'
-              }
-          ]
-      ).filter(Boolean)
-    ];
+  //   const carbonHeaders = [
+  //     ...(eventType === 'cve_issue'
+  //       ? [
+  //           isDisplayColumn(headers, 'icon') && { key: 'icon' },
+  //           isDisplayColumn(headers, 'title') && {
+  //             header: t('in-events:headerVulnerability'),
+  //             key: 'title',
+  //             isSortable: !isPreview,
+  //             sortDirection: orderBy === sortingMapper.title ? orderDirection : 'NONE'
+  //           },
+  //           isDisplayColumn(headers, 'entityLabel') && {
+  //             header: t('in-events:headerReportedOn'),
+  //             key: 'entityLabel'
+  //           },
+  //           isDisplayColumn(headers, 'started') && {
+  //             header: t('in-events:headerReportedDate'),
+  //             key: 'started',
+  //             isSortable: !isPreview,
+  //             sortDirection: orderBy === sortingMapper.started ? orderDirection : 'NONE'
+  //           },
+  //           isDisplayColumn(headers, 'cvssScore') && {
+  //             header: t('in-events:headerCvssScore'),
+  //             key: 'cvssScore'
+  //           },
+  //           isDisplayColumn(headers, 'state') && {
+  //             header: t('in-events:headerStatus'),
+  //             key: 'state',
+  //             isSortable: !isPreview,
+  //             sortDirection: orderBy === sortingMapper.state ? orderDirection : 'NONE'
+  //           }
+  //         ]
+  //       : isDenseList
+  //       ? [
+  //           {
+  //             header: t('in-events:headerStarted'),
+  //             key: 'start'
+  //           }
+  //         ]
+  //       : [
+  //           isDisplayColumn(headers, 'icon') && { key: 'icon' },
+  //           isDisplayColumn(headers, 'title') && {
+  //             header: t('in-events:headerTitle'),
+  //             key: 'title',
+  //             isSortable: !isPreview,
+  //             sortDirection: orderBy === sortingMapper.title ? orderDirection : 'NONE'
+  //           },
+  //           isDisplayColumn(headers, 'entityLabel') && {
+  //             header: t('in-events:headerOn'),
+  //             key: 'entityLabel'
+  //           },
+  //           isDisplayColumn(headers, 'started') && {
+  //             header: t('in-events:headerStarted'),
+  //             key: 'started',
+  //             isSortable: !isPreview,
+  //             sortDirection: orderBy === sortingMapper.started ? orderDirection : 'NONE'
+  //           },
+  //           isDisplayColumn(headers, 'ended') && {
+  //             header: t('in-events:headerEnd'),
+  //             key: 'ended',
+  //             isSortable: !isPreview,
+  //             sortDirection: orderBy === sortingMapper.ended ? orderDirection : 'NONE'
+  //           },
+  //           isDisplayColumn(headers, 'timeline') && {
+  //             header: t('in-events:headerTimeline'),
+  //             key: 'timeline'
+  //           },
+  //           canCloseManually &&
+  //             isDisplayColumn(headers, 'state') && {
+  //               header: t('in-events:headerState'),
+  //               key: 'state',
+  //               isSortable: !isPreview,
+  //               sortDirection: orderBy === sortingMapper.state ? orderDirection : 'NONE'
+  //             },
+  //           headers &&
+  //             isDisplayColumn(headers, 'duration') && {
+  //               header: t('in-events:titleDuration'),
+  //               key: 'duration'
+  //             }
+  //         ]
+  //     ).filter(Boolean)
+  //   ];
 
-    const carbonRows = sortedRows.map(event => ({
-      id: event.id,
-      ...EventListRow({
-        event,
-        selectedEventId,
-        state: event.state,
-        isDenseList,
-        isPreview,
-        timeScale,
-        timeConfig,
-        headers,
-        onItemClicked
-      })
-    }));
+  //   const carbonRows = sortedRows.map(event => ({
+  //     id: event.id,
+  //     ...EventListRow({
+  //       event,
+  //       selectedEventId,
+  //       state: event.state,
+  //       isDenseList,
+  //       isPreview,
+  //       timeScale,
+  //       timeConfig,
+  //       headers,
+  //       onItemClicked,
+  //       selectedType:eventType
+  //     })
+  //   }));
 
-    if (!isDenseList) {
-      let content = (
-        <>
-          {/* TODO: convert this to a carbon datagrid */}
-          <CarbonDataTable
-            isSelectable
-            headers={carbonHeaders}
-            loading={progress.loading}
-            rows={carbonRows}
-            isSearchEnabled={false}
-            onClickingRow={e => onItemClicked(e.id)}
-            sortRow={({ sortHeaderKey }) => {
-              if (['title', 'started', 'ended', 'state'].includes(sortHeaderKey)) {
-                props?.onChange({
-                  orderBy: sortingMapper[sortHeaderKey],
-                  orderDirection:
-                    props?.orderBy === sortingMapper[sortHeaderKey]
-                      ? props?.orderDirection === 'ASC'
-                        ? 'DESC'
-                        : 'ASC'
-                      : 'ASC'
-                });
-              }
-            }}
-          />
-          {canLoadMore && (
-            <TableLoadMoreRow className={locals.carbonLoadMore} loadMore={loadMore} cols={2} size="compact" />
-          )}
-        </>
-      );
-      if (disableCard) return content;
-      return (
-        <>
-          <Card title={title ?? null} header={cardHeader ?? null} leftHeaderContent={leftHeaderContent ?? null}>
-            <div
-              className={classNames({
-                [locals.widgetCard]: isCustomDashboard
-              })}
-            >
-              <CarbonDataTable
-                headers={carbonHeaders}
-                loading={progress.loading}
-                rows={carbonRows}
-                isSearchEnabled={false}
-                onClickingRow={e => onItemClicked(e.id)}
-                sortRow={({ sortHeaderKey }) => {
-                  if (['title', 'started', 'ended', 'state'].includes(sortHeaderKey)) {
-                    props?.onChange({
-                      orderBy: sortingMapper[sortHeaderKey],
-                      orderDirection:
-                        props?.orderBy === sortingMapper[sortHeaderKey]
-                          ? props?.orderDirection === 'ASC'
-                            ? 'DESC'
-                            : 'ASC'
-                          : 'ASC'
-                    });
-                  }
-                }}
-              />
-              {canLoadMore && (
-                <TableLoadMoreRow className={locals.carbonLoadMore} loadMore={loadMore} cols={2} size="compact" />
-              )}
-            </div>
-          </Card>
-        </>
-      );
-    } else {
-      <>
-        <CarbonDataTable
-          headers={carbonHeaders}
-          rows={carbonRows}
-          isSearchEnabled={false}
-          loading={progress.loading}
-          onClickingRow={e => onItemClicked(e.id)}
-          sortRow={({ sortHeaderKey }) => {
-            if (['title', 'started', 'end', 'state'].includes(sortHeaderKey)) {
-              props?.onChange({
-                orderBy: sortingMapper[sortHeaderKey],
-                orderDirection:
-                  props?.orderBy === sortingMapper[sortHeaderKey]
-                    ? props?.orderDirection === 'ASC'
-                      ? 'DESC'
-                      : 'ASC'
-                    : 'ASC'
-              });
-            }
-          }}
-        />
-        {canLoadMore && (
-          <TableLoadMoreRow className={locals.carbonLoadMore} loadMore={loadMore} cols={2} size="compact" />
-        )}
-      </>;
-    }
-  }
+  //   if (!isDenseList) {
+  //     let content = (
+  //       <>
+  //         {/* TODO: convert this to a carbon datagrid */}
+  //         <CarbonDataTable
+  //           isSelectable
+  //           headers={carbonHeaders}
+  //           loading={progress.loading}
+  //           rows={carbonRows}
+  //           isSearchEnabled={false}
+  //           onClickingRow={e => onItemClicked(e.id)}
+  //           sortRow={({ sortHeaderKey }) => {
+  //             if (['title', 'started', 'ended', 'state'].includes(sortHeaderKey)) {
+  //               props?.onChange({
+  //                 orderBy: sortingMapper[sortHeaderKey],
+  //                 orderDirection:
+  //                   props?.orderBy === sortingMapper[sortHeaderKey]
+  //                     ? props?.orderDirection === 'ASC'
+  //                       ? 'DESC'
+  //                       : 'ASC'
+  //                     : 'ASC'
+  //               });
+  //             }
+  //           }}
+  //         />
+  //         {canLoadMore && (
+  //           <TableLoadMoreRow className={locals.carbonLoadMore} loadMore={loadMore} cols={2} size="compact" />
+  //         )}
+  //       </>
+  //     );
+  //     if (disableCard) return content;
+  //     return (
+  //       <>
+  //         <Card title={title ?? null} header={cardHeader ?? null} leftHeaderContent={leftHeaderContent ?? null}>
+  //           <div
+  //             className={classNames({
+  //               [locals.widgetCard]: isCustomDashboard
+  //             })}
+  //           >
+  //             <CarbonDataTable
+  //               headers={carbonHeaders}
+  //               loading={progress.loading}
+  //               rows={carbonRows}
+  //               isSearchEnabled={false}
+  //               onClickingRow={e => onItemClicked(e.id)}
+  //               sortRow={({ sortHeaderKey }) => {
+  //                 if (['title', 'started', 'ended', 'state'].includes(sortHeaderKey)) {
+  //                   props?.onChange({
+  //                     orderBy: sortingMapper[sortHeaderKey],
+  //                     orderDirection:
+  //                       props?.orderBy === sortingMapper[sortHeaderKey]
+  //                         ? props?.orderDirection === 'ASC'
+  //                           ? 'DESC'
+  //                           : 'ASC'
+  //                         : 'ASC'
+  //                   });
+  //                 }
+  //               }}
+  //             />
+  //             {canLoadMore && (
+  //               <TableLoadMoreRow className={locals.carbonLoadMore} loadMore={loadMore} cols={2} size="compact" />
+  //             )}
+  //           </div>
+  //         </Card>
+  //       </>
+  //     );
+  //   } else {
+  //     <>
+  //       <CarbonDataTable
+  //         headers={carbonHeaders}
+  //         rows={carbonRows}
+  //         isSearchEnabled={false}
+  //         loading={progress.loading}
+  //         onClickingRow={e => onItemClicked(e.id)}
+  //         sortRow={({ sortHeaderKey }) => {
+  //           if (['title', 'started', 'end', 'state'].includes(sortHeaderKey)) {
+  //             props?.onChange({
+  //               orderBy: sortingMapper[sortHeaderKey],
+  //               orderDirection:
+  //                 props?.orderBy === sortingMapper[sortHeaderKey]
+  //                   ? props?.orderDirection === 'ASC'
+  //                     ? 'DESC'
+  //                     : 'ASC'
+  //                   : 'ASC'
+  //             });
+  //           }
+  //         }}
+  //       />
+  //       {canLoadMore && (
+  //         <TableLoadMoreRow className={locals.carbonLoadMore} loadMore={loadMore} cols={2} size="compact" />
+  //       )}
+  //     </>;
+  //   }
+  // }
 
   if (!isDenseList) {
     const titleWidth = 30;
@@ -571,6 +566,7 @@ function List(props) {
                     isPreview={isPreview}
                     selectedRows={selectedRows}
                     handleSelectRow={handleSelectRow}
+                    selectedType={eventType}
                   />
                 ))}
                 {canLoadMore && <TableLoadMoreRow loadMore={loadMore} size="compact" cols={cols} />}
@@ -627,6 +623,7 @@ function List(props) {
               timeConfig={timeConfig}
               selectedRows={selectedRows}
               handleSelectRow={handleSelectRow}
+              selectedType={eventType}
             />
           ))}
 

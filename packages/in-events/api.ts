@@ -25,13 +25,13 @@ export function manuallyCloseIssue(eventId: string, manualCloseInfo: ManualClose
 }
 
 export function manuallyCloseIssues(manualCloseInfo: ManualCloseInfo): Observable<Response<MultiCloseResponse>> {
-  return http<ManualCloseInfo>({
+  return http<MultiCloseResponse>({
     method: 'POST',
     maxRetries: 3,
     headers: getCsrfHeader(),
     url: `/api/events/settings/manual-close/`,
     data: manualCloseInfo
-  }).map(response => fromJS(response));
+  });
 }
 
 interface MultiCloseResponse {

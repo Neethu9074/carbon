@@ -30,7 +30,7 @@
   }
 
   .topRowBorder {
-    background-color: #0f62fe;
+    background-color: var(--cds-background-brand);
   }
 
   .divider {

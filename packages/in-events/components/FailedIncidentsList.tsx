@@ -56,13 +56,25 @@ export default function FailedIncidentsList({ failedEventIds, eventType, eventId
         <Stack gap="xxsmall">
           <DangerousHtmlPresenter
             html={toHtml(
-              eventType === 'incident'
-                ? t('in-events:multiFailedCloseIncidentsDescription', {
+              eventIds.length - failedEventIds.length > 1
+                ? eventType === 'incident'
+                  ? t('in-events:multiClose.multiFailedCloseIncidentsDescription', {
+                      count1: eventIds.length,
+                      count2: eventIds.length - failedEventIds.length,
+                      count3: failedEventIds.length
+                    })
+                  : t('in-events:multiClose.multiFailedCloseIssuesDescription', {
+                      count1: eventIds.length,
+                      count2: eventIds.length - failedEventIds.length,
+                      count3: failedEventIds.length
+                    })
+                : eventType === 'incident'
+                ? t('in-events:multiClose.singleFailedCloseIncidentDescription', {
                     count1: eventIds.length,
                     count2: eventIds.length - failedEventIds.length,
                     count3: failedEventIds.length
                   })
-                : t('in-events:multiFailedCloseIssuesDescription', {
+                : t('in-events:multiClose.singleFailedCloseIssueDescription', {
                     count1: eventIds.length,
                     count2: eventIds.length - failedEventIds.length,
                     count3: failedEventIds.length
