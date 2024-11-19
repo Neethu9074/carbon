@@ -18,25 +18,24 @@ import {
   TableLoadMoreRow
 } from '@instana/legacy';
 import { Card, Checkbox, Stack, Button } from '@instana/components';
+import { DataTable as CarbonDataTable } from '@instana/components';
 
-// import { carbonTableEnabled } from 'in-services/featureFlags';
-import EventListRow from 'in-events/components/EventsListRow';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import HighlightedTimeframeMarkerRow from 'in-events/components/HighlightedTimeframeMarkerRow';
 import useTimeConfigUpdatingScale from 'in-events/components/useTimeConfigUpdatingScale';
+import { manuallyCloseEventEnabled, multiCloseEnabled } from 'in-services/featureFlags';
 import MultiCloseIssueConfigForm from 'in-events/components/MultiCloseIssueConfigForm';
 import FailedIncidentsList from 'in-events/components/FailedIncidentsList.tsx';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import EmptyEventList from 'in-events/components/EmptyEventsList';
+import { carbonTableEnabled } from 'in-services/featureFlags';
+import EventListRow from 'in-events/components/EventsListRow';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './EventsList.mless';
-
-// import { DataTable as CarbonDataTable } from '@instana/components';
 
 export default function EventsList(props) {
   const list = <List {...props} />;
@@ -62,10 +61,10 @@ function List(props) {
     title,
     cardHeader,
     leftHeaderContent,
-    isCustomDashboard
-    // orderBy,
-    // orderDirection,
-    // disableCard = false
+    isCustomDashboard,
+    orderBy,
+    orderDirection,
+    disableCard = false
   } = props;
 
   // Added state for selected events and select all
@@ -77,7 +76,7 @@ function List(props) {
     setSelectAll(false);
   }, [eventType]);
 
-  // const canMultiCloseEvent = multiCloseEnabled && role?.canConfigureEventsAndAlerts;
+  const canMultiCloseEvents = multiCloseEnabled && role?.canManuallyCloseIssue;
 
   const eventTypeSupported = eventType === 'incident' || eventType === 'issue';
   const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
@@ -271,210 +270,209 @@ function List(props) {
     );
   };
 
-  // if (carbonTableEnabled) {
-  //   const sortedRows = filteredRawEventList;
+  if (carbonTableEnabled && !canMultiCloseEvents) {
+    const sortedRows = filteredRawEventList;
 
-  //   // Carbon interprets keys differently than the how the sorting works
-  //   // Convert the carbon row key to the request query value expected
-  //   const sortingMapper = {
-  //     title: 'problem.problemText',
-  //     started: 'start',
-  //     state: 'state',
-  //     ended: 'end'
-  //   };
+    // Carbon interprets keys differently than the how the sorting works
+    // Convert the carbon row key to the request query value expected
+    const sortingMapper = {
+      title: 'problem.problemText',
+      started: 'start',
+      state: 'state',
+      ended: 'end'
+    };
 
-  //   const carbonHeaders = [
-  //     ...(eventType === 'cve_issue'
-  //       ? [
-  //           isDisplayColumn(headers, 'icon') && { key: 'icon' },
-  //           isDisplayColumn(headers, 'title') && {
-  //             header: t('in-events:headerVulnerability'),
-  //             key: 'title',
-  //             isSortable: !isPreview,
-  //             sortDirection: orderBy === sortingMapper.title ? orderDirection : 'NONE'
-  //           },
-  //           isDisplayColumn(headers, 'entityLabel') && {
-  //             header: t('in-events:headerReportedOn'),
-  //             key: 'entityLabel'
-  //           },
-  //           isDisplayColumn(headers, 'started') && {
-  //             header: t('in-events:headerReportedDate'),
-  //             key: 'started',
-  //             isSortable: !isPreview,
-  //             sortDirection: orderBy === sortingMapper.started ? orderDirection : 'NONE'
-  //           },
-  //           isDisplayColumn(headers, 'cvssScore') && {
-  //             header: t('in-events:headerCvssScore'),
-  //             key: 'cvssScore'
-  //           },
-  //           isDisplayColumn(headers, 'state') && {
-  //             header: t('in-events:headerStatus'),
-  //             key: 'state',
-  //             isSortable: !isPreview,
-  //             sortDirection: orderBy === sortingMapper.state ? orderDirection : 'NONE'
-  //           }
-  //         ]
-  //       : isDenseList
-  //       ? [
-  //           {
-  //             header: t('in-events:headerStarted'),
-  //             key: 'start'
-  //           }
-  //         ]
-  //       : [
-  //           isDisplayColumn(headers, 'icon') && { key: 'icon' },
-  //           isDisplayColumn(headers, 'title') && {
-  //             header: t('in-events:headerTitle'),
-  //             key: 'title',
-  //             isSortable: !isPreview,
-  //             sortDirection: orderBy === sortingMapper.title ? orderDirection : 'NONE'
-  //           },
-  //           isDisplayColumn(headers, 'entityLabel') && {
-  //             header: t('in-events:headerOn'),
-  //             key: 'entityLabel'
-  //           },
-  //           isDisplayColumn(headers, 'started') && {
-  //             header: t('in-events:headerStarted'),
-  //             key: 'started',
-  //             isSortable: !isPreview,
-  //             sortDirection: orderBy === sortingMapper.started ? orderDirection : 'NONE'
-  //           },
-  //           isDisplayColumn(headers, 'ended') && {
-  //             header: t('in-events:headerEnd'),
-  //             key: 'ended',
-  //             isSortable: !isPreview,
-  //             sortDirection: orderBy === sortingMapper.ended ? orderDirection : 'NONE'
-  //           },
-  //           isDisplayColumn(headers, 'timeline') && {
-  //             header: t('in-events:headerTimeline'),
-  //             key: 'timeline'
-  //           },
-  //           canCloseManually &&
-  //             isDisplayColumn(headers, 'state') && {
-  //               header: t('in-events:headerState'),
-  //               key: 'state',
-  //               isSortable: !isPreview,
-  //               sortDirection: orderBy === sortingMapper.state ? orderDirection : 'NONE'
-  //             },
-  //           headers &&
-  //             isDisplayColumn(headers, 'duration') && {
-  //               header: t('in-events:titleDuration'),
-  //               key: 'duration'
-  //             }
-  //         ]
-  //     ).filter(Boolean)
-  //   ];
+    const carbonHeaders = [
+      ...(eventType === 'cve_issue'
+        ? [
+            isDisplayColumn(headers, 'icon') && { key: 'icon' },
+            isDisplayColumn(headers, 'title') && {
+              header: t('in-events:headerVulnerability'),
+              key: 'title',
+              isSortable: !isPreview,
+              sortDirection: orderBy === sortingMapper.title ? orderDirection : 'NONE'
+            },
+            isDisplayColumn(headers, 'entityLabel') && {
+              header: t('in-events:headerReportedOn'),
+              key: 'entityLabel'
+            },
+            isDisplayColumn(headers, 'started') && {
+              header: t('in-events:headerReportedDate'),
+              key: 'started',
+              isSortable: !isPreview,
+              sortDirection: orderBy === sortingMapper.started ? orderDirection : 'NONE'
+            },
+            isDisplayColumn(headers, 'cvssScore') && {
+              header: t('in-events:headerCvssScore'),
+              key: 'cvssScore'
+            },
+            isDisplayColumn(headers, 'state') && {
+              header: t('in-events:headerStatus'),
+              key: 'state',
+              isSortable: !isPreview,
+              sortDirection: orderBy === sortingMapper.state ? orderDirection : 'NONE'
+            }
+          ]
+        : isDenseList
+        ? [
+            {
+              header: t('in-events:headerStarted'),
+              key: 'start'
+            }
+          ]
+        : [
+            isDisplayColumn(headers, 'icon') && { key: 'icon' },
+            isDisplayColumn(headers, 'title') && {
+              header: t('in-events:headerTitle'),
+              key: 'title',
+              isSortable: !isPreview,
+              sortDirection: orderBy === sortingMapper.title ? orderDirection : 'NONE'
+            },
+            isDisplayColumn(headers, 'entityLabel') && {
+              header: t('in-events:headerOn'),
+              key: 'entityLabel'
+            },
+            isDisplayColumn(headers, 'started') && {
+              header: t('in-events:headerStarted'),
+              key: 'started',
+              isSortable: !isPreview,
+              sortDirection: orderBy === sortingMapper.started ? orderDirection : 'NONE'
+            },
+            isDisplayColumn(headers, 'ended') && {
+              header: t('in-events:headerEnd'),
+              key: 'ended',
+              isSortable: !isPreview,
+              sortDirection: orderBy === sortingMapper.ended ? orderDirection : 'NONE'
+            },
+            isDisplayColumn(headers, 'timeline') && {
+              header: t('in-events:headerTimeline'),
+              key: 'timeline'
+            },
+            canCloseManually &&
+              isDisplayColumn(headers, 'state') && {
+                header: t('in-events:headerState'),
+                key: 'state',
+                isSortable: !isPreview,
+                sortDirection: orderBy === sortingMapper.state ? orderDirection : 'NONE'
+              },
+            headers &&
+              isDisplayColumn(headers, 'duration') && {
+                header: t('in-events:titleDuration'),
+                key: 'duration'
+              }
+          ]
+      ).filter(Boolean)
+    ];
 
-  //   const carbonRows = sortedRows.map(event => ({
-  //     id: event.id,
-  //     ...EventListRow({
-  //       event,
-  //       selectedEventId,
-  //       state: event.state,
-  //       isDenseList,
-  //       isPreview,
-  //       timeScale,
-  //       timeConfig,
-  //       headers,
-  //       onItemClicked,
-  //       selectedType:eventType
-  //     })
-  //   }));
+    const carbonRows = sortedRows.map(event => ({
+      id: event.id,
+      ...EventListRow({
+        event,
+        selectedEventId,
+        state: event.state,
+        isDenseList,
+        isPreview,
+        timeScale,
+        timeConfig,
+        headers,
+        onItemClicked,
+        selectedType: eventType
+      })
+    }));
 
-  //   if (!isDenseList) {
-  //     let content = (
-  //       <>
-  //         {/* TODO: convert this to a carbon datagrid */}
-  //         <CarbonDataTable
-  //           isSelectable
-  //           headers={carbonHeaders}
-  //           loading={progress.loading}
-  //           rows={carbonRows}
-  //           isSearchEnabled={false}
-  //           onClickingRow={e => onItemClicked(e.id)}
-  //           sortRow={({ sortHeaderKey }) => {
-  //             if (['title', 'started', 'ended', 'state'].includes(sortHeaderKey)) {
-  //               props?.onChange({
-  //                 orderBy: sortingMapper[sortHeaderKey],
-  //                 orderDirection:
-  //                   props?.orderBy === sortingMapper[sortHeaderKey]
-  //                     ? props?.orderDirection === 'ASC'
-  //                       ? 'DESC'
-  //                       : 'ASC'
-  //                     : 'ASC'
-  //               });
-  //             }
-  //           }}
-  //         />
-  //         {canLoadMore && (
-  //           <TableLoadMoreRow className={locals.carbonLoadMore} loadMore={loadMore} cols={2} size="compact" />
-  //         )}
-  //       </>
-  //     );
-  //     if (disableCard) return content;
-  //     return (
-  //       <>
-  //         <Card title={title ?? null} header={cardHeader ?? null} leftHeaderContent={leftHeaderContent ?? null}>
-  //           <div
-  //             className={classNames({
-  //               [locals.widgetCard]: isCustomDashboard
-  //             })}
-  //           >
-  //             <CarbonDataTable
-  //               headers={carbonHeaders}
-  //               loading={progress.loading}
-  //               rows={carbonRows}
-  //               isSearchEnabled={false}
-  //               onClickingRow={e => onItemClicked(e.id)}
-  //               sortRow={({ sortHeaderKey }) => {
-  //                 if (['title', 'started', 'ended', 'state'].includes(sortHeaderKey)) {
-  //                   props?.onChange({
-  //                     orderBy: sortingMapper[sortHeaderKey],
-  //                     orderDirection:
-  //                       props?.orderBy === sortingMapper[sortHeaderKey]
-  //                         ? props?.orderDirection === 'ASC'
-  //                           ? 'DESC'
-  //                           : 'ASC'
-  //                         : 'ASC'
-  //                   });
-  //                 }
-  //               }}
-  //             />
-  //             {canLoadMore && (
-  //               <TableLoadMoreRow className={locals.carbonLoadMore} loadMore={loadMore} cols={2} size="compact" />
-  //             )}
-  //           </div>
-  //         </Card>
-  //       </>
-  //     );
-  //   } else {
-  //     <>
-  //       <CarbonDataTable
-  //         headers={carbonHeaders}
-  //         rows={carbonRows}
-  //         isSearchEnabled={false}
-  //         loading={progress.loading}
-  //         onClickingRow={e => onItemClicked(e.id)}
-  //         sortRow={({ sortHeaderKey }) => {
-  //           if (['title', 'started', 'end', 'state'].includes(sortHeaderKey)) {
-  //             props?.onChange({
-  //               orderBy: sortingMapper[sortHeaderKey],
-  //               orderDirection:
-  //                 props?.orderBy === sortingMapper[sortHeaderKey]
-  //                   ? props?.orderDirection === 'ASC'
-  //                     ? 'DESC'
-  //                     : 'ASC'
-  //                   : 'ASC'
-  //             });
-  //           }
-  //         }}
-  //       />
-  //       {canLoadMore && (
-  //         <TableLoadMoreRow className={locals.carbonLoadMore} loadMore={loadMore} cols={2} size="compact" />
-  //       )}
-  //     </>;
-  //   }
-  // }
+    if (!isDenseList) {
+      let content = (
+        <>
+          {/* TODO: convert this to a carbon datagrid */}
+          <CarbonDataTable
+            headers={carbonHeaders}
+            loading={progress.loading}
+            rows={carbonRows}
+            isSearchEnabled={false}
+            onClickingRow={e => onItemClicked(e.id)}
+            sortRow={({ sortHeaderKey }) => {
+              if (['title', 'started', 'ended', 'state'].includes(sortHeaderKey)) {
+                props?.onChange({
+                  orderBy: sortingMapper[sortHeaderKey],
+                  orderDirection:
+                    props?.orderBy === sortingMapper[sortHeaderKey]
+                      ? props?.orderDirection === 'ASC'
+                        ? 'DESC'
+                        : 'ASC'
+                      : 'ASC'
+                });
+              }
+            }}
+          />
+          {canLoadMore && (
+            <TableLoadMoreRow className={locals.carbonLoadMore} loadMore={loadMore} cols={2} size="compact" />
+          )}
+        </>
+      );
+      if (disableCard) return content;
+      return (
+        <>
+          <Card title={title ?? null} header={cardHeader ?? null} leftHeaderContent={leftHeaderContent ?? null}>
+            <div
+              className={classNames({
+                [locals.widgetCard]: isCustomDashboard
+              })}
+            >
+              <CarbonDataTable
+                headers={carbonHeaders}
+                loading={progress.loading}
+                rows={carbonRows}
+                isSearchEnabled={false}
+                onClickingRow={e => onItemClicked(e.id)}
+                sortRow={({ sortHeaderKey }) => {
+                  if (['title', 'started', 'ended', 'state'].includes(sortHeaderKey)) {
+                    props?.onChange({
+                      orderBy: sortingMapper[sortHeaderKey],
+                      orderDirection:
+                        props?.orderBy === sortingMapper[sortHeaderKey]
+                          ? props?.orderDirection === 'ASC'
+                            ? 'DESC'
+                            : 'ASC'
+                          : 'ASC'
+                    });
+                  }
+                }}
+              />
+              {canLoadMore && (
+                <TableLoadMoreRow className={locals.carbonLoadMore} loadMore={loadMore} cols={2} size="compact" />
+              )}
+            </div>
+          </Card>
+        </>
+      );
+    } else {
+      <>
+        <CarbonDataTable
+          headers={carbonHeaders}
+          rows={carbonRows}
+          isSearchEnabled={false}
+          loading={progress.loading}
+          onClickingRow={e => onItemClicked(e.id)}
+          sortRow={({ sortHeaderKey }) => {
+            if (['title', 'started', 'end', 'state'].includes(sortHeaderKey)) {
+              props?.onChange({
+                orderBy: sortingMapper[sortHeaderKey],
+                orderDirection:
+                  props?.orderBy === sortingMapper[sortHeaderKey]
+                    ? props?.orderDirection === 'ASC'
+                      ? 'DESC'
+                      : 'ASC'
+                    : 'ASC'
+              });
+            }
+          }}
+        />
+        {canLoadMore && (
+          <TableLoadMoreRow className={locals.carbonLoadMore} loadMore={loadMore} cols={2} size="compact" />
+        )}
+      </>;
+    }
+  }
 
   if (!isDenseList) {
     const titleWidth = 30;
