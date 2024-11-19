@@ -77,7 +77,7 @@ export default function FailedIncidentsList({ failedEventIds, eventType, eventId
                   })
                 : t('in-events:multiClose.singleFailedCloseIssueDescription', {
                     total_issues: eventIds.length,
-                    number_incidents_failed_closed: failedEventIds.length
+                    number_issues_failed_closed: failedEventIds.length
                   })
             )}
           />
@@ -88,8 +88,13 @@ export default function FailedIncidentsList({ failedEventIds, eventType, eventId
             <CarbonTable>
               <CarbonTableBody>
                 {failedEvents.map(event => (
-                  // @ts-expect-error
-                  <CarbonTableRow key={event.eventId} onClick={() => onItemClick(event.eventId)}>
+                  <CarbonTableRow
+                    style={{ cursor: 'pointer' }}
+                    // @ts-expect-error
+                    key={event.eventId}
+                    // @ts-expect-error
+                    onClick={() => onItemClick(event.eventId)}
+                  >
                     <CarbonTableCell>
                       <EventIcon
                         event={event}
