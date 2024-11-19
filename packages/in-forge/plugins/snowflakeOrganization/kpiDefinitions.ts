@@ -4,7 +4,4 @@
  * Copyright IBM Corp. 2024
  */
 
-// import { bytes, number } from 'in-services/formatters/number';
-// import { t } from 'in-i18n';
-
 export default [];
