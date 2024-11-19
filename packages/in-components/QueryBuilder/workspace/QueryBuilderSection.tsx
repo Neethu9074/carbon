@@ -19,7 +19,6 @@ import { FormModelElement } from 'in-components/QueryBuilder/transformation/form
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { emptyObject } from 'in-services/fixedObjects';
 import Section from 'in-components/workspace/Section';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
 export const DEFAULT_MAX_EXPRESSION_DEPTH = 5;
@@ -37,7 +36,7 @@ interface QueryBuilderSectionProps<ADDITIONAL_TAG_CATALOG_PROPS = {}> {
   useLastValidStateWhenErroneous?: boolean;
 
   withOptionalMarker?: boolean;
-  withTechnicalPreview?: string;
+  withTechnicalPreview?: boolean;
 
   hasError?: boolean;
   errors?: string[];
@@ -56,7 +55,7 @@ export default function QueryBuilderSection<ADDITIONAL_TAG_CATALOG_PROPS = {}>({
   actions,
   useLastValidStateWhenErroneous = false,
   withOptionalMarker = false,
-  withTechnicalPreview = undefined,
+  withTechnicalPreview = false,
   hasError: hasExternalError,
   errors: externalErrors,
   tagCatalog,
@@ -95,12 +94,10 @@ export default function QueryBuilderSection<ADDITIONAL_TAG_CATALOG_PROPS = {}>({
   }
   if (withTechnicalPreview) {
     title = (
-      <Tooltip content={withTechnicalPreview}>
-        <div>
-          {title}
-          <PreviewPill privatePreview />
-        </div>
-      </Tooltip>
+      <>
+        {title}
+        <PreviewPill privatePreview />
+      </>
     );
   }
 

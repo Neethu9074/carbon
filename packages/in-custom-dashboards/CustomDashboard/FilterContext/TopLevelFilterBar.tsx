@@ -13,7 +13,6 @@ import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuild
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import useUnifiedTagCatalog from 'in-custom-dashboards/hooks/useUnifiedTagCatalog';
 import Sections from 'in-components/workspace/Sections';
-import { t } from 'in-i18n';
 import { TagCatalog } from 'in-types';
 
 import locals from 'in-custom-dashboards/CustomDashboard/FilterContext/TopLevelFilterBar.mless';
@@ -40,7 +39,7 @@ export default function TopLevelFilterBar({ topLevelFilters, onTopLevelFiltersCh
             tagCatalog={unifiedTagCatalog}
             onChange={onTopLevelFiltersChange}
             useLastValidStateWhenErroneous
-            withTechnicalPreview={t('in-custom-dashboards:customDashboard.filterContext.previewExplanation')}
+            withTechnicalPreview
             hasError={!isValid}
           />
         </Sections>
