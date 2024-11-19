@@ -61,25 +61,23 @@ export default function FailedIncidentsList({ failedEventIds, eventType, eventId
               eventIds.length - failedEventIds.length > 1
                 ? eventType === 'incident'
                   ? t('in-events:multiClose.multiFailedCloseIncidentsDescription', {
-                      count1: eventIds.length,
-                      count2: eventIds.length - failedEventIds.length,
-                      count3: failedEventIds.length
+                      total_incidents: eventIds.length,
+                      number_incidents_succesfully_closed: eventIds.length - failedEventIds.length,
+                      number_incidents_failed_closed: failedEventIds.length
                     })
                   : t('in-events:multiClose.multiFailedCloseIssuesDescription', {
-                      count1: eventIds.length,
-                      count2: eventIds.length - failedEventIds.length,
-                      count3: failedEventIds.length
+                      total_issues: eventIds.length,
+                      number_issues_succesfully_closed: eventIds.length - failedEventIds.length,
+                      number_issues_failed_closed: failedEventIds.length
                     })
                 : eventType === 'incident'
                 ? t('in-events:multiClose.singleFailedCloseIncidentDescription', {
-                    count1: eventIds.length,
-                    count2: eventIds.length - failedEventIds.length,
-                    count3: failedEventIds.length
+                    total_incidents: eventIds.length,
+                    number_incidents_failed_closed: failedEventIds.length
                   })
                 : t('in-events:multiClose.singleFailedCloseIssueDescription', {
-                    count1: eventIds.length,
-                    count2: eventIds.length - failedEventIds.length,
-                    count3: failedEventIds.length
+                    total_issues: eventIds.length,
+                    number_incidents_failed_closed: failedEventIds.length
                   })
             )}
           />
