@@ -65,6 +65,21 @@ function EmptySection() {
   );
 }
 
+function LoadingSection() {
+  return (
+    <>
+      <div className={locals.header}>
+        <Typography variant="heading-200" component="h2">
+          {t('in-automation:GenerateAIActionDialog.generateScriptDialog.titleGeneratedCodeReadOnly')}
+        </Typography>
+      </div>
+      <div className={locals.loadingContent}>
+        <LoadingIndicator text={t('in-automation:GenerateAIActionDialog.watsonxLoadingContent')} />
+      </div>
+    </>
+  );
+}
+
 function generateAIActionForm({
   form,
   setForm,
@@ -149,8 +164,7 @@ function ActionPreview({ form }: { form: GenerateAIScriptActionForm }) {
   const generatedAction = useGeneratedAction();
 
   if (!generatedAction) return <EmptySection />;
-  if (isLoading(generatedAction))
-    return <LoadingIndicator text={t('in-automation:GenerateAIActionDialog.watsonxLoadingContent')} />;
+  if (isLoading(generatedAction)) return <LoadingSection />;
   if (hasError(generatedAction)) return <ErroneousResultPresenter errors={generatedAction.errors} />;
   return <ScriptSection form={form} />;
 }
