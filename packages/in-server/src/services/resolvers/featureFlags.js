@@ -813,6 +813,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'applicationSubtracesEnabled',
+    instanaCtlKey: 'feature.application.subtraces.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'customDashboardTopLevelFiltersEnabled',
     instanaCtlKey: 'feature.custom.dashboard.top.level.filters.enabled',
     defaultValue: false

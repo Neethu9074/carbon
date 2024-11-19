@@ -171,6 +171,7 @@ module.exports = {
   automationActionAiGenerationUnitEnabled: true,
   disableEventConfigEnabled: true,
   carbonSliderEnabled: true,
+  applicationSubtracesEnabled: true,
   customDashboardTopLevelFiltersEnabled: true,
   syntheticCredentialsEnabled: true,
   infraSmartAlertFullScreenDesignEnabled: false,

@@ -12,6 +12,7 @@ export const pageNames = Object.freeze({
   application_summary: 'Application > Summary',
   service_summary: 'Service > Summary',
   services: 'Services',
+  subtraces: 'Subtraces',
   smart_alerts: 'Smart Alerts',
   smart_alerts_tearsheet: 'Smart Alerts (New)',
   websites: 'Websites',

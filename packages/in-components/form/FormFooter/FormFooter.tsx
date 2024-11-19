@@ -20,11 +20,12 @@ import locals from './FormFooter.mless';
 export interface FormFooterProps {
   className?: string;
   withRoundedBottomBorder?: boolean;
+  withoutCarbonLayer?: boolean;
   children: React.ReactNode;
 }
 
 export default forwardRef<HTMLElement, FormFooterProps>(function FormFooter(
-  { className, withRoundedBottomBorder, children },
+  { className, withRoundedBottomBorder, withoutCarbonLayer = false, children },
   ref
 ) {
   return (
@@ -32,7 +33,7 @@ export default forwardRef<HTMLElement, FormFooterProps>(function FormFooter(
       ref={ref}
       className={classNames(locals.controls, className, { [locals.withRoundedBottomBorder]: withRoundedBottomBorder })}
     >
-      <CarbonLayer>{children}</CarbonLayer>
+      {withoutCarbonLayer ? children : <CarbonLayer>{children}</CarbonLayer>}
     </nav>
   );
 });

@@ -6,14 +6,25 @@
 import {
   applicationDashboard as applicationDashboardPath,
   serviceDashboard as serviceDashboardPth,
-  endpointDashboard as endpointDashboardPath
+  endpointDashboard as endpointDashboardPath,
+  subtraceDashboard as subtraceDashboardPath
 } from 'in-applications/navigation/paths';
-import { applicationId, serviceId, endpointId, boundaryScope, syntheticCalls } from 'in-applications/navigation/matrix';
+import {
+  applicationId,
+  serviceId,
+  endpointId,
+  boundaryScope,
+  syntheticCalls,
+  subtraceId
+} from 'in-applications/navigation/matrix';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 
 export const applicationDashboardUrlParameters = createApplicationServiceEndpointParameters(applicationDashboardPath);
 export const serviceDashboardUrlParameters = createApplicationServiceEndpointParameters(serviceDashboardPth);
 export const endpointDashboardUrlParameters = createApplicationServiceEndpointParameters(endpointDashboardPath);
+export const subtraceDashboardUrlParameters = {
+  subtraceId: createSimpleUrlParameters(subtraceDashboardPath, subtraceId)
+};
 
 export function createEndpointTypesUrlParameter(pathSegment: string, matrixPrefix: string) {
   return {
@@ -78,4 +89,8 @@ function createApplicationServiceEndpointParameters(path: string) {
       name: syntheticCalls
     }
   };
+}
+
+function createSimpleUrlParameters(path: string, name: string) {
+  return { path, name };
 }

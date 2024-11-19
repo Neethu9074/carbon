@@ -21,7 +21,7 @@ export default function CancelButton({
   isSaving,
   ...otherProps
 }: CancelButtonProps) {
-  const disabled = isSaving;
+  const disabled = isSaving || otherProps.disabled;
   return (
     <Button {...otherProps} onClick={disabled ? undefined : onClick} disabled={disabled} kind={kind}>
       {children}

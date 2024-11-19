@@ -314,6 +314,7 @@ export const automationActionAiGenerationUnitEnabled = isFeatureFlagEnabled(
   false
 );
 export const carbonSliderEnabled = isFeatureFlagEnabled('carbonSliderEnabled', false);
+export const applicationSubtracesEnabled = isFeatureFlagEnabled('applicationSubtracesEnabled', false);
 export const customDashboardTopLevelFiltersEnabled = isFeatureFlagEnabled(
   'customDashboardTopLevelFiltersEnabled',
   false

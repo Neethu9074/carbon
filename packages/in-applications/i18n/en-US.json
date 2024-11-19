@@ -154,6 +154,33 @@
   "applications": {
     "noData": "Application perspectives provide a means to model environments, sets of services, tenants, or just about anything."
   },
+  "subtraces": {
+    "labelSubtraces": "Subtraces",
+    "labelSubtrace": "Subtrace",
+    "newSubtrace": "Add subtrace",
+    "subtracesList": {
+      "name": "Name",
+      "count": "Count",
+      "meanDuration": "Mean duration",
+      "meanSubcallCount": "Mean nr. of subcalls",
+      "meanErrorRate": "Mean error rate"
+    },
+    "configuration": {
+      "success": {
+        "title": "Subtrace {{action}} successfully",
+        "message": "Subtrace \"{{subtraceName}}\" has been {{action}}."
+      },
+      "failure": {
+        "title": "Failed to {{action}} Subtrace",
+        "message": "There was a problem while trying to {{action}} this Subtrace: \"{{subtraceName}}\""
+      },
+      "title": "Update subtrace",
+      "subtraceName": "Subtrace name",
+      "subtraceFilter": "Subtrace definition",
+      "evaluationGranularity": "Evaluation granularity",
+      "evaluationGranularityValidationError": "Please select a value for evaluation granularity"
+    }
+  },
   "alert": {
     "tooltipMoreFilter": "+{{moreFilterCount}} more filter",
     "tooltipMoreFilter_plural": "+{{moreFilterCount}} more filters",
