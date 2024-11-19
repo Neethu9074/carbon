@@ -783,11 +783,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'carbonCodeEnabled',
-    instanaCtlKey: 'feature.carbon.code.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'graphViewFromAboutInstanaEnabled',
     instanaCtlKey: 'feature.graph.view.from.about.instana.enabled',
     defaultValue: false
