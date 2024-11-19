@@ -24,7 +24,7 @@ const operatorCheck: Record<ThresholdOperator, BreachesFn> = {
 const breaches = (thresholdOperator: ThresholdOperator, threshold: number, value: number) =>
   !Number.isNaN(threshold) && !Number.isNaN(value) && operatorCheck[thresholdOperator](threshold, value);
 
-export function getThreshold(threshold?: Threshold, formatter: string = defaultFormatter.id): ThresholdFn {
+export function getThreshold(threshold?: Threshold, formatterId: string = defaultFormatter.id): ThresholdFn {
   return value => {
     if (!threshold || (!value && value !== 0)) {
       return 'normal';
@@ -33,7 +33,7 @@ export function getThreshold(threshold?: Threshold, formatter: string = defaultF
     if (!thresholdEnabled || !operator) {
       return 'normal';
     }
-    const currentValue = formatter.startsWith('percentage') ? convertToPercent(value) : round(value, 2, true);
+    const currentValue = formatterId.startsWith('percentage') ? convertToPercent(value) : round(value, 2, true);
 
     if (critical && breaches(operator, round(critical, 2, true), currentValue)) {
       return 'critical';

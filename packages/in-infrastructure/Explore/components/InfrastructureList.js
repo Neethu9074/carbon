@@ -465,7 +465,11 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
                 customValueTooltip={customValueTooltip}
                 strokeColor={strokeColor}
                 fillColor={fillColor}
-                customChartTooltip={threshold && <ThresholdTooltip threshold={threshold} formatter={formatter} />}
+                customChartTooltip={
+                  threshold && (
+                    <ThresholdTooltip threshold={threshold} formatter={formatter} formatterId={formatterId} />
+                  )
+                }
               />
             );
           },
