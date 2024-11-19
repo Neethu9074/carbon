@@ -5,10 +5,14 @@
  */
 
 import { Field, MapForm } from 'formalistic';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Checkbox, Stack } from '@instana/components';
 
+import {
+  updateAlertChannelSelectionOnWarningThresholdFieldChange,
+  updateAlertChannelSelectionOnCriticalThresholdFieldChange
+} from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
 import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton';
@@ -44,8 +48,33 @@ export default function ThresholdValueFormGroupForMultiStaticThreshold({
 }: ThresholdValueFormGroupForMultiStaticThresholdProps) {
   const warningThresholdField = form.get('threshold').get('warningThreshold') as MapForm<any>;
   const criticalThresholdField = form.get('threshold').get('criticalThreshold') as MapForm<any>;
-  const warningThresholdValuePresent = warningThresholdField.get('isCheckboxSelected')?.value;
-  const criticalThresholdValuePresent = criticalThresholdField.get('isCheckboxSelected')?.value;
+  const warningThresholdCheckBoxField = warningThresholdField.get('isCheckboxSelected');
+  const criticalThresholdCheckBoxField = criticalThresholdField.get('isCheckboxSelected');
+  const warningThresholdValuePresent = warningThresholdCheckBoxField?.value;
+  const criticalThresholdValuePresent = criticalThresholdCheckBoxField?.value;
+  const alertChannelSelection = form.get('alertChannels').value;
+
+  useEffect(() => {
+    updateAlertChannelSelectionOnWarningThresholdFieldChange(
+      alertChannelSelection,
+      warningThresholdValuePresent,
+      criticalThresholdValuePresent,
+      form,
+      updateForm
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [warningThresholdCheckBoxField]);
+
+  useEffect(() => {
+    updateAlertChannelSelectionOnCriticalThresholdFieldChange(
+      alertChannelSelection,
+      warningThresholdValuePresent,
+      criticalThresholdValuePresent,
+      form,
+      updateForm
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [criticalThresholdCheckBoxField]);
 
   return (
     <ThresholdConditionFormGroup iconType="lib_threshold" label={label} isTearSheet={isTearSheet} showLabel={showLabel}>

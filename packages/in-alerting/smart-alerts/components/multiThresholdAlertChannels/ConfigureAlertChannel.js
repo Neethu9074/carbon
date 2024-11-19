@@ -40,12 +40,18 @@ export default function ConfigureAlertChannel({
   setSliderState,
   setCustomSlideInHeaderConfig,
   numberOfAlertChannelListRows = 5,
-  isTearSheet = false
+  isTearSheet = false,
+  simpleMode = false
 }) {
   const selectedChannels = form.get('alertChannels').value;
-  const warningThresholdFieldDisabled = isEmpty(form.get('threshold').get('warningThreshold').get('value').value);
-  const criticalThresholdFieldDisabled = isEmpty(form.get('threshold').get('criticalThreshold').get('value').value);
+  //console.log('selectedChannels', selectedChannels);
 
+  const warningThresholdField = form.get('threshold')?.get('warningThreshold');
+  const criticalThresholdField = form.get('threshold')?.get('criticalThreshold');
+  const warningThresholdFieldDisabled =
+    isEmpty(warningThresholdField?.get('value')?.value) && !warningThresholdField?.get('isCheckboxSelected')?.value;
+  const criticalThresholdFieldDisabled =
+    isEmpty(criticalThresholdField?.get('value')?.value) && !criticalThresholdField?.get('isCheckboxSelected')?.value;
   const selectedChannelsArrayField = form.get('hiddenFields').get('selectedChannelList');
 
   return (
@@ -59,6 +65,7 @@ export default function ConfigureAlertChannel({
         hasRowNavigation={false}
         renderNoDataAvailable={() => <NoChannelSelected />}
         tableActions={alertChannelSelectionTableActions(form, updateForm)}
+        simpleMode={simpleMode}
         rightHeader={
           <Stack gap="xxsmall">
             {!warningThresholdFieldDisabled &&
@@ -70,7 +77,7 @@ export default function ConfigureAlertChannel({
               )}
             <Button
               kind="action"
-              disabled={warningThresholdFieldDisabled && criticalThresholdFieldDisabled}
+              disabled={warningThresholdFieldDisabled && criticalThresholdFieldDisabled && !simpleMode}
               onClick={() => {
                 if (!isTearSheet) {
                   setSliderState({
@@ -243,5 +250,6 @@ ConfigureAlertChannel.propTypes = {
   setSliderState: PropTypes.func.isRequired,
   setCustomSlideInHeaderConfig: PropTypes.func.isRequired,
   numberOfAlertChannelListRows: PropTypes.number,
-  isTearSheet: PropTypes.bool
+  isTearSheet: PropTypes.bool,
+  simpleMode: PropTypes.bool
 };

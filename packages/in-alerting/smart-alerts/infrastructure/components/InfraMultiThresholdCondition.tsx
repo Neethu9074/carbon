@@ -8,11 +8,12 @@ import { Field, MapForm } from 'formalistic';
 import React, { useEffect } from 'react';
 
 import { Checkbox, Stack, SvgIcon } from '@instana/components';
-import { Severity } from '@instana/types/typeDefinitions';
 
+import {
+  updateAlertChannelSelectionOnWarningThresholdFieldChange,
+  updateAlertChannelSelectionOnCriticalThresholdFieldChange
+} from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
-//@ts-expect-error TS migration
-import { updateAlertChannelIds } from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 import {
   getMaxMetricValue,
   getThresholdTypeOptions
@@ -153,47 +154,5 @@ export default function InfraMultiThresholdCondition({
 
   function updatedThresholdCheckboxSelection(isChecked: boolean, thresholdType: string) {
     return updatedThresholdValue(isChecked ? null : 0, thresholdType);
-  }
-}
-
-function updateAlertChannelSelectionOnWarningThresholdFieldChange(
-  alertChannelSelection: { [P in Severity]?: string[] },
-  warningThresholdValuePresent: boolean,
-  criticalThresholdValuePresent: boolean,
-  form: MapForm<any>,
-  updateForm: (form: MapForm<any>) => void
-) {
-  const { WARNING: warningChannels = [], CRITICAL: criticalChannels = [] } = alertChannelSelection;
-
-  if (!warningThresholdValuePresent && warningChannels.length > 0) {
-    // If warning threshold is not present, move WARNING channels not in CRITICAL to CRITICAL
-    const remainingChannels = warningChannels.filter((channelId: string) => !criticalChannels.includes(channelId));
-    updateAlertChannelIds(form, updateForm, [], [...criticalChannels, ...remainingChannels]);
-  }
-
-  if (warningThresholdValuePresent && !criticalThresholdValuePresent && criticalChannels.length > 0) {
-    // If only warning threshold is present, clear CRITICAL selections and keep WARNING channels in CRITICAL
-    updateAlertChannelIds(form, updateForm, [...criticalChannels], []);
-  }
-}
-
-function updateAlertChannelSelectionOnCriticalThresholdFieldChange(
-  alertChannelSelection: { [P in Severity]?: string[] },
-  warningThresholdValuePresent: boolean,
-  criticalThresholdValuePresent: boolean,
-  form: MapForm<any>,
-  updateForm: (form: MapForm<any>) => void
-) {
-  const { WARNING: warningChannels = [], CRITICAL: criticalChannels = [] } = alertChannelSelection;
-
-  if (!criticalThresholdValuePresent && criticalChannels.length > 0) {
-    // If critical threshold is not present, move CRITICAL channels not in WARNING to WARNING
-    const remainingChannels = criticalChannels.filter((channelId: string) => !warningChannels.includes(channelId));
-    updateAlertChannelIds(form, updateForm, [...warningChannels, ...remainingChannels], []);
-  }
-
-  if (criticalThresholdValuePresent && !warningThresholdValuePresent && warningChannels.length > 0) {
-    // If only critical threshold is present, reset WARNING selections and move them to CRITICAL
-    updateAlertChannelIds(form, updateForm, [], [...warningChannels]);
   }
 }

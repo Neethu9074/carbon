@@ -6,6 +6,11 @@
 import React from 'react';
 
 import IncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/IncludeInternalOrSyntheticCallsSwitch/IncludeInternalOrSyntheticCallsSwitch';
+import {
+  smartAlertsLogsBlueprintEnabled,
+  alertChannelPerSeverityApplicationSaEnabled,
+  oneMinuteGranularityForStaticThresholdEnabled
+} from 'in-services/featureFlags';
 import InboundOutboundCallsSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/InboundOutboundCallsSwitch';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
 import TimeThresholdConfigPresenter from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/TimeThresholdConfigPresenter';
@@ -15,10 +20,7 @@ import {
   fieldTouchedAndInvalid,
   isCustomPayloadValidOrUntouched
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
-import {
-  smartAlertsLogsBlueprintEnabled,
-  oneMinuteGranularityForStaticThresholdEnabled
-} from 'in-services/featureFlags';
+import ConfigureAlertChannelMT from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/ConfigureAlertChannel';
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/applications/dialog/advanced/BluePrintSelectionSection';
 import { ApplicationAlertPreview } from 'in-alerting/smart-alerts/applications/dialog/advanced/ApplicationAlertPreview';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
@@ -188,13 +190,26 @@ export default function AdvancedModeContainer(props) {
       title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.alertChannel.title'),
       valid: true,
       content: (
-        <ConfigureAlertChannel
-          form={form}
-          onChange={onChange}
-          setSliderState={setSliderState}
-          setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-          numberOfAlertChannelListRows={5}
-        />
+        <>
+          {alertChannelPerSeverityApplicationSaEnabled ? (
+            <ConfigureAlertChannelMT
+              form={form}
+              onChange={onChange}
+              updateForm={updateForm}
+              setSliderState={setSliderState}
+              setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+              numberOfAlertChannelListRows={5}
+            />
+          ) : (
+            <ConfigureAlertChannel
+              form={form}
+              onChange={onChange}
+              setSliderState={setSliderState}
+              setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+              numberOfAlertChannelListRows={5}
+            />
+          )}
+        </>
       )
     },
     {

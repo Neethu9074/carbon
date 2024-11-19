@@ -50,6 +50,7 @@ export default function AlertChannelsList({
   renderNoDataAvailable,
   hiddenIds,
   pageSize = 20,
+  simpleMode,
   rightHeader,
   isSearchable = true,
   onRowClick,
@@ -58,8 +59,12 @@ export default function AlertChannelsList({
 }) {
   const { trackCta } = useSegmentTracking();
   const selectedChannels = form.get('alertChannels').value;
-  const warningThresholdFieldDisabled = isEmpty(form.get('threshold').get('warningThreshold').get('value').value);
-  const criticalThresholdFieldDisabled = isEmpty(form.get('threshold').get('criticalThreshold').get('value').value);
+  const warningThresholdField = form.get('threshold')?.get('warningThreshold');
+  const criticalThresholdField = form.get('threshold')?.get('criticalThreshold');
+  const warningThresholdFieldDisabled =
+    isEmpty(warningThresholdField?.get('value')?.value) && !warningThresholdField?.get('isCheckboxSelected')?.value;
+  const criticalThresholdFieldDisabled =
+    isEmpty(criticalThresholdField?.get('value')?.value) && !criticalThresholdField?.get('isCheckboxSelected')?.value;
 
   return (
     <List
@@ -71,7 +76,8 @@ export default function AlertChannelsList({
         warningThresholdFieldDisabled,
         criticalThresholdFieldDisabled,
         selectedChannels,
-        onChange
+        onChange,
+        simpleMode
       )}
       tableActions={tableActions}
       loadEntities={loadEntities ? loadEntities : getAlertChannelsInfosMutable}
@@ -108,11 +114,12 @@ function getColumnDefinitions(
   warningThresholdFieldDisabled,
   criticalThresholdFieldDisabled,
   selectedChannels,
-  onChange
+  onChange,
+  simpleMode
 ) {
   return [
     ...columnDefinitions(hasRowNavigation),
-    ...(!warningThresholdFieldDisabled
+    ...(!warningThresholdFieldDisabled || simpleMode
       ? [
           {
             id: 'selectWarningToggle',
@@ -172,8 +179,12 @@ function leftHeaderWithSelectAll(form, onChange) {
   const selectedChannelList = form.get('hiddenFields').get('selectedChannelList').value;
   const numberOfChannels = selectedChannelList.length;
   const enabledChannels = form.get('alertChannels').value;
-  const warningThresholdFieldDisabled = isEmpty(form.get('threshold').get('warningThreshold').get('value').value);
-  const criticalThresholdFieldDisabled = isEmpty(form.get('threshold').get('criticalThreshold').get('value').value);
+  const warningThresholdField = form.get('threshold')?.get('warningThreshold');
+  const criticalThresholdField = form.get('threshold')?.get('criticalThreshold');
+  const warningThresholdFieldDisabled =
+    isEmpty(warningThresholdField?.get('value')?.value) && !warningThresholdField?.get('isCheckboxSelected')?.value;
+  const criticalThresholdFieldDisabled =
+    isEmpty(criticalThresholdField?.get('value')?.value) && !criticalThresholdField?.get('isCheckboxSelected')?.value;
 
   return function LeftHeaderWithSelectAll(totalHits, filteredHits, entitiesBeforePagination) {
     const getHeaderFunction = defaultHeaderWithCount(entityName);

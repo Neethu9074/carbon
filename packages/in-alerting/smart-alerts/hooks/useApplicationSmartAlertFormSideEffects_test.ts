@@ -72,6 +72,7 @@ describe('in-alerting/smart-alerts/applications/hooks/useSmartAlertFormSideEffec
               groupByPER_AP_ENDPOINT: 0,
               groupByPER_AP_SERVICE: 0
             },
+            selectedChannelList: [],
             suggestedThresholdValue: null
           }
         })
@@ -119,6 +120,7 @@ describe('in-alerting/smart-alerts/applications/hooks/useSmartAlertFormSideEffec
               groupByPER_AP_ENDPOINT: 0,
               groupByPER_AP_SERVICE: 0
             },
+            selectedChannelList: [],
             suggestedThresholdValue: null
           }
         })

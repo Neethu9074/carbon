@@ -175,6 +175,6 @@ module.exports = {
   syntheticCredentialsEnabled: true,
   infraSmartAlertFullScreenDesignEnabled: false,
   alertChannelPerSeverityInfraSaEnabled: true,
-  alertChannelPerSeverityApplicationSaEnabled: false,
+  alertChannelPerSeverityApplicationSaEnabled: true,
   smartAlertCarbonTableEnabled: false
 };

@@ -26,6 +26,7 @@ import useApplicationLabel from 'in-alerting/smart-alerts/applications/hooks/use
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
+import { alertChannelPerSeverityApplicationSaEnabled } from 'in-services/featureFlags';
 import { ALERTING_SAVED, ALERTING_UPDATED } from 'in-services/tracking/eventNames';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -232,6 +233,13 @@ function toAlertConfig(form) {
     alertConfig = mapStatusCodeSelection(alertConfig);
   }
   alertConfig.applicationId = undefined;
+
+  if (alertChannelPerSeverityApplicationSaEnabled) {
+    alertConfig.alertChannelIds = null;
+  } else {
+    alertConfig.alertChannels = null;
+  }
+
   alertConfig.name = alertConfig.name || getTitlePlaceholder(form);
   alertConfig.description = alertConfig.description || getDescriptionPlaceholder(form);
   return alertConfig;

@@ -205,3 +205,45 @@ export function updateAlertChannelIds(form, updateForm, newWarningSelections = [
     )
   );
 }
+
+export function updateAlertChannelSelectionOnWarningThresholdFieldChange(
+  alertChannelSelection,
+  warningThresholdValuePresent,
+  criticalThresholdValuePresent,
+  form,
+  updateForm
+) {
+  const { WARNING: warningChannels = [], CRITICAL: criticalChannels = [] } = alertChannelSelection;
+
+  if (!warningThresholdValuePresent && warningChannels.length > 0) {
+    // If warning threshold is not present, move WARNING channels not in CRITICAL to CRITICAL
+    const remainingChannels = warningChannels.filter(channelId => !criticalChannels.includes(channelId));
+    updateAlertChannelIds(form, updateForm, [], [...criticalChannels, ...remainingChannels]);
+  }
+
+  if (warningThresholdValuePresent && !criticalThresholdValuePresent && criticalChannels.length > 0) {
+    // If only warning threshold is present, clear CRITICAL selections and keep WARNING channels in CRITICAL
+    updateAlertChannelIds(form, updateForm, [...criticalChannels], []);
+  }
+}
+
+export function updateAlertChannelSelectionOnCriticalThresholdFieldChange(
+  alertChannelSelection,
+  warningThresholdValuePresent,
+  criticalThresholdValuePresent,
+  form,
+  updateForm
+) {
+  const { WARNING: warningChannels = [], CRITICAL: criticalChannels = [] } = alertChannelSelection;
+
+  if (!criticalThresholdValuePresent && criticalChannels.length > 0) {
+    // If critical threshold is not present, move CRITICAL channels not in WARNING to WARNING
+    const remainingChannels = criticalChannels.filter(channelId => !warningChannels.includes(channelId));
+    updateAlertChannelIds(form, updateForm, [...warningChannels, ...remainingChannels], []);
+  }
+
+  if (criticalThresholdValuePresent && !warningThresholdValuePresent && warningChannels.length > 0) {
+    // If only critical threshold is present, reset WARNING selections and move them to CRITICAL
+    updateAlertChannelIds(form, updateForm, [], [...warningChannels]);
+  }
+}
