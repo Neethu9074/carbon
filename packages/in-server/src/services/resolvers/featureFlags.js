@@ -368,12 +368,12 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsProcessStackEnabled',
     instanaCtlKey: 'feature.bizops.process.stack.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'bizopsActivityStackEnabled',
     instanaCtlKey: 'feature.bizops.activity.stack.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
