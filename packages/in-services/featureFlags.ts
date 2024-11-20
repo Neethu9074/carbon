@@ -105,7 +105,7 @@ export const sliCHClusterAccessEnabled =
 export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true);
 export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
 export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', true);
-export const sloSyntheticsEnabled = isFeatureFlagEnabled('sloSyntheticsEnabled', false);
+export const sloSyntheticsEnabled = isFeatureFlagEnabled('sloSyntheticsEnabled', true);
 
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', true);
 export const eumImpactedUsersForAppAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForAppAlertEnabled', false);
