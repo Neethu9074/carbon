@@ -9,14 +9,15 @@ import React from 'react';
 import { default as LegacyComboBox } from 'in-components/ComboBox/LegacyComboBox';
 import { default as CarbonComboBox } from 'in-components/ComboBox/CarbonComboBox';
 import { hasMultipleValuesSelected } from 'in-components/ComboBox/LegacyComboBox';
-import { carbonComboBoxEnabled } from 'in-services/featureFlags';
 import { ComboBoxProps } from './types';
 
 export type { Option, Options, ComboBoxProps } from 'in-components/ComboBox/types';
 export { hasMultipleValuesSelected };
 
 export default function ComboBox({ isClearable = true, ...props }: ComboBoxProps): JSX.Element {
-  if (!props?.isMulti && carbonComboBoxEnabled) {
+  // Multi-select will need to be implemented separately in a case by case basis
+  // since there is no one-one matching component to match the functionality.
+  if (!props?.isMulti) {
     return <CarbonComboBox {...props} isClearable={isClearable} />;
   }
   return <LegacyComboBox {...props} isClearable={isClearable} />;
