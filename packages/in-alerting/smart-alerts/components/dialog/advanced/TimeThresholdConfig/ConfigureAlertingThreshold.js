@@ -19,7 +19,8 @@ import locals from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThre
 export default function ConfigureAlertingThreshold({ form, onChange, updateForm, oneMinuteGranularityAllowed }) {
   const granularity = form.get('granularity')?.value;
   const timeThresholdForm = form.get('timeThreshold');
-  const thresholdType = form.get('threshold').get('type')?.value;
+  const thresholdType =
+    form.get('threshold').get('type')?.value ?? form.get('threshold').get('warningThreshold').get('type')?.value;
   const timeThresholdType = timeThresholdForm.get('type')?.value;
   const timeThresholdTimeWindow = timeThresholdForm.get('timeWindow').value;
   const timeThresholdViolations = timeThresholdForm.get('violations')?.value;

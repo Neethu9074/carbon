@@ -19,7 +19,7 @@ import locals from 'in-alerting/smart-alerts/components/tearSheet/EvaluationGran
 
 export default function EvaluationGranularity({ form, updateForm, oneMinuteGranularityAllowed }) {
   const granularity = form.get('granularity')?.value;
-  const thresholdType = form.get('threshold').get('type')?.value;
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type')?.value;
   const marks = getMarksForThresholdType(thresholdType, oneMinuteGranularityAllowed);
   const currentValue = marks.find((i => i.millis === granularity) ?? getDefaultMark(marks, thresholdType)).value;
 
