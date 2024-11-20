@@ -811,9 +811,9 @@
       "speedCardTitleOnLoadTime": "onLoad time",
       "speedCardTitleNavigationTiming": "Navigation timing",
       "speedCardTitlePaintTiming": "Paint timing",
-      "speedCardTitleFirstInputDelay": "First Input Delay",
       "speedCardTitleCumulativeLayoutShift": "Cumulative Layout Shift",
       "speedCardTitleInteractionNextPaint": "Interaction to Next Paint",
+      "speedCardTitleLargestContentfulPaint": "Largest Contentful Paint",
       "speedLabelPageLoads": "Page loads",
       "speedLabelOnLoadTime": "onLoad time",
       "speedLabel50th": "50th",
@@ -836,7 +836,6 @@
       "speedLabelFirstPaint": "First paint",
       "speedLabelFirstContentfulPaint": "First Contentful Paint",
       "speedLabelLargestContentfulPaint": "Largest Contentful Paint",
-      "speedLabelFirstInputDelay": "First Input Delay",
       "speedLabelCumulativeLayoutShift": "Cumulative Layout Shift",
       "speedLabelInteractionNextPaint": "Interaction to Next Paint"
     },
