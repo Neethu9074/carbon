@@ -10,11 +10,11 @@ import React from 'react';
 
 import { Card } from '@instana/components';
 
+import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import SyntheticScopePath from 'in-alerting/smart-alerts/synthetics/components/SyntheticScopePath';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import AnalyzeSyntheticEventButton from 'in-events/components/AnalyzeSyntheticEventButton';
 import SyntheticsAlertconfigButton from 'in-events/components/SyntheticsAlertconfigButton';
-import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
@@ -30,6 +30,7 @@ import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
 import EventIcon from 'in-events/components/EventIcon';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { fixateTimeConfig } from 'in-stores/time/config';
 import { number } from 'in-services/formatters/number';
@@ -81,6 +82,7 @@ export default function SyntheticEventContent({ event, snapshot, reload }: Props
               <div>
                 <ManualCloseDescription event={event} />
                 <DescriptionButtons>
+                  <TriggeredIncidentButton event={event} />
                   <SyntheticsAlertconfigButton alertConfig={alertConfig} />
                   <AnalyzeSyntheticEventButton
                     testId={syntheticTestId}
@@ -105,6 +107,7 @@ export default function SyntheticEventContent({ event, snapshot, reload }: Props
                     }
                   />
                 )}
+                <TriggeredIncidentButton event={event} />
                 <SyntheticsAlertconfigButton alertConfig={alertConfig} />
                 <AnalyzeSyntheticEventButton
                   testId={syntheticTestId}

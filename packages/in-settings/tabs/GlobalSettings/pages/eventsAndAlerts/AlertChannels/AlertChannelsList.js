@@ -39,16 +39,23 @@ export default function AlertChannelsList({
   onRowClick,
   hasRowNavigation = true,
   inSelectListDialog = false,
+  detailView,
+  alertChannels,
+  alertChannelPerSeverityEnabled,
   getHeader = defaultGetHeader(inSelectListDialog, tableActions)
 }) {
   const { location } = useNavigation();
+  const channelListColumnDefinitions =
+    alertChannelPerSeverityEnabled && detailView
+      ? [...columnDefinitions(hasRowNavigation), ...columnDefinitionsAlertLevel(alertChannels)]
+      : columnDefinitions(hasRowNavigation);
 
   return (
     <List
       title={setTitle ? t('in-settings:tabs.alertChannels') : null}
       getHeader={getHeader}
       getEntityName={getEntityName}
-      columnDefinitions={columnDefinitions(hasRowNavigation)}
+      columnDefinitions={channelListColumnDefinitions}
       tableActions={tableActions}
       loadEntities={loadEntities ? loadEntities : getAlertChannelsInfosMutable}
       noDataMessage={noDataMessage}
@@ -88,7 +95,7 @@ export function columnDefinitions(hasRowNavigation) {
     {
       id: 'name',
       label: t('in-settings:tabs.name'),
-      width: 50,
+      width: 70,
       ellipsis: true,
       getContent(entity) {
         return (
@@ -113,7 +120,7 @@ export function columnDefinitions(hasRowNavigation) {
       id: 'properties',
       label: t('in-settings:tabs.properties'),
       sortable: false,
-      width: 50,
+      width: 30,
       getContent(entity) {
         if (!entity.properties) {
           return null;
@@ -137,6 +144,32 @@ export function columnDefinitions(hasRowNavigation) {
       }
     }
   ];
+}
+
+function columnDefinitionsAlertLevel(alertChannels) {
+  return [
+    {
+      id: 'alertLevel',
+      label: t('in-alerting:smartAlerts.alertChannelList.alertLevel'),
+      sortable: false,
+      width: '8rem',
+      widthInAbsoluteUnit: true,
+      getContent(entity) {
+        const hasWarning = checkChannelPresentIn('WARNING', alertChannels, entity.id);
+        const hasCritical = checkChannelPresentIn('CRITICAL', alertChannels, entity.id);
+
+        if (hasWarning && hasCritical) {
+          return `${t('in-settings:tabs.warning')}, ${t('in-settings:tabs.critical')}`;
+        }
+
+        return hasCritical ? t('in-settings:tabs.critical') : t('in-settings:tabs.warning');
+      }
+    }
+  ];
+}
+
+function checkChannelPresentIn(thresholdType, alertChannels, channelId) {
+  return alertChannels[thresholdType]?.includes(channelId) ?? false;
 }
 
 function defaultGetHeader(inSelectListDialog, tableActions) {

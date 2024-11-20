@@ -24,6 +24,7 @@ import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescr
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import AnalyzeWebsiteEventButton from 'in-events/components/AnalyzeWebsiteEventButton';
 import WebsiteAlertConfigButton from 'in-events/components/WebsiteAlertConfigButton';
+import TriggeredIncidentButton from '../tabs/Summary/common/TriggeredIncidentButton';
 import useWebsiteEventAlertConfig from 'in-events/hooks/useWebsiteEventAlertConfig';
 import { isApproximatePrecision } from 'in-events/components/util/metricResultUtil';
 import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
@@ -90,6 +91,7 @@ export default function WebsiteEventContent({ event, snapshot, reload }) {
               <div>
                 <ManualCloseDescription event={event} />
                 <DescriptionButtons>
+                  <TriggeredIncidentButton event={event} />
                   <WebsiteAlertConfigButton alertConfig={alertConfig} />
                   <AnalyzeWebsiteEventButton
                     websiteName={eventEntity.websiteName}
@@ -110,6 +112,7 @@ export default function WebsiteEventContent({ event, snapshot, reload }) {
                     }
                   />
                 )}
+                <TriggeredIncidentButton event={event} />
                 <WebsiteAlertConfigButton alertConfig={alertConfig} />
                 <AnalyzeWebsiteEventButton
                   websiteName={eventEntity.websiteName}

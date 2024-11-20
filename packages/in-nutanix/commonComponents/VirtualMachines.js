@@ -37,7 +37,7 @@ export const VmLabel = ({ item }) => {
 
 const columnDefinitions = [
   {
-    id: 'label',
+    id: 'id',
     label: t('in-nutanix:name'),
     getContent(item) {
       return <Capitalize>{get(item, ['id'], valueMissingPlaceholder)}</Capitalize>;
@@ -75,7 +75,7 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'memoryAllocated',
+    id: 'memory',
     label: t('in-nutanix:memoryAllocated'),
     sortable: true,
     getContent(item) {

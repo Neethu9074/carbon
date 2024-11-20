@@ -11,6 +11,7 @@ import { isApplicationSloEntity } from '@instana/types';
 import { Card } from '@instana/components';
 
 import SloExpandedErrorBudgetChart from 'in-service-levels/components/Shared/SloExpandedErrorBudgetChart';
+import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import useSloAlertConfig from 'in-alerting/smart-alerts/slo/hooks/useSloAlertConfig';
 import SloScopePath from 'in-alerting/smart-alerts/slo/components/SloScopePath';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
@@ -63,6 +64,7 @@ export default function SloEventContent({ event, snapshot }: SloEventContentProp
             />
             <ProblemDescription fixSuggestion={fixSuggestion} />
             <DescriptionButtons>
+              <TriggeredIncidentButton event={event} />
               <SloAlertConfigButton sloId={sloConfig.id!} alertConfig={alertConfig} />
               <AnalyzeSloEventButton sloConfig={sloConfig} timeConfig={timeConfig} />
             </DescriptionButtons>

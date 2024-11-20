@@ -5,7 +5,7 @@
 
 import React, { ReactNode, useEffect, useState } from 'react';
 
-import { Message, Stack, Button } from '@instana/components';
+import { Message, Stack, Button, PreviewPill } from '@instana/components';
 import { TagCatalog } from '@instana/types';
 
 import {
@@ -36,6 +36,7 @@ interface QueryBuilderSectionProps<ADDITIONAL_TAG_CATALOG_PROPS = {}> {
   useLastValidStateWhenErroneous?: boolean;
 
   withOptionalMarker?: boolean;
+  withTechnicalPreview?: boolean;
 
   hasError?: boolean;
   errors?: string[];
@@ -54,6 +55,7 @@ export default function QueryBuilderSection<ADDITIONAL_TAG_CATALOG_PROPS = {}>({
   actions,
   useLastValidStateWhenErroneous = false,
   withOptionalMarker = false,
+  withTechnicalPreview = false,
   hasError: hasExternalError,
   errors: externalErrors,
   tagCatalog,
@@ -84,13 +86,20 @@ export default function QueryBuilderSection<ADDITIONAL_TAG_CATALOG_PROPS = {}>({
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasInternalError]);
 
-  const title = withOptionalMarker ? (
-    <SectionLabelWithSubtext subtext={t('in-components:queryBuilder.optional')}>
-      {t('in-components:queryBuilder.workspaceTitleFilter')}
-    </SectionLabelWithSubtext>
-  ) : (
-    t('in-components:queryBuilder.workspaceTitleFilter')
-  );
+  let title = <>{t('in-components:queryBuilder.workspaceTitleFilter')}</>;
+  if (withOptionalMarker) {
+    title = (
+      <SectionLabelWithSubtext subtext={t('in-components:queryBuilder.optional')}>{title}</SectionLabelWithSubtext>
+    );
+  }
+  if (withTechnicalPreview) {
+    title = (
+      <>
+        {title}
+        <PreviewPill privatePreview />
+      </>
+    );
+  }
 
   return (
     <Section

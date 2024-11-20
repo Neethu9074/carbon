@@ -14,11 +14,11 @@ import {
   alertingEventDetailsChartTimeframe as minDurationMillis
 } from 'in-alerting/components/constants';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
+import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import { getExpressionWithLogsGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import LogAlertChartWrapper from 'in-alerting/smart-alerts/logs/components/LogAlertChartWrapper';
 import { TagFilterExpression, TimeConfig, TagCatalog, GroupTagInfo, Nullish } from 'in-types';
 import { ScopeGroupingTags } from 'in-events/components/EventContent/ScopeLogsGroupingTags';
-import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
 import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
@@ -36,6 +36,7 @@ import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
 // @ts-expect-error
 import EventIcon from 'in-events/components/EventIcon';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
+import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
@@ -114,6 +115,7 @@ export default function LogEventContent({ event, snapshot, reload }: Props) {
               <div>
                 <ManualCloseDescription event={event} />
                 <DescriptionButtons>
+                  <TriggeredIncidentButton event={event} />
                   <LogAlertConfigButton alertConfig={alertConfig} />
                   <AnalyzeLogEventButton
                     alertConfig={alertConfigWithGroupingExpression}
@@ -132,6 +134,7 @@ export default function LogEventContent({ event, snapshot, reload }: Props) {
                     }
                   />
                 )}
+                <TriggeredIncidentButton event={event} />
                 <LogAlertConfigButton alertConfig={alertConfig} />
                 <AnalyzeLogEventButton
                   alertConfig={alertConfigWithGroupingExpression}

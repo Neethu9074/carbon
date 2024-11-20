@@ -19,7 +19,8 @@ import {
   getMetricValue,
   getSeriesKey,
   lastValueForMetric,
-  getMetricFormatterFromUnitOrDefault
+  getMetricFormatterFromUnitOrDefault,
+  getConvertedSeries
 } from 'in-infrastructure/Explore/services/metrics';
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
@@ -40,12 +41,12 @@ import LiErrorList from 'in-infrastructure/Explore/components/LiErrorList';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
+import { getBaseUnit, getUnit } from 'in-stores/metric/units';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { getFormatter } from 'in-stores/metric/formatters';
 import { getSnapshot } from 'in-stores/snapshot/snapshot';
 import { pendingResult } from 'in-services/fixedObjects';
 import { tag_not_present_group } from '../constants';
-import { getBaseUnit } from 'in-stores/metric/units';
 import CsvExporter from 'in-components/CsvExporter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { mapData } from 'in-services/util/result';
@@ -445,13 +446,14 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
                   mapData(metadata, data => data?.formatter).data,
                   formatterType
                 );
+            const unitConverter = getUnit(unit)?.converter;
 
             const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
             const seriesKey = getSeriesKey(id);
             const kpi = lastValue ? lastValueForMetric(item.metrics[seriesKey]) : firstValue(item.metrics[id]);
-            const series = item.metrics[seriesKey];
+            const series = getConvertedSeries(item.metrics[seriesKey], unitConverter);
             const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
-            const metricValue = getMetricValue(kpi, formatter);
+            const metricValue = getMetricValue(kpi, formatter, unitConverter);
             const customValueTooltip = lastValue && getLastValueTooltipLabel(timeConfig);
 
             const extremeValue = extremeValueInSeries(threshold, series);
@@ -470,7 +472,11 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
                 customValueTooltip={customValueTooltip}
                 strokeColor={strokeColor}
                 fillColor={fillColor}
-                customChartTooltip={threshold && <ThresholdTooltip threshold={threshold} formatter={formatter} />}
+                customChartTooltip={
+                  threshold && (
+                    <ThresholdTooltip threshold={threshold} formatter={formatter} formatterId={formatterId} />
+                  )
+                }
               />
             );
           },

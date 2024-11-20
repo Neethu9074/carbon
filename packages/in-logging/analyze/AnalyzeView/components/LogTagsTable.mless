@@ -3,72 +3,45 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-@import '~in-themes/mixins.less';
-
 :local {
+  .tagContent {
+    display: grid;
+    grid-template-columns: 16rem auto 6rem;
+    gap: 1rem 0;
+    align-items: start;
+    padding: 0;
+  }
+
   .tagValue {
     display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-
-  .tagLink {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    max-width: calc(100% - 8rem);
-
-    > span {
-      word-break: break-all;
-    }
-  }
-
-  .tagActions {
-    display: flex;
-    height: 1.5rem;
     gap: 0.5rem;
     align-items: center;
+    word-break: break-word;
+  }
 
-    a,
-    button {
-      aspect-ratio: 1;
+  .groupHeader {
+    padding: 0.25rem 0;
+  }
+
+  .hideTitle {
+    > div:first-of-type {
+      display: none;
     }
   }
 
-  .value {
-    white-space: normal;
+  .actions {
+    display: flex;
+    justify-self: end;
+    grid-column: 3;
+    position: absolute;
+    top: 0;
   }
 
-  .li {
-    min-height: 2rem;
-
-    > div:first-child {
-      height: 1.5rem;
-      align-self: flex-start;
-      display: flex;
-      align-items: center;
-    }
-  }
-
-  .liGroup {
-    min-height: 2.5rem;
-    max-height: 2.5rem;
-  }
-
-  .sparkchartsLi {
-    flex-wrap: wrap;
-  }
-
-  .sparkcharts {
-    padding: 0.8125rem 1rem 0.5rem 16rem;
-  }
-
-  .link {
+  a.appListLink.appListLink {
     color: var(--cds-link-primary);
 
-    cursor: pointer;
-
     &:hover {
+      cursor: pointer;
       text-decoration: underline;
       color: var(--cds-link-primary-hover);
     }
@@ -83,18 +56,11 @@
     width: 25rem;
   }
 
-  .break {
-    flex-basis: 100%;
+  .sparkcharts {
+    grid-column: 2;
   }
 
-  .squareHover:before {
-    border-radius: var(--ids-border-radius-option-small) !important;
-  }
-  .squareHover:focus {
-    border-top: 0.313rem solid;
-    border-bottom: 0.313rem solid;
-    border-radius: var(--ids-border-radius-option-small);
-    border-color: var(--cds-link-primary);
-    box-shadow: inset 0 0 0 1px var(--cds-link-primary);
+  .tagSkeleton {
+    width: 100%;
   }
 }

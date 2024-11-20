@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { track, TABLE_METRIC_ADDED, TABLE_METRIC_CLEARED, TABLE_METRIC_REMOVED } from 'in-services/tracking/tracking';
+import { TABLE_METRIC_ADDED, TABLE_METRIC_CLEARED, TABLE_METRIC_REMOVED } from 'in-services/tracking/tracking';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { infraEventUIInteraction } from 'in-infrastructure/tracking/tracking';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { tablePath } from 'in-stores/navigation/paths/mainPaths';
 import { createTrackingStore } from 'in-stores/store';
@@ -24,7 +25,7 @@ export const metrics$ = createTrackingStore({
 }).observable;
 
 export function addMetric(metric) {
-  track(TABLE_METRIC_ADDED, { metric });
+  infraEventUIInteraction({ event: TABLE_METRIC_ADDED, customData: { metric } });
   metrics$.once(metrics => {
     metrics = metrics.slice();
     metrics.push(metric);
@@ -33,7 +34,7 @@ export function addMetric(metric) {
 }
 
 export function removeMetric(metric) {
-  track(TABLE_METRIC_REMOVED, { metric });
+  infraEventUIInteraction({ event: TABLE_METRIC_REMOVED, customData: { metric } });
   metrics$.once(metrics => {
     const i = metrics.indexOf(metric);
     if (i === -1) {
@@ -46,6 +47,6 @@ export function removeMetric(metric) {
 }
 
 export function clearMetrics() {
-  track(TABLE_METRIC_CLEARED);
+  infraEventUIInteraction({ event: TABLE_METRIC_CLEARED });
   mutateUrl(location => setOrDeleteMatrixKey(location, tablePath, 'metrics'));
 }

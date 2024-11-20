@@ -55,6 +55,7 @@ export function isAvailableTimeWindowType(timeWindowType: any): timeWindowType i
 export type AvailableTimeWindowTypes = keyof typeof SloTimeWindowTypes;
 
 export interface LabeledEntity {
+  id: string;
   label: string;
   deleted?: boolean;
 }

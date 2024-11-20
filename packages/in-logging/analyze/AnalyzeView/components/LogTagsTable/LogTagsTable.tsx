@@ -5,13 +5,12 @@
 
 import React, { useMemo } from 'react';
 
+import { CarbonContainedList, CarbonContainedListItem, LoadingSkeleton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Ul } from '@instana/components';
 
 import { LogTagMapperParams, LogTagsTableProps } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/types';
 import { filterTag, groupAndSortTags } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/utils';
 import { TagEntry, TagGroupHeader } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/Tag';
-import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -26,6 +25,8 @@ import { useScrollIntoView } from 'in-logging/hooks';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import decamelize from 'in-sdk/decamelize';
 import { LogTag } from 'in-types';
+
+import locals from 'in-logging/analyze/AnalyzeView/components/LogTagsTable.mless';
 
 const LogTagsTable = ({ item, selectedId, onSelectTagHref, getHrefToGroupedView }: LogTagsTableProps) => {
   const timeConfig = useTimeConfig();
@@ -60,14 +61,26 @@ const LogTagsTable = ({ item, selectedId, onSelectTagHref, getHrefToGroupedView 
     useObservable(() => getLog({ itemId: item.itemId, requestedTags: logTableTags }), [item.itemId]) ?? pendingResult;
 
   const scrollCondition = logResult.data && selectedId === item.itemId;
+  const tagTableSize: 'sm' | 'md' | 'lg' | 'xl' = 'sm';
 
   const ref = useScrollIntoView([logResult.data], scrollCondition, () => {
     setTimeout(() => setOrDeleteMatrixKey(location, logsPath, 'selectedId', null));
   });
 
   if (!logResult || isLoading(logResult)) {
-    return <LoadingList numSkeletonRows={5} />;
+    return (
+      <CarbonContainedList label={''} size={tagTableSize} className={locals.hideTitle}>
+        {Array(5)
+          .fill(1)
+          .map(() => (
+            <CarbonContainedListItem>
+              <LoadingSkeleton className={locals.tagSkeleton} />
+            </CarbonContainedListItem>
+          ))}
+      </CarbonContainedList>
+    );
   }
+
   if (hasError(logResult)) {
     return <ErrorList errors={logResult.errors} />;
   }
@@ -106,7 +119,13 @@ const LogTagsTable = ({ item, selectedId, onSelectTagHref, getHrefToGroupedView 
     } else return mapTags(value);
   });
 
-  return <Ul ref={ref as React.Ref<HTMLElement>}>{MappedTags}</Ul>;
+  return (
+    <div ref={ref as React.RefObject<HTMLDivElement>}>
+      <CarbonContainedList label="" className={locals.hideTitle} size={tagTableSize}>
+        {MappedTags}
+      </CarbonContainedList>
+    </div>
+  );
 };
 
 export default LogTagsTable;

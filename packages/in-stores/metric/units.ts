@@ -5,10 +5,11 @@
  */
 
 import { BackendFormatterType } from 'in-services/formatters/backendFormatter';
+import { FormatterFn, getFormatterId } from 'in-stores/metric/formatters';
 import { t } from 'in-i18n';
 
 type UnitsMapping = { [value: string]: Unit };
-export type ConversionFn = (n: number) => number | undefined | null;
+export type ConversionFn = (n: number) => number;
 export type BaseUnit = 'TIME' | 'SIZE' | 'NUMBER' | 'PERCENTAGE' | 'RATE';
 
 export const bitsBase = 8;
@@ -36,6 +37,13 @@ export const percentage: Unit = {
   label: t('in-stores:metric.unit_percentage'),
   baseUnit: 'PERCENTAGE',
   converter: NO_CONVERSION
+};
+
+export const percentage100: Unit = {
+  id: 'percentage100',
+  label: t('in-stores:metric.unit_percentage_100'),
+  baseUnit: 'PERCENTAGE',
+  converter: n => n / 100
 };
 
 export const bits: Unit = {
@@ -104,6 +112,7 @@ export const perSecond: Unit = {
 export const allUnits: UnitsMapping = {
   number: number,
   percentage: percentage,
+  percentage100: percentage100,
   bits: bits,
   byte: byte,
   kilobyte: kiloByte,
@@ -120,6 +129,7 @@ export const unitsByFormatter: UnitsMapping = {
   'number.detailed': number,
   'percentage.compact': percentage,
   'percentage.detailed': percentage,
+  'percentagePlain.detailed': percentage100,
   'bytes.compact': byte,
   'bytes.detailed': byte,
   'millis.compact': miliSecond,
@@ -139,12 +149,18 @@ export function getUnitByFormatter(formatter: string): Unit {
   return unitsByFormatter[formatter];
 }
 
+export function getUnitByFormatterFn(formatter: FormatterFn): Unit {
+  return getUnitByFormatter(getFormatterId(formatter));
+}
+
 export function getMetricUnitByBackendType(backendType?: BackendFormatterType): Unit | undefined {
   switch (backendType) {
     case 'NUMBER':
       return number;
     case 'PERCENTAGE':
       return percentage;
+    case 'PERCENTAGE_100':
+      return percentage100;
     case 'BYTES':
       return byte;
     case 'KILO_BYTES':

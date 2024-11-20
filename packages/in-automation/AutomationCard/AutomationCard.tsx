@@ -13,12 +13,9 @@ import useScoredActions, {
   useUserRecommendedScoredActions,
   useAIRecommendedScoredActions
 } from 'in-automation/AutomationCard/useScoredActions';
-import {
-  useResourceOptimization,
-  useTurboRecommendedActions
-} from 'in-automation/ResourceOptimization/useResourceOptimization';
 import AutomationCardButtonGroup, { useActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
-import RecommendedOptimizations from 'in-automation/ResourceOptimization/RecommendedOptimizations';
+import RecommendedActionsWithHistory from 'in-automation/ResourceOptimization/RecommendedActionsWithHistory';
+import { useResourceOptimization } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import RecommendedActions from 'in-automation/AutomationCard/RecommendedActions';
 import AutomationPolicies from 'in-automation/AutomationCard/AutomationPolicies';
@@ -80,15 +77,11 @@ function AutomationCard({ volatileId, event }: AutomationCardProps) {
 
 function RecommendedOptimizationsRow({ event }: { event: Event }) {
   const recommendedOptimizations = useResourceOptimization({ event, actionCategory: 'PERFORMANCE_ASSURANCE' });
-  const turboRecommendedActions = useTurboRecommendedActions(recommendedOptimizations);
   return (
     <Row withoutSideMargin>
       <Col xs>
         <Card>
-          <RecommendedOptimizations
-            recommendedActions={turboRecommendedActions}
-            totalRecommendedActions={recommendedOptimizations?.data?.totalRecommendedActionsCount!}
-          />
+          <RecommendedActionsWithHistory recommendedActions={recommendedOptimizations} />
         </Card>
       </Col>
     </Row>

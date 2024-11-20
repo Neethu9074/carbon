@@ -99,12 +99,31 @@
       "failedToParseInputAsJson": "Fehler beim Analysieren von Eingaben als JSON.",
       "jsonRootMustBeAnObject": "JSON-Root muss ein Objekt sein."
     },
+    "downloadPdfDialog": {
+      "downloadPdf": "PDF-Datei herunterladen",
+      "settings": "Einstellungen",
+      "pdfOrientation": "Ausrichtung",
+      "portrait": "Hochformat",
+      "landscape": "Querformat",
+      "pdfLayout": "Layout",
+      "widgetsDisplay": "Anzeige",
+      "singlePage": "Einzelseite",
+      "singlePageInfo": "Platzieren Sie das gesamte Dashboard auf einer Seite, wobei der Inhalt an die Größe angepasst wird.",
+      "multiPages": "Mehrere Seiten",
+      "multiPagesInfo": "Verteilen Sie das Dashboard auf mehrere Seiten und behalten Sie dabei das ursprüngliche Layout bei. Einige Widgets können abgeschnitten sein.",
+      "stackWidgetsTitle": "Widgets stapeln",
+      "stackWidgetsInfo": "Anzeige von Widgets in einem vertikalen Stapel über mehrere Seiten hinweg.",
+      "loadingWidget": "Laden des Widgets {{widgetIndex}} von {{totalNodes}}",
+      "generatePreview": "Vorschau generieren",
+      "generatingPreview": "Pdf-Vorschau generieren"
+    },
     "filterContext": {
       "topLevelFilterPartiallyApplied": "Einige der aktuellen Dashboard-Filter wurden angewendet.",
       "topLevelFilterSelectsEverything": "Die aktuellen Dashboard-Filter gelten nicht für dieses Widget.",
       "topLevelFilterSelectsNothing": "Die aktuellen Dashboard-Filter gelten nicht für dieses Widget.",
       "topLevelFilterNotSupported": "Die aktuellen Dashboard-Filter wurden nicht auf dieses Widget angewendet, da das Widget keine Filterung unterstützt.",
-      "topLevelFilterAppliedToSomeDatasets": "Die aktuellen Dashboard-Filter wurden nicht vollständig auf alle Datensätze in diesem Widget angewendet."
+      "topLevelFilterAppliedToSomeDatasets": "Die aktuellen Dashboard-Filter wurden nicht vollständig auf die folgenden Datensätze angewendet: {{datasets}}",
+      "unnamedDataset": "Unbenannter Datensatz"
     }
   },
   "dashboardSwitcher": {
@@ -897,5 +916,8 @@
     "additionalFields": "Dieses Dashboard ist nur für Sie sichtbar. Sie können nach der Erstellung auswählen, ob sie es mit Kollegen teilen",
     "create": "Erstellen",
     "failedToCreateDashboard": "Fehler beim Erstellen des Dashboards."
+  },
+  "threshold": {
+    "label": "Schwellenwert"
   }
 }

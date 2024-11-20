@@ -19,11 +19,14 @@
     "select": "$t (in-service-levels:general.entityTypes.label, {\"context\": \"{{entity}}\"}) を選択する",
     "noSelection": "選択なし",
     "loadMore": "さらにロード",
+    "threshold": "しきい値",
     "noData": "表示可能なデータがありません",
+    "trafficType": "トラフィック・タイプ",
     "noMatchingTimeWindows": "選択された期間に一致する時間枠がありません。 これは通常、選択された時間枠がSLOの作成日より前である場合に発生します。",
     "serverErrors": {
       "sloLimitReachedError": "サービス・レベル目標構成の最大数 ({{0}}) に達しました。 この制限の引き上げを要求する場合は、Instana サポートにお問い合わせください。"
     },
+    "traffic": "トラフィック",
     "indicator": {
       "type": "不明なタイプ",
       "type_eventBased": "イベント数",
@@ -32,6 +35,7 @@
       "blueprint": "不明なブループリント",
       "blueprint_latency": "待ち時間",
       "blueprint_availability": "アベイラビリティー",
+      "blueprint_traffic": "トラフィック",
       "blueprint_custom": "カスタム",
       "aggregation": "不明",
       "aggregation_MEAN": "平均値",
@@ -44,16 +48,24 @@
       "aggregation_P90": "90th",
       "aggregation_P95": "95th",
       "aggregation_P98": "98th",
-      "aggregation_P99": "99th"
+      "aggregation_P99": "99th",
+      "application": {
+        "trafficType_all": "すべての呼び出し",
+        "trafficType_erroneous": "エラーのある呼び出し数"
+      },
+      "website": {
+        "trafficType_all": "全ビーコン数",
+        "trafficType_erroneous": "ビーコン・エラー数"
+      }
     },
     "latency": "待ち時間",
     "time": "時刻",
     "entityTypes": {
       "label": "不明なエンティティー",
       "label_application": "アプリケーション",
-      "label_website": "Web サイト"
+      "label_website": "Web サイト",
+      "label_synthetic": "シンセティック・テスト"
     },
-    "preview": "プレビュー",
     "type": "タイプ",
     "selectLabel": "選択: {{selectedLabel}}",
     "serviceLevelObjective": "サービス・レベル目標",
@@ -101,7 +113,9 @@
       "errors": "エラーのある呼び出し率",
       "beaconErrorRate": "ビーコン・エラー率",
       "goodEvents": "良好なイベント",
-      "badEvents": "不良イベント"
+      "badEvents": "不良イベント",
+      "erroneousCalls": "エラーのある呼び出し数",
+      "beaconErrorCount": "ビーコン・エラー数"
     },
     "format": {
       "event_website": "{{formatted}} ビーコン",
@@ -113,13 +127,21 @@
       "event_application_plural": "{{formatted}} 呼び出し (複数可)",
       "event_application_0": "{{formatted}} 呼び出し (複数可)",
       "event_application_1": "{{formatted}} 呼び出し",
-      "event_application_2": "{{formatted}} 呼び出し (複数可)"
+      "event_application_2": "{{formatted}} 呼び出し (複数可)",
+      "event_synthetic": "{{formatted}} 結果",
+      "event_synthetic_plural": "{{formatted}} 結果",
+      "event_synthetic_0": "{{formatted}} 結果",
+      "event_synthetic_1": "{{formatted}} 結果",
+      "event_synthetic_2": "{{formatted}} 結果"
     },
     "deleteDialog": {
       "pleaseConfirm": "ご確認ください",
       "pleaseConfirmMsg": "<strong>{{name}}</strong> を削除してよろしいですか?",
       "delete": "削除"
     }
+  },
+  "validators": {
+    "noInvalidOperator": "リストから演算子を選択してください。"
   },
   "components": {
     "tagFilterBuilder": {
@@ -176,6 +198,7 @@
       "description_custom": "ユーザー定義のフィルターを使用して、良好または不良 (あるいはその両方) のイベントのカウントを測定します。",
       "description_latency": "設定されたしきい値を超えてサービスが応答した速度を測定します。 例えば、ご使用のチェックアウト・サービスが 100ms よりも速く応答する速度の指標。",
       "description_availability": "サービスが適切に対応する頻度を測定します。 例えば、HTTP 呼び出しがエラーになる頻度などです。",
+      "description_traffic": "高レベルのシステム固有の指標を用いて、システムにどれだけの需要があるかを測定します。 例えば、Web サービスは通常 1 秒あたりの HTTP ビーコン数で計測されます。",
       "timeTypeExplanation": "分単位でグループ化された良好呼び出しと不良呼び出し",
       "eventTypeExplanation": "良好呼び出しと不良呼び出しの合計数",
       "eventCount": "イベント数",
@@ -184,29 +207,31 @@
       "thresholdLabel_latency": "しきい値 (ms)",
       "thresholdLabel_availability": "エラー率 (%)",
       "setGoodCall": "サービスに対する良好な呼び出しを設定する",
-      "setBadCall": "不正な呼び出しをサービスに設定する (オプション)"
+      "setBadCall": "不正な呼び出しをサービスに設定する (オプション)",
+      "thresholdDescription_GT": "良い分は、1 分あたりのコール数が {{thresholdValue}} 以上で定義されます。 悪い分は、1 分あたりのコール数が {{thresholdValue}} 以下で定義されます。",
+      "thresholdDescription_GTE": "良好な 1 分間とは、1 分あたりの通話回数が {{thresholdValue}} 以上で定義されます。 悪い分とは、1分あたりのコール数が{{thresholdValue}} 未満で定義されます。",
+      "thresholdDescription_LT": "良好な1分間とは、1分間あたりのコール数が{{thresholdValue}} 未満で定義されます。 悪い分とは、1 分あたりのコール数が {{thresholdValue}} 以上で定義されます。",
+      "thresholdDescription_LTE": "良好な1分間とは、1 分間あたりのコール数が {{thresholdValue}} 以下で定義されます。 悪い分とは、1 分あたりのコール数が {{thresholdValue}} 以上で定義されます。",
+      "thresholdInput": "1 分<HorizontalStack/><Stack /> あたりの <HorizontalStack><OperatorDropdown /><ThresholdInput /> コールの<Stack>しきい値を設定します。",
+      "allCalls": "すべての呼び出し",
+      "erroneousCalls": "エラーのある呼び出し数"
     },
     "previewSection": {
-      "dataInfo": "プレビュー・データは、過去 7 日分までしか表示されません。 SLO には、SLO が作成された時点からのデータのみが含まれます。"
+      "dataInfo": "プレビュー・データは、過去 7 日分までしか表示されません。 SLO には、SLO が作成された時点からのデータのみが含まれます。",
+      "title": "プレビュー",
+      "title_synthetic": "サンプル"
     }
   },
   "sloChart": {
     "sloFormatter": {
-      "unit": "コール",
-      "unit_application": "コール",
-      "unit_website": "ビーコン",
-      "unit_plural": "呼び出し",
-      "unit_application_plural": "呼び出し",
-      "unit_website_plural": "ビーコン",
-      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
-      "callsFormat": "{{formattedCount}} $t(in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
+      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:general.format.event {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
+      "callsFormat": "{{formattedCount}} $t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
     },
     "sloChartSummary": {
       "status": "状況",
       "target": "ターゲット:",
-      "errorBudgetRemaining": "残りのエラー予算",
+      "errorBudgetRemaining": "残る:",
       "errorBudgetSpent": "消費済みエラー・バジェット",
-      "errorBudget": "エラー・バジェット:",
       "timeWindow": "時間枠",
       "timeWindowType_dynamic": "動的時間枠",
       "timeWindowType_rolling": "ローリング時間枠",
@@ -341,11 +366,13 @@
         "thresholdLabel": "しきい値 (不明な単位)",
         "thresholdLabel_availability": "しきい値",
         "thresholdLabel_latency": "しきい値 (ms)",
+        "thresholdLabel_traffic": "しきい値",
         "aggregationLabel": "集約",
         "goodEventsLabel": "イベント・タイプ (良好イベント)",
         "goodEventsLabel_application": "イベント・タイプ (良好な呼び出し)",
         "badEventsLabel": "イベント・タイプ (不良イベント)",
-        "badEventsLabel_application": "イベント・タイプ (不正な呼び出し)"
+        "badEventsLabel_application": "イベント・タイプ (不正な呼び出し)",
+        "trafficTypeLabel": "トラフィック・タイプ"
       },
       "objectiveSection": {
         "title": "目的",

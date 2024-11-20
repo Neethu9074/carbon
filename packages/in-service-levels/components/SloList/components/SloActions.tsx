@@ -24,8 +24,8 @@ interface Props {
 }
 
 export default function SloActions({ item }: Props) {
-  const { configuration, entity } = item;
-  const disabled = entity.deleted;
+  const { configuration, entities } = item;
+  const disabled = entities.some(({ deleted }) => deleted);
   const meta = { productArea: productAreas.slo, pageName: pageNames.service_levels };
   const openCloneDialog = () => {
     addActiveDialog(

@@ -86,8 +86,11 @@
       "essentials": "필수",
       "iqmHosts": "IQM 호스트",
       "syntheticPops": "합성 관리 PoP",
+      "logging": "컨텍스트 내 로그",
       "resourceUnits": "권한이 있는 리소스 단위",
       "consumedUnits": "소비된 리소스 단위",
+      "entitledData": "소유권 있는 데이터",
+      "consumedData": "소비된 데이터",
       "infrastructure": "인프라",
       "synthetics": "합성",
       "traces": "추적",
@@ -97,7 +100,11 @@
       "trendLine": "추세선",
       "dataUsage": "데이터 사용량",
       "dataUsageHelperText": "선택한 기간 내에 범주별로 구분된 에이전트를 통해 전송된 바이트 양입니다.",
-      "syntheticsHelperText": "각 조치 유형이 이용하는 자원 단위 수입니다. 단위는 단순 테스트의 경우 0.025, API 테스트의 경우 0.042, 브라우저 테스트의 경우 1.000으로 계산됩니다."
+      "syntheticsHelperText": "각 조치 유형이 이용하는 자원 단위 수입니다. 단위는 단순 테스트의 경우 0.025, API 테스트의 경우 0.042, 브라우저 테스트의 경우 1.000으로 계산됩니다.",
+      "loggingHelperText": {
+        "saas": "이 차트에는 선택한 보존 기간 동안 로깅 추가 기능에서 사용한 데이터의 양이 바이트 단위로 표시됩니다.",
+        "onprem": "이 차트에는 선택한 보존 기간 동안 로깅 추가 기능에서 사용한 데이터의 양이 바이트 단위로 표시됩니다."
+      }
     },
     "activationAdoption": {
       "activationAdoption": "활성화 및 채택",

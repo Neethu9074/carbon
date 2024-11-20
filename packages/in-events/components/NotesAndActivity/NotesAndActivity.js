@@ -173,6 +173,7 @@ export function NotesAndActivity(props) {
                 setNeedOverlay={setNeedOverlay}
                 setShareOpen={setShareOpen}
                 setSummaryData={setSummaryData}
+                event={event}
               />
               <CommentInput
                 note={note}

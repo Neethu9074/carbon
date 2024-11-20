@@ -321,6 +321,7 @@ export const nonServicePlugins = {
   snowflake: 'snowflake',
   solr: 'solr',
   solrCloudCluster: 'solrCloudCluster',
+  snowflakeOrganization: 'snowflakeOrganization',
   sparkApplication: 'sparkApplication',
   sparkStandalone: 'sparkStandalone',
   springbootApplicationContainer: 'springbootApplicationContainer',
@@ -763,6 +764,7 @@ export const fullyQualifiedPlugins = {
   snowflake: 'com.instana.forge.infrastructure.database.snowflake.Snowflake',
   solr: 'com.instana.forge.infrastructure.database.solr.Solr',
   solrCloudCluster: 'com.instana.forge.infrastructure.database.solr.SolrCloudCluster',
+  snowflakeOrganization: 'com.instana.forge.infrastructure.database.snowflake.SnowflakeOrganization',
   springbootApplicationContainer:
     'com.instana.forge.infrastructure.application.springboot.SpringbootApplicationContainer',
   sparkApplication: 'com.instana.forge.infrastructure.dataanalytics.sparkapplication.SparkApplication',

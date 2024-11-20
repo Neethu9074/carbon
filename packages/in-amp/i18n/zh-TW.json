@@ -86,8 +86,11 @@
       "essentials": "Essentials",
       "iqmHosts": "IQM 主機",
       "syntheticPops": "綜合管理的 PoPs",
+      "logging": "環境定義中的日誌",
       "resourceUnits": "已授權資源單位",
       "consumedUnits": "已耗用資源單位",
+      "entitledData": "授權資料",
+      "consumedData": "耗用資料",
       "infrastructure": "基礎架構",
       "synthetics": "綜合",
       "traces": "追蹤",
@@ -97,7 +100,11 @@
       "trendLine": "趨勢線",
       "dataUsage": "資料用量",
       "dataUsageHelperText": "在所選時間範圍內透過按類別分隔的代理程式傳送的位元組數。",
-      "syntheticsHelperText": "每一種動作所耗用的資源單位數。 單位的計算係數為 0.025（適用於簡式測試）、0.042（適用於 API 測試）及 1.000（適用於瀏覽器測試）。"
+      "syntheticsHelperText": "每一種動作所耗用的資源單位數。 單位的計算係數為 0.025（適用於簡式測試）、0.042（適用於 API 測試）及 1.000（適用於瀏覽器測試）。",
+      "loggingHelperText": {
+        "saas": "此圖表顯示日誌記錄附加程式在所選保留期間內使用的資料量（以位元組為單位）。",
+        "onprem": "此圖表顯示日誌記錄附加程式在所選保留期間內使用的資料量（以位元組為單位）。"
+      }
     },
     "activationAdoption": {
       "activationAdoption": "啟動與採用",

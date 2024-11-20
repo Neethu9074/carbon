@@ -9,6 +9,10 @@ import React, { useEffect } from 'react';
 
 import { Checkbox, Stack } from '@instana/components';
 
+import {
+  updateAlertChannelSelectionOnWarningThresholdFieldChange,
+  updateAlertChannelSelectionOnCriticalThresholdFieldChange
+} from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 //@ts-expect-error TS migration
 import { DebouncedSensitivitySlider } from 'in-alerting/smart-alerts/components/dialog/advanced/SensitivitySlider';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
@@ -34,8 +38,11 @@ export function MultiThresholdDeviationSliderForm({
 }: MultiThresholdDeviationSliderFormProps) {
   const warningThresholdField = form.get('threshold').get('warningThreshold') as MapForm<any>;
   const criticalThresholdField = form.get('threshold').get('criticalThreshold') as MapForm<any>;
-  const isWarningChecked = warningThresholdField.get('isCheckboxSelected').value;
-  const isCriticalChecked = criticalThresholdField.get('isCheckboxSelected').value;
+  const warningThresholdCheckBoxField = warningThresholdField.get('isCheckboxSelected');
+  const criticalThresholdCheckBoxField = criticalThresholdField.get('isCheckboxSelected');
+  const isWarningChecked = warningThresholdCheckBoxField?.value;
+  const isCriticalChecked = criticalThresholdCheckBoxField?.value;
+  const alertChannelSelection = form.get('alertChannels').value;
 
   useEffect(() => {
     if (isWarningChecked && warningThresholdField.get('deviationFactor')?.value === 0) {
@@ -47,6 +54,28 @@ export function MultiThresholdDeviationSliderForm({
     }
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isWarningChecked, isCriticalChecked]);
+
+  useEffect(() => {
+    updateAlertChannelSelectionOnWarningThresholdFieldChange(
+      alertChannelSelection,
+      isWarningChecked,
+      isCriticalChecked,
+      form,
+      updateForm
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [warningThresholdCheckBoxField]);
+
+  useEffect(() => {
+    updateAlertChannelSelectionOnCriticalThresholdFieldChange(
+      alertChannelSelection,
+      isWarningChecked,
+      isCriticalChecked,
+      form,
+      updateForm
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [criticalThresholdCheckBoxField]);
 
   return (
     <ThresholdConditionFormGroup

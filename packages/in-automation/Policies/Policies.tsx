@@ -224,7 +224,7 @@ const columnDefinition: ColumnDefinition<PolicyTableEntity>[] = [
         return (
           <NameColumnCell
             config={item.trigger}
-            getSubtitle={config => getSubtitleInfra(config.rule, config.threshold, config.predictiveTrigger)}
+            getSubtitle={config => getSubtitleInfra(config.rule, config.threshold, config.forecastingConfig)}
           />
         );
       }

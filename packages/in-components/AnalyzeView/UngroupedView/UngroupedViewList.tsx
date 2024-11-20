@@ -4,6 +4,7 @@
  */
 
 import React, { MutableRefObject, useCallback, useEffect } from 'react';
+import _classNames from 'classnames';
 
 import { LiLoadMore, Ul } from '@instana/components';
 import { generateStableHash } from '@instana/utils';
@@ -36,6 +37,7 @@ function List(props: UngroupedViewListPresenterProps) {
     items,
     getId,
     classNames,
+    wrapperClassNames,
     isLoading,
     dataSource,
     groupLabel,
@@ -131,7 +133,7 @@ function List(props: UngroupedViewListPresenterProps) {
   return (
     <>
       {hasItems && (
-        <Ul className={locals.displayBlock} space="disabled">
+        <Ul className={_classNames(locals.displayBlock, wrapperClassNames)} space="disabled">
           {MappedListItems}
           {showLoadMoreButton && (
             <LiLoadMore

@@ -76,7 +76,7 @@
     "kubernetesLabels": "Kubernetes-Bezeichnungen",
     "podmanAnnotations": "Podman-Anmerkungen",
     "metricExplosionBeeInstana": "Dieses Dashboard zeigt möglicherweise nicht alle Metriken an, da maximal {{numberOfMetrics}} Metriken zu einem bestimmten Zeitpunkt erfasst werden.",
-    "metricExplosion": "Dieses Dashboard zeigt möglicherweise nicht alle Metriken an, da maximal {{numberOfMetrics}} hochauflösende Metriken zu einem bestimmten Zeitpunkt erfasst werden. Um zusätzliche Metriken anzuzeigen, verwenden Sie \"Infrastruktur analysieren\" oder ein benutzerdefiniertes Dashboard."
+    "metricExplosion": "Dieses Dashboard zeigt möglicherweise nicht alle Metriken an, da maximal {{numberOfMetrics}} hochauflösende Metriken zu einem bestimmten Zeitpunkt erfasst werden. Wenn Sie zusätzliche gekennzeichnete Metriken anzeigen möchten, verwenden Sie Infrastruktur analysieren oder ein benutzerdefiniertes Dashboard."
   },
   "explore": {
     "analyzeInfrastructure": "Infrastruktur analysieren",
@@ -89,7 +89,6 @@
     "search": "Typ suchen",
     "explore": "Durchsuchen",
     "health": "Status",
-    "noIssues": "Keine Probleme",
     "count": "Anzahl",
     "errors": {
       "maximumNumberOfGroups": "Diese Abfrage hat zu viele Ergebnisse. Grenzen Sie Ihre Suche mit einem restriktiveren Filter ein oder grenzen Sie Ihren Zeitraum ein und versuchen Sie es erneut.",
@@ -141,5 +140,10 @@
     "buttonSelectTags": "Tags auswählen",
     "titleAddATag": "Tag hinzufügen",
     "messagePleaseSelectAtMostTags": "Wählen Sie höchstens {{maximumNumberOfTags}} Tags aus."
+  },
+  "threshold": {
+    "label": "Schwellenwert",
+    "critical": "Kritisch, wenn {{operator}} {{level}}",
+    "warning": "Warnung, wenn {{operator}} {{level}}"
   }
 }

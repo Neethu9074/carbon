@@ -8,6 +8,7 @@ import React from 'react';
 
 import {
   isApplicationSloEntity,
+  isSyntheticSloEntity,
   isWebsiteSloEntity,
   ServiceLevelObjectiveConfiguration,
   SloEntityUnion,
@@ -17,14 +18,18 @@ import {
 
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
 import NoValueKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/NoValueKpiCard';
+import useSyntheticsTrafficMetrics from 'in-service-levels/hooks/useSyntheticsTrafficMetrics';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import { createSloEventFormatter } from 'in-service-levels/utils/format';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
+import ThresholdKpiCard from 'in-components/KpiCard/TresholdKpiCard';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { FormatterFn } from 'in-stores/metric/formatters';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { hours } from 'in-services/time/time';
 import { t } from 'in-i18n';
 
 interface TrafficKpiCardProps {
@@ -32,6 +37,38 @@ interface TrafficKpiCardProps {
 }
 
 export default function TrafficKpiCard({ configuration }: TrafficKpiCardProps) {
+  if (isSyntheticSloEntity(configuration.entity)) return <SyntheticsTrafficKpiCard configuration={configuration} />;
+
+  return <AppWebsiteTrafficKpiCard configuration={configuration} />;
+}
+
+function SyntheticsTrafficKpiCard({ configuration }: TrafficKpiCardProps) {
+  const { entity, indicator } = configuration;
+
+  if (!isSyntheticSloEntity(entity)) throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
+
+  const { timeWindows } = useSloTimeWindowContext();
+  const results = useSyntheticsTrafficMetrics(entity, indicator, timeWindows, hours.toMillis(1));
+  const hasMatchingTimeWindows = timeWindows.length > 0;
+
+  if (!hasMatchingTimeWindows)
+    return <NoValueKpiCard title={t('in-service-levels:sloDashboard.components.trafficKpiCard.title')} />;
+
+  const { primaryFormatter } = getFormatters(entity);
+  const trafficSum = results.data?.flat(1).reduce((prev, [, value]) => prev + value, 0);
+
+  return (
+    <ThresholdKpiCard
+      title={t('in-service-levels:sloDashboard.components.trafficKpiCard.title')}
+      value={trafficSum ?? valueMissingPlaceholder}
+      renderValue={primaryFormatter}
+      resultPrecision="PRECISION_FULL"
+      bigNumbers
+    />
+  );
+}
+
+function AppWebsiteTrafficKpiCard({ configuration }: TrafficKpiCardProps) {
   const { entity } = configuration;
   const timeConfig = useTimeConfig();
   const { primaryMetricConfiguration, companionMetricConfiguration } = useMetricConfiguration(entity, timeConfig);
@@ -97,6 +134,11 @@ function getFormatters(entity: SloEntityUnion): Formatters {
     };
   }
   if (isWebsiteSloEntity(entity)) {
+    return {
+      primaryFormatter: eventFormatter
+    };
+  }
+  if (isSyntheticSloEntity(entity)) {
     return {
       primaryFormatter: eventFormatter
     };

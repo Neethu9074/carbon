@@ -14,11 +14,11 @@ import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTable
 import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWrapper';
 import { isNotEditableContext, OnChange } from 'in-automation/ActionCatalog/Action';
 import ParameterDialog from 'in-automation/ActionCatalog/ParameterDialog';
+import { ActionForm } from 'in-automation/ActionCatalog/useActionForm';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { ACTION_TYPE } from 'in-automation/constants';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import Label from 'in-components/form/Label/Label';
-import { ActionForm } from './useActionForm';
 import { t } from 'in-i18n';
 
 interface ParametersTableProps {

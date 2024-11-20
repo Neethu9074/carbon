@@ -12,7 +12,6 @@ import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
 import {
-  track,
   AGENTS_RESET_ALL_AGENTS_INTERNAL_CLICKED,
   AGENTS_UPDATE_ALL_AGENTS_INTERNAL_CLICKED
 } from 'in-services/tracking/tracking';
@@ -28,6 +27,7 @@ import AgentViewKpis from 'in-infrastructure/agentView/components/AgentViewKpis'
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import AgentBasedIntegrationView from './components/AgentBasedIntegrationView';
 import AgentsTable from 'in-infrastructure/agentView/components/AgentsTable';
+import { infraEventCTAClicked } from 'in-infrastructure/tracking/tracking';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { messages$ } from 'in-components/MessageFlyout/stores/messages';
@@ -175,7 +175,7 @@ function ButtonLine({ agentSnapshots }) {
           <Button
             kind="primary"
             onClick={() => {
-              track(AGENTS_UPDATE_ALL_AGENTS_INTERNAL_CLICKED);
+              infraEventCTAClicked({ event: AGENTS_UPDATE_ALL_AGENTS_INTERNAL_CLICKED });
               updateAllAgents({ agentSnapshots });
             }}
           >
@@ -184,7 +184,7 @@ function ButtonLine({ agentSnapshots }) {
           <Button
             kind="secondary"
             onClick={() => {
-              track(AGENTS_RESET_ALL_AGENTS_INTERNAL_CLICKED);
+              infraEventCTAClicked({ event: AGENTS_RESET_ALL_AGENTS_INTERNAL_CLICKED });
               resetAllAgents({ agentSnapshots });
             }}
           >

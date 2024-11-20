@@ -6,6 +6,7 @@
   "labelAnalytic": "Analyse",
   "labelCall": "Aufruf",
   "labelTrace": "Trace",
+  "labelStatus": "Status",
   "linkDownload": "Herunterladen",
   "linkDownloadCalls": "Download-Aufrufe",
   "linkDownloadRawTrace": "Unaufbereiteten Trace herunterladen",
@@ -686,5 +687,6 @@
     "alternativeServicesProblem": "<bold>Nein</bold>, wenn der Name des aktuellen Service aus dem HTTP-Header \"Host\" stammt (Servicezuordnungsregel mit der ID call.http.host) und der Name des alternativen Service nicht (weil sein Name aus einer Regel stammt, die auf Infrastrukturtags basiert) oder umgekehrt. Hierbei handelt es sich um doppelte Services.",
     "alternativeServicesPossibleProblem": "<bold>Möglicherweise</bold>, wenn der Name des aktuellen Service und der Name des alternativen Service nicht aus dem HTTP-Header \"Host\" stammen. Es handelt sich dann entweder um Services hinter einem Proxy (gut) oder um doppelte Services (schlecht): Einige der Services sind vollständig mit Infrastruktur verbunden, während andere teilweise mit Infrastruktur verbunden sind."
   },
-  "labelSyntheticMonitoring": "Überwachung der synthetischen Transaktionen"
+  "labelSyntheticMonitoring": "Überwachung der synthetischen Transaktionen",
+  "labelResourceOptimizations": "Optimierungen"
 }

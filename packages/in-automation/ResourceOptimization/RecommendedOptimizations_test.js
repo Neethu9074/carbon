@@ -7,8 +7,8 @@
 import { render, fireEvent } from '@testing-library/react';
 import React from 'react';
 
-import RecommendedOptimizations from './RecommendedOptimizations';
-import { recommendedList, testData } from './testData';
+import RecommendedOptimizations from 'in-automation/ResourceOptimization/RecommendedOptimizations';
+import { recommendedList, testData } from 'in-automation/ResourceOptimization/testData';
 import { t } from 'in-i18n';
 
 const mockActionClick = jest.fn();

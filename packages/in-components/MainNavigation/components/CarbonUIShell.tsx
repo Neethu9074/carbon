@@ -107,6 +107,7 @@ import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from '
 import { isBizOpsView, businessPerspectivesPath, businessProcessPath } from 'in-bizops/navigation/paths';
 // @ts-expect-error no declaration file
 import { showReleaseNotes } from 'in-stores/releaseNotes';
+import { isVulnerabilityView, vulnerabilityRoot } from 'in-vulnerability-center/navigation/paths';
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
 import { actionCatalogFullyQualified, isAutomationView } from 'in-automation/navigation/paths';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
@@ -455,6 +456,20 @@ function Analyze() {
   );
 }
 
+function VulnerabilityCenter() {
+  const { createHrefToPath, matchLocation } = useNavigation();
+
+  return (
+    <MenuItem
+      id="main-nav-vul-dashboard"
+      label={t('in-components:mainNavigation.viewVulnerabilityCenter')}
+      icon="lib_events_cve"
+      isActive={matchLocation(isVulnerabilityView)}
+      href={createHrefToPath(vulnerabilityRoot)}
+    />
+  );
+}
+
 function Incidents() {
   const events = useObservable(openEventsAtServerTime$, [openEventsAtServerTime$]);
   // @ts-expect-error type not defined
@@ -772,6 +787,7 @@ export default function CarbonUIShell() {
       <Logging />
       <Synthetics />
       <Analyze />
+      <VulnerabilityCenter />
       <Incidents />
       <AutomationMenu />
       <SloDashboard />

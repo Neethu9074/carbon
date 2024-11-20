@@ -10,9 +10,9 @@ import { RecommendedAction } from '@instana/types';
 import { Typography } from '@instana/components';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import { turboActionCategoryMap } from 'in-automation/ResourceOptimization/RecommendedOptimizations';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
-import { turboActionCategoryMap } from './RecommendedOptimizations';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';

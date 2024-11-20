@@ -33,6 +33,7 @@ export function toAlertConfig(form) {
   const ruleWithThreshold = getRuleWithThreshold(form);
   let alertConfig = form
     .remove('hiddenFields')
+    .remove('alertChannels')
     .remove('rule')
     .remove('threshold')
     .updateIn(['tagFilterExpression'], f =>

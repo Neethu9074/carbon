@@ -36,6 +36,7 @@ export default function WidgetLeftHeader({
   isPreview
 }: WidgetLeftHeaderProps) {
   const isLoading = status === 'pending' || !monitoredEntity;
+  const labeledEntity = { id: monitoredEntity?.id ?? '', label: monitoredEntity?.label ?? '' };
 
   return (
     <Stack gap="xxsmall">
@@ -43,7 +44,7 @@ export default function WidgetLeftHeader({
         <div className={locals.title}>{title}</div>
         <StackItem>
           {isLoading && <LoadingSkeleton className={locals.loadingSkeleton} />}
-          {!isLoading && <SloEntityInfo entityType={monitoredEntityType} entity={monitoredEntity} />}
+          {!isLoading && <SloEntityInfo entityType={monitoredEntityType} entities={[labeledEntity]} />}
         </StackItem>
         <SliConfigInfo sliConfig={sliConfig} entityType={monitoredEntityType} />
         <Tooltip align="auto" content={t('in-custom-dashboards:widgets.slo.widgetLeftHeader.liveDataInfo')}>

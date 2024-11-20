@@ -10,7 +10,6 @@ import SloSmartAlertDetails from 'in-service-levels/components/SloDashboard/comp
 import { serviceLevelsObjectiveAlertDetailsFullyQualified } from 'in-service-levels/navigation/path';
 import { SloTabData } from 'in-service-levels/components/SloDashboard/tabs';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { sloSmartAlertsEnabled } from 'in-services/featureFlags';
 import Alerts from 'in-alerting/smart-alerts/slo/Alerts';
 import { Nullish } from 'in-types';
 
@@ -32,8 +31,6 @@ function SloSmartAlertsContent({ data }: Required<SloAlertsProps>) {
   const { matchLocation } = useNavigation();
 
   const { configuration } = data;
-
-  if (!sloSmartAlertsEnabled) return <></>;
 
   if (matchLocation(serviceLevelsObjectiveAlertDetailsFullyQualified))
     return <SloSmartAlertDetails sloId={configuration.id!} />;

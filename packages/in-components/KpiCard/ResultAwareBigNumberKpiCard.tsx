@@ -25,6 +25,7 @@ import { ThresholdFn } from 'in-components/Threshold/threshold';
 import { IconAction } from 'in-components/KpiCard/KpiCard';
 import { percentage } from 'in-services/formatters/number';
 import { FormatterFn } from 'in-stores/metric/formatters';
+import { ConversionFn } from 'in-stores/metric/units';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
 import { Nullish } from 'in-types';
@@ -68,6 +69,7 @@ export interface ResultAwareBigNumberKpiCardProps<METRIC_CONFIG extends UnifiedM
   thresholdFn?: ThresholdFn;
   raw?: boolean;
   extraInfo?: string;
+  conversionFn?: ConversionFn;
 }
 
 export function isConfigWithCompanionMetric<METRIC_CONFIG extends UnifiedMetricConfigurationUnion>(
@@ -94,6 +96,7 @@ export default function ResultAwareBigNumberKpiCard<METRIC_CONFIG extends Unifie
   result,
   isInModal,
   thresholdFn,
+  conversionFn,
   raw,
   extraInfo
 }: ResultAwareBigNumberKpiCardProps<METRIC_CONFIG>) {
@@ -128,7 +131,8 @@ export default function ResultAwareBigNumberKpiCard<METRIC_CONFIG extends Unifie
           raw,
           thresholdFn,
           isInModal,
-          extraInfo
+          extraInfo,
+          conversionFn
         )
       }
       extraInfo={extraInfo}
@@ -150,13 +154,14 @@ export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfigurationUn
   raw: boolean | undefined,
   thresholdFn?: ThresholdFn,
   isInModal?: boolean,
-  extraInfo?: string
+  extraInfo?: string,
+  conversionFn?: ConversionFn
 ) {
   let value = null;
 
   const dataPoint = find(result.data, ({ id }) => id === metricKey);
   if (dataPoint?.values?.length === 1) {
-    value = dataPoint.values[0][1];
+    value = conversionFn ? conversionFn(dataPoint.values[0][1]) : dataPoint.values[0][1];
   }
 
   const lastValueTooltipContent = config.metricConfiguration.lastValue && getLastValueTooltipLabel(timeConfig);

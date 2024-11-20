@@ -370,6 +370,46 @@
       "status": {
         "pending": "In sospeso"
       }
+    },
+    "credentialFeedback": {
+      "successMessageDelete": "Cancellata con successo la credenziale",
+      "failureMesssage": "{{errorMessage}}"
+    },
+    "createCredential": {
+      "createButton": "Nuova credenziale",
+      "nameValue": "Nome e valore",
+      "associations": "Associazioni",
+      "newCredentials": "Creare una credenziale sintetica",
+      "steps": {
+        "textInput": {
+          "placeholder": "Nome credenziale",
+          "labelText": "Nome",
+          "invalidText": "Il nome della credenziale deve iniziare con una lettera e contenere solo lettere, numeri e trattini bassi."
+        },
+        "passwordInput": {
+          "placeholder": "Valore della credenziale",
+          "labelText": "Valore",
+          "invalidText": "Il valore non deve essere vuoto."
+        },
+        "associationsDescription": "L'associazione di una credenziale a un'applicazione, a un sito web o a un'applicazione mobile concede i diritti di accesso a tutti gli utenti che hanno accesso a tali entità."
+      },
+      "feedback": {
+        "successMessage": "Credenziale creata con successo",
+        "failureMessageCreate": "Impossibile creare la credenziale: {{errorMessage}}",
+        "updateSuccessMessage": "Credenziale aggiornata con successo",
+        "failureMessageUpdate": "Fallito l'aggiornamento della credenziale: {{errorMessage}}"
+      },
+      "edit": {
+        "dialogTitle": "Modifica credenziale sintetica {{credentialName}}",
+        "associations": "Associazioni",
+        "saveButton": "Salva",
+        "textInputHelperText": "Il nome della credenziale non può essere modificato, è un campo di solalettura",
+        "passwordInputHelperText": "Digitare un nuovo valore di credenziale se si desidera aggiornare quello attuale."
+      },
+      "tooltipLabels": {
+        "hide": "Nascondere il valore della credenziale",
+        "show": "Mostra il valore della credenziale"
+      }
     }
   },
   "createSmartAlert": {
@@ -757,6 +797,28 @@
       "noWebsitesAssociated": "Nessun sito web associato",
       "associatedMobileApps": "Applicazioni mobili associate",
       "noMobileAppAssociated": "Nessuna applicazione mobile associata"
+    },
+    "credentialList": {
+      "mainLabel": "Credenziali",
+      "name": "Nome",
+      "associations": "Associazioni",
+      "createdAt": "Creato alle",
+      "createdBy": "Creato da",
+      "lastModifiedBy": "Autore ultima modifica",
+      "actions": "Azioni",
+      "noDataAvailable": {
+        "noCredentialsAvailableTitle": "Nessuna credenziale sintetica disponibile",
+        "noCredentialsAvailableDescription": "Non ci sono credenziali sintetiche recuperate dal database."
+      },
+      "editAction": "Modifica",
+      "deleteAction": {
+        "deleteActionLabel": "Elimina",
+        "deleteCredentialTitle": "Cancellare la credenziale sintetica {{credentialName}}",
+        "credentialNameValidation": "Immettere il nome completo delle credenziali per confermare l'eliminazione",
+        "deleteButtonLabel": "Elimina credenziale",
+        "cancelButtonLabel": "Annulla",
+        "deletionSuccess": "La credenziale è stata eliminata"
+      }
     }
   }
 }

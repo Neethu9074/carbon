@@ -60,11 +60,6 @@
     line-height: 1.5;
   }
 
-  .bubbleContentsHeader {
-    font-weight: 700;
-    padding-bottom: 5px;
-  }
-
   .ext {
     border-radius: 0px 8px 8px 8px;
     border: 1px solid var(--cds-border-subtle-01);
@@ -91,11 +86,6 @@
   .myChatEntryInfo {
     padding-top: 5px;
     color: var(--cds-text-secondary);
-  }
-
-  .summaryList {
-    display: inline-flex;
-    gap: 1rem;
   }
 
   .wordWrap {

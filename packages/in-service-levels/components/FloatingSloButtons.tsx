@@ -13,9 +13,7 @@ import CreateSmartAlertDialog from 'in-alerting/smart-alerts/slo/CreateSmartAler
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import CreateSloDialog from 'in-service-levels/components/ConfigDialog/CreateSloDialog';
-import FloatingActionButton from 'in-components/FloatingActionButton';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { sloSmartAlertsEnabled } from 'in-services/featureFlags';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { t } from 'in-i18n';
@@ -24,15 +22,6 @@ export default function FloatingSloButtons() {
   const meta = { productArea: productAreas.slo, pageName: pageNames.service_levels };
   const openCreateSloDialog = () => addActiveDialog(<CreateSloDialog mode="NEW" trackingMeta={meta} />);
   const openCreateSmartAlertDialog = () => addActiveDialog(<CreateSmartAlertDialog />);
-
-  if (!sloSmartAlertsEnabled)
-    return (
-      <FloatingActionButtons>
-        <FloatingActionButton icon="lib_openclose_add" onClick={openCreateSloDialog}>
-          {t('in-service-levels:general.addButtonLabel')}
-        </FloatingActionButton>
-      </FloatingActionButtons>
-    );
 
   return (
     <FloatingActionButtons>

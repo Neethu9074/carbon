@@ -16,6 +16,7 @@ import { Stack, SvgIcon, Typography } from '@instana/components';
 
 import { useApplicationQueryBuilder } from 'in-service-levels/hooks/useApplicationQueryBuilder';
 import { isEmptyExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import MultiEntityLabel from 'in-service-levels/components/Shared/MultiEntityLabel';
 import QueryBuilderFilter from 'in-service-levels/components/QueryBuilderFilter';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { LabeledEntity } from 'in-service-levels/types';
@@ -24,7 +25,7 @@ import useMediaQuery from 'in-hooks/useMediaQuery';
 import { t } from 'in-i18n';
 
 interface Props {
-  entity: LabeledEntity;
+  entities: LabeledEntity[];
   entityType: SloEntityType;
   service?: LabeledEntity;
   endpoint?: LabeledEntity;
@@ -37,8 +38,8 @@ type EntityDisplayData = {
   toolTipText: string;
 };
 
-export default function SloEntityInfo({ entity, entityType, service, endpoint, metaInfo, sloEntity }: Props) {
-  const { iconType, toolTipText } = getEntityDisplayData(entityType, entity);
+export default function SloEntityInfo({ entities, entityType, service, endpoint, metaInfo, sloEntity }: Props) {
+  const { iconType, toolTipText } = getEntityDisplayData(entityType, entities);
   const compact = useMediaQuery('(min-width: 600px)');
   const serviceEndpointInfo = entityType === 'application';
 
@@ -48,13 +49,22 @@ export default function SloEntityInfo({ entity, entityType, service, endpoint, m
     (!isEmptyExpression(sloEntity.tagFilterExpression) || isTagFilter(sloEntity.tagFilterExpression));
 
   const showServiceEndpointInfo = metaInfo && serviceEndpointInfo && compact && !hasCustomFilter;
+
+  const hasMultipleEntities = entities.length > 1;
+
   return (
     <Stack direction="horizontal" align="center">
       <Stack direction="horizontal" align="center" gap="xxsmall">
         <Tooltip content={toolTipText}>
           <SvgIcon type={iconType} aria-label={toolTipText} />
         </Tooltip>
-        <Typography variant="body-regular">{entity.label}</Typography>
+        {!hasMultipleEntities && <Typography variant="body-regular">{entities[0].label}</Typography>}
+        {hasMultipleEntities && (
+          <MultiEntityLabel
+            entityType={entityType === 'synthetic' ? 'test' : entityType}
+            labels={entities.map(({ label }) => label)}
+          />
+        )}
       </Stack>
       {showServiceEndpointInfo && (
         <Typography variant="body-small">
@@ -75,9 +85,16 @@ export default function SloEntityInfo({ entity, entityType, service, endpoint, m
   );
 }
 
-function getEntityDisplayData(entityType: SloEntityType, entity: LabeledEntity): EntityDisplayData {
+function getEntityDisplayData(entityType: SloEntityType, entities: LabeledEntity[]): EntityDisplayData {
+  if (entityType === 'synthetic')
+    return {
+      iconType: 'lib_synthetic',
+      toolTipText: t('in-service-levels:sloList.components.sloEntityInfo.tooltip', {
+        context: 'synthetic'
+      })
+    };
   return {
-    iconType: entity.deleted ? 'lib_infra_unknownIcon' : `lib_${entityType}`,
+    iconType: entities[0].deleted ? 'lib_infra_unknownIcon' : `lib_${entityType}`,
     toolTipText: t('in-service-levels:sloList.components.sloEntityInfo.tooltip', {
       context: entityType
     })

@@ -56,6 +56,9 @@
   "fileOnHost": "オン",
   "file": "ファイル",
   "logExpiration": "保存期限",
+  "stacktraceLogMessage": "スタック・トレース",
+  "logTraceTitle": "スタック・トレース",
+  "stackTraceHeader": "スタックトレース・メッセージ",
   "dashboard": {
     "summary": "サマリー",
     "smartAlerts": "スマート・アラート",
@@ -68,6 +71,14 @@
     },
     "retentionIcon": "保存期間の変更",
     "noData": "表示可能なデータがありません",
-    "analyzeLogs": "ログの分析"
+    "analyzeLogs": "ログの分析",
+    "configurationPage": {
+      "logVolume": "ログ・ボリューム",
+      "logVolumeDescription": "最大 12 ヶ月のログ・ボリュームを表示し、必要に応じてインフラストラクチャ・タグでグループ化します。",
+      "logIntegrations": "ログ統合",
+      "logIntegrationsDescription": "ログ管理ソリューションを接続し、ニーズに合わせて設定します。",
+      "retentionPeriod": "保存期間",
+      "retentionPeriodDescription": "保持期間を変更すると、ログが保持され、アプリケーション、ダッシュボード、およびアナリティクスで利用できるようになる時間に影響し、コストと請求に影響します。"
+    }
   }
 }

@@ -7,7 +7,6 @@
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
-import { track as trackingV1 } from 'in-services/tracking/tracking';
 import { CTA_CLICKED } from 'in-services/util/constants';
 
 export type CtaTrackingFunction = (ctaEvent: string, optionalPayloadData?: Object, channel?: string) => void;
@@ -32,12 +31,6 @@ export function useSegmentTracking(): {
       };
       eventTracker({ segmentEventName: CTA_CLICKED, data });
     }
-
-    /*
-     * As discussed, we will always send the info to the old mixpanel tracking.
-     * It will be removed soon.
-     */
-    trackingV1(ctaEvent, customData);
   }
 
   /**

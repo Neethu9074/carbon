@@ -76,7 +76,7 @@
     "kubernetesLabels": "Kubernetes 레이블",
     "podmanAnnotations": "Podman 주석",
     "metricExplosionBeeInstana": "이 대시보드에는 주어진 시간에 최대 {{numberOfMetrics}} 지표가 캡처되므로 모든 지표가 표시되지 않을 수 있습니다.",
-    "metricExplosion": "이 대시보드에는 주어진 시간에 최대 {{numberOfMetrics}} 고해상도 지표가 캡처되므로 모든 지표가 표시되지 않을 수 있습니다. 추가 메트릭을 보려면 인프라 분석 또는 사용자 정의 대시보드를 사용하십시오."
+    "metricExplosion": "이 대시보드에는 주어진 시간에 최대 {{numberOfMetrics}} 고해상도 지표가 캡처되므로 모든 지표가 표시되지 않을 수 있습니다. 추가 태그 지정된 메트릭을 보려면 인프라 분석 또는 사용자 정의 대시보드를 사용하십시오."
   },
   "explore": {
     "analyzeInfrastructure": "인프라 분석",
@@ -89,7 +89,6 @@
     "search": "유형 검색",
     "explore": "탐색",
     "health": "상태",
-    "noIssues": "출고 없음",
     "count": "개수",
     "errors": {
       "maximumNumberOfGroups": "이 조회의 결과가 너무 많습니다. 보다 제한적인 필터를 사용하여 검색 범위를 좁히거나 시간 범위를 좁혀 다시 시도하십시오.",
@@ -141,5 +140,10 @@
     "buttonSelectTags": "태그 선택",
     "titleAddATag": "태그 추가",
     "messagePleaseSelectAtMostTags": "최대 {{maximumNumberOfTags}}개의 태그를 선택하십시오."
+  },
+  "threshold": {
+    "label": "임계값",
+    "critical": "{{operator}} {{level}}인 경우 심각",
+    "warning": "{{operator}} {{level}}인 경우 경고"
   }
 }

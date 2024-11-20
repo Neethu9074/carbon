@@ -4,7 +4,11 @@
  * Copyright IBM Corp. 2022
  */
 
-import { Application, Endpoint, Result, ServiceLabel } from '@instana/types';
+import { Field, MapForm, MapPath } from 'formalistic';
+
+import { Application, Endpoint, Result, ServiceLabel, TagFilterExpressionElementUnion } from '@instana/types';
+
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 
 export interface UrlMatrixParamConfig {
   path: string;
@@ -87,4 +91,25 @@ export interface AdditionalTagSuggestionProps {
   readonly includeInternal: boolean;
   readonly includeSynthetic: boolean;
 }
+// #endregion
+
+// #region creation & forms
+export type SubtraceConfig = {
+  id: string;
+  name: string;
+  tagFilterExpression: TagFilterExpressionElementUnion;
+  evaluationGranularitySeconds: number;
+};
+
+export type NewSubtraceConfig = Omit<SubtraceConfig, 'id'>;
+
+// form fields
+export type SubtraceFormFields = {
+  name: Field<string>;
+  tagFilterExpression: Field<FormModelElement[]>;
+  evaluationGranularitySeconds: Field<number>;
+};
+
+export type SubtraceForm = MapForm<SubtraceFormFields>;
+export type SubtraceFormPath = MapPath<SubtraceFormFields>;
 // #endregion

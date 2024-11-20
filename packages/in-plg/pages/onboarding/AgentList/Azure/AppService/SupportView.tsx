@@ -12,21 +12,22 @@ import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import { t } from 'in-i18n';
 
 interface Runtime {
-  runtime: 'Node.js';
+  runtime: 'Node.js' | '.NET'; // Allow both Node.js and .NET
 }
 
 export const Documentations = ({ runtime }: Runtime): JSX.Element => {
   switch (runtime) {
-    case 'Node.js':
+    case '.NET':
       return (
         <Stack gap="small">
           <DocumentLink text={t('in-plg:agentDetails.azure.monitoringAzure')} href="https://ibm.biz/ms-azure-agent" />
           <DocumentLink
-            text={t('in-plg:agentDetails.azure.nodejs.monitoringAppService')}
-            href="https://ibm.biz/azure-tracing-nodejs"
+            text={t('in-plg:agentDetails.azure.dotnet.monitoringAppService')}
+            href="https://www.ibm.com/docs/en/instana-observability/current?topic=services-azure-app-service-tracing-net"
           />
         </Stack>
       );
+    case 'Node.js':
     default:
       return (
         <Stack gap="small">
@@ -43,14 +44,7 @@ export const Documentations = ({ runtime }: Runtime): JSX.Element => {
 export const Prerequisites = ({ runtime }: Runtime): JSX.Element => {
   switch (runtime) {
     case 'Node.js':
-      return (
-        <Stack gap="small">
-          <DocumentLink
-            text={t('in-plg:agentDetails.common.networkRequirements')}
-            href="https://ibm.biz/insta-agent-netreqs"
-          />
-        </Stack>
-      );
+    case '.NET':
     default:
       return (
         <Stack gap="small">

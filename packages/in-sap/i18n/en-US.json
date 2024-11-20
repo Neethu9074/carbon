@@ -518,8 +518,6 @@
     "workProcessNumber": "Work Process Number",
     "timeStamp": "Time Stamp",
     "serviceName": "Service Name",
-    "fioriServiceName": "Top Services",
-    "fioriEntityName": "Top Entities",
     "processingTime": "Processing Time",
     "gatewayBackendOverhead": "Backend Overhead",
     "sumOfApplicationTimes": "Total Application Times",

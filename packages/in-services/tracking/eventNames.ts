@@ -128,6 +128,10 @@ export const BUY_NOW_BUTTON_IBM_CLICKED = 'purchaseIntent.ibm';
 export const PLAY_WITH_BOOK_DEMO_NOW_BUTTON_CLICKED = 'intentToTry.Demo';
 export const PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED = 'intentToTry.Trial';
 
+export const REVIEW_DATA_USAGE_BUTTON = 'reviewDataUsage.clicked';
+export const FAIR_USE_POLICY_BLOG = 'learnMoreFupDocumentation.clicked';
+export const CONTACT_SALES = 'learnMoreContactSales.clicked';
+
 export const TABLE_ENTITY_ADDED = 'table.entity.added';
 export const TABLE_ENTITY_CLEARED = 'table.entity.cleared';
 export const TABLE_ENTITY_REMOVED = 'table.entity.removed';
@@ -219,7 +223,11 @@ export const MOBILE_APPS_DASHBOARD_VIEW_DEPRECATION_DETAILS = 'mobileApps.dashbo
 
 export const SETTINGS_AUDIT_TRAIL_ACCESS_LOG_CLICK = 'settings.auditTrail.accessLog.click';
 export const SETTINGS_AUDIT_TRAIL_ACTION_LOG_CLICK = 'settings.auditTrail.actionLog.click';
-export const SETTINGS_USER_ADD_USER_TO_GROUP = 'settings.user.addUserToGroup';
+
+export const SETTINGS_GROUP_APPLICATION_FILTER_ADDED = 'settings.group.application.filter.added';
+export const SETTINGS_GROUP_USER_ADDED = 'settings.group.user.added';
+export const SETTINGS_IDP_LDAP_TEST_CONFIGURATION = 'settings.idp.ldap.testConfiguration';
+export const SETTINGS_USER_GROUP_ADDED = 'settings.user.group.added';
 export const SETTINGS_USER_INVITE_SUBMIT = 'settings.user.invite.submit';
 export const SETTINGS_ROLE_SUBMIT = 'settings.role.submit';
 export const SETTINGS_ROLE_OPEN_SUBMIT_FORM = 'settings.role.new';
@@ -437,6 +445,9 @@ export const AUTOMATION_ACTION_EDIT = 'automation.action.edit';
 export const AUTOMATION_ACTION_DELETE = 'automation.action.delete';
 export const AUTOMATION_ACTION_RUN = 'automation.action.run';
 export const AUTOMATION_OPTIMIZATION_RUN_CLICK = 'automation.optimization.run.click';
+export const AUTOMATION_TURBO_TRY_CLICK = 'automation.turbo.try.click';
+export const AUTOMATION_TURBO_BUY_CLICK = 'automation.turbo.buy.click';
+export const AUTOMATION_TURBO_SUPPORT_CLICK = 'automation.turbo.support.click';
 export const AUTOMATION_ACTION_HISTORY_VIEW = 'automation.action.history.view';
 export const AUTOMATION_ACTION_HISTORY_INSTANCE_VIEW = 'automation.action.history.instance.view';
 export const AUTOMATION_ACTION_HISTORY_FEEDBACK_SEND = 'automation.action.history.feedback.used';
@@ -561,9 +572,11 @@ export const EVENT_NOTES_SUBMIT = 'event.notes.submit';
 export const EVENT_NOTES_EDIT_SUBMIT = 'event.notes.edit.submit';
 export const EVENT_NOTES_DELETE_SUBMIT = 'event.notes.delete.submit';
 export const EVENT_AI_GENERATE_SUBMIT = 'event.ai.generate.submit';
-export const EVENT_AI_SHOW_MORE = 'event.ai.show.more';
+export const EVENT_AI_SHOW_MORE_INCIDENTS = 'event.ai.show.more.incidents';
+export const EVENT_AI_SHOW_MORE_ACTIONS = 'event.ai.show.more.actions';
 export const EVENT_AI_SHARE_OPENED = 'event.ai.share.opened';
 export const EVENT_AI_SHARE_SUBMIT = 'event.ai.share.submit';
+export const EVENT_AI_RUN_ACTION = 'event.ai.run.action';
 export const EVENT_SIDE_PANEL_CLICK = 'event.side.panel.click';
 
 // Flow Map Tracking (services and endpoints)

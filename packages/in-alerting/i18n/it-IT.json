@@ -41,6 +41,8 @@
     "chart": {
       "alertingChartLabelThreshold": "Soglia",
       "alertingChartLabelViolations": "Violazioni",
+      "alertingChartLabelWarningViolations": "Violazioni di avvertenza",
+      "alertingChartLabelCriticalViolations": "Violazioni critiche",
       "alertingChartLabelWarningThreshold": "Soglia di avvertenza",
       "alertingChartLabelCriticalThreshold": "Soglia critica",
       "alertingChartLabelForecast": "Previsione",
@@ -149,6 +151,7 @@
     "titleNoSmartAlertsCreated": "Non è stato creato nessun avviso smart",
     "titleCopyOf": "(Copia di) {{smartAlertTitle}}",
     "smartAlertsTitle": "Smart Alert",
+    "labelNew": "(Nuovo)",
     "applications": {
       "alertConfiguration": "Configurazione dell'avviso",
       "advanced": {
@@ -435,7 +438,8 @@
           "throughputDefault_higherThan": "Il numero di chiamate è maggiore del previsto.",
           "throughputDefault_higherEqual": "Il numero di chiamate è maggiore o uguale al previsto.",
           "throughputDefault_lowerThan": "Il numero di chiamate è minore del previsto.",
-          "throughputDefault_lowerEqual": "Il numero di chiamate è minore o uguale al previsto."
+          "throughputDefault_lowerEqual": "Il numero di chiamate è minore o uguale al previsto.",
+          "expected": "previsto"
         },
         "customStatusCodeFullText": "tra {{statusCodeStart}} e {{statusCodeEnd}}"
       },
@@ -464,8 +468,9 @@
         "ruleFormPleaseProvideAStartStatusCode": "Fornire un codice di stato start HTTP valido",
         "ruleFormPleaseProvideAEndStatusCode": "Fornire un codice di stato end HTTP valido",
         "smartAlertFormValueIsReadOnly": "Il valore è di sola lettura e non può essere modificato",
-        "thresholdFormPleaseProvideANumber0": "Fornire un numero >= 0",
-        "thresholdFormBaselineIsEmpty": "baseline vuota"
+        "thresholdFormBaselineIsEmpty": "baseline vuota",
+        "selectAtLeastOneThreshold": "Indicare il valore di almeno una delle soglie.",
+        "selectAtLeastOneSensitivity": "Selezionare almeno una delle sensibilità."
       },
       "simple": {
         "simpleAlertStep2Headline": "Dove si desidera attivare l'avviso?",
@@ -749,7 +754,8 @@
       "ruleStatusCodeValueOption511": "511 (Network Authentication Required)",
       "ruleStatusCodeValueOption599": "599 (Network Connect Timeout Error)",
       "warningThresholdValidator": "La soglia di avvertenza deve essere maggiore della soglia critica per gli operatori < e <=.",
-      "criticalThresholdValidator": "La soglia critica deve essere maggiore della soglia di avvertenza per gli operatori > e >=."
+      "criticalThresholdValidator": "La soglia critica deve essere maggiore della soglia di avvertenza per gli operatori > e >=.",
+      "sensitivityValidator": "La sensibilità critica dovrebbe essere inferiore alla sensibilità di avvertenza."
     },
     "components": {
       "smartAlertDialog": {
@@ -787,6 +793,7 @@
         "scopeConfigSelectOneEntryMessage": "Selezionare almeno una voce.",
         "scopeConfigTitleTooltip": "Visualizzazione delle entità disponibili per le ultime 24 ore",
         "scopeConfigSubTitle": "In base alle ultime 24 ore",
+        "scopeConfigSearchApplicationsPlaceholder": "Ricerca applicazioni…",
         "scopeMigrationMessage_FAILED": "Non è stato possibile migrare l'ambito automaticamente. Scegliere i filtri di tag corrispondenti per la seguente Dynamic Focus Query:",
         "scopeMigrationMessage_PARTIAL": "Non è stato possibile migrare completamente l'ambito. Scegliere i filtri di tag corrispondenti per la seguente Dynamic Focus Query:",
         "scopeMigrationMessage_FULL": "L'ambito applicato si basa sulla Dynamic Focus Query precedentemente utilizzata:",
@@ -1468,7 +1475,30 @@
       },
       "count": "Conteggio",
       "selectEntityType": "Selezionare un tipo di entità",
-      "regexNotValid": "La regex non è valida"
+      "regexNotValid": "La regex non è valida",
+      "tearSheet": {
+        "createTitle": "Creare un avviso smart per l'infrastruttura",
+        "steps": {
+          "step1Title": "Definisci la condizione",
+          "step2Title": "Definisci quando ricevere un avviso",
+          "step3Title": "Definisci le proprietà degli avvisi",
+          "step4Title": "Definisci i canali di avviso"
+        },
+        "step1": {
+          "header": "Scegliere la metrica e l'aggregazione per determinare quando deve scattare un'avvertenza"
+        },
+        "step2": {
+          "header": "Impostare un valore per la soglia di violazione",
+          "description": "Selezionare una metrica, una soglia di violazione e una finestra temporale per valutare la violazione."
+        },
+        "step3": {
+          "header": "Quali proprietà si desidera impostare per questo avviso?"
+        },
+        "step4": {
+          "header": "Cosa si desidera venga notificato per questa avvertenza?",
+          "description": "Selezionare il/i destinatario/i di questo avviso"
+        }
+      }
     },
     "logs": {
       "alertDetails": {

@@ -7,8 +7,8 @@
 import { render, fireEvent } from '@testing-library/react';
 import React from 'react';
 
+import Filters from 'in-automation/components/ActionHistory/Filters';
 import { Option } from 'in-components/ComboBox';
-import Filters from './Filters';
 
 jest.mock(
   'in-components/ComboBox',

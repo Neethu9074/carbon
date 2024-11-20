@@ -41,6 +41,8 @@
     "chart": {
       "alertingChartLabelThreshold": "臨界值",
       "alertingChartLabelViolations": "違規",
+      "alertingChartLabelWarningViolations": "警告違規",
+      "alertingChartLabelCriticalViolations": "嚴重違規",
       "alertingChartLabelWarningThreshold": "警告臨界值",
       "alertingChartLabelCriticalThreshold": "嚴重臨界值",
       "alertingChartLabelForecast": "預測",
@@ -149,6 +151,7 @@
     "titleNoSmartAlertsCreated": "未建立任何智慧型警示",
     "titleCopyOf": "{{smartAlertTitle}}（的副本）",
     "smartAlertsTitle": "智慧型警示",
+    "labelNew": "（新建）",
     "applications": {
       "alertConfiguration": "警示配置",
       "advanced": {
@@ -435,7 +438,8 @@
           "throughputDefault_higherThan": "呼叫數目高於預期。",
           "throughputDefault_higherEqual": "呼叫數高於或等於預期。",
           "throughputDefault_lowerThan": "呼叫數低於預期。",
-          "throughputDefault_lowerEqual": "呼叫數低於或等於預期。"
+          "throughputDefault_lowerEqual": "呼叫數低於或等於預期。",
+          "expected": "期望值"
         },
         "customStatusCodeFullText": "在 {{statusCodeStart}} 與 {{statusCodeEnd}} 之間"
       },
@@ -464,8 +468,9 @@
         "ruleFormPleaseProvideAStartStatusCode": "請提供有效的開始 HTTP 狀態碼",
         "ruleFormPleaseProvideAEndStatusCode": "請提供有效的結束 HTTP 狀態碼",
         "smartAlertFormValueIsReadOnly": "值是唯讀的，無法變更",
-        "thresholdFormPleaseProvideANumber0": "請提供大於等於 0 的數字",
-        "thresholdFormBaselineIsEmpty": "基準線是空的"
+        "thresholdFormBaselineIsEmpty": "基準線是空的",
+        "selectAtLeastOneThreshold": "請提供至少其中一個臨界值的值。",
+        "selectAtLeastOneSensitivity": "請至少選取其中一項靈敏度。"
       },
       "simple": {
         "simpleAlertStep2Headline": "您希望警示在何處觸發？",
@@ -749,7 +754,8 @@
       "ruleStatusCodeValueOption511": "511（需要網路鑑別）",
       "ruleStatusCodeValueOption599": "599（網路連接逾時錯誤）",
       "warningThresholdValidator": "對於 < 及 <= 運算子，警告臨界值應該大於嚴重臨界值。",
-      "criticalThresholdValidator": "對於 > 及 >= 運算子，嚴重臨界值應該大於警告臨界值。"
+      "criticalThresholdValidator": "對於 > 及 >= 運算子，嚴重臨界值應該大於警告臨界值。",
+      "sensitivityValidator": "嚴重靈敏度應小於警告靈敏度。"
     },
     "components": {
       "smartAlertDialog": {
@@ -787,6 +793,7 @@
         "scopeConfigSelectOneEntryMessage": "請至少選取一個項目。",
         "scopeConfigTitleTooltip": "顯示過去 24 小時的可用實體",
         "scopeConfigSubTitle": "根據過去 24 小時",
+        "scopeConfigSearchApplicationsPlaceholder": "搜尋應用程式...",
         "scopeMigrationMessage_FAILED": "無法自動移轉範圍。 請挑選下列「動態焦點查詢」的對應標籤過濾器：",
         "scopeMigrationMessage_PARTIAL": "無法完全移轉範圍。 請挑選下列「動態焦點查詢」的對應標籤過濾器：",
         "scopeMigrationMessage_FULL": "套用的範圍基於先前使用的「動態焦點查詢」：",
@@ -1468,7 +1475,30 @@
       },
       "count": "計數",
       "selectEntityType": "請選取實體類型",
-      "regexNotValid": "正規表示式無效"
+      "regexNotValid": "正規表示式無效",
+      "tearSheet": {
+        "createTitle": "建立基礎架構智慧型警示",
+        "steps": {
+          "step1Title": "定義條件",
+          "step2Title": "定義何時收到警示",
+          "step3Title": "定義警示屬性",
+          "step4Title": "定義警示通道"
+        },
+        "step1": {
+          "header": "選擇度量和聚集以確定何時觸發警示"
+        },
+        "step2": {
+          "header": "設定違規臨界值的值",
+          "description": "選取度量、違規臨界值和時間範圍來評估違規。"
+        },
+        "step3": {
+          "header": "您要對此警示設定哪些內容？"
+        },
+        "step4": {
+          "header": "您希望此警示通知哪些內容？",
+          "description": "選取此警示的接收者"
+        }
+      }
     },
     "logs": {
       "alertDetails": {

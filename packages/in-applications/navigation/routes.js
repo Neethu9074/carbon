@@ -11,9 +11,11 @@ import ApplicationDashboard from 'promise-loader?global,applications!in-applicat
 import GlobalSmartAlerts from 'promise-loader?global,applications!in-alerting/smart-alerts/applications/list/GlobalSmartAlerts';
 import NewApplicationWaiter from 'promise-loader?global,applications!in-applications/Forms/NewApplication/NewApplicationWaiter';
 import EndpointDashboard from 'promise-loader?global,applications!in-applications/Dashboards/endpoint/EndpointDashboard';
+import SubtraceDashboard from 'promise-loader?global,applications!in-applications/Dashboards/subtrace/SubtraceDashboard';
 import ServiceDashboard from 'promise-loader?global,applications!in-applications/Dashboards/service/ServiceDashboard';
 import AnalyzeView2_0 from 'promise-loader?global,applications!in-applications/analyze/AnalyzeView2_0/AnalyzeView';
 import ApplicationsList from 'promise-loader?global,applications!in-applications/lists/ApplicationsList';
+import SubtracesList from 'promise-loader?global,applications!in-applications/lists/SubtracesList';
 import ServicesList from 'promise-loader?global,applications!in-applications/lists/ServicesList';
 import { Route } from 'react-router-dom';
 import React from 'react';
@@ -31,9 +33,11 @@ import {
   serviceDashboard,
   servicesList,
   analyzePath,
-  smartAlertPath
+  smartAlertPath,
+  subtracesList,
+  subtraceDashboard
 } from 'in-applications/navigation/paths';
-import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
+import { applicationSmartAlertFullScreenDesignEnabled, applicationSubtracesEnabled } from 'in-services/featureFlags';
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
 import { role } from 'in-stores/user';
 
@@ -83,6 +87,17 @@ export default function applicationRoutes() {
       {renderAsyncRouteChildren(GlobalSmartAlerts)}
     </Route>
   ]);
+
+  if (applicationSubtracesEnabled) {
+    appRoutes.push([
+      <Route key="applicationPerspectiveSubtracesList" path={subtracesList}>
+        {renderAsyncRouteChildren(SubtracesList)}
+      </Route>,
+      <Route key="applicationPerspectiveSubtraceDashboard" path={subtraceDashboard}>
+        {renderAsyncRouteChildren(SubtraceDashboard)}
+      </Route>
+    ]);
+  }
 
   return appRoutes;
 }

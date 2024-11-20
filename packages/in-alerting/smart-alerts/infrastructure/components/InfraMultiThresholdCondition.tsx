@@ -5,10 +5,14 @@
  */
 
 import { Field, MapForm } from 'formalistic';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Checkbox, Stack, SvgIcon } from '@instana/components';
 
+import {
+  updateAlertChannelSelectionOnWarningThresholdFieldChange,
+  updateAlertChannelSelectionOnCriticalThresholdFieldChange
+} from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
 import {
   getMaxMetricValue,
@@ -39,12 +43,36 @@ export default function InfraMultiThresholdCondition({
 }: InfraMultiThresholdConditionProps) {
   const maxValue = getMaxMetricValue(percentageMetric);
   const thresholdType = getThresholdTypeOptions();
-  const warningThresholdField = form.get('threshold').get('warningThreshold') as MapForm<any>;
-  const criticalThresholdField = form.get('threshold').get('criticalThreshold') as MapForm<any>;
-  const warningThresholdValue = warningThresholdField.get('value').value;
-  const criticalThresholdValue = criticalThresholdField.get('value').value;
+  const warningThresholdField = form.get('threshold').get('warningThreshold').get('value');
+  const criticalThresholdField = form.get('threshold').get('criticalThreshold').get('value');
+
+  const warningThresholdValue = warningThresholdField.value;
+  const criticalThresholdValue = criticalThresholdField.value;
   const warningThresholdValuePresent = !isEmpty(warningThresholdValue);
   const criticalThresholdValuePresent = !isEmpty(criticalThresholdValue);
+  const alertChannelSelection = form.get('alertChannels').value;
+
+  useEffect(() => {
+    updateAlertChannelSelectionOnWarningThresholdFieldChange(
+      alertChannelSelection,
+      warningThresholdValuePresent,
+      criticalThresholdValuePresent,
+      form,
+      updateForm
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [warningThresholdField]);
+
+  useEffect(() => {
+    updateAlertChannelSelectionOnCriticalThresholdFieldChange(
+      alertChannelSelection,
+      warningThresholdValuePresent,
+      criticalThresholdValuePresent,
+      form,
+      updateForm
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [criticalThresholdField]);
 
   return (
     <div className={locals.gridWrapper}>
@@ -54,7 +82,6 @@ export default function InfraMultiThresholdCondition({
         <ThresholdOperatorDropDown form={form} updateForm={updateForm} allOptions />
         <span>{thresholdType[0].label}</span>
       </div>
-
       <span />
       <Checkbox
         label={t('in-alerting:smartAlerts.components.smartAlertDialog.warningThresholdLabel')}
@@ -69,7 +96,7 @@ export default function InfraMultiThresholdCondition({
           updateForm={updateForm}
           percentageMetric={percentageMetric}
           metricUnitPostfix={metricUnitPostfix}
-          thresholdField={warningThresholdField.get('value')}
+          thresholdField={warningThresholdField}
           getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'warningThreshold')}
           isMultiThreshold
           id="warningThreshold"
@@ -81,13 +108,12 @@ export default function InfraMultiThresholdCondition({
             updateForm={updateForm}
             metricUnitPostfix={metricUnitPostfix}
             percentageMetric={percentageMetric}
-            thresholdField={warningThresholdField.get('value')}
+            thresholdField={warningThresholdField}
             isMultiThreshold
             getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'warningThreshold')}
           />
         )}
       </Stack>
-
       <span />
       <Checkbox
         label={t('in-alerting:smartAlerts.components.smartAlertDialog.criticalThresholdLabel')}
@@ -103,12 +129,11 @@ export default function InfraMultiThresholdCondition({
         updateForm={updateForm}
         percentageMetric={percentageMetric}
         metricUnitPostfix={metricUnitPostfix}
-        thresholdField={criticalThresholdField.get('value')}
+        thresholdField={criticalThresholdField}
         getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'criticalThreshold')}
         isMultiThreshold
         id="criticalThreshold"
       />
-
       <span />
       <span />
       <Stack gap="small">

@@ -14,7 +14,8 @@ export const hours = {
 };
 
 export const minutes = {
-  toMillis: (_minutes: number) => 1000 * 60 * _minutes
+  toMillis: (_minutes: number) => 1000 * 60 * _minutes,
+  toSeconds: (_minutes: number) => 60 * _minutes
 };
 
 export const seconds = {

@@ -15,16 +15,20 @@ import {
 import SloConfigurationDetails from 'in-service-levels/components/SloDashboard/components/SloConfigurationDetails';
 import SloSmartAlerts from 'in-service-levels/components/SloDashboard/components/SloSmartAlerts';
 import SloSummary from 'in-service-levels/components/SloDashboard/components/SloSummary';
-import { sloSmartAlertsEnabled } from 'in-services/featureFlags';
 import { Tab } from 'in-components/LocationAwareTabView/types';
 import { LabeledEntity } from 'in-service-levels/types';
 
 export interface SloTabData {
   configuration: ServiceLevelObjectiveConfiguration;
-  entity: LabeledEntity;
+  entities: LabeledEntity[];
+}
+
+export interface WebsiteSloTabData extends SloTabData {
+  entities: [LabeledEntity];
 }
 
 export interface ApplicationSloTabData extends SloTabData {
+  entities: [LabeledEntity];
   service?: LabeledEntity;
   endpoint?: LabeledEntity;
 }
@@ -34,7 +38,7 @@ export function isApplicationSloTabData(data: SloTabData): data is ApplicationSl
   return Boolean(service || endpoint);
 }
 
-const defaultTabs: Tab<SloTabData, {}>[] = [
+const dashboardTabs: Tab<SloTabData, {}>[] = [
   {
     label: t('in-service-levels:sloDashboard.tabs.summaryLabel'),
     path: serviceLevelsObjectiveSummaryFullyQualified,
@@ -46,14 +50,13 @@ const defaultTabs: Tab<SloTabData, {}>[] = [
     path: serviceLevelsObjectiveConfigurationFullyQualified,
     component: SloConfigurationDetails,
     hideTabLabelWhenAlone: true
+  },
+  {
+    label: t('in-service-levels:sloDashboard.tabs.smartAlertsLabel'),
+    path: serviceLevelsObjectiveAlertsFullyQualified,
+    component: SloSmartAlerts,
+    hideTabLabelWhenAlone: true
   }
 ];
 
-const sloAlertingTab = {
-  label: t('in-service-levels:sloDashboard.tabs.smartAlertsLabel'),
-  path: serviceLevelsObjectiveAlertsFullyQualified,
-  component: SloSmartAlerts,
-  hideTabLabelWhenAlone: true
-};
-
-export default !sloSmartAlertsEnabled ? defaultTabs : [...defaultTabs, sloAlertingTab];
+export default dashboardTabs;

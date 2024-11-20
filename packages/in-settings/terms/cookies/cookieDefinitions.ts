@@ -26,7 +26,7 @@ export const cookieDefinitions = [
     details: [
       {
         category: t('in-settings:cookies.walkme.category'),
-        name: 'ajs_anonymous_id',
+        name: 'walkMe_wm-ueug',
         purpose: t('in-settings:cookies.walkme.purpose'),
         moreInformation: t('in-settings:cookies.expiration.afterSession')
       }

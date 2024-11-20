@@ -15,7 +15,7 @@ import { t } from 'in-i18n';
 export default function SnowflakeSidebar({ snapshot }: { snapshot: SnapshotData }) {
   return (
     <Collapsible initiallyOpen>
-      <Collapsible.Header>{t('in-forge:plugins.snowflake.snowflake')}</Collapsible.Header>
+      <Collapsible.Header>{t('in-forge:plugins.snowflake.account')}</Collapsible.Header>
       <Collapsible.Content>
         <Info snapshot={snapshot} />
       </Collapsible.Content>

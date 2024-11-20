@@ -370,6 +370,46 @@
       "status": {
         "pending": "보류 중"
       }
+    },
+    "credentialFeedback": {
+      "successMessageDelete": "신임 정보 삭제 완료",
+      "failureMesssage": "{{errorMessage}}"
+    },
+    "createCredential": {
+      "createButton": "새 서비스 신임 정보",
+      "nameValue": "이름 및 값",
+      "associations": "연관",
+      "newCredentials": "합성 신임 정보 작성",
+      "steps": {
+        "textInput": {
+          "placeholder": "신임 정보 이름",
+          "labelText": "이름",
+          "invalidText": "신임 정보 이름은 문자로 시작해야 하며 문자, 숫자, 밑줄만 포함해야 합니다."
+        },
+        "passwordInput": {
+          "placeholder": "신임 정보 값",
+          "labelText": "값",
+          "invalidText": "값이 비어 있지 않아야 합니다."
+        },
+        "associationsDescription": "신임 정보를 애플리케이션, 웹사이트 또는 모바일 앱과 연관시키면 해당 엔터티에 액세스할 수 있는 모든 사용자에게 액세스 권한이 부여됩니다."
+      },
+      "feedback": {
+        "successMessage": "신임 정보가 성공적으로 작성됨",
+        "failureMessageCreate": "신임 정보 작성 실패: {{errorMessage}}",
+        "updateSuccessMessage": "신임 정보 업데이트 완료",
+        "failureMessageUpdate": "신임 정보 업데이트 실패: {{errorMessage}}"
+      },
+      "edit": {
+        "dialogTitle": "합성 신임 정보 {{credentialName}} 편집",
+        "associations": "연관",
+        "saveButton": "저장",
+        "textInputHelperText": "신임 정보 이름은 편집할 수 없으며 readOnly 필드입니다.",
+        "passwordInputHelperText": "현재 신임 정보 값을 업데이트하려면 새 신임 정보 값을 입력하십시오."
+      },
+      "tooltipLabels": {
+        "hide": "신임 정보 값 숨기기",
+        "show": "신임 정보 값 표시"
+      }
     }
   },
   "createSmartAlert": {
@@ -757,6 +797,28 @@
       "noWebsitesAssociated": "연관된 웹 사이트 없음",
       "associatedMobileApps": "연관된 모바일 앱",
       "noMobileAppAssociated": "연관된 모바일 앱 없음"
+    },
+    "credentialList": {
+      "mainLabel": "신임 정보",
+      "name": "이름",
+      "associations": "연관",
+      "createdAt": "작성 시간",
+      "createdBy": "작성자",
+      "lastModifiedBy": "마지막 수정자",
+      "actions": "조치",
+      "noDataAvailable": {
+        "noCredentialsAvailableTitle": "사용 가능한 합성 신임 정보 없음",
+        "noCredentialsAvailableDescription": "데이터베이스에서 검색된 합성 신임 정보가 없습니다."
+      },
+      "editAction": "편집",
+      "deleteAction": {
+        "deleteActionLabel": "삭제",
+        "deleteCredentialTitle": "합성 신임 정보 {{credentialName}} 삭제",
+        "credentialNameValidation": "삭제를 확인하려면 신임 정보 전체 이름 입력",
+        "deleteButtonLabel": "신임 정보 삭제",
+        "cancelButtonLabel": "취소",
+        "deletionSuccess": "신임 정보 삭제 완료"
+      }
     }
   }
 }

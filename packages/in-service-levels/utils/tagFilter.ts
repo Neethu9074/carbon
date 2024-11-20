@@ -7,6 +7,7 @@
 import {
   CustomBlueprintIndicator,
   isApplicationSloEntity,
+  isSyntheticSloEntity,
   isWebsiteSloEntity,
   ServiceLevelIndicatorUnion,
   SloEntityUnion,
@@ -43,6 +44,10 @@ export function createGoodBadTagFilterExpression({
 }: CreateGoodBadTagFilterExpressionProps): GoodBadTagFilterExpression {
   if (isCustomBlueprintIndicator(indicator)) {
     return getCustomEventBasedTagFilterExpression({ indicator });
+  }
+
+  if (isSyntheticSloEntity(entity)) {
+    return getEmptyTagFilterExpression();
   }
 
   if (isTrafficBlueprintIndicator(indicator)) {

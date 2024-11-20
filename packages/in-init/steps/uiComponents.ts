@@ -22,3 +22,4 @@ require('in-stores/isMonitoring').init();
 require('in-components/SelectedElementHighlighter').init();
 require('in-events/releases/releases').init();
 require('in-components/uiClientUpdateMessage/uiClientUpdate').init();
+require('in-plg/components/DataConsumptionMessage/DataConsumptionMessage').init();

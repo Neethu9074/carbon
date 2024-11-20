@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { isSyntheticSloEntity } from '@instana/types';
 import { KeyValue } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
@@ -53,11 +54,16 @@ const contentDefinitions: RowDefinition[] = [
 ];
 
 export default function IndicatorSection({ data }: IndicatorSectionProps) {
+  // We do not support custom event filters for synthetics SLOs
+  const filteredRows = isSyntheticSloEntity(data.configuration.entity)
+    ? contentDefinitions.filter(row => row.id !== 'goodBadEvents')
+    : contentDefinitions;
+
   return (
     <SloConfigSection
       data={data}
       label={t('in-service-levels:sloDashboard.components.indicatorSection.title')}
-      contentDefinitions={contentDefinitions}
+      contentDefinitions={filteredRows}
     />
   );
 }

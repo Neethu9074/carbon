@@ -3,6 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import {
+  pageTransitionMethods,
+  frameworkTypes
+} from 'in-websites/trackingSnippet/AutoPageTransitionDetection/constants';
 import { useInstanaSaasEumTrackingUrlEnabled } from 'in-services/featureFlags';
 import { weaselSubresourceIntegrityEnabled } from 'in-services/featureFlags';
 import config, { region } from 'in-services/config';
@@ -16,9 +20,20 @@ interface SnippetProps {
   enableSRI: boolean;
   urlWeaselVersion: string;
   shaValue: string;
+  enableAutoPageDetection: boolean;
+  pageTransitionMethod: string;
+  regexMappingRules: [];
+  frameworkType: string;
 }
 
 const undefinedTrackingUrlPlaceholder = '<trackingBaseUrl>';
+const formatMappingRule = (regexMappingRules: []) => {
+  return regexMappingRules
+    .map(({ rule, replaceText }) => {
+      return `[${rule}, '${replaceText}']`;
+    })
+    .join(', ');
+};
 
 export function getTrackingSnippet({
   key,
@@ -26,8 +41,15 @@ export function getTrackingSnippet({
   trackSessions = false,
   enableSRI = false,
   urlWeaselVersion,
-  shaValue
+  shaValue,
+  enableAutoPageDetection = false,
+  pageTransitionMethod = '',
+  regexMappingRules = [],
+  frameworkType = ''
 }: SnippetProps) {
+  const TITLE_AS_PAGE_NAME = `  ineum('autoPageDetection', { titleAsPageName: ${enableAutoPageDetection} });`;
+  const AUTO_PAGE_DETECTION = `  ineum('autoPageDetection', ${enableAutoPageDetection});`;
+
   const lines = [`<script>`];
 
   if (!useInstanaSaasEumTrackingUrlEnabled) {
@@ -54,6 +76,19 @@ export function getTrackingSnippet({
   lines.push(`  ineum('key', '${key}');`);
   if (trackSessions) {
     lines.push(`  ineum('trackSessions');`);
+  }
+
+  if (frameworkType === frameworkTypes.SPA && enableAutoPageDetection) {
+    if (pageTransitionMethod === pageTransitionMethods.PAGE_TITLE) {
+      lines.push(TITLE_AS_PAGE_NAME);
+    } else if (pageTransitionMethod === pageTransitionMethods.PAGE_URL) {
+      if (regexMappingRules.length > 0) {
+        const formattedMappingRule = formatMappingRule(regexMappingRules);
+        lines.push(`  ineum('autoPageDetection', { mappingRule: [${formattedMappingRule}] });`);
+      } else {
+        lines.push(AUTO_PAGE_DETECTION);
+      }
+    }
   }
 
   if (additionalScript) {

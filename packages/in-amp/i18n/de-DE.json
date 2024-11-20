@@ -86,8 +86,11 @@
       "essentials": "Allgemeine Informationen",
       "iqmHosts": "IQM-Hosts",
       "syntheticPops": "Synthetische verwaltete PoPs",
+      "logging": "Logs im Kontext",
       "resourceUnits": "Berechtigte Ressourceneinheiten",
       "consumedUnits": "Verbrauchte Ressourceneinheiten",
+      "entitledData": "Berechtigte Daten",
+      "consumedData": "Verbrauchte Daten",
       "infrastructure": "Infrastruktur",
       "synthetics": "Synthetics",
       "traces": "Traces",
@@ -97,7 +100,11 @@
       "trendLine": "Trendkurve",
       "dataUsage": "Datennutzung",
       "dataUsageHelperText": "Menge der über Agenten gesendeten Bytes im gewählten Zeitraum, getrennt nach Kategorien.",
-      "syntheticsHelperText": "Anzahl der Ressourceneinheiten, die von jedem Aktionstyp verbraucht werden. Einheiten werden mit dem Faktor 0.025 für einfache Tests, 0.042 für API-Tests und 1.000 für Browsertests berechnet."
+      "syntheticsHelperText": "Anzahl der Ressourceneinheiten, die von jedem Aktionstyp verbraucht werden. Einheiten werden mit dem Faktor 0.025 für einfache Tests, 0.042 für API-Tests und 1.000 für Browsertests berechnet.",
+      "loggingHelperText": {
+        "saas": "Dieses Diagramm zeigt die Datenmenge in Bytes an, die vom Protokollierungs-Add-on für die gewählte Aufbewahrungsfrist verwendet wird.",
+        "onprem": "Dieses Diagramm zeigt die Datenmenge in Bytes an, die vom Protokollierungs-Add-on für die gewählte Aufbewahrungsfrist verwendet wird."
+      }
     },
     "activationAdoption": {
       "activationAdoption": "Aktivierung und Umsetzung",

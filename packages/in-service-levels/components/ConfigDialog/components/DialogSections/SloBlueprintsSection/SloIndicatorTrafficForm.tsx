@@ -22,6 +22,7 @@ const operatorMapping: Record<SLIThresholdOperator, string> = { '>': 'GT', '>=':
 export default function SloIndicatorTrafficForm() {
   const { form, onChange, mode } = useContext(SloFormContext);
 
+  const entityTypeField = form.getIn(['entity', 'type']);
   const operatorField = form.getIn(['indicator', 'operator']);
   const thresholdField = form.getIn(['indicator', 'threshold']);
   const trafficTypeField = form.getIn(['indicator', 'trafficType']);
@@ -83,7 +84,10 @@ export default function SloIndicatorTrafficForm() {
         <RadioButton
           checked={trafficTypeField.value === 'all'}
           disabled={isFormInEditMode}
-          label={t('in-service-levels:createSloDialog.indicatorSection.allCalls')}
+          label={t('in-service-levels:general.indicator.trafficTypeLabel', {
+            entityType: entityTypeField.value,
+            trafficType: 'all'
+          })}
           onChange={() =>
             onChange(['indicator', 'trafficType'], () => trafficTypeField.setValue('all').setTouched(true))
           }
@@ -91,7 +95,10 @@ export default function SloIndicatorTrafficForm() {
         <RadioButton
           checked={trafficTypeField.value === 'erroneous'}
           disabled={isFormInEditMode}
-          label={t('in-service-levels:createSloDialog.indicatorSection.erroneousCalls')}
+          label={t('in-service-levels:general.indicator.trafficTypeLabel', {
+            entityType: entityTypeField.value,
+            trafficType: 'erroneous'
+          })}
           onChange={() =>
             onChange(['indicator', 'trafficType'], () => trafficTypeField.setValue('erroneous').setTouched(true))
           }

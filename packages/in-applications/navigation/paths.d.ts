@@ -28,6 +28,9 @@ export declare const summaryTab: string;
 export declare const resourceOptimizationsTab: string;
 export declare const syntheticsTab: string;
 export declare const servicesList: string;
+export declare const subtracesList: string;
+export declare const subtraceDashboard: string;
+export declare const subtraceConfigurationFullyQualified: string;
 
 interface ChartedMetric {
   metricId: string;

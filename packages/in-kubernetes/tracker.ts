@@ -4,11 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import {
-  KUBERNETES_DASHBOARD_TAB_CHANGE,
-  KUBERNETES_TIME_SHIFT_SELECT,
-  track as trackMixPanel
-} from 'in-services/tracking/tracking';
+import { KUBERNETES_DASHBOARD_TAB_CHANGE, KUBERNETES_TIME_SHIFT_SELECT } from 'in-services/tracking/tracking';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { EventTrackerProps } from 'in-services/tracking/segment/types';
@@ -52,7 +48,4 @@ function dispatchSegmentUIInteractionEvent(customEvent: string, customData: UIIn
   } as EventTrackerProps['data'];
 
   eventTracker({ data, segmentEventName: UI_INTERACTION });
-
-  // Send data to mixpanel
-  trackMixPanel(customEvent, customData);
 }

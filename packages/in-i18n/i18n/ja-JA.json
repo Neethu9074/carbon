@@ -10,8 +10,13 @@
     },
     "list": {
       "loadMore": "さらにロード",
+      "expand": "展開",
+      "collapse": "省略",
       "toggleExtraContent": "追加コンテンツの切り替え",
       "initiateDefaultAction": "デフォルト・アクションの開始"
+    },
+    "link": {
+      "opensInNewTab": "(新しいタブで開きます)"
     },
     "table": {
       "tableErrorRows": {

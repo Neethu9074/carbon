@@ -112,7 +112,7 @@ export default function ContributionFilterDropdown({
         // @ts-expect-error not fully matching expected type
         <DropdownButton
           {...elementProps}
-          kind="secondary"
+          kind={carbonButtonEnabled ? 'action' : 'subtle'}
           expanded={isOpen}
           disabled={disabled}
           className={carbonButtonEnabled ? locals.dropdownCarbonButton : locals.dropdownButton}

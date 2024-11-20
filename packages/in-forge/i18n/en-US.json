@@ -1624,6 +1624,11 @@
   "pluginName_solrCloudCluster_1": "Solr Cloud Clusters",
   "pluginName_solrCloudCluster_2": "Solr Cloud Clusters",
   "pluginName_solrCloudCluster": "Solr Cloud Cluster",
+  "pluginName_snowflakeOrganization_plural": "Snowflake Organizations",
+  "pluginName_snowflakeOrganization_0": "Snowflake Organizations",
+  "pluginName_snowflakeOrganization_1": "Snowflake Organizations",
+  "pluginName_snowflakeOrganization_2": "Snowflake Organizations",
+  "pluginName_snowflakeOrganization": "Snowflake Organization",
   "pluginName_sparkApplication_plural": "Spark Applications",
   "pluginName_sparkApplication_0": "Spark Applications",
   "pluginName_sparkApplication_1": "Spark Applications",
@@ -3569,8 +3574,8 @@
     },
     "activeDirectory": {
       "computerName": "Host",
-      "lightweightDirectoryAccessProtocol": "Lightweight Directory Access Protocol (LDAP)",
-      "ldap": {
+      "lightweightDirectoryAccessProtocolLabel": "Lightweight Directory Access Protocol (LDAP)",
+      "lightweightDirectoryAccessProtocol": {
         "operations": "Operations",
         "operationRates": "Operation Rates (per second)",
         "add": "Add",
@@ -3592,6 +3597,54 @@
         "batch": "Batches",
         "availableBatchSlots": "Available Batch Slots",
         "outboundBytes": "Outbound Bytes"
+      },
+      "addressBookLabel": "Address Book",
+      "addressBook": {
+        "abDetails": "Address book details",
+        "abAnrPerSec": "ANR per second",
+        "abBrowsesPerSec": "Browses per second",
+        "abClientSessions": "Client sessions",
+        "abMatchesPerSec": "Matches per second",
+        "abPropertyReadsPerSec": "Property reads per second",
+        "abProxyLookupsPerSec": "Proxy lookups per second",
+        "abSearchesPerSec": "Searches per second"
+      },
+      "directorySystemAgentLabel": "Directory System Agent",
+      "directorySystemAgentClientAndDirectory": "Directory system agent(client and directory details)",
+      "directorySystemAgentMemory": "Directory system agent(Memory details)",
+      "directorySystemAgentRead": "Directory system agent(Read details)",
+      "directorySystemAgentSearches": "Directory system agent(Searches details)",
+      "directorySystemAgentWrite": "Directory system agent(Write details)",
+      "directorySystemAgentSecurity": "Directory system agent(Security details)",
+      "directorySystemAgent": {
+        "dsClientBindsPerSec": "Client binds per second",
+        "dsClientNameTranslationsPerSec": "Client name translations per second",
+        "dsDirectoryReadsPerSec": "Directory reads per second",
+        "dsDirectorySearchesPerSec": "Directory searches per second",
+        "dsDirectoryWritesPerSec": "Directory writes per second",
+        "dsMonitorListSize": "Monitor list size",
+        "dsNameCachehitRate": "Name cache hit rate",
+        "dsNotifyQueueSize": "Notify queue size",
+        "dsPercentReadsFromDRA": "Percentage DRA reads",
+        "dsPercentReadsFromNTDSAPI": "Percentage NTDSAPI reads",
+        "dsPercentReadsFromSAM": "Percentage SAM reads",
+        "dsPercentReadsOther": "Percentage Other reads",
+        "dsPercentSearchesFromDRA": "Percentage DRA searches",
+        "dsPercentSearchesFromLDAP": "Percentage LDAP searches",
+        "dsPercentSearchesFromNTDSAPI": "Percentage NTDSAPI searches",
+        "dsPercentSearchesFromSAM": "Percentage SAM searches",
+        "dsPercentSearchesOther": "Percentage Other searches",
+        "dsPercentWritesFromDRA": "Percentage writes DRA",
+        "dsPercentWritesFromLDAP": "Percentage writes LDPA",
+        "dsPercentWritesFromNTDSAPI": "Percentage writes NTDSAPI",
+        "dsPercentWritesFromSAM": "Percentage writes SAM",
+        "dsPercentWritesOther": "Percentage writes Other",
+        "dsSearchSubOperationsPerSec": "Search sub operations per second",
+        "dsSecurityDescriptorPropagationsEvents": "Security descriptor propagations events",
+        "dsSecurityDescriptorPropagatorAverageExclusionTime": "Security descriptor propagations average exclusion time",
+        "dsSecurityDescriptorPropagatorRuntimeQueue": "Security descriptor propagations run time",
+        "dsSecurityDescriptorSubOperationsPersec": "Security descriptor suboperations per second"
+
       }
     },
     "activeMQ": {
@@ -9567,11 +9620,12 @@
     "snowflake": {
       "connectErrorIssueDescription": "Agent could not connect to snowflake. Connection failed with error: <code>{{error}}</code>",
       "troubleshootingDocs": "Troubleshooting docs",
-      "snowflake": "Snowflake",
       "account": "Account",
       "region": "Region",
       "organization": "Organization",
       "version": "Version",
+      "accountLocator": "Account locator",
+      "accountName": "Account Name",
       "dashboard": {
         "creditUsagePerHour": "Credit usage per hour",
         "totalStorageBytes": "Total storage bytes",
@@ -9596,6 +9650,22 @@
         "queryText": "Query text",
         "execTime": "Execution time",
         "warehouseUsed": "Warehouse used"
+      }
+    },
+    "snowflakeOrganization": {
+      "organization": "Organization",
+      "dashboard": {
+        "overallCreditUsage": "Overall credit usage",
+        "totalStorageBytes": "Total storage bytes",
+        "usageInCurrency": "Usage in currency",
+        "topFiveBillingAccounts": "Top 5 billing accounts",
+        "remainingBalanceInCurrency": "Remaining balance in currency",
+        "balance": "Balance",
+        "accountName": "Account name",
+        "credits": "Credits",
+        "name": "Name",
+        "region": "Region",
+        "accountsMonitored": "Accounts monitored by instana"
       }
     },
     "solr": {

@@ -144,6 +144,7 @@
   },
   "smartAlerts": {
     "addSmartAlert": "Add Smart Alert",
+    "createSmartAlert": "Create Smart Alert",
     "applicationSmartAlert": "Application Smart Alert",
     "globalApplicationSmartAlert": "Global Application Smart Alert",
     "titleNoSmartAlertsConfigured": "No Smart Alerts configured",
@@ -152,6 +153,13 @@
     "titleCopyOf": "(Copy of) {{smartAlertTitle}}",
     "smartAlertsTitle": "Smart alerts",
     "labelNew": "(New)",
+    "alertChannelList": {
+      "selectAllWarning": "Select all warning",
+      "selectAllCritical": "Select all critical",
+      "alertLevel": "Alert Level",
+      "critical": "Critical",
+      "warning": "Warning"
+    },
     "applications": {
       "alertConfiguration": "Alert configuration",
       "advanced": {
@@ -1406,7 +1414,7 @@
             "subtitle": {
               "staticThresholdType": "Static threshold",
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
-              "predictiveTrigger": "Predictive Trigger"
+              "forecastAlerting": "Forecast alerting"
             }
           }
         },
@@ -1419,7 +1427,9 @@
         "filter_plural": "Filters",
         "filter_0": "Filters",
         "filter_1": "Filters",
-        "filter_2": "Filters"
+        "filter_2": "Filters",
+        "noDataHeader": "No infrastructure Smart Alerts",
+        "noDataDescription": "To get started, click Create Smart Alert."
       },
       "advancedModeContainer": {
         "scope": {
@@ -1442,9 +1452,14 @@
           "title": "Time Threshold: When do you want to be alerted?"
         },
         "predictiveTrigger": {
-          "title": "Predictive alerts are disabled",
-          "alertTitle": "Alert will be triggered {{value}} before predicted violation",
-          "timeToFailure": "Time to Failure"
+          "title": "Forecast alerting",
+          "description": "Receive proactive alerts based on the trend of historical data. This option helps you anticipate potential issues before they affect yours system.",
+          "forecastTimeframe": "Forecasted time window",
+          "forecastTimeframeDetails": "Defines the timeframe of the forecast used for alerting. Please note that larger values will increase the chance of false alerts.",
+          "fitTimeframe": "Historical data time window",
+          "fitTimeframeDetails": "Specifies the timeframe used to analyze the trend. Select a short timeframe when you care about short-term trends, or a larger timeframe if you want to be alerted when the long-term trend is expected to exceed the limit.",
+          "summary": "Alerts are triggered <strong>up to {{forecastTimeframe}}</strong> in advance. Forecasts are generated based on the linear trend over the <strong>last {{fitTimeframe}}</strong>.",
+          "invalidTimeframes": "The historical data time window must be at least twice the timeframe of the forecasted time window."
         },
         "alertChannel": {
           "label": "Alert channels",
@@ -1676,5 +1691,23 @@
         "failedTitle_EDIT": "There was a problem updating this SLO Smart Alert"
       }
     }
+  },
+  "table": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "triggeringAction": "Triggering condition",
+    "status": "Status",
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "filter": "Filter",
+    "alertType": "Alert type",
+    "notificationChannel": "Notification channel",
+    "tableDataSettings": "Table data settings",
+    "pause": "Pause",
+    "delete": "Delete",
+    "warningAndCritical": "Warning and Critical",
+    "warning": "Warning",
+    "critical": "Critical",
+    "searchPlaceholder": "Search"
   }
 }

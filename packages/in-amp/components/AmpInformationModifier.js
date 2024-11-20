@@ -11,7 +11,9 @@ import { useObservable } from '@instana/hooks';
 import { Dropdown } from '@instana/components';
 
 import { getAccountAsResultObservable, getActiveLicensesAsResultObservable } from 'in-amp/api/account';
+import LearnMoreAboutDataConsumption from 'in-amp/components/LearnMoreAboutDataConsumption';
 import PresentationSelection from 'in-amp/components/PresentationSelection';
+import { dataUsageNotificationEnabled } from 'in-services/featureFlags';
 import AmpTimeSelection from 'in-amp/components/TimeSelection';
 import { t } from 'in-i18n';
 
@@ -57,6 +59,7 @@ export default function AmpInformationModifier({
       })}
     >
       <Stack>
+        {dataUsageNotificationEnabled && showFupMessage && <LearnMoreAboutDataConsumption />}
         <Message
           type="neutral"
           dismissible
