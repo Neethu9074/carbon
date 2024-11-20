@@ -140,3 +140,4 @@ export function useLinkToApplicationDashboard(): (applicationDashboardProps: App
 export function useLinkToServiceDashboard(): (serviceDashboardProps: ServiceDashboardProps) => string;
 
 export function useLinkToEndpointDashboard(): (endpointDashboardProps: EndpointDashboardProps) => string;
+export function useLinkToUngroupedView(): string;

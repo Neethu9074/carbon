@@ -10,6 +10,8 @@ import { Application, Endpoint, Result, ServiceLabel, TagFilterExpressionElement
 
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 
+import { Nullish } from 'in-types';
+
 export interface UrlMatrixParamConfig {
   path: string;
   paramTab: string;
@@ -113,3 +115,12 @@ export type SubtraceFormFields = {
 export type SubtraceForm = MapForm<SubtraceFormFields>;
 export type SubtraceFormPath = MapPath<SubtraceFormFields>;
 // #endregion
+
+// #region TraceDetailView
+export type DetailId = {
+  traceId: string;
+  callId: string | Nullish;
+  logId: string | Nullish;
+  colorCode: string | Nullish;
+};
+// #engregion
