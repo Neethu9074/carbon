@@ -45,6 +45,7 @@ export default function EvaluationGranularity({ form, updateForm, oneMinuteGranu
               min: val
             })
           }
+          key={currentValue}
         />
         <div className={locals.description}>
           <AlertTypography
