@@ -20,6 +20,7 @@ import { hours } from 'in-services/time';
 import { t, Trans } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/infrastructure/components/ForecastAlerting.mless';
+import toogleLocals from 'in-alerting/smart-alerts/components/dialog/advanced/Toogle.mless';
 
 interface ForecastAlertingProps {
   form: MapForm<any>;
@@ -43,6 +44,7 @@ export default function ForecastAlerting({ form, updateForm }: ForecastAlertingP
             {t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.predictiveTrigger.title')}
           </h3>
           <Toggle
+            className={toogleLocals.toggleDialogUsage}
             checked={enabled}
             onToggle={enabled => {
               if (!updateForm) {
