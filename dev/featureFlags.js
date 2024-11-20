@@ -167,7 +167,6 @@ module.exports = {
   nutanixEnabled: true,
   automationActionAiGenerationUnitEnabled: true,
   disableEventConfigEnabled: true,
-  carbonSliderEnabled: true,
   graphTabEnabled: true,
   applicationSubtracesEnabled: true,
   customDashboardTopLevelFiltersEnabled: true,

@@ -798,11 +798,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'carbonSliderEnabled',
-    instanaCtlKey: 'feature.carbon.slider.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'graphTabEnabled',
     instanaCtlKey: 'feature.graph.tab.enabled',
     defaultValue: true
