@@ -2434,9 +2434,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/components@npm:^4.53.0":
-  version: 4.53.0
-  resolution: "@instana/components@npm:4.53.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.53.0.tgz"
+"@instana/components@npm:^4.54.1":
+  version: 4.54.1
+  resolution: "@instana/components@npm:4.54.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.54.1.tgz"
   dependencies:
     "@carbon/ibm-products": 2.49.0
     "@carbon/icons-react": 11.45.0
@@ -2457,7 +2457,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.2
-  checksum: e5afaff6638e03501954ca15d1f4c72d07bc62137a5c5e482743bf366c1b1d29a4dfec22caa9f061670905ecead78749d03ffa9688667059e08a3535fcc4e647
+  checksum: 9edf871613b59bd0b5f1c52742bbe5ca4da4f354372f7d757e24da86fe639fda75edcdf3ea7113bdacc8bc2f91c448050e0428e674171f71201496b5ebccf539
   languageName: node
   linkType: hard
 
@@ -2540,11 +2540,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/legacy@npm:^4.3.22":
-  version: 4.3.22
-  resolution: "@instana/legacy@npm:4.3.22::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.3.22.tgz"
+"@instana/legacy@npm:^4.3.24":
+  version: 4.3.24
+  resolution: "@instana/legacy@npm:4.3.24::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.3.24.tgz"
   dependencies:
-    "@instana/components": ^4.53.0
+    "@instana/components": ^4.54.1
     "@instana/design-tokens": ^1.28.1
     "@instana/format-date": ^1.7.2
     "@instana/format-numbers": ^1.6.1
@@ -2556,7 +2556,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.0
-  checksum: d49faf7312e3a7e1ad618c554453e4cb91e2cb1a1d21eae32c05abed334fba6a3728c365fde5b1e526132bbd54dc98ed28ba12cc90e625a7ed64803cd7d6a8a3
+  checksum: 839f34f5fe057c06cab32f7ba5bf2baf40f836d315b0ec9b4cafd6e687c7b822c8d04ae8ee70e3be09a212d12713a730b8a6b5346a709c2ab534e7bfe3b6a1d3
   languageName: node
   linkType: hard
 
@@ -2567,18 +2567,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/playground@npm:3.34.4":
-  version: 3.34.4
-  resolution: "@instana/playground@npm:3.34.4::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fplayground%2F-%2F%40instana%2Fplayground-3.34.4.tgz"
+"@instana/playground@npm:3.35.1":
+  version: 3.35.1
+  resolution: "@instana/playground@npm:3.35.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fplayground%2F-%2F%40instana%2Fplayground-3.35.1.tgz"
   dependencies:
     "@carbon/layout": ^11.25.0
     "@carbon/motion": ^11.21.0
     "@carbon/themes": 11.39.0
-    "@instana/components": ^4.53.0
+    "@instana/components": ^4.54.1
     "@instana/design-tokens": ^1.28.1
     "@instana/hooks": ^1.12.1
     "@instana/i18n": ^1.6.1
-    "@instana/legacy": ^4.3.22
+    "@instana/legacy": ^4.3.24
     "@instana/observables": ^1.8.0
     classnames: ^2.5.1
     lodash: ^4.17.21
@@ -2587,7 +2587,7 @@ __metadata:
     react-dom: ^17.0.2
     react-is: ^18.2.0
     storybook-addon-pseudo-states: 2.1.2
-  checksum: e2ef343c4f0b1a761997e261263fc9db82f3b98701b9f567cb6bf11ab21d1250bc0ffb82b6c2c9333311202dec7ab53933167aefe48f8ff5ac6848faf73e1881
+  checksum: adfc1731e03da2c9f0a10ef1b69f900ea36e5cba43e79362bbda7f7c4db59d0f951ae826d7d8a531a1f4e3c18c0cbb0111fc7762335b35caf50ee9904b05633b
   languageName: node
   linkType: hard
 
@@ -12727,7 +12727,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "ui-client-storybook@workspace:."
   dependencies:
-    "@instana/playground": 3.34.4
+    "@instana/playground": 3.35.1
     "@storybook/addon-a11y": 7.6.4
     "@storybook/addon-docs": 7.6.4
     "@storybook/addon-essentials": 7.6.4
