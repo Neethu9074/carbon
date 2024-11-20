@@ -1391,6 +1391,21 @@
   "pluginName_otelProcess_1": "OTel Processes",
   "pluginName_otelProcess_2": "OTel Processes",
   "pluginName_otelProcess": "OTel Processes",
+  "pluginName_oTelK8sPod_plural": "OTel Kubernetes Pod",
+  "pluginName_oTelK8sPod_0": "OTel Kubernetes Pod",
+  "pluginName_oTelK8sPod_1": "OTel Kubernetes Pod",
+  "pluginName_oTelK8sPod_2": "OTel Kubernetes Pod",
+  "pluginName_oTelK8sPod": "OTel Kubernetes Pod",
+  "pluginName_oTelK8sCluster_plural": "OTel Kubernetes Cluster",
+  "pluginName_oTelK8sCluster_0": "OTel Kubernetes Cluster",
+  "pluginName_oTelK8sCluster_1": "OTel Kubernetes Cluster",
+  "pluginName_oTelK8sCluster_2": "OTel Kubernetes Cluster",
+  "pluginName_oTelK8sCluster": "OTel Kubernetes Cluster",
+  "pluginName_oTelK8sNode_plural": "OTel Kubernetes Node",
+  "pluginName_oTelK8sNode_0": "OTel Kubernetes Node",
+  "pluginName_oTelK8sNode_1": "OTel Kubernetes Node",
+  "pluginName_oTelK8sNode_2": "OTel Kubernetes Node",
+  "pluginName_oTelK8sNode": "OTel Kubernetes Node",
   "pluginName_openLDAP_plural": "OpenLDAP Nodes",
   "pluginName_openLDAP_0": "OpenLDAP Nodes",
   "pluginName_openLDAP_1": "OpenLDAP Nodes",
@@ -1824,7 +1839,6 @@
   "pluginName_syntheticPoP_2": "Synthetic PoPs",
   "pluginName_syntheticPoP": "Synthetic PoP",
   "pluginName_powerVC": "PowerVC",
-
   "pluginName_websiteHttpd": "Website",
   "pluginName_websiteHttpd_plural": "Websites",
   "pluginName_websiteHttpd_0": "Websites",
@@ -5069,7 +5083,6 @@
       "minDelayTarget": "Minimum Delay Target",
       "maxDelayTarget": "Maximum Delay Target"
     },
-
     "awsApiGateway": {
       "dashboard": {},
       "infoTitle": {
@@ -5097,7 +5110,6 @@
       "labelSum": "Sum",
       "labelCount": "Count"
     },
-
     "awsCloudFront": {
       "infoTitle": {
         "distributionId": "Distribution ID",
@@ -5130,7 +5142,6 @@
       "titleFunctionNames": "Function Names",
       "titleAssociatedFunctions": "Associated Functions"
     },
-
     "awsAppSync": {
       "dashboard": {
         "titleErrors": "Errors",
@@ -5263,7 +5274,6 @@
       "labelPredictiveScalingCapacityForecast": "Predictive Scaling Capacity Forecast",
       "labelPredictiveScalingMetricPairCorrelation": "Predictive Scaling Metric Pair Correlation"
     },
-
     "azure": {
       "dashboard": {
         "thereIsNoFurtherInformationAboutThisEntity": "There is no further information about this entity."
@@ -6089,7 +6099,6 @@
       "infoType": "Type",
       "infoKind": "Kind",
       "infoState": "State",
-
       "labelReCo": "Count Requests",
       "labelReAv": "Average Requests",
       "labelReMi": "Minimum Requests",
@@ -8717,7 +8726,6 @@
       "memoryUsage": "Memory Usage ",
       "cpuUsage": "CPU Usage "
     },
-
     "postgreSqlDatabase": {
       "troubleshootingDocs": "Troubleshooting docs",
       "statsNotEnabledIssueDescription": "Statistics collection is not enabled by server configuration. Please make sure <code>track_counts</code>, <code>track_activities</code>, <code>track_io_timing</code> are set to <strong>on</strong> <code>postgresql.conf</code>.",
@@ -13618,6 +13626,100 @@
         "util": "Utilization"
       }
     },
+    "oTelK8sPod": {
+      "platform": "Platform",
+      "address": "Address",
+      "port": "Port",
+      "kind": "Kind",
+      "type": "Type",
+      "serviceName": "Service Name",
+      "entityType": "Entity Type",
+      "instanceId": "Instance ID",
+      "runtimeDesc": "Kubernetes Runtime",
+      "runtimeVersion": "Kubernetes Version",
+      "exePath": "Executable Path",
+      "dashboard": {
+        "poduptime": "Pod Uptime",
+        "cpuresources": "CPU Resources",
+        "cpuusage": "CPU Usage",
+        "cpuutilization": "CPU Utilization",
+        "cputime": "CPU Time",
+        "cpunodeutilization": "CPU Node Utilization",
+        "cpulimitutilization": "CPU Limit Utilization",
+        "cpurequestutilization": "CPU Request Utilization",
+        "memoryresources": "Memory Resources",
+        "memoryusage": "Memory Usage",
+        "memoryavailable": "Memory Available",
+        "memorylimitutilization": "Memory Limit Utilization",
+        "memoryrequestutilization": "Memory Request Utilization",
+        "memoryrss": "Memory RSS",
+        "memoryworkingset": "Memory Working Set",
+        "memorypagefaults": "Memory Page Faults",
+        "memorymajorpagefaults": "Memory Major page Faults",
+        "fsresources": "Filesystem Resources",
+        "fsusage": "Filesystem Usage",
+        "fsavailble": "Filesystem Available",
+        "fscapacity": "Filesystem Capacity"
+      }
+    },
+    "oTelK8sCluster": {
+      "platform": "Platform",
+      "address": "Address",
+      "port": "Port",
+      "kind": "Kind",
+      "serviceName": "Service Name",
+      "entityType": "Entity Type",
+      "instanceId": "Instance ID",
+      "runtimeDesc": "Kubernetes Cluster Runtime",
+      "runtimeVersion": "Kubernetes Cluster Version",
+      "exePath": "Executable Path",
+      "dashboard": {
+        "summary": "Summary",
+        "nodes": "Nodes",
+        "pods": "Pods",
+        "nodecount": "Nodes Count",
+        "podcount": "Pods Count",
+        "name": "Name",
+        "namespace": "Name space",
+        "age": "Age",
+        "status": "Status",
+        "health": "Health"
+      }
+    },
+    "oTelK8sNode": {
+      "platform": "Platform",
+      "address": "Address",
+      "port": "Port",
+      "kind": "Kind",
+      "type": "Type",
+      "serviceName": "Service Name",
+      "entityType": "Entity Type",
+      "instanceId": "Instance ID",
+      "runtimeDesc": "Kubernetes Cluster Runtime",
+      "runtimeVersion": "Kubernetes Cluster Version",
+      "exePath": "Executable Path",
+      "dashboard": {
+        "summary": "Summary",
+        "nodecondition": "Node State",
+        "nodeuptime": "Node Uptime",
+        "cpuresources": "CPU Resources",
+        "cpuusage": "CPU Usage",
+        "cpuutilization": "CPU Utilization",
+        "cputime": "CPU Time",
+        "memoryresources": "Memory Resources",
+        "memoryusage": "Memory Usage",
+        "memoryavailable": "Memory Available",
+        "memoryrss": "Memory RSS",
+        "memoryworkingset": "Memory Working Set",
+        "memorypagefaults": "Memory Page Faults",
+        "memorymajorpagefaults": "Memory Major page Faults",
+        "fsresources": "Filesystem Resources",
+        "fsusage": "Filesystem Usage",
+        "fsavailble": "Filesystem Available",
+        "fscapacity": "Filesystem Capacity",
+        "pods": "Pods"
+      }
+    },
     "oTelJvm": {
       "platform": "Platform",
       "address": "Address",
@@ -16120,7 +16222,6 @@
       "instBTCQueueLength": "Inst BTC Queue Length",
       "instBTCWPFree": "Inst BTCWP Free",
       "instBTCWPStopped": "Inst BTCWP Stopped",
-
       "instDialogLongRunning": "Inst Dialog Long Running",
       "dialogResources": "Dialog Resources",
       "noOfdialogStepsPerMin": "No Of Dialog Steps Per Min",
@@ -16130,7 +16231,6 @@
       "noICMConnections": "No ICM Connections",
       "noICMReq": "No ICM Req",
       "noICMThreads": "No ICM Threads",
-
       "memory": "Memory",
       "memoryCUADb": "Memory CUA Db",
       "memoryNametab": "Memory Nametab",
@@ -16139,9 +16239,7 @@
       "memoryTableGeneric": "Memory Table Generic",
       "memoryTableSingle": "Memory Table Single",
       "memoryNoOfBufferSwaps": "Memory No Of Buffer Swaps",
-
       "spoolResources": "Spool Resources",
-
       "wPStopped": "WP Stopped",
       "update1WPStopped": "Update1 WP Stopped",
       "update2WPStopped": "Update2 WP Stopped",

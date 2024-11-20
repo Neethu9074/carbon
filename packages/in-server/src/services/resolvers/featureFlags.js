@@ -841,5 +841,10 @@ module.exports = exports = [
     uiClientKey: 'smartAlertCarbonTableEnabled',
     instanaCtlKey: 'feature.smart.alert.carbon.table.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'openTelemetryKubernetesEnabled',
+    instanaCtlKey: 'feature.infrastructure.otel.k8s.enabled',
+    defaultValue: false
   }
 ];

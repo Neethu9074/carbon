@@ -16,7 +16,10 @@ export const oTelPlugins = {
   oTelDcgm: 'oTelDcgm',
   otelHost: 'otelHost',
   oTelJvm: 'oTelJvm',
-  otelProcess: 'otelProcess'
+  otelProcess: 'otelProcess',
+  oTelK8sPod: 'oTelK8sPod',
+  oTelK8sCluster: 'oTelK8sCluster',
+  oTelK8sNode: 'oTelK8sNode'
 };
 
 export const nonServicePlugins = {
@@ -723,6 +726,9 @@ export const fullyQualifiedPlugins = {
   oTelLLM: 'com.instana.forge.infrastructure.custom.sensorsdk.llmonitor.OTelLLM',
   oTelDcgm: 'com.instana.forge.infrastructure.custom.sensorsdk.dcgm.OTelDcgm',
   oTelJvm: 'com.instana.forge.infrastructure.custom.sensorsdk.jvm.OTelJvm',
+  oTelK8sPod: 'com.instana.forge.infrastructure.custom.sensorsdk.k8s.OTelK8sPod',
+  oTelK8sCluster: 'com.instana.forge.infrastructure.custom.sensorsdk.k8s.OTelK8sCluster',
+  oTelK8sNode: 'com.instana.forge.infrastructure.custom.sensorsdk.k8s.OTelK8sNode',
   otelHost: 'com.instana.forge.infrastructure.os.otelhost.OtelHost',
   otelProcess: 'com.instana.forge.infrastructure.os.otelprocess.OtelProcess',
   packet: 'com.instana.forge.hardware.virtual.Packet',
