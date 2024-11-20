@@ -198,6 +198,27 @@ export function applyEditMode(form: MapForm<any>, editMode: boolean): MapForm<an
   return form.updateIn(['threshold', 'baseline'], f => f.setTouched(true));
 }
 
+export function applyEditModeForMultiThreshold(form: MapForm<any>, editMode: boolean): MapForm<any> {
+  if (!editMode) return form;
+
+  const type = ((form.get('threshold') as MapForm<any>).get('warningThreshold').get('type') as Field<ThresholdType>)
+    .value;
+  if (type === HISTORIC_BASELINE) {
+    return form
+      .updateIn(['threshold', 'warningThreshold'], thresholdMapForm =>
+        (thresholdMapForm as unknown as MapForm<any>).updateIn(['baseline'], item =>
+          (item as Field<any>).setTouched(true)
+        )
+      )
+      .updateIn(['threshold', 'criticalThreshold'], thresholdMapForm =>
+        (thresholdMapForm as unknown as MapForm<any>).updateIn(['baseline'], item =>
+          (item as Field<any>).setTouched(true)
+        )
+      );
+  }
+  return form;
+}
+
 function shouldAddNewThresholdData(simpleMode: boolean, thresholdForm: MapForm<any>): boolean {
   if (simpleMode) return true;
 

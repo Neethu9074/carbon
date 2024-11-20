@@ -30,7 +30,7 @@ export default function RecalculateBaselineButton({
     return null;
   }
 
-  const isDisabled = isRecalculated.current || form?.get('threshold')?.touched;
+  const isDisabled = isRecalculated.current || !form?.get('threshold').get('warningThreshold').get('baseline')?.touched;
   const toolTipText =
     (!isDisabled && t('in-alerting:smartAlerts.components.smartAlertDialog.buttonRecalculateBaseline')) ||
     t('in-alerting:smartAlerts.components.smartAlertDialog.buttonRecalculateBaselineDisabled');
