@@ -8,54 +8,71 @@
 import { sapAbapInstanceSensorDashboardFullyQualified } from 'in-sap/navigation/paths';
 import SecurityEssentials from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/SecurityEssentials';
 import RelatedResources from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/RelatedResources';
-import Detailed from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Detailed';
+import UserInformation from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/UserInformation';
+import Diagnostics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Diagnostics';
+import Workload from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Workload';
 import Networks from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Networks';
 import Summary from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Summary';
+import Memory from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Memory';
 import Fiori from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Fiori';
 import Idoc from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Idoc';
+import RFC from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/RFC';
 import { t } from 'in-i18n';
 
 export default [
   {
     label: t('in-sap:dashboards.summary'),
     path: `${sapAbapInstanceSensorDashboardFullyQualified}/summary`,
-    icon: 'lib_sap_abapSummary',
     component: Summary
   },
   {
-    label: t('in-sap:dashboards.systemOverview'),
-    path: `${sapAbapInstanceSensorDashboardFullyQualified}/systemOverview`,
-    icon: 'lib_sap_abapSystemOverview',
-    component: Detailed
+    label: t('in-sap:dashboards.workload'),
+    path: `${sapAbapInstanceSensorDashboardFullyQualified}/workload`,
+    component: Workload
+  },
+  {
+    label: t('in-sap:dashboards.memory'),
+    path: `${sapAbapInstanceSensorDashboardFullyQualified}/memory`,
+    component: Memory
+  },
+  {
+    label: t('in-sap:dashboards.userInformation'),
+    path: `${sapAbapInstanceSensorDashboardFullyQualified}/userInformation`,
+    component: UserInformation
   },
   {
     label: t('in-sap:dashboards.sapSecurityInsights'),
     path: `${sapAbapInstanceSensorDashboardFullyQualified}/sapSecurityInsights`,
-    icon: 'lib_sap_abapTransaction',
     component: SecurityEssentials
+  },
+  {
+    label: t('in-sap:dashboards.rfc'),
+    path: `${sapAbapInstanceSensorDashboardFullyQualified}/rfc`,
+    component: RFC
   },
   {
     label: t('in-sap:dashboards.sapNetworks'),
     path: `${sapAbapInstanceSensorDashboardFullyQualified}/sapNetworks`,
-    icon: 'lib_sap_abapNetworks',
     component: Networks
   },
   {
     label: t('in-sap:dashboards.sapFiori'),
     path: `${sapAbapInstanceSensorDashboardFullyQualified}/sapFiori`,
-    icon: 'lib_sap_abapFiori',
     component: Fiori
   },
   {
     label: t('in-sap:dashboards.sapIdoc'),
     path: `${sapAbapInstanceSensorDashboardFullyQualified}/sapIdoc`,
-    icon: 'lib_sap_abapIdoc',
     component: Idoc
+  },
+  {
+    label: t('in-sap:dashboards.diagnostics'),
+    path: `${sapAbapInstanceSensorDashboardFullyQualified}/diagnostics`,
+    component: Diagnostics
   },
   {
     label: t('in-sap:dashboards.relatedResources'),
     path: `${sapAbapInstanceSensorDashboardFullyQualified}/relatedResources`,
-    icon: 'lib_sap_abapRelatedResource',
     component: RelatedResources
   }
 ].filter(Boolean);

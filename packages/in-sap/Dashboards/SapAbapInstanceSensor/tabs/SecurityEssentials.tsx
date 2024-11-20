@@ -10,18 +10,12 @@ import { Card } from '@instana/components';
 
 // @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import OutboundTransactionalRfcInfo from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/OutboundTransactionalRfcInfo';
-import OutboundQueueRfcInfo from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/OutboundQueueRfcInfo';
-import InboundQueueRfcInfo from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/InboundQueueRfcInfo';
+import DBConnectionProvider from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs//DBConnectionProvider';
 import HttpMetricsStats from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/HttpMetricsStats';
 import TransportRequest from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/TransportRequest';
+import DatabaseHitList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs//DatabaseHitList';
 import SpoolMetricStat from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/SpoolMetricStat';
-import RfcErrorLogs from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/RfcErrorLogs';
-import RFCCallsMetrics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/RFCCalls';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import SpoolError from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/SpoolError';
-import UserInfo from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs//UserInfo';
-import UserList from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/UserList';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { number, millis } from 'in-services/formatters/number';
@@ -45,65 +39,6 @@ export default function SecurityEssentials({ data }: { data: SnapshotData }) {
           pageRootName: pageNames.abap_instance_transactional_statistics
         }}
       />
-      <UserInfo snapshotId={snapshotId} timeConfig={timeConfig} />
-      <Columize>
-        <DashboardSection title={t('in-sap:dashboards.loginTypes')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              metrics: ['versionstats.totalRfc', 'versionstats.totalGui', 'versionstats.totalDemon'],
-              labels: [t('in-sap:dashboards.rfc'), t('in-sap:dashboards.gui'), t('in-sap:dashboards.daemon')],
-              type: 'stackedBar',
-              formatter: number.compact
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-        <DashboardSection title={t('in-sap:dashboards.rfcLogins')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              metrics: ['versionstats.totalInternalRfc', 'versionstats.totalExternalRfc'],
-              labels: [t('in-sap:dashboards.internal'), t('in-sap:dashboards.external')],
-              type: 'stackedBar',
-              formatter: number.compact
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-        <DashboardSection title={t('in-sap:dashboards.versionInfo')}>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              metrics: [
-                'versionstats.version750',
-                'versionstats.version760',
-                'versionstats.version770',
-                'versionstats.version780',
-                'versionstats.version800',
-                'versionstats.versionOthers'
-              ],
-              labels: [
-                t('in-sap:dashboards.noOfVersion750'),
-                t('in-sap:dashboards.noOfVersion760'),
-                t('in-sap:dashboards.noOfVersion770'),
-                t('in-sap:dashboards.noOfVersion780'),
-                t('in-sap:dashboards.noOfVersion800'),
-                t('in-sap:dashboards.noOfVersionOthers')
-              ],
-              type: 'line',
-              formatter: number.compact
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-      </Columize>
       <div className={locals.dashboardSection}>
         <Card title={t('in-sap:dashboards.spoolStats')}>
           <Columize>
@@ -147,14 +82,9 @@ export default function SecurityEssentials({ data }: { data: SnapshotData }) {
           </Columize>
         </Card>
       </div>
-      <SpoolError snapshotId={snapshotId} />
       <SpoolMetricStat snapshotId={snapshotId} timeConfig={timeConfig} />
-      <UserList snapshotId={snapshotId} timeConfig={timeConfig} />
-      <RFCCallsMetrics snapshotId={snapshotId} timeConfig={timeConfig} />
-      <RfcErrorLogs snapshotId={snapshotId} timeConfig={timeConfig} />
-      <OutboundTransactionalRfcInfo snapshotId={snapshotId} timeConfig={timeConfig} />
-      <InboundQueueRfcInfo snapshotId={snapshotId} timeConfig={timeConfig} />
-      <OutboundQueueRfcInfo snapshotId={snapshotId} timeConfig={timeConfig} />
+      <DBConnectionProvider snapshotId={snapshotId} timeConfig={timeConfig} />
+      <DatabaseHitList snapshotId={snapshotId} timeConfig={timeConfig} />
       <HttpMetricsStats snapshotId={snapshotId} timeConfig={timeConfig} />
       <TransportRequest snapshotId={snapshotId} />
     </Fragment>
