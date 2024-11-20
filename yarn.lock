@@ -1786,6 +1786,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@carbon/feature-flags@npm:^0.22.0":
+  version: 0.22.0
+  resolution: "@carbon/feature-flags@npm:0.22.0"
+  dependencies:
+    "@ibm/telemetry-js": ^1.5.0
+  checksum: bfc83787cc05c57f9cc8e35ca8cbfa3ca73548ecac04f5f314e94bcddf0fb74f716ec0a00087f8966ae40cb137536f4ffbdd70b3a52163c58112489d0ee5d527
+  languageName: node
+  linkType: hard
+
 "@carbon/grid@npm:^11.25.0":
   version: 11.25.0
   resolution: "@carbon/grid@npm:11.25.0"
@@ -1796,7 +1805,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@carbon/ibm-products-styles@npm:^2.45.0":
+"@carbon/ibm-products-styles@npm:^2.45.0, @carbon/ibm-products-styles@npm:^2.48.0":
   version: 2.48.0
   resolution: "@carbon/ibm-products-styles@npm:2.48.0"
   dependencies:
@@ -1840,6 +1849,38 @@ __metadata:
     react: ^16.8.6 || ^17.0.1 || ^18.2.0
     react-dom: ^16.8.6 || ^17.0.1 || ^18.2.0
   checksum: aae72414641859f2f7865dfa16bb659a86dd8f97a3e68aa68e17b99a8e9ec5257a7e0cf508b5687b41dbb88f34624240cc3711e579a68ebd7948e469ef903bed
+  languageName: node
+  linkType: hard
+
+"@carbon/ibm-products@npm:^2.52.0":
+  version: 2.52.0
+  resolution: "@carbon/ibm-products@npm:2.52.0"
+  dependencies:
+    "@babel/runtime": ^7.23.9
+    "@carbon/feature-flags": ^0.22.0
+    "@carbon/ibm-products-styles": ^2.48.0
+    "@carbon/telemetry": ^0.1.0
+    "@dnd-kit/core": ^6.0.8
+    "@dnd-kit/modifiers": ^7.0.0
+    "@dnd-kit/sortable": ^8.0.0
+    "@dnd-kit/utilities": ^3.2.2
+    "@ibm/telemetry-js": ^1.5.0
+    framer-motion: ^6.5.1 < 7
+    immutability-helper: ^3.1.1
+    lodash: ^4.17.21
+    lottie-web: ^5.12.2
+    react-table: ^7.8.0
+    react-window: ^1.8.10
+  peerDependencies:
+    "@carbon/grid": ^11.27.0
+    "@carbon/layout": ^11.26.0
+    "@carbon/motion": ^11.22.0
+    "@carbon/react": ^1.66.0
+    "@carbon/themes": ^11.40.0
+    "@carbon/type": ^11.31.0
+    react: ^16.8.6 || ^17.0.1 || ^18.2.0
+    react-dom: ^16.8.6 || ^17.0.1 || ^18.2.0
+  checksum: fb7ff24fc0a55f48138cdf90a3f80b016c9fde742035a9398db5af2944e44e7e8dd7373e11ef97b460f514df81160d4e5cd08e2469e14de5b7482ac0216a4453
   languageName: node
   linkType: hard
 
@@ -22072,6 +22113,7 @@ __metadata:
     "@babel/register": ^7.12.1
     "@babel/runtime": 7.25.6
     "@carbon/colors": ^11.21.0
+    "@carbon/ibm-products": ^2.52.0
     "@carbon/pictograms-react": 11.63.0
     "@carbon/utilities": ^0.1.0
     "@codemirror/autocomplete": ^6.0.0

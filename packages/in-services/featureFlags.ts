@@ -316,4 +316,7 @@ export const customDashboardTopLevelFiltersEnabled = isFeatureFlagEnabled(
   'customDashboardTopLevelFiltersEnabled',
   false
 );
+
+//Alert response related feature flag
+export const aqmDataGridEventTableEnabled = isFeatureFlagEnabled('aqmDataGridEventTableEnabled', false);
 export const openTelemetryKubernetes = isFeatureFlagEnabled('openTelemetryKubernetesEnabled', false);

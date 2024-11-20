@@ -828,6 +828,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'aqmDataGridEventTableEnabled',
+    instanaCtlKey: 'feature.aqm.data.grid.event.table.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'smartAlertCarbonTableEnabled',
     instanaCtlKey: 'feature.smart.alert.carbon.table.enabled',
     defaultValue: false

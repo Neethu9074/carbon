@@ -234,6 +234,27 @@
     "analyzeErrors": "Analyze Errors",
     "analyzeTraceLogs": "Analyze Trace Logs"
   },
+  "dataGridEventTable": {
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "closeFilters": "Close filters",
+    "openFilters": "Open filters",
+    "title": "Title",
+    "on": "On",
+    "started": "Started",
+    "end": "End",
+    "state": "State",
+    "eventType": "Event type",
+    "builtIn": "Built-in",
+    "custom": "Custom",
+    "appSA": "Application Smart Alert",
+    "webSA": "Website Smart Alert",
+    "syntheticsSA": "Synthetics Smart Alert",
+    "infraSA": "Infrastructure Smart Alert",
+    "mobileSA": "Mobile Smart Alert",
+    "logSA": "Log Smart Alert",
+    "sloSa": "SLO Smart Alert"
+  },
   "feedback": {
     "skip": "Skip",
     "descriptionUnpleasant": {

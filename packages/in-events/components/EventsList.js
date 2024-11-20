@@ -22,11 +22,12 @@ import { Card } from '@instana/components';
 
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import HighlightedTimeframeMarkerRow from 'in-events/components/HighlightedTimeframeMarkerRow';
+import { aqmDataGridEventTableEnabled, carbonTableEnabled } from 'in-services/featureFlags';
 import useTimeConfigUpdatingScale from 'in-events/components/useTimeConfigUpdatingScale';
+import EventsTable from 'in-events/components/EventsPage/EventsTable/EventsTable';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import EmptyEventList from 'in-events/components/EmptyEventsList';
-import { carbonTableEnabled } from 'in-services/featureFlags';
 import EventListRow from 'in-events/components/EventsListRow';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -75,6 +76,17 @@ function List(props) {
 
   const timeScale = useTimeConfigUpdatingScale(timeConfig);
   const filteredRawEventList = filterManuallyClosedEventsByTimeScale(rawEventList, timeScale);
+
+  if (aqmDataGridEventTableEnabled && eventType == 'issue') {
+    return (
+      <EventsTable
+        onItemClicked={onItemClicked}
+        rawEvents={filteredRawEventList}
+        eventType={eventType}
+        isDenseList={isDenseList}
+      />
+    );
+  }
 
   if (!progress.loading && filteredRawEventList.length === 0) {
     return (

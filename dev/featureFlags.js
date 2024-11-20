@@ -171,6 +171,7 @@ module.exports = {
   customDashboardTopLevelFiltersEnabled: true,
   syntheticCredentialsEnabled: true,
   infraSmartAlertFullScreenDesignEnabled: false,
+  aqmDataGridEventTableEnabled: false,
   alertChannelPerSeverityInfraSaEnabled: true,
   alertChannelPerSeverityApplicationSaEnabled: true,
   smartAlertCarbonTableEnabled: false,

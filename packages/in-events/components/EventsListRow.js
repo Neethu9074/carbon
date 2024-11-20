@@ -221,7 +221,7 @@ export default function EventRow({
   );
 }
 
-const OnEntity = connectTo(
+export const OnEntity = connectTo(
   props => {
     const {
       rawEvent,
@@ -300,7 +300,7 @@ function getLabel(entityType, entityOrSnapshot) {
   return entityOrSnapshot?.data?.label ?? UNKNOWN_LABEL;
 }
 
-function getEndValue(event, isChangeEvent, end, start, headers, isPreview) {
+export function getEndValue(event, isChangeEvent, end, start, headers, isPreview) {
   if (event.state === 'open') {
     return '-';
   }
