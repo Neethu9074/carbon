@@ -17,61 +17,72 @@ import RestrictedTechnologiesReporting from 'in-amp/components/RestrictedTechnol
 import TechnologiesReporting from 'in-amp/components/TechnologiesReporting';
 import ActivationAdoption from 'in-amp/components/ActivationAdoption';
 import { ampCompanyInfoEnabled } from 'in-services/featureFlags';
+import { productAreas } from 'in-services/tracking/productAreas';
 import AccountSettings from 'in-amp/components/AccountSettings';
 import RestrictedUsage from 'in-amp/components/RestrictedUsage';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
+import { pageNames } from 'in-services/tracking/pageNames';
 import Usage from 'in-amp/components/Usage';
 import { t } from 'in-i18n';
 
 export default function View(props) {
   return (
-    <StickySidebarNavigationAndContent
-      navigationTree={[
-        {
-          title: t('in-settings:tabs.accountBilling'),
-          pages: [
-            ...(ampCompanyInfoEnabled
-              ? [
-                  {
-                    path: ampUsage,
-                    label: t('in-settings:tabs.usage'),
-                    component: Usage
-                  },
-                  {
-                    path: ampActivationAdoption,
-                    label: t('in-settings:tabs.activationAdoption'),
-                    component: ActivationAdoption
-                  },
-                  {
-                    path: ampTechnologies,
-                    label: t('in-settings:tabs.technologiesReporting'),
-                    component: TechnologiesReporting
-                  },
-                  {
-                    path: ampAccountSettings,
-                    label: t('in-settings:tabs.accountSettings'),
-                    component: AccountSettings
-                  }
-                ]
-              : [
-                  {
-                    path: ampUsage,
-                    label: t('in-settings:tabs.usage'),
-                    component: RestrictedUsage
-                  },
-                  {
-                    path: ampTechnologies,
-                    label: t('in-settings:tabs.technologiesReporting'),
-                    component: RestrictedTechnologiesReporting
-                  }
-                ])
-          ]
-        }
-      ]}
-      redirectToDefaultPage={ampUsage}
-      redirectFrom={ampSettings}
-      NotFoundPage={NotFoundPage}
-      {...props}
-    />
+    <>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.settings,
+          pageRootName: pageNames.account_and_billing
+        }}
+      />
+      <StickySidebarNavigationAndContent
+        navigationTree={[
+          {
+            title: t('in-settings:tabs.accountBilling'),
+            pages: [
+              ...(ampCompanyInfoEnabled
+                ? [
+                    {
+                      path: ampUsage,
+                      label: t('in-settings:tabs.usage'),
+                      component: Usage
+                    },
+                    {
+                      path: ampActivationAdoption,
+                      label: t('in-settings:tabs.activationAdoption'),
+                      component: ActivationAdoption
+                    },
+                    {
+                      path: ampTechnologies,
+                      label: t('in-settings:tabs.technologiesReporting'),
+                      component: TechnologiesReporting
+                    },
+                    {
+                      path: ampAccountSettings,
+                      label: t('in-settings:tabs.accountSettings'),
+                      component: AccountSettings
+                    }
+                  ]
+                : [
+                    {
+                      path: ampUsage,
+                      label: t('in-settings:tabs.usage'),
+                      component: RestrictedUsage
+                    },
+                    {
+                      path: ampTechnologies,
+                      label: t('in-settings:tabs.technologiesReporting'),
+                      component: RestrictedTechnologiesReporting
+                    }
+                  ])
+            ]
+          }
+        ]}
+        redirectToDefaultPage={ampUsage}
+        redirectFrom={ampSettings}
+        NotFoundPage={NotFoundPage}
+        {...props}
+      />
+    </>
   );
 }

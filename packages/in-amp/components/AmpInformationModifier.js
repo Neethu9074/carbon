@@ -3,15 +3,21 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
 import { Stack, Message } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Dropdown } from '@instana/components';
 
+import {
+  SETTINGS_ACCOUNT_BILLING_PRESENTATION,
+  SETTINGS_ACCOUNT_BILLING_TENANT_UNIT,
+  SETTINGS_ACCOUNT_BILLING_TIMERANGE
+} from 'in-services/tracking/eventNames';
 import { getAccountAsResultObservable, getActiveLicensesAsResultObservable } from 'in-amp/api/account';
 import LearnMoreAboutDataConsumption from 'in-amp/components/LearnMoreAboutDataConsumption';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import PresentationSelection from 'in-amp/components/PresentationSelection';
 import { dataUsageNotificationEnabled } from 'in-services/featureFlags';
 import AmpTimeSelection from 'in-amp/components/TimeSelection';
@@ -50,6 +56,23 @@ export default function AmpInformationModifier({
     }
   }
   const showFupMessage = limitedDataUsageCheck && !fupOverride;
+
+  const { trackCta } = useSegmentTracking();
+
+  useEffect(() => {
+    trackCta(SETTINGS_ACCOUNT_BILLING_TENANT_UNIT, { tenantUnit: tenantUnit?.label });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tenantUnit?.label]);
+
+  useEffect(() => {
+    trackCta(SETTINGS_ACCOUNT_BILLING_TIMERANGE, { timeRange });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeRange]);
+
+  useEffect(() => {
+    trackCta(SETTINGS_ACCOUNT_BILLING_PRESENTATION, { presentation });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [presentation]);
 
   return (
     <div
