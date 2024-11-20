@@ -29,6 +29,8 @@
     "groupBy": "Group by",
     "noChannelAvailable": "No Alert channels available",
     "optional": "Optional",
+    "on": "On",
+    "off": "Off",
     "revisionDropdownButton": {
       "revision": "Revision {{alertRevision}}",
       "pause": "Pause",
