@@ -377,6 +377,7 @@
       "pageTitleDesc": "For websites with meaningful page titles",
       "pageUrlDesc": "May require regex mapping",
       "mappingRulesTitle": "Enable regex mapping",
+      "mappingRulesLinkText": "mapping rules",
       "mappingRulesDesc": "Creating regex mapping rules can transform URL patterns into meaningful names in the data that Instana collects about your website. Add mapping rules by specifying a regex pattern and the name you want to use for it.",
       "mappingRuleLabel": "Mapping rule",
       "mappingRuleHelperText": "Enter a regex mapping rule, for example: /.*checkuserdetails.*/i",
@@ -384,7 +385,9 @@
       "replacedByHelperText": "Enter the text to replace it, for example: User Details",
       "emptyFieldValidationMessage": "The value must not be blank.",
       "regexValidationMessage": "The provided pattern is not a valid regex mapping rule.",
+      "regexErrorMessage": "The changes couldn't be saved. Please ensure all required fields are addressed to save your changes.",
       "addLineButton": "Add line",
+      "saveButton": "Save",
       "saveAllButton": "Save all"
     }
   },

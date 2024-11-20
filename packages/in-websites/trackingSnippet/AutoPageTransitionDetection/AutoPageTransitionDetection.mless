@@ -59,4 +59,7 @@
   .learnMoreLink {
     font-size: var(--ids-font-size-option-body-small);
   }
+  .bottomSpace {
+    margin: 0 0 1.5rem 0;
+  }
 }

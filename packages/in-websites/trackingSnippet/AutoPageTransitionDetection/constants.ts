@@ -15,17 +15,21 @@ export const pageTransitionMethods = {
 export const defaultMappingRule = { id: Date.now(), rule: '', replaceText: '' };
 
 // URL links
-export const applicationFrameworkURL =
-  'https://www.ibm.com/docs/en/instana-observability/current?topic=websites-website-monitoring-faq#terminology';
-export const autoDetectionURL =
-  'https://www.ibm.com/docs/en/instana-observability/current?topic=websites-javascript-agent-api#automatic-page-detection-public-preview';
+export const applicationFrameworkURL = 'https://ibm.biz/web-FAQ';
+export const autoDetectionURL = 'https://ibm.biz/page-detection';
+export const mappingRuleURL = 'https://ibm.biz/logical-page';
 
-// Utility function to check if a string is a valid regex
-export const isValidRegex = (value: string) => {
-  const regexPattern = /[.*+?^${}()|[\]\\]/;
+// Checks if the input string is a valid regular expression with delimiters.
+export function isValidRegexWithDelimiter(input: string) {
+  const regexWithDelimiterPattern = /^\/(.+)\/([gimsuy]*)$/;
+
+  const match = input.match(regexWithDelimiterPattern);
+  if (!match) return false;
+
   try {
-    return regexPattern.test(value) && new RegExp(value);
-  } catch {
+    new RegExp(match[1], match[2]);
+    return true;
+  } catch (e) {
     return false;
   }
-};
+}

@@ -12,8 +12,12 @@ import type {
   EnableAutoPageDetectionProps,
   EnableRegexMappingRuleProps
 } from 'in-websites/trackingSnippet/AutoPageTransitionDetection/types';
+import {
+  mappingRuleURL,
+  pageTransitionMethods
+} from 'in-websites/trackingSnippet/AutoPageTransitionDetection/constants';
 import RegexMappingRules from 'in-websites/trackingSnippet/AutoPageTransitionDetection/RegexMappingRules';
-import { pageTransitionMethods } from 'in-websites/trackingSnippet/AutoPageTransitionDetection/constants';
+import { LearnMoreLink } from 'in-websites/trackingSnippet/AutoPageTransitionDetection/utils';
 import { t } from 'in-i18n';
 
 import locals from 'in-websites/trackingSnippet/AutoPageTransitionDetection/AutoPageTransitionDetection.mless';
@@ -85,6 +89,11 @@ const EnableRegexMappingRule = ({ setRegexMappingRules }: EnableRegexMappingRule
       <Typography variant="body-small" component="p" noMargin align="inherit">
         {t('in-websites:trackingSnippet.autoPageTransition.mappingRulesDesc')}
       </Typography>
+      <LearnMoreLink
+        label={t('in-websites:trackingSnippet.autoPageTransition.learnMoreAboutText')}
+        linkText={t('in-websites:trackingSnippet.autoPageTransition.mappingRulesLinkText')}
+        url={mappingRuleURL}
+      />
       {enableRegexMappingRule && <RegexMappingRules setRegexMappingRules={setRegexMappingRules} />}
     </>
   );
