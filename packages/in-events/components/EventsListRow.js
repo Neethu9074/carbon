@@ -348,7 +348,7 @@ function getTranslatedLabelForState(event) {
   }
 }
 
-function getStateBadge(event) {
+export function getStateBadge(event) {
   return (
     <Pill className={locals.badge} type={getColorForState(event)}>
       {getTranslatedLabelForState(event)}

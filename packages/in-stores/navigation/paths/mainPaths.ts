@@ -21,6 +21,7 @@ export const infraSmartAlerts = '/infraAlerts';
 export const graphExplorerPath = '/graphExplorer';
 export const infraAlertsDetailsPath = '/infraAlertdetails';
 export const infraAlertDetailsFullyQualifiedPath = `${infraSmartAlerts}${infraAlertsDetailsPath}`;
+export const vulnerabilityPath = '/vulnerability-center';
 
 export const infraSmartAlertsFullScreen = '/infraSmartAlerts';
 
@@ -61,4 +62,8 @@ export function isInfrastructurePath(path: string) {
 
 export function isEventsPath(path: string) {
   return path.indexOf(eventsPath) === 0;
+}
+
+export function isVulnerabilityPath(path: string) {
+  return path.indexOf(vulnerabilityPath) === 0;
 }

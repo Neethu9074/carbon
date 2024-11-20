@@ -736,7 +736,7 @@
     },
     "groupName": "Group Name",
     "groupedOnly": "Metric only available when analyzing groups.",
-    "groupNameNotAvailable":"{{groupbyTag}} Information not available",
+    "groupNameNotAvailable": "{{groupbyTag}} Information not available",
     "options": "Options",
     "filterSidebar": {
       "groupingButton": "Group by {{group}}",

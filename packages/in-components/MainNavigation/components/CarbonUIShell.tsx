@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 //@ts-expect-error promise loader
@@ -116,6 +116,8 @@ import { powervcRegionListFullyQualified, powervc } from 'in-powervc/navigation/
 import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { clickVulnerabilitiesInNavigationTracker } from 'in-events/tracker';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
@@ -458,6 +460,7 @@ function Analyze() {
 
 function VulnerabilityCenter() {
   const { createHrefToPath, matchLocation } = useNavigation();
+  const { unstable_trackEvent } = useSegmentTracking();
 
   return (
     <MenuItem
@@ -465,6 +468,7 @@ function VulnerabilityCenter() {
       label={t('in-components:mainNavigation.viewVulnerabilityCenter')}
       icon="lib_events_cve"
       isActive={matchLocation(isVulnerabilityView)}
+      onClick={() => clickVulnerabilitiesInNavigationTracker(unstable_trackEvent)}
       href={createHrefToPath(vulnerabilityRoot)}
     />
   );

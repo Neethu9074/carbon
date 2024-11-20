@@ -590,3 +590,11 @@ export const FLOW_MAP_CLICK_LATENCY = 'flowmap.click.latency';
 export const FLOW_MAP_CLICK_ERROR = 'flowmap.click.error';
 export const FLOW_MAP_CLICK_SIMULATION = 'flowmap.click.simulation';
 export const FLOW_MAP_CLICK_EXPAND_LEVEL = 'flowmap.click.level.expand';
+
+// Vulnerabilities tracking
+export const VULNERABILITIES_TAB_IN_APP_CLICK = 'vulnerabilities.application.tab.click';
+export const VULNERABILITIES_BUTTON_IN_CONTAINER_DASHBOARD_CLICK = 'vulnerabilities.container.dashboard.click';
+export const VULNERABILITIES_CSV_EXPORT_CLICK = 'vulnerabilities.csv.export.click';
+export const VULNERABILITIES_NAVIGATION_CLICK = 'vulnerabilities.navigation.click';
+export const CVE_TAB_IN_VULNERABILITIES_CLICK = 'cve.vulnerabilities.tab.click';
+export const DETECTIONS_TAB_IN_VULNERABILITIES_CLICK = 'detections.vulnerabilities.tab.click';

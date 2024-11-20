@@ -8,7 +8,7 @@
 // in-services/featureFlags
 module.exports = {
   agentMonitoringIssuesEnabled: true,
-  cveIssueEnabled: true,
+  cveIssueEnabled: false,
   businessObservabilityEnabled: true,
   bizopsGenAIEnabled: true,
   bizopsStandardInclusionEnabled: true,

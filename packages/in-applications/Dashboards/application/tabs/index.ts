@@ -28,7 +28,6 @@ import { hasInfrastructureAccess, hasSyntheticsAccess } from 'in-stores/permissi
 import { resourceOptimizationActionsEnabled } from 'in-services/featureFlags';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import { Tab } from 'in-components/LocationAwareTabView/types';
-import { cveIssueEnabled } from 'in-services/featureFlags';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -74,7 +73,7 @@ const getApplicationTabs = (canConfigureApplications: boolean | null | undefined
         path: `${applicationDashboard}/synthetics`,
         component: SyntheticsList
       },
-    cveIssueEnabled && {
+    {
       label: t('in-events:labelCveIssue'),
       path: `${applicationDashboard}/CveVulnerabilities`,
       component: CveVulnerabilities
