@@ -156,6 +156,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'dataUsageNotificationEnabled',
+    instanaCtlKey: 'feature.data.usage.notification.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'assistmeEnabled',
     instanaCtlKey: 'feature.assistme.enabled',
     defaultValue: false

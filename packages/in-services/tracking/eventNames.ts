@@ -128,6 +128,10 @@ export const BUY_NOW_BUTTON_IBM_CLICKED = 'purchaseIntent.ibm';
 export const PLAY_WITH_BOOK_DEMO_NOW_BUTTON_CLICKED = 'intentToTry.Demo';
 export const PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED = 'intentToTry.Trial';
 
+export const REVIEW_DATA_USAGE_BUTTON = 'reviewDataUsage.clicked';
+export const FAIR_USE_POLICY_BLOG = 'learnMoreFupDocumentation.clicked';
+export const CONTACT_SALES = 'learnMoreContactSales.clicked';
+
 export const TABLE_ENTITY_ADDED = 'table.entity.added';
 export const TABLE_ENTITY_CLEARED = 'table.entity.cleared';
 export const TABLE_ENTITY_REMOVED = 'table.entity.removed';

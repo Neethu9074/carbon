@@ -51,6 +51,22 @@
     "freetrial": " Try it free",
     "taketour": " Take a tour"
   },
+  "dataConsumptionMessage": {
+    "eighty": {
+      "title": "Looks like your Instana usage is increasing!"
+    },
+    "ninety": {
+      "title": "Heads up! You're getting close to your data usage limit."
+    },
+    "hundred": {
+      "title": "Looks like your Instana usage is taking off!"
+    },
+    "description": "You’ve reached {{dataConsumption}}% of your data usage entitlement, but don’t worry - we’re still monitoring your data. You’ll only be charged on a pay-per-use basis for {{remainingText}}",
+    "remainingText" : "any additional data once you reach 100%.",
+    "remainingTextHundred": "the exact amount of additional data ingested.",
+    "buttonText": "Review data usage"
+
+  },
   "agentDetails": {
     "agentMode": {
       "dynamic": "Dynamic",

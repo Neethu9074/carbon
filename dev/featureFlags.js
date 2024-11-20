@@ -175,5 +175,6 @@ module.exports = {
   infraSmartAlertFullScreenDesignEnabled: false,
   alertChannelPerSeverityInfraSaEnabled: true,
   alertChannelPerSeverityApplicationSaEnabled: true,
-  smartAlertCarbonTableEnabled: false
+  smartAlertCarbonTableEnabled: false,
+  dataUsageNotificationEnabled: false
 };
