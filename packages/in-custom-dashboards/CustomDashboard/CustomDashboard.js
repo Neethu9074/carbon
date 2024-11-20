@@ -78,12 +78,10 @@ export default function CustomDashboardLoader(props) {
 
   const [topLevelFilters, setTopLevelFilters] = useState(tagFilterExpression ?? []);
   const onTopLevelFiltersChange = useCallback(
-    tagFilterExpression => {
-      setTopLevelFilters(tagFilterExpression);
-      setUrlState({ tagFilterExpression });
-    },
-    [setUrlState, setTopLevelFilters]
+    tagFilterExpression => setUrlState({ tagFilterExpression }),
+    [setUrlState]
   );
+  useEffect(() => setTopLevelFilters(tagFilterExpression), [tagFilterExpression]);
 
   const exportWidget = exportWidgetId && find(config?.widgets, eachWidget => exportWidgetId === eachWidget.id);
 
