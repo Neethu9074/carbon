@@ -164,7 +164,7 @@ export function ComboChartMetricSelector({
       kind="ghost"
       size="sm"
       label={metrics.find((o: MetricsProps) => o.id === selected)?.label}
-      aria-label={t('in-components:chartingConfigurator.labelChangeSelectedMetric')}
+      title={t('in-components:chartingConfigurator.labelChangeSelectedMetric')}
       menuAlignment="bottom-start"
     >
       {metrics.map((o: MetricsProps) => {
