@@ -218,7 +218,7 @@ module.exports = exports = [
   {
     uiClientKey: 'logHomepageEnabled',
     instanaCtlKey: 'feature.log.homepage.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'enableTroubleshootingMode',
