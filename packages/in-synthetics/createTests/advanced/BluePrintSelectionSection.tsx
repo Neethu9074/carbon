@@ -9,7 +9,6 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
-import { Menu } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/createTests/data/advancedModeBluePrints';
@@ -18,6 +17,7 @@ import SelectedTestType from 'in-synthetics/createTests/advanced/SelectedTestTyp
 import { Code, ConfigItem, TestTypeSelected } from 'in-synthetics/utils/constants';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
+import SideRadioMenu from 'in-components/SideRadioMenu';
 
 import locals from 'in-synthetics/createTests/advanced/BluePrintSelectionSection.mless';
 
@@ -106,16 +106,20 @@ const SelectionMenu = ({
   setHeaders
 }: SelectionMenuProps) => {
   const { trackCta } = useSegmentTracking();
+  const blueprintConfigs = getAdvancedBlueprintConfig();
   return (
     <div
       className={classNames(locals.container, {
         [locals.disabled]: isUpdateConfig
       })}
     >
-      <Menu
-        items={getAdvancedBlueprintConfig()}
-        addRightSeparator
-        onItemClick={item => {
+      <SideRadioMenu
+        items={blueprintConfigs.map(x => ({ id: x.type, name: x.name }))}
+        onChange={type => {
+          const item = blueprintConfigs.find(x => x.type === type);
+          if (!item) {
+            return;
+          }
           const isSSLCertificate = item.name === 'SSL Certificate';
           // Segment Tracker
           syntheticAdvancedCreateTestTypeSwitch(trackCta, item);
@@ -143,7 +147,7 @@ const SelectionMenu = ({
             }
           ]);
         }}
-        initialItemSelected={selectedBlueprint}
+        valueSelected={selectedBlueprint.type}
       />
       <div className={locals.spanTwoColumns}>
         <SelectedTestType
