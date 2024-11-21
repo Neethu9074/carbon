@@ -5,7 +5,7 @@
  */
 
 import { Item, MapForm } from 'formalistic';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { TimeConfig } from '@instana/types';
 
@@ -50,6 +50,8 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
     onClose: withTrackClose
   });
 
+  const [tagFilterValid, setTagFilterValid] = useState(true);
+
   const actions = getFooterActions(backOrCancel, cancelTearSheet, handleSubmit, editMode);
 
   const navItems = useAlertConfigValidation(stepConfigs);
@@ -67,7 +69,7 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
       sideNavigationEnabled={editMode}
       productArea={productAreas.infrastructure}
       headerWithMsg={false}
-      additionalValidationCheck
+      additionalValidationCheck={additionalValidationCheck(step, tagFilterValid)}
     >
       {infraStepRenderers.map((Renderer: (props: stepRendersType) => JSX.Element, idx: number) => {
         return (
@@ -78,10 +80,18 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
               isTagFilterFormModelValid
               thresholdResult={undefined}
               setStep={setStep}
+              setTagFilterValid={setTagFilterValid}
             />
           )
         );
       })}
     </AlertingTearSheet>
   );
+}
+
+function additionalValidationCheck(step: number, tagFilterValid: boolean) {
+  if (step == 0) {
+    return tagFilterValid;
+  }
+  return true;
 }

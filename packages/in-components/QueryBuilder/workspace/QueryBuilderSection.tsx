@@ -44,6 +44,7 @@ interface QueryBuilderSectionProps<ADDITIONAL_TAG_CATALOG_PROPS = {}> {
   actions?: ReactNode;
   withoutIcon?: boolean;
   onErrorStateChange?: (hasError: boolean) => void;
+  SectionWrapper?: React.FunctionComponent<any>;
 }
 
 export default function QueryBuilderSection<ADDITIONAL_TAG_CATALOG_PROPS = {}>({
@@ -62,7 +63,8 @@ export default function QueryBuilderSection<ADDITIONAL_TAG_CATALOG_PROPS = {}>({
   getSuggestionsProps = {},
   getSuggestionLabel,
   onErrorStateChange,
-  additionalGetTagCatalogProps
+  additionalGetTagCatalogProps,
+  SectionWrapper = Section
 }: QueryBuilderSectionProps<ADDITIONAL_TAG_CATALOG_PROPS>) {
   const [{ hasError: hasInternalError, errors: internalErrors }, setInternalError] = useState<{
     hasError?: boolean;
@@ -102,7 +104,7 @@ export default function QueryBuilderSection<ADDITIONAL_TAG_CATALOG_PROPS = {}>({
   }
 
   return (
-    <Section
+    <SectionWrapper
       icon={withoutIcon ? undefined : 'lib_actions_filter'}
       title={title}
       actions={
@@ -145,7 +147,7 @@ export default function QueryBuilderSection<ADDITIONAL_TAG_CATALOG_PROPS = {}>({
         {hasExternalError &&
           externalErrors?.map(error => <Message key={error} type="error" withIcon small title={error} />)}
       </Stack>
-    </Section>
+    </SectionWrapper>
   );
 
   function onClear() {
