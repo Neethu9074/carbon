@@ -833,6 +833,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'aqmDisableConfigOnEventViewEnabled',
+    instanaCtlKey: 'feature.aqm.disable.config.on.event.view.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'openTelemetryKubernetesEnabled',
     instanaCtlKey: 'feature.infrastructure.otel.k8s.enabled',
     defaultValue: false

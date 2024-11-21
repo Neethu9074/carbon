@@ -293,6 +293,20 @@
     "labelOn": "On",
     "labelOff": "Off"
   },
+  "disableConfiguration": {
+    "incidentButtonName": "Disable configuration",
+    "eventButtonName": "Disable configuration",
+    "successTitle": "Success",
+    "successContent": "Event configuration has been successfully disabled.",
+    "errorTitle": "Error",
+    "errorContent": "Unable to disable the event configuration.",
+    "confirmationBodyExplain": "This action will prevent similar events from occurring in the future by disabling the current configuration.",
+    "confirmationBodyQuestion": "Do you want to continue?",
+    "confirmationFallbackCustom": "The configuration can be re-enabled in \"View Custom Event\".",
+    "confirmationFallbackBuiltIn": "The configuration can be re-enabled in \"View Built-in Event\".",
+    "confirmationYes": "Yes",
+    "confirmationNo": "Cancel"
+  },
   "notes": {
     "openNotes": "Open notes and activity",
     "closeNotes": "Close notes and activity",

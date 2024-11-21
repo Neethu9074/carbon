@@ -28,6 +28,7 @@ import {
   getEventStateBadge
 } from 'in-events/components/eventUtil';
 import {
+  aqmDisableConfigOnEventViewEnabled,
   manuallyCloseEventEnabled,
   eumImpactedUsersForAppAlertEnabled,
   businessObservabilityEnabled
@@ -40,6 +41,7 @@ import EntityWithParentInformation from 'in-events/components/EntityInformation/
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
 import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import IncidentContent from 'in-events/components/tabs/Summary/IncidentDetailPage/IncidentContent';
+import DisableEventConfigButton from 'in-events/components/tabs/Summary/DisableEventConfigButton';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import ApplicationEventContent from 'in-events/components/EventContent/ApplicationEventContent';
 import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAlertImpactedUsers';
@@ -282,6 +284,9 @@ const EventActions = ({ event, reload, latestSnapshot }) => {
         )}
         <TriggeredIncidentButton event={event} />
         <EventSpecificationLink event={event.toJS()} />
+        {aqmDisableConfigOnEventViewEnabled && (
+          <DisableEventConfigButton event={event} eventType="event" reload={reload} />
+        )}
         <AnalyzeIssueCallsButton event={event} />
       </DescriptionButtons>
     </Stack>

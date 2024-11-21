@@ -174,6 +174,7 @@ module.exports = {
   alertChannelPerSeverityInfraSaEnabled: true,
   alertChannelPerSeverityApplicationSaEnabled: true,
   smartAlertCarbonTableEnabled: false,
+  aqmDisableConfigOnEventViewEnabled: false,
   openTelemetryKubernetesEnabled: true,
   dataUsageNotificationEnabled: false
 };
