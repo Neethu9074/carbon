@@ -68,7 +68,6 @@ export const carbonRadioButtonEnabled = isFeatureFlagEnabled('carbonRadioButtonE
 export const carbonCheckboxEnabled = isFeatureFlagEnabled('carbonCheckboxEnabled', false);
 export const carbonPaginationEnabled = isFeatureFlagEnabled('carbonPaginationEnabled');
 export const carbonTableEnabled = isFeatureFlagEnabled('carbonTableEnabled');
-export const carbonMenuEnabled = isFeatureFlagEnabled('carbonMenuEnabled', false);
 export const carbonDateInputEnabled = isFeatureFlagEnabled('carbonDateInputEnabled');
 export const carbonExpandableGroupEnabled = isFeatureFlagEnabled('carbonExpandableGroupEnabled');
 export const carbonSideNavLinksEnabled = isFeatureFlagEnabled('carbonSideNavLinksEnabled');
