@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import { isEmpty } from 'lodash';
 import React from 'react';
 
-import { Li, Link, Ul, IconButton, SvgIcon, DataTable as CarbonTable } from '@instana/components';
+import { Li, Link, Ul, IconButton, SvgIcon } from '@instana/components';
 import { ActionInstance, ActorType } from '@instana/types';
 import { Observable, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
@@ -27,7 +27,7 @@ import { ACTION_TRANSLATIONS, ACTION_TYPE } from 'in-automation/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
-import { carbonTableEnabled } from 'in-services/featureFlags';
+import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { formatDateTime } from 'in-services/formatters/date';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
 import CopyToClipboard from 'in-components/CopyToClipboard';
@@ -251,42 +251,42 @@ export default function DetailTab({
     }
   }
 
-  const carbonHeaders = [
-    {
-      key: 'property',
-      header: t('in-automation:actionHistory.property')
-    },
-    {
-      key: 'value',
-      header: t('in-automation:actionHistory.value')
-    }
-  ];
+  // const carbonHeaders = [
+  //   {
+  //     key: 'property',
+  //     header: t('in-automation:actionHistory.property')
+  //   },
+  //   {
+  //     key: 'value',
+  //     header: t('in-automation:actionHistory.value')
+  //   }
+  // ];
 
-  const filterRows_WhenNotShowingCondition_or_actionLaneIsDifferent = ({
-    showCondition = true,
-    actionLane = false
-  }) => {
-    if (!showCondition || (inActionLane && !actionLane) || (!inActionLane && actionLane)) {
-      return false;
-    }
-    return true;
-  };
+  // const filterRows_WhenNotShowingCondition_or_actionLaneIsDifferent = ({
+  //   showCondition = true,
+  //   actionLane = false
+  // }) => {
+  //   if (!showCondition || (inActionLane && !actionLane) || (!inActionLane && actionLane)) {
+  //     return false;
+  //   }
+  //   return true;
+  // };
 
-  const carbonRows = tableData
-    .filter(filterRows_WhenNotShowingCondition_or_actionLaneIsDifferent)
-    .map(({ label, value, isLink, ObservableLink, stringLink }) => {
-      return {
-        id: label,
-        property: label,
-        value: isLink ? (
-          <Link target="_blank" className={locals.detailsLink} href={ObservableLink ?? stringLink ?? undefined}>
-            {value} <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />{' '}
-          </Link>
-        ) : (
-          value
-        )
-      };
-    });
+  // const carbonRows = tableData
+  //   .filter(filterRows_WhenNotShowingCondition_or_actionLaneIsDifferent)
+  //   .map(({ label, value, isLink, ObservableLink, stringLink }) => {
+  //     return {
+  //       id: label,
+  //       property: label,
+  //       value: isLink ? (
+  //         <Link target="_blank" className={locals.detailsLink} href={ObservableLink ?? stringLink ?? undefined}>
+  //           {value} <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />{' '}
+  //         </Link>
+  //       ) : (
+  //         value
+  //       )
+  //     };
+  //   });
 
   const renderRow = (
     label: string,
@@ -301,32 +301,31 @@ export default function DetailTab({
     if (!showCondition || (inActionLane && !actionLane) || (!inActionLane && actionLane)) return null;
 
     return (
-      <tr key={label}>
-        <td>{label}</td>
-        <td>
-          {isLink ? (
-            <Link className={locals.detailsLink} target="_blank" href={ObservableLink ?? stringLink ?? undefined}>
-              {value} <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />
-            </Link>
-          ) : (
-            value
-          )}
-        </td>
-      </tr>
+      <Di key={label} title={label}>
+        {/* <td>{label}</td> */}
+
+        {isLink ? (
+          <Link className={locals.detailsLink} target="_blank" href={ObservableLink ?? stringLink ?? undefined}>
+            {value} <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />
+          </Link>
+        ) : (
+          value
+        )}
+      </Di>
     );
   };
 
-  if (carbonTableEnabled) {
-    return (
-      <div
-        className={classNames({
-          [locals.instanceTabContent]: !inActionLane
-        })}
-      >
-        <CarbonTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
-      </div>
-    );
-  }
+  // if (carbonTableEnabled) {
+  //   return (
+  //     <div
+  //       className={classNames({
+  //         [locals.instanceTabContent]: !inActionLane
+  //       })}
+  //     >
+  //       <CarbonTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div
@@ -334,7 +333,7 @@ export default function DetailTab({
         [locals.instanceTabContent]: !inActionLane
       })}
     >
-      <table
+      {/* <table
         className={classNames({
           [locals.ActionInstanceDetailsTable]: true,
           [locals.ActionLaneTable]: inActionLane
@@ -346,13 +345,15 @@ export default function DetailTab({
             <th>{t('in-automation:actionHistory.value')}</th>
           </tr>
         </thead>
-        <tbody>
-          {tableData.map(
-            ({ label, value, isLink, ObservableLink, stringLink, showCondition = true, actionLane = false }) =>
-              renderRow(label, value, isLink, ObservableLink, stringLink, showCondition, actionLane, inActionLane)
-          )}
-        </tbody>
-      </table>
+        <tbody> */}
+      <Dl>
+        {tableData.map(
+          ({ label, value, isLink, ObservableLink, stringLink, showCondition = true, actionLane = false }) =>
+            renderRow(label, value, isLink, ObservableLink, stringLink, showCondition, actionLane, inActionLane)
+        )}
+      </Dl>
+      {/* </tbody>
+      </table> */}
     </div>
   );
 }
