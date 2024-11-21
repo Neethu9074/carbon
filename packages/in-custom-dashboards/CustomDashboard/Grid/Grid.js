@@ -19,8 +19,8 @@ import {
   margin,
   rowHeightPixels
 } from 'in-custom-dashboards/CustomDashboard/Grid/settings';
-import { carbonMoreMenuEnabled, customDashboardsExportPdfWidget, zoomWidgetEnabled } from 'in-services/featureFlags';
 import { CustomDashboardContext } from 'in-custom-dashboards/CustomDashboard/CustomDashboardContext';
+import { customDashboardsExportPdfWidget, zoomWidgetEnabled } from 'in-services/featureFlags';
 import { CUSTOM_DASHBOARD_WIDGET_DOWNLOAD_PDF } from 'in-services/tracking/tracking';
 import ViewTracker from 'in-custom-dashboards/CustomDashboard/Grid/ViewTracker';
 import { gridGutter } from 'in-custom-dashboards/CustomDashboard/Grid/settings';
@@ -268,14 +268,14 @@ function WidgetMoreMenu({
   setShouldExportWidget
 }) {
   return (
-    <div className={classNames(locals.moreMenuContainer, { [locals.carbonMoreMenuContainer]: carbonMoreMenuEnabled })}>
+    <div className={classNames(locals.moreMenuContainer, locals.carbonMoreMenuContainer)}>
       <ViewLogsButton className={locals.viewInAnalyze} config={widget.config} />
       {zoomWidgetEnabled && (
         <Tooltip content={t('in-forge:plugins.docker.dashboard.zoomTooltip')}>
           <div>
             <IconButton
               kind="action"
-              size={carbonMoreMenuEnabled ? 'compact' : 'normal'}
+              size={'compact'}
               className={locals.zoom}
               type="lib_actions_maximize"
               onClick={() => onZoomWidget(widget.id)}
@@ -283,8 +283,8 @@ function WidgetMoreMenu({
           </div>
         </Tooltip>
       )}
-      <Tooltip content={carbonMoreMenuEnabled ? null : t('in-forge:plugins.docker.dashboard.moreTooltip')}>
-        <div className={classNames({ [locals.moreMenuContent]: carbonMoreMenuEnabled })}>
+      <Tooltip content={null}>
+        <div className={locals.moreMenuContent}>
           <MoreMenu
             kind="secondaryDarker"
             size="compact"
