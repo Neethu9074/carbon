@@ -5,10 +5,10 @@
 
 import React, { useState } from 'react';
 import classNames from 'classnames';
+import { uniqueId } from 'lodash';
 
 import { IconButton } from '@instana/components';
 
-import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './ExpandableCardWithSubtitle.mless';
@@ -30,13 +30,18 @@ export default function ExpandableCardWithSubtitle({
 }) {
   const [expanded, setExpanded] = useState(openByDefault);
 
+  const id = uniqueId('fieldset_');
   const topLeft = (
     <div
       className={classNames(locals.header, locals.left, {
         [locals.disabled]: disabled
       })}
     >
-      {title && <span className={locals.title}>{title}</span>}
+      {title && (
+        <legend id={id} className={locals.title}>
+          {title}
+        </legend>
+      )}
     </div>
   );
   const bottomLeft = (
@@ -52,31 +57,30 @@ export default function ExpandableCardWithSubtitle({
       )}
     </div>
   );
+
   const topRight = (
     <div className={classNames(locals.header, locals.right)}>
       {rightHeaderContent}
       {!disabled && (
-        <Tooltip
-          content={
-            !tooltipDisabled &&
-            (expanded
+        <IconButton
+          isWrapperedByTooltip={!tooltipDisabled}
+          iconDescription={
+            expanded
               ? t('in-components:expandableCard.tooltipShowLess')
-              : t('in-components:expandableCard.tooltipShowMore'))
+              : t('in-components:expandableCard.tooltipShowMore')
           }
-        >
-          <IconButton
-            kind="action"
-            className={locals.icon}
-            type={expanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
-            onClick={() => {
-              expansionTracker?.({
-                expanded: !expanded
-              });
-              setExpanded(!expanded);
-            }}
-            size="compact"
-          />
-        </Tooltip>
+          aria-expanded={expanded}
+          kind="action"
+          className={locals.icon}
+          type={expanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
+          onClick={() => {
+            expansionTracker?.({
+              expanded: !expanded
+            });
+            setExpanded(!expanded);
+          }}
+          size="compact"
+        />
       )}
     </div>
   );
@@ -90,33 +94,35 @@ export default function ExpandableCardWithSubtitle({
   );
 
   return (
-    <div
-      className={classNames(locals.card, {
-        [locals.useMaxAvailableHeight]: useMaxAvailableHeight,
-        [locals.hasMarginBottom]: hasMarginBottom,
-        [className]: className
-      })}
-    >
+    <fieldset aria-describedby={id}>
       <div
-        className={classNames(locals.cardHeader, {
-          [locals.withBottomBorder]: !disabled && expanded,
-          [headerClassName]: headerClassName,
-          [locals.disabled]: disabled
+        className={classNames(locals.card, {
+          [locals.useMaxAvailableHeight]: useMaxAvailableHeight,
+          [locals.hasMarginBottom]: hasMarginBottom,
+          [className]: className
         })}
-        onClick={() => setExpanded(!expanded)}
       >
-        {header}
-      </div>
-
-      {!disabled && expanded && children && (
         <div
-          className={classNames(locals.cardBody, {
-            [bodyClassName]: bodyClassName && !!children
+          className={classNames(locals.cardHeader, {
+            [locals.withBottomBorder]: !disabled && expanded,
+            [headerClassName]: headerClassName,
+            [locals.disabled]: disabled
           })}
+          onClick={() => setExpanded(!expanded)}
         >
-          {children}
+          {header}
         </div>
-      )}
-    </div>
+
+        {!disabled && expanded && children && (
+          <div
+            className={classNames(locals.cardBody, {
+              [bodyClassName]: bodyClassName && !!children
+            })}
+          >
+            {children}
+          </div>
+        )}
+      </div>
+    </fieldset>
   );
 }

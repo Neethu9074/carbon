@@ -12,7 +12,6 @@ import FacetedExpandableCard from 'in-components/AnalyzeView/FacetedFilters/Face
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { Col, Row } from 'in-components/layout/Grid';
-import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
@@ -66,96 +65,101 @@ export default function FacetedFilterRangeInput({
       tag={tag}
       dataSource={dataSource}
     >
-      <Row withoutTopMargin>
-        <Col md={6}>
-          <FormGroup className={locals.rangeForm}>
-            <Label htmlFor="range-min" hasError={isErroneous}>
-              {unit ? t('in-components:analyze.fromUnit', { unit: unit }) : t('in-components:analyze.from')}
-            </Label>
-            <Input
-              id="range-min"
-              className={locals.rangeInput}
-              value={minInput}
-              type="number"
-              hasError={isErroneous}
-              onChange={e => (Number(e.target.value) > 0 ? setMinInput(Number(e.target.value)) : setMinInput(''))}
-              onBlur={() =>
-                (effectiveRange.from !== minInput || isErroneous) &&
-                validateInputAndSetFacetFilter(
-                  tag,
-                  minInput,
-                  maxInput,
-                  facets,
-                  updateFacets,
-                  setError,
-                  dataSource,
-                  trackUa2FacetedSearchFilterAdded
-                )
-              }
-              onKeyDown={e =>
-                isReturn(e) &&
-                (effectiveRange.from !== minInput || isErroneous) &&
-                validateInputAndSetFacetFilter(
-                  tag,
-                  minInput,
-                  maxInput,
-                  facets,
-                  updateFacets,
-                  setError,
-                  dataSource,
-                  trackUa2FacetedSearchFilterAdded
-                )
-              }
-            />
-          </FormGroup>
-        </Col>
+      <fieldset aria-labelledby="range-from-to">
+        <legend id="range-from-to" className="cds--visually-hidden">
+          {t('in-components:analyze.fromto')}
+        </legend>
+        <Row withoutTopMargin>
+          <Col md={6}>
+            <div className="locals.rangeForm">
+              <Label htmlFor="range-min" hasError={isErroneous}>
+                {unit ? t('in-components:analyze.fromUnit', { unit: unit }) : t('in-components:analyze.from')}
+              </Label>
+              <Input
+                id="range-min"
+                className={locals.rangeInput}
+                value={minInput}
+                type="number"
+                hasError={isErroneous}
+                onChange={e => (Number(e.target.value) > 0 ? setMinInput(Number(e.target.value)) : setMinInput(''))}
+                onBlur={() =>
+                  (effectiveRange.from !== minInput || isErroneous) &&
+                  validateInputAndSetFacetFilter(
+                    tag,
+                    minInput,
+                    maxInput,
+                    facets,
+                    updateFacets,
+                    setError,
+                    dataSource,
+                    trackUa2FacetedSearchFilterAdded
+                  )
+                }
+                onKeyDown={e =>
+                  isReturn(e) &&
+                  (effectiveRange.from !== minInput || isErroneous) &&
+                  validateInputAndSetFacetFilter(
+                    tag,
+                    minInput,
+                    maxInput,
+                    facets,
+                    updateFacets,
+                    setError,
+                    dataSource,
+                    trackUa2FacetedSearchFilterAdded
+                  )
+                }
+              />
+            </div>
+          </Col>
 
-        <Col md={6}>
-          <FormGroup className={locals.rangeForm}>
-            <Label htmlFor="range-max" hasError={isErroneous}>
-              {unit ? t('in-components:analyze.toUnit', { unit: unit }) : t('in-components:analyze.to')}
-            </Label>
-            <Input
-              id="range-max"
-              className={locals.rangeInput}
-              value={maxInput}
-              type="number"
-              hasError={isErroneous}
-              onChange={e => (Number(e.target.value) > 0 ? setMaxInput(Number(e.target.value)) : setMaxInput(''))}
-              onBlur={() =>
-                (effectiveRange.to !== maxInput || isErroneous) &&
-                validateInputAndSetFacetFilter(
-                  tag,
-                  minInput,
-                  maxInput,
-                  facets,
-                  updateFacets,
-                  setError,
-                  dataSource,
-                  trackUa2FacetedSearchFilterAdded
-                )
-              }
-              onKeyDown={e =>
-                isReturn(e) &&
-                (effectiveRange.to !== maxInput || isErroneous) &&
-                validateInputAndSetFacetFilter(
-                  tag,
-                  minInput,
-                  maxInput,
-                  facets,
-                  updateFacets,
-                  setError,
-                  dataSource,
-                  trackUa2FacetedSearchFilterAdded
-                )
-              }
-            />
-          </FormGroup>
-        </Col>
-        {isErroneous && (
-          <ValidationBlock className={locals.errorMessage}>{t('in-components:analyze.rangeOrder')}</ValidationBlock>
-        )}
-      </Row>
+          <Col md={6}>
+            <div className={locals.rangeForm}>
+              <Label htmlFor="range-max" hasError={isErroneous}>
+                {unit ? t('in-components:analyze.toUnit', { unit: unit }) : t('in-components:analyze.to')}
+              </Label>
+              <Input
+                id="range-max"
+                className={locals.rangeInput}
+                value={maxInput}
+                type="number"
+                hasError={isErroneous}
+                onChange={e => (Number(e.target.value) > 0 ? setMaxInput(Number(e.target.value)) : setMaxInput(''))}
+                onBlur={() =>
+                  (effectiveRange.to !== maxInput || isErroneous) &&
+                  validateInputAndSetFacetFilter(
+                    tag,
+                    minInput,
+                    maxInput,
+                    facets,
+                    updateFacets,
+                    setError,
+                    dataSource,
+                    trackUa2FacetedSearchFilterAdded
+                  )
+                }
+                onKeyDown={e =>
+                  isReturn(e) &&
+                  (effectiveRange.to !== maxInput || isErroneous) &&
+                  validateInputAndSetFacetFilter(
+                    tag,
+                    minInput,
+                    maxInput,
+                    facets,
+                    updateFacets,
+                    setError,
+                    dataSource,
+                    trackUa2FacetedSearchFilterAdded
+                  )
+                }
+              />
+            </div>
+          </Col>
+          {isErroneous && (
+            <ValidationBlock className={locals.errorMessage}>{t('in-components:analyze.rangeOrder')}</ValidationBlock>
+          )}
+        </Row>
+      </fieldset>
       {isValidNumberRange(minInput, maxInput) && (
         <div className={locals.buttonRow}>
           <Button kind="action" href={resetFacets?.(tag)} className={locals.clearFacet}>

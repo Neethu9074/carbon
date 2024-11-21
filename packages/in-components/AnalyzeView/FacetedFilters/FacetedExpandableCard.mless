@@ -7,23 +7,12 @@
   .headerButton {
     position: relative;
     background: transparent;
-    right: -1.5rem;
     padding: 0;
     align-items: center;
     border: none;
 
     svg {
       fill: var(--ids-color-option-neutral-900);
-    }
-
-    &:hover {
-      background: transparent;
-      color: var(--ids-color-option-neutral-900);
-      border: none;
-
-      svg {
-        fill: var(--ids-color-option-neutral-900);
-      }
     }
   }
 }
