@@ -22,6 +22,7 @@ import {
 import { carbonMoreMenuEnabled, customDashboardsExportPdfWidget, zoomWidgetEnabled } from 'in-services/featureFlags';
 import { CustomDashboardContext } from 'in-custom-dashboards/CustomDashboard/CustomDashboardContext';
 import { CUSTOM_DASHBOARD_WIDGET_DOWNLOAD_PDF } from 'in-services/tracking/tracking';
+import { useFastQueryConfig } from 'in-custom-dashboards/hooks/useFastQueryConfig';
 import ViewTracker from 'in-custom-dashboards/CustomDashboard/Grid/ViewTracker';
 import { gridGutter } from 'in-custom-dashboards/CustomDashboard/Grid/settings';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -202,6 +203,8 @@ function WidgetContent({
 }) {
   const { Widget, onlyRenderInsideViewport = true, trackViews } = widgets[widget.type];
 
+  const widgetConfig = useFastQueryConfig(widget.config, widget.type);
+
   const actions = isConfigurable && (
     <WidgetMoreMenu
       onEditWidget={onEditWidget}
@@ -220,7 +223,7 @@ function WidgetContent({
       title={widget.title || '–'}
       actions={actions}
       dragHandle={isDraggable && dragHandle}
-      config={widget.config}
+      config={widgetConfig}
       setApDialogOpen={widget.setApDialogOpen}
       widgetId={widget.id}
       setExportWidgetId={setExportWidgetId}
