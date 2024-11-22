@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { Datagrid, useDatagrid, useFiltering, useOnRowClick } from '@carbon/ibm-products';
+import { Datagrid, useDatagrid, useFiltering, useInfiniteScroll, useOnRowClick } from '@carbon/ibm-products';
 import React, { useMemo, useEffect, useRef } from 'react';
 
 import { formatDateTime } from '@instana/format-date';
@@ -173,7 +173,7 @@ const sections = [
   }
 ];
 
-const EventsTable = ({ onItemClicked, rawEvents, eventType, isDenseList }) => {
+const EventsTable = ({ onItemClicked, rawEvents, isDenseList, loading, canLoadMore, loadMore }) => {
   function buildQueryString(list, keyword) {
     let queryString = '';
 
@@ -198,10 +198,9 @@ const EventsTable = ({ onItemClicked, rawEvents, eventType, isDenseList }) => {
     closeIconDescription: t('in-events:dataGridEventTable.closeFilters'),
     shouldClickOutsideToClose: false,
     align: 'bottom',
-    panelTitle: `Filter ${eventType}`,
+    panelTitle: t('in-events:dataGridEventTable.filterTitle'),
     sections,
     panelIconDescription: t('in-events:dataGridEventTable.openFilters'),
-
     onClearFilters: () => (clearFilters.current = true)
   };
 
@@ -292,10 +291,22 @@ const EventsTable = ({ onItemClicked, rawEvents, eventType, isDenseList }) => {
       initialState: {
         filters: currentFilters ? [initialFilters] : [],
         hiddenColumns
-      }
+      },
+      isFetching: loading,
+      // infinite scroll
+      fetchMoreData: () => {
+        if (canLoadMore) {
+          loadMore();
+        }
+      },
+      loadMoreThreshold: 30,
+      // currently its set to a static height until you refresh.
+      // TODO: change it to be more dynamic if requested
+      virtualHeight: window.innerHeight - 550
     },
     useFiltering,
-    useOnRowClick
+    useOnRowClick,
+    useInfiniteScroll
   );
 
   const {

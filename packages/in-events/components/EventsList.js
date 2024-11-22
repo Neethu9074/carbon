@@ -84,6 +84,9 @@ function List(props) {
         rawEvents={filteredRawEventList}
         eventType={eventType}
         isDenseList={isDenseList}
+        loading={progress.loading}
+        loadMore={loadMore}
+        canLoadMore={canLoadMore}
       />
     );
   }

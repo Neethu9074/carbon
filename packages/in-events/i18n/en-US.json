@@ -253,7 +253,8 @@
     "infraSA": "Infrastructure Smart Alert",
     "mobileSA": "Mobile Smart Alert",
     "logSA": "Log Smart Alert",
-    "sloSa": "SLO Smart Alert"
+    "sloSa": "SLO Smart Alert",
+    "filterTitle": "Filter"
   },
   "feedback": {
     "skip": "Skip",
