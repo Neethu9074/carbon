@@ -22,12 +22,7 @@ export type DateInputProps = Omit<CarbonDateInputProps, 'value' | 'onChange'> & 
   onChange: DateInputOnChange;
 };
 
-export default function DateInput({
-  ...props
-}: Omit<CarbonDateInputProps, 'value' | 'onChange'> & {
-  value: DateInputValue;
-  onChange: DateInputOnChange;
-}): JSX.Element {
+export default function DateInput(props: DateInputProps) {
   const { onChange, value, disabled, id, hasError, placeholder, labelText, size } = props;
 
   const convertDateObj = (date: string | Date | number) => {

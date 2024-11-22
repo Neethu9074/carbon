@@ -20,20 +20,23 @@ jest.mock('in-services/featureFlags', () => ({
 }));
 
 describe('in-settings/components/ApiTokenExpiration/ExpiryDateTimePicker/ExpiryDateTimePicker', () => {
+  jest.setSystemTime(new Date(2021, 7, 18));
+
   const mockSetState = jest.fn();
-  let futureDate = new Date();
-  futureDate.setDate(futureDate.getDate() + 1);
+
   const createToken = {
     name: 'test_name',
     accessGrantingToken: 'test_accessGrantingToken',
     internalId: 'test_internalId',
     id: 'test_id',
-    expiresOn: futureDate.getTime()
+    expiresOn: new Date().getTime()
   };
+
   const props: ExpiryDateTimePickerProps = {
     form: createForm(createToken),
     setForm: mockSetState
   };
+
   it('renders ExpiryDateTimePicker', () => {
     const { getByText } = render(<ExpiryDateTimePicker {...props} />);
     expect(getByText(t('in-settings:tabs.apiTokenExpiryDate'))).toBeInTheDocument();
@@ -45,7 +48,7 @@ describe('in-settings/components/ApiTokenExpiration/ExpiryDateTimePicker/ExpiryD
     const dateInput: HTMLInputElement = getByPlaceholderText(/yyyy-mm-dd/i) as HTMLInputElement;
 
     // set date in future
-    const dateString = futureDate.toISOString().slice(0, 10);
+    const dateString = new Date().toISOString().slice(0, 10);
 
     await userEvent.type(dateInput, `${dateString}{enter}`);
     expect(mockSetState).toHaveBeenCalled();
