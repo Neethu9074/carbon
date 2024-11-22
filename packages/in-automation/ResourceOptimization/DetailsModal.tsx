@@ -24,9 +24,9 @@ import {
   useActionImpactedApplications
 } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import { turboActionCategoryMap } from 'in-automation/ResourceOptimization/RecommendedOptimizations';
-import useNavigateToActionHistory from 'in-automation/navigation/hooks/useNavigateToActionHistory';
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { ActionInstance } from 'in-automation/subscriptions/turboSubmitActionExecution';
+import { setActiveKey } from 'in-automation/AutomationCard/OptimizationsButtonGroup';
 import { refresh } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import { runResourceOptimizationAction } from 'in-automation/api';
 import { close } from 'in-components/DialogPresenter/store';
@@ -72,7 +72,6 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
   const appImpactResult = useActionImpactedApplications({
     targetSnapshotId: currentAction?.targetSnapshotId ?? ''
   });
-  const navigateToActionHistory = useNavigateToActionHistory();
   const resImpactLoading = resourceImpactResult?.progress?.loading;
   const appImpactLoading = appImpactResult?.progress?.loading;
 
@@ -108,7 +107,7 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
             <Button
               kind="tertiary"
               onClick={() => {
-                navigateToActionHistory(data?.actionInstanceId);
+                setActiveKey('history');
                 removeMessage('run-resource-optimization');
               }}
             >
