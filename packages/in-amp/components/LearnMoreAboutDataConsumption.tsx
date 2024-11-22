@@ -42,7 +42,7 @@ export default function LearnMoreAboutDataConsumption() {
                   fupDocLink: (
                     //@ts-expect-error children not added
                     <Link
-                      href="https://www.ibm.com/docs/en/instana-observability/current?topic=policies#fair-use-policy"
+                      href="https://ibm.biz/fair-use-policy"
                       onClick={() => trackCta(FAIR_USE_POLICY_BLOG)}
                       external
                     />
