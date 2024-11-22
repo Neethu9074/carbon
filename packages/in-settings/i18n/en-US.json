@@ -224,7 +224,7 @@
     "title_limited_access_bizops": "Limited access",
     "description_limited_access_bizops": "Access only the listed business perspectives and their business processes.",
     "description_access_all_bizops": "All features of business monitoring are accessible without limitation.",
-    "description_no_access_bizops": "Access to business monitoring is denied.",
+    "description_no_access_bizops": "No access: Access to business monitoring is denied.",
     "description_access_all_except_contributor": "Access all - except the ones accessed as contributor",
     "role": "Select a role",
     "role_owner": "Owner",
