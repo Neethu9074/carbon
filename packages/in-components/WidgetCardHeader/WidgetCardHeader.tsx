@@ -22,7 +22,7 @@ interface Props {
 
 export default function WidgetCardHeader({
   renderApproximateDataTooltip,
-  approximateTooltipText = t('in-components:approximateDataIndicator.dataRetention'),
+  approximateTooltipText,
   renderWidgetNotSupportedIndicator,
   liveModeNotSupportedTooltip = t('in-components:liveModeIndicator.widgetNotSupportedInLiveMode'),
   extraInfoTooltip
@@ -30,7 +30,7 @@ export default function WidgetCardHeader({
   return (
     <>
       {renderApproximateDataTooltip && (
-        <Tooltip content={approximateTooltipText}>
+        <Tooltip content={approximateTooltipText ?? t('in-components:approximateDataIndicator.dataRetention')}>
           <SvgIcon type="lib_approximately_equal" color={themes.default.ids.color.option.neutral['300']} />
         </Tooltip>
       )}
