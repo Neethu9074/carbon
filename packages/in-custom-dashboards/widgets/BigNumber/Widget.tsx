@@ -10,12 +10,14 @@ import {
   ConfigWithCompanionMetric,
   ConfigWithStaticCompanion
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
-import { thresholdCustomDashboardsEnabled } from 'in-services/featureFlags';
+import { customDashboardsFastQueryModeEnabled, thresholdCustomDashboardsEnabled } from 'in-services/featureFlags';
+import { hasApplicationMetrics } from 'in-custom-dashboards/widgets/_shared/hasApplicationMetrics';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { Threshold, UnifiedMetricConfigurationUnion } from 'in-types';
 import { getThreshold } from 'in-components/Threshold/threshold';
 import { getFormatter } from 'in-stores/metric/formatters';
 import { getUnit } from 'in-stores/metric/units';
+import { t } from 'in-i18n';
 
 type MetricProps = UnifiedMetricConfigurationUnion & {
   threshold?: Threshold;
@@ -39,6 +41,10 @@ export interface BigNumberProps {
 
 export default function BigNumber({ config, title, actions, dragHandle, isInModal, isPreview }: BigNumberProps) {
   const thresholdProps = config?.metricConfiguration?.threshold;
+  const approximateTooltipText =
+    customDashboardsFastQueryModeEnabled && hasApplicationMetrics(config)
+      ? t('in-components:approximateDataIndicator.dataRetentionOrFastQueryMode')
+      : t('in-components:approximateDataIndicator.dataRetention');
   const unit = config?.metricConfiguration?.unit;
 
   return (
@@ -51,6 +57,7 @@ export default function BigNumber({ config, title, actions, dragHandle, isInModa
       isInModal={isInModal}
       formatter={getFormatter(config.formatter)}
       thresholdFn={thresholdCustomDashboardsEnabled ? getThreshold(thresholdProps, config.formatter) : undefined}
+      approximateTooltipText={approximateTooltipText}
       conversionFn={unit ? getUnit(unit)?.converter : undefined}
     />
   );

@@ -20,6 +20,13 @@ export const dashboardTvModeUrlParameter = {
   path: viewPath,
   name: 'tvMode'
 };
+export const fastQueryModeEnabledParameter = {
+  path: viewPath,
+  name: 'fastQueryModeEnabled',
+  initialState: true,
+  parser: v => v === 'true',
+  serializer: Boolean
+};
 export const dashboardTopLevelFilterUrlParameter = {
   path: viewPath,
   name: 'tagFilterExpression',

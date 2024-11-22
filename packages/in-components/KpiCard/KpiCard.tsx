@@ -60,6 +60,7 @@ export interface KpiCardProps {
   useMaxAvailableHeight?: boolean;
   iconAction?: IconAction;
   resultPrecision?: ResultPrecision;
+  approximateTooltipText?: string;
   isInModal?: boolean;
   tooltipContent?: React.ReactNode;
   majorClass?: string;
@@ -89,6 +90,7 @@ export default function KpiCard({
   useMaxAvailableHeight = true,
   iconAction,
   resultPrecision,
+  approximateTooltipText,
   tooltipContent,
   majorClass,
   minorClass,
@@ -218,7 +220,11 @@ export default function KpiCard({
         )}
 
         <div className={locals.flexTooltip}>
-          <WidgetCardHeader renderApproximateDataTooltip={hasApproximateData} extraInfoTooltip={extraInfo} />
+          <WidgetCardHeader
+            renderApproximateDataTooltip={hasApproximateData}
+            approximateTooltipText={approximateTooltipText}
+            extraInfoTooltip={extraInfo}
+          />
         </div>
         {iconAction &&
           (carbonButtonEnabled ? (
