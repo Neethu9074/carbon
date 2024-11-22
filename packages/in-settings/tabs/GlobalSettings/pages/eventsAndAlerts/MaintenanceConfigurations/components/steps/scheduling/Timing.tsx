@@ -137,14 +137,11 @@ export default function Timing({
                   </HorizontalFlexWrapper>
                   <ErrorBoundary name="dateInput-timing-RMW">
                     <DateInput
-                      //Ignoring id & placeholder props
-                      //@ts-expect-error
                       id={`maintenance-start-date`}
                       placeholder="YYYY-MM-DD"
                       value={dateField.value}
                       onChange={v => setValue(form, ['window', 'start', 'date'], v)}
                       hasError={!dateField.valid && dateField.touched}
-                      className={locals.input}
                     />
                   </ErrorBoundary>
                 </StackItem>

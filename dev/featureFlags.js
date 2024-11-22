@@ -59,7 +59,6 @@ module.exports = {
   notesAndActivityEnabled: true,
   carbonTooltipEnabled: true,
   carbonCheckboxEnabled: true,
-  carbonDateInputEnabled: true,
   carbonExpandableGroupEnabled: true,
   carbonSideNavLinksEnabled: true,
   carbonG10ThemeEnabled: true,
