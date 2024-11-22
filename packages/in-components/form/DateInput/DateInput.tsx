@@ -38,6 +38,8 @@ export default function DateInput(props: DateInputProps) {
       hasError={hasError}
       onChange={date => {
         if (date == undefined) return onChange(date);
+        // date can be provided as a Date object or a date string --> onChange expects a string so convert.
+        // javascript does not provide a method to test for Date object specifically.
         onChange(convertDateObj(typeof date === 'object' ? new Date(date.toString()) : date));
       }}
       dateFormat={dateFormat}
