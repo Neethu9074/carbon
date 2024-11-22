@@ -680,7 +680,7 @@ module.exports = exports = [
   {
     uiClientKey: 'resourceOptimizationActionsEnabled',
     instanaCtlKey: 'feature.resource.optimization.actions.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'serviceNowAdvancedEnabled',
