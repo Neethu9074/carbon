@@ -42,7 +42,7 @@ export default function AggregationSelector({ aggregations, selectedAggregation,
       kind="ghost"
       size="sm"
       label={aggregationLabels[selectedAggregation]}
-      aria-label={t('in-components:chartingConfigurator.labelChangeSelectedAggregation')}
+      title={t('in-components:chartingConfigurator.labelChangeSelectedAggregation')}
       menuAlignment="bottom-start"
     >
       {aggregations?.length
