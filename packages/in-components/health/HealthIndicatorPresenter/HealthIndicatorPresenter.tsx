@@ -23,7 +23,13 @@ interface Props {
   onClick?: () => void;
   tooltipLabel?: string;
   size?: 'regular' | 'xs' | 'l' | undefined;
+  /**
+   * When set, it won't embed it in a tooltip or button
+   */
   iconOnly?: boolean;
+  /**
+   * Optional value for specifying the size of the icon - default value is 'xs'
+   */
   iconOnlySize?: keyof typeof SvgIconSizes;
 }
 
