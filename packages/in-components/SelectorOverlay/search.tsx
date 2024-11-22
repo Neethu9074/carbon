@@ -5,7 +5,7 @@
  */
 
 import Fuse, { FuseOptionKey, FuseResult, FuseResultMatch, IFuseOptions, RangeTuple } from 'fuse.js';
-import React, { useMemo } from 'react';
+import React, { useMemo, Fragment } from 'react';
 
 import { Highlights, Options, OptionsResult } from 'in-components/SelectorOverlay/Node';
 
@@ -256,26 +256,34 @@ function flattenNodes<T extends Options>(nodes: T[]): T[] {
 
 function highlights(result: FuseResult<Options>): Highlights {
   if (!result.matches) {
+    const {
+      item: { label, description, parentLabels }
+    } = result;
+
     return {
-      label: result.item.label,
-      description: result.item.description,
-      parentLabels: result.item.parentLabels as (string | JSX.Element)[],
+      label,
+      description,
+      parentLabels,
       tag: false,
       metric: false
     };
   }
-  const label = result.matches.find(m => m.key === 'label');
-  const description = result.matches.find(m => m.key === 'description');
-  const parent0 = result.matches.find(m => m.key === 'parentLabels' && m.refIndex == 0);
-  const parent1 = result.matches.find(m => m.key === 'parentLabels' && m.refIndex == 1);
-  const tag = result.matches.find(m => m.key === 'tagName');
-  const metric = result.matches.find(m => m.key === 'metric');
+
+  const { matches, item } = result;
+
+  const label = matches.find(m => m.key === 'label');
+  const description = matches.find(m => m.key === 'description');
+  const parent0 = matches.find(m => m.key === 'parentLabels' && m.refIndex == 0);
+  const parent1 = matches.find(m => m.key === 'parentLabels' && m.refIndex == 1);
+  const tag = matches.find(m => m.key === 'tagName');
+  const metric = matches.find(m => m.key === 'metric');
+
   return {
-    label: label?.value ? highlight(label.value, label.indices) : result.item.label,
-    description: description?.value ? highlight(description.value, description.indices) : result.item.description,
+    label: label?.value ? highlight(label.value, label.indices) : item.label,
+    description: description?.value ? highlight(description.value, description.indices) : item.description,
     parentLabels: [
-      parent0?.value ? highlight(parent0.value, parent0.indices) : result.item.parentLabels?.[0] ?? '',
-      parent1?.value ? highlight(parent1.value, parent1.indices) : result.item.parentLabels?.[1] ?? ''
+      parent0?.value ? highlight(parent0.value, parent0.indices) : item.parentLabels?.[0] ?? '',
+      parent1?.value ? highlight(parent1.value, parent1.indices) : item.parentLabels?.[1] ?? ''
     ],
     tag: !!tag,
     metric: !!metric
@@ -285,8 +293,10 @@ function highlights(result: FuseResult<Options>): Highlights {
 function highlight(value: string, indices: readonly RangeTuple[]): JSX.Element {
   let position = 0;
   const elements: JSX.Element[] = [];
-  for (const range of [...indices].sort((a, b) => a[0] - b[0])) {
-    elements.push(<React.Fragment key={`t-${position}`}>{value.substring(position, range[0])}</React.Fragment>);
+  const mergedIndices = mergeRanges(indices);
+
+  for (const range of mergedIndices) {
+    elements.push(<Fragment key={`t-${position}`}>{value.substring(position, range[0])}</Fragment>);
     elements.push(
       <span key={`h-${range[0]}`} className={locals.highlight}>
         {value.substring(range[0], range[1] + 1)}
@@ -294,6 +304,30 @@ function highlight(value: string, indices: readonly RangeTuple[]): JSX.Element {
     );
     position = range[1] + 1;
   }
-  elements.push(<React.Fragment key="end">{value.substring(position)}</React.Fragment>);
+
+  if (position < value.length) {
+    elements.push(<Fragment key="end">{value.substring(position)}</Fragment>);
+  }
+
   return <>{elements}</>;
+}
+
+function mergeRanges(indices: readonly RangeTuple[]) {
+  if (!indices.length) return [];
+
+  const sortedIndices = [...indices].sort((a, b) => a[0] - b[0]);
+  const mergedRanges = [sortedIndices[0]];
+
+  for (let i = 1; i < sortedIndices.length; i++) {
+    const [currentStart, currentEnd] = mergedRanges[mergedRanges.length - 1];
+    const [nextStart, nextEnd] = sortedIndices[i];
+
+    if (nextStart <= currentEnd + 1) {
+      mergedRanges[mergedRanges.length - 1] = [currentStart, Math.max(currentEnd, nextEnd)];
+    } else {
+      mergedRanges.push(sortedIndices[i]);
+    }
+  }
+
+  return mergedRanges;
 }
