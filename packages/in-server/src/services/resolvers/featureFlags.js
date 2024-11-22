@@ -475,6 +475,11 @@ module.exports = exports = [
     instanaCtlKey: 'feature.custom.dashboards.export.pdf.entire.dashboard.enabled',
     defaultValue: false
   },
+  {
+    uiClientKey: 'customDashboardsFastQueryModeEnabled',
+    instanaCtlKey: 'feature.custom.dashboards.fast.query.mode.enabled',
+    defaultValue: false
+  },
 
   {
     uiClientKey: 'playwithTestEnabled',

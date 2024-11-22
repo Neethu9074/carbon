@@ -48,6 +48,7 @@ export interface BigNumberKpiCardProps {
   raw?: boolean;
   isInModal?: boolean;
   thresholdFn?: ThresholdFn;
+  approximateTooltipText?: string;
   conversionFn?: ConversionFn;
 }
 
@@ -63,7 +64,8 @@ export default function BigNumberKpiCard({
   thresholdFn,
   conversionFn,
   dragHandle,
-  raw
+  raw,
+  approximateTooltipText
 }: BigNumberKpiCardProps) {
   const timeConfig = useTimeConfig();
   const usedTimeConfig = getTimeConfigBasedOnMetricConfiguration(config.metricConfiguration, timeConfig);
@@ -124,6 +126,7 @@ export default function BigNumberKpiCard({
       }
       raw={raw}
       extraInfo={getFilterResultNote(filterResult)}
+      approximateTooltipText={approximateTooltipText}
     />
   );
 }

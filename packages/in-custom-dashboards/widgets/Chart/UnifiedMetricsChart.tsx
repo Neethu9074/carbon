@@ -44,11 +44,13 @@ import {
 } from 'in-custom-dashboards/widgets/Chart/renderer';
 import getUnifiedMetrics, { isLabeledMetricResult, UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { getTimeConfigBasedOnMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
+import { hasApplicationMetrics } from 'in-custom-dashboards/widgets/_shared/hasApplicationMetrics';
 import { DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_OTEL, oTelPlugins } from 'in-forge/constants';
 import { applyTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { colors } from 'in-custom-dashboards/widgets/Chart/FormComponent/colors';
+import { customDashboardsFastQueryModeEnabled } from 'in-services/featureFlags';
 import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
@@ -198,6 +200,10 @@ function DataLoadingWrapper({
     !!resultDataAsList &&
     resultDataAsList.filter(elem => elem?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE').length >
       0;
+  const approximateTooltipText =
+    customDashboardsFastQueryModeEnabled && hasApplicationMetrics(config)
+      ? t('in-components:approximateDataIndicator.dataRetentionOrFastQueryMode')
+      : t('in-components:approximateDataIndicator.dataRetention');
 
   useEffect(() => {
     onApproximateDataChange(hasApproximateData);
@@ -214,6 +220,7 @@ function DataLoadingWrapper({
       granularity={granularity}
       renderErrorDetail={renderErrorDetail}
       hasApproximateData={hasApproximateData}
+      approximateTooltipText={approximateTooltipText}
       extraInfo={resultData.filterResultNode}
       primaryContextMenuAction={config?.primaryContextMenuAction}
       additionalContextMenuButtons={config?.additionalContextMenuButtons}
