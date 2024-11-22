@@ -223,7 +223,6 @@ export const MOBILE_APPS_DASHBOARD_VIEW_DEPRECATION_DETAILS = 'mobileApps.dashbo
 
 export const SETTINGS_AUDIT_TRAIL_ACCESS_LOG_CLICK = 'settings.auditTrail.accessLog.click';
 export const SETTINGS_AUDIT_TRAIL_ACTION_LOG_CLICK = 'settings.auditTrail.actionLog.click';
-
 export const SETTINGS_GROUP_APPLICATION_FILTER_ADDED = 'settings.group.application.filter.added';
 export const SETTINGS_GROUP_USER_ADDED = 'settings.group.user.added';
 export const SETTINGS_IDP_LDAP_TEST_CONFIGURATION = 'settings.idp.ldap.testConfiguration';
@@ -231,6 +230,10 @@ export const SETTINGS_USER_GROUP_ADDED = 'settings.user.group.added';
 export const SETTINGS_USER_INVITE_SUBMIT = 'settings.user.invite.submit';
 export const SETTINGS_ROLE_SUBMIT = 'settings.role.submit';
 export const SETTINGS_ROLE_OPEN_SUBMIT_FORM = 'settings.role.new';
+
+export const PROFILE_MENU_LOGOUT_CLICK = 'profileMenu.logout.click';
+export const PROFILE_MENU_SWITCH_TENANT_OR_UNIT_CLICK = 'profileMenu.switchUnitOrTenant.click';
+export const PROFILE_MENU_USER_PROFILE_CLICK = 'profileMenu.userProfile.click';
 
 export const SHARE_AND_INVITE_SUBMIT = 'shareAndInvite.submit';
 export const SHARE_AND_INVITE_CLOSED = 'shareAndInvite.closed';
