@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import {
   isApplicationSloEntity,
@@ -16,6 +16,7 @@ import {
   UnifiedMetricConfigurationUnion
 } from '@instana/types';
 
+import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
 import NoValueKpiCard from 'in-service-levels/components/SloDashboard/components/kpi/NoValueKpiCard';
 import useSyntheticsTrafficMetrics from 'in-service-levels/hooks/useSyntheticsTrafficMetrics';
@@ -29,7 +30,6 @@ import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { FormatterFn } from 'in-stores/metric/formatters';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { hours } from 'in-services/time/time';
 import { t } from 'in-i18n';
 
 interface TrafficKpiCardProps {
@@ -48,7 +48,19 @@ function SyntheticsTrafficKpiCard({ configuration }: TrafficKpiCardProps) {
   if (!isSyntheticSloEntity(entity)) throw new Error(ServiceLevelErrors.UNHANDLED_SLO_ENTITY_TYPE);
 
   const { timeWindows } = useSloTimeWindowContext();
-  const results = useSyntheticsTrafficMetrics(entity, indicator, timeWindows, hours.toMillis(1));
+  const timeConfig = useContextAwareSloTimeWindowConfig();
+  const metricsTimeWindow = useMemo(() => {
+    const now = Date.now();
+    return [
+      {
+        ...timeConfig,
+        to: timeConfig.to ?? now,
+        focusedMoment: timeConfig.to ?? now,
+        autoRefresh: false
+      }
+    ];
+  }, [timeConfig]);
+  const results = useSyntheticsTrafficMetrics(entity, indicator, metricsTimeWindow, undefined, 'SINGLE_NUMBER');
   const hasMatchingTimeWindows = timeWindows.length > 0;
 
   if (!hasMatchingTimeWindows)

@@ -22,20 +22,20 @@ import { success } from 'in-services/util/result';
 
 interface UseSyntheticTestMetricsProps
   extends Pick<SyntheticUnifiedMetricConfiguration, 'aggregation' | 'metric' | 'resultType'> {
-  granularity: number;
+  granularity?: number;
+  tagFilters?: TagFilter[];
   testIds: string[];
   timeWindows: TimeConfig[];
-  tagFilters?: TagFilter[];
 }
 
 export default function useSyntheticTestMetrics({
-  granularity,
-  testIds,
-  timeWindows,
   aggregation = 'DISTINCT_COUNT',
+  granularity,
   metric = 'id',
   resultType = 'TIME_SERIES',
-  tagFilters = []
+  tagFilters = [],
+  testIds,
+  timeWindows
 }: UseSyntheticTestMetricsProps): Result<UnifiedMetricsResult[]> {
   return (
     useObservable(

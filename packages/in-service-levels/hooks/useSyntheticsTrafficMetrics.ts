@@ -6,7 +6,14 @@
 
 import { useMemo } from 'react';
 
-import { Result, ServiceLevelIndicatorUnion, SyntheticSloEntity, TagFilter, TimeConfig } from '@instana/types';
+import {
+  Result,
+  ResultType,
+  ServiceLevelIndicatorUnion,
+  SyntheticSloEntity,
+  TagFilter,
+  TimeConfig
+} from '@instana/types';
 import { generateStableHash } from '@instana/utils';
 
 import { aggregateTests, normalizeTestMetrics } from 'in-service-levels/utils/synthetics';
@@ -19,8 +26,11 @@ export default function useSyntheticsTrafficMetrics(
   entity: SyntheticSloEntity,
   indicator: ServiceLevelIndicatorUnion,
   timeWindows: TimeConfig[],
-  granularity: number
+  granularity: number | undefined,
+  resultType: ResultType = 'TIME_SERIES'
 ): Result<MetricDataSeries[]> {
+  if (granularity === undefined && resultType !== 'SINGLE_NUMBER') throw new Error('granularity must not be undefined');
+
   const trafficType = isTrafficBlueprintIndicator(indicator) ? indicator.trafficType : undefined;
   const tagFilters: TagFilter[] =
     trafficType === 'erroneous'
@@ -41,16 +51,17 @@ export default function useSyntheticsTrafficMetrics(
     timeWindows,
     aggregation: 'DISTINCT_COUNT',
     metric: 'id',
-    resultType: 'TIME_SERIES',
+    resultType,
     tagFilters
   });
 
   return useMemo(() => {
     const data = result?.data ?? [];
     const twGroupedMetrics = normalizeTestMetrics(data);
-    const aggregatedMetrics = twGroupedMetrics.map((metrics, twIndex) =>
-      aggregateTests(metrics, granularity, timeWindows[twIndex], 'SUM')
-    );
+    const aggregatedMetrics = twGroupedMetrics.map((metrics, twIndex) => {
+      const aggregationGranularity = resultType === 'SINGLE_NUMBER' ? timeWindows[twIndex].windowSize : granularity!;
+      return aggregateTests(metrics, aggregationGranularity, timeWindows[twIndex], 'SUM');
+    });
     return {
       ...result,
       data: aggregatedMetrics
