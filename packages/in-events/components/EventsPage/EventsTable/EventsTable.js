@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2024
  */
 
-import { Datagrid, useDatagrid, useFiltering, useInfiniteScroll, useOnRowClick } from '@carbon/ibm-products';
+import { Datagrid, useDatagrid, useFiltering, useInfiniteScroll, useOnRowClick, useSortableColumns } from '@carbon/ibm-products';
 import React, { useMemo, useEffect, useRef } from 'react';
+import { isEmpty } from 'lodash';
 
 import { formatDateTime } from '@instana/format-date';
 
@@ -29,7 +30,8 @@ const eventsTableColumns = [
       const timeConfig = useTimeConfig();
       return <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />;
     },
-    width: 50
+    width: 50,
+    disableSortBy: true
   },
   {
     Header: t('in-events:dataGridEventTable.title'),
@@ -43,7 +45,8 @@ const eventsTableColumns = [
     Cell: ({ cell }) => {
       const event = cell.row.original;
       return <OnEntity rawEvent={event} />;
-    }
+    },
+    disableSortBy: true
   },
   {
     Header: t('in-events:dataGridEventTable.started'),
@@ -78,7 +81,8 @@ const eventsTableColumns = [
     Header: 'Event type',
     accessor: 'Event type',
     width: 20,
-    filter: 'checkbox'
+    filter: 'checkbox',
+    disableSortBy: true
   }
 ];
 
@@ -173,7 +177,14 @@ const sections = [
   }
 ];
 
-const EventsTable = ({ onItemClicked, rawEvents, isDenseList, loading, canLoadMore, loadMore }) => {
+const sortingMapper = {
+  title: 'problem.problemText',
+  start: 'start',
+  state: 'state',
+  end: 'end'
+};
+
+const EventsTable = ({ onItemClicked, rawEvents, isDenseList, orderBy, orderDirection, loading, canLoadMore, loadMore }) => {
   function buildQueryString(list, keyword) {
     let queryString = '';
 
@@ -290,6 +301,10 @@ const EventsTable = ({ onItemClicked, rawEvents, isDenseList, loading, canLoadMo
       manualFilters: true,
       initialState: {
         filters: currentFilters ? [initialFilters] : [],
+        sortableColumn: {
+          id: orderBy,
+          order: orderDirection
+        },
         hiddenColumns
       },
       isFetching: loading,
@@ -306,12 +321,28 @@ const EventsTable = ({ onItemClicked, rawEvents, isDenseList, loading, canLoadMo
     },
     useFiltering,
     useOnRowClick,
-    useInfiniteScroll
+    useInfiniteScroll,
+    useSortableColumns
   );
 
   const {
-    state: { filters }
+    state: { filters, sortBy }
   } = datagridState;
+
+  // When sorting is changed, change it in the url.
+  useEffect(() => {
+    if (isEmpty(sortBy)) {
+      setOrDeleteMatrixKey(location, eventsPath, 'orderBy', null);
+      setOrDeleteMatrixKey(location, eventsPath, 'orderDirection', null);
+      navigate(location);
+      return;
+    }
+
+    const { id, desc } = sortBy[0];
+    setOrDeleteMatrixKey(location, eventsPath, 'orderBy', sortingMapper[id]);
+    setOrDeleteMatrixKey(location, eventsPath, 'orderDirection', desc ? 'DESC' : 'ASC');
+    navigate(location);
+  }, [sortBy, location, navigate]);
 
   // When filters change, run a clear/update to match the url.
   useEffect(() => {

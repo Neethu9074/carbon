@@ -87,6 +87,9 @@ function List(props) {
         loading={progress.loading}
         loadMore={loadMore}
         canLoadMore={canLoadMore}
+        orderBy={orderBy}
+        orderDirection={orderDirection}
+        onChange={props?.onChange}
       />
     );
   }
