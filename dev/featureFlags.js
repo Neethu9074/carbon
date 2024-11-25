@@ -136,6 +136,7 @@ module.exports = {
   serviceNowAutoCloseAndCustomPayloadsEnabled: false,
   serviceNowAdvancedEnabled: true,
   resourceOptimizationActionsEnabled: true,
+  eventResourceActionsEnabled: true,
   carbonTabsEnabled: true,
   shareAndInviteEnabled: true,
   automationActionInstanceFeedbackEnabled: false,
