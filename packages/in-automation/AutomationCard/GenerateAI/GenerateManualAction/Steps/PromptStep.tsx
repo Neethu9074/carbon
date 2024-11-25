@@ -16,12 +16,12 @@ import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresen
 import ManualActionContent from 'in-automation/components/ManualActionContent/ManualActionContent';
 import generateAIAction, { AIActionContent } from 'in-automation/subscriptions/generateAIAction';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
+import LoadingSection from 'in-automation/AutomationCard/GenerateAI/LoadingSection';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { error, hasError, isLoading } from 'in-services/util/result';
 import { createManualField } from 'in-automation/utils/actionField';
-import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { carbonButtonEnabled } from 'in-services/featureFlags';
 import TextArea from 'in-components/form/TextArea/TextArea';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
@@ -240,8 +240,7 @@ function ActionPreview() {
   const generatedAction = useGeneratedAction();
 
   if (!generatedAction) return <EmptySection />;
-  if (isLoading(generatedAction))
-    return <LoadingIndicator text={t('in-automation:GenerateAIActionDialog.watsonxLoadingContent')} />;
+  if (isLoading(generatedAction)) return <LoadingSection title={t('in-automation:titleContentReadOnly')} />;
   if (hasError(generatedAction)) return <ErroneousResultPresenter errors={generatedAction.errors} />;
   return <ManualActionContent content={createManualField(generatedAction.data?.content!)} withAISlug addCopyButton />;
 }
