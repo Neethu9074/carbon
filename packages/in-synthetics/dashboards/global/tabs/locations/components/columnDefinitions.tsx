@@ -17,6 +17,7 @@ import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHea
 import LocationListActionsColumn from 'in-synthetics/dashboards/global/tabs/locations/components/LocationListActionsColumn';
 // eslint-disable-next-line no-restricted-imports
 import { useNamespaceDashboard } from 'in-kubernetes/navigation/paths';
+import IPAddressPresenter from 'in-synthetics/dashboards/global/tabs/locations/components/IPAddressPresenter';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter/HealthIndicatorPresenter';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
@@ -171,6 +172,14 @@ let columnDefinitions: ColumnDefinition<LocationListItem, LocationListProps>[] =
           </HorizontalFlexWrapper>
         );
       }
+    }
+  },
+  {
+    id: 'ipAddresses',
+    label: t('in-synthetics:dashboard.locationList.ipAddressColumn.ipAddress'),
+    sortable: false,
+    getContent(item: LocationListItem) {
+      return <IPAddressPresenter item={item} />;
     }
   },
   {
