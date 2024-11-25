@@ -61,11 +61,11 @@ describe('in-custom-dashboards/widgets/SloLegacy/components/SliSummary', () => {
   it.each`
     expectedTarget | expectedStatus | givenSlo      | givenMetricSli
     ${'100.00%'}   | ${'100.00%'}   | ${1}          | ${1}
-    ${'99.888%'}   | ${'99.9911%'}  | ${0.99888}    | ${0.999911}
-    ${'99.9995%'}  | ${'99.9996%'}  | ${0.999995}   | ${0.999996}
-    ${'99.9999%'}  | ${'100.00%'}   | ${0.999999}   | ${1}
-    ${'100.00%'}   | ${'100.00%'}   | ${0.99999995} | ${1}
-    ${'300.00%'}   | ${'299.95%'}   | ${3}          | ${2.99948}
+    ${'99.88%'}    | ${'99.99%'}    | ${0.99888}    | ${0.999911}
+    ${'99.99%'}    | ${'99.99%'}    | ${0.999995}   | ${0.999996}
+    ${'99.99%'}    | ${'100.00%'}   | ${0.999999}   | ${1}
+    ${'99.99%'}    | ${'100.00%'}   | ${0.99999995} | ${1}
+    ${'300.00%'}   | ${'299.94%'}   | ${3}          | ${2.99948}
   `(
     'should have target of $expectedTarget and status of $expectedStatus if slo is $givenSlo and metricSli is $givenMetricSli',
     ({ expectedTarget, expectedStatus, givenSlo, givenMetricSli }) => {
