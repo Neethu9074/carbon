@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
 import classNames from 'classnames';
 
-import { CarbonForm, Spacer } from '@instana/components';
+import { CarbonForm, CarbonStack } from '@instana/components';
 
 import { EvaluationGranularityInput } from 'in-applications/Forms/SubtraceConfiguration/components/EvaluationGranularityInput';
 import FormFooter, { CancelButton, DeleteButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
@@ -67,18 +67,20 @@ export const SubtraceConfigForm = ({ subtrace }: SubmitConfigForm) => {
     <>
       <div className={classNames({ [locals.dialog]: isNew })}>
         <CarbonForm title="subtrace-config-form">
-          <SubtraceNameInput value={subtraceName} onChange={updateName} />
-          <Spacer vertical="large" />
-          <ApplicationQueryBuilderInput
-            label={t('in-applications:subtraces.configuration.subtraceFilter')}
-            value={form.get('tagFilterExpression').value}
-            onChange={updateTagFilterExpression}
-          />
-          <Spacer vertical="large" />
-          <EvaluationGranularityInput
-            evaluationGranularity={evaluationGranularity}
-            onChangeGranularity={value => setEvaluationGranularity(value)}
-          />
+          <CarbonStack gap={6}>
+            <SubtraceNameInput value={subtraceName} onChange={updateName} />
+            <div>
+              <ApplicationQueryBuilderInput
+                label={t('in-applications:subtraces.configuration.subtraceFilter')}
+                value={form.get('tagFilterExpression').value}
+                onChange={updateTagFilterExpression}
+              />
+            </div>
+            <EvaluationGranularityInput
+              evaluationGranularity={evaluationGranularity}
+              onChangeGranularity={value => setEvaluationGranularity(value)}
+            />
+          </CarbonStack>
         </CarbonForm>
       </div>
       <FormFooter withoutCarbonLayer className={classNames({ [locals.formFooter]: !isNew })}>
