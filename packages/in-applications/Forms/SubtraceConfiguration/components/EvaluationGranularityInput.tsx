@@ -6,39 +6,32 @@
 
 import React from 'react';
 
-import { FormLabel, RadioButton } from '@instana/components';
+import { CarbonRadioButton, CarbonRadioButtonGroup } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import { minutes } from 'in-services/time/time';
 
-import locals from 'in-applications/Forms/SubtraceConfiguration/components/EvaluationGranularityInput.mless';
-
 interface EvaluationGranularityInputProps {
-  value: number;
+  evaluationGranularity?: number;
   onChangeGranularity: (granularity: number) => void;
 }
 
-export const EvaluationGranularityInput = ({ value, onChangeGranularity }: EvaluationGranularityInputProps) => {
+export const EvaluationGranularityInput = ({
+  evaluationGranularity,
+  onChangeGranularity
+}: EvaluationGranularityInputProps) => {
   return (
-    <>
-      <FormLabel>{t('in-applications:subtraces.configuration.evaluationGranularity')}</FormLabel>
-      <div className={locals.radioButtonGroup}>
-        <RadioButton
-          label={t('in-components:time.minutes', { count: 1 })}
-          checked={value === minutes.toSeconds(1)}
-          onChange={() => onChangeGranularity(minutes.toSeconds(1))}
-        />
-        <RadioButton
-          label={t('in-components:time.minutes', { count: 5 })}
-          checked={value === minutes.toSeconds(5)}
-          onChange={() => onChangeGranularity(minutes.toSeconds(5))}
-        />
-        <RadioButton
-          label={t('in-components:time.minutes', { count: 10 })}
-          checked={value === minutes.toSeconds(10)}
-          onChange={() => onChangeGranularity(minutes.toSeconds(10))}
-        />
-      </div>
-    </>
+    <CarbonRadioButtonGroup
+      name="evaluation-granularity-radio-button-group"
+      legendText={t('in-applications:subtraces.configuration.evaluationGranularity')}
+      orientation="vertical"
+      defaultSelected={evaluationGranularity}
+      valueSelected={evaluationGranularity}
+      onChange={value => onChangeGranularity(value as number)}
+    >
+      <CarbonRadioButton labelText={t('in-components:time.minutes', { count: 1 })} value={minutes.toSeconds(1)} />
+      <CarbonRadioButton labelText={t('in-components:time.minutes', { count: 5 })} value={minutes.toSeconds(5)} />
+      <CarbonRadioButton labelText={t('in-components:time.minutes', { count: 10 })} value={minutes.toSeconds(10)} />
+    </CarbonRadioButtonGroup>
   );
 };

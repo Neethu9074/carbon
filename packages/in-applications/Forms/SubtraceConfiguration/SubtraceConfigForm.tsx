@@ -4,11 +4,11 @@
  * Copyright IBM Corp. 2024
  */
 
+import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
 import classNames from 'classnames';
-import React from 'react';
 
-import { FormGroup, Spacer } from '@instana/components';
+import { CarbonForm, Spacer } from '@instana/components';
 
 import { EvaluationGranularityInput } from 'in-applications/Forms/SubtraceConfiguration/components/EvaluationGranularityInput';
 import FormFooter, { CancelButton, DeleteButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
@@ -23,7 +23,7 @@ import { useSubtraceForm } from 'in-applications/hooks/useSubtraceForm';
 import { Subtrace } from 'in-applications/lists/SubtracesList';
 import { close } from 'in-components/DialogPresenter/store';
 import useFormSubmission from 'in-hooks/useFormSubmission';
-import Form from 'in-components/form/binding/Form';
+import { minutes } from 'in-services/time/time';
 import { t } from 'in-i18n';
 
 import locals from 'in-applications/Forms/SubtraceConfiguration/SubtraceConfigForm.mless';
@@ -37,6 +37,10 @@ export const SubtraceConfigForm = ({ subtrace }: SubmitConfigForm) => {
   const { form, updateForm, resetForm, isFormValid } = useSubtraceForm(subtrace);
   const submitAction = isNew ? createSubtrace : updateSubtrace;
   const [formSubmitStatus, doSubmit] = useFormSubmission(submitAction);
+
+  const [evaluationGranularity, setEvaluationGranularity] = useState<number>(
+    subtrace?.evaluationGranularitySeconds ?? minutes.toSeconds(5)
+  );
 
   const subtraceName = form.get('name').value;
   const disabled = !form.hierarchyTouched || formSubmitStatus === 'pending';
@@ -56,28 +60,26 @@ export const SubtraceConfigForm = ({ subtrace }: SubmitConfigForm) => {
   const updateTagFilterExpression = (tagFilterExpression: FormModelElement[]) =>
     updateForm(form.updateIn(['tagFilterExpression'], field => field.setValue(tagFilterExpression).setTouched(true)));
 
-  const updateEvaluationGranularity = (granularity: number) =>
-    updateForm(form.updateIn(['evaluationGranularitySeconds'], field => field.setValue(granularity).setTouched(true)));
+  // const updateEvaluationGranularity = (granularity: number) =>
+  //   updateForm(form.updateIn(['evaluationGranularitySeconds'], field => field.setValue(granularity).setTouched(true)));
 
   return (
     <>
       <div className={classNames({ [locals.dialog]: isNew })}>
-        <Form form={form} setForm={() => updateForm(form)} onSubmit={onSubmit}>
-          <FormGroup>
-            <SubtraceNameInput value={subtraceName} onChange={updateName} />
-            <Spacer vertical="large" />
-            <ApplicationQueryBuilderInput
-              label={t('in-applications:subtraces.configuration.subtraceFilter')}
-              value={form.get('tagFilterExpression').value}
-              onChange={updateTagFilterExpression}
-            />
-            <Spacer vertical="large" />
-            <EvaluationGranularityInput
-              value={form.get('evaluationGranularitySeconds').value}
-              onChangeGranularity={updateEvaluationGranularity}
-            />
-          </FormGroup>
-        </Form>
+        <CarbonForm title="subtrace-config-form">
+          <SubtraceNameInput value={subtraceName} onChange={updateName} />
+          <Spacer vertical="large" />
+          <ApplicationQueryBuilderInput
+            label={t('in-applications:subtraces.configuration.subtraceFilter')}
+            value={form.get('tagFilterExpression').value}
+            onChange={updateTagFilterExpression}
+          />
+          <Spacer vertical="large" />
+          <EvaluationGranularityInput
+            evaluationGranularity={evaluationGranularity}
+            onChangeGranularity={value => setEvaluationGranularity(value)}
+          />
+        </CarbonForm>
       </div>
       <FormFooter withoutCarbonLayer className={classNames({ [locals.formFooter]: !isNew })}>
         {!isNew && (
