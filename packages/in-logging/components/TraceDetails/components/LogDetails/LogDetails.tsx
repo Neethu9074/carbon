@@ -79,13 +79,14 @@ function LogDetails(props: LogDetailsSwitchProps) {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const { callLog, loggingLog, justTitle } = props;
 
-  const { selectedLog } = useLogsInCallsContext();
+  const { selectedLog, items } = useLogsInCallsContext();
 
   const useLoggingData = Boolean(loggingEnabled && loggingLog);
 
   const logLevel = getLogLevelFromLog(callLog, loggingLog, useLoggingData);
   const logMessage = getLogMessage(callLog, loggingLog, useLoggingData);
   const logLevelColor = getLogLevelColor(logLevel);
+  const tags = (useLoggingData ? loggingLog?.tags : items[0]?.tags) ?? [];
 
   const isExpandedLog = isLogSelected(selectedLog, loggingLog, logMessage);
 
@@ -105,7 +106,6 @@ function LogDetails(props: LogDetailsSwitchProps) {
   );
 
   const handleToggle = () => setIsExpanded(expanded => !expanded);
-
   const title = (
     <div className={classNames(locals.title, justTitle && locals.justTitle)}>
       <aside>
@@ -113,7 +113,7 @@ function LogDetails(props: LogDetailsSwitchProps) {
       </aside>
       <header>
         <span className={locals.titleLevel}>{logLevel}</span>
-        {useLoggingData ? <LogMessage tags={loggingLog?.tags ?? []} message={logMessage} /> : <span>{logMessage}</span>}
+        <LogMessage tags={tags} message={logMessage} />
       </header>
     </div>
   );
