@@ -16,13 +16,19 @@ import { ListActionsColumn } from 'in-alerting/smart-alerts/components/list/colu
 import TableNameColumnCell from 'in-alerting/smart-alerts/components/table/TableNameColumnCell';
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
 import { SortOption } from 'in-components/SortingConfigurator/SortingConfigurator';
+import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { Location } from 'in-stores/navigation/types';
 import { Result } from 'in-types';
 import { t } from 'in-i18n';
 
 export type ActionHandlers<AlertConfig extends AlertConfigType> = {
   handleClone?: (config: AlertConfig) => void;
-  handleDelete?: (id: string, setIsSaving: (saving: boolean) => void, configName: string) => void;
+  handleDelete?: (
+    id: string,
+    setIsSaving: (saving: boolean) => void,
+    configName: string,
+    trackCta?: CtaTrackingFunction
+  ) => void;
   handleEdit?: (config: AlertConfig) => void;
   handleToggleEnabled?: (
     enabled: boolean,

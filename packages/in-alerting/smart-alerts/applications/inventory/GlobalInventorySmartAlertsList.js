@@ -20,12 +20,14 @@ import { useUrlBasedCategory } from 'in-alerting/smart-alerts/applications/hooks
 import { actionHandlers } from 'in-alerting/smart-alerts/applications/list/ListActionHandlers';
 import { createRowLinkLocation } from 'in-alerting/smart-alerts/applications/list/rowLinking';
 import { getMetricName } from 'in-alerting/smart-alerts/applications/list/listHelper';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { alertsTab } from 'in-applications/navigation/paths';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function GlobalInventorySmartAlertsList({ onNoData }) {
   const [configsCategory, setConfigsCategory] = useUrlBasedCategory(categoryLocal);
+  const { trackCta } = useSegmentTracking();
 
   return (
     <SmartAlertsListWithUrlState
@@ -52,7 +54,7 @@ export default function GlobalInventorySmartAlertsList({ onNoData }) {
           numberOfAlerts
         })
       }
-      columnDefinitions={getColumnDefinitions(isCategoryGlobal(configsCategory))}
+      columnDefinitions={getColumnDefinitions(isCategoryGlobal(configsCategory), trackCta)}
       sortOptions={sortOptions}
       extraSearchAttributes={[getMetricName]}
       createRowLinkLocation={createRowLinkLocation(configsCategory)}
@@ -61,7 +63,7 @@ export default function GlobalInventorySmartAlertsList({ onNoData }) {
   );
 }
 
-function getColumnDefinitions(isGlobalSmartAlertConfig) {
+function getColumnDefinitions(isGlobalSmartAlertConfig, trackCta) {
   const showActionButtons = isGlobalSmartAlertConfig
     ? role.canConfigureGlobalApplicationSmartAlerts
     : role.canConfigureApplicationSmartAlerts;
@@ -71,7 +73,7 @@ function getColumnDefinitions(isGlobalSmartAlertConfig) {
     entityNameColumnDefinition({ isGlobalSmartAlertConfig }),
     showActionButtons &&
       editActionsColumnDefinition({
-        actionHandlers: actionHandlers(isGlobalSmartAlertConfig)
+        actionHandlers: actionHandlers(isGlobalSmartAlertConfig, trackCta)
       })
   ].filter(Boolean);
 }

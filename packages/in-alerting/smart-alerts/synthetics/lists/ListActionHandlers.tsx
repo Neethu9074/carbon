@@ -39,7 +39,8 @@ function openSmartAlertDialog(config: SyntheticAlertConfig & VersionedConfig, is
 
 export const actionHandlers: ActionHandlers<SyntheticAlertConfigWithMetadata> = {
   handleClone: config => handleClone(config),
-  handleDelete: (id, setIsSaving, configName) => handleDelete(id, setIsSaving, configName, baseUrl.SYNTHETICS),
+  handleDelete: (id, setIsSaving, configName, trackCta) =>
+    handleDelete(id, setIsSaving, configName, baseUrl.SYNTHETICS, trackCta),
   handleEdit: config => handleEdit(config),
   handleToggleEnabled: (enabled, id, setIsSaving) => handleToggleEnabled(enabled, id, setIsSaving, baseUrl.SYNTHETICS)
 };

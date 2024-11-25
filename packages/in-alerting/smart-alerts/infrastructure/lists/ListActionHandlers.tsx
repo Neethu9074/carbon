@@ -12,6 +12,7 @@ import { handleDelete, handleToggleEnabled } from 'in-alerting/smart-alerts/comp
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { baseUrl } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
+import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 
 function handleEdit(config: InfraSmartAlertConfigWithMetadata) {
@@ -35,8 +36,12 @@ function openSmartAlertDialog(config: InfraSmartAlertConfigWithMetadata, isCopy 
 export const actionHandlers = {
   handleEdit: (config: InfraSmartAlertConfigWithMetadata) => handleEdit(config),
   handleClone: (config: InfraSmartAlertConfigWithMetadata) => handleClone(config),
-  handleDelete: (id: string, setIsSaving: (saving: boolean) => void, configName: string) =>
-    handleDelete(id, setIsSaving, configName, baseUrl.INFRA),
+  handleDelete: (
+    id: string,
+    setIsSaving: (saving: boolean) => void,
+    configName: string,
+    trackCta: CtaTrackingFunction
+  ) => handleDelete(id, setIsSaving, configName, baseUrl.INFRA, trackCta),
   handleToggleEnabled: (enabled: boolean, id: string, setIsSaving: (arg: boolean) => void) =>
     handleToggleEnabled(enabled, id, setIsSaving, baseUrl.INFRA)
 };
