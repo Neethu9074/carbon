@@ -16,8 +16,8 @@
       "name": "Name",
       "tenant": "Tenant",
       "type": "Type",
-      "licenseStartData": "License Start Data",
-      "licenseEndData": "License End Data",
+      "licenseStartData": "License Start Date",
+      "licenseEndData": "License End Date",
       "licensedApmHosts": "Licensed APM Hosts",
       "licensedIqmHosts": "Licensed IQM Hosts"
     },
