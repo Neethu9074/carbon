@@ -7,21 +7,27 @@
 import React from 'react';
 
 import { SeverityIndicatorCellContentWrapper } from '@instana/legacy';
-import { Typography } from '@instana/components';
+import { Link } from '@instana/components';
 
+import useHrefToSloDashboard from 'in-service-levels/navigation/hooks/useHrefToSloDashboard';
 import { SloListItem } from 'in-service-levels/components/SloList/SloList';
 import { calculateSeverity } from 'in-service-levels/utils/math';
+import Tooltip from 'in-components/Tooltip';
 
 interface Props {
   item: SloListItem;
 }
 
 export default function SloNameColumnContent({ item }: Props) {
+  const hrefToSloDashboard = useHrefToSloDashboard();
+
   const { configuration, status } = item;
-  const { name, target } = configuration;
+  const { name, target, id } = configuration;
   return (
     <SeverityIndicatorCellContentWrapper severity={status != null ? calculateSeverity({ status, target }) : undefined}>
-      <Typography variant="body-regular">{name}</Typography>
+      <Tooltip overflowEllipsis content={name}>
+        <Link href={hrefToSloDashboard(id!)}>{name}</Link>
+      </Tooltip>
     </SeverityIndicatorCellContentWrapper>
   );
 }
