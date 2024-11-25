@@ -11,15 +11,16 @@ import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
 
 import { GenerateAIScriptActionForm } from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/useGenerateAIScriptActionForm';
+// import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import generateAIAction, { AIActionContent } from 'in-automation/subscriptions/generateAIAction';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
+import LoadingSection from 'in-automation/AutomationCard/GenerateAI/LoadingSection';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { error, hasError, isLoading } from 'in-services/util/result';
-import { LoadingIndicator } from 'in-components/LoadingIndicators';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import AISlugIcon from 'in-automation/components/AISlugIcon';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
@@ -65,20 +66,20 @@ function EmptySection() {
   );
 }
 
-function LoadingSection() {
-  return (
-    <>
-      <div className={locals.header}>
-        <Typography variant="heading-200" component="h2">
-          {t('in-automation:GenerateAIActionDialog.generateScriptDialog.titleGeneratedCodeReadOnly')}
-        </Typography>
-      </div>
-      <div className={locals.loadingContent}>
-        <LoadingIndicator text={t('in-automation:GenerateAIActionDialog.watsonxLoadingContent')} />
-      </div>
-    </>
-  );
-}
+// function LoadingSection() {
+//   return (
+//     <>
+//       <div className={locals.header}>
+//         <Typography variant="heading-200" component="h2">
+//           {t('in-automation:GenerateAIActionDialog.generateScriptDialog.titleGeneratedCodeReadOnly')}
+//         </Typography>
+//       </div>
+//       <div className={locals.loadingContent}>
+//         <LoadingIndicator text={t('in-automation:GenerateAIActionDialog.watsonxLoadingContent')} />
+//       </div>
+//     </>
+//   );
+// }
 
 function generateAIActionForm({
   form,
@@ -164,7 +165,12 @@ function ActionPreview({ form }: { form: GenerateAIScriptActionForm }) {
   const generatedAction = useGeneratedAction();
 
   if (!generatedAction) return <EmptySection />;
-  if (isLoading(generatedAction)) return <LoadingSection />;
+  if (isLoading(generatedAction))
+    return (
+      <LoadingSection
+        title={t('in-automation:GenerateAIActionDialog.generateScriptDialog.titleGeneratedCodeReadOnly')}
+      />
+    );
   if (hasError(generatedAction)) return <ErroneousResultPresenter errors={generatedAction.errors} />;
   return <ScriptSection form={form} />;
 }

@@ -108,9 +108,4 @@
   .generateScriptStep {
     margin-bottom: 4rem;
   }
-
-  .loadingContent {
-    height: 400px;
-    background-color: var(--cds-layer);
-  }
 }
