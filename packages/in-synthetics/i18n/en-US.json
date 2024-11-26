@@ -515,6 +515,12 @@
       "deleteLocationBroswerRefreshInfo": "It will take some time for the location to disappear from the list of locations and may require a browser refresh.",
       "deactivateLocation": {
         "deactivate": "Deactivate"
+      },
+      "ipAddressColumn": {
+        "ipAddress": "IP Address",
+        "singleIPAddress": "{{number}} IP Address",
+        "multipleIPAddress": "{{number}} IP Addresses",
+        "noIPAddresses": "NA"
       }
     },
     "summary": {

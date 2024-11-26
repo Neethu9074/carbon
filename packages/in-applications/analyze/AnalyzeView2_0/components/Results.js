@@ -218,9 +218,7 @@ function getColumnDefinitions(dataSource) {
             />
           </div>
         );
-      },
-      widthInAbsoluteUnit: true,
-      width: '30vw'
+      }
     },
     {
       id: 'service',
@@ -228,9 +226,7 @@ function getColumnDefinitions(dataSource) {
       sortable: false,
       getContent(item) {
         return <LabelServiceContent item={item} type={type} />;
-      },
-      widthInAbsoluteUnit: true,
-      width: '25vw'
+      }
     }
   ];
 }

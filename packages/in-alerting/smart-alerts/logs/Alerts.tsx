@@ -18,11 +18,15 @@ import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/compone
 import { CreateLogsSmartAlertFloatingButton } from 'in-logging/navigation/createLogsSmartAlertFloatingButton';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-logging/navigation/matrix';
 import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/logs/api/logsAlertConfig';
+import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
+import StatusColumnCell from 'in-alerting/smart-alerts/components/list/StatusColumnCell';
 import { actionHandlers } from 'in-alerting/smart-alerts/logs/lists/ListActionHandlers';
+import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import LogsAlertsTabHeader from 'in-alerting/smart-alerts/logs/LogsAlertsTabHeader';
 import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import CreateSmartAlert from 'in-alerting/smart-alerts/logs/CreateSmartAlert';
 import { sortOptions } from 'in-alerting/smart-alerts/logs/lists/constants';
 import ScopeColumn from 'in-alerting/smart-alerts/logs/lists/ScopeColumn';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -30,12 +34,15 @@ import { number } from 'in-services/formatters/number';
 import { Location } from 'in-stores/navigation/types';
 import Footer from 'in-components/Footer/Footer';
 import { role } from 'in-stores/user';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/logs/Alerts.mless';
 
+const displayCarbonTable = smartAlertCarbonTableEnabled && carbonTableEnabled;
+
 export default function Alerts({ isLogsDashboardHeader = false }) {
   const handlers = role?.canConfigureGlobalLogSmartAlerts ? actionHandlers : {};
+
   const Header = isLogsDashboardHeader ? LoggingDashboardWrapper : LogsAlertsTabHeader;
   return (
     <>
@@ -49,11 +56,23 @@ export default function Alerts({ isLogsDashboardHeader = false }) {
             sortOptions={sortOptions}
             alertsTab={alertsPath}
             createRowLinkLocation={(config, location) => createRowLinkLocation(config, location, isLogsDashboardHeader)}
+            // for carbon table
+            extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
+            carbonActionHandlers={handlers}
+            getNameSubtitle={() => getLogSubtitle(t('in-alerting:smartAlerts.logs.logCount'))}
+            displayCarbonTable={displayCarbonTable}
+            toolBarContent={
+              role?.canConfigureGlobalLogSmartAlerts ? (
+                <CreateSmartAlert isCarbonTableView={displayCarbonTable} />
+              ) : undefined
+            }
+            noDataHeader={t('in-alerting:smartAlerts.logs.list.noDataHeader')}
+            noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.logs.list.noDataDescription" />}
           />
           <Footer />
         </div>
       </Header>
-      <CreateLogsSmartAlertFloatingButton />
+      {!displayCarbonTable && <CreateLogsSmartAlertFloatingButton />}
     </>
   );
 }
@@ -100,4 +119,25 @@ function createRowLinkLocation(
   setOrDeleteMatrixKey(rowLinkLocation, alertsDetailsPath, alertIdParam, config.id);
   setOrDeleteMatrixKey(rowLinkLocation, alertsDetailsPath, alertCreatedParam, config.created);
   return rowLinkLocation;
+}
+
+function getCarbonTableColumnDefinitions() {
+  return [
+    {
+      id: 'triggering-action',
+      label: t('in-alerting:table.triggeringAction'),
+      getContent: (config: LogAlertConfigWithMetadata) => <>{getSubtitle(config.threshold)}</>,
+      sortable: false
+    },
+    {
+      id: 'enabled',
+      label: t('in-alerting:table.status'),
+      getContent: (config: LogAlertConfigWithMetadata) => <StatusColumnCell status={config.enabled} />,
+      sortable: true
+    }
+  ];
+}
+
+function getLogSubtitle(logLabel: string) {
+  return <ListSubtitle icon="lib_application_logging" label={logLabel} />;
 }

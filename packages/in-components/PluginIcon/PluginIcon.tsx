@@ -20,29 +20,26 @@ import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructur
 import { capitalize } from 'in-services/formatters/string';
 import { SnapshotMap } from 'in-components/EntityLink';
 import { getPluginName } from 'in-sdk/pluginName';
-import Tooltip from 'in-components/Tooltip';
 
 export interface PluginIconProps extends Omit<React.ComponentProps<typeof SvgIcon>, 'type'> {
   size?: Size;
   color?: string;
   snapshot?: SnapshotMap;
-  plugin: string;
+  plugin?: string;
 }
 
 export default forwardRef(function PluginIcon(props: PluginIconProps, ref: React.ForwardedRef<SVGSVGElement>) {
   const { size, color = themes.default.ids.color.option.neutral['700'] } = props;
   const pluginName = getPluginName(props.plugin) || capitalize(props.snapshot?.get('plugin') as string) || 'Unknown';
   return (
-    <Tooltip delay={500} content={pluginName}>
-      <SvgIcon
-        ref={ref}
-        {...props}
-        size={size}
-        color={color}
-        aria-label={`${pluginName} icon`}
-        type={getIconType(props.snapshot, props.plugin)}
-      />
-    </Tooltip>
+    <SvgIcon
+      ref={ref}
+      {...props}
+      size={size}
+      color={color}
+      aria-label={`${pluginName} icon`}
+      type={getIconType(props.snapshot, props.plugin)}
+    />
   );
 });
 

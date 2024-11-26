@@ -18,8 +18,15 @@ interface ScopeFilterProps {
   updateForm: (form: MapForm<any>) => void;
   tagCatalog: TagCatalog | undefined;
   setTagFilterValid?: React.Dispatch<React.SetStateAction<boolean>>;
+  SectionWrapper?: React.FunctionComponent<any>;
 }
-export default function ScopeFilter({ form, updateForm, tagCatalog, setTagFilterValid }: ScopeFilterProps) {
+export default function ScopeFilter({
+  form,
+  updateForm,
+  tagCatalog,
+  setTagFilterValid,
+  SectionWrapper
+}: ScopeFilterProps) {
   const tagFilterExpression = form?.get('tagFilterExpression')?.value;
   const validTagFilterExpressionResult = isQueryValid(tagFilterExpression, tagCatalog);
   const isInvalid = validTagFilterExpressionResult.data === false;
@@ -32,6 +39,7 @@ export default function ScopeFilter({ form, updateForm, tagCatalog, setTagFilter
       hasError={isInvalid}
       useLastValidStateWhenErroneous
       onErrorStateChange={setTagFilterValid}
+      SectionWrapper={SectionWrapper}
     />
   );
 }

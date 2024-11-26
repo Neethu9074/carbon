@@ -48,6 +48,7 @@
     "cbp": "CBP プロセッサー使用量",
     "cp": "CP プロセッサー使用量",
     "iip": "IIP プロセッサー使用量",
+    "lparPowerConsumption": "LPAR の消費電力 (ワット)",
     "smt": "SMT の使用率",
     "thread0": "スレッド 0 の使用率",
     "thread1": "スレッド 1 の使用率",

@@ -604,7 +604,7 @@
     "successLogins": "成功",
     "failureLogins": "失败",
     "loginAttempts": "登录尝试次数",
-    "workProcess": "工作进程",
+    "workProcess": "工作流程（总计/可用）",
     "severity1": "严重性 1",
     "severity2": "严重性 2",
     "aborted": "已异常中止",
@@ -664,7 +664,8 @@
     "protected": "受保护",
     "releasedStarted": "发布已启动",
     "httpRespTime": "HTTP",
-    "httpsRespTime": "HTTPS"
+    "httpsRespTime": "HTTPS",
+    "curThr": "当前线程数"
   },
   "viewAllEntityName_unknownEntity_plural": "全部",
   "viewAllEntityName_unknownEntity_0": "全部",

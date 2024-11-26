@@ -34,6 +34,8 @@ import { isMobileAppSmartAlertEvent } from 'in-events/components/eventUtil';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
 // @ts-expect-error No typedef available
 import { isSloSmartAlertEvent } from 'in-events/components/eventUtil';
+import { aqmDisableConfigOnEventViewEnabled, manuallyCloseEventEnabled } from 'in-services/featureFlags';
+import DisableEventConfigButton from 'in-events/components/tabs/Summary/DisableEventConfigButton';
 // @ts-expect-error No typedef available
 import EventIcon from 'in-events/components/EventIcon';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
@@ -51,7 +53,6 @@ import useMobileAppEventEntity from 'in-events/hooks/useMobileAppEventEntity';
 import SloAlertConfigButton from 'in-events/components/SloAlertConfigButton';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
-import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import useSloEventEntity from 'in-events/hooks/useSloEventEntity';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -91,6 +92,7 @@ const IncidentActions = ({ incident, triggeringEvent, latestSnapshot }: Incident
     >
       <IncidentActionsByType triggeringEvent={triggeringEvent} />
       {renderCloseButton(incident, canCloseManually, timeConfig)}
+      {renderDisableButton(incident)}
     </CarbonComboButton>
   );
 };
@@ -221,6 +223,18 @@ function renderCloseButton(incident: EventOrMap, canCloseManually: boolean | und
       iconComponent={
         <EventIcon event={incident} tooltipLabel={getEventSeverityLabelWithEventType(incident, timeConfig)} />
       }
+      reload={noop}
+    />
+  ) : null;
+}
+
+function renderDisableButton(incident: EventOrMap) {
+  return incident && aqmDisableConfigOnEventViewEnabled ? (
+    <DisableEventConfigButton
+      event={incident}
+      buttonKind="subtle"
+      eventType="incident"
+      buttonType="menuItem"
       reload={noop}
     />
   ) : null;

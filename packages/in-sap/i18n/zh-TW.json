@@ -604,7 +604,7 @@
     "successLogins": "成功",
     "failureLogins": "失敗",
     "loginAttempts": "登入嘗試次數",
-    "workProcess": "工作處理程序",
+    "workProcess": "工作處理程序（全部/可用）",
     "severity1": "嚴重性 1",
     "severity2": "嚴重性 2",
     "aborted": "已中止",
@@ -664,7 +664,8 @@
     "protected": "受保護",
     "releasedStarted": "已開始釋放",
     "httpRespTime": "HTTP",
-    "httpsRespTime": "HTTPS"
+    "httpsRespTime": "HTTPS",
+    "curThr": "現行執行緒"
   },
   "viewAllEntityName_unknownEntity_plural": "全部",
   "viewAllEntityName_unknownEntity_0": "全部",

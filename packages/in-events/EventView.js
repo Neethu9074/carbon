@@ -4,13 +4,18 @@
  */
 
 import React, { useMemo, useCallback } from 'react';
-import { get } from 'lodash';
+import { get, isEmpty } from 'lodash';
 
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 import { Stack } from '@instana/components';
 
-import { eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter } from 'in-events/navigation/urlParameters';
+import {
+  eventIdUrlParameter,
+  orderDirectionParameter,
+  orderByUrlParameter,
+  filterParameter
+} from 'in-events/navigation/urlParameters';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
@@ -68,7 +73,7 @@ export default function LegacyEventViewMigration(props) {
   return <EventView {...props} eventType={eventType} eventId={eventId} eventObservable={eventObservable} />;
 }
 const urlSettingsConfig = {
-  bind: [eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter],
+  bind: [eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter, filterParameter],
   replaceHistory: false
 };
 
@@ -114,13 +119,26 @@ function EventView(props) {
 }
 
 function EventViewComponent(props) {
-  const { eventType, staticTimeConfigToUseForTable, orderBy, orderDirection, query, eventId, timeConfig } = props;
+  const { eventType, staticTimeConfigToUseForTable, orderBy, orderDirection, query, eventId, timeConfig, filter } =
+    props;
+
   const fetchEvents = useCallback(
-    ({ cursor }) =>
-      eventType === 'cve_issue'
+    ({ cursor }) => {
+      // Combine filters and query if present
+      let queries = [];
+      if (!isEmpty(query)) {
+        queries.push(query);
+      }
+      if (!isEmpty(filter) && eventType === 'issue') {
+        queries.push(filter);
+      }
+      queries = queries.map(q => `(${q})`).join(' AND ');
+      // End combine filters
+
+      return eventType === 'cve_issue'
         ? getRawCVEEvents({
             timeConfig: staticTimeConfigToUseForTable || timeConfig,
-            query: concatQueries(query, eventType),
+            query: concatQueries(queries, eventType),
             pagination: {
               cursor,
               retrievalSize: 30
@@ -132,7 +150,7 @@ function EventViewComponent(props) {
           })
         : getRawEvents({
             timeConfig: staticTimeConfigToUseForTable || timeConfig,
-            query: concatQueries(query, eventType),
+            query: concatQueries(queries, eventType),
             pagination: {
               cursor,
               retrievalSize: 30
@@ -141,8 +159,9 @@ function EventViewComponent(props) {
               by: orderBy,
               direction: orderDirection
             }
-          }),
-    [eventType, query, orderBy, orderDirection, staticTimeConfigToUseForTable, timeConfig]
+          });
+    },
+    [eventType, query, orderBy, orderDirection, staticTimeConfigToUseForTable, timeConfig, filter]
   );
   const tableProps = useCursorPagination(fetchEvents, [
     eventType,
@@ -150,6 +169,7 @@ function EventViewComponent(props) {
     orderBy,
     orderDirection,
     eventType,
+    filter,
     ...spreadTimeConfig(staticTimeConfigToUseForTable, timeConfig)
   ]);
   return (

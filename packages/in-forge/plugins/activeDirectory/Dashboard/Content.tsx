@@ -13,9 +13,9 @@ import { Card } from '@instana/components';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { number, percentage } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
-import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default function ActiveDirectoryDashboard({
@@ -28,9 +28,12 @@ export default function ActiveDirectoryDashboard({
   const snapshotId = snapshot.get('id');
   return (
     <div>
-      <DashboardSection title={t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol')}>
+      <DashboardSection title={t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocolLabel')}>
         <Columize>
-          <Card title={t('in-forge:plugins.activeDirectory.ldap.connections')} useMaxAvailableHeight>
+          <Card
+            title={t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.connections')}
+            useMaxAvailableHeight
+          >
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -41,15 +44,18 @@ export default function ActiveDirectoryDashboard({
                   'stats.lightweightDirectoryAccessProtocol.busyRetries'
                 ],
                 labels: [
-                  t('in-forge:plugins.activeDirectory.ldap.clientSessions'),
-                  t('in-forge:plugins.activeDirectory.ldap.busyretries')
+                  t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.clientSessions'),
+                  t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.busyretries')
                 ],
                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </Card>
-          <Card title={t('in-forge:plugins.activeDirectory.ldap.connectionRates')} useMaxAvailableHeight>
+          <Card
+            title={t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.connectionRates')}
+            useMaxAvailableHeight
+          >
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -61,9 +67,9 @@ export default function ActiveDirectoryDashboard({
                   'stats.lightweightDirectoryAccessProtocol.closedConnectionsPerSec'
                 ],
                 labels: [
-                  t('in-forge:plugins.activeDirectory.ldap.connections'),
-                  t('in-forge:plugins.activeDirectory.ldap.sslConnections'),
-                  t('in-forge:plugins.activeDirectory.ldap.closedConnections')
+                  t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.connections'),
+                  t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.sslConnections'),
+                  t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.closedConnections')
                 ],
                 type: 'line'
               }}
@@ -72,7 +78,10 @@ export default function ActiveDirectoryDashboard({
           </Card>
         </Columize>
         <Columize>
-          <Card title={t('in-forge:plugins.activeDirectory.ldap.threads')} useMaxAvailableHeight>
+          <Card
+            title={t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.threads')}
+            useMaxAvailableHeight
+          >
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -83,22 +92,25 @@ export default function ActiveDirectoryDashboard({
                   'stats.lightweightDirectoryAccessProtocol.threadsSleepingOnBusy'
                 ],
                 labels: [
-                  t('in-forge:plugins.activeDirectory.ldap.active'),
-                  t('in-forge:plugins.activeDirectory.ldap.sleepingOnBusy')
+                  t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.active'),
+                  t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.sleepingOnBusy')
                 ],
                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </Card>
-          <Card title={t('in-forge:plugins.activeDirectory.ldap.batch')} useMaxAvailableHeight>
+          <Card
+            title={t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.batch')}
+            useMaxAvailableHeight
+          >
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 formatter: number.compact,
                 metrics: ['stats.lightweightDirectoryAccessProtocol.batchSlotsAvailable'],
-                labels: [t('in-forge:plugins.activeDirectory.ldap.availableBatchSlots')],
+                labels: [t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.availableBatchSlots')],
                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -106,7 +118,10 @@ export default function ActiveDirectoryDashboard({
           </Card>
         </Columize>
         <Columize>
-          <Card title={t('in-forge:plugins.activeDirectory.ldap.operations')} useMaxAvailableHeight>
+          <Card
+            title={t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.operations')}
+            useMaxAvailableHeight
+          >
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -118,10 +133,10 @@ export default function ActiveDirectoryDashboard({
                   'stats.lightweightDirectoryAccessProtocol.modifyDNOperations'
                 ],
                 labels: [
-                  t('in-forge:plugins.activeDirectory.ldap.add'),
-                  t('in-forge:plugins.activeDirectory.ldap.delete'),
-                  t('in-forge:plugins.activeDirectory.ldap.modify'),
-                  t('in-forge:plugins.activeDirectory.ldap.modifyDN')
+                  t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.add'),
+                  t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.delete'),
+                  t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.modify'),
+                  t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.modifyDN')
                 ],
                 formatter: number.compact,
                 type: 'line'
@@ -132,7 +147,10 @@ export default function ActiveDirectoryDashboard({
         </Columize>
         <Columize>
           {
-            <Card title={t('in-forge:plugins.activeDirectory.ldap.operationRates')} useMaxAvailableHeight>
+            <Card
+              title={t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.operationRates')}
+              useMaxAvailableHeight
+            >
               <Chart
                 snapshotId={snapshotId}
                 timeConfig={timeConfig}
@@ -147,15 +165,247 @@ export default function ActiveDirectoryDashboard({
                     'stats.lightweightDirectoryAccessProtocol.udpOperationsPerSec'
                   ],
                   labels: [
-                    t('in-forge:plugins.activeDirectory.ldap.add'),
-                    t('in-forge:plugins.activeDirectory.ldap.delete'),
-                    t('in-forge:plugins.activeDirectory.ldap.modify'),
-                    t('in-forge:plugins.activeDirectory.ldap.modifyDN'),
-                    t('in-forge:plugins.activeDirectory.ldap.write'),
-                    t('in-forge:plugins.activeDirectory.ldap.search'),
-                    t('in-forge:plugins.activeDirectory.ldap.udp')
+                    t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.add'),
+                    t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.delete'),
+                    t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.modify'),
+                    t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.modifyDN'),
+                    t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.write'),
+                    t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.search'),
+                    t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.udp')
                   ],
                   formatter: number.perSecond.compact,
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </Card>
+          }
+        </Columize>
+      </DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.activeDirectory.addressBookLabel')}>
+        <Columize>
+          {
+            <Card title={t('in-forge:plugins.activeDirectory.addressBook.abDetails')} useMaxAvailableHeight>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  metrics: [
+                    'stats.addressBook.abAnrPerSec',
+                    'stats.addressBook.abBrowsesPerSec',
+                    'stats.addressBook.abClientSessions',
+                    'stats.addressBook.abMatchesPerSec',
+                    'stats.addressBook.abPropertyReadsPerSec',
+                    'stats.addressBook.abProxyLookupsPerSec',
+                    'stats.addressBook.abSearchesPerSec'
+                  ],
+                  labels: [
+                    t('in-forge:plugins.activeDirectory.addressBook.abAnrPerSec'),
+                    t('in-forge:plugins.activeDirectory.addressBook.abBrowsesPerSec'),
+                    t('in-forge:plugins.activeDirectory.addressBook.abClientSessions'),
+                    t('in-forge:plugins.activeDirectory.addressBook.abMatchesPerSec'),
+                    t('in-forge:plugins.activeDirectory.addressBook.abPropertyReadsPerSec'),
+                    t('in-forge:plugins.activeDirectory.addressBook.abProxyLookupsPerSec'),
+                    t('in-forge:plugins.activeDirectory.addressBook.abSearchesPerSec')
+                  ],
+                  formatter: number.perSecond.compact,
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </Card>
+          }
+        </Columize>
+      </DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.activeDirectory.directorySystemAgentLabel')}>
+        <Columize>
+          {
+            <Card
+              title={t('in-forge:plugins.activeDirectory.directorySystemAgentClientAndDirectory')}
+              useMaxAvailableHeight
+            >
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  metrics: [
+                    'stats.directorySystemAgent.dsClientBindsPerSec',
+                    'stats.directorySystemAgent.dsClientNameTranslationsPerSec',
+                    'stats.directorySystemAgent.dsDirectoryReadsPerSec',
+                    'stats.directorySystemAgent.dsDirectorySearchesPerSec',
+                    'stats.directorySystemAgent.dsDirectoryWritesPerSec'
+                  ],
+                  labels: [
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsClientBindsPerSec'),
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsClientNameTranslationsPerSec'),
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsDirectoryReadsPerSec'),
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsDirectorySearchesPerSec'),
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsDirectoryWritesPerSec')
+                  ],
+                  formatter: number.perSecond.compact,
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </Card>
+          }
+        </Columize>
+        <Columize>
+          {
+            <Card title={t('in-forge:plugins.activeDirectory.directorySystemAgentMemory')} useMaxAvailableHeight>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  metrics: [
+                    'stats.directorySystemAgent.dsMonitorListSize',
+                    'stats.directorySystemAgent.dsNameCachehitRate',
+                    'stats.directorySystemAgent.dsNotifyQueueSize',
+                    'stats.directorySystemAgent.dsSearchSubOperationsPerSec'
+                  ],
+                  labels: [
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsMonitorListSize'),
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsNameCachehitRate'),
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsNotifyQueueSize'),
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsSearchSubOperationsPerSec')
+                  ],
+                  formatter: number.compact,
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </Card>
+          }
+        </Columize>
+        <Columize>
+          {
+            <Card title={t('in-forge:plugins.activeDirectory.directorySystemAgentRead')} useMaxAvailableHeight>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  metrics: [
+                    'stats.directorySystemAgent.dsPercentReadsFromDRA',
+                    'stats.directorySystemAgent.dsPercentReadsFromNTDSAPI',
+                    'stats.directorySystemAgent.dsPercentReadsFromSAM'
+                  ],
+                  labels: [
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentReadsFromDRA'),
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentReadsFromNTDSAPI'),
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentReadsFromSAM')
+                  ],
+                  formatter: percentage.detailed,
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </Card>
+          }
+        </Columize>
+        <Columize>
+          {
+            <Card title={t('in-forge:plugins.activeDirectory.directorySystemAgentRead')} useMaxAvailableHeight>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  metrics: [
+                    'stats.directorySystemAgent.dsPercentReadsOther',
+                    'stats.directorySystemAgent.dsPercentWritesOther',
+                    'stats.directorySystemAgent.dsPercentSearchesOther'
+                  ],
+                  labels: [
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentReadsOther'),
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentWritesOther'),
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentSearchesOther')
+                  ],
+                  formatter: percentage.detailed,
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </Card>
+          }
+        </Columize>
+        <Columize>
+          {
+            <Card title={t('in-forge:plugins.activeDirectory.directorySystemAgentSearches')} useMaxAvailableHeight>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  metrics: [
+                    'stats.directorySystemAgent.dsPercentSearchesFromDRA',
+                    'stats.directorySystemAgent.dsPercentSearchesFromLDAP',
+                    'stats.directorySystemAgent.dsPercentSearchesFromNTDSAPI',
+                    'stats.directorySystemAgent.dsPercentSearchesFromSAM'
+                  ],
+                  labels: [
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentSearchesFromDRA'),
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentSearchesFromLDAP'),
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentSearchesFromNTDSAPI'),
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentSearchesFromSAM')
+                  ],
+                  formatter: percentage.detailed,
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </Card>
+          }
+        </Columize>
+
+        <Columize>
+          {
+            <Card title={t('in-forge:plugins.activeDirectory.directorySystemAgentWrite')} useMaxAvailableHeight>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  metrics: [
+                    'stats.directorySystemAgent.dsPercentWritesFromDRA',
+                    'stats.directorySystemAgent.dsPercentWritesFromLDAP',
+                    'stats.directorySystemAgent.dsPercentWritesFromNTDSAPI',
+                    'stats.directorySystemAgent.dsPercentWritesFromSAM'
+                  ],
+                  labels: [
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentWritesFromDRA'),
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentWritesFromLDAP'),
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentWritesFromNTDSAPI'),
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentWritesFromSAM')
+                  ],
+                  formatter: percentage.detailed,
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </Card>
+          }
+        </Columize>
+        <Columize>
+          {
+            <Card title={t('in-forge:plugins.activeDirectory.directorySystemAgentSecurity')} useMaxAvailableHeight>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  metrics: [
+                    'stats.directorySystemAgent.dsSecurityDescriptorPropagationsEvents',
+                    'stats.directorySystemAgent.dsSecurityDescriptorPropagatorAverageExclusionTime',
+                    'stats.directorySystemAgent.dsSecurityDescriptorPropagatorRuntimeQueue',
+                    'stats.directorySystemAgent.dsSecurityDescriptorSubOperationsPersec'
+                  ],
+                  labels: [
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsSecurityDescriptorPropagationsEvents'),
+                    t(
+                      'in-forge:plugins.activeDirectory.directorySystemAgent.dsSecurityDescriptorPropagatorAverageExclusionTime'
+                    ),
+                    t(
+                      'in-forge:plugins.activeDirectory.directorySystemAgent.dsSecurityDescriptorPropagatorRuntimeQueue'
+                    ),
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsSecurityDescriptorSubOperationsPersec')
+                  ],
+                  formatter: number.compact,
                   type: 'line'
                 }}
                 renderPostChartContent={PluginDashboardsMarkerLanes}

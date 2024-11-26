@@ -9,8 +9,7 @@ export const modes = {
   0: t('in-forge:plugins.instanaAgent.disabled'),
   1: t('in-forge:plugins.instanaAgent.infrastructure'),
   2: t('in-forge:plugins.instanaAgent.apm'),
-  3: t('in-forge:plugins.instanaAgent.k8s'),
-  4: t('in-forge:plugins.instanaAgent.unknown')
+  3: t('in-forge:plugins.instanaAgent.unknown')
 };
 
 export const logLevels = {

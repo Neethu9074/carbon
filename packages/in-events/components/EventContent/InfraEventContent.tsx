@@ -17,12 +17,12 @@ import InfraAlertChartWrapper, {
   useGetMetricLabel
 } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
+import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import { getExpressionWithGroupingTags } from 'in-events/components/EventContent/tagFilterUtils';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import InfraScopePath from 'in-alerting/smart-alerts/infrastructure/components/InfraScopePath';
 import { ScopeGroupingTags } from 'in-events/components/EventContent/ScopeInfraGroupingTags';
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
-import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
 import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
@@ -41,6 +41,7 @@ import { infraPredictiveDetectionEnabled } from 'in-services/featureFlags';
 import EventIcon from 'in-events/components/EventIcon';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { TagCatalog, TagFilterExpression, TimeConfig } from 'in-types';
+import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
@@ -128,6 +129,7 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
                 {hasInfrastructureAnalyzeAccess && (
                   <DescriptionButtons>
                     <InfraAlertConfigButton alertConfig={alertConfig} />
+                    <TriggeredIncidentButton event={event} />
                     <AnalyzeInfraEventButton
                       alertConfig={alertConfigWithGroupingExpression}
                       timeConfig={getSmartAlertAnalyzeTimeConfig(event as EventOrMap, alertConfig)}
@@ -151,6 +153,7 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
                         }
                       />
                     )}
+                    <TriggeredIncidentButton event={event} />
                     <InfraAlertConfigButton alertConfig={alertConfig} />
                     <AnalyzeInfraEventButton
                       alertConfig={alertConfigWithGroupingExpression}
@@ -171,6 +174,7 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
                         }
                       />
                     )}
+                    <TriggeredIncidentButton event={event} />
                   </div>
                 )}
               </div>

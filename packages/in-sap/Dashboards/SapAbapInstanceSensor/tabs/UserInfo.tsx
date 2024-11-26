@@ -149,7 +149,7 @@ export default function UserInfo({ snapshotId, timeConfig }: UserInfoProps) {
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-sap:dashboards.userInfo')}
+      cardTitle={t('in-sap:dashboards.userLoginInfo')}
       cols={cols}
       rows={rows}
       initialSortColumn={0}

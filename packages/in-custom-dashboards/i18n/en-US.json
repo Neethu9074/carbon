@@ -161,6 +161,17 @@
         "unexpectedLowOrHighNumberOfCalls": "Unexpectedly high or low number of calls"
       }
     },
+    "srcBizOps": {
+      "formComponent": {
+        "pleaseSelect": "Please select",
+        "pleaseSelectMetric": "Please select a metric",
+        "aggregation": "Aggregation",
+        "metric": "Metric"
+      },
+      "index": {
+        "bizOps": "Business Monitoring (Activities)"
+      }
+    },
     "srcApp": {
       "formComponent": {
         "needToTurnOffPP": "To use grouping you need to turn off Potential Problems highlighting first.",

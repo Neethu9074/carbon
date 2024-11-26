@@ -53,6 +53,11 @@
       "title": "Produktbenutzeranalyse",
       "purpose": "Registriert eine eindeutige ID, die verwendet wird, um statistische Daten dazu zu generieren, wie der Besucher die Website verwendet."
     },
+    "walkme": {
+      "title": "Produkt-Einführung und -Anleitung",
+      "purpose": "Registriert eine eindeutige ID, die verwendet wird, um statistische Daten dazu zu generieren, wie der Besucher die Website verwendet.",
+      "category": "Produkt-Einführung und -Anleitung"
+    },
     "appcues": {
       "title": "Maßgeschneiderte Onboarding-Erfahrungen und NPS-Umfragen",
       "purpose": "Benutzeronboarding und NPS-Store-Umfragen."
@@ -165,6 +170,7 @@
     "limitedAccessKubernetes_namespaces": "Namensbereiche",
     "limitedAccessKubernetes_addCluster": "Cluster hinzufügen",
     "limitedAccessKubernetes_addNamespace": "Namensbereich hinzufügen",
+    "addButton_bizopsPerspectives": "Geschäftsperspektiven hinzufügen",
     "addButton_syntheticTests": "Synthetische Tests hinzufügen",
     "descriptionAccessAll_synthetics": "Auf alle synthetischen Tests kann mit der ausgewählten Rolle zugegriffen werden.",
     "descriptionLimitedAccess_synthetics": "Wählen Sie die Rolle aus und fügen Sie unten synthetische Tests hinzu, um Zugriff zu erteilen.",
@@ -215,6 +221,8 @@
     "description_access_all": "Zugriff auf alle ohne Einschränkung",
     "title_access_all_bizops": "Unbegrenzter Zugriff",
     "title_no_access_bizops": "Zugriff verweigert",
+    "title_limited_access_bizops": "Eingeschränkter Zugriff",
+    "description_limited_access_bizops": "Greifen Sie nur auf die aufgeführten Geschäftsperspektiven und deren Geschäftsprozesse zu.",
     "description_access_all_bizops": "Alle Funktionen von Business Monitoring sind ohne Einschränkung zugänglich.",
     "description_no_access_bizops": "Der Zugriff auf Business Monitoring wird verweigert.",
     "description_access_all_except_contributor": "Zugriff auf alles (mit Ausnahme derjenigen, auf die als Beitragender zugegriffen wird)",
@@ -363,8 +371,7 @@
         "placeholder": "Platzhalter",
         "logicalOperator_AND": "AND",
         "logicalOperator_OR": "ODER",
-        "logicalOperatorInfo": "Der ausgewählte logische Operator wird auf die folgenden Bedingungen angewendet:",
-        "clearMetricSeclection": "Auswahl löschen"
+        "logicalOperatorInfo": "Der ausgewählte logische Operator wird auf die folgenden Bedingungen angewendet:"
       },
       "customPayload": {
         "unknownTag": "Unbekannter Tag: {{tagName}}"
@@ -438,7 +445,10 @@
     },
     "deleteLogs": {
       "deleteLogs": "Protokolle löschen",
-      "info": "Wenn Sie feststellen, dass sichere Informationen in die Instana-Protokolle gelangen, können Sie die Protokolle für einen bestimmten Zeitraum löschen. ",
+      "info": "Wenn Sie ein Leck in den Instana-Protokollen feststellen, können Sie",
+      "info2": "fortfahren, um Protokolle für einen bestimmten Zeitraum zu löschen.",
+      "confirmDeletion": "Löschen bestätigen",
+      "modalDescription": "Beim Löschen von Protokollen werden alle Protokolle von Instana bis zum angegebenen Enddatum und zur angegebenen Endzeit dauerhaft gelöscht. Die Aktion kann nicht rückgängig gemacht werden.",
       "confirmationDescription": "Beim Löschen von Protokollen werden die Protokolle dauerhaft aus Instana gelöscht. Diese Aktion kann nicht rückgängig gemacht werden. ",
       "deletionReason": "Gründe für den Löschvorgang",
       "typeToContinue": "Geben Sie zum Fortfahren {{logs}} ein",
@@ -455,8 +465,8 @@
       "numberOfLogs": "Anzahl der Protokolle",
       "triggered": "Ausgelöst durch",
       "status": "Status",
-      "noData": "Keine Daten vorhanden, die angezeigt werden können",
-      "noDataInfo": "Klicken Sie zum Löschen von Protokollen auf \"Protokolle löschen\"",
+      "noData": "Es wurden noch keine Protokolle gelöscht",
+      "noDataInfo": "Um Protokolle zu löschen, klicken Sie auf Protokolle löschen",
       "summary": "Historie der Löschaktion protokollieren",
       "wrong": "Es liegt ein Fehler vor",
       "errorInfo": "Daten können nicht aus der Datenbank abgerufen werden",
@@ -927,9 +937,9 @@
     "users": "Benutzer",
     "session": "Sitzung",
     "timeouts": "Zeitlimitüberschreitungen",
-    "teamSettings": "Teameinstellungen",
+    "globalSettings": "Globale Einstellungen",
     "userSettings": "Benutzereinstellungen",
-    "authentication": "Authentifizierung",
+    "securityAndAccess": "Sicherheit & Zugang",
     "settingsPageNotFound": "Einstellungsseite nicht gefunden",
     "weCouldNotFindTheSettingsPageYouWereLookingFor": "Die Einstellungsseite, die Sie gesucht haben, konnte nicht gefunden werden. Das tut uns leid. Vielleicht möchten Sie stattdessen einen der folgenden Links ausprobieren?",
     "pleaseSelectAtLeastOneItem": "Wählen Sie mindestens ein Element aus.",
@@ -1285,13 +1295,13 @@
     "deletedEventMessage": "Sie suchen eine gelöschte Ereigniskonfiguration. Änderungen sind nicht möglich.",
     "serviceNowUrl": "ServiceNow-URL",
     "serviceNow": "ServiceNow",
-    "serviceNowBD": "ServiceNow-App",
+    "serviceNowBD": "ServiceNow ITSM-Anwendung",
     "intermediateTable": "Ereignisfortpflanzung in die Zwischentabelle",
     "propIncidentTable": "Erlauben Sie Instana, Ereignisse an die ServiceNow zu senden",
     "propIncidentTableDesc": "Nach der Übertragung der IBM Instana-Zwischentabelle aktualisiert Instana die Vorfallstabelle in ServiceNow. Dadurch werden ServiceNow synchron mit den Vorfällen in Instana geöffnet und geschlossen sowie Notizen und Aktivitäten zwischen Instana und ServiceNow synchronisiert. Alle bestehenden Geschäftsregeln zur Änderung Ihrer Vorfallstabelle in ServiceNow funktionieren ebenfalls normal.",
     "restIncidentTable": "Beschränken Sie Instana nur auf die Weitergabe von Zwischentabellen",
     "restIncidentTableDesc": "Instana überträgt die Vorfallsdaten nur in die IBM Instana-Zwischentabelle, ohne weitere Aktualisierungen der ServiceNow. Um die vollständige Synchronisierung von Ereignissen, Notizen und Aktivitäten zu ermöglichen, müssen Sie Ihre ServiceNow aktualisieren. Weitere Informationen finden Sie in der <documentationLink>Dokumentation</documentationLink>.",
-    "serviceNowAlertChannel": "ServiceNow-Alertkanal",
+    "serviceNowAlertChannel": "ServiceNow Alert-Kanal-App",
     "serviceNowUsernameTooltip": "Benutzername und Kennwort sollten für einen ServiceNow-Benutzer mit Berechtigung zum Erstellen von Vorfällen gelten.",
     "autoCloseIncidents": "Vorfälle automatisch schließen",
     "advancedIntro": "Wenn Sie diesen Alarmkanal erstellen, kann Instana Vorfälle/Tickets in ServiceNow erstellen. Sie können anpassen, wie die Vorfälle aktualisiert werden.<br/><br/>",
@@ -1352,7 +1362,10 @@
     "changeEvent": "Änderungsereignis",
     "advancedSettingsMessage": "Wenn Sie diese Option aktivieren, haben Sie die Möglichkeit, den Betreff für Ereignisalerts zu personalisieren, die Sie basierend auf ihrem Typ erhalten. Wenn Sie E-Mail-Betreffs nicht anpassen möchten, können Sie diese Option einfach ignorieren.",
     "customSubjectNotProvided": "Wenn kein angepasster Betreff angegeben wird, sendet Instana eine Alert-E-Mail mit einem vordefinierten Betreff.",
-    "sendTestEmail": "Test-E-Mail senden"
+    "sendTestEmail": "Test-E-Mail senden",
+    "alertTitleAdditions": "Alert-Titel",
+    "alertTitleAdditionsTooltip": "Der Name der Entität, für die dieser Alarm ausgelöst wird, erscheint im Titel des Alarms. Standardmäßig ist der Entitätsname nur im Textkörper einer Meldung sichtbar",
+    "includeEntityNameInLegacyAlerts": "Name der Entität in den Alarmtitel aufnehmen"
   },
   "languageSelection": {
     "language": "Sprache",

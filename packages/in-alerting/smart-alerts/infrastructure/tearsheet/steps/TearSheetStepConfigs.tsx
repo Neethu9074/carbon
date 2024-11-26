@@ -40,13 +40,13 @@ export type stepRendersType = AlertConfigTearSheetWithThresholdProps & {
   isTagFilterFormModelValid: boolean;
   setStep: Dispatch<SetStateAction<number>>;
   thresholdResult: Result<StaticThresholdData> | undefined | null;
+  setTagFilterValid: Dispatch<SetStateAction<boolean>>;
 };
 
 export const infraStepRenderers = [
-  //@ts-expect-error TODO to be handled
   (props: stepRendersType) => (
     <AlertingTearSheetContent title={stepConfigs[0].title} key={0}>
-      <AlertConfigTearSheetStep1 />
+      <AlertConfigTearSheetStep1 {...props} />
     </AlertingTearSheetContent>
   ),
   //@ts-expect-error TODO to be handled

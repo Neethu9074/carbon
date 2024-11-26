@@ -5,13 +5,13 @@
 
 import React from 'react';
 
-import { Menu } from '@instana/components';
-
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
+import { idFromBluePrint } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { blueprintConfig } from 'in-applications/creation/data/blueprintConfig';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
+import SideRadioMenu from 'in-components/SideRadioMenu';
 import { t } from 'in-i18n';
 
 import locals from './SimpleCreateStep1.mless';
@@ -20,11 +20,11 @@ export default function SimpleCreateStep1({ selectedBlueprint, setSelectedBluepr
   const { trackApplicationCreationBlueprintSelected } = useApplicationTracker();
   return (
     <SimpleModeStepContentWrapper headline={t('in-applications:creation.simple.step1.headline')}>
-      <Menu
-        items={blueprintConfig}
-        addRightSeparator
-        initialItemSelected={selectedBlueprint}
-        onItemClick={item => {
+      <SideRadioMenu
+        items={blueprintConfig.map(x => ({ id: idFromBluePrint(x), name: x.name }))}
+        valueSelected={idFromBluePrint(selectedBlueprint)}
+        onChange={id => {
+          const item = blueprintConfig.find(i => id === idFromBluePrint(i));
           setSelectedBlueprint(item);
           trackApplicationCreationBlueprintSelected({ item });
         }}

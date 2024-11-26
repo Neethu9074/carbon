@@ -102,7 +102,7 @@ function createGenerateAIActionForm({ trigger, event }: UseGenerateAIActionFormP
   const name = event?.problem?.problemText ?? '';
   const description = hasError(trigger) ? event?.problem?.fixSuggestion ?? '' : trigger.data!?.description ?? '';
   const defaultActionName = `AI generated action for ${name}`;
-  const defaultActionDescription = `This resolves event with ${description}`;
+  const defaultActionDescription = `This resolves event: ${description}`;
   const entityType = getEventEntity(event);
 
   const form: GenerateAIActionForm = createMapForm({

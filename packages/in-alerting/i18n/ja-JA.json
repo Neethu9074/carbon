@@ -41,6 +41,8 @@
     "chart": {
       "alertingChartLabelThreshold": "しきい値",
       "alertingChartLabelViolations": "違反",
+      "alertingChartLabelWarningViolations": "警告違反",
+      "alertingChartLabelCriticalViolations": "重大な違反",
       "alertingChartLabelWarningThreshold": "警告しきい値",
       "alertingChartLabelCriticalThreshold": "クリティカルしきい値",
       "alertingChartLabelForecast": "予測",
@@ -149,6 +151,7 @@
     "titleNoSmartAlertsCreated": "スマート・アラートが作成されていません",
     "titleCopyOf": "{{smartAlertTitle}} (のコピー)",
     "smartAlertsTitle": "スマート・アラート",
+    "labelNew": "(新規)",
     "applications": {
       "alertConfiguration": "アラート構成",
       "advanced": {
@@ -435,7 +438,8 @@
           "throughputDefault_higherThan": "呼び出し数は予期される値を上回っています。",
           "throughputDefault_higherEqual": "呼び出し数は予期される値以上です。",
           "throughputDefault_lowerThan": "呼び出し数は予期される値を下回っています。",
-          "throughputDefault_lowerEqual": "呼び出し数は予期される値以下です。"
+          "throughputDefault_lowerEqual": "呼び出し数は予期される値以下です。",
+          "expected": "期待値である場合"
         },
         "customStatusCodeFullText": "{{statusCodeStart}} から {{statusCodeEnd}} の間"
       },
@@ -464,8 +468,9 @@
         "ruleFormPleaseProvideAStartStatusCode": "有効な開始 HTTP 状況コードを指定してください",
         "ruleFormPleaseProvideAEndStatusCode": "有効な終了 HTTP 状況コードを指定してください",
         "smartAlertFormValueIsReadOnly": "値は読み取り専用であるため、変更できません",
-        "thresholdFormPleaseProvideANumber0": "0 以上の数値を指定してください",
-        "thresholdFormBaselineIsEmpty": "ベースラインが空です"
+        "thresholdFormBaselineIsEmpty": "ベースラインが空です",
+        "selectAtLeastOneThreshold": "少なくとも 1 つのしきい値を指定してください。",
+        "selectAtLeastOneSensitivity": "少なくとも 1 つの感受性を選択してください。"
       },
       "simple": {
         "simpleAlertStep2Headline": "どこでアラートをトリガーしますか?",
@@ -749,7 +754,8 @@
       "ruleStatusCodeValueOption511": "511 (ネットワーク認証が必要)",
       "ruleStatusCodeValueOption599": "599 (ネットワーク接続タイムアウト・エラー)",
       "warningThresholdValidator": "< および <= 演算子の場合、警告しきい値はクリティカルしきい値より大きくなければなりません。",
-      "criticalThresholdValidator": "> および >= 演算子の場合、クリティカルしきい値は警告しきい値より大きくなければなりません。"
+      "criticalThresholdValidator": "> および >= 演算子の場合、クリティカルしきい値は警告しきい値より大きくなければなりません。",
+      "sensitivityValidator": "臨界感度は、警告感度より小さくする必要があります。"
     },
     "components": {
       "smartAlertDialog": {
@@ -787,6 +793,7 @@
         "scopeConfigSelectOneEntryMessage": "少なくとも 1 つのエントリーを選択してください。",
         "scopeConfigTitleTooltip": "過去 24 時間の使用可能なエンティティーを表示しています",
         "scopeConfigSubTitle": "過去24時間に基づく",
+        "scopeConfigSearchApplicationsPlaceholder": "検索アプリケーション…",
         "scopeMigrationMessage_FAILED": "スコープを自動的にマイグレーションできませんでした。 以下のダイナミック・フォーカス照会に対応するタグ・フィルターを選択してください。",
         "scopeMigrationMessage_PARTIAL": "スコープを完全にマイグレーションできませんでした。 以下のダイナミック・フォーカス照会に対応するタグ・フィルターを選択してください。",
         "scopeMigrationMessage_FULL": "適用されるスコープは、過去に使用されたダイナミック・フォーカス照会に基づきます。",
@@ -1468,7 +1475,30 @@
       },
       "count": "数",
       "selectEntityType": "エンティティー・タイプを選択してください",
-      "regexNotValid": "正規表現が無効です"
+      "regexNotValid": "正規表現が無効です",
+      "tearSheet": {
+        "createTitle": "インフラストラクチャ・スマート・アラートの作成",
+        "steps": {
+          "step1Title": "条件の定義",
+          "step2Title": "アラートを受け取るタイミングの定義",
+          "step3Title": "アラート・プロパティの定義",
+          "step4Title": "アラート・チャンネルの定義"
+        },
+        "step1": {
+          "header": "警告がトリガーされるタイミングを決定するメトリックと集計を選択します"
+        },
+        "step2": {
+          "header": "違反しきい値の値を設定",
+          "description": "違反を評価するためのメトリック、違反しきい値、時間ウィンドウを選択します。"
+        },
+        "step3": {
+          "header": "このアラートに設定するプロパティーはどのようにしますか?"
+        },
+        "step4": {
+          "header": "このアラートについて何を通知しますか?",
+          "description": "このアラートの受信者を選択する"
+        }
+      }
     },
     "logs": {
       "alertDetails": {

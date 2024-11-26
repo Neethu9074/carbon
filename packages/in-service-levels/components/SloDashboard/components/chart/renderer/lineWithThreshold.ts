@@ -6,7 +6,7 @@
 
 import {
   drawLines,
-  fillTopBackground,
+  fillBackground,
   getLineWidth,
   Vertex
 } from 'in-service-levels/components/SloDashboard/components/chart/renderer/utils';
@@ -16,9 +16,11 @@ import { ScaleType } from 'in-services/scale';
 
 export const thresholdMetricId = 'threshold';
 
-export const lineWithThreshold: Renderer = {
+type LineWithThresholdRenderProps = RenderProps & { isGreaterOp: boolean };
+
+export const lineWithThreshold: Renderer<LineWithThresholdRenderProps> = {
   id: 'lineWithThreshold',
-  render: ({ color, scale, config, dataSeries, metricId }: RenderProps) => {
+  render: ({ color, scale, config, dataSeries, metricId, isGreaterOp }: LineWithThresholdRenderProps) => {
     if (metricId === thresholdMetricId) {
       const thresholdLine = generateThresholdVertices(dataSeries, scale, config);
 
@@ -27,7 +29,11 @@ export const lineWithThreshold: Renderer = {
       config.backBufferCtx.lineWidth = getLineWidth(config);
       drawLines(thresholdLine, config);
       config.backBufferCtx.stroke();
-      fillTopBackground(thresholdLine, config, color, config.markerPaneHeight);
+      if (isGreaterOp) {
+        fillBackground(thresholdLine, config, color, config.markerPaneHeight);
+      } else {
+        fillBackground(thresholdLine, config, color, config.height);
+      }
     } else {
       renderer.line.render({ color, scale, config, dataSeries, metricId });
     }

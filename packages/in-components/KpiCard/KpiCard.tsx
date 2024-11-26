@@ -6,7 +6,16 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
-import { Link, SvgIcon, Card, Button, ButtonKinds, IconButton } from '@instana/components';
+import {
+  Link,
+  SvgIcon,
+  Card,
+  Button,
+  ButtonKinds,
+  IconButton,
+  HeadingElement,
+  HeadingVariant
+} from '@instana/components';
 import { Observable } from '@instana/observables';
 
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
@@ -35,6 +44,7 @@ export interface KpiCardProps {
   value?: any;
   actions?: ReactNode;
   companionValue?: ReactNode;
+  headingVariant?: HeadingVariant;
   /*
   When true, print out the whole value without special formatting
   When false, the numeric value will have a greater font size than the rest, usually the unit
@@ -50,6 +60,7 @@ export interface KpiCardProps {
   useMaxAvailableHeight?: boolean;
   iconAction?: IconAction;
   resultPrecision?: ResultPrecision;
+  approximateTooltipText?: string;
   isInModal?: boolean;
   tooltipContent?: React.ReactNode;
   majorClass?: string;
@@ -79,6 +90,7 @@ export default function KpiCard({
   useMaxAvailableHeight = true,
   iconAction,
   resultPrecision,
+  approximateTooltipText,
   tooltipContent,
   majorClass,
   minorClass,
@@ -87,7 +99,8 @@ export default function KpiCard({
   icon,
   iconClassName,
   extraInfo,
-  noTooltipOnTitle
+  noTooltipOnTitle,
+  headingVariant = 'heading-2'
 }: KpiCardProps) {
   const { ref, width } = useResizeObserver<HTMLDivElement>();
   const hasApproximateData = resultPrecision === 'PRECISION_APPROXIMATE';
@@ -176,11 +189,15 @@ export default function KpiCard({
           <Tooltip content={title} align={carbonTooltipEnabled ? 'auto' : 'bottomLeft'} overflowEllipsis>
             <div className={locals.titleContainer}>
               {disableHeaderTooltip ? (
-                <span className={locals.titleText}>{title}</span>
+                <HeadingElement variant={headingVariant} className={locals.titleText}>
+                  {title}
+                </HeadingElement>
               ) : (
                 <>
                   {icon && <SvgIcon type={icon} className={iconClassName} />}
-                  <span className={locals.titleText}>{title}</span>
+                  <HeadingElement variant={headingVariant} className={locals.titleText}>
+                    {title}
+                  </HeadingElement>
                 </>
               )}
             </div>
@@ -188,18 +205,26 @@ export default function KpiCard({
         ) : (
           <div className={locals.titleContainer}>
             {disableHeaderTooltip ? (
-              <span className={locals.titleText}>{title}</span>
+              <HeadingElement variant={headingVariant} className={locals.titleText}>
+                {title}
+              </HeadingElement>
             ) : (
               <>
                 {icon && <SvgIcon type={icon} className={iconClassName} />}
-                <span className={locals.titleText}>{title}</span>
+                <HeadingElement variant={headingVariant} className={locals.titleText}>
+                  {title}
+                </HeadingElement>
               </>
             )}
           </div>
         )}
 
         <div className={locals.flexTooltip}>
-          <WidgetCardHeader renderApproximateDataTooltip={hasApproximateData} extraInfoTooltip={extraInfo} />
+          <WidgetCardHeader
+            renderApproximateDataTooltip={hasApproximateData}
+            approximateTooltipText={approximateTooltipText}
+            extraInfoTooltip={extraInfo}
+          />
         </div>
         {iconAction &&
           (carbonButtonEnabled ? (

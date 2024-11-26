@@ -1555,6 +1555,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.0.0":
+  version: 7.26.0
+  resolution: "@babel/runtime@npm:7.26.0"
+  dependencies:
+    regenerator-runtime: ^0.14.0
+  checksum: c8e2c0504ab271b3467a261a8f119bf2603eb857a0d71e37791f4e3fae00f681365073cc79f141ddaa90c6077c60ba56448004ad5429d07ac73532be9f7cf28a
+  languageName: node
+  linkType: hard
+
 "@babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.22.15, @babel/runtime@npm:^7.23.9, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7":
   version: 7.24.7
   resolution: "@babel/runtime@npm:7.24.7"
@@ -1652,21 +1661,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@carbon/colors@npm:^11.23.1":
-  version: 11.23.1
-  resolution: "@carbon/colors@npm:11.23.1"
-  dependencies:
-    "@ibm/telemetry-js": ^1.5.0
-  checksum: a8fc3b8882383f25e785f7ef41ab3a23d64a505bf8dedfa3440b3a0d149f3ed321cffc86bc36d092abecc025c9f382bed2c5c7cb95a3d44e41da48ed1f1901ae
-  languageName: node
-  linkType: hard
-
 "@carbon/colors@npm:^11.24.0":
   version: 11.24.0
   resolution: "@carbon/colors@npm:11.24.0"
   dependencies:
     "@ibm/telemetry-js": ^1.5.0
   checksum: 8110320420798b6a40ffb93d0c15089e731208eb930f7c0b02cc387cef8eb42be43bd5aff0b3f29ff51921004381bf43fcad9d98fce89d9cb90f9fe9d6062459
+  languageName: node
+  linkType: hard
+
+"@carbon/colors@npm:^11.25.0":
+  version: 11.28.0
+  resolution: "@carbon/colors@npm:11.28.0"
+  dependencies:
+    "@ibm/telemetry-js": ^1.5.0
+  checksum: fac26bfc86d671d7a3959a7cbd1adf58eafc59a879d4df7c7595aeec4a43b49efeabd389c538edce4ff208b5559754acf8b182c37b02379fab1ff7dcd4cdaf20
   languageName: node
   linkType: hard
 
@@ -1688,16 +1697,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@carbon/grid@npm:^11.24.1":
-  version: 11.24.1
-  resolution: "@carbon/grid@npm:11.24.1"
-  dependencies:
-    "@carbon/layout": ^11.23.1
-    "@ibm/telemetry-js": ^1.5.0
-  checksum: 051de35a46d14d44feac51231c756c9c8e629dbc7954bf78af44168d056fe1eb6eaf6d416562ccfdb9ea730dd55189988625d68f905500dd1824c58c6b239009
-  languageName: node
-  linkType: hard
-
 "@carbon/grid@npm:^11.25.0":
   version: 11.25.0
   resolution: "@carbon/grid@npm:11.25.0"
@@ -1705,6 +1704,63 @@ __metadata:
     "@carbon/layout": ^11.24.0
     "@ibm/telemetry-js": ^1.5.0
   checksum: 0afb876f4ff918138c7117e5d7dece3469d36c420f5359a3950e007fca081db075b83224137c3d1b6267c41cad96b7eddb4c6380143db3bfb682efca21d109ca
+  languageName: node
+  linkType: hard
+
+"@carbon/grid@npm:^11.29.0":
+  version: 11.29.0
+  resolution: "@carbon/grid@npm:11.29.0"
+  dependencies:
+    "@carbon/layout": ^11.28.0
+    "@ibm/telemetry-js": ^1.5.0
+  checksum: 5ba27e529c2101994685c0acebe0e817d1ec3969f50b46e6caa40b8017e3f4e7bd72203725d2446f25225a182b4f08afa452906b75f0c802097b089247a8eb80
+  languageName: node
+  linkType: hard
+
+"@carbon/ibm-products-styles@npm:^2.45.0":
+  version: 2.49.0
+  resolution: "@carbon/ibm-products-styles@npm:2.49.0"
+  dependencies:
+    "@ibm/telemetry-js": ^1.5.0
+  peerDependencies:
+    "@carbon/grid": ^11.28.1
+    "@carbon/layout": ^11.27.1
+    "@carbon/motion": ^11.23.1
+    "@carbon/themes": ^11.42.0
+    "@carbon/type": ^11.32.1
+  checksum: 4c57fafbb4a6bdf38b3fad91b39714604429fa7e8d46812c165903cca8870d61753d1af7cd3741514ee3c495bfa4856236781bb46aa255cb60681d8e17cfcfba
+  languageName: node
+  linkType: hard
+
+"@carbon/ibm-products@npm:2.49.0":
+  version: 2.49.0
+  resolution: "@carbon/ibm-products@npm:2.49.0"
+  dependencies:
+    "@babel/runtime": ^7.23.9
+    "@carbon/feature-flags": ^0.20.0
+    "@carbon/ibm-products-styles": ^2.45.0
+    "@carbon/telemetry": ^0.1.0
+    "@dnd-kit/core": ^6.0.8
+    "@dnd-kit/modifiers": ^7.0.0
+    "@dnd-kit/sortable": ^8.0.0
+    "@dnd-kit/utilities": ^3.2.2
+    "@ibm/telemetry-js": ^1.5.0
+    framer-motion: ^6.5.1 < 7
+    immutability-helper: ^3.1.1
+    lodash: ^4.17.21
+    lottie-web: ^5.12.2
+    react-table: ^7.8.0
+    react-window: ^1.8.10
+  peerDependencies:
+    "@carbon/grid": ^11.24.1
+    "@carbon/layout": ^11.23.1
+    "@carbon/motion": ^11.19.1
+    "@carbon/react": ^1.61.0
+    "@carbon/themes": ^11.37.1
+    "@carbon/type": ^11.28.1
+    react: ^16.8.6 || ^17.0.1 || ^18.2.0
+    react-dom: ^16.8.6 || ^17.0.1 || ^18.2.0
+  checksum: aae72414641859f2f7865dfa16bb659a86dd8f97a3e68aa68e17b99a8e9ec5257a7e0cf508b5687b41dbb88f34624240cc3711e579a68ebd7948e469ef903bed
   languageName: node
   linkType: hard
 
@@ -1752,12 +1808,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@carbon/layout@npm:^11.23.1":
-  version: 11.23.1
-  resolution: "@carbon/layout@npm:11.23.1"
+"@carbon/layout@npm:^11.25.0, @carbon/layout@npm:^11.28.0":
+  version: 11.28.0
+  resolution: "@carbon/layout@npm:11.28.0"
   dependencies:
     "@ibm/telemetry-js": ^1.5.0
-  checksum: 96245b3d4533d7e2b96c420710b6f518e4348ed31222d009c300c11c0218665c7262ff8cf7544ebc4506e67d94e73f0e9b628732b34b59027e3164626e88d896
+  checksum: 598479fe31292da0fe09bf406b317c453ad5ccd3ae5f50d59b9d131549850ca2e15d26702c1bc97edba418bbac496e307f0d57af2708ee581af25f01d9da5c30
   languageName: node
   linkType: hard
 
@@ -1767,6 +1823,15 @@ __metadata:
   dependencies:
     "@ibm/telemetry-js": ^1.5.0
   checksum: 44707d39b09d391d05903c526a185377d357702892eb8c88bc59dada5d95842b882b4cd96c54dca99c77dae8b4aef4919892ce754f90bb946a58be338c6b5534
+  languageName: node
+  linkType: hard
+
+"@carbon/motion@npm:^11.21.0":
+  version: 11.24.0
+  resolution: "@carbon/motion@npm:11.24.0"
+  dependencies:
+    "@ibm/telemetry-js": ^1.5.0
+  checksum: 1151cdf9fca8e8d06b358934a27dd0afd0881750629e7fb93902d689af2a0d68cb2bb30a18180c8afa99cbd2f98057157a53569aa55e9b2d6ccc6ded82b297df
   languageName: node
   linkType: hard
 
@@ -1826,16 +1891,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@carbon/themes@npm:11.37.1":
-  version: 11.37.1
-  resolution: "@carbon/themes@npm:11.37.1"
+"@carbon/telemetry@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "@carbon/telemetry@npm:0.1.0"
+  bin:
+    carbon-telemetry: bin/carbon-telemetry.js
+  checksum: e93039763ed40b612a1cb5c70001d5e7e92ff034f1559676d47ce9a98e6285ba2856f6a59146b03e6349702eb96d61f2fe91349e981ca858e45c4527a3c1e876
+  languageName: node
+  linkType: hard
+
+"@carbon/themes@npm:11.39.0":
+  version: 11.39.0
+  resolution: "@carbon/themes@npm:11.39.0"
   dependencies:
-    "@carbon/colors": ^11.23.1
-    "@carbon/layout": ^11.23.1
-    "@carbon/type": ^11.28.1
+    "@carbon/colors": ^11.25.0
+    "@carbon/layout": ^11.25.0
+    "@carbon/type": ^11.30.0
     "@ibm/telemetry-js": ^1.5.0
     color: ^4.0.0
-  checksum: fcf049c4b16b297904e9fdb05acee9a1edf9a5859197f07f2ae8565e2ad57a24f139bcf77fb8744ff532a1809486574d536b7020325969e12899af4b601bfafa
+  checksum: 126b6c739eecb8413601d5f63b12812ba8f550aeb98fbabd1dc7613a1331a90cc3674ffcd9c7093ec3887bbd69ae13705ec971c5d639155ef8f290cfed18ef0d
   languageName: node
   linkType: hard
 
@@ -1852,17 +1926,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@carbon/type@npm:^11.28.1":
-  version: 11.28.1
-  resolution: "@carbon/type@npm:11.28.1"
-  dependencies:
-    "@carbon/grid": ^11.24.1
-    "@carbon/layout": ^11.23.1
-    "@ibm/telemetry-js": ^1.5.0
-  checksum: a3fed78242356d654e605302913e5715e26f7230d67262e24f5b0d24e4c05d29355f4d81b0745b9d2b7bd76ad3ad1bb8086cd04717ca9ba135455203ace80562
-  languageName: node
-  linkType: hard
-
 "@carbon/type@npm:^11.29.0":
   version: 11.29.0
   resolution: "@carbon/type@npm:11.29.0"
@@ -1871,6 +1934,17 @@ __metadata:
     "@carbon/layout": ^11.24.0
     "@ibm/telemetry-js": ^1.5.0
   checksum: 2e7ebfe1c1b7b2b9f2f730287ea9e182bf2ac8b001f428c483fbb6b11b07b55b12ce6d28cfd0ae6d68a6dd6b8ba96ae6ed2a5c296c9aab4f3a620d1dd6eb5f47
+  languageName: node
+  linkType: hard
+
+"@carbon/type@npm:^11.30.0":
+  version: 11.33.0
+  resolution: "@carbon/type@npm:11.33.0"
+  dependencies:
+    "@carbon/grid": ^11.29.0
+    "@carbon/layout": ^11.28.0
+    "@ibm/telemetry-js": ^1.5.0
+  checksum: 3b807484932edf38bf04cb35be3de6706da10a0a1f5876076946ca78605916ed80dbd2d44481d5da770627e36b4aeae862722e8d65e02c3b67f6e2ab604fc909
   languageName: node
   linkType: hard
 
@@ -1885,6 +1959,68 @@ __metadata:
   version: 0.5.7
   resolution: "@discoveryjs/json-ext@npm:0.5.7"
   checksum: 2176d301cc258ea5c2324402997cf8134ebb212469c0d397591636cea8d3c02f2b3cf9fd58dcb748c7a0dade77ebdc1b10284fa63e608c033a1db52fddc69918
+  languageName: node
+  linkType: hard
+
+"@dnd-kit/accessibility@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "@dnd-kit/accessibility@npm:3.1.0"
+  dependencies:
+    tslib: ^2.0.0
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: fcb88c961e2f4c226ab575bc4a13712419884bb0f60761befcaa23bcb6c9939dc2cac6633416f2a07baee9a8830350c6df444039332408cdaaf27cad17c6b64b
+  languageName: node
+  linkType: hard
+
+"@dnd-kit/core@npm:^6.0.8":
+  version: 6.1.0
+  resolution: "@dnd-kit/core@npm:6.1.0"
+  dependencies:
+    "@dnd-kit/accessibility": ^3.1.0
+    "@dnd-kit/utilities": ^3.2.2
+    tslib: ^2.0.0
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 3b8f46d2f4d2723abad4721c7bc4d1df2c4f6f26ce54673243666212cfa6f34f33e3255b53144a847da469dc736c966c19e4c45330f967ce8c01f8f878ec7f5b
+  languageName: node
+  linkType: hard
+
+"@dnd-kit/modifiers@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@dnd-kit/modifiers@npm:7.0.0"
+  dependencies:
+    "@dnd-kit/utilities": ^3.2.2
+    tslib: ^2.0.0
+  peerDependencies:
+    "@dnd-kit/core": ^6.1.0
+    react: ">=16.8.0"
+  checksum: 176f76a552a2692a205f7fe647c836aa7ded7f0fdc3370407f3633c153139fe838cb85e59cbc3b156377cc8fe3fb7b72af15b97ed3de15cec904eae35f0c36e6
+  languageName: node
+  linkType: hard
+
+"@dnd-kit/sortable@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "@dnd-kit/sortable@npm:8.0.0"
+  dependencies:
+    "@dnd-kit/utilities": ^3.2.2
+    tslib: ^2.0.0
+  peerDependencies:
+    "@dnd-kit/core": ^6.1.0
+    react: ">=16.8.0"
+  checksum: 26589fd23c18d930a949489b232a7345c0bee4abb6be91d3673232bc79085f13cb5d82087c2068edbc51cbdd3d47c2fe386bada92dc7f2d0dcde13d6be379daa
+  languageName: node
+  linkType: hard
+
+"@dnd-kit/utilities@npm:^3.2.2":
+  version: 3.2.2
+  resolution: "@dnd-kit/utilities@npm:3.2.2"
+  dependencies:
+    tslib: ^2.0.0
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 8a5015c2faa52760ab82a64287b2ac6a3d798867a1bca5ccbc1178560dbd9a1f9f1a21faea80f590ba1a4277c3eb7e7c4d3b4a39f1f32171bf6bc8174b370547
   languageName: node
   linkType: hard
 
@@ -1927,12 +2063,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@emotion/is-prop-valid@npm:^0.8.2":
+  version: 0.8.8
+  resolution: "@emotion/is-prop-valid@npm:0.8.8"
+  dependencies:
+    "@emotion/memoize": 0.7.4
+  checksum: bb7ec6d48c572c540e24e47cc94fc2f8dec2d6a342ae97bc9c8b6388d9b8d283862672172a1bb62d335c02662afe6291e10c71e9b8642664a8b43416cdceffac
+  languageName: node
+  linkType: hard
+
 "@emotion/is-prop-valid@npm:^1.2.2":
   version: 1.2.2
   resolution: "@emotion/is-prop-valid@npm:1.2.2"
   dependencies:
     "@emotion/memoize": ^0.8.1
   checksum: 61f6b128ea62b9f76b47955057d5d86fcbe2a6989d2cd1e583daac592901a950475a37d049b9f7a7c6aa8758a33b408735db759fdedfd1f629df0f85ab60ea25
+  languageName: node
+  linkType: hard
+
+"@emotion/memoize@npm:0.7.4":
+  version: 0.7.4
+  resolution: "@emotion/memoize@npm:0.7.4"
+  checksum: 4e3920d4ec95995657a37beb43d3f4b7d89fed6caa2b173a4c04d10482d089d5c3ea50bbc96618d918b020f26ed6e9c4026bbd45433566576c1f7b056c3271dc
   languageName: node
   linkType: hard
 
@@ -2282,19 +2434,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/components@npm:^4.46.0":
-  version: 4.46.0
-  resolution: "@instana/components@npm:4.46.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.46.0.tgz"
+"@instana/components@npm:^4.54.1":
+  version: 4.54.1
+  resolution: "@instana/components@npm:4.54.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.54.1.tgz"
   dependencies:
+    "@carbon/ibm-products": 2.49.0
     "@carbon/icons-react": 11.45.0
     "@carbon/react": 1.62.1
     "@emotion/react": ^11.9.0
     "@emotion/styled": ^11.8.1
-    "@instana/design-tokens": ^1.28.0
-    "@instana/format-date": ^1.7.1
-    "@instana/format-numbers": ^1.6.0
-    "@instana/hooks": ^1.12.0
-    "@instana/i18n-react": ^1.6.0
+    "@instana/design-tokens": ^1.28.1
+    "@instana/format-date": ^1.7.2
+    "@instana/format-numbers": ^1.6.1
+    "@instana/hooks": ^1.12.1
+    "@instana/i18n-react": ^1.6.1
     "@instana/observables": ^1.8.0
     "@mui/material": ^5.12.1
     classnames: ^2.5.1
@@ -2304,106 +2457,106 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.2
-  checksum: 610889aef1be621eea3ce627ac38733dda494050107fb2f3331ddda3994db7edc8b3722b9e5f00b5bda05f99a837da51e8b93f918163403e6c1f550413e08660
+  checksum: 9edf871613b59bd0b5f1c52742bbe5ca4da4f354372f7d757e24da86fe639fda75edcdf3ea7113bdacc8bc2f91c448050e0428e674171f71201496b5ebccf539
   languageName: node
   linkType: hard
 
-"@instana/design-tokens@npm:^1.28.0":
-  version: 1.28.0
-  resolution: "@instana/design-tokens@npm:1.28.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fdesign-tokens%2F-%2F%40instana%2Fdesign-tokens-1.28.0.tgz"
+"@instana/design-tokens@npm:^1.28.1":
+  version: 1.28.1
+  resolution: "@instana/design-tokens@npm:1.28.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fdesign-tokens%2F-%2F%40instana%2Fdesign-tokens-1.28.1.tgz"
   dependencies:
     tslib: ^2.4.1
-    typescript: ^5.1.5
-  checksum: c756ad7aded3a33518cbe498655c20e81ddea63bf087f3edff6bd3560d731c4c8ed24d59a45d78046c61928db89c14ae064fd053a61ec1c684f55984829b42c2
+    typescript: 5.1.5
+  checksum: ced6b1290f29b69baacd1772b376f4d5fbbb1c0d16bc7e06a2d9506c0ed04f0f572d42647ca867f65eeffc90e298611ecb2a54782fa0dbf62dc57c5b41645ee7
   languageName: node
   linkType: hard
 
-"@instana/format-date@npm:^1.7.1":
-  version: 1.7.1
-  resolution: "@instana/format-date@npm:1.7.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fformat-date%2F-%2F%40instana%2Fformat-date-1.7.1.tgz"
+"@instana/format-date@npm:^1.7.2":
+  version: 1.7.2
+  resolution: "@instana/format-date@npm:1.7.2::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fformat-date%2F-%2F%40instana%2Fformat-date-1.7.2.tgz"
   dependencies:
-    "@instana/i18n-react": ^1.6.0
+    "@instana/i18n-react": ^1.6.1
     date-fns: ^2.22.1
     date-fns-tz: ^2.0.0
     tslib: ^2.4.1
-    typescript: ^5.1.5
+    typescript: 5.1.5
   peerDependencies:
     "@instana/i18n": ^1.3.3
     i18next: ^19.0.0 || ^20.0.0
-  checksum: 3f96b097589c6db3dc1c5db26d265a516ef3394d41be33126e340139b843ff1cd8e06fddb2ee8f180f5177d4c17396933492f428733f0029c34aaa1b15da93f3
+  checksum: 981349c77e68f74e24f4e69134bf58caf28d917c2d87d8eaa01d31794d92fc2cbd880c15ed66e5d52fa659752587c145237bb947a38f14be740666391dd986ce
   languageName: node
   linkType: hard
 
-"@instana/format-numbers@npm:^1.6.0":
-  version: 1.6.0
-  resolution: "@instana/format-numbers@npm:1.6.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fformat-numbers%2F-%2F%40instana%2Fformat-numbers-1.6.0.tgz"
+"@instana/format-numbers@npm:^1.6.1":
+  version: 1.6.1
+  resolution: "@instana/format-numbers@npm:1.6.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fformat-numbers%2F-%2F%40instana%2Fformat-numbers-1.6.1.tgz"
   dependencies:
     tslib: ^2.4.1
-    typescript: ^5.1.5
+    typescript: 5.1.5
   peerDependencies:
     "@instana/i18n": ^1.3.3
-  checksum: 1bce1d2acdc07f58742dc92ba8aa4a5c5dee7a3ff767393bbe2ffca0c5fb965915e8f063b39445a5cf211d71d65ad227eab8d963b8bea6c94477a777f5212a9f
+  checksum: 56ad08f1aba7be56be0e6df30f5bec1c15287411e8b53e0def412544139c2c72bfccf7af72d6c0a3db57ed52c3b8fcb983f4571978f04ca37f41cce85dc11d5c
   languageName: node
   linkType: hard
 
-"@instana/hooks@npm:^1.12.0":
-  version: 1.12.0
-  resolution: "@instana/hooks@npm:1.12.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fhooks%2F-%2F%40instana%2Fhooks-1.12.0.tgz"
+"@instana/hooks@npm:^1.12.1":
+  version: 1.12.1
+  resolution: "@instana/hooks@npm:1.12.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fhooks%2F-%2F%40instana%2Fhooks-1.12.1.tgz"
   dependencies:
     "@instana/observables": ^1.8.0
     invariant: ^2.2.4
     shallowequal: ^1.1.0
   peerDependencies:
     react: ^17.0.0
-  checksum: c03372fcba621a2002170a727b76250a4de00c420a8742ab89fd4877dc47231024be7f729fd200730513e074acab458de8a0dcbb467f3040a4bf511a0104c151
+  checksum: 289bd5cb95b5f36077ae79672e6f54f3a955579f15aee5664b09121f279781e9505979632ff2a1b22291a9fae791d45078ec5f59bc097f7fec10039285d78423
   languageName: node
   linkType: hard
 
-"@instana/i18n-react@npm:^1.6.0":
-  version: 1.6.0
-  resolution: "@instana/i18n-react@npm:1.6.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fi18n-react%2F-%2F%40instana%2Fi18n-react-1.6.0.tgz"
+"@instana/i18n-react@npm:^1.6.1":
+  version: 1.6.1
+  resolution: "@instana/i18n-react@npm:1.6.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fi18n-react%2F-%2F%40instana%2Fi18n-react-1.6.1.tgz"
   dependencies:
-    "@instana/hooks": ^1.12.0
+    "@instana/hooks": ^1.12.1
     "@instana/observables": ^1.8.0
-    "@instana/utils": ^1.5.0
+    "@instana/utils": ^1.5.1
     tslib: ^2.4.1
-    typescript: ^5.1.5
+    typescript: 5.1.5
   peerDependencies:
     dompurify: ^2.0.0
     i18next: ^19.0.0 || ^20.0.0
     react: ^17.0.0
     react-i18next: ^11.11.0
-  checksum: 4c8a03b005664e4fe8fd2583a1fc7280e311d409656d46beca47715dbf2e27c5625d580e223914ad5ea4ef4bcd4d15a46a491ca1e58b47e6450c5832edc40569
+  checksum: bba335cb74999b068fc432cf198a4f2154382006d8efcfbac665c1c24292d6567fa42e4412fa3b4371784fc676fa58204c9bcce0121ad332a05bc8c3e0694b71
   languageName: node
   linkType: hard
 
-"@instana/i18n@npm:^1.6.0":
-  version: 1.6.0
-  resolution: "@instana/i18n@npm:1.6.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fi18n%2F-%2F%40instana%2Fi18n-1.6.0.tgz"
+"@instana/i18n@npm:^1.6.1":
+  version: 1.6.1
+  resolution: "@instana/i18n@npm:1.6.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fi18n%2F-%2F%40instana%2Fi18n-1.6.1.tgz"
   dependencies:
     tslib: ^2.4.1
-    typescript: ^5.1.5
-  checksum: af36546a6a20b8568a34719753ef07ecafcd357925d5240505ba75ddbf6c5e9fbf9f2a091c256ec4e1d1b3cdbd89288fc0ac744807392d91be34e4e21cc62c64
+    typescript: 5.1.5
+  checksum: 1c27d9fc7f12e8e609e944799fb9bca33abbe9e0e8a6d330737fca89c2fc55563741a7c5d6e7bef0c399e86e88b795d4511bdb660cb891877624f0ec258edb34
   languageName: node
   linkType: hard
 
-"@instana/legacy@npm:^4.3.13":
-  version: 4.3.13
-  resolution: "@instana/legacy@npm:4.3.13::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.3.13.tgz"
+"@instana/legacy@npm:^4.3.24":
+  version: 4.3.24
+  resolution: "@instana/legacy@npm:4.3.24::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.3.24.tgz"
   dependencies:
-    "@instana/components": ^4.46.0
-    "@instana/design-tokens": ^1.28.0
-    "@instana/format-date": ^1.7.1
-    "@instana/format-numbers": ^1.6.0
-    "@instana/hooks": ^1.12.0
-    "@instana/i18n-react": ^1.6.0
+    "@instana/components": ^4.54.1
+    "@instana/design-tokens": ^1.28.1
+    "@instana/format-date": ^1.7.2
+    "@instana/format-numbers": ^1.6.1
+    "@instana/hooks": ^1.12.1
+    "@instana/i18n-react": ^1.6.1
     "@instana/observables": ^1.8.0
     classnames: ^2.2.6
     lodash: ^4.17.21
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.0
-  checksum: 1a840f8202362df1433cc06a5aa7e729e79006e0892432f883ff8958bcd1073932c16c6a9c83fd033bbca0ac0e97c8a7ff91f848b080b8cfcf5940f1a8314c86
+  checksum: 839f34f5fe057c06cab32f7ba5bf2baf40f836d315b0ec9b4cafd6e687c7b822c8d04ae8ee70e3be09a212d12713a730b8a6b5346a709c2ab534e7bfe3b6a1d3
   languageName: node
   linkType: hard
 
@@ -2414,34 +2567,37 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/playground@npm:3.31.0":
-  version: 3.31.0
-  resolution: "@instana/playground@npm:3.31.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fplayground%2F-%2F%40instana%2Fplayground-3.31.0.tgz"
+"@instana/playground@npm:3.35.1":
+  version: 3.35.1
+  resolution: "@instana/playground@npm:3.35.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fplayground%2F-%2F%40instana%2Fplayground-3.35.1.tgz"
   dependencies:
-    "@carbon/themes": 11.37.1
-    "@instana/components": ^4.46.0
-    "@instana/design-tokens": ^1.28.0
-    "@instana/hooks": ^1.12.0
-    "@instana/i18n": ^1.6.0
-    "@instana/legacy": ^4.3.13
+    "@carbon/layout": ^11.25.0
+    "@carbon/motion": ^11.21.0
+    "@carbon/themes": 11.39.0
+    "@instana/components": ^4.54.1
+    "@instana/design-tokens": ^1.28.1
+    "@instana/hooks": ^1.12.1
+    "@instana/i18n": ^1.6.1
+    "@instana/legacy": ^4.3.24
     "@instana/observables": ^1.8.0
+    classnames: ^2.5.1
     lodash: ^4.17.21
     prop-types: ^15
     react: ^17.0.2
     react-dom: ^17.0.2
     react-is: ^18.2.0
     storybook-addon-pseudo-states: 2.1.2
-  checksum: a9562d8f1f88b7a9b7a6b01c47b1428fbe0efe9159c7d09dc916ece505f5c07958202b23183b177c01aadcb09c23368aa93e91f911282df7179b1a50d0cff844
+  checksum: adfc1731e03da2c9f0a10ef1b69f900ea36e5cba43e79362bbda7f7c4db59d0f951ae826d7d8a531a1f4e3c18c0cbb0111fc7762335b35caf50ee9904b05633b
   languageName: node
   linkType: hard
 
-"@instana/utils@npm:^1.5.0":
-  version: 1.5.0
-  resolution: "@instana/utils@npm:1.5.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Futils%2F-%2F%40instana%2Futils-1.5.0.tgz"
+"@instana/utils@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "@instana/utils@npm:1.5.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Futils%2F-%2F%40instana%2Futils-1.5.1.tgz"
   dependencies:
     tslib: ^2.4.1
-    typescript: ^5.1.5
-  checksum: b95d6d15385f69bbf5d0798db6623f19e77478e83078ba5564de05dcddc2cdca1846c30d8aceb795e4bc03a22dfa7defabef6c76e41ff7e6ea2b84f52efa75bb
+    typescript: 5.1.5
+  checksum: 57106873e3fb3fcbb11873e13e997f51eb26fbeefc59345d7aee34ff71b1fc586ff2143c894eb4e584a9ee319ac02f51bb810f92b672a01116f15c5df1bfd641
   languageName: node
   linkType: hard
 
@@ -2609,6 +2765,71 @@ __metadata:
   peerDependencies:
     react: ">=16"
   checksum: f45fe779556e6cd9a787f711274480e0638b63c460f192ebdcd77cc07ffa61e23c98cb46dd46e577093e1cb4997a232a848d1fb0ba850ae204422cf603add524
+  languageName: node
+  linkType: hard
+
+"@motionone/animation@npm:^10.12.0":
+  version: 10.18.0
+  resolution: "@motionone/animation@npm:10.18.0"
+  dependencies:
+    "@motionone/easing": ^10.18.0
+    "@motionone/types": ^10.17.1
+    "@motionone/utils": ^10.18.0
+    tslib: ^2.3.1
+  checksum: 841cb9f4843a89e5e4560b9f960f52cbe78afc86f87c769f71e9edb3aadd53fb87982b7e11914428f228b29fd580756be531369c2ffac06432550afa4e87d1c3
+  languageName: node
+  linkType: hard
+
+"@motionone/dom@npm:10.12.0":
+  version: 10.12.0
+  resolution: "@motionone/dom@npm:10.12.0"
+  dependencies:
+    "@motionone/animation": ^10.12.0
+    "@motionone/generators": ^10.12.0
+    "@motionone/types": ^10.12.0
+    "@motionone/utils": ^10.12.0
+    hey-listen: ^1.0.8
+    tslib: ^2.3.1
+  checksum: 123356f28e44362c4f081aae3df22e576f46bfcb07e01257b2ac64a115668448f29b8de67e4b6e692c5407cffb78ffe7cf9fa1bc064007482bab5dd23a69d380
+  languageName: node
+  linkType: hard
+
+"@motionone/easing@npm:^10.18.0":
+  version: 10.18.0
+  resolution: "@motionone/easing@npm:10.18.0"
+  dependencies:
+    "@motionone/utils": ^10.18.0
+    tslib: ^2.3.1
+  checksum: 6bd37f7a9d5a88f868cc0ad6e47d2ba8d9fefd7da84fccfea7ed77ec08c2e6d1e42df88dda462665102a5cf03f748231a1a077de7054b5a8ccb0fbf36f61b1e7
+  languageName: node
+  linkType: hard
+
+"@motionone/generators@npm:^10.12.0":
+  version: 10.18.0
+  resolution: "@motionone/generators@npm:10.18.0"
+  dependencies:
+    "@motionone/types": ^10.17.1
+    "@motionone/utils": ^10.18.0
+    tslib: ^2.3.1
+  checksum: 51a0e075681697b11d0771998cac8c76a745f00141502f81adb953896992b7f49478965e4afe696bc83361afaae8d2f1057d71c25b21035fe67258ff73764f1c
+  languageName: node
+  linkType: hard
+
+"@motionone/types@npm:^10.12.0, @motionone/types@npm:^10.17.1":
+  version: 10.17.1
+  resolution: "@motionone/types@npm:10.17.1"
+  checksum: 3fa74db64e371e61a7f7669d7d541d11c9a8dd871032d59c69041e3b2e07a67ad2ed8767cb9273bac90eed4e1f76efc1f14c8673c2e9a288f6070ee0fef64a25
+  languageName: node
+  linkType: hard
+
+"@motionone/utils@npm:^10.12.0, @motionone/utils@npm:^10.18.0":
+  version: 10.18.0
+  resolution: "@motionone/utils@npm:10.18.0"
+  dependencies:
+    "@motionone/types": ^10.17.1
+    hey-listen: ^1.0.8
+    tslib: ^2.3.1
+  checksum: a27f9afde693a0cbbbcb33962b12bbe40dd2cfa514b0732f3c7953c5ef4beed738e1e8172a2de89e3b9f74a253ef0a70d7f3efb730be97b77d7176a3ffacb67a
   languageName: node
   linkType: hard
 
@@ -7789,6 +8010,36 @@ __metadata:
   languageName: node
   linkType: hard
 
+"framer-motion@npm:^6.5.1 < 7":
+  version: 6.5.1
+  resolution: "framer-motion@npm:6.5.1"
+  dependencies:
+    "@emotion/is-prop-valid": ^0.8.2
+    "@motionone/dom": 10.12.0
+    framesync: 6.0.1
+    hey-listen: ^1.0.8
+    popmotion: 11.0.3
+    style-value-types: 5.0.0
+    tslib: ^2.1.0
+  peerDependencies:
+    react: ">=16.8 || ^17.0.0 || ^18.0.0"
+    react-dom: ">=16.8 || ^17.0.0 || ^18.0.0"
+  dependenciesMeta:
+    "@emotion/is-prop-valid":
+      optional: true
+  checksum: 737959063137b4ccafe01e0ac0c9e5a9531bf3f729f62c34ca7a5d7955e6664f70affd22b044f7db51df41acb21d120a4f71a860e17a80c4db766ad66f2153a1
+  languageName: node
+  linkType: hard
+
+"framesync@npm:6.0.1":
+  version: 6.0.1
+  resolution: "framesync@npm:6.0.1"
+  dependencies:
+    tslib: ^2.1.0
+  checksum: a23ebe8f7e20a32c0b99c2f8175b6f07af3ec6316aad52a2316316a6d011d717af8d2175dcc2827031c59fabb30232ed3e19a720a373caba7f070e1eae436325
+  languageName: node
+  linkType: hard
+
 "fresh@npm:0.5.2":
   version: 0.5.2
   resolution: "fresh@npm:0.5.2"
@@ -8235,6 +8486,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"hey-listen@npm:^1.0.8":
+  version: 1.0.8
+  resolution: "hey-listen@npm:1.0.8"
+  checksum: 6bad60b367688f5348e25e7ca3276a74b59ac5a09b0455e6ff8ab7d4a9e38cd2116c708a7dcd8a954d27253ce1d8717ec891d175723ea739885b828cf44e4072
+  languageName: node
+  linkType: hard
+
 "hoist-non-react-statics@npm:^3.3.1":
   version: 3.3.2
   resolution: "hoist-non-react-statics@npm:3.3.2"
@@ -8417,6 +8675,13 @@ __metadata:
   version: 5.3.1
   resolution: "ignore@npm:5.3.1"
   checksum: 71d7bb4c1dbe020f915fd881108cbe85a0db3d636a0ea3ba911393c53946711d13a9b1143c7e70db06d571a5822c0a324a6bcde5c9904e7ca5047f01f1bf8cd3
+  languageName: node
+  linkType: hard
+
+"immutability-helper@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "immutability-helper@npm:3.1.1"
+  checksum: 6fdbf6d2123efa567263e904bbaff07aca0e24560d270d34967b03aab8ec20bd3e4057f394d59e50eb6c4718c9415591a6281692bb0aafd522ad72cf4887133f
   languageName: node
   linkType: hard
 
@@ -9292,6 +9557,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lottie-web@npm:^5.12.2":
+  version: 5.12.2
+  resolution: "lottie-web@npm:5.12.2"
+  checksum: af5bc3bc405fd760de8b17a36158d5a8c3e8c586c711d0c63681ddf056b65bc6b54ea36b1fcad782fb02dbe12e696a40e0ba72daf41b8f10ab5b5d1113793636
+  languageName: node
+  linkType: hard
+
 "lower-case@npm:^2.0.2":
   version: 2.0.2
   resolution: "lower-case@npm:2.0.2"
@@ -9428,6 +9700,13 @@ __metadata:
   dependencies:
     fs-monkey: ^1.0.4
   checksum: 18dfdeacad7c8047b976a6ccd58bc98ba76e122ad3ca0e50a21837fe2075fc0d9aafc58ab9cf2576c2b6889da1dd2503083f2364191b695273f40969db2ecc44
+  languageName: node
+  linkType: hard
+
+"memoize-one@npm:>=3.1.1 <6":
+  version: 5.2.1
+  resolution: "memoize-one@npm:5.2.1"
+  checksum: a3cba7b824ebcf24cdfcd234aa7f86f3ad6394b8d9be4c96ff756dafb8b51c7f71320785fbc2304f1af48a0467cbbd2a409efc9333025700ed523f254cb52e3d
   languageName: node
   linkType: hard
 
@@ -10414,6 +10693,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"popmotion@npm:11.0.3":
+  version: 11.0.3
+  resolution: "popmotion@npm:11.0.3"
+  dependencies:
+    framesync: 6.0.1
+    hey-listen: ^1.0.8
+    style-value-types: 5.0.0
+    tslib: ^2.1.0
+  checksum: 9fe7d03b4ec0e85bfb9dadc23b745147bfe42e16f466ba06e6327197d0e38b72015afc2f918a8051dedc3680310417f346ffdc463be6518e2e92e98f48e30268
+  languageName: node
+  linkType: hard
+
 "possible-typed-array-names@npm:^1.0.0":
   version: 1.0.0
   resolution: "possible-typed-array-names@npm:1.0.0"
@@ -10986,6 +11277,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-table@npm:^7.8.0":
+  version: 7.8.0
+  resolution: "react-table@npm:7.8.0"
+  peerDependencies:
+    react: ^16.8.3 || ^17.0.0-0 || ^18.0.0
+  checksum: 44ca0fb848c6869cd793cede8dc33072b38ebb8f8d2833565afe7cf3eac5d1fa455ac5fb9d06838b16fab0523d5d03e3e82f7645032f71245096e67b892313b9
+  languageName: node
+  linkType: hard
+
 "react-test-renderer@npm:^16.8.0 || ^17.0.0 || ^18.0.0":
   version: 18.3.1
   resolution: "react-test-renderer@npm:18.3.1"
@@ -11011,6 +11311,19 @@ __metadata:
     react: ">=16.6.0"
     react-dom: ">=16.6.0"
   checksum: 75602840106aa9c6545149d6d7ae1502fb7b7abadcce70a6954c4b64a438ff1cd16fc77a0a1e5197cdd72da398f39eb929ea06f9005c45b132ed34e056ebdeb1
+  languageName: node
+  linkType: hard
+
+"react-window@npm:^1.8.10":
+  version: 1.8.10
+  resolution: "react-window@npm:1.8.10"
+  dependencies:
+    "@babel/runtime": ^7.0.0
+    memoize-one: ">=3.1.1 <6"
+  peerDependencies:
+    react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: e8830f32e3ad4bf91af9cdc5cead84148c7694ce6abd9fdb447fb609da6cd4bbd0bbc75ff985f78828f4bbbd3ba4cbc98235cc9c056b5e5787578518f7fafbb9
   languageName: node
   linkType: hard
 
@@ -11971,6 +12284,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"style-value-types@npm:5.0.0":
+  version: 5.0.0
+  resolution: "style-value-types@npm:5.0.0"
+  dependencies:
+    hey-listen: ^1.0.8
+    tslib: ^2.1.0
+  checksum: 16d198302cd102edf9dba94e7752a2364c93b1eaa5cc7c32b42b28eef4af4ccb5149a3f16bc2a256adc02616a2404f4612bd15f3081c1e8ca06132cae78be6c0
+  languageName: node
+  linkType: hard
+
 "stylis@npm:4.2.0":
   version: 4.2.0
   resolution: "stylis@npm:4.2.0"
@@ -12312,6 +12635,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tslib@npm:^2.3.1":
+  version: 2.8.1
+  resolution: "tslib@npm:2.8.1"
+  checksum: e4aba30e632b8c8902b47587fd13345e2827fa639e7c3121074d5ee0880723282411a8838f830b55100cbe4517672f84a2472667d355b81e8af165a55dc6203a
+  languageName: node
+  linkType: hard
+
 "type-fest@npm:^0.16.0":
   version: 0.16.0
   resolution: "type-fest@npm:0.16.0"
@@ -12357,23 +12687,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.1.5":
-  version: 5.5.2
-  resolution: "typescript@npm:5.5.2"
+"typescript@npm:5.1.5":
+  version: 5.1.5
+  resolution: "typescript@npm:5.1.5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 9c5a7982dadcb2d38d129c575dd38645ae11588ae0d4a12852fb04482bbc5a1660b2371e48fd5b33b6b605cc57cefe777670054546856945a05e77bd22c8c2cd
+  checksum: 0eef8699e05ae767096924dbed633c340b4d36e953bb8ed87fb12e9dd9dcea5055ceac7182c614a556dbd346a8a82df799d330e1e286ae66e17c84e1710f6a6f
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^5.1.5#~builtin<compat/typescript>":
-  version: 5.5.2
-  resolution: "typescript@patch:typescript@npm%3A5.5.2#~builtin<compat/typescript>::version=5.5.2&hash=e012d7"
+"typescript@patch:typescript@5.1.5#~builtin<compat/typescript>":
+  version: 5.1.5
+  resolution: "typescript@patch:typescript@npm%3A5.1.5#~builtin<compat/typescript>::version=5.1.5&hash=5da071"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 9d89bac0de650e15d6846485f238d1e65f1013f2c260d9e53e86a1da6ecf8109d9fad9402575c5c36a6592dc5d4370db090e12971c8630ae84453654baabb6b4
+  checksum: 12ff5d14888805f24479e54bc8a3f83647107a6345f6c29dffcd429fb345be55f584a37e262cca58a0105203e41d4cb4e31b1b9096c9abeca0e2ace8eb00935e
   languageName: node
   linkType: hard
 
@@ -12397,7 +12727,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "ui-client-storybook@workspace:."
   dependencies:
-    "@instana/playground": 3.31.0
+    "@instana/playground": 3.35.1
     "@storybook/addon-a11y": 7.6.4
     "@storybook/addon-docs": 7.6.4
     "@storybook/addon-essentials": 7.6.4

@@ -19,11 +19,14 @@
     "select": "$t (in-service-levels:general.entityTypes.label, {\"context\": \"{{entity}}\"}) auswählen",
     "noSelection": "Keine Auswahl",
     "loadMore": "Weitere laden",
+    "threshold": "Schwellenwert",
     "noData": "Keine Daten verfügbar",
+    "trafficType": "Datenverkehrstyp",
     "noMatchingTimeWindows": "Für den ausgewählten Zeitraum gibt es kein passendes Zeitfenster. Dies geschieht normalerweise, wenn das ausgewählte Zeitfenster vor dem Erstellungsdatum des Service-Level-Ziels liegt.",
     "serverErrors": {
       "sloLimitReachedError": "Die maximale Anzahl von Service-Level-Zielkonfigurationen ({{0}}) wurde erreicht. Wenden Sie sich an Instana Support, um eine Erhöhung dieses Grenzwerts anzufordern."
     },
+    "traffic": "Datenverkehr",
     "indicator": {
       "type": "Unbekannter Typ",
       "type_eventBased": "Ereignisanzahl",
@@ -32,6 +35,7 @@
       "blueprint": "Unbekannter Entwurf",
       "blueprint_latency": "Latenzzeit",
       "blueprint_availability": "Verfügbarkeit",
+      "blueprint_traffic": "Datenverkehr",
       "blueprint_custom": "Angepasst",
       "aggregation": "Unbekannt",
       "aggregation_MEAN": "Mittelwert",
@@ -44,16 +48,24 @@
       "aggregation_P90": "90th",
       "aggregation_P95": "95th",
       "aggregation_P98": "98th",
-      "aggregation_P99": "99th"
+      "aggregation_P99": "99th",
+      "application": {
+        "trafficType_all": "Alle Aufrufe",
+        "trafficType_erroneous": "Fehlerhafte Aufrufe"
+      },
+      "website": {
+        "trafficType_all": "Alle Signale zählen",
+        "trafficType_erroneous": "Anzahl der Fehlersignale"
+      }
     },
     "latency": "Latenzzeit",
     "time": "Zeit",
     "entityTypes": {
       "label": "Unbekannte Entität",
       "label_application": "Anwendung",
-      "label_website": "Website"
+      "label_website": "Website",
+      "label_synthetic": "Synthetische Tests"
     },
-    "preview": "Vorschau",
     "type": "Typ",
     "selectLabel": "Auswahl: {{selectedLabel}}",
     "serviceLevelObjective": "Service-Level-Ziel",
@@ -101,7 +113,9 @@
       "errors": "Rate fehlerhafter Aufrufe",
       "beaconErrorRate": "Beacon-Fehlerrate",
       "goodEvents": "Fehlerfreie Ereignisse",
-      "badEvents": "Fehlerhafte Ereignisse"
+      "badEvents": "Fehlerhafte Ereignisse",
+      "erroneousCalls": "Fehlerhafte Aufrufe",
+      "beaconErrorCount": "Anzahl der Fehlersignale"
     },
     "format": {
       "event_website": "{{formatted}} Beaconnachricht",
@@ -113,13 +127,21 @@
       "event_application_plural": "{{formatted}} Aufrufe",
       "event_application_0": "{{formatted}} Aufrufe",
       "event_application_1": "{{formatted}} Aufruf",
-      "event_application_2": "{{formatted}} Aufrufe"
+      "event_application_2": "{{formatted}} Aufrufe",
+      "event_synthetic": "{{formatted}} Ergebnis",
+      "event_synthetic_plural": "{{formatted}} Ergebnisse",
+      "event_synthetic_0": "{{formatted}} Ergebnisse",
+      "event_synthetic_1": "{{formatted}} Ergebnisse",
+      "event_synthetic_2": "{{formatted}} Ergebnisse"
     },
     "deleteDialog": {
       "pleaseConfirm": "Bitte bestätigen",
       "pleaseConfirmMsg": "Möchten Sie <strong>{{name}}</strong> wirklich löschen?",
       "delete": "Löschen"
     }
+  },
+  "validators": {
+    "noInvalidOperator": "Wählen Sie einen Operator aus der Liste aus."
   },
   "components": {
     "tagFilterBuilder": {
@@ -176,6 +198,7 @@
       "description_custom": "Misst die Anzahl der fehlerfreien und/oder fehlerhaften Ereignisse mithilfe benutzerdefinierter Filter.",
       "description_latency": "Misst, wie schnell der Service oberhalb eines festgelegten Schwellenwerts reagiert hat. Beispiel: Die Kennzahl, wie schnell Ihr Checkout-Service schneller als 100ms antwortet.",
       "description_availability": "Misst, wie oft ein Service angemessen reagiert. Zum Beispiel, wie oft Ihre HTTP-Aufrufe fehlerhaft sind.",
+      "description_traffic": "Misst, wie stark ein System beansprucht wird, indem es eine hochgradig systemspezifische Metrik verwendet. So wird beispielsweise ein Webdienst in der Regel in HTTP-Beacons pro Sekunde gemessen.",
       "timeTypeExplanation": "Gültige und fehlerhafte Aufrufe nach Minuten zusammengefasst",
       "eventTypeExplanation": "Gesamtzahl der gültigen und fehlerhaften Aufrufe",
       "eventCount": "Ereignisanzahl",
@@ -184,29 +207,31 @@
       "thresholdLabel_latency": "Schwellenwert (ms)",
       "thresholdLabel_availability": "Fehlerrate (%)",
       "setGoodCall": "Legen Sie die gültigen Aufrufe für einen Service fest",
-      "setBadCall": "Legen Sie die fehlerhaften Aufrufe für einen Service fest (optional)"
+      "setBadCall": "Legen Sie die fehlerhaften Aufrufe für einen Service fest (optional)",
+      "thresholdDescription_GT": "Eine gute Minute ist definiert durch eine Anzahl von mehr als {{thresholdValue}} Anrufen pro Minute. Eine schlechte Minute ist definiert durch eine Anzahl von weniger als oder gleich {{thresholdValue}} Anrufen pro Minute.",
+      "thresholdDescription_GTE": "Eine gute Minute ist definiert durch eine Anzahl von mehr als oder gleich {{thresholdValue}} Anrufen pro Minute. Eine schlechte Minute ist definiert durch eine Anzahl von weniger als {{thresholdValue}} Anrufen pro Minute.",
+      "thresholdDescription_LT": "Eine gute Minute ist definiert durch eine Anzahl von weniger als {{thresholdValue}} Anrufen pro Minute. Eine schlechte Minute ist definiert durch eine Anzahl von mehr als oder gleich {{thresholdValue}} Anrufen pro Minute.",
+      "thresholdDescription_LTE": "Eine gute Minute ist definiert durch eine Anzahl von weniger als oder gleich {{thresholdValue}} Anrufen pro Minute. Eine schlechte Minute ist definiert durch eine Anzahl von mehr als {{thresholdValue}} Anrufen pro Minute.",
+      "thresholdInput": "<Stack>Grenze festlegen des<HorizontalStack><OperatorDropdown /><ThresholdInput />Anrufe pro Minute<HorizontalStack/><Stack />",
+      "allCalls": "Alle Aufrufe",
+      "erroneousCalls": "Fehlerhafte Aufrufe"
     },
     "previewSection": {
-      "dataInfo": "Vorschaudaten werden nur bis zu 7 Tage in der Vergangenheit angezeigt. Das SLO enthält nur Daten ab dem Zeitpunkt seiner Erstellung"
+      "dataInfo": "Vorschaudaten werden nur bis zu 7 Tage in der Vergangenheit angezeigt. Das SLO enthält nur Daten ab dem Zeitpunkt seiner Erstellung",
+      "title": "Vorschau",
+      "title_synthetic": "Beispiel"
     }
   },
   "sloChart": {
     "sloFormatter": {
-      "unit": "Aufruf",
-      "unit_application": "Aufruf",
-      "unit_website": "Beacon",
-      "unit_plural": "Aufrufe",
-      "unit_application_plural": "Aufrufe",
-      "unit_website_plural": "Beacons",
-      "thousandCallsFormat": "{{formattedCount}}K $t (in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
-      "callsFormat": "{{formattedCount}} $t (in-service-levels:sloChart.sloFormatter.unit, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
+      "thousandCallsFormat": "{{formattedCount}}$tin-service-levels:general.format.event {\"context\":{{entityType}}\", \"count\": {{count}} })",
+      "callsFormat": "{{formattedCount}} $tin-service-levels:general.format.event, {\"context\":{{entityType}}\", \"count\": {{count}} })"
     },
     "sloChartSummary": {
       "status": "Status",
       "target": "Ziel:",
-      "errorBudgetRemaining": "Verbleibendes Fehlerbudget",
+      "errorBudgetRemaining": "Verbleibend:",
       "errorBudgetSpent": "Ausgegebenes Fehlerbudget",
-      "errorBudget": "Fehlerbudget:",
       "timeWindow": "Zeitfenster",
       "timeWindowType_dynamic": "Dynamisches Zeitfenster",
       "timeWindowType_rolling": "Rotierendes Zeitfenster",
@@ -341,11 +366,13 @@
         "thresholdLabel": "Schwellenwert (unbekannte Einheit)",
         "thresholdLabel_availability": "Schwellenwert",
         "thresholdLabel_latency": "Schwellenwert (ms)",
+        "thresholdLabel_traffic": "Schwellenwert",
         "aggregationLabel": "Aggregation",
         "goodEventsLabel": "Ereignistyp (gültige Ereignisse)",
         "goodEventsLabel_application": "Ereignistyp (gültige Aufrufe)",
         "badEventsLabel": "Ereignistyp (fehlerhafte Ereignisse)",
-        "badEventsLabel_application": "Ereignistyp (fehlerhafte Aufrufe)"
+        "badEventsLabel_application": "Ereignistyp (fehlerhafte Aufrufe)",
+        "trafficTypeLabel": "Datenverkehrstyp"
       },
       "objectiveSection": {
         "title": "Ziel",

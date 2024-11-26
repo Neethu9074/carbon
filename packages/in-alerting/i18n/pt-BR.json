@@ -41,6 +41,8 @@
     "chart": {
       "alertingChartLabelThreshold": "Limite",
       "alertingChartLabelViolations": "Violações",
+      "alertingChartLabelWarningViolations": "Violações de aviso",
+      "alertingChartLabelCriticalViolations": "Violações críticas",
       "alertingChartLabelWarningThreshold": "Limite de aviso",
       "alertingChartLabelCriticalThreshold": "Limite crítico",
       "alertingChartLabelForecast": "Previsão",
@@ -149,6 +151,7 @@
     "titleNoSmartAlertsCreated": "Nenhum Alerta inteligente criado",
     "titleCopyOf": "(Cópia de) {{smartAlertTitle}}",
     "smartAlertsTitle": "Alertas inteligentes",
+    "labelNew": "(Novo)",
     "applications": {
       "alertConfiguration": "Configuração do alerta",
       "advanced": {
@@ -435,7 +438,8 @@
           "throughputDefault_higherThan": "O número de chamadas é maior que o esperado.",
           "throughputDefault_higherEqual": "O número de chamadas é maior ou igual ao esperado.",
           "throughputDefault_lowerThan": "O número de chamadas é menor que o esperado.",
-          "throughputDefault_lowerEqual": "O número de chamadas é menor ou igual ao esperado."
+          "throughputDefault_lowerEqual": "O número de chamadas é menor ou igual ao esperado.",
+          "expected": "esperado"
         },
         "customStatusCodeFullText": "entre {{statusCodeStart}} e {{statusCodeEnd}}"
       },
@@ -464,8 +468,9 @@
         "ruleFormPleaseProvideAStartStatusCode": "Forneça um código de status HTTP inicial válido",
         "ruleFormPleaseProvideAEndStatusCode": "Forneça um código de status HTTP final válido",
         "smartAlertFormValueIsReadOnly": "O valor é lido apenas e não pode ser mudado",
-        "thresholdFormPleaseProvideANumber0": "Forneça um número >= 0",
-        "thresholdFormBaselineIsEmpty": "a linha de base está vazia"
+        "thresholdFormBaselineIsEmpty": "a linha de base está vazia",
+        "selectAtLeastOneThreshold": "Forneça o valor de pelo menos um dos limites.",
+        "selectAtLeastOneSensitivity": "Considere selecionar pelo menos uma das sensibilidades."
       },
       "simple": {
         "simpleAlertStep2Headline": "Onde você deseja que o alerta seja acionado?",
@@ -749,7 +754,8 @@
       "ruleStatusCodeValueOption511": "511 (Autenticação de rede necessária)",
       "ruleStatusCodeValueOption599": "599 (Erro de tempo limite de conexão de rede)",
       "warningThresholdValidator": "O limite de aviso deve ser maior que o limite crítico para os operadores < e <=.",
-      "criticalThresholdValidator": "O limite crítico deve ser maior que o limite de aviso para operadores > e > =."
+      "criticalThresholdValidator": "O limite crítico deve ser maior que o limite de aviso para operadores > e > =.",
+      "sensitivityValidator": "A sensibilidade crítica deve ser menor do que a sensibilidade de aviso."
     },
     "components": {
       "smartAlertDialog": {
@@ -787,6 +793,7 @@
         "scopeConfigSelectOneEntryMessage": "Selecione pelo menos uma entrada.",
         "scopeConfigTitleTooltip": "Mostrando entidades disponíveis para as últimas 24 horas",
         "scopeConfigSubTitle": "Com base nas últimas 24 horas",
+        "scopeConfigSearchApplicationsPlaceholder": "Procurar aplicativos...",
         "scopeMigrationMessage_FAILED": "O escopo não pôde ser migrado automaticamente. Selecione os filtros de identificação correspondentes para a Consulta de Foco Dinâmico:",
         "scopeMigrationMessage_PARTIAL": "O escopo não pôde ser totalmente migrado. Selecione os filtros de identificação correspondentes para a Consulta de Foco Dinâmico:",
         "scopeMigrationMessage_FULL": "O escopo aplicado é baseado na Consulta de Foco Dinâmico usada anteriormente:",
@@ -1468,7 +1475,30 @@
       },
       "count": "Contagem",
       "selectEntityType": "Selecione um tipo de entidade",
-      "regexNotValid": "Regex não é válido"
+      "regexNotValid": "Regex não é válido",
+      "tearSheet": {
+        "createTitle": "Criar um alerta inteligente de infraestrutura",
+        "steps": {
+          "step1Title": "Definir a condição",
+          "step2Title": "Definir quando ser alertado",
+          "step3Title": "Definir propriedades de alerta",
+          "step4Title": "Definir canais de alerta"
+        },
+        "step1": {
+          "header": "Escolha a métrica e a agregação para determinar quando um alerta deve ser acionado."
+        },
+        "step2": {
+          "header": "Configurar um valor para o limite de violação",
+          "description": "Selecione uma métrica, um limite de violação e um espaço de tempo para avaliar a violação."
+        },
+        "step3": {
+          "header": "Quais propriedades deseja configurar para este alerta?"
+        },
+        "step4": {
+          "header": "O que deseja que seja notificado sobre esse alerta?",
+          "description": "Selecione o(s) destinatário(s) desse alerta"
+        }
+      }
     },
     "logs": {
       "alertDetails": {

@@ -14,11 +14,11 @@ import { GenerateAIScriptActionForm } from 'in-automation/AutomationCard/Generat
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import generateAIAction, { AIActionContent } from 'in-automation/subscriptions/generateAIAction';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
+import LoadingSection from 'in-automation/AutomationCard/GenerateAI/LoadingSection';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { error, hasError, isLoading } from 'in-services/util/result';
-import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { carbonButtonEnabled } from 'in-services/featureFlags';
 import AISlugIcon from 'in-automation/components/AISlugIcon';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
@@ -51,7 +51,7 @@ function EmptySection() {
         </Typography>
       </div>
       <NoDataAvailable
-        height={450}
+        height={400}
         className={locals.noResults}
         title={t('in-automation:GenerateAIActionDialog.noResultsYet')}
         // @ts-expect-error
@@ -103,9 +103,7 @@ function generateAIActionForm({
           form
             .updateIn(['action', 'script'], item => item.setValue(res.data?.content!))
             .updateIn(['action', 'aiGeneratedContent'], item => item.setValue(res.data?.content!))
-            .updateIn(['action', 'description'], item =>
-              item.setValue(`This has script for: ${promptStep.value}`).setTouched(true)
-            )
+            .updateIn(['action', 'description'], item => item.setValue(promptStep.value).setTouched(true))
         );
       },
       () => {
@@ -152,7 +150,11 @@ function ActionPreview({ form }: { form: GenerateAIScriptActionForm }) {
 
   if (!generatedAction) return <EmptySection />;
   if (isLoading(generatedAction))
-    return <LoadingIndicator text={t('in-automation:GenerateAIActionDialog.watsonxLoadingContent')} />;
+    return (
+      <LoadingSection
+        title={t('in-automation:GenerateAIActionDialog.generateScriptDialog.titleGeneratedCodeReadOnly')}
+      />
+    );
   if (hasError(generatedAction)) return <ErroneousResultPresenter errors={generatedAction.errors} />;
   return <ScriptSection form={form} />;
 }
@@ -167,14 +169,7 @@ function ScriptSection({ form }: { form: GenerateAIScriptActionForm }) {
         </Typography>
       </div>
       <div className={locals.CodeWithAISlug}>
-        <CodeComponent
-          withExpandButton
-          linesToShow={20}
-          withoutCopyButton
-          code={plaintextScript}
-          lang={'bash'}
-          softWrap
-        />
+        <CodeComponent withExpandButton linesToShow={20} code={plaintextScript} lang={'bash'} softWrap />
         <AISlugIcon />
       </div>
     </FormGroup>

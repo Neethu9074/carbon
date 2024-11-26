@@ -137,33 +137,29 @@ export default function TransportRequest({ snapshotId }: SnapshotData) {
       options={requestStatusMap}
     />
   );
-  if (!data) {
-    return null;
-  }
 
-  const requestEntrys = (data as SnapshotData).get('raw_payload');
-  if (requestEntrys.size === 0) {
-    return null;
-  }
+  const requestEntrys = data ? (data as SnapshotData).get('raw_payload', []) : null;
 
   const rows: TransportRequestRow[] = requestEntrys
-    .toArray()
-    .map((requestEntry: any, idx: any) => {
-      return {
-        key: String(idx),
-        requestEntry
-      };
-    })
-    .filter(function (rows: TransportRequestRow) {
-      if (logonType == null) {
-        return rows;
-      } else if (logonType == 'Others') {
-        const type = rows.requestEntry.get('statusValue');
-        return rows != null && typeof type === 'string' && !statusList.includes(type);
-      } else {
-        return rows != null && rows.requestEntry.get('statusValue') === logonType;
-      }
-    });
+    ? requestEntrys
+        .toArray()
+        .map((requestEntry: any, idx: any) => {
+          return {
+            key: String(idx),
+            requestEntry
+          };
+        })
+        .filter(function (rows: TransportRequestRow) {
+          if (logonType == null) {
+            return rows;
+          } else if (logonType == 'Others') {
+            const type = rows.requestEntry.get('statusValue');
+            return rows != null && typeof type === 'string' && !statusList.includes(type);
+          } else {
+            return rows != null && rows.requestEntry.get('statusValue') === logonType;
+          }
+        })
+    : [];
 
   return (
     <Table

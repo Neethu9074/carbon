@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import React, { useCallback } from 'react';
@@ -12,9 +13,10 @@ import { just } from '@instana/observables';
 import { t } from '@instana/i18n-react';
 
 import { buildJsonParser, buildJsonSerializer, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
-import ComboBox, { Options, Option } from 'in-components/ComboBox/ComboBox';
+import { sourceOptions } from 'in-internal/thisUnit/TagProcessor/sources';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -26,21 +28,6 @@ import http from 'in-services/http';
 import locals from './TagProcessorState.mless';
 
 export const path = '/tagProcessorState';
-
-const options: Options = [
-  {
-    label: 'Snapshot',
-    value: 'snapshot'
-  },
-  {
-    label: 'Tagged Metric',
-    value: 'tagged_metric'
-  },
-  {
-    label: 'Chain',
-    value: 'chain'
-  }
-];
 
 const taggedObjectIdParameter = {
   path,
@@ -79,7 +66,7 @@ export default function TagProcessorState() {
           autoFocus
         />
         <ComboBox
-          options={options}
+          options={sourceOptions}
           value={state.source}
           onChange={e => setState({ source: (e && (e as Option))?.value })}
         />

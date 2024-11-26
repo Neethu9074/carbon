@@ -9,6 +9,7 @@ import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 export const applicationId = 'appId';
 export const serviceId = 'serviceId';
 export const endpointId = 'endpointId';
+export const subtraceId = 'subtraceId';
 export const boundaryScope = 'boundaryScope';
 export const syntheticCalls = 'syntheticCalls';
 export const contextScope = 'contextScope';

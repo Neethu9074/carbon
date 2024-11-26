@@ -56,7 +56,6 @@ exports.getDevModeConfig = function getDevModeConfig(envConfig) {
     tenantUnitDomainSuffix: 'pink.instana.rocks',
     butlerDomain: envConfig.butlerDomain,
     analyticsTrackingId: 'UA-66215232-4',
-    mixpanelToken: 'd77cf014d1859ac6ebf349b214579823',
     featureFlags: require(paths.featureFlags),
     configuration: { maxAllowedAlertingConfigurations: 200 },
     segmentKey: 'K8GUn26weHMSk0fXYVNyiKtDPHmzr9Fj',
@@ -65,6 +64,30 @@ exports.getDevModeConfig = function getDevModeConfig(envConfig) {
     serverlessEndpoint: 'https://serverless-pink-saas.instana.rocks',
     mobileEndpoint: 'https://pink.instana.rocks/mobile/',
     websiteEndpoint: 'https://eum-pink-saas.instana.rocks',
+    websiteScriptSource: 'https://eum.instana.io/eum.min.js'
+  };
+};
+
+exports.getDevModeReleaseConfig = function getDevModeReleaseConfig(envConfig) {
+  // ensure that feature flags file is reevaluated (required for dev mode watches)
+  clearModule(paths.featureFlags);
+
+  return {
+    tenant: envConfig.tenant,
+    tenantUnit: envConfig.tenantUnit,
+    tenantUnitId: 'fake_tenantUnitId',
+    tenantUnitsCount: 2,
+    tenantUnitDomainSuffix: 'magenta.instana.rocks',
+    butlerDomain: envConfig.butlerDomain,
+    analyticsTrackingId: 'UA-66215232-4',
+    featureFlags: require(paths.featureFlags),
+    configuration: { maxAllowedAlertingConfigurations: 200 },
+    segmentKey: 'K8GUn26weHMSk0fXYVNyiKtDPHmzr9Fj',
+    agentEndpoint: 'ingress-magenta-saas.instana.rocks',
+    agentEndpointPort: 443,
+    serverlessEndpoint: 'serverless-magenta-saas.instana.rocks',
+    mobileEndpoint: 'https://magenta.instana.rocks/mobile/',
+    websiteEndpoint: 'https://eum-magenta-saas.instana.rocks',
     websiteScriptSource: 'https://eum.instana.io/eum.min.js'
   };
 };

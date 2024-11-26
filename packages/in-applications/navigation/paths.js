@@ -69,6 +69,10 @@ export const serviceDashboard = '/service';
 export const endpointDashboard = '/endpoint';
 export const configureEndpointsView = '/service/endpoints/configure';
 
+export const subtracesList = '/subtraces';
+export const subtraceDashboard = '/subtrace';
+export const subtraceConfigurationFullyQualified = `${subtraceDashboard}/configuration`;
+
 export const summaryTab = '/summary';
 export const dependencyMapTab = '/map';
 export const errorMessagesTab = '/errorMessages';
@@ -514,4 +518,10 @@ export function useNavigationToAlertConfig() {
 
     navigate(location);
   };
+}
+
+export function useLinkToUngroupedView() {
+  const { location, createHref } = useNavigation();
+  setOrDeleteMatrixKey(location, analyzePath, 'detailId');
+  return createHref(location);
 }

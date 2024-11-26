@@ -8,10 +8,10 @@ import { AggregationType, TimeConfig } from '@instana/types';
 import { getCommonFormatterForUnits } from 'in-custom-dashboards/widgets/_shared/formatters';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { MetricItem } from 'in-infrastructure/navigation/paths';
+import { BaseUnit, ConversionFn } from 'in-stores/metric/units';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import { FormatterFn } from 'in-stores/metric/formatters';
 import { KpiDefinition } from 'in-sdk/metrics/kpis';
-import { BaseUnit } from 'in-stores/metric/units';
 
 interface OldMetricItem {
   metricId?: string;
@@ -75,14 +75,34 @@ export function lastValueForMetric(metrics?: Number[][]) {
   return metrics[metrics.length - 1][1];
 }
 
-export function getMetricValue(kpi: number, formatter: FormatterFn) {
+export function getMetricValue(kpi: number, formatter: FormatterFn, converter?: ConversionFn) {
+  // checking if kpi is falsy, valid kpi can be 0 as well
   if (kpi !== undefined && kpi !== null) {
-    //checking if kpi is falsy, valid kpi can be 0 as well
+    //applying unit conversion before applying the formatter
+    if (converter) {
+      return formatter ? formatter(converter(kpi) as number) : converter(kpi);
+    }
     return formatter ? formatter(kpi) : kpi;
   }
   return valueMissingPlaceholder;
 }
 
-export function getMetricFormatterFromUnitOrDefault(unit: BaseUnit, defaultFormatter: FormatterFn): FormatterFn {
-  return unit ? getCommonFormatterForUnits(unit)[0]?.formatter : defaultFormatter;
+export function getConvertedSeries(metrics?: Number[][], converter?: ConversionFn) {
+  if (converter) {
+    return metrics?.map(data => [data[0], converter(data[1] as number)]);
+  }
+  return metrics;
+}
+
+export function getMetricFormatterFromUnitOrDefault(
+  unit: BaseUnit,
+  defaultFormatter: FormatterFn,
+  formatterType: string
+): FormatterFn {
+  if (!unit) return defaultFormatter;
+  const commonFormatters = getCommonFormatterForUnits(unit);
+  const selectedFormatter =
+    commonFormatters.find(item => item.id.includes(formatterType))?.formatter ?? commonFormatters[0]?.formatter;
+
+  return selectedFormatter ?? defaultFormatter;
 }

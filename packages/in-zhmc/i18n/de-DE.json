@@ -48,6 +48,7 @@
     "cbp": "CBP-Prozessorauslastung",
     "cp": "CP-Prozessorbelegung",
     "iip": "IIP-Prozessorauslastung",
+    "lparPowerConsumption": "LPAR-Leistungsaufnahme (Watt)",
     "smt": "SMT-Nutzung",
     "thread0": "Thread 0-Nutzung",
     "thread1": "Thread 1-Nutzung",

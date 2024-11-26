@@ -3,17 +3,15 @@
     "uiShell": {
       "mainNavigation": "Main navigation"
     },
-    "expandableGroup": {
-      "tooltipShowContent": "Show content",
-      "tooltipHideContent": "Hide content",
-      "labelExpandButtonForContent": "Expand button for content"
-    },
     "list": {
       "loadMore": "Load More",
       "expand": "Expand",
       "collapse": "Collapse",
       "toggleExtraContent": "Toggle extra content",
       "initiateDefaultAction": "Initiate default action"
+    },
+    "link": {
+      "opensInNewTab": "(opens in new tab)"
     },
     "table": {
       "tableErrorRows": {

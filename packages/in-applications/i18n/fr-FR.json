@@ -6,6 +6,7 @@
   "labelAnalytic": "Analyse",
   "labelCall": "Appel",
   "labelTrace": "Trace",
+  "labelStatus": "Statut",
   "linkDownload": "Télécharger",
   "linkDownloadCalls": "Télécharger les appels",
   "linkDownloadRawTrace": "Télécharger la trace brute",
@@ -686,5 +687,6 @@
     "alternativeServicesProblem": "<bold>Non</bold>, si le nom du service en cours provient de l'en-tête HTTP \"Host\" (règle de mappage de service dont l'ID est call.http.host) et que le nom du service de remplacement ne le fait pas (car son nom provient d'une règle basée sur des balises d'infrastructure), ou vice versa. Il s'agit de services en double.",
     "alternativeServicesPossibleProblem": "<bold>Peut-être</bold>, si le service en cours et les noms de services de remplacement ne proviennent pas de l'en-tête HTTP \"Host\" ; ils sont alors soit des services placés derrière un proxy (bon), soit des services en double (mauvais) : certains des services sont entièrement liés à infra, tandis que d'autres sont partiellement liés à infra."
   },
-  "labelSyntheticMonitoring": "Surveillance synthétique"
+  "labelSyntheticMonitoring": "Surveillance synthétique",
+  "labelResourceOptimizations": "Optimisations"
 }

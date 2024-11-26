@@ -268,3 +268,27 @@ export function getEventViewWithTimeFocusedAt(moment, windowSize, location, even
     }
   };
 }
+
+/**
+ * Function to get the event location given the event id.
+ * @param {string} eventId Id of the event
+ * @param {Location} location location object from useNavigation
+ * @param {string} eventType type of event
+ * @returns {Location} new location with updated path
+ */
+export const getEventUrl = (eventId, location, eventType) => {
+  return {
+    ...location,
+    matrix: {
+      ...location.matrix,
+      [eventsPath]: {
+        ...location.matrix[eventsPath],
+        eventId,
+        view: eventType
+      }
+    },
+    query: {
+      ...location.query
+    }
+  };
+};

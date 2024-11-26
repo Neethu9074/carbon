@@ -92,7 +92,6 @@ function sendWaitingIndex(req, res, nonce, butlerDomain, reportingEndpoints, csr
       csrf: JSON.stringify({
         token: csrf
       }),
-      mixpanelToken: serverConfig.mixpanelToken,
       eumTrackingDomain: serverConfig.eum.domain,
       eumTrackingApiKey: serverConfig.eum.apiKey,
       eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,

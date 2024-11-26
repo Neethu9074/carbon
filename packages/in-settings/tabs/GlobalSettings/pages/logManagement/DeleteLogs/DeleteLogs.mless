@@ -27,6 +27,15 @@
     }
   }
 
+  .timeSection {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .marginLabel {
+    margin: 0.5rem 0 0.25rem 0;
+  }
+
   .descriptionSection {
     padding: 1rem 0;
   }

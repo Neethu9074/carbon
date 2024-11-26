@@ -14,6 +14,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import * as eventTypeLabels from 'in-events/eventTypeLabels';
 import { eventsPath } from 'in-events/navigation/paths';
+import { eventId } from 'in-events/navigation/matrix';
 import SearchBar from 'in-components/SearchBar';
 import { t } from 'in-i18n';
 
@@ -25,24 +26,34 @@ export default function ViewSwitcher({ selectedEventType }) {
 
   const tabs = [];
 
+  // Before the tabs are created, make sure to remove the eventId when clicking through the tabs.
+  setOrDeleteMatrixKey(location, eventsPath, eventId, null);
+
+  // All
   setOrDeleteMatrixKey(location, eventsPath, 'view', null);
   tabs.push({
     href: createHref(location),
     label: t('in-events:labelAll'),
     isActive: !selectedEventType
   });
+
+  // Incidents
   setOrDeleteMatrixKey(location, eventsPath, 'view', 'incident');
   tabs.push({
     href: createHref(location),
     label: eventTypeLabels.incident,
     isActive: selectedEventType === 'incident'
   });
+
+  // Issues
   setOrDeleteMatrixKey(location, eventsPath, 'view', 'issue');
   tabs.push({
     href: createHref(location),
     label: eventTypeLabels.issue,
     isActive: selectedEventType === 'issue'
   });
+
+  // Change
   setOrDeleteMatrixKey(location, eventsPath, 'view', 'change');
   tabs.push({
     href: createHref(location),
@@ -51,6 +62,7 @@ export default function ViewSwitcher({ selectedEventType }) {
   });
 
   if ((isInternalVisible || agentMonitoringIssuesEnabled) && !playwithEnabled) {
+    // Monitoring issues
     setOrDeleteMatrixKey(location, eventsPath, 'view', 'agent_monitoring_issue');
     tabs.push({
       href: createHref(location),
@@ -59,6 +71,7 @@ export default function ViewSwitcher({ selectedEventType }) {
     });
   }
   if (cveIssueEnabled && !playwithEnabled) {
+    // Vunerabilities
     setOrDeleteMatrixKey(location, eventsPath, 'view', 'cve_issue');
     tabs.push({
       href: createHref(location),

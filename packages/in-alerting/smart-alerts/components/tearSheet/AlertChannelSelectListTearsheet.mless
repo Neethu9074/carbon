@@ -19,15 +19,4 @@
   .errorMessage {
     margin-top: 1.5rem;
   }
-  .channelListTable {
-    > div {
-      > div:last-child {
-        margin: 0;
-        border-right: 1px solid var(--ids-color-option-neutral-400);
-        border-bottom: 1px solid var(--ids-color-option-neutral-400);
-        border-left: 1px solid var(--ids-color-option-neutral-400);
-        background: var(--ids-color-option-neutral-50, #fafbfc);
-      }
-    }
-  }
 }

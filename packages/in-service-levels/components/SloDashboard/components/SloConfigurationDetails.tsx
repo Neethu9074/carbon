@@ -36,7 +36,7 @@ export default function SloConfigurationDetails({ data }: SloConfigurationDetail
 }
 
 function SloConfigurationDetailsContent({ data }: SloConfigurationDetailsContentProps) {
-  const { configuration, entity } = data;
+  const { configuration, entities } = data;
 
   const track = useSloTrackers();
   useEffect(() => {
@@ -54,7 +54,9 @@ function SloConfigurationDetailsContent({ data }: SloConfigurationDetailsContent
   return (
     <Card
       leftHeaderContent={<TagList tags={configuration.tags} />}
-      rightHeaderContent={<SloActionButtons configuration={configuration} editDisabled={entity.deleted} />}
+      rightHeaderContent={
+        <SloActionButtons configuration={configuration} editDisabled={entities.some(({ deleted }) => deleted)} />
+      }
     >
       <Ul space="medium">
         <EntitySection data={data} />

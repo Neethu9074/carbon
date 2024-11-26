@@ -66,7 +66,7 @@ const LongRunningQueries = function LongRunningQueries({ snapshotId, timeConfig 
     [snapshotId, timeConfig]
   );
 
-  if (!data) {
+  if (!data || null == (data as SnapshotData).get('raw_payload')) {
     return null;
   }
 
@@ -84,6 +84,10 @@ const LongRunningQueries = function LongRunningQueries({ snapshotId, timeConfig 
   }
 
   function getQueryDetails(row: LongestRunningQueryRow) {
+    const queryText: string =
+      row.queries.get('query_text') !== null && row.queries.get('query_text') !== undefined
+        ? row.queries.get('query_text')
+        : '-';
     return (
       <div>
         <p>
@@ -91,7 +95,7 @@ const LongRunningQueries = function LongRunningQueries({ snapshotId, timeConfig 
             <strong>{t('in-forge:plugins.snowflake.dashboard.queryText')}</strong>
             {' : '}
           </label>
-          <Code code={formatSql(row.queries.get('query_text'))} lang="sql" softWrap />
+          <Code code={formatSql(queryText)} lang="sql" softWrap />
         </p>
       </div>
     );

@@ -183,7 +183,7 @@ function ScriptSection({ action }: { action: ScoredAction }) {
           </Typography>
         </div>
         <div className={locals.CodeWithAISlug}>
-          <Code withExpandButton withoutCopyButton code={plaintextScript} lang={'bash'} softWrap />
+          <Code withExpandButton code={plaintextScript} lang={'bash'} softWrap />
           <AISlugIcon />
         </div>
       </FormGroup>
@@ -222,6 +222,7 @@ function ActionPreview() {
           content={getManualContentFromFields(selectedAction.fields)}
           actionName={selectedAction.name}
           withAISlug
+          addCopyButton
         />
       );
     default:

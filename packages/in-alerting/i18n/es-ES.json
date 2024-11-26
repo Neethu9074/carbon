@@ -41,6 +41,8 @@
     "chart": {
       "alertingChartLabelThreshold": "Umbral",
       "alertingChartLabelViolations": "Infracciones",
+      "alertingChartLabelWarningViolations": "Infracciones de aviso",
+      "alertingChartLabelCriticalViolations": "Infracciones críticas",
       "alertingChartLabelWarningThreshold": "Umbral de aviso",
       "alertingChartLabelCriticalThreshold": "Umbral crítico",
       "alertingChartLabelForecast": "Previsión",
@@ -149,6 +151,7 @@
     "titleNoSmartAlertsCreated": "No se han creado alertas inteligentes",
     "titleCopyOf": "(Copia de) {{smartAlertTitle}}",
     "smartAlertsTitle": "Alertas inteligentes",
+    "labelNew": "(Nuevo)",
     "applications": {
       "alertConfiguration": "Configuración de alertas",
       "advanced": {
@@ -435,7 +438,8 @@
           "throughputDefault_higherThan": "El número de llamadas es superior a lo previsto.",
           "throughputDefault_higherEqual": "El número de llamadas es mayor o igual que lo previsto.",
           "throughputDefault_lowerThan": "El número de llamadas es inferior a lo previsto.",
-          "throughputDefault_lowerEqual": "El número de llamadas es superior o igual a lo previsto."
+          "throughputDefault_lowerEqual": "El número de llamadas es superior o igual a lo previsto.",
+          "expected": "previsto"
         },
         "customStatusCodeFullText": "entre {{statusCodeStart}} y {{statusCodeEnd}}"
       },
@@ -464,8 +468,9 @@
         "ruleFormPleaseProvideAStartStatusCode": "Proporcione un código de estado HTTP inicial válido",
         "ruleFormPleaseProvideAEndStatusCode": "Proporcione un código de estado HTTP final válido",
         "smartAlertFormValueIsReadOnly": "El valor es de sólo lectura y no se puede cambiar",
-        "thresholdFormPleaseProvideANumber0": "Proporcione un número >= 0",
-        "thresholdFormBaselineIsEmpty": "la línea base está vacía"
+        "thresholdFormBaselineIsEmpty": "la línea base está vacía",
+        "selectAtLeastOneThreshold": "Proporcione el valor de al menos uno de los umbrales.",
+        "selectAtLeastOneSensitivity": "Seleccione al menos una de las sensibilidades."
       },
       "simple": {
         "simpleAlertStep2Headline": "¿Dónde desea que se active la alerta?",
@@ -749,7 +754,8 @@
       "ruleStatusCodeValueOption511": "511 (Autenticación de red necesaria)",
       "ruleStatusCodeValueOption599": "599 (Error de tiempo de espera de conexión de red)",
       "warningThresholdValidator": "El umbral de aviso debe ser mayor que el umbral crítico para los operadores < y < =.",
-      "criticalThresholdValidator": "El umbral crítico debe ser mayor que el umbral de aviso para los operadores > y >=."
+      "criticalThresholdValidator": "El umbral crítico debe ser mayor que el umbral de aviso para los operadores > y >=.",
+      "sensitivityValidator": "La sensibilidad crítica debe ser menor que la sensibilidad de aviso."
     },
     "components": {
       "smartAlertDialog": {
@@ -787,6 +793,7 @@
         "scopeConfigSelectOneEntryMessage": "Seleccione, al menos, una entrada.",
         "scopeConfigTitleTooltip": "Mostrar las entidades disponibles durante las últimas 24 horas",
         "scopeConfigSubTitle": "Basado en las últimas 24 horas",
+        "scopeConfigSearchApplicationsPlaceholder": "Buscar aplicaciones...",
         "scopeMigrationMessage_FAILED": "No se ha podido migrar automáticamente el ámbito. Seleccione los filtros de etiqueta correspondientes para la consulta de enfoque dinámico siguiente:",
         "scopeMigrationMessage_PARTIAL": "No se ha podido migrar completamente el ámbito. Seleccione los filtros de etiqueta correspondientes para la consulta de enfoque dinámico siguiente:",
         "scopeMigrationMessage_FULL": "El ámbito aplicado se basa en la consulta de enfoque dinámico utilizada anteriormente:",
@@ -1468,7 +1475,30 @@
       },
       "count": "Count",
       "selectEntityType": "Seleccione un tipo de entidad",
-      "regexNotValid": "La expresión regular no es válida"
+      "regexNotValid": "La expresión regular no es válida",
+      "tearSheet": {
+        "createTitle": "Crear una alerta inteligente de infraestructura",
+        "steps": {
+          "step1Title": "Definir la condición",
+          "step2Title": "Definir cuándo se debe enviar alerta",
+          "step3Title": "Definir propiedades de alertas",
+          "step4Title": "Definir canales de alerta"
+        },
+        "step1": {
+          "header": "Elija la métrica y la agregación para determinar cuándo debe activarse una alerta"
+        },
+        "step2": {
+          "header": "Establecer un valor para el umbral de infracción",
+          "description": "Seleccione una métrica, un umbral de infracción y una ventana temporal para evaluar la infracción."
+        },
+        "step3": {
+          "header": "¿Qué propiedades desea establecer para esta alerta?"
+        },
+        "step4": {
+          "header": "¿Qué desea que se le notifique para esta alerta?",
+          "description": "Seleccione el destinatario o destinatarios de esta alerta"
+        }
+      }
     },
     "logs": {
       "alertDetails": {

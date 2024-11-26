@@ -6,10 +6,13 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Toggle } from '@instana/components';
-import { Link } from '@instana/components';
+import { SvgIcon, Toggle, Link } from '@instana/components';
 
+import {
+  pageTransitionMethods,
+  frameworkTypes
+} from 'in-websites/trackingSnippet/AutoPageTransitionDetection/constants';
+import FrameworkTypeSelection from 'in-websites/trackingSnippet/AutoPageTransitionDetection/FrameworkTypeSelection';
 import WeaselVersionDropdown from 'in-websites/trackingSnippet/WeaselVersionDropdown';
 import getJsAgentVersionsInfo from 'in-websites/subscriptions/getJsAgentVersionsInfo';
 import { getTrackingSnippet } from 'in-websites/trackingSnippet/trackingSnippet';
@@ -29,12 +32,25 @@ export default function TrackingSnippetPresenter({
   enableSRI,
   setEnableSRI
 }) {
+  const [regexMappingRules, setRegexMappingRules] = useState([]);
+  const [pageTransitionMethod, setPageTransitionMethod] = useState(pageTransitionMethods.PAGE_TITLE);
+  const [enableAutoPageDetection, setEnableAutoPageDetection] = useState(false);
+  const [frameworkType, setFrameworkType] = useState(frameworkTypes.MPA);
   const [weaselArray, setWeaselArray] = useState([]);
   const [selectedWeaselVersion, setSelectedWeaselVersion] = useState('');
   const [urlWeaselVersion, setUrlWeaselVersion] = useState('');
   const [shaValue, setShaValue] = useState('');
   const [eumSnippet, setEumSnippet] = useState(
-    getTrackingSnippet({ key: websiteId, trackSessions, enableSRI, selectedWeaselVersion })
+    getTrackingSnippet({
+      key: websiteId,
+      trackSessions,
+      enableSRI,
+      selectedWeaselVersion,
+      enableAutoPageDetection,
+      pageTransitionMethod,
+      regexMappingRules,
+      frameworkType
+    })
   );
 
   useEffect(() => {
@@ -70,10 +86,24 @@ export default function TrackingSnippetPresenter({
         trackSessions,
         urlWeaselVersion: urlWeaselVersion,
         shaValue: shaValue,
-        enableSRI
+        enableSRI,
+        enableAutoPageDetection,
+        pageTransitionMethod,
+        regexMappingRules,
+        frameworkType
       })
     );
-  }, [enableSRI, trackSessions, urlWeaselVersion, shaValue, websiteId]);
+  }, [
+    enableSRI,
+    trackSessions,
+    urlWeaselVersion,
+    shaValue,
+    websiteId,
+    enableAutoPageDetection,
+    pageTransitionMethod,
+    regexMappingRules,
+    frameworkType
+  ]);
 
   const handleVersionChange = ver => {
     setSelectedWeaselVersion(ver);
@@ -158,6 +188,16 @@ export default function TrackingSnippetPresenter({
             : t('in-websites:trackingSnippet.trackingSnippetPresenterToggleNo')}
         </div>
       </div>
+      <FrameworkTypeSelection
+        frameworkType={frameworkType}
+        setFrameworkType={setFrameworkType}
+        enableAutoPageDetection={enableAutoPageDetection}
+        setEnableAutoPageDetection={setEnableAutoPageDetection}
+        pageTransitionMethod={pageTransitionMethod}
+        setPageTransitionMethod={setPageTransitionMethod}
+        setRegexMappingRules={setRegexMappingRules}
+      />
+
       <div className={locals.snippet}>
         <Code code={eumSnippet} lang="html" showLineNumbers={false} />
       </div>

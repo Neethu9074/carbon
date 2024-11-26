@@ -48,6 +48,12 @@ export default function ProvideLogMessage({
   const operatorField = form.get('rule').get('operator');
   const messageField = form.get('rule').get('message');
   const levelField = form.get('rule').get('level');
+  const warningThresholdValuePresent = form.get('threshold')?.get('warningThreshold')?.get('isCheckboxSelected')?.value;
+  const criticalThresholdValuePresent = form
+    .get('threshold')
+    ?.get('criticalThreshold')
+    ?.get('isCheckboxSelected')?.value;
+  const selectedChannelsArray = form.get('hiddenFields')?.get('selectedChannelList')?.value;
 
   return (
     <div className={locals.container}>
@@ -77,14 +83,22 @@ export default function ProvideLogMessage({
                         includeSynthetic={form.get('includeSynthetic').value}
                         timeConfig={timeConfig}
                         onLogMessageSelect={(message: string, level: string) => {
-                          updateForm(
-                            form
-                              .updateIn(['rule', 'message'], f =>
-                                (f as Field<string>).setValue(message).setTouched(true)
-                              )
-                              .updateIn(['rule', 'operator'], field => field.setValue(operators.EQUALS))
-                              .updateIn(['rule', 'level'], f => f.setValue(level).setTouched(true))
-                          );
+                          let updatedForm = form
+                            .updateIn(['rule', 'message'], f => (f as Field<string>).setValue(message).setTouched(true))
+                            .updateIn(['rule', 'operator'], field => field.setValue(operators.EQUALS))
+                            .updateIn(['rule', 'level'], f => f.setValue(level).setTouched(true));
+                          //While Switching the BP to log and onLogMessageSelect update/reset the alert channels list to warning
+                          if (!warningThresholdValuePresent && !criticalThresholdValuePresent) {
+                            updatedForm = updatedForm.updateIn(['alertChannels'], f =>
+                              (f as any)
+                                .setValue({
+                                  WARNING: selectedChannelsArray,
+                                  CRITICAL: []
+                                })
+                                .setTouched(true)
+                            );
+                          }
+                          updateForm(updatedForm);
                         }}
                         slideOut={() => onSelectLogMessage({ isVisible: false })}
                       />
@@ -139,7 +153,6 @@ export default function ProvideLogMessage({
               } else if (newOperator !== operators.NOT_EMPTY) {
                 newRuleValueValue = messageField.value;
               }
-
               updateForm(
                 form
                   .updateIn(['rule', 'operator'], f => (f as Field<string>).setValue(newOperator).setTouched(true))
@@ -160,9 +173,21 @@ export default function ProvideLogMessage({
               rows={3}
               value={field.value}
               onValueChange={(value: string) => {
-                updateForm(
-                  form.updateIn(['rule', 'message'], f => (f as Field<string>).setValue(value ?? '').setTouched(true))
+                let updatedForm = form.updateIn(['rule', 'message'], f =>
+                  (f as Field<string>).setValue(value ?? '').setTouched(true)
                 );
+                //While Switching the BP to log and onDescription ValueChange update/reset the alert channels list to warning
+                if (!warningThresholdValuePresent && !criticalThresholdValuePresent) {
+                  updatedForm = updatedForm.updateIn(['alertChannels'], f =>
+                    (f as any)
+                      .setValue({
+                        WARNING: selectedChannelsArray,
+                        CRITICAL: []
+                      })
+                      .setTouched(true)
+                  );
+                }
+                updateForm(updatedForm);
               }}
               hasError={!field.valid && field.touched}
               maxLength={65536}

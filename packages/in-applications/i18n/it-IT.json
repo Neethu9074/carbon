@@ -6,6 +6,7 @@
   "labelAnalytic": "Analitica",
   "labelCall": "Chiamata",
   "labelTrace": "Traccia",
+  "labelStatus": "Stato",
   "linkDownload": "Scarica",
   "linkDownloadCalls": "Chiamate di download",
   "linkDownloadRawTrace": "Scarica traccia non elaborata",
@@ -686,5 +687,6 @@
     "alternativeServicesProblem": "<bold>No</bold>, se il nome del servizio corrente proviene dall'intestazione \"Host\" HTTP (regola di associazione dei servizi il cui l'ID è call.http.host) ma il nome del servizio alternativo no (poiché il relativo nome proviene da una regola che si basa sui tag dell'infrastruttura), o viceversa. Questi sono servizi duplicati.",
     "alternativeServicesPossibleProblem": "<bold>Forse</bold>, se il servizio corrente e i nomi dei servizi alternativi non provengono dall'intestazione \"Host\" HTTP, quindi sono servizi che risiedono dietro un proxy (validi) o sono servizi duplicati (non validi): alcuni dei servizi sono completamente collegati all'infrastruttura mentre altri sono collegati all'infrastruttura in modo parziale."
   },
-  "labelSyntheticMonitoring": "Monitoraggio sintetico"
+  "labelSyntheticMonitoring": "Monitoraggio sintetico",
+  "labelResourceOptimizations": "Ottimizzazioni"
 }

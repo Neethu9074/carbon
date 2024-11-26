@@ -18,12 +18,17 @@ import locals from './SloDashboardMetaInfo.mless';
 
 interface SloDashboardMetaInfoProps {
   configuration: ServiceLevelObjectiveConfiguration;
-  entity?: LabeledEntity;
+  entities?: LabeledEntity[];
   service?: LabeledEntity;
   endpoint?: LabeledEntity;
 }
 
-export default function SloDashboardMetaInfo({ configuration, entity, service, endpoint }: SloDashboardMetaInfoProps) {
+export default function SloDashboardMetaInfo({
+  configuration,
+  entities,
+  service,
+  endpoint
+}: SloDashboardMetaInfoProps) {
   const showTag = useMediaQuery('(min-width: 1200px)');
 
   const { tags, entity: sloEntity } = configuration;
@@ -31,9 +36,9 @@ export default function SloDashboardMetaInfo({ configuration, entity, service, e
   return (
     <div className={locals.metaInfo}>
       <Stack direction="horizontal" align="center" distribution="start">
-        {entity && (
+        {entities && (
           <SloEntityInfo
-            entity={entity}
+            entities={entities}
             entityType={sloEntity.type}
             service={service}
             endpoint={endpoint}

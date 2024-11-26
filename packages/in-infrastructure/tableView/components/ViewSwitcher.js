@@ -14,11 +14,13 @@ import {
   containerPath,
   isTableView,
   infraSmartAlerts,
-  infraAlertDetailsFullyQualifiedPath
+  infraAlertDetailsFullyQualifiedPath,
+  graphExplorerPath
 } from 'in-stores/navigation/paths/mainPaths';
+import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { graphTabEnabled, infraSmartAlertsEnabled } from 'in-services/featureFlags';
 import { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { infraSmartAlertsEnabled } from 'in-services/featureFlags';
 import SearchBar from 'in-components/SearchBar';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -58,8 +60,27 @@ export default function InfrastructureViewSwitcher({ showSearchBar = true, theme
             isActive={isAlertActive}
           />
         )}
+        <GraphTab />
       </SecondLevelNavigation>
       {showSearchBar && !isAlertActive && <SearchBar style={{ maxWidth: 'calc(100% - 12rem)' }} theme={theme} />}
     </div>
+  );
+}
+
+function GraphTab() {
+  const isInternalVisible = useObservable(isInternalVisible$, [isInternalVisible$]);
+  const { matchLocation, createHrefToPath } = useNavigation();
+  const isGraphActive = matchLocation(graphExplorerPath);
+
+  if (!isInternalVisible || !graphTabEnabled) {
+    return null;
+  }
+
+  return (
+    <SecondLevelNavigationItem
+      href={createHrefToPath(graphExplorerPath)}
+      label={t('in-infrastructure:tableView.graph')}
+      isActive={isGraphActive}
+    />
   );
 }

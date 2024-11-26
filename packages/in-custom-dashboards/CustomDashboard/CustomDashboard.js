@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { find, isEqual, debounce } from 'lodash';
 
 import { generateUniqueShortId } from '@instana/utils';
@@ -24,6 +24,7 @@ import {
   CUSTOM_DASHBOARD_DOWNLOAD_PDF_START
 } from 'in-services/tracking/tracking';
 import ExportWidgetContainer from 'in-custom-dashboards/CustomDashboard/ExportWidgetContainer/ExportWidgetContainer';
+import { dashboardIdUrlParameter, dashboardTopLevelFilterUrlParameter } from 'in-custom-dashboards/navigation/url';
 import WidgetEditorDialog from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialog';
 import { getCustomDashboard, updateCustomDashboard, removeCustomDashboard } from 'in-custom-dashboards/api';
 import DownloadPdfDialog from 'in-custom-dashboards/CustomDashboard/DownloadPdfDialog/DownloadPdfDialog';
@@ -34,7 +35,6 @@ import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/Custo
 import SharingDialog from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialog';
 import { activeDialogs$, addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import DuplicateDashboardDialog from 'in-custom-dashboards/DuplicateDashboardDialog';
-import { dashboardIdUrlParameter } from 'in-custom-dashboards/navigation/url';
 import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -54,10 +54,11 @@ import { Trans, t } from 'in-i18n';
 
 export default function CustomDashboardLoader(props) {
   const urlStateDefinition = {
-    bind: [dashboardIdUrlParameter]
+    bind: [dashboardIdUrlParameter, dashboardTopLevelFilterUrlParameter],
+    replaceHistory: false
   };
 
-  const [{ dashboardId }, setUrlState] = useUrlState(urlStateDefinition);
+  const [{ dashboardId, tagFilterExpression }, setUrlState] = useUrlState(urlStateDefinition);
 
   const result = useObservable(getCustomDashboard(dashboardId), [dashboardId]);
 
@@ -75,7 +76,13 @@ export default function CustomDashboardLoader(props) {
   const { location, navigate } = useNavigation();
   const { trackCta } = useSegmentTracking();
 
-  const [topLevelFilters, setTopLevelFilters] = useState([]);
+  const [topLevelFilters, setTopLevelFilters] = useState(tagFilterExpression ?? []);
+  const onTopLevelFiltersChange = useCallback(
+    tagFilterExpression => setUrlState({ tagFilterExpression }),
+    [setUrlState]
+  );
+  useEffect(() => setTopLevelFilters(tagFilterExpression), [tagFilterExpression]);
+
   const exportWidget = exportWidgetId && find(config?.widgets, eachWidget => exportWidgetId === eachWidget.id);
 
   useEffect(() => {
@@ -157,7 +164,7 @@ export default function CustomDashboardLoader(props) {
         shouldWidgetRenderOutsideViewport={downloadDashboard}
         canCreatePublicCustomDashboards={role.canCreatePublicCustomDashboards}
         topLevelFilters={topLevelFilters}
-        setTopLevelFilters={setTopLevelFilters}
+        onTopLevelFiltersChange={onTopLevelFiltersChange}
       />
       {exportWidget && (
         <ExportWidgetContainer

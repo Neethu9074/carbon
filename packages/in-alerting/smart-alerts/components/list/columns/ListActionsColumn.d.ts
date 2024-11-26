@@ -10,6 +10,7 @@ export type ListActionsColumnProps = {
   config: AlertConfigType;
   isLoading: boolean;
   actionHandlers: ActionHandlers;
+  icon?: string;
 };
 
-export function ListActionsColumn({ config, isLoading, actionHandlers = {} }: ListActionsColumnProps);
+export function ListActionsColumn({ config, isLoading, actionHandlers = {}, icon }: ListActionsColumnProps);

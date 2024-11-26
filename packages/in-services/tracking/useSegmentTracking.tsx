@@ -7,7 +7,6 @@
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
-import { track as trackingV1 } from 'in-services/tracking/tracking';
 import { CTA_CLICKED } from 'in-services/util/constants';
 
 export type CtaTrackingFunction = (ctaEvent: string, optionalPayloadData?: Object, channel?: string) => void;
@@ -32,21 +31,11 @@ export function useSegmentTracking(): {
       };
       eventTracker({ segmentEventName: CTA_CLICKED, data });
     }
-
-    /*
-     * As discussed, we will always send the info to the old mixpanel tracking.
-     * It will be removed soon.
-     */
-    trackingV1(ctaEvent, customData);
   }
 
   /**
    * This is a suggestion, if you start planning to use this function, please reach out
    * to figure out if all requirements will be fulfilled for your purpose.
-   *
-   * Open questions:
-   * Should it also send data to mixpanel? Will is use different options for that, and
-   * would need an additional function parameter for that?
    */
   function unstable_trackEvent(segmentEventName: string, eventData: Object, customData?: Object): void {
     const { pageRootName, productArea } = getViewTrackingMetaData();

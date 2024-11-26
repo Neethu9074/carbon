@@ -4,7 +4,12 @@
  * Copyright IBM Corp. 2024
  */
 
+import { EVENT_NOTES_EDIT_SUBMIT, EVENT_NOTES_DELETE_SUBMIT } from 'in-services/tracking/eventNames';
+import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
+import { eventTracker } from 'in-services/tracking/segment/EventTracker';
+import { CTA_CLICKED } from 'in-services/util/constants';
 import { TYPE_NOTE, TYPE_AI_SUMMARY } from '../utils';
+import { track } from 'in-services/tracking/trackers';
 import { annotateEvent } from 'in-stores/events';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -65,17 +70,6 @@ export function createDataString(data) {
   return dataString;
 }
 
-export function getSummary(data) {
-  var dataString = [];
-  data?.map(entry => {
-    const props = Object.fromEntries(entry);
-    const entityLabel = (props.entityLabel && props.entityLabel !== '' && props.entityLabel) || props.entityName;
-    const entitySummary = `${props.entitySummary}\n`;
-    dataString.push({ label: entityLabel, summary: entitySummary });
-  });
-  return dataString;
-}
-
 // Function to handle the editing and updating of a note
 export function handleUpdateDeleteNote(incidentId, note, setNote, setEditNoteId, editNoteId) {
   // EditNoteId is false whenever its reset but when assigned its an array
@@ -85,10 +79,16 @@ export function handleUpdateDeleteNote(incidentId, note, setNote, setEditNoteId,
   sendUpdateDeleteNote({
     incidentId: incidentId,
     author: user.preferredName,
+    authorId: user.id,
     action: actionToTake,
     contents: note,
     currentId: editNoteId[0]
   });
+  if (actionToTake == 'delete') {
+    handleTracking(incidentId, EVENT_NOTES_DELETE_SUBMIT);
+  } else if (actionToTake == 'edit') {
+    handleTracking(incidentId, EVENT_NOTES_EDIT_SUBMIT);
+  }
   // On submission we want to clear the note text field and reset edit note state
   setNote('');
   setEditNoteId(false);
@@ -98,24 +98,13 @@ export function handleUpdateDeleteNote(incidentId, note, setNote, setEditNoteId,
 // {
 //   incidentId: (incident.get('id')),
 //   author: (username),
+//   authorId: (user.id),
 //   action: (either 'create', update', or 'delete'),
 //   contents: (only for 'create' and 'update')
 //   currentId: (only for 'update' and 'delete', refers to note's ID)
 // }
 function sendUpdateDeleteNote(note) {
   annotateEvent(note);
-}
-
-// Taking in the response of the getSummary function above [{label: 'label', summary: 'summary'}]
-// And converting it to a string
-export function convertSummaryToString(data) {
-  var stringSummary = `This summary is AI generated\n\n`;
-  data?.map(entry => {
-    stringSummary += `${entry.label}\n`;
-    stringSummary += `${entry.summary}\n`;
-  });
-
-  return stringSummary;
 }
 
 // Check to make sure the recipients are valid
@@ -139,4 +128,19 @@ export function validRecipients(recipients) {
   });
   // If false exists then there is an error
   return recipientsList && !validEmails.includes(false);
+}
+
+// We want to track the clicks to segment
+export function handleTracking(id, trackingName) {
+  const { pageRootName, productArea } = getViewTrackingMetaData();
+  if (pageRootName && productArea) {
+    const data = {
+      parentPageName: pageRootName,
+      parentPageCategory: productArea,
+      CTA: trackingName,
+      path: location.hash
+    };
+    eventTracker({ data, segmentEventName: CTA_CLICKED });
+  }
+  track(trackingName, { id, author: user.preferredName });
 }

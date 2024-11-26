@@ -24,7 +24,6 @@ import { t } from 'in-i18n';
 
 export default function AlertConfigTearSheetStep1({ form, updateForm, blueprintConfigList }) {
   const alertType = form.get('rule').get('alertType').value;
-
   const blueprintConfig = blueprintConfigs.find(item => item.type === alertType);
   const { tearSheetHeadline, isBeta, tearSheetDescription } = blueprintConfig;
 

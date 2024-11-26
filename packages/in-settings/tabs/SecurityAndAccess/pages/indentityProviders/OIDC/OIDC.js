@@ -21,12 +21,14 @@ import { defaultIdpType, idpTypes } from 'in-settings/tabs/SecurityAndAccess/pag
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/SecurityAndAccess/api/saml';
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
 import { carbonButtonEnabled, disableInvitesWithIdpEnabled } from 'in-services/featureFlags';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { notBlankValidator } from 'in-services/validators/string';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
+import { UPDATED_OBJECT } from 'in-services/util/constants';
 import { Row, Col } from 'in-components/layout/Grid';
 import Section from 'in-settings/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
@@ -42,6 +44,7 @@ import locals from './OIDC.mless';
 const secretPlaceholder = 'HIDDEN';
 
 export default function OIDC(props) {
+  const { unstable_trackEvent } = useSegmentTracking();
   const inputDOMNode = document.createElement('input');
   const [input] = useState(inputDOMNode);
   const [file, setFile] = useState(null);
@@ -73,7 +76,7 @@ export default function OIDC(props) {
                 </span>
               }
               onSubmit={() => {
-                save({ ...data, file: file });
+                save({ ...data, file: file, unstable_trackEvent });
                 close();
               }}
               confirmButtonKind="create"
@@ -81,7 +84,7 @@ export default function OIDC(props) {
             />
           );
         } else {
-          save({ ...data, file: file });
+          save({ ...data, file: file, unstable_trackEvent });
         }
       }}
       Content={Content}
@@ -89,7 +92,7 @@ export default function OIDC(props) {
   );
 }
 
-function save({ setMessage, form, result, file }) {
+function save({ setMessage, form, result, file, unstable_trackEvent }) {
   if (file) {
     const reader = new FileReader();
     reader.readAsText(file, 'UTF-8');
@@ -111,7 +114,8 @@ function save({ setMessage, form, result, file }) {
         ownerEmail: form.get('ownerEmail').value,
         discoveryUri: form.get('discoveryUri').value,
         secret: form.get('secret').value,
-        idpType: form.get('idpType').value
+        idpType: form.get('idpType').value,
+        unstable_trackEvent
       });
     };
   } else {
@@ -123,7 +127,8 @@ function save({ setMessage, form, result, file }) {
       ownerEmail: form.get('ownerEmail').value,
       discoveryUri: form.get('discoveryUri').value,
       secret: form.get('secret').value,
-      idpType: form.get('idpType').value
+      idpType: form.get('idpType').value,
+      unstable_trackEvent
     });
   }
 }
@@ -152,7 +157,7 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
                   </Label>
 
                   <Select
-                    value={field.value.key}
+                    value={field.value}
                     id="idpType"
                     onChange={e => {
                       setForm(form.updateIn(['idpType'], f => f.setValue(e.target.value).setTouched(true)));
@@ -409,11 +414,24 @@ function deleteItem({ setMessage }) {
   );
 }
 
-function saveItem({ setMessage, idpMetadata, spEntityId, ownerEmail, discoveryUri, secret, idpType }) {
+function saveItem({
+  setMessage,
+  idpMetadata,
+  spEntityId,
+  ownerEmail,
+  discoveryUri,
+  secret,
+  idpType,
+  unstable_trackEvent
+}) {
+  const oidcConfig = { idpMetadata, spEntityId, ownerEmail, discoveryUri, secret, idpType };
   setMessage({ message: t('in-settings:tabs.savingConfig'), type: 'neutral', isSaving: true });
-  const setConfigResult$ = setConfig({ idpMetadata, spEntityId, ownerEmail, discoveryUri, secret, idpType });
+  const setConfigResult$ = setConfig(oidcConfig);
   setConfigResult$.once(
-    () => setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: 'success' }),
+    () => {
+      setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: 'success' });
+      unstable_trackEvent(UPDATED_OBJECT, { objectType: 'settings.identityProvider.openIdConnect' });
+    },
     error => setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: 'error' })
   );
 }

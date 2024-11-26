@@ -63,4 +63,8 @@ export type TimePickerProps = {
    * Specify the warning text
    */
   warningText?: boolean;
+  /**
+   * Allow seconds entry - default no seconds
+   */
+  seconds?: boolean;
 };

@@ -37,7 +37,8 @@ module.exports = {
         'in-synthetics',
         'in-websites',
         'in-infrastructure',
-        'in-service-levels'
+        'in-service-levels',
+        'in-analyze'
       ]
     })
   }

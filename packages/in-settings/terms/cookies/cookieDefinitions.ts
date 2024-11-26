@@ -7,15 +7,15 @@ import { t } from 'in-i18n';
 
 export const cookieDefinitions = [
   {
-    key: 'allAnalyticsServices',
-    title: t('in-settings:cookies.mixpanel.title'),
-    cookieProduct: 'Mixpanel',
+    key: 'walkmeAnalyticsServices',
+    title: t('in-settings:cookies.walkme.title'),
+    cookieProduct: 'WalkMe',
     details: [
       {
-        category: t('in-settings:cookies.categories.analyticalPerformance'),
-        name: 'mp_[ID]_mixpanel',
-        purpose: t('in-settings:cookies.mixpanel.purpose'),
-        moreInformation: t('in-settings:cookies.expiration.sevenDays')
+        category: t('in-settings:cookies.walkme.category'),
+        name: 'walkMe_wm-ueug',
+        purpose: t('in-settings:cookies.walkme.purpose'),
+        moreInformation: t('in-settings:cookies.expiration.afterSession')
       }
     ]
   },

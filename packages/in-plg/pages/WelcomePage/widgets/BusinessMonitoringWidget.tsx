@@ -30,6 +30,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getChartGranularity } from 'in-stores/metric/metric';
+import { bizopsProcessesListSelect } from 'in-bizops/tracker';
 import { number } from 'in-services/formatters/number';
 import { Location } from 'in-stores/navigation/types';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -97,9 +98,19 @@ export default connectTo(() => ({
   }
 
   function getItem(id: string, timeConfig: TimeConfig): Observable<Result<BusinessProcessItem>> {
-    const started_processes: BizOpsMetricConfiguration = {
+    const started_processes_array: BizOpsMetricConfiguration = {
       metric: 'started_processes',
       granularity: getChartGranularity(timeConfig),
+      aggregation: 'DISTINCT_COUNT'
+    };
+    const started_processes_total: BizOpsMetricConfiguration = {
+      metric: 'started_processes',
+      granularity: 0,
+      aggregation: 'DISTINCT_COUNT'
+    };
+    const activities_count: BizOpsMetricConfiguration = {
+      metric: 'activity_count_distinct',
+      granularity: 0,
       aggregation: 'DISTINCT_COUNT'
     };
 
@@ -108,7 +119,11 @@ export default connectTo(() => ({
     // to how the StarredItemList works
     return getBusinessProcess({
       timeConfig,
-      metrics: { started_processes: started_processes },
+      metrics: {
+        started_processes_array: started_processes_array,
+        started_processes_total: started_processes_total,
+        activities_count: activities_count
+      },
       processDefinitionId: id
     });
   }
@@ -117,9 +132,20 @@ export default connectTo(() => ({
     {
       key: 'name',
       getContent({ item }) {
+        const processTracking = {
+          path: location.pathname,
+          processId: item?.businessProcess?.definitionId,
+          processName: item?.businessProcess?.definitionName
+        };
+
         return (
-          <Tooltip content={item?.businessProcess?.definitionName} align="auto" caret={false}>
-            <Link href={getItemLink(item, location, createHref)}>{item?.businessProcess?.definitionName}</Link>
+          <Tooltip content={item?.businessProcess?.definitionName} align="auto" caret={false} delay={300}>
+            <Link
+              href={getItemLink(item, location, createHref)}
+              onClick={() => bizopsProcessesListSelect(processTracking)}
+            >
+              {item?.businessProcess?.definitionName}
+            </Link>
           </Tooltip>
         );
       }
@@ -131,7 +157,7 @@ export default connectTo(() => ({
       }
     },
     {
-      key: 'count',
+      key: 'started',
       getContent({
         item,
         result,

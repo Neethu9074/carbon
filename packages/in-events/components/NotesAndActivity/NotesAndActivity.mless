@@ -22,7 +22,7 @@
     flex-direction: column;
     width: 26rem;
     margin-top: 0.75rem;
-    height: calc(100% - 15rem);
+    height: calc(100% - 14.5rem);
     right: 0;
     border: 1px solid var(--ids-color-option-neutral-300);
     background-color: var(--cds-layer-01);

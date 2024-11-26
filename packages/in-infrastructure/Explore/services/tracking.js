@@ -19,8 +19,7 @@ import {
   INFRA_EXPLORE_METRIC_REMOVED,
   INFRA_EXPLORE_METRIC_AGGREGATION_CHANGED,
   INFRA_EXPLORE_SORTED,
-  INFRA_EXPLORE_CHART_CHANGED,
-  track
+  INFRA_EXPLORE_CHART_CHANGED
 } from 'in-services/tracking/tracking';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { UI_INTERACTION } from 'in-services/util/constants';
@@ -46,8 +45,7 @@ export function useSegmentTracker() {
         sortDirection: direction,
         sortingContext
       });
-      unstable_trackEvent(UI_INTERACTION, { objectType: INFRA_EXPLORE_SORTED }, context);
-      track(INFRA_EXPLORE_SORTED, context);
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_SORTED }, context);
     };
   }
 
@@ -61,16 +59,14 @@ export function useSegmentTracker() {
   function filterAddedTracker(getInfraExploreState) {
     return function (addedFilter) {
       const context = serializeContext(getInfraExploreState(), { addedFilter });
-      unstable_trackEvent(UI_INTERACTION, { objectType: INFRA_EXPLORE_FILTER_ADDED }, context);
-      track(INFRA_EXPLORE_FILTER_ADDED, context);
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_FILTER_ADDED }, context);
     };
   }
 
   function filterRemovedTracker(getInfraExploreState) {
     return function (removedFilter) {
       const context = serializeContext(getInfraExploreState(), { removedFilter });
-      unstable_trackEvent(UI_INTERACTION, { objectType: INFRA_EXPLORE_FILTER_REMOVED }, context);
-      track(INFRA_EXPLORE_FILTER_REMOVED, context);
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_FILTER_REMOVED }, context);
     };
   }
 
@@ -83,88 +79,77 @@ export function useSegmentTracker() {
   function groupAddedTracker(getInfraExploreState) {
     return function (addedGroup) {
       const context = serializeContext(getInfraExploreState(), { addedGroup: addedGroup.groupbyTag });
-      unstable_trackEvent(UI_INTERACTION, { objectType: INFRA_EXPLORE_GROUP_ADDED }, context);
-      track(INFRA_EXPLORE_GROUP_ADDED, context);
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_GROUP_ADDED }, context);
     };
   }
 
   function groupRemovedTracker(getInfraExploreState) {
     return function (removedGroup) {
       const context = serializeContext(getInfraExploreState(), { removedGroup: removedGroup.groupbyTag });
-      unstable_trackEvent(UI_INTERACTION, { objectType: INFRA_EXPLORE_GROUP_REMOVED }, context);
-      track(INFRA_EXPLORE_GROUP_REMOVED, context);
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_GROUP_REMOVED }, context);
     };
   }
 
   function groupFocusedOnTracker(getInfraExploreState) {
     return function ({ tags }) {
       const context = serializeContext(getInfraExploreState(), { focusedGroup: tags });
-      unstable_trackEvent(UI_INTERACTION, { objectType: INFRA_EXPLORE_GROUP_FOCUSED_ON }, context);
-      track(INFRA_EXPLORE_GROUP_FOCUSED_ON, context);
+      unstable_trackEvent(UI_INTERACTION, { objeactiontType: INFRA_EXPLORE_GROUP_FOCUSED_ON }, context);
     };
   }
 
   function groupExpandedTracker(getInfraExploreState) {
     return function ({ tags }) {
       const context = serializeContext(getInfraExploreState(), { expandedGroup: tags });
-      unstable_trackEvent(UI_INTERACTION, { objectType: INFRA_EXPLORE_GROUP_EXPANDED }, context);
-      track(INFRA_EXPLORE_GROUP_EXPANDED, context);
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_GROUP_EXPANDED }, context);
     };
   }
 
   function groupCollapsedTracker(getInfraExploreState) {
     return function ({ tags }) {
       const context = serializeContext(getInfraExploreState(), { collapsedGroup: tags });
-      unstable_trackEvent(UI_INTERACTION, { objectType: INFRA_EXPLORE_GROUP_COLLAPSED }, context);
-      track(INFRA_EXPLORE_GROUP_COLLAPSED, context);
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_GROUP_COLLAPSED }, context);
     };
   }
 
   function navigateToEntityTracker(getInfraExploreState) {
     return function (pluginId) {
       const context = serializeContext(getInfraExploreState(), { plugin: pluginId });
-      unstable_trackEvent(UI_INTERACTION, { objectType: INFRA_EXPLORE_NAVIGATE_TO_ENTITY_DASHBOARD }, context);
-      track(INFRA_EXPLORE_NAVIGATE_TO_ENTITY_DASHBOARD, context);
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_NAVIGATE_TO_ENTITY_DASHBOARD }, context);
     };
   }
 
   function typeSelectorChangedTracker(getInfraExploreState) {
     return function (selectedType) {
       const context = serializeContext(getInfraExploreState(), { selectedType });
-      unstable_trackEvent(UI_INTERACTION, { objectType: INFRA_EXPLORE_TYPE_SELECTOR_STATE_CHANGED }, context);
-      track(INFRA_EXPLORE_TYPE_SELECTOR_STATE_CHANGED, context);
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_TYPE_SELECTOR_STATE_CHANGED }, context);
     };
   }
 
   function metricAddedTracker(getInfraExploreState) {
     return function ({ metric: addedMetric, aggregation: addedAggregation }) {
       const context = serializeContext(getInfraExploreState(), { addedMetric, addedAggregation });
-      unstable_trackEvent(UI_INTERACTION, { objectType: INFRA_EXPLORE_METRIC_ADDED }, context);
-      track(INFRA_EXPLORE_METRIC_ADDED, context);
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_METRIC_ADDED }, context);
     };
   }
 
   function metricRemovedTracker(getInfraExploreState) {
     return function ({ metric: removedMetric, aggregation: removedAggregation }) {
       const context = serializeContext(getInfraExploreState(), { removedMetric, removedAggregation });
-      unstable_trackEvent(UI_INTERACTION, { objectType: INFRA_EXPLORE_METRIC_REMOVED }, context);
-      track(INFRA_EXPLORE_METRIC_REMOVED, context);
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_METRIC_REMOVED }, context);
     };
   }
 
   function metricAggregationChangedTracker(getInfraExploreState) {
     return function ({ metric: changedMetric, aggregation: oldAggregation }, newAggregation) {
       const context = serializeContext(getInfraExploreState(), { changedMetric, oldAggregation, newAggregation });
-      unstable_trackEvent(UI_INTERACTION, { objectType: INFRA_EXPLORE_METRIC_AGGREGATION_CHANGED }, context);
-      track(INFRA_EXPLORE_METRIC_AGGREGATION_CHANGED, context);
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_METRIC_AGGREGATION_CHANGED }, context);
     };
   }
 
   function chartChangedTracker(getInfraExploreState) {
     return function ({ dataSource, template, metric, aggregation }) {
       const context = serializeContext(getInfraExploreState(), { dataSource, template, metric, aggregation });
-      unstable_trackEvent(UI_INTERACTION, { objectType: INFRA_EXPLORE_CHART_CHANGED }, context);
-      track(INFRA_EXPLORE_CHART_CHANGED, context);
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_CHART_CHANGED }, context);
     };
   }
 

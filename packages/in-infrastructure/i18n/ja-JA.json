@@ -76,7 +76,7 @@
     "kubernetesLabels": "Kubernetes ラベル",
     "podmanAnnotations": "Podman注釈",
     "metricExplosionBeeInstana": "このダッシュボードは、最大 {{numberOfMetrics}} 個のメトリクスを常にキャプチャしているため、すべてのメトリクスを表示しない場合があります。",
-    "metricExplosion": "このダッシュボードは、最大 {{numberOfMetrics}} 個の高解像度メトリクスを常にキャプチャしているため、すべてのメトリクスを表示しない場合があります。 その他のメトリクスを表示するには、Analyze Infrastructure またはカスタム・ダッシュボードを使用します。"
+    "metricExplosion": "このダッシュボードは、最大 {{numberOfMetrics}} 個の高解像度メトリクスを常にキャプチャしているため、すべてのメトリクスを表示しない場合があります。 追加のタグが指定されたメトリックを表示するには、Analyze Infrastructure またはカスタム・ダッシュボードを使用します。"
   },
   "explore": {
     "analyzeInfrastructure": "インフラストラクチャーの分析",
@@ -89,7 +89,6 @@
     "search": "タイプの検索",
     "explore": "探索",
     "health": "正常性",
-    "noIssues": "問題はありません",
     "count": "数",
     "errors": {
       "maximumNumberOfGroups": "この照会の結果が多すぎます。 より制限的なフィルターを使用して検索を絞り込むか、時刻範囲を絞り込んでから再試行してください。",
@@ -141,5 +140,10 @@
     "buttonSelectTags": "タグの選択",
     "titleAddATag": "タグの追加",
     "messagePleaseSelectAtMostTags": "最大 {{maximumNumberOfTags}} 個のタグを選択してください。"
+  },
+  "threshold": {
+    "label": "しきい値",
+    "critical": "{{operator}} がクリティカル {{level}}",
+    "warning": "{{operator}} 時の警告 {{level}}"
   }
 }

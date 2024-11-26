@@ -7,7 +7,7 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-import { Link, LoadingSkeleton, Message, Menu } from '@instana/components';
+import { Link, LoadingSkeleton, Message } from '@instana/components';
 import { Trans, t } from '@instana/i18n-react';
 import { Result } from '@instana/types';
 
@@ -16,6 +16,7 @@ import { LocationsBluePrint, getLocationsBluePrintConfig } from 'in-synthetics/c
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import createNewLocationForm from 'in-synthetics/createLocation/createNewLocationForm';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
+import SideRadioMenu from 'in-components/SideRadioMenu';
 
 import locals from 'in-synthetics/createLocation/NewLocationStyles.mless';
 
@@ -59,15 +60,17 @@ const SelectLocationType = ({ selectedBlueprint, setSelectedBlueprint, updateFor
     }
     return <LoadingSkeleton />;
   };
+  const locationTypes = getLocationsBluePrintConfig();
   return (
     <SimpleModeStepContentWrapper
       headline={t('in-synthetics:dialog.createLocation.selectLocationType.contentWrapperHeadline')}
     >
-      <Menu
-        items={getLocationsBluePrintConfig()}
-        addRightSeparator
-        initialItemSelected={selectedBlueprint}
-        onItemClick={item => {
+      <SideRadioMenu
+        items={locationTypes.map(x => ({ id: x.type, name: x.name }))}
+        valueSelected={selectedBlueprint.type}
+        onChange={type => {
+          const item = locationTypes.find(x => type === x.type);
+          if (!item) return;
           setSelectedBlueprint(item);
           updateForm(createNewLocationForm(item.type));
         }}

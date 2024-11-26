@@ -54,7 +54,7 @@ export default function RegularItemList({
           return (
             <Cell key={key}>
               {(key === 'name' || key === 'title') && (
-                <Tooltip content={getUniqueErrors(result.errors)[0]} align="auto" caret={false}>
+                <Tooltip content={getUniqueErrors(result.errors)[0]} align="auto" caret={false} delay={300}>
                   <div className={locals.errorTitleWidthForTooltip}>{'-'}</div>
                 </Tooltip>
               )}

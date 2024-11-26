@@ -22,6 +22,7 @@ import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicator
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import WebsiteContextIcon from 'in-websites/WebsiteDashboard/components/WebsiteContextIcon';
 import { dashboardTagFilters as tagFiltersTrackers } from 'in-websites/tracking/segTracker';
+import { smartAlertCarbonTableEnabled, carbonTableEnabled } from 'in-services/featureFlags';
 import { tagFiltersInDashboardUrlParameter } from 'in-websites/navigation/urlParameters';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import getJsAgentVersionsInfo from 'in-websites/subscriptions/getJsAgentVersionsInfo';
@@ -32,6 +33,7 @@ import CreateSmartAlert from 'in-alerting/smart-alerts/websites/CreateSmartAlert
 import { pageTabs, websiteTabs } from 'in-websites/WebsiteDashboard/tabs/index';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
+import { alertsTabListFullyQualified } from 'in-websites/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useTagFilterManipulators } from 'in-websites/tagFiltersHoc';
@@ -52,13 +54,14 @@ import { t, Trans } from 'in-i18n';
 
 import locals from 'in-websites/WebsiteDashboard/Warning.mless';
 
-const urlStateDefinition = {
+export const urlStateDefinition = {
   bind: [{ ...tagFiltersInDashboardUrlParameter, as: 'tagFilters' }],
   replaceHistory: false,
   reducerName: 'onChange'
 };
 
 const deprecationTimeFrame = 1728000000;
+
 export default function WebsiteDashboard() {
   const { trackCta } = useSegmentTracking();
   const { tabChange } = useWebsiteTracker();
@@ -132,8 +135,14 @@ export default function WebsiteDashboard() {
 
   const tagFilters = (props.tagFilters = customTagFilters.concat(implicitTagFilters));
 
+  // hide the SA floating button from the alerts listing page, as the create button is now displayed alongside the table
+  const displayCarbonTable = smartAlertCarbonTableEnabled && carbonTableEnabled;
+  const hideButtonInTableView = displayCarbonTable ? location.pathname !== alertsTabListFullyQualified : true;
+
   const showAlertButton =
-    role.canConfigureWebsiteSmartAlerts && !location.pathname.includes('/websiteMonitoring/website/configuration');
+    role.canConfigureWebsiteSmartAlerts &&
+    !location.pathname.includes('/websiteMonitoring/website/configuration') &&
+    hideButtonInTableView;
 
   const versionValues = {
     currentVersion: weaselVersion,

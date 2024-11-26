@@ -9,9 +9,9 @@ import React from 'react';
 import { t, Trans } from 'in-i18n';
 
 export default {
-  tibcoas_ftl_connect_error: {
+  snowflake_region_operational_issues: {
     issueDescription: {
-      Component: function tibcoasFtlConnectionError({ error }: { error: string }) {
+      Component: function snowflakeRegionOperationalIssues({ error }: { error: string }) {
         return (
           <span>
             <Trans
@@ -26,6 +26,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.snowflake.troubleshootingDocs'),
-    explanationLinkHref: `https://ibm.biz/Bdv3VD`
+    explanationLinkHref: `https://ibm.biz/BdaQaQ`
   }
 };

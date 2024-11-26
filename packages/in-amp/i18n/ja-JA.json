@@ -86,8 +86,11 @@
       "essentials": "基本情報",
       "iqmHosts": "IQM ホスト",
       "syntheticPops": "シンセティック・マネージド PoPs",
+      "logging": "コンテキスト内のログ",
       "resourceUnits": "リソース・ユニット",
       "consumedUnits": "消費されたリソース単位",
+      "entitledData": "エンタイトル・データ",
+      "consumedData": "消費データ",
       "infrastructure": "インフラストラクチャー",
       "synthetics": "シンセティック",
       "traces": "トレース",
@@ -97,7 +100,11 @@
       "trendLine": "傾向線",
       "dataUsage": "データ使用量",
       "dataUsageHelperText": "選択した時間枠でカテゴリ別に分離されたエージェントを介して送信されたバイト数。",
-      "syntheticsHelperText": "各タイプのアクションによって消費されたリソース単位の数。 単位は、単純テストの場合は 0.025、API テストの場合は 0.042、ブラウザー・テストの場合は 1.000 の係数で計算されます。"
+      "syntheticsHelperText": "各タイプのアクションによって消費されたリソース単位の数。 単位は、単純テストの場合は 0.025、API テストの場合は 0.042、ブラウザー・テストの場合は 1.000 の係数で計算されます。",
+      "loggingHelperText": {
+        "saas": "このチャートは、選択した保持期間中にロギング・アドオンが使用したデータ量をバイト単位で表示します。",
+        "onprem": "このチャートは、選択した保持期間中にロギング・アドオンが使用したデータ量をバイト単位で表示します。"
+      }
     },
     "activationAdoption": {
       "activationAdoption": "アクティブ化 & 導入",

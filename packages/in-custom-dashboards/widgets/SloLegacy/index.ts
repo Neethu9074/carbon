@@ -8,13 +8,10 @@ export { default as Form } from 'in-custom-dashboards/widgets/SloLegacy/FormComp
 export { default as Widget } from 'in-custom-dashboards/widgets/SloLegacy/SloWidgetPresenter';
 export { createForm } from 'in-custom-dashboards/widgets/SloLegacy/form';
 
-import { sloRebornWidgetEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export const type = 'slo';
-export const label = sloRebornWidgetEnabled
-  ? t('in-custom-dashboards:widgets.slo.sloLegacy')
-  : t('in-custom-dashboards:widgets.slo.slo');
+export const label = t('in-custom-dashboards:widgets.slo.sloLegacy');
 export const minimumWidth = 6;
 export const minimumHeight = 18;
 export const enabled = true;

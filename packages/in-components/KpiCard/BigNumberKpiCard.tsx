@@ -26,6 +26,7 @@ import { ThresholdFn } from 'in-components/Threshold/threshold';
 import { IconAction } from 'in-components/KpiCard/KpiCard';
 import { FormatterFn } from 'in-stores/metric/formatters';
 import { pendingResult } from 'in-services/fixedObjects';
+import { ConversionFn } from 'in-stores/metric/units';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 export const metricKey = 'bigNumber';
@@ -47,6 +48,8 @@ export interface BigNumberKpiCardProps {
   raw?: boolean;
   isInModal?: boolean;
   thresholdFn?: ThresholdFn;
+  approximateTooltipText?: string;
+  conversionFn?: ConversionFn;
 }
 
 export default function BigNumberKpiCard({
@@ -59,8 +62,10 @@ export default function BigNumberKpiCard({
   actions,
   isInModal,
   thresholdFn,
+  conversionFn,
   dragHandle,
-  raw
+  raw,
+  approximateTooltipText
 }: BigNumberKpiCardProps) {
   const timeConfig = useTimeConfig();
   const usedTimeConfig = getTimeConfigBasedOnMetricConfiguration(config.metricConfiguration, timeConfig);
@@ -106,6 +111,7 @@ export default function BigNumberKpiCard({
       formatter={formatter}
       companionFormatter={companionFormatter}
       thresholdFn={thresholdFn}
+      conversionFn={conversionFn}
       useMaxAvailableHeight={useMaxAvailableHeight}
       isInModal={isInModal}
       iconAction={iconAction}
@@ -120,6 +126,7 @@ export default function BigNumberKpiCard({
       }
       raw={raw}
       extraInfo={getFilterResultNote(filterResult)}
+      approximateTooltipText={approximateTooltipText}
     />
   );
 }

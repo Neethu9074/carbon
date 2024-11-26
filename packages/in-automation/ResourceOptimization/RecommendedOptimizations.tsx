@@ -12,7 +12,7 @@ import { IconButton } from '@instana/components';
 import {
   actionCategoryColumn,
   nameColumn,
-  impactedServicesColumn
+  impactedApplicationsColumn
 } from 'in-automation/ResourceOptimization/columnDefinitions';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { usePaginatedResourceOptimizations } from 'in-automation/ResourceOptimization/useResourceOptimization';
@@ -99,7 +99,7 @@ export default function RecommendedOptimizations({
 
   const columnDefinitions: ColumnDefinition<RecommendedAction, RecommendedOptimizationsTableProps>[] = [
     nameColumn,
-    impactedServicesColumn,
+    impactedApplicationsColumn,
     actionCategoryColumn,
     actionButtonColumn
   ];

@@ -190,7 +190,7 @@ packages/in-forge/plugins/sapHanaSystem                         @Instana-IBM-Git
 packages/in-forge/plugins/sapHost                               @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
 packages/in-forge/plugins/sapJava*                              @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
 packages/in-forge/plugins/sapWebDispatcher                      @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-enterprise-apps
-packages/in-forge/plugins/snowflake                             @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
+packages/in-forge/plugins/snowflake*                            @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-system
 packages/in-forge/plugins/solr                                  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 packages/in-forge/plugins/spark*                                @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure
 packages/in-forge/plugins/springbootApplicationContainer        @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-sensors-middleware
@@ -329,3 +329,6 @@ packages/in-forge/plugins/otelHost      @Instana-IBM-GitHub-Enterprise @instana/
 packages/in-forge/plugins/otelProcess   @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-otel
 packages/in-forge/plugins/oTelDatabase  @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-otel
 packages/in-forge/plugins/oTelLLM       @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-infrastructure @instana/eng-otel
+
+# Vulnerability Center
+packages/in-vulnerability-center        @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-integrations

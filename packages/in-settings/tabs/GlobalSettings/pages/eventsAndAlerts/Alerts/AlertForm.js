@@ -23,7 +23,13 @@ export default function AlertForm({ form, onChange, onChangeEventSelectionMode, 
         onChangeEventSelectionMode={onChangeEventSelectionMode}
         setForm={setForm}
       />
-      <Step3 form={form} onChange={onChange} onChangeApplyOn={onChangeApplyOn} setForm={setForm} />
+      <Step3
+        key={form.get('eventSelectionMode')?.value}
+        form={form}
+        onChange={onChange}
+        onChangeApplyOn={onChangeApplyOn}
+        setForm={setForm}
+      />
       <Step4 form={form} setForm={setForm} />
       <Step5 form={form} setForm={setForm} />
     </fieldset>

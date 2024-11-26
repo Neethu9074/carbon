@@ -99,12 +99,31 @@
       "failedToParseInputAsJson": "입력을 JSON으로 구문 분석하는 데 실패했습니다.",
       "jsonRootMustBeAnObject": "JSON 루트는 오브젝트여야 합니다."
     },
+    "downloadPdfDialog": {
+      "downloadPdf": "PDF 파일 다운로드",
+      "settings": "설정",
+      "pdfOrientation": "방향",
+      "portrait": "세로",
+      "landscape": "랜드스케이프",
+      "pdfLayout": "레이아웃",
+      "widgetsDisplay": "표시",
+      "singlePage": "단일 페이지",
+      "singlePageInfo": "전체 대시보드를 한 페이지에 맞추고 컨텐츠 크기를 적절히 조정합니다.",
+      "multiPages": "여러 페이지",
+      "multiPagesInfo": "원래 레이아웃을 유지하면서 대시보드를 여러 페이지에 분산합니다. 일부 위젯이 잘릴 수 있습니다.",
+      "stackWidgetsTitle": "스택 위젯",
+      "stackWidgetsInfo": "여러 페이지에 걸쳐 위젯을 세로 스택으로 표시합니다.",
+      "loadingWidget": "{{totalNodes}}개 중 {{widgetIndex}}개 위젯 로드 중",
+      "generatePreview": "미리보기 생성",
+      "generatingPreview": "PDF 미리 보기 생성 중"
+    },
     "filterContext": {
       "topLevelFilterPartiallyApplied": "현재 대시보드 필터 중 일부가 적용되었습니다.",
       "topLevelFilterSelectsEverything": "현재 대시보드 필터는 이 위젯에 적용되지 않습니다.",
       "topLevelFilterSelectsNothing": "현재 대시보드 필터는 이 위젯에 적용되지 않습니다.",
       "topLevelFilterNotSupported": "이 위젯은 필터링을 지원하지 않기 때문에 현재 대시보드 필터가 이 위젯에 적용되지 않았습니다.",
-      "topLevelFilterAppliedToSomeDatasets": "현재 대시보드 필터가 이 위젯의 모든 데이터 집합에 완전히 적용되지 않았습니다."
+      "topLevelFilterAppliedToSomeDatasets": "현재 대시보드 필터가 다음 데이터 세트에 완전히 적용되지 않았습니다. {{datasets}}",
+      "unnamedDataset": "이름 지정되지 않은 데이터 세트"
     }
   },
   "dashboardSwitcher": {
@@ -897,5 +916,8 @@
     "additionalFields": "이 대시보드는 사용자에게만 표시됩니다. 작성 후에 동료와 공유하도록 선택할 수 있습니다.",
     "create": "작성",
     "failedToCreateDashboard": "대시보드를 작성하는 데 실패했습니다."
+  },
+  "threshold": {
+    "label": "임계값"
   }
 }

@@ -308,11 +308,6 @@
     "tooltipShowLess": "Show less",
     "tooltipShowMore": "Show more"
   },
-  "expandableGroup": {
-    "tooltipShowContent": "Show content",
-    "tooltipHideContent": "Hide content",
-    "labelExpandButtonForContent": "Expand button for content"
-  },
   "featureFeedback": {
     "linkLabelYouCanSendUsFeedback": "You can send us feedback"
   },
@@ -462,6 +457,7 @@
     "viewSwitcherLabelEvents": "Events",
     "viewSwitcherlabelInfrastructure": "Infrastructure",
     "viewSwitcherLabelApplications": "Applications",
+    "viewVulnerabilityCenter": "Vulnerabilities",
     "viewSwitcherLabelSlo": "Service Levels",
     "viewSwitcherLabelLogs": "Logs",
     "viewSwitcherLabelAnalytics": "Analytics",
@@ -717,6 +713,7 @@
     "setEnabledMessagePressESCToDisableTVMode": "Press ESC to disable TV mode."
   },
   "analyze": {
+    "facettedFilters": "Faceted filters",
     "loadMoreWithCount": "Load {{count}} more",
     "loadMore": "Load more",
     "activeFacets": "{{count}} Selected",
@@ -727,6 +724,7 @@
     "fromUnit": "From ({{unit}})",
     "to": "To",
     "toUnit": "To ({{unit}})",
+    "fromto": "Define from-to range",
     "rangeSelected": "Range selected",
     "rangeOrder": "The range has to be in ascending order.",
     "earliestTimestamp": "Earliest Timestamp",
@@ -740,7 +738,7 @@
     },
     "groupName": "Group Name",
     "groupedOnly": "Metric only available when analyzing groups.",
-    "groupNameNotAvailable":"{{groupbyTag}} Information not available",
+    "groupNameNotAvailable": "{{groupbyTag}} Information not available",
     "options": "Options",
     "filterSidebar": {
       "groupingButton": "Group by {{group}}",

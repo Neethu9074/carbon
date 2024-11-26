@@ -10,9 +10,9 @@ import { RecommendedAction } from '@instana/types';
 import { Typography } from '@instana/components';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import { turboActionCategoryMap } from 'in-automation/ResourceOptimization/RecommendedOptimizations';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { DynamicTagList } from 'in-components/TagsList/DynamicTagList';
-import { turboActionCategoryMap } from './RecommendedOptimizations';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
@@ -37,8 +37,8 @@ export const nameColumn: ColumnDefinition<RecommendedAction> = {
   sortable: true
 };
 
-export const impactedServicesColumn: ColumnDefinition<RecommendedAction> = {
-  label: t('in-automation:impactedServices'),
+export const impactedApplicationsColumn: ColumnDefinition<RecommendedAction> = {
+  label: t('in-automation:resourceOptimization.impactedApplications'),
   id: 'score',
   width: 10,
   sortable: true,

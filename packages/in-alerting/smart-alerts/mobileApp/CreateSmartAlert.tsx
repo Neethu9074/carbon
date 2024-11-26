@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { TagCatalog, TagFilter } from '@instana/types';
+import { Button } from '@instana/components';
 
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
@@ -32,11 +33,17 @@ interface CreateSmartAlertProps {
   location: Location;
   mobileAppId: string;
   tagFilters: TagFilter[];
+  isCarbonTableView?: boolean;
 }
 
 const implicitTagFilters = ['mobileBeacon.mobileApp.id'];
 
-export default function CreateSmartAlert({ location, mobileAppId, tagFilters }: CreateSmartAlertProps) {
+export default function CreateSmartAlert({
+  location,
+  mobileAppId,
+  tagFilters,
+  isCarbonTableView = false
+}: CreateSmartAlertProps) {
   const customEventName = getMatrixParameter(location, '/details', 'customEventId');
 
   const alertType = deriveAlertType(customEventName);
@@ -50,31 +57,41 @@ export default function CreateSmartAlert({ location, mobileAppId, tagFilters }: 
   const { trackCta } = useSegmentTracking();
 
   const alertConfig = generateAlertConfig(mobileAppId, tagFilters, tagCatalog, blueprintConfig, customEventName);
-  return (
-    <FloatingActionButton
-      icon="lib_alerts_create"
-      onClick={() => {
-        addActiveDialog(
-          <AlertConfigDialog
-            onClose={() => {
-              close();
+  const handleButtonClick = () => {
+    addDialog();
+    trackCta(ALERTING_CREATE);
+  };
 
-              if (location.pathname.includes(alertsTabListFullyQualified)) {
-                refreshSmartAlertConfigsList();
-              }
-            }}
-            //@ts-expect-error Type error since HistoricBaselineConfig | AdaptiveBaselineConfig is  not available
-            alertConfig={alertConfig}
-            startWithSimpleMode
-          />
-        );
-        trackCta(ALERTING_CREATE);
-      }}
-      withBoxShadow
-    >
-      {t('in-alerting:smartAlerts.addSmartAlert')}
-    </FloatingActionButton>
+  return (
+    <>
+      {!isCarbonTableView ? (
+        <FloatingActionButton icon="lib_alerts_create" onClick={() => handleButtonClick()} withBoxShadow>
+          {t('in-alerting:smartAlerts.addSmartAlert')}
+        </FloatingActionButton>
+      ) : (
+        <Button kind="primaryv2" icon="lib_openclose_add" size="xl" onClick={() => handleButtonClick()}>
+          {t('in-alerting:smartAlerts.createSmartAlert')}
+        </Button>
+      )}
+    </>
   );
+
+  function addDialog() {
+    return addActiveDialog(
+      <AlertConfigDialog
+        onClose={() => {
+          close();
+
+          if (location.pathname.includes(alertsTabListFullyQualified)) {
+            refreshSmartAlertConfigsList();
+          }
+        }}
+        //@ts-expect-error Type error since HistoricBaselineConfig | AdaptiveBaselineConfig is  not available
+        alertConfig={alertConfig}
+        startWithSimpleMode
+      />
+    );
+  }
 }
 
 function generateAlertConfig(

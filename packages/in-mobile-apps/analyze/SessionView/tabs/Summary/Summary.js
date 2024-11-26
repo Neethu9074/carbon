@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useMemo, useState } from 'react';
-import { debounce, find } from 'lodash';
+import React, { useMemo, useState } from 'react';
+import { find } from 'lodash';
 
 import { Message } from '@instana/components';
 import { Link } from '@instana/components';
@@ -17,17 +17,12 @@ import { useGetLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import DateTimeKpiCard from 'in-components/KpiCard/DateTimeKpiCard';
 import { number } from 'in-services/formatters/number';
 import { Col, Row } from 'in-components/layout/Grid';
-import { openSession } from 'in-mobile-apps/tracker';
 import KpiCard from 'in-components/KpiCard';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
 
-// avoid potential high-refrequency updates when the user is just flicking through
-// views very quickly.
-const debouncedOpenSession = debounce(openSession, 1000);
-
-export default function Summary({ beacons, sessionLabel, sessionId, detailId }) {
+export default function Summary({ beacons, detailId }) {
   // Fixing is expensive. Luckily it is easy to avoid this via memoization.
   const fixResult = useMemo(() => fixClockSkewProblems(beacons), [beacons]);
   beacons = fixResult.beacons;
@@ -38,14 +33,6 @@ export default function Summary({ beacons, sessionLabel, sessionId, detailId }) 
   const [types, setTypes] = useState([]);
 
   const linkToMobileAppHref = useGetLinkToMobileApp(firstBeacon.mobileAppId);
-
-  useEffect(() => {
-    debouncedOpenSession({
-      sessionId,
-      sessionLabel
-    });
-  }, [sessionId, sessionLabel]);
-
   return (
     <ContentWrapper>
       <Row>

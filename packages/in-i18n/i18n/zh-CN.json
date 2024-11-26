@@ -10,8 +10,13 @@
     },
     "list": {
       "loadMore": "加载更多",
+      "expand": "展开",
+      "collapse": "折叠",
       "toggleExtraContent": "切换其他内容",
       "initiateDefaultAction": "启动缺省操作"
+    },
+    "link": {
+      "opensInNewTab": "（在新选项卡中打开）"
     },
     "table": {
       "tableErrorRows": {

@@ -7,6 +7,8 @@ import React, { Fragment, useMemo } from 'react';
 import { fromJS } from 'immutable';
 import { filter } from 'lodash';
 
+import { Checkbox, Typography } from '@instana/components';
+
 import AlertChannelsList, {
   noRightHeader
 } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
@@ -14,13 +16,14 @@ import { limitForConnectedAlertChannels } from 'in-settings/tabs/GlobalSettings/
 import SelectListDialogButton from 'in-settings/tabs/GlobalSettings/components/SelectListDialogButton';
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import SectionHeading from 'in-settings/components/SectionHeading';
+import DescriptionText from 'in-components/form/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { t } from 'in-i18n';
 
 export default function Step4({ form, setForm }) {
   const selectedChannels = form.get('selectedAlertChannels') ? form.get('selectedAlertChannels').value.toJS() : [];
-
+  const includeEntityNameInLegacyAlerts = form.get('includeEntityNameInLegacyAlerts')?.value ?? false;
   const alertChannelInfos = useMemo(() => {
     return getAlertChannelsInfosMutable();
   }, []);
@@ -54,6 +57,15 @@ export default function Step4({ form, setForm }) {
           />
         }
       />
+      <Typography variant="heading-200">{t('in-settings:tabs.alertTitleAdditions')}</Typography>
+      <Checkbox
+        checked={includeEntityNameInLegacyAlerts}
+        label={t('in-settings:tabs.includeEntityNameInLegacyAlerts')}
+        onChange={ev =>
+          setForm(form.updateIn(['includeEntityNameInLegacyAlerts'], field => field.setValue(ev.target.checked)))
+        }
+      />
+      <DescriptionText>{t('in-settings:tabs.alertTitleAdditionsTooltip')}</DescriptionText>
       <TouchedMessages field={form.get('selectedAlertChannels')} />
     </Fragment>
   );

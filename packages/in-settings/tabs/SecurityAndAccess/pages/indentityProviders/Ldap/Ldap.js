@@ -19,8 +19,10 @@ import {
 import { isAnotherIdpActivated } from 'in-settings/tabs/SecurityAndAccess/pages/indentityProviders/configuredIdPCheck';
 import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/SecurityAndAccess/api/saml';
+import { SETTINGS_IDP_LDAP_TEST_CONFIGURATION } from 'in-services/tracking/tracking';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessageV2';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { disableInvitesWithIdpEnabled } from 'in-services/featureFlags';
 import { notBlankValidator } from 'in-services/validators/string.ts';
@@ -29,6 +31,7 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import ApiItemView from 'in-settings/components/ApiItemView';
+import { UPDATED_OBJECT } from 'in-services/util/constants';
 import { scrollIntoView } from 'in-services/util/dom';
 import { Row, Col } from 'in-components/layout/Grid';
 import Section from 'in-settings/components/Section';
@@ -45,6 +48,8 @@ import locals from './Ldap.mless';
 
 export default function Ldap(props) {
   const [testResultMessage, setTestResultMessage] = useState({ waitingForTest: false, messageProps: null });
+  const { trackCta, unstable_trackEvent } = useSegmentTracking();
+
   return (
     <ApiItemView
       getObservables={() => ({
@@ -65,17 +70,17 @@ export default function Ldap(props) {
                 </span>
               }
               onSubmit={() => {
-                saveItem(data);
+                saveItem({ ...data, unstable_trackEvent });
                 close();
               }}
               confirmButtonKind="create"
               confirmButtonLabel={t('forms.actions.save')}
             />
           );
-        } else saveItem(data);
+        } else saveItem({ ...data, unstable_trackEvent });
       }}
       deleteItem={deleteItem}
-      render={render}
+      render={data => render({ ...data, trackCta })}
       testResultMessage={testResultMessage}
       setTestResultMessage={setTestResultMessage}
     />
@@ -86,7 +91,7 @@ function isAnyInvitationsPending(props) {
   return disableInvitesWithIdpEnabled && props.invitations?.data?.length > 0;
 }
 
-function render({ form, setForm, testResultMessage, setTestResultMessage, result }) {
+function render({ form, setForm, testResultMessage, setTestResultMessage, result, trackCta }) {
   const allFieldsFilled =
     form.get('url').value &&
     form.get('url').value !== '' &&
@@ -116,7 +121,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
       <Title title={t('in-settings:tabs.configureLdap')} />
       <SubViewHeader>{t('in-settings:tabs.ldapConfiguration')}</SubViewHeader>
       {isAnotherIdpActivated([result.oidcConfig?.activated, result.samlConfig?.activated]) ? (
-        <h2>LDAP is not configurable as long as you have another active identity provider configuration.</h2>
+        <h2>{t('in-settings:tabs.ldapCannotbeConfiguredWithOtherIdPActive')}</h2>
       ) : (
         <>
           <p>
@@ -332,6 +337,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
                             type: msgType
                           }
                         });
+                        trackCta(SETTINGS_IDP_LDAP_TEST_CONFIGURATION, { result: msgType });
                         setForm(form.setTouched(true, { recurse: true }));
                       });
                       result$.errors().once(e => {
@@ -421,12 +427,13 @@ function scrollToResultMessage() {
   scrollIntoView(document.getElementsByClassName('message')[0]);
 }
 
-function saveItem({ form, setMessage }) {
+function saveItem({ form, setMessage, unstable_trackEvent }) {
   setMessage({ message: t('in-settings:tabs.savingConfig'), type: 'neutral', isSaving: true });
   const setConfigResult$ = setConfig(form.toJS());
   setConfigResult$.once(
     () => {
       setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: 'success' });
+      unstable_trackEvent(UPDATED_OBJECT, { objectType: 'settings.identityProvider.ldap' });
       scrollToResultMessage();
     },
     error => {

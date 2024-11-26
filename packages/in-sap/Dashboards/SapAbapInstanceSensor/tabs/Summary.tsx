@@ -12,7 +12,6 @@ import { useObservable } from '@instana/hooks';
 // @ts-expect-error needs TS migration
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { number, kiloBytes, percentage, percentagePlain, millis } from 'in-services/formatters/number';
-import CombinedMetrics from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/CombinedMetrics';
 import AbapShortDumps from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/AbapShortDumps';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -466,7 +465,6 @@ export default function Summary({ data }: { data: SnapshotData }) {
           />
         </DashboardSection>
       </Columize>
-      <CombinedMetrics snapshotId={snapshotId} timeConfig={timeConfig} />
       <AbapShortDumps snapshotId={snapshotId} timeConfig={timeConfig} />
     </Fragment>
   );

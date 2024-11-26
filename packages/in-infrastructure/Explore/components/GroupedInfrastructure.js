@@ -21,6 +21,7 @@ import { just } from '@instana/observables';
 
 import {
   firstValue,
+  getConvertedSeries,
   getGranularity,
   getMetricFormatterFromUnitOrDefault,
   getMetricKey,
@@ -52,9 +53,9 @@ import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { carbonTableEnabled } from 'in-services/featureFlags';
+import { getBaseUnit, getUnit } from 'in-stores/metric/units';
 import { fixOrderForBackwardsCompatibility } from '../utils';
 import { getFormatter } from 'in-stores/metric/formatters';
-import { getBaseUnit } from 'in-stores/metric/units';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import CsvExporter from 'in-components/CsvExporter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -787,12 +788,19 @@ function generateMetric({
   const { metrics } = item;
 
   const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
+
+  const formatterType = formatterId?.split('.')[1];
   const formatter = isFormatterSelected
     ? getFormatter(formatterId)
-    : getMetricFormatterFromUnitOrDefault(getBaseUnit(unit), mapData(metadata, data => data?.formatter).data);
+    : getMetricFormatterFromUnitOrDefault(
+        getBaseUnit(unit),
+        mapData(metadata, data => data?.formatter).data,
+        formatterType
+      );
+  const unitConverter = getUnit(unit)?.converter;
   const seriesKey = getSeriesKey(id);
   const kpi = lastValue ? lastValueForMetric(metrics[seriesKey]) : firstValue(metrics[id]);
-  const series = metrics[seriesKey];
+  const series = getConvertedSeries(metrics[seriesKey], unitConverter);
   const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
   const customValueTooltip = lastValue && getLastValueTooltipLabel(timeConfig);
   const extremeValue = extremeValueInSeries(threshold, series);
@@ -800,7 +808,7 @@ function generateMetric({
 
   return (
     <SparkChart
-      horizontalMetricValue={getMetricValue(kpi, formatter)}
+      horizontalMetricValue={getMetricValue(kpi, formatter, unitConverter)}
       percentageMetric={percentageMetric}
       tooltipFormatter={formatter}
       aggregation={aggregation}
@@ -811,7 +819,9 @@ function generateMetric({
       customValueTooltip={customValueTooltip}
       strokeColor={strokeColor}
       fillColor={fillColor}
-      customChartTooltip={threshold && <ThresholdTooltip threshold={threshold} formatter={formatter} />}
+      customChartTooltip={
+        threshold && <ThresholdTooltip threshold={threshold} formatter={formatter} formatterId={formatterId} />
+      }
     />
   );
 }

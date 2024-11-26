@@ -1391,6 +1391,21 @@
   "pluginName_otelProcess_1": "OTel Processes",
   "pluginName_otelProcess_2": "OTel Processes",
   "pluginName_otelProcess": "OTel Processes",
+  "pluginName_oTelK8sPod_plural": "OTel Kubernetes Pod",
+  "pluginName_oTelK8sPod_0": "OTel Kubernetes Pod",
+  "pluginName_oTelK8sPod_1": "OTel Kubernetes Pod",
+  "pluginName_oTelK8sPod_2": "OTel Kubernetes Pod",
+  "pluginName_oTelK8sPod": "OTel Kubernetes Pod",
+  "pluginName_oTelK8sCluster_plural": "OTel Kubernetes Cluster",
+  "pluginName_oTelK8sCluster_0": "OTel Kubernetes Cluster",
+  "pluginName_oTelK8sCluster_1": "OTel Kubernetes Cluster",
+  "pluginName_oTelK8sCluster_2": "OTel Kubernetes Cluster",
+  "pluginName_oTelK8sCluster": "OTel Kubernetes Cluster",
+  "pluginName_oTelK8sNode_plural": "OTel Kubernetes Node",
+  "pluginName_oTelK8sNode_0": "OTel Kubernetes Node",
+  "pluginName_oTelK8sNode_1": "OTel Kubernetes Node",
+  "pluginName_oTelK8sNode_2": "OTel Kubernetes Node",
+  "pluginName_oTelK8sNode": "OTel Kubernetes Node",
   "pluginName_openLDAP_plural": "OpenLDAP Nodes",
   "pluginName_openLDAP_0": "OpenLDAP Nodes",
   "pluginName_openLDAP_1": "OpenLDAP Nodes",
@@ -1624,6 +1639,11 @@
   "pluginName_solrCloudCluster_1": "Solr Cloud Clusters",
   "pluginName_solrCloudCluster_2": "Solr Cloud Clusters",
   "pluginName_solrCloudCluster": "Solr Cloud Cluster",
+  "pluginName_snowflakeOrganization_plural": "Snowflake Organizations",
+  "pluginName_snowflakeOrganization_0": "Snowflake Organizations",
+  "pluginName_snowflakeOrganization_1": "Snowflake Organizations",
+  "pluginName_snowflakeOrganization_2": "Snowflake Organizations",
+  "pluginName_snowflakeOrganization": "Snowflake Organization",
   "pluginName_sparkApplication_plural": "Spark Applications",
   "pluginName_sparkApplication_0": "Spark Applications",
   "pluginName_sparkApplication_1": "Spark Applications",
@@ -1819,7 +1839,6 @@
   "pluginName_syntheticPoP_2": "Synthetic PoPs",
   "pluginName_syntheticPoP": "Synthetic PoP",
   "pluginName_powerVC": "PowerVC",
-
   "pluginName_websiteHttpd": "Website",
   "pluginName_websiteHttpd_plural": "Websites",
   "pluginName_websiteHttpd_0": "Websites",
@@ -2957,7 +2976,7 @@
     "rfc": "RFC"
   },
   "plugins": {
-    "activedirectory" : {
+    "activedirectory": {
       "ActiveDirectory": "Active Directory"
     },
     "titleARN": "ARN",
@@ -3567,10 +3586,10 @@
       "inputTerminals": "Number of Input-type Terminals",
       "outputTerminals": "Number of Output-type Terminals"
     },
-    "activeDirectory":{
+    "activeDirectory": {
       "computerName": "Host",
-      "lightweightDirectoryAccessProtocol": "Lightweight Directory Access Protocol (LDAP)",
-      "ldap": {
+      "lightweightDirectoryAccessProtocolLabel": "Lightweight Directory Access Protocol (LDAP)",
+      "lightweightDirectoryAccessProtocol": {
         "operations": "Operations",
         "operationRates": "Operation Rates (per second)",
         "add": "Add",
@@ -3592,6 +3611,54 @@
         "batch": "Batches",
         "availableBatchSlots": "Available Batch Slots",
         "outboundBytes": "Outbound Bytes"
+      },
+      "addressBookLabel": "Address Book",
+      "addressBook": {
+        "abDetails": "Address book details",
+        "abAnrPerSec": "ANR per second",
+        "abBrowsesPerSec": "Browses per second",
+        "abClientSessions": "Client sessions",
+        "abMatchesPerSec": "Matches per second",
+        "abPropertyReadsPerSec": "Property reads per second",
+        "abProxyLookupsPerSec": "Proxy lookups per second",
+        "abSearchesPerSec": "Searches per second"
+      },
+      "directorySystemAgentLabel": "Directory System Agent",
+      "directorySystemAgentClientAndDirectory": "Directory system agent(client and directory details)",
+      "directorySystemAgentMemory": "Directory system agent(Memory details)",
+      "directorySystemAgentRead": "Directory system agent(Read details)",
+      "directorySystemAgentSearches": "Directory system agent(Searches details)",
+      "directorySystemAgentWrite": "Directory system agent(Write details)",
+      "directorySystemAgentSecurity": "Directory system agent(Security details)",
+      "directorySystemAgent": {
+        "dsClientBindsPerSec": "Client binds per second",
+        "dsClientNameTranslationsPerSec": "Client name translations per second",
+        "dsDirectoryReadsPerSec": "Directory reads per second",
+        "dsDirectorySearchesPerSec": "Directory searches per second",
+        "dsDirectoryWritesPerSec": "Directory writes per second",
+        "dsMonitorListSize": "Monitor list size",
+        "dsNameCachehitRate": "Name cache hit rate",
+        "dsNotifyQueueSize": "Notify queue size",
+        "dsPercentReadsFromDRA": "Percentage DRA reads",
+        "dsPercentReadsFromNTDSAPI": "Percentage NTDSAPI reads",
+        "dsPercentReadsFromSAM": "Percentage SAM reads",
+        "dsPercentReadsOther": "Percentage Other reads",
+        "dsPercentSearchesFromDRA": "Percentage DRA searches",
+        "dsPercentSearchesFromLDAP": "Percentage LDAP searches",
+        "dsPercentSearchesFromNTDSAPI": "Percentage NTDSAPI searches",
+        "dsPercentSearchesFromSAM": "Percentage SAM searches",
+        "dsPercentSearchesOther": "Percentage Other searches",
+        "dsPercentWritesFromDRA": "Percentage writes DRA",
+        "dsPercentWritesFromLDAP": "Percentage writes LDPA",
+        "dsPercentWritesFromNTDSAPI": "Percentage writes NTDSAPI",
+        "dsPercentWritesFromSAM": "Percentage writes SAM",
+        "dsPercentWritesOther": "Percentage writes Other",
+        "dsSearchSubOperationsPerSec": "Search sub operations per second",
+        "dsSecurityDescriptorPropagationsEvents": "Security descriptor propagations events",
+        "dsSecurityDescriptorPropagatorAverageExclusionTime": "Security descriptor propagations average exclusion time",
+        "dsSecurityDescriptorPropagatorRuntimeQueue": "Security descriptor propagations run time",
+        "dsSecurityDescriptorSubOperationsPersec": "Security descriptor suboperations per second"
+
       }
     },
     "activeMQ": {
@@ -5016,7 +5083,6 @@
       "minDelayTarget": "Minimum Delay Target",
       "maxDelayTarget": "Maximum Delay Target"
     },
-
     "awsApiGateway": {
       "dashboard": {},
       "infoTitle": {
@@ -5044,7 +5110,6 @@
       "labelSum": "Sum",
       "labelCount": "Count"
     },
-
     "awsCloudFront": {
       "infoTitle": {
         "distributionId": "Distribution ID",
@@ -5077,7 +5142,6 @@
       "titleFunctionNames": "Function Names",
       "titleAssociatedFunctions": "Associated Functions"
     },
-
     "awsAppSync": {
       "dashboard": {
         "titleErrors": "Errors",
@@ -5210,7 +5274,6 @@
       "labelPredictiveScalingCapacityForecast": "Predictive Scaling Capacity Forecast",
       "labelPredictiveScalingMetricPairCorrelation": "Predictive Scaling Metric Pair Correlation"
     },
-
     "azure": {
       "dashboard": {
         "thereIsNoFurtherInformationAboutThisEntity": "There is no further information about this entity."
@@ -6036,7 +6099,6 @@
       "infoType": "Type",
       "infoKind": "Kind",
       "infoState": "State",
-
       "labelReCo": "Count Requests",
       "labelReAv": "Average Requests",
       "labelReMi": "Minimum Requests",
@@ -8664,7 +8726,6 @@
       "memoryUsage": "Memory Usage ",
       "cpuUsage": "CPU Usage "
     },
-
     "postgreSqlDatabase": {
       "troubleshootingDocs": "Troubleshooting docs",
       "statsNotEnabledIssueDescription": "Statistics collection is not enabled by server configuration. Please make sure <code>track_counts</code>, <code>track_activities</code>, <code>track_io_timing</code> are set to <strong>on</strong> <code>postgresql.conf</code>.",
@@ -9504,16 +9565,15 @@
         "statementId": "Statement ID",
         "statementString": "Statement String",
         "planId": "Plan ID",
-        "totalReadSize" : "Read Size",
-        "totalWriteSize" : "Write Size",
-        "totalFailedReads" : "Failed Reads",
-        "totalFailedWrites" : "Failed Writes",
-        "totalReadTime" : "Read Time",
-        "totalWriteTime" : "Write Time",
-        "fileSystemPath" : "File System Path",
-        "fileType" : "File Type",
-        "ioStats" : "I/O Statistics"
-
+        "totalReadSize": "Read Size",
+        "totalWriteSize": "Write Size",
+        "totalFailedReads": "Failed Reads",
+        "totalFailedWrites": "Failed Writes",
+        "totalReadTime": "Read Time",
+        "totalWriteTime": "Write Time",
+        "fileSystemPath": "File System Path",
+        "fileType": "File Type",
+        "ioStats": "I/O Statistics"
       },
       "systemId": "System ID",
       "databaseName": "Database Name",
@@ -9568,11 +9628,12 @@
     "snowflake": {
       "connectErrorIssueDescription": "Agent could not connect to snowflake. Connection failed with error: <code>{{error}}</code>",
       "troubleshootingDocs": "Troubleshooting docs",
-      "snowflake": "Snowflake",
       "account": "Account",
       "region": "Region",
       "organization": "Organization",
       "version": "Version",
+      "accountLocator": "Account locator",
+      "accountName": "Account Name",
       "dashboard": {
         "creditUsagePerHour": "Credit usage per hour",
         "totalStorageBytes": "Total storage bytes",
@@ -9597,6 +9658,22 @@
         "queryText": "Query text",
         "execTime": "Execution time",
         "warehouseUsed": "Warehouse used"
+      }
+    },
+    "snowflakeOrganization": {
+      "organization": "Organization",
+      "dashboard": {
+        "overallCreditUsage": "Overall credit usage",
+        "totalStorageBytes": "Total storage bytes",
+        "usageInCurrency": "Usage in currency",
+        "topFiveBillingAccounts": "Top 5 billing accounts",
+        "remainingBalanceInCurrency": "Remaining balance in currency",
+        "balance": "Balance",
+        "accountName": "Account name",
+        "credits": "Credits",
+        "name": "Name",
+        "region": "Region",
+        "accountsMonitored": "Accounts monitored by instana"
       }
     },
     "solr": {
@@ -12477,7 +12554,6 @@
       "disabled": "Disabled",
       "infrastructure": "Infrastructure",
       "apm": "APM",
-      "k8s": "Kubernetes",
       "unknown": "Unknown",
       "theLookupOfWhichProcessIsSendingTracesToThisAgentUsingTraceEndpoints": "The lookup of which process is sending traces to this agent using trace endpoints like OpenTelemetry, Jaeger, Zipkin or Web Trace SDK cannot be performed because the following utilities are missing: <strong><code>{{missing}}</code></strong>. Please refer to your Linux distribution docs on how to install these utilities.",
       "theInstanaPcpProcessSeemsNotToBeRunningOnThisHostWhichPreventsTheHostAgentFromTracingNetApplications": "The InstanaPCP process seems not to be running on this host, which prevents the host agent from tracing .NET applications.",
@@ -13548,6 +13624,100 @@
         "gpuUtil": "GPU Utilization Details",
         "memoryCpyUtil": "GPU Memory Cpy Utilization Details",
         "util": "Utilization"
+      }
+    },
+    "oTelK8sPod": {
+      "platform": "Platform",
+      "address": "Address",
+      "port": "Port",
+      "kind": "Kind",
+      "type": "Type",
+      "serviceName": "Service Name",
+      "entityType": "Entity Type",
+      "instanceId": "Instance ID",
+      "runtimeDesc": "Kubernetes Runtime",
+      "runtimeVersion": "Kubernetes Version",
+      "exePath": "Executable Path",
+      "dashboard": {
+        "poduptime": "Pod Uptime",
+        "cpuresources": "CPU Resources",
+        "cpuusage": "CPU Usage",
+        "cpuutilization": "CPU Utilization",
+        "cputime": "CPU Time",
+        "cpunodeutilization": "CPU Node Utilization",
+        "cpulimitutilization": "CPU Limit Utilization",
+        "cpurequestutilization": "CPU Request Utilization",
+        "memoryresources": "Memory Resources",
+        "memoryusage": "Memory Usage",
+        "memoryavailable": "Memory Available",
+        "memorylimitutilization": "Memory Limit Utilization",
+        "memoryrequestutilization": "Memory Request Utilization",
+        "memoryrss": "Memory RSS",
+        "memoryworkingset": "Memory Working Set",
+        "memorypagefaults": "Memory Page Faults",
+        "memorymajorpagefaults": "Memory Major page Faults",
+        "fsresources": "Filesystem Resources",
+        "fsusage": "Filesystem Usage",
+        "fsavailble": "Filesystem Available",
+        "fscapacity": "Filesystem Capacity"
+      }
+    },
+    "oTelK8sCluster": {
+      "platform": "Platform",
+      "address": "Address",
+      "port": "Port",
+      "kind": "Kind",
+      "serviceName": "Service Name",
+      "entityType": "Entity Type",
+      "instanceId": "Instance ID",
+      "runtimeDesc": "Kubernetes Cluster Runtime",
+      "runtimeVersion": "Kubernetes Cluster Version",
+      "exePath": "Executable Path",
+      "dashboard": {
+        "summary": "Summary",
+        "nodes": "Nodes",
+        "pods": "Pods",
+        "nodecount": "Nodes Count",
+        "podcount": "Pods Count",
+        "name": "Name",
+        "namespace": "Name space",
+        "age": "Age",
+        "status": "Status",
+        "health": "Health"
+      }
+    },
+    "oTelK8sNode": {
+      "platform": "Platform",
+      "address": "Address",
+      "port": "Port",
+      "kind": "Kind",
+      "type": "Type",
+      "serviceName": "Service Name",
+      "entityType": "Entity Type",
+      "instanceId": "Instance ID",
+      "runtimeDesc": "Kubernetes Cluster Runtime",
+      "runtimeVersion": "Kubernetes Cluster Version",
+      "exePath": "Executable Path",
+      "dashboard": {
+        "summary": "Summary",
+        "nodecondition": "Node State",
+        "nodeuptime": "Node Uptime",
+        "cpuresources": "CPU Resources",
+        "cpuusage": "CPU Usage",
+        "cpuutilization": "CPU Utilization",
+        "cputime": "CPU Time",
+        "memoryresources": "Memory Resources",
+        "memoryusage": "Memory Usage",
+        "memoryavailable": "Memory Available",
+        "memoryrss": "Memory RSS",
+        "memoryworkingset": "Memory Working Set",
+        "memorypagefaults": "Memory Page Faults",
+        "memorymajorpagefaults": "Memory Major page Faults",
+        "fsresources": "Filesystem Resources",
+        "fsusage": "Filesystem Usage",
+        "fsavailble": "Filesystem Available",
+        "fscapacity": "Filesystem Capacity",
+        "pods": "Pods"
       }
     },
     "oTelJvm": {
@@ -16052,7 +16222,6 @@
       "instBTCQueueLength": "Inst BTC Queue Length",
       "instBTCWPFree": "Inst BTCWP Free",
       "instBTCWPStopped": "Inst BTCWP Stopped",
-
       "instDialogLongRunning": "Inst Dialog Long Running",
       "dialogResources": "Dialog Resources",
       "noOfdialogStepsPerMin": "No Of Dialog Steps Per Min",
@@ -16062,7 +16231,6 @@
       "noICMConnections": "No ICM Connections",
       "noICMReq": "No ICM Req",
       "noICMThreads": "No ICM Threads",
-
       "memory": "Memory",
       "memoryCUADb": "Memory CUA Db",
       "memoryNametab": "Memory Nametab",
@@ -16071,9 +16239,7 @@
       "memoryTableGeneric": "Memory Table Generic",
       "memoryTableSingle": "Memory Table Single",
       "memoryNoOfBufferSwaps": "Memory No Of Buffer Swaps",
-
       "spoolResources": "Spool Resources",
-
       "wPStopped": "WP Stopped",
       "update1WPStopped": "Update1 WP Stopped",
       "update2WPStopped": "Update2 WP Stopped",

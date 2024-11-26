@@ -1,12 +1,15 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
 
 import { Button } from '@instana/components';
 
+import { clickViewAllVulnerabilitiesInContainerDashboardTracker } from 'in-events/tracker';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { isLoading, hasError } from 'in-services/util/result';
 import { getButtonKindBySeverity } from 'in-stores/events';
@@ -15,6 +18,8 @@ import { t } from 'in-i18n';
 import locals from './Actions.mless';
 
 export default function Actions({ openIssuesResult, analyzeLink, getIssueLink, eventType }) {
+  const { unstable_trackEvent } = useSegmentTracking();
+
   if (isLoading(openIssuesResult) || hasError(openIssuesResult)) {
     return null;
   }
@@ -24,6 +29,12 @@ export default function Actions({ openIssuesResult, analyzeLink, getIssueLink, e
   const types = openIssues.map(item => item.type);
   const isCVEIssue = types.includes('cve_issue');
   const eventTypeLabel = t('in-components:health.eventType', { context: eventTypeContext, count: openIssues.length });
+
+  const handleClick = () => {
+    if (isCVEIssue) {
+      clickViewAllVulnerabilitiesInContainerDashboardTracker(unstable_trackEvent);
+    }
+  };
 
   if (openIssues.length === 0) {
     const buttonText = isCVEIssue
@@ -42,6 +53,7 @@ export default function Actions({ openIssuesResult, analyzeLink, getIssueLink, e
           kind={carbonButtonEnabled ? 'secondary' : 'primary'}
           className={carbonButtonEnabled ? locals.carbonButton : locals.button}
           href={analyzeLink}
+          onClick={handleClick}
         >
           {buttonText}
         </Button>
@@ -75,6 +87,7 @@ export default function Actions({ openIssuesResult, analyzeLink, getIssueLink, e
         className={carbonButtonEnabled ? locals.carbonButton : locals.button}
         asBlock
         href={href}
+        onClick={handleClick}
       >
         {buttonText}
       </Button>

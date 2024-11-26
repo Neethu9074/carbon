@@ -29,6 +29,8 @@
     "groupBy": "Group by",
     "noChannelAvailable": "No Alert channels available",
     "optional": "Optional",
+    "on": "On",
+    "off": "Off",
     "revisionDropdownButton": {
       "revision": "Revision {{alertRevision}}",
       "pause": "Pause",
@@ -144,6 +146,7 @@
   },
   "smartAlerts": {
     "addSmartAlert": "Add Smart Alert",
+    "createSmartAlert": "Create Smart Alert",
     "applicationSmartAlert": "Application Smart Alert",
     "globalApplicationSmartAlert": "Global Application Smart Alert",
     "titleNoSmartAlertsConfigured": "No Smart Alerts configured",
@@ -152,6 +155,13 @@
     "titleCopyOf": "(Copy of) {{smartAlertTitle}}",
     "smartAlertsTitle": "Smart alerts",
     "labelNew": "(New)",
+    "alertChannelList": {
+      "selectAllWarning": "Select all warning",
+      "selectAllCritical": "Select all critical",
+      "alertLevel": "Alert Level",
+      "critical": "Critical",
+      "warning": "Warning"
+    },
     "applications": {
       "alertConfiguration": "Alert configuration",
       "advanced": {
@@ -438,7 +448,8 @@
           "throughputDefault_higherThan": "The number of calls is higher than expected.",
           "throughputDefault_higherEqual": "The number of calls is higher or equal to expected.",
           "throughputDefault_lowerThan": "The number of calls is lower than expected.",
-          "throughputDefault_lowerEqual": "The number of calls is lower or equal to expected."
+          "throughputDefault_lowerEqual": "The number of calls is lower or equal to expected.",
+          "expected": "expected"
         },
         "customStatusCodeFullText": "between {{statusCodeStart}} and {{statusCodeEnd}}"
       },
@@ -467,8 +478,9 @@
         "ruleFormPleaseProvideAStartStatusCode": "Please provide a valid start HTTP status code",
         "ruleFormPleaseProvideAEndStatusCode": "Please provide a valid end HTTP status code",
         "smartAlertFormValueIsReadOnly": "The value is read only and cannot be changed",
-        "thresholdFormPleaseProvideANumber0": "Please provide a number >= 0",
-        "thresholdFormBaselineIsEmpty": "baseline is empty"
+        "thresholdFormBaselineIsEmpty": "baseline is empty",
+        "selectAtLeastOneThreshold": "Please provide value for at least one of the thresholds.",
+        "selectAtLeastOneSensitivity": "Please select at least one of the sensitivities."
       },
       "simple": {
         "simpleAlertStep2Headline": "Where do you want the alert to trigger?",
@@ -490,6 +502,8 @@
         "noPermissionGlobalSmartAlertEdit": "You don't have the permission to perform this action",
         "labelGlobalSmartAlertsList": "Global Application Smart Alerts ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Application Smart Alerts ({{numberOfAlerts}})",
+        "labelGlobalSmartAlertsTable": "Global Application Smart Alerts",
+        "labelSmartAlertsTable": "Application Smart Alerts",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
         "getSubtitleForStaticThreshold": "Static Threshold, {{metricLabel}} {{operator}} {{value}}",
         "getSubtitleForStaticDailySeasonality": "Static Daily Seasonality, {{metricLabel}}",
@@ -507,7 +521,11 @@
         "numberOfApplicationsSelected_plural": "{{count}} applications selected",
         "numberOfApplicationsSelected_0": "{{count}} applications selected",
         "numberOfApplicationsSelected_1": "{{count}} applications selected",
-        "numberOfApplicationsSelected_2": "{{count}} applications selected"
+        "numberOfApplicationsSelected_2": "{{count}} applications selected",
+        "noGlobalAlertDataHeader": "No global application Smart Alerts",
+        "noGlobalAlertDataDescription": "To get started, click <strong>Create global Smart Alert</strong>.",
+        "noLocalAlertDataHeader": "No application Smart Alerts",
+        "noLocalAlertDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
       },
       "details": {
         "title": "Alert Details",
@@ -752,7 +770,8 @@
       "ruleStatusCodeValueOption511": "511 (Network Authentication Required)",
       "ruleStatusCodeValueOption599": "599 (Network Connect Timeout Error)",
       "warningThresholdValidator": "Warning threshold should be greater than critical threshold for < and <= operators.",
-      "criticalThresholdValidator": "Critical threshold should be greater than warning threshold for > and >= operators."
+      "criticalThresholdValidator": "Critical threshold should be greater than warning threshold for > and >= operators.",
+      "sensitivityValidator": "Critical sensitivity should be smaller than warning sensitivity."
     },
     "components": {
       "smartAlertDialog": {
@@ -1097,7 +1116,9 @@
           "filter_0": "Filters",
           "filter_1": "Filters",
           "filter_2": "Filters"
-        }
+        },
+        "noDataHeader": "No website Smart Alerts",
+        "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
       }
     },
     "sortOptions": {
@@ -1141,7 +1162,9 @@
         "timeThreshold": "Time Threshold",
         "filterApplied": "Filter Applied",
         "violationsCount": "{{violationsCount}} failures",
-        "numberOfFailures": "Failure Alerting"
+        "numberOfFailures": "Failure Alerting",
+        "noDataHeader": "No synthetic Smart Alerts",
+        "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
       },
       "alertProperties": {
         "testName": "Test_Name",
@@ -1276,7 +1299,9 @@
         "filter_0": "Filters",
         "filter_1": "Filters",
         "filter_2": "Filters",
-        "filterApplied": "Filter Applied"
+        "filterApplied": "Filter Applied",
+        "noDataHeader": "No mobile app Smart Alerts",
+        "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
       },
       "simple": {
         "stepConfigsStep1Title": "Step 1: Select alert",
@@ -1403,7 +1428,7 @@
             "subtitle": {
               "staticThresholdType": "Static threshold",
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
-              "predictiveTrigger": "Predictive Trigger"
+              "forecastAlerting": "Forecast alerting"
             }
           }
         },
@@ -1416,7 +1441,9 @@
         "filter_plural": "Filters",
         "filter_0": "Filters",
         "filter_1": "Filters",
-        "filter_2": "Filters"
+        "filter_2": "Filters",
+        "noDataHeader": "No infrastructure Smart Alerts",
+        "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
       },
       "advancedModeContainer": {
         "scope": {
@@ -1439,9 +1466,14 @@
           "title": "Time Threshold: When do you want to be alerted?"
         },
         "predictiveTrigger": {
-          "title": "Predictive alerts are disabled",
-          "alertTitle": "Alert will be triggered {{value}} before predicted violation",
-          "timeToFailure": "Time to Failure"
+          "title": "Forecast alerting",
+          "description": "Receive proactive alerts based on the trend of historical data. This option helps you anticipate potential issues before they affect yours system.",
+          "forecastTimeframe": "Forecasted time window",
+          "forecastTimeframeDetails": "Defines the timeframe of the forecast used for alerting. Please note that larger values will increase the chance of false alerts.",
+          "fitTimeframe": "Historical data time window",
+          "fitTimeframeDetails": "Specifies the timeframe used to analyze the trend. Select a short timeframe when you care about short-term trends, or a larger timeframe if you want to be alerted when the long-term trend is expected to exceed the limit.",
+          "summary": "Alerts are triggered <strong>up to {{forecastTimeframe}}</strong> in advance. Forecasts are generated based on the linear trend over the <strong>last {{fitTimeframe}}</strong>.",
+          "invalidTimeframes": "The historical data time window must be at least twice the timeframe of the forecasted time window."
         },
         "alertChannel": {
           "label": "Alert channels",
@@ -1490,6 +1522,22 @@
         "step4": {
           "header": "What do you want to be notified for this alert?",
           "description": "Select the recipient(s) of this alert"
+        },
+        "scopeAlerting": {
+          "title": "Choose how you want to be alerted",
+          "customAggregation": "Custom aggregation",
+          "customAggregationDescription": "Aggregates all metrics in scope to a single metric per group. There will be at most one active issue at a time per group.",
+          "perEntityAlerting": "Per entity alerting",
+          "perEntityAlertingDescription": "Monitors each metrics individually. You will receive an alert for each individual metric that is violating the threshold."
+        },
+        "scopeFilter": {
+          "title": "Choose the scope of the infrastructure",
+          "filter": "Filter",
+          "filterDescription": "Add filters to the services to get more precise alerts."
+        },
+        "scopeGroupBy": {
+          "group": "Group",
+          "groupByDescription": "Add group to configure calls in groups. Each call within the group is configured collectively but evaluated individually."
         }
       }
     },
@@ -1522,7 +1570,9 @@
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}"
             }
           }
-        }
+        },
+        "noDataHeader": "No log Smart Alerts",
+        "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
       },
       "advancedModeContainer": {
         "scope": {
@@ -1673,5 +1723,23 @@
         "failedTitle_EDIT": "There was a problem updating this SLO Smart Alert"
       }
     }
+  },
+  "table": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "triggeringAction": "Triggering condition",
+    "status": "Status",
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "filter": "Filter",
+    "alertType": "Alert type",
+    "notificationChannel": "Notification channel",
+    "tableDataSettings": "Table data settings",
+    "pause": "Pause",
+    "delete": "Delete",
+    "warningAndCritical": "Warning and Critical",
+    "warning": "Warning",
+    "critical": "Critical",
+    "searchPlaceholder": "Search"
   }
 }

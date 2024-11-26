@@ -7,6 +7,7 @@
 import { millis, number, bytes, percentage, latency, siPrefix } from 'in-services/formatters/number';
 import { Bucket } from 'in-components/HistogramChart/components/HistogramChartPresenter/types';
 import { FormatterFn } from 'in-stores/metric/formatters';
+import { ConversionFn } from 'in-stores/metric/units';
 import { t } from 'in-i18n';
 
 export function getMaxCallCount(buckets: Bucket[]) {
@@ -26,24 +27,29 @@ interface GetHistogramHeaderTitleProps {
   maxHistogramValue: number;
   total: number;
   applyFormatter: FormatterFn;
+  conversionFn?: ConversionFn;
 }
 
 export function getHistogramHeaderTitle({
   minHistogramValue,
   maxHistogramValue,
   total,
-  applyFormatter
+  applyFormatter,
+  conversionFn
 }: GetHistogramHeaderTitleProps) {
   const metricName = t('in-components:histogram.metricLabel');
-  const totalLabel = total ? `- ${t('in-components:histogram.total')} ${total}` : '';
+  const totalLabel = total ? `- ${t('in-components:histogram.total')} ${number.compact(total)}` : '';
 
-  if (!minHistogramValue && !maxHistogramValue) {
+  const minValueToDisplay = conversionFn ? conversionFn(minHistogramValue) : minHistogramValue;
+  const maxValueToDisplay = conversionFn ? conversionFn(maxHistogramValue) : maxHistogramValue;
+
+  if (!minValueToDisplay && !maxValueToDisplay) {
     return `${metricName} ${totalLabel}`;
   }
 
-  const minAndMaxLabels = `(${t('in-components:histogram.min')}: ${applyFormatter(minHistogramValue)} - ${t(
+  const minAndMaxLabels = `(${t('in-components:histogram.min')}: ${applyFormatter(minValueToDisplay)} - ${t(
     'in-components:histogram.max'
-  )}: ${applyFormatter(maxHistogramValue)})`;
+  )}: ${applyFormatter(maxValueToDisplay)})`;
 
   return `${metricName} ${totalLabel} ${minAndMaxLabels}`;
 }

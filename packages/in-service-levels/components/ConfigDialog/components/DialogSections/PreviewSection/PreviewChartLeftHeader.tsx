@@ -39,7 +39,7 @@ export default function PreviewChartLeftHeader({ status }: WidgetLeftHeaderProps
         <Stack direction="horizontal" align="center">
           <StackItem>
             {isLoading && <LoadingSkeleton />}
-            {!isLoading && <SloEntityInfo entityType={entityType} entity={{ label }} />}
+            {!isLoading && <SloEntityInfo entityType={entityType} entities={[{ id: '', label }]} />}
           </StackItem>
         </Stack>
       </Stack>

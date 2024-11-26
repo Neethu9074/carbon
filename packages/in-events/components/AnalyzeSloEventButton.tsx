@@ -8,6 +8,7 @@ import React from 'react';
 
 import {
   isApplicationSloEntity,
+  isSyntheticSloEntity,
   isWebsiteSloEntity,
   ServiceLevelObjectiveConfiguration,
   SloEntity,
@@ -27,10 +28,16 @@ interface AnalyzeSloEventButtonProps {
   as?: 'button' | 'menuItem';
 }
 
-export default function AnalyzeSloEventButton({
+export default function AnalyzeSloEventButton({ sloConfig, timeConfig, as = 'button' }: AnalyzeSloEventButtonProps) {
+  if (isSyntheticSloEntity(sloConfig.entity)) return <></>;
+
+  return <AnalyzeSloAppWebsiteEventButton sloConfig={sloConfig} timeConfig={timeConfig} as={as} />;
+}
+
+function AnalyzeSloAppWebsiteEventButton({
   sloConfig: { indicator, entity },
   timeConfig,
-  as = 'button'
+  as
 }: AnalyzeSloEventButtonProps) {
   const linkToAnalyze = useHrefToUnboundedAnalytics({ indicator, entity, timeConfig, withLabels: true });
   const { navigate } = useNavigation();

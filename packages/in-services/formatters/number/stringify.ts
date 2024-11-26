@@ -489,6 +489,10 @@ export const ms = markAsFormatterType(
   MILLIS_FORMATTER_TYPE
 );
 
+export const nanoSecondsZeroDecimalPlaces = (d: number) =>
+  t('in-services:formatters.timeUnits', { context: 'ns', num: zeroDecimalPlaces(d) });
+export const nanoSecondsTwoDecimalPlaces = (d: number) =>
+  t('in-services:formatters.timeUnits', { context: 'ns', num: twoDecimalPlaces(d) });
 export const muSecondsZeroDecimalPlaces = (d: number) =>
   t('in-services:formatters.timeUnits', { context: 'us', num: zeroDecimalPlaces(d) });
 export const muSecondsTwoDecimalPlaces = (d: number) =>
@@ -518,6 +522,9 @@ export const hitRate = markAsFormatterType(
 );
 
 export const time = (_ms: number) => {
+  if (_ms * 1000 < 1) {
+    return nanoSecondsZeroDecimalPlaces(_ms * 1000_000);
+  }
   if (_ms < 1) {
     return muSecondsZeroDecimalPlaces(_ms * 1000);
   }

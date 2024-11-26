@@ -19,7 +19,6 @@ import { Config as BigNumberConfig } from 'in-components/KpiCard/ResultAwareBigN
 import { TagFilterExpressionElementUnion, UnifiedMetricConfigurationUnion } from 'in-types';
 import { ANALYZE_CUSTOM_WIDGET_SEE_IN_LOGS_CLICKED } from 'in-services/tracking/eventNames';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { carbonMoreMenuEnabled } from 'in-services/featureFlags';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { ChartConfig } from 'in-components/Chart/types';
 import Tooltip from 'in-components/Tooltip';
@@ -34,7 +33,7 @@ export function ViewLogsButton({ config, className = '' }: { config: MetricsConf
 
   const link = useLinkToLogs({ tagFilterExpression: filters as FormModelElement[] });
 
-  const {trackCta} = useSegmentTracking()
+  const { trackCta } = useSegmentTracking();
   if (!isLogsWidget) return null;
 
   return (
@@ -43,14 +42,14 @@ export function ViewLogsButton({ config, className = '' }: { config: MetricsConf
         href={link}
         className={className}
         onClick={() =>
-          trackCta(ANALYZE_CUSTOM_WIDGET_SEE_IN_LOGS_CLICKED,{
+          trackCta(ANALYZE_CUSTOM_WIDGET_SEE_IN_LOGS_CLICKED, {
             source: `See logs in Analyze - Custom Dashboard`,
             navigationLink: link,
             filters
           })
         }
         kind="action"
-        size={carbonMoreMenuEnabled ? 'compact' : 'normal'}
+        size={'compact'}
         type="lib_analyze"
       />
     </Tooltip>

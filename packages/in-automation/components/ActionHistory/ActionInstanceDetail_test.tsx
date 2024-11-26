@@ -9,8 +9,8 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
+import ActionInstanceDetail from 'in-automation/components/ActionHistory/ActionInstanceDetail';
 import { automationActionInstanceFeedbackEnabled } from 'in-services/featureFlags';
-import ActionInstanceDetail from './ActionInstanceDetail';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 

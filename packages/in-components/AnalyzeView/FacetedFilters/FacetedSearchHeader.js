@@ -19,16 +19,19 @@ export default function FacetedSearchHeader({ facets = {}, facetedSearchItems = 
 
   return (
     <div className={locals.header}>
-      <Stack distribution={'spaceBetween'} direction={'horizontal'} align={'center'}>
-        <span className={locals.facetCount}>
-          {t('in-components:analyze.activeFacets', { count: totalActiveCount })}
-        </span>
-        {totalActiveCount > 0 && (
-          <Button kind="action" href={resetFacets?.()} className={locals.clearAll}>
-            {t('in-components:analyze.clearFacets')}
-          </Button>
-        )}
-      </Stack>
+      <section aria-label={t('in-components:analyze.facettedFilters')}>
+        <h2 className="cds--visually-hidden">{t('in-components:analyze.facettedFilters')}</h2>
+        <Stack distribution={'spaceBetween'} direction={'horizontal'} align={'center'}>
+          <span className={locals.facetCount}>
+            {t('in-components:analyze.activeFacets', { count: totalActiveCount })}
+          </span>
+          {totalActiveCount > 0 && (
+            <Button kind="action" href={resetFacets?.()} className={locals.clearAll}>
+              {t('in-components:analyze.clearFacets')}
+            </Button>
+          )}
+        </Stack>
+      </section>
     </div>
   );
 }

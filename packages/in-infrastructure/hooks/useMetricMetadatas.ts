@@ -68,7 +68,7 @@ export default function useMetricMetadatas({
               .filter(result => result.data)
               .map(result => result.data as MetricMetadata)
               .map(createMetadataFromBackend(kpis))
-              .reduce((prev, cur) => ({ [cur.metric]: cur, ...prev }), kpis)
+              .reduce((prev, cur) => ({ ...prev, [cur.metric]: cur }), kpis)
           );
         }),
       [timeConfig, type, queries.join('-')]

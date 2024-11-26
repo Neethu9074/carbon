@@ -41,6 +41,8 @@
     "chart": {
       "alertingChartLabelThreshold": "Seuil",
       "alertingChartLabelViolations": "Violations",
+      "alertingChartLabelWarningViolations": "Violations d'avertissement",
+      "alertingChartLabelCriticalViolations": "Violations critiques",
       "alertingChartLabelWarningThreshold": "Seuil d'avertissement",
       "alertingChartLabelCriticalThreshold": "Seuil critique",
       "alertingChartLabelForecast": "Prévision",
@@ -149,6 +151,7 @@
     "titleNoSmartAlertsCreated": "Aucune alerte intelligente créée",
     "titleCopyOf": "(Copie de) {{smartAlertTitle}}",
     "smartAlertsTitle": "Alertes intelligentes",
+    "labelNew": "(Nouveau)",
     "applications": {
       "alertConfiguration": "Configuration d'alerte",
       "advanced": {
@@ -435,7 +438,8 @@
           "throughputDefault_higherThan": "Le nombre d'appels est plus élevé que celui attendu.",
           "throughputDefault_higherEqual": "Le nombre d'appels est supérieur ou égal à celui attendu.",
           "throughputDefault_lowerThan": "Le nombre d'appels est plus faible que prévu.",
-          "throughputDefault_lowerEqual": "Le nombre d'appels est inférieur ou égal à celui attendu."
+          "throughputDefault_lowerEqual": "Le nombre d'appels est inférieur ou égal à celui attendu.",
+          "expected": "prévu"
         },
         "customStatusCodeFullText": "entre {{statusCodeStart}} et {{statusCodeEnd}}"
       },
@@ -464,8 +468,9 @@
         "ruleFormPleaseProvideAStartStatusCode": "Indiquez un code de statut HTTP de début valide",
         "ruleFormPleaseProvideAEndStatusCode": "Indiquez un code de statut HTTP de fin valide",
         "smartAlertFormValueIsReadOnly": "La valeur est en lecture seule et ne peut pas être modifiée",
-        "thresholdFormPleaseProvideANumber0": "Indiquez un nombre >= 0",
-        "thresholdFormBaselineIsEmpty": "la référence est vide"
+        "thresholdFormBaselineIsEmpty": "la référence est vide",
+        "selectAtLeastOneThreshold": "Veuillez indiquer la valeur d'au moins un des seuils.",
+        "selectAtLeastOneSensitivity": "Sélectionnez au moins une des sensibilités."
       },
       "simple": {
         "simpleAlertStep2Headline": "Où voulez-vous que l'alerte se déclenche ?",
@@ -749,7 +754,8 @@
       "ruleStatusCodeValueOption511": "511 (Authentification réseau requise)",
       "ruleStatusCodeValueOption599": "599 (Erreur de dépassement du délai d'attente de connexion réseau)",
       "warningThresholdValidator": "Le seuil d'avertissement doit être supérieur au seuil critique pour les opérateurs < et < =.",
-      "criticalThresholdValidator": "Le seuil critique doit être supérieur au seuil d'avertissement pour les opérateurs > et > =."
+      "criticalThresholdValidator": "Le seuil critique doit être supérieur au seuil d'avertissement pour les opérateurs > et > =.",
+      "sensitivityValidator": "La sensibilité critique doit être inférieure à la sensibilité d'avertissement."
     },
     "components": {
       "smartAlertDialog": {
@@ -787,6 +793,7 @@
         "scopeConfigSelectOneEntryMessage": "Sélectionnez au moins une entrée.",
         "scopeConfigTitleTooltip": "Affichage des entités disponibles pour les dernières 24 heures",
         "scopeConfigSubTitle": "Basé sur les dernières 24 heures",
+        "scopeConfigSearchApplicationsPlaceholder": "Rechercher dans les applications...",
         "scopeMigrationMessage_FAILED": "La portée n'a pas pu être migrée automatiquement. Sélectionnez les filtres de balises correspondants pour la requête de mise en évidence dynamique ci-dessous :",
         "scopeMigrationMessage_PARTIAL": "La portée n'a pas pu être migrée entièrement. Sélectionnez les filtres de balises correspondants pour la requête de mise en évidence dynamique ci-dessous :",
         "scopeMigrationMessage_FULL": "La portée appliquée est basée sur la requête de mise en évidence dynamique précédemment utilisée :",
@@ -1468,7 +1475,30 @@
       },
       "count": "Nombre",
       "selectEntityType": "Sélectionnez un type d'entité.",
-      "regexNotValid": "L'expression régulière n'est pas valide."
+      "regexNotValid": "L'expression régulière n'est pas valide.",
+      "tearSheet": {
+        "createTitle": "Créer une alerte intelligente pour l'infrastructure",
+        "steps": {
+          "step1Title": "Définir la condition",
+          "step2Title": "Définir quand être alerté",
+          "step3Title": "Définir les propriétés des alertes",
+          "step4Title": "Définir les canaux d'alerte"
+        },
+        "step1": {
+          "header": "Choisir la métrique et l'agrégation pour déterminer quand une alerte doit être déclenchée"
+        },
+        "step2": {
+          "header": "Définir une valeur pour le seuil de violation",
+          "description": "Sélectionnez une mesure, un seuil de violation et une fenêtre temporelle pour évaluer la violation."
+        },
+        "step3": {
+          "header": "Quelles propriétés voulez-vous définir pour cette alerte ?"
+        },
+        "step4": {
+          "header": "Quelle notification souhaitez-vous recevoir pour cette alerte ?",
+          "description": "Sélectionnez le(s) destinataire(s) de cette alerte"
+        }
+      }
     },
     "logs": {
       "alertDetails": {

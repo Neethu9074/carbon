@@ -16,7 +16,10 @@ export const oTelPlugins = {
   oTelDcgm: 'oTelDcgm',
   otelHost: 'otelHost',
   oTelJvm: 'oTelJvm',
-  otelProcess: 'otelProcess'
+  otelProcess: 'otelProcess',
+  oTelK8sPod: 'oTelK8sPod',
+  oTelK8sCluster: 'oTelK8sCluster',
+  oTelK8sNode: 'oTelK8sNode'
 };
 
 export const nonServicePlugins = {
@@ -321,6 +324,7 @@ export const nonServicePlugins = {
   snowflake: 'snowflake',
   solr: 'solr',
   solrCloudCluster: 'solrCloudCluster',
+  snowflakeOrganization: 'snowflakeOrganization',
   sparkApplication: 'sparkApplication',
   sparkStandalone: 'sparkStandalone',
   springbootApplicationContainer: 'springbootApplicationContainer',
@@ -722,6 +726,9 @@ export const fullyQualifiedPlugins = {
   oTelLLM: 'com.instana.forge.infrastructure.custom.sensorsdk.llmonitor.OTelLLM',
   oTelDcgm: 'com.instana.forge.infrastructure.custom.sensorsdk.dcgm.OTelDcgm',
   oTelJvm: 'com.instana.forge.infrastructure.custom.sensorsdk.jvm.OTelJvm',
+  oTelK8sPod: 'com.instana.forge.infrastructure.custom.sensorsdk.k8s.OTelK8sPod',
+  oTelK8sCluster: 'com.instana.forge.infrastructure.custom.sensorsdk.k8s.OTelK8sCluster',
+  oTelK8sNode: 'com.instana.forge.infrastructure.custom.sensorsdk.k8s.OTelK8sNode',
   otelHost: 'com.instana.forge.infrastructure.os.otelhost.OtelHost',
   otelProcess: 'com.instana.forge.infrastructure.os.otelprocess.OtelProcess',
   packet: 'com.instana.forge.hardware.virtual.Packet',
@@ -763,6 +770,7 @@ export const fullyQualifiedPlugins = {
   snowflake: 'com.instana.forge.infrastructure.database.snowflake.Snowflake',
   solr: 'com.instana.forge.infrastructure.database.solr.Solr',
   solrCloudCluster: 'com.instana.forge.infrastructure.database.solr.SolrCloudCluster',
+  snowflakeOrganization: 'com.instana.forge.infrastructure.database.snowflake.SnowflakeOrganization',
   springbootApplicationContainer:
     'com.instana.forge.infrastructure.application.springboot.SpringbootApplicationContainer',
   sparkApplication: 'com.instana.forge.infrastructure.dataanalytics.sparkapplication.SparkApplication',

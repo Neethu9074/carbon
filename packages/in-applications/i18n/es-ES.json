@@ -6,6 +6,7 @@
   "labelAnalytic": "Analíticas",
   "labelCall": "Llamada",
   "labelTrace": "Rastreo",
+  "labelStatus": "Estado",
   "linkDownload": "Descargar",
   "linkDownloadCalls": "Descargar llamadas",
   "linkDownloadRawTrace": "Descargar rastreo sin formato",
@@ -686,5 +687,6 @@
     "alternativeServicesProblem": "<bold>No</bold>, si el nombre del servicio actual procede de la cabecera HTTP \"Host\" (la regla de correlación de servicio cuyo ID es call.http.host) y el nombre del servicio alternativo no (porque su nombre proviene de una regla que se basa en etiquetas de infraestructura) o viceversa. Se trata de servicios duplicados.",
     "alternativeServicesPossibleProblem": "<bold>Tal vez</bold>, si el servicio actual y los nombres de servicios alternativos no proceden de la cabecera HTTP \"Host\", pueda tratarse de servicios que se encuentran tras un proxy (correcto) o de servicios duplicados (incorrecto): algunos de los servicios están totalmente enlazados a la infraestructura, mientras que otros solo lo están parcialmente."
   },
-  "labelSyntheticMonitoring": "Supervisión sintética"
+  "labelSyntheticMonitoring": "Supervisión sintética",
+  "labelResourceOptimizations": "Optimizaciones"
 }

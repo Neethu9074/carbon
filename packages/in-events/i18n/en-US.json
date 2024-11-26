@@ -94,8 +94,8 @@
   "duration": "duration",
   "monitoringIssueForMoreInfo": "For more information on how to resolve this issue, please consult: ",
   "cveSource": "Source",
-  "cveContainerImage": "Container image",
-  "cveContainerImageVersion": "Container image Version",
+  "cveContainerImage": "Container Image",
+  "cveContainerImageVersion": "Container Image Version",
   "cvssVector": "CVSS Vector",
   "cveDescription": "Description",
   "analyzeCalls": "Analyze Calls",
@@ -239,9 +239,10 @@
     "moderateProbabilityBadgeText": "This probability rating is based on the probability that the entity in question is unhealthy. It is likely that this entity is the root cause however more analysis is needed.",
     "lowProbabilityBadgeText": "This probability rating is based on the probability that the entity in question is unhealthy. Given present information, this component has a low likelihood of being unhealthy, but warrants being further investigated.",
     "naProbabilityBadgeText": "This probability rating is based on the probability that the entity in question is unhealthy. Unfortunately the probability rating for this incident could not be ascertained.",
-    "evidenceTextFailed": "Calls going through the <linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity> have an aggregated high error rate of: {{rca_error_percent}}%.",
-    "evidence": "Evidence",
-    "evidenceTextNotFailedLower": "Calls from the same entities that do not go through the <linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity> have a lower error rate of: {{non_rca_error_rate}}%.",
+    "evidenceTextFailed": "of aggregated calls going through the <linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity> are erroneous.",
+    "evidence": "Evidence:",
+    "evidenceTextNotFailed": "of aggregated calls from the same entities that do not go through the <linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity> are erroneous.",
+    "evidenceTextNotFailedLower": "of calls from the same entities that do not go through the <linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity> are erroneous.",
     "evidenceTextNotFailedHigher": "Calls from the same entities that do not go through the <linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity> have a higher error rate of: {{non_rca_error_rate}}%.",
     "evidenceTextNotFailedSame": "Calls from the same entities that do not go through the <linkToEntity>{{root_cause_entity_type}} <entityIcon></entityIcon> {{root_cause_entity_name}}</linkToEntity> have an error rate of: {{non_rca_error_rate}}%.",
     "reEvaluateRootCause": "Re-Evaluate Probable Root Cause",
@@ -267,6 +268,28 @@
     "errorMessages": "Trace Error Messages",
     "analyzeErrors": "Analyze Errors",
     "analyzeTraceLogs": "Analyze Trace Logs"
+  },
+  "dataGridEventTable": {
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "closeFilters": "Close filters",
+    "openFilters": "Open filters",
+    "title": "Title",
+    "on": "On",
+    "started": "Started",
+    "end": "End",
+    "state": "State",
+    "eventType": "Event type",
+    "builtIn": "Built-in",
+    "custom": "Custom",
+    "appSA": "Application Smart Alert",
+    "webSA": "Website Smart Alert",
+    "syntheticsSA": "Synthetics Smart Alert",
+    "infraSA": "Infrastructure Smart Alert",
+    "mobileSA": "Mobile Smart Alert",
+    "logSA": "Log Smart Alert",
+    "sloSa": "SLO Smart Alert",
+    "filterTitle": "Filter"
   },
   "feedback": {
     "skip": "Skip",
@@ -310,6 +333,20 @@
     "labelOn": "On",
     "labelOff": "Off"
   },
+  "disableConfiguration": {
+    "incidentButtonName": "Disable configuration",
+    "eventButtonName": "Disable configuration",
+    "successTitle": "Success",
+    "successContent": "Event configuration has been successfully disabled.",
+    "errorTitle": "Error",
+    "errorContent": "Unable to disable the event configuration.",
+    "confirmationBodyExplain": "This action will prevent similar events from occurring in the future by disabling the current configuration.",
+    "confirmationBodyQuestion": "Do you want to continue?",
+    "confirmationFallbackCustom": "The configuration can be re-enabled in \"View Custom Event\".",
+    "confirmationFallbackBuiltIn": "The configuration can be re-enabled in \"View Built-in Event\".",
+    "confirmationYes": "Yes",
+    "confirmationNo": "Cancel"
+  },
   "notes": {
     "openNotes": "Open notes and activity",
     "closeNotes": "Close notes and activity",
@@ -332,7 +369,12 @@
     "searchNotes": "Search notes and activity",
     "addComment": "Add comment",
     "notesLabelText": "Add incident notes",
-    "sumGenerated": "Summary generated:",
+    "sumGenerated": "Summary of incident:",
+    "sumActions": "Successful actions taken for similar incidents:",
+    "noSumActions": "No data available at the time the summary was generated.",
+    "sumNotes": "Summary of notes:",
+    "noSumNotes": "No notes available at the time the summary was generated.",
+    "summaryAIGen": "This summary is AI generated",
     "noActivity": "No activity yet",
     "noActivityDetails": "There are no notes or activity to show yet. Use the Add comment field to share knowledge or an update for this incident with your team.",
     "aiExplained": "AI explained",
@@ -367,7 +409,10 @@
     "triggeringEntity": "Triggering entity",
     "metricViolationTitle": "Metric violations",
     "setTimeConfig": "Set time config",
-    "actionOpenTriggeringEvent": "Open triggering event"
+    "actionOpenTriggeringEvent": "View triggering event"
+  },
+  "issues": {
+    "actionOpenTriggeredIncident": "View triggered incident"
   },
   "relatedEvents": {
     "openEvent": "Open event"

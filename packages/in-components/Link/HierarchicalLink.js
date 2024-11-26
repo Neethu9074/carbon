@@ -13,8 +13,8 @@ import { Link } from '@instana/components';
 import { useGetDashboardLink, useGetLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
 import { getSnapshot, shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
+import { noop, stopPropagation } from 'in-services/util/function';
 import { getLabel as getSnapshotLabel } from 'in-sdk/snapshot';
-import { stopPropagation } from 'in-services/util/function';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { alwaysNull } from 'in-services/fixedStreams';
 import Hierarchy from 'in-components/Link/Hierarchy';
@@ -29,7 +29,9 @@ export default function HierarchicalLink({
   timeConfig: originalTimeConfig,
   snapshot,
   useSnapshotLink,
-  calculateHierarchy
+  calculateHierarchy,
+  onClose,
+  isCveRedirect
 }) {
   const [isExpanded, setExpanded] = useState(false);
   const snapshotId = snapshot.get('id');
@@ -66,8 +68,13 @@ export default function HierarchicalLink({
 
   const label = getSnapshotLabel(snapshot);
 
+  const close = e => {
+    onClose();
+    stopPropagation(e);
+  };
+
   const link = (
-    <Link href={href} onClick={stopPropagation} className={locals.link}>
+    <Link href={href} onClick={e => (isCveRedirect ? close(e) : noop)} className={locals.link}>
       <HealthyPluginIcon className={locals.pluginIcon} snapshot={snapshot} size="xs" />
       {getLabel ? getLabel(label) : label}
     </Link>
@@ -95,6 +102,8 @@ export default function HierarchicalLink({
           useSnapshotLink={useSnapshotLink}
           pathname={pathname}
           timeConfig={timeConfig}
+          isCveRedirect={isCveRedirect}
+          onClose={onClose}
         />
       ) : (
         link

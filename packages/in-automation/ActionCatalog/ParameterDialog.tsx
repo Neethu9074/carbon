@@ -121,14 +121,14 @@ interface SectionProps {
   isNotEditable: boolean;
 }
 
-const MetaDataSection = ({
+function MetaDataSection({
   parameter,
   parameterForm,
   setParameterForm,
   isNotEditable,
   isAnsible,
   disableTicketIdParameter
-}: SectionProps & { isAnsible: boolean; disableTicketIdParameter: boolean }) => {
+}: SectionProps & { isAnsible: boolean; disableTicketIdParameter: boolean }) {
   const name = parameterForm.get('name') as Field<string>;
   const label = parameterForm.get('label') as Field<string>;
   const description = parameterForm.get('description') as Field<string>;
@@ -254,9 +254,9 @@ const MetaDataSection = ({
       </FormGroup>
     </>
   );
-};
+}
 
-const HiddenSection = ({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) => {
+function HiddenSection({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) {
   const hidden = parameterForm.get('hidden') as Field<boolean>;
   const type = parameterForm.get('type') as Field<string>;
 
@@ -296,9 +296,9 @@ const HiddenSection = ({ parameter, parameterForm, setParameterForm, isNotEditab
       />
     </FormGroup>
   );
-};
+}
 
-const StaticSection = ({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) => {
+function StaticSection({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) {
   const hidden = parameterForm.get('hidden') as Field<boolean>;
   const value = parameterForm.get('value') as Field<string>;
 
@@ -322,9 +322,9 @@ const StaticSection = ({ parameter, parameterForm, setParameterForm, isNotEditab
       </FormGroup>
     </>
   );
-};
+}
 
-const VaultSection = ({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) => {
+function VaultSection({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) {
   const hidden = parameterForm.get('hidden') as Field<boolean>;
   const secretPath = parameterForm.get('secretPath') as Field<string>;
   const secretKey = parameterForm.get('secretKey') as Field<string>;
@@ -369,7 +369,7 @@ const VaultSection = ({ parameter, parameterForm, setParameterForm, isNotEditabl
       </FormGroup>
     </>
   );
-};
+}
 
 export const TagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
   getTagCatalog: getDynamicParameterTagCatalog,
@@ -388,7 +388,7 @@ export const TagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
     })
 });
 
-const DynamicSection = ({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) => {
+function DynamicSection({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) {
   const value = parameterForm.get('value') as Field<DynamicFieldValue>;
   return (
     <FormGroup>
@@ -408,7 +408,7 @@ const DynamicSection = ({ parameter, parameterForm, setParameterForm, isNotEdita
       <TouchedMessages field={value} className={locals.subErrorTextFormField} />
     </FormGroup>
   );
-};
+}
 
 interface OnParameterChangeParams<T> {
   fieldName: string;

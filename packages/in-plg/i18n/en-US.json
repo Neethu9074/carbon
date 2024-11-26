@@ -51,6 +51,12 @@
     "freetrial": " Try it free",
     "taketour": " Take a tour"
   },
+  "dataConsumptionMessage": {
+    "description": "You have reached {{dataConsumption}}% of your data ingest entitlement. Once you reach 100%, you will be charged on a pay-per-use basis for any additional data ingested.",
+    "description100": "You have reached 100% of your data ingest entitlement, but don’t worry, you will continue to receive the full value of Instana. You will only be charged on a pay-per-use basis for the exact amount of additional data ingested.",
+    "buttonText": "Review data usage",
+    "title": "Looks like your Instana usage is taking off!"
+  },
   "agentDetails": {
     "agentMode": {
       "dynamic": "Dynamic",
@@ -479,6 +485,17 @@
         "resourceGroupName": "Resource Group Name",
         "activatingAppServiceContent": "Example Azure CLI command for an ECMAScript module application using Node.js v18.19 or later:",
         "activatingAppServiceNote": "Please update the NODE_OPTIONS value to match the correct setting for your configuration. Refer to the <azureAppServiceEnableCollectorDoc>documentation</azureAppServiceEnableCollectorDoc> for the guidance."
+      },
+      "dotnet": {
+        "monitoringAppService": "Monitoring Azure App Service for .NET",
+        "activatingAppService": "Installing the collector.",
+        "appName": "App Name",
+        "resourceGroupName": "Resource Group Name",
+        "configureOptionsForTracing": "Configure required parameters for monitoring app service",
+        "uploadConfigFile": "Upload the config file - ApplicationHost.xdt",
+        "activatingAppServiceNote": "Download the file. Please make sure the file name is always \"ApplicationHost.xdt\"",
+        "ftpsAuthCredsNote":"Login to the App service in Azure portal and under Deployment -> Deployment Center -> FTPS credentials of the App Service you will have FTPS URL, FTPS username and password (Application Scope). Replace these values in the below command",
+        "restartAppServiceNote": "Restart the App Service"
       }
     },
     "gcp": {

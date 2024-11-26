@@ -18,6 +18,12 @@ import {
 } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
+import {
+  PROFILE_MENU_LOGOUT_CLICK,
+  PROFILE_MENU_SWITCH_TENANT_OR_UNIT_CLICK,
+  PROFILE_MENU_USER_PROFILE_CLICK
+} from 'in-services/tracking/tracking';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { userSettingsProfile } from 'in-settings/navigation/paths';
 import { tenantSwitcherEnabled } from 'in-services/featureFlags';
 import config from 'in-services/config';
@@ -32,9 +38,11 @@ interface ProfileMenuProps {
 
 export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }: ProfileMenuProps): JSX.Element {
   const tenantSwitcherLink = `https://${config.tenantUnitDomainSuffix}/tenantSwitcher`;
+  const { trackCta } = useSegmentTracking();
 
   const signOut = (event: MouseEvent) => {
     event.preventDefault();
+    trackCta(PROFILE_MENU_LOGOUT_CLICK);
 
     const form = document.createElement('form');
     form.method = 'post';
@@ -57,7 +65,14 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
           </Typography>
           <Spacer vertical="small" />
           <Typography variant="label-01" onDark>
-            <Link href={`#${userSettingsProfile}`} onClick={onClickSideNavExpand} size="sm">
+            <Link
+              href={`#${userSettingsProfile}`}
+              onClick={() => {
+                trackCta(PROFILE_MENU_USER_PROFILE_CLICK);
+                onClickSideNavExpand();
+              }}
+              size="sm"
+            >
               {t('in-components:mainNavigation.profileMenu_profileLink')}
             </Link>
           </Typography>
@@ -80,7 +95,10 @@ export default function ProfileMenu({ onClickSideNavExpand, isSideNavExpanded }:
             <SwitcherItem
               target="_blank"
               href={tenantSwitcherLink}
-              onClick={onClickSideNavExpand}
+              onClick={() => {
+                trackCta(PROFILE_MENU_SWITCH_TENANT_OR_UNIT_CLICK);
+                onClickSideNavExpand();
+              }}
               aria-label={t('in-components:mainNavigation.profileMenu_switchUnitOrTenant')}
             >
               <Stack direction="horizontal" gap="xsmall" align="center">

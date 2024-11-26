@@ -17,11 +17,12 @@ export default function StackTrace(props) {
   const { stackTrace, relation } = props;
   const snapshotId = get(relation, ['physicalContext', 'process', 'id']);
   const isOnline = snapshotId ? isEntityOnline(snapshotId) : false;
-  const snapshot = useObservable(snapshotId ? getSnapshot(snapshotId, getTimeConfigAtMoment(null)) : null, []); // passing NULL, to get the snapshot from cache.
-  if (!stackTrace) {
+  const snapshot = useObservable(snapshotId ? getSnapshot(snapshotId, getTimeConfigAtMoment(null)) : null, [
+    snapshotId
+  ]); // passing NULL, to get the snapshot from cache.
+  if (!stackTrace || !snapshotId) {
     return null;
   }
-
   return (
     <StackTraceWrapper>
       <StackTracePresentation {...props} snapshot={snapshot} isOnline={isOnline} />

@@ -25,7 +25,7 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/list/columns/ListActionsColumn.mless';
 
-export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
+export function ListActionsColumn({ config, isLoading, actionHandlers = {}, icon }) {
   const { handleEdit, handleClone, handleToggleEnabled, handleDelete, handleEditNew, handleCloneNew } = actionHandlers;
   const { builtIn, enabled, id, name } = config;
   const [isSaving, setIsSaving] = useState(false);
@@ -33,6 +33,8 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
   const { trackCta } = useSegmentTracking(); // For segment tracking
 
   const hasSecondaryActions = handleEdit || handleClone || handleDelete;
+
+  const moreMenuIcon = icon ? icon : 'lib_menu_more_horizontal';
 
   useEffect(() => {
     if (!isLoading && (isSaving || isMoreMenuSaving)) {
@@ -76,7 +78,7 @@ export function ListActionsColumn({ config, isLoading, actionHandlers = {} }) {
             <div className={locals.separator}>
               <IconButton
                 kind="info"
-                type={isMoreMenuSaving ? 'lib_actions_loading' : 'lib_menu_more_horizontal'}
+                type={isMoreMenuSaving ? 'lib_actions_loading' : moreMenuIcon}
                 onClick={e => {
                   e.preventDefault();
                   stopPropagation(e);
@@ -157,5 +159,6 @@ ListActionsColumn.propTypes = {
     handleClone: PropTypes.func,
     handleToggleEnabled: PropTypes.func,
     handleDelete: PropTypes.func
-  })
+  }),
+  icon: PropTypes.string
 };

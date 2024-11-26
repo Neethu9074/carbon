@@ -110,7 +110,7 @@ export default connectTo(() => ({
       key: 'title',
       getContent({ item }) {
         return (
-          <Tooltip content={item.title} align="auto" caret={false}>
+          <Tooltip content={item.title} align="auto" caret={false} delay={300}>
             <Link href={onItemClicked(item.id)}>{item.title}</Link>
           </Tooltip>
         );

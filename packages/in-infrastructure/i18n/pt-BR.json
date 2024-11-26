@@ -76,7 +76,7 @@
     "kubernetesLabels": "Rótulos do Kubernetes",
     "podmanAnnotations": "Anotações do Podman",
     "metricExplosionBeeInstana": "Esse painel pode não exibir todas as métricas, pois um máximo de {{numberOfMetrics}} métricas é capturado em um determinado momento.",
-    "metricExplosion": "Esse painel pode não exibir todas as métricas, pois um máximo de {{numberOfMetrics}} métricas de alta resolução são capturadas em um determinado momento. Para visualizar métricas adicionais, use o Analyze Infrastructure ou um painel customizado."
+    "metricExplosion": "Esse painel pode não exibir todas as métricas, pois um máximo de {{numberOfMetrics}} métricas de alta resolução são capturadas em um determinado momento. Para visualizar as métricas adicionais com tags, use a ação de \"Analisar infraestrutura\" ou um painel customizado."
   },
   "explore": {
     "analyzeInfrastructure": "Analisar a infraestrutura",
@@ -89,7 +89,6 @@
     "search": "Procurar um tipo",
     "explore": "Explorar",
     "health": "Funcionamento",
-    "noIssues": "Nenhum problema",
     "count": "Contagem",
     "errors": {
       "maximumNumberOfGroups": "Esta consulta tem muitos resultados. Restrinja sua procura usando um filtro mais restritivo ou limite seu intervalo de tempo e tente novamente.",
@@ -141,5 +140,10 @@
     "buttonSelectTags": "Selecionar tags",
     "titleAddATag": "Incluir uma tag",
     "messagePleaseSelectAtMostTags": "Selecione no máximo {{maximumNumberOfTags}} tags."
+  },
+  "threshold": {
+    "label": "Limite",
+    "critical": "Crítico quando {{operator}} {{level}}",
+    "warning": "Aviso quando {{operator}} {{level}}"
   }
 }

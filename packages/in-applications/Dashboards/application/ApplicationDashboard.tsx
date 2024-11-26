@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import { get } from 'lodash';
@@ -32,8 +33,10 @@ import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHe
 import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
 import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import getApplicationTabs from 'in-applications/Dashboards/application/tabs/index';
+import { clickVulnerabilitiesTabInApplicationsTracker } from 'in-events/tracker';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
@@ -65,6 +68,7 @@ export default function ApplicationDashboard({ location }: { location: Location 
   const { trackSyntheticMonitoringTabInApplicationsClicked } = useApplicationTracker();
   const [{ appId, boundaryScope }, setUrlState] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
+  const { trackCta } = useSegmentTracking();
 
   const endpointTypes = useObservable(
     getEndpointTypes({
@@ -132,11 +136,13 @@ export default function ApplicationDashboard({ location }: { location: Location 
         withProps={({ result }) => ({
           applicationName: get(result, ['data', 'label'])
         })}
-        tabChangeTracker={({ tab }) =>
-          tab === t('in-applications:labelSyntheticMonitoring')
-            ? trackSyntheticMonitoringTabInApplicationsClicked
-            : null
-        }
+        tabChangeTracker={({ tab }) => {
+          if (tab === t('in-applications:labelSyntheticMonitoring')) {
+            trackSyntheticMonitoringTabInApplicationsClicked();
+          } else if (tab === t('in-events:labelCveIssue')) {
+            clickVulnerabilitiesTabInApplicationsTracker(trackCta);
+          }
+        }}
       />
     </>
   );

@@ -5,22 +5,26 @@
 
 import React from 'react';
 
-import { IconButton, Button } from '@instana/components';
+import { IconButton } from '@instana/components';
 
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import ExpandableCard from './ExpandableCardWithSubtitle';
-import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './FacetedExpandableCard.mless';
 
-function HeaderButton({ icon, onClick, href, className, tooltip }) {
+function HeaderButton({ type, onClick, href, className, tooltip }) {
   return (
-    <Tooltip content={tooltip}>
-      <Button href={href} className={className} onClick={onClick}>
-        {icon}
-      </Button>
-    </Tooltip>
+    <IconButton
+      iconDescription={tooltip}
+      kind="action"
+      className={className}
+      type={type}
+      onClick={onClick}
+      size="compact"
+      href={href}
+      isWrapperedByTooltip
+    />
   );
 }
 
@@ -33,14 +37,14 @@ function GroupByHeaderButton({ tracker, tag, title, dataSource, linkToGroupedVie
       dataSource
     });
   };
-  const icon = <IconButton type={'lib_group_by'} kind="action" size="compact" />;
+
   return (
     <HeaderButton
-      icon={icon}
+      tooltip={t('in-components:analyze.filterSidebar.groupingButton', { group: title })}
+      className={locals.headerButton}
+      type={'lib_group_by'}
       onClick={onClick}
       href={linkToGroupedView}
-      className={locals.headerButton}
-      tooltip={t('in-components:analyze.filterSidebar.groupingButton', { group: title })}
     />
   );
 }
@@ -54,10 +58,10 @@ function UngroupHeaderButton({ linkToUngroupedView, tag, dataSource, tracker }) 
       dataSource
     });
   };
-  const icon = <IconButton type={'lib_ungroup'} kind="action" size="compact" />;
+
   return (
     <HeaderButton
-      icon={icon}
+      type={'lib_ungroup'}
       onClick={onClick}
       href={linkToUngroupedView}
       className={locals.headerButton}

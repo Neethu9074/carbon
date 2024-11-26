@@ -9,7 +9,7 @@ import { t } from 'in-i18n';
 export default [
   {
     metric: 'stats.lightweightDirectoryAccessProtocol.outboundBytes',
-    label: t('in-forge:plugins.activeDirectory.ldap.outboundBytes'),
+    label: t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.outboundBytes'),
     formatter: number.compact
   }
 ];

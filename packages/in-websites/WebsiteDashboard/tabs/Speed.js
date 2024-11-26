@@ -20,7 +20,6 @@ import { t } from 'in-i18n';
 
 export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId }) {
   const granularity = getChartGranularity(timeConfig);
-
   const MarkerLanes = WebsiteDashboardsMarkerLanes({ websiteId });
 
   return (
@@ -360,6 +359,42 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
         <Col lg={4}>
           <AggregationSelectorWithUrlState
             defaultAggregation="MEAN"
+            urlMatrixParamConfig={{ path: speedTab, paramName: 'LargestContentfulPaintAgg' }}
+          >
+            {({ aggregation, aggregationSelector }) => (
+              <WebsiteChartWrapper
+                title={t('in-websites:websiteDashboard.tabs.speedCardTitleLargestContentfulPaint')}
+                cardHeader={aggregationSelector}
+                timeConfig={timeConfig}
+                viewInAnalytics={{
+                  websiteLabel
+                }}
+                y1={{
+                  renderer: Renderer.line,
+                  formatter: clsFormatter,
+                  labels: [t('in-websites:websiteDashboard.tabs.speedLabelLargestContentfulPaint')],
+                  metricIds: ['largestContentfulPaintTime']
+                }}
+                metricsConfiguration={{
+                  timeConfig,
+                  tagFilters,
+                  metrics: {
+                    largestContentfulPaintTime: {
+                      metric: 'largestContentfulPaintTime',
+                      granularity,
+                      aggregation,
+                      beaconType: 'pageLoad'
+                    }
+                  }
+                }}
+                renderPostChartContent={MarkerLanes}
+              />
+            )}
+          </AggregationSelectorWithUrlState>
+        </Col>
+        <Col lg={4}>
+          <AggregationSelectorWithUrlState
+            defaultAggregation="MEAN"
             urlMatrixParamConfig={{ path: speedTab, paramName: 'interactionNextPaintAgg' }}
           >
             {({ aggregation, aggregationSelector }) => (
@@ -382,42 +417,6 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
                   metrics: {
                     interactionNextPaint: {
                       metric: 'interactionNextPaint',
-                      granularity,
-                      aggregation,
-                      beaconType: 'pageLoad'
-                    }
-                  }
-                }}
-                renderPostChartContent={MarkerLanes}
-              />
-            )}
-          </AggregationSelectorWithUrlState>
-        </Col>
-        <Col lg={4}>
-          <AggregationSelectorWithUrlState
-            defaultAggregation="MEAN"
-            urlMatrixParamConfig={{ path: speedTab, paramName: 'firstInputDelayAgg' }}
-          >
-            {({ aggregation, aggregationSelector }) => (
-              <WebsiteChartWrapper
-                title={t('in-websites:websiteDashboard.tabs.speedCardTitleFirstInputDelay')}
-                cardHeader={aggregationSelector}
-                timeConfig={timeConfig}
-                viewInAnalytics={{
-                  websiteLabel
-                }}
-                y1={{
-                  renderer: Renderer.line,
-                  formatter: millis.forcedFixedCompact,
-                  labels: [t('in-websites:websiteDashboard.tabs.speedLabelFirstInputDelay')],
-                  metricIds: ['firstInputDelay']
-                }}
-                metricsConfiguration={{
-                  timeConfig,
-                  tagFilters,
-                  metrics: {
-                    firstInputDelay: {
-                      metric: 'firstInputDelay',
                       granularity,
                       aggregation,
                       beaconType: 'pageLoad'

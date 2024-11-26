@@ -8,6 +8,7 @@ import React from 'react';
 
 import { IconButton, SvgIcon, Button } from '@instana/components';
 
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import Tooltip from 'in-components/Tooltip';
@@ -111,7 +112,10 @@ export function Delete({
                 })}
                 type="lib_actions_delete"
                 data-testid="deleteIcon"
-                onClick={handleClick}
+                onClick={e => {
+                  stopPropagationAndPreventDefault(e);
+                  handleClick();
+                }}
               />
             )}
           </>

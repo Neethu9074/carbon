@@ -15,17 +15,21 @@ import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAg
 import SupportViewSection from 'in-plg/pages/onboarding/Layout/SupportViewSection';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import { DropDown } from 'in-plg/pages/onboarding/content/ContentComponents';
+import DotNetRuntimeContent from './AppServiceRuntimes/DotNetRuntimeContent';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
 import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 interface RuntimeOption {
-  key: 'Node.js';
+  key: 'Node.js' | '.NET';
   label: string;
 }
 
-const runtimeOptions: RuntimeOption[] = [{ key: 'Node.js', label: t('in-plg:agentDetails.runtime.nodejs') }];
+const runtimeOptions: RuntimeOption[] = [
+  { key: 'Node.js', label: t('in-plg:agentDetails.runtime.nodejs') },
+  { key: '.NET', label: t('in-plg:agentDetails.runtime.dotnet') }
+];
 
 export default function AzureAppService({
   id,
@@ -36,64 +40,58 @@ export default function AzureAppService({
   instanaDomain,
   serverlessEndpoint,
   fromOnboarding
-}: OnboardingProps): JSX.Element {
+}: Readonly<OnboardingProps>): JSX.Element {
   const [selectedRuntime, setRuntime] = useState(runtimeOptions[0]);
 
+  // Support view data - dynamically generate content
   const supportViewData = [
     {
+      id: 'prerequisites',
       title: t('in-plg:agentDetails.common.prerequisitesTitle'),
       body: <Prerequisites runtime={selectedRuntime.key} />,
       openByDefault: true
     },
     {
+      id: 'documentation',
       title: t('in-plg:agentDetails.common.documentationTitle'),
       body: <Documentations runtime={selectedRuntime.key} />,
       openByDefault: true
     },
     {
+      id: 'ask-for-help',
       title: t('in-plg:agentDetails.askForHelp.askForHelpTitle'),
       body: <AskForHelp agentKey={agentKey} />,
       openByDefault: false
     }
-  ];
+  ].filter(item => !(shareAndInviteEnabled && item.id === 'ask-for-help')); // Filter out items if feature is disabled
 
-  if (shareAndInviteEnabled) supportViewData.pop();
-
-  function RenderRuntimeView(): JSX.Element {
-    switch (selectedRuntime.key) {
-      case 'Node.js':
-        return (
-          <NodeJsRuntimeContent
-            {...{
-              id,
-              downloadKey,
-              agentKey,
-              instanaDomain,
-              serverlessEndpoint
-            }}
-          />
-        );
-      default:
-        return (
-          <NodeJsRuntimeContent
-            {...{
-              id,
-              downloadKey,
-              agentKey,
-              agentEndpoint,
-              agentEndpointPort,
-              instanaDomain,
-              serverlessEndpoint
-            }}
-          />
-        );
-    }
-  }
-
+  // Handle runtime selection
   const handleRuntimeChange = (selectedValue: string) => {
     const selectedRuntimeOption = runtimeOptions.find(option => option.key === selectedValue);
     if (selectedRuntimeOption) {
       setRuntime(selectedRuntimeOption);
+    }
+  };
+
+  // Render runtime-specific content
+  const renderRuntimeContent = () => {
+    const sharedProps = { id, downloadKey, agentKey, instanaDomain, serverlessEndpoint };
+
+    switch (selectedRuntime.key) {
+      case 'Node.js':
+        return <NodeJsRuntimeContent {...sharedProps} />;
+      case '.NET':
+        return <DotNetRuntimeContent {...sharedProps} />;
+      default:
+        return (
+          <NodeJsRuntimeContent
+            {...{
+              ...sharedProps,
+              agentEndpoint,
+              agentEndpointPort
+            }}
+          />
+        );
     }
   };
 
@@ -114,7 +112,7 @@ export default function AzureAppService({
           />
         </LayoutSection>
 
-        <RenderRuntimeView />
+        {renderRuntimeContent()}
 
         <GetDeployedAgents agent="azure" fromOnboarding={fromOnboarding} />
       </MainBody>

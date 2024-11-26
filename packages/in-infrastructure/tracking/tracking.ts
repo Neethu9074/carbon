@@ -7,18 +7,16 @@
 import { useState } from 'react';
 
 import {
-  track as trackMixpanel,
   INFRASTRUCTURE_CONTEXT_GUIDE_STACK_LOADED,
   INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_EXPANDED,
   INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_CLICKED,
   INFRASTRUCTURE_ANALYZE_RELATED_INSTANCES_BUTTON_CLICKED
 } from 'in-services/tracking/tracking';
-// @ts-expect-error needs ts migration
-import { createDurationTracker } from 'in-services/tracking/mixpanel';
+import { CTA_CLICKED, UI_INTERACTION, UI_LOADING } from 'in-services/util/constants';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { UI_INTERACTION, UI_LOADING } from 'in-services/util/constants';
-
-export const contextGuideStackLoadedDurationTracker = createDurationTracker(INFRASTRUCTURE_CONTEXT_GUIDE_STACK_LOADED);
+import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
+import { eventTracker } from 'in-services/tracking/segment/EventTracker';
+import { EventTrackerProps } from 'in-services/tracking/segment/types';
 
 export type TrackingFunction = (customData: Object, isLoading?: boolean) => void;
 
@@ -58,8 +56,7 @@ export function useSegmentTracker(): {
   }
 
   function trackSidebarRelatedEntitiesExpanded(customData: Object): void {
-    unstable_trackEvent(UI_INTERACTION, { objectType: INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_EXPANDED }, customData);
-    trackMixpanel(INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_EXPANDED, customData);
+    unstable_trackEvent(UI_INTERACTION, { action: INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_EXPANDED }, customData);
   }
 
   function trackSidebarRelatedEntitiesClicked(customData: Object): void {
@@ -77,3 +74,44 @@ export function useSegmentTracker(): {
     trackAnalyzeInfrastructureButtonClicked
   };
 }
+
+interface UiInteractionProps {
+  path?: string;
+}
+
+interface CtaClickedProps {
+  path?: string;
+}
+
+function infrastructureEventTracker(props: UiInteractionProps | CtaClickedProps, segmentEventName: string) {
+  const { pageRootName, productArea } = getViewTrackingMetaData();
+  const data = {
+    ...props,
+    parentPageCategory: productArea,
+    parentPageName: pageRootName
+  } as EventTrackerProps['data'];
+  eventTracker({ data, segmentEventName: segmentEventName });
+}
+
+interface Props {
+  event: string;
+  customData: UiInteractionProps;
+}
+
+export const infraEventUIInteraction = ({ event, customData, ...props }: Props) => {
+  const data = {
+    ...props,
+    action: event,
+    ['custom.payload']: customData
+  };
+  infrastructureEventTracker(data as UiInteractionProps, UI_INTERACTION);
+};
+
+export const infraEventCTAClicked = ({ event, customData, ...props }: Props) => {
+  const data = {
+    ...props,
+    CTA: event,
+    ['custom.payload']: customData
+  };
+  infrastructureEventTracker(data as CtaClickedProps, CTA_CLICKED);
+};

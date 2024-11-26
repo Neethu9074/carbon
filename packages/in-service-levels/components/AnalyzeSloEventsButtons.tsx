@@ -8,6 +8,7 @@ import React from 'react';
 
 import {
   isApplicationSloEntity,
+  isSyntheticSloEntity,
   isWebsiteSloEntity,
   ServiceLevelObjectiveConfiguration,
   SloEntity
@@ -24,7 +25,13 @@ interface AnalyzeSloCallsButtonProps {
   configuration: ServiceLevelObjectiveConfiguration;
 }
 
-export default function AnalyzeSloEventsButtons({ configuration: { indicator, entity } }: AnalyzeSloCallsButtonProps) {
+export default function AnalyzeSloEventsButtons({ configuration }: AnalyzeSloCallsButtonProps) {
+  if (isSyntheticSloEntity(configuration.entity)) return <></>;
+
+  return <AnalyzeSloAppWebsiteEventsButtons configuration={configuration} />;
+}
+
+function AnalyzeSloAppWebsiteEventsButtons({ configuration: { indicator, entity } }: AnalyzeSloCallsButtonProps) {
   const { bad: badEventsFilterExpression } = createGoodBadTagFilterExpression({ entity, indicator });
 
   const timeConfig = useTimeConfig();

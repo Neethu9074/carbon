@@ -10,7 +10,6 @@ const fs = require('fs');
 
 const { getCurrentUser, isRequestCarryingAValidSeemingCookie } = require('../auth');
 const getNumberLocaleDefinition = require('../services/numberLocale');
-const { getMixpanelToken } = require('../services/mixpanel');
 const { getSegmentKey } = require('../services/segment');
 const buildInformation = require('../../assets/build.json');
 const configResolver = require('../services/config');
@@ -173,6 +172,8 @@ router.get('/', async (req, res) => {
       clientConfig
     ] = await (subRequestPromises || initializeSubRequestPromises(req));
 
+    const featureFlags = clientConfig.featureFlags;
+
     const nonce = uuidv4();
     const loggedUser = getParsedUser(userStr);
     clientConfig.walkmeUuid = loggedUser;
@@ -181,9 +182,11 @@ router.get('/', async (req, res) => {
     clientConfig.activeLicenseType = activeLicenseInfo;
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
     const injectWalkMeScript =
-      clientConfig.featureFlags?.playwithEnabled || clientConfig.featureFlags?.playWithReleaseEnabled;
-    const isAssistMeEnabled = clientConfig.featureFlags?.assistmeEnabled;
-    const injectWalkMeTestScript = clientConfig.featureFlags?.playwithTestEnabled;
+      featureFlags?.playwithEnabled ||
+      (featureFlags?.playWithReleaseEnabled && termsAndPrivacy.walkmeAnalyticsServices);
+    const isAssistMeEnabled = featureFlags?.assistmeEnabled && termsAndPrivacy.walkmeAnalyticsServices;
+    const injectWalkMeTestScript = featureFlags?.playwithTestEnabled && termsAndPrivacy.walkmeAnalyticsServices;
+
     res.set('Content-Security-Policy', getCsp(nonce, isAssistMeEnabled, injectWalkMeScript || injectWalkMeTestScript));
     res.send(
       compiledTemplate({
@@ -191,7 +194,6 @@ router.get('/', async (req, res) => {
         compStyleCssChecksum,
         nonce,
         appcuesId: termsAndPrivacy.allSupportAndResearchServices && serverConfig.appcuesId,
-        mixpanelToken: getMixpanelToken(loggedUser, termsAndPrivacy.allAnalyticsServices),
         eumTrackingDomain: serverConfig.eum.domain,
         eumTrackingApiKey: serverConfig.eum.apiKey,
         eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,

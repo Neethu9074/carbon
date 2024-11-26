@@ -86,8 +86,11 @@
       "essentials": "Itens básicos",
       "iqmHosts": "Hosts IQM",
       "syntheticPops": "PoPs gerenciados sintéticos",
+      "logging": "Logs no contexto",
       "resourceUnits": "Unidades de recursos com autorizações",
       "consumedUnits": "Unidades de recursos consumidas",
+      "entitledData": "Dados autorizados",
+      "consumedData": "Dados consumidos",
       "infrastructure": "Infraestrutura",
       "synthetics": "Sintéticos",
       "traces": "Rastreios",
@@ -97,7 +100,11 @@
       "trendLine": "Linha de tendência",
       "dataUsage": "Uso de dados",
       "dataUsageHelperText": "Quantidade de bytes enviados por meio de agentes separados por categoria no intervalo de tempo escolhido.",
-      "syntheticsHelperText": "O número de unidades de recurso consumidas por cada tipo de ação. As unidades são calculadas com um fator de 0,025 para testes simples, 0,042 para testes de API e 1,000 para testes do navegador."
+      "syntheticsHelperText": "O número de unidades de recurso consumidas por cada tipo de ação. As unidades são calculadas com um fator de 0,025 para testes simples, 0,042 para testes de API e 1,000 para testes do navegador.",
+      "loggingHelperText": {
+        "saas": "Esse gráfico exibe a quantia de dados em bytes usados pelo complemento de criação de log para o período de retenção escolhido.",
+        "onprem": "Esse gráfico exibe a quantia de dados em bytes usados pelo complemento de criação de log para o período de retenção escolhido."
+      }
     },
     "activationAdoption": {
       "activationAdoption": "Ativação e adoção",

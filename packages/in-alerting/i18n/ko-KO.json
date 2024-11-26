@@ -41,6 +41,8 @@
     "chart": {
       "alertingChartLabelThreshold": "임계값",
       "alertingChartLabelViolations": "위반",
+      "alertingChartLabelWarningViolations": "경고 위반",
+      "alertingChartLabelCriticalViolations": "치명적 위반",
       "alertingChartLabelWarningThreshold": "경고 임계값",
       "alertingChartLabelCriticalThreshold": "위험 임계값",
       "alertingChartLabelForecast": "예측",
@@ -149,6 +151,7 @@
     "titleNoSmartAlertsCreated": "스마트 경보가 작성되지 않음",
     "titleCopyOf": "{{smartAlertTitle}} (사본)",
     "smartAlertsTitle": "스마트 경보",
+    "labelNew": "(신규)",
     "applications": {
       "alertConfiguration": "경보 구성",
       "advanced": {
@@ -435,7 +438,8 @@
           "throughputDefault_higherThan": "호출 수가 예상보다 많습니다.",
           "throughputDefault_higherEqual": "호출 수가 예상보다 많거나 같습니다.",
           "throughputDefault_lowerThan": "호출 수가 예상보다 적습니다.",
-          "throughputDefault_lowerEqual": "호출 수가 예상보다 적거나 같습니다."
+          "throughputDefault_lowerEqual": "호출 수가 예상보다 적거나 같습니다.",
+          "expected": "예상"
         },
         "customStatusCodeFullText": "{{statusCodeStart}} - {{statusCodeEnd}} 사이"
       },
@@ -464,8 +468,9 @@
         "ruleFormPleaseProvideAStartStatusCode": "올바른 시작 HTTP 상태 코드 제공",
         "ruleFormPleaseProvideAEndStatusCode": "올바른 종료 HTTP 상태 코드 제공",
         "smartAlertFormValueIsReadOnly": "값은 읽기 전용이며, 변경할 수 없음",
-        "thresholdFormPleaseProvideANumber0": "0 이상인 수를 제공하십시오.",
-        "thresholdFormBaselineIsEmpty": "기준선이 비어 있음"
+        "thresholdFormBaselineIsEmpty": "기준선이 비어 있음",
+        "selectAtLeastOneThreshold": "임계값 중 하나 이상의 값을 입력하십시오.",
+        "selectAtLeastOneSensitivity": "민감도 중 하나 이상을 선택하십시오."
       },
       "simple": {
         "simpleAlertStep2Headline": "경보를 트리거하려는 항목",
@@ -749,7 +754,8 @@
       "ruleStatusCodeValueOption511": "511(네트워크 인증 필수)",
       "ruleStatusCodeValueOption599": "599(네트워크 연결 제한시간 오류)",
       "warningThresholdValidator": "경고 임계값은 < 및 <= 연산자의 위험 임계값보다 커야 합니다.",
-      "criticalThresholdValidator": "위험 임계값은 > 및 >= 연산자의 경고 임계값보다 커야 합니다."
+      "criticalThresholdValidator": "위험 임계값은 > 및 >= 연산자의 경고 임계값보다 커야 합니다.",
+      "sensitivityValidator": "위험 민감도는 경고 민감도보다 작아야 합니다."
     },
     "components": {
       "smartAlertDialog": {
@@ -787,6 +793,7 @@
         "scopeConfigSelectOneEntryMessage": "하나 이상의 항목을 선택하십시오.",
         "scopeConfigTitleTooltip": "지난 24시간 동안 사용 가능한 엔티티 표시",
         "scopeConfigSubTitle": "지난 24시간을 기반으로 함",
+        "scopeConfigSearchApplicationsPlaceholder": "애플리케이션 검색...",
         "scopeMigrationMessage_FAILED": "범위를 자동으로 마이그레이션할 수 없습니다. 아래 동적 초점 조회에 해당하는 태그 필터를 선택하십시오.",
         "scopeMigrationMessage_PARTIAL": "범위를 완전히 마이그레이션할 수 없습니다. 아래 동적 초점 조회에 해당하는 태그 필터를 선택하십시오.",
         "scopeMigrationMessage_FULL": "적용된 범위는 이전에 사용된 동적 초점 조회를 기반으로 합니다.",
@@ -1468,7 +1475,30 @@
       },
       "count": "개수",
       "selectEntityType": "엔티티 유형을 선택하십시오.",
-      "regexNotValid": "Regex가 올바르지 않습니다."
+      "regexNotValid": "Regex가 올바르지 않습니다.",
+      "tearSheet": {
+        "createTitle": "인프라 스마트 알림 작성",
+        "steps": {
+          "step1Title": "조건 정의",
+          "step2Title": "경보를 받을 시기 정의",
+          "step3Title": "경보 특성 정의",
+          "step4Title": "경보 채널 정의"
+        },
+        "step1": {
+          "header": "메트릭 및 집계를 선택하여 경보가 트리거되는 시기 결정"
+        },
+        "step2": {
+          "header": "위반 임계값에 대한 값 설정",
+          "description": "위반을 평가할 지표, 위반 임계값 및 기간을 선택하십시오."
+        },
+        "step3": {
+          "header": "이 경보에 대해 어떤 특성을 설정하시겠습니까?"
+        },
+        "step4": {
+          "header": "이 경보에 대해 어떤 알림을 받고 싶으십니까?",
+          "description": "이 경보를 받을 수신자 선택"
+        }
+      }
     },
     "logs": {
       "alertDetails": {

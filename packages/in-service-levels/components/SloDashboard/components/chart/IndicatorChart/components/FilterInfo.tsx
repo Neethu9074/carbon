@@ -9,6 +9,7 @@ import React from 'react';
 import {
   ApplicationSloEntity,
   isApplicationSloEntity,
+  isSyntheticSloEntity,
   isWebsiteSloEntity,
   ServiceLevelIndicatorUnion,
   SloEntityUnion,
@@ -31,7 +32,9 @@ interface FilterInfoProps {
 }
 export default function FilterInfo({ entity, indicator }: FilterInfoProps) {
   let content = undefined;
-  if (isApplicationSloEntity(entity)) {
+  if (isSyntheticSloEntity(entity)) {
+    content = <></>;
+  } else if (isApplicationSloEntity(entity)) {
     content = <ApplicationFilterInfoContent entity={entity} indicator={indicator} />;
   } else if (isWebsiteSloEntity(entity)) {
     content = <WebsiteFilterInfoContent entity={entity} indicator={indicator} />;

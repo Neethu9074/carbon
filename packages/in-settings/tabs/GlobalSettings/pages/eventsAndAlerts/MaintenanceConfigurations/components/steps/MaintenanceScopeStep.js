@@ -20,7 +20,6 @@ import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/dialog/
 import SelectListDialogButton from 'in-settings/tabs/GlobalSettings/components/SelectListDialogButton';
 import { syntheticsFilterForMaintenanceWindowsEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
-import { carbonComboBoxEnabled } from 'in-services/featureFlags';
 import DescriptionText from 'in-components/form/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
@@ -66,14 +65,7 @@ export default function MaintenanceScopeStep(props) {
       // Im sorry, I have sinned and not provided a string to the label property. Forgive me TypeScript gods (required for beta tag)
       options.push({
         value: 'synthetic',
-        label: carbonComboBoxEnabled ? (
-          t('in-settings:tabs.syntheticTests')
-        ) : (
-          <Stack direction="horizontal" distribution="spaceBetween" align="center">
-            {t('in-settings:tabs.syntheticTests')}
-            <PreviewPill />
-          </Stack>
-        )
+        label: t('in-settings:tabs.syntheticTests')
       });
     }
     options.push({ value: 'all', label: t('in-settings:tabs.allAvailableEntities') });
@@ -112,7 +104,7 @@ export default function MaintenanceScopeStep(props) {
                   setForm(updatedForm);
                 }
               }}
-              components={carbonComboBoxEnabled ? { Option } : undefined}
+              components={{ Option }}
             />
             <TouchedMessages field={field} />
             {form.get('applyOn').value === 'all' && (

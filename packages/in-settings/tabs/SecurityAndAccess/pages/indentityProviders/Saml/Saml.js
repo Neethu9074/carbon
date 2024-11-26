@@ -21,10 +21,12 @@ import { isAnotherIdpActivated } from 'in-settings/tabs/SecurityAndAccess/pages/
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
 import { disableInvitesWithIdpEnabled, carbonButtonEnabled } from 'in-services/featureFlags';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
+import { UPDATED_OBJECT } from 'in-services/util/constants';
 import { Row, Col } from 'in-components/layout/Grid';
 import Section from 'in-settings/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
@@ -39,6 +41,7 @@ import locals from './Saml.mless';
 
 export default function Saml(props) {
   const [file, setFile] = useState(null);
+  const { unstable_trackEvent } = useSegmentTracking();
 
   return (
     <ApiItemView
@@ -73,7 +76,7 @@ export default function Saml(props) {
                 </span>
               }
               onSubmit={() => {
-                save(setMessage, form, result, file);
+                save(setMessage, form, result, file, unstable_trackEvent);
                 close();
               }}
               confirmButtonKind="create"
@@ -81,7 +84,7 @@ export default function Saml(props) {
             />
           );
         } else {
-          save(setMessage, form, result, file);
+          save(setMessage, form, result, file, unstable_trackEvent);
         }
       }}
       Content={Content}
@@ -93,7 +96,7 @@ function isAnyInvitationsPending(props) {
   return disableInvitesWithIdpEnabled && props.invitations?.data?.length > 0;
 }
 
-function save(setMessage, form, result, file) {
+function save(setMessage, form, result, file, unstable_trackEvent) {
   const reader = new FileReader();
   reader.readAsText(file, 'UTF-8');
   reader.onload = function (evt) {
@@ -111,7 +114,8 @@ function save(setMessage, form, result, file) {
       idpMetadata: evt.target.result,
       setMessage,
       ownerEmail: form.get('ownerEmail').value,
-      spEntityId: form.get('spEntityId').value
+      spEntityId: form.get('spEntityId').value,
+      unstable_trackEvent
     });
   };
 }
@@ -304,12 +308,14 @@ function deleteItem({ setMessage }) {
   );
 }
 
-function saveItem({ setMessage, ownerEmail, idpMetadata, spEntityId }) {
+function saveItem({ setMessage, ownerEmail, idpMetadata, spEntityId, unstable_trackEvent }) {
+  const samlConfig = { ownerEmail, idpMetadata, spEntityId };
   setMessage({ message: t('in-settings:tabs.savingConfig'), type: 'neutral', isSaving: true });
-  const setConfigResult$ = setConfig({ ownerEmail, idpMetadata, spEntityId });
+  const setConfigResult$ = setConfig(samlConfig);
   setConfigResult$.once(
     () => {
       setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: 'success' });
+      unstable_trackEvent(UPDATED_OBJECT, { objectType: 'settings.identityProvider.saml' });
     },
     error => {
       setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: 'error' });

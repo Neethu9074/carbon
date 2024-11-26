@@ -4,26 +4,16 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
 
-import {
-  SvgIcon,
-  CarbonButton,
-  CarbonOverflowMenu,
-  CarbonOverflowMenuItem,
-  CarbonIconButton
-} from '@instana/components';
+import { SvgIcon, CarbonOverflowMenu, CarbonOverflowMenuItem } from '@instana/components';
 
-import { noteNameAndTimeFormat, createDataString, getSummary, convertSummaryToString } from './utils';
+import { AISummary } from 'in-events/components/NotesAndActivity/components/NoteTypes/AISummary';
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import { TYPE_NOTE, TYPE_EXT_NOTE, TYPE_EXT_F_CHANGE, TYPE_AI_SUMMARY } from '../utils';
-import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
-import { eventTracker } from 'in-services/tracking/segment/EventTracker';
+import { noteNameAndTimeFormat, createDataString } from './utils';
 import { dateFormat, timeFormat } from 'in-services/formatters/date';
-import { EVENT_AI_SHOW_MORE } from 'in-services/tracking/eventNames';
-import { CTA_CLICKED } from 'in-services/util/constants';
-import { track } from 'in-services/tracking/trackers';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -37,7 +27,8 @@ export function CommentList({
   setEditNoteId,
   setNeedOverlay,
   setShareOpen,
-  setSummaryData
+  setSummaryData,
+  event
 }) {
   // This adds in the scroll wheel event listener to determine the percentage
   // of the scroll height so we know if we need to collapse and expand the quick actions
@@ -129,6 +120,7 @@ export function CommentList({
                 setNote={setNote}
                 setShareOpen={setShareOpen}
                 setSummaryData={setSummaryData}
+                event={event}
               />
             </div>
           );
@@ -149,22 +141,15 @@ export function ChatBubble({
   setEditNoteId,
   setNeedOverlay,
   setShareOpen,
-  setSummaryData
+  setSummaryData,
+  event
 }) {
-  const [showAll, setShowAll] = useState(false);
   // Currently we have 4 types of bubbles
   const note = type === TYPE_NOTE;
   const extNote = type === TYPE_EXT_NOTE;
   const extChange = type === TYPE_EXT_F_CHANGE;
   const updatedBy = (extChange && noteObj?.metadata?.get('updatedBy')) || '';
   const aiSum = type === TYPE_AI_SUMMARY;
-  // Calculate the AI Summary
-  const sumData = noteObj?.data || [];
-  const subArray = (arr, i = 0, n = 1) => arr?.slice(i, n);
-  const firstFive = aiSum && subArray(sumData, 0, 5);
-  const last = aiSum && subArray(sumData, 5, sumData.size);
-  const summaryStart = aiSum && getSummary(firstFive);
-  const summaryEnd = aiSum && getSummary(last);
 
   return (
     <>
@@ -199,50 +184,13 @@ export function ChatBubble({
         )}
         {/* AI Summarization */}
         {aiSum && (
-          <>
-            <div className={locals.bubbleContentsHeader}>{t('in-events:notes.sumGenerated')}</div>
-            <SummaryEntry summaryList={summaryStart} />
-            {showAll && <SummaryEntry summaryList={summaryEnd} />}
-            <div style={{ display: 'flex' }}>
-              {/* Show all button / Collapse */}
-              {summaryEnd.length > 0 && (
-                <CarbonButton
-                  size="sm"
-                  onClick={() => {
-                    handleShowMore(noteObj?.id);
-                    setShowAll(!showAll);
-                  }}
-                  kind="ghost"
-                >
-                  {!showAll ? t('in-events:notes.showAll') : t('in-events:notes.collapse')}
-                </CarbonButton>
-              )}
-              {/* Share summarization button */}
-              <CarbonIconButton
-                kind={'ghost'}
-                size={'sm'}
-                label={t('in-events:notes.share')}
-                onClick={() => {
-                  setNeedOverlay(true);
-                  setShareOpen(true);
-                  setSummaryData(convertSummaryToString(getSummary(sumData)));
-                }}
-              >
-                <SvgIcon type="lib_actions_share" size="xs" />
-              </CarbonIconButton>
-              {/* Copy summarization button */}
-              <CarbonIconButton
-                kind={'ghost'}
-                size={'sm'}
-                label={t('in-events:notes.copy')}
-                onClick={() => {
-                  copyToClipboard(convertSummaryToString(getSummary(sumData)));
-                }}
-              >
-                <SvgIcon type="lib_actions_copy" size="xs" />
-              </CarbonIconButton>
-            </div>
-          </>
+          <AISummary
+            noteObj={noteObj}
+            setNeedOverlay={setNeedOverlay}
+            setShareOpen={setShareOpen}
+            setSummaryData={setSummaryData}
+            event={event}
+          />
         )}
         {/* External Note */}
         {extNote && (
@@ -291,42 +239,4 @@ export function EditDeleteOverflowMenu({ setNote, setEditNoteId, setNeedOverlay,
       </CarbonOverflowMenu>
     </div>
   );
-}
-
-// Function to reduce duplicate code for looping through summary bullet points
-function SummaryEntry({ summaryList }) {
-  return (
-    <>
-      {summaryList.map(entity => {
-        return (
-          <div key={entity.label} className={locals.summaryList}>
-            {`- `}
-            <div>
-              <div style={{ fontWeight: '700' }}>{entity.label}</div>
-              {entity.summary}
-            </div>
-          </div>
-        );
-      })}
-    </>
-  );
-}
-
-// We want to track the clicks done on the show more button
-function handleShowMore(id) {
-  const { pageRootName, productArea } = getViewTrackingMetaData();
-  if (pageRootName && productArea) {
-    const data = {
-      parentPageName: pageRootName,
-      parentPageCategory: productArea,
-      CTA: EVENT_AI_SHOW_MORE,
-      path: location.hash
-    };
-    eventTracker({ data, segmentEventName: CTA_CLICKED });
-  }
-  track(EVENT_AI_SHOW_MORE, { id, author: user.preferredName });
-}
-
-function copyToClipboard(str) {
-  navigator.clipboard.writeText(str);
 }

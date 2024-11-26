@@ -6,6 +6,7 @@
   "labelAnalytic": "Análise de dados",
   "labelCall": "Chamada",
   "labelTrace": "Rastreio",
+  "labelStatus": "Status",
   "linkDownload": "Fazer download",
   "linkDownloadCalls": "Fazer download de chamadas",
   "linkDownloadRawTrace": "Fazer download do rastreio bruto",
@@ -686,5 +687,6 @@
     "alternativeServicesProblem": "<bold>Não</bold>, se o nome do serviço atual vem do cabeçalho HTTP \"Host\" (regra de mapeamento de serviço cujo id é call.http.host) e o nome do serviço alternativo não (porque seu nome vem de uma regra que tem base em tags de infraestrutura), ou vice-versa. São serviços duplicados.",
     "alternativeServicesPossibleProblem": "<bold>Talvez</bold>, se o serviço atual e os nomes de serviços alternativos não provarem do cabeçalho HTTP \"Host\", então eles são serviços sentados atrás de um proxy (bom) ou são serviços duplicados (ruim): alguns dos serviços estão integralmente vinculados a infraestrutura, enquanto outros estão parcialmente vinculados a infraestrutura."
   },
-  "labelSyntheticMonitoring": "Monitoramento sintético"
+  "labelSyntheticMonitoring": "Monitoramento sintético",
+  "labelResourceOptimizations": "Otimizações"
 }

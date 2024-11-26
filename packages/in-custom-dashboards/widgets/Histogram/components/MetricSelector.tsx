@@ -27,6 +27,7 @@ import { source as event } from 'in-custom-dashboards/widgets/_shared/MetricConf
 import { source as sli } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli';
 // @ts-expect-error
 import { onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+import { source as bizops } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/bizops';
 import { source as logs } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/logging';
 import { logWidgetsEnabled } from 'in-services/featureFlags';
 
@@ -54,7 +55,7 @@ export default function MetricSelector({ form, onChange }: MetricSelectorProps) 
       newSource
     );
 
-  const disabledDataSources = [event, sli, application, mobileApp, website];
+  const disabledDataSources = [event, sli, application, mobileApp, website, bizops];
 
   if (logWidgetsEnabled) {
     disabledDataSources.push(logs);

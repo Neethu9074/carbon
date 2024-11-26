@@ -124,6 +124,9 @@
         "businessPerspectiveUpdatedDetails": "已编辑“{{perspectiveName}}”，并且已保存您的更改。",
         "error": "错误"
       }
+    },
+    "flowMap": {
+      "tabLabel": "流程"
     }
   }
 }

@@ -41,17 +41,16 @@
   },
   "cookies": {
     "categories": {
-      "analyticalPerformance": "Analytical / Performance",
       "functionality": "Functionality"
     },
     "expiration": {
-      "sevenDays": "Expires after 7 days",
       "persistent": "Persistent",
       "afterSession": "Expires after session"
     },
-    "mixpanel": {
-      "title": "Product User Analytics",
-      "purpose": "Registers a unique ID that is used to generate statistical data on how the visitor uses the website."
+    "walkme": {
+      "title": "Product user analytics and guidance",
+      "purpose": "Registers a unique ID that is used to generate statistical data on how the visitor uses the product.",
+      "category": "Functional"
     },
     "appcues": {
       "title": "Tailored Onboarding Experience and NPS Surveys",
@@ -471,6 +470,8 @@
       "deletionUntilDate": "Deletion until date",
       "untilDateValidationMessage": "Date must be on or before the current date",
       "reasonValidationMessage": "Deletion reason cannot be empty",
+      "untilTimeValidationMessage": "Time must be on or before the current time",
+      "correctTimeFormat": "Please enter a valid time in HH:mm format",
       "toastSuccessTitle": "Deleting logs might take a while.",
       "toastSuccessMessage": "You can close this pop-up window and check the status in the \"Log deletion action history\" table.",
       "toastErrorTitle": "Log deletion failed",
@@ -824,6 +825,7 @@
     "username": "Username",
     "usernameDescription": "The user to be related in Instana as owner user. A login is tried as a test before the settings are saved, the credentials are not stored.",
     "usernamePasswordDescription": "The LDAP password of the user",
+    "ldapCannotbeConfiguredWithOtherIdPActive": "LDAP is not configurable as long as you have another active identity provider configuration.",
     "ldapTestFailed": "LDAP test failed:",
     "thisAccountIsAutomaticallyAssignedAnAdminRole": "Enter an email to be automatically assigned to the owner group.",
     "thisAccountIsAutomaticallyAssignedAnAdminRoleLDAP": "Enter an account to be automatically assigned to the owner group. Use the account's LDAP attribute aligned to the user query search template.",
@@ -1358,7 +1360,10 @@
     "changeEvent": "Change event",
     "advancedSettingsMessage": "By enabling this, you'll have the option to personalize the subject for event alerts you receive based on their type. If you prefer not to customize email subjects, you can simply disregard this option.",
     "customSubjectNotProvided": "If a custom subject is not provided, Instana will send an alert email with predefined subject.",
-    "sendTestEmail": "Send test email"
+    "sendTestEmail": "Send test email",
+    "alertTitleAdditions": "Alert Title",
+    "alertTitleAdditionsTooltip": "The name of the entity for which this alert is triggered on appears in the title of the alert. By default, the entity name is only visible in the body of an alert",
+    "includeEntityNameInLegacyAlerts": "Include entity name in alert title"
   },
   "languageSelection": {
     "language": "Language",

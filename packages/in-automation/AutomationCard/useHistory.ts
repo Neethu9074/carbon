@@ -17,24 +17,42 @@ export function refreshHistory() {
   timeout(1000).once(() => refreshSignal.emit(true));
 }
 
-export default function useActionHistoryCount({ eventId }: { eventId?: string }) {
+export default function useActionHistoryCount({
+  eventId,
+  types,
+  actionStatuses
+}: {
+  eventId?: string;
+  types?: string[];
+  actionStatuses?: string[];
+}) {
   const timeConfig = useTimeConfig();
   const result =
-    useObservable(() => refreshSignal.flatMap(() => GetActionInstanceListDataFunc({ timeConfig, eventId })), []) ??
-    pendingResult;
+    useObservable(
+      () => refreshSignal.flatMap(() => GetActionInstanceListDataFunc({ timeConfig, eventId, types, actionStatuses })),
+      [timeConfig]
+    ) ?? pendingResult;
+
   return result?.data?.totalHits;
 }
 
 interface GetActionInstanceListDataParams {
   timeConfig: TimeConfig;
   eventId?: string;
+  types?: string[];
+  actionStatuses?: string[];
 }
 
-function GetActionInstanceListDataFunc({ timeConfig, eventId }: GetActionInstanceListDataParams) {
+function GetActionInstanceListDataFunc({
+  timeConfig,
+  eventId,
+  types,
+  actionStatuses
+}: GetActionInstanceListDataParams) {
   return GetActionInstanceListData({
     timeConfig,
     eventId,
-    types: [],
-    actionStatuses: []
+    types: types ?? [],
+    actionStatuses: actionStatuses ?? []
   }).startWith(pendingResult);
 }

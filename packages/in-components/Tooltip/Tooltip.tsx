@@ -12,6 +12,7 @@ import { Tooltip as CarbonTooltip } from '@instana/components';
 import { createLogger } from '@instana/logger';
 
 import { Align, ThemeStyle, setActiveTooltip, clearActiveTooltip } from 'in-components/Tooltip/store';
+import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import { carbonTooltipEnabled } from 'in-services/featureFlags';
 
 const logger = createLogger('in-components/Tooltip');
@@ -36,6 +37,54 @@ interface TooltipState {
   content: ReactNode;
 }
 
+const CarbonTooltipWithObserver = ({
+  align,
+  forceTheme,
+  themeStyle,
+  delay,
+  content,
+  caret,
+  overwriteBlock,
+  overflowEllipsis,
+  children
+}: Props) => {
+  /* Intentionally, the width and height are not used. */
+  const { ref: toolTipWrapperRef } = useResizeObserverCustom<HTMLDivElement>();
+  // For carbon convert mousePosition -> auto
+  const updatedAlign = (align == 'mousePosition' && 'auto') || align;
+  const themeToPass = (forceTheme && themeStyle) || 'dark';
+
+  return (
+    <CarbonTooltip
+      ref={toolTipWrapperRef}
+      align={updatedAlign}
+      delay={delay}
+      content={content}
+      caret={caret}
+      overwriteBlock={overwriteBlock}
+      themeStyle={themeToPass}
+      overflowEllipsis={overflowEllipsis}
+    >
+      {children}
+    </CarbonTooltip>
+  );
+};
+
+/**
+ * Tooltip using Carbon Tooltip, when not enabling the legacy property.
+ * (which was only needed on 10 locations)
+ *
+ * Technically, the underlying CarbonTooltip is a critical implementation,
+ * and was only meant to make the migration to carbon easier.
+ *
+ * Main issue is the translation of the "auto" alignment into the autoAlign
+ * feature in Carbon/PopOver under the hood, which is only an experimental
+ * feature.
+ *
+ * In rare cases (but reproducible), it leads to this error:
+ *
+ * "ResizeObserver loop completed with undelivered notifications."
+ */
 export default function Tooltip({
   align = 'auto',
   delay = 0,
@@ -52,21 +101,19 @@ export default function Tooltip({
   // Content is sometimes undefined and if its undefined we have nothing to show then
   // skip the carbon tooltip and let the legacy handle the undefined scenario
   if (carbonTooltipEnabled && !legacy && content) {
-    // For carbon convert mousePosition -> auto
-    const updatedAlign = (align == 'mousePosition' && 'auto') || align;
-    const themeToPass = (forceTheme && themeStyle) || 'dark';
     return (
-      <CarbonTooltip
-        align={updatedAlign}
+      <CarbonTooltipWithObserver
+        align={align}
+        forceTheme={forceTheme}
+        themeStyle={themeStyle}
         delay={delay}
         content={content}
         caret={caret}
         overwriteBlock={overwriteBlock}
-        themeStyle={themeToPass}
         overflowEllipsis={overflowEllipsis}
       >
         {children}
-      </CarbonTooltip>
+      </CarbonTooltipWithObserver>
     );
   }
 

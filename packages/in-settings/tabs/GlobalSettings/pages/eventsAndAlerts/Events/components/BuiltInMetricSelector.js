@@ -6,7 +6,6 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { carbonComboBoxEnabled } from 'in-services/featureFlags';
 import { getAllBuiltInMetrics } from 'in-sdk/metrics';
 import ComboBox from 'in-components/ComboBox';
 
@@ -34,7 +33,6 @@ function Option(props) {
   return (
     <div
       className={classNames(locals.item, {
-        [locals.padding]: !carbonComboBoxEnabled,
         [locals.selected]: option.value === selectedOption?.[0]?.value
       })}
       {...innerProps}

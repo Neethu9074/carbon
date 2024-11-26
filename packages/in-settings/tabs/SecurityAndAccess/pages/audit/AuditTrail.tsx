@@ -13,8 +13,13 @@ import {
   securityAndAccessActionLog,
   securityAndAccessActionLogRetention
 } from 'in-settings/navigation/paths';
+import {
+  SETTINGS_AUDIT_TRAIL_ACCESS_LOG_CLICK,
+  SETTINGS_AUDIT_TRAIL_ACTION_LOG_CLICK
+} from 'in-services/tracking/tracking';
 import ActionLog from 'in-settings/tabs/SecurityAndAccess/pages/audit/ActionLog';
 import AccessLog from 'in-settings/tabs/SecurityAndAccess/pages/audit/AccessLog';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -29,6 +34,7 @@ enum Tab {
 export default function AuditTrail() {
   const { location, goToPath } = useNavigation();
   const [visible, setVisible] = useState<Tab>(Tab.ActionLog);
+  const { trackCta } = useSegmentTracking();
 
   useEffect(() => {
     if (location.pathname === securityAndAccessActionLog || location.pathname === securityAndAccessActionLogRetention) {
@@ -50,12 +56,18 @@ export default function AuditTrail() {
         buttonPropsList={[
           {
             key: Tab.ActionLog,
-            onClick: () => goToPath(securityAndAccessActionLog),
+            onClick: () => {
+              trackCta(SETTINGS_AUDIT_TRAIL_ACTION_LOG_CLICK);
+              goToPath(securityAndAccessActionLog);
+            },
             text: t('in-settings:tabs.actionLog')
           },
           {
             key: Tab.AccessLog,
-            onClick: () => goToPath(securityAndAccessAccessLog),
+            onClick: () => {
+              trackCta(SETTINGS_AUDIT_TRAIL_ACCESS_LOG_CLICK);
+              goToPath(securityAndAccessAccessLog);
+            },
             text: t('in-settings:tabs.accessLog')
           }
         ]}

@@ -336,6 +336,12 @@ export function getBlueprintConfig(alertType: WebsitesAlertType): BluePrint {
   return config;
 }
 
+// Radio buttons need a unique string id
+// type alone is not unique when subType is defined
+export function idFromBluePrint(item: BluePrint): string {
+  return `${item.type}_${item.subType || ''}`;
+}
+
 export function getSimpleModeBlueprintConfig(
   alertType: WebsitesAlertType,
   alertThreshold: ThresholdConfig

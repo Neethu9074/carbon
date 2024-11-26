@@ -10,6 +10,7 @@ import { Typography } from '@instana/components';
 
 import SloApplicationEntityEditSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloApplicationEntityEditSection';
 import SloWebsiteEntityEditSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloWebsiteEntityEditSection';
+import SloSynthethicEntitySection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloSynthethicEntitySection';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { t } from 'in-i18n';
 
@@ -25,6 +26,7 @@ export default function SloEntityEditModeSectionContent() {
       </Typography>
       {sloSloEntityTypeField.value === 'application' && <SloApplicationEntityEditSection />}
       {sloSloEntityTypeField.value === 'website' && <SloWebsiteEntityEditSection />}
+      {sloSloEntityTypeField.value === 'synthetic' && <SloSynthethicEntitySection />}
     </>
   );
 }

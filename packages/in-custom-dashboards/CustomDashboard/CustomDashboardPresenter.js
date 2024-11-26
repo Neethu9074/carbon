@@ -11,9 +11,11 @@ import { HorizontalIndicator, Button } from '@instana/components';
 import {
   carbonButtonEnabled,
   customDashboardTopLevelFiltersEnabled,
-  customDashboardsExportPdfEntireDashboard
+  customDashboardsExportPdfEntireDashboard,
+  customDashboardsFastQueryModeEnabled
 } from 'in-services/featureFlags';
 import EntityPageMainNotificationLightCardV2 from 'in-components/EntityPageMainNotification/EntityPageMainNotificationLightCardV2';
+import { FastQueryModeToggle } from 'in-custom-dashboards/CustomDashboard/FastQueryModeToggle/FastQueryModeToggle';
 import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/customDashboards';
 import TopLevelFilterBar from 'in-custom-dashboards/CustomDashboard/FilterContext/TopLevelFilterBar';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
@@ -56,7 +58,7 @@ export default function CustomDashboardPresenter(props) {
     onDuplicateWidget,
     onZoomWidget,
     topLevelFilters,
-    setTopLevelFilters,
+    onTopLevelFiltersChange,
     shouldWidgetRenderOutsideViewport
   } = props;
 
@@ -122,14 +124,14 @@ export default function CustomDashboardPresenter(props) {
                       }
                       renderTopLevelButtonLine={config && (() => <TopLevelButtonLine {...props} />)}
                     />
-
                     {customDashboardTopLevelFiltersEnabled && (
-                      <TopLevelFilterBar topLevelFilters={topLevelFilters} setTopLevelFilters={setTopLevelFilters} />
+                      <TopLevelFilterBar
+                        topLevelFilters={topLevelFilters}
+                        onTopLevelFiltersChange={onTopLevelFiltersChange}
+                      />
                     )}
-
                     {result && <HorizontalIndicator progress={result.progress} />}
                     <DashboardHeaderShadowModule />
-
                     <Title
                       title={t('in-custom-dashboards:customDashboard.customDashboardPresenter.customDashboard')}
                       dynamic={config && config.title}
@@ -214,6 +216,7 @@ function SecondaryButtonLine({
 }) {
   return (
     <>
+      {customDashboardsFastQueryModeEnabled && <FastQueryModeToggle />}
       {editable && (
         <Button kind="action" onClick={onAddWidget} icon="lib_openclose_add_circle_outline">
           {t('in-custom-dashboards:customDashboard.customDashboardPresenter.addWidget')}

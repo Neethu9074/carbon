@@ -20,10 +20,12 @@ import { default as AppTopListCatalog } from 'in-custom-dashboards/widgets/TopLi
 import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
+import { hasApplicationMetrics } from 'in-custom-dashboards/widgets/_shared/hasApplicationMetrics';
 import { useLinkToAnalyze as useLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
 import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
+import { customDashboardsFastQueryModeEnabled } from 'in-services/featureFlags';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { useLinkToAnalyzeDeprecated } from 'in-analyze/navigation/paths';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
@@ -123,6 +125,10 @@ export function ListWidgetRenderer({
 }) {
   const hasApproximateData =
     result?.data?.filter(elem => elem?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE').length > 0;
+  const approximateTooltipText =
+    customDashboardsFastQueryModeEnabled && hasApplicationMetrics(config)
+      ? t('in-components:approximateDataIndicator.dataRetentionOrFastQueryMode')
+      : t('in-components:approximateDataIndicator.dataRetention');
   return (
     <TopListCardPresenter
       title={title}
@@ -137,6 +143,7 @@ export function ListWidgetRenderer({
       tagCatalog={tagCatalog}
       renderHistoricDataIndicator
       hasApproximateData={hasApproximateData}
+      approximateTooltipText={approximateTooltipText}
       isScrollbarVisible
       isInModal={isInModal}
       header={
@@ -257,11 +264,16 @@ function Label({ item, config, result, tagCatalog }) {
       expressions: filteredTags
     });
   }
-
+  const { includeInternal = false, includeSynthetic = false } = config.metricConfiguration;
+  const hiddenCalls = {
+    includeInternal,
+    includeSynthetic
+  };
   let link = config.metricConfiguration.tagFilterExpression
     ? getLinkToApplicationAnalyze({
         dataSource: 'calls',
-        formModel
+        formModel,
+        hiddenCalls
       })
     : tagCatalog &&
       getLinkToAnalyzeDeprecated({

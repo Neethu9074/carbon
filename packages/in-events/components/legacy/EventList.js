@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { Card, Stack, Typography, Collapsible, CarbonLayer, IconButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
@@ -14,16 +14,18 @@ import {
   eventFeedbackEnabled,
   businessObservabilityEnabled
 } from 'in-services/featureFlags';
+import LegacyRootCauseSection from 'in-events/components/RootCauseAnalysis/Legacy/LegacyRootCauseSection';
 import IncidentActions from 'in-events/components/IncidentPage/IncidentOverview/IncidentActions';
 import RelatedEvents from 'in-events/components/IncidentPage/RelatedEvents/RelatedEvents';
-import LegacyRootCauseSection from 'in-events/components/legacy/LegacyRootCauseSection';
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
+import RootCauseSection from 'in-events/components/RootCauseAnalysis/RootCauseSection';
 import { getTimeConfigForSnapshotRetrieval } from 'in-events/components/eventUtil';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import RootCauseSection from 'in-events/components/legacy/RootCauseSection';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getEventViewWithTimeFocusedAt } from './EventListItem';
 import { CombinedEventListItemContent } from './EventListItem';
 import { toHtml } from 'in-services/formatters/markdown';
@@ -44,6 +46,9 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
   const triggeringEvent = useObservable(getEvent(incident.getIn(['triggeringEvent'], '')), [incident]) ?? null;
   const triggeringEventId = triggeringEvent?.get('id') || '';
 
+  const [scrolled, setScrolled] = useState(false);
+  const rcaSectionRef = useRef();
+
   const incidentHasRCAProperty =
     incident.hasIn(['metadata', 'probableRootCause']) && !incident.getIn(['metadata', 'probableRootCause']).isEmpty();
 
@@ -55,6 +60,19 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
     'rootCause',
     'probableRootCauseSnapshotMetadata'
   ]);
+
+  const { location } = useNavigation();
+
+  useEffect(() => {
+    const scrollToParam = getMatrixParameter(location, [eventsPath], 'scrollTo');
+    if (scrollToParam === 'rca') {
+      if (rcaSectionRef.current && !scrolled) {
+        rcaSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+        setScrolled(true);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!triggeringEvent) return <LoadingIndicator />;
   return (
@@ -82,7 +100,12 @@ export default function IncidentEventList({ incident, latestSnapshot, snapshot }
       )}
 
       {rcaUIEnabled && !rootCauseHasOldSnapshotMetadata && (
-        <RootCauseSection title={t('in-events:RCA.titlePRCA')} incident={incident} latestSnapshot={latestSnapshot} />
+        <RootCauseSection
+          title={t('in-events:RCA.titlePRCA')}
+          incident={incident}
+          latestSnapshot={latestSnapshot}
+          ref={rcaSectionRef}
+        />
       )}
 
       {/* Automations */}

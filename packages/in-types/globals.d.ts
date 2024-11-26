@@ -42,6 +42,7 @@ export interface Role {
   canRunAutomationActions: boolean;
   canConfigureAutomationPolicies: boolean;
   canViewLogs: boolean;
+  canViewTraceDetails: boolean;
   canConfigureLogRetentionPeriod: boolean;
   canViewAuditLog: boolean;
   canConfigureSyntheticCredentials: boolean;
@@ -63,6 +64,7 @@ export interface Role {
   canConfigureMobileAppMonitoring: boolean;
   canManuallyCloseIssue: boolean;
   canDeleteAutomationActionHistory: boolean;
+  canViewAccountAndBillingInformation: boolean;
 }
 
 export interface User {

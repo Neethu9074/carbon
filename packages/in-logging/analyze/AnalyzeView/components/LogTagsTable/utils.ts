@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2022
  */
 
+import { formatDate } from '@instana/format-date';
+
 import {
   CONTAINERD_ID,
   CONTAINERD_SNAPSHOT_ID,
@@ -140,3 +142,8 @@ export function getIconBySeverity(severity: number) {
   }
   return 'lib_uncheck';
 }
+
+export const timestampToLocaleDate = (timestamp: number) => {
+  const timestampDate = new Date(timestamp * 1000);
+  return formatDate(timestampDate)?.toString();
+};

@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 //@ts-expect-error promise loader
@@ -55,18 +55,19 @@ import {
   welcomePageV2Enabled
 } from 'in-services/featureFlags';
 import {
-  useLinkToAnalyze as useLinkToMobileAppAnalyze,
-  isAnalyzeView as isMobileAppAnalyzeView,
-  mobileAppMonitoringPath
-} from 'in-mobile-apps/navigation/paths';
-import {
   isTableView,
   physicalPath,
   agentsPath,
   containerPath,
   infraSmartAlerts,
+  infraSmartAlertsFullScreen,
   settingsPath
 } from 'in-stores/navigation/paths/mainPaths';
+import {
+  useLinkToAnalyze as useLinkToMobileAppAnalyze,
+  isAnalyzeView as isMobileAppAnalyzeView,
+  mobileAppMonitoringPath
+} from 'in-mobile-apps/navigation/paths';
 import {
   isAnalyzeView as isLogsAnalyzeView,
   isLoggingView,
@@ -106,6 +107,7 @@ import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from '
 import { isBizOpsView, businessPerspectivesPath, businessProcessPath } from 'in-bizops/navigation/paths';
 // @ts-expect-error no declaration file
 import { showReleaseNotes } from 'in-stores/releaseNotes';
+import { isVulnerabilityView, vulnerabilityRoot } from 'in-vulnerability-center/navigation/paths';
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
 import { actionCatalogFullyQualified, isAutomationView } from 'in-automation/navigation/paths';
 import { isSyntheticMonitoringView, syntheticsPath } from 'in-synthetics/navigation/paths';
@@ -114,6 +116,8 @@ import { powervcRegionListFullyQualified, powervc } from 'in-powervc/navigation/
 import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { clickVulnerabilitiesInNavigationTracker } from 'in-events/tracker';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
@@ -385,7 +389,8 @@ function Infrastructure() {
     return null;
   }
 
-  const isActive = matchLocation(physicalPath, containerPath, infraSmartAlerts) || isTableViewActive;
+  const isActive =
+    matchLocation(physicalPath, containerPath, infraSmartAlerts, infraSmartAlertsFullScreen) || isTableViewActive;
 
   return (
     <MenuItem
@@ -449,6 +454,22 @@ function Analyze() {
           hasInfrastructureAnalyzeAccess && just(getLinkToInfraEntityExplore(defaultInfraExploreViewParams))
         ].filter(Boolean)[0]
       }
+    />
+  );
+}
+
+function VulnerabilityCenter() {
+  const { createHrefToPath, matchLocation } = useNavigation();
+  const { unstable_trackEvent } = useSegmentTracking();
+
+  return (
+    <MenuItem
+      id="main-nav-vul-dashboard"
+      label={t('in-components:mainNavigation.viewVulnerabilityCenter')}
+      icon="lib_events_cve"
+      isActive={matchLocation(isVulnerabilityView)}
+      onClick={() => clickVulnerabilitiesInNavigationTracker(unstable_trackEvent)}
+      href={createHrefToPath(vulnerabilityRoot)}
     />
   );
 }
@@ -770,6 +791,7 @@ export default function CarbonUIShell() {
       <Logging />
       <Synthetics />
       <Analyze />
+      <VulnerabilityCenter />
       <Incidents />
       <AutomationMenu />
       <SloDashboard />

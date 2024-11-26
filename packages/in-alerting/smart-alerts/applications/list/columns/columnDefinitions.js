@@ -14,7 +14,15 @@ import ListSelectionColumn from 'in-alerting/smart-alerts/applications/list/colu
 import { ListActionsColumn } from 'in-alerting/smart-alerts/components/list/columns/ListActionsColumn';
 import ListFilterColumn from 'in-alerting/smart-alerts/applications/list/columns/ListFiltersColumn';
 import { ListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/ListNameColumn';
+import TableNameColumnCell from 'in-alerting/smart-alerts/components/table/TableNameColumnCell';
+import { getSubtitle } from 'in-alerting/smart-alerts/applications/list/columns/ListNameColumn';
+import { actionHandlers } from 'in-alerting/smart-alerts/applications/list/ListActionHandlers';
+import { createRowLinkLocation } from 'in-alerting/smart-alerts/applications/list/rowLinking';
+import StatusColumnCell from 'in-alerting/smart-alerts/components/list/StatusColumnCell';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { isCategoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
+import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/list/columns/ListColumns.mless';
@@ -138,4 +146,69 @@ export function deselectActionColumnDefinition(onDeselect, width) {
       return <ListDeselectionColumn onDeselect={onDeselect} config={config} />;
     }
   };
+}
+
+// function to display subtitle in carbon table
+export function getEntityNameAsSubtitle(config, isGlobalSmartAlertConfig) {
+  if (!isGlobalSmartAlertConfig) {
+    return;
+  }
+  const { applicationIds } = config;
+  const label = t('in-alerting:smartAlerts.applications.inventory.numberOfApplicationsSelected', {
+    count: applicationIds.length
+  });
+  return <ListSubtitle label={label} icon={'lib_application'} />;
+}
+
+export function createTableColumnDefinition(configsCategory, trackCta) {
+  const isGlobalSmartAlertConfig = isCategoryGlobal(configsCategory);
+  const showActionButtons = isGlobalSmartAlertConfig
+    ? role.canConfigureGlobalApplicationSmartAlerts
+    : role.canConfigureApplicationSmartAlerts;
+
+  const nameColumn = {
+    id: 'name',
+    label: t('in-alerting:smartAlerts.list.columns.name'),
+    sortable: true,
+    getContent: config => (
+      <TableNameColumnCell
+        config={config}
+        getNameSubtitle={(config, isGlobalSmartAlertConfig) =>
+          getEntityNameAsSubtitle(config, isGlobalSmartAlertConfig)
+        }
+        createRowLinkLocation={createRowLinkLocation(configsCategory)}
+        isCategoryGlobal={isGlobalSmartAlertConfig}
+      />
+    )
+  };
+
+  const triggeringAction = {
+    id: 'triggering-action',
+    label: t('in-alerting:table.triggeringAction'),
+    getContent: config => <>{getSubtitle(config.rule, config.threshold)}</>,
+    sortable: false
+  };
+
+  const status = {
+    id: 'enabled',
+    label: t('in-alerting:table.status'),
+    getContent: config => <StatusColumnCell status={config.enabled} />,
+    sortable: true
+  };
+  const actionHandler = {
+    id: 'actions',
+    sortable: false,
+    getContent(config, loading) {
+      return (
+        showActionButtons && (
+          <ListActionsColumn
+            config={config}
+            isLoading={loading}
+            actionHandlers={actionHandlers(isGlobalSmartAlertConfig, trackCta)}
+          />
+        )
+      );
+    }
+  };
+  return [nameColumn, triggeringAction, status, actionHandler];
 }

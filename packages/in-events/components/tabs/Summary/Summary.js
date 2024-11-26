@@ -5,8 +5,8 @@
 
 import React from 'react';
 
+import { Card, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Card } from '@instana/components';
 
 import {
   getSnapshotId,
@@ -28,6 +28,7 @@ import {
   getEventStateBadge
 } from 'in-events/components/eventUtil';
 import {
+  aqmDisableConfigOnEventViewEnabled,
   manuallyCloseEventEnabled,
   eumImpactedUsersForAppAlertEnabled,
   businessObservabilityEnabled
@@ -38,7 +39,9 @@ import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/Ib
 import { DeprecatedCustomEventWarning } from 'in-events/components/tabs/Summary/DeprecatedCustomEventWarning';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
+import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import IncidentContent from 'in-events/components/tabs/Summary/IncidentDetailPage/IncidentContent';
+import DisableEventConfigButton from 'in-events/components/tabs/Summary/DisableEventConfigButton';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import ApplicationEventContent from 'in-events/components/EventContent/ApplicationEventContent';
 import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAlertImpactedUsers';
@@ -162,7 +165,6 @@ function EventContent({ event, latestSnapshot, reload }) {
   const hasEventSpec = event.getIn(['metadata', 'eventSpecificationId'], '') !== '';
   const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
 
-  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
   const pillContent = getEventStateBadge(event);
 
   return (
@@ -195,36 +197,7 @@ function EventContent({ event, latestSnapshot, reload }) {
             ) : (
               <ProblemDescription fixSuggestion={fixSuggestion} />
             )}
-            {canCloseManually && hasManualCloseFields(event) ? (
-              <div>
-                <ManualCloseDescription event={event} />
-                <DescriptionButtons>
-                  <ManualCloseIssueButton
-                    event={event}
-                    reload={reload}
-                    iconComponent={
-                      <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
-                    }
-                  />
-                  <EventSpecificationLink event={event.toJS()} />
-                  <AnalyzeIssueCallsButton event={event} />
-                </DescriptionButtons>
-              </div>
-            ) : (
-              <DescriptionButtons>
-                {canCloseManually && (
-                  <ManualCloseIssueButton
-                    event={event}
-                    reload={reload}
-                    iconComponent={
-                      <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
-                    }
-                  />
-                )}
-                <EventSpecificationLink event={event.toJS()} />
-                <AnalyzeIssueCallsButton event={event} />
-              </DescriptionButtons>
-            )}
+            <EventActions event={event} reload={reload} latestSnapshot={latestSnapshot} />
           </Card>
         </Col>
       </Row>
@@ -291,6 +264,34 @@ function EventContent({ event, latestSnapshot, reload }) {
     </>
   );
 }
+
+const EventActions = ({ event, reload, latestSnapshot }) => {
+  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const timeConfig = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
+
+  return (
+    <Stack gap="xxsmall">
+      {canCloseManually && hasManualCloseFields(event) && <ManualCloseDescription event={event} />}
+      <DescriptionButtons>
+        {canCloseManually && (
+          <ManualCloseIssueButton
+            event={event}
+            reload={reload}
+            iconComponent={
+              <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
+            }
+          />
+        )}
+        <TriggeredIncidentButton event={event} />
+        <EventSpecificationLink event={event.toJS()} />
+        {aqmDisableConfigOnEventViewEnabled && (
+          <DisableEventConfigButton event={event} eventType="event" reload={reload} />
+        )}
+        <AnalyzeIssueCallsButton event={event} />
+      </DescriptionButtons>
+    </Stack>
+  );
+};
 
 function ProcessContent({ snapshot, timeConfig }) {
   if (!snapshot || (snapshot.progress && snapshot.progress.loading)) {

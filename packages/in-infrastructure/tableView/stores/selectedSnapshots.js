@@ -5,7 +5,8 @@
 
 import { combineLatest } from '@instana/observables';
 
-import { track, TABLE_ENTITY_ADDED, TABLE_ENTITY_CLEARED, TABLE_ENTITY_REMOVED } from 'in-services/tracking/tracking';
+import { TABLE_ENTITY_ADDED, TABLE_ENTITY_CLEARED, TABLE_ENTITY_REMOVED } from 'in-services/tracking/tracking';
+import { infraEventCTAClicked, infraEventUIInteraction } from 'in-infrastructure/tracking/tracking';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { tablePath } from 'in-stores/navigation/paths/mainPaths';
@@ -33,10 +34,10 @@ export function toggleSnapshotId(snapshotId, entityType) {
     const i = selectedSnapshotIds.indexOf(snapshotId);
 
     if (i === -1) {
-      track(TABLE_ENTITY_ADDED, { type: entityType });
+      infraEventUIInteraction({ event: TABLE_ENTITY_ADDED, customData: { entityType } });
       selectedSnapshotIds.push(snapshotId);
     } else {
-      track(TABLE_ENTITY_REMOVED, { type: entityType });
+      infraEventUIInteraction({ event: TABLE_ENTITY_REMOVED, customData: { entityType } });
       selectedSnapshotIds.splice(i, 1);
     }
 
@@ -45,7 +46,7 @@ export function toggleSnapshotId(snapshotId, entityType) {
 }
 
 export function clearSelectedSnapshots() {
-  track(TABLE_ENTITY_CLEARED);
+  infraEventCTAClicked({ event: TABLE_ENTITY_CLEARED });
   mutateUrl(location => setOrDeleteMatrixKey(location, tablePath, 'snapshotIds'));
 }
 
