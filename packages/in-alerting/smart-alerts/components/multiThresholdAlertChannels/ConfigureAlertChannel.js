@@ -9,20 +9,22 @@ import PropTypes from 'prop-types';
 
 import { Button, Stack, Spacer } from '@instana/components';
 
-import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import {
   updateChannelListsToForm,
-  updateDefaultSelectionsToForm
+  updateDefaultSelectionsToForm,
+  getThresholdFieldStatus
 } from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
+import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
+import SelectAlertChannelsListTearSheet from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/SelectAlertChannelsListTearSheet';
 import AlertChannelsListForSlideIn from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
 import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';
 import { limitForConnectedAlertChannels } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/Alert';
 import AlertChannelsList from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/AlertChannelsList';
 import SelectListDialogContentComponent from 'in-settings/tabs/GlobalSettings/components/SelectListDialogContent';
 import AlertChannelCreation from 'in-alerting/smart-alerts/components/dialog/AlertChannelCreation';
-import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import NoChannelSelected from 'in-alerting/components/NoChannelSelected';
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -41,19 +43,13 @@ export default function ConfigureAlertChannel({
   setCustomSlideInHeaderConfig,
   numberOfAlertChannelListRows = 5,
   isTearSheet = false,
-  simpleMode = false
+  simpleMode = false,
+  alertChannelPerSeverityEnabled = false
 }) {
   const selectedChannels = form.get('alertChannels').value;
-  //console.log('selectedChannels', selectedChannels);
 
-  const warningThresholdField = form.get('threshold')?.get('warningThreshold');
-  const criticalThresholdField = form.get('threshold')?.get('criticalThreshold');
-  const warningThresholdFieldDisabled =
-    isEmpty(warningThresholdField?.get('value')?.value) && !warningThresholdField?.get('isCheckboxSelected')?.value;
-  const criticalThresholdFieldDisabled =
-    isEmpty(criticalThresholdField?.get('value')?.value) && !criticalThresholdField?.get('isCheckboxSelected')?.value;
+  const { warningThresholdFieldDisabled, criticalThresholdFieldDisabled } = getThresholdFieldStatus(form);
   const selectedChannelsArrayField = form.get('hiddenFields').get('selectedChannelList');
-
   return (
     <>
       <AlertChannelsList
@@ -108,6 +104,16 @@ export default function ConfigureAlertChannel({
                     },
                     isVisible: true
                   });
+                } else {
+                  addActiveDialog(
+                    <SelectAlertChannelsListTearSheet
+                      form={form}
+                      updateForm={updateForm}
+                      close={close}
+                      numberOfAlertChannelListRows={numberOfAlertChannelListRows}
+                      alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
+                    />
+                  );
                 }
               }}
               icon="lib_openclose_add_circle_outline"
@@ -251,5 +257,6 @@ ConfigureAlertChannel.propTypes = {
   setCustomSlideInHeaderConfig: PropTypes.func.isRequired,
   numberOfAlertChannelListRows: PropTypes.number,
   isTearSheet: PropTypes.bool,
-  simpleMode: PropTypes.bool
+  simpleMode: PropTypes.bool,
+  alertChannelPerSeverityEnabled: PropTypes.bool
 };

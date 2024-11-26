@@ -7,6 +7,7 @@
 import { Field, MapForm } from 'formalistic';
 
 import { ADAPTIVE_BASELINE, STATIC_THRESHOLD, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { getThresholdFieldStatus } from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/dialog/form/ruleForm';
 import useFormSideEffects, { CHANGE_TYPES } from 'in-hooks/useFormSideEffects';
 
@@ -67,6 +68,10 @@ export function useSmartAlertFormSideEffects(form: MapForm<any>, setForm: (field
     {
       path: ['hiddenFields', 'chartViewEntitySelection'],
       effects: [requestThresholdOnEntitySelectionChange]
+    },
+    {
+      path: ['rule', 'alertType'],
+      effects: [updateAlertChannelsOnBPChange]
     }
   ];
 
@@ -76,6 +81,22 @@ export function useSmartAlertFormSideEffects(form: MapForm<any>, setForm: (field
     effects,
     changesToTrack: [CHANGE_TYPES.EDIT, CHANGE_TYPES.LIST_UPDATE, CHANGE_TYPES.INSERT]
   });
+}
+
+function updateAlertChannelsOnBPChange(form: MapForm<any>) {
+  const selectedChannelsArray = form.get('hiddenFields').get('selectedChannelList').value;
+  const { warningThresholdFieldDisabled, criticalThresholdFieldDisabled } = getThresholdFieldStatus(form);
+  if (warningThresholdFieldDisabled && criticalThresholdFieldDisabled && selectedChannelsArray.length > 0) {
+    form.updateIn(['alertChannels'], f =>
+      f
+        .setValue({
+          WARNING: [...selectedChannelsArray],
+          CRITICAL: []
+        })
+        .setTouched(true)
+    );
+  }
+  return form;
 }
 
 function resetBaseline(form: MapForm<any>): MapForm<any> {

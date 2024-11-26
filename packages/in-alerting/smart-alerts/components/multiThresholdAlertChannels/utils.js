@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { t } from 'in-i18n';
 
 export const REMAINING = 'remaining';
@@ -246,4 +247,20 @@ export function updateAlertChannelSelectionOnCriticalThresholdFieldChange(
     // If only critical threshold is present, reset WARNING selections and move them to CRITICAL
     updateAlertChannelIds(form, updateForm, [], [...warningChannels]);
   }
+}
+
+export function getThresholdFieldStatus(form) {
+  const warningThresholdField = form?.get('threshold')?.get('warningThreshold');
+  const criticalThresholdField = form?.get('threshold')?.get('criticalThreshold');
+
+  const warningThresholdFieldDisabled =
+    isEmpty(warningThresholdField?.get('value')?.value) && !warningThresholdField?.get('isCheckboxSelected')?.value;
+
+  const criticalThresholdFieldDisabled =
+    isEmpty(criticalThresholdField?.get('value')?.value) && !criticalThresholdField?.get('isCheckboxSelected')?.value;
+
+  return {
+    warningThresholdFieldDisabled,
+    criticalThresholdFieldDisabled
+  };
 }

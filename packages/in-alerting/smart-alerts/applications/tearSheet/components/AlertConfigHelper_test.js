@@ -27,6 +27,7 @@ const alertConfigData = {
   readOnly: false,
   alertChannelIds: [],
   applicationId: undefined,
+  alertChannels: { WARNING: [], CRITICAL: [] },
   applications: {},
   boundaryScope: 'INBOUND',
   builtIn: undefined,

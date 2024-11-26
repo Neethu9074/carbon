@@ -23,3 +23,5 @@ export function updateAlertChannelSelectionOnCriticalThresholdFieldChange(
   form: MapForm<any>,
   updateForm: (form: MapForm<any>) => void
 );
+
+export function getThresholdFieldStatus(form: MapForm<any>);

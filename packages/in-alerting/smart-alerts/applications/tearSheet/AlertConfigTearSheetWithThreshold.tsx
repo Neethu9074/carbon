@@ -31,10 +31,10 @@ import {
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
 //@ts-expect-error
 import { channelListLoading$ } from 'in-alerting/smart-alerts/components/tearSheet/AlertChannelsList';
+import { smartAlertsLogsBlueprintEnabled, alertChannelPerSeverityApplicationSaEnabled } from 'in-services/featureFlags';
 import { ApplicationSmartAlertConfig } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import useAlertConfigValidation from 'in-alerting/smart-alerts/applications/hooks/useAlertConfigValidation';
-import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
 import AlertingTearSheet from 'in-alerting/components/AlertingTearSheet';
 import { MessageType } from 'in-components/MessageStack/MessageStack';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -226,7 +226,7 @@ function additionalValidationCheck(
   if (step === 1 || step === 3) {
     return isTagFilterFormModelValid;
   } else if (step === 5) {
-    return channelListLoading === undefined ? false : true;
+    return channelListLoading === undefined && !alertChannelPerSeverityApplicationSaEnabled ? false : true;
   }
   return true;
 }
