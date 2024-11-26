@@ -7,10 +7,10 @@
 import { useEffect, useState, useCallback } from 'react';
 import * as React from 'react';
 
-import { PAGE_SCROLLED_BOTTOM, track } from 'in-services/tracking/tracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
+import { PAGE_SCROLLED_BOTTOM } from 'in-services/tracking/tracking';
 import { UI_INTERACTION } from 'in-services/util/constants';
 import usePrevious from 'in-hooks/usePrevious';
 
@@ -45,7 +45,6 @@ export default function ScrollTrackingWrapper({ children }: Props) {
     setIsBottomReached(false);
   }, []);
 
-  // Send hit to mixpanel in case it has not been performed before
   useEffect(() => {
     if (isBottomReached && !isTrackingPerformed) {
       if (pageRootName && productArea) {
@@ -57,7 +56,6 @@ export default function ScrollTrackingWrapper({ children }: Props) {
         };
         eventTracker({ data, segmentEventName: UI_INTERACTION });
       }
-      track(PAGE_SCROLLED_BOTTOM, { pathname });
       setIsTrackingPerformed(true);
     }
   }, [isBottomReached, isTrackingPerformed, pageRootName, pathname, productArea]);

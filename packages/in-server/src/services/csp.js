@@ -13,10 +13,6 @@ if (isRequiringInstanaRocks()) {
   allowedScriptOrigins.push('*.instana.rocks');
 }
 
-if (serverConfig.mixpanelToken) {
-  allowedScriptOrigins.push('https://cdn.mxpnl.com');
-}
-
 if (serverConfig.appcuesId) {
   allowedScriptOrigins.push('https://fast.appcues.com');
 }

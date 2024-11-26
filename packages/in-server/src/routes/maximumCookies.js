@@ -19,7 +19,6 @@ router.get('/maximumCookies', (req, res) => {
   res.send(
     compiledTemplate({
       appcuesId: serverConfig.appcuesId,
-      mixpanelToken: serverConfig.mixpanelToken,
       eumTrackingDomain: serverConfig.eum.domain,
       eumTrackingApiKey: serverConfig.eum.apiKey,
       eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,

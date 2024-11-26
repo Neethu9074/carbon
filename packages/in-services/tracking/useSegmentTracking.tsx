@@ -36,10 +36,6 @@ export function useSegmentTracking(): {
   /**
    * This is a suggestion, if you start planning to use this function, please reach out
    * to figure out if all requirements will be fulfilled for your purpose.
-   *
-   * Open questions:
-   * Should it also send data to mixpanel? Will is use different options for that, and
-   * would need an additional function parameter for that?
    */
   function unstable_trackEvent(segmentEventName: string, eventData: Object, customData?: Object): void {
     const { pageRootName, productArea } = getViewTrackingMetaData();

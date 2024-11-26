@@ -516,7 +516,6 @@ export const BIZOPS_PERSPECTIVE_CREATED = 'bizops.perspective.created';
 export const BIZOPS_BREADCRUMB_CLICK = 'bizops.breadcrumb.click';
 export const BIZOPS_DEPLOY_AGENT_CLICK = 'bizops.deploy.agent.click';
 
-// Mixpanel
 export const BIZOPS_PERSPECTIVE_LIST_SELECT = 'bizops.perspective.list.select';
 
 export const BIZOPS_PROCESS_TABS_CLICK = 'bizops.process.tabs.click';

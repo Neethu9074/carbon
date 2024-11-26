@@ -35,9 +35,6 @@ initialiseSteps([
   // accept terms and privacy settings
   'waitingTermsAndPrivacy',
 
-  // for anonymus tracking during the onboarding process
-  'anonymousMixpanel',
-
   // This must be the second-last step: Rendering of the UI
   'waitingRendering',
 

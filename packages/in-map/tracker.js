@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { track as trackMixpanel, MAP_SELECT_ENTITY } from 'in-services/tracking/tracking';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
+import { MAP_SELECT_ENTITY } from 'in-services/tracking/tracking';
 import { UI_INTERACTION } from 'in-services/util/constants';
 
 export const entitySelectedTracker = customData => {
@@ -20,5 +20,4 @@ export const entitySelectedTracker = customData => {
   };
 
   eventTracker({ data, segmentEventName: UI_INTERACTION });
-  trackMixpanel(MAP_SELECT_ENTITY, customData);
 };
