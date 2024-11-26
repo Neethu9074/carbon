@@ -13,7 +13,7 @@ jest.mock('in-i18n', () => ({
 }));
 
 describe('in-amp/components/DataIngestTable.js', () => {
-  it('Check if the email message has a placeholder.', () => {
+  it('Check if data table has correct values.', () => {
     const dataTable = {
       //Dec 2023
       1701388800000: {
@@ -95,7 +95,7 @@ describe('in-amp/components/DataIngestTable.js', () => {
         unit: 'MVS',
         title: '',
         offering: 'Essentials',
-        calculation: '(4)-(2)',
+        calculation: '(4)-(2) - ((1)-(3))',
         [Object.keys(dataTable)[0]]: 0
       },
       {
