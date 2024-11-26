@@ -41,7 +41,7 @@ export default function PushDataConsumptionMessage() {
       if (activeLicenseType === 'hostBasedPaid' && dataUsagePercentage >= 80 && changeStorageValue) {
         addMessage(
           {
-            title: getTitle(dataUsagePercentage),
+            title: t('in-plg:dataConsumptionMessage.title'),
             type: 'info',
             icon: 'info',
             content: <DataConsumptionMessageContent roundOffValue={roundOffValue} />
@@ -56,18 +56,19 @@ export default function PushDataConsumptionMessage() {
 function DataConsumptionMessageContent({ roundOffValue }: { roundOffValue: number }) {
   const { createHrefToPath } = useNavigation();
   const { trackCta } = useSegmentTracking();
+
   return (
     <>
-      <Trans
-        i18nKey="in-plg:dataConsumptionMessage.description"
-        values={{
-          dataConsumption: roundOffValue,
-          remainingText:
-            roundOffValue >= 100
-              ? t('in-plg:dataConsumptionMessage.remainingTextHundred')
-              : t('in-plg:dataConsumptionMessage.remainingText')
-        }}
-      />
+      {roundOffValue >= 100 ? (
+        <Trans i18nKey="in-plg:dataConsumptionMessage.description100" />
+      ) : (
+        <Trans
+          i18nKey="in-plg:dataConsumptionMessage.description"
+          values={{
+            dataConsumption: roundOffValue
+          }}
+        />
+      )}
       <Button
         size="compact"
         kind="tertiary"
@@ -98,20 +99,6 @@ function roundOff(percentage: number): { roundedPercentage: number; storageValue
     }
   }
   return { roundedPercentage: 0, storageValue: '0' };
-}
-
-function getTitle(percentage: number): string {
-  const titles = [
-    { min: 100, key: t('in-plg:dataConsumptionMessage.hundred.title') },
-    { min: 90, key: t('in-plg:dataConsumptionMessage.ninety.title') },
-    { min: 80, key: t('in-plg:dataConsumptionMessage.eighty.title') }
-  ];
-  for (const title of titles) {
-    if (percentage >= title.min) {
-      return title.key;
-    }
-  }
-  return '';
 }
 
 function dataUsageRangeChange(storeValue: string) {
