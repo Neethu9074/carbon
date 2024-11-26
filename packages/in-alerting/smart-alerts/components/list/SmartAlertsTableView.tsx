@@ -7,7 +7,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { isEmpty } from 'lodash';
 
-import { ButtonGroup } from '@instana/components';
+import { CarbonTab, CarbonTabList, CarbonTabPanels } from '@instana/components';
+import { CarbonTabs } from '@instana/components';
 import { create } from '@instana/observables';
 
 import {
@@ -25,15 +26,12 @@ import {
 } from 'in-alerting/smart-alerts/components/list/constants';
 import { SmartAlertsTableViewProps } from 'in-alerting/smart-alerts/components/list/SmartAlertsTableWithUrlState';
 import SmartAlertTablePresenter from 'in-alerting/smart-alerts/components/list/SmartAlertTablePresenter';
-import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { AlertConfigType } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import { TableState } from 'in-components/tables/ServerTable/types';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
-
-import locals from './SmartAlertsTableView.mless';
 
 const defaultPageSize = 10;
 
@@ -115,6 +113,40 @@ export default function SmartAlertsTableView<AlertConfig extends AlertConfigType
   if (loading) {
     return <LoadingList numSkeletonRows={3} />;
   }
+  const defaultSelectedIndex = isCategoryGlobal(configsCategory) ? 0 : 1;
+
+  const serverTableList = (
+    <SmartAlertTablePresenter
+      cardTitle={hasSingleCategory ? getLocalAlertConfigTitle(localSearchResults.length || 0) : undefined}
+      columnDefinitions={columnDefinitions}
+      result={getListItems(searchResultsSelected.length, listItems.current, pageSize)}
+      orderBy={orderBy}
+      orderDirection={orderDirection}
+      page={page}
+      query={query}
+      pageSize={pageSize}
+      pageSizes={[pageSize]}
+      onChange={(data: Partial<TableState>) => {
+        setState({
+          page: data.page ?? page,
+          orderBy: !isEmpty(data.orderBy) ? data.orderBy : orderBy,
+          orderDirection: data.orderDirection,
+          query: data.query ?? query
+        });
+      }}
+      toolBarContent={toolBarContent}
+      allRowSelected={selectedData.length > 0 && selectedData.length === listItems.current.length}
+      rowSelected={selectedData}
+      handleSelectAll={() => handleSelectAll(selectedData, setSelectedRows, listItems.current)}
+      handleRowSelect={(row: RowProps) => handleRowSelect(row, selectedData, setSelectedRows)}
+      handleToolBarActionCancel={() => handleToolBarActionCancel(setSelectedRows)}
+      isSearchable
+      isSelectable={isSelectable}
+      noDataHeader={noDataHeader}
+      noDataDescription={noDataDescription}
+      searchPlaceholderText={t('in-alerting:table.searchPlaceholder')}
+    />
+  );
 
   return (
     <>
@@ -123,63 +155,34 @@ export default function SmartAlertsTableView<AlertConfig extends AlertConfigType
           pagePath: location?.pathname
         }}
       />
-      <HorizontalFlexWrapper className={locals.listHeader}>
-        {!hasSingleCategory && (
-          <ButtonGroup
-            segmented
-            buttonPropsList={[
-              {
-                text: getGlobalAlertConfigTitle(globalSearchResults.length || 0),
-                key: categoryGlobal,
-                onClick() {
-                  setState({ page: 1 });
-                  setConfigsCategory(categoryGlobal);
-                }
-              },
-              {
-                text: getLocalAlertConfigTitle(localSearchResults.length || 0),
-                key: categoryLocal,
-                onClick() {
-                  setState({ page: 1 });
-                  setConfigsCategory(categoryLocal);
-                }
-              }
-            ]}
-            activeKey={configsCategory}
-          />
-        )}
-      </HorizontalFlexWrapper>
 
-      <SmartAlertTablePresenter
-        cardTitle={hasSingleCategory ? getLocalAlertConfigTitle(localSearchResults.length || 0) : undefined}
-        columnDefinitions={columnDefinitions}
-        result={getListItems(searchResultsSelected.length, listItems.current, pageSize)}
-        orderBy={orderBy}
-        orderDirection={orderDirection}
-        page={page}
-        query={query}
-        pageSize={pageSize}
-        pageSizes={[pageSize]}
-        onChange={(data: Partial<TableState>) => {
-          setState({
-            page: data.page ?? page,
-            orderBy: !isEmpty(data.orderBy) ? data.orderBy : orderBy,
-            orderDirection: data.orderDirection,
-            query: data.query ?? query
-          });
-        }}
-        toolBarContent={toolBarContent}
-        allRowSelected={selectedData.length > 0 && selectedData.length === listItems.current.length}
-        rowSelected={selectedData}
-        handleSelectAll={() => handleSelectAll(selectedData, setSelectedRows, listItems.current)}
-        handleRowSelect={(row: RowProps) => handleRowSelect(row, selectedData, setSelectedRows)}
-        handleToolBarActionCancel={() => handleToolBarActionCancel(setSelectedRows)}
-        isSearchable
-        isSelectable={isSelectable}
-        noDataHeader={noDataHeader}
-        noDataDescription={noDataDescription}
-        searchPlaceholderText={t('in-alerting:table.searchPlaceholder')}
-      />
+      {!hasSingleCategory ? (
+        <CarbonTabs defaultSelectedIndex={defaultSelectedIndex}>
+          <CarbonTabList aria-label="Smart alert" contained>
+            <CarbonTab
+              onClick={() => {
+                setState({ page: 1 });
+                setConfigsCategory(categoryGlobal);
+              }}
+              secondaryLabel={(globalSearchResults.length || 0).toString()}
+            >
+              {getGlobalAlertConfigTitle(0)}
+            </CarbonTab>
+            <CarbonTab
+              onClick={() => {
+                setState({ page: 1 });
+                setConfigsCategory(categoryLocal);
+              }}
+              secondaryLabel={(localSearchResults.length || 0).toString()}
+            >
+              {getLocalAlertConfigTitle(0)}
+            </CarbonTab>
+          </CarbonTabList>
+          <CarbonTabPanels>{serverTableList}</CarbonTabPanels>
+        </CarbonTabs>
+      ) : (
+        <>{serverTableList}</>
+      )}
     </>
   );
 }

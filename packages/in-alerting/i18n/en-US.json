@@ -502,6 +502,8 @@
         "noPermissionGlobalSmartAlertEdit": "You don't have the permission to perform this action",
         "labelGlobalSmartAlertsList": "Global Application Smart Alerts ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Application Smart Alerts ({{numberOfAlerts}})",
+        "labelGlobalSmartAlertsTable": "Global Application Smart Alerts",
+        "labelSmartAlertsTable": "Application Smart Alerts",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
         "getSubtitleForStaticThreshold": "Static Threshold, {{metricLabel}} {{operator}} {{value}}",
         "getSubtitleForStaticDailySeasonality": "Static Daily Seasonality, {{metricLabel}}",
@@ -519,7 +521,11 @@
         "numberOfApplicationsSelected_plural": "{{count}} applications selected",
         "numberOfApplicationsSelected_0": "{{count}} applications selected",
         "numberOfApplicationsSelected_1": "{{count}} applications selected",
-        "numberOfApplicationsSelected_2": "{{count}} applications selected"
+        "numberOfApplicationsSelected_2": "{{count}} applications selected",
+        "noGlobalAlertDataHeader": "No global application Smart Alerts",
+        "noGlobalAlertDataDescription": "To get started, click <strong>Create global Smart Alert</strong>.",
+        "noLocalAlertDataHeader": "No application Smart Alerts",
+        "noLocalAlertDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
       },
       "details": {
         "title": "Alert Details",
@@ -1110,7 +1116,9 @@
           "filter_0": "Filters",
           "filter_1": "Filters",
           "filter_2": "Filters"
-        }
+        },
+        "noDataHeader": "No website Smart Alerts",
+        "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
       }
     },
     "sortOptions": {
@@ -1154,7 +1162,9 @@
         "timeThreshold": "Time Threshold",
         "filterApplied": "Filter Applied",
         "violationsCount": "{{violationsCount}} failures",
-        "numberOfFailures": "Failure Alerting"
+        "numberOfFailures": "Failure Alerting",
+        "noDataHeader": "No synthetic Smart Alerts",
+        "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
       },
       "alertProperties": {
         "testName": "Test_Name",
@@ -1289,7 +1299,9 @@
         "filter_0": "Filters",
         "filter_1": "Filters",
         "filter_2": "Filters",
-        "filterApplied": "Filter Applied"
+        "filterApplied": "Filter Applied",
+        "noDataHeader": "No mobile app Smart Alerts",
+        "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
       },
       "simple": {
         "stepConfigsStep1Title": "Step 1: Select alert",
@@ -1431,7 +1443,7 @@
         "filter_1": "Filters",
         "filter_2": "Filters",
         "noDataHeader": "No infrastructure Smart Alerts",
-        "noDataDescription": "To get started, click Create Smart Alert."
+        "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
       },
       "advancedModeContainer": {
         "scope": {
@@ -1558,7 +1570,9 @@
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}"
             }
           }
-        }
+        },
+        "noDataHeader": "No log Smart Alerts",
+        "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
       },
       "advancedModeContainer": {
         "scope": {

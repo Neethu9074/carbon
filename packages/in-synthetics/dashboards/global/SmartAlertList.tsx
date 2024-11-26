@@ -16,7 +16,10 @@ import { getAllAlertConfigs } from 'in-alerting/smart-alerts/synthetics/api/synt
 import ViewSwitcher from 'in-synthetics/dashboards/global/tabs/tests/components/ViewSwitcher';
 import { actionHandlers } from 'in-alerting/smart-alerts/synthetics/lists/ListActionHandlers';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
+import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
+import StatusColumnCell from 'in-alerting/smart-alerts/components/list/StatusColumnCell';
 import { SyntheticAlertConfigWithMetadata, SyntheticAlertConfig, Role } from 'in-types';
+import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
 import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { sortOptions } from 'in-alerting/smart-alerts/synthetics/lists/constants';
@@ -32,7 +35,9 @@ import { Location } from 'in-stores/navigation/types';
 import Sticky from 'in-components/Sticky';
 import Footer from 'in-components/Footer';
 import { role } from 'in-stores/user';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
+
+const displayCarbonTable = smartAlertCarbonTableEnabled && carbonTableEnabled;
 
 export default function SmartAlertList() {
   const handlers = (role as Role).canConfigureGlobalSyntheticSmartAlerts ? actionHandlers : {};
@@ -56,10 +61,22 @@ export default function SmartAlertList() {
           sortOptions={sortOptions}
           alertsTab={syntheticSmartAlertsPath}
           renderName={config => replaceTitlePlaceholdersWithMarkup(config.name)}
+          // for carbon table
+          extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
+          carbonActionHandlers={handlers}
+          getNameSubtitle={config => getSyntheticsSubtitle(config)}
+          displayCarbonTable={displayCarbonTable}
+          toolBarContent={
+            role?.canConfigureGlobalSyntheticSmartAlerts ? (
+              <CreateSmartAlert isCarbonTableView={displayCarbonTable} />
+            ) : undefined
+          }
+          noDataHeader={t('in-alerting:smartAlerts.synthetics.alertList.noDataHeader')}
+          noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.synthetics.alertList.noDataDescription" />}
         />
       </LeftRightPadding>
       <Footer />
-      {role?.canConfigureGlobalSyntheticSmartAlerts && (
+      {role?.canConfigureGlobalSyntheticSmartAlerts && !displayCarbonTable && (
         <FloatingActionButtons>
           <CreateSmartAlert />
         </FloatingActionButtons>
@@ -114,4 +131,38 @@ function createRowLinkLocation(config: SyntheticAlertConfigWithMetadata, locatio
   setOrDeleteMatrixKey(rowLinkLocation, syntheticSmartAlertsPath, alertIdMatrixParam, config.id);
   setOrDeleteMatrixKey(rowLinkLocation, syntheticSmartAlertsPath, alertCreatedMatrixParam, config.created);
   return rowLinkLocation;
+}
+
+export function getCarbonTableColumnDefinitions() {
+  return [
+    {
+      id: 'triggering-action',
+      label: t('in-synthetics:dashboard.alertList.timeThreshold'),
+      getContent: (config: SyntheticAlertConfigWithMetadata) => (
+        <>
+          {t('in-synthetics:dashboard.alertList.violationsCount', {
+            violationsCount: config.timeThreshold.violationsCount
+          })}
+        </>
+      ),
+      sortable: false
+    },
+    {
+      id: 'enabled',
+      label: t('in-alerting:table.status'),
+      getContent: (config: SyntheticAlertConfigWithMetadata) => <StatusColumnCell status={config.enabled} />,
+      sortable: true
+    }
+  ];
+}
+
+export function getSyntheticsSubtitle(config: SyntheticAlertConfigWithMetadata) {
+  return (
+    <ListSubtitle
+      icon="lib_synthetic"
+      label={t('in-synthetics:dashboard.alertList.testsCount', {
+        testsCount: config.syntheticTestIds.length
+      })}
+    />
+  );
 }

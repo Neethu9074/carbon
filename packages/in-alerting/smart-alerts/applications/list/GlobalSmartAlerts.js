@@ -6,7 +6,6 @@
 import React, { useState } from 'react';
 
 import { just } from '@instana/observables';
-import { Card } from '@instana/components';
 
 import GlobalInventorySmartAlertsList from 'in-alerting/smart-alerts/applications/inventory/GlobalInventorySmartAlertsList';
 import SmartAlertsNoDataNotification from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsNoDataNotification';
@@ -49,9 +48,7 @@ export default function GlobalSmartAlerts({ location }) {
             <AlertDetails location={location} timeConfig={timeConfig} />
           ) : (
             <>
-              <Card useMaxAvailableHeight={false} hasMarginBottom>
-                <GlobalInventorySmartAlertsList onNoData={() => setHasDataToRender(false)} />
-              </Card>
+              <GlobalInventorySmartAlertsList onNoData={() => setHasDataToRender(false)} />
               <Footer />
             </>
           )}
