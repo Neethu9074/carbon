@@ -24,10 +24,11 @@ import {
   useActionImpactedApplications
 } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import { turboActionCategoryMap } from 'in-automation/ResourceOptimization/RecommendedOptimizations';
-import useNavigateToActionHistory from 'in-automation/navigation/hooks/useNavigateToActionHistory';
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { ActionInstance } from 'in-automation/subscriptions/turboSubmitActionExecution';
 import { refresh } from 'in-automation/ResourceOptimization/useResourceOptimization';
+import { setActiveKey } from 'in-automation/AutomationCard/OptimizationsButtonGroup';
+import { refreshHistory } from 'in-automation/AutomationCard/useHistory';
 import { runResourceOptimizationAction } from 'in-automation/api';
 import { close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracker } from 'in-automation/tracker';
@@ -72,7 +73,6 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
   const appImpactResult = useActionImpactedApplications({
     targetSnapshotId: currentAction?.targetSnapshotId ?? ''
   });
-  const navigateToActionHistory = useNavigateToActionHistory();
   const resImpactLoading = resourceImpactResult?.progress?.loading;
   const appImpactLoading = appImpactResult?.progress?.loading;
 
@@ -108,7 +108,8 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
             <Button
               kind="tertiary"
               onClick={() => {
-                navigateToActionHistory(data?.actionInstanceId);
+                setActiveKey('history');
+                refreshHistory();
                 removeMessage('run-resource-optimization');
               }}
             >
