@@ -73,6 +73,10 @@
     .singleHostLimit {
       padding-left: 0px;
     }
+
+    .hostLimit {
+      background-color: var(--cds-layer);
+    }
   }
 
   .ActionLaneTable {

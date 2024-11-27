@@ -231,8 +231,8 @@
   },
   "sloChart": {
     "sloFormatter": {
-      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:general.format.event {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
-      "callsFormat": "{{formattedCount}} $t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
+      "thousandCallsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formattedCount}}K\" })",
+      "callsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formatted}}\" })"
     },
     "sloChartSummary": {
       "status": "Status",
