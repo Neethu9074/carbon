@@ -1786,15 +1786,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@carbon/feature-flags@npm:^0.22.0":
-  version: 0.22.0
-  resolution: "@carbon/feature-flags@npm:0.22.0"
-  dependencies:
-    "@ibm/telemetry-js": ^1.5.0
-  checksum: bfc83787cc05c57f9cc8e35ca8cbfa3ca73548ecac04f5f314e94bcddf0fb74f716ec0a00087f8966ae40cb137536f4ffbdd70b3a52163c58112489d0ee5d527
-  languageName: node
-  linkType: hard
-
 "@carbon/grid@npm:^11.25.0":
   version: 11.25.0
   resolution: "@carbon/grid@npm:11.25.0"
@@ -1805,18 +1796,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@carbon/ibm-products-styles@npm:^2.45.0, @carbon/ibm-products-styles@npm:^2.48.0":
-  version: 2.48.0
-  resolution: "@carbon/ibm-products-styles@npm:2.48.0"
+"@carbon/ibm-products-styles@npm:^2.45.0":
+  version: 2.50.0
+  resolution: "@carbon/ibm-products-styles@npm:2.50.0"
   dependencies:
     "@ibm/telemetry-js": ^1.5.0
   peerDependencies:
-    "@carbon/grid": ^11.27.0
-    "@carbon/layout": ^11.26.0
-    "@carbon/motion": ^11.22.0
-    "@carbon/themes": ^11.40.0
-    "@carbon/type": ^11.31.0
-  checksum: 931998d328b260e44b40d86044bc6b43a517fa99023d0bf06525a6dd617aa8fc873f552e0398fad8446e44ea51f084bb3ca12468760487f46280f7404b115922
+    "@carbon/grid": ^11.29.0
+    "@carbon/layout": ^11.28.0
+    "@carbon/motion": ^11.24.0
+    "@carbon/themes": ^11.43.0
+    "@carbon/type": ^11.33.0
+  checksum: 0815979a79a7a8930e73f720a42b4e3c8fa36208dc42cd154fdcf79e7739e6afd2a4d5cbf92316b1174dfeeedf2fc86a6b5b646940a034af3de495335e0d0f4a
   languageName: node
   linkType: hard
 
@@ -1849,38 +1840,6 @@ __metadata:
     react: ^16.8.6 || ^17.0.1 || ^18.2.0
     react-dom: ^16.8.6 || ^17.0.1 || ^18.2.0
   checksum: aae72414641859f2f7865dfa16bb659a86dd8f97a3e68aa68e17b99a8e9ec5257a7e0cf508b5687b41dbb88f34624240cc3711e579a68ebd7948e469ef903bed
-  languageName: node
-  linkType: hard
-
-"@carbon/ibm-products@npm:^2.52.0":
-  version: 2.52.0
-  resolution: "@carbon/ibm-products@npm:2.52.0"
-  dependencies:
-    "@babel/runtime": ^7.23.9
-    "@carbon/feature-flags": ^0.22.0
-    "@carbon/ibm-products-styles": ^2.48.0
-    "@carbon/telemetry": ^0.1.0
-    "@dnd-kit/core": ^6.0.8
-    "@dnd-kit/modifiers": ^7.0.0
-    "@dnd-kit/sortable": ^8.0.0
-    "@dnd-kit/utilities": ^3.2.2
-    "@ibm/telemetry-js": ^1.5.0
-    framer-motion: ^6.5.1 < 7
-    immutability-helper: ^3.1.1
-    lodash: ^4.17.21
-    lottie-web: ^5.12.2
-    react-table: ^7.8.0
-    react-window: ^1.8.10
-  peerDependencies:
-    "@carbon/grid": ^11.27.0
-    "@carbon/layout": ^11.26.0
-    "@carbon/motion": ^11.22.0
-    "@carbon/react": ^1.66.0
-    "@carbon/themes": ^11.40.0
-    "@carbon/type": ^11.31.0
-    react: ^16.8.6 || ^17.0.1 || ^18.2.0
-    react-dom: ^16.8.6 || ^17.0.1 || ^18.2.0
-  checksum: fb7ff24fc0a55f48138cdf90a3f80b016c9fde742035a9398db5af2944e44e7e8dd7373e11ef97b460f514df81160d4e5cd08e2469e14de5b7482ac0216a4453
   languageName: node
   linkType: hard
 
@@ -3051,42 +3010,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ibm/telemetry-js@npm:^1.2.1":
-  version: 1.3.0
-  resolution: "@ibm/telemetry-js@npm:1.3.0"
+"@ibm/telemetry-js@npm:1.8.0, @ibm/telemetry-js@npm:^1.2.1, @ibm/telemetry-js@npm:^1.5.0, @ibm/telemetry-js@npm:^1.6.1":
+  version: 1.8.0
+  resolution: "@ibm/telemetry-js@npm:1.8.0"
   bin:
     ibmtelemetry: dist/collect.js
-  checksum: 9418619b7655c5ff5240feb074eab78895f10eaf5837b0828beed5441ca87012853738ebea9d0ccb3fdbad9106a519aae4ffa66665ca86426d2008dfae756ae5
+  checksum: 3df98eb0cfd6225f05afa70ff4b971b589533da5a0f85bb67fed0b5add9ee96be1f1f06c2ef3068aedc94cd811e1e2dc122892ccf536508cdc1b83bdb5f1023e
   languageName: node
   linkType: hard
 
-"@ibm/telemetry-js@npm:^1.5.0":
-  version: 1.6.0
-  resolution: "@ibm/telemetry-js@npm:1.6.0"
-  bin:
-    ibmtelemetry: dist/collect.js
-  checksum: 882ed2b770d393e2c9197b1d1d5b5859e1aee1da183a2e4b754fdc491b8fd74ba3e0bbfaa0202e971273c92403c09fdab44345aa76862189c8811e7f478dd832
-  languageName: node
-  linkType: hard
-
-"@ibm/telemetry-js@npm:^1.6.1":
-  version: 1.6.1
-  resolution: "@ibm/telemetry-js@npm:1.6.1"
-  bin:
-    ibmtelemetry: dist/collect.js
-  checksum: 84c452472d8ced7773e2cc88b50742ea07e8968181e6e0ccbc24519e02a2195d556c1be3ce2ff19ba468e392b4241e931be0a49ba94d376f2ea929307054b63b
-  languageName: node
-  linkType: hard
-
-"@instana/components@npm:4.54.1, @instana/components@npm:^4.54.1":
-  version: 4.54.1
-  resolution: "@instana/components@npm:4.54.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.54.1.tgz"
+"@instana/components@npm:4.55.0, @instana/components@npm:^4.55.0":
+  version: 4.55.0
+  resolution: "@instana/components@npm:4.55.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.55.0.tgz"
   dependencies:
-    "@carbon/ibm-products": 2.49.0
     "@carbon/icons-react": 11.45.0
     "@carbon/react": 1.62.1
     "@emotion/react": ^11.9.0
     "@emotion/styled": ^11.8.1
+    "@ibm/telemetry-js": 1.8.0
     "@instana/design-tokens": ^1.28.1
     "@instana/format-date": ^1.7.2
     "@instana/format-numbers": ^1.6.1
@@ -3101,7 +3042,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.2
-  checksum: 9edf871613b59bd0b5f1c52742bbe5ca4da4f354372f7d757e24da86fe639fda75edcdf3ea7113bdacc8bc2f91c448050e0428e674171f71201496b5ebccf539
+  checksum: c6c8daac3be982d8a48cb350def0f962032c15a79f4e9e91bfb472743bc2b4d8e85064bfc693d8a7dcf95c0b99a4bf173658a967cce29e0fbaaea8335185cec5
   languageName: node
   linkType: hard
 
@@ -3197,6 +3138,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@instana/ibm-products@npm:0.2.0":
+  version: 0.2.0
+  resolution: "@instana/ibm-products@npm:0.2.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fibm-products%2F-%2F%40instana%2Fibm-products-0.2.0.tgz"
+  dependencies:
+    "@carbon/ibm-products": 2.49.0
+    "@carbon/react": 1.62.1
+  peerDependencies:
+    react: ^17.0.2
+    react-dom: ^17.0.2
+  checksum: ae8879db940a58de375a0b0030d7c241fa7c429dfd78276eb270f84df0f2af61ba37b140c94dd4df36cc5d466b3b32089cc19f0b5997058612b135d983b57d6c
+  languageName: node
+  linkType: hard
+
 "@instana/import-sort-style-simon@npm:1.4.0":
   version: 1.4.0
   resolution: "@instana/import-sort-style-simon@npm:1.4.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fimport-sort-style-simon%2F-%2F%40instana%2Fimport-sort-style-simon-1.4.0.tgz"
@@ -3206,11 +3160,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/legacy@npm:4.3.24":
-  version: 4.3.24
-  resolution: "@instana/legacy@npm:4.3.24::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.3.24.tgz"
+"@instana/legacy@npm:4.3.25":
+  version: 4.3.25
+  resolution: "@instana/legacy@npm:4.3.25::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.3.25.tgz"
   dependencies:
-    "@instana/components": ^4.54.1
+    "@instana/components": ^4.55.0
     "@instana/design-tokens": ^1.28.1
     "@instana/format-date": ^1.7.2
     "@instana/format-numbers": ^1.6.1
@@ -3222,7 +3176,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.0
-  checksum: 839f34f5fe057c06cab32f7ba5bf2baf40f836d315b0ec9b4cafd6e687c7b822c8d04ae8ee70e3be09a212d12713a730b8a6b5346a709c2ab534e7bfe3b6a1d3
+  checksum: bf91f608ab69926354191bd57ba2fdeb77d2247ccd4e7b189379d8911efc032c6c444dc2b5188e68aa6bfecc0b158bd6118400c4583544cfed807b47bc29e6cf
   languageName: node
   linkType: hard
 
@@ -3242,7 +3196,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/pseudo-translation@npm:^1.3.1":
+"@instana/pseudo-translation@npm:1.5.1":
   version: 1.5.1
   resolution: "@instana/pseudo-translation@npm:1.5.1::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fpseudo-translation%2F-%2F%40instana%2Fpseudo-translation-1.5.1.tgz"
   checksum: 866e982fa025c9e9442dcb786f97eb313ecb55ce895cface9f2a17d8c4b4a94d8b7f34de98a23afd2cf8191c0c04ae468fd86ffaf7a03403925de09c7fa352d3
@@ -22113,7 +22067,6 @@ __metadata:
     "@babel/register": ^7.12.1
     "@babel/runtime": 7.25.6
     "@carbon/colors": ^11.21.0
-    "@carbon/ibm-products": ^2.52.0
     "@carbon/pictograms-react": 11.63.0
     "@carbon/utilities": ^0.1.0
     "@codemirror/autocomplete": ^6.0.0
@@ -22127,7 +22080,7 @@ __metadata:
     "@codemirror/state": 6.2.0
     "@codemirror/theme-one-dark": ^6.0.0
     "@codemirror/view": 6.6.0
-    "@instana/components": 4.54.1
+    "@instana/components": 4.55.0
     "@instana/design-tokens": 1.28.1
     "@instana/eslint-config-commons": 1.3.0
     "@instana/format-date": 1.7.2
@@ -22135,11 +22088,12 @@ __metadata:
     "@instana/hooks": 1.12.1
     "@instana/i18n": ^1.4.1
     "@instana/i18n-react": 1.6.1
+    "@instana/ibm-products": 0.2.0
     "@instana/import-sort-style-simon": 1.4.0
-    "@instana/legacy": 4.3.24
+    "@instana/legacy": 4.3.25
     "@instana/logger": ^1.3.1
     "@instana/observables": ^1.6.1
-    "@instana/pseudo-translation": ^1.3.1
+    "@instana/pseudo-translation": 1.5.1
     "@instana/roemitter": ^1.3.2
     "@instana/types": 1.288.370
     "@instana/utils": ^1.3.1

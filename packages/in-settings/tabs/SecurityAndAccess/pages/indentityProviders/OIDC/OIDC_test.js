@@ -114,7 +114,7 @@ describe('in-settings/tabs/SecurityAndAccess/pages/indentityProviders/OIDC/OIDC'
     render(<OIDC invitations={getInvitations$()} />);
 
     const saveBtn = screen.getByText(t('in-settings:tabs.save'));
-    expect(saveBtn).toHaveClass('button-disabled');
+    expect(saveBtn).toHaveClass('cds--btn--disabled');
 
     const secretInput = screen.getByLabelText(t('in-settings:tabs.secret')).parentElement.querySelector('input');
     fireEvent.change(secretInput, { target: { value: 'abcdefghij' } });
@@ -127,7 +127,7 @@ describe('in-settings/tabs/SecurityAndAccess/pages/indentityProviders/OIDC/OIDC'
     const urlInput = screen.getByText(t('in-settings:tabs.discoveryURL')).parentElement.querySelector('input');
     fireEvent.change(urlInput, { target: { value: 'ldaps://ldap.example.com:636' } });
 
-    expect(saveBtn).not.toHaveClass('button-disabled');
+    expect(saveBtn).not.toHaveClass('cds--btn--disabled');
     fireEvent.click(saveBtn);
     expect(addActiveDialog).toHaveBeenCalledTimes(1);
   });
