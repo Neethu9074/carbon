@@ -11,7 +11,6 @@ import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicator
 import ViewDashboardButton from 'in-map/components/MapSidebar/components/ViewDashboardButton';
 import SidebarHeader from 'in-map/components/MapSidebar/components/SidebarHeader';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 
 import locals from './MapSidebarHeader.mless';
 
@@ -20,7 +19,7 @@ export default function MapSidebarHeader({ snapshot, timeConfig }) {
   return (
     <div className={locals.sidebarHeader}>
       <SidebarHeader snapshot={snapshot} />
-      <Stack direction="horizontal" gap={carbonButtonEnabled ? 'disabled' : 'xsmall'} wrap={!carbonButtonEnabled}>
+      <Stack direction="horizontal" gap="xsmall" wrap>
         <ViewDashboardButton snapshotId={snapshotId} />
         <EntityHealthIndicator
           IndicatorPresenter={HealthIndicatorButtonPresenter}
