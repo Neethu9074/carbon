@@ -14,11 +14,11 @@ describe(StepOne, () => {
   const updateForm = jest.fn();
 
   it('should render without crashing', () => {
-    render(<StepOne form={createCredentialForm()} updateForm={updateForm} />);
+    render(<StepOne form={createCredentialForm([])} updateForm={updateForm} />);
   });
 
   it('should display Name and Value field correctly', () => {
-    render(<StepOne form={createCredentialForm()} updateForm={updateForm} />);
+    render(<StepOne form={createCredentialForm([])} updateForm={updateForm} />);
 
     expect(screen.getByLabelText('Name')).toBeInTheDocument();
     expect(screen.getByLabelText('Value')).toBeInTheDocument();
@@ -32,7 +32,7 @@ describe(StepOne, () => {
   });
 
   it('should display tooltip messages for Value field', () => {
-    render(<StepOne form={createCredentialForm()} updateForm={updateForm} />);
+    render(<StepOne form={createCredentialForm([])} updateForm={updateForm} />);
 
     expect(screen.getByText('Hide credential value')).toBeVisible();
   });

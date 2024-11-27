@@ -384,7 +384,8 @@
         "textInput": {
           "placeholder": "Credential name",
           "labelText": "Name",
-          "invalidText": "Credential name must start with a letter and contain only letters, numbers and underscores."
+          "invalidText": "Credential name must start with a letter and contain only letters, numbers and underscores.",
+          "credentialNamesMustBeUnique": "Credential names must be unique. This name is taken. Try another."
         },
         "passwordInput": {
           "placeholder": "Credential value",

@@ -15,11 +15,11 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
-const CreateCredentialsButton = () => {
+const CreateCredentialsButton = ({ credentialNames }: { credentialNames: string[] }) => {
   const { trackCta } = useSegmentTracking();
   const handleClick = () => {
     syntheticOpenCredentialDialogButtonClick(trackCta);
-    addActiveDialog(<CreateCredentialDialog onClose={close} />);
+    addActiveDialog(<CreateCredentialDialog credentialNames={credentialNames} onClose={close} />);
   };
 
   return (

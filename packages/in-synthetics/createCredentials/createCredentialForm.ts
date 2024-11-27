@@ -12,8 +12,21 @@ import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
 import { t } from 'in-i18n';
 
-const createCredentialForm = (savedState?: Record<string, any>) => {
+const createCredentialForm = (credentialNames: string[], savedState?: Record<string, any>) => {
   savedState = savedState ?? {};
+
+  function uniqueCredentialNameValidator(str?: string): ValidationResult {
+    if (credentialNames.includes(str!)) {
+      return [
+        {
+          severity: 'error',
+          message: t('in-synthetics:dialog.createCredential.steps.textInput.credentialNamesMustBeUnique')
+        }
+      ];
+    }
+
+    return null;
+  }
 
   return createMapForm({ validator: notUndefinedValidator })
     .put(
@@ -24,7 +37,8 @@ const createCredentialForm = (savedState?: Record<string, any>) => {
           notUndefinedValidator,
           stringValidator,
           notBlankValidator,
-          credentialNameValidator
+          credentialNameValidator,
+          uniqueCredentialNameValidator
         )
       })
     )
