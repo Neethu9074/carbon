@@ -14,7 +14,7 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 
 const refreshSignal = create().emit(true);
 export function refreshHistory() {
-  timeout(1000).once(() => refreshSignal.emit(true));
+  timeout(200).once(() => refreshSignal.emit(true));
 }
 
 export default function useActionHistoryCount({
