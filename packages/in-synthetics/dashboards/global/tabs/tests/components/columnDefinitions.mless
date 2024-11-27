@@ -29,16 +29,6 @@
     fill: var(--ids-color-option-green-500);
   }
 
-  .iconWarning {
-    margin: 0 0.125rem 0 0;
-    path:first-of-type {
-      fill: black;
-    }
-    path:last-of-type {
-      fill: #8e6a00;
-    }
-  }
-
   .dotPadding {
     margin-right: 0.1rem;
   }

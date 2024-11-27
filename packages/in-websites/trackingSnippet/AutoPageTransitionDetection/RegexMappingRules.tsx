@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { Button, IconButton, TextInput, Spacer, Message } from '@instana/components';
+import { Button, IconButton, CarbonTextInput as TextInput, Spacer, Message } from '@instana/components';
 
 import type {
   MappingRule,
@@ -143,6 +143,7 @@ const MappingRuleRow = ({
         invalidText={ruleError}
         invalid={!!ruleError}
         helperText={t('in-websites:trackingSnippet.autoPageTransition.mappingRuleHelperText')}
+        hideLabel
       />
       <Spacer horizontal="medium" />
       <TextInput

@@ -13,11 +13,11 @@ describe(CreateCredentialDialog, () => {
   const onClose = jest.fn();
 
   it('should render without crashing', () => {
-    render(<CreateCredentialDialog onClose={onClose} />);
+    render(<CreateCredentialDialog credentialNames={[]} onClose={onClose} />);
   });
 
   it('renders the Create a synthetic credential dialog title correctly', () => {
-    render(<CreateCredentialDialog onClose={onClose} />);
+    render(<CreateCredentialDialog credentialNames={[]} onClose={onClose} />);
 
     expect(screen.getByText('Create a synthetic credential')).toBeInTheDocument();
 
@@ -25,7 +25,7 @@ describe(CreateCredentialDialog, () => {
   });
 
   it('verify Next and Cancel button is present', () => {
-    render(<CreateCredentialDialog onClose={onClose} />);
+    render(<CreateCredentialDialog credentialNames={[]} onClose={onClose} />);
 
     expect(
       screen.getByRole('button', {
@@ -51,7 +51,7 @@ describe(CreateCredentialDialog, () => {
   });
 
   it('verify Next button is disabled initially and enabled when Name and Value are valid', () => {
-    render(<CreateCredentialDialog onClose={onClose} />);
+    render(<CreateCredentialDialog credentialNames={[]} onClose={onClose} />);
 
     const nameField = document.querySelector('input[placeholder="Credential name"]');
     const valueField = document.querySelector('input[placeholder="Credential value"]');

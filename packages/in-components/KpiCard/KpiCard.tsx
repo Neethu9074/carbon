@@ -100,7 +100,7 @@ export default function KpiCard({
   iconClassName,
   extraInfo,
   noTooltipOnTitle,
-  headingVariant = 'heading-2'
+  headingVariant = 'heading-3'
 }: KpiCardProps) {
   const { ref, width } = useResizeObserver<HTMLDivElement>();
   const hasApproximateData = resultPrecision === 'PRECISION_APPROXIMATE';

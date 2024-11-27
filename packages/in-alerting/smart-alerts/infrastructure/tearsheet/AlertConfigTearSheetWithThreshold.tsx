@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2024
  */
 
+import React, { useMemo, useState } from 'react';
 import { Item, MapForm } from 'formalistic';
-import React, { useState } from 'react';
 
-import { TimeConfig } from '@instana/types';
+import { TimeConfig, InfraAlertRuleUnion, TagCatalog } from '@instana/types';
 
 import {
   infraStepRenderers,
@@ -16,9 +16,14 @@ import {
   stepRendersType
 } from 'in-alerting/smart-alerts/infrastructure/tearsheet/steps/TearSheetStepConfigs';
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
+import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
+import { CreateBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
 import useAlertConfigValidation from 'in-alerting/smart-alerts/infrastructure/hooks/useAlertConfigValidation';
+import useThresholdSuggestion from 'in-alerting/smart-alerts/infrastructure/hooks/useThresholdSuggestion';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import AlertingTearSheet from 'in-alerting/components/AlertingTearSheet';
+import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { productAreas } from 'in-services/tracking/productAreas';
 import { Nullish } from 'in-types';
 
@@ -56,6 +61,39 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
 
   const navItems = useAlertConfigValidation(stepConfigs);
 
+  const alertConfigWithFormModel = form.toJS();
+  const { rule, tagFilterExpression } = alertConfigWithFormModel;
+  const { metricName, entityType, regex } = rule as InfraAlertRuleUnion;
+
+  const tagCatalog = useTagCatalog({
+    ownerType: entityType,
+    metric: metricName,
+    regex: regex
+  });
+
+  const { getTagCatalog } = useMemo(() => CreateBoundedAlertQueryBuilder(tagCatalog as TagCatalog), [tagCatalog]);
+
+  const updateTagFilterExpression = (filteredTagFilterExpression: FormModelElement[]) => {
+    updateForm(form.updateIn(['tagFilterExpression'], f => f.setValue(filteredTagFilterExpression)));
+  };
+
+  const isMetricAndEntityValid = metricName != '' || entityType != '';
+
+  useRemoveInvalidTagsFromFilterExpression(
+    getTagCatalog,
+    tagFilterExpression as FormModelElement[],
+    updateTagFilterExpression
+  );
+
+  const isValid = isMetricAndEntityValid && tagFilterValid;
+
+  const [thresholdResult, setThresholdResult] = useState();
+
+  useThresholdSuggestion(form, updateForm, setThresholdResult, editMode, {
+    isValid,
+    alertConfigWithFormModel
+  });
+
   return (
     <AlertingTearSheet
       step={step}
@@ -78,7 +116,7 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
               {...props}
               key={`key-${idx}`}
               isTagFilterFormModelValid
-              thresholdResult={undefined}
+              thresholdResult={thresholdResult}
               setStep={setStep}
               setTagFilterValid={setTagFilterValid}
             />

@@ -26,8 +26,8 @@ import {
 import { turboActionCategoryMap } from 'in-automation/ResourceOptimization/RecommendedOptimizations';
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { ActionInstance } from 'in-automation/subscriptions/turboSubmitActionExecution';
-import { refresh } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import { setActiveKey } from 'in-automation/AutomationCard/OptimizationsButtonGroup';
+import { refresh } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import { refreshHistory } from 'in-automation/AutomationCard/useHistory';
 import { runResourceOptimizationAction } from 'in-automation/api';
 import { close } from 'in-components/DialogPresenter/store';

@@ -8,11 +8,11 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { LocationStatus, TestResultListItem, TimeConfig } from '@instana/types';
-import { Link, SvgIcon } from '@instana/components';
-import { themes } from '@instana/design-tokens';
+import { Link } from '@instana/components';
 
 // @ts-expect-error Module needs to be translated to TS
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter/HealthIndicatorPresenter';
 import AssociationsContent from 'in-synthetics/dashboards/global/tabs/tests/components/AssociationsContent';
 import LocationsPresenter from 'in-synthetics/dashboards/global/tabs/tests/components/LocationsPresenter';
 import ListActionsColumn from 'in-synthetics/dashboards/global/tabs/tests/components/ListActionsColumn';
@@ -219,33 +219,24 @@ let columnDefinitions: ColumnDefinition<TestResultListItem, TestListProps>[] = [
     getContent: function Content(item: TestResultListItem) {
       const totalRuns = get(item, ['metrics', 'total_test_runs', 0, 1], 0);
       const successRuns = get(item, ['metrics', 'successful_test_runs', 0, 1], 0);
-      let severity = totalRuns != 0 && successRuns / totalRuns == 1 ? 0 : 10;
+      let severity = totalRuns != 0 && successRuns / totalRuns == 1 ? 0 : 5;
 
-      if (severity == 0) {
+      if (totalRuns != 0) {
         return (
-          <div>
-            <SvgIcon type="lib_uncheck" color={themes.default.ids.color.option.green['500']} size="s" />
-          </div>
+          <HealthIndicatorPresenter
+            openIssues={severity}
+            maxSeverity={severity}
+            active={false}
+            iconOnly
+            iconOnlySize="s"
+          />
         );
       } else {
-        if (totalRuns != 0) {
-          return (
-            <div>
-              <SvgIcon
-                type="lib_help_error_warning"
-                size="s"
-                color={themes.default.ids.color.option.yellow['500']}
-                className={locals.iconWarning}
-              />
-            </div>
-          );
-        } else {
-          return (
-            <div>
-              <h4 className={locals.label}>{t('in-synthetics:dashboard.testList.na')}</h4>
-            </div>
-          );
-        }
+        return (
+          <div>
+            <h4 className={locals.label}>{t('in-synthetics:dashboard.testList.na')}</h4>
+          </div>
+        );
       }
     }
   }

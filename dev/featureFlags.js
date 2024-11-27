@@ -85,6 +85,7 @@ module.exports = {
   eumImpactedUsersForAppAlertEnabled: true,
   controlPlaneEnabled: true,
   largeTracesV2Enabled: true,
+  multiCloseEnabled: false,
   limitVisibleNestingLevelsInTraceEnabled: false,
   playwithEnabled: false,
   playwithTestEnabled: false,

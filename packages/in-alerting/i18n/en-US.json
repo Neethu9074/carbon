@@ -989,7 +989,10 @@
           "tracesImpacted": "traces are impacted",
           "outOfConsecutiveEvaluations": "out of",
           "persistenceType": "Persistence type",
-          "numberOfConsecutiveViolationsPostLabel": "consecutive {{granularity}}-minute window(s) have violations"
+          "numberOfConsecutiveViolationsPostLabel": "consecutive {{granularity}}-minute window(s) have violations",
+          "static": "Static",
+          "thresholdValue": "Threshold value",
+          "timeWindow": "Time Window"
         }
       }
     },
@@ -1538,6 +1541,13 @@
         "scopeGroupBy": {
           "group": "Group",
           "groupByDescription": "Add group to configure calls in groups. Each call within the group is configured collectively but evaluated individually."
+        },
+        "timeThreshold": {
+          "title": "Set when violations trigger alerts",
+          "description": "Specify the persistence over time for alert trigger and time to failure."
+        },
+        "thresholdDescription": {
+          "static": "A constant threshold value is applied and it does not change over time."
         }
       }
     },

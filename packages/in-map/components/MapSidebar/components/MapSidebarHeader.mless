@@ -15,5 +15,15 @@
     background: var(--ids-color-option-neutral-50);
     border-top-left-radius: 0.125rem;
     border-top-right-radius: 0.125rem;
+
+    & :global {
+      .carbonButton + .cds--btn {
+        // remove the extra left margin between 2 buttons:
+        // this was replaced with a gap on the wrapping div
+        // and had to be removed when wrapping second
+        // button in a new line
+        margin-left: 0;
+      }
+    }
   }
 }

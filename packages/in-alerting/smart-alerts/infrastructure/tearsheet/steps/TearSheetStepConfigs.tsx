@@ -49,10 +49,10 @@ export const infraStepRenderers = [
       <AlertConfigTearSheetStep1 {...props} />
     </AlertingTearSheetContent>
   ),
-  //@ts-expect-error TODO to be handled
+
   (props: stepRendersType) => (
     <AlertingTearSheetContent title={stepConfigs[1].title} key={1}>
-      <AlertConfigTearSheetStep2 />
+      <AlertConfigTearSheetStep2 {...props} />
     </AlertingTearSheetContent>
   ),
   //@ts-expect-error TODO to be handled
