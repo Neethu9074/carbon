@@ -27,7 +27,7 @@ import locals from './ContextMenu.mless';
 
 export default function ContextMenuContent({ applicationId, node, serviceLocatorUid }) {
   const isTrafficEnabled = useObservable(
-    getServiceLocators(serviceLocatorUid).eventBusServiceLocator.on(SIGNALS.SHOW_EXTERNAL_TRAFFIC),
+    getServiceLocators(serviceLocatorUid)?.eventBusServiceLocator.on(SIGNALS.SHOW_EXTERNAL_TRAFFIC),
     [serviceLocatorUid]
   );
   const application = useObservable(

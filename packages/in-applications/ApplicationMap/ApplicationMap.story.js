@@ -10,7 +10,7 @@ import RoEmitter from '@instana/roemitter';
 
 import ServiceInformation from 'in-applications/ApplicationMap/components/Tooltips/ServiceInformation/ServiceInformation';
 import { ConnectionTooltipContent } from 'in-applications/ApplicationMap/components/Tooltips/ConnectionTooltip';
-import { ContextMenuContent } from 'in-applications/ApplicationMap/components/ContextMenu';
+import ContextMenuContent from 'in-applications/ApplicationMap/components/ContextMenu';
 import { NodeComponent } from 'in-applications/ApplicationMap/components/Node/Node';
 import { ApplicationMapReactComponent } from 'in-applications/ApplicationMap';
 import { deepCopy } from 'in-services/util/object';
