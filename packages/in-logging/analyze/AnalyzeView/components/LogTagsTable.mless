@@ -6,7 +6,7 @@
 :local {
   .tagContent {
     display: grid;
-    grid-template-columns: 16rem auto 6rem;
+    grid-template-columns: 15rem auto 6rem;
     gap: 1rem 0;
     align-items: start;
     padding: 0;
@@ -15,7 +15,7 @@
   .tagValue {
     display: flex;
     gap: 0.5rem;
-    align-items: center;
+    align-items: flex-start;
     word-break: break-word;
   }
 
