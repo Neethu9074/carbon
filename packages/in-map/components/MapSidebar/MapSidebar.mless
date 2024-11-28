@@ -17,7 +17,7 @@
     position: absolute;
     top: 14.6rem;
     left: 2.6rem;
-    width: 24rem;
+    width: 25.8rem;
     background: var(--ids-color-option-white);
     border-radius: var(--ids-border-radius-option-small);
     max-height: ~'calc(100vh - 200px)';
