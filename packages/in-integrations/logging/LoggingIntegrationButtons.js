@@ -55,6 +55,10 @@ export function LoggingIntegrationButtonsRenderer({ addMargin, ...props }) {
     showSplunkButton(props) && splunkIntegration && splunkIntegration.enabled && <SplunkButton {...props} />
   ].filter(Boolean);
 
+  if (integrations.length === 0) {
+    return null;
+  }
+
   if (carbonButtonEnabled) {
     return (
       <CarbonMenuButton
@@ -63,7 +67,7 @@ export function LoggingIntegrationButtonsRenderer({ addMargin, ...props }) {
         })}
         size="sm"
         label={t('in-integrations:logging.goToLogs')}
-        kind="primary"
+        kind="tertiary"
       >
         {integrations}
       </CarbonMenuButton>
