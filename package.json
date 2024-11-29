@@ -78,6 +78,7 @@
     "@codemirror/state": "6.2.0",
     "@codemirror/theme-one-dark": "^6.0.0",
     "@codemirror/view": "6.6.0",
+    "@instana/carbon-charts": "0.3.0",
     "@instana/components": "4.56.1",
     "@instana/design-tokens": "1.28.1",
     "@instana/format-date": "1.7.2",
@@ -285,6 +286,7 @@
   },
   "resolutions": {
     "typescript": "5.1.5",
-    "@types/react": "^17.0.14"
+    "@types/react": "^17.0.14",
+    "dompurify": "2.5.7"
   }
 }
