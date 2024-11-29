@@ -597,11 +597,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'carbonCheckboxEnabled',
-    instanaCtlKey: 'feature.carbon.checkbox.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'carbonIconButtonEnabled',
     instanaCtlKey: 'feature.carbon.iconbutton.enabled',
     defaultValue: true
