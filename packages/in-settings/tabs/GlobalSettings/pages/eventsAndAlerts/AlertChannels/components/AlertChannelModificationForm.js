@@ -23,6 +23,7 @@ import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import SectionLine from 'in-settings/components/SectionLine';
 import FeatureFeedback from 'in-components/FeatureFeedback';
 import Notification from 'in-components/form/Notification';
@@ -177,8 +178,12 @@ function SubmissionButton({ form, message, loading, isCreate, listPath }) {
   return (
     <div className={locals.submissionWrapper}>
       <SectionLine withMarginBottom={false} />
-      <Stack direction="horizontal" distribution="end">
-        <Button kind="subtle" className={locals.button} onClick={() => goToPath(listPath)}>
+      <Stack direction="horizontal" distribution="end" gap="disabled">
+        <Button
+          kind={carbonButtonEnabled ? 'secondary' : 'subtle'}
+          className={locals.button}
+          onClick={() => goToPath(listPath)}
+        >
           {t('forms.actions.cancel')}
         </Button>
         <Button
