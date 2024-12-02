@@ -41,6 +41,8 @@ import { t, Trans } from 'in-i18n';
 
 import locals from './Alerts.mless';
 
+const displayCarbonTable = carbonTableEnabled && smartAlertCarbonTableEnabled;
+
 export default function Alerts() {
   const handlers = role?.canConfigureGlobalInfraSmartAlerts && !role?.limitedInfrastructureScope ? actionHandlers : {};
 
@@ -68,7 +70,7 @@ export default function Alerts() {
           renderName={replaceTitlePlaceholdersWithMarkup}
           hideAlertIcon
           // for carbon table
-          displayCarbonTable={carbonTableEnabled && smartAlertCarbonTableEnabled}
+          displayCarbonTable={displayCarbonTable}
           extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
           carbonActionHandlers={handlers}
           getNameSubtitle={(config: InfraSmartAlertConfigWithMetadata) => getNameSubtitle(config)}

@@ -100,7 +100,17 @@
     "groupedViewHeader_1": "{{formattedCount}} Results",
     "groupedViewHeader_2": "{{formattedCount}} Results",
     "resultHeaderLoading": "Loading…",
-    "loadMore": "Load More"
+    "loadMore": "Load More",
+    "chooseLayoutDialog": {
+      "chooseLayout": "Choose Smart Alert layout",
+      "layoutContent": "You currently have access to both layouts for creating a Smart Alert in this environment. Please select the desired layout to proceed:",
+      "oldLayoutDescription": "Old Layout: The traditional interface for creating Smart Alerts",
+      "newLayoutDescription": "New Layout: The updated interface with enhanced features and usability improvements.",
+      "layoutRecommendation": "If unsure, we recommend exploring the New Layout for a better experience.",
+      "cancelTitle": "Cancel",
+      "useOldLayout": "Use old layout",
+      "useNewLayout": "Use new layout"
+    }
   },
   "potentialProblems": {
     "titleErrorRate": "Erroneous call rate is higher than normal",
