@@ -193,7 +193,6 @@ router.get('/', async (req, res) => {
         indexJsChecksum,
         compStyleCssChecksum,
         nonce,
-        appcuesId: termsAndPrivacy.allSupportAndResearchServices && serverConfig.appcuesId,
         eumTrackingDomain: serverConfig.eum.domain,
         eumTrackingApiKey: serverConfig.eum.apiKey,
         eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,

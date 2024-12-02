@@ -18,7 +18,6 @@ router.get('/maximumCookies', (req, res) => {
   res.cookie(serverConfig.cookie.name, 'random value for cookie bot', { maxAge: 900000, httpOnly: true, secure: true });
   res.send(
     compiledTemplate({
-      appcuesId: serverConfig.appcuesId,
       eumTrackingDomain: serverConfig.eum.domain,
       eumTrackingApiKey: serverConfig.eum.apiKey,
       eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,

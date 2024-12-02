@@ -13,10 +13,6 @@ if (isRequiringInstanaRocks()) {
   allowedScriptOrigins.push('*.instana.rocks');
 }
 
-if (serverConfig.appcuesId) {
-  allowedScriptOrigins.push('https://fast.appcues.com');
-}
-
 const allowedScriptOriginsWalkMe = [
   ...allowedScriptOrigins,
   'https://cdn.walkme.com',

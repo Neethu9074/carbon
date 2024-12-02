@@ -18,42 +18,5 @@ export const cookieDefinitions = [
         moreInformation: t('in-settings:cookies.expiration.afterSession')
       }
     ]
-  },
-  {
-    key: 'allSupportAndResearchServices',
-    title: t('in-settings:cookies.appcues.title'),
-    cookieProduct: 'Appcues',
-    details: [
-      {
-        category: t('in-settings:cookies.categories.functionality'),
-        name: 'apc_local_id',
-        purpose: t('in-settings:cookies.appcues.purpose'),
-        moreInformation: t('in-settings:cookies.expiration.persistent')
-      },
-      {
-        category: t('in-settings:cookies.categories.functionality'),
-        name: 'apc_user_id',
-        purpose: t('in-settings:cookies.appcues.purpose'),
-        moreInformation: t('in-settings:cookies.expiration.persistent')
-      },
-      {
-        category: t('in-settings:cookies.categories.functionality'),
-        name: 'apc_my_id',
-        purpose: t('in-settings:cookies.appcues.purpose'),
-        moreInformation: t('in-settings:cookies.expiration.afterSession')
-      },
-      {
-        category: t('in-settings:cookies.categories.functionality'),
-        name: 'apc_my_id_ts',
-        purpose: t('in-settings:cookies.appcues.purpose'),
-        moreInformation: t('in-settings:cookies.expiration.afterSession')
-      },
-      {
-        category: t('in-settings:cookies.categories.functionality'),
-        name: 'apc_user',
-        purpose: t('in-settings:cookies.appcues.purpose'),
-        moreInformation: t('in-settings:cookies.expiration.afterSession')
-      }
-    ]
   }
 ];
