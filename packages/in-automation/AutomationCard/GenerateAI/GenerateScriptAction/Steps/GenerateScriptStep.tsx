@@ -19,7 +19,6 @@ import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailabl
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { error, hasError, isLoading } from 'in-services/util/result';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import AISlugIcon from 'in-automation/components/AISlugIcon';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
@@ -126,7 +125,7 @@ function GenerateScriptButton({
   const { aiActionScriptGenerateAIButtonTrackerSegment } = useSegmentTracker();
   return (
     <Button
-      kind={carbonButtonEnabled ? 'secondary' : 'primaryv2'}
+      kind="secondary"
       className={locals.generateScriptButton}
       disabled={
         (!promptForm.hierarchyValid && promptForm.hierarchyTouched) || (!!generatedAction && isLoading(generatedAction))
