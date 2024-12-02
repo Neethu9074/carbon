@@ -15,11 +15,11 @@ describe(StepTwo, () => {
   const setSliderState = jest.fn();
 
   it('should render without crashing', () => {
-    render(<StepTwo form={createCredentialForm()} updateForm={updateForm} setSliderState={setSliderState} />);
+    render(<StepTwo form={createCredentialForm([])} updateForm={updateForm} setSliderState={setSliderState} />);
   });
 
   it('should display Associations section correctly', () => {
-    render(<StepTwo form={createCredentialForm()} updateForm={updateForm} setSliderState={setSliderState} />);
+    render(<StepTwo form={createCredentialForm([])} updateForm={updateForm} setSliderState={setSliderState} />);
 
     expect(
       screen.getByText(

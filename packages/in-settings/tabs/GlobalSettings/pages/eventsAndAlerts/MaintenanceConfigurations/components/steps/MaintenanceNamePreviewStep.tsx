@@ -12,16 +12,14 @@ import { Stack, SvgIcon, Typography } from '@instana/components';
 import { Duration, MaintenanceConfigV2 } from '@instana/types';
 import { formatDate, formatTime } from '@instana/format-date';
 
-import {
-  getEndAndTimeDurationOfWindow,
-  setUTCPartsToDate
-} from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
+import { getEndAndTimeDurationOfWindow } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
 import { StartObject } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { OnEntityChange } from 'in-settings/hooks/useEntityForm';
 import { parseDateTime } from 'in-services/formatters/date';
+import { getSingle } from 'in-services/settings/settings';
 import FormGroup from 'in-settings/components/FormGroup';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -40,6 +38,8 @@ export default function MaintenanceNamePreviewStep(props: MaintenanceNamePreivew
   const [previewArrayOfDates, setPreviewArrayOfDates] = useState<StartObject[]>([]);
   //@ts-expect-error-next-line
   const rrule = (form.getIn(['window', 'recurrence', 'rrule']) as Field<RRule>).value;
+  const formatTimeStampsAsUTC = getSingle('formatTimestampsAsUtc');
+
   /* This useEffect generates the preview window. The reason this needs to be a useEffect is if the user uses the advanced mode and has all the steps viewable at once */
   useEffect(() => {
     let previewDatesStr = [];
@@ -49,13 +49,14 @@ export default function MaintenanceNamePreviewStep(props: MaintenanceNamePreivew
       const rruleDates = rrule.all((_, i) => i < 5);
       if (Array.isArray(rruleDates) && rruleDates.length > 0) {
         rruleDates.forEach(date => {
-          date = setUTCPartsToDate(date);
+          const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
           const windowEnd = getEndAndTimeDurationOfWindow(duration.amount, duration.unit, date);
           if (isNaN(windowEnd.getTime())) return;
 
           const previewObj = {
             dates: `${formatDate(date)} to ${formatDate(windowEnd)}`,
-            times: `${formatTime(date)} to ${formatTime(windowEnd)}`
+            times: `${formatTime(date)} to ${formatTime(windowEnd)} ${formatTimeStampsAsUTC ? 'UTC' : timezone}`
           };
           previewDatesStr.push(previewObj);
         });
@@ -75,7 +76,7 @@ export default function MaintenanceNamePreviewStep(props: MaintenanceNamePreivew
       previewDatesStr.push(previewObj);
     }
     setPreviewArrayOfDates(previewDatesStr);
-  }, [rrule, form]);
+  }, [rrule, form, formatTimeStampsAsUTC]);
   return (
     <div className={locals.mwWrapper}>
       {(form.get('name') as Field<string>).map(field => (

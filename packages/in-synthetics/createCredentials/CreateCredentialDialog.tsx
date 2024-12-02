@@ -29,13 +29,14 @@ import { t } from 'in-i18n';
 import locals from 'in-synthetics/createCredentials/CreateCredentials.mless';
 
 interface Props {
+  credentialNames: string[];
   onClose: () => void;
 }
 
-const CreateCredentialDialog = ({ onClose }: Props) => {
+const CreateCredentialDialog = ({ credentialNames, onClose }: Props) => {
   const formId = 'new-credential-form';
   const [step, setStep] = useState(0);
-  const [form, updateForm] = useState(() => createCredentialForm());
+  const [form, updateForm] = useState(() => createCredentialForm(credentialNames));
   const [slideInViewVisible, setSlideInViewVisible] = useState(false);
   const [slideInConfig, setSlideConfig] = useState<SlideInConfig | null>(null);
   const { trackCta } = useSegmentTracking();

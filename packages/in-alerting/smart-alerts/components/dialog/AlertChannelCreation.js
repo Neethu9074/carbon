@@ -27,7 +27,12 @@ import { t } from 'in-i18n';
 
 import locals from './AlertChannelCreation.mless';
 
-export default function AlertChannelCreation({ onCancel, isTearsheet, setCreateDialogOpen }) {
+export default function AlertChannelCreation({
+  onCancel,
+  isTearsheet,
+  setCreateDialogOpen,
+  alertChannelPerSeverityEnabled
+}) {
   const alertChannelConfigKeys = Object.keys(configs);
 
   const [selectedAlertChannelKey, setSelectedAlertChannelKey] = useState(alertChannelConfigKeys[0]);
@@ -89,7 +94,7 @@ export default function AlertChannelCreation({ onCancel, isTearsheet, setCreateD
                 content: t('in-alerting:smartAlerts.components.smartAlertDialog.alertChannelCreatedSuccessDescription')
               });
               resetForm();
-              if (isTearsheet) {
+              if (isTearsheet && !alertChannelPerSeverityEnabled) {
                 setCreateDialogOpen(false);
                 close();
               } else {
@@ -119,7 +124,8 @@ export default function AlertChannelCreation({ onCancel, isTearsheet, setCreateD
 AlertChannelCreation.propTypes = {
   onCancel: PropTypes.func.isRequired,
   isTearsheet: PropTypes.bool,
-  setCreateDialogOpen: PropTypes.func
+  setCreateDialogOpen: PropTypes.func,
+  alertChannelPerSeverityEnabled: PropTypes.bool
 };
 
 function AlertChannelConfigForm({

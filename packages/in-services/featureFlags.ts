@@ -63,7 +63,6 @@ export const carbonContentSwitcherEnabled = isFeatureFlagEnabled('carbonContentS
 export const carbonTabsEnabled = isFeatureFlagEnabled('carbonTabsEnabled');
 export const carbonButtonEnabled = isFeatureFlagEnabled('carbonButtonEnabled', false);
 export const carbonTooltipEnabled = isFeatureFlagEnabled('carbonTooltipEnabled');
-export const carbonCheckboxEnabled = isFeatureFlagEnabled('carbonCheckboxEnabled', false);
 export const carbonPaginationEnabled = isFeatureFlagEnabled('carbonPaginationEnabled');
 export const carbonTableEnabled = isFeatureFlagEnabled('carbonTableEnabled');
 export const carbonExpandableGroupEnabled = isFeatureFlagEnabled('carbonExpandableGroupEnabled');
@@ -292,6 +291,7 @@ export const automationActionInstanceFeedbackEnabled = isFeatureFlagEnabled(
   'automationActionInstanceFeedbackEnabled',
   false
 );
+export const multiCloseEnabled = isFeatureFlagEnabled('multiCloseEnabled', false);
 export const resourceOptimizationActionsEnabled = isFeatureFlagEnabled('resourceOptimizationActionsEnabled', true);
 export const eventResourceActionsEnabled = isFeatureFlagEnabled('eventResourceActionsEnabled', false);
 export const carbonStepProgressBarEnabled = isFeatureFlagEnabled('carbonStepProgressBarEnabled', false);

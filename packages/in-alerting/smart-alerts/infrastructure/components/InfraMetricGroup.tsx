@@ -164,7 +164,7 @@ export function getGroups({ timeConfig, backendQueryModel, groupBy, cursor, type
                 aggregation,
                 crossSeriesAggregation,
                 regex,
-                required: true
+                required: false
               } as InfraMetricQuery
             ],
             [
@@ -175,7 +175,7 @@ export function getGroups({ timeConfig, backendQueryModel, groupBy, cursor, type
                 aggregation,
                 crossSeriesAggregation,
                 regex,
-                required: true
+                required: false
               } as InfraMetricQuery
             ]
           ];

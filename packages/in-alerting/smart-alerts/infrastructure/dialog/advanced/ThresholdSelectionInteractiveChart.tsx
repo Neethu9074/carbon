@@ -173,7 +173,7 @@ export function getMetrics(
   ];
 }
 
-function alertConfigWithDefaultThresholdAndTfe(form: MapForm<any>) {
+export function alertConfigWithDefaultThresholdAndTfe(form: MapForm<any>) {
   const tagFilterExpression = form.get('tagFilterExpression').value;
   const warningThresholdField = form.get('threshold').get('warningThreshold');
   const criticalThresholdField = form.get('threshold').get('criticalThreshold');

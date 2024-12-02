@@ -55,34 +55,28 @@ export function onThresholdTypeChange(
   );
 
   function createThresholdByType(type: string, thresholdField: MapForm<any>): SmartAlertThresholdRuleUnion {
+    const isCheckboxSelected = thresholdField.get('isCheckboxSelected')?.value ?? false;
     switch (type) {
       case STATIC_THRESHOLD:
         return {
-          type: 'staticThreshold',
-          value:
-            thresholdField.get('value')?.value ?? thresholdField.get('isCheckboxSelected')?.value === true ? 0 : null,
-          isCheckboxSelected: thresholdField.get('isCheckboxSelected')?.value
-        } as unknown as StaticThresholdRule;
+          type: STATIC_THRESHOLD,
+          value: thresholdField.get('value')?.value ?? (isCheckboxSelected ? 0 : null),
+          isCheckboxSelected
+        } as StaticThresholdRule;
       case HISTORIC_BASELINE:
         return {
-          type: 'historicBaseline',
-          deviationFactor:
-            thresholdField.get('deviationFactor')?.value ?? thresholdField.get('isCheckboxSelected')?.value === true
-              ? 3
-              : 0,
+          type: HISTORIC_BASELINE,
+          deviationFactor: thresholdField.get('deviationFactor')?.value ?? (isCheckboxSelected ? 3 : 0),
           baseline: thresholdField.get('baseline')?.value ?? [],
           seasonality: thresholdField.get('seasonality')?.value ?? DAILY,
-          isCheckboxSelected: thresholdField.get('isCheckboxSelected')?.value
-        } as unknown as StaticBaselineThresholdRule;
+          isCheckboxSelected
+        } as StaticBaselineThresholdRule;
       case ADAPTIVE_BASELINE:
         return {
-          type: 'adaptiveBaseline',
-          deviationFactor:
-            thresholdField.get('deviationFactor')?.value ?? thresholdField.get('isCheckboxSelected')?.value === true
-              ? 3
-              : 0,
-          isCheckboxSelected: thresholdField.get('isCheckboxSelected')?.value
-        } as unknown as AdaptiveThresholdRule;
+          type: ADAPTIVE_BASELINE,
+          deviationFactor: thresholdField.get('deviationFactor')?.value ?? (isCheckboxSelected ? 3 : 0),
+          isCheckboxSelected
+        } as AdaptiveThresholdRule;
       default:
         throw new Error('Unknown threshold type');
     }

@@ -122,7 +122,7 @@ describe('in-settings/tabs/SecurityAndAccess/pages/indentityProviders/Ldap/Ldap'
   it('shows success message on test success', async () => {
     render(<Ldap />);
 
-    expect(screen.getByText(t('in-settings:tabs.testConfiguration'))).toHaveClass('button-disabled');
+    expect(screen.getByText(t('in-settings:tabs.testConfiguration'))).toHaveClass('cds--btn--disabled');
 
     insertUserPassword();
 
@@ -149,7 +149,7 @@ describe('in-settings/tabs/SecurityAndAccess/pages/indentityProviders/Ldap/Ldap'
 
     render(<Ldap />);
 
-    expect(screen.getByText(t('in-settings:tabs.testConfiguration'))).toHaveClass('button-disabled');
+    expect(screen.getByText(t('in-settings:tabs.testConfiguration'))).toHaveClass('cds--btn--disabled');
 
     insertUserPassword();
 
@@ -172,7 +172,7 @@ describe('in-settings/tabs/SecurityAndAccess/pages/indentityProviders/Ldap/Ldap'
     render(<Ldap invitations={getInvitations$()} />);
 
     const saveBtn = screen.getByText(t('in-settings:tabs.save'));
-    expect(saveBtn).toHaveClass('button-disabled');
+    expect(saveBtn).toHaveClass('cds--btn--disabled');
 
     const urlInput = screen.getByLabelText(t('in-settings:tabs.url'));
     fireEvent.change(urlInput, { target: { value: 'ldaps://ldap.example.com:636' } });
@@ -200,7 +200,7 @@ describe('in-settings/tabs/SecurityAndAccess/pages/indentityProviders/Ldap/Ldap'
 
     insertUserPassword();
 
-    expect(saveBtn).not.toHaveClass('button-disabled');
+    expect(saveBtn).not.toHaveClass('cds--btn--disabled');
     fireEvent.click(saveBtn);
     expect(addActiveDialog).toHaveBeenCalledTimes(1);
   });
@@ -212,13 +212,13 @@ describe('in-settings/tabs/SecurityAndAccess/pages/indentityProviders/Ldap/Ldap'
       .getByText(t('in-settings:tabs.usernamePasswordDescription'))
       .parentElement.querySelector('input');
     fireEvent.change(passInput, { target: { value: 'pass_12' } });
-    expect(screen.getByText(t('in-settings:tabs.testConfiguration'))).not.toHaveClass('button-disabled');
+    expect(screen.getByText(t('in-settings:tabs.testConfiguration'))).not.toHaveClass('cds--btn--disabled');
   }
 
   function clickOnTestConfiguration() {
     const testButton = screen.getByText(t('in-settings:tabs.testConfiguration'));
     fireEvent.click(testButton);
-    expect(screen.getByText(t('in-settings:tabs.testConfiguration'))).toHaveClass('button-disabled');
+    expect(screen.getByText(t('in-settings:tabs.testConfiguration'))).toHaveClass('cds--btn--disabled');
     const spinningIcon = testButton.querySelector('.svg-icon-spinning');
     expect(spinningIcon).toBeInTheDocument();
   }
@@ -257,7 +257,7 @@ describe('in-settings/tabs/SecurityAndAccess/pages/indentityProviders/Ldap/Ldap'
     const expectedMsg = popupClass === 'message-error' ? `${t('in-settings:tabs.ldapTestFailed')} ${msg}` : msg;
     const icon = popupClass === 'message-error' ? /error icon/i : /success icon/i;
 
-    expect(screen.getByText(t('in-settings:tabs.testConfiguration'))).not.toHaveClass('button-disabled');
+    expect(screen.getByText(t('in-settings:tabs.testConfiguration'))).not.toHaveClass('cds--btn--disabled');
     expect(screen.getByText(expectedMsg)).toBeInTheDocument();
     expect(screen.getByText(expectedMsg).closest('.carbon-message')).toBeInTheDocument();
     expect(screen.getByText(icon)).toBeValid();

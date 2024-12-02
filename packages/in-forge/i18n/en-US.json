@@ -7352,6 +7352,7 @@
       "image": "Image",
       "id": "Id",
       "ip": "IP",
+      "version": "CRI-O Version",
       "createdAt": "Created At",
       "cpuTotalUsage": "CPU Total Usage",
       "cpuThrottlingCount": "CPU Throttling Count",

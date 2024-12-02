@@ -11,7 +11,6 @@ import { combineLatest } from '@instana/observables';
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
-import { reportLicenseType } from 'in-services/tracking/appcues';
 import { toHtml } from 'in-services/formatters/markdown';
 import getUsageInfo from 'in-subscription/getUsageInfo';
 import { createStore } from 'in-stores/store';
@@ -33,10 +32,6 @@ export function init() {
     if (usageInfo == null) {
       removeMessage(messageId);
       return;
-    }
-
-    if (usageInfo.activeLicenseType) {
-      reportLicenseType(usageInfo.activeLicenseType);
     }
 
     addMessage(

@@ -527,6 +527,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'multiCloseEnabled',
+    instanaCtlKey: 'feature.multi.close.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'incidentSummarizationEnabled',
     instanaCtlKey: 'feature.incident.ai.summarization.enabled',
     defaultValue: false
@@ -589,11 +594,6 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonButtonEnabled',
     instanaCtlKey: 'feature.carbon.button.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonCheckboxEnabled',
-    instanaCtlKey: 'feature.carbon.checkbox.enabled',
     defaultValue: true
   },
   {

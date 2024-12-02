@@ -7,7 +7,7 @@
 :local {
   .eventsChartWrapper {
     overflow-x: hidden;
-    padding: 1rem 0;
+    padding: 1rem;
   }
 
   .eventsChartBottomSection {

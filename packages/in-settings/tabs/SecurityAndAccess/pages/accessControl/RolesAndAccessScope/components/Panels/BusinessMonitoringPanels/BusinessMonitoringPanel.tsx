@@ -7,8 +7,8 @@
 import { MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
 
+import { Button, IconButton, Label, StackItem, Typography } from '@instana/components';
 import { Result, PermissionSet, ScopeBinding, OrderDirection } from '@instana/types';
-import { Button, IconButton, StackItem, Typography } from '@instana/components';
 import { Observable } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 
@@ -42,7 +42,7 @@ interface BusinessMonitoringPanelProps<I extends Object, FORM_TYPE extends MapFo
     FormControlProps<FORM_TYPE> {
   description: string;
   title: string;
-  limitedAccess: boolean;
+  access: 'ALL' | 'NONE' | 'LIMITED';
   observable: () => Observable<Result<I[]>>;
   extractId: ExtractIdFunction<I>;
   extractName: ExtractNameFunction<I>;
@@ -51,7 +51,7 @@ interface BusinessMonitoringPanelProps<I extends Object, FORM_TYPE extends MapFo
 export default function BusinessMonitoringPanel<I extends Object, FORM_TYPE extends MapFormItems>({
   title,
   description,
-  limitedAccess,
+  access,
   observable,
   extractId,
   extractName,
@@ -161,14 +161,28 @@ export default function BusinessMonitoringPanel<I extends Object, FORM_TYPE exte
 
   return (
     <StackItem>
-      <Typography variant="heading-200" component="div">
-        {title}
-      </Typography>
-      <Typography variant="body-regular" component="div">
-        {description}
-      </Typography>
-      {limitedAccess && (
+      <div className={locals.title}>
+        <Typography variant="heading-200" component="div">
+          {title}
+        </Typography>
+      </div>
+
+      {access == 'ALL' && (
+        <Label className={locals.label}>{t('in-settings:permissionScope.selection_access_all')}</Label>
+      )}
+
+      {access != 'LIMITED' && (
+        <Typography variant="body-regular" component="div">
+          {description}
+        </Typography>
+      )}
+
+      {access == 'LIMITED' && (
         <div className={locals.limitedDiv}>
+          <Label className={locals.label}>{t('in-settings:permissionScope.selection_limited_access')}</Label>
+          <Typography variant="body-regular" component="div">
+            {description}
+          </Typography>
           <StackItem>
             <Button
               kind="action"

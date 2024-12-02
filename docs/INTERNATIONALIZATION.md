@@ -125,8 +125,8 @@ we specify the following set of keys already in english, even though they will b
   }
 }
 ```
-❗️️ The texts for `_0`, `_1`, `_2` should be a copy of the `_plural` text and contain the `{{count}}` parameter. 
-This will be used in other translations (e.g. Japanese) 
+❗️️ The texts for `_0`, `_1`, `_2` should be a copy of the `_plural` text and contain the `{{count}}` parameter.
+This will be used in other translations (e.g. Japanese)
 
 ## Tips/Gotchas
 
@@ -141,7 +141,7 @@ This will be used in other translations (e.g. Japanese)
    these for static source code analysis.
  - Do not translate logger statements.
  - Do not translate JavaScript error messages, e.g. `new Error(…)`.
- - Do not translate Mixpanel API calls and `in-components/ViewTrackingMeta` usages.
+ - Do not translate Segment API calls and `in-components/ViewTrackingMeta` usages.
  - Do not translate `in-server`.
  - Translation of `in-internal` is optional.
 

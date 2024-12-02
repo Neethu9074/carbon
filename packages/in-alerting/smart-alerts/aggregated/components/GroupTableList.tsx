@@ -7,7 +7,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { LiLoadMore } from '@instana/components';
+import { CarbonLayer, LiLoadMore } from '@instana/components';
 
 //@ts-expect-error
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
@@ -62,31 +62,33 @@ export default function GroupTableList({
       >
         <MetricGroupHeader isLoading={isLoading} totalHits={totalHits} setBackendQueryModel={setBackendQueryModel} />
         {!hasErrors && items?.length > 0 && (
-          <CursorPaginatedTable
-            columnDefinitions={columnDefinitions}
-            numSkeletonRows={3}
-            totalHits={totalHits}
-            onChange={({ orderBy, orderDirection }: { orderBy: string; orderDirection: 'ASC' | 'DESC' }) =>
-              onOrderByChange &&
-              onOrderByChange({
-                by: orderBy,
-                direction: orderDirection
-              })
-            }
-            progress={progress}
-            canLoadMore={canLoadMore}
-            items={items}
-            isSearchable={false}
-            defaultPageSize={retrievalSize}
-            defaultOrderDirection={order && order.direction}
-            orderBy={order?.by}
-            orderDirection={order?.direction}
-            onRowClick={(item: GroupItem) => {
-              setSelectedMetricGroup('label' in item ? item?.label : '' || 'tags' in item ? item?.tags : '');
-            }}
-            fixedLayout={fixedLayout}
-            size="compact"
-          />
+          <CarbonLayer>
+            <CursorPaginatedTable
+              columnDefinitions={columnDefinitions}
+              numSkeletonRows={3}
+              totalHits={totalHits}
+              onChange={({ orderBy, orderDirection }: { orderBy: string; orderDirection: 'ASC' | 'DESC' }) =>
+                onOrderByChange &&
+                onOrderByChange({
+                  by: orderBy,
+                  direction: orderDirection
+                })
+              }
+              progress={progress}
+              canLoadMore={canLoadMore}
+              items={items}
+              isSearchable={false}
+              defaultPageSize={retrievalSize}
+              defaultOrderDirection={order && order.direction}
+              orderBy={order?.by}
+              orderDirection={order?.direction}
+              onRowClick={(item: GroupItem) => {
+                setSelectedMetricGroup('label' in item ? item?.label : 'tags' in item ? item?.tags : '');
+              }}
+              fixedLayout={fixedLayout}
+              size="compact"
+            />
+          </CarbonLayer>
         )}
         {canLoadMore && (
           <LiLoadMore

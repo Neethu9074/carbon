@@ -109,7 +109,6 @@ export const DFQ_FILTER_SELECTED = 'dfq.filter.selected';
 
 export const KUBERNETES_DASHBOARD_TAB_CHANGE = 'kubernetes.dashboard.tabChange';
 export const KUBERNETES_TIME_SHIFT_SELECT = 'kubernetes.timeShift.select';
-export const IS_MONITORING_HOSTS = 'isMonitoringHosts';
 export const MAP_GROUPING_CHANGED = 'map.grouping.change';
 export const MAP_METRICS_AGGREGATION = 'map.metrics.aggregation';
 export const MAP_METRICS_SHOW = 'map.metrics.show';
@@ -516,7 +515,6 @@ export const BIZOPS_PERSPECTIVE_CREATED = 'bizops.perspective.created';
 export const BIZOPS_BREADCRUMB_CLICK = 'bizops.breadcrumb.click';
 export const BIZOPS_DEPLOY_AGENT_CLICK = 'bizops.deploy.agent.click';
 
-// Mixpanel
 export const BIZOPS_PERSPECTIVE_LIST_SELECT = 'bizops.perspective.list.select';
 
 export const BIZOPS_PROCESS_TABS_CLICK = 'bizops.process.tabs.click';

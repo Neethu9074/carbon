@@ -28,8 +28,13 @@ export default function Section({
   titleWidth = '11rem'
 }: SectionProps) {
   return (
-    <div>
-      <div className={locals.section}>
+    <>
+      <div
+        className={locals.section}
+        style={{
+          ['gridTemplateColumns' as any]: `${titleWidth} 100%`
+        }}
+      >
         <label
           htmlFor={titleHtmlFor}
           className={classNames(locals.title, {
@@ -53,6 +58,6 @@ export default function Section({
 
         {actions && <div className={locals.actions}>{actions}</div>}
       </div>
-    </div>
+    </>
   );
 }

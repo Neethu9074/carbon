@@ -37,20 +37,20 @@ describe(DeleteSelectedCredential, () => {
   });
 
   it('Should enable Delete Credential button only if correct Credential Name is entered', () => {
-    const { getByText, getByRole } = render(<DeleteSelectedCredential item={dummyCredentialData} />);
+    const { getByText } = render(<DeleteSelectedCredential item={dummyCredentialData} />);
     expect(getByText('Delete synthetic credential credTest')).toBeVisible();
     expect(getByText('Enter the credentials full name to confirm deletion')).toBeVisible();
 
     expect(getByText('Cancel')).toBeVisible();
-    expect(getByRole('button', { name: 'Delete credential' })).toBeDisabled();
+    expect(screen.getByText('Delete credential')).toBeDisabled();
 
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('');
 
     fireEvent.change(input, { target: { value: 'credTest' } });
-    expect(getByRole('button', { name: 'Delete credential' })).not.toBeDisabled();
+    expect(screen.getByText('Delete credential')).not.toBeDisabled();
 
     fireEvent.change(input, { target: { value: 'credTest123' } });
-    expect(getByRole('button', { name: 'Delete credential' })).toBeDisabled();
+    expect(screen.getByText('Delete credential')).toBeDisabled();
   });
 });

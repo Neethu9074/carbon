@@ -8,22 +8,6 @@
     margin-right: 0.5rem;
   }
 
-  .menuButtonItem {
-    width: 100%;
-  }
-
-  .alertChannelButton {
-    & + .alertChannelButton {
-      border-top: 1px solid var(--ids-color-option-neutral-50);
-      display: flex;
-      justify-content: space-between;
-
-      &:hover {
-        border: 1px solid var(--ids-color-option-neutral-500);
-      }
-    }
-  }
-
   //hide the menu behind the header when scrolling
   :global(.cds--menu:has(.alertChannelButtonMenu)) {
     z-index: var(--ids-z-index-option-select-box-flyouts, 102);

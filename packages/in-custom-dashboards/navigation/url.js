@@ -27,6 +27,7 @@ export const fastQueryModeEnabledParameter = {
   parser: v => v === 'true',
   serializer: Boolean
 };
+
 export const dashboardTopLevelFilterUrlParameter = {
   path: viewPath,
   name: 'tagFilterExpression',

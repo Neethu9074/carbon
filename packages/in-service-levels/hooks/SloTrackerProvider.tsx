@@ -45,7 +45,6 @@ import { SliType } from 'in-custom-dashboards/widgets/SloLegacy/sli/sliTypes';
 import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { CreateSloDialogMode } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
-import { track as trackMixpanel } from 'in-services/tracking/tracking';
 import { ProductArea } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { PageName } from 'in-services/tracking/pageNames';
@@ -169,12 +168,6 @@ export function trackSloEvent<EVENT extends keyof AllSloTrackers>(
     };
 
     eventTracker({ segmentEventName: e, data });
-
-    /*
-     * As discussed, we will always send the info to the old mixpanel tracking.
-     * It will be removed soon.
-     */
-    trackMixpanel(event, { ...payload, ...meta });
   };
 
   allSloTracker[event](payload as never, tracker as CtaTrackingFunction);

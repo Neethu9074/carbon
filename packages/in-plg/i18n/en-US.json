@@ -52,20 +52,10 @@
     "taketour": " Take a tour"
   },
   "dataConsumptionMessage": {
-    "eighty": {
-      "title": "Looks like your Instana usage is increasing!"
-    },
-    "ninety": {
-      "title": "Heads up! You're getting close to your data usage limit."
-    },
-    "hundred": {
-      "title": "Looks like your Instana usage is taking off!"
-    },
-    "description": "You’ve reached {{dataConsumption}}% of your data usage entitlement, but don’t worry - we’re still monitoring your data. You’ll only be charged on a pay-per-use basis for {{remainingText}}",
-    "remainingText" : "any additional data once you reach 100%.",
-    "remainingTextHundred": "the exact amount of additional data ingested.",
-    "buttonText": "Review data usage"
-
+    "description": "You have reached {{dataConsumption}}% of your data ingest entitlement. Once you reach 100%, you will be charged on a pay-per-use basis for any additional data ingested.",
+    "description100": "You have reached 100% of your data ingest entitlement, but don’t worry, you will continue to receive the full value of Instana. You will only be charged on a pay-per-use basis for the exact amount of additional data ingested.",
+    "buttonText": "Review data usage",
+    "title": "Looks like your Instana usage is taking off!"
   },
   "agentDetails": {
     "agentMode": {

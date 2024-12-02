@@ -21,8 +21,6 @@ import { integrationKey as mezmoIntegrationKey } from 'in-integrations/logging/m
 import { integrationKey as humioIntegrationKey } from 'in-integrations/logging/humio/consts';
 import { getIntegrationConfiguration } from 'in-integrations/logging/configurationsStore';
 import { integrationKey as elkIntegrationKey } from 'in-integrations/logging/elk/consts';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
-import MultiButton from 'in-components/MultiButton';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -55,27 +53,20 @@ export function LoggingIntegrationButtonsRenderer({ addMargin, ...props }) {
     showSplunkButton(props) && splunkIntegration && splunkIntegration.enabled && <SplunkButton {...props} />
   ].filter(Boolean);
 
-  if (carbonButtonEnabled) {
-    return (
-      <CarbonMenuButton
-        className={classNames({
-          [locals.gotoLogsButton]: addMargin
-        })}
-        size="sm"
-        label={t('in-integrations:logging.goToLogs')}
-        kind="primary"
-      >
-        {integrations}
-      </CarbonMenuButton>
-    );
+  if (integrations.length === 0) {
+    return null;
   }
 
   return (
-    <MultiButton
+    <CarbonMenuButton
+      className={classNames({
+        [locals.gotoLogsButton]: addMargin
+      })}
+      size="sm"
       label={t('in-integrations:logging.goToLogs')}
-      kind="secondary"
-      icon="lib_application_logging"
-      buttons={integrations}
-    />
+      kind="tertiary"
+    >
+      {integrations}
+    </CarbonMenuButton>
   );
 }

@@ -17,11 +17,15 @@ import locals from './TableNameColumnCell.mless';
 export default function TableNameColumnCell<AlertConfig extends AlertConfigType>({
   config,
   getNameSubtitle,
-  createRowLinkLocation
+  createRowLinkLocation,
+  isCategoryGlobal
 }: {
   config: AlertConfig;
-  getNameSubtitle?: ((config: AlertConfig) => string) | ((config: AlertConfig) => JSX.Element);
+  getNameSubtitle?:
+    | ((config: AlertConfig, isCategoryGlobal?: boolean) => string)
+    | ((config: AlertConfig, isCategoryGlobal?: boolean) => JSX.Element);
   createRowLinkLocation?: (config: AlertConfig, location: Location) => Location;
+  isCategoryGlobal?: boolean;
 }) {
   const { location, createHref } = useNavigation();
   return (
@@ -31,7 +35,7 @@ export default function TableNameColumnCell<AlertConfig extends AlertConfigType>
           <a href={createRowLinkLocation && createHref(createRowLinkLocation(config, location))}>{config.name}</a>
         </div>
       </Tooltip>
-      {getNameSubtitle && <span>{getNameSubtitle(config)}</span>}
+      {getNameSubtitle && <span>{getNameSubtitle(config, isCategoryGlobal)}</span>}
     </Stack>
   );
 }

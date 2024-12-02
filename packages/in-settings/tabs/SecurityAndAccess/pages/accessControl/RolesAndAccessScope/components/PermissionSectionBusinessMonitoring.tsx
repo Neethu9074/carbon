@@ -62,11 +62,8 @@ export interface PermissionSectionBusinessMonitoringProps<I extends Object, FORM
 
 export default function PermissionSectionBusinessMonitoring<I extends Object, FORM_TYPE extends MapFormItems>({
   title,
-  accessAllTitle,
   accessAllDescription,
-  noAccessTitle,
   noAccessDescription,
-  limitedAccessTitle,
   limitedAccessDescription,
   productArea,
   icon,
@@ -142,7 +139,7 @@ export default function PermissionSectionBusinessMonitoring<I extends Object, FO
             <TabSelectPanel key={context} id={context}>
               {context === ScopedPermissionItem.ACCESS_ALL && (
                 <BusinessMonitoringPanel
-                  title={accessAllTitle}
+                  title={t('in-settings:productAreas.permissions')}
                   description={accessAllDescription}
                   extractId={extractId}
                   extractName={extractName}
@@ -151,12 +148,12 @@ export default function PermissionSectionBusinessMonitoring<I extends Object, FO
                   setForm={setForm}
                   setSubSlideConfig={setSubSlideConfig}
                   setShowSubSlide={setShowSubSlide}
-                  limitedAccess={false}
+                  access="ALL"
                 />
               )}
               {context === ScopedPermissionItem.NO_ACCESS && (
                 <BusinessMonitoringPanel
-                  title={noAccessTitle}
+                  title={t('in-settings:productAreas.permissions')}
                   description={noAccessDescription}
                   extractId={extractId}
                   extractName={extractName}
@@ -165,7 +162,7 @@ export default function PermissionSectionBusinessMonitoring<I extends Object, FO
                   setForm={setForm}
                   setSubSlideConfig={setSubSlideConfig}
                   setShowSubSlide={setShowSubSlide}
-                  limitedAccess={false}
+                  access="NONE"
                 />
               )}
             </TabSelectPanel>
@@ -218,7 +215,7 @@ export default function PermissionSectionBusinessMonitoring<I extends Object, FO
             <TabSelectPanel key={context} id={context}>
               {context === ScopedPermissionItem.ACCESS_ALL && (
                 <BusinessMonitoringPanel
-                  title={accessAllTitle}
+                  title={t('in-settings:productAreas.permissions')}
                   description={accessAllDescription}
                   extractId={extractId}
                   extractName={extractName}
@@ -227,12 +224,12 @@ export default function PermissionSectionBusinessMonitoring<I extends Object, FO
                   setForm={setForm}
                   setSubSlideConfig={setSubSlideConfig}
                   setShowSubSlide={setShowSubSlide}
-                  limitedAccess={false}
+                  access="ALL"
                 />
               )}
               {context === ScopedPermissionItem.NO_ACCESS && (
                 <BusinessMonitoringPanel
-                  title={noAccessTitle}
+                  title={t('in-settings:productAreas.permissions')}
                   description={noAccessDescription}
                   extractId={extractId}
                   extractName={extractName}
@@ -241,12 +238,12 @@ export default function PermissionSectionBusinessMonitoring<I extends Object, FO
                   setForm={setForm}
                   setSubSlideConfig={setSubSlideConfig}
                   setShowSubSlide={setShowSubSlide}
-                  limitedAccess={false}
+                  access="NONE"
                 />
               )}
               {context === ScopedPermissionItem.LIMITED_ACCESS && (
                 <BusinessMonitoringPanel
-                  title={limitedAccessTitle}
+                  title={t('in-settings:productAreas.permissions')}
                   description={limitedAccessDescription}
                   extractId={extractId}
                   extractName={extractName}
@@ -255,7 +252,7 @@ export default function PermissionSectionBusinessMonitoring<I extends Object, FO
                   setForm={setForm}
                   setSubSlideConfig={setSubSlideConfig}
                   setShowSubSlide={setShowSubSlide}
-                  limitedAccess
+                  access="LIMITED"
                 />
               )}
             </TabSelectPanel>

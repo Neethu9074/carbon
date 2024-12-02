@@ -12,11 +12,12 @@ export default function ConfigureAlertChannel(props: ConfigureAlertChannelProps)
 
 export interface ConfigureAlertChannelProps {
   form: MapForm<any>;
-  onChange: (path: string[], updater: (item: Item) => Item) => void;
-  setSliderState: (state: SliderState) => void;
-  setCustomSlideInHeaderConfig: (state: { title: string | null; onClose: (() => void) | null }) => void;
+  onChange: (path: MapPath<any>, updater: (item: Item) => Item) => void;
+  setSliderState?: (state: SliderState) => void;
+  setCustomSlideInHeaderConfig?: (state: { title: string | null; onClose: (() => void) | null }) => void;
   numberOfAlertChannelListRows?: number;
   isTearSheet?: boolean;
   updateForm?: (form: MapForm<any>) => void;
   simpleMode?: boolean;
+  alertChannelPerSeverityEnabled?: boolean;
 }

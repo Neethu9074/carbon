@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { FormEvent } from 'react';
 import { Item } from 'formalistic';
-import React from 'react';
 
 import { Form as BaseForm } from '@instana/components';
 
@@ -41,7 +41,7 @@ export default function Form({
       <BaseForm
         id={formId}
         aria-label={ariaLabel}
-        onSubmit={(event: Event) => {
+        onSubmit={(event: FormEvent<HTMLFormElement>) => {
           event.preventDefault();
           event.stopPropagation();
 

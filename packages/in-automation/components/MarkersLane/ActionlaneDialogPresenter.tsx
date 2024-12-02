@@ -75,7 +75,6 @@ export default function ActionlaneDialogPresenter({
         selectedAction: selectedItem.actionName,
         numberOfActions: instances.length
       });
-      // Added this to execute  Mixpanel tracking on these prop changes
     }, [selectedItem, instances]);
   }
 }

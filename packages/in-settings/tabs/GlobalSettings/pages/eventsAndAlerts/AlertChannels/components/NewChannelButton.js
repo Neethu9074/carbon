@@ -3,10 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import classNames from 'classnames';
 import React from 'react';
 
-import { Button, CarbonMenuButton, CarbonMenuItem, Stack, PreviewPill } from '@instana/components';
+import { CarbonMenuButton, CarbonMenuItem, Stack, PreviewPill } from '@instana/components';
 
 import {
   SETTINGS_ALERT_CHANNEL_ADD_CLICK,
@@ -16,103 +15,42 @@ import configs from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alert
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { alertChannelCTATrackerSegment } from 'in-settings/tracker';
 import { goToAlertChannelView } from 'in-settings/navigation/paths';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
-import MultiButton from 'in-components/MultiButton';
 import { t } from 'in-i18n';
 
 import locals from './NewChannelButton.mless';
 
-export default function NewChannelButton(props) {
+export default function NewChannelButton() {
   const { location } = useNavigation();
-  if (carbonButtonEnabled) {
-    return (
-      <CarbonMenuButton
-        kind="ghost"
-        className={locals.createNewButton}
-        menuAlignment="bottom-end"
-        size="sm"
-        label={t('in-settings:tabs.addAlertChannel')}
-        onClick={() => {
-          alertChannelCTATrackerSegment({
-            EVENT_NAME: SETTINGS_ALERT_CHANNEL_ADD_MENU_CLICK,
-            path: location.pathname,
-            channel: 'alert channel'
-          });
-        }}
-      >
-        {Object.keys(configs).map(kind => (
-          <AlertChannelButton type={kind} {...props} />
-        ))}
-      </CarbonMenuButton>
-    );
-  }
   return (
-    <MultiButton
+    <CarbonMenuButton
+      kind="ghost"
       className={locals.createNewButton}
-      kind="action"
-      icon="lib_openclose_add_circle_outline"
+      menuAlignment="bottom-end"
+      size="sm"
       label={t('in-settings:tabs.addAlertChannel')}
-      trackEventDropdown={() => {
+      onClick={() => {
         alertChannelCTATrackerSegment({
           EVENT_NAME: SETTINGS_ALERT_CHANNEL_ADD_MENU_CLICK,
           path: location.pathname,
           channel: 'alert channel'
         });
       }}
-      buttons={Object.keys(configs).map(kind => (
-        <AlertChannelButton type={kind} {...props} />
+    >
+      {Object.keys(configs).map(kind => (
+        <AlertChannelButton type={kind} />
       ))}
-    />
+    </CarbonMenuButton>
   );
 }
 
-function AlertChannelButton({ type, className }) {
+function AlertChannelButton({ type }) {
   const { location } = useNavigation();
-  if (carbonButtonEnabled) {
-    return (
-      configs[type].active !== false && (
-        <CarbonMenuItem
-          className={classNames({
-            [className]: className,
-            ['alertChannelButtonMenu']: true
-          })}
-          onClick={() => {
-            goToAlertChannelView(type);
-            alertChannelCTATrackerSegment({
-              EVENT_NAME: SETTINGS_ALERT_CHANNEL_ADD_CLICK,
-              path: location.pathname,
-              channel: configs[type].label
-            });
-          }}
-          label={
-            <div className={locals.menuButtonItem}>
-              <Stack direction="horizontal" align="center" distribution="spaceBetween" gap="normal">
-                {configs[type].label}
-                {configs[type].isAlpha && (
-                  <div className={locals.betaBadge}>
-                    <PreviewPill privatePreview />
-                  </div>
-                )}
-                {configs[type].isBeta && (
-                  <div className={locals.betaBadge}>
-                    <PreviewPill />
-                  </div>
-                )}
-              </Stack>
-            </div>
-          }
-        />
-      )
-    );
-  }
   return (
     configs[type].active !== false && (
-      <Button
-        className={classNames({
-          [locals.alertChannelButton]: true,
-          [className]: className
-        })}
-        kind="secondary"
+      <CarbonMenuItem
+        // adjusting z-index to keep the entries behinder header navbar while scrolling
+        // see styles in less file
+        className="alertChannelButtonMenu"
         onClick={() => {
           goToAlertChannelView(type);
           alertChannelCTATrackerSegment({
@@ -121,19 +59,14 @@ function AlertChannelButton({ type, className }) {
             channel: configs[type].label
           });
         }}
-      >
-        {configs[type].label}
-        {configs[type].isAlpha && (
-          <div className={locals.betaBadge}>
-            <PreviewPill privatePreview />
-          </div>
-        )}
-        {configs[type].isBeta && (
-          <div className={locals.betaBadge}>
-            <PreviewPill />
-          </div>
-        )}
-      </Button>
+        label={
+          <Stack direction="horizontal" align="center" distribution="spaceBetween" gap="normal">
+            {configs[type].label}
+            {configs[type].isAlpha && <PreviewPill privatePreview />}
+            {configs[type].isBeta && <PreviewPill />}
+          </Stack>
+        }
+      />
     )
   );
 }

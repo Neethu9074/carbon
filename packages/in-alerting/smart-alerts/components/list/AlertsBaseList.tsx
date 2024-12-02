@@ -41,7 +41,9 @@ export type ActionHandlers<AlertConfig extends AlertConfigType> = {
 interface AlertBaseListProps<AlertConfig extends AlertConfigType> {
   getAlertConfigs: () => Observable<Result<AlertConfig[]>>;
   extraColumnDefinitions: ColumnDefinition<AlertConfig>[];
-  extraCarbonTableColumnDefinitions?: ServerTableColumnDefinition<AlertConfig>[]; // TODO This parameter can be made required once the carbon table is integrated into all of the SA listings.
+  extraCarbonTableColumnDefinitions: ServerTableColumnDefinition<AlertConfig>[];
+  noDataHeader: string;
+  noDataDescription: string | JSX.Element;
   getSubtitle?: ((config: AlertConfig) => string) | ((config: AlertConfig) => JSX.Element);
   getNameSubtitle?: ((config: AlertConfig) => string) | ((config: AlertConfig) => JSX.Element);
   createRowLinkLocation?: (config: AlertConfig, location: Location) => Location;
@@ -54,9 +56,6 @@ interface AlertBaseListProps<AlertConfig extends AlertConfigType> {
   displayCarbonTable?: boolean;
   toolBarContent?: JSX.Element;
   isSelectable?: boolean;
-  // TODO noDataHeader,noDataDescription can be made required once the carbon table is integrated into all of the SA listings.
-  noDataHeader?: string;
-  noDataDescription?: string;
 }
 
 export interface AlertConfigType {

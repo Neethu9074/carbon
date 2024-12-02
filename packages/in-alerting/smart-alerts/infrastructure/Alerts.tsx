@@ -37,9 +37,11 @@ import { Location } from 'in-stores/navigation/types';
 import { getPluginName } from 'in-sdk/pluginName';
 import Footer from 'in-components/Footer/Footer';
 import { role } from 'in-stores/user';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from './Alerts.mless';
+
+const displayCarbonTable = carbonTableEnabled && smartAlertCarbonTableEnabled;
 
 export default function Alerts() {
   const handlers = role?.canConfigureGlobalInfraSmartAlerts && !role?.limitedInfrastructureScope ? actionHandlers : {};
@@ -68,13 +70,13 @@ export default function Alerts() {
           renderName={replaceTitlePlaceholdersWithMarkup}
           hideAlertIcon
           // for carbon table
-          displayCarbonTable={carbonTableEnabled && smartAlertCarbonTableEnabled}
+          displayCarbonTable={displayCarbonTable}
           extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
           carbonActionHandlers={handlers}
           getNameSubtitle={(config: InfraSmartAlertConfigWithMetadata) => getNameSubtitle(config)}
           toolBarContent={<CreateSmartAlertButton />}
           noDataHeader={t('in-alerting:smartAlerts.infrastructure.list.noDataHeader')}
-          noDataDescription={t('in-alerting:smartAlerts.infrastructure.list.noDataDescription')}
+          noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.infrastructure.list.noDataDescription" />}
         />
       </div>
       <Footer />

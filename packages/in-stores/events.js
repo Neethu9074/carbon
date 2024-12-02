@@ -174,6 +174,7 @@ export const healthColors = [
   '#eae18a',
   '#f1e05c',
   '#f8df2e',
+  '#FFC600',
   '#ffde00',
   '#ffbf08',
   '#ffa010',

@@ -9,6 +9,7 @@ import { Group, Order, TagCatalog, TimeConfig, ApplicationBoundaryScope, Boundar
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 
 export declare const applicationsList: string;
+export declare const analyzePath: string;
 export declare const alertsList: string;
 export declare const alertsTab: string;
 export declare const alertsTabDetailsFullyQualified: string;

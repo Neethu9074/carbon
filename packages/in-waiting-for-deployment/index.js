@@ -3,9 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import 'in-init/steps/commonStyles.ts';
-
 import initialiseSteps from 'in-init/initialiseSteps';
+import 'in-init/steps/commonStyles.ts';
 
 initialiseSteps([
   'instrumentWebSocketApi',
@@ -34,9 +33,6 @@ initialiseSteps([
 
   // accept terms and privacy settings
   'waitingTermsAndPrivacy',
-
-  // for anonymus tracking during the onboarding process
-  'anonymousMixpanel',
 
   // This must be the second-last step: Rendering of the UI
   'waitingRendering',

@@ -5,10 +5,6 @@
 
 :local {
   .healthContainer {
-    > div {
-      > span {
-        display: flex;
-      }
-    }
+    height: 1rem;
   }
 }

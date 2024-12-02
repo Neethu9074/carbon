@@ -21,8 +21,4 @@
       text-decoration: none;
     }
   }
-
-  .btnPadding {
-    padding: 0.75rem;
-  }
 }

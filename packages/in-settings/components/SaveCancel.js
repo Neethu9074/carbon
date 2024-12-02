@@ -9,6 +9,7 @@ import { Button } from '@instana/components';
 
 import { savingMessage as entityFormSavingMessage } from 'in-hoc/entityForm';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import SectionLine from 'in-settings/components/SectionLine';
 import Section from 'in-settings/components/Section';
 import { t } from 'in-i18n';
@@ -43,7 +44,11 @@ export default function SaveCancel({
       </Section>
       <Section className={type !== 'integration' ? locals.saveCancelRow : locals.saveButtonIntegrationContainer}>
         {hasCancelButton && (
-          <Button kind="subtle" className={locals.button} onClick={onClickCancelButton || (() => goToPath(listPath))}>
+          <Button
+            kind={carbonButtonEnabled ? 'secondary' : 'subtle'}
+            className={locals.button}
+            onClick={onClickCancelButton || (() => goToPath(listPath))}
+          >
             {cancelButtonLabel}
           </Button>
         )}

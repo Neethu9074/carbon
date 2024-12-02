@@ -168,7 +168,8 @@ export function createMaintenanceConfigV2(
     paused: paused || false,
     scheduling,
     tagFilterExpressionEnabled: tagFilterExpressionEnabled || false,
-    tagFilterExpression
+    tagFilterExpression,
+    retriggerOpenAlertsEnabled: false
   };
 }
 

@@ -205,7 +205,7 @@ function Form({ form, onChange }: FormProps) {
           <ShowHideInputField
             placeholder="*******************"
             value={field.value}
-            onChange={e => onChange('bearerAuthToken', e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange('bearerAuthToken', e.target.value)}
             id="token"
             labelText={t('in-settings:tabs.token')}
             invalid={!field.valid && field.touched}

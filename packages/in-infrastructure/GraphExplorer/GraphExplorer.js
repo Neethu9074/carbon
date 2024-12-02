@@ -18,7 +18,6 @@ import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import NotMonitoringMap from 'in-map/components/NotMonitoringMap';
-import 'in-infrastructure/GraphExplorer/charts-react/styles.css';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
