@@ -33,7 +33,6 @@ import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
 import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { pageNames } from 'in-services/tracking/pageNames';
@@ -188,9 +187,9 @@ function ButtonLine({ viewId, mobileAppId, timeConfig, tagCatalogSessionStart, m
       />
       {viewId && (
         <Button
-          kind={carbonButtonEnabled ? 'action' : 'primary'}
+          kind="action"
           icon="lib_mobile_app_view"
-          size={carbonButtonEnabled ? 'compact' : 'normal'}
+          size="compact"
           href={
             tagCatalogSessionStart &&
             getLinkToMobileAppAnalyze({
@@ -210,9 +209,9 @@ function ButtonLine({ viewId, mobileAppId, timeConfig, tagCatalogSessionStart, m
 
       {!viewId && (
         <Button
-          kind={carbonButtonEnabled ? 'action' : 'primary'}
+          kind="action"
           icon="lib_mobile_app_session"
-          size={carbonButtonEnabled ? 'compact' : 'normal'}
+          size="compact"
           href={
             tagCatalogSessionStart &&
             getLinkToMobileAppAnalyze({
