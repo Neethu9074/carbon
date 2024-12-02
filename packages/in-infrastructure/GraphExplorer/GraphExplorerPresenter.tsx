@@ -9,9 +9,10 @@ import React, { useState, useEffect } from 'react';
 import { path as d3Path } from 'd3-path';
 import classNames from 'classnames';
 
+import { ShapeNode, Edge } from '@instana/carbon-charts';
 import { useObservable } from '@instana/hooks';
+import '@instana/carbon-charts/lib/index.css';
 
-import { ShapeNode, Edge } from 'in-infrastructure/GraphExplorer/charts-react';
 import { ZoomableSVG } from 'in-infrastructure/GraphExplorer/ZoomableSVG';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import PluginIcon from 'in-components/PluginIcon';
