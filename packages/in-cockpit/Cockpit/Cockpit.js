@@ -43,7 +43,6 @@ import OpenIncidentsButton from 'in-cockpit/Cockpit/components/OpenIncidentsButt
 import { events, globalSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import { securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
 import { createAsyncComponent } from 'in-components/routing/createAsyncComponent';
-import { carbonButtonEnabled, playwithEnabled } from 'in-services/featureFlags';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import PlatformsTopList from 'in-cockpit/Cockpit/components/PlatformsTopList';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -57,6 +56,7 @@ import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import { productAreas } from 'in-services/tracking/productAreas';
 import UserGoalSelection from 'in-plg/pages/UserGoalSelection';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { playwithEnabled } from 'in-services/featureFlags';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { pendingResult } from 'in-services/fixedObjects';
 import SideNav from 'in-components/SideNav';
@@ -201,7 +201,7 @@ function Header() {
           <>
             {role.canConfigureAgents && !playwithEnabled && (
               <Button
-                size={carbonButtonEnabled ? 'compact' : 'normal'}
+                size="compact"
                 kind="secondaryDarker"
                 icon="lib_actions_settings"
                 href={createHrefToPath('/agents/installation')}
@@ -212,7 +212,7 @@ function Header() {
 
             {role.canConfigureUsers && !playwithEnabled && (
               <Button
-                size={carbonButtonEnabled ? 'compact' : 'normal'}
+                size="compact"
                 kind="secondaryDarker"
                 icon="lib_alerts_user_impacted"
                 href={createHrefToPath(securityAndAccessAccessControlUsers)}
