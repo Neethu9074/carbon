@@ -15,7 +15,6 @@ import {
 } from 'in-services/tracking/eventNames';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 
 import locals from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton.mless';
 
@@ -57,8 +56,7 @@ export default function CreateSmartAlertButton({
   return (
     <Button
       className={classNames({
-        [locals.button]: renderAsSimpleButton,
-        [locals.btnPadding]: renderAsSimpleButton && !carbonButtonEnabled
+        [locals.button]: renderAsSimpleButton
       })}
       icon="lib_alerts_create"
       kind={'primaryv2'}

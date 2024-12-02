@@ -11,7 +11,6 @@ import { Observable } from '@instana/observables';
 import { Link } from '@instana/components';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 
 import locals from 'in-alerting/components/ScopePath.mless';
 
@@ -60,11 +59,7 @@ interface ScopeEntryProps extends ScopeEntryType {
 function ScopeEntry({ iconType, iconSize, label, href, href$ }: ScopeEntryProps) {
   return (
     <>
-      <SvgIcon
-        className={classNames({ [locals.icon]: true, [locals.fill]: !carbonButtonEnabled })}
-        size={iconSize}
-        type={iconType}
-      />
+      <SvgIcon className={classNames({ [locals.icon]: true })} size={iconSize} type={iconType} />
       <Link href={href$ ?? href} className={locals.link}>
         {label}
       </Link>

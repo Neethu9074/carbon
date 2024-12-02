@@ -11,7 +11,6 @@ import { Button } from '@instana/components';
 
 import { getValueRoundedToDecimals } from 'in-alerting/smart-alerts/components/utils/formatUtils';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton.mless';
@@ -72,8 +71,8 @@ export default function UseSuggestedValueButton({
               })}
             >
               <Button
-                size={carbonButtonEnabled ? 'compact' : 'normal'}
-                kind={carbonButtonEnabled ? 'tertiary' : 'secondaryDarker'}
+                size="compact"
+                kind="tertiary"
                 onClick={() => {
                   const updatedForm = getUpdatedForm
                     ? getUpdatedForm(suggestedThresholdValue)
