@@ -6,10 +6,11 @@
 
 import React from 'react';
 
-import { Typography } from '@instana/components';
+import { Link, Typography } from '@instana/components';
 import { Policy } from '@instana/types';
 
 import { getActionConfigurationFromPolicy, isAutomatic, isManual } from 'in-automation/utils/policy';
+import useHrefToPolicyDetails from 'in-automation/navigation/hooks/useHrefToPolicyDetails';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { ACTION_TRANSLATIONS } from 'in-automation/constants';
@@ -32,15 +33,16 @@ function Subscript({ policy }: { policy: Policy }) {
 export const nameColumn: ColumnDefinition<Policy> = {
   id: 'name',
   label: t('in-automation:name'),
-  getContent: item => (
-    <Tooltip content={item.name} align="auto" delay={500} overwriteBlock>
-      <WithSubscript subscript={<Subscript policy={item} />}>
-        <Typography noWrap variant="body-regular">
-          {item.name}
-        </Typography>
-      </WithSubscript>
-    </Tooltip>
-  ),
+  getContent: function Content(item) {
+    const hrefToPolicyDetails = useHrefToPolicyDetails();
+    return (
+      <Tooltip content={item.name} align="auto" delay={500} overwriteBlock>
+        <WithSubscript subscript={<Subscript policy={item} />}>
+          <Link href={hrefToPolicyDetails(item.id, false)}>{item.name}</Link>
+        </WithSubscript>
+      </Tooltip>
+    );
+  },
   width: 23,
   sortable: true
 };

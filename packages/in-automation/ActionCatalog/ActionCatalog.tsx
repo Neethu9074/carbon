@@ -74,7 +74,6 @@ export default function ActionCatalog({
 
   const navigateToActionDetails = useNavigateToActionDetails();
   const columnDefinitions: ColumnDefinition<Action>[] = getColumnDefinitions({ isUserActions: isUserActions });
-  const { viewAIGenaratedActionTrackerSegment } = useSegmentTracker();
   return (
     <ServerTablePresenter<Action, ServerTablePresenterProps<Action>>
       onChange={setServerTableUrlState}
@@ -82,12 +81,6 @@ export default function ActionCatalog({
       page={page}
       searchPlaceholder={t('in-automation:searchActions')}
       searchMaxWidth={180}
-      onRowClick={item => {
-        navigateToActionDetails(item.id, false);
-        if (!isUserActions) {
-          viewAIGenaratedActionTrackerSegment({ actionName: item.name, actionType: item.type });
-        }
-      }}
       cardTitle={
         isLoading(paginatedActions)
           ? t('in-automation:actions')

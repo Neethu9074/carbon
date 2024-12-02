@@ -111,7 +111,6 @@ export default function Policies() {
         page={page}
         searchPlaceholder={t('in-automation:policies.searchPolicies')}
         searchMaxWidth={180}
-        onRowClick={item => navigateToPolicyDetails(item.id, false)}
         cardTitle={
           isLoading(policies)
             ? t('in-automation:policies.policies')
