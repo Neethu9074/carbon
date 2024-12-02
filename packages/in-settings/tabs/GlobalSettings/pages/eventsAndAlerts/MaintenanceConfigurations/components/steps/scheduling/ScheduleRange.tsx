@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { RRule } from 'rrule';
 import React from 'react';
 
-import { Stack, RadioButton } from '@instana/components';
+import { Stack, RadioButton, DateInput as CarbonDateInput } from '@instana/components';
 import { formatDate } from '@instana/format-date';
 
 import {
@@ -18,12 +18,10 @@ import {
   setInfiniteRRule
 } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import { parseDate } from 'in-services/formatters/date';
+import { getSingle } from 'in-services/settings/settings';
 import ErrorBoundary from 'in-components/ErrorBoundary';
-import DateInput from 'in-components/form/DateInput';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurationForm.mless';
@@ -40,11 +38,14 @@ export default function ScheduleRange({ form, setValue, setFormRRule, rrule }: S
     //@ts-expect-error-next-line
     (form.getIn(['window', 'recurrence', 'repeatType']) as Field<String>).value
   );
+  // Because the date input automatically localizes to the user's local time, we might run
+  // into a scenario where the user has UTC times displayed. In this case we need to display
+  // a localized version of their date while maintaining a visually accurate version of their date
+  const [dateDisplayed, setDateDisplayed] = useState<Date | undefined>(undefined);
+  const [endDateDisplayed, setEndDateDisplayed] = useState<Date | undefined>(undefined);
 
-  const [endDateStr, setEndDateStr] = useState(rrule.options.until ? formatDate(rrule.options.until) : '');
   const untilValue = rrule.options.count || undefined;
-  //@ts-expect-error-next-line
-  const dateField = form.getIn(['window', 'start', 'date']) as Field<string | Nullish>;
+  const formatTimeStampsAsUTC = getSingle('formatTimestampsAsUtc');
 
   return (
     <div>
@@ -55,10 +56,28 @@ export default function ScheduleRange({ form, setValue, setFormRRule, rrule }: S
             <Label>{t('in-settings:maintenanceWindow.startFrom')}</Label>
           </HorizontalFlexWrapper>
           <ErrorBoundary name="dateInput-schedule-RMW">
-            <DateInput
-              placeholder="YYYY-MM-DD"
-              value={dateField?.value}
-              onChange={v => setValue(form, ['window', 'start', 'date'], v)}
+            <CarbonDateInput
+              value={dateDisplayed}
+              dateFormat="d/m/Y"
+              placeholder="dd/mm/yyyy"
+              //@ts-expect-error
+              onChange={(v: Date[] | undefined) => {
+                if (v && v.length > 0) {
+                  const dateSelected = v[0];
+                  setDateDisplayed(dateSelected);
+
+                  let fieldDate = formatDate(dateSelected);
+
+                  if (formatTimeStampsAsUTC) {
+                    const day = dateSelected.getDate();
+                    const month = dateSelected.getMonth();
+                    const year = dateSelected.getFullYear();
+                    fieldDate = formatDate(Date.UTC(year, month, day, 0, 0, 0));
+                  }
+
+                  return setValue(form, ['window', 'start', 'date'], fieldDate);
+                }
+              }}
             />
           </ErrorBoundary>
         </div>
@@ -106,15 +125,20 @@ export default function ScheduleRange({ form, setValue, setFormRRule, rrule }: S
               <Label htmlFor={`dateUntil`}>{t('in-settings:maintenanceWindow.dateUntil')}</Label>
             </HorizontalFlexWrapper>
             <ErrorBoundary name="dateInput-schedule-RMW">
-              <DateInput
-                placeholder="YYYY-MM-DD"
-                onChange={v => {
-                  if (v) {
-                    setFormRRule(form, setRRuleDateUntil(rrule, parseDate(v)));
-                    setEndDateStr(v);
+              <CarbonDateInput
+                value={endDateDisplayed}
+                dateFormat="d/m/Y"
+                placeholder="dd/mm/yyyy"
+                //@ts-expect-error
+                onChange={(v: Date[] | undefined) => {
+                  if (v && v.length > 0) {
+                    const dateSelected = v[0];
+                    setEndDateDisplayed(dateSelected);
+
+                    dateSelected.setHours(23, 59, 59, 99);
+                    setFormRRule(form, setRRuleDateUntil(rrule, dateSelected));
                   }
                 }}
-                value={endDateStr}
               />
             </ErrorBoundary>
           </div>
