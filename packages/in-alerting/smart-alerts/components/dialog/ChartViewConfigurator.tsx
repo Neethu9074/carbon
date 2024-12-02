@@ -29,6 +29,7 @@ export interface ChartViewConfiguratorProps {
   headerTransparent?: boolean;
   framed?: boolean;
   onChartViewConfigChange?: (index: number) => void;
+  darkFrame?: boolean;
 }
 
 export default function ChartViewConfigurator({
@@ -40,7 +41,8 @@ export default function ChartViewConfigurator({
   title,
   headerTransparent,
   framed = false,
-  onChartViewConfigChange
+  onChartViewConfigChange,
+  darkFrame = false
 }: ChartViewConfiguratorProps) {
   const selectedChartViewConfig = chartViewConfigs[selectedChartViewConfigIndex];
   const isSingleConfig = chartViewConfigs?.length === 1;
@@ -69,7 +71,7 @@ export default function ChartViewConfigurator({
           </>
         }
         framed={framed}
-        darkFrame
+        darkFrame={darkFrame}
       >
         <Stack>
           <StackItem>{children(selectedChartViewConfig)}</StackItem>
