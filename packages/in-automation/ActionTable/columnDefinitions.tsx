@@ -6,15 +6,19 @@
 
 import React from 'react';
 
+import { Typography, Link } from '@instana/components';
 import { formatDateTime } from '@instana/format-date';
-import { Typography } from '@instana/components';
 import { Action } from '@instana/types';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import useHrefToActionDetails from 'in-automation/navigation/hooks/useHrefToActionDetails';
 import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWrapper';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import WithSubscript from 'in-settings/components/WithSubscript';
+import { actionCatalog } from 'in-automation/navigation/paths';
 import { ACTION_TRANSLATIONS } from 'in-automation/constants';
+import { useSegmentTracker } from 'in-automation/tracker';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { ScoredAction } from 'in-automation/types';
 import { t } from 'in-i18n';
@@ -23,14 +27,26 @@ export const nameColumn: ColumnDefinition<Action | ScoredAction> = {
   id: 'name',
   label: t('in-automation:name'),
   ellipsis: true,
-  getContent(action) {
+  getContent: function Content(action) {
     const name = action.name;
+    const hrefToActionDetails = useHrefToActionDetails();
+    const { viewAIGenaratedActionTrackerSegment } = useSegmentTracker();
+    const { location } = useNavigation();
+    const isAIActions = location.matrix[actionCatalog]?.view && location.matrix[actionCatalog]?.view === 'ai';
+
     return (
       <Tooltip content={name} align="auto" delay={500} overwriteBlock caret={false}>
         <WithSubscript subscript={ACTION_TRANSLATIONS[action.type]}>
-          <Typography noWrap variant="body-regular">
+          <Link
+            href={hrefToActionDetails(action.id, false)}
+            onClick={() => {
+              if (isAIActions) {
+                viewAIGenaratedActionTrackerSegment({ actionName: action.name, actionType: action.type });
+              }
+            }}
+          >
             {name}
-          </Typography>
+          </Link>
         </WithSubscript>
       </Tooltip>
     );
