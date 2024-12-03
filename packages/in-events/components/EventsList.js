@@ -26,8 +26,8 @@ import { aqmDataGridEventTableEnabled, carbonTableEnabled } from 'in-services/fe
 import useTimeConfigUpdatingScale from 'in-events/components/useTimeConfigUpdatingScale';
 import { manuallyCloseEventEnabled, multiCloseEnabled } from 'in-services/featureFlags';
 import MultiCloseIssueConfigForm from 'in-events/components/MultiCloseIssueConfigForm';
-import EventsTable from 'in-events/components/EventsPage/EventsTable/EventsTable';
 import FailedIncidentsList from 'in-events/components/FailedIncidentsList.tsx';
+import EventsTable from 'in-events/components/EventsPage/EventsTable/EventsTable';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -105,7 +105,7 @@ function List(props) {
 
   const isIndeterminate = selectedRowsCount > 0 && selectedRowsCount < selectableRowsCount;
   const isChecked = selectedRowsCount === selectableRowsCount && selectableRowsCount > 0;
-
+  
   if (aqmDataGridEventTableEnabled && eventType == 'issue') {
     return (
       <EventsTable
