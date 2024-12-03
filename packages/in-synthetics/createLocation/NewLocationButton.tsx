@@ -11,19 +11,13 @@ import { t } from '@instana/i18n-react';
 
 import CreateNewLocationDialog from 'in-synthetics/createLocation/CreateNewLocationDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 
 const NewLocationButton = () => {
   const handleClick = () => {
     addActiveDialog(<CreateNewLocationDialog onClose={close} />);
   };
   return (
-    <Button
-      onClick={handleClick}
-      kind="action"
-      icon="lib_synthetic_location"
-      size={carbonButtonEnabled ? 'compact' : 'normal'}
-    >
+    <Button onClick={handleClick} kind="action" icon="lib_synthetic_location" size="compact">
       {t('in-synthetics:dialog.createLocation.newLocation')}
     </Button>
   );
