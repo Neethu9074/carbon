@@ -5,10 +5,9 @@
 
 import React from 'react';
 
-import { Button, CarbonMenuItem, SvgIcon } from '@instana/components';
+import { CarbonMenuItem, SvgIcon } from '@instana/components';
 
 import { toParams } from 'in-stores/navigation/routing/stringifier';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 
 export default function SplunkButton(props) {
@@ -17,28 +16,15 @@ export default function SplunkButton(props) {
   if (!shouldShowButton(props) || !integration || !integration.enabled) {
     return null;
   }
-  if (carbonButtonEnabled) {
-    return (
-      <CarbonMenuItem
-        label="Splunk"
-        renderIcon={() => {
-          return <SvgIcon type="lib_splunk" />;
-        }}
-        onClick={() => window.open(constructSplunkLink(integration, props), '_blank')}
-      />
-    );
-  }
 
   return (
-    <Button
-      className={props.className}
-      kind="secondary"
-      icon="lib_splunk"
-      target="_blank"
-      href={constructSplunkLink(integration, props)}
-    >
-      Splunk
-    </Button>
+    <CarbonMenuItem
+      label="Splunk"
+      renderIcon={() => {
+        return <SvgIcon type="lib_splunk" />;
+      }}
+      onClick={() => window.open(constructSplunkLink(integration, props), '_blank')}
+    />
   );
 }
 

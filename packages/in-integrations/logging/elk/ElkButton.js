@@ -5,9 +5,8 @@
 
 import React from 'react';
 
-import { Button, CarbonMenuItem, SvgIcon } from '@instana/components';
+import { CarbonMenuItem, SvgIcon } from '@instana/components';
 
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { isBlank } from 'in-services/util/string';
 
 export default function ElkButton(props) {
@@ -16,28 +15,15 @@ export default function ElkButton(props) {
   if (!shouldShowButton(props) || !integration || !integration.enabled) {
     return null;
   }
-  if (carbonButtonEnabled) {
-    return (
-      <CarbonMenuItem
-        renderIcon={() => {
-          return <SvgIcon type="lib_elk" />;
-        }}
-        label="ELK"
-        onClick={() => window.open(constructElkLink(integration, props), '_blank')}
-      />
-    );
-  }
 
   return (
-    <Button
-      className={props.className}
-      kind="secondary"
-      icon="lib_elk"
-      target="_blank"
-      href={constructElkLink(integration, props)}
-    >
-      ELK
-    </Button>
+    <CarbonMenuItem
+      renderIcon={() => {
+        return <SvgIcon type="lib_elk" />;
+      }}
+      label="ELK"
+      onClick={() => window.open(constructElkLink(integration, props), '_blank')}
+    />
   );
 }
 
