@@ -105,7 +105,7 @@ function List(props) {
 
   const isIndeterminate = selectedRowsCount > 0 && selectedRowsCount < selectableRowsCount;
   const isChecked = selectedRowsCount === selectableRowsCount && selectableRowsCount > 0;
-
+  
   if (aqmDataGridEventTableEnabled && eventType == 'issue') {
     return (
       <EventsTable
