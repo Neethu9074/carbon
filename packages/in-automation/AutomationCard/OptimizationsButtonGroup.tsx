@@ -10,7 +10,6 @@ import { ButtonGroup } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { refreshHistory } from 'in-automation/AutomationCard/useHistory';
 import { createStore } from 'in-stores/store';
 import { t } from 'in-i18n';
 
@@ -72,7 +71,6 @@ export default function OptimizationsButtonGroup({
       key: 'history',
       onClick: () => {
         setActiveKey('history');
-        refreshHistory();
       }
     }
   ];

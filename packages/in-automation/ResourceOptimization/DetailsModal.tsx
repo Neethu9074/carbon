@@ -109,7 +109,6 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
               kind="tertiary"
               onClick={() => {
                 setActiveKey('history');
-                refreshHistory();
                 removeMessage('run-resource-optimization');
               }}
             >
@@ -136,7 +135,7 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
 
     runResourceOptimizationAction(params).once(data => {
       setIsSavingAction(false);
-
+      refreshHistory();
       if ('errorMessage' in data && data.errorMessage != null) {
         setRunActionError(data.errorMessage);
         setRunActionResponseId(data?.actionInstanceId);
