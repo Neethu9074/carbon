@@ -24,7 +24,6 @@ import { createChartedMetric, createMetricField } from 'in-analyze/navigation/pa
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getErrorMessages from 'in-applications/subscriptions/getErrorMessages';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { number } from 'in-services/formatters/number';
 import { collationLanguage, t } from 'in-i18n';
 
@@ -301,7 +300,7 @@ function AnalyzeErrorMessagesButton({
   const fields = [createMetricField('erroneousCalls', 'SUM')];
   return (
     <Button
-      size={carbonButtonEnabled ? 'compact' : 'normal'}
+      size="compact"
       icon="lib_application_call"
       className={className}
       kind="primary"

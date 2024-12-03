@@ -27,7 +27,6 @@ import { logPillColorMap } from 'in-logging/analyze/AnalyzeView/utils/constants'
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getLogMessages from 'in-applications/subscriptions/getLogMessages';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { number } from 'in-services/formatters/number';
 import { collationLanguage, t } from 'in-i18n';
 
@@ -316,7 +315,7 @@ function AnalyzeTraceLogsButton({
   const fields = [createMetricField('erroneousCalls', 'SUM')];
   return (
     <Button
-      size={carbonButtonEnabled ? 'compact' : 'normal'}
+      size="compact"
       icon="lib_application_call"
       className={className}
       kind="primary"
