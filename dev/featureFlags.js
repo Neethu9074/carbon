@@ -7,6 +7,7 @@
 // the keys (not the values) need to be kept in sync with
 // in-services/featureFlags
 module.exports = {
+  timeOutSessionEnabled: true,
   agentMonitoringIssuesEnabled: true,
   cveIssueEnabled: false,
   businessObservabilityEnabled: true,
