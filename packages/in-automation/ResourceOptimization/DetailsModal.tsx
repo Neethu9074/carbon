@@ -28,6 +28,7 @@ import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/me
 import { ActionInstance } from 'in-automation/subscriptions/turboSubmitActionExecution';
 import { setActiveKey } from 'in-automation/AutomationCard/OptimizationsButtonGroup';
 import { refresh } from 'in-automation/ResourceOptimization/useResourceOptimization';
+import { refreshHistory } from 'in-automation/AutomationCard/useHistory';
 import { runResourceOptimizationAction } from 'in-automation/api';
 import { close } from 'in-components/DialogPresenter/store';
 import { useSegmentTracker } from 'in-automation/tracker';
@@ -134,7 +135,7 @@ export default function DetailsModal({ currentAction, agents }: DetailsModalProp
 
     runResourceOptimizationAction(params).once(data => {
       setIsSavingAction(false);
-
+      refreshHistory();
       if ('errorMessage' in data && data.errorMessage != null) {
         setRunActionError(data.errorMessage);
         setRunActionResponseId(data?.actionInstanceId);
