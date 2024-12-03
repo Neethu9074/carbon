@@ -41,6 +41,7 @@ import Form from 'in-components/form/binding/Form';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
 import Dialog from 'in-components/Dialog/Dialog';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './Action.mless';
@@ -107,7 +108,11 @@ export default function ParameterDialog({
           {type.value === 'vault' && <VaultSection {...sectionProps} />}
           {type.value === 'dynamic' && <DynamicSection {...sectionProps} />}
           {type.value !== 'dynamic' && <HiddenSection {...sectionProps} />}
-          <SaveCancel hasSaveButton={!isNotEditable} form={parameterForm} onClickCancelButton={close} />
+          <SaveCancel
+            hasSaveButton={!isNotEditable && role?.canConfigureAutomationActions}
+            form={parameterForm}
+            onClickCancelButton={close}
+          />
         </Form>
       </div>
     </Dialog>
