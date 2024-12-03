@@ -21,7 +21,6 @@ import Code from 'in-components/Code';
 import { t } from 'in-i18n';
 
 interface TransactionStatsRow {
-  gatewayErrorStats: any;
   key: string;
   snapshotId: string;
   transactionStats: Map<string, object>;

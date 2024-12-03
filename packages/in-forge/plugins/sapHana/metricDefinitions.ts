@@ -600,5 +600,22 @@ export default [
     category: [t('in-forge:plugins.sapHana.dashboard.ioStats')],
     min: 0,
     formatter: bytes
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('jobProgressStats', 'maxProgress', t('in-forge:plugins.sapHana.dashboard.maxProgress')),
+      getDynamicMetricMatch(
+        'jobProgressStats',
+        'currentProgress',
+        t('in-forge:plugins.sapHana.dashboard.currentProgress')
+      )
+    ],
+    labels: [
+      t('in-forge:plugins.sapHana.dashboard.maxProgress'),
+      t('in-forge:plugins.sapHana.dashboard.currentProgress')
+    ],
+    category: [t('in-forge:plugins.sapHana.dashboard.jobProgressStats')],
+    min: 0,
+    formatter: number.compact
   }
 ];
