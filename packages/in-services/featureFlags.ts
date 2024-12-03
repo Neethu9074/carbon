@@ -294,7 +294,8 @@ export const automationActionInstanceFeedbackEnabled = isFeatureFlagEnabled(
   false
 );
 export const multiCloseEnabled = isFeatureFlagEnabled('multiCloseEnabled', false);
-export const resourceOptimizationActionsEnabled = isFeatureFlagEnabled('resourceOptimizationActionsEnabled', false);
+export const resourceOptimizationActionsEnabled = isFeatureFlagEnabled('resourceOptimizationActionsEnabled', true);
+export const eventResourceActionsEnabled = isFeatureFlagEnabled('eventResourceActionsEnabled', false);
 export const carbonStepProgressBarEnabled = isFeatureFlagEnabled('carbonStepProgressBarEnabled', false);
 export const carbonHorizontalIndicatorEnabled = isFeatureFlagEnabled('carbonHorizontalIndicatorEnabled', false);
 export const analyzeRelatedInstancesButtonEnabled = isFeatureFlagEnabled('analyzeRelatedInstancesButtonEnabled', false);

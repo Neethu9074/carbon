@@ -19,7 +19,7 @@ import { useResourceOptimization } from 'in-automation/ResourceOptimization/useR
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import RecommendedActions from 'in-automation/AutomationCard/RecommendedActions';
 import AutomationPolicies from 'in-automation/AutomationCard/AutomationPolicies';
-import { resourceOptimizationActionsEnabled } from 'in-services/featureFlags';
+import { eventResourceActionsEnabled } from 'in-services/featureFlags';
 import usePolicies from 'in-automation/AutomationCard/usePolicies';
 import useHistory from 'in-automation/AutomationCard/useHistory';
 import useTrigger from 'in-automation/AutomationCard/useTrigger';
@@ -92,7 +92,7 @@ function AutomationCardWithOptimization({ volatileId, event }: AutomationCardPro
   return (
     <>
       <AutomationCard volatileId={volatileId} event={event} />
-      {resourceOptimizationActionsEnabled && <RecommendedOptimizationsRow event={event} />}
+      {eventResourceActionsEnabled && <RecommendedOptimizationsRow event={event} />}
     </>
   );
 }
