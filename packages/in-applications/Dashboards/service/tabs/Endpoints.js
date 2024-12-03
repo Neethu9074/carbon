@@ -31,7 +31,6 @@ import getApplication from 'in-applications/subscriptions/getApplication';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getEndpoints from 'in-applications/subscriptions/getEndpoints';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Filters from 'in-applications/components/Filters';
@@ -262,7 +261,7 @@ export default function Endpoints(props) {
     <>
       {role.canConfigureServiceMapping && (
         <Button
-          size={carbonButtonEnabled ? 'compact' : 'normal'}
+          size="compact"
           className={locals.button}
           icon="lib_actions_settings"
           kind="action"
