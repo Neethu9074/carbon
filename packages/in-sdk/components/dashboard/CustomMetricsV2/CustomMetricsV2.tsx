@@ -399,7 +399,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
     color: themes.default.ids.color.option.green['500'],
     metrics: [
       {
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableCount'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelCount'),
         formatter: withSiMultiplyPrefixZeroDecimalPlaces
       }
     ],
@@ -411,7 +411,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
     color: themes.default.ids.color.option.green['500'],
     metrics: [
       {
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableCount'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelCount'),
         formatter: withSiMultiplyPrefixZeroDecimalPlaces
       }
     ],
@@ -423,7 +423,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
     color: themes.default.ids.color.option.pink['500'],
     metrics: [
       {
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
     ],
@@ -435,7 +435,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
     color: themes.default.ids.color.option.yellow['500'],
     metrics: [
       {
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
     ],
@@ -448,17 +448,17 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
     metrics: [
       {
         suffix: '.mean',
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableMean'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelMean'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       },
       {
         suffix: '.50th',
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableP50'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelP50'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       },
       {
         suffix: '.99th',
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableP99'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelP99'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
     ],
@@ -470,7 +470,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
     color: themes.default.ids.color.option.blue['500'],
     metrics: [
       {
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableRate'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelRate'),
         formatter: rateFormatter
       }
     ],
@@ -482,7 +482,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
     color: themes.default.ids.color.option.orange['500'],
     metrics: [
       {
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
     ],
@@ -496,22 +496,22 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
     metrics: [
       {
         suffix: '.rate',
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableRate'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelRate'),
         formatter: rateFormatter
       },
       {
         suffix: '.mean',
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableMean'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelMean'),
         formatter: timeByMillisTwoDecimalPlaces
       },
       {
         suffix: '.50th',
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableP50'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelP50'),
         formatter: timeByMillisTwoDecimalPlaces
       },
       {
         suffix: '.99th',
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableP99'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelP99'),
         formatter: timeByMillisTwoDecimalPlaces
       }
     ],
@@ -523,7 +523,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
     color: themes.default.ids.color.option.orange['500'],
     metrics: [
       {
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
     ],
@@ -535,7 +535,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
     color: themes.default.ids.color.option.blue['500'],
     metrics: [
       {
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
     ],
@@ -547,7 +547,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
     color: themes.default.ids.color.option.blue['500'],
     metrics: [
       {
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
     ],

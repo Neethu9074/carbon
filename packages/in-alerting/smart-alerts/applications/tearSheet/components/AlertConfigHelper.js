@@ -11,6 +11,7 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
+import { alertChannelPerSeverityApplicationSaEnabled } from 'in-services/featureFlags';
 import { defaultAlertRule } from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { t } from 'in-i18n';
@@ -37,8 +38,12 @@ export function toAlertConfig(form) {
     .remove('threshold')
     .updateIn(['tagFilterExpression'], f =>
       f.setValue(toBackendQueryModel(form.get('tagFilterExpression').value, false))
-    )
-    .toJS();
+    );
+
+  if (alertChannelPerSeverityApplicationSaEnabled) {
+    alertConfig = alertConfig.remove('alertChannelIds');
+  }
+  alertConfig = alertConfig.toJS();
 
   alertConfig.rules = [ruleWithThreshold];
 

@@ -147,6 +147,7 @@ export default function OnboardingCarousel({
                 kind="ghost"
                 size="sm"
                 className={locals.hideButton}
+                aria-expanded={isExpanded}
                 icon={isExpanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
                 iconSize={SvgIconSizes.s}
                 onClick={toggleVisibility}

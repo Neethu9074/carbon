@@ -19,12 +19,12 @@
       "customMetricsTitleValue": "值",
       "customMetricsTitlePinned": "{{pinnedPrefix}} 固定指标 ({{pinnedLength}})",
       "customMetricsTitleCustom": "{{customPrefix}} 定制指标 ({{customLength}})",
-      "customMetricsLableCount": "计数",
-      "customMetricsLableValue": "值",
-      "customMetricsLableMean": "平均值",
-      "customMetricsLableP50": "第 50 个",
-      "customMetricsLableP99": "第 99 个",
-      "customMetricsLableRate": "比率"
+      "customMetricsLabelCount": "计数",
+      "customMetricsLabelValue": "值",
+      "customMetricsLabelMean": "平均值",
+      "customMetricsLabelP50": "第 50 个",
+      "customMetricsLabelP99": "第 99 个",
+      "customMetricsLabelRate": "比率"
     },
     "table": {
       "tableNoData": "无数据。",

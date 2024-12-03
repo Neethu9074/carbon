@@ -115,6 +115,8 @@ export const websiteBeaconQueryOptimizationEnabled = isFeatureFlagEnabled(
   true
 );
 
+export const timeOutSessionEnabled = isFeatureFlagEnabled('timeOutSessionEnabled', false);
+
 // SmartAlerts, Strontium-cloudberry:
 // Logs-Blueprint behind FF, Closed-Beta, only for customers already using it
 export const smartAlertsLogsBlueprintEnabled = isFeatureFlagEnabled('smartAlertsLogsBlueprintEnabled', false);

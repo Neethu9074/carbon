@@ -15,7 +15,6 @@ import { joinExpressions } from 'in-components/QueryBuilder/transformation/formM
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { emptyArray } from 'in-services/fixedObjects';
 import { WithLabel } from 'in-applications/types';
 import { t } from 'in-i18n';
@@ -46,8 +45,8 @@ export default function AnalyzeCallsButton({
   const applicationBoundaryScope = application?.data?.boundaryScope;
   return (
     <Button
-      kind={carbonButtonEnabled ? 'action' : 'primary'}
-      size={carbonButtonEnabled ? 'compact' : 'normal'}
+      kind="action"
+      size="compact"
       icon="lib_application_call"
       href={getLinkToApplicationAnalyze({
         applicationName: applicationLabel,

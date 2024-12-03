@@ -17,7 +17,6 @@ import { updateTagFilterExpressionValidator } from 'in-applications/creation/for
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-components/Button/DropdownButton';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { compareIgnoreCase } from 'in-services/util/string';
 
 import locals from './ContributionFilterDropdown.mless';
@@ -112,11 +111,10 @@ export default function ContributionFilterDropdown({
         // @ts-expect-error not fully matching expected type
         <DropdownButton
           {...elementProps}
-          kind={carbonButtonEnabled ? 'action' : 'subtle'}
+          kind="action"
           expanded={isOpen}
           disabled={disabled}
-          className={carbonButtonEnabled ? locals.dropdownCarbonButton : locals.dropdownButton}
-          spanClassName={carbonButtonEnabled ? undefined : locals.span}
+          className={locals.dropdownCarbonButton}
         >
           {renderSelectedOption(options, currentRestrictingApplicationId, true)}
         </DropdownButton>

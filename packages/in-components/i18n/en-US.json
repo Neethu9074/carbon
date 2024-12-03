@@ -585,6 +585,12 @@
     "fillerTextIn": " in ",
     "fillerTextAt": " at "
   },
+  "sessionTimeout": {
+    "title": "Session Timeout",
+    "message": "Due to inactivity you will logged out in:",
+    "loggedInButton": "Stay Logged in",
+    "logOutButton": "Log out"
+  },
   "time": {
     "lastMinute": "Last minute",
     "lastMinute_plural": "Last {{count}} minutes",
