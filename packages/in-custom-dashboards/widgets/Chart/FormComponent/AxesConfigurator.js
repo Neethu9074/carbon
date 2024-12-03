@@ -137,7 +137,7 @@ function AxisConfigurator({
 
   const onMaxChange = e => {
     const isShareMaxAxisDomainAxctive = form.get('shareMaxAxisDomain').value;
-    const maxValue = e.target.value.length !== 0 ? Number(e.target.value) : undefined;
+    const maxValue = e.target.value.length !== 0 && Number(e.target.value) !== 0 ? Number(e.target.value) : undefined;
     if (isShareMaxAxisDomainAxctive) {
       onChange([], form =>
         form

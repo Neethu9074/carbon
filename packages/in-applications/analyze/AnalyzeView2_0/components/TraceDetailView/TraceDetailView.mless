@@ -47,9 +47,4 @@
       margin-bottom: 0;
     }
   }
-
-  .downloadOption {
-    justify-content: flex-start;
-    width: 100%;
-  }
 }

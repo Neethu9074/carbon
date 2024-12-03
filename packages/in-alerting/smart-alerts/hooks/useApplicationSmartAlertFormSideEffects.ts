@@ -39,7 +39,7 @@ export function useSmartAlertFormSideEffects(form: MapForm<any>, setForm: (field
     },
     {
       path: ['rule', 'alertType'],
-      effects: [resetThreshold]
+      effects: [resetThreshold, updateAlertChannelsOnBPChange]
     },
     {
       path: ['rule', 'metricName'],
@@ -68,10 +68,6 @@ export function useSmartAlertFormSideEffects(form: MapForm<any>, setForm: (field
     {
       path: ['hiddenFields', 'chartViewEntitySelection'],
       effects: [requestThresholdOnEntitySelectionChange]
-    },
-    {
-      path: ['rule', 'alertType'],
-      effects: [updateAlertChannelsOnBPChange]
     }
   ];
 
@@ -86,8 +82,11 @@ export function useSmartAlertFormSideEffects(form: MapForm<any>, setForm: (field
 function updateAlertChannelsOnBPChange(form: MapForm<any>) {
   const selectedChannelsArray = form.get('hiddenFields').get('selectedChannelList').value;
   const { warningThresholdFieldDisabled, criticalThresholdFieldDisabled } = getThresholdFieldStatus(form);
-  if (warningThresholdFieldDisabled && criticalThresholdFieldDisabled && selectedChannelsArray.length > 0) {
-    form.updateIn(['alertChannels'], f =>
+  if (
+    selectedChannelsArray.length > 0 &&
+    ((warningThresholdFieldDisabled && criticalThresholdFieldDisabled) || criticalThresholdFieldDisabled)
+  ) {
+    return form.updateIn(['alertChannels'], f =>
       f
         .setValue({
           WARNING: [...selectedChannelsArray],

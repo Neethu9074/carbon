@@ -35,12 +35,12 @@ import {
   EVENT_RCA_FEEDBACK_SUBMIT
 } from 'in-services/tracking/tracking';
 import { ExplainabilityKeys, ProbableCauseType } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
-import { carbonButtonEnabled, rcaFailedStateEnabled, rcaLogsEnabled } from 'in-services/featureFlags';
 import RootCauseLogsSection from 'in-events/components/RootCauseAnalysis/Logs/RootCauseLogsSection';
 import RootCauseEntityDetails from 'in-events/components/RootCauseAnalysis/RootCauseEntityDetails';
 import AssociatedEvents from 'in-events/components/RootCauseAnalysis/RootCauseAssociatedEvents';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import EventFeedbackDialog from 'in-events/components/feedback/EventFeedbackDialog';
+import { rcaFailedStateEnabled, rcaLogsEnabled } from 'in-services/featureFlags';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { rcaStepConfig } from 'in-events/components/feedback/rcaStepConfig';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -161,7 +161,7 @@ const RootCauseSection = forwardRef<HTMLDivElement, RootCauseSectionProps>(
                       ? 'lib_views_external_link'
                       : 'lib_analyze'
                   }
-                  kind={carbonButtonEnabled ? 'tertiary' : 'secondary'}
+                  kind="tertiary"
                   href={externalLink}
                 >
                   {buttonText}
