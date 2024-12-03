@@ -797,11 +797,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'syntheticCredentialsEnabled',
-    instanaCtlKey: 'feature.synthetic.credentials.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'infraSmartAlertFullScreenDesignEnabled',
     instanaCtlKey: 'feature.infra.Smart.alert.full.screen.design.enabled',
     defaultValue: false
