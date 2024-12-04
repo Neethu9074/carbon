@@ -7,7 +7,7 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
-import { Message, Stack, TextArea, Typography, Toggle, Tooltip, SvgIcon } from '@instana/components';
+import { Message, Stack, Typography, Toggle, Tooltip, SvgIcon, CarbonTextInput } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import { FeedbackStepConfigs } from 'in-events/components/feedback/eventStepConfig';
@@ -40,24 +40,18 @@ export default function FeedbackStepThree({ form, setForm, nextStep, eventData }
   return (
     <Stack direction="vertical" align="start" distribution="start">
       <div className={locals.inputContainer}>
-        <Stack gap="xxsmall">
-          <Typography variant="body-small">
-            {t('in-events:closeEventDialog.comments')}
-            <span style={{ color: 'red' }}>*</span>
-          </Typography>
-
-          <TextArea
-            onChange={e => {
-              if (e.target) {
-                const target = e.target as HTMLTextAreaElement;
-                setValue(form, ['closureComments'], target.value);
-              }
-            }}
-            rows={10}
-            placeholder={t('in-events:closeEventDialog.reasonForClosing')}
-            className={locals.manualCloseTextInput}
-          />
-        </Stack>
+        <CarbonTextInput
+          id="comments"
+          labelText={t('in-events:closeEventDialog.comments')}
+          onChange={e => {
+            if (e.target) {
+              const target = e.target;
+              setValue(form, ['closureComments'], target.value);
+            }
+          }}
+          placeholder={t('in-events:closeEventDialog.reasonIncident')}
+          className={locals.manualCloseTextInput}
+        />
       </div>
 
       <Message type="warning">{t('in-events:closeEventDialog.warning')}</Message>
