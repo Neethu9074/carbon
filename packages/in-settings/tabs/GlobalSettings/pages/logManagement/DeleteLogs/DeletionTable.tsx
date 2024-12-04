@@ -34,8 +34,9 @@ import { pendingResult } from 'in-services/fixedObjects';
 import locals from './DeletionTable.mless';
 
 const DeleteButton = ({ openConfirmationDialog }: { openConfirmationDialog: () => void }) => (
-  <Button onClick={openConfirmationDialog} kind="danger" icon="lib_actions_delete">
+  <Button className={locals.deleteButton} onClick={openConfirmationDialog} kind="danger">
     {deletionTableLocalisationStrings.deleteLogs}
+    <SvgIcon type="lib_actions_delete" size="xs" />
   </Button>
 );
 

@@ -120,7 +120,7 @@ export default function RetentionPeriod() {
             <SubViewHeaderComponent>{localisationStrings.retentionPeriod}</SubViewHeaderComponent>
             <Typography variant="body-regular">
               {localisationStrings.aboutRetentionPeriod}
-              <Link external href={analyzeDocs.logs}>
+              <Link external href={analyzeDocs.logsRetention}>
                 {localisationStrings.learnMore}
               </Link>
             </Typography>

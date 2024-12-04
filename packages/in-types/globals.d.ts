@@ -65,6 +65,7 @@ export interface Role {
   canManuallyCloseIssue: boolean;
   canDeleteAutomationActionHistory: boolean;
   canViewAccountAndBillingInformation: boolean;
+  canConfigureLogManagement: boolean;
 }
 
 export interface User {

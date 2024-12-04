@@ -100,7 +100,7 @@ export const useLoggingNavigationItems = (): LoggingNavigationItem[] => {
       isTabAllowed: Boolean(
         (isLoggingAddonUser && role?.canConfigureLogRetentionPeriod) ||
           (isLoggingAddonUser && role?.canViewLogVolume) ||
-          role?.canConfigureIntegrations
+          role?.canConfigureLogManagement
       )
     }
   ];
