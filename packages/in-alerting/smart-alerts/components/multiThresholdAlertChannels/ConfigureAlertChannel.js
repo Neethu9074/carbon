@@ -252,9 +252,9 @@ function alertChannelSelectionTableActions(form, updateForm) {
 ConfigureAlertChannel.propTypes = {
   form: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
-  updateForm: PropTypes.func.isRequired,
-  setSliderState: PropTypes.func.isRequired,
-  setCustomSlideInHeaderConfig: PropTypes.func.isRequired,
+  updateForm: PropTypes.func,
+  setSliderState: PropTypes.func,
+  setCustomSlideInHeaderConfig: PropTypes.func,
   numberOfAlertChannelListRows: PropTypes.number,
   isTearSheet: PropTypes.bool,
   simpleMode: PropTypes.bool,
