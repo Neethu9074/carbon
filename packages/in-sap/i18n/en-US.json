@@ -44,6 +44,9 @@
   "abapOrJavaInstances": "Instances",
   "abapSystems": "Systems",
   "value": "Value",
+  "sapHana": "HANA",
+  "db2": "DB2",
+  "sapSolman": "Solution manager",
   "dashboards": {
     "instance": "Instance",
     "abapdumpstats": "ABAP Dump Statistics",
