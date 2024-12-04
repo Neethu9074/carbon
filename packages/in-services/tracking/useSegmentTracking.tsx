@@ -22,7 +22,7 @@ export function useSegmentTracking(): {
     const { pageRootName, productArea } = getViewTrackingMetaData();
     if (pageRootName && productArea) {
       const data = {
-        ['custom.payload']: customData,
+        data: JSON.stringify(customData),
         path: location.pathname,
         parentPageName: pageRootName,
         parentPageCategory: productArea,
@@ -41,7 +41,7 @@ export function useSegmentTracking(): {
     const { pageRootName, productArea } = getViewTrackingMetaData();
     if (pageRootName && productArea) {
       const data = {
-        ['custom.payload']: customData,
+        data: JSON.stringify(customData),
         ...eventData,
         path: location.pathname,
         parentPageName: pageRootName,
