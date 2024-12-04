@@ -19,6 +19,7 @@ import { getAllGlobalAlertConfigsRelatedToApplicationId } from 'in-alerting/smar
 import { categoryLocal, isCategoryGlobal, sortOptions } from 'in-alerting/smart-alerts/components/list/constants';
 import SmartAlertsTableWithUrlState from 'in-alerting/smart-alerts/components/list/SmartAlertsTableWithUrlState';
 import SmartAlertsListWithUrlState from 'in-alerting/smart-alerts/components/list/SmartAlertsListWithUrlState';
+import { CreateSmartAlertButtonForCarbonTable } from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import { useUrlBasedCategory } from 'in-alerting/smart-alerts/applications/hooks/useUrlBasedCategory';
 import { actionHandlers } from 'in-alerting/smart-alerts/applications/list/ListActionHandlers';
@@ -33,7 +34,7 @@ import { t, Trans } from 'in-i18n';
 
 const displayCarbonTable = smartAlertCarbonTableEnabled && carbonTableEnabled;
 
-export default function Alerts({ applicationId }) {
+export default function Alerts({ applicationId, boundaryScope, location, data }) {
   const [configsCategory, setConfigsCategory] = useUrlBasedCategory(categoryLocal);
   const { trackCta } = useSegmentTracking();
 
@@ -53,7 +54,15 @@ export default function Alerts({ applicationId }) {
             t('in-alerting:smartAlerts.applications.inventory.labelGlobalSmartAlertsTable')
           }
           isSelectable={false}
-          toolBarContent={<></>}
+          toolBarContent={
+            <CreateSmartAlertButtonForCarbonTable
+              isGlobal={isCategoryGlobal(configsCategory)}
+              applicationId={applicationId}
+              location={location}
+              boundaryScope={boundaryScope}
+              defaultBoundaryScope={data?.boundaryScope}
+            />
+          }
           noDataHeader={
             isCategoryGlobal(configsCategory)
               ? t('in-alerting:smartAlerts.applications.inventory.noGlobalAlertDataHeader')
@@ -117,5 +126,8 @@ function getColumnDefinitions(isGlobalSmartAlertConfig, trackCta) {
 }
 
 Alerts.propTypes = {
-  applicationId: PropTypes.string.isRequired
+  applicationId: PropTypes.string.isRequired,
+  boundaryScope: PropTypes.string.isRequired,
+  location: PropTypes.object.isRequired,
+  data: PropTypes.object
 };

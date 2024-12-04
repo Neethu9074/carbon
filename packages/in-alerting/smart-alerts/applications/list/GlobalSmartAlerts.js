@@ -13,6 +13,7 @@ import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/
 import AlertDetails from 'in-alerting/smart-alerts/applications/details/AlertDetails';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
+import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { globalAlertDetails } from 'in-applications/navigation/paths';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -54,7 +55,9 @@ export default function GlobalSmartAlerts({ location }) {
           )}
         </WithEmptyStateFallback>
       </LeftRightPadding>
-      {role.canConfigureGlobalApplicationSmartAlerts && <CreateGlobalSmartAlertButton location={location} />}
+      {role.canConfigureGlobalApplicationSmartAlerts && !smartAlertCarbonTableEnabled && (
+        <CreateGlobalSmartAlertButton location={location} />
+      )}
     </Sticky>
   );
 }

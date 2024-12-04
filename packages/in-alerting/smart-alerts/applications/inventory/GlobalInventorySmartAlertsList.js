@@ -15,6 +15,7 @@ import {
   editActionsColumnDefinition,
   createTableColumnDefinition
 } from 'in-alerting/smart-alerts/applications/list/columns/columnDefinitions';
+import { CreateSmartAlertButtonForCarbonTable } from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
 import { getAllAlertConfigsForAllApplications } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import { getAllGlobalAlertConfigs } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import { categoryLocal, isCategoryGlobal, sortOptions } from 'in-alerting/smart-alerts/components/list/constants';
@@ -58,7 +59,7 @@ export default function GlobalInventorySmartAlertsList({ onNoData }) {
             t('in-alerting:smartAlerts.applications.inventory.labelGlobalSmartAlertsTable')
           }
           isSelectable={false}
-          toolBarContent={<></>}
+          toolBarContent={<CreateSmartAlertButtonForCarbonTable isGlobal />}
           noDataHeader={
             isCategoryGlobal(configsCategory)
               ? t('in-alerting:smartAlerts.applications.inventory.noGlobalAlertDataHeader')

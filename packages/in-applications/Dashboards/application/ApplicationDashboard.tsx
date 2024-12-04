@@ -18,7 +18,8 @@ import {
   dependencyMapTab,
   smartAlertsTab,
   summaryTab,
-  syntheticsTab
+  syntheticsTab,
+  alertsTabListFullyQualified
 } from 'in-applications/navigation/paths';
 // @ts-expect-error needs TS migration
 import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/CreateGlobalSmartAlertButton';
@@ -41,6 +42,7 @@ import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { applicationsList } from 'in-applications/navigation/paths';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import { alertsCategory } from 'in-applications/navigation/matrix';
@@ -189,7 +191,12 @@ function renderButtonLine(props: ButtonLineProps) {
     ? role?.canConfigureGlobalApplicationSmartAlerts
     : role?.canConfigureApplicationSmartAlerts;
 
-  const showAlertButton = allowActionButtons && !location.pathname.includes('/application/configuration');
+  const hideButtonInAlertsTab = smartAlertCarbonTableEnabled
+    ? location?.pathname === alertsTabListFullyQualified || location?.pathname === alertsList
+    : false;
+
+  const showAlertButton =
+    allowActionButtons && !hideButtonInAlertsTab && !location.pathname.includes('/application/configuration');
 
   return (
     <>
