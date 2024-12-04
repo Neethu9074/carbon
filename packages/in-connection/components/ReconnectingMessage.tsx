@@ -9,7 +9,6 @@ import { Stack, Button } from '@instana/components';
 
 import ChooseConnectionStrategyDialog from 'in-connection/components/ChooseConnectionStrategyDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export interface Props {
@@ -22,18 +21,14 @@ export default function ReconnectingMessage({ attempt }: Props) {
       {t('in-connection:stat.connectLostState.connectingMsg', { connectAttempt: attempt })}
       {attempt >= 3 && (
         <Button
+          size="compact"
+          kind="tertiary"
+          style={{ paddingInlineEnd: '1rem' }}
           onClick={e => {
             // do not close the fly-in message
             e.stopPropagation();
             addActiveDialog(<ChooseConnectionStrategyDialog />);
           }}
-          {...(carbonButtonEnabled
-            ? {
-                size: 'compact',
-                kind: 'tertiary',
-                style: { 'padding-inline-end': '1rem' }
-              }
-            : {})}
         >
           {t('in-connection:stat.connectLostState.chooseConnectionStrategy')}
         </Button>

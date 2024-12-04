@@ -13,7 +13,6 @@ import ApiResponseList, { ApiTestResponse } from 'in-internal/thisUnit/WsApiTest
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import useUrlState, { Options } from 'in-hooks/useUrlState';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
@@ -162,7 +161,7 @@ function ApiTesterActions({ onSubmit, onDisconnect }: ApiTesterActionsProps) {
       <Button kind="primary" onClick={onSubmit}>
         {t('in-internal:thisUnit.wsApiTester.subscribeButtonLabel')}
       </Button>
-      <Button kind={carbonButtonEnabled ? 'secondary' : 'warning'} onClick={onDisconnect}>
+      <Button kind="secondary" onClick={onDisconnect}>
         {t('in-internal:thisUnit.wsApiTester.disconnectButtonLabel')}
       </Button>
     </Stack>
