@@ -45,10 +45,10 @@ import { fromBackendModel } from 'in-components/QueryBuilder/transformation/form
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { typeTag, tag_not_present_group } from 'in-infrastructure/Explore/constants';
 import ThresholdTooltip from 'in-infrastructure/Explore/components/ThresholdTooltip';
-import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
 import { LOAD_MORE_CONTEXT } from 'in-infrastructure/Explore/services/tracking';
 import LiErrorList from 'in-infrastructure/Explore/components/LiErrorList';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
+import getGroups from 'in-infrastructure/Explore/services/getGroups';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
@@ -102,7 +102,7 @@ export default function GroupedInfrastructure(props) {
 
   const { totalHits, ...cursorPaginatedProps } = useCursorPagination(
     ({ cursor }) =>
-      getGroups({
+      getInfraGroups({
         timeConfig,
         backendQueryModel,
         groupBy: backendGroupBy,
@@ -488,7 +488,7 @@ function getColumnWidth(groupBy, metrics, isTableMode) {
   return Math.max(1, (totalMetrics - metrics.length) / groupBy.length) * 12 + 'rem';
 }
 
-export function getGroups({
+export function getInfraGroups({
   timeConfig,
   backendQueryModel,
   groupBy,
@@ -505,7 +505,7 @@ export function getGroups({
     return just(pendingResult);
   }
 
-  return createGetGroupsSubscription({
+  return getGroups({
     filter: {
       timeConfig,
       tagFilterExpression: backendQueryModel
@@ -685,7 +685,7 @@ function getHeaderActions(props) {
   const csvFileName = 'group_entites_' + type + '.csv';
 
   const getAllData = ({ cursor }) =>
-    getGroups({
+    getInfraGroups({
       timeConfig,
       backendQueryModel,
       groupBy,

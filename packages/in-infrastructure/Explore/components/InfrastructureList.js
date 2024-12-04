@@ -38,7 +38,7 @@ import { default as TagValue } from 'in-infrastructure/Explore/components/TagVal
 import { fixOrderForBackwardsCompatibility } from 'in-infrastructure/Explore/utils';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import LiErrorList from 'in-infrastructure/Explore/components/LiErrorList';
-import getEntities from 'in-infrastructure/subscriptions/getEntities';
+import getEntities from 'in-infrastructure/Explore/services/getEntities';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { getBaseUnit, getUnit } from 'in-stores/metric/units';

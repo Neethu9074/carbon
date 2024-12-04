@@ -18,7 +18,7 @@ import {
   TimeConfig
 } from 'in-types';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import getGroups from 'in-infrastructure/subscriptions/getGroups';
+import getGroups from 'in-infrastructure/Explore/services/getGroups';
 import { pendingResult } from 'in-services/fixedObjects';
 import { hiddenPlugins } from 'in-forge/constants';
 import { mapData } from 'in-services/util/result';
