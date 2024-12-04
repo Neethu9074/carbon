@@ -1,34 +1,38 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
 
+import { Size } from '@instana/components/types/components/SvgIcon/types';
 import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
 
 import { getIcon, getColorForEventAtFocusedMomentAsStream, getEventType } from 'in-stores/events';
+import { EventOrMap } from 'in-events/types';
 import Tooltip from 'in-components/Tooltip';
-import connectTo from 'in-hoc/connectTo';
 
-export default connectTo(
-  props => {
-    if (props.disableColorCalculation) {
-      return {};
-    }
-    return {
-      color: getColorForEventAtFocusedMomentAsStream(props.event, {
+interface EventIconProps {
+  event: any;
+  tooltipLabel: string;
+  size?: Size;
+  className?: string;
+  disableColorCalculation?: boolean;
+}
+
+export default function EventIcon({ className, event, tooltipLabel, size, disableColorCalculation }: EventIconProps) {
+  const color = disableColorCalculation
+    ? undefined
+    : getColorForEventAtFocusedMomentAsStream(event as EventOrMap, {
         defaultColor: themes.default.ids.color.option.neutral['700']
-      })
-    };
-  },
-  function EventIcon({ className, event, tooltipLabel, color, size }) {
-    const eventType = getEventType(event);
-    return (
-      <Tooltip content={tooltipLabel} align="rightMiddle">
-        <SvgIcon color={color || '#40535b'} className={className} type={getIcon(eventType)} size={size || 's'} />
-      </Tooltip>
-    );
-  }
-);
+      });
+  const eventType = getEventType(event);
+
+  return (
+    <Tooltip content={tooltipLabel} align="rightMiddle">
+      <SvgIcon color={color || '#40535b'} className={className} type={getIcon(eventType)} size={size || 's'} />
+    </Tooltip>
+  );
+}
