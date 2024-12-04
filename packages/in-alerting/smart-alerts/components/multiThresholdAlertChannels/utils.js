@@ -12,7 +12,7 @@ export const REMOVING = 'removing';
 export const CRITICAL = 'CRITICAL';
 export const WARNING = 'WARNING';
 
-function getFilteredChannels(enabledList, thresholdType, filteredChannelList, condition = REMAINING) {
+export function getFilteredChannels(enabledList, thresholdType, filteredChannelList, condition = REMAINING) {
   const filteredIds = new Set(filteredChannelList.map(item => item.id));
   const items = enabledList?.[thresholdType];
 
@@ -141,7 +141,7 @@ export function updateOnRowToggleAndFormForCritical(selectedChannels, entity, on
   };
 }
 
-function updateAlertChannelFormField(onChange, newWarningSelections = [], newCriticalSelections = []) {
+export function updateAlertChannelFormField(onChange, newWarningSelections = [], newCriticalSelections = []) {
   onChange(['alertChannels'], field =>
     field
       .setValue({
