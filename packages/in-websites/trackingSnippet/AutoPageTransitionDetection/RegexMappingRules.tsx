@@ -21,8 +21,7 @@ import { t } from 'in-i18n';
 
 import locals from 'in-websites/trackingSnippet/AutoPageTransitionDetection/AutoPageTransitionDetection.mless';
 
-const RegexMappingRules = ({ setRegexMappingRules }: RegexMappingRulesProps) => {
-  const [mappingRules, setMappingRules] = useState<MappingRule[]>([defaultMappingRule]);
+const RegexMappingRules = ({ setRegexMappingRules, mappingRules, setMappingRules }: RegexMappingRulesProps) => {
   const [errors, setErrors] = useState<Record<number, { ruleError: string | null; replaceTextError: string | null }>>(
     {}
   );

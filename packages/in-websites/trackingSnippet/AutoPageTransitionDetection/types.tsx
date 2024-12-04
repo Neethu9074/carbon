@@ -10,14 +10,10 @@ export interface MappingRule {
   replaceText: string;
 }
 
-export interface EnableAutoPageDetectionProps {
-  pageTransitionMethod: string;
-  setPageTransitionMethod: (value: string) => void;
-  setRegexMappingRules: (value: any) => void;
-}
-
-export interface EnableRegexMappingRuleProps {
-  setRegexMappingRules: (value: any) => void;
+export interface RegexMappingRulesProps {
+  mappingRules: MappingRule[];
+  setMappingRules: React.Dispatch<React.SetStateAction<MappingRule[]>>;
+  setRegexMappingRules: (rules: MappingRule[]) => void;
 }
 
 export interface MappingRuleRowProps {
@@ -29,22 +25,31 @@ export interface MappingRuleRowProps {
   replaceTextError?: string | null;
 }
 
-export interface RegexMappingRulesProps {
+export interface DisableRegexMappingModalProps {
+  modalTitle: string;
+  modalBody: string;
+  modalBodyLastLine: string;
+  secondaryButtonText: string;
+  primaryButtonText: string;
+  onSubmit: () => void;
+}
+
+export interface EnableRegexMappingRuleProps {
   setRegexMappingRules: (rules: MappingRule[]) => void;
 }
 
-export interface LearnMoreLinkProps {
-  label: string;
-  linkText: string;
-  url: string;
+export interface EnableAutoPageDetectionProps {
+  pageTransitionMethod: string;
+  setPageTransitionMethod: (value: string) => void;
+  setRegexMappingRules: (rules: MappingRule[]) => void;
 }
 
 export interface AutoPageTransitionDetectionProps {
   enableAutoPageDetection: boolean;
   setEnableAutoPageDetection: (value: boolean) => void;
   pageTransitionMethod: string;
-  setRegexMappingRules: (value: any) => void;
   setPageTransitionMethod: (value: string) => void;
+  setRegexMappingRules: (rules: MappingRule[]) => void;
 }
 
 export interface FrameworkTypeSelectionProps {
@@ -54,5 +59,15 @@ export interface FrameworkTypeSelectionProps {
   setEnableAutoPageDetection: (value: boolean) => void;
   pageTransitionMethod: string;
   setPageTransitionMethod: (value: string) => void;
-  setRegexMappingRules: (value: any) => void;
+  setRegexMappingRules: (rules: MappingRule[]) => void;
+}
+
+export interface LearnMoreLinkProps {
+  label: string;
+  linkText: string;
+  url: string;
+}
+
+export interface SubHeadingProps {
+  text: string;
 }

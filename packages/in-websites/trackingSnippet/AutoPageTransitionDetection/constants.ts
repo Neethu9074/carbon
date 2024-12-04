@@ -14,10 +14,14 @@ export const pageTransitionMethods = {
 };
 export const defaultMappingRule = { id: Date.now(), rule: '', replaceText: '' };
 
+export const REGEX_SUPPORTING_VERSION = '1.7.1';
+
 // URL links
 export const applicationFrameworkURL = 'https://ibm.biz/web-FAQ';
 export const autoDetectionURL = 'https://ibm.biz/page-detection';
 export const mappingRuleURL = 'https://ibm.biz/logical-page';
+export const sessionTrackingURL = 'https://ibm.biz/API-session-tracking';
+export const subresourceIntegrityURL = 'https://ibm.biz/subresource-integrity';
 
 // Checks if the input string is a valid regular expression with delimiters.
 export function isValidRegexWithDelimiter(input: string) {

@@ -31,7 +31,7 @@ describe('in-websites/trackingSnippet', () => {
           module.getTrackingSnippet({
             key: '123',
             enableSRI: true,
-            urlWeaselVersion: '1.6.6',
+            weaselVersionNumber: '1.6.6',
             shaValue: 'sha384-fakeSHAValue'
           })
         ).toBe(
