@@ -27,7 +27,7 @@ interface ForecastAlertingProps {
   updateForm?: (form: MapForm<any>) => void;
 }
 
-const defaultForecastingConfig: ForecastingConfig = Object.freeze({
+export const defaultForecastingConfig: ForecastingConfig = Object.freeze({
   fitTimeframe: hours.toMillis(24),
   forecastTimeframe: hours.toMillis(1)
 });
@@ -92,6 +92,6 @@ export default function ForecastAlerting({ form, updateForm }: ForecastAlertingP
   );
 }
 
-function formatTime(millis: number) {
+export function formatTime(millis: number) {
   return formatDurationAccurately(millis, 60000, false);
 }

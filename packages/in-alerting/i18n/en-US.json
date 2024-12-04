@@ -1560,7 +1560,18 @@
           "static": "A constant threshold value is applied and it does not change over time."
         },
         "chartAlertPreview": "Alerts preview",
-        "chartAlertPreviewDescription": "Shows how alerts would have been triggered based on historical metric data."
+        "chartAlertPreviewDescription": "Shows how alerts would have been triggered based on historical metric data.",
+        "forecastAlerting": {
+          "description": "Receive proactive alerts based on historical data and trends. This option helps you anticipate potential issues before they affect your system.",
+          "historicalDataTime": {
+            "description": "Specifies the timeframe used to analyze the trend.",
+            "tooltipContent": "Select a short timeframe when you care about short-term trends, or a larger timeframe if you want to be alerted when the long-term trend is expected to exceed the limit."
+          },
+          "forecastedTimeWindow": {
+            "description": "Please note that larger values will increase the chance of false alerts.",
+            "tooltipContent": "Defines the timeframe of the forecast used for alerting. "
+          }
+        }
       }
     },
     "logs": {

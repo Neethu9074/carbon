@@ -8,7 +8,9 @@ import { MapForm, Field } from 'formalistic';
 import React from 'react';
 
 import { ForecastingConfig } from '@instana/types';
+import { Select } from '@instana/components';
 
+import { ForecastAlertingWrapper } from 'in-alerting/smart-alerts/infrastructure/tearsheet/Wrapper';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { hours, days } from 'in-services/time';
@@ -19,6 +21,7 @@ import locals from 'in-alerting/smart-alerts/infrastructure/components/Configure
 export interface ConfigureFitTimeframeProps {
   form: MapForm<any>;
   updateForm?: (form: MapForm<any>) => void;
+  isTearSheet?: boolean;
 }
 
 interface Option {
@@ -69,7 +72,7 @@ const timeframeOptions: readonly Option[] = Object.freeze([
   }
 ]);
 
-export default function ConfigureFitTimeframe({ form, updateForm }: ConfigureFitTimeframeProps) {
+export default function ConfigureFitTimeframe({ form, updateForm, isTearSheet = false }: ConfigureFitTimeframeProps) {
   const forecastingConfigField = form.get('forecastingConfig') as Field<ForecastingConfig>;
   const fitTimeframe = forecastingConfigField.value.fitTimeframe;
 
@@ -89,6 +92,31 @@ export default function ConfigureFitTimeframe({ form, updateForm }: ConfigureFit
       )
     );
   };
+
+  if (isTearSheet) {
+    return (
+      <ForecastAlertingWrapper
+        title={t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.predictiveTrigger.fitTimeframe')}
+        description={t(
+          'in-alerting:smartAlerts.infrastructure.tearSheet.forecastAlerting.historicalDataTime.description'
+        )}
+        tooltipContent={t(
+          'in-alerting:smartAlerts.infrastructure.tearSheet.forecastAlerting.historicalDataTime.tooltipContent'
+        )}
+        tooltipIcon="lib_help_error_help_outline"
+      >
+        <Select value={fitTimeframe} onChange={e => handleFitTimeframeChange(Number(e.target.value))}>
+          <>
+            {timeframeOptions.map(({ value, label }) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
+          </>
+        </Select>
+      </ForecastAlertingWrapper>
+    );
+  }
 
   return (
     <div>

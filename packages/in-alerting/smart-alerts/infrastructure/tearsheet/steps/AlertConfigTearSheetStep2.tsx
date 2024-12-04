@@ -12,6 +12,7 @@ import { Spacer } from '@instana/components';
 import ThresholdViolation from 'in-alerting/smart-alerts/infrastructure/tearsheet/components/ThresholdViolation';
 import ThresholdSection from 'in-alerting/smart-alerts/infrastructure/tearsheet/components/ThresholdSection';
 import { ThresholdChart } from 'in-alerting/smart-alerts/infrastructure/tearsheet/components/ThresholdChart';
+import ForecastAlerting from 'in-alerting/smart-alerts/infrastructure/tearsheet/components/ForecastAlerting';
 import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
 import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
@@ -65,6 +66,7 @@ export default function AlertConfigTearSheetStep2({
             updateForm={updateForm}
             oneMinuteGranularityAllowed={oneMinuteGranularityAllowed}
           />
+          <ForecastAlerting form={form} updateForm={updateForm} />
         </TearSheetStepContentWrapper>
       </div>
       <ThresholdChart

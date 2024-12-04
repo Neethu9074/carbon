@@ -7,7 +7,7 @@
 import React, { ReactNode } from 'react';
 
 import { Gap } from '@instana/components/types/components/Stack/types';
-import { Stack } from '@instana/components';
+import { Stack, SvgIcon, Tooltip } from '@instana/components';
 
 import AlertTypography from 'in-alerting/components/AlertTypography';
 
@@ -35,4 +35,31 @@ export function ScopeWrapper({
 
 export function SectionWrapper({ children }: { children: ReactNode }): JSX.Element {
   return <>{children}</>;
+}
+
+export function ForecastAlertingWrapper({
+  children,
+  title,
+  description,
+  tooltipContent,
+  tooltipIcon
+}: {
+  children: ReactNode;
+  title: string;
+  description: string;
+  tooltipContent: string;
+  tooltipIcon: string;
+}) {
+  return (
+    <Stack direction="vertical" gap="xsmall">
+      <Stack direction="horizontal" gap="xsmall">
+        <AlertTypography color="color900" content={title} variant="body-regular" />
+        <Tooltip content={tooltipContent}>
+          <SvgIcon type={tooltipIcon} size="s" />
+        </Tooltip>
+      </Stack>
+      {children}
+      <AlertTypography color="color600" content={description} variant="body-small" />
+    </Stack>
+  );
 }

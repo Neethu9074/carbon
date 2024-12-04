@@ -8,7 +8,9 @@ import { MapForm, Field } from 'formalistic';
 import React, { useEffect } from 'react';
 
 import { ForecastingConfig } from '@instana/types';
+import { Select } from '@instana/components';
 
+import { ForecastAlertingWrapper } from 'in-alerting/smart-alerts/infrastructure/tearsheet/Wrapper';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { t } from 'in-i18n';
@@ -20,9 +22,10 @@ const MAX_STEPS_AHEAD = 10;
 export interface ConfigureForecastTimeframeProps {
   form: MapForm<any>;
   updateForm?: (form: MapForm<any>) => void;
+  isTearSheet?: boolean;
 }
 
-export default function ConfigureForecastTimeframe({ form, updateForm }: ConfigureForecastTimeframeProps) {
+export default function ConfigureForecastTimeframe({ form, updateForm, isTearSheet }: ConfigureForecastTimeframeProps) {
   const granularity = form.get('granularity').value;
   const forecastingConfigField = form.get('forecastingConfig') as Field<ForecastingConfig>;
   const forecastTimeframe = forecastingConfigField.value.forecastTimeframe;
@@ -53,6 +56,31 @@ export default function ConfigureForecastTimeframe({ form, updateForm }: Configu
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOption, granularity]);
+
+  if (isTearSheet) {
+    return (
+      <ForecastAlertingWrapper
+        title={t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.predictiveTrigger.forecastTimeframe')}
+        description={t(
+          'in-alerting:smartAlerts.infrastructure.tearSheet.forecastAlerting.forecastedTimeWindow.description'
+        )}
+        tooltipContent={t(
+          'in-alerting:smartAlerts.infrastructure.tearSheet.forecastAlerting.forecastedTimeWindow.tooltipContent'
+        )}
+        tooltipIcon="lib_help_error_info_outline"
+      >
+        <Select value={selectedOption} onChange={e => handleForecastTimeframeChange(Number(e.target.value))}>
+          <>
+            {options.map(({ value, label }) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
+          </>
+        </Select>
+      </ForecastAlertingWrapper>
+    );
+  }
 
   return (
     <div>
