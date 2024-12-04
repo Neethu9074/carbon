@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Size } from '@instana/components/types/components/SvgIcon/types';
 import { themes } from '@instana/design-tokens';
@@ -23,11 +23,30 @@ interface EventIconProps {
 }
 
 export default function EventIcon({ className, event, tooltipLabel, size, disableColorCalculation }: EventIconProps) {
-  const color = disableColorCalculation
-    ? undefined
-    : getColorForEventAtFocusedMomentAsStream(event as EventOrMap, {
-        defaultColor: themes.default.ids.color.option.neutral['700']
-      });
+  const [color, setColor] = useState<string | undefined>('#40535b');
+
+  useEffect(() => {
+    let isSubscribed = true;
+
+    if (disableColorCalculation) {
+      setColor(undefined);
+      return;
+    }
+
+    const colorObserver = getColorForEventAtFocusedMomentAsStream(event as EventOrMap, {
+      defaultColor: themes.default.ids.color.option.neutral['700']
+    });
+
+    colorObserver.subscribe((colorValue: string) => {
+      if (isSubscribed) {
+        setColor(colorValue);
+      }
+    });
+    return () => {
+      isSubscribed = false;
+    };
+  }, [event, disableColorCalculation]);
+
   const eventType = getEventType(event);
 
   return (
