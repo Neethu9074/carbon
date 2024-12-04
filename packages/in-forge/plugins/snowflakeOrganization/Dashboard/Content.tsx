@@ -42,6 +42,18 @@ export default function SnowflakeOrganizationDashboard({
     return value.toString() + ' ' + currency;
   }
 
+  function Currency(): string {
+    const data: any = useObservable(
+      () => getRawPayloadWithTimestamp(snapshotId, 'organization_usage.remaining_balance.currency', timeConfig),
+      [snapshotId, timeConfig]
+    );
+    if (!data) {
+      return '';
+    }
+    const currency: any = (data as SnapshotData).get('raw_payload');
+    return currency;
+  }
+
   return (
     <div>
       <KpiSection>
@@ -59,7 +71,9 @@ export default function SnowflakeOrganizationDashboard({
             formatter={bytes.compact}
           />
         </KpiKeyValue>
-        <KpiKeyValue label={t('in-forge:plugins.snowflakeOrganization.dashboard.usageInCurrency')}>
+        <KpiKeyValue
+          label={t('in-forge:plugins.snowflakeOrganization.dashboard.usageInCurrency') + ' (in ' + Currency() + ')'}
+        >
           <MetricValue
             snapshotId={snapshotId}
             metric="organization_usage.usage_in_currency"
