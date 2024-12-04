@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-export default function parseQuery(query: string): Record<string, boolean> {
+export default function parseQuery(query: string | null | undefined): Record<string, boolean> {
   const MAX_QUERY_LENGTH = 200;
   let result: Record<string, boolean> = {};
 
