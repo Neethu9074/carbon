@@ -48,7 +48,7 @@ export default function SnowflakeOrganizationDashboard({
       [snapshotId, timeConfig]
     );
     if (!data) {
-      return '';
+      return '-';
     }
     const currency: any = (data as SnapshotData).get('raw_payload');
     return currency;
@@ -72,7 +72,7 @@ export default function SnowflakeOrganizationDashboard({
           />
         </KpiKeyValue>
         <KpiKeyValue
-          label={t('in-forge:plugins.snowflakeOrganization.dashboard.usageInCurrency') + ' (in ' + Currency() + ')'}
+          label={t('in-forge:plugins.snowflakeOrganization.dashboard.usageInCurrency') + ' (' + Currency() + ')'}
         >
           <MetricValue
             snapshotId={snapshotId}
