@@ -145,6 +145,7 @@ import './azureFunctionApp';
 import './ibmMqMftTransfer';
 import './sapWebDispatcher';
 import './azureDataFactory';
+import './ec2TagsCollector';
 import './ibmInfosphereCdc';
 import './kafkaConnectTask';
 import './microsoftPurview';
