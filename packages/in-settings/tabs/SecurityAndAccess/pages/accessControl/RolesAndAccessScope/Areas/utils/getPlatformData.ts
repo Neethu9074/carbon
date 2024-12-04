@@ -19,7 +19,8 @@ import {
   powervcEnabled,
   vsphereEnabled,
   zhmcEnabled,
-  sapEnabled
+  sapEnabled,
+  nutanixEnabled
 } from 'in-services/featureFlags';
 import { getScopeFromProductArea } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/form';
 import { t } from 'in-i18n';
@@ -48,6 +49,7 @@ export const getKubernetesData = (permissionsSet: PermissionSet) => {
   const openStackAccess = hasAnyAccess(ProductArea.OPENSTACK, openstackEnabled);
   const pcfAccess = hasAnyAccess(ProductArea.PCF, pcfEnabled);
   const sapAccess = hasAnyAccess(ProductArea.SAP, sapEnabled);
+  const nutanixAccess = hasAnyAccess(ProductArea.NUTANIX, nutanixEnabled);
 
   const countOfKubernetesItemsWithAccess = kubernetesClusterUUIDs.length + kubernetesNamespaceUIDs.length;
   let kubernetesQuantityOfAreas: string;
@@ -93,6 +95,10 @@ export const getKubernetesData = (permissionsSet: PermissionSet) => {
     otherAccessCounter++;
     translations.push(t('in-settings:productAreas.permissions', { context: ProductArea.SAP }));
   }
+  if (nutanixAccess !== ScopedPermissionItem.NO_ACCESS) {
+    otherAccessCounter++;
+    translations.push(t('in-settings:productAreas.permissions', { context: ProductArea.NUTANIX }));
+  }
   if (kubernetesAccess !== ScopedPermissionItem.NO_ACCESS) {
     translations.push(t('in-settings:productAreas.kubernetes'));
   }
@@ -123,6 +129,7 @@ export const getKubernetesData = (permissionsSet: PermissionSet) => {
     zhmcAccess,
     openStackAccess,
     sapAccess,
+    nutanixAccess,
     hasOtherPlatformsAccess,
     kubernetesClustersWithAccess,
     kubernetesColumnHeadline,

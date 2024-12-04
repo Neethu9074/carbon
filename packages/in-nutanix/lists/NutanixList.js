@@ -9,6 +9,7 @@ import React, { Fragment } from 'react';
 import { TableEntityCounter } from '@instana/legacy';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import { timeConfig$, urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import NutanixNoDataNotification from 'in-nutanix/lists/components/NutanixNoDataNotification';
 import { nutanixClusterList, useNutanixEntityLink } from 'in-nutanix/navigation/paths';
@@ -17,6 +18,7 @@ import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import EntityLink from 'in-components/EntityLink/EntityLink';
+import { percentage } from 'in-services/formatters/number';
 import { pageNames } from 'in-services/tracking/pageNames';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
@@ -38,17 +40,10 @@ const columnDefinitions = [
     getContent: NutanixDatacenterLink
   },
   {
-    id: 'label',
+    id: 'type',
     label: t('in-nutanix:type'),
     getContent(item) {
       return item.type;
-    }
-  },
-  {
-    id: 'noOfClusters',
-    label: t('in-nutanix:noOfClusters'),
-    getContent(item) {
-      return <TableEntityCounter count={item.noOfClusters} />;
     }
   },
   {
@@ -63,6 +58,36 @@ const columnDefinitions = [
     label: t('in-nutanix:noOfVms'),
     getContent(item) {
       return <TableEntityCounter count={item.noOfVms} />;
+    }
+  },
+  {
+    id: 'cpuUsage',
+    label: t('in-nutanix:dashboards.cpuUsage'),
+    sortable: false,
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={percentage.detailed}
+          metric="cpuUsage"
+        />
+      );
+    }
+  },
+  {
+    id: 'memoryUsage',
+    label: t('in-nutanix:dashboards.memoryUsage'),
+    sortable: false,
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={percentage.detailed}
+          metric="memoryUsage"
+        />
+      );
     }
   }
 ];

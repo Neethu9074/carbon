@@ -26,11 +26,7 @@ export default connectTo(
     const getNutanixHostDashboard = useNutanixEntityLink('vm', { datacenterId, hostId });
 
     return (
-      <Breadcrumb
-        href={getNutanixHostDashboard(vmId)}
-        label={t('in-nutanix:breadcrumbs.nutanixVm')}
-        icon="lib_nutanix_vm"
-      >
+      <Breadcrumb href={getNutanixHostDashboard(vmId)} label={t('in-nutanix:breadcrumbs.nutanixVm')}>
         {virtualMachine && virtualMachine.label}
       </Breadcrumb>
     );

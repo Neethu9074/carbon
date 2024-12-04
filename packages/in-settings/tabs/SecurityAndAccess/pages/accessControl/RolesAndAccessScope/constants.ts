@@ -74,6 +74,7 @@ export const ProductArea = Object.freeze({
   POWERVC: 'POWERVC',
   INFRASTRUCTURE: 'INFRASTRUCTURE',
   SAP: 'SAP',
+  NUTANIX: 'NUTANIX',
   ANALYTICS: 'ANALYTICS',
   EVENT: 'EVENT',
   DASHBOARD: 'DASHBOARD',
@@ -105,6 +106,7 @@ export type LimitableProductArea = Extract<
   | 'SYNTHETICS'
   | 'SAP'
   | 'AUTOMATION'
+  | 'NUTANIX'
 >;
 
 export const PermissionAreas = Object.freeze<Array<keyof PermissionSet>>([
@@ -297,6 +299,11 @@ export const ProductAreaPermissionMap: ProductAreaPermissionStructure = deepFree
   [ProductArea.KUBERNETES]: {
     limitation: LimitedAccessScope.LIMITED_KUBERNETES_SCOPE,
     permission: AreaPermission.ACCESS_KUBERNETES,
+    capabilities: noCapabilities
+  },
+  [ProductArea.NUTANIX]: {
+    limitation: LimitedAccessScope.LIMITED_NUTANIX_SCOPE,
+    permission: AreaPermission.ACCESS_NUTANIX,
     capabilities: noCapabilities
   },
   [ProductArea.VSPHERE]: {

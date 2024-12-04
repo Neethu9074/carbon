@@ -18,6 +18,7 @@ import { useNutanixEntityLink } from 'in-nutanix/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { percentage } from 'in-services/formatters/number';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
@@ -28,17 +29,14 @@ export const NutanixHostLink = ({ item }) => {
   const datacenterId = item.datacenterId;
 
   const getNutanixHostDashboard = useNutanixEntityLink('host', { datacenterId });
-
-  return <EntityLink label={item.label} href={getNutanixHostDashboard(item.id)} icon="lib_linux" />;
+  return <EntityLink label={item.label} href={getNutanixHostDashboard(item.id)} />;
 };
 
 const columnDefinitions = [
   {
     id: 'label',
     label: t('in-nutanix:dashboards.name'),
-    getContent(item) {
-      return item.label;
-    }
+    getContent: item => <NutanixHostLink item={item} />
   },
   {
     id: 'noOfVms',
@@ -48,9 +46,25 @@ const columnDefinitions = [
     }
   },
   {
+    id: 'noOfCpus',
+    label: t('in-nutanix:dashboards.noOfCpus'),
+    sortable: true,
+    getContent(item) {
+      return <TableEntityCounter count={item.noOfCpus} />;
+    }
+  },
+  {
+    id: 'noOfDisks',
+    label: t('in-nutanix:dashboards.noOfDisks'),
+    sortable: true,
+    getContent(item) {
+      return <TableEntityCounter count={item.noOfDisks} />;
+    }
+  },
+  {
     id: 'hostCpuUsage',
     label: t('in-nutanix:dashboards.cpuUsage'),
-    sortable: true,
+    sortable: false,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
@@ -63,17 +77,9 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'noOfCpus',
-    label: t('in-nutanix:dashboards.noOfCpus'),
-    sortable: true,
-    getContent(item) {
-      return <TableEntityCounter count={item.noOfCpus} />;
-    }
-  },
-  {
     id: 'hostMemoryUsage',
     label: t('in-nutanix:dashboards.memoryUsage'),
-    sortable: true,
+    sortable: false,
     getContent(item, props, columnId) {
       return (
         <ServerSideSortedMetricValue
@@ -83,14 +89,6 @@ const columnDefinitions = [
           formatter={percentage.detailed}
         />
       );
-    }
-  },
-  {
-    id: 'noOfDisks',
-    label: t('in-nutanix:dashboards.noOfDisks'),
-    sortable: true,
-    getContent(item) {
-      return <TableEntityCounter count={item.noOfDisks} />;
     }
   }
 ];
@@ -104,14 +102,15 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, datacenterIdUrlParameter],
   columnDefinitions,
-  defaultOrderBy: 'label',
+  defaultOrderBy: 'name',
   defaultOrderDirection: 'ASC',
   pathSegment,
   matrixPrefix
 });
 
 export default function NutanixHosts(props) {
-  return <ServerTableWithUrlState get={getTableData} timeConfig={props.timeConfig} datacenterId={props.datacenterId} />;
+  const timeConfig = useTimeConfig();
+  return <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} datacenterId={props.datacenterId} />;
 }
 
 function getTableData({

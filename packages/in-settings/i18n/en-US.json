@@ -98,6 +98,7 @@
     "permissions_OPENSTACK": "OpenStack",
     "permissions_VSPHERE": "vSphere",
     "permissions_SAP": "SAP",
+    "permissions_NUTANIX": "Nutanix",
     "clusters": "Clusters",
     "namespaces": "Namespaces",
     "obsoleteEntityDescription": "Currently no data is available - access is still being granted.",
