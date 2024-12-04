@@ -40,18 +40,5 @@
     .greyedOutText input {
       color: var(--ids-color-option-neutral-500);
     }
-    .saveButton {
-      background: var(--ids-color-option-teal-500);
-      min-width: 6.25rem;
-      &:hover {
-        background: var(--ids-color-option-teal-500);
-      }
-      &.buttonDisabled {
-        opacity: 0.5;
-        &:hover {
-          background: var(--ids-color-option-teal-500);
-        }
-      }
-    }
   }
 }

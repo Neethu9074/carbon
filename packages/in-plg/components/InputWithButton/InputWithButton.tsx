@@ -6,10 +6,9 @@
 
 import React from 'react';
 
-import { Stack, Button } from '@instana/components';
+import { Stack, IconButton } from '@instana/components';
 
 import { addCopiedToClipboardMessage } from 'in-components/CopyToClipboard';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import Input from 'in-components/form/Input';
 
 import locals from 'in-plg/components/InputWithButton/InputWithButton.mless';
@@ -56,17 +55,14 @@ export default function InputWithButton({
   return (
     <Stack direction="horizontal" gap="disabled" align="center">
       <Input className={style} value={displayContent ? displayContent : inputValue} onChange={handleInputChange} />
-      <Button
-        icon={icon}
+      <IconButton
+        type={icon}
         kind="action"
-        iconSize="s"
+        iconSize="xs"
         size="normal"
         className={locals.button}
-        {...(carbonButtonEnabled ? { hasIconOnly: true } : {})}
         {...(href ? { href: href, target: '_blank' } : { onClick: clickHandler })}
-      >
-        {''}
-      </Button>
+      />
     </Stack>
   );
 }
