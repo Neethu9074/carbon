@@ -54,7 +54,6 @@ export default function SimpleModeDialogThreshold(
       )}
       <div className={locals.container}>
         <DistinctSlider
-          valueLabelDisplay="auto"
           valueLabelFormat={formatLabel}
           marks={labeledTicks}
           min={1}

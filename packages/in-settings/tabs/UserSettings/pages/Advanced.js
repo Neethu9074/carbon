@@ -73,7 +73,6 @@ export default function UiConfigAdvancedPage() {
           <Heading text={t('in-settings:tabs.zoomAndPanningSpeed')} htmlFor="zoom-speed" />
           <div>
             <DistinctSlider
-              id="zoom-speed"
               min={0.1}
               max={20}
               step={0.1}
@@ -92,7 +91,6 @@ export default function UiConfigAdvancedPage() {
           />
           <div>
             <DistinctSlider
-              id="packing_x_direction"
               min={1}
               max={10}
               step={1}
@@ -111,7 +109,6 @@ export default function UiConfigAdvancedPage() {
           />
           <div>
             <DistinctSlider
-              id="packing_y_direction"
               min={1}
               max={10}
               step={1}
@@ -154,7 +151,6 @@ export default function UiConfigAdvancedPage() {
           />
           <div>
             <DistinctSlider
-              id="packing_x_direction"
               min={1}
               max={10}
               step={1}
@@ -172,7 +168,6 @@ export default function UiConfigAdvancedPage() {
           />
           <div>
             <DistinctSlider
-              id="packing_y_direction"
               min={1}
               max={10}
               step={1}
