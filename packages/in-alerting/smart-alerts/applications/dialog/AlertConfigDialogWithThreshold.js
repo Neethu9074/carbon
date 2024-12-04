@@ -90,7 +90,8 @@ function SmartAlertConfigDialogWithQueryValidation({
     alertConfigWithFormModel,
     blueprintConfig,
     enrichedTagFilterFormModel,
-    numeratorTagFilterFormModel
+    numeratorTagFilterFormModel,
+    editMode
   });
 
   const { step, setStep, simpleModeStep, backOrCancel, handleSubmit } = useSimpleModePageNavigation({

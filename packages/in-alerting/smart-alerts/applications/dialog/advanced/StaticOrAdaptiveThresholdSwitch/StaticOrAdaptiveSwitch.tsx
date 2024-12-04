@@ -31,8 +31,10 @@ interface Props {
     typeWithOptionalSeasonality: string,
     form: MapForm<any>,
     updateForm: (form: MapForm<any>) => void,
-    trackThresholdTypeChanged: (trackingObject: any) => void
+    trackThresholdTypeChanged: (trackingObject: any) => void,
+    editMode?: boolean
   ) => void;
+  editMode?: boolean;
   isTearSheet?: boolean;
   isDisabled?: boolean;
   bluePrint?: string;
@@ -46,6 +48,7 @@ export default function StaticOrAdaptiveSwitch({
   isTearSheet,
   isDisabled,
   bluePrint,
+  editMode = false,
   isMultiThreshold = false
 }: Props) {
   const thresholdType = isMultiThreshold
@@ -112,11 +115,12 @@ export default function StaticOrAdaptiveSwitch({
   }
 
   function updateThresholdType(baselineType: StaticOrAdaptiveType) {
-    if (baselineType === types.static) {
-      onThresholdTypeChange(STATIC_THRESHOLD, form, setForm, noop);
-    }
-    if (baselineType === types.adaptive) {
-      onThresholdTypeChange(ADAPTIVE_BASELINE, form, setForm, noop);
+    const thresholdType = baselineType === types.static ? STATIC_THRESHOLD : ADAPTIVE_BASELINE;
+
+    if (isMultiThreshold) {
+      onThresholdTypeChange(thresholdType, form, setForm, noop, editMode);
+    } else {
+      onThresholdTypeChange(thresholdType, form, setForm, noop);
     }
   }
 }

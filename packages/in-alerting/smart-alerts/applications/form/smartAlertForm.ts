@@ -89,7 +89,7 @@ export function createSmartAlertForm(
 
   const alertChannelList = [...new Set([...(alertChannels?.WARNING ?? []), ...(alertChannels?.CRITICAL ?? [])])];
 
-  const form =  createMapForm({
+  const form = createMapForm({
     items: {
       name: createField({
         value: name ?? '',
@@ -179,7 +179,7 @@ export function createSmartAlertForm(
       customPayloadFields: createListFormForCustomPayloads(customPayloadFields ?? [], false),
       threshold: createThresholdForm(
         rules?.[0],
-        (rules?.[0].rule.alertType ?? defaultAlertRule.alertType) as ApplicationAlertType,
+        (rules?.[0].rule?.alertType ?? defaultAlertRule.alertType) as ApplicationAlertType,
         editMode
       )
     }

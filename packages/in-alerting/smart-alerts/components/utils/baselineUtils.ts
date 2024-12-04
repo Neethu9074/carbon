@@ -116,8 +116,6 @@ export function extractBaselineFromResultsOrUseErrorFallback(
   return { baseline };
 }
 
-export const isMultiThresholdEnabled: boolean = true; // Multi-threshold is only available for Applications
-
 export const WARNING_SEVERITY: Severity = 'WARNING';
 export const CRITICAL_SEVERITY: Severity = 'CRITICAL';
 

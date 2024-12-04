@@ -13,6 +13,7 @@ import {
 } from 'in-alerting/smart-alerts/applications/tearSheet/components/AlertConfigHelper';
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { t } from 'in-i18n';
@@ -53,7 +54,13 @@ const alertConfigData = {
         metricName: 'latency'
       },
       thresholdOperator: '>=',
-      thresholds: {}
+      thresholds: {
+        WARNING: {
+          type: 'staticThreshold',
+          value: 0,
+          isCheckboxSelected: true
+        }
+      }
     }
   ]
 };
@@ -82,9 +89,17 @@ describe('in-alerting/smart-alerts/applications/tearSheet/components/AlertConfig
 
   describe('getDetailedMetricTooltipValueFormatter', () => {
     const alertConfig = {
-      threshold: {
-        type: 'staticThreshold'
-      }
+      rules: [
+        {
+          thresholds: {
+            WARNING: {
+              type: 'staticThreshold',
+              value: 0,
+              isCheckboxSelected: true
+            }
+          }
+        }
+      ]
     };
     //@ts-expect-error
     const form = createSmartAlertForm(alertConfig, false, false);
@@ -129,6 +144,15 @@ describe('in-alerting/smart-alerts/applications/tearSheet/components/AlertConfig
               aggregation: 'P90',
               alertType: 'statusCode',
               metricName: 'latency'
+            },
+            thresholds: {
+              ...alertConfigData.rules[0].thresholds,
+              CRITICAL: {
+                deviationFactor: defaultDeviationFactor,
+                isCheckboxSelected: false,
+                type: 'staticThreshold',
+                value: null
+              }
             }
           }
         ]
@@ -154,10 +178,12 @@ describe('in-alerting/smart-alerts/applications/tearSheet/components/AlertConfig
             thresholdOperator: '>=',
             thresholds: {
               WARNING: {
-                type: STATIC_THRESHOLD
+                type: STATIC_THRESHOLD,
+                isCheckboxSelected: false
               },
               CRITICAL: {
-                type: STATIC_THRESHOLD
+                type: STATIC_THRESHOLD,
+                isCheckboxSelected: false
               }
             }
           }
@@ -182,10 +208,13 @@ describe('in-alerting/smart-alerts/applications/tearSheet/components/AlertConfig
               WARNING: {
                 type: HISTORIC_BASELINE,
                 seasonality: 'DAILY',
-                deviationFactor: 3
+                deviationFactor: defaultDeviationFactor,
+                isCheckboxSelected: true
               },
               CRITICAL: {
                 type: HISTORIC_BASELINE,
+                deviationFactor: defaultDeviationFactor,
+                isCheckboxSelected: false,
                 seasonality: 'DAILY',
                 value: 0
               }

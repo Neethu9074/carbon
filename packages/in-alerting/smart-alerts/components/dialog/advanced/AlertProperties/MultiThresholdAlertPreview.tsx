@@ -5,20 +5,13 @@
  */
 
 import { MapForm } from 'formalistic';
-import classNames from 'classnames';
 import React from 'react';
 
-import { Pill, Stack, Message } from '@instana/components';
-
-import {
-  AlertPreview,
-  AlertPreviewHeadline
-} from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
+import { MultiThresholdAlertPreviewCommon } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/MultiThresholdAlertPreviewCommon';
+import { AlertPreviewHeadline } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import { getTitlePlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { t } from 'in-i18n';
-
-import locals from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/MultiThresholdAlertPreview.mless';
 
 interface MultiThresholdAlertPreviewProps {
   form: MapForm<any>;
@@ -39,57 +32,14 @@ export function MultiThresholdAlertPreview({ form, getDescriptionPlaceholder }: 
   const title = form.get('name').value || getTitlePlaceholder();
 
   return (
-    <Stack gap="small">
-      {!isWarningThresholdDefined && !isCriticalThresholdDefined && (
-        <Message
-          withIcon
-          description={t('in-alerting:smartAlerts.components.smartAlertDialog.alertPreviewMissingThresholdInfo')}
-        />
-      )}
-      {isWarningThresholdDefined && (
-        <div
-          className={classNames({
-            [locals.container]: true
-          })}
-        >
-          <Stack gap="xsmall">
-            <Pill kind="primary" type="high-contrast">
-              {t('in-alerting:smartAlerts.components.smartAlertDialog.warningAlertPreviewLabel')}
-            </Pill>
-            <AlertPreview
-              form={form}
-              renderHeadline={() => <AlertPreviewHeadline title={title} />}
-              getDescriptionPlaceholder={getDescriptionPlaceholder}
-              entityLabel={entityLabel}
-              entityIconType="lib_infrastructure"
-              severity={5}
-              isMultiThreshold
-            />
-          </Stack>
-        </div>
-      )}
-      {isCriticalThresholdDefined && (
-        <div
-          className={classNames({
-            [locals.container]: true
-          })}
-        >
-          <Stack gap="xsmall">
-            <Pill kind="primary" type="high-contrast">
-              {t('in-alerting:smartAlerts.components.smartAlertDialog.criticalAlertPreviewLabel')}
-            </Pill>
-            <AlertPreview
-              form={form}
-              renderHeadline={() => <AlertPreviewHeadline title={title} />}
-              getDescriptionPlaceholder={getDescriptionPlaceholder}
-              entityLabel={entityLabel}
-              entityIconType="lib_infrastructure"
-              severity={10}
-              isMultiThreshold
-            />
-          </Stack>
-        </div>
-      )}
-    </Stack>
+    <MultiThresholdAlertPreviewCommon
+      form={form}
+      getDescriptionPlaceholder={getDescriptionPlaceholder}
+      isWarningDefined={isWarningThresholdDefined}
+      isCriticalDefined={isCriticalThresholdDefined}
+      entityLabel={entityLabel}
+      entityIconType="lib_infrastructure"
+      renderHeadline={() => <AlertPreviewHeadline title={title} />}
+    />
   );
 }

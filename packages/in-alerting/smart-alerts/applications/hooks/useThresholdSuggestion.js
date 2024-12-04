@@ -18,7 +18,7 @@ import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes'
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 
 export function useThresholdSuggestion(form, updateForm, setThresholdResult, config) {
-  const { isGlobalSmartAlert, isValid, simpleMode, alertConfigWithFormModel, blueprintConfig } = config;
+  const { isGlobalSmartAlert, isValid, simpleMode, alertConfigWithFormModel, blueprintConfig, editMode } = config;
   const thresholdResult = useObservable(
     ([simpleMode, isValid]) =>
       resolveThresholdRequest(alertConfigWithFormModel, isGlobalSmartAlert, blueprintConfig, simpleMode, isValid),
@@ -34,7 +34,7 @@ export function useThresholdSuggestion(form, updateForm, setThresholdResult, con
     const isAdaptiveBaseline = alertConfigWithFormModel.threshold.warningThreshold.type === ADAPTIVE_BASELINE;
 
     if ((!isGlobalSmartAlert || isAdaptiveBaseline) && isValid) {
-      updateMultiThresholdInForm(createThresholdForm, form, updateForm, data, errors, simpleMode);
+      updateMultiThresholdInForm(createThresholdForm, form, updateForm, data, errors, simpleMode, editMode);
     }
 
     if (isGlobalSmartAlert && !isAdaptiveBaseline) {

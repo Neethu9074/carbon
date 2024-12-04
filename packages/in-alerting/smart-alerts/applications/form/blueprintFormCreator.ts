@@ -42,9 +42,7 @@ export default function createBlueprintForm(
             ? HISTORIC_BASELINE
             : warningThresholdField?.get('type')?.value
           : STATIC_THRESHOLD,
-        deviationFactor: isSimpleMode
-          ? defaultDeviationFactor
-          : warningThresholdField?.get('deviationFactor')?.value ?? 0,
+        deviationFactor: warningThresholdField?.get('deviationFactor')?.value ?? defaultDeviationFactor,
         seasonality: warningThresholdField?.get('seasonality')?.value ?? null,
         baseline: warningThresholdField?.get('baseline')?.value ?? null,
         isCheckboxSelected: warningThresholdField.get('isCheckboxSelected')?.value
@@ -58,14 +56,14 @@ export default function createBlueprintForm(
             ? HISTORIC_BASELINE
             : criticalThresholdField?.get('type')?.value
           : STATIC_THRESHOLD,
-        deviationFactor: isSimpleMode ? 0 : criticalThresholdField?.get('deviationFactor')?.value ?? 0,
+        deviationFactor: criticalThresholdField?.get('deviationFactor')?.value ?? defaultDeviationFactor,
         seasonality: criticalThresholdField?.get('seasonality')?.value ?? null,
         baseline: criticalThresholdField?.get('baseline')?.value ?? null,
         isCheckboxSelected: criticalThresholdField.get('isCheckboxSelected')?.value
       }
     }
   };
-  const newThresholdForm: MapForm<any> = createThresholdForm(ruleWithThreshold, alertType, editMode, isSimpleMode);
+  const newThresholdForm: MapForm<any> = createThresholdForm(ruleWithThreshold, alertType, editMode);
 
   const metricName = blueprintConfig.defaultMetric;
   const newRuleForm = createRuleForm({

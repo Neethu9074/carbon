@@ -149,7 +149,8 @@ function SmartAlertConfigTearSheetWithQueryValidation({
     isGlobalSmartAlert,
     isValid,
     alertConfigWithFormModel,
-    blueprintConfig
+    blueprintConfig,
+    editMode
   });
 
   const { step, setStep, backOrCancel, handleSubmit } = useSimpleModePageNavigation({

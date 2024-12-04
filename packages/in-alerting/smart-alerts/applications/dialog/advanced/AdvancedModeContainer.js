@@ -109,6 +109,7 @@ export default function AdvancedModeContainer(props) {
                 form={form}
                 setForm={updateForm}
                 onThresholdTypeChange={onThresholdTypeChange}
+                editMode={editMode}
                 isMultiThreshold
               />
             </LightCard>
@@ -123,7 +124,12 @@ export default function AdvancedModeContainer(props) {
       valid: form.get('applications')?.valid && isTagFilterFormModelValid,
       content: (
         <>
-          <AlertEvaluationControl form={form} updateForm={updateForm} isGlobalSmartAlert={isGlobalSmartAlert} />
+          <AlertEvaluationControl
+            form={form}
+            updateForm={updateForm}
+            isGlobalSmartAlert={isGlobalSmartAlert}
+            editMode={editMode}
+          />
           <InboundOutboundCallsSwitch form={form} updateForm={updateForm} isGlobalSmartAlert={isGlobalSmartAlert} />
           <IncludeInternalOrSyntheticCallsSwitch
             form={form}

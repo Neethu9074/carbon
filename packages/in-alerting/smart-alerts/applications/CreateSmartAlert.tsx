@@ -183,11 +183,14 @@ export function generateAlertConfig({
         WARNING: {
           type: HISTORIC_BASELINE,
           deviationFactor: defaultDeviationFactor,
+          isCheckboxSelected: true,
           seasonality: DAILY
         },
         CRITICAL: {
           type: HISTORIC_BASELINE,
           value: 0.0,
+          deviationFactor: defaultDeviationFactor,
+          isCheckboxSelected: false,
           seasonality: DAILY
         }
       }

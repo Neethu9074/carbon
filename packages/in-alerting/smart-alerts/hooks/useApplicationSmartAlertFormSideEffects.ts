@@ -103,9 +103,9 @@ function resetBaseline(form: MapForm<any>): MapForm<any> {
     const type = form?.get('threshold')?.get(thresholdType)?.get('type')?.value;
     if (type === HISTORIC_BASELINE) {
       return form.updateIn(['threshold', thresholdType], thresholdMapForm =>
-        (thresholdMapForm as MapForm<any>)
-          .updateIn(['baseline'], item => (item as Field<any>).setValue([]))
-          .setTouched(false)
+        (thresholdMapForm as MapForm<any>).updateIn(['baseline'], item =>
+          (item as Field<any>).setValue([]).setTouched(false)
+        )
       );
     } else if (type === ADAPTIVE_BASELINE) {
       return form.updateIn(['threshold', 'baseline'], item => (item as Field<any>).setValue([]).setTouched(false));

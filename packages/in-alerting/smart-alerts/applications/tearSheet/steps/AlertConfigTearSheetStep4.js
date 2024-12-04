@@ -119,6 +119,7 @@ export default function AlertConfigTearSheetStep4(props) {
               isTearSheet
               isDisabled={!blueprintConfig?.baselineEnabled}
               bluePrint={blueprintConfig.name}
+              editMode={editMode}
               isMultiThreshold
             />
           </div>

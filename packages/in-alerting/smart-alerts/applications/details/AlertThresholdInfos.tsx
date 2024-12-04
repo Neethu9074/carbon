@@ -19,16 +19,11 @@ import {
   Seasonality,
   ThresholdType
 } from 'in-types';
-import {
-  WARNING_SEVERITY,
-  CRITICAL_SEVERITY,
-  isMultiThresholdEnabled
-} from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import alertEvaluationTypes from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { AlertThresholdInfosPresenter } from 'in-alerting/smart-alerts/components/details/AlertThresholdInfosPresenter';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { STATIC_THRESHOLD, HISTORIC_BASELINE, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { createMetricWithThresholdLabel } from 'in-alerting/smart-alerts/components/utils/metricWithThresholdLabel';
+import { WARNING_SEVERITY, CRITICAL_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { formatMetricValue } from 'in-alerting/smart-alerts/components/utils/metricWithThresholdLabel';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
@@ -47,7 +42,7 @@ export const AlertThresholdInfos = ({ thresholdOperator, thresholdsMap, rule, ev
   const criticalThresholdRule = thresholdsMap[CRITICAL_SEVERITY];
   const threshold = criticalThresholdRule ?? warningThresholdRule;
   const processedThreshold = mapThresholdRuleToFields(threshold as SmartAlertThresholdRuleUnion);
-  const { type: thresholdType, seasonality, value } = processedThreshold;
+  const { type: thresholdType, seasonality } = processedThreshold;
   const { alertType, aggregation, metricName } = rule;
   const blueprintConfig = getBlueprintConfig(alertType);
 
@@ -57,30 +52,21 @@ export const AlertThresholdInfos = ({ thresholdOperator, thresholdsMap, rule, ev
 
   const metricLabel = blueprintConfig.getMetricLabel(metricName as MetricName, aggregation);
   const metricFormat = blueprintConfig.getMetricFormat(metricName as MetricName);
-  const metricWithThresholdLabel = createMetricWithThresholdLabel(
-    metricLabel,
-    thresholdType,
-    value,
-    metricFormat,
-    thresholdOperator
-  );
   const evaluationTypeLabel = alertEvaluationTypes[evaluationType]?.shortText;
   return (
     <AlertThresholdInfosPresenter
       thresholdTypeLabel={thresholdTypeLabel}
-      metricLabel={isMultiThresholdEnabled ? metricLabel : metricWithThresholdLabel}
+      metricLabel={metricLabel}
       scopeLabel={evaluationTypeLabel}
-      {...(isMultiThresholdEnabled && thresholdType === STATIC_THRESHOLD
-        ? {
-            threshold: (
-              <ThresholdInfo
-                thresholdsMap={thresholdsMap}
-                thresholdOperator={thresholdOperator}
-                metricFormat={metricFormat}
-              />
-            )
-          }
-        : {})}
+      {...(thresholdType === STATIC_THRESHOLD && {
+        threshold: (
+          <ThresholdInfo
+            thresholdsMap={thresholdsMap}
+            thresholdOperator={thresholdOperator}
+            metricFormat={metricFormat}
+          />
+        )
+      })}
     />
   );
 };
@@ -136,14 +122,16 @@ export function ThresholdInfo({ thresholdOperator, thresholdsMap, metricFormat }
 
   return (
     <Stack gap="xxsmall">
-      <div>
-        {!isEmpty(warningThreshold) &&
-          getFormattedThresholdValue(warningThresholdLabel, humanReadableOperator, metricFormat, warningThreshold!)}
-      </div>
-      <div>
-        {!isEmpty(criticalThreshold) &&
-          getFormattedThresholdValue(criticalThresholdLabel, humanReadableOperator, metricFormat, criticalThreshold!)}
-      </div>
+      {!isEmpty(warningThreshold) && (
+        <div>
+          {getFormattedThresholdValue(warningThresholdLabel, humanReadableOperator, metricFormat, warningThreshold!)}
+        </div>
+      )}
+      {!isEmpty(criticalThreshold) && (
+        <div>
+          {getFormattedThresholdValue(criticalThresholdLabel, humanReadableOperator, metricFormat, criticalThreshold!)}
+        </div>
+      )}
     </Stack>
   );
 }

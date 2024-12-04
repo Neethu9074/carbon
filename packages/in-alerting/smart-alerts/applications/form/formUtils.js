@@ -15,6 +15,7 @@ import {
   getStatusCodeLabel
 } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
 import { getHigherOrLowerOperatorContext } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import { severityMap, WARNING_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { isEmpty as checkIsEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { getValueRoundedToDecimals } from 'in-alerting/smart-alerts/components/utils/formatUtils';
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
@@ -305,7 +306,7 @@ function getHigherOrLowerOperatorDescriptionContext(operatorDescription, operato
 }
 
 export function getThresholdValue(thresholdForm, severity) {
-  return severity == 5
+  return severityMap[severity] === WARNING_SEVERITY
     ? thresholdForm?.get('warningThreshold')?.get('value')?.value
     : thresholdForm?.get('criticalThreshold')?.get('value')?.value;
 }

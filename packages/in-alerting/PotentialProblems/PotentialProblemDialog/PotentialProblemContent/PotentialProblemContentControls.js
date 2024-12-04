@@ -24,6 +24,7 @@ import {
 } from 'in-services/featureFlags';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
+import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { getLinkToUnboundAnalytics } from 'in-events/components/AnalyzeApplicationEventButton';
 import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -56,7 +57,12 @@ export default function PotentialProblemContentControls({
       thresholdOperator: threshold.operator,
       thresholds: {
         WARNING: { ...threshold },
-        CRITICAL: { type: threshold.type, deviationFactor: 0, value: null }
+        CRITICAL: {
+          type: threshold.type,
+          deviationFactor: defaultDeviationFactor,
+          value: null,
+          isCheckboxSelected: false
+        }
       }
     }
   ];
