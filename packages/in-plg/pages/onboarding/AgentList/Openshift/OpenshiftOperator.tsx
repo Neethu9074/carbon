@@ -100,7 +100,7 @@ export default function OpenshiftOperator({
                 i18nKey="in-plg:agentDetails.openshift.instructions.operator.configureCustomYamlFileSubtext1"
                 components={{
                   installOperatorDoc: (
-                    <a href="https://ibm.biz/install-operator-manual" rel="noopener noreferrer" target="_blank" />
+                    <a href="https://ibm.biz/rhosagent-install-manual" rel="noopener noreferrer" target="_blank" />
                   )
                 }}
               />

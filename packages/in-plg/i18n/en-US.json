@@ -115,8 +115,7 @@
     "kubernetes": {
       "kubernetes": {
         "enterAClusterNameAndOptionallyTheAgentZone": "Step 1: Enter a cluster name and optionally the agent zone that you want the cluster to be part of.",
-        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Step 2: Review the prerequisites and run the agent deployment code.",
-        "support": "Support"
+        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Step 2: Review the prerequisites and run the agent deployment code."
       },
       "operator": {
         "installUsingTheOperator": "Install using the Operator",
@@ -222,7 +221,6 @@
       "selectAwsRegionAndLambdaHandler": "Select AWS region and enter the current lambda handler",
       "setInstanaAutoWrapHandlerAsLambdaFunction": "Set Instana auto-wrap handler as the handler for the Lambda function.",
       "autoWrapHandler": "Auto-wrap Handler",
-      "runCodeBelow": "Run the agent deployment code below.",
       "prerequisiteLinks": {
         "networkRequirements": "Network Requirements"
       },
@@ -254,7 +252,6 @@
         "installGcrCollectors": "Install Gogle Cloud Run in-process collectors",
         "installAgentOnEc2": "Install agent on AWS EC2",
         "configurationOptions": "Configuration options",
-        "installAgentAwsEks": "Install an agent on AWS EKS",
         "monitoringGcr": "Monitoring Google Cloud Run",
         "monitoringAwsFargateRuby": "Monitoring AWS Fargate (Ruby)",
         "awsServiceDocumentation": "AWS Service documentation",
@@ -467,8 +464,6 @@
       }
     },
     "azure": {
-      "installingAgentOnAks": "Installing an Agent on Aks",
-      "configureAfterInstall": "Configuring the agent after install",
       "referenceToAzureContainerAppsDocumentation": "Go Application deployed in Azure Container Apps need to be manually instrumented in order to collect trace data. Follow the instructions of the <azureContainerAppsDoc>Azure Container Apps Go documentation</azureContainerAppsDoc>.",
       "selectAzureContainerAppsRuntime": "Select Azure Container Apps runtime",
       "reviewPrerequisitesAndConfigureContainerApps": "Review the prerequisites and configure your Azure Container Apps for tracing.",

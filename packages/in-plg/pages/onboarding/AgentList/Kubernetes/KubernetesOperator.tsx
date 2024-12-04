@@ -44,7 +44,7 @@ const KubernetesOperator = ({
         <>
           <DocumentLink
             text={t('in-plg:agentDetails.common.choosingTheProperInstallationMethod')}
-            href="https://ibm.biz/insta-agent-k8schoose"
+            href="https://ibm.biz/insta-agent-K8schoose"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.common.networkRequirements')}
@@ -60,15 +60,15 @@ const KubernetesOperator = ({
         <>
           <DocumentLink
             text={t('in-plg:agentDetails.kubernetes.operator.installUsingTheOperator')}
-            href="https://ibm.biz/insta-agent-k8soperator"
+            href="https://ibm.biz/K8s-operator-install"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.kubernetes.operator.installAnAgentOnKubernetes')}
-            href="https://ibm.biz/install-host-agent-kubernetes"
+            href="https://ibm.biz/K8s-agent-install"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.common.configuringTheAgentAfterInstall')}
-            href="https://ibm.biz/insta-agent-config"
+            href="https://ibm.biz/K8s-agent-administer"
           />
         </>
       ),
@@ -108,7 +108,7 @@ const KubernetesOperator = ({
       '   env: {}',
       '   configuration_yaml: |',
       '    # You can leave this empty, or use this to configure your instana agent.',
-      '    # See https://ibm.biz/install-agent-k8-operator-config'
+      '    # See https://ibm.biz/K8s-agent-administer'
     );
     return content;
   };

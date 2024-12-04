@@ -101,7 +101,7 @@ const IBMiArchive = ({ tenant, tenantUnit, agentKey, downloadKey, butlerDomain, 
         <Stack>
           <DocumentLink
             text={t('in-plg:agentDetails.ibmi.archive.beforeYouInstall')}
-            href="http://ibm.biz/host-agent-install-ibm-i-prereq"
+            href="https://ibm.biz/host-agent-install-ibm-i-prereq"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.common.networkRequirements')}
@@ -117,7 +117,7 @@ const IBMiArchive = ({ tenant, tenantUnit, agentKey, downloadKey, butlerDomain, 
         <>
           <DocumentLink
             text={t('in-plg:agentDetails.ibmi.archive.installingManually')}
-            href="http://ibm.biz/host-agent-manual-install-ibm-i"
+            href="https://ibm.biz/host-agent-manual-install-ibm-i"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.ibmi.archive.startingTheAgent')}

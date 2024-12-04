@@ -27,7 +27,7 @@ const MacAirGappedArchives = ({ agentKey, downloadKey, instanaDomain, fromOnboar
         <Stack>
           <DocumentLink
             text={t('in-plg:agentDetails.common.networkRequirements')}
-            href="http://ibm.biz/install-host-agent-network-reqs"
+            href="https://ibm.biz/install-host-agent-network-reqs"
           />
         </Stack>
       ),
@@ -39,7 +39,7 @@ const MacAirGappedArchives = ({ agentKey, downloadKey, instanaDomain, fromOnboar
         <Stack>
           <DocumentLink
             text={t('in-plg:agentDetails.mac.mac_airgapped.installUsingAnArchive')}
-            href="http://ibm.biz/install-host-agent-macos"
+            href="https://ibm.biz/install-host-agent-macos"
           />
         </Stack>
       ),

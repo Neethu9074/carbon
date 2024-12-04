@@ -27,7 +27,7 @@ const WindowsAirGappedInstalls = ({ agentKey, downloadKey, instanaDomain, fromOn
         <Stack>
           <DocumentLink
             text={t('in-plg:agentDetails.common.networkRequirements')}
-            href="http://ibm.biz/install-host-agent-network-reqs"
+            href="https://ibm.biz/install-host-agent-network-reqs"
           />
         </Stack>
       ),
@@ -39,7 +39,7 @@ const WindowsAirGappedInstalls = ({ agentKey, downloadKey, instanaDomain, fromOn
         <Stack>
           <DocumentLink
             text={t('in-plg:agentDetails.windows.windows_airgapped.installUsingAPackageOrArchive')}
-            href="http://ibm.biz/install-host-agent-windows"
+            href="https://ibm.biz/install-host-agent-windows"
           />
         </Stack>
       ),

@@ -27,7 +27,7 @@ const LinuxAirGappedInstalls = ({ agentKey, downloadKey, instanaDomain, fromOnbo
         <Stack>
           <DocumentLink
             text={t('in-plg:agentDetails.common.networkRequirements')}
-            href="http://ibm.biz/install-host-agent-network-reqs"
+            href="https://ibm.biz/install-host-agent-network-reqs"
           />
         </Stack>
       ),
@@ -39,7 +39,7 @@ const LinuxAirGappedInstalls = ({ agentKey, downloadKey, instanaDomain, fromOnbo
         <Stack>
           <DocumentLink
             text={t('in-plg:agentDetails.linux.linux_airgapped.installUsingAPackage')}
-            href="http://ibm.biz/insta-agent-linuxpackage"
+            href="https://ibm.biz/insta-agent-linuxpackage"
           />
         </Stack>
       ),

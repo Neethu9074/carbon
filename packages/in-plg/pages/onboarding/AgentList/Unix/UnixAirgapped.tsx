@@ -27,7 +27,7 @@ const UnixAirGappedArchives = ({ agentKey, downloadKey, instanaDomain, fromOnboa
         <Stack>
           <DocumentLink
             text={t('in-plg:agentDetails.common.networkRequirements')}
-            href="http://ibm.biz/install-host-agent-network-reqs"
+            href="https://ibm.biz/install-host-agent-network-reqs"
           />
         </Stack>
       ),
@@ -39,7 +39,7 @@ const UnixAirGappedArchives = ({ agentKey, downloadKey, instanaDomain, fromOnboa
         <Stack>
           <DocumentLink
             text={t('in-plg:agentDetails.unix.unix_airgapped.installUsingAnArchive')}
-            href="http://ibm.biz/install-host-agent-unix"
+            href="https://ibm.biz/install-host-agent-unix"
           />
         </Stack>
       ),
