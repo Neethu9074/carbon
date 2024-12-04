@@ -23,27 +23,24 @@ export function ListNameColumn({ config }) {
       renderName={config =>
         getAlertTitleWithPlaceholderHighlighting({ configName: config.name, evaluationType: config.evaluationType })
       }
-      getSubtitle={config => getSubtitle(config.rules[0])}
+      getSubtitle={config => getSubtitle(config.rule, config.threshold)}
       getAdditionalContent={config => <BuiltInIndicator builtIn={config.builtIn} />}
     />
   );
 }
 
-export function getSubtitle(ruleWithThreshold) {
-  const { alertType, aggregation, metricName } = ruleWithThreshold.rule;
+export function getSubtitle(rule, threshold) {
+  const { alertType, aggregation, metricName } = rule;
   const blueprintConfig = getBlueprintConfig(alertType);
   const metricLabel = blueprintConfig.getMetricLabel(metricName);
   const formattedMetricLabel =
     alertType === 'slowness' ? `${metricLabel} (${getAggregationText(aggregation)})` : metricLabel;
 
-  const { thresholdOperator, thresholds } = ruleWithThreshold;
-  const { WARNING, CRITICAL } = thresholds || {};
-  const type = WARNING?.type ?? CRITICAL?.type;
+  const { operator, seasonality, type, value } = threshold;
   if (type === STATIC_THRESHOLD) {
-    const value = WARNING?.value ?? CRITICAL?.value;
     const metricFormat = blueprintConfig.getMetricFormat(metricName);
     const formattedValue = (metricFormat.short || metricFormat.compact)(value);
-    const humanReadableOperator = humanReadableThresholdOperator(thresholdOperator);
+    const humanReadableOperator = humanReadableThresholdOperator(operator);
 
     return t('in-alerting:smartAlerts.applications.inventory.getSubtitleForStaticThreshold', {
       metricLabel: formattedMetricLabel,
@@ -59,7 +56,6 @@ export function getSubtitle(ruleWithThreshold) {
   }
 
   if (type === HISTORIC_BASELINE) {
-    const seasonality = WARNING?.seasonality ?? CRITICAL?.seasonality;
     if (seasonality === DAILY) {
       return t('in-alerting:smartAlerts.applications.inventory.getSubtitleForStaticDailySeasonality', {
         metricLabel: formattedMetricLabel,
@@ -85,35 +81,16 @@ ListNameColumn.propTypes = {
     description: PropTypes.string.isRequired,
     enabled: PropTypes.bool.isRequired,
     name: PropTypes.string.isRequired,
-    severity: PropTypes.number,
+    severity: PropTypes.number.isRequired,
     rule: PropTypes.shape({
       alertType: PropTypes.string.isRequired,
       metricName: PropTypes.string.isRequired
-    }),
+    }).isRequired,
     threshold: PropTypes.shape({
       operator: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
       value: PropTypes.number
-    }),
-    rules: PropTypes.arrayOf(
-      PropTypes.shape({
-        rule: PropTypes.shape({
-          alertType: PropTypes.string.isRequired,
-          metricName: PropTypes.string.isRequired
-        }).isRequired,
-        thresholdOperator: PropTypes.string.isRequired,
-        thresholds: PropTypes.shape({
-          CRITICAL: PropTypes.shape({
-            type: PropTypes.string.isRequired,
-            value: PropTypes.number
-          }),
-          WARNING: PropTypes.shape({
-            type: PropTypes.string.isRequired,
-            value: PropTypes.number
-          })
-        }).isRequired
-      })
-    ).isRequired,
+    }).isRequired,
     evaluationType: PropTypes.string.isRequired,
     builtIn: PropTypes.bool
   }).isRequired
