@@ -8,10 +8,9 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
+import { triggerDataUsageSegmentEvent } from 'in-plg/components/DataConsumptionMessage/segment';
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { DataUsageProps } from 'in-plg/components/DataConsumptionMessage/types';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { REVIEW_DATA_USAGE_BUTTON } from 'in-services/tracking/eventNames';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { dataUsageNotificationEnabled } from 'in-services/featureFlags';
 import { ampUsage } from 'in-settings/navigation/paths';
@@ -44,6 +43,11 @@ export default function PushDataConsumptionMessage() {
             title: t('in-plg:dataConsumptionMessage.title'),
             type: 'info',
             icon: 'info',
+            onClick: () => {
+              const data = { type: 'close' };
+              triggerDataUsageSegmentEvent(data);
+              removeMessage('data-consumption-message');
+            },
             content: <DataConsumptionMessageContent roundOffValue={roundOffValue} />
           },
           'data-consumption-message'
@@ -55,8 +59,6 @@ export default function PushDataConsumptionMessage() {
 
 function DataConsumptionMessageContent({ roundOffValue }: { roundOffValue: number }) {
   const { createHrefToPath } = useNavigation();
-  const { trackCta } = useSegmentTracking();
-
   return (
     <>
       {roundOffValue >= 100 ? (
@@ -76,7 +78,8 @@ function DataConsumptionMessageContent({ roundOffValue }: { roundOffValue: numbe
         href={createHrefToPath(ampUsage)}
         onClick={() => {
           setExpandState(true);
-          trackCta(REVIEW_DATA_USAGE_BUTTON);
+          const data = { type: 'accountAndBilling' };
+          triggerDataUsageSegmentEvent(data);
           removeMessage('data-consumption-message');
         }}
       >
