@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import { createField, createMapForm } from 'formalistic';
+import { createField, createMapForm, ValidationResult } from 'formalistic';
 
 import { SyntheticCredential } from '@instana/types';
 
@@ -12,6 +12,7 @@ import { arrayValidator, stringValidator } from 'in-services/validators/jsonType
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
+import { t } from 'in-i18n';
 
 const editCredentialForm = (item: SyntheticCredential) => {
   return createMapForm({ validator: notUndefinedValidator })
@@ -26,7 +27,7 @@ const editCredentialForm = (item: SyntheticCredential) => {
       'credentialValue',
       createField({
         value: item?.credentialValue ?? '',
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notEmptyValidator)
       })
     )
     .put(
@@ -53,3 +54,16 @@ const editCredentialForm = (item: SyntheticCredential) => {
 };
 
 export default editCredentialForm;
+
+function notEmptyValidator(str?: string): ValidationResult {
+  if (str?.trim().length === 0 && str?.length > 0) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-synthetics:dashboard.credentialList.editAction.theValueMustNotBeBlank')
+      }
+    ];
+  }
+
+  return null;
+}

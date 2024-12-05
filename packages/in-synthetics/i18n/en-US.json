@@ -389,8 +389,7 @@
         },
         "passwordInput": {
           "placeholder": "Credential value",
-          "labelText": "Value",
-          "invalidText": "Value should not be empty."
+          "labelText": "Value"
         },
         "associationsDescription": "Associating a credential with an application, website or mobile app grants access rights to all users who have access to those entities."
       },
@@ -817,7 +816,10 @@
         "noCredentialsAvailableTitle": "No Synthetic credentials available",
         "noCredentialsAvailableDescription": "There are no Synthetic credentials retrieved from the database."
       },
-      "editAction": "Edit",
+      "editAction": {
+        "editActionLabel": "Edit",
+        "theValueMustNotBeBlank": "The value must not be blank."
+      },
       "deleteAction": {
         "deleteActionLabel": "Delete",
         "deleteCredentialTitle": "Delete synthetic credential {{credentialName}}",
