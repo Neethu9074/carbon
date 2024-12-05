@@ -22,6 +22,10 @@ import {
 } from 'in-services/featureFlags';
 //@ts-expect-error missing typescript migration
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import {
+  isWalkmeScriptLoaded,
+  termsAndPrivacySettingsStore$
+} from 'in-settings/terms/stores/termsAndPrivacySettingsStore';
 //@ts-expect-error missing typescript migration
 import { getQueuedLicensesAsResultObservable } from 'in-amp/api/account';
 import { SHARE_AND_INVITE_INVITEE_JOINED } from 'in-services/tracking/eventNames';
@@ -67,11 +71,15 @@ export function UsageBanner({ message }: UsageBannerProps) {
   const noQueuedLicense =
     !isLoading(queuedLicenseDetails) && queuedUpLicense !== 'paidPerUse' && queuedUpLicense !== 'hostBasedPaid';
   const needToShowReminder = isRemainingDaysLimited && isPaidLicenseUsage && noQueuedLicense;
+  const termsAndPrivacySettingsStore = useObservable(termsAndPrivacySettingsStore$, []);
 
   const isAnyIDPActive = useIsAnyIdPActive();
   const permissionToShowInvite =
     role?.canConfigureUsers && !(playwithEnabled || playWithReleaseEnabled) && !isAnyIDPActive;
   const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
+  // The AssistMe feature will be enabled if both assistmeEnabled and walkmeAnalyticsServices are enabled, and the WalkMe script is loaded.
+  const isWalkMeEnabled =
+    assistmeEnabled && isWalkmeScriptLoaded && termsAndPrivacySettingsStore?.walkmeAnalyticsServices;
 
   useEffect(() => {
     const invitedByKey = 'invitedBy';
@@ -175,7 +183,7 @@ export function UsageBanner({ message }: UsageBannerProps) {
               <div className={locals.verticalLine} />
             </>
           )}
-          {assistmeEnabled && window.instana.termsAndPrivacySettings.walkmeAnalyticsServices && <AssistMe />}
+          {isWalkMeEnabled && <AssistMe />}
         </>
       )}
     </Stack>
