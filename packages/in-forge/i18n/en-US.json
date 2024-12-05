@@ -1624,10 +1624,10 @@
   "pluginName_service_1": "Services",
   "pluginName_service_2": "Services",
   "pluginName_service": "Service",
-  "pluginName_snowflake_plural": "Snowflakes",
-  "pluginName_snowflake_0": "Snowflakes",
-  "pluginName_snowflake_1": "Snowflakes",
-  "pluginName_snowflake_2": "Snowflakes",
+  "pluginName_snowflake_plural": "Snowflake",
+  "pluginName_snowflake_0": "Snowflake",
+  "pluginName_snowflake_1": "Snowflake",
+  "pluginName_snowflake_2": "Snowflake",
   "pluginName_snowflake": "Snowflake",
   "pluginName_solr_plural": "Solr Nodes",
   "pluginName_solr_0": "Solr Nodes",
@@ -1639,10 +1639,10 @@
   "pluginName_solrCloudCluster_1": "Solr Cloud Clusters",
   "pluginName_solrCloudCluster_2": "Solr Cloud Clusters",
   "pluginName_solrCloudCluster": "Solr Cloud Cluster",
-  "pluginName_snowflakeOrganization_plural": "Snowflake Organizations",
-  "pluginName_snowflakeOrganization_0": "Snowflake Organizations",
-  "pluginName_snowflakeOrganization_1": "Snowflake Organizations",
-  "pluginName_snowflakeOrganization_2": "Snowflake Organizations",
+  "pluginName_snowflakeOrganization_plural": "Snowflake Organization",
+  "pluginName_snowflakeOrganization_0": "Snowflake Organization",
+  "pluginName_snowflakeOrganization_1": "Snowflake Organization",
+  "pluginName_snowflakeOrganization_2": "Snowflake Organization",
   "pluginName_snowflakeOrganization": "Snowflake Organization",
   "pluginName_sparkApplication_plural": "Spark Applications",
   "pluginName_sparkApplication_0": "Spark Applications",
@@ -9720,7 +9720,7 @@
         "credits": "Credits",
         "name": "Name",
         "region": "Region",
-        "accountsMonitored": "Accounts monitored by instana"
+        "accountsMonitored": "Accounts monitored by Instana"
       }
     },
     "solr": {
