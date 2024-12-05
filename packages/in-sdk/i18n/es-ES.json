@@ -19,12 +19,12 @@
       "customMetricsTitleValue": "Valor",
       "customMetricsTitlePinned": "{{pinnedPrefix}} Métricas ancladas ({{pinnedLength}})",
       "customMetricsTitleCustom": "{{customPrefix}} Métricas personalizadas ({{customLength}})",
-      "customMetricsLableCount": "Número",
-      "customMetricsLableValue": "Valor",
-      "customMetricsLableMean": "Media",
-      "customMetricsLableP50": "50º",
-      "customMetricsLableP99": "99º",
-      "customMetricsLableRate": "Tasa"
+      "customMetricsLabelCount": "Número",
+      "customMetricsLabelValue": "Valor",
+      "customMetricsLabelMean": "Media",
+      "customMetricsLabelP50": "50º",
+      "customMetricsLabelP99": "99º",
+      "customMetricsLabelRate": "Tasa"
     },
     "table": {
       "tableNoData": "Sin datos.",

@@ -19,12 +19,12 @@
       "customMetricsTitleValue": "値",
       "customMetricsTitlePinned": "{{pinnedPrefix}} ピン留めされたメトリック ({{pinnedLength}})",
       "customMetricsTitleCustom": "{{customPrefix}} カスタム・メトリック ({{customLength}})",
-      "customMetricsLableCount": "数",
-      "customMetricsLableValue": "値",
-      "customMetricsLableMean": "平均",
-      "customMetricsLableP50": "50 パーセンタイル",
-      "customMetricsLableP99": "99 パーセンタイル",
-      "customMetricsLableRate": "レート"
+      "customMetricsLabelCount": "数",
+      "customMetricsLabelValue": "値",
+      "customMetricsLabelMean": "平均",
+      "customMetricsLabelP50": "50 パーセンタイル",
+      "customMetricsLabelP99": "99 パーセンタイル",
+      "customMetricsLabelRate": "レート"
     },
     "table": {
       "tableNoData": "データがありません。",

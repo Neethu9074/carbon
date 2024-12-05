@@ -35,7 +35,7 @@ export const SPECS = [
     color: themes.default.ids.color.option.green['500'],
     metrics: [
       {
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelValue'),
         formatter: number.detailed
       }
     ]

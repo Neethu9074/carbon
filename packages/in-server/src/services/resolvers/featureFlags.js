@@ -841,5 +841,10 @@ module.exports = exports = [
     uiClientKey: 'openTelemetryKubernetesEnabled',
     instanaCtlKey: 'feature.infrastructure.otel.k8s.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'prometheusDeltaCountersSumEnabled',
+    instanaCtlKey: 'feature.prometheus.delta.counters.sum.enabled',
+    defaultValue: false
   }
 ];

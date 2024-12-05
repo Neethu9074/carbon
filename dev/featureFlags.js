@@ -176,5 +176,6 @@ module.exports = {
   alertChannelPerSeverityApplicationSaEnabled: true,
   smartAlertCarbonTableEnabled: false,
   openTelemetryKubernetesEnabled: true,
-  dataUsageNotificationEnabled: false
+  dataUsageNotificationEnabled: false,
+  prometheusDeltaCountersSumEnabled: true
 };

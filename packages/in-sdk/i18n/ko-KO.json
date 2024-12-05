@@ -19,12 +19,12 @@
       "customMetricsTitleValue": "값",
       "customMetricsTitlePinned": "{{pinnedPrefix}} 고정 메트릭({{pinnedLength}})",
       "customMetricsTitleCustom": "{{customPrefix}} 사용자 정의 메트릭({{customLength}})",
-      "customMetricsLableCount": "개수",
-      "customMetricsLableValue": "값",
-      "customMetricsLableMean": "평균",
-      "customMetricsLableP50": "50번째",
-      "customMetricsLableP99": "99번째",
-      "customMetricsLableRate": "비율"
+      "customMetricsLabelCount": "개수",
+      "customMetricsLabelValue": "값",
+      "customMetricsLabelMean": "평균",
+      "customMetricsLabelP50": "50번째",
+      "customMetricsLabelP99": "99번째",
+      "customMetricsLabelRate": "비율"
     },
     "table": {
       "tableNoData": "데이터가 없습니다.",
