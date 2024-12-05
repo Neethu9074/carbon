@@ -11,7 +11,6 @@ import { Link } from '@instana/components';
 import { useGetLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
 import { getPhysicalHierarchy, getSnapshot } from 'in-stores/snapshot';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { emptyList } from 'in-services/fixedImmutables';
 import { entitySelectedTracker } from 'in-map/tracker';
 import { getPluginName } from 'in-sdk/pluginName';
@@ -86,8 +85,7 @@ export default connectTo(
     return (
       <ul
         className={classNames({
-          [locals.sidebarBreadcrumb]: true,
-          [locals.reduceSidebar]: !carbonButtonEnabled
+          [locals.sidebarBreadcrumb]: true
         })}
         data-walkme-id="wm-stack"
       >

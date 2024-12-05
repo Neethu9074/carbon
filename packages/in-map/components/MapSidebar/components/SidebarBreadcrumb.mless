@@ -17,10 +17,6 @@
     border-radius: var(--ids-border-radius-option-small);
   }
 
-  .reduceSidebar {
-    left: 21rem;
-  }
-
   .crumb {
     width: 2.25rem;
     height: 2.25rem;

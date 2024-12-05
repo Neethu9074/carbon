@@ -4,15 +4,6 @@
  */
 
 :local {
-  .mapSidebar {
-    position: absolute;
-    top: 14.6rem;
-    left: 2.6rem;
-    width: 20.5rem;
-    background: var(--ids-color-option-white);
-    border-radius: var(--ids-border-radius-option-small);
-    max-height: ~'calc(100vh - 200px)';
-  }
   .carbonMapSidebar {
     position: absolute;
     top: 14.6rem;
@@ -27,7 +18,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     & > div {
-      width: 20.5rem;
+      width: 100%;
     }
 
     &NoBanner {
@@ -35,9 +26,6 @@
     }
     &Banner {
       max-height: ~'calc(100vh - 30.875rem)';
-    }
-    &Carbon > div {
-      width: 100%;
     }
   }
 }
