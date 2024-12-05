@@ -9570,7 +9570,7 @@
         "diskUsagePercentage": "Disk Usage Percentage",
         "diskUsageSummary": "Disk Usage Summary",
         "usage": "Usage",
-        "archiveLogBackupStats": "Archive Log Backup",
+        "archiveLogBackupStats": "Backup History",
         "sourceDatabaseName": "Source Database",
         "userLockStats": "User Locks",
         "userMode": "User mode",
