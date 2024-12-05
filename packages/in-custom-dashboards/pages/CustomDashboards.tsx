@@ -43,7 +43,7 @@ export default function CustomDashboards() {
         <ThemeProvider theme="g10">
           <CustomDashboardsHeader />
           <div className={locals.content}>
-            <DashboardWidget dashboardTileProps={dashboardTileProps} maxItems={null} viewAll={false} />
+            <DashboardWidget dashboardTileProps={dashboardTileProps} maxItems={null} viewAll={false} mainPage />
           </div>
         </ThemeProvider>
       </div>

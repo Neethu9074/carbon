@@ -24,8 +24,8 @@ import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import { add, remove } from 'in-cockpit/starredItems';
 import TypographyWithTooltip from 'in-plg/components/TypographyWithTooltip/TypographyWithTooltip';
 import { customDashboard as customDashboardType } from 'in-cockpit/starredItems/types';
+import { getCustomDashboardsPaginated, getUsers } from 'in-custom-dashboards/api';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
-import { getCustomDashboards, getUsers } from 'in-custom-dashboards/api';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -39,7 +39,8 @@ export default function DashboardWidget({
   widgetLabel,
   dashboardTileProps,
   maxItems,
-  viewAll = welcomePageV2Enabled
+  viewAll = welcomePageV2Enabled,
+  mainPage
 }: WidgetProps) {
   // @ts-ignore
   const users = useObservable(getUsers, []) ?? null;
@@ -165,7 +166,7 @@ export default function DashboardWidget({
       maxItems={maxItems}
       viewAll={viewAll}
       href={createHrefToPath(customDashboardsPath)}
-      getItems={getCustomDashboards}
+      getItems={getCustomDashboardsPaginated}
       addMore={addNewDashboard}
       addData={addNewDashboard}
       getItem={getItem}
@@ -174,6 +175,7 @@ export default function DashboardWidget({
       searchPlaceholderLabel={t('in-plg:welcomepage.component.dashboardWidget.searchPlaceholderLabel')}
       addButtonLabel={t('in-plg:welcomepage.component.dashboardWidget.addButtonLabel')}
       viewAllLabel={t('in-plg:welcomepage.component.dashboardWidget.viewAllLabel')}
+      mainPage={mainPage}
     />
   );
 }

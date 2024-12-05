@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import { debounce } from 'lodash';
 
-import { DashboardTable, DashboardTile } from '@instana/components';
+import { DashboardTable, DashboardTile, Pagination as CarbonPagination } from '@instana/components';
 import { DashboardTableRow as Row } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
@@ -20,17 +20,23 @@ import {
   StarredItemWithIdsType,
   StarredItemType
 } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
-import { getNoDataDescription, getNoDataHeader } from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
+import {
+  DEFAULT_NUMBER_ROWS,
+  getNoDataDescription,
+  getNoDataHeader
+} from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
 //@ts-expect-error no declaration file found
 import { starredItems$ } from 'in-cockpit/starredItems';
 //@ts-expect-error no declaration file found
 import connectTo from 'in-hoc/connectTo';
 import getResultsToDisplay from 'in-alerting/smart-alerts/components/list/ListHelper';
 import ViewAllButton from 'in-plg/pages/WelcomePage/widgets/table/ViewAllButton';
+import { carbonPaginationEnabled } from 'in-services/featureFlags';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
 import RegularItemList from './table/RegularItemList';
 import { timeConfig$ } from 'in-stores/time/config';
+import Pagination from 'in-components/Pagination';
 import { t } from 'in-i18n';
 
 import locals from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper.mless';
@@ -92,18 +98,28 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
     searchPlaceholderLabel,
     addButtonLabel,
     viewAllLabel,
-    maxItems = 5
+    maxItems = DEFAULT_NUMBER_ROWS,
+    mainPage
   } = props;
 
   const [query, setQuery] = useState<string>('');
+  const [page, setPage] = useState(1);
+  const pageSizes = [10, 20, 30];
+  const [pageSize, setPageSize] = useState(pageSizes[0]);
   const header = dashboardTileProps?.header ?? '';
   let hits = 0;
   let hasContent = false;
   let result = useObservable(
-    getItems({ timeConfig, query, infraType, syntheticType, pageSize: 5 }).startWith(pendingResult),
-    [timeConfig, query, infraType, syntheticType]
+    getItems({
+      timeConfig,
+      query,
+      infraType,
+      syntheticType,
+      page: mainPage ? page : 1,
+      pageSize: mainPage ? pageSize : DEFAULT_NUMBER_ROWS
+    }).startWith(pendingResult),
+    [timeConfig, query, infraType, syntheticType, page, pageSize]
   );
-
   const favIds = getFlattenedIds(pinnedItemIdsByType, pinnedItemTypes) ?? [];
   let numberOfRegularItemsToShow: number;
 
@@ -115,7 +131,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
       ? getSearchData({
           isDashboardWidget,
           isSmartAlerts,
-          items: result.data,
+          allItems: result.data,
           query
         })
       : null;
@@ -165,7 +181,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
     return results;
   }
 
-  function regularItems() {
+  function regularItems(mainPage?: boolean, pageSize?: number) {
     const results = (
       <RegularItemList
         key="regular"
@@ -175,6 +191,8 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
         widgetName={tableType}
         numSkeletonRows={numberOfRegularItemsToShow}
         columnDefinitions={columnDefinitions}
+        mainPage={mainPage}
+        pageSize={pageSize}
       />
     );
     return results;
@@ -196,12 +214,12 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
   const generateRows = () => {
     let rows = [];
     let rowId = 0;
-    const regularItemsList = regularItems();
+    const regularItemsList = regularItems(mainPage, pageSize);
     const numberOfRegularItemsError = regularItemsList?.props?.result?.errors?.length;
     const numberOfRegularItemsLoading = regularItemsList?.props?.result?.progress?.loading;
     const numberOfregularItems = regularItemsList?.props?.result?.data?.items.length;
 
-    if (favIds.length > 0) rows.push({ id: `${rowId++}`, ...pinnedItems() });
+    if (favIds.length > 0 && !mainPage) rows.push({ id: `${rowId++}`, ...pinnedItems() });
     if (numberOfRegularItemsError || numberOfRegularItemsLoading || numberOfregularItems) {
       rows.push({ id: `${rowId++}`, ...regularItemsList });
     }
@@ -212,6 +230,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
   const dataArray = generateRows();
   const filteredArrayExcludingViewAllButton = dataArray.filter(item => item.key !== 'viewAllButton');
   const hasNoDataTile = !filteredArrayExcludingViewAllButton.length;
+  const updatedHeaders = mainPage ? headers.filter(obj => obj.key !== 'favourite') : null;
 
   return (
     <section
@@ -225,7 +244,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
       <DashboardTile {...dashboardTileProps} handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')} size="xs">
         <DashboardTable
           header={`${header}`}
-          headers={headers}
+          headers={updatedHeaders ?? headers}
           rows={generateRows()}
           searchPlaceHolder={`${t('in-plg:welcomepage.ariaLabel.search')} ${searchPlaceholderLabel}`}
           viewLabel={`${t('in-plg:welcomepage.viewAll')} ${viewAllLabel}`}
@@ -247,6 +266,28 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
           toggleCallback={dashboardTileProps.toggleCallback}
         />
       </DashboardTile>
+      {mainPage &&
+        hits > pageSizes[0] &&
+        (carbonPaginationEnabled ? (
+          <CarbonPagination
+            currentPage={page}
+            totalItems={hits}
+            pageSize={pageSize}
+            pageSizes={pageSizes}
+            onChange={(data: { page: number; pageSize: number }) => {
+              setPage(data?.page);
+              setPageSize(data.pageSize);
+            }}
+          />
+        ) : (
+          <Pagination
+            currentPage={page}
+            numPages={Math.ceil(hits / pageSize)}
+            onChange={newPage => {
+              setPage(newPage);
+            }}
+          />
+        ))}
     </section>
   );
 });
@@ -255,16 +296,12 @@ interface SearchDataProps {
   isDashboardWidget?: boolean;
   isSmartAlerts: boolean;
   query: string;
-  items: any;
+  allItems: any;
 }
 
-function getSearchData({ isDashboardWidget, isSmartAlerts, items, query }: SearchDataProps) {
-  if (isDashboardWidget) {
-    return items.filter(({ title }: { title: string }) => title.toLowerCase().includes(query.trim().toLowerCase()));
-  }
-
+function getSearchData({ isSmartAlerts, allItems, query }: SearchDataProps) {
   if (isSmartAlerts) {
-    return getResultsToDisplay(items, query, [() => '']);
+    return getResultsToDisplay(allItems, query, [() => '']);
   }
 
   return;
