@@ -5,10 +5,14 @@
  */
 
 import { Field, MapForm } from 'formalistic';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Checkbox, Spacer, Stack } from '@instana/components';
 
+import {
+  updateAlertChannelSelectionOnWarningThresholdFieldChange,
+  updateAlertChannelSelectionOnCriticalThresholdFieldChange
+} from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
 import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton';
@@ -25,6 +29,7 @@ interface MultiThresholdConditionProps {
   percentageMetric: boolean;
   metricUnitPostfix: string;
   groupBy?: any;
+  alertChannelPerSeverityEnabled?: boolean;
 }
 
 export default function InfraMultiThresholdCondition({
@@ -32,15 +37,43 @@ export default function InfraMultiThresholdCondition({
   updateForm,
   percentageMetric,
   metricUnitPostfix,
-  groupBy
+  groupBy,
+  alertChannelPerSeverityEnabled
 }: MultiThresholdConditionProps) {
   const maxValue = getMaxMetricValue(percentageMetric);
-  const warningThresholdField = form.get('threshold').get('warningThreshold') as MapForm<any>;
-  const criticalThresholdField = form.get('threshold').get('criticalThreshold') as MapForm<any>;
-  const warningThresholdValue = warningThresholdField.get('value').value;
-  const criticalThresholdValue = criticalThresholdField.get('value').value;
+  const warningThresholdValueField = form.get('threshold')?.get('warningThreshold')?.get('value');
+  const criticalThresholdValueField = form.get('threshold')?.get('criticalThreshold')?.get('value');
+  const warningThresholdValue = warningThresholdValueField.value;
+  const criticalThresholdValue = criticalThresholdValueField.value;
   const warningThresholdValuePresent = !isEmpty(warningThresholdValue);
   const criticalThresholdValuePresent = !isEmpty(criticalThresholdValue);
+
+  const alertChannelSelection = form.get('alertChannels').value;
+  useEffect(() => {
+    if (alertChannelPerSeverityEnabled) {
+      updateAlertChannelSelectionOnWarningThresholdFieldChange(
+        alertChannelSelection,
+        warningThresholdValuePresent,
+        criticalThresholdValuePresent,
+        form,
+        updateForm
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [warningThresholdValueField]);
+
+  useEffect(() => {
+    if (alertChannelPerSeverityEnabled) {
+      updateAlertChannelSelectionOnCriticalThresholdFieldChange(
+        alertChannelSelection,
+        warningThresholdValuePresent,
+        criticalThresholdValuePresent,
+        form,
+        updateForm
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [criticalThresholdValueField]);
 
   return (
     <>
@@ -55,9 +88,9 @@ export default function InfraMultiThresholdCondition({
             label={t('in-alerting:smartAlerts.components.smartAlertDialog.warningThresholdLabel')}
             size="large"
             checked={warningThresholdValuePresent}
-            onChange={() =>
-              updateForm(updatedThresholdCheckboxSelection(warningThresholdValuePresent, 'warningThreshold'))
-            }
+            onChange={() => {
+              updateForm(updatedThresholdCheckboxSelection(warningThresholdValuePresent, 'warningThreshold'));
+            }}
           />
           <ThresholdValueInputWithValidationMessage
             max={maxValue}
@@ -65,7 +98,7 @@ export default function InfraMultiThresholdCondition({
             updateForm={updateForm}
             percentageMetric={percentageMetric}
             metricUnitPostfix={metricUnitPostfix}
-            thresholdField={warningThresholdField.get('value')}
+            thresholdField={warningThresholdValueField}
             getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'warningThreshold')}
             isMultiThreshold
             id="warningThreshold"
@@ -81,7 +114,7 @@ export default function InfraMultiThresholdCondition({
                 updateForm={updateForm}
                 metricUnitPostfix={metricUnitPostfix}
                 percentageMetric={percentageMetric}
-                thresholdField={warningThresholdField.get('value')}
+                thresholdField={warningThresholdValueField}
                 getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'warningThreshold')}
                 isMultiThreshold
                 isTearSheet
@@ -105,7 +138,7 @@ export default function InfraMultiThresholdCondition({
             updateForm={updateForm}
             percentageMetric={percentageMetric}
             metricUnitPostfix={metricUnitPostfix}
-            thresholdField={criticalThresholdField.get('value')}
+            thresholdField={criticalThresholdValueField}
             getUpdatedForm={targetValue => updatedThresholdValue(targetValue, 'criticalThreshold')}
             isMultiThreshold
             id="criticalThreshold"

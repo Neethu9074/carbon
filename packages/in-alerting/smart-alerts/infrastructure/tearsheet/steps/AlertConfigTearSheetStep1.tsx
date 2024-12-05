@@ -59,7 +59,7 @@ export default function AlertConfigTearSheetStep1({
                 />
               }
             >
-              <ScopeMetric form={form} updateForm={updateForm} onChange={onChange} isRegex={isRegex} />
+              <ScopeMetric form={form} updateForm={updateForm} onChange={onChange} isRegex={isRegex} isTearsheet />
             </Section>
 
             {/* select aggregation  */}

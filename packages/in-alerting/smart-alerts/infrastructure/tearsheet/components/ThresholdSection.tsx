@@ -19,6 +19,7 @@ import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/compo
 import { Marks } from 'in-alerting/smart-alerts/infrastructure/tearsheet/steps/AlertConfigTearSheetStep2';
 import DebouncedRestrictedSlider from 'in-components/Slider/DebouncedRestrictedSlider';
 import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
+import { alertChannelPerSeverityInfraSaEnabled } from 'in-services/featureFlags';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';
@@ -111,6 +112,7 @@ export default function ThresholdSection({
           percentageMetric={percentageMetric}
           metricUnitPostfix={metricUnitPostfix}
           groupBy={groupBy}
+          alertChannelPerSeverityEnabled={alertChannelPerSeverityInfraSaEnabled}
         />
       </Section>
 

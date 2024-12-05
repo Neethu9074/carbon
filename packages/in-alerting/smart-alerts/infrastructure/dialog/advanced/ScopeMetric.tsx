@@ -37,6 +37,7 @@ interface ScopeMetricProps {
   updateForm: (form: MapForm<any>) => void;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
   isRegex: boolean;
+  isTearsheet?: boolean;
 }
 interface Node {
   metric: string;
@@ -45,7 +46,7 @@ interface Node {
   parentLabels: string[];
 }
 
-export default function ScopeMetric({ form, updateForm, onChange, isRegex }: ScopeMetricProps) {
+export default function ScopeMetric({ form, updateForm, onChange, isRegex, isTearsheet = false }: ScopeMetricProps) {
   const metricField = form.get('rule').get('metricName');
   const entityTypeField = form.get('rule').get('entityType');
   const metricLabelField = form.get('hiddenFields').get('metricLabel');
@@ -165,7 +166,9 @@ export default function ScopeMetric({ form, updateForm, onChange, isRegex }: Sco
         metricCatalog={stableMetricCatalog.data}
         loading={stableMetricCatalog.progress.loading}
         errors={stableMetricCatalog.errors}
-        onMetricChange={(metricObj: Node) => onMetricChange(metricObj, form, updateForm, metric, entityType)}
+        onMetricChange={(metricObj: Node) =>
+          onMetricChange(metricObj, form, updateForm, metric, entityType, isTearsheet)
+        }
         query={catalogQuery.value}
         onQueryChange={catalogQuery.onChange}
         selectMetric={t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.metric.selectMetric')}
@@ -195,6 +198,7 @@ interface UpdateFormFieldProp {
   metric?: string;
   regex?: boolean;
   clearGroupFilter?: boolean;
+  isTearsheet?: boolean;
 }
 
 function updateFormField({
@@ -205,7 +209,8 @@ function updateFormField({
   entityType,
   metric,
   regex,
-  clearGroupFilter
+  clearGroupFilter,
+  isTearsheet
 }: UpdateFormFieldProp) {
   let updatedForm = form;
   if (typeof metricLabel !== 'undefined') {
@@ -239,6 +244,19 @@ function updateFormField({
       .updateIn(['groupBy'], field => (field as Field<string[]>).setValue([]).setTouched(true))
       .updateIn(['tagFilterExpression'], field => (field as Field<string[]>).setValue([]).setTouched(true));
   }
+  if (isTearsheet) {
+    const selectedChannelsArray = form.get('hiddenFields').get('selectedChannelList').value;
+    if (selectedChannelsArray.length > 0) {
+      updatedForm = updatedForm.updateIn(['alertChannels'], field =>
+        field
+          .setValue({
+            WARNING: [...selectedChannelsArray],
+            CRITICAL: []
+          })
+          .setTouched(true)
+      );
+    }
+  }
 
   updateForm(updatedForm);
 }
@@ -249,7 +267,8 @@ function onMetricChangeMethod() {
     form: MapForm<any>,
     updateForm: (form: MapForm<any>) => void,
     metric: string,
-    entityType: string
+    entityType: string,
+    isTearsheet: boolean
   ) => {
     if (metric !== metricObj.metric) {
       updateFormField({
@@ -259,7 +278,8 @@ function onMetricChangeMethod() {
         metricPath: metricObj.parentLabels,
         metric: metricObj.metric,
         entityType: metricObj.levelType,
-        clearGroupFilter: entityType == metricObj.levelType ? false : true
+        clearGroupFilter: entityType == metricObj.levelType ? false : true,
+        isTearsheet
       });
     }
   };
