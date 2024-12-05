@@ -4,14 +4,15 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { Size } from '@instana/components/types/components/SvgIcon/types';
 import { themes } from '@instana/design-tokens';
+import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 
 import { getIcon, getColorForEventAtFocusedMomentAsStream, getEventType } from 'in-stores/events';
-import { EventOrMap } from 'in-events/types';
+// import { EventOrMap } from 'in-events/types';
 import Tooltip from 'in-components/Tooltip';
 
 interface EventIconProps {
@@ -23,35 +24,21 @@ interface EventIconProps {
 }
 
 export default function EventIcon({ className, event, tooltipLabel, size, disableColorCalculation }: EventIconProps) {
-  const [color, setColor] = useState<string | undefined>('#40535b');
+  const colorObservable = disableColorCalculation
+    ? null
+    : getColorForEventAtFocusedMomentAsStream(event, {
+        defaultColor: themes.default.ids.color.option.neutral['700']
+      });
 
-  useEffect(() => {
-    let isSubscribed = true;
+  const color = useObservable(colorObservable, [event]);
 
-    if (disableColorCalculation) {
-      setColor(undefined);
-      return;
-    }
-
-    const colorObserver = getColorForEventAtFocusedMomentAsStream(event as EventOrMap, {
-      defaultColor: themes.default.ids.color.option.neutral['700']
-    });
-
-    colorObserver.subscribe((colorValue: string) => {
-      if (isSubscribed) {
-        setColor(colorValue);
-      }
-    });
-    return () => {
-      isSubscribed = false;
-    };
-  }, [event, disableColorCalculation]);
+  const finalColor = typeof color === 'string' ? color : '#40535b';
 
   const eventType = getEventType(event);
 
   return (
     <Tooltip content={tooltipLabel} align="rightMiddle">
-      <SvgIcon color={color || '#40535b'} className={className} type={getIcon(eventType)} size={size || 's'} />
+      <SvgIcon color={finalColor || '#40535b'} className={className} type={getIcon(eventType)} size={size || 's'} />
     </Tooltip>
   );
 }
