@@ -5,7 +5,9 @@
 
 import React from 'react';
 
+// @ts-expect-error import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeaderWithTabs';
 import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeaderWithTabs';
+// @ts-expect-error import TableWrapper from 'in-infrastructure/tableView/components/TableWrapper';
 import TableWrapper from 'in-infrastructure/tableView/components/TableWrapper';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
