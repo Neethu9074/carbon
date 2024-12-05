@@ -8,8 +8,7 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import { clickViewAllVulnerabilitiesInContainerDashboardTracker } from 'in-events/tracker';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { useVulnerabilityTracker } from 'in-events/useVulnerabilityTracker';
 import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { isLoading, hasError } from 'in-services/util/result';
 import { getButtonKindBySeverity } from 'in-stores/events';
@@ -18,7 +17,7 @@ import { t } from 'in-i18n';
 import locals from './Actions.mless';
 
 export default function Actions({ openIssuesResult, analyzeLink, getIssueLink, eventType }) {
-  const { unstable_trackEvent } = useSegmentTracking();
+  const { trackViewAllVulnerabilitiesInContainerDashboard } = useVulnerabilityTracker();
 
   if (isLoading(openIssuesResult) || hasError(openIssuesResult)) {
     return null;
@@ -32,7 +31,7 @@ export default function Actions({ openIssuesResult, analyzeLink, getIssueLink, e
 
   const handleClick = () => {
     if (isCVEIssue) {
-      clickViewAllVulnerabilitiesInContainerDashboardTracker(unstable_trackEvent);
+      trackViewAllVulnerabilitiesInContainerDashboard();
     }
   };
 

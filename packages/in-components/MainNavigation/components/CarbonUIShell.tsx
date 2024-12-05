@@ -116,8 +116,7 @@ import { powervcRegionListFullyQualified, powervc } from 'in-powervc/navigation/
 import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { clickVulnerabilitiesInNavigationTracker } from 'in-events/tracker';
+import { useVulnerabilityTracker } from 'in-events/useVulnerabilityTracker';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
@@ -460,7 +459,7 @@ function Analyze() {
 
 function VulnerabilityCenter() {
   const { createHrefToPath, matchLocation } = useNavigation();
-  const { unstable_trackEvent } = useSegmentTracking();
+  const { trackVulnerabilitiesInNavigation } = useVulnerabilityTracker();
 
   return (
     <MenuItem
@@ -468,7 +467,7 @@ function VulnerabilityCenter() {
       label={t('in-components:mainNavigation.viewVulnerabilityCenter')}
       icon="lib_events_cve"
       isActive={matchLocation(isVulnerabilityView)}
-      onClick={() => clickVulnerabilitiesInNavigationTracker(unstable_trackEvent)}
+      onClick={trackVulnerabilitiesInNavigation}
       href={createHrefToPath(vulnerabilityRoot)}
     />
   );

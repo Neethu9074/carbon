@@ -9,8 +9,7 @@ import classNames from 'classnames';
 import { Button, ButtonSizes, Stack } from '@instana/components';
 import { Observable } from '@instana/observables';
 
-import { clickVulnerabilityInContainerDashboardTracker } from 'in-events/tracker';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { useVulnerabilityTracker } from 'in-events/useVulnerabilityTracker';
 import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
 import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { getButtonKindBySeverity } from 'in-stores/events';
@@ -48,9 +47,9 @@ export default function CveIndicatorButtonPresenter({
   const icon = isWithoutIssues ? 'lib_check' : 'lib_events_cve';
   const isWarning = kind === 'warning';
   const isDanger = kind === 'danger';
-  const { unstable_trackEvent } = useSegmentTracking();
+  const { trackVulnerabilityInContainerDashboard } = useVulnerabilityTracker();
   const handleClick = () => {
-    clickVulnerabilityInContainerDashboardTracker(unstable_trackEvent);
+    trackVulnerabilityInContainerDashboard();
     if (onClick) {
       onClick();
     }

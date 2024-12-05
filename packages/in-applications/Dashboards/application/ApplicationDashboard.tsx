@@ -29,15 +29,14 @@ import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import InvalidUrlAlert from 'in-applications/Dashboards/commonComponents/InvalidUrlAlert';
+import { useVulnerabilityTracker } from 'in-events/useVulnerabilityTracker';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
 import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import getApplicationTabs from 'in-applications/Dashboards/application/tabs/index';
-import { clickVulnerabilitiesTabInApplicationsTracker } from 'in-events/tracker';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
-import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
@@ -68,9 +67,9 @@ const boundaryScopeDropdownDisabledTabs = [dependencyMapTab, smartAlertsTab, syn
 
 export default function ApplicationDashboard({ location }: { location: Location }) {
   const { trackSyntheticMonitoringTabInApplicationsClicked } = useApplicationTracker();
+  const { trackVulnerabilitiesTabInApplications } = useVulnerabilityTracker();
   const [{ appId, boundaryScope }, setUrlState] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
-  const { trackCta } = useSegmentTracking();
 
   const endpointTypes = useObservable(
     getEndpointTypes({
@@ -142,7 +141,7 @@ export default function ApplicationDashboard({ location }: { location: Location 
           if (tab === t('in-applications:labelSyntheticMonitoring')) {
             trackSyntheticMonitoringTabInApplicationsClicked();
           } else if (tab === t('in-events:labelCveIssue')) {
-            clickVulnerabilitiesTabInApplicationsTracker(trackCta);
+            trackVulnerabilitiesTabInApplications();
           }
         }}
       />
