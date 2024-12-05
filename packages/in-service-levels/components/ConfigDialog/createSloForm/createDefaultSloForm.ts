@@ -52,7 +52,7 @@ export const getDefaultScopeFields = (): SloScopeFields => ({
 export const getDefaultIndicatorFields = (): SloIndicatorFields => ({
   aggregation: createField({ value: 'MEAN' }),
   badEventsFilter: createField({ value: [] }),
-  blueprint: createField({ value: 'latency' }),
+  blueprint: createField({ value: defaultBlueprint }),
   goodEventsFilter: createField({ value: [] }),
   trafficType: createField({ value: defaultTrafficType }),
   operator: createIndicatorOperatorField({ value: defaultSliThresholdOperator, blueprint: defaultBlueprint }),
