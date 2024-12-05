@@ -8,15 +8,19 @@ import React from 'react';
 import { KeyValue } from '@instana/components';
 import { Link } from '@instana/components';
 
+import { getTimePresets, formatRequestedTime } from 'in-components/time/timePresets';
 import Section from 'in-components/time/TimeSelectionDialogPresenter/Section';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { TIME_WINDOW_SIZE_VIA_PICKER } from 'in-services/tracking/tracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { getTimePresets } from 'in-components/time/timePresets';
 import { setTimeConfig } from 'in-stores/time/config';
 import { t } from 'in-i18n';
 
 import locals from './Presets.mless';
 
 export default function Presets({ onChange, closeOverlay }) {
+  const { trackCta } = useSegmentTracking();
+
   return (
     <Section title={t('in-components:time.presetsTitlePresets')}>
       <div className={locals.presetsContainer}>
@@ -28,6 +32,8 @@ export default function Presets({ onChange, closeOverlay }) {
             windowSize={windowSize}
             to={to}
             onClick={() => {
+              const trackingPayload = formatRequestedTime(to, windowSize);
+              trackCta(TIME_WINDOW_SIZE_VIA_PICKER, trackingPayload);
               onChange();
               closeOverlay();
             }}

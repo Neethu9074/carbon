@@ -21,6 +21,7 @@ import TimePresenter from 'in-components/time/TimePresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import { Location } from 'in-stores/navigation/types';
 import Overlay from 'in-components/overlays/Overlay';
+import { formatRequestedTime } from '../timePresets';
 import Tooltip from 'in-components/Tooltip';
 import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
@@ -164,9 +165,9 @@ function TimeSelectionDialogPresenterWrapper({ timeConfig, close }: TimeSelectio
 
   function onChange(timeConfig: TimeConfig) {
     close();
-    trackCta(TIME_WINDOW_SIZE_VIA_PICKER, {});
-
     if (timeConfig) {
+      const trackingPayload = formatRequestedTime(timeConfig.to, timeConfig.windowSize);
+      trackCta(TIME_WINDOW_SIZE_VIA_PICKER, trackingPayload);
       navigate(setTimeframe(timeConfig.windowSize, timeConfig.to, location));
     }
   }
