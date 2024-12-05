@@ -160,7 +160,7 @@ export function trackSloEvent<EVENT extends keyof AllSloTrackers>(
 
   const tracker = (e: string, d: DataProps) => {
     const data = {
-      ['custom.payload']: d,
+      data: JSON.stringify(d),
       path: window.location.pathname,
       parentPageName: pageName,
       parentPageCategory: productArea,
