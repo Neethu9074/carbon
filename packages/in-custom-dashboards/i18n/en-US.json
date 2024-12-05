@@ -169,7 +169,7 @@
         "metric": "Metric"
       },
       "index": {
-        "bizOps": "Business Monitoring (Activities)"
+        "bizOps": "Business Processes (Activities)"
       }
     },
     "srcApp": {
