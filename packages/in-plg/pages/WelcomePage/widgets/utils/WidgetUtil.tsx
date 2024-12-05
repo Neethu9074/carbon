@@ -11,7 +11,7 @@ import { Link } from '@instana/components';
 
 import { role } from 'in-stores/user';
 
-export const DEFAULT_NUMBER_SKELETON_ROWS = 5;
+export const DEFAULT_NUMBER_ROWS = 5;
 
 export function getNoDataHeader(label: string) {
   switch (label) {

@@ -19,6 +19,7 @@ export interface WidgetProps {
   dashboardTileProps: DashboardTileParamProps;
   maxItems?: number | null;
   viewAll?: boolean;
+  mainPage?: boolean; // This will modify the component to be used for a whole page, will enable pagination.
 }
 
 export type GetItemsFunction = (options: {
@@ -28,6 +29,7 @@ export type GetItemsFunction = (options: {
   selectedType?: string;
   syntheticType?: string;
   pinnedItemIdsByType?: StarredItemWithIdsType;
+  page?: number;
   pageSize?: number;
 }) => Observable<any>;
 
@@ -47,7 +49,10 @@ export interface SyntheticProps extends WidgetProps {
 
 export interface DatatableWidgetProps extends InfraProps, SyntheticProps {
   tableType: string;
-  headers: [];
+  headers: {
+    header: string;
+    key: string;
+  }[];
   getItem: (options: any) => Observable<any>;
   getItems: GetItemsFunction;
   addMore: AddMoreFunction;
@@ -65,6 +70,7 @@ export interface DatatableWidgetProps extends InfraProps, SyntheticProps {
   searchPlaceholderLabel: string;
   addButtonLabel: string;
   viewAllLabel: string;
+  mainPage?: boolean;
 }
 
 export interface StarredItemWithIdsType {

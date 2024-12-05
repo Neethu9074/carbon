@@ -11,7 +11,7 @@ import { TimeConfig } from '@instana/types';
 
 import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import { ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
-import { DEFAULT_NUMBER_SKELETON_ROWS } from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
+import { DEFAULT_NUMBER_ROWS } from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
 import LoadingTableList from 'in-plg/pages/WelcomePage/widgets/table/LoadingTableList';
 import { getItemId } from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
 import { hasError, isLoading } from 'in-services/util/result';
@@ -26,6 +26,8 @@ interface RegItemListProps {
   numSkeletonRows: number;
   favIds?: string[];
   widgetName?: string;
+  mainPage?: boolean;
+  pageSize?: number;
 }
 
 export default function RegularItemList({
@@ -34,16 +36,24 @@ export default function RegularItemList({
   timeConfig,
   numSkeletonRows,
   favIds,
-  widgetName
+  widgetName,
+  mainPage,
+  pageSize
 }: RegItemListProps) {
   const favPresent = columnDefinitions.some(item => item.key === 'favourite') ?? false;
   if (!result || isLoading(result)) {
-    numSkeletonRows = favIds ? DEFAULT_NUMBER_SKELETON_ROWS - favIds.length : DEFAULT_NUMBER_SKELETON_ROWS;
+    numSkeletonRows =
+      mainPage && pageSize ? pageSize : favIds ? DEFAULT_NUMBER_ROWS - favIds.length : DEFAULT_NUMBER_ROWS;
+    const numSkeletonColumns = mainPage
+      ? favPresent
+        ? columnDefinitions.length - 1
+        : columnDefinitions.length
+      : columnDefinitions.length;
     return (
       <LoadingTableList
         numSkeletonRows={numSkeletonRows}
-        numSkeletonColumns={columnDefinitions.length}
-        favPresent={favPresent}
+        numSkeletonColumns={numSkeletonColumns}
+        favPresent={favPresent && !mainPage}
       />
     );
   }
@@ -51,6 +61,7 @@ export default function RegularItemList({
     return (
       <Row>
         {columnDefinitions.map(({ key }: ColumnDefinitionItem) => {
+          if (mainPage && key === 'favourite') return null;
           return (
             <Cell key={key}>
               {(key === 'name' || key === 'title') && (
@@ -66,15 +77,18 @@ export default function RegularItemList({
   }
   const resultItems = result.data.items ?? result.data;
   return resultItems
-    ?.filter((item: any) => !favIds?.includes(getItemId(item, widgetName)))
+    ?.filter((item: any) => (mainPage ? true : !favIds?.includes(getItemId(item, widgetName))))
     .slice(0, numSkeletonRows)
     .map((item: any, index: number) => (
       <Row id={`${index}`} key={index}>
-        {columnDefinitions?.map(({ key, getContent }: ColumnDefinitionItem) => (
-          <Cell key={key} {...(key === 'favourite' && { className: 'favouriteIcon' })}>
-            {getContent({ item, result, timeConfig })}
-          </Cell>
-        ))}
+        {columnDefinitions?.map(({ key, getContent }: ColumnDefinitionItem) => {
+          if (mainPage && key === 'favourite') return null;
+          return (
+            <Cell key={key} {...(key === 'favourite' && { className: 'favouriteIcon' })}>
+              {getContent({ item, result, timeConfig })}
+            </Cell>
+          );
+        })}
       </Row>
     ));
 }
