@@ -202,6 +202,7 @@ function leftHeaderWithSelectAll(form, onChange) {
                   content={t('in-alerting:smartAlerts.alertChannelList.selectAllWarning')}
                 />
                 <Toggle
+                  id="selectAllWarningToggle"
                   disabled={warningThresholdFieldDisabled}
                   checked={ifAllSelectedChannelsEnabledForWarning}
                   onToggle={updateAllToggleAndFormForWarning(enabledChannels, entitiesBeforePagination, onChange)}
@@ -212,6 +213,7 @@ function leftHeaderWithSelectAll(form, onChange) {
                   content={t('in-alerting:smartAlerts.alertChannelList.selectAllCritical')}
                 />
                 <Toggle
+                  id="selectAllCriticalToggle"
                   disabled={criticalThresholdFieldDisabled}
                   checked={ifAllSelectedChannelsEnabledForCritical}
                   onToggle={updateAllToggleAndFormForCritical(enabledChannels, entitiesBeforePagination, onChange)}
