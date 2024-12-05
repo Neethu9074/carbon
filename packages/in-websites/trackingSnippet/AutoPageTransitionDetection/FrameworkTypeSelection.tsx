@@ -27,10 +27,12 @@ const FrameworkTypeSelection = ({
   setEnableAutoPageDetection,
   pageTransitionMethod,
   setPageTransitionMethod,
-  setRegexMappingRules
+  setRegexMappingRules,
+  setWithoutCopyButton
 }: FrameworkTypeSelectionProps) => {
   const handleFrameworkChange = (type: string) => {
     setFrameworkType(type);
+    setWithoutCopyButton(false);
     switch (type) {
       case frameworkTypes.MPA:
         setRegexMappingRules([]);
@@ -75,6 +77,7 @@ const FrameworkTypeSelection = ({
           pageTransitionMethod={pageTransitionMethod}
           setPageTransitionMethod={setPageTransitionMethod}
           setRegexMappingRules={setRegexMappingRules}
+          setWithoutCopyButton={setWithoutCopyButton}
         />
       )}
     </>

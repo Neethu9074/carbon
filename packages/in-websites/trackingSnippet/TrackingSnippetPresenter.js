@@ -39,6 +39,7 @@ export default function TrackingSnippetPresenter({
   enableSRI,
   setEnableSRI
 }) {
+  const [withoutCopyButton, setWithoutCopyButton] = useState(false);
   const [regexMappingRules, setRegexMappingRules] = useState([]);
   const [pageTransitionMethod, setPageTransitionMethod] = useState(pageTransitionMethods.PAGE_TITLE);
   const [enableAutoPageDetection, setEnableAutoPageDetection] = useState(false);
@@ -114,12 +115,17 @@ export default function TrackingSnippetPresenter({
     setFrameworkType(frameworkTypes.MPA); // Setting framework type to default value
     setPageTransitionMethod(pageTransitionMethods.PAGE_TITLE); // Setting page transition method to default value
     setEnableAutoPageDetection(false); // Setting autopage detection to default value
+    setWithoutCopyButton(false); // Setting code snippet to enabled
   };
 
   const handleVersionChange = ver => {
     resetAllValues();
     setSelectedWeaselVersion(ver);
     setShaValue(weaselArray.find(item => item.label === ver)?.sha);
+  };
+  const toggleSessionTracking = enabled => {
+    setTrackSessions(enabled);
+    setWithoutCopyButton(false);
   };
 
   return (
@@ -193,7 +199,7 @@ export default function TrackingSnippetPresenter({
       <div className={locals.options}>
         <SubHeading text={t('in-websites:trackingSnippet.trackingSnippetPresenterLabelTrackSessions')} />
         <div className={locals.toggle}>
-          <Toggle id="trackSessions" checked={trackSessions} onToggle={e => setTrackSessions(e)} />
+          <Toggle id="trackSessions" checked={trackSessions} onToggle={toggleSessionTracking} />
           <div className={locals.toggleLabel}>
             {trackSessions
               ? t('in-websites:trackingSnippet.trackingSnippetPresenterToggleYes')
@@ -217,6 +223,7 @@ export default function TrackingSnippetPresenter({
           pageTransitionMethod={pageTransitionMethod}
           setPageTransitionMethod={setPageTransitionMethod}
           setRegexMappingRules={setRegexMappingRules}
+          setWithoutCopyButton={setWithoutCopyButton}
         />
       )}
 
@@ -225,7 +232,14 @@ export default function TrackingSnippetPresenter({
       <SubHeadingHelpText text={t('in-websites:trackingSnippet.addTrackingScriptHelpText')} />
 
       <div className={locals.snippet}>
-        <Code code={eumSnippet} lang="html" showLineNumbers={false} />
+        <Code
+          code={eumSnippet}
+          lang="html"
+          showLineNumbers={false}
+          withoutCopyButton={withoutCopyButton}
+          // Remove this wrapperClassName, once the carbon team fixes Code component disabled prop issue.
+          wrapperClassName={withoutCopyButton ? locals.wrapperClassName : undefined}
+        />
       </div>
     </div>
   );

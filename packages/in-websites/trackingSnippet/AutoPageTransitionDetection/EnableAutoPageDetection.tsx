@@ -33,10 +33,12 @@ import locals from 'in-websites/trackingSnippet/AutoPageTransitionDetection/Auto
 const EnableAutoPageDetection = ({
   pageTransitionMethod,
   setPageTransitionMethod,
-  setRegexMappingRules
+  setRegexMappingRules,
+  setWithoutCopyButton
 }: EnableAutoPageDetectionProps) => {
   const handleRadioChange = (method: string, resetRules = false) => {
     setPageTransitionMethod(method);
+    setWithoutCopyButton(false);
     if (resetRules) setRegexMappingRules([]);
   };
   return (
@@ -63,19 +65,23 @@ const EnableAutoPageDetection = ({
         ))}
       </div>
       {pageTransitionMethod === pageTransitionMethods.PAGE_URL && (
-        <EnableRegexMappingRule setRegexMappingRules={setRegexMappingRules} />
+        <EnableRegexMappingRule
+          setRegexMappingRules={setRegexMappingRules}
+          setWithoutCopyButton={setWithoutCopyButton}
+        />
       )}
     </>
   );
 };
 
-const EnableRegexMappingRule = ({ setRegexMappingRules }: EnableRegexMappingRuleProps) => {
+const EnableRegexMappingRule = ({ setRegexMappingRules, setWithoutCopyButton }: EnableRegexMappingRuleProps) => {
   const [mappingRules, setMappingRules] = useState<MappingRule[]>([defaultMappingRule]);
   const [enableRegexMappingRule, setEnableRegexMappingRule] = useState(false);
   const hasChanges = mappingRules.some(rule => rule.rule.trim() !== '' || rule.replaceText.trim() !== '');
 
   const toggleRegexMappingRule = (isEnabled: boolean) => {
     const resetMappingRules = () => {
+      setWithoutCopyButton(false);
       setEnableRegexMappingRule(isEnabled);
       setMappingRules([defaultMappingRule]);
       setRegexMappingRules([]);
@@ -130,6 +136,7 @@ const EnableRegexMappingRule = ({ setRegexMappingRules }: EnableRegexMappingRule
           mappingRules={mappingRules}
           setMappingRules={setMappingRules}
           setRegexMappingRules={setRegexMappingRules}
+          setWithoutCopyButton={setWithoutCopyButton}
         />
       )}
     </>

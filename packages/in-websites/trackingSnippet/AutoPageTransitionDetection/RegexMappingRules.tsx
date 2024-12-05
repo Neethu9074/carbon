@@ -21,13 +21,19 @@ import { t } from 'in-i18n';
 
 import locals from 'in-websites/trackingSnippet/AutoPageTransitionDetection/AutoPageTransitionDetection.mless';
 
-const RegexMappingRules = ({ setRegexMappingRules, mappingRules, setMappingRules }: RegexMappingRulesProps) => {
+const RegexMappingRules = ({
+  setRegexMappingRules,
+  mappingRules,
+  setMappingRules,
+  setWithoutCopyButton
+}: RegexMappingRulesProps) => {
   const [errors, setErrors] = useState<Record<number, { ruleError: string | null; replaceTextError: string | null }>>(
     {}
   );
 
   const updateRule = (id: number, field: keyof MappingRule, value: string) => {
     setMappingRules(prevRules => prevRules.map(rule => (rule.id === id ? { ...rule, [field]: value } : rule)));
+    setWithoutCopyButton(true);
   };
 
   const addRule = () => {
@@ -77,6 +83,9 @@ const RegexMappingRules = ({ setRegexMappingRules, mappingRules, setMappingRules
 
     if (Object.keys(newErrors).length === 0) {
       setRegexMappingRules(mappingRules);
+      setWithoutCopyButton(false);
+    } else {
+      setWithoutCopyButton(true);
     }
   };
 

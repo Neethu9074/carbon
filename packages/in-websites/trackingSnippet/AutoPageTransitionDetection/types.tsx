@@ -14,6 +14,7 @@ export interface RegexMappingRulesProps {
   mappingRules: MappingRule[];
   setMappingRules: React.Dispatch<React.SetStateAction<MappingRule[]>>;
   setRegexMappingRules: (rules: MappingRule[]) => void;
+  setWithoutCopyButton: (value: boolean) => void;
 }
 
 export interface MappingRuleRowProps {
@@ -36,12 +37,14 @@ export interface DisableRegexMappingModalProps {
 
 export interface EnableRegexMappingRuleProps {
   setRegexMappingRules: (rules: MappingRule[]) => void;
+  setWithoutCopyButton: (value: boolean) => void;
 }
 
 export interface EnableAutoPageDetectionProps {
   pageTransitionMethod: string;
   setPageTransitionMethod: (value: string) => void;
   setRegexMappingRules: (rules: MappingRule[]) => void;
+  setWithoutCopyButton: (value: boolean) => void;
 }
 
 export interface AutoPageTransitionDetectionProps {
@@ -50,6 +53,7 @@ export interface AutoPageTransitionDetectionProps {
   pageTransitionMethod: string;
   setPageTransitionMethod: (value: string) => void;
   setRegexMappingRules: (rules: MappingRule[]) => void;
+  setWithoutCopyButton: (value: boolean) => void;
 }
 
 export interface FrameworkTypeSelectionProps {
@@ -60,6 +64,7 @@ export interface FrameworkTypeSelectionProps {
   pageTransitionMethod: string;
   setPageTransitionMethod: (value: string) => void;
   setRegexMappingRules: (rules: MappingRule[]) => void;
+  setWithoutCopyButton: (value: boolean) => void;
 }
 
 export interface LearnMoreLinkProps {

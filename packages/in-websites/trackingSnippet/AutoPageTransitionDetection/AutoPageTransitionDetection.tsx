@@ -28,10 +28,12 @@ const AutoPageTransitionDetection = ({
   setEnableAutoPageDetection,
   pageTransitionMethod,
   setPageTransitionMethod,
-  setRegexMappingRules
+  setRegexMappingRules,
+  setWithoutCopyButton
 }: AutoPageTransitionDetectionProps) => {
   const handleToggle = (enabled: boolean) => {
     setEnableAutoPageDetection(enabled);
+    setWithoutCopyButton(false);
     setPageTransitionMethod(pageTransitionMethods.PAGE_TITLE);
     setRegexMappingRules([]);
   };
@@ -59,6 +61,7 @@ const AutoPageTransitionDetection = ({
           pageTransitionMethod={pageTransitionMethod}
           setPageTransitionMethod={setPageTransitionMethod}
           setRegexMappingRules={setRegexMappingRules}
+          setWithoutCopyButton={setWithoutCopyButton}
         />
       )}
     </div>
