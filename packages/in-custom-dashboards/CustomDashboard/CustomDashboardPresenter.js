@@ -9,7 +9,6 @@ import React from 'react';
 import { HorizontalIndicator, Button } from '@instana/components';
 
 import {
-  carbonButtonEnabled,
   customDashboardTopLevelFiltersEnabled,
   customDashboardsExportPdfEntireDashboard,
   customDashboardsFastQueryModeEnabled
@@ -287,7 +286,7 @@ function TopLevelButtonLine({ editable, onShare, canCreatePublicCustomDashboards
       icon="lib_actions_share"
       onClick={canCreatePublicCustomDashboards ? onShare : undefined}
       disabled={!canCreatePublicCustomDashboards}
-      className={carbonButtonEnabled ? locals.carbonShare : undefined}
+      className={locals.carbonShare}
     >
       {t('in-custom-dashboards:customDashboard.customDashboardPresenter.share')}
     </DashboardHeaderButton>

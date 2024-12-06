@@ -6,23 +6,6 @@
 @import '~in-themes/active.less';
 
 :local {
-  .configurator {
-    font-weight: 600;
-    font-size: 0.75rem;
-    line-height: 2;
-
-    padding: 0.1875rem 0.3rem 0.1875rem 0.4375rem;
-    width: fit-content;
-
-    display: flex;
-    align-items: center;
-
-    white-space: normal;
-    overflow-wrap: anywhere;
-    text-align: left;
-
-    cursor: pointer;
-  }
   .carbonConfigurator {
     overflow-wrap: anywhere;
   }
