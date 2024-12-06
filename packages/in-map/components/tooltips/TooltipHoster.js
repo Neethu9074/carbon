@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { view$ } from 'in-infrastructure/perspectives';
+import { view$ } from 'in-infrastructure/perspectives/view';
 import { tooltip$ } from 'in-map/stores/tooltipStore';
 import { canvas$ } from 'in-map/stores/indexStore';
 import connectTo from 'in-hoc/connectTo';

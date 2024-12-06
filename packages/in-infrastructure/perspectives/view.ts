@@ -6,7 +6,7 @@
 import { combineLatest } from '@instana/observables';
 
 // @ts-expect-error import { viewGrouping$ } from 'in-infrastructure/perspectives/viewGrouping';
-import { viewGrouping$ } from 'in-infrastructure/perspectives/viewGrouping';
+import { viewGrouping$ } from 'in-infrastructure/perspectives/viewGrouping.js';
 import { containerPath } from 'in-stores/navigation/paths/mainPaths';
 import createViewStructureObservable from 'in-subscription/view';
 import { navigationParameters$ } from 'in-stores/navigation';

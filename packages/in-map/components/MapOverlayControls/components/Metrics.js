@@ -15,7 +15,7 @@ import { SvgIcon } from '@instana/components';
 import { setActiveMetric, clearActiveMetric, activeMetric$ } from 'in-stores/metric';
 import Control from 'in-map/components/MapOverlayControls/components/Control';
 import { track, MAP_METRICS_SHOW } from 'in-services/tracking/tracking';
-import { types, view$ } from 'in-infrastructure/perspectives';
+import { types, view$ } from 'in-infrastructure/perspectives/view';
 import { t } from 'in-i18n';
 
 import 'in-map/components/MapOverlayControls/components/Metrics.less';

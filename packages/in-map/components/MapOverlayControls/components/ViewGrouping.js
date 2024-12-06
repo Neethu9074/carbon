@@ -26,7 +26,7 @@ import Control from 'in-map/components/MapOverlayControls/components/Control';
 import { MAP_GROUPING_CHANGED, track } from 'in-services/tracking/tracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { types, view$ } from 'in-infrastructure/perspectives';
+import { types, view$ } from 'in-infrastructure/perspectives/view';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
