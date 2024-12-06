@@ -46,8 +46,8 @@ export default function ConfigureAlertingThreshold({ form, onChange, updateForm,
   function getConfigureTimeWindow(timeThresholdType) {
     let label;
     if (
-      (timeThresholdType === timeThresholdTypes.violationsInSequence) |
-      (timeThresholdType === timeThresholdTypes.violationsInPeriod)
+      timeThresholdType === timeThresholdTypes.violationsInSequence ||
+      timeThresholdType === timeThresholdTypes.violationsInPeriod
     ) {
       label = t('in-alerting:smartAlerts.components.tearSheet.timeThreshold.triggerAfter');
     } else if (timeThresholdType === timeThresholdTypes.userImpactOfViolationsInSequence) {

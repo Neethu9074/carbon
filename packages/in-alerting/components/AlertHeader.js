@@ -153,6 +153,16 @@ export default function AlertHeader({
     );
   };
 
+  function getIcon(isToggling, enabled) {
+    if (isToggling) {
+      return 'lib_actions_loading';
+    } else if (enabled) {
+      return 'lib_actions_pause';
+    } else {
+      return 'lib_actions_play';
+    }
+  }
+
   return (
     <div>
       <BackButton
@@ -214,9 +224,7 @@ export default function AlertHeader({
                 <IconButton
                   kind="primaryv2"
                   data-testid="statusToggleButton"
-                  type={
-                    isToggling ? 'lib_actions_loading' : alertConfig.enabled ? 'lib_actions_pause' : 'lib_actions_play'
-                  }
+                  type={getIcon(isToggling, alertConfig.enabled)}
                   iconSpinning={isToggling}
                   onClick={() => {
                     if (!isToggling) {
