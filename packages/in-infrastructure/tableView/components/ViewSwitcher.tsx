@@ -46,7 +46,7 @@ export default function InfrastructureViewSwitcher({ showSearchBar = true, theme
         <SecondLevelNavigationItem
           href={createHrefToPath(physicalTablePath)}
           label={t('in-infrastructure:tableView.comparisonTable')}
-          isActive={isTableActive}
+          isActive={isTableActive === null ? undefined : isAlertActive}
         />
         {infraSmartAlertsEnabled && !role?.limitedInfrastructureScope && (
           <SecondLevelNavigationItem
