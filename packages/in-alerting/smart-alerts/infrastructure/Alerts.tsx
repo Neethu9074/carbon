@@ -74,7 +74,7 @@ export default function Alerts() {
           extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
           carbonActionHandlers={handlers}
           getNameSubtitle={(config: InfraSmartAlertConfigWithMetadata) => getNameSubtitle(config)}
-          toolBarContent={<CreateSmartAlertButton />}
+          toolBarContent={role?.canConfigureGlobalInfraSmartAlerts ? <CreateSmartAlertButton /> : undefined}
           noDataHeader={t('in-alerting:smartAlerts.infrastructure.list.noDataHeader')}
           noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.infrastructure.list.noDataDescription" />}
         />

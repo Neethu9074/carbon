@@ -55,13 +55,15 @@ export default function Alerts({ applicationId, boundaryScope, location, data })
           }
           isSelectable={false}
           toolBarContent={
-            <CreateSmartAlertButtonForCarbonTable
-              isGlobal={isCategoryGlobal(configsCategory)}
-              applicationId={applicationId}
-              location={location}
-              boundaryScope={boundaryScope}
-              defaultBoundaryScope={data?.boundaryScope}
-            />
+            role.canConfigureApplicationSmartAlerts && (
+              <CreateSmartAlertButtonForCarbonTable
+                isGlobal={isCategoryGlobal(configsCategory)}
+                applicationId={applicationId}
+                location={location}
+                boundaryScope={boundaryScope}
+                defaultBoundaryScope={data?.boundaryScope}
+              />
+            )
           }
           noDataHeader={
             isCategoryGlobal(configsCategory)

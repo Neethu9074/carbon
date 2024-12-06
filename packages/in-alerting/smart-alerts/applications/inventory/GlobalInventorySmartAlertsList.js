@@ -59,7 +59,9 @@ export default function GlobalInventorySmartAlertsList({ onNoData }) {
             t('in-alerting:smartAlerts.applications.inventory.labelGlobalSmartAlertsTable')
           }
           isSelectable={false}
-          toolBarContent={<CreateSmartAlertButtonForCarbonTable isGlobal />}
+          toolBarContent={
+            role.canConfigureGlobalApplicationSmartAlerts && <CreateSmartAlertButtonForCarbonTable isGlobal />
+          }
           noDataHeader={
             isCategoryGlobal(configsCategory)
               ? t('in-alerting:smartAlerts.applications.inventory.noGlobalAlertDataHeader')
