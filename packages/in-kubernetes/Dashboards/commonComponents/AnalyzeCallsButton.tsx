@@ -11,7 +11,6 @@ import { Button } from '@instana/components';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { type as typeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { Group } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -42,7 +41,7 @@ export default function AnalyzeCallsButton({
 
   return (
     <Button
-      kind={carbonButtonEnabled ? 'action' : 'primary'}
+      kind="action"
       icon="lib_application_call"
       href={getLinkToApplicationAnalyze({
         dataSource: 'calls',
@@ -58,7 +57,7 @@ export default function AnalyzeCallsButton({
         }),
         groupBy
       })}
-      size={carbonButtonEnabled ? 'compact' : 'normal'}
+      size="compact"
     >
       {t('in-kubernetes:dashboards.analyzeCalls')}
     </Button>
