@@ -47,7 +47,7 @@ describe('stores.view', () => {
   });
 
   function loadModule() {
-    mod = proxyquire('./view', {
+    mod = proxyquire('./view.ts', {
       'in-subscription/view': () => create().startWith(true)
     });
   }
