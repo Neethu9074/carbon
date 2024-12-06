@@ -8,11 +8,8 @@ import React, { useRef } from 'react';
 import { Button } from '@instana/components';
 
 import ConjunctionTagSelectorOverlay from 'in-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionTagSelectorOverlay';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';
-
-import locals from './FilterButton.mless';
 
 export default function FilterButton({
   tagCatalog,
@@ -56,10 +53,9 @@ export default function FilterButton({
     >
       {({ toggle, refSetter }) => (
         <Button
-          className={carbonButtonEnabled ? undefined : locals.button}
           size="compact"
           icon={trailingButton ? '' : 'lib_openclose_add'}
-          kind={carbonButtonEnabled ? 'tertiary' : 'subtle'}
+          kind="tertiary"
           onClick={toggle}
           refSetter={refSetter}
         >

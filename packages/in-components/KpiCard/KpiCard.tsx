@@ -6,22 +6,13 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
-import {
-  Link,
-  SvgIcon,
-  Card,
-  Button,
-  ButtonKinds,
-  IconButton,
-  HeadingElement,
-  HeadingVariant
-} from '@instana/components';
+import { SvgIcon, Card, ButtonKinds, IconButton, HeadingElement, HeadingVariant } from '@instana/components';
 import { Observable } from '@instana/observables';
 
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
-import { carbonButtonEnabled, carbonTooltipEnabled } from 'in-services/featureFlags';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import WidgetCardHeader from 'in-components/WidgetCardHeader/WidgetCardHeader';
+import { carbonTooltipEnabled } from 'in-services/featureFlags';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import Tooltip from 'in-components/Tooltip';
 import { ResultPrecision } from 'in-types';
@@ -102,7 +93,7 @@ export default function KpiCard({
   noTooltipOnTitle,
   headingVariant = 'heading-3'
 }: KpiCardProps) {
-  const { ref, width } = useResizeObserver<HTMLDivElement>();
+  const { ref } = useResizeObserver<HTMLDivElement>();
   const hasApproximateData = resultPrecision === 'PRECISION_APPROXIMATE';
 
   let formattedValue;
@@ -226,45 +217,17 @@ export default function KpiCard({
             extraInfoTooltip={extraInfo}
           />
         </div>
-        {iconAction &&
-          (carbonButtonEnabled ? (
-            <IconButton
-              iconDescription={iconAction.text}
-              href$={iconAction.href$}
-              href={iconAction.href}
-              kind={iconAction.kind}
-              type={iconAction.icon}
-              onClick={iconAction.onClick}
-              isWrapperedByTooltip
-            />
-          ) : (
-            <div
-              className={classNames({
-                [locals.actionWrapper]: true,
-                [locals.showLongVariantOnHover]: width != null && width > 300
-              })}
-            >
-              <Tooltip content={iconAction.text} overwriteBlock>
-                <Link
-                  href={iconAction.href$ ?? iconAction.href}
-                  aria-label={iconAction.text}
-                  onClick={iconAction.onClick}
-                >
-                  <SvgIcon className={locals.actionIcon} type={iconAction.icon} />
-                </Link>
-              </Tooltip>
-              <Button
-                className={locals.action}
-                icon={iconAction.icon}
-                href$={iconAction.href$}
-                href={iconAction.href}
-                onClick={iconAction.onClick}
-                kind={iconAction.kind}
-              >
-                {iconAction.text}
-              </Button>
-            </div>
-          ))}
+        {iconAction && (
+          <IconButton
+            iconDescription={iconAction.text}
+            href$={iconAction.href$}
+            href={iconAction.href}
+            kind={iconAction.kind}
+            type={iconAction.icon}
+            onClick={iconAction.onClick}
+            isWrapperedByTooltip
+          />
+        )}
         {actions && <div className={locals.actions}>{actions}</div>}
       </div>
       {tooltipContent ? (

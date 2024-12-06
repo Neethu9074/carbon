@@ -7,7 +7,6 @@ import React, { ReactElement } from 'react';
 
 import { Button, ButtonProps } from '@instana/components';
 
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export interface CancelButtonProps extends Partial<ButtonProps> {
@@ -17,7 +16,7 @@ export interface CancelButtonProps extends Partial<ButtonProps> {
 
 export default function CancelButton({
   children = t('forms.actions.cancel'),
-  kind = carbonButtonEnabled ? 'secondary' : 'subtle',
+  kind = 'secondary',
   onClick,
   isSaving,
   ...otherProps

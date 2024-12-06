@@ -48,8 +48,8 @@ export default function Actions({ openIssuesResult, analyzeLink, getIssueLink, e
       <div className={locals.actions}>
         <Button
           icon={carbonButtonEnabled ? undefined : isCVEIssue ? 'lib_events_cve' : 'lib_events_inverted'}
-          size={carbonButtonEnabled ? 'compact' : 'normal'}
-          kind={carbonButtonEnabled ? 'secondary' : 'primary'}
+          size="compact"
+          kind="secondary"
           className={carbonButtonEnabled ? locals.carbonButton : locals.button}
           href={analyzeLink}
           onClick={handleClick}
