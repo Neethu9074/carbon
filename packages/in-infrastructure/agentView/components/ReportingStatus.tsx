@@ -16,7 +16,7 @@ export const reportingStatus = {
   },
   DEGRADED: {
     value: 1,
-    Component: function degradedStatus({ count }) {
+    Component: function degradedStatus({ count }: { count: number }) {
       return <span>{t('in-infrastructure:agentView.reportingMonitoringIssues', { count: count })}</span>;
     }
   },
