@@ -11,7 +11,6 @@ import { clearSelectedSnapshots } from 'in-infrastructure/tableView/stores/selec
 import { showAggregations$, toggle } from 'in-stores/metric/showAggregations';
 import { clearMetrics } from 'in-infrastructure/tableView/stores/metrics';
 import { formatDurationAccurately } from 'in-services/formatters/date';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
@@ -37,12 +36,7 @@ export default connectTo(
           </Tooltip>
         </label>
 
-        <Button
-          {...(carbonButtonEnabled ? { darkTheme: true } : {})}
-          kind="secondary"
-          size="compact"
-          onClick={clearSelection}
-        >
+        <Button darkTheme kind="secondary" size="compact" onClick={clearSelection}>
           {t('in-infrastructure:tableView.clearSelections')}
         </Button>
       </header>
