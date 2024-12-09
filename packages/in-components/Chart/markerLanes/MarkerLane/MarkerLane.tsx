@@ -151,6 +151,10 @@ function MarkersLanePresenter<EventType extends MarkerLaneEvent>({
   trackMarkerHoverEvent,
   ...remainingProps
 }: MarkersLanePresenterProps<EventType>) {
+  // For tabbing to be correct for the marker lanes we need to initially
+  // sort by the timestamp
+  events = events.slice().sort((a, b) => a.timestamp - b.timestamp);
+
   const { timeConfig, clusterSizeMillis, alwaysDisplayLabels } = remainingProps;
   const xScale = useObservable(renderScheduler.xScaleBackBuffer$.nextFrame(), [timeConfig!.autoRefresh], {
     pure: !timeConfig!.autoRefresh
