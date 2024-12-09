@@ -19,16 +19,19 @@ import { t } from 'in-i18n';
 export const stepConfigs = [
   {
     title: t('in-alerting:smartAlerts.infrastructure.tearSheet.steps.step1Title'),
-    validateIntermediately: []
+    validateIntermediately: [
+      ['rule', 'entityType'],
+      ['rule', 'metricName']
+    ]
   },
 
   {
     title: t('in-alerting:smartAlerts.infrastructure.tearSheet.steps.step2Title'),
-    validateIntermediately: [['name']]
+    validateIntermediately: []
   },
   {
     title: t('in-alerting:smartAlerts.infrastructure.tearSheet.steps.step3Title'),
-    validateIntermediately: []
+    validateIntermediately: [['name']]
   },
   {
     title: t('in-alerting:smartAlerts.infrastructure.tearSheet.steps.step4Title'),

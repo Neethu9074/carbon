@@ -59,7 +59,8 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
 
   const actions = getFooterActions(backOrCancel, cancelTearSheet, handleSubmit, editMode);
 
-  const navItems = useAlertConfigValidation(stepConfigs);
+  // this hook will validate each step and prevents navigation
+  const navItems = useAlertConfigValidation(stepConfigs, form, tagFilterValid, updateForm);
 
   const alertConfigWithFormModel = form.toJS();
   const { rule, tagFilterExpression } = alertConfigWithFormModel;

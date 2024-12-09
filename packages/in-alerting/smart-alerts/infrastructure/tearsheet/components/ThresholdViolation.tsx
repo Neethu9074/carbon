@@ -16,9 +16,11 @@ import {
 import { Marks } from 'in-alerting/smart-alerts/infrastructure/tearsheet/steps/AlertConfigTearSheetStep2';
 //@ts-expect-error
 import DebouncedInput from 'in-components/form/Input/DebouncedInput';
-import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
+import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
+
+import locals from './ThresholdViolation.mless';
 
 const maxTimeWindow = 12;
 
@@ -42,48 +44,44 @@ export default function ThresholdViolation({
   const currentValue = foundMark.value;
 
   return (
-    <Stack direction="vertical" gap="gutter" align="start">
-      <Section
-        title={
-          <AlertTypography
-            variant="body-regular"
-            color="color900"
-            content={t('in-alerting:smartAlerts.components.tearSheet.timeThreshold.triggerAfter')}
-          />
-        }
-        titleWidth="5rem"
-      >
-        <Stack direction="horizontal" gap="normal" align="center">
-          <DebouncedInput
-            delay={300}
-            id="timeWindow"
-            name="timeWindowInput"
-            data-testid="timeWindowInput"
-            type="number"
-            min={1}
-            max={maxTimeWindow}
-            value={timeThresholdTimeWindow / granularity}
-            onValueChange={(timeWindowValue: number) => {
-              if (timeWindowValue && timeWindowValue > maxTimeWindow) {
-                timeWindowValue = maxTimeWindow;
-              }
-              onChangeTimeWindow(timeWindowValue, form, updateForm);
-            }}
-          />
+    <Stack direction="vertical" gap="xsmall" align="start">
+      <AlertTypography
+        variant="body-regular"
+        color="color900"
+        content={t('in-alerting:smartAlerts.components.tearSheet.timeThreshold.triggerAfter')}
+      />
+      <div className={locals.fullWidthWrapper}>
+        <DebouncedInput
+          delay={300}
+          id="timeWindow"
+          name="timeWindowInput"
+          data-testid="timeWindowInput"
+          type="number"
+          min={1}
+          max={maxTimeWindow}
+          value={timeThresholdTimeWindow / granularity}
+          onValueChange={(timeWindowValue: number) => {
+            if (timeWindowValue && timeWindowValue > maxTimeWindow) {
+              timeWindowValue = maxTimeWindow;
+            }
+            onChangeTimeWindow(timeWindowValue, form, updateForm);
+          }}
+        />
 
-          <AlertTypography
-            variant={'body-small'}
-            color={'color600'}
-            content={t(
-              'in-alerting:smartAlerts.components.tearSheet.timeThreshold.numberOfConsecutiveViolationsPostLabel',
-              {
-                granularity: currentValue
-              }
-            )}
-            noMargin
-          />
-        </Stack>
-      </Section>
+        <AlertTypography
+          variant={'body-small'}
+          color={'color600'}
+          content={t(
+            'in-alerting:smartAlerts.components.tearSheet.timeThreshold.numberOfConsecutiveViolationsPostLabel',
+            {
+              granularity: currentValue
+            }
+          )}
+          noMargin
+        />
+      </div>
+      <TouchedMessages field={timeThresholdForm.get('timeWindow')} />
+      {/* </Section> */}
     </Stack>
   );
 }

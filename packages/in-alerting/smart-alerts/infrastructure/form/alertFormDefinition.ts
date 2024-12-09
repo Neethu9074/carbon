@@ -10,6 +10,8 @@ import { ForecastingConfig } from '@instana/types';
 
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
+//@ts-expect-error
+import { titleValidator } from 'in-alerting/smart-alerts/infrastructure/data/alertConfigUtils';
 import { InfraSmartAlertConfig } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import createThresholdForm from 'in-alerting/smart-alerts/infrastructure/form/thresholdForm';
 import regexValidator from 'in-alerting/smart-alerts/infrastructure/data/regexValidator';
@@ -100,7 +102,7 @@ export default function alertFormDefinition(
       fieldNames.name,
       createField({
         value: name,
-        validator: stringMaxLengthValidator(MAX_LABEL_LENGTH)
+        validator: titleValidator()
       })
     )
     .put(

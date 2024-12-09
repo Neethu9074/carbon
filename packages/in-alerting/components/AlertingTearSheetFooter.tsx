@@ -88,6 +88,13 @@ export default function AlertingTearSheetFooter({
                   formId={formId}
                   isSaving={isSaving}
                   onClick={() => {
+                    // This is to trigger validation of the form against each step.
+                    if (!stepConfigs[step].valid) {
+                      const validator = stepConfigs[step]?.validator;
+                      if (typeof validator === 'function') {
+                        return validator();
+                      }
+                    }
                     if (!additionalValidationCheck) {
                       return;
                     }

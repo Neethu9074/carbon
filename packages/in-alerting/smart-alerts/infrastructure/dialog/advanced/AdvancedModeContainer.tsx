@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import { MapForm } from 'formalistic';
 import React from 'react';
 
 import {
@@ -71,7 +72,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           scrollId: '1',
           label: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.label'),
           title: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.title'),
-          valid: isMetricAndEntityValid() && tagFilterValid,
+          valid: isMetricAndEntityValid(form) && tagFilterValid,
           content: (
             <ScopeSection
               form={form}
@@ -202,14 +203,15 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
   function isThresholdSectionValid(): boolean {
     return !fieldTouchedAndInvalid(form.get('threshold'));
   }
-  function isMetricAndEntityValid(): boolean {
-    const metric = form.get('rule')?.get('metricName')?.value;
-    const entityType = form.get('rule')?.get('entityType')?.value;
-    const regexpValidator = regexValidator((form as any)?.items);
-    return (
-      !fieldTouchedAndInvalid(form.get('rule')?.get('metricName')) &&
-      !regexpValidator?.length &&
-      !(metric.length && !entityType)
-    );
-  }
+}
+
+export function isMetricAndEntityValid(form: MapForm<any>): boolean {
+  const metric = form.get('rule')?.get('metricName')?.value;
+  const entityType = form.get('rule')?.get('entityType')?.value;
+  const regexpValidator = regexValidator((form as any)?.items);
+  return (
+    !fieldTouchedAndInvalid(form.get('rule')?.get('metricName')) &&
+    !regexpValidator?.length &&
+    !(metric.length && !entityType)
+  );
 }
