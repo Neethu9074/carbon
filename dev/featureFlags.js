@@ -178,5 +178,5 @@ module.exports = {
   dataUsageNotificationEnabled: false,
   prometheusDeltaCountersSumEnabled: true,
   rbacTeamsEnabled: false,
-  rootCauseIdentificationSchedulerEnabled: true
+  prcIssueEnabled: true
 };
