@@ -13,10 +13,8 @@
     max-height: 21rem;
     overflow-y: auto;
 
-    :global(.link) {
-      &:focus {
-        text-decoration: underline;
-      }
+    :global(.li-link) {
+      display: block;
     }
   }
 
