@@ -13,6 +13,7 @@ import { t } from '@instana/i18n-react';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { QuickLinkButton } from 'in-plg/pages/WelcomePage/quickLinks/QuickLinkButton';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { releaseNotesEnabled } from 'in-services/featureFlags';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
@@ -47,14 +48,16 @@ export const QuickLinks = () => {
             window.open('https://www.ibm.com/docs/en/obi/current', '_blank', 'noreferrer');
           }}
         />
-        <QuickLinkButton
-          icon="lib_actions_result_new"
-          iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.resultNew')}
-          buttonName={t('in-plg:welcomepage.quickLinks.buttonNames.releaseNotes')}
-          onClick={() => {
-            showReleaseNotes();
-          }}
-        />
+        {releaseNotesEnabled && (
+          <QuickLinkButton
+            icon="lib_actions_result_new"
+            iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.resultNew')}
+            buttonName={t('in-plg:welcomepage.quickLinks.buttonNames.releaseNotes')}
+            onClick={() => {
+              showReleaseNotes();
+            }}
+          />
+        )}
       </Stack>
     </div>
   );
