@@ -11,7 +11,7 @@ import useOpenDashboardOnEntityDoubleClick from 'in-map/useOpenDashboardOnEntity
 import StickyNoteHoster from 'in-map/components/stickyNotes/StickyNoteHoster';
 import MapNoContentMessage from 'in-map/components/MapNoContentMessage';
 import useClearSelectedEventForInMap from 'in-map/useClearSelectedEvent'
-import { view$, types as views } from 'in-infrastructure/perspectives';
+import { view$, types as views } from 'in-infrastructure/perspectives/view';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import TooltipHoster from 'in-map/components/tooltips/TooltipHoster';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';

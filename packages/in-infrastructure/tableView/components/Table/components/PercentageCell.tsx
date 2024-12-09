@@ -11,7 +11,7 @@ const block = 'in-table-percentage';
 const levelElement = `${block}__level`;
 const valueElement = `${block}__value`;
 
-export default function PercentageCell({ value, content }) {
+export default function PercentageCell({ value, content }: { value: number; content: React.ReactNode }) {
   let width = '0px';
   if (value != null) {
     // if value grows larger than 100% (e.g. for cpu) prevent overflow
