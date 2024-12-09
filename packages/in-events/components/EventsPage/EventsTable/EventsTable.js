@@ -4,10 +4,17 @@
  * Copyright IBM Corp. 2024
  */
 
-import { Datagrid, useDatagrid, useFiltering, useInfiniteScroll, useOnRowClick, useSortableColumns } from '@carbon/ibm-products';
 import React, { useMemo, useEffect, useRef } from 'react';
 import { isEmpty } from 'lodash';
 
+import {
+  Datagrid,
+  useDatagrid,
+  useFiltering,
+  useInfiniteScroll,
+  useOnRowClick,
+  useSortableColumns
+} from '@instana/ibm-products';
 import { formatDateTime } from '@instana/format-date';
 
 import { EVENT_TYPES, getEventSeverityLabelWithEventType, getEventType } from 'in-stores/events';
@@ -184,7 +191,16 @@ const sortingMapper = {
   end: 'end'
 };
 
-const EventsTable = ({ onItemClicked, rawEvents, isDenseList, orderBy, orderDirection, loading, canLoadMore, loadMore }) => {
+const EventsTable = ({
+  onItemClicked,
+  rawEvents,
+  isDenseList,
+  orderBy,
+  orderDirection,
+  loading,
+  canLoadMore,
+  loadMore
+}) => {
   function buildQueryString(list, keyword) {
     let queryString = '';
 

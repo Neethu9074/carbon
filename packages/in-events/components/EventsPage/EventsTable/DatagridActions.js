@@ -6,9 +6,10 @@
 
 // eslint-disable-next-line no-restricted-imports
 import { IconButton, TableToolbarContent } from '@carbon/react';
-import { useFilterContext } from '@carbon/ibm-products';
 import { Filter } from '@carbon/react/icons';
 import React from 'react';
+
+import { useFilterContext } from '@instana/ibm-products';
 
 import locals from './EventsTable.mless';
 
