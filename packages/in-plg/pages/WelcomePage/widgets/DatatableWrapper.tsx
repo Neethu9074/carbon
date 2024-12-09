@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import classNames from 'classnames';
 import { debounce } from 'lodash';
 
@@ -108,6 +108,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
   const [pageSize, setPageSize] = useState(pageSizes[0]);
   const header = dashboardTileProps?.header ?? '';
   let hits = 0;
+  const hitsRef = useRef<number>(0);
   let hasContent = false;
   let result = useObservable(
     getItems({
@@ -140,6 +141,9 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
     numberOfRegularItemsToShow = Math.max(0, maxItems ? maxItems - favIds.length : items.length);
     hasContent = items.length > 0 ? true : false;
     hits = searchData?.length ?? result?.data?.totalHits ?? result.data.length;
+    if (hits) {
+      hitsRef.current = hits;
+    }
     //For custom dashboard searching
     result = {
       ...result,
@@ -151,7 +155,9 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
 
   dashboardTileProps = {
     ...dashboardTileProps,
-    header: dashboardTileProps ? `${dashboardTileProps.header} ${hits > 0 ? `(${hits})` : ''}` : ''
+    header: dashboardTileProps
+      ? `${dashboardTileProps.header} ${hitsRef.current > 0 ? `(${hitsRef.current})` : ''}`
+      : ''
   };
 
   function pinnedItems() {
@@ -231,6 +237,8 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
   const filteredArrayExcludingViewAllButton = dataArray.filter(item => item.key !== 'viewAllButton');
   const hasNoDataTile = !filteredArrayExcludingViewAllButton.length;
   const updatedHeaders = mainPage ? headers.filter(obj => obj.key !== 'favourite') : null;
+  const dataLoading = result?.progress?.loading;
+  const showPagination = mainPage && (dataLoading || hits > pageSizes[0]);
 
   return (
     <section
@@ -260,18 +268,18 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
           noDataDescription={getNoDataDescription(label)}
           onSearch={debounce((searchQuery: string) => {
             setQuery(searchQuery);
+            setPage(1);
           }, 500)}
           buttonName={`${t('in-plg:welcomepage.addMore')} ${addButtonLabel ?? ''}`.trim()}
           toggles={dashboardTileProps.toggles}
           toggleCallback={dashboardTileProps.toggleCallback}
         />
       </DashboardTile>
-      {mainPage &&
-        hits > pageSizes[0] &&
+      {showPagination &&
         (carbonPaginationEnabled ? (
           <CarbonPagination
             currentPage={page}
-            totalItems={hits}
+            totalItems={hitsRef.current}
             pageSize={pageSize}
             pageSizes={pageSizes}
             onChange={(data: { page: number; pageSize: number }) => {
@@ -282,7 +290,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
         ) : (
           <Pagination
             currentPage={page}
-            numPages={Math.ceil(hits / pageSize)}
+            numPages={Math.ceil(hitsRef.current / pageSize)}
             onChange={newPage => {
               setPage(newPage);
             }}
