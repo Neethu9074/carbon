@@ -152,16 +152,17 @@ export const syntheticViewCapabilities: Array<CapabilityType> = [
   Capability.CAN_VIEW_SYNTHETIC_LOCATIONS
 ];
 
-export const syntheticOtherCapabilities: Array<CapabilityType> = [
+export const syntheticAdditionalOwnerCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS,
   Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
-  Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS
+  Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS,
+  Capability.CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS
 ];
 
 //Need to remove default and additional Synthetic view permissions when access scope is NO_ACCESS
 export const syntheticAdditionalDefaultCapabilities: Array<CapabilityType> = [
   ...syntheticViewCapabilities,
-  ...syntheticOtherCapabilities
+  ...syntheticAdditionalOwnerCapabilities
 ];
 
 export const infrastructureDefaultCapabilities: Array<CapabilityType> = [
