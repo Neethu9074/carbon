@@ -177,5 +177,6 @@ module.exports = {
   openTelemetryKubernetesEnabled: true,
   dataUsageNotificationEnabled: false,
   prometheusDeltaCountersSumEnabled: true,
-  rbacTeamsEnabled: false
+  rbacTeamsEnabled: false,
+  rootCauseIdentificationSchedulerEnabled: true
 };

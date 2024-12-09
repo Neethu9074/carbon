@@ -117,6 +117,7 @@
   "labelIssues": "Issues",
   "labelMonitoringIssues": "Monitoring issues",
   "labelCveIssue": "Vulnerabilities",
+  "labelPrcIssue": "Probable Root Causes",
   "labelAll": "All",
   "buttonViewCustomEvent": "View Custom Event",
   "buttonViewBuiltInEvent": "View Built-in Event",

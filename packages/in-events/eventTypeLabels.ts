@@ -10,3 +10,4 @@ export const issue = t('in-events:labelIssues');
 export const change = t('in-events:labelChanges');
 export const agent_monitoring_issue = t('in-events:labelMonitoringIssues');
 export const cve_issue = t('in-events:labelCveIssue');
+export const prc_issue = t('in-events:labelPrcIssue');
