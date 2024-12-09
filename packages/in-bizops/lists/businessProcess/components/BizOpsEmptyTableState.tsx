@@ -13,6 +13,7 @@ import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePr
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { bizopsDeployAgentClick } from 'in-bizops/tracker';
+import { t } from 'in-i18n';
 
 import locals from './BizOpsEmptyTableState.mless';
 
@@ -37,13 +38,13 @@ function NoDataAvailable(href: string) {
       <div className={locals.bizopsNoData}>
         <SvgIcon type={'lib_bizops'} size="xxl" color={themes.default.ids.color.option.neutral['700']} />
         <p>
-          No business processes are available.
+          {t('in-bizops:processes.noProcessesAvailable')}
           <br />
-          You need to deploy an agent first.
+          {t('in-bizops:processes.deployAgentFirst')}
           <br />
-          For more information, read the{' '}
+          {t('in-bizops:processes.forMoreInformation')}{' '}
           <a href="https://www.ibm.com/docs/en/instana-observability/current?topic=instana-business-monitoring">
-            documentation
+            {t('in-bizops:processes.documentation')}
           </a>
         </p>
       </div>
@@ -53,7 +54,7 @@ function NoDataAvailable(href: string) {
         className={locals.bizopsDeployAgent}
         onClick={() => bizopsDeployAgentClick(trackerProps)}
       >
-        Deploy agent
+        {t('in-bizops:processes.deployAgent')}
       </Button>
     </CenterAlignmentColumn>
   );

@@ -32,7 +32,6 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import ViewSwitcher from 'in-bizops/components/ViewSwitcher';
 import { pageNames } from 'in-services/tracking/pageNames';
-import { bizopsDeployAgentClick } from 'in-bizops/tracker';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
@@ -87,27 +86,6 @@ export default function BizOpsList() {
     setQueryTagFilter([]);
   }
 
-  function DeployAgentButton() {
-    if (typeof hostCount === 'number' && hostCount > 0) {
-      return null;
-    }
-    const trackerProps = {
-      path: location.pathname,
-      location: 'table header bar'
-    };
-    return (
-      <Button
-        kind="action"
-        href={createHref(location)}
-        className={locals.button}
-        icon="lib_actions_settings"
-        onClick={() => bizopsDeployAgentClick(trackerProps)}
-      >
-        {t('in-bizops:processes.deployAgent')}
-      </Button>
-    );
-  }
-
   return (
     <div className={locals.processList}>
       <Sticky header={<ViewSwitcher />}>
@@ -149,7 +127,6 @@ export default function BizOpsList() {
               cardTitle={t('in-bizops:lists.cardTitle')}
               queryTagFilter={queryTagFilter}
               tagCatalog={tagCatalog?.data}
-              rightHeader={DeployAgentButton}
             />
           ) : (
             <ServerTableWithUrlState
@@ -158,7 +135,6 @@ export default function BizOpsList() {
               cardTitle={t('in-bizops:lists.cardTitle')}
               queryTagFilter={queryTagFilter}
               tagCatalog={tagCatalog?.data}
-              rightHeader={DeployAgentButton}
             />
           )}
         </LeftRightPadding>
