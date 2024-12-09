@@ -6,7 +6,7 @@
 import { MapForm, createMapForm, createField, notBlankValidator } from 'formalistic';
 import React, { FormEvent, useState } from 'react';
 
-import { Message, Stack, TextArea, Typography } from '@instana/components';
+import { CarbonTextInput, Message, Stack } from '@instana/components';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
@@ -109,32 +109,26 @@ export default function MultiCloseIssueConfigForm({
                 )}
               />
             </Stack>
-            <Stack gap="xxsmall">
-              <Typography variant="body-small">
-                {t('in-events:closeEventDialog.comments')}
-                <span className={locals.red}>*</span>
-              </Typography>
-
-              <TextArea
-                className={locals.commentsTextArea}
-                placeholder={
-                  eventIds.length > 1
-                    ? eventType === 'incident'
-                      ? t('in-events:closeEventDialog.reasonIncidents')
-                      : t('in-events:closeEventDialog.reasonIssues')
-                    : eventType === 'incident'
-                    ? t('in-events:closeEventDialog.reasonIncident')
-                    : t('in-events:closeEventDialog.reasonIssue')
+            <CarbonTextInput
+              id="comments"
+              labelText={t('in-events:closeEventDialog.comments')}
+              className={locals.commentsTextArea}
+              placeholder={
+                eventIds.length > 1
+                  ? eventType === 'incident'
+                    ? t('in-events:closeEventDialog.reasonIncidents')
+                    : t('in-events:closeEventDialog.reasonIssues')
+                  : eventType === 'incident'
+                  ? t('in-events:closeEventDialog.reasonIncident')
+                  : t('in-events:closeEventDialog.reasonIssue')
+              }
+              onChange={e => {
+                if (e.target) {
+                  const target = e.target;
+                  setValue(form, ['reasonForClosing'], target.value);
                 }
-                onChange={e => {
-                  if (e.target) {
-                    const target = e.target as HTMLTextAreaElement;
-                    setValue(form, ['reasonForClosing'], target.value);
-                  }
-                }}
-                rows={8}
-              />
-            </Stack>
+              }}
+            />
 
             <Message type="warning" className={locals.warningBox} withIcon>
               {t('in-events:closeEventDialog.warning')}
