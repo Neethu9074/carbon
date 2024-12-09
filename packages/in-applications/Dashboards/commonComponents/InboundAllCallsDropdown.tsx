@@ -3,13 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
+import { SvgIcon, CarbonMenuButton as MenuButton, CarbonMenuItem as MenuItem } from '@instana/components';
 import { ApplicationBoundaryScope } from '@instana/types';
-import { SvgIcon } from '@instana/components';
 
-import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
-import DropdownButton from 'in-components/Button/DropdownButton';
 import { boundaryScopes } from 'in-applications/constants';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -29,10 +28,6 @@ interface BoundaryScopeInfoProps {
   overrideDefault: string;
 }
 
-interface OptionProps {
-  value: string;
-  label: any;
-}
 export default function InboundAllCallsDropdown(props: Props) {
   const { boundaryScope: urlBoundaryScope, data: application, disabled, onBoundaryStateChange } = props;
   const defaultBoundaryScope = application?.boundaryScope;
@@ -50,39 +45,66 @@ export default function InboundAllCallsDropdown(props: Props) {
   const upperCaseDefaultBoundaryScope = defaultBoundaryScope?.toUpperCase() as ApplicationBoundaryScope;
   const defaultBoundarySCopeInfo = boundaryScopes.info[upperCaseDefaultBoundaryScope]?.overrideDefault;
   return (
-    <ComboBoxBehavior
-      value={boundaryScope}
-      options={
-        [
-          { value: 'INBOUND', label: renderItemContent('INBOUND') },
-          { value: 'ALL', label: renderItemContent('ALL') }
-        ] as OptionProps[]
+    <MenuButton
+      id="inboundallcalls"
+      kind="tertiary"
+      size="sm"
+      menuAlignment="bottom-end"
+      //@ts-expect-error
+      label={
+        <div className={locals.menubutton}>
+          <SvgIcon
+            className={locals.icon}
+            type={boundaryScopeInfo.icon}
+            color="currentColor"
+            size="xs"
+            aria-label={boundaryScopeLabel}
+          />
+          {boundaryScopeLabel}
+          {defaultBoundaryScope && !disabled ? (
+            <Tooltip content={defaultBoundarySCopeInfo} align="topRight">
+              <SvgIcon className={locals.tooltipIcon} type="lib_help_error_info_outline" size="xs" />
+            </Tooltip>
+          ) : null}
+        </div>
       }
-      onChange={value => onBoundaryStateChange({ boundaryScope: value })}
+      title={boundaryScopeLabel}
+      disabled={disabled}
     >
-      {({ elementProps, isOpen }) => (
-        // @ts-expect-error not fully matching expected type
-        <DropdownButton {...elementProps} expanded={isOpen} kind="secondary" disabled={disabled}>
-          <div className={locals.buttonContent}>
-            <SvgIcon className={locals.icon} type={boundaryScopeInfo.icon} color="currentColor" />
-            {boundaryScopeLabel}
-            {defaultBoundaryScope && !disabled ? (
-              <Tooltip content={defaultBoundarySCopeInfo} align="leftMiddle">
-                <SvgIcon className={locals.tooltipIcon} type="lib_help_error_info_outline" size="xs" />
-              </Tooltip>
-            ) : null}
-          </div>
-        </DropdownButton>
-      )}
-    </ComboBoxBehavior>
+      <MenuItem
+        //@ts-expect-error
+        label={renderItemContent('INBOUND')}
+        onClick={() => onBoundaryStateChange({ boundaryScope: 'INBOUND' })}
+        className={classNames({
+          [locals.menuitem]: true,
+          [locals.selected]: boundaryScope === 'INBOUND'
+        })}
+        aria-label={getLabel('INBOUND')}
+      />
+      <MenuItem
+        //@ts-expect-error
+        label={renderItemContent('ALL')}
+        onClick={() => onBoundaryStateChange({ boundaryScope: 'ALL' })}
+        className={classNames({
+          [locals.menuitem]: true,
+          [locals.selected]: boundaryScope === 'ALL'
+        })}
+        aria-label={getLabel('ALL')}
+      />
+    </MenuButton>
   );
+}
+
+function getLabel(item: ApplicationBoundaryScope) {
+  const { text } = boundaryScopes.info[item];
+  return text;
 }
 
 function renderItemContent(item: ApplicationBoundaryScope) {
   const { icon, text, dashboard } = boundaryScopes.info[item];
   return (
-    <div className={locals.option}>
-      <SvgIcon className={locals.optionIcon} type={icon} />
+    <div className={locals.option} title="">
+      <SvgIcon className={locals.optionIcon} type={icon} aria-label={text} />
       <div className={locals.optionText}>
         <div className={locals.label}>{text}</div>
         <div className={locals.description}>{dashboard}</div>
