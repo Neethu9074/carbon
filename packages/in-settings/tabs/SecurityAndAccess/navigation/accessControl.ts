@@ -30,6 +30,7 @@ import InvitesPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/
 import GroupsPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/Groups';
 import UsersPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Users/Users';
 import AuditTrailPage from 'in-settings/tabs/SecurityAndAccess/pages/audit/AuditTrail';
+import { rbacTeamsEnabled } from 'in-services/featureFlags';
 import { Role } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -60,22 +61,42 @@ export function getNavigationTreeForRole(role: Role, isAnyIDPActive: boolean) {
       }
     }
 
-    if (role.canConfigureTeams) {
-      accessControlPages.push({
-        path: securityAndAccessAccessControlGroups,
-        label: t('in-settings:tabs.groups'),
-        component: GroupsPage,
-        subPages: [
-          {
-            path: securityAndAccessAccessControlGroupNew,
-            component: GroupPage
-          },
-          {
-            path: securityAndAccessAccessControlGroupEdit,
-            component: GroupPage
-          }
-        ]
-      });
+    if (rbacTeamsEnabled) {
+      if (role.canConfigureTeams) {
+        accessControlPages.push({
+          path: securityAndAccessAccessControlGroups,
+          label: t('in-settings:tabs.roles'),
+          component: GroupsPage,
+          subPages: [
+            {
+              path: securityAndAccessAccessControlGroupNew,
+              component: GroupPage
+            },
+            {
+              path: securityAndAccessAccessControlGroupEdit,
+              component: GroupPage
+            }
+          ]
+        });
+      }
+    } else {
+      if (role.canConfigureTeams) {
+        accessControlPages.push({
+          path: securityAndAccessAccessControlGroups,
+          label: t('in-settings:tabs.groups'),
+          component: GroupsPage,
+          subPages: [
+            {
+              path: securityAndAccessAccessControlGroupNew,
+              component: GroupPage
+            },
+            {
+              path: securityAndAccessAccessControlGroupEdit,
+              component: GroupPage
+            }
+          ]
+        });
+      }
     }
 
     if (role.canConfigureApiTokens) {
@@ -98,6 +119,26 @@ export function getNavigationTreeForRole(role: Role, isAnyIDPActive: boolean) {
           }
         ]
       });
+    }
+
+    if (rbacTeamsEnabled) {
+      if (role.canConfigureTeams) {
+        accessControlPages.push({
+          path: securityAndAccessAccessControlGroups,
+          label: t('in-settings:tabs.teams'),
+          component: GroupsPage,
+          subPages: [
+            {
+              path: securityAndAccessAccessControlGroupNew,
+              component: GroupPage
+            },
+            {
+              path: securityAndAccessAccessControlGroupEdit,
+              component: GroupPage
+            }
+          ]
+        });
+      }
     }
 
     navigationTree.push({

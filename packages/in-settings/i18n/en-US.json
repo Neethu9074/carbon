@@ -962,6 +962,8 @@
     "savingGroup": "Saving group",
     "groupSuccessfullySaved": "Group successfully saved.",
     "groups": "Groups",
+    "roles": "Roles",
+    "teams": "Teams",
     "groupDeleteTooltip_Default": "Default group is a built-in group and can't be deleted or renamed.",
     "groupDeleteTooltip_Owner": "Owner group is a built-in group and can't be deleted or renamed.",
     "deleteGroupMessage": "Are you sure you want to remove <strong>{{groupName}}</strong> from all units on this tenant?",

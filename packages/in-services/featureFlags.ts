@@ -318,3 +318,4 @@ export const aqmDisableConfigOnEventViewEnabled = isFeatureFlagEnabled('aqmDisab
 export const aqmDataGridEventTableEnabled = isFeatureFlagEnabled('aqmDataGridEventTableEnabled', false);
 export const openTelemetryKubernetes = isFeatureFlagEnabled('openTelemetryKubernetesEnabled', false);
 export const prometheusDeltaCountersSumEnabled = isFeatureFlagEnabled('prometheusDeltaCountersSumEnabled', false);
+export const rbacTeamsEnabled = isFeatureFlagEnabled('rbacTeamsEnabled', false);

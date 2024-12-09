@@ -835,5 +835,10 @@ module.exports = exports = [
     uiClientKey: 'prometheusDeltaCountersSumEnabled',
     instanaCtlKey: 'feature.prometheus.delta.counters.sum.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'rbacTeamsEnabled',
+    instanaCtlKey: 'feature.rbac.teams.enabled',
+    defaultValue: false
   }
 ];

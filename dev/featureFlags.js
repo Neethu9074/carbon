@@ -176,5 +176,6 @@ module.exports = {
   aqmDisableConfigOnEventViewEnabled: false,
   openTelemetryKubernetesEnabled: true,
   dataUsageNotificationEnabled: false,
-  prometheusDeltaCountersSumEnabled: true
+  prometheusDeltaCountersSumEnabled: true,
+  rbacTeamsEnabled: false
 };
