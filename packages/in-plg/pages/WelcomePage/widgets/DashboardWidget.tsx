@@ -190,9 +190,5 @@ function DashboardPermission({ id, annotations }: { id: string; annotations: Arr
       setDashboardPermission('');
     }
   }, [permissionResult]);
-  return dashboardPermission ? (
-    <Pill kind="info" type="gray">
-      {dashboardPermission}
-    </Pill>
-  ) : null;
+  return dashboardPermission ? <Pill type="gray">{dashboardPermission}</Pill> : null;
 }

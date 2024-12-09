@@ -7,7 +7,7 @@ import React, { Fragment } from 'react';
 
 import { themes } from '@instana/design-tokens';
 import { Pill } from '@instana/components';
-import { Kind } from 'in-components/Pill';
+
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './BadgeList.mless';
@@ -16,13 +16,11 @@ export default function BadgeList<T extends string>({
   type,
   types,
   getColor,
-  kind = 'light',
   limit
 }: {
   type: T;
   types: T[];
   getColor: (type: T) => string;
-  kind?: Kind;
   limit?: number;
 }) {
   if (type && !types) {
@@ -39,12 +37,7 @@ export default function BadgeList<T extends string>({
 
   const remainingTooltip = limitRequired ? (
     <Tooltip align={'topMiddle'} content={remainingTypes.join(', ')}>
-      <Pill
-        key={firstRemainingType}
-        className={locals.badge}
-        color={themes.default.ids.color.option.purple['500']}
-        kind={kind}
-      >
+      <Pill key={firstRemainingType} className={locals.badge} color={themes.default.ids.color.option.purple['500']}>
         {'+' + remainingTypes.length}
       </Pill>
     </Tooltip>
@@ -56,7 +49,7 @@ export default function BadgeList<T extends string>({
         .slice()
         .sort()
         .map(type => (
-          <Pill key={type} className={locals.badge} color={getColor(type)} kind={kind}>
+          <Pill key={type} className={locals.badge} color={getColor(type)}>
             {type}
           </Pill>
         ))}

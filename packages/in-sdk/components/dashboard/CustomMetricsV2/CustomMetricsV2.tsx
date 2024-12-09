@@ -136,7 +136,7 @@ const cols = [
       },
       getContent(type: string, row: Row) {
         return (
-          <Pill kind="light" color={row.color} lightenOpacity={0.1} className={locals.pill}>
+          <Pill color={row.color} lightenOpacity={0.1} className={locals.pill}>
             {type}
           </Pill>
         );

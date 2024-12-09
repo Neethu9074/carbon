@@ -11,8 +11,6 @@ import { t } from 'in-i18n';
 
 export default function AlertEnabledStateColumn({ enabled }: { enabled: boolean }) {
   return enabled ? null : (
-    <Pill kind="info" type="gray">
-      {t('in-alerting:smartAlerts.applications.apCreation.alertCurrentlyDisabled')}
-    </Pill>
+    <Pill type="gray">{t('in-alerting:smartAlerts.applications.apCreation.alertCurrentlyDisabled')}</Pill>
   );
 }
