@@ -28,6 +28,13 @@ export default connectTo(
       this.tooltipElement?.focus();
     }
 
+    componentWillUnmount() {
+      // We want to return focus to the element clicked that initially
+      // opened the overlay
+      const returnElement = this.props.relativeTo;
+      returnElement?.focus();
+    }
+
     componentDidUpdate() {
       this.position();
     }
