@@ -5,19 +5,14 @@
 
 import React from 'react';
 
-import {
-  AggregationType,
-  HistoricBaselineConfig,
-  ThresholdConfigUnion,
-  WebsiteAlertConfigWithMetadata,
-  WebsiteAlertRuleUnion
-} from '@instana/types';
+import { AggregationType, HistoricBaselineConfig, ThresholdConfigUnion, WebsiteAlertRuleUnion } from '@instana/types';
 
 //@ts-expect-error TS migartion
 import { useWebsiteData } from 'in-alerting/smart-alerts/websites/hooks/useWebsiteData';
 import { alertCreated as alertCreatedMatrixParam, alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { STATIC_THRESHOLD, ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
 import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
@@ -45,7 +40,7 @@ function getColumnDefinitions(websiteLabel: string) {
     {
       id: 'filters',
       label: t('in-websites:websiteDashboard.tabs.alerts.alertsLabelFilters'),
-      getContent: (entity: WebsiteAlertConfigWithMetadata) => (
+      getContent: (entity: WebsiteSmartAlertConfigWithMetadata) => (
         <ScopeColumn config={entity} websiteLabel={websiteLabel} />
       )
     }
@@ -142,7 +137,7 @@ export function getSubtitle(rule: WebsiteAlertRuleUnion, threshold: ThresholdCon
   });
 }
 
-function createRowLinkLocation(config: WebsiteAlertConfigWithMetadata, location: Location): Location {
+function createRowLinkLocation(config: WebsiteSmartAlertConfigWithMetadata, location: Location): Location {
   const rowLinkLocation = {
     ...location,
     pathname: alertsTabDetailsFullyQualified
@@ -159,13 +154,13 @@ function getCarbonTableColumnDefinitions() {
     {
       id: 'triggering-action',
       label: t('in-alerting:table.triggeringAction'),
-      getContent: (config: WebsiteAlertConfigWithMetadata) => <>{getSubtitle(config.rule, config.threshold)}</>,
+      getContent: (config: WebsiteSmartAlertConfigWithMetadata) => <>{getSubtitle(config.rule, config.threshold)}</>,
       sortable: false
     },
     {
       id: 'enabled',
       label: t('in-alerting:table.status'),
-      getContent: (config: WebsiteAlertConfigWithMetadata) => <StatusColumnCell status={config.enabled} />,
+      getContent: (config: WebsiteSmartAlertConfigWithMetadata) => <StatusColumnCell status={config.enabled} />,
       sortable: true
     }
   ];

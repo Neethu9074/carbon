@@ -8,13 +8,14 @@ import { createField, createMapForm, MapForm } from 'formalistic';
 
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
+import { MobileAppSmartAlertConfig } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { applyEditMode } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import createThresholdForm from 'in-alerting/smart-alerts/eum/form/thresholdForm';
-import { MobileAppAlertConfig, ThresholdType, VersionedConfig } from 'in-types';
 import createRuleForm from 'in-alerting/smart-alerts/mobileApp/form/ruleForm';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
+import { ThresholdType, VersionedConfig } from 'in-types';
 
 const severityWarning = 5;
 export const defaultAdaptiveBaselineGranularity = 1200000;
@@ -38,7 +39,7 @@ export interface AlertConfigHiddenFields {
 }
 
 export default function alertFormDefinition(
-  alertConfig: MobileAppAlertConfig & VersionedConfig & AlertConfigHiddenFields,
+  alertConfig: MobileAppSmartAlertConfig & VersionedConfig & AlertConfigHiddenFields,
   editMode: boolean
 ): MapForm<any> {
   const {

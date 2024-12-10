@@ -7,7 +7,6 @@
 import {
   AggregationType,
   CustomEventMobileAppAlertRule,
-  MobileAppAlertConfig,
   MobileAppAlertRule,
   MobileAppMonitoringBeaconType,
   TagFilterOperator,
@@ -20,6 +19,7 @@ import getMobileAppMetricThresholdSuggestion from 'in-alerting/smart-alerts/mobi
 import getMobileAppMetricAlertsPreview from 'in-alerting/smart-alerts/mobileApp/subscriptions/getMobileAppMetricAlertsPreview';
 import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { MobileAppSmartAlertConfig } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { number, NumberFormatter, percentage } from 'in-services/formatters/number';
 import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
@@ -74,13 +74,13 @@ interface BluePrintBase {
   readonly isCustomRateMetric: typeof isCustomRateMetric;
   readonly getMetricsRequest: () => typeof getMobileAppMetrics;
   readonly getRuleTagFilterFormModel: (alertRule: MobileAppAlertRule) => FormModelElement[];
-  readonly getEntityTagFilterFormModel: (alertConfig: MobileAppAlertConfig) => {
+  readonly getEntityTagFilterFormModel: (alertConfig: MobileAppSmartAlertConfig) => {
     name: string;
     operator: TagFilterOperator;
     value?: any;
   };
   readonly getExtraAnalyzeLinkTagFilterFormModel: (
-    alertConfig: MobileAppAlertConfig,
+    alertConfig: MobileAppSmartAlertConfig,
     timeConfig: FixedTimeConfig
   ) => FormModelElement[];
   readonly getAlertsPreviewRequest: (metricName: MetricName) => typeof getMobileAppMetricAlertsPreview;
@@ -123,7 +123,7 @@ const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
   isCustomRateMetric: isCustomRateMetric,
   getMetricsRequest: () => getMobileAppMetrics,
   getRuleTagFilterFormModel: () => [],
-  getEntityTagFilterFormModel: (alertConfig: MobileAppAlertConfig) =>
+  getEntityTagFilterFormModel: (alertConfig: MobileAppSmartAlertConfig) =>
     tagFilter('mobileBeacon.mobileApp.id', EQUALS, alertConfig.mobileAppId),
   getExtraAnalyzeLinkTagFilterFormModel: () => [],
   getThresholdTypeOptions: () => mobileAppThresholdTypeOptions,

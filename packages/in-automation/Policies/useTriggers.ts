@@ -7,11 +7,9 @@
 import {
   EventSpecificationInfo,
   LogAlertConfigWithMetadata,
-  MobileAppAlertConfigWithMetadata,
   Result,
   ServiceLevelsAlertConfigWithMetadata,
-  SyntheticAlertConfigWithMetadata,
-  WebsiteAlertConfigWithMetadata
+  SyntheticAlertConfigWithMetadata
 } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
@@ -31,6 +29,8 @@ import {
   GlobalApplicationsSmartAlertConfigWithMetadata
 } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
+import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
+import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { pendingResult } from 'in-services/fixedObjects';
 import { mapData } from 'in-services/util/result';
 import { Triggers } from 'in-automation/types';
@@ -42,12 +42,13 @@ export default function useTriggers(): Triggers {
     useObservable(getApplicationSmartAlertConfigs, []) ??
     (pendingResult as Result<ApplicationSmartAlertConfigWithMetadata[]>);
   const websiteSmartAlert =
-    useObservable(getWebsiteSmartAlertConfigs, []) ?? (pendingResult as Result<WebsiteAlertConfigWithMetadata[]>);
+    useObservable(getWebsiteSmartAlertConfigs, []) ?? (pendingResult as Result<WebsiteSmartAlertConfigWithMetadata[]>);
   const globalApplicationSmartAlert =
     useObservable(getGlobalApplicationSmartAlertConfigs, []) ??
     (pendingResult as Result<GlobalApplicationsSmartAlertConfigWithMetadata[]>);
   const mobileAppSmartAlert =
-    useObservable(getMobileAppSmartAlertConfigs, []) ?? (pendingResult as Result<MobileAppAlertConfigWithMetadata[]>);
+    useObservable(getMobileAppSmartAlertConfigs, []) ??
+    (pendingResult as Result<MobileAppSmartAlertConfigWithMetadata[]>);
   const infraSmartAlert =
     useObservable(getInfraSmartAlertConfigs, []) ?? (pendingResult as Result<InfraSmartAlertConfigWithMetadata[]>);
   const logSmartAlert =

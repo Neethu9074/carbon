@@ -22,12 +22,13 @@ import {
 } from 'in-mobile-apps/navigation/paths';
 //@ts-expect-error Needs TS Migration
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-mobile-apps/navigation/matrix';
+import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 //@ts-expect-error Needs TS Migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfiguration from 'in-alerting/smart-alerts/mobileApp/details/AlertConfiguration';
 import AlertConfigDialog from 'in-alerting/smart-alerts/mobileApp/dialog/AlertConfigDialog';
-import { MobileAppAlertConfigWithMetadata, Nullish, VersionedConfig } from 'in-types';
+import { Nullish, VersionedConfig } from 'in-types';
 import { role } from 'in-stores/user';
 
 export interface AlertDetailsProps {
@@ -53,7 +54,7 @@ export default function AlertDetails(props: AlertDetailsProps) {
       deleteConfig={deleteAlertConfig}
       restoreConfig={restoreAlertConfigVersion}
       renderSmartAlertDialog={(props: SmartAlertDialogWrapperProps) => <SmartAlertDialogWrapper {...props} />}
-      renderAlertConfiguration={({ alertConfig }: { alertConfig: MobileAppAlertConfigWithMetadata }) => (
+      renderAlertConfiguration={({ alertConfig }: { alertConfig: MobileAppSmartAlertConfigWithMetadata }) => (
         <AlertConfiguration alertConfig={alertConfig} />
       )}
       showActionButton
@@ -63,7 +64,7 @@ export default function AlertDetails(props: AlertDetailsProps) {
 }
 interface SmartAlertDialogWrapperProps {
   close: () => void;
-  alertConfig: MobileAppAlertConfigWithMetadata & VersionedConfig & { duplicateFrom?: string };
+  alertConfig: MobileAppSmartAlertConfigWithMetadata & VersionedConfig & { duplicateFrom?: string };
   setRevision: (arg: string | Nullish) => void;
   isCopy: boolean;
 }

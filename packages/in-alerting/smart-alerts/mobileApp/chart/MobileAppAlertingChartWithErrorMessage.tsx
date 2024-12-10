@@ -6,7 +6,6 @@
 
 import React, { Dispatch, SetStateAction, useMemo } from 'react';
 
-import { MobileAppAlertConfigWithMetadata } from '@instana/types';
 import { Message, Spacer } from '@instana/components';
 
 import { useFetchAdaptiveBaselineOrUseFallbackFromEvent } from 'in-alerting/smart-alerts/mobileApp/hooks/useFetchAdaptiveBaselineOrUseFallbackFromEvent';
@@ -15,6 +14,7 @@ import {
   createIsAlertQueryValid
 } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
 import { BluePrint, MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
+import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { ChartViewConfigItem } from 'in-alerting/components/Chart/chartViewConfig';
@@ -22,7 +22,7 @@ import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes'
 import { t, Trans } from 'in-i18n';
 
 interface MobileAppAlertingChartWithErrorMessageProps {
-  alertConfigWithFormModel: Omit<MobileAppAlertConfigWithMetadata, 'tagFilterExpression'> & {
+  alertConfigWithFormModel: Omit<MobileAppSmartAlertConfigWithMetadata, 'tagFilterExpression'> & {
     tagFilterExpression: FormModelElement[];
   };
   viewConfig: ChartViewConfigItem;

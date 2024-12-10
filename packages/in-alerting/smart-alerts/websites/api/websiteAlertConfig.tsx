@@ -10,16 +10,20 @@ import {
   disableAlertConfig as disableAlertConfigApi,
   enableAlertConfig as enableAlertConfigApi
 } from 'in-alerting/smart-alerts/components/api/smartAlertConfig';
-import { WebsiteAlertConfigWithMetadata, ConfigVersion, Result, WebsiteAlertConfig } from 'in-types';
+import {
+  WebsiteSmartAlertConfig,
+  WebsiteSmartAlertConfigWithMetadata
+} from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
+import { ConfigVersion, Result } from 'in-types';
 import http from 'in-services/http';
 
 const baseUrl = apiEndpoint.WEBSITE;
 
-export function createAlertConfig(data: WebsiteAlertConfig): Observable<WebsiteAlertConfigWithMetadata> {
-  return http<WebsiteAlertConfigWithMetadata>({
+export function createAlertConfig(data: WebsiteSmartAlertConfig): Observable<WebsiteSmartAlertConfigWithMetadata> {
+  return http<WebsiteSmartAlertConfigWithMetadata>({
     method: 'POST',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -28,8 +32,11 @@ export function createAlertConfig(data: WebsiteAlertConfig): Observable<WebsiteA
   }).map(response => response.body);
 }
 
-export function updateAlertConfig(data: WebsiteAlertConfig, id: string): Observable<WebsiteAlertConfigWithMetadata> {
-  return http<WebsiteAlertConfigWithMetadata>({
+export function updateAlertConfig(
+  data: WebsiteSmartAlertConfig,
+  id: string
+): Observable<WebsiteSmartAlertConfigWithMetadata> {
+  return http<WebsiteSmartAlertConfigWithMetadata>({
     method: 'POST',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -41,16 +48,16 @@ export function updateAlertConfig(data: WebsiteAlertConfig, id: string): Observa
 export function getAllAlertConfigs(
   websiteId: string,
   config: { asObservable: boolean }
-): Observable<Result<WebsiteAlertConfigWithMetadata[]>>;
+): Observable<Result<WebsiteSmartAlertConfigWithMetadata[]>>;
 export function getAllAlertConfigs(
   websiteId?: string,
   config?: { asObservable: boolean }
-): Observable<WebsiteAlertConfigWithMetadata[]>;
+): Observable<WebsiteSmartAlertConfigWithMetadata[]>;
 export function getAllAlertConfigs(
   websiteId?: string,
   config: { asObservable: boolean } = { asObservable: false }
-): Observable<Result<WebsiteAlertConfigWithMetadata[]>> | Observable<WebsiteAlertConfigWithMetadata[]> {
-  const request = http<WebsiteAlertConfigWithMetadata[]>({
+): Observable<Result<WebsiteSmartAlertConfigWithMetadata[]>> | Observable<WebsiteSmartAlertConfigWithMetadata[]> {
+  const request = http<WebsiteSmartAlertConfigWithMetadata[]>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -84,16 +91,16 @@ export function getAllVersionsOfAlertConfig(
 export function getLatestAlertConfig(
   id: string,
   config: { asObservable: boolean }
-): Observable<Result<WebsiteAlertConfigWithMetadata>>;
+): Observable<Result<WebsiteSmartAlertConfigWithMetadata>>;
 export function getLatestAlertConfig(
   id: string,
   config?: { asObservable: boolean }
-): Observable<WebsiteAlertConfigWithMetadata>;
+): Observable<WebsiteSmartAlertConfigWithMetadata>;
 export function getLatestAlertConfig(
   id: string,
   config: { asObservable: boolean } = { asObservable: false }
-): Observable<Result<WebsiteAlertConfigWithMetadata>> | Observable<WebsiteAlertConfigWithMetadata> {
-  const request = http<WebsiteAlertConfigWithMetadata>({
+): Observable<Result<WebsiteSmartAlertConfigWithMetadata>> | Observable<WebsiteSmartAlertConfigWithMetadata> {
+  const request = http<WebsiteSmartAlertConfigWithMetadata>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -107,18 +114,18 @@ export function getAlertConfigByIdAndTimestamp(
   id: string,
   timestamp: number,
   config: { asObservable: boolean }
-): Observable<Result<WebsiteAlertConfigWithMetadata>>;
+): Observable<Result<WebsiteSmartAlertConfigWithMetadata>>;
 export function getAlertConfigByIdAndTimestamp(
   id: string,
   timestamp: number,
   config?: { asObservable: boolean }
-): Observable<WebsiteAlertConfigWithMetadata>;
+): Observable<WebsiteSmartAlertConfigWithMetadata>;
 export function getAlertConfigByIdAndTimestamp(
   id: string,
   timestamp: number,
   config: { asObservable: boolean } = { asObservable: false }
-): Observable<Result<WebsiteAlertConfigWithMetadata>> | Observable<WebsiteAlertConfigWithMetadata> {
-  const request = http<WebsiteAlertConfigWithMetadata>({
+): Observable<Result<WebsiteSmartAlertConfigWithMetadata>> | Observable<WebsiteSmartAlertConfigWithMetadata> {
+  const request = http<WebsiteSmartAlertConfigWithMetadata>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -143,8 +150,11 @@ export function deleteAlertConfig(id: string): Observable<void> {
   return deleteAlertConfigApi(id, baseUrl);
 }
 
-export function restoreAlertConfigVersion(id: string, created: number): Observable<WebsiteAlertConfigWithMetadata> {
-  return http<WebsiteAlertConfigWithMetadata>({
+export function restoreAlertConfigVersion(
+  id: string,
+  created: number
+): Observable<WebsiteSmartAlertConfigWithMetadata> {
+  return http<WebsiteSmartAlertConfigWithMetadata>({
     method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
