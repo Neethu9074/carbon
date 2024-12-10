@@ -172,7 +172,7 @@ module.exports = {
   aqmDataGridEventTableEnabled: false,
   alertChannelPerSeverityInfraSaEnabled: true,
   alertChannelPerSeverityApplicationSaEnabled: true,
-  smartAlertCarbonTableEnabled: false,
+  smartAlertCarbonTableEnabled: true,
   aqmDisableConfigOnEventViewEnabled: false,
   openTelemetryKubernetesEnabled: true,
   dataUsageNotificationEnabled: false,
