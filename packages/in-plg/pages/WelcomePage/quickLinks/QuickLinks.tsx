@@ -16,6 +16,7 @@ import { WELCOME_PAGE_WHATS_NEW_LINK_CLICK } from 'in-services/tracking/eventNam
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { releaseNotesEnabled } from 'in-services/featureFlags';
 import { getPageType } from 'in-plg/Demo/NewPlayWithHeader';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
@@ -53,14 +54,16 @@ export const QuickLinks = () => {
             window.open('https://www.ibm.com/docs/en/obi/current', '_blank', 'noreferrer');
           }}
         />
-        <QuickLinkButton
-          icon="lib_actions_result_new"
-          iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.resultNew')}
-          buttonName={t('in-plg:welcomepage.quickLinks.buttonNames.releaseNotes')}
-          onClick={() => {
-            showReleaseNotes();
-          }}
-        />
+        {releaseNotesEnabled && (
+          <QuickLinkButton
+            icon="lib_actions_result_new"
+            iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.resultNew')}
+            buttonName={t('in-plg:welcomepage.quickLinks.buttonNames.releaseNotes')}
+            onClick={() => {
+              showReleaseNotes();
+            }}
+          />
+        )}
         <QuickLinkButton
           icon="lib_views_external_link"
           iconDescription={t('in-plg:welcomepage.quickLinks.iconDescriptions.whatsNewLink')}
