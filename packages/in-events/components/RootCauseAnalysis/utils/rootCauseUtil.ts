@@ -120,7 +120,7 @@ export function useGenerateLinkToAnalyzePage(
   }
 }
 
-function createTagFilterExpressionForAnalysisOfApplicationSA(
+export function createTagFilterExpressionForAnalysisOfApplicationSA(
   entityType: string,
   entityInformation: SnapshotData,
   definitiveEntityID: string,
@@ -165,7 +165,7 @@ function createTagFilterExpressionForAnalysisOfApplicationSA(
   return tagFilter;
 }
 
-function createTagFilterExpressionForAnalysis(
+export function createTagFilterExpressionForAnalysis(
   entityType: string,
   entityInformation: SnapshotData,
   originalID: string,

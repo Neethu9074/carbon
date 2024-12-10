@@ -522,6 +522,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'rcaTopologyEnabled',
+    instanaCtlKey: 'feature.rca.topology.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'eventFeedbackEnabled',
     instanaCtlKey: 'feature.event.feedback.enabled',
     defaultValue: true

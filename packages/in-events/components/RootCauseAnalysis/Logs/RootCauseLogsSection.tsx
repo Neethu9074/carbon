@@ -14,6 +14,7 @@ import RootCauseContextDashboard from 'in-events/components/RootCauseAnalysis/Lo
 import { EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK } from 'in-services/tracking/eventNames';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getApplication from 'in-applications/subscriptions/getApplication';
+import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -35,8 +36,13 @@ export default function RootCauseLogsSection({
   const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
   const { trackCta } = useSegmentTracking();
 
-  const { entityData, nonInfraServiceLabelInformation, infraServiceLabelInformation } =
-    useFetchAppropriateRCAEntityData(rcaEntityType, rcaSnapshotID, incidentTimeWindow);
+  const {
+    entityData,
+    nonInfraServiceLabelInformation,
+    infraServiceLabelInformation,
+    loadingSnapshotData,
+    loadingStackData
+  } = useFetchAppropriateRCAEntityData(rcaEntityType, rcaSnapshotID, incidentTimeWindow);
 
   // Holds the result of our related application perspective observable
   const relatedApplicationInformation = useObservable(
@@ -47,6 +53,8 @@ export default function RootCauseLogsSection({
       : null,
     [relatedAPID]
   );
+
+  if (loadingSnapshotData || loadingStackData) return <LoadingIndicator />;
 
   return (
     <Collapsible
