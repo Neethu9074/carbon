@@ -25,7 +25,7 @@ export const logLevelColumn = {
   widthInAbsoluteUnit: true,
   getContent({ tags, onSelectTagHref }: LogLevelColumnProps) {
     return (
-      <div className={locals.healthColumn}>
+      <div data-testid="log-level-pill" className={locals.healthColumn}>
         <LogHealthColumn tags={tags} onSelectTagHref={onSelectTagHref} />
       </div>
     );

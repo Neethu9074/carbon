@@ -35,7 +35,10 @@ export const ModalNotification = ({ variant = 'success', onClick = () => {}, val
   const isSuccess = variant === 'success';
 
   return (
-    <div className={classNames(locals[`modalNotification-${variant}`], locals.modalNotification)}>
+    <div
+      data-testid={`retention-change-notification-${variant}`}
+      className={classNames(locals[`modalNotification-${variant}`], locals.modalNotification)}
+    >
       {isSuccess ? (
         <SvgIcon type="lib_uncheck" color="#39BF7C" />
       ) : (
