@@ -9,10 +9,8 @@ import React from 'react';
 import {
   EventSpecificationInfo,
   LogAlertConfigWithMetadata,
-  MobileAppAlertConfigWithMetadata,
   ServiceLevelsAlertConfigWithMetadata,
-  SyntheticAlertConfigWithMetadata,
-  WebsiteAlertConfigWithMetadata
+  SyntheticAlertConfigWithMetadata
 } from '@instana/types';
 import { Spacer, Typography } from '@instana/components';
 
@@ -34,7 +32,9 @@ import {
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
+import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { EntityType, EventName } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/Events';
+import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import ListEntityNameColumn from 'in-alerting/smart-alerts/applications/list/columns/ListEntityNameColumn';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import ListFilterColumn from 'in-alerting/smart-alerts/applications/list/columns/ListFiltersColumn';
@@ -139,7 +139,7 @@ export const appFilterAppliedColumn: ColumnDefinition<
   sortable: false
 };
 
-export const websiteFilterAppliedColumn: ColumnDefinition<WebsiteAlertConfigWithMetadata> = {
+export const websiteFilterAppliedColumn: ColumnDefinition<WebsiteSmartAlertConfigWithMetadata> = {
   id: 'filterApplied',
   label: t('in-automation:policies.filterApplied'),
   getContent: function Content(item) {
@@ -151,7 +151,7 @@ export const websiteFilterAppliedColumn: ColumnDefinition<WebsiteAlertConfigWith
   sortable: false
 };
 
-export const mobileAppFilterAppliedColumn: ColumnDefinition<MobileAppAlertConfigWithMetadata> = {
+export const mobileAppFilterAppliedColumn: ColumnDefinition<MobileAppSmartAlertConfigWithMetadata> = {
   id: 'filterApplied',
   label: t('in-automation:policies.filterApplied'),
   getContent: function Content(item) {

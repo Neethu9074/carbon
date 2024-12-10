@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { TimeConfig, WebsiteAlertConfigWithMetadata, VersionedConfig } from '@instana/types';
+import { TimeConfig, VersionedConfig } from '@instana/types';
 
 import {
   deleteAlertConfig,
@@ -23,6 +23,7 @@ import {
 } from 'in-websites/navigation/paths';
 //@ts-expect-error TS migration
 import AlertConfiguration from 'in-alerting/smart-alerts/websites/details/AlertConfiguration';
+import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-websites/navigation/matrix';
 //@ts-expect-error TS migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
@@ -58,14 +59,14 @@ export default function AlertDetails(props: AlertDetailsProps) {
       deleteConfig={deleteAlertConfig}
       restoreConfig={restoreAlertConfigVersion}
       renderSmartAlertDialog={(props: SmartAlertDialogWrapperProps) => <SmartAlertDialogWrapper {...props} />}
-      renderAlertConfiguration={({ alertConfig }: { alertConfig: WebsiteAlertConfigWithMetadata }) => (
+      renderAlertConfiguration={({ alertConfig }: { alertConfig: WebsiteSmartAlertConfigWithMetadata }) => (
         <AlertConfiguration alertConfig={alertConfig} />
       )}
       canConfigureIndividualAlertConfigs={role?.canConfigureWebsiteSmartAlerts}
     />
   );
 }
-export type DuplicateWebsiteAlertConfig = WebsiteAlertConfigWithMetadata & {
+export type DuplicateWebsiteAlertConfig = WebsiteSmartAlertConfigWithMetadata & {
   duplicateFrom?: string | undefined;
 };
 interface SmartAlertDialogWrapperProps {

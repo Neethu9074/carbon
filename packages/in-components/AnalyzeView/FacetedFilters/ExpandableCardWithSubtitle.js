@@ -26,7 +26,8 @@ export default function ExpandableCardWithSubtitle({
   hasMarginBottom,
   useMaxAvailableHeight,
   tooltipDisabled = false,
-  children
+  children,
+  tag
 }) {
   const [expanded, setExpanded] = useState(openByDefault);
 
@@ -63,6 +64,7 @@ export default function ExpandableCardWithSubtitle({
       {rightHeaderContent}
       {!disabled && (
         <IconButton
+          data-testid={`faceted-expandable-card-expand-${tag}`}
           isWrapperedByTooltip={!tooltipDisabled}
           iconDescription={
             expanded

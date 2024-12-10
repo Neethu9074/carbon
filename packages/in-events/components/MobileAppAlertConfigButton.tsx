@@ -8,14 +8,14 @@ import React from 'react';
 
 import { Button, CarbonMenuItem } from '@instana/components';
 
+import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useGetAlertConfigLink } from 'in-mobile-apps/navigation/paths';
 import { parseUrl } from 'in-stores/navigation/routing/parser';
-import { MobileAppAlertConfigWithMetadata } from 'in-types';
 import { t } from 'in-i18n';
 
 interface PropsType {
-  alertConfig: MobileAppAlertConfigWithMetadata;
+  alertConfig: MobileAppSmartAlertConfigWithMetadata;
   as?: 'button' | 'menuItem';
 }
 export default function MobileAppAlertConfigButton({ alertConfig, as = 'button' }: PropsType) {

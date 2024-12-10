@@ -116,7 +116,14 @@ export default function GroupingConfigurator({
           disableEntitySelection={disableEntitySelection}
         >
           {({ toggle, refSetter }) => (
-            <Button kind="tertiary" size="compact" icon="lib_openclose_add" refSetter={refSetter} onClick={toggle}>
+            <Button
+              kind="tertiary"
+              size="compact"
+              icon="lib_openclose_add"
+              refSetter={refSetter}
+              onClick={toggle}
+              data-testid="query-builder-add-group"
+            >
               {label}
             </Button>
           )}

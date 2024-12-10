@@ -6,13 +6,12 @@
 import React, { useState } from 'react';
 import { MapForm } from 'formalistic';
 
-import { WebsiteAlertConfig, WebsiteAlertConfigWithMetadata } from '@instana/types';
-
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 //@ts-expect-error
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialogWithThreshold';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/websites/form/alertDialogFormDefinition';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/websites/form/formUtils';
+import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import { DuplicateWebsiteAlertConfig } from 'in-alerting/smart-alerts/websites/details/AlertDetails';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -22,12 +21,13 @@ import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { eumType } from 'in-alerting/smart-alerts/websites/constants';
 import { useGetAlertConfigLink } from 'in-websites/navigation/paths';
+import { WebsiteAlertConfig } from 'in-types';
 
 const initialChartConfigIndex = 0;
 
 interface AlertConfigDialogProps {
   onClose: () => void;
-  alertConfig: (WebsiteAlertConfigWithMetadata & { duplicateFrom?: string }) | DuplicateWebsiteAlertConfig;
+  alertConfig: (WebsiteSmartAlertConfigWithMetadata & { duplicateFrom?: string }) | DuplicateWebsiteAlertConfig;
   editMode?: boolean;
   startWithSimpleMode?: boolean;
 }
