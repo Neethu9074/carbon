@@ -1,0 +1,18 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+:local {
+  .modal {
+    // needed because we currently mix cds and ids
+    // Carbon modals have a z-index of 9000 while Instana overlays have 133
+    // so we need to lower the z-index of carbon modal temporarily
+    z-index: 132;
+
+    :global(.cds--modal-container) {
+      min-block-size: 40rem;
+    }
+  }
+}

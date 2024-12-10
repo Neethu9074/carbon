@@ -7,7 +7,7 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-import { CarbonModal } from '@instana/components';
+import { CarbonModal as Modal } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import { SubtraceConfigForm } from 'in-applications/Forms/SubtraceConfiguration/SubtraceConfigForm';
@@ -18,6 +18,8 @@ import { useSubtraceForm } from 'in-applications/hooks/useSubtraceForm';
 import { createSubtrace } from 'in-applications/api/subtraces';
 import { close } from 'in-components/DialogPresenter/store';
 import useFormSubmission from 'in-hooks/useFormSubmission';
+
+import locals from './CreateSubtraceDialog.mless';
 
 export default function CreateSubtraceDialog() {
   const [formSubmitStatus, doSubmit] = useFormSubmission(createSubtrace);
@@ -36,17 +38,19 @@ export default function CreateSubtraceDialog() {
   };
 
   return (
-    <CarbonModal
+    <Modal
       modalHeading={t('in-applications:subtraces.newSubtrace')}
       onRequestClose={close}
       primaryButtonText={t('forms.actions.save')}
       primaryButtonDisabled={disabled}
       onRequestSubmit={onHandleSubmit}
       secondaryButtonText={t('forms.actions.cancel')}
+      className={locals.modal}
+      preventCloseOnClickOutside
       open
     >
       <SubtraceConfigForm form={form} updateForm={updateForm} />
-    </CarbonModal>
+    </Modal>
   );
 }
 

@@ -7,7 +7,7 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-import { CarbonForm, CarbonStack } from '@instana/components';
+import { CarbonForm as Form, CarbonFormGroup as FormGroup, CarbonStack as Stack } from '@instana/components';
 
 import { EvaluationGranularityInput } from 'in-applications/Forms/SubtraceConfiguration/components/EvaluationGranularityInput';
 import { SubtraceNameInput } from 'in-applications/Forms/SubtraceConfiguration/components/SubtraceNameInput';
@@ -33,21 +33,20 @@ export const SubtraceConfigForm = ({ form, updateForm }: SubmitConfigFormProps) 
     updateForm(form.updateIn(['evaluationGranularitySeconds'], field => field.setValue(granularity).setTouched(true)));
 
   return (
-    <CarbonForm title="subtrace-config-form">
-      <CarbonStack gap={6}>
+    <Form aria-label="subtrace-config-form">
+      <Stack gap={6}>
         <SubtraceNameInput value={subtraceName} onChange={updateName} />
-        <div>
+        <FormGroup id="querybuilder-formgroup" legendText={t('in-applications:subtraces.configuration.subtraceFilter')}>
           <ApplicationQueryBuilderInput
-            label={t('in-applications:subtraces.configuration.subtraceFilter')}
             value={form.get('tagFilterExpression').value}
             onChange={updateTagFilterExpression}
           />
-        </div>
+        </FormGroup>
         <EvaluationGranularityInput
           evaluationGranularity={form.get('evaluationGranularitySeconds').value}
           onChangeGranularity={value => updateEvaluationGranularity(value)}
         />
-      </CarbonStack>
-    </CarbonForm>
+      </Stack>
+    </Form>
   );
 };
