@@ -4,12 +4,13 @@
  */
 
 import { DEFAULT_MAX_EXPRESSION_DEPTH } from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
-import { TimeConfig, TagFilterExpressionElementUnion } from 'in-types';
 import { AdditionalTagSuggestionProps } from 'in-applications/types';
 import { createQueryBuilder } from 'in-components/QueryBuilder';
 import { CALLS } from 'in-applications/analyze/metrics';
+import { TimeConfig } from 'in-types';
 
 const {
   QueryBuilder,
@@ -43,7 +44,7 @@ export default QueryBuilder;
 
 export const getTagCatalog = getTagCatalogInternal;
 
-export const isCallQueryValid = ([tagFilterExpression, timeConfig]: [TagFilterExpressionElementUnion, TimeConfig]) =>
+export const isCallQueryValid = ([tagFilterExpression, timeConfig]: [FormModelElement[], TimeConfig]) =>
   isQueryValidInternal(tagFilterExpression, timeConfig);
 
 export const isIdTag = (tagName: string) => tagName.endsWith('id') || tagName.endsWith('snapshotId');
