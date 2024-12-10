@@ -4,10 +4,10 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 
-import { Button, CarbonTearSheet, Link } from '@instana/components';
 import { TableEntityCounter } from '@instana/legacy';
+import { Button, Link } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
@@ -81,41 +81,6 @@ const columnDefinitions: ColumnDefinition<Subtrace>[] = [
   }
 ];
 
-// @ts-expect-error new buggy tearsheet component
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const CreateSubtraceButtonNew = () => {
-  const [open, setOpen] = useState(false);
-  return (
-    <>
-      <Button kind="action" onClick={() => setOpen(true)} icon="lib_openclose_add_box">
-        {t('in-applications:subtraces.newSubtrace')}
-      </Button>
-      <CarbonTearSheet
-        actions={[
-          {
-            key: 1,
-            kind: 'primary',
-            'aria-label': 'Replace',
-            onClick: () => setOpen(false)
-          },
-          {
-            key: 3,
-            kind: 'secondary',
-            title: 'Back',
-            onClick: () => setOpen(false)
-          },
-          {
-            key: 6,
-            kind: 'ghost',
-            title: 'Cancel',
-            onClick: () => setOpen(false)
-          }
-        ]}
-        open={open}
-      />
-    </>
-  );
-};
 const CreateSubtraceButton = () => (
   <Button kind="action" onClick={() => addActiveDialog(<CreateSubtraceDialog />)} icon="lib_openclose_add_box">
     {t('in-applications:subtraces.newSubtrace')}
