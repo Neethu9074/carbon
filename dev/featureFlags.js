@@ -175,6 +175,5 @@ module.exports = {
   smartAlertCarbonTableEnabled: false,
   aqmDisableConfigOnEventViewEnabled: false,
   openTelemetryKubernetesEnabled: true,
-  dataUsageNotificationEnabled: false,
-  prometheusDeltaCountersSumEnabled: true
+  dataUsageNotificationEnabled: false
 };
