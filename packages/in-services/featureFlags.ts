@@ -319,4 +319,3 @@ export const customDashboardTopLevelFiltersEnabled = isFeatureFlagEnabled(
   false
 );
 export const openTelemetryKubernetes = isFeatureFlagEnabled('openTelemetryKubernetesEnabled', false);
-export const prometheusDeltaCountersSumEnabled = isFeatureFlagEnabled('prometheusDeltaCountersSumEnabled', false);
