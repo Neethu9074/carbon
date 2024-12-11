@@ -129,6 +129,7 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
 }
 
 function additionalValidationCheck(step: number, tagFilterValid: boolean) {
+  // TODO remove this
   if (step == 0) {
     return tagFilterValid;
   }
