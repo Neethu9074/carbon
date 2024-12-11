@@ -6,6 +6,10 @@
 
 import React from 'react';
 
+import {
+  TearSheetEditActionHandler,
+  TearSheetCloneActionHandler
+} from 'in-alerting/smart-alerts/infrastructure/lists/TearSheetActionHandlers';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/AlertConfigDialog';
 import { handleDelete, handleToggleEnabled } from 'in-alerting/smart-alerts/components/list/ListActionHandlers';
@@ -17,6 +21,14 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 
 function handleEdit(config: InfraSmartAlertConfigWithMetadata) {
   openSmartAlertDialog(config);
+}
+
+function HandleEditNew(config: InfraSmartAlertConfigWithMetadata) {
+  return <TearSheetEditActionHandler id={config.id} created={config.created} />;
+}
+
+function HandleCloneNew(config: InfraSmartAlertConfigWithMetadata) {
+  return <TearSheetCloneActionHandler id={config.id} created={config.created} />;
 }
 
 function openSmartAlertDialog(config: InfraSmartAlertConfigWithMetadata, isCopy = false) {
@@ -35,7 +47,9 @@ function openSmartAlertDialog(config: InfraSmartAlertConfigWithMetadata, isCopy 
 
 export const actionHandlers = {
   handleEdit: (config: InfraSmartAlertConfigWithMetadata) => handleEdit(config),
+  handleEditNew: (config: InfraSmartAlertConfigWithMetadata) => HandleEditNew(config),
   handleClone: (config: InfraSmartAlertConfigWithMetadata) => handleClone(config),
+  handleCloneNew: (config: InfraSmartAlertConfigWithMetadata) => HandleCloneNew(config),
   handleDelete: (
     id: string,
     setIsSaving: (saving: boolean) => void,

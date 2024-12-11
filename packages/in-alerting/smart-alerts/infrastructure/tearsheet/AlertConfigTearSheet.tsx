@@ -10,14 +10,19 @@ import React, { useMemo, useState } from 'react';
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import AlertConfigTearSheetWithThreshold from 'in-alerting/smart-alerts/infrastructure/tearsheet/AlertConfigTearSheetWithThreshold';
 import { useInfraSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/infrastructure/form/useInfraSmartAlertFormSideEffects';
+import {
+  duplicateAlertConfig,
+  getHeaderTitle
+} from 'in-alerting/smart-alerts/infrastructure/tearsheet/sharedFunctions';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { createOrSaveAlertFromTearSheet } from 'in-alerting/smart-alerts/infrastructure/components/AlertCreateOrSave';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/infrastructure/form/alertFormDefinition';
 import getAlertingUrlParameters from 'in-alerting/smart-alerts/infrastructure/tearsheet/getAlertingUrlParameters';
+import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import AlertingPageHeader from 'in-alerting/smart-alerts/components/pageHeaderTemplate/AlertingPageHeader';
-import generateAlertConfig from 'in-alerting/smart-alerts/infrastructure/data/generateAlertConfig';
-import { getHeaderTitle } from 'in-alerting/smart-alerts/infrastructure/tearsheet/sharedFunctions';
+import { useAlertConfig } from 'in-alerting/smart-alerts/infrastructure/hooks/useSmartAlertCreateUrl';
+import TearSheetLoading from 'in-alerting/smart-alerts/components/tearSheet/Loading/TearSheetLoading';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { InfraAlertConfig, InfraAlertRuleUnion, Nullish, RuleWithThreshold } from 'in-types';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
@@ -32,26 +37,42 @@ const initialChartConfigIndex = 0;
 
 export default function AlertConfigTearSheet() {
   const location = useLocation();
-  const alertConfig = generateAlertConfig();
-  const { cancelTearSheet } = useMemo(() => {
+  const { cancelTearSheet, editMode, duplicateMode, alertConfigId, alertConfigCreated } = useMemo(() => {
     return getAlertingUrlParameters(location);
   }, [location]);
 
-  return <AlertConfigTearSheetContent alertConfig={alertConfig} cancelTearSheet={cancelTearSheet} />;
+  const { alertConfig, alertConfigErrors } = useAlertConfig(alertConfigId, alertConfigCreated, editMode, duplicateMode);
+
+  if (alertConfigErrors?.length) {
+    return <ErroneousResultPresenter errors={[...alertConfigErrors]} />;
+  } else if (!alertConfig) {
+    return <TearSheetLoading />;
+  } else {
+    const infraAlertConfig = duplicateMode ? duplicateAlertConfig(alertConfig) : alertConfig;
+    return (
+      <AlertConfigTearSheetContent
+        alertConfig={infraAlertConfig}
+        cancelTearSheet={cancelTearSheet}
+        editMode={editMode}
+      />
+    );
+  }
 }
 
 function AlertConfigTearSheetContent({
   alertConfig,
-  cancelTearSheet
+  cancelTearSheet,
+  editMode
 }: {
   alertConfig: InfraSmartAlertConfigWithMetadata & { duplicateFrom?: string };
   cancelTearSheet: () => string | Nullish;
+  editMode: boolean;
 }) {
-  const editMode = false; // TODO handle edit scenerio
+  const duplicateFrom = alertConfig?.duplicateFrom ?? undefined;
+
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode));
   const updateForm = useInfraSmartAlertFormSideEffects(form, setForm);
-  const duplicateFrom = alertConfig?.duplicateFrom;
 
   const [isSaving, setIsSaving] = useState(false);
   const [messages, setMessages] = useState<EnrichedError[]>([]);
@@ -60,7 +81,7 @@ function AlertConfigTearSheetContent({
   const { trackCta } = useSegmentTracking();
   return (
     <>
-      <AlertingPageHeader title={getHeaderTitle()} />
+      <AlertingPageHeader title={getHeaderTitle(editMode)} />
       <AlertConfigTearSheetWithThreshold
         updateForm={updateForm}
         form={form}

@@ -24,7 +24,7 @@ const labelNew = t('in-alerting:smartAlerts.labelNew');
 
 export default function CreateSmartAlert() {
   const { trackCta } = useSegmentTracking();
-  const getLinkToCreateSmartAlert = useSmartAlertCreateUrl();
+  const getLinkToCreateSmartAlert = useSmartAlertCreateUrl({});
 
   if (infraSmartAlertFullScreenDesignEnabled) {
     return (
@@ -69,7 +69,7 @@ export default function CreateSmartAlert() {
 // this function is to display view selector dialog when carbon table is enabled
 export function CreateSmartAlertButton() {
   const { trackCta } = useSegmentTracking();
-  const getLinkToCreateSmartAlert = useSmartAlertCreateUrl();
+  const getLinkToCreateSmartAlert = useSmartAlertCreateUrl({});
 
   const openOldDialog = () => {
     addActiveDialog(<CreateSmartAlertDialog />);
