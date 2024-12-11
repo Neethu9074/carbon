@@ -161,6 +161,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'ibmCommonEnabled',
+    instanaCtlKey: 'feature.ibm.common.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'assistmeEnabled',
     instanaCtlKey: 'feature.assistme.enabled',
     defaultValue: false

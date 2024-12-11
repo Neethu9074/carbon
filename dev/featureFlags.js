@@ -49,6 +49,7 @@ module.exports = {
   ampEnabled: true,
   persistentVolumeSupportEnabled: true,
   segmentAnalyticsEnabled: false,
+  ibmCommonEnabled: true,
   loggingEnabled: true,
   logRetentionPageEnabled: true,
   logWidgetsEnabled: true,

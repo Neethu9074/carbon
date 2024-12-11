@@ -35,44 +35,40 @@
       starredItems: {{{starredItems}}}
     };
   </script>
-  {{#if injectWalkMeScript }}
-    <script type="text/javascript" nonce="{{nonce}}">
-      (function() {
-        var walkme = document.createElement('script');
-        walkme.type = 'text/javascript';
-        walkme.async = true;
-        walkme.src = 'https://cdn.walkme.com/private-bucket/ibm/users/9ef25d161f0e453a8f3e4dea9390a967/walkme_9ef25d161f0e453a8f3e4dea9390a967_https.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(walkme, s);
-        window._walkmeConfig = {smartLoad:true}; })();
-    </script>
+
+  {{#if ibmCommonEnabled }}
+     <script type="text/javascript" nonce="{{nonce}}">
+      window._ibmAnalytics = {
+         "settings": {
+            "name": "instana",
+            "isSpa": false,
+            "tealiumProfileName": "in-app-usage"
+         },
+          "trustarc": {
+            "isCookiePreferencesInstalled": true,
+      },
+         "digitalData.page.pageInfo.walkme.enabled": {{walkmeEnabled}},
+         "digitalData.page.pageInfo.walkme.id": "9ef25d161f0e453a8f3e4dea9390a967",
+      };
+      digitalData = {
+         "page": {
+            "pageInfo": {
+               "ibm": {
+                  "siteId": "IBM_" + _ibmAnalytics.settings.name,
+               }
+            },
+            "category": {
+               "primaryCategory": "PC110"
+            }
+         }
+      };
+     </script>
+     <script nonce="{{nonce}}"src="//1.www.s81c.com/common/stats/ibm-common.js" type="text/javascript" async="async"></script>
   {{/if}}
-  {{#if injectWalkMeTestScript }}
-  <script type="text/javascript" nonce="{{nonce}}">
-    (function() {
-    var walkme = document.createElement('script');
-    walkme.type = 'text/javascript';
-    walkme.async = true;
-    walkme.src = 'https://cdn.walkme.com/private-bucket/ibm/users/9ef25d161f0e453a8f3e4dea9390a967/test/walkme_9ef25d161f0e453a8f3e4dea9390a967_https.js';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(walkme, s);
-    window._walkmeConfig = {smartLoad:true}; })();
-  </script>
-  {{/if}}
+
   {{#if isAssistMeEnabled }}
     <script type="text/javascript" crossorigin="anonymous" nonce="{{nonce}}"
     async defer src="https://www.ibm.com/resources/assist-me/controller.js">
-    </script>
-
-    <script type="text/javascript" nonce="{{nonce}}">
-      (function() {
-        var walkme = document.createElement('script');
-        walkme.type = 'text/javascript';
-        walkme.async = true;
-        walkme.src = 'https://cdn.walkme.com/private-bucket/ibm/users/9ef25d161f0e453a8f3e4dea9390a967/walkme_9ef25d161f0e453a8f3e4dea9390a967_https.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(walkme, s);
-        window._walkmeConfig = {smartLoad:true}; })();
     </script>
   {{/if}}
   {{#if eumTrackingApiKey}}

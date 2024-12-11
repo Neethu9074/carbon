@@ -181,13 +181,10 @@ router.get('/', async (req, res) => {
     const activeLicenseInfo = JSON.parse(getLicenseInfo)?.type;
     clientConfig.activeLicenseType = activeLicenseInfo;
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
-    const injectWalkMeScript =
-      featureFlags?.playwithEnabled ||
-      (featureFlags?.playWithReleaseEnabled && termsAndPrivacy.walkmeAnalyticsServices);
-    const isAssistMeEnabled = featureFlags?.assistmeEnabled && termsAndPrivacy.walkmeAnalyticsServices;
-    const injectWalkMeTestScript = featureFlags?.playwithTestEnabled && termsAndPrivacy.walkmeAnalyticsServices;
-
-    res.set('Content-Security-Policy', getCsp(nonce, isAssistMeEnabled, injectWalkMeScript || injectWalkMeTestScript));
+    const walkmeEnabled = termsAndPrivacy.walkmeAnalyticsServices;
+    const ibmCommonEnabled = featureFlags.ibmCommonEnabled;
+    const isAssistMeEnabled = featureFlags?.assistmeEnabled && ibmCommonEnabled && walkmeEnabled;
+    res.set('Content-Security-Policy', getCsp(nonce, walkmeEnabled, ibmCommonEnabled));
     res.send(
       compiledTemplate({
         indexJsChecksum,
@@ -214,9 +211,9 @@ router.get('/', async (req, res) => {
         termsAndPrivacyAccepted,
         reportingData,
         starredItems,
-        injectWalkMeScript,
         isAssistMeEnabled,
-        injectWalkMeTestScript
+        walkmeEnabled,
+        ibmCommonEnabled
       })
     );
   } catch (err) {
