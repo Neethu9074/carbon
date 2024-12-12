@@ -10,7 +10,6 @@ import { IconButton, SvgIcon, SvgIconSizes } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
 import { getDesignLibraryColorBySeverity, getDesignLibrarySeverityIcon } from 'in-stores/events';
-import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './HealthIndicatorPresenter.mless';
@@ -58,16 +57,17 @@ export default function HealthIndicatorPresenter({
             <SvgIcon type="lib_uncheck" color={themes.default.ids.color.option.green[500]} size={iconOnlySize} />
           </div>
         ) : (
-          <Tooltip content={tooltipLabel} delay={500}>
-            <IconButton
-              type="lib_uncheck"
-              color={themes.default.ids.color.option.green[500]}
-              iconSize={size}
-              className={classNames({
-                [locals.okayIcon]: true
-              })}
-            />
-          </Tooltip>
+          <IconButton
+            type="lib_uncheck"
+            color={themes.default.ids.color.option.green[500]}
+            iconSize={size}
+            className={classNames({
+              [locals.okayIcon]: true
+            })}
+            isWrapperedByTooltip
+            iconDescription={tooltipLabel}
+            enterDelayMs={500}
+          />
         )}
       </>
     );
@@ -89,24 +89,25 @@ export default function HealthIndicatorPresenter({
           <SvgIcon type={type} size={iconOnlySize} color={color} />
         </div>
       ) : (
-        <Tooltip content={tooltipLabel} delay={500}>
-          <IconButton
-            type={type}
-            color={color}
-            iconSize={size}
-            className={classNames({
-              [locals.icon]: true,
-              [locals.iconWarning]: !(maxSeverity > 5) && maxSeverity !== 0
-            })}
-            onClick={e => {
-              e.preventDefault();
-              e.stopPropagation();
-              if (onClick) {
-                onClick();
-              }
-            }}
-          />
-        </Tooltip>
+        <IconButton
+          type={type}
+          color={color}
+          iconSize={size}
+          className={classNames({
+            [locals.icon]: true,
+            [locals.iconWarning]: !(maxSeverity > 5) && maxSeverity !== 0
+          })}
+          onClick={e => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (onClick) {
+              onClick();
+            }
+          }}
+          isWrapperedByTooltip
+          iconDescription={tooltipLabel}
+          enterDelayMs={500}
+        />
       )}
     </>
   );
