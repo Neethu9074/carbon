@@ -119,7 +119,7 @@ export default connectTo(
           })}
           onMouseEnter={autoOpen ? delayedOpen : undefined}
           onMouseLeave={autoClose ? delayedClose : undefined}
-          tabIndex={'-1'}
+          tabIndex="-1"
           role="dialog"
         >
           <Content {...props} />
