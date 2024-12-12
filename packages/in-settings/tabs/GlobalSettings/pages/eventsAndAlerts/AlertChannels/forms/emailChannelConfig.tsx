@@ -557,6 +557,7 @@ function CustomEmailPrefixDropdown({
               : { label: t('in-settings:tabs.selectEventType'), value: '' }
           }
           renderSelectedItem={item => (item ? item.label : t('in-settings:tabs.selectEventType'))}
+          titleText={t('in-settings:tabs.selectEventType')}
         />
         <IconButton
           type="lib_actions_delete"

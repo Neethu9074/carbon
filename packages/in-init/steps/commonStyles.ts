@@ -7,5 +7,6 @@
 // needs to be put here, to be bundled after the overriding styles from legacy package
 import '@instana/components/esm/index.css';
 import '@instana/legacy/esm/index.css';
+import '@instana/ibm-products/esm/index.css';
 
 import 'in-themes/foundation.less';

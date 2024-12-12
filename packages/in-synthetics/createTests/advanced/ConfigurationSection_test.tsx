@@ -57,7 +57,7 @@ describe('ConfigurationSection', () => {
     expect(screen.getByText('Header')).toBeInTheDocument();
     expect(screen.getByText('Add Header')).toBeInTheDocument();
     expect(screen.getByText('Validation String')).toBeInTheDocument();
-    expect(screen.getByRole('combobox', { name: 'Expect Status' })).toBeInTheDocument();
+    expect(screen.getByTitle('Expect Status')).toBeInTheDocument();
     expect(screen.getByText('Add Validation')).toBeInTheDocument();
     expect(screen.getByText('Timeout')).toBeInTheDocument();
     expect(screen.getByText('Retry Strategy')).toBeInTheDocument();

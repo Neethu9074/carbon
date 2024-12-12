@@ -313,7 +313,6 @@ const RelatedEventsTable = ({
               <CarbonTableRow>
                 <CarbonTableExpandHeader aria-label="expand row" />
                 {headers.map(header => (
-                  // @ts-expect-error no correct typedef for Table header
                   <CarbonTableHeader
                     {...getHeaderProps({ header })}
                     style={{
