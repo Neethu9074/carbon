@@ -207,10 +207,22 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
   function viewAllButton(key: string) {
     if (viewAll) {
       if (hasContent || favIds.length) {
-        return <ViewAllButton key={key} href={href} viewLabel={`${t('in-plg:welcomepage.viewAll')} ${viewAllLabel}`} />;
+        return (
+          <ViewAllButton
+            key={key}
+            href={href}
+            viewLabel={`${t('in-plg:welcomepage.viewAll')} ${viewAllLabel}`}
+            columnCount={columnDefinitions.length}
+          />
+        );
       } else {
         return (
-          <ViewAllButton key={key} viewLabel={`${t('in-plg:welcomepage.viewAll')} ${viewAllLabel}`} isTableEmpty />
+          <ViewAllButton
+            key={key}
+            viewLabel={`${t('in-plg:welcomepage.viewAll')} ${viewAllLabel}`}
+            isTableEmpty
+            columnCount={columnDefinitions.length}
+          />
         );
       }
     }
