@@ -9712,9 +9712,9 @@
       "dashboard": {
         "overallCreditUsage": "Overall credit usage",
         "totalStorageBytes": "Total storage bytes",
-        "usageInCurrency": "Usage in currency",
+        "usageInCurrency": "Usage in currency ({{currency}})",
         "topFiveBillingAccounts": "Top 5 billing accounts",
-        "remainingBalanceInCurrency": "Remaining balance in currency",
+        "remainingBalanceInCurrency": "Remaining balance in currency ({{currency}})",
         "balance": "Balance",
         "accountName": "Account name",
         "credits": "Credits",

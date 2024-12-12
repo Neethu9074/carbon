@@ -23,34 +23,36 @@ import Tooltip from 'in-components/Tooltip/Tooltip';
 import { ScoredAction } from 'in-automation/types';
 import { t } from 'in-i18n';
 
+function NameColumn({ action }: { action: Action | ScoredAction }) {
+  const name = action.name;
+  const hrefToActionDetails = useHrefToActionDetails();
+  const { viewAIGenaratedActionTrackerSegment } = useSegmentTracker();
+  const { location } = useNavigation();
+  const isAIActions = location.matrix[actionCatalog]?.view && location.matrix[actionCatalog]?.view === 'ai';
+
+  return (
+    <Tooltip content={name} align="auto" delay={500} overwriteBlock caret={false}>
+      <WithSubscript subscript={ACTION_TRANSLATIONS[action.type]}>
+        <Link
+          href={hrefToActionDetails(action.id, false)}
+          onClick={() => {
+            if (isAIActions) {
+              viewAIGenaratedActionTrackerSegment({ actionName: action.name, actionType: action.type });
+            }
+          }}
+        >
+          {name}
+        </Link>
+      </WithSubscript>
+    </Tooltip>
+  );
+}
+
 export const nameColumn: ColumnDefinition<Action | ScoredAction> = {
   id: 'name',
   label: t('in-automation:name'),
   ellipsis: true,
-  getContent: function Content(action) {
-    const name = action.name;
-    const hrefToActionDetails = useHrefToActionDetails();
-    const { viewAIGenaratedActionTrackerSegment } = useSegmentTracker();
-    const { location } = useNavigation();
-    const isAIActions = location.matrix[actionCatalog]?.view && location.matrix[actionCatalog]?.view === 'ai';
-
-    return (
-      <Tooltip content={name} align="auto" delay={500} overwriteBlock caret={false}>
-        <WithSubscript subscript={ACTION_TRANSLATIONS[action.type]}>
-          <Link
-            href={hrefToActionDetails(action.id, false)}
-            onClick={() => {
-              if (isAIActions) {
-                viewAIGenaratedActionTrackerSegment({ actionName: action.name, actionType: action.type });
-              }
-            }}
-          >
-            {name}
-          </Link>
-        </WithSubscript>
-      </Tooltip>
-    );
-  },
+  getContent: action => <NameColumn action={action} />,
   width: 15,
   sortable: true
 };

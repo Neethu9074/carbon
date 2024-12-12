@@ -139,26 +139,30 @@ export const appFilterAppliedColumn: ColumnDefinition<
   sortable: false
 };
 
+function WebsiteFilterAppliedColumn({ item }: { item: WebsiteSmartAlertConfigWithMetadata }) {
+  const websiteLabel = useWebsiteLabel(item.websiteId);
+  if (!websiteLabel) return <LoadingIndicator size="s" />;
+  return <WebsiteScopeColumn config={item} websiteLabel={websiteLabel} />;
+}
+
 export const websiteFilterAppliedColumn: ColumnDefinition<WebsiteSmartAlertConfigWithMetadata> = {
   id: 'filterApplied',
   label: t('in-automation:policies.filterApplied'),
-  getContent: function Content(item) {
-    const websiteLabel = useWebsiteLabel(item.websiteId);
-    if (!websiteLabel) return <LoadingIndicator size="s" />;
-    return <WebsiteScopeColumn config={item} websiteLabel={websiteLabel} />;
-  },
+  getContent: item => <WebsiteFilterAppliedColumn item={item} />,
   ellipsis: true,
   sortable: false
 };
 
+function MobileAppFilterAppliedColumn({ item }: { item: MobileAppSmartAlertConfigWithMetadata }) {
+  const mobileAppLabel = useMobileAppLabel(item.mobileAppId);
+  if (!mobileAppLabel) return <LoadingIndicator size="s" />;
+  return <MobileAppScopeColumn config={item} mobileAppLabel={mobileAppLabel} />;
+}
+
 export const mobileAppFilterAppliedColumn: ColumnDefinition<MobileAppSmartAlertConfigWithMetadata> = {
   id: 'filterApplied',
   label: t('in-automation:policies.filterApplied'),
-  getContent: function Content(item) {
-    const mobileAppLabel = useMobileAppLabel(item.mobileAppId);
-    if (!mobileAppLabel) return <LoadingIndicator size="s" />;
-    return <MobileAppScopeColumn config={item} mobileAppLabel={mobileAppLabel} />;
-  },
+  getContent: item => <MobileAppFilterAppliedColumn item={item} />,
   ellipsis: true,
   sortable: false
 };
