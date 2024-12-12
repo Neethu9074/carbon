@@ -26,6 +26,40 @@ export default connectTo(
       this.position();
       // Once the Overlay gets mounted(opened) we want to apply focus to it
       this.tooltipElement?.focus();
+
+      // This starts the logic in order to force focus trap inside the overlay
+      const id = this.props.id;
+      const overlayElement = document.querySelectorAll(`[data-overlay-id=${id}]`)[0];
+      const startElement = document.querySelectorAll(`[id=start-${id}]`)[0];
+      const endElement = document.querySelectorAll(`[id=end-${id}]`)[0];
+      const triggerTabKey = (shiftKey = false) => {
+        const event = new KeyboardEvent('keydown', {
+          key: 'Tab',
+          code: 'Tab',
+          keyCode: 9,
+          shiftKey: shiftKey
+        });
+        document.dispatchEvent(event);
+      };
+      overlayElement.addEventListener('keydown', event => {
+        if (event.key === 'Tab' && !event.shiftKey) {
+          // TAB
+          triggerTabKey(false);
+          // If we tab and reach the overlay-end-trap we want to wrap back to the start
+          if (document.activeElement && document.activeElement.getAttribute('ID') == `end-${id}`) {
+            startElement.focus();
+            triggerTabKey(false);
+          }
+        } else if (event.shiftKey && event.key === 'Tab') {
+          // SHIFT TAB
+          triggerTabKey(true);
+          // If we tab and reach the overlay-start-trap we want to wrap back to the end
+          if (document.activeElement && document.activeElement.getAttribute('ID') == `start-${id}`) {
+            endElement.focus();
+            triggerTabKey(true);
+          }
+        }
+      });
     }
 
     componentWillUnmount() {
@@ -33,6 +67,11 @@ export default connectTo(
       // opened the overlay
       const returnElement = this.props.relativeTo;
       returnElement?.focus();
+
+      // Now we need to remove the event listeners used for focus trap
+      const id = this.props.id;
+      const overlayElement = document.querySelectorAll(`[data-overlay-id=${id}]`)[0];
+      overlayElement.removeEventListener('keydown', () => {});
     }
 
     componentDidUpdate() {
@@ -121,7 +160,11 @@ export default connectTo(
           onMouseLeave={autoClose ? delayedClose : undefined}
           tabIndex={'0'}
         >
+          {/* Added Spans to define the start of the focus trap*/}
+          <span tabIndex={0} role="link" id={`start-${id}`} className={classNames('cds--visually-hidden')} />
           <Content {...props} />
+          {/* Added Spans to define the end of the focus trap*/}
+          <span tabIndex={0} role="link" id={`end-${id}`} className={classNames('cds--visually-hidden')} />
         </div>
       );
     }
