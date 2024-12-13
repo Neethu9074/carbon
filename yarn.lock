@@ -9767,7 +9767,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dompurify@npm:*, dompurify@npm:^2.2.0, dompurify@npm:^3.1.6, dompurify@npm:^3.2.3":
+"dompurify@npm:*, dompurify@npm:^2.2.0, dompurify@npm:^3.2.1, dompurify@npm:^3.2.3":
   version: 3.2.3
   resolution: "dompurify@npm:3.2.3"
   dependencies:
