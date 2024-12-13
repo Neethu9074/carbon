@@ -117,7 +117,7 @@
     "deep-diff": "^1.0.2",
     "deep-freeze-strict": "^1.1.1",
     "dom-to-image": "^2.6.0",
-    "dompurify": "^2.4.3",
+    "dompurify": "^3.2.3",
     "downshift": "^3.2.12",
     "elkjs": "^0.9.3",
     "esbuild-plugin-browserslist": "^0.11.1",
@@ -195,7 +195,7 @@
     "@types/d3-zoom": "^3.0.8",
     "@types/deep-diff": "^1.0.2",
     "@types/deep-freeze-strict": "^1.1.0",
-    "@types/dompurify": "^3.0.2",
+    "@types/dompurify": "^3.2.0",
     "@types/enzyme": "^3.10.12",
     "@types/ineum": "^216.0.0",
     "@types/invariant": "^2.2.35",
@@ -286,7 +286,6 @@
   },
   "resolutions": {
     "typescript": "5.1.5",
-    "@types/react": "^17.0.14",
-    "dompurify": "2.5.7"
+    "@types/react": "^17.0.14"
   }
 }
