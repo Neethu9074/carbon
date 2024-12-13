@@ -245,6 +245,13 @@ export default function WebsitesAndMobileListWidget({ type, config, widgetLabel,
       getContent({ id, item, isDisabled = false, isFavourite = false }) {
         return (
           <IconButton
+            aria-label={
+              isFavourite
+                ? t('in-plg:welcomepage.favouriteButton.ariaFilled')
+                : item?.pinned
+                ? t('in-plg:welcomepage.favouriteButton.ariaFilled')
+                : t('in-plg:welcomepage.favouriteButton.aria')
+            }
             type={
               isFavourite
                 ? 'lib_actions_favorite_filled'

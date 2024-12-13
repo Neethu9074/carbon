@@ -489,7 +489,7 @@
         "configureOptionsForTracing": "Configure required parameters for monitoring app service",
         "uploadConfigFile": "Upload the config file - ApplicationHost.xdt",
         "activatingAppServiceNote": "Download the file. Please make sure the file name is always \"ApplicationHost.xdt\"",
-        "ftpsAuthCredsNote":"Login to the App service in Azure portal and under Deployment -> Deployment Center -> FTPS credentials of the App Service you will have FTPS URL, FTPS username and password (Application Scope). Replace these values in the below command",
+        "ftpsAuthCredsNote": "Login to the App service in Azure portal and under Deployment -> Deployment Center -> FTPS credentials of the App Service you will have FTPS URL, FTPS username and password (Application Scope). Replace these values in the below command",
         "restartAppServiceNote": "Restart the App Service"
       }
     },
@@ -569,6 +569,10 @@
       "title": "Bring in your team",
       "description": "Invite your colleagues to Instana and start collaborating.",
       "buttonName": "Invite your teammates"
+    },
+    "favouriteButton": {
+      "ariaFilled": "Remove favorite",
+      "aria": "Add to favorite"
     },
     "component": {
       "applicationWidget": {
