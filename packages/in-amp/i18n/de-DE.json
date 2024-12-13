@@ -21,6 +21,13 @@
       "licensedApmHosts": "Lizenzierte APM-Hosts",
       "licensedIqmHosts": "Lizenzierte IQM-Hosts"
     },
+    "learnMore": {
+      "title": "Erfahren Sie mehr über die Fair Use Policy von Instana",
+      "leftTitle": "Was ist die Fair Use Policy?",
+      "rightTitle": "Wie kann ich mehr Daten kaufen?",
+      "leftBody": "Die Fair Use Policy von Instana beschreibt die monatliche Datenmenge, die mit Ihrem Lizenztyp verbunden ist. Weitere Informationen und Richtlinien zur Ressourcennutzung finden Sie in der <fupDocLink>Dokumentation Fair Use Policy</fupDocLink>.",
+      "rightBody": "Wenn Sie einen kontinuierlichen Bedarf an zusätzlicher Datennutzung erwarten, wenden Sie sich an Ihren Instana-Vertriebsmitarbeiter, um Add-on-Optionen zu prüfen. Setzen Sie sich <salesLink>hier</salesLink> mit dem Vertrieb in Verbindung."
+    },
     "ampInformationModifier": {
       "allPaidUnitsAggregated": "Alle bezahlten Einheiten (aggregiert)",
       "customerUsageIsReportedAcrossAllUnitsOfYourAccountWithAPaidLicense": "Die Kundennutzung wird für alle Einheiten Ihres Accounts mit einer bezahlten Lizenz gemeldet."

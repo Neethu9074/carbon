@@ -154,6 +154,33 @@
   "applications": {
     "noData": "Anwendungsperspektiven bieten eine Möglichkeit zum Modellieren von Umgebungen, Leistungsgruppen, Tenants und mehr."
   },
+  "subtraces": {
+    "labelSubtraces": "Unterspuren",
+    "labelSubtrace": "Subtrace",
+    "newSubtrace": "Subtrace hinzufügen",
+    "subtracesList": {
+      "name": "Name",
+      "count": "Anzahl",
+      "meanDuration": "Mittlere Dauer",
+      "meanSubcallCount": "Mittlere Nr. von Unteraufrufen",
+      "meanErrorRate": "Mittlere Fehlerquote"
+    },
+    "configuration": {
+      "success": {
+        "title": "Subtrace {{action}} erfolgreich",
+        "message": "Unterspur \"{{subtraceName}}\" wurde {{action}}."
+      },
+      "failure": {
+        "title": "{{action}} fehlgeschlagen Subtrace",
+        "message": "Es gab ein Problem beim Versuch, {{action}} diesen Subtrace zu starten: \"{{subtraceName}}\""
+      },
+      "title": "Subtrace aktualisieren",
+      "subtraceName": "Name des Subtrace",
+      "subtraceFilter": "Subtrace-Definition",
+      "evaluationGranularity": "Evaluierungsgranularität",
+      "evaluationGranularityValidationError": "Bitte wählen Sie einen Wert für die Auswertungsgranularität"
+    }
+  },
   "alert": {
     "tooltipMoreFilter": "+{{moreFilterCount}} weiterer Filter",
     "tooltipMoreFilter_plural": "+{{moreFilterCount}} weitere Filter",
@@ -164,7 +191,7 @@
   "inboundOutboundCalls": {
     "config": {
       "inbound": {
-        "text": "Eingehende Aufrufe"
+        "text": "Eingehende Anrufe"
       },
       "all": {
         "text": "Alle Aufrufe"
@@ -172,9 +199,9 @@
     },
     "constants": {
       "inboundDashboard": "Das Dashboard zeigt Informationen nur auf der Basis der Aufrufe an, die von den Konsumenten dieser Anwendung ausgeführt werden.",
-      "inboundOverrideDefault": "Der Standardbereich für diese Anwendung ist 'Nur eingehende Aufrufe'. Sie können dies in der Konfiguration ändern.",
+      "inboundOverrideDefault": "Der Standardbereich für diese Anwendung ist 'Nur eingehende Anrufe'. Sie können dies in der Konfiguration ändern.",
       "allDashboard": "Das Dashboard zeigt Informationen auf der Basis aller Aufrufe an, die in dieser Anwendung ausgeführt werden, sowohl von den Konsumenten als auch von intern.",
-      "allOverrideDefault": "Der Standardbereich für diese Anwendung ist 'Alle Aufrufe'. Sie können dies in der Konfiguration ändern."
+      "allOverrideDefault": "Der Standardbereich für diese Anwendung ist 'Alle Anrufe'. Sie können dies in der Konfiguration ändern."
     }
   },
   "analyze": {
@@ -686,6 +713,21 @@
     "alternativeServicesOk": "<bold>Sind alternative Services in Ordnung?</bold>",
     "alternativeServicesProblem": "<bold>Nein</bold>, wenn der Name des aktuellen Service aus dem HTTP-Header \"Host\" stammt (Servicezuordnungsregel mit der ID call.http.host) und der Name des alternativen Service nicht (weil sein Name aus einer Regel stammt, die auf Infrastrukturtags basiert) oder umgekehrt. Hierbei handelt es sich um doppelte Services.",
     "alternativeServicesPossibleProblem": "<bold>Möglicherweise</bold>, wenn der Name des aktuellen Service und der Name des alternativen Service nicht aus dem HTTP-Header \"Host\" stammen. Es handelt sich dann entweder um Services hinter einem Proxy (gut) oder um doppelte Services (schlecht): Einige der Services sind vollständig mit Infrastruktur verbunden, während andere teilweise mit Infrastruktur verbunden sind."
+  },
+  "infoBanner": {
+    "title": "Ressourcenaktionen, unterstützt von Turbonomic",
+    "tryLabel": "Erst testen, dann kaufen",
+    "tryText": "Starten Sie eine kostenlose Testversion, um zu sehen, wie Ressourcenaktionen Ihre Anwendungen unterstützen können.",
+    "tryButtonLabel": "Einen Versuch starten",
+    "learnLabel": "Weitere Informationen",
+    "learnText": "Lesen Sie einige Blogs und zusätzliche Medien, um über diese Funktion auf dem Laufenden zu bleiben.",
+    "learnButtonLabel": "Besuchen Sie uns online",
+    "connectLabel": "Verbindung mit dem Vertrieb",
+    "connectText": "Wenden Sie sich an unser Vertriebsteam und teilen Sie ihm Ihr Interesse mit.",
+    "connectButtonLabel": "Jetzt kaufen",
+    "helpLabel": "Helfen Sie uns zu wachsen",
+    "helpText": "Teilen Sie uns Ihre Meinung mit, damit wir weiterhin die Funktionen anbieten können, die Sie sich am meisten wünschen.",
+    "helpButtonLabel": "Feedback geben"
   },
   "labelSyntheticMonitoring": "Überwachung der synthetischen Transaktionen",
   "labelResourceOptimizations": "Optimierungen"

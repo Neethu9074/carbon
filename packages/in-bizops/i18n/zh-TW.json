@@ -19,8 +19,19 @@
     "unnamedActivity": "（未命名活動）{{activityType}}",
     "unnamedService": "（未命名服務）"
   },
+  "customDashboards": {
+    "activityCountMetric": "活動計數",
+    "erroneousActivityCallsCountLabel": "錯誤的活動呼叫（計數）",
+    "erroneousActivityCallsCategory": "錯誤的活動呼叫",
+    "erroneousActivityCallsRateLabel": "錯誤的活動呼叫（比率）",
+    "latency": "延遲"
+  },
   "processes": {
-    "deployAgent": "部署代理程式"
+    "deployAgent": "部署代理程式",
+    "noProcessesAvailable": "沒有可用的業務程序。",
+    "deployAgentFirst": "您需要先部署代理程式。",
+    "forMoreInformation": "如需相關資訊，請閱讀",
+    "documentation": "說明文件"
   },
   "perspectives": {
     "newPerspective": "建立視景",

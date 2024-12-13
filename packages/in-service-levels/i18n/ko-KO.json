@@ -56,7 +56,12 @@
       "website": {
         "trafficType_all": "모든 비컨 수",
         "trafficType_erroneous": "비컨 오류 계수"
-      }
+      },
+      "synthetic": {
+        "trafficType_all": "모든 결과",
+        "trafficType_erroneous": "잘못된 결과"
+      },
+      "trafficTypeLabel": "$t(in-service-levels:general.indicator.{{entityType}}.trafficType, {\"context\": \"{{trafficType}}\" })"
     },
     "latency": "대기 시간",
     "time": "시간",
@@ -108,8 +113,10 @@
       "beaconCount": "비컨 카운트",
       "calls": "호출",
       "latency": "대기 시간",
+      "results": "결과",
       "beaconDuration": "비컨 지속 기간",
       "threshold": "임계값",
+      "failureRate": "실패 비율",
       "errors": "잘못된 호출 비율",
       "beaconErrorRate": "비컨 오류 비율",
       "goodEvents": "양호 이벤트",
@@ -132,7 +139,9 @@
       "event_synthetic_plural": "{{formatted}} 결과",
       "event_synthetic_0": "{{formatted}} 결과",
       "event_synthetic_1": "{{formatted}} 결과",
-      "event_synthetic_2": "{{formatted}} 결과"
+      "event_synthetic_2": "{{formatted}} 결과",
+      "event_test": "{{count}}개 테스트",
+      "event_test_plural": "{{count}}개 테스트"
     },
     "deleteDialog": {
       "pleaseConfirm": "확인하십시오.",
@@ -212,9 +221,7 @@
       "thresholdDescription_GTE": "양호한 시간(1분)은 분당 {{thresholdValue}} 이상의 호출 수로 정의됩니다. 불량한 시간(1분)은 분당 {{thresholdValue}} 미만의 호출 수로 정의됩니다.",
       "thresholdDescription_LT": "양호한 시간(1분)은 분당 {{thresholdValue}} 미만의 호출 수로 정의됩니다. 불량한 시간(1분)은 분당 {{thresholdValue}} 이상의 호출 수로 정의됩니다.",
       "thresholdDescription_LTE": "양호한 시간(1분)은 분당 {{thresholdValue}} 이하의 호출 수로 정의됩니다. 불량한 시간(1분)은 분당 {{thresholdValue}} 초과의 호출 수로 정의됩니다.",
-      "thresholdInput": "<Stack><HorizontalStack><OperatorDropdown의 임계값 설정 /><ThresholdInput />분<HorizontalStack/><스택당 호출 수/>",
-      "allCalls": "모든 호출",
-      "erroneousCalls": "잘못된 호출"
+      "thresholdInput": "<Stack><HorizontalStack><OperatorDropdown의 임계값 설정 /><ThresholdInput />분<HorizontalStack/><스택당 호출 수/>"
     },
     "previewSection": {
       "dataInfo": "미리보기 데이터는 과거에 대해 7일까지만 표시됩니다. SLO에는 작성된 시간의 데이터만 포함됩니다.",
@@ -224,8 +231,8 @@
   },
   "sloChart": {
     "sloFormatter": {
-      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:general.format.event {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
-      "callsFormat": "{{formattedCount}} $t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
+      "thousandCallsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formattedCount}}K\" })",
+      "callsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formatted}}\" })"
     },
     "sloChartSummary": {
       "status": "상태",

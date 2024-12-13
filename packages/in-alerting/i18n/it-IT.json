@@ -29,6 +29,8 @@
     "groupBy": "Raggruppa per",
     "noChannelAvailable": "Nessun canale di avviso disponibile",
     "optional": "Facoltativo",
+    "on": "Attivo",
+    "off": "Non attivo",
     "revisionDropdownButton": {
       "revision": "Revisione {{alertRevision}}",
       "pause": "Pausa",
@@ -98,7 +100,17 @@
     "groupedViewHeader_1": "{{formattedCount}} risultati",
     "groupedViewHeader_2": "{{formattedCount}} risultati",
     "resultHeaderLoading": "Caricamento…",
-    "loadMore": "Carica altro"
+    "loadMore": "Carica altro",
+    "chooseLayoutDialog": {
+      "chooseLayout": "Scegliere il layout di Avviso Smart",
+      "layoutContent": "Attualmente è possibile accedere a entrambi i layout per creare un Avviso Smart in questo ambiente. Per procedere, selezionare il layout desiderato:",
+      "oldLayoutDescription": "Vecchio layout: l'interfaccia tradizionale per la creazione di Avvisi Smart",
+      "newLayoutDescription": "Nuovo layout: l'interfaccia aggiornata con funzioni avanzate e miglioramenti sull'utilizzo.",
+      "layoutRecommendation": "Se non si è sicuri, si consiglia di esplorare il Nuovo layout per un'esperienza migliore.",
+      "cancelTitle": "Annulla",
+      "useOldLayout": "Utilizzare il vecchio layout",
+      "useNewLayout": "Utilizzare il nuovo layout"
+    }
   },
   "potentialProblems": {
     "titleErrorRate": "Il tasso di chiamate con errori è più alto del normale",
@@ -144,6 +156,7 @@
   },
   "smartAlerts": {
     "addSmartAlert": "Aggiungi avviso smart",
+    "createSmartAlert": "Crea avviso smart",
     "applicationSmartAlert": "Avviso smart dell'applicazione",
     "globalApplicationSmartAlert": "Avviso smart dell'applicazione globale",
     "titleNoSmartAlertsConfigured": "Non è stato configurato nessun avviso smart",
@@ -152,6 +165,13 @@
     "titleCopyOf": "(Copia di) {{smartAlertTitle}}",
     "smartAlertsTitle": "Smart Alert",
     "labelNew": "(Nuovo)",
+    "alertChannelList": {
+      "selectAllWarning": "Selezionare tutti gli avvisi",
+      "selectAllCritical": "Selezionare tutti gli elementi critici",
+      "alertLevel": "Livello avviso",
+      "critical": "Critico",
+      "warning": "Avvertenza"
+    },
     "applications": {
       "alertConfiguration": "Configurazione dell'avviso",
       "advanced": {
@@ -492,6 +512,8 @@
         "noPermissionGlobalSmartAlertEdit": "Non si dispone dell'autorizzazione per eseguire questa azione",
         "labelGlobalSmartAlertsList": "Avvisi smart applicazione globali ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Avvisi smart applicazione ({{numberOfAlerts}})",
+        "labelGlobalSmartAlertsTable": "Applicazione globale Avvisi Smart",
+        "labelSmartAlertsTable": "Avvisi Smart per le applicazioni",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
         "getSubtitleForStaticThreshold": "Soglia statica, {{metricLabel}} {{operator}} {{value}}",
         "getSubtitleForStaticDailySeasonality": "Stagionalità giornaliera statica, {{metricLabel}}",
@@ -509,7 +531,11 @@
         "numberOfApplicationsSelected_plural": "{{count}} applicazioni selezionate",
         "numberOfApplicationsSelected_0": "{{count}} applicazioni selezionate",
         "numberOfApplicationsSelected_1": "{{count}} applicazioni selezionate",
-        "numberOfApplicationsSelected_2": "{{count}} applicazioni selezionate"
+        "numberOfApplicationsSelected_2": "{{count}} applicazioni selezionate",
+        "noGlobalAlertDataHeader": "Nessuna applicazione globale Avvisi Smart",
+        "noGlobalAlertDataDescription": "Per iniziare, fare clic su <strong>Crea Avviso Smart globale</strong>.",
+        "noLocalAlertDataHeader": "Nessuna applicazione Avvisi Smart",
+        "noLocalAlertDataDescription": "Per iniziare, fare clic su <strong>Crea Avviso Smart</strong>."
       },
       "details": {
         "title": "Dettagli avviso",
@@ -973,7 +999,10 @@
           "tracesImpacted": "le tracce sono interessate",
           "outOfConsecutiveEvaluations": "su",
           "persistenceType": "Tipo di persistenza",
-          "numberOfConsecutiveViolationsPostLabel": "le finestre di {{granularity}} minuti consecutive hanno violazioni"
+          "numberOfConsecutiveViolationsPostLabel": "le finestre di {{granularity}} minuti consecutive hanno violazioni",
+          "static": "Statico",
+          "thresholdValue": "Valore soglia",
+          "timeWindow": "Finestra temporale"
         }
       }
     },
@@ -1100,7 +1129,9 @@
           "filter_0": "Filtri",
           "filter_1": "Filtri",
           "filter_2": "Filtri"
-        }
+        },
+        "noDataHeader": "Nessun sito web Avvisi Smart",
+        "noDataDescription": "Per iniziare, fare clic su <strong>Crea Avviso Smart</strong>."
       }
     },
     "sortOptions": {
@@ -1144,7 +1175,9 @@
         "timeThreshold": "Soglia temporale",
         "filterApplied": "Filtro applicato",
         "violationsCount": "{{violationsCount}} errori",
-        "numberOfFailures": "Generazione di avvisi di errore"
+        "numberOfFailures": "Generazione di avvisi di errore",
+        "noDataHeader": "Nessun avviso smart sintetico",
+        "noDataDescription": "Per iniziare, fare clic su <strong>Crea Avviso Smart</strong>."
       },
       "alertProperties": {
         "testName": "Nome_test",
@@ -1279,7 +1312,9 @@
         "filter_0": "Filtri",
         "filter_1": "Filtri",
         "filter_2": "Filtri",
-        "filterApplied": "Filtro applicato"
+        "filterApplied": "Filtro applicato",
+        "noDataHeader": "Nessuna applicazione mobile Avvisi Smart",
+        "noDataDescription": "Per iniziare, fare clic su <strong>Crea Avviso Smart</strong>."
       },
       "simple": {
         "stepConfigsStep1Title": "Passo 1: Selezionare l'avviso",
@@ -1410,7 +1445,7 @@
             "subtitle": {
               "staticThresholdType": "Soglia statica",
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
-              "predictiveTrigger": "Trigger predittivo"
+              "forecastAlerting": "Previsioni di allerta"
             }
           }
         },
@@ -1423,7 +1458,9 @@
         "filter_plural": "Filtri",
         "filter_0": "Filtri",
         "filter_1": "Filtri",
-        "filter_2": "Filtri"
+        "filter_2": "Filtri",
+        "noDataHeader": "Nessuna infrastruttura Avvisi Smart",
+        "noDataDescription": "Per iniziare, fare clic su <strong>Crea Avviso Smart</strong>."
       },
       "advancedModeContainer": {
         "scope": {
@@ -1446,9 +1483,14 @@
           "title": "Soglia temporale: quando si desidera ricevere l'avviso?"
         },
         "predictiveTrigger": {
-          "title": "Gli avvisi predittivi sono disabilitati",
-          "alertTitle": "L'avviso verrà attivato {{value}} prima della violazione prevista",
-          "timeToFailure": "Tempo prima di un malfunzionamento"
+          "title": "Previsioni di allerta",
+          "description": "Ricevere avvisi proattivi basati sull'andamento dei dati storici. Questa opzione consente di anticipare i potenziali problemi prima che si ripercuotano sul sistema.",
+          "forecastTimeframe": "Finestra temporale prevista",
+          "forecastTimeframeDetails": "Definisce l'orizzonte temporale della previsione utilizzata per gli avvisi. Si noti che valori maggiori aumentano la possibilità di falsi allarmi.",
+          "fitTimeframe": "Finestra temporale dei dati storici",
+          "fitTimeframeDetails": "Specifica l'orizzonte temporale utilizzato per analizzare il trend. Selezionate un orizzonte temporale breve se vi interessano le tendenze a breve termine, oppure un orizzonte temporale più ampio se volete essere avvisati quando si prevede che la tendenza a lungo termine superi il limite.",
+          "summary": "Gli avvisi vengono attivati <strong>fino a {{forecastTimeframe}}</strong> in anticipo. Le previsioni sono generate in base all'andamento lineare dell'<strong>ultimo {{fitTimeframe}}</strong>.",
+          "invalidTimeframes": "La finestra temporale dei dati storici deve essere almeno il doppio della finestra temporale della previsione."
         },
         "alertChannel": {
           "label": "Canali di avviso",
@@ -1497,6 +1539,42 @@
         "step4": {
           "header": "Cosa si desidera venga notificato per questa avvertenza?",
           "description": "Selezionare il/i destinatario/i di questo avviso"
+        },
+        "scopeAlerting": {
+          "title": "Scegliete come volete essere avvisati",
+          "customAggregation": "Aggregazione personalizzata",
+          "customAggregationDescription": "Aggrega tutte le metriche dell'ambito a una singola metrica per gruppo. Per ogni gruppo ci sarà al massimo un tema attivo alla volta.",
+          "perEntityAlerting": "Allarme per entità",
+          "perEntityAlertingDescription": "Monitora ogni metrica individualmente. Riceverete un avviso per ogni singola metrica che sta violando la soglia."
+        },
+        "scopeFilter": {
+          "title": "Scegliere l'ambito dell'infrastruttura",
+          "filter": "Filtro",
+          "filterDescription": "Aggiungi filtri ai servizi per ottenere avvisi più precisi."
+        },
+        "scopeGroupBy": {
+          "group": "Gruppo",
+          "groupByDescription": "Aggiungi gruppo per configurare le chiamate in gruppi. Ogni chiamata all'interno del gruppo viene configurata collettivamente ma valutata singolarmente."
+        },
+        "timeThreshold": {
+          "title": "Imposta quando le violazioni attivano gli avvisi",
+          "description": "Specificare la persistenza nel tempo per l'attivazione degli avvisi e il tempo del guasto."
+        },
+        "thresholdDescription": {
+          "static": "Viene applicato un valore di soglia costante che non cambia nel tempo."
+        },
+        "chartAlertPreview": "Anteprima avvisi",
+        "chartAlertPreviewDescription": "Mostra come sarebbero stati attivati gli avvisi in base ai dati metrici storici.",
+        "forecastAlerting": {
+          "description": "Ricevere avvisi proattivi basati su dati storici e tendenze. Questa opzione consente di anticipare i potenziali problemi prima che si ripercuotano sul sistema.",
+          "historicalDataTime": {
+            "description": "Specifica l'orizzonte temporale utilizzato per analizzare il trend.",
+            "tooltipContent": "Selezionate un orizzonte temporale breve se vi interessano le tendenze a breve termine, oppure un orizzonte temporale più ampio se volete essere avvisati quando si prevede che la tendenza a lungo termine superi il limite."
+          },
+          "forecastedTimeWindow": {
+            "description": "Si noti che valori maggiori aumentano la possibilità di falsi allarmi.",
+            "tooltipContent": "Definisce l'orizzonte temporale della previsione utilizzata per gli avvisi. "
+          }
         }
       }
     },
@@ -1529,7 +1607,9 @@
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}"
             }
           }
-        }
+        },
+        "noDataHeader": "Nessun log Avvisi Smart",
+        "noDataDescription": "Per iniziare, fare clic su <strong>Crea Avviso Smart</strong>."
       },
       "advancedModeContainer": {
         "scope": {
@@ -1680,5 +1760,23 @@
         "failedTitle_EDIT": "Si è verificato un problema durante l'aggiornamento di questo avviso smart SLO"
       }
     }
+  },
+  "table": {
+    "active": "Attivo",
+    "inactive": "Inattivo",
+    "triggeringAction": "Condizione di attivazione",
+    "status": "Stato",
+    "apply": "Applica",
+    "cancel": "Annulla",
+    "filter": "Filtro",
+    "alertType": "Tipo di avviso",
+    "notificationChannel": "Canale di notifica",
+    "tableDataSettings": "Impostazioni dei dati della tabella",
+    "pause": "Pausa",
+    "delete": "Elimina",
+    "warningAndCritical": "Avvertenze e criticità",
+    "warning": "Avvertenza",
+    "critical": "Critico",
+    "searchPlaceholder": "Ricerca"
   }
 }

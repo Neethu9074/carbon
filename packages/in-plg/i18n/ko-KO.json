@@ -51,6 +51,12 @@
     "freetrial": " 무료 사용",
     "taketour": " 둘러보기"
   },
+  "dataConsumptionMessage": {
+    "description": "데이터 수집 권한의 {{dataConsumption}}%에 도달했습니다. 100%에 도달하면 추가로 수집된 데이터에 대해 사용량 단위로 요금이 청구됩니다.",
+    "description100": "데이터 수집 인타이틀먼트의 100%에 도달했지만 걱정하지 마십시오. Instana의 전체 값을 계속 받게 됩니다. 추가적으로 수집된 데이터의 정확한 양에 대해서만 사용량 기준으로 요금이 부과됩니다.",
+    "buttonText": "데이터 사용량 검토",
+    "title": "Instana 사용량이 급증하고 있는 것 같습니다!"
+  },
   "agentDetails": {
     "agentMode": {
       "dynamic": "동적",
@@ -109,8 +115,7 @@
     "kubernetes": {
       "kubernetes": {
         "enterAClusterNameAndOptionallyTheAgentZone": "1단계: 클러스터 이름을 입력하고 선택적으로 클러스터가 포함될 에이전트 구역을 입력하십시오.",
-        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "2단계: 전제조건을 검토하고 에이전트 배치 코드를 실행하십시오.",
-        "support": "지원"
+        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "2단계: 전제조건을 검토하고 에이전트 배치 코드를 실행하십시오."
       },
       "operator": {
         "installUsingTheOperator": "오퍼레이터를 사용한 설치",
@@ -216,7 +221,6 @@
       "selectAwsRegionAndLambdaHandler": "AWS 리전을 선택하고 현재 람다 핸들러를 입력하십시오.",
       "setInstanaAutoWrapHandlerAsLambdaFunction": "람다 함수에 대한 핸들러로 Instana 자동 줄 바꾸기 핸들러를 설정하십시오.",
       "autoWrapHandler": "자동 줄 바꾸기 핸들러",
-      "runCodeBelow": "아래의 에이전트 배치 코드를 실행하십시오.",
       "prerequisiteLinks": {
         "networkRequirements": "네트워크 요구사항"
       },
@@ -248,7 +252,6 @@
         "installGcrCollectors": "Google Cloud Run 프로세스 내 콜렉터 설치",
         "installAgentOnEc2": "AWS EC2에 에이전트 설치",
         "configurationOptions": "구성 옵션",
-        "installAgentAwsEks": "AWS EKS에 에이전트 설치",
         "monitoringGcr": "Google Cloud Run 모니터링",
         "monitoringAwsFargateRuby": "AWS Fargate (Ruby) 모니터링",
         "awsServiceDocumentation": "AWS 서비스 문서",
@@ -461,8 +464,6 @@
       }
     },
     "azure": {
-      "installingAgentOnAks": "Ks에 에이전트 설치",
-      "configureAfterInstall": "설치 후 에이전트 구성",
       "referenceToAzureContainerAppsDocumentation": "추적 데이터를 수집하려면 Azure 컨테이너 앱에 배치된 Go 애플리케이션을 수동으로 계측해야 합니다. <azureContainerAppsDoc>Azure 컨테이너 앱 Go 문서</azureContainerAppsDoc>의 지시사항을 따르십시오.",
       "selectAzureContainerAppsRuntime": "Azure 컨테이너 앱 런타임 선택",
       "reviewPrerequisitesAndConfigureContainerApps": "전제조건을 검토하고 추적을 위해 Azure 컨테이너 앱을 구성하십시오.",
@@ -479,6 +480,17 @@
         "resourceGroupName": "자원 그룹\n이름",
         "activatingAppServiceContent": "Node.js v18.19 이상을 사용하는 ECMAScript 모듈 애플리케이션에 대한 Azure CLI 명령 예:",
         "activatingAppServiceNote": "구성에 맞는 올바른 설정에 맞게 NODE_OPTIONS 값을 업데이트하십시오. 지침은 해당 <azureAppServiceEnableCollectorDoc>문서</azureAppServiceEnableCollectorDoc>를 참조하십시오."
+      },
+      "dotnet": {
+        "monitoringAppService": "Monitoring Azure App Service for .NET",
+        "activatingAppService": "콜렉터 설치 중.",
+        "appName": "앱 이름",
+        "resourceGroupName": "자원 그룹\n이름",
+        "configureOptionsForTracing": "앱 서비스 모니터링에 필요한 매개변수 구성",
+        "uploadConfigFile": "구성 파일 업로드 - ApplicationHost.xdt",
+        "activatingAppServiceNote": "파일을 다운로드하십시오. 파일 이름이 항상 \"ApplicationHost.xdt\"인지 확인하십시오.",
+        "ftpsAuthCredsNote": "Azure 포털에서 앱 서비스에 로그인하면 App Service 배치 -> 배치 센터 -> FTPS 신임 정보에서 FTPS URL, FTPS 사용자 이름 및 비밀번호(애플리케이션 범위)를 확인할 수 있습니다. 아래 명령에서 이러한 값을 바꾸십시오.",
+        "restartAppServiceNote": "App Service 다시 시작"
       }
     },
     "gcp": {

@@ -154,6 +154,33 @@
   "applications": {
     "noData": "As perspectivas de aplicativo fornecem um meio para modelar ambientes, conjuntos de serviços, locatários ou praticamente qualquer coisa."
   },
+  "subtraces": {
+    "labelSubtraces": "Sub-rastreios",
+    "labelSubtrace": "Sub-rastreio",
+    "newSubtrace": "Incluir sub-rastreio",
+    "subtracesList": {
+      "name": "Nome",
+      "count": "Contagem",
+      "meanDuration": "Duração média",
+      "meanSubcallCount": "Número médio de sub-chamadas",
+      "meanErrorRate": "Taxa média de erro"
+    },
+    "configuration": {
+      "success": {
+        "title": "A ação {{action}} de sub-rastreio foi realizada com sucesso.",
+        "message": "O nome \"{{subtraceName}}\" do sub-rastreio foi {{action}}."
+      },
+      "failure": {
+        "title": "Falha no sub-rastreio da ação {{action}}.",
+        "message": "Houve um problema ao tentar a ação {{action}} este sub-rastreio: \"{{subtraceName}}\""
+      },
+      "title": "Atualizar o sub-rastreio",
+      "subtraceName": "Nome do sub-rastreio",
+      "subtraceFilter": "Definição do sub-rastreio",
+      "evaluationGranularity": "Granularidade da avaliação",
+      "evaluationGranularityValidationError": "Assim, considere selecionar um valor para a granularidade da avaliação."
+    }
+  },
   "alert": {
     "tooltipMoreFilter": "+{{moreFilterCount}} mais filtro",
     "tooltipMoreFilter_plural": "+{{moreFilterCount}} mais filtros",
@@ -164,7 +191,7 @@
   "inboundOutboundCalls": {
     "config": {
       "inbound": {
-        "text": "Chamadas de entrada"
+        "text": "Chamadas recebidas"
       },
       "all": {
         "text": "Todas as chamadas"
@@ -172,9 +199,9 @@
     },
     "constants": {
       "inboundDashboard": "O painel está exibindo informações com base apenas nas chamadas executadas pelos consumidores deste aplicativo.",
-      "inboundOverrideDefault": "O escopo padrão para esse aplicativo é apenas Chamadas de entrada. É possível mudar isso na configuração.",
+      "inboundOverrideDefault": "O escopo padrão para esse aplicativo contempla apenas as chamadas recebidas. É possível mudar isso na configuração.",
       "allDashboard": "O painel está exibindo informações baseadas em todas as chamadas executadas neste aplicativo, tanto por consumidores quanto internamente.",
-      "allOverrideDefault": "O escopo padrão para esse aplicativo é Todas as chamadas. É possível mudar isso na configuração."
+      "allOverrideDefault": "O escopo padrão para esse aplicativo contempla todas as chamadas. É possível mudar isso na configuração."
     }
   },
   "analyze": {
@@ -686,6 +713,21 @@
     "alternativeServicesOk": "<bold>Está ok para consultar serviços alternativos?</bold>",
     "alternativeServicesProblem": "<bold>Não</bold>, se o nome do serviço atual vem do cabeçalho HTTP \"Host\" (regra de mapeamento de serviço cujo id é call.http.host) e o nome do serviço alternativo não (porque seu nome vem de uma regra que tem base em tags de infraestrutura), ou vice-versa. São serviços duplicados.",
     "alternativeServicesPossibleProblem": "<bold>Talvez</bold>, se o serviço atual e os nomes de serviços alternativos não provarem do cabeçalho HTTP \"Host\", então eles são serviços sentados atrás de um proxy (bom) ou são serviços duplicados (ruim): alguns dos serviços estão integralmente vinculados a infraestrutura, enquanto outros estão parcialmente vinculados a infraestrutura."
+  },
+  "infoBanner": {
+    "title": "Ações de recursos, com tecnologia Turbonomic",
+    "tryLabel": "Experimente antes de comprar",
+    "tryText": "Inicie uma avaliação sem custo para consultar como as ações de recursos podem ajudar seus aplicativos.",
+    "tryButtonLabel": "Iniciar uma avaliação",
+    "learnLabel": "Saiba mais",
+    "learnText": "Confira alguns blogs e mídias adicionais para se manter atualizado sobre esse recurso.",
+    "learnButtonLabel": "Visite-nos on-line",
+    "connectLabel": "Conecte-se com Vendas",
+    "connectText": "Entre em contato com nossa equipe de vendas e diga que está interessado.",
+    "connectButtonLabel": "Comprar agora",
+    "helpLabel": "Ajude-nos a crescer",
+    "helpText": "Compartilhe suas ideias conosco para que possamos continuar a oferecer os recursos que você mais deseja.",
+    "helpButtonLabel": "Forneça um feedback"
   },
   "labelSyntheticMonitoring": "Monitoramento sintético",
   "labelResourceOptimizations": "Otimizações"

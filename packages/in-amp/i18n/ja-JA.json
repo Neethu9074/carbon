@@ -16,10 +16,17 @@
       "name": "名前",
       "tenant": "テナント",
       "type": "タイプ",
-      "licenseStartData": "ライセンス開始データ",
-      "licenseEndData": "ライセンス終了データ",
+      "licenseStartData": "ライセンス開始日",
+      "licenseEndData": "ライセンス終了日",
       "licensedApmHosts": "ライセンス交付を受けた APM ホスト",
       "licensedIqmHosts": "ライセンス交付を受けた IQM ホスト"
+    },
+    "learnMore": {
+      "title": "Instanaの公正な使用ポリシーについてはこちら",
+      "leftTitle": "公正な使用ポリシーとは何ですか？",
+      "rightTitle": "データ使用量の追加方法",
+      "leftBody": "Instanaの公正な使用ポリシーには、お客様のライセンス・タイプに関連付けられた月次データ許容量の概要が記載されています。 リソースの使用に関するガイドラインについては、<fupDocLink>公正な使用ポリシー</fupDocLink>をご覧ください。",
+      "rightBody": "継続的にデータ使用量を追加する必要があると予想される場合は、Instanaの営業担当員に連絡して、追加オプションを検討してください。 営業担当へのお問い合わせは<salesLink>こちら</salesLink>。"
     },
     "ampInformationModifier": {
       "allPaidUnitsAggregated": "すべての有料単位 (集計)",

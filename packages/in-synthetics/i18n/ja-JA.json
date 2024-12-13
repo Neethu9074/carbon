@@ -384,12 +384,12 @@
         "textInput": {
           "placeholder": "資格情報名",
           "labelText": "名前",
-          "invalidText": "クレデンシャル名は、文字で始まり、文字、数字、アンダースコアのみを含む必要がある。"
+          "invalidText": "クレデンシャル名は、文字で始まり、文字、数字、アンダースコアのみを含む必要がある。",
+          "credentialNamesMustBeUnique": "クレデンシャル名はユニークでなければなりません。 この名前は使用されています。 別のものを使用してください。"
         },
         "passwordInput": {
           "placeholder": "資格情報値",
-          "labelText": "値",
-          "invalidText": "値は空であってはならない。"
+          "labelText": "値"
         },
         "associationsDescription": "クレデンシャルをアプリケーション、Web サイト、またはモバイル・アプリに関連付けると、それらのエンティティにアクセスできるすべてのユーザにアクセス権が付与されます。"
       },
@@ -515,6 +515,12 @@
       "deleteLocationBroswerRefreshInfo": "ロケーションのリストからロケーションが表示されなくなるまでに時間がかかり、ブラウザーの最新表示が必要になる場合があります。",
       "deactivateLocation": {
         "deactivate": "非アクティブ"
+      },
+      "ipAddressColumn": {
+        "ipAddress": "IP アドレス",
+        "singleIPAddress": "{{number}}IPアドレス",
+        "multipleIPAddress": "{{number}} IPアドレス",
+        "noIPAddresses": "NA"
       }
     },
     "summary": {
@@ -810,7 +816,10 @@
         "noCredentialsAvailableTitle": "合成証明書なし",
         "noCredentialsAvailableDescription": "データベースから取得された合成クレデンシャルはありません。"
       },
-      "editAction": "編集",
+      "editAction": {
+        "editActionLabel": "編集",
+        "theValueMustNotBeBlank": "値をブランクにすることはできません。"
+      },
       "deleteAction": {
         "deleteActionLabel": "削除",
         "deleteCredentialTitle": "合成クレデンシャル {{credentialName}} を削除する",

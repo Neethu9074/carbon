@@ -51,6 +51,12 @@
     "freetrial": " 免費試用",
     "taketour": " 導覽"
   },
+  "dataConsumptionMessage": {
+    "description": "您已達到 {{dataConsumption}}% 的資料汲取授權。 一旦達到 100%，您將按使用量付費，以汲取任何額外的資料。",
+    "description100": "您已達到 100% 的資料汲取授權，但不用擔心，您仍然可以繼續享受 Instana 所帶來的完整價值。 您只需依據所汲取的額外資料的確切量，按使用量付費。",
+    "buttonText": "檢閱資料用量",
+    "title": "看起來您的 Instana 用量正在增加！"
+  },
   "agentDetails": {
     "agentMode": {
       "dynamic": "動態",
@@ -109,8 +115,7 @@
     "kubernetes": {
       "kubernetes": {
         "enterAClusterNameAndOptionallyTheAgentZone": "步驟 1：輸入叢集名稱，並選擇性地輸入您希望叢集所屬的代理程式區域。",
-        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "步驟 2：檢閱必要條件並執行代理程式部署程式碼。",
-        "support": "支援"
+        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "步驟 2：檢閱必要條件並執行代理程式部署程式碼。"
       },
       "operator": {
         "installUsingTheOperator": "使用操作器安裝",
@@ -216,7 +221,6 @@
       "selectAwsRegionAndLambdaHandler": "選取 AWS 區域，並輸入現行 Lambda 處理程式",
       "setInstanaAutoWrapHandlerAsLambdaFunction": "將 Instana 自動包裝處理程式設為 Lambda 函數的處理程式。",
       "autoWrapHandler": "自動包裝處理程式",
-      "runCodeBelow": "執行下面的代理程式部署程式碼。",
       "prerequisiteLinks": {
         "networkRequirements": "網路需求"
       },
@@ -248,7 +252,6 @@
         "installGcrCollectors": "安裝 Gogle Cloud Run 處理程序收集器",
         "installAgentOnEc2": "在 AWS EC2 上安裝代理程式",
         "configurationOptions": "配置選項",
-        "installAgentAwsEks": "在 AWS EKS 上安裝代理程式",
         "monitoringGcr": "監視 Google Cloud Run",
         "monitoringAwsFargateRuby": "監視 AWS Fargate (Ruby)",
         "awsServiceDocumentation": "AWS 服務說明文件",
@@ -461,8 +464,6 @@
       }
     },
     "azure": {
-      "installingAgentOnAks": "在 Aks 上安裝代理程式",
-      "configureAfterInstall": "安裝之後配置代理程式",
       "referenceToAzureContainerAppsDocumentation": "部署在 Azure 容器應用程式中的 Go 應用程式需要手動檢測才能收集追蹤資料。 請遵循 <azureContainerAppsDoc>Azure Container Apps Go 文件的指示</azureContainerAppsDoc>。",
       "selectAzureContainerAppsRuntime": "選取 Azure 容器應用程式執行時期",
       "reviewPrerequisitesAndConfigureContainerApps": "檢閱先決條件並配置您的 Azure 容器應用程式以進行追蹤。",
@@ -479,6 +480,17 @@
         "resourceGroupName": "資源群組名稱",
         "activatingAppServiceContent": "使用 Node.js 18.19 版或更新版本的 ECMAScript 模組應用程式的 Azure CLI 指令範例：",
         "activatingAppServiceNote": "請更新 NODE_OPTIONS 值，以符合您配置的正確設定。 請參閱<azureAppServiceEnableCollectorDoc>說明文件</azureAppServiceEnableCollectorDoc>，以取得指引。"
+      },
+      "dotnet": {
+        "monitoringAppService": "監視 .NET 的 AzureApp Service",
+        "activatingAppService": "安裝收集器。",
+        "appName": "應用程式名稱",
+        "resourceGroupName": "資源群組名稱",
+        "configureOptionsForTracing": "配置監視應用程式服務所需的參數",
+        "uploadConfigFile": "上傳配置檔 - ApplicationHost.xdt",
+        "activatingAppServiceNote": "下載檔案。 請確保檔案名稱一律為 \"ApplicationHost.xdt\"",
+        "ftpsAuthCredsNote": "登入 Azure 入口網站中的應用程式服務，在 App Service 的部署 -> 部署中心 -> FTPS 認證下，您會看到 FTPS URL、FTPS 使用者名稱和密碼（應用程式範圍）。 在下列指令中取代這些值",
+        "restartAppServiceNote": "重新啟動 App Service"
       }
     },
     "gcp": {

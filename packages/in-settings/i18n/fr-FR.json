@@ -40,27 +40,13 @@
     }
   },
   "cookies": {
-    "categories": {
-      "analyticalPerformance": "Analytique/Performance",
-      "functionality": "Fonctionnalité"
-    },
     "expiration": {
-      "sevenDays": "Expire après 7 jours",
-      "persistent": "Persistant",
       "afterSession": "Expire après la session"
     },
-    "mixpanel": {
-      "title": "Analyse de l'utilisateur du produit",
-      "purpose": "Enregistre un ID unique qui est utilisé pour générer des données statistiques sur la façon dont le visiteur utilise le site Web."
-    },
     "walkme": {
-      "title": "Intégration du produit et conseils",
-      "purpose": "Enregistre un ID unique qui est utilisé pour générer des données statistiques sur la façon dont le visiteur utilise le site Web.",
-      "category": "Intégration du produit et conseils"
-    },
-    "appcues": {
-      "title": "Expérience d'intégration personnalisée et enquêtes NPS",
-      "purpose": "Enquête sur l'intégration des utilisateurs et le NPS en magasin."
+      "title": "Analyse et conseils pour les utilisateurs des produits",
+      "purpose": "Enregistre un ID unique qui est utilisé pour générer des données statistiques sur la façon dont le visiteur utilise le produit.",
+      "category": "Fonctionnel"
     }
   },
   "roleAndAccessScope": {
@@ -112,6 +98,7 @@
     "permissions_OPENSTACK": "OpenStack",
     "permissions_VSPHERE": "vSphere",
     "permissions_SAP": "SAP",
+    "permissions_NUTANIX": "Nutanix",
     "clusters": "Clusters",
     "namespaces": "Espaces de nom",
     "obsoleteEntityDescription": "Actuellement, aucune donnée n'est disponible - l'accès est toujours accordé.",
@@ -224,7 +211,7 @@
     "title_limited_access_bizops": "Accès limité",
     "description_limited_access_bizops": "Accédez uniquement aux perspectives métier répertoriées et à leurs processus métier.",
     "description_access_all_bizops": "Toutes les fonctions de surveillance métier sont accessibles sans limitation.",
-    "description_no_access_bizops": "L'accès à la surveillance métier est refusé.",
+    "description_no_access_bizops": "Aucun accès : l'accès à la surveillance métier est refusé.",
     "description_access_all_except_contributor": "Tous les accès, sauf les accès Contributeur",
     "role": "Sélectionner un rôle",
     "role_owner": "Propriétaire",
@@ -389,7 +376,7 @@
           "dbMarlinExampleForAnInternalInstance": "Entrez l'URL de votre instance DBmarlin, par exemple <strong>https://team.dbmarlin.com</strong> ou <strong>http://192.168.1.128:443</strong> pour une instance interne.",
           "configureDbMarlin": "Configurer DBmarlin",
           "configureDbMarlinDescription": "Lorsqu'elle est activée, la configuration suivante ajoute un lien vers DBmarlin dans les détails de l'appel pour les appels compatibles.",
-          "configureYourDbMarlinSettings": "Configurez vos paramètres de DBmarlin",
+          "configureYourDbMarlinSettings": "Configurez votre intégration DBmarlin",
           "testDbMarlinInstance": "Pour tester votre lien DBmarlin, accédez à",
           "failedToLoadDbMarlinConfiguration": "Échec du chargement de la configuration de DBmarlin."
         }
@@ -476,6 +463,8 @@
       "deletionUntilDate": "Suppression jusqu'à la date",
       "untilDateValidationMessage": "La date doit être identique ou antérieure à la date en cours.",
       "reasonValidationMessage": "La raison de la suppression ne peut pas être vide.",
+      "untilTimeValidationMessage": "L'heure doit correspondre ou être antérieure à l'heure actuelle",
+      "correctTimeFormat": "Entrez une heure valide au format HH:mm",
       "toastSuccessTitle": "La suppression des journaux peut prendre un certain temps.",
       "toastSuccessMessage": "Vous pouvez fermer cette fenêtre contextuelle et vérifier le statut dans la table \"Historique des actions de suppression des journaux\".",
       "toastErrorTitle": "La suppression du journal a échoué.",
@@ -761,16 +750,16 @@
     "dstInEffect": "DST en vigueur",
     "dstMsg": "{{dstMsg}}. {{label}} est \"{{currentTimeZone}}\" (UTC{{selectedUtcOffset}})",
     "maintenanceWindowConfigurationEntityName": "configuration de la fenêtre de maintenance {{entityName}}",
-    "configureYourCoralogixSettings": "Configurer les paramètres Coralogix",
+    "configureYourCoralogixSettings": "Configurez votre intégration Coralogix",
     "failedToSaveConfiguration": "Echec de la sauvegarde de la configuration : {{err}}",
     "coralogixExampleForAnInternalInstance": "Saisissez l'URL de votre instance Coralogix, par exemple <br><strong>https://team.coralogix.com</strong> ou <strong>http://192.168.1.128:443</strong> pour une instance interne.</br>",
-    "configureYourElkSettings": "Configurer les paramètres ELK",
+    "configureYourElkSettings": "Configurez votre intégration ELK",
     "elkExampleForAnInternalInstance": "Saisissez l'URL de votre instance ELK, par exemple : <strong>http://kibana.com:5601</strong> ou <strong>http://192.168.1.128:5601</strong> pour une instance interne.",
     "optionalBasePathYouHaveConfiguredInElk": "Exemple : http://kibana.com:5601/<strong>instana</strong>/app/kibana#. Chemin de base facultatif que vous avez configuré dans ELK.",
     "idOfTheDashboardYouHaveConfiguredInElkForInstana": "Exemple : Peut être trouvé à partir de l'URL http://kibana.com:5601/app/kibana#/dashboard/a23a8810-4ce8-11ea-9be2-a53f95fe8814. ID du tableau de bord que vous avez configuré dans ELK pour Instana.",
-    "configureYourHumioSettings": "Configurer les paramètres Humio",
+    "configureYourHumioSettings": "Configurez votre intégration Humio",
     "humioExampleForAnInternalInstance": "Saisissez l'URL de l'instance Humio <strong>https://cloud.humio.com</strong> ou <strong>http://192.168.1.128:443</strong> pour une instance interne.",
-    "configureYourMezmoSettings": "Configurer les paramètres Mezmo",
+    "configureYourMezmoSettings": "Configurez votre intégration Mezmo",
     "canBeFoundFromTheMezmoUrl": "Saisissez l'URL de votre instance Mezmo. l'URL se compose de : <strong>https://base_url/account_id</strong>, par exemple : <strong>https://app.mezmo.com/123456789</strong>",
     "canBeFoundFromTheIbmCloudUrl": "L'URL se compose de : <strong>https://base_url/guid</strong>, par exemple : <strong>https://cloud.ibm.com/observe/embedded-view/logging/123456789</strong>",
     "enterIbmCloudAccountId": "Entrez l'identificateur global unique de l'instance de journalisation.",
@@ -778,7 +767,7 @@
     "mezmoDocumentationReference": "<br>Pour plus d'informations, consultez notre <documentationLink>documentation</documentationLink>.</br>",
     "mezmoInstance": "Fournisseur",
     "invalidMezmoId": "L'ID de compte/tableau de bord ne doit contenir que des lettres, des chiffres et le caractère -.",
-    "configureYourSplunkSettings": "Configurer les paramètres Splunk",
+    "configureYourSplunkSettings": "Configurez votre intégration Splunk",
     "splunkExampleForAnInternalInstance": "Saisissez l'URL de votre instance Splunk, par exemple <strong>https://cloud.splunk.com</strong> ou <strong>http://192.168.1.128:443</strong> pour une instance interne.",
     "spaceBetweenGroupsInXDirection": "Espace entre les groupes dans la direction x ({{packingXSpace}})",
     "spaceBetweenGroupsInYDirection": "Espace entre les groupes dans la direction y ({{packingYSpace}})",
@@ -829,6 +818,7 @@
     "username": "Nom d'utilisateur",
     "usernameDescription": "L'utilisateur qui est considéré comme utilisateur propriétaire dans Instana. Une connexion est essayée en tant que test avant que les paramètres ne soient sauvegardés, les données d'identification ne sont pas stockées.",
     "usernamePasswordDescription": "Mot de passe LDAP de l'utilisateur",
+    "ldapCannotbeConfiguredWithOtherIdPActive": "LDAP ne peut pas être configuré tant qu'une autre configuration de fournisseur d'identité est active.",
     "ldapTestFailed": "Echec du test LDAP :",
     "thisAccountIsAutomaticallyAssignedAnAdminRole": "Entrez un e-mail pour être affecté automatiquement au groupe propriétaire.",
     "thisAccountIsAutomaticallyAssignedAnAdminRoleLDAP": "Entrez un compte pour être affecté automatiquement au groupe propriétaire. Utilisez l'attribut LDAP du compte aligné sur le modèle de recherche de requête utilisateur.",
@@ -971,6 +961,8 @@
     "savingGroup": "Sauvegarde du groupe",
     "groupSuccessfullySaved": "Le groupe a été sauvegardé.",
     "groups": "Groupes",
+    "roles": "Rôles",
+    "teams": "Equipes",
     "groupDeleteTooltip_Default": "Le groupe par défaut est un groupe intégré qui ne peut pas être supprimé ni renommé.",
     "groupDeleteTooltip_Owner": "Le groupe de propriétaires est un groupe intégré qui ne peut pas être supprimé ni renommé.",
     "deleteGroupMessage": "Voulez-vous vraiment retirer <strong>{{groupName}}</strong> de toutes les unités de ce titulaire ?",

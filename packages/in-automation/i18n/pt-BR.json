@@ -506,9 +506,11 @@
     "runningAction": "Ação em execução...",
     "actionStarted": "Ação iniciada",
     "actionFailed": "Falha na ação",
-    "actionStartedMessage": "A ação <strong>{{actionName}} foi executada.</strong> Visualize o progresso dessa ação na página de histórico de ações.",
+    "actionStartedMessage": "A ação <strong>{{actionName}} foi executada.</strong> Visualizar o andamento dessa ação na guia de histórico de ações.",
     "actionFailedMessage": "Falha na solicitação para executar a ação <strong>{{actionName}}</strong>: {{message}}.",
     "viewActionHistory": "Visualizar histórico de ação",
-    "actionName": "Nome da Ação"
+    "actionName": "Nome da Ação",
+    "recommendedActionHistoryWithCount": "Histórico de ações de recursos ({{count}})",
+    "recommendedActionHistory": "Histórico de ações de recursos"
   }
 }

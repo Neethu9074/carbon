@@ -40,27 +40,13 @@
     }
   },
   "cookies": {
-    "categories": {
-      "analyticalPerformance": "分析/パフォーマンス",
-      "functionality": "機能"
-    },
     "expiration": {
-      "sevenDays": "7 日間有効",
-      "persistent": "永続的",
       "afterSession": "セッション終了まで有効"
     },
-    "mixpanel": {
-      "title": "製品ユーザー分析",
-      "purpose": "訪問者による Web サイトの利用状況に関する統計データを生成するために使用する固有の ID を登録します。"
-    },
     "walkme": {
-      "title": "製品のオンボーディングとガイダンス",
-      "purpose": "訪問者による Web サイトの利用状況に関する統計データを生成するために使用する固有の ID を登録します。",
-      "category": "製品のオンボーディングとガイダンス"
-    },
-    "appcues": {
-      "title": "調整済みオンボーディング・エクスペリエンスと NPS 調査",
-      "purpose": "ユーザー・オンボーディングと NPS ストア調査。"
+      "title": "製品ユーザー分析およびガイダンス",
+      "purpose": "訪問者が製品をどのように使用しているかに関する統計データを作成するために使用される一意のIDを登録します。",
+      "category": "機能"
     }
   },
   "roleAndAccessScope": {
@@ -112,6 +98,7 @@
     "permissions_OPENSTACK": "OpenStack",
     "permissions_VSPHERE": "vSphere",
     "permissions_SAP": "SAP",
+    "permissions_NUTANIX": "Nutanix",
     "clusters": "クラスター",
     "namespaces": "名前空間",
     "obsoleteEntityDescription": "現在、使用可能なデータはありません。アクセス権限はまだ付与されています。",
@@ -224,7 +211,7 @@
     "title_limited_access_bizops": "制限付きアクセス",
     "description_limited_access_bizops": "リストされたビジネス・パースペクティブとそのビジネス・プロセスのみにアクセスします。",
     "description_access_all_bizops": "ビジネス・モニターのすべての機能に制限なくアクセスできます。",
-    "description_no_access_bizops": "ビジネス・モニターへのアクセスが拒否されました。",
+    "description_no_access_bizops": "アクセスできません:ビジネス・モニタリングへのアクセスが拒否されます。",
     "description_access_all_except_contributor": "すべてにアクセス-コントリビューターとしてアクセスされるものを除く",
     "role": "役割の選択",
     "role_owner": "所有者",
@@ -389,7 +376,7 @@
           "dbMarlinExampleForAnInternalInstance": "DBmarlin インスタンスの URL を入力します。例えば、<strong>https://team.dbmarlin.com</strong> または内部インスタンスの場合は <strong>http://192.168.1.128:443</strong> です。",
           "configureDbMarlin": "DBmarlin の設定",
           "configureDbMarlinDescription": "以下の設定を有効にすると、互換性のあるコールのコールの詳細に DBmarlin へのリンクが追加されます。",
-          "configureYourDbMarlinSettings": "DBmarlin の設定を行う",
+          "configureYourDbMarlinSettings": "DBmarlin統合の構成",
           "testDbMarlinInstance": "DBmarlin のリンクをテストするには、以下にアクセスしてください",
           "failedToLoadDbMarlinConfiguration": "DBmarlin 設定のロードに失敗しました。"
         }
@@ -476,6 +463,8 @@
       "deletionUntilDate": "削除期限日",
       "untilDateValidationMessage": "日付は現在の日付以前である必要があります",
       "reasonValidationMessage": "削除理由を空にすることはできません",
+      "untilTimeValidationMessage": "時刻は現在の時刻以前でなければなりません",
+      "correctTimeFormat": "有効な時間をHH:mm形式で入力してください",
       "toastSuccessTitle": "ログの削除には時間がかかるかもしれない。",
       "toastSuccessMessage": "このポップアップ・ウィンドウを閉じて、「ログ削除アクション履歴」表でステータスを確認できます。",
       "toastErrorTitle": "ログの削除に失敗しました",
@@ -761,16 +750,16 @@
     "dstInEffect": "DST が有効",
     "dstMsg": "{{dstMsg}}. {{label}} は「{{currentTimeZone}}」(UTC{{selectedUtcOffset}}) です",
     "maintenanceWindowConfigurationEntityName": "保守期間の構成 {{entityName}}",
-    "configureYourCoralogixSettings": "Coralogix 設定の構成",
+    "configureYourCoralogixSettings": "Coralogix統合の構成",
     "failedToSaveConfiguration": "構成の保存に失敗しました: {{err}}",
     "coralogixExampleForAnInternalInstance": "例えば、<br><strong>https://team.coralogix.com</strong> や <strong>http://192.168.1.128:443</strong> のように、Coralogix インスタンスの URL を入力します。</br>",
-    "configureYourElkSettings": "ELK 設定の構成",
+    "configureYourElkSettings": "ELKインテグレーションの構成",
     "elkExampleForAnInternalInstance": "ELK インスタンスの URL を入力します。例: 内部インスタンスの場合は <strong>http://kibana.com:5601</strong> または <strong>http://192.168.1.128:5601</strong>。",
     "optionalBasePathYouHaveConfiguredInElk": "例: http://kibana.com:5601/<strong>instana</strong>/app/kibana#。ELK で構成したオプションの基本パス。",
     "idOfTheDashboardYouHaveConfiguredInElkForInstana": "例: URL http://kibana.com:5601/app/kibana#/dashboard/a23a8810-4ce8-11ea-9be2-a53f95fe8814 から見つけることができます。 Instana 用に ELK で構成したダッシュボードの ID。",
-    "configureYourHumioSettings": "Humio 設定の構成",
+    "configureYourHumioSettings": "Humio統合の構成",
     "humioExampleForAnInternalInstance": "Humio インスタンスの URL <strong>https://cloud.humio.com</strong> または内部インスタンスの <strong>http://192.168.1.128:443</strong> を入力します。",
-    "configureYourMezmoSettings": "Mezmo設定の構成",
+    "configureYourMezmoSettings": "Mezmo統合の構成",
     "canBeFoundFromTheMezmoUrl": "Mezmo インスタンスの URL を入力します。 URL は <strong>https://base_url/account_id</strong> で構成されます。例: <strong>https://app.mezmo.com/123456789</strong>",
     "canBeFoundFromTheIbmCloudUrl": "URL は <strong>https://base_url/guid</strong> で構成されます。例: <strong>https://cloud.ibm.com/observe/embedded-view/logging/123456789</strong>",
     "enterIbmCloudAccountId": "ロギング・インスタンスの GUID を入力してください。",
@@ -778,7 +767,7 @@
     "mezmoDocumentationReference": "<br> 詳細については、<documentationLink>ドキュメンテーション</documentationLink>をご覧ください。</br>",
     "mezmoInstance": "プロバイダー",
     "invalidMezmoId": "アカウント/ダッシュボード ID に含めることができるのは、文字、数字、および - のみです。",
-    "configureYourSplunkSettings": "Splunk 設定の構成",
+    "configureYourSplunkSettings": "Splunk統合の構成",
     "splunkExampleForAnInternalInstance": "<strong>https://cloud.splunk.com</strong> や <strong>http://192.168.1.128:443</strong> のように、Splunk インスタンスの URL を入力してください。",
     "spaceBetweenGroupsInXDirection": "x 方向のグループ間のスペース ({{packingXSpace}})",
     "spaceBetweenGroupsInYDirection": "y 方向のグループ間のスペース ({{packingYSpace}})",
@@ -829,6 +818,7 @@
     "username": "ユーザー名",
     "usernameDescription": "Instana で所有者ユーザーとして関連付けられるユーザー。 ログインは、設定が保存される前にテストとして試行されます。資格情報は保管されません。",
     "usernamePasswordDescription": "ユーザーの LDAP パスワード",
+    "ldapCannotbeConfiguredWithOtherIdPActive": "別のアクティブなIDプロバイダー構成がある限り、LDAPは構成できません。",
     "ldapTestFailed": "LDAP テストに失敗しました：",
     "thisAccountIsAutomaticallyAssignedAnAdminRole": "所有者グループに自動的に割り当てられる E メールを入力します。",
     "thisAccountIsAutomaticallyAssignedAnAdminRoleLDAP": "所有者グループに自動的に割り当てられるアカウントを入力します。 ユーザー照会検索テンプレートに合わせてアカウントの LDAP 属性を使用します。",
@@ -971,6 +961,8 @@
     "savingGroup": "グループを保存しています",
     "groupSuccessfullySaved": "グループが正常に保存されました。",
     "groups": "グループ",
+    "roles": "役割",
+    "teams": "チーム",
     "groupDeleteTooltip_Default": "Default グループは組み込みグループであり、削除したり名前変更したりすることができません。",
     "groupDeleteTooltip_Owner": "Owner グループは組み込みグループであり、削除したり名前変更したりすることができません。",
     "deleteGroupMessage": "このテナントのすべてのユニットから <strong>{{groupName}}</strong> を削除しますか?",

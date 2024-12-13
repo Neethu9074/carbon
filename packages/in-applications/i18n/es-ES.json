@@ -154,6 +154,33 @@
   "applications": {
     "noData": "Las perspectivas de aplicación proporcionan un medio para modelar entornos, conjuntos de servicios, arrendatarios o prácticamente cualquier cosa."
   },
+  "subtraces": {
+    "labelSubtraces": "Subrastreos",
+    "labelSubtrace": "Subrastreo",
+    "newSubtrace": "Añadir subrastreo",
+    "subtracesList": {
+      "name": "Nombre",
+      "count": "Count",
+      "meanDuration": "Duración media",
+      "meanSubcallCount": "Nº medio de subllamadas",
+      "meanErrorRate": "Tasa media de error"
+    },
+    "configuration": {
+      "success": {
+        "title": "Subrastreo {{action}} correctamente",
+        "message": "El subrastreo \"{{subtraceName}}\" ha sido {{action}}."
+      },
+      "failure": {
+        "title": "No se ha podido {{action}} el subrastreo",
+        "message": "Se ha producido un problema al intentar {{action}} este subrastreo: \"{{subtraceName}}\""
+      },
+      "title": "Actualizar subrastreo",
+      "subtraceName": "Nombre de subrastreo",
+      "subtraceFilter": "Definición de subrastreo",
+      "evaluationGranularity": "Granularidad de la evaluación",
+      "evaluationGranularityValidationError": "Seleccione un valor para la granularidad de la evaluación"
+    }
+  },
   "alert": {
     "tooltipMoreFilter": "+{{moreFilterCount}} filtro más",
     "tooltipMoreFilter_plural": "+{{moreFilterCount}} filtros más",
@@ -172,7 +199,7 @@
     },
     "constants": {
       "inboundDashboard": "El panel de control muestra información basada sólo en las llamadas realizadas por los consumidores de esta aplicación.",
-      "inboundOverrideDefault": "El ámbito predeterminado para esta aplicación es de sólo llamadas entrantes. Puede cambiar esto en la Configuración.",
+      "inboundOverrideDefault": "El ámbito predeterminado para esta aplicación es de solo llamadas entrantes. Puede cambiar esto en la Configuración.",
       "allDashboard": "El panel de control muestra información basada en todas las llamadas realizadas en esta aplicación, tanto por los consumidores como internamente.",
       "allOverrideDefault": "El ámbito predeterminado para esta aplicación es Todas las llamadas. Puede cambiar esto en la Configuración."
     }
@@ -686,6 +713,21 @@
     "alternativeServicesOk": "<bold>¿Es correcto ver servicios alternativos?</bold>",
     "alternativeServicesProblem": "<bold>No</bold>, si el nombre del servicio actual procede de la cabecera HTTP \"Host\" (la regla de correlación de servicio cuyo ID es call.http.host) y el nombre del servicio alternativo no (porque su nombre proviene de una regla que se basa en etiquetas de infraestructura) o viceversa. Se trata de servicios duplicados.",
     "alternativeServicesPossibleProblem": "<bold>Tal vez</bold>, si el servicio actual y los nombres de servicios alternativos no proceden de la cabecera HTTP \"Host\", pueda tratarse de servicios que se encuentran tras un proxy (correcto) o de servicios duplicados (incorrecto): algunos de los servicios están totalmente enlazados a la infraestructura, mientras que otros solo lo están parcialmente."
+  },
+  "infoBanner": {
+    "title": "Acciones de recursos, impulsadas por Turbonomic",
+    "tryLabel": "Pruébelo antes de comprar",
+    "tryText": "Inicie una prueba gratuita para ver cómo las acciones de recursos pueden ayudar a sus aplicaciones.",
+    "tryButtonLabel": "Iniciar una prueba",
+    "learnLabel": "Más información",
+    "learnText": "Consulte algunos blogs y medios adicionales para mantenerse al día sobre esta función.",
+    "learnButtonLabel": "Visítenos en línea",
+    "connectLabel": "Conectar con ventas",
+    "connectText": "Póngase en contacto con nuestro equipo de ventas y hágales saber que está interesado.",
+    "connectButtonLabel": "Comprar ahora",
+    "helpLabel": "Ayúdenos a crecer",
+    "helpText": "Comparta sus opiniones con nosotros para que podamos seguir ofreciéndole las funciones que más desea.",
+    "helpButtonLabel": "Proporcionar comentarios"
   },
   "labelSyntheticMonitoring": "Supervisión sintética",
   "labelResourceOptimizations": "Optimizaciones"

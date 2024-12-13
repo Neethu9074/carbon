@@ -384,12 +384,12 @@
         "textInput": {
           "placeholder": "Nome da credencial",
           "labelText": "Nome",
-          "invalidText": "O nome da credencial deve iniciar com uma letra e conter apenas letras, números e sublinhados."
+          "invalidText": "O nome da credencial deve iniciar com uma letra e conter apenas letras, números e sublinhados.",
+          "credentialNamesMustBeUnique": "Os nomes das credenciais devem ser exclusivos. Esse nome já está sendo usado. Tente um outro nome."
         },
         "passwordInput": {
           "placeholder": "Valor da credencial",
-          "labelText": "Valor",
-          "invalidText": "O valor não deve estar vazio."
+          "labelText": "Valor"
         },
         "associationsDescription": "A associação de uma credencial a um aplicativo, site da web ou aplicativo móvel concede direitos de acesso a todos os usuários que possuem acesso a essas entidades."
       },
@@ -515,6 +515,12 @@
       "deleteLocationBroswerRefreshInfo": "Levará algum tempo para que o local desapareça da lista de locais e isso pode requerer uma atualização do navegador.",
       "deactivateLocation": {
         "deactivate": "Desativar"
+      },
+      "ipAddressColumn": {
+        "ipAddress": "Endereço IP",
+        "singleIPAddress": "{{number}} endereço IP",
+        "multipleIPAddress": "{{number}} endereços IP",
+        "noIPAddresses": "NA"
       }
     },
     "summary": {
@@ -810,7 +816,10 @@
         "noCredentialsAvailableTitle": "Não há nenhuma credencial sintética disponível",
         "noCredentialsAvailableDescription": "Não há nenhuma credencial sintética recuperada a partir do banco de dados."
       },
-      "editAction": "Editar",
+      "editAction": {
+        "editActionLabel": "Editar",
+        "theValueMustNotBeBlank": "O valor não deve ficar em branco."
+      },
       "deleteAction": {
         "deleteActionLabel": "Excluir",
         "deleteCredentialTitle": "Excluir credencial sintética {{credentialName}}",

@@ -29,6 +29,8 @@
     "groupBy": "分組方式",
     "noChannelAvailable": "沒有可用的警示通道",
     "optional": "伺服器配接卡的",
+    "on": "開啟",
+    "off": "關閉",
     "revisionDropdownButton": {
       "revision": "修訂 {{alertRevision}}",
       "pause": "暫停",
@@ -98,7 +100,17 @@
     "groupedViewHeader_1": "{{formattedCount}} 個結果",
     "groupedViewHeader_2": "{{formattedCount}} 個結果",
     "resultHeaderLoading": "載入中...",
-    "loadMore": "載入更多"
+    "loadMore": "載入更多",
+    "chooseLayoutDialog": {
+      "chooseLayout": "選擇智慧型警示佈置",
+      "layoutContent": "您目前可以存取兩種佈置，以便在此環境中建立智慧型警示。 請選取所需的佈置以繼續：",
+      "oldLayoutDescription": "舊版佈置：用於建立智慧型警示的傳統介面",
+      "newLayoutDescription": "新佈置：更新的介面，具有加強型特性和可用性改進。",
+      "layoutRecommendation": "如果不確定，我們建議探索新佈置以獲得更好的體驗。",
+      "cancelTitle": "取消",
+      "useOldLayout": "使用舊版佈置",
+      "useNewLayout": "使用新佈置"
+    }
   },
   "potentialProblems": {
     "titleErrorRate": "錯誤呼叫率高於正常",
@@ -144,6 +156,7 @@
   },
   "smartAlerts": {
     "addSmartAlert": "新增智慧型警示",
+    "createSmartAlert": "建立智慧型警示",
     "applicationSmartAlert": "應用程式智慧型警示",
     "globalApplicationSmartAlert": "廣域應用程式智慧型警示",
     "titleNoSmartAlertsConfigured": "未配置任何智慧型警示",
@@ -152,6 +165,13 @@
     "titleCopyOf": "{{smartAlertTitle}}（的副本）",
     "smartAlertsTitle": "智慧型警示",
     "labelNew": "（新建）",
+    "alertChannelList": {
+      "selectAllWarning": "選取所有警告",
+      "selectAllCritical": "選取所有嚴重的",
+      "alertLevel": "警示層次",
+      "critical": "嚴重",
+      "warning": "警告"
+    },
     "applications": {
       "alertConfiguration": "警示配置",
       "advanced": {
@@ -492,6 +512,8 @@
         "noPermissionGlobalSmartAlertEdit": "您沒有執行此動作的權限",
         "labelGlobalSmartAlertsList": "廣域智慧型警示 ({{numberOfAlerts}})",
         "labelSmartAlertsList": "應用程式智慧型警示 ({{numberOfAlerts}})",
+        "labelGlobalSmartAlertsTable": "廣域應用程式智慧型警示",
+        "labelSmartAlertsTable": "應用程式智慧型警示",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
         "getSubtitleForStaticThreshold": "靜態臨界值，{{metricLabel}} {{operator}} {{value}}",
         "getSubtitleForStaticDailySeasonality": "靜態每日週期性，{{metricLabel}}",
@@ -509,7 +531,11 @@
         "numberOfApplicationsSelected_plural": "已選取 {{count}} 個應用程式",
         "numberOfApplicationsSelected_0": "已選取 {{count}} 個應用程式",
         "numberOfApplicationsSelected_1": "已選取 {{count}} 個應用程式",
-        "numberOfApplicationsSelected_2": "已選取 {{count}} 個應用程式"
+        "numberOfApplicationsSelected_2": "已選取 {{count}} 個應用程式",
+        "noGlobalAlertDataHeader": "沒有廣域應用程式智慧型警示",
+        "noGlobalAlertDataDescription": "首先，按一下<strong>建立廣域應用程式智慧型警示</strong>。",
+        "noLocalAlertDataHeader": "沒有應用程式智慧型警示",
+        "noLocalAlertDataDescription": "首先，按一下<strong>建立智慧型警示</strong>。"
       },
       "details": {
         "title": "警示詳細資料",
@@ -973,7 +999,10 @@
           "tracesImpacted": "追蹤資料受到影響",
           "outOfConsecutiveEvaluations": "超出",
           "persistenceType": "持續性類型",
-          "numberOfConsecutiveViolationsPostLabel": "連續的 {{granularity}} 分鐘視窗有違規情況"
+          "numberOfConsecutiveViolationsPostLabel": "連續的 {{granularity}} 分鐘視窗有違規情況",
+          "static": "靜態",
+          "thresholdValue": "臨界值",
+          "timeWindow": "時間範圍"
         }
       }
     },
@@ -1100,7 +1129,9 @@
           "filter_0": "過濾器",
           "filter_1": "過濾器",
           "filter_2": "過濾器"
-        }
+        },
+        "noDataHeader": "沒有網站智慧型警示",
+        "noDataDescription": "首先，按一下<strong>建立智慧型警示</strong>。"
       }
     },
     "sortOptions": {
@@ -1144,7 +1175,9 @@
         "timeThreshold": "時間臨界值",
         "filterApplied": "已套用過濾器",
         "violationsCount": "{{violationsCount}} 次失敗",
-        "numberOfFailures": "失敗警示"
+        "numberOfFailures": "失敗警示",
+        "noDataHeader": "沒有綜合智慧型警示",
+        "noDataDescription": "首先，按一下<strong>建立智慧型警示</strong>。"
       },
       "alertProperties": {
         "testName": "Test_Name",
@@ -1279,7 +1312,9 @@
         "filter_0": "過濾器",
         "filter_1": "過濾器",
         "filter_2": "過濾器",
-        "filterApplied": "已套用過濾器"
+        "filterApplied": "已套用過濾器",
+        "noDataHeader": "沒有行動應用程式智慧型警示",
+        "noDataDescription": "首先，按一下<strong>建立智慧型警示</strong>。"
       },
       "simple": {
         "stepConfigsStep1Title": "步驟 1：選取警示",
@@ -1410,7 +1445,7 @@
             "subtitle": {
               "staticThresholdType": "靜態臨界值",
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
-              "predictiveTrigger": "預測觸發"
+              "forecastAlerting": "預測警示"
             }
           }
         },
@@ -1423,7 +1458,9 @@
         "filter_plural": "過濾器",
         "filter_0": "過濾器",
         "filter_1": "過濾器",
-        "filter_2": "過濾器"
+        "filter_2": "過濾器",
+        "noDataHeader": "無基礎架構智慧型警示",
+        "noDataDescription": "首先，按一下<strong>建立智慧型警示</strong>。"
       },
       "advancedModeContainer": {
         "scope": {
@@ -1446,9 +1483,14 @@
           "title": "時間臨界值：您希望何時收到警示？"
         },
         "predictiveTrigger": {
-          "title": "已停用預測警示",
-          "alertTitle": "在預測違規之前將觸發警示 {{value}}",
-          "timeToFailure": "失敗時間"
+          "title": "預測警示",
+          "description": "根據歷程資料趨勢接收主動警示。 此選項可協助您在潛在問題影響您的系統之前對其進行預測。",
+          "forecastTimeframe": "預測時間範圍",
+          "forecastTimeframeDetails": "定義用於警示的預測時間範圍。 請注意，較大的值會增加警示誤判的可能性。",
+          "fitTimeframe": "歷程資料時間範圍",
+          "fitTimeframeDetails": "指定用於分析趨勢的時間範圍。 如果您關心短期趨勢時，請選取較短的時間範圍；如果您想要在預期長期趨勢會超出限制時收到警示，請選取較大的時間範圍。",
+          "summary": "警示會<strong>提前到 {{forecastTimeframe}}</strong> 觸發。 預測是根據<strong>最近 {{fitTimeframe}}</strong> 的線性趨勢產生。",
+          "invalidTimeframes": "歷程資料時間範圍必須至少是預測時間範圍的兩倍時間範圍。"
         },
         "alertChannel": {
           "label": "警示通道",
@@ -1497,6 +1539,42 @@
         "step4": {
           "header": "您希望此警示通知哪些內容？",
           "description": "選取此警示的接收者"
+        },
+        "scopeAlerting": {
+          "title": "選擇您希望如何收到警示",
+          "customAggregation": "自訂聚集",
+          "customAggregationDescription": "將範圍內的所有度量聚集為每個群組的單一度量。 每個群組一次最多有一個作用中問題。",
+          "perEntityAlerting": "每個實體警示",
+          "perEntityAlertingDescription": "個別監視每個度量。 您將收到針對違反臨界值的每個個別度量的警示。"
+        },
+        "scopeFilter": {
+          "title": "選擇基礎架構的範圍",
+          "filter": "過濾器",
+          "filterDescription": "向服務新增過濾器以獲得更精確的警示。"
+        },
+        "scopeGroupBy": {
+          "group": "群組",
+          "groupByDescription": "新增群組以配置群組呼叫。 群組中的每個呼叫會集體進行配置，但會個別進行評估。"
+        },
+        "timeThreshold": {
+          "title": "在違規觸發警示時設定",
+          "description": "指定警示觸發的持續時間和失敗時間。"
+        },
+        "thresholdDescription": {
+          "static": "會套用常數臨界值，且不會隨著時間而變更。"
+        },
+        "chartAlertPreview": "警示預覽",
+        "chartAlertPreviewDescription": "顯示如何根據歷程度量資料觸發警示。",
+        "forecastAlerting": {
+          "description": "接收基於歷程資料和趨勢的主動警示。 此選項可協助您在潛在問題影響您的系統之前對其進行預測。",
+          "historicalDataTime": {
+            "description": "指定用於分析趨勢的時間範圍。",
+            "tooltipContent": "如果您關心短期趨勢時，請選取較短的時間範圍；如果您想要在預期長期趨勢會超出限制時收到警示，請選取較大的時間範圍。"
+          },
+          "forecastedTimeWindow": {
+            "description": "請注意，較大的值會增加警示誤判的可能性。",
+            "tooltipContent": "定義用於警示的預測時間範圍。 "
+          }
         }
       }
     },
@@ -1529,7 +1607,9 @@
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}"
             }
           }
-        }
+        },
+        "noDataHeader": "無日誌智慧型警示",
+        "noDataDescription": "首先，按一下<strong>建立智慧型警示</strong>。"
       },
       "advancedModeContainer": {
         "scope": {
@@ -1680,5 +1760,23 @@
         "failedTitle_EDIT": "更新此 SLO 智慧型警示時出現問題"
       }
     }
+  },
+  "table": {
+    "active": "作用中",
+    "inactive": "非作用中",
+    "triggeringAction": "觸發條件",
+    "status": "狀態",
+    "apply": "套用",
+    "cancel": "取消",
+    "filter": "過濾器",
+    "alertType": "警示類型",
+    "notificationChannel": "通知通道",
+    "tableDataSettings": "表格資料設定",
+    "pause": "暫停",
+    "delete": "刪除",
+    "warningAndCritical": "警告和嚴重",
+    "warning": "警告",
+    "critical": "嚴重",
+    "searchPlaceholder": "搜尋"
   }
 }

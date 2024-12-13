@@ -40,27 +40,13 @@
     }
   },
   "cookies": {
-    "categories": {
-      "analyticalPerformance": "Analitica / Prestazioni",
-      "functionality": "Funzionalità"
-    },
     "expiration": {
-      "sevenDays": "Scade dopo 7 giorni",
-      "persistent": "Persistente",
       "afterSession": "Scade dopo la sessione"
     },
-    "mixpanel": {
-      "title": "Analitica degli utenti del prodotto",
-      "purpose": "Registra un ID univoco utilizzato per generare dati statistici relativi al modo in cui il visitatore utilizza il sito web."
-    },
     "walkme": {
-      "title": "Guida e avviamento al prodotto",
-      "purpose": "Registra un ID univoco utilizzato per generare dati statistici relativi al modo in cui il visitatore utilizza il sito web.",
-      "category": "Guida e avviamento al prodotto"
-    },
-    "appcues": {
-      "title": "Esperienza di onboarding personalizzata e sondaggi NPS",
-      "purpose": "Onboarding dell'utente e sondaggio sullo store NPS."
+      "title": "Analisi e guida degli utenti del prodotto",
+      "purpose": "Registra un ID univoco che viene utilizzato per generare dati statistici sull'utilizzo del prodotto da parte del visitatore.",
+      "category": "Funzionale"
     }
   },
   "roleAndAccessScope": {
@@ -112,6 +98,7 @@
     "permissions_OPENSTACK": "OpenStack",
     "permissions_VSPHERE": "vSphere",
     "permissions_SAP": "SAP",
+    "permissions_NUTANIX": "Nutanix",
     "clusters": "Cluster",
     "namespaces": "Spazio dei nomi",
     "obsoleteEntityDescription": "Attualmente non sono disponibili dati - l'accesso è ancora concesso.",
@@ -224,7 +211,7 @@
     "title_limited_access_bizops": "Accesso limitato",
     "description_limited_access_bizops": "Accedere solo alle prospettive aziendali elencate e ai relativi processi aziendali.",
     "description_access_all_bizops": "Tutte le funzioni del monitoraggio aziendale sono accessibili senza limitazioni.",
-    "description_no_access_bizops": "L'accesso al monitoraggio aziendale è negato.",
+    "description_no_access_bizops": "Nessun accesso: l'accesso al monitoraggio aziendale è negato.",
     "description_access_all_except_contributor": "Accedi a tutti - tranne quelli a cui si accede come contributore",
     "role": "Seleziona un ruolo",
     "role_owner": "Proprietario",
@@ -389,7 +376,7 @@
           "dbMarlinExampleForAnInternalInstance": "Immettere l'URL della propria istanza DBmarlin, ad esempio <strong>https://team.dbmarlin.com</strong> o <strong>http://192.168.1.128:443</strong> per un'istanza interna.",
           "configureDbMarlin": "Configura DBmarlin",
           "configureDbMarlinDescription": "Se abilitato, la seguente configurazione aggiunge un link a DBmarlin nei dettagli della chiamata per le chiamate compatibili.",
-          "configureYourDbMarlinSettings": "Configurare le proprie impostazioni DBmarlin",
+          "configureYourDbMarlinSettings": "Configurare l'integrazione con DBmarlin",
           "testDbMarlinInstance": "Per verificare il link DBmarlin, andare a",
           "failedToLoadDbMarlinConfiguration": "Impossibile caricare la configurazione DBmarlin."
         }
@@ -476,6 +463,8 @@
       "deletionUntilDate": "Eliminazione fino alla data",
       "untilDateValidationMessage": "La data deve essere uguale o precedente alla data corrente",
       "reasonValidationMessage": "Il motivo dell'eliminazione non può essere vuoto",
+      "untilTimeValidationMessage": "L'ora deve essere uguale o precedente all'ora corrente",
+      "correctTimeFormat": "Inserire un'ora valida nel formato HH:mm",
       "toastSuccessTitle": "L'eliminazione dei log potrebbe richiedere un certo tempo.",
       "toastSuccessMessage": "È possibile chiudere questa finestra pop-up e controllare lo stato nella tabella \"Cronologia azioni di eliminazione log\".",
       "toastErrorTitle": "Eliminazione dei log non riuscita",
@@ -761,16 +750,16 @@
     "dstInEffect": "DST in vigore",
     "dstMsg": "{{dstMsg}}. {{label}} è \"{{currentTimeZone}}\" (UTC{{selectedUtcOffset}})",
     "maintenanceWindowConfigurationEntityName": "configurazione finestra di manutenzione {{entityName}}",
-    "configureYourCoralogixSettings": "Configurare le impostazioni Coralogix",
+    "configureYourCoralogixSettings": "Configurare l'integrazione Coralogix",
     "failedToSaveConfiguration": "Impossibile salvare la configurazione: {{err}}",
     "coralogixExampleForAnInternalInstance": "Inserire l'URL dell'istanza Coralogix, ad esempio <br><strong>https://team.coralogix.com</strong> o <strong>http://192.168.1.128:443</strong> per un'istanza interna.</br>",
-    "configureYourElkSettings": "Configurare le impostazioni ELK",
+    "configureYourElkSettings": "Configurare l'integrazione ELK",
     "elkExampleForAnInternalInstance": "Inserire l'URL dell'istanza ELK, ad esempio: <strong>http://kibana.com:5601</strong> o <strong>http://192.168.1.128:5601</strong> per un'istanza interna.",
     "optionalBasePathYouHaveConfiguredInElk": "Esempio: http://kibana.com:5601/<strong>instana</strong>/app/kibana#. Percorso di base facoltativo impostato in ELK.",
     "idOfTheDashboardYouHaveConfiguredInElkForInstana": "Esempio: può essere trovato dall'URL http://kibana.com:5601/app/kibana#/dashboard/a23a8810-4ce8-11ea-9be2-a53f95fe8814. ID del dashboard configurato in ELK per Instana.",
-    "configureYourHumioSettings": "Configurare le impostazioni Humio",
+    "configureYourHumioSettings": "Configurare l'integrazione Humio",
     "humioExampleForAnInternalInstance": "Inserire l'URL dell'istanza di Humio <strong>https://cloud.humio.com</strong> o <strong>http://192.168.1.128:443</strong> per un'istanza interna.",
-    "configureYourMezmoSettings": "Configura le tue impostazioni Mezmo",
+    "configureYourMezmoSettings": "Configurare l'integrazione Mezmo",
     "canBeFoundFromTheMezmoUrl": "Inserire l'URL dell'istanza Mezmo. l'URL consiste in: <strong>https://base_url/account_id</strong>, ad esempio: <strong>https://app.mezmo.com/123456789</strong>",
     "canBeFoundFromTheIbmCloudUrl": "L'URL è composto da: <strong>https://base_url/guid</strong>, ad esempio: <strong>https://cloud.ibm.com/observe/embedded-view/logging/123456789</strong>",
     "enterIbmCloudAccountId": "Immettere il GUID dell'istanza di registrazione.",
@@ -778,7 +767,7 @@
     "mezmoDocumentationReference": "<br>Per maggiori informazioni si prega di consultare la nostra <documentationLink>documentazione</documentationLink>.</br>",
     "mezmoInstance": "Provider",
     "invalidMezmoId": "L'ID account/Dashboard deve contenere solo lettere, numeri e -.",
-    "configureYourSplunkSettings": "Configurare le impostazioni Splunk",
+    "configureYourSplunkSettings": "Configurare l'integrazione con Splunk",
     "splunkExampleForAnInternalInstance": "Inserire l'URL dell'istanza Splunk, ad esempio <strong>https://cloud.splunk.com</strong> o <strong>http://192.168.1.128:443</strong> per un'istanza interna.",
     "spaceBetweenGroupsInXDirection": "Spazio tra i gruppi nella direzione x ({{packingXSpace}})",
     "spaceBetweenGroupsInYDirection": "Spazio tra i gruppi nella direzione y ({{packingYSpace}})",
@@ -829,6 +818,7 @@
     "username": "Nome utente",
     "usernameDescription": "L'utente deve essere correlato in Instana come utente proprietario. Un nome utente login viene verificato  prima che le impostazioni vengano salvate, le credenziali non vengono memorizzate.",
     "usernamePasswordDescription": "La password LDAP dell'utente",
+    "ldapCannotbeConfiguredWithOtherIdPActive": "LDAP non è configurabile se si dispone di un'altra configurazione di identity provider attiva.",
     "ldapTestFailed": "Test LDAP non riuscito:",
     "thisAccountIsAutomaticallyAssignedAnAdminRole": "Inserire un'email da assegnare automaticamente al gruppo proprietario.",
     "thisAccountIsAutomaticallyAssignedAnAdminRoleLDAP": "Inserire un account da assegnare automaticamente al gruppo proprietario. Utilizzare l'attributo LDAP dell'account allineato al modello di ricerca dell'interrogazione utente.",
@@ -971,6 +961,8 @@
     "savingGroup": "Salvataggio del gruppo",
     "groupSuccessfullySaved": "Gruppo salvato correttamente.",
     "groups": "Gruppi",
+    "roles": "Ruoli",
+    "teams": "Team",
     "groupDeleteTooltip_Default": "Il gruppo Default è un gruppo integrato e non può essere eliminato o rinominato.",
     "groupDeleteTooltip_Owner": "Il gruppo Owner è un gruppo integrato e non può essere eliminato o rinominato.",
     "deleteGroupMessage": "Si è sicuri di voler rimuovere <strong>{{groupName}}</strong> da tutte le unità su questo tenant?",

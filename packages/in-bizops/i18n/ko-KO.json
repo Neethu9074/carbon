@@ -19,8 +19,19 @@
     "unnamedActivity": "(이름 지정되지 않은 활동){{activityType}}",
     "unnamedService": "(이름 지정되지 않은 서비스)"
   },
+  "customDashboards": {
+    "activityCountMetric": "활동 수",
+    "erroneousActivityCallsCountLabel": "잘못된 활동 호출(개수)",
+    "erroneousActivityCallsCategory": "잘못된 활동 호출 수",
+    "erroneousActivityCallsRateLabel": "잘못된 활동 호출(비율)",
+    "latency": "대기 시간"
+  },
   "processes": {
-    "deployAgent": "에이전트 배치"
+    "deployAgent": "에이전트 배치",
+    "noProcessesAvailable": "비즈니스 프로세스를 사용할 수 없습니다.",
+    "deployAgentFirst": "먼저 에이전트를 배치해야 합니다.",
+    "forMoreInformation": "자세한 정보는",
+    "documentation": "문서를 검토하십시오."
   },
   "perspectives": {
     "newPerspective": "관점 작성",

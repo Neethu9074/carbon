@@ -131,7 +131,8 @@
     "map": "Mappe",
     "comparisonTable": "Table de comparaison",
     "infrastructureComparisonTable": "Table de comparaison d'infrastructure",
-    "smartAlerts": "Alertes intelligentes"
+    "smartAlerts": "Alertes intelligentes",
+    "graph": "Graphique"
   },
   "smartAlertView": {
     "smartAlertTab": "Alertes intelligentes d'infrastructure"
@@ -140,6 +141,9 @@
     "buttonSelectTags": "Sélectionner des étiquettes",
     "titleAddATag": "Ajouter une balise",
     "messagePleaseSelectAtMostTags": "Sélectionnez au maximum {{maximumNumberOfTags}} étiquettes."
+  },
+  "graphExplorerView": {
+    "infrastructureGraphExplorer": "Explorateur de graphique"
   },
   "threshold": {
     "label": "Seuil",

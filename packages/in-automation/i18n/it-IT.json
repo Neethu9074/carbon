@@ -506,9 +506,11 @@
     "runningAction": "Azione in corso...",
     "actionStarted": "Azione avviata",
     "actionFailed": "Azione non riuscita",
-    "actionStartedMessage": "Hai eseguito <strong>{{actionName}}.</strong> Visualizzare l'avanzamento di questa azione nella pagina della cronologia delle azioni.",
+    "actionStartedMessage": "Hai eseguito <strong>{{actionName}}.</strong> Visualizzare l'avanzamento di questa azione nella scheda cronologia azioni.",
     "actionFailedMessage": "La richiesta di esecuzione dell'azione <strong>{{actionName}}</strong> è fallita: {{message}}.",
     "viewActionHistory": "Visualizza cronologia azioni",
-    "actionName": "Nome azione"
+    "actionName": "Nome azione",
+    "recommendedActionHistoryWithCount": "Cronologia delle azioni sulle risorse{{count}})",
+    "recommendedActionHistory": "Cronologia azione risorsa"
   }
 }

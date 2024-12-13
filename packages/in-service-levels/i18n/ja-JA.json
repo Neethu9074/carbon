@@ -56,7 +56,12 @@
       "website": {
         "trafficType_all": "全ビーコン数",
         "trafficType_erroneous": "ビーコン・エラー数"
-      }
+      },
+      "synthetic": {
+        "trafficType_all": "すべての結果",
+        "trafficType_erroneous": "誤った結果"
+      },
+      "trafficTypeLabel": "$t(in-service-levels:general.indicator.{{entityType}}.trafficType, {\"context\": \"{{trafficType}}\" })"
     },
     "latency": "待ち時間",
     "time": "時刻",
@@ -108,8 +113,10 @@
       "beaconCount": "ビーコン数",
       "calls": "呼び出し",
       "latency": "待ち時間",
+      "results": "結果",
       "beaconDuration": "ビーコン期間",
       "threshold": "しきい値",
+      "failureRate": "故障率",
       "errors": "エラーのある呼び出し率",
       "beaconErrorRate": "ビーコン・エラー率",
       "goodEvents": "良好なイベント",
@@ -132,7 +139,9 @@
       "event_synthetic_plural": "{{formatted}} 結果",
       "event_synthetic_0": "{{formatted}} 結果",
       "event_synthetic_1": "{{formatted}} 結果",
-      "event_synthetic_2": "{{formatted}} 結果"
+      "event_synthetic_2": "{{formatted}} 結果",
+      "event_test": "{{count}}テスト",
+      "event_test_plural": "{{count}}テスト"
     },
     "deleteDialog": {
       "pleaseConfirm": "ご確認ください",
@@ -212,9 +221,7 @@
       "thresholdDescription_GTE": "良好な 1 分間とは、1 分あたりの通話回数が {{thresholdValue}} 以上で定義されます。 悪い分とは、1分あたりのコール数が{{thresholdValue}} 未満で定義されます。",
       "thresholdDescription_LT": "良好な1分間とは、1分間あたりのコール数が{{thresholdValue}} 未満で定義されます。 悪い分とは、1 分あたりのコール数が {{thresholdValue}} 以上で定義されます。",
       "thresholdDescription_LTE": "良好な1分間とは、1 分間あたりのコール数が {{thresholdValue}} 以下で定義されます。 悪い分とは、1 分あたりのコール数が {{thresholdValue}} 以上で定義されます。",
-      "thresholdInput": "1 分<HorizontalStack/><Stack /> あたりの <HorizontalStack><OperatorDropdown /><ThresholdInput /> コールの<Stack>しきい値を設定します。",
-      "allCalls": "すべての呼び出し",
-      "erroneousCalls": "エラーのある呼び出し数"
+      "thresholdInput": "1 分<HorizontalStack/><Stack /> あたりの <HorizontalStack><OperatorDropdown /><ThresholdInput /> コールの<Stack>しきい値を設定します。"
     },
     "previewSection": {
       "dataInfo": "プレビュー・データは、過去 7 日分までしか表示されません。 SLO には、SLO が作成された時点からのデータのみが含まれます。",
@@ -224,8 +231,8 @@
   },
   "sloChart": {
     "sloFormatter": {
-      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:general.format.event {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
-      "callsFormat": "{{formattedCount}} $t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
+      "thousandCallsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formattedCount}}K\" })",
+      "callsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formatted}}\" })"
     },
     "sloChartSummary": {
       "status": "状況",

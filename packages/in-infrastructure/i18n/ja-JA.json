@@ -131,7 +131,8 @@
     "map": "マップ",
     "comparisonTable": "比較表",
     "infrastructureComparisonTable": "インフラストラクチャー比較表",
-    "smartAlerts": "スマート・アラート"
+    "smartAlerts": "スマート・アラート",
+    "graph": "グラフ"
   },
   "smartAlertView": {
     "smartAlertTab": "インフラストラクチャー・スマート・アラート"
@@ -140,6 +141,9 @@
     "buttonSelectTags": "タグの選択",
     "titleAddATag": "タグの追加",
     "messagePleaseSelectAtMostTags": "最大 {{maximumNumberOfTags}} 個のタグを選択してください。"
+  },
+  "graphExplorerView": {
+    "infrastructureGraphExplorer": "グラフ・エクスプローラー"
   },
   "threshold": {
     "label": "しきい値",

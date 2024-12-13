@@ -56,7 +56,12 @@
       "website": {
         "trafficType_all": "所有引標計數",
         "trafficType_erroneous": "引標錯誤計數"
-      }
+      },
+      "synthetic": {
+        "trafficType_all": "所有結果",
+        "trafficType_erroneous": "錯誤結果"
+      },
+      "trafficTypeLabel": "$t(in-service-levels:general.indicator.{{entityType}}.trafficType, {\"context\": \"{{trafficType}}\" })"
     },
     "latency": "延遲",
     "time": "時間",
@@ -108,8 +113,10 @@
       "beaconCount": "引標計數",
       "calls": "呼叫",
       "latency": "延遲",
+      "results": "結果",
       "beaconDuration": "引標持續時間",
       "threshold": "臨界值",
+      "failureRate": "故障率",
       "errors": "錯誤呼叫率",
       "beaconErrorRate": "引標錯誤率",
       "goodEvents": "良好事件",
@@ -132,7 +139,9 @@
       "event_synthetic_plural": "{{formatted}} 個結果",
       "event_synthetic_0": "{{formatted}} 個結果",
       "event_synthetic_1": "{{formatted}} 個結果",
-      "event_synthetic_2": "{{formatted}} 個結果"
+      "event_synthetic_2": "{{formatted}} 個結果",
+      "event_test": "{{count}} 個測試",
+      "event_test_plural": "{{count}} 個測試"
     },
     "deleteDialog": {
       "pleaseConfirm": "請確認",
@@ -212,9 +221,7 @@
       "thresholdDescription_GTE": "良好的一分鐘定義為每分鐘的呼叫次數大於或等於 {{thresholdValue}}。 糟糕的一分鐘定義為每分鐘的呼叫次數少於 {{thresholdValue}}。",
       "thresholdDescription_LT": "良好的一分鐘定義為每分鐘的呼叫次數少於 {{thresholdValue}}。 糟糕的一分鐘定義為每分鐘的呼叫次數大於或等於 {{thresholdValue}}。",
       "thresholdDescription_LTE": "良好的一分鐘定義為每分鐘的呼叫次數小於或等於 {{thresholdValue}}。 糟糕的一分鐘定義為每分鐘的呼叫次數超過 {{thresholdValue}}。",
-      "thresholdInput": "<Stack>設定每分鐘呼叫次數的 <HorizontalStack><OperatorDropdown /><ThresholdInput />臨界值<HorizontalStack/><Stack />",
-      "allCalls": "所有呼叫",
-      "erroneousCalls": "錯誤呼叫"
+      "thresholdInput": "<Stack>設定每分鐘呼叫次數的 <HorizontalStack><OperatorDropdown /><ThresholdInput />臨界值<HorizontalStack/><Stack />"
     },
     "previewSection": {
       "dataInfo": "預覽資料在過去最多只會顯示 7 天。 SLO 將只包含自建立以來的資料",
@@ -224,8 +231,8 @@
   },
   "sloChart": {
     "sloFormatter": {
-      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:general.format.event {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
-      "callsFormat": "{{formattedCount}} $t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
+      "thousandCallsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formattedCount}}K\" })",
+      "callsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formatted}}\" })"
     },
     "sloChartSummary": {
       "status": "狀態",
