@@ -23,7 +23,6 @@ import { ShapeNode, Edge } from '@instana/carbon-charts';
 import { generateUniqueShortId } from '@instana/utils';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
-import '@instana/carbon-charts/lib/index.css';
 
 import {
   ConnectionsMap,
