@@ -384,12 +384,12 @@
         "textInput": {
           "placeholder": "凭证名称",
           "labelText": "名称",
-          "invalidText": "凭证名称必须以字母开头，并且只包含字母、数字和下划线。"
+          "invalidText": "凭证名称必须以字母开头，并且只包含字母、数字和下划线。",
+          "credentialNamesMustBeUnique": "凭证名称必须是唯一的。 此名称已占用。 请尝试另一个。"
         },
         "passwordInput": {
           "placeholder": "凭证值",
-          "labelText": "值",
-          "invalidText": "值不应为空。"
+          "labelText": "值"
         },
         "associationsDescription": "将凭证与应用程序、Web 站点或移动应用程序相关联，可向所有可访问这些实体的用户授予访问权限。"
       },
@@ -515,6 +515,12 @@
       "deleteLocationBroswerRefreshInfo": "该位置需要一些时间才能从位置列表中消失，并且可能需要浏览器刷新。",
       "deactivateLocation": {
         "deactivate": "停用"
+      },
+      "ipAddressColumn": {
+        "ipAddress": "IP 地址",
+        "singleIPAddress": "{{number}} IP 地址",
+        "multipleIPAddress": "{{number}} IP 地址",
+        "noIPAddresses": "不适用"
       }
     },
     "summary": {
@@ -810,7 +816,10 @@
         "noCredentialsAvailableTitle": "无可用的合成凭证",
         "noCredentialsAvailableDescription": "没有从数据库中检索到合成凭证。"
       },
-      "editAction": "编辑",
+      "editAction": {
+        "editActionLabel": "编辑",
+        "theValueMustNotBeBlank": "值不能为空。"
+      },
       "deleteAction": {
         "deleteActionLabel": "删除",
         "deleteCredentialTitle": "删除合成凭证 {{credentialName}}",

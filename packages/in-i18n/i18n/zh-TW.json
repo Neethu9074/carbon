@@ -3,11 +3,6 @@
     "uiShell": {
       "mainNavigation": "主要導覽"
     },
-    "expandableGroup": {
-      "tooltipShowContent": "顯示內容",
-      "tooltipHideContent": "隱藏內容",
-      "labelExpandButtonForContent": "內容的展開按鈕"
-    },
     "list": {
       "loadMore": "載入更多",
       "expand": "展開",

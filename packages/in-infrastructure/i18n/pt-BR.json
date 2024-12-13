@@ -131,7 +131,8 @@
     "map": "Mapa",
     "comparisonTable": "Tabela de comparação",
     "infrastructureComparisonTable": "Tabela de comparação de infraestrutura",
-    "smartAlerts": "Alertas inteligentes"
+    "smartAlerts": "Alertas inteligentes",
+    "graph": "Gráfico"
   },
   "smartAlertView": {
     "smartAlertTab": "Alertas inteligentes de infraestrutura"
@@ -140,6 +141,9 @@
     "buttonSelectTags": "Selecionar tags",
     "titleAddATag": "Incluir uma tag",
     "messagePleaseSelectAtMostTags": "Selecione no máximo {{maximumNumberOfTags}} tags."
+  },
+  "graphExplorerView": {
+    "infrastructureGraphExplorer": "Explorador de gráfico"
   },
   "threshold": {
     "label": "Limite",

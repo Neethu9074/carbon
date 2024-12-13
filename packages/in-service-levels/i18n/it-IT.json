@@ -56,7 +56,12 @@
       "website": {
         "trafficType_all": "Conteggio di tutti i beacon",
         "trafficType_erroneous": "Conteggio degli errori del beacon"
-      }
+      },
+      "synthetic": {
+        "trafficType_all": "Tutti i risultati",
+        "trafficType_erroneous": "Risultati errati"
+      },
+      "trafficTypeLabel": "$t(in-service-levels:general.indicator.{{entityType}}.trafficType, {\"context\": \"{{trafficType}}\" })"
     },
     "latency": "Latenza",
     "time": "Ora",
@@ -108,8 +113,10 @@
       "beaconCount": "Conteggio beacon",
       "calls": "Chiamate",
       "latency": "Latenza",
+      "results": "Risultati",
       "beaconDuration": "Durata beacon",
       "threshold": "Soglia",
+      "failureRate": "Percentuale di errore",
       "errors": "Tasso di chiamate con errori",
       "beaconErrorRate": "Tasso di errore beacon",
       "goodEvents": "Eventi positivi",
@@ -132,7 +139,9 @@
       "event_synthetic_plural": "Risultati {{formatted}}",
       "event_synthetic_0": "Risultati {{formatted}}",
       "event_synthetic_1": "Risultati {{formatted}}",
-      "event_synthetic_2": "Risultati {{formatted}}"
+      "event_synthetic_2": "Risultati {{formatted}}",
+      "event_test": "{{count}} test",
+      "event_test_plural": "test {{count}}"
     },
     "deleteDialog": {
       "pleaseConfirm": "Confermare",
@@ -212,9 +221,7 @@
       "thresholdDescription_GTE": "Un minuto buono è definito da un numero di chiamate al minuto superiore o uguale a {{thresholdValue}}. Un minuto negativo è definito da un conteggio inferiore a {{thresholdValue}} di chiamate al minuto.",
       "thresholdDescription_LT": "Un minuto buono è definito da un conteggio inferiore a {{thresholdValue}} di chiamate al minuto. Un minuto negativo è definito da un conteggio superiore o uguale a {{thresholdValue}} di chiamate al minuto.",
       "thresholdDescription_LTE": "Un minuto buono è definito da un conteggio inferiore o uguale a {{thresholdValue}} di chiamate al minuto. Un minuto negativo è definito da un conteggio superiore a {{thresholdValue}} di chiamate al minuto.",
-      "thresholdInput": "<Stack>Impostare una soglia di<HorizontalStack><Elencoadiscesaoperatore /><Inputsoglia />chiamate per minuto<HorizontalStack/><Stack />",
-      "allCalls": "Tutte le chiamate",
-      "erroneousCalls": "Chiamate con errori"
+      "thresholdInput": "<Stack>Impostare una soglia di<HorizontalStack><Elencoadiscesaoperatore /><Inputsoglia />chiamate per minuto<HorizontalStack/><Stack />"
     },
     "previewSection": {
       "dataInfo": "I dati di anteprima vengono mostrati solo fino a 7 giorni in passato. Lo SLO includerà solo i dati dal momento in cui è stato creato",
@@ -224,8 +231,8 @@
   },
   "sloChart": {
     "sloFormatter": {
-      "thousandCallsFormat": "{{formattedCount}}$tin-service-levels:general.format.event {\"context\":{{entityType}}\", \"count\": {{count}} })",
-      "callsFormat": "{{formattedCount}} $tin-service-levels:general.format.event, {\"context\":{{entityType}}\", \"count\": {{count}} })"
+      "thousandCallsFormat": "$tin-service-levels:general.format.event, {\"context\":{{entityType}}\", \"count\": {{count}}, \"formattato\":{{formattedCount}}\" })",
+      "callsFormat": "$tin-service-levels:general.format.event, {\"context\":{{entityType}}\", \"count\": {{count}}, \"formattato\":{{formatted}}\" })"
     },
     "sloChartSummary": {
       "status": "Stato",

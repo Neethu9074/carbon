@@ -506,9 +506,11 @@
     "runningAction": "執行中動作...",
     "actionStarted": "動作已開始",
     "actionFailed": "動作失敗",
-    "actionStartedMessage": "您已執行 <strong>{{actionName}}。</strong> 在動作歷程頁面中檢視該動作的進度。",
+    "actionStartedMessage": "您已執行 <strong>{{actionName}}。</strong> 在動作歷程標籤中檢視此動作的進度。",
     "actionFailedMessage": "執行動作 <strong>{{actionName}}</strong> 的要求失敗：{{message}}。",
     "viewActionHistory": "檢視動作歷程",
-    "actionName": "動作名稱"
+    "actionName": "動作名稱",
+    "recommendedActionHistoryWithCount": "資源動作歷程 ({{count}})",
+    "recommendedActionHistory": "資源動作歷程"
   }
 }

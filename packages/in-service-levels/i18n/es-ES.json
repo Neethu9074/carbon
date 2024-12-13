@@ -56,7 +56,12 @@
       "website": {
         "trafficType_all": "Recuento de todas las balizas",
         "trafficType_erroneous": "Recuento de errores de baliza"
-      }
+      },
+      "synthetic": {
+        "trafficType_all": "Todos los resultados",
+        "trafficType_erroneous": "Resultados erróneos"
+      },
+      "trafficTypeLabel": "$t(in-service-levels:general.indicator.{{entityType}}.trafficType, {\"context\": \"{{trafficType}}\" })"
     },
     "latency": "Latencia",
     "time": "Hora",
@@ -108,8 +113,10 @@
       "beaconCount": "Recuento de balizas",
       "calls": "Llamadas",
       "latency": "Latencia",
+      "results": "Resultados",
       "beaconDuration": "Duración de baliza",
       "threshold": "Umbral",
+      "failureRate": "Frecuencia de errores",
       "errors": "Tasa de llamadas erróneas",
       "beaconErrorRate": "Tasa de errores de baliza",
       "goodEvents": "Sucesos buenos",
@@ -132,7 +139,9 @@
       "event_synthetic_plural": "{{formatted}} resultados",
       "event_synthetic_0": "{{formatted}} resultados",
       "event_synthetic_1": "{{formatted}} resultados",
-      "event_synthetic_2": "{{formatted}} resultados"
+      "event_synthetic_2": "{{formatted}} resultados",
+      "event_test": "{{count}} prueba",
+      "event_test_plural": "{{count}} pruebas"
     },
     "deleteDialog": {
       "pleaseConfirm": "Confírmelo",
@@ -212,9 +221,7 @@
       "thresholdDescription_GTE": "Un buen minuto se define por un recuento mayor o igual a {{thresholdValue}} llamadas por minuto. Un minuto malo se define por un recuento inferior a {{thresholdValue}} llamadas por minuto.",
       "thresholdDescription_LT": "Un buen minuto se define por un recuento inferior a {{thresholdValue}} llamadas por minuto. Un minuto malo se define por un recuento mayor o igual a {{thresholdValue}} llamadas por minuto.",
       "thresholdDescription_LTE": "Un buen minuto se define por un recuento inferior o igual a {{thresholdValue}} llamadas por minuto. Un minuto malo se define por un recuento de más de {{thresholdValue}} llamadas por minuto.",
-      "thresholdInput": "<Stack>Establezca un umbral de<HorizontalStack><OperatorDropdown /><ThresholdInput />llamadas por minuto<HorizontalStack/><Stack />",
-      "allCalls": "Todas las llamadas",
-      "erroneousCalls": "Llamadas erróneas"
+      "thresholdInput": "<Stack>Establezca un umbral de<HorizontalStack><OperatorDropdown /><ThresholdInput />llamadas por minuto<HorizontalStack/><Stack />"
     },
     "previewSection": {
       "dataInfo": "Los datos de vista previa muestran solo un máximo de 7 días en el pasado. El SLO solo incluirá datos desde el momento en que se creó",
@@ -224,8 +231,8 @@
   },
   "sloChart": {
     "sloFormatter": {
-      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:general.format.event {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
-      "callsFormat": "{{formattedCount}} $t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
+      "thousandCallsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formattedCount}}K\" })",
+      "callsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formatted}}\" })"
     },
     "sloChartSummary": {
       "status": "Estado",

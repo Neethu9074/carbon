@@ -131,7 +131,8 @@
     "map": "맵",
     "comparisonTable": "비교 테이블",
     "infrastructureComparisonTable": "인프라 비교 테이블",
-    "smartAlerts": "스마트 경보"
+    "smartAlerts": "스마트 경보",
+    "graph": "그래프"
   },
   "smartAlertView": {
     "smartAlertTab": "인프라 스마트 경보"
@@ -140,6 +141,9 @@
     "buttonSelectTags": "태그 선택",
     "titleAddATag": "태그 추가",
     "messagePleaseSelectAtMostTags": "최대 {{maximumNumberOfTags}}개의 태그를 선택하십시오."
+  },
+  "graphExplorerView": {
+    "infrastructureGraphExplorer": "그래프 탐색기"
   },
   "threshold": {
     "label": "임계값",

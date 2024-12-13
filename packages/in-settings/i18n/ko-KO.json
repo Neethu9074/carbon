@@ -40,27 +40,13 @@
     }
   },
   "cookies": {
-    "categories": {
-      "analyticalPerformance": "분석적/성능",
-      "functionality": "기능"
-    },
     "expiration": {
-      "sevenDays": "7일 후에 만료",
-      "persistent": "지속적",
       "afterSession": "세션 후에 만료"
     },
-    "mixpanel": {
-      "title": "제품 사용자 분석",
-      "purpose": "방문자가 웹 사이트를 사용하는 방법에 대한 통계적 데이터를 생성하는 데 사용되는 고유 ID를 등록하십시오."
-    },
     "walkme": {
-      "title": "제품 온보딩 및 안내",
-      "purpose": "방문자가 웹 사이트를 사용하는 방법에 대한 통계적 데이터를 생성하는 데 사용되는 고유 ID를 등록하십시오.",
-      "category": "제품 온보딩 및 안내"
-    },
-    "appcues": {
-      "title": "사용자가 조정한 온보딩 경험 및 NPS 설문조사",
-      "purpose": "사용자 온보딩 및 NPS 저장소 설문조사."
+      "title": "제품 사용자 분석 및 안내",
+      "purpose": "방문자의 제품 사용 방식에 대한 통계 데이터를 생성하는 데 사용되는 고유 ID를 등록합니다.",
+      "category": "기능"
     }
   },
   "roleAndAccessScope": {
@@ -112,6 +98,7 @@
     "permissions_OPENSTACK": "OpenStack",
     "permissions_VSPHERE": "vSphere",
     "permissions_SAP": "SAP",
+    "permissions_NUTANIX": "Nutanix",
     "clusters": "클러스터",
     "namespaces": "네임스페이스",
     "obsoleteEntityDescription": "현재 사용 가능한 데이터가 없습니다. 여전히 액세스가 허용되고 있습니다.",
@@ -224,7 +211,7 @@
     "title_limited_access_bizops": "제한된 액세스",
     "description_limited_access_bizops": "나열된 비즈니스 관점과 해당 비즈니스 프로세스만 액세스하십시오.",
     "description_access_all_bizops": "비즈니스 모니터링의 모든 기능에 제한 없이 액세스할 수 있습니다.",
-    "description_no_access_bizops": "비즈니스 모니터링에 대한 액세스가 거부되었습니다.",
+    "description_no_access_bizops": "액세스 없음: 비즈니스 모니터링에 대한 액세스가 거부되었습니다.",
     "description_access_all_except_contributor": "모두 액세스-컨트리뷰터로 액세스되는 항목을 제외하고 모두 액세스",
     "role": "역할 선택",
     "role_owner": "소유자",
@@ -389,7 +376,7 @@
           "dbMarlinExampleForAnInternalInstance": "DBmarlin 인스턴스의 URL을 입력하십시오(예: 내부 인스턴스의 경우 <strong>https://team.dbmarlin.com</strong> 또는 <strong>http://192.168.1.128:443</strong>).",
           "configureDbMarlin": "DBmarlin 구성",
           "configureDbMarlinDescription": "다음 구성을 활성화하면 호환 통화에 대한 통화 세부 정보에 DBmarlin 링크가 추가됩니다.",
-          "configureYourDbMarlinSettings": "DBmarlin 설정 구성",
+          "configureYourDbMarlinSettings": "DBmarlin 통합 구성",
           "testDbMarlinInstance": "DBmarlin 링크를 테스트하려면 다음 주소로 이동하세요.",
           "failedToLoadDbMarlinConfiguration": "DBmarlin 구성을 로드하는 데 실패했습니다."
         }
@@ -476,6 +463,8 @@
       "deletionUntilDate": "삭제 종료 날짜",
       "untilDateValidationMessage": "날짜는 현재 날짜이거나 현재 날짜 이전이어야 함",
       "reasonValidationMessage": "삭제 이유는 비워둘 수 없음",
+      "untilTimeValidationMessage": "시간은 현재 시간 또는 그 이전이어야 함",
+      "correctTimeFormat": "유효한 시간을 HH:mm 형식으로 입력",
       "toastSuccessTitle": "로그를 삭제하는 데 시간이 걸릴 수 있습니다.",
       "toastSuccessMessage": "이 팝업 창을 닫고 '로그 삭제 작업 내역' 표에서 상태를 확인할 수 있습니다.",
       "toastErrorTitle": "로그 삭제 실패",
@@ -761,16 +750,16 @@
     "dstInEffect": "DST 유효함",
     "dstMsg": "{{dstMsg}}. {{label}}은(는) \"{{currentTimeZone}}\"임(UTC{{selectedUtcOffset}})",
     "maintenanceWindowConfigurationEntityName": "유지보수 기간 구성 {{entityName}}",
-    "configureYourCoralogixSettings": "Coralogix 설정 구성",
+    "configureYourCoralogixSettings": "Coralogix 통합 구성",
     "failedToSaveConfiguration": "구성을 저장하는 데 실패함: {{err}}",
     "coralogixExampleForAnInternalInstance": "Coralogix 인스턴스의 URL을 입력하십시오(예: <br><strong>https://team.coralogix.com</strong> 또는 내부 인스턴스의 경우 <strong>http://192.168.1.128:443</strong>).</br>",
-    "configureYourElkSettings": "ELK 설정 구성",
+    "configureYourElkSettings": "ELK 통합 구성",
     "elkExampleForAnInternalInstance": "ELK 인스턴스의 URL을 입력하십시오(예: <strong>http://kibana.com:5601</strong> 또는 내부 인스턴스의 경우 <strong>http://192.168.1.128:5601</strong>).",
     "optionalBasePathYouHaveConfiguredInElk": "예: http://kibana.com:5601/<strong>instana</strong>/app/kibana#. ELK에 구성한 선택적 기본 경로입니다.",
     "idOfTheDashboardYouHaveConfiguredInElkForInstana": "예: URL http://kibana.com:5601/app/kibana#/dashboard/a23a8810-4ce8-11ea-9be2-a53f95fe8814에서 찾을 수 있습니다. 인스턴스에 대해 ELK에 구성한 대시보드의 ID입니다.",
-    "configureYourHumioSettings": "Humio 설정 구성",
+    "configureYourHumioSettings": "Humio 통합 구성",
     "humioExampleForAnInternalInstance": "Humio 인스턴스의 URL을 입력하십시오(예: <strong>https://cloud.humio.com</strong> 또는 내부 인스턴스의 경우 <strong>http://192.168.1.128:443</strong>).",
-    "configureYourMezmoSettings": "Mezmo 설정 구성",
+    "configureYourMezmoSettings": "Mezmo 통합 구성",
     "canBeFoundFromTheMezmoUrl": "Mezmo 인스턴스의 URL을 입력하십시오. URL은 <strong>https://base_url/account_id</strong>로 구성됩니다(예: <strong>https://app.mezmo.com/123456789</strong>).",
     "canBeFoundFromTheIbmCloudUrl": "URL은 <strong>https://base_url/guid</strong>로 구성됩니다(예: <strong>https://cloud.ibm.com/observe/embedded-view/logging/123456789</strong>).",
     "enterIbmCloudAccountId": "로깅 인스턴스의 GUID를 입력하십시오.",
@@ -778,7 +767,7 @@
     "mezmoDocumentationReference": "<br>자세한 정보는 <documentationLink>문서</documentationLink>을 참조하십시오.</br>",
     "mezmoInstance": "제공자",
     "invalidMezmoId": "계정/대시보드 ID는 문자, 숫자, -만 포함해야 합니다.",
-    "configureYourSplunkSettings": "Splunk 설정 구성",
+    "configureYourSplunkSettings": "Splunk 통합 구성",
     "splunkExampleForAnInternalInstance": "Splunk 인스턴스의 URL을 입력하십시오(예: <strong>https://cloud.splunk.com</strong> 또는 내부 인스턴스의 경우 <strong>http://192.168.1.128:443</strong>).",
     "spaceBetweenGroupsInXDirection": "x 방향의 그룹 간 공간({{packingXSpace}})",
     "spaceBetweenGroupsInYDirection": "y 방향의 그룹 간 공간({{packingYSpace}})",
@@ -829,6 +818,7 @@
     "username": "사용자 이름",
     "usernameDescription": "Instana에서 소유자로서 관련되는 사용자입니다. 설정을 저장하기 전에 로그인을 테스트로 사용하면 신임 정보가 저장되지 않습니다.",
     "usernamePasswordDescription": "사용자의 LDAP 비밀번호",
+    "ldapCannotbeConfiguredWithOtherIdPActive": "다른 활성 ID 제공자 구성이 있는 한 LDAP를 구성할 수 없습니다.",
     "ldapTestFailed": "LDAP 테스트 실패:",
     "thisAccountIsAutomaticallyAssignedAnAdminRole": "소유자 그룹에 자동으로 지정할 이메일을 입력하십시오.",
     "thisAccountIsAutomaticallyAssignedAnAdminRoleLDAP": "소유자 그룹에 자동으로 지정할 계정을 입력하십시오. 사용자 조회 검색 템플리트에 맞춰진 계정의 LDAP 속성을 사용하십시오.",
@@ -971,6 +961,8 @@
     "savingGroup": "그룹 저장 중",
     "groupSuccessfullySaved": "그룹이 저장되었습니다.",
     "groups": "그룹",
+    "roles": "역할",
+    "teams": "Teams",
     "groupDeleteTooltip_Default": "기본 그룹은 기본 제공 그룹이며 삭제하거나 이름을 바꿀 수 없습니다.",
     "groupDeleteTooltip_Owner": "소유자 그룹은 기본 제공 그룹이며 삭제하거나 이름을 바꿀 수 없습니다.",
     "deleteGroupMessage": "이 테넌트의 모든 단위에서 <strong>{{groupName}}</strong>을(를) 제거하시겠습니까?",

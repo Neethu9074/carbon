@@ -161,6 +161,17 @@
         "unexpectedLowOrHighNumberOfCalls": "Número inesperadamente alto ou baixo de chamadas"
       }
     },
+    "srcBizOps": {
+      "formComponent": {
+        "pleaseSelect": "Selecionar",
+        "pleaseSelectMetric": "Selecionar uma métrica",
+        "aggregation": "Agregação",
+        "metric": "Métrica"
+      },
+      "index": {
+        "bizOps": "Processos de negócios (atividades)"
+      }
+    },
     "srcApp": {
       "formComponent": {
         "needToTurnOffPP": "Para usar o agrupamento é necessário desligar o destaque de Problemas potenciais primeiro.",

@@ -161,6 +161,17 @@
         "unexpectedLowOrHighNumberOfCalls": "呼叫數非預期地高或低"
       }
     },
+    "srcBizOps": {
+      "formComponent": {
+        "pleaseSelect": "請選取",
+        "pleaseSelectMetric": "請選取度量",
+        "aggregation": "聚集",
+        "metric": "度量"
+      },
+      "index": {
+        "bizOps": "業務程序（活動）"
+      }
+    },
     "srcApp": {
       "formComponent": {
         "needToTurnOffPP": "若要使用分組，您需要先關閉強調顯示的「潛在問題」。",

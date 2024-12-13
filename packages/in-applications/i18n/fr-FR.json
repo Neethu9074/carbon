@@ -154,6 +154,33 @@
   "applications": {
     "noData": "Les perspectives d'application permettent de modéliser les environnements, les ensembles de services, les locataires, ou simplement n'importe quel élément."
   },
+  "subtraces": {
+    "labelSubtraces": "Sous-traces",
+    "labelSubtrace": "Sous-trace",
+    "newSubtrace": "Ajouter une sous-trace",
+    "subtracesList": {
+      "name": "Nom",
+      "count": "Nombre",
+      "meanDuration": "Durée moyenne",
+      "meanSubcallCount": "Nombre moyen de sous-appels",
+      "meanErrorRate": "Taux d'erreur moyen"
+    },
+    "configuration": {
+      "success": {
+        "title": "Sous-trace {{action}}",
+        "message": "La sous-trace \"{{subtraceName}}\" a été {{action}}."
+      },
+      "failure": {
+        "title": "La sous-trace n'a pas été {{action}}",
+        "message": "Un problème est survenu lors de la tentative de {{action}} de la sous-trace \"{{subtraceName}}\""
+      },
+      "title": "Mettre à jour la sous-trace",
+      "subtraceName": "Nom de la sous-trace",
+      "subtraceFilter": "Définition de la sous-trace",
+      "evaluationGranularity": "Granularité de l'évaluation",
+      "evaluationGranularityValidationError": "Sélectionner une valeur pour la granularité de l'évaluation"
+    }
+  },
   "alert": {
     "tooltipMoreFilter": "+{{moreFilterCount}} filtre supplémentaire",
     "tooltipMoreFilter_plural": "+{{moreFilterCount}} filtres supplémentaires",
@@ -172,9 +199,9 @@
     },
     "constants": {
       "inboundDashboard": "Le tableau de bord affiche des informations basées uniquement sur les appels effectués par les consommateurs de cette application.",
-      "inboundOverrideDefault": "La portée par défaut de cette application est Appels entrants uniquement. Vous pouvez modifier ce paramètre dans Configuration.",
+      "inboundOverrideDefault": "La portée par défaut pour cette application est Appels entrants uniquement. Vous pouvez modifier ce paramètre dans Configuration.",
       "allDashboard": "Le tableau de bord affiche des informations en fonction de tous les appels effectués dans cette application par les consommateurs et en interne.",
-      "allOverrideDefault": "La portée par défaut de cette application est Tous les appels. Vous pouvez modifier ce paramètre dans Configuration."
+      "allOverrideDefault": "La portée par défaut pour cette application est Tous les appels. Vous pouvez modifier ce paramètre dans Configuration."
     }
   },
   "analyze": {
@@ -686,6 +713,21 @@
     "alternativeServicesOk": "<bold>Est-il bon de voir d'autres services ?</bold>",
     "alternativeServicesProblem": "<bold>Non</bold>, si le nom du service en cours provient de l'en-tête HTTP \"Host\" (règle de mappage de service dont l'ID est call.http.host) et que le nom du service de remplacement ne le fait pas (car son nom provient d'une règle basée sur des balises d'infrastructure), ou vice versa. Il s'agit de services en double.",
     "alternativeServicesPossibleProblem": "<bold>Peut-être</bold>, si le service en cours et les noms de services de remplacement ne proviennent pas de l'en-tête HTTP \"Host\" ; ils sont alors soit des services placés derrière un proxy (bon), soit des services en double (mauvais) : certains des services sont entièrement liés à infra, tandis que d'autres sont partiellement liés à infra."
+  },
+  "infoBanner": {
+    "title": "Actions de ressource, optimisées par Turbonomic",
+    "tryLabel": "Essayez avant d'acheter",
+    "tryText": "Commencez un essai gratuit pour découvrir comment les actions de ressource peuvent aider vos applications.",
+    "tryButtonLabel": "Commencer l'essai",
+    "learnLabel": "En savoir plus",
+    "learnText": "Consultez quelques blogues et d'autres supports pour vous tenir informé de l'évolution de cette fonctionnalité.",
+    "learnButtonLabel": "Rendez-nous visite en ligne",
+    "connectLabel": "Contacter le service commercial",
+    "connectText": "Contactez notre équipe commerciale et faites-lui part de votre intérêt.",
+    "connectButtonLabel": "Acheter maintenant",
+    "helpLabel": "Aidez-nous à évoluer",
+    "helpText": "Faites-nous part de votre avis afin que nous puissions continuer à vous proposer les fonctionnalités qui vous intéressent le plus.",
+    "helpButtonLabel": "Commentaires"
   },
   "labelSyntheticMonitoring": "Surveillance synthétique",
   "labelResourceOptimizations": "Optimisations"

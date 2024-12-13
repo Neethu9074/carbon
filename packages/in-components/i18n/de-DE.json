@@ -306,11 +306,6 @@
     "tooltipShowLess": "Weniger anzeigen",
     "tooltipShowMore": "Mehr anzeigen"
   },
-  "expandableGroup": {
-    "tooltipShowContent": "Inhalt anzeigen",
-    "tooltipHideContent": "Inhalt ausblenden",
-    "labelExpandButtonForContent": "Erweiterungsschaltfläche für Inhalt"
-  },
   "featureFeedback": {
     "linkLabelYouCanSendUsFeedback": "Sie können uns Feedback senden"
   },
@@ -460,6 +455,7 @@
     "viewSwitcherLabelEvents": "Ereignisse",
     "viewSwitcherlabelInfrastructure": "Infrastruktur",
     "viewSwitcherLabelApplications": "Anwendungen",
+    "viewVulnerabilityCenter": "Sicherheitslücken",
     "viewSwitcherLabelSlo": "Service-Level",
     "viewSwitcherLabelLogs": "Protokolle",
     "viewSwitcherLabelAnalytics": "Analyse",
@@ -586,6 +582,12 @@
   "stackTrace": {
     "fillerTextIn": " in ",
     "fillerTextAt": " unter "
+  },
+  "sessionTimeout": {
+    "title": "Sitzungszeitlimit",
+    "message": "Aufgrund von Inaktivität werden Sie ausgeloggt:",
+    "loggedInButton": "Angemeldet bleiben",
+    "logOutButton": "Abmelden"
   },
   "time": {
     "lastMinute": "Letzte Minute",
@@ -715,6 +717,7 @@
     "setEnabledMessagePressESCToDisableTVMode": "Drücken Sie ESC, um den Fernsehmodus zu inaktivieren."
   },
   "analyze": {
+    "facettedFilters": "Facettierte Filter",
     "loadMoreWithCount": "{{count}} weitere laden",
     "loadMore": "Mehr laden",
     "activeFacets": "{{count}} ausgewählt",
@@ -725,6 +728,7 @@
     "fromUnit": "Von ({{unit}})",
     "to": "Bis",
     "toUnit": "Bis ({{unit}})",
+    "fromto": "Von-Bis-Bereich definieren",
     "rangeSelected": "Ausgewählter Bereich",
     "rangeOrder": "Der Bereich muss in aufsteigender Reihenfolge geordnet sein.",
     "earliestTimestamp": "Älteste Zeitmarke",

@@ -161,6 +161,17 @@
         "unexpectedLowOrHighNumberOfCalls": "调用数异常高或低"
       }
     },
+    "srcBizOps": {
+      "formComponent": {
+        "pleaseSelect": "请选择",
+        "pleaseSelectMetric": "请选择指标",
+        "aggregation": "汇总",
+        "metric": "指标"
+      },
+      "index": {
+        "bizOps": "业务流程（活动）"
+      }
+    },
     "srcApp": {
       "formComponent": {
         "needToTurnOffPP": "要使用分组，首先需要关闭“潜在问题”突出显示。",

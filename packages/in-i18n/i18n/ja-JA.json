@@ -3,11 +3,6 @@
     "uiShell": {
       "mainNavigation": "メイン・ナビゲーション"
     },
-    "expandableGroup": {
-      "tooltipShowContent": "コンテンツの表示",
-      "tooltipHideContent": "コンテンツの非表示",
-      "labelExpandButtonForContent": "コンテンツの展開ボタン"
-    },
     "list": {
       "loadMore": "さらにロード",
       "expand": "展開",

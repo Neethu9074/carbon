@@ -506,9 +506,11 @@
     "runningAction": "조치 실행 중...",
     "actionStarted": "조치가 시작됨",
     "actionFailed": "조치 실패",
-    "actionStartedMessage": "<strong>{{actionName}}</strong>을(를) 실행했습니다 조치 히스토리 페이지에서 이 조치의 진행 상황을 확인할 수 있습니다.",
+    "actionStartedMessage": "<strong>{{actionName}}</strong>을(를) 실행했습니다 조치 히스토리 탭에서 이 조치의 진행 상황을 확인할 수 있습니다.",
     "actionFailedMessage": "조치 <strong>{{actionName}}</strong>을(를) 실행하라는 요청이 실패했습니다. {{message}}.",
     "viewActionHistory": "조치 히스토리 보기",
-    "actionName": "조치 이름"
+    "actionName": "조치 이름",
+    "recommendedActionHistoryWithCount": "리소스 조치 히스토리({{count}}개)",
+    "recommendedActionHistory": "리소스 조치 히스토리"
   }
 }

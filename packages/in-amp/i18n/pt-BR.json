@@ -16,10 +16,17 @@
       "name": "Nome",
       "tenant": "Locatário",
       "type": "Tipo",
-      "licenseStartData": "Dados do início da licença",
-      "licenseEndData": "Dados do término da licença",
+      "licenseStartData": "Data de início da licença",
+      "licenseEndData": "Data de término da licença",
       "licensedApmHosts": "Hosts APM licenciados",
       "licensedIqmHosts": "Hosts IQM licenciados"
+    },
+    "learnMore": {
+      "title": "Saiba mais sobre a política de uso justo do Instana.",
+      "leftTitle": "O que é a política de uso justo?",
+      "rightTitle": "Como faço para adquirir mais dados?",
+      "leftBody": "A política de uso justo do Instana descreve o limite mensal permitido de dados associado ao seu tipo de licença. Para saber mais e explorar as diretrizes de uso de recursos, consulte a <fupDocLink>documentação da Política de Uso Justo</fupDocLink>.",
+      "rightBody": "Se você antecipar uma necessidade contínua de uso de dados adicionais, entre em contato com seu representante de vendas Instana para conhecer as opções de complementos. Entre em contato com a equipe de Vendas <salesLink>aqui</salesLink>."
     },
     "ampInformationModifier": {
       "allPaidUnitsAggregated": "Todas as unidades pagas (agregadas)",

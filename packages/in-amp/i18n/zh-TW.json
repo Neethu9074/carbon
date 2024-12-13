@@ -16,10 +16,17 @@
       "name": "名稱",
       "tenant": "租戶",
       "type": "類型",
-      "licenseStartData": "授權開始資料",
-      "licenseEndData": "授權結束資料",
+      "licenseStartData": "授權開始日期",
+      "licenseEndData": "授權結束日期",
       "licensedApmHosts": "授權的 APM 主機",
       "licensedIqmHosts": "授權的 IQM 主機"
+    },
+    "learnMore": {
+      "title": "進一步瞭解 Instana 的公平使用原則",
+      "leftTitle": "什麼是公平使用原則？",
+      "rightTitle": "如何購買更多資料？",
+      "leftBody": "Instana 的公平使用原則概述了與您的授權類型相關的每月資料限額。 若要進一步瞭解並探索資源使用指引，請查看<fupDocLink>公平使用原則文件</fupDocLink>。",
+      "rightBody": "如果您預計持續需要額外的資料用量，請聯絡您的 Instana 業務代表以探索附加選項。 請<salesLink>在此</salesLink>與銷售人員聯絡。"
     },
     "ampInformationModifier": {
       "allPaidUnitsAggregated": "所有付費單元（聚集）",

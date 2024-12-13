@@ -16,10 +16,17 @@
       "name": "名称",
       "tenant": "租户",
       "type": "类型",
-      "licenseStartData": "许可证开始数据",
-      "licenseEndData": "许可证结束数据",
+      "licenseStartData": "许可证开始日期",
+      "licenseEndData": "许可证结束日期",
       "licensedApmHosts": "获得许可的 APM 主机",
       "licensedIqmHosts": "获得许可的 IQM 主机"
+    },
+    "learnMore": {
+      "title": "了解更多关于 Instana 的公平使用政策",
+      "leftTitle": "什么是公平使用政策？",
+      "rightTitle": "如何购买更多数据？",
+      "leftBody": "Instana 的公平使用政策列出了与您的许可证类型相关的每月数据限额。 要了解更多信息并探索资源使用指南，请查看<fupDocLink>公平使用政策文档</fupDocLink>。",
+      "rightBody": "如果您预计需要持续使用更多数据，请联系您的 Instana 销售代表，探讨附加选项。 <salesLink>在此</salesLink>与销售人员联系。"
     },
     "ampInformationModifier": {
       "allPaidUnitsAggregated": "所有付费单元（汇总）",
