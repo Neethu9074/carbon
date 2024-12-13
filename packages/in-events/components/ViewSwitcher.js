@@ -8,8 +8,13 @@ import React from 'react';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+import {
+  agentMonitoringIssuesEnabled,
+  cveIssueEnabled,
+  playwithEnabled,
+  prcIssueEnabled
+} from 'in-services/featureFlags';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
-import { agentMonitoringIssuesEnabled, cveIssueEnabled, playwithEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import * as eventTypeLabels from 'in-events/eventTypeLabels';
@@ -77,6 +82,15 @@ export default function ViewSwitcher({ selectedEventType }) {
       href: createHref(location),
       label: eventTypeLabels.cve_issue,
       isActive: selectedEventType === 'cve_issue'
+    });
+  }
+  if (prcIssueEnabled && !playwithEnabled) {
+    // PRC issues
+    setOrDeleteMatrixKey(location, eventsPath, 'view', 'prc_issue');
+    tabs.push({
+      href: createHref(location),
+      label: eventTypeLabels.prc_issue,
+      isActive: selectedEventType === 'prc_issue'
     });
   }
 

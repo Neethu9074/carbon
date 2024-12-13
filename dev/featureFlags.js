@@ -178,5 +178,6 @@ module.exports = {
   aqmDisableConfigOnEventViewEnabled: false,
   openTelemetryKubernetesEnabled: true,
   dataUsageNotificationEnabled: false,
-  rbacTeamsEnabled: false
+  rbacTeamsEnabled: false,
+  prcIssueEnabled: true
 };
