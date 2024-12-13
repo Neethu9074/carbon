@@ -8,13 +8,12 @@ import React from 'react';
 
 // import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { HistoricBaselineConfig } from '@instana/types/typeDefinitions';
-import {
-  MobileAppAlertConfig,
-  MobileAppAlertConfigWithMetadata,
-  MobileAppAlertRuleUnion,
-  ThresholdConfigUnion
-} from '@instana/types';
+import { MobileAppAlertRuleUnion, ThresholdConfigUnion } from '@instana/types';
 
+import {
+  MobileAppSmartAlertConfigWithMetadata,
+  MobileAppSmartAlertConfig
+} from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 //@ts-expect-error TS migartion
 import { useGetMobileAppProps } from 'in-alerting/smart-alerts/mobileApp/hooks/useGetMobileProps';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
@@ -60,7 +59,7 @@ export default function Alerts({ mobileAppId, mobileAppLabel }: AlertsProps) {
           pagePath: location?.pathname
         }}
       />
-      <AlertBaseList<MobileAppAlertConfigWithMetadata>
+      <AlertBaseList<MobileAppSmartAlertConfigWithMetadata>
         extraColumnDefinitions={getExtraColumnDefinition(mobileAppLabel)}
         actionHandlers={handlers}
         getAlertConfigs={() => getAllAlertConfigsWithResult(mobileAppId)}
@@ -90,7 +89,7 @@ function getExtraColumnDefinition(mobileAppLabel: string) {
     {
       id: 'filterApplied',
       label: t('in-alerting:smartAlerts.mobileApp.alertList.filterApplied'),
-      getContent: (entity: MobileAppAlertConfig) => <ScopeColumn config={entity} mobileAppLabel={mobileAppLabel} />
+      getContent: (entity: MobileAppSmartAlertConfig) => <ScopeColumn config={entity} mobileAppLabel={mobileAppLabel} />
     }
   ];
 }
@@ -141,7 +140,7 @@ export function getSubtitle(rule: MobileAppAlertRuleUnion, threshold: ThresholdC
   });
 }
 
-function createRowLinkLocation(config: MobileAppAlertConfigWithMetadata, location: Location): Location {
+function createRowLinkLocation(config: MobileAppSmartAlertConfigWithMetadata, location: Location): Location {
   const rowLinkLocation = {
     ...location,
     pathname: alertsTabDetailsFullyQualified
@@ -158,13 +157,13 @@ function getCarbonTableColumnDefinitions() {
     {
       id: 'triggering-action',
       label: t('in-alerting:table.triggeringAction'),
-      getContent: (config: MobileAppAlertConfigWithMetadata) => <>{getSubtitle(config.rule, config.threshold)}</>,
+      getContent: (config: MobileAppSmartAlertConfigWithMetadata) => <>{getSubtitle(config.rule, config.threshold)}</>,
       sortable: false
     },
     {
       id: 'enabled',
       label: t('in-alerting:table.status'),
-      getContent: (config: MobileAppAlertConfigWithMetadata) => <StatusColumnCell status={config.enabled} />,
+      getContent: (config: MobileAppSmartAlertConfigWithMetadata) => <StatusColumnCell status={config.enabled} />,
       sortable: true
     }
   ];

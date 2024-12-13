@@ -11,7 +11,6 @@ import classNames from 'classnames';
 
 import { ShapeNode, Edge } from '@instana/carbon-charts';
 import { useObservable } from '@instana/hooks';
-import '@instana/carbon-charts/lib/index.css';
 
 import { ZoomableSVG } from 'in-infrastructure/GraphExplorer/ZoomableSVG';
 import useTimeConfig from 'in-hooks/useTimeConfig';

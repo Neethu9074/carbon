@@ -6,11 +6,12 @@
 import React from 'react';
 
 import { Button, CarbonMenuItem, SvgIcon } from '@instana/components';
-import { AggregationType, WebsiteAlertConfig } from '@instana/types';
+import { AggregationType } from '@instana/types';
 
 import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { websitesAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/websites/tracker';
+import { WebsiteSmartAlertConfig } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 // @ts-expect-error Missing exact typings
 import { defaultGroupings } from 'in-websites/tags';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
@@ -23,7 +24,7 @@ import { FixedTimeConfig } from 'in-stores/time/config';
 import { t } from 'in-i18n';
 
 interface AnalyzeWebsiteEventButtonProps {
-  alertConfig: WebsiteAlertConfig;
+  alertConfig: WebsiteSmartAlertConfig;
   websiteName: string;
   timeConfig: FixedTimeConfig;
   adaptiveBaselineInfo?: Record<string, number>;

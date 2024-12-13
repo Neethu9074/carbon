@@ -124,6 +124,7 @@
 
   .secondaryActions {
     justify-self: flex-end;
+    gap: 0.25rem;
   }
   .specialIndicator {
     height: 8px;

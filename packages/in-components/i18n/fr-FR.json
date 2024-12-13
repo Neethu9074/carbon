@@ -306,11 +306,6 @@
     "tooltipShowLess": "Afficher moins",
     "tooltipShowMore": "Afficher plus"
   },
-  "expandableGroup": {
-    "tooltipShowContent": "Afficher le contenu",
-    "tooltipHideContent": "Masquer le contenu",
-    "labelExpandButtonForContent": "Bouton Développer pour le contenu"
-  },
   "featureFeedback": {
     "linkLabelYouCanSendUsFeedback": "Vous pouvez nous faire part de vos commentaires"
   },
@@ -460,6 +455,7 @@
     "viewSwitcherLabelEvents": "Evénements",
     "viewSwitcherlabelInfrastructure": "Infrastructure",
     "viewSwitcherLabelApplications": "Applications",
+    "viewVulnerabilityCenter": "Vulnérabilités",
     "viewSwitcherLabelSlo": "Niveaux de Service",
     "viewSwitcherLabelLogs": "Journaux",
     "viewSwitcherLabelAnalytics": "Analyse",
@@ -587,6 +583,12 @@
     "fillerTextIn": " in ",
     "fillerTextAt": " à "
   },
+  "sessionTimeout": {
+    "title": "Dépassement du délai d'attente de session",
+    "message": "Suite à votre inactivité, vous allez être déconnecté dans :",
+    "loggedInButton": "Rester connecté",
+    "logOutButton": "Déconnexion"
+  },
   "time": {
     "lastMinute": "Dernière minute",
     "lastMinute_plural": "{{count}} dernières minutes",
@@ -647,7 +649,7 @@
   },
   "timeShift": {
     "changeSelectedTimeShift": "Modifier la rétrospective sélectionnée",
-    "timeShiftValue": "Rétrospective : {{timeShiftValue}}",
+    "timeShiftValue": "Décalage dans le temps : {{timeShiftValue}}",
     "compareToTimeShiftTimeConfig": "Comparer à {{timeShiftTimeConfig}}"
   },
   "topListCard": {
@@ -715,6 +717,7 @@
     "setEnabledMessagePressESCToDisableTVMode": "Appuyez sur ÉCHAP pour désactiver le mode TV."
   },
   "analyze": {
+    "facettedFilters": "Filtres à facettes",
     "loadMoreWithCount": "Charger {{count}} de plus",
     "loadMore": "Charger plus",
     "activeFacets": "{{count}} sélectionné(s)",
@@ -725,6 +728,7 @@
     "fromUnit": "De ({{unit}})",
     "to": "À",
     "toUnit": "À ({{unit}})",
+    "fromto": "Définir la période",
     "rangeSelected": "Plage sélectionnée",
     "rangeOrder": "La plage doit être en ordre croissant.",
     "earliestTimestamp": "Horodatage le plus récent",

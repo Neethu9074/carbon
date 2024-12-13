@@ -7,15 +7,15 @@ import React from 'react';
 
 import { Button, CarbonMenuItem } from '@instana/components';
 
+import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { websitesAlertingEventDetailsViewEditConfig } from 'in-alerting/smart-alerts/websites/tracker';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useGetAlertConfigLink } from 'in-websites/navigation/paths';
 import { parseUrl } from 'in-stores/navigation/routing/parser';
-import { WebsiteAlertConfigWithMetadata } from 'in-types';
 import { t } from 'in-i18n';
 
 interface PropsType {
-  alertConfig: WebsiteAlertConfigWithMetadata;
+  alertConfig: WebsiteSmartAlertConfigWithMetadata;
   as?: 'button' | 'menuItem';
 }
 export default function WebsiteAlertConfigButton({ alertConfig, as = 'button' }: PropsType) {

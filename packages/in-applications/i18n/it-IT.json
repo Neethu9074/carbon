@@ -154,6 +154,33 @@
   "applications": {
     "noData": "Le prospettive applicazione forniscono uno strumento per modellare ambienti, insiemi di servizi, tenant o altro."
   },
+  "subtraces": {
+    "labelSubtraces": "Sottotracce",
+    "labelSubtrace": "Sottotraccia",
+    "newSubtrace": "Aggiungi una sottotraccia",
+    "subtracesList": {
+      "name": "Nome",
+      "count": "Conteggio",
+      "meanDuration": "Durata media",
+      "meanSubcallCount": "Numero medio di sottochiamate",
+      "meanErrorRate": "Tasso di errore medio"
+    },
+    "configuration": {
+      "success": {
+        "title": "Sottotraccia {{action}} con successo",
+        "message": "La sottotraccia{{subtraceName}}\" è stata {{action}}."
+      },
+      "failure": {
+        "title": "Impossibile {{action}} Sottotraccia",
+        "message": "Si è verificato un problema durante il tentativo di {{action}} di questa sottotraccia:{{subtraceName}}\""
+      },
+      "title": "Aggiornamento della sottotraccia",
+      "subtraceName": "Nome della sottotraccia",
+      "subtraceFilter": "Definizione di sottotraccia",
+      "evaluationGranularity": "Granularità valutazione",
+      "evaluationGranularityValidationError": "Selezionare un valore per la granularità della valutazione"
+    }
+  },
   "alert": {
     "tooltipMoreFilter": "+{{moreFilterCount}} filtro aggiuntivo",
     "tooltipMoreFilter_plural": "+{{moreFilterCount}} filtri aggiuntivi",
@@ -686,6 +713,21 @@
     "alternativeServicesOk": "<bold>È accettabile esaminare i servizi alternativi?</bold>",
     "alternativeServicesProblem": "<bold>No</bold>, se il nome del servizio corrente proviene dall'intestazione \"Host\" HTTP (regola di associazione dei servizi il cui l'ID è call.http.host) ma il nome del servizio alternativo no (poiché il relativo nome proviene da una regola che si basa sui tag dell'infrastruttura), o viceversa. Questi sono servizi duplicati.",
     "alternativeServicesPossibleProblem": "<bold>Forse</bold>, se il servizio corrente e i nomi dei servizi alternativi non provengono dall'intestazione \"Host\" HTTP, quindi sono servizi che risiedono dietro un proxy (validi) o sono servizi duplicati (non validi): alcuni dei servizi sono completamente collegati all'infrastruttura mentre altri sono collegati all'infrastruttura in modo parziale."
+  },
+  "infoBanner": {
+    "title": "Azioni sulle risorse, gestite da Turbonomic",
+    "tryLabel": "Provare prima di acquistare",
+    "tryText": "Avviate una prova gratuita per vedere come le azioni sulle risorse possono aiutare le vostre applicazioni.",
+    "tryButtonLabel": "Avviare una prova",
+    "learnLabel": "Ulteriori informazioni",
+    "learnText": "Consultate alcuni blog e altri media per rimanere aggiornati su questa funzione.",
+    "learnButtonLabel": "Visitateci online",
+    "connectLabel": "Connettersi con le vendite",
+    "connectText": "Contattate il nostro team di vendita e comunicategli il vostro interesse.",
+    "connectButtonLabel": "Acquista ora",
+    "helpLabel": "Aiutateci a crescere",
+    "helpText": "Condividete i vostri pensieri con noi, in modo da poter continuare a fornire le funzioni che più desiderate.",
+    "helpButtonLabel": "Fornisci un feedback"
   },
   "labelSyntheticMonitoring": "Monitoraggio sintetico",
   "labelResourceOptimizations": "Ottimizzazioni"

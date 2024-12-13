@@ -29,19 +29,6 @@ export default function SnowflakeOrganizationDashboard({
 }) {
   const snapshotId: string = snapshot.get('id');
 
-  function CurrencyFormatter(value: number): string {
-    const data: any = useObservable(
-      () => getRawPayloadWithTimestamp(snapshotId, 'organization_usage.remaining_balance.currency', timeConfig),
-      [snapshotId, timeConfig]
-    );
-    if (!data) {
-      return value.toString();
-    }
-    const currency: any = (data as SnapshotData).get('raw_payload');
-
-    return value.toString() + ' ' + currency;
-  }
-
   function Currency(): string {
     const data: any = useObservable(
       () => getRawPayloadWithTimestamp(snapshotId, 'organization_usage.remaining_balance.currency', timeConfig),
@@ -72,7 +59,7 @@ export default function SnowflakeOrganizationDashboard({
           />
         </KpiKeyValue>
         <KpiKeyValue
-          label={t('in-forge:plugins.snowflakeOrganization.dashboard.usageInCurrency') + ' (' + Currency() + ')'}
+          label={t('in-forge:plugins.snowflakeOrganization.dashboard.usageInCurrency', { currency: Currency() })}
         >
           <MetricValue
             snapshotId={snapshotId}
@@ -82,7 +69,11 @@ export default function SnowflakeOrganizationDashboard({
         </KpiKeyValue>
       </KpiSection>
       <BillingAccounts snapshotId={snapshotId} timeConfig={timeConfig} />
-      <DashboardSection title={t('in-forge:plugins.snowflakeOrganization.dashboard.remainingBalanceInCurrency')}>
+      <DashboardSection
+        title={t('in-forge:plugins.snowflakeOrganization.dashboard.remainingBalanceInCurrency', {
+          currency: Currency()
+        })}
+      >
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -90,7 +81,7 @@ export default function SnowflakeOrganizationDashboard({
             metrics: ['organization_usage.remaining_balance.capacity_balance'],
             labels: [t('in-forge:plugins.snowflakeOrganization.dashboard.balance')],
             type: 'line',
-            formatter: CurrencyFormatter
+            formatter: number.compact
           }}
         />
       </DashboardSection>

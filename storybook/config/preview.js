@@ -20,9 +20,7 @@ import './globalTagDefinition';
 import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 
-import 'in-themes/foundation.less';
-import '@instana/legacy/esm/index.css';
-import '@instana/components/esm/index.css';
+import 'in-init/steps/commonStyles';
 
 import theme from './theme';
 import locals from './config.mless';
@@ -31,15 +29,15 @@ import locals from './config.mless';
 window.__DEV__ = true;
 
 const SUPPORTED_THEMES = [
-  { name: 'default', info: 'Instana' },
-  { name: 'g10', info: 'Carbon' }
+  { name: 'g10', info: 'Carbon' },
+  { name: 'default', info: 'Instana' }
 ];
 
 export const globalTypes = {
   theme: {
     name: 'Theme',
     description: 'Global theme for components',
-    defaultValue: 'default',
+    defaultValue: 'g10',
     toolbar: {
       icon: 'beaker',
       items: SUPPORTED_THEMES.map(({ name, info }) => ({ value: name, title: name.toUpperCase(), right: info })),

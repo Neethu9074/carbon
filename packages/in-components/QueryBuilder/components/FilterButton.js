@@ -58,6 +58,7 @@ export default function FilterButton({
           kind="tertiary"
           onClick={toggle}
           refSetter={refSetter}
+          data-testid="query-builder-add-filter"
         >
           {t('in-components:queryBuilder.components.filterButtonAddFilter')}
         </Button>

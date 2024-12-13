@@ -310,6 +310,7 @@ export default function GroupedView(props) {
                 const key = `${label}-${index}`;
                 return (
                   <Li
+                    data-testid="grouped-view-list-item"
                     initiallyOpen={props.selectedGroup === key}
                     key={key}
                     toggleContentOnRowClick

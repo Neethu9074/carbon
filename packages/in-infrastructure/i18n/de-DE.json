@@ -131,7 +131,8 @@
     "map": "Zuordnung",
     "comparisonTable": "Vergleichstabelle",
     "infrastructureComparisonTable": "Infrastrukturvergleichstabelle",
-    "smartAlerts": "Smart Alerts"
+    "smartAlerts": "Smart Alerts",
+    "graph": "Diagramm"
   },
   "smartAlertView": {
     "smartAlertTab": "Intelligente Alerts für Infrastruktur"
@@ -140,6 +141,9 @@
     "buttonSelectTags": "Tags auswählen",
     "titleAddATag": "Tag hinzufügen",
     "messagePleaseSelectAtMostTags": "Wählen Sie höchstens {{maximumNumberOfTags}} Tags aus."
+  },
+  "graphExplorerView": {
+    "infrastructureGraphExplorer": "Diagrammexplorer"
   },
   "threshold": {
     "label": "Schwellenwert",

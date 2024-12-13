@@ -40,27 +40,13 @@
     }
   },
   "cookies": {
-    "categories": {
-      "analyticalPerformance": "分析/性能",
-      "functionality": "功能"
-    },
     "expiration": {
-      "sevenDays": "7 天后到期",
-      "persistent": "持久性",
       "afterSession": "在会话后到期"
     },
-    "mixpanel": {
-      "title": "产品用户分析",
-      "purpose": "注册唯一标识，用于生成有关访客如何使用 Web 站点的统计数据。"
-    },
     "walkme": {
-      "title": "产品入门和指南",
-      "purpose": "注册唯一标识，用于生成有关访客如何使用 Web 站点的统计数据。",
-      "category": "产品入门和指南"
-    },
-    "appcues": {
-      "title": "量身打造的入职体验和 NPS 调查",
-      "purpose": "用户入职和 NPS 店铺调查。"
+      "title": "产品用户分析和指导",
+      "purpose": "注册一个唯一标识，用于生成访客如何使用产品的统计数据。",
+      "category": "功能"
     }
   },
   "roleAndAccessScope": {
@@ -112,6 +98,7 @@
     "permissions_OPENSTACK": "OpenStack",
     "permissions_VSPHERE": "vSphere",
     "permissions_SAP": "SAP",
+    "permissions_NUTANIX": "Nutanix",
     "clusters": "集群",
     "namespaces": "名称空间",
     "obsoleteEntityDescription": "当前没有可用的数据 - 仍在授予访问权。",
@@ -224,7 +211,7 @@
     "title_limited_access_bizops": "访问受限",
     "description_limited_access_bizops": "只能访问所列的业务透视图及其业务流程。",
     "description_access_all_bizops": "业务监控的所有功能都可访问，无任何限制。",
-    "description_no_access_bizops": "对业务监视的访问遭到拒绝。",
+    "description_no_access_bizops": "禁止访问：拒绝访问业务监控。",
     "description_access_all_except_contributor": "全部访问 - 作为添加者访问的对象除外",
     "role": "选择一个角色",
     "role_owner": "所有者",
@@ -389,7 +376,7 @@
           "dbMarlinExampleForAnInternalInstance": "输入 DBmarlin 实例的 URL，例如 <strong>https://team.dbmarlin.com</strong> 或用于内部实例的 <strong>http://192.168.1.128:443</strong>。",
           "configureDbMarlin": "配置 DBmarlin",
           "configureDbMarlinDescription": "启用后，以下配置会在兼容调用的调用详细信息中添加指向 DBmarlin 的链接。",
-          "configureYourDbMarlinSettings": "配置您的 DBmarlin 设置",
+          "configureYourDbMarlinSettings": "配置您的 DBmarlin 集成",
           "testDbMarlinInstance": "要测试 DBmarlin 链接，请转至",
           "failedToLoadDbMarlinConfiguration": "未能装入 DBmarlin 配置。"
         }
@@ -476,6 +463,8 @@
       "deletionUntilDate": "删除截止日期",
       "untilDateValidationMessage": "日期必须为当前日期或之前的日期",
       "reasonValidationMessage": "删除原因不能为空",
+      "untilTimeValidationMessage": "时间必须在当前时间或之前",
+      "correctTimeFormat": "请以 HH:mm 格式输入有效时间",
       "toastSuccessTitle": "删除日志可能需要一些时间。",
       "toastSuccessMessage": "您可以关闭此弹出窗口，并在“日志删除操作历史记录“表中查看状态。",
       "toastErrorTitle": "日志删除失败",
@@ -761,16 +750,16 @@
     "dstInEffect": "DST 生效",
     "dstMsg": "{{dstMsg}}. {{label}} 是“{{currentTimeZone}}”(UTC{{selectedUtcOffset}})",
     "maintenanceWindowConfigurationEntityName": "维护窗口配置 {{entityName}}",
-    "configureYourCoralogixSettings": "配置 Coralogix 设置",
+    "configureYourCoralogixSettings": "配置 Coralogix 集成",
     "failedToSaveConfiguration": "未能保存配置：{{err}}",
     "coralogixExampleForAnInternalInstance": "输入 Coralogix 实例的 URL，例如 <br><strong>https://team.coralogix.com</strong> 或用于内部实例的 <strong>http://192.168.1.128:443</strong>。</br>",
-    "configureYourElkSettings": "配置 ELK 设置",
+    "configureYourElkSettings": "配置 ELK 集成",
     "elkExampleForAnInternalInstance": "输入 ELK 实例的 URL，例如 <strong>http://kibana.com:5601</strong> 或用于内部实例的 <strong>http://192.168.1.128:5601</strong>。",
     "optionalBasePathYouHaveConfiguredInElk": "例如： http://kibana.com:5601/<strong>instana</strong>/app/kibana#。您在 ELK 中配置的可选基本路径。",
     "idOfTheDashboardYouHaveConfiguredInElkForInstana": "例如：可通过 URL http://kibana.com:5601/app/kibana#/dashboard/a23a8810-4ce8-11ea-9be2-a53f95fe8814 查找。 在 ELK 中为 Instana 配置的仪表板的标识。",
-    "configureYourHumioSettings": "配置 Humio 设置",
+    "configureYourHumioSettings": "配置您的 Humio 集成",
     "humioExampleForAnInternalInstance": "输入 Humio 实例的 URL，例如 <strong>https://cloud.humio.com</strong> 或用于内部实例的 <strong>http://192.168.1.128:443</strong>。",
-    "configureYourMezmoSettings": "配置 Mezmo 设置",
+    "configureYourMezmoSettings": "配置您的 Mezmo 集成",
     "canBeFoundFromTheMezmoUrl": "输入 Mezmo 实例的 URL。 URL 的构成如下：<strong>https://base_url/account_id</strong>，例如 <strong>https://app.mezmo.com/123456789</strong>",
     "canBeFoundFromTheIbmCloudUrl": "URL 包含：<strong>https://base_url/guid</strong>，例如：<strong>https://cloud.ibm.com/observe/embedded-view/logging/123456789</strong>",
     "enterIbmCloudAccountId": "请输入日志记录实例的 GUID。",
@@ -778,7 +767,7 @@
     "mezmoDocumentationReference": "<br>如需了解更多信息，请参阅我们的 <documentationLink>文档</documentationLink>。</br>",
     "mezmoInstance": "提供程序",
     "invalidMezmoId": "帐户/仪表板标识只能包含字母、数字和 -。",
-    "configureYourSplunkSettings": "配置 Splunk 设置",
+    "configureYourSplunkSettings": "配置您的 Splunk集成",
     "splunkExampleForAnInternalInstance": "输入 Splunk 实例的 URL，例如 <strong>https://cloud.splunk.com</strong> 或用于内部实例 <strong>http://192.168.1.128:443</strong>。",
     "spaceBetweenGroupsInXDirection": "组之间 x 方向的空格 ({{packingXSpace}})",
     "spaceBetweenGroupsInYDirection": "组之间 y 方向的空格 ({{packingYSpace}})",
@@ -829,6 +818,7 @@
     "username": "用户名",
     "usernameDescription": "要作为所有者用户在 Instana 中相关的用户。 在保存设置之前，作为测试进行尝试登录，但不会保存凭证。",
     "usernamePasswordDescription": "用户的 LDAP 密码",
+    "ldapCannotbeConfiguredWithOtherIdPActive": "只要有另一个活动身份提供程序配置，就不能配置 LDAP。",
     "ldapTestFailed": "LDAP 测试失败：",
     "thisAccountIsAutomaticallyAssignedAnAdminRole": "输入要自动分配给所有者组的电子邮件。",
     "thisAccountIsAutomaticallyAssignedAnAdminRoleLDAP": "输入要自动分配给所有者组的帐户。 使用与用户查询搜索模板相一致的帐户 LDAP 属性。",
@@ -971,6 +961,8 @@
     "savingGroup": "正在保存组",
     "groupSuccessfullySaved": "组已成功保存。",
     "groups": "组",
+    "roles": "角色",
+    "teams": "团队",
     "groupDeleteTooltip_Default": "缺省组是内置组，无法删除或重命名。",
     "groupDeleteTooltip_Owner": "所有者组是内置组，无法删除或重命名。",
     "deleteGroupMessage": "确定要从此租户上的所有单元中除去 <strong>{{groupName}}</strong> 吗？",

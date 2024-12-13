@@ -4,58 +4,84 @@
  * Copyright IBM Corp. 2024
  */
 
+import { Item, MapForm, Field } from 'formalistic';
 import React, { useMemo, useState } from 'react';
-import { Item, MapForm } from 'formalistic';
 
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import AlertConfigTearSheetWithThreshold from 'in-alerting/smart-alerts/infrastructure/tearsheet/AlertConfigTearSheetWithThreshold';
 import { useInfraSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/infrastructure/form/useInfraSmartAlertFormSideEffects';
+import {
+  duplicateAlertConfig,
+  getHeaderTitle
+} from 'in-alerting/smart-alerts/infrastructure/tearsheet/sharedFunctions';
+import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
+import { createOrSaveAlertFromTearSheet } from 'in-alerting/smart-alerts/infrastructure/components/AlertCreateOrSave';
+import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/infrastructure/form/alertFormDefinition';
 import getAlertingUrlParameters from 'in-alerting/smart-alerts/infrastructure/tearsheet/getAlertingUrlParameters';
+import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import AlertingPageHeader from 'in-alerting/smart-alerts/components/pageHeaderTemplate/AlertingPageHeader';
-import { createOrSaveAlert } from 'in-alerting/smart-alerts/infrastructure/components/AlertCreateOrSave';
-import alertFormDefinition from 'in-alerting/smart-alerts/infrastructure/form/alertFormDefinition';
-import generateAlertConfig from 'in-alerting/smart-alerts/infrastructure/data/generateAlertConfig';
-import { getHeaderTitle } from 'in-alerting/smart-alerts/infrastructure/tearsheet/sharedFunctions';
+import { useAlertConfig } from 'in-alerting/smart-alerts/infrastructure/hooks/useSmartAlertCreateUrl';
+import TearSheetLoading from 'in-alerting/smart-alerts/components/tearSheet/Loading/TearSheetLoading';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { InfraAlertConfig, InfraAlertRuleUnion, Nullish, RuleWithThreshold } from 'in-types';
+import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import { alertChannelPerSeverityInfraSaEnabled } from 'in-services/featureFlags';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { useNavigationToAlertConfig } from 'in-infrastructure/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { useGetAlertConfigLink } from 'in-infrastructure/navigation/paths';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import { Nullish } from 'in-types';
+import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
 
 const initialChartConfigIndex = 0;
 
 export default function AlertConfigTearSheet() {
   const location = useLocation();
-  const alertConfig = generateAlertConfig();
-  const { cancelTearSheet } = useMemo(() => {
+  const { cancelTearSheet, editMode, duplicateMode, alertConfigId, alertConfigCreated } = useMemo(() => {
     return getAlertingUrlParameters(location);
   }, [location]);
 
-  return <AlertConfigTearSheetContent alertConfig={alertConfig} cancelTearSheet={cancelTearSheet} />;
+  const { alertConfig, alertConfigErrors } = useAlertConfig(alertConfigId, alertConfigCreated, editMode, duplicateMode);
+
+  if (alertConfigErrors?.length) {
+    return <ErroneousResultPresenter errors={[...alertConfigErrors]} />;
+  } else if (!alertConfig) {
+    return <TearSheetLoading />;
+  } else {
+    const infraAlertConfig = duplicateMode ? duplicateAlertConfig(alertConfig) : alertConfig;
+    return (
+      <AlertConfigTearSheetContent
+        alertConfig={infraAlertConfig}
+        cancelTearSheet={cancelTearSheet}
+        editMode={editMode}
+      />
+    );
+  }
 }
 
 function AlertConfigTearSheetContent({
   alertConfig,
-  cancelTearSheet
+  cancelTearSheet,
+  editMode
 }: {
   alertConfig: InfraSmartAlertConfigWithMetadata & { duplicateFrom?: string };
   cancelTearSheet: () => string | Nullish;
+  editMode: boolean;
 }) {
-  const editMode = false; // TODO handle edit scenerio
+  const duplicateFrom = alertConfig?.duplicateFrom ?? undefined;
+
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode));
   const updateForm = useInfraSmartAlertFormSideEffects(form, setForm);
-  const duplicateFrom = alertConfig?.duplicateFrom;
 
   const [isSaving, setIsSaving] = useState(false);
   const [messages, setMessages] = useState<EnrichedError[]>([]);
-  const getLinkToAlertConfig = useGetAlertConfigLink();
+  const navigateToAlertConfig = useNavigationToAlertConfig();
 
   const { trackCta } = useSegmentTracking();
   return (
     <>
-      <AlertingPageHeader title={getHeaderTitle()} />
+      <AlertingPageHeader title={getHeaderTitle(editMode)} />
       <AlertConfigTearSheetWithThreshold
         updateForm={updateForm}
         form={form}
@@ -64,16 +90,14 @@ function AlertConfigTearSheetContent({
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
         timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
         onCreate={() => {
-          createOrSaveAlert({
+          createOrSaveAlertFromTearSheet({
             form,
             setForm,
-            getLinkToAlertConfig,
-            onClose: () => undefined,
+            navigateToAlertConfig,
             editMode,
             setIsSaving,
             setMessages,
-            //@ts-expect-error TODO add toAlertConfig fn
-            toAlertConfig: () => {},
+            toAlertConfig,
             isSimpleMode: false,
             trackCta,
             duplicateFrom
@@ -94,4 +118,42 @@ function createOnChange(setForm: (form: MapForm<any>) => void, externalForm: Map
     // @ts-expect-error ts can't determine nested fields of MapForm<any>
     setForm(externalForm.updateIn(path, updater));
   };
+}
+
+function getRuleWithThreshold(form: MapForm<any>) {
+  const warningThresholdField = form.get('threshold').get('warningThreshold');
+  const criticalThresholdField = form.get('threshold').get('criticalThreshold');
+  const warningThreshold = !isEmpty(warningThresholdField.get('value').value)
+    ? { WARNING: warningThresholdField.toJS() }
+    : {};
+  const criticalThreshold = !isEmpty(criticalThresholdField.get('value').value)
+    ? { CRITICAL: criticalThresholdField.toJS() }
+    : {};
+  const ruleWithThreshold: RuleWithThreshold<InfraAlertRuleUnion> = {
+    rule: form.get('rule').toJS(),
+    thresholdOperator: form.get('threshold').get('operator').value,
+    thresholds: { ...warningThreshold, ...criticalThreshold }
+  };
+
+  return ruleWithThreshold;
+}
+
+function toAlertConfig(form: MapForm<any>): Readonly<InfraAlertConfig> {
+  const tagFilterFormModel = (form.get(fieldNames.tagFilterExpression) as Field<[]>).value;
+  const ruleWithThreshold = getRuleWithThreshold(form);
+
+  return Object.freeze({
+    tagFilterExpression: toBackendQueryModel(tagFilterFormModel, false),
+    alertChannelIds: alertChannelPerSeverityInfraSaEnabled ? null : form.get(fieldNames.alertChannelIds).value,
+    alertChannels: alertChannelPerSeverityInfraSaEnabled ? form.get(fieldNames.alertChannels).value : null,
+    description: form.get(fieldNames.description).value || getDescriptionPlaceholder(),
+    name: form.get(fieldNames.name).value || getTitlePlaceholder(),
+    id: form.get(fieldNames.id).value,
+    timeThreshold: form.get('timeThreshold').toJS(),
+    granularity: form.get(fieldNames.granularity).value,
+    groupBy: toBackendGroupBy(form.get(fieldNames.groupBy).value),
+    forecastingConfig: form.get(fieldNames.forecastingConfig).value,
+    customPayloadFields: form.get('customPayloadFields').toJS(),
+    rules: [ruleWithThreshold]
+  });
 }

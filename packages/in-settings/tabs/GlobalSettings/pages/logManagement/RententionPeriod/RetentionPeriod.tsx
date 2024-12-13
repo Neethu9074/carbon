@@ -125,7 +125,12 @@ export default function RetentionPeriod() {
               </Link>
             </Typography>
           </div>
-          <Button className={locals.changeRetentionButton} onClick={() => setShowConfirmation(true)} kind="primary">
+          <Button
+            data-testid="change-retention-period-button"
+            className={locals.changeRetentionButton}
+            onClick={() => setShowConfirmation(true)}
+            kind="primary"
+          >
             {localisationStrings.changeRetentionPeriod}
           </Button>
         </section>

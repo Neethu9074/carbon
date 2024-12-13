@@ -3,21 +3,20 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
+import { CarbonMenuButton as MenuButton, CarbonMenuItem as MenuItem, SvgIcon } from '@instana/components';
 import { TimeConfig } from '@instana/types';
 
 import {
   urlParameter,
   timeShifts,
   previousHourTimeShift,
-  getTimeShiftLabel,
   translateOffsetToTimeShiftConfig
 } from 'in-stores/time/shifting';
 // @ts-expect-error needs TS migration
 import { formatExact } from 'in-components/time/timeframeFormatter';
-import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
-import DropdownButton from 'in-components/Button/DropdownButton';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
@@ -38,41 +37,51 @@ export default function TimeShiftDropdown({
   const timeConfig = useTimeConfig();
   const [{ timeShiftOffset }, onChange] = useUrlState(urlStateDefinition);
 
-  const options = timeShifts
-    .filter(({ offset }) => offset !== previousHourTimeShift.offset)
-    .map(v => ({
-      value: v.offset,
-      label: renderItemContent(v, timeConfig) as any
-    }));
+  const label = timeShifts.find(timeShift => timeShift.offset === timeShiftOffset)?.label;
 
-  const valueLabel =
-    timeShifts.find(timeShift => timeShift.offset === timeShiftOffset)?.label ||
-    // fallback for non-predefined time shift offset values
-    getTimeShiftLabel(translateOffsetToTimeShiftConfig(timeShiftOffset, timeConfig));
   return (
-    <ComboBoxBehavior
-      value={timeShiftOffset}
-      options={options}
-      onChange={timeShiftOffset => {
-        onChange({ timeShiftOffset });
-        onTimeShiftChange(timeShiftOffset);
-      }}
-      disableAutomaticOptionSorting
-      aria-label={t('in-components:timeShift.changeSelectedTimeShift')}
+    <MenuButton
+      id="timeshift"
+      kind="tertiary"
+      size="sm"
+      menuAlignment="bottom-end"
+      //@ts-expect-error Underlying Button accepts node but not the menu
+      label={
+        <div className={locals.title}>
+          <SvgIcon
+            type={'lib_datetime_time'}
+            size="xs"
+            aria-label={t('in-components:timeShift.changeSelectedTimeShift')}
+          />
+          {t('in-components:timeShift.timeShiftValue', { timeShiftValue: label })}
+        </div>
+      }
+      disabled={disabled}
+      className={locals.menu}
     >
-      {({ elementProps, isOpen }) => (
-        // @ts-expect-error not fully matching expected type
-        <DropdownButton
-          {...elementProps}
-          kind="secondary"
-          icon="lib_datetime_time"
-          expanded={isOpen}
-          disabled={disabled}
-        >
-          {t('in-components:timeShift.timeShiftValue', { timeShiftValue: valueLabel })}
-        </DropdownButton>
-      )}
-    </ComboBoxBehavior>
+      {timeShifts
+        .filter(({ offset }) => offset !== previousHourTimeShift.offset)
+        .map((v, index, array) => (
+          // MenuItem label typed as string but actual underlying button will excecpt a node.
+          <>
+            <MenuItem
+              //@ts-expect-error
+              label={renderItemContent(v, timeConfig)}
+              onClick={() => {
+                const offset = v.offset;
+                onChange({ timeShiftOffset: offset });
+                onTimeShiftChange(offset as number);
+              }}
+              className={classNames({
+                [locals.menuitem]: true,
+                [locals.selected]: timeShiftOffset == v.offset
+              })}
+              aria-label={v.label}
+            />
+            {array.length - 1 > index}
+          </>
+        ))}
+    </MenuButton>
   );
 }
 
@@ -88,7 +97,7 @@ function renderItemContent(timeShiftConfig: TimeShiftConfig, timeConfig: TimeCon
     to: (timeConfig.to || Date.now()) + translateOffsetToTimeShiftConfig(timeShiftConfig.offset, timeConfig).offset
   };
   return (
-    <div className={locals.overlay}>
+    <div title="">
       <div className={locals.label}>{timeShiftConfig.label}</div>
       <div className={locals.description}>
         {timeShiftConfig.offset

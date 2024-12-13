@@ -1,0 +1,113 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+:local {
+  .wrapper {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+    background: var(--ids-color-option-neutral-50);
+    overflow: hidden;
+  }
+
+  .canvas {
+    display: block;
+    width: 100%;
+  }
+
+  .overlay {
+    position: relative;
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .rootCauseEntityNode {
+    background: var(--cds-link-visited);
+    border: 0.0625rem var(--cds-link-visited) solid;
+  }
+
+  .rootCauseEntityNode:hover {
+    background: var(--cds-link-inverse-visited);
+  }
+
+  .rootCauseEntityNode:active {
+    background: var(--cds-link-inverse-visited);
+  }
+
+  .rootCauseEntityNode:focus {
+    background: var(--cds-link-inverse-visited);
+  }
+
+  .triggeringEntityNode {
+    background: var(--cds-link-inverse-hover);
+    border: 0.0625rem var(--ids-color-option-blue-400) solid;
+  }
+
+  .regularNode {
+    background: var(--ids-color-option-blue-100);
+    border: 0.0625rem var(--ids-color-option-blue-400) solid;
+  }
+
+  .legend {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 2.5rem;
+  }
+  .healthIcon {
+    position: absolute;
+    left: 3rem;
+    cursor: pointer;
+  }
+  .legendRCA {
+    width: 2rem;
+    height: 1rem;
+    background: var(--cds-link-visited);
+    border: 0.0625rem var(--cds-link-visited) solid;
+  }
+  .legendTrigger {
+    width: 2rem;
+    height: 1rem;
+    background: var(--cds-link-inverse-hover);
+    border: 0.0625rem var(--ids-color-option-blue-400) solid;
+  }
+  .legendOther {
+    width: 2rem;
+    height: 1rem;
+    background: var(--ids-color-option-blue-100);
+    border: 0.0625rem var(--ids-color-option-blue-400) solid;
+  }
+  .popoverWrapperTopology {
+    width: 19rem;
+    padding-left: 0.2rem;
+    background: white;
+  }
+  .popoverHeaderTopology {
+    padding-left: 0.5rem;
+  }
+  .popoverContentTopology {
+    padding-bottom: 0.5rem;
+  }
+  .popoverFooterTopology {
+    padding-top: 0.5rem;
+    padding-left: 0.4rem;
+    padding-bottom: 0.5rem;
+  }
+  .popoverIndicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0.2rem;
+    height: 100%;
+  }
+  .closePopoverTopology {
+    padding: 0;
+    padding-block-start: 0;
+  }
+}

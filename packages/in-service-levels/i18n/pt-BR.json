@@ -56,7 +56,12 @@
       "website": {
         "trafficType_all": "Contagem de todos os indicadores.",
         "trafficType_erroneous": "Contagem de erros do indicador"
-      }
+      },
+      "synthetic": {
+        "trafficType_all": "Todos os resultados",
+        "trafficType_erroneous": "Resultados errôneos"
+      },
+      "trafficTypeLabel": "$t(in-service-levels:general.indicator.{{entityType}}.trafficType, {\"context\": \"{{trafficType}}\" })"
     },
     "latency": "Latência",
     "time": "Hora",
@@ -108,8 +113,10 @@
       "beaconCount": "Contagem de indicadores",
       "calls": "Chamadas",
       "latency": "Latência",
+      "results": "Resultados",
       "beaconDuration": "Duração do indicador",
       "threshold": "Limite",
+      "failureRate": "Taxa de falha",
       "errors": "Taxa de chamada errônea",
       "beaconErrorRate": "Taxa de erro do indicador",
       "goodEvents": "Eventos bons",
@@ -132,7 +139,9 @@
       "event_synthetic_plural": "{{formatted}} resultados",
       "event_synthetic_0": "{{formatted}} resultados",
       "event_synthetic_1": "{{formatted}} resultados",
-      "event_synthetic_2": "{{formatted}} resultados"
+      "event_synthetic_2": "{{formatted}} resultados",
+      "event_test": "{{count}} teste",
+      "event_test_plural": "{{count}} testes"
     },
     "deleteDialog": {
       "pleaseConfirm": "Confirme",
@@ -212,9 +221,7 @@
       "thresholdDescription_GTE": "Um bom minuto é definido por uma contagem de mais ou igual a {{thresholdValue}} chamadas por minuto. Um minuto ruim é definido por uma contagem de menos de {{thresholdValue}} chamadas por minuto.",
       "thresholdDescription_LT": "Um bom minuto é definido por uma contagem de menos de {{thresholdValue}} chamadas por minuto. Um minuto ruim é definido por uma contagem de mais ou igual a {{thresholdValue}} chamadas por minuto.",
       "thresholdDescription_LTE": "Um bom minuto é definido por uma contagem de menos ou igual a {{thresholdValue}} chamadas por minuto. Um minuto ruim é definido por uma contagem de mais de {{thresholdValue}} chamadas por minuto.",
-      "thresholdInput": "<Stack>Set a threshold of<HorizontalStack><OperatorDropdown /><ThresholdInput />calls per minute<HorizontalStack/><Stack />",
-      "allCalls": "Todas as chamadas",
-      "erroneousCalls": "Chamadas errôneas"
+      "thresholdInput": "<Stack>Set a threshold of<HorizontalStack><OperatorDropdown /><ThresholdInput />calls per minute<HorizontalStack/><Stack />"
     },
     "previewSection": {
       "dataInfo": "Os dados de visualização são mostrados apenas até 7 dias no passado. O SLO incluirá dados apenas a partir do momento em que foi criado",
@@ -224,8 +231,8 @@
   },
   "sloChart": {
     "sloFormatter": {
-      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:general.format.event {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
-      "callsFormat": "{{formattedCount}} $t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
+      "thousandCallsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formattedCount}}K\" })",
+      "callsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formatted}}\" })"
     },
     "sloChartSummary": {
       "status": "Status",

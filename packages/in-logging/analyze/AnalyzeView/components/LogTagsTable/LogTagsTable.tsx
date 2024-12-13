@@ -120,7 +120,7 @@ const LogTagsTable = ({ item, selectedId, onSelectTagHref, getHrefToGroupedView 
   });
 
   return (
-    <div ref={ref as React.RefObject<HTMLDivElement>}>
+    <div data-testid="log-tag-table" ref={ref as React.RefObject<HTMLDivElement>}>
       <CarbonContainedList label="" className={locals.hideTitle} size={tagTableSize}>
         {MappedTags}
       </CarbonContainedList>

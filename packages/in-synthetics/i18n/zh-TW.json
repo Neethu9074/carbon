@@ -384,12 +384,12 @@
         "textInput": {
           "placeholder": "認證名稱",
           "labelText": "名稱",
-          "invalidText": "認證名稱必須以字母開頭，並且僅包含字母、數字和底線。"
+          "invalidText": "認證名稱必須以字母開頭，並且僅包含字母、數字和底線。",
+          "credentialNamesMustBeUnique": "認證名稱必須是唯一的。 此名稱已採用。 嘗試另一個。"
         },
         "passwordInput": {
           "placeholder": "認證值",
-          "labelText": "值",
-          "invalidText": "值不應為空。"
+          "labelText": "值"
         },
         "associationsDescription": "將認證與應用程式、網站或行動式應用程式關聯後，會將存取權限授與所有可以存取這些實體的使用者。"
       },
@@ -515,6 +515,12 @@
       "deleteLocationBroswerRefreshInfo": "該位置需要一段時間才能從位置清單中消失，且可能需要進行瀏覽器重新整理。",
       "deactivateLocation": {
         "deactivate": "取消啟動"
+      },
+      "ipAddressColumn": {
+        "ipAddress": "IP 位址",
+        "singleIPAddress": "{{number}} 個 IP 位址",
+        "multipleIPAddress": "{{number}} 個 IP 位址",
+        "noIPAddresses": "NA"
       }
     },
     "summary": {
@@ -810,7 +816,10 @@
         "noCredentialsAvailableTitle": "沒有可用的綜合認證",
         "noCredentialsAvailableDescription": "未從資料庫中擷取到綜合認證。"
       },
-      "editAction": "編輯",
+      "editAction": {
+        "editActionLabel": "編輯",
+        "theValueMustNotBeBlank": "值不得空白。"
+      },
       "deleteAction": {
         "deleteActionLabel": "刪除",
         "deleteCredentialTitle": "刪除綜合認證 {{credentialName}}",

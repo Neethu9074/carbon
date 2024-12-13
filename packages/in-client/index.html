@@ -40,32 +40,59 @@
     //   "currency": ["", "\u00a0€"]
     // };
   </script>
-      <!-- WalkeMe Inject -->
-   <script type="text/javascript">
-      if (window.instana.termsAndPrivacySettings.walkmeAnalyticsServices && window.instana.config.featureFlags.playwithTestEnabled) {
-    (function() {
-      var walkme = document.createElement('script');
-      walkme.type = 'text/javascript'; walkme.async = true;
-      walkme.src = 'https://cdn.walkme.com/private-bucket/ibm/users/9ef25d161f0e453a8f3e4dea9390a967/test/walkme_9ef25d161f0e453a8f3e4dea9390a967_https.js';
-      var s = document.getElementsByTagName('script')[0];
-      s.parentNode.insertBefore(walkme, s);
-      window._walkmeConfig = {smartLoad:true}; })();
-    }
-      </script>
-      <!-- WalkeMe script end-->
-      <!-- AssistMe Start-->
+      <!-- ibm-commons-script -->
       <script type="text/javascript">
-        if (window.instana.termsAndPrivacySettings.walkmeAnalyticsServices && window.instana.config.featureFlags.playwithTestEnabled) {
-          var script = document.createElement('script');
-          script.type = 'text/javascript';
-          script.src = 'https://ibmassistme-dev.zll1vg8lrcq.us-south.codeengine.appdomain.cloud/resources/assist-me/controller.js';
-          script.async = true;
-          script.defer = true;
-          script.crossOrigin = 'anonymous';
-          document.head.appendChild(script);
-        }
-      </script>
+        if (window.instana.config.featureFlags.ibmCommonEnabled && window.instana.termsAndPrivacySettings.walkmeAnalyticsServices ){
+        window._ibmAnalytics = {
+         "settings": {
+            "name": "instana",
+            "isSpa": false,
+            "tealiumProfileName": "in-app-usage"
+         },
+         "trustarc": {
+            "isCookiePreferencesInstalled": true,
+      },
+         "digitalData.page.pageInfo.walkme.enabled": window.instana.termsAndPrivacySettings.walkmeAnalyticsServices,
+         "digitalData.page.pageInfo.walkme.id": "9ef25d161f0e453a8f3e4dea9390a967",
+      };
+      digitalData = {
+         "page": {
+            "pageInfo": {
+               "ibm": {
+                  "siteId": "IBM_" + _ibmAnalytics.settings.name,
+               }
+            },
+            "category": {
+               "primaryCategory": "PC110"
+            }
+         }
+      };
 
+        }
+
+     </script>
+     <script type="text/javascript">
+      if (window.instana.config.featureFlags.ibmCommonEnabled && window.instana.termsAndPrivacySettings.walkmeAnalyticsServices) {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = '//1.www.s81c.com/common/stats/ibm-common.js';
+        script.async = true;
+        document.head.appendChild(script);
+      }
+    </script>
+
+       <!-- Assitme script -->
+     <script type="text/javascript">
+      if (window.instana.config.featureFlags.ibmCommonEnabled && window.instana.termsAndPrivacySettings.walkmeAnalyticsServices) {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://ibmassistme-dev.zll1vg8lrcq.us-south.codeengine.appdomain.cloud/resources/assist-me/controller.js';
+        script.crossOrigin = 'anonymous';
+        script.async = true;
+        script.defer = true;
+        document.head.appendChild(script);
+      }
+    </script>
       <!-- Assitme script end -->
   <script>
     var req = new XMLHttpRequest();

@@ -56,7 +56,12 @@
       "website": {
         "trafficType_all": "Nombre de toutes les balises",
         "trafficType_erroneous": "Nombre d'erreurs de balises"
-      }
+      },
+      "synthetic": {
+        "trafficType_all": "Tous les résultats",
+        "trafficType_erroneous": "Résultats erronés"
+      },
+      "trafficTypeLabel": "$t(in-service-levels:general.indicator.{{entityType}}.trafficType, {\"context\": \"{{trafficType}}\" })"
     },
     "latency": "Temps d'attente",
     "time": "Durée",
@@ -108,8 +113,10 @@
       "beaconCount": "Nombre de balises",
       "calls": "Appels",
       "latency": "Temps d'attente",
+      "results": "Résultats",
       "beaconDuration": "Durée des balises",
       "threshold": "Seuil",
+      "failureRate": "Taux d'échec",
       "errors": "Taux d'appels erronés",
       "beaconErrorRate": "Taux d'erreurs de balise",
       "goodEvents": "Evénements corrects",
@@ -132,7 +139,9 @@
       "event_synthetic_plural": "{{formatted}} résultats",
       "event_synthetic_0": "{{formatted}} résultats",
       "event_synthetic_1": "{{formatted}} résultats",
-      "event_synthetic_2": "{{formatted}} résultats"
+      "event_synthetic_2": "{{formatted}} résultats",
+      "event_test": "{{count}} test",
+      "event_test_plural": "{{count}} tests"
     },
     "deleteDialog": {
       "pleaseConfirm": "Veuillez confirmer",
@@ -212,9 +221,7 @@
       "thresholdDescription_GTE": "Une bonne minute est définie par un nombre d'appels supérieur ou égal à {{thresholdValue}} par minute. Une mauvaise minute est définie par un nombre d'appels inférieur à {{thresholdValue}} par minute.",
       "thresholdDescription_LT": "Une bonne minute est définie par un nombre d'appels inférieur à {{thresholdValue}} par minute. Une mauvaise minute est définie par un nombre d'appels supérieur ou égal à {{thresholdValue}} par minute.",
       "thresholdDescription_LTE": "Une bonne minute est définie par un nombre d'appels inférieur ou égal à {{thresholdValue}} par minute. Une mauvaise minute est définie par un nombre d'appels supérieur à {{thresholdValue}} par minute.",
-      "thresholdInput": "<Stack>Définissez un seuil de<HorizontalStack><OperatorDropdown /><ThresholdInput />appels par minute<HorizontalStack/><Stack />",
-      "allCalls": "Tous les appels",
-      "erroneousCalls": "Appels erronés"
+      "thresholdInput": "<Stack>Définissez un seuil de<HorizontalStack><OperatorDropdown /><ThresholdInput />appels par minute<HorizontalStack/><Stack />"
     },
     "previewSection": {
       "dataInfo": "Les données d'aperçu ne remontent que jusqu'à 7 jours. L'objectif de niveau de service inclut uniquement les données à partir de la date de création.",
@@ -224,8 +231,8 @@
   },
   "sloChart": {
     "sloFormatter": {
-      "thousandCallsFormat": "{{formattedCount}}K $t(in-service-levels:general.format.event {\"context\": \"{{entityType}}\", \"count\": {{count}} })",
-      "callsFormat": "{{formattedCount}} $t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}} })"
+      "thousandCallsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formattedCount}}K\" })",
+      "callsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formatted}}\" })"
     },
     "sloChartSummary": {
       "status": "Statut",

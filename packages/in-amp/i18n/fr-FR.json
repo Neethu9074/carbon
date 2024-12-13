@@ -16,10 +16,17 @@
       "name": "Nom",
       "tenant": "Locataire",
       "type": "Type",
-      "licenseStartData": "Données de début de licence",
-      "licenseEndData": "Données de fin de licence",
+      "licenseStartData": "Date de début de la licence",
+      "licenseEndData": "Date de fin de la licence",
       "licensedApmHosts": "Hôtes APM sous licence",
       "licensedIqmHosts": "Hôtes IQM sous licence"
+    },
+    "learnMore": {
+      "title": "En savoir plus sur la politique d'utilisation équitable d'Instana",
+      "leftTitle": "Qu'est-ce que la politique d'utilisation équitable ?",
+      "rightTitle": "Comment acheter plus de données ?",
+      "leftBody": "La politique d'utilisation équitable d'Instana décrit l'allocation mensuelle de données associée à votre type de licence. Pour en savoir plus et prendre connaissance des règles d'utilisation des ressources, consultez la <fupDocLink>documentation relative à la politique d'utilisation équitable</fupDocLink>.",
+      "rightBody": "Si vous anticipez un besoin constant d'utilisation de données supplémentaires, contactez votre ingénieur commercial Instana pour explorer les options d'extension. Contactez le service commercial <salesLink>ici.</salesLink>"
     },
     "ampInformationModifier": {
       "allPaidUnitsAggregated": "Toutes les unités payantes (agrégées)",

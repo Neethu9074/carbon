@@ -43,7 +43,6 @@ export default function ScopeAggregation({ form, updateForm, isTearSheet = false
     setIsSumCrossSeriesAggregation(isCrossSeriesSum);
 
     const newCrossSeriesAggregation = isCrossSeriesSum ? 'SUM' : aggregationValue;
-
     updateForm(
       form
         .updateIn(['rule', 'crossSeriesAggregation'], field =>

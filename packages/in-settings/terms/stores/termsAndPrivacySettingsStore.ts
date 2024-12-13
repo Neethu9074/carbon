@@ -27,5 +27,5 @@ export function updateTermsAndPrivacySettings(data: TermsAndPrivacyStore) {
 }
 
 export const isWalkmeScriptLoaded = Array.from(document.scripts).some(script =>
-  script.src.includes('https://cdn.walkme.com')
+  script.src.includes('assist-me/controller.js')
 );

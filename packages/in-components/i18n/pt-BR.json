@@ -306,11 +306,6 @@
     "tooltipShowLess": "Mostrar menos",
     "tooltipShowMore": "Mostrar mais"
   },
-  "expandableGroup": {
-    "tooltipShowContent": "Mostrar conteúdo",
-    "tooltipHideContent": "Ocultar conteúdo",
-    "labelExpandButtonForContent": "Botão Expandir para conteúdo"
-  },
   "featureFeedback": {
     "linkLabelYouCanSendUsFeedback": "É possível nos enviar um feedback"
   },
@@ -460,6 +455,7 @@
     "viewSwitcherLabelEvents": "Eventos",
     "viewSwitcherlabelInfrastructure": "Infraestrutura",
     "viewSwitcherLabelApplications": "Aplicativos",
+    "viewVulnerabilityCenter": "Vulnerabilidades",
     "viewSwitcherLabelSlo": "Níveis de serviço",
     "viewSwitcherLabelLogs": "Logs",
     "viewSwitcherLabelAnalytics": "Análise de dados",
@@ -587,6 +583,12 @@
     "fillerTextIn": " em ",
     "fillerTextAt": " em "
   },
+  "sessionTimeout": {
+    "title": "Tempo limite de sessão",
+    "message": "Devido à inatividade, você será desconectado:",
+    "loggedInButton": "Permanecer conectado",
+    "logOutButton": "Efetuar logout"
+  },
   "time": {
     "lastMinute": "Último minuto",
     "lastMinute_plural": "Últimos {{count}} minutos",
@@ -647,7 +649,7 @@
   },
   "timeShift": {
     "changeSelectedTimeShift": "Mudar deslocamento de tempo selecionado",
-    "timeShiftValue": "Deslocamento de tempo: {{timeShiftValue}}",
+    "timeShiftValue": "Mudança de horário: {{timeShiftValue}}",
     "compareToTimeShiftTimeConfig": "Comparar com {{timeShiftTimeConfig}}"
   },
   "topListCard": {
@@ -715,6 +717,7 @@
     "setEnabledMessagePressESCToDisableTVMode": "Pressione ESC para desativar o modo de TV."
   },
   "analyze": {
+    "facettedFilters": "Filtros facetados",
     "loadMoreWithCount": "Carregar mais {{count}}",
     "loadMore": "Carregar mais",
     "activeFacets": "{{count}} selecionado",
@@ -725,6 +728,7 @@
     "fromUnit": "De ({{unit}})",
     "to": "Até",
     "toUnit": "Até ({{unit}})",
+    "fromto": "Definir o intervalo \"a partir de\" e \"até\"",
     "rangeSelected": "Intervalo selecionado",
     "rangeOrder": "O intervalo tem de estar em ordem crescente.",
     "earliestTimestamp": "Registro de data e hora mais antigo",

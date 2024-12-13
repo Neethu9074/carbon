@@ -9,7 +9,6 @@ import React, { useState } from 'react';
 import {
   CustomEventMobileAppAlertRule,
   HistoricBaselineConfig,
-  MobileAppAlertConfigWithMetadata,
   StaticThresholdConfig,
   StatusCodeMobileAppAlertRule,
   ThresholdConfig,
@@ -23,6 +22,7 @@ import {
 import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/mobileApp/hooks/useTagBasedPayloadConfigurator';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
+import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/dialog/TimeThresholdDescription';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
@@ -47,7 +47,7 @@ import locals from 'in-alerting/smart-alerts/components/dialog/shared-styles/Ale
 
 const initialChartConfigIndex = 0;
 
-export default function AlertConfiguration({ alertConfig }: { alertConfig: MobileAppAlertConfigWithMetadata }) {
+export default function AlertConfiguration({ alertConfig }: { alertConfig: MobileAppSmartAlertConfigWithMetadata }) {
   const {
     rule: { alertType, metricName, aggregation },
     threshold,

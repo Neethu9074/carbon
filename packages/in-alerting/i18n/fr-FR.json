@@ -29,6 +29,8 @@
     "groupBy": "Regrouper par",
     "noChannelAvailable": "Aucun canal d'alerte disponible",
     "optional": "Facultatif",
+    "on": "Activé",
+    "off": "Désactivé",
     "revisionDropdownButton": {
       "revision": "Révision {{alertRevision}}",
       "pause": "Suspendre",
@@ -98,7 +100,17 @@
     "groupedViewHeader_1": "{{formattedCount}} résultat",
     "groupedViewHeader_2": "{{formattedCount}} résultat",
     "resultHeaderLoading": "Chargement en cours...",
-    "loadMore": "Charger plus"
+    "loadMore": "Charger plus",
+    "chooseLayoutDialog": {
+      "chooseLayout": "Choisir la présentation des alertes intelligentes",
+      "layoutContent": "Actuellement, vous avez accès aux deux présentations pour la création d'une alerte intelligente dans cet environnement. Sélectionnez la présentation de votre choix pour continuer :",
+      "oldLayoutDescription": "Ancienne présentation : il s'agit de l'interface classique pour la création d'alertes intelligentes.",
+      "newLayoutDescription": "Nouvelle présentation : il s'agit de l'interface mise à jour avec des fonctionnalités et une convivialité améliorées.",
+      "layoutRecommendation": "En cas de doute, nous vous recommandons d'explorer la nouvelle présentation pour une meilleure expérience.",
+      "cancelTitle": "Annuler",
+      "useOldLayout": "Utiliser l'ancienne présentation",
+      "useNewLayout": "Utiliser la nouvelle présentation"
+    }
   },
   "potentialProblems": {
     "titleErrorRate": "Le taux d'appels erronés est supérieur à la normale.",
@@ -144,6 +156,7 @@
   },
   "smartAlerts": {
     "addSmartAlert": "Ajouter une alerte intelligente",
+    "createSmartAlert": "Créer une alerte intelligente",
     "applicationSmartAlert": "Alerte intelligente d'application",
     "globalApplicationSmartAlert": "Alerte intelligente d'application globale",
     "titleNoSmartAlertsConfigured": "Aucune alerte intelligente configurée",
@@ -152,6 +165,13 @@
     "titleCopyOf": "(Copie de) {{smartAlertTitle}}",
     "smartAlertsTitle": "Alertes intelligentes",
     "labelNew": "(Nouveau)",
+    "alertChannelList": {
+      "selectAllWarning": "Sélectionner tous les avertissements",
+      "selectAllCritical": "Sélectionner toutes les erreurs critiques",
+      "alertLevel": "Niveau d'alerte",
+      "critical": "Critique",
+      "warning": "Avertissement"
+    },
     "applications": {
       "alertConfiguration": "Configuration d'alerte",
       "advanced": {
@@ -492,6 +512,8 @@
         "noPermissionGlobalSmartAlertEdit": "Vous n'avez pas l'autorisation d'effectuer cette action.",
         "labelGlobalSmartAlertsList": "Alertes intelligentes d'application globales ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Alertes intelligentes d'application ({{numberOfAlerts}})",
+        "labelGlobalSmartAlertsTable": "Alertes intelligentes d'application globale",
+        "labelSmartAlertsTable": "Alertes intelligentes d'application",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
         "getSubtitleForStaticThreshold": "Seuil statique, {{metricLabel}} {{operator}} {{value}}",
         "getSubtitleForStaticDailySeasonality": "Saisonnalité quotidienne statique, {{metricLabel}}",
@@ -509,7 +531,11 @@
         "numberOfApplicationsSelected_plural": "{{count}} applications sélectionnées",
         "numberOfApplicationsSelected_0": "{{count}} applications sélectionnées",
         "numberOfApplicationsSelected_1": "{{count}} applications sélectionnées",
-        "numberOfApplicationsSelected_2": "{{count}} applications sélectionnées"
+        "numberOfApplicationsSelected_2": "{{count}} applications sélectionnées",
+        "noGlobalAlertDataHeader": "Aucune alerte intelligente d'application globale",
+        "noGlobalAlertDataDescription": "Pour commencer, cliquez sur <strong>Créer une alerte intelligente globale</strong>.",
+        "noLocalAlertDataHeader": "Aucune alerte intelligente d'application",
+        "noLocalAlertDataDescription": "Pour commencer, cliquez sur <strong>Créer une alerte intelligente</strong>."
       },
       "details": {
         "title": "Informations sur l'alerte",
@@ -973,7 +999,10 @@
           "tracesImpacted": "les traces sont impactées",
           "outOfConsecutiveEvaluations": "sur",
           "persistenceType": "Type de persistance",
-          "numberOfConsecutiveViolationsPostLabel": "les fenêtres consécutives de {{granularity}}-minute présentent des violations"
+          "numberOfConsecutiveViolationsPostLabel": "les fenêtres consécutives de {{granularity}}-minute présentent des violations",
+          "static": "Statique",
+          "thresholdValue": "Valeur de seuil",
+          "timeWindow": "Fenêtre de temps"
         }
       }
     },
@@ -1100,7 +1129,9 @@
           "filter_0": "Filtres",
           "filter_1": "Filtres",
           "filter_2": "Filtres"
-        }
+        },
+        "noDataHeader": "Aucune alerte intelligente de site Web",
+        "noDataDescription": "Pour commencer, cliquez sur <strong>Créer une alerte intelligente</strong>."
       }
     },
     "sortOptions": {
@@ -1144,7 +1175,9 @@
         "timeThreshold": "Seuil de temps",
         "filterApplied": "Filtre appliqué",
         "violationsCount": "{{violationsCount}} échec(s)",
-        "numberOfFailures": "Alerte d'échec"
+        "numberOfFailures": "Alerte d'échec",
+        "noDataHeader": "Aucune Smart Alerts synthétique",
+        "noDataDescription": "Pour commencer, cliquez sur <strong>Créer une alerte intelligente</strong>."
       },
       "alertProperties": {
         "testName": "Test_Name",
@@ -1279,7 +1312,9 @@
         "filter_0": "Filtres",
         "filter_1": "Filtres",
         "filter_2": "Filtres",
-        "filterApplied": "Filtre appliqué"
+        "filterApplied": "Filtre appliqué",
+        "noDataHeader": "Aucune alerte intelligence d'application mobile",
+        "noDataDescription": "Pour commencer, cliquez sur <strong>Créer une alerte intelligente</strong>."
       },
       "simple": {
         "stepConfigsStep1Title": "Etape 1 : Sélectionner une alerte",
@@ -1410,7 +1445,7 @@
             "subtitle": {
               "staticThresholdType": "Seuil statique",
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
-              "predictiveTrigger": "Déclencheur prédictif"
+              "forecastAlerting": "Prévoir la génération d'alertes"
             }
           }
         },
@@ -1423,7 +1458,9 @@
         "filter_plural": "Filtres",
         "filter_0": "Filtres",
         "filter_1": "Filtres",
-        "filter_2": "Filtres"
+        "filter_2": "Filtres",
+        "noDataHeader": "Aucune alerte intelligente d'infrastructure",
+        "noDataDescription": "Pour commencer, cliquez sur <strong>Créer une alerte intelligente</strong>."
       },
       "advancedModeContainer": {
         "scope": {
@@ -1446,9 +1483,14 @@
           "title": "Seuil de temps : quand voulez-vous être alerté ?"
         },
         "predictiveTrigger": {
-          "title": "Les alertes prédictives sont désactivées",
-          "alertTitle": "L'alerte sera déclenchée {{value}} avant la violation prévue",
-          "timeToFailure": "Délai jusqu'à l'échec"
+          "title": "Prévoir la génération d'alertes",
+          "description": "Recevez des alertes proactives en fonction de la tendance des données d'historique. Cette option vous permet d'anticiper les problèmes potentiels avant qu'ils n'affectent votre système.",
+          "forecastTimeframe": "Fenêtre de temps prévue",
+          "forecastTimeframeDetails": "Définit le délai de la prévision utilisé pour la génération d'alertes. Notez que des valeurs plus élevées augmentent le risque de fausses alertes.",
+          "fitTimeframe": "Fenêtre de temps des données d'historique",
+          "fitTimeframeDetails": "Spécifie le délai utilisé pour l'analyse de la tendance. Sélectionnez un délai court si les tendances à court terme vous intéressent ou un délai plus long si vous voulez être alerté lorsqu'il est prévu que la tendance à long terme dépasse la limite.",
+          "summary": "Les alertes sont déclenchées <strong>jusqu'à {{forecastTimeframe}}</strong> à l'avance. Les prévisions sont générées selon la tendance linéaire au cours des <strong>dernières {{fitTimeframe}}</strong>.",
+          "invalidTimeframes": "La fenêtre de temps des données d'historique doit être au moins deux fois plus longue que la fenêtre de temps prévue."
         },
         "alertChannel": {
           "label": "Canaux d'alerte",
@@ -1497,6 +1539,42 @@
         "step4": {
           "header": "Quelle notification souhaitez-vous recevoir pour cette alerte ?",
           "description": "Sélectionnez le(s) destinataire(s) de cette alerte"
+        },
+        "scopeAlerting": {
+          "title": "Choisissez la façon dont vous voulez être alerté",
+          "customAggregation": "Agrégation personnalisée",
+          "customAggregationDescription": "Agrège toutes les métriques dans la portée pour obtenir une seule métrique par groupe. Il ne peut y avoir qu'un seul problème actif à la fois par groupe.",
+          "perEntityAlerting": "Génération d'alertes par entité",
+          "perEntityAlertingDescription": "Surveille chaque métrique individuellement. Vous recevrez une alerte pour chaque métrique individuelle qui dépasse le seuil."
+        },
+        "scopeFilter": {
+          "title": "Choisir la portée de l'infrastructure",
+          "filter": "Filtrer",
+          "filterDescription": "Ajoutez des filtres aux services pour obtenir des alertes plus précises."
+        },
+        "scopeGroupBy": {
+          "group": "Groupe",
+          "groupByDescription": "Ajoutez un groupe pour configurer les appels dans des groupes. Chaque appel au sein du groupe est configuré collectivement mais évalué individuellement."
+        },
+        "timeThreshold": {
+          "title": "Définir quand les violations déclenchent des alertes",
+          "description": "Spécifiez la persistance dans le temps pour le déclenchement des alertes et le délai avant l'échec."
+        },
+        "thresholdDescription": {
+          "static": "Une valeur de seuil constante est appliquée et ne change pas dans le temps."
+        },
+        "chartAlertPreview": "Aperçu des alertes",
+        "chartAlertPreviewDescription": "Indique comment des alertes pourraient être déclenchées en fonction des données de métrique d'historique.",
+        "forecastAlerting": {
+          "description": "Recevez des alertes proactives en fonction des données d'historique et des tendances. Cette option vous permet d'anticiper les problèmes potentiels avant qu'ils n'affectent votre système.",
+          "historicalDataTime": {
+            "description": "Spécifie le délai utilisé pour l'analyse de la tendance.",
+            "tooltipContent": "Sélectionnez un délai court si les tendances à court terme vous intéressent ou un délai plus long si vous voulez être alerté lorsqu'il est prévu que la tendance à long terme dépasse la limite."
+          },
+          "forecastedTimeWindow": {
+            "description": "Notez que des valeurs plus élevées augmentent le risque de fausses alertes.",
+            "tooltipContent": "Définit le délai de la prévision utilisé pour la génération d'alertes. "
+          }
         }
       }
     },
@@ -1529,7 +1607,9 @@
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}"
             }
           }
-        }
+        },
+        "noDataHeader": "Aucune alerte intelligente de journal",
+        "noDataDescription": "Pour commencer, cliquez sur <strong>Créer une alerte intelligente</strong>."
       },
       "advancedModeContainer": {
         "scope": {
@@ -1680,5 +1760,23 @@
         "failedTitle_EDIT": "Un problème est survenu lors de la mise à jour de SLO Smart Alert"
       }
     }
+  },
+  "table": {
+    "active": "Actif",
+    "inactive": "Inactif",
+    "triggeringAction": "Condition de déclenchement",
+    "status": "Statut",
+    "apply": "Appliquer",
+    "cancel": "Annuler",
+    "filter": "Filtrer",
+    "alertType": "Type d'alerte",
+    "notificationChannel": "Canal de notification",
+    "tableDataSettings": "Paramètres des données de table",
+    "pause": "Suspendre",
+    "delete": "Supprimer",
+    "warningAndCritical": "Avertissements et erreurs critiques",
+    "warning": "Avertissement",
+    "critical": "Critique",
+    "searchPlaceholder": "Rechercher"
   }
 }

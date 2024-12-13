@@ -49,6 +49,7 @@ module.exports = {
   ampEnabled: true,
   persistentVolumeSupportEnabled: true,
   segmentAnalyticsEnabled: false,
+  ibmCommonEnabled: true,
   loggingEnabled: true,
   logRetentionPageEnabled: true,
   logWidgetsEnabled: true,
@@ -113,6 +114,7 @@ module.exports = {
   rcaUIEnabled: true,
   rcaLogsEnabled: true,
   rcaFailedStateEnabled: false,
+  rcaTopologyEnabled: true,
   eventFeedbackEnabled: true,
   incidentSummarizationEnabled: true,
   manuallyCloseEventEnabled: true,
@@ -172,11 +174,10 @@ module.exports = {
   aqmDataGridEventTableEnabled: false,
   alertChannelPerSeverityInfraSaEnabled: true,
   alertChannelPerSeverityApplicationSaEnabled: true,
-  smartAlertCarbonTableEnabled: false,
+  smartAlertCarbonTableEnabled: true,
   aqmDisableConfigOnEventViewEnabled: false,
   openTelemetryKubernetesEnabled: true,
   dataUsageNotificationEnabled: false,
-  prometheusDeltaCountersSumEnabled: true,
   rbacTeamsEnabled: false,
   prcIssueEnabled: true
 };

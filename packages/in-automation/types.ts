@@ -14,8 +14,6 @@ import {
   Trigger,
   RunConfiguration,
   ActionConfiguration,
-  WebsiteAlertConfigWithMetadata,
-  MobileAppAlertConfigWithMetadata,
   SyntheticAlertConfigWithMetadata,
   LogAlertConfigWithMetadata,
   ServiceLevelsAlertConfigWithMetadata,
@@ -27,6 +25,8 @@ import {
   GlobalApplicationsSmartAlertConfigWithMetadata
 } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
+import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
+import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 
 export type ScoredAction = Action & {
   score: number;
@@ -97,9 +97,9 @@ export const isPolicy = (entity: NewPolicy | Policy): entity is Policy => (entit
 export type TriggerSpecification =
   | EventSpecificationInfo
   | ApplicationSmartAlertConfigWithMetadata
-  | WebsiteAlertConfigWithMetadata
+  | WebsiteSmartAlertConfigWithMetadata
   | GlobalApplicationsSmartAlertConfigWithMetadata
-  | MobileAppAlertConfigWithMetadata
+  | MobileAppSmartAlertConfigWithMetadata
   | InfraSmartAlertConfigWithMetadata
   | SyntheticAlertConfigWithMetadata
   | LogAlertConfigWithMetadata
@@ -116,11 +116,11 @@ export const isGlobalApplicationSmartAlert = (
 ): item is GlobalApplicationsSmartAlertConfigWithMetadata =>
   (item as GlobalApplicationsSmartAlertConfigWithMetadata)?.applicationIds !== undefined;
 
-export const isMobileAppSmartAlert = (item?: TriggerSpecification): item is MobileAppAlertConfigWithMetadata =>
-  (item as MobileAppAlertConfigWithMetadata)?.mobileAppId !== undefined;
+export const isMobileAppSmartAlert = (item?: TriggerSpecification): item is MobileAppSmartAlertConfigWithMetadata =>
+  (item as MobileAppSmartAlertConfigWithMetadata)?.mobileAppId !== undefined;
 
-export const isWebsiteSmartAlert = (item?: TriggerSpecification): item is WebsiteAlertConfigWithMetadata =>
-  (item as WebsiteAlertConfigWithMetadata)?.websiteId !== undefined;
+export const isWebsiteSmartAlert = (item?: TriggerSpecification): item is WebsiteSmartAlertConfigWithMetadata =>
+  (item as WebsiteSmartAlertConfigWithMetadata)?.websiteId !== undefined;
 
 export const isSyntheticsSmartAlert = (item?: TriggerSpecification): item is SyntheticAlertConfigWithMetadata =>
   (item as SyntheticAlertConfigWithMetadata)?.syntheticTestIds !== undefined;
@@ -135,9 +135,9 @@ export type Triggers = {
   customEvent: Result<EventSpecificationInfo[]>;
   builtinEvent: Result<EventSpecificationInfo[]>;
   applicationSmartAlert: Result<ApplicationSmartAlertConfigWithMetadata[]>;
-  websiteSmartAlert: Result<WebsiteAlertConfigWithMetadata[]>;
+  websiteSmartAlert: Result<WebsiteSmartAlertConfigWithMetadata[]>;
   globalApplicationSmartAlert: Result<GlobalApplicationsSmartAlertConfigWithMetadata[]>;
-  mobileAppSmartAlert: Result<MobileAppAlertConfigWithMetadata[]>;
+  mobileAppSmartAlert: Result<MobileAppSmartAlertConfigWithMetadata[]>;
   infraSmartAlert: Result<InfraSmartAlertConfigWithMetadata[]>;
   logSmartAlert: Result<LogAlertConfigWithMetadata[]>;
   syntheticsSmartAlert: Result<SyntheticAlertConfigWithMetadata[]>;

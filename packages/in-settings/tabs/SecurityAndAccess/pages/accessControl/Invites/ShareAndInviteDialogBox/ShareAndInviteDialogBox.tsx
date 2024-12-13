@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 
-import { Stack, SvgIcon, Typography, Checkbox, Button } from '@instana/components';
+import { Stack, SvgIcon, Typography, Checkbox, Button, IconButton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { ApiGroup } from '@instana/types';
 
@@ -267,13 +267,6 @@ const ShareAndInviteDialogBox = ({ inviteOnly, permissionToShowInvite }: ShareAn
           content: message.text,
           timeout: 3000
         });
-      } else {
-        addMessage({
-          type: 'info',
-          title: t('in-settings:ShareAndInviteDialogBox.invitationSend'),
-          content: message.text,
-          timeout: 3000
-        });
       }
     } else if (message?.type === 'error') {
       addMessage({
@@ -422,11 +415,10 @@ const ShareAndInviteDialogBox = ({ inviteOnly, permissionToShowInvite }: ShareAn
                               className={locals.groupComboBox}
                               isClearable={false}
                             />
-                            <Button
-                              icon="lib_actions_delete"
-                              kind="action"
-                              iconSize="s"
-                              size="normal"
+                            <IconButton
+                              type="lib_actions_delete"
+                              kind="primaryv2"
+                              size="compact"
                               onClick={() =>
                                 onRemove({
                                   index,
@@ -435,9 +427,7 @@ const ShareAndInviteDialogBox = ({ inviteOnly, permissionToShowInvite }: ShareAn
                                 })
                               }
                               disabled={form.size <= 1}
-                            >
-                              {''}
-                            </Button>
+                            />
                           </Stack>
                         </Fields>
                       </Col>

@@ -5,30 +5,40 @@
  */
 
 import { useEffect, useState } from 'react';
-import { List } from 'immutable';
+import { List, Map } from 'immutable';
 
 import { combineLatest, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
+import {
+  getStackForApplication,
+  getStackForEndpoint,
+  getStackForInfrastructure,
+  getStackForService
+} from 'in-components/Stack/subscriptions/getStack';
 //@ts-expect-error
-import { SnapshotData, getPhysicalHierarchy, getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
-import { getStackForInfrastructure } from 'in-components/Stack/subscriptions/getStack';
+import { SnapshotData, getPhysicalHierarchy, getSnapshotVersions } from 'in-stores/snapshot';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import createSnapshotObservable from 'in-subscription/snapshot';
 import { Endpoint, ServiceLabel, TimeConfig } from 'in-types';
 
-function useFetchAppropriateRCAEntityData(entityType: string, id: string, incomingTimeWindow: TimeConfig) {
+function useFetchAppropriateRCAEntityData(
+  entityType: string,
+  id: string,
+  incomingTimeWindow: TimeConfig
+): RCAEntityDataType {
   // Generic query observable variable that gets information on a given endpoint/servce/infra/app set by the useEffect below
   const [query, setQuery] = useState<
     Observable<SnapshotData> | Observable<Endpoint | undefined> | Observable<ServiceLabel | undefined> | null
   >(null);
 
+  const [loadingSnapshotData, setLoadingSnapshotData] = useState(true);
+  const [loadingStackData, setLoadingStackData] = useState(true);
+
   // Time window variable used for generating links to analyze page and sending query for entity, can be re-set by our infra query
   const [timeWindowForHierarchyQuery, setTimeWindowForHierarchyQuery] = useState(incomingTimeWindow);
-
-  const { location } = useNavigation();
 
   // Service query observable variable that gets service label information that a given entity belongs to
   const [serviceQuery, setServiceQuery] = useState<Observable<ServiceLabel | undefined> | null>(null);
@@ -62,8 +72,16 @@ function useFetchAppropriateRCAEntityData(entityType: string, id: string, incomi
               } as TimeConfig;
               setTimeWindowForHierarchyQuery(timeConfigFromSnapVersion);
               setHierarchyQuery(getPhysicalHierarchy({ snapshotId: id, timeConfig: timeConfigFromSnapVersion }));
-              setQuery(getSnapshot(id, timeConfigFromSnapVersion));
+              setQuery(
+                createSnapshotObservable({
+                  snapshotId: id,
+                  timeConfig: timeConfigFromSnapVersion
+                }) as Observable<SnapshotData>
+              );
               setStackQuery(getStackForInfrastructure({ id: id, timeConfig: timeConfigFromSnapVersion }));
+            } else {
+              setLoadingSnapshotData(false);
+              setLoadingStackData(false);
             }
           }
         })
@@ -71,23 +89,28 @@ function useFetchAppropriateRCAEntityData(entityType: string, id: string, incomi
     } else if (entityType === 'endpoint') {
       setQuery(
         getEndpointInfo({ id })
-          .map(data => data.data)
+          .map(data => data)
           .throttle(250)
       );
+      setStackQuery(getStackForEndpoint({ id: id, timeConfig: incomingTimeWindow })); // FYI: no infra data
     } else if (entityType === 'service') {
       setQuery(
         getServiceLabel({ id })
-          .map(data => data.data)
+          .map(data => data)
           .throttle(250)
       );
+      setStackQuery(getStackForService({ id: id, timeConfig: incomingTimeWindow }));
     } else if (entityType === 'application') {
       setQuery(
         getApplication({ id })
-          .map(data => data.data)
+          .map(data => data)
           .throttle(250)
       );
+      setStackQuery(getStackForApplication({ id: id, timeConfig: incomingTimeWindow }));
     }
-  }, [id, entityType, location]);
+    setLoadingStackData(true);
+    setLoadingSnapshotData(true);
+  }, [id, entityType, incomingTimeWindow]);
 
   // Holds the result of our entity observable
   const entityData = useObservable(query, [query]) ?? null;
@@ -99,8 +122,14 @@ function useFetchAppropriateRCAEntityData(entityType: string, id: string, incomi
         combineLatest(
           item
             .toArray()
-            .filter(idToCheck => id !== idToCheck) //filter out selected entity to avoid duplication for hosts
-            .map(id => getSnapshot(id, timeWindowForHierarchyQuery))
+            //            .filter(idToCheck => id !== idToCheck) //filter out selected entity to avoid duplication for hosts
+            .map(
+              id =>
+                createSnapshotObservable({
+                  snapshotId: id,
+                  timeConfig: timeWindowForHierarchyQuery
+                }) as Observable<SnapshotData>
+            )
         )
       );
     } else {
@@ -118,10 +147,11 @@ function useFetchAppropriateRCAEntityData(entityType: string, id: string, incomi
       entityType !== 'infrastructure' &&
       entityType !== 'process' &&
       entityData &&
-      entityData.serviceId
+      entityData.data &&
+      entityData.data.serviceId
     ) {
       setServiceQuery(
-        getServiceLabel({ id: entityData.serviceId })
+        getServiceLabel({ id: entityData.data.serviceId })
           .map(data => data.data)
           .throttle(250)
       );
@@ -140,14 +170,42 @@ function useFetchAppropriateRCAEntityData(entityType: string, id: string, incomi
     }
   }, [entityData, id, serviceQuery, entityType, entityStackData]);
 
+  useEffect(() => {
+    if ((entityData && entityData.progress && !entityData.progress.loading) || Map.isMap(entityData))
+      setLoadingSnapshotData(false);
+  }, [entityData]);
+
+  useEffect(() => {
+    if (entityStackData && entityStackData.progress && !entityStackData.progress.loading) setLoadingStackData(false);
+  }, [entityStackData]);
+
   return {
-    entityData,
+    entityData: Map.isMap(entityData)
+      ? entityData
+      : entityData?.progress?.loading
+      ? null
+      : entityData?.data
+      ? entityData.data
+      : null,
+    entityType,
     hierarchySnapshots,
     entityStackData,
-    location,
     infraServiceLabelInformation,
-    nonInfraServiceLabelInformation
+    nonInfraServiceLabelInformation,
+    loadingStackData,
+    loadingSnapshotData
   };
 }
 
 export default useFetchAppropriateRCAEntityData;
+
+export interface RCAEntityDataType {
+  entityData: SnapshotData | null;
+  entityType: string;
+  hierarchySnapshots: SnapshotData[] | null | undefined;
+  entityStackData: any;
+  infraServiceLabelInformation: ServiceLabel[];
+  nonInfraServiceLabelInformation: ServiceLabel | null;
+  loadingStackData: boolean;
+  loadingSnapshotData: boolean;
+}

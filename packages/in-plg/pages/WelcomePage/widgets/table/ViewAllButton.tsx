@@ -14,12 +14,18 @@ interface ViewAllButtonProps {
   href?: string;
   viewLabel: string;
   isTableEmpty?: boolean;
+  columnCount: number;
 }
 
-export default function ViewAllButton({ href, viewLabel, isTableEmpty = false }: ViewAllButtonProps) {
+export default function ViewAllButton({
+  columnCount,
+  href,
+  viewLabel,
+  isTableEmpty = false
+}: Readonly<ViewAllButtonProps>) {
   return (
     <Row className="viewAllTableRow">
-      <Cell className="viewAllTableCell">
+      <Cell className="viewAllTableCell" colSpan={columnCount}>
         <DashboardButton
           size="md"
           kind="ghost"

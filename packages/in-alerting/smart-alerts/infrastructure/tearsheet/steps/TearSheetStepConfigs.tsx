@@ -96,7 +96,7 @@ export const getFooterActions = (
   }
 ];
 
-function getButtonLabel(editMode?: boolean) {
+export function getButtonLabel(editMode?: boolean) {
   if (editMode) {
     return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonSave');
   }

@@ -166,6 +166,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'ibmCommonEnabled',
+    instanaCtlKey: 'feature.ibm.common.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'assistmeEnabled',
     instanaCtlKey: 'feature.assistme.enabled',
     defaultValue: false
@@ -527,6 +532,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'rcaTopologyEnabled',
+    instanaCtlKey: 'feature.rca.topology.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'eventFeedbackEnabled',
     instanaCtlKey: 'feature.event.feedback.enabled',
     defaultValue: true
@@ -809,12 +819,12 @@ module.exports = exports = [
   {
     uiClientKey: 'alertChannelPerSeverityInfraSaEnabled',
     instanaCtlKey: 'feature.alert.channel.per.severity.infra.sa.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'alertChannelPerSeverityApplicationSaEnabled',
     instanaCtlKey: 'feature.alert.channel.per.severity.application.sa.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'aqmDataGridEventTableEnabled',
@@ -824,7 +834,7 @@ module.exports = exports = [
   {
     uiClientKey: 'smartAlertCarbonTableEnabled',
     instanaCtlKey: 'feature.smart.alert.carbon.table.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'aqmDisableConfigOnEventViewEnabled',

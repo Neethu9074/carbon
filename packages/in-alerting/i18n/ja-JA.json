@@ -29,6 +29,8 @@
     "groupBy": "GROUP BY",
     "noChannelAvailable": "使用可能なアラート・チャネルがありません",
     "optional": "オプション",
+    "on": "オン",
+    "off": "オフ",
     "revisionDropdownButton": {
       "revision": "リビジョン {{alertRevision}}",
       "pause": "一時停止",
@@ -98,7 +100,17 @@
     "groupedViewHeader_1": "{{formattedCount}} 件の結果",
     "groupedViewHeader_2": "{{formattedCount}} 件の結果",
     "resultHeaderLoading": "ロード中です…",
-    "loadMore": "さらにロード"
+    "loadMore": "さらにロード",
+    "chooseLayoutDialog": {
+      "chooseLayout": "スマート・アラートのレイアウトの選択",
+      "layoutContent": "現在、この環境でスマート・アラートを作成するために、両方のレイアウトにアクセスできます。 ご希望のレイアウトを選択してお進みください:",
+      "oldLayoutDescription": "古いレイアウト:スマート・アラートを作成するための従来のインターフェース",
+      "newLayoutDescription": "新しいレイアウト:インターフェイスが新しくなり、機能が強化され、使いやすさが向上しました。",
+      "layoutRecommendation": "ご不明な場合は、新しいレイアウトをご覧になることをお勧めします。",
+      "cancelTitle": "キャンセル",
+      "useOldLayout": "古いレイアウトを使用する",
+      "useNewLayout": "新しいレイアウトを使用する"
+    }
   },
   "potentialProblems": {
     "titleErrorRate": "エラーのある呼び出し率が通常より高い",
@@ -144,6 +156,7 @@
   },
   "smartAlerts": {
     "addSmartAlert": "スマート・アラートの追加",
+    "createSmartAlert": "スマート・アラートの作成",
     "applicationSmartAlert": "アプリケーションのスマート・アラート",
     "globalApplicationSmartAlert": "グローバル・アプリケーション・スマート・アラート",
     "titleNoSmartAlertsConfigured": "スマート・アラートが構成されていません",
@@ -152,6 +165,13 @@
     "titleCopyOf": "{{smartAlertTitle}} (のコピー)",
     "smartAlertsTitle": "スマート・アラート",
     "labelNew": "(新規)",
+    "alertChannelList": {
+      "selectAllWarning": "すべての警告を選択",
+      "selectAllCritical": "重要なものをすべて選択",
+      "alertLevel": "アラート・レベル",
+      "critical": "クリティカル",
+      "warning": "警告"
+    },
     "applications": {
       "alertConfiguration": "アラート構成",
       "advanced": {
@@ -492,6 +512,8 @@
         "noPermissionGlobalSmartAlertEdit": "このアクションを実行する権限がありません",
         "labelGlobalSmartAlertsList": "グローバル・アプリケーション・スマート・アラート ({{numberOfAlerts}} 個)",
         "labelSmartAlertsList": "アプリケーション・スマート・アラート ({{numberOfAlerts}} 個)",
+        "labelGlobalSmartAlertsTable": "グローバル・アプリケーション・スマート・アラート",
+        "labelSmartAlertsTable": "アプリケーション・スマート・アラート",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
         "getSubtitleForStaticThreshold": "静的しきい値、 {{metricLabel}} {{operator}} {{value}}",
         "getSubtitleForStaticDailySeasonality": "静的日次季節性、 {{metricLabel}}",
@@ -509,7 +531,11 @@
         "numberOfApplicationsSelected_plural": "{{count}} 件のアプリケーションが選択されています",
         "numberOfApplicationsSelected_0": "{{count}} 件のアプリケーションが選択されています",
         "numberOfApplicationsSelected_1": "{{count}} 件のアプリケーションが選択されています",
-        "numberOfApplicationsSelected_2": "{{count}} 件のアプリケーションが選択されています"
+        "numberOfApplicationsSelected_2": "{{count}} 件のアプリケーションが選択されています",
+        "noGlobalAlertDataHeader": "非グローバル・アプリケーション・スマート・アラート",
+        "noGlobalAlertDataDescription": "開始するには、<strong>グローバル・スマート・アラートの作成</strong>をクリックします。",
+        "noLocalAlertDataHeader": "非アプリケーション・スマート・アラート",
+        "noLocalAlertDataDescription": "開始するには、<strong>スマート・アラートの作成</strong>をクリックします。"
       },
       "details": {
         "title": "アラート詳細",
@@ -973,7 +999,10 @@
           "tracesImpacted": "トレースが影響を受ける",
           "outOfConsecutiveEvaluations": "の範囲外",
           "persistenceType": "パーシスタンス・タイプ",
-          "numberOfConsecutiveViolationsPostLabel": "連続した {{granularity}} 分のウィンドウに違反がある"
+          "numberOfConsecutiveViolationsPostLabel": "連続した {{granularity}} 分のウィンドウに違反がある",
+          "static": "静的",
+          "thresholdValue": "しきい値",
+          "timeWindow": "時間枠"
         }
       }
     },
@@ -1100,7 +1129,9 @@
           "filter_0": "フィルター",
           "filter_1": "フィルター",
           "filter_2": "フィルター"
-        }
+        },
+        "noDataHeader": "非Webサイト・スマート・アラート",
+        "noDataDescription": "開始するには、<strong>スマート・アラートの作成</strong>をクリックします。"
       }
     },
     "sortOptions": {
@@ -1144,7 +1175,9 @@
         "timeThreshold": "時間しきい値",
         "filterApplied": "適用されているフィルター",
         "violationsCount": "{{violationsCount}}件の障害",
-        "numberOfFailures": "障害アラート"
+        "numberOfFailures": "障害アラート",
+        "noDataHeader": "合成スマート・アラートなし",
+        "noDataDescription": "開始するには、<strong>スマート・アラートの作成</strong>をクリックします。"
       },
       "alertProperties": {
         "testName": "Test_Name",
@@ -1279,7 +1312,9 @@
         "filter_0": "フィルター",
         "filter_1": "フィルター",
         "filter_2": "フィルター",
-        "filterApplied": "適用されているフィルター"
+        "filterApplied": "適用されているフィルター",
+        "noDataHeader": "非モバイル・アプリ・スマート・アラート",
+        "noDataDescription": "開始するには、<strong>スマート・アラートの作成</strong>をクリックします。"
       },
       "simple": {
         "stepConfigsStep1Title": "ステップ 1：アラートの選択",
@@ -1410,7 +1445,7 @@
             "subtitle": {
               "staticThresholdType": "静的しきい値",
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
-              "predictiveTrigger": "予測トリガー"
+              "forecastAlerting": "予測アラート"
             }
           }
         },
@@ -1423,7 +1458,9 @@
         "filter_plural": "フィルター",
         "filter_0": "フィルター",
         "filter_1": "フィルター",
-        "filter_2": "フィルター"
+        "filter_2": "フィルター",
+        "noDataHeader": "非インフラストラクチャー・スマート・アラート",
+        "noDataDescription": "開始するには、<strong>スマート・アラートの作成</strong>をクリックします。"
       },
       "advancedModeContainer": {
         "scope": {
@@ -1446,9 +1483,14 @@
           "title": "時間しきい値: アラートを出すタイミング"
         },
         "predictiveTrigger": {
-          "title": "予測アラートが無効になっています",
-          "alertTitle": "アラートは、予測される違反の前に {{value}} トリガーされます",
-          "timeToFailure": "障害までの時間"
+          "title": "予測アラート",
+          "description": "履歴データの傾向に基づいて、プロアクティブなアラートを受信します。 このオプションを使用すると、潜在的な問題がシステムに影響する前に予測することができます。",
+          "forecastTimeframe": "予想タイム・ウィンドウ",
+          "forecastTimeframeDetails": "アラートに使用される予測の時間枠を定義します。 値が大きいほど、誤ったアラートが発生する可能性が高くなることに注意してください。",
+          "fitTimeframe": "履歴データの時間枠",
+          "fitTimeframeDetails": "トレンド分析に使用する時間枠を指定します。 短期的な傾向を重視する場合は短い時間枠を、長期的な傾向が制限を超えると予想される場合にアラートを受け取りたい場合は長い時間枠を選択します。",
+          "summary": "アラートは<strong>最大{{forecastTimeframe}}</strong>前にトリガーされます。 予測は、<strong>直近{{fitTimeframe}}</strong>の線形トレンドに基づいて生成されます。",
+          "invalidTimeframes": "履歴データの時間枠は、予測時間枠の少なくとも2倍の長さでなければなりません。"
         },
         "alertChannel": {
           "label": "アラート・チャネル",
@@ -1497,6 +1539,42 @@
         "step4": {
           "header": "このアラートについて何を通知しますか?",
           "description": "このアラートの受信者を選択する"
+        },
+        "scopeAlerting": {
+          "title": "アラート通知方法を選択する",
+          "customAggregation": "カスタム集計",
+          "customAggregationDescription": "スコープ内のすべてのメトリックを、グループごとに単一のメトリックに集計します。 アクティブな問題は、1グループにつき1つまでになります。",
+          "perEntityAlerting": "エンティティーごとのアラート",
+          "perEntityAlertingDescription": "各メトリックを個別にモニターします。 しきい値に違反しているメトリックごとにアラートが表示されます。"
+        },
+        "scopeFilter": {
+          "title": "インフラストラクチャーの範囲の選択",
+          "filter": "フィルター",
+          "filterDescription": "より正確なアラートを入手するために、サービスにフィルターを追加します。"
+        },
+        "scopeGroupBy": {
+          "group": "グループ",
+          "groupByDescription": "グループに呼び出しを設定するには、グループを追加します。 グループ内の各コールは一括して設定されるが、個別に評価される。"
+        },
+        "timeThreshold": {
+          "title": "違反がアラートをトリガーするタイミングを設定",
+          "description": "アラート・トリガーと障害発生までの時間に対する持続性を指定します。"
+        },
+        "thresholdDescription": {
+          "static": "定数のしきい値が適用されます。これは時間の経過とともに変化することはありません。"
+        },
+        "chartAlertPreview": "アラートのプレビュー",
+        "chartAlertPreviewDescription": "過去のメトリック・データに基づいて、アラートがどのようにトリガーされたかを示します。",
+        "forecastAlerting": {
+          "description": "過去のデータと傾向に基づいたプロアクティブなアラートを受け取ります。 このオプションを使用すると、潜在的な問題がシステムに影響する前に予測することができます。",
+          "historicalDataTime": {
+            "description": "トレンド分析に使用する時間枠を指定します。",
+            "tooltipContent": "短期的な傾向を重視する場合は短い時間枠を、長期的な傾向が制限を超えると予想される場合にアラートを受け取りたい場合は長い時間枠を選択します。"
+          },
+          "forecastedTimeWindow": {
+            "description": "値が大きいほど、誤ったアラートが発生する可能性が高くなることに注意してください。",
+            "tooltipContent": "アラートに使用される予測の時間枠を定義します。 "
+          }
         }
       }
     },
@@ -1529,7 +1607,9 @@
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}"
             }
           }
-        }
+        },
+        "noDataHeader": "非ログ・スマート・アラート",
+        "noDataDescription": "開始するには、<strong>スマート・アラートの作成</strong>をクリックします。"
       },
       "advancedModeContainer": {
         "scope": {
@@ -1680,5 +1760,23 @@
         "failedTitle_EDIT": "このSLO スマート・アラートの更新に問題が発生しました"
       }
     }
+  },
+  "table": {
+    "active": "アクティブ",
+    "inactive": "非アクティブ",
+    "triggeringAction": "トリガー条件",
+    "status": "状況",
+    "apply": "適用",
+    "cancel": "キャンセル",
+    "filter": "フィルター",
+    "alertType": "アラート・タイプ",
+    "notificationChannel": "通知チャネル",
+    "tableDataSettings": "テーブル・データ設定",
+    "pause": "一時停止",
+    "delete": "削除",
+    "warningAndCritical": "警告と重要な情報",
+    "warning": "警告",
+    "critical": "クリティカル",
+    "searchPlaceholder": "検索"
   }
 }

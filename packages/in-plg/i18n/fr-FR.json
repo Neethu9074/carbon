@@ -51,6 +51,12 @@
     "freetrial": " Essayez-le gratuitement",
     "taketour": " Visite guidée"
   },
+  "dataConsumptionMessage": {
+    "description": "Vous avez atteint {{dataConsumption}} % de votre autorisation d'utilisation de l'ingestion de données. Lorsque vous aurez atteint 100 %, vous serez facturé en fonction de votre utilisation pour toutes les données supplémentaires ingérées.",
+    "description100": "Vous avez atteint 100 % de votre autorisation d'utilisation de l'ingestion de données. Toutefois, ne vous inquiétez pas. Vous pouvez continuer de bénéficier de toutes les fonctionnalités d'Instana. Vous ne serez facturé qu'en fonction de votre utilisation, pour la quantité exacte de données supplémentaires ingérées.",
+    "buttonText": "Examiner l'utilisation des données",
+    "title": "Il semble que votre utilisation d'Instana décolle !"
+  },
   "agentDetails": {
     "agentMode": {
       "dynamic": "Dynamique",
@@ -109,8 +115,7 @@
     "kubernetes": {
       "kubernetes": {
         "enterAClusterNameAndOptionallyTheAgentZone": "Étape 1 : entrez un nom de cluster et éventuellement la zone d'agent à laquelle le cluster doit appartenir.",
-        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Étape 2 : vérifiez les prérequis et exécutez le code de déploiement de l'agent.",
-        "support": "Support"
+        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Étape 2 : vérifiez les prérequis et exécutez le code de déploiement de l'agent."
       },
       "operator": {
         "installUsingTheOperator": "Installation à l'aide de l'opérateur",
@@ -216,7 +221,6 @@
       "selectAwsRegionAndLambdaHandler": "Sélectionnez la région AWS et entrez le gestionnaire lambda en cours.",
       "setInstanaAutoWrapHandlerAsLambdaFunction": "Définissez le gestionnaire d'encapsulage automatique Instana comme gestionnaire de la fonction Lambda.",
       "autoWrapHandler": "Gestionnaire d'encapsulage automatique",
-      "runCodeBelow": "Exécutez le code de déploiement d'agent ci-dessous.",
       "prerequisiteLinks": {
         "networkRequirements": "Exigences réseau"
       },
@@ -248,7 +252,6 @@
         "installGcrCollectors": "Installer les collecteurs intégrés Google Cloud Run",
         "installAgentOnEc2": "Installez l'agent sur AWS EC2",
         "configurationOptions": "Options de configuration",
-        "installAgentAwsEks": "Installation d'un agent sur AWS EKS",
         "monitoringGcr": "Surveillance de Google Cloud Run",
         "monitoringAwsFargateRuby": "Surveillance de AWS Fargate (Ruby)",
         "awsServiceDocumentation": "Documentation du service AWS",
@@ -461,8 +464,6 @@
       }
     },
     "azure": {
-      "installingAgentOnAks": "Installation d'un agent sur Aks",
-      "configureAfterInstall": "Configuration de l'agent après l'installation",
       "referenceToAzureContainerAppsDocumentation": "L'application Go déployée dans Azure Container Apps doit être instrumentée manuellement afin de collecter des données de trace. Suivez les instructions de la documentation <azureContainerAppsDoc>Azure Container Apps Go</azureContainerAppsDoc>.",
       "selectAzureContainerAppsRuntime": "Sélectionnez l'environnement d'exécution Azure Container Apps",
       "reviewPrerequisitesAndConfigureContainerApps": "Vérifiez les prérequis et configurez votre Azure Container Apps pour le traçage.",
@@ -479,6 +480,17 @@
         "resourceGroupName": "Nom du groupe de ressources",
         "activatingAppServiceContent": "Exemple de commande CLI Azure pour une application de module ECMAScript utilisant Node.js v18.19 ou une version ultérieure :",
         "activatingAppServiceNote": "Mettez à jour la valeur de NODE_OPTIONS pour qu'elle corresponde au paramètre correct de votre configuration. Reportez-vous à la <azureAppServiceEnableCollectorDoc>documentation</azureAppServiceEnableCollectorDoc> où vous trouverez des conseils."
+      },
+      "dotnet": {
+        "monitoringAppService": "Surveillance d'Azure App Service for .NET",
+        "activatingAppService": "Installation du collecteur en cours.",
+        "appName": "Nom de l'application",
+        "resourceGroupName": "Nom du groupe de ressources",
+        "configureOptionsForTracing": "Configurer les paramètres requis pour la surveillance du service d'application",
+        "uploadConfigFile": "Transférer le fichier de configuration : ApplicationHost.xdt",
+        "activatingAppServiceNote": "Téléchargez le fichier. Vérifiez que le nom du fichier est toujours \"ApplicationHost.xdt\"",
+        "ftpsAuthCredsNote": "Connectez-vous au service d'application sur le portail Azure. L'URL FTPS ainsi que le nom d'utilisateur et le mot de passe FTPS (portée de l'application) sont affichés sous Deployment -> Deployment Center -> FTPS credentials pour le service d'application. Remplacez ces valeurs dans la commande ci-dessous",
+        "restartAppServiceNote": "Redémarrer le service d'application"
       }
     },
     "gcp": {

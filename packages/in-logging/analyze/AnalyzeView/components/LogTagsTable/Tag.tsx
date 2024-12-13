@@ -108,14 +108,14 @@ export function Actions({
 export function TagName({ tag, tagToLabelMap }: TagEntryProps) {
   const name = useResolvedName(tag, tagToLabelMap);
 
-  return <span>{name}</span>;
+  return <span data-testid="log-tag-label">{name}</span>;
 }
 
 export function TagValue({ tag, uniqueTagName, resolvedValue, item }: GetContentType) {
   const entitySnapshotId = getSnapshotId(tag, item);
 
   return (
-    <div className={locals.tagValue}>
+    <div data-testid="log-tag-value" className={locals.tagValue}>
       {entitySnapshotId && <EntityHealthIcon snapshotId={entitySnapshotId} />}
       <ResolvedLink tag={tag} item={item} resolvedValue={resolvedValue} uniqueTagName={uniqueTagName} />
     </div>

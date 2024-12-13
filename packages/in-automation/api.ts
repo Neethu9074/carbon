@@ -16,8 +16,6 @@ import {
   ParameterValue,
   GetDynamicParameterValues,
   TriggerType,
-  WebsiteAlertConfigWithMetadata,
-  MobileAppAlertConfigWithMetadata,
   LogAlertConfigWithMetadata,
   SyntheticAlertConfigWithMetadata,
   ServiceLevelsAlertConfigWithMetadata,
@@ -32,6 +30,8 @@ import {
   GlobalApplicationsSmartAlertConfigWithMetadata
 } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
+import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
+import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import submitTurbonomicResourceImpact from 'in-automation/subscriptions/submitTurbonomicResourceImpact';
 import { ActionFilter, NewAction, ResolvedDynamicParamValue, NewPolicy } from 'in-automation/types';
 import turboSubmitActionExecution from 'in-automation/subscriptions/turboSubmitActionExecution';
@@ -423,7 +423,7 @@ export function getApplicationSmartAlertConfigs() {
 }
 
 export function getWebsiteSmartAlertConfigs() {
-  return http<WebsiteAlertConfigWithMetadata[]>({
+  return http<WebsiteSmartAlertConfigWithMetadata[]>({
     method: 'GET',
     maxRetries: 3,
     url: apiEndpoint.WEBSITE,
@@ -441,7 +441,7 @@ export function getGlobalApplicationSmartAlertConfigs() {
 }
 
 export function getMobileAppSmartAlertConfigs() {
-  return http<MobileAppAlertConfigWithMetadata[]>({
+  return http<MobileAppSmartAlertConfigWithMetadata[]>({
     method: 'GET',
     maxRetries: 3,
     url: apiEndpoint.MOBILEAPP,
@@ -515,7 +515,7 @@ export function getGlobalApplicationSmartAlertConfig(id: string) {
 }
 
 export function getWebsiteSmartAlertConfig(id: string) {
-  return http<WebsiteAlertConfigWithMetadata>({
+  return http<WebsiteSmartAlertConfigWithMetadata>({
     method: 'GET',
     url: `${apiEndpoint.WEBSITE}/${encodeURIComponent(id)}`,
     maxRetries: 3,
@@ -524,7 +524,7 @@ export function getWebsiteSmartAlertConfig(id: string) {
 }
 
 export function getMobileAppSmartAlertConfig(id: string) {
-  return http<MobileAppAlertConfigWithMetadata>({
+  return http<MobileAppSmartAlertConfigWithMetadata>({
     method: 'GET',
     url: `${apiEndpoint.MOBILEAPP}/${encodeURIComponent(id)}`,
     maxRetries: 3,

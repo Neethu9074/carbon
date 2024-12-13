@@ -19,8 +19,19 @@
     "unnamedActivity": "(Actividad sin nombre) {{activityType}}",
     "unnamedService": "(Servicio sin nombre)"
   },
+  "customDashboards": {
+    "activityCountMetric": "Recuento de actividades",
+    "erroneousActivityCallsCountLabel": "Llamadas de actividad erróneas (recuento)",
+    "erroneousActivityCallsCategory": "Llamadas de actividad erróneas",
+    "erroneousActivityCallsRateLabel": "Llamadas de actividad erróneas (tasa)",
+    "latency": "Latencia"
+  },
   "processes": {
-    "deployAgent": "Desplegar agente"
+    "deployAgent": "Desplegar agente",
+    "noProcessesAvailable": "No hay procesos empresariales disponibles.",
+    "deployAgentFirst": "Primero debe desplegar un agente.",
+    "forMoreInformation": "Para más información, lea la",
+    "documentation": "documentación."
   },
   "perspectives": {
     "newPerspective": "Crear perspectiva",

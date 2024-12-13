@@ -40,27 +40,13 @@
     }
   },
   "cookies": {
-    "categories": {
-      "analyticalPerformance": "Analyse/Leistung",
-      "functionality": "Funktionalität"
-    },
     "expiration": {
-      "sevenDays": "Läuft nach 7 Tagen ab",
-      "persistent": "Persistent",
       "afterSession": "Läuft nach der Sitzung ab"
     },
-    "mixpanel": {
-      "title": "Produktbenutzeranalyse",
-      "purpose": "Registriert eine eindeutige ID, die verwendet wird, um statistische Daten dazu zu generieren, wie der Besucher die Website verwendet."
-    },
     "walkme": {
-      "title": "Produkt-Einführung und -Anleitung",
-      "purpose": "Registriert eine eindeutige ID, die verwendet wird, um statistische Daten dazu zu generieren, wie der Besucher die Website verwendet.",
-      "category": "Produkt-Einführung und -Anleitung"
-    },
-    "appcues": {
-      "title": "Maßgeschneiderte Onboarding-Erfahrungen und NPS-Umfragen",
-      "purpose": "Benutzeronboarding und NPS-Store-Umfragen."
+      "title": "Produktnutzeranalyse und -beratung",
+      "purpose": "Registriert eine eindeutige ID, die verwendet wird, um statistische Daten darüber zu erstellen, wie der Besucher das Produkt nutzt.",
+      "category": "Funktional"
     }
   },
   "roleAndAccessScope": {
@@ -112,6 +98,7 @@
     "permissions_OPENSTACK": "OpenStack",
     "permissions_VSPHERE": "vSphere",
     "permissions_SAP": "SAP",
+    "permissions_NUTANIX": "Nutanix",
     "clusters": "Cluster",
     "namespaces": "Namensbereiche",
     "obsoleteEntityDescription": "Derzeit sind keine Daten verfügbar - Zugriff wird noch erteilt.",
@@ -224,7 +211,7 @@
     "title_limited_access_bizops": "Eingeschränkter Zugriff",
     "description_limited_access_bizops": "Greifen Sie nur auf die aufgeführten Geschäftsperspektiven und deren Geschäftsprozesse zu.",
     "description_access_all_bizops": "Alle Funktionen von Business Monitoring sind ohne Einschränkung zugänglich.",
-    "description_no_access_bizops": "Der Zugriff auf Business Monitoring wird verweigert.",
+    "description_no_access_bizops": "Kein Zugang: Der Zugriff auf die Unternehmensüberwachung wird verweigert.",
     "description_access_all_except_contributor": "Zugriff auf alles (mit Ausnahme derjenigen, auf die als Beitragender zugegriffen wird)",
     "role": "Rolle auswählen",
     "role_owner": "Eigner",
@@ -389,7 +376,7 @@
           "dbMarlinExampleForAnInternalInstance": "Geben Sie die URL für Ihre DBmarlin-Instanz ein, zum Beispiel <strong>https://team.dbmarlin.com</strong> oder <strong>http://192.168.1.128:443</strong> für eine interne Instanz.",
           "configureDbMarlin": "DBmarlin konfigurieren",
           "configureDbMarlinDescription": "Wenn aktiviert, fügt die folgende Konfiguration einen Link zu DBmarlin in den Anrufdetails für kompatible Anrufe hinzu.",
-          "configureYourDbMarlinSettings": "Konfigurieren Sie Ihre DBmarlin-Einstellungen",
+          "configureYourDbMarlinSettings": "Konfigurieren Sie Ihre DBmarlin-Integration",
           "testDbMarlinInstance": "Um Ihren DBmarlin-Link zu testen, gehen Sie zu",
           "failedToLoadDbMarlinConfiguration": "DBmarlin-Konfiguration konnte nicht geladen werden."
         }
@@ -476,6 +463,8 @@
       "deletionUntilDate": "Löschen bis Datum",
       "untilDateValidationMessage": "Das Datum muss dem aktuellen Datum entsprechen oder vor diesem liegen",
       "reasonValidationMessage": "Der Löschgrund darf nicht leer sein",
+      "untilTimeValidationMessage": "Die Zeit muss auf oder vor der aktuellen Zeit liegen",
+      "correctTimeFormat": "Bitte geben Sie eine gültige Zeit im Format HH:mm ein",
       "toastSuccessTitle": "Das Löschen von Protokollen kann eine Weile dauern.",
       "toastSuccessMessage": "Sie können dieses Pop-up-Fenster schließen und den Status in der Tabelle \"Historie der Log-Löschaktion\" überprüfen.",
       "toastErrorTitle": "Löschen des Protokolls fehlgeschlagen",
@@ -761,16 +750,16 @@
     "dstInEffect": "DST ist in Kraft",
     "dstMsg": "{{dstMsg}}. {{label}} ist \"{{currentTimeZone}}\" (UTC{{selectedUtcOffset}})",
     "maintenanceWindowConfigurationEntityName": "Konfiguration des Wartungsfensters {{entityName}}",
-    "configureYourCoralogixSettings": "Ihre Coralogix-Einstellungen konfigurieren",
+    "configureYourCoralogixSettings": "Konfigurieren Sie Ihre Coralogix-Integration",
     "failedToSaveConfiguration": "Fehler beim Speichern der Konfiguration: {{err}}",
     "coralogixExampleForAnInternalInstance": "Geben Sie die URL für Ihre Coralogix-Instanz ein, zum Beispiel <br><strong>https://team.coralogix.com</strong> oder <strong>http://192.168.1.128:443</strong> für eine interne Instanz.</br>",
-    "configureYourElkSettings": "Ihre ELK-Einstellungen konfigurieren",
+    "configureYourElkSettings": "Konfigurieren Sie Ihre ELK-Integration",
     "elkExampleForAnInternalInstance": "Geben Sie die URL für Ihre ELK-Instanz ein, z. B.: <strong>http://kibana.com:5601</strong> oder <strong>http://192.168.1.128:5601</strong> für eine interne Instanz.",
     "optionalBasePathYouHaveConfiguredInElk": "Beispiel: http://kibana.com:5601/<strong>instana</strong>/app/kibana#. Optionaler Basispfad, den Sie in ELK konfiguriert haben.",
     "idOfTheDashboardYouHaveConfiguredInElkForInstana": "Beispiel: Zu finden unter der URL http://kibana.com:5601/app/kibana#/dashboard/a23a8810-4ce8-11ea-9be2-a53f95fe8814. ID des Dashboards, das Sie in ELK für Instana konfiguriert haben.",
-    "configureYourHumioSettings": "Ihre Humio-Einstellungen konfigurieren",
+    "configureYourHumioSettings": "Konfigurieren Sie Ihre Humio-Integration",
     "humioExampleForAnInternalInstance": "Geben Sie die URL der Humio-Instanz <strong>https://cloud.humio.com</strong> oder <strong>http://192.168.1.128:443</strong> für eine interne Instanz ein.",
-    "configureYourMezmoSettings": "Konfigurieren Sie die Einstellungen für Mezmo",
+    "configureYourMezmoSettings": "Konfigurieren Sie Ihre Mezmo-Integration",
     "canBeFoundFromTheMezmoUrl": "Geben Sie die URL für Ihre Mezmo-Instanz ein. die URL besteht aus: <strong>https://base_url/account_id</strong>, zum Beispiel: <strong>https://app.mezmo.com/123456789</strong>",
     "canBeFoundFromTheIbmCloudUrl": "Die URL setzt sich aus <strong>https://basis-url/guid</strong> zusammen. Beispiel: <strong>https://cloud.ibm.com/observe/embedded-view/logging/123456789</strong>",
     "enterIbmCloudAccountId": "Geben Sie die GUID der Protokollierungsinstanz ein.",
@@ -778,7 +767,7 @@
     "mezmoDocumentationReference": "<br>Weitere Informationen finden Sie in unserer <documentationLink>Dokumentation</documentationLink>.</br>",
     "mezmoInstance": "Provider",
     "invalidMezmoId": "Die Account-/Dashboard-ID darf nur Buchstaben, Zahlen und Bindestriche (-) enthalten.",
-    "configureYourSplunkSettings": "Ihre Splunk-Einstellungen konfigurieren",
+    "configureYourSplunkSettings": "Konfigurieren Sie Ihre Splunk-Integration",
     "splunkExampleForAnInternalInstance": "Geben Sie die URL für Ihre Splunk-Instanz ein, zum Beispiel <strong>https://cloud.splunk.com</strong> oder <strong>http://192.168.1.128:443</strong> für eine interne Instanz.",
     "spaceBetweenGroupsInXDirection": "Abstand zwischen Gruppen in x-Richtung ({{packingXSpace}})",
     "spaceBetweenGroupsInYDirection": "Abstand zwischen Gruppen in y-Richtung ({{packingYSpace}})",
@@ -829,6 +818,7 @@
     "username": "Benutzername",
     "usernameDescription": "Der Benutzer, der als Eigner in Instana zuzuordnen ist. Eine Anmeldung wird als Test versucht, bevor die Einstellungen gespeichert werden. Die Berechtigungsnachweise werden nicht gespeichert.",
     "usernamePasswordDescription": "Das LDAP-Kennwort des Benutzers",
+    "ldapCannotbeConfiguredWithOtherIdPActive": "LDAP ist nicht konfigurierbar, solange Sie einen anderen aktiven Identitätsanbieter konfiguriert haben.",
     "ldapTestFailed": "LDAP-Test fehlgeschlagen:",
     "thisAccountIsAutomaticallyAssignedAnAdminRole": "Geben Sie eine E-Mail ein, die der Eigentümergruppe automatisch zugewiesen wird.",
     "thisAccountIsAutomaticallyAssignedAnAdminRoleLDAP": "Geben Sie ein Konto ein, das der Eigentümergruppe automatisch zugeordnet wird. Verwenden Sie das LDAP-Attribut des Accounts, das an der Suchschablone für Benutzerabfragen ausgerichtet ist.",
@@ -971,6 +961,8 @@
     "savingGroup": "Gruppe wird gespeichert",
     "groupSuccessfullySaved": "Gruppe wurde erfolgreich gespeichert.",
     "groups": "Gruppen",
+    "roles": "Rollen",
+    "teams": "Teams",
     "groupDeleteTooltip_Default": "Die Standardgruppe ist eine integrierte Gruppe und kann nicht gelöscht oder umbenannt werden.",
     "groupDeleteTooltip_Owner": "Eignergruppe ist eine integrierte Gruppe und kann nicht gelöscht oder umbenannt werden.",
     "deleteGroupMessage": "Möchten Sie <strong>{{groupName}}</strong> wirklich aus allen Einheiten in diesem Tenant entfernen?",

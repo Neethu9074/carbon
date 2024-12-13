@@ -9,8 +9,8 @@
     margin: 3rem 0 0;
     :global {
       // Address the outline issue in favourite icon
-      button.cds--btn--ghost[aria-label='lib_actions_favorite_filled']:focus,
-      button.cds--btn--ghost[aria-label='lib_actions_favorite']:focus {
+      .favouriteIcon button.cds--btn--ghost:focus,
+      .favouriteIcon button.cds--btn--ghost:focus {
         border-color: transparent;
         box-shadow: none;
         outline: none;

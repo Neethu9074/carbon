@@ -38,9 +38,7 @@ export function ThresholdAlertPreview({
 
   return (
     <Stack gap="xsmall">
-      <Pill kind="primary" type="high-contrast">
-        {alertPreviewPillLabels[severity]}
-      </Pill>
+      <Pill type="high-contrast">{alertPreviewPillLabels[severity]}</Pill>
       <AlertPreview
         form={form}
         renderHeadline={renderHeadline}

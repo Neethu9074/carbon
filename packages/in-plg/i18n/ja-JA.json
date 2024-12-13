@@ -51,6 +51,12 @@
     "freetrial": " 無料でお試しください",
     "taketour": " ツアーの実行"
   },
+  "dataConsumptionMessage": {
+    "description": "データ取り込み権限の{{dataConsumption}}%に達しました。 100% に達すると、取り込まれた追加データに対して従量課金制で課金されます。",
+    "description100": "データ取り込み権限の100%に達しましたが、心配しないでください。Instanaの価値を引き続き最大限に享受できます。 取り込まれた追加データの正確な量に対してのみ、従量課金制で課金されます。",
+    "buttonText": "データ使用量の見直し",
+    "title": "Instanaの使用が急増しているようです"
+  },
   "agentDetails": {
     "agentMode": {
       "dynamic": "動的",
@@ -109,8 +115,7 @@
     "kubernetes": {
       "kubernetes": {
         "enterAClusterNameAndOptionallyTheAgentZone": "ステップ 1: クラスター名を入力し、オプションで、クラスターを含めるエージェント・ゾーンを入力します。",
-        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "ステップ 2: 前提条件を確認し、エージェント・デプロイメント・コードを実行します。",
-        "support": "サポート"
+        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "ステップ 2: 前提条件を確認し、エージェント・デプロイメント・コードを実行します。"
       },
       "operator": {
         "installUsingTheOperator": "Operator を使用したインストール",
@@ -216,7 +221,6 @@
       "selectAwsRegionAndLambdaHandler": "AWS 領域を選択し、現在のラムダ・ハンドラーを入力します",
       "setInstanaAutoWrapHandlerAsLambdaFunction": "Instana 自動ラップ・ハンドラーを Lambda 関数のハンドラーとして設定します。",
       "autoWrapHandler": "自動折り返しハンドラー",
-      "runCodeBelow": "以下のエージェント・デプロイメント・コードを実行します。",
       "prerequisiteLinks": {
         "networkRequirements": "ネットワーク要件"
       },
@@ -248,7 +252,6 @@
         "installGcrCollectors": "Gogle Cloud Run プロセス内コレクターのインストール",
         "installAgentOnEc2": "AWS EC2 へのエージェントのインストール",
         "configurationOptions": "構成オプション",
-        "installAgentAwsEks": "AWS EKS へのエージェントのインストール",
         "monitoringGcr": "Google Cloud Run のモニタリング",
         "monitoringAwsFargateRuby": "AWS Fargate (Ruby) のモニター",
         "awsServiceDocumentation": "AWS サービスの資料",
@@ -461,8 +464,6 @@
       }
     },
     "azure": {
-      "installingAgentOnAks": "Aks へのエージェントのインストール",
-      "configureAfterInstall": "インストール後のエージェントの構成",
       "referenceToAzureContainerAppsDocumentation": "Azure コンテナ アプリにデプロイされた Go アプリケーションは、トレース・データを収集するために手動でインスツルメンテーションする必要があります。 <azureContainerAppsDoc>Azure Container Apps Go documentation</azureContainerAppsDoc> の指示に従ってください。",
       "selectAzureContainerAppsRuntime": "Azure Container Apps ランタイムを選択します",
       "reviewPrerequisitesAndConfigureContainerApps": "前提条件を確認し、Azure Container Apps をトレース用に設定します。",
@@ -479,6 +480,17 @@
         "resourceGroupName": "リソース・グループ名",
         "activatingAppServiceContent": "Azure CLI コマンドの例 Node.js v18.19 以降を使用する ECMAScript モジュール・アプリケーション:",
         "activatingAppServiceNote": "NODE_OPTIONS の値を更新して、構成に合った正しい設定にしてください。 ガイダンスについては、<azureAppServiceEnableCollectorDoc>ドキュメント</azureAppServiceEnableCollectorDoc>を参照してください。"
+      },
+      "dotnet": {
+        "monitoringAppService": "Azure App Servicefor .NETのモニタリング",
+        "activatingAppService": "コレクターをインストールしています。",
+        "appName": "アプリケーション名",
+        "resourceGroupName": "リソース・グループ名",
+        "configureOptionsForTracing": "アプリ・サービスのモニタリングに必要なパラメーターの構成",
+        "uploadConfigFile": "構成ファイルのアップロード- ApplicationHost.xdt",
+        "activatingAppServiceNote": "ファイルをダウンロードします。 ファイル名が常に「ApplicationHost.xdt」であることを確認してください",
+        "ftpsAuthCredsNote": "AzureポータルでApp Serviceにログインし、「デプロイメント」->「デプロイメント・センター」->「App ServiceのFTPS資格情報」でFTPSURL、FTPSユーザー名、パスワード(アプリケーション・スコープ)を確認します。 以下のコマンドでこれらの値を置き換えます",
+        "restartAppServiceNote": "App Serviceを再始動します"
       }
     },
     "gcp": {

@@ -30,19 +30,20 @@ function Subscript({ policy }: { policy: Policy }) {
   return null;
 }
 
+function NameColumn({ policy }: { policy: Policy }) {
+  const hrefToPolicyDetails = useHrefToPolicyDetails();
+  return (
+    <Tooltip content={policy.name} align="auto" delay={500} overwriteBlock>
+      <WithSubscript subscript={<Subscript policy={policy} />}>
+        <Link href={hrefToPolicyDetails(policy.id, false)}>{policy.name}</Link>
+      </WithSubscript>
+    </Tooltip>
+  );
+}
 export const nameColumn: ColumnDefinition<Policy> = {
   id: 'name',
   label: t('in-automation:name'),
-  getContent: function Content(item) {
-    const hrefToPolicyDetails = useHrefToPolicyDetails();
-    return (
-      <Tooltip content={item.name} align="auto" delay={500} overwriteBlock>
-        <WithSubscript subscript={<Subscript policy={item} />}>
-          <Link href={hrefToPolicyDetails(item.id, false)}>{item.name}</Link>
-        </WithSubscript>
-      </Tooltip>
-    );
-  },
+  getContent: policy => <NameColumn policy={policy} />,
   width: 23,
   sortable: true
 };

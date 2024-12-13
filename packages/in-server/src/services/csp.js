@@ -13,19 +13,41 @@ if (isRequiringInstanaRocks()) {
   allowedScriptOrigins.push('*.instana.rocks');
 }
 
-const allowedScriptOriginsWalkMe = [
+const allowedScriptOriginsTrustArc = [
+  'http://*.trustarc.com',
+  'https://*.trustarc.com',
+  'https://*.prefmgr-cookie.truste-svc.net',
+  'http://*.prefmgr-cookie.truste-svc.net'
+];
+const allowedScriptOriginsTealium = [
+  'http://*.tealium.com',
+  'https://*.tags.tiqcdn.com',
+  'http://*.tealium.com',
+  'http://*.tags.tiqcdn.com'
+];
+
+const allowedScriptOriginsIbmCommon = [
   ...allowedScriptOrigins,
+  ...allowedScriptOriginsTealium,
+  ...allowedScriptOriginsTrustArc,
+  'https://www.ibm.com',
+  'https://1.www.s81c.com/',
+  'https://www-api.ibm.com',
+  'https://tags.tiqcdn.com'
+];
+
+const allowedScriptOriginsWalkMe = [
+  ...allowedScriptOriginsIbmCommon,
   'https://cdn.walkme.com',
   'https://playerserver.walkme.com',
   'https://ec.walkme.com'
 ];
-const allowedScriptOriginsAssistMe = [...allowedScriptOriginsWalkMe, 'https://www.ibm.com'];
 
-exports.getCsp = (nonce, isAssistMeEnabled, injectWalkMeScript) => {
-  if (injectWalkMeScript) {
+exports.getCsp = (nonce, walkmeEnabled, ibmCommonEnabled) => {
+  if (walkmeEnabled) {
     return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsWalkMe.join(' ')}`;
-  } else if (isAssistMeEnabled) {
-    return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsAssistMe.join(' ')}`;
+  } else if (ibmCommonEnabled) {
+    return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOriginsIbmCommon.join(' ')}`;
   } else {
     return `script-src 'self' 'nonce-${nonce}' ${allowedScriptOrigins.join(' ')}`;
   }

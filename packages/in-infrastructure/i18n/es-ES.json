@@ -131,7 +131,8 @@
     "map": "Correlación",
     "comparisonTable": "Tabla de comparación",
     "infrastructureComparisonTable": "Tabla de comparación de infraestructura",
-    "smartAlerts": "Alertas inteligentes"
+    "smartAlerts": "Alertas inteligentes",
+    "graph": "Gráfico"
   },
   "smartAlertView": {
     "smartAlertTab": "Alertas inteligentes de infraestructura"
@@ -140,6 +141,9 @@
     "buttonSelectTags": "Seleccionar etiquetas",
     "titleAddATag": "Añadir una etiqueta",
     "messagePleaseSelectAtMostTags": "Seleccione como máximo {{maximumNumberOfTags}} etiquetas."
+  },
+  "graphExplorerView": {
+    "infrastructureGraphExplorer": "Explorador de gráficos"
   },
   "threshold": {
     "label": "Umbral",

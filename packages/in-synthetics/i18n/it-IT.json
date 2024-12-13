@@ -384,12 +384,12 @@
         "textInput": {
           "placeholder": "Nome credenziale",
           "labelText": "Nome",
-          "invalidText": "Il nome della credenziale deve iniziare con una lettera e contenere solo lettere, numeri e trattini bassi."
+          "invalidText": "Il nome della credenziale deve iniziare con una lettera e contenere solo lettere, numeri e trattini bassi.",
+          "credentialNamesMustBeUnique": "I nomi delle credenziali devono essere unici. Questo nome è già utilizzato. Provare un altro nome."
         },
         "passwordInput": {
           "placeholder": "Valore della credenziale",
-          "labelText": "Valore",
-          "invalidText": "Il valore non deve essere vuoto."
+          "labelText": "Valore"
         },
         "associationsDescription": "L'associazione di una credenziale a un'applicazione, a un sito web o a un'applicazione mobile concede i diritti di accesso a tutti gli utenti che hanno accesso a tali entità."
       },
@@ -515,6 +515,12 @@
       "deleteLocationBroswerRefreshInfo": "Ci vorrà del tempo prima che l'ubicazione scompaia dall'elenco delle ubicazioni e potrebbe essere necessario un aggiornamento del browser.",
       "deactivateLocation": {
         "deactivate": "Disattiva"
+      },
+      "ipAddressColumn": {
+        "ipAddress": "Indirizzo IP",
+        "singleIPAddress": "{{number}} Indirizzo IP",
+        "multipleIPAddress": "{{number}} Indirizzi IP",
+        "noIPAddresses": "NA"
       }
     },
     "summary": {
@@ -810,7 +816,10 @@
         "noCredentialsAvailableTitle": "Nessuna credenziale sintetica disponibile",
         "noCredentialsAvailableDescription": "Non ci sono credenziali sintetiche recuperate dal database."
       },
-      "editAction": "Modifica",
+      "editAction": {
+        "editActionLabel": "Modifica",
+        "theValueMustNotBeBlank": "Il valore non deve essere vuoto."
+      },
       "deleteAction": {
         "deleteActionLabel": "Elimina",
         "deleteCredentialTitle": "Cancellare la credenziale sintetica {{credentialName}}",

@@ -19,8 +19,19 @@
     "unnamedActivity": "(名前なしアクティビティー) {{activityType}}",
     "unnamedService": "(無名サービス)"
   },
+  "customDashboards": {
+    "activityCountMetric": "アクティビティー数",
+    "erroneousActivityCallsCountLabel": "誤ったアクティビティー呼び出し(数）",
+    "erroneousActivityCallsCategory": "誤ったアクティビティー呼び出し",
+    "erroneousActivityCallsRateLabel": "誤ったアクティビティー呼び出し(率)",
+    "latency": "待ち時間"
+  },
   "processes": {
-    "deployAgent": "エージェントのデプロイ"
+    "deployAgent": "エージェントのデプロイ",
+    "noProcessesAvailable": "ビジネス・プロセスはありません。",
+    "deployAgentFirst": "まずエージェントをデプロイする必要があります。",
+    "forMoreInformation": "詳しくは、以下を参照してください:",
+    "documentation": "資料"
   },
   "perspectives": {
     "newPerspective": "パースペクティブを作る",

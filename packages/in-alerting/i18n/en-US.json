@@ -1516,6 +1516,7 @@
       "regexNotValid": "Regex is not valid",
       "tearSheet": {
         "createTitle": "Create an infrastructure Smart Alert",
+        "editTitle": "Edit an infrastructure Smart Alert",
         "steps": {
           "step1Title": "Define the condition",
           "step2Title": "Define when to get alerted",

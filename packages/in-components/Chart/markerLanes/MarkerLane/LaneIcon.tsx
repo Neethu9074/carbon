@@ -60,6 +60,7 @@ export default function LaneIcon<EventType extends MarkerLaneEvent>({
           <SvgIcon
             size="xs"
             className={locals.icon}
+            tabIndex={0}
             onClick={
               !calloutContent && !onClick
                 ? undefined

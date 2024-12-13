@@ -131,7 +131,8 @@
     "map": "圖",
     "comparisonTable": "對照表",
     "infrastructureComparisonTable": "基礎架構對照表",
-    "smartAlerts": "智慧型警示"
+    "smartAlerts": "智慧型警示",
+    "graph": "圖形"
   },
   "smartAlertView": {
     "smartAlertTab": "基礎架構智慧型警示"
@@ -140,6 +141,9 @@
     "buttonSelectTags": "選取標籤",
     "titleAddATag": "新增標籤",
     "messagePleaseSelectAtMostTags": "請最多選取 {{maximumNumberOfTags}} 個標籤。"
+  },
+  "graphExplorerView": {
+    "infrastructureGraphExplorer": "圖形瀏覽器"
   },
   "threshold": {
     "label": "臨界值",

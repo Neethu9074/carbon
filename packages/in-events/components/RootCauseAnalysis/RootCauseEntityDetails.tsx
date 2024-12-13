@@ -22,19 +22,23 @@ import {
   useGenerateLinkToAnalyzePage
 } from 'in-events/components/RootCauseAnalysis/utils/rootCauseUtil';
 import useFetchAppropriateRCAEntityData from 'in-events/components/RootCauseAnalysis/hooks/useFetchAppropriateRCAEntityData';
+import RootCauseTopologyDialog from 'in-events/components/RootCauseAnalysis/Topology/RootCauseTopologyDialog';
 import { EVENT_RCA_ANALYZE_CLICK, EVENT_RCA_ENTITY_CLICK } from 'in-services/tracking/tracking';
 import AIProbabilityBadge from 'in-events/components/RootCauseAnalysis/AIProbabilityBadge';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getApplication from 'in-applications/subscriptions/getApplication';
+import { Application, Nullish, ServiceLabel, TimeConfig } from 'in-types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
-import { Application, ServiceLabel, TimeConfig } from 'in-types';
+import { rcaTopologyEnabled } from 'in-services/featureFlags';
 import PluginIcon from 'in-components/PluginIcon/PluginIcon';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
 import { setTimeConfig } from 'in-stores/time/config';
 import { SnapshotData } from 'in-stores/snapshot';
+import { EventOrMap } from 'in-events/types';
 
 import locals from 'in-events/components/legacy/EventList.mless';
 
@@ -46,6 +50,8 @@ interface RootCauseEntityDetailsParams {
   probabilityScore: number;
   relatedAPID: string | null;
   incidentTimeWindow: TimeConfig;
+  triggeringEvent: EventOrMap;
+  rootCauses: any;
 }
 
 export default function RootCauseEntityDetails({
@@ -55,10 +61,13 @@ export default function RootCauseEntityDetails({
   explainabilityMetadata,
   probabilityScore,
   relatedAPID,
-  incidentTimeWindow: timeWindow
+  incidentTimeWindow: timeWindow,
+  triggeringEvent,
+  rootCauses
 }: RootCauseEntityDetailsParams) {
   const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
   const { trackCta } = useSegmentTracking();
+  const { location } = useNavigation();
 
   /*
     These query state variables hold on to the necessary observable queries that will later get used by our data state variables.
@@ -69,9 +78,9 @@ export default function RootCauseEntityDetails({
     entityData,
     entityStackData,
     hierarchySnapshots,
-    location,
     infraServiceLabelInformation,
-    nonInfraServiceLabelInformation
+    nonInfraServiceLabelInformation,
+    loadingSnapshotData
   } = useFetchAppropriateRCAEntityData(rcaEntityType, rcaSnapshotID, timeWindow);
 
   /*
@@ -112,6 +121,23 @@ export default function RootCauseEntityDetails({
 
   // If no snapshot ID just don't display RCA
   if (!rcaSnapshotID) return null;
+
+  if (!loadingSnapshotData && !entityData) {
+    return (
+      <>
+        <CarbonTabPanel key={rcaSnapshotID}>
+          <div className={locals.entityDescription}>
+            <UnknownEntityPath
+              entityID={rcaSnapshotID}
+              entityType={rcaEntityType}
+              relatedApplicationInformation={relatedApplicationInformation}
+              timeWindow={timeWindow}
+            />
+          </div>
+        </CarbonTabPanel>
+      </>
+    );
+  }
 
   // If no entity data yet return loading indicator
   if (!entityData) return <LoadingIndicator />;
@@ -169,9 +195,24 @@ export default function RootCauseEntityDetails({
                       timeWindow={timeWindow}
                     />
                   )}
-                {(entityData === null ||
+                {(loadingSnapshotData ||
                   ((rcaEntityType === 'infrastructure' || rcaEntityType === 'process') &&
                     entityStackData?.progress.loading)) && <LoadingSkeleton className={locals.loadingEntity} />}
+
+                {!loadingSnapshotData && !entityData && (
+                  <>
+                    <CarbonTabPanel key={rcaSnapshotID}>
+                      <div className={locals.entityDescription}>
+                        <UnknownEntityPath
+                          entityID={rcaSnapshotID}
+                          entityType={rcaEntityType}
+                          relatedApplicationInformation={relatedApplicationInformation}
+                          timeWindow={timeWindow}
+                        />
+                      </div>
+                    </CarbonTabPanel>
+                  </>
+                )}
               </Stack>
               <AIProbabilityBadge probabilityScore={probabilityScore} loading={entityData === null} />
             </Stack>
@@ -222,19 +263,40 @@ export default function RootCauseEntityDetails({
                 </Stack>
               </Stack>
             )}
-            <Button
-              kind="tertiary"
-              icon="lib_application_call"
-              href={urlForAnalysisPage}
-              size="compact"
-              onClick={() => {
-                const instrumentationEventProperties = { urlForEntity: urlForAnalysisPage };
-                trackCta(EVENT_RCA_ANALYZE_CLICK, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
-              }}
-              className={locals.analyzeButton}
-            >
-              {t('in-applications:buttonAnalyzeCalls')}
-            </Button>
+            <Stack direction="horizontal" align="center">
+              <Button
+                kind="tertiary"
+                icon="lib_application_call"
+                href={urlForAnalysisPage}
+                size="compact"
+                onClick={() => {
+                  const instrumentationEventProperties = { urlForEntity: urlForAnalysisPage };
+                  trackCta(EVENT_RCA_ANALYZE_CLICK, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
+                }}
+                className={locals.analyzeButton}
+              >
+                {t('in-applications:buttonAnalyzeCalls')}
+              </Button>
+              {rcaTopologyEnabled && (
+                <Button
+                  kind="tertiary"
+                  icon="lib_actions_force_layout"
+                  size="compact"
+                  onClick={() =>
+                    addActiveDialog(
+                      <RootCauseTopologyDialog
+                        relatedApplicationInformation={relatedApplicationInformation}
+                        triggeringEvent={triggeringEvent}
+                        timeConfig={timeWindow}
+                        rootCauses={rootCauses}
+                      />
+                    )
+                  }
+                >
+                  {t('in-events:RCA.topology.viewTopology')}
+                </Button>
+              )}
+            </Stack>
           </Stack>
         </div>
       </CarbonTabPanel>
@@ -353,6 +415,51 @@ function EntityPath({
           timeWindow={timeWindow}
         />
       )}
+    </Stack>
+  );
+}
+
+interface UnknownEntityPathProps {
+  relatedApplicationInformation: Application | Nullish;
+  entityType: string;
+  entityID: string;
+  timeWindow: TimeConfig;
+}
+
+function UnknownEntityPath({
+  relatedApplicationInformation,
+  entityType,
+  entityID,
+  timeWindow
+}: UnknownEntityPathProps) {
+  const SEGMENT_EVENT_PROPERTY_CHANNEL = 'root cause analysis';
+
+  const { location } = useNavigation();
+  const { trackCta } = useSegmentTracking();
+
+  const relatedAPID = relatedApplicationInformation ? relatedApplicationInformation.id : null;
+
+  // Generate links to dashboards
+  const linkToEntity = useGenerateLinkToDashboard(entityType, entityID, location, relatedAPID, timeWindow);
+  return (
+    <Stack gap="xsmall">
+      <Typography variant="body-bold">
+        {t('in-events:RCA.probableRootCauseLabel', {
+          entity_type: entityType ? entityType.charAt(0).toUpperCase() + entityType.slice(1).toLowerCase() : 'Entity'
+        })}
+      </Typography>
+      <Link
+        href={linkToEntity}
+        onClick={() => {
+          const instrumentationEventProperties = { mainEntity: true, entityType: entityType };
+          trackCta(EVENT_RCA_ENTITY_CLICK, instrumentationEventProperties, SEGMENT_EVENT_PROPERTY_CHANNEL);
+        }}
+      >
+        <Stack direction="horizontal" gap="xsmall" align="center">
+          <SvgIcon type={getIconForRCADisplay(entityType)} color={themes.default.cds.link.primary} />
+          {t('in-custom-dashboards:widgets.unknownEntityLabel')}
+        </Stack>
+      </Link>
     </Stack>
   );
 }

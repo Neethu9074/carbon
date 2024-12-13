@@ -229,6 +229,8 @@ const RootCauseSection = forwardRef<HTMLDivElement, RootCauseSectionProps>(
                           }
                           probabilityScore={rootCause.get('probFailure') as number}
                           incidentTimeWindow={getIncidentTimeConfig(incident)}
+                          triggeringEvent={incident}
+                          rootCauses={rootCauseSnapshots}
                           key={idx}
                         />
                       </>
@@ -330,9 +332,7 @@ function getIncidentTimeConfig(incident: EventOrMap): TimeConfig {
       (incident.get('end') as number) - incident.getIn(['metadata', 'triggeringTime'], 0) + minutes.toMillis(20) ||
       (incident.get('end') as number) - (incident.get('start') as number) + minutes.toMillis(20),
     to: incident.get('end') as number,
-    focusedMoment:
-      (incident.get('end') as number) - incident.getIn(['metadata', 'triggeringTime'], 0) + minutes.toMillis(20) ||
-      (incident.get('end') as number) - (incident.get('start') as number) + minutes.toMillis(20),
+    focusedMoment: incident.get('end') as number,
     autoRefresh: false
   };
 }

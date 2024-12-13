@@ -506,9 +506,11 @@
     "runningAction": "実行アクション...",
     "actionStarted": "アクションは開始しました",
     "actionFailed": "アクション失敗",
-    "actionStartedMessage": "<strong>{{actionName}} を実行しました。</strong> アクション履歴ページでこのアクションの進行状況を見る。",
+    "actionStartedMessage": "<strong>{{actionName}} を実行しました。</strong> アクション履歴タブで、このアクションの進行状況を見ます。",
     "actionFailedMessage": "アクション <strong>{{actionName}}</strong> の実行要求に失敗しました: {{message}}。",
     "viewActionHistory": "アクション履歴の表示",
-    "actionName": "アクション名"
+    "actionName": "アクション名",
+    "recommendedActionHistoryWithCount": "リソースのアクション履歴({{count}})",
+    "recommendedActionHistory": "リソース・アクション履歴"
   }
 }

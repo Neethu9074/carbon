@@ -191,17 +191,17 @@
   "inboundOutboundCalls": {
     "config": {
       "inbound": {
-        "text": "Inbound Calls"
+        "text": "Inbound calls"
       },
       "all": {
-        "text": "All Calls"
+        "text": "All calls"
       }
     },
     "constants": {
       "inboundDashboard": "The dashboard is displaying information based only on the calls that are performed by the consumers of this application.",
-      "inboundOverrideDefault": "The default scope for this application is Inbound Calls only. You can change this in Configuration.",
+      "inboundOverrideDefault": "The default scope for this application is Inbound calls only. You can change this in Configuration.",
       "allDashboard": "The dashboard is displaying information based on all calls that are performed within this application, by both consumers as well as internally.",
-      "allOverrideDefault": "The default scope for this application is All Calls. You can change this in Configuration."
+      "allOverrideDefault": "The default scope for this application is All calls. You can change this in Configuration."
     }
   },
   "analyze": {

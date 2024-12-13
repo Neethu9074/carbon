@@ -7,7 +7,6 @@
 import React from 'react';
 
 import { Button, CarbonMenuItem, SvgIcon } from '@instana/components';
-import { MobileAppAlertConfig } from '@instana/types';
 
 import {
   getBlueprintConfig,
@@ -15,6 +14,7 @@ import {
   MobileAlertType
 } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { MobileAppSmartAlertConfig } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 // @ts-expect-error Missing exact typings
 import { defaultGroupings } from 'in-mobile-apps/tags';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
@@ -27,7 +27,7 @@ import { FixedTimeConfig } from 'in-stores/time/config';
 import { t } from 'in-i18n';
 
 interface AnalyzeMobileAppEventButtonProps {
-  alertConfig: MobileAppAlertConfig;
+  alertConfig: MobileAppSmartAlertConfig;
   mobileAppName: string;
   timeConfig: FixedTimeConfig;
   as?: 'button' | 'menuItem';

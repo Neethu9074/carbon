@@ -154,6 +154,33 @@
   "applications": {
     "noData": "藉由應用程式視景，可針對環境、服務集、租戶或任何事物建模。"
   },
+  "subtraces": {
+    "labelSubtraces": "子追蹤",
+    "labelSubtrace": "子追蹤",
+    "newSubtrace": "新增子追蹤",
+    "subtracesList": {
+      "name": "名稱",
+      "count": "計數",
+      "meanDuration": "平均持續時間",
+      "meanSubcallCount": "平均數 子呼叫數",
+      "meanErrorRate": "平均錯誤率"
+    },
+    "configuration": {
+      "success": {
+        "title": "子追蹤{{action}}成功",
+        "message": "子追蹤 \"{{subtraceName}}\" 已{{action}}。"
+      },
+      "failure": {
+        "title": "無法{{action}}子追蹤",
+        "message": "嘗試{{action}}此子追蹤時出現問題：\"{{subtraceName}}\""
+      },
+      "title": "更新子追蹤",
+      "subtraceName": "子追蹤名稱",
+      "subtraceFilter": "子追蹤定義",
+      "evaluationGranularity": "評估精度",
+      "evaluationGranularityValidationError": "請選取評估精度的值"
+    }
+  },
   "alert": {
     "tooltipMoreFilter": "+{{moreFilterCount}} 個以上的過濾器",
     "tooltipMoreFilter_plural": "+{{moreFilterCount}} 個以上的過濾器",
@@ -172,9 +199,9 @@
     },
     "constants": {
       "inboundDashboard": "儀表板只會根據此應用程式的消費者所執行的呼叫來顯示資訊。",
-      "inboundOverrideDefault": "此應用程式的預設範圍只有「入埠呼叫」。您可以在「配置」中變更此項。",
+      "inboundOverrideDefault": "此應用程式的預設範圍只有「入埠呼叫」。 您可以在「配置」中變更此項。",
       "allDashboard": "儀表板會根據此應用程式內所執行的所有呼叫（包括消費者及內部的呼叫都是）來顯示資訊。",
-      "allOverrideDefault": "此應用程式的預設範圍是「所有呼叫」。您可以在「配置」中變更此項。"
+      "allOverrideDefault": "此應用程式的預設範圍是「所有呼叫」。 您可以在「配置」中變更此項。"
     }
   },
   "analyze": {
@@ -686,6 +713,21 @@
     "alternativeServicesOk": "<bold>可以看到替代服務嗎？</bold>",
     "alternativeServicesProblem": "<bold>否</bold>，如果現行服務的名稱來自 HTTP \"Host\" 標頭（ID 為 call.http.host 的服務對映規則），而替代服務的名稱則不是（因為其名稱來自基於基礎架構標籤的規則），反之亦然。 這些是重複的服務。",
     "alternativeServicesPossibleProblem": "<bold>可能</bold>，如果現行服務及替代服務名稱不是來自 HTTP \"Host\" 標頭，則它們是位於 Proxy 後面的服務（良好）或重複服務（不良）：部分服務完全鏈結至基礎架構，而其他服務部分鏈結至基礎架構。"
+  },
+  "infoBanner": {
+    "title": "資源動作，採用 Turbonomic",
+    "tryLabel": "先試用再購買",
+    "tryText": "開始免費試用，瞭解資源動作如何協助您的應用程式。",
+    "tryButtonLabel": "開始試用",
+    "learnLabel": "進一步瞭解",
+    "learnText": "查看一些部落格和其他媒體，以瞭解有關此特性的最新資訊。",
+    "learnButtonLabel": "線上造訪我們",
+    "connectLabel": "與銷售人員聯絡",
+    "connectText": "聯絡我們的銷售團隊，讓他們知道您有興趣。",
+    "connectButtonLabel": "立即購買",
+    "helpLabel": "協助我們成長",
+    "helpText": "與我們分享您的想法，以便我們能夠繼續提供您最想要的特性。",
+    "helpButtonLabel": "提供意見回饋"
   },
   "labelSyntheticMonitoring": "綜合監視",
   "labelResourceOptimizations": "最佳化"

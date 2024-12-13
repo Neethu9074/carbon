@@ -161,6 +161,17 @@
         "unexpectedLowOrHighNumberOfCalls": "Unerwartet hohe oder niedrige Anzahl an Aufrufen"
       }
     },
+    "srcBizOps": {
+      "formComponent": {
+        "pleaseSelect": "Bitte auswählen",
+        "pleaseSelectMetric": "Wählen Sie einen Messwert aus",
+        "aggregation": "Aggregation",
+        "metric": "Metrik"
+      },
+      "index": {
+        "bizOps": "Geschäftsprozesse (Aktivitäten)"
+      }
+    },
     "srcApp": {
       "formComponent": {
         "needToTurnOffPP": "Um die Gruppierung zu verwenden, müssen Sie zuerst die Hervorhebung potenzieller Probleme inaktivieren.",
