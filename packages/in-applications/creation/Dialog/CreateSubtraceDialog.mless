@@ -9,7 +9,7 @@
     // needed because we currently mix cds and ids
     // Carbon modals have a z-index of 9000 while Instana overlays have 133
     // so we need to lower the z-index of carbon modal temporarily
-    z-index: 132;
+    z-index: 9132;
 
     :global(.cds--modal-container) {
       min-block-size: 40rem;

@@ -46,6 +46,7 @@ export default function CreateSubtraceDialog() {
       onRequestSubmit={onHandleSubmit}
       secondaryButtonText={t('forms.actions.cancel')}
       className={locals.modal}
+      selectorsFloatingMenus={['.cds--search', '.cds--search-input']}
       preventCloseOnClickOutside
       open
     >
