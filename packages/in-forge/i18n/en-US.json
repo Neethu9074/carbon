@@ -13622,6 +13622,7 @@
       "llm_status": "LLM Status",
       "dashboard": {
         "token": "Tokens",
+        "inputToken": "Input Tokens",
         "cost": "Cost",
         "duration": "Model Latencies",
         "analytics": "Tracing",

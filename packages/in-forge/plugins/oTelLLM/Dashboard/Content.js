@@ -88,6 +88,12 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
           formatter="number.compact"
         />
         <TotalUsageBigNumber
+          title={t('in-forge:plugins.oTelLLM.dashboard.inputToken')}
+          metricName="metrics.gauges.llm.usage.input_tokens"
+          tagFilter={instanceId}
+          formatter="number.compact"
+        />
+        <TotalUsageBigNumber
           title={t('in-forge:plugins.oTelLLM.dashboard.totalCost')}
           metricName="metrics.gauges.llm.usage.cost"
           tagFilter={instanceId}
