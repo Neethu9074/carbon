@@ -17,6 +17,8 @@ import { ACTION_TRANSLATIONS } from 'in-automation/constants';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
+import locals from 'in-alerting/components/IconLabel.mless';
+
 function Subscript({ policy }: { policy: Policy }) {
   if (isManual(policy) && isAutomatic(policy)) {
     return <>{t('in-automation:policies.manualAutomatic')}</>;
@@ -33,11 +35,11 @@ function Subscript({ policy }: { policy: Policy }) {
 function NameColumn({ policy }: { policy: Policy }) {
   const hrefToPolicyDetails = useHrefToPolicyDetails();
   return (
-    <Tooltip content={policy.name} align="auto" delay={500} overwriteBlock>
-      <WithSubscript subscript={<Subscript policy={policy} />}>
-        <Link href={hrefToPolicyDetails(policy.id, false)}>{policy.name}</Link>
-      </WithSubscript>
-    </Tooltip>
+    <WithSubscript subscript={<Subscript policy={policy} />}>
+      <Link className={locals.ellipsis} href={hrefToPolicyDetails(policy.id, false)}>
+        {policy.name}
+      </Link>
+    </WithSubscript>
   );
 }
 export const nameColumn: ColumnDefinition<Policy> = {
