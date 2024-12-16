@@ -39,7 +39,8 @@ export default function VersionTimeline({ onVersionClick, getTooltip, from, to, 
                   content={
                     <TooltipContent from={version.from} to={version.to} getTooltip={getTooltip} version={version} />
                   }
-                  align={getTooltipAlign(left)}
+                  align={'auto'}
+                  legacy
                 >
                   <div
                     className={classNames({
@@ -117,12 +118,4 @@ function TooltipContent({ from, to, getTooltip, version }) {
       {version && getTooltip(version)}
     </Fragment>
   );
-}
-
-function getTooltipAlign(left) {
-  const leftWiggleRoom = 400;
-  if (left > leftWiggleRoom) {
-    return 'leftMiddle';
-  }
-  return 'bottomMiddle';
 }

@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { DescriptionItem } from '@instana/components';
+
 import { getMetricForFocusedMoment } from 'in-stores/metric';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

@@ -16,13 +16,20 @@ import { pageNames } from 'in-services/tracking/pageNames';
 
 interface Props {
   configuration: ServiceLevelObjectiveConfiguration;
+  closeMenu?: () => void;
 }
 
-export default function DeleteSloMoreMenuButton({ configuration }: Props) {
+export default function DeleteSloMoreMenuButton({ configuration, closeMenu }: Props) {
   const meta = { productArea: productAreas.slo, pageName: pageNames.service_levels };
   const doDelete = useDoDeleteSloConfiguration(configuration, meta);
   return (
-    <MoreMenuButton icon="lib_actions_delete" onClick={doDelete}>
+    <MoreMenuButton
+      icon="lib_actions_delete"
+      onClick={() => {
+        closeMenu?.();
+        doDelete();
+      }}
+    >
       {t('in-service-levels:general.deleteButtonLabel')}
     </MoreMenuButton>
   );

@@ -6,20 +6,29 @@
 import React, { useState, useEffect, useRef } from 'react';
 import rpt from 'prop-types';
 
-import { keyCodes, Pill, Ul, Li, LiHorizontalIndicator, LiLoadingSkeleton } from '@instana/components';
+import {
+  keyCodes,
+  Pill,
+  Ul,
+  Li,
+  LiHorizontalIndicator,
+  LiLoadingSkeleton,
+  SearchInput,
+  Button
+} from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { Button } from '@instana/legacy';
 
 import { isLandingPage as isCustomDashboardLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/customDashboards';
 import { isLandingPage as isCockpitLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
+import { viewPathFullyQualified, dashboardIdUrlParameter } from 'in-custom-dashboards/navigation/url';
 import { isNotBlank, compareIgnoreCase, containsIgnoreCase } from 'in-services/util/string';
 import { getActiveConfiguration$ } from 'in-client/js/LandingPage/activeConfigration';
-import { getCustomDashboardLink } from 'in-custom-dashboards/navigation/url';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { useCockpitLink } from 'in-cockpit/navigation/paths';
 import { playwithEnabled } from 'in-services/featureFlags';
-import SearchInput from 'in-components/SearchInput';
 import Lettering from 'in-components/Lettering';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -177,13 +186,20 @@ function DashboardList({
 }) {
   const cockpitLink = useCockpitLink();
   const itemsRefs = React.useRef([]);
+  const {location, createHref} = useNavigation()
+  const dashboardListLocation = {...location, pathname: viewPathFullyQualified}
+
+  function customNavigation(id){
+    setOrDeleteMatrixKey(dashboardListLocation, dashboardIdUrlParameter.path, dashboardIdUrlParameter.name, id);
+    return createHref(dashboardListLocation)
+  }
 
   let items = (customDashboards || [])
     .map(({ id, title }) => ({
       id,
       title,
       isDefault: isCustomDashboardLandingPage(activeLandingPageConfiguration?.pageKey, id),
-      href$: getCustomDashboardLink(id)
+      href: customNavigation(id)
     }))
     .sort((a, b) => compareIgnoreCase(a.title, b.title));
 
@@ -248,6 +264,7 @@ function DashboardList({
     <>
       {items.map(({ id, title, titleElement, href, href$, isDefault }, index) => (
         <Li
+          id={id}
           key={id}
           href={href}
           href$={href$}

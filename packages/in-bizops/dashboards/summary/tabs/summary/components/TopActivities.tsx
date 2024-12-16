@@ -19,10 +19,11 @@ import {
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 // @ts-expect-error Could not find a declaration file for module
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
-import { clickBizopsProcessViewAllActivitiesTracker, selectBizopsProcessActivitiesTracker } from 'in-bizops/tracker';
+import { bizopsViewAllActivitiesClick, bizopsActivitySelect } from 'in-bizops/tracker';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import getBusinessActivities from 'in-bizops/subscriptions/getBusinessActivities';
 import { BusinessActivityItem, TagFilterExpression, TimeConfig } from 'in-types';
+import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { millis, number, percentage } from 'in-services/formatters/number';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -51,7 +52,7 @@ export default function TopActivities({ businessProcessId, businessProcessName }
   const timeConfig = useTimeConfig();
   return (
     <TopListWithUrlState
-      metrics={['call_latency', 'call_count', 'erroneous_call_rate']}
+      metrics={['callLatency', 'callCount', 'erroneousCallRate']}
       title={t('in-bizops:dashboards.summary.widgets.topActivities')}
       labels={labels}
       formatters={[millis.fixedCompact, number.compact, percentage.detailed]}
@@ -82,7 +83,8 @@ function ViewAll({ className }: viewAllProps) {
     getMatrixParameter(location, businessProcessDashboard, 'definitionName') ??
     t('in-bizops:dashboards.summary.pageTitle');
 
-  const processTracking = {
+  const trackerProps = {
+    path: location.pathname,
     processId: businessProcessId,
     processName: businessProcessName
   };
@@ -92,7 +94,7 @@ function ViewAll({ className }: viewAllProps) {
     <Link
       className={className}
       href={viewAllPath}
-      onClick={() => clickBizopsProcessViewAllActivitiesTracker(processTracking)}
+      onClick={() => bizopsViewAllActivitiesClick(trackerProps)}
     >
       {t('in-bizops:dashboards.summary.widgets.viewAll')}
     </Link>
@@ -112,7 +114,7 @@ function getList({ businessProcessId, timeConfig, selectedMetric }: GetListProps
     type: 'EXPRESSION',
     elements: [
       {
-        entity: 'SOURCE',
+        entity: NOT_APPLICABLE,
         name: 'bpm_process_definition_id',
         operator: 'EQUALS',
         value: businessProcessId,
@@ -124,15 +126,15 @@ function getList({ businessProcessId, timeConfig, selectedMetric }: GetListProps
   return getBusinessActivities({
     dataType: 'ACTIVITY',
     metrics: {
-      call_latency: {
+      callLatency: {
         metric: 'call_latency',
         aggregation: 'MEAN'
       },
-      call_count: {
+      callCount: {
         metric: 'call_count',
         aggregation: 'SUM'
       },
-      erroneous_call_rate: {
+      erroneousCallRate: {
         metric: 'erroneous_call_rate',
         aggregation: 'SUM'
       }
@@ -175,6 +177,7 @@ function Label({ item }: LabelProps) {
     t('in-bizops:dashboards.summary.pageTitle');
 
   const activityTracking = {
+    path: location.pathname,
     processId: businessProcessId,
     processName: businessProcessName,
     activityName: activityName
@@ -185,7 +188,7 @@ function Label({ item }: LabelProps) {
   setOrDeleteMatrixKey(location, businessActivityPath, 'activityId', item.businessActivity?.activityId);
 
   return (
-    <Link href={createHref(location)} onClick={() => selectBizopsProcessActivitiesTracker(activityTracking)}>
+    <Link href={createHref(location)} onClick={() => bizopsActivitySelect(activityTracking)}>
       {activityName}
     </Link>
   );

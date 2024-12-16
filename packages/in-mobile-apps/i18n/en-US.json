@@ -367,6 +367,7 @@
       "viewAllOs": "View all operating systems",
       "appVersions": "App Versions",
       "viewAllVersions": "View all versions",
+      "syntheticMonitoringLabel": "Synthetic Monitoring",
       "configurations": {
         "symbolFileConfigLabel": "Stack Trace Translation",
         "symbolFileConfig": {
@@ -399,9 +400,12 @@
         }
       },
       "crashes": {
-        "crashesLabelErrorMessage": "Error Message",
+        "crashesLabelErrorMessage": "Location",
+        "crashesLabelErrorType": "Error Type",
         "crashesLabelOccurrences": "Occurrences",
         "crashesLabelAffectedUsers": "Affected Users",
+        "crashesLabelLowestAppVersion": "Lowest App Version",
+        "crashesLabelHighestAppVersion": "Highest App Version",
         "crashesButtonAnalyzeCrashes": "Analyze Crashes",
         "crashesTableTitle": "Crashes",
         "crashInfoTitle": "Details",
@@ -453,7 +457,10 @@
       "customEventsTitle": "No custom events available",
       "customEventsDescription": "There were no custom events retrieved for the selected time range.",
       "crashesTitle": "No Crashes available",
-      "crashesDescription": "There were no crashes for the selected time range."
+      "crashesDescription": "There were no crashes for the selected time range.",
+      "syntheticMonitoring": {
+        "title": "No synthetic tests are associated with this mobile app."
+      }
     }
   },
   "appsList": {

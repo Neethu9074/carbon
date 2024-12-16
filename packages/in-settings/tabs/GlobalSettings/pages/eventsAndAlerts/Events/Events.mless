@@ -1,0 +1,55 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+@import '~in-themes/mixins.less';
+
+:local {
+  .filterDropdown {
+    margin-right: 0.5rem;
+  }
+
+  .severityDropdown {
+    width: 13.5rem;
+  }
+
+  .entityTypeDropdown {
+    width: 10rem;
+  }
+
+  .invalid {
+    color: var(--ids-color-option-red-500);
+  }
+
+  .stateDropdown {
+    margin-right: 0.5rem;
+    width: 8rem;
+  }
+
+  .fourLines {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4; /* number of lines to show */
+    line-height: 1.15rem; /* fallback */
+    max-height: 4.6rem; /* fallback, line-height x number of lines */
+    margin: 0.25rem 0;
+    word-break: break-word;
+  }
+
+  .ellipsis {
+    .ellipsis();
+  }
+
+  .deprecated {
+    /* @lib__colors__warning_dark  does not yet exist in this release (227) and will be provided
+    in our design tokens soon */
+    color: #b38c00;
+  }
+
+  .migrated {
+    color: var(--ids-color-option-green-500);
+  }
+}

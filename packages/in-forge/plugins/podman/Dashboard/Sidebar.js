@@ -6,12 +6,11 @@
 
 import React from 'react';
 
-import { Collapsible } from '@instana/components';
+import { Collapsible, PreviewPill } from '@instana/components';
 
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import PodmanPodInfo from 'in-forge/plugins/podman/PodmanPodInfo';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import Info from 'in-forge/plugins/podman/Info';
 import { t } from 'in-i18n';
 
@@ -25,7 +24,7 @@ export default function PodmanSidebar({ snapshot }) {
     <div>
       <Collapsible initiallyOpen>
         <Collapsible.Header>
-          {t('in-forge:plugins.podman.dashboard.podmanContainer')} <BetaBadge />
+          {t('in-forge:plugins.podman.dashboard.podmanContainer')} <PreviewPill />
         </Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />

@@ -6,9 +6,8 @@
 
 import React from 'react';
 
-import { Collapsible } from '@instana/components';
+import { Collapsible, DescriptionList, DescriptionItem } from '@instana/components';
 
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import getVsphereDatacenterByVm from 'in-vsphere/subscriptions/getVsphereDatacenterByVm';
 import VsphereSnapshotLink from 'in-components/Link/SnapshotLink/VsphereSnapshotLink';
 import getVsphereVmByVmHost from 'in-vsphere/subscriptions/getVsphereVmByVmHost';

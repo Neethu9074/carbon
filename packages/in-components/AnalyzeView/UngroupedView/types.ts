@@ -50,7 +50,6 @@ interface DetailViewProps extends UngroupedViewProps, CursorPaginationReturn {
   hasErrors: boolean;
   hasItems: boolean;
   ListItemContent?: (props: unknown) => JSX.Element;
-  tracker: Record<string, (e: Record<string, unknown>) => void>;
 }
 
 export interface PresenterProps extends UngroupedViewProps, CursorPaginationReturn {
@@ -78,6 +77,7 @@ export interface UngroupedViewProps<Item = any> extends StateManagementChildProp
   columnDefinitions: ColumnizedDefinition[];
   useCursorPaginationStrategy: CursorPaginationStrategy;
   getColor?: (item: unknown, i: number, groupBy: Group) => string;
+  wrapperClassNames?: string;
 }
 
 export interface UngroupedViewListProps<Item> extends Omit<UngroupedViewProps, 'Presenter'> {

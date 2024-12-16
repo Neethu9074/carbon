@@ -10,7 +10,7 @@ import getSapHanaSystemRelatedResourceLists from 'in-sap/subscriptions/getSapHan
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { getHumanReadablePluginName } from 'in-sap/Dashboards/tables/getHumanReadablePluginName';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
-import { getSpecificDashboard } from 'in-sap/Dashboards/tables/getDashboardSpecifics';
+import { GetSpecificDashboard } from 'in-sap/Dashboards/tables/getDashboardSpecifics';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { getOverallStatus } from 'in-sap/Dashboards/tables/OverallStatus';
@@ -27,7 +27,7 @@ const columnDefinitions = [
     id: 'label',
     label: t('in-sap:name'),
     getContent(item) {
-      return getSpecificDashboard(item, matrixPrefix, systemSnapshotId);
+      return <GetSpecificDashboard value={item} matrixPrefix={matrixPrefix} systemSnapshotId={systemSnapshotId} />;
     }
   },
   {

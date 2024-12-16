@@ -17,7 +17,7 @@ import AwsIcon from 'in-plg/pages/onboarding/icons/AwsIcon';
 
 import locals from './Header.mless';
 
-const IconSwitch = ({ icon, iconColor }) => {
+const IconSwitch = ({ icon }) => {
   //handling the case of custom icons for tech
   switch (icon) {
     case 'google_cloud_icon':
@@ -27,7 +27,7 @@ const IconSwitch = ({ icon, iconColor }) => {
     case 'cloud_foundry_icon':
       return <CloudFoundryIcon />;
     default:
-      return <SvgIcon type={icon} color={iconColor} />;
+      return <SvgIcon type={icon} />;
   }
 };
 
@@ -38,7 +38,7 @@ const AgentInstallBreadCrumbs = crumbs => {
     return (
       <Breadcrumb href={item.href} key={index} className={locals.breadcrumb}>
         <Stack direction="horizontal" align="center">
-          <IconSwitch icon={item.icon} iconColor={item.iconColor} />
+          <IconSwitch icon={item.icon} />
           <Typography variant={textClass}>{item.title}</Typography>
         </Stack>
       </Breadcrumb>

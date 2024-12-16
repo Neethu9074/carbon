@@ -3,27 +3,41 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useMemo, useState } from 'react';
 import { get } from 'lodash';
-import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button, Message, Link } from '@instana/components';
 
+import {
+  useLinkToAnalyze,
+  websitePath,
+  websitePathFullyQualified,
+  configurationOptionsFullyQualified
+} from 'in-websites/navigation/paths';
+import { MessageContentModernDesign } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior';
-import { useLinkToAnalyze, websitePath, websitePathFullyQualified } from 'in-websites/navigation/paths';
 import { pageId as matrixPageId, websiteId as matrixWebsiteId } from 'in-websites/navigation/matrix';
 import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import WebsiteContextIcon from 'in-websites/WebsiteDashboard/components/WebsiteContextIcon';
-import { dashboardTagFilters as tagFiltersTrackers, tabChange } from 'in-websites/tracker';
+import { dashboardTagFilters as tagFiltersTrackers } from 'in-websites/tracking/segTracker';
+import { smartAlertCarbonTableEnabled, carbonTableEnabled } from 'in-services/featureFlags';
 import { tagFiltersInDashboardUrlParameter } from 'in-websites/navigation/urlParameters';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
+import getJsAgentVersionsInfo from 'in-websites/subscriptions/getJsAgentVersionsInfo';
+import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
 import WebsiteContext from 'in-websites/WebsiteDashboard/components/WebsiteContext';
+import { toTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import CreateSmartAlert from 'in-alerting/smart-alerts/websites/CreateSmartAlert';
 import { pageTabs, websiteTabs } from 'in-websites/WebsiteDashboard/tabs/index';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
+import { alertsTabListFullyQualified } from 'in-websites/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useTagFilterManipulators } from 'in-websites/tagFiltersHoc';
+import { useWebsiteTracker } from 'in-websites/tracking/segTracker';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -35,18 +49,31 @@ import { pageNames } from 'in-services/tracking/pageNames';
 import { getTimeConfig } from 'in-stores/time/config';
 import useUrlState from 'in-hooks/useUrlState';
 import { role } from 'in-stores/user';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
-const urlStateDefinition = {
+import locals from 'in-websites/WebsiteDashboard/Warning.mless';
+
+export const urlStateDefinition = {
   bind: [{ ...tagFiltersInDashboardUrlParameter, as: 'tagFilters' }],
   replaceHistory: false,
   reducerName: 'onChange'
 };
 
+const deprecationTimeFrame = 1728000000;
+
 export default function WebsiteDashboard() {
+  const { trackCta } = useSegmentTracking();
+  const { tabChange } = useWebsiteTracker();
+  const [weaselVersion, setWeaselVersion] = useState('');
+  const [latestVersion, setLatestVersion] = useState('');
+  const [deprecatedVersion, setDeprecatedVersion] = useState([]);
+  const { createHrefToPath } = useNavigation();
+
   const location = useLocation();
   const [{ tagFilters: customTagFilters }, setUrl] = useUrlState(urlStateDefinition);
 
+  let deprecationDate = '';
+  let setDeprecated = false;
   const setUrlNew = tagFilters =>
     setUrl({
       // We have to pass down the website ID and page name tag filters to the analyze bar. This is necessary
@@ -58,7 +85,7 @@ export default function WebsiteDashboard() {
       tagFilters: tagFilters.filter(f => f.name !== 'beacon.website.id' && f.name !== 'beacon.page.name')
     });
 
-  const tagFilterManipulators = useTagFilterManipulators(tagFiltersTrackers, customTagFilters, setUrlNew);
+  const tagFilterManipulators = useTagFilterManipulators(tagFiltersTrackers(trackCta), customTagFilters, setUrlNew);
   const props = {
     websiteId: getMatrixParameter(location, websitePath, matrixWebsiteId),
     pageId: getMatrixParameter(location, websitePath, matrixPageId),
@@ -82,10 +109,47 @@ export default function WebsiteDashboard() {
     });
   }
 
+  const toTagFilterExpression = toTagFilter({
+    name: 'beacon.website.id',
+    operator: 'EQUALS',
+    entity: 'NOT_APPLICABLE',
+    type: 'TAG_FILTER',
+    value: props.websiteId
+  });
+
+  useMemo(
+    () => getBeaconGroupInfo(toTagFilterExpression, setWeaselVersion, setLatestVersion, setDeprecatedVersion),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+
+  const retainDate = deprecatedVersion?.filter(item => item.version == weaselVersion)?.map(ret => ret.retainUntil);
+
+  if (retainDate?.[0] - Date.now() <= deprecationTimeFrame) {
+    setDeprecated = true;
+    deprecationDate = new Date(retainDate?.[0]).toLocaleDateString();
+  }
+
+  const setWarn = latestVersion.localeCompare(weaselVersion);
+
   const tagFilters = (props.tagFilters = customTagFilters.concat(implicitTagFilters));
 
+  // hide the SA floating button from the alerts listing page, as the create button is now displayed alongside the table
+  const displayCarbonTable = smartAlertCarbonTableEnabled && carbonTableEnabled;
+  const hideButtonInTableView = displayCarbonTable ? location.pathname !== alertsTabListFullyQualified : true;
+
   const showAlertButton =
-    role.canConfigureWebsiteSmartAlerts && !location.pathname.includes('/websiteMonitoring/website/configuration');
+    role.canConfigureWebsiteSmartAlerts &&
+    !location.pathname.includes('/websiteMonitoring/website/configuration') &&
+    hideButtonInTableView;
+
+  const versionValues = {
+    currentVersion: weaselVersion,
+    latestVersion: latestVersion,
+    ...(setDeprecated && { deprecationDate: deprecationDate })
+  };
+
+  const messageType = setDeprecated ? 'error' : 'warning';
 
   return (
     <>
@@ -111,6 +175,12 @@ export default function WebsiteDashboard() {
         withProps={({ result }) => ({
           websiteLabel: get(result, ['data', 'label'])
         })}
+        warnMessage={
+          <>
+            {(setDeprecated || setWarn === 1) &&
+              getWarningMessage(messageType, setDeprecated, versionValues, createHrefToPath)}
+          </>
+        }
       />
       {showAlertButton && (
         <FloatingActionButtons>
@@ -201,12 +271,12 @@ function ButtonLine({ tagFilters, websiteLabel, websiteId, pageId, timeConfig, t
         timeConfig={timeConfig}
       />
       {pageId && (
-        <Button kind="primary" icon="lib_website_page_load" href={transitionsAnalyzeHref}>
+        <Button size="compact" kind="action" icon="lib_website_page_load" href={transitionsAnalyzeHref}>
           {t('in-websites:websiteDashboard.websiteDashboardButtonAnalyzePageTransitions')}
         </Button>
       )}
       {!pageId && (
-        <Button kind="primary" icon="lib_website_page_load" href={loadsAnalyzeHref}>
+        <Button size="compact" kind="action" icon="lib_website_page_load" href={loadsAnalyzeHref}>
           {t('in-websites:websiteDashboard.websiteDashboardButtonAnalyzePageLoads')}
         </Button>
       )}
@@ -217,3 +287,70 @@ function ButtonLine({ tagFilters, websiteLabel, websiteId, pageId, timeConfig, t
 function renderWebsiteContext(props) {
   return <WebsiteContext {...props} />;
 }
+
+function getWarningMessage(messageType, setDeprecated, versionValues, createHrefToPath) {
+  if (setDeprecated) {
+    return (
+      <Message className={locals.message} type={messageType} fullInlineWidth dismissible>
+        <MessageContentModernDesign>
+          <Trans
+            i18nKey={'in-websites:websiteDashboard.websiteDashboardWarnDeprecatedAgentVersion'}
+            components={{ configTab: <Link href={createHrefToPath(configurationOptionsFullyQualified)} /> }}
+            values={versionValues}
+          />
+        </MessageContentModernDesign>
+      </Message>
+    );
+  }
+
+  return (
+    <Message className={locals.message} type={messageType} fullInlineWidth dismissible>
+      <MessageContentModernDesign>
+        <Trans
+          i18nKey={'in-websites:websiteDashboard.websiteDashboardWarnOldAgentVersion'}
+          components={{ configTab: <Link href={createHrefToPath(configurationOptionsFullyQualified)} /> }}
+          values={versionValues}
+        />
+      </MessageContentModernDesign>
+    </Message>
+  );
+}
+
+const getBeaconGroupInfo = (toTagFilterExpression, setWeaselVersion, setLatestVersion, setDeprecatedVersion) => {
+  getWebsiteBeaconGroups({
+    timeConfig: {
+      windowSize: 86400000
+    },
+    pagination: {
+      retrievalSize: 1
+    },
+    tagFilterExpression: toTagFilterExpression,
+    metrics: {
+      beaconCount: {
+        metric: 'beaconCount',
+        aggregation: 'SUM'
+      }
+    },
+    type: 'PAGELOAD',
+    order: {
+      by: 'name',
+      direction: 'DESC'
+    },
+    group: {
+      groupbyTag: 'beacon.agentVersion',
+      tagType: 'STRING'
+    }
+  }).subscribe(r => {
+    setWeaselVersion(r.data?.items?.[0]?.name.replace(/"/g, ''));
+    getJsAgentVersionsInfo().subscribe(r => {
+      const response = r.data;
+      setLatestVersion(
+        response?.weasel
+          ?.filter(latest => latest.tag === 'latest')
+          .map(ver => ver.version)
+          .toString() || ''
+      );
+      setDeprecatedVersion(response?.weasel?.filter(retainTag => retainTag?.retainUntil != null));
+    });
+  });
+};

@@ -6,15 +6,14 @@
 import React, { Fragment } from 'react';
 
 import { just, combineLatest } from '@instana/observables';
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { SvgIcon, Button } from '@instana/components';
 
 import MetricChartDownloadView from 'in-components/DownloadButton/components/MetricChartDownloadView';
 import { selectedSnapshots$ } from 'in-infrastructure/tableView/stores/selectedSnapshots';
 import { metrics$, removeMetric } from 'in-infrastructure/tableView/stores/metrics';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { plugin$ } from 'in-infrastructure/tableView/stores/snapshotIds';
-import DownloadButton from 'in-components/DownloadButton';
+import DownloadButton from 'in-components/DownloadButton/DownloadButton';
 import { getTableDefinition } from 'in-sdk/snapshot';
 import { getMetricDefinition } from 'in-sdk/metrics';
 import { timeConfig$ } from 'in-stores/time/config';

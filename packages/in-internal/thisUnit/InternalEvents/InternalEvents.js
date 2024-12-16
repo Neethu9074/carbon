@@ -5,30 +5,28 @@
 
 import React, { Fragment } from 'react';
 
-import { Link } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Link, Button } from '@instana/components';
 
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
+import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import getInternalEvents from 'in-subscription/getInternalEvents';
+import useCursorPagination from 'in-hooks/useCursorPagination';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import { formatDateTime } from 'in-services/formatters/date';
 import ExpandableCard from 'in-components/ExpandableCard';
 import { Col, Row } from 'in-components/layout/Grid';
-import cursorPaginated from 'in-hoc/cursorPaginated';
-import { timeConfig$ } from 'in-stores/time/config';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
-import connect from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 import locals from './InternalEvents.mless';
 
-export default connect({ timeConfig: timeConfig$ })(
-  cursorPaginated({
-    getResettingProps: () => ['timeConfig'],
-    get: ({ timeConfig, cursor }) => {
-      return getInternalEvents({
+export default function InternalEventsList() {
+  const timeConfig = useTimeConfig();
+  const { items, loadMore, canLoadMore } = useCursorPagination(
+    ({ cursor }) =>
+      getInternalEvents({
         timeConfig,
         pagination: {
           cursor,
@@ -38,13 +36,9 @@ export default connect({ timeConfig: timeConfig$ })(
           by: 'start',
           direction: 'DESC'
         }
-      });
-    }
-  })(InternalEventsList)
-);
-
-function InternalEventsList(props) {
-  const { items, loadMore, canLoadMore, timeConfig } = props;
+      }),
+    [timeConfig]
+  );
 
   if (!items) {
     return (
@@ -93,6 +87,11 @@ function Event({ event, timeConfig }) {
       <span className={locals.title}>{event.type + ' - ' + event.state}</span>
     </>
   );
+  const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
+  const linkHref = getEventsViewFilteredBy({
+    query: '',
+    eventId: event.id
+  });
 
   return (
     <ExpandableCard title={cardPreview} openByDefault={false}>
@@ -101,13 +100,7 @@ function Event({ event, timeConfig }) {
           <span className={locals.title}>{t('in-internal:monitoringUnit.thisUnit.internalEvents.issueLink')}</span>
         </Col>
         <Col>
-          <Link
-            className={locals.title}
-            href={getEventsViewFilteredBy({
-              query: '',
-              eventId: event.id
-            })}
-          >
+          <Link className={locals.title} href={linkHref}>
             {event.type + ' - ' + event.state}
           </Link>
         </Col>

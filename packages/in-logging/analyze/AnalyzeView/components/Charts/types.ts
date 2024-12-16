@@ -13,8 +13,10 @@ export interface LogsDistributionChartSectionProps extends UngroupedViewProps {
   hideRenderer?: boolean;
   showHeader?: boolean;
   onLegendItemToggle?: (chartConfig: ChartConfig, label: string) => void;
+  isDashboard?: boolean;
 }
 
 export interface ChartProps extends UngroupedViewProps {
   metric: ChartedMetric;
+  rightHeaderContent?: any;
 }

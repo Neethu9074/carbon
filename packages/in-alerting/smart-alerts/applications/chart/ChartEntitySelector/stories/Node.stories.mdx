@@ -1,0 +1,81 @@
+[//]: # (IBM Confidential)
+
+[//]: # (PID 5737-N85, 5900-AG5)
+
+[//]: # (Copyright IBM Corp. 2022)
+
+import { Meta, Preview, Story } from '@storybook/addon-docs';
+
+import EntityItemNode from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/EntityItemNode';
+import {
+  leafNode,
+  nodeWithKids
+} from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/stories/treeSelectionData';
+import Node from 'in-components/SelectorOverlay/Node';
+
+<Meta title='Node'/>
+
+# Auto-Loading Nodes: On-demand loading children
+<Preview>
+  <Stack>
+    <EntityItemNode node={nodeWithKids} />
+    <EntityItemNode node={leafNode} asSearchResult withIcons />
+  </Stack>
+</Preview>
+
+## Nodes, with children
+### single row
+  <Story name="auto loading children, single row">
+    <EntityItemNode node={nodeWithKids} withIcons />
+  </Story>
+
+  <EntityItemNode node={nodeWithKids} />
+
+### search Result group
+
+  <EntityItemNode node={nodeWithKids} asSearchResult withIcons />
+  <EntityItemNode node={nodeWithKids} asSearchResult />
+
+## Leaves
+### single row
+
+  <Story name="auto loading leaf, single row">
+    <EntityItemNode node={leafNode} withIcons />
+  </Story>
+
+  <EntityItemNode node={leafNode} />
+
+### List group
+
+  <EntityItemNode node={leafNode} asListGroup withIcons />
+  <EntityItemNode node={leafNode} asListGroup  />
+
+# Regular Nodes, with children
+### single row item
+
+  <Story name="static node with children, single row">
+    <Node node={nodeWithKids} asListGroup={false} withIcons />
+  </Story>
+
+  <Node node={nodeWithKids} asListGroup={false} />
+
+### list group
+
+  <Node node={nodeWithKids} asListGroup withIcons />
+  <Node node={nodeWithKids} asListGroup  />
+
+## Leaves
+### single row
+
+  <Story name="static node, leaf, single row">
+    <Node node={leafNode} asListGroup={false} withIcons />
+  </Story>
+
+  <Node node={leafNode} asListGroup={false} />
+
+### List group
+
+  <Node node={leafNode} asListGroup withIcons />
+  <Node node={leafNode} asListGroup  />
+
+  <Props of={Node} />

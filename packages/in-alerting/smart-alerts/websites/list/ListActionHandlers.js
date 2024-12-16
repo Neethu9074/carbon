@@ -9,7 +9,7 @@ import React from 'react';
 import { handleDelete, handleToggleEnabled } from 'in-alerting/smart-alerts/components/list/ListActionHandlers';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
-import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import { duplicateAlertConfig } from 'in-alerting/smart-alerts/websites/details/AlertDetails';
 import { baseUrl } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 
@@ -37,7 +37,8 @@ function openSmartAlertDialog(config, isCopy = false) {
 
 export const actionHandlers = {
   handleClone: config => handleClone(config),
-  handleDelete: (id, setIsSaving, configName) => handleDelete(id, setIsSaving, configName, baseUrl.WEBSITE),
+  handleDelete: (id, setIsSaving, configName, trackCta) =>
+    handleDelete(id, setIsSaving, configName, baseUrl.WEBSITE, trackCta),
   handleEdit: config => handleEdit(config),
   handleToggleEnabled: (enabled, id, setIsSaving) => handleToggleEnabled(enabled, id, setIsSaving, baseUrl.WEBSITE)
 };

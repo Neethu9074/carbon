@@ -30,10 +30,14 @@ export default connectTo(
       )
     };
   },
-  function EndedMarker({ event, isOpen }) {
+  function EndedMarker({ event, isOpen, justText }) {
     const timestamp = event.get('end');
     if (!timestamp || isOpen || isOpen == null) {
       return null;
+    }
+
+    if (justText) {
+      return `${formatDate(timestamp)} ${formatTime(timestamp)}`;
     }
 
     return (

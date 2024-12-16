@@ -13,7 +13,7 @@ import { aggregationLabels } from 'in-stores/metric/beeInstant';
 
 export interface Node {
   metric: string;
-  parentType: string;
+  levelType: string;
   allowedCrossSeriesAggregations: string[];
   label: string;
   parentLabels: string[];
@@ -29,11 +29,11 @@ type OnChangeForm = (path: string[], form: (form: MapForm<any>) => MapForm<any>)
 
 export function formCallbacks({ onChange, metricDefaultFormatter, isCrossSeriesAggregationRestricted }: BindProps) {
   return {
-    onMetricChange({ metric, parentType, allowedCrossSeriesAggregations, label, parentLabels }: Node) {
+    onMetricChange({ metric, levelType, allowedCrossSeriesAggregations, label, parentLabels }: Node) {
       onChange([], form => {
-        var f = form
+        let f = form
           .updateIn(['metric'], field => field.setValue(metric).setTouched(true))
-          .updateIn(['type'], field => field.setValue(parentType).setTouched(true))
+          .updateIn(['type'], field => field.setValue(levelType).setTouched(true))
           .updateIn(['metricPath'], field => field.setValue(parentLabels).setTouched(true))
           .updateIn(['aggregation'], field => field.setValue(Object.keys(aggregationLabels)[0]).setTouched(true))
           .updateIn(['crossSeriesAggregation'], field => {
@@ -62,8 +62,11 @@ export function formCallbacks({ onChange, metricDefaultFormatter, isCrossSeriesA
         if (toPlain) {
           form = form
             .updateIn(['metric'], field => field.setValue(undefined).setTouched(false))
-            .updateIn(['metricLabel'], field => field.setValue(undefined).setTouched(false))
             .updateIn(['metricPath'], field => field.setValue(undefined).setTouched(false));
+
+          if (form.containsKey('metricLabel')) {
+            form = form.updateIn(['metricLabel'], field => field.setValue(undefined).setTouched(false));
+          }
         } else if (toRegex) {
           const regex = escapeRegExp(form.get('metric').value);
           form = form
@@ -118,12 +121,16 @@ export function formCallbacks({ onChange, metricDefaultFormatter, isCrossSeriesA
             if (isCrossSeriesAggregationRestricted) {
               return field;
             }
-            if (aggregation === 'PER_SECOND') {
+            if (aggregation === 'PER_SECOND' || aggregation === 'INCREASE') {
               return field.setValue('SUM').setTouched(true);
             }
             return field.setValue(aggregation).setTouched(true);
           })
       );
+    },
+
+    setUnit(unit: string) {
+      onChange([], form => form.updateIn(['unit'], field => field.setValue(unit).setTouched(true)));
     },
 
     setIsSumCrossSeriesAggregation(isSumCrossSeriesAggregation: boolean) {

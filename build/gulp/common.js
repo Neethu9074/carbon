@@ -11,7 +11,7 @@
 var fs = require('fs');
 var gulp = require('gulp');
 var del = require('del');
-var mkdirp = require('mkdirp');
+var { mkdirp } = require('mkdirp');
 
 var buildUtil = require('./util');
 var paths = require('./paths');
@@ -22,8 +22,8 @@ exports.copyFavicon = copyFavicon;
 exports.copyAppleTouchIcon = copyAppleTouchIcon;
 exports.writeBuildInfo = writeBuildInfo;
 
-function clean() {
-  return del(paths.targetDir);
+async function clean() {
+  return await del(paths.targetDir);
 }
 
 function ensureTargetDirStructureExists(cb) {

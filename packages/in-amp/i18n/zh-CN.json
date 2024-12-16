@@ -2,6 +2,7 @@
   "components": {
     "accountSettings": {
       "accountSettings": "帐户设置",
+      "unknownDomain": "未知领域",
       "billingAddress": "帐单地址",
       "country": "国家或地区",
       "state": "省/直辖市/自治区",
@@ -15,10 +16,17 @@
       "name": "名称",
       "tenant": "租户",
       "type": "类型",
-      "licenseStartData": "许可证开始数据",
-      "licenseEndData": "许可证结束数据",
+      "licenseStartData": "许可证开始日期",
+      "licenseEndData": "许可证结束日期",
       "licensedApmHosts": "获得许可的 APM 主机",
       "licensedIqmHosts": "获得许可的 IQM 主机"
+    },
+    "learnMore": {
+      "title": "了解更多关于 Instana 的公平使用政策",
+      "leftTitle": "什么是公平使用政策？",
+      "rightTitle": "如何购买更多数据？",
+      "leftBody": "Instana 的公平使用政策列出了与您的许可证类型相关的每月数据限额。 要了解更多信息并探索资源使用指南，请查看<fupDocLink>公平使用政策文档</fupDocLink>。",
+      "rightBody": "如果您预计需要持续使用更多数据，请联系您的 Instana 销售代表，探讨附加选项。 <salesLink>在此</salesLink>与销售人员联系。"
     },
     "ampInformationModifier": {
       "allPaidUnitsAggregated": "所有付费单元（汇总）",
@@ -26,6 +34,12 @@
     },
     "noLicenseAvailableMessage": {
       "thereHasBeenNoActivePaidLicenseInThePast30Days": "在过去 30 天内没有活动的付费许可证。"
+    },
+    "fairUsePolicyMessage": {
+      "title": "此账户受“公平使用策略”的约束。 请查看下面图表中的数据使用情况。"
+    },
+    "fairUsePolicyNotActive": {
+      "title": "“公平使用策略”未激活。"
     },
     "restrictedUsage": {
       "accountUsage": "帐户使用情况"
@@ -36,10 +50,34 @@
       "max": "最大值",
       "average": "平均值"
     },
+    "dataIngestTable": {
+      "consumptionOverview": "使用概览",
+      "row": "行",
+      "unit": "单元",
+      "calculation": "计算",
+      "entitledNumberOfMVS": "获得授权的 MVS 数量",
+      "actualAverage": "配置的 MVS 实际平均数量",
+      "onDemandNumber": "MVS 按需使用次数",
+      "dataIngestFairUseEntitlement": "每个 MVS 的数据采集公平使用权利",
+      "totalDataIngestFairUseEntitlement": "数据采集公平使用权利总数",
+      "dataIngestAddOnEntitlement": "数据采集附加权利",
+      "totalAmountPurchased": "通过额外数据采集附加权利购买的总金额",
+      "dataIngestEntitlementFromOnDemand": "来自按需 MVS 的数据采集公平使用权利",
+      "totalDataIngestEntitlement": "数据采集权利总数",
+      "actualDataIngest": "实际数据采集",
+      "onDemandDataIngest": "按需数据采集",
+      "noData": "没有数据"
+    },
     "timePresets": {
       "last7Days": "过去 7 天",
-      "last15Days": "最近 15 天",
-      "last365Days": "过去 365 天"
+      "last30Days": "过去 30 天",
+      "last365Days": "过去 365 天",
+      "thisMonth": "本月",
+      "lastMonth": "上个月"
+    },
+    "presentationPresets": {
+      "distinct": "不同值",
+      "cumulative": "累计值"
     },
     "usages": {
       "allPaidUnitsAggregated": "所有付费单元（汇总）",
@@ -49,16 +87,31 @@
       "queuedLicenses": "已排队的许可证"
     },
     "usageCharts": {
-      "apmUsage": "APM 使用情况",
+      "standard": "标准",
       "apmHosts": "APM 主机",
       "purchased": "已购买",
-      "infrastructureUsage": "基础架构使用情况",
+      "essentials": "Essentials",
       "iqmHosts": "IQM 主机",
       "syntheticPops": "合成受管 PoPs",
-      "resourceUnits": "资源单元数",
-      "consumedUnits": "耗用的单元数",
+      "logging": "上下文中的日志",
+      "resourceUnits": "有权利的资源单位",
+      "consumedUnits": "消耗的资源单位",
+      "entitledData": "授权数据",
+      "consumedData": "使用的数据",
+      "infrastructure": "基础架构",
+      "synthetics": "合成",
+      "traces": "跟踪",
+      "eumMobile": "EUM Mobile",
+      "eumWebsite": "EUM 网站",
       "addons": "附加组件",
-      "helperText": "每种类型的操作所使用的资源单元数。 对于简单测试，将使用系数 0.025 计算单位，对于 API 测试，将使用系数 0.042 计算单位，对于浏览器测试，将使用系数 1.000 计算单位。"
+      "trendLine": "趋势线",
+      "dataUsage": "数据使用量",
+      "dataUsageHelperText": "在所选时间范围内，通过代理程序发送的字节数（按类别划分）。",
+      "syntheticsHelperText": "每种类型的操作所使用的资源单元数。 对于简单测试，将使用系数 0.025 计算单位，对于 API 测试，将使用系数 0.042 计算单位，对于浏览器测试，将使用系数 1.000 计算单位。",
+      "loggingHelperText": {
+        "saas": "此图表显示日志记录附加组件在所选保留期内使用的数据量（以字节为单位）。",
+        "onprem": "此图表显示日志记录附加组件在所选保留期内使用的数据量（以字节为单位）。"
+      }
     },
     "activationAdoption": {
       "activationAdoption": "激活并采用",
@@ -86,7 +139,7 @@
         "numOfApplicationPerspectives": "AP 数",
         "numOfReportingApplicationPerspectives": "报告 AP 数",
         "numOfWebsites": "Web 站点数",
-        "numOfAlertChannels": "警报通道数",
+        "numOfAlertChannels": "警报频道数",
         "numOfAlerts": "警报数",
         "numOfActiveAlerts": "活动警报数",
         "numOfReleases": "发行版标记数/发行版数",

@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { DescriptionList, DescriptionItem } from '@instana/components';
+
 import createNamespaceForDeploymentConfigSubscription from 'in-subscription/namespaceForDeploymentConfig';
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import createClusterForPodSubscription from 'in-subscription/clusterForPod';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import SnapshotLink from 'in-components/Link/SnapshotLink';

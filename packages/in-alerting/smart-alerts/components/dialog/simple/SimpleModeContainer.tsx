@@ -5,10 +5,11 @@
 
 import React from 'react';
 
+import { StepProgressBar } from '@instana/components';
+
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import { StepConfigs } from 'in-components/BlueprintFormMultistep/StepConfigs';
 import MessageStack from 'in-components/MessageStack/MessageStack';
-import StepProgressBar from 'in-components/StepProgressBar';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/simple/SimpleModeContainer.mless';
 
@@ -30,9 +31,11 @@ export default function SimpleModeContainer(props: SimpleModeContainerProps) {
             <div className={locals.scrollWrapper} key={idx}>
               <StepProgressBar stepTitles={mapTitles(stepConfigs)} step={step} />
               <div className={locals.minStableHeight}>
-                {/* need to wrap this with an additional element, because
+                {
+                  /* need to wrap this with an additional element, because
                  a shared component used here is using 100% height of the parent. */
-                renderer(props)}
+                  renderer(props)
+                }
               </div>
             </div>
           )

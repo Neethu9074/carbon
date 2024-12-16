@@ -4,75 +4,67 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
 
-import { Typography } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { StackItem, Typography } from '@instana/components';
 
-import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import useMergedServiceEndpointCustomFilters from 'in-service-levels/hooks/useMergedServiceEndpointCustomFilters';
+import { ClearableTagFilterQueryBuilder } from 'in-service-levels/components/Shared/TagFilterQueryBuilder';
+import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { useApplicationQueryBuilder } from 'in-service-levels/hooks/useApplicationQueryBuilder';
-import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
 
-interface ApplicationTagFilterBuilderContentProps {
-  form: SloForm;
-  onChange: SloFormOnChange;
-  readOnly?: boolean;
-  width?: string;
-}
-
-export default function ApplicationTagFilterBuilderContent({
-  form,
-  onChange,
-  readOnly = false,
-  width
-}: ApplicationTagFilterBuilderContentProps) {
-  const applicationIdField = form.getIn(['entity', 'entityId']);
+export default function ApplicationTagFilterBuilderContent() {
+  const { form, mode, onChange } = useContext(SloFormContext);
+  const applicationIdField = form.getIn(['entity', 'entityIds']);
   const boundaryScopeField = form.getIn(['scope', 'boundaryScope']);
+  const service = form.getIn(['scope', 'serviceId']);
+  const endpoint = form.getIn(['scope', 'endpointId']);
   const tagFilterExpressionField = form.getIn(['scope', 'tagFilterExpression']);
 
+  const applicationId = applicationIdField.value[0];
+  const tagFilterExpression = tagFilterExpressionField.value ?? [];
+  const isCustomTag = tagFilterExpression.length > 0;
   const { QueryBuilder } = useApplicationQueryBuilder({
     boundaryScope: boundaryScopeField.value,
-    applicationId: applicationIdField.value
+    applicationId: applicationId
   });
+  const custom = useMergedServiceEndpointCustomFilters(form);
 
-  const shouldRenderExplanationText = readOnly && tagFilterExpressionField.value.length === 0;
-  const shouldRenderClearButton = tagFilterExpressionField.value.length !== 0 && !readOnly;
+  const isFormInEditMode = mode === 'EDIT';
+  // We need to show the config in case a customer wants to edit an existing SLO, that already has been created by using the old UI and has defined a specific service or endpoint and also some custom tag filters.
+  const requiresMergedFilters = (isFormInEditMode && isCustomTag && Boolean(service.value)) || Boolean(endpoint.value);
+  const shouldRenderExplanationText = isFormInEditMode && tagFilterExpression.length === 0;
 
   return (
-    <Section
-      actions={
-        shouldRenderClearButton && (
-          <Button
-            icon="lib_openclose_cancel"
-            kind="subtle"
-            onClick={() =>
-              onChange(['scope', 'tagFilterExpression'], () => tagFilterExpressionField.setValue([]).setTouched(true))
-            }
-            size="compact"
-          >
-            {t('in-service-levels:general.clear')}
-          </Button>
-        )
-      }
-      title={t('in-service-levels:createSloDialog.customFilter')}
-      titleWidth={width}
-    >
-      {shouldRenderExplanationText ? (
+    <StackItem>
+      {shouldRenderExplanationText && (
         <Typography variant="body-regular">
           {t('in-service-levels:components.tagFilterBuilder.filterAbscenseExplanation')}
         </Typography>
-      ) : (
+      )}
+      {!shouldRenderExplanationText && !isFormInEditMode && (
+        <ClearableTagFilterQueryBuilder
+          applicationId={applicationId}
+          onChange={newFilterExpression =>
+            onChange(['scope', 'tagFilterExpression'], () =>
+              tagFilterExpressionField.setValue(newFilterExpression).setTouched(true)
+            )
+          }
+          value={requiresMergedFilters ? custom : tagFilterExpression}
+        />
+      )}
+      {!shouldRenderExplanationText && isFormInEditMode && (
         <QueryBuilder
           onChange={newFilterExpression =>
             onChange(['scope', 'tagFilterExpression'], () =>
               tagFilterExpressionField.setValue(newFilterExpression).setTouched(true)
             )
           }
-          readOnly={readOnly}
-          value={tagFilterExpressionField.value}
+          readOnly={isFormInEditMode}
+          value={requiresMergedFilters ? custom : tagFilterExpression}
         />
       )}
-    </Section>
+    </StackItem>
   );
 }

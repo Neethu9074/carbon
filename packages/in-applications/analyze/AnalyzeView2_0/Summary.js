@@ -4,12 +4,12 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
+import classNames from 'classnames';
 
-import { Card, Link, LoadingSkeleton, Message, Stack } from '@instana/components';
+import { Card, Link, LoadingSkeleton, Message, Stack, Button } from '@instana/components';
 import { create, just } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/legacy';
 
 import { useLoadCallTree } from 'in-applications/analyze/components/TraceDetails/components/CallTree/hooks/useLoadCallTree';
 import ColorCodingToggleButtons from 'in-applications/analyze/components/TraceDetails/components/ColorCodingToggleButtons';
@@ -26,20 +26,20 @@ import { FAKE_ROOT_CALL_ID } from '../components/TraceDetails/components/CallTre
 import CallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree';
 import ContentWrapper from 'in-components/LocationAwareTabView/components/ContentWrapper';
 import LogsInCallsContext from 'in-logging/components/TraceDetails/LogsInCallsContext';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import RestrictedAccessMessage from 'in-components/rbac/RestrictedAccessMessage';
 import useLogsInCalls from 'in-logging/components/TraceDetails/useLogsInCalls';
 import { countOtelLogs } from 'in-logging/components/TraceDetails/utils';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import { refreshWindowSizeDependingState } from 'in-services/browser';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import Logs from 'in-logging/components/TraceDetails/components/Logs';
-import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { latency, number } from 'in-services/formatters/number';
 import { getTraceIdTagFilter } from 'in-logging/queryBuilder';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { loggingEnabled } from 'in-services/featureFlags';
 import ErrorBoundary from 'in-components/ErrorBoundary';
-import { emptyObject } from 'in-services/fixedObjects';
 import { scrollIntoView } from 'in-services/util/dom';
 import { Col, Row } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
@@ -57,10 +57,15 @@ export default function Summary({
   traceId,
   setCallId,
   colorCodeType,
-  setColorCodeMechanism,
-  tracker
+  setColorCodeMechanism
 }) {
   const isInternalVisible = useObservable(isInternalVisible$, []) || false;
+  const { trackJumpToLogs } = useAnalyzeTracker();
+  const {
+    trackTraceViewCallTimelineDetailClicked,
+    trackTraceViewCallTreeDetailClicked,
+    trackTraceViewTraceServiceEndpointListClicked
+  } = useApplicationTracker();
 
   const [showLargeTrace, setShowLargeTrace] = useState(false);
   const largeTrace = isLargeTrace(trace);
@@ -84,7 +89,6 @@ export default function Summary({
 
   const nonFakeRootCallId = callTreeResult.data?.id !== FAKE_ROOT_CALL_ID ? callTreeResult.data?.id : undefined;
   const effectiveCallId = callId === 'ROOT' ? nonFakeRootCallId : callId;
-
   // if a call is selected, we will create a fade out effect by emitting 'null' as a new selected call with 1s delay
   const selectedCallFadeOutEffectTimeoutIdRef = useRef(null);
   useEffect(() => {
@@ -109,9 +113,11 @@ export default function Summary({
     };
   }, [traceId]);
 
-  const { logsContextValue, timeConfigForLogs } = useLogsInCalls({ traceId, trace });
+  const numLogsToFetch = 5;
 
+  const { logsContextValue } = useLogsInCalls({ traceId, trace, numLogsToFetch });
   const { error: otelErrorCount, warn: otelWarnCount } = countOtelLogs(logsContextValue.items);
+  const isFiveLogs = logsContextValue.items.length === 5;
 
   const totalWarnLogCount = trace.totalWarnLogCount + otelWarnCount;
   const totalErrorLogCount = trace.totalErrorLogCount + otelErrorCount;
@@ -121,12 +127,12 @@ export default function Summary({
 
   const logsHref = useLinkToLogs({
     tagFilterExpression: [getTraceIdTagFilter(traceId)],
-    timeConfig: timeConfigForLogs
+    timeConfig: logsContextValue.timeConfigForLogs
   });
 
   const onCallClicked = call => {
     setCallId(call.id);
-    tracker.traceViewCallTimelineDetailClickedTracker(emptyObject);
+    trackTraceViewCallTimelineDetailClicked();
   };
 
   const hasWebsiteCorrelationId = trace.eumCorrelationId != null && trace.eumCorrelationType === 'web';
@@ -316,7 +322,7 @@ export default function Summary({
                       domElement.focus();
                       scrollIntoView(domElement);
                     }
-                    tracker.traceViewCallTreeDetailClickedTracker(emptyObject);
+                    trackTraceViewCallTreeDetailClicked();
                   }}
                   onCallClicked={onCallClicked}
                   openedCallId={effectiveCallId}
@@ -345,12 +351,20 @@ export default function Summary({
                         kind="secondary"
                         icon="lib_analyze"
                         href={logsHref}
-                        onClick={() => jumpToLogs({ source: 'analyze logs' })}
+                        onClick={() => trackJumpToLogs({ source: 'analyze logs' })}
                       >
                         {t('in-analyze:traceDetail.tabs.summary.analyzeLogs')}
                       </Button>
                     }
+                    className={classNames({
+                      [locals.logCard]: isFiveLogs
+                    })}
                   >
+                    {isFiveLogs && (
+                      <span className={locals.logsCardDescription}>
+                        {t('in-analyze:traceDetail.tabs.summary.logsCardDescription')}
+                      </span>
+                    )}
                     <Logs setCallId={setCallId} />
                   </Card>
                 ) : (
@@ -370,9 +384,7 @@ export default function Summary({
                 getColor={getColor}
                 onListItemMouseEnter={service => hoveredServiceEndpoint$.emit(service)}
                 onListItemMouseLeave={() => hoveredServiceEndpoint$.emit(null)}
-                onClickTracker={e => {
-                  tracker.traceViewTraceServiceEndpointListClickedTracker(e);
-                }}
+                onClickTracker={e => trackTraceViewTraceServiceEndpointListClicked(e)}
               />
             </Card>
           </Col>

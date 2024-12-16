@@ -45,13 +45,14 @@ export default function TabSwitch<TabData, TabProps extends {} = {}>({
   if (result && hasErrors) {
     return renderErrors ? renderErrors(result.errors) : <DashboardErroneousResultPresenter errors={result.errors} />;
   } else if (isLoading) {
-    return renderLoading ? renderLoading() : <DefaultLoadingDashboard lightMode />;
+    return renderLoading ? renderLoading() : <DefaultLoadingDashboard />;
   }
 
   return (
     <Switch>
       {tabs.map(tab => (
         <Route key={tab.path} path={tab.path}>
+          <h2 className="cds--assistive-text">{tab.label}</h2>
           <ViewWrapper<TabData, TabProps>
             tab={tab}
             data={result ? result.data : null}

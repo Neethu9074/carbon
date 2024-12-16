@@ -5,7 +5,7 @@
 
 import { isOverlappedWith } from 'in-applications/analyze/components/TraceDetails/components/IcicleChart/TimeRangeHelper';
 import { getStart, getEnd } from 'in-applications/analyze/components/TraceDetails/components/callStartAndEndTime';
-import { isFakeRootCall } from 'in-applications/analyze/components/TraceDetails/components/callHelper';
+import { isFakeRootCall, isLog } from 'in-applications/analyze/components/TraceDetails/components/callHelper';
 import { deepFreeze } from 'in-services/util/object';
 
 export function applyLayout(rootCall, logs = []) {
@@ -40,7 +40,13 @@ function positionCall(callFrames, call, parentCall, depth, traceStart, totalDura
   } else {
     // If duration === 0 and two spans has the same start, they will overlap in the chart. We avoid this by setting the duration to 1 if that is the case
     const end = start + (duration === 0 ? 1 : duration);
-    depthWithoutOverlapping = findDepthWithoutAnyOverlapping(depth, [start, end], occupiedTimeRangesByDepth);
+
+    depthWithoutOverlapping = findDepthWithoutAnyOverlapping(
+      depth,
+      [start, end],
+      occupiedTimeRangesByDepth,
+      isLog(call)
+    );
 
     const callFrame = {
       ...props,
@@ -73,7 +79,7 @@ function positionCall(callFrames, call, parentCall, depth, traceStart, totalDura
   }
 }
 
-function findDepthWithoutAnyOverlapping(minDepth, timeRange, occupiedTimeRangesByDepth) {
+function findDepthWithoutAnyOverlapping(minDepth, timeRange, occupiedTimeRangesByDepth, isLog) {
   const start = timeRange[0];
   const end = timeRange[1];
 
@@ -89,7 +95,11 @@ function findDepthWithoutAnyOverlapping(minDepth, timeRange, occupiedTimeRangesB
   if (!occupiedTimeRangesByDepth[depth]) {
     occupiedTimeRangesByDepth[depth] = [];
   }
-  occupiedTimeRangesByDepth[depth].push([start, end]);
+
+  // Logs should not occupy space in the time axis as that causes unnecessary gaps in the layout
+  if (!isLog) {
+    occupiedTimeRangesByDepth[depth].push([start, end]);
+  }
 
   return depth;
 }

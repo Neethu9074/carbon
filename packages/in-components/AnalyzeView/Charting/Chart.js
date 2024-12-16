@@ -47,7 +47,9 @@ export default function Chart({
 
   const { aggregationId, metricId, rendererId, crossSeriesAggregation } = chartedMetrics[0];
 
-  const metricDescription = chartableMetricCatalog.find(m => m.metricId === metricId);
+  const metricDescription = chartableMetricCatalog.find(
+    m => m.metricId === metricId || (m.customMetric && metricId.startsWith(m.metricId))
+  );
   if (!metricDescription) {
     return null;
   }

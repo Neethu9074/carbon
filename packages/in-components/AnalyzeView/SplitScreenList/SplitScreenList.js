@@ -8,11 +8,10 @@ import { findIndex, isEqual } from 'lodash';
 import classNames from 'classnames';
 import rpt from 'prop-types';
 
+import { IconButton, LiLoadMore, Ul, Li } from '@instana/components';
 import { generateStableHash } from '@instana/utils';
-import { LiLoadMore } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
-import { SvgIcon } from '@instana/components';
-import { Ul, Li } from '@instana/components';
 
 //TODO delete detailViewProps after migrating this to TS since PropTypes won't be needed anymore
 import { detailViewProps } from 'in-components/AnalyzeView/UngroupedView/detailViewProps';
@@ -24,7 +23,6 @@ import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import ResultHeader from 'in-components/AnalyzeView/ResultHeader';
-import { emptyObject } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip';
 import { minutes } from 'in-services/time';
 import Sticky from 'in-components/Sticky';
@@ -37,9 +35,7 @@ export default function SplitScreenList(props) {
 
   function handleExpansionWithTracking(event) {
     setExpanded(event);
-    if (props.tracker?.collapseOrExpandTraceDetailSidebar) {
-      props.tracker.collapseOrExpandTraceDetailSidebar(emptyObject);
-    }
+    props.tracker?.trackCollapseOrExpandTraceDetailSidebar?.();
   }
 
   return (
@@ -99,14 +95,15 @@ function ExpandedList(props) {
             <div className={locals.actions}>
               {hasPrev && (
                 <Tooltip content={t('in-components:analyze.splitScreen.sidebarActions.prev')}>
-                  <SvgIcon
-                    className={locals.prev}
+                  <IconButton
+                    color={themes.default.ids.color.option.neutral[700]}
+                    kind="action"
                     type="lib_arrow_drop_left"
                     aria-label={t('in-components:analyze.splitScreen.sidebarActions.prev')}
-                    size="s"
                     id={leftArrowId}
-                    onClick={() =>
+                    onClick={e =>
                       openItem(
+                        e,
                         itemIndex - 1,
                         items,
                         canLoadMore,
@@ -124,14 +121,15 @@ function ExpandedList(props) {
 
               {hasNext && (
                 <Tooltip content={t('in-components:analyze.splitScreen.sidebarActions.next')}>
-                  <SvgIcon
-                    className={locals.next}
+                  <IconButton
+                    color={themes.default.ids.color.option.neutral[700]}
+                    kind="action"
                     type="lib_arrow_drop_right"
                     aria-label={t('in-components:analyze.splitScreen.sidebarActions.next')}
-                    size="s"
                     id={rightArrowId}
-                    onClick={() =>
+                    onClick={e =>
                       openItem(
+                        e,
                         itemIndex + 1,
                         items,
                         canLoadMore,
@@ -148,11 +146,11 @@ function ExpandedList(props) {
               )}
 
               <Tooltip content={t('in-components:analyzeView.splitScreenListTooltipCloseSidebar')}>
-                <SvgIcon
+                <IconButton
+                  color={themes.default.ids.color.option.neutral[700]}
+                  kind="action"
                   type="lib_sidebar_to_left"
                   aria-label={t('in-components:analyzeView.splitScreenListTooltipCloseSidebar')}
-                  size="s"
-                  className={locals.toggle}
                   onClick={() => setExpanded(false)}
                 />
               </Tooltip>
@@ -199,12 +197,12 @@ function CollapsedList({ setExpanded }) {
   return (
     <div className={locals.collapsed}>
       <div className={locals.collapsedToggleWrapper}>
-        <Tooltip content={t('in-components:analyzeView.splitScreenListTooltipOpenSidebar')}>
-          <SvgIcon
+        <Tooltip content={t('in-components:analyzeView.splitScreenListTooltipOpenSidebar')} align={'rightMiddle'}>
+          <IconButton
+            color={themes.default.ids.color.option.neutral[700]}
+            kind="action"
             type="lib_sidebar_to_right"
             aria-label={t('in-components:analyzeView.splitScreenListTooltipOpenSidebar')}
-            size="s"
-            className={locals.toggle}
             onClick={() => setExpanded(true)}
           />
         </Tooltip>
@@ -213,7 +211,18 @@ function CollapsedList({ setExpanded }) {
   );
 }
 
-function openItem(itemIndex, items, canLoadMore, loadMore, isLoading, setDetailId, getId, getDetailData, onOpenItem) {
+function openItem(
+  e,
+  itemIndex,
+  items,
+  canLoadMore,
+  loadMore,
+  isLoading,
+  setDetailId,
+  getId,
+  getDetailData,
+  onOpenItem
+) {
   if (itemIndex + 10 >= items.length && canLoadMore && !isLoading) {
     loadMore();
   }
@@ -221,6 +230,10 @@ function openItem(itemIndex, items, canLoadMore, loadMore, isLoading, setDetailI
   const item = items[itemIndex];
   if (!item) {
     return;
+  }
+
+  if (e.target.id) {
+    document.getElementById(e.target.id).focus();
   }
 
   const nextItem = items[itemIndex + 1];

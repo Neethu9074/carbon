@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { CarbonMenuItem, SvgIcon } from '@instana/components';
 
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { toParams } from 'in-stores/navigation/routing/stringifier';
@@ -19,15 +19,13 @@ export default function HumioButton(props) {
   }
 
   return (
-    <Button
-      className={props.className}
-      kind="secondary"
-      icon="lib_humio"
-      target="_blank"
-      href={constructHumioLink(integration, props)}
-    >
-      Humio
-    </Button>
+    <CarbonMenuItem
+      renderIcon={() => {
+        return <SvgIcon type="lib_humio" />;
+      }}
+      label="Humio"
+      onClick={() => window.open(constructHumioLink(integration, props), '_blank')}
+    />
   );
 }
 

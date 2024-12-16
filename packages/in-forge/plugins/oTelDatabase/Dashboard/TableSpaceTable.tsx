@@ -10,6 +10,7 @@ import React from 'react';
 import { TimeConfig } from '@instana/types';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { WINDOW_FOR_LATEST_METRIC } from 'in-forge/plugins/oTelDatabase/constants';
 import { number, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -38,6 +39,9 @@ const sizeCol = {
     getContent: bytesTwoDecimalPlaces,
     getTimeWindowAggregation() {
       return 'mean';
+    },
+    getWindowForLatest() {
+      return WINDOW_FOR_LATEST_METRIC;
     }
   }
 };
@@ -55,6 +59,9 @@ const usedCol = {
     getContent: bytesTwoDecimalPlaces,
     getTimeWindowAggregation() {
       return 'mean';
+    },
+    getWindowForLatest() {
+      return WINDOW_FOR_LATEST_METRIC;
     }
   }
 };
@@ -72,6 +79,9 @@ const utilizationCol = {
     getContent: number.detailed,
     getTimeWindowAggregation() {
       return 'mean';
+    },
+    getWindowForLatest() {
+      return WINDOW_FOR_LATEST_METRIC;
     }
   }
 };
@@ -89,6 +99,9 @@ const maxCol = {
     getContent: bytesTwoDecimalPlaces,
     getTimeWindowAggregation() {
       return 'mean';
+    },
+    getWindowForLatest() {
+      return WINDOW_FOR_LATEST_METRIC;
     }
   }
 };

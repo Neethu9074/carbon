@@ -8,15 +8,25 @@ import React from 'react';
 
 import { LogAlertConfigWithMetadata, ThresholdConfigUnion } from '@instana/types';
 
+import {
+  alertsPath,
+  alertDetailsFullyQualifiedPath,
+  alertsDetailsPath,
+  dashboardAlertDetailsFullPath
+} from 'in-logging/navigation/paths';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
 import { CreateLogsSmartAlertFloatingButton } from 'in-logging/navigation/createLogsSmartAlertFloatingButton';
-import { alertsPath, alertDetailsFullyQualifiedPath, alertsDetailsPath } from 'in-logging/navigation/paths';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-logging/navigation/matrix';
 import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/logs/api/logsAlertConfig';
+import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
+import StatusColumnCell from 'in-alerting/smart-alerts/components/list/StatusColumnCell';
 import { actionHandlers } from 'in-alerting/smart-alerts/logs/lists/ListActionHandlers';
+import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import LogsAlertsTabHeader from 'in-alerting/smart-alerts/logs/LogsAlertsTabHeader';
+import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import CreateSmartAlert from 'in-alerting/smart-alerts/logs/CreateSmartAlert';
 import { sortOptions } from 'in-alerting/smart-alerts/logs/lists/constants';
 import ScopeColumn from 'in-alerting/smart-alerts/logs/lists/ScopeColumn';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -24,16 +34,19 @@ import { number } from 'in-services/formatters/number';
 import { Location } from 'in-stores/navigation/types';
 import Footer from 'in-components/Footer/Footer';
 import { role } from 'in-stores/user';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/logs/Alerts.mless';
 
-export default function Alerts() {
+const displayCarbonTable = smartAlertCarbonTableEnabled && carbonTableEnabled;
+
+export default function Alerts({ isLogsDashboardHeader = false }) {
   const handlers = role?.canConfigureGlobalLogSmartAlerts ? actionHandlers : {};
 
+  const Header = isLogsDashboardHeader ? LoggingDashboardWrapper : LogsAlertsTabHeader;
   return (
     <>
-      <LogsAlertsTabHeader>
+      <Header>
         <div className={locals.wrapper}>
           <AlertBaseList<LogAlertConfigWithMetadata>
             extraColumnDefinitions={getColumnDefinitions()}
@@ -42,17 +55,29 @@ export default function Alerts() {
             getSubtitle={config => getSubtitle(config.threshold)}
             sortOptions={sortOptions}
             alertsTab={alertsPath}
-            createRowLinkLocation={createRowLinkLocation}
+            createRowLinkLocation={(config, location) => createRowLinkLocation(config, location, isLogsDashboardHeader)}
+            // for carbon table
+            extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
+            carbonActionHandlers={handlers}
+            getNameSubtitle={() => getLogSubtitle(t('in-alerting:smartAlerts.logs.logCount'))}
+            displayCarbonTable={displayCarbonTable}
+            toolBarContent={
+              role?.canConfigureGlobalLogSmartAlerts ? (
+                <CreateSmartAlert isCarbonTableView={displayCarbonTable} />
+              ) : undefined
+            }
+            noDataHeader={t('in-alerting:smartAlerts.logs.list.noDataHeader')}
+            noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.logs.list.noDataDescription" />}
           />
           <Footer />
         </div>
-      </LogsAlertsTabHeader>
-      <CreateLogsSmartAlertFloatingButton />
+      </Header>
+      {!displayCarbonTable && <CreateLogsSmartAlertFloatingButton />}
     </>
   );
 }
 
-function getColumnDefinitions() {
+export function getColumnDefinitions() {
   return [
     {
       id: 'filterApplied',
@@ -81,13 +106,38 @@ export function getSubtitle(threshold: ThresholdConfigUnion & { value?: number }
   return <>{subtitleElements.join(', ')}</>;
 }
 
-function createRowLinkLocation(config: LogAlertConfigWithMetadata, location: Location): Location {
+function createRowLinkLocation(
+  config: LogAlertConfigWithMetadata,
+  location: Location,
+  isLogsDashboardHeader: boolean
+): Location {
   const rowLinkLocation = {
     ...location,
-    pathname: alertDetailsFullyQualifiedPath
+    pathname: isLogsDashboardHeader ? dashboardAlertDetailsFullPath : alertDetailsFullyQualifiedPath
   };
 
   setOrDeleteMatrixKey(rowLinkLocation, alertsDetailsPath, alertIdParam, config.id);
   setOrDeleteMatrixKey(rowLinkLocation, alertsDetailsPath, alertCreatedParam, config.created);
   return rowLinkLocation;
+}
+
+function getCarbonTableColumnDefinitions() {
+  return [
+    {
+      id: 'triggering-action',
+      label: t('in-alerting:table.triggeringAction'),
+      getContent: (config: LogAlertConfigWithMetadata) => <>{getSubtitle(config.threshold)}</>,
+      sortable: false
+    },
+    {
+      id: 'enabled',
+      label: t('in-alerting:table.status'),
+      getContent: (config: LogAlertConfigWithMetadata) => <StatusColumnCell status={config.enabled} />,
+      sortable: true
+    }
+  ];
+}
+
+function getLogSubtitle(logLabel: string) {
+  return <ListSubtitle icon="lib_application_logging" label={logLabel} />;
 }

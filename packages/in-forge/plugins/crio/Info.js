@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { DescriptionList, DescriptionItem } from '@instana/components';
+
 import { DateTimeWithPeriodSinceDescriptionItem } from 'in-sdk/components/sidebar/DateTimeWithPeriodSinceDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { t } from 'in-i18n';
 
 export default function CrioInfo({ snapshot }) {
@@ -18,6 +19,7 @@ export default function CrioInfo({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.crio.image')}>{data.get('image')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.crio.id')}>{data.get('id')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.crio.ip')}>{data.get('ip')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.crio.version')}>{data.get('version')}</DescriptionItem>
       <DateTimeWithPeriodSinceDescriptionItem
         title={t('in-forge:plugins.crio.createdAt')}
         dateTime={data.get('created')}

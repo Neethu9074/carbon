@@ -27,7 +27,11 @@ export interface Role {
   canSeeInternalTags: boolean;
   canSetAgentTraceLogLevel: boolean;
   canSeeExtendedInternalMonitoring: boolean;
+  limitedInfrastructureScope: boolean;
+  limitedAutomationScope: boolean;
+  limitedBizOpsScope: boolean;
   // pre-evaluated permissions from backend
+  canConfigureApplications: boolean;
   canConfigureServiceLevelIndicators: boolean;
   canConfigureEventsAndAlerts: boolean;
   canConfigureMaintenanceWindows: boolean;
@@ -37,31 +41,48 @@ export interface Role {
   canConfigureAutomationActions: boolean;
   canRunAutomationActions: boolean;
   canConfigureAutomationPolicies: boolean;
-  canViewAutomationActionInstances: boolean;
   canViewLogs: boolean;
+  canViewTraceDetails: boolean;
+  canConfigureLogRetentionPeriod: boolean;
+  canViewAuditLog: boolean;
+  canConfigureSyntheticCredentials: boolean;
+  canUseSyntheticCredentials: boolean;
   canConfigureSyntheticLocations: boolean;
   canConfigureSyntheticTests: boolean;
+  canViewSyntheticTests: boolean;
   canConfigureGlobalApplicationSmartAlerts: boolean;
   canConfigureGlobalSyntheticSmartAlerts: boolean;
   canConfigureGlobalInfraSmartAlerts: boolean;
   canConfigureGlobalLogSmartAlerts: boolean;
-  canViewSyntheticTests: boolean;
   canConfigureUsers: boolean;
   canConfigureTeams: boolean;
   canConfigureAgents: boolean;
   canConfigureApiTokens: boolean;
   canDeleteLogs: boolean;
+  canViewLogVolume: boolean;
   canConfigureIntegrations: boolean;
   canConfigureMobileAppMonitoring: boolean;
   canManuallyCloseIssue: boolean;
+  canDeleteAutomationActionHistory: boolean;
+  canViewAccountAndBillingInformation: boolean;
+  canConfigureLogManagement: boolean;
 }
 
 export interface User {
   email: string;
   role?: Role;
   tenants: Tenant[];
+  fullName: string;
+  preferredName: string;
+}
+
+interface ReportingData {
+  hasEntities: boolean;
+  hostCount: number;
+  serverlessCount: number;
 }
 declare interface InstanaGlobals {
+  reportingData?: ReportingData;
   user?: User;
   settings?: UiSettings;
   numberLocale?: FormatLocaleDefinition;

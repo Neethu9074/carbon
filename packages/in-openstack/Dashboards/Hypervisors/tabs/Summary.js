@@ -10,7 +10,6 @@ import { Card } from '@instana/components';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
-import { percentage } from 'in-services/formatters/number';
 import { number } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
@@ -43,9 +42,9 @@ export default function Summary({ timeConfig, data: hypervisor }) {
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: ['cpuUsage'],
-                labels: [t('in-openstack:dashboards.cpuUsage')],
-                formatter: percentage.compact,
+                metrics: ['cpuUsage','cpuResources'],
+                labels: [t('in-openstack:dashboards.cpuUsage'),t('in-openstack:totalCpu')],
+                formatter: number.compact,
                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -59,9 +58,9 @@ export default function Summary({ timeConfig, data: hypervisor }) {
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: ['memoryUsage'],
-                labels: [t('in-openstack:dashboards.memoryUsage')],
-                formatter: percentage.compact,
+                metrics: ['memoryUsage','memoryResources'],
+                labels: [t('in-openstack:dashboards.memoryUsage'),t('in-openstack:totalMemory')],
+                formatter: number.compact,
                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -93,9 +92,9 @@ export default function Summary({ timeConfig, data: hypervisor }) {
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: ['storageUsage'],
-                labels: [t('in-openstack:storage')],
-                formatter: percentage.detailed,
+                metrics: ['storageUsage','storageResources'],
+                labels: [t('in-openstack:storageUsage'),t('in-openstack:totalStorage')],
+                formatter: number.compact,
                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}

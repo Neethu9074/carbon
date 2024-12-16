@@ -1,9 +1,17 @@
 {
   "components": {
+    "uiShell": {
+      "mainNavigation": "기본 탐색"
+    },
     "list": {
       "loadMore": "추가 로드",
+      "expand": "펼치기",
+      "collapse": "접기",
       "toggleExtraContent": "추가 컨텐츠 전환",
       "initiateDefaultAction": "기본 조치 시작"
+    },
+    "link": {
+      "opensInNewTab": "(새 탭에서 열림)"
     },
     "table": {
       "tableErrorRows": {
@@ -11,13 +19,43 @@
       },
       "tableLoadMoreRow": {
         "loadMore": "추가 로드"
-      }
+      },
+      "dataTable": "데이터 테이블",
+      "expandHeader": "행 펼치기",
+      "expandRow": "행 펼치기 토글",
+      "select": "행 선택",
+      "selectedRow": "선택된 행"
+    },
+    "tableSkeleton": {
+      "sampleTable": "샘플 테이블"
     },
     "code": {
       "copy": "복사",
       "copied": "복사됨!",
       "showMore": "자세히 표시",
-      "showLess": "간략히 보기"
+      "showLess": "간략히 보기",
+      "copytoboard": "클립보드에 복사"
+    },
+    "menu": {
+      "sideNavigation": "사이드 탐색"
+    },
+    "dropDown": {
+      "selectOption": "옵션 선택"
+    },
+    "tabsNavigation": {
+      "pageNavigation": "페이지 탐색"
+    },
+    "plg": {
+      "dashboardTable": {
+        "dataTableToolbar": "데이터 테이블 도구 모음"
+      },
+      "tableTabs": {
+        "listOfTabs": "탭 목록"
+      }
+    },
+    "pill": {
+      "privatePreview": "미리보기",
+      "publicPreview": "미리보기"
     }
   },
   "formatDate": {
@@ -49,14 +87,17 @@
   "forms": {
     "actions": {
       "save": "저장",
+      "saveIntegration": "저장 및 사용",
       "cancel": "취소",
       "create": "작성",
       "delete": "삭제",
       "close": "닫기",
-      "submit": "제출"
+      "submit": "제출",
+      "previous": "이전"
     },
     "states": {
-      "saving": "저장 중…"
+      "saving": "저장 중…",
+      "loading": "로드 중…"
     }
   },
   "language_en-US": "영어",
@@ -82,6 +123,7 @@
   "aggregation_MAX": "최대",
   "aggregation_DISTINCT_COUNT": "고유 개수",
   "aggregation_SUM": "합계",
+  "aggregation_INCREASE": "증가",
   "aggregation_DISTRIBUTION": "분포",
   "aggregation_PER_SECOND": "초당"
 }

@@ -6,8 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Card, Link, SeverityIndicatorCellContentWrapper } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { SeverityIndicatorCellContentWrapper } from '@instana/legacy';
+import { Card, Link, Button } from '@instana/components';
 
 import MobileHealthIndicatorBehavior from 'in-mobile-apps/MobileAppDashboard/components/MobileHealthIndicatorBehavior/MobileHealthIndicatorBehavior';
 import {
@@ -25,10 +25,10 @@ import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresen
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
+import { useMobileTracker } from 'in-mobile-apps/tracking/segTracker';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { number, percentage } from 'in-services/formatters/number';
 import { productAreas } from 'in-services/tracking/productAreas';
-import { mobileAppsOpenAddForm } from 'in-mobile-apps/tracker';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import Footer from 'in-components/Footer';
@@ -145,6 +145,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 });
 
 function RightHeader() {
+  const { mobileAppsOpenAddForm } = useMobileTracker();
   const linkToNewMobileApp = useLinkToNewMobileApp();
   if (playwithEnabled) return null;
   return (

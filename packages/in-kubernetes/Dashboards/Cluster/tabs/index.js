@@ -12,12 +12,14 @@ import {
   useDeploymentConfigDashboard,
   useStatefulSetDashboard
 } from 'in-kubernetes/navigation/paths';
+import { beeInstanaInfraMetricsEnabled, beeinstanaInfraMetricsWithTimeshiftEnabled } from 'in-services/featureFlags';
 import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
 import getOpenShiftDeploymentConfigs from 'in-kubernetes/subscriptions/getOpenShiftDeploymentConfigs';
 import SummaryWithoutTimeShift from 'in-kubernetes/Dashboards/Cluster/tabs/SummaryWithoutTimeShift';
 import getKubernetesStatefulSets from 'in-kubernetes/subscriptions/getKubernetesStatefulSets';
 import getKubernetesDeployments from 'in-kubernetes/subscriptions/getKubernetesDeployments';
 import { persistentVolumeSupportEnabled, playwithEnabled } from 'in-services/featureFlags';
+import ControlPlane from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane/ControlPlane';
 import getKubernetesDaemonSets from 'in-kubernetes/subscriptions/getKubernetesDaemonSets';
 import Namespaces from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Namespaces';
 import PersistentVolumes from 'in-kubernetes/Dashboards/Cluster/tabs/PersistentVolumes';
@@ -27,12 +29,11 @@ import Infrastructure from 'in-kubernetes/Dashboards/Cluster/tabs/Infrastructure
 import Events from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import { clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
-import ControlPlane from 'in-kubernetes/Dashboards/Cluster/tabs/ControlPlane';
 import { ClusterTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
-import { beeInstanaInfraMetricsEnabled } from 'in-services/featureFlags';
 import Details from 'in-kubernetes/Dashboards/Cluster/tabs/Details';
 import { controlPlaneEnabled } from 'in-services/featureFlags';
 import Pods from 'in-kubernetes/Dashboards/Cluster/tabs/Pods';
+import { getTimeConfig } from 'in-stores/time/config';
 import Summary from './Summary';
 import { t } from 'in-i18n';
 
@@ -40,7 +41,8 @@ export default [
   {
     label: t('in-kubernetes:dashboards.summary'),
     path: `${clusterDashboardFullyQualified}/summary`,
-    component: beeInstanaInfraMetricsEnabled ? Summary : SummaryWithoutTimeShift
+    component:
+      beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled ? Summary : SummaryWithoutTimeShift
   },
   !controlPlaneEnabled && {
     label: t('in-kubernetes:dashboards.details'),
@@ -160,6 +162,8 @@ export default [
   }
 ].filter(Boolean);
 
-function getCounterComponent({ clusterId, tab, timeConfig }, valueExtractor) {
+function getCounterComponent({ result, tab, location }, valueExtractor) {
+  const clusterId = result?.data?.id;
+  const timeConfig = getTimeConfig(location);
   return <ClusterTab clusterId={clusterId} label={tab.label} timeConfig={timeConfig} valueExtractor={valueExtractor} />;
 }

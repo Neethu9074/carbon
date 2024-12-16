@@ -7,8 +7,7 @@
 import React, { Fragment } from 'react';
 
 import { TimeConfig, TagFilter, MobileAppPaginatedBeaconGroupsItem, OrderDirection } from '@instana/types';
-import { Link } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Link, Button } from '@instana/components';
 
 // @ts-expect-error Could not find a declaration file for module
 import { sessionIdUrlParameter, tagFiltersInDashboardUrlParameter } from 'in-mobile-apps/navigation/urlParameters';
@@ -43,12 +42,13 @@ interface OriginLabelProp {
 
 function OriginLabel({ item, mobileAppId, viewId }: OriginLabelProp) {
   const getLinkToMobileAppCrash = useLinkToCrash();
-  let label = item.name;
+  let label = item?.name;
   try {
     label = String(JSON.parse(label));
   } catch (e) {
     // ignore
   }
+  let errLocationLabel = label?.split('\n')[0];
 
   return (
     <Link
@@ -57,9 +57,19 @@ function OriginLabel({ item, mobileAppId, viewId }: OriginLabelProp) {
         viewId
       })}
     >
-      {label}
+      {errLocationLabel}
     </Link>
   );
+}
+
+function convertAppVersionNumberToAppVersionString(appVersionNumber: bigint): string {
+  const major_factor = BigInt(10 ** 12);
+  const minor_factor = BigInt(10 ** 6);
+  const major = appVersionNumber / major_factor;
+  const minor = (appVersionNumber % major_factor) / minor_factor;
+  const patch = appVersionNumber % minor_factor;
+
+  return `${major}.${minor}.${patch}`;
 }
 
 const columnDefinitions = [
@@ -71,6 +81,37 @@ const columnDefinitions = [
       { mobileAppId, viewId }: { mobileAppId: string; viewId: string }
     ) => {
       return <OriginLabel item={item} mobileAppId={mobileAppId} viewId={viewId} />;
+    }
+  },
+  {
+    id: 'errorType',
+    label: t('in-mobile-apps:dashboard.tabs.crashes.crashesLabelErrorType'),
+    getContent: (item: MobileAppPaginatedBeaconGroupsItem) => {
+      let errorTypeLabel = item?.name?.replace(/^"|"$/g, '')?.split('\\n')[1];
+      errorTypeLabel = errorTypeLabel?.length ? errorTypeLabel : 'Not available';
+      return <>{errorTypeLabel}</>;
+    }
+  },
+  {
+    id: 'lowestAppVersionNumber',
+    label: t('in-mobile-apps:dashboard.tabs.crashes.crashesLabelLowestAppVersion'),
+    getContent: (item: MobileAppPaginatedBeaconGroupsItem) => {
+      let lowestAppVersion =
+        item?.metrics?.lowestAppVersionNumber[0][1] > 0
+          ? convertAppVersionNumberToAppVersionString(BigInt(item?.metrics?.lowestAppVersionNumber[0][1].toString()))
+          : 'Not available';
+      return <>{lowestAppVersion}</>;
+    }
+  },
+  {
+    id: 'highestAppVersionNumber',
+    label: t('in-mobile-apps:dashboard.tabs.crashes.crashesLabelHighestAppVersion'),
+    getContent: (item: MobileAppPaginatedBeaconGroupsItem) => {
+      let highestAppVersion =
+        item?.metrics?.highestAppVersionNumber[0][1] > 0
+          ? convertAppVersionNumberToAppVersionString(BigInt(item?.metrics?.highestAppVersionNumber[0][1].toString()))
+          : 'Not available';
+      return <>{highestAppVersion}</>;
     }
   },
   {
@@ -87,8 +128,8 @@ const columnDefinitions = [
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="SUM"
-          metrics={item.metrics.crashes}
-          metric={item.metrics.crashesAgg}
+          metrics={item?.metrics?.crashes}
+          metric={item?.metrics?.crashesAgg}
           tooltipFormatter={number.compact}
         />
       );
@@ -108,8 +149,8 @@ const columnDefinitions = [
           rollup={getSparkChartGranularity(timeConfig)}
           timeConfig={getResolvedTimeConfig(timeConfig, result)}
           aggregation="DISTINCT_COUNT"
-          metrics={item.metrics.uniqueUsersOrSessions}
-          metric={item.metrics.uniqueUsersOrSessionsAgg}
+          metrics={item?.metrics?.uniqueUsersOrSessions}
+          metric={item?.metrics?.uniqueUsersOrSessionsAgg}
           tooltipFormatter={number.compact}
         />
       );
@@ -216,7 +257,7 @@ function getTableData({
   if (isNotBlank(query)) {
     tagFilters = tagFilters.concat([
       {
-        name: 'mobileBeacon.error.message',
+        name: 'mobileBeacon.crash.groupLabel',
         stringValue: query,
         operator: 'CONTAINS',
         type: 'TAG_FILTER',
@@ -237,7 +278,7 @@ function getTableData({
       direction: orderDirection
     },
     group: {
-      groupbyTag: 'mobileBeacon.error.message'
+      groupbyTag: 'mobileBeacon.crash.groupLabel'
     },
     metrics: {
       uniqueUsersOrSessionsAgg: {
@@ -257,6 +298,14 @@ function getTableData({
         metric: 'beaconCount',
         aggregation: 'SUM',
         granularity: getSparkChartGranularity(timeConfig)
+      },
+      lowestAppVersionNumber: {
+        metric: 'appVersionNumber',
+        aggregation: 'MIN'
+      },
+      highestAppVersionNumber: {
+        metric: 'appVersionNumber',
+        aggregation: 'MAX'
       }
     }
   });

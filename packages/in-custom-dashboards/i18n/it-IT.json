@@ -17,6 +17,7 @@
         "copied": "Widget copiato, utilizzare CTRL-V o CMD-V per incollare su qualsiasi dashboard personalizzato",
         "duplicate": "Duplica",
         "delete": "Elimina",
+        "exportPDF": "Scarica PDF",
         "customDashboardWidgetTitle": "Widget personalizzato del dashboard: {{title}}"
       }
     },
@@ -69,7 +70,11 @@
       "renameDashboard": "Rinomina dashboard",
       "dashboardName": "Nome dashboard",
       "rename": "Rinomina",
-      "failSaveDashboard": "Impossibile salvare il dashboard."
+      "failSaveDashboard": "Impossibile salvare il dashboard.",
+      "generatingPDFTitle": "Generazione del pdf",
+      "generatingPDFContent": "Attendere mentre il pdf viene generato.",
+      "generatedPDFTitle": "Pdf generato",
+      "generatedPDFContent": "Il download del pdf inizierà a breve."
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "Dashboard non trovato",
@@ -93,6 +98,32 @@
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "Impossibile analizzare l'input come JSON.",
       "jsonRootMustBeAnObject": "La root JSON deve essere un oggetto"
+    },
+    "downloadPdfDialog": {
+      "downloadPdf": "Scarica il file PDF",
+      "settings": "Impostazioni",
+      "pdfOrientation": "Orientamento",
+      "portrait": "Verticale",
+      "landscape": "Scenario",
+      "pdfLayout": "Layout",
+      "widgetsDisplay": "Visualizzazione",
+      "singlePage": "Pagina singola",
+      "singlePageInfo": "L'intero dashboard si trova in una sola pagina, con i contenuti ridimensionati per adattarsi.",
+      "multiPages": "Pagine multiple",
+      "multiPagesInfo": "Distribuire il dashboard su più pagine, mantenendo il layout originale. Alcuni widget potrebbero essere interrotti.",
+      "stackWidgetsTitle": "Widget stack",
+      "stackWidgetsInfo": "Visualizzare i widget in uno stack verticale su più pagine.",
+      "loadingWidget": "Caricamento del widget {{widgetIndex}} di {{totalNodes}}",
+      "generatePreview": "Generare l'anteprima",
+      "generatingPreview": "Generazione dell'anteprima pdf"
+    },
+    "filterContext": {
+      "topLevelFilterPartiallyApplied": "Sono stati applicati alcuni dei filtri del dashboard corrente.",
+      "topLevelFilterSelectsEverything": "I filtri del dashboard corrente non si applicano a questo widget.",
+      "topLevelFilterSelectsNothing": "I filtri del dashboard corrente non si applicano a questo widget.",
+      "topLevelFilterNotSupported": "I filtri del dashboard corrente non sono stati applicati a questo widget perché il widget non supporta i filtri.",
+      "topLevelFilterAppliedToSomeDatasets": "I filtri del dashboard attuale non sono stati applicati completamente ai seguenti set di dati: {{datasets}}",
+      "unnamedDataset": "Set di dati senza nome"
     }
   },
   "dashboardSwitcher": {
@@ -130,6 +161,17 @@
         "unexpectedLowOrHighNumberOfCalls": "Numero di chiamate inaspettatamente alto o basso"
       }
     },
+    "srcBizOps": {
+      "formComponent": {
+        "pleaseSelect": "Selezionare",
+        "pleaseSelectMetric": "Selezionare una metrica",
+        "aggregation": "Aggregazione",
+        "metric": "Metrica"
+      },
+      "index": {
+        "bizOps": "Processi aziendali (attività)"
+      }
+    },
     "srcApp": {
       "formComponent": {
         "needToTurnOffPP": "Per utilizzare il raggruppamento è innanzitutto necessario disattivare l'evidenziazione dei Potenziali Problemi.",
@@ -163,6 +205,7 @@
       "metricsFormComponent": {
         "metric": "Metrica",
         "selectMetric": "Selezionare metrica",
+        "unit": "Unità",
         "aggregation": "Aggregazione",
         "crossSeriesAggregation": "Utilizza SOMMA per l'aggregazione tra serie",
         "crossSeriesAggregationHelp": "Normalmente l'aggregazione tra serie è uguale all'aggregazione temporale (il metodo utilizzato per combinare i punti di dati in un singolo bucket). Con questa opzione abilitata, i socket verranno sommati in tutte le serie di dati invece di utilizzare l'aggregazione specificata.",
@@ -293,6 +336,15 @@
         "increaseColor": "Aumenta Colore",
         "decreaseColor": "Diminuisci Colore",
         "timeShift": "Spostamento temporale"
+      },
+      "thresholdForm": {
+        "addThresholdColorization": "Aggiungi colorazione basata su soglia",
+        "threshold": "Soglia",
+        "critical": "Critico quando",
+        "warning": "Avvertenza quando",
+        "criticalValidator": "La soglia critica deve essere maggiore della soglia di avvertenza per gli operatori > e >=.",
+        "warningValidator": "La soglia di avvertenza deve essere maggiore della soglia critica per gli operatori < e <=.",
+        "bytes": "Byte"
       },
       "bigNumber": "Numero elevato"
     },
@@ -425,6 +477,25 @@
       }
     },
     "slo": {
+      "general": {
+        "demoWidgetTitle": "Titolo del widget",
+        "sloNotFound": "Configurazione SLO non trovata"
+      },
+      "v2Form": {
+        "headline": "Selezionare un obiettivo di livello di servizio (SLO)",
+        "subheading": "Selezionare uno SLO esistente o fare clic su \"Aggiungi nuovo SLO\" per crearne uno nuovo",
+        "addSloButtonLabel": "Aggiungi nuovo SLO",
+        "chartTypeSelectionLabel": "Tipo di grafico",
+        "chartTypeOption": "",
+        "chartTypeOption_INDICATOR": "Grafico indicatore",
+        "chartTypeOption_ERROR_BUDGET": "Grafico budget di errore",
+        "validators": {
+          "notBlankSloValidator": "Scegliere una configurazione SLO dall'elenco."
+        }
+      },
+      "v2WidgetHeader": {
+        "indicatorType": "Tipo di indicatore:"
+      },
       "demo": {
         "title": "Titolo SLO",
         "sliName": "Esempio Sli",
@@ -465,8 +536,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "Endpoint",
-        "allEndpoints": "Tutti gli endpoint",
-        "loading": "<loading>"
+        "allEndpoints": "Tutti gli endpoint"
       },
       "goodBadEventsForm": {
         "goodEvents": "Eventi positivi",
@@ -503,7 +573,6 @@
       },
       "servicesSelectBox": {
         "service": "Servizio",
-        "loading": "<loading>",
         "allServices": "Tutti i servizi"
       },
       "sliFormPresenter": {
@@ -608,6 +677,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "È necessario configurare almeno un'espressione filtro.",
       "timeBased": "Basato sul tempo",
       "eventBased": "Basato sull'evento",
+      "sloLegacy": "Legacy SLO",
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "Applicazione",
@@ -709,7 +779,8 @@
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "Configurazione soglia",
-        "thresholdLabel": "Soglia"
+        "thresholdLabel": "Soglia",
+        "ms": "ms"
       },
       "entityInfo": {
         "tooltip": "Apdex sconosciuto",
@@ -823,7 +894,9 @@
           },
           "formatter": "Programma di formattazione",
           "searchPlaceholder": "Ricerca",
-          "countGroup": "Mostra conteggio gruppi"
+          "countGroup": "Mostra conteggio gruppi",
+          "showGroupsWithMissingTags": "Mostra gruppi con tag mancanti",
+          "filterEmptyValues": "Filtra valori vuoti"
         }
       },
       "dataSource": {
@@ -854,5 +927,8 @@
     "additionalFields": "Questo dashboard sarà visibile solo all'utente corrente. Dopo la creazione sarà possibile decidere di condividerlo con i colleghi.",
     "create": "Crea",
     "failedToCreateDashboard": "Impossibile creare un dashboard."
+  },
+  "threshold": {
+    "label": "Soglia"
   }
 }

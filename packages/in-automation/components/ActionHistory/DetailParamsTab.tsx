@@ -11,7 +11,7 @@ import { ActionInstanceParameter } from '@instana/types';
 import { Typography } from '@instana/components';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
-import FourLineWrapper from '../FourLineWrapper/FourLineWrapper';
+import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWrapper';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
@@ -95,7 +95,7 @@ export default function DetailParamsTab({ inputParameters }: { inputParameters: 
   ];
 
   return (
-    <div className={locals.paramsTab}>
+    <div className={locals.instanceTabContent}>
       <ServerTablePresenter
         columnDefinitions={columnDefinitions}
         noDataMessage={t('in-automation:actionHistory.noParams')}

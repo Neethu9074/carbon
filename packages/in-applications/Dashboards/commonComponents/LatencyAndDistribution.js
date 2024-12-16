@@ -81,7 +81,8 @@ export default function LatencyAndDistribution({
   percentileGroupBy,
   renderPostChartContent,
   urlMatrixParamConfig,
-  renderWidgetNotSupportedIndicator
+  renderWidgetNotSupportedIndicator,
+  customChartSkeletonHeight
 }) {
   const { location } = useNavigation();
   return (
@@ -91,7 +92,8 @@ export default function LatencyAndDistribution({
       metrics={metrics}
       urlMatrixParamConfig={urlMatrixParamConfig}
       disabledWidgetInLive={
-        renderWidgetNotSupportedIndicator && location.matrix['/summary']['latencyTab'] === tabDistribution.id
+        renderWidgetNotSupportedIndicator &&
+        location.matrix[urlMatrixParamConfig.path]['latencyTab'] === tabDistribution.id
       }
     >
       <ChartPresenter
@@ -106,6 +108,7 @@ export default function LatencyAndDistribution({
         percentileGroupBy={percentileGroupBy}
         renderPostChartContent={renderPostChartContent}
         renderWidgetNotSupportedIndicator={renderWidgetNotSupportedIndicator}
+        customChartSkeletonHeight={customChartSkeletonHeight}
       />
     </TimeShiftAwareChartSelectorWithUrlState>
   );
@@ -127,7 +130,8 @@ function ChartPresenter({
   timeShiftConfig,
   cardTitle,
   selectorComponent,
-  renderWidgetNotSupportedIndicator
+  renderWidgetNotSupportedIndicator,
+  customChartSkeletonHeight
 }) {
   return selectedTabId === tabOverTime.id ? (
     <Latency
@@ -145,6 +149,7 @@ function ChartPresenter({
       renderPostChartContent={renderPostChartContent}
       syntheticCalls={syntheticCalls}
       endpointTypes={endpointTypes}
+      customChartSkeletonHeight={customChartSkeletonHeight}
     />
   ) : (
     <LatencyDistributionHistogram

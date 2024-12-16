@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { DescriptionItem } from '@instana/components';
+
 import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
@@ -21,12 +23,11 @@ import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
-import { DescriptionItem } from 'in-components/DescriptionList';
 import { t } from 'in-i18n';
 
 import locals from './EventListItemContent.mless';
 
-export default function WebsiteEventListItemContent({ event }) {
+export default function WebsiteEventListItemContent({ event, justChart = false }) {
   const eventEntity = useWebsiteEventEntity(event);
   const alertConfig = useWebsiteEventAlertConfig(event);
 
@@ -56,15 +57,19 @@ export default function WebsiteEventListItemContent({ event }) {
 
   return (
     <>
-      <ProblemDescription fixSuggestion={fixSuggestion} />
-      <DescriptionButtons>
-        <WebsiteAlertConfigButton alertConfig={alertConfig} />
-        <AnalyzeWebsiteEventButton
-          alertConfig={alertConfig}
-          websiteName={eventEntity.websiteName}
-          timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
-        />
-      </DescriptionButtons>
+      {!justChart && (
+        <>
+          <ProblemDescription fixSuggestion={fixSuggestion} />
+          <DescriptionButtons>
+            <WebsiteAlertConfigButton alertConfig={alertConfig} />
+            <AnalyzeWebsiteEventButton
+              alertConfig={alertConfig}
+              websiteName={eventEntity.websiteName}
+              timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
+            />
+          </DescriptionButtons>
+        </>
+      )}
       <div className={locals.sectionWrapper}>
         <WebsitesAlertingChartWithErrorMessage
           alertConfigWithFormModel={{
@@ -76,7 +81,7 @@ export default function WebsiteEventListItemContent({ event }) {
         />
       </div>
       <div className={locals.sectionWrapper}>
-        <DescriptionItem className={locals.title} title={t('in-events:titleScope')}>
+        <DescriptionItem inComponents className={locals.title} title={t('in-events:titleScope')}>
           <div className={locals.scopeContentWrapper}>
             <ScopeConfigPresenter
               tagFilterFormModel={tagFilterFormModel}

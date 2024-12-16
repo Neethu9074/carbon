@@ -1,0 +1,96 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+:local {
+  .tableGrid {
+    display: grid;
+    grid-template-areas: 'label . gb gb arrow';
+    grid-template-columns: 16rem auto 10rem 10rem 2rem;
+    justify-content: normal;
+  }
+
+  .tableGB {
+    grid-area: gb;
+    display: flex;
+    justify-content: right;
+  }
+
+  .tableRU {
+    grid-area: ru;
+    display: flex;
+    justify-content: right;
+  }
+
+  .tableLabel {
+    grid-area: label / span 2;
+    justify-content: left;
+    display: flex;
+  }
+
+  .LogVolumeDetailsContainer {
+    background: red;
+    margin: 2rem 0;
+  }
+
+  .LogVolumeDetails {
+    .tableGrid();
+    background: #ebf1f7;
+    padding: 1.25rem;
+
+    span {
+      font-size: 1.5rem;
+      font-weight: 500;
+    }
+  }
+
+  .logVolumeCategories {
+    .tableGrid();
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    background-color: var(--ids-color-option-white);
+    color: var(--ids-color-option-neutral-600);
+    border: none;
+    outline: none;
+  }
+
+  .retentionDays {
+    .tableGrid();
+    width: 100%;
+    font-weight: bold;
+    color: black;
+  }
+
+  .logVolumeItems {
+    border: none;
+    li {
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+
+  .collapseRow {
+    vertical-align: middle;
+    margin-left: 1rem;
+    grid-area: arrow;
+  }
+
+  .loadingMock {
+    padding-top: 2rem;
+  }
+
+  .loadingIndicator {
+    display: block;
+    width: auto;
+  }
+
+  .skeleton {
+    .loadingIndicator();
+    height: 12rem;
+    margin: 0 var(--cds-layout-density-padding-inline-local) var(--cds-layout-density-padding-inline-local)
+      var(--cds-layout-density-padding-inline-local);
+  }
+}

@@ -1,82 +1,24 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
-import Select from 'react-select';
-import { isEqual } from 'lodash';
 import React from 'react';
 
-import { Nullish } from 'in-types';
-import { t } from 'in-i18n';
+import { default as LegacyComboBox } from 'in-components/ComboBox/LegacyComboBox';
+import { default as CarbonComboBox } from 'in-components/ComboBox/CarbonComboBox';
+import { hasMultipleValuesSelected } from 'in-components/ComboBox/LegacyComboBox';
+import { ComboBoxProps } from './types';
 
-import './DropDownDirection.less';
-import './ComboBox.less';
-
-export interface Option {
-  label: string;
-  value: string;
-  isDisabled?: boolean;
-}
-
-export type Options = ReadonlyArray<Option>;
-
-export function hasMultipleValuesSelected(value: Option | Options | null): value is Options {
-  return Array.isArray(value);
-}
-
-interface ComboBoxProps {
-  id?: string;
-  name?: string;
-  isClearable?: boolean;
-  options: Options;
-  value: string | ReadonlyArray<string> | Nullish;
-  defaultValue?: any;
-  className?: string;
-  placeholder?: React.ReactNode;
-  onChange: (option: Option | Options | null) => void;
-  autoComplete?: string;
-  autoFocus?: boolean;
-  openMenuOnFocus?: boolean;
-  isMulti?: boolean;
-  disabled?: boolean;
-  isOptionDisabled?: (option: Option) => boolean;
-  isSearchable?: boolean;
-  isDisabled?: boolean;
-  components?: any;
-}
+export type { Option, Options, ComboBoxProps } from 'in-components/ComboBox/types';
+export { hasMultipleValuesSelected };
 
 export default function ComboBox({ isClearable = true, ...props }: ComboBoxProps): JSX.Element {
-  const value =
-    props.options?.filter((option: Option) =>
-      Array.isArray(props.value) ? props.value.includes(option.value) : option.value === props.value
-    ) ?? null;
-  return (
-    <Select
-      {...props}
-      isClearable={isClearable}
-      classNamePrefix="Select"
-      aria-label={props.name ?? 'label'}
-      className={`${props.className} Select`}
-      placeholder={props.placeholder ? props.placeholder : t('in-components:comboBox.placeholderSelect')}
-      onChange={(option: Option | Options | null) => {
-        // Do not propagate the event, unless the value really changed. This will prevent unnecessary reloads.
-        if (Array.isArray(option)) {
-          if (
-            !isEqual(
-              option.map(o => o?.value),
-              props.value
-            )
-          ) {
-            props.onChange(option);
-          }
-        } else {
-          if (!(option instanceof Array) && !isEqual(option?.value, props.value)) {
-            props.onChange(option);
-          }
-        }
-      }}
-      value={value}
-    />
-  );
+  // Multi-select will need to be implemented separately in a case by case basis
+  // since there is no one-one matching component to match the functionality.
+  if (!props?.isMulti) {
+    return <CarbonComboBox {...props} isClearable={isClearable} />;
+  }
+  return <LegacyComboBox {...props} isClearable={isClearable} />;
 }

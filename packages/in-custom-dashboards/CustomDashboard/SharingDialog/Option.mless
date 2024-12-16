@@ -14,8 +14,4 @@
     font-weight: 500;
     font-size: 1rem;
   }
-
-  .checked {
-    color: var(--ids-color-option-teal-500);
-  }
 }

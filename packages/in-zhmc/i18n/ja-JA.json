@@ -1,5 +1,5 @@
 {
-  "zhmcs": "複数の zHMC",
+  "zhmcs": "zHMCs",
   "hostname": "ホスト名",
   "name": "名前",
   "systems": "システム",
@@ -17,7 +17,7 @@
   "status": "状況",
   "breadcrumbs": {
     "zhmc": "zHMC",
-    "zhmcs": "複数の zHMC",
+    "zhmcs": "zHMCs",
     "systems": "システム"
   },
   "dashboards": {
@@ -25,7 +25,7 @@
     "systems": "システム",
     "summary": "サマリー",
     "environmentalAndPower": "環境と電力",
-    "channel": "チャンネル",
+    "channel": "チャネル",
     "adapter": "アダプター",
     "networkPort": "ネットワーク",
     "cpcProcessorUsage": "CPC プロセッサーの使用状況",
@@ -43,17 +43,17 @@
     "cryptoId": "暗号 ID",
     "processorUsage": "全体のプロセッサー使用量",
     "name": "名前",
-    "zvm": "z/VM のページング率",
     "ifl": "IFL プロセッサー使用量",
     "icf": "ICF プロセッサー使用量",
     "cbp": "CBP プロセッサー使用量",
     "cp": "CP プロセッサー使用量",
     "iip": "IIP プロセッサー使用量",
+    "lparPowerConsumption": "LPAR の消費電力 (ワット)",
     "smt": "SMT の使用率",
     "thread0": "スレッド 0 の使用率",
     "thread1": "スレッド 1 の使用率",
     "networkUsage": "ネットワークの使用状況",
-    "storageUsage": "ストレージの使用状況",
+    "storageUsage": "ストレージ使用量",
     "acceleratorUsage": "アクセラレーターの使用状況",
     "cryptoUsage": "暗号の使用状況",
     "networkPortId": "ネットワーク・ポート ID",
@@ -108,6 +108,6 @@
   "channelUsage": "チャネルの使用状況",
   "networkUsage": "ネットワークの使用状況",
   "cryptoUsage": "暗号の使用状況",
-  "storageUsage": "ストレージの使用状況",
+  "storageUsage": "ストレージ使用量",
   "acceleratorUsage": "アクセラレーターの使用状況"
 }

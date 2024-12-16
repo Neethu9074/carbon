@@ -21,6 +21,7 @@ export function init() {
 function getPushMessageConfig(releaseNotification) {
   return {
     message: {
+      id: releaseNotification.id,
       type: 'info',
       title: t('in-events:titleReleaseOccurred'),
       content: <ReleaseOccurredMessage release={releaseNotification} />
@@ -29,5 +30,5 @@ function getPushMessageConfig(releaseNotification) {
 }
 
 function onReleaseNotification({ message }) {
-  addMessage(message, 'release-notification-id');
+  addMessage(message, message.id);
 }

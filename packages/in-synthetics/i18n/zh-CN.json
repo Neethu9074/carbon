@@ -10,7 +10,8 @@
         "step1": "步骤 1：选择类型",
         "step2": "步骤 2：请求详细信息",
         "step3": "步骤 3：调度",
-        "step4": "步骤 4：提供详细信息"
+        "step4": "步骤 4：提供详细信息",
+        "step5": "步骤 5：关联"
       },
       "selectTest": {
         "title": "您想创建什么样的合成测试"
@@ -39,6 +40,8 @@
         "labelName": "测试的名称",
         "labelDescription": "描述",
         "labelFrequency": "频率（分钟）",
+        "labelFrequencyHour": "频率（小时）",
+        "labelApplication": "选择应用程序",
         "labelApplications": "选择应用程序"
       },
       "bluePrint": {
@@ -95,6 +98,11 @@
             "line3": "步骤 3：选择测试频率（1 ~ 120 分钟）。",
             "line4": "步骤 4：在“测试的名称和描述”部分中，在“名称”字段中输入有意义的测试名称。 将测试用途的描述添加到“描述”字段。"
           }
+        },
+        "certificateCheck": {
+          "whenToUse": {
+            "line1": "检查 Web 服务器证书是否将到期或未使用此测试。"
+          }
         }
       },
       "validators": {
@@ -128,7 +136,11 @@
           "browserTypeHeadline": "浏览器合成测试",
           "browserTypeText": "浏览器合成测试是一种监视 Web 应用程序性能的方法，通过 Web 浏览器中的脚本模拟用户与 Web 站点的交互，对影响用户体验的问题提供有价值的洞察并确保 Web 站点功能。",
           "browserSimpleTitle": "浏览器简单测试",
-          "browserScriptTitle": "浏览器脚本测试"
+          "browserScriptTitle": "浏览器脚本测试",
+          "certificateCheckTitle": "SSL 证书检查",
+          "certificateCheckLabel": "SSL 证书",
+          "certificateCheckHeadline": "SSL 证书检查测试",
+          "certificateCheckText": "SSL 证书检查测试是一种方法，用于通过检查已颁发证书的剩余天数，测试 Web 应用程序中 SSL 证书的到期时间。"
         },
         "configurationLabel": "配置",
         "configurationTitle": "配置：此测试将如何工作？",
@@ -140,6 +152,8 @@
         "identifyTitle": "识别：测试将要做什么？",
         "customPropertiesTitle": "定制属性",
         "frequency": "此测试将每 {{frequencyValue}} 分钟运行一次。",
+        "frequencyHours": "此测试将每 {{frequencyHours}} 小时运行一次。",
+        "frequencyHoursAndMinutes": "此测试将每 {{frequencyHours}} 小时 {{frequencyMinutes}} 分钟运行一次。",
         "simultaneous": "同时",
         "simultaneousDescription": "此测试将在所选的每个位置同时运行。",
         "configStep": {
@@ -213,14 +227,48 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "浏览器"
+          "browserName": "浏览器",
+          "certificateCheckName": "SSL 证书"
         },
         "customProperties": {
           "property": "属性",
           "propertyValue": "值",
           "addProperty": "添加属性",
           "propertyNameMustBeUnique": "属性名称必须唯一。"
-        }
+        },
+        "certificateCheck": {
+          "inputHostName": "主机名",
+          "inputPortNumber": "端口",
+          "failureConfigLabel": "失败配置",
+          "failureConfigText": "当证书有效期距离到期日期还剩 <certificateValidityDays/> 天时，测试将失败。"
+        },
+        "associationsLabel": "关联",
+        "applicationsTitle": "关联：选择要与此合成测试关联的应用程序",
+        "applicationsDescription": "将合成测试与某个应用程序关联起来，就会向所有有权访问该应用程序的用户授予访问权限。",
+        "associationsTitle": "关联：选择要与此合成测试关联的内容",
+        "associationsDescription": "将合成测试与某个应用程序、网站或移动应用关联起来，就会向所有有权访问这些实体的用户授予访问权限。"
+      },
+      "associations": {
+        "applicationsTitle": "选择与此合成测试关联的应用程序",
+        "applicationsDescription": "将合成测试与某个应用程序关联起来，就会向所有有权访问该应用程序的用户授予访问权限。",
+        "associationsTitle": "选择要与此合成测试关联的内容",
+        "associationsDescription": "将合成测试与某个应用程序、网站或移动应用关联起来，就会向所有有权访问这些实体的用户授予访问权限。",
+        "applicationsButtonLabel": "选择应用程序",
+        "websitesButtonLabel": "选择网站",
+        "mobileAppsButtonLabel": "选择移动应用",
+        "entityName": "名称",
+        "noDataAvailable": {
+          "message": "{{component}} 不可用"
+        },
+        "addApplications": "添加 {{count}} 个应用程序",
+        "addApplication": "添加应用程序",
+        "addWebsites": "添加 {{count}} 个网站",
+        "addWebsite": "添加 Web 站点",
+        "addMobileApps": "添加 {{count}} 个移动应用",
+        "addMobileApp": "添加移动应用程序",
+        "applicationsTableTitle": "应用程序",
+        "websitesTableTitle": "网站",
+        "mobileAppsTableTitle": "移动应用"
       }
     },
     "httpMethods": {
@@ -241,9 +289,9 @@
     },
     "locationFeedback": {
       "successMessageDelete": "已成功删除位置",
-      "failureMesssageDelete": "{{deleteLocationErrorMessage}}",
+      "failureMesssage": "{{errorMessage}}",
       "successMessageDeactivate": "已成功取消激活位置",
-      "failureMesssageDeactivate": "{{deactivateLocationErrorMessage}}"
+      "successMessageActivate": "已成功激活位置"
     },
     "updateTest": {
       "dialogTitle": "编辑 {{syntheticType}} 测试",
@@ -288,7 +336,7 @@
         "datacentersSubtitle": "在其中一个可用数据中心内激活 Instana 受管位置。 有关更多信息，请参阅 <linkDatacenters>使用 Instana 托管的 PoP</linkDatacenters>。",
         "confirmationDialog": {
           "headline": "正在部署位置",
-          "message": "我们正在以下数据中心为您设置新位置。 请耐心等待，我们将为您自动部署位置。 完成此操作后，可以在“位置”选项卡中找到新位置。 <strong>对于每个选定的数据中心，这可能需要最多 10 分钟时间。</strong>",
+          "message": "我们正在以下数据中心为您设置新位置。 请耐心等待，我们将为您自动部署位置。 完成此操作后，可以在“位置”选项卡中找到新位置。 <strong>对于每个选定的数据中心，此部署需要几分钟。</strong>",
           "table": {
             "heads": {
               "datacenterCode": "数据中心代码",
@@ -303,11 +351,14 @@
         },
         "deactivateDatacenter": {
           "title": "取消激活位置",
-          "deactivateMessage": "确定要取消激活位置 <strong>{{locationDisplayLabel}}</strong> 吗?<br/><br/>取消激活某个位置可能最多需要 10 分钟时间。 请耐心等待我们为您取消供应。 完成此操作后，位置状态将为“脱机”。<br/>",
+          "deactivateMessage": "确定要取消激活位置 <strong>{{locationDisplayLabel}}</strong> 吗?<br/><br/>取消激活某个位置可能需要几分钟。 请耐心等待我们为您取消供应。 完成此操作后，位置状态将为“脱机”。<br/>",
           "warningMessage": "未删除取消激活。 该位置将可用，并且可以再次激活。 要完全除去受管位置，请在该位置的状态更改为“脱机”后再删除该位置。",
           "activeStatus": "活动",
           "deactivateButton": "停用"
-        }
+        },
+        "activate": "激活",
+        "okay": "确定",
+        "activateLocation": "激活位置"
       },
       "validators": {
         "theValueMustNotBeEmpty": "需要至少选择一个数据中心"
@@ -318,6 +369,46 @@
       },
       "status": {
         "pending": "暂挂"
+      }
+    },
+    "credentialFeedback": {
+      "successMessageDelete": "成功删除了凭证",
+      "failureMesssage": "{{errorMessage}}"
+    },
+    "createCredential": {
+      "createButton": "新建凭证",
+      "nameValue": "名称和值",
+      "associations": "关联",
+      "newCredentials": "创建合成凭证",
+      "steps": {
+        "textInput": {
+          "placeholder": "凭证名称",
+          "labelText": "名称",
+          "invalidText": "凭证名称必须以字母开头，并且只包含字母、数字和下划线。",
+          "credentialNamesMustBeUnique": "凭证名称必须是唯一的。 此名称已占用。 请尝试另一个。"
+        },
+        "passwordInput": {
+          "placeholder": "凭证值",
+          "labelText": "值"
+        },
+        "associationsDescription": "将凭证与应用程序、Web 站点或移动应用程序相关联，可向所有可访问这些实体的用户授予访问权限。"
+      },
+      "feedback": {
+        "successMessage": "成功创建了凭证",
+        "failureMessageCreate": "创建凭证失败：{{errorMessage}}",
+        "updateSuccessMessage": "成功更新了凭证",
+        "failureMessageUpdate": "更新凭证失败：{{errorMessage}}"
+      },
+      "edit": {
+        "dialogTitle": "编辑合成凭证 {{credentialName}}",
+        "associations": "关联",
+        "saveButton": "保存",
+        "textInputHelperText": "凭证名称不可编辑，并且是一个 readOnly 字段",
+        "passwordInputHelperText": "如果要更新当前凭证，请键入新的凭证值。"
+      },
+      "tooltipLabels": {
+        "hide": "隐藏凭证值",
+        "show": "显示凭证值"
       }
     }
   },
@@ -334,7 +425,8 @@
       "secondaryLabels": {
         "tests": "测试",
         "locations": "位置",
-        "smartAlerts": "智能警报"
+        "smartAlerts": "智能警报",
+        "credentials": "凭证"
       },
       "popDialog": {
         "popUpDialogTitle": "用于合成监视的许可权",
@@ -349,7 +441,23 @@
         "tlsInstructions": "如果要启用 Redis TLS，那么需要具有 X.509 证书密钥对（“tls.crt”、“tls.key”）和 CA 根证书文件（“ca.crt”）。\n\n如果您没有密钥/证书文件，那么还可以使用 openssl 命令来生成新的密钥/证书文件，请参阅以下示例：",
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt",
         "tlsSecretInstructions": "提供密钥/证书文件后，使用 kubectl 命令创建私钥。",
-        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\""
+        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\"",
+        "associationsTitle": "{{number}} 个关联",
+        "singleAssociationTitle": "{{number}} 个关联"
+      },
+      "multiAppDialog": {
+        "filterLabel": "应用程序",
+        "singleAppHeader": "{{ number }} 个关联",
+        "multiAppHeader": "{{ number }} 个关联",
+        "noApplicationsAssociated": "无关联的应用程序"
+      },
+      "multiWebDialog": {
+        "filterLabel": "Web 站点",
+        "noWebsitesAssociated": "无关联的网站。"
+      },
+      "multiMobileDialog": {
+        "filterLabel": "移动应用程序",
+        "noMobileAppsAssociated": "无关联的移动应用。"
       },
       "testLabel": "名称",
       "status": "状态",
@@ -365,8 +473,15 @@
       "successRuns": "{{successRuns}} 条结果（共 {{totalRuns}} 条）",
       "latency": "等待时间",
       "locationLabel": "位置",
-      "locations": "{{totalLocations}} 个位置",
-      "applicationLabel": "应用程序",
+      "locationsColumn": {
+        "singleLocation": "{{number}} 个位置",
+        "multipleLocations": "{{number}} 个位置",
+        "singleRun": "在 {{number}} 个位置中运行",
+        "multipleRun": "在 {{number}} 个位置中运行",
+        "warning": "警告",
+        "noIssues": "没有问题"
+      },
+      "associationLabel": "关联",
       "health": "运行状况",
       "action": "操作",
       "labelConfirmRemoveTest": "确定要除去 <strong>{{testLabel}}</strong> 测试吗？",
@@ -400,6 +515,12 @@
       "deleteLocationBroswerRefreshInfo": "该位置需要一些时间才能从位置列表中消失，并且可能需要浏览器刷新。",
       "deactivateLocation": {
         "deactivate": "停用"
+      },
+      "ipAddressColumn": {
+        "ipAddress": "IP 地址",
+        "singleIPAddress": "{{number}} IP 地址",
+        "multipleIPAddress": "{{number}} IP 地址",
+        "noIPAddresses": "不适用"
       }
     },
     "summary": {
@@ -442,7 +563,15 @@
       "totalRuns": "{{totalRuns}} 总运行次数",
       "meanLatencyFor90th": "第 90 个的 {{meanLatencyDetail}}",
       "smartAlertsTab": "智能警报",
-      "configurationTab": "配置"
+      "configurationTab": "配置",
+      "isCertificateValid": "上次运行 - 证书由公共 CA 签署",
+      "resultsCertificateValid": "证书由公共 CA 签署",
+      "certificateValid": "是",
+      "certificateNotValid": "False",
+      "daysRemaining": "上次运行 - 剩余天数",
+      "timeOfExpiry": "上次运行 - 距离到期的时间",
+      "smallerTimeFrameTitle": "没有针对此时间范围的结果",
+      "smallerTimeFrameDescription": "请选择较长的时间范围以查看 SSL 证书检查测试的结果。"
     },
     "resultsListPage": {
       "startedColumn": "已启动",
@@ -454,7 +583,8 @@
       "locationLabel": "位置",
       "failures": "失败次数",
       "status": "状态",
-      "success": "成功"
+      "success": "成功",
+      "daysRemaining": "剩余天数"
     },
     "detailsPage": {
       "detailLiveModeDisabled": "“实时方式”在“合成测试结果详细信息”页面中不适用",
@@ -579,7 +709,13 @@
         "imageButton": "图像",
         "ScreenshotsLoadingMessage": "正在装入屏幕快照",
         "noScreenshotsAvailableMessage": "屏幕快照不可用于此测试结果"
-      }
+      },
+      "sslCertificate": {
+        "daysRemaining": "剩余天数",
+        "timeOfIssue": "问题时间",
+        "timeOfExpiry": "到期时间"
+      },
+      "failedRunErrorTypeTitle": "错误类型"
     },
     "noDataAvailable": {
       "resultsTitle": "无可用结果",
@@ -645,6 +781,7 @@
       },
       "configurationEditAction": "编辑",
       "configurationDeleteAction": "删除",
+      "configurationUnsupported": "测试类型不受支持。",
       "timeoutLabel": "超时",
       "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
       "retryStrategyLabel": "重试策略",
@@ -653,7 +790,44 @@
       "retryIntervalFieldLabel": "重试时间间隔",
       "retryIntervalSecondDescription": "{{retryIntervalValue}} 秒",
       "retryIntervalSecondsDescription": "{{retryIntervalValue}} 秒",
-      "markSyntheticCall": "标记合成调用"
+      "markSyntheticCall": "标记合成调用",
+      "hostname": "主机名",
+      "port": "端口",
+      "daysRemaining": "失败配置",
+      "day": "当证书有效期距到期还有 {{daysRemainingCheck}} 天时，测试将失败",
+      "days": "当证书有效期距到期还有 {{daysRemainingCheck}} 天时，测试将失败",
+      "associations": "关联",
+      "associatedApplications": "关联的应用程序",
+      "noApplicationsAssociated": "无关联的应用程序",
+      "associatedWebsites": "关联的网站",
+      "noWebsitesAssociated": "无关联的网站",
+      "associatedMobileApps": "关联的移动应用",
+      "noMobileAppAssociated": "无关联的移动应用"
+    },
+    "credentialList": {
+      "mainLabel": "凭证",
+      "name": "名称",
+      "associations": "关联",
+      "createdAt": "创建时间",
+      "createdBy": "创建者",
+      "lastModifiedBy": "上次修改者",
+      "actions": "操作",
+      "noDataAvailable": {
+        "noCredentialsAvailableTitle": "无可用的合成凭证",
+        "noCredentialsAvailableDescription": "没有从数据库中检索到合成凭证。"
+      },
+      "editAction": {
+        "editActionLabel": "编辑",
+        "theValueMustNotBeBlank": "值不能为空。"
+      },
+      "deleteAction": {
+        "deleteActionLabel": "删除",
+        "deleteCredentialTitle": "删除合成凭证 {{credentialName}}",
+        "credentialNameValidation": "输入凭证全名以确认删除",
+        "deleteButtonLabel": "删除凭证",
+        "cancelButtonLabel": "取消",
+        "deletionSuccess": "已删除凭证"
+      }
     }
   }
 }

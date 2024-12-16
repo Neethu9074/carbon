@@ -17,13 +17,13 @@ import {
   businessProcessDashboard
 } from 'in-bizops/navigation/paths';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
+import { millis, number, timeByMillisZeroDecimalPlaces } from 'in-services/formatters/number';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { selectBizopsProcessActivitiesTracker } from 'in-bizops/tracker';
 import { getChartGranularity } from 'in-stores/metric/metric';
-import { number } from 'in-services/formatters/number';
+import { bizopsActivitySelect } from 'in-bizops/tracker';
 import { t } from 'in-i18n';
 
 import locals from './columnDefinitions.mless';
@@ -68,37 +68,53 @@ export const activitiesColumnDefinitions: ColumnDefinition<BusinessActivityItem,
           //@ts-expect-error
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           aggregation="DISTINCT_COUNT"
-          metrics={item.metrics.timeseries_counts}
-          metric={item.metrics.count}
+          metrics={item.metrics?.timeseries_counts}
+          metric={item.metrics?.count}
           tooltipFormatter={number.compact}
         />
       );
     }
-  }
-  /*
+  },
   {
-    id: 'duration', //TODO: Fix once backend support exists
+    id: 'duration',
     sortable: true,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.durationLabel'),
-    getContent() {
+    getContent(item: BusinessActivityItem, { timeConfig, result }) {
       return (
-        <div>
-          <h4>1</h4>
-        </div>
+        <SparkChart
+          loading={false}
+          rollup={getChartGranularity(timeConfig)}
+          //@ts-ignore
+          timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
+          aggregation="MEAN"
+          metrics={item.metrics?.timeseries_duration}
+          metric={item.metrics?.duration}
+          tooltipFormatter={timeByMillisZeroDecimalPlaces}
+        />
       );
     }
   },
   {
-    id: 'health', //TODO: Fix once backend support exists
+    id: 'call_latency',
     sortable: true,
     defaultOrderDirection: 'DESC',
-    label: t('in-bizops:lists.healthLabel'),
-    getContent() {
-      return <h4>Health</h4>;
+    label: t('in-bizops:lists.latencyLabel'),
+    getContent(item: BusinessActivityItem, { timeConfig, result }) {
+      return (
+        <SparkChart
+          loading={false}
+          rollup={getChartGranularity(timeConfig)}
+          //@ts-ignore
+          timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
+          aggregation="MEAN"
+          metrics={item.metrics?.timeseries_latency}
+          metric={item.metrics?.call_latency}
+          tooltipFormatter={millis.compact}
+        />
+      );
     }
   }
-  */
 ];
 
 function ActivityLink(activityName: string | undefined, activityId: string | undefined) {
@@ -112,6 +128,7 @@ function ActivityLink(activityName: string | undefined, activityId: string | und
     t('in-bizops:dashboards.summary.pageTitle');
 
   const activityTracking = {
+    path: location.pathname,
     processId: businessProcessId,
     processName: businessProcessName,
     activityName: activityName as string
@@ -125,7 +142,7 @@ function ActivityLink(activityName: string | undefined, activityId: string | und
     <Link
       className={locals.label}
       href={createHref(location)}
-      onClick={() => selectBizopsProcessActivitiesTracker(activityTracking)}
+      onClick={() => bizopsActivitySelect(activityTracking)}
     >
       {activityName}
     </Link>

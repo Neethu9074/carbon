@@ -7,8 +7,11 @@ import React from 'react';
 
 import { themes } from '@instana/design-tokens';
 
+import {
+  withSiMultiplyPrefixThreeDecimalPlaces,
+  withSiMultiplyPrefixZeroDecimalPlaces
+} from 'in-services/formatters/number';
 import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
-import { withSiMultiplyPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import useMetricIds from 'in-infrastructure/hooks/useMetricIds';
@@ -38,7 +41,7 @@ const gaugeHistogram = {
   color: themes.default.ids.color.option.yellow['500'],
   metrics: [
     {
-      label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
+      label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelValue'),
       formatter: withSiMultiplyPrefixThreeDecimalPlaces
     }
   ]
@@ -50,7 +53,7 @@ const stateSet = {
   color: themes.default.ids.color.option.blue['500'],
   metrics: [
     {
-      label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
+      label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelValue'),
       formatter: withSiMultiplyPrefixThreeDecimalPlaces
     }
   ]
@@ -62,7 +65,7 @@ const info = {
   color: themes.default.ids.color.option.blue['500'],
   metrics: [
     {
-      label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
+      label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelValue'),
       formatter: withSiMultiplyPrefixThreeDecimalPlaces
     }
   ]
@@ -80,6 +83,19 @@ const untyped = {
   ]
 };
 
+const delta = {
+  prefix: 'metrics.delta_counters.',
+  type: 'delta counter',
+  color: themes.default.ids.color.option.green['500'],
+  metrics: [
+    {
+      label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelDelta'),
+      formatter: withSiMultiplyPrefixZeroDecimalPlaces
+    }
+  ],
+  discrete: true
+};
+
 export const SPECS = [
   AVAILABLE_SPECS.COUNTER_CUMULATIVE,
   AVAILABLE_SPECS.GAUGE,
@@ -88,5 +104,6 @@ export const SPECS = [
   gaugeHistogram,
   stateSet,
   info,
-  untyped
+  untyped,
+  delta
 ];

@@ -5,9 +5,6 @@
 
 import { useMemo } from 'react';
 
-import { just, Observable } from '@instana/observables';
-import { useObservable } from '@instana/hooks';
-
 import {
   containerSnapshotIds,
   ID_HOST,
@@ -32,15 +29,14 @@ import {
   useLinkToEndpointDashboard,
   useLinkToServiceDashboard
 } from 'in-applications/navigation/paths';
-import { getKubernetesLink } from 'in-logging/analyze/AnalyzeView/components/hooks/getKubernetesLink';
+import { useGetKubernetesLink } from 'in-logging/analyze/AnalyzeView/components/hooks/getKubernetesLink';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { useLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { LogItem, LogTag } from 'in-types';
 
-type LinkResolverObservable = (tag: LogTag, log: LogItem) => Observable<string> | null;
 type LinkResolverString = (tag: LogTag, log: LogItem) => string | null;
 
-function getServiceId(tags: LogTag[]): string | null {
+export function getServiceId(tags: LogTag[]): string | null {
   return tags.find(({ name, key }) => name === LOG_CUSTOM && key === LOG_CUSTOM_KEY_SERVICE_ID)?.stringValue ?? null;
 }
 
@@ -54,23 +50,12 @@ export default function useResolvedLink(presentedName: string, tag: LogTag | und
   const getLinkToServiceDashboard = useLinkToServiceDashboard();
   const getLinkToEndpointDashboard = useLinkToEndpointDashboard();
   const getLinkToDashboard = useGetDashboardLink();
+  const getKubernetesLink = useGetKubernetesLink();
 
   const containerTagResolvers: [string, LinkResolverString][] = containerSnapshotIds.map(id => [
     id,
     (t, _) => getLinkToDashboard(t.stringValue ?? '', { pathname: '/physical/dashboard' })
   ]);
-
-  const tagValueObservableLinkResolver = useMemo(
-    () =>
-      new Map<string, LinkResolverObservable>([
-        [LOG_KUBERNETES_CLUSTER_NAME, getKubernetesLink],
-        [LOG_KUBERNETES_POD_NAME, getKubernetesLink],
-        [LOG_KUBERNETES_NODE_NAME, getKubernetesLink],
-        [LOG_KUBERNETES_NAMESPACE_NAME, getKubernetesLink],
-        [LOG_KUBERNETES_DEPLOYMENT_NAME, getKubernetesLink],
-      ]),
-    [containerTagResolvers]
-  );
 
   const tagValueStringLinkResolver = useMemo(
     () =>
@@ -113,19 +98,20 @@ export default function useResolvedLink(presentedName: string, tag: LogTag | und
             return endpointId ? getLinkToEndpointDashboard({ endpointId }) : null;
           }
         ],
+        [LOG_KUBERNETES_CLUSTER_NAME, getKubernetesLink],
+        [LOG_KUBERNETES_POD_NAME, getKubernetesLink],
+        [LOG_KUBERNETES_NODE_NAME, getKubernetesLink],
+        [LOG_KUBERNETES_NAMESPACE_NAME, getKubernetesLink],
+        [LOG_KUBERNETES_DEPLOYMENT_NAME, getKubernetesLink],
         ...containerTagResolvers
       ]),
     [getLinkToApplicationDashboard, getLinkToServiceDashboard, getLinkToEndpointDashboard, getLinkToTraceDetail]
   );
 
 
-  const observableResolver = tagValueObservableLinkResolver.get(presentedName);
   const stringResolver = tagValueStringLinkResolver.get(presentedName);
 
   return (
-    useObservable(observableResolver && tag ? observableResolver(tag, item) : just(null), [presentedName], {
-      resetStateOnObservableChange: true
-    }) ??
     (stringResolver && tag && stringResolver(tag, item)) ??
     null
   );

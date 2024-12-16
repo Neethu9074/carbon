@@ -9,18 +9,18 @@
     "tooltip1": "L'agent a envoyé un rapport pour la période sélectionnée, mais ne l'a pas fait au moment sélectionné. ",
     "tooltip2": "L'agent a démarré à {{startTime}} et continue de produire des rapports.",
     "tooltip3": "L'agent a envoyé un rapport entre {{startTime}} et {{toTime}}.",
-    "issueReported": "{{count}} problème signalé :",
-    "issueReported_plural": "{{count}} problèmes signalés :",
-    "issueReported_0": "{{count}}s problèmes signalés :",
-    "issueReported_1": "{{count}}s problèmes signalés :",
-    "issueReported_2": "{{count}}s problèmes signalés :",
+    "monitoringIssueReported": "{{count}} problème de surveillance signalé :",
+    "monitoringIssueReported_plural": "{{count}} problèmes de surveillance signalés :",
+    "monitoringIssueReported_0": "{{count}} problèmes de surveillance signalés :",
+    "monitoringIssueReported_1": "{{count}} problèmes de surveillance signalés :",
+    "monitoringIssueReported_2": "{{count}} problèmes de surveillance signalés :",
     "reporting": "création de rapports",
     "notReporting": "n'envoie pas de rapport",
-    "issues": "{{count}} problème",
-    "issues_plural": "{{count}} problèmes",
-    "issues_0": "{{count}} problèmes",
-    "issues_1": "{{count}} problèmes",
-    "issues_2": "{{count}} problèmes",
+    "reportingMonitoringIssues": "génération de rapports, {{count}} problème de surveillance",
+    "reportingMonitoringIssues_plural": "génération de rapports, {{count}} problèmes de surveillance",
+    "reportingMonitoringIssues_0": "génération de rapports, {{count}} problèmes de surveillance",
+    "reportingMonitoringIssues_1": "génération de rapports, {{count}} problèmes de surveillance",
+    "reportingMonitoringIssues_2": "génération de rapports, {{count}} problèmes de surveillance",
     "agents": "Agents",
     "updateAllAgents": "Mettre à jour tous les agents",
     "resetAllAgents": "Réinitialiser tous les agents",
@@ -53,7 +53,8 @@
     "javaRuntime": "Environnement d'exécution Java",
     "status": "Statut",
     "agentDetails": "Détails des agents",
-    "totalAgents": "Nombre total d'agents"
+    "totalAgents": "Nombre total d'agents",
+    "anErrorOccurredPleaseTryAgain": "Une erreur s'est produite. Veuillez réessayer."
   },
   "dashboard": {
     "comparisonTable": "Table de comparaison",
@@ -74,11 +75,13 @@
     "restartCount": "Nombre de redémarrages",
     "kubernetesLabels": "Libellés Kubernetes",
     "podmanAnnotations": "Annotations Podman",
-    "metricExplosion": "Ce tableau de bord ne peut pas afficher toutes les métriques car seules {{numberOfMetrics}} ont été stockées"
+    "metricExplosionBeeInstana": "Ce tableau de bord peut ne pas afficher toutes les métriques, car un maximum de {{numberOfMetrics}} métriques sont capturées à un moment donné.",
+    "metricExplosion": "Ce tableau de bord peut ne pas afficher toutes les métriques, car un maximum de {{numberOfMetrics}} métriques haute résolution sont capturées à un moment donné. Pour afficher d'autres métriques balisées, utilisez Analyser l'infrastructure ou un tableau de bord personnalisé."
   },
   "explore": {
     "analyzeInfrastructure": "Analyser l'infrastructure",
     "focusOnThisGroup": "Axer sur ce groupe",
+    "tagNotPresent": "Étiquette absente",
     "theQueryConfigurationIsInvalid": "La configuration de la requête n'est pas valide. Veuillez résoudre les échecs de validation avant de continuer.",
     "allInfrastructure": "Toutes les infrastructures",
     "emptyInfrastructure": "Sélectionner un type d'entité",
@@ -86,14 +89,14 @@
     "search": "Rechercher un type",
     "explore": "Explorer",
     "health": "Intégrité",
-    "noIssues": "Aucun problème détecté",
     "count": "Nombre",
     "errors": {
       "maximumNumberOfGroups": "Cette requête a trop de résultats. Affinez votre recherche à l'aide d'un filtre plus restrictif ou réduisez l'intervalle et réessayez.",
       "maximumNumberOfMembers": "Cette requête a trop de résultats. Affinez votre recherche à l'aide d'un filtre plus restrictif ou réduisez l'intervalle et réessayez.",
       "generalError": "Une erreur inattendue s'est produite."
     },
-    "entityTypes": "Types d'entité {{count, parenthesis}}"
+    "entityTypes": "Types d'entité {{count, parenthesis}}",
+    "relatedInstances": "Analyser les instances"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "Afficher les nombres et les moyennes dans la fenêtre de temps en cours.",
@@ -128,7 +131,8 @@
     "map": "Mappe",
     "comparisonTable": "Table de comparaison",
     "infrastructureComparisonTable": "Table de comparaison d'infrastructure",
-    "smartAlerts": "Alertes intelligentes"
+    "smartAlerts": "Alertes intelligentes",
+    "graph": "Graphique"
   },
   "smartAlertView": {
     "smartAlertTab": "Alertes intelligentes d'infrastructure"
@@ -137,5 +141,13 @@
     "buttonSelectTags": "Sélectionner des étiquettes",
     "titleAddATag": "Ajouter une balise",
     "messagePleaseSelectAtMostTags": "Sélectionnez au maximum {{maximumNumberOfTags}} étiquettes."
+  },
+  "graphExplorerView": {
+    "infrastructureGraphExplorer": "Explorateur de graphique"
+  },
+  "threshold": {
+    "label": "Seuil",
+    "critical": "Critique quand {{operator}} {{level}}",
+    "warning": "Avertissement quand {{operator}} {{level}}"
   }
 }

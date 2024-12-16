@@ -72,7 +72,25 @@ export function fixateTimeConfig(timeConfig: TimeConfig): FixedTimeConfig {
   };
 }
 
-export function timeConfigWithShift(timeConfig: TimeConfig, timeSkew: number) {
+export function trimTimeConfigEnd(timeConfig: FixedTimeConfig, maxWindowSize: number): FixedTimeConfig {
+  if (timeConfig.windowSize < maxWindowSize) {
+    return timeConfig;
+  }
+
+  const diff = timeConfig.windowSize - maxWindowSize;
+  const trimmedTo = timeConfig.to - diff;
+  const trimmedFocusedMoment =
+    timeConfig.focusedMoment == null ? trimmedTo : Math.min(timeConfig.focusedMoment, trimmedTo);
+
+  return {
+    to: trimmedTo,
+    focusedMoment: trimmedFocusedMoment,
+    autoRefresh: timeConfig.autoRefresh,
+    windowSize: maxWindowSize
+  };
+}
+
+function timeConfigWithShift(timeConfig: TimeConfig, timeSkew: number) {
   // live mode needs to query with empty to field
   // historical data does not need to be skewed
   if (timeConfig.autoRefresh || timeConfig.to !== null) {
@@ -85,6 +103,14 @@ export function timeConfigWithShift(timeConfig: TimeConfig, timeSkew: number) {
     to: now,
     focusedMoment: now
   };
+}
+
+// When displaying metrics until now, the ingestion pipeline has not had time to fully ingest entities
+// Ingestion time is about 10s, so charts should not go further than present time - 10s to avoid drops at end of charts due to incomplete ingestion
+const timeSkew = 10000;
+
+export function timeConfigShiftedForIngestion(timeConfig: TimeConfig) {
+  return timeConfigWithShift(timeConfig, timeSkew);
 }
 
 function getInt(query: Parameters, key: string, fallback: number): number;
@@ -176,7 +202,7 @@ export function setTimeConfig(location: Location, timeConfig: Partial<TimeConfig
 export function getAdjustedTimeConfigToIncludeTimestamp(
   timeConfig: TimeConfig,
   timestamp: number,
-  granularityProvider: (config: { windowSize: number }) => number,
+  granularityProvider: (config: Pick<TimeConfig, 'windowSize'>) => number,
   // allow to inject 'now' for testing
   nowFunc: () => number = Date.now
 ): TimeConfig {

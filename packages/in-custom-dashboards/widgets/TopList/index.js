@@ -15,6 +15,3 @@ export const label = t('in-custom-dashboards:widgets.topList.index.topListLb');
 export const minimumWidth = 3;
 export const minimumHeight = 16;
 export const enabled = true;
-export const badge = {
-  content: 'BETA'
-};

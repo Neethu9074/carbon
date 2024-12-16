@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { DescriptionItem } from '@instana/components';
+
 import getLambdaFunctionForVersion from 'in-subscription/getLambdaFunctionForVersion';
-import { DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';

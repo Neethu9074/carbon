@@ -5,13 +5,13 @@
 
 import React, { ComponentType, ReactNode } from 'react';
 
+import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { HorizontalIndicator } from '@instana/components';
 import { Result } from '@instana/types';
 
-import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
-import { Tab, TabHeaderProps } from 'in-components/LocationAwareTabView/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { Tab } from 'in-components/LocationAwareTabView/types';
 import { Location } from 'in-stores/navigation/types';
 import { Nullish } from 'in-types';
 
@@ -41,11 +41,20 @@ export default function Header<TabData, TabProps extends {} = {}>({
   additionalHeader,
   tabChangeTracker
 }: HeaderProps<TabData, TabProps>) {
-
   // Workaround for finding out selectedIndex using the same logic as below. This is for carbonVariant of SecondLevelNavigation
-  const selectedIndex = tabs?.findIndex((tab) => {
-    return location && location.pathname.indexOf(tab.path) === 0
-  }) || 0;
+  const selectedIndex =
+    tabs?.findIndex(tab => {
+      return location && location.pathname.indexOf(tab.path) === 0;
+    }) || 0;
+
+  const { createHrefToPath } = useNavigation();
+
+  const visibleTabs = tabs.filter(tab => {
+    if (tab.isVisible && !tab.isVisible(result)) {
+      return false;
+    }
+    return true;
+  });
 
   return (
     <div className={locals.header}>
@@ -54,16 +63,36 @@ export default function Header<TabData, TabProps extends {} = {}>({
       <DashboardHeaderModule theme={themes.light}>
         {tabs.length === 1 && tabs[0].hideTabLabelWhenAlone ? null : (
           <SecondLevelNavigation selectedIndex={selectedIndex}>
-            {tabs.map(tab => (
-              <TabComponent
-                key={tab.label}
-                {...props}
-                tab={tab}
-                location={location}
-                result={result}
-                tabChangeTracker={tabChangeTracker}
-              />
-            ))}
+            {visibleTabs.map(tab => {
+              const isActive = location && location.pathname.indexOf(tab.path) === 0;
+              const isDisabled = !!(tab.isDisabled && tab.isDisabled(result));
+
+              const tabProp = {
+                label: tab.label,
+                tab,
+                result,
+                location
+              };
+
+              return (
+                <SecondLevelNavigationItem
+                  key={tab.label}
+                  label={tab.header ? tab.header(tabProp) : tab.label}
+                  icon={tab.icon}
+                  postIcon={tab.postIcon}
+                  isActive={isActive}
+                  isDisabled={isDisabled}
+                  href={!isDisabled ? createHrefToPath(tab.path) : undefined}
+                  onClick={() => {
+                    if (tabChangeTracker) {
+                      tabChangeTracker({
+                        tab: tab.label
+                      });
+                    }
+                  }}
+                />
+              );
+            })}
           </SecondLevelNavigation>
         )}
       </DashboardHeaderModule>
@@ -72,39 +101,5 @@ export default function Header<TabData, TabProps extends {} = {}>({
         {result && <HorizontalIndicator className={locals.loadingIndicator} progress={result.progress} />}
       </DashboardHeaderModule>
     </div>
-  );
-}
-
-interface TapComponentProps<TabData, TabProps extends {}> extends TabHeaderProps<TabData, TabProps> {
-  tabChangeTracker?: (props: { tab: string }) => void;
-}
-
-function TabComponent<TabData, TabProps extends {}>(props: TapComponentProps<TabData, TabProps>) {
-  const { createHrefToPath } = useNavigation();
-  const { tab, result, location, tabChangeTracker } = props;
-  if (tab.isVisible && !tab.isVisible(result)) {
-    return null;
-  }
-
-  const isActive = location && location.pathname.indexOf(tab.path) === 0;
-  const isDisabled = !!(tab.isDisabled && tab.isDisabled(result));
-
-  return (
-    <SecondLevelNavigationItem
-      key={tab.label}
-      label={tab.header ? tab.header(props) : tab.label}
-      icon={tab.icon}
-      postIcon={tab.postIcon}
-      isActive={isActive}
-      isDisabled={isDisabled}
-      href={!isDisabled ? createHrefToPath(tab.path) : undefined}
-      onClick={() => {
-        if (tabChangeTracker) {
-          tabChangeTracker({
-            tab: tab.label
-          });
-        }
-      }}
-    />
   );
 }

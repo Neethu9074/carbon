@@ -7,8 +7,7 @@
 import React from 'react';
 
 import { ApdexConfiguration, PaginatedResult, Result } from '@instana/types';
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { IconButton, Button } from '@instana/components';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { addActiveDialog, close as closeDialog } from 'in-components/DialogPresenter/store';
@@ -107,7 +106,12 @@ const columnDefinitions: ColumnDefinition<ApdexConfiguration, ServerTableApdexCo
       return (
         <div className={locals.controls}>
           <Tooltip content={t('in-custom-dashboards:widgets.apdex.apdexList.editApdexTooltip')}>
-            <SvgIcon type="lib_actions_edit" className={locals.iconButton} onClick={() => onEdit(item)} />
+            <IconButton
+              kind="primary"
+              type="lib_actions_edit"
+              className={locals.iconButton}
+              onClick={() => onEdit(item)}
+            />
           </Tooltip>
         </div>
       );
@@ -122,7 +126,8 @@ const columnDefinitions: ColumnDefinition<ApdexConfiguration, ServerTableApdexCo
       return (
         <div className={locals.controls}>
           <Tooltip content={t('in-custom-dashboards:widgets.apdex.apdexList.deleteApdexTooltip')}>
-            <SvgIcon
+            <IconButton
+              kind="primary"
               type="lib_actions_delete"
               className={locals.iconButton}
               onClick={() => {

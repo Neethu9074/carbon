@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { Stack, Typography, KeyValue } from '@instana/components';
+import { Stack, Typography, KeyValue, RadioButton } from '@instana/components';
 
 import { getAgentDownloadURL } from 'in-plg/pages/onboarding/content/ContentComponents';
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
@@ -17,7 +17,7 @@ import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 const agentOptions = [
@@ -78,10 +78,12 @@ export default function MacOs({
     }
   ];
 
+  if (shareAndInviteEnabled) sideCardData.pop();
+
   function getAgentPackagingMode() {
     return (
       <Stack direction="horizontal">
-        <CheckboxFancy
+        <RadioButton
           label={t('in-plg:agentDetails.agentMode.dynamic')}
           checked={agentMode === agentModeOptions[0]}
           onChange={() => {
@@ -89,9 +91,8 @@ export default function MacOs({
             setOption(agentOptions[0].key);
           }}
           size="default"
-          asRadioButton
         />
-        <CheckboxFancy
+        <RadioButton
           label={t('in-plg:agentDetails.agentMode.static')}
           checked={agentMode === agentModeOptions[1]}
           onChange={() => {
@@ -99,7 +100,6 @@ export default function MacOs({
             setOption(agentOptions[1].key);
           }}
           size="default"
-          asRadioButton
         />
       </Stack>
     );

@@ -22,7 +22,9 @@ export default function GroupBySection({
   additionalContent,
   withoutIcon,
   withOptionalMarker,
-  hasError
+  hasError,
+  additionalGetTagCatalogProps,
+  SectionWrapper = Section
 }) {
   const title = withOptionalMarker ? (
     <SectionLabelWithSubtext subtext={t('in-components:groupingConfigurator.optional')}>
@@ -33,16 +35,17 @@ export default function GroupBySection({
   );
 
   return (
-    <Section icon={withoutIcon ? undefined : 'lib_group_by'} title={title} actions={actions} hasError={hasError}>
+    <SectionWrapper icon={withoutIcon ? undefined : 'lib_group_by'} title={title} actions={actions} hasError={hasError}>
       <GroupingConfigurator
         value={value}
         tagFilterExpression={tagFilterExpression}
         onChange={onChange}
         tracking={tracking}
         tagCatalog={tagCatalog}
+        additionalGetTagCatalogProps={additionalGetTagCatalogProps}
       />
       {additionalContent}
-    </Section>
+    </SectionWrapper>
   );
 }
 
@@ -57,5 +60,7 @@ GroupBySection.propTypes = {
   withoutIcon: rpt.bool,
   withOptionalMarker: rpt.bool,
   tracking: rpt.shape(groupingConfiguratorTrackingProps),
-  hasError: rpt.bool
+  hasError: rpt.bool,
+  additionalGetTagCatalogProps: rpt.object,
+  SectionWrapper: rpt.func
 };

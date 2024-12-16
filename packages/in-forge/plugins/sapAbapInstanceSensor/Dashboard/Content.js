@@ -6,9 +6,10 @@
 
 import React from 'react';
 
-import { getSapAbapInstanceSensorDashboard } from 'in-sap/navigation/paths';
+import { useSapAbapInstanceSensorDashboard } from 'in-sap/navigation/paths';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default function SystemDashboard({ snapshot }) {
-  return <RedirectWithHash to$={getSapAbapInstanceSensorDashboard(snapshot.get('id'))} />;
+  const href = useSapAbapInstanceSensorDashboard(snapshot.get('id'));
+  return <RedirectWithHash href={href} />;
 }

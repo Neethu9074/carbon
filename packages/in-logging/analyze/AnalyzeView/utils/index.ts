@@ -7,13 +7,15 @@
 import {
   LogGroupItem,
   LogItem,
+  TagFilter,
   TagFilterExpression,
   TagFilterExpressionElementUnion,
   TimeConfig
 } from '@instana/types';
 
 // eslint-disable-next-line no-restricted-imports
-import { logsCallwithFilters } from '../tracker';
+import { ANALYZE_LOGGING_LOG_GETLOGS_FILTERS } from 'in-services/tracking/eventNames';
+import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 
 export function getMetric({ numberOfLogs }: LogGroupItem) {
   return numberOfLogs;
@@ -29,9 +31,32 @@ export function isLogItem(log: any): log is LogItem {
 }
 export const defaultChartedMetrics = [{ metricId: 'logs_distribution', aggregationId: 'SUM' }];
 
-export const handleLogCallsWithFilters = (payload: {
-  timeConfig: TimeConfig;
-  tagFilterExpression: TagFilterExpression | TagFilterExpressionElementUnion;
-}) => {
-  logsCallwithFilters(payload);
+export const handleLogCallsWithFilters = (
+  trackCta: CtaTrackingFunction,
+  {
+    timeConfig,
+    tagFilterExpression
+  }: {
+    timeConfig: TimeConfig;
+    tagFilterExpression: TagFilterExpression | TagFilterExpressionElementUnion;
+  }
+) => {
+  trackCta(ANALYZE_LOGGING_LOG_GETLOGS_FILTERS, {
+    timeConfig,
+    tags: extractTagNames(tagFilterExpression)
+  });
 };
+
+export function extractTagNames(expression: TagFilterExpressionElementUnion): string[] {
+  const tagNames: string[] = [];
+
+  if (expression.type === 'TAG_FILTER') {
+    tagNames.push((expression as TagFilter).name);
+  } else if (expression.type === 'EXPRESSION') {
+    (expression as TagFilterExpression).elements.forEach(element => {
+      tagNames.push(...extractTagNames(element));
+    });
+  }
+
+  return [...new Set(tagNames)];
+}

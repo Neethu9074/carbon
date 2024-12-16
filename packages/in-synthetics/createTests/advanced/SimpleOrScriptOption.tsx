@@ -6,7 +6,7 @@
 
 import React, { forwardRef } from 'react';
 
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
+import {RadioButton, Checkbox} from '@instana/components';
 
 import locals from 'in-synthetics/createTests/advanced/SimpleOrScriptOption.mless';
 
@@ -60,11 +60,12 @@ const OptionBoxWithRef = forwardRef(function OptionBox(
       <div className={locals.description}>{description}</div>
     </div>
   );
+
+  const BoxComponent = asRadioButton ? RadioButton : Checkbox;
   return (
     <div className={locals.wrapper} ref={ref}>
-      <CheckboxFancy
+      <BoxComponent
         label={labelContent}
-        asRadioButton={asRadioButton}
         checked={checked}
         disabled={disabled}
         onChange={e => {

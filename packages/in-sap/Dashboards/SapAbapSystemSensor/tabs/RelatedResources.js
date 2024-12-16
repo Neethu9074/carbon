@@ -7,13 +7,14 @@
 import React from 'react';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import { getHumanReadablePluginName } from 'in-sap/Dashboards/tables/getHumanReadablePluginName';
+import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
-import { getSpecificDashboard } from 'in-sap/Dashboards/tables/getDashboardSpecifics';
+import { GetSpecificDashboard } from 'in-sap/Dashboards/tables/getDashboardSpecifics';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
+import { percentage, number, percentagePlain } from 'in-services/formatters/number';
+import getWorkProcessStatus from 'in-sap/Dashboards/tables/WorkProcessHelper.tsx';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getRelatedResources from 'in-sap/subscriptions/getRelatedResources';
-import { getOverallStatus } from 'in-sap/Dashboards/tables/OverallStatus';
 import { colorFormatter } from 'in-sap/Dashboards/tables/ColorFormatter';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import { t } from 'in-i18n';
@@ -27,28 +28,64 @@ const columnDefinitions = [
     id: 'label',
     label: t('in-sap:name'),
     getContent(item) {
-      return getSpecificDashboard(item, matrixPrefix, systemSnapshotId);
-    }
-  },
-  {
-    id: 'objectType',
-    label: t('in-sap:objectType'),
-    getContent(item) {
-      return getHumanReadablePluginName(item);
-    }
-  },
-  {
-    id: 'hostName',
-    label: t('in-sap:hostName'),
-    getContent(item) {
-      return item.hostName;
+      return <GetSpecificDashboard value={item} matrixPrefix={matrixPrefix} systemSnapshotId={systemSnapshotId} />;
     }
   },
   {
     id: 'overallRating',
-    label: t('in-sap:dashboards.overallRating'),
+    label: t('in-sap:dashboards.status'),
     getContent(item) {
-      return <Badge color={colorFormatter(item.overallRating)}>{getOverallStatus(item.overallRating)}</Badge>;
+      return <Badge color={colorFormatter(item.overallRating)}>{item.overallRating}</Badge>;
+    }
+  },
+  {
+    id: 'cpu',
+    label: t('in-sap:dashboards.cpuUsage'),
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={percentagePlain.compact}
+          metric="cpuMetricStats.totalUtilization"
+        />
+      );
+    }
+  },
+  {
+    id: 'memory',
+    label: t('in-sap:dashboards.memoryUsage'),
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={percentage.detailed}
+          metric="swapmemory.usedMemory"
+        />
+      );
+    }
+  },
+  {
+    id: 'user',
+    label: t('in-sap:dashboards.userSessions'),
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={number.compact}
+          metric="sapMetricsStats.userSession"
+        />
+      );
+    }
+  },
+  {
+    id: 'workProcess',
+    label: t('in-sap:dashboards.workProcess'),
+    sortable: false,
+    getContent(item) {
+      return getWorkProcessStatus(item);
     }
   },
   {
@@ -72,7 +109,7 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   paginationResettingUrlParameters: [...timeConfigUrlParameters],
   columnDefinitions,
-  defaultOrderBy: 'label',
+  defaultOrderBy: 'issues',
   defaultOrderDirection: 'ASC',
   pathSegment,
   matrixPrefix

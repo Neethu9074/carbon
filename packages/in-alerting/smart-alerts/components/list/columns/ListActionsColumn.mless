@@ -17,6 +17,10 @@
     padding: 0 0.625rem;
   }
 
+  .readOnlySeparator {
+    padding: 1.225rem;
+  }
+
   .darkButton svg {
     fill: var(--ids-color-option-neutral-900);
   }

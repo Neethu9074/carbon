@@ -9,7 +9,7 @@ import { Link } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
 import { percentage, number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -19,6 +19,12 @@ import search from 'in-subscription/search';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
+const DashboardLink = ({ linkText, row }) => {
+  const getDashboardLink = useGetDashboardLink();
+
+  return <Link href={getDashboardLink(row.snapshot.get('id'), { pathname: '/physical/dashboard' })}>{linkText}</Link>;
+};
+
 const cols = [
   {
     title: t('in-internal:monitoringUnit.thisUnit.agent.agentTitle'),
@@ -27,9 +33,7 @@ const cols = [
       getValue(row) {
         return row.snapshot.get('label');
       },
-      getContent(val, row) {
-        return <Link href={getDashboardLink(row.snapshot.get('id'), { pathname: '/physical/dashboard' })}>{val}</Link>;
-      }
+      getContent: (linkText, row) => <DashboardLink linkText={linkText} row={row} />
     }
   },
   {

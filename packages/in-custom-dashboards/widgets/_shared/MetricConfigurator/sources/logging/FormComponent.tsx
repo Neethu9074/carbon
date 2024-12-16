@@ -7,16 +7,24 @@
 import { Field, MapForm } from 'formalistic';
 import React, { useEffect } from 'react';
 
+import { Stack, Select } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Select } from '@instana/components';
-import { Stack } from '@instana/components';
+import { Tag } from '@instana/types';
 
 //@ts-expect-error needs ts migration
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
+//@ts-expect-error needs ts migration
+import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
+//@ts-expect-error needs ts migration
+import { isRequiringGroupingConfiguration } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+//@ts-expect-error needs ts migration
+import { onChangeGrouping } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+import LogGroupingConfigurator from 'in-logging/analyze/AnalyzeView/workspace/LogsGroupingConfigurator';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 //@ts-expect-error needs ts migration
 import { aggregationLabels } from 'in-stores/metric';
 import QueryBuilder from 'in-logging/analyze/AnalyzeView/workspace/LogsQueryBuilder';
+import { SortDirection } from 'in-logging/analyze/AnalyzeView/components/Logs/types';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -33,8 +41,11 @@ interface FormComponentProps {
   formatterSection: JSX.Element;
   labelSection: JSX.Element;
   timeShiftConfiguration: JSX.Element;
+  thresholdConfiguration: JSX.Element;
   form: MapForm<any>;
   onChange: any;
+  withGrouping?: boolean;
+  maxGrouping?: number;
 }
 
 const aggregations = ['SUM', 'PER_SECOND'];
@@ -45,7 +56,10 @@ export default function FormComponent({
   form,
   onChange,
   timeShiftConfiguration,
-  labelSection
+  thresholdConfiguration,
+  labelSection,
+  withGrouping = true,
+  maxGrouping = 20
 }: FormComponentProps) {
   const timeConfig = useTimeConfig();
 
@@ -56,13 +70,21 @@ export default function FormComponent({
     form,
     onChange
   });
+
   const metricField = form.get('metric');
   const aggregationField = form.get('aggregation');
+  const groupingField = form.get('grouping');
+  const tagFilterExpressionField = form.get('tagFilterExpression');
 
   useEffect(() => {
     form.updateIn(['metric'], field => field.setValue('count'));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const grouping = groupingField?.get(0)?.toJS();
+  const onByChange = (by: Tag) => onChangeGrouping(onChange, { ...grouping, by });
+  const onDirectionChange = (direction: SortDirection, maxResults: number, groupKey: string) =>
+    onChangeGrouping(onChange, { ...grouping, direction, maxResults }, groupKey);
 
   return (
     <Stack gap="xxsmall">
@@ -104,8 +126,10 @@ export default function FormComponent({
             </option>
           ))}
         </SelectInSection>
+
+        {formatterSection}
       </Sections>
-      <Sections>{formatterSection}</Sections>
+
       <Sections>
         <QueryBuilderSection
           value={tagFilterExpression}
@@ -118,8 +142,26 @@ export default function FormComponent({
           }
         />
       </Sections>
-      <Sections>{timeShiftConfiguration}</Sections>
-      <Sections>{labelSection}</Sections>
+
+      <GroupingConfiguration
+        hideIncludeOthersToggle
+        withGrouping={withGrouping}
+        grouping={grouping}
+        tagFilterExpressionField={tagFilterExpressionField}
+        onByChange={onByChange}
+        onDirectionChange={onDirectionChange}
+        GroupingConfigurator={LogGroupingConfigurator}
+        hasError={groupingField ? groupingField.touched && !groupingField.valid : false}
+        additionalContent={<TouchedMessages field={groupingField} />}
+        withOptionalMarker={!isRequiringGroupingConfiguration(form)}
+        maxGrouping={maxGrouping}
+      />
+
+      {timeShiftConfiguration}
+
+      {thresholdConfiguration}
+
+      {labelSection}
     </Stack>
   );
 }

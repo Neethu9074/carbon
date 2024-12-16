@@ -35,7 +35,7 @@ export default function LoadingIndicator({
     size = 'regular';
   }
   return (
-    <div className={classNames(locals.container, className)} style={{ height, width, ...style }}>
+    <div className={classNames(locals.container, className, 'loading-indicator')} style={{ height, width, ...style }}>
       <div className={locals.content}>
         <IndeterminateLoadingIndicator size={SvgIconSizes[size]} />
         {title && <h2 className={locals.title}>{title}</h2>}

@@ -8,9 +8,9 @@ import { createField, createMapForm, createListForm } from 'formalistic';
 import React, { useEffect, useState, useMemo } from 'react';
 
 import MetricCatalogConfiguratorOverlayPresenter from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfiguratorOverlayPresenter';
+import { booleanValidator, stringValidator } from 'in-services/validators/jsonType';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
-import { stringValidator } from 'in-services/validators/jsonType';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { aggregationLabels } from 'in-stores/metric/beeInstant';
@@ -108,14 +108,14 @@ export default function MetricCatalogConfiguratorOverlay({
         return null;
       },
 
-      items: values.map(({ metric, aggregation, crossSeriesAggregation, label }) =>
-        getMetricItem({ metric, aggregation, crossSeriesAggregation, label })
+      items: values.map(({ metric, aggregation, crossSeriesAggregation, label, required }) =>
+        getMetricItem({ metric, aggregation, crossSeriesAggregation, label, required })
       )
     });
   }
 
   function getMetricItem(props) {
-    const { metric, aggregation, crossSeriesAggregation, label } = props;
+    const { metric, aggregation, crossSeriesAggregation, label, required } = props;
     return createMapForm({
       validator: ({ metric, aggregation }) => {
         if (!metric.valid || !aggregation.valid) {
@@ -137,6 +137,10 @@ export default function MetricCatalogConfiguratorOverlay({
         crossSeriesAggregation: createField({
           value: crossSeriesAggregation,
           validator: composeAndShortCircuitOnError(stringValidator, notBlankValidator)
+        }),
+        required: createField({
+          value: required,
+          validator: composeAndShortCircuitOnError(booleanValidator)
         }),
         label: createField({
           value: label,

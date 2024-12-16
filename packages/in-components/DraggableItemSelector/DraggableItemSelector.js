@@ -8,8 +8,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import rpt from 'prop-types';
 
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { SvgIcon, Button } from '@instana/components';
 
 import useDuringTransition from 'in-components/DraggableItemSelector/useDuringTransition';
 import SlideInView, { ListHeader } from 'in-components/SlideInView/SlideInView';
@@ -97,6 +96,7 @@ export default function DraggableItemSelector(props) {
               icon="lib_openclose_add_circle_outline"
               onClick={() => onShowSlideInContentChange(!showSlideInContent)}
               disabled={disabled}
+              size="compact"
             >
               {slideInContentTitle}
             </Button>

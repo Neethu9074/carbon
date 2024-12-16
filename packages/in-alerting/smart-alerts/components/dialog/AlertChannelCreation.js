@@ -4,6 +4,7 @@
  */
 
 import React, { useRef, useState } from 'react';
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { Message } from '@instana/components';
@@ -13,18 +14,25 @@ import { Stack } from '@instana/components';
 import AlertChannelModificationForm, {
   createForm,
   save
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/components/AlertChannelModificationForm';
-import configs from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
+} from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/components/AlertChannelModificationForm';
+import configs from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { createAlertChannel, getAlertChannel } from 'in-api/alertChannels';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import AlertSection from 'in-alerting/components/AlertSection';
+import { close } from 'in-components/DialogPresenter/store';
 import Sections from 'in-components/workspace/Sections';
 import SaveButton from 'in-components/form/SaveButton';
 import { t } from 'in-i18n';
 
 import locals from './AlertChannelCreation.mless';
 
-export default function AlertChannelCreation({ onCancel }) {
+export default function AlertChannelCreation({
+  onCancel,
+  isTearsheet,
+  setCreateDialogOpen,
+  alertChannelPerSeverityEnabled
+}) {
   const alertChannelConfigKeys = Object.keys(configs);
 
   const [selectedAlertChannelKey, setSelectedAlertChannelKey] = useState(alertChannelConfigKeys[0]);
@@ -32,7 +40,6 @@ export default function AlertChannelCreation({ onCancel }) {
   const [resetKey, setResetKey] = useState({});
 
   const resetForm = () => setResetKey(Math.random());
-  const resetMessage = () => setMessage(null);
 
   const formFooterRef = useRef();
 
@@ -69,17 +76,30 @@ export default function AlertChannelCreation({ onCancel }) {
           </AlertSection>
         </Sections>
 
-        <div className={locals.formWrapper} key={resetKey}>
+        <div
+          className={classNames({
+            [locals.formWrapper]: true,
+            [locals.alertChannelInTearSheet]: isTearsheet
+          })}
+          key={resetKey}
+        >
           <AlertChannelConfigForm
             onCancel={onCancel}
             selectedAlertChannelKey={selectedAlertChannelKey}
             handleSaveSuccess={() => {
-              setMessage({
-                type: 'success',
-                text: t('in-alerting:smartAlerts.components.smartAlertDialog.alertChannelCreatedSuccess')
+              addMessage({
+                type: 'info',
+                timeout: 5000,
+                title: t('in-alerting:smartAlerts.components.smartAlertDialog.alertChannelCreatedSuccess'),
+                content: t('in-alerting:smartAlerts.components.smartAlertDialog.alertChannelCreatedSuccessDescription')
               });
               resetForm();
-              setTimeout(resetMessage, 3000);
+              if (isTearsheet && !alertChannelPerSeverityEnabled) {
+                setCreateDialogOpen(false);
+                close();
+              } else {
+                onCancel();
+              }
             }}
             handleSaveError={errorMessage =>
               setMessage({
@@ -102,7 +122,10 @@ export default function AlertChannelCreation({ onCancel }) {
 }
 
 AlertChannelCreation.propTypes = {
-  onCancel: PropTypes.func.isRequired
+  onCancel: PropTypes.func.isRequired,
+  isTearsheet: PropTypes.bool,
+  setCreateDialogOpen: PropTypes.func,
+  alertChannelPerSeverityEnabled: PropTypes.bool
 };
 
 function AlertChannelConfigForm({

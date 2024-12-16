@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { Stack } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Stack, Button } from '@instana/components';
 
 import ChooseConnectionStrategyDialog from 'in-connection/components/ChooseConnectionStrategyDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -22,6 +21,9 @@ export default function ReconnectingMessage({ attempt }: Props) {
       {t('in-connection:stat.connectLostState.connectingMsg', { connectAttempt: attempt })}
       {attempt >= 3 && (
         <Button
+          size="compact"
+          kind="tertiary"
+          style={{ paddingInlineEnd: '1rem' }}
           onClick={e => {
             // do not close the fly-in message
             e.stopPropagation();

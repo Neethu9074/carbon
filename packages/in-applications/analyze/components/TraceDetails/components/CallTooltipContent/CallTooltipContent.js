@@ -5,11 +5,14 @@
 
 import React from 'react';
 
+import { Pill } from '@instana/components';
+
 import {
   TOTAL_TIME_LABEL,
   NETWORK_TIME_LABEL,
   SELF_TIME_LABEL,
-  WAITING_TIME_LABEL
+  WAITING_TIME_LABEL,
+  ELAPSED_TIME_LABEL
 } from 'in-applications/analyze/components/TraceDetails/components/TimingConstants';
 import {
   isUnknownTypeSpan,
@@ -19,7 +22,6 @@ import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { latencyFixed } from 'in-services/formatters/number';
 import { shorten } from 'in-services/util/string';
-import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './CallTooltipContent.mless';
@@ -30,11 +32,13 @@ export default function CallTooltipContent({ call }) {
   const waitingTime = hasOnlyExitSpan(call)
     ? null
     : call.duration - (call.minSelfTime || call.selfTime || 0) - (call.networkTime || 0);
+  const isBatched = call.batchSize > 1;
   const values = [
     {
-      label: SELF_TIME_LABEL,
+      label: isBatched ? ELAPSED_TIME_LABEL : SELF_TIME_LABEL,
       duration: call.minSelfTime || call.selfTime,
-      totalDuration: call.duration
+      totalDuration: call.duration,
+      showDurationInpercent: !isBatched
     },
     {
       label: NETWORK_TIME_LABEL,
@@ -47,7 +51,6 @@ export default function CallTooltipContent({ call }) {
       totalDuration: call.duration
     }
   ];
-
   return (
     <div className={locals.content}>
       <div className={locals.heading}>
@@ -69,8 +72,12 @@ export default function CallTooltipContent({ call }) {
         </div>
       )}
       <TimingValueList values={values} />
-      <div className={locals.horizontalLine} />
-      <TimingValueTotal value={call.duration} />
+      {!isBatched && (
+        <>
+          <div className={locals.horizontalLine} />
+          <TimingValueTotal value={call.duration} />
+        </>
+      )}
     </div>
   );
 }
@@ -79,11 +86,13 @@ function TimingValueList({ values }) {
   return (
     <ul className={locals.timingValueList}>
       {values.map(value => {
-        const { label, duration, totalDuration } = value;
+        const { label, duration, showDurationInpercent, totalDuration } = value;
 
         const durationValue = duration == null ? valueMissingPlaceholder : `${latencyFixed.compact(duration)}`;
         const durationInPercent =
-          totalDuration >= 1 && duration >= 1 ? '(' + (((duration / totalDuration) * 100) | 0) + '%)' : null;
+          totalDuration >= 1 && duration >= 1 && showDurationInpercent
+            ? '(' + (((duration / totalDuration) * 100) | 0) + '%)'
+            : null;
 
         return (
           <li key={label} className={locals.timingValue}>

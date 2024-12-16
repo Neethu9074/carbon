@@ -4,18 +4,17 @@
  * Copyright IBM Corp. 2022
  */
 
-import { Field, MapForm } from 'formalistic';
 import React, { useContext } from 'react';
+import { Field } from 'formalistic';
 import classNames from 'classnames';
 
+import { IconButton, Button } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { isNotEditableContext } from 'in-automation/ActionCatalog/Action';
-import { SetFormFunction } from 'in-settings/hooks/useEntityForm';
+import { ActionForm } from 'in-automation/ActionCatalog/useActionForm';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { deepCopy } from 'in-services/util/object';
 import { t } from 'in-i18n';
@@ -37,10 +36,10 @@ interface ServerTablePresenterWrapperProps<VALUETYPE>
     ServerTablePresenterWrapperListItemConfiguration<VALUETYPE>
   >[];
   data: ListItem<VALUETYPE>[];
-  form: MapForm<any>;
+  form: ActionForm;
   formKey: string;
   defaultRow?: VALUETYPE;
-  setForm: SetFormFunction;
+  setForm: React.Dispatch<React.SetStateAction<ActionForm>>;
   customAddRow?: () => void;
   customAddRowLabel?: string;
   ticketIdParameterExist?: boolean;
@@ -88,7 +87,8 @@ export default function ServerTablePresenterWrapper<VALUETYPE>({
       return (
         <div className={locals.controls}>
           <Tooltip content={t('in-alerting:components.customPayload.deleteRow')}>
-            <SvgIcon
+            <IconButton
+              kind="primary"
               type="lib_actions_delete"
               className={classNames({
                 [locals.delete]: true,

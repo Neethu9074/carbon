@@ -6,38 +6,37 @@
 
 import React from 'react';
 
-import { Link, Stack, Typography } from '@instana/components';
-import { useObservable } from '@instana/hooks';
-import { TimeConfig } from '@instana/types';
+import { RawEvent, TimeConfig } from '@instana/types';
+import { Link } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import { WidgetProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 //@ts-expect-error doesn't contain type file
 import getRawEvents from 'in-subscription/getRawEvents';
+import TypographyWithTooltip from 'in-plg/components/TypographyWithTooltip/TypographyWithTooltip';
 //@ts-expect-error doesn't contain type file
 import connectTo from 'in-hoc/connectTo';
+import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import { openEventsAtServerTime$ } from 'in-stores/events';
-import { timeConfig$ } from 'in-stores/time/config';
+import Tooltip from 'in-components/Tooltip/Tooltip';
+import { concatQueries } from 'in-events/utils';
 
 export default connectTo(() => ({
-  timeConfig: timeConfig$,
   openEventsAtServerTime: openEventsAtServerTime$
 }))(function IncidentsWidget({ config, timeConfig, widgetLabel, dashboardTileProps }: WidgetProps) {
-  const fullListViewHref = useObservable(
-    getEventsViewFilteredBy({
-      eventTypeFilter: 'incident',
-      timeConfig
-    }),
-    []
-  );
+  const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
+  const fullListViewHref = getEventsViewFilteredBy({
+    eventTypeFilter: 'incident',
+    timeConfig
+  });
+
   const getHeaders = () => {
     return [
       {
@@ -55,6 +54,10 @@ export default connectTo(() => ({
       {
         header: t('in-plg:welcomepage.component.incidentsWidget.end'),
         key: 'end'
+      },
+      {
+        header: t('in-plg:welcomepage.component.incidentsWidget.severity'),
+        key: 'health'
       }
     ];
   };
@@ -62,7 +65,7 @@ export default connectTo(() => ({
   function getIncidentData({ query, timeConfig }: { query: string; timeConfig: TimeConfig }) {
     return getRawEvents({
       timeConfig: timeConfig,
-      query: query,
+      query: concatQueries(query, 'incident'),
       pagination: {
         cursor: null,
         retrievalSize: 30
@@ -78,7 +81,7 @@ export default connectTo(() => ({
     return formatDateTime(timestamp);
   }
 
-  function getEndValue(item: any) {
+  function getEndValue(item: RawEvent) {
     const eventType = getEventType(item);
     const isChangeEvent = eventType === EVENT_TYPES.CHANGE;
     const end = item.end || Date.now();
@@ -107,29 +110,34 @@ export default connectTo(() => ({
       key: 'title',
       getContent({ item }) {
         return (
-          <Stack direction="horizontal" align="center">
-            <HealthDot severity={item.severity} iconSize={10} />
+          <Tooltip content={item.title} align="auto" caret={false} delay={300}>
             <Link href={onItemClicked(item.id)}>{item.title}</Link>
-          </Stack>
+          </Tooltip>
         );
       }
     },
     {
       key: 'on',
       getContent({ item }) {
-        return <Typography variant="body-regular">{item.entityLabel}</Typography>;
+        return <TypographyWithTooltip content={item.entityLabel} />;
       }
     },
     {
       key: 'started',
       getContent({ item }) {
-        return <Typography variant="body-regular">{formatDisplayDateTime(item.start)}</Typography>;
+        return <TypographyWithTooltip content={formatDisplayDateTime(item.start) as string} />;
       }
     },
     {
       key: 'end',
       getContent({ item }) {
-        return <Typography variant="body-regular">{getEndValue(item)}</Typography>;
+        return <TypographyWithTooltip content={getEndValue(item) as string} />;
+      }
+    },
+    {
+      key: 'health',
+      getContent({ item }) {
+        return <HealthIcon severity={item.severity} iconSize="xs" />;
       }
     }
   ];
@@ -144,11 +152,14 @@ export default connectTo(() => ({
   return (
     <DatatableWrapper
       {...generalProps}
+      tableType="incidentsWidget"
       getItems={getIncidentData}
       viewAll
       href={fullListViewHref}
       label={widgetLabel}
       dashboardTileProps={dashboardTileProps}
+      searchPlaceholderLabel={t('in-plg:welcomepage.component.incidentsWidget.searchPlaceholderLabel')}
+      viewAllLabel={t('in-plg:welcomepage.component.incidentsWidget.viewAllLabel')}
     />
   );
 });

@@ -8,7 +8,7 @@ import generateAlertConfig from 'in-alerting/smart-alerts/infrastructure/data/ge
 import { alertConfig } from 'in-alerting/smart-alerts/infrastructure/data/testData.json';
 
 describe('in-alerting/smart-alerts/infrastructure/data/generateAlertConfig.tsx', () => {
-  delete (alertConfig as any).predictiveTrigger;
+  delete (alertConfig as any).forecastingConfig;
   delete (alertConfig as any).threshold;
 
   const alertConfigData = {

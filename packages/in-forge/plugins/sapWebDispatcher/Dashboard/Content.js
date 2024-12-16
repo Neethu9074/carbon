@@ -6,9 +6,10 @@
 
 import React from 'react';
 
-import { getSapWebDispatcherDashboard } from 'in-sap/navigation/paths';
+import { useSapWebDispatcherDashboard } from 'in-sap/navigation/paths';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default function SystemDashboard({ snapshot }) {
-  return <RedirectWithHash to$={getSapWebDispatcherDashboard(snapshot.get('id'))} />;
+  const href = useSapWebDispatcherDashboard(snapshot.get('id'));
+  return <RedirectWithHash href={href} />;
 }

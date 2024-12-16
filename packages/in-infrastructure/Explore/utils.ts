@@ -48,3 +48,21 @@ export function getUpdatedOrder(order: Order, metrics: MetricItem[], groupBys: s
   }
   return getDefaultOrder(groupBys, order.direction);
 }
+
+export function fixOrderForBackwardsCompatibility(order: Order, metrics: MetricItem[]) {
+  const metricKeys = metrics.map(({ metric, aggregation, crossSeriesAggregation }) =>
+    getMetricKey(metric, aggregation, crossSeriesAggregation)
+  );
+  if (metricKeys.includes(order.by)) {
+    return order;
+  }
+  for (const metric of metricKeys) {
+    if (metric.startsWith(order.by)) {
+      return {
+        by: metric,
+        direction: order.direction
+      };
+    }
+  }
+  return order;
+}

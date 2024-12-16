@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import {
   OPEN_BRACKET,
@@ -35,7 +35,7 @@ export default function ConjunctionsAndBrackets({
       <div>
         <Button
           size="compact"
-          kind="secondary"
+          kind="action"
           onClick={e => {
             stopPropagationAndPreventDefault(e);
             onChange({
@@ -49,7 +49,7 @@ export default function ConjunctionsAndBrackets({
         {!withoutOrConjunction && (
           <Button
             size="compact"
-            kind="secondary"
+            kind="action"
             onClick={e => {
               stopPropagationAndPreventDefault(e);
               onChange({
@@ -66,7 +66,7 @@ export default function ConjunctionsAndBrackets({
         <div>
           <Button
             size="compact"
-            kind="secondary"
+            kind="action"
             onClick={e => {
               stopPropagationAndPreventDefault(e);
               onChange({ type: OPEN_BRACKET });
@@ -76,7 +76,7 @@ export default function ConjunctionsAndBrackets({
           </Button>
           <Button
             size="compact"
-            kind="secondary"
+            kind="action"
             onClick={e => {
               stopPropagationAndPreventDefault(e);
               onChange({ type: CLOSE_BRACKET });

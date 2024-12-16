@@ -7,7 +7,7 @@ import { createMapForm, createField } from 'formalistic';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';

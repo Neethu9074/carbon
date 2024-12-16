@@ -1,11 +1,11 @@
 {
   "shortcuts": {
-    "help": "Algunas funciones importantes de Instana se pueden activar utilizando accesos directos del teclado.\n\n - `c` : centrar la correlación\n - `f` : abrir y enfocar la barra de búsqueda\n - `esc` : cerrar la barra lateral/ panel de control visible actualmente\n - `Mayús + ?` : abrir el diálogo de ayuda para accesos directos",
+    "help": "Algunas funciones importantes de Instana pueden activarse mediante atajos de teclado.\n\n - `c` : centrar el mapa\n - `f` : abrir y centrar la barra de búsqueda\n - `esc` : cerrar la barra lateral / panel de control que esté visible en ese momento\n - `despl + ?` : abrir el diálogo de ayuda para los atajos de teclado",
     "shortcuts": "Accesos directos"
   },
   "formatters": {
     "yes": "Sí",
-    "no": "No se han detectado",
+    "no": "No",
     "byteUnits_B": "{{num}} B",
     "byteUnits_kiB": "{{num}} kiB",
     "byteUnits_MiB": "{{num}} MiB",
@@ -15,6 +15,14 @@
     "byteUnits_EiB": "{{num}} EiB",
     "byteUnits_ZiB": "{{num}} ZiB",
     "byteUnits_YiB": "{{num}} YiB",
+    "byteUnits_kB": "{{num}} kB",
+    "byteUnits_MB": "{{num}} MB",
+    "byteUnits_GB": "{{num}} GB",
+    "byteUnits_TB": "{{num}} TB",
+    "byteUnits_PB": "{{num}} PB",
+    "byteUnits_EB": "{{num}} EB",
+    "byteUnits_ZB": "{{num}} ZB",
+    "byteUnits_YB": "{{num}} YB",
     "perSec": "{{num}}/s",
     "perSec2": "{{num}} / seg",
     "noActivity": "Sin actividad",

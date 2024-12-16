@@ -9,6 +9,13 @@
     align-items: center;
   }
 
+  .skeleton {
+    margin: 0 0.5rem;
+    width: 1rem;
+    height: 1lh;
+    display: block;
+  }
+
   .icon {
     margin-right: 0.25rem;
   }

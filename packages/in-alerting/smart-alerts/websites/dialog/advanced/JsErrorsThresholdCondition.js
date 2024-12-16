@@ -15,6 +15,8 @@ import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ru
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
 import Dropdown from 'in-alerting/components/Dropdown';
 
+import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/dialog.mless';
+
 export default function JsErrorsThresholdCondition({ form, blueprintConfig, updateForm }) {
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
@@ -26,6 +28,7 @@ export default function JsErrorsThresholdCondition({ form, blueprintConfig, upda
       <Dropdown
         value={metricName}
         items={ruleMetricNameOptions.specificJsError}
+        className={locals.dropdownmd}
         onChange={value => {
           updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
         }}

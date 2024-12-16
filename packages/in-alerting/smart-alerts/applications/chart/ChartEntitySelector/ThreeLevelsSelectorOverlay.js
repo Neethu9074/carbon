@@ -7,11 +7,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { ListGroup, Li, keyCodes } from '@instana/components';
+import { SearchInput } from '@instana/components';
 
 import useLazyLoadingOfNodeChildren from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/useLazyLoadingOfNodeChildren';
 import EntityItemNode from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/EntityItemNode';
 import SlideInView, { ListHeader, NoHeader } from 'in-components/SlideInView/SlideInView';
-import { nodeArray as nodeArrayPropType } from 'in-components/SelectorOverlay/props';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
@@ -19,7 +19,6 @@ import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { isNotBlank, isBlank } from 'in-services/util/string';
 import { getInteractiveElements } from 'in-services/util/dom';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
-import SearchInput from 'in-components/SearchInput';
 import { t } from 'in-i18n';
 
 import threeLevelsSelectorLocals from './ThreeLevelsSelectorOverlay.mless';
@@ -398,7 +397,7 @@ function Loading({ loading }) {
 }
 
 ThreeLevelsSelectorOverlay.propTypes = {
-  options: nodeArrayPropType.isRequired,
+  options: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   query: PropTypes.string.isRequired,
   onQueryChange: PropTypes.func.isRequired

@@ -14,4 +14,8 @@
   .height {
     height: 60vh;
   }
+
+  .bottomMargin {
+    padding-bottom: 1.5rem;
+  }
 }

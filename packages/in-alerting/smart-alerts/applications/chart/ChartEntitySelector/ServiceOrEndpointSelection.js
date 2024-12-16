@@ -42,7 +42,8 @@ export default function ServiceOrEndpointSelection({
   setServiceId,
   setEndpointId,
   alertConfigWithFormModel,
-  queryWindowSize
+  queryWindowSize,
+  isTearSheet
 }) {
   const [timeTo] = useState(Date.now()); // similar to S/E: have a "fixed current date"
   const timeConfig = {
@@ -51,14 +52,8 @@ export default function ServiceOrEndpointSelection({
     focusedMoment: timeTo
   };
 
-  const {
-    applications,
-    boundaryScope,
-    evaluationType,
-    tagFilterExpression,
-    includeInternal,
-    includeSynthetic
-  } = alertConfigWithFormModel;
+  const { applications, boundaryScope, evaluationType, tagFilterExpression, includeInternal, includeSynthetic } =
+    alertConfigWithFormModel;
 
   const [query, onQueryChange] = useState('');
 
@@ -153,6 +148,7 @@ export default function ServiceOrEndpointSelection({
   const searchResult = useCursorPagination(queryEntity, [query, evaluationType]);
   const isSearchLoading = !searchResult || isLoading(searchResult);
   const queryOptions = isSearchLoading ? loadingOptions : searchResultsToListItems(searchResult, evaluationType);
+  const isOptionExists = checkOptionsExists(isQuery ? queryOptions : options);
 
   return (
     <Overlay
@@ -175,21 +171,38 @@ export default function ServiceOrEndpointSelection({
       {({ toggle, refSetter, isOpen }) => (
         <HorizontalFlexWrapper>
           <DropdownButton
-            kind="secondary"
+            kind="tertiary"
             size="compact"
             refSetter={refSetter}
             onClick={toggle}
             expanded={isOpen}
             className={locals.labelWithGap}
-            disabled={applicationIds.length === 0}
+            disabled={applicationIds.length === 0 || isOptionExists}
           >
-            <DropDownButtonLabel isServiceLevel={isSelectServiceLevel} />
+            {isTearSheet ? (
+              // in case of tearSheet ,
+              // if an endpoint/ service name is selected then show the selected value in dropdown
+              // else by default show the preview text in the dropdown
+              (isSelectServiceLevel && serviceName) || endpointName ? (
+                <ApplicationScopePath
+                  serviceName={isSelectServiceLevel && serviceName}
+                  endpointName={endpointName}
+                  noBottomMargin
+                />
+              ) : (
+                <DropDownButtonLabel isServiceLevel={isSelectServiceLevel} />
+              )
+            ) : (
+              <DropDownButtonLabel isServiceLevel={isSelectServiceLevel} />
+            )}
           </DropdownButton>
-          <ApplicationScopePath
-            serviceName={isSelectServiceLevel && serviceName}
-            endpointName={endpointName}
-            noBottomMargin
-          />
+          {!isTearSheet && (
+            <ApplicationScopePath
+              serviceName={isSelectServiceLevel && serviceName}
+              endpointName={endpointName}
+              noBottomMargin
+            />
+          )}
         </HorizontalFlexWrapper>
       )}
     </Overlay>
@@ -201,4 +214,10 @@ function DropDownButtonLabel({ isServiceLevel }) {
     return t('in-alerting:smartAlerts.components.smartAlertDialog.PreviewForService');
   }
   return t('in-alerting:smartAlerts.components.smartAlertDialog.PreviewForEndpoint');
+}
+
+function checkOptionsExists(options) {
+  // this is to disable the dropdown to select AP/service/endpoint doesnt have any data
+  const noChildren = options.map(node => !node.children || node.children.length === 0);
+  return !noChildren.every(children => children === false);
 }

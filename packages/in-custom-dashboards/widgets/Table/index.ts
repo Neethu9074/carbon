@@ -27,9 +27,6 @@ export const label = 'Table';
 export const minimumWidth = 6;
 export const minimumHeight = 18;
 export const enabled = customWidgetEventsTableEnabled || customWidgetTableInfraDataSourceEnabled;
-export const badge = {
-  content: 'BETA'
-};
 
 export const dataSources: DataSourceProps = {
   EVENTS: {

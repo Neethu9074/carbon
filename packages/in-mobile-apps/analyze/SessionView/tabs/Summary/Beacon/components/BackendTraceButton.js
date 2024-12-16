@@ -7,10 +7,10 @@ import { InView } from 'react-intersection-observer';
 import React from 'react';
 
 import { empty } from '@instana/observables';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import getMobileAppBackendTraces from 'in-mobile-apps/subscriptions/getMobileAppBackendTraces';
-import { navigateToBackendTraceFromSession } from 'in-mobile-apps/tracker';
+import { useMobileTracker } from 'in-mobile-apps/tracking/segTracker';
 import { useLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import connect from 'in-hoc/connectTo';
@@ -25,6 +25,7 @@ const InternalBackendTraceButton = connect(({ beacon }) => ({
       })
     : empty
 }))(function InternalBackendTraceButton({ result }) {
+  const { navigateToBackendTraceFromSession } = useMobileTracker();
   const getLinkToTraceDetail = useLinkToTraceDetail();
 
   if (!result || !result.data) {

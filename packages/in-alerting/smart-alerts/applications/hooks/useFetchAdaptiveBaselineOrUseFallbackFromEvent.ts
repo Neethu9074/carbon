@@ -4,15 +4,16 @@
  * Copyright IBM Corp. 2022
  */
 
-import { TimeConfig, ApplicationAlertConfigWithMetadata } from '@instana/types';
 import { useObservable } from '@instana/hooks';
+import { TimeConfig } from '@instana/types';
 
 import getBaselinePredictions from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationAdaptiveBaselinePredictions';
-import { extractBaselineFromResultsOrUseErrorFallback } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
+import { ApplicationSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
+import { extractMultiBaselineFromResultsOrUseErrorFallback } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { pendingResult } from 'in-services/fixedObjects';
 
 interface useFetchAdaptiveBaselineProps {
-  alertConfigWithFormModel: ApplicationAlertConfigWithMetadata;
+  alertConfigWithFormModel: ApplicationSmartAlertConfigWithMetadata;
   viewConfig: {
     timeConfig: TimeConfig;
   };
@@ -20,23 +21,24 @@ interface useFetchAdaptiveBaselineProps {
   applicationId: string;
   serviceId?: string;
   endpointId?: string;
+  eventSeverity?: number;
 }
 
-export function useFetchAdaptiveBaselineOrUseFallbackFromEvent(
-  props: useFetchAdaptiveBaselineProps
-): {
-  baseline: [number, number][];
+export function useFetchAdaptiveBaselineOrUseFallbackFromEvent(props: useFetchAdaptiveBaselineProps): {
+  baseline: [number, number, number][] | [number, number][]; // just [number, number] in case of events view
   error?: boolean;
 } {
   const {
-    alertConfigWithFormModel: { created, id, granularity },
+    alertConfigWithFormModel,
     viewConfig: { timeConfig },
     applicationId,
     serviceId,
     endpointId,
-    eventBasedAdaptiveBaseline
+    eventBasedAdaptiveBaseline,
+    eventSeverity
   } = props;
 
+  const { created, id, granularity } = alertConfigWithFormModel;
   const selectedEntityId = endpointId ?? serviceId ?? applicationId;
 
   const queryParams = {
@@ -48,10 +50,14 @@ export function useFetchAdaptiveBaselineOrUseFallbackFromEvent(
     granularity
   };
 
+  // the result will be [number, number, number]
   const persistedBaseline = useObservable(
     selectedEntityId ? getBaselinePredictions(queryParams).startWith(pendingResult) : null,
     [id, created, applicationId, selectedEntityId, timeConfig]
   );
-
-  return extractBaselineFromResultsOrUseErrorFallback(persistedBaseline, eventBasedAdaptiveBaseline);
+  return extractMultiBaselineFromResultsOrUseErrorFallback(
+    persistedBaseline,
+    eventBasedAdaptiveBaseline,
+    eventSeverity
+  );
 }

@@ -7,10 +7,9 @@
 import React, { Fragment } from 'react';
 
 import { TimeConfig, TagFilter } from '@instana/types';
+import { Card, Button } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { just } from '@instana/observables';
-import { Card } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 // @ts-expect-error Could not find a declaration file for module
 import MobileAppChartWrapper from 'in-mobile-apps/MobileAppDashboard/components/MobileAppChartWrapper';
@@ -92,7 +91,7 @@ export default connectTo(({ location, timeConfig, mobileAppId }: CrashProp) => {
           entity: 'NOT_APPLICABLE'
         },
         {
-          name: 'mobileBeacon.error.message',
+          name: 'mobileBeacon.crash.groupLabel',
           stringValue: crashId,
           operator: 'EQUALS',
           type: 'TAG_FILTER',
@@ -135,7 +134,7 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
       entity: 'NOT_APPLICABLE'
     },
     {
-      name: 'mobileBeacon.error.message',
+      name: 'mobileBeacon.crash.groupLabel',
       stringValue: crashId,
       operator: 'EQUALS',
       type: 'TAG_FILTER',
@@ -167,7 +166,7 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
     const viewInAnalytics = {
       mobileAppLabel,
       group: {
-        groupbyTag: 'mobileBeacon.error.message'
+        groupbyTag: 'mobileBeacon.crash.groupLabel'
       }
     };
 
@@ -198,7 +197,7 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
                       tagCatalog: tagCatalogCrash
                     }),
                     groupBy: {
-                      groupbyTag: 'mobileBeacon.error.message'
+                      groupbyTag: 'mobileBeacon.crash.groupLabel'
                     }
                   })
               }}
@@ -226,7 +225,7 @@ function CrashTab({ crashId, result, mobileAppId, mobileAppLabel, viewId, tagFil
                       tagCatalog: tagCatalogCrash
                     }),
                     groupBy: {
-                      groupbyTag: 'mobileBeacon.error.message'
+                      groupbyTag: 'mobileBeacon.crash.groupLabel'
                     },
                     fields: [
                       {

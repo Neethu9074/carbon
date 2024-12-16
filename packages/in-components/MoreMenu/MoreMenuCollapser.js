@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import Tooltip from 'in-components/Tooltip';
@@ -44,7 +44,8 @@ const ComponentResolver = connectTo(props => (props.getObservables ? props.getOb
       href,
       onClick,
       getTooltip,
-      isDisabled
+      isDisabled,
+      closeMenu
     } = props;
     if (render) {
       return render({ ...props, ...componentProps });
@@ -52,12 +53,22 @@ const ComponentResolver = connectTo(props => (props.getObservables ? props.getOb
 
     const button = (
       <Renderer
+        size="compact"
         kind="secondary"
         icon={icon}
-        onClick={onClick ? () => onClick(props) : undefined}
+        onClick={
+          onClick
+            ? () => {
+                onClick(props);
+                closeMenu?.();
+              }
+            : undefined
+        }
         href$={href$}
         href={href}
         disabled={isDisabled && isDisabled(props)}
+        requireTitle
+        title={label}
       >
         {label}
       </Renderer>

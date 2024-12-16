@@ -23,15 +23,19 @@ import {
 } from 'in-stores/navigation/paths/mainPaths';
 // eslint-disable-next-line no-restricted-imports
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-infrastructure/navigation/matrix';
+import { useSmartAlertCreateUrl as useSmartAlertTearSheetUrl } from 'in-alerting/smart-alerts/infrastructure/hooks/useSmartAlertCreateUrl';
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 //@ts-expect-error need TS migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 import AlertConfigDialog from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/AlertConfigDialog';
+import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 import AlertConfiguration from 'in-alerting/smart-alerts/infrastructure/details/AlertConfiguration';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
-import { InfraAlertConfigWithMetadata, Nullish } from 'in-types';
+import { infraSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { role } from 'in-stores/user';
+import { Nullish } from 'in-types';
 
 export default function AlertDetails() {
   const timeConfig = useTimeConfig();
@@ -54,12 +58,15 @@ export default function AlertDetails() {
         deleteConfig={deleteAlertConfig}
         restoreConfig={restoreAlertConfigVersion}
         renderSmartAlertDialog={(props: SmartAlertDialogWrapperProps) => <SmartAlertDialogWrapper {...props} />}
-        renderAlertConfiguration={({ alertConfig }: { alertConfig: InfraAlertConfigWithMetadata }) => (
+        renderAlertConfiguration={({ alertConfig }: { alertConfig: InfraSmartAlertConfigWithMetadata }) => (
           <AlertConfiguration alertConfig={alertConfig} />
         )}
-        getAllowedPlaceholders={() => []}
+        getAllowedPlaceholders={getAllowedPlaceholders}
+        getLinkToEditOrDuplicateSmartAlertTearSheet={useSmartAlertTearSheetUrl}
+        canConfigureGlobalAlertConfigs={role?.canConfigureGlobalInfraSmartAlerts && !role?.limitedInfrastructureScope}
+        displayTearSheetActions={infraSmartAlertFullScreenDesignEnabled}
+        hideAlertIcon
         isGlobalSmartAlert
-        canConfigureGlobalAlertConfigs={role?.canConfigureGlobalInfraSmartAlerts}
       />
     </LeftRightPadding>
   );
@@ -67,7 +74,7 @@ export default function AlertDetails() {
 
 interface SmartAlertDialogWrapperProps {
   close: () => void;
-  alertConfig: InfraAlertConfigWithMetadata;
+  alertConfig: InfraSmartAlertConfigWithMetadata;
   setRevision: (arg: string | Nullish) => void;
   isCopy: boolean;
 }

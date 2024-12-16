@@ -4,34 +4,45 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { LicenseBannerButton } from '@instana/components';
 
-import { isCarbonShellEnabled } from 'in-components/MainNavigation/components/isCarbonShellEnabled';
 import AssistMeSearchKeyword from 'in-plg/components/AssistMe/AssistMeDynamicSearch';
-import IconButton from 'in-components/IconButton/IconButton';
 import { activeLanguage, t } from 'in-i18n';
 
 export default function AssistMe() {
-  if (isCarbonShellEnabled()) {
-    return (
-      <div data-search-context={AssistMeSearchKeyword()}>
-        <LicenseBannerButton
-          id="wm-getanswers"
-          kind="ghost"
-          icon="lib_help_error_help_outline"
-          iconColor="currentColor"
-          onClick={openAssistMe}
-        >
-          {t('in-plg:licenseBanner.getAnswers')}
-        </LicenseBannerButton>
-      </div>
-    );
-  }
+  const [isExpanded, setIsExpanded] = useState(false);
+  useEffect(() => {
+    const handleEscKey = (event: any) => {
+      if (event.key === 'Escape' && isExpanded) {
+        //@ts-expect-error defined in AssistMe controller.js
+        assistMeController.close();
+        setIsExpanded(false);
+      }
+    };
+    document.addEventListener('keydown', handleEscKey);
+
+    return () => {
+      document.removeEventListener('keydown', handleEscKey);
+    };
+  }, [isExpanded]);
   return (
     <div data-search-context={AssistMeSearchKeyword()}>
-      <IconButton buttonType="button" kind="secondary" type="lib_help_error_help_outline" onClick={openAssistMe} />
+      <LicenseBannerButton
+        id="wm-getanswers"
+        kind="ghost"
+        icon="lib_help_error_help_outline"
+        iconColor="currentColor"
+        onClick={() => {
+          openAssistMe();
+          setIsExpanded(!isExpanded);
+        }}
+        aria-controls="ibm-assist-me-shell"
+        aria-expanded={isExpanded}
+      >
+        {t('in-plg:licenseBanner.getAnswers')}
+      </LicenseBannerButton>
     </div>
   );
 }

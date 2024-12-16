@@ -8,6 +8,7 @@ import React, { useContext } from 'react';
 
 import { DurationUnitType, TimeWindowType } from '@instana/types';
 import { Stack, SvgIcon } from '@instana/components';
+import { Select } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
@@ -19,7 +20,6 @@ import DateInput from 'in-components/form/DateInput/DateInput';
 import TimeInput from 'in-components/TimeInput/TimeInput';
 import { titleWidth } from 'in-service-levels/constants';
 import Section from 'in-components/workspace/Section';
-import Select from 'in-components/form/Select/Select';
 import Input from 'in-components/form/Input/Input';
 
 import locals from './SloObjectiveSection.mless';

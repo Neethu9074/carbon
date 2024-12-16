@@ -50,42 +50,42 @@ const columnDefinitions = [
     id: 'services',
     label: t('in-kubernetes:services'),
     getContent(item) {
-      return <TableEntityCounter icon="lib_kubernetes_service" count={item.services} />;
+      return <TableEntityCounter icon="lib_infra_kubernetesService" count={item.services} />;
     }
   },
   {
     id: 'pods',
     label: t('in-kubernetes:pods'),
     getContent({ workloads }) {
-      return <TableEntityCounter icon="lib_kubernetes_pod" count={workloads.pods} />;
+      return <TableEntityCounter icon="lib_infra_kubernetesPod" count={workloads.pods} />;
     }
   },
   {
     id: 'workloads.deployments',
     label: t('in-kubernetes:deployments'),
     getContent({ workloads }) {
-      return <TableEntityCounter icon="lib_kubernetes_workload" count={workloads.deployments} />;
+      return <TableEntityCounter icon="lib_infra_kubernetesDeployment" count={workloads.deployments} />;
     }
   },
   {
     id: 'workloads.deploymentConfigs',
     label: t('in-kubernetes:deploymentConfigs'),
     getContent({ workloads }) {
-      return <TableEntityCounter icon="lib_kubernetes_workload" count={workloads.deploymentConfigs} />;
+      return <TableEntityCounter icon="lib_infra_kubernetesDeployment" count={workloads.deploymentConfigs} />;
     }
   },
   {
     id: 'workloads.daemonSets',
     label: t('in-kubernetes:daemonSets'),
     getContent({ workloads }) {
-      return <TableEntityCounter icon="lib_kubernetes_workload" count={workloads.daemonSets} />;
+      return <TableEntityCounter icon="lib_infra_kubernetesDaemonSet" count={workloads.daemonSets} />;
     }
   },
   {
     id: 'workloads.statefulSets',
     label: t('in-kubernetes:statefulSets'),
     getContent({ workloads }) {
-      return <TableEntityCounter icon="lib_kubernetes_workload" count={workloads.statefulSets} />;
+      return <TableEntityCounter icon="lib_infra_kubernetesStatefulSet" count={workloads.statefulSets} />;
     }
   },
   {

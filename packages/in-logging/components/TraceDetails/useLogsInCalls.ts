@@ -21,6 +21,7 @@ import {
 } from 'in-logging/queryBuilder';
 import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { maxRetrievalSize } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
@@ -29,19 +30,21 @@ import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { loggingEnabled } from 'in-services/featureFlags';
 import getLogs from 'in-logging/subscriptions/getLogs';
-import { minutes } from 'in-services/time';
+import { hours } from 'in-services/time';
 
 interface GetDataParams {
   traceId: string;
   timeConfig: TimeConfig;
+  numLogsToFetch?: number;
 }
 
 interface UseLogsInCallsParams {
   traceId: string;
   trace: any;
+  numLogsToFetch?: number;
 }
-
-const timeWindowExtend = minutes.toMillis(10);
+//This const timeWindowExtend is a buffer to the trace start time and duration, we had to extend it (minutes -> hours) to get the data consistent.
+const timeWindowExtend = hours.toMillis(10);
 
 const useTimeConfigForLogs = (trace: TraceSummary) => {
   return useMemo(
@@ -57,13 +60,12 @@ const useTimeConfigForLogs = (trace: TraceSummary) => {
 
 const useLogsInCalls = loggingEnabled ? useLogsInCallsWithLogging : useLogsInCallsWithoutLogging;
 
-function useLogsInCallsWithLogging({ traceId, trace }: UseLogsInCallsParams) {
+function useLogsInCallsWithLogging({ traceId, trace, numLogsToFetch }: UseLogsInCallsParams) {
   const timeConfigForLogs = useTimeConfigForLogs(trace);
-
   const [selectedLog, setSelectedLog] = useState(null);
-
+  const { trackCta } = useSegmentTracking();
   const { items, errors, progress } = useLogsCursorPagination(
-    params => getData({ traceId, timeConfig: timeConfigForLogs, ...params }),
+    params => getData(trackCta, { traceId, timeConfig: timeConfigForLogs, numLogsToFetch, ...params }),
     [traceId]
   );
 
@@ -88,10 +90,10 @@ function useLogsInCallsWithoutLogging({ trace }: UseLogsInCallsParams) {
   return { logsContextValue };
 }
 
-function getData({ traceId, timeConfig }: GetDataParams) {
+function getData(trackCta: CtaTrackingFunction, { traceId, timeConfig, numLogsToFetch }: GetDataParams) {
   const callBody = {
     timeConfig,
-    retrievalSize: maxRetrievalSize,
+    retrievalSize: numLogsToFetch ?? maxRetrievalSize,
     tagFilterExpression: toBackendQueryModel(
       joinExpressions({
         logicalOperator: and,
@@ -119,7 +121,7 @@ function getData({ traceId, timeConfig }: GetDataParams) {
     timeConfig: callBody.timeConfig,
     tagFilterExpression: callBody.tagFilterExpression
   };
-  handleLogCallsWithFilters(mixpanelProps);
+  handleLogCallsWithFilters(trackCta, mixpanelProps);
 
   return getLogs(callBody);
 }

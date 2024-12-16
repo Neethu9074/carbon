@@ -1,0 +1,10 @@
+/*
+ * (c) Copyright IBM Corp. 2024
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .entityCveIndicator {
+    max-width: 30.5rem;
+  }
+}

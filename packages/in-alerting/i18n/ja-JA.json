@@ -18,7 +18,7 @@
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "削除",
     "alertHeaderIsNotLatestRevisionMessage": "このアラート構成のリビジョン {{description}} を表示しています。 変更する場合は、<latestRevisionButton>最新の改定を選択</latestRevisionButton>するか、または<restoreRevisionButton>現在のリビジョンから復元</restoreRevisionButton>してください。",
     "alertHeaderAriaLabelSeverity": "イベントの重大度は {{severity}} です",
-    "alertHistoryListTitleWithTotalRepresentedItemCount": "作成済みのアラート ({{totalRepresentedItemCount}})",
+    "alertHistoryListTitleWithTotalRepresentedItemCount": "作成済みアラート({{totalRepresentedItemCount}})",
     "alertStateActive": "アクティブ",
     "alertPropertyInfosLabelTitle": "タイトル",
     "alertPropertyInfosLabelAlertLevel": "アラート・レベル",
@@ -26,8 +26,11 @@
     "alertPropertyInfosLabelDescription": "説明",
     "noChannelSelectedText": "現在、アラート・チャネルが選択されていないため、アラートは受信されません。",
     "scopeConfigPresenterHelpTextAdditionalFilters": "追加フィルター",
-    "groupBy": "グループ化の基準",
+    "groupBy": "GROUP BY",
     "noChannelAvailable": "使用可能なアラート・チャネルがありません",
+    "optional": "オプション",
+    "on": "オン",
+    "off": "オフ",
     "revisionDropdownButton": {
       "revision": "リビジョン {{alertRevision}}",
       "pause": "一時停止",
@@ -40,12 +43,17 @@
     "chart": {
       "alertingChartLabelThreshold": "しきい値",
       "alertingChartLabelViolations": "違反",
+      "alertingChartLabelWarningViolations": "警告違反",
+      "alertingChartLabelCriticalViolations": "重大な違反",
+      "alertingChartLabelWarningThreshold": "警告しきい値",
+      "alertingChartLabelCriticalThreshold": "クリティカルしきい値",
       "alertingChartLabelForecast": "予測",
       "alertingChartLabelUpperBound": "上限",
       "alertingChartLabelLowerBound": "下限",
       "alertingChartMessageInvalidFilterQuery": "フィルター・クエリーが無効です。",
       "alertingChartMessageEmptyApplicationSelection": "アプリケーションが選択されていません。",
       "chartAlertsLaneErrorMessage": "アラートをロードできませんでした。",
+      "chartAlertsLaneErrorMessageForTearSheet": "有効な「トリガー条件」番号を入力してください ",
       "chartAlertsPreviewLanePresenterAlertsLabel": "アラート",
       "chartAlertsPreviewLanePresenterNoAlertsLabel": "アラートはありません",
       "chartAlertsPreviewLanePresenterTooltip": "アラート:{{カウント}}",
@@ -92,7 +100,17 @@
     "groupedViewHeader_1": "{{formattedCount}} 件の結果",
     "groupedViewHeader_2": "{{formattedCount}} 件の結果",
     "resultHeaderLoading": "ロード中です…",
-    "loadMore": "さらにロード"
+    "loadMore": "さらにロード",
+    "chooseLayoutDialog": {
+      "chooseLayout": "スマート・アラートのレイアウトの選択",
+      "layoutContent": "現在、この環境でスマート・アラートを作成するために、両方のレイアウトにアクセスできます。 ご希望のレイアウトを選択してお進みください:",
+      "oldLayoutDescription": "古いレイアウト:スマート・アラートを作成するための従来のインターフェース",
+      "newLayoutDescription": "新しいレイアウト:インターフェイスが新しくなり、機能が強化され、使いやすさが向上しました。",
+      "layoutRecommendation": "ご不明な場合は、新しいレイアウトをご覧になることをお勧めします。",
+      "cancelTitle": "キャンセル",
+      "useOldLayout": "古いレイアウトを使用する",
+      "useNewLayout": "新しいレイアウトを使用する"
+    }
   },
   "potentialProblems": {
     "titleErrorRate": "エラーのある呼び出し率が通常より高い",
@@ -138,6 +156,7 @@
   },
   "smartAlerts": {
     "addSmartAlert": "スマート・アラートの追加",
+    "createSmartAlert": "スマート・アラートの作成",
     "applicationSmartAlert": "アプリケーションのスマート・アラート",
     "globalApplicationSmartAlert": "グローバル・アプリケーション・スマート・アラート",
     "titleNoSmartAlertsConfigured": "スマート・アラートが構成されていません",
@@ -145,8 +164,16 @@
     "titleNoSmartAlertsCreated": "スマート・アラートが作成されていません",
     "titleCopyOf": "{{smartAlertTitle}} (のコピー)",
     "smartAlertsTitle": "スマート・アラート",
+    "labelNew": "(新規)",
+    "alertChannelList": {
+      "selectAllWarning": "すべての警告を選択",
+      "selectAllCritical": "重要なものをすべて選択",
+      "alertLevel": "アラート・レベル",
+      "critical": "クリティカル",
+      "warning": "警告"
+    },
     "applications": {
-      "alertConfiguration": "アラートの構成",
+      "alertConfiguration": "アラート構成",
       "advanced": {
         "applicationNamePlaceholder": "アプリケーション名",
         "serviceNamePlaceholder": "サービス名",
@@ -160,7 +187,13 @@
             "shortText": "アプリケーション・パースペクティブごと",
             "columnText": "集約",
             "description": "このアプリケーション・パースペクティブに対して個別にアラートを発行します",
-            "globalDescription": "アプリケーション・パースペクティブごとに個別にアラートを発行します"
+            "globalDescription": "アプリケーション・パースペクティブごとに個別にアラートを発行します",
+            "tearSheetSelectionText": "アプリケーション別にグループ化",
+            "tearSheetDescription": "フィルターに一致するコールは、{{count}} アプリケーションのしきい値に対して評価されます。 レイテンシーに違反した場合、このアプリケーション全体に対して 1 つのアラート通知が送信されます。",
+            "tearSheetDescription_plural": "フィルターに一致するコールは、{{count}} アプリケーションのしきい値に対して評価されます。 レイテンシーに違反した場合、このアプリケーション全体に対して 1 つのアラート通知が送信されます。",
+            "tearSheetDescription_0": "フィルターに一致するコールは、{{count}} アプリケーションのしきい値に対して評価されます。 レイテンシーに違反した場合、このアプリケーション全体に対して 1 つのアラート通知が送信されます。",
+            "tearSheetDescription_1": "フィルターに一致するコールは、{{count}} アプリケーションのしきい値に対して評価されます。 レイテンシーに違反した場合、このアプリケーション全体に対して 1 つのアラート通知が送信されます。",
+            "tearSheetDescription_2": "フィルターに一致するコールは、{{count}} アプリケーションのしきい値に対して評価されます。 レイテンシーに違反した場合、このアプリケーション全体に対して 1 つのアラート通知が送信されます。 "
           },
           "evaluationTypePERAPSERVICE": {
             "selectionText": "このアプリケーション・パースペクティブのサービスごと",
@@ -168,7 +201,13 @@
             "shortText": "サービスごと",
             "columnText": "サービスごと",
             "description": "このアプリケーション・パースペクティブのサービスごとに個別にアラートを発行します",
-            "globalDescription": "各アプリケーション・パースペクティブのコンテキストでサービスごとに個別にアラートを発行します"
+            "globalDescription": "各アプリケーション・パースペクティブのコンテキストでサービスごとに個別にアラートを発行します",
+            "tearSheetSelectionText": "サービス別にグループ化",
+            "tearSheetDescription": "フィルタに一致するコールは、{{count}} サービスのしきい値 (サービスごとに 1 つ、独自のしきい値を持つ) に対して評価されます。 あるグループのレイテンシーに違反すると、そのグループに対してアラート通知が送信されます。",
+            "tearSheetDescription_plural": "フィルターに一致するコールは、{{count}} サービスのしきい値 (サービスごとに 1 つ) に対して評価され、独自のしきい値があります。 あるグループのレイテンシーに違反すると、そのグループに対してアラート通知が送信されます。",
+            "tearSheetDescription_0": "フィルターに一致するコールは、{{count}} サービスのしきい値 (サービスごとに 1 つ) に対して評価され、独自のしきい値があります。 あるグループのレイテンシーに違反すると、そのグループに対してアラート通知が送信されます。",
+            "tearSheetDescription_1": "フィルターに一致するコールは、{{count}} サービスのしきい値 (サービスごとに 1 つ) に対して評価され、独自のしきい値があります。 あるグループのレイテンシーに違反すると、そのグループに対してアラート通知が送信されます。",
+            "tearSheetDescription_2": "フィルターに一致するコールは、{{count}} サービスのしきい値 (サービスごとに 1 つ) に対して評価され、独自のしきい値があります。 あるグループのレイテンシーに違反すると、そのグループに対してアラート通知が送信されます。"
           },
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "このアプリケーション・パースペクティブのエンドポイントごと",
@@ -176,7 +215,13 @@
             "shortText": "エンドポイントごと",
             "columnText": "エンドポイントごと",
             "description": "このアプリケーション・パースペクティブのエンドポイントごとに個別にアラートを発行します",
-            "globalDescription": "各アプリケーション・パースペクティブのコンテキストでエンドポイントごとに個別にアラートを発行します"
+            "globalDescription": "各アプリケーション・パースペクティブのコンテキストでエンドポイントごとに個別にアラートを発行します",
+            "tearSheetSelectionText": "エンドポイント別にグループ化",
+            "tearSheetDescription": "フィルターに一致するコールは、{{count}} エンドポイントのしきい値に対して評価され、エンドポイントごとに 1 つずつ、独自のしきい値があります。 あるグループのレイテンシーに違反すると、そのグループに対してアラート通知が送信されます。",
+            "tearSheetDescription_plural": "フィルターに一致するコールは、{{count}} エンドポイントのしきい値 (エンドポイントごとに 1 つ) に対して評価され、独自のしきい値があります。 あるグループのレイテンシーに違反すると、そのグループに対してアラート通知が送信されます。",
+            "tearSheetDescription_0": "フィルターに一致するコールは、{{count}} エンドポイントのしきい値 (エンドポイントごとに 1 つ) に対して評価され、独自のしきい値があります。 あるグループのレイテンシーに違反すると、そのグループに対してアラート通知が送信されます。",
+            "tearSheetDescription_1": "フィルターに一致するコールは、{{count}} エンドポイントのしきい値 (エンドポイントごとに 1 つ) に対して評価され、独自のしきい値があります。 あるグループのレイテンシーに違反すると、そのグループに対してアラート通知が送信されます。",
+            "tearSheetDescription_2": "フィルターに一致するコールは、{{count}} エンドポイントのしきい値 (エンドポイントごとに 1 つ) に対して評価され、独自のしきい値があります。 あるグループのレイテンシーに違反すると、そのグループに対してアラート通知が送信されます。"
           }
         },
         "inboundOutboundCalls": {
@@ -242,11 +287,11 @@
           },
           "timeThreshold": {
             "label": "時間しきい値",
-            "title": "時間しきい値: アラートを出すタイミング"
+            "title": "時間しきい値：いつアラートを受け取りますか。"
           },
           "alertChannel": {
             "label": "アラート・チャネル",
-            "title": "アラート・チャネル: アラートを受け取るユーザー"
+            "title": "アラート・チャネル：誰がアラートを受け取る必要がありますか。"
           },
           "propertiesOptional": {
             "label": "プロパティ－",
@@ -256,6 +301,9 @@
             "label": "積載量",
             "title": "カスタム・ペイロード"
           }
+        },
+        "staticOrAdaptiveSwitch": {
+          "description": "エラー・メトリクスに適応しきい値を使用すると、徐々に増加するエラーに対してアラートがトリガーされない可能性があるため、使用しないでください。"
         }
       },
       "chart": {
@@ -278,16 +326,21 @@
         "slowness": {
           "name": "低速の呼び出し",
           "headline": "低速の呼び出しに対する自動アラート",
-          "text": "このアプリケーション・パースペクティブで選択されたサービスおよびエンドポイントに対する呼び出しが通常より遅い場合にアラートを受け取ります。"
+          "text": "このアプリケーション・パースペクティブで選択されたサービスおよびエンドポイントに対する呼び出しが通常より遅い場合にアラートを受け取ります。",
+          "tearSheetHeadline": "低速の呼び出しに対する自動アラート",
+          "tearSheetDescription": "このアプリケーション・パースペクティブの選択したサービスとエンドポイントへの呼び出しがしきい値よりも遅い場合にアラートを受信します。"
         },
         "errors": {
           "name": "エラーのある呼び出し数",
           "headline": "エラーのある呼び出しに対する自動アラート",
-          "text": "このアプリケーション・パースペクティブの選択されたサービスおよびエンドポイントに対する誤った呼び出しの率またはカウントが通常より高い場合に、アラートを受け取ります。"
+          "text": "このアプリケーション・パースペクティブの選択されたサービスおよびエンドポイントに対する誤った呼び出しの率またはカウントが通常より高い場合に、アラートを受け取ります。",
+          "tearSheetHeadline": "エラーのある呼び出しに対する自動アラート",
+          "tearSheetDescription": "このアプリケーション・パースペクティブの選択されたサービスおよびエンドポイントに対するエラーのある呼び出しの比率または数がしきい値を超える場合にアラートを受け取ります。"
         },
         "logs": {
           "name": "ログ",
           "headline": "エラー・ログおよび警告ログに対する自動アラート",
+          "tearSheetHeadline": "エラー・ログおよび警告ログに対する自動アラート",
           "text": "所定のエラー・ログ・メッセージおよび警告ログ・メッセージが出された呼び出しの数が予想より多い場合に、アラートを受け取ります。",
           "metricLabel": "呼び出し",
           "incompleteRuleMessage": "このアラートがトリガーされたときに表示するログ・メッセージを選択してください"
@@ -296,26 +349,31 @@
           "name": "HTTP 状況コード",
           "headline": "HTTP 状況コードに対する自動アラート",
           "text": "一致する HTTP 状況コードの発生頻度が通常より多いときにアラートを受け取ります。",
-          "incompleteRuleMessage": "このアラートがトリガーされたときに表示する状況コードを選択してください"
+          "incompleteRuleMessage": "このアラートがトリガーされたときに表示する状況コードを選択してください",
+          "tearSheetHeadline": "HTTP状況コードに対する自動アラート",
+          "tearSheetDescription": "一致する HTTP 状況コードがしきい値よりも頻繁に発生した場合にアラートを受信します。"
         },
         "throughput": {
           "name": "スループット",
           "headline": "呼び出し数に対する自動アラート",
           "text": "このアプリケーション・パースペクティブで選択されたサービスおよびエンドポイントに対する呼び出し数が、異常に少ないまたは異常に多い場合の自動アラート。",
-          "metricLabel": "呼び出し"
+          "metricLabel": "呼び出し",
+          "tearSheetHeadline": "スループットの自動アラート",
+          "tearSheetDescription": "このアプリケーション・パースペクティブの選択したサービスおよびエンドポイントについて、コール数が異常に多いまたは少ない場合にアラートを受信します。"
         },
         "simpleMode": {
           "unexpectedDrop": {
-            "name": "予想外に少ない呼び出し数",
+            "name": "通話件数の少なさ",
             "headline": "異常に少ない呼び出し数に対する自動アラート",
             "text": "呼び出し数が、使用可能な過去データと比較して、予期される値より非常に少ない場合にアラートを受け取ります。 これは、このアプリケーションのアップストリームに問題があるか、アプリケーションへのユーザー・トラフィックが低下していることを示している可能性があります。"
           },
           "unexpectedlyHighNumber": {
-            "name": "予想外に多い呼び出し数",
+            "name": "通話件数の多さ",
             "headline": "異常に多い呼び出し数に対する自動アラート",
             "text": "呼び出し数が、使用可能な過去データと比較して、予期される値より非常に多い場合にアラートを受け取ります。 これは、アプリケーションに対する攻撃の兆候か、ボットによって生成された要求が多すぎることを示している可能性があります。"
           }
-        }
+        },
+        "variantMessage": "タイプ {{type}} で選択された指定の initialItemは、項目のリストに存在しません。"
       },
       "formUtils": {
         "titlePlaceholder": {
@@ -333,14 +391,22 @@
           "throughputLow": "呼び出し数が異常に少ない"
         },
         "descriptionPlaceholder": {
-          "errorRate_higherThan": "エラーのある呼び出し率が {{valueRoundedToDecimals}}% を上回っています。",
-          "errorRate_higherEqual": "エラーのある呼び出し率が {{valueRoundedToDecimals}}% 以上です。",
-          "errorRate_lowerThan": "エラーのある呼び出し率が {{valueRoundedToDecimals}}% を下回っています。",
-          "errorRate_lowerEqual": "エラーのある呼び出し率が {{valueRoundedToDecimals}}% 以下です。",
-          "errorCount_higherThan": "エラーのある呼び出しの数が {{valueRoundedToDecimals}} を超えています。",
-          "errorCount_higherEqual": "エラーのある呼び出しの数が {{valueRoundedToDecimals}} 以上になっています。",
-          "errorCount_lowerThan": "エラーのある呼び出しの数が {{valueRoundedToDecimals}} を下回っています。",
-          "errorCount_lowerEqual": "エラーのある呼び出しの数が {{valueRoundedToDecimals}} 以下になっています。",
+          "errorRateStaticThreshold_higherThan": "エラーのある呼び出し率が {{valueRoundedToDecimals}}% を上回っています。",
+          "errorRateStaticThreshold_higherEqual": "エラーのある呼び出し率が {{valueRoundedToDecimals}}% 以上です。",
+          "errorRateStaticThreshold_lowerThan": "エラーのある呼び出し率が {{valueRoundedToDecimals}}% を下回っています。",
+          "errorRateStaticThreshold_lowerEqual": "エラーのある呼び出し率が {{valueRoundedToDecimals}}% 以下です。",
+          "errorRateDefault_higherThan": "誤ったコール率が予想よりも高くなっています。",
+          "errorRateDefault_higherEqual": "誤ったコール レートが予想以上です。",
+          "errorRateDefault_lowerThan": "誤ったコール率が予想よりも低くなっています。",
+          "errorRateDefault_lowerEqual": "誤ったコール・レートが予想より低いか等しい。",
+          "errorCountStaticThreshold_higherThan": "エラーのある呼び出しの数が {{valueRoundedToDecimals}} を超えています。",
+          "errorCountStaticThreshold_higherEqual": "エラーのある呼び出しの数が {{valueRoundedToDecimals}} 以上になっています。",
+          "errorCountStaticThreshold_lowerThan": "エラーのある呼び出しの数が {{valueRoundedToDecimals}} を下回っています。",
+          "errorCountStaticThreshold_lowerEqual": "エラーのある呼び出しの数が {{valueRoundedToDecimals}} 以下になっています。",
+          "errorCountDefault_higherThan": "誤った呼び出しの数が予想よりも多くなっています。",
+          "errorCountDefault_higherEqual": "誤ったコールの数が予想以上である。",
+          "errorCountDefault_lowerThan": "エラーのある呼び出しの数が予想よりも少ない。",
+          "errorCountDefault_lowerEqual": "誤った呼び出しの数が予想より少ないか等しい。",
           "slownessStaticThreshold_slowerThan": "待ち時間 ({{aggregationText}}) に基づいて、呼び出しの速度が {{thresholdValue}} ミリ秒を上回っています。",
           "slownessStaticThreshold_slowEqual": "待ち時間 ({{aggregationText}}) に基づいて、呼び出しの速度が {{thresholdValue}} ミリ秒以上です。",
           "slownessStaticThreshold_below": "待ち時間 ({{aggregationText}}) に基づいて、呼び出しの速度が {{thresholdValue}} ミリ秒を下回っています。",
@@ -392,7 +458,8 @@
           "throughputDefault_higherThan": "呼び出し数は予期される値を上回っています。",
           "throughputDefault_higherEqual": "呼び出し数は予期される値以上です。",
           "throughputDefault_lowerThan": "呼び出し数は予期される値を下回っています。",
-          "throughputDefault_lowerEqual": "呼び出し数は予期される値以下です。"
+          "throughputDefault_lowerEqual": "呼び出し数は予期される値以下です。",
+          "expected": "期待値である場合"
         },
         "customStatusCodeFullText": "{{statusCodeStart}} から {{statusCodeEnd}} の間"
       },
@@ -421,15 +488,15 @@
         "ruleFormPleaseProvideAStartStatusCode": "有効な開始 HTTP 状況コードを指定してください",
         "ruleFormPleaseProvideAEndStatusCode": "有効な終了 HTTP 状況コードを指定してください",
         "smartAlertFormValueIsReadOnly": "値は読み取り専用であるため、変更できません",
-        "thresholdFormPleaseProvideANumber0": "0 以上の数値を指定してください",
-        "thresholdFormBaselineIsEmpty": "ベースラインが空です"
+        "thresholdFormBaselineIsEmpty": "ベースラインが空です",
+        "selectAtLeastOneThreshold": "少なくとも 1 つのしきい値を指定してください。",
+        "selectAtLeastOneSensitivity": "少なくとも 1 つの感受性を選択してください。"
       },
       "simple": {
-        "simpleAlertStep1Headline": "何についてアラートを出しますか?",
         "simpleAlertStep2Headline": "どこでアラートをトリガーしますか?",
-        "step1Title": "ステップ 1: アラートの選択",
-        "step2Title": "ステップ 2: スコープの選択",
-        "step3Title": "ステップ 3: アラート・チャネルの選択"
+        "step1Title": "ステップ 1：アラートの選択",
+        "step2Title": "ステップ 2：スコープの選択",
+        "step3Title": "ステップ 3：アラート・チャネルの選択"
       },
       "components": {
         "createSmartAlert": "スマート・アラートの追加",
@@ -442,14 +509,18 @@
       "inventory": {
         "noData": "スマート・アラートが構成されていません。 下のボタンをクリックして最初のスマート・アラートを構成してください。",
         "noPersmissionToCreateGlobalSmartAlert": "スマート・アラートを構成する権限がありません。 管理者にお問い合わせください。",
+        "noPermissionGlobalSmartAlertEdit": "このアクションを実行する権限がありません",
         "labelGlobalSmartAlertsList": "グローバル・アプリケーション・スマート・アラート ({{numberOfAlerts}} 個)",
         "labelSmartAlertsList": "アプリケーション・スマート・アラート ({{numberOfAlerts}} 個)",
+        "labelGlobalSmartAlertsTable": "グローバル・アプリケーション・スマート・アラート",
+        "labelSmartAlertsTable": "アプリケーション・スマート・アラート",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
         "getSubtitleForStaticThreshold": "静的しきい値、 {{metricLabel}} {{operator}} {{value}}",
         "getSubtitleForStaticDailySeasonality": "静的日次季節性、 {{metricLabel}}",
         "getSubtitleForStaticWeeklySeasonality": "静的週次季節性、 {{metricLabel}}",
         "getSubtitleForAdaptiveThreshold": "適応しきい値、{{metricLabel}}",
         "labelActionButtonEdit": "編集",
+        "labelNew": "(新規)",
         "labelActionButtonDuplicate": "複製",
         "labelActionButtonDelete": "削除",
         "labelAlertFilters": "フィルター",
@@ -460,11 +531,15 @@
         "numberOfApplicationsSelected_plural": "{{count}} 件のアプリケーションが選択されています",
         "numberOfApplicationsSelected_0": "{{count}} 件のアプリケーションが選択されています",
         "numberOfApplicationsSelected_1": "{{count}} 件のアプリケーションが選択されています",
-        "numberOfApplicationsSelected_2": "{{count}} 件のアプリケーションが選択されています"
+        "numberOfApplicationsSelected_2": "{{count}} 件のアプリケーションが選択されています",
+        "noGlobalAlertDataHeader": "非グローバル・アプリケーション・スマート・アラート",
+        "noGlobalAlertDataDescription": "開始するには、<strong>グローバル・スマート・アラートの作成</strong>をクリックします。",
+        "noLocalAlertDataHeader": "非アプリケーション・スマート・アラート",
+        "noLocalAlertDataDescription": "開始するには、<strong>スマート・アラートの作成</strong>をクリックします。"
       },
       "details": {
         "title": "アラート詳細",
-        "titleAlertProperties": "アラートのプロパティー",
+        "titleAlertProperties": "アラート・プロパティー",
         "applicationsServiceEndpointScopeTitle": "選択されたアプリケーション / サービス/ エンドポイント",
         "callsScopeTitle": "組み込み呼び出し"
       },
@@ -478,18 +553,143 @@
         "viewAlertDetails": "構成のアラート詳細を表示: {{name}}",
         "eventsWarningIcon": "イベント警告アイコン",
         "eventsCriticalIcon": "イベント・クリティカル・アイコン"
+      },
+      "tearSheet": {
+        "step1Title": "テンプレートの選択",
+        "step2Title": "スコープの定義",
+        "step3Title": "グループ化の定義",
+        "step4Title": "アラートを受け取るタイミングの定義",
+        "alertHeadline": "アラートを受け取る対象を選択します",
+        "step5Title": "アラート・プロパティの定義",
+        "step6Title": "アラート・チャンネルの定義",
+        "grouping": {
+          "title": "グループ呼び出し",
+          "description": "グループ化により、ユーザーは通話をグループごとに設定することができます。 グループ内の各コールは一括して設定されるが、個別に評価される。",
+          "groupByApplication": "{{count}} アプリケーション",
+          "groupByApplication_plural": "{{count}} 個のアプリケーション",
+          "groupByApplication_0": "{{count}} 個のアプリケーション",
+          "groupByApplication_1": "{{count}} 個のアプリケーション",
+          "groupByApplication_2": "{{count}} 個のアプリケーション",
+          "groupByServices": "{{count}} 件のサービス",
+          "groupByServices_plural": "{{count}} サービス",
+          "groupByServices_0": "{{count}} サービス",
+          "groupByServices_1": "{{count}} サービス",
+          "groupByServices_2": "{{count}} サービス",
+          "groupByEndpoint": "{{count}} エンドポイント",
+          "groupByEndpoint_plural": "{{count}} エンドポイント",
+          "groupByEndpoint_0": "{{count}} エンドポイント",
+          "groupByEndpoint_1": "{{count}} エンドポイント",
+          "groupByEndpoint_2": "{{count}} エンドポイント",
+          "groupbyDescription": "過去 24 時間以内に発信された通話に基づきます",
+          "noData": "スコープ内のアプリケーション、サービス、エンドポイントには、過去24時間に通話を記録したものはない。",
+          "groupByDataFailed": "何らかの問題が発生しました。 データでグループを取得することができません。 理由: {{reason}}"
+        },
+        "callsInScope": {
+          "title": "スコープ内の呼び出しの選択 ",
+          "description": "これにより、選択可能なサービスまたはエンドポイントが決まります。"
+        },
+        "includeHiddenCalls": {
+          "title": "非表示の呼び出しを含める (オプション) ",
+          "description": "内部通話と合成通話は内蔵ダッシュボードに表示されず、デフォルトで除外されます"
+        },
+        "serviceEndPointSelection": "選択したタイプの通話用のサービスまたはエンドポイント",
+        "serviceEndPointSelectionDescription": "アラートを受けるサービスを選択します。",
+        "AlertPropertiesTitle": "このアラートに設定するプロパティーはどのようにしますか?",
+        "AlertChannelTitle": "アラートの通知先はどこですか?",
+        "inboundOutboundCalls": {
+          "config": {
+            "inbound": {
+              "text": "インバウンドの呼び出し",
+              "dashboard": "このアプリケーションの利用者によって認識された問題を検出するため",
+              "overrideDefault": "このアプリケーションのデフォルトのスコープは「インバウンド呼び出し」のみです。 これは「構成」で変更できます。"
+            },
+            "all": {
+              "text": "すべての呼び出し",
+              "dashboard": "このアプリケーション内のサービスまたはエンドポイントの問題を検出するため。",
+              "overrideDefault": "このアプリケーションのデフォルトのスコープは「すべての呼び出し」です。 これは「構成」で変更できます。"
+            }
+          }
+        },
+        "hiddenCalls": {
+          "config": {
+            "includeInternal": {
+              "text": "内部の呼び出しはサービス内で行われる作業であり、カスタム・トレースにおける中間スパンに対応します"
+            },
+            "includeSynthetic": {
+              "text": "シンセティック呼び出しは、シンセティック・エンドポイントを宛先としています。ヘルス・チェック・エンドポイントへの呼び出しなどがその例です"
+            }
+          }
+        },
+        "threshold": {
+          "title": "違反しきい値の値を設定",
+          "description": "違反を評価するためのメトリック、違反しきい値、時間ウィンドウを選択します。",
+          "thresholdValue": "しきい値",
+          "thresholdDescription": {
+            "static": "定数のしきい値が適用されます。これは時間の経過とともに変化することはありません。",
+            "staticDaily": "日々の履歴データに基づく時間依存のしきい値が適用され、自動的には変化されません。",
+            "staticWeekly": "毎週の履歴データに基づく時間依存のしきい値が適用され、自動的には変化されません。"
+          },
+          "metricLabel": "{{metricLabel}} パーセンタイル・レイテンシ",
+          "minLatency": "最小遅延時間",
+          "maxLatency": "最大遅延時間",
+          "meanLatency": "平均遅延時間",
+          "sumLatency": "合計待ち時間"
+        },
+        "timeThreshold": {
+          "title": "違反がアラートをトリガーするタイミングを設定",
+          "description": "アラートおよびパーシスタンス・タイプを指定し、アラート・トリガーを設定します。"
+        },
+        "staticOrAdaptive": {
+          "config": {
+            "adaptive": {
+              "description": "基礎となるメトリックの変化に自動的に適応するしきい値が適用されます。",
+              "label": "適応",
+              "adaptiveNotSupportedForEndPoint": "適応しきい値は、エンドポイントでグループ化する場合にはサポートされません。",
+              "adaptiveNotSupportedForBluePrint": "選択されたブループリント: {{bluePrint}} で適応しきい値がサポートされていません。",
+              "notSupported": "未サポート"
+            },
+            "static": {
+              "description": "定数のしきい値が適用されます。これは時間の経過とともに変化することはありません。",
+              "label": "静的"
+            }
+          }
+        },
+        "alertChart": {
+          "title": "アラートのプレビュー",
+          "description": "過去のメトリック・データをベースに、アラートがどのようにトリガーされたかを示します。"
+        },
+        "alertProperties": {
+          "previewTitle": "アラートのプレビュー"
+        },
+        "alertChannelList": {
+          "title": "アラート・チャンネル ({{channelCount}})",
+          "description": "このアラートの受信者を選択する",
+          "searchPlaceholder": "検索",
+          "clearAll": "すべてクリア"
+        },
+        "editFilters": "フィルターの編集",
+        "invalidFilters": "無効なフィルター",
+        "invalidFilterWarning": "選択したフィルターの中には、適応しきい値に対応していないものがあります。 ハイライトされたフィルターは非推奨となる。",
+        "editAdaptiveThreshold": {
+          "title": "適応しきい値フィルタの編集",
+          "description": "すべてのフィルターが適応しきい値に対応していることを確認する。"
+        },
+        "filterWithInvalidAdaptiveThreshold": "適応しきい値を持つフィルター: "
       }
     },
     "details": {
       "header": "詳細",
       "thresholdTypeTitle": "しきい値タイプ",
       "metricTitle": "メトリック",
+      "threshold": "しきい値",
+      "warningThresholdLabel": "警告",
+      "criticalThresholdLabel": "クリティカル",
       "entityTitle": "範囲",
       "titleBuiltInIndicator": "組み込み"
     },
     "list": {
       "header": {
-        "configuredAlerts": "構成済みアラート({{numberOfAlerts}})"
+        "configuredAlerts": "構成済みアラート ({{numberOfAlerts}})"
       },
       "columns": {
         "name": "名前"
@@ -506,6 +706,7 @@
       "ruleAggregationOptionP98": "98 パーセンタイル",
       "ruleAggregationOptionP99": "99 パーセンタイル",
       "ruleAggregationOptionMAX": "最大",
+      "ruleAggregationOptionSUM": "sum",
       "ruleAggregationForWeeklySeasonalityOptionMEAN": "平均",
       "ruleAggregationForWeeklySeasonalityOptionP50": "50 パーセンタイル",
       "ruleStatusCodeValueOption1": "1XX (Informational)",
@@ -577,15 +778,21 @@
       "ruleStatusCodeValueOption508": "508 (ループ検出)",
       "ruleStatusCodeValueOption510": "510 (拡張なし)",
       "ruleStatusCodeValueOption511": "511 (ネットワーク認証が必要)",
-      "ruleStatusCodeValueOption599": "599 (ネットワーク接続タイムアウト・エラー)"
+      "ruleStatusCodeValueOption599": "599 (ネットワーク接続タイムアウト・エラー)",
+      "warningThresholdValidator": "< および <= 演算子の場合、警告しきい値はクリティカルしきい値より大きくなければなりません。",
+      "criticalThresholdValidator": "> および >= 演算子の場合、クリティカルしきい値は警告しきい値より大きくなければなりません。",
+      "sensitivityValidator": "臨界感度は、警告感度より小さくする必要があります。"
     },
     "components": {
       "smartAlertDialog": {
         "cancelTitle": "キャンセル",
+        "proceedTitle": "続行",
+        "previousTitle": "前へ",
         "sharedListTooltip": "{{typeName}} は利用できなくなりました。",
         "clearTagFilterExpressionButton": "クリア",
         "baselineErrorMessageComputedOnApproximateData": "ベースラインは、データ保存設定による概算データに基づいて計算されます。 そのため、選択したフィルターに一致する呼び出しがほとんどない場合には、ベースラインが正確でない可能性があります。",
-        "baselineErrorMessageInsufficientDataToCompute": "選択したベースラインを計算するにはデータが不十分です。 代わりに<em>静的しきい値</em> を選択してください。",
+        "baselineValidationMessageInsufficientDataToCompute": "選択したベースラインを計算するにはデータが不十分です。 代わりに<em>静的しきい値</em> を選択してください。",
+        "baselineGenericErrorMessage": "ベースラインの取得に失敗しました。 代わりに<em>静的しきい値</em> を選択してください。",
         "pleaseContactSupportToRiseLimit": "この上限を増やすには <supportLink>{{instanaSupportPortal}}</supportLink> からお問い合わせください。",
         "adaptiveBaselineErrorMessage": "しきい値プレビューは現在使用できません。<br />このスマート・アラートは引き続き保存できます。",
         "adaptiveBaselineErrorMessageNotAvailable": "適応しきい値は現在使用できません。",
@@ -597,6 +804,7 @@
         "selectAlertChannelButton": "アラート・チャネルの選択",
         "createAlertChannelTitle": "アラート・チャネルの作成",
         "alertChannelCreatedSuccess": "アラート・チャネルが作成されました",
+        "alertChannelCreatedSuccessDescription": "アラート・チャンネルは正常に作成されました。",
         "alertChannelSelectTypeTitle": "アラート・チャネルのタイプ",
         "addChannel": "{{count}} 個のチャネルを追加",
         "addChannel_plural": "{{count}} 個のチャネルを追加",
@@ -606,15 +814,21 @@
         "add": "追加",
         "alertPropertyInsertPlaceholderLabel": "プレースホルダーの挿入",
         "scopeConfigTitleWithApplications": "アプリケーション/サービス/エンドポイントの選択",
+        "scopeConfigTitleWithApplicationsForTearsheet": "アプリケーション/サービス/エンドポイント",
         "scopeConfigTitle": "サービス/エンドポイントの選択",
         "scopeConfigSelectOneEntryMessage": "少なくとも 1 つのエントリーを選択してください。",
         "scopeConfigTitleTooltip": "過去 24 時間の使用可能なエンティティーを表示しています",
+        "scopeConfigSubTitle": "過去24時間に基づく",
+        "scopeConfigSearchApplicationsPlaceholder": "検索アプリケーション…",
         "scopeMigrationMessage_FAILED": "スコープを自動的にマイグレーションできませんでした。 以下のダイナミック・フォーカス照会に対応するタグ・フィルターを選択してください。",
         "scopeMigrationMessage_PARTIAL": "スコープを完全にマイグレーションできませんでした。 以下のダイナミック・フォーカス照会に対応するタグ・フィルターを選択してください。",
         "scopeMigrationMessage_FULL": "適用されるスコープは、過去に使用されたダイナミック・フォーカス照会に基づきます。",
         "scopeMigrationMessageAllAvailableEntities": "適用されるスコープは、使用可能なすべてのエンティティーのうち、過去に使用された選択に基づきます。",
         "scopeMigrationMessageSelectedApplications": "適用されるスコープは、過去に使用されたアプリケーション・パースペクティブの選択に基づきます。",
         "sortByUserSelectionLabel": "ユーザー選択によるソート",
+        "sortBySelectionLabel": "選択項目でソート",
+        "scopeFilterCallsTitle": "呼び出しのフィルター操作",
+        "scopeFilterCallsDescription": "より正確なアラートを取得するには、サービスを手動で選択します。",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "少なくとも {{count}} 人のユーザーと {{userPercentage}} のユーザーが過去 {{formattedTimeWindow}}以内に影響を受けました",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "少なくとも {{count}} 人のユーザーと {{userPercentage}} のユーザーが過去 {{formattedTimeWindow}}以内に影響を受けました",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_0": "少なくとも {{count}} 人のユーザーと {{userPercentage}} のユーザーが過去 {{formattedTimeWindow}}以内に影響を受けました",
@@ -659,7 +873,7 @@
         "timeThresholdConfigEvaluationGranularity": "評価の粒度",
         "granularityTooltipText": "ここで設定する時間の細分度によって、しきい値が評価される頻度が決まります。",
         "timeThresholdConfigNumberOfTracesThreshold": "影響を受けたトレースの数",
-        "timeThresholdConfigNumberOfImpactedUsersThreshold": "影響ユーザー数",
+        "timeThresholdConfigNumberOfImpactedUsersThreshold": "影響ユーザーの数",
         "timeThresholdConfigAtLeast": "最小",
         "timeThresholdConfigNumberOfTraces": "影響を受けたトレース数",
         "timeThresholdConfigMinutes": "{{min}} 分",
@@ -685,12 +899,18 @@
         "alertPropertiesAlertLevel": "アラート・レベル",
         "alertPropertiesTriggersIncident": "インシデントのトリガー",
         "alertPropertiesDescription": "説明",
-        "alertPropertiesAlertProperties": "アラートのプロパティー",
+        "warningAlertPreviewLabel": "警告プレビュー",
+        "criticalAlertPreviewLabel": "クリティカル・プレビュー",
+        "alertPreviewMissingThresholdInfo": "使用可能なプレビューがありません。 プレビューを表示するには、少なくとも 1 つのしきい値を選択してください。",
+        "alertPropertiesAlertProperties": "アラート・プロパティー",
+        "alertPreviewDefaultTitle": "通知タイトル",
+        "groupingPlaceholdersMissingTooltip": "プレースホルダ・オプションにアクセスするグループを設定する",
         "buttonSave": "保存",
         "buttonCreate": "作成",
         "buttonMigrate": "移行",
         "selectedBlueprint": "選択されたブループリント",
         "buttonRecalculateBaseline": "ベースラインの再計算",
+        "buttonRecalculateBaselineDisabled": "ベースラインの再計算 (無効)",
         "sensitivitySliderLow": "低",
         "sensitivitySliderHigh": "高",
         "sensitivitySliderValueLabel": "{{count}} 個の標準偏差",
@@ -699,6 +919,9 @@
         "sensitivitySliderValueLabel_1": "{{count}} 個の標準偏差",
         "sensitivitySliderValueLabel_2": "{{count}} 個の標準偏差",
         "labelThreshold": "しきい値",
+        "multiThresholdAlertNotificationInfo": "いずれかのしきい値を入力すると、アラート通知がトリガーされます。",
+        "warningThresholdLabel": "警告",
+        "criticalThresholdLabel": "クリティカル",
         "labelSensitivity": "重要度",
         "staticThresholdTypeOptionsTooltip": "静的日次/週次しきい値は、履歴データに基づく時間依存のしきい値です。 しきい値は自動的に変更されないため、必要に応じて手動で再計算してください。",
         "thresholdTypeOptionStaticThreshold": "静的しきい値",
@@ -712,6 +935,11 @@
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "スマート・アラートの作成",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "グローバル・スマート・アラートの作成",
         "alertConfigDialogPresenterTitleMigrateAlert": "スマート・アラートへのマイグレーション",
+        "alertConfigTearSheetEditAlert_Local": "アプリケーションのスマート・アラートの編集",
+        "alertConfigTearSheetEditAlert_Global": "アプリケーションのグローバル・スマート・アラートの編集",
+        "alertConfigTearSheetCreateNewAlert_Local": "アプリケーションのスマート・アラートの作成",
+        "alertConfigTearSheetCreateNewAlert_Global": "アプリケーションのグローバル・スマート・アラートの作成",
+        "alertConfigTearSheetMigrateAlert": "アプリケーション・スマート・アラートへの移行",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "拡張モードに切り替える",
         "simpleAlertConfigDialogStep3Headline": "だれがアラートを受け取りますか?",
         "Loading": "ロード中…",
@@ -743,62 +971,6 @@
           }
         }
       },
-      "alertsHub": {
-        "title": "アラート・ハブ",
-        "introText": "アラート構成ハブにようこそ。 ここではアラートの予想を設定できます。",
-        "readMore": "続きを読む…",
-        "websites": {
-          "title": "Web サイト",
-          "description0": "アラートを設定するには、アラートの設定対象である Web サイトに移動し、右下の「スマート・アラートの追加」ボタンをクリックしてください。",
-          "stats": "現在、$t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} }) が $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} }) にあります。",
-          "alerts": "{{count}} 個の Web サイト・スマート・アラート",
-          "alerts_plural": "{{count}} 個の Web サイト・スマート・アラート",
-          "alerts_0": "{{count}} 個の Web サイト・スマート・アラート",
-          "alerts_1": "{{count}} 個の Web サイト・スマート・アラート",
-          "alerts_2": "{{count}} 個の Web サイト・スマート・アラート",
-          "websites": "{{count}} 個の Web サイト",
-          "websites_plural": "{{count}} 個の Web サイト",
-          "websites_0": "{{count}} 個の Web サイト",
-          "websites_1": "{{count}} 個の Web サイト",
-          "websites_2": "{{count}} 個の Web サイト",
-          "button0": "Web サイト"
-        },
-        "applications": {
-          "title": "アプリケーション",
-          "description0": "スマート・アラートは、特定のアプリケーションのみを対象に設定することも、複数のアプリケーションを対象に設定することもできます。",
-          "stats": "現在、$t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} }) および $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} }) があります。",
-          "gsa": "{{count}} 個のグローバル・スマート・アラート",
-          "gsa_plural": "{{count}} 個のグローバル・スマート・アラート",
-          "gsa_0": "{{count}} 個のグローバル・スマート・アラート",
-          "gsa_1": "{{count}} 個のグローバル・スマート・アラート",
-          "gsa_2": "{{count}} 個のグローバル・スマート・アラート",
-          "rsa": "{{count}} 個の通常スマート・アラート",
-          "rsa_plural": "{{count}} 個の通常スマート・アラート",
-          "rsa_0": "{{count}} 個の通常スマート・アラート",
-          "rsa_1": "{{count}} 個の通常スマート・アラート",
-          "rsa_2": "{{count}} 個の通常スマート・アラート",
-          "button0": "スマート・アラート"
-        },
-        "infrastructure": {
-          "title": "インフラストラクチャーとプラットフォーム",
-          "description0": "インフラストラクチャーとプラットフォームのアラートでは、2 ステップ・ワークフローが使用されます。",
-          "description1": "1) 特定の条件に対してイベントが定義されます。 組み込みイベントを使用するか、または独自のカスタム・イベントを作成できます。",
-          "description2": "2) 特定のイベントが発生するとアラートが通知されます。",
-          "stats": "現在、$t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) および $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} }) があります。",
-          "events": "{{count}} 件のカスタム・イベント",
-          "events_plural": "{{count}} 件のカスタム・イベント",
-          "events_0": "{{count}} 件のカスタム・イベント",
-          "events_1": "{{count}} 件のカスタム・イベント",
-          "events_2": "{{count}} 件のカスタム・イベント",
-          "alerts": "{{count}} 個のアラート",
-          "alerts_plural": "{{count}} 個のアラート",
-          "alerts_0": "{{count}} 個のアラート",
-          "alerts_1": "{{count}} 個のアラート",
-          "alerts_2": "{{count}} 個のアラート",
-          "button0": "アラート",
-          "button1": "イベント"
-        }
-      },
       "utils": {
         "aggregationTextP25": "25 パーセンタイル",
         "aggregationTextP50": "50 パーセンタイル",
@@ -812,6 +984,26 @@
         "labelConfirm": "ご確認ください",
         "labelConfirmRemoveConfig": "アラート<strong>{{configName}}</strong>を削除しますか？",
         "labelRemove": "削除"
+      },
+      "tearSheet": {
+        "timeThreshold": {
+          "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "違反が長期にわたって続く場合",
+          "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "不規則な間隔で違反が続く",
+          "timeThresholdConfigTimeThresholdLabelViolationsPersistCountinously": "違反が継続的に続く",
+          "timeThresholdConfigTimeThresholdLabelTraceImpact": "影響を受けるトレースの最小数",
+          "granularity": {
+            "description": "通話は {{granularity}} 分のウィンドウで行われ、{{granularity}} 分ごとに、そのウィンドウのメトリック値が計算されます"
+          },
+          "triggerAlert": "トリガー・アラート",
+          "triggerAfter": "トリガー後",
+          "tracesImpacted": "トレースが影響を受ける",
+          "outOfConsecutiveEvaluations": "の範囲外",
+          "persistenceType": "パーシスタンス・タイプ",
+          "numberOfConsecutiveViolationsPostLabel": "連続した {{granularity}} 分のウィンドウに違反がある",
+          "static": "静的",
+          "thresholdValue": "しきい値",
+          "timeWindow": "時間枠"
+        }
       }
     },
     "websites": {
@@ -825,9 +1017,9 @@
         "JSErrorMessage": "JS エラー・メッセージ",
         "HTTPStatusCode": "HTTP 状況コード",
         "timeThresholdLabel": "時間しきい値",
-        "timeThresholdTitle": "時間しきい値: アラートを出すタイミング",
+        "timeThresholdTitle": "時間しきい値：いつアラートを受け取りますか。",
         "alertChannelsLabel": "アラート・チャネル",
-        "alertChannelsTitle": "アラート・チャネル: アラートを受け取るユーザー",
+        "alertChannelsTitle": "アラート・チャネル：誰がアラートを受け取る必要がありますか。",
         "propertiesLabel": "プロパティ－",
         "propertiesTitle": "追加のアラートのプロパティー",
         "thresholdValue": "しきい値",
@@ -877,10 +1069,10 @@
         "customEventBlueprintConfigText": "特定のカスタム・イベントが発生する頻度が発生するたびに、アラートを受信します。",
         "customEventBlueprintConfigIncompleteRuleMessage": "このアラートがトリガーされるタイミングを確認するには、カスタム・イベントを選択してください",
         "customEventBlueprintConfigMetricLabel": "発生件数",
-        "simpleModeBlueprintConfigsUnexpectedDropName": "ページ・ロードの数が予想外に少ない",
+        "simpleModeBlueprintConfigsUnexpectedDropName": "ページロード数の少なさ",
         "simpleModeBlueprintConfigsUnexpectedDropHeadline": "異常に少ないページ・ロード数に対する自動アラート",
         "simpleModeBlueprintConfigsUnexpectedDropText": "使用可能な過去のデータ比較して、ページ・ロード数が予期される値より非常に少ない場合にアラートを受け取ります。",
-        "simpleModeBlueprintConfigsUnexpectedlyHighNumberName": "ページ・ロードの数が予想外に多い",
+        "simpleModeBlueprintConfigsUnexpectedlyHighNumberName": "ページロード数の多さ",
         "simpleModeBlueprintConfigsUnexpectedlyHighNumberHeadline": "異常に多いページ・ロード数に対する自動アラート",
         "simpleModeBlueprintConfigsUnexpectedlyHighNumberText": "使用可能な過去データと比較して、ページ・ロード数が予期される値より非常に多い場合にアラートを受け取ります。 これは、Web サイトに対する攻撃の兆候か、ボットによって生成された要求が多すぎることを示している可能性があります。"
       },
@@ -905,9 +1097,9 @@
       "simple": {
         "simpleAlertConfigDialogStep1Headline": "何についてアラートを出しますか?",
         "simpleAlertConfigDialogStep2Headline": "どこでアラートをトリガーしますか?",
-        "stepConfigsStep1Title": "ステップ 1: アラートの選択",
-        "stepConfigsStep2Title": "ステップ 2: スコープの選択",
-        "stepConfigsStep3Title": "ステップ 3: アラート・チャネルの選択"
+        "stepConfigsStep1Title": "ステップ 1：アラートの選択",
+        "stepConfigsStep2Title": "ステップ 2：スコープの選択",
+        "stepConfigsStep3Title": "ステップ 3：アラート・チャネルの選択"
       },
       "customEvent": {
         "noCustomEventsFound": "カスタム・イベントが見つかりません",
@@ -926,8 +1118,20 @@
             "subtitleForStaticDailySeasonality": "静的日次季節性、 {{metricLabel}}",
             "subtitleForStaticWeeklySeasonality": "静的週次季節性、 {{metricLabel}}",
             "subtitleForAdaptiveThreshold": "適応しきい値、{{metricLabel}}"
-          }
-        }
+          },
+          "moreFiltersWithCount": "さらに {{count}} 個のフィルター",
+          "moreFiltersWithCount_plural": "さらに {{count}} 個のフィルター",
+          "moreFiltersWithCount_0": "さらに {{count}} 個のフィルター",
+          "moreFiltersWithCount_1": "さらに {{count}} 個のフィルター",
+          "moreFiltersWithCount_2": "さらに {{count}} 個のフィルター",
+          "filter": "フィルター",
+          "filter_plural": "フィルター",
+          "filter_0": "フィルター",
+          "filter_1": "フィルター",
+          "filter_2": "フィルター"
+        },
+        "noDataHeader": "非Webサイト・スマート・アラート",
+        "noDataDescription": "開始するには、<strong>スマート・アラートの作成</strong>をクリックします。"
       }
     },
     "sortOptions": {
@@ -942,7 +1146,7 @@
     },
     "migration": {
       "migrateButton": "スマート・アラートにマイグレーション",
-      "migrateButtonTooltip": "現在のイベントから最善の範囲にマイグレーションされた値が事前に入力されている「スマート・アラート構成」ダイアログを開きます。 結果をもう一度よく確認してください。",
+      "migrateButtonTooltip": "現在のイベントから移行された値を可能な限り事前に入力したスマート・アラート設定を開きます。 結果をもう一度よく確認してください。",
       "markAsMigratedButton": "移行済みとしてマーク",
       "markAsMigratedButtonTooltip": "イベントを移行済みとしてマークします。このイベントに置き換わるスマート・アラートを既に構成している場合は、これを使用してください。",
       "markAsMigratedButtonConfirmationTitle": "ご確認ください",
@@ -971,7 +1175,9 @@
         "timeThreshold": "時間しきい値",
         "filterApplied": "適用されているフィルター",
         "violationsCount": "{{violationsCount}}件の障害",
-        "numberOfFailures": "障害アラート"
+        "numberOfFailures": "障害アラート",
+        "noDataHeader": "合成スマート・アラートなし",
+        "noDataDescription": "開始するには、<strong>スマート・アラートの作成</strong>をクリックします。"
       },
       "alertProperties": {
         "testName": "Test_Name",
@@ -981,13 +1187,13 @@
         "stepConfigsStep1Title": "ステップ1: テスト",
         "simpleAlertConfigDialogStep1Headline": "どのシンセティック・テストでアラートを受け取りたいですか?",
         "simpleAlertConfigDialogStep1Tooltip": "個々のアラートは、ロケーションごと、シンセティック・テストごとに個別に送信されます",
-        "stepConfigsStep4Title": "ステップ4: アラート・チャネル",
+        "stepConfigsStep4Title": "ステップ 4: アラート・チャネル",
         "alertDialogHeadline": "アラートには何が表示されますか?",
         "stepConfigsStep2Title": "ステップ2: 範囲",
         "scopeHeadline": "スコープは何ですか?",
         "scopeDescription": "条件を適用する場所を選択します。",
         "stepConfigsStep3Title": "ステップ 3: 時間しきい値",
-        "stepConfigsStep5Title": "ステップ5: アラート・プロパティー",
+        "stepConfigsStep5Title": "ステップ 5: アラート・プロパティー",
         "thresholdTitle": "ロケーションごとに何回連続して失敗するとアラートが出されますか?",
         "thresholdTitleHelpText": "シンセティック・テストの作成で設定された再試行間隔に基づいて、 PoPで判別された失敗。",
         "thresholdSubTitleHelpText": "指定された数の障害がすべてのロケーションで発生すると、すべてのロケーションについてアラートを受け取ります。",
@@ -1011,7 +1217,7 @@
         "scopeFilterLabel": "範囲",
         "alertTestsLabel": "シンセティック・テスト",
         "alertTestsTitle": "シンセティック・テスト: どのシンセティック・テストでアラートを受け取りたいですか?",
-        "propertiesLabel": "アラートのプロパティー",
+        "propertiesLabel": "アラート・プロパティー",
         "propertiesTitle": "アラート通知には何を含める必要がありますか?",
         "failureThreshold": "時間しきい値",
         "failureThresholdLabel": "時間しきい値",
@@ -1032,7 +1238,7 @@
       },
       "details": {
         "threshold": "しきい値",
-        "alertConfigurationListTitleAlertConfiguration": "アラートの構成",
+        "alertConfigurationListTitleAlertConfiguration": "アラート構成",
         "scope": {
           "perLocation": {
             "shortText": "ロケーションごと"
@@ -1040,7 +1246,7 @@
         },
         "alertConfigurationTitleAlertTests": "選択されたテスト",
         "alertConfigurationTitleAlertChannels": "アラート・チャネル",
-        "alertConfigurationTitleAlertProperties": "アラートのプロパティー",
+        "alertConfigurationTitleAlertProperties": "アラート・プロパティー",
         "failureThreshold": "{{failureCount}} 件の失敗",
         "alertConfigurationTitleScope": "範囲",
         "noOfFailure": "失敗の数",
@@ -1056,9 +1262,21 @@
         "views": "ビュー",
         "customEventBlueprintConfigMetricLabel": "発生件数",
         "sessions": "セッション数",
+        "crashAffectedSessionRate": "クラッシュの影響を受けるセッション率",
+        "crashFreeSessionRate": "クラッシュ・フリー・セッション率",
+        "crashAffectedSessionCount": "クラッシュの影響を受けたセッション数",
+        "crashFreeSessionCount": "異常終了フリー・セッション数",
+        "crashAffectedUserRate": "クラッシュの影響を受けるユーザー率",
+        "crashFreeUserRate": "クラッシュ・フリー・ユーザー率",
+        "crashAffectedUserCount": "クラッシュの影響を受けたユーザー数",
+        "crashFreeUserCount": "異常終了フリー・ユーザー数",
         "statusCodeBlueprintConfigName": "HTTP 状況コード",
         "throughputBlueprintConfigName": "スループット",
         "customEventBlueprintConfigName": "カスタム・イベント",
+        "crashBlueprintConfigName": "異常終了",
+        "crashBlueprintConfigHeadline": "異常終了の自動アラート",
+        "crashBlueprintConfigText": "選択した異常終了メトリックが予期したより高いか低い場合にアラートを受け取ります。",
+        "crashBlueprintSelectMetric": "異常終了メトリックの選択",
         "statusCodeBlueprintConfigHeadline": "HTTP 状況コードに対する自動アラート",
         "statusCodeBlueprintConfigText": "一致する HTTP 状況コードの発生頻度が通常より多いときにアラートを受け取ります。",
         "throughputBlueprintConfigHeadline": "モバイル・アプリケーション・ビューの自動アラート",
@@ -1067,10 +1285,10 @@
         "customEventBlueprintConfigText": "特定のカスタム・イベントが発生する頻度が発生するたびに、アラートを受信します。",
         "customEventBlueprintConfigIncompleteRuleMessage": "このアラートがトリガーされるタイミングを確認するには、カスタム・イベントを選択してください",
         "statusCodeBlueprintConfigIncompleteRuleMessage": "このアラートがトリガーされたときに表示する状況コードを選択してください",
-        "simpleModeBlueprintConfigsViewsUnexpectedDropName": "予期せずビューの数が少ない",
+        "simpleModeBlueprintConfigsViewsUnexpectedDropName": "再生回数の少なさ",
         "simpleModeBlueprintConfigsViewsUnexpectedDropHeadline": "ビューの数が異常に少ない場合の自動アラート",
         "simpleModeBlueprintConfigsViewsUnexpectedDropText": "使用可能な過去のデータと比較して、ビューの数が予想より大幅に少ない場合にアラートを受け取ります。",
-        "simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName": "予期しない低いセッション数",
+        "simpleModeBlueprintConfigsSessionsUnexpectedlyLowNumberName": "セッション数の少なさ",
         "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberHeadline": "セッション数が異常に少ない場合の自動アラート",
         "simpleModeBlueprintConfigsSessionsUnexpectedlyHighNumberText": "使用可能な過去のデータと比較して訪問回数が予想よりも大幅に少ない場合にアラートを受信します。"
       },
@@ -1094,24 +1312,26 @@
         "filter_0": "フィルター",
         "filter_1": "フィルター",
         "filter_2": "フィルター",
-        "filterApplied": "適用されているフィルター"
+        "filterApplied": "適用されているフィルター",
+        "noDataHeader": "非モバイル・アプリ・スマート・アラート",
+        "noDataDescription": "開始するには、<strong>スマート・アラートの作成</strong>をクリックします。"
       },
       "simple": {
-        "stepConfigsStep1Title": "ステップ 1: アラートの選択",
+        "stepConfigsStep1Title": "ステップ 1：アラートの選択",
         "stepConfigsStep3Title": "ステップ 3: アラート・チャネルの選択",
         "simpleAlertConfigDialogStep1Headline": "何についてアラートを出しますか?",
         "simpleAlertConfigDialogStep2Headline": "どこでアラートをトリガーしますか?",
         "stepConfigsStep2Title": "ステップ 2: スコープの選択"
       },
       "alertDetails": {
-        "alertConfigurationListTitleAlertConfiguration": "アラートの構成",
+        "alertConfigurationListTitleAlertConfiguration": "アラート構成",
         "alertConfigurationTitleTrigger": "トリガー",
         "alertConfigurationTitleHTTPStatusCode": "HTTP 状況コード",
         "alertConfigurationTitleCustomEvent": "カスタム・イベント",
         "alertConfigurationTitleScope": "範囲",
         "alertConfigurationTitleTimeThreshold": "時間しきい値",
         "alertConfigurationTitleAlertChannels": "アラート・チャネル",
-        "alertConfigurationTitleAlertProperties": "アラートのプロパティー",
+        "alertConfigurationTitleAlertProperties": "アラート・プロパティー",
         "evaluationSwitch": {
           "evaluationTypePerMobileApp": {
             "shortText": "モバイル・アプリケーションごと"
@@ -1124,7 +1344,10 @@
         "ruleMetricNameOptionThroughputSessions": "セッション数",
         "ruleMetricNameOptionThroughputViews": "ビュー",
         "errorPleaseProvideCustomEventName": "カスタム・イベント名を指定してください",
-        "errorPleaseProvideANumberGreaterEqualsToZero": "0 以上の数値を指定してください"
+        "titlePlaceholderCrashSimpleHighOperator": "{{metricLabel}}が異常に高くなっています",
+        "titlePlaceholderCrashSimpleLowOperator": "{{metricLabel}}が異常に低くなっています",
+        "descriptionPlaceholderCrashSimpleAboveOperator": "{{metricLabel}}が想定を上回っています。",
+        "descriptionPlaceholderCrashSimpleBelowOperator": "{{metricLabel}}が想定を下回っています。"
       },
       "customEvent": {
         "noCustomEventsFound": "カスタム・イベントが見つかりません",
@@ -1140,9 +1363,9 @@
         "triggerTitle": "トリガー: アラートの対象",
         "HTTPStatusCode": "HTTP 状況コード",
         "alertChannelsLabel": "アラート・チャネル",
-        "alertChannelsTitle": "アラート・チャネル: アラートを受け取るユーザー",
+        "alertChannelsTitle": "アラート・チャネル：誰がアラートを受け取る必要がありますか。",
         "timeThresholdLabel": "時間しきい値",
-        "timeThresholdTitle": "時間しきい値: アラートを出すタイミング",
+        "timeThresholdTitle": "時間しきい値：いつアラートを受け取りますか。",
         "propertiesLabel": "プロパティー",
         "propertiesTitle": "追加のアラートのプロパティー",
         "scopeLabel": "範囲",
@@ -1160,6 +1383,12 @@
         "customEventInputPlaceholder": "カスタム・イベント名を貼り付けるか、イベントのリストからカスタム・イベント名を選択します",
         "searchCustomEventButtonLabel": "カスタム・イベントの選択"
       },
+      "more": "+{count} 件",
+      "more_plural": "+{count} 件",
+      "more_0": "+{count} 件",
+      "more_1": "+{count} 件",
+      "more_2": "+{count} 件",
+      "viewMore": "+詳細を表示",
       "advanced": {
         "thresholdValue": "しきい値"
       },
@@ -1195,7 +1424,7 @@
         "staticThresholdHigherEqualsOperatorText": "{{metricLabel}} の数が {{thresholdValue}} 以上です。",
         "staticThresholdLowerOperatorText": "{{metricLabel}} の数が {{thresholdValue}} を下回っています。",
         "staticThresholdLowerEqualsOperatorText": "{{metricLabel}} の数が {{thresholdValue}} 以下です。",
-        "thresholdHigherOperatorText": "{{metricLabel}} の数が予期される値を上回っています。",
+        "thresholdHigherOperatorText": "{{metricLabel}}の数が予期した数を上回っています。",
         "thresholdHigherEqualsOperatorText": "{{metricLabel}} の数が予期される値以上です。",
         "thresholdLowerOperatorText": "{{metricLabel}} の数が予期される値を下回っています。",
         "thresholdLowerEqualsOperatorText": "{{metricLabel}} の数が予期される値以下です。"
@@ -1203,12 +1432,12 @@
     },
     "infrastructure": {
       "alertDetails": {
-        "alertConfiguration": "アラートの構成",
+        "alertConfiguration": "アラート構成",
         "alertConfigurationTitleTrigger": "トリガー",
         "alertConfigurationTitleScope": "範囲",
         "alertConfigurationTitleAlertChannels": "アラート・チャネル",
         "alertConfigurationTitleTimeThreshold": "時間しきい値",
-        "alertConfigurationTitleAlertProperties": "アラートのプロパティー"
+        "alertConfigurationTitleAlertProperties": "アラート・プロパティー"
       },
       "list": {
         "columns": {
@@ -1216,7 +1445,7 @@
             "subtitle": {
               "staticThresholdType": "静的しきい値",
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
-              "predictiveTrigger": "予測トリガー"
+              "forecastAlerting": "予測アラート"
             }
           }
         },
@@ -1229,7 +1458,9 @@
         "filter_plural": "フィルター",
         "filter_0": "フィルター",
         "filter_1": "フィルター",
-        "filter_2": "フィルター"
+        "filter_2": "フィルター",
+        "noDataHeader": "非インフラストラクチャー・スマート・アラート",
+        "noDataDescription": "開始するには、<strong>スマート・アラートの作成</strong>をクリックします。"
       },
       "advancedModeContainer": {
         "scope": {
@@ -1252,13 +1483,18 @@
           "title": "時間しきい値: アラートを出すタイミング"
         },
         "predictiveTrigger": {
-          "title": "予測アラートが無効になっています",
-          "alertTitle": "アラートは、予測される違反の前に {{value}} トリガーされます",
-          "timeToFailure": "障害までの時間"
+          "title": "予測アラート",
+          "description": "履歴データの傾向に基づいて、プロアクティブなアラートを受信します。 このオプションを使用すると、潜在的な問題がシステムに影響する前に予測することができます。",
+          "forecastTimeframe": "予想タイム・ウィンドウ",
+          "forecastTimeframeDetails": "アラートに使用される予測の時間枠を定義します。 値が大きいほど、誤ったアラートが発生する可能性が高くなることに注意してください。",
+          "fitTimeframe": "履歴データの時間枠",
+          "fitTimeframeDetails": "トレンド分析に使用する時間枠を指定します。 短期的な傾向を重視する場合は短い時間枠を、長期的な傾向が制限を超えると予想される場合にアラートを受け取りたい場合は長い時間枠を選択します。",
+          "summary": "アラートは<strong>最大{{forecastTimeframe}}</strong>前にトリガーされます。 予測は、<strong>直近{{fitTimeframe}}</strong>の線形トレンドに基づいて生成されます。",
+          "invalidTimeframes": "履歴データの時間枠は、予測時間枠の少なくとも2倍の長さでなければなりません。"
         },
         "alertChannel": {
           "label": "アラート・チャネル",
-          "title": "アラート・チャネル: アラートを受け取るユーザー"
+          "title": "アラート・チャネル：誰がアラートを受け取る必要がありますか。"
         },
         "properties": {
           "preview": {
@@ -1273,25 +1509,84 @@
           "label": "積載量",
           "title": "カスタム・ペイロード"
         },
-        "thresholdValue": "しきい値"
+        "valueMappings": "選択したメトリックの数値は、以下のストリング値に対応します。"
       },
       "form": {
-        "errorPleaseProvideANumberGreaterEqualsToZero": "0 以上の数値を指定してください",
+        "selectAtLeastOneThreshold": "少なくとも 1 つのしきい値を指定してください。",
         "noMetricSelected": "メトリックが選択されていない"
       },
       "count": "数",
       "selectEntityType": "エンティティー・タイプを選択してください",
-      "regexNotValid": "正規表現が無効です"
+      "regexNotValid": "正規表現が無効です",
+      "tearSheet": {
+        "createTitle": "インフラストラクチャ・スマート・アラートの作成",
+        "steps": {
+          "step1Title": "条件の定義",
+          "step2Title": "アラートを受け取るタイミングの定義",
+          "step3Title": "アラート・プロパティの定義",
+          "step4Title": "アラート・チャンネルの定義"
+        },
+        "step1": {
+          "header": "警告がトリガーされるタイミングを決定するメトリックと集計を選択します"
+        },
+        "step2": {
+          "header": "違反しきい値の値を設定",
+          "description": "違反を評価するためのメトリック、違反しきい値、時間ウィンドウを選択します。"
+        },
+        "step3": {
+          "header": "このアラートに設定するプロパティーはどのようにしますか?"
+        },
+        "step4": {
+          "header": "このアラートについて何を通知しますか?",
+          "description": "このアラートの受信者を選択する"
+        },
+        "scopeAlerting": {
+          "title": "アラート通知方法を選択する",
+          "customAggregation": "カスタム集計",
+          "customAggregationDescription": "スコープ内のすべてのメトリックを、グループごとに単一のメトリックに集計します。 アクティブな問題は、1グループにつき1つまでになります。",
+          "perEntityAlerting": "エンティティーごとのアラート",
+          "perEntityAlertingDescription": "各メトリックを個別にモニターします。 しきい値に違反しているメトリックごとにアラートが表示されます。"
+        },
+        "scopeFilter": {
+          "title": "インフラストラクチャーの範囲の選択",
+          "filter": "フィルター",
+          "filterDescription": "より正確なアラートを入手するために、サービスにフィルターを追加します。"
+        },
+        "scopeGroupBy": {
+          "group": "グループ",
+          "groupByDescription": "グループに呼び出しを設定するには、グループを追加します。 グループ内の各コールは一括して設定されるが、個別に評価される。"
+        },
+        "timeThreshold": {
+          "title": "違反がアラートをトリガーするタイミングを設定",
+          "description": "アラート・トリガーと障害発生までの時間に対する持続性を指定します。"
+        },
+        "thresholdDescription": {
+          "static": "定数のしきい値が適用されます。これは時間の経過とともに変化することはありません。"
+        },
+        "chartAlertPreview": "アラートのプレビュー",
+        "chartAlertPreviewDescription": "過去のメトリック・データに基づいて、アラートがどのようにトリガーされたかを示します。",
+        "forecastAlerting": {
+          "description": "過去のデータと傾向に基づいたプロアクティブなアラートを受け取ります。 このオプションを使用すると、潜在的な問題がシステムに影響する前に予測することができます。",
+          "historicalDataTime": {
+            "description": "トレンド分析に使用する時間枠を指定します。",
+            "tooltipContent": "短期的な傾向を重視する場合は短い時間枠を、長期的な傾向が制限を超えると予想される場合にアラートを受け取りたい場合は長い時間枠を選択します。"
+          },
+          "forecastedTimeWindow": {
+            "description": "値が大きいほど、誤ったアラートが発生する可能性が高くなることに注意してください。",
+            "tooltipContent": "アラートに使用される予測の時間枠を定義します。 "
+          }
+        }
+      }
     },
     "logs": {
       "alertDetails": {
-        "alertConfiguration": "アラートの構成",
+        "alertConfiguration": "アラート構成",
         "metricName": "ログ・カウント",
         "alertConfigurationTitleScope": "範囲",
         "noScopeSelected": "スコープ・フィルターまたはグループが構成されていません。",
         "alertConfigurationTitleTimeThreshold": "時間しきい値",
         "alertConfigurationTitleAlertChannels": "アラート・チャネル",
-        "alertConfigurationTitleAlertProperties": "アラートのプロパティー",
+        "alertConfigurationTitleAlertProperties": "アラート・プロパティー",
         "alertConfigurationTitleTrigger": "トリガー"
       },
       "list": {
@@ -1312,7 +1607,9 @@
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}"
             }
           }
-        }
+        },
+        "noDataHeader": "非ログ・スマート・アラート",
+        "noDataDescription": "開始するには、<strong>スマート・アラートの作成</strong>をクリックします。"
       },
       "advancedModeContainer": {
         "scope": {
@@ -1327,11 +1624,11 @@
         },
         "timeThreshold": {
           "label": "時間しきい値",
-          "title": "時間しきい値: アラートを出すタイミング"
+          "title": "時間しきい値：いつアラートを受け取りますか。"
         },
         "alertChannel": {
           "label": "アラート・チャネル",
-          "title": "アラート・チャネル: アラートを受け取るユーザー"
+          "title": "アラート・チャネル：誰がアラートを受け取る必要がありますか。"
         },
         "properties": {
           "label": "プロパティー",
@@ -1358,6 +1655,128 @@
         "noDataForSelectedGroup": "指定されたフィルターとグループ化の組み合わせで使用可能なデータがありません。"
       },
       "logCount": "ログ・カウント"
+    },
+    "slo": {
+      "components": {
+        "timeOptionsDropdown_minute": "分",
+        "timeOptionsDropdown_hour": "時間",
+        "timeOptionsDropdown_day": "日数"
+      },
+      "validators": {
+        "noEmptySloIds": "少なくとも1つのSLOを選択してください。",
+        "notLessThanOrEqualToZero": "0より大きい値を設定してください。",
+        "noInvalidOperator": "リストから演算子を選択してください。",
+        "noInvalidDurationUnit": "期間単位をリストから選択します。"
+      },
+      "advancedModeContainer": {
+        "stepLabel": "",
+        "stepTitle": "",
+        "stepLabel_sloTarget": "ターゲット",
+        "stepTitle_sloTarget": "ターゲット: どのSLOにアラートを設定しますか?",
+        "stepLabel_trigger": "トリガー",
+        "stepTitle_trigger": "トリガー: アラートの対象",
+        "stepLabel_timeThreshold": "時間しきい値",
+        "stepTitle_timeThreshold": "時間しきい値: いつアラートを受け取りますか。",
+        "stepLabel_alertChannels": "アラート・チャネル",
+        "stepTitle_alertChannels": "アラート・チャネル：誰がアラートを受け取る必要がありますか。",
+        "stepLabel_alertProperties": "アラート・プロパティー",
+        "stepTitle_alertProperties": "アラート・プロパティー: アラート通知には何を含めますか。",
+        "stepLabel_customPayload": "カスタム・ペイロード",
+        "stepTitle_customPayload": "カスタム・ペイロード",
+        "selectSloHeadline": "SLOの選択",
+        "blueprintSectionTitle": "ブループリントの選択",
+        "blueprint_slo_not_selected": "少なくとも 1 つの SLO を選択します。",
+        "blueprint": "",
+        "blueprint_STATUS": "状況",
+        "blueprint_BURNED_PERCENTAGE": "エラー予算",
+        "blueprint_BURN_RATE": "燃焼率",
+        "blueprintDescription": "",
+        "blueprintDescription_STATUS": "SLO状況がしきい値を下回った場合にアラートを受け取ります。",
+        "blueprintDescription_BURNED_PERCENTAGE": "エラー・バジェットの一定の割合が消費された場合にアラートを受け取ります。",
+        "blueprintDescription_BURN_RATE": "燃焼率は、SLO の目標長に対して、エラー・バジェットがどの程度の速さで消費されるかを示す値です。",
+        "burnRateShortWindowTitle": "短いアラート・ウィンドウ",
+        "burnRateShortWindowDescription": "これらのアラートは、エラーレートが短時間でしきい値を超えた場合にトリガーされます。 これにより、重大なバグによるエラーの突然の急増やダウンタイムを捉えることができます。",
+        "burnRateDescription": "燃焼率が <1/> <2/> になったら通知します。",
+        "burnRateLongWindowTitle": "長いアラート・ウィンドウ",
+        "burnRateLongWindowDescription": "これらのアラートは、エラー率がしきい値を超える期間が長くなるとトリガーされます。 これにより、時間の経過とともに蓄積され、対処しないと将来問題を引き起こす可能性のある問題を特定できます。",
+        "burnRateShortWindowLongerThanLongWindowError": "短いウインドウがロング・ウインドウを超えることはできません。 どちらかの値を調整してください。",
+        "burnRateTimeWindowTooLongError": "アラート・ウィンドウは、選択した SLO の時間ウィンドウを超えることはできません。 次のSLOをチェックしてください: {{value}}。",
+        "thresholdTitle": "しきい値: いつアラートを受け取りますか?",
+        "thresholdInputDescription": "",
+        "thresholdInputDescription_BURNED_PERCENTAGE": "エラー・バジェットの <1/> <2/> パーセントが消費された場合",
+        "thresholdInputDescription_STATUS": "SLO状況が <1/> <2/> パーセントである場合",
+        "thresholdInputDescription_BURN_RATE": "SLO の最後の <1/> を評価します。",
+        "timeThresholdType_gracePeriod": "状態が指定された時間以上続く場合",
+        "timeThresholdTypeTitle_gracePeriod": "連続する $t (in-components:time.minutes, {\"count\": {{minutes}} }) の条件に違反した場合のアラート",
+        "timeThresholdTypeTitle_cooldownPeriod": "イベントが終了するには、少なくとも $t(in-components:time.minutes, {\"count\": {{minutes}} }) が経過している必要があります。",
+        "alertProperties_entityLabel": "SLO名",
+        "alertPropertiesTitlePlaceholder": "",
+        "alertPropertiesTitlePlaceholder_STATUS": "SLO状況が低くなっています",
+        "alertPropertiesDescriptionPlaceholder_STATUS": "SLO のステータスは {{operator}} {{percentage}} です。",
+        "alertPropertiesTitlePlaceholder_BURN_RATE": "燃焼速度超過",
+        "alertPropertiesDescriptionPlaceholder_BURN_RATE": "SLO の燃焼率は {{operator}} {{percentage}} です。",
+        "alertPropertiesTitlePlaceholder_BURNED_PERCENTAGE": "残りのエラー・バジェットが少なくなっています",
+        "alertPropertiesDescriptionPlaceholder_BURNED_PERCENTAGE": "エラー予算の {{operator}} {{percentage}} を消費しました。",
+        "alertPropertiesIncidentWarning": "インシデントは、SLOが関連付けられたアプリケーションにのみ適用されます"
+      },
+      "details": {
+        "alertConfigurationTitle": "アラート構成",
+        "sloHeader": "SLO",
+        "thresholdInfo": "",
+        "thresholdInfo_BURN_RATE": "燃焼率が {{operator}} の場合 {{percentage}}",
+        "thresholdInfo_BURNED_PERCENTAGE": "{{operator}} {{percentage}} エラー予算のパーセントが消費されたとき",
+        "thresholdInfo_STATUS": "SLO のステータスが {{operator}} {{percentage}} パーセントの場合",
+        "timeThresholdHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_timeThreshold)",
+        "alertChannelsHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertChannels)",
+        "alertPropertiesHeader": "$t(in-alerting:smartAlerts.slo.advancedModeContainer.stepLabel_alertProperties)",
+        "blueprintLabel": "ブループリント",
+        "coolDownPeriodDescription": "イベントが完了するには、最低限 {{value}} が経過している必要があります。"
+      },
+      "alertList": {
+        "threshold": "しきい値: {{value}}",
+        "threshold_BURN_RATE": "燃焼率: {{value}}",
+        "threshold_BURNED_PERCENTAGE": "しきい値: {{value}}",
+        "threshold_STATUS": "しきい値: {{value}}",
+        "sloApplied": "SLOを適用済み",
+        "sloCount": "{{count}} 個のSLO",
+        "sloCount_plural": "{{count}} 個のSLO",
+        "sloCount_0": "{{count}} 個のSLO",
+        "sloCount_1": "{{count}} 個のSLO",
+        "sloCount_2": "{{count}} 個のSLO",
+        "title": "",
+        "title_BURN_RATE": "燃焼率",
+        "title_BURNED_PERCENTAGE": "エラー・バジェットが消費されました",
+        "title_STATUS": "状況"
+      },
+      "messages": {
+        "successTitle": "",
+        "successTitle_NEW": "SLO スマート・アラートが正常に作成されました",
+        "successTitle_EDIT": "SLO スマート・アラートは正常に更新されました",
+        "successContent": "",
+        "successContent_NEW": "SLO スマート・アラート「{{name}}」が作成されました。",
+        "successContent_EDIT": "SLO スマート・アラート \"{{name}}\" が更新されました。",
+        "failedTitle": "",
+        "failedTitle_NEW": "このSLO スマート・アラートを作成する際に問題が発生しました",
+        "failedTitle_EDIT": "このSLO スマート・アラートの更新に問題が発生しました"
+      }
     }
+  },
+  "table": {
+    "active": "アクティブ",
+    "inactive": "非アクティブ",
+    "triggeringAction": "トリガー条件",
+    "status": "状況",
+    "apply": "適用",
+    "cancel": "キャンセル",
+    "filter": "フィルター",
+    "alertType": "アラート・タイプ",
+    "notificationChannel": "通知チャネル",
+    "tableDataSettings": "テーブル・データ設定",
+    "pause": "一時停止",
+    "delete": "削除",
+    "warningAndCritical": "警告と重要な情報",
+    "warning": "警告",
+    "critical": "クリティカル",
+    "searchPlaceholder": "検索"
   }
 }

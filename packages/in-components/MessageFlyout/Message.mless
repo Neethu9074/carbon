@@ -1,78 +1,17 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2024
  * (c) Copyright Instana Inc.
  */
 
 @import '~in-themes/mixins.less';
 
 :local {
-  .flyoutMessage {
-    background: #fff;
-    font-size: 0.8rem;
-    max-width: 24rem;
-    padding: 1rem 0.8rem;
+  .carbon {
     margin: 0 0 1rem;
-    border-radius: var(--ids-border-radius-option-medium);
-    overflow: hidden;
-
-    box-shadow: var(--ids-shadow-option-strong);
-
-    display: flex;
-
-    p {
-      margin: 0.75rem 0;
-    }
-
-    --line-height-title: 1.5rem;
+    flex-direction: column;
   }
 
-  .info {
-    border-left: 6px solid var(--ids-color-option-teal-500);
-  }
-
-  .warning {
-    border-left: 6px solid rgb(255, 222, 0);
-  }
-
-  .danger {
-    border-left: 6px solid rgb(255, 66, 41);
-  }
-
-  .clickable {
-    cursor: pointer;
-  }
-
-  .icon {
-    align-self: flex-start;
-    fill: var(--ids-color-option-teal-500);
-    vertical-align: middle;
-  }
-
-  .msg {
-    max-width: 100%;
-    color: var(--ids-color-option-neutral-700);
-    font-weight: var(--ids-font-size-option-body-regular);
-    .breakWord();
-
-    em {
-      color: var(--ids-color-option-blue-500);
-      font-style: normal;
-    }
-  }
-
-  .verticallyCenterMsg {
-    display: flex;
-    align-items: center;
-  }
-
-  .title {
-    font-size: var(--ids-font-size-option-heading-200);
-    font-weight: 600;
-    line-height: var(--line-height-title);
-    margin: 0 0 0.25rem;
-  }
-
-  .content {
-    margin: 0.5rem 0;
+  .carbonContent {
+    padding: 0.5rem 0 0 0;
   }
 }

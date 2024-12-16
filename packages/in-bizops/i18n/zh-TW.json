@@ -1,7 +1,7 @@
 {
   "labelBizOps": "程序",
-  "labelSmartAlerts": "智慧型警示",
-  "labelActivities": "活動",
+  "labelPerspectives": "視景",
+  "labelPerspective": "視景",
   "components": {
     "count": "計數"
   },
@@ -15,8 +15,61 @@
     "noData": "沒有可用的資料",
     "healthLabel": "性能",
     "startLabel": "已開始",
+    "latencyLabel": "延遲",
     "unnamedActivity": "（未命名活動）{{activityType}}",
     "unnamedService": "（未命名服務）"
+  },
+  "customDashboards": {
+    "activityCountMetric": "活動計數",
+    "erroneousActivityCallsCountLabel": "錯誤的活動呼叫（計數）",
+    "erroneousActivityCallsCategory": "錯誤的活動呼叫",
+    "erroneousActivityCallsRateLabel": "錯誤的活動呼叫（比率）",
+    "latency": "延遲"
+  },
+  "processes": {
+    "deployAgent": "部署代理程式",
+    "noProcessesAvailable": "沒有可用的業務程序。",
+    "deployAgentFirst": "您需要先部署代理程式。",
+    "forMoreInformation": "如需相關資訊，請閱讀",
+    "documentation": "說明文件"
+  },
+  "perspectives": {
+    "newPerspective": "建立視景",
+    "lists": {
+      "perspectives": "商業視景",
+      "descriptionLabel": "說明",
+      "numberProcessesLabel": "處理程序數目"
+    },
+    "processesLiveList": {
+      "title": "符合的業務流程",
+      "empty": "新增過濾器以建置您的商業視景",
+      "invalidQuery": "您的查詢無效",
+      "noMatchedProcesses": "未找到符合的業務流程",
+      "loadingStateLabel": "正在載入流程"
+    },
+    "dialog": {
+      "title": "新建商業視景",
+      "stepOne": {
+        "progressBarTitle": "步驟 1：過濾業務流程以建立您的業務視景",
+        "headline": "過濾業務流程以建立您的業務視景",
+        "queryBuilderTitle": "商業程序"
+      },
+      "stepTwo": {
+        "progressBarTitle": "步驟 2：提供詳細資料",
+        "headline": "提供詳細資料",
+        "perspectiveName": "視景名稱",
+        "perspectiveDescription": "說明"
+      }
+    },
+    "errorMessages": {
+      "tagFilterExpressionMustNotBeEmpty": "業務視景必須至少有一個過濾器",
+      "createOperationFailed": "建立作業失敗",
+      "unableToCreatePerspective": "我們無法建立您的業務視景。 請重試。"
+    },
+    "successMessages": {
+      "businessPerspectiveCreated": "業務視景已建立",
+      "perspectiveWasSuccessfullyCreated": "\"{{perspectiveName}}\" 已順利建立。"
+    }
   },
   "navigation": {
     "businessMonitoring": "商業監視"
@@ -42,12 +95,14 @@
     "activity": {
       "pageTitle": "商業活動",
       "summaryTab": "摘要",
+      "servicesTab": "服務",
       "widgets": {
         "duration": "持續時間",
         "activityCount": "計數",
         "activityErrors": "錯誤",
         "topServices": "排名居前的服務",
-        "activityLatency": "延遲"
+        "activityLatency": "延遲",
+        "viewAll": "檢視所有服務"
       },
       "timespans": {
         "minute": "1 分鐘",
@@ -55,6 +110,34 @@
         "day": "1 天",
         "week": "1 週"
       }
+    },
+    "perspectives": {
+      "pageTitleDefault": "業務視景",
+      "processes": {
+        "tabLabel": "商業程序"
+      },
+      "configuration": {
+        "tabLabel": "配置",
+        "loadingText": "正在載入資料",
+        "updateCardLabel": "更新商業視景",
+        "stepOneHeader": "1. 編輯名稱和說明",
+        "perspectiveName": "視景名稱",
+        "perspectiveDescription": "說明",
+        "stepTwoHeader": "2. 編輯過濾器",
+        "saveChangesButton": "儲存",
+        "removeCardLabel": "移除商業視景",
+        "removePerspectiveDisclaimer": "如果您不想再使用這個商業視景，請按一下「移除商業視景」。",
+        "removePerspectiveCheckbox": "我瞭解此動作無法復原",
+        "removePerspectiveButton": "移除商業視景",
+        "businessPerspectiveDeleted": "業務視景已移除",
+        "businessPerspectiveDeletedDetails": "\"{{perspectiveName}}\" 已順利移除。",
+        "businessPerspectiveUpdated": "業務視景已更新",
+        "businessPerspectiveUpdatedDetails": "\"{{perspectiveName}}\" 已編輯，且您的變更已儲存。",
+        "error": "錯誤"
+      }
+    },
+    "flowMap": {
+      "tabLabel": "流程"
     }
   }
 }

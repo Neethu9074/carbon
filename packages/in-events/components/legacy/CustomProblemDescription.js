@@ -7,7 +7,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { DescriptionList, DescriptionItem } from '@instana/components';
+
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { toHtml } from 'in-services/formatters/markdown';
 
@@ -17,8 +18,8 @@ const block = 'in-event-view-event-problem';
 
 export default function CustomProblemDescription({ text, title }) {
   return (
-    <DescriptionList>
-      <DescriptionItem title={title}>
+    <DescriptionList inComponents>
+      <DescriptionItem inComponents title={title}>
         <DangerousHtmlPresenter className={`${block}__suggestion`} html={toHtml(text)} />
       </DescriptionItem>
     </DescriptionList>

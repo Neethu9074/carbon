@@ -367,6 +367,7 @@
       "viewAllOs": "查看所有操作系统",
       "appVersions": "应用程序版本",
       "viewAllVersions": "查看所有版本",
+      "syntheticMonitoringLabel": "合成监视",
       "configurations": {
         "symbolFileConfigLabel": "堆栈跟踪转换",
         "symbolFileConfig": {
@@ -399,9 +400,12 @@
         }
       },
       "crashes": {
-        "crashesLabelErrorMessage": "错误消息",
+        "crashesLabelErrorMessage": "位置",
+        "crashesLabelErrorType": "错误类型",
         "crashesLabelOccurrences": "出现次数",
         "crashesLabelAffectedUsers": "受影响的用户数",
+        "crashesLabelLowestAppVersion": "最低应用程序版本",
+        "crashesLabelHighestAppVersion": "最高应用程序版本",
         "crashesButtonAnalyzeCrashes": "分析崩溃",
         "crashesTableTitle": "崩溃",
         "crashInfoTitle": "详细信息",
@@ -453,7 +457,10 @@
       "customEventsTitle": "无可用定制事件",
       "customEventsDescription": "在所选时间范围内未检索到任何定制事件。",
       "crashesTitle": "没有可用的崩溃",
-      "crashesDescription": "所选时间范围没有崩溃。"
+      "crashesDescription": "所选时间范围没有崩溃。",
+      "syntheticMonitoring": {
+        "title": "没有与该移动应用程序关联的合成测试。"
+      }
     }
   },
   "appsList": {

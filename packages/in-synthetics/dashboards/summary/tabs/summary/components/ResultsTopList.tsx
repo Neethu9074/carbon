@@ -17,11 +17,12 @@ import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter
 // @ts-expect-error Could not find a declaration file for module
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
 import { syntheticResultsListPath, syntheticsDashboard, syntheticDetailsPath } from 'in-synthetics/navigation/paths';
+import { clickSyntheticMonitoringResultsWidgetDetailTracker } from 'in-synthetics/tracking/tracker';
 import { massageLocationDisplayLabel } from 'in-synthetics/utils/massageLocationDisplayLabel';
-import { clickSyntheticMonitoringResultsWidgetDetailTracker } from 'in-synthetics/tracker';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { TagFilter, TestResultListItem, TimeConfig } from 'in-types';
@@ -139,12 +140,14 @@ function getList({ testId, timeConfig, selectedMetric }: GetList) {
 
 interface ViewAllProps {
   testId: string;
+  selectedMetric: string;
 }
 
-function ViewAll({ testId }: ViewAllProps) {
+function ViewAll({ testId, selectedMetric }: ViewAllProps) {
   const { location, createHref } = useNavigation();
   location.pathname = syntheticResultsListPath;
   setOrDeleteMatrixKey(location, syntheticsDashboard, 'testId', testId);
+  setOrDeleteMatrixKey(location, syntheticsDashboard, 'selectedMetric', selectedMetric);
 
   return <Link href={createHref(location)}>{t('in-synthetics:dashboard.summary.widgets.linkViewAllTestResults')}</Link>;
 }
@@ -155,6 +158,7 @@ type LabelProps = {
 };
 
 function Label({ item, selectedMetric }: LabelProps) {
+  const { trackCta } = useSegmentTracking();
   const { location, createHref } = useNavigation();
   const testId = item.testResultCommonProperties.testId;
   const testLabel: string = getMatrixParameter(location, syntheticsDashboard, 'testLabel') ?? '';
@@ -191,14 +195,7 @@ function Label({ item, selectedMetric }: LabelProps) {
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'locationIds', locationIds);
   setOrDeleteMatrixKey(location, syntheticDetailsPath, 'resultsLabel', resultsLabel);
   return (
-    <Link
-      href={createHref(location)}
-      onClick={() =>
-        clickSyntheticMonitoringResultsWidgetDetailTracker({
-          detail: 'Results details from Results widget'
-        })
-      }
-    >
+    <Link href={createHref(location)} onClick={() => clickSyntheticMonitoringResultsWidgetDetailTracker(trackCta)}>
       {resultsLabel}
     </Link>
   );

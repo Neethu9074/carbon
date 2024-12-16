@@ -9,11 +9,10 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
 
+import { SvgIcon, IconButton, Checkbox, Button, PreviewPill } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { createLogger } from '@instana/logger';
 import { create } from '@instana/observables';
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { noop, stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -21,10 +20,7 @@ import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { listSuccess, loading } from 'in-services/util/result';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
-import IconButton from 'in-components/IconButton/IconButton';
 import Delete from 'in-settings/components/actions/Delete';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { identity } from 'in-services/util/function';
 import ListTitle from 'in-components/lists/Title';
 import { isBlank } from 'in-services/util/string';
@@ -96,6 +92,8 @@ function InnerList({
   columnDefinitions,
   tableActions = {},
   onCreateNew,
+  onSearch,
+  onFilter,
   labelNew,
   pathNew,
   newButtonDisabledTooltipMessage = () => null,
@@ -175,11 +173,19 @@ function InnerList({
         entities = entities.filter(filter);
       });
     }
-    if (!isBlank(queryState) && searchAttributes.length > 0) {
-      entities = entities.filter(entity =>
-        searchAttributes.reduce(filterReducer.bind(null, queryState, entity), false)
-      );
+
+    if (!isBlank(queryState)) {
+      if (onFilter) {
+        // Filter using custom filter logic function
+        entities = onFilter(entities);
+      } else if (searchAttributes.length > 0) {
+        // Filter using default filter mechanism based on specified search attributes
+        entities = entities.filter(entity =>
+          searchAttributes.reduce(filterReducer.bind(null, queryState, entity), false)
+        );
+      }
     }
+
     entities =
       customSortEntities?.({ entities, columnDefinitions, orderByState, orderDirectionState }) ??
       sortEntities(entities, columnDefinitions, orderByState, orderDirectionState);
@@ -207,6 +213,13 @@ function InnerList({
     onRowClick = entity => goToPath(getDetailsHref(entity));
   }
 
+  let cbRowClick;
+  if (tableActions.selectCheckbox && onRowClick) {
+    cbRowClick = (item, e) => {
+      if (!e?.target?.control) onRowClick(item);
+    };
+  }
+
   return (
     <div className={classNames({ [locals.withBottomPadding]: withBottomPadding })}>
       {title && <Title title={title} />}
@@ -221,6 +234,10 @@ function InnerList({
           if (boundedPath) {
             setState({ query, page: 1 });
             setState({ page });
+          }
+          if (onSearch) {
+            // Call onSearch handler with selected search query
+            onSearch(query);
           }
         }}
         columnDefinitions={addTableActions({
@@ -263,7 +280,7 @@ function InnerList({
           ))
         }
         getRowProps={getRowProps(tableActions)}
-        onRowClick={onRowClick}
+        onRowClick={cbRowClick ? cbRowClick : onRowClick}
         allRowsAreSelected={areAllRowsOnCurrentPageSelected(
           entitiesBeforePagination,
           tableActions,
@@ -296,7 +313,7 @@ function selectLeftHeader(
     : null;
 }
 
-function filterReducer(query, entity, foundMatch, searchAttribute) {
+export function filterReducer(query, entity, foundMatch, searchAttribute) {
   if (foundMatch) {
     // we already know that this entity matches from another searchAttribute
     return true;
@@ -594,6 +611,9 @@ function addDeselectAction(columns, actionDefinition) {
             kind="primaryv2"
             type={'lib_openclose_remove_circle_outline'}
             color={themes.default.ids.color.option.blue['500']}
+            // Added 'buttonType' to IconButton to fix the default submission when the enter key is pressed from other UI elements on the page. ...
+            // gentle remainder : Remove this after carbon is enabled, if possible.
+            buttonType="button"
             onClick={e => {
               stopPropagationAndPreventDefault(e);
               actionDefinition.deselect(entity);
@@ -620,7 +640,7 @@ function addSelectCheckboxAction(columns, actionDefinition) {
     cellClassName: locals.selectCheckbox,
     getContent(entity) {
       return (
-        <CheckboxFancy
+        <Checkbox
           disabled={actionDefinition.disabled?.(entity)}
           checked={actionDefinition.get(entity)}
           onChange={() => actionDefinition.toggle(entity)}
@@ -641,7 +661,7 @@ function areAllRowsOnCurrentPageSelected(entities, tableActions, page, pageSize)
   );
 }
 
-function areAllRowsOnAllPagesSelected(entities, tableActions) {
+export function areAllRowsOnAllPagesSelected(entities, tableActions) {
   return areAllRowsSelected(entities, tableActions, 0, entities ? entities.length : 0);
 }
 
@@ -683,14 +703,14 @@ export function leftHeaderWithSelectAll(entityName, inSelectListDialog, tableAct
     } else if (inSelectListDialog || !totalHits) {
       return (
         <div>
-          {entityName} {isBeta && <BetaBadge />}
+          {entityName} {isBeta && <PreviewPill />}
         </div>
       );
     } else {
       const getHeaderFunction = defaultHeaderWithCount(entityName);
       return (
         <div>
-          {getHeaderFunction(totalHits, filteredHits)} {isBeta && <BetaBadge />}
+          {getHeaderFunction(totalHits, filteredHits)} {isBeta && <PreviewPill />}
         </div>
       );
     }
@@ -771,6 +791,8 @@ List.propTypes = {
   noDataMessage: PropTypes.string,
   onCreateNew: PropTypes.func,
   onRowClick: PropTypes.func,
+  onSearch: PropTypes.func,
+  onFilter: PropTypes.func,
   initialOrderBy: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   initalOrderDir: PropTypes.oneOf(['ASC', 'DESC']),
   orderByState: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

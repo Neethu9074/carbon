@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Stack } from '@instana/components';
 
@@ -23,16 +23,16 @@ function isSupportedAggregation(metricId, aggregation) {
 }
 
 export default function Charting(props) {
-  const {
-    chartedMetricsTemplate,
-    chartableMetricCatalog,
-    CustomChartFactory,
-    chartedMetrics,
-    onChartedMetricsChange
-  } = props;
+  const { chartedMetricsTemplate, chartableMetricCatalog, CustomChartFactory, chartedMetrics, onChartedMetricsChange } =
+    props;
 
   let metricAggregations;
-
+  const [cachedMetrics, setCachedMetrics] = useState([]);
+  useEffect(() => {
+    if (!(chartedMetrics.length && chartedMetrics[0].secondLevelMetricId == '')) {
+      setCachedMetrics(chartedMetrics);
+    }
+  }, [chartedMetrics]);
   if (chartedMetricsTemplate != null) {
     metricAggregations =
       chartedMetricsTemplate.metrics?.map(metric => ({
@@ -49,10 +49,14 @@ export default function Charting(props) {
       })) ?? [];
   }
 
-  const getMetricLabel = metricId => {
+  const getMetricLabel = ({ metricId, secondLevelMetricId }) => {
     if (chartedMetricsTemplate != null) {
       return chartedMetricsTemplate.metrics?.find(metric => metric.metricId === metricId)?.label;
     } else {
+      if (secondLevelMetricId) {
+        const customMetricLabel = chartableMetricCatalog?.find(metric => metricId.startsWith(metric.metricId))?.label;
+        return `${customMetricLabel} - ${secondLevelMetricId}`;
+      }
       return chartableMetricCatalog?.find(metric => metric.metricId === metricId)?.label;
     }
   };
@@ -66,18 +70,18 @@ export default function Charting(props) {
 
   const getChartTitle = metricConfig => {
     if (metricConfig.label === 'Latency') {
-      return `${getMetricLabel(metricConfig.metricId)}`;
+      return `${getMetricLabel(metricConfig)}`;
     }
 
-    return `${getMetricLabel(metricConfig.metricId)} (${aggregationLabels[metricConfig.aggregationId]})`;
+    return `${getMetricLabel(metricConfig)} (${aggregationLabels[metricConfig.aggregationId]})`;
   };
 
   return (
     <>
       <Configurator {...props} />
-      {chartedMetrics?.length > 0 && (
+      {cachedMetrics?.length > 0 && (
         <Stack direction="horizontal" gap="none">
-          {chartedMetrics.map(metricConfig => {
+          {cachedMetrics.map(metricConfig => {
             const chartProps = {
               ...props,
               title: getChartTitle(metricConfig),
@@ -85,7 +89,7 @@ export default function Charting(props) {
                 metricAggregations?.find(agg => agg.metricId === metricConfig.metricId)?.aggregations?.length > 1,
               onAggregationChange: change => {
                 let changedMetrics = {
-                  metrics: chartedMetrics?.map(metric => {
+                  metrics: cachedMetrics?.map(metric => {
                     if (metric.metricId === metricConfig.metricId) {
                       metric.aggregationId = change;
                     }

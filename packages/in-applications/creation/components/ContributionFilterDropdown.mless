@@ -11,11 +11,12 @@
     font-weight: 400;
     margin-bottom: 0;
   }
-  .dropdownButton {
-    display: flex;
-  }
-  .span {
-    width: 95%;
+  .dropdownCarbonButton {
+    max-width: none;
+    align-items: center;
+    &:global(.carbonButton) {
+      color: var(--cds-text-primary);
+    }
   }
   .showEllipsisForLongText {
     max-width: 100%;

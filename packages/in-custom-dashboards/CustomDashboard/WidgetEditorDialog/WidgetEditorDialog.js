@@ -10,19 +10,22 @@ import { generateUniqueShortId } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 
 import WidgetEditorDialogPresenter from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialogPresenter';
+import { CUSTOM_DASHBOARD_EDIT_WIDGET_CANCEL } from 'in-services/tracking/tracking';
 import { stringValidator, numberValidator } from 'in-services/validators/jsonType';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import widgets, { enabledWidgets } from 'in-custom-dashboards/widgets';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
-import { cancelEditWidget } from 'in-custom-dashboards/tracker';
+import { getTrackingMeta } from 'in-custom-dashboards/tracker';
 import { close } from 'in-components/DialogPresenter/store';
 import { pendingResult } from 'in-services/fixedObjects';
 
 export default function WidgetEditorDialog({ widget, onSubmit }) {
   const [state, setState] = useState(() => getInitialState(widget));
   const { isMigrating, form, slideInView, showWidgetSelector } = state;
+  const { trackCta } = useSegmentTracking();
 
   const migrationResult =
     useObservable(() => isMigrating && widgets[widget.type].migrate(widget.config), [widget]) ?? pendingResult;
@@ -82,7 +85,7 @@ export default function WidgetEditorDialog({ widget, onSubmit }) {
       onClose={() => {
         close();
         if (widget) {
-          cancelEditWidget(form.toJS());
+          trackCta(CUSTOM_DASHBOARD_EDIT_WIDGET_CANCEL, getTrackingMeta(form.toJS()));
         }
       }}
       slideInView={slideInView}

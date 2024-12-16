@@ -36,3 +36,14 @@ ui-server-license-report.csv
 # ci-shared-tools is dynamically downloaded
 build/ci-shared-tools
 /containers/.container*
+/.yarn/cache
+
+# ignore cache entries, will be recreated by yarn install
+.pnp.*
+.yarn/*
+# but not any essential parts
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

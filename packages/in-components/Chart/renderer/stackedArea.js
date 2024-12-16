@@ -3,30 +3,41 @@
  * (c) Copyright Instana Inc.
  */
 
+import { extrapolateMissingStackedAreaValuesEnabled } from 'in-services/featureFlags';
 import { calculateMetricMap } from 'in-components/Chart/renderer/utils';
 import { drawCircleWithLine } from './utils';
 
 export default {
-  render: ({ metrics, colors, colors100, scale, config, axis }) => {
+  render: ({ metrics, colors, colors100, scale, config, axis, axisName }) => {
     let metricMap = {};
     if (!axis.calculateStackDifferences) {
-      metricMap = calculateMetricMap(metrics);
+      metricMap = calculateMetricMap(metrics, axis.extrapolateMissingMetrics);
     }
     for (let iMetric = metrics.length - 1; iMetric >= 0; iMetric--) {
-      renderDataSeries(config, colors[iMetric], colors100[iMetric], metrics[iMetric], metricMap, scale);
+      renderDataSeries(
+        config,
+        colors[iMetric],
+        colors100[iMetric],
+        metrics[iMetric],
+        metricMap,
+        scale,
+        axis,
+        `${axisName}-${iMetric}`
+      );
     }
   },
 
   enrich: (config, axis) => {
     axis.valuesNeedToBeStacked = true;
     axis.valuesDependOnEachOther = true;
+    axis.extrapolateMissingMetrics = extrapolateMissingStackedAreaValuesEnabled;
   }
 };
 
-function renderDataSeries(config, fillStyle, strokeStyle, dataSeries, metricMap, scale) {
+function renderDataSeries(config, fillStyle, strokeStyle, dataSeries, metricMap, scale, axis, metricId) {
   config.backBufferCtx.beginPath();
 
-  const blocks = config.calculateBlocks(dataSeries);
+  const blocks = config.calculateBlocks(dataSeries, axis?.distanceBetweenDatapointsInMillis?.[metricId]);
   for (let i = 0; i < blocks.length; i++) {
     drawBlock(metricMap, config, scale, blocks[i], fillStyle, strokeStyle);
   }
@@ -54,14 +65,18 @@ function drawBlock(metricMap, config, scale, block, fillStyle, strokeStyle) {
     config.backBufferCtx.beginPath();
     config.backBufferCtx.moveTo(firstDataPointXPos, scale.getRange(firstDataPoint[1]));
 
-    for (let i = 1; i < block.length; i++) {
+    for (let i = 0; i < block.length; i++) {
       const dataPoint = block[i];
       if (!dataPoint) {
         continue;
       }
 
       const { xPos, yPos } = getPosition(dataPoint, metricMap, config, scale);
-      config.backBufferCtx.lineTo(xPos, yPos);
+      if (i === 0) {
+        config.backBufferCtx.moveTo(xPos, yPos);
+      } else {
+        config.backBufferCtx.lineTo(xPos, yPos);
+      }
     }
 
     config.backBufferCtx.strokeStyle = strokeStyle;

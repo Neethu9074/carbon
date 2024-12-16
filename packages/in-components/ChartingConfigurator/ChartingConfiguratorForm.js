@@ -10,6 +10,7 @@ import { SvgIcon } from '@instana/components';
 
 import ChartSelectorOverlay, { getActiveChartMetric } from 'in-components/ChartingConfigurator/ChartSelectorOverlay';
 import GroupedMetricSelectorOverlay from 'in-components/ChartingConfigurator/GroupedMetricSelectorOverlay';
+import { CustomMetricInput } from 'in-applications/analyze/AnalyzeView2_0/components/CustomMetricInput';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import { t } from 'in-i18n';
 
@@ -68,6 +69,21 @@ export default function ChartingConfiguratorForm({
         </div>
       )}
 
+      {activeMetric?.customMetric && (
+        <CustomMetricInput
+          value={activeMetric.secondLevelMetricId}
+          options={activeMetric.metricTagSuggestions?.map(tag => tag.label)}
+          onChange={secondLevelMetricId => {
+            const change = {
+              ...value,
+              metricId: `${activeMetric.metricId}.${secondLevelMetricId}`,
+              secondLevelMetricId
+            };
+            onChange(change);
+          }}
+        />
+      )}
+
       {multipleAggregations && !activeTemplate ? (
         <ComboBoxBehavior
           options={activeMetric?.aggregations
@@ -85,7 +101,6 @@ export default function ChartingConfiguratorForm({
             if (!renderer) {
               change.rendererId = aggregation?.renderers?.[0]?.id;
             }
-
             onChange(change);
           }}
           requiresCustomInteractivity

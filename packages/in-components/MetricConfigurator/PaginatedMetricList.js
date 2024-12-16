@@ -3,17 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import { Ul, Li } from '@instana/components';
+import { Ul, Li, SearchInput, Pagination as CarbonPagination } from '@instana/components';
 
-import { nodeArray as nodeArrayPropType } from 'in-components/SelectorOverlay/props';
-import { search } from 'in-components/SelectorOverlay/search';
+import { carbonPaginationEnabled } from 'in-services/featureFlags';
+import { useSearch } from 'in-components/SelectorOverlay/search';
 import { getInteractiveElements } from 'in-services/util/dom';
 import Pagination from 'in-components/Pagination/Pagination';
-import { isNotBlank } from 'in-services/util/string';
-import SearchInput from 'in-components/SearchInput';
+import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 import locals from './PaginatedMetricList.mless';
@@ -27,16 +26,11 @@ const itemsPerPage = 100;
 
 export default function PaginatedMetricList({ options, onChange, isMetricDisabled }) {
   const [{ query, currentPage }, setState] = useState(initialState);
-  options = useMemo(() => {
-    if (isNotBlank(query)) {
-      return search(options, query);
-    }
-    return options;
-  }, [options, query]);
-
+  const filteredOptions = useSearch(options, query);
+  const resultingOptions = isBlank(query) ? options : filteredOptions;
+  const numPages = Math.ceil(options.length / itemsPerPage);
   // Used to jump to the first available group when clicking enter in the input field.
   const staticContentWrapperRef = useRef();
-
   return (
     <>
       <div className={locals.searchInputWrapper}>
@@ -62,7 +56,7 @@ export default function PaginatedMetricList({ options, onChange, isMetricDisable
       </div>
       <div className={locals.overlay}>
         <Ul>
-          {options.slice(currentPage * itemsPerPage - 100, currentPage * itemsPerPage).map(metric =>
+          {resultingOptions.slice(currentPage * itemsPerPage - 100, currentPage * itemsPerPage).map(metric =>
             isMetricDisabled(metric.metric) ? (
               <Li key={metric.metric} className={locals.disabled}>
                 {metric.label} <br />
@@ -87,24 +81,40 @@ export default function PaginatedMetricList({ options, onChange, isMetricDisable
             )
           )}
         </Ul>
-
-        <Pagination
-          currentPage={currentPage}
-          numPages={Math.ceil(options.length / itemsPerPage)}
-          onChange={newPage => {
-            setState({
-              currentPage: newPage,
-              query
-            });
-          }}
-        />
+        {numPages > 1 && carbonPaginationEnabled ? (
+          <CarbonPagination
+            className={locals.paginationSmallWidth}
+            currentPage={currentPage}
+            totalItems={options.length}
+            pageSize={itemsPerPage}
+            pageSizes={[itemsPerPage]}
+            onChange={data => {
+              const newPage = data.page;
+              setState({
+                currentPage: newPage,
+                query
+              });
+            }}
+          />
+        ) : (
+          <Pagination
+            currentPage={currentPage}
+            numPages={Math.ceil(options.length / itemsPerPage)}
+            onChange={newPage => {
+              setState({
+                currentPage: newPage,
+                query
+              });
+            }}
+          />
+        )}
       </div>
     </>
   );
 }
 
 PaginatedMetricList.propTypes = {
-  options: nodeArrayPropType.isRequired,
+  options: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   isMetricDisabled: PropTypes.func.isRequired
 };

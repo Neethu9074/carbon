@@ -11,7 +11,7 @@
 
     height: 4rem;
 
-    background-color: var(--ids-color-option-neutral-100);
+    background: var(--cds-layer);
     border-top: 1px solid var(--ids-color-option-neutral-300);
   }
 
@@ -20,6 +20,6 @@
   }
 
   .button {
-    min-width: 6.25rem;
+    max-width: 6.875rem;
   }
 }

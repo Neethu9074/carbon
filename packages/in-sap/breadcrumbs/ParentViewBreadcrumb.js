@@ -9,7 +9,7 @@ import React from 'react';
 
 import getParentForSapBreadCrumb from '../subscriptions/getParentForSapBreadCrumb';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
-import { getDashboardForEntity } from 'in-sap/navigation/paths';
+import { useDashboardForEntity } from 'in-sap/navigation/paths';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import { plugins } from 'in-forge/constants';
 import connectTo from 'in-hoc/connectTo';
@@ -28,13 +28,14 @@ export default connectTo(
     const id = get(parent, ['data', 'id']);
     const name = get(parent, ['data', 'name']);
     const label = get(parent, ['data', 'label']);
+    const getDashboardForEntity = useDashboardForEntity;
     switch (systemPrefix) {
       case 'abapinstances.':
         return (
           <Breadcrumb
             label={label}
             icon={getIconType(plugins.abapInstance)}
-            href$={getDashboardForEntity(id, plugins.abapInstance, label)}
+            href={getDashboardForEntity(id, plugins.abapInstance, label)}
           >
             {name}
           </Breadcrumb>
@@ -44,7 +45,7 @@ export default connectTo(
           <Breadcrumb
             label={label}
             icon={getIconType(plugins.sapJavaInstance)}
-            href$={getDashboardForEntity(id, plugins.sapJavaInstance, label)}
+            href={getDashboardForEntity(id, plugins.sapJavaInstance, label)}
           >
             {name}
           </Breadcrumb>
@@ -54,7 +55,7 @@ export default connectTo(
           <Breadcrumb
             label={label}
             icon={getIconType(plugins.sapDbInstance)}
-            href$={getDashboardForEntity(id, plugins.sapDbInstance, label)}
+            href={getDashboardForEntity(id, plugins.sapDbInstance, label)}
           >
             {name}
           </Breadcrumb>
@@ -64,7 +65,7 @@ export default connectTo(
           <Breadcrumb
             label={label}
             icon={getIconType(plugins.sapDbms)}
-            href$={getDashboardForEntity(id, plugins.sapDbms, label)}
+            href={getDashboardForEntity(id, plugins.sapDbms, label)}
           >
             {name}
           </Breadcrumb>
@@ -74,7 +75,7 @@ export default connectTo(
           <Breadcrumb
             label={label}
             icon={getIconType(plugins.sapDbTenant)}
-            href$={getDashboardForEntity(id, plugins.sapDbTenant, label)}
+            href={getDashboardForEntity(id, plugins.sapDbTenant, label)}
           >
             {name}
           </Breadcrumb>
@@ -84,7 +85,7 @@ export default connectTo(
           <Breadcrumb
             label={label}
             icon={getIconType(plugins.sapHanaPlatform)}
-            href$={getDashboardForEntity(id, plugins.sapHanaPlatform, label)}
+            href={getDashboardForEntity(id, plugins.sapHanaPlatform, label)}
           >
             {name}
           </Breadcrumb>
@@ -94,7 +95,7 @@ export default connectTo(
           <Breadcrumb
             label={label}
             icon={getIconType(plugins.sapJavaSystem)}
-            href$={getDashboardForEntity(id, plugins.sapJavaSystem, label)}
+            href={getDashboardForEntity(id, plugins.sapJavaSystem, label)}
           >
             {name}
           </Breadcrumb>
@@ -104,7 +105,7 @@ export default connectTo(
           <Breadcrumb
             label={label}
             icon={getIconType(plugins.sapHanaSystem)}
-            href$={getDashboardForEntity(id, plugins.sapHanaSystem, label)}
+            href={getDashboardForEntity(id, plugins.sapHanaSystem, label)}
           >
             {name}
           </Breadcrumb>
@@ -114,7 +115,7 @@ export default connectTo(
           <Breadcrumb
             label={label}
             icon={getIconType(plugins.sapWebDispatchers)}
-            href$={getDashboardForEntity(id, plugins.sapWebDispatchers, label)}
+            href={getDashboardForEntity(id, plugins.sapWebDispatchers, label)}
           >
             {name}
           </Breadcrumb>
@@ -124,7 +125,7 @@ export default connectTo(
           <Breadcrumb
             label={label}
             icon={getIconType(plugins.abapSystem)}
-            href$={getDashboardForEntity(id, plugins.abapSystem, label)}
+            href={getDashboardForEntity(id, plugins.abapSystem, label)}
           >
             {name}
           </Breadcrumb>
@@ -134,7 +135,7 @@ export default connectTo(
           <Breadcrumb
             label={label}
             icon={getIconType(plugins.sapAbapInstanceSensor)}
-            href$={getDashboardForEntity(id, plugins.sapAbapInstanceSensor, label)}
+            href={getDashboardForEntity(id, plugins.sapAbapInstanceSensor, label)}
           >
             {name}
           </Breadcrumb>
@@ -144,7 +145,7 @@ export default connectTo(
           <Breadcrumb
             label={label}
             icon={getIconType(plugins.sapAbapSystemSensor)}
-            href$={getDashboardForEntity(id, plugins.sapAbapSystemSensor, label)}
+            href={getDashboardForEntity(id, plugins.sapAbapSystemSensor, label)}
           >
             {name}
           </Breadcrumb>

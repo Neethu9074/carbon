@@ -5,12 +5,12 @@
 
 import React from 'react';
 
+import { Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
 import StackTracePresentation from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/StackTrace/StackTracePresentation';
 import { getSnapshot, isEntityOnline } from 'in-stores/snapshot';
-import ExpandableGroup from 'in-components/ExpandableGroup';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { StackTraceItem } from 'in-types';
 import { t } from 'in-i18n';
@@ -34,8 +34,9 @@ export default function LogStackTraceGroup({ stackTrace, processSnapshotId }: St
     ) || false;
 
   return (
-    <ExpandableGroup title={t('in-analyze:traceDetail.components.callDetails.stackTrace')} defaultExpanded>
+    <>
+      <Typography variant="heading-02">{t('in-analyze:traceDetail.components.callDetails.stackTrace')}</Typography>
       <StackTracePresentation stackTrace={stackTrace} isOnline={isSnapshotOnline} snapshot={snapshot} noPadding />
-    </ExpandableGroup>
+    </>
   );
 }

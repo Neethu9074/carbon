@@ -6,10 +6,9 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
+import { PreviewPill, Spacer } from '@instana/components';
 import { Disposable, on } from '@instana/observables';
-import { Spacer } from '@instana/components';
 
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { scrollIntoView } from 'in-services/util/dom';
 
 import locals from './SideNav.mless';
@@ -17,13 +16,15 @@ import locals from './SideNav.mless';
 export type NavItem = {
   scrollId: string;
   label: string;
-  title: string;
+  title: string | React.ReactNode;
   content: React.ReactNode;
   checked?: boolean;
   valid?: boolean;
   hidden?: boolean;
   titleToolTipText?: string;
   isBeta?: boolean;
+  isPrivatePreview?: boolean;
+  subTitle?: string;
 };
 
 interface SideNavProps {
@@ -58,6 +59,14 @@ export default class SideNav extends React.Component<SideNavProps> {
   render() {
     const { addRightSeparator, className, addLeftSeparator, navItems, renderPreIcon, renderPostIcon } = this.props;
     const setItemSelected = (i: number) => this.setState({ itemSelected: i });
+    const getPreviewBadge = (isPrivatePreview: boolean | undefined) => {
+      if (isPrivatePreview === undefined) return <PreviewPill />;
+
+      if (isPrivatePreview) {
+        return <PreviewPill privatePreview />;
+      }
+      return <PreviewPill />;
+    };
 
     return (
       <nav
@@ -87,7 +96,7 @@ export default class SideNav extends React.Component<SideNavProps> {
                   {renderPreIcon && renderPreIcon(navItem, this.state.itemSelected === i)}
                   {navItem.label}
                   {navItem.isBeta && <Spacer horizontal="xsmall" />}
-                  {navItem.isBeta && <BetaBadge />}
+                  {navItem.isBeta && getPreviewBadge(navItem.isPrivatePreview)}
                   {renderPostIcon && renderPostIcon(navItem)}
                 </span>
               </li>
@@ -105,8 +114,9 @@ export default class SideNav extends React.Component<SideNavProps> {
   highlightCurrentItemOnManualScroll = () => {
     const navItems = this.props.navItems
       .filter(item => !item.hidden)
-      .map((item, index) => {
-        const element = document.getElementById(item.scrollId);
+      .map(item => document.getElementById(item.scrollId))
+      .filter(Boolean)
+      .map((element, index) => {
         const { top, height } = element!.getBoundingClientRect();
         return { index, top, bottom: top + height };
       })

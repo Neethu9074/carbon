@@ -9,6 +9,7 @@ import { UserGroupRestrictions } from '@instana/types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import { refreshSignalUsers } from 'in-api/usersRefreshSignal';
 import { Response } from 'in-services/http/types';
 import http from 'in-services/http';
@@ -33,6 +34,8 @@ export interface InvitationResponse {
 export interface Invitation {
   readonly email: string;
   readonly groupId: string;
+  readonly message?: string;
+  readonly path?: string;
 }
 
 export interface PendingInvitation {
@@ -52,7 +55,7 @@ export interface UserResult {
   readonly tfaEnabled: boolean | null | undefined;
 }
 
-export const getUsersAsResultObservable = memoize(getUsersAsResultObservableInternal, () => '', 60000);
+export const getUsersAsResultObservable = memoize(getUsersAsResultObservableInternal, () => 'Users', 60000);
 function getUsersAsResultObservableInternal() {
   return refreshSignalUsers.flatMap(() => createObservable(getUsersInternal()));
 }
@@ -104,7 +107,7 @@ export function removeUserFromTenant(userId: string) {
 
 const refreshSignalInvitations = create().emit(true);
 
-export const getInvitations$ = memoize(getInvitationsInternal, () => '', 60000);
+export const getInvitations$ = memoize(getInvitationsInternal, () => 'Invitations', 60000);
 function getInvitationsInternal() {
   return refreshSignalInvitations.flatMap(() =>
     createObservable(
@@ -117,7 +120,7 @@ function getInvitationsInternal() {
   );
 }
 
-export const getPendingInvitations = memoize(getPendingInvitationsInternal, () => '', 60000);
+export const getPendingInvitations = memoize(getPendingInvitationsInternal, () => 'PendingInvitations', 60000);
 function getPendingInvitationsInternal(): Observable<PendingInvitation[]> {
   return refreshSignalInvitations.flatMap(() =>
     http<PendingInvitation[]>({
@@ -131,7 +134,7 @@ function getPendingInvitationsInternal(): Observable<PendingInvitation[]> {
 export function sendInvitations(invitations: Invitation[]) {
   return http<InvitationResponse>({
     method: 'POST',
-    url: '/api/settings/invitations',
+    url: `/api/settings/${shareAndInviteEnabled ? 'invitation/share' : 'invitations'}`,
     headers: getCsrfHeader(),
     data: invitations
   }).map(v => {
@@ -143,7 +146,7 @@ export function sendInvitations(invitations: Invitation[]) {
 export function sendInvitation(invitation: Invitation) {
   return http<void>({
     method: 'POST',
-    url: `/api/settings/invitations`,
+    url: `/api/settings/${shareAndInviteEnabled ? 'invitation/share' : 'invitations'}`,
     headers: getCsrfHeader(),
     data: invitation
   }).map(v => {

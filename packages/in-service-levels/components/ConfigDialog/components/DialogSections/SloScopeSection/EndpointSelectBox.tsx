@@ -5,10 +5,11 @@
 
 import React from 'react';
 
-import SelectInSection from 'in-components/form/Select/SelectInSection';
-import useEndpoints from 'in-applications/hooks/useEndpoints';
+import LazyComboBoxInSection from 'in-components/form/ComboBoxInSection/ComboBoxInSection';
+import getEndpoints from 'in-applications/subscriptions/getEndpoints';
 import { ApplicationBoundaryScope, Nullish } from 'in-types';
 import { titleWidth } from 'in-service-levels/constants';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
@@ -17,10 +18,10 @@ interface EndpointSelectBoxProps {
   boundaryScope: ApplicationBoundaryScope;
   disabled?: boolean;
   hasError?: boolean;
-  onChange: (endpoint: string) => void;
+  onChange: (endpoint?: string) => void;
   width?: string;
   serviceId?: string | Nullish;
-  value: string | Nullish;
+  value?: string | Nullish;
 }
 
 export default function EndpointSelectBox({
@@ -33,34 +34,43 @@ export default function EndpointSelectBox({
   value,
   width
 }: EndpointSelectBoxProps) {
-  const [endpointsPage, status] = useEndpoints({
-    application: applicationId,
-    service: serviceId ?? undefined,
-    filter: {
-      applicationBoundaryScope: boundaryScope
-    }
-  });
+  const timeConfig = useTimeConfig();
 
   return (
-    <SelectInSection
-      disabled={isBlank(applicationId) || status !== 'resolved' || disabled}
-      hasError={hasError}
+    <LazyComboBoxInSection
+      loader={(query, page) =>
+        getEndpoints({
+          filter: {
+            timeConfig,
+            includeInternalCalls: false,
+            includeSyntheticCalls: false,
+            useLongTermDataOnly: false,
+            application: applicationId,
+            service: serviceId ?? undefined,
+            applicationBoundaryScope: boundaryScope,
+            label: query
+          },
+          metrics: {},
+          order: {
+            by: 'endpointLabel',
+            direction: 'ASC'
+          },
+          pagination: {
+            page,
+            pageSize: 100
+          },
+          supportedOrderByCriteria: false
+        })
+      }
+      mapper={({ endpoint }) => ({ label: endpoint.label, value: endpoint.id })}
+      options={[{ label: t('in-custom-dashboards:widgets.slo.endpointSelectBox.allEndpoints'), value: '' }]}
       id="new-sli-endpoint-selection"
+      titleWidth={width ?? titleWidth}
       label={t('in-custom-dashboards:widgets.slo.endpointSelectBox.endpoint')}
-      onChange={({ target }) => onChange?.(target?.value)}
-      titleWidth={width ? width : titleWidth}
+      isDisabled={isBlank(applicationId) || disabled}
+      onChange={target => onChange(target?.value)}
+      hasError={hasError}
       value={value ?? ''}
-    >
-      {status === 'pending' ? (
-        <option value="">{t('in-custom-dashboards:widgets.slo.endpointSelectBox.loading')}</option>
-      ) : (
-        <option value="">{t('in-custom-dashboards:widgets.slo.endpointSelectBox.allEndpoints')}</option>
-      )}
-      {endpointsPage?.items.map(({ endpoint }) => (
-        <option value={endpoint.id} key={endpoint.id}>
-          {endpoint.label}
-        </option>
-      ))}
-    </SelectInSection>
+    />
   );
 }

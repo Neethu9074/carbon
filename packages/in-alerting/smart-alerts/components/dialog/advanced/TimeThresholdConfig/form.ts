@@ -68,7 +68,13 @@ export default function createTimeThresholdForm(
 function createMapBase(type: TimeThresholdType, thresholdType?: ThresholdType, timeWindow?: number) {
   return createMapForm()
     .put('type', createField({ value: type }))
-    .put('timeWindow', createField({ value: timeWindow ?? getDefaultTimeWindow(thresholdType) }));
+    .put(
+      'timeWindow',
+      createField({
+        value: timeWindow ?? getDefaultTimeWindow(thresholdType),
+        validator: provideNumberGreaterEqualsOneValidator
+      })
+    );
 }
 
 export function createViolationsInPeriodForm(
@@ -78,7 +84,8 @@ export function createViolationsInPeriodForm(
   return createMapBase('violationsInPeriod', thresholdType, timeWindow).put(
     'violations',
     createField({
-      value: violations ?? 1
+      value: violations ?? 1,
+      validator: provideNumberGreaterEqualsOneValidator
     })
   );
 }

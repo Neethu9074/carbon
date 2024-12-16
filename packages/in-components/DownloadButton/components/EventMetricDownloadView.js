@@ -6,7 +6,7 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { t } from 'in-i18n';
 
@@ -59,7 +59,7 @@ function DownloadButtonJson({ onClick }) {
 
 function DownloadButton({ label, onClick }) {
   return (
-    <Button key={label} className={locals.button} kind="info" onClick={onClick}>
+    <Button key={label} className={locals.button} kind="info" onClick={onClick} size="compact">
       {label}
     </Button>
   );

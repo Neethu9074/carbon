@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { ExpandableGroup } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Message } from '@instana/components';
 import { Link } from '@instana/components';
@@ -20,7 +21,6 @@ import getProfiles from 'in-components/Profiling/subscriptions/getProfiles';
 import HotspotList from 'in-components/Profiling/components/HotspotList';
 import ViewAllWrapper from 'in-components/TopListCard/ViewAllWrapper';
 import { hasError, isLoading } from 'in-services/util/result';
-import ExpandableGroup from 'in-components/ExpandableGroup';
 import { percentage } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { minutes } from 'in-services/time';

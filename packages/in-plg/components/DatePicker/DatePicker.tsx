@@ -12,6 +12,7 @@ import { useObservable } from '@instana/hooks';
 // @ts-expect-error
 import TimeSelectionDialogPresenter from 'in-components/time/TimeSelectionDialogPresenter/TimeSelectionDialogPresenter';
 import { TIME_WINDOW_SIZE_VIA_PICKER, TIME_LIVE_MODE, track } from 'in-services/tracking/tracking';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { timeConfig$, urlQueryKeys } from 'in-stores/time/config';
@@ -22,8 +23,6 @@ import Tooltip from 'in-components/Tooltip';
 import DatePresenter from './DatePresenter';
 import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
-
-import locals from './DatePicker.mless';
 
 export interface DatePickerProps {
   isHidden?: boolean;
@@ -114,6 +113,7 @@ interface LiveModeToggleProps {
 
 function LiveModeToggle({ isLive: isLiveProp, liveModeDisabled, liveModeDisabledTooltip }: LiveModeToggleProps) {
   const { location, createHref } = useNavigation();
+  const { trackCta } = useSegmentTracking();
 
   const isLive = liveModeDisabled ? false : isLiveProp;
   const href = createHref(isLive ? getTimeframeNonLiveLocation(location) : getTimeframeLiveLocation(location));
@@ -127,13 +127,11 @@ function LiveModeToggle({ isLive: isLiveProp, liveModeDisabled, liveModeDisabled
         id="live-mode-button"
         href={href}
         icon={icon}
-        iconSize={16}
+        iconSize="xs"
         kind="tertiary"
-        iconStyle={locals.liveIcon}
-        className={isLive ? locals.carbonLive : locals.carbonStatic}
         onClick={e => {
           e.stopPropagation();
-          return !isLive && track(TIME_LIVE_MODE);
+          return !isLive && trackCta(TIME_LIVE_MODE);
         }}
       >
         {t('in-components:time.dashboardHeaderButtonLive')}

@@ -1,0 +1,117 @@
+import { Meta } from '@storybook/addon-docs';
+
+<Meta title='IN-HOOKS/useUrlState'/>
+
+## Storing State in the URL
+
+## Import
+
+```js
+import useUrlState from 'in-hooks/useUrlState';
+```
+
+## Best-Practice Usage
+
+```js
+import React from 'react';
+
+import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
+import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config;
+import { intParser } from 'in-stores/navigation/urlParameterUtils';
+import useUrlState from 'in-hooks/useUrlState';
+import { Button } from '@instana/components';
+
+const urlStateDefinition = {
+  bind: [
+    {
+      path: '/products',
+      name: 'products.orderBy',
+      as: 'orderBy',
+      initialState: 'label'
+    },
+    {
+      path: '/products',
+      name: 'products.orderDirection',
+      as: 'orderDirection',
+      initialState: 'ASC'
+    },
+    {
+      path: '/products',
+      name: `products.page`,
+      as: 'page',
+      initialState: 1,
+      parser: intParser
+    },
+    // The following example shows a case where a matrix parameter is a JSON object.
+    // The used serializer/parser ensures a format that is shorter than regular JSON and still (somewhat) readable.
+    {
+      path: '/products',
+      name: `products.configuration`,
+      as: 'configuration',
+      initialState: {},
+      serializer: buildJsonSerializer(),
+      parser: buildJsonParser({})
+    }
+  ],
+
+  resets: [
+    {
+      bind: [
+        // Reset the page when the global time config is changed
+        ...timeConfigUrlParameters,
+        // Reset the page when the matrix parameter 'filter' for the path '/products' is changed.
+        {
+          path: '/products',
+          name: 'filter'
+        }
+      ],
+
+      // Optionally, reset can also be a function which receives the values retrieved from the URL
+      // via the bind statement shown above.
+      reset: { page: 1 }
+    }
+  ],
+
+  // Whether or the existing history entry should be replaced or not, i.e. whether new history entries
+  // should be created for any call to setState. This defaults to true and is the most fitting
+  // configuration for most use cases. Setting this to false can cause excessive history entries.
+  replaceHistory: true,
+
+  // Optional: Side effect on state change. Do not mutate prevState/newState here.
+  // This is only meant to update external systems.
+  //
+  // You will almost never need this!
+  onUpdate: (prevState, newState) => {
+    // …
+  },
+};
+
+function MyComponent() {
+  const [
+    {
+      orderBy,
+      orderDirection,
+      page
+    },
+    setState,
+    getStateChangeAsUrl
+  ] = useUrlState(urlStateDefinition);
+
+  return (
+    <div>
+      Page: {page}
+      Order By: {orderBy}
+      Order Direction: {orderDirection}
+
+      { /* Discouraged: Prefer creation of links over onClick event handlers. */}
+      <Button onClick={() => setState({page: page - 1})}>
+        Go to previous page
+      </Button>
+
+      <Button href={getStateChangeAsUrl({page: page + 1})}>
+        Go to next page
+      </Button>
+    </div>
+  );
+}
+```

@@ -35,14 +35,18 @@ export default function PreviewHeader({
         title={t('in-custom-dashboards:widgets.apdex.createWebsiteApdexForm.thresholdLabel')}
       >
         <Stack align="center" direction="horizontal">
-          <NumericInput
-            aria-label={t('in-custom-dashboards:widgets.apdex.createWebsiteApdexForm.thresholdLabel')}
-            value={threshold}
-            onChange={value => onChangeThreshold(value)}
-            hasError={hasError}
-            min={1}
-          />
-          <span className={locals.thresholdUnit}>ms</span>
+          <div className={locals.input}>
+            <NumericInput
+              aria-label={t('in-custom-dashboards:widgets.apdex.createWebsiteApdexForm.thresholdLabel')}
+              value={threshold}
+              onChange={value => onChangeThreshold(value)}
+              hasError={hasError}
+              min={1}
+            />
+          </div>
+          <div className={locals.thresholdUnit}>
+            {t('in-custom-dashboards:widgets.apdex.createWebsiteApdexForm.ms')}
+          </div>
           {additionalContent}
         </Stack>
       </Section>

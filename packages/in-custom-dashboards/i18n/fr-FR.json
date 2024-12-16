@@ -17,6 +17,7 @@
         "copied": "Widget copié. Utilisez CTRL-V ou CMD-V pour le coller dans n'importe quel tableau de bord personnalisé.",
         "duplicate": "Dupliquer",
         "delete": "Supprimer",
+        "exportPDF": "Télécharger le PDF",
         "customDashboardWidgetTitle": "Widget de tableau de bord personnalisé : {{title}}"
       }
     },
@@ -69,7 +70,11 @@
       "renameDashboard": "Renommer le tableau de bord",
       "dashboardName": "Nom du tableau de bord",
       "rename": "Renommer",
-      "failSaveDashboard": "Echec de la sauvegarde du tableau de bord."
+      "failSaveDashboard": "Echec de la sauvegarde du tableau de bord.",
+      "generatingPDFTitle": "Génération du PDF",
+      "generatingPDFContent": "Veuillez patienter pendant que le PDF est en cours de génération.",
+      "generatedPDFTitle": "PDF généré",
+      "generatedPDFContent": "Le téléchargement du PDF va bientôt commencer."
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "Tableau de bord introuvable",
@@ -93,6 +98,32 @@
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "Impossible d'analyser l'entrée en tant que JSON.",
       "jsonRootMustBeAnObject": "La racine JSON doit être un objet."
+    },
+    "downloadPdfDialog": {
+      "downloadPdf": "Télécharger le fichier PDF",
+      "settings": "Paramètres",
+      "pdfOrientation": "Orientation",
+      "portrait": "Portrait",
+      "landscape": "Paysage",
+      "pdfLayout": "Présentation",
+      "widgetsDisplay": "Afficher",
+      "singlePage": "Page unique",
+      "singlePageInfo": "Placez l'ensemble du tableau de bord sur une seule page, avec un contenu redimensionné en conséquence.",
+      "multiPages": "Pages multiples",
+      "multiPagesInfo": "Répartir le tableau de bord sur plusieurs pages, en conservant la présentation d'origine. Certains widgets peuvent être interrompus.",
+      "stackWidgetsTitle": "Widgets en pile",
+      "stackWidgetsInfo": "Affichez les widgets dans une pile verticale sur plusieurs pages.",
+      "loadingWidget": "Chargement du widget {{widgetIndex}} de {{totalNodes}}",
+      "generatePreview": "Générer un aperçu",
+      "generatingPreview": "Génération d'un aperçu pdf"
+    },
+    "filterContext": {
+      "topLevelFilterPartiallyApplied": "Certains filtres du tableau de bord actuel ont été appliqués.",
+      "topLevelFilterSelectsEverything": "Les filtres du tableau de bord actuel ne s'appliquent pas à ce widget.",
+      "topLevelFilterSelectsNothing": "Les filtres du tableau de bord actuel ne s'appliquent pas à ce widget.",
+      "topLevelFilterNotSupported": "Les filtres du tableau de bord actuel n'ont pas été appliqués à ce widget car il ne prend pas en charge le filtrage.",
+      "topLevelFilterAppliedToSomeDatasets": "Les filtres actuels du tableau de bord n'ont pas été entièrement appliqués aux ensembles de données suivants : {{datasets}}",
+      "unnamedDataset": "Ensemble de données sans nom"
     }
   },
   "dashboardSwitcher": {
@@ -130,6 +161,17 @@
         "unexpectedLowOrHighNumberOfCalls": "Nombre d'appels anormalement élevé ou bas"
       }
     },
+    "srcBizOps": {
+      "formComponent": {
+        "pleaseSelect": "Effectuez une sélection",
+        "pleaseSelectMetric": "Sélectionnez une métrique.",
+        "aggregation": "Agrégation",
+        "metric": "Métrique"
+      },
+      "index": {
+        "bizOps": "Processus métier (activités)"
+      }
+    },
     "srcApp": {
       "formComponent": {
         "needToTurnOffPP": "Pour utiliser le regroupement, vous devez d'abord désactiver la mise en évidence des problèmes potentiels.",
@@ -163,6 +205,7 @@
       "metricsFormComponent": {
         "metric": "Métrique",
         "selectMetric": "Sélectionner une métrique",
+        "unit": "Unité",
         "aggregation": "Agrégation",
         "crossSeriesAggregation": "Utiliser SUM pour l'agrégation interséries",
         "crossSeriesAggregationHelp": "Normalement, l'agrégation interséries est identique à l'agrégation à travers le temps (méthode utilisée pour combiner les points de données en un seul intervalle). Si ce bouton à bascule est activé, nous ferons la somme des intervalles de la série de données au lieu d'utiliser l'agrégation spécifiée.",
@@ -293,6 +336,15 @@
         "increaseColor": "Augmenter la couleur",
         "decreaseColor": "Réduire la couleur",
         "timeShift": "Rétrospective"
+      },
+      "thresholdForm": {
+        "addThresholdColorization": "Ajouter une colorisation basée sur un seuil",
+        "threshold": "Seuil",
+        "critical": "Critique lorsque",
+        "warning": "Avertissement lorsque",
+        "criticalValidator": "Le seuil critique doit être supérieur au seuil d'avertissement pour les opérateurs > et > =.",
+        "warningValidator": "Le seuil d'avertissement doit être supérieur au seuil critique pour les opérateurs < et < =.",
+        "bytes": "Octets"
       },
       "bigNumber": "Grand nombre"
     },
@@ -425,6 +477,25 @@
       }
     },
     "slo": {
+      "general": {
+        "demoWidgetTitle": "Titre du widget",
+        "sloNotFound": "Configuration SLO introuvable"
+      },
+      "v2Form": {
+        "headline": "Sélectionner un objectif de niveau de service",
+        "subheading": "Sélectionnez un SLO existant ou cliquez sur \"Ajouter un nouveau SLO\" pour en créer un nouveau",
+        "addSloButtonLabel": "Ajouter un nouveau SLO",
+        "chartTypeSelectionLabel": "Type de graphique",
+        "chartTypeOption": "",
+        "chartTypeOption_INDICATOR": "Graphique de l'indicateur",
+        "chartTypeOption_ERROR_BUDGET": "Graphique du budget des erreurs",
+        "validators": {
+          "notBlankSloValidator": "Veuillez choisir une configuration SLO dans la liste."
+        }
+      },
+      "v2WidgetHeader": {
+        "indicatorType": "Type d'indicateur :"
+      },
       "demo": {
         "title": "Titre d'objectif de niveau de service",
         "sliName": "Exemple de SLI",
@@ -465,8 +536,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "Noeud final",
-        "allEndpoints": "Tous les nœuds finaux",
-        "loading": "<loading>"
+        "allEndpoints": "Tous les nœuds finaux"
       },
       "goodBadEventsForm": {
         "goodEvents": "Evénements corrects",
@@ -503,7 +573,6 @@
       },
       "servicesSelectBox": {
         "service": "Service",
-        "loading": "<loading>",
         "allServices": "Tous les services"
       },
       "sliFormPresenter": {
@@ -608,6 +677,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "Vous devez configurer au moins une expression de filtre.",
       "timeBased": "En fonction du temps",
       "eventBased": "En fonction des événements",
+      "sloLegacy": "Objectifs du niveau de service existants",
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "Application",
@@ -709,7 +779,8 @@
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "Configuration de seuil",
-        "thresholdLabel": "Seuil"
+        "thresholdLabel": "Seuil",
+        "ms": "ms"
       },
       "entityInfo": {
         "tooltip": "Apdex inconnu",
@@ -823,7 +894,9 @@
           },
           "formatter": "Formateur",
           "searchPlaceholder": "Rechercher",
-          "countGroup": "Afficher le nombre de groupes"
+          "countGroup": "Afficher le nombre de groupes",
+          "showGroupsWithMissingTags": "Afficher les groupes dans lesquels des étiquettes manquent",
+          "filterEmptyValues": "Filtrer les valeurs vides"
         }
       },
       "dataSource": {
@@ -854,5 +927,8 @@
     "additionalFields": "Seul vous pourrez voir ce tableau de bord. Vous pouvez choisir de le partager avec des collègues après la création.",
     "create": "Créer",
     "failedToCreateDashboard": "Echec de la création du tableau de bord."
+  },
+  "threshold": {
+    "label": "Seuil"
   }
 }

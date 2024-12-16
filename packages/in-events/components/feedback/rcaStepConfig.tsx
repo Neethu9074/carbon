@@ -36,7 +36,7 @@ export const rcaStepConfig: IStepConfig = {
       return false;
     },
     hasFooter: true,
-    lastStep: true,
+    lastStep: () => true,
     isEnd: false,
     canSkip: false
   },
@@ -48,7 +48,7 @@ export const rcaStepConfig: IStepConfig = {
     stepImg: rca_feedback_end,
     component: () => <></>,
     hasFooter: false,
-    lastStep: true,
+    lastStep: () => true,
     isEnd: true,
     canSkip: false
   }

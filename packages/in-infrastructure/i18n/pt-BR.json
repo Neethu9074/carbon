@@ -9,18 +9,18 @@
     "tooltip1": "O agente relatou o intervalo de tempo selecionado, mas não relatou no momento selecionado. ",
     "tooltip2": "O agente começou às {{startTime}} e ainda está relatando.",
     "tooltip3": "O agente relatou entre: {{startTime}} e {{toTime}}.",
-    "issueReported": "{{count}} problema relatado:",
-    "issueReported_plural": "{{count}} problemas relatados:",
-    "issueReported_0": "{{count}}s problemas relatados:",
-    "issueReported_1": "{{count}}s problemas relatados:",
-    "issueReported_2": "{{count}}s problemas relatados:",
+    "monitoringIssueReported": "{{count}} problema de monitoramento relatado:",
+    "monitoringIssueReported_plural": "{{count}} problemas de monitoramento relatados:",
+    "monitoringIssueReported_0": "{{count}}s problema de monitoramento relatado:",
+    "monitoringIssueReported_1": "{{count}}s problema de monitoramento relatado:",
+    "monitoringIssueReported_2": "{{count}}s problema de monitoramento relatado:",
     "reporting": "relatando",
     "notReporting": "não relatando",
-    "issues": "{{count}} problema",
-    "issues_plural": "{{count}} problemas",
-    "issues_0": "{{count}} problemas",
-    "issues_1": "{{count}} problemas",
-    "issues_2": "{{count}} problemas",
+    "reportingMonitoringIssues": "relatório, {{count}} problema de monitoramento",
+    "reportingMonitoringIssues_plural": "relatório, {{count}} problemas de monitoramento",
+    "reportingMonitoringIssues_0": "relatório, {{count}} problemas de monitoramento",
+    "reportingMonitoringIssues_1": "relatório, {{count}} problemas de monitoramento",
+    "reportingMonitoringIssues_2": "relatório, {{count}} problemas de monitoramento",
     "agents": "Agentes",
     "updateAllAgents": "Atualizar todos os agentes",
     "resetAllAgents": "Reconfigurar todos os agentes",
@@ -53,7 +53,8 @@
     "javaRuntime": "Java Runtime",
     "status": "Status",
     "agentDetails": "Detalhes do agente",
-    "totalAgents": "Total de agentes"
+    "totalAgents": "Total de agentes",
+    "anErrorOccurredPleaseTryAgain": "Ocorreu um erro, tente novamente."
   },
   "dashboard": {
     "comparisonTable": "Tabela de comparação",
@@ -74,11 +75,13 @@
     "restartCount": "Contagem de reinicializações",
     "kubernetesLabels": "Rótulos do Kubernetes",
     "podmanAnnotations": "Anotações do Podman",
-    "metricExplosion": "Este painel pode não exibir todas as métricas, pois apenas {{numberOfMetrics}} foram armazenadas"
+    "metricExplosionBeeInstana": "Esse painel pode não exibir todas as métricas, pois um máximo de {{numberOfMetrics}} métricas é capturado em um determinado momento.",
+    "metricExplosion": "Esse painel pode não exibir todas as métricas, pois um máximo de {{numberOfMetrics}} métricas de alta resolução são capturadas em um determinado momento. Para visualizar as métricas adicionais com tags, use a ação de \"Analisar infraestrutura\" ou um painel customizado."
   },
   "explore": {
     "analyzeInfrastructure": "Analisar a infraestrutura",
     "focusOnThisGroup": "Foco neste grupo",
+    "tagNotPresent": "Tag não presente",
     "theQueryConfigurationIsInvalid": "A configuração da consulta é inválida. Trate as falhas de validação antes de continuar.",
     "allInfrastructure": "Todas as infraestruturas",
     "emptyInfrastructure": "Selecionar o tipo de entidade",
@@ -86,14 +89,14 @@
     "search": "Procurar um tipo",
     "explore": "Explorar",
     "health": "Funcionamento",
-    "noIssues": "Nenhum problema",
     "count": "Contagem",
     "errors": {
       "maximumNumberOfGroups": "Esta consulta tem muitos resultados. Restrinja sua procura usando um filtro mais restritivo ou limite seu intervalo de tempo e tente novamente.",
       "maximumNumberOfMembers": "Esta consulta tem muitos resultados. Restrinja sua procura usando um filtro mais restritivo ou limite seu intervalo de tempo e tente novamente.",
       "generalError": "Ocorreu um erro inesperado."
     },
-    "entityTypes": "Tipos de entidade {{count, parenthesis}}"
+    "entityTypes": "Tipos de entidade {{count, parenthesis}}",
+    "relatedInstances": "Analisar instâncias"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "Mostrar contagens e médias em todo o espaço de tempo atual.",
@@ -128,7 +131,8 @@
     "map": "Mapa",
     "comparisonTable": "Tabela de comparação",
     "infrastructureComparisonTable": "Tabela de comparação de infraestrutura",
-    "smartAlerts": "Alertas inteligentes"
+    "smartAlerts": "Alertas inteligentes",
+    "graph": "Gráfico"
   },
   "smartAlertView": {
     "smartAlertTab": "Alertas inteligentes de infraestrutura"
@@ -137,5 +141,13 @@
     "buttonSelectTags": "Selecionar tags",
     "titleAddATag": "Incluir uma tag",
     "messagePleaseSelectAtMostTags": "Selecione no máximo {{maximumNumberOfTags}} tags."
+  },
+  "graphExplorerView": {
+    "infrastructureGraphExplorer": "Explorador de gráfico"
+  },
+  "threshold": {
+    "label": "Limite",
+    "critical": "Crítico quando {{operator}} {{level}}",
+    "warning": "Aviso quando {{operator}} {{level}}"
   }
 }

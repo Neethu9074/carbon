@@ -36,7 +36,7 @@ exports.askQuestions = cb => {
     return;
   }
 
-  inquirer.prompt(getQuestions(), answers => {
+  inquirer.prompt(getQuestions()).then(answers => {
     if (answers.targetConfig.custom) {
       selectTarget(
         devModeOptions,
@@ -68,6 +68,8 @@ function getTargetSelectedViaEnvironmentVariables() {
     return environments['K8s Test (pink)'];
   } else if (/^heliconia$/i.test(process.env.TARGET)) {
     return environments['K8s Test (heliconia)'];
+  } else if (/^release$/i.test(process.env.TARGET)) {
+    return environments['K8s Release (magenta)'];
   } else if (/^local$/i.test(process.env.TARGET)) {
     return {
       local: true
@@ -134,7 +136,7 @@ function getQuestions() {
       type: 'input',
       when: isLocalEnvironmentSelected,
       name: 'localTarget',
-      message: 'Host where dev-env is runnig (default: localhost)',
+      message: 'Host where dev-env is running (default: localhost)',
       default: 'localhost'
     },
     {

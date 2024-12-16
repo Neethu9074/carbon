@@ -5,10 +5,9 @@
 
 import React from 'react';
 
-import { Collapsible } from '@instana/components';
+import { Collapsible, DescriptionList, DescriptionItem } from '@instana/components';
 
 import getMongoDbClusterForNode from 'in-forge/plugins/mongoDb/subscriptions/getMongoDbClusterForNode';
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';

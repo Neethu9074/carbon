@@ -1,6 +1,7 @@
 {
   "logs": "로그",
   "sum": "합계",
+  "count": "수",
   "bar": "막대",
   "logsOverTime": "시간 경과에 따른 로그",
   "logsOverTime_ERROR": "오류",
@@ -53,5 +54,31 @@
   "process": "프로세스",
   "host": "호스트",
   "fileOnHost": "켜짐",
-  "file": "파일"
+  "file": "파일",
+  "logExpiration": "보유 기한",
+  "stacktraceLogMessage": "스택 추적",
+  "logTraceTitle": "스택 추적",
+  "stackTraceHeader": "스택 추적 메시지",
+  "dashboard": {
+    "summary": "요약",
+    "smartAlerts": "스마트 경보",
+    "deleteLogs": "로그 삭제",
+    "configuration": "구성",
+    "logVolume": {
+      "logVolumeTitle": "현재 월별 로그 볼륨",
+      "gb": "GB",
+      "logVolumeIcon": "로그 볼륨으로 이동"
+    },
+    "retentionIcon": "보존 기간 변경",
+    "noData": "사용 가능한 데이터 없음",
+    "analyzeLogs": "로그 분석",
+    "configurationPage": {
+      "logVolume": "로그 볼륨",
+      "logVolumeDescription": "최대 12개월 동안의 로그 볼륨을 보고 필요에 따라 인프라 태그별로 그룹화하십시오.",
+      "logIntegrations": "로그 통합",
+      "logIntegrationsDescription": "로그 관리 솔루션을 연결하고 필요에 맞게 구성하십시오.",
+      "retentionPeriod": "보존 기간",
+      "retentionPeriodDescription": "보존 기간을 변경하면 로그가 애플리케이션, 대시보드, 분석에서 보존되고 사용할 수 있는 시간이 영향을 받으며 비용과 청구에 영향을 미칩니다."
+    }
+  }
 }

@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import IconButton from 'in-components/IconButton/IconButton';
+import { IconButton } from '@instana/components';
+
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -20,7 +21,17 @@ export function CopyButton({ message, className }: CopyColumnProps) {
     <Tooltip content={t('in-logging:tooltipCopyToClipboard')}>
       <CopyToClipboard getText={() => message}>
         {(copyToClipboardRef: React.ForwardedRef<HTMLButtonElement>) => (
-          <IconButton className={className} ref={copyToClipboardRef} iconSize={'xs'} type="lib_actions_copy" />
+          <IconButton
+            data-testid="copy-button"
+            color="var(--ids-color-option-neutral-900)"
+            className={className}
+            ref={copyToClipboardRef}
+            iconSize={'xs'}
+            type="lib_actions_copy"
+            onClick={e => {
+              e.stopPropagation();
+            }}
+          />
         )}
       </CopyToClipboard>
     </Tooltip>

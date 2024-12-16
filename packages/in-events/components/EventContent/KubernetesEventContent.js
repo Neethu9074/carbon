@@ -11,6 +11,7 @@ import EntityWithParentInformation from 'in-events/components/EntityInformation/
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
 import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
+import TriggeredIncidentButton from '../tabs/Summary/common/TriggeredIncidentButton';
 import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
@@ -82,9 +83,10 @@ export function KubernetesEventContent({ event, timeConfig }) {
                 className="in-event-view-event-content"
               />
             ) : (
-              <ProblemDescription fixSuggestion={fixSuggestion} className="in-event-view-event-content" />
+              <ProblemDescription fixSuggestion={fixSuggestion} />
             )}
             <DescriptionButtons>
+              <TriggeredIncidentButton event={event} />
               <EventSpecificationLink event={event.toJS()} />
               <AnalyzeIssueCallsButton event={event} />
             </DescriptionButtons>

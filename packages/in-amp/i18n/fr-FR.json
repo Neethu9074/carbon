@@ -2,6 +2,7 @@
   "components": {
     "accountSettings": {
       "accountSettings": "Paramètres du compte",
+      "unknownDomain": "Domaine inconnu",
       "billingAddress": "Adresse de facturation",
       "country": "Pays",
       "state": "État",
@@ -15,10 +16,17 @@
       "name": "Nom",
       "tenant": "Locataire",
       "type": "Type",
-      "licenseStartData": "Données de début de licence",
-      "licenseEndData": "Données de fin de licence",
+      "licenseStartData": "Date de début de la licence",
+      "licenseEndData": "Date de fin de la licence",
       "licensedApmHosts": "Hôtes APM sous licence",
       "licensedIqmHosts": "Hôtes IQM sous licence"
+    },
+    "learnMore": {
+      "title": "En savoir plus sur la politique d'utilisation équitable d'Instana",
+      "leftTitle": "Qu'est-ce que la politique d'utilisation équitable ?",
+      "rightTitle": "Comment acheter plus de données ?",
+      "leftBody": "La politique d'utilisation équitable d'Instana décrit l'allocation mensuelle de données associée à votre type de licence. Pour en savoir plus et prendre connaissance des règles d'utilisation des ressources, consultez la <fupDocLink>documentation relative à la politique d'utilisation équitable</fupDocLink>.",
+      "rightBody": "Si vous anticipez un besoin constant d'utilisation de données supplémentaires, contactez votre ingénieur commercial Instana pour explorer les options d'extension. Contactez le service commercial <salesLink>ici.</salesLink>"
     },
     "ampInformationModifier": {
       "allPaidUnitsAggregated": "Toutes les unités payantes (agrégées)",
@@ -26,6 +34,12 @@
     },
     "noLicenseAvailableMessage": {
       "thereHasBeenNoActivePaidLicenseInThePast30Days": "Aucune licence active payante active au cours des 30 derniers jours."
+    },
+    "fairUsePolicyMessage": {
+      "title": "Ce compte est soumis à la politique d'utilisation équitable. Voir l'utilisation des données dans les graphiques ci-dessous."
+    },
+    "fairUsePolicyNotActive": {
+      "title": "La politique d'utilisation équitable n'est pas active."
     },
     "restrictedUsage": {
       "accountUsage": "Utilisation du compte"
@@ -36,10 +50,34 @@
       "max": "Max",
       "average": "Moyenne"
     },
+    "dataIngestTable": {
+      "consumptionOverview": "Aperçu de la consommation",
+      "row": "Ligne",
+      "unit": "Unité",
+      "calculation": "Calcul",
+      "entitledNumberOfMVS": "Nombre d'ayants droit MVS",
+      "actualAverage": "Moyenne réelle du nombre de MVS configurés",
+      "onDemandNumber": "Nombre de MVS à la demande",
+      "dataIngestFairUseEntitlement": "Droit d'utilisation équitable de l'ingestion de données par MVS",
+      "totalDataIngestFairUseEntitlement": "Total des droits d'utilisation équitables de l'ingestion de données",
+      "dataIngestAddOnEntitlement": "Droit du module complémentaire d'ingestion de données",
+      "totalAmountPurchased": "Montant total d'achats via le module complémentaire d'ingestion de données supplémentaire",
+      "dataIngestEntitlementFromOnDemand": "Droit d'utilisation équitable d'ingestion de données de MVS à la demande",
+      "totalDataIngestEntitlement": "Total de droits d'ingestion de données",
+      "actualDataIngest": "Ingestion de données réelles",
+      "onDemandDataIngest": "Ingestion de données à la demande",
+      "noData": "Aucune donnée"
+    },
     "timePresets": {
       "last7Days": "7 derniers jours",
-      "last15Days": "Les 15 derniers jours",
-      "last365Days": "365 derniers jours"
+      "last30Days": "Les 30 derniers jours",
+      "last365Days": "365 derniers jours",
+      "thisMonth": "Ce mois-ci",
+      "lastMonth": "Mois dernier"
+    },
+    "presentationPresets": {
+      "distinct": "Valeurs distinctes",
+      "cumulative": "Valeurs cumulées"
     },
     "usages": {
       "allPaidUnitsAggregated": "Toutes les unités payantes (agrégées)",
@@ -49,16 +87,31 @@
       "queuedLicenses": "Licences mises en file d'attente"
     },
     "usageCharts": {
-      "apmUsage": "Utilisation APM",
+      "standard": "standard",
       "apmHosts": "Hôtes APM",
       "purchased": "Acheté",
-      "infrastructureUsage": "Utilisation de l'infrastructure",
+      "essentials": "Essentials",
       "iqmHosts": "Hôtes IQM",
       "syntheticPops": "PoP gérés synthétiques",
-      "resourceUnits": "Unités de ressource",
-      "consumedUnits": "Unités consommées",
+      "logging": "Journaux en contexte",
+      "resourceUnits": "Unités de ressources habilitées",
+      "consumedUnits": "Unités de ressources consommées",
+      "entitledData": "Données autorisées",
+      "consumedData": "Données consommées",
+      "infrastructure": "Infrastructure",
+      "synthetics": "Synthétiques",
+      "traces": "Traces",
+      "eumMobile": "EUM Mobile",
+      "eumWebsite": "Site web de l'EUM",
       "addons": "Modules complémentaires",
-      "helperText": "Nombre d'unités de ressource consommées par chaque type d'action. Les unités sont calculées avec un facteur de 0,025 pour les tests simples, 0,042 pour les tests d'API et 1,000 pour les tests de navigateur."
+      "trendLine": "Ligne de tendance",
+      "dataUsage": "Utilisation des données",
+      "dataUsageHelperText": "Quantité d'octets envoyés par des agents séparés par catégorie dans la période choisie.",
+      "syntheticsHelperText": "Nombre d'unités de ressource consommées par chaque type d'action. Les unités sont calculées avec un facteur de 0,025 pour les tests simples, 0,042 pour les tests d'API et 1,000 pour les tests de navigateur.",
+      "loggingHelperText": {
+        "saas": "Ce graphique affiche la quantité de données en octets utilisée par le module complémentaire de journalisation pour la période de conservation choisie.",
+        "onprem": "Ce graphique affiche la quantité de données en octets utilisée par le module complémentaire de journalisation pour la période de conservation choisie."
+      }
     },
     "activationAdoption": {
       "activationAdoption": "Activation &amp;TWBAMP; Adoption",

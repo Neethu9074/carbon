@@ -27,7 +27,7 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { pageNames } from 'in-services/tracking/pageNames';
 import BadgeList from 'in-components/BadgeList/BadgeList';
-import { cronJobTabChange } from 'in-kubernetes/tracker';
+import { useSegmentTracker } from 'in-kubernetes/tracker';
 import tabs from 'in-kubernetes/Dashboards/CronJob/tabs';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
@@ -40,6 +40,8 @@ export default function CronJobDashboard({ location }) {
     viewPath: cronJobDashboard,
     timeConfig: getTimeConfig(location)
   };
+
+  const { k8sTabChange } = useSegmentTracker();
 
   return (
     <>
@@ -74,7 +76,13 @@ export default function CronJobDashboard({ location }) {
         HeaderComponent={Header}
         location={location}
         tabs={tabs}
-        tabChangeTracker={cronJobTabChange}
+        tabChangeTracker={e => {
+          k8sTabChange({
+            ...e,
+            dashboard: 'cronJob',
+            path: location.pathname
+          });
+        }}
         props={props}
         renderErrors={errors => (
           <CenterAlignmentColumn>
@@ -99,7 +107,7 @@ function Header(props) {
     <DashboardHeader
       {...props}
       title={t('in-kubernetes:dashboards.kubernetesCronJob')}
-      icon="lib_kubernetes_workload"
+      icon="lib_infra_kubernetesCronJob"
       label={get(props.result, ['data', 'name'])}
       renderButtonLine={renderButtonLine}
       renderButtonLineSecondary={() => <RenderButtonLineSecondary timeConfig={timeConfig} snapshotId={cronJobId} />}

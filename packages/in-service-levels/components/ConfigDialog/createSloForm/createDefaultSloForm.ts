@@ -18,22 +18,24 @@ import {
   indicatorFormValidator
 } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
 import {
+  createIndicatorOperatorField,
+  createIndicatorThresholdField,
+  createSloNameTagsFields
+} from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
+import {
   SloEntityFields,
   SloForm,
   SloIndicatorFields,
   SloObjectiveFields,
   SloScopeFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
-import {
-  createIndicatorThresholdField,
-  createSloNameTagsFields
-} from 'in-service-levels/components/ConfigDialog/createSloForm/createSloForm';
+import { defaultBlueprint, defaultSliThresholdOperator, defaultTrafficType } from 'in-service-levels/constants';
 import { numericValidator, positiveNumberValidator } from 'in-services/validators/number';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { formatDate, formatTime } from 'in-services/formatters/date';
 
 export const getDefaultEntityFields = (entityType: SloEntityType): SloEntityFields => ({
-  entityId: createField({ value: '', validator: noBlankEntitySelection }),
+  entityIds: createField({ value: [], validator: noBlankEntitySelection }),
   type: createField({ value: entityType })
 });
 
@@ -50,9 +52,15 @@ export const getDefaultScopeFields = (): SloScopeFields => ({
 export const getDefaultIndicatorFields = (): SloIndicatorFields => ({
   aggregation: createField({ value: 'MEAN' }),
   badEventsFilter: createField({ value: [] }),
-  blueprint: createField({ value: 'latency' }),
+  blueprint: createField({ value: defaultBlueprint }),
   goodEventsFilter: createField({ value: [] }),
-  threshold: createIndicatorThresholdField({ value: undefined, blueprint: 'latency', indicatorType: 'timeBased' }),
+  trafficType: createField({ value: defaultTrafficType }),
+  operator: createIndicatorOperatorField({ value: defaultSliThresholdOperator, blueprint: defaultBlueprint }),
+  threshold: createIndicatorThresholdField({
+    value: undefined,
+    blueprint: defaultBlueprint,
+    indicatorType: 'timeBased'
+  }),
   type: createField({ value: 'timeBased' })
 });
 

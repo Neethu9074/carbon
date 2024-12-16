@@ -9,37 +9,37 @@ export const types = {
   document: {
     short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.document'),
     long: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.document'),
-    color: '#8900b3'
+    color: 'purple'
   },
   stylesheet: {
     short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.stylesheet'),
     long: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.stylesheet'),
-    color: '#2277FF' // based on the CSS logo color
+    color: 'cyan'
   },
   image: {
     short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.image'),
     long: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.image'),
-    color: '#00b37a'
+    color: 'green'
   },
   font: {
     short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.font'),
     long: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.font'),
-    color: '#ce1293'
+    color: 'magenta'
   },
   script: {
     short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.script'),
     long: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.script'),
-    color: '#d3bd12' // inspired by the JS logo color
+    color: 'yellow'
   },
   media: {
     short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.media'),
     long: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.media'),
-    color: 'darkblue'
+    color: 'blue'
   },
   other: {
     short: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.short.other'),
     long: t('in-synthetics:dashboard.detailsPage.browserDetails.entry.types.long.other'),
-    color: 'darkgray'
+    color: 'warm-gray'
   }
 } as const;
 

@@ -8,6 +8,9 @@
 :local {
   .row {
     vertical-align: top;
+    & > td {
+      vertical-align: top;
+    }
   }
 
   .colName {
@@ -56,5 +59,16 @@
 
   .fullWidth {
     width: 100%;
+  }
+  .customPayloadTearsheet {
+    > div:first-child {
+      padding: 0 0 1rem 0;
+    }
+  }
+
+  .tableContent {
+    :global .cds--data-table-content {
+      overflow-x: visible;
+    }
   }
 }

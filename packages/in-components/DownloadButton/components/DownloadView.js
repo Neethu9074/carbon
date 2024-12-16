@@ -6,7 +6,7 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { t } from 'in-i18n';
@@ -47,6 +47,7 @@ export default class extends React.Component {
             <DownloadLink
               label={t('in-components:downloadBtn.downloadViewDownloadAsJsonLabel')}
               href={formatUrl(this.props.jsonLink, this.props.queryParams)}
+              download={this.props.download}
             />
           ) : null}
         </div>
@@ -100,15 +101,23 @@ function DownloadButtonJson({ onClick }) {
 
 function DownloadButton({ label, onClick }) {
   return (
-    <Button key={label} className={`${block}__button`} kind="info" onClick={onClick}>
+    <Button key={label} className={`${block}__button`} kind="info" onClick={onClick} size="compact">
       {label}
     </Button>
   );
 }
 
-function DownloadLink({ label, href }) {
+function DownloadLink({ label, href, download }) {
   return (
-    <Button key={label} className={`${block}__button`} kind="info" target="_blank" href={href}>
+    <Button
+      key={label}
+      className={`${block}__button`}
+      kind="info"
+      target="_blank"
+      href={href}
+      download={download}
+      size="compact"
+    >
       {label}
     </Button>
   );

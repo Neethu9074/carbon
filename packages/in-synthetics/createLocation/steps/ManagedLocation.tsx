@@ -8,14 +8,13 @@ import { Field, Item, MapForm } from 'formalistic';
 import classNames from 'classnames';
 import React from 'react';
 
-import { Link, Stack, Typography } from '@instana/components';
+import { Link, Stack, Typography, Checkbox } from '@instana/components';
 import { SyntheticDatacenter } from '@instana/types';
 import { Observable } from '@instana/observables';
 
 // eslint-disable-next-line no-restricted-imports
 import List, { ColumnDefinition } from 'in-settings/components/List';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { datacenterProviderMap } from 'in-synthetics/utils/constants';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import { Trans, t } from 'in-i18n';
@@ -122,7 +121,7 @@ const getColumnDefinitions = (
       defaultOrderDirection: 'ASC',
       getContent(entity: SyntheticDatacenter) {
         return (
-          <CheckboxFancy
+          <Checkbox
             label={entity?.code}
             checked={datacentersField.value.findIndex(datacenter => datacenter?.code === entity?.code) !== -1}
             onChange={() => onDatacenterSelect(entity)}

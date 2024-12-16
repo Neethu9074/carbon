@@ -22,5 +22,10 @@ export default [
     label: t('in-forge:plugins.syntheticPoP.browserActive'),
     metric: 'browserscript.activeTests',
     formatter: number.compact
+  },
+  {
+    label: t('in-forge:plugins.syntheticPoP.ismActive'),
+    metric: 'ism.activeTests',
+    formatter: number.compact
   }
 ];

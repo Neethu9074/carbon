@@ -7,23 +7,55 @@
     "trialExpirationPopUpDescription": "데이터 콜렉션이 종료되었습니다. 7일동안 제품을 계속 사용할 수 있습니다. 7일후에는 평가판에 액세스할 수 없습니다. 제품을 구매할 계획이라면 2주동안 데이터를 더 보관할 수 있습니다.",
     "trialExpirationPopUpDescriptionAfterSevenDays": "Instancea를 탐색해 주셔서 감사합니다! 평가판이 종료되어 더 이상 제품에 액세스할 수 없습니다."
   },
+  "buyNowDialog": {
+    "title": "사용량에 따른 유연한 청구",
+    "cancelbtn": "취소",
+    "subHeading": "이제 PayPerUse 옵션을 사용하면 사용한 만큼만 요금이 청구됩니다.",
+    "sidePanelTitle": "구독을 원하는지 여부는 여전히 확실하지 않습니까?",
+    "sidePanelDescription": "완벽한 옵션을 찾을 수 있도록 도와드리겠습니다.",
+    "mainBodyTitle1": "IBM Instana Observability를 통한 자동화, 컨텍스트 및 인텔리전트 조치",
+    "mainBodyDescription1": "업계를 선도하는 1초 단위의 세분성과 포괄적인 요청 추적을 통해 문제가 발견되지 않도록 보장합니다. 맞춤형 경보를 위한 SmartAlerts™ 및 사용자 친화적인 대시보드를 사용하여 애플리케이션 코드, Kubernetes 컨테이너 및 마이크로서비스 전체에 대한 전체 스택 가시성을 확보하십시오. AWS에 완벽하게 통합된 Instana는 300개 이상의 기술을 지원하여 Amazon AWS의 컨테이너화된 애플리케이션에 대한 걱정 없는 성능 모니터링을 제공합니다.",
+    "mainBodyTitle2": "PayPerUse 소개",
+    "mainBodyDescription2": "유연성을 제공하도록 설계된 PayPerUse 계층은 비즈니스 요구사항을 충족하는 Standard 및 Essential 옵션으로 기능과 가치를 제공합니다. 사용량에 따라 매월 말에 요금이 청구됩니다.",
+    "listTitle1": "패키지",
+    "listTitle2": "설명",
+    "listTitle3": "가격",
+    "listUnit1": "Standard MVS† 시간",
+    "listUnit2": "Essential MVS† 시간 ",
+    "listDescription1": "인프라 모니터링+추적+EUM+합성이 포함된 전체 관찰 가능성",
+    "listDescription2": "인프라 모니터링 전용",
+    "listCost1": "$0.12",
+    "listCost2": "$0.03",
+    "learnMore": "자세히 알아보기 ",
+    "serviceDescription": "서비스 설명입니다.",
+    "mvs": "†MVS(Managed Virtual Server)는 Instana 라이센스를 부여할 수 있는 측정 단위입니다. MVS에 대해 자세히 알아보기 ",
+    "here": "여기"
+  },
   "licenseBanner": {
-    "freeTrialBannerTitle": "IBM Instana",
     "requestQuoteBtn": "견적 요청",
+    "buyNow": "지금 구매",
     "buyNowBtn": "AWS에서 구매",
+    "buyNowBtnIbm": "IBM에서 구매",
     "alreadyHaveLicense": "이미 라이센스가 있습니까? <linkToDocker>Docker</linkToDocker> 또는 <linkToKubernetes>Kubernetes</linkToKubernetes>에서 활성화하십시오.",
     "getAnswers": "답변 받기",
+    "share": "공유",
+    "shareTooltip": "이 페이지를 동료와 공유하고 Instana에서 협업하도록 초대하십시오.",
     "titleDetail": {
       "trial": "평가판",
       "sandboxTrial": "샌드박스 평가판"
     }
   },
   "playwithinstana": {
-    "title": "Instana로 재생",
     "content": "자체 환경을 모니터링할 준비가 되었습니다.",
-    "bookdemo": " 데모 예약",
-    "freetrial": " 무료 평가판",
+    "bookdemo": " 라이브 데모 예약",
+    "freetrial": " 무료 사용",
     "taketour": " 둘러보기"
+  },
+  "dataConsumptionMessage": {
+    "description": "데이터 수집 권한의 {{dataConsumption}}%에 도달했습니다. 100%에 도달하면 추가로 수집된 데이터에 대해 사용량 단위로 요금이 청구됩니다.",
+    "description100": "데이터 수집 인타이틀먼트의 100%에 도달했지만 걱정하지 마십시오. Instana의 전체 값을 계속 받게 됩니다. 추가적으로 수집된 데이터의 정확한 양에 대해서만 사용량 기준으로 요금이 부과됩니다.",
+    "buttonText": "데이터 사용량 검토",
+    "title": "Instana 사용량이 급증하고 있는 것 같습니다!"
   },
   "agentDetails": {
     "agentMode": {
@@ -38,7 +70,7 @@
       "configurationOptions": "구성 옵션"
     },
     "jvmVendor": {
-      "azulZulu18": "Azul Zulu 1.8",
+      "azulZulu11": "Azul Zulu 11",
       "eclipseOpenJD11": "Eclipse OpenJ9 11"
     },
     "askForHelp": {
@@ -58,6 +90,7 @@
       "step5": "5단계: ",
       "download": "다운로드",
       "clusterName": "클러스터 이름",
+      "applicationRuntime": "애플리케이션 런타임",
       "agentZoneOptional": "에이전트 구역(선택사항)",
       "networkRequirements": "네트워크 요구사항",
       "toInstallAndRunAnAgentCompleteTheFollowingSteps": "에이전트를 설치하고 실행하려면 다음 단계를 완료하십시오.",
@@ -82,8 +115,7 @@
     "kubernetes": {
       "kubernetes": {
         "enterAClusterNameAndOptionallyTheAgentZone": "1단계: 클러스터 이름을 입력하고 선택적으로 클러스터가 포함될 에이전트 구역을 입력하십시오.",
-        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "2단계: 전제조건을 검토하고 에이전트 배치 코드를 실행하십시오.",
-        "support": "지원"
+        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "2단계: 전제조건을 검토하고 에이전트 배치 코드를 실행하십시오."
       },
       "operator": {
         "installUsingTheOperator": "오퍼레이터를 사용한 설치",
@@ -114,7 +146,12 @@
       "selectThePlatformArchitecture": "플랫폼 아키텍처 선택",
       "platformArchitecture": "플랫폼 아키텍처",
       "previewPrerequisites": "전제조건 미리보기",
-      "installingInstanaAgent": "Instana 에이전트 설치"
+      "installingInstanaAgent": "Instana 에이전트 설치",
+      "unix_airgapped": {
+        "step1DownloadTheInstallArchive": "1단계. 설치 아카이브를 다운로드하십시오.",
+        "airgappedArchives": "아카이브",
+        "installUsingAnArchive": "아카이브를 사용하여 설치"
+      }
     },
     "aws": {
       "step1": "1단계: ",
@@ -171,6 +208,7 @@
       "useScriptAsUserDataForEc2Instance": "이 스크립트를 EC2 인스턴스의 사용자 데이터로 사용하십시오.",
       "selectAgentPackagingAndRuntime": "에이전트 패키징 모드 및 런타임 선택",
       "awsLambdaPythonAutotrace": "추적을 위해 Python을 기반으로 AWS Lambda 함수를 구성하는 기본 방법은 AutoTrace를 사용하는 Instana Lambda 계층입니다.",
+      "awsLambdaDotnetAutotrace": "추적을 위해 .NET Core를 기반으로 AWS Lambda 기능을 구성하는 데 선호되는 방법은 AutoTrace가 있는 Instana Lambda 계층입니다.",
       "preferredMethodForNodeJsLambdaConfiguration": "Node.js 8.x를 기반으로 AWS Lambda 함수를 구성하는 기본 방법은 <lambdaManualWrapping>수동 랩핑을 통해 Instana Lambda 계층</lambdaManualWrapping>을 사용하는 것입니다.",
       "imageOptions": {
         "linuxGlibcBased": "Linux (glibc 기반)",
@@ -183,7 +221,6 @@
       "selectAwsRegionAndLambdaHandler": "AWS 리전을 선택하고 현재 람다 핸들러를 입력하십시오.",
       "setInstanaAutoWrapHandlerAsLambdaFunction": "람다 함수에 대한 핸들러로 Instana 자동 줄 바꾸기 핸들러를 설정하십시오.",
       "autoWrapHandler": "자동 줄 바꾸기 핸들러",
-      "runCodeBelow": "아래의 에이전트 배치 코드를 실행하십시오.",
       "prerequisiteLinks": {
         "networkRequirements": "네트워크 요구사항"
       },
@@ -202,6 +239,7 @@
         "runningStartupScript": "시작 스크립트 실행",
         "uninstallingTheHostAgent": "호스트 에이전트 설치 제거",
         "awsLambdaNativeTracingForJava": "AWS Java용 람다 원시 추적",
+        "awsLambdaNativeTracingForDotNet": "AWS Lambda Native Tracing for .NET Core",
         "awsLambdaFunctions": "AWS 람다 기능",
         "monitoringAwsFargate": "AWS Fargate 모니터링",
         "monitoringAwsFargateJava": "AWS Fargate (Java) 모니터링",
@@ -214,7 +252,6 @@
         "installGcrCollectors": "Google Cloud Run 프로세스 내 콜렉터 설치",
         "installAgentOnEc2": "AWS EC2에 에이전트 설치",
         "configurationOptions": "구성 옵션",
-        "installAgentAwsEks": "AWS EKS에 에이전트 설치",
         "monitoringGcr": "Google Cloud Run 모니터링",
         "monitoringAwsFargateRuby": "AWS Fargate (Ruby) 모니터링",
         "awsServiceDocumentation": "AWS 서비스 문서",
@@ -265,8 +302,7 @@
       "vmwareTanzuNetworkLink": "VMware Tanzu 네트워크 링크",
       "reviewThePrerequisites": "전제조건 검토",
       "installingTheInstanaAgent": "Instana 에이전트 설치",
-      "vmwareTanzuDocumentation": "VMware Tanzu 문서",
-      "vmwareTanzuNetwork": "VMware Tanzu 네트워크",
+      "installingAndConfiguringMicroservicesApplicationsMonitoring": "마이크로서비스 애플리케이션 모니터링 설치 및 구성",
       "addTileToOpsManagerAndConfigureIt": "Ops Manager에 타일을 추가하고 이를 구성하십시오.",
       "addInstanaApplicationMonitoring": "\"Instana Microservices 애플리케이션 모니터링\" 타일을 Ops Manager에 추가하고 타일의 \"백엔드 구성\" 탭에 다음을 적용하십시오.",
       "nameYourVmwareFoundation": "VMware Tanzu 기반의 이름을 지정하십시오.",
@@ -314,6 +350,11 @@
         "installTheScriptOnTheVirtualMachine": "가상 머신에 Windows 서비스로 스크립트를 설치한 후 자동으로 시작하십시오.",
         "installAgentOnAWSEC2Windows": "AWS EC2에 에이전트 설치 (Windows)",
         "runCommandsOnAWSEC2": "AWS EC2에서 명령 실행"
+      },
+      "windows_airgapped": {
+        "step1DownloadTheInstallPackageOrArchive": "1단계. 설치 프로그램 또는 아카이브를 다운로드하십시오.",
+        "airgappedPackagesOrArchive": "아카이브 및 Windows 설치 프로그램(32비트 및 64비트)",
+        "installUsingAPackageOrArchive": "설치 프로그램 또는 아카이브를 사용하여 설치"
       }
     },
     "linux": {
@@ -324,9 +365,28 @@
         "runningTheAgent": "에이전트 실행"
       },
       "linux_deb_rpm": {
+        "configureTheAgent": "1단계: 에이전트 구성",
+        "installUsingAPackage": "패키지를 사용하여 설치",
+        "selectThePlatformArchitecture": "2단계: 플랫폼 아키텍처 선택",
+        "platformArchitecture": "플랫폼 아키텍처",
+        "mode": "모드",
+        "agentOptions": {
+          "linux64BitAarch": "Linux(64Bit - AArch)",
+          "linux64BitArm": "Linux(64비트 - ARM)",
+          "linux64BitAmd": "Linux(64Bit - AMD)",
+          "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
+          "linux64BitPowerPcLittleEndian": "Linux(64비트 - PowerPC Little Endian)",
+          "linuxS390XJdkNotIncluded": "Linux(64Bit - s390x) JDK 미포함",
+          "linuxS390X": "Linux (64Bit - s390x)",
+          "linuxX8664": "Linux (64Bit - x86_64)",
+          "linuxRhel6X8664": "Linux (64Bit - RHEL6 x86_64)",
+          "linuxRhel7X8664": "Linux (64Bit - RHEL7 x86_64)"
+        }
+      },
+      "linux_airgapped": {
         "step1DownloadTheInstallPackage": "1단계. 설치 패키지를 다운로드하십시오.",
-        "DEBAndRPMPackage": "DEB 및 RPM 패키지",
-        "installUsingAPackage": "패키지를 사용하여 설치"
+        "airgappedPackages": "아카이브, DEB 및 RPM 패키지",
+        "installUsingAPackage": "패키지 또는 아카이브를 사용하여 설치"
       },
       "linux_ec2": {
         "selectTheAgentPackagingMode": "1단계: 에이전트 패키징 모드 선택",
@@ -334,7 +394,7 @@
         "dynamic": "동적",
         "static": "정적",
         "runtime": "런타임",
-        "azulZulu": "Azul Zulu 1.8",
+        "azulZulu": "Azul Zulu 11",
         "eclipseOpenJ9": "Eclipse OpenJ9 11",
         "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "2단계: 전제조건을 검토하고 에이전트 배치 코드를 실행하십시오.",
         "installagentOnAWSEC2": "AWS EC2에 에이전트 설치",
@@ -364,6 +424,22 @@
         "configurationParameters": "구성 매개변수"
       }
     },
+    "ibmi": {
+      "ibmi": "IBM i",
+      "os": "OS",
+      "archiveTarGz": "아카이브(tar.gz)",
+      "archive": {
+        "selectTheAgentPackagingMode": "1단계: 에이전트 패키징 모드 선택",
+        "selecTthePlatformArchitecture": "2단계: 플랫폼 아키텍처 선택",
+        "platformArchitecture": "플랫폼 아키텍처",
+        "beforeYouInstall": "설치하기 전에",
+        "installingManually": "수동으로 설치",
+        "startingTheAgent": "에이전트 시작",
+        "agentOptions": {
+          "ibmi64Bit": "IBM i"
+        }
+      }
+    },
     "openshift": {
       "documentLinks": {
         "installOperatorByUsingOlm": "OLM을 사용하여 운영자 설치",
@@ -388,8 +464,34 @@
       }
     },
     "azure": {
-      "installingAgentOnAks": "Ks에 에이전트 설치",
-      "configureAfterInstall": "설치 후 에이전트 구성"
+      "referenceToAzureContainerAppsDocumentation": "추적 데이터를 수집하려면 Azure 컨테이너 앱에 배치된 Go 애플리케이션을 수동으로 계측해야 합니다. <azureContainerAppsDoc>Azure 컨테이너 앱 Go 문서</azureContainerAppsDoc>의 지시사항을 따르십시오.",
+      "selectAzureContainerAppsRuntime": "Azure 컨테이너 앱 런타임 선택",
+      "reviewPrerequisitesAndConfigureContainerApps": "전제조건을 검토하고 추적을 위해 Azure 컨테이너 앱을 구성하십시오.",
+      "containerAppSetEnvironmentVariables": "Azure 컨테이너 앱을 작성하는 동안 다음 환경 변수를 설정하십시오.",
+      "monitoringAzure": "Azure 에이전트를 사용하여 Microsoft Azure 모니터링 및 계측",
+      "monitoringAzureContainerApps": "Azure 컨테이너 앱 모니터링",
+      "selectAzureAppServiceRuntime": "Azure App Service 런타임을 선택하십시오.",
+      "nodejs": {
+        "reviewPrerequisitesAndInstallAppService": "필수 구성 요소를 검토하고 콜렉터를 설치하십시오.",
+        "monitoringAppService": "Azure App Service for Node.js 모니터링",
+        "referenceAppServiceDocumentationContent": "전제조건을 검토하고 콜렉터 설치를 위한 설치 안내서를 따르십시오. 자세한 지시사항은 <azureAppServiceDoc>문서</azureAppServiceDoc>를 참조하십시오.",
+        "activatingAppService": "콜렉터 활성화 중.",
+        "appName": "앱 이름",
+        "resourceGroupName": "자원 그룹\n이름",
+        "activatingAppServiceContent": "Node.js v18.19 이상을 사용하는 ECMAScript 모듈 애플리케이션에 대한 Azure CLI 명령 예:",
+        "activatingAppServiceNote": "구성에 맞는 올바른 설정에 맞게 NODE_OPTIONS 값을 업데이트하십시오. 지침은 해당 <azureAppServiceEnableCollectorDoc>문서</azureAppServiceEnableCollectorDoc>를 참조하십시오."
+      },
+      "dotnet": {
+        "monitoringAppService": "Monitoring Azure App Service for .NET",
+        "activatingAppService": "콜렉터 설치 중.",
+        "appName": "앱 이름",
+        "resourceGroupName": "자원 그룹\n이름",
+        "configureOptionsForTracing": "앱 서비스 모니터링에 필요한 매개변수 구성",
+        "uploadConfigFile": "구성 파일 업로드 - ApplicationHost.xdt",
+        "activatingAppServiceNote": "파일을 다운로드하십시오. 파일 이름이 항상 \"ApplicationHost.xdt\"인지 확인하십시오.",
+        "ftpsAuthCredsNote": "Azure 포털에서 앱 서비스에 로그인하면 App Service 배치 -> 배치 센터 -> FTPS 신임 정보에서 FTPS URL, FTPS 사용자 이름 및 비밀번호(애플리케이션 범위)를 확인할 수 있습니다. 아래 명령에서 이러한 값을 바꾸십시오.",
+        "restartAppServiceNote": "App Service 다시 시작"
+      }
     },
     "gcp": {
       "dockerBuild": "Docker 빌드",
@@ -410,44 +512,81 @@
     },
     "mac": {
       "selectAgentPackagingMode": "1단계: 에이전트 패키징 모드를 선택하십시오.",
-      "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "2단계: 전제조건을 검토하고 에이전트 배치 코드를 실행하십시오."
+      "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "2단계: 전제조건을 검토하고 에이전트 배치 코드를 실행하십시오.",
+      "mac_airgapped": {
+        "step1DownloadTheInstallArchive": "1단계. 설치 아카이브를 다운로드하십시오.",
+        "airgappedArchives": "아카이브",
+        "installUsingAnArchive": "아카이브를 사용하여 설치"
+      }
     }
   },
   "welcomepage": {
-    "heading": "시작",
+    "heading": "Instana 시작",
+    "foldableTileTitle": "시작합니다.",
     "viewAll": "모두 보기",
-    "search": "검색",
-    "addMore": "추가",
     "UrlShortener": "URL 단축기",
-    "consumeData": {
-      "title": "서비스 감지",
-      "description": "먼저 Instana를 사용으로 설정하여 모니터링할 서비스와 기타 데이터를 검색하십시오.",
-      "buttonName": "에이전트 배치",
-      "buttonType": "기본"
+    "addMore": "추가",
+    "collapsibleButton": {
+      "showOnboardingTasks": "온보딩 태스크 표시",
+      "hideOnboardingTasks": "온보딩 작업 숨기기"
+    },
+    "startIntegrating": {
+      "title": "데이터 통합 시작",
+      "description": "에이전트를 설치하여 Instana 설정 및 원활한 데이터 통합을 시작하십시오.",
+      "buttonName": "에이전트 설치"
+    },
+    "traceInteractions": {
+      "title": "추적 상호작용",
+      "description": "컴포넌트가 연결되는 방법을 이해하고 추적을 수동으로 설정해야 하는지 확인하십시오.",
+      "buttonName": "추적 확인"
+    },
+    "inviteUsers": {
+      "title": "전문가와 연결",
+      "description": "설정 태스크를 완료하고 제품 기능을 사용해 보기 위한 도움말을 얻을 수 있습니다.",
+      "buttonName": "사용자 초대"
+    },
+    "additionalAgents": {
+      "title": "더 많은 데이터 가져오기",
+      "description": "아키텍처 전체에서 관찰 가능성을 확장합니다.",
+      "buttonName": "추가 에이전트 설치"
+    },
+    "appPerspective": {
+      "title": "보기 조정",
+      "description": "애플리케이션 및 서비스를 최적화하는 데 필요한 정보를 캡처하십시오.",
+      "buttonName": "애플리케이션 퍼스펙티브 작성"
+    },
+    "smartAlerts": {
+      "title": "경보 받기",
+      "description": "단순 및 고급 사용자 정의 모두에 대해 사전 정의된 블루프린트를 사용하여 쉽게 경보를 구성할 수 있습니다.",
+      "buttonName": "스마트 경보 설정"
+    },
+    "startMonitoring": {
+      "title": "사용자 환경 모니터",
+      "description": "애플리케이션 및 웹 사이트에서 경보를 활성화하십시오.",
+      "buttonName": "모니터링 시작"
     },
     "inviteTeammates": {
-      "title": "팀 동료 초대",
-      "description": "동료와 협업하십시오.",
-      "buttonName": "사용자 관리",
-      "buttonType": "ghost"
-    },
-    "nextSteps": {
-      "title": "다음 단계",
-      "description": "더 많은 둘러보기 및 추가 지원을 찾으십시오.",
-      "buttonName": "답변 받기",
-      "buttonType": "ghost"
+      "title": "팀 가져오기",
+      "description": "동료를 Instana에 초대하고 협업을 시작하십시오.",
+      "buttonName": "팀 구성원 초대"
     },
     "component": {
       "applicationWidget": {
         "label": "애플리케이션",
         "name": "이름",
         "calls": "호출",
+        "scope": "범위",
         "latency": "대기 시간",
         "erroneousCallRate": "잘못된 호출 비율",
-        "openCreationDialog": "작성 대화 상자 열기"
+        "openCreationDialog": "작성 대화 상자 열기",
+        "health": "상태",
+        "searchPlaceholderLabel": "애플리케이션",
+        "addButtonLabel": "애플리케이션",
+        "viewAllLabel": "애플리케이션"
       },
       "eventWidget": {
         "label": "이벤트",
+        "viewAllLabel": "이벤트",
         "incidents": "인시던트",
         "critical": "Critical",
         "warning": "경고",
@@ -458,51 +597,90 @@
         "cloudFoundry": "Cloud Foundry",
         "vsphere": "vSphere",
         "openstack": "OpenStack",
+        "openshift": "OpenShift",
         "ibmp": "IBM 전원 HMC",
         "powervcRegion": "PowerVC 영역",
         "sap": "SAP",
         "ibmz": "IBM Z HMC",
-        "kubernetes": "Kubernetes",
+        "gke": "Google Kubernetes Engine",
+        "eks": "Amazon Elastic Kubernetes Service",
         "name": "이름",
         "nodes": "노드",
         "namespaces": "네임스페이스",
-        "pods": "팟(Pod)"
+        "pods": "팟(Pod)",
+        "health": "상태",
+        "vMs": "VM",
+        "systems": "시스템",
+        "instances": "인스턴스",
+        "partitions": "파티션",
+        "memoryLimit": "메모리\n한계",
+        "adapters": "어댑터",
+        "vios": "Virtual I/O Server",
+        "memoryUsage": "메모리 사용량",
+        "cpuUsage": "CPU 사용량",
+        "esXiHosts": "ESXi 호스트",
+        "searchPlaceholderLabel": "플랫폼",
+        "viewAllLabel": "플랫폼"
       },
       "bizopsWidget": {
         "label": "비즈니스 모니터링",
         "name": "이름",
         "activities": "활동",
-        "count": "개수"
+        "started": "시작됨",
+        "health": "상태",
+        "searchPlaceholderLabel": "비즈니스 프로세스",
+        "viewAllLabel": "비즈니스 프로세스"
       },
       "incidentsWidget": {
         "label": "인시던트",
         "active": "활성",
         "title": "제목",
         "on": "On",
-        "started": "시작됨",
-        "end": "종료"
+        "started": "시작",
+        "end": "종료",
+        "severity": "심각도(Severity)",
+        "searchPlaceholderLabel": "인시던트",
+        "viewAllLabel": "인시던트"
       },
       "websitesWidget": {
         "label": "웹 사이트",
         "name": "이름",
         "pageViews": "페이지 보기 수",
-        "onLoadTimes": "OnLoad 시간"
+        "onLoadTimes": "OnLoad 시간",
+        "health": "상태",
+        "searchPlaceholderLabel": "웹 사이트",
+        "addButtonLabel": "웹 사이트",
+        "viewAllLabel": "웹 사이트"
       },
       "mobileAppsWidget": {
         "label": "모바일 앱",
         "name": "이름",
         "sessions": "세션",
-        "views": "보기"
+        "views": "보기",
+        "health": "상태",
+        "searchPlaceholderLabel": "모바일 앱",
+        "addButtonLabel": "모바일 앱(mobile app)",
+        "viewAllLabel": "모바일 앱"
       },
       "infrastructureWidget": {
         "label": "인프라",
         "mean": "평균",
         "name": "이름",
         "os": "OS",
+        "zones": "구역",
+        "hosts": "호스트",
+        "technologies": "기술",
         "cpuNum": "CPU 수",
         "cpuUsage": "CPU 사용량",
         "created": "작성일시",
-        "started": "시작됨"
+        "started": "시작됨",
+        "health": "상태",
+        "hostSearchPlaceholderLabel": "호스트",
+        "hostViewAllLabel": "호스트",
+        "containersSearchPlaceholderLabel": "containers",
+        "containersViewAllLabel": "containers",
+        "processesSearchPlaceholderLabel": "프로세스",
+        "processesViewAllLabel": "프로세스"
       },
       "syntheticWidget": {
         "label": "합성 모니터링",
@@ -514,13 +692,25 @@
         "lastTestRunOn": "마지막 테스트 실행 시간",
         "version": "버전",
         "timeThreshold": "시간 임계값",
-        "testsApplied": "적용된 테스트 수"
+        "testsApplied": "적용된 테스트 수",
+        "health": "상태",
+        "testSearchPlaceholderLabel": "합성 테스트",
+        "testAddButtonLabel": "합성 테스트",
+        "testViewAllLabel": "합성 테스트",
+        "locationsSearchPlaceholderLabel": "합성 위치",
+        "locationsViewAllLabel": "합성 위치",
+        "smartalertsSearchPlaceholderLabel": "합성 스마트 경보",
+        "smartalertsAddButtonLabel": "합성 스마트 경보",
+        "smartalertsViewAllLabel": "합성 스마트 경보"
       },
       "dashboardWidget": {
         "label": "내 사용자 정의 대시보드",
         "name": "이름",
         "owner": "소유자",
-        "permissions": "권한"
+        "permissions": "권한",
+        "searchPlaceholderLabel": "대시보드",
+        "addButtonLabel": "대시보드",
+        "viewAllLabel": "대시보드"
       }
     },
     "noData": {
@@ -535,25 +725,34 @@
       },
       "websitesWidget": {
         "header": "웹 사이트 없음",
-        "description": "웹 사이트 추가 및 데이터 수집 시작",
+        "description": "웹 사이트 데이터를 수집하여 사용자의 디지털 경험을 이해합니다.",
         "buttonName": "웹 사이트 추가"
       },
       "mobileListWidget": {
         "header": "모바일 앱 없음",
-        "description": "모바일 애플리케이션을 추가하고 데이터 수집을 시작하십시오.",
+        "description": "모바일 앱 데이터를 수집하여 사용자의 디지털 경험을 이해합니다.",
         "buttonName": "모바일 애플리케이션 추가"
       },
       "infrastructureWidget": {
-        "header": "호스트, 컨테이너 또는 프로세스 없음",
-        "description": "여기에서 배치된 에이전트의 결과를 찾으십시오."
+        "description": "여기에서 자세한 내용을 보려면 에이전트를 배치하십시오.<br><linkToAgents>에이전트</linkToAgents> 페이지에서 시작하십시오.",
+        "link": "에이전트",
+        "hosts": {
+          "header": "호스트 없음"
+        },
+        "docker": {
+          "header": "컨테이너 없음"
+        },
+        "process": {
+          "header": "프로세스 없음"
+        }
       },
       "platformsWidget": {
         "header": "플랫폼 없음",
-        "description": "여기서 설치된 모든 플랫폼을 찾으십시오."
+        "description": "아직 표시할 플랫폼이 없습니다."
       },
       "businessMonitoringWidget": {
         "header": "비즈니스 프로세스 없음",
-        "description": "IBM Business Automation Workflow를 사용으로 설정하거나 비즈니스 프로세스에서 비즈니스 데이터를 캡처하고 저장하도록 Instana를 구성하십시오."
+        "description": "비즈니스 프로세스에서 데이터를 캡처하고 저장하도록 Instana를 구성하십시오."
       },
       "syntheticWidget": {
         "test": {
@@ -563,13 +762,17 @@
         },
         "location": {
           "header": "합성 위치 없음",
-          "description": "특정 연속 간격으로 실행되도록 합성 위치를 구성하십시오."
+          "description": "합성 테스트가 실행될 합성 위치를 구성하십시오."
         },
         "smartalerts": {
           "header": "합성 스마트 경보 없음",
-          "description": "특정한 연속 간격으로 실행되도록 합성 스마트 경보를 구성하십시오.",
+          "description": "위치에 대한 테스트가 실패할 경우 경보를 보내도록 합성에 대한 스마트 경보를 구성하십시오.",
           "buttonName": "합성 스마트 경보 추가"
         }
+      },
+      "eventsWidget": {
+        "header": "이벤트 없음",
+        "description": "표시할 이벤트나 인시던트가 없거나 먼저 데이터를 설정해야 할 수 있습니다."
       },
       "dashboardWidget": {
         "header": "사용자 정의 대시보드 없음",
@@ -577,10 +780,25 @@
         "buttonName": "사용자 정의 대시보드 작성"
       }
     },
+    "quickLinks": {
+      "iconDescriptions": {
+        "settings": "설정",
+        "user": "사용자",
+        "externalLink": "외부 링크",
+        "resultNew": "새로운 결과",
+        "whatsNewLink": "새로운 기능 링크"
+      },
+      "buttonNames": {
+        "deployAgent": "에이전트 배치",
+        "addUser": "사용자 추가",
+        "documentation": "IBM 문서",
+        "releaseNotes": "릴리스 정보",
+        "whatsNewLink": "Instana의 새로운 기능"
+      }
+    },
     "ariaLabel": {
+      "search": "검색",
       "shareButton": "공유 단추",
-      "searchButton": "검색 단추",
-      "addButton": "추가 단추",
       "handleButton": "처리 단추"
     }
   },
@@ -592,7 +810,45 @@
   },
   "assistme": {
     "dataSearchContext": {
-      "gettingStarted": "시작하기"
+      "gettingStarted": "시작하기",
+      "websites": "웹 사이트",
+      "mobileApps": "모바일 앱(mobile app)",
+      "businessMonitoring": "비즈니스 모니터링",
+      "application": "애플리케이션",
+      "smartAlerts": "스마트 경보",
+      "infrastructureMap": "맵",
+      "cloudFoundry": "Cloud Foundry 모니터링",
+      "powerHmc": " IBM 전원 모니터링",
+      "kubernetes": "kubernetes",
+      "sap": "SAP 모니터링",
+      "synthetic": "합성 모니터링",
+      "syntheticAlerts": "합성 경보",
+      "syntheticPop": "합성 PoP",
+      "serviceLevel": "서비스 레벨",
+      "installAgent": "에이전트 설치",
+      "analyzeCalls": "추적 및 호출 분석",
+      "settingsTab": "사용자 액세스 관리",
+      "userSettings": "사용자 설정",
+      "securityAndAccess": "보안 및 액세스 구성",
+      "auditLogs": "감사 로그 보기",
+      "automation": "조치 관리",
+      "customEvents": "사용자 정의 이벤트 정의",
+      "configuringAlerts": "경보 구성",
+      "alertChannel": "경보 채널",
+      "maintenanceWindow": "스케줄링",
+      "customPayload": "사용자 정의 페이로드",
+      "eventsPage": "이벤트 관리",
+      "logManagement": "로깅",
+      "configuringAndMonitoring": "구성 및 모니터링",
+      "customDashboard": "사용자 정의 대시보드"
     }
+  },
+  "userGoalSelectionDialog": {
+    "title": "목표가 무엇입니까?",
+    "description": "Instana에 오신 것을 환영합니다! 이 평가판의 주요 목표를 공유하여 더 나은 경험을 제공할 수 있도록 도와주십시오. 해당되는 항목을 모두 선택하십시오.",
+    "skip": "건너뛰기",
+    "done": "완료",
+    "otherGoalPlaceholder": "예를 들어, 내 환경 전반에 대한 가시성 확보",
+    "otherGoalToAccomplish": "달성하려는 또 다른 목표는 무엇입니까?"
   }
 }

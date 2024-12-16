@@ -3,14 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { isEqual } from 'lodash';
 
 import { create } from '@instana/observables';
 
+// @ts-expect-error needs ts migration
+import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
+import { CustomDashboardContext } from 'in-custom-dashboards/CustomDashboard/CustomDashboardContext';
 import ExternallyDefinedWidthAndHeight from 'in-components/layout/ExternallyDefinedWidthAndHeight';
 import { HEIGHT as commonLegendHeight } from 'in-components/Chart/components/Legend';
 import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import ChartOverlay from 'in-components/Chart/components/ChartOverlay';
 import ChartLegend from 'in-components/Chart/components/ChartLegend';
 import useResizeObserver from 'in-hooks/useResizeObserver';
@@ -63,11 +68,15 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
     onLegendItemToggle
   } = props;
 
+  const { setExportWidgetId, setTooltipRef, setShouldExportWidget } = useContext(CustomDashboardContext);
   const [preAndPostContentConfig, setPreAndPostContentConfig] = useState();
 
   const { ref: legendRef, height: calculatedLegendHeight } = useResizeObserver();
   const { ref: preContentRef, height: calculatedPreContentHeight = 0 } = useResizeObserver();
   const { ref: postContentRef, height: calculatedPostContentHeight = 0 } = useResizeObserver();
+
+  const { matchLocation } = useNavigation();
+  const { trackCta } = useSegmentTracking();
 
   const actualLegendHeight = calculatedLegendHeight ?? commonLegendHeight;
   let chartHeight = heightOfWrapper - actualLegendHeight;
@@ -171,6 +180,11 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
               nonInteractive={nonInteractive}
               wiggleRoom={wiggleRoom}
               disableChartInLive={disableChartInLive}
+              isCustomDashboard={matchLocation(customDashboardsPath)}
+              setExportWidgetId={setExportWidgetId}
+              setShouldExportWidget={setShouldExportWidget}
+              setTooltipRef={setTooltipRef}
+              trackCta={trackCta}
               isHighlightedOnDisabledChart$={isHighlightedOnDisabledChart$}
             />
           )}

@@ -7,7 +7,8 @@ import React from 'react';
 
 import {
   getSimpleModeBlueprintConfig,
-  simpleModeBlueprintConfigs
+  simpleModeBlueprintConfigs,
+  idFromBluePrint
 } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import SimpleAlertConfigDialogChart from 'in-alerting/smart-alerts/websites/dialog/simple/SimpleAlertConfigDialogChart';
 import { BlueprintDescription, BlueprintText } from 'in-alerting/smart-alerts/components/dialog/BlueprintDescription';
@@ -20,7 +21,7 @@ import ProvideStatusCode from 'in-alerting/smart-alerts/eum/components/ProvideSt
 import ProvideJsError from 'in-alerting/smart-alerts/websites/components/ProvideJsError';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
 import { eumType } from 'in-alerting/smart-alerts/websites/constants';
-import Menu from 'in-components/Menu';
+import SideRadioMenu from 'in-components/SideRadioMenu';
 import { t } from 'in-i18n';
 
 export default function SimpleAlertConfigDialogStep1({
@@ -41,13 +42,13 @@ export default function SimpleAlertConfigDialogStep1({
     <SimpleModeStepContentWrapper
       headline={t('in-alerting:smartAlerts.websites.simple.simpleAlertConfigDialogStep1Headline')}
     >
-      <Menu
-        items={simpleModeBlueprintConfigs}
-        onItemClick={item => {
+      <SideRadioMenu
+        items={simpleModeBlueprintConfigs.map(x => ({ id: idFromBluePrint(x), name: x.name }))}
+        onChange={bluePrintId => {
+          const item = simpleModeBlueprintConfigs.find(i => bluePrintId === idFromBluePrint(i));
           updateForm(createBlueprintForm(form, item.type, item.thresholdDefaults, true));
         }}
-        initialItemSelected={blueprintConfig}
-        addRightSeparator
+        valueSelected={idFromBluePrint(blueprintConfig)}
       />
 
       <AlertTypeSwitch

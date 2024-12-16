@@ -6,6 +6,11 @@
 import React from 'react';
 
 import IncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/IncludeInternalOrSyntheticCallsSwitch/IncludeInternalOrSyntheticCallsSwitch';
+import {
+  smartAlertsLogsBlueprintEnabled,
+  alertChannelPerSeverityApplicationSaEnabled,
+  oneMinuteGranularityForStaticThresholdEnabled
+} from 'in-services/featureFlags';
 import InboundOutboundCallsSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/InboundOutboundCallsSwitch';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
 import TimeThresholdConfigPresenter from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/TimeThresholdConfigPresenter';
@@ -15,10 +20,7 @@ import {
   fieldTouchedAndInvalid,
   isCustomPayloadValidOrUntouched
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
-import {
-  smartAlertsLogsBlueprintEnabled,
-  oneMinuteGranularityForStaticThresholdEnabled
-} from 'in-services/featureFlags';
+import ConfigureAlertChannelMT from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/ConfigureAlertChannel';
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/applications/dialog/advanced/BluePrintSelectionSection';
 import { ApplicationAlertPreview } from 'in-alerting/smart-alerts/applications/dialog/advanced/ApplicationAlertPreview';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
@@ -61,13 +63,11 @@ export default function AdvancedModeContainer(props) {
     initialConfiguredApplications = {}
   } = props;
   const description = form.get('description').value;
-  const severity = Number(form.get('severity').value);
   const triggering = form.get('triggering').value;
   const evaluationType = form.get('evaluationType').value;
   const ruleForm = form.get('rule');
   const alertType = ruleForm.get('alertType').value;
-  const thresholdType = form.get('threshold').get('type').value;
-
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const blueprintConfig = getBlueprintConfig(alertType);
   const blueprintConfigList =
     smartAlertsLogsBlueprintEnabled || blueprintConfig?.type === 'logs'
@@ -75,8 +75,6 @@ export default function AdvancedModeContainer(props) {
       : blueprintConfigs.filter(config => config?.type !== 'logs');
 
   const ruleComplete = blueprintConfig?.isRuleComplete(ruleForm.toJS());
-
-  const alertConfigWithFormModel = blueprintConfig.enrichWithDefaultThresholdValues(form.toJS());
 
   const isLogsBlueprint = blueprintConfig.type === 'logs';
   const isStatusCodeBluePrint = blueprintConfig.type === 'statusCode';
@@ -107,7 +105,13 @@ export default function AdvancedModeContainer(props) {
               withoutPadding
               darkFrame
             >
-              <StaticOrAdaptiveSwitch form={form} setForm={updateForm} onThresholdTypeChange={onThresholdTypeChange} />
+              <StaticOrAdaptiveSwitch
+                form={form}
+                setForm={updateForm}
+                onThresholdTypeChange={onThresholdTypeChange}
+                editMode={editMode}
+                isMultiThreshold
+              />
             </LightCard>
           )}
         </>
@@ -120,7 +124,12 @@ export default function AdvancedModeContainer(props) {
       valid: form.get('applications')?.valid && isTagFilterFormModelValid,
       content: (
         <>
-          <AlertEvaluationControl form={form} updateForm={updateForm} isGlobalSmartAlert={isGlobalSmartAlert} />
+          <AlertEvaluationControl
+            form={form}
+            updateForm={updateForm}
+            isGlobalSmartAlert={isGlobalSmartAlert}
+            editMode={editMode}
+          />
           <InboundOutboundCallsSwitch form={form} updateForm={updateForm} isGlobalSmartAlert={isGlobalSmartAlert} />
           <IncludeInternalOrSyntheticCallsSwitch
             form={form}
@@ -148,7 +157,6 @@ export default function AdvancedModeContainer(props) {
       content: (
         <>
           <ThresholdSection
-            alertConfigWithFormModel={alertConfigWithFormModel}
             alertType={alertType}
             blueprintConfig={blueprintConfig}
             editMode={editMode}
@@ -188,13 +196,26 @@ export default function AdvancedModeContainer(props) {
       title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.alertChannel.title'),
       valid: true,
       content: (
-        <ConfigureAlertChannel
-          form={form}
-          onChange={onChange}
-          setSliderState={setSliderState}
-          setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-          numberOfAlertChannelListRows={7}
-        />
+        <>
+          {alertChannelPerSeverityApplicationSaEnabled ? (
+            <ConfigureAlertChannelMT
+              form={form}
+              onChange={onChange}
+              updateForm={updateForm}
+              setSliderState={setSliderState}
+              setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+              numberOfAlertChannelListRows={5}
+            />
+          ) : (
+            <ConfigureAlertChannel
+              form={form}
+              onChange={onChange}
+              setSliderState={setSliderState}
+              setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+              numberOfAlertChannelListRows={5}
+            />
+          )}
+        </>
       )
     },
     {
@@ -218,6 +239,7 @@ export default function AdvancedModeContainer(props) {
                   getTitlePlaceholder={getTitlePlaceholder}
                 />
               )}
+              shouldDisplayAlertLevelSelection={false}
             />
           )}
           renderAlertPreview={() => (
@@ -226,7 +248,6 @@ export default function AdvancedModeContainer(props) {
               description={description}
               applicationLabel={applicationLabel}
               evaluationType={evaluationType}
-              severity={severity}
               triggering={triggering}
             />
           )}
@@ -256,7 +277,7 @@ export default function AdvancedModeContainer(props) {
   return <StepsContainer messages={messages} navItems={navItems} />;
 
   function isThresholdSectionValid() {
-    if (fieldTouchedAndInvalid(form.get('threshold')?.get('value'))) {
+    if (fieldTouchedAndInvalid(form.get('threshold'))) {
       return false;
     }
     if (thresholdType === HISTORIC_BASELINE && !isTagFilterFormModelValid) {

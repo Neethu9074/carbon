@@ -3,18 +3,23 @@
  * (c) Copyright Instana Inc.
  */
 
+import { fromJS } from 'immutable';
 import { Map } from 'immutable';
 import { get } from 'lodash';
 
 import { themes } from '@instana/design-tokens';
 
+// eslint-disable-next-line no-restricted-imports
+import { carbonAlert } from 'in-themes/chartColors';
 import createTotalRawEventsSubscription from 'in-subscription/totalRawEventsCount';
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createHealthInfoSubscription from 'in-subscription/healthInfo';
 import createEventObservable from 'in-subscription/event';
 import { emptyList } from 'in-services/fixedImmutables';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
 import { createStore } from 'in-stores/store';
+import http from 'in-services/http';
 import { t } from 'in-i18n';
 
 const noProblemsHealthInfo = Map({
@@ -61,6 +66,9 @@ export function getHealthInfo(snapshotId, timeConfig) {
 }
 
 export function getEvent(eventId) {
+  if (!eventId) {
+    return alwaysNull;
+  }
   return createEventObservable({ eventId });
 }
 
@@ -132,13 +140,23 @@ export function getNearestEvent(events, timestamp, maxDistance = Number.MAX_VALU
 
 export function getColor({ event, timeConfig, defaultColor }) {
   const isImmutableObject = !!event.get;
-  const severity = isImmutableObject
-    ? event.getIn(['problem', 'severity'], 0)
-    : get(event, ['problem', 'severity'], event.severity || 0);
+  const isCVEEvent = isImmutableObject ? event.getIn(['metadata', 'cve']) : event.metadata?.cve;
+
+  let color;
+  if (isCVEEvent) {
+    const severity = isImmutableObject
+      ? event.getIn(['metadata', 'cve', 'severity'], '')
+      : get(event, ['metadata', 'cve', 'severity'], event.metadata.cve?.severity || '');
+    color = getColorBySeverity(severity, { defaultColor, isCVE: true });
+  } else {
+    const severity = isImmutableObject
+      ? event.getIn(['problem', 'severity'], 0)
+      : get(event, ['problem', 'severity'], event.severity || 0);
+    color = getColorBySeverity(severity, { defaultColor });
+  }
   const start = isImmutableObject ? event.get('start') : event.start;
   const end = isImmutableObject ? event.get('end') : event.end;
   const state = isImmutableObject ? event.get('state') : event.state;
-  const color = getColorBySeverity(severity, { defaultColor });
 
   if (isEventOpenAtFocusedMoment(start, end, state, timeConfig)) {
     return color;
@@ -156,6 +174,7 @@ export const healthColors = [
   '#eae18a',
   '#f1e05c',
   '#f8df2e',
+  '#FFC600',
   '#ffde00',
   '#ffbf08',
   '#ffa010',
@@ -165,6 +184,14 @@ export const healthColors = [
 ];
 
 export function getColorBySeverity(severity, params = {}) {
+  if (params.isCVE) {
+    const cveSeverityMap = {
+      Low: carbonAlert.yellow30,
+      Warning: carbonAlert.orange40,
+      Critical: carbonAlert.red60
+    };
+    return cveSeverityMap[severity] || params.defaultColor;
+  }
   if (severity > 0 && severity <= 1) {
     // 0.51 -> 5.1
     severity = severity * 10;
@@ -175,6 +202,11 @@ export function getColorBySeverity(severity, params = {}) {
     return params.defaultColor;
   }
   return healthColors[Math.max(0, severity) | 0];
+}
+
+// Depending on the severity level, return the proper icon associated
+export function getDesignLibrarySeverityIcon(severity) {
+  return severity > 5 ? 'lib_help_error_error_circle' : 'lib_help_error_warning';
 }
 
 export function getDesignLibraryColorBySeverity(severity, fallback = '#92A5AE') {
@@ -199,7 +231,9 @@ export const EVENT_TYPES = {
   CHANGE: 0,
   ISSUE_WARNING: 1,
   ISSUE_CRITICAL: 2,
-  INCIDENT: 4
+  INCIDENT: 4,
+  CVE_ISSUE: 5,
+  AGENT_MONITORING_ISSUE: 6
 };
 
 export function getIcon(eventType) {
@@ -210,6 +244,8 @@ export function getIcon(eventType) {
       return 'lib_events_critical';
     case EVENT_TYPES.INCIDENT:
       return 'lib_events_incident';
+    case EVENT_TYPES.CVE_ISSUE:
+      return 'lib_events_cve';
     default:
       return 'lib_events_change';
   }
@@ -217,16 +253,41 @@ export function getIcon(eventType) {
 
 export function getEventSeverityLabel(event) {
   const isImmutableObject = !!event.get;
-  const severity = isImmutableObject
-    ? event.getIn(['problem', 'severity'], 0)
-    : get(event, ['problem', 'severity'], event.severity || 0);
-  switch (severity) {
-    case 5:
-      return t('in-events:labelWarning');
-    case 10:
-      return t('in-events:labelCritical');
-    default:
-      return '';
+  const eventType = isImmutableObject
+    ? event.getIn(['problem', 'type'], '')
+    : get(event, ['problem', 'type'], event.type || '');
+
+  let severity;
+  if (eventType === 'cve_issue') {
+    severity = isImmutableObject
+      ? event.getIn(['metadata', 'cve', 'severity'], '')
+      : get(event, ['metadata', 'cve', 'severity'], event.metadata?.cve.severity || '');
+  } else {
+    severity = isImmutableObject
+      ? event.getIn(['problem', 'severity'], 0)
+      : get(event, ['problem', 'severity'], event.severity || 0);
+  }
+
+  if (eventType === 'cve_issue') {
+    switch (severity) {
+      case 'Critical':
+        return t('in-events:labelCritical');
+      case 'Warning':
+        return t('in-events:labelWarning');
+      case 'Low':
+        return t('in-events:labelLow');
+      default:
+        return '';
+    }
+  } else {
+    switch (severity) {
+      case 5:
+        return t('in-events:labelWarning');
+      case 10:
+        return t('in-events:labelCritical');
+      default:
+        return '';
+    }
   }
 }
 
@@ -281,6 +342,9 @@ export function getEventType(event) {
     case 'change':
       return EVENT_TYPES.CHANGE;
     case 'agent_monitoring_issue': // can be handled just as any other issue in the UI
+      return EVENT_TYPES.AGENT_MONITORING_ISSUE;
+    case 'cve_issue':
+      return EVENT_TYPES.CVE_ISSUE;
     case 'issue': {
       const severity = isImmutableObject
         ? event.getIn(['problem', 'severity'], 0)
@@ -295,6 +359,52 @@ export function getEventType(event) {
   }
 }
 
-export function getServiceIds(event) {
-  return event.getIn(['metadata', 'serviceIds'], []);
+export function annotateEvent(note) {
+  const obj = http({
+    method: 'PUT',
+    maxRetries: 3,
+    url: '/api/notes/annotate-event',
+    headers: getCsrfHeader(),
+    data: {
+      parent: note.incidentId,
+      timestamp: Date.now(),
+      type: 'note',
+      author: note.author,
+      authorId: note.authorId,
+      action: note.action,
+      contents: (note.contents && note.contents.trim()) || undefined,
+      currentId: note.currentId || undefined,
+      metadata: note.metadata || undefined
+    }
+  });
+  return obj.map(response => fromJS(response.body)).once();
+}
+
+// Trigger an ai summary generation for the particular noteID
+export function generateJournalSummary(incidentId) {
+  const obj = http({
+    method: 'POST',
+    maxRetries: 3,
+    url: `/api/journal/ai-summary/${incidentId}`,
+    headers: getCsrfHeader()
+  });
+  return obj.map(response => fromJS(response.body)).once();
+}
+
+export function shareEventSummary(incidentId, recipients, timestamp, sender, subject, body, link) {
+  const obj = http({
+    method: 'POST',
+    maxRetries: 3,
+    url: `/api/journal/ai-summary/${incidentId}/share-result`,
+    headers: getCsrfHeader(),
+    data: {
+      recipients: recipients,
+      timestamp: timestamp,
+      sender: sender,
+      subject: subject,
+      content: body,
+      link: link
+    }
+  });
+  return obj.map(response => response.body);
 }

@@ -29,18 +29,60 @@ import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
 
 export default function RemoteHostDashboard({ snapshot, timeConfig }) {
+  const suppportedCpuMetrics = {
+    'cpu.user': t('in-forge:plugins.host.dashboard.user'),
+    'cpu.sys': t('in-forge:plugins.host.dashboard.system'),
+    'cpu.wait': t('in-forge:plugins.host.dashboard.wait'),
+    'cpu.nice': t('in-forge:plugins.host.dashboard.nice'),
+    'cpu.steal': t('in-forge:plugins.host.dashboard.steal')
+  };
+
+  const cpuAllMetric = 'cpu.all';
+  let cpuMetriconKpiSelection = 'cpu.used';
+  let cpuMetrics = [];
+  let cpuMetricLabels = [];
+
+  if (snapshot.get('metricIds').includes(cpuAllMetric)) {
+    cpuMetriconKpiSelection = cpuAllMetric;
+    cpuMetrics.push(cpuAllMetric);
+    cpuMetricLabels.push(t('in-forge:plugins.host.dashboard.cpu'));
+  }
+
+  if (cpuMetrics.length === 0) {
+    for (let metric of snapshot.get('metricIds')) {
+      if (metric.startsWith('cpu') && metric in suppportedCpuMetrics) {
+        cpuMetrics.push(metric);
+        cpuMetricLabels.push(suppportedCpuMetrics[metric]);
+      }
+    }
+  }
+
+  let hasCpuMetrics = cpuMetrics.length > 0;
+  let hasCpuUsage = snapshot.get('metricIds').includes(cpuMetriconKpiSelection);
+  let hasCpuLoad = snapshot.get('metricIds').includes('load.1min');
+  let hasMemUsed = snapshot.get('metricIds').includes('memory.used');
+  let hasContextSwitch = snapshot.get('metricIds').includes('ctxt');
+
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label={t('in-forge:plugins.host.dashboard.cpuUsage')}>
-          <MetricValue snapshotId={snapshot.get('id')} metric="cpu.used" formatter={percentageZeroDecimalPlaces} />
-        </KpiKeyValue>
+        {hasCpuUsage && (
+          <KpiKeyValue label={t('in-forge:plugins.host.dashboard.cpuUsage')}>
+            <MetricValue
+              snapshotId={snapshot.get('id')}
+              metric={cpuMetriconKpiSelection}
+              formatter={percentageZeroDecimalPlaces}
+            />
+          </KpiKeyValue>
+        )}
 
-        <KpiKeyValue label={t('in-forge:plugins.host.dashboard.memoryUsage')}>
-          <MetricValue snapshotId={snapshot.get('id')} metric="memory.used" formatter={percentageZeroDecimalPlaces} />
-        </KpiKeyValue>
+        {hasMemUsed && (
+          <KpiKeyValue label={t('in-forge:plugins.host.dashboard.memoryUsage')}>
+            <MetricValue snapshotId={snapshot.get('id')} metric="memory.used" formatter={percentageZeroDecimalPlaces} />
+          </KpiKeyValue>
+        )}
 
-        {!(isWindows(snapshot) || isZos(snapshot)) && (
+        {hasCpuLoad && !(isWindows(snapshot) || isZos(snapshot)) && (
           <KpiKeyValue label={t('in-forge:plugins.host.dashboard.cpuLoad')}>
             <MetricValue snapshotId={snapshot.get('id')} metric="load.1min" formatter={twoDecimalPlaces} />
           </KpiKeyValue>
@@ -48,29 +90,25 @@ export default function RemoteHostDashboard({ snapshot, timeConfig }) {
       </KpiSection>
 
       <Columize>
-        <DashboardSection title={t('in-forge:plugins.host.dashboard.cpuUsage')}>
-          <Chart
-            snapshotId={snapshot.get('id')}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              max: 1,
-              formatter: percentageZeroDecimalPlaces,
-              metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal'],
-              labels: [
-                t('in-forge:plugins.host.dashboard.user'),
-                t('in-forge:plugins.host.dashboard.system'),
-                t('in-forge:plugins.host.dashboard.wait'),
-                t('in-forge:plugins.host.dashboard.nice'),
-                t('in-forge:plugins.host.dashboard.steal')
-              ],
-              type: 'stackedArea'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
+        {hasCpuMetrics && (
+          <DashboardSection title={t('in-forge:plugins.host.dashboard.cpuUsage')}>
+            <Chart
+              snapshotId={snapshot.get('id')}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                max: 1,
+                formatter: percentageZeroDecimalPlaces,
+                metrics: cpuMetrics,
+                labels: cpuMetricLabels,
+                type: 'stackedArea'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+        )}
 
-        {isLinux(snapshot) && (
+        {isLinux(snapshot) && hasContextSwitch && (
           <DashboardSection title={t('in-forge:plugins.host.dashboard.contextSwitches')}>
             <Chart
               snapshotId={snapshot.get('id')}
@@ -86,7 +124,7 @@ export default function RemoteHostDashboard({ snapshot, timeConfig }) {
           </DashboardSection>
         )}
 
-        {!(isWindows(snapshot) || isZos(snapshot)) && (
+        {!(isWindows(snapshot) || isZos(snapshot)) && hasCpuLoad && (
           <DashboardSection title={t('in-forge:plugins.host.dashboard.cpuLoad')}>
             <Chart
               snapshotId={snapshot.get('id')}
@@ -106,36 +144,38 @@ export default function RemoteHostDashboard({ snapshot, timeConfig }) {
         )}
       </Columize>
 
-      <DashboardSection title={t('in-forge:plugins.host.dashboard.memory')}>
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            max: 1,
-            formatter: percentageZeroDecimalPlaces,
-            tooltipFormatter: percentageTwoDecimalPlaces,
-            metrics: ['memory.used'],
-            labels: [t('in-forge:plugins.host.dashboard.used')],
-            type: 'stackedArea'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-        {isLinux(snapshot) && (
+      {hasMemUsed && (
+        <DashboardSection title={t('in-forge:plugins.host.dashboard.memory')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              formatter: bytes.detailed,
-              metrics: ['memory.swapTotal', 'memory.swapFree'],
-              labels: [t('in-forge:plugins.host.dashboard.swapTotal'), t('in-forge:plugins.host.dashboard.swapFree')],
-              type: 'line'
+              max: 1,
+              formatter: percentageZeroDecimalPlaces,
+              tooltipFormatter: percentageTwoDecimalPlaces,
+              metrics: ['memory.used'],
+              labels: [t('in-forge:plugins.host.dashboard.used')],
+              type: 'stackedArea'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
-        )}
-      </DashboardSection>
+          {isLinux(snapshot) && (
+            <Chart
+              snapshotId={snapshot.get('id')}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: bytes.detailed,
+                metrics: ['memory.swapTotal', 'memory.swapFree'],
+                labels: [t('in-forge:plugins.host.dashboard.swapTotal'), t('in-forge:plugins.host.dashboard.swapFree')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          )}
+        </DashboardSection>
+      )}
 
       <FilesystemsTable snapshot={snapshot} timeConfig={timeConfig} />
 

@@ -21,7 +21,7 @@ export default function AdaptiveBaselineErrorMessage({ thresholdResult }: Props)
   // this has priority then:
   if (thresholdResult?.data?.message) {
     return (
-      <Message type="neutral" iconColor={themes.default.ids.color.option.neutral['800']} withIcon>
+      <Message type="neutral" iconColor={themes.default.ids.color.option.neutral['800']} withIcon fullInlineWidth>
         <Trans i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.adaptiveBaselineErrorMessageInsufficientDataToCompute" />
       </Message>
     );
@@ -29,7 +29,7 @@ export default function AdaptiveBaselineErrorMessage({ thresholdResult }: Props)
 
   if (thresholdResult && hasError(thresholdResult)) {
     return (
-      <Message type="neutral" iconColor={themes.default.ids.color.option.neutral['800']} withIcon>
+      <Message type="neutral" iconColor={themes.default.ids.color.option.neutral['800']} withIcon fullInlineWidth>
         <Trans i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.adaptiveBaselineErrorMessage" />
       </Message>
     );

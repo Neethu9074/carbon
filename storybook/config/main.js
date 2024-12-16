@@ -4,17 +4,20 @@
  */
 
 /* eslint-env node */
+const path = require('path'); // Import the path module
 
 module.exports = {
   stories: [
     {
       directory: '../../storybook',
       titlePrefix: 'Getting Started',
-      files: '*.story.mdx'
+      files: '*.stories.mdx'
     },
-    '../../packages/**/*.story.@(js|jsx|ts|tsx|mdx)'
+    '../../packages/**/*.(story|stories).@(js|jsx|ts|tsx|mdx)'
   ],
+  staticDirs: ['../public'],
   core: {
+    disableTelemetry: true,
     builder: 'webpack5',
     options: {
       lazyCompilation: true,
@@ -22,17 +25,25 @@ module.exports = {
     }
   },
   refs: {
-    'design-system': {
-      title: 'Instana Design System',
-      url: 'https://pages.github.ibm.com/instana/ui-foundation/'
+    'design-system-dev': {
+      title: 'Instana Design System dev',
+      url: './ui-foundation/build'
     }
   },
-  framework: '@storybook/react',
-  addons: ['@storybook/addon-essentials'],
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: { fastRefresh: true }
+  },
+  addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-docs', '@storybook/addon-a11y'],
   typescript: {
     reactDocgen: 'react-docgen-typescript-plugin'
   },
-  features: {
-    emotionAlias: false
+  webpackFinal(config) {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      react: path.resolve(__dirname, '../node_modules/react'),
+      'react-dom': path.resolve(__dirname, '../node_modules/react-dom')
+    };
+    return config;
   }
 };

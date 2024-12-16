@@ -21,6 +21,7 @@ import AgentzoneLister from 'in-plg/components/AgentzoneLister/AgentzoneLister';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import Code from 'in-plg/components/Code/Code';
 import { Trans, t } from 'in-i18n';
 
@@ -55,6 +56,8 @@ export default function OpenshiftOperator({
     }
   ];
 
+  if (shareAndInviteEnabled) sideCardData.pop();
+
   const updateAgentZone = (agent: string) => {
     setAgentZone(agent);
   };
@@ -83,7 +86,7 @@ export default function OpenshiftOperator({
           <Stack direction="horizontal">
             <KeyValue
               label={t('in-plg:agentDetails.common.clusterName')}
-              value={<FormInputPlg onChange={value => setClusterName(value)} />}
+              value={<FormInputPlg onChange={value => setClusterName(value)} maxLength={65} />}
               withGap
             />
             <AgentzoneLister callBackFunc={updateAgentZone} />
@@ -97,11 +100,7 @@ export default function OpenshiftOperator({
                 i18nKey="in-plg:agentDetails.openshift.instructions.operator.configureCustomYamlFileSubtext1"
                 components={{
                   installOperatorDoc: (
-                    <a
-                      href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host-agent-kubernetes#install-operator-manually"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    />
+                    <a href="https://ibm.biz/rhosagent-install-manual" rel="noopener noreferrer" target="_blank" />
                   )
                 }}
               />
@@ -123,7 +122,7 @@ export default function OpenshiftOperator({
                 components={{
                   networkAccess: (
                     <a
-                      href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host-agent-kubernetes#configure-network-access-for-monitored-applications"
+                      href="https://ibm.biz/config-network-access-monitored-apps"
                       rel="noopener noreferrer"
                       target="_blank"
                     />

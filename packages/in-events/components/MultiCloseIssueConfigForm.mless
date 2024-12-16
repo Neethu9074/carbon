@@ -1,0 +1,29 @@
+/*
+ * (c) Copyright IBM Corp. 2024
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .dialog {
+    max-height: 32rem;
+    padding-bottom: 4rem;
+    width: 42rem;
+  }
+  .description {
+    color: var(--ids-color-option-neutral-600);
+  }
+
+  .comments {
+    margin: 0 0 0 0rem;
+  }
+
+  .commentsTextArea {
+    width: 100%;
+  }
+  .red {
+    color: var(--ids-color-option-red-500);
+  }
+  .warningBox {
+    width: 100%;
+  }
+}

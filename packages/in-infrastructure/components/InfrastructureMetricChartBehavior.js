@@ -9,13 +9,14 @@ import React from 'react';
 import { create } from '@instana/observables';
 
 import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
-import { getInfraGranularity, getMetricsForTimeframe } from 'in-stores/metric';
+import { timeConfigShiftedForIngestion } from 'in-stores/time/config';
 import createDataHolder from 'in-components/Chart/data/dataHolder';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
-import { timeConfigWithShift } from 'in-stores/time/config';
+import { getMetricsForTimeframe } from 'in-stores/metric';
 import createQueue from 'in-components/Chart/data/queue';
+import { getInfraGranularity } from 'in-stores/metric';
 
 // we don't need to open subscriptions on the componentDidMount. This is because the getElementDimensions hoc
 // needs to calculate the dimensions of the chart first. The hoc will definitely set a state which results in a
@@ -84,14 +85,11 @@ class InfrastructureMetricChartBehavior extends React.Component {
       originalTimeConfig,
       snapshotId,
       snapshotHostFqdn,
-      hasActionlane = false
+      hasActionlane = false,
+      distanceBetweenDatapointsInMillis
     } = props;
 
-    // When displaying metrics until now, the ingestion pipeline has not had time to fully ingest entities
-    // Ingestion time is about 10s, so charts should not go further than present time - 10s to avoid drops at end of charts due to incomplete ingestion
-    const timeSkew = 10000;
-
-    this.timeConfig = timeConfigWithShift(timeConfig, timeSkew);
+    this.timeConfig = timeConfigShiftedForIngestion(timeConfig);
     const defaultGranularity = getInfraGranularity(this.timeConfig, minRollup);
     this.granularity = props.minPixelsPerBlock
       ? getPredefinedBlockSizeMillisForBlockSize(
@@ -114,6 +112,7 @@ class InfrastructureMetricChartBehavior extends React.Component {
     this.snapshotId = snapshotId;
     this.snapshotHostFqdn = snapshotHostFqdn;
     this.hasActionlane = hasActionlane;
+    this.distanceBetweenDatapointsInMillis = distanceBetweenDatapointsInMillis;
   };
 
   createQueuesAndDataHolders = () => {
@@ -245,7 +244,8 @@ class InfrastructureMetricChartBehavior extends React.Component {
       additionalContextMenuButtons,
       snapshotId,
       snapshotHostFqdn,
-      hasActionlane
+      hasActionlane,
+      distanceBetweenDatapointsInMillis
     } = this;
     const { y1Metrics = [], y2Metrics = [] } = this.state;
 
@@ -271,6 +271,7 @@ class InfrastructureMetricChartBehavior extends React.Component {
         originalTimeConfig={originalTimeConfig ?? this.props.timeConfig}
         additionalContextMenuButtons={additionalContextMenuButtons}
         wiggleRoom={10000}
+        distanceBetweenDatapointsInMillis={distanceBetweenDatapointsInMillis}
       />
     );
   }

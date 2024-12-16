@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -9,8 +9,8 @@ import React from 'react';
 import { AggregationType, KubernetesWorkloadController, ResultType, TimeConfig } from '@instana/types';
 
 import {
-  LogsChartInteractionWrapper,
   andQuery,
+  LogsChartInteractionWrapper,
   tagEquals
 } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 // @ts-expect-error
@@ -20,17 +20,17 @@ import KubernetesTimeShiftChartPresenter from 'in-kubernetes/Dashboards/commonCo
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 // @ts-expect-error
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
-import { zeroDecimalPlaces, timeByMillisTwoDecimalPlaces, number } from 'in-services/formatters/number';
+import { number, timeByMillisTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { useDeploymentDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
-import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
+import { summaryTab, useDeploymentDashboard } from 'in-kubernetes/navigation/paths';
+import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { k8sChartColors } from 'in-kubernetes/components/K8sChartColors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { getChartGranularity } from 'in-stores/metric';
-import { Row, Col } from 'in-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
@@ -46,7 +46,7 @@ export default function Summary({ timeConfig, data: deployment }: SummaryProps) 
   const timeShift = useTimeShiftConfig();
   const snapshotId = deployment.id;
 
-  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('deployment', snapshotId, timeConfig);
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('kubernetes.deployment', snapshotId, timeConfig);
 
   const { usage, limits, requests, pending, allocated, unscheduled, unready, available, desired } = k8sChartColors;
 
@@ -90,7 +90,6 @@ export default function Summary({ timeConfig, data: deployment }: SummaryProps) 
   return (
     <>
       <MissingK8sPermissions resourceSnapshotId={deployment.id} timeConfig={timeConfig} />
-
       <Row>
         <Col lg={2}>
           <BigNumberKpiCard
@@ -163,7 +162,6 @@ export default function Summary({ timeConfig, data: deployment }: SummaryProps) 
           />
         </Col>
       </Row>
-
       <Row>
         <Col lg={4}>
           <KubernetesTimeShiftChartPresenter
@@ -277,13 +275,11 @@ export default function Summary({ timeConfig, data: deployment }: SummaryProps) 
           />
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
           <LogsChartInteractionWrapper tagFilterExpression={logsChartQuery} timeConfig={timeConfig} />
         </Col>
       </Row>
-
       <Row>
         <Col lg={6}>
           <KubernetesTimeShiftChartPresenter
@@ -335,7 +331,6 @@ export default function Summary({ timeConfig, data: deployment }: SummaryProps) 
           />
         </Col>
       </Row>
-
       <Row>
         <Col lg={12}>
           <ConditionsTableCard conditions={deployment.conditions} viewAllHref={viewAllHref} />

@@ -6,7 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { SeverityIndicatorCellContentWrapper } from '@instana/components';
+import { SeverityIndicatorCellContentWrapper } from '@instana/legacy';
 import { TableEntityCounter } from '@instana/legacy';
 import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
@@ -16,7 +16,6 @@ import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components
 import { getTimeConfigAlignedToResultTime, urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/CreateGlobalSmartAlertButton';
 import ApplicationsNoDataNotification from 'in-applications/lists/components/ApplicationsNoDataNotification';
-import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 import { applicationsList, useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
@@ -24,7 +23,6 @@ import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingAc
 import { getApplicationsWithDefaults } from 'in-applications/subscriptions/getApplications';
 import { applicationListPrefix as matrixPrefix } from 'in-applications/navigation/matrix';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
-import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import ScopeNotification from 'in-applications/lists/components/ScopeNotification';
@@ -173,6 +171,7 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   paginationResettingUrlParameters: [...timeConfigUrlParameters],
   columnDefinitions,
+  defaultPageSizes: [20, 40, 60, 80, 100],
   defaultOrderBy: 'callsAgg',
   defaultOrderDirection: 'DESC',
   pathSegment,
@@ -254,13 +253,6 @@ export default function ApplicationsListPresenter({
           )}
 
           {role.canConfigureGlobalApplicationSmartAlerts && <CreateGlobalSmartAlertButton renderAsSimpleButton />}
-          {role.canConfigureGlobalApplicationSmartAlerts && applicationSmartAlertFullScreenDesignEnabled && (
-            <CreateSmartAlertButton
-              isGlobal
-              buttonName={t('in-alerting:smartAlerts.applications.components.createGlobalSmartAlertNew')}
-              isFloatingButton
-            />
-          )}
         </FloatingActionButtonMenu>
       </FloatingActionButtons>
     </Sticky>

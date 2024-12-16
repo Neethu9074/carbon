@@ -10,11 +10,10 @@ import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { shorten } from 'in-services/util/string';
 import { t } from 'in-i18n';
-
-import locals from './RawTableFormat.mless';
 
 interface GatewayConnectionRow {
   key: string;
@@ -27,10 +26,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: GatewayConnectionRow) {
-        return row.gatewayConnection.get('LUNAME');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.gatewayConnection.get('LUNAME') as any, 128);
       }
     }
   },
@@ -39,10 +35,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: GatewayConnectionRow) {
-        return row.gatewayConnection.get('TPNAME');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.gatewayConnection.get('TPNAME') as any, 128);
       }
     }
   },
@@ -51,10 +44,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: GatewayConnectionRow) {
-        return row.gatewayConnection.get('SYSTYPE');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.gatewayConnection.get('SYSTYPE') as any, 128);
       }
     }
   },
@@ -63,10 +53,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: GatewayConnectionRow) {
-        return row.gatewayConnection.get('HOST');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.gatewayConnection.get('HOST') as any, 128);
       }
     }
   },
@@ -75,10 +62,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: GatewayConnectionRow) {
-        return row.gatewayConnection.get('ADDR');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.gatewayConnection.get('ADDR') as any, 128);
       }
     }
   },
@@ -87,22 +71,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: GatewayConnectionRow) {
-        return row.gatewayConnection.get('LAST_REQ');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
-      }
-    }
-  },
-  {
-    title: t('in-sap:dashboards.numberOfConnections'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: GatewayConnectionRow) {
-        return row.gatewayConnection.get('NO');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.gatewayConnection.get('LAST_REQ') as any, 128);
       }
     }
   },
@@ -111,11 +80,18 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: GatewayConnectionRow) {
-        return row.gatewayConnection.get('TBLTYPE');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.gatewayConnection.get('TBLTYPE') as any, 128);
       }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.numberOfConnections'),
+    type: 'number',
+    typeArgs: {
+      getValue(row: GatewayConnectionRow) {
+        return row.gatewayConnection.get('NO');
+      },
+      getContent: number.compact
     }
   }
 ];
@@ -143,12 +119,8 @@ export default function GatewayConnections({ snapshotId }: SnapshotData) {
       cardTitle={t('in-sap:dashboards.gatewayConnections')}
       cols={cols}
       rows={rows}
-      initialSortColumn={6}
+      initialSortColumn={7}
       initialSortDirection="desc"
     />
   );
-}
-
-function Args({ args }: any) {
-  return <code className={locals.statement}>{args}</code>;
 }

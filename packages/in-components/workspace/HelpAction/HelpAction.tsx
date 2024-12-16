@@ -6,22 +6,29 @@
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon } from '@instana/components';
+import { SvgIcon, SvgIconProps } from '@instana/components';
 import { Link } from '@instana/components';
 
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './HelpAction.mless';
 
+export type ScopePathIconSize = SvgIconProps['size'];
+
 interface HelpActionProps {
   children: ReactNode;
   href?: string;
   external?: boolean;
+  size?: ScopePathIconSize;
 }
 
-export default function HelpAction({ children, href, external }: HelpActionProps) {
+export default function HelpAction({ children, href, external, size = 'regular' }: HelpActionProps) {
   let content = (
-    <SvgIcon type="lib_help_error_help_outline" className={classNames(locals.icon, { [locals.clickable]: href })} />
+    <SvgIcon
+      type="lib_help_error_help_outline"
+      className={classNames(locals.icon, { [locals.clickable]: href })}
+      size={size}
+    />
   );
 
   if (href) {

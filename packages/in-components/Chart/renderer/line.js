@@ -6,7 +6,7 @@
 import { drawPoint } from 'in-components/Chart/renderer/point';
 
 export default {
-  render: ({ dataSeries, color, scale, config }) => {
+  render: ({ dataSeries, color, scale, config, metricId }) => {
     const { y1, backBufferCtx, xScaleBackBuffer, maxDistanceBetweenDatapointsInMillis } = config;
 
     if (!dataSeries) return;
@@ -52,7 +52,11 @@ export default {
      * either `a` or `b` are `undefined` or do not contain a number as its timestamp as its first entry.
      */
     function distanceBetweenDataPointsIsTooBig(a, b) {
-      return !a || !b || a[0] - b[0] > maxDistanceBetweenDatapointsInMillis;
+      return (
+        !a ||
+        !b ||
+        a[0] - b[0] > (y1?.distanceBetweenDatapointsInMillis?.[metricId] ?? maxDistanceBetweenDatapointsInMillis)
+      );
     }
   }
 };

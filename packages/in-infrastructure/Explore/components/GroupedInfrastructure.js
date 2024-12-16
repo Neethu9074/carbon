@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
 import { isEqual } from 'lodash';
 
 import {
@@ -14,13 +14,16 @@ import {
   LiLoadingSkeleton,
   LiLoadMore,
   SvgIcon,
-  Ul
+  Ul,
+  IconButton
 } from '@instana/components';
 import { just } from '@instana/observables';
 
 import {
   firstValue,
+  getConvertedSeries,
   getGranularity,
+  getMetricFormatterFromUnitOrDefault,
   getMetricKey,
   getMetricValue,
   getSeriesKey,
@@ -32,23 +35,27 @@ import InfrastructureList, { pagesLoaded } from 'in-infrastructure/Explore/compo
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
 import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { extremeValueInSeries, getThresholdColors } from 'in-components/Threshold/threshold';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { emptyArray, indeterminateProgress, pendingResult } from 'in-services/fixedObjects';
+import { EQUALS, IS_BLANK, IS_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
-import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { typeTag, tag_not_present_group } from 'in-infrastructure/Explore/constants';
+import ThresholdTooltip from 'in-infrastructure/Explore/components/ThresholdTooltip';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
-import { EQUALS, IS_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { LOAD_MORE_CONTEXT } from 'in-infrastructure/Explore/services/tracking';
 import LiErrorList from 'in-infrastructure/Explore/components/LiErrorList';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
+import { carbonTableEnabled } from 'in-services/featureFlags';
+import { getBaseUnit, getUnit } from 'in-stores/metric/units';
+import { fixOrderForBackwardsCompatibility } from '../utils';
 import { getFormatter } from 'in-stores/metric/formatters';
-import IconLink from 'in-components/IconButton/IconLink';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import CsvExporter from 'in-components/CsvExporter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -66,7 +73,7 @@ export default function GroupedInfrastructure(props) {
     metrics,
     groupBy,
     backendGroupBy,
-    order,
+    order: incomingOrder,
     type,
     isPreview = false,
     isHeaderVisible = true,
@@ -91,6 +98,7 @@ export default function GroupedInfrastructure(props) {
     hasMetricsChanged: !isEqual(previousMetrics, metrics),
     metrics
   });
+  const order = useMemo(() => fixOrderForBackwardsCompatibility(incomingOrder, metrics), [incomingOrder, metrics]);
 
   const { totalHits, ...cursorPaginatedProps } = useCursorPagination(
     ({ cursor }) =>
@@ -109,12 +117,21 @@ export default function GroupedInfrastructure(props) {
     [timeConfig, backendQueryModel, backendGroupBy, order, type, showGroupsWithMissingTags, ...dependencies]
   );
 
+  const hasTagNotPresent = cursorPaginatedProps?.items?.some(({ tags }) =>
+    Object.values(tags).some(value => value === tag_not_present_group)
+  );
+
   // Send totalHits
-  useEffect(() => totalHits && getTotalItems?.(totalHits), [getTotalItems, totalHits]);
+  useEffect(() => {
+    if (totalHits) {
+      const isShowingGroupsWithMissingTags = showGroupsWithMissingTags && hasTagNotPresent;
+      getTotalItems?.(isShowingGroupsWithMissingTags ? totalHits + 1 : totalHits);
+    }
+  }, [getTotalItems, hasTagNotPresent, showGroupsWithMissingTags, totalHits]);
 
   return (
     <Presenter
-      backendQueryModel={backendQueryModel}
+      backendQueryModel
       groupBy={groupBy}
       backendGroupBy={backendGroupBy}
       retrievalSize={retrievalSize}
@@ -129,6 +146,7 @@ export default function GroupedInfrastructure(props) {
       fixedLayout={fixedLayout}
       {...cursorPaginatedProps}
       {...props}
+      order={order}
     />
   );
 }
@@ -329,7 +347,7 @@ function columns({
   const countLabel = snapshotDefinition ? getPluginName(type, 2) : 'Count';
 
   const iconColumn = {
-    width: '3rem',
+    width: carbonTableEnabled ? '2.5rem' : '3rem',
     id: 'icon',
     getId: () => 'icon',
     widthInAbsoluteUnit: true,
@@ -350,6 +368,19 @@ function columns({
         })
   };
 
+  const groupKeyLabel = groupKey => {
+    if (carbonTableEnabled) {
+      return (
+        <Tooltip content={groupKey} align="auto">
+          <bdi className={locals.bdi}>
+            <div className={locals.carbonHeaderEllipsis}>{groupKey}</div>
+          </bdi>
+        </Tooltip>
+      );
+    }
+    return groupKey;
+  };
+
   const groupsColumn = groupBy.map(groupKey => {
     return {
       width: getColumnWidth(groupBy, metrics, isTableMode),
@@ -362,8 +393,13 @@ function columns({
       ...(isTableMode
         ? {
             sortable: true,
-            label: groupKey,
+            // need to add some css style changes for carbon table
+            label: groupKeyLabel(groupKey),
             getContent(item) {
+              // need to modify the styles for carbon table to render the content in the right format
+              if (carbonTableEnabled) {
+                return <div className={locals.carbonRowWordBreak}>{getGroupTagValue(item, groupKey)}</div>;
+              }
               return getGroupTagValue(item, groupKey);
             }
           }
@@ -386,11 +422,21 @@ function columns({
     }
   };
 
+  const countLabelForTable = carbonTableEnabled ? (
+    <Tooltip content={countLabel} align="auto">
+      <bdi className={locals.bdi}>
+        <div className={locals.carbonHeaderEllipsis}>{countLabel}</div>
+      </bdi>
+    </Tooltip>
+  ) : (
+    countLabel
+  );
+
   const countLabelColumnTable = {
-    width: '6rem',
+    width: carbonTableEnabled ? '3rem' : '6rem',
     id: countLabel,
     getId: () => countLabel,
-    label: countLabel,
+    label: countLabelForTable,
     sortable: false,
     getContent(item) {
       return item.count;
@@ -417,7 +463,7 @@ function columns({
     getContent({ group }) {
       return (
         <Tooltip content={t('in-infrastructure:explore.focusOnThisGroup')}>
-          <IconLink
+          <IconButton
             type="lib_actions_filter"
             href={getLinkToInfraEntityExplore(getParamsForGroup(group))}
             onClick={() => onFocusOnGroup?.(group)}
@@ -474,10 +520,9 @@ export function getGroups({
     metrics: Object.fromEntries(
       metrics
         .filter(({ metric }) => metric !== undefined && metric !== null)
-        .flatMap(({ metric, aggregation, crossSeriesAggregation, regex, filterEmptyValue }) => {
+        .flatMap(({ metric, aggregation, crossSeriesAggregation, regex, required }) => {
           const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
           const kpiGranularity = timeConfig.windowSize;
-          const required = filterEmptyValue || undefined;
           return [
             [
               id,
@@ -539,6 +584,13 @@ export function toTagFilters(tags) {
 }
 
 function toTagFilter(tag, value) {
+  if (value === '') {
+    return {
+      type: TAG_FILTER_TYPE,
+      operator: IS_BLANK,
+      name: tag
+    };
+  }
   if (value === tag_not_present_group) {
     return {
       type: TAG_FILTER_TYPE,
@@ -578,6 +630,8 @@ export function getGroupTagValue(group, key) {
 function replaceTagNotPresentPlaceholder(value) {
   return value === tag_not_present_group ? (
     <div className={locals.italic}>{t('in-infrastructure:explore.tagNotPresent')}</div>
+  ) : value === '' ? (
+    <div className={locals.italic}>{t('in-components:chart.chartLegendBlankLabel')}</div>
   ) : (
     value
   );
@@ -668,7 +722,8 @@ export function getMetricsColumn({ metrics, metricMetadatas, timeConfig, granula
       isFormatterSelected,
       label: metricLabel,
       lastValue,
-      filterEmptyValue
+      unit,
+      threshold
     }) => {
       const metadata = mapData(metricMetadatas, data => data[metric]);
       const label = { data: metricLabel } ?? mapData(metadata, data => data?.label);
@@ -683,7 +738,8 @@ export function getMetricsColumn({ metrics, metricMetadatas, timeConfig, granula
         formatterId,
         isFormatterSelected,
         lastValue,
-        filterEmptyValue
+        unit,
+        threshold
       };
       const metricsColumns = getMetricsColumns(isTableMode, sharedProps);
 
@@ -725,21 +781,34 @@ function generateMetric({
   granularity,
   formatterId,
   isFormatterSelected,
-  lastValue
+  lastValue,
+  unit,
+  threshold
 }) {
-  const { metrics, adjustedTimeframe } = item;
+  const { metrics } = item;
 
   const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
-  const formatter = isFormatterSelected ? getFormatter(formatterId) : mapData(metadata, data => data?.formatter).data;
+
+  const formatterType = formatterId?.split('.')[1];
+  const formatter = isFormatterSelected
+    ? getFormatter(formatterId)
+    : getMetricFormatterFromUnitOrDefault(
+        getBaseUnit(unit),
+        mapData(metadata, data => data?.formatter).data,
+        formatterType
+      );
+  const unitConverter = getUnit(unit)?.converter;
   const seriesKey = getSeriesKey(id);
   const kpi = lastValue ? lastValueForMetric(metrics[seriesKey]) : firstValue(metrics[id]);
-  const series = metrics[seriesKey];
+  const series = getConvertedSeries(metrics[seriesKey], unitConverter);
   const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
-  const customValueTooltip = lastValue && getLastValueTooltipLabel(adjustedTimeframe);
+  const customValueTooltip = lastValue && getLastValueTooltipLabel(timeConfig);
+  const extremeValue = extremeValueInSeries(threshold, series);
+  const { strokeColor, fillColor } = getThresholdColors(threshold, extremeValue, formatterId);
 
   return (
     <SparkChart
-      horizontalMetricValue={getMetricValue(kpi, formatter)}
+      horizontalMetricValue={getMetricValue(kpi, formatter, unitConverter)}
       percentageMetric={percentageMetric}
       tooltipFormatter={formatter}
       aggregation={aggregation}
@@ -748,6 +817,11 @@ function generateMetric({
       rollup={granularity}
       metrics={series}
       customValueTooltip={customValueTooltip}
+      strokeColor={strokeColor}
+      fillColor={fillColor}
+      customChartTooltip={
+        threshold && <ThresholdTooltip threshold={threshold} formatter={formatter} formatterId={formatterId} />
+      }
     />
   );
 }

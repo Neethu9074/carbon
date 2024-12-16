@@ -12,7 +12,7 @@ import { interval } from '@instana/observables';
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import { getWaitForEntityCreationTimeConfig } from 'in-stores/time/config';
 import { useGenerateLinkToWebsite } from 'in-websites/navigation/paths';
-import { addWebsite as addWebsiteTracker } from 'in-websites/tracker';
+import { useWebsiteTracker } from 'in-websites/tracking/segTracker';
 import { notBlankValidator } from 'in-services/validators/string';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import InputStep from 'in-websites/NewWebsiteFlow/InputStep';
@@ -26,12 +26,14 @@ import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
 export default function NewWebsiteFlow() {
+  const { addWebsiteTracker } = useWebsiteTracker();
   const [state, setState] = useState({
     field: createField({ value: '', validator: notBlankValidator }),
     saveError: null,
     saveResult: null,
     loading: false,
-    trackSessions: true
+    trackSessions: true,
+    enableSRI: true
   });
 
   const { field, websiteId, website } = state;
@@ -72,9 +74,7 @@ export default function NewWebsiteFlow() {
       saveError: null
     }));
 
-    addWebsiteTracker({
-      websiteName: field.value
-    });
+    addWebsiteTracker({ websiteName: field.value });
 
     saveSubscription.current = combineDataAndError(addWebsite(field.value)).once(({ data, error }) => {
       if (error) {
@@ -110,17 +110,19 @@ export default function NewWebsiteFlow() {
   };
 
   const setTrackSessions = trackSessions => setState(prevState => ({ ...prevState, trackSessions }));
+  const setEnableSRI = enableSRI => setState(prevState => ({ ...prevState, enableSRI }));
 
   let content;
   if (!websiteId) {
     content = <InputStep {...state} onChange={onChange} onSubmit={onSubmit} />;
   } else if (!website) {
-    content = <WaitStep {...state} setTrackSessions={setTrackSessions} />;
+    content = <WaitStep {...state} setTrackSessions={setTrackSessions} setEnableSRI={setEnableSRI} />;
   } else {
     content = (
       <ReadyStep
         {...state}
         setTrackSessions={setTrackSessions}
+        setEnableSRI={setEnableSRI}
         websiteLink={getLinkToWebsite(websiteId, {
           timeConfig: getWaitForEntityCreationTimeConfig()
         })}

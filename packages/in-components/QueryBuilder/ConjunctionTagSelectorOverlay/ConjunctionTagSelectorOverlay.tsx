@@ -5,28 +5,37 @@
 
 import React from 'react';
 
-import { TagFilter } from '@instana/types';
-
+import {
+  FormModelElement,
+  SelfValidatingTagFilter,
+  MinimalTagDefinition
+} from 'in-components/QueryBuilder/transformation/formModel';
 import ConjunctionsAndBrackets from 'in-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionsAndBrackets';
-import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import TagSelectorOverlay from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
 import { type } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { EnrichedTagCatalog } from 'in-services/tags/tagCatalog';
+import { GetTagCatalog } from 'in-components/QueryBuilder';
 
-interface ConjunctionTagSelectorOverlayProps {
+interface ConjunctionTagSelectorOverlayProps<ADDITIONAL_TAG_CATALOG_PROPS = {}> {
   tagCatalog: EnrichedTagCatalog;
   onChange: (formModel: FormModelElement) => void;
   close: VoidFunction;
   withoutOrConjunction?: boolean;
   withoutBrackets?: boolean;
+  getTagCatalog?: GetTagCatalog;
+  additionalGetTagCatalogProps?: ADDITIONAL_TAG_CATALOG_PROPS;
+  addTagDefinitionToFormModel?: boolean;
 }
 export default function ConjunctionTagSelectorOverlay({
   tagCatalog,
   onChange,
   close,
   withoutOrConjunction = false,
-  withoutBrackets = false
+  withoutBrackets = false,
+  getTagCatalog,
+  additionalGetTagCatalogProps,
+  addTagDefinitionToFormModel
 }: ConjunctionTagSelectorOverlayProps) {
   return (
     <>
@@ -40,23 +49,31 @@ export default function ConjunctionTagSelectorOverlay({
       />
 
       <TagSelectorOverlay
-        onChange={({ name }: { name: string }) => {
+        onChange={({ name, tagDefinition }) => {
           onChange({
             type,
             name,
             operator: EQUALS,
-            value: setDefaultValueWhenTagTypeBoolean(name, tagCatalog)
-          } as TagFilter);
+            value: setDefaultValueWhenTagTypeBoolean(name, tagCatalog, tagDefinition),
+            tagDefinition
+          } as SelfValidatingTagFilter);
         }}
         close={close}
         tagCatalog={tagCatalog}
+        getTagCatalog={getTagCatalog}
+        additionalGetTagCatalogProps={additionalGetTagCatalogProps}
+        addTagDefinitionToFormModel={addTagDefinitionToFormModel}
       />
     </>
   );
 }
 
-function setDefaultValueWhenTagTypeBoolean(tagName: string, tagCatalog: EnrichedTagCatalog): boolean | undefined {
-  const tagTreeNode = tagCatalog.tagsByName[tagName];
+function setDefaultValueWhenTagTypeBoolean(
+  tagName: string,
+  tagCatalog: EnrichedTagCatalog,
+  tagDefinition?: MinimalTagDefinition
+): boolean | undefined {
+  const tagTreeNode = tagDefinition ?? tagCatalog.tagsByName[tagName];
   if (tagTreeNode.type === 'BOOLEAN') {
     return true;
   }

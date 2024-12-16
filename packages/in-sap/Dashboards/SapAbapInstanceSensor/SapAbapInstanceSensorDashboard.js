@@ -101,7 +101,12 @@ function renderButtonLine(props) {
         snapshotId={props.hostId}
         timeConfig={props.timeConfig}
       />
-      <ContextGuide id={props.hostId} timeConfig={props.timeConfig} plugin={plugins.sapAbapInstanceSensor} />
+      <ContextGuide
+        id={props.hostId}
+        timeConfig={props.timeConfig}
+        plugin={plugins.sapAbapInstanceSensor}
+        tagFilters={[{ name: 'related.infra.entity.snapshotId', value: props.hostId, operator: 'EQUALS' }]}
+      />
     </>
   );
 }

@@ -7,6 +7,7 @@
 import { Field, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
+import { RadioButton, Checkbox, Spacer } from '@instana/components';
 import { Parameter, DynamicFieldValue } from '@instana/types';
 import { generateUniqueShortId } from '@instana/utils';
 
@@ -15,7 +16,7 @@ import {
   createTagBasedPayloadConfigurator,
   toFormModel,
   toViewModel
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+} from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import {
   createForm,
   addStaticField,
@@ -29,11 +30,9 @@ import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages'
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { MappedParameter } from 'in-automation/ActionCatalog/ParametersTable';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
-import { ActionFormEntity } from 'in-automation/ActionCatalog/Action';
 import FormGroup from 'in-settings/components/FormGroup/FormGroup';
 import { getDynamicParameterTagCatalog } from 'in-automation/api';
-import { OnEntityChange } from 'in-settings/hooks/useEntityForm';
+import { OnChange } from 'in-automation/ActionCatalog/Action';
 import { close } from 'in-components/DialogPresenter/store';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import SaveCancel from 'in-settings/components/SaveCancel';
@@ -42,13 +41,14 @@ import Form from 'in-components/form/binding/Form';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
 import Dialog from 'in-components/Dialog/Dialog';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-import locals from './ActionForm.mless';
+import locals from './Action.mless';
 
 export interface ParameterDialogProps {
   form: MapForm<any>;
-  onChange: OnEntityChange<ActionFormEntity>;
+  onChange: OnChange;
   idToEdit?: string;
   isNotEditable: boolean;
   isAnsible: boolean;
@@ -108,7 +108,11 @@ export default function ParameterDialog({
           {type.value === 'vault' && <VaultSection {...sectionProps} />}
           {type.value === 'dynamic' && <DynamicSection {...sectionProps} />}
           {type.value !== 'dynamic' && <HiddenSection {...sectionProps} />}
-          <SaveCancel hasSaveButton={!isNotEditable} form={parameterForm} onClickCancelButton={close} />
+          <SaveCancel
+            hasSaveButton={!isNotEditable && role?.canConfigureAutomationActions}
+            form={parameterForm}
+            onClickCancelButton={close}
+          />
         </Form>
       </div>
     </Dialog>
@@ -122,14 +126,14 @@ interface SectionProps {
   isNotEditable: boolean;
 }
 
-const MetaDataSection = ({
+function MetaDataSection({
   parameter,
   parameterForm,
   setParameterForm,
   isNotEditable,
   isAnsible,
   disableTicketIdParameter
-}: SectionProps & { isAnsible: boolean; disableTicketIdParameter: boolean }) => {
+}: SectionProps & { isAnsible: boolean; disableTicketIdParameter: boolean }) {
   const name = parameterForm.get('name') as Field<string>;
   const label = parameterForm.get('label') as Field<string>;
   const description = parameterForm.get('description') as Field<string>;
@@ -192,8 +196,7 @@ const MetaDataSection = ({
         <Label htmlFor="parameter-type">{t('in-automation:ActionCatalog.valueType')}</Label>
         <Row withoutSideMargin>
           <Col>
-            <CheckboxFancy
-              asRadioButton
+            <RadioButton
               checked={type.value === 'static'}
               disabled={isNotEditable}
               label={t('in-automation:static')}
@@ -208,9 +211,9 @@ const MetaDataSection = ({
               }
             />
           </Col>
+          <Spacer horizontal="small" />
           <Col>
-            <CheckboxFancy
-              asRadioButton
+            <RadioButton
               checked={type.value === 'vault'}
               disabled={isNotEditable}
               label={t('in-automation:vault')}
@@ -225,9 +228,9 @@ const MetaDataSection = ({
               }
             />
           </Col>
+          <Spacer horizontal="small" />
           <Col>
-            <CheckboxFancy
-              asRadioButton
+            <RadioButton
               checked={type.value === 'dynamic'}
               disabled={isNotEditable}
               label={t('in-automation:dynamic')}
@@ -245,7 +248,7 @@ const MetaDataSection = ({
         </Row>
       </FormGroup>
       <FormGroup>
-        <CheckboxFancy
+        <Checkbox
           disabled={hidden.value || isNotEditable || disableTicketIdParameter}
           checked={required.value}
           label={t('in-automation:ActionCatalog.required')}
@@ -256,15 +259,15 @@ const MetaDataSection = ({
       </FormGroup>
     </>
   );
-};
+}
 
-const HiddenSection = ({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) => {
+function HiddenSection({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) {
   const hidden = parameterForm.get('hidden') as Field<boolean>;
   const type = parameterForm.get('type') as Field<string>;
 
   return (
     <FormGroup>
-      <CheckboxFancy
+      <Checkbox
         checked={hidden.value}
         disabled={isNotEditable}
         label={t('in-automation:ActionCatalog.hiddenParam')}
@@ -298,9 +301,9 @@ const HiddenSection = ({ parameter, parameterForm, setParameterForm, isNotEditab
       />
     </FormGroup>
   );
-};
+}
 
-const StaticSection = ({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) => {
+function StaticSection({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) {
   const hidden = parameterForm.get('hidden') as Field<boolean>;
   const value = parameterForm.get('value') as Field<string>;
 
@@ -324,9 +327,9 @@ const StaticSection = ({ parameter, parameterForm, setParameterForm, isNotEditab
       </FormGroup>
     </>
   );
-};
+}
 
-const VaultSection = ({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) => {
+function VaultSection({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) {
   const hidden = parameterForm.get('hidden') as Field<boolean>;
   const secretPath = parameterForm.get('secretPath') as Field<string>;
   const secretKey = parameterForm.get('secretKey') as Field<string>;
@@ -371,7 +374,7 @@ const VaultSection = ({ parameter, parameterForm, setParameterForm, isNotEditabl
       </FormGroup>
     </>
   );
-};
+}
 
 export const TagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
   getTagCatalog: getDynamicParameterTagCatalog,
@@ -390,7 +393,7 @@ export const TagBasedPayloadConfigurator = createTagBasedPayloadConfigurator({
     })
 });
 
-const DynamicSection = ({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) => {
+function DynamicSection({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) {
   const value = parameterForm.get('value') as Field<DynamicFieldValue>;
   return (
     <FormGroup>
@@ -410,7 +413,7 @@ const DynamicSection = ({ parameter, parameterForm, setParameterForm, isNotEdita
       <TouchedMessages field={value} className={locals.subErrorTextFormField} />
     </FormGroup>
   );
-};
+}
 
 interface OnParameterChangeParams<T> {
   fieldName: string;

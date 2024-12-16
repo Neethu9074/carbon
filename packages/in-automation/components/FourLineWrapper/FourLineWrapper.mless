@@ -10,8 +10,10 @@
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4; /* number of lines to show */
+    -webkit-line-clamp: 2; /* number of lines to show */
     line-height: 1.15rem; /* fallback */
-    max-height: 4.7rem; /* fallback, line-height x number of lines + 0.1 */
+    max-height: 3.45rem; /* Adjusted max-height for 3 lines (3 * 1.15rem) + a little extra for padding */
+    padding: 0.7rem;
+    box-sizing: border-box; /* Include padding in height calculations */
   }
 }

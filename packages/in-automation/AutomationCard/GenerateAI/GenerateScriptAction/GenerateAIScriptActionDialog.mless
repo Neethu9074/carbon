@@ -1,0 +1,111 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+:local {
+  .selectManualStepDiv {
+    margin-bottom: 5rem;
+  }
+
+  .dialog {
+    width: 80vw;
+    height: 40vw;
+    overflow-y: auto;
+  }
+
+  .stepsTile {
+    border-bottom: 1px solid var(--cds-layer-selected-01);
+  }
+  .contentSection {
+    display: inline-flex;
+    > div {
+      min-height: 400px;
+    }
+
+    div {
+      &:nth-child(1) {
+        margin-right: 1rem;
+        background-color: var(--cds-field);
+        height: 100%;
+      }
+
+      &:nth-child(2) {
+        width: 10%;
+        position: relative;
+        right: 4rem;
+        top: 0.5rem;
+      }
+    }
+  }
+
+  .CodeWithAISlug {
+    display: inline-flex;
+    min-height: 400px;
+    justify-content: space-between;
+    background-color: var(--cds-layer);
+    div {
+      &:nth-child(2) {
+        margin-top: 0.5rem;
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  @media (max-width: 1500px) and (min-height: 600px) {
+    .CodeWithAISlug {
+      min-height: 300px;
+    }
+  }
+
+  .header {
+    display: flex;
+    padding: 0.6rem;
+    background: var(--cds-layer-selected-01);
+    align-items: center;
+  }
+
+  .promptCode {
+    // To allow the script button to be absolutely placed
+    position: relative;
+    > div {
+      // Remove wrappper padding as it conflicts with overriding the background
+      padding: initial;
+      // Background for margin of .CodeMirror
+      background-color: var(--cds-layer);
+    }
+    :global .CodeMirror {
+      // Prevent text overflowing button
+      margin-bottom: 2.5rem;
+      // Add back padding we removed from wrapper
+      padding: 0.25rem 0 0.25rem 0.5rem;
+      // Desired height - margin for button
+      height: calc(400px - 2.5rem);
+      // Editor background
+      background-color: var(--cds-layer);
+    }
+    @media (max-width: 1500px) and (min-height: 600px) {
+      :global .CodeMirror {
+        height: calc(300px - 2.5rem);
+      }
+    }
+    .generateScriptButton {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+    }
+  }
+
+  .noResults {
+    background-color: var(--cds-layer);
+  }
+  .step2Description {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .generateScriptStep {
+    margin-bottom: 4rem;
+  }
+}

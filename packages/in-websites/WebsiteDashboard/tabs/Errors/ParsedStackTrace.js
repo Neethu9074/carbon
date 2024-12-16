@@ -32,7 +32,6 @@ function Indicator({ websiteId, line }) {
   }
 
   let href;
-  let external = false;
   let explanation;
   if (role.canConfigureEumApplications && translationStatus.linkToConfigurationDialog) {
     href = getLinkToWebsite(websiteId, {
@@ -41,12 +40,11 @@ function Indicator({ websiteId, line }) {
     explanation = t('in-websites:websiteDashboard.tabs.errors.parsedStackTraceExplanationClickToConfigureFileDownload');
   } else if (translationStatus.linkToExternalPage) {
     href = translationStatus.linkToExternalPage;
-    external = true;
     explanation = t('in-websites:websiteDashboard.tabs.errors.parsedStackTraceExplanationClickToLearnMore');
   }
 
   return (
-    <InfoIndicator href={href} external={external}>
+    <InfoIndicator href={href}>
       {translationStatus.explanation}
       {isNotBlank(line.translationExplanation) && line.translationExplanation !== 'null' && (
         <Fragment>

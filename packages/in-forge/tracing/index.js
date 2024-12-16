@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import './webmethods.intermediate';
 import './micronaut.http.client';
 import './datapower.http.server';
 import './datapower.http.client';
@@ -23,6 +24,7 @@ import './aws.lambda.entry';
 import './mule.client.http';
 import './node.http.client';
 import './node.http.server';
+import './webmethods.entry';
 import './batch-synthetic';
 import './cics.http.entry';
 import './jboss.scheduler';
@@ -30,6 +32,7 @@ import './resteasy.client';
 import './spring-cg-entry';
 import './zcee.http.entry';
 import './dubbo.rpc.entry';
+import './webmethods.exit';
 import './aiohttp-client';
 import './aiohttp-server';
 import './cics.http.exit';
@@ -151,6 +154,8 @@ import './servlet';
 import './session';
 import './symfony';
 import './urllib3';
+import './saphttp';
+import './sequel';
 import './prisma';
 import './ibm-mq';
 import './cosmos';
@@ -173,6 +178,7 @@ import './x.http';
 import './zfview';
 import './zipkin';
 import './solace';
+import './saprfc';
 import './blade';
 import './boto3';
 import './camel';
@@ -188,6 +194,7 @@ import './mongo';
 import './mysql';
 import './neo4j';
 import './play2';
+import './play3';
 import './py.hc';
 import './redis';
 import './shell';

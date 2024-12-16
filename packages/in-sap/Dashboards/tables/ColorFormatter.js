@@ -11,12 +11,14 @@ export const colorFormatter = function Color(value) {
     case 'Green':
     case 'ACTIVE':
     case 'active':
+    case 'Active':
       return themes.default.ids.color.option.green['500'];
     case 'Yellow':
       return themes.default.ids.color.option.yellow['500'];
     case 'Red':
     case 'INACTIVE':
     case 'inactive':
+    case 'Inactive':
       return themes.default.ids.color.option.red['500'];
     default:
       return themes.default.ids.color.option.neutral['400'];

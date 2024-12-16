@@ -77,7 +77,7 @@ function getBusinessProcessActivityList({
     type: 'EXPRESSION',
     elements: [
       {
-        entity: 'SOURCE',
+        entity: NOT_APPLICABLE,
         name: 'bpm_process_definition_id',
         operator: 'EQUALS',
         value: businessProcessId,
@@ -102,11 +102,32 @@ function getBusinessProcessActivityList({
     metrics: {
       count: {
         metric: 'activities_count',
-        aggregation: 'DISTINCT_COUNT'
+        aggregation: 'DISTINCT_COUNT',
+        granularity: 0
       },
       timeseries_counts: {
         metric: 'activities_count',
         aggregation: 'DISTINCT_COUNT',
+        granularity: getChartGranularity(timeConfig)
+      },
+      duration: {
+        metric: 'activityDuration',
+        aggregation: 'MEAN',
+        granularity: 0
+      },
+      timeseries_duration: {
+        metric: 'activityDuration',
+        aggregation: 'MEAN',
+        granularity: getChartGranularity(timeConfig)
+      },
+      call_latency: {
+        metric: 'call_latency',
+        aggregation: 'MEAN',
+        granularity: 0
+      },
+      timeseries_latency: {
+        metric: 'call_latency',
+        aggregation: 'MEAN',
         granularity: getChartGranularity(timeConfig)
       }
     },

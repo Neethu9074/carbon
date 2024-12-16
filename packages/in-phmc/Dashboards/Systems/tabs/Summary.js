@@ -10,7 +10,7 @@ import { Card } from '@instana/components';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import SharedProcessorPool from 'in-phmc/Dashboards/tables/SharedProcessorPool';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { kiloBytes, number, percentage } from 'in-services/formatters/number';
+import { number, percentage } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
@@ -98,7 +98,7 @@ export default function Summary({ timeConfig, data: system }) {
                 min: 0,
                 metrics: ['assignedMemHypervisor'],
                 labels: [t('in-phmc:assignedMemory')],
-                formatter: kiloBytes.detailed,
+                formatter: number.detailed,
                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}

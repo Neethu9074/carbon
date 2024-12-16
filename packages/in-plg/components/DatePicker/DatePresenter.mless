@@ -5,28 +5,21 @@
  */
 
 :local {
-  .datePicker {
+  .carbonTimePicker {
     margin-right: -1px;
-    border-radius: var(--ids-border-radius-option-small) 0 0 var(--ids-border-radius-option-small);
-    height: 3.5rem;
-    align-items: center;
+    height: 3rem;
+    z-index: 1;
+  }
+  .carbonDisplayTimeWrapper {
     display: flex;
-    gap: 1rem;
-    &:hover,
-    &:active,
-    &:focus {
-      z-index: 1;
-      .carbonTimeSetting,
-      .carbonTimeSettingTop {
-        color: var(--ids-color-option-white);
-      }
-    }
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: -0.5rem;
+  }
+  .carbonTimeSetting {
+    font-size: 0.875rem;
   }
   .carbonTimeSettingTop {
-    color: #0f62fe;
-  }
-
-  .carbonTimeSetting {
-    color: #0f62fe;
+    font-size: 0.75rem;
   }
 }

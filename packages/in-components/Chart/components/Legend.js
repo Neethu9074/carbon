@@ -11,6 +11,7 @@ import rpt from 'prop-types';
 import { SvgIcon } from '@instana/components';
 
 import { defaultTimeShift, getTimeShiftLabel } from 'in-stores/time/shifting';
+import TooltipContent from 'in-components/PieChart/TooltipContent';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -26,11 +27,12 @@ export default function Legend(props) {
   const toggleLegendOverlay = () => {
     setIsExpanded(expanded => !expanded);
   };
+
   return (
     <>
       <div className={classNames({ [locals.legendContainer]: isExpanded })}>
         <div
-          className={classNames({
+          className={classNames('legend-container', {
             [locals.legend]: true,
             [locals.expandedLegend]: isExpanded
           })}
@@ -52,7 +54,7 @@ export default function Legend(props) {
           {isExpandable && (
             <SvgIcon
               type="lib_arrow_expand_down"
-              className={classNames({ [locals.arrowIcon]: true, [locals.iconUp]: isExpanded })}
+              className={classNames('legend-arrow', { [locals.arrowIcon]: true, [locals.iconUp]: isExpanded })}
               onClick={toggleLegendOverlay}
             />
           )}
@@ -70,7 +72,7 @@ Legend.propTypes = {
   y2: rpt.object
 };
 
-function MetricSeries({ axis, reverseLegendOrder, labels, showExpandableTrigger }) {
+function MetricSeries({ axis, reverseLegendOrder, labels, showExpandableTrigger, slices, timeConfig }) {
   const { ref, height } = useResizeObserver();
 
   useEffect(() => {
@@ -98,6 +100,7 @@ function MetricSeries({ axis, reverseLegendOrder, labels, showExpandableTrigger 
       {(reverseLegendOrder ? rangeRight(labels.length) : range(labels.length)).map(i => {
         const timeShift = labels[i].timeShift || defaultTimeShift;
         const { isDisabled, isToggleable, onToggle, dataSeriesName, name, metricId } = labels[i];
+        const slice = slices?.[i];
 
         const content = (
           <li
@@ -123,7 +126,7 @@ function MetricSeries({ axis, reverseLegendOrder, labels, showExpandableTrigger 
               />
             ) : (
               <div
-                className={classNames({
+                className={classNames('legend-dot', {
                   [locals.dot]: true,
                   [locals.disabledDot]: isDisabled
                 })}
@@ -133,7 +136,19 @@ function MetricSeries({ axis, reverseLegendOrder, labels, showExpandableTrigger 
               />
             )}
 
-            <span className={locals.legendLabel}>{name}</span>
+            {name !== 'no_group' ? (
+              <span
+                className={classNames('legend-label', {
+                  [locals.legendLabel]: true
+                })}
+              >
+                {name}
+              </span>
+            ) : (
+              <span className={locals.legendLabelBlank}>{t('in-components:chart.chartLegendBlankLabel')}</span>
+            )}
+
+            {slice && <LegendValue slice={slice} timeConfig={timeConfig} />}
 
             {timeShift && timeShift.offset !== 0 && (
               <Tooltip
@@ -155,5 +170,20 @@ function MetricSeries({ axis, reverseLegendOrder, labels, showExpandableTrigger 
         );
       })}
     </ul>
+  );
+}
+
+function LegendValue({ slice, timeConfig }) {
+  const { label, formatter } = slice;
+
+  return (
+    <div
+      key={label}
+      className={classNames('legend-value', {
+        [locals.legendValue]: true
+      })}
+    >
+      <TooltipContent slice={slice} formatter={formatter} timeConfig={timeConfig} displayLabel />
+    </div>
   );
 }

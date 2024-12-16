@@ -20,6 +20,7 @@
   "totalMemory": "메모리 총계",
   "totalStorage": "스토리지 총계",
   "totalCapacity": "총 용량",
+  "cpuUtilizationPercent": "CPU 이용률(%)",
   "availableCapacity": "사용 가능한 용량",
   "volumeCount": "볼륨 수",
   "cpuArch": "CPU 아키텍처",

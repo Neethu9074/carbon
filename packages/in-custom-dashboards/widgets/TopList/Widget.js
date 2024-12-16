@@ -8,6 +8,10 @@ import React from 'react';
 import { themes } from '@instana/design-tokens';
 import { Link } from '@instana/components';
 
+import {
+  getFilterResultNote,
+  useFilteredMetricConfiguration
+} from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
 import { default as SyntheticTopListCatalog } from 'in-custom-dashboards/widgets/TopList/catalogs/SyntheticTopListCatalog';
 import { default as WebsiteTopListCatalog } from 'in-custom-dashboards/widgets/TopList/catalogs/WebsiteTopListCatalog';
 import { default as MobileTopListCatalog } from 'in-custom-dashboards/widgets/TopList/catalogs/MobileTopListCatalog';
@@ -16,10 +20,12 @@ import { default as AppTopListCatalog } from 'in-custom-dashboards/widgets/TopLi
 import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { useLinkToExplore as useLinkToInfraEntityExplore } from 'in-infrastructure/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
+import { hasApplicationMetrics } from 'in-custom-dashboards/widgets/_shared/hasApplicationMetrics';
 import { useLinkToAnalyze as useLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
 import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
+import { customDashboardsFastQueryModeEnabled } from 'in-services/featureFlags';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { useLinkToAnalyzeDeprecated } from 'in-analyze/navigation/paths';
 import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
@@ -37,7 +43,9 @@ import { t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/TopList/Widget.mless';
 
-export default function ListWidget({ config, title, actions, isInModal, dragHandle }) {
+export default function ListWidget({ config: baseConfig, title, actions, isInModal, dragHandle }) {
+  const { metricConfiguration, result: filterResult } = useFilteredMetricConfiguration(baseConfig.metricConfiguration);
+  const config = { ...baseConfig, metricConfiguration };
   const timeConfig = useTimeConfig();
   switch (config.metricConfiguration.source) {
     case 'APPLICATION':
@@ -49,6 +57,7 @@ export default function ListWidget({ config, title, actions, isInModal, dragHand
           isInModal={isInModal}
           dragHandle={dragHandle}
           timeConfig={timeConfig}
+          filterResult={filterResult}
         />
       );
     case 'MOBILE_APP':
@@ -60,6 +69,7 @@ export default function ListWidget({ config, title, actions, isInModal, dragHand
           isInModal={isInModal}
           dragHandle={dragHandle}
           timeConfig={timeConfig}
+          filterResult={filterResult}
         />
       );
     case 'WEBSITE':
@@ -71,6 +81,7 @@ export default function ListWidget({ config, title, actions, isInModal, dragHand
           isInModal={isInModal}
           dragHandle={dragHandle}
           timeConfig={timeConfig}
+          filterResult={filterResult}
         />
       );
     case 'SYNTHETICS':
@@ -82,6 +93,7 @@ export default function ListWidget({ config, title, actions, isInModal, dragHand
           isInModal={isInModal}
           dragHandle={dragHandle}
           timeConfig={timeConfig}
+          filterResult={filterResult}
         />
       );
     case 'INFRASTRUCTURE_METRICS':
@@ -93,14 +105,30 @@ export default function ListWidget({ config, title, actions, isInModal, dragHand
           isInModal={isInModal}
           dragHandle={dragHandle}
           timeConfig={timeConfig}
+          filterResult={filterResult}
         />
       );
   }
 }
 
-export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, title, actions, isInModal, dragHandle }) {
+export function ListWidgetRenderer({
+  result,
+  isErroneous,
+  tagCatalog,
+  config,
+  title,
+  actions,
+  isInModal,
+  dragHandle,
+  timeConfig,
+  filterResult
+}) {
   const hasApproximateData =
     result?.data?.filter(elem => elem?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE').length > 0;
+  const approximateTooltipText =
+    customDashboardsFastQueryModeEnabled && hasApplicationMetrics(config)
+      ? t('in-components:approximateDataIndicator.dataRetentionOrFastQueryMode')
+      : t('in-components:approximateDataIndicator.dataRetention');
   return (
     <TopListCardPresenter
       title={title}
@@ -115,6 +143,7 @@ export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, ti
       tagCatalog={tagCatalog}
       renderHistoricDataIndicator
       hasApproximateData={hasApproximateData}
+      approximateTooltipText={approximateTooltipText}
       isScrollbarVisible
       isInModal={isInModal}
       header={
@@ -123,6 +152,8 @@ export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, ti
           {actions}
         </>
       }
+      timeConfig={timeConfig}
+      topLevelFilterInfo={getFilterResultNote(filterResult)}
     />
   );
 }
@@ -178,6 +209,7 @@ function Label({ item, config, result, tagCatalog }) {
   const groupBy = config.metricConfiguration.grouping?.[0].by;
 
   if (item.label !== 'other_group') {
+    const convertedValue = getConvertedValue(item.label);
     formModel = joinExpressions({
       expressions: [
         formModel,
@@ -193,8 +225,8 @@ function Label({ item, config, result, tagCatalog }) {
               type: TAG_FILTER,
               name: groupBy?.groupbyTag,
               key: groupBy?.groupbyTagSecondLevelKey ? groupBy?.groupbyTagSecondLevelKey : undefined,
-              value: getConvertedValue(item.label),
-              operator: operators.EQUALS,
+              value: convertedValue !== '' ? convertedValue : undefined,
+              operator: convertedValue !== '' ? operators.EQUALS : operators.IS_BLANK,
               entity: groupBy?.groupbyTagEntity
             }
       ]
@@ -232,11 +264,16 @@ function Label({ item, config, result, tagCatalog }) {
       expressions: filteredTags
     });
   }
-
+  const { includeInternal = false, includeSynthetic = false } = config.metricConfiguration;
+  const hiddenCalls = {
+    includeInternal,
+    includeSynthetic
+  };
   let link = config.metricConfiguration.tagFilterExpression
     ? getLinkToApplicationAnalyze({
         dataSource: 'calls',
-        formModel
+        formModel,
+        hiddenCalls
       })
     : tagCatalog &&
       getLinkToAnalyzeDeprecated({
@@ -288,6 +325,10 @@ function LinkContent({ item, groupBy }) {
     );
   }
 
+  if (item.label === '') {
+    return <div className={locals.italic}>{t('in-components:chart.chartLegendBlankLabel')}</div>;
+  }
+
   if (item.label === NO_VALUE) {
     const label = groupBy.groupbyTagSecondLevelKey
       ? `${groupBy.groupbyTag} > ${groupBy.groupbyTagSecondLevelKey}`
@@ -299,6 +340,9 @@ function LinkContent({ item, groupBy }) {
 }
 
 function getConvertedValue(value) {
+  if (value === '') {
+    return '';
+  }
   if (isParseableAsNumber(value)) {
     return parseFloat(value);
   }

@@ -4,10 +4,6 @@
  */
 
 :local {
-  .icon {
-    fill: var(--ids-color-option-neutral-600);
-  }
-
   .option {
     font-weight: normal;
     font-size: 0.75rem;
@@ -24,9 +20,5 @@
 
   .keyValue {
     gap: 0.25rem;
-  }
-
-  .highlight {
-    color: var(--cds-interactive);
   }
 }

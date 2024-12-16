@@ -6,11 +6,9 @@
 :local {
   .placeholderMenu {
     margin-left: 0.5rem;
-    margin-right: -0.5rem;
   }
 
   .placeholderMenuButtonWrapper {
     justify-content: flex-end;
-    padding-right: 0.5rem;
   }
 }

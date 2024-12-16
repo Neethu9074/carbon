@@ -15,8 +15,10 @@ import {
   LiLoadMore,
   Stack,
   SvgIcon,
-  Ul
+  Ul,
+  IconButton
 } from '@instana/components';
+import { Tooltip } from '@instana/components';
 import { empty } from '@instana/observables';
 
 import {
@@ -27,7 +29,7 @@ import {
 } from 'in-components/AnalyzeView/metrics';
 import { addGroupingCriteriaToFormModel, childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManagement';
 import MetricAndSortingConfigurator from 'in-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
-import { ua2LoadedMore, ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-components/tracker';
+import { BOOLEAN, KEY_NUMBER_PAIR, KEY_VALUE_PAIR } from 'in-components/QueryBuilder/tagFilter/types';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
@@ -35,12 +37,12 @@ import { getLabel as defaultGetLabel, GROUP_COLORS } from 'in-components/Analyze
 import { getFormatter as getBackendFormatter } from 'in-services/formatters/backendFormatter';
 import { joinExpressions, TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
-import { BOOLEAN, KEY_VALUE_PAIR } from 'in-components/QueryBuilder/tagFilter/types';
 import { EQUALS, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { NO_VALUE, UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import { tagFilter } from '../QueryBuilder/transformation/tagFilter';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { getSparkChartGranularity } from 'in-applications/metrics';
@@ -48,10 +50,8 @@ import Header from 'in-components/QueryBuilder/components/Header';
 import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { getFormatter } from 'in-stores/metric/formatters';
-import IconLink from 'in-components/IconButton/IconLink';
 import { aggregationLabels } from 'in-stores/metric';
 import { identity } from 'in-services/util/function';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import { scrollToTop } from 'in-services/util/dom';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
@@ -247,7 +247,7 @@ export default function GroupedView(props) {
       operator: NOT_EMPTY,
       name: groupBy.groupbyTag
     };
-    if (groupByTagType === KEY_VALUE_PAIR) {
+    if (groupByTagType === KEY_VALUE_PAIR || groupByTagType === KEY_NUMBER_PAIR) {
       excludeMissingGroupTagFilter.key = groupBy.groupbyTagSecondLevelKey;
     }
     return excludeMissingGroupTagFilter;
@@ -256,7 +256,7 @@ export default function GroupedView(props) {
   const headerActions =
     CustomHeaderActions ||
     (props => <MetricAndSortingConfigurator {...props} metricOptions={props.availableMetrics} />);
-
+  const { trackUa2MetricAdded, trackUa2MetricRemoved, trackUa2LoadMore } = useAnalyzeTracker();
   return (
     <>
       <Stack direction={'horizontal'} gap={'disabled'}>
@@ -295,10 +295,10 @@ export default function GroupedView(props) {
             withResultsInGroups={withResultsInGroups}
             withAdjustedWindowSizeTooltip={Boolean(adjustedWindowSize)}
             tracking={{
-              onMetricAdded: ({ metric, aggregation }) => ua2MetricAddedTracker({ dataSource, metric, aggregation }),
+              onMetricAdded: ({ metric, aggregation }) => trackUa2MetricAdded({ dataSource, metric, aggregation }),
               onMetricAggregationChanged: ({ metric, aggregation }) =>
-                ua2MetricAddedTracker({ dataSource, metric, aggregation }),
-              onMetricRemoved: ({ metric, aggregation }) => ua2MetricRemovedTracker({ dataSource, metric, aggregation })
+                trackUa2MetricAdded({ dataSource, metric, aggregation }),
+              onMetricRemoved: ({ metric, aggregation }) => trackUa2MetricRemoved({ dataSource, metric, aggregation })
             }}
             renderHistoricDataIndicator={resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE'}
             CustomHeaderActions={headerActions}
@@ -310,6 +310,7 @@ export default function GroupedView(props) {
                 const key = `${label}-${index}`;
                 return (
                   <Li
+                    data-testid="grouped-view-list-item"
                     initiallyOpen={props.selectedGroup === key}
                     key={key}
                     toggleContentOnRowClick
@@ -380,7 +381,7 @@ export default function GroupedView(props) {
                 <LiLoadMore
                   loadMore={() => {
                     loadMore();
-                    ua2LoadedMore({
+                    trackUa2LoadMore({
                       dataSource,
                       groupbyTag: groupBy.groupbyTag,
                       groupbyTagSecondLevelKey: groupBy.groupbyTagSecondLevelKey
@@ -476,17 +477,23 @@ function labelColumns({
 
 function GroupLabelTooltip({ groupName, getCustomGroupLabel, groupbyTag }) {
   const groupLabel = getCustomGroupLabel ?? identity;
-  const label = groupLabel(groupName, groupbyTag);
-  return (
-    <Tooltip content={label} align="bottomLeft" delay={1000}>
-      <div
-        className={classNames({
-          [locals.italic]: groupName === UNSPECIFIED || groupName === NO_VALUE
-        })}
-      >
-        {label}
-      </div>
+  const label = groupLabel(groupName, groupbyTag) || '-';
+  const labelElement = (
+    <div
+      className={classNames({
+        [locals.italic]: groupName === UNSPECIFIED || groupName === NO_VALUE
+      })}
+    >
+      {label}
+    </div>
+  );
+
+  return label === '-' ? (
+    <Tooltip content={t('in-components:analyze.groupNameNotAvailable', { groupbyTag })} align="mousePosition">
+      {labelElement}
     </Tooltip>
+  ) : (
+    labelElement
   );
 }
 
@@ -579,8 +586,9 @@ function actionColumns() {
       getContent({ href }) {
         return (
           <Tooltip content={t('in-components:analyze.focusOnGroup')}>
-            <IconLink
+            <IconButton
               type="lib_actions_filter"
+              color="var(--ids-color-option-neutral-900)"
               href={href}
               className={locals.focusButton}
               onClick={() => scrollToTop(window)}

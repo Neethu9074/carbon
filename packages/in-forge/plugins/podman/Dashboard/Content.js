@@ -23,6 +23,7 @@ import { t } from 'in-i18n';
 export default function PodmanDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const memoryLimitBytes = snapshot.getIn(['data', 'memory.limit']);
+  const isRootful = snapshot.getIn(['data', 'rootless']) == undefined || !snapshot.getIn(['data', 'rootless']);
 
   return (
     <div>
@@ -108,21 +109,22 @@ export default function PodmanDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-
-      <DashboardSection title={t('in-forge:plugins.podman.dashboard.blockIo')}>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            metrics: ['blkio.blk_read', 'blkio.blk_write'],
-            labels: [t('in-forge:plugins.podman.dashboard.read'), t('in-forge:plugins.podman.dashboard.write')],
-            type: 'line',
-            formatter: bytesTwoDecimalPlaces
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
+      {isRootful && (
+        <DashboardSection title={t('in-forge:plugins.podman.dashboard.blockIo')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['blkio.blk_read', 'blkio.blk_write'],
+              labels: [t('in-forge:plugins.podman.dashboard.read'), t('in-forge:plugins.podman.dashboard.write')],
+              type: 'line',
+              formatter: bytesTwoDecimalPlaces
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      )}
     </div>
   );
 }

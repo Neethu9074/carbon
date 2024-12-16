@@ -12,9 +12,12 @@ import {
   ID_PROCESS,
   LOG_CUSTOM,
   LOG_CUSTOM_KEY_APPLICATION_ID,
-  LOG_CUSTOM_KEY_APPLICATION_IDS
+  LOG_CUSTOM_KEY_APPLICATION_IDS,
+  LOG_RETENTION_TIME
 } from 'in-logging/queryBuilder';
+// eslint-disable-next-line no-restricted-imports
 import getApplication from 'in-applications/subscriptions/getApplication';
+import { timestampToLocaleDate } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
 // @ts-expect-error
 import { getLabel } from 'in-sdk/snapshot';
 import { Application, LogTag, Result } from 'in-types';
@@ -22,6 +25,9 @@ import { getSnapshot } from 'in-stores/snapshot';
 import { t } from 'in-i18n';
 
 type LinkResolver = (tag: LogTag) => Observable<string>;
+
+//Array to identify if the incoming value is an string or a double(long).
+export const longValues = [LOG_RETENTION_TIME];
 
 const containerTagResolvers: [string, LinkResolver][] = containerSnapshotIds.map(id => [
   id,
@@ -50,7 +56,9 @@ export function resolveInfraLabel(snapshotId: string): Observable<string> {
 }
 
 export default function useResolvedValue(uniqueTagName: string, tag: LogTag): string {
-  const value = tag.stringValue || '';
+  const value = !longValues.includes(uniqueTagName)
+    ? tag.stringValue || ''
+    : timestampToLocaleDate(tag.longValue || 0) || '';
   const resolver = tagValueResolver.get(uniqueTagName);
   return (
     useObservable(resolver ? resolver(tag) : just(value), [tag.name], {

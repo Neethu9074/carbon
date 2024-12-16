@@ -4,12 +4,13 @@
  * Copyright IBM Corp. 2022
  */
 
+import React from 'react';
 import { MapForm } from 'formalistic';
 
 export type FieldPath = string[];
 
 export type StepConfigs = {
-  title: string;
+  title: React.ReactNode;
   validateIntermediately?: FieldPath[];
 }[];
 

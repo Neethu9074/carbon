@@ -6,11 +6,13 @@
 import { createField, createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Toggle } from '@instana/legacy';
+import { Toggle } from '@instana/components';
 
-import { goToCustomDashboard } from 'in-custom-dashboards/navigation/url';
+import { viewPathFullyQualified, dashboardIdUrlParameter } from 'in-custom-dashboards/navigation/url';
 import HorizontalFormGroup from 'in-components/form/HorizontalFormGroup';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import PromptPresenter from 'in-components/Dialog/PromptPresenter';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { notBlankValidator } from 'in-services/validators/string';
 import { addCustomDashboard } from 'in-custom-dashboards/api';
 import { close } from 'in-components/DialogPresenter/store';
@@ -19,6 +21,8 @@ import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function DuplicateDashboardDialog({ config }) {
+  const {location, navigate} = useNavigation();
+
   const [state, setState] = useState(() => ({
     form: createMapForm()
       .put(
@@ -93,7 +97,9 @@ export default function DuplicateDashboardDialog({ config }) {
           response => {
             if (response.data) {
               const customDashboardId = response.data.id;
-              goToCustomDashboard(customDashboardId);
+              const targetLocation = {...location, pathname: viewPathFullyQualified}
+              setOrDeleteMatrixKey(targetLocation, dashboardIdUrlParameter.path, dashboardIdUrlParameter.name, customDashboardId)
+              navigate(targetLocation);
               close();
               return;
             }
@@ -131,12 +137,10 @@ export default function DuplicateDashboardDialog({ config }) {
             <Toggle
               id="duplicate-dashboard-sharing"
               checked={field.value}
-              onChange={e =>
+              onToggle={e =>
                 setState({
                   ...state,
-                  form: state.form.updateIn(['copySharingConfiguration'], f =>
-                    f.setValue(e.target.checked).setTouched(true)
-                  )
+                  form: state.form.updateIn(['copySharingConfiguration'], f => f.setValue(e).setTouched(true))
                 })
               }
               disabled={state.isSaving}

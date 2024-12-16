@@ -4,13 +4,14 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Redirect } from 'react-router-dom';
 import React from 'react';
 
 import { useIbmpSppDashboard } from 'in-phmc/navigation/paths';
-import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default function PhmcSharedProcessorPoolDashboard({ snapshot, timeConfig }) {
   const getIbmpSppDashboard = useIbmpSppDashboard();
+  const href = getIbmpSppDashboard(snapshot.get('id'), { timeConfig });
 
-  return <RedirectWithHash to={getIbmpSppDashboard(snapshot.get('id'), { timeConfig })} />;
+  return <Redirect to={href.substring(2)} />;
 }

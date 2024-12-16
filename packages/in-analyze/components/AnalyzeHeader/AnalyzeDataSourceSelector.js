@@ -6,8 +6,7 @@
 import React, { useMemo, useState } from 'react';
 import classNames from 'classnames';
 
-import { Li, SvgIcon, Ul, Pill } from '@instana/components';
-import { themes } from '@instana/design-tokens';
+import { Li, SvgIcon, Ul, PreviewPill } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 /* eslint-enable no-restricted-imports */
@@ -15,42 +14,41 @@ import { getIconByType, getLabelByType, productAreaIcons, productAreaLabels } fr
 /* eslint-disable no-restricted-imports */
 import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import {
-  defaultInfraExploreViewParams,
-  useLinkToExplore as useLinkToInfraEntityExplore
-} from 'in-infrastructure/navigation/paths';
-import {
+  hasAnalyzeAccess,
   hasApplicationsAccess,
   hasInfrastructureAccess,
   hasMobileAppsAccess,
   hasWebsitesAccess
 } from 'in-stores/permission';
+import {
+  defaultInfraExploreViewParams,
+  useLinkToExplore as useLinkToInfraEntityExplore
+} from 'in-infrastructure/navigation/paths';
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { infraExploreDataEnabled, loggingEnabled, mobileAppCrashBeaconEnabled } from 'in-services/featureFlags';
 import { useLinkToAnalyze as useLinkToProfileAnalyze } from 'in-components/Profiling/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { default as useApplicationTagCatalog } from 'in-applications/hooks/useTagCatalog';
-import { useGenerateLinkToLogs } from 'in-logging/navigation/paths';
 import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
 import { default as useMobileTagCatalog } from 'in-mobile-apps/hooks/useTagCatalog';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import { default as useWebsiteTagCatalog } from 'in-websites/hooks/useTagCatalog';
-import { analyzeViewSelected } from 'in-analyze/components/AnalyzeHeader/tracker';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useGenerateLinkToAnalyze } from 'in-websites/navigation/paths';
-import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
+import { useGenerateLinkToLogs } from 'in-logging/navigation/paths';
 import { useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import unwrapLink from 'in-stores/navigation/unwrapLink';
 import { role } from 'in-stores/user';
-import { t } from 'in-i18n';
 
 import locals from './AnalyzeDataSourceSelector.mless';
 
 export default function AnalyzeDataSourceSelector({ activeConfiguration, isGrouped, formModel = emptyArray, close }) {
   const getLinkToMobileAppAnalyze = useLinkToAnalyze();
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
-
+  const { trackJumpToLogs } = useAnalyzeTracker();
   const websiteTagCatalogs = {
     websiteTagCatalogPageLoad: useWebsiteTagCatalog('pageLoad'),
     websiteTagCatalogPageChange: useWebsiteTagCatalog('pageChange'),
@@ -82,7 +80,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
         {
           dataSource: 'logs',
           getHref: generateLogsHref,
-          onClickSideEffect: () => jumpToLogs({ source: 'navigation' })
+          onClickSideEffect: () => trackJumpToLogs({ source: 'navigation' })
         }
       ]
     },
@@ -263,7 +261,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
     },
     {
       productArea: 'profiles',
-      hasAccess: true,
+      hasAccess: hasAnalyzeAccess,
       dataSources: [
         {
           dataSource: 'profiles',
@@ -339,6 +337,7 @@ function ProductAreaEntry({
   activeConfiguration,
   beta
 }) {
+  const { trackAnalyzeViewSelected } = useAnalyzeTracker();
   const [onClickNotificationMessage, setOnClickNotificationMessage] = useState();
   const isEnabled = useObservable(enabled$, []) ?? !enabled$;
 
@@ -378,8 +377,7 @@ function ProductAreaEntry({
             timeout: 5000
           });
         }
-
-        analyzeViewSelected({ target: dataSource });
+        trackAnalyzeViewSelected({ target: dataSource });
 
         if (onClickSideEffect) {
           onClickSideEffect();
@@ -395,12 +393,7 @@ function ProductAreaEntry({
       >
         <SvgIcon type={getIconByType(dataSource, productArea)} />
         {getLabelByType(dataSource)}
-
-        {beta && (
-          <Pill kind="primary" className={locals.betaPill} color={themes.default.ids.color.option.blue['500']}>
-            {t('in-analyze:components.analyzeHeader.beta')}
-          </Pill>
-        )}
+        {beta && <PreviewPill />}
       </div>
     </Li>
   );

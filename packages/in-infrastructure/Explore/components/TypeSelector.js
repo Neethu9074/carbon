@@ -7,9 +7,8 @@ import React, { useCallback, useMemo, useState, useRef, forwardRef } from 'react
 import classNames from 'classnames';
 import { isEqual } from 'lodash';
 
+import { Li, SvgIcon, SearchInput } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { SvgIcon } from '@instana/components';
-import { Li } from '@instana/components';
 
 import {
   groupMatrixParameter,
@@ -33,7 +32,6 @@ import { getInteractiveElements } from 'in-services/util/dom';
 import Overlay from 'in-components/overlays/Overlay/Overlay';
 import { containsIgnoreCase } from 'in-services/util/string';
 import { compareIgnoreCase } from 'in-services/util/string';
-import SearchInput from 'in-components/SearchInput';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getPluginName } from 'in-sdk/pluginName';
 import useUrlState from 'in-hooks/useUrlState';
@@ -106,6 +104,7 @@ export function TypeSelector(props) {
             onClick={toggle}
             expanded={isOpen}
             className={classNames(className, { [locals.headerButton]: header })}
+            isBreadCrumbButton
           >
             <TypeRow icon={icon} name={name} className={classNames({ [locals.header]: header })} />
           </Component>
@@ -128,13 +127,14 @@ function getTypesFromResult(availableTypesResult, excludeAllType) {
   return [allInfrastructureType].concat(availableTypes);
 }
 
-const DefaultButton = forwardRef(function DefaultButton({ className, ...buttonProps }, ref) {
+const DefaultButton = forwardRef(function DefaultButton({ className, isBreadCrumbButton, ...buttonProps }, ref) {
   return (
     <DropdownButton
       ref={ref}
       {...buttonProps}
       kind={'secondary'}
       className={classNames(className, locals.defaultButton)}
+      isBreadCrumbButton={isBreadCrumbButton}
     />
   );
 });

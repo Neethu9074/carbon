@@ -6,9 +6,9 @@
 
 import React from 'react';
 
+import { Collapsible, DescriptionList, DescriptionItem } from '@instana/components';
 import { KubernetesCluster, KubernetesNode } from '@instana/types';
 import { Observable } from '@instana/observables';
-import { Collapsible } from '@instana/components';
 
 // @ts-expect-error
 import getKubernetesClusterByNode from 'in-kubernetes/subscriptions/getKubernetesClusterByNode';
@@ -16,7 +16,6 @@ import getKubernetesClusterByNode from 'in-kubernetes/subscriptions/getKubernete
 import KubernetesSnapshotLink from 'in-components/Link/SnapshotLink/KubernetesSnapshotLink';
 // @ts-expect-error
 import getKubernetesNodeByHost from 'in-kubernetes/subscriptions/getKubernetesNodeByHost';
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList/DescriptionList';
 // @ts-expect-error
 import getKubernetesNamespacesByCluster from 'in-subscription/namespacesForCluster';
 import { useClusterDashboard, useNamespaceDashboard } from 'in-kubernetes/navigation/paths';
@@ -49,15 +48,30 @@ export default connectTo(
   function KubernetesInformation({ cluster, namespaceSnapshots, snapshot }: KubernetesInformationProps) {
     const namespaceName = snapshot.getIn(['data', 'properties.namespace']);
     const clusterName = snapshot.getIn(['data', 'properties.clusterName']);
+    const commonNamespaceName = snapshot.getIn(['data', 'properties.commonNamespace']);
 
     let namespaceSnapshot;
+    let commonNamespaceSnapshot;
     if (Array.isArray(namespaceSnapshots) && namespaceSnapshots.length && namespaceName) {
       namespaceSnapshot = namespaceSnapshots.find(
         namespaceSnapshot => namespaceSnapshot.getIn(['data', 'name']) === namespaceName
       );
     }
 
-    if (!namespaceName && !namespaceSnapshot && !clusterName && !cluster) {
+    if (Array.isArray(namespaceSnapshots) && namespaceSnapshots.length && commonNamespaceName) {
+      commonNamespaceSnapshot = namespaceSnapshots.find(
+        namespaceSnapshot => namespaceSnapshot.getIn(['data', 'name']) === commonNamespaceName
+      );
+    }
+
+    if (
+      !namespaceName &&
+      !namespaceSnapshot &&
+      !clusterName &&
+      !cluster &&
+      !commonNamespaceName &&
+      !commonNamespaceSnapshot
+    ) {
       return null;
     }
 
@@ -72,6 +86,18 @@ export default connectTo(
                   <NamespaceSnapshotLink label={namespaceSnapshot.get('label')} id={namespaceSnapshot.get('id')} />
                 ) : (
                   namespaceName
+                )}
+              </DescriptionItem>
+            ) : null}
+            {commonNamespaceSnapshot || commonNamespaceName ? (
+              <DescriptionItem title={t('in-forge:plugins.syntheticPoP.dashboard.commonNamespace')}>
+                {commonNamespaceSnapshot ? (
+                  <NamespaceSnapshotLink
+                    label={commonNamespaceSnapshot.get('label')}
+                    id={commonNamespaceSnapshot.get('id')}
+                  />
+                ) : (
+                  commonNamespaceName
                 )}
               </DescriptionItem>
             ) : null}

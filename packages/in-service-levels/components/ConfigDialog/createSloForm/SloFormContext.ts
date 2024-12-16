@@ -17,6 +17,7 @@ interface SloFormContextProps {
   form: SloForm;
   mode: CreateSloDialogMode;
   onChange: SloFormOnChange;
+  setForm: (form: SloForm) => void;
 }
 
 const defaultForm = createSloForm({ entityType: 'application' });
@@ -24,7 +25,8 @@ const defaultForm = createSloForm({ entityType: 'application' });
 const defaultContext: SloFormContextProps = {
   form: defaultForm,
   mode: 'NEW',
-  onChange: defaultForm.updateIn
+  onChange: defaultForm.updateIn,
+  setForm: _form => {}
 };
 
 const SloFormContext = createContext<SloFormContextProps>(defaultContext);

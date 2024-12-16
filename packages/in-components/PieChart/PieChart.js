@@ -37,6 +37,7 @@ const PieChartWrapper = forwardRef((props, ref) => {
     y1: { metrics, formatter },
     donutRadius
   } = props;
+
   const [hiddenMetrics, setHiddenMetrics] = useState([]);
   const sliceGap = donutRadius && metrics.length > 1 ? 0.002 : 0;
 
@@ -62,7 +63,7 @@ const PieChartWrapper = forwardRef((props, ref) => {
             aggregation: props.y1.aggregations?.[i],
             timeShift: props.y1.timeShifts?.[i] || defaultTimeShift,
             lastValue: props.y1.lastValue ?? false,
-            adjustedWindowSize: props.y1.adjustedTimeframes?.[i]?.windowSize
+            formatter: props.y1.formatter
           };
         }
       }),
@@ -92,7 +93,7 @@ const PieChartWrapper = forwardRef((props, ref) => {
   }
   return (
     <div className={locals.chartContainer} ref={ref}>
-      <PieLegend {...props} updateHiddenMetrics={setHiddenMetrics} hiddenMetrics={hiddenMetrics} />
+      <PieLegend {...props} updateHiddenMetrics={setHiddenMetrics} hiddenMetrics={hiddenMetrics} slices={slices} />
       <div className={locals.chart} style={customStyle}>
         <svg className={locals.svg} viewBox="-1 -1 2 2">
           {slices.map((slice, i) => {
@@ -118,8 +119,9 @@ const PieChartWrapper = forwardRef((props, ref) => {
               <Tooltip
                 themeStyle="light"
                 key={i}
-                content={<TooltipContent slice={slice} formatter={formatter} />}
+                content={<TooltipContent slice={slice} formatter={formatter} timeConfig={props.timeConfig} />}
                 align="mousePosition"
+                legacy
               >
                 <path d={pathData} fill={slice.color} />
               </Tooltip>

@@ -7,21 +7,18 @@
 import { createMapForm, createField, Field, MapForm } from 'formalistic';
 import React, { useEffect, useState } from 'react';
 
-import { Message, Stack } from '@instana/components';
+import { Message, Stack, RadioButton, TextArea } from '@instana/components';
+import { TimeConfig } from '@instana/types';
 
-import { actionHistoryInstanceFeedbackTracker } from 'in-automation/tracker';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { positiveNumberValidator } from 'in-services/validators/number';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { updateActionInstanceFeedback } from 'in-automation/api';
 import { close } from 'in-components/DialogPresenter/store';
-import TextArea from 'in-components/form/TextArea/TextArea';
 import CancelButton from 'in-components/form/CancelButton';
 import Form from 'in-components/form/binding/Form';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Label from 'in-components/form/Label/Label';
-import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './Feedback.mless';
@@ -92,8 +89,7 @@ export default function Feedback({ id = '', feedback, comment, setHasStaleFeedba
               t('in-automation:actionHistory.satisfiedFeedback'),
               t('in-automation:actionHistory.verySatisfiedFeedback')
             ].map((label, i) => (
-              <CheckboxFancy
-                asRadioButton
+              <RadioButton
                 label={label}
                 key={label}
                 labelClassName={locals.checkboxLabel}
@@ -174,12 +170,6 @@ const handleSubmit = ({
           setSuccess(false);
         }, 5 * 1000)
       );
-      // tracks feedback and comment
-      actionHistoryInstanceFeedbackTracker({
-        actionInstanceId: id,
-        actionInstanceFeedback: newFeedback,
-        actionInstanceComment: newComment
-      });
     },
     () => {
       setIsSaving(false);

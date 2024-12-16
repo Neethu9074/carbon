@@ -6,7 +6,7 @@
 import { List, Map } from 'immutable';
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button, Stack } from '@instana/components';
 
 import { bytes, timeByMicroTwoDecimalPlaces, time, twoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import PrometheusJavaClientMetrics from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/PrometheusJavaClientMetrics';
@@ -82,14 +82,14 @@ function JVMDashboard({ snapshot, timeConfig, isInternalVisible, agentSnapshot }
       <DashboardSection
         title={t('in-forge:plugins.jvmRuntimePlatform.threads')}
         button={
-          <span>
+          <Stack direction="horizontal" gap="xsmall">
             {hasCanCreateThreadDump && (
               <ThreadDumpButton className="in-jvm-dashboard-thread-dump-button" snapshot={snapshot} />
             )}
             {hasCanCreateHeapDump && (
               <HeapDumpButton className="in-jvm-dashboard-heap-dump-button" snapshot={snapshot} />
             )}
-          </span>
+          </Stack>
         }
       >
         <ChartExplanation>

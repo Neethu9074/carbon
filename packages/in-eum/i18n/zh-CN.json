@@ -1,0 +1,14 @@
+{
+  "generateImpactReport": {
+    "button": "生成影响报告"
+  },
+  "entityInfoLabelOfWebsiteOrMobile": "在网站/移动应用上：",
+  "titleImpactedUsers": "受影响的用户数",
+  "labelImpactedUsers": "用户：",
+  "lastHoursOfTheIssue": "该问题上次持续存在 {{duration}} 小时",
+  "approximateDataIndicator": {
+    "durationTooLong": "由于问题持续时间较长，因此查询结果目前只显示最近几个小时的数据",
+    "tooManyCalls": "由于调用量很大，因此查询结果目前只显示最近几个小时的数据",
+    "tooManyCallsWithEstimation": "由于调用量很大（总共约有 {{estimatedCount}} 次），因此查询结果目前只显示最近几个小时的数据"
+  }
+}

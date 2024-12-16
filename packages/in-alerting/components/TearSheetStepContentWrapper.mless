@@ -6,9 +6,12 @@
 
 :local {
   .container {
-    padding-top: 2rem;
     width: 100%;
     height: 100%;
+  }
+
+  .showPadding {
+    padding-top: 1.5rem;
   }
 
   .headline {
@@ -17,7 +20,8 @@
     display: flex;
     align-items: center;
   }
-  .description {
-    color: var(--ids-color-option-neutral-600);
+
+  .block {
+    display: flex;
   }
 }

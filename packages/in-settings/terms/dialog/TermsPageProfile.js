@@ -7,9 +7,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Stack } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { SvgIcon, Button, Stack } from '@instana/components';
 
 import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndicator';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';

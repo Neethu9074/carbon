@@ -5,19 +5,11 @@
  */
 
 import React, { useContext } from 'react';
-import classNames from 'classnames';
-import { noop } from 'lodash';
 
-import { Application, Progress, Website } from '@instana/types';
-import { Li, Stack, Ul } from '@instana/components';
-import { t } from '@instana/i18n-react';
+import { Application, Progress, SyntheticTest, Website } from '@instana/types';
 
-import SloEntityTableSkeleton from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTableSkeleton';
+import SloTableSelection from 'in-service-levels/components/Shared/SloTableSelection/SloTableSelection';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
-import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
-
-import locals from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloEntitySection/SloEntityTable.mless';
 
 export const SloEntityTablePageSize = 6;
 
@@ -26,17 +18,23 @@ export interface EntityData {
   label: string;
 }
 
+export interface SyntheticTestWithId extends Omit<SyntheticTest, 'id'> {
+  id: string;
+}
+
 interface SloEntityTableProps {
+  asRadioButton?: boolean;
+  canLoadMore?: boolean;
   disabled?: boolean;
-  entityList?: Application[] | Website[];
+  entityList?: Application[] | Website[] | SyntheticTestWithId[];
+  hasError?: boolean;
+  loadMore?: () => void;
   onChange: (entityData: EntityData) => void;
   progress: Progress;
-  canLoadMore?: boolean;
-  loadMore?: () => void;
-  hasError?: boolean;
 }
 
 export default function SloEntityTable({
+  asRadioButton,
   canLoadMore,
   disabled = false,
   entityList,
@@ -47,49 +45,20 @@ export default function SloEntityTable({
 }: SloEntityTableProps) {
   const { form } = useContext(SloFormContext);
 
-  const entityId = form.getIn(['entity', 'entityId']);
-
-  if (progress.loading) return <SloEntityTableSkeleton />;
-
-  const isDataAvailable = entityList !== undefined && entityList.length > 0;
-
-  if (!isDataAvailable) return <NoDataAvailable height={160} text={t('in-service-levels:general.noData')} />;
-
-  const shouldRenderMoreButton = canLoadMore && loadMore && !disabled;
+  const entityIds = form.getIn(['entity', 'entityIds']).value;
 
   return (
-    <Ul
-      className={classNames({
-        [locals.withError]: hasError
-      })}
-    >
-      {entityList.map(entityData => {
-        return (
-          <Li
-            className={classNames({
-              [locals.disabled]: disabled
-            })}
-            onClick={disabled ? noop : () => onChange(entityData)}
-            key={entityData.id}
-          >
-            <Stack direction="horizontal">
-              <CheckboxFancy
-                asRadioButton
-                checked={entityData.id === entityId.value}
-                disabled={disabled}
-                onChange={disabled ? noop : () => onChange(entityData)}
-              />
-              <div className={locals.checkBoxItem}>{entityData.label}</div>
-            </Stack>
-          </Li>
-        );
-      })}
-
-      {shouldRenderMoreButton && (
-        <Li onClick={loadMore} className={locals.loadMore}>
-          {t('in-service-levels:general.loadMore')}
-        </Li>
-      )}
-    </Ul>
+    <SloTableSelection
+      asRadioButton={asRadioButton}
+      canLoadMore={canLoadMore}
+      columns={['label']}
+      disabled={disabled}
+      hasError={hasError}
+      itemList={entityList}
+      loadMore={loadMore}
+      onChange={onChange}
+      progress={progress}
+      selectedIds={entityIds}
+    />
   );
 }

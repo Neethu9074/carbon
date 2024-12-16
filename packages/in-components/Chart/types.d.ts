@@ -7,8 +7,8 @@ import { Property } from 'csstype';
 import React from 'react';
 
 import { AggregationType, BoundaryScope, FilterInterface, TimeConfig } from '@instana/types';
-import { AdjustedTimeframe, ThresholdOperator } from '@instana/types/typeDefinitions';
 import { DateFormatterInput, DateFormatterOutput } from '@instana/format-date';
+import { ThresholdOperator } from '@instana/types/typeDefinitions';
 import { Observable } from '@instana/observables';
 
 import { Renderer } from 'in-components/Chart/renderer/types';
@@ -33,6 +33,9 @@ export interface Metric {
   metric: string;
   timeShift?: TimeShiftOffset | TimeShift;
   aggregation?: AggregationType;
+  unit?: string;
+  type?: string;
+  pollRate?: number;
 }
 
 export interface ChartedMetricsConfig {
@@ -53,6 +56,7 @@ export interface ContextMenuButton {
 
 interface ResultAwareChartConfig {
   frontBufferWidth?: number;
+  backBufferWidth?: number;
   customHeight?: number;
   customChartSkeletonHeight?: number;
   showNoDataInfoWhenEmpty?: boolean;
@@ -60,6 +64,7 @@ interface ResultAwareChartConfig {
   renderHistoricDataIndicator?: boolean;
   renderWidgetNotSupportedIndicator?: boolean;
   hasApproximateData?: boolean;
+  extraInfo?: string;
   disableChartInLive?: boolean;
   approximateTooltipText?: string;
 }
@@ -146,6 +151,8 @@ export type MetricDataSeries = MetricDataPoint[];
 type AxisColor = string | null;
 export type AxisName = 'y1' | 'y2';
 
+export type DatapointsDistancePerSeries = { [id: string]: number };
+
 export interface AxisConfiguration {
   renderer: Renderer;
   metrics: MetricDataSeries[];
@@ -188,8 +195,8 @@ export interface AxisConfiguration {
   companionMetrics?: MetricDataSeries[];
   companionMetricConfigs?: CompanionMetricConfig[];
 
-  adjustedTimeframes?: AdjustedTimeframe[];
   lastValue?: boolean;
+  distanceBetweenDatapointsInMillis?: DatapointsDistancePerSeries;
 }
 
 export type ChartContentPostition = 'pre' | 'post';

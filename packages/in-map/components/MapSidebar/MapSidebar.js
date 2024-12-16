@@ -11,8 +11,8 @@ import { useObservable } from '@instana/hooks';
 
 import SidebarBreadcrumb from 'in-map/components/MapSidebar/components/SidebarBreadcrumb';
 import MapSidebarHeader from 'in-map/components/MapSidebar/components/MapSidebarHeader';
-import SidebarContent from 'in-map/components/MapSidebar/components/SidebarContent';
 import { isUsageInfoPopupEnabled, playwithEnabled } from 'in-services/featureFlags';
+import SidebarContent from 'in-map/components/MapSidebar/components/SidebarContent';
 import { getForgeComponent } from 'in-sdk/getForgeComponent';
 import { selectedSnapshot$ } from 'in-stores/snapshot';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -32,7 +32,7 @@ export default connectTo(
     }
 
     return (
-      <div className={locals.mapSidebar}>
+      <div className={locals.carbonMapSidebar} role="region">
         <MapSidebarHeader snapshot={snapshot} timeConfig={timeConfig} />
         <SidebarBreadcrumb snapshotId={snapshot.get('id')} />
         <div

@@ -6,13 +6,14 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { clickBizopsProcessAnalyzeInstancesTracker } from 'in-bizops/tracker';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { useLinkToAnalyze } from 'in-applications/navigation/paths';
+import { bizopsAnalyzeInstancesClick } from 'in-bizops/tracker';
 import { t } from 'in-i18n';
 
 /* This component directs the user to the Analyze page, with filters set
@@ -21,7 +22,7 @@ include the activity name if not empty */
 interface AnalyzeButtonProps {
   businessProcessId: string;
   businessProcessName: string;
-  businessActivityName: string;
+  businessActivityName?: string;
 }
 export default function AnalyzeButton({
   businessProcessId,
@@ -31,10 +32,12 @@ export default function AnalyzeButton({
   // We use the applications analytics implementation since there is no point
   // duplicating code.
   const getLinkToAnalyze = useLinkToAnalyze();
+  const { location } = useNavigation();
   return (
     <Button
-      kind="primary"
+      kind="action"
       icon="lib_application_call"
+      size="compact"
       href={getLinkToAnalyze({
         formModel: formModelBuilder(businessProcessId, businessActivityName),
         groupBy: {
@@ -47,10 +50,11 @@ export default function AnalyzeButton({
         fastQueryModeEnabled: true
       })}
       onClick={() => {
-        clickBizopsProcessAnalyzeInstancesTracker({
+        bizopsAnalyzeInstancesClick({
+          path: location.pathname,
           processId: businessProcessId,
           processName: businessProcessName,
-          activityName: businessActivityName
+          activityName: businessActivityName || undefined
         });
       }}
     >
@@ -59,7 +63,7 @@ export default function AnalyzeButton({
   );
 }
 
-function formModelBuilder(businessProcessId: string, businessActivityName: string) {
+function formModelBuilder(businessProcessId: string, businessActivityName?: string) {
   let formModel: FormModelElement[] = [tagFilter('call.bpm.process.definition.id', EQUALS, businessProcessId)];
 
   // For when the user clicks on analyze instances in

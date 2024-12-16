@@ -12,7 +12,7 @@ import {
   SyntheticUnifiedMetricConfiguration,
   TimeConfig,
   TimeShift,
-  UnifiedMetricConfiguration
+  UnifiedMetricConfigurationUnion
 } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
@@ -98,7 +98,7 @@ function RenderChart({ test, timeConfig, timeShiftConfig }: ChartProps) {
     comparisonIncreaseColor: 'greenish'
   };
 
-  const metrics: { [index: string]: UnifiedMetricConfiguration } = {
+  const metrics: { [index: string]: UnifiedMetricConfigurationUnion } = {
     [metricKey]: {
       ...config.metricConfiguration,
       ...config.tagFilters

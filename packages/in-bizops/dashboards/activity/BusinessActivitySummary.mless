@@ -12,3 +12,9 @@
     color: var(--ids-color-option-neutral-600) !important;
   }
 }
+
+:global {
+  :local(.activitySummaryDiv) .carbon-tabs button {
+    display: none;
+  }
+}

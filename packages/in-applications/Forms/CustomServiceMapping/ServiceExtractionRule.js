@@ -14,7 +14,8 @@ export default function ServiceExtractionRule({
   isInstanaDefaultRule = false,
   onEdit,
   onRemove,
-  preview
+  preview,
+  editDisabled
 }) {
   return (
     <Rule
@@ -26,6 +27,7 @@ export default function ServiceExtractionRule({
       onToggleEnable={onToggleEnable}
       onEdit={() => onEdit(serviceConfig)}
       onRemove={() => onRemove(serviceConfig)}
+      editDisabled={editDisabled}
     />
   );
 }

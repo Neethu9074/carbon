@@ -6,10 +6,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { get } from 'lodash';
 
-import { SvgIcon, Link } from '@instana/components';
+import { SvgIcon, Link, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
-import { Button } from '@instana/legacy';
 
 import {
   pageLoadIdUrlParameter,

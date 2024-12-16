@@ -137,6 +137,7 @@ const OverviewChart = ({ subtransactions, earliestTimestamp, endTimestamp }: Sub
           return (
             <Tooltip
               themeStyle="light"
+              forceTheme
               content={<OverviewChartToolTip subtransaction={sub} />}
               key={sub.properties.currentUUID}
             >

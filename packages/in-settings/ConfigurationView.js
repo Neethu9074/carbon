@@ -6,11 +6,12 @@
 import { generatePath, matchPath } from 'react-router';
 import React from 'react';
 
-import { settingsBasePath, teamSettings, userSettingsGeneral } from 'in-settings/navigation/paths';
-import { isAvailable as isGoogleSSOAvailable } from 'in-settings/tabs/AuthSettings/api/googleSSO';
-import { isAvailable as isSamlAvailable } from 'in-settings/tabs/AuthSettings/api/saml';
-import { isAvailable as isLdapAvailable } from 'in-settings/tabs/AuthSettings/api/ldap';
-import { roleHasAnyTeamPermissions } from 'in-settings/tabs/permissions';
+import { isAvailable as isGoogleSSOAvailable } from 'in-settings/tabs/SecurityAndAccess/api/googleSSO';
+import { settingsBasePath, globalSettings, userSettingsGeneral } from 'in-settings/navigation/paths';
+import { isAvailable as isSamlAvailable } from 'in-settings/tabs/SecurityAndAccess/api/saml';
+import { isAvailable as isLdapAvailable } from 'in-settings/tabs/SecurityAndAccess/api/ldap';
+import { isAvailable as isOidcAvailable } from 'in-settings/tabs/SecurityAndAccess/api/oidc';
+import { roleHasAnyGlobalPermissions } from 'in-settings/tabs/permissions';
 import legacyRedirects from 'in-settings/navigation/legacy-redirects';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import RedirectWithHash from 'in-components/RedirectWithHash';
@@ -23,14 +24,17 @@ export default connectTo(
   {
     isGoogleSSOAvailable: isGoogleSSOAvailable(),
     isSamlAvailable: isSamlAvailable(),
-    isLdapAvailable: isLdapAvailable()
+    isLdapAvailable: isLdapAvailable(),
+    isOidcAvailable: isOidcAvailable()
   },
   function ConfigurationView(props) {
     const { location } = props;
     if (location.pathname && location.pathname === settingsBasePath) {
       // in-components/AppHeader/components/AccountMenu/components/Menu (and possibly old bookmarks) just points to
-      // /config, we redirect this to the default tab (team settings).
-      return <RedirectWithHash props={props} to={roleHasAnyTeamPermissions() ? teamSettings : userSettingsGeneral} />;
+      // /config, we redirect this to the default tab (global settings).
+      return (
+        <RedirectWithHash props={props} to={roleHasAnyGlobalPermissions() ? globalSettings : userSettingsGeneral} />
+      );
     }
 
     // redirects for pre-2019 config paths (to support old bookmarks and links in docs etc.)

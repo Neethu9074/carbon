@@ -28,10 +28,7 @@ export default function GoRuntimeContent({ agentKey, serverlessEndpoint }: Onboa
             i18nKey={'in-plg:agentDetails.aws.referDocumentationForSettingUpAwsSensor'}
             components={{
               awsSensorDoc: (
-                <Link
-                  href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-amazon-web-services-aws-agent"
-                  target="_blank"
-                >
+                <Link href="https://ibm.biz/monitor-aws" target="_blank">
                   {t('in-plg:agentDetails.aws.documentationLinks.awsServiceDocumentation')}
                 </Link>
               )
@@ -49,10 +46,7 @@ export default function GoRuntimeContent({ agentKey, serverlessEndpoint }: Onboa
               i18nKey={'in-plg:agentDetails.aws.referenceToAwsLambdaGoDocumentation'}
               components={{
                 awsLambdaGoDoc: (
-                  <Link
-                    href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-aws-lambda"
-                    target="_blank"
-                  >
+                  <Link href="https://ibm.biz/monitor-aws-lambda" target="_blank">
                     {t('in-plg:agentDetails.aws.awsLambdaGoDocumentation')}
                   </Link>
                 )
@@ -64,10 +58,7 @@ export default function GoRuntimeContent({ agentKey, serverlessEndpoint }: Onboa
               i18nKey={'in-plg:agentDetails.aws.referenceToAwsLambdaMonitoringDoc'}
               components={{
                 awsLambdaMonitoring: (
-                  <Link
-                    href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-aws-lambda"
-                    target="_blank"
-                  >
+                  <Link href="https://ibm.biz/monitor-aws-lambda" target="_blank">
                     {t('in-plg:agentDetails.aws.monitoringAwsLambdaDocumentation')}
                   </Link>
                 )

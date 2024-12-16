@@ -8,8 +8,7 @@ import React from 'react';
 
 import { LocationListItem, TimeConfig } from '@instana/types';
 import { formatDateTime } from '@instana/format-date';
-import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link, SvgIcon } from '@instana/components';
 
 // @ts-expect-error Could not find declaration type
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
@@ -18,10 +17,11 @@ import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHea
 import LocationListActionsColumn from 'in-synthetics/dashboards/global/tabs/locations/components/LocationListActionsColumn';
 // eslint-disable-next-line no-restricted-imports
 import { useNamespaceDashboard } from 'in-kubernetes/navigation/paths';
+import IPAddressPresenter from 'in-synthetics/dashboards/global/tabs/locations/components/IPAddressPresenter';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter/HealthIndicatorPresenter';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { role } from 'in-stores/user';
@@ -29,7 +29,7 @@ import { t } from 'in-i18n';
 
 import locals from './columnDefinitions.mless';
 
-interface locationListProps extends ServerTablePresenterProps<LocationListItem> {
+interface LocationListProps extends ServerTablePresenterProps<LocationListItem> {
   timeConfig: TimeConfig;
   setReload: React.Dispatch<React.SetStateAction<number>>;
 }
@@ -37,26 +37,11 @@ interface locationListProps extends ServerTablePresenterProps<LocationListItem> 
 function LocationLabelContent({ item }: { item: LocationListItem }) {
   const entityHealthInfo = item.entityHealthInfo;
   const locationDescription = item.description ?? '';
+  const href = useGetDashboardLink()(item.popSnapshotId ?? '', {
+    pathname: physicalDashboardPath
+  });
 
-  return locationDescription === '' ? (
-    //If no PoP Sensor installed, Location Name is not clickable
-    entityHealthInfo === undefined ? (
-      <SeverityAwareEntityLink
-        severity={item.entityHealthInfo?.maxSeverity}
-        icon={'lib_synthetic_location'}
-        label={item.label}
-      />
-    ) : (
-      <SeverityAwareEntityLink
-        severity={item.entityHealthInfo?.maxSeverity}
-        icon={'lib_synthetic_location'}
-        label={item.label}
-        href$={getDashboardLink(item.popSnapshotId ?? '', {
-          pathname: physicalDashboardPath
-        })}
-      />
-    )
-  ) : entityHealthInfo === undefined ? (
+  return entityHealthInfo === undefined ? (
     <SeverityAwareEntityLink
       severity={item.entityHealthInfo?.maxSeverity}
       icon={'lib_synthetic_location'}
@@ -69,14 +54,12 @@ function LocationLabelContent({ item }: { item: LocationListItem }) {
       icon={'lib_synthetic_location'}
       label={item.label}
       tooltip={locationDescription}
-      href$={getDashboardLink(item.popSnapshotId ?? '', {
-        pathname: physicalDashboardPath
-      })}
+      href={href}
     />
   );
 }
 
-let columnDefinitions: ColumnDefinition<LocationListItem, locationListProps>[] = [
+let columnDefinitions: ColumnDefinition<LocationListItem, LocationListProps>[] = [
   {
     id: 'location_name',
     sortable: true,
@@ -189,6 +172,14 @@ let columnDefinitions: ColumnDefinition<LocationListItem, locationListProps>[] =
           </HorizontalFlexWrapper>
         );
       }
+    }
+  },
+  {
+    id: 'ipAddresses',
+    label: t('in-synthetics:dashboard.locationList.ipAddressColumn.ipAddress'),
+    sortable: false,
+    getContent(item: LocationListItem) {
+      return <IPAddressPresenter item={item} />;
     }
   },
   {

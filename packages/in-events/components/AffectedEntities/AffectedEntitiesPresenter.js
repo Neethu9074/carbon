@@ -15,9 +15,11 @@ import {
   Th,
   Thead,
   Tr
-} from '@instana/components';
+} from '@instana/legacy';
+import { DataTable as CarbonDataTable } from '@instana/components';
 
 import { AffectedEntity } from 'in-events/components/AffectedEntities/AffectedEntity';
+import { carbonTableEnabled } from 'in-services/featureFlags';
 import { finishedProgress } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
@@ -32,6 +34,48 @@ export default function AffectedEntitiesPresenter(props) {
     createItemLink,
     items = []
   } = props;
+
+  if (carbonTableEnabled) {
+    const carbonHeaders = [
+      {
+        key: 'name',
+        header: t('in-events:affectedEntities.name')
+      },
+      {
+        key: 'calls',
+        header: t('in-events:affectedEntities.violatedCalls')
+      },
+      {
+        key: 'totalCalls',
+        header: t('in-events:affectedEntities.totalCallsInAlert')
+      },
+      {
+        key: 'timestamp',
+        header: t('in-events:affectedEntities.earliestTimestamp')
+      }
+    ];
+
+    const carbonRows = items.map((item, groupIndex) => {
+      const row = AffectedEntity({
+        id: `${item.name}${groupIndex}`,
+        item: item,
+        createItemLink: createItemLink
+      });
+      return row;
+    });
+
+    return (
+      <>
+        <Fragment>
+          <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
+          {progress.loading && items.length === 0 && <TableLoadingSkeletonRows cols={4} />}
+          {canLoadMore && renderLinkToAnalyzeAll && (
+            <div className={locals.linkToAnalyseAllCalls}>{renderLinkToAnalyzeAll(totalHits)}</div>
+          )}
+        </Fragment>
+      </>
+    );
+  }
 
   return (
     <Fragment>

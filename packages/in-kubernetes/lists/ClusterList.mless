@@ -4,17 +4,23 @@
  */
 
 :local {
+  .table {
+    svg:not([fill]) {
+      fill: currentColor;
+    }
+  }
+
+  .clusterManagementIcon {
+    margin-left: 0.125rem;
+    fill: var(--ids-color-option-neutral-500);
+  }
+
   .clusterManagement {
     display: flex;
     align-items: center;
 
     color: var(--ids-color-option-neutral-500);
     font-size: 0.75rem;
-  }
-
-  .clusterManagementIcon {
-    margin-left: 0.125rem;
-    fill: var(--ids-color-option-neutral-500);
   }
 
   .clusterManagementLabel {

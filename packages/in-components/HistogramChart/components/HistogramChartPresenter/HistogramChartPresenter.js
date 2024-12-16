@@ -44,6 +44,7 @@ export default function HistogramChartPresenter({
   onSelectionChanged,
   result,
   selection,
+  tooltipRef,
   renderWidgetNotSupportedIndicator
 }) {
   const filteredDataSeriesRef = useRef(create());
@@ -67,11 +68,13 @@ export default function HistogramChartPresenter({
     min,
     max,
     formatter,
-    formatterY
+    formatterY,
+    conversionFn
   } = getHistogram({
     result,
     chartWidth,
-    formatter: config?.formatter
+    formatter: config?.formatter,
+    unit: config?.metricConfiguration?.unit
   });
 
   if (isDataMissing) {
@@ -113,6 +116,7 @@ export default function HistogramChartPresenter({
     minHistogramValue: min,
     maxHistogramValue: max,
     applyFormatter: formatter,
+    conversionFn,
     total
   });
 
@@ -174,6 +178,7 @@ export default function HistogramChartPresenter({
             onSelectionChanged={onSelectionChanged}
             selectionAdjustable={selectionAdjustable}
             selection={selection}
+            tooltipRef={tooltipRef}
             renderWidgetNotSupportedIndicator={renderWidgetNotSupportedIndicator}
             tooltipRenderer={{
               render: function TooltipRenderer({ from, to, style }) {

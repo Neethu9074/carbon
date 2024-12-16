@@ -111,6 +111,7 @@
       "summary": {
         "logs": "Registros",
         "analyzeLogs": "Ver en análisis",
+        "logsCardDescription": "Esta es una vista previa, vea todos los registros en analizar",
         "correspondingMobileAppActivity": "Actividad de aplicación móvil correspondiente",
         "hideMobileAppInformation": "Ocultar información de aplicación móvil",
         "showMobileAppInformation": "Mostrar información de aplicación móvil",
@@ -158,6 +159,7 @@
         "cacheInteraction": "Interacción de memoria caché",
         "instanaDoesNotMonitorTheLocationOfThisCall": "Instana no supervisa la {{location}} de esta llamada",
         "tags": "Códigos",
+        "metrics": "Métricas",
         "loading": "Cargando detalles de llamada.",
         "labelError": "Error inesperado",
         "retryError": "No se han podido cargar los detalles de la llamada.",
@@ -165,7 +167,11 @@
         "selfTime": "Tiempo personal",
         "networkTime": "Tiempo de red",
         "waitingTime": "Tiempo en espera",
-        "latency": "Latencia"
+        "latency": "Latencia",
+        "findSQL": "Buscar SQL en {{type}}",
+        "sumOfLatencies": "Suma de latencias",
+        "elapsedTime": "Tiempo transcurrido",
+        "batchTooltip": "Total {{type}} para {{batchCount}} llamadas por lotes."
       },
       "callTree": {
         "expandButtonForRow": "Expandir todas las subllamadas",
@@ -272,6 +278,7 @@
     "titleParameters": "Parámetros",
     "analyzeLogsLabel": "Analizar registros",
     "similarLogs": "Registros similares",
+    "message": "Mensaje",
     "similarServiceLogs": "Mostrar registros en contexto de este servicio",
     "restrictedAccessExpl": "No tiene permiso para acceder a esta información"
   },
@@ -280,6 +287,7 @@
     "labelNetwork": "Red",
     "labelSelf": "Propio",
     "labelWaiting": "En espera",
+    "labelElapsed": "Transcurrido",
     "labelService": "Servicio",
     "labelEndpoint": "Punto final",
     "labelAggregatedTime": "Tiempo agregado",
@@ -310,7 +318,6 @@
   "resultHeaderTooltip": "El rango de tiempo de la consulta se ha redondeado hasta el minuto completo más próximo para permitir que esta vista se cargue más rápidamente.",
   "components": {
     "analyzeHeader": {
-      "beta": "BETA",
       "analytics": "Analíticas"
     },
     "filterBar": {

@@ -1,5 +1,5 @@
 {
-  "zhmcs": "zHMC",
+  "zhmcs": "zHMCs",
   "hostname": "호스트 이름",
   "name": "이름",
   "systems": "시스템",
@@ -17,7 +17,7 @@
   "status": "상태",
   "breadcrumbs": {
     "zhmc": "zHMC",
-    "zhmcs": "zHMC",
+    "zhmcs": "zHMCs",
     "systems": "시스템"
   },
   "dashboards": {
@@ -43,17 +43,17 @@
     "cryptoId": "암호화 ID",
     "processorUsage": "전체 프로세서 사용량",
     "name": "이름",
-    "zvm": "z/VM 페이징 비율",
     "ifl": "IFL 프로세서 사용량",
     "icf": "ICF 프로세서 사용량",
     "cbp": "CBP 프로세서 사용량",
     "cp": "CP 프로세서 사용량",
     "iip": "IIP 프로세서 사용량",
+    "lparPowerConsumption": "LPAR 소비전력(와트)",
     "smt": "SMT 사용",
     "thread0": "스레드 0 사용",
     "thread1": "스레드 1 사용",
-    "networkUsage": "네트워크 사용",
-    "storageUsage": "스토리지 사용",
+    "networkUsage": "네트워크 사용량",
+    "storageUsage": "스토리지 사용량",
     "acceleratorUsage": "액셀러레이터 사용",
     "cryptoUsage": "Crypto 사용",
     "networkPortId": "네트워크 포트 ID",
@@ -106,8 +106,8 @@
   "exhaustTemperature": "배출 온도",
   "powerConsumption": "소비전력",
   "channelUsage": "채널 사용",
-  "networkUsage": "네트워크 사용",
+  "networkUsage": "네트워크 사용량",
   "cryptoUsage": "Crypto 사용",
-  "storageUsage": "스토리지 사용",
+  "storageUsage": "스토리지 사용량",
   "acceleratorUsage": "액셀러레이터 사용"
 }

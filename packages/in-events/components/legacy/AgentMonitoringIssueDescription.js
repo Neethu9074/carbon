@@ -5,10 +5,9 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { Link, DescriptionList, DescriptionItem } from '@instana/components';
 
 import getIssueDefinitionForSnapshotAndCode, * as IssueCategories from 'in-sdk/agentMonitoringIssueDefinition';
-import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -40,8 +39,8 @@ export default connectTo(
     const href = issueDefinition.getExplanationLinkHref?.(args) ?? issueDefinition.explanationLinkHref;
 
     return (
-      <DescriptionList>
-        <DescriptionItem title={t('in-events:titleDetail')}>
+      <DescriptionList inComponents>
+        <DescriptionItem inComponents title={t('in-events:titleDetail')}>
           <div className={`${block}__suggestion`}>
             <p>
               <strong>

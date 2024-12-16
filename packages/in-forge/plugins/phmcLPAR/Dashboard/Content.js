@@ -4,13 +4,14 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Redirect } from 'react-router-dom';
 import React from 'react';
 
 import { useIbmpLparDashboard } from 'in-phmc/navigation/paths';
-import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default function PhmcLparDashboard({ snapshot, timeConfig }) {
   const getIbmpLparDashboard = useIbmpLparDashboard();
+  const href = getIbmpLparDashboard(snapshot.get('id'), { timeConfig });
 
-  return <RedirectWithHash to={getIbmpLparDashboard(snapshot.get('id'), { timeConfig })} />;
+  return <Redirect to={href.substring(2)} />;
 }

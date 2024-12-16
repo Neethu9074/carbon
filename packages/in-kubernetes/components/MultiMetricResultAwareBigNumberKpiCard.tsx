@@ -8,8 +8,8 @@ import React, { ReactNode } from 'react';
 import { find } from 'lodash';
 
 import MultiMetricKpiCard, { KpiCardIconAction } from 'in-kubernetes/components/MultiMetricKpiCard';
-import { MetricResult, Result, TagFilter, TimeConfig, UnifiedMetricConfiguration } from 'in-types';
 import MultiMetricResultAwareKpiCard from 'in-kubernetes/components/MultiMetricResultAwareKpiCard';
+import { InfraMetricConfiguration, MetricResult, Result, TagFilter, TimeConfig } from 'in-types';
 import { getTimeShiftLabel, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import Badge from 'in-custom-dashboards/widgets/BigNumber/Badge';
@@ -24,7 +24,7 @@ export const companionMetricKey = 'companion';
 export const comparisonMetricKey = 'comparison';
 
 export interface Config {
-  metricConfiguration: UnifiedMetricConfiguration;
+  metricConfiguration: InfraMetricConfiguration;
   formatter?: string;
   tagFilters?: TagFilter[];
   comparisonIncreaseColor: string;
@@ -32,7 +32,7 @@ export interface Config {
 }
 
 export interface ConfigWithCompanionMetric extends Config {
-  companionMetricConfiguration: UnifiedMetricConfiguration;
+  companionMetricConfiguration: InfraMetricConfiguration;
 }
 
 export interface MultiResultAwareBigNumberKpiCardProps {

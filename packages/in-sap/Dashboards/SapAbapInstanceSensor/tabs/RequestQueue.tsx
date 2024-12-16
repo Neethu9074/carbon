@@ -13,10 +13,11 @@ import { TimeConfig } from '@instana/types';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection/DashboardSection';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import Table from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Table';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { number } from 'in-services/formatters/number';
-import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
 interface RequestQueueRow {
@@ -118,8 +119,8 @@ export default function RequestQueue({ snapshotId, timeConfig }: RequestQueuePro
             y1={{
               min: 0,
               formatter: number.compact,
-              metrics: [`requestQueueList.${row.key}.requestsWritten`, `requestQueueList.${row.key}.requestsRead`],
-              labels: [t('in-sap:dashboards.requestsWritten'), t('in-sap:dashboards.requestsRead')],
+              metrics: [`requestQueueList.${row.key}.requestsRead`, `requestQueueList.${row.key}.requestsWritten`],
+              labels: [t('in-sap:dashboards.requestsRead'), t('in-sap:dashboards.requestsWritten')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -129,14 +130,44 @@ export default function RequestQueue({ snapshotId, timeConfig }: RequestQueuePro
     );
   }
   return (
-    <Table
-      withoutPadding
-      cardTitle={t('in-sap:dashboards.requestQueueInfo')}
-      cols={cols}
-      rows={rows}
-      initialSortColumn={0}
-      initialSortDirection="asc"
-      getRowDetails={getDetails}
-    />
+    <DashboardSection title={t('in-sap:dashboards.dispatcherRequestQueues')}>
+      <Chart
+        snapshotId={snapshotId}
+        timeConfig={timeConfig}
+        y1={{
+          min: 0,
+          metrics: [
+            'queueStats.dialogWait',
+            'queueStats.updateWait',
+            'queueStats.enqueueWait',
+            'queueStats.btcWait',
+            'queueStats.spoolWait',
+            'queueStats.update2Wait',
+            'queueStats.nowpWait'
+          ],
+          labels: [
+            t('in-sap:dashboards.dialogWait'),
+            t('in-sap:dashboards.updateWait'),
+            t('in-sap:dashboards.enqueue'),
+            t('in-sap:dashboards.background'),
+            t('in-sap:dashboards.spoolWait'),
+            t('in-sap:dashboards.update2Wait'),
+            t('in-sap:dashboards.nowpWait')
+          ],
+          type: 'line',
+          formatter: number.compact
+        }}
+      />
+      <Table
+        withoutPadding
+        cardTitle=""
+        cols={cols}
+        rows={rows}
+        initialSortColumn={0}
+        initialSortDirection="asc"
+        getRowDetails={getDetails}
+        showHeader={false}
+      />
+    </DashboardSection>
   );
 }

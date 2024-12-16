@@ -8,18 +8,21 @@ import React, { useState } from 'react';
 import { get } from 'lodash';
 
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import {
   clickSyntheticMonitoringConfigurationTabTracker,
   clickSyntheticMonitoringResultsTabTracker
-} from 'in-synthetics/tracker';
+} from 'in-synthetics/tracking/tracker';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
+import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
+import { dashboardAlertsFullyQualified } from 'in-synthetics/navigation/paths';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getSyntheticTest from 'in-synthetics/subscriptions/getSyntheticTest';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { TestResponse, dummyTest } from 'in-synthetics/utils/constants';
@@ -39,12 +42,17 @@ import { role } from 'in-stores/user';
 
 import locals from './SyntheticSummary.mless';
 
+const isCarbonTableView = smartAlertCarbonTableEnabled && carbonTableEnabled;
+
 const SyntheticSummaryDashboard = () => {
+  const { trackCta } = useSegmentTracking();
   const [count, setReloadCount] = useState(0);
 
   const location: Location = useLocation();
   const testId: string = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
   const test: TestResponse = useObservable<any, [number]>(() => getTest(testId), [count]) || dummyTest;
+
+  const hideButtonInAlertsTab = isCarbonTableView ? location.pathname !== dashboardAlertsFullyQualified : true;
 
   const props = {
     testId,
@@ -57,10 +65,10 @@ const SyntheticSummaryDashboard = () => {
   function trackSyntheticTabChange(tab: string) {
     switch (tab) {
       case t('in-synthetics:dashboard.summary.resultsTab'):
-        clickSyntheticMonitoringResultsTabTracker({ detail: 'Results tab from synthetic Test Dashboard' });
+        clickSyntheticMonitoringResultsTabTracker(trackCta);
         break;
       case t('in-synthetics:dashboard.summary.configurationTab'):
-        clickSyntheticMonitoringConfigurationTabTracker({ detail: 'Configuration tab from synthetic Test Dashboard' });
+        clickSyntheticMonitoringConfigurationTabTracker(trackCta);
         break;
     }
   }
@@ -88,7 +96,7 @@ const SyntheticSummaryDashboard = () => {
         tabChangeTracker={props => trackSyntheticTabChange(props.tab)}
       />
       <Footer />
-      {role?.canConfigureGlobalSyntheticSmartAlerts && (
+      {role?.canConfigureGlobalSyntheticSmartAlerts && hideButtonInAlertsTab && (
         <FloatingActionButtons>
           <CreateSmartAlert testId={testId} />
         </FloatingActionButtons>
@@ -184,7 +192,7 @@ const RenderButtonLine = ({ test, setReloadCount }: RenderButtonLineProps) => {
       kind="primary"
       icon={isActive ? 'lib_actions_pause' : 'lib_actions_play'}
       onClick={() => pauseOrResume(test.data)}
-      disabled={(totalLocations <= 0)}
+      disabled={totalLocations <= 0}
     >
       {isActive ? t('in-synthetics:dashboard.testList.pause') : t('in-synthetics:dashboard.testList.resume')}
     </Button>

@@ -17,9 +17,11 @@
     "chartWrapperMetricNotfound": "메트릭 ID {{metricId}}을(를) 찾을 수 없습니다.",
     "chartWrapperSameAxisSameValue": "하나의 축에 대한 모든 집계 유형에는 동일한 값이 있어야 합니다.",
     "viewInAnalyticsBtnLabel": "분석으로 보기",
+    "chartLegendBlankLabel": "공백",
     "chartLendMetricTimeShifted": "메트릭이 다음으로 시간이 이동됨: {{timeShiftedLabel}}",
-    "chartDownloadLabel": "JSON 다운로드",
-    "chartDownloadCSVLabel": "CSV 다운로드",
+    "chartDownloadLabel": "JSON으로 내보내기",
+    "chartDownloadCSVLabel": "CSV로 내보내기",
+    "chartDownloadPDFLabel": "PDF 다운로드",
     "chartGlobalHighlightLabel": "모든 차트에서 강조표시",
     "chartZoomInLabel": "시간 범위 확대",
     "chartAlertsLanePresenterAlertsLabel": "경보",
@@ -38,7 +40,8 @@
       "itemMsg": "+{{leftCount}}개 {{moreMsg}} 추가"
     },
     "chartMarkerLane": {
-      "retryButtonLabel": "재시도"
+      "retryButtonLabel": "재시도",
+      "openList": "목록 열기"
     },
     "chartReleasesLanePresenterReleasesLabel": "릴리스",
     "chartReleasesLanePresenterTooltip": "{{len}}개 추가 릴리스",
@@ -64,9 +67,14 @@
   "touchedMessages": {
     "withPath": "{{message}}(<codeWithClass>{{path}}</codeWithClass>에서)"
   },
-  "gravatar": {
-    "avatarUrlAlt": "gravatar.com의 {{email}}에 대한 아바타.",
-    "avatarNullAlt": "{{email}}에 대한 폴백 아바타."
+  "graphView": {
+    "graphTitle": "그래프",
+    "explanationHeader": "동적 그래프 쇼케이스",
+    "explanationP1": "코어 기술 기반 Instana는 동적 그래프라고 하는 솔루션입니다. 그래프는 컴포넌트의 모든 물리적 및 논리적 종속 항목을 이해하는 애플리케이션 모델입니다. 오른쪽에 현재 환경의 동적 그래프가 표시됩니다!",
+    "explanationP2": "그래프에는 Instana 에이전트 및 센서가 자동으로 검색한 모든 리소스와 해당 종속성이 포함되어 있어 그래프가 지속적으로 최신 상태로 유지됩니다. 또한 그래프의 모든 노드는 메트릭, 구성 데이터, 의미론적 지식을 기반으로 계산된 상태 값과 같은 상태 정보로 지속적으로 업데이트됩니다. 이 지식도 해당 레벨의 영향을 이해하기 위해 그래프의 종속 항목을 분석하여 서비스 및 애플리케이션과 같은 논리적 그룹화를 찾고 문제의 중요도를 이끌어 낼 수 있습니다. 전체 그래프는 지속적이며 시간 사이를 이동하여 많은 운영 유스 케이스에 대한 그래프의 지식을 활용할 수 있습니다.",
+    "explanationP3": "인프라 맵에서 리소스를 선택하고 이 페이지로 돌아와서 오른쪽의 보기를 필터링할 수 있습니다. 리소스를 선택한 후에는 이 필터링을 허용하는 snapshotId 매개변수를 URL에 설정해야 합니다.",
+    "explanationLink": "자세한 내용은 <linkToBlog>블로그를 방문</linkToBlog>하세요.",
+    "closeBtn": "그래프 닫기"
   },
   "releaseNotesDialog": {
     "releaseNotesTitle": "릴리스 정보"
@@ -115,6 +123,7 @@
       "entititiesDescription": "선택한 시간 범위에 대해 검색된 엔티티가 없습니다."
     },
     "sharedComponents": {
+      "settings": "설정",
       "configurableThSearchItemPlaceholder": "{{len}} 항목 검색",
       "configurableThNoMatchesTxt": "일치사항 없음"
     }
@@ -124,6 +133,7 @@
     "tagListNoTagsDefined": "정의된 태그가 없음",
     "tagListShowAll": "모든 태그 표시({{num}}개 더 표시)"
   },
+  "copyToClipboard": "클립보드",
   "copyToClipboardPressToCopy": "복사하려면 CTRL+C/CMD+C를 누르십시오!",
   "copyToClipboardCopied": "복사됨!",
   "reloadUiDialogTitle": "새 사용자 인터페이스 버전 사용 가능",
@@ -233,6 +243,7 @@
     "labelRegion": "지역",
     "labelTag": "태그",
     "labelCommit": "커미트",
+    "buttonGraphShowcase": "그래프 쇼케이스",
     "geo": {
       "title": "지오 데이터",
       "description": "이 제품은 MaxMind에서 작성한 GeoLite2 데이터를 포함하며, 이는 다음 위치에서 사용 가능합니다. <linkToMaxMind>https://www.maxmind.com</linkToMaxMind>."
@@ -263,6 +274,7 @@
   },
   "dialog": {
     "confirmationDialogLabelConfirm": "확인",
+    "secondaryDialogLabelCancel": "취소",
     "promptPresenterLabelConfirm": "확인"
   },
   "draggableItemSelector": {
@@ -294,12 +306,7 @@
     "tooltipShowLess": "간략하게 표시",
     "tooltipShowMore": "자세히 표시"
   },
-  "expandableGroup": {
-    "tooltipShowContent": "컨텐츠 표시",
-    "labelExpandButtonForContent": "컨텐츠에 대한 단추 펼치기"
-  },
   "featureFeedback": {
-    "labelBETA": "베타",
     "linkLabelYouCanSendUsFeedback": "피드백을 보낼 수 있습니다."
   },
   "geoHeatMap": {
@@ -352,7 +359,55 @@
     "openIncidents_1": "{{count}}개 인시던트",
     "openIncidents_2": "{{count}}개 인시던트",
     "labelWarning": "경고",
-    "labelCritical": "심각"
+    "labelCritical": "심각",
+    "carbonNoIssues": "문제 없음",
+    "carbonOpenIssues": "{{count}}개 문제",
+    "carbonOpenIssues_plural": "{{count}}개 문제",
+    "carbonOpenIssues_0": "{{count}}개 문제",
+    "carbonOpenIssues_1": "{{count}}개 문제",
+    "carbonOpenIssues_2": "{{count}}개 문제",
+    "carbonNoIncidents": "인시던트 없음",
+    "carbonOpenIncidents": "{{count}}개 인시던트",
+    "carbonOpenIncidents_plural": "{{count}}개 인시던트",
+    "carbonOpenIncidents_0": "{{count}}개 인시던트",
+    "carbonOpenIncidents_1": "{{count}}개 인시던트",
+    "carbonOpenIncidents_2": "{{count}}개 인시던트"
+  },
+  "vulnerabilities": {
+    "eventType_issue": "취약성",
+    "eventType_issue_plural": "취약성",
+    "eventType_issue_0": "취약성",
+    "eventType_issue_1": "취약성",
+    "eventType_issue_2": "취약성",
+    "openIssuesListPresenterActionsViewIssues": "취약성 보기",
+    "openIssuesListPresenterActionsViewNumbersOfIssue": "{{openIssueCount}} 취약성 보기",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "미해결 취약점 로드 중...",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "열린 취약점 로드 실패",
+    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}}개 미해결 취약점",
+    "noVulnerabilities": "취약점 없음",
+    "openVulnerabilities": "{{count}}개 취약점",
+    "openVulnerabilities_plural": "{{count}}개 취약점",
+    "openVulnerabilities_0": "{{count}}개 취약점",
+    "openVulnerabilities_1": "{{count}}개 취약점",
+    "openVulnerabilities_2": "{{count}}개 취약점",
+    "noIncidents": "인시던트 없음",
+    "openIncidents": "{{count}}개 인시던트",
+    "openIncidents_plural": "{{count}}개 인시던트",
+    "openIncidents_0": "{{count}}개 인시던트",
+    "openIncidents_1": "{{count}}개 인시던트",
+    "openIncidents_2": "{{count}}개 인시던트",
+    "carbonNoVulnerabilities": "취약점 없음",
+    "carbonOpenVulnerabilities": "{{count}}개 취약점",
+    "carbonOpenVulnerabilities_plural": "{{count}}개 취약점",
+    "carbonOpenVulnerabilities_0": "{{count}}개 취약점",
+    "carbonOpenVulnerabilities_1": "{{count}}개 취약점",
+    "carbonOpenVulnerabilities_2": "{{count}}개 취약점",
+    "carbonNoIncidents": "인시던트 없음",
+    "carbonOpenIncidents": "{{count}}개 인시던트",
+    "carbonOpenIncidents_plural": "{{count}}개 인시던트",
+    "carbonOpenIncidents_0": "{{count}}개 인시던트",
+    "carbonOpenIncidents_1": "{{count}}개 인시던트",
+    "carbonOpenIncidents_2": "{{count}}개 인시던트"
   },
   "inlineTabNavigation": {
     "labelSelectTab": "탭 선택"
@@ -388,9 +443,9 @@
     "labelLoadingData": "데이터 로드 중"
   },
   "mainNavigation": {
+    "skipToMainContent": "기본 컨텐츠로 건너뛰기",
     "viewSwitcherLabelSettings": "설정",
     "viewSwitcherLabelMore": "계속",
-    "viewSwitcherLabelTenants": "테넌트",
     "viewSwitcherLabelAgents": "에이전트",
     "viewSwitcherLabelReleaseNotes": "릴리스 정보",
     "viewSwitcherLabelDocumentation": "문서",
@@ -400,7 +455,9 @@
     "viewSwitcherLabelEvents": "이벤트",
     "viewSwitcherlabelInfrastructure": "인프라",
     "viewSwitcherLabelApplications": "애플리케이션",
+    "viewVulnerabilityCenter": "취약점",
     "viewSwitcherLabelSlo": "서비스 레벨",
+    "viewSwitcherLabelLogs": "로그",
     "viewSwitcherLabelAnalytics": "분석",
     "viewSwitcherLabelWebsitesAndMobileApps": "웹 사이트 및 모바일 앱",
     "viewSwitcherLabelWebsites": "웹 사이트",
@@ -414,10 +471,17 @@
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "플랫폼",
-    "viewSwitcherButtonSignOut": "로그아웃",
     "viewSwitcherCustomDashboards": "사용자 정의 대시보드",
+    "viewSwitcherButtonSignOut": "로그아웃",
+    "viewSwitcherLabelTenants": "테넌트",
+    "viewSwitcherLabelNutanix": "Nutanix",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "새 Instana UI 버전 사용 가능",
-    "newUiClientVersionAvailableButtonReloadToUpdate": "업데이트하기 위해 다시 로드"
+    "newUiClientVersionAvailableButtonReloadToUpdate": "업데이트하기 위해 다시 로드",
+    "profileMenu_profileLink": "프로파일",
+    "profileMenu_tooltip": "프로파일 메뉴",
+    "profileMenu_unitName_tenantName": "단위 이름 - 테넌트 이름",
+    "profileMenu_switchUnitOrTenant": "단위 또는 테넌트 전환",
+    "profileMenu_logOut": "로그아웃"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "메트릭 선택",
@@ -438,8 +502,10 @@
     "aggregation_MAX": "최대",
     "aggregation_DISTINCTCOUNT": "구별 계수",
     "aggregation_SUM": "합",
+    "aggregation_INCREASE": "Δ",
     "aggregation_DISTRIBUTION": "분포",
-    "aggregation_PERSECOND": "초당"
+    "aggregation_PERSECOND": "초당",
+    "labelFilterEmptyValue": "비어 있는 값 필터링"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "사용됨",
@@ -517,6 +583,12 @@
     "fillerTextIn": " 위치 ",
     "fillerTextAt": " 시간 "
   },
+  "sessionTimeout": {
+    "title": "세션 제한시간",
+    "message": "활동이 없어 로그아웃됩니다.",
+    "loggedInButton": "로그인 상태 유지",
+    "logOutButton": "로그아웃"
+  },
   "time": {
     "lastMinute": "지난 1분",
     "lastMinute_plural": "지난 {{count}}분",
@@ -584,8 +656,8 @@
     "loadingData": "데이터 로드 중"
   },
   "uiClinetUpdateMessage": {
-    "newVersionOfInstanaAvailable": "새 Instana 버전 사용 가능",
-    "buttonReloadToUpdate": "업데이트하기 위해 다시 로드"
+    "newVersionOfInstanaAvailable": "Instana UI가 업데이트됨",
+    "buttonReloadToUpdate": "로드하려면 브라우저를 새로 고치십시오."
   },
   "upstreamDownstream": {
     "companionMetricLabelCalls": "호출",
@@ -645,6 +717,7 @@
     "setEnabledMessagePressESCToDisableTVMode": "TV 모드를 사용 안함으로 설정하려면 ESC를 누르십시오."
   },
   "analyze": {
+    "facettedFilters": "패싯 필터",
     "loadMoreWithCount": "{{count}}개 추가 로드",
     "loadMore": "추가 로드",
     "activeFacets": "{{count}}개 선택됨",
@@ -655,6 +728,7 @@
     "fromUnit": "시작({{unit}})",
     "to": "종료",
     "toUnit": "종료({{unit}})",
+    "fromto": "범위 정의",
     "rangeSelected": "범위 선택됨",
     "rangeOrder": "범위는 오름차순이어야 합니다.",
     "earliestTimestamp": "최초 시간소인",
@@ -668,6 +742,8 @@
     },
     "groupName": "그룹 이름",
     "groupedOnly": "메트릭은 그룹 분석 시에만 사용 가능합니다.",
+    "groupNameNotAvailable": "{{groupingTag}} 정보를 사용할 수 없음",
+    "options": "옵션",
     "filterSidebar": {
       "groupingButton": "{{group}}별로 그룹화",
       "ungroupButton": "그룹화 제거"
@@ -829,5 +905,9 @@
     "notice": "이 테넌트 단위가 새 영역으로 마이그레이션되었습니다. 현재 액세스 중인 단위에는 히스토리 데이터만 포함되어 있습니다.",
     "goToNewLocationLabel": "새 위치로 이동",
     "exploreDataLabel": "히스토리 데이터 탐색"
+  },
+  "creatableTagSelect": {
+    "placeholder": "태그 입력",
+    "createLabel": "작성: {{tag}}"
   }
 }

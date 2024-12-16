@@ -4,29 +4,29 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { ReactNode, useState } from 'react';
-import classNames from 'classnames';
+import React, { ReactNode, useEffect } from 'react';
 
-import { Typography } from '@instana/components';
+import { useObservable } from '@instana/hooks';
+
+import { triggerScrollToInvalidItem$ } from 'in-alerting/smart-alerts/components/tearSheet/hooks/useScrollToFirstInvalidItem';
+import AlertTypography from 'in-alerting/components/AlertTypography';
 
 import locals from './AlertingTearSheetContent.mless';
 
 export default function AlertingTearSheetContent({ title, children }: { title: string; children: ReactNode }) {
-  const [scrollshadow, setScrollshadow] = useState(false);
+  const contentRef = React.useRef<any>(null);
+  const triggerScrollToInvalidItem = useObservable(triggerScrollToInvalidItem$, []);
+
+  useEffect(() => {
+    if (!triggerScrollToInvalidItem) {
+      contentRef.current.parentElement.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [triggerScrollToInvalidItem]);
 
   return (
-    <div>
-      <div
-        className={classNames({
-          [locals.scrollShadow]: scrollshadow
-        })}
-      >
-        <Typography variant="heading-600">{title}</Typography>
-      </div>
-
-      <div className={locals.contentArea} onScroll={e => setScrollshadow(e.currentTarget?.scrollTop > 0)}>
-        {children}
-      </div>
+    <div id="contentSection" ref={contentRef}>
+      <AlertTypography variant={'heading-600'} content={title} noMargin />
+      <div className={locals.contentArea}>{children}</div>
     </div>
   );
 }

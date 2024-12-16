@@ -3,13 +3,16 @@
  * (c) Copyright Instana Inc. 2022
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
+import { RadioButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
+import { Spacer } from '@instana/components';
 
+import LabelDescriptionWithIcon from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/LabelDescriptionWithIcon';
 import ReadOnlyAlertEvaluation from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation';
 import alertEvaluationTypes from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import IconLabel from 'in-alerting/components/IconLabel';
 import { AlertEvaluationType } from 'in-types';
 import Tooltip from 'in-components/Tooltip';
@@ -23,6 +26,8 @@ interface Props {
   isAdaptiveThreshold?: boolean;
   isGlobalSmartAlert?: boolean;
   setEvaluationType: (type: AlertEvaluationType) => void;
+  tearSheetView?: boolean;
+  evaluationCount?: { PER_AP: number; PER_AP_SERVICE: number; PER_AP_ENDPOINT: number };
 }
 
 export function AlertEvaluationControlPresenter({
@@ -30,7 +35,9 @@ export function AlertEvaluationControlPresenter({
   evaluationType,
   isAdaptiveThreshold,
   isGlobalSmartAlert,
-  setEvaluationType
+  setEvaluationType,
+  tearSheetView,
+  evaluationCount
 }: Props) {
   if (isBuiltIn) {
     return (
@@ -41,7 +48,7 @@ export function AlertEvaluationControlPresenter({
   }
 
   const Checkbox = ({ type, disabled }: { type: AlertEvaluationType; disabled?: boolean }) => (
-    <CheckboxFancy
+    <RadioButton
       key={type}
       disabled={disabled}
       label={
@@ -49,20 +56,45 @@ export function AlertEvaluationControlPresenter({
       }
       checked={type === evaluationType}
       onChange={() => setEvaluationType(type)}
-      asRadioButton
+    />
+  );
+
+  const TearSheetCheckbox = ({ type, disabled }: { type: AlertEvaluationType; disabled?: boolean }) => (
+    <RadioButton
+      key={alertEvaluationTypes[type].tearSheetSelectionText}
+      label={
+        <LabelDescriptionWithIcon
+          label={alertEvaluationTypes[type].tearSheetSelectionText}
+          description={
+            evaluationCount?.[type]
+              ? alertEvaluationTypes[type].tearSheetDescription(getEvaluationCount(evaluationCount[type]))
+              : alertEvaluationTypes[type].tearSheetDescription(0)
+          }
+        >
+          <>
+            <Spacer vertical="normal" />
+            <Spacer vertical="xsmall" />
+          </>
+        </LabelDescriptionWithIcon>
+      }
+      checked={type === evaluationType}
+      onChange={() => setEvaluationType(type)}
+      disabled={disabled}
     />
   );
 
   return (
-    <div className={locals.container}>
-      <IconLabel
-        type="lib_alerts_multiple_alerts"
-        text={t('in-alerting:smartAlerts.applications.advanced.evaluationSwitch.individual')}
-        noBottomMargin
-        color={themes.default.ids.color.option.neutral['600']}
-      />
+    <div className={classNames({ [locals.container]: !tearSheetView })}>
+      {!tearSheetView && (
+        <IconLabel
+          type="lib_alerts_multiple_alerts"
+          text={t('in-alerting:smartAlerts.applications.advanced.evaluationSwitch.individual')}
+          noBottomMargin
+          color={themes.default.ids.color.option.neutral['600']}
+        />
+      )}
 
-      <div className={locals.options}>
+      <div className={classNames({ [locals.options]: !tearSheetView, [locals.tearSheetOptions]: tearSheetView })}>
         {Object.keys(alertEvaluationTypes).map(evalType => {
           const type = evalType as AlertEvaluationType;
           const notAvailableWithAdaptiveThreshold =
@@ -77,9 +109,15 @@ export function AlertEvaluationControlPresenter({
               delay={500}
             >
               <div>
-                <Checkbox type={type} disabled />
+                {tearSheetView ? (
+                  <TearSheetCheckbox key={evalType} type={type} disabled />
+                ) : (
+                  <Checkbox type={type} disabled />
+                )}
               </div>
             </Tooltip>
+          ) : tearSheetView ? (
+            <TearSheetCheckbox key={evalType} type={type} />
           ) : (
             <Checkbox key={evalType} type={type} />
           );
@@ -87,4 +125,11 @@ export function AlertEvaluationControlPresenter({
       </div>
     </div>
   );
+}
+
+function getEvaluationCount(evaluationCount: any) {
+  if (evaluationCount === 'loading' || evaluationCount?.[0]?.message) {
+    return '-';
+  }
+  return evaluationCount;
 }

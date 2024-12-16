@@ -6,9 +6,8 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Card, Message, Spacer, Stack } from '@instana/components';
+import { Card, Message, Spacer, Stack, Button } from '@instana/components';
 import { Disposable } from '@instana/observables';
-import { Button } from '@instana/legacy';
 
 import ApiResponseList, { ApiTestResponse } from 'in-internal/thisUnit/WsApiTester/ApiResponseList';
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
@@ -162,7 +161,7 @@ function ApiTesterActions({ onSubmit, onDisconnect }: ApiTesterActionsProps) {
       <Button kind="primary" onClick={onSubmit}>
         {t('in-internal:thisUnit.wsApiTester.subscribeButtonLabel')}
       </Button>
-      <Button kind="warning" onClick={onDisconnect}>
+      <Button kind="secondary" onClick={onDisconnect}>
         {t('in-internal:thisUnit.wsApiTester.disconnectButtonLabel')}
       </Button>
     </Stack>

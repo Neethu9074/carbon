@@ -5,9 +5,7 @@
 
 import React from 'react';
 
-import { Spacer, Ul, Li, KeyValue } from '@instana/components';
-import { Toggle } from '@instana/legacy';
-import { Button } from '@instana/legacy';
+import { Spacer, Ul, Li, KeyValue, Toggle, Button } from '@instana/components';
 
 import DebouncedDistinctSlider from 'in-components/Slider/DebouncedDistinctSlider';
 import { percentage } from 'in-services/formatters/number';
@@ -20,7 +18,7 @@ export default function SettingsButton(props) {
   return (
     <Overlay align="bottomMiddle" content={SettingsContent} props={props}>
       {({ toggle }) => (
-        <Button kind="secondary" icon="lib_actions_settings" onClick={toggle}>
+        <Button size="compact" kind="secondary" icon="lib_actions_settings" onClick={toggle}>
           {t('in-profiling:settings')}
         </Button>
       )}
@@ -71,7 +69,7 @@ function SettingsContent({
           inverted
         />
         <Spacer horizontal="xxsmall" />
-        <Toggle checked={selfTimeHighlighted} onChange={() => setSelfTimeHighlighted(!selfTimeHighlighted)} />
+        <Toggle checked={selfTimeHighlighted} onToggle={() => setSelfTimeHighlighted(!selfTimeHighlighted)} />
       </Li>
       <Li>
         <KeyValue value={t('in-profiling:cpuGraph')} label={t('in-profiling:showCpuOverTime')} accentuated inverted />

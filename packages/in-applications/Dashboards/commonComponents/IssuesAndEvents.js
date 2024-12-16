@@ -5,8 +5,10 @@
 
 import React from 'react';
 
+import { just } from '@instana/observables';
+
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
-import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { chartColors, carbonAlert } from 'in-themes/chartColors';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -55,6 +57,19 @@ export default function EventsChart({ timeConfig, applicationId, serviceId, endp
     granularity
   };
 
+  const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
+
+  const getHref = highlightedTime =>
+    just(
+      getEventsViewFilteredBy({
+        query: 'event.source:infra',
+        applicationId,
+        serviceId,
+        endpointId,
+        timeConfig: highlightedTime
+      })
+    );
+
   return (
     <OpenEventsCountChartWrapper
       renderPostChartContent={renderPostChartContent}
@@ -79,14 +94,7 @@ export default function EventsChart({ timeConfig, applicationId, serviceId, endp
           name: 'showEvents',
           icon: 'lib_events_inverted',
           label: t('in-applications:labelViewEvents'),
-          getHref$: highlightedTime =>
-            getEventsViewFilteredBy({
-              query: 'event.source:infra',
-              applicationId,
-              serviceId,
-              endpointId,
-              timeConfig: highlightedTime
-            })
+          getHref$: getHref
         }
       ]}
       extendBar

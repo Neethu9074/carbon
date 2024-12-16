@@ -4,162 +4,332 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
+import classNames from 'classnames';
+import { debounce } from 'lodash';
 
-import { DashboardTable, DashboardTile } from '@instana/components';
+import { DashboardTable, DashboardTile, Pagination as CarbonPagination } from '@instana/components';
+import { DashboardTableRow as Row } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
+// import RegularItemList from 'in-plg/pages/WelcomePage/widgets/table/RegularItemList';
+import PinnedItemList, { Item } from 'in-plg/pages/WelcomePage/widgets/table/PinnedItemList';
 import {
-  getNoDataButton,
+  DatatableWidgetProps,
+  StarredItemWithIdsType,
+  StarredItemType
+} from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
+import {
+  DEFAULT_NUMBER_ROWS,
   getNoDataDescription,
   getNoDataHeader
 } from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
-import {
-  GetContentFunction,
-  DatatableWidgetProps
-} from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
+//@ts-expect-error no declaration file found
+import { starredItems$ } from 'in-cockpit/starredItems';
+//@ts-expect-error no declaration file found
+import connectTo from 'in-hoc/connectTo';
 import getResultsToDisplay from 'in-alerting/smart-alerts/components/list/ListHelper';
-import { TimeConfig } from 'in-types';
+import ViewAllButton from 'in-plg/pages/WelcomePage/widgets/table/ViewAllButton';
+import { carbonPaginationEnabled } from 'in-services/featureFlags';
+import { playwithEnabled } from 'in-services/featureFlags';
+import { pendingResult } from 'in-services/fixedObjects';
+import RegularItemList from './table/RegularItemList';
+import { timeConfig$ } from 'in-stores/time/config';
+import Pagination from 'in-components/Pagination';
 import { t } from 'in-i18n';
 
-interface ProcessedItem {
-  id: number;
-  [key: string]: React.ReactNode;
+import locals from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper.mless';
+
+interface AggregatedItems {
+  [key: string]: string[];
+}
+export function getFlattenedIds(
+  idsByType: StarredItemWithIdsType | undefined,
+  types: (keyof StarredItemWithIdsType)[] | undefined
+) {
+  if (!types) return;
+  if (!idsByType) return;
+  let allIds: string[] = [];
+
+  types.forEach(type => {
+    const ids: string[] | undefined = idsByType[type];
+    if (ids) {
+      allIds = allIds.concat(ids);
+    }
+  });
+
+  return allIds;
 }
 
-export default function DatatableWrapper({
-  headers,
-  getItems,
-  timeConfig,
-  infraType,
-  columnDefinitions,
-  hasAddMore,
-  viewAll,
-  label,
-  addMore,
-  addData,
-  href,
-  isDashboardWidget,
-  syntheticType,
-  maxItems = 5,
-  dashboardTileProps
-}: DatatableWidgetProps) {
-  const [processedItems, setProcessedItems] = useState<ProcessedItem[]>([]);
-  const [itemCount, setItemCount] = useState<number>(0);
-  const [query, setQuery] = useState<string>('');
-  const header = dashboardTileProps?.header ?? '';
-
-  const result = useObservable(getItems({ timeConfig, query, infraType, syntheticType }), [
+export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof StarredItemWithIdsType)[] }) => ({
+  timeConfig: timeConfig$,
+  pinnedItemIdsByType: starredItems$.map((starredItems: StarredItemType[]) =>
+    starredItems.reduce((agg: AggregatedItems, starredItem: StarredItemType) => {
+      const itemType = starredItem.type as keyof StarredItemWithIdsType;
+      if (pinnedItemTypes?.indexOf(itemType) !== -1) {
+        agg[starredItem.type] = agg[starredItem.type] || [];
+        agg[starredItem.type].push(starredItem.id || '');
+      }
+      return agg;
+    }, {})
+  )
+}))(function DatatableWrapper(props: DatatableWidgetProps) {
+  let {
+    tableType,
+    headers,
+    getItems,
+    getItem,
     timeConfig,
-    query,
     infraType,
-    syntheticType
-  ]);
+    columnDefinitions,
+    hasAddMore,
+    hasAddPermission,
+    label,
+    addMore,
+    addData,
+    href,
+    isDashboardWidget,
+    syntheticType,
+    dashboardTileProps,
+    viewAll = true,
+    pinnedItemIdsByType,
+    pinnedItemTypes,
+    searchPlaceholderLabel,
+    addButtonLabel,
+    viewAllLabel,
+    maxItems = DEFAULT_NUMBER_ROWS,
+    mainPage
+  } = props;
 
-  dashboardTileProps = {
-    ...dashboardTileProps,
-    header: dashboardTileProps ? `${dashboardTileProps.header} ${itemCount > 0 ? `(${itemCount})` : ''}` : ''
-  };
+  const [query, setQuery] = useState<string>('');
+  const [page, setPage] = useState(1);
+  const pageSizes = [10, 20, 30];
+  const [pageSize, setPageSize] = useState(pageSizes[0]);
+  const header = dashboardTileProps?.header ?? '';
+  let hits = 0;
+  const hitsRef = useRef<number>(0);
+  let hasContent = false;
+  let result = useObservable(
+    getItems({
+      timeConfig,
+      query,
+      infraType,
+      syntheticType,
+      page: mainPage ? page : 1,
+      pageSize: mainPage ? pageSize : DEFAULT_NUMBER_ROWS
+    }).startWith(pendingResult),
+    [timeConfig, query, infraType, syntheticType, page, pageSize]
+  );
+  const favIds = getFlattenedIds(pinnedItemIdsByType, pinnedItemTypes) ?? [];
+  let numberOfRegularItemsToShow: number;
 
-  useEffect(() => {
-    const data = result?.data;
-
-    if (!data) {
-      return;
-    }
-
-    const resultDataItems = data.items ?? data;
+  if (result && result.data) {
+    const resultDataItems = result.data.items ?? result.data;
     const hasQuery = query !== '';
     const isSmartAlerts = syntheticType === 'smartalerts';
     const searchData = hasQuery
       ? getSearchData({
           isDashboardWidget,
           isSmartAlerts,
-          items: data,
+          allItems: result.data,
           query
         })
       : null;
 
     const items = searchData ?? resultDataItems;
-    const resultItems = maxItems ? items.slice(0, maxItems) : items;
-    const hits = searchData?.length ?? data?.totalHits ?? data.length;
-    const processedItems = getProcessedItems({ resultItems, columnDefinitions, result, timeConfig });
+    numberOfRegularItemsToShow = Math.max(0, maxItems ? maxItems - favIds.length : items.length);
+    hasContent = items.length > 0 ? true : false;
+    hits = searchData?.length ?? result?.data?.totalHits ?? result.data.length;
+    if (hits) {
+      hitsRef.current = hits;
+    }
+    //For custom dashboard searching
+    result = {
+      ...result,
+      data: {
+        items: items
+      }
+    };
+  }
 
-    setItemCount(hits);
-    setProcessedItems(processedItems);
-  }, [result, columnDefinitions, timeConfig, isDashboardWidget, query, syntheticType, maxItems]);
+  dashboardTileProps = {
+    ...dashboardTileProps,
+    header: dashboardTileProps
+      ? `${dashboardTileProps.header} ${hitsRef.current > 0 ? `(${hitsRef.current})` : ''}`
+      : ''
+  };
 
-  const exclusionArray = [
-    'infrastructure',
-    'platforms',
-    'businessmonitoring',
-    'incidents',
-    'syntheticmonitoring.location'
-  ];
+  function pinnedItems() {
+    const results = (
+      <PinnedItemList
+        getItem={getItem}
+        key="pinned"
+        timeConfig={timeConfig}
+        pinnedItemIdsByType={pinnedItemIdsByType}
+        processResults={(items: any) => {
+          return items && items.length > 0
+            ? items.sort(sort).map((item: any, index: number) => (
+                <Row id={`${index}`} key={index}>
+                  <Item
+                    key={item.id}
+                    type={item.type}
+                    pendingItem={item}
+                    timeConfig={timeConfig}
+                    columnDefinitions={columnDefinitions}
+                  />
+                </Row>
+              ))
+            : null;
+        }}
+      />
+    );
+    return results;
+  }
+
+  function regularItems(mainPage?: boolean, pageSize?: number) {
+    const results = (
+      <RegularItemList
+        key="regular"
+        result={result}
+        timeConfig={timeConfig}
+        favIds={favIds}
+        widgetName={tableType}
+        numSkeletonRows={numberOfRegularItemsToShow}
+        columnDefinitions={columnDefinitions}
+        mainPage={mainPage}
+        pageSize={pageSize}
+      />
+    );
+    return results;
+  }
+
+  function viewAllButton(key: string) {
+    if (viewAll) {
+      if (hasContent || favIds.length) {
+        return (
+          <ViewAllButton
+            key={key}
+            href={href}
+            viewLabel={`${t('in-plg:welcomepage.viewAll')} ${viewAllLabel}`}
+            columnCount={columnDefinitions.length}
+          />
+        );
+      } else {
+        return (
+          <ViewAllButton
+            key={key}
+            viewLabel={`${t('in-plg:welcomepage.viewAll')} ${viewAllLabel}`}
+            isTableEmpty
+            columnCount={columnDefinitions.length}
+          />
+        );
+      }
+    }
+    return;
+  }
+
+  const generateRows = () => {
+    let rows = [];
+    let rowId = 0;
+    const regularItemsList = regularItems(mainPage, pageSize);
+    const numberOfRegularItemsError = regularItemsList?.props?.result?.errors?.length;
+    const numberOfRegularItemsLoading = regularItemsList?.props?.result?.progress?.loading;
+    const numberOfregularItems = regularItemsList?.props?.result?.data?.items.length;
+
+    if (favIds.length > 0 && !mainPage) rows.push({ id: `${rowId++}`, ...pinnedItems() });
+    if (numberOfRegularItemsError || numberOfRegularItemsLoading || numberOfregularItems) {
+      rows.push({ id: `${rowId++}`, ...regularItemsList });
+    }
+    if (viewAll) rows.push({ id: `${rowId++}`, ...viewAllButton('viewAllButton') });
+    return rows;
+  };
+
+  const dataArray = generateRows();
+  const filteredArrayExcludingViewAllButton = dataArray.filter(item => item.key !== 'viewAllButton');
+  const hasNoDataTile = !filteredArrayExcludingViewAllButton.length;
+  const updatedHeaders = mainPage ? headers.filter(obj => obj.key !== 'favourite') : null;
+  const dataLoading = result?.progress?.loading;
+  const showPagination = mainPage && (dataLoading || hits > pageSizes[0]);
 
   return (
-    <DashboardTile {...dashboardTileProps} handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')} size="xs">
-      <DashboardTable
-        headers={headers}
-        rows={processedItems}
-        searchPlaceholder={t('in-plg:welcomepage.search')}
-        viewLabel={t('in-plg:welcomepage.viewAll')}
-        iconColor={themes.default.ids.color.option.white}
-        hasAddMore={hasAddMore ? true : false}
-        viewAll={viewAll ? true : false}
-        addMore={addMore}
-        addData={addData}
-        href={href}
-        header={getNoDataHeader(label)}
-        description={getNoDataDescription(label)}
-        buttonName={!exclusionArray.includes(label) ? getNoDataButton(label) : undefined}
-        searchLabel={t('in-plg:welcomepage.ariaLabel.searchButton')}
-        addLabel={t('in-plg:welcomepage.ariaLabel.addButton')}
-        onSearch={(searchQuery: string) => {
-          setQuery(searchQuery);
-        }}
-        iconDescription={`${t('in-plg:welcomepage.addMore')} ${header}`}
-      />
-    </DashboardTile>
+    <section
+      className={classNames({
+        [locals.dataTableWrapper]: true,
+        [locals.noData]: hasNoDataTile
+      })}
+      aria-label={`${header}`}
+      role="region"
+    >
+      <DashboardTile {...dashboardTileProps} handleLabel={t('in-plg:welcomepage.ariaLabel.handleButton')} size="xs">
+        <DashboardTable
+          header={`${header}`}
+          headers={updatedHeaders ?? headers}
+          rows={generateRows()}
+          searchPlaceHolder={`${t('in-plg:welcomepage.ariaLabel.search')} ${searchPlaceholderLabel}`}
+          viewLabel={`${t('in-plg:welcomepage.viewAll')} ${viewAllLabel}`}
+          iconColor={themes.default.ids.color.option.white}
+          hasAddPermission={hasAddPermission}
+          hasAddMore={hasAddMore && !playwithEnabled ? true : false}
+          viewAll={viewAll ?? hasContent ? true : false}
+          hasNoDataTile={hasNoDataTile}
+          addMore={addMore}
+          addData={addData}
+          href={href}
+          noDataHeader={getNoDataHeader(label)}
+          noDataDescription={getNoDataDescription(label)}
+          onSearch={debounce((searchQuery: string) => {
+            setQuery(searchQuery);
+            setPage(1);
+          }, 500)}
+          buttonName={`${t('in-plg:welcomepage.addMore')} ${addButtonLabel ?? ''}`.trim()}
+          toggles={dashboardTileProps.toggles}
+          toggleCallback={dashboardTileProps.toggleCallback}
+        />
+      </DashboardTile>
+      {showPagination &&
+        (carbonPaginationEnabled ? (
+          <CarbonPagination
+            currentPage={page}
+            totalItems={hitsRef.current}
+            pageSize={pageSize}
+            pageSizes={pageSizes}
+            onChange={(data: { page: number; pageSize: number }) => {
+              setPage(data?.page);
+              setPageSize(data.pageSize);
+            }}
+          />
+        ) : (
+          <Pagination
+            currentPage={page}
+            numPages={Math.ceil(hitsRef.current / pageSize)}
+            onChange={newPage => {
+              setPage(newPage);
+            }}
+          />
+        ))}
+    </section>
   );
-}
-
-interface GeProcessedItemsProps {
-  resultItems: [];
-  result: [];
-  columnDefinitions: [];
-  timeConfig: TimeConfig;
-}
-
-function getProcessedItems({ resultItems, columnDefinitions, result, timeConfig }: GeProcessedItemsProps) {
-  const processedItems: ProcessedItem[] = resultItems?.map((item: {}, index: number) => {
-    const processedItem: ProcessedItem = { id: index };
-    columnDefinitions?.forEach(({ key, getContent }: { key: string; getContent: GetContentFunction }) => {
-      const value = getContent({ item, result, timeConfig });
-      processedItem[key] = value;
-    });
-    return processedItem;
-  });
-
-  return processedItems;
-}
+});
 
 interface SearchDataProps {
   isDashboardWidget?: boolean;
   isSmartAlerts: boolean;
   query: string;
-  items: any;
+  allItems: any;
 }
 
-function getSearchData({ isDashboardWidget, isSmartAlerts, items, query }: SearchDataProps) {
-  if (isDashboardWidget) {
-    return items.filter(({ title }: { title: string }) => title.toLowerCase().includes(query.trim().toLowerCase()));
-  }
-
+function getSearchData({ isSmartAlerts, allItems, query }: SearchDataProps) {
   if (isSmartAlerts) {
-    return getResultsToDisplay(items, query, [() => '']);
+    return getResultsToDisplay(allItems, query, [() => '']);
   }
 
   return;
+}
+
+function sort(i1: any, i2: any) {
+  const mainKpiValue1 = i1?.result?.mainKpiValue || 0;
+  const mainKpiValue2 = i2?.result?.mainKpiValue || 0;
+
+  return mainKpiValue2 - mainKpiValue1;
 }

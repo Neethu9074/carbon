@@ -7,7 +7,7 @@
 import { Result, TagFilterExpressionElementUnion, ThresholdType, TimeConfig } from '@instana/types';
 import { Observable } from '@instana/observables';
 
-import { GetMobileAppSuggestionsProps } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import { GetMobileAppSuggestionsProps } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 //@ts-expect-error Needs TS migration
 import { getSuggestions } from 'in-mobile-apps/queryBuilder';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';

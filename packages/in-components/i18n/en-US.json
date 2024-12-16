@@ -18,9 +18,11 @@
     "chartWrapperMetricNotfound": "Metric id {{metricId}} not found.",
     "chartWrapperSameAxisSameValue": "All aggregation types for one axis must have the same value.",
     "viewInAnalyticsBtnLabel": "View in Analyze",
+    "chartLegendBlankLabel": "Empty",
     "chartLendMetricTimeShifted": "Metric is time shifted to: {{timeShiftedLabel}}",
-    "chartDownloadLabel": "Download JSON",
-    "chartDownloadCSVLabel": "Download CSV",
+    "chartDownloadLabel": "Export to JSON",
+    "chartDownloadCSVLabel": "Export to CSV",
+    "chartDownloadPDFLabel": "Download PDF",
     "chartGlobalHighlightLabel": "Highlight on all charts",
     "chartZoomInLabel": "Zoom to time range",
     "chartAlertsLanePresenterAlertsLabel": "Alerts",
@@ -39,7 +41,8 @@
       "itemMsg": "+{{leftCount}} more {{moreMsg}}"
     },
     "chartMarkerLane": {
-      "retryButtonLabel": "Retry"
+      "retryButtonLabel": "Retry",
+      "openList": "Open list"
     },
     "chartReleasesLanePresenterReleasesLabel": "Releases",
     "chartReleasesLanePresenterTooltip": "+{{len}} more Releases",
@@ -65,9 +68,14 @@
   "touchedMessages": {
     "withPath": "{{message}} (at <codeWithClass>{{path}}</codeWithClass>)"
   },
-  "gravatar": {
-    "avatarUrlAlt": "Avatar for {{email}} from gravatar.com.",
-    "avatarNullAlt": "Fallback avatar for {{email}}."
+  "graphView": {
+    "graphTitle": "Graph",
+    "explanationHeader": "Dynamic Graph Showcase",
+    "explanationP1": "The core technology powering Instana is what we call the Dynamic Graph. The Graph is a model of your application that understands all physical and logical dependencies of components. On the right you see the Dynamic Graph of your current environment!",
+    "explanationP2": "The Graph contains all the resources and their dependencies discovered automatically by the Instana Agent and Sensors such that the Graph is continuously kept up to date. Every node in the Graph is also continuously updated with state information like metrics, configuration data and a calculated health value based on semantical knowledge. This knowledge also analyses the dependencies in the graph to find logical groupings like services and applications to understand impact on that level and derive criticality of issues. The whole graph is persistent and you can go back and forth in time to leverage the knowledge of the graph for many operational use cases.",
+    "explanationP3": "You can filter the view on the right by selecting a resource on the Infrastructure Map and coming back to this page. After selecting a resource, a snapshotId parameter should be set in the URL which allows this filtering.",
+    "explanationLink": "<linkToBlog>Visit our blog</linkToBlog> for more information.",
+    "closeBtn": "Close Graph"
   },
   "releaseNotesDialog": {
     "releaseNotesTitle": "Release Notes"
@@ -116,6 +124,7 @@
       "entititiesDescription": "There were no entities retrieved for the selected time range."
     },
     "sharedComponents": {
+      "settings": "Settings",
       "configurableThSearchItemPlaceholder": "Search {{len}} items",
       "configurableThNoMatchesTxt": "No matches"
     }
@@ -125,6 +134,7 @@
     "tagListNoTagsDefined": "There are no tags defined",
     "tagListShowAll": "Show all tags ({{num}} more)"
   },
+  "copyToClipboard": "Clipboard",
   "copyToClipboardPressToCopy": "Press CTRL+C / CMD+C to copy!",
   "copyToClipboardCopied": "Copied!",
   "reloadUiDialogTitle": "New User Interface Version Available",
@@ -235,6 +245,7 @@
     "labelRegion": "Region",
     "labelTag": "Tag",
     "labelCommit": "Commit",
+    "buttonGraphShowcase": "Graph Showcase",
     "geo": {
       "title": "Geo Data",
       "description": "This product includes GeoLite2 data created by MaxMind, available from <linkToMaxMind>https://www.maxmind.com</linkToMaxMind>."
@@ -265,6 +276,7 @@
   },
   "dialog": {
     "confirmationDialogLabelConfirm": "Confirm",
+    "secondaryDialogLabelCancel": "Cancel",
     "promptPresenterLabelConfirm": "Confirm"
   },
   "draggableItemSelector": {
@@ -296,12 +308,7 @@
     "tooltipShowLess": "Show less",
     "tooltipShowMore": "Show more"
   },
-  "expandableGroup": {
-    "tooltipShowContent": "Show content",
-    "labelExpandButtonForContent": "Expand button for content"
-  },
   "featureFeedback": {
-    "labelBETA": "BETA",
     "linkLabelYouCanSendUsFeedback": "You can send us feedback"
   },
   "geoHeatMap": {
@@ -354,7 +361,55 @@
     "openIncidents_1": "{{count}} Incident",
     "openIncidents_2": "{{count}} Incidents",
     "labelWarning": "Warning",
-    "labelCritical": "Critical"
+    "labelCritical": "Critical",
+    "carbonNoIssues": "No issues",
+    "carbonOpenIssues": "{{count}} issue",
+    "carbonOpenIssues_plural": "{{count}} issues",
+    "carbonOpenIssues_0": "{{count}} issues",
+    "carbonOpenIssues_1": "{{count}} issue",
+    "carbonOpenIssues_2": "{{count}} issues",
+    "carbonNoIncidents": "No incidents",
+    "carbonOpenIncidents": "{{count}} incident",
+    "carbonOpenIncidents_plural": "{{count}} incidents",
+    "carbonOpenIncidents_0": "{{count}} incidents",
+    "carbonOpenIncidents_1": "{{count}} incident",
+    "carbonOpenIncidents_2": "{{count}} incidents"
+  },
+  "vulnerabilities": {
+    "eventType_issue": "vulnerabilities",
+    "eventType_issue_plural": "vulnerabilities",
+    "eventType_issue_0": "vulnerabilities",
+    "eventType_issue_1": "vulnerabilities",
+    "eventType_issue_2": "vulnerabilities",
+    "openIssuesListPresenterActionsViewIssues": "View vulnerabilities",
+    "openIssuesListPresenterActionsViewNumbersOfIssue": "View {{openIssueCount}} vulnerabilities",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "Loading Open vulnerabilities…",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "Failed To Load Open vulnerabilities",
+    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} Open vulnerabilities",
+    "noVulnerabilities": "No Vulnerabilities",
+    "openVulnerabilities": "{{count}} Vulnerability",
+    "openVulnerabilities_plural": "{{count}} Vulnerabilities",
+    "openVulnerabilities_0": "{{count}} Vulnerabilities",
+    "openVulnerabilities_1": "{{count}} Vulnerability",
+    "openVulnerabilities_2": "{{count}} Vulnerabilities",
+    "noIncidents": "No Incidents",
+    "openIncidents": "{{count}} Incident",
+    "openIncidents_plural": "{{count}} Incidents",
+    "openIncidents_0": "{{count}} Incidents",
+    "openIncidents_1": "{{count}} Incident",
+    "openIncidents_2": "{{count}} Incidents",
+    "carbonNoVulnerabilities": "No vulnerabilities",
+    "carbonOpenVulnerabilities": "{{count}} vulnerability",
+    "carbonOpenVulnerabilities_plural": "{{count}} vulnerabilities",
+    "carbonOpenVulnerabilities_0": "{{count}} vulnerabilities",
+    "carbonOpenVulnerabilities_1": "{{count}} vulnerability",
+    "carbonOpenVulnerabilities_2": "{{count}} vulnerabilities",
+    "carbonNoIncidents": "No incidents",
+    "carbonOpenIncidents": "{{count}} incident",
+    "carbonOpenIncidents_plural": "{{count}} incidents",
+    "carbonOpenIncidents_0": "{{count}} incidents",
+    "carbonOpenIncidents_1": "{{count}} incident",
+    "carbonOpenIncidents_2": "{{count}} incidents"
   },
   "inlineTabNavigation": {
     "labelSelectTab": "Select tab"
@@ -390,9 +445,9 @@
     "labelLoadingData": "Loading data"
   },
   "mainNavigation": {
+    "skipToMainContent": "Skip to main content",
     "viewSwitcherLabelSettings": "Settings",
     "viewSwitcherLabelMore": "More",
-    "viewSwitcherLabelTenants": "Tenants",
     "viewSwitcherLabelAgents": "Agents",
     "viewSwitcherLabelReleaseNotes": "Release Notes",
     "viewSwitcherLabelDocumentation": "Documentation",
@@ -402,7 +457,9 @@
     "viewSwitcherLabelEvents": "Events",
     "viewSwitcherlabelInfrastructure": "Infrastructure",
     "viewSwitcherLabelApplications": "Applications",
+    "viewVulnerabilityCenter": "Vulnerabilities",
     "viewSwitcherLabelSlo": "Service Levels",
+    "viewSwitcherLabelLogs": "Logs",
     "viewSwitcherLabelAnalytics": "Analytics",
     "viewSwitcherLabelWebsitesAndMobileApps": "Websites & Mobile Apps",
     "viewSwitcherLabelWebsites": "Websites",
@@ -416,10 +473,17 @@
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "Platforms",
-    "viewSwitcherButtonSignOut": "Sign Out",
     "viewSwitcherCustomDashboards": "Custom Dashboards",
+    "viewSwitcherButtonSignOut": "Sign Out",
+    "viewSwitcherLabelTenants": "Tenants",
+    "viewSwitcherLabelNutanix": "Nutanix",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "New version of Instana UI available",
-    "newUiClientVersionAvailableButtonReloadToUpdate": "Reload to update"
+    "newUiClientVersionAvailableButtonReloadToUpdate": "Reload to update",
+    "profileMenu_profileLink": "Profile",
+    "profileMenu_tooltip": "Profile menu",
+    "profileMenu_unitName_tenantName": "Unit name - Tenant name",
+    "profileMenu_switchUnitOrTenant": "Switch unit or tenant",
+    "profileMenu_logOut": "Log out"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "Select metrics",
@@ -440,8 +504,10 @@
     "aggregation_MAX": "max",
     "aggregation_DISTINCTCOUNT": "distinct count",
     "aggregation_SUM": "sum",
+    "aggregation_INCREASE": "Δ",
     "aggregation_DISTRIBUTION": "distribution",
-    "aggregation_PERSECOND": "per second"
+    "aggregation_PERSECOND": "per second",
+    "labelFilterEmptyValue": "Filter empty values"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "Used",
@@ -519,6 +585,12 @@
     "fillerTextIn": " in ",
     "fillerTextAt": " at "
   },
+  "sessionTimeout": {
+    "title": "Session Timeout",
+    "message": "Due to inactivity you will logged out in:",
+    "loggedInButton": "Stay Logged in",
+    "logOutButton": "Log out"
+  },
   "time": {
     "lastMinute": "Last minute",
     "lastMinute_plural": "Last {{count}} minutes",
@@ -579,15 +651,15 @@
   },
   "timeShift": {
     "changeSelectedTimeShift": "Change selected time shift",
-    "timeShiftValue": "Time Shift: {{timeShiftValue}}",
+    "timeShiftValue": "Time shift: {{timeShiftValue}}",
     "compareToTimeShiftTimeConfig": "Compare to {{timeShiftTimeConfig}}"
   },
   "topListCard": {
     "loadingData": "Loading Data"
   },
   "uiClinetUpdateMessage": {
-    "newVersionOfInstanaAvailable": "New version of Instana available",
-    "buttonReloadToUpdate": "Reload to update"
+    "newVersionOfInstanaAvailable": "There is an update to the Instana UI",
+    "buttonReloadToUpdate": "Refresh your browser to load it."
   },
   "upstreamDownstream": {
     "companionMetricLabelCalls": "Calls",
@@ -647,6 +719,7 @@
     "setEnabledMessagePressESCToDisableTVMode": "Press ESC to disable TV mode."
   },
   "analyze": {
+    "facettedFilters": "Faceted filters",
     "loadMoreWithCount": "Load {{count}} more",
     "loadMore": "Load more",
     "activeFacets": "{{count}} Selected",
@@ -657,6 +730,7 @@
     "fromUnit": "From ({{unit}})",
     "to": "To",
     "toUnit": "To ({{unit}})",
+    "fromto": "Define from-to range",
     "rangeSelected": "Range selected",
     "rangeOrder": "The range has to be in ascending order.",
     "earliestTimestamp": "Earliest Timestamp",
@@ -670,6 +744,8 @@
     },
     "groupName": "Group Name",
     "groupedOnly": "Metric only available when analyzing groups.",
+    "groupNameNotAvailable": "{{groupbyTag}} Information not available",
+    "options": "Options",
     "filterSidebar": {
       "groupingButton": "Group by {{group}}",
       "ungroupButton": "Remove grouping"
@@ -831,5 +907,9 @@
     "notice": "This tenant unit has been migrated to a new region. The unit you are currently accessing only contains historical data.",
     "goToNewLocationLabel": "Go to New Location",
     "exploreDataLabel": "Explore Historical Data"
+  },
+  "creatableTagSelect": {
+    "placeholder": "Enter tags",
+    "createLabel": "Create: {{tag}}"
   }
 }

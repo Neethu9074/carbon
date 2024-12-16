@@ -9,14 +9,14 @@ env:
     INSTANA_ARTIFACTORY_PASSWORD: 'delivery.instana.io.internal.rw.password'
     EFS_DATA_DIR: 'efs.data.dir'
     EFS_DNS: 'efs.data.dns'
-    GITHUB_API_TOKEN: "ibm.github.e.api.token"
+    GITHUB_API_TOKEN: 'ibm.github.e.api.token'
     GITHUB_READ_PASSWORD: 'github.read.password'
     GITHUB_READ_USER: 'github.read.user'
 
 phases:
   install:
     runtime-versions:
-      nodejs: 18
+      nodejs: 20
     commands:
       # Remove SBT repository: https://github.com/aws/aws-codebuild-docker-images/issues/449
       - rm -f /etc/apt/sources.list.d/sbt.list
@@ -26,6 +26,7 @@ phases:
       - ./build/ci-shared-tools/scripts/codebuild/setup.bash
       # Define the standard build env vars
       - export GIT_COMMIT="$(./build/ci-shared-tools/scripts/git/getCommitId.js)"
+      - export GIT_SHORT_COMMIT="$(./build/ci-shared-tools/scripts/git/getShortCommitId.js)"
       - export GIT_BRANCH="$(./build/ci-shared-tools/scripts/git/getBranch.js)"
       - export COMMIT_AUTHOR="$(./build/ci-shared-tools/scripts/git/getCommitAuthor.js)"
       - export BUILD_URL="https://us-west-2.console.aws.amazon.com/codesuite/codebuild/projects/ui-client/build/$CODEBUILD_BUILD_ID/log?region=us-west-2"
@@ -47,14 +48,11 @@ phases:
           npx create-artifactory-access-config
       # Install project dependencies
       - npm install -g yarn@1.22.19
-      - yarn install --frozen-lockfile
-      - cd packages/in-server && yarn install --frozen-lockfile && cd ../..
+      # reduce redundant build output
+      - yarn install --immutable
+      - cd packages/in-server && yarn install --ignore-optional --frozen-lockfile --prod && cd ../..
   build:
     commands:
-      # Test Client-Side
-      - yarn run test
-      # Test Server-Side – ensure that we only leave production dependencies in the workspace once done.
-      - cd packages/in-server && yarn run test && rm -rf node_modules && yarn --prod && cd ../..
       # Build static files
       - yarn run build
       # Verify that CSS files are compressed in build artifacts

@@ -33,7 +33,7 @@ export const VmLabel = ({ item }) => {
 
   const getVsphereVmDashboard = useVspehereEntityLink('vm', { hostId, datacenterId });
 
-  return <EntityLink label={item.label} href$={getVsphereVmDashboard(item.id)} icon={resolveIcon(item)} />;
+  return <EntityLink label={item.label} href={getVsphereVmDashboard(item.id)} icon={resolveIcon(item)} />;
 };
 
 const columnDefinitions = [

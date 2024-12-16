@@ -20,6 +20,7 @@ export default {
 
 const userSettings = {
   allAnalyticsServices: false,
+  walkmeAnalyticsServices: false,
   allSupportAndResearchServices: false,
   lastUpdated: 0,
   marketingMessages: false,
@@ -44,7 +45,6 @@ export const Dialog = () => {
   const [form, setForm] = useState(initialForm);
   return (
     <TermsDialogPresenter
-      userSettings={userSettings}
       onSave={action('onSwitchMetricPosition')}
       saveError={false}
       unsetSaveError={() => action('unsetSaveError')}
@@ -62,7 +62,6 @@ export const FullDialog = () => {
   const [form, setForm] = useState(termsFormDefinition(userSettings));
   return (
     <TermsDialogPresenter
-      userSettings={userSettings}
       onSave={action('onSwitchMetricPosition')}
       saveError={false}
       unsetSaveError={() => action('unsetSaveError')}
@@ -81,7 +80,6 @@ export const DialogOnPrem = () => {
   const [form, setForm] = useState(termsFormDefinition(userSettings));
   return (
     <TermsDialogPresenter
-      userSettings={userSettings}
       onSave={action('onSwitchMetricPosition')}
       saveError={false}
       unsetSaveError={() => action('unsetSaveError')}

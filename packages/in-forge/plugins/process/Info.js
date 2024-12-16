@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { DescriptionList, DescriptionItem } from '@instana/components';
+
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { supportsOpenFiles } from 'in-forge/plugins/host/hostUtils';
 import ParentProcess from 'in-forge/plugins/process/ParentProcess';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';

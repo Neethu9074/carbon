@@ -16,19 +16,23 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import EventChart from 'in-events/components/EventChart';
 
-export default function EventListItemContent({ event, latestSnapshot }) {
+export default function EventListItemContent({ event, latestSnapshot, justChart = false }) {
   const isOfflineEvent = event => isEntityVerificationEvent(event) || isHostAvailabilityEvent(event);
   const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
 
   return (
     <>
-      <SubEntityInformation event={event} />
-      <ProblemDescription fixSuggestion={fixSuggestion} />
-      <DescriptionButtons>
-        <EventSpecificationLink event={event.toJS()} />
-        <AnalyzeIssueCallsButton event={event} />
-      </DescriptionButtons>
-      <Spacer vertical="normal" />
+      {!justChart && (
+        <>
+          <SubEntityInformation event={event} />
+          <ProblemDescription fixSuggestion={fixSuggestion} />
+          <DescriptionButtons>
+            <EventSpecificationLink event={event.toJS()} />
+            <AnalyzeIssueCallsButton event={event} />
+          </DescriptionButtons>
+          <Spacer vertical="normal" />
+        </>
+      )}
       {isOfflineEvent(event) ? (
         <OfflineEventDescription event={event} latestSnapshot={latestSnapshot} />
       ) : (

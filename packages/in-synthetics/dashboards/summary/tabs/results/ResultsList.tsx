@@ -23,9 +23,9 @@ import {
 // @ts-expect-error Could not find declaration type
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { bytesTwoDecimalPlaces, timeByMillisZeroDecimalPlaces } from 'in-services/formatters/number';
+import { clickSyntheticMonitoringResultsListDetailTracker } from 'in-synthetics/tracking/tracker';
 import { massageLocationDisplayLabel } from 'in-synthetics/utils/massageLocationDisplayLabel';
 import { syntheticsDashboard, syntheticDetailsPath } from 'in-synthetics/navigation/paths';
-import { clickSyntheticMonitoringResultsListDetailTracker } from 'in-synthetics/tracker';
 import ResultFilters from 'in-synthetics/dashboards/summary/tabs/results/ResultFilters';
 import { locationLabelTagName, statusTagName, testIdTagName } from 'in-synthetics/tags';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -33,6 +33,8 @@ import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -48,6 +50,7 @@ let testId = '';
 let testType: string;
 
 function StartTimeColumnContent(item: TestResultListItem) {
+  const { trackCta } = useSegmentTracking();
   const { location, createHref } = useNavigation();
   location.pathname = syntheticDetailsPath;
 
@@ -88,15 +91,13 @@ function StartTimeColumnContent(item: TestResultListItem) {
   );
 
   return (
-    <div
-      onClick={() => clickSyntheticMonitoringResultsListDetailTracker({ detail: 'Results details from Results list' })}
-    >
+    <div onClick={() => clickSyntheticMonitoringResultsListDetailTracker(trackCta)}>
       <SeverityAwareEntityLink severity={getSeverity(item)} label={getRelativeTime(item)} href={createHref(location)} />
     </div>
   );
 }
 
-const columnDefinitions = [
+let columnDefinitions: ColumnDefinition<TestResultListItem>[] = [
   {
     id: 'start_time',
     label: t('in-synthetics:dashboard.resultsListPage.startedColumn'),
@@ -144,27 +145,10 @@ const columnDefinitions = [
   }
 ];
 
-const urlStateDefinition = {
-  bind: resultsFilterUrlStateDefinition.bind,
-  reducer: (prevState: ResultsFilterState, { status, locationLabels }: ResultsCurrentState) => ({
-    status: status || prevState.status,
-    locationLabels: locationLabels || prevState.locationLabels
-  })
+const daysRemainingColumnContent = (item: TestResultListItem) => {
+  const daysRemaining = get(item, ['metrics', 'synthetic.customMetrics.daysRemaining', 0, 1]);
+  return <span className={locals.metricLabel}>{daysRemaining}</span>;
 };
-
-const ServerTableWithUrlState = createServerTableWithUrlState({
-  Renderer: withEmptyTableState({
-    columnDefinitions,
-    title: t('in-synthetics:dashboard.noDataAvailable.resultsTitle'),
-    description: t('in-synthetics:dashboard.noDataAvailable.resultsDescription')
-  }),
-  paginationResettingUrlParameters: [...timeConfigUrlParameters, resultsFilterUrlStateDefinition.bind],
-  columnDefinitions,
-  defaultOrderBy: 'response_time',
-  defaultOrderDirection: 'DESC',
-  pathSegment,
-  matrixPrefix
-});
 
 interface ResultListProps {
   test: TestResponse;
@@ -175,8 +159,20 @@ export default function ResultsList({ test }: ResultListProps) {
   const location = useLocation();
   testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
   testType = test.data?.configuration?.syntheticType || '';
+  const isSSLCertificate = testType === 'SSLCertificate';
   const locationDisplayLabels: string[] =
     getMatrixParameter(location, syntheticsDashboard, 'locationDisplayLabels')?.split(',') ?? [];
+  const selectedMetric = getMatrixParameter(location, syntheticsDashboard, 'selectedMetric');
+  const defaultOrderBy: string = !selectedMetric || selectedMetric === 'response_time' ? 'response_time' : 'start_time';
+  const defaultOrderDirection: string = 'DESC';
+
+  const urlStateDefinition = {
+    bind: resultsFilterUrlStateDefinition(selectedMetric!).bind,
+    reducer: (prevState: ResultsFilterState, { status, locationLabels }: ResultsCurrentState) => ({
+      status: status || prevState.status,
+      locationLabels: locationLabels || prevState.locationLabels
+    })
+  };
 
   const [{ status, locationLabels }, setFilter] = useUrlState(urlStateDefinition);
 
@@ -188,6 +184,36 @@ export default function ResultsList({ test }: ResultListProps) {
       locationsDisplayLabels={locationDisplayLabels}
     />
   );
+
+  let columnDefinitionsBasedOnType = columnDefinitions;
+  if (isSSLCertificate) {
+    columnDefinitionsBasedOnType = columnDefinitions.filter(
+      columnDefinition => columnDefinition.id !== 'response_size'
+    );
+    columnDefinitionsBasedOnType.push({
+      id: 'days_remaining',
+      sortable: false,
+      label: t('in-synthetics:dashboard.resultsListPage.daysRemaining'),
+      getContent: daysRemainingColumnContent
+    });
+  }
+
+  const ServerTableWithUrlState = createServerTableWithUrlState({
+    Renderer: withEmptyTableState({
+      columnDefinitions: columnDefinitionsBasedOnType,
+      title: t('in-synthetics:dashboard.noDataAvailable.resultsTitle'),
+      description: t('in-synthetics:dashboard.noDataAvailable.resultsDescription')
+    }),
+    paginationResettingUrlParameters: [
+      ...timeConfigUrlParameters,
+      resultsFilterUrlStateDefinition(selectedMetric!).bind
+    ],
+    columnDefinitions: columnDefinitionsBasedOnType,
+    defaultOrderBy,
+    defaultOrderDirection,
+    pathSegment,
+    matrixPrefix
+  });
 
   return (
     <>
@@ -225,6 +251,10 @@ function getSynthTableData({
   status = [],
   locationLabels = []
 }: GetList) {
+  if (testType === 'SSLCertificate') {
+    metrics.push('custom_metrics');
+    metrics.splice(metrics.indexOf('response_size'), 1);
+  }
   let baseTagFilters: TagFilter[] = [
     {
       stringValue: testId,

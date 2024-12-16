@@ -8,6 +8,12 @@ import React from 'react';
 
 import { TimeConfig } from '@instana/types';
 
+import {
+  number,
+  percentage,
+  bytesTwoDecimalPlaces,
+  timeByMillisZeroDecimalPlaces
+} from 'in-services/formatters/number';
 // @ts-expect-error needs TS migration
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import KongUpstreamLatencyRoute from 'in-forge/plugins/kongApigateway/Dashboard/KongUpstreamLatencyRoute';
@@ -25,9 +31,9 @@ import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection'
 import WorkerLuaVM from 'in-forge/plugins/kongApigateway/Dashboard/WorkerLuaVM';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import BandWidth from 'in-forge/plugins/kongApigateway/Dashboard/BandWidth';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { yesOrNo } from 'in-services/formatters/boolean';
-import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 interface KongApiGatewayDashboardProps {
@@ -49,17 +55,17 @@ const KongApiGatewayDashboard: React.FC<KongApiGatewayDashboardProps> = ({ snaps
             {yesOrNo(data.get('datastoreReachable'))}
           </KpiKeyValue>
         )}
-        {data.get('totalNumberofDB') != null && (
+        {data.get('kongDbEntitiesTotal') != null && (
           <KpiKeyValue label={t('in-forge:plugins.kongApigateway.totalNumberofDB')}>
-            {data.get('totalNumberofDB')}
+            {data.get('kongDbEntitiesTotal')}
           </KpiKeyValue>
         )}
       </KpiSection>
 
       <KpiSection>
-        {data.get('kongDbEntitiesTotal') != null && (
+        {data.get('kongDbEntityCountErrors') != null && (
           <KpiKeyValue label={t('in-forge:plugins.kongApigateway.kongDbEntitiesTotal')}>
-            {data.get('kongDbEntitiesTotal')}
+            {data.get('kongDbEntityCountErrors')}
           </KpiKeyValue>
         )}
         {data.get('kongNginxMetricErrorsTotal') != null && (
@@ -133,19 +139,232 @@ const KongApiGatewayDashboard: React.FC<KongApiGatewayDashboardProps> = ({ snaps
           />
         </DashboardSection>
       )}
+      {data.get('httpRequestsCheck') && <TotalHttpRequest snapshotId={snapshotId} timeConfig={timeConfig} />}
 
-      <BandWidth snapshotId={snapshotId} timeConfig={timeConfig} />
-      <SharedDictionary snapshotId={snapshotId} timeConfig={timeConfig} />
-      <TotalConnections snapshotId={snapshotId} timeConfig={timeConfig} />
-      <TotalHttpRequest snapshotId={snapshotId} timeConfig={timeConfig} />
-      <TotalRequest snapshotId={snapshotId} timeConfig={timeConfig} />
-      <KongKongLatency snapshotId={snapshotId} timeConfig={timeConfig} />
-      <KongKongLatencyRoute snapshotId={snapshotId} timeConfig={timeConfig} />
-      <KongRequestLatency snapshotId={snapshotId} timeConfig={timeConfig} />
-      <KongRequestLatencyRoute snapshotId={snapshotId} timeConfig={timeConfig} />
-      <WorkerLuaVM snapshotId={snapshotId} timeConfig={timeConfig} />
-      <KongUpstreamLatency snapshotId={snapshotId} timeConfig={timeConfig} />
-      <KongUpstreamLatencyRoute snapshotId={snapshotId} timeConfig={timeConfig} />
+      {/* graph for shared dictionary utilization */}
+      {data.get('sharedDictCheck') && (
+        <div>
+          <DashboardSection title={t('in-forge:plugins.kongApigateway.sharedDictTotal')}>
+            <Chart
+              snapshotId={snapshot.get('id')}
+              timeConfig={timeConfig}
+              y1={{
+                formatter: percentage.compact,
+                metrics: ['sharedDictTotalPercentage'],
+                labels: [t('in-forge:plugins.kongApigateway.totalMemoryPercent')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+          <SharedDictionary snapshotId={snapshotId} timeConfig={timeConfig} />
+        </div>
+      )}
+      {data.get('nginxRequestsCheck') && <TotalRequest snapshotId={snapshotId} timeConfig={timeConfig} />}
+      {data.get('nginxConnectionCheck') && <TotalConnections snapshotId={snapshotId} timeConfig={timeConfig} />}
+      {data.get('allocatedBytesCheck') && <WorkerLuaVM snapshotId={snapshotId} timeConfig={timeConfig} />}
+
+      {/* Bandwidth across all services */}
+      {data.get('bandwidthCheck') && (
+        <div>
+          <DashboardSection title={t('in-forge:plugins.kongApigateway.totalBandwidth')}>
+            <Chart
+              snapshotId={snapshot.get('id')}
+              timeConfig={timeConfig}
+              y1={{
+                formatter: bytesTwoDecimalPlaces,
+                metrics: ['bandwidthBytesTotal.ingress', 'bandwidthBytesTotal.egress'],
+                labels: [t('in-forge:plugins.kongApigateway.ingress'), t('in-forge:plugins.kongApigateway.egress')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+          <BandWidth snapshotId={snapshotId} timeConfig={timeConfig} />
+        </div>
+      )}
+
+      {/* Kong Latency across all services and routes */}
+
+      {data.get('kongLatencyCheck') && (
+        <div>
+          <Columize>
+            <DashboardSection title={t('in-forge:plugins.kongApigateway.kongLatencyAcrossallServices')}>
+              <Chart
+                snapshotId={snapshot.get('id')}
+                timeConfig={timeConfig}
+                y1={{
+                  formatter: timeByMillisZeroDecimalPlaces,
+                  metrics: [
+                    'kongLatencyTotal.serviceLatencyFiftyPercentile',
+                    'kongLatencyTotal.serviceLatencyNinetyPercentile',
+                    'kongLatencyTotal.serviceLatencyNinetyfivePercentile',
+                    'kongLatencyTotal.serviceLatencyNinetyninePercentile'
+                  ],
+                  labels: [
+                    t('in-forge:plugins.kongApigateway.kongLatencyFiftyPercentile'),
+                    t('in-forge:plugins.kongApigateway.kongLatencyNinetyPercentile'),
+                    t('in-forge:plugins.kongApigateway.kongLatencyNinetyfivePercentile'),
+                    t('in-forge:plugins.kongApigateway.kongLatencyNinetyninePercentile')
+                  ],
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </DashboardSection>
+            <DashboardSection title={t('in-forge:plugins.kongApigateway.kongLatencyAcrossallRoutes')}>
+              <Chart
+                snapshotId={snapshot.get('id')}
+                timeConfig={timeConfig}
+                y1={{
+                  formatter: timeByMillisZeroDecimalPlaces,
+                  metrics: [
+                    'kongLatencyTotal.routeLatencyFiftyPercentile',
+                    'kongLatencyTotal.routeLatencyNinetyPercentile',
+                    'kongLatencyTotal.routeLatencyNinetyfivePercentile',
+                    'kongLatencyTotal.routeLatencyNinetyninePercentile'
+                  ],
+                  labels: [
+                    t('in-forge:plugins.kongApigateway.kongLatencyFiftyPercentile'),
+                    t('in-forge:plugins.kongApigateway.kongLatencyNinetyPercentile'),
+                    t('in-forge:plugins.kongApigateway.kongLatencyNinetyfivePercentile'),
+                    t('in-forge:plugins.kongApigateway.kongLatencyNinetyninePercentile')
+                  ],
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </DashboardSection>
+          </Columize>
+        </div>
+      )}
+
+      {/* Request Latency across all services and routes */}
+      {data.get('requestLatencyCheck') && (
+        <div>
+          <Columize>
+            <DashboardSection title={t('in-forge:plugins.kongApigateway.requestLatencyAcrossallServices')}>
+              <Chart
+                snapshotId={snapshot.get('id')}
+                timeConfig={timeConfig}
+                y1={{
+                  formatter: timeByMillisZeroDecimalPlaces,
+                  metrics: [
+                    'requestLatencyTotal.serviceLatencyFiftyPercentile',
+                    'requestLatencyTotal.serviceLatencyNinetyPercentile',
+                    'requestLatencyTotal.serviceLatencyNinetyfivePercentile',
+                    'requestLatencyTotal.serviceLatencyNinetyninePercentile'
+                  ],
+                  labels: [
+                    t('in-forge:plugins.kongApigateway.kongLatencyFiftyPercentile'),
+                    t('in-forge:plugins.kongApigateway.kongLatencyNinetyPercentile'),
+                    t('in-forge:plugins.kongApigateway.kongLatencyNinetyfivePercentile'),
+                    t('in-forge:plugins.kongApigateway.kongLatencyNinetyninePercentile')
+                  ],
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </DashboardSection>
+            <DashboardSection title={t('in-forge:plugins.kongApigateway.requestLatencyAcrossallRoutes')}>
+              <Chart
+                snapshotId={snapshot.get('id')}
+                timeConfig={timeConfig}
+                y1={{
+                  formatter: timeByMillisZeroDecimalPlaces,
+                  metrics: [
+                    'requestLatencyTotal.routeLatencyFiftyPercentile',
+                    'requestLatencyTotal.routeLatencyNinetyPercentile',
+                    'requestLatencyTotal.routeLatencyNinetyfivePercentile',
+                    'requestLatencyTotal.routeLatencyNinetyninePercentile'
+                  ],
+                  labels: [
+                    t('in-forge:plugins.kongApigateway.kongLatencyFiftyPercentile'),
+                    t('in-forge:plugins.kongApigateway.kongLatencyNinetyPercentile'),
+                    t('in-forge:plugins.kongApigateway.kongLatencyNinetyfivePercentile'),
+                    t('in-forge:plugins.kongApigateway.kongLatencyNinetyninePercentile')
+                  ],
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </DashboardSection>
+          </Columize>
+        </div>
+      )}
+
+      {/* Upstream Latency across all services and routes */}
+      {data.get('upstreamLatencyCheck') && (
+        <div>
+          <Columize>
+            <DashboardSection title={t('in-forge:plugins.kongApigateway.upstreamLatencyAcrossallServices')}>
+              <Chart
+                snapshotId={snapshot.get('id')}
+                timeConfig={timeConfig}
+                y1={{
+                  formatter: timeByMillisZeroDecimalPlaces,
+                  metrics: [
+                    'upstreamLatencyTotal.serviceLatencyFiftyPercentile',
+                    'upstreamLatencyTotal.serviceLatencyNinetyPercentile',
+                    'upstreamLatencyTotal.serviceLatencyNinetyfivePercentile',
+                    'upstreamLatencyTotal.serviceLatencyNinetyninePercentile'
+                  ],
+                  labels: [
+                    t('in-forge:plugins.kongApigateway.kongLatencyFiftyPercentile'),
+                    t('in-forge:plugins.kongApigateway.kongLatencyNinetyPercentile'),
+                    t('in-forge:plugins.kongApigateway.kongLatencyNinetyfivePercentile'),
+                    t('in-forge:plugins.kongApigateway.kongLatencyNinetyninePercentile')
+                  ],
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </DashboardSection>
+            <DashboardSection title={t('in-forge:plugins.kongApigateway.upstreamLatencyAcrossallRoutes')}>
+              <Chart
+                snapshotId={snapshot.get('id')}
+                timeConfig={timeConfig}
+                y1={{
+                  formatter: timeByMillisZeroDecimalPlaces,
+                  metrics: [
+                    'upstreamLatencyTotal.routeLatencyFiftyPercentile',
+                    'upstreamLatencyTotal.routeLatencyNinetyPercentile',
+                    'upstreamLatencyTotal.routeLatencyNinetyfivePercentile',
+                    'upstreamLatencyTotal.routeLatencyNinetyninePercentile'
+                  ],
+                  labels: [
+                    t('in-forge:plugins.kongApigateway.kongLatencyFiftyPercentile'),
+                    t('in-forge:plugins.kongApigateway.kongLatencyNinetyPercentile'),
+                    t('in-forge:plugins.kongApigateway.kongLatencyNinetyfivePercentile'),
+                    t('in-forge:plugins.kongApigateway.kongLatencyNinetyninePercentile')
+                  ],
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </DashboardSection>
+          </Columize>
+        </div>
+      )}
+
+      {data.get('kongLatencyCheck') && (
+        <div>
+          <KongKongLatency snapshotId={snapshotId} timeConfig={timeConfig} />
+          <KongKongLatencyRoute snapshotId={snapshotId} timeConfig={timeConfig} />
+        </div>
+      )}
+      {data.get('requestLatencyCheck') && (
+        <div>
+          <KongRequestLatency snapshotId={snapshotId} timeConfig={timeConfig} />{' '}
+          <KongRequestLatencyRoute snapshotId={snapshotId} timeConfig={timeConfig} />
+        </div>
+      )}
+      {data.get('upstreamLatencyCheck') && (
+        <div>
+          <KongUpstreamLatency snapshotId={snapshotId} timeConfig={timeConfig} />{' '}
+          <KongUpstreamLatencyRoute snapshotId={snapshotId} timeConfig={timeConfig} />
+        </div>
+      )}
     </div>
   );
 };

@@ -8,34 +8,52 @@ import React from 'react';
 
 import { StackItem, SvgIcon } from '@instana/components';
 
-import { TableFormConfiguration } from 'in-custom-dashboards/widgets/Table/types';
+import WidgetCardHeader from 'in-components/WidgetCardHeader/WidgetCardHeader';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './TableConfigInfo.mless';
 
-interface TableConfigInfoProps extends Partial<TableFormConfiguration> {}
+interface TableConfigInfoProps {
+  dynamicFocusQuery?: string;
+  topLevelFilterNote?: string;
+}
 
-export default function TableConfigInfo({ dynamicFocusQuery }: TableConfigInfoProps) {
+export default function TableConfigInfo({ dynamicFocusQuery, topLevelFilterNote }: TableConfigInfoProps) {
+  if (!dynamicFocusQuery) {
+    if (topLevelFilterNote) {
+      return (
+        <div className={locals.tooltipLeft}>
+          <WidgetCardHeader extraInfoTooltip={topLevelFilterNote} />
+        </div>
+      );
+    }
+    return null;
+  }
   return (
-    <span className={locals.tooltipLeft}>
+    <span className={locals.tooltipLeft} title="">
       <Tooltip
         themeStyle="light"
-        content={<TableConfigInfoTooltip dynamicFocusQuery={dynamicFocusQuery} />}
-        align="bottomLeft"
+        content={
+          <TableConfigInfoTooltip dynamicFocusQuery={dynamicFocusQuery} topLevelFilterNote={topLevelFilterNote} />
+        }
+        align="auto"
         delay={500}
+        forceTheme
+        legacy
       >
-        <SvgIcon className={locals.tableInfo} type="lib_help_error_info_outline" size="s" />
+        <SvgIcon type="lib_help_error_info_outline" size="s" />
       </Tooltip>
     </span>
   );
 }
 
-function TableConfigInfoTooltip({ dynamicFocusQuery }: TableConfigInfoProps) {
+function TableConfigInfoTooltip({ dynamicFocusQuery, topLevelFilterNote }: TableConfigInfoProps) {
   const dfqItems = dynamicFocusQuery ? dynamicFocusQuery?.split(' ') : [];
   return (
-    <div className={locals.tableConfigGridContainer}>
+    <div className={locals.tableConfigGridContainer} title="">
       <StackItem>
+        <div className={locals.configLabel}>{topLevelFilterNote}</div>
         <div className={locals.configLabel}>{t('in-custom-dashboards:widgets.table.index.filters')}</div>
         {dfqItems.map((item, i) => {
           return (

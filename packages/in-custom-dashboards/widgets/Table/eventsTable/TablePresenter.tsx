@@ -8,10 +8,10 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 import { Disposable, on, Subject } from '@instana/observables';
+import { Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-//@ts-expect-error TS migration
-import { concatQueries, spreadTimeConfig } from 'in-events/EventView';
+import { TableFormConfiguration, TableWidgetProps } from 'in-custom-dashboards/widgets/Table/types';
 import TableConfigInfo from 'in-custom-dashboards/widgets/Table/eventsTable/TableConfigInfo';
 //@ts-expect-error TS migration
 import EventsList from 'in-events/components/EventsList';
@@ -19,9 +19,9 @@ import EventsList from 'in-events/components/EventsList';
 import getRawEvents from 'in-subscription/getRawEvents';
 import { ShowcaseProps } from 'in-custom-dashboards/widgets/Table/eventsTable/ShowCase';
 import { useModifiedTimeConfig } from 'in-events/hooks/useModifiedTimeConfig';
-import { TableWidgetProps } from 'in-custom-dashboards/widgets/Table/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { concatQueries, spreadTimeConfig } from 'in-events/utils';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import { Cursor, Cursorific, TimeConfig } from 'in-types';
@@ -54,7 +54,7 @@ export default function TableOverviewBehaviour(props: TableOverviewBehaviourProp
   }, [height]);
 
   // incase of preview load only 4 events initially
-  if (!rowsPerPage && isPreview) {
+  if (!rowsPerPage || (rowsPerPage < 0 && isPreview)) {
     setRowsPerPage(4);
   }
   // Observable to update the timeConfig at regular intervals in live mode
@@ -150,12 +150,13 @@ export const TablePresenter = (props: TablePresenterProps) => {
     setSorting,
     showCaseView = false,
     config,
-    mouseMoveSignal$
+    mouseMoveSignal$,
+    isInModal,
+    topLevelFilterNote
   } = props;
 
   const { location, navigate } = useNavigation();
   const eventsPath = '/events';
-  const dynamicFocusQuery = config?.dynamicFocusQuery;
 
   const setupSubscriptions = useCallback(() => {
     if (!tableRef.current) {
@@ -212,16 +213,13 @@ export const TablePresenter = (props: TablePresenterProps) => {
           onItemClicked={onItemClicked}
           loadMore={showCaseView ? loadMoreShowcaseData : loadMoreData}
           onChange={sortTable}
-          title={title}
+          title={!isInModal && <EventsTitle title={title} config={config} topLevelFilterNote={topLevelFilterNote} />}
           cardHeader={
             <>
               {dragHandle}
               {actions}
             </>
           }
-          {...(dynamicFocusQuery && {
-            leftHeaderContent: <TableConfigInfo dynamicFocusQuery={dynamicFocusQuery} />
-          })}
           isCustomDashboard
         />
       </div>
@@ -241,4 +239,24 @@ function setListSorting(orderByColumn: string) {
     orderBy: orderByConfig[orderByColumn as keyof typeof orderByConfig] ?? orderByConfig.started,
     orderDirection: 'DESC'
   };
+}
+
+export function EventsTitle({
+  title,
+  config,
+  topLevelFilterNote
+}: {
+  title?: string;
+  config?: TableFormConfiguration;
+  topLevelFilterNote?: string;
+}) {
+  const dynamicFocusQuery = config?.dynamicFocusQuery;
+  return (
+    <Typography variant="heading-03">
+      <span className={locals.title}>
+        <span>{title || '–'}</span>{' '}
+        <TableConfigInfo dynamicFocusQuery={dynamicFocusQuery} topLevelFilterNote={topLevelFilterNote} />
+      </span>
+    </Typography>
+  );
 }

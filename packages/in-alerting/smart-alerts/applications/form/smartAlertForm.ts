@@ -6,28 +6,26 @@
 import { createField, createMapForm, MapForm } from 'formalistic';
 
 import {
-  ApplicationAlertConfigWithMetadata,
-  GlobalApplicationsAlertConfigWithMetadata,
-  ThresholdType,
-  ThresholdConfigUnion
-} from 'in-types';
+  ApplicationSmartAlertConfigWithMetadata,
+  GlobalApplicationsSmartAlertConfigWithMetadata
+} from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 // @ts-expect-error file needs to be converted
-import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
+import { isEntitySelectionValid, titleValidator } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import { PER_AP } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
+import { applyEditModeForMultiThreshold } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import createRuleForm, { defaultAlertRule } from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { applyEditMode } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
-import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
+import { MAX_LONG_STRING_LENGTH, MAX_LABEL_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
+import { ThresholdType, SmartAlertThresholdRuleUnion } from 'in-types';
 import { boundaryScopes } from 'in-applications/constants';
 import { t } from 'in-i18n';
 
-const defaultSeverity = 5;
 export const defaultGranularity = 600000;
 export const defaultAdaptiveBaselineGranularity = 1200000;
 
@@ -43,27 +41,32 @@ export interface UiExtraData {
   builtIn?: boolean;
 }
 
-interface OptionalGlobalApplicationsAlertConfig extends Partial<GlobalApplicationsAlertConfigWithMetadata> {}
+interface OptionalGlobalApplicationsAlertConfig extends Partial<GlobalApplicationsSmartAlertConfigWithMetadata> {}
 
-interface OptionalIndividualApplicationAlertConfig extends Partial<ApplicationAlertConfigWithMetadata> {}
+interface OptionalIndividualApplicationAlertConfig extends Partial<ApplicationSmartAlertConfigWithMetadata> {}
 
 /**
  * Type that is used when creating an AP Smart Alert config (e.g. via floating button), where depending on the dashboard context
  * this button is pressed, a different partial alert config can be passed, while the remaining fields are overridden with default
  * values that are internally defined.
  */
-type CreateApplicationAlertConfig = (OptionalGlobalApplicationsAlertConfig | OptionalIndividualApplicationAlertConfig) &
+export type CreateApplicationAlertConfig = (
+  | OptionalGlobalApplicationsAlertConfig
+  | OptionalIndividualApplicationAlertConfig
+) &
   AlertConfigHiddenFields &
   UiExtraData;
 
 export function createSmartAlertForm(
   alertConfig: CreateApplicationAlertConfig,
   editMode?: boolean,
-  isGlobalSmartAlert?: boolean
+  isGlobalSmartAlert?: boolean,
+  isTearSheet?: boolean
 ): MapForm<any> {
   const {
     applicationId,
     alertChannelIds,
+    alertChannels,
     applications,
     boundaryScope,
     builtIn,
@@ -78,19 +81,19 @@ export function createSmartAlertForm(
     includeInternal,
     name,
     readOnly,
-    rule,
-    severity,
     tagFilterExpression,
-    threshold,
     timeThreshold,
-    triggering
+    triggering,
+    rules
   } = alertConfig;
+
+  const alertChannelList = [...new Set([...(alertChannels?.WARNING ?? []), ...(alertChannels?.CRITICAL ?? [])])];
 
   const form = createMapForm({
     items: {
       name: createField({
         value: name ?? '',
-        validator: stringMaxLengthValidator(MAX_LABEL_LENGTH)
+        validator: isTearSheet ? titleValidator() : stringMaxLengthValidator(MAX_LABEL_LENGTH)
       }),
       description: createField({
         value: description ?? '',
@@ -108,9 +111,6 @@ export function createSmartAlertForm(
       includeInternal: createField({
         value: includeInternal || false
       }),
-      severity: createField({
-        value: severity ?? defaultSeverity
-      }),
       triggering: createField({
         value: triggering ?? false
       }),
@@ -123,8 +123,11 @@ export function createSmartAlertForm(
       alertChannelIds: createField({
         value: alertChannelIds ?? []
       }),
+      alertChannels: createField({
+        value: alertChannels ?? { WARNING: [], CRITICAL: [] }
+      }),
       granularity: createField({
-        value: granularity ?? getDefaultGranularity(threshold)
+        value: granularity ?? getDefaultGranularity(rules?.[0]?.thresholds?.WARNING)
       }),
       id: createField({
         value: id ?? ''
@@ -166,27 +169,38 @@ export function createSmartAlertForm(
           }
         }
       }),
-      rule: createRuleForm(rule ?? defaultAlertRule),
-      timeThreshold: createTimeThresholdForm(timeThreshold, granularity, threshold?.type as ThresholdType),
-      hiddenFields: createHiddenFieldsForm(alertConfig),
+      rule: createRuleForm(rules?.[0]?.rule ?? defaultAlertRule),
+      timeThreshold: createTimeThresholdForm(
+        timeThreshold,
+        granularity,
+        rules?.[0]?.thresholds?.WARNING?.type as ThresholdType
+      ),
+      hiddenFields: createHiddenFieldsForm(alertConfig, editMode, alertChannelList),
       customPayloadFields: createListFormForCustomPayloads(customPayloadFields ?? [], false),
-      threshold: createThresholdForm(threshold, (rule?.alertType ?? defaultAlertRule.alertType) as ApplicationAlertType)
+      threshold: createThresholdForm(
+        rules?.[0],
+        (rules?.[0].rule?.alertType ?? defaultAlertRule.alertType) as ApplicationAlertType,
+        editMode
+      )
     }
   });
-
-  return applyEditMode(form, editMode ?? false);
+  return applyEditModeForMultiThreshold(form, editMode ?? false);
 }
 
-function getDefaultGranularity(threshold?: ThresholdConfigUnion) {
+function getDefaultGranularity(threshold?: SmartAlertThresholdRuleUnion) {
   return threshold?.type === ADAPTIVE_BASELINE ? defaultAdaptiveBaselineGranularity : defaultGranularity;
 }
 
-function createHiddenFieldsForm({ calculateThresholdOnBackend }: AlertConfigHiddenFields) {
+function createHiddenFieldsForm(
+  { calculateThresholdOnBackend }: AlertConfigHiddenFields,
+  editMode?: boolean,
+  alertChannelList?: string[]
+) {
   return createMapForm<{}>()
     .put(
       'calculateThresholdOnBackend',
       createField({
-        value: Boolean(calculateThresholdOnBackend)
+        value: editMode ? true : Boolean(calculateThresholdOnBackend)
       })
     )
     .put(
@@ -203,6 +217,22 @@ function createHiddenFieldsForm({ calculateThresholdOnBackend }: AlertConfigHidd
           serviceId: null,
           endpointId: null
         }
+      })
+    )
+    .put(
+      'evaluationGroupByCount',
+      createField({
+        value: {
+          groupByPER_AP: 0,
+          groupByPER_AP_SERVICE: 0,
+          groupByPER_AP_ENDPOINT: 0
+        }
+      })
+    )
+    .put(
+      'selectedChannelList',
+      createField({
+        value: alertChannelList
       })
     );
 }

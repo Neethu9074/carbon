@@ -14,9 +14,14 @@ describe('in-custom-dashboards/widgets/Pie/ShowCase', () => {
     render(<ShowCaseComponent />);
 
     // legend should be present
-    await screen.findByText(t('in-custom-dashboards:widgets.pie.index.testLegendItem1'));
-    await screen.findByText(t('in-custom-dashboards:widgets.pie.index.testLegendItem2'));
-    await screen.findByText(t('in-custom-dashboards:widgets.pie.index.testLegendItem3'));
+    let legend = await screen.findAllByText(t('in-custom-dashboards:widgets.pie.index.testLegendItem1'));
+    expect(legend[0]).toBeVisible();
+
+    legend = await screen.findAllByText(t('in-custom-dashboards:widgets.pie.index.testLegendItem2'));
+    expect(legend[0]).toBeVisible();
+
+    legend = await screen.findAllByText(t('in-custom-dashboards:widgets.pie.index.testLegendItem3'));
+    expect(legend[0]).toBeVisible();
 
     const charts = document.getElementsByTagName('svg');
     expect(charts).toBeDefined();

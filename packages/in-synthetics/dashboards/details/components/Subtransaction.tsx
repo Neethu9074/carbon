@@ -6,7 +6,7 @@
 
 import React, { Fragment, useState } from 'react';
 
-import { KeyValueProps, toInteractiveElement } from '@instana/components';
+import { KeyValueProps, toInteractiveElement, Pill } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import {
@@ -21,7 +21,6 @@ import ToggleIcon from 'in-synthetics/dashboards/details/components/ToggleIcon';
 import Timings from 'in-synthetics/dashboards/details/components/Timings';
 import { Row, Col } from 'in-components/layout/Grid';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import Pill from 'in-components/Pill';
 
 import locals from './Subtransaction.mless';
 
@@ -37,6 +36,7 @@ export default function Subtransaction({ subtransaction }: SubtransactionProps) 
             : t('in-synthetics:dashboard.detailsPage.showMoreSubDetails')
         }
         align="topMiddle"
+        overwriteBlock
       >
         <div
           className={locals.header}
@@ -68,7 +68,7 @@ export default function Subtransaction({ subtransaction }: SubtransactionProps) 
 function TypeHeader({ subtransaction }: SubtransactionProps) {
   return (
     <Tooltip content={''} align="rightMiddle">
-      <Pill color={'#ABB0B8'} className={locals.type}>
+      <Pill type={'gray'} className={locals.type}>
         {subtransaction.metrics.httpOperation}
       </Pill>
     </Tooltip>

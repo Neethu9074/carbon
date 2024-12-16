@@ -34,4 +34,12 @@
     height: 3rem;
     color: grey;
   }
+  .paginationSmallWidth {
+    :global(.cds--pagination__left) {
+      display: none;
+    }
+    :global(.cds--pagination__right) {
+      width: inherit;
+    }
+  }
 }

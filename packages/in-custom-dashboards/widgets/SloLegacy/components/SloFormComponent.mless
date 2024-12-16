@@ -1,0 +1,23 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .timeInput {
+    margin-left: 2rem;
+  }
+
+  .timeWindowUnit {
+    margin-left: 1rem;
+  }
+
+  .sloUnit {
+    align-self: center;
+    width: 5rem;
+  }
+
+  .sloInput {
+    min-width: 7rem;
+  }
+}

@@ -70,7 +70,7 @@ const cols = [
       getValue(row) {
         return row.sriovLogicalPort.get('sentPackets');
       },
-      getContent: number.detailed
+      getContent: number.perSecond.detailed
     }
   },
   {
@@ -80,7 +80,7 @@ const cols = [
       getValue(row) {
         return row.sriovLogicalPort.get('receivedPackets');
       },
-      getContent: number.detailed
+      getContent: number.perSecond.detailed
     }
   },
   {
@@ -90,7 +90,7 @@ const cols = [
       getValue(row) {
         return row.sriovLogicalPort.get('sentBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.detailed
     }
   },
   {
@@ -100,7 +100,7 @@ const cols = [
       getValue(row) {
         return row.sriovLogicalPort.get('receivedBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.detailed
     }
   },
   {
@@ -110,7 +110,7 @@ const cols = [
       getValue(row) {
         return row.sriovLogicalPort.get('transferredBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.detailed
     }
   },
   {
@@ -120,7 +120,7 @@ const cols = [
       getValue(row) {
         return row.sriovLogicalPort.get('errorIn');
       },
-      getContent: number.detailed
+      getContent: number.perSecond.detailed
     }
   },
   {
@@ -130,7 +130,7 @@ const cols = [
       getValue(row) {
         return row.sriovLogicalPort.get('errorOut');
       },
-      getContent: number.detailed
+      getContent: number.perSecond.detailed
     }
   }
 ];
@@ -175,7 +175,7 @@ export default connectTo(
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                formatter: number,
+                formatter: number.perSecond.detailed,
                 metrics: [
                   'sriovLogicalPorts.' + row.key + '.sentPackets',
                   'sriovLogicalPorts.' + row.key + '.receivedPackets'
@@ -192,7 +192,7 @@ export default connectTo(
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                formatter: number,
+                formatter: number.perSecond.detailed,
                 metrics: [
                   'sriovLogicalPorts.' + row.key + '.sentBytes',
                   'sriovLogicalPorts.' + row.key + '.receivedBytes',

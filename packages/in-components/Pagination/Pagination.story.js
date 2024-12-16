@@ -6,6 +6,8 @@
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
+import { Pagination as CarbonPaginationRender } from '@instana/components';
+
 import Pagination from 'in-components/Pagination';
 
 export default {
@@ -20,6 +22,22 @@ Default.args = {
 };
 Default.argTypes = {
   page: {
+    control: {
+      type: 'range',
+      min: 1,
+      max: 10,
+      step: 1
+    }
+  }
+};
+
+export const CarbonPaginationDefault = props => <CarbonPaginationRender {...props} />;
+CarbonPaginationDefault.args = {
+  totalItems: 55,
+  currentPage: 5
+};
+CarbonPaginationDefault.argTypes = {
+  currentPage: {
     control: {
       type: 'range',
       min: 1,

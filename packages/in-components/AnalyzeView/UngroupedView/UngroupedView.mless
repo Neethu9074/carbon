@@ -25,6 +25,10 @@
     height: 1px;
   }
 
+  .displayBlock {
+    display: block;
+  }
+
   .logsLoadedToast {
     display: flex;
     align-items: center;

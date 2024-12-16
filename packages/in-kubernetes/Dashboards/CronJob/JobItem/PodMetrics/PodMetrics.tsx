@@ -10,7 +10,6 @@ import { useObservable } from '@instana/hooks';
 import { KeyValue } from '@instana/components';
 
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-// @ts-expect-error
 import { getHistoricMetric } from 'in-stores/metric';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
@@ -28,7 +27,6 @@ export default function PodMetrics({ snapshotId, metric, label }: PodMetricsProp
       metric: metric,
       timeConfig: timeConfig
     })
-      // @ts-expect-error
       .map(v => v[1])
       .distinct(),
     []

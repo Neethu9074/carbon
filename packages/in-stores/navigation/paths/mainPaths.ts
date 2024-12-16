@@ -11,14 +11,19 @@ export const homePath = '/';
 export const agentsPath = '/agents';
 export const settingsPath = '/config';
 export const containerPath = '/container';
+export const graphPath = '/graph';
 export const physicalPath = '/physical';
 export const physicalDashboardPath = `${physicalPath}/dashboard`;
 export const tablePath = '/table';
 export const physicalTablePath = '/table;view=physical;plugin=host';
 export const eventsPath = '/events';
 export const infraSmartAlerts = '/infraAlerts';
+export const graphExplorerPath = '/graphExplorer';
 export const infraAlertsDetailsPath = '/infraAlertdetails';
 export const infraAlertDetailsFullyQualifiedPath = `${infraSmartAlerts}${infraAlertsDetailsPath}`;
+export const vulnerabilityPath = '/vulnerability-center';
+
+export const infraSmartAlertsFullScreen = '/infraSmartAlerts';
 
 export function useGetLinkToCurrentViewWithViewGrouping(view: string, vg: string) {
   const { createHref, location } = useNavigation();
@@ -48,6 +53,7 @@ export function isInfrastructurePath(path: string) {
   return (
     path.indexOf(physicalPath) === 0 ||
     path.indexOf(infraSmartAlerts) === 0 ||
+    path.indexOf(graphExplorerPath) === 0 ||
     path.indexOf(tablePath) === 0 ||
     path.indexOf(containerPath) === 0 ||
     path.indexOf(infraAlertDetailsFullyQualifiedPath) === 0
@@ -56,4 +62,8 @@ export function isInfrastructurePath(path: string) {
 
 export function isEventsPath(path: string) {
   return path.indexOf(eventsPath) === 0;
+}
+
+export function isVulnerabilityPath(path: string) {
+  return path.indexOf(vulnerabilityPath) === 0;
 }

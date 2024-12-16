@@ -6,10 +6,10 @@
 
 import { ReactNode, useMemo } from 'react';
 
-import { createTagBasedApplicationPayloadConfigurator } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import { createTagBasedApplicationPayloadConfigurator } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import { getApplicationTagSuggestions } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
+import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { ApplicationBoundaryScope, ApplicationNode, TimeConfig } from 'in-types';
-import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { CALLS } from 'in-applications/analyze/metrics';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -29,7 +29,11 @@ export default function useTagBasedApplicationPayloadConfigurator(
     return createTagBasedApplicationPayloadConfigurator({
       getTagCatalog: () => applicationTagCatalog,
       getSuggestions: args => {
-        return getApplicationTagSuggestions({ ...args, entity: DESTINATION }, undefined, applications, boundaryScope);
+        return applicationTagCatalog.flatMap(tagCatalog => {
+          const catalogTag = tagCatalog?.data?.tags?.find(tag => tag.name === args.name);
+          const entity = catalogTag?.canApplyToDestination ? DESTINATION : NOT_APPLICABLE;
+          return getApplicationTagSuggestions({ ...args, entity: entity }, undefined, applications, boundaryScope);
+        });
       }
     });
   }, [applications, boundaryScope, timeConfig]);

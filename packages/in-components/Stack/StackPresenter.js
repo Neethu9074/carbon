@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { contextGuideStackLoadedDurationTracker } from 'in-infrastructure/tracking/tracking';
+import { useSegmentTracker } from 'in-infrastructure/tracking/tracking';
 import { setSingle, getSingle } from 'in-services/settings/settings';
 import InlineTabNavigation from 'in-components/InlineTabNavigation';
 import SelfEntityHeader from 'in-components/Stack/SelfEntityHeader';
@@ -33,9 +33,13 @@ export default function StackPresenter({
   syntheticCalls
 }) {
   useDisabledBodyScroll();
-  // Mixpanel tracking should deliberately only happen when isLoading changes
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => trackLoading(isLoading, { dashboard: plugin || productArea }), [isLoading]);
+
+  const { contextGuideStackLoadedDurationTrackerSegment } = useSegmentTracker();
+  useEffect(
+    () => trackLoading(isLoading, { dashboard: plugin || productArea }, contextGuideStackLoadedDurationTrackerSegment),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [isLoading]
+  );
 
   if (isLoading) {
     return <Loader />;
@@ -175,10 +179,6 @@ function healthSeverityFromHealthInfo(healthInfo) {
   return SEVERITY_MAP[healthInfo.type];
 }
 
-function trackLoading(isLoading, props) {
-  if (isLoading) {
-    contextGuideStackLoadedDurationTracker.start();
-  } else {
-    contextGuideStackLoadedDurationTracker.stop(props);
-  }
+function trackLoading(isLoading, props, contextGuideStackLoadedDurationTrackerSegment) {
+  contextGuideStackLoadedDurationTrackerSegment(props, isLoading);
 }

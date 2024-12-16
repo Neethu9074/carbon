@@ -63,8 +63,30 @@ const cleanConfigurationForm = (form: MapForm<any>, test: SyntheticTest): Synthe
   }
 
   // Remove applicationId property if not present
-  if (isBlank(updatedForm.get('applicationId').value)) {
+  if (isBlank(updatedForm.get('applicationId')?.value)) {
     updatedForm = updatedForm.remove('applicationId');
+  }
+
+  // Remove applications property if not present
+  if (
+    (updatedForm.get('applications')?.value.length === 1 && hasEmptyStrings(updatedForm.get('applications')?.value)) ||
+    updatedForm.get('applications')?.value.length === 0
+  ) {
+    updatedForm = updatedForm.remove('applications');
+  }
+
+  if (
+    (updatedForm.get('websites')?.value.length === 1 && hasEmptyStrings(updatedForm.get('websites')?.value)) ||
+    updatedForm.get('websites')?.value.length === 0
+  ) {
+    updatedForm = updatedForm.remove('websites');
+  }
+
+  if (
+    (updatedForm.get('mobileApps')?.value.length === 1 && hasEmptyStrings(updatedForm.get('mobileApps')?.value)) ||
+    updatedForm.get('mobileApps')?.value.length === 0
+  ) {
+    updatedForm = updatedForm.remove('mobileApps');
   }
 
   // Add default customProperties

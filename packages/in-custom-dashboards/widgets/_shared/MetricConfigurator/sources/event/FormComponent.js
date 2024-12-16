@@ -5,9 +5,8 @@
 
 import React from 'react';
 
-import { Stack, Spacer } from '@instana/components';
+import { Stack, Spacer, Toggle } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Toggle } from '@instana/legacy';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { refreshDFQ$ } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricConfiguration';
@@ -31,6 +30,7 @@ export default function FormComponent({
   labelSection,
   formatterSection,
   timeShiftConfiguration,
+  thresholdConfiguration,
   withAggregationInMetrics = true,
   displayDFQ = true
 }) {
@@ -81,9 +81,7 @@ export default function FormComponent({
             <Toggle
               id="select-k8s-info-events"
               checked={includeK8sInfoEventsField.value}
-              onChange={e =>
-                onChange(['includeK8sInfoEvents'], field => field.setValue(e.target.checked).setTouched(true))
-              }
+              onToggle={e => onChange(['includeK8sInfoEvents'], field => field.setValue(e).setTouched(true))}
             />
             <Spacer horizontal="xxsmall" />
             <span>{t('in-custom-dashboards:widgets.srcEvent.formComponent.includeK8sInfoEvents')}</span>
@@ -91,9 +89,7 @@ export default function FormComponent({
               className={locals.agentMonitoringIssuesToggle}
               id="select-agent-monitoring-issues"
               checked={includeAgentMonitoringIssuesField.value}
-              onChange={e =>
-                onChange(['includeAgentMonitoringIssues'], field => field.setValue(e.target.checked).setTouched(true))
-              }
+              onToggle={e => onChange(['includeAgentMonitoringIssues'], field => field.setValue(e).setTouched(true))}
             />
             <Spacer horizontal="xxsmall" />
             <span>{t('in-custom-dashboards:widgets.srcEvent.formComponent.includeAgentMonitoringIssues')}</span>
@@ -140,6 +136,8 @@ export default function FormComponent({
       </Sections>
 
       {timeShiftConfiguration}
+
+      {thresholdConfiguration}
 
       {labelSection}
     </Stack>

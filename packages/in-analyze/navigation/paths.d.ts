@@ -7,8 +7,6 @@ import { FormModelElement } from 'in-components/QueryBuilder/transformation/form
 import { AggregationType, BoundaryScope, Group, Order } from 'in-types';
 import { EntityType } from 'in-analyze/applicationFilter';
 
-export const analyze: string;
-
 interface ChartMetric {
   metricId: string;
   aggregationId: string;
@@ -26,8 +24,6 @@ interface MetricField {
   aggregationId: AggregationType;
   type: 'metric';
 }
-
-export function isAnalyzeView(...paths: string[]): boolean;
 
 export function tagFilterForBoundaryScope(boundaryScope: BoundaryScope, applicationName: string): TagFilter;
 

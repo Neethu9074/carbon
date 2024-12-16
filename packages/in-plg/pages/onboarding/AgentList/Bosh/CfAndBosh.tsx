@@ -19,6 +19,7 @@ import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import Code from 'in-plg/components/Code/Code';
 import { t, Trans } from 'in-i18n';
 
@@ -170,6 +171,8 @@ export default function CfAndBosh({
       openByDefault: false
     }
   ];
+
+  if (shareAndInviteEnabled) supportViewData.pop();
 
   return (
     <>

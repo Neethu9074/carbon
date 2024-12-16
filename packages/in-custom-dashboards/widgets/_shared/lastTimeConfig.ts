@@ -3,28 +3,29 @@
  * (c) Copyright Instana Inc.
  */
 
-import { AdjustedTimeframe, TimeConfig, UnifiedMetricConfiguration } from '@instana/types';
+import { TimeConfig, UnifiedMetricConfigurationUnion } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
+import { getFinestAvailableGranularity } from 'in-stores/metric/metric';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 
 export function getTimeConfigBasedOnMetricConfiguration(
-  metricConfig: UnifiedMetricConfiguration,
+  metricConfig: UnifiedMetricConfigurationUnion,
   originalTimeConfig: TimeConfig
 ): TimeConfig {
   return metricConfig.lastValue
     ? {
         ...originalTimeConfig,
-        windowSize: 10000
+        windowSize: getFinestAvailableGranularity(originalTimeConfig, 10000)
       }
     : originalTimeConfig;
 }
 
-export function getLastValueTooltipLabel(adjustedTimeFrame: AdjustedTimeframe): string | undefined {
-  if (!adjustedTimeFrame) {
+export function getLastValueTooltipLabel(originalTimeConfig: TimeConfig): string | undefined {
+  if (!originalTimeConfig) {
     return undefined;
   }
   return `${t('in-custom-dashboards:widgets.time.lastValueTooltipLabel', {
-    duration: formatDurationAccurately(adjustedTimeFrame.windowSize, 100)
+    duration: formatDurationAccurately(getFinestAvailableGranularity(originalTimeConfig, 10000), 100)
   })}`;
 }

@@ -5,8 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Stack } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Stack, SearchInput, Button } from '@instana/components';
 
 import { MultiSelectSuggestions } from 'in-components/AnalyzeView/FacetedFilters/MultiSelectSuggestions';
 import { CheckableSuggestion } from 'in-components/AnalyzeView/FacetedFilters/CheckableSuggestion';
@@ -14,7 +13,6 @@ import { getFuzzyMatchingRegex } from 'in-components/AnalyzeView/fuzzyMatch';
 import { useSuggestions } from 'in-components/AnalyzeView/useSuggestions';
 import { compareIgnoreCase, isBlank } from 'in-services/util/string';
 import { identity } from 'in-services/util/function';
-import SearchInput from 'in-components/SearchInput';
 import { isLoading } from 'in-services/entityUtils';
 import { hasError } from 'in-services/util/result';
 import { t } from 'in-i18n';
@@ -72,6 +70,7 @@ export function MultiSelect(props) {
             className={locals.searchContainer}
             inputClassName={locals.search}
             withoutIcon
+            placeholder={t('in-components:searchInput.placeholderSearch')}
           />
         )}
         {selectedValues.length > 0 && (

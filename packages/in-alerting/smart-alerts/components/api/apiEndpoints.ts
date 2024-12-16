@@ -15,5 +15,6 @@ export const baseUrl: baseUrlProps = {
   WEBSITE: 'api/events/settings/website-alert-configs',
   APPLICATION: 'api/events/settings/application-alert-configs',
   APPLICATION_GLOBAL: '/api/events/settings/global-alert-configs/applications',
-  LOGS: 'api/events/settings/global-alert-configs/logs'
+  LOGS: 'api/events/settings/global-alert-configs/logs',
+  SLO: 'api/events/settings/global-alert-configs/service-levels'
 };

@@ -4,21 +4,22 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 import { CustomEventSpecificationWithMetadata } from '@instana/types/typeDefinitions';
 // @ts-expect-error export needs types
 import { empty } from '@instana/observables';
+import { Link, Message } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Message } from '@instana/components';
 
 import {
-  smartAlertMigrationDocs,
-  MessageContentModernDesign
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
-import { isDeprecatedAppDataEntityType } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
-import { applicationsAlertingShowDeprecationBanner } from 'in-alerting/smart-alerts/applications/tracker';
+  MessageContentModernDesign,
+  onLinkClickForSegmentTracking,
+  smartAlertMigrationUrl
+} from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
+import { isDeprecatedAppDataEntityType } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/util';
 import { getCustomEventSpecificationMutable } from 'in-api/eventSpecifications';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { Col, Row } from 'in-components/layout/Grid';
 import { Event } from 'in-types';
 import { Trans } from 'in-i18n';
@@ -29,6 +30,13 @@ interface Props {
 }
 
 export function DeprecatedCustomEventWarning({ event, isIncident }: Props) {
+  const { trackCta } = useSegmentTracking();
+  const smartAlertMigrationDocs = (
+    <Link href={smartAlertMigrationUrl} onClick={() => onLinkClickForSegmentTracking(trackCta)} external>
+      &nbsp;
+    </Link>
+  );
+
   const eventId = event?.metadata?.eventSpecificationId ?? '';
   const isDeprecatedCustomEvent = useMemo(
     () =>
@@ -53,17 +61,11 @@ export function DeprecatedCustomEventWarning({ event, isIncident }: Props) {
     !customEventConfigOrEmpty?.migrated &&
     !customEventConfigOrEmpty?.deleted;
 
-  useEffect(() => {
-    if (showBanner) {
-      applicationsAlertingShowDeprecationBanner({});
-    }
-  }, [showBanner]);
-
   return (
     Boolean(showBanner) && (
       <Row withoutSideMargin>
         <Col xs>
-          <Message type="warning" withIcon>
+          <Message type="warning" withIcon fullInlineWidth>
             <MessageContentModernDesign>
               <Trans
                 i18nKey="in-events:deprecatedCustomEventWarning"

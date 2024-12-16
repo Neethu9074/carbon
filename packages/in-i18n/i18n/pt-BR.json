@@ -1,9 +1,17 @@
 {
   "components": {
+    "uiShell": {
+      "mainNavigation": "Navegação principal"
+    },
     "list": {
       "loadMore": "Carregar mais",
+      "expand": "Expandir",
+      "collapse": "Reduzir",
       "toggleExtraContent": "Alternar conteúdo extra",
       "initiateDefaultAction": "Iniciar ação padrão"
+    },
+    "link": {
+      "opensInNewTab": "(abre em uma nova guia)"
     },
     "table": {
       "tableErrorRows": {
@@ -11,13 +19,43 @@
       },
       "tableLoadMoreRow": {
         "loadMore": "Carregar mais"
-      }
+      },
+      "dataTable": "Tabela de dados",
+      "expandHeader": "Expandir linha",
+      "expandRow": "Alternar linha de expansão",
+      "select": "Selecionar linha",
+      "selectedRow": "Linha selecionada"
+    },
+    "tableSkeleton": {
+      "sampleTable": "Tabela de amostra"
     },
     "code": {
       "copy": "Copiar",
       "copied": "Copiado!",
       "showMore": "Mostrar mais",
-      "showLess": "Mostrar menos"
+      "showLess": "Mostrar menos",
+      "copytoboard": "Copiar para a área de transferência"
+    },
+    "menu": {
+      "sideNavigation": "Navegação do site"
+    },
+    "dropDown": {
+      "selectOption": "Selecionar a opção"
+    },
+    "tabsNavigation": {
+      "pageNavigation": "Navegação de página"
+    },
+    "plg": {
+      "dashboardTable": {
+        "dataTableToolbar": "barra de ferramentas da tabela de dados"
+      },
+      "tableTabs": {
+        "listOfTabs": "Lista de guias"
+      }
+    },
+    "pill": {
+      "privatePreview": "Visualizar",
+      "publicPreview": "Visualizar"
     }
   },
   "formatDate": {
@@ -49,14 +87,17 @@
   "forms": {
     "actions": {
       "save": "Salvar",
+      "saveIntegration": "Salvar e ativar",
       "cancel": "Cancelar",
       "create": "Criar",
       "delete": "Excluir",
       "close": "Fechar",
-      "submit": "Enviar"
+      "submit": "Enviar",
+      "previous": "Prévio"
     },
     "states": {
-      "saving": "Salvando…"
+      "saving": "Salvando…",
+      "loading": "Carregando..."
     }
   },
   "language_en-US": "Inglês",
@@ -82,6 +123,7 @@
   "aggregation_MAX": "máximo",
   "aggregation_DISTINCT_COUNT": "contagem distinta",
   "aggregation_SUM": "soma",
+  "aggregation_INCREASE": "aumentar",
   "aggregation_DISTRIBUTION": "distribuição",
   "aggregation_PER_SECOND": "por segundo"
 }

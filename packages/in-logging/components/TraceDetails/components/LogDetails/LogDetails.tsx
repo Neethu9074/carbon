@@ -6,10 +6,12 @@
 
 /* eslint-disable react/no-unused-prop-types */
 import React, { useCallback, useEffect, useState } from 'react';
+import classNames from 'classnames';
 
+import { SpanExcerpt, TraceActivityTreeNode } from '@instana/types/typeDefinitions';
 import { LogItem, LogMessageItem, LogTag } from '@instana/types';
-import { SpanExcerpt } from '@instana/types/typeDefinitions';
-import { Stack } from '@instana/components';
+import { Stack, Typography } from '@instana/components';
+import { ExpandableGroup } from '@instana/components';
 
 // @ts-expect-error not yet migrated to typescript
 import SidebarTagList from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/SidebarTagList';
@@ -27,7 +29,6 @@ import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresen
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
 import { getLogLevel } from 'in-logging/analyze/AnalyzeView/logLevel';
 import { isLogItem } from 'in-logging/analyze/AnalyzeView/utils';
-import ExpandableGroup from 'in-components/ExpandableGroup';
 import { SPAN_STACK_TRACE } from 'in-logging/queryBuilder';
 import { loggingEnabled } from 'in-services/featureFlags';
 import ErrorBoundary from 'in-components/ErrorBoundary';
@@ -48,6 +49,7 @@ interface LogDetailsSwitchProps {
   processSnapshotId?: string;
   callId: string;
   loggingLog?: LogItem;
+  justTitle?: boolean;
 }
 
 export default function LogDetailsSwitch(props: LogDetailsSwitchProps) {
@@ -64,13 +66,10 @@ function LogDetailsWithNoAccess() {
   return (
     <aside className={locals.logDetails}>
       <Stack direction="vertical" gap="normal">
-        <ExpandableGroup title="Message" defaultExpanded>
-          {t('in-analyze:logDetails.restrictedAccessExpl')}
-        </ExpandableGroup>
-
-        <ExpandableGroup title={t('in-analyze:logDetails.titleTags')}>
-          {t('in-analyze:logDetails.restrictedAccessExpl')}
-        </ExpandableGroup>
+        <Typography variant="heading-02">{t('in-analyze:logDetails.message')}</Typography>
+        {t('in-analyze:logDetails.restrictedAccessExpl')}
+        <Typography variant="heading-02">{t('in-analyze:logDetails.titleTags')}</Typography>
+        {t('in-analyze:logDetails.restrictedAccessExpl')}
       </Stack>
     </aside>
   );
@@ -78,65 +77,60 @@ function LogDetailsWithNoAccess() {
 
 function LogDetails(props: LogDetailsSwitchProps) {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const { callLog, loggingLog } = props;
+  const { callLog, loggingLog, justTitle } = props;
 
-  const { selectedLog } = useLogsInCallsContext();
+  const { selectedLog, items } = useLogsInCallsContext();
 
-  const useLoggingData = loggingEnabled && loggingLog;
+  const useLoggingData = Boolean(loggingEnabled && loggingLog);
 
-  const logLevel = useLoggingData
-    ? getLogLevel(loggingLog.tags)
-    : callLog.data.log?.level || (callLog.errorCount > 0 ? 'ERROR' : 'WARN');
-
+  const logLevel = getLogLevelFromLog(callLog, loggingLog, useLoggingData);
+  const logMessage = getLogMessage(callLog, loggingLog, useLoggingData);
   const logLevelColor = getLogLevelColor(logLevel);
+  const tags = (useLoggingData ? loggingLog?.tags : items[0]?.tags) ?? [];
 
-  const logMessage = (useLoggingData ? loggingLog?.message : callLog.data.log?.message) ?? '';
-
-  const isExpandedLog = isLogItem(selectedLog)
-    ? loggingLog?.itemId === selectedLog.itemId
-    : selectedLog?.label.replace('WARN:', '').replace('ERROR:', '') === logMessage;
+  const isExpandedLog = isLogSelected(selectedLog, loggingLog, logMessage);
 
   useEffect(() => {
-    setIsExpanded(isExpandedLog);
-  }, [isExpandedLog]);
+    if (isExpandedLog !== isExpanded) {
+      setIsExpanded(isExpandedLog);
+    }
+  }, [isExpanded, isExpandedLog]);
 
-  const ref = useCallback(
+  const scrollToRef = useCallback(
     node => {
-      if (node !== null && isExpanded) {
-        setTimeout(() => node.scrollIntoView(true, { block: 'start' }), 200);
+      if (node && isExpanded) {
+        node.scrollIntoView({ block: 'start' });
       }
     },
     [isExpanded]
   );
 
+  const handleToggle = () => setIsExpanded(expanded => !expanded);
   const title = (
-    <div className={locals.title}>
+    <div className={classNames(locals.title, justTitle && locals.justTitle)}>
       <aside>
-        <div
-          className={logIndicatorLocals.logIndicator}
-          style={{
-            borderTopColor: logLevelColor
-          }}
-        />
+        <div className={logIndicatorLocals.logIndicator} style={{ borderTopColor: logLevelColor }} />
       </aside>
       <header>
         <span className={locals.titleLevel}>{logLevel}</span>
-        {useLoggingData ? <LogMessage tags={loggingLog?.tags} message={logMessage} /> : <span>{logMessage}</span>}
+        <LogMessage tags={tags} message={logMessage} />
       </header>
     </div>
   );
 
-  const handleToggle = () => setIsExpanded(expanded => !expanded);
-
   return (
-    <aside ref={ref} className={locals.logDetails}>
-      <ExpandableGroup onToggle={handleToggle} expanded={isExpanded} title={title}>
-        {useLoggingData ? (
-          <ExpandedLogWithLogging {...(props as ExpandedLogWithLoggingProps)} />
-        ) : (
-          <ExpandedLogWithoutLogging {...props} />
-        )}
-      </ExpandableGroup>
+    <aside ref={scrollToRef} className={classNames(locals.logDetails, justTitle && locals.minusMargin)}>
+      {justTitle ? (
+        title
+      ) : (
+        <ExpandableGroup expanded={isExpanded} onToggle={handleToggle} title={title}>
+          {useLoggingData ? (
+            <ExpandedLogWithLogging {...(props as ExpandedLogWithLoggingProps)} />
+          ) : (
+            <ExpandedLogWithoutLogging {...props} />
+          )}
+        </ExpandableGroup>
+      )}
     </aside>
   );
 }
@@ -162,18 +156,15 @@ const ExpandedLogWithLogging = (props: ExpandedLogWithLoggingProps) => {
 
   return (
     <Stack direction="vertical" gap="normal">
-      <ExpandableGroup title="Message" defaultExpanded>
-        <LogMessage {...loggingLog} />
-      </ExpandableGroup>
-
-      <ExpandableGroup title={t('in-analyze:logDetails.titleTags')}>
-        <SidebarTagList tags={tags} />
-      </ExpandableGroup>
-
+      <Typography variant="heading-02">{t('in-analyze:logDetails.message')}</Typography>
+      <LogMessage {...loggingLog} />
+      <Typography variant="heading-02">{t('in-analyze:logDetails.titleTags')}</Typography>
+      <SidebarTagList tags={tags} noMargin />
       {parameterTags.length > 0 && (
-        <ExpandableGroup title={t('in-analyze:logDetails.titleParameters')}>
-          <SidebarTagList tags={parameterTags} />
-        </ExpandableGroup>
+        <>
+          <Typography variant="heading-02">{t('in-analyze:logDetails.titleParameters')}</Typography>
+          <SidebarTagList tags={parameterTags} noMargin />
+        </>
       )}
 
       {stackTrace && stackTrace.length > 0 && (
@@ -193,10 +184,8 @@ const ExpandedLogWithoutLogging = (props: LogDetailsSwitchProps) => {
 
   const content = (
     <>
-      <ExpandableGroup title="Message" defaultExpanded>
-        <LogMessage tags={[]} message={message} />
-      </ExpandableGroup>
-
+      <Typography variant="heading-02">{t('in-analyze:logDetails.message')}</Typography>
+      <LogMessage tags={[]} message={message} />
       {hasStackTrace && <LogStackTrace stackTrace={stackTrace} processSnapshotId={processSnapshotId} />}
     </>
   );
@@ -213,3 +202,29 @@ const ExpandedLogWithoutLogging = (props: LogDetailsSwitchProps) => {
     </Stack>
   );
 };
+
+function getLogLevelFromLog(
+  callLog: LogSpanExcerpt | undefined,
+  loggingLog: LogItem | undefined,
+  useLoggingData: boolean
+) {
+  if (useLoggingData) {
+    return getLogLevel(loggingLog?.tags ?? []);
+  }
+  return callLog?.data?.log?.level || (callLog?.errorCount && callLog?.errorCount > 0 ? 'ERROR' : 'WARN');
+}
+
+function getLogMessage(callLog: LogSpanExcerpt | undefined, loggingLog: LogItem | undefined, useLoggingData: boolean) {
+  return (useLoggingData ? loggingLog?.message : callLog?.data?.log?.message) ?? '';
+}
+
+function isLogSelected(
+  selectedLog: LogItem | TraceActivityTreeNode | null,
+  loggingLog: LogItem | undefined,
+  logMessage: string
+) {
+  if (!selectedLog) return false;
+  return isLogItem(selectedLog)
+    ? loggingLog?.itemId === selectedLog.itemId
+    : selectedLog.label.replace('WARN:', '').replace('ERROR:', '') === logMessage;
+}

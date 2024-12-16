@@ -8,17 +8,22 @@ import React from 'react';
 
 import { TimeConfig } from '@instana/types';
 
-// @ts-expect-error Module needs to be translated to TS
-import MetricValue from 'in-components/MetricValue';
 import ProcessesTable from 'in-forge/plugins/tibcoBWAppInst/Dashboard/ProcessesTable';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, zeroDecimalPlaces } from 'in-services/formatters/number';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
+import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 
-export default function TibcoBWAppInstDashboard({ snapshot, timeConfig }: { snapshot: SnapshotData; timeConfig: TimeConfig; }) {
+export default function TibcoBWAppInstDashboard({
+  snapshot,
+  timeConfig
+}: {
+  snapshot: SnapshotData;
+  timeConfig: TimeConfig;
+}) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
@@ -51,13 +56,13 @@ export default function TibcoBWAppInstDashboard({ snapshot, timeConfig }: { snap
           y1={{
             metrics: ['created', 'running', 'faulted', 'cancelled', 'scheduled', 'pagedout'],
             labels: [
-                      t('in-forge:plugins.tibcoBWAppInst.created'),
-                      t('in-forge:plugins.tibcoBWAppInst.running'),
-                      t('in-forge:plugins.tibcoBWAppInst.faulted'),
-                      t('in-forge:plugins.tibcoBWAppInst.cancelled'),
-                      t('in-forge:plugins.tibcoBWAppInst.scheduled'),
-                      t('in-forge:plugins.tibcoBWAppInst.pagedout')
-                    ],
+              t('in-forge:plugins.tibcoBWAppInst.created'),
+              t('in-forge:plugins.tibcoBWAppInst.running'),
+              t('in-forge:plugins.tibcoBWAppInst.faulted'),
+              t('in-forge:plugins.tibcoBWAppInst.cancelled'),
+              t('in-forge:plugins.tibcoBWAppInst.scheduled'),
+              t('in-forge:plugins.tibcoBWAppInst.pagedout')
+            ],
             type: 'line',
             formatter: zeroDecimalPlaces
           }}

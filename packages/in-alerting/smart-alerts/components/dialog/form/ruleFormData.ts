@@ -21,7 +21,8 @@ export const ruleAggregationOptions: readonly Options[] = Object.freeze([
   { value: 'P95', label: t('in-alerting:smartAlerts.form.ruleAggregationOptionP95') },
   { value: 'P98', label: t('in-alerting:smartAlerts.form.ruleAggregationOptionP98') },
   { value: 'P99', label: t('in-alerting:smartAlerts.form.ruleAggregationOptionP99') },
-  { value: 'MAX', label: t('in-alerting:smartAlerts.form.ruleAggregationOptionMAX') }
+  { value: 'MAX', label: t('in-alerting:smartAlerts.form.ruleAggregationOptionMAX') },
+  { value: 'SUM', label: t('in-alerting:smartAlerts.form.ruleAggregationOptionSUM') }
 ]);
 
 export const ruleAggregationForWeeklySeasonalityOptions: readonly Options[] = Object.freeze([

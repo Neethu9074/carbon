@@ -14,6 +14,7 @@ import {
   PER_AP_ENDPOINT
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
+import { WARNING_SEVERITY, CRITICAL_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
 import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { chartViewConfigPropType } from 'in-alerting/components/Chart/chartViewConfig';
@@ -56,7 +57,7 @@ function AlertingChartWithErrorMessageForAdaptiveBaseline(props) {
       {error && (
         <>
           <Spacer size="normal" />
-          <Message type="warning" withIcon small>
+          <Message type="warning" withIcon small fullInlineWidth>
             <Trans i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.adaptiveBaselineErrorMessageNotAvailable" />
           </Message>
         </>
@@ -67,13 +68,9 @@ function AlertingChartWithErrorMessageForAdaptiveBaseline(props) {
 
 // Extracted, because it needs a memoization of the isQueryValid-method to avoid unneeded re-rendering
 function ChartWithErrorMessageAndData(props) {
-  const { alertConfigWithFormModel } = props;
+  const { alertConfigWithFormModel, isTearSheet } = props;
 
-  const {
-    rule: { alertType },
-    threshold: { type: thresholdType }
-  } = alertConfigWithFormModel;
-
+  const { alertType, thresholdType } = extractAlertConfigWithFormModel(alertConfigWithFormModel);
   const isApplicationAlertQueryValid = useMemo(() => {
     const { isQueryValid } = getQueryBuilderForAlertType(alertType, thresholdType);
     return ([tagFilterFormModel, timeConfig]) => isQueryValid(tagFilterFormModel, timeConfig);
@@ -93,8 +90,21 @@ function ChartWithErrorMessageAndData(props) {
       }
       customValidators={() => isServicesAndEndpointsSelectionValid}
       queryValidator={isApplicationAlertQueryValid}
+      isTearSheet={isTearSheet}
+      isMultiThresholdEnabled
     />
   );
+}
+
+function extractAlertConfigWithFormModel(alertConfigWithFormModel) {
+  const {
+    rule: { alertType },
+    thresholds
+  } = alertConfigWithFormModel.rules[0];
+
+  const definedThresholdType =
+    thresholds[WARNING_SEVERITY] !== undefined ? thresholds[WARNING_SEVERITY].type : thresholds[CRITICAL_SEVERITY].type;
+  return { alertType, definedThresholdType };
 }
 
 function getErrorMessage(isQB2Error, isServicesAndEndpointsSelectionError) {
@@ -141,5 +151,6 @@ ApplicationAlertingChartWithErrorMessage.propTypes = {
   /**
    * Optional endpointId to scope down the metric in the chart to a single entity
    **/
-  endpointId: PropTypes.string
+  endpointId: PropTypes.string,
+  isTearSheet: PropTypes.bool
 };

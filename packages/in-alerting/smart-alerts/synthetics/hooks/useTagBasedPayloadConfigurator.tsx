@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 
 import { Observable } from '@instana/observables';
 
-import { createTagBasedPayloadConfigurator } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import { createTagBasedPayloadConfigurator } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import { getTagSuggestions } from 'in-alerting/smart-alerts/synthetics/components/AlertQueryBuilder';
 import { getTagCatalog } from 'in-alerting/smart-alerts/synthetics/api/tagCatalog';
 import { TimeConfig, Result, TagCatalog } from 'in-types';

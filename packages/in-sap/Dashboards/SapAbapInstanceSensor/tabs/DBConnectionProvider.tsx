@@ -4,8 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-//@ts-nocheck
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
@@ -14,12 +13,16 @@ import { TimeConfig } from '@instana/types';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import { taskTypeMap, taskTypeList } from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/TaskType';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Table from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Table';
 import { millis, number } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import Table from 'in-sdk/components/dashboard/Table';
+import ComboBox from 'in-components/ComboBox/ComboBox';
 import { t } from 'in-i18n';
+
+import locals from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ComboBox.mless';
 
 interface DbConnectRow {
   key: string;
@@ -95,6 +98,19 @@ const cols = [
 
 export default function DBConnectionProvider({ snapshotId, timeConfig }: DbConnectProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'dbConnectionList'), [snapshotId]);
+  // @ts-expect-error Module needs to be translated to TS
+  const [{ taskType }, setPhase] = useState(taskTypeMap);
+  const rightHeader = (
+    <ComboBox
+      placeholder={t('in-sap:dashboards.taskType')}
+      isSearchable={false}
+      value={taskType}
+      className={locals.filter}
+      // @ts-expect-error Module needs to be translated to TS
+      onChange={t => setPhase({ taskType: t ? t.value : null })}
+      options={taskTypeMap}
+    />
+  );
   if (!data) {
     return null;
   }
@@ -111,6 +127,16 @@ export default function DBConnectionProvider({ snapshotId, timeConfig }: DbConne
         timeConfig,
         dbStats
       };
+    })
+    .filter(function (rows: DbConnectRow) {
+      if (taskType == null) {
+        return rows;
+      } else if (taskType == 'Others') {
+        const taskType = rows.dbStats.get('taskType');
+        return rows != null && typeof taskType === 'string' && !taskTypeList.includes(taskType);
+      } else {
+        return rows != null && rows.dbStats.get('taskType') === taskType;
+      }
     });
 
   function getDetails(row: DbConnectRow) {
@@ -152,12 +178,13 @@ export default function DBConnectionProvider({ snapshotId, timeConfig }: DbConne
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-sap:dashboards.dbConnection')}
+      cardTitle={t('in-sap:dashboards.databaseConnection')}
       cols={cols}
       rows={rows}
-      initialSortColumn={1}
-      initialSortDirection="asc"
+      initialSortColumn={4}
+      initialSortDirection="desc"
       getRowDetails={getDetails}
+      rightHeader={rightHeader}
     />
   );
 }

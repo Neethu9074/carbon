@@ -7,8 +7,8 @@
 import { MapForm, Item, Field } from 'formalistic';
 import React, { useRef } from 'react';
 
-import { Stack } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Stack, SvgIcon, Button } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
 import AlertPropertiesTextarea from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesTextArea';
 import { Placeholder } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
@@ -18,6 +18,7 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { InteractiveElementsProps } from 'in-components/MoreMenu/MoreMenu';
 import AlertSection from 'in-alerting/components/AlertSection';
 import { stopPropagation } from 'in-services/util/function';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow.mless';
@@ -27,48 +28,60 @@ export interface AlertPropertiesTitleRowProps {
   onChange: (path: string[], updater: (item: Item) => Item) => void;
   getTitlePlaceholder: (form: MapForm<any>) => string;
   placeholders: ReadonlyArray<Readonly<Placeholder>>;
+  placeholderTooltipContent?: string | undefined;
 }
 export default function AlertPropertiesTitleRow({
   form,
   onChange,
   getTitlePlaceholder,
-  placeholders
+  placeholders,
+  placeholderTooltipContent
 }: AlertPropertiesTitleRowProps) {
   const titleTextareaRef = useRef(null);
-
   return (
     <AlertSection
       titleHtmlFor="name"
       title={t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertiesTitle')}
     >
       <Stack gap="xsmall">
-        {placeholders.length > 0 && (
-          <HorizontalFlexWrapper className={locals.placeholderMenuButtonWrapper}>
-            <MoreMenu
-              renderInteractiveElement={({ ref, toggle }: InteractiveElementsProps) => (
-                <Button
-                  kind="action"
-                  className={locals.placeholderMenu}
-                  ref={ref}
-                  onClick={e => {
-                    stopPropagation(e);
-                    toggle();
-                  }}
+        <HorizontalFlexWrapper className={locals.placeholderMenuButtonWrapper}>
+          <MoreMenu
+            disabled={placeholders.length === 0}
+            renderInteractiveElement={({ ref, toggle }: InteractiveElementsProps) => (
+              <Button
+                kind="action"
+                className={locals.placeholderMenu}
+                ref={ref}
+                onClick={e => {
+                  stopPropagation(e);
+                  toggle();
+                }}
+              >
+                {t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertyInsertPlaceholderLabel')}
+              </Button>
+            )}
+          >
+            {placeholders.map(({ template }) => {
+              return (
+                <MoreMenuButton
+                  onClick={insertPlaceholderText(form.get('name').value, template, onChange)}
+                  key={template}
                 >
-                  {t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertyInsertPlaceholderLabel')}
-                </Button>
-              )}
-            >
-              {placeholders.map(({ template }) => {
-                return (
-                  <MoreMenuButton onClick={insertPlaceholderText(titleTextareaRef, template, onChange)} key={template}>
-                    {template}
-                  </MoreMenuButton>
-                );
-              })}
-            </MoreMenu>
-          </HorizontalFlexWrapper>
-        )}
+                  {template}
+                </MoreMenuButton>
+              );
+            })}
+          </MoreMenu>
+          {placeholderTooltipContent && (
+            <Tooltip align="bottomMiddle" content={placeholderTooltipContent}>
+              <SvgIcon
+                type="lib_help_error_info_outline"
+                size="s"
+                color={themes.default.ids.color.option.neutral['700']}
+              />
+            </Tooltip>
+          )}
+        </HorizontalFlexWrapper>
         <AlertPropertiesTextarea
           ref={titleTextareaRef}
           name="name"
@@ -85,29 +98,31 @@ export default function AlertPropertiesTitleRow({
 }
 
 function insertPlaceholderText(
-  titleTextareaRef: React.MutableRefObject<HTMLTextAreaElement | null>,
+  value: string,
   placeholderString: string,
   onChange: (path: string[], updater: (item: Item) => Item) => void
 ) {
   return () => {
-    const textarea = titleTextareaRef.current;
+    const textarea = document.getElementById('name');
 
     if (!textarea) {
       return;
     }
 
-    const { selectionStart, selectionEnd, value } = textarea;
+    var selectionStart = (textarea as any).selectionStart;
+    var selectionEnd = (textarea as any).selectionEnd;
 
     const tilSelectionStart = value.substring(0, selectionStart);
     const fromSelectionEnd = value.substring(selectionEnd);
     const newValue = tilSelectionStart + placeholderString + fromSelectionEnd;
 
     // we need to set the new value manually (before calling on change and update the form) to be
-    // able to place the cursor right after the inserted placehoder
-    textarea.value = newValue;
+    // able to place the cursor right after the inserted placeholder
+    (textarea as any).value = newValue;
+
     const newCursorPosition = selectionStart + placeholderString.length;
-    textarea.setSelectionRange(newCursorPosition, newCursorPosition);
-    textarea.focus();
+    (textarea as any).setSelectionRange(newCursorPosition, newCursorPosition);
+    setTimeout(() => textarea.focus(), 0);
 
     onChange(['name'], (field: Item) => (field as Field<string>).setValue(newValue).setTouched(true));
   };

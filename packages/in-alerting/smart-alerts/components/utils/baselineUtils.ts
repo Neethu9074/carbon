@@ -3,7 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
-import { AdaptiveBaselineData, Granularity, HistoricBaselineData, Nullish, Result, ThresholdConfig } from 'in-types';
+import {
+  AdaptiveBaselineData,
+  Granularity,
+  HistoricBaselineData,
+  Nullish,
+  Result,
+  Severity,
+  RuleWithThreshold,
+  ApplicationAlertRuleUnion,
+  AdaptiveBaselineConfig
+} from 'in-types';
 import { hasError, isLoading } from 'in-services/util/result';
 import { FixedTimeConfig } from 'in-stores/time/config';
 import { days } from 'in-services/time';
@@ -57,10 +67,13 @@ export function getAdaptiveBaselineValue(
 }
 
 export function getApproximatedAdaptiveBaselineThresholdValue(
-  threshold: ThresholdConfig,
-  adaptiveBaselineInfo: Record<string, number>
+  threshold: RuleWithThreshold<ApplicationAlertRuleUnion> | AdaptiveBaselineConfig,
+  adaptiveBaselineInfo: Record<string, number>,
+  isMultiThreshold?: Boolean
 ) {
-  const { operator } = threshold;
+  const operator = isMultiThreshold
+    ? (threshold as RuleWithThreshold<ApplicationAlertRuleUnion>).thresholdOperator
+    : (threshold as AdaptiveBaselineConfig).operator;
   const isGreaterOp = operator === '>=' || operator === '>';
   const baselineValues = Object.values(adaptiveBaselineInfo);
 
@@ -101,4 +114,64 @@ export function extractBaselineFromResultsOrUseErrorFallback(
     baseline = errorFallbackBaseline;
   }
   return { baseline };
+}
+
+export const WARNING_SEVERITY: Severity = 'WARNING';
+export const CRITICAL_SEVERITY: Severity = 'CRITICAL';
+
+export const severityMap: Record<number, Severity> = {
+  5: 'WARNING',
+  10: 'CRITICAL'
+};
+
+export function extractMultiBaselineFromResultsOrUseErrorFallback(
+  persistedBaselineResult: Result<[number, number, number][]> | Nullish,
+  errorFallbackBaseline: [number, number][],
+  eventSeverity: number | undefined
+): {
+  baseline: [number, number, number][] | [number, number][];
+  error?: boolean;
+} {
+  const fetchError = persistedBaselineResult && hasError(persistedBaselineResult);
+  if (fetchError) {
+    // if a fallback baseline exists, hide the error
+    if (errorFallbackBaseline?.length > 0) {
+      // only in case of events view
+      return { baseline: errorFallbackBaseline };
+    }
+    return {
+      error: fetchError,
+      baseline: []
+    };
+  }
+
+  if (persistedBaselineResult && isLoading(persistedBaselineResult)) {
+    return { baseline: [] as [number, number, number][] };
+  }
+
+  let baseline: [number, number, number][] = persistedBaselineResult?.data ?? [];
+
+  if (eventSeverity) {
+    // For the events view
+    const violatedBaselineFromPersistedBaseline = extractBaselineForSeverity(baseline, severityMap[eventSeverity]);
+    return {
+      baseline:
+        violatedBaselineFromPersistedBaseline.length < errorFallbackBaseline.length
+          ? errorFallbackBaseline
+          : violatedBaselineFromPersistedBaseline
+    };
+  }
+  return { baseline };
+}
+
+export function extractBaselineForSeverity(
+  baseline: [number, number, number][],
+  eventSeverity: Severity
+): [number, number][] {
+  if (baseline === undefined || baseline?.length === 0) {
+    return [];
+  }
+  return baseline.map(([timestamp, warningValue, criticalValue]) => {
+    return eventSeverity === WARNING_SEVERITY ? [timestamp, warningValue] : [timestamp, criticalValue];
+  });
 }

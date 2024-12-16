@@ -16,11 +16,14 @@ import locals from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPro
 interface AlertPreviewProps {
   form: MapForm<any>;
   renderHeadline: () => ReactNode;
-  getDescriptionPlaceholder: (form: MapForm<any>) => string;
+  getDescriptionPlaceholder: (form: MapForm<any>, severity?: number) => string;
   entityLabel?: string;
   entityIconType: string;
   entityLabel2?: string;
   entityIconType2?: string;
+  isTearSheet?: boolean;
+  isMultiThreshold?: boolean;
+  severity?: number;
 }
 
 export function AlertPreview({
@@ -30,16 +33,20 @@ export function AlertPreview({
   entityLabel,
   entityIconType,
   entityLabel2,
-  entityIconType2
+  entityIconType2,
+  isTearSheet = false,
+  isMultiThreshold = false,
+  severity = Number(form.get('severity')?.value)
 }: AlertPreviewProps) {
   const description = form.get('description')?.value;
-  const severity = Number(form.get('severity')?.value);
   const triggering = form.get('triggering')?.value;
 
   return (
     <div
       className={classNames({
         [locals.alertPreview]: true,
+        [locals.alertPreviewTearSheeet]: isTearSheet,
+        [locals.multiThresholdAlertPreview]: isMultiThreshold,
         [locals.severityLow]: severity <= 5,
         [locals.severityHigh]: severity > 5
       })}
@@ -50,7 +57,7 @@ export function AlertPreview({
           [locals.severityLow]: severity <= 5,
           [locals.severityHigh]: severity > 5
         })}
-        type={getIconType(severity, triggering)}
+        type={getIconType(severity!, triggering)}
       />
       <div className={locals.alertPreviewContent}>
         {renderHeadline()}
@@ -79,7 +86,10 @@ export function AlertPreview({
             </span>
           )}
         </p>
-        <p>{description || getDescriptionPlaceholder(form)}</p>
+        <p>
+          {description ||
+            (isMultiThreshold ? getDescriptionPlaceholder(form, severity) : getDescriptionPlaceholder(form))}
+        </p>
       </div>
     </div>
   );

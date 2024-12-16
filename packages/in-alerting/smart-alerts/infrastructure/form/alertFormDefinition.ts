@@ -4,32 +4,36 @@
  * Copyright IBM Corp. 2023
  */
 
-import { createField, createMapForm, MapForm } from 'formalistic';
+import { createField, createMapForm, MapForm, ValidationResult } from 'formalistic';
+
+import { ForecastingConfig } from '@instana/types';
 
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
+//@ts-expect-error
+import { titleValidator } from 'in-alerting/smart-alerts/infrastructure/data/alertConfigUtils';
+import { InfraSmartAlertConfig } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import createThresholdForm from 'in-alerting/smart-alerts/infrastructure/form/thresholdForm';
-import { applyEditMode } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import regexValidator from 'in-alerting/smart-alerts/infrastructure/data/regexValidator';
 import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import createRuleForm from 'in-alerting/smart-alerts/infrastructure/form/ruleForm';
-import { InfraAlertConfig, ThresholdType, VersionedConfig } from 'in-types';
 import { groupbyTag } from 'in-alerting/smart-alerts/utils/groupingUtils';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
+import { ThresholdType, VersionedConfig } from 'in-types';
+import { t } from 'in-i18n';
 
-const severityWarning = 5;
 export const defaultAdaptiveBaselineGranularity = 1200000;
 export const fieldNames = Object.freeze({
   alertChannelIds: 'alertChannelIds',
+  alertChannels: 'alertChannels',
   customPayloadFields: 'customPayloadFields',
   description: 'description',
   granularity: 'granularity',
   groupBy: 'groupBy',
   name: 'name',
-  predictiveTrigger: 'predictiveTrigger',
+  forecastingConfig: 'forecastingConfig',
   rule: 'rule',
-  severity: 'severity',
   tagFilterExpression: 'tagFilterExpression',
   threshold: 'threshold',
   timeThreshold: 'timeThreshold',
@@ -44,27 +48,34 @@ export interface AlertConfigHiddenFields {
 }
 
 export default function alertFormDefinition(
-  alertConfig: InfraAlertConfig & VersionedConfig & AlertConfigHiddenFields,
+  alertConfig: InfraSmartAlertConfig & VersionedConfig & AlertConfigHiddenFields,
   editMode: boolean
 ): MapForm<any> {
   const {
     alertChannelIds = [],
+    alertChannels = { WARNING: [], CRITICAL: [] },
     description = '',
     granularity = 600000,
     groupBy = [],
     name = '',
-    predictiveTrigger = null,
-    severity = severityWarning,
+    forecastingConfig = undefined,
     tagFilterExpression,
     id = ''
   } = alertConfig;
-
+  const alertChannelList = [...new Set([...(alertChannels?.WARNING ?? []), ...(alertChannels?.CRITICAL ?? [])])];
   //@ts-expect-error
-  const form = createMapForm({ validator: regexValidator })
+  return createMapForm({ validator: regexValidator })
     .put(
       fieldNames.alertChannelIds,
       createField({
         value: alertChannelIds,
+        validator: stringMaxLengthValidator(MAX_LONG_STRING_LENGTH)
+      })
+    )
+    .put(
+      fieldNames.alertChannels,
+      createField({
+        value: alertChannels,
         validator: stringMaxLengthValidator(MAX_LONG_STRING_LENGTH)
       })
     )
@@ -91,19 +102,14 @@ export default function alertFormDefinition(
       fieldNames.name,
       createField({
         value: name,
-        validator: stringMaxLengthValidator(MAX_LABEL_LENGTH)
+        validator: titleValidator()
       })
     )
     .put(
-      fieldNames.predictiveTrigger,
+      fieldNames.forecastingConfig,
       createField({
-        value: predictiveTrigger
-      })
-    )
-    .put(
-      fieldNames.severity,
-      createField({
-        value: severity
+        value: forecastingConfig,
+        validator: forecastingConfigValidator
       })
     )
     .put(
@@ -119,19 +125,17 @@ export default function alertFormDefinition(
         value: id
       })
     )
-    .put('rule', createRuleForm(alertConfig.rule ?? {}))
+    .put('rule', createRuleForm(alertConfig.rules[0]?.rule ?? {}))
     .put(
       'timeThreshold',
       createTimeThresholdForm(alertConfig.timeThreshold, granularity, alertConfig.threshold?.type as ThresholdType)
     )
-    .put('threshold', createThresholdForm(alertConfig.threshold ?? {}))
-    .put('hiddenFields', createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend))
+    .put('threshold', createThresholdForm(alertConfig.rules[0] ?? {}, editMode))
+    .put('hiddenFields', createHiddenFieldsForm(editMode, alertChannelList))
     .put(fieldNames.customPayloadFields, createListFormForCustomPayloads(alertConfig.customPayloadFields ?? [], false));
-
-  return applyEditMode(form, editMode);
 }
 
-export function createHiddenFieldsForm(calculateThresholdOnBackend = false) {
+export function createHiddenFieldsForm(calculateThresholdOnBackend = false, alertChannelList: string[]) {
   return createMapForm()
     .put(
       'calculateThresholdOnBackend',
@@ -156,5 +160,24 @@ export function createHiddenFieldsForm(calculateThresholdOnBackend = false) {
       createField({
         value: null
       })
+    )
+    .put(
+      'selectedChannelList',
+      createField({
+        value: alertChannelList
+      })
     );
+}
+
+function forecastingConfigValidator(forecastingConfig?: ForecastingConfig): ValidationResult {
+  if (forecastingConfig && forecastingConfig.fitTimeframe < forecastingConfig.forecastTimeframe * 2) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.predictiveTrigger.invalidTimeframes')
+      }
+    ];
+  }
+
+  return null;
 }

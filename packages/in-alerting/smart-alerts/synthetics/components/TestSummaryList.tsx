@@ -8,8 +8,9 @@ import React, { useState } from 'react';
 import { noop } from 'lodash';
 
 import { PaginatedResult, Result, SyntheticTest, TestResultListItem } from '@instana/types';
+import { IconButton, Checkbox } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { TrProps } from '@instana/components';
+import { TrProps } from '@instana/legacy';
 
 import {
   columnDefinitions,
@@ -22,9 +23,7 @@ import Filters from 'in-synthetics/dashboards/global/tabs/tests/components/Filte
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import NoItemSelected from 'in-alerting/smart-alerts/components/NoItemSelected';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import IconButton from 'in-components/IconButton/IconButton';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -130,9 +129,7 @@ export function SummaryList({
   const listData = addIdToLists(list);
 
   if (isLoading(listData)) {
-    <>
-      <LoadingList numSkeletonRows={3} />
-    </>;
+    return <LoadingList numSkeletonRows={3} />;
   }
 
   function setFilters(filter: Partial<StateProps>) {
@@ -248,7 +245,7 @@ function addSelectCheckboxAction(columns: ColumnDefinition<TestResultListItem>[]
     label: '',
     getContent(entity: TestResultListItemId) {
       return (
-        <CheckboxFancy
+        <Checkbox
           disabled={actionDefinition.disabled?.(entity)}
           checked={actionDefinition.get(entity)}
           onChange={() => {

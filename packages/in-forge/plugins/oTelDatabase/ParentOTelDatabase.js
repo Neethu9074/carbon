@@ -6,7 +6,8 @@
 
 import React from 'react';
 
-import { DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { DescriptionItem } from '@instana/components';
+
 import getParentOTelDatabase from 'in-subscription/getParentOTelDatabase';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { timeConfig$ } from 'in-stores/time/config';

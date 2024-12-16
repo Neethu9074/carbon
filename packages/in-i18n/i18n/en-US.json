@@ -1,9 +1,17 @@
 {
   "components": {
+    "uiShell": {
+      "mainNavigation": "Main navigation"
+    },
     "list": {
       "loadMore": "Load More",
+      "expand": "Expand",
+      "collapse": "Collapse",
       "toggleExtraContent": "Toggle extra content",
       "initiateDefaultAction": "Initiate default action"
+    },
+    "link": {
+      "opensInNewTab": "(opens in new tab)"
     },
     "table": {
       "tableErrorRows": {
@@ -11,13 +19,43 @@
       },
       "tableLoadMoreRow": {
         "loadMore": "Load More"
-      }
+      },
+      "dataTable": "Data table",
+      "expandHeader": "Expand row",
+      "expandRow": "Toggle expand row",
+      "select": "select row",
+      "selectedRow": "Selected row"
+    },
+    "tableSkeleton": {
+      "sampleTable": "Sample table"
     },
     "code": {
       "copy": "Copy",
       "copied": "Copied!",
       "showMore": "Show more",
-      "showLess": "Show less"
+      "showLess": "Show less",
+      "copytoboard": "Copy to clipboard"
+    },
+    "menu": {
+      "sideNavigation": "Side navigation"
+    },
+    "dropDown": {
+      "selectOption": "Select option"
+    },
+    "tabsNavigation": {
+      "pageNavigation": "Page navigation"
+    },
+    "plg": {
+      "dashboardTable": {
+        "dataTableToolbar": "data table toolbar"
+      },
+      "tableTabs": {
+        "listOfTabs": "List of tabs"
+      }
+    },
+    "pill": {
+      "privatePreview": "Preview",
+      "publicPreview": "Preview"
     }
   },
   "formatDate": {
@@ -49,6 +87,7 @@
   "forms": {
     "actions": {
       "save": "Save",
+      "saveIntegration": "Save and enable",
       "cancel": "Cancel",
       "create": "Create",
       "delete": "Delete",
@@ -57,7 +96,8 @@
       "previous": "Previous"
     },
     "states": {
-      "saving": "Saving…"
+      "saving": "Saving…",
+      "loading": "Loading…"
     }
   },
   "language_en-US": "English",
@@ -83,6 +123,7 @@
   "aggregation_MAX": "max",
   "aggregation_DISTINCT_COUNT": "distinct count",
   "aggregation_SUM": "sum",
+  "aggregation_INCREASE": "increase",
   "aggregation_DISTRIBUTION": "distribution",
   "aggregation_PER_SECOND": "per second"
 }

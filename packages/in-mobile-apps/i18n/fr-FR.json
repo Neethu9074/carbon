@@ -367,6 +367,7 @@
       "viewAllOs": "Afficher tous les systèmes d'exploitation",
       "appVersions": "Versions d'application",
       "viewAllVersions": "Afficher toutes les versions",
+      "syntheticMonitoringLabel": "Surveillance synthétique",
       "configurations": {
         "symbolFileConfigLabel": "Traduction des traces de pile",
         "symbolFileConfig": {
@@ -399,9 +400,12 @@
         }
       },
       "crashes": {
-        "crashesLabelErrorMessage": "Message d'erreur",
+        "crashesLabelErrorMessage": "Emplacement",
+        "crashesLabelErrorType": "Type d'erreur",
         "crashesLabelOccurrences": "Occurrences",
         "crashesLabelAffectedUsers": "Utilisateurs affectés",
+        "crashesLabelLowestAppVersion": "Version la plus ancienne de l'application",
+        "crashesLabelHighestAppVersion": "Version la plus récente de l'application",
         "crashesButtonAnalyzeCrashes": "Analyser les pannes",
         "crashesTableTitle": "Pannes",
         "crashInfoTitle": "Informations",
@@ -453,7 +457,10 @@
       "customEventsTitle": "Aucun événement personnalisé disponible",
       "customEventsDescription": "Aucun événement personnalisé n'a été extrait pour la période sélectionnée",
       "crashesTitle": "Aucune panne disponible",
-      "crashesDescription": "Il n'y a pas eu de pannes dans l'intervalle sélectionné."
+      "crashesDescription": "Il n'y a pas eu de pannes dans l'intervalle sélectionné.",
+      "syntheticMonitoring": {
+        "title": "Aucun test synthétique n'est associé à cette application mobile."
+      }
     }
   },
   "appsList": {

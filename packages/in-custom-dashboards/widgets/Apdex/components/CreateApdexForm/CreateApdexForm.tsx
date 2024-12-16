@@ -16,15 +16,15 @@ import {
 } from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/form';
 import CreateWebsiteApdexForm from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/CreateWebsiteApdexForm';
 // eslint-disable-next-line import/no-deprecated
-import { getField } from 'in-custom-dashboards/widgets/Slo/form';
+import { getField } from 'in-custom-dashboards/widgets/SloLegacy/form';
 import { APDEX_MANAGEMENT_CREATE_FINISH, APDEX_MANAGEMENT_EDIT_FINISH } from 'in-services/tracking/eventNames';
 import useCreateApdexForm from 'in-custom-dashboards/widgets/Apdex/hooks/useCreateApdexForm';
 import getTranslatedErrorMessage from 'in-service-levels/components/ConfigDialog/errors';
 import { createApdexConfiguration } from 'in-custom-dashboards/widgets/Apdex/api';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import { useSloTrackers } from 'in-service-levels/hooks/SloTrackerProvider';
-import useFormSubmission from 'in-service-levels/hooks/useFormSubmission';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import useFormSubmission from 'in-hooks/useFormSubmission';
 import { seconds } from 'in-services/time/time';
 import { t } from 'in-i18n';
 

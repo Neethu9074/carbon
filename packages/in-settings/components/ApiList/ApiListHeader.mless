@@ -30,4 +30,10 @@
   .searchInput {
     margin-left: 0.5rem;
   }
+
+  .paginationWrapper {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+  }
 }

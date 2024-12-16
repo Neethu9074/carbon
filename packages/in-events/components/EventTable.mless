@@ -8,8 +8,6 @@
     cursor: pointer;
     fill: var(--ids-color-option-neutral-500);
     display: block;
-    margin: 0 0 0 0.5rem;
-
     &:hover {
       fill: var(--ids-color-option-neutral-700);
     }
@@ -17,5 +15,29 @@
 
   .icon {
     margin-right: 0.5rem;
+  }
+
+  .centerAlignLink {
+    display: flex;
+    align-items: center;
+  }
+
+  .incidentHeader {
+    background: var(--cds-layer);
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .closeEventDetail {
+    z-index: 1;
+  }
+
+  .eventsDashboardHeader {
+    // I wanted to target .firstLine in dashboardHeader but since it's not scss,
+    // I'm not able to override it's styles. This is currently the best way and will be removed
+    // once a) we use scss across the board OR b) when the padding of Dashboard header is the same as this
+    > div {
+      padding: 0.5rem 0;
+    }
   }
 }

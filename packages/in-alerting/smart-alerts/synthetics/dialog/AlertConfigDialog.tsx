@@ -21,8 +21,9 @@ import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smar
 import { useGetAlertConfigLink, useLinkToGlobalAlertConfigWithoutDashboard } from 'in-synthetics/navigation/paths';
 import { SyntheticAlertConfigWithID } from 'in-alerting/smart-alerts/synthetics/data/generateAlertConfig';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { trackAlertSaved, trackAlertUpdated } from 'in-alerting/smart-alerts/components/tracker';
+import { useSegmentTracking, CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
+import { ALERTING_SAVED, ALERTING_UPDATED } from 'in-services/tracking/eventNames';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { t } from 'in-i18n';
@@ -51,6 +52,8 @@ export default function AlertConfigDialog({
 
   const [isSaving, setIsSaving] = useState(false);
   const [messages, setMessages] = useState<EnrichedError[]>([]);
+
+  const { trackCta } = useSegmentTracking();
 
   const getLinkToAlertConfig = useGetAlertConfigLink();
   const getLinkToGlobalAlertConfig = useLinkToGlobalAlertConfigWithoutDashboard();
@@ -89,6 +92,7 @@ export default function AlertConfigDialog({
                   getLinkToAlertConfig,
                   getLinkToGlobalAlertConfig,
                   simpleMode,
+                  trackCta,
                   duplicateFrom
                 );
               }}
@@ -107,6 +111,7 @@ export default function AlertConfigDialog({
           getLinkToAlertConfig,
           getLinkToGlobalAlertConfig,
           simpleMode,
+          trackCta,
           duplicateFrom
         );
       }}
@@ -142,6 +147,7 @@ function createOrSaveAlert(
   getLinkToAlertConfig: (id: string, testId: string, created?: number) => string,
   getLinkToGlobalAlertConfig: (id: string) => string,
   simpleMode: boolean,
+  trackCta: CtaTrackingFunction,
   duplicateFrom?: string
 ) {
   setIsSaving(true);
@@ -165,7 +171,7 @@ function createOrSaveAlert(
       alertConfig => {
         onClose(alertConfig);
         showSuccessMessage(alertConfig.name, editMode);
-        trackAlertUpdated(alertConfig);
+        trackCta(ALERTING_UPDATED, { ...alertConfig });
       },
       error => {
         logger.error(`failed to update alertConfig: ${alertConfig} ${error.message}`, error);
@@ -182,7 +188,7 @@ function createOrSaveAlert(
           : getLinkToGlobalAlertConfig(alertConfig?.id);
         showSuccessMessage(alertConfig.name, editMode, false, href);
         const newConfig = duplicateFrom ? { ...alertConfig, cloneFromId: duplicateFrom } : alertConfig;
-        trackAlertSaved(newConfig, simpleMode);
+        trackCta(ALERTING_SAVED, { ...newConfig, dialogMode: simpleMode ? 'Simple' : 'Advanced' });
       },
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);

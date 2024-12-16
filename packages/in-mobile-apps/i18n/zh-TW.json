@@ -367,6 +367,7 @@
       "viewAllOs": "檢視所有作業系統",
       "appVersions": "應用程式版本",
       "viewAllVersions": "檢視所有版本",
+      "syntheticMonitoringLabel": "綜合監視",
       "configurations": {
         "symbolFileConfigLabel": "堆疊追蹤轉換",
         "symbolFileConfig": {
@@ -399,9 +400,12 @@
         }
       },
       "crashes": {
-        "crashesLabelErrorMessage": "錯誤訊息",
+        "crashesLabelErrorMessage": "位置",
+        "crashesLabelErrorType": "錯誤類型",
         "crashesLabelOccurrences": "出現項目數",
         "crashesLabelAffectedUsers": "受影響的使用者",
+        "crashesLabelLowestAppVersion": "最低應用程式版本",
+        "crashesLabelHighestAppVersion": "最高應用程式版本",
         "crashesButtonAnalyzeCrashes": "分析損毀",
         "crashesTableTitle": "損毀",
         "crashInfoTitle": "詳細資料",
@@ -453,7 +457,10 @@
       "customEventsTitle": "沒有可用的自訂事件",
       "customEventsDescription": "所選的時間範圍內未擷取到任何的自訂事件。",
       "crashesTitle": "沒有可用的損毀",
-      "crashesDescription": "在選取的時間範圍內沒有任何損毀。"
+      "crashesDescription": "在選取的時間範圍內沒有任何損毀。",
+      "syntheticMonitoring": {
+        "title": "沒有與此行動應用程式關聯的綜合測試。"
+      }
     }
   },
   "appsList": {

@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { themes } from '@instana/design-tokens';
@@ -23,7 +23,7 @@ interface SloStatusKpiCardProps {
 
 export default function SloStatusKpiCard({ configuration }: SloStatusKpiCardProps) {
   const { id, target } = configuration;
-  const formatter = useMemo(() => createSloPercentageFormatter(target), [target]);
+  const formatter = createSloPercentageFormatter();
   const timeConfig = useTimeConfig();
   const { timeWindows } = useSloTimeWindowContext();
   const hasMatchingTimeWindows = timeWindows.length > 0;

@@ -12,7 +12,7 @@ import locals from './ProgressSection.mless';
 
 export default function ProgressSection(props) {
   return (
-    <div className={locals.section}>
+    <div className={locals.carbonSection}>
       <div className={locals.leftContent}>
         <div>{getText(props)}</div>
       </div>

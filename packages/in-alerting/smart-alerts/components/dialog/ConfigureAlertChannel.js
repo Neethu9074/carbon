@@ -6,13 +6,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
-import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
+import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';
-import AlertChannelsList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
-import { limitForConnectedAlertChannels } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
-import SelectListDialogContentComponent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
+import AlertChannelsList from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
+import { limitForConnectedAlertChannels } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/Alert';
+import SelectListDialogContentComponent from 'in-settings/tabs/GlobalSettings/components/SelectListDialogContent';
 import AlertChannelCreation from 'in-alerting/smart-alerts/components/dialog/AlertChannelCreation';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
@@ -31,7 +31,8 @@ export default function ConfigureAlertChannel({
   onChange,
   setSliderState,
   setCustomSlideInHeaderConfig,
-  numberOfAlertChannelListRows = 5
+  numberOfAlertChannelListRows = 5,
+  isTearSheet = false
 }) {
   return (
     <>
@@ -42,36 +43,38 @@ export default function ConfigureAlertChannel({
         renderNoDataAvailable={() => <NoChannelSelected />}
         tableActions={alertChannelSelectionTableActions(form, onChange)}
         rightHeader={
-          <Button
-            className={locals.selectButton}
-            kind="action"
-            onClick={() =>
-              setSliderState({
-                slideInConfig: {
-                  component: (
-                    <SelectListDialogContent
-                      form={form}
-                      onSubmit={selectedIds => {
-                        const currentAlertChannelIds = form.get('alertChannelIds').value ?? [];
-                        onChange(['alertChannelIds'], field =>
-                          field.setValue(currentAlertChannelIds.concat(selectedIds)).setTouched(true)
-                        );
-                        setSliderState({ isVisible: false });
-                      }}
-                      numberOfAlertChannelListRows={numberOfAlertChannelListRows}
-                      setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-                      setSliderState={setSliderState}
-                    />
-                  ),
-                  title: t('in-alerting:smartAlerts.components.smartAlertDialog.selectAlertChannelButtonTitle')
-                },
-                isVisible: true
-              })
-            }
-            icon="lib_openclose_add_circle_outline"
-          >
-            {t('in-alerting:smartAlerts.components.smartAlertDialog.selectAlertChannelButton')}
-          </Button>
+          !isTearSheet && (
+            <Button
+              kind="action"
+              className={locals.createAlertChannelButton}
+              onClick={() =>
+                setSliderState({
+                  slideInConfig: {
+                    component: (
+                      <SelectListDialogContent
+                        form={form}
+                        onSubmit={selectedIds => {
+                          const currentAlertChannelIds = form.get('alertChannelIds').value ?? [];
+                          onChange(['alertChannelIds'], field =>
+                            field.setValue(currentAlertChannelIds.concat(selectedIds)).setTouched(true)
+                          );
+                          setSliderState({ isVisible: false });
+                        }}
+                        numberOfAlertChannelListRows={numberOfAlertChannelListRows}
+                        setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+                        setSliderState={setSliderState}
+                      />
+                    ),
+                    title: t('in-alerting:smartAlerts.components.smartAlertDialog.selectAlertChannelButtonTitle')
+                  },
+                  isVisible: true
+                })
+              }
+              icon="lib_openclose_add_circle_outline"
+            >
+              {t('in-alerting:smartAlerts.components.smartAlertDialog.selectAlertChannelButton')}
+            </Button>
+          )
         }
       />
       <TouchedMessages field={form.get('alertChannelIds')} />
@@ -98,7 +101,6 @@ function SelectListDialogContent({
             listComponentRightHeader={
               role.canConfigureIntegrations && (
                 <Button
-                  className={locals.createAlertChannelButton}
                   kind="action"
                   icon="lib_actions_build_outline"
                   onClick={() => {
@@ -191,5 +193,6 @@ ConfigureAlertChannel.propTypes = {
   onChange: PropTypes.func.isRequired,
   setSliderState: PropTypes.func.isRequired,
   setCustomSlideInHeaderConfig: PropTypes.func.isRequired,
-  numberOfAlertChannelListRows: PropTypes.number
+  numberOfAlertChannelListRows: PropTypes.number,
+  isTearSheet: PropTypes.bool
 };

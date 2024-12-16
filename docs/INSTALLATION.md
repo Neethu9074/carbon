@@ -76,7 +76,7 @@ Then execute the following snippet on your terminal.
 * Answer the third and fourth question with your Artifactory credentials:
   * After log-in (use SAML-based sign-in) and
     opening the Edit-Me page https://delivery.instana.io/ui/user_profile
-  * Username has the `@instana.com` suffix
+  * Username should have `ibm.com` suffix
   * password is just use your API token
   * ![Finding your user name and API token within Artifactory](./screenshots/artifactory-config.png)
 
@@ -102,6 +102,14 @@ Now that you have access to our artifact registry, it is time to download all ou
 ./build/upgrade-nodejs
 ```
 
+OR
+
+```sh
+yarn
+```
+
+You may encounter an Artifactory error 403 Forbidden. This could be due to outdated credentials stored in your home directory in the .npmrc and .yarnrc.yml files. To resolve the Artifactory 403 error, navigate to your home directory and delete all .npmrc and .yarnrc.yml files. Then again execute the Configure Access to our Artifact Registry steps.
+
 ## Installation of Nginx
 
 You will also need to have Nginx installed and its CLI on the path. Installation instructions can be found in the [proxrox repository](https://github.com/bripkens/proxrox/blob/master/INSTALLATION.md#installation-of-nginx).
@@ -119,8 +127,8 @@ newgrp docker
 ## Editor Recommendations
 
 At the time of writing UI engineers are using [VS Code](https://code.visualstudio.com/) or [IntelliJ](https://www.jetbrains.com/idea/). We would recommend that you use either of them. VS Code will bring up a list of suggested extensions when opening the `ui-client` root directory in VS Code. We recommend that you install these as well for a good out of the box development experience.
-In Intellij make sure 
-* [x] Use paths relative to the project is selected. 
+In Intellij make sure
+* [x] Use paths relative to the project is selected.
 Or it will import using relative paths (with `../../` etc.)
 ![IntellijModuleImport.png](screenshots/IntellijModuleImport.png)
 

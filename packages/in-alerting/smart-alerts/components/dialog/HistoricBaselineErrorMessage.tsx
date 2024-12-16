@@ -23,22 +23,24 @@ interface HistoricBaselineErrorMessageProps {
 export default function HistoricBaselineErrorMessage({ thresholdResult }: HistoricBaselineErrorMessageProps) {
   if (hasError(thresholdResult)) {
     return (
-      <Message type="neutral" iconColor={themes.default.ids.color.option.red['500']} withIcon>
-        {getErrorCode(thresholdResult) === 'VALIDATION' ? (
-          <Trans i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.baselineValidationMessageInsufficientDataToCompute" />
-        ) : (
-          <Trans i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.baselineGenericErrorMessage" />
-        )}
-        <br />
-        <b>{`${t('in-alerting:smartAlerts.components.smartAlertDialog.baselineErrorMessageReason')} `}</b>
-        {getErrorReason(thresholdResult)}
+      <Message type="warning" iconColor={themes.default.ids.color.option.red['500']} withIcon fullInlineWidth>
+        <span>
+          {getErrorCode(thresholdResult) === 'VALIDATION' ? (
+            <Trans i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.baselineValidationMessageInsufficientDataToCompute" />
+          ) : (
+            <Trans i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.baselineGenericErrorMessage" />
+          )}
+          <br />
+          <b>{`${t('in-alerting:smartAlerts.components.smartAlertDialog.baselineErrorMessageReason')} `}</b>
+          {getErrorReason(thresholdResult)}
+        </span>
       </Message>
     );
   }
 
   if (thresholdResult?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE') {
     return (
-      <Message type="neutral" iconColor={themes.default.ids.color.option.neutral['800']} withIcon>
+      <Message type="neutral" iconColor={themes.default.ids.color.option.neutral['800']} withIcon fullInlineWidth>
         {t('in-alerting:smartAlerts.components.smartAlertDialog.baselineErrorMessageComputedOnApproximateData')}
       </Message>
     );

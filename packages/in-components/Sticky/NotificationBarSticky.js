@@ -8,10 +8,8 @@ import React, { useState, useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import { isCarbonShellEnabled } from 'in-components/MainNavigation/components/isCarbonShellEnabled';
 import { playWithReleaseEnabled, playwithEnabled } from 'in-services/featureFlags';
 import { OpenTrialExpiryDialog } from 'in-plg/components/Dialog/TrialExpiryDialog';
-import { StickyBanner } from 'in-plg/components/LicenseBanner/StickyBanner';
 import { UsageBanner } from 'in-plg/components/UsageBanner/UsageBanner';
 import { messages$ } from 'in-components/MessageFlyout/stores/messages';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -42,10 +40,7 @@ export default function NotificationBarSticky() {
 
   if (firstLicenseUsageMsg) {
     if (!playwithEnabled && !playWithReleaseEnabled) {
-      if (isCarbonShellEnabled()) {
-        return <UsageBanner key={firstLicenseUsageMsg.id} message={firstLicenseUsageMsg} />;
-      }
-      return <StickyBanner key={firstLicenseUsageMsg.id} message={firstLicenseUsageMsg} />;
+      return <UsageBanner key={firstLicenseUsageMsg.id} message={firstLicenseUsageMsg} />;
     }
   }
   return null;

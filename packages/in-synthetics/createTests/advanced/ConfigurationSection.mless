@@ -32,16 +32,11 @@
   }
 
   .deleteAction {
-    display: flex;
-    align-items: center;
+    align-self: center;
   }
 
   .deleteHeader {
-    height: 4.5rem;
-  }
-
-  .deleteValidation {
-    height: 2rem;
+    margin-top: 1rem;
   }
 
   .timeoutLabel {
@@ -61,5 +56,9 @@
   .alignText {
     display: flex;
     align-items: center;
+  }
+
+  .validityInput {
+    margin: 0 1rem;
   }
 }

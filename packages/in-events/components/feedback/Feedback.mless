@@ -25,10 +25,13 @@
     height: 5rem;
   }
   .dialog {
-    width: 37.5rem;
+    width: 42rem;
   }
   .dialogContent {
     padding-left: 1.75rem;
+    padding-bottom: 6rem;
+  }
+  .dialogContentNoPadding {
     padding-bottom: 6rem;
   }
   .loadingEnd {
@@ -45,5 +48,8 @@
     button {
       min-width: 6.25rem;
     }
+  }
+  .inputContainer {
+    width: 100%;
   }
 }

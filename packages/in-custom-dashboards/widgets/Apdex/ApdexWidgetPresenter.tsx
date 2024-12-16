@@ -8,8 +8,8 @@ import React from 'react';
 
 import useApdexConfigWithPreview from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexConfigWithPreview';
 import useApdexWidgetTimeConfig from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexWidgetTimeConfig';
+import useMonitoredEntity from 'in-custom-dashboards/widgets/SloLegacy/hooks/useMonitoredEntity';
 import useTagCatalogLoader from 'in-custom-dashboards/widgets/Apdex/hooks/useTagCatalogLoader';
-import useMonitoredEntity from 'in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity';
 import useApdexMetrics from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexMetrics';
 import ApdexWidget from 'in-custom-dashboards/widgets/Apdex/components/ApdexWidget';
 import { isApdexWidgetEnabled } from 'in-custom-dashboards/widgets/Apdex/constants';

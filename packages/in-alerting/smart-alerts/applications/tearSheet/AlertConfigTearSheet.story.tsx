@@ -7,12 +7,11 @@
 import React from 'react';
 
 import AlertConfigTearSheet from 'in-alerting/smart-alerts/applications/tearSheet/AlertConfigTearSheet';
-import { noop } from 'in-services/util/function';
 
 export default {
   component: AlertConfigTearSheet
 };
 
 export function Default() {
-  return <AlertConfigTearSheet onClose={noop} />;
+  return <AlertConfigTearSheet />;
 }

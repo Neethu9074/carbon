@@ -101,7 +101,6 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
               form={form}
               onChartViewConfigChange={onChartViewConfigChange}
               selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-              // @ts-expect-error updateForm is required
               updateForm={updateForm}
               tagCatalog={tagCatalog}
             />
@@ -136,7 +135,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
               onChange={onChange}
               setSliderState={setSliderState}
               setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-              numberOfAlertChannelListRows={7}
+              numberOfAlertChannelListRows={5}
             />
           )
         },

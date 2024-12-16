@@ -7,15 +7,4 @@
   .header {
     border-bottom: 1px solid var(--ids-color-option-neutral-300);
   }
-
-  .closeIcon {
-    cursor: pointer;
-    fill: var(--ids-color-option-neutral-500);
-    display: block;
-    margin: 0 0 0 0.5rem;
-
-    &:hover {
-      fill: var(--ids-color-option-neutral-700);
-    }
-  }
 }

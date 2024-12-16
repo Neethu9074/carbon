@@ -5,10 +5,7 @@
 
 import React from 'react';
 
-import { getThemeOverride, Link, setThemeOverride, Spacer, Stack } from '@instana/components';
-import { Toggle, Button } from '@instana/legacy';
-import { themes } from '@instana/design-tokens';
-import { Select } from '@instana/components';
+import { Toggle, Button, DistinctSlider, Select } from '@instana/components';
 
 import ChooseConnectionStrategyDialog from 'in-connection/components/ChooseConnectionStrategyDialog';
 import { t, Trans, supportedLanguages, activeLanguage, collationLanguage } from 'in-i18n';
@@ -16,7 +13,6 @@ import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEd
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { userSettingsThemeEnabled } from 'in-services/featureFlags';
 import Heading from 'in-settings/tabs/UserSettings/pages/Heading';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -33,11 +29,6 @@ export default function UiConfigGeneralPage() {
     return null;
   }
 
-  const currentShell = localStorage.getItem('ids-override-shell') || 'default';
-  const currentTheme = getThemeOverride() ?? 'default';
-  // eslint-disable-next-line no-console
-  console.log('currentTheme', currentTheme);
-
   return (
     <SettingsDetailPage>
       <Title title={t('in-settings:tabs.userInterfaceSettings')} />
@@ -50,7 +41,7 @@ export default function UiConfigGeneralPage() {
         <Toggle
           id="maintenance-notes"
           checked={settings['showMaintenanceNotes']}
-          onChange={e => saveSetting('showMaintenanceNotes', e.target.checked)}
+          onToggle={e => saveSetting('showMaintenanceNotes', e)}
         />
       </HorizontalFormGroup>
       <HorizontalFormGroup
@@ -62,7 +53,7 @@ export default function UiConfigGeneralPage() {
         <Toggle
           id="chart-quality"
           checked={settings['charts_adaptToDevicePixelRatio']}
-          onChange={e => saveSetting('charts_adaptToDevicePixelRatio', e.target.checked)}
+          onToggle={e => saveSetting('charts_adaptToDevicePixelRatio', e)}
         />
       </HorizontalFormGroup>
       <HorizontalFormGroup
@@ -83,15 +74,15 @@ export default function UiConfigGeneralPage() {
           text={t('in-settings:tabs.tableRefreshRate', { refreshRate: settings['tables_refreshRate'] / 1000 })}
           htmlFor="table-refresh-rate"
         />
-        <input
-          type="range"
-          id="table-refresh-rate"
-          min={1000}
-          max={10000}
-          step={1000}
-          value={settings['tables_refreshRate']}
-          onChange={e => saveSetting('tables_refreshRate', e.target.value)}
-        />
+        <div>
+          <DistinctSlider
+            min={1}
+            max={10}
+            step={1}
+            value={Number(settings['tables_refreshRate']) / 1000}
+            onChange={(_, value) => saveSetting('tables_refreshRate', (value as number) * 1000)}
+          />
+        </div>
       </HorizontalFormGroup>
       <HorizontalFormGroup
         helpText={<span className={locals.warning}>{t('in-settings:tabs.requiresBrowserRefreshToBecomeActive')}</span>}
@@ -101,7 +92,7 @@ export default function UiConfigGeneralPage() {
         <Toggle
           id="format-time"
           checked={settings['formatTimestampsAsUtc']}
-          onChange={e => saveSetting('formatTimestampsAsUtc', e.target.checked)}
+          onToggle={e => saveSetting('formatTimestampsAsUtc', e)}
         />
       </HorizontalFormGroup>
       <HorizontalFormGroup
@@ -118,7 +109,7 @@ export default function UiConfigGeneralPage() {
         <Toggle
           id="format-numbers"
           checked={settings['formatNumbersAccordingToEnUs'] || false}
-          onChange={e => saveSetting('formatNumbersAccordingToEnUs', e.target.checked)}
+          onToggle={e => saveSetting('formatNumbersAccordingToEnUs', e)}
         />
       </HorizontalFormGroup>
       <HorizontalFormGroup noHelpTextSpacer>
@@ -178,118 +169,6 @@ export default function UiConfigGeneralPage() {
           {t('in-settings:tabs.configureConnectionStrategy')}
         </Button>
       </HorizontalFormGroup>
-      {userSettingsThemeEnabled && (
-        <HorizontalFormGroup
-          // This is a temporary feature behind a feature flag.
-          // It won't need translation yet, as it will only be available internally.
-          helpText={
-            <>
-              <span className={locals.warning}>{t('in-settings:tabs.requiresBrowserRefreshToBecomeActive')}</span>
-              <br />
-              This will set the theme for the local browser. It will not affect other users or browser windows.
-              <br />
-              It enables testing a different Carbon Theme for parts that are carbonized.
-              <br />
-              <br />
-              This setting will be kept until it will get reset again.
-            </>
-          }
-          isWarning
-        >
-          <Heading
-            text={
-              <Stack direction={'horizontal'} align={'center'}>
-                <span>{t('in-settings:tabs.themeSettings')}</span>
-                <Spacer horizontal="normal" />
-                <Link href="/#/config/user/general" size="sm">
-                  {/* no need for translation yet */}
-                  You can bookmark this settings page.
-                </Link>
-              </Stack>
-            }
-            htmlFor="theme"
-          />
-          <Select
-            id="theme"
-            name="theme"
-            value={currentTheme}
-            onChange={event => {
-              const selectTheme = event.target?.value;
-
-              // eslint-disable-next-line no-console
-              console.debug('selected theme:', selectTheme);
-
-              if (currentTheme !== selectTheme) {
-                setThemeOverride(selectTheme);
-                window.location.reload();
-              }
-            }}
-          >
-            {Object.keys(themes)
-              .filter(name => name != 'dark')
-              .map(theme => (
-                <option key={theme} value={theme}>
-                  {t('in-settings:tabs.theme', { context: theme })}
-                </option>
-              ))}
-          </Select>
-        </HorizontalFormGroup>
-      )}
-      {userSettingsThemeEnabled && (
-        <HorizontalFormGroup
-          // Temporary feature behind a feature flag.
-          // It does not need translation as it is only available internally.
-          helpText={
-            <>
-              <span className={locals.warning}>{t('in-settings:tabs.requiresBrowserRefreshToBecomeActive')}</span>
-              <br />
-              This will set the shell for the local browser. It will not affect other users or browser windows.
-              <br />
-              <br />
-              This setting will be kept until it is reset again.
-            </>
-          }
-          isWarning
-        >
-          <Heading
-            text={
-              <Stack direction="horizontal" align="center">
-                {/* no need for translation */}
-                <span>UI Shell</span>
-                <Spacer horizontal="normal" />
-              </Stack>
-            }
-            htmlFor="shell-option"
-          />
-          <Select
-            id="shell-option"
-            name="shell"
-            value={currentShell}
-            onChange={event => {
-              const selectedShell = event.target?.value;
-              if (currentShell !== selectedShell) {
-                if (selectedShell === 'default') {
-                  localStorage.removeItem('ids-override-shell');
-                } else {
-                  localStorage.setItem('ids-override-shell', selectedShell);
-                }
-                window.location.reload();
-              }
-            }}
-          >
-            {/* no need for translation */}
-            <option key="default" value="default">
-              Default
-            </option>
-            <option key="instana" value="instana">
-              Instana
-            </option>
-            <option key="carbon" value="carbon">
-              Carbon
-            </option>
-          </Select>
-        </HorizontalFormGroup>
-      )}
     </SettingsDetailPage>
   );
 }

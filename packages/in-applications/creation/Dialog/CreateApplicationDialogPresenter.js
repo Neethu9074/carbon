@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { t } from 'in-i18n';

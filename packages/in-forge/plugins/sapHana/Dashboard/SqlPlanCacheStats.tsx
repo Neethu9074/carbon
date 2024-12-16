@@ -8,6 +8,7 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
+
 // @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error needs TS migration
@@ -16,8 +17,8 @@ import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import { formatSql } from 'in-forge/tracing/jdbc/sql';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { number, millis } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import { number,millis } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import Code from 'in-components/Code/Code';
 import { t } from 'in-i18n';
@@ -66,7 +67,7 @@ const cols = [
       getTimeWindowAggregation() {
         return 'mean';
       }
-    },
+    }
   },
   {
     title: t('in-forge:plugins.sapHana.dashboard.avgExecutionTime'),
@@ -88,23 +89,21 @@ const cols = [
 
 export default function SqlPlanCacheStatsList({ snapshotId, timeConfig }: SqlPlanCacheStatsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'sqlPlanCacheStats'), [snapshotId]);
-  if (!data) {
-    return null;
-  }
-  const sqlPlanCacheStat = (data as SnapshotData).get('raw_payload', []);
+  const sqlPlanCacheStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: SqlPlanCacheStatsRow[] = sqlPlanCacheStat
-    .keySeq()
-    .toArray()
-    .map((key: string) => {
-      const sqlPlanCacheStats = sqlPlanCacheStat.get(key);
-
-      return {
-        key,
-        snapshotId,
-        timeConfig,
-        sqlPlanCacheStats
-      };
-    });
+    ? sqlPlanCacheStat
+        .keySeq()
+        .toArray()
+        .map((key: string) => {
+          const sqlPlanCacheStats = sqlPlanCacheStat.get(key);
+          return {
+            key,
+            snapshotId,
+            timeConfig,
+            sqlPlanCacheStats
+          };
+        })
+    : [];
   function extractQuery(row: SqlPlanCacheStatsRow) {
     return row.key
       ? formatSql(row.sqlPlanCacheStats.get('statementString'))
@@ -116,9 +115,7 @@ export default function SqlPlanCacheStatsList({ snapshotId, timeConfig }: SqlPla
       <div>
         <Code code={extractQuery(row)} lang="sql" softWrap />
         <Columize>
-
           <DashboardSection>
-            
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -129,22 +126,22 @@ export default function SqlPlanCacheStatsList({ snapshotId, timeConfig }: SqlPla
                 type: 'line',
                 formatter: millis.compact
               }}
-              
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
           <DashboardSection>
-            <Chart 
+            <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
-            y1={{
+              y1={{
                 min: 0,
                 metrics: [`sqlPlanCacheStats.${row.key}.executionCount`],
                 labels: [t('in-forge:plugins.sapHana.dashboard.executionCount')],
                 type: 'line',
                 formatter: number.compact
               }}
-              renderPostChartContent={PluginDashboardsMarkerLanes}/>
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
           </DashboardSection>
         </Columize>
       </div>

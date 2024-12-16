@@ -65,7 +65,7 @@ export const getDocumentations = (id: string): JSX.Element => {
             />
             <DocumentLink
               text={t('in-plg:agentDetails.openshift.documentLinks.installAgentUsingOperator')}
-              href="https://ibm.biz/insta-agent-rhooperator"
+              href="https://ibm.biz/rhosagent-install-manual"
             />
           </>
         );
@@ -73,14 +73,14 @@ export const getDocumentations = (id: string): JSX.Element => {
         return (
           <DocumentLink
             text={t('in-plg:agentDetails.openshift.documentLinks.installUsingHelm')}
-            href="https://ibm.biz/insta-agent-rhohelm"
+            href="https://ibm.biz/rhosagent-install-helm"
           />
         );
       case 'openshift_k8_daemon':
         return (
           <DocumentLink
             text={t('in-plg:agentDetails.openshift.documentLinks.installUsingYaml')}
-            href="https://ibm.biz/insta-agent-rhoyaml"
+            href="https://ibm.biz/rhosagent-install-yaml"
           />
         );
       default:
@@ -92,7 +92,7 @@ export const getDocumentations = (id: string): JSX.Element => {
       {openshiftDocumentations()}
       <DocumentLink
         text={t('in-plg:agentDetails.openshift.documentLinks.configuringAgentAfterInstall')}
-        href="https://ibm.biz/insta-agent-config"
+        href="https://ibm.biz/rhosagent-administer"
       />
     </Stack>
   );

@@ -8,10 +8,10 @@ import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import rpt from 'prop-types';
 
-import { SvgIcon, keyCodes } from '@instana/components';
+import { SvgIcon, keyCodes, Button } from '@instana/components';
 import { on } from '@instana/observables';
-import { Button } from '@instana/legacy';
 
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { containsIgnoreCase } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
 
@@ -87,7 +87,7 @@ export default function ChartContextMenu({
     if (contextMenuButtons.length === 2) {
       return (
         <>
-          <IconButton {...contextMenuButtons[0]} />
+          <IconButton {...contextMenuButtons[0]} isPrimary />
           <IconButton {...contextMenuButtons[1]} />
         </>
       );
@@ -95,7 +95,7 @@ export default function ChartContextMenu({
 
     return (
       <>
-        <IconButton {...contextMenuButtons[0]} />
+        <IconButton {...contextMenuButtons[0]} isPrimary />
         <IconButton icon="lib_menu_more_horizontal" onClick={toggleContextMenu} />
       </>
     );
@@ -111,8 +111,18 @@ export default function ChartContextMenu({
     size: 'compact'
   };
 
+  if (carbonButtonEnabled) {
+    buttonProps['kind'] = 'action';
+  }
+
   return (
-    <div className={locals.contextMenuActionsButtonsWrapper} style={style}>
+    <div
+      className={classNames({
+        [locals.contextMenuActionsButtonsWrapper]: true,
+        [locals.contextMenuCarbonButtonWrapper]: carbonButtonEnabled
+      })}
+      style={style}
+    >
       {!immediatelyOpenContextMenu && renderButtons(contextMenuButtons)}
       {showContextMenu && (
         <div
@@ -142,25 +152,42 @@ export default function ChartContextMenu({
   );
 }
 
-function IconButton({ label, icon, getHref$, onClick }) {
+function IconButton({ label, icon, getHref$, onClick, isPrimary }) {
   // The <div> element between the Tooltip and the Button components makes sure that the mouse event listeners
   // added by the Tooltip element won't get lost when the Button component changes its root element.
-  return (
-    <Tooltip content={label ? label : null}>
-      <div className={locals.buttonWrapper}>
-        <Button
-          className={locals.contextMenuOpenButton}
-          href$={getHref$ && getHref$()}
-          onClick={onClick}
-          kind="secondary"
-          // margin added by the buttonWrapper
-          noAutoMargin
-        >
-          <SvgIcon className={locals.contextMenuOpenButtonIcon} type={icon} />
-        </Button>
-      </div>
-    </Tooltip>
+  const carbonProps = {
+    hasIconOnly: true,
+    icon: icon,
+    size: 'compact',
+    style: isPrimary ? { left: '1px' } : {},
+    kind: 'tertiary'
+  };
+  if (label) {
+    carbonProps['iconDescription'] = label;
+  }
+  const button = (
+    <div
+      className={classNames({
+        [locals.buttonWrapper]: !carbonButtonEnabled
+      })}
+    >
+      <Button
+        className={locals.contextMenuOpenButton}
+        href$={getHref$ && getHref$()}
+        onClick={onClick}
+        kind="secondary"
+        // margin added by the buttonWrapper
+        noAutoMargin
+        {...(carbonButtonEnabled ? carbonProps : {})}
+      >
+        {!carbonButtonEnabled && <SvgIcon className={locals.contextMenuOpenButtonIcon} type={icon} />}
+      </Button>
+    </div>
   );
+  if (!carbonButtonEnabled) {
+    return <Tooltip content={label ? label : null}>{button}</Tooltip>;
+  }
+  return button;
 }
 
 ChartContextMenu.propTypes = {

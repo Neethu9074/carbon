@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -32,7 +32,11 @@ const msFormatter = d => (d < 0 ? noActivity : timeByMillisTwoDecimalPlaces(d));
 export default function Summary({ timeConfig, data: deploymentConfig }) {
   const snapshotId = deploymentConfig.id;
   const { usage, limits, requests, pending, allocated, unscheduled, unready } = k8sChartColors;
-  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('deploymentConfig', snapshotId, timeConfig);
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid(
+    'openshift.deploymentConfig',
+    snapshotId,
+    timeConfig
+  );
   const viewAllHref = useDeploymentConfigDashboard(snapshotId, { tab: '/conditions' });
 
   return (

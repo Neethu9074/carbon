@@ -4,12 +4,12 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { useState, useEffect, useRef, Fragment } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { CSVLink } from 'react-csv';
 
 // this was imported from rxjs by accident probably since fetchData returns @instana/observables/Observable in every use case
 import { Observable } from '@instana/observables';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 import { Cursor } from '@instana/types';
 
 import { t } from 'in-i18n';
@@ -45,11 +45,13 @@ export default function CsvExporter({
   const [csvData, setCsvData]: any[] = useState([]);
   const [isDisable, setIsDisable] = useState(false);
   const csvInstance = useRef<any | null>(null);
+  const subscriptionRef = useRef<any | null>(null);
 
   const asyncExportMethod = () => {
     setIsDisable(true);
+
     if (fetchData !== undefined) {
-      fetchData(cursor ?? { offset: 0 }).subscribe(res => {
+      subscriptionRef.current = fetchData(cursor ?? { offset: 0 }).subscribe(res => {
         if (!res.progress.loading) {
           setCsvData(processData !== undefined ? processData(res?.data?.items, columns) : res?.data?.items);
           setIsDisable(false);
@@ -63,6 +65,10 @@ export default function CsvExporter({
       setTimeout(() => {
         csvInstance.current.link.click();
         setCsvData([]);
+
+        // Cancel subscription
+        subscriptionRef.current?.dispose();
+        subscriptionRef.current = null;
       });
     }
   }, [csvData]);
@@ -71,7 +77,6 @@ export default function CsvExporter({
 
   if (data !== undefined) {
     processedData = processData !== undefined ? processData(data, columns) : data;
-
     return (
       <CSVLink
         style={{ textDecoration: 'none' }}
@@ -80,7 +85,7 @@ export default function CsvExporter({
         filename={fileName}
         target="_blank"
       >
-        <Button kind="secondary" target="_blank" className={locals.csvExporterButton}>
+        <Button kind="secondary" target="_blank" className={locals.csvExporterButton} size="compact">
           {t('in-components:csvExporterButton.label')}
         </Button>
       </CSVLink>
@@ -88,7 +93,7 @@ export default function CsvExporter({
   } else {
     if (fetchData !== undefined) {
       return (
-        <Fragment>
+        <>
           <div
             onClick={() => {
               asyncExportMethod();
@@ -101,6 +106,7 @@ export default function CsvExporter({
               kind="secondary"
               target="_blank"
               className={locals.csvExporterButton}
+              size="compact"
             >
               {t('in-components:csvExporterButton.label')}
             </Button>
@@ -114,7 +120,7 @@ export default function CsvExporter({
               target="_blank"
             />
           ) : undefined}
-        </Fragment>
+        </>
       );
     }
     return <></>;

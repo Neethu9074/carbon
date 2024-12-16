@@ -12,6 +12,7 @@ import { MarkerLaneEvent } from 'in-components/Chart/markerLanes/MarkerLane/Mark
 import { clearActiveTooltip } from 'in-components/Tooltip/store';
 import Overlay from 'in-components/overlays/Overlay';
 import { TimeConfig } from 'in-types';
+import { t } from 'in-i18n';
 
 import locals from './LaneIcon.mless';
 
@@ -54,11 +55,12 @@ export default function LaneIcon<EventType extends MarkerLaneEvent>({
       content={calloutContent!}
       withoutWrapper
     >
-      {({ open, ref }) => {
+      {({ open, ref, isOpen }) => {
         return (
           <SvgIcon
             size="xs"
             className={locals.icon}
+            tabIndex={0}
             onClick={
               !calloutContent && !onClick
                 ? undefined
@@ -68,6 +70,9 @@ export default function LaneIcon<EventType extends MarkerLaneEvent>({
                     clearActiveTooltip();
                   }
             }
+            aria-label={t('in-components:chart.chartMarkerLane.openList')}
+            aria-haspopup="true"
+            aria-expanded={isOpen}
             type={showIconForCluster ? iconConfig.typeCluster : iconConfig?.type}
             color={iconConfig?.color}
             ref={ref as MutableRefObject<SVGSVGElement> | undefined}

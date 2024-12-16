@@ -5,11 +5,10 @@
 
 import React from 'react';
 
-import { Collapsible } from '@instana/components';
+import { Collapsible, DescriptionList, DescriptionItem } from '@instana/components';
 import { Link } from '@instana/components';
 
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { useNavigateToApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';

@@ -22,7 +22,7 @@ import { parseDateTime } from 'in-services/formatters/date';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
-import locals from 'in-service-levels/components/ConfigDialog/components/DialogSections/PreviewSection/SloConfigPreview.mless';
+import locals from './SloConfigPreview.mless';
 
 export default function SloConfigPreview() {
   const { form } = useContext(SloFormContext);

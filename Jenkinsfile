@@ -1,8 +1,11 @@
 #!groovy
 
+@Library('instana-ci') _
+
 // define global vars for use in later stages
 def branchName          = env.BRANCH_NAME
 def isDeliveryBranch    = null
+def isLTSRBranch        = null
 def gitCommitId         = null
 def gitCommitAuthor     = null
 def gitCommitAuthorName = null
@@ -15,6 +18,9 @@ def latestReleaseBranch = null
 def backendComponents   = null
 def uiClientComponents  = null
 def backendRepoPath     = null
+// Check if this job is running on "backend-jenkins"
+// Call out to the shared library https://github.ibm.com/instana/jenkins
+def isBackendJenkins = isBackendJenkins()
 
 void setBuildStatus(String message, String state) {
   def commitSha = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
@@ -55,9 +61,13 @@ pipeline {
             sh "./build/ci-shared-tools/scripts/setup.bash"
           }
 
+          // Check if running on backend-jenkins
+          println "isBackendJenkins = ${isBackendJenkins}"
+
           isDeliveryBranch = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/isDeliveryBranch.js") == 'true'
+          isLTSRBranch = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/isLTSRBranch.js") == 'true'
           latestReleaseBranch = getLatestReleaseBranch()
-          instanaUiClientVersion = getVersion('ui-client', branchName)
+          instanaUiClientVersion = sh(returnStdout: true, script: "ci-shared-tools component-versions get-version ui-client ${branchName} 0").trim()
           majorReleaseVersion = instanaUiClientVersion.tokenize('.')[1].toInteger()
           gitCommitId         = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
           gitCommitAuthor     = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitCommitId").trim()
@@ -79,34 +89,73 @@ pipeline {
       }
     }
 
-    stage('Build') {
-      steps {
-        milestone(label: "Build", ordinal: null)
-        timeout(time: 30, unit: 'MINUTES') {
-          timestamps {
-            script {
-              try {
-                awsCodeBuild credentialsType: 'jenkins',
-                  credentialsId: 'codebuild',
-                  projectName: 'ui-client',
-                  region: 'us-west-2',
-                  imageOverride: 'aws/codebuild/standard:7.0',
-                  sourceControlType: 'project',
-                  sourceVersion: gitCommitId,
-                  envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaUiClientVersion + '}, {BRANCH_NAME, ' + branchName + '}, {GIT_BRANCH, ' + branchName + '} ]'
+    stage('Build and Test') {
+      parallel {
+        stage('Build') {
+          steps {
+            timeout(time: 30, unit: 'MINUTES') {
+              timestamps {
+                script {
+                  try {
+                    awsCodeBuild credentialsType: 'jenkins',
+                      credentialsId: 'codebuild',
+                      projectName: 'ui-client',
+                      region: 'us-west-2',
+                      imageOverride: 'aws/codebuild/standard:7.0',
+                      sourceControlType: 'project',
+                      sourceVersion: gitCommitId,
+                      buildSpecFile: 'buildspec.yml',
+                      envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaUiClientVersion + '}, {BRANCH_NAME, ' + branchName + '}, {GIT_BRANCH, ' + branchName + '} ]'
 
-                if ( currentBuild.currentResult == 'SUCCESS' ) {
-                  setBuildStatus('Build successful', 'SUCCESS')
+                    if ( currentBuild.currentResult == 'SUCCESS' ) {
+                      setBuildStatus('Build successful', 'SUCCESS')
+                    }
+                  } catch (e) {
+                    setBuildStatus('Build Failure', 'FAILURE')
+                    if ( branchName.startsWith('typescript-typedefinitions-')) {
+                      notifyTsUpdateFailure(branchName,gitCommitId)
+                    }
+                    if (isDeliveryBranch) {
+                      notifyDeliveryBuildFailure(branchName, gitCommitId, gitMessage)
+                    }
+                    throw e
+                  }
                 }
-              } catch (e) {
-                setBuildStatus('Build Failure', 'FAILURE')
-                if ( branchName.startsWith('typescript-typedefinitions-')) {
-                  notifyTsUpdateFailure(branchName,gitCommitId)
+              }
+            }
+          }
+        }
+
+        stage('Test') {
+          steps {
+            timeout(time: 30, unit: 'MINUTES') {
+              timestamps {
+                script {
+                  try {
+                    awsCodeBuild credentialsType: 'jenkins',
+                      credentialsId: 'codebuild',
+                      projectName: 'ui-client',
+                      region: 'us-west-2',
+                      imageOverride: 'aws/codebuild/standard:7.0',
+                      sourceControlType: 'project',
+                      sourceVersion: gitCommitId,
+                      buildSpecFile: 'buildspec.test.yml',
+                      envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaUiClientVersion + '}, {BRANCH_NAME, ' + branchName + '}, {GIT_BRANCH, ' + branchName + '} ]'
+
+                    if ( currentBuild.currentResult == 'SUCCESS' ) {
+                      setBuildStatus('Build successful', 'SUCCESS')
+                    }
+                  } catch (e) {
+                    setBuildStatus('Build Failure', 'FAILURE')
+                    if ( branchName.startsWith('typescript-typedefinitions-')) {
+                      notifyTsUpdateFailure(branchName,gitCommitId)
+                    }
+                    if (isDeliveryBranch) {
+                      notifyDeliveryBuildFailure(branchName, gitCommitId, gitMessage)
+                    }
+                    throw e
+                  }
                 }
-                if (isDeliveryBranch) {
-                  notifyDeliveryBuildFailure(branchName, gitCommitId, gitMessage)
-                }
-                throw e
               }
             }
           }
@@ -142,7 +191,7 @@ pipeline {
           timeout(time: 45, unit: 'MINUTES') {
             timestamps {
               script {
-                if (isDeliveryBranch) {
+                if (isDeliveryBranch || isLTSRBranch) {
                   instanaImageVersion = sh(returnStdout: true, script: "ci-shared-tools component-versions get-instana-image-version ${branchName}").trim() + "-0"
                   buildAndPublishImages(gitCommitId, backendComponents, uiClientComponents, branchName, instanaUiClientVersion, instanaImageVersion)
                 }
@@ -155,16 +204,26 @@ pipeline {
     }
 
     stage ('Retag backend images') {
+      // Only delivery branches require retagging. Check before waiting on the lock.
+      when {
+        expression {
+          return isDeliveryBranch
+        }
+      }
       steps {
-        // Only allow 1 concurrent build is allowed to run at a time
+        // Only allow 1 concurrent delivery branch build is allowed to run at a time
         lock(resource: "retag-backend-images") {
-          timeout(time: 60, unit: 'MINUTES') {
+          timeout(time: 75, unit: 'MINUTES') {
             timestamps {
               script {
+                def path = "int-docker-backend-local"
+                if (isLTSRBranch) {
+                    path = "int-docker-backend-lts-local"
+                }
                 if (isDeliveryBranch) {
-                   backendRepoPath = "delivery.instana.io/int-docker-backend-local/backend"
+                   backendRepoPath = "delivery.instana.io/${path}/backend"
                 } else {
-                   backendRepoPath = "delivery.instana.io/int-docker-backend-local/backend/dev/${branchName}"
+                   backendRepoPath = "delivery.instana.io/${path}/backend/dev/${branchName}"
                 }
                 if (isDeliveryBranch) {
                   rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instanaImageVersion, backendRepoPath)
@@ -178,19 +237,49 @@ pipeline {
     }
 
     stage('Deploy') {
-      steps {
-        // This lock is shared with the backend pipeline as well so as only to allow
-        // one deploy per deployable branch at a time
-        lock(resource: "deploy-instana-${branchName}", inversePrecedence: true) {
-          timeout(time: 30, unit: 'MINUTES') {
-            timestamps {
-              script {
-                // Enable only for the develop branch for now
-                // Other delivery branches will use 'K8s Deploy'
-                if (branchName == 'develop') {
-                  deployInstana(branchName, instanaImageVersion, null, 'pink', 'instana', 'test')
-                } else if (branchName == latestReleaseBranch) {
-                  deployInstana(branchName, instanaImageVersion, null, 'magenta', 'instana', 'release')
+      parallel {
+        stage('Deploy') {
+          steps {
+            // This lock is shared with the backend pipeline as well so as only to allow
+            // one deploy per deployable branch at a time
+            lock(resource: "deploy-instana-${branchName}", inversePrecedence: true) {
+              timeout(time: 45, unit: 'MINUTES') {
+                timestamps {
+                  script {
+                    // Enable only for the develop branch for now
+                    // Other delivery branches will use 'K8s Deploy'
+                    if (branchName == 'develop') {
+                      deployInstana(branchName, gitCommitId, instanaImageVersion, null, 'pink', 'instana', 'test', isBackendJenkins)
+                    } else if (branchName == latestReleaseBranch) {
+                      deployInstana(branchName, gitCommitId, instanaImageVersion, null, 'magenta', 'instana', 'release', isBackendJenkins)
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        stage('Deploy Storybook') {
+          steps {
+            timeout(time: 30, unit: 'MINUTES') {
+              timestamps {
+                script {
+                  if (branchName == 'develop') {
+                      try {
+                        awsCodeBuild credentialsType: 'jenkins',
+                          credentialsId: 'codebuild',
+                          projectName: 'ui-client-storybook',
+                          region: 'us-west-2',
+                          imageOverride: 'aws/codebuild/standard:7.0',
+                          sourceControlType: 'project',
+                          sourceVersion: gitCommitId,
+                          privilegedModeOverride: 'True'
+                      } catch (e) {
+                        notifyFailure('dev-notification', "<${env.BUILD_URL}|${env.JOB_NAME} : Storybook build & deploy failed: ${gitCommitId}")
+                        throw e
+                      }
+                  }
                 }
               }
             }
@@ -198,56 +287,6 @@ pipeline {
         }
       }
     }
-
-    stage('Deploy Storybook') {
-      steps {
-        timeout(time: 30, unit: 'MINUTES') {
-          timestamps {
-            script {
-              if (branchName == 'develop') {
-                  try {
-                    awsCodeBuild credentialsType: 'jenkins',
-                      credentialsId: 'codebuild',
-                      projectName: 'ui-client-storybook',
-                      region: 'us-west-2',
-                      imageOverride: 'aws/codebuild/standard:7.0',
-                      sourceControlType: 'project',
-                      sourceVersion: gitCommitId,
-                      privilegedModeOverride: 'True'
-                  } catch (e) {
-                    notifyFailure('dev-notification', "<${env.BUILD_URL}|${env.JOB_NAME} : Storybook build & deploy failed: ${gitCommitId}")
-                    throw e
-                  }
-              }
-            }
-          }
-        }
-      }
-    }
-
-    stage('SonarQube') {
-      steps {
-        milestone(label: "SonarQube", ordinal: null)
-        timeout(time: 2, unit: 'HOURS') {
-          timestamps {
-            script {
-              if (isDeliveryBranch || branchName == 'sonarqube') {
-                awsCodeBuild credentialsType: 'jenkins',
-                  credentialsId: 'codebuild',
-                  projectName: 'ui-client',
-                  region: 'us-west-2',
-                  imageOverride: 'aws/codebuild/standard:7.0',
-                  sourceControlType: 'project',
-                  sourceVersion: gitCommitId,
-                  buildSpecFile: 'buildspec.sonarqube.yml',
-                  envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaUiClientVersion + '}, {BRANCH_NAME, ' + branchName + '}, {GIT_BRANCH, ' + branchName + '} ]'
-              }
-            }
-          }
-        }
-      }
-    }
-
   }
 }
 
@@ -327,32 +366,91 @@ def waitForStableBackendVersions(branchName) {
   }
 }
 
-def deployInstana(branchName, version, globalEnvironment, environment, tenant, unit) {
+def deployInstana(branchName, gitCommitId, version, globalEnvironment, environment, tenant, unit, isBackendJenkins) {
   try {
-    if (globalEnvironment != null) {
-      println "Updating global environment ${globalEnvironment}"
-      sh "sed -i 's/^  branch\\s*=.*\$/  branch         = \"${branchName}\"/g' /mnt/efs/data/instanactl/dev-jenkins-config/${globalEnvironment}.hcl"
-      sh "sed -i 's/^  version\\s*=.*\$/  version        = \"${version}\"/g' /mnt/efs/data/instanactl/dev-jenkins-config/${globalEnvironment}.hcl"
-      sh "instanactl --deployment ${globalEnvironment} global migrate --branch=${branchName}"
-      sh "instanactl --deployment ${globalEnvironment} global update --version=${version} --branch=${branchName}"
-    }
-    if (tenant != null && unit != null) {
-      println "Updating tenant unit ${tenant}-${unit} in ${environment}"
-      sh "instanactl --deployment ${environment} core migrate --branch ${branchName}"
-      sh "instanactl --deployment ${environment} core update --version ${version} --branch ${branchName}"
-      sh "instanactl --deployment ${environment} tenantunit migrate ${tenant} ${unit} --branch ${branchName}"
-      sh "instanactl --deployment ${environment} tenantunit update ${tenant} ${unit} --version ${version} --branch ${branchName}"
-    } else {
-      println "Updating all tenant units in ${environment}"
-      sh "sed -i 's/^  branch\\s*=.*\$/  branch         = \"${branchName}\"/g' /mnt/efs/data/instanactl/dev-jenkins-config/${environment}.hcl"
-      sh "sed -i 's/^  version\\s*=.*\$/  version        = \"${version}\"/g' /mnt/efs/data/instanactl/dev-jenkins-config/${environment}.hcl"
-      sh "instanactl --deployment ${environment} tenantunit list"
-      sh "instanactl --deployment ${environment} upgrade --version=${version} --branch=${branchName}"
-    }
+
+    def configDir = "/mnt/efs/data/instanactl/dev-jenkins-config"
+
+    //setup all the prerequisites instanactl needs to run on backend-jenkins
+    if (isBackendJenkins) {
+      configDir = "${WORKSPACE}/config"
+      withCredentials([string(credentialsId: 'INSTANACTL_GIT_AUTH_TOKEN', variable: 'INSTANACTL_GIT_AUTH_TOKEN'),
+                       string(credentialsId: 'instanactl-vault-key', variable: 'KEY')]) {
+        sh "mkdir -p ${configDir}"
+        sh "curl -H 'Accept: application/vnd.github.v3.raw' https://${INSTANACTL_GIT_AUTH_TOKEN}:@api.github.ibm.com/repos/instana/infrastructure/contents/instanactl/scripts/config/1-global.hcl -o ${configDir}/1-global.hcl"
+        sh "curl -H 'Accept: application/vnd.github.v3.raw' https://${INSTANACTL_GIT_AUTH_TOKEN}:@api.github.ibm.com/repos/instana/infrastructure/contents/instanactl/scripts/config/${environment}.hcl -o ${configDir}/${environment}.hcl"
+
+        if (globalEnvironment != null) {
+          sh "curl -H 'Accept: application/vnd.github.v3.raw' https://${INSTANACTL_GIT_AUTH_TOKEN}:@api.github.ibm.com/repos/instana/infrastructure/contents/instanactl/scripts/config/${globalEnvironment}.hcl -o ${configDir}/${globalEnvironment}.hcl"
+        }
+
+        sh "curl -H 'Accept: application/vnd.github.v3.raw' https://${INSTANACTL_GIT_AUTH_TOKEN}:@api.github.ibm.com/repos/instana/infrastructure/contents/instanactl/scripts/config/vault-test.properties.enc -o ${configDir}/vault-test.properties.enc"
+        sh "openssl enc -d -aes-256-cbc -md md5 -in ${configDir}/vault-test.properties.enc -out ${configDir}/vault-test.properties -k \"${KEY}\""
+        withCredentials([aws(credentialsId: "eks-developer-creds")]) {
+          env.INSTANACTL_VAULT="${configDir}/vault-test.properties"
+          env.INSTANACTL_CONFIG="${configDir}/config.hcl"
+          env.KUBECONFIG="${WORKSPACE}/kube.conf"
+          sh """
+            aws eks update-kubeconfig --name k8s-infra-us-west-2 --region us-west-2 --alias instana-${environment} --kubeconfig=${env.KUBECONFIG}
+            kubectl config set-context instana-${environment} --namespace instana-${environment}
+            """
+          if (globalEnvironment != null) {
+            sh """
+              aws eks update-kubeconfig --name k8s-infra-us-west-2 --region us-west-2 --alias instana-${globalEnvironment} --kubeconfig=${env.KUBECONFIG}
+              kubectl config set-context instana-${globalEnvironment} --namespace instana-${globalEnvironment}
+              echo "Updating global environment ${globalEnvironment}"
+              sed -i 's/^  branch\\s*=.*\$/  branch         = \"${branchName}\"/g' ${configDir}/${globalEnvironment}.hcl
+              sed -i 's/^  version\\s*=.*\$/  version        = \"${version}\"/g' ${configDir}/${globalEnvironment}.hcl
+              kubectl config use-context instana-${globalEnvironment}
+              instanactl --deployment ${globalEnvironment} global migrate --branch=${branchName}
+              instanactl --deployment ${globalEnvironment} global update --version=${version} --branch=${branchName}
+              """
+          }
+          sh "kubectl config use-context instana-${environment}"
+          if (tenant != null && unit != null) {
+            sh """
+              echo "Updating tenant unit ${tenant}-${unit} in ${environment}"
+              instanactl --deployment ${environment} core migrate --branch ${branchName}
+              instanactl --deployment ${environment} core update --version ${version} --branch ${branchName}
+              instanactl --deployment ${environment} tenantunit migrate ${tenant} ${unit} --branch ${branchName}
+              instanactl --deployment ${environment} tenantunit update ${tenant} ${unit} --version ${version} --branch ${branchName}
+              """
+          } else {
+            sh """
+              echo "Updating all tenant units in ${environment}"
+              sed -i 's/^  branch\\s*=.*\$/  branch         = \"${branchName}\"/g' ${configDir}/${environment}.hcl
+              sed -i 's/^  version\\s*=.*\$/  version        = \"${version}\"/g' ${configDir}/${environment}.hcl
+              instanactl --deployment ${environment} tenantunit list
+              instanactl --deployment ${environment} upgrade --version=${version} --branch=${branchName}
+              """
+          }
+        } // withCredentials eks-developer-creds
+      } // withCredentials
+    } else {  // dev-Jenkins only
+      if (globalEnvironment != null) {
+        println "Updating global environment ${globalEnvironment}"
+        sh "sed -i 's/^  branch\\s*=.*\$/  branch         = \"${branchName}\"/g' ${configDir}/${globalEnvironment}.hcl"
+        sh "sed -i 's/^  version\\s*=.*\$/  version        = \"${version}\"/g' ${configDir}/${globalEnvironment}.hcl"
+        sh "instanactl --deployment ${globalEnvironment} global migrate --branch=${branchName}"
+        sh "instanactl --deployment ${globalEnvironment} global update --version=${version} --branch=${branchName}"
+      }
+      if (tenant != null && unit != null) {
+        println "Updating tenant unit ${tenant}-${unit} in ${environment}"
+        sh "instanactl --deployment ${environment} core migrate --branch ${branchName}"
+        sh "instanactl --deployment ${environment} core update --version ${version} --branch ${branchName}"
+        sh "instanactl --deployment ${environment} tenantunit migrate ${tenant} ${unit} --branch ${branchName}"
+        sh "instanactl --deployment ${environment} tenantunit update ${tenant} ${unit} --version ${version} --branch ${branchName}"
+      } else {
+        println "Updating all tenant units in ${environment}"
+        sh "sed -i 's/^  branch\\s*=.*\$/  branch         = \"${branchName}\"/g' ${configDir}/${environment}.hcl"
+        sh "sed -i 's/^  version\\s*=.*\$/  version        = \"${version}\"/g' ${configDir}/${environment}.hcl"
+        sh "instanactl --deployment ${environment} tenantunit list"
+        sh "instanactl --deployment ${environment} upgrade --version=${version} --branch=${branchName}"
+      }
+    } // isBackendJenkins or dev-Jenkins
     notifySuccess('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Successfully deployed ${version} to deployment:*${environment}* \n\n${currentBuild.description}")
   } catch(e) {
     notifyFailure('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Deployment of ${version} to deployment:*${environment}* failed \n\n${currentBuild.description}")
-    notifyGeneralBuildFailure(branchName)
     throw e
   }
 }
@@ -389,6 +487,6 @@ def notifyDeliveryBuildFailure(branchName, gitCommitID, gitCommitMessage) {
 
 def notifyGeneralBuildFailure(branchName) {
   if (branchName.startsWith('release-')) {
-    notifyFailure('tech-dev', "<${env.BUILD_URL}|:alert2: ${env.JOB_NAME} #${env.BUILD_NUMBER}> failed! :cry:")
+    notifyFailure('dev-notification', "<${env.BUILD_URL}|:alert2: ${env.JOB_NAME} #${env.BUILD_NUMBER}> failed! :cry:")
   }
 }

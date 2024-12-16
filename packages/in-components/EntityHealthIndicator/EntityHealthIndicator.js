@@ -23,12 +23,13 @@ export default function EntityHealthIndicator(props) {
 
   return (
     <Overlay props={props} content={Content} withoutWrapper inContentArea={props.inContentArea}>
-      {({ toggle, refSetter }) => (
+      {({ toggle, refSetter, isOpen }) => (
         <props.IndicatorPresenter
           openIssues={openIssues}
           maxSeverity={maxSeverity}
           onClick={toggle}
           refSetter={refSetter}
+          isOpen={isOpen}
         />
       )}
     </Overlay>

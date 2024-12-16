@@ -6,6 +6,7 @@
 import {
   getAdjustedTimeConfigToIncludeTimestamp,
   getTimeConfig,
+  trimTimeConfigEnd,
   maximumWindowSize,
   urlQueryKeys
 } from 'in-stores/time/config';
@@ -203,6 +204,61 @@ describe('time config', () => {
         windowSize: expectedTo - expectedFrom,
         to: expectedTo,
         autoRefresh: false
+      });
+    });
+
+    describe('trimTimeConfigEnd', () => {
+      it('should return unmodified time config, if the window size is not exceeding the limit', () => {
+        const timeConfig = {
+          windowSize: 1000,
+          to: Date.now(),
+          autoRefresh: false
+        };
+        expect(trimTimeConfigEnd(timeConfig, 2000)).toBe(timeConfig);
+      });
+
+      it('should return modified time config, if the window size is exceeding the limit', () => {
+        const timeConfig = {
+          windowSize: 5000,
+          to: 10000,
+          autoRefresh: false
+        };
+        expect(trimTimeConfigEnd(timeConfig, 2000)).toEqual({
+          windowSize: 2000,
+          to: 7000,
+          focusedMoment: 7000,
+          autoRefresh: false
+        });
+      });
+
+      it('should return modified time config, if the window size is exceeding the limit with focusedMoment within adjusted timeframe', () => {
+        const timeConfig = {
+          windowSize: 5000,
+          to: 10000,
+          focusedMoment: 9000,
+          autoRefresh: false
+        };
+        expect(trimTimeConfigEnd(timeConfig, 2000)).toEqual({
+          windowSize: 2000,
+          to: 7000,
+          focusedMoment: 7000,
+          autoRefresh: false
+        });
+      });
+
+      it('should return modified time config, if the window size is exceeding the limit with focusedMoment outside adjusted timeframe', () => {
+        const timeConfig = {
+          windowSize: 5000,
+          to: 10000,
+          focusedMoment: 6000,
+          autoRefresh: false
+        };
+        expect(trimTimeConfigEnd(timeConfig, 2000)).toEqual({
+          windowSize: 2000,
+          to: 7000,
+          focusedMoment: 6000,
+          autoRefresh: false
+        });
       });
     });
   });

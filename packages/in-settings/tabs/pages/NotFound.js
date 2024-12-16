@@ -7,7 +7,7 @@ import React, { Fragment } from 'react';
 
 import { Link } from '@instana/components';
 
-import { userSettings, teamSettings } from 'in-settings/navigation/paths';
+import { userSettings, globalSettings } from 'in-settings/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
@@ -21,8 +21,8 @@ export default function NotFoundPage() {
       <p>{t('in-settings:tabs.weCouldNotFindTheSettingsPageYouWereLookingFor')}</p>
       <ul>
         <li>
-          <Link size="sm" href={createHrefToPath(teamSettings)}>
-            {t('in-settings:tabs.teamSettings')}
+          <Link size="sm" href={createHrefToPath(globalSettings)}>
+            {t('in-settings:tabs.globalSettings')}
           </Link>
         </li>
         <li>

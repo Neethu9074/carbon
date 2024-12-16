@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -16,6 +16,7 @@ import {
 } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 // @ts-expect-error
 import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/metrics';
+import KubernetesTimeShiftChartPresenter from 'in-kubernetes/Dashboards/commonComponents/KubernetesTimeShiftChartPresenter';
 import {
   bytes,
   bytesTwoDecimalPlaces,
@@ -23,7 +24,6 @@ import {
   twoDecimalPlaces,
   zeroDecimalPlaces
 } from 'in-services/formatters/number';
-import KubernetesTimeShiftChartPresenter from 'in-kubernetes/Dashboards/commonComponents/KubernetesTimeShiftChartPresenter';
 // @ts-expect-error
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 // @ts-expect-error
@@ -36,16 +36,15 @@ import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid'
 import { k8sPodAndServiceChart } from 'in-kubernetes/components/K8sChartColors';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { summaryTab, usePodDashboard } from 'in-kubernetes/navigation/paths';
-// @ts-expect-error
 import MetricValue from 'in-components/MetricValue';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
-import { formatDuration } from 'in-services/formatters/date';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
+import { formatDuration } from 'in-services/formatters/date';
 import { capitalizeValue } from 'in-components/Capitalize';
 import { getChartGranularity } from 'in-stores/metric';
-import { Col, Row } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
+import { Col, Row } from 'in-components/layout/Grid';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
@@ -67,7 +66,7 @@ export default function Summary({ data: pod, timeConfig }: SummaryProps) {
   const podQuery = andQuery(podTagId);
   const tagFilterExpression = toBackendQueryModel(podQuery);
 
-  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('pod', snapshotId, timeConfig);
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('kubernetes.pod', snapshotId, timeConfig);
 
   const type = plugins.kubernetesPod;
 

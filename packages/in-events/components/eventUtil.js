@@ -3,7 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+// FYI this class assumes 'event' is EventOrMap
+import React from 'react';
+
+import { Pill } from '@instana/components';
+
 import { getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
+import { t } from 'in-i18n';
 
 export function isEntityVerificationEvent(event) {
   return event?.hasIn(['metadata', 'entityVerificationSnapshotId']);
@@ -33,6 +39,10 @@ export function isAgentMonitoringIssueEvent(event) {
   return event.hasIn(['metadata', 'agent_monitoring_issue']);
 }
 
+export function isCveIssueEvent(event) {
+  return event.hasIn(['metadata', 'cve_issue']);
+}
+
 export function isIbmMqFileTransferIssueEvent(event) {
   return event.hasIn(['metadata', 'ibmMqFileTransfer']);
 }
@@ -53,6 +63,14 @@ export function isLogSmartAlertEvent(event) {
   return event.hasIn(['metadata', 'logSmartAlert']);
 }
 
+export function hasManualCloseFields(event) {
+  return (
+    event.hasIn(['metadata', 'manualCloseReason']) &&
+    event.hasIn(['metadata', 'manualCloseTimestamp']) &&
+    event.hasIn(['metadata', 'manualCloseUsername'])
+  );
+}
+
 export function getTimeConfigForSnapshotRetrieval(event, latestSnapshot) {
   const timeConfig = getTimeConfigFromEventForSnapshotRetrieval(event);
 
@@ -70,4 +88,12 @@ export function getSnapshotId(event, entityVerification) {
   return entityVerification
     ? event?.getIn(['metadata', 'entityVerificationSnapshotId'], '')
     : event?.getIn(['metadata', 'hostAvailabilitySnapshotId'], '');
+}
+
+export function getEventStateBadge(event) {
+  if (hasManualCloseFields(event)) {
+    return <Pill type="green">{t('in-events:stateManuallyClosed')}</Pill>;
+  } else if (event.get('state') === 'closed') {
+    return <Pill type="green">{t('in-events:labelClosed')}</Pill>;
+  }
 }

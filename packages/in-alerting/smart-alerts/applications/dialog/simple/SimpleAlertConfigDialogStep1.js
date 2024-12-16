@@ -16,9 +16,10 @@ import ProvideLogMessage from 'in-alerting/smart-alerts/applications/components/
 import ProvideStatusCode from 'in-alerting/smart-alerts/applications/components/ProvideStatusCode';
 import createBlueprintForm from 'in-alerting/smart-alerts/applications/form/blueprintFormCreator';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/AlertTypeSwitch';
+import { idFromBluePrint } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
 import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
-import Menu from 'in-components/Menu';
+import SideRadioMenu from 'in-components/SideRadioMenu';
 import { t } from 'in-i18n';
 
 export default function SimpleAlertConfigDialogStep1({
@@ -41,14 +42,14 @@ export default function SimpleAlertConfigDialogStep1({
       : simpleModeBlueprintConfigs.filter(config => config.type !== 'logs');
 
   return (
-    <SimpleModeStepContentWrapper headline={t('in-alerting:smartAlerts.applications.simple.simpleAlertStep1Headline')}>
-      <Menu
-        items={blueprintConfigList}
-        onItemClick={item => {
+    <SimpleModeStepContentWrapper headline={t('in-alerting:smartAlerts.applications.tearSheet.alertHeadline')}>
+      <SideRadioMenu
+        items={blueprintConfigList.map(x => ({ id: idFromBluePrint(x), name: x.name }))}
+        onChange={id => {
+          const item = blueprintConfigList.find(i => id === idFromBluePrint(i));
           updateForm(createBlueprintForm(form, item.type, item.thresholdDefaults, true));
         }}
-        initialItemSelected={blueprintConfig}
-        addRightSeparator
+        valueSelected={idFromBluePrint(blueprintConfig)}
       />
 
       <AlertTypeSwitch

@@ -9,20 +9,19 @@ import React from 'react';
 
 import { BusinessProcessItem, TimeConfig } from '@instana/types';
 
-// @ts-expect-error Module needs to be translated to TS
-import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 // @ts-expect-error Could not find declaration type
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 // @ts-expect-error Module needs to be translated to TS
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
+import { businessPerspectiveDashboard, businessProcessDashboard, summaryTab } from 'in-bizops/navigation/paths';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter/HealthIndicatorPresenter';
 import { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { businessProcessDashboard, summaryTab } from 'in-bizops/navigation/paths';
+import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { selectBizopsListProcessTracker } from 'in-bizops/tracker';
+import { bizopsProcessesListSelect } from 'in-bizops/tracker';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
@@ -37,7 +36,7 @@ export interface TimeResult {
   time: number;
 }
 
-function BusinessProcessNameColumnContent(item: BusinessProcessItem) {
+const BusinessProcessNameColumnContent = ({ item }: { item: BusinessProcessItem }) => {
   const { location, createHref } = useNavigation();
 
   const businessProcessId: string = item.businessProcess.definitionId;
@@ -45,22 +44,31 @@ function BusinessProcessNameColumnContent(item: BusinessProcessItem) {
     item.businessProcess.definitionName.length > 0 ? item.businessProcess.definitionName : businessProcessId;
   const serviceId: string = item.service?.id ?? '';
 
+  const perspectiveId = getMatrixParameter(location, businessPerspectiveDashboard, 'perspectiveId');
+  const perspectiveName = getMatrixParameter(location, businessPerspectiveDashboard, 'perspectiveName');
+
   location.pathname = `${businessProcessDashboard}${summaryTab}`;
   setOrDeleteMatrixKey(location, businessProcessDashboard, 'definitionName', businessProcessName);
   setOrDeleteMatrixKey(location, businessProcessDashboard, 'definitionId', businessProcessId);
   setOrDeleteMatrixKey(location, businessProcessDashboard, 'serviceId', serviceId);
 
+  if (perspectiveName) {
+    setOrDeleteMatrixKey(location, businessProcessDashboard, 'perspectiveId', perspectiveId);
+    setOrDeleteMatrixKey(location, businessProcessDashboard, 'perspectiveName', perspectiveName);
+  }
+
   const processTracking = {
+    path: location.pathname,
     processId: businessProcessId,
     processName: businessProcessName
   };
 
   return (
-    <div className={locals.tracker} onClick={() => selectBizopsListProcessTracker(processTracking)}>
+    <div className={locals.tracker} onClick={() => bizopsProcessesListSelect(processTracking)}>
       <SeverityAwareEntityLink severity={getSeverity(item)} label={businessProcessName} href={createHref(location)} />
     </div>
   );
-}
+};
 
 function getSeverity(item: BusinessProcessItem) {
   return get(item, ['metrics', 'maxSeverity', 0, 1], 0);
@@ -72,7 +80,7 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpL
     sortable: true,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.nameLabel'),
-    getContent: BusinessProcessNameColumnContent
+    getContent: (item: BusinessProcessItem) => <BusinessProcessNameColumnContent item={item} />
   },
   {
     id: 'started_processes',
@@ -87,8 +95,8 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpL
           //@ts-expect-error
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           aggregation="DISTINCT_COUNT"
-          metrics={item.metrics.started_processes}
-          metric={item.metrics.started_processes[0][1]}
+          metrics={item.metrics.started_processes_array}
+          metric={item.metrics.started_processes_total[0][1]}
           tooltipFormatter={number.compact}
         />
       );
@@ -108,7 +116,7 @@ export const processColumnDefinitions: ColumnDefinition<BusinessProcessItem, bpL
     }
   },
   {
-    id: 'health',
+    id: 'maxSeverity',
     sortable: true,
     defaultOrderDirection: 'DESC',
     label: t('in-bizops:lists.healthLabel'),

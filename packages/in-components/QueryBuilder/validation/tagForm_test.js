@@ -113,7 +113,7 @@ describe('in-components/QueryBuilder/validation/tagForm', () => {
     expect(changedForm.get('value').value).to.equal(true);
   });
 
-  it('must nost drop the value/operator when switching to the same tag type', () => {
+  it('must not drop the value/operator when switching to the same tag type', () => {
     const form = createTagForm(tagCatalog, {
       name: 'name',
       operator: CONTAINS,
@@ -128,5 +128,20 @@ describe('in-components/QueryBuilder/validation/tagForm', () => {
     expect(changedForm.get('operator').value).to.equal(CONTAINS);
     expect(changedForm.get('value').value).to.equal('prod');
     expect(changedForm.get('entity')).to.equal(undefined);
+  });
+
+  it('must set tagDefinition to new minimal tag definition when changing tag name', () => {
+    const form = createTagForm(tagCatalog, {
+      name: 'name',
+      operator: CONTAINS,
+      value: 'prod',
+      entity: 'DESTINATION'
+    });
+    expect(form.hierarchyValid).to.equal(true);
+
+    const changedForm = changeName(tagCatalog, form, 'application', { name: 'application', type: STRING });
+    expect(changedForm.hierarchyValid).to.equal(true);
+    expect(changedForm.get('tagDefinition').value.name).to.equal('application');
+    expect(changedForm.get('tagDefinition').value.type).to.equal(STRING);
   });
 });

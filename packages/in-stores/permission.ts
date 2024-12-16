@@ -18,7 +18,10 @@ import {
   powervcEnabled,
   infraSmartAlertsEnabled,
   logSmartAlertsEnabled,
-  manuallyCloseEventEnabled
+  manuallyCloseEventEnabled,
+  logVolumePageEnabled,
+  logRetentionPageEnabled,
+  nutanixEnabled
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -37,7 +40,9 @@ export const LimitedAccessScope = Object.freeze({
   LIMITED_ZHMC_SCOPE: 'LIMITED_ZHMC_SCOPE',
   LIMITED_PCF_SCOPE: 'LIMITED_PCF_SCOPE',
   LIMITED_OPENSTACK_SCOPE: 'LIMITED_OPENSTACK_SCOPE',
-  LIMITED_SAP_SCOPE: 'LIMITED_SAP_SCOPE'
+  LIMITED_SAP_SCOPE: 'LIMITED_SAP_SCOPE',
+  LIMITED_AUTOMATION_SCOPE: 'LIMITED_AUTOMATION_SCOPE',
+  LIMITED_NUTANIX_SCOPE: 'LIMITED_NUTANIX_SCOPE'
 } as const);
 export type LimitedAccessScopeType = keyof typeof LimitedAccessScope;
 export const LimitedAccessScopes = Object.freeze(Object.values(LimitedAccessScope));
@@ -57,7 +62,9 @@ export const AreaPermission = Object.freeze({
   ACCESS_OPENSTACK: 'ACCESS_OPENSTACK',
   ACCESS_INFRASTRUCTURE_ANALYZE: 'ACCESS_INFRASTRUCTURE_ANALYZE',
   ACCESS_SAP: 'ACCESS_SAP',
-  ACCESS_BIZOPS: 'ACCESS_BIZOPS'
+  ACCESS_BIZOPS: 'ACCESS_BIZOPS',
+  ACCESS_AUTOMATION: 'ACCESS_AUTOMATION',
+  ACCESS_NUTANIX: 'ACCESS_NUTANIX'
 } as const);
 export type AreaPermissionType = keyof typeof AreaPermission;
 export const AreaPermissions = Object.freeze(Object.values(AreaPermission));
@@ -74,6 +81,7 @@ export const Capability = Object.freeze({
   CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS: 'CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS',
   CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS: 'CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS',
   CAN_CONFIGURE_LOG_MANAGEMENT: 'CAN_CONFIGURE_LOG_MANAGEMENT',
+  CAN_CONFIGURE_DATABASE_MANAGEMENT: 'CAN_CONFIGURE_DATABASE_MANAGEMENT',
   CAN_CONFIGURE_RELEASES: 'CAN_CONFIGURE_RELEASES',
   CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS: 'CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS',
   CAN_CONFIGURE_USERS: 'CAN_CONFIGURE_USERS',
@@ -85,12 +93,14 @@ export const Capability = Object.freeze({
   CAN_CONFIGURE_SESSION_SETTINGS: 'CAN_CONFIGURE_SESSION_SETTINGS',
   CAN_VIEW_LOGS: 'CAN_VIEW_LOGS',
   CAN_DELETE_LOGS: 'CAN_DELETE_LOGS',
+  CAN_CONFIGURE_LOG_RETENTION_PERIOD: 'CAN_CONFIGURE_LOG_RETENTION_PERIOD',
+  CAN_VIEW_LOG_VOLUME: 'CAN_VIEW_LOG_VOLUME',
   CAN_VIEW_TRACE_DETAILS: 'CAN_VIEW_TRACE_DETAILS',
   CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION: 'CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION',
   CAN_CONFIGURE_AUTOMATION_ACTIONS: 'CAN_CONFIGURE_AUTOMATION_ACTIONS',
   CAN_RUN_AUTOMATION_ACTIONS: 'CAN_RUN_AUTOMATION_ACTIONS',
-  CAN_VIEW_AUTOMATION_ACTION_INSTANCES: 'CAN_VIEW_AUTOMATION_ACTION_INSTANCES',
   CAN_CONFIGURE_AUTOMATION_POLICIES: 'CAN_CONFIGURE_AUTOMATION_POLICIES',
+  CAN_DELETE_AUTOMATION_ACTION_HISTORY: 'CAN_DELETE_AUTOMATION_ACTION_HISTORY',
   CAN_CONFIGURE_SYNTHETIC_TESTS: 'CAN_CONFIGURE_SYNTHETIC_TESTS',
   CAN_CONFIGURE_SYNTHETIC_LOCATIONS: 'CAN_CONFIGURE_SYNTHETIC_LOCATIONS',
   CAN_VIEW_SYNTHETIC_TESTS: 'CAN_VIEW_SYNTHETIC_TESTS',
@@ -115,7 +125,8 @@ export const Capability = Object.freeze({
 export const InfrastructureCapability = Object.freeze({
   [AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE]: AreaPermission.ACCESS_INFRASTRUCTURE_ANALYZE,
   CAN_CREATE_HEAP_DUMP: 'CAN_CREATE_HEAP_DUMP',
-  CAN_CREATE_THREAD_DUMP: 'CAN_CREATE_THREAD_DUMP'
+  CAN_CREATE_THREAD_DUMP: 'CAN_CREATE_THREAD_DUMP',
+  CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS: 'CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS'
 } as const);
 
 export type CapabilityType = keyof typeof Capability;
@@ -178,6 +189,8 @@ export const hasOpenStackAccess =
   hasPermission(LimitedAccessScope.LIMITED_OPENSTACK_SCOPE, AreaPermission.ACCESS_OPENSTACK) && openstackEnabled;
 export const hasSAPAccess =
   hasPermission(LimitedAccessScope.LIMITED_SAP_SCOPE, AreaPermission.ACCESS_SAP) && sapEnabled;
+export const hasNutanixAccess =
+  hasPermission(LimitedAccessScope.LIMITED_NUTANIX_SCOPE, AreaPermission.ACCESS_NUTANIX) && nutanixEnabled;
 export const hasAPlatformAccess =
   hasVSphereAccess ||
   hasPHMCAccess ||
@@ -186,7 +199,8 @@ export const hasAPlatformAccess =
   hasPowerVcAccess ||
   hasOpenStackAccess ||
   hasKubernetesAccess ||
-  hasSAPAccess;
+  hasSAPAccess ||
+  hasNutanixAccess;
 
 export const hasCanCreateHeapDump =
   hasInfrastructureAccess && permissions.includes(InfrastructureCapability.CAN_CREATE_HEAP_DUMP);
@@ -204,6 +218,7 @@ export const amountPlatformAccesses = (() => {
   if (hasPowerVcAccess) count++;
   if (hasKubernetesAccess) count++;
   if (hasSAPAccess) count++;
+  if (hasNutanixAccess) count++;
   return count;
 })();
 
@@ -218,6 +233,10 @@ export const hasEventsAccess =
 
 export const hasBizOpsAccess =
   businessObservabilityEnabled && hasPermission(LimitedAccessScope.LIMITED_BIZOPS_SCOPE, AreaPermission.ACCESS_BIZOPS);
+
+export const hasAutomationAccess =
+  actionAutomationEnabled &&
+  hasPermission(LimitedAccessScope.LIMITED_AUTOMATION_SCOPE, AreaPermission.ACCESS_AUTOMATION);
 
 interface AreaPermissionProps {
   value: AreaPermissionType;
@@ -285,6 +304,13 @@ function getProductAreaPermissions(): Array<AreaPermissionProps> {
       label: t('in-stores:permissionAccessBizOpsLabel')
     });
   }
+
+  if (actionAutomationEnabled) {
+    areaPermissions.push({
+      value: AreaPermission.ACCESS_AUTOMATION,
+      label: t('in-stores:permissionAccessAutomationLabel')
+    });
+  }
   return areaPermissions;
 }
 
@@ -292,7 +318,7 @@ export interface ProductPermission {
   keyForGroupApi: CapabilityType;
   keyForApiTokenApi: string;
   label: string;
-  description: string;
+  description?: string;
   category: string;
   isOwnerPermission?: boolean;
 }
@@ -306,7 +332,6 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForGroupApi: Capability.CAN_CONFIGURE_EUM_APPLICATIONS,
     keyForApiTokenApi: 'canConfigureEumApplications',
     label: t('in-stores:permissionCanConfigureEumApplicationsLabel'),
-    description: t('in-stores:permissionCanConfigureEumApplicationsDescription'),
     category: t('in-stores:permissionCanConfigureEumApplicationsCategory'),
     isOwnerPermission: false
   },
@@ -314,7 +339,6 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForGroupApi: Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING,
     keyForApiTokenApi: 'canConfigureMobileAppMonitoring',
     label: t('in-stores:permissionCanConfigureMobileAppMonitoringLabel'),
-    description: t('in-stores:permissionCanConfigureMobileAppMonitoringDescription'),
     category: t('in-stores:permissionCanConfigureMobileAppMonitoringCategory'),
     isOwnerPermission: false
   },
@@ -322,7 +346,6 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForGroupApi: Capability.CAN_CONFIGURE_APPLICATIONS,
     keyForApiTokenApi: 'canConfigureApplications',
     label: t('in-stores:permissionCanConfigureApplicationsLabel'),
-    description: t('in-stores:permissionCanConfigureApplicationsDescription'),
     category: t('in-stores:permissionCanConfigureApplicationsCategory'),
     isOwnerPermission: false
   },
@@ -330,7 +353,6 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForGroupApi: Capability.CAN_CONFIGURE_SERVICE_MAPPING,
     keyForApiTokenApi: 'canConfigureServiceMapping',
     label: t('in-stores:permissionCanConfigureServiceMappingLabel'),
-    description: t('in-stores:permissionCanConfigureServiceMappingDescription'),
     category: t('in-stores:permissionCanConfigureServiceMappingCategory'),
     isOwnerPermission: false
   },
@@ -364,7 +386,6 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForGroupApi: Capability.CAN_CONFIGURE_INTEGRATIONS,
     keyForApiTokenApi: 'canConfigureIntegrations',
     label: t('in-stores:permissionCanConfigureIntegrationsLabel'),
-    description: t('in-stores:permissionCanConfigureIntegrationsDescription'),
     category: t('in-stores:permissionCanConfigureIntegrationsCategory'),
     isOwnerPermission: false
   },
@@ -372,7 +393,6 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForGroupApi: Capability.CAN_CONFIGURE_EVENTS_AND_ALERTS,
     keyForApiTokenApi: 'canConfigureEventsAndAlerts',
     label: t('in-stores:permissionCanConfigureEventsAndAlertsLabel'),
-    description: t('in-stores:permissionCanConfigureEventsAndAlertsDescription'),
     category: t('in-stores:permissionCanConfigureEventsAndAlertsCategory'),
     isOwnerPermission: false
   },
@@ -380,7 +400,6 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForGroupApi: Capability.CAN_CONFIGURE_MAINTENANCE_WINDOWS,
     keyForApiTokenApi: 'canConfigureMaintenanceWindows',
     label: t('in-stores:permissionCanConfigureMaintenanceWindowsLabel'),
-    description: t('in-stores:permissionCanConfigureMaintenanceWindowsDescription'),
     category: t('in-stores:permissionCanConfigureMaintenanceWindowsCategory'),
     isOwnerPermission: false
   },
@@ -388,7 +407,6 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForGroupApi: Capability.CAN_CONFIGURE_APPLICATION_SMART_ALERTS,
     keyForApiTokenApi: 'canConfigureApplicationSmartAlerts',
     label: t('in-stores:permissionCanConfigureApplicationSmartAlertsLabel'),
-    description: t('in-stores:permissionCanConfigureApplicationSmartAlertsDescription'),
     category: t('in-stores:permissionCanConfigureApplicationSmartAlertsCategory'),
     isOwnerPermission: false
   },
@@ -396,7 +414,6 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForGroupApi: Capability.CAN_CONFIGURE_WEBSITE_SMART_ALERTS,
     keyForApiTokenApi: 'canConfigureWebsiteSmartAlerts',
     label: t('in-stores:permissionCanConfigureWebsiteSmartAlertsLabel'),
-    description: t('in-stores:permissionCanConfigureWebsiteSmartAlertsDescription'),
     category: t('in-stores:permissionCanConfigureWebsiteSmartAlertsCategory'),
     isOwnerPermission: false
   },
@@ -404,7 +421,6 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForGroupApi: Capability.CAN_CONFIGURE_MOBILE_APP_SMART_ALERTS,
     keyForApiTokenApi: 'canConfigureMobileAppSmartAlerts',
     label: t('in-stores:permissionCanConfigureMobileAppSmartAlertsLabel'),
-    description: t('in-stores:permissionCanConfigureMobileAppSmartAlertsDescription'),
     category: t('in-stores:permissionCanConfigureMobileAppSmartAlertsCategory'),
     isOwnerPermission: false
   },
@@ -412,35 +428,30 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForGroupApi: Capability.CAN_CONFIGURE_GLOBAL_APPLICATION_SMART_ALERTS,
     keyForApiTokenApi: 'canConfigureGlobalApplicationSmartAlerts',
     label: t('in-stores:permissionCanConfigureGlobalApplicationSmartAlertsLabel'),
-    description: t('in-stores:permissionCanConfigureGlobalApplicationSmartAlertsDescription'),
     category: t('in-stores:permissionCanConfigureGlobalApplicationSmartAlertsCategory')
   },
   [Capability.CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS]: {
     keyForGroupApi: Capability.CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS,
     keyForApiTokenApi: 'canConfigureGlobalSyntheticSmartAlerts',
     label: t('in-stores:permissionCanConfigureGlobalSyntheticSmartAlertsLabel'),
-    description: t('in-stores:permissionCanConfigureGlobalSyntheticSmartAlertsDescription'),
     category: t('in-stores:permissionCanConfigureGlobalSyntheticSmartAlertsCategory')
   },
   [Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS]: {
     keyForGroupApi: Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS,
     keyForApiTokenApi: 'canConfigureGlobalInfraSmartAlerts',
     label: t('in-stores:permissionCanConfigureGlobalInfraSmartAlertsLabel'),
-    description: t('in-stores:permissionCanConfigureGlobalInfraSmartAlertsDescription'),
     category: t('in-stores:permissionCanConfigureGlobalInfraSmartAlertsCategory')
   },
   [Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS]: {
     keyForGroupApi: Capability.CAN_CONFIGURE_GLOBAL_LOG_SMART_ALERTS,
     keyForApiTokenApi: 'canConfigureGlobalLogSmartAlerts',
     label: t('in-stores:permissionCanConfigureGlobalLogSmartAlertsLabel'),
-    description: t('in-stores:permissionCanConfigureGlobalLogSmartAlertsDescription'),
     category: t('in-stores:permissionCanConfigureGlobalLogSmartAlertsCategory')
   },
   [Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD]: {
     keyForGroupApi: Capability.CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD,
     keyForApiTokenApi: 'canConfigureGlobalAlertPayload',
     label: t('in-stores:permissionCanConfigureGlobalAlertPayloadLabel'),
-    description: t('in-stores:permissionCanConfigureGlobalAlertPayloadDescription'),
     category: t('in-stores:permissionCanConfigureGlobalAlertPayloadCategory'),
     isOwnerPermission: false
   },
@@ -466,7 +477,6 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForGroupApi: Capability.CAN_CONFIGURE_LOG_MANAGEMENT,
     keyForApiTokenApi: 'canConfigureLogManagement',
     label: t('in-stores:permissionCanConfigureLogManagementLabel'),
-    description: t('in-stores:permissionCanConfigureLogManagementDescription'),
     category: t('in-stores:permissionCanConfigureLogManagementCategory'),
     isOwnerPermission: false
   },
@@ -474,8 +484,14 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForGroupApi: Capability.CAN_CONFIGURE_RELEASES,
     keyForApiTokenApi: 'canConfigureReleases',
     label: t('in-stores:permissionCanConfigureReleasesLabel'),
-    description: t('in-stores:permissionCanConfigureReleasesDescription'),
     category: t('in-stores:permissionCanConfigureReleasesCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_CONFIGURE_DATABASE_MANAGEMENT]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_DATABASE_MANAGEMENT,
+    keyForApiTokenApi: 'canConfigureDatabaseManagement',
+    label: t('in-stores:permissionCanConfigureDatabaseManagementLabel'),
+    category: t('in-stores:permissionCanConfigureDatabaseManagementCategory'),
     isOwnerPermission: false
   },
   [Capability.CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS]: {
@@ -507,7 +523,6 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForGroupApi: Capability.CAN_CONFIGURE_API_TOKENS,
     keyForApiTokenApi: 'canConfigureApiTokens',
     label: t('in-stores:permissionCanConfigureApiTokensLabel'),
-    description: t('in-stores:permissionCanConfigureApiTokensDescription'),
     category: t('in-stores:permissionCanConfigureApiTokensCategory'),
     isOwnerPermission: true
   },
@@ -515,7 +530,6 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForGroupApi: Capability.CAN_CONFIGURE_PERSONAL_API_TOKENS,
     keyForApiTokenApi: '', // indicates that this is not a permission for a token
     label: t('in-stores:permissionCanConfigurePersonalApiTokensLabel'),
-    description: t('in-stores:permissionCanConfigurePersonalApiTokensDescription'),
     category: t('in-stores:permissionCanConfigurePersonalApiTokensCategory'),
     isOwnerPermission: false
   },
@@ -531,7 +545,6 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForGroupApi: Capability.CAN_VIEW_AUDIT_LOG,
     keyForApiTokenApi: 'canViewAuditLog',
     label: t('in-stores:permissionCanViewAuditLogLabel'),
-    description: t('in-stores:permissionCanViewAuditLogDescription'),
     category: t('in-stores:permissionCanViewAuditLogCategory'),
     isOwnerPermission: false
   },
@@ -539,7 +552,6 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForGroupApi: Capability.CAN_CONFIGURE_SESSION_SETTINGS,
     keyForApiTokenApi: 'canConfigureSessionSettings',
     label: t('in-stores:permissionCanConfigureSessionSettingsLabel'),
-    description: t('in-stores:permissionCanConfigureSessionSettingsDescription'),
     category: t('in-stores:permissionCanConfigureSessionSettingsCategory'),
     isOwnerPermission: false
   },
@@ -555,15 +567,29 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForGroupApi: Capability.CAN_DELETE_LOGS,
     keyForApiTokenApi: 'canDeleteLogs',
     label: t('in-stores:permissionCanDeleteLogsLabel'),
-    description: t('in-stores:permissionCanDeleteLogsDescription'),
     category: t('in-stores:permissionCanDeleteLogsCategory'),
+    isOwnerPermission: true
+  },
+  [Capability.CAN_CONFIGURE_LOG_RETENTION_PERIOD]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_LOG_RETENTION_PERIOD,
+    keyForApiTokenApi: 'canConfigureLogRetentionPeriod',
+    label: t('in-stores:permissionCanConfigureLogRetentionPeriodLabel'),
+    description: t('in-stores:permissionCanConfigureLogRetentionPeriodDescription'),
+    category: t('in-stores:permissionCanConfigureLogRetentionPeriodCategory'),
+    isOwnerPermission: true
+  },
+  [Capability.CAN_VIEW_LOG_VOLUME]: {
+    keyForGroupApi: Capability.CAN_VIEW_LOG_VOLUME,
+    keyForApiTokenApi: 'canViewLogVolume',
+    label: t('in-stores:permissionCanViewLogVolume'),
+    description: t('in-stores:permissionCanViewLogVolumeDescription'),
+    category: t('in-stores:permissionCanViewLogVolumeCategory'),
     isOwnerPermission: true
   },
   [Capability.CAN_VIEW_TRACE_DETAILS]: {
     keyForGroupApi: Capability.CAN_VIEW_TRACE_DETAILS,
     keyForApiTokenApi: '', // indicates that this is not a permission for a token
     label: t('in-stores:permissionCanViewTraceDetailsLabel'),
-    description: t('in-stores:permissionCanViewTraceDetailsDescription'),
     category: t('in-stores:permissionCanViewTraceDetailsCategory'),
     isOwnerPermission: false
   },
@@ -572,7 +598,6 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForGroupApi: Capability.CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION,
     keyForApiTokenApi: 'canViewAccountAndBillingInformation',
     label: t('in-stores:permissionCanViewAccountAndBillingInformationLabel'),
-    description: t('in-stores:permissionCanViewAccountAndBillingInformationDescription'),
     category: t('in-stores:permissionCanViewAccountAndBillingInformationCategory')
   },
   /* Automation */
@@ -580,29 +605,25 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForGroupApi: Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
     keyForApiTokenApi: 'canConfigureAutomationActions',
     label: t('in-stores:permissionCanConfigureAutomationActionsLabel'),
-    description: t('in-stores:permissionCanConfigureAutomationActionsDescription'),
     category: t('in-stores:permissionCanConfigureAutomationActionsCategory')
   },
   [Capability.CAN_RUN_AUTOMATION_ACTIONS]: {
     keyForGroupApi: Capability.CAN_RUN_AUTOMATION_ACTIONS,
     keyForApiTokenApi: 'canRunAutomationActions',
     label: t('in-stores:permissionCanRunAutomationActionsLabel'),
-    description: t('in-stores:permissionCanRunAutomationActionsDescription'),
     category: t('in-stores:permissionCanRunAutomationActionsCategory')
-  },
-  [Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES]: {
-    keyForGroupApi: Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES,
-    keyForApiTokenApi: 'canViewAutomationActionInstances',
-    label: t('in-stores:permissionCanViewActionHistory'),
-    description: t('in-stores:permissionCanViewActionHistoryDescription'),
-    category: t('in-stores:permissionCanViewActionHistoryCategory')
   },
   [Capability.CAN_CONFIGURE_AUTOMATION_POLICIES]: {
     keyForGroupApi: Capability.CAN_CONFIGURE_AUTOMATION_POLICIES,
     keyForApiTokenApi: 'canConfigureAutomationPolicies',
-    label: t('in-stores:permissionCanConfigureAutomationPolicies'),
-    description: t('in-stores:permissionCanConfigureAutomationPoliciesDescription'),
+    label: t('in-stores:permissionCanConfigureAutomationPoliciesLabel'),
     category: t('in-stores:permissionCanConfigureAutomationPoliciesCategory')
+  },
+  [Capability.CAN_DELETE_AUTOMATION_ACTION_HISTORY]: {
+    keyForGroupApi: Capability.CAN_DELETE_AUTOMATION_ACTION_HISTORY,
+    keyForApiTokenApi: 'canDeleteAutomationActionHistory',
+    label: t('in-stores:permissionCanDeleteAutomationActionHistoryLabel'),
+    category: t('in-stores:permissionCanDeleteAutomationActionHistoryCategory')
   },
   /* Synthetic */
   [Capability.CAN_CONFIGURE_SYNTHETIC_TESTS]: {
@@ -646,7 +667,6 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForGroupApi: Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
     keyForApiTokenApi: 'canUseSyntheticCredentials',
     label: t('in-stores:permissionCanUseSyntheticCredentialsLabel'),
-    description: t('in-stores:permissionCanUseSyntheticCredentialsDescription'),
     category: t('in-stores:permissionSyntheticMonitoringCategory')
   },
   [Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS]: {
@@ -703,8 +723,8 @@ export function getProductPermissions(): Array<ProductPermission> {
     const automationCapabilities: Set<CapabilityType> = new Set([
       Capability.CAN_CONFIGURE_AUTOMATION_ACTIONS,
       Capability.CAN_RUN_AUTOMATION_ACTIONS,
-      Capability.CAN_VIEW_AUTOMATION_ACTION_INSTANCES,
-      Capability.CAN_CONFIGURE_AUTOMATION_POLICIES
+      Capability.CAN_CONFIGURE_AUTOMATION_POLICIES,
+      Capability.CAN_DELETE_AUTOMATION_ACTION_HISTORY
     ]);
 
     permissions = permissions.filter(({ keyForGroupApi }) => {
@@ -724,6 +744,18 @@ export function getProductPermissions(): Array<ProductPermission> {
     });
   }
 
+  if (!logVolumePageEnabled) {
+    permissions = permissions.filter(({ keyForGroupApi }) => {
+      return keyForGroupApi !== Capability.CAN_VIEW_LOG_VOLUME;
+    });
+  }
+
+  if (!logRetentionPageEnabled) {
+    permissions = permissions.filter(({ keyForGroupApi }) => {
+      return keyForGroupApi !== Capability.CAN_CONFIGURE_LOG_RETENTION_PERIOD;
+    });
+  }
+
   if (!manuallyCloseEventEnabled) {
     permissions = permissions.filter(({ keyForGroupApi }) => {
       return keyForGroupApi !== Capability.CAN_MANUALLY_CLOSE_ISSUE;
@@ -735,7 +767,7 @@ export function getProductPermissions(): Array<ProductPermission> {
 export const getInfrastructurePermissions = (): {
   readonly key: string;
   readonly label: string;
-  readonly description: string;
+  readonly description?: string;
 }[] => [
   {
     key: InfrastructureCapability.ACCESS_INFRASTRUCTURE_ANALYZE,
@@ -751,7 +783,15 @@ export const getInfrastructurePermissions = (): {
     key: InfrastructureCapability.CAN_CREATE_THREAD_DUMP,
     label: t('in-stores:permissionCanCreateThreadDumpLabel'),
     description: t('in-stores:permissionCanCreateThreadDumpDescription')
-  }
+  },
+  ...(infraSmartAlertsEnabled
+    ? [
+        {
+          key: Capability.CAN_CONFIGURE_GLOBAL_INFRA_SMART_ALERTS,
+          label: t('in-stores:permissionCanConfigureGlobalInfraSmartAlertsLabel')
+        }
+      ]
+    : [])
 ];
 
 export const productAreaPermissions = getProductAreaPermissions();

@@ -6,7 +6,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { SvgIcon, Stack, Typography, Spacer } from '@instana/components';
+import { SvgIcon, Stack, Typography, Spacer, SearchInput } from '@instana/components';
 
 import { score, filter } from 'in-plg/pages/onboarding/content/ContentUtils';
 import { getEntriesForFreeTrial } from 'in-plg/pages/onboarding/content';
@@ -19,7 +19,6 @@ import createTracker from 'in-waiting-for-deployment/tracker';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import { pageNames } from 'in-services/tracking/pageNames';
 import CardGrid from 'in-plg/components/Card/CardGrid';
-import SearchInput from 'in-components/SearchInput';
 import { t } from 'in-i18n';
 
 import locals from './AgentCatalog.mless';
@@ -77,6 +76,7 @@ export default function AgentCatalog(props) {
               }
             }}
             hasError={false}
+            placeholder={t('in-components:searchInput.placeholderSearch')}
           />
           <Spacer vertical="xxsmall" />
           <Typography variant="heading-200">{`${t('in-plg:agentDetails.common.agentDeployment')} (${

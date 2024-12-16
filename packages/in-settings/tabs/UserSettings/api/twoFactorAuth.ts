@@ -18,7 +18,11 @@ export interface TwoFactorCredentials {
   readonly scratchCodes: string[];
   readonly verified: boolean;
 }
-export const getTwoFactorCredentials = memoize(getTwoFactorCredentialsObservableInternal, () => '', 60000);
+export const getTwoFactorCredentials = memoize(
+  getTwoFactorCredentialsObservableInternal,
+  () => 'TwoFactorCredentials',
+  60000
+);
 function getTwoFactorCredentialsObservableInternal() {
   return refreshSignal.flatMap(() =>
     createObservable(

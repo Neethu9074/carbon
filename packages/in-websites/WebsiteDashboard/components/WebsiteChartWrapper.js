@@ -67,8 +67,9 @@ function getAdditionalChartActions({ metricsConfiguration, viewInAnalytics, tagC
     additionalContextMenuButtons: [
       getButton({
         getHref$(timeConfig, { renderedMetrics }) {
+          const metricsArray = Array.isArray(renderedMetrics) ? renderedMetrics : [];
           const beaconType =
-            determineBeaconTypeBasedOnRenderedMetrics(renderedMetrics, metricsConfiguration) || defaultBeaconType;
+            determineBeaconTypeBasedOnRenderedMetrics(metricsArray, metricsConfiguration) || defaultBeaconType;
           if (!beaconType) {
             return null;
           }
@@ -124,7 +125,7 @@ function determineDefaultBeaconType(metricsConfiguration) {
 function getMetrics(renderedMetrics, beaconType, metricsConfiguration) {
   return (
     renderedMetrics
-      .map(chartMetricName => {
+      ?.map(chartMetricName => {
         const metricDefinition = metricsConfiguration.metrics[chartMetricName];
         if (beaconType !== metricDefinition?.beaconType || metricDefinition.omitMetricInAnalytics) {
           return;

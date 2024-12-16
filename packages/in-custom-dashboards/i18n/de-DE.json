@@ -17,6 +17,7 @@
         "copied": "Widget kopiert, verwenden Sie STRG-V oder CMD-V zum Einfügen in ein beliebiges angepasstes Dashboard",
         "duplicate": "Duplizieren",
         "delete": "Löschen",
+        "exportPDF": "PDF herunterladen",
         "customDashboardWidgetTitle": "Angepasstes Dashboard-Widget: {{title}}"
       }
     },
@@ -69,7 +70,11 @@
       "renameDashboard": "Dashboard umbenennen",
       "dashboardName": "Dashboardname",
       "rename": "Umbenennen",
-      "failSaveDashboard": "Fehler beim Speichern des Dashboards."
+      "failSaveDashboard": "Fehler beim Speichern des Dashboards.",
+      "generatingPDFTitle": "Pdf generieren",
+      "generatingPDFContent": "Bitte warten Sie, während die PDF-Datei erstellt wird.",
+      "generatedPDFTitle": "PDF Generiert",
+      "generatedPDFContent": "Der PDF-Download wird in Kürze beginnen."
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "Dashboard nicht gefunden",
@@ -93,6 +98,32 @@
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "Fehler beim Analysieren von Eingaben als JSON.",
       "jsonRootMustBeAnObject": "JSON-Root muss ein Objekt sein."
+    },
+    "downloadPdfDialog": {
+      "downloadPdf": "PDF-Datei herunterladen",
+      "settings": "Einstellungen",
+      "pdfOrientation": "Ausrichtung",
+      "portrait": "Hochformat",
+      "landscape": "Querformat",
+      "pdfLayout": "Layout",
+      "widgetsDisplay": "Anzeige",
+      "singlePage": "Einzelseite",
+      "singlePageInfo": "Platzieren Sie das gesamte Dashboard auf einer Seite, wobei der Inhalt an die Größe angepasst wird.",
+      "multiPages": "Mehrere Seiten",
+      "multiPagesInfo": "Verteilen Sie das Dashboard auf mehrere Seiten und behalten Sie dabei das ursprüngliche Layout bei. Einige Widgets können abgeschnitten sein.",
+      "stackWidgetsTitle": "Widgets stapeln",
+      "stackWidgetsInfo": "Anzeige von Widgets in einem vertikalen Stapel über mehrere Seiten hinweg.",
+      "loadingWidget": "Laden des Widgets {{widgetIndex}} von {{totalNodes}}",
+      "generatePreview": "Vorschau generieren",
+      "generatingPreview": "Pdf-Vorschau generieren"
+    },
+    "filterContext": {
+      "topLevelFilterPartiallyApplied": "Einige der aktuellen Dashboard-Filter wurden angewendet.",
+      "topLevelFilterSelectsEverything": "Die aktuellen Dashboard-Filter gelten nicht für dieses Widget.",
+      "topLevelFilterSelectsNothing": "Die aktuellen Dashboard-Filter gelten nicht für dieses Widget.",
+      "topLevelFilterNotSupported": "Die aktuellen Dashboard-Filter wurden nicht auf dieses Widget angewendet, da das Widget keine Filterung unterstützt.",
+      "topLevelFilterAppliedToSomeDatasets": "Die aktuellen Dashboard-Filter wurden nicht vollständig auf die folgenden Datensätze angewendet: {{datasets}}",
+      "unnamedDataset": "Unbenannter Datensatz"
     }
   },
   "dashboardSwitcher": {
@@ -130,6 +161,17 @@
         "unexpectedLowOrHighNumberOfCalls": "Unerwartet hohe oder niedrige Anzahl an Aufrufen"
       }
     },
+    "srcBizOps": {
+      "formComponent": {
+        "pleaseSelect": "Bitte auswählen",
+        "pleaseSelectMetric": "Wählen Sie einen Messwert aus",
+        "aggregation": "Aggregation",
+        "metric": "Metrik"
+      },
+      "index": {
+        "bizOps": "Geschäftsprozesse (Aktivitäten)"
+      }
+    },
     "srcApp": {
       "formComponent": {
         "needToTurnOffPP": "Um die Gruppierung zu verwenden, müssen Sie zuerst die Hervorhebung potenzieller Probleme inaktivieren.",
@@ -163,6 +205,7 @@
       "metricsFormComponent": {
         "metric": "Messwert",
         "selectMetric": "Messwert auswählen",
+        "unit": "Einheit",
         "aggregation": "Aggregation",
         "crossSeriesAggregation": "SUM für die serienübergreifende Aggregation verwenden",
         "crossSeriesAggregationHelp": "Normalerweise ist die serienübergreifende Aggregation mit der zeitübergreifenden Aggregation identisch (die Methode, die zum Kombinieren von Datenpunkten in einem einzelnen Bucket verwendet wird). Wenn diese Umschaltfläche aktiviert ist, werden die Buckets über die Datenserie hinweg summiert, anstatt die angegebene Aggregation zu verwenden.",
@@ -293,6 +336,15 @@
         "increaseColor": "Mehr Farbe",
         "decreaseColor": "Weniger Farbe",
         "timeShift": "Zeitverschiebung"
+      },
+      "thresholdForm": {
+        "addThresholdColorization": "Schwellenwertbasierte Farbgebung hinzufügen",
+        "threshold": "Schwellenwert",
+        "critical": "Kritisch, wenn",
+        "warning": "Warnung, wenn",
+        "criticalValidator": "Der kritische Schwellenwert muss größer als der Warnungsschwellenwert für die Operatoren > und >= sein.",
+        "warningValidator": "Warnungsschwellenwert muss größer als kritischer Schwellenwert für Operatoren < und < = sein.",
+        "bytes": "Byte"
       },
       "bigNumber": "Große Zahl"
     },
@@ -425,6 +477,25 @@
       }
     },
     "slo": {
+      "general": {
+        "demoWidgetTitle": "Widgettitel",
+        "sloNotFound": "Slo-Konfiguration nicht gefunden"
+      },
+      "v2Form": {
+        "headline": "Wählen Sie ein Service-Level-Ziel",
+        "subheading": "Wählen Sie eine bestehende SLO aus oder klicken Sie auf \"Neue SLO hinzufügen\", um eine neue zu erstellen",
+        "addSloButtonLabel": "Neue SLO hinzufügen",
+        "chartTypeSelectionLabel": "Diagrammtyp",
+        "chartTypeOption": "",
+        "chartTypeOption_INDICATOR": "Indikator-Diagramm",
+        "chartTypeOption_ERROR_BUDGET": "Fehlerbudgetkarte",
+        "validators": {
+          "notBlankSloValidator": "Bitte wählen Sie eine SLO-Konfiguration aus der Liste."
+        }
+      },
+      "v2WidgetHeader": {
+        "indicatorType": "Art des Indikators:"
+      },
       "demo": {
         "title": "SLO-Titel",
         "sliName": "Beispiel-Sli",
@@ -465,8 +536,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "Endpunkt",
-        "allEndpoints": "Alle Endpunkte",
-        "loading": "<loading>"
+        "allEndpoints": "Alle Endpunkte"
       },
       "goodBadEventsForm": {
         "goodEvents": "Fehlerfreie Ereignisse",
@@ -503,7 +573,6 @@
       },
       "servicesSelectBox": {
         "service": "Service",
-        "loading": "<loading>",
         "allServices": "Alle Services"
       },
       "sliFormPresenter": {
@@ -608,6 +677,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "Es muss mindestens ein Filterausdruck konfiguriert werden.",
       "timeBased": "Zeitbasiert",
       "eventBased": "Ereignisbasiert",
+      "sloLegacy": "SLO-Erbe",
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "Anwendung",
@@ -709,7 +779,8 @@
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "Schwellenwertkonfiguration",
-        "thresholdLabel": "Schwellenwert"
+        "thresholdLabel": "Schwellenwert",
+        "ms": "Millisekunden"
       },
       "entityInfo": {
         "tooltip": "Unbekannter Apdex",
@@ -823,7 +894,9 @@
           },
           "formatter": "Formatierung",
           "searchPlaceholder": "Suchen",
-          "countGroup": "Gruppenanzahl anzeigen"
+          "countGroup": "Gruppenanzahl anzeigen",
+          "showGroupsWithMissingTags": "Gruppen mit fehlenden Tags anzeigen",
+          "filterEmptyValues": "Leere Werte filtern"
         }
       },
       "dataSource": {
@@ -854,5 +927,8 @@
     "additionalFields": "Dieses Dashboard ist nur für Sie sichtbar. Sie können nach der Erstellung auswählen, ob sie es mit Kollegen teilen",
     "create": "Erstellen",
     "failedToCreateDashboard": "Fehler beim Erstellen des Dashboards."
+  },
+  "threshold": {
+    "label": "Schwellenwert"
   }
 }

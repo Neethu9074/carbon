@@ -25,13 +25,15 @@ export default function SloErrorBudgetColumnContent({ item, showSparkChart }: Sl
     <Stack direction="horizontal" align="center">
       {showSparkChart && (
         <SparkChart
-          timeConfig={metricTimeConfig}
           metrics={burnDown}
           rollup={metricGranularity}
+          showNullValuesChartOnEmptyMetrics
+          timeConfig={metricTimeConfig}
           // @ts-expect-error our number formatters are quite badly typed :/
           tooltipFormatter={configuration.indicator.type === 'timeBased' ? minutes.fixedCompact : number.compact}
         />
       )}
+
       <ErrorBudgetInfo configuration={configuration} remainingErrorBudget={remainingBudget} />
     </Stack>
   );

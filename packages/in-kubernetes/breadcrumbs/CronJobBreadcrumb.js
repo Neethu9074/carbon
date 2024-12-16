@@ -31,7 +31,7 @@ function CronJobBreadcrumb(props) {
       render={healthInfo => (
         <Breadcrumb
           label={t('in-kubernetes:breadcrumbs.cronJob')}
-          icon="lib_kubernetes_workload"
+          icon="lib_infra_kubernetesCronJob"
           snapshotId={cronJobId}
           href={href}
           healthInfo={healthInfo}

@@ -14,10 +14,10 @@ import {
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import getApplicationLiveView from 'in-applications/subscriptions/getApplicationLiveView';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import SimpleCreateStep1 from 'in-applications/creation/simple/SimpleCreateStep1';
 import SimpleCreateStep2 from 'in-applications/creation/simple/SimpleCreateStep2';
 import SimpleCreateStep3 from 'in-applications/creation/simple/SimpleCreateStep3';
-import { applicationCreationStepSwitch } from 'in-applications/creation/tracker';
 import { blueprintConfig } from 'in-applications/creation/data/blueprintConfig';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { successObservable } from 'in-services/util/result';
@@ -54,6 +54,7 @@ export default function SimpleModeContainer({
   userRestrictedApplicationsResult
 }) {
   const [selectedBlueprint, setSelectedBlueprint] = useState(blueprintConfig[0]);
+  const { trackApplicationCreationStepSwitched } = useApplicationTracker();
 
   const downstreamScope = form.get('scope').value;
   const tagFilterExpression = form.get('tagFilterExpression').value;
@@ -108,7 +109,7 @@ export default function SimpleModeContainer({
         stepConfigs={stepConfigs}
         onCreate={onCreate}
         isSaving={isSaving}
-        onStepChanged={(oldStep, nextStep) => applicationCreationStepSwitch({ oldStep, nextStep })}
+        onStepChanged={(oldStep, nextStep) => trackApplicationCreationStepSwitched({ oldStep, nextStep })}
         renderStep={step => {
           switch (step) {
             case 0:

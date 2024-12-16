@@ -16,8 +16,10 @@
 const Adapter = require('@wojtekmaj/enzyme-adapter-react-17');
 const Enzyme = require('enzyme');
 const chai = require('chai');
+require('babel-plugin-require-context-hook/register')();
 
 require('@testing-library/jest-dom');
+require('jest-canvas-mock');
 
 // eslint-disable-next-line no-restricted-imports
 const i18n = require('i18next');
@@ -76,7 +78,7 @@ global.window.instana.user = {
         canConfigureMobileAppSmartAlerts: true,
         canRunAutomationActions: true,
         canConfigureAutomationPolicies: true,
-        canViewAutomationActionInstances: true,
+        canDeleteAutomationActionHistory: true,
         canConfigureApiTokens: true,
         canConfigurePersonalApiTokens: true,
         canConfigureAgentRunMode: true,
@@ -85,6 +87,7 @@ global.window.instana.user = {
         canConfigureAgents: true,
         canConfigureAuthenticationMethods: true,
         canConfigureLogManagement: true,
+        canConfigureDatabaseManagement: true,
         canViewAccountAndBillingInformation: true
       },
       tenantKey: 'instana',
@@ -113,6 +116,20 @@ global.window.WebSocket = function () {
   this.send = function () {};
   this.close = function () {};
 };
+
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: jest.fn().mockImplementation(query => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(), // deprecated
+    removeListener: jest.fn(), // deprecated
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn()
+  }))
+});
 
 // react unit tests with enzyme
 Enzyme.configure({ adapter: new Adapter() });

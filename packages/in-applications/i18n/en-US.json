@@ -6,6 +6,7 @@
   "labelAnalytic": "Analytics",
   "labelCall": "Call",
   "labelTrace": "Trace",
+  "labelStatus": "Status",
   "linkDownload": "Download",
   "linkDownloadCalls": "Download calls",
   "linkDownloadRawTrace": "Download raw trace",
@@ -122,6 +123,7 @@
   "messageSuccessfullySaved": "Successfully saved.",
   "messageErrorOccurred": "An error occurred, please try again.",
   "messageWaitForChanges": "It may take some time for your changes to apply.",
+  "linkViewAllApplications": "View all applications",
   "linkViewAllServices": "View all services",
   "linkViewAllEndpoints": "View all endpoints",
   "lineViewInAnalyze": "View in Analyze",
@@ -152,6 +154,33 @@
   "applications": {
     "noData": "Application perspectives provide a means to model environments, sets of services, tenants, or just about anything."
   },
+  "subtraces": {
+    "labelSubtraces": "Subtraces",
+    "labelSubtrace": "Subtrace",
+    "newSubtrace": "Add subtrace",
+    "subtracesList": {
+      "name": "Name",
+      "count": "Count",
+      "meanDuration": "Mean duration",
+      "meanSubcallCount": "Mean nr. of subcalls",
+      "meanErrorRate": "Mean error rate"
+    },
+    "configuration": {
+      "success": {
+        "title": "Subtrace {{action}} successfully",
+        "message": "Subtrace \"{{subtraceName}}\" has been {{action}}."
+      },
+      "failure": {
+        "title": "Failed to {{action}} Subtrace",
+        "message": "There was a problem while trying to {{action}} this Subtrace: \"{{subtraceName}}\""
+      },
+      "title": "Update subtrace",
+      "subtraceName": "Subtrace name",
+      "subtraceFilter": "Subtrace definition",
+      "evaluationGranularity": "Evaluation granularity",
+      "evaluationGranularityValidationError": "Please select a value for evaluation granularity"
+    }
+  },
   "alert": {
     "tooltipMoreFilter": "+{{moreFilterCount}} more filter",
     "tooltipMoreFilter_plural": "+{{moreFilterCount}} more filters",
@@ -162,17 +191,17 @@
   "inboundOutboundCalls": {
     "config": {
       "inbound": {
-        "text": "Inbound Calls"
+        "text": "Inbound calls"
       },
       "all": {
-        "text": "All Calls"
+        "text": "All calls"
       }
     },
     "constants": {
       "inboundDashboard": "The dashboard is displaying information based only on the calls that are performed by the consumers of this application.",
-      "inboundOverrideDefault": "The default scope for this application is Inbound Calls only. You can change this in Configuration.",
+      "inboundOverrideDefault": "The default scope for this application is Inbound calls only. You can change this in Configuration.",
       "allDashboard": "The dashboard is displaying information based on all calls that are performed within this application, by both consumers as well as internally.",
-      "allOverrideDefault": "The default scope for this application is All Calls. You can change this in Configuration."
+      "allOverrideDefault": "The default scope for this application is All calls. You can change this in Configuration."
     }
   },
   "analyze": {
@@ -209,6 +238,8 @@
     "closeTraceDetail": "Close trace detail",
     "invalidQueryConfig": "The query configuration is invalid. Please address the validation failures before continuing.",
     "invalidTraceIdTagFilter": "The trace ID \"{{traceId}}\" is invalid. Please specify a valid trace ID which is either 16 or 32 characters long.",
+    "disabledApiQueryLatencyDistributionChart": "Latency distribution is not supported by the API query. Please, select a different chart first.",
+    "disabledApiQueryNoChart": "API query cannot be used without chart selection. Please, select a chart first.",
     "errorRateLabel": "Erroneous Calls (rate)",
     "errorRateCategory": "Erroneous Calls",
     "errorMetricLabel": "Erroneous Calls Rate",
@@ -244,7 +275,8 @@
     "dataSource_calls_plural": "{{formattedCount}} Calls",
     "dataSource_traces": "{{formattedCount}} Trace",
     "dataSource_traces_plural": "{{formattedCount}} Traces",
-    "analyzeCallsOfThisTrace": "Analyze Calls of this Trace"
+    "analyzeCallsOfThisTrace": "Analyze Calls of this Trace",
+    "noAvailableCustomMetrics": "No available custom metrics"
   },
   "creation": {
     "newAP": "New Application Perspective",
@@ -456,7 +488,9 @@
       "logMessagesDescription": "There were no log messages retrieved for the selected time range.",
       "endpointsTitle": "No endpoints available",
       "endpointsDescription": "There were no endpoints retrieved for the selected time range."
-    }
+    },
+    "pageCannotBeFound": "Page cannot be found",
+    "idNotPresent": "{{id}} is not present in the URL."
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "The service is not in the current application.",
@@ -627,6 +661,8 @@
     "calls_latency": "Latency",
     "calls_erroneousCalls": "Erroneous Calls",
     "calls_errors": "Erroneous Calls Rate",
+    "calls_call_metric": "Custom call metrics",
+    "calls_call_meta_metrics": "Meta metrics",
     "traces_calls": "Traces",
     "traces_traces": "Traces",
     "traces_latency": "Latency",
@@ -678,5 +714,21 @@
     "alternativeServicesProblem": "<bold>No</bold>, if the name of the current service comes from the HTTP \"Host\" header (service mapping rule whose id is call.http.host) and the name of the alternative service does not (because its name comes from a rule which is based on infrastructure tags), or vice versa. These are duplicate services.",
     "alternativeServicesPossibleProblem": "<bold>Maybe</bold>, if the current service and the alternative service names do not come from the HTTP \"Host\" header, then they are either services sitting behind a proxy (good) or they are duplicate services (bad): some of the services are fully linked to infra, while others are partially linked to infra."
   },
-  "labelSyntheticMonitoring": "Synthetic Monitoring"
+  "infoBanner": {
+    "title": "Resource actions, powered by Turbonomic",
+    "tryLabel": "Try before you buy",
+    "tryText": "Start a free trial to see how resource actions can help your applications.",
+    "tryButtonLabel": "Start a trial",
+    "learnLabel": "Learn more",
+    "learnText": "Check out some blogs and additional media to stay updated about this feature.",
+    "learnButtonLabel": "Visit us online",
+    "connectLabel": "Connect with sales",
+    "connectText": "Reach out to our sales team and let them know you are interested.",
+    "connectButtonLabel": "Buy now",
+    "helpLabel": "Help us grow",
+    "helpText": "Share your thoughts with us so we can continue to provide the features you want the most.",
+    "helpButtonLabel": "Give feedback"
+  },
+  "labelSyntheticMonitoring": "Synthetic Monitoring",
+  "labelResourceOptimizations": "Optimizations"
 }

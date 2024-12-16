@@ -19,27 +19,28 @@
       "customMetricsTitleValue": "Value",
       "customMetricsTitlePinned": "{{pinnedPrefix}} Pinned Metrics ({{pinnedLength}})",
       "customMetricsTitleCustom": "{{customPrefix}} Custom Metrics ({{customLength}})",
-      "customMetricsLableCount": "Count",
-      "customMetricsLableValue": "Value",
-      "customMetricsLableMean": "Mean",
-      "customMetricsLableP50": "50th",
-      "customMetricsLableP99": "99th",
-      "customMetricsLableRate": "Rate"
+      "customMetricsLabelCount": "Count",
+      "customMetricsLabelDelta": "Delta",
+      "customMetricsLabelValue": "Value",
+      "customMetricsLabelMean": "Mean",
+      "customMetricsLabelP50": "50th",
+      "customMetricsLabelP99": "99th",
+      "customMetricsLabelRate": "Rate"
     },
     "table": {
       "tableNoData": "No data.",
       "tableExpandAll": "Expand All",
       "tableCollapseAll": "Collapse All"
     }
-   },
+  },
 
   "sidebar": {
-      "classpath": {
-        "classpathHide": "Hide Classpath",
-        "classpathShow": "Show Classpath"
-      },
-      "processStartedTitle": "Started At",
-      "tags": "Tags ({{size}})"
+    "classpath": {
+      "classpathHide": "Hide Classpath",
+      "classpathShow": "Show Classpath"
+    },
+    "processStartedTitle": "Started At",
+    "tags": "Tags ({{size}})"
   },
 
   "traceDetails": {
@@ -74,5 +75,4 @@
       "error": "Error"
     }
   }
-
 }

@@ -6,8 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Link, SvgIcon } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Button, IconButton } from '@instana/components';
 
 import {
   beaconIdUrlParameter,
@@ -177,14 +176,13 @@ function renderButtonLine({ sessionLabel, detailId, sessionId, beaconTimestamp }
 
 function renderTimeSelection({ getHrefToUngroupedView }) {
   return (
-    <Link href={getHrefToUngroupedView()}>
-      <Tooltip content={t('in-mobile-apps:sessionView.closeSessionDetailsTooltip')}>
-        <SvgIcon
-          className={locals.closeIcon}
-          aria-label={t('in-mobile-apps:sessionView.closeSessionDetailsArialabel')}
-          type="lib_openclose_cancel"
-        />
-      </Tooltip>
-    </Link>
+    <Tooltip content={t('in-mobile-apps:sessionView.closeSessionDetailsTooltip')}>
+      <IconButton
+        href={getHrefToUngroupedView()}
+        kind="action"
+        aria-label={t('in-mobile-apps:sessionView.closeSessionDetailsArialabel')}
+        type="lib_openclose_cancel"
+      />
+    </Tooltip>
   );
 }

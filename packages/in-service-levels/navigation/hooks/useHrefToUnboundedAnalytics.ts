@@ -35,9 +35,9 @@ import { createTagFilterExpression } from 'in-components/QueryBuilder/transforma
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
 import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { analyze as applicationAnalyzePath } from 'in-analyze/navigation/constants';
 import { ServiceLevelErrors, defaultBlueprint } from 'in-service-levels/constants';
 import { toSimplifiedFormModelElements } from 'in-service-levels/utils/tagFilter';
-import { analyze as applicationAnalyzePath } from 'in-analyze/navigation/paths';
 import { hiddenCallsMatrixParameter } from 'in-applications/navigation/matrix';
 import { isAggregatedServiceLevelIndicator } from 'in-service-levels/types';
 import { Location, ParameterDefinition } from 'in-stores/navigation/types';
@@ -187,13 +187,15 @@ type MetricAggregationTuple = [string, AggregationType];
 const applicationChartMetrics: Record<BlueprintType, MetricAggregationTuple> = Object.freeze({
   latency: ['latency', 'DISTRIBUTION'],
   availability: ['calls', 'SUM'],
-  custom: ['calls', 'SUM']
+  custom: ['calls', 'SUM'],
+  traffic: ['calls', 'SUM']
 });
 
 const websiteChartMetrics: Record<BlueprintType, MetricAggregationTuple> = Object.freeze({
   latency: ['beaconDuration', 'MEAN'],
   availability: ['beaconErrorRate', 'MEAN'],
-  custom: ['beaconErrorRate', 'MEAN']
+  custom: ['beaconErrorRate', 'MEAN'],
+  traffic: ['beaconCount', 'SUM']
 });
 
 interface UpdateLocationForEntityProps {

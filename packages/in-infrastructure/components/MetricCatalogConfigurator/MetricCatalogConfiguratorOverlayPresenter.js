@@ -6,17 +6,19 @@
 
 import React from 'react';
 
-import { Select } from '@instana/components';
+import { Select, Toggle } from '@instana/components';
 
 import MetricSelectorOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import { getUniqueMetricsLabels } from 'in-custom-dashboards/widgets/Chart/util';
+import { infraExploreFilterEmptyValueEnabled } from 'in-services/featureFlags';
 import DraggableItemSelector from 'in-components/DraggableItemSelector';
 import { aggregationLabels } from 'in-stores/metric/beeInstant';
 import { mapData } from 'in-services/util/result';
 import { noop } from 'in-services/util/function';
 import { Col } from 'in-components/layout/Grid';
 import Label from 'in-components/form/Label';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './MetricCatalogConfiguratorOverlayPresenter.mless';
@@ -88,7 +90,6 @@ export default function MetricCatalogConfiguratorOverlayPresenter({
       )}
       slideInContentTitle={t('in-components:metricConfigurator.titleAddAMetric')}
       MetricCatalogConfiguratorHint={MetricCatalogConfiguratorHint}
-      className={locals.overlay}
     />
   );
 }
@@ -107,20 +108,18 @@ function Content({
 }) {
   return (
     <>
-      <Col xs={7}>
+      <Col xs={5}>
         {metric.get('metric').map(field => (
-          <Label
-            htmlFor={`metric-configuration-metric-${i}`}
-            hasError={!field.valid && field.touched}
-            className={locals.label}
-          >
-            <MetricLabel label={{ data: uniqueMetricsLabels[i] }} />
-          </Label>
+          <div className={locals.label}>
+            <Label htmlFor={`metric-configuration-metric-${i}`} hasError={!field.valid && field.touched}>
+              <MetricLabel label={{ data: uniqueMetricsLabels[i] }} />
+            </Label>
+          </div>
         ))}
       </Col>
 
-      {metric.get('aggregation').map(field => (
-        <Col xs={3}>
+      <Col xs={4}>
+        {metric.get('aggregation').map(field => (
           <Select
             id={`metric-configuration-aggregation-${i}`}
             value={field.value}
@@ -143,13 +142,30 @@ function Content({
               </option>
             ))}
           </Select>
-        </Col>
-      ))}
+        ))}
+      </Col>
+      {infraExploreFilterEmptyValueEnabled && (
+        <RequiredToggle
+          metric={metric}
+          onChange={required => onChange([i, 'required'], field => field.setValue(required).setTouched(true))}
+        />
+      )}
       {MetricCatalogConfiguratorHint && (
         <Col xs={1}>
           <MetricCatalogConfiguratorHint metricId={metric.get('metric').value} />
         </Col>
       )}
     </>
+  );
+}
+
+function RequiredToggle({ metric, onChange }) {
+  var required = metric.get('required').map(field => field.value);
+  return (
+    <Tooltip content={t('in-components:metricConfigurator.labelFilterEmptyValue')} delay={500}>
+      <span>
+        <Toggle checked={required} onToggle={onChange} />
+      </span>
+    </Tooltip>
   );
 }

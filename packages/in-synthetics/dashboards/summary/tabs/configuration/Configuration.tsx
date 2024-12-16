@@ -7,15 +7,17 @@
 import React, { useState } from 'react';
 import { isEmpty } from 'lodash';
 
-import { Card, LoadingSkeleton, Message, Stack, SvgIcon, Typography } from '@instana/components';
+import { Card, IconButton, LoadingSkeleton, Message, Stack, Typography } from '@instana/components';
 import { SyntheticTest } from '@instana/types';
 import { Trans, t } from '@instana/i18n-react';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import EditConfigurationDialogPresenter from 'in-synthetics/dashboards/summary/tabs/configuration/actions/EditConfigurationDialogPresenter';
 import { showDeleteErrorMessage, showDeleteSuccessMessage } from 'in-synthetics/createTests/utils/userFeedback';
 import CustomProperties from 'in-synthetics/dashboards/summary/tabs/configuration/sections/CustomProperties';
 import ConfigSection from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Configuration';
+import { clickSyntheticMonitoringConfigurationTabDeleteTracker } from 'in-synthetics/tracking/tracker';
+import Associations from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Associations';
 import Locations from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Locations';
 import TestType from 'in-synthetics/dashboards/summary/tabs/configuration/sections/TestType';
 import Schedule from 'in-synthetics/dashboards/summary/tabs/configuration/sections/Schedule';
@@ -23,7 +25,9 @@ import Identify from 'in-synthetics/dashboards/summary/tabs/configuration/sectio
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { syntheticsPath } from 'in-synthetics/navigation/paths';
 import { TestResponse } from 'in-synthetics/utils/constants';
 import Header from 'in-components/workspace/Header/Header';
@@ -47,7 +51,9 @@ interface ActionButtonProps {
 }
 
 const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
+  const { trackCta } = useSegmentTracking();
   const { goToPath } = useNavigation();
+  let testType = null;
 
   if (test.progress.loading) {
     return <LoadingSkeleton className={locals.skeleton} />;
@@ -66,7 +72,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
 
   const testLabel: string = test.data?.label;
 
-  function openEditConfigDialog(test: SyntheticTest) {
+  const openEditConfigDialog = (test: SyntheticTest) => {
     addActiveDialog(
       <EditConfigurationDialogPresenter
         test={test}
@@ -76,11 +82,11 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
         setReloadCount={setReloadCount}
       />
     );
-  }
+  };
 
-  function deleteTest(testId: string) {
+  const deleteTest = (testId: string) => {
     addActiveDialog(<DeleteActionDialog testId={testId} />);
-  }
+  };
 
   const DeleteActionDialog = ({ testId }: any) => {
     const [isDeleting, setIsDeleting] = useState(false);
@@ -153,6 +159,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
           </Button>
           <Button
             onClick={() => {
+              clickSyntheticMonitoringConfigurationTabDeleteTracker(trackCta);
               doDeleteAction(testId);
             }}
             disabled={validationInputValue !== syntheticValidation || isBlank(reasonInputValue)}
@@ -165,15 +172,46 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
     );
   };
 
+  const disableEditAction = (testType: string): boolean => {
+    const syntheticTestTypes: string[] = [
+      'HTTPAction',
+      'HTTPScript',
+      'BrowserScript',
+      'WebpageScript',
+      'WebpageAction',
+      'SSLCertificate'
+    ];
+
+    // Disable if test type is not in the list of supported test types.
+    if (syntheticTestTypes.indexOf(testType) !== -1) {
+      return false;
+    }
+
+    return true;
+  };
+
+  const getEditTooltipContent = (testType: string) => {
+    if (disableEditAction(testType)) {
+      return t('in-synthetics:dashboard.configuration.configurationUnsupported');
+    } else {
+      return t('in-synthetics:dashboard.configuration.configurationEditAction');
+    }
+  };
+
   const ActionButtons = ({ test }: ActionButtonProps) => {
+    const currentTestType: string = test?.configuration?.syntheticType;
     return (
-      <Stack gap="normal" direction="horizontal">
-        <Tooltip content={t('in-synthetics:dashboard.configuration.configurationEditAction')} delay={500}>
-          <SvgIcon color={'#00B3B3'} type={'lib_actions_edit'} onClick={() => openEditConfigDialog(test)} />
+      <Stack gap="xxsmall" direction="horizontal">
+        <Tooltip content={getEditTooltipContent(currentTestType)}>
+          <IconButton
+            type="lib_actions_edit"
+            kind="primary"
+            disabled={disableEditAction(currentTestType)}
+            onClick={() => openEditConfigDialog(test)}
+          />
         </Tooltip>
-        {/* <SvgIcon type={'lib_actions_copy'} /> */}
         <Tooltip content={t('in-synthetics:dashboard.configuration.configurationDeleteAction')} delay={500}>
-          <SvgIcon color={'#00B3B3'} type={'lib_actions_delete'} onClick={() => deleteTest(test.id || '')} />
+          <IconButton type="lib_actions_delete" kind="primary" onClick={() => deleteTest(test.id || '')} />
         </Tooltip>
       </Stack>
     );
@@ -186,10 +224,6 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
     return <ActionButtons test={test.data} />;
   };
 
-  if (test.progress.loading) {
-    return <LoadingSkeleton className={locals.skeleton} />;
-  }
-  let testType = null;
   switch (test.data?.configuration?.syntheticType) {
     case 'HTTPAction':
       testType = 'API Simple';
@@ -206,7 +240,11 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
     case 'WebpageScript':
       testType = 'Webpage Script';
       break;
+    case 'SSLCertificate':
+      testType = 'Certificate Check';
+      break;
   }
+
   return (
     <Card
       leftHeaderContent={
@@ -223,6 +261,7 @@ const Configuration = ({ test, setReloadCount }: ConfigurationProps) => {
       <Locations test={test.data} />
       <Schedule test={test.data} />
       <Identify test={test.data} />
+      {(syntheticRbacLimitedEnabled || syntheticRbacLimitedEnabled) && <Associations test={test.data} />}
       <CustomProperties test={test.data} />
     </Card>
   );

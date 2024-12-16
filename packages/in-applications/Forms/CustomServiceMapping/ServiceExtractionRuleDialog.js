@@ -6,22 +6,19 @@
 import { createField } from 'formalistic';
 import React from 'react';
 
+import { Pill, Select, Button, IconButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { SvgIcon } from '@instana/components';
-import { Select } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 import EditConfigDialog from 'in-applications/Forms/components/EditConfigDialog';
-import { customServiceMappingTagKeys, getTagType } from 'in-applications/tags';
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { close } from 'in-components/DialogPresenter/store';
 import FormGroup from 'in-components/form/FormGroup';
+import { getTagType } from 'in-applications/tags';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './ServiceExtractionRuleDialog.mless';
@@ -51,7 +48,14 @@ class BasicDialog extends React.Component {
   }
 
   render() {
-    const { serviceConfigIndex, onRemove, addMatchSpecification, removeMatchSpecification, updateForm } = this.props;
+    const {
+      serviceConfigIndex,
+      onRemove,
+      addMatchSpecification,
+      removeMatchSpecification,
+      updateForm,
+      serviceMappingTagCatalog
+    } = this.props;
     const { form } = this.state;
     const serviceConfiguration = form.get(serviceConfigIndex);
 
@@ -127,7 +131,7 @@ class BasicDialog extends React.Component {
                         autoComplete="off"
                         hasError={!field.valid && field.touched}
                       >
-                        {getCustomServiceMappingTagValuesAsOptions()}
+                        {getCustomServiceMappingTagValuesAsOptions(serviceMappingTagCatalog)}
                       </Select>
                       <TouchedMessages field={field} />
                     </FormGroup>
@@ -167,7 +171,8 @@ class BasicDialog extends React.Component {
 
                   {serviceConfiguration.get('matchSpecification').size > 1 && (
                     <Tooltip content={t('in-applications:forms.customService.tooltipRemoveCondition')}>
-                      <SvgIcon
+                      <IconButton
+                        kind="action"
                         className={locals.removeMatchRuleIcon}
                         type="lib_openclose_cancel"
                         onClick={() =>
@@ -255,7 +260,8 @@ class BasicDialog extends React.Component {
   };
 }
 
-function getCustomServiceMappingTagValuesAsOptions() {
+function getCustomServiceMappingTagValuesAsOptions(serviceMappingTagCatalog) {
+  const customServiceMappingTagKeys = serviceMappingTagCatalog.tags.map(t => t.name);
   return [{ value: '', label: t('in-applications:labelPleaseSelect') }]
     .concat(customServiceMappingTagKeys.sort().map(key => ({ label: key, value: key })))
     .map(tag => (

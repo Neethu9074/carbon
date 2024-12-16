@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
@@ -44,6 +44,7 @@ export default function AnalyzeMessagesButton({
   const fields = showErroneous ? [createMetricField('erroneousCalls', 'SUM')] : null;
   return (
     <Button
+      size="compact"
       className={className}
       kind="secondary"
       href={getLinkToApplicationAnalyze({

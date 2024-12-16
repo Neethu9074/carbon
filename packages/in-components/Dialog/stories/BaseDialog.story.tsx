@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { Typography } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Typography, Button } from '@instana/components';
 
 import BaseDialog from 'in-components/Dialog/BaseDialog';
 import { noop } from 'in-services/util/function';
@@ -29,7 +28,14 @@ export const KindPrimary = () => (
 function CustomButtons() {
   return (
     <>
-      <Button kind="primaryv2" target="_blank" href="" rel="noopener noreferrer" onClick={() => {}}>
+      <Button
+        kind="primaryv2"
+        target="_blank"
+        href=""
+        // @ts-expect-error Property 'rel' does not exist on type 'IntrinsicAttributes & PropsType & RefAttributes <any>'.
+        rel="noopener noreferrer"
+        onClick={() => {}}
+      >
         First Button
       </Button>
       <Button kind="secondary" target="_blank" onClick={() => {}}>

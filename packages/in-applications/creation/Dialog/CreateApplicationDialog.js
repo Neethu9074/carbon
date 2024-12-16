@@ -8,17 +8,13 @@ import React, { useState } from 'react';
 import { createLogger } from '@instana/logger';
 import { useObservable } from '@instana/hooks';
 
-import {
-  applicationCreationModeSwitch,
-  applicationCreationCloseDialogClick,
-  applicationCreationCreateClick
-} from 'in-applications/creation/tracker';
 import CreateApplicationDialogPresenter from 'in-applications/creation/Dialog/CreateApplicationDialogPresenter';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/dialog/advanced/AdvancedModeFooter';
 import { createApplicationPerspectiveForm } from 'in-applications/creation/form/createApplicationForm';
 import { isQueryValid } from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import AdvancedModeContainer from 'in-applications/creation/advanced/AdvancedModeContainer';
 import SimpleModeContainer from 'in-applications/creation/simple/SimpleModeContainer';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { addApplicationConfigWithAlerting } from 'in-api/applicationConfigs';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getUserRestrictedApplications } from 'in-api/users';
@@ -32,6 +28,11 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
   const [isSaving, setIsSaving] = useState(false);
   const [simpleMode, setSimpleMode] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
+  const {
+    trackApplicationCreationCloseDialogClicked,
+    trackApplicationCreationModeSwitched,
+    trackApplicationCreationCreateClicked
+  } = useApplicationTracker();
 
   const userRestrictedApplicationsResult = useObservable(getUserRestrictedApplications, []) ?? pendingResult;
 
@@ -50,13 +51,13 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
       setForm,
       isSaving,
       setIsSaving,
-      applicationCreationCreateClick,
+      trackApplicationCreationCreateClicked,
       onSaveSuccess,
       setErrorMessage
     );
 
   const withTrackClose = trackingConfig => {
-    applicationCreationCloseDialogClick(trackingConfig ? { step: trackingConfig } : { mode: 'Advanced' });
+    trackApplicationCreationCloseDialogClicked(trackingConfig ? { step: trackingConfig } : { mode: 'Advanced' });
     onClose();
   };
 
@@ -84,7 +85,7 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
       isSaving={isSaving}
       setSimpleMode={setSimpleMode}
       trackModeSwitch={(simpleMode, step) => {
-        applicationCreationModeSwitch(
+        trackApplicationCreationModeSwitched(
           simpleMode
             ? {
                 destinationMode: 'Advanced Mode',
@@ -104,15 +105,7 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
   );
 }
 
-function createApplication(
-  form,
-  setForm,
-  isSaving,
-  setIsSaving,
-  applicationCreationCreateClick,
-  onSuccess,
-  setErrorMessage
-) {
+function createApplication(form, setForm, isSaving, setIsSaving, track, onSuccess, setErrorMessage) {
   setIsSaving(true);
   setErrorMessage(null);
 
@@ -126,7 +119,7 @@ function createApplication(
 
   result$.once(
     result => {
-      applicationCreationCreateClick(entityToUpdate);
+      track(entityToUpdate);
       onSuccess(result);
     },
     error => {

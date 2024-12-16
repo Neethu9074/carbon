@@ -6,6 +6,7 @@
 
 import React from 'react';
 
+import { ApplicationBoundaryScope, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 //@ts-expect-error TS migration
@@ -14,8 +15,6 @@ import getApplicationActionInstancesForCluster from 'in-automation/subscriptions
 import ActionsLanePresenter from 'in-automation/components/MarkersLane/ActionsLanePresenter';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
-import { ApplicationBoundaryScope } from 'in-types';
-import { TimeConfig } from 'in-types';
 
 export default function ActionsLane({
   snapshotId,
@@ -45,8 +44,18 @@ export default function ActionsLane({
   // 4. snapshotId: Used for infra host dashboard.
 
   const appId = endpointId || serviceId || applicationId || snapshotId;
+
+  // Entity type is sent using the same logic as above for the order
+  // Note: The INFRASTRUCURE type will be sent for infra host dashboard as well as Kubernetes dashboard.
+  const actionInstancesEntityType =
+    (endpointId && 'ENDPOINT') ||
+    (serviceId && 'SERVICE') ||
+    (applicationId && 'APPLICATION') ||
+    (snapshotId && 'INFRASTRUCTURE');
+
   const getActionInstancesList =
-    useObservable(GetActionInstanceListData, [timeConfig, clusterSizeMillis, appId]) ?? pendingResult;
+    useObservable(GetActionInstanceListData, [timeConfig, clusterSizeMillis, appId, actionInstancesEntityType]) ??
+    pendingResult;
 
   if (
     (applicationId && !labels.applicationLabel) ||
@@ -70,12 +79,20 @@ export default function ActionsLane({
   );
 }
 
-type GetActionInstanceListTuple = [TimeConfig, number, string?];
+type GetActionInstanceListTuple = [TimeConfig, number, string?, string?];
 
-function GetActionInstanceListData([timeConfig, granularity, applicationId = '']: GetActionInstanceListTuple) {
-  return getApplicationActionInstancesForCluster({
+function GetActionInstanceListData([
+  timeConfig,
+  granularity,
+  applicationId = '',
+  actionInstancesEntityType
+]: GetActionInstanceListTuple) {
+  const result = getApplicationActionInstancesForCluster({
     timeConfig,
     targetSnapshotId: applicationId,
-    granularity
+    granularity,
+    entityType: actionInstancesEntityType
   }).startWith(pendingResult);
+
+  return result;
 }

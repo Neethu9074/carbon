@@ -41,7 +41,7 @@ export default function SloSummary({ data }: SloSummaryWrapperProps) {
 function SloSummaryContent({ data }: Required<SloSummaryProps>) {
   const { configuration } = data;
 
-  const { timeWindows } = useSloTimeWindowContext();
+  const { timeWindows, progress } = useSloTimeWindowContext();
   const hasMatchingTimeWindows = timeWindows.length > 0;
 
   const track = useSloTrackers();
@@ -57,7 +57,7 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
   }, [track, configuration]);
   return (
     <>
-      {!hasMatchingTimeWindows && (
+      {!progress.loading && !hasMatchingTimeWindows && (
         <Row>
           <Col xs={12}>
             <Message type="warning">{t('in-service-levels:general.noMatchingTimeWindows')}</Message>
@@ -85,13 +85,26 @@ function SloSummaryContent({ data }: Required<SloSummaryProps>) {
       </Row>
       <Row>
         <Col lg={4}>
-          <IndicatorChart indicator={configuration.indicator} entity={configuration.entity} />
+          <IndicatorChart
+            customHeight={250}
+            customChartSkeletonHeight={308}
+            entity={configuration.entity}
+            indicator={configuration.indicator}
+            timeWindow={configuration.timeWindow}
+            createdDate={configuration.createdDate}
+            title={t('in-service-levels:sloDashboard.components.indicatorChart.title')}
+          />
         </Col>
         <Col lg={4}>
-          <ErrorBudgetChart configuration={configuration} />
+          <ErrorBudgetChart
+            customHeight={250}
+            customChartSkeletonHeight={308}
+            configuration={configuration}
+            title={t('in-service-levels:sloDashboard.components.errorBudgetChart.title')}
+          />
         </Col>
         <Col lg={4}>
-          <TrafficChart configuration={configuration} />
+          <TrafficChart customHeight={250} customChartSkeletonHeight={308} configuration={configuration} />
         </Col>
       </Row>
     </>

@@ -30,13 +30,13 @@ import {
   UseLinkToPageLoadParams
 } from 'in-websites/navigation/types';
 import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
-import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { Location } from 'in-stores/navigation/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { navigationParameters$ } from 'in-stores/navigation/navigation';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
+import { Location } from 'in-stores/navigation/types';
 import { setTimeConfig } from 'in-stores/time/config';
 
 export const websiteMonitoringPath = '/websiteMonitoring';
@@ -90,13 +90,15 @@ export const configurationAlerts = '/alerts';
 
 export const analyzeTwoParameters = createParameters(analyzePath);
 
-export const linkToWebsites$ = getModifiedUrlStream(params => {
-  params.pathname = websitesPathFullyQualified;
-});
+export const useLinkToNewWebsite = () => {
+  const { createHref, location } = useNavigation();
 
-export const linkToNewWebsite$ = getModifiedUrlStream(params => {
-  params.pathname = newWebsitePathFullyQualified;
-});
+  location.pathname = `${newWebsitePathFullyQualified}`;
+
+  const href = createHref(location);
+
+  return href;
+};
 
 export const useLinkToWebsite = (
   websiteId?: string,
@@ -352,7 +354,7 @@ export function useGenerateLinkToPageLoad() {
   };
 }
 
-export const useAlertConfigLink = (alertConfigId: string, websiteId: string, alertConfigVersion?: string) => {
+export const useAlertConfigLink = (alertConfigId: string, websiteId: string, alertConfigVersion?: number) => {
   const { createHref, location } = useNavigation();
   fillAlertTabSpecificValues(location, websiteId, alertConfigId, alertConfigVersion);
   return createHref(location);
@@ -361,7 +363,7 @@ export const useAlertConfigLink = (alertConfigId: string, websiteId: string, ale
 export const useGetAlertConfigLink = () => {
   const { createHref, location } = useNavigation();
 
-  return (alertConfigId: string, websiteId: string, alertConfigVersion?: string) => {
+  return (alertConfigId: string, websiteId: string, alertConfigVersion?: number) => {
     fillAlertTabSpecificValues(location, websiteId, alertConfigId, alertConfigVersion);
     return createHref(location);
   };
@@ -371,7 +373,7 @@ function fillAlertTabSpecificValues(
   params: Location,
   websiteId: string,
   alertConfigId: string,
-  alertConfigVersion?: string
+  alertConfigVersion?: number
 ) {
   params.pathname = alertsTabDetailsFullyQualified;
   setOrDeleteMatrixKey(params, websitePath, websiteIdMatrixParam, websiteId);

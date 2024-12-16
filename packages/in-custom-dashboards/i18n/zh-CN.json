@@ -17,6 +17,7 @@
         "copied": "已复制窗口小部件，使用 CTRL-V 或 CMD-V 在任何定制仪表板上粘贴",
         "duplicate": "复制",
         "delete": "删除",
+        "exportPDF": "下载 PDF",
         "customDashboardWidgetTitle": "定制仪表板窗口小部件：{{title}}"
       }
     },
@@ -69,7 +70,11 @@
       "renameDashboard": "重命名仪表板",
       "dashboardName": "仪表板名称",
       "rename": "重命名",
-      "failSaveDashboard": "无法保存仪表板。"
+      "failSaveDashboard": "无法保存仪表板。",
+      "generatingPDFTitle": "正在生成 pdf",
+      "generatingPDFContent": "请稍候，正在生成 PDF 文件。",
+      "generatedPDFTitle": "已生成 PDF",
+      "generatedPDFContent": "pdf 下载即将开始。"
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "仪表板找不到",
@@ -93,6 +98,32 @@
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "无法将输入解析为 JSON。",
       "jsonRootMustBeAnObject": "JSON 根必须为一个对象。"
+    },
+    "downloadPdfDialog": {
+      "downloadPdf": "下载 PDF 文件",
+      "settings": "设置",
+      "pdfOrientation": "定向",
+      "portrait": "纵向",
+      "landscape": "横向",
+      "pdfLayout": "布局",
+      "widgetsDisplay": "显示",
+      "singlePage": "单页",
+      "singlePageInfo": "使整个仪表板适合单页大小，并调整内容大小。",
+      "multiPages": "多页",
+      "multiPagesInfo": "将仪表板分布在多个页面上，保持原来的布局。 某些窗口小部件可能会被切断。",
+      "stackWidgetsTitle": "堆叠窗口小部件",
+      "stackWidgetsInfo": "在多个页面上以垂直堆叠的方式显示窗口小部件。",
+      "loadingWidget": "加载 {{totalNodes}} 的窗口小部件 {{widgetIndex}}",
+      "generatePreview": "生成预览",
+      "generatingPreview": "生成 pdf 预览"
+    },
+    "filterContext": {
+      "topLevelFilterPartiallyApplied": "应用了某些当前仪表盘过滤器。",
+      "topLevelFilterSelectsEverything": "当前仪表盘过滤器不适用于此窗口小部件。",
+      "topLevelFilterSelectsNothing": "当前仪表盘过滤器不适用于此窗口小部件。",
+      "topLevelFilterNotSupported": "当前仪表板过滤器未应用于该窗口部件，因为该窗口小部件不支持过滤操作。",
+      "topLevelFilterAppliedToSomeDatasets": "当前仪表板过滤器未完全应用于以下数据集：{{datasets}}",
+      "unnamedDataset": "未命名的数据集"
     }
   },
   "dashboardSwitcher": {
@@ -130,6 +161,17 @@
         "unexpectedLowOrHighNumberOfCalls": "调用数异常高或低"
       }
     },
+    "srcBizOps": {
+      "formComponent": {
+        "pleaseSelect": "请选择",
+        "pleaseSelectMetric": "请选择指标",
+        "aggregation": "汇总",
+        "metric": "指标"
+      },
+      "index": {
+        "bizOps": "业务流程（活动）"
+      }
+    },
     "srcApp": {
       "formComponent": {
         "needToTurnOffPP": "要使用分组，首先需要关闭“潜在问题”突出显示。",
@@ -163,6 +205,7 @@
       "metricsFormComponent": {
         "metric": "指标",
         "selectMetric": "选择指标",
+        "unit": "单元",
         "aggregation": "汇总",
         "crossSeriesAggregation": "使用 SUM 进行跨系列聚集",
         "crossSeriesAggregationHelp": "通常，跨系列聚集与跨时间聚集（用于将数据点组合到单个存储区中的方法）相同。 启用此切换开关后，我们将对跨数据系列的存储区求和，而不是使用指定的聚集。",
@@ -293,6 +336,15 @@
         "increaseColor": "加深颜色",
         "decreaseColor": "淡化颜色",
         "timeShift": "时移"
+      },
+      "thresholdForm": {
+        "addThresholdColorization": "添加基于阈值的颜色设置",
+        "threshold": "阈值",
+        "critical": "以下情况下发出严重错误",
+        "warning": "以下情况下发出警告",
+        "criticalValidator": "对于 > 和 >= 运算符，临界阈值应大于警告阈值。",
+        "warningValidator": "对于 < 和 <= 运算符，警告阈值应大于临界阈值。",
+        "bytes": "字节"
       },
       "bigNumber": "大数"
     },
@@ -425,6 +477,25 @@
       }
     },
     "slo": {
+      "general": {
+        "demoWidgetTitle": "窗口小部件标题",
+        "sloNotFound": "未找到 SLO 配置"
+      },
+      "v2Form": {
+        "headline": "选择服务级别目标",
+        "subheading": "选择一个现有的 SLO，或单击“添加新的 SLO”以创建一个新的 SLO",
+        "addSloButtonLabel": "添加新的 SLO",
+        "chartTypeSelectionLabel": "图表类型",
+        "chartTypeOption": "",
+        "chartTypeOption_INDICATOR": "指示符图",
+        "chartTypeOption_ERROR_BUDGET": "误差预算图",
+        "validators": {
+          "notBlankSloValidator": "请从列表中选择一个 SLO 配置。"
+        }
+      },
+      "v2WidgetHeader": {
+        "indicatorType": "指示符类型："
+      },
       "demo": {
         "title": "SLO 标题",
         "sliName": "示例 SLI",
@@ -465,8 +536,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "端点",
-        "allEndpoints": "所有端点",
-        "loading": "<loading>"
+        "allEndpoints": "所有端点"
       },
       "goodBadEventsForm": {
         "goodEvents": "良性事件",
@@ -503,7 +573,6 @@
       },
       "servicesSelectBox": {
         "service": "服务",
-        "loading": "<loading>",
         "allServices": "所有服务"
       },
       "sliFormPresenter": {
@@ -608,6 +677,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "必须至少配置一个过滤表达式。",
       "timeBased": "基于时间",
       "eventBased": "基于事件",
+      "sloLegacy": "SLO 原有项",
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "应用程序",
@@ -709,7 +779,8 @@
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "阈值配置",
-        "thresholdLabel": "阈值"
+        "thresholdLabel": "阈值",
+        "ms": "ms"
       },
       "entityInfo": {
         "tooltip": "未知 Apdex",
@@ -823,7 +894,9 @@
           },
           "formatter": "格式化程序",
           "searchPlaceholder": "搜索",
-          "countGroup": "显示组计数"
+          "countGroup": "显示组计数",
+          "showGroupsWithMissingTags": "显示缺少标记的组",
+          "filterEmptyValues": "过滤空值"
         }
       },
       "dataSource": {
@@ -854,5 +927,8 @@
     "additionalFields": "此仪表板将仅对您可见。您可以选择在创建后将其与同事共享",
     "create": "创建",
     "failedToCreateDashboard": "无法创建仪表板。"
+  },
+  "threshold": {
+    "label": "阈值"
   }
 }

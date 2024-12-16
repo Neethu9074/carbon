@@ -34,8 +34,14 @@ import { isAndOr, isNot } from 'in-components/QueryBuilder/validation/elementIde
 import { emptyArray } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
-export function validateFormModel({ tagCatalog, formModel, maxExpressionDepth, allowEmptyKey = false }) {
-  if (!isFormModelSyntacticallyValid({ tagCatalog, formModel, allowEmptyKey })) {
+export function validateFormModel({
+  tagCatalog,
+  formModel,
+  maxExpressionDepth,
+  allowEmptyKey,
+  disableEntitySelection
+}) {
+  if (!isFormModelSyntacticallyValid({ tagCatalog, formModel, allowEmptyKey, disableEntitySelection })) {
     return { isValid: false, errors: emptyArray };
   }
   if (maxExpressionDepth > 0 && getMaximumExpressionDepth(toBackendQueryModel(formModel)) > maxExpressionDepth) {
@@ -48,7 +54,7 @@ export function validateFormModel({ tagCatalog, formModel, maxExpressionDepth, a
   return { isValid: true };
 }
 
-function isFormModelSyntacticallyValid({ tagCatalog, formModel, allowEmptyKey }) {
+export function isFormModelSyntacticallyValid({ tagCatalog, formModel, allowEmptyKey, disableEntitySelection }) {
   if (!(formModel instanceof Array) || !tagCatalog) {
     return false;
   }
@@ -61,7 +67,7 @@ function isFormModelSyntacticallyValid({ tagCatalog, formModel, allowEmptyKey })
     i++;
 
     if (element.type === TAG_TYPE) {
-      const isTagFilterValid = createTagForm(tagCatalog, element, allowEmptyKey).hierarchyValid;
+      const isTagFilterValid = createTagForm(tagCatalog, element, allowEmptyKey, disableEntitySelection).hierarchyValid;
       if (!isTagFilterValid) {
         return false;
       }

@@ -19,8 +19,11 @@ const populateCommonAttributes = ({ form, commonAttributes, setCommonAttributes 
   commonAttributes['locations'] = form.get('locations').value;
   commonAttributes['label'] = form.get('label').value;
   commonAttributes['description'] = form.get('description').value;
-  commonAttributes['applicationId'] = form.get('applicationId').value;
+  commonAttributes['applicationId'] = form.get('applicationId')?.value;
   commonAttributes['script'] = form.get('configuration').get('script')?.value;
+  commonAttributes['applications'] = form.get('applications')?.value ?? [];
+  commonAttributes['websites'] = form.get('websites')?.value ?? [];
+  commonAttributes['mobileApps'] = form.get('mobileApps')?.value ?? [];
   setCommonAttributes(commonAttributes);
 };
 

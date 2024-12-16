@@ -9,7 +9,7 @@ import React from 'react';
 import { Li, Ul, KeyValue } from '@instana/components';
 import { DynamicFieldValue } from '@instana/types';
 
-import * as tagBasedPayload from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import * as tagBasedPayload from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import { CustomPayloadCardProps } from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -30,11 +30,14 @@ export default function CustomPayloadViewer({
       </Li>
       {customPayloadFields.map(({ key, value }) => (
         <Li key={key} className={classNames(locals.listItem, locals.valueItem)} noAlternatingBg={!alternatingBg}>
-          <Tooltip align="mousePosition" content={key}>
-            <KeyValue className={locals.keyCell} label={key} />
-          </Tooltip>
-
-          <ValueCell value={value} />
+          <div className={locals.keyCell}>
+            <Tooltip align="mousePosition" content={key} overflowEllipsis caret={false}>
+              <KeyValue label={key} />
+            </Tooltip>
+          </div>
+          <div className={locals.valueCell}>
+            <ValueCell value={value} />
+          </div>
         </Li>
       ))}
     </Ul>
@@ -44,7 +47,7 @@ export default function CustomPayloadViewer({
     if (typeof value === 'string') {
       return (
         <Tooltip align="mousePosition" content={value}>
-          <KeyValue className={locals.valueCell} label={value} />
+          <KeyValue label={value} />
         </Tooltip>
       );
     }
@@ -52,7 +55,6 @@ export default function CustomPayloadViewer({
     if (!TagBasedPayloadConfigurator) return null;
     return (
       <KeyValue
-        className={locals.valueCell}
         label={
           <TagBasedPayloadConfigurator
             value={toViewModel(value)}

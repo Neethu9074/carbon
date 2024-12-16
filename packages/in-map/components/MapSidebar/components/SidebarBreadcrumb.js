@@ -3,17 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { Link } from '@instana/components';
 
-import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
-import { getPhysicalHierarchy } from 'in-stores/snapshot';
+import { getPhysicalHierarchy, getSnapshot } from 'in-stores/snapshot';
 import { emptyList } from 'in-services/fixedImmutables';
 import { entitySelectedTracker } from 'in-map/tracker';
 import { getPluginName } from 'in-sdk/pluginName';
-import { getSnapshot } from 'in-stores/snapshot';
 import Tooltip from 'in-components/Tooltip';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -28,6 +28,7 @@ const Crumb = connectTo(
     };
   },
   function Crumb({ snapshot, selectedSnapshotId, snapshotId }) {
+    const snapshotRef = useGetLinkToSnapshotInCurrentView(snapshotId);
     if (!snapshot) {
       return null;
     }
@@ -45,11 +46,11 @@ const Crumb = connectTo(
       <Tooltip content={tooltip} align="rightMiddle">
         <li className={locals.crumb}>
           <Link
-            href={getLinkToSnapshotInCurrentView(snapshotId)}
+            href={snapshotRef}
             title={t('in-map:selectThisEntity')}
             className={locals.crumbLink}
             onClick={() => {
-              entitySelectedTracker({ origin: 'elevator', type: plugin });
+              entitySelectedTracker({ origin: 'elevator', type: plugin, path: location.pathname });
             }}
           >
             <HealthyPluginIcon
@@ -82,7 +83,12 @@ export default connectTo(
     physicalHierarchy = physicalHierarchy.toArray();
 
     return (
-      <ul className={locals.sidebarBreadcrumb} data-walkme-id="wm-stack">
+      <ul
+        className={classNames({
+          [locals.sidebarBreadcrumb]: true
+        })}
+        data-walkme-id="wm-stack"
+      >
         {physicalHierarchy.map(id => (
           <Crumb key={id} snapshotId={id} selectedSnapshotId={snapshotId} />
         ))}

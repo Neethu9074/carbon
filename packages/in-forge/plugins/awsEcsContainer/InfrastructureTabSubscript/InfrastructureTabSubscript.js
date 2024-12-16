@@ -11,7 +11,7 @@ import { Link } from '@instana/components';
 
 import getEcsTaskForEcsContainer from 'in-subscription/getEcsTaskForEcsContainer';
 import getRegionForEcsContainer from 'in-subscription/getRegionForEcsContainer';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { shorten } from 'in-services/util/string';
 import { Trans } from 'in-i18n';
@@ -32,6 +32,7 @@ function InfrastructureTabSubscript({ snapshot, time }) {
   const snapshotId = snapshot.get('id');
   const taskSnapshotId = useObservable(getEcsTaskForEcsContainerObservable, [snapshotId, time]);
   const regionSnapshotId = useObservable(getRegionForEcsContainerObservable, [snapshotId, time]);
+  const getDashboardLink = useGetDashboardLink();
 
   const data = snapshot.get('data');
   if (!data) {
@@ -48,14 +49,16 @@ function InfrastructureTabSubscript({ snapshot, time }) {
     taskSnapshotId,
     taskDefinitionVersion,
     'lib_aws_ecs_task',
-    'lib_aws_ecs_task_definition_version'
+    'lib_aws_ecs_task_definition_version',
+    getDashboardLink
   );
   const clusterArnLabel = getClusterArnLabel(
     clusterArnFullValue,
     region,
     regionSnapshotId,
     'lib_aws_ecs_cluster',
-    'lib_views_cloud'
+    'lib_views_cloud',
+    getDashboardLink
   );
   return (
     <div className={locals.infrastructureTabSubscript}>
@@ -65,8 +68,17 @@ function InfrastructureTabSubscript({ snapshot, time }) {
   );
 }
 
-function getTaskArnLabel(arnFullValue, definitionFullValue, snapshotId, version, taskIcon, versionIcon) {
+function getTaskArnLabel(
+  arnFullValue,
+  definitionFullValue,
+  snapshotId,
+  version,
+  taskIcon,
+  versionIcon,
+  getDashboardLink
+) {
   const definitionShort = shorten(definitionFullValue, 64);
+
   if (arnFullValue !== '?') {
     const taskAraLabel = abbreviatePart(arnFullValue, taskArnRegex, 10);
     return snapshotId ? (
@@ -79,7 +91,12 @@ function getTaskArnLabel(arnFullValue, definitionFullValue, snapshotId, version,
         }}
         components={{
           taskIcon: <Icon type={taskIcon} />,
-          taskLink: <Link href={subscriptLink(snapshotId)} className={locals.entityLink} />,
+          taskLink: (
+            <Link
+              href={getDashboardLink(snapshotId, { pathname: '/physical/dashboard' })}
+              className={locals.entityLink}
+            />
+          ),
           titledTask: <span title={arnFullValue} />,
           versionIcon: <Icon type={versionIcon} />,
           titledDefinition: <span title={definitionFullValue} />
@@ -111,7 +128,12 @@ function getTaskArnLabel(arnFullValue, definitionFullValue, snapshotId, version,
         }}
         components={{
           taskIcon: <Icon type={taskIcon} />,
-          taskLink: <Link href={subscriptLink(snapshotId)} className={locals.entityLink} />,
+          taskLink: (
+            <Link
+              href={getDashboardLink(snapshotId, { pathname: '/physical/dashboard' })}
+              className={locals.entityLink}
+            />
+          ),
           versionIcon: <Icon type={versionIcon} />,
           titledDefinition: <span title={definitionFullValue} />
         }}
@@ -132,7 +154,7 @@ function getTaskArnLabel(arnFullValue, definitionFullValue, snapshotId, version,
     );
   }
 }
-function getClusterArnLabel(clusterArnFull, region, snapshotId, clusterIcon, cloudIcon) {
+function getClusterArnLabel(clusterArnFull, region, snapshotId, clusterIcon, cloudIcon, getDashboardLink) {
   if (clusterArnFull !== '?') {
     const shortClusterValue = abbreviatePart(clusterArnFull, clusterArnRegex, 32);
     return snapshotId ? (
@@ -146,7 +168,12 @@ function getClusterArnLabel(clusterArnFull, region, snapshotId, clusterIcon, clo
           clusterIcon: <Icon type={clusterIcon} />,
           titledSpan: <span title={clusterArnFull} />,
           cloudIcon: <Icon type={cloudIcon} />,
-          regionLink: <Link href={subscriptLink(snapshotId)} className={locals.entityLink} />
+          regionLink: (
+            <Link
+              href={getDashboardLink(snapshotId, { pathname: '/physical/dashboard' })}
+              className={locals.entityLink}
+            />
+          )
         }}
       />
     ) : (
@@ -173,7 +200,12 @@ function getClusterArnLabel(clusterArnFull, region, snapshotId, clusterIcon, clo
         components={{
           clusterIcon: <Icon type={clusterIcon} />,
           cloudIcon: <Icon type={cloudIcon} />,
-          regionLink: <Link href={subscriptLink(snapshotId)} className={locals.entityLink} />
+          regionLink: (
+            <Link
+              href={getDashboardLink(snapshotId, { pathname: '/physical/dashboard' })}
+              className={locals.entityLink}
+            />
+          )
         }}
       />
     ) : (
@@ -195,11 +227,6 @@ function abbreviatePart(fullValue, regex, length = 10) {
   const match = regex.exec(fullValue);
   return shorten(match?.[1] ?? fullValue, length);
 }
-
-function subscriptLink(snapshotId) {
-  return getDashboardLink(snapshotId, { pathname: '/physical/dashboard' });
-}
-
 function Icon({ type }) {
   return <SvgIcon className={locals.entitiyIcon} type={type} size="s" />;
 }

@@ -11,12 +11,11 @@
 
   .probabilityPill {
     width: fit-content;
-    height: 1.365rem;
+    height: 1.375rem;
     padding: 0.25rem 0.5rem;
   }
   .techPreviewPill {
     height: fit-content;
-    background-color: var(--ids-color-option-blue-400);
   }
   .rcaAIPill {
     height: fit-content;
@@ -25,6 +24,11 @@
   .rcaAIPill > span {
     color: var(--ids-color-option-deep-purple-500);
   }
+  .cardIndicator {
+    height: 0.25rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+    background: var(--ids-color-option-deep-purple-500);
+  }
   .rcaRegenerate {
     height: fit-content;
   }
@@ -32,10 +36,6 @@
     width: 28rem;
   }
   .entityDescription {
-    background: var(--ids-color-option-neutral-50);
-    border: 0.1rem var(--ids-color-option-neutral-300) solid;
-    padding: 1rem;
-    margin-bottom: 1rem;
     border-radius: 0.25rem;
     width: 99.4%;
   }
@@ -44,17 +44,43 @@
   }
 
   .highProbabilityText {
-    color: var(--ids-color-option-green-500);
+    color: var(--ids-color-option-green-800);
   }
   .moderateProbabilityText {
-    color: var(--ids-color-option-yellow-500);
+    color: var(--ids-color-option-yellow-800);
   }
   .lowProbabilityText {
-    color: var(--ids-color-option-red-500);
+    color: var(--ids-color-option-red-700);
   }
   .naProbabilityText {
     color: var(--ids-color-option-neutral-800);
   }
+  .primaryProbabilityHeader {
+    background: #8257d933;
+  }
+  .highProbabilityHeader {
+    background: var(--ids-color-option-green-100);
+  }
+  .moderateProbabilityHeader {
+    background: var(--ids-color-option-yellow-100);
+  }
+  .lowProbabilityHeader {
+    background: var(--ids-color-option-red-100);
+  }
+  .infraLineDown {
+    position: relative;
+    width: 0.125rem;
+    height: 0.625rem;
+    background-color: var(--ids-color-option-neutral-400);
+  }
+
+  .infraLineRight {
+    position: relative;
+    width: 0.625rem;
+    height: 0.125rem;
+    background-color: var(--ids-color-option-neutral-400);
+  }
+
   .highProbabilityText,
   .moderateProbabilityText,
   .lowProbabilityText,
@@ -71,5 +97,70 @@
   }
   .containerForIncidentSummaryBullets {
     width: 100%;
+  }
+  .regenerateButton {
+    width: fit-content;
+  }
+  .associatedEventsCardHeader {
+    cursor: pointer;
+    background: var(--ids-color-option-neutral-50);
+    padding: 0;
+  }
+  .associatedEventsCard {
+    background: var(--ids-color-option-neutral-50);
+    padding: 0;
+    min-height: 0;
+  }
+  .sectionLine {
+    height: 0.063rem;
+    width: 100%;
+    background: var(--ids-color-option-neutral-300);
+    margin-bottom: 0.5rem;
+    margin-top: 0.75rem;
+  }
+  .analyzeButton {
+    width: fit-content;
+  }
+
+  .cardWithoutPadding {
+    padding: 0.5rem 1rem;
+  }
+  .innerRCACard {
+    background: var(--ids-color-option-neutral-50);
+    padding: 1rem;
+  }
+  .failureTextWrapper {
+    max-width: 43.75rem;
+  }
+
+  .layerBackground {
+    background: var(--cds-layer);
+  }
+
+  .accordionContent {
+    padding: 0 1rem;
+  }
+
+  .evidenceContainer {
+    width: 50%;
+  }
+
+  .noShrink {
+    flex-shrink: 0;
+  }
+
+  .feedbackContainer {
+    padding: 0 1rem;
+    background: var(--cds-layer);
+  }
+
+  .descriptionText {
+    p {
+      margin-bottom: 0;
+    }
+  }
+
+  .hovered {
+    background: var(--cds-layer-hover);
   }
 }

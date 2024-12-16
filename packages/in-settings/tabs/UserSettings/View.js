@@ -17,7 +17,7 @@ import {
   userSettingsProfile
 } from 'in-settings/navigation/paths';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
-import { isAvailable as fetchChangePasswordAvailable } from 'in-settings/tabs/UserSettings/api/changePassword';
+import { isAvailableCached as fetchChangePasswordAvailable } from 'in-settings/tabs/UserSettings/api/changePassword';
 import TwoFactorSettingsPage from 'in-settings/tabs/UserSettings/pages/TwoFactorSettings';
 import PersonalApiTokensPage from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens';
 import ChangePasswordPage from 'in-settings/tabs/UserSettings/pages/ChangePassword';
@@ -30,7 +30,6 @@ import { fullTermsConfigEnabled } from 'in-services/featureFlags';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
-import SetBodyColor from 'in-components/SetBodyColor';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -113,7 +112,6 @@ export default function View(props) {
         redirectFrom={userSettings}
         {...props}
       />
-      <SetBodyColor color="#fff" />
     </Fragment>
   );
 }

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { getEumAcceptorBaseUrl } from 'in-websites/trackingSnippet';
+import { getEumAcceptorBaseUrl } from 'in-websites/trackingSnippet/trackingSnippet';
 import config from 'in-services/config';
 
 export function getReportingUrl() {

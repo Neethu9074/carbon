@@ -7,6 +7,8 @@ import React from 'react';
 
 import { Link } from '@instana/components';
 
+import HikariDatasourcesTable from 'in-forge/plugins/springbootApplicationContainer/Dashboard/HikariDatasourcesTable';
+import DatasourcesTable from 'in-forge/plugins/springbootApplicationContainer/Dashboard/DatasourcesTable';
 import getMonitoringIssuesForSnapshot from 'in-subscription/getMonitoringIssuesForSnapshot';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
@@ -95,6 +97,10 @@ export default connectTo(({ snapshot, timeConfig }) => {
           />
         </DashboardSection>
       ) : null}
+      <DashboardSection>
+        <DatasourcesTable snapshot={snapshot} />
+        <HikariDatasourcesTable snapshot={snapshot} />
+      </DashboardSection>
     </div>
   );
 });

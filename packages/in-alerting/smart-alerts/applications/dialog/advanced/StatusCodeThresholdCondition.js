@@ -6,13 +6,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import ThresholdValueFormGroupForMultiStaticThreshold from 'in-alerting/smart-alerts/dialog/advanced/ThresholdValueFormGroupForMultiStaticThreshold';
 import FixedThresholdConditionForBuiltInAlert from 'in-alerting/smart-alerts/applications/dialog/advanced/FixedThresholdConditionForBuiltInAlert';
 import {
   getConfiguredThreshold,
   getOperatorLabel
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/thresholdConditionUtil';
-import ThresholdValueFormGroupForStaticThreshold from 'in-alerting/smart-alerts/dialog/advanced/ThresholdValueFormGroupForStaticThreshold';
-import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdDeviationSliderForm';
+import { MultiThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/MultiThresholdDeviationSliderForm';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/applications/dialog/advanced/ThresholdTypeSelection';
@@ -22,6 +22,8 @@ import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/applications/for
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
 import Dropdown from 'in-alerting/components/Dropdown';
+
+import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/dialog.mless';
 
 export default function StatusCodeThresholdCondition({
   form,
@@ -33,7 +35,7 @@ export default function StatusCodeThresholdCondition({
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
-  const thresholdType = form.get('threshold').get('type')?.value;
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const isBuiltIn = form.get('builtIn').value;
   const thresholdTypeOptions = blueprintConfig.getThresholdTypeOptions();
   const percentageMetric = isPercentageMetric(metricName);
@@ -52,6 +54,7 @@ export default function StatusCodeThresholdCondition({
             <Dropdown
               value={metricName}
               items={ruleMetricNameOptions.statusCode}
+              className={locals.dropdownmd}
               onChange={value => {
                 updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
               }}
@@ -72,7 +75,7 @@ export default function StatusCodeThresholdCondition({
       </ThresholdConditionFormGroup>
 
       {thresholdType === STATIC_THRESHOLD && (
-        <ThresholdValueFormGroupForStaticThreshold
+        <ThresholdValueFormGroupForMultiStaticThreshold
           form={form}
           updateForm={updateForm}
           maxValue={maxValue}
@@ -83,7 +86,7 @@ export default function StatusCodeThresholdCondition({
       )}
 
       {thresholdType !== STATIC_THRESHOLD && (
-        <ThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
+        <MultiThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
       )}
     </>
   );

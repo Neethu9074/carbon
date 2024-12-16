@@ -3,18 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 
-import { combineLatest } from '@instana/observables';
+import { Card, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Card } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 import {
   getSnapshotId,
   isEntityVerificationEvent,
   isHostAvailabilityEvent,
   isAgentMonitoringIssueEvent,
+  isCveIssueEvent,
   isApplicationSmartAlertEvent,
   isWebsiteSmartAlertEvent,
   isInfraSmartAlertEvent,
@@ -24,56 +23,67 @@ import {
   isMobileAppSmartAlertEvent,
   isSloSmartAlertEvent,
   isEntityCountVerificationEvent,
-  isLogSmartAlertEvent
+  isLogSmartAlertEvent,
+  hasManualCloseFields,
+  getEventStateBadge
 } from 'in-events/components/eventUtil';
+import {
+  aqmDisableConfigOnEventViewEnabled,
+  manuallyCloseEventEnabled,
+  eumImpactedUsersForAppAlertEnabled,
+  businessObservabilityEnabled
+} from 'in-services/featureFlags';
 import EntityCountVerificationEventContent from 'in-events/components/EventContent/EntityCountVerificationEventContent';
 import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
-import { incidentSummarizationEnabled, incidentSummarizationTimelineEnabled } from 'in-services/featureFlags';
 import IbmMqFileTransferMetadataTable from 'in-events/components/tabs/Summary/IbmMqFileTransferMetadataTable';
 import { DeprecatedCustomEventWarning } from 'in-events/components/tabs/Summary/DeprecatedCustomEventWarning';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
+import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
+import IncidentContent from 'in-events/components/tabs/Summary/IncidentDetailPage/IncidentContent';
+import DisableEventConfigButton from 'in-events/components/tabs/Summary/DisableEventConfigButton';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import ApplicationEventContent from 'in-events/components/EventContent/ApplicationEventContent';
+import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAlertImpactedUsers';
+import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
 import SyntheticEventContent from 'in-events/components/EventContent/SyntheticEventContent';
+import AffectedEntitiesPresenter from 'in-events/components/legacy/CveAffectedApplications';
 import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
 import WebsiteEventContent from 'in-events/components/EventContent/WebsiteEventContent';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
+import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
 import MobileEventContent from 'in-events/components/EventContent/MobileEventContent';
 import InfraEventContent from 'in-events/components/EventContent/InfraEventContent';
 import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';
+import CveIssueDescription from 'in-events/components/legacy/CveIssueDescription';
 import LogsEventContent from 'in-events/components/EventContent/LogEventContent';
 import SloEventContent from 'in-events/components/EventContent/SloEventContent';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
-import EventSummarization from 'in-events/components/legacy/EventSummarization';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
-import { getEventType, EVENT_TYPES, getServiceIds } from 'in-stores/events';
-import { pageNumberUrlParameter } from '../../../navigation/urlParameters';
-import PopulationChart from 'in-events/components/legacy/PopulationChart';
-import IncidentEventListRows from 'in-events/components/legacy/EventList';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
+import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
-import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import { pageNames } from 'in-services/tracking/pageNames';
 import EventChart from 'in-events/components/EventChart';
 import { emptyList } from 'in-services/fixedImmutables';
+import EventIcon from 'in-events/components/EventIcon';
 import { Row, Col } from 'in-components/layout/Grid';
-import useUrlState from 'in-hooks/useUrlState';
-import { getEvent } from 'in-stores/events';
-import connectTo from 'in-hoc/connectTo';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
 
-export default function Summary({ selectedEventId, data: event }) {
+export default function Summary(props) {
+  const { selectedEventId, data: event, reload } = props;
   const expiredSnapshotId = getSnapshotId(event, isEntityVerificationEvent(event));
   const expiredSnapshotVersions = useObservable(getSnapshotVersionsObservable, [expiredSnapshotId]);
   const latestSnapshot = expiredSnapshotVersions && getLatestSnapshot(expiredSnapshotVersions.toArray());
@@ -91,11 +101,13 @@ export default function Summary({ selectedEventId, data: event }) {
         <>
           <div className={locals.content}>
             <DeprecatedCustomEventWarning event={event.toJS()} isIncident={isIncident} />
-            <EventDetailsKPIs event={event} isIncident={isIncident} />
             {isIncident ? (
               <IncidentContent incident={event} latestSnapshot={latestSnapshot} />
             ) : (
-              <EventContent event={event} latestSnapshot={latestSnapshot} />
+              <>
+                <EventDetailsKPIs event={event} isIncident={isIncident} />
+                <EventContent event={event} latestSnapshot={latestSnapshot} reload={reload} />
+              </>
             )}
           </div>
         </>
@@ -104,279 +116,188 @@ export default function Summary({ selectedEventId, data: event }) {
   );
 }
 
-const EventContent = connectTo(
-  ({ event, latestSnapshot }) => ({
-    snapshot: getSnapshot(event.get('entityId'), getTimeConfigForSnapshotRetrieval(event, latestSnapshot)).startWith(
-      null
-    )
-  }),
-  function EventContent({ event, latestSnapshot, snapshot }) {
-    const timeConfig = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
+function EventContent({ event, latestSnapshot, reload }) {
+  const entityID = event.get('entityId');
+  const snapshot = useObservable(getSnapshot(entityID, getTimeConfigForSnapshotRetrieval(event, latestSnapshot)), [
+    entityID
+  ]);
+  const timeConfig = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
 
-    if (isWebsiteSmartAlertEvent(event)) {
-      return <WebsiteEventContent event={event} snapshot={snapshot} />;
-    }
+  if (isWebsiteSmartAlertEvent(event)) {
+    return <WebsiteEventContent event={event} snapshot={snapshot} reload={reload} />;
+  }
 
-    if (isApplicationSmartAlertEvent(event)) {
-      return <ApplicationEventContent event={event} snapshot={snapshot} />;
-    }
+  if (isApplicationSmartAlertEvent(event)) {
+    return <ApplicationEventContent event={event} snapshot={snapshot} reload={reload} />;
+  }
 
-    if (isKubernetesEvent(event)) {
-      return <KubernetesEventContent event={event} timeConfig={timeConfig} />;
-    }
+  // TODO: Confirm support
+  if (isKubernetesEvent(event)) {
+    return <KubernetesEventContent event={event} timeConfig={timeConfig} reload={reload} />;
+  }
 
-    if (isInfraSmartAlertEvent(event)) {
-      return <InfraEventContent event={event} snapshot={snapshot} />;
-    }
+  if (isInfraSmartAlertEvent(event)) {
+    return <InfraEventContent event={event} snapshot={snapshot} reload={reload} />;
+  }
 
-    if (isSyntheticSmartAlertEvent(event)) {
-      return <SyntheticEventContent event={event} snapshot={snapshot} />;
-    }
+  if (isSyntheticSmartAlertEvent(event)) {
+    return <SyntheticEventContent event={event} snapshot={snapshot} reload={reload} />;
+  }
 
-    if (isMobileAppSmartAlertEvent(event)) {
-      return <MobileEventContent event={event} snapshot={snapshot} />;
-    }
+  if (isMobileAppSmartAlertEvent(event)) {
+    return <MobileEventContent event={event} snapshot={snapshot} reload={reload} />;
+  }
 
-    if (isSloSmartAlertEvent(event)) {
-      return <SloEventContent event={event} />;
-    }
+  if (isSloSmartAlertEvent(event)) {
+    return <SloEventContent event={event} snapshot={snapshot} />;
+  }
 
-    if (isLogSmartAlertEvent(event)) {
-      return <LogsEventContent event={event} snapshot={snapshot} />;
-    }
+  if (isLogSmartAlertEvent(event)) {
+    return <LogsEventContent event={event} snapshot={snapshot} reload={reload} />;
+  }
 
-    if (isEntityCountVerificationEvent(event)) {
-      return <EntityCountVerificationEventContent event={event} snapshot={snapshot} />;
-    }
+  if (isEntityCountVerificationEvent(event)) {
+    return <EntityCountVerificationEventContent event={event} snapshot={snapshot} reload={reload} />;
+  }
 
-    const eventType = getEventType(event);
-    const isIssue = eventType === EVENT_TYPES.ISSUE_WARNING || eventType === EVENT_TYPES.ISSUE_CRITICAL;
-    const hasEventSpec = event.getIn(['metadata', 'eventSpecificationId'], '') !== '';
-    const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
-    const serviceIds = getServiceIds(event);
+  const eventType = getEventType(event);
+  const isIssue = eventType === EVENT_TYPES.ISSUE_WARNING || eventType === EVENT_TYPES.ISSUE_CRITICAL;
+  const hasEventSpec = event.getIn(['metadata', 'eventSpecificationId'], '') !== '';
+  const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
 
-    return (
-      <>
-        <ViewTrackingMeta
-          data={{
-            productArea: productAreas.events,
-            pageRootName: pageNames.event
-          }}
-        />
+  const pillContent = getEventStateBadge(event);
+
+  return (
+    <>
+      <ViewTrackingMeta
+        data={{
+          productArea: productAreas.events,
+          pageRootName: pageNames.event
+        }}
+      />
+      <Row withoutSideMargin>
+        <Col xs>
+          <Card title={t('in-events:titleDescription')} leftHeaderContent={pillContent}>
+            <EntityWithParentInformation
+              entityId={entityID}
+              entityType={event.get('entityType')}
+              metadata={event.get('metadata')}
+              timeConfig={timeConfig}
+              linkTimeConfig={getTimeConfigFromEvent(event)}
+            />
+            <SubEntityInformation event={event} />
+            {isAgentMonitoringIssueEvent(event) ? (
+              <AgentMonitoringIssueDescription
+                event={event}
+                timeConfig={timeConfig}
+                className="in-event-view-event-content"
+              />
+            ) : isCveIssueEvent(event) ? (
+              <CveIssueDescription event={event} />
+            ) : (
+              <ProblemDescription fixSuggestion={fixSuggestion} />
+            )}
+            <EventActions event={event} reload={reload} latestSnapshot={latestSnapshot} />
+          </Card>
+        </Col>
+      </Row>
+      {eumImpactedUsersForAppAlertEnabled && (
         <Row withoutSideMargin>
           <Col xs>
-            <Card title={t('in-events:titleDescription')}>
-              <EntityWithParentInformation
-                entityId={event.get('entityId')}
-                entityType={event.get('entityType')}
-                metadata={event.get('metadata')}
-                timeConfig={timeConfig}
-                linkTimeConfig={getTimeConfigFromEvent(event)}
-              />
-              <SubEntityInformation event={event} />
-              {isAgentMonitoringIssueEvent(event) ? (
-                <AgentMonitoringIssueDescription
-                  event={event}
-                  timeConfig={timeConfig}
-                  className="in-event-view-event-content"
-                />
-              ) : (
-                <ProblemDescription fixSuggestion={fixSuggestion} className="in-event-view-event-content" />
-              )}
-              <DescriptionButtons>
-                <EventSpecificationLink event={event.toJS()} />
-                <AnalyzeIssueCallsButton event={event} />
-              </DescriptionButtons>
+            <SmartAlertImpactedUsers event={event} snapshot={snapshot} />
+          </Col>
+        </Row>
+      )}
+      {isEntityVerificationEvent(event) || isHostAvailabilityEvent(event) ? (
+        <Row withoutSideMargin>
+          <Col xs>
+            <Card
+              title={isEntityVerificationEvent(event) ? t('in-events:titleLastProcess') : t('in-events:titleLastHost')}
+            >
+              <OfflineEventDescription event={event} latestSnapshot={latestSnapshot} />
             </Card>
           </Col>
         </Row>
-        {isEntityVerificationEvent(event) || isHostAvailabilityEvent(event) ? (
-          <Row withoutSideMargin>
-            <Col xs>
-              <Card
-                title={
-                  isEntityVerificationEvent(event) ? t('in-events:titleLastProcess') : t('in-events:titleLastHost')
-                }
-              >
-                <OfflineEventDescription event={event} latestSnapshot={latestSnapshot} />
-              </Card>
-            </Col>
-          </Row>
-        ) : (
-          <>
-            {hasAtLeastOneMetric(event) && (
-              <Row withoutSideMargin>
-                <Col xs>
-                  <Card title={t('in-events:titleMetrics')}>
-                    <EventChart event={event} />
-                  </Card>
-                </Col>
-              </Row>
-            )}
-            {hasMetric(event, 'cpu.user') && (
-              <Row withoutSideMargin>
-                <Col xs>
-                  <ProcessContent snapshot={snapshot} timeConfig={timeConfig} />
-                </Col>
-              </Row>
-            )}
-          </>
-        )}
-        {isIssue && isIbmMqFileTransferIssueEvent(event) && (
-          <Row withoutSideMargin>
-            <Col xs>
-              <IbmMqFileTransferMetadataTable
-                ibmMqFileTransferMetadata={event?.getIn(['metadata', 'ibmMqFileTransfer'], emptyList)?.toJS() ?? []}
-              />
-            </Col>
-          </Row>
-        )}
+      ) : (
+        <>
+          {hasAtLeastOneMetric(event) && (
+            <Row withoutSideMargin>
+              <Col xs>
+                <Card title={t('in-events:titleMetrics')}>
+                  <EventChart event={event} />
+                </Card>
+              </Col>
+            </Row>
+          )}
+          {hasMetric(event, 'cpu.user') && (
+            <Row withoutSideMargin>
+              <Col xs>
+                <ProcessContent snapshot={snapshot} timeConfig={timeConfig} />
+              </Col>
+            </Row>
+          )}
+        </>
+      )}
+      {isIssue && isIbmMqFileTransferIssueEvent(event) && (
+        <Row withoutSideMargin>
+          <Col xs>
+            <IbmMqFileTransferMetadataTable
+              ibmMqFileTransferMetadata={event?.getIn(['metadata', 'ibmMqFileTransfer'], emptyList)?.toJS() ?? []}
+            />
+          </Col>
+        </Row>
+      )}
 
-        {isIssue && hasEventSpec && (
-          <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
+      {isIssue && hasEventSpec && (
+        <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
+      )}
+      {businessObservabilityEnabled && (
+        <ImpactedBusinessProcesses
+          eventType={eventType}
+          entityType={event?.get('entityType', undefined)}
+          entityId={event?.get('entityId', undefined)}
+        />
+      )}
+      {isCveIssueEvent(event) && snapshot?.get('id') && (
+        <AffectedEntitiesPresenter id={snapshot?.get('id')} timeConfig={timeConfig} />
+      )}
+    </>
+  );
+}
+
+const EventActions = ({ event, reload, latestSnapshot }) => {
+  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const timeConfig = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
+
+  return (
+    <Stack gap="xxsmall">
+      {canCloseManually && hasManualCloseFields(event) && <ManualCloseDescription event={event} />}
+      <DescriptionButtons>
+        {canCloseManually && (
+          <ManualCloseIssueButton
+            event={event}
+            reload={reload}
+            iconComponent={
+              <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
+            }
+          />
         )}
-        <ImpactedBusinessProcesses eventType={eventType} serviceIds={serviceIds} />
-      </>
-    );
-  }
-);
+        <TriggeredIncidentButton event={event} />
+        <EventSpecificationLink event={event.toJS()} />
+        {aqmDisableConfigOnEventViewEnabled && (
+          <DisableEventConfigButton event={event} eventType="event" reload={reload} />
+        )}
+        <AnalyzeIssueCallsButton event={event} />
+      </DescriptionButtons>
+    </Stack>
+  );
+};
 
 function ProcessContent({ snapshot, timeConfig }) {
   if (!snapshot || (snapshot.progress && snapshot.progress.loading)) {
     return <LoadingIndicator inline type="dark" style={{ height: '16px' }} />;
   }
   return <ProcessTopList snapshot={snapshot} timeConfig={timeConfig} />;
-}
-
-const IncidentContent = connectTo(
-  ({ incident, latestSnapshot }) => ({
-    snapshot: getSnapshot(
-      incident.get('entityId'),
-      getTimeConfigForSnapshotRetrieval(incident, latestSnapshot)
-    ).startWith(null)
-  }),
-  function IncidentContent({ incident, latestSnapshot, snapshot }) {
-    const recentEvents = incident
-      .get('recentEvents', emptyList)
-      .sort(
-        (a, b) =>
-          incident.getIn(['issueOrderMap', a], Number.MAX_SAFE_INTEGER) -
-          incident.getIn(['issueOrderMap', b], Number.MAX_SAFE_INTEGER)
-      )
-      .toArray();
-
-    const [{ relatedEventsPage }, setState] = useUrlState({
-      bind: [pageNumberUrlParameter]
-    });
-    const pageState = eventsPath && relatedEventsPage ? relatedEventsPage : 1;
-    const pageSize = 10;
-    const paginatedRecentEvents = recentEvents?.slice(pageSize * (pageState - 1), pageSize * pageState);
-
-    const recentEventsWithMetadata =
-      useObservable(combineLatest(paginatedRecentEvents.map(getEvent)).throttle(250), [incident]) ?? null;
-
-    const [changesAreVisible, setChangesAreVisible] = useState(false);
-    const [isExpanded, setIsExpanded] = useState(false);
-
-    const [expandedEventOnClickInTimeline, setExpandedEventOnClickInTimeline] = useState('');
-    const [highlightEventOnHover, setHighlightEventOnHover] = useState('');
-
-    if (!recentEventsWithMetadata) return <LoadingIndicator />;
-
-    const numChanges = getNumberOfChanges(recentEventsWithMetadata);
-
-    const header = (
-      <>
-        {shouldRenderExpandButton(recentEventsWithMetadata, changesAreVisible, numChanges) && (
-          <Button
-            type="button"
-            kind={isExpanded ? 'primaryv2' : 'secondary'}
-            onClick={() => setIsExpanded(!isExpanded)}
-          >
-            {isExpanded
-              ? t('in-events:buttonCollapse')
-              : t('in-events:buttonExpandEvents', { eventsLength: recentEventsWithMetadata.length })}
-          </Button>
-        )}
-        {shouldRenderShowChangesButton(numChanges) && (
-          <Button
-            type="button"
-            kind={changesAreVisible ? 'primaryv2' : 'secondary'}
-            onClick={() => setChangesAreVisible(!changesAreVisible)}
-          >
-            {changesAreVisible ? t('in-events:buttonHideChanges') : t('in-events:buttonShowChanges')}
-          </Button>
-        )}
-      </>
-    );
-
-    // should be displayed if incident summarization feature is disabled OR incident summarization feature and timeline with summarization is enabled
-    const shouldTimelineBeDisplayed =
-      !incidentSummarizationEnabled || (incidentSummarizationEnabled && incidentSummarizationTimelineEnabled);
-
-    return (
-      <>
-        {incidentSummarizationEnabled && incident && incident.get('metadata')?.has('incidentSummary') && (
-          <EventSummarization
-            title={t('in-events:incidentSummarization.incidentSummaryTitle')}
-            incident={incident}
-            latestSnapshot={latestSnapshot}
-          />
-        )}
-        {shouldTimelineBeDisplayed && (
-          <Row withoutSideMargin>
-            <Col xs>
-              <Card title={t('in-events:titleIncidentTimeline')} header={header}>
-                <PopulationChart
-                  incidentId={incident.get('id')}
-                  recentEvents={recentEventsWithMetadata}
-                  changesAreVisible={changesAreVisible}
-                  isExpanded={isExpanded}
-                  setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
-                  setHighlightEventOnHover={setHighlightEventOnHover}
-                />
-              </Card>
-            </Col>
-          </Row>
-        )}
-
-        <IncidentEventListRows
-          incident={incident}
-          snapshot={snapshot}
-          latestSnapshot={latestSnapshot}
-          recentEvents={recentEventsWithMetadata}
-          pageState={pageState}
-          setPageURLState={setState}
-          expandedEventOnClickInTimeline={expandedEventOnClickInTimeline}
-          setExpandedEventOnClickInTimeline={setExpandedEventOnClickInTimeline}
-          highlightEventOnHover={highlightEventOnHover}
-        />
-      </>
-    );
-  }
-);
-
-function getNumberOfChanges(recentEvents) {
-  if (!recentEvents) {
-    return 0;
-  }
-
-  let counter = 0;
-  for (let i = 0, length = recentEvents.length; i < length; i++) {
-    const event = recentEvents[i];
-    if (getEventType(event) === EVENT_TYPES.CHANGE) {
-      counter++;
-    }
-  }
-  return counter;
-}
-
-function shouldRenderShowChangesButton(numChanges) {
-  return numChanges > 0;
-}
-
-function shouldRenderExpandButton(recentEvents, changesAreVisible, numChanges) {
-  return recentEvents && recentEvents.length - (!changesAreVisible ? numChanges : 0) > 10;
 }
 
 function hasMetric(event, metric) {

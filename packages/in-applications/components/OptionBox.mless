@@ -12,18 +12,18 @@
     border-radius: var(--ids-border-radius-option-large);
   }
 
-  .icon {
-    fill: var(--ids-color-option-teal-500);
-    margin: 0 4px;
+  .icononly {
+    margin-right: 0.25rem;
   }
 
   .content {
     width: 85%;
   }
 
-  .title {
-    color: var(--ids-color-option-teal-500);
-    font-size: 1rem;
+  .titlediv {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
   }
 
   .description {
@@ -36,5 +36,9 @@
       margin-top: 8px;
       width: max-content;
     }
+  }
+
+  .space {
+    margin-top: 0.5rem;
   }
 }

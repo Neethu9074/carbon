@@ -81,7 +81,7 @@ function SloChartSummary({
       <SloTile
         title={t('in-service-levels:sloChart.sloChartSummary.errorBudgetSpent')}
         value={consumedBudget !== undefined ? sliFormatter(consumedBudget) : undefined}
-        budgetTitle={t('in-service-levels:sloChart.sloChartSummary.errorBudget')}
+        budgetTitle={t('in-service-levels:sloChart.sloChartSummary.errorBudgetRemaining')}
         budget={budget !== undefined ? sliFormatter(budget) : undefined}
         budgetSpent={budgetSpent}
         compact={isCompact}

@@ -38,4 +38,16 @@
   .singleChartViewConfig {
     font-size: var(--ids-font-size-option-body-regular);
   }
+
+  .flexItem {
+    display: flex;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    padding-bottom: 0.5rem;
+    align-items: center;
+  }
+  .boxBorder {
+    border: 1px solid var(--ids-color-option-neutral-300);
+    padding: 0.75rem;
+  }
 }

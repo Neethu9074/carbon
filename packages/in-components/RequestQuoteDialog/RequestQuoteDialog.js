@@ -6,7 +6,7 @@
 import { createMapForm, createField } from 'formalistic';
 import React, { useState, useEffect } from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import RequestQuoteForm from 'in-components/RequestQuoteDialog/RequestQuoteForm';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';

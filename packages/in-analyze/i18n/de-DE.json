@@ -111,6 +111,7 @@
       "summary": {
         "logs": "Protokolle",
         "analyzeLogs": "In Analyse anzeigen",
+        "logsCardDescription": "Dies ist eine Vorschau, alle Protokolle sind in \"analyze\" zu sehen",
         "correspondingMobileAppActivity": "Entsprechende Aktivität in der mobilen App",
         "hideMobileAppInformation": "Informationen der mobilen App ausblenden",
         "showMobileAppInformation": "Informationen der mobilen App anzeigen",
@@ -158,6 +159,7 @@
         "cacheInteraction": "Cache-Interaktion",
         "instanaDoesNotMonitorTheLocationOfThisCall": "Instana überwacht nicht die Position ({{location}}) dieses Aufrufs",
         "tags": "Tags",
+        "metrics": "Metriken",
         "loading": "Anrufdetails werden geladen.",
         "labelError": "Unerwarteter Fehler",
         "retryError": "Anrufdetails konnten nicht geladen werden.",
@@ -165,7 +167,11 @@
         "selfTime": "Selbstzeit",
         "networkTime": "Netzübertragungszeit",
         "waitingTime": "Wartezeit",
-        "latency": "Latenzzeit"
+        "latency": "Latenzzeit",
+        "findSQL": "Suche nach SQL in {{type}}",
+        "sumOfLatencies": "Summe der Latenzen",
+        "elapsedTime": "Abgelaufene Zeit",
+        "batchTooltip": "Gesamte {{type}} für {{batchCount}} gebündelte Aufrufe."
       },
       "callTree": {
         "expandButtonForRow": "Alle untergeordneten Aufrufe einblenden",
@@ -272,6 +278,7 @@
     "titleParameters": "Parameter",
     "analyzeLogsLabel": "Protokolle analysieren",
     "similarLogs": "Ähnliche Protokolle",
+    "message": "Nachricht",
     "similarServiceLogs": "Protokolle im Kontext dieses Service anzeigen",
     "restrictedAccessExpl": "Sie sind nicht berechtigt, auf diese Informationen zuzugreifen."
   },
@@ -280,6 +287,7 @@
     "labelNetwork": "Netz",
     "labelSelf": "Selbst",
     "labelWaiting": "Wartestatus",
+    "labelElapsed": "Abgelaufen",
     "labelService": "Service",
     "labelEndpoint": "Endpunkt",
     "labelAggregatedTime": "Aggregierte Zeit",
@@ -310,7 +318,6 @@
   "resultHeaderTooltip": "Die Abfragezeitspanne wurde auf die nächste volle Minute gerundet, damit diese Ansicht schneller geladen werden kann.",
   "components": {
     "analyzeHeader": {
-      "beta": "BETA",
       "analytics": "Analyse"
     },
     "filterBar": {

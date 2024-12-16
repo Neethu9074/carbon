@@ -9,7 +9,8 @@ import { just } from '@instana/observables';
 
 import { potentialProblemsOnDatasetValidator } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/potentialProblemsOnDatasetValidator';
 import regexValidator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/regexValidator';
-import { numberValidator, stringValidator, booleanValidator } from 'in-services/validators/jsonType';
+import { numberValidator, stringValidator, booleanValidator, objectValidator } from 'in-services/validators/jsonType';
+import { validateThresholdOrder } from 'in-custom-dashboards/widgets/_shared/validator';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { minValidator, maxValidator } from 'in-services/validators/number';
@@ -32,7 +33,8 @@ export function createForm(
     withColorConfiguration = false,
     withMandatoryGrouping = false,
     withMetricFormatter = false,
-    withEmptyValueFilter = false
+    withEmptyValueFilter = false,
+    withThresholdConfiguration = false
   } = {}
 ) {
   let form = createMapForm(
@@ -144,6 +146,10 @@ export function createForm(
     );
   }
 
+  if (withThresholdConfiguration) {
+    form = form.put('threshold', createThresholdForm(savedState?.threshold));
+  }
+
   const validator = withMandatoryGrouping ? validateMandatoryGrouping : null;
 
   if (savedState?.grouping?.length > 0) {
@@ -166,9 +172,9 @@ export function createForm(
 
   if (withEmptyValueFilter) {
     form = form.put(
-      'filterEmptyValue',
+      'required',
       createField({
-        value: (savedState && savedState.filterEmptyValue) || false,
+        value: (savedState && savedState.required) || false,
         validator: composeAndShortCircuitOnError(booleanValidator)
       })
     );
@@ -207,7 +213,8 @@ function getConfigFromExistingForm(form) {
   const colorField = form.get('color');
   const isPotentialProblemValidator = form.validator === potentialProblemsOnDatasetValidator;
   const formatter = form.get('formatter');
-  const withEmptyValueFilter = form.get('filterEmptyValue');
+  const withEmptyValueFilter = form.get('required');
+  const thresholdConfiguration = form.get('threshold');
 
   return {
     withLabelConfiguration: !!labelField,
@@ -216,7 +223,8 @@ function getConfigFromExistingForm(form) {
     withEnablePotentialProblems: isPotentialProblemValidator,
     withMandatoryGrouping: isRequiringGroupingConfiguration(form),
     withMetricFormatter: !!formatter,
-    withEmptyValueFilter: !!withEmptyValueFilter
+    withEmptyValueFilter: !!withEmptyValueFilter,
+    withThresholdConfiguration: !!thresholdConfiguration
   };
 }
 
@@ -280,6 +288,13 @@ function createGroupItem(item) {
           notBlankValidator,
           buildEnumValidator(['NOT_APPLICABLE', 'DESTINATION', 'SOURCE'])
         )
+      })
+    )
+    .put(
+      'tagDefinition',
+      createField({
+        value: item?.tagDefinition,
+        validator: composeAndShortCircuitOnError(objectValidator)
       })
     );
 }
@@ -371,4 +386,35 @@ export function migrate(savedState) {
       errors: emptyArray
     })
   );
+}
+
+function createThresholdForm(savedState) {
+  return createMapForm({ validator: validateThresholdOrder })
+    .put(
+      'thresholdEnabled',
+      createField({
+        value: Boolean(savedState && savedState.thresholdEnabled),
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, booleanValidator)
+      })
+    )
+    .put(
+      'critical',
+      createField({
+        value: (savedState && savedState.critical) || '',
+        validator: composeAndShortCircuitOnError(field => field.value === '')
+      })
+    )
+    .put(
+      'warning',
+      createField({
+        value: (savedState && savedState.warning) || '',
+        validator: composeAndShortCircuitOnError(field => field.value === '')
+      })
+    )
+    .put(
+      'operator',
+      createField({
+        value: (savedState && savedState.operator) || '>='
+      })
+    );
 }

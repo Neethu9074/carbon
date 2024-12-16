@@ -8,16 +8,31 @@
 :local {
   .type {
     font-weight: 600;
-    margin: 0.75rem 1rem 0.75rem 0;
+    margin: 0.75rem 0;
+    color: var(--cds-link-primary);
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
   }
 
   .message {
     .ellipsis();
     margin: 0.75rem 0;
-
+    color: var(--cds-link-primary);
     &:hover {
       text-decoration: underline;
       cursor: pointer;
     }
+  }
+
+  .logExceptionMessage {
+    padding: 1rem 0;
+    white-space: pre-wrap;
+    max-height: max-content;
+  }
+
+  .exceptionContentWrapper {
+    margin: 1rem 0;
   }
 }

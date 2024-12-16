@@ -6,8 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { SvgIcon, Button } from '@instana/components';
 
 import { t } from 'in-i18n';
 
@@ -43,14 +42,9 @@ export default function ProgressInformation({ getRedirectButtonProperties, isBac
           />
         </div>
       </div>
-
-      <Button
-        style={{ opacity: buttonProps.disabled ? 0.5 : 1 }}
-        className={locals.goToInstanceButton}
-        kind="secondary"
-        icon="lib_arrow_expand_right"
-        {...buttonProps}
-      />
+      <div className={locals.goToInstanceButtonCarbon}>
+        <Button kind="tertiary" darkTheme icon="lib_arrow_expand_right" {...buttonProps} />
+      </div>
     </div>
   );
 }

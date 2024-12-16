@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import HighlightingHandler from 'in-profiling/analyze/AnalyzeView/ProfilesView/CanvasBasedProfileFlameGraph/HighlightingHandler';
 import strechData from 'in-profiling/analyze/AnalyzeView/ProfilesView/CanvasBasedProfileFlameGraph/strechData';

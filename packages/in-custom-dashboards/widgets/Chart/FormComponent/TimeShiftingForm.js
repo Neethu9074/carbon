@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import { Spacer } from '@instana/components';
-import { Toggle } from '@instana/legacy';
+import { Spacer, Toggle } from '@instana/components';
+import { Select } from '@instana/components';
 
 import { timeShifts, defaultTimeShift, previousHourTimeShift } from 'in-stores/time/shifting';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
@@ -14,7 +14,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import HelpAction from 'in-components/workspace/HelpAction';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
-import Select from 'in-components/form/Select/Select';
 import Tooltip from 'in-components/Tooltip';
 import { Trans, t } from 'in-i18n';
 
@@ -46,11 +45,8 @@ export default function TimeShiftingForm({ axisName, index, indexInAxis, onChang
                 id={`metic-configurator-${index}-time-shift-enabler`}
                 checked={isEnabled}
                 disabled={disabled}
-                onChange={e => {
-                  let newOffset = defaultTimeShift.offset;
-                  if (e.target.checked) {
-                    newOffset = previousHourTimeShift.offset;
-                  }
+                onToggle={e => {
+                  const newOffset = e ? previousHourTimeShift.offset : defaultTimeShift.offset;
                   onChange([axisName, 'metrics', indexInAxis, 'timeShift'], field =>
                     field.setValue(newOffset).setTouched(true)
                   );
@@ -108,9 +104,9 @@ export default function TimeShiftingForm({ axisName, index, indexInAxis, onChang
                 id={`metic-configurator-${index}-time-shift-comparison`}
                 checked={compareToTimeShiftedField.value}
                 disabled={disabled}
-                onChange={e =>
+                onToggle={e =>
                   onChange([axisName, 'metrics', indexInAxis, 'compareToTimeShifted'], field =>
-                    field.setValue(e.target.checked).setTouched(true)
+                    field.setValue(e).setTouched(true)
                   )
                 }
               />

@@ -8,7 +8,7 @@ import React from 'react';
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { number, seconds, millis } from 'in-services/formatters/number';
+import { number, seconds } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
@@ -127,60 +127,6 @@ export default connectTo(
                 labels: [
                   t('in-internal:monitoringUnit.hubforce.numOfInternalSqsMsg'),
                   t('in-internal:monitoringUnit.hubforce.numOfMarketplaceSqsMsg')
-                ],
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-        </Columize>
-
-        <h2>{t('in-internal:monitoringUnit.hubforce.salesforce')}</h2>
-        <Columize>
-          <DashboardSection title={t('in-internal:monitoringUnit.hubforce.salesforceApiCallDurationMean')}>
-            <Chart
-              snapshotIds={hubforce.length === 0 ? [] : Array(2).fill(hubforce[0].dropwizard.get('id'))}
-              timeConfig={timeConfig}
-              y1={{
-                min: 0,
-                formatter: millis.detailed,
-                metrics: [
-                  'metrics.timers.salesforce-fetch-with-soql.mean',
-                  'metrics.timers.salesforce-single-update.mean'
-                ],
-                labels: [
-                  t('in-internal:monitoringUnit.hubforce.soqlFetchDuration'),
-                  t('in-internal:monitoringUnit.hubforce.singlePopretyUpdateDuration')
-                ],
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-
-          <DashboardSection title={t('in-internal:monitoringUnit.hubforce.salesforceApiMultiplePropCallDurationMean')}>
-            <Chart
-              snapshotIds={hubforce.map(r => r.dropwizard.get('id'))}
-              timeConfig={timeConfig}
-              y1={{
-                min: 0,
-                formatter: millis.detailed,
-                metrics: ['metrics.timers.salesforce-multiple-update.mean'],
-                labels: [t('in-internal:monitoringUnit.hubforce.duration')],
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
-
-          <DashboardSection title={t('in-internal:monitoringUnit.hubforce.salesforceApiErrorCall')}>
-            <Chart
-              snapshotIds={hubforce.length === 0 ? [] : Array(2).fill(hubforce[0].dropwizard.get('id'))}
-              timeConfig={timeConfig}
-              y1={{
-                min: 0,
-                formatter: number.perSecond.compact,
-                metrics: ['metrics.meters.salesforce-rest-errors', 'metrics.meters.salesforce-soql-errors'],
-                labels: [
-                  t('in-internal:monitoringUnit.hubforce.numOfRestApiErrors'),
-                  t('in-internal:monitoringUnit.hubforce.numOfSoqlApiErrors')
                 ],
                 type: 'line'
               }}

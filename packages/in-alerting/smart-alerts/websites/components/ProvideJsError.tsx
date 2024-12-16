@@ -7,8 +7,8 @@ import { Field, MapForm } from 'formalistic';
 import classNames from 'classnames';
 import React from 'react';
 
+import { Button } from '@instana/components';
 import { TimeConfig } from '@instana/types';
-import { Button } from '@instana/legacy';
 
 import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';
 //@ts-expect-error TS migration

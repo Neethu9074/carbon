@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import rpt from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { IconButton } from '@instana/components';
+import { themes } from '@instana/design-tokens';
+import { useObservable } from '@instana/hooks';
 
 import {
   menuContent$,
@@ -15,35 +16,24 @@ import {
 } from 'in-map/components/MapOverlayControls/stores/menuContentStore';
 import { view$, types } from 'in-infrastructure/perspectives/view';
 import Tooltip from 'in-components/Tooltip';
-import connectTo from 'in-hoc/connectTo';
 
 import 'in-map/components/MapOverlayControls/components/Control.less';
 
 const block = 'in-control';
 
-export default connectTo(
-  {
-    menuContent: menuContent$
-  },
-  class extends React.Component {
-    static displayName = 'Control';
+export default function Control(props) {
+  const onClick = props.onClick;
+  const type = props.type;
+  const createMenuContent = props.createMenuContent;
+  const id = props.id;
+  const tooltipText = props.tooltipText;
+  const className = props.className;
+  const menuContent = useObservable(menuContent$, []);
+  const isActive = props.isActive || (menuContent && menuContent.id === (id ? id : type));
 
-    static propTypes = {
-      type: rpt.string.isRequired,
-      createMenuContent: rpt.func,
-      tooltipText: rpt.string,
-      className: rpt.string,
-      menuContent: rpt.any,
-      isActive: rpt.bool,
-      onClick: rpt.func,
-      id: rpt.string
-    };
-
-    componentWillUnmount() {
-      // menus will be closed if this component will be unmounted. There is an edge case which is handled here:
-      // if the user switches from physical to container view AND the grouping menu is open, leave it open!
+  useEffect(() => {
+    return () => {
       view$.once(currentView => {
-        const menuContent = this.props.menuContent;
         if (!menuContent) {
           return;
         }
@@ -54,52 +44,41 @@ export default connectTo(
         ) {
           return;
         } else {
-          const id = this.props.id ? this.props.id : this.props.type;
-          if (menuContent.id === id) {
+          if (menuContent.id === id || menuContent.id === type) {
             closeCurrentMenu();
           }
         }
       });
-    }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [menuContent]);
 
-    render() {
-      const onClick = this.props.onClick;
-      const type = this.props.type;
-      const createMenuContent = this.props.createMenuContent;
-      const id = this.props.id;
-      const tooltipText = this.props.tooltipText;
-      const className = this.props.className;
-      const menuContent = this.props.menuContent;
-      const isActive = this.props.isActive || (menuContent && menuContent.id === (id ? id : type));
-
-      let controlClassName = block;
-      if (isActive) {
-        controlClassName += ` ${block}--active`;
-      }
-      if (className) {
-        controlClassName += ` ${className}`;
-      }
-
-      return (
-        <Tooltip content={tooltipText} align="topRight">
-          <div
-            className={controlClassName}
-            onClick={() => {
-              if (onClick) {
-                onClick();
-              }
-              if (createMenuContent) {
-                toggleContent(getMenuContent(id ? id : type, createMenuContent));
-              }
-            }}
-          >
-            <SvgIcon className={`${block}__icon`} type={type} />
-          </div>
-        </Tooltip>
-      );
-    }
+  let controlClassName = block;
+  if (isActive) {
+    controlClassName += ` ${block}--active`;
   }
-);
+  if (className) {
+    controlClassName += ` ${className}`;
+  }
+
+  return (
+    <Tooltip content={tooltipText} align="topRight">
+      <div
+        className={controlClassName}
+        onClick={() => {
+          if (onClick) {
+            onClick();
+          }
+          if (createMenuContent) {
+            toggleContent(getMenuContent(id ? id : type, createMenuContent));
+          }
+        }}
+      >
+        <IconButton className={`${block}__icon`} color={themes.default.ids.color.option.white} type={type} />
+      </div>
+    </Tooltip>
+  );
+}
 
 function getMenuContent(type, createMenuContent) {
   return {

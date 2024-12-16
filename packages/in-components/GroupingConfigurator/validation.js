@@ -8,7 +8,7 @@ import { isEmpty } from 'lodash';
 import { DESTINATION, SOURCE } from '../QueryBuilder/tagFilter/entities';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 
-export function isValid(groupingConfiguration, tagCatalog) {
+export function isValid(groupingConfiguration, tagCatalog, disableEntitySelection = false) {
   if (isEmpty(groupingConfiguration)) {
     return true;
   }
@@ -20,7 +20,7 @@ export function isValid(groupingConfiguration, tagCatalog) {
     return null;
   }
 
-  if (tagTreeNode.canApplyToDestination || tagTreeNode.canApplyToSource) {
+  if (!disableEntitySelection && (tagTreeNode.canApplyToDestination || tagTreeNode.canApplyToSource)) {
     if (
       isBlank(groupingConfiguration.groupbyTagEntity) ||
       (groupingConfiguration.groupbyTagEntity !== DESTINATION && groupingConfiguration.groupbyTagEntity !== SOURCE)

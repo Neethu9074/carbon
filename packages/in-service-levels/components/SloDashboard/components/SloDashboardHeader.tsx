@@ -6,6 +6,8 @@
 
 import React from 'react';
 
+import { formatDateShort, formatTimeWithoutSeconds } from '@instana/format-date';
+import { Typography } from '@instana/components';
 import { Result } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
@@ -21,7 +23,7 @@ interface SloDashboardHeaderProps {
 
 export default function SloDashboardHeader({ result, data }: SloDashboardHeaderProps) {
   const { configuration } = data ?? {};
-  const { name } = configuration ?? {};
+  const { createdDate, name } = configuration ?? {};
 
   return (
     <DashboardHeader
@@ -30,6 +32,23 @@ export default function SloDashboardHeader({ result, data }: SloDashboardHeaderP
       icon="lib_service_level"
       result={result}
       renderButtonLine={() => configuration && <AnalyzeSloEventsButtons configuration={configuration} />}
+      renderMetaInformation={() => renderMetaInformation(createdDate)}
     />
   );
 }
+
+const renderMetaInformation = (createdDate?: number) => {
+  if (!createdDate) return null;
+
+  const creationDay = formatDateShort(createdDate);
+  const creationTime = formatTimeWithoutSeconds(createdDate);
+
+  return (
+    <Typography variant="body-small">
+      {t('in-service-levels:sloDashboard.header.created_at', {
+        creationDay,
+        creationTime
+      })}
+    </Typography>
+  );
+};

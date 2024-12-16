@@ -14,14 +14,19 @@ import locals from './WidgetCard.mless';
 
 interface WidgetCardProps {
   progress: Progress;
-  dragHandle: React.ReactNode;
-  actions: React.ReactNode;
-  header: React.ReactElement;
+  rightHeaderContent?: React.ReactElement;
+  leftHeaderContent?: React.ReactElement;
   children: React.ReactNode;
   isInModal?: boolean;
 }
 
-export default function WidgetCard({ children, progress, dragHandle, actions, isInModal, header }: WidgetCardProps) {
+export default function WidgetCard({
+  children,
+  progress,
+  rightHeaderContent,
+  isInModal,
+  leftHeaderContent
+}: WidgetCardProps) {
   return (
     <div className={locals.widgetCardWrapper}>
       {progress.loading && (
@@ -39,13 +44,8 @@ export default function WidgetCard({ children, progress, dragHandle, actions, is
         headerClassName={classNames({
           [locals.noPaddingTitle]: isInModal
         })}
-        rightHeaderContent={
-          <>
-            {dragHandle}
-            {actions}
-          </>
-        }
-        leftHeaderContent={header}
+        rightHeaderContent={rightHeaderContent}
+        leftHeaderContent={leftHeaderContent}
       >
         <div className={locals.cardBody}>{children}</div>
       </Card>

@@ -9,8 +9,9 @@ import { AlertPreviewHeadline } from 'in-alerting/smart-alerts/components/dialog
 import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import { placeholdersByEvaluationType } from 'in-alerting/smart-alerts/applications/inventory/placeholders';
 import { getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
+import { t } from 'in-i18n';
 
-export default function ApplicationAlertPreviewHeadline({ form }) {
+export default function ApplicationAlertPreviewHeadline({ form, isTearSheet }) {
   const manuallyChangedTitle = form.get('name').value;
   const evaluationType = form.get('evaluationType').value;
   const placeholders = placeholdersByEvaluationType[evaluationType];
@@ -22,6 +23,14 @@ export default function ApplicationAlertPreviewHeadline({ form }) {
   );
 
   return (
-    <AlertPreviewHeadline title={manuallyChangedTitle ? titleWithReplacedPlaceholders : getTitlePlaceholder(form)} />
+    <AlertPreviewHeadline
+      title={
+        manuallyChangedTitle
+          ? titleWithReplacedPlaceholders
+          : isTearSheet
+          ? t('in-alerting:smartAlerts.components.smartAlertDialog.alertPreviewDefaultTitle')
+          : getTitlePlaceholder(form)
+      }
+    />
   );
 }

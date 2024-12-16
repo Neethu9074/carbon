@@ -6,9 +6,10 @@
 
 import React from 'react';
 
-import { getSapHanaDashboard } from 'in-sap/navigation/paths';
+import { useSapHanaDashboard } from 'in-sap/navigation/paths';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default function SystemDashboard({ snapshot }) {
-  return <RedirectWithHash to$={getSapHanaDashboard(snapshot.get('id'))} />;
+  const href = useSapHanaDashboard(snapshot.get('id'));
+  return <RedirectWithHash href={href} />;
 }

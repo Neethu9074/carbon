@@ -9,12 +9,13 @@ import React from 'react';
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import { BluePrint, getSimpleBlueprintConfig } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
+import { syntheticWizardCreateTestTypeSwitch } from 'in-synthetics/tracking/tracker';
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
-import { syntheticWizardCreateTestTypeSwitch } from 'in-synthetics/tracker';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
+import Menu from 'in-alerting/smart-alerts/components/Menu';
 import { Script } from 'in-synthetics/utils/constants';
 import { Error as ScriptError } from 'in-types';
-import Menu from 'in-components/Menu';
 import { t } from 'in-i18n';
 
 import locals from 'in-synthetics/createTests/wizard/SelectTestStep.mless';
@@ -43,6 +44,7 @@ export default function SelectTestStep({
   simpleMode,
   setActiveTabIndex
 }: Props) {
+  const { trackCta } = useSegmentTracking();
   return (
     <SimpleModeStepContentWrapper headline={t('in-synthetics:dialog.createTest.selectTest.title')}>
       <Menu
@@ -50,16 +52,15 @@ export default function SelectTestStep({
         addRightSeparator
         initialItemSelected={selectedBlueprint}
         onItemClick={item => {
-          // Tracker
-          syntheticWizardCreateTestTypeSwitch({
-            detail: `Switched to create ${item.type} test section from wizard mode`
-          });
+          // Segment Tracker
+          syntheticWizardCreateTestTypeSwitch(trackCta, item);
           onSelectBluePrint(item);
           updateForm(createForm(simpleMode, item));
           setScript({ name: '', text: '', extension: 'js' });
           setScriptErrors([] as ScriptError[]);
           setActiveTabIndex(0);
         }}
+        direction="vertical"
       />
       <div className={locals.presenterWrapper}>
         <SelectedBlueprintPresenter title={selectedBlueprint.headline}>

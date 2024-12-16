@@ -7,6 +7,7 @@ import React from 'react';
 
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
+import { getIcon } from 'in-kubernetes/utils';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -18,12 +19,18 @@ export default connectTo(
       })
       .map(result => (result.data ? result.data : null))
   }),
-  function WorkloadControllerBreadcrumb({ headerTitle, workloadControllerId, workloadController, href }) {
+  function WorkloadControllerBreadcrumb({
+    headerTitle,
+    workloadControllerId,
+    workloadController,
+    workloadControllerType,
+    href
+  }) {
     return (
       <WithInfrastructureHealthIndicationBehaviour
         snapshotId={workloadControllerId}
         render={healthInfo => (
-          <Breadcrumb label={headerTitle} icon="lib_kubernetes_workload" href={href} healthInfo={healthInfo}>
+          <Breadcrumb label={headerTitle} icon={getIcon(workloadControllerType)} href={href} healthInfo={healthInfo}>
             {workloadController && workloadController.name}
           </Breadcrumb>
         )}

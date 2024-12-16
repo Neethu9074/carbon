@@ -15,8 +15,8 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { number } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
@@ -72,23 +72,21 @@ const cols = [
 
 export default function GarbageCollectionStatsList({ snapshotId, timeConfig }: GarbageCollectionStatsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'garbageCollectionStats'), [snapshotId]);
-  if (!data) {
-    return null;
-  }
-  const garbageCollectionStat = (data as SnapshotData).get('raw_payload', []);
+  const garbageCollectionStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: GarbageCollectionStatsRow[] = garbageCollectionStat
-    .keySeq()
-    .toArray()
-    .map((key: string) => {
-      const garbageCollectionStats = garbageCollectionStat.get(key);
-
-      return {
-        key,
-        snapshotId,
-        timeConfig,
-        garbageCollectionStats
-      };
-    });
+    ? garbageCollectionStat
+        .keySeq()
+        .toArray()
+        .map((key: string) => {
+          const garbageCollectionStats = garbageCollectionStat.get(key);
+          return {
+            key,
+            snapshotId,
+            timeConfig,
+            garbageCollectionStats
+          };
+        })
+    : [];
 
   function getDetails(row: GarbageCollectionStatsRow) {
     return (
@@ -100,8 +98,14 @@ export default function GarbageCollectionStatsList({ snapshotId, timeConfig }: G
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: [`garbageCollectionStats.${row.key}.historyCount`,`garbageCollectionStats.${row.key}.waiterCount`],
-                labels: [t('in-forge:plugins.sapHana.dashboard.historyCount'),t('in-forge:plugins.sapHana.dashboard.waiterCount')],
+                metrics: [
+                  `garbageCollectionStats.${row.key}.historyCount`,
+                  `garbageCollectionStats.${row.key}.waiterCount`
+                ],
+                labels: [
+                  t('in-forge:plugins.sapHana.dashboard.historyCount'),
+                  t('in-forge:plugins.sapHana.dashboard.waiterCount')
+                ],
                 type: 'line',
                 formatter: number.compact
               }}
@@ -114,8 +118,14 @@ export default function GarbageCollectionStatsList({ snapshotId, timeConfig }: G
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: [`garbageCollectionStats.${row.key}.startedJobs`,`garbageCollectionStats.${row.key}.processedJobs`],
-                labels: [t('in-forge:plugins.sapHana.dashboard.startedJobs'),t('in-forge:plugins.sapHana.dashboard.processedJobs')],
+                metrics: [
+                  `garbageCollectionStats.${row.key}.startedJobs`,
+                  `garbageCollectionStats.${row.key}.processedJobs`
+                ],
+                labels: [
+                  t('in-forge:plugins.sapHana.dashboard.startedJobs'),
+                  t('in-forge:plugins.sapHana.dashboard.processedJobs')
+                ],
                 type: 'line',
                 formatter: number.compact
               }}

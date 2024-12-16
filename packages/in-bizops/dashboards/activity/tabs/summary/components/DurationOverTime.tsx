@@ -76,7 +76,7 @@ export default function DurationOverTime({ rightHeaderContent }: DurationOverTim
     tagFilterExpression: tagFilters,
     timeConfig: timeConfig,
     timeShift: 0
-  };
+  } as const;
 
   const durationMetrics: Metric[] = [
     {

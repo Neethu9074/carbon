@@ -5,33 +5,30 @@
  */
 
 import classNames from 'classnames';
+import { isEmpty } from 'lodash';
 import React from 'react';
 
+import { Li, Link, Ul, IconButton, SvgIcon, DataTable as CarbonTable } from '@instana/components';
+import { ActionInstance, ActorType } from '@instana/types';
 import { Observable, just } from '@instana/observables';
-import { Li, Link, Ul } from '@instana/components';
-import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
-import { SvgIcon } from '@instana/components';
 
 import {
   getEntityIdView,
-  teamSettingsAccessControlUsers,
-  teamSettingsAccessControlApiTokens
+  securityAndAccessAccessControlUsers,
+  securityAndAccessAccessControlApiTokens
 } from 'in-settings/navigation/paths';
-import { isAnsible, isGithub, isGitlab, isJira, isExternal } from 'in-automation/ActionCatalog/shared';
-import useHrefToActionDetails from 'in-automation/ActionCatalog/useHrefToActionDetails';
+import useHrefToActionDetails from 'in-automation/navigation/hooks/useHrefToActionDetails';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { policiesDetailsFullyQualified } from 'in-automation/navigation/paths';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { ACTION_TRANSLATIONS, ACTION_TYPE } from 'in-automation/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { clickTurboLinkForDetailsTracker } from 'in-automation/tracker';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
+import { carbonTableEnabled } from 'in-services/featureFlags';
 import { formatDateTime } from 'in-services/formatters/date';
-import { getType } from 'in-automation/ActionCatalog/shared';
-import { Action, ActionInstance, ActorType } from 'in-types';
-import IconButton from 'in-components/IconButton/IconButton';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { getSnapshot } from 'in-stores/snapshot/snapshot';
@@ -52,6 +49,7 @@ export default function DetailTab({
   inActionLane?: boolean;
 }) {
   const { createHref, location } = useNavigation();
+  const getDashboardLink = useGetDashboardLink();
 
   function getPolicyView(id: string): string {
     const path = location;
@@ -67,17 +65,6 @@ export default function DetailTab({
     setOrDeleteMatrixKey(path, eventsPath, 'eventId', id);
     return createHref(path);
   }
-
-  const handleTracking = (name: string, actionLane: boolean, link: string | undefined) => {
-    if (link) {
-      clickTurboLinkForDetailsTracker({
-        actionName: name,
-        actionLink: link,
-        actionType: 'Turbonomic',
-        view: actionLane ? 'Actions lane' : 'Action history'
-      });
-    }
-  };
 
   const hrefToActionDetails = useHrefToActionDetails();
 
@@ -109,24 +96,24 @@ export default function DetailTab({
     () => (hostSnapshotId ? getSnapshot(hostSnapshotId).map(snapshot => snapshot.toJS()) : just({})),
     [hostSnapshotId]
   );
+
   const tableData = [
     {
       label: t('in-automation:actionHistory.errorMessage'),
       value: errorMessage,
-      showCondition: errorMessage,
+      showCondition: !isEmpty(errorMessage),
       actionLane: inActionLane
     },
     {
       label: t('in-automation:actionHistory.log'),
       value: t('in-automation:actionHistory.viewLog'),
       isLink: true,
-      actionLane: inActionLane,
       stringLink: link,
       showCondition:
         (output === null || output?.trim().length === 0) &&
         status !== 'SUBMITTED' &&
         status !== 'TIMEOUT' &&
-        !isExternal(type)
+        type !== ACTION_TYPE.EXTERNAL
     },
     {
       label: t('in-automation:actionHistory.startTime'),
@@ -143,8 +130,9 @@ export default function DetailTab({
       label: t('in-automation:actionHistory.initiator'),
       value: actorName,
       isLink: true,
+      actionLane: inActionLane,
       showCondition:
-        actorName &&
+        !isEmpty(actorName) &&
         actorType !== 'ACTOR_UNKNOWN' &&
         ((actorType === 'USER' && role?.canConfigureUsers) ||
           (actorType === 'APITOKEN' && role?.canConfigureApiTokens) ||
@@ -156,50 +144,48 @@ export default function DetailTab({
       label: t('in-automation:actionHistory.event'),
       value: problemText,
       isLink: true,
-      showCondition: eventId,
+      showCondition: !isEmpty(eventId) && type !== ACTION_TYPE.EXTERNAL,
       actionLane: inActionLane,
       stringLink: getLinkToEventDetails(eventId ?? '')
+    },
+    {
+      label: t('in-automation:actionHistory.risk'),
+      value: metadata?.find(data => data.name === 'riskDescription')?.value ?? '',
+      showCondition: type === ACTION_TYPE.EXTERNAL,
+      actionLane: inActionLane
     },
     {
       label: t('in-automation:actionHistory.host'),
       value: snapshot?.label ?? hostSnapshotId,
       isLink: true,
       isObservable: true,
-      showCondition: hostSnapshotId && snapshot,
-      ObservableLink: getDashboardLink(hostSnapshotId ?? '', { pathname: `${agentsPath}/dashboard` })
+      showCondition: !isEmpty(hostSnapshotId) && !isEmpty(snapshot),
+      stringLink: getDashboardLink(hostSnapshotId ?? '', { pathname: `${agentsPath}/dashboard` })
     },
     {
       label: t('in-automation:titleActionType'),
-      value: getType(type),
+      value: ACTION_TRANSLATIONS[type],
       actionLane: inActionLane
     },
     {
       label: t('in-automation:actionHistory.action'),
       value: actionName,
-      isLink: true,
+      isLink: type !== ACTION_TYPE.EXTERNAL ? true : false,
       isObservable: true,
-      stringLink:
-        type === 'EXTERNAL'
-          ? metadata?.find(obj => obj.name === 'actionEntityURL')?.value
-          : hrefToActionDetails({ id: actionId } as Action),
-      onClick: () =>
-        handleTracking(
-          actionName,
-          inActionLane,
-          type === 'EXTERNAL' ? metadata?.find(obj => obj.name === 'actionEntityURL')?.value : undefined
-        ),
+      stringLink: type === ACTION_TYPE.EXTERNAL ? undefined : hrefToActionDetails(actionId),
       actionLane: inActionLane
     },
     {
       label: t('in-automation:actionHistory.actionInstanceId'),
+      actionLane: inActionLane,
       value: (
-        <div className={locals.manualContentMarkdown}>
-          {id}
+        <div className={locals.actionInstanceIdContent}>
+          <span className={locals.actionInstanceId}>{id}</span>
           <CopyToClipboard getText={() => id ?? ''}>
             {refSetter => (
               <span ref={refSetter}>
                 <IconButton
-                  color={themes.default.ids.color.option.blue['500']}
+                  color="var(--cds-link-primary)"
                   onClick={stopPropagationAndPreventDefault}
                   type="lib_actions_copy"
                 />
@@ -212,13 +198,19 @@ export default function DetailTab({
     {
       label: t('in-automation:actionHistory.hostsLimit'),
       actionLane: false,
-      showCondition: isAnsible(type),
+      showCondition: type === ACTION_TYPE.ANSIBLE,
       value: (
         <Ul framed={false}>
           {(() => {
             const hostsLimit = (metadata?.find(data => data.name === 'hostsLimit')?.value ?? '').split(',');
             return hostsLimit.map(host => (
-              <Li key={host} className={classNames({ [locals.singleHostLimit]: hostsLimit.length === 1 })}>
+              <Li
+                key={host}
+                className={classNames({
+                  [locals.singleHostLimit]: hostsLimit.length === 1,
+                  [locals.hostLimit]: true
+                })}
+              >
                 {host}
               </Li>
             ));
@@ -227,37 +219,80 @@ export default function DetailTab({
       )
     }
   ];
-  if (isAnsible(type)) {
+  if (type === ACTION_TYPE.ANSIBLE) {
     const ansibleUrl = metadata?.find(data => data.name === 'ansibleUrl');
     const ansibleJobId = metadata?.find(data => data.name === 'ansibleJobId');
+    const ansibleWorkflowJobId = metadata?.find(data => data.name === 'ansibleWorkflowId');
     if (ansibleUrl && ansibleJobId) {
-      const jobUrl = `${ansibleUrl.value}/#/jobs/playbook/${ansibleJobId.value}`;
+      const isAnsibleWorkflow = ansibleWorkflowJobId?.value !== '';
+      const templateName = isAnsibleWorkflow ? 'workflow' : 'playbook';
+      const jobUrl = `${ansibleUrl.value}/#/jobs/${templateName}/${ansibleJobId.value}`;
       tableData.push({
         label: t('in-automation:actionHistory.ansibleJob'),
         value: ansibleJobId.value ?? '',
         isLink: true,
         stringLink: jobUrl,
         actionLane: false,
-        showCondition: ansibleJobId.value && ansibleUrl.value ? ansibleUrl.value : ''
+        showCondition: !isEmpty(ansibleJobId.value) && !isEmpty(ansibleUrl.value)
       });
     }
   }
 
-  if (isGithub(type) || isGitlab(type) || isJira(type)) {
+  if ([ACTION_TYPE.GITHUB, ACTION_TYPE.GITLAB, ACTION_TYPE.JIRA].includes(type)) {
     const id = metadata?.find(data => data.name === 'id');
     const url = metadata?.find(data => data.name === 'url');
     if (id && url) {
       const ticketUrlValue = `${url.value}`;
       tableData.push({
-        label: isJira(type) ? t('in-automation:actionHistory.taskUrl') : t('in-automation:actionHistory.issueUrl'),
+        label:
+          type === ACTION_TYPE.JIRA
+            ? t('in-automation:actionHistory.taskUrl')
+            : t('in-automation:actionHistory.issueUrl'),
         value: id.value ?? '',
         isLink: true,
         stringLink: ticketUrlValue,
         actionLane: false,
-        showCondition: id.value && url.value ? id.value : ''
+        showCondition: !isEmpty(id.value) && !isEmpty(url.value)
       });
     }
   }
+
+  const carbonHeaders = [
+    {
+      key: 'property',
+      header: t('in-automation:actionHistory.property')
+    },
+    {
+      key: 'value',
+      header: t('in-automation:actionHistory.value')
+    }
+  ];
+
+  const filterRows_WhenNotShowingCondition_or_actionLaneIsDifferent = ({
+    showCondition = true,
+    actionLane = false
+  }) => {
+    if (!showCondition || (inActionLane && !actionLane) || (!inActionLane && actionLane)) {
+      return false;
+    }
+    return true;
+  };
+
+  const carbonRows = tableData
+    .filter(filterRows_WhenNotShowingCondition_or_actionLaneIsDifferent)
+    .map(({ label, value, isLink, ObservableLink, stringLink }) => {
+      return {
+        id: label,
+        property: label,
+        value: isLink ? (
+          <Link target="_blank" className={locals.detailsLink} href={ObservableLink ?? stringLink ?? undefined}>
+            {value} <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />{' '}
+          </Link>
+        ) : (
+          value
+        )
+      };
+    });
 
   const renderRow = (
     label: string,
@@ -265,10 +300,9 @@ export default function DetailTab({
     isLink?: boolean,
     ObservableLink?: Observable<string> | null,
     stringLink?: string | null,
-    showCondition?: string | boolean,
+    showCondition?: boolean,
     actionLane?: boolean,
-    inActionLane?: boolean,
-    onClick?: () => void
+    inActionLane?: boolean
   ) => {
     if (!showCondition || (inActionLane && !actionLane) || (!inActionLane && actionLane)) return null;
 
@@ -277,14 +311,8 @@ export default function DetailTab({
         <td>{label}</td>
         <td>
           {isLink ? (
-            <Link
-              className={locals.detailsLink}
-              target="_blank"
-              onClick={onClick}
-              href={ObservableLink ?? stringLink ?? undefined}
-            >
-              {value}{' '}
-              <SvgIcon size="s" type="lib_views_external_link" color={themes.default.ids.color.option.blue['500']} />
+            <Link className={locals.detailsLink} target="_blank" href={ObservableLink ?? stringLink ?? undefined}>
+              {value} <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />
             </Link>
           ) : (
             value
@@ -294,45 +322,53 @@ export default function DetailTab({
     );
   };
 
+  if (carbonTableEnabled) {
+    return (
+      <div
+        className={classNames({
+          [locals.instanceTabContent]: !inActionLane
+        })}
+      >
+        <CarbonTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
+      </div>
+    );
+  }
+
   return (
-    <table
+    <div
       className={classNames({
-        [locals.ActionInstanceDetailsTable]: true,
-        [locals.ActionLaneTable]: inActionLane
+        [locals.instanceTabContent]: !inActionLane
       })}
     >
-      <thead className={locals.headerRow}>
-        <tr>
-          <th>{t('in-automation:actionHistory.property')}</th>
-          <th>{t('in-automation:actionHistory.value')}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {tableData.map(
-          ({ label, value, isLink, ObservableLink, stringLink, showCondition = true, actionLane = false, onClick }) =>
-            renderRow(
-              label,
-              value,
-              isLink,
-              ObservableLink,
-              stringLink,
-              showCondition,
-              actionLane,
-              inActionLane,
-              onClick
-            )
-        )}
-      </tbody>
-    </table>
+      <table
+        className={classNames({
+          [locals.ActionInstanceDetailsTable]: true,
+          [locals.ActionLaneTable]: inActionLane
+        })}
+      >
+        <thead className={locals.headerRow}>
+          <tr>
+            <th>{t('in-automation:actionHistory.property')}</th>
+            <th>{t('in-automation:actionHistory.value')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tableData.map(
+            ({ label, value, isLink, ObservableLink, stringLink, showCondition = true, actionLane = false }) =>
+              renderRow(label, value, isLink, ObservableLink, stringLink, showCondition, actionLane, inActionLane)
+          )}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
 function getActorLink(actorType?: ActorType, actorId?: string) {
   switch (actorType) {
     case 'USER':
-      return getEntityIdView(teamSettingsAccessControlUsers, actorId ?? '');
+      return getEntityIdView(securityAndAccessAccessControlUsers, actorId ?? '');
     case 'APITOKEN':
-      return getEntityIdView(teamSettingsAccessControlApiTokens, actorId ?? '');
+      return getEntityIdView(securityAndAccessAccessControlApiTokens, actorId ?? '');
     default:
       return null;
   }

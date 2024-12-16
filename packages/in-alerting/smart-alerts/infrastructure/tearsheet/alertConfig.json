@@ -1,0 +1,64 @@
+{
+  "alertConfig": {
+    "name": "AN new smart alert",
+    "description": "Something is going wrong in your infrastructure.",
+    "severity": 5,
+    "tagFilterExpression": {
+      "type": "EXPRESSION",
+      "logicalOperator": "AND",
+      "elements": []
+    },
+    "groupBy": [],
+    "rule": {
+      "alertType": "genericRule",
+      "metricName": "mem.time_in_gcn",
+      "entityType": "clrRuntimePlatform",
+      "aggregation": "MEAN",
+      "crossSeriesAggregation": "MEAN",
+      "regex": false
+    },
+    "threshold": {
+      "type": "staticThreshold",
+      "operator": ">=",
+      "value": 0.07,
+      "lastUpdated": 1732001460644
+    },
+    "forecastingConfig": {
+      "fitTimeframe": 172800000,
+      "forecastTimeframe": 4800000
+    },
+    "alertChannelIds": [],
+    "granularity": 600000,
+    "timeThreshold": {
+      "type": "violationsInSequence",
+      "timeWindow": 600000
+    },
+    "id": "1234",
+    "created": 1732001460711,
+    "initialCreated": 1731413282866,
+    "readOnly": false,
+    "enabled": true,
+    "customPayloadFields": [],
+    "rules": [
+      {
+        "thresholdOperator": ">=",
+        "rule": {
+          "alertType": "genericRule",
+          "metricName": "mem.time_in_gcn",
+          "entityType": "clrRuntimePlatform",
+          "aggregation": "MEAN",
+          "crossSeriesAggregation": "MEAN",
+          "regex": false
+        },
+        "thresholds": {
+          "WARNING": {
+            "type": "staticThreshold",
+            "value": 0.07
+          }
+        }
+      }
+    ],
+    "alertChannels": {},
+    "duplicateFrom": "eNJrstDZQhW17iZu22vntA"
+  }
+}

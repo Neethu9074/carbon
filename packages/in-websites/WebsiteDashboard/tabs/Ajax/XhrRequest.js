@@ -6,8 +6,8 @@
 import React, { Fragment } from 'react';
 
 import { themes } from '@instana/design-tokens';
+import { Button } from '@instana/components';
 import { just } from '@instana/observables';
-import { Button } from '@instana/legacy';
 
 import { ajaxTabFullyQualified, detailsPath, useLinkToAnalyze, useLinkToWebsite } from 'in-websites/navigation/paths';
 import WebsiteBeaconGroupsChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteBeaconGroupsChartWrapper';

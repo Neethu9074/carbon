@@ -59,8 +59,10 @@ export function NodeComponent(props, ref) {
           }
           return (
             <Tooltip
-              align="rightMiddle"
-              themeStyle="unset"
+              align="auto"
+              themeStyle="light"
+              forceTheme
+              overwriteBlock
               content={
                 <ServiceInformation
                   service={node.data}

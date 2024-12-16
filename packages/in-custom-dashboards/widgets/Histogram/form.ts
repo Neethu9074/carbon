@@ -8,18 +8,19 @@ import { createField, createMapForm } from 'formalistic';
 
 // @ts-expect-error
 import { createForm as createMetricConfigurationForm } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
-import { metricConfigurationPath, formatterPath } from '../_shared/useFormatterFormSideEffects';
+import { metricConfigurationPath, formatterPath, formatterSelectedPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import { defaultFormatter, allFormatterIds } from 'in-stores/metric/formatters';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { stringValidator } from 'in-services/validators/jsonType';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
-import { UnifiedMetricConfiguration } from 'in-types';
+import { UnifiedMetricConfigurationUnion } from 'in-types';
 
 export interface HistogramConfig {
   [formatterPath]: string;
-  [metricConfigurationPath]?: UnifiedMetricConfiguration;
+  [formatterSelectedPath]?: boolean;
+  [metricConfigurationPath]?: UnifiedMetricConfigurationUnion;
 }
 
 export function createForm(savedState: Partial<HistogramConfig>) {

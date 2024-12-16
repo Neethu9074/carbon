@@ -10,7 +10,8 @@ import { themes } from '@instana/design-tokens';
 import {
   createLineWithThreshold,
   createLineWithAdaptiveBaseline,
-  createLineWithBaselineAndOptionalPotentialProblem
+  createLineWithBaselineAndOptionalPotentialProblem,
+  createLineWithMultiHistoricBaselineAndOptionalPotentialProblem
 } from 'in-alerting/components/Chart/renderer/Renderer';
 import {
   generateMetrics,
@@ -49,10 +50,19 @@ const baselineBarWithBaselineWithGaps = baselineBarWithBaseline
 
 const granularity = 10 * oneMinute;
 
-const historicThreshold = {
+const warningHistoricThreshold = {
   baseline: baselineBarWithBaseline,
   sensitivity: 2,
   deviationFactor: 2,
+  operator: '>=',
+  labels: ['Latency', 'Threshold', 'Violations'],
+  thresholdGranularity: minutes.toMillis(10)
+};
+
+const criticalHistoricThreshold = {
+  baseline: baselineBarWithBaseline,
+  sensitivity: 4,
+  deviationFactor: 4,
   operator: '>=',
   labels: ['Latency', 'Threshold', 'Violations'],
   thresholdGranularity: minutes.toMillis(10)
@@ -81,20 +91,56 @@ export function BaselinesWithGaps() {
   return (
     <>
       <h1>Historic Baseline without high-light</h1>
-      <Chart renderer={createLineWithBaselineAndOptionalPotentialProblem(historicThreshold, granularity)} />
+      <Chart
+        renderer={createLineWithBaselineAndOptionalPotentialProblem(warningHistoricThreshold, granularity)}
+        isMultithreshold={false}
+      />
       <h1>Historic Baseline with a high-light</h1>
-      <Chart renderer={createLineWithBaselineAndOptionalPotentialProblem(historicThreshold, granularity, highlight)} />
+      <Chart
+        renderer={createLineWithBaselineAndOptionalPotentialProblem(warningHistoricThreshold, granularity, highlight)}
+        isMultithreshold={false}
+      />
       <h1>Adaptive Baseline</h1>
-      <Chart renderer={createLineWithAdaptiveBaseline(adaptiveBaseline, granularity, [])} />
+      <Chart renderer={createLineWithAdaptiveBaseline(adaptiveBaseline, granularity, [])} isMultithreshold={false} />
       <h1>Static threshold</h1>
-      <Chart renderer={createLineWithThreshold('>', 30)} />
+      <Chart renderer={createLineWithThreshold('>', 30)} isMultithreshold={false} />
       <h1>Static threshold without value</h1>
-      <Chart renderer={createLineWithThreshold('>', null)} />
+      <Chart renderer={createLineWithThreshold('>', null)} isMultithreshold={false} />
+      <h1>Multi-historic baseline when only warning defined</h1>
+      <Chart
+        renderer={createLineWithMultiHistoricBaselineAndOptionalPotentialProblem(
+          warningHistoricThreshold,
+          undefined,
+          granularity
+        )}
+        isMultithreshold
+        definedThreshold={'justWarning'}
+      />
+      <h1>Multi-historic baseline when only critical defined</h1>
+      <Chart
+        renderer={createLineWithMultiHistoricBaselineAndOptionalPotentialProblem(
+          undefined,
+          criticalHistoricThreshold,
+          granularity
+        )}
+        isMultithreshold
+        definedThreshold={'justCritical'}
+      />
+      <h1>Multi-historic baseline when both threshold defined</h1>
+      <Chart
+        renderer={createLineWithMultiHistoricBaselineAndOptionalPotentialProblem(
+          warningHistoricThreshold,
+          criticalHistoricThreshold,
+          granularity
+        )}
+        isMultithreshold
+        definedThreshold={'bothDefined'}
+      />
     </>
   );
 }
 
-function Chart({ renderer }) {
+function Chart({ renderer, isMultithreshold, definedThreshold }) {
   return (
     <ResultAwareChart
       result={{
@@ -106,23 +152,7 @@ function Chart({ renderer }) {
       config={{
         timeConfig: generateTimeframe(oneDay / 6), // 4 hours
         granularity,
-        y1: {
-          metricIds: ['latency', 'threshold'],
-          excludedLabelsFromTooltip: ['Violations'],
-          icons: {
-            types: ['lib_legend_line_chart', 'lib_legend_threshold', 'lib_actions_stop', 'lib_actions_stop'],
-            colors: [carbonCategorical.cyan50, carbonAlert.red60, getColorWithTransparency(carbonAlert.red60).c50]
-          },
-          getMax: metricsMaxValue => metricsMaxValue * 1.4,
-          colors: [
-            themes.default.ids.color.option.blue['400'],
-            themes.default.ids.color.option.red['500'],
-            themes.default.ids.color.option.orange['500']
-          ],
-          renderer,
-          metrics: metricsBarWithBaseline,
-          labels: ['Latency', 'Threshold', 'Violations']
-        }
+        y1: getY1(isMultithreshold, renderer, definedThreshold)
       }}
     />
   );
@@ -135,7 +165,9 @@ function generateTimeframe(windowSize) {
   };
 }
 
-export default {};
+export default {
+  title: 'Alert chart rendering'
+};
 
 export function StaticThresholdWithPredictions() {
   return (
@@ -223,4 +255,89 @@ function ChartPrediction({ renderer, isMetricOverlap }) {
       />
     </>
   );
+}
+
+function getY1(isMultithreshold, renderer, definedThreshold) {
+  if (!isMultithreshold) {
+    return {
+      metricIds: ['latency', 'threshold'],
+      excludedLabelsFromTooltip: ['Violations'],
+      icons: {
+        types: ['lib_legend_line_chart', 'lib_legend_threshold', 'lib_actions_stop', 'lib_actions_stop'],
+        colors: [carbonCategorical.cyan50, carbonAlert.red60, getColorWithTransparency(carbonAlert.red60).c50]
+      },
+      getMax: metricsMaxValue => metricsMaxValue * 2,
+      colors: [
+        themes.default.ids.color.option.blue['400'],
+        themes.default.ids.color.option.red['500'],
+        themes.default.ids.color.option.orange['500']
+      ],
+      renderer,
+      metrics: metricsBarWithBaseline,
+      labels: ['Latency', 'Threshold', 'Violations']
+    };
+  }
+
+  // Multi-threshold configuration
+  switch (definedThreshold) {
+    case 'justWarning':
+      return {
+        metricIds: ['latency', 'warningThreshold'],
+        excludedLabelsFromTooltip: ['Violations'],
+        icons: {
+          types: ['lib_legend_line_chart', 'lib_legend_threshold', 'lib_legend_threshold', 'lib_actions_stop'],
+          colors: [
+            carbonCategorical.cyan50,
+            carbonCategorical.yellow50,
+            carbonCategorical.red50,
+            getColorWithTransparency(carbonCategorical.red50).c50
+          ]
+        },
+        getMax: metricsMaxValue => metricsMaxValue * 1.5,
+        colors: [carbonCategorical.cyan50, carbonCategorical.yellow50],
+        renderer,
+        metrics: metricsBarWithBaseline,
+        labels: ['Latency', 'Warning Threshold', 'Critical Threshold', 'Violations']
+      };
+
+    case 'justCritical':
+      return {
+        metricIds: ['latency', 'criticalThreshold'],
+        excludedLabelsFromTooltip: ['Violations'],
+        icons: {
+          types: ['lib_legend_line_chart', 'lib_legend_threshold', 'lib_legend_threshold', 'lib_actions_stop'],
+          colors: [
+            carbonCategorical.cyan50,
+            carbonCategorical.yellow50,
+            carbonCategorical.red50,
+            getColorWithTransparency(carbonCategorical.red50).c50
+          ]
+        },
+        getMax: metricsMaxValue => metricsMaxValue * 1.5,
+        colors: [carbonCategorical.cyan50, carbonCategorical.red50],
+        renderer,
+        metrics: metricsBarWithBaseline,
+        labels: ['Latency', 'Warning Threshold', 'Critical Threshold', 'Violations']
+      };
+
+    case 'bothDefined':
+      return {
+        metricIds: ['latency', 'warningThreshold', 'criticalThreshold'],
+        excludedLabelsFromTooltip: ['Violations'],
+        icons: {
+          types: ['lib_legend_line_chart', 'lib_legend_threshold', 'lib_legend_threshold', 'lib_actions_stop'],
+          colors: [
+            carbonCategorical.cyan50,
+            carbonCategorical.yellow50,
+            carbonCategorical.red50,
+            getColorWithTransparency(carbonCategorical.red50).c50
+          ]
+        },
+        getMax: metricsMaxValue => metricsMaxValue * 1.5,
+        colors: [carbonCategorical.cyan50, carbonCategorical.yellow50, carbonCategorical.red50],
+        renderer,
+        metrics: metricsBarWithBaseline,
+        labels: ['Latency', 'Warning Threshold', 'Critical Threshold', 'Violations']
+      };
+  }
 }

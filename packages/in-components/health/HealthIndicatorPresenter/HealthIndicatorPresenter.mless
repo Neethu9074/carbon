@@ -18,6 +18,17 @@
     }
   }
 
+  .iconWarning {
+    svg {
+      path:first-of-type {
+        fill: black;
+      }
+      path:last-of-type {
+        fill: #8e6a00;
+      }
+    }
+  }
+
   .icon {
     margin: 0 2px 0 0;
   }

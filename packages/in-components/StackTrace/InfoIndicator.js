@@ -5,22 +5,16 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { IconButton } from '@instana/components';
 
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './InfoIndicator.mless';
 
-export default function InfoIndicator({ href, href$, children, target, external }) {
+export default function InfoIndicator({ href, href$, children, target = 'blank' }) {
   return (
     <Tooltip content={<div className={locals.content}>{children}</div>}>
-      {href || href$ ? (
-        <Link href={href$ ?? href} target={target} external={external} className={locals.indicator}>
-          ?
-        </Link>
-      ) : (
-        <span className={locals.indicator}>?</span>
-      )}
+      <IconButton type="lib_infra_unknownIcon" href={href$ ?? href} target={target} />
     </Tooltip>
   );
 }

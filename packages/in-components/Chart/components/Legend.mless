@@ -56,7 +56,7 @@
   }
 
   .disabledMetric {
-    color: rgb(156, 156, 156);
+    color: var(--cds-text-secondary);
   }
 
   .toggleable {
@@ -76,11 +76,11 @@
 
   .disabledDot {
     background: none !important;
-    border: 2px solid var(--ids-color-option-neutral-400);
+    border: 2px solid var(--cds-text-secondary);
   }
 
   .disabledIcon {
-    fill: var(--ids-color-option-neutral-400) !important;
+    fill: var(--cds-text-secondary) !important;
   }
 
   .timeShift {
@@ -119,5 +119,14 @@
 
   .legendLabel {
     .ellipsis();
+  }
+
+  .legendLabelBlank {
+    .ellipsis();
+    font-style: italic;
+  }
+
+  .legendValue {
+    display: none;
   }
 }

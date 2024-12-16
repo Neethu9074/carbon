@@ -27,6 +27,7 @@
     min-width: 25rem;
     max-width: 90vw;
     cursor: auto;
+    background: var(--cds-layer);
   }
 
   .header {
@@ -37,7 +38,6 @@
 
     height: 5rem;
     padding: 1.5rem;
-    background: var(--ids-color-option-white);
     border-radius: var(--ids-border-radius-option-small) var(--ids-border-radius-option-small) 0 0;
   }
 
@@ -52,7 +52,6 @@
   }
 
   .body {
-    background: #fff;
     padding: 0 1.5rem 1.5rem;
     // 5rem to account for header, 4rem for typical footers and a little bit more to make it
     // feel spacious.
@@ -95,6 +94,7 @@
     display: flex;
     align-items: center;
     line-height: 2rem;
+    max-width: 90%;
 
     h1 {
       margin-left: 0.5rem;

@@ -5,9 +5,8 @@
 
 import React from 'react';
 
-import { Collapsible } from '@instana/components';
+import { Collapsible, DescriptionItem, DescriptionList } from '@instana/components';
 
-import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/DescriptionList';
 import LambdaFunctionLink from 'in-forge/plugins/awsLambdaVersion/LambdaFunctionLink';
 import { megaBytesZeroDecimalPlaces, seconds } from 'in-services/formatters/number';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';

@@ -5,9 +5,8 @@
 
 import React from 'react';
 
-import { Collapsible } from '@instana/components';
+import { Collapsible, DescriptionList, DescriptionItem } from '@instana/components';
 
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import PhpSnapshot from 'in-forge/plugins/phpRuntimePlatform/PhpSnapshot.js';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';

@@ -3,25 +3,29 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
+import { Stack, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Stack } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 import {
-  applicationsAlertingDeprecatedEventConfirmMigrated,
-  applicationsAlertingDeprecatedEventMarkMigrated,
-  applicationsAlertingDeprecatedEventMigrateStarted,
-  applicationsAlertingDeprecatedEventMigrateFinished
-} from 'in-alerting/smart-alerts/applications/tracker';
-import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
-import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
+  APPLICATIONS_ALERTING_DEPRECATED_EVENT_MARK_MIGRATED,
+  APPLICATIONS_ALERTING_DEPRECATED_EVENT_CONFIRM_MIGRATED,
+  APPLICATIONS_ALERTING_DEPRECATED_EVENT_MIGRATE_STARTED,
+  APPLICATIONS_ALERTING_DEPRECATED_EVENT_MIGRATE_FINISHED
+} from 'in-services/tracking/tracking';
+import {
+  applicationSmartAlertFullScreenDesignEnabled,
+  applicationSmartAlertDialogView
+} from 'in-services/featureFlags';
 import getAlertConfigFromLegacyEvent from 'in-alerting/migration/subscriptions/getAlertConfigFromLegacyEvent';
+import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { disableMigratedCustomEventSpecification } from 'in-api/eventSpecifications';
+import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { globalSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isLoading } from 'in-services/util/result';
@@ -39,64 +43,95 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
   // active to e.g. ensure the dialog cannot be opened multiple times, and to disable the button in that period.
   const [migrationInProgress, setMigrationInProgress] = useState(false);
 
-  const onSuccess = () => goToPath(teamSettingsAlertingEvents);
+  const onSuccess = () => goToPath(globalSettingsAlertingEvents);
   const isGlobalSmartAlertConfig = useObservable(
     getAlertConfigFromLegacyEvent({ eventSpecificationId }).map(({ data }) => {
       return data && data.globalSmartAlert;
     }),
     [eventSpecificationId]
   );
+
+  // this adds an event listener to the `keyup` event, allowing us to detect when the `escape` key is pressed and set the `setMigrationInProgress` to false. or else, after closing the migration modal with the escape key, subsequent presses of the "Migrate to Smart Alert" button fail to open the alert modal.
+  useEffect(() => {
+    const handleEsc = event => {
+      if (event.key === 'Escape') {
+        setMigrationInProgress(false);
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+
+    return () => {
+      window.removeEventListener('keydown', handleEsc);
+    };
+  }, []);
+
+  const { trackCta } = useSegmentTracking();
+
   return (
     <Stack direction="horizontal" gap="xsmall">
       <Tooltip content={t('in-alerting:smartAlerts.migration.markAsMigratedButtonTooltip')} delay={500}>
         <Button
+          noAutoMargin
           kind="secondary"
-          onClick={() => showMigrationConfirmation(eventSpecificationId, setDisablingEvent, onSuccess)}
+          onClick={() => showMigrationConfirmation(eventSpecificationId, setDisablingEvent, onSuccess, trackCta)}
           icon={disablingEvent ? 'lib_actions_loading' : undefined}
           iconSpinning={disablingEvent}
         >
           {t('in-alerting:smartAlerts.migration.markAsMigratedButton')}
         </Button>
       </Tooltip>
-      <Tooltip content={t('in-alerting:smartAlerts.migration.migrateButtonTooltip')} delay={500}>
-        <Button
-          kind="primaryv2"
-          onClick={() =>
-            doMigration(eventSpecificationId, setMigrating, migrationInProgress, setMigrationInProgress, onSuccess)
-          }
-          icon={migrating ? 'lib_actions_loading' : undefined}
-          iconSpinning={migrating}
-          // TODO unfortunately when we disable the button, which would be the right thing to do here after the user clicks the
-          //      button, then the wrapping tooltip get stuck and does not disappear anymore. Consequently, the following line
-          //      can be included as soon as that misbehaviour of the tooltip is resolved.
-          // disabled={migrationInProgress}
-        >
-          {t('in-alerting:smartAlerts.migration.migrateButton')}
-        </Button>
-      </Tooltip>
+      {applicationSmartAlertDialogView && (
+        <Tooltip content={t('in-alerting:smartAlerts.migration.migrateButtonTooltip')} delay={500} align="bottomRight">
+          <Button
+            kind="primaryv2"
+            noAutoMargin
+            onClick={() =>
+              doMigration(
+                eventSpecificationId,
+                setMigrating,
+                migrationInProgress,
+                setMigrationInProgress,
+                onSuccess,
+                trackCta
+              )
+            }
+            icon={migrating ? 'lib_actions_loading' : undefined}
+            iconSpinning={migrating}
+            // TODO unfortunately when we disable the button, which would be the right thing to do here after the user clicks the
+            //      button, then the wrapping tooltip get stuck and does not disappear anymore. Consequently, the following line
+            //      can be included as soon as that misbehaviour of the tooltip is resolved.
+            // disabled={migrationInProgress}
+          >
+            {t('in-alerting:smartAlerts.migration.migrateButton')}
+          </Button>
+        </Tooltip>
+      )}
       {applicationSmartAlertFullScreenDesignEnabled && (
-        <CreateSmartAlertButton
-          isGlobal={isGlobalSmartAlertConfig}
-          isFloatingButton={false}
-          buttonName={t('in-alerting:smartAlerts.migration.migrateButton')}
-          isMigrate
-        />
+        <Tooltip content={t('in-alerting:smartAlerts.migration.migrateButtonTooltip')} delay={500} align="bottomRight">
+          <CreateSmartAlertButton
+            isGlobal={isGlobalSmartAlertConfig}
+            isFloatingButton={false}
+            buttonName={getButtonName(t('in-alerting:smartAlerts.migration.migrateButton'))}
+            isMigrate
+            eventSpecificationId={eventSpecificationId}
+          />
+        </Tooltip>
       )}
     </Stack>
   );
 }
 
-function showMigrationConfirmation(eventSpecificationId, setDisablingEvent, onSuccess) {
-  applicationsAlertingDeprecatedEventMarkMigrated({
-    eventSpecificationId
-  });
+function showMigrationConfirmation(eventSpecificationId, setDisablingEvent, onSuccess, trackCta) {
+  trackCta(APPLICATIONS_ALERTING_DEPRECATED_EVENT_MARK_MIGRATED, { eventSpecificationId });
+
   addActiveDialog(
     <ConfirmationDialog
       header={t('in-alerting:smartAlerts.migration.markAsMigratedButtonConfirmationTitle')}
       description={t('in-alerting:smartAlerts.migration.markAsMigratedButtonConfirmationDescription')}
       confirmButtonLabel={t('in-alerting:smartAlerts.migration.markAsMigratedButtonConfirmationConfirmLabel')}
       onSubmit={() => {
-        applicationsAlertingDeprecatedEventConfirmMigrated({ eventSpecificationId });
+        trackCta(APPLICATIONS_ALERTING_DEPRECATED_EVENT_CONFIRM_MIGRATED, { eventSpecificationId });
+
         handleDisableCustomEvent({ setPendingState: setDisablingEvent, onSuccess, eventSpecificationId });
         close();
       }}
@@ -104,7 +139,14 @@ function showMigrationConfirmation(eventSpecificationId, setDisablingEvent, onSu
   );
 }
 
-function doMigration(eventSpecificationId, setMigrating, migrationInProgress, setMigrationInProgress, onSuccess) {
+function doMigration(
+  eventSpecificationId,
+  setMigrating,
+  migrationInProgress,
+  setMigrationInProgress,
+  onSuccess,
+  trackCta
+) {
   if (migrationInProgress) {
     return;
   }
@@ -124,11 +166,18 @@ function doMigration(eventSpecificationId, setMigrating, migrationInProgress, se
           onSuccess,
           globalSmartAlert,
           config,
-          scopeMigrationDetails
+          scopeMigrationDetails,
+          trackCta
         });
       },
       () => setMigrationInProgress(false)
     );
+}
+
+export function doMigrationInTearSheet(eventSpecificationId) {
+  return getAlertConfigFromLegacyEvent({ eventSpecificationId })
+    .filter(res => !isLoading(res))
+    .map(({ data }) => data);
 }
 
 function showSmartAlertDialog({
@@ -138,9 +187,11 @@ function showSmartAlertDialog({
   eventSpecificationId,
   setMigrating,
   setMigrationInProgress,
-  onSuccess
+  onSuccess,
+  trackCta
 }) {
-  applicationsAlertingDeprecatedEventMigrateStarted({ eventSpecificationId });
+  trackCta(APPLICATIONS_ALERTING_DEPRECATED_EVENT_MIGRATE_STARTED, { eventSpecificationId });
+
   if (config) {
     addActiveDialog(
       <AlertConfigDialog
@@ -156,7 +207,7 @@ function showSmartAlertDialog({
               applicationAlertConfigId
             });
           }
-          applicationsAlertingDeprecatedEventMigrateFinished({ eventSpecificationId });
+          trackCta(APPLICATIONS_ALERTING_DEPRECATED_EVENT_MIGRATE_FINISHED, { eventSpecificationId });
           setMigrationInProgress(false);
           close();
         }}

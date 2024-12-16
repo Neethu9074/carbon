@@ -4,28 +4,33 @@
  * Copyright IBM Corp. 2024
  */
 
+import { ContextScope, OrderDirection, Progress, TagFilter, TagFilterExpression, TimeConfig } from '@instana/types';
 import { Observable } from '@instana/observables';
-import { TimeConfig } from '@instana/types';
 
 import { DashboardTileParamProps } from 'in-plg/pages/WelcomePage/PageContent';
 
 export type GetContentFunction = (options: any) => React.ReactNode;
 
 export interface WidgetProps {
-  config: any;
-  timeConfig: TimeConfig;
-  widgetLabel: string;
+  key?: string;
+  config?: any;
+  timeConfig?: TimeConfig;
+  widgetLabel?: string;
   dashboardTileProps: DashboardTileParamProps;
-  maxItems?: number;
+  maxItems?: number | null;
   viewAll?: boolean;
+  mainPage?: boolean; // This will modify the component to be used for a whole page, will enable pagination.
 }
 
 export type GetItemsFunction = (options: {
   timeConfig?: TimeConfig;
-  query: string;
+  query?: string;
   infraType?: string;
   selectedType?: string;
   syntheticType?: string;
+  pinnedItemIdsByType?: StarredItemWithIdsType;
+  page?: number;
+  pageSize?: number;
 }) => Observable<any>;
 
 export type AddMoreFunction = () => void;
@@ -43,16 +48,54 @@ export interface SyntheticProps extends WidgetProps {
 }
 
 export interface DatatableWidgetProps extends InfraProps, SyntheticProps {
-  headers: [];
+  tableType: string;
+  headers: {
+    header: string;
+    key: string;
+  }[];
+  getItem: (options: any) => Observable<any>;
   getItems: GetItemsFunction;
   addMore: AddMoreFunction;
   addData: AddMoreFunction;
-  columnDefinitions: [];
+  columnDefinitions: ColumnDefinitionItem[];
   hasAddMore?: boolean;
+  hasAddPermission?: boolean;
   viewAll?: boolean;
   href?: string;
   label: string;
   isDashboardWidget?: boolean;
+  pinnedItemIdsByType?: StarredItemWithIdsType;
+  pinnedItemTypes?: (keyof StarredItemWithIdsType)[];
+  timeConfig: TimeConfig;
+  searchPlaceholderLabel: string;
+  addButtonLabel: string;
+  viewAllLabel: string;
+  mainPage?: boolean;
+}
+
+export interface StarredItemWithIdsType {
+  host?: string[];
+  container?: string[];
+  process?: string[];
+  kubernetesCluster?: string[];
+  pcfApplication?: string[];
+  vsphereDatacenter?: string[];
+  openstackRegion?: string[];
+  phmcServer?: string[];
+  powervc?: string[];
+  zhmcServer?: string[];
+  sap?: string[];
+  application?: string[];
+  service?: string[];
+  website?: string[];
+  mobileApp?: string[];
+  businessProcess?: string[];
+}
+
+export interface StarredItemType {
+  id?: string;
+  label?: string;
+  type: string;
 }
 
 export interface ColumnDefinitionItem {
@@ -62,4 +105,58 @@ export interface ColumnDefinitionItem {
 
 export interface SyntheticInfraColumn {
   [key: string]: ColumnDefinitionItem[];
+}
+
+export interface ToggleType {
+  index: number;
+  icon?: string;
+  label: string;
+  value: string;
+}
+
+export interface GetTestSummaryList {
+  timeConfig: TimeConfig;
+  orderBy: string;
+  orderDirection: OrderDirection;
+  page: number;
+  pageSize: number;
+  query: string;
+  progress: Progress;
+  context?: string;
+  appId?: string;
+  websiteId?: string;
+  mobileAppId?: string;
+  syntheticTypes?: string[];
+  locationIds?: string[];
+  applicationIds?: string[];
+  entityIds?: string[];
+  associations?: Record<string, string[]>;
+  mobileAppIds?: string[];
+  excludeIds?: string[];
+}
+
+export type GetLocationData = {
+  timeConfig: TimeConfig;
+  orderBy: string;
+  orderDirection: OrderDirection;
+  progress: Progress;
+  page: number;
+  pageSize: number;
+  query: string;
+  locationTypes?: string[];
+};
+
+export interface GetApplicationsWithDefaultsProps {
+  timeConfig: TimeConfig;
+  query: string;
+  page: number;
+  pageSize: number;
+  orderBy: string;
+  orderDirection: OrderDirection;
+  applicationId?: string;
+  serviceId?: string;
+  endpointId?: string;
+  contextScope: ContextScope;
+  tagFilters?: TagFilter[];
+  tagFilterExpression?: TagFilterExpression;
 }

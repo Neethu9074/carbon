@@ -1,7 +1,7 @@
 {
   "labelBizOps": "Processes",
-  "labelSmartAlerts": "Smart Alerts",
-  "labelActivities": "Activities",
+  "labelPerspectives": "Perspectives",
+  "labelPerspective": "Perspective",
   "components": {
     "count": "Count"
   },
@@ -15,8 +15,61 @@
     "noData": "No data available",
     "healthLabel": "Health",
     "startLabel": "Started",
+    "latencyLabel": "Latency",
     "unnamedActivity": "(Unnamed Activity) {{activityType}}",
     "unnamedService": "(Unnamed Service)"
+  },
+  "customDashboards": {
+    "activityCountMetric": "Activities count",
+    "erroneousActivityCallsCountLabel": "Erroneous Activity Calls (count)",
+    "erroneousActivityCallsCategory": "Erroneous Activity Calls",
+    "erroneousActivityCallsRateLabel": "Erroneous Activity Calls (rate)",
+    "latency": "Latency"
+  },
+  "processes": {
+    "deployAgent": "Deploy agent",
+    "noProcessesAvailable": "No business processes are available.",
+    "deployAgentFirst": "You need to deploy an agent first.",
+    "forMoreInformation": "For more information, read the",
+    "documentation": "documentation."
+  },
+  "perspectives": {
+    "newPerspective": "Create perspective",
+    "lists": {
+      "perspectives": "Business Perspectives",
+      "descriptionLabel": "Description",
+      "numberProcessesLabel": "Number of processes"
+    },
+    "processesLiveList": {
+      "title": "Matched business processes",
+      "empty": "Add filters to build your business perspective",
+      "invalidQuery": "Your query is invalid",
+      "noMatchedProcesses": "No matched business processes found",
+      "loadingStateLabel": "Loading processes"
+    },
+    "dialog": {
+      "title": "New Business Perspective",
+      "stepOne": {
+        "progressBarTitle": "Step 1: Filter business processes to build your business perspective",
+        "headline": "Filter business processes to build your business perspective",
+        "queryBuilderTitle": "Business processes"
+      },
+      "stepTwo": {
+        "progressBarTitle": "Step 2: Provide details",
+        "headline": "Provide details",
+        "perspectiveName": "Perspective name",
+        "perspectiveDescription": "Description"
+      }
+    },
+    "errorMessages": {
+      "tagFilterExpressionMustNotBeEmpty": "The Business Perspective must have at least one filter",
+      "createOperationFailed": "Create operation failed",
+      "unableToCreatePerspective": "We were unable to create your business perspective. Please try again."
+    },
+    "successMessages": {
+      "businessPerspectiveCreated": "Business perspective created",
+      "perspectiveWasSuccessfullyCreated": "\"{{perspectiveName}}\" was successfully created."
+    }
   },
   "navigation": {
     "businessMonitoring": "Business Monitoring"
@@ -42,12 +95,14 @@
     "activity": {
       "pageTitle": "Business Activity",
       "summaryTab": "Summary",
+      "servicesTab": "Services",
       "widgets": {
         "duration": "Duration",
         "activityCount": "Count",
         "activityErrors": "Errors",
         "topServices": "Top Services",
-        "activityLatency": "Latency"
+        "activityLatency": "Latency",
+        "viewAll": "View all services"
       },
       "timespans": {
         "minute": "1 minute",
@@ -55,6 +110,34 @@
         "day": "1 day",
         "week": "1 week"
       }
+    },
+    "perspectives": {
+      "pageTitleDefault": "Business Perspective",
+      "processes": {
+        "tabLabel": "Business processes"
+      },
+      "configuration": {
+        "tabLabel": "Configuration",
+        "loadingText": "Loading data",
+        "updateCardLabel": "Update business perspective",
+        "stepOneHeader": "1. Edit name and description",
+        "perspectiveName": "Perspective name",
+        "perspectiveDescription": "Description",
+        "stepTwoHeader": "2. Edit filter",
+        "saveChangesButton": "Save",
+        "removeCardLabel": "Remove business perspective",
+        "removePerspectiveDisclaimer": "If you do not want to use this business perspective any longer, click \"Remove business perspective\".",
+        "removePerspectiveCheckbox": "I understand that this action cannot be undone",
+        "removePerspectiveButton": "Remove business perspective",
+        "businessPerspectiveDeleted": "Business perspective removed",
+        "businessPerspectiveDeletedDetails": "\"{{perspectiveName}}\" was successfully removed.",
+        "businessPerspectiveUpdated": "Business perspective updated",
+        "businessPerspectiveUpdatedDetails": "\"{{perspectiveName}}\" was edited and your changes have been saved.",
+        "error": "Error"
+      }
+    },
+    "flowMap": {
+      "tabLabel": "Flow"
     }
   }
 }

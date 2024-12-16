@@ -6,7 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { LoadingSkeleton, SvgIcon } from '@instana/components';
+import { LoadingSkeleton, PreviewPill, SvgIcon } from '@instana/components';
 import { Observable } from '@instana/observables';
 import { Link } from '@instana/components';
 
@@ -14,7 +14,7 @@ import { Link } from '@instana/components';
 import UrlShortener from 'in-components/DashboardHeader/UrlShortener/UrlShortener';
 import MigratedTenantBanner from 'in-components/MigratedTenantBanner/MigratedTenantBanner';
 import TimeSelection from 'in-components/time/TimeSelection/TimeSelection';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { Nullish, Result } from 'in-types';
 import Title from 'in-components/Title';
@@ -102,7 +102,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
   const isLoading = result && result.data == null;
 
   if (isLoading) {
-    label = getSkeletonLabel(props);
+    label = getSkeletonLabel();
 
     if (renderButtonLine || renderButtonLineSecondary) {
       renderButtonLine = getSkeletonButton;
@@ -115,7 +115,7 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
       renderTopLevelButtonLine = getSkeletonButton;
     }
     if (!icon || renderIcon) {
-      renderIcon = () => getSkeletonIcon(props);
+      renderIcon = () => getSkeletonIcon();
     }
   }
 
@@ -162,20 +162,30 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
                 />
               ))}
             <SyntheticIcon />
-            {renderIcon ? renderIcon() : icon ? <SvgIcon className={locals.icon} type={icon} size="l" /> : null}
+            {renderIcon ? (
+              <span role="img" aria-label={title} title={title}>
+                {renderIcon()}
+              </span>
+            ) : icon ? (
+              <span role="img" aria-label={title}>
+                <Tooltip content={title} delay={500}>
+                  <SvgIcon className={locals.icon} type={icon} size="l" />
+                </Tooltip>
+              </span>
+            ) : null}
             {label &&
               (typeof label === 'string' ? (
-                <Tooltip content={label} delay={500}>
+                <Tooltip overflowEllipsis content={label} delay={500}>
                   <h1 className={locals.label}>{label}</h1>
                 </Tooltip>
               ) : (
-                <h1 className={locals.label}>{label}</h1>
+                <span className={locals.label}>{label}</span>
               ))}
             {renderMetaInformation && renderMetaInformation(props)}
-            {isBeta && <BetaBadge />}
+            {isBeta && <PreviewPill />}
           </div>
           <div className={locals.rightContent}>
-            {!hideUrlShortener && <UrlShortener darkTheme={theme === themes.dark} />}
+            {!hideUrlShortener && !shareAndInviteEnabled && <UrlShortener darkTheme={theme === themes.dark} />}
             {renderTopLevelButtonLine && renderTopLevelButtonLine(props)}
             {renderTimeSelection ? (
               renderTimeSelection(props)
@@ -206,16 +216,16 @@ export default function DashboardHeader(props: DashboardHeaderProps) {
   );
 }
 
-function getSkeletonButton({ theme }: DashboardHeaderProps) {
-  return <LoadingSkeleton className={locals.buttonSkeleton} darkMode={theme !== 'light'} />;
+function getSkeletonButton() {
+  return <LoadingSkeleton className={locals.buttonSkeleton} />;
 }
 
-function getSkeletonLabel({ theme }: DashboardHeaderProps) {
-  return <LoadingSkeleton className={locals.labelSkeleton} darkMode={theme !== 'light'} />;
+function getSkeletonLabel() {
+  return <LoadingSkeleton className={locals.labelSkeleton} />;
 }
 
-function getSkeletonIcon({ theme }: DashboardHeaderProps) {
-  return <LoadingSkeleton className={locals.iconSkeleton} darkMode={theme !== 'light'} />;
+function getSkeletonIcon() {
+  return <LoadingSkeleton className={locals.iconSkeleton} />;
 }
 
 function Context(props: ContextProps) {

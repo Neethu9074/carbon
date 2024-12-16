@@ -3,19 +3,22 @@
   "edit": "Bearbeiten",
   "delete": "Löschen",
   "test": "Test",
+  "cancel": "Abbrechen",
+  "recommendedActionsWithCount": "Empfohlene Aktionen ({{count}})",
   "recommendedActions": "Empfohlene Aktionen",
+  "recommendedOptimizationsWithCount": "Empfohlene Ressourcenaktionen{{count}})",
+  "recommendedOptimizations": "Empfohlene Ressourcenmaßnahmen",
+  "actionName": "Aktionsname",
   "validVaultParameter": "Als optional markierte Vaultparameter müssen entweder beide leer oder beide nicht leer sein.",
   "newAction": "Neue Aktion",
-  "ok": "Ok",
   "runAction": "Aktion ausführen",
   "testAction": "Testaktion",
   "targetAgent": "Zielagent",
-  "noTargetAgent": "Es ist kein Zielagent zum Ausführen dieser Aktion verfügbar.",
   "triggeringAgent": "{{hostname}} (Auslöseagent)",
   "targetAgentDescription": "Ein Agent kapselt 1 .. * Sensoren, die wiederum Ereignisse an das Instana-Back-End auslösen können. Ein auslösender Agent enthält den Sensor, der dieses Ereignis ausgelöst hat.",
-  "chosenToRun": "Sie möchten {{actionName}} aus Ihrem Aktionskatalog ausführen.",
+  "chosenToRun": "Aktion ausführen {{actionName}}",
   "viewManualAction": "Manuelle Aktion {{actionName}} anzeigen",
-  "chosenToTest": "Sie wollen {{actionName}} aus Ihrem Aktionskatalog testen.",
+  "chosenToTest": "Testaktion {{actionName}}",
   "failedToInitiate": "{{actionName}} konnte nicht initialisiert werden.",
   "hasBeenInitiated": "{{actionName}} wurde eingeleitet.",
   "configureAutomation": "Automatisierung für {{actionName}}",
@@ -39,14 +42,13 @@
   "parameters": "Parameter",
   "noParametersTitle": "Keine Parameter",
   "noParametersText": "Diese Aktion hat keine Parameter.",
-  "linkToActionLogs": "Die Ausgabe dieser Aktion kann unter <logsLink>Analyse > Protokolle</logsLink> angezeigt werden.",
-  "linkToActionHistory": "Die Ausgabe dieser Aktionsinstanz kann auf der <logsLink>Seite \"Aktionsprotokoll\"</logsLink> angezeigt werden.",
+  "linkToActionHistory": "Die Ausgabe dieser Aktionsinstanz kann im Aktionsprotokoll angezeigt werden.",
   "description": "Beschreibung",
   "automation": "Automation",
   "failedToResolveDynamicParameters": "Dynamische Parameter konnten nicht aufgelöst werden.",
-  "associateActionWithName": "Aktion {{actionName}} zuordnen",
   "deletePolicyWithName": "Richtlinie {{actionName}} löschen",
   "jobTemplate": "Jobvorlage",
+  "workflowJobTemplate": "Workflow-Jobvorlage",
   "hostsLimit": "Hostgrenzwert (optional)",
   "ownerInfo": "Eigner/Organisation: {{owner}}",
   "repoInfo": "Repository: {{repo}}",
@@ -77,12 +79,15 @@
   "duplicate": "Duplikat",
   "theValueMustNotBeBlank": "Der Wert darf nicht leer sein.",
   "tags": "Tags",
-  "noTagsConfigured": "Keine Tags konfiguriert",
+  "tagsLabel": "Tags (optional)",
+  "actionCategory": "Aktionskategorien",
   "value": "Wert",
   "type": "Typ",
+  "automationPoliciesWithCount": "Automationsrichtlinien ({{count}})",
   "automationPolicies": "Automationsrichtlinien",
   "copyOf": "(Kopie von) {{name}}",
   "searchActions": "Aktionen suchen",
+  "searchOptimizations": "Optimierungen der Suche",
   "hostsLimitHelpText": "Begrenzt die Ausführung auf den angegebenen Zielhost. Wählen Sie den Wert aus, der mit der Darstellung des Systems im Ansible-Bestand übereinstimmt, oder geben Sie eine Zeichenfolge ein, die von der Ansible-Grenzwertsyntax unterstützt wird.",
   "aiEngine": "KI-Engine",
   "engine": "Engine",
@@ -91,6 +96,92 @@
   "tag": "Tag",
   "noTagsAvailable": "Keine Tags verfügbar",
   "actions": "Aktionen",
+  "actionsWithCount": "Aktionen ({{count}})",
+  "titleUrl": "URL",
+  "generateWithWatsonx": "Erzeugen mit watsonx",
+  "AISlugContent": "Zum Generieren dieses Inhalts wurde KI verwendet",
+  "createPolicyWithName": "Aktion {{actionName}} anzeigen und Richtlinie erstellen",
+  "viewActionCreatePolicy": "Aktion anzeigen und Richtlinie erstellen",
+  "titleContentReadOnly": "Erstellter Inhalt (Nur Lesen)",
+  "GenerateAIActionDialog": {
+    "actionConfiguration": "Aktionskonfiguration",
+    "actionDetails": "Aktionsdetails",
+    "Step1HeadlineSelectAction": "Beginnen Sie mit einer eingebauten Aktion, die von watsonx erzeugt wurde, um eine neue Aktion für dieses Ereignis zu erstellen.",
+    "Step1HeadlinePrompt": "Erzeugen Sie eine manuelle Aktion mit watsonx auf der Grundlage von Ereignisname, Beschreibung und Entitätstyp.",
+    "Step2Headline": "Geben Sie die Details der Aktion an oder nehmen Sie Änderungen vor, bevor Sie sie im Aktionskatalog speichern.",
+    "Step3Headline": "Optional können Sie zusammen mit der Aktion auch eine Automatisierungsrichtlinie erstellen. Sie können diesen Schritt auch zu einem späteren Zeitpunkt durchführen.",
+    "step1Title": "Schritt 1: Erzeugen oder Auswählen einer Aktion",
+    "step1TitleGenerateAction": "Schritt 1: Erzeugen einer Aktion",
+    "step1TitleSelectAction": "Schritt 1: Wählen Sie eine Aktion",
+    "step2Title": "Schritt 2: Aktion konfigurieren",
+    "step3Title": "Schritt 3: Richtlinie erstellen (optional)",
+    "policyDetails": "Richtliniendetails",
+    "policy": {
+      "success": {
+        "title": "Richtlinie wurde erstellt.",
+        "content": "Richtlinie <Link>\"{{name}}\"</Link> wurde erfolgreich erstellt."
+      }
+    },
+    "action": {
+      "success": {
+        "title": "Aktion wurde erfolgreich erstellt.",
+        "content": "Aktion <Link>\"{{name}}\"</Link> wurde erfolgreich erstellt."
+      }
+    },
+    "generateAction": "Mit KI generieren",
+    "closeDialogDescription": " Sind Sie sicher, dass Sie diese Seite verlassen möchten?",
+    "closeDialogSubDescription": "Wenn Sie diese Seite verlassen, werden die von Ihnen eingegebenen oder ausgewählten Informationen nicht gespeichert.",
+    "liveGeneration": "Live-Erzeugung",
+    "builtinActions": "Eingebaute Aktionen ({{count}})",
+    "eventName": "Ereignisname",
+    "eventDescription": "Ereignisbeschreibung",
+    "eventEntityType": "Entitätstyp Ereignis",
+    "noDataAvailableLive": "Füllen Sie die Eingabefelder aus und klicken Sie auf die Schaltfläche <strong>Aktion erzeugen</strong>, um den Inhalt zu erhalten.",
+    "noDataAvailableSelectAction": "Treffen Sie eine Auswahl, um den Inhalt zu sehen.",
+    "watsonxLoadingContent": "watsonx erzeugt Inhalte",
+    "confirmButtonLabel": "Seite verlassen",
+    "cancelButtonLabel": "Auf der Seite bleiben",
+    "noResultsYet": "Noch keine Ergebnisse",
+    "next": "Weiter",
+    "createActionAndPolicy": "Maßnahmen und Politik gestalten",
+    "createAction": "Maßnahme erstellen",
+    "nameExists": "Es existiert bereits eine Aktion mit Name: {{name}}, und Typ: {{type}}",
+    "failedToGenerateAction": "Aktion konnte nicht erzeugt werden.",
+    "failedToCreateActionPolicy": "Es wurde versäumt, Maßnahmen und Strategien zu entwickeln.",
+    "failedToCreateAction": "Aktion konnte nicht erstellt werden.",
+    "generateScriptDialog": {
+      "dialogHeader": "Ein Skript aus einer manuellen Aktion generieren",
+      "step1Title": "Schritt 1: Schritt auswählen",
+      "step2Title": "Schritt 2: Ein Skript generieren",
+      "step3Title": "Schritt 3: Aktion konfigurieren und erstellen",
+      "step1Headline": "Wählen Sie einen manuellen Aktionsschritt aus, für den Sie ein Skript erstellen möchten. Sie können die manuelle Maßnahme im nächsten Schritt bearbeiten.",
+      "step2Headline1": "Überprüfen Sie die Details des Aktionsschritts und nehmen Sie die erforderlichen Änderungen vor. Klicken Sie dann auf Skript generieren, um die Ergebnisse von watsonx zu sehen.",
+      "step2Headline2": "Sie können sie bearbeiten und erneut erstellen, um andere Ergebnisse zu sehen.",
+      "noDataAvailableLive": "Klicken Sie auf die Schaltfläche Generieren, um das Skript zu erstellen",
+      "generateScriptButton": "Script generieren",
+      "titleGeneratedCodeReadOnly": "Erstellter Code (Nur Lesen)",
+      "promptTitle": "Eingabeaufforderung",
+      "generateScriptTileHeader": "Generieren eines Scripts aus einem manuellen Aktionsschritt",
+      "generateScriptTileDescription": "Mit watsonx AI können Sie aus einem manuellen Aktionsschritt schnell ein Bash-Skript als Eingabeaufforderung erstellen und in wenigen Schritten in Ihren Aktionskatalog aufnehmen."
+    }
+  },
+  "CreatePolicyDialog": {
+    "Step1Headline": "Empfohlene Aktion anzeigen und Automationsrichtlinie für dieses Ereignis erstellen.",
+    "Step2Headline": "Geben Sie Details zum Erstellen einer neuen Automationsrichtlinie an.",
+    "step1Title": "Schritt 1: Empfohlene Aktion anzeigen",
+    "step2Title": "Schritt 2: Richtlinie erstellen",
+    "actionDetails": "Aktionsdetails",
+    "policy": {
+      "success": {
+        "title": "Richtlinie wird erstellt",
+        "content": "Richtlinie \"{{name}}\" wurde erfolgreich erstellt."
+      }
+    }
+  },
+  "userDefinedWithCount": "Vom Benutzer erstellt ({{count}})",
+  "userDefined": "Vom Benutzer erstellt",
+  "aiGeneratedWithCount": "AI-generiert ({{count}})",
+  "aiGenerated": "KI-generiert",
   "ActionCatalog": {
     "actionCatalog": "Aktionskatalog",
     "action": "Aktion",
@@ -111,7 +202,7 @@
     "showsUpInTheListOfActions": "Wird in der Liste der Aktionen angezeigt. Sollte eindeutig und aussagekräftig sein.",
     "showsUpInTheActionDescription": "Wird in der Aktionsbeschreibung angezeigt. Sollte so beschreibend wie möglich sein.",
     "docLinkDescription": "Die URL verweist auf Dokumentation, die Sie bei der Korrektur unterstützen kann.",
-    "manualContentDescription": "Geben Sie hier Anweisungen für die manuelle Aktion ein.",
+    "manualContentDescription": "Bei der Bearbeitung können Sie die Liste mit Hilfe von Markdown um Schritte ergänzen.",
     "manual": "Manuell",
     "confidence_low": "Niedrig",
     "body": "Hauptteil (optional)",
@@ -201,13 +292,35 @@
     "newFeature": "Neues Feature",
     "view": "Anzeigen",
     "content": "Inhalt",
+    "mustHaveRequiredTag": "Die Aktion muss mindestens einen der folgenden Tags enthalten: {{tags}}",
     "deleteDialog": {
       "success": "Die Aktion wurde gelöscht.",
       "failure": "Löschen der Aktion fehlgeschlagen: {{errorMessage}}"
+    },
+    "createDialog": {
+      "success": {
+        "title": "Aktion wurde erfolgreich erstellt.",
+        "content": "Die Aktion{{name}}\" wurde erfolgreich erstellt."
+      },
+      "failure": {
+        "title": "Die Aktion konnte nicht erstellt werden.",
+        "content": "Beim Erstellen dieser Aktion ist ein Problem aufgetreten: {{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "Die Aktion wurde erfolgreich aktualisiert.",
+        "content": "Die Aktion{{name}}\" wurde erfolgreich aktualisiert."
+      },
+      "failure": {
+        "title": "Aktion konnte nicht aktualisiert werden.",
+        "content": "Es gab ein Problem bei der Aktualisierung dieser Aktion: {{errorMessage}}"
+      }
     }
   },
   "actionHistory": {
     "actionHistory": "Protokoll der Aktionen",
+    "goToActionHistory": "Zum Aktionsprotokoll wechseln",
     "actionHistoryWithCount": "Aktionsverlauf ({{count}})",
     "noActionInstances": "Keine Daten verfügbar",
     "external": "Extern",
@@ -223,7 +336,8 @@
     "eventName": "Ereignisname",
     "returnCode": "Rückkehrcode",
     "errorMessage": "Fehlernachricht",
-    "actionContent": "Aktionsinhalt",
+    "risk": "Risiko",
+    "action": "Aktion",
     "host": "Host",
     "log": "Protokollierung",
     "success": "Erfolgreich",
@@ -236,13 +350,13 @@
     "inputParameters": "Eingabeparameter",
     "feedbackTab": "Feedback",
     "properties": "Eigenschaften",
-    "filterNameOrActionInstanceId": "Nach Name, Ereignisname oder Aktionsinstanz-ID filtern",
+    "filter": "Filter",
     "inputPrompt": "Erzählen Sie uns von Ihrer Erfahrung mit dieser Aktion:",
-    "unhappyFeedback": "Ich bin extrem unzufrieden",
+    "unhappyFeedback": "Ich bin äußerst unzufrieden",
     "dissatisfiedFeedback": "Ich bin unzufrieden",
     "neutralFeedback": "Ich bin neutral",
-    "satisfiedFeedback": "Ich war zufrieden",
-    "verySatisfiedFeedback": "Ich war sehr zufrieden",
+    "satisfiedFeedback": "Ich bin zufrieden",
+    "verySatisfiedFeedback": "Ich bin sehr zufrieden",
     "additionalFeedback": "Zusätzliche Kommentare (optional)",
     "feedbackError": "Beim Speichern Ihres Feedbacks ist ein Fehler aufgetreten. Wiederholen Sie den Vorgang zu einem späteren Zeitpunkt.",
     "feedbackNotSelectedError": "Wählen Sie vor der Übergabe eine Option aus.",
@@ -255,16 +369,24 @@
     "submitted": "Submitted",
     "timeout": "Zeitlimit",
     "issueUrl": "Problem-URL",
-    "taskUrl": "Task-URL"
+    "taskUrl": "Task-URL",
+    "output": "Ausgabe",
+    "user": "Benutzer",
+    "apiToken": "API-Token",
+    "deleteTooltip": "Aktionsinstanz löschen {{id}}",
+    "deleteDialog": {
+      "success": "Aktionsinstanz wurde erfolgreich gelöscht.",
+      "failure": "Die Aktionsinstanz konnte nicht gelöscht werden."
+    }
   },
   "actionLanes": {
     "buttonInvestigate": "Überprüfen"
   },
   "policies": {
     "policies": "Richtlinien",
+    "policiesWithCount": "Richtlinien ({{count}})",
     "newPolicy": "Neue Richtlinie",
     "selectEventTrigger": "Ereignisauslöser auswählen",
-    "actionName": "Aktionsname",
     "eventTrigger": "Ereignistrigger",
     "unknownPolicy": "Unbekannte Richtlinie",
     "policy": "Richtlinie",
@@ -288,13 +410,13 @@
     "custom": "Angepasst",
     "event": "Ereignis",
     "entityType": "Entitätstyp",
-    "properties": "Eigenschaften",
     "applicationSmartAlert": "Smart Alert für Anwendung",
     "globalApplicationSmartAlert": "Smart Alert für globale Anwendungen",
     "infraSmartAlert": "Intelligenter Alert für Infrastruktur",
     "mobileAppSmartAlert": "Smart Alert für mobile Anwendung",
     "syntheticsSmartAlert": "Synthetics-Smart Alert",
     "logSmartAlert": "Intelligenten Alert protokollieren",
+    "sloSmartAlert": "Smart Alert für Service-Levels",
     "docLinkAndManualCantBeAutomated": "Dokumentationslink und manuelle Aktionen können nicht automatisiert werden.",
     "triggeringAgent": "Auslösender Agent",
     "triggeringHostFqdn": "FQDN des auslösenden Hosts",
@@ -308,6 +430,7 @@
     "manualAutomatic": "Manuell, Automatisch",
     "policyType": "Richtlinientyp",
     "noPolicies": "Es sind keine Richtlinien konfiguriert.",
+    "filterApplied": "Angewendeter Filter",
     "createDialog": {
       "success": {
         "title": "Richtlinie wurde erstellt.",
@@ -315,7 +438,17 @@
       },
       "failure": {
         "title": "Erstellen der Richtlinie fehlgeschlagen.",
-        "content": "Beim Erstellen dieser Richtlinie ist ein Fehler aufgetreten: \"{{name}}\"."
+        "content": "Beim Erstellen dieser Richtlinie ist ein Fehler aufgetreten: {{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "Die Richtlinie wurde erfolgreich aktualisiert.",
+        "content": "Richtlinie \"{{name}}\" wurde erfolgreich aktualisiert."
+      },
+      "failure": {
+        "title": "Aktualisieren der Richtlinie fehlgeschlagen.",
+        "content": "Beim Aktualisieren dieser Richtlinie ist ein Problem aufgetreten: {{errorMessage}}"
       }
     },
     "createBulkDialog": {
@@ -329,7 +462,7 @@
       },
       "failure": {
         "title": "Erstellen von Richtlinien fehlgeschlagen.",
-        "content": "Beim Erstellen der Richtlinien ist ein Fehler aufgetreten:{{error}}"
+        "content": "Beim Erstellen der Richtlinien ist ein Fehler aufgetreten: {{error}}"
       }
     },
     "deleteDialog": {
@@ -339,9 +472,45 @@
     "createPolicies": "Richtlinien erstellen",
     "websiteSmartAlert": "Website-Smart Alert"
   },
+  "infoPanel": {
+    "taskGuidance": "Benutzeranleitung",
+    "hideTasks": "Ausblenden",
+    "showTasks": "Einblenden"
+  },
   "deleteDialog": {
     "pleaseConfirm": "Bitte bestätigen",
     "pleaseConfirmMsg": "Möchten Sie <strong>{{name}}</strong> wirklich löschen?",
     "delete": "Löschen"
+  },
+  "turboActionCategories": {
+    "compliance": "Compliance",
+    "prevention": "Prävention",
+    "efficiency": "Effizienz",
+    "efficiency_improvement": "Effizienzsteigerung",
+    "savings": "Einsparungen",
+    "performance": "Leistung",
+    "performance_assurance": "Leistungszusicherung"
+  },
+  "resourceOptimization": {
+    "details": "Details zur Ressourcenoptimierung",
+    "targetAgent": "Zielagent",
+    "viewInTurbo": "Ansicht in Turbonomic",
+    "resourceImpact": "Ressourcenauswirkung",
+    "impactedApplications": "Betroffene Anwendungen",
+    "services": "Services",
+    "current": "Aktuell",
+    "afterActions": "Nach Aktionen",
+    "agentHelperText": "Ein Agent kapselt 1.. * Sensoren, die wiederum Ereignisse an das Instana-Back-End auslösen können. Ein auslösender Agent enthält den Sensor, der dieses Ereignis ausgelöst hat.",
+    "proceedConfirm": "Diese Aktion kann nicht rückgängig gemacht werden. Wollen Sie wirklich fortfahren?",
+    "riskDescription": "Risikobeschreibung",
+    "runningAction": "Laufende Aktion...",
+    "actionStarted": "Aktion gestartet",
+    "actionFailed": "Aktion fehlgeschlagen",
+    "actionStartedMessage": "Sie haben ' <strong>{{actionName}}.</strong>' ausgeführt Sehen Sie sich den Fortschritt dieser Aktion auf der Registerkarte Aktionsverlauf an.",
+    "actionFailedMessage": "Die Anfrage zur Ausführung der Aktion <strong>{{actionName}}</strong> ist fehlgeschlagen: {{message}}.",
+    "viewActionHistory": "Aktionsverlauf anzeigen",
+    "actionName": "Aktionsname",
+    "recommendedActionHistoryWithCount": "Historie der Ressourcenaktionen ({{count}})",
+    "recommendedActionHistory": "Geschichte der Ressourcenaktionen"
   }
 }

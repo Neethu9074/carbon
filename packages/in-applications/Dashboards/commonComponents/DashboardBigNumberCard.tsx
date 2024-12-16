@@ -72,12 +72,12 @@ export default function DashboardBigNumberCard({
     tagFilters: tagFilters,
     metric: metric,
     aggregation: aggregation,
-    // @ts-expect-error
-    timeShift: timeShift.offset
+    timeShift,
+    queryPrecision: 'FULL'
   };
 
   const cardConfiguration = {
-    metricConfiguration: metricConfiguration,
+    metricConfiguration,
     comparisonDecreaseColor: comparisonColors.decreaseColor,
     comparisonIncreaseColor: comparisonColors.increaseColor,
     ...(companionMetric && {

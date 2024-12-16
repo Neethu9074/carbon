@@ -4,59 +4,27 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useState } from 'react';
+import React from 'react';
 
-import { Card, Spacer, Stack } from '@instana/components';
-import { ButtonGroup } from '@instana/components';
+import { Card, Spacer } from '@instana/components';
+import { Event, VolatileId } from '@instana/types';
 
-import useScoredActions, { useRecommendedScoredActions } from 'in-automation/AutomationCard/useScoredActions';
+import useScoredActions, {
+  useUserRecommendedScoredActions,
+  useAIRecommendedScoredActions
+} from 'in-automation/AutomationCard/useScoredActions';
+import AutomationCardButtonGroup, { useActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
+import RecommendedActionsWithHistory from 'in-automation/ResourceOptimization/RecommendedActionsWithHistory';
+import { useResourceOptimization } from 'in-automation/ResourceOptimization/useResourceOptimization';
 import ActionHistoryTable from 'in-automation/components/ActionHistory/ActionHistoryTable';
 import RecommendedActions from 'in-automation/AutomationCard/RecommendedActions';
 import AutomationPolicies from 'in-automation/AutomationCard/AutomationPolicies';
+import { eventResourceActionsEnabled } from 'in-services/featureFlags';
 import usePolicies from 'in-automation/AutomationCard/usePolicies';
-import { actionAutomationEnabled } from 'in-services/featureFlags';
+import useHistory from 'in-automation/AutomationCard/useHistory';
 import useTrigger from 'in-automation/AutomationCard/useTrigger';
+import { hasAutomationAccess } from 'in-stores/permission';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
-import { Event, VolatileId } from 'in-types';
-import { role } from 'in-stores/user';
-import { t } from 'in-i18n';
-
-export type ButtonKey = 'automationPolicies' | 'recommendedActions' | 'actionHistory';
-export type SetActiveKey = (str: ButtonKey) => void;
-
-interface AutomationCardButtonGroupProps {
-  activeKey: ButtonKey;
-  setActiveKey: SetActiveKey;
-}
-
-function AutomationCardButtonGroup({ activeKey, setActiveKey }: AutomationCardButtonGroupProps) {
-  const buttonProps = [
-    {
-      text: t('in-automation:automationPolicies'),
-      key: 'automationPolicies',
-      onClick: () => setActiveKey('automationPolicies')
-    },
-    {
-      text: t('in-automation:recommendedActions'),
-      key: 'recommendedActions',
-      onClick: () => setActiveKey('recommendedActions')
-    }
-  ];
-
-  if (role?.canViewAutomationActionInstances) {
-    buttonProps.push({
-      text: t('in-automation:actionHistory.actionHistory'),
-      key: 'actionHistory',
-      onClick: () => setActiveKey('actionHistory')
-    });
-  }
-
-  return (
-    <Stack gap="xxsmall">
-      <ButtonGroup buttonPropsList={buttonProps} activeKey={activeKey} segmented />
-    </Stack>
-  );
-}
 
 interface AutomationCardProps {
   volatileId: VolatileId;
@@ -64,22 +32,29 @@ interface AutomationCardProps {
 }
 
 function AutomationCard({ volatileId, event }: AutomationCardProps) {
-  const [activeKey, setActiveKey] = useState<ButtonKey>('automationPolicies');
+  const activeKey = useActiveKey();
   const policies = usePolicies({ event });
+  const historyCount = useHistory({ eventId: event.id });
   const trigger = useTrigger({ event });
-  const actions = useScoredActions({ event, trigger });
-  const recommendedActions = useRecommendedScoredActions({ actions, policies });
+  const userActions = useScoredActions({ event, trigger, type: 'default' });
+  const ootbActions = useScoredActions({ event, trigger, type: 'watsonx' });
+  const recommendedActions = useUserRecommendedScoredActions({ actions: userActions, policies });
+  const ootbRecommendedActions = useAIRecommendedScoredActions({ actions: ootbActions, policies });
   return (
     <Row withoutSideMargin>
       <Col xs>
         <Card>
-          <AutomationCardButtonGroup activeKey={activeKey} setActiveKey={setActiveKey} />
+          <AutomationCardButtonGroup
+            policyCount={policies?.data?.length}
+            recommendedActionsCount={recommendedActions?.data?.length}
+            actionHistoryCount={historyCount}
+          />
           {(activeKey === 'automationPolicies' || activeKey === 'recommendedActions') && <Spacer vertical="small" />}
           {activeKey === 'automationPolicies' && (
             <AutomationPolicies
               volatileId={volatileId}
               event={event}
-              actions={actions}
+              actions={userActions}
               policies={policies}
               trigger={trigger}
             />
@@ -88,20 +63,41 @@ function AutomationCard({ volatileId, event }: AutomationCardProps) {
             <RecommendedActions
               event={event}
               volatileId={volatileId}
-              setActiveKey={setActiveKey}
+              trigger={trigger}
               recommendedActions={recommendedActions}
+              ootbRecommendedActions={ootbRecommendedActions}
             />
           )}
-          {activeKey === 'actionHistory' && role?.canViewAutomationActionInstances && (
-            <ActionHistoryTable eventId={event.id} />
-          )}
+          {activeKey === 'actionHistory' && <ActionHistoryTable eventId={event.id} />}
         </Card>
       </Col>
     </Row>
   );
 }
 
+function RecommendedOptimizationsRow({ event }: { event: Event }) {
+  const recommendedOptimizations = useResourceOptimization({ event, actionCategory: 'PERFORMANCE_ASSURANCE' });
+  return (
+    <Row withoutSideMargin>
+      <Col xs>
+        <Card>
+          <RecommendedActionsWithHistory recommendedActions={recommendedOptimizations} />
+        </Card>
+      </Col>
+    </Row>
+  );
+}
+
+function AutomationCardWithOptimization({ volatileId, event }: AutomationCardProps) {
+  return (
+    <>
+      <AutomationCard volatileId={volatileId} event={event} />
+      {eventResourceActionsEnabled && <RecommendedOptimizationsRow event={event} />}
+    </>
+  );
+}
+
 export default function AutomationCardWrapper({ volatileId, event }: AutomationCardProps) {
-  if (!actionAutomationEnabled) return null;
-  return <AutomationCard volatileId={volatileId} event={event} />;
+  if (!hasAutomationAccess) return null;
+  return <AutomationCardWithOptimization volatileId={volatileId} event={event} />;
 }

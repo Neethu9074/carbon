@@ -111,11 +111,10 @@ export default function ContributionFilterDropdown({
         // @ts-expect-error not fully matching expected type
         <DropdownButton
           {...elementProps}
-          kind="secondary"
+          kind="action"
           expanded={isOpen}
           disabled={disabled}
-          className={locals.dropdownButton}
-          spanClassName={locals.span}
+          className={locals.dropdownCarbonButton}
         >
           {renderSelectedOption(options, currentRestrictingApplicationId, true)}
         </DropdownButton>

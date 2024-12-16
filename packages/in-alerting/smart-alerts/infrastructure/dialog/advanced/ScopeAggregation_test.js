@@ -28,6 +28,6 @@ describe('Render Scope Aggregation in Infra SA dialog : in-alerting/smart-alerts
     document.querySelector("[id='metric-configurator-infra-aggregation']").click();
     expect(screen.getByText('max')).toBeInTheDocument();
     screen.getByText('max').click();
-    expect(screen.getByRole('checkbox')).not.toBeDisabled();
+    expect(screen.getByRole('switch')).not.toBeDisabled();
   });
 });

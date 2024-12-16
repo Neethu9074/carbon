@@ -10,8 +10,9 @@
   .container {
     display: grid;
     max-width: 68.5rem;
-    height: 28rem;
     border-top: 0.0625rem solid var(--ids-color-option-neutral-300);
+    height: 45rem;
+    width: 68rem;
     .ActionInstanceDetailsTable {
       width: auto;
     }
@@ -19,6 +20,7 @@
 
   .twoColums {
     grid-template-columns: 25rem 1fr;
+    height: 36.5rem;
   }
 
   .listWrapper {
@@ -28,6 +30,7 @@
 
   .contentWrapper {
     padding: 1rem;
+    overflow-y: auto;
   }
   .dialogTitle {
     margin-right: 10px;

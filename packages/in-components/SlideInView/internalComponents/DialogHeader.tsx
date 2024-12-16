@@ -6,7 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import IconButton from 'in-components/IconButton/IconButton';
+import { IconButton } from '@instana/components';
 
 import locals from './DialogHeader.mless';
 

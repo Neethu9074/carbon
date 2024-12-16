@@ -19,7 +19,18 @@
   }
 
   .rangeInput {
-    height: 1.75rem;
+    :global(.cds--number__controls) {
+      inline-size: 3rem;
+    }
+    :global(.cds--number input) {
+      padding-inline-start: 0.5rem;
+    }
+    :global(.cds--number--sm.cds--number input[type='number'][data-invalid]) {
+      padding-inline-end: 0;
+    }
+    :global(svg.cds--number__invalid) {
+      display: none;
+    }
   }
 
   .buttonRow {
@@ -39,6 +50,10 @@
 
     &:hover {
       background: transparent;
+    }
+
+    &:global(.cds--btn) {
+      min-block-size: unset;
     }
   }
 }

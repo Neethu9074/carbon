@@ -5,9 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import { SvgIcon, Link } from '@instana/components';
-import { Select } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Link, Button, IconButton, Select } from '@instana/components';
 
 import { useForm } from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialogForm';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
@@ -172,7 +170,8 @@ function MatchingRules({ form, onChange, addMatchingRule, removeMatchingRule, di
                 ))}
               </Col>
             </Row>
-            <SvgIcon
+            <IconButton
+              kind="primary"
               className={locals.removeButton}
               type="lib_actions_delete"
               onClick={() => !disabled && removeMatchingRule(i)}
@@ -317,7 +316,8 @@ function HttpHeaders({ form, onChange, addHeader, removeHeader, disabled }) {
               </Col>
             </Row>
 
-            <SvgIcon
+            <IconButton
+              kind="primary"
               className={locals.removeButton}
               type="lib_actions_delete"
               onClick={() => !disabled && removeHeader(i)}

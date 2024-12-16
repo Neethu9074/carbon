@@ -367,6 +367,7 @@
       "viewAllOs": "Visualizar todos os sistemas operacionais",
       "appVersions": "versões do app",
       "viewAllVersions": "Visualizar todas as versões",
+      "syntheticMonitoringLabel": "Monitoramento sintético",
       "configurations": {
         "symbolFileConfigLabel": "Conversão do rastreio de pilha",
         "symbolFileConfig": {
@@ -399,9 +400,12 @@
         }
       },
       "crashes": {
-        "crashesLabelErrorMessage": "Mensagem de erro",
+        "crashesLabelErrorMessage": "Posição",
+        "crashesLabelErrorType": "Tipo de erro",
         "crashesLabelOccurrences": "Ocorrências",
         "crashesLabelAffectedUsers": "Usuários afetados",
+        "crashesLabelLowestAppVersion": "Versão do aplicativo inferior",
+        "crashesLabelHighestAppVersion": "Versão do aplicativo mais recente",
         "crashesButtonAnalyzeCrashes": "Analisar travamentos",
         "crashesTableTitle": "Travamentos",
         "crashInfoTitle": "Detalhes",
@@ -453,7 +457,10 @@
       "customEventsTitle": "Nenhum evento customizado disponível",
       "customEventsDescription": "Não houve eventos customizados recuperados para o intervalo de tempo selecionado",
       "crashesTitle": "Nenhum travamento disponível",
-      "crashesDescription": "Não houve travamentos para o intervalo de tempo selecionado."
+      "crashesDescription": "Não houve travamentos para o intervalo de tempo selecionado.",
+      "syntheticMonitoring": {
+        "title": "Nenhum teste sintético está associado a esse aplicativo móvel."
+      }
     }
   },
   "appsList": {

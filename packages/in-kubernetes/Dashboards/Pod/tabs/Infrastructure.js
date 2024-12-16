@@ -6,8 +6,8 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import { Td, Table, Thead, Tbody, Tr, Th } from '@instana/components';
-import { Card } from '@instana/components';
+import { Card, DataTable as CarbonDataTable } from '@instana/components';
+import { Td, Table, Thead, Tbody, Tr, Th } from '@instana/legacy';
 
 import {
   bytesTwoDecimalPlaces,
@@ -28,7 +28,8 @@ import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
 import { podIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
-import { getContainerIconByPlugin } from 'in-kubernetes/icons';
+import { getContainerIconByPlugin } from 'in-kubernetes/utils';
+import { carbonTableEnabled } from 'in-services/featureFlags';
 import { Row, Col } from 'in-components/layout/Grid';
 import Capitalize from 'in-components/Capitalize';
 import Tooltip from 'in-components/Tooltip';
@@ -219,37 +220,71 @@ function UnmonitoredContainers({ containerStatuses }) {
   for (let i = 0; i < containerStatuses.length; i++) {
     statesMap[containerStatuses[i].containerSnapshotId] = containerStatuses[i];
   }
+  const carbonHeaders = [
+    {
+      key: 'name',
+      header: t('in-kubernetes:dashboards.name')
+    },
+    {
+      key: 'ready',
+      header: t('in-kubernetes:dashboards.ready')
+    },
+    {
+      key: 'status',
+      header: t('in-kubernetes:dashboards.status')
+    },
+    {
+      key: 'message',
+      header: t('in-kubernetes:dashboards.message')
+    }
+  ];
+
+  const carbonRows = containerStatuses.map(({ name, ready, state, message }) => ({
+    id: name,
+    ['name']: (
+      <Tooltip content={t('in-kubernetes:dashboards.nameTooltip')}>
+        <span>{name}</span>
+      </Tooltip>
+    ),
+    ['ready']: ready ? t('in-kubernetes:dashboards.yes') : t('in-kubernetes:dashboards.no'),
+    ['status']: <Capitalize>{state.status}</Capitalize>,
+    ['message']: <PodMessage message={message} />
+  }));
 
   return (
-    <Card title={t('in-kubernetes:dashboards.containersUnmonitored')}>
-      <Table>
-        <Thead>
-          <Tr size="compact">
-            <Th>{t('in-kubernetes:dashboards.name')}</Th>
-            <Th>{t('in-kubernetes:dashboards.ready')}</Th>
-            <Th>{t('in-kubernetes:dashboards.status')}</Th>
-            <Th>{t('in-kubernetes:dashboards.message')}</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {containerStatuses.map((status, i) => (
-            <Tr key={i}>
-              <Td>
-                <Tooltip content="The host of the container doesn't have an Instana Agent installed. See our documentation for more Information">
-                  <span>{status.name}</span>
-                </Tooltip>
-              </Td>
-              <Td>{status.ready ? t('in-kubernetes:dashboards.yes') : t('in-kubernetes:dashboards.no')}</Td>
-              <Td>
-                <Capitalize>{status.state.status}</Capitalize>
-              </Td>
-              <Td>
-                <PodMessage message={status.message} />
-              </Td>
+    <Card title={t('in-kubernetes:dashboards.containersUnmonitored')} disableLayer>
+      {carbonTableEnabled ? (
+        <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
+      ) : (
+        <Table>
+          <Thead>
+            <Tr size="compact">
+              <Th>{t('in-kubernetes:dashboards.name')}</Th>
+              <Th>{t('in-kubernetes:dashboards.ready')}</Th>
+              <Th>{t('in-kubernetes:dashboards.status')}</Th>
+              <Th>{t('in-kubernetes:dashboards.message')}</Th>
             </Tr>
-          ))}
-        </Tbody>
-      </Table>
+          </Thead>
+          <Tbody>
+            {containerStatuses.map((status, i) => (
+              <Tr key={i}>
+                <Td>
+                  <Tooltip content={t('in-kubernetes:dashboards.nameTooltip')}>
+                    <span>{status.name}</span>
+                  </Tooltip>
+                </Td>
+                <Td>{status.ready ? t('in-kubernetes:dashboards.yes') : t('in-kubernetes:dashboards.no')}</Td>
+                <Td>
+                  <Capitalize>{status.state.status}</Capitalize>
+                </Td>
+                <Td>
+                  <PodMessage message={status.message} />
+                </Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      )}
     </Card>
   );
 }

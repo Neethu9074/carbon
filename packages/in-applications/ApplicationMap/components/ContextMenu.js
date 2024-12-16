@@ -6,7 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/components';
 
 import {
   useLinkToAnalyze as useLinkToApplicationAnalyze,
@@ -15,29 +16,32 @@ import {
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import { getServiceLocators } from 'in-applications/ApplicationMap/serviceLocator/serviceLocator';
 import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
-import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { getButtonKindBySeverity } from 'in-stores/events';
 import { boundaryScopes } from 'in-applications/constants';
 import { flowMapEnabled } from 'in-services/featureFlags';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 import locals from './ContextMenu.mless';
 
-export default connectTo(
-  ({ applicationId, serviceLocatorUid }) => ({
-    isTrafficEnabled: getServiceLocators(serviceLocatorUid).eventBusServiceLocator.on(SIGNALS.SHOW_EXTERNAL_TRAFFIC),
-    application: getApplication({
+export default function ContextMenuContent({ applicationId, node, serviceLocatorUid }) {
+  const isTrafficEnabled = useObservable(
+    getServiceLocators(serviceLocatorUid)?.eventBusServiceLocator.on(SIGNALS.SHOW_EXTERNAL_TRAFFIC),
+    [serviceLocatorUid]
+  );
+  const application = useObservable(
+    getApplication({
       id: applicationId
-    }).map(result => result.data)
-  }),
-  ContextMenuContent
-);
-
-export function ContextMenuContent({ applicationId, application, node, isTrafficEnabled }) {
+    }).map(result => result.data),
+    [applicationId]
+  );
   const getLinkToServiceDashboard = useLinkToServiceDashboard();
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+
+  const { getEventsViewFilteredBy } = useGetEventsViewFilteredBy();
+
+  const getEventsView = getEventsViewFilteredBy({ applicationId, serviceId: node.id, eventTypeFilter: 'issue' });
   // when traffic is disabled, we only see services filtered by this application id, therefore we can straight use it.
   // if traffic is enabled, the user wants to break the border of the application, therefore don't use a context at all.
   if (isTrafficEnabled) {
@@ -99,7 +103,7 @@ export function ContextMenuContent({ applicationId, application, node, isTraffic
           className={locals.button}
           kind={getButtonKindBySeverity(maxSeverity)}
           icon="lib_help_error_warning"
-          href$={getEventsViewFilteredBy({ applicationId, serviceId: node.id, eventTypeFilter: 'issue' })}
+          href={getEventsView}
         >
           {t('in-applications:buttonInspectIssue', {
             count: openIssues

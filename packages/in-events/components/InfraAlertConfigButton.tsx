@@ -6,14 +6,14 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { useGetAlertConfigLink } from 'in-infrastructure/navigation/paths';
-import { InfraAlertConfigWithMetadata } from 'in-types';
 import { t } from 'in-i18n';
 
 interface PropsType {
-  alertConfig: InfraAlertConfigWithMetadata;
+  alertConfig: InfraSmartAlertConfigWithMetadata;
 }
 export default function InfraAlertConfigButton({ alertConfig }: PropsType) {
   const getLinkToAlertConfig = useGetAlertConfigLink();

@@ -15,10 +15,22 @@
   border-radius: var(--ids-border-radius-option-large);
 }
 
+.react-grid-layout {
+  @media print {
+    height: unset !important;
+  }
+}
+
 .react-grid-item {
   @media print {
     transform: unset !important;
     position: relative !important;
-    margin: 1.25rem 0;
+    margin: 1.5rem 0;
+
+    .carbon-card-wrapper,
+    .card-wrapper {
+      box-shadow: unset;
+      border: 1px solid rgba(0, 0, 0, 0.16);
+    }
   }
 }

@@ -8,12 +8,12 @@ import React from 'react';
 
 import {
   isApplicationSloEntity,
+  isSyntheticSloEntity,
   isWebsiteSloEntity,
   ServiceLevelObjectiveConfiguration,
   SloEntity
 } from '@instana/types';
-import { Typography } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Typography, Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import useHrefToUnboundedAnalytics from 'in-service-levels/navigation/hooks/useHrefToUnboundedAnalytics';
@@ -25,7 +25,13 @@ interface AnalyzeSloCallsButtonProps {
   configuration: ServiceLevelObjectiveConfiguration;
 }
 
-export default function AnalyzeSloEventsButtons({ configuration: { indicator, entity } }: AnalyzeSloCallsButtonProps) {
+export default function AnalyzeSloEventsButtons({ configuration }: AnalyzeSloCallsButtonProps) {
+  if (isSyntheticSloEntity(configuration.entity)) return <></>;
+
+  return <AnalyzeSloAppWebsiteEventsButtons configuration={configuration} />;
+}
+
+function AnalyzeSloAppWebsiteEventsButtons({ configuration: { indicator, entity } }: AnalyzeSloCallsButtonProps) {
   const { bad: badEventsFilterExpression } = createGoodBadTagFilterExpression({ entity, indicator });
 
   const timeConfig = useTimeConfig();

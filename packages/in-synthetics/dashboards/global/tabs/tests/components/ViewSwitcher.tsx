@@ -5,15 +5,14 @@
 
 import React from 'react';
 
+import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { dummyPoPProperties, PoPInstallationPropertiesResponse } from 'in-synthetics/utils/constants';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import PopDeployButton from 'in-synthetics/dashboards/global/tabs/tests/components/PopDeployButton';
 import getPoPInstallationProperties from 'in-synthetics/subscriptions/getPoPInstallationProperties';
-import NewLocationButton from 'in-synthetics/createLocation/NewLocationButton';
 import { syntheticInstanaHostedPoPEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader from 'in-components/DashboardHeader';
@@ -28,6 +27,7 @@ export default function ViewSwitcher() {
   const isTestsActive = matchLocation(paths.syntheticsPath);
   const isLocationsActive = matchLocation(paths.syntheticLocationPath);
   const isSmartAlertsActive = matchLocation(paths.syntheticSmartAlertsPath);
+  const isCredentialsActive = matchLocation(paths.syntheticCredentialPath);
 
   const popProperties: PoPInstallationPropertiesResponse =
     useObservable<any, [number]>(() => getPoPInstallationProperties({ installationType: 'simple' }), [0]) ||
@@ -38,7 +38,7 @@ export default function ViewSwitcher() {
     label: t('in-synthetics:dashboard.testList.mainLabel'),
     title: t('in-synthetics:dashboard.testList.mainLabel'),
     showHistoricDataWarning: false,
-    liveModeDisabled: isLocationsActive && true,
+    liveModeDisabled: isLocationsActive,
     liveModeDisabledTooltip: t('in-synthetics:dashboard.locationList.locationLiveModeDisabled')
   };
 
@@ -51,19 +51,27 @@ export default function ViewSwitcher() {
             <SecondLevelNavigationItem
               href={createHrefToPath(paths.syntheticsPath)}
               label={t('in-synthetics:dashboard.testList.secondaryLabels.tests')}
-              isActive={isTestsActive && !isLocationsActive && !isSmartAlertsActive}
+              isActive={isTestsActive && !isLocationsActive && !isCredentialsActive && !isSmartAlertsActive}
               icon={'lib_synthetic'}
             />
             <SecondLevelNavigationItem
               href={createHrefToPath(paths.syntheticLocationPath)}
               label={t('in-synthetics:dashboard.testList.secondaryLabels.locations')}
-              isActive={isLocationsActive && !isTestsActive && !isSmartAlertsActive}
+              isActive={isLocationsActive && !isTestsActive && !isCredentialsActive && !isSmartAlertsActive}
               icon={'lib_synthetic_location'}
             />
+            {role?.canUseSyntheticCredentials && (
+              <SecondLevelNavigationItem
+                href={createHrefToPath(paths.syntheticCredentialPath)}
+                label={t('in-synthetics:dashboard.testList.secondaryLabels.credentials')}
+                isActive={isCredentialsActive && !isTestsActive && !isLocationsActive && !isSmartAlertsActive}
+                icon={'lib_synthetic_credential'}
+              />
+            )}
             <SecondLevelNavigationItem
               href={createHrefToPath(paths.syntheticSmartAlertsPath)}
               label={t('in-synthetics:dashboard.testList.secondaryLabels.smartAlerts')}
-              isActive={isSmartAlertsActive && !isTestsActive && !isLocationsActive}
+              isActive={isSmartAlertsActive && !isTestsActive && !isLocationsActive && !isCredentialsActive}
               icon={'lib_alerts_alert'}
             />
           </SecondLevelNavigation>
@@ -76,7 +84,6 @@ export default function ViewSwitcher() {
                 syntheticAcceptorURL={popProperties.data?.syntheticAcceptorURL || ''}
               />
             )}
-          {role?.canConfigureSyntheticLocations && syntheticInstanaHostedPoPEnabled && <NewLocationButton />}
         </div>
       </DashboardHeaderModule>
       <DashboardHeaderShadowModule />

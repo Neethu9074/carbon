@@ -6,13 +6,14 @@
 
 import React from 'react';
 
-import { Typography } from '@instana/components';
+import { Link, Typography } from '@instana/components';
 import { Policy } from '@instana/types';
 
+import { getActionConfigurationFromPolicy, isAutomatic, isManual } from 'in-automation/utils/policy';
+import useHrefToPolicyDetails from 'in-automation/navigation/hooks/useHrefToPolicyDetails';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { isAutomatic, isManual } from 'in-automation/Policies/types';
 import WithSubscript from 'in-settings/components/WithSubscript';
-import { getType } from 'in-automation/ActionCatalog/shared';
+import { ACTION_TRANSLATIONS } from 'in-automation/constants';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
@@ -29,38 +30,39 @@ function Subscript({ policy }: { policy: Policy }) {
   return null;
 }
 
+function NameColumn({ policy }: { policy: Policy }) {
+  const hrefToPolicyDetails = useHrefToPolicyDetails();
+  return (
+    <Tooltip content={policy.name} align="auto" delay={500} overwriteBlock>
+      <WithSubscript subscript={<Subscript policy={policy} />}>
+        <Link href={hrefToPolicyDetails(policy.id, false)}>{policy.name}</Link>
+      </WithSubscript>
+    </Tooltip>
+  );
+}
 export const nameColumn: ColumnDefinition<Policy> = {
   id: 'name',
   label: t('in-automation:name'),
-  getContent: item => (
-    <Tooltip content={item.name} align="topLeft" delay={500}>
-      <WithSubscript subscript={<Subscript policy={item} />}>
-        <Typography noWrap variant="body-regular">
-          {item.name}
-        </Typography>
-      </WithSubscript>
-    </Tooltip>
-  ),
+  getContent: policy => <NameColumn policy={policy} />,
   width: 23,
   sortable: true
 };
 
 export const actionNameColumn: ColumnDefinition<Policy> = {
   id: 'actionName',
-  label: t('in-automation:policies.actionName'),
-  getContent: item => (
-    <Tooltip
-      content={item.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.name}
-      align="topLeft"
-      delay={500}
-    >
-      <WithSubscript subscript={getType(item.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.type)}>
-        <Typography noWrap variant="body-regular">
-          {item.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.name}
-        </Typography>
-      </WithSubscript>
-    </Tooltip>
-  ),
+  label: t('in-automation:actionName'),
+  getContent: item => {
+    const action = getActionConfigurationFromPolicy(item).action;
+    return (
+      <Tooltip content={action.name} align="topLeft" delay={500} overwriteBlock>
+        <WithSubscript subscript={ACTION_TRANSLATIONS[action.type]}>
+          <Typography noWrap variant="body-regular">
+            {action.name}
+          </Typography>
+        </WithSubscript>
+      </Tooltip>
+    );
+  },
   width: 23,
   sortable: true
 };

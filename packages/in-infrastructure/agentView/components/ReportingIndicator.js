@@ -22,7 +22,7 @@ export default function ReportingIndicator({ row }) {
   const monitoringIssuesCount = row.snapshot.get('monitoringIssuesTotalCount');
 
   return (
-    <Tooltip content={getTooltipText(row)} align={'rightMiddle'}>
+    <Tooltip content={getTooltipText(row)} align="leftMiddle">
       <div
         className={classNames({
           [`${block}`]: true,
@@ -76,7 +76,7 @@ function getTooltipText(row) {
 
     return (
       <div>
-        <span>{t('in-infrastructure:agentView.issueReported', { count: monitoringIssuesTotalCount })}</span>
+        <span>{t('in-infrastructure:agentView.monitoringIssueReported', { count: monitoringIssuesTotalCount })}</span>
         {rows}
       </div>
     );

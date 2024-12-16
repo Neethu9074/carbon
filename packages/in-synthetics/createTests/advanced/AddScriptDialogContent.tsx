@@ -8,13 +8,13 @@ import { MapForm, ValidationResult } from 'formalistic';
 import React, { ChangeEvent, useState } from 'react';
 import jsZip from 'jszip';
 
+import { FileInputButton } from '@instana/components';
 import { Message } from '@instana/components';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import ConfigSlideContentWrapper from 'in-synthetics/createTests/advanced/ConfigSlideContentWrapper';
 import { mainFileNameValidator } from 'in-synthetics/createTests/validators/configValidators';
 import { Script, SlideInHeader, SliderState, Zip } from 'in-synthetics/utils/constants';
-import FileInputButton from 'in-components/form/FileInputButton/FileInputButton';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
@@ -54,7 +54,6 @@ export default function AddScriptDialogContent({
   setCustomSlideInHeaderConfig,
   onSubmit
 }: AddScriptProps) {
-  const [uploadIcon, setUploadIcon] = useState('lib_actions_upload');
   const [slideInContentVisible, setSlideInContentVisible] = useState(false);
   const [script, setScript] = useState<Script>(scriptContent);
   const [scriptErrors, setScriptErrors] = useState([] as Error[]);
@@ -87,7 +86,6 @@ export default function AddScriptDialogContent({
       isModified(false);
       setZipFile({ name: '', files: [] });
       if (extension === 'js' || extension === 'side') {
-        setUploadIcon('lib_views_file');
         text = await e.target.files[0].text();
         setScript({ name: e.target.files[0].name, text, extension });
         if (extension === 'js') {
@@ -96,7 +94,6 @@ export default function AddScriptDialogContent({
           setScriptErrors([] as Error[]);
         }
       } else {
-        setUploadIcon('lib_views_folder');
         setMainFileError({ invalid: false, message: '' });
         const file = e.target.files[0];
         zipToBase64(file, (file, result) => {
@@ -146,15 +143,12 @@ export default function AddScriptDialogContent({
                       : t('in-synthetics:dialog.createTest.advancedMode.configStep.uploadFileDescription')}
                   </DescriptionText>
                 </div>
-                <>
-                  <FileInputButton
-                    accept={isBrowser ? 'text/javascript,.zip,.side' : 'text/javascript,.zip'}
-                    icon={uploadIcon}
-                    onChange={onFileUpload}
-                  />
-                  {script.errorMessage && <SaveError>{script.errorMessage}</SaveError>}
-                </>
               </HorizontalFlexWrapper>
+              <FileInputButton
+                accept={isBrowser ? 'text/javascript,.zip,.side' : 'text/javascript,.zip'}
+                onChange={onFileUpload}
+              />
+              {script.errorMessage && <SaveError>{script.errorMessage}</SaveError>}
               {script.extension === 'zip' && (
                 <FormGroup className={locals.fileName}>
                   <Label htmlFor="fileName">

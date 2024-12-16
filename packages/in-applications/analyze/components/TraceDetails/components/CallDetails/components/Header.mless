@@ -104,4 +104,8 @@
     height: 1rem;
     display: block;
   }
+
+  .pillWidth {
+    min-width: auto;
+  }
 }

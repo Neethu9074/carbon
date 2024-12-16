@@ -8,12 +8,12 @@ import React from 'react';
 
 import { just } from '@instana/observables';
 
-import { getSliConfigurations } from 'in-custom-dashboards/widgets/Slo/sli/api';
+import { getSliConfigurations } from 'in-custom-dashboards/widgets/SloLegacy/sli/api';
 import MetricConfigurator from './MetricConfigurator';
 import { success } from 'in-services/util/result';
 import { createForm } from './form';
 
-jest.mock('in-custom-dashboards/widgets/Slo/sli/api', () => ({
+jest.mock('in-custom-dashboards/widgets/SloLegacy/sli/api', () => ({
   getSliConfigurations: jest.fn()
 }));
 

@@ -5,18 +5,20 @@
  */
 
 import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { createField, createMapForm } from 'formalistic';
 
-import { Code, Spacer, Stack, StackItem, Typography } from '@instana/components';
+import { Code, Spacer, Stack, StackItem, Typography, Button } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
-import { Button } from '@instana/legacy';
 
+import ExpirationDateDropdown from 'in-settings/components/ApiTokenExpiration/ExpirationDateDropdown/ExpirationDateDropdown';
 import { PersonalApiToken, createPersonalApiToken } from 'in-settings/tabs/UserSettings/api/personalApiToken';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
+import { createPersonalApiTokenForm } from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/form';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { apiTokenExpirationEnabled } from 'in-services/featureFlags';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
-import { notBlankValidator } from 'in-services/validators/string';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
+import { CREATED_OBJECT } from 'in-services/util/constants';
 import CancelButton from 'in-components/form/CancelButton';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
@@ -42,11 +44,10 @@ interface CreateFormProps {
  * @returns Component
  */
 function CreateForm({ onCreated, onClose }: CreateFormProps) {
-  const [form, setForm] = useState(
-    createMapForm().put('name', createField({ value: '', validator: notBlankValidator }))
-  );
+  const [form, setForm] = useState(createPersonalApiTokenForm);
   const [creating, setCreating] = useState<boolean>(false);
   const [errors, setErrors] = useState<Error[] | undefined>();
+  const { unstable_trackEvent } = useSegmentTracking();
 
   // @ts-expect-error not types available...
   const userId = user?.id ?? ('' as string);
@@ -63,7 +64,8 @@ function CreateForm({ onCreated, onClose }: CreateFormProps) {
       tokenId: generateUniqueShortId(),
       accessGrantingToken: generateUniqueShortId(),
       userId,
-      name: form.toJS()['name']
+      name: form.toJS()['name'],
+      expiresOn: form.toJS()['expiresOn']
     }).once(
       body => {
         onCreated({
@@ -73,6 +75,13 @@ function CreateForm({ onCreated, onClose }: CreateFormProps) {
           userId: body.userId
         });
         setCreating(false);
+
+        const customData = {
+          id: body.tokenId,
+          expiryDate: body.expiresOn,
+          expiryOption: form.toJS()['expiryOption']
+        };
+        unstable_trackEvent(CREATED_OBJECT, { objectType: 'settings.personalApiToken.create' }, customData);
       },
       () => {
         const message = t('in-settings:tabs.failedToCreatePersonalApiToken');
@@ -111,6 +120,7 @@ function CreateForm({ onCreated, onClose }: CreateFormProps) {
           <TouchedMessages field={field} />
         </FormGroup>
       ))}
+      {apiTokenExpirationEnabled && <ExpirationDateDropdown id="api-token-expiration" form={form} setForm={setForm} />}
       <Actions>
         <CancelButton onClick={onClose} isSaving={creating} />
         <SaveButton isSaving={creating} disabled={!form.hierarchyValid} kind="primary">

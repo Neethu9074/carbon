@@ -6,15 +6,18 @@
 
 import React from 'react';
 
+import { DataTable as CarbonDataTable } from '@instana/components';
 import { Table, Thead, Tbody, Tr, Th, Td } from '@instana/legacy';
 
-import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
 import TotalUsageBigNumber from 'in-forge/plugins/oTelLLM/Dashboard/TotalUsageBigNumber';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import TopListByModel from 'in-forge/plugins/oTelLLM/Dashboard/TopListByModel';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { number, millis } from 'in-services/formatters/number';
+import { number, millis, scale } from 'in-services/formatters/number';
+import { days, hours, minutes, seconds } from 'in-services/time';
+import { carbonTableEnabled } from 'in-services/featureFlags';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import EntityLink from 'in-components/EntityLink';
 import { t } from 'in-i18n';
@@ -26,8 +29,54 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
   const costs = metricIds.filter(metric => metric.includes('llm.usage.cost')).toArray();
   const count = metricIds.filter(metric => metric.includes('llm.request.count')).toArray();
   const durations = metricIds.filter(metric => metric.includes('llm.response.duration')).toArray();
+  const getDashboardLink = useGetDashboardLink();
 
   const instanceId = snapshot.get('data').get('resource.service.instance.id');
+
+  let minRollup = seconds.toMillis(10);
+  if (timeConfig.windowSize >= days.toMillis(91)) {
+    minRollup = days.toMillis(7);
+  } else if (timeConfig.windowSize >= days.toMillis(7)) {
+    minRollup = days.toMillis(1);
+  } else if (timeConfig.windowSize >= hours.toMillis(24)) {
+    minRollup = hours.toMillis(1);
+  } else if (timeConfig.windowSize >= hours.toMillis(12)) {
+    minRollup = minutes.toMillis(10);
+  } else if (timeConfig.windowSize >= hours.toMillis(6)) {
+    minRollup = minutes.toMillis(5);
+  } else if (timeConfig.windowSize >= hours.toMillis(1)) {
+    minRollup = minutes.toMillis(1);
+  } else if (timeConfig.windowSize >= minutes.toMillis(30)) {
+    minRollup = seconds.toMillis(30);
+  }
+
+  const carbonHeaders = [
+    {
+      key: 'llmonitor_agent',
+      header: t('in-forge:plugins.oTelLLM.dashboard.llmonitor_agent')
+    },
+    {
+      key: 'details',
+      header: t('in-forge:plugins.oTelLLM.dashboard.details')
+    }
+  ];
+
+  const carbonRows = [
+    {
+      key: '1',
+      ['llmonitor_agent']: 'LLM',
+      ['details']: (
+        <EntityLink
+          label={'Calls'}
+          href={getDashboardLink(snapshot.get('id'), {
+            pathname: '#/analyze;dataSource=calls',
+            to: timeConfig.to,
+            focusedMoment: timeConfig.to
+          })}
+        />
+      )
+    }
+  ];
 
   return (
     <div>
@@ -42,7 +91,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
           title={t('in-forge:plugins.oTelLLM.dashboard.totalCost')}
           metricName="metrics.gauges.llm.usage.cost"
           tagFilter={instanceId}
-          formatter="number.detailed"
+          formatter="scale.compact"
         />
         <TotalUsageBigNumber
           title={t('in-forge:plugins.oTelLLM.dashboard.totalCount')}
@@ -63,7 +112,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
           title={t('in-forge:plugins.oTelLLM.dashboard.totalCostByModel')}
           metricName="metrics.gauges.llm.usage.cost"
           tagFilter={instanceId}
-          formatter="number.detailed"
+          formatter="scale.compact"
         />
         <TopListByModel
           title={t('in-forge:plugins.oTelLLM.dashboard.totalCountByModel')}
@@ -78,6 +127,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            minRollup={minRollup}
             y1={{
               min: 0,
               formatter: number.detailed,
@@ -88,8 +138,10 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
                 }
                 return t('in-forge:plugins.oTelLLM.dashboard.token');
               }),
-              type: 'line'
+              type: 'line',
+              aggregation: 'sum'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -98,9 +150,10 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            minRollup={minRollup}
             y1={{
               min: 0,
-              formatter: number.detailed,
+              formatter: scale.detailed,
               metrics: costs ? costs : [],
               labels: costs?.map(matric => {
                 if (matric.split('.').length > 3) {
@@ -108,8 +161,10 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
                 }
                 return t('in-forge:plugins.oTelLLM.dashboard.cost');
               }),
-              type: 'line'
+              type: 'line',
+              aggregation: 'sum'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -118,6 +173,7 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            minRollup={minRollup}
             y1={{
               min: 0,
               formatter: number.detailed,
@@ -128,8 +184,10 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
                 }
                 return t('in-forge:plugins.oTelLLM.dashboard.count');
               }),
-              type: 'line'
+              type: 'line',
+              aggregation: 'sum'
             }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
@@ -138,13 +196,14 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            minRollup={minRollup}
             y1={{
               min: 0,
               formatter: millis.detailed,
               metrics: durations ? durations : [],
               labels: durations?.map(matric => {
-                if (matric.split('.').length > 4) {
-                  return matric.split('.')[4];
+                if (matric.split('.').length > 3) {
+                  return matric.split('.')[3];
                 }
                 return t('in-forge:plugins.oTelLLM.dashboard.duration');
               }),
@@ -155,39 +214,37 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
       </Columize>
       <Columize>
         <DashboardSection title={t('in-forge:plugins.oTelLLM.dashboard.analytics')}>
-          <Table>
-            <Thead>
-              <Tr size="regular">
-                <Th>{t('in-forge:plugins.oTelLLM.dashboard.llmonitor_agent')}</Th>
-                <Th>{t('in-forge:plugins.oTelLLM.dashboard.details')}</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              <Tr size="regular">
-                <Td>{'LLM'}</Td>
-                <Td>
-                  <EntityLink
-                    label={'Calls'}
-                    href$={getDashboardLink(snapshot.get('id'), {
-                      pathname: '#/analyze;dataSource=calls',
-                      to: timeConfig.to,
-                      focusedMoment: timeConfig.to
-                    })}
-                  />
-                </Td>
-              </Tr>
-            </Tbody>
-          </Table>
+          {/* carbon table render*/}
+          {carbonTableEnabled && (
+            <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} isExpanded={false} />
+          )}
+          {!carbonTableEnabled && (
+            <Table>
+              <Thead>
+                <Tr size="regular">
+                  <Th>{t('in-forge:plugins.oTelLLM.dashboard.llmonitor_agent')}</Th>
+                  <Th>{t('in-forge:plugins.oTelLLM.dashboard.details')}</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                <Tr size="regular">
+                  <Td>{'LLM'}</Td>
+                  <Td>
+                    <EntityLink
+                      label={'Calls'}
+                      href={getDashboardLink(snapshot.get('id'), {
+                        pathname: '#/analyze;dataSource=calls',
+                        to: timeConfig.to,
+                        focusedMoment: timeConfig.to
+                      })}
+                    />
+                  </Td>
+                </Tr>
+              </Tbody>
+            </Table>
+          )}
         </DashboardSection>
       </Columize>
-      <CustomMetricsV2
-        snapshot={snapshot}
-        timeConfig={timeConfig}
-        titlePrefix={t('in-forge:plugins.oTelLLM.oTelLLM')}
-        specs={SPECS}
-      />
     </div>
   );
 }
-
-export const SPECS = [AVAILABLE_SPECS.GAUGE, AVAILABLE_SPECS.HISTOGRAM, AVAILABLE_SPECS.SUM, AVAILABLE_SPECS.SUMMARY];

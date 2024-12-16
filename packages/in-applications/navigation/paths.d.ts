@@ -9,16 +9,29 @@ import { Group, Order, TagCatalog, TimeConfig, ApplicationBoundaryScope, Boundar
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 
 export declare const applicationsList: string;
+export declare const analyzePath: string;
 export declare const alertsList: string;
 export declare const alertsTab: string;
 export declare const alertsTabDetailsFullyQualified: string;
 export declare const alertsTabListFullyQualified: string;
 export declare const applicationDashboard: string;
+export declare const configurationTab: string;
+export declare const dependencyMapTab: string;
+export declare const serviceDashboard: string;
+export declare const endpointDashboard: string;
 export declare const getLinkToAlertConfig: string;
 export declare const getLinkToGlobalAlertConfigWithoutAPDashboard: string;
 export declare const globalAlertDetails: string;
 export declare const globalSmartAlertPath: string;
 export declare const smartAlertPath: string;
+export declare const smartAlertsTab: string;
+export declare const summaryTab: string;
+export declare const resourceOptimizationsTab: string;
+export declare const syntheticsTab: string;
+export declare const servicesList: string;
+export declare const subtracesList: string;
+export declare const subtraceDashboard: string;
+export declare const subtraceConfigurationFullyQualified: string;
 
 interface ChartedMetric {
   metricId: string;
@@ -55,6 +68,7 @@ interface GetLinkToAnalyzeProps {
   timeConfig: TimeConfig;
   tagCatalog: TagCatalog;
   setOnClickNotificationMessage: (message: string) => void;
+  contextScope?: string;
 }
 
 interface UseLinkToListProps {
@@ -78,6 +92,8 @@ export function useAlertConfig(): (alertConfigId: string, applicationId: string)
 
 export function useLinkToGlobalAlertConfigWithoutAPDashboard(): (alertConfigId: string) => string;
 
+export function useNavigationToGlobalAlertConfigWithoutAPDashboard(): (alertConfigId: string) => void;
+
 export function useLinkToGlobalAlertConfigWithAPDashboard(): (
   alertConfigId: string,
   alertConfigVersion: number,
@@ -89,6 +105,12 @@ export function useLinkToAlertConfig(): (
   alertConfigVersion: number,
   applicationId: string
 ) => string;
+
+export function useNavigationToAlertConfig(): (
+  alertConfigId: string,
+  alertConfigVersion: number,
+  applicationId: string
+) => void;
 
 interface UseDashboardProps {
   applicationId?: string;
@@ -119,3 +141,4 @@ export function useLinkToApplicationDashboard(): (applicationDashboardProps: App
 export function useLinkToServiceDashboard(): (serviceDashboardProps: ServiceDashboardProps) => string;
 
 export function useLinkToEndpointDashboard(): (endpointDashboardProps: EndpointDashboardProps) => string;
+export function useLinkToUngroupedView(): string;

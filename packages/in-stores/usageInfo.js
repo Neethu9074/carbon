@@ -11,9 +11,6 @@ import { combineLatest } from '@instana/observables';
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
-import { isUsageInfoPopupEnabled } from 'in-services/featureFlags';
-import { reportLicenseType } from 'in-services/tracking/appcues';
-import { carbonShellEnabled } from 'in-services/featureFlags';
 import { toHtml } from 'in-services/formatters/markdown';
 import getUsageInfo from 'in-subscription/getUsageInfo';
 import { createStore } from 'in-stores/store';
@@ -31,21 +28,10 @@ export function hideUsageInfo() {
 }
 
 export function init() {
-  combineLatest([getUsageInfo(), usageInfoVisible$]).subscribe(([usageInfo, visible]) => {
+  combineLatest([getUsageInfo(), usageInfoVisible$]).subscribe(([usageInfo]) => {
     if (usageInfo == null) {
       removeMessage(messageId);
       return;
-    }
-
-    if (usageInfo.activeLicenseType) {
-      reportLicenseType(usageInfo.activeLicenseType);
-    }
-
-    if (!visible || usageInfo.type === 'OK' || !isUsageInfoPopupEnabled) {
-      if (!carbonShellEnabled) {
-        removeMessage(messageId);
-        return;
-      }
     }
 
     addMessage(

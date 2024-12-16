@@ -70,17 +70,11 @@ export function Input({
 
 function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps }) {
   const { inputValue } = remainingProps;
-  const {
-    locals,
-    valid,
-    hideValidityInformationOnFocus,
-    autoFocus,
-    ...remainingInputProps
-  } = inputProps;
+  const { locals, valid, hideValidityInformationOnFocus, autoFocus, ...remainingInputProps } = inputProps;
 
   return (
     <>
-      <Tooltip content={inputValue} align={'topMiddle'} delay={300}>
+      <Tooltip content={inputValue} align={'auto'} delay={300}>
         {/*This div is used to attach the tooltip to AutosizeInput*/}
         {/*We do not want to mess with passing refs down to 3rd party dependencies which could possible break in the future,*/}
         {/*so we're using this workaround*/}
@@ -94,7 +88,7 @@ function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps
             })}
             {...remainingInputProps}
             {...getInputProps({ onFocus: openMenu })}
-            autoFocus={autoFocus}
+            autoFocus={autoFocus || isOpen}
           />
         </div>
       </Tooltip>

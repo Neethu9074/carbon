@@ -5,9 +5,8 @@
 
 import React from 'react';
 
+import { SvgIcon, Button } from '@instana/components';
 import { combineLatest } from '@instana/observables';
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 import ScreenPositionWrapper from 'in-applications/FlowMap/components/Node/ScreenPositionWrapper';
 import { getServiceLocators } from 'in-applications/FlowMap/serviceLocator/serviceLocator';

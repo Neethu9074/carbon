@@ -17,11 +17,9 @@ import {
 import React, { useState } from 'react';
 import { get } from 'lodash';
 
-import { Select } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Select, Checkbox, IconButton } from '@instana/components';
 
 import { notBlankValidator } from 'in-services/validators/string';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import FormInput from 'in-components/form/Input/Input';
 import InputComponent from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -86,16 +84,12 @@ export function DownloadButton({ href, fileName }: { href: string; fileName: str
     document.body.removeChild(anchor);
   };
 
-  return (
-    <Button target="_blank" icon="lib_actions_download" iconSize="xs" kind="subtle" noAutoMargin onClick={clickHandler}>
-      {''}
-    </Button>
-  );
+  return <IconButton target="_blank" type="lib_actions_download" iconSize="xs" kind="subtle" onClick={clickHandler} />;
 }
 
 export function CheckBox({ label, checked, setChecked }: { label: string; checked: boolean; setChecked: any }) {
   return (
-    <CheckboxFancy
+    <Checkbox
       wrapperClassName={locals.checkbox}
       label={label}
       checked={checked}
@@ -108,17 +102,27 @@ export function CheckBox({ label, checked, setChecked }: { label: string; checke
 export function AgentFormInput({
   value,
   onChange,
-  placeholder
+  placeholder,
+  maxLength
 }: {
   value?: string;
   onChange: (value: string) => void;
   placeholder?: string;
+  maxLength?: number;
 }) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
   };
 
-  return <FormInput value={value} placeholder={placeholder} className={locals.inputField} onChange={handleChange} />;
+  return (
+    <FormInput
+      value={value}
+      placeholder={placeholder}
+      className={locals.inputField}
+      onChange={handleChange}
+      maxLength={maxLength}
+    />
+  );
 }
 
 export function Input({
@@ -151,17 +155,27 @@ export function Input({
 export function FormInputPlg({
   value,
   onChange,
-  placeholder
+  placeholder,
+  maxLength
 }: {
   value?: string;
   onChange: (value: string) => void;
   placeholder?: string;
+  maxLength?: number;
 }) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
   };
 
-  return <FormInput value={value} placeholder={placeholder} className={locals.inputField} onChange={handleChange} />;
+  return (
+    <FormInput
+      value={value}
+      placeholder={placeholder}
+      className={locals.inputField}
+      onChange={handleChange}
+      maxLength={maxLength}
+    />
+  );
 }
 
 interface InputFieldProp {

@@ -6,11 +6,11 @@
 
 import React from 'react';
 
+import { ActionInstance } from '@instana/types';
 import { Ul, Li } from '@instana/components';
 
 import { getStatus } from 'in-automation/components/ActionHistory/ActionHistoryTable';
-import { getType } from 'in-automation/ActionCatalog/shared';
-import { ActionInstance } from 'in-types';
+import { ACTION_TRANSLATIONS } from 'in-automation/constants';
 import { t } from 'in-i18n';
 
 import locals from './ActionInstancesList.mless';
@@ -34,7 +34,7 @@ export default function ActionInstancesList({
           >
             <div>
               <div className={locals.name}>{`${instance.actionName}`}</div>
-              <div className={locals.name}>{getType(instance.type)}</div>
+              <div className={locals.name}>{ACTION_TRANSLATIONS[instance.type]}</div>
               <div className={locals.name}>
                 {instance.status ? getStatus(instance.status) : t('in-automation:actionHistory.unknown')}
               </div>

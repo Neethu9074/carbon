@@ -138,7 +138,9 @@
       "eumDescription": "Metrics for end-user monitoring components within this unit.",
       "logMonitoring": "Log Monitoring",
       "logMonitoringDesc": "Information about our log processing pipeline.",
-      "logHealthProcessor": "log-health-processor (health rule execution)"
+      "logHealthProcessor": "log-health-processor (health rule execution)",
+      "tagProcessorState": "Tag Processor State",
+      "tagProcessorStateDescription": "Explore tag processor's state graph"
     },
     "internalViewWrapper": {
       "internal": "Internal"
@@ -596,9 +598,9 @@
       "hubforceInternal": "Hubforce internal",
       "numOfTasks": "Number of tasks",
       "internalTimerMean": "Internal timers (mean)",
-      "companyListLoadTime": "compancompany list load time",
-      "butlerDataReloadTime": "butler data reload time",
-      "migrationTime": "migration time",
+      "companyListLoadTime": "Account list load time",
+      "butlerDataReloadTime": "Butler data reload time",
+      "migrationTime": "Migration time",
       "4Xx5XxResp": "4xx & 5xx responses",
       "logErrors": "Log errors",
       "numOfLogErrors": "# log errors",
@@ -607,17 +609,8 @@
       "sqsMsg": "SQS messages",
       "numOfInternalSqsMsg": "# internal SQS messages",
       "numOfMarketplaceSqsMsg": "# marketplace SQS messages",
-      "salesforceApiCallDurationMean": "Salesforce API calls duration (mean)",
-      "soqlFetchDuration": "SOQL fetch duration",
-      "singlePopretyUpdateDuration": "single poprety update duration",
-      "salesforceApiMultiplePropCallDurationMean": "Salesforce API update multiple properties call duration (mean)",
-      "duration": "duration",
-      "salesforceApiErrorCall": "Salesforce API error calls",
-      "numOfRestApiErrors": "# REST API errors",
-      "numOfSoqlApiErrors": "# SOQL API errors",
       "numOf4xx": "# 4xx",
-      "numOf5xx": "# 5xx",
-      "salesforce": "Salesforce"
+      "numOf5xx": "# 5xx"
     },
     "infrastructureMetrics": {
       "filler": {
@@ -818,12 +811,14 @@
         "backendSpanDropInstChartExplanation_4": "Traces with a high throughput are being processed (sharding key is the trace id): adjust <em>config.hard.spans.per.trace.rate.drop.threshold</em>.",
         "backendSpanDropInstChartExplanation_5": "CPU load is too high on the underlying host(s): assign instance to a less overloaded host.",
         "srvlessAcceptorRateLimitSpanMsg": "Serverless Acceptor Rate-Limited Span Messages",
+        "otlpAcceptorRateLimitSpanMsg": "Otlp Acceptor Rate-Limited Span Messages",
         "spanLatencyMeanInstance": "Span latency (mean across instances)",
         "spanLatencyMeanInstChartExplanation": "Delay in the agent: delay between the time a span was ended and the time it was sent from the agent to acceptor.",
         "acceptorRateLimitSpanMsg": "Acceptor Rate-Limited Span Messages",
-        "acceptorRateLimitSpanhartExplan": "Number of span messages (a message contains multiple spans) dropped due to a rate per-tenant-unit limiter.See <em>config.span.publish.rate.limit</em> (default: 25,000).",
+        "acceptorRateLimitSpanhartExplan": "Number of span messages (a message contains multiple spans) dropped due to a rate per-tenant-unit limiter. See <em>config.span.publish.rate.limit</em> (default: 25,000).",
         "acceptorDropSpanMsg": "Acceptor Dropped Span Messages",
         "srvlessAcceptorDropSpanMsg": "Serverless Acceptor Dropped Span Messages",
+        "otlpAcceptorDropSpanMsg": "Otlp Acceptor Dropped Span Messages",
         "appDataProcessorInst": "AppData-Processor Processor Instances",
         "mean": "mean",
         "50th": "50th",
@@ -900,6 +895,7 @@
         "spanLatency99": "Span Latency (99th)",
         "acceptorDropSpanMsgRateLimit": "Acceptor Dropped Span Messages (Rate Limit)",
         "srvlessAcceptorDropSpanMsgRateLimit": "Serverless-Acceptor Dropped Span Messages (Rate Limit)",
+        "otlpAcceptorDropSpanMsgRateLimit": "Otlp-Acceptor Dropped Span Messages (Rate Limit)",
         "spanLatency50t": "Span Latency (50th)",
         "dropSpansBackpressure": "Dropped Spans Due To Backpressure",
         "dropSpansBackpressureLagHardDrop": "Dropped Spans Due To Backpressure (lag hard drop)",
@@ -1044,7 +1040,7 @@
       },
       "eum": {
         "websiteMonitoring": "Website Monitoring",
-        "mobileAppMonitoring":"Mobile App Monitoring",
+        "mobileAppMonitoring": "Mobile App Monitoring",
         "UsedStorageSize": "Total External Storage Used",
         "sourceMapUploadedFilesSize": "Total Size of Uploaded Source Map Files",
         "symbolicationUploadedFilesSize": "Total Size of Uploaded Symbol Files"
@@ -1057,6 +1053,20 @@
     },
     "metrics": {
       "enterSnapshotId": "Enter a snapshot id"
+    },
+    "tagProcessor": {
+      "enterTaggedObjectId": "Enter taggedObjectId",
+      "sources": "Sources",
+      "destinations": "Destinations",
+      "snapshot": "Snapshot",
+      "taggedMetric": "Tagged Metric",
+      "chain": "Chain",
+      "tagSetGenerating": "Tag Set Generating",
+      "dependency": "Dependency",
+      "selfTags": "Self Tags",
+      "tagsInheritedFrom": "Tags inherited from ",
+      "more": "+{{more}} more",
+      "info": "{{tagCount}} tags, {{connectionCount}} connections"
     },
     "graphExplorer": {
       "snapshotId": "snapshotId..."

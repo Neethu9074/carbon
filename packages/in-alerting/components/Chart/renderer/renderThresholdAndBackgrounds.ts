@@ -7,6 +7,7 @@
 import { themes } from '@instana/design-tokens';
 
 import { renderPredictions } from 'in-alerting/components/Chart/renderer/renderPredictions';
+import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { DataSeries, RenderConfig } from 'in-components/Chart/renderer/types';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { hexToRGBA } from 'in-services/formatters/color';
@@ -58,7 +59,7 @@ function renderBackgroundWithGaps(
   });
 }
 
-function calculateSegments(timebasePoints: DataSeries, maxDistanceBetweenDatapointsInMillis: number) {
+export function calculateSegments(timebasePoints: DataSeries, maxDistanceBetweenDatapointsInMillis: number) {
   const segments: DataSeries[] = [];
 
   let currentSeg: DataSeries = [];
@@ -126,8 +127,6 @@ export function renderThresholdLineAndBackgrounds(
     return;
   }
 
-  const { backBufferCtx, markerPaneHeight, y1 } = config;
-
   const chartHeight = scale.getRangeFrom();
   const thresholdColor = colors100[1]!;
   const alrightColor = colors50[0]!;
@@ -143,13 +142,26 @@ export function renderThresholdLineAndBackgrounds(
   const segments = indicateGaps ? getSegments() : [oneSidedThresholdInTimeframe];
 
   renderBackgroundWithGaps(segments, chartHeight, isGreaterOp ? alrightColor : violationColor, scale, config);
-  renderBackgroundWithGaps(segments, markerPaneHeight, isGreaterOp ? violationColor : alrightColor, scale, config);
+  renderBackgroundWithGaps(
+    segments,
+    config.markerPaneHeight,
+    isGreaterOp ? violationColor : alrightColor,
+    scale,
+    config
+  );
 
   // one-sided time-dependent threshold line
+  drawThresholdLine(oneSidedThresholdInTimeframe, thresholdColor, config, scale);
+}
+
+// draw one-sided time-dependent threshold line
+export function drawThresholdLine(dataSeries: DataSeries, color: string, config: RenderConfig, scale: ScaleType) {
+  const { backBufferCtx, y1 } = config;
+
   backBufferCtx.save();
   line.render({
-    dataSeries: oneSidedThresholdInTimeframe,
-    color: thresholdColor,
+    dataSeries: dataSeries,
+    color: color,
     scale,
     config: {
       ...config,
@@ -201,13 +213,7 @@ export function renderStaticThresholdLineAndBackgrounds(
   }
 
   // static horizontal line
-  backBufferCtx.beginPath();
-  backBufferCtx.moveTo(0, chartHeight - threshold);
-  backBufferCtx.lineWidth = defaultThresholdLineWidth;
-  backBufferCtx.strokeStyle = thresholdColor;
-  backBufferCtx.lineTo(chartWidth, chartHeight - threshold);
-  backBufferCtx.stroke();
-  backBufferCtx.restore();
+  drawStaticHorizontalLine(backBufferCtx, chartHeight, threshold, thresholdColor, chartWidth);
 }
 
 /**
@@ -281,4 +287,181 @@ export function renderGreyAreaAsMetricUnavailableIndicator(
   backBufferCtx.fillStyle = hexToRGBA(themes.default.ids.color.option.neutral['600'], 0.15);
   backBufferCtx.fillRect(xStart, markerPaneHeight, xPosEnd - xStart, graphAreaHeight);
   backBufferCtx.restore();
+}
+
+function drawStaticHorizontalLine(
+  backBufferCtx: CanvasRenderingContext2D,
+  chartHeight: number,
+  threshold: number,
+  thresholdColor: string,
+  chartWidth: number
+) {
+  backBufferCtx.beginPath();
+  backBufferCtx.moveTo(0, chartHeight - threshold);
+  backBufferCtx.lineWidth = defaultThresholdLineWidth;
+  backBufferCtx.strokeStyle = thresholdColor;
+  backBufferCtx.lineTo(chartWidth, chartHeight - threshold);
+  backBufferCtx.stroke();
+  backBufferCtx.restore();
+}
+
+function getBgAreaDetails(
+  config: RenderConfig,
+  scale: ScaleType,
+  warningThresholdValue: number | undefined,
+  criticalThresholdValue: number | undefined,
+  colors50: AxisColor[]
+) {
+  const { markerPaneHeight, xScaleBackBuffer } = config;
+
+  // @ts-expect-error scales is not yet defined on config
+  const yScale: ScaleType = config.scales.y1;
+  const chartHeight = scale.getRangeFrom();
+  const chartWidth = xScaleBackBuffer.getRangeTo();
+  const warningThreshold = yScale.getRangeFrom() - yScale.getRange(warningThresholdValue!);
+  const criticalThreshold = yScale.getRangeFrom() - yScale.getRange(criticalThresholdValue!);
+
+  const alrightColor = colors50[0]!;
+  const warningViolationColor = colors50[1]!;
+  const criticalViolationColor = colors50[2]!;
+
+  const bgAreasForGreaterOperator: BackgroundArea[] = [
+    {
+      y: markerPaneHeight,
+      width: chartWidth,
+      height: chartHeight - criticalThreshold - markerPaneHeight!,
+      color: criticalViolationColor
+    },
+    {
+      y: chartHeight - criticalThreshold,
+      width: chartWidth,
+      height: criticalThreshold - warningThreshold,
+      color: warningViolationColor
+    },
+    {
+      y: chartHeight - warningThreshold,
+      width: chartWidth,
+      height: warningThreshold,
+      color: alrightColor
+    }
+  ];
+
+  const bgAreasForLessOperator: BackgroundArea[] = [
+    {
+      y: markerPaneHeight,
+      width: chartWidth,
+      height: chartHeight - warningThreshold - markerPaneHeight!,
+      color: alrightColor
+    },
+    {
+      y: chartHeight - warningThreshold,
+      width: chartWidth,
+      height: warningThreshold - criticalThreshold,
+      color: warningViolationColor
+    },
+    {
+      y: chartHeight - criticalThreshold,
+      width: chartWidth,
+      height: criticalThreshold,
+      color: criticalViolationColor
+    }
+  ];
+
+  return {
+    bgAreasForGreaterOperator,
+    bgAreasForLessOperator
+  };
+}
+
+export function renderMultiStaticThresholdLinesAndBackgrounds(
+  config: RenderConfig,
+  scale: ScaleType,
+  colors50: AxisColor[],
+  colors100: AxisColor[],
+  warningThresholdValue: number | undefined,
+  criticalThresholdValue: number | undefined,
+  isGreaterOp: boolean
+): void {
+  const isWarningThresholdDefined = !isEmpty(warningThresholdValue);
+  const isCriticalThresholdDefined = !isEmpty(criticalThresholdValue);
+
+  if (!isWarningThresholdDefined && !isCriticalThresholdDefined) {
+    return;
+  }
+
+  if (isWarningThresholdDefined && !isCriticalThresholdDefined) {
+    renderStaticThresholdLineAndBackgrounds(
+      config,
+      scale,
+      colors50,
+      colors100,
+      warningThresholdValue!,
+      isGreaterOp,
+      []
+    );
+    return;
+  } else if (!isWarningThresholdDefined && isCriticalThresholdDefined) {
+    renderStaticThresholdLineAndBackgrounds(
+      config,
+      scale,
+      colors50,
+      colors100,
+      criticalThresholdValue!,
+      isGreaterOp,
+      []
+    );
+    return;
+  }
+
+  if (
+    (isGreaterOp && criticalThresholdValue! < warningThresholdValue!) ||
+    (!isGreaterOp && warningThresholdValue! < criticalThresholdValue!)
+  ) {
+    return;
+  }
+
+  const { backBufferCtx, xScaleBackBuffer } = config;
+  backBufferCtx.save();
+
+  const { bgAreasForGreaterOperator, bgAreasForLessOperator } = getBgAreaDetails(
+    config,
+    scale,
+    warningThresholdValue,
+    criticalThresholdValue,
+    colors50
+  );
+
+  const bgAreas = isGreaterOp ? bgAreasForGreaterOperator : bgAreasForLessOperator;
+  bgAreas.forEach(area => drawBackgroundArea(area, backBufferCtx));
+
+  const warningThresholdColor = colors100[1]!;
+  const criticalThresholdColor = colors100[2]!;
+  const chartHeight = scale.getRangeFrom();
+  const chartWidth = xScaleBackBuffer.getRangeTo();
+  // @ts-expect-error scales is not yet defined on config
+  const yScale: ScaleType = config.scales.y1;
+  const warningThreshold = yScale.getRangeFrom() - yScale.getRange(warningThresholdValue!);
+  const criticalThreshold = yScale.getRangeFrom() - yScale.getRange(criticalThresholdValue!);
+
+  // static horizontal line
+  drawStaticHorizontalLine(backBufferCtx, chartHeight, warningThreshold, warningThresholdColor, chartWidth);
+  drawStaticHorizontalLine(backBufferCtx, chartHeight, criticalThreshold, criticalThresholdColor, chartWidth);
+}
+
+interface BackgroundArea {
+  y: number;
+  width: number;
+  height: number;
+  color: string;
+}
+
+export function drawBackgroundArea(
+  { y, width, height, color }: BackgroundArea,
+  backBufferCtx: CanvasRenderingContext2D
+): void {
+  const x = 0;
+
+  backBufferCtx.lineWidth = 0;
+  backBufferCtx.fillStyle = color;
+  backBufferCtx.fillRect(x, y, width, height);
 }

@@ -6,8 +6,7 @@
 
 import React from 'react';
 
-import { Typography } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Typography, Button } from '@instana/components';
 
 import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm';
 import { useWebsiteQueryBuilder } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
@@ -29,15 +28,16 @@ export default function WebsiteTagFilterBuilderContent({
 }: WebsiteTagFilterBuilderContentProps) {
   const beaconTypeField = form.getIn(['scope', 'beaconType']);
   const tagFilterExpressionField = form.getIn(['scope', 'tagFilterExpression']);
-  const websiteIdField = form.getIn(['entity', 'entityId']);
+  const websiteIdField = form.getIn(['entity', 'entityIds']);
 
   const { QueryBuilder } = useWebsiteQueryBuilder({
     beaconType: beaconTypeField.value,
-    websiteId: websiteIdField.value
+    websiteId: websiteIdField.value[0]
   });
 
-  const shouldRenderExplanationText = readOnly && tagFilterExpressionField.value.length === 0;
-  const shouldRenderClearButton = tagFilterExpressionField.value.length !== 0 && !readOnly;
+  const tagFilterExpression = tagFilterExpressionField.value ?? [];
+  const shouldRenderExplanationText = readOnly && tagFilterExpression.length === 0;
+  const shouldRenderClearButton = tagFilterExpression.length !== 0 && !readOnly;
 
   return (
     <Section
@@ -70,7 +70,7 @@ export default function WebsiteTagFilterBuilderContent({
             )
           }
           readOnly={readOnly}
-          value={tagFilterExpressionField.value}
+          value={tagFilterExpression}
         />
       )}
     </Section>

@@ -1,0 +1,59 @@
+version: 0.2
+
+env:
+  variables:
+    CODEBUILD_PROJECT_NAME: 'ui-client'
+    VERSIONING_ARTIFACT_NAME: 'ui-client'
+  parameter-store:
+    INSTANA_ARTIFACTORY_USERNAME: 'delivery.instana.io.internal.rw.username'
+    INSTANA_ARTIFACTORY_PASSWORD: 'delivery.instana.io.internal.rw.password'
+    EFS_DATA_DIR: 'efs.data.dir'
+    EFS_DNS: 'efs.data.dns'
+    GITHUB_API_TOKEN: 'ibm.github.e.api.token'
+    GITHUB_READ_PASSWORD: 'github.read.password'
+    GITHUB_READ_USER: 'github.read.user'
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      # Remove SBT repository: https://github.com/aws/aws-codebuild-docker-images/issues/449
+      - rm -f /etc/apt/sources.list.d/sbt.list
+      # Set up the shared tooling
+      - ./build/download-ci-shared-tools.bash
+      - 'USE_N=true ./build/ci-shared-tools/scripts/setup.bash'
+      - ./build/ci-shared-tools/scripts/codebuild/setup.bash
+      # Define the standard build env vars
+      - export GIT_COMMIT="$(./build/ci-shared-tools/scripts/git/getCommitId.js)"
+      - export GIT_SHORT_COMMIT="$(./build/ci-shared-tools/scripts/git/getShortCommitId.js)"
+      - export GIT_BRANCH="$(./build/ci-shared-tools/scripts/git/getBranch.js)"
+      - export COMMIT_AUTHOR="$(./build/ci-shared-tools/scripts/git/getCommitAuthor.js)"
+      - export BUILD_URL="https://us-west-2.console.aws.amazon.com/codesuite/codebuild/projects/ui-client/build/$CODEBUILD_BUILD_ID/log?region=us-west-2"
+      - INSTANA_CONTAINER_TAG="$(./build/ci-shared-tools/scripts/componentVersioning/getVersion.js ui-client $GIT_BRANCH $EXTERNAL_CONTAINER_TAG_OVERWRITE)" && export INSTANA_CONTAINER_TAG
+      # Alias the value for the Node.js build process
+      - export COM_INSTANA_IMAGE_TAG="$INSTANA_CONTAINER_TAG"
+      # Set up the correct Node.js version
+      - n `cat .nvmrc`
+  pre_build:
+    commands:
+      - |
+        REGISTRY="https://delivery.instana.io" \
+          REPOSITORY_KEY="int-npm-virtual" \
+          USERNAME="$INSTANA_ARTIFACTORY_USERNAME" \
+          PASSWORD="$INSTANA_ARTIFACTORY_PASSWORD" \
+          NON_INTERACTIVE=true \
+          WRITE_TO_CWD=true \
+          NPM_CONFIG_REGISTRY="https://registry.npmjs.org/" \
+          npx create-artifactory-access-config
+      # Install project dependencies
+      - npm install -g yarn@1.22.19
+      # reduce redundant build output
+      - yarn install --immutable
+      - cd packages/in-server && yarn install --ignore-optional --frozen-lockfile && cd ../..
+  build:
+    commands:
+      # Test Client-Side
+      - yarn run test
+      # Test Server-Side – ensure that we only leave production dependencies in the workspace once done.
+      - cd packages/in-server && yarn run test

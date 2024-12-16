@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { Fragment, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { Map } from 'immutable';
 
 import { Result, TimeConfig } from '@instana/types';
@@ -43,6 +43,7 @@ interface CustomMetricProps {
   getRows?: (p: GetRowsProps) => Row[];
   customColumns?: any;
   path?: string;
+  distanceBetweenDatapointsInMillis?: number;
 }
 
 interface GetRowsProps extends CustomMetricProps {
@@ -135,7 +136,7 @@ const cols = [
       },
       getContent(type: string, row: Row) {
         return (
-          <Pill kind="light" color={row.color} lightenOpacity={0.1} className={locals.pill}>
+          <Pill color={row.color} lightenOpacity={0.1} className={locals.pill}>
             {type}
           </Pill>
         );
@@ -195,6 +196,7 @@ export default function CustomMetricsV2(props: CustomMetricProps) {
     customColumns,
     timeConfig,
     snapshot,
+    distanceBetweenDatapointsInMillis,
     path = '/dashboard'
   } = props;
 
@@ -230,7 +232,7 @@ export default function CustomMetricsV2(props: CustomMetricProps) {
   const pinnedRows = rows.filter(r => pinnedMetrics.indexOf(r.key) !== -1);
 
   return (
-    <Fragment>
+    <>
       {pinnedRows.length > 0 && (
         <Table
           cardTitle={t('in-sdk:dashboard.customMetricsV2.customMetricsTitlePinned', {
@@ -244,9 +246,9 @@ export default function CustomMetricsV2(props: CustomMetricProps) {
           maxItemsPerPage={20}
           initialSortColumn={2}
           showExpandAll
+          distanceBetweenDatapointsInMillis={distanceBetweenDatapointsInMillis}
         />
       )}
-
       <Table
         cardTitle={t('in-sdk:dashboard.customMetricsV2.customMetricsTitleCustom', {
           customPrefix: titlePrefix,
@@ -258,12 +260,13 @@ export default function CustomMetricsV2(props: CustomMetricProps) {
         getRowDetails={getDetails}
         maxItemsPerPage={20}
         initialSortColumn={2}
+        distanceBetweenDatapointsInMillis={distanceBetweenDatapointsInMillis}
       />
-    </Fragment>
+    </>
   );
 }
 
-function getDetails(row: Row) {
+function getDetails(row: Row, distanceBetweenDatapointsInMillis?: number) {
   const y1Formatter = row.metrics[0].formatter;
   const y1DataSeries = row.metrics.filter(m => m.formatter === y1Formatter);
   const y2DataSeries = row.metrics.filter(m => m.formatter !== y1Formatter);
@@ -294,6 +297,7 @@ function getDetails(row: Row) {
       minRollup={adjustMetricRollup(row.type, getInfraGranularity(row.timeConfig))}
       y1={y1}
       y2={y2}
+      distanceBetweenDatapointsInMillis={distanceBetweenDatapointsInMillis}
     />
   );
 }
@@ -395,7 +399,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
     color: themes.default.ids.color.option.green['500'],
     metrics: [
       {
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableCount'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelCount'),
         formatter: withSiMultiplyPrefixZeroDecimalPlaces
       }
     ],
@@ -407,7 +411,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
     color: themes.default.ids.color.option.green['500'],
     metrics: [
       {
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableCount'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelCount'),
         formatter: withSiMultiplyPrefixZeroDecimalPlaces
       }
     ],
@@ -419,7 +423,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
     color: themes.default.ids.color.option.pink['500'],
     metrics: [
       {
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
     ],
@@ -431,7 +435,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
     color: themes.default.ids.color.option.yellow['500'],
     metrics: [
       {
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
     ],
@@ -444,17 +448,17 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
     metrics: [
       {
         suffix: '.mean',
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableMean'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelMean'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       },
       {
         suffix: '.50th',
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableP50'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelP50'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       },
       {
         suffix: '.99th',
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableP99'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelP99'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
     ],
@@ -466,7 +470,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
     color: themes.default.ids.color.option.blue['500'],
     metrics: [
       {
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableRate'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelRate'),
         formatter: rateFormatter
       }
     ],
@@ -478,7 +482,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
     color: themes.default.ids.color.option.orange['500'],
     metrics: [
       {
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
     ],
@@ -492,22 +496,22 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
     metrics: [
       {
         suffix: '.rate',
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableRate'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelRate'),
         formatter: rateFormatter
       },
       {
         suffix: '.mean',
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableMean'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelMean'),
         formatter: timeByMillisTwoDecimalPlaces
       },
       {
         suffix: '.50th',
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableP50'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelP50'),
         formatter: timeByMillisTwoDecimalPlaces
       },
       {
         suffix: '.99th',
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableP99'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelP99'),
         formatter: timeByMillisTwoDecimalPlaces
       }
     ],
@@ -519,7 +523,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
     color: themes.default.ids.color.option.orange['500'],
     metrics: [
       {
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
     ],
@@ -531,7 +535,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
     color: themes.default.ids.color.option.blue['500'],
     metrics: [
       {
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
     ],
@@ -543,7 +547,7 @@ export const AVAILABLE_SPECS: MetricsSpecs = {
     color: themes.default.ids.color.option.blue['500'],
     metrics: [
       {
-        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLabelValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
     ],

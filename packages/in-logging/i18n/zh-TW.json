@@ -1,6 +1,7 @@
 {
   "logs": "日誌",
   "sum": "總和",
+  "count": "count",
   "bar": "列",
   "logsOverTime": "一段時間的日誌",
   "logsOverTime_ERROR": "錯誤",
@@ -53,5 +54,31 @@
   "process": "程序",
   "host": "主機",
   "fileOnHost": "於",
-  "file": "檔案"
+  "file": "檔案",
+  "logExpiration": "保留截止時間",
+  "stacktraceLogMessage": "堆疊追蹤",
+  "logTraceTitle": "堆疊追蹤",
+  "stackTraceHeader": "堆疊追蹤訊息",
+  "dashboard": {
+    "summary": "摘要",
+    "smartAlerts": "智慧型警示",
+    "deleteLogs": "刪除日誌",
+    "configuration": "配置",
+    "logVolume": {
+      "logVolumeTitle": "當月日誌量",
+      "gb": "GB",
+      "logVolumeIcon": "移至日誌量"
+    },
+    "retentionIcon": "變更保留期間",
+    "noData": "沒有可用的資料",
+    "analyzeLogs": "分析日誌",
+    "configurationPage": {
+      "logVolume": "日誌量",
+      "logVolumeDescription": "檢視長達 12 個月的日誌量，並隨需應變依基礎架構標籤進行分組。",
+      "logIntegrations": "日誌整合",
+      "logIntegrationsDescription": "連接您的日誌管理解決方案並配置它們以符合您的需求。",
+      "retentionPeriod": "保留期間",
+      "retentionPeriodDescription": "變更保留期間會影響日誌在應用程式、儀表板和分析中保留和提供使用的時間，並對成本和計費產生影響。"
+    }
+  }
 }

@@ -6,7 +6,10 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
+import { CarbonLayer } from '@instana/components';
+
 import { stopPropagation, stopPropagationAndPreventDefault, noop } from 'in-services/util/function';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import SlideInView from 'in-components/SlideInView/SlideInView';
 import Header from 'in-components/Dialog/Header';
 
@@ -62,7 +65,8 @@ export default function DialogWithSlideInView({
       data-testid="dialog-slide-in-view"
       className={classNames({
         [locals.wrapper]: true,
-        [locals.cursorDefault]: doNotCloseOnOutsideClick
+        [locals.cursorDefault]: doNotCloseOnOutsideClick,
+        [locals.shareAndInvite]: shareAndInviteEnabled
       })}
       onClick={e => (doNotCloseOnOutsideClick ? stopPropagationAndPreventDefault(e) : onClose?.(e))}
     >
@@ -71,41 +75,44 @@ export default function DialogWithSlideInView({
         onClick={stopPropagation}
         onScrollCapture={e => setScrollshadow((e.target as HTMLElement).scrollTop > 0)}
       >
-        <SlideInView
-          onShowSlideInContentChange={onSlideInViewTitleClick ?? noop}
-          slideInContentTitle={slideInViewTitle}
-          slideInContent={slideInViewComponent}
-          showSlideInContent={slideInViewVisible}
-          staticContent={
-            <>
-              {!headless && (
-                <Header
-                  icon={titleIconType}
-                  onIconClick={onTitleIconClick}
-                  title={title}
-                  renderCustomCloseBehaviour={() => {
-                    return renderCustomCloseBehaviour && renderCustomCloseBehaviour(resetScrollShadow);
-                  }}
-                  onClose={onClose}
-                  addScrollShadow={scrollshadow}
-                />
-              )}
-              <div
-                className={classNames({
-                  [locals.body]: true,
-                  [locals.withoutPadding]: withoutBodyPadding,
-                  [locals.withoutBottomPadding]: withoutBodyPadding ?? (removeBottomPaddingWhenFooterIsShown && footer),
-                  [locals.showOverflow]: showOverflow,
-                  [locals.withRoundedBottomBorder]: slideInViewVisible || !footer
-                })}
-              >
-                {children}
-              </div>
+        <CarbonLayer>
+          <SlideInView
+            onShowSlideInContentChange={onSlideInViewTitleClick ?? noop}
+            slideInContentTitle={slideInViewTitle}
+            slideInContent={slideInViewComponent}
+            showSlideInContent={slideInViewVisible}
+            staticContent={
+              <>
+                {!headless && (
+                  <Header
+                    icon={titleIconType}
+                    onIconClick={onTitleIconClick}
+                    title={title}
+                    renderCustomCloseBehaviour={() => {
+                      return renderCustomCloseBehaviour && renderCustomCloseBehaviour(resetScrollShadow);
+                    }}
+                    onClose={onClose}
+                    addScrollShadow={scrollshadow}
+                  />
+                )}
+                <div
+                  className={classNames({
+                    [locals.body]: true,
+                    [locals.withoutPadding]: withoutBodyPadding,
+                    [locals.withoutBottomPadding]:
+                      withoutBodyPadding ?? (removeBottomPaddingWhenFooterIsShown && footer),
+                    [locals.showOverflow]: showOverflow,
+                    [locals.withRoundedBottomBorder]: slideInViewVisible || !footer
+                  })}
+                >
+                  {children}
+                </div>
 
-              {!slideInViewVisible && footer}
-            </>
-          }
-        />
+                {!slideInViewVisible && footer}
+              </>
+            }
+          />
+        </CarbonLayer>
       </section>
     </div>
   );

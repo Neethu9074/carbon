@@ -18,6 +18,8 @@ interface GroupingConfiguratorSectionProps {
   withoutIcon?: boolean;
   withOptionalMarker?: boolean;
   hasError?: boolean;
+  additionalGetTagCatalogProps?: any;
+  SectionWrapper?: React.FunctionComponent<any>;
 }
 declare const GroupingConfiguratorSection = (props: GroupingConfiguratorSectionProps) => JSX.Element;
 

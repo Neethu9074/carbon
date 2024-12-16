@@ -6,6 +6,7 @@
   "labelAnalytic": "分析",
   "labelCall": "调用",
   "labelTrace": "跟踪",
+  "labelStatus": "状态",
   "linkDownload": "下载",
   "linkDownloadCalls": "下载调用",
   "linkDownloadRawTrace": "下载原始跟踪",
@@ -122,6 +123,7 @@
   "messageSuccessfullySaved": "已成功保存。",
   "messageErrorOccurred": "发生错误，请重试。",
   "messageWaitForChanges": "应用更改可能需要一些时间。",
+  "linkViewAllApplications": "查看所有应用程序",
   "linkViewAllServices": "查看所有服务",
   "linkViewAllEndpoints": "查看所有端点",
   "lineViewInAnalyze": "查看分析",
@@ -152,6 +154,33 @@
   "applications": {
     "noData": "应用程序透视图提供了对环境、服务集、租户或几乎所有内容进行建模的方法。"
   },
+  "subtraces": {
+    "labelSubtraces": "子溯源",
+    "labelSubtrace": "子跟踪",
+    "newSubtrace": "添加子跟踪",
+    "subtracesList": {
+      "name": "名称",
+      "count": "计数",
+      "meanDuration": "平均持续时间",
+      "meanSubcallCount": "平均人数 的子调用",
+      "meanErrorRate": "平均错误率"
+    },
+    "configuration": {
+      "success": {
+        "title": "子跟踪 {{action}} 成功",
+        "message": "子跟踪 {{subtraceName}} 已被 {{action}}。"
+      },
+      "failure": {
+        "title": "{{action}} 子跟踪失败",
+        "message": "在尝试 {{action}} 此子跟踪时出现问题：{{subtraceName}}"
+      },
+      "title": "更新子跟踪",
+      "subtraceName": "子跟踪名称",
+      "subtraceFilter": "子跟踪定义",
+      "evaluationGranularity": "评估详细程度",
+      "evaluationGranularityValidationError": "请为评估粒度选择一个值"
+    }
+  },
   "alert": {
     "tooltipMoreFilter": "+其他 {{moreFilterCount}} 个过滤器",
     "tooltipMoreFilter_plural": "+其他 {{moreFilterCount}} 个过滤器",
@@ -170,9 +199,9 @@
     },
     "constants": {
       "inboundDashboard": "仪表板仅显示基于此应用程序的使用者所执行调用的信息。",
-      "inboundOverrideDefault": "此应用程序的缺省作用域仅限于“入站调用”。您可以在配置中更改此项。",
+      "inboundOverrideDefault": "此应用程序的缺省作用域仅限于“入站调用”。 您可以在配置中更改此项。",
       "allDashboard": "仪表板正在显示基于此应用程序中的所有调用（由使用者执行和内部执行）的信息。",
-      "allOverrideDefault": "此应用程序的缺省作用域为“所有调用”。您可以在配置中更改此项。"
+      "allOverrideDefault": "此应用程序的缺省作用域为“所有调用”。 您可以在配置中更改此项。"
     }
   },
   "analyze": {
@@ -209,6 +238,8 @@
     "closeTraceDetail": "关闭跟踪详细信息",
     "invalidQueryConfig": "查询配置无效。请在继续之前处理验证失败。",
     "invalidTraceIdTagFilter": "跟踪标识“{{traceId}}”无效。 请指定长度为 16 或 32 个字符的有效跟踪标识。",
+    "disabledApiQueryLatencyDistributionChart": "API 查询不支持等待时间分布。 请先选择其他图表。",
+    "disabledApiQueryNoChart": "如果未选择图表，那么无法使用 API 查询。 请先选择一个图表。",
     "errorRateLabel": "错误调用数（率）",
     "errorRateCategory": "错误调用数",
     "errorMetricLabel": "错误调用率",
@@ -244,7 +275,8 @@
     "dataSource_calls_plural": "{{formattedCount}} 个调用",
     "dataSource_traces": "{{formattedCount}} 个跟踪",
     "dataSource_traces_plural": "{{formattedCount}} 个跟踪",
-    "analyzeCallsOfThisTrace": "分析此跟踪的调用"
+    "analyzeCallsOfThisTrace": "分析此跟踪的调用",
+    "noAvailableCustomMetrics": "没有可用的自定义指标"
   },
   "creation": {
     "newAP": "新建应用程序透视图",
@@ -456,7 +488,9 @@
       "logMessagesDescription": "在所选时间范围内未检索到任何日志消息。",
       "endpointsTitle": "无可用的端点",
       "endpointsDescription": "在所选时间范围内未检索到任何端点。"
-    }
+    },
+    "pageCannotBeFound": "找不到页面。",
+    "idNotPresent": "{{id}} 在 URL 中不存在。"
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "该服务不在当前应用程序中。",
@@ -627,6 +661,8 @@
     "calls_latency": "等待时间",
     "calls_erroneousCalls": "错误调用数",
     "calls_errors": "错误调用率",
+    "calls_call_metric": "自定义调用指标",
+    "calls_call_meta_metrics": "元指标",
     "traces_calls": "跟踪",
     "traces_traces": "跟踪",
     "traces_latency": "等待时间",
@@ -678,5 +714,21 @@
     "alternativeServicesProblem": "<bold>否</bold>，如果当前服务的名称来自 HTTP“主机”头（标识为 call.http.host 的服务映射规则），并且替代服务的名称不存在（因为其名称来自基于基础架构标记的规则），或者反之亦然。 这些是重复服务。",
     "alternativeServicesPossibleProblem": "<bold>可能</bold>，如果当前服务和替代服务名称不是来自 HTTP“主机”头，那么它们要么是位于代理后面的服务（良好），要么是重复的服务（较差）：某些服务完全链接到基础架构，而其他服务部分链接到基础架构。"
   },
-  "labelSyntheticMonitoring": "合成监视"
+  "infoBanner": {
+    "title": "由 Turbonomic 支持的资源行动",
+    "tryLabel": "先试用后购买",
+    "tryText": "开始免费试用，了解资源操作如何帮助您的应用程序。",
+    "tryButtonLabel": "开始试用",
+    "learnLabel": "了解更多",
+    "learnText": "查看一些博客和其他媒体，了解有关此功能的最新信息。",
+    "learnButtonLabel": "在线访问我们",
+    "connectLabel": "与销售部门联系",
+    "connectText": "请联系我们的销售团队，让他们知道您对此感兴趣。",
+    "connectButtonLabel": "立即购买",
+    "helpLabel": "帮助我们成长",
+    "helpText": "与我们分享您的想法，以便我们继续提供您最需要的功能。",
+    "helpButtonLabel": "提供反馈"
+  },
+  "labelSyntheticMonitoring": "合成监视",
+  "labelResourceOptimizations": "优化"
 }

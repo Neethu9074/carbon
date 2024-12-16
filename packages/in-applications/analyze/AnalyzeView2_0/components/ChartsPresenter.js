@@ -7,10 +7,16 @@ import React from 'react';
 
 import { themes } from '@instana/design-tokens';
 
+import {
+  EMPTY_EXPRESSION,
+  containsTagName,
+  isTagFilter,
+  isTagFilterExpression,
+  toBackendQueryModel
+} from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import LatencyDistributionChart from 'in-applications/analyze/components/ChartingPresenter/LatencyDistributionChart';
-import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { ua2ChartChangedTracker, ua2ChartRemovedTracker } from 'in-applications/tracker';
 import { metricRenderers } from 'in-applications/analyze/AnalyzeView2_0/metrics';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import Chart from 'in-components/AnalyzeView/Charting/Chart';
 import Charting from 'in-components/AnalyzeView/Charting';
 import Sections from 'in-components/workspace/Sections';
@@ -52,11 +58,16 @@ const validateTagFilterValue = metricConfiguration => {
 };
 
 const transformMetricTagFilterValues = tagFilterExpression => {
-  // check if it is a metric filter and if a value is given.
-  // This prevents e.g. the value "Tag not present" from being transformed.
-  return tagFilterExpression.name === 'call.metric' && tagFilterExpression.value
-    ? { ...tagFilterExpression, value: Number(tagFilterExpression.value) }
-    : tagFilterExpression;
+  if (containsTagName(tagFilterExpression, 'call.metric')) {
+    // check if it is a metric filter and if a value is given.
+    // This prevents e.g. the value "Tag not present" from being transformed.
+    if (isTagFilter(tagFilterExpression) && typeof tagFilterExpression.value === 'string') {
+      tagFilterExpression = { ...tagFilterExpression, value: Number(tagFilterExpression.value) };
+    } else if (isTagFilterExpression(tagFilterExpression) && tagFilterExpression.elements?.length > 0) {
+      tagFilterExpression.elements = tagFilterExpression.elements.map(transformMetricTagFilterValues);
+    }
+  }
+  return tagFilterExpression;
 };
 
 export function ChartsPresenter(props) {
@@ -69,7 +80,7 @@ export function ChartsPresenter(props) {
     chartableDataSeries,
     fastQueryModeEnabled
   } = props;
-
+  const { trackUa2ChartChanged, trackUa2ChartRemoved } = useAnalyzeTracker();
   return (
     <Sections className={locals.chartWrapper}>
       <Charting
@@ -95,13 +106,13 @@ export function ChartsPresenter(props) {
         hideRenderer
         tracking={{
           onChartChanged: ({ templateId, metricId, aggregationId }) =>
-            ua2ChartChangedTracker({
+            trackUa2ChartChanged({
               dataSource,
               template: templateId,
               metric: metricId,
               aggregation: aggregationId
             }),
-          onChartRemoved: ua2ChartRemovedTracker(emptyObject)
+          onChartRemoved: trackUa2ChartRemoved(emptyObject)
         }}
         CustomChartFactory={({ metricConfig, chartProps }) => {
           if (isLatencyDistributionChart(metricConfig)) {

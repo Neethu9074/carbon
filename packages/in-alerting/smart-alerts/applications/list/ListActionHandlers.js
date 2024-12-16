@@ -16,15 +16,21 @@ import {
   disableAlertConfig,
   enableAlertConfig
 } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
+import {
+  applicationSmartAlertFullScreenDesignEnabled,
+  applicationSmartAlertDialogView
+} from 'in-services/featureFlags';
+import TearSheetButtonWithLink from 'in-alerting/smart-alerts/applications/components/TearSheetButtonWithLink';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
-import { trackAlertDeleteConfirm } from 'in-alerting/smart-alerts/components/tracker';
+import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { ALERTING_DELETE_CONFIRM } from 'in-services/tracking/eventNames';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { t, Trans } from 'in-i18n';
 
-function handleDelete(id, setIsSaving, configName, isGlobalSmartAlertConfig) {
+function handleDelete(id, setIsSaving, configName, isGlobalSmartAlertConfig, trackCta) {
   const deleteConfig = isGlobalSmartAlertConfig ? deleteGlobalAlertConfig : deleteAlertConfig;
 
   addActiveDialog(
@@ -44,7 +50,7 @@ function handleDelete(id, setIsSaving, configName, isGlobalSmartAlertConfig) {
         close();
         deleteConfig(id).once(
           () => {
-            trackAlertDeleteConfirm(id);
+            trackCta(ALERTING_DELETE_CONFIRM, { id });
             refreshSmartAlertConfigsList();
           },
           () => {
@@ -95,16 +101,60 @@ function openSmartAlertDialog(config, isGlobalSmartAlertConfig, isCopy = false) 
   );
 }
 
-export function actionHandlers(isGlobalSmartAlertConfig) {
+export function actionHandlers(isGlobalSmartAlertConfig, trackCta) {
+  const editAction = {
+    ...(applicationSmartAlertFullScreenDesignEnabled && {
+      handleEditNew: function (config) {
+        const { created, id } = config;
+        return (
+          <TearSheetButtonWithLink
+            buttonIcon="lib_actions_edit"
+            buttonName={getButtonName(t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit'))}
+            isGlobal={isGlobalSmartAlertConfig}
+            alertId={id}
+            alertConfigCreated={created}
+            editMode
+            alertConfig={config}
+          />
+        );
+      }
+    }),
+    ...(applicationSmartAlertDialogView && {
+      handleEdit: function (config) {
+        handleEdit(config, isGlobalSmartAlertConfig);
+      }
+    })
+  };
+
+  const duplicateAction = {
+    ...(applicationSmartAlertFullScreenDesignEnabled && {
+      handleCloneNew: function (config) {
+        const { created, id } = config;
+        return (
+          <TearSheetButtonWithLink
+            buttonIcon="lib_actions_copy"
+            buttonName={getButtonName(t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate'))}
+            isGlobal={isGlobalSmartAlertConfig}
+            alertId={id}
+            alertConfigCreated={created}
+            duplicateMode
+            alertConfig={config}
+          />
+        );
+      }
+    }),
+    ...(applicationSmartAlertDialogView && {
+      handleClone: function (config) {
+        handleClone(config, isGlobalSmartAlertConfig);
+      }
+    })
+  };
+
   return {
-    handleClone: function (config) {
-      handleClone(config, isGlobalSmartAlertConfig);
-    },
+    ...editAction,
+    ...duplicateAction,
     handleDelete: function (id, setIsSaving, configName) {
-      handleDelete(id, setIsSaving, configName, isGlobalSmartAlertConfig);
-    },
-    handleEdit: function (config) {
-      handleEdit(config, isGlobalSmartAlertConfig);
+      handleDelete(id, setIsSaving, configName, isGlobalSmartAlertConfig, trackCta);
     },
     handleToggleEnabled: function (enabled, id, setIsSaving) {
       handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig);

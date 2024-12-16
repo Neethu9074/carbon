@@ -4,7 +4,14 @@
  * Copyright IBM Corp. 2024
  */
 
-import { t } from '@instana/i18n-react';
+import React from 'react';
+
+import { t, Trans } from '@instana/i18n-react';
+import { Link } from '@instana/components';
+
+import { role } from 'in-stores/user';
+
+export const DEFAULT_NUMBER_ROWS = 5;
 
 export function getNoDataHeader(label: string) {
   switch (label) {
@@ -20,8 +27,12 @@ export function getNoDataHeader(label: string) {
       return t('in-plg:welcomepage.noData.websitesWidget.header');
     case 'mobileListWidget':
       return t('in-plg:welcomepage.noData.mobileListWidget.header');
-    case 'infrastructureWidget':
-      return t('in-plg:welcomepage.noData.infrastructureWidget.header');
+    case 'infrastructureWidget.host':
+      return t('in-plg:welcomepage.noData.infrastructureWidget.hosts.header');
+    case 'infrastructureWidget.docker':
+      return t('in-plg:welcomepage.noData.infrastructureWidget.docker.header');
+    case 'infrastructureWidget.process':
+      return t('in-plg:welcomepage.noData.infrastructureWidget.process.header');
     case 'syntheticWidget.test':
       return t('in-plg:welcomepage.noData.syntheticWidget.test.header');
     case 'syntheticWidget.location':
@@ -49,8 +60,21 @@ export function getNoDataDescription(label: string) {
       return t('in-plg:welcomepage.noData.websitesWidget.description');
     case 'mobileListWidget':
       return t('in-plg:welcomepage.noData.mobileListWidget.description');
-    case 'infrastructureWidget':
-      return t('in-plg:welcomepage.noData.infrastructureWidget.description');
+    case 'infrastructureWidget.host':
+    case 'infrastructureWidget.docker':
+    case 'infrastructureWidget.process':
+      return (
+        <Trans
+          i18nKey="in-plg:welcomepage.noData.infrastructureWidget.description"
+          components={{
+            linkToAgents: (
+              <Link href="/#/agents/installation" disabled={!role?.canConfigureAgents}>
+                {t('in-plg:welcomepage.noData.infrastructureWidget.link')}
+              </Link>
+            )
+          }}
+        />
+      );
     case 'syntheticWidget.test':
       return t('in-plg:welcomepage.noData.syntheticWidget.test.description');
     case 'syntheticWidget.location':
@@ -82,3 +106,26 @@ export function getNoDataButton(label: string) {
       return '';
   }
 }
+
+export const getItemId = (item: any, widgetName?: string) => {
+  if (!widgetName) return null;
+
+  switch (widgetName) {
+    case 'infrastructureWidget':
+      return item.snapshotId;
+    case 'applicationWidget':
+      return item?.application?.id;
+    case 'websitesWidget':
+      return item?.website?.id;
+    case 'mobileListWidget':
+      return item?.mobileApp?.id;
+    case 'platformsWidget':
+      return item?.isKubernetes ? item.cluster.id : item.id;
+    case 'businessMonitoringWidget':
+      return item?.businessProcess?.definitionId;
+    case 'dashboardWidget':
+      return item?.id;
+    default:
+      return null;
+  }
+};

@@ -10,7 +10,7 @@ export const URL_SHORTENER_OPEN = 'url.shortener.open';
 
 export const CUSTOM_DASHBOARD_CREATE = 'custom.dashboard.create';
 export const CUSTOM_DASHBOARD_SHARE = 'custom.dashboard.share';
-export const CUSTOM_DASHBOARD_EDIT = 'custom.dashboard.edit';
+export const CUSTOM_DASHBOARD_EDIT_SAVE = 'custom.dashboard.edit.save';
 export const CUSTOM_DASHBOARD_DELETE = 'custom.dashboard.delete';
 export const CUSTOM_DASHBOARD_ADD_WIDGET_START = 'custom.dashboard.add.widget.start';
 export const CUSTOM_DASHBOARD_ADD_WIDGET_FINISH = 'custom.dashboard.add.widget.finish';
@@ -22,6 +22,13 @@ export const CUSTOM_DASHBOARD_DELETE_WIDGET = 'custom.dashboard.delete.widget';
 export const CUSTOM_DASHBOARD_VIEW_WIDGET = 'custom.dashboard.view.widget';
 export const CUSTOM_DASHBOARD_ZOOM_WIDGET_START = 'custom.dashboard.zoom.widget.start';
 export const CUSTOM_DASHBOARD_ZOOM_WIDGET_FINISH = 'custom.dashboard.zoom.widget.finish';
+export const CUSTOM_DASHBOARD_WIDGET_DOWNLOAD_PDF = 'custom.dashboard.widget.download.pdf';
+export const CUSTOM_DASHBOARD_DOWNLOAD_PDF_START = 'custom.dashboard.download.pdf.start';
+export const CUSTOM_DASHBOARD_DOWNLOAD_PDF_FINISH = 'custom.dashboard.download.pdf.finish';
+export const CUSTOM_DASHBOARD_DOWNLOAD_PDF_ORIENTATION = 'custom.dashboard.download.pdf.orientation';
+export const CUSTOM_DASHBOARD_DOWNLOAD_PDF_LAYOUT = 'custom.dashboard.download.pdf.layout';
+export const CUSTOM_DASHBOARD_DOWNLOAD_PDF_DISPLAY = 'custom.dashboard.download.pdf.display';
+export const CUSTOM_DASHBOARD_DOWNLOAD_PDF_GENERATE_PREVIEW = 'custom.dashboard.download.pdf.generate.preview';
 
 export const ANALYZE_VIEW_SELECTED = 'analyze.view.selected';
 export const ANALYZE_CALL_CLICK = 'analyze.call.click';
@@ -102,7 +109,6 @@ export const DFQ_FILTER_SELECTED = 'dfq.filter.selected';
 
 export const KUBERNETES_DASHBOARD_TAB_CHANGE = 'kubernetes.dashboard.tabChange';
 export const KUBERNETES_TIME_SHIFT_SELECT = 'kubernetes.timeShift.select';
-export const IS_MONITORING_HOSTS = 'isMonitoringHosts';
 export const MAP_GROUPING_CHANGED = 'map.grouping.change';
 export const MAP_METRICS_AGGREGATION = 'map.metrics.aggregation';
 export const MAP_METRICS_SHOW = 'map.metrics.show';
@@ -116,8 +122,14 @@ export const TOPLIST_METRIC_CHANGED = 'toplist.metricChanged';
 export const TOPLIST_ROW_NAVIGATION = 'toplist.rowNavigation';
 export const USER_INVITE = 'user.invite';
 export const BUY_NOW_BUTTON_CLICKED = 'purchaseIntent.aws';
+export const BUY_NOW_BUTTON_AWS_CLICKED = 'purchaseIntent.aws';
+export const BUY_NOW_BUTTON_IBM_CLICKED = 'purchaseIntent.ibm';
 export const PLAY_WITH_BOOK_DEMO_NOW_BUTTON_CLICKED = 'intentToTry.Demo';
 export const PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED = 'intentToTry.Trial';
+
+export const REVIEW_DATA_USAGE_BUTTON = 'reviewDataUsage.clicked';
+export const FAIR_USE_POLICY_BLOG = 'learnMoreFupDocumentation.clicked';
+export const CONTACT_SALES = 'learnMoreContactSales.clicked';
 
 export const TABLE_ENTITY_ADDED = 'table.entity.added';
 export const TABLE_ENTITY_CLEARED = 'table.entity.cleared';
@@ -208,9 +220,42 @@ export const MOBILE_APPS_DASHBOARD_RENAME_MOBILE_APP = 'mobileApps.dashboard.ren
 export const MOBILE_APPS_DASHBOARD_TAB_CHANGE = 'mobileApps.dashboard.tabChange';
 export const MOBILE_APPS_DASHBOARD_VIEW_DEPRECATION_DETAILS = 'mobileApps.dashboard.viewDeprecationDetails';
 
+export const SETTINGS_AUDIT_TRAIL_ACCESS_LOG_CLICK = 'settings.auditTrail.accessLog.click';
+export const SETTINGS_AUDIT_TRAIL_ACTION_LOG_CLICK = 'settings.auditTrail.actionLog.click';
+export const SETTINGS_GROUP_APPLICATION_FILTER_ADDED = 'settings.group.application.filter.added';
+export const SETTINGS_GROUP_USER_ADDED = 'settings.group.user.added';
+export const SETTINGS_IDP_LDAP_TEST_CONFIGURATION = 'settings.idp.ldap.testConfiguration';
+export const SETTINGS_USER_GROUP_ADDED = 'settings.user.group.added';
 export const SETTINGS_USER_INVITE_SUBMIT = 'settings.user.invite.submit';
 export const SETTINGS_ROLE_SUBMIT = 'settings.role.submit';
 export const SETTINGS_ROLE_OPEN_SUBMIT_FORM = 'settings.role.new';
+
+export const PROFILE_MENU_LOGOUT_CLICK = 'profileMenu.logout.click';
+export const PROFILE_MENU_SWITCH_TENANT_OR_UNIT_CLICK = 'profileMenu.switchUnitOrTenant.click';
+export const PROFILE_MENU_USER_PROFILE_CLICK = 'profileMenu.userProfile.click';
+
+export const SHARE_AND_INVITE_SUBMIT = 'shareAndInvite.submit';
+export const SHARE_AND_INVITE_CLOSED = 'shareAndInvite.closed';
+export const SHARE_AND_INVITE_TRIGGERED = 'shareAndInvite.triggered';
+export const SHARE_AND_INVITE_INVITEE_JOINED = 'shareAndInvite.invitee.joined';
+export const SHARE_AND_INVITE_ADD_USER = 'shareAndInvite.add.user';
+export const SHARE_AND_INVITE_NEW_GROUP = 'shareAndInvite.new.group';
+export const SHARE_AND_INVITE_COPY_LINK = 'shareAndInvite.copy.link';
+
+export const UNIT_ONBOARDING_START_INTEGRATING_CLICK = 'unitOnboarding.installAgents.click';
+export const UNIT_ONBOARDING_TRACE_INTERACTIONS_CLICK = 'unitOnboarding.verifyTracing.click';
+export const UNIT_ONBOARDING_CONNECT_WITH_EXPERTS_CLICK = 'unitOnboarding.inviteUsers.click';
+export const UNIT_ONBOARDING_BRING_IN_MORE_DATA_CLICK = 'unitOnboarding.installAdditionalAgents.click';
+export const UNIT_ONBOARDING_TAILOR_YOUR_VIEW_CLICK = 'unitOnboarding.createApplicationPerspective.click';
+export const UNIT_ONBOARDING_GET_ALERTED_CLICK = 'unitOnboarding.setUpSmartAlerts.click';
+export const UNIT_ONBOARDING_MONITOR_ENVIRONMENT_CLICK = 'unitOnboarding.startMonitoring.click';
+export const UNIT_ONBOARDING_BRING_YOUR_TEAM_CLICK = 'unitOnboarding.inviteTeammates.click';
+
+export const WELCOME_PAGE_DEPLOY_AGENT_CLICK = 'welcomePage.deployAgent.click';
+export const WELCOME_PAGE_ADD_USER_CLICK = 'welcomePage.addUser.click';
+export const WELCOME_PAGE_IBM_DOCUMENTATION_CLICK = 'welcomePage.ibmDocumentation.click';
+export const WELCOME_PAGE_RELEASE_NOTES_CLICK = 'welcomePage.releaseNotes.click';
+export const WELCOME_PAGE_WHATS_NEW_LINK_CLICK = 'welcomePage.whatsNewLink.click';
 
 // Owned by Team Alert Response
 // Tracking all team owned components
@@ -229,12 +274,7 @@ export const SETTINGS_ALERT_TOGGLE = 'settings.alert.toggle';
 export const SETTINGS_ALERT_OPEN_SUBMIT_FORM = 'settings.alert.new';
 export const SETTINGS_ALERT_CUSTOM_PAYLOAD_SUBMIT = 'settings.alert.customPayload.submit';
 export const SETTINGS_ALERT_CUSTOM_PAYLOAD_ADD_ITEM = 'settings.alert.customPayload.addItem';
-export const SETTINGS_ALERT_CUSTOM_PAYLOAD_EDIT_ITEM = 'settings.alert.customPayload.editItem';
 export const SETTINGS_ALERT_CUSTOM_PAYLOAD_REMOVE_ITEM = 'settings.alert.customPayload.removeItem';
-export const SETTINGS_ALERT_HUB_WEBSITES_CLICK = 'settings.alertHub.websites.click';
-export const SETTINGS_ALERT_HUB_SMART_ALERTS_CLICK = 'settings.alertHub.smartAlerts.click';
-export const SETTINGS_ALERT_HUB_ALERTS_CLICK = 'settings.alertHub.alerts.click';
-export const SETTINGS_ALERT_HUB_EVENTS_CLICK = 'settings.alertHub.events.click';
 
 //Events
 export const SETTINGS_EVENT_VIEW = 'settings.event.view.clicked';
@@ -265,6 +305,11 @@ export const SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_CLICKED = 'settings.logsManagem
 export const SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUBMITTED = 'settings.logsManagement.deleteLogs.submitted';
 export const SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUCCESS = 'settings.logsManagement.deleteLogs.success';
 export const SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_ERROR = 'settings.logsManagement.deleteLogs.error';
+export const SETTINGS_LOG_MANAGEMENT_RETENTION_PERIOD_SUBMITTED = 'settings.logsManagement.retention.period.submitted';
+
+export const SETTINGS_ACCOUNT_BILLING_TENANT_UNIT = 'settings.accountBilling.tenantUnit';
+export const SETTINGS_ACCOUNT_BILLING_TIMERANGE = 'settings.accountBilling.timeRange';
+export const SETTINGS_ACCOUNT_BILLING_PRESENTATION = 'settings.accountBilling.presentation';
 
 export const ONBOARDING_OPENED = 'onboardingNewUnit.dialog.opened';
 export const ONBOARDING_INSTANA_BEGINNER_VIDEOS_CLICKED = 'onboardingNewUnit.instanaBeginnerVideos.clicked';
@@ -291,10 +336,13 @@ export const PROFILING_TREEVIEW_EXPANDED = 'profiling.treeView.expanded';
 export const INFRASTRUCTURE_CONTEXT_GUIDE_STACK_LOADED = 'infrastructure.context.guide.stack.loaded';
 export const INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_EXPANDED = 'infrastructure.sidebar.related.entities.expanded';
 export const INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_CLICKED = 'infrastructure.sidebar.related.entities.clicked';
+export const INFRASTRUCTURE_ANALYZE_RELATED_INSTANCES_BUTTON_CLICKED =
+  'infrastructure.analyze.related.instances.button.clicked';
 export const INFRA_EXPLORE_TYPE_SELECTOR_STATE_CHANGED = 'infra.explore.type.selector.state.changed';
 export const INFRA_EXPLORE_FILTER_ADDED = 'infra.explore.filter.added';
 export const INFRA_EXPLORE_FILTER_REMOVED = 'infra.explore.filter.removed';
 export const INFRA_EXPLORE_FILTERS_CLEARED = 'infra.explore.filters.cleared';
+export const INFRA_EXPLORE_CHART_CHANGED = 'infra.explore.chart.changed';
 export const INFRA_EXPLORE_GROUP_ADDED = 'infra.explore.group.added';
 export const INFRA_EXPLORE_GROUP_REMOVED = 'infra.explore.group.removed';
 export const INFRA_EXPLORE_GROUP_EXPANDED = 'infra.explore.group.expanded';
@@ -351,6 +399,9 @@ export const SLI_MANAGEMENT_EDIT_START = 'sli.v2.management.edit.start';
 export const SLI_MANAGEMENT_EDIT_FINISH = 'sli.v2.management.edit.finish';
 export const SLI_MANAGEMENT_DELETE = 'sli.v2.management.delete';
 
+// SLO Reborn Widget
+export const SLO2_WIDGET_EDIT_START = 'slo2.widget.edit.start';
+
 // Service Levels
 export const SLO_LIST_VIEW = 'slo.list.view';
 export const SLO_SUMMARY_VIEW = 'slo.summary.view';
@@ -371,7 +422,7 @@ export const ANALYZE_LOGGING_LOG_MESSAGE_PARAMETER_CLICKED = 'analyze.logging.lo
 export const ANALYZE_LOGGING_LOG_MESSAGE_TAG_CLICKED = 'analyze.logging.log.message.tag.clicked';
 export const ANALYZE_LOGGING_JUMP_TO_LOGS = 'analyze.logging.jump.to.logs';
 export const ANALYZE_LOGGING_TIME_SPENT = 'analyze.logging.time.spent';
-export const LOGGING_LOGDNA_BUTTON_CLICKED = 'logging.logDna.clicked';
+export const LOGGING_MEZMO_BUTTON_CLICKED = 'logging.mezmo.clicked';
 export const ANALYZE_LOGGING_SORTING_CHANGED = 'analyze.logging.sorting.changed';
 export const LOGGING_CLICKED_APPLICATION_PERSPECTIVE_LINK = 'analyze.logging.applications.perspective.link.clicked';
 export const ANALYZE_LOGGING_LOG_GETLOGS_FILTERS = 'analyze.logging.log.getLogs.filters';
@@ -399,13 +450,40 @@ export const AUTOMATION_ACTION_CREATE = 'automation.action.create';
 export const AUTOMATION_ACTION_EDIT = 'automation.action.edit';
 export const AUTOMATION_ACTION_DELETE = 'automation.action.delete';
 export const AUTOMATION_ACTION_RUN = 'automation.action.run';
+export const AUTOMATION_OPTIMIZATION_RUN_CLICK = 'automation.optimization.run.click';
+export const AUTOMATION_TURBO_TRY_CLICK = 'automation.turbo.try.click';
+export const AUTOMATION_TURBO_BUY_CLICK = 'automation.turbo.buy.click';
+export const AUTOMATION_TURBO_SUPPORT_CLICK = 'automation.turbo.support.click';
 export const AUTOMATION_ACTION_HISTORY_VIEW = 'automation.action.history.view';
 export const AUTOMATION_ACTION_HISTORY_INSTANCE_VIEW = 'automation.action.history.instance.view';
 export const AUTOMATION_ACTION_HISTORY_FEEDBACK_SEND = 'automation.action.history.feedback.used';
-export const CLICK_TURBO_LINK_FOR_DETAILS = 'click.turbo.link.for.details';
-export const VIEW_TURBO_ACTION = 'view.turbo.action';
+export const AUTOMATION_ACTION_HISTORY_INSTANCE_DELETE = 'automation.action.history.instance.delete';
+export const AUTOMATION_VIEW_TURBO_ACTION = 'view.turbo.action';
 export const AUTOMATION_POLICY_CREATE = 'automation.policy.create';
+export const AUTOMATION_POLICY_BULK_CREATE = 'automation.bulk.automation.policy.create';
 export const AUTOMATION_POLICY_EDIT = 'automation.policy.edit';
+export const AUTOMATION_RECOMMENDED_ACTIONS_TAB_CLICK = 'automation.recommended.actions.tab.click';
+export const AUTOMATION_CREATE_POLICY_FROM_RECOMMENDED_ACTIONS = 'automation.create.policy.from.recommended.actions';
+export const AUTOMATION_TEST_ACTION_RUN = 'automation.test.action.run';
+export const AUTOMATION_CREATE_AI_ACTION_POLICY = 'automation.create.ai.action.policy';
+export const AUTOMATION_CLICK_AI_GENERATED_ACTIONS_TAB = 'automation.click.ai.generated.actions.tab';
+export const AUTOMATION_COPY_AI_GENERATED_ACTION = 'automation.copy.ai.generated.action';
+export const AUTOMATION_VIEW_AI_GENERATED_ACTION = 'automation.view.ai.generated.action';
+export const AUTOMATION_TEST_AI_GENERATED_ACTION = 'automation.test.ai.generated.action';
+export const AUTOMATION_CLICK_COPY_AI_GENERATED_ACTION = 'automation.click.copy.ai.generated.action';
+export const AUTOMATION_CLICK_TEST_AI_GENERATED_ACTION = 'automation.click.test.ai.generated.action';
+// live ai events
+export const AUTOMATION_GENERATE_AI_BUTTON_CLICK = 'automation.generate.ai.button.click';
+export const AUTOMATION_GENERATE_AI_ACTION_CLICK_PROMPT_STEP = 'automation.ai.generate.ai.action.click_prompt_step';
+export const AUTOMATION_AI_SELECT_NEXT_PROMPT_STEP_CLICK = 'automation.ai.select.next.prompt.step.click';
+export const AUTOMATION_AI_SELECT_NEXT_CUSTOMIZE_ACTION_STEP_CLICK =
+  'automation.ai.select.next.customize.action.step.click';
+export const AUTOMATION_AI_ACTION_CONTENT_MODIFIED = 'automation.ai.action.content.modified';
+export const AUTOMATION_AI_LEAVE_GENERATE_DIALOG = 'automation.ai.leave.generate.dialog';
+
+export const AUTOMATION_AI_SCRIPT_SELECT_STEP_NEXT_CLICK = 'automation.ai.script.select.step.next.click';
+export const AUTOMATION_GENERATE_AI_SCRIPT_BUTTON_CLICK_STEP2 = 'automation.generate.ai.script.button.click.step2';
+export const AUTOMATION_AI_SCRIPT_GENERATE_STEP_NEXT_CLICK = 'automation.ai.script.generate.step.next.click';
 
 export const CHART_ZOOM_INTO_TIMEFRAME = 'chart.zoomToTimeRange.used';
 
@@ -419,11 +497,25 @@ export const ALERTING_DELETE_TRIGGER = 'smartalert.delete.clicked';
 export const ALERTING_DELETE_CONFIRM = 'smartalert.deleted.confirmed';
 export const ALERTING_PAUSED = 'smartalert.paused';
 export const ALERTING_RESUMED = 'smartalert.resumed';
+export const ALERTING_REVISION_CHANGED = 'smartalert.revision.changed';
 export const ALERTING_CLONE_TRIGGER = 'smartalert.clone.clicked';
+//This is only available for tearsheets(To track from which step users closed the form)
+export const ALERTING_CANCEL_CLICKED = 'smartalert.cancel.clicked';
 
 // Business Monitoring Tracking
-export const BIZOPS_PROCESSES_TABS_CLICK = 'bizops.processes.tabs.click';
+// Segment
+export const BIZOPS_TAB_CLICK = 'bizops.tab.click';
 export const BIZOPS_PROCESSES_LIST_SELECT = 'bizops.processes.list.select';
+export const BIZOPS_PERSPECTIVES_LIST_SELECT = 'bizops.perspectives.list.select';
+export const BIZOPS_ANALYZE_INSTANCES_CLICK = 'bizops.analyze.instances.click';
+export const BIZOPS_VIEW_ALL_ACTIVITIES_CLICK = 'bizops.view.all.activities.click';
+export const BIZOPS_ACTIVITY_SELECT = 'bizops.activity.select';
+export const BIZOPS_CREATE_PERSPECTIVE_CLICK = 'bizops.create.perspective.click';
+export const BIZOPS_PERSPECTIVE_CREATED = 'bizops.perspective.created';
+export const BIZOPS_BREADCRUMB_CLICK = 'bizops.breadcrumb.click';
+export const BIZOPS_DEPLOY_AGENT_CLICK = 'bizops.deploy.agent.click';
+
+export const BIZOPS_PERSPECTIVE_LIST_SELECT = 'bizops.perspective.list.select';
 
 export const BIZOPS_PROCESS_TABS_CLICK = 'bizops.process.tabs.click';
 export const BIZOPS_PROCESS_ANALYZEINSTANCES_CLICK = 'bizops.process.analyzeInstances.click';
@@ -447,8 +539,17 @@ export const SYNTHETIC_WIZARD_CREATE_BUTTON_CLICK = 'synthetic.monitoring.test.w
 
 export const SYNTHETIC_RESULTS_TAB_CLICK = 'synthetic.monitoring.results.tab.click';
 export const SYNTHETIC_CONFIGURATION_TAB_CLICK = 'synthetic.monitoring.configuration.tab.click';
+export const SYNTHETIC_CONFIGURATION_TAB_EDIT_CLICK = 'synthetic.monitoring.configuration.tab.edit.icon.click';
+export const SYNTHETIC_CONFIGURATION_TAB_DELETE_CLICK = 'synthetic.monitoring.configuration.tab.delete.icon.click';
 export const SYNTHETIC_RESULTS_LIST_DETAIL_CLICK = 'synthetic.monitoring.results.list.detail.click';
 export const SYNTHETIC_RESULTS_WIDGET_DETAIL_CLICK = 'synthetic.monitoring.results.widget.detail.click';
+
+export const SYNTHETIC_CREDENTIAL_OPEN_CREATE_DIALOG_CLICK = 'synthetic.monitoring.credential.open.create.dialog.click';
+export const SYNTHETIC_CREDENTIAL_SWITCH_TAB_CLICK = 'synthetic.monitoring.credential.switch_tab_click';
+export const SYNTHETIC_CREDENTIAL_CREATE_BUTTON_CLICK = 'synthetic.monitoring.credential.create.button.click';
+export const SYNTHETIC_CREDENTIAL_EDIT_SUBMIT_BUTTON_CLICK = 'synthetic.monitoring.credential.edit.submit.button.click';
+export const SYNTHETIC_CREDENTIAL_DELETE_SUBMIT_BUTTON_CLICK =
+  'synthetic.monitoring.credential.delete.submit.button.click';
 
 // Events Page RCA Tracking
 export const EVENT_RCA_SUGGESTION_HELPFUL = 'event.rca.suggestion.helpful';
@@ -458,6 +559,10 @@ export const EVENT_RCA_FEEDBACK_SUBMIT = 'event.rca.feedback.submit';
 export const EVENT_RCA_FEEDBACK_CLOSED_MANUALLY = 'event.rca.feedback.closed.manually';
 export const EVENT_RCA_FEEDBACK_NEXT = 'event.rca.feedback.next';
 export const EVENT_RCA_FEEDBACK_SKIP = 'event.rca.feedback.skip';
+export const EVENT_RCA_ANALYZE_CLICK = 'event.rca.analyze.click';
+export const EVENT_RCA_ENTITY_CLICK = 'event.rca.entity.click';
+export const EVENT_RCA_ASSOCIATED_EVENTS_CLICK = 'event.rca.associated_events.click';
+export const EVENT_RCA_TRACE_AND_ERROR_LOGS_CLICK = 'event.rca.trace_and_error_logs.click';
 
 // Events Page Feedback Tracking
 export const EVENT_FEEDBACK_SUBMIT = 'event.feedback.submit';
@@ -467,19 +572,17 @@ export const EVENT_FEEDBACK_SKIP = 'event.feedback.skip';
 export const EVENT_FEEDBACK_POSITIVE = 'event.feedback.positive';
 export const EVENT_FEEDBACK_NEGATIVE = 'event.feedback.negative';
 
-// Incident Summarization Feedback Tracking
-export const INCIDENT_SUMMARIZATION_HELPFUL = 'incident.summarization.feedback.helpful';
-export const INCIDENT_SUMMARIZATION_UNHELPFUL = 'incident.summarization.feedback.unhelpful';
-export const INCIDENT_SUMMARIZATION_SUBMIT = 'incident.summarization.feedback.submit';
-export const INCIDENT_SUMMARIZATION_CLOSED_MANUALLY = 'incident.summarization.feedback.manually';
-export const INCIDENT_SUMMARIZATION_NEXT = 'incident.summarization.feedback.next';
-export const INCIDENT_SUMMARIZATION_SKIP = 'incident.summarization.feedback.skip';
-
-// Journal Fake Door Tracking
-export const JOURNAL_FAKE_DOOR_START_CLICK = 'journal.fake.door.start.click';
-export const JOURNAL_FAKE_DOOR_NOT_INTERESTED = 'journal.fake.door.notInterested';
-export const JOURNAL_FAKE_DOOR_INTERESTED = 'journal.fake.door.interested';
-export const JOURNAL_FAKE_DOOR_CLOSE = 'journal.fake.door.close';
+// Event Enrichment Tracking
+export const EVENT_NOTES_SUBMIT = 'event.notes.submit';
+export const EVENT_NOTES_EDIT_SUBMIT = 'event.notes.edit.submit';
+export const EVENT_NOTES_DELETE_SUBMIT = 'event.notes.delete.submit';
+export const EVENT_AI_GENERATE_SUBMIT = 'event.ai.generate.submit';
+export const EVENT_AI_SHOW_MORE_INCIDENTS = 'event.ai.show.more.incidents';
+export const EVENT_AI_SHOW_MORE_ACTIONS = 'event.ai.show.more.actions';
+export const EVENT_AI_SHARE_OPENED = 'event.ai.share.opened';
+export const EVENT_AI_SHARE_SUBMIT = 'event.ai.share.submit';
+export const EVENT_AI_RUN_ACTION = 'event.ai.run.action';
+export const EVENT_SIDE_PANEL_CLICK = 'event.side.panel.click';
 
 // Flow Map Tracking (services and endpoints)
 export const FLOW_MAP_CLICK = 'flowmap.click';
@@ -488,3 +591,11 @@ export const FLOW_MAP_CLICK_LATENCY = 'flowmap.click.latency';
 export const FLOW_MAP_CLICK_ERROR = 'flowmap.click.error';
 export const FLOW_MAP_CLICK_SIMULATION = 'flowmap.click.simulation';
 export const FLOW_MAP_CLICK_EXPAND_LEVEL = 'flowmap.click.level.expand';
+
+// Vulnerabilities tracking
+export const VULNERABILITIES_TAB_IN_APP_CLICK = 'vulnerabilities.application.tab.click';
+export const VULNERABILITIES_BUTTON_IN_CONTAINER_DASHBOARD_CLICK = 'vulnerabilities.container.dashboard.click';
+export const VULNERABILITIES_CSV_EXPORT_CLICK = 'vulnerabilities.csv.export.click';
+export const VULNERABILITIES_NAVIGATION_CLICK = 'vulnerabilities.navigation.click';
+export const CVE_TAB_IN_VULNERABILITIES_CLICK = 'cve.vulnerabilities.tab.click';
+export const DETECTIONS_TAB_IN_VULNERABILITIES_CLICK = 'detections.vulnerabilities.tab.click';

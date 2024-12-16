@@ -3,15 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { Collapsible } from '@instana/components';
 
-import {
-  trackSidebarRelatedEntitiesExpanded,
-  trackSidebarRelatedEntitiesClicked
-} from 'in-infrastructure/tracking/tracking';
 import { ClickableSnapshotListItem, ClickableList } from 'in-sdk/components/sidebar/ClickableList';
+import { useSegmentTracker } from 'in-infrastructure/tracking/tracking';
 import { compareIgnoreCase } from 'in-services/util/string';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -30,10 +27,13 @@ export default connectTo(
     };
   },
   function RelatedSnapshotList({ initiallyOpen, snapshots }) {
+    const { trackSidebarRelatedEntitiesExpanded, trackSidebarRelatedEntitiesClicked } = useSegmentTracker();
+
     if (!snapshots || snapshots.size === 0) {
       return null;
     }
     const groups = getSnapshotsGroupedByPlugin(snapshots);
+
     const groupPlugins = Object.keys(groups).sort((a, b) =>
       compareIgnoreCase(getPluginName(a, groups[a].length), getPluginName(b, groups[b].length))
     );
@@ -45,11 +45,11 @@ export default connectTo(
             <Collapsible initiallyOpen={initiallyOpen} onOpen={() => trackSidebarRelatedEntitiesExpanded({ plugin })}>
               <Collapsible.Header>
                 <div className={locals.snapshotListHeader}>
-                  <Fragment>
+                  <>
                     {getUniqueSnapshotCollection(groups[plugin]).map((snapshot, i) => (
                       <PluginIcon key={i} className={locals.snapshotListPluginIcon} snapshot={snapshot} />
                     ))}
-                  </Fragment>
+                  </>
 
                   <span>
                     {getPluginName(plugin, groups[plugin].length)} ({groups[plugin].length})
@@ -64,7 +64,9 @@ export default connectTo(
                       <ClickableSnapshotListItem
                         key={snapshot.get('id')}
                         snapshotId={snapshot.get('id')}
-                        onClick={() => trackSidebarRelatedEntitiesClicked({ plugin })}
+                        onClick={() => {
+                          trackSidebarRelatedEntitiesClicked({ plugin });
+                        }}
                       />
                     ))}
                 </ClickableList>

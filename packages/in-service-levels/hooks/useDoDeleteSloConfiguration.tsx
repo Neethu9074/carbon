@@ -60,15 +60,20 @@ function showConfirmationDialog(
     />
   );
 
-  trackSloEvent(SLO_CONFIG_DELETE_START, {
-    id: configuration.id,
-    blueprint: configuration.indicator.blueprint,
-    entityType: configuration.entity.type,
-    indicatorType: configuration.indicator.type,
-    timeWindowType: configuration.timeWindow.type,
-    productArea: meta.productArea,
-    pageName: meta.pageName
-  });
+  trackSloEvent(
+    SLO_CONFIG_DELETE_START,
+    {
+      productArea: meta.productArea,
+      pageName: meta.pageName
+    },
+    {
+      id: configuration.id,
+      blueprint: configuration.indicator.blueprint,
+      entityType: configuration.entity.type,
+      indicatorType: configuration.indicator.type,
+      timeWindowType: configuration.timeWindow.type
+    }
+  );
 }
 
 function onDelete(
@@ -98,15 +103,20 @@ function onDeleteSuccess(configuration: ServiceLevelObjectiveConfiguration, meta
     'slo-delete-info'
   );
 
-  trackSloEvent(SLO_CONFIG_DELETE_FINISH, {
-    id: configuration.id,
-    blueprint: configuration.indicator.blueprint,
-    entityType: configuration.entity.type,
-    indicatorType: configuration.indicator.type,
-    timeWindowType: configuration.timeWindow.type,
-    productArea: meta.productArea,
-    pageName: meta.pageName
-  });
+  trackSloEvent(
+    SLO_CONFIG_DELETE_FINISH,
+    {
+      productArea: meta.productArea,
+      pageName: meta.pageName
+    },
+    {
+      id: configuration.id,
+      blueprint: configuration.indicator.blueprint,
+      entityType: configuration.entity.type,
+      indicatorType: configuration.indicator.type,
+      timeWindowType: configuration.timeWindow.type
+    }
+  );
 }
 
 function onDeleteFailed(configuration: ServiceLevelObjectiveConfiguration, meta: SloTrackingMeta): void {
@@ -119,13 +129,18 @@ function onDeleteFailed(configuration: ServiceLevelObjectiveConfiguration, meta:
     'slo-delete-error'
   );
 
-  trackSloEvent(SLO_CONFIG_DELETE_ERROR, {
-    id: configuration.id,
-    blueprint: configuration.indicator.blueprint,
-    entityType: configuration.entity.type,
-    indicatorType: configuration.indicator.type,
-    timeWindowType: configuration.timeWindow.type,
-    productArea: meta.productArea,
-    pageName: meta.pageName
-  });
+  trackSloEvent(
+    SLO_CONFIG_DELETE_ERROR,
+    {
+      productArea: meta.productArea,
+      pageName: meta.pageName
+    },
+    {
+      id: configuration.id,
+      blueprint: configuration.indicator.blueprint,
+      entityType: configuration.entity.type,
+      indicatorType: configuration.indicator.type,
+      timeWindowType: configuration.timeWindow.type
+    }
+  );
 }

@@ -171,7 +171,8 @@ export function getGroupByProcessUptime(serviceId: string): Metric {
 }
 
 export const groupByServiceRuleId: Group = {
-  groupbyTag: 'service.rule_id'
+  groupbyTag: 'service.rule_id',
+  groupbyTagEntity: DESTINATION
 } as Group;
 export function getGroupByServiceRuleId(serviceId: string): Metric {
   return {

@@ -1,0 +1,15 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .createNewButton {
+    margin-right: 0.5rem;
+  }
+
+  //hide the menu behind the header when scrolling
+  :global(.cds--menu:has(.alertChannelButtonMenu)) {
+    z-index: var(--ids-z-index-option-select-box-flyouts, 102);
+  }
+}

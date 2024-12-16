@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { Pill } from '@instana/components';
+
 import { number } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-components/Pill';
 
 import locals from './BatchIndicator.mless';
 
@@ -19,9 +20,11 @@ export default function BatchIndicator({ batchCount }) {
   const formattedNumber = number.compact(batchCount);
   return (
     <Tooltip content={`${formattedNumber} occurrences`}>
-      <Pill kind="lighter" className={locals.indicator}>
-        {formattedNumber}
-      </Pill>
+      <div>
+        <Pill kind="lighter" className={locals.indicator}>
+          {formattedNumber}
+        </Pill>
+      </div>
     </Tooltip>
   );
 }

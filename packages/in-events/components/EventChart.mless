@@ -8,20 +8,12 @@
     width: 100%;
   }
 
-  .chart {
-    margin-top: 1rem;
-  }
-
   .buttonPanel {
-    position: absolute;
-    right: 2rem;
-    top: 3rem;
+    position: relative;
+    right: 0;
+    top: 0;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-  }
-
-  .downloadButton {
-    margin-left: 0.5rem;
   }
 }

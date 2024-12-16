@@ -22,4 +22,7 @@
       }
     }
   }
+  .endpointField {
+    display: inline;
+  }
 }

@@ -5,7 +5,10 @@
 
 import React from 'react';
 
+import { Typography } from '@instana/components';
+
 import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
+import { chartColors } from 'in-themes/chartColors';
 import SparkChart from 'in-components/SparkChart';
 
 export default {
@@ -42,6 +45,78 @@ export const Default = () => (
     />
   </>
 );
+
+export const OtherColor = {
+  args: {
+    rollup: 10000,
+    timeConfig: { windowSize: 60000, to: 60000 },
+    metrics: [
+      [0, 1],
+      [10000, 1],
+      [20000, 0],
+      [30000, 2],
+      [40000, 1],
+      [50000, 2],
+      [60000, 0.5]
+    ],
+    strokeColor: chartColors.strokeColors100[2],
+    fillColor: chartColors.strokeColors25[2]
+  }
+};
+
+export const ChartSimpleTooltip = {
+  args: {
+    rollup: 10000,
+    timeConfig: { windowSize: 60000, to: 60000 },
+    metrics: [
+      [0, 1],
+      [10000, 1],
+      [20000, 0],
+      [30000, 2],
+      [40000, 1],
+      [50000, 2],
+      [60000, 0.5]
+    ],
+    strokeColor: chartColors.strokeColors100[2],
+    fillColor: chartColors.strokeColors25[2],
+    customChartTooltip: 'custom tooltip'
+  }
+};
+
+export const CharComponentTooltip = {
+  args: {
+    rollup: 10000,
+    timeConfig: { windowSize: 60000, to: 60000 },
+    metrics: [
+      [0, 1],
+      [10000, 1],
+      [20000, 0],
+      [30000, 2],
+      [40000, 1],
+      [50000, 2],
+      [60000, 0.5]
+    ],
+    strokeColor: chartColors.strokeColors100[2],
+    fillColor: chartColors.strokeColors25[2],
+    customChartTooltip: (
+      <>
+        <Typography onDark variant="heading-02">
+          Title
+        </Typography>
+        <div>
+          <Typography onDark variant="body-01">
+            First line
+          </Typography>
+        </div>
+        <div>
+          <Typography onDark variant="body-compact-01">
+            Second line
+          </Typography>
+        </div>
+      </>
+    )
+  }
+};
 
 export const WithMostlyZeroDataPointsAndASmallSpike = () => (
   <SparkChart

@@ -5,12 +5,13 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Link, Stack } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Link, Stack, Button } from '@instana/components';
 
+import { approximateValueIndicator } from 'in-components/AnalyzeView/FacetedFilters/approximateValueIndicator';
 import { Errors, Loading } from 'in-components/AnalyzeView/FacetedFilters/Placeholders';
 import { addFacetItem } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
+import { twoDigitApproximation } from 'in-components/AnalyzeView/utils.ts';
 import { identity } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -119,6 +120,7 @@ function Results({
               }
               align="rightMiddle"
               delay={1000}
+              overwriteBlock
             >
               <Link
                 href={getUpdatedFacetedSearchHref(addFacetItem(facets, tag, suggestion.value))}
@@ -128,7 +130,10 @@ function Results({
               >
                 <span className={locals.label}>{customLabelMapper(suggestion.name)}</span>
                 {suggestion.metrics && (
-                  <span className={locals.count}>{withSiPrefixOneDecimalPlace(getMetric(suggestion))}</span>
+                  <div className={locals.count}>
+                    <span>{approximateValueIndicator} </span>
+                    <span>{withSiPrefixOneDecimalPlace(twoDigitApproximation(getMetric(suggestion)))}</span>
+                  </div>
                 )}
               </Link>
             </Tooltip>

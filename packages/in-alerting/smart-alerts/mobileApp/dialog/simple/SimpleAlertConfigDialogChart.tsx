@@ -7,18 +7,13 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-import {
-  AdaptiveBaselineData,
-  HistoricBaselineData,
-  MobileAppAlertConfigWithMetadata,
-  Result,
-  StaticThresholdData
-} from '@instana/types';
+import { AdaptiveBaselineData, HistoricBaselineData, Result, StaticThresholdData } from '@instana/types';
 import { Stack } from '@instana/components';
 
 import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/dialog/HistoricBaselineErrorMessage';
 import IncompleteChartPlaceholder from 'in-alerting/smart-alerts/components/dialog/IncompleteChartPlaceholder';
+import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { chartViewConfigs as defaultChartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
@@ -41,16 +36,16 @@ export default function SimpleAlertConfigDialogChart({
   thresholdResult
 }: SimpleAlertConfigDialogChartProps) {
   const alertConfigWithFormModel = form.toJS();
-  const alertType = (alertConfigWithFormModel as unknown as MobileAppAlertConfigWithMetadata).rule.alertType;
+  const alertType = (alertConfigWithFormModel as unknown as MobileAppSmartAlertConfigWithMetadata).rule.alertType;
   const blueprintConfig = getBlueprintConfig(alertType);
   const isRuleComplete = blueprintConfig.isRuleComplete(
-    (alertConfigWithFormModel as unknown as MobileAppAlertConfigWithMetadata).rule
+    (alertConfigWithFormModel as unknown as MobileAppSmartAlertConfigWithMetadata).rule
   );
   const chartViewConfigs = defaultChartViewConfigs;
   const thresholdType = form.get('threshold').get('type').value;
 
   return (
-    <Stack direction="vertical">
+    <Stack>
       <ChartViewConfigurator
         onChartViewConfigChange={onChartViewConfigChange}
         chartViewConfigs={chartViewConfigs}
@@ -64,7 +59,7 @@ export default function SimpleAlertConfigDialogChart({
               <div className={locals.placeholder}>
                 <MobileAppAlertingChartWithErrorMessage
                   alertConfigWithFormModel={
-                    alertConfigWithFormModel as Omit<MobileAppAlertConfigWithMetadata, 'tagFilterExpression'> & {
+                    alertConfigWithFormModel as Omit<MobileAppSmartAlertConfigWithMetadata, 'tagFilterExpression'> & {
                       tagFilterExpression: FormModelElement[];
                     }
                   }

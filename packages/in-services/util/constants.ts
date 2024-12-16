@@ -17,3 +17,8 @@ export const commomMilestoneVersion = '2024-03-08 00:01:00';
 //Event Names
 export const CTA_CLICKED = 'CTA Clicked';
 export const PAGE_VIEWED = 'Page Viewed';
+export const STARTED_PROCESS = 'Started Process';
+export const CREATED_OBJECT = 'Created Object';
+export const UPDATED_OBJECT = 'Updated Object';
+export const UI_INTERACTION = 'UI Interaction';
+export const UI_LOADING = 'UI Loading';

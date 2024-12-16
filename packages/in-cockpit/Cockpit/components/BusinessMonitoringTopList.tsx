@@ -14,15 +14,14 @@ import { Observable } from '@instana/observables';
 // @ts-expect-error Module needs to be translated to TS
 import EmptyStateContent from 'in-cockpit/widgets/BusinessMonitoringTopList/EmptyStateContent';
 // @ts-expect-error Module needs to be translated to TS
-import { businessProcess as businessProcessType } from 'in-cockpit/starredItems/types';
-// @ts-expect-error Module needs to be translated to TS
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 // @ts-expect-error Module needs to be translated to TS
 import TopListWidget from 'in-cockpit/widgets/TopListWidget';
 // @ts-expect-error Module needs to be translated to TS
 import { add, remove } from 'in-cockpit/starredItems';
 import { businessProcessDashboard, summaryTab, businessProcessPath } from 'in-bizops/navigation/paths';
-import { getBusinessProcessListData } from 'in-bizops/lists/businessProcess/BusinessProcessList';
+import { getBusinessProcessListWithDefaults } from 'in-bizops/subscriptions/getBusinessProcessList';
+import { businessProcess as businessProcessType } from 'in-cockpit/starredItems/types';
 import getBusinessProcess from 'in-bizops/subscriptions/getBusinessProcess';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
@@ -39,7 +38,7 @@ export default function BusinessMonitoringTopList({ config }: any) {
   return (
     <TopListWidget
       {...config}
-      getItems={getBusinessProcessListData} // subscription to get data for list
+      getItems={getBusinessProcessListWithDefaults} // subscription to get data for list
       getItem={getItem}
       pinnedItemTypes={businessProcessType}
       getId={getId}
@@ -50,7 +49,7 @@ export default function BusinessMonitoringTopList({ config }: any) {
           type: businessProcessType
         })
       }
-      unpinItem={(id: string, type: businessProcessType) => remove({ id, type })}
+      unpinItem={(id: string, type: typeof businessProcessType) => remove({ id, type })}
       columnDefinitions={columnDefinitions}
       getItemLink={(item: BusinessProcessItem) => getItemLink(item, location, createHref)}
       fullListViewLinkTitle={t('in-cockpit:component.bizopsTopList.allProcesses')}
@@ -146,8 +145,8 @@ const columnDefinitions: ColumnizedDefinition[] = [
           rollup={getChartGranularity(timeConfig)}
           timeConfig={getTimeConfigAlignedToResultTime(timeConfig, result)}
           aggregation="DISTINCT_COUNT"
-          metrics={item?.metrics?.started_processes}
-          metric={item?.metrics?.started_processes[0][1]}
+          metrics={item?.metrics?.started_processes_array}
+          metric={item?.metrics?.started_processes_total?.[0][1]}
           label={t('in-cockpit:component.bizopsTopList.count')}
           tooltipFormatter={number.compact}
         />

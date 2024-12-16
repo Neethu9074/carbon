@@ -1,0 +1,41 @@
+import { Meta, Story, Props } from '@storybook/addon-docs';
+import { action as storybookAction } from '@storybook/addon-actions';
+import { Stack } from '@instana/components';
+
+import ThresholdConditionFormGroup from 'in-custom-dashboards/widgets/_shared/Threshold/ThresholdConditionFormGroup';
+import ThresholdOperatorDropdown from 'in-custom-dashboards/widgets/_shared/Threshold/ThresholdOperatorDropDown';
+import ThresholdCondition from 'in-custom-dashboards/widgets/_shared/Threshold/ThresholdCondition';
+import ThresholdForm from 'in-custom-dashboards/widgets/_shared/Threshold/ThresholdForm';
+
+<Meta component={ThresholdForm} />
+
+# ThresholdCondition
+
+## Warning
+
+<Story name="ThresholdCondition - warning">
+    <ThresholdCondition type="warning" operator=">" label="Warning" field={{value: '1', valid: true, touched: false}} onChange={() => {}} formatterId="number" />
+</Story>
+
+## Error
+
+<Story name="ThresholdCondition - error">
+    <ThresholdCondition type="critical" operator="<=" label="Critical" field={{value: '1', valid: true, touched: false}} onChange={() => {}} formatterId="number" />
+</Story>
+
+# ThresholdOperatorDropdown
+
+<Story name="ThresholdOperatorDropdown">
+    <Stack direction="vertical" align="start">
+      <ThresholdOperatorDropdown field={{value: '>', valid: true, touched: false}} onChange={() => {}} />
+    </Stack>
+</Story>
+
+# ThresholdConditionFormGroup
+
+<Story name="ThresholdConditionFormGroup">
+    <ThresholdConditionFormGroup label="Condition">
+      <label style={{ padding: '0.5em' }}>Limit:</label>
+      <input name="limit" placeholder="minimum value of xxx" />
+    </ThresholdConditionFormGroup>
+</Story>

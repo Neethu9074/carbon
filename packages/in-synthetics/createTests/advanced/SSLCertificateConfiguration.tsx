@@ -7,7 +7,7 @@
 import { Field, Item, MapForm, createField } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Stack } from '@instana/components';
+import { Stack, RadioButton } from '@instana/components';
 
 import { getRetryIntervalDescriptionText } from 'in-synthetics/utils/getRetryIntervalDescriptionText';
 import Section, { ActionTitle, Description } from 'in-synthetics/createTests/wizard/Section';
@@ -17,14 +17,14 @@ import { Invalid, retriesObject, timeoutObject } from 'in-synthetics/utils/const
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { numberValidator } from 'in-services/validators/jsonType';
 import { minValidator } from 'in-services/validators/number';
 import { Row, Col } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label/Label';
+import { isBlank } from 'in-services/util/string';
 import Input from 'in-components/form/Input';
-import { t } from 'in-i18n';
+import { Trans, t } from 'in-i18n';
 
 import locals from 'in-synthetics/createTests/advanced/ConfigurationSection.mless';
 
@@ -48,7 +48,6 @@ export default function SSLCertificateConfiguration({
   const timeoutField = configForm.get('timeout') as Field<string>;
   const retriesField = configForm.get('retries') as Field<number>;
   const retryIntervalField = configForm.get('retryInterval') as Field<number>;
-  const markSyntheticCall = configForm.get('markSyntheticCall') as Field<boolean>;
 
   const [timeout, setTimeout] = useState({
     value: timeoutField.value.replace(/\D/g, ''),
@@ -64,6 +63,7 @@ export default function SSLCertificateConfiguration({
             <Label>{t('in-synthetics:dialog.createTest.advancedMode.certificateCheck.inputHostName')}</Label>
             <Input
               name="hostName"
+              data-testid="host-name"
               value={hostNameField.value}
               onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
                 updateForm(
@@ -80,11 +80,14 @@ export default function SSLCertificateConfiguration({
             <Label>{t('in-synthetics:dialog.createTest.advancedMode.certificateCheck.inputPortNumber')}</Label>
             <Input
               name="portNo"
+              data-testid="port-number"
               value={portField.value}
               onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
                 updateForm(
                   form.updateIn(['configuration', 'port'], (field: Item) =>
-                    (field as Field<number>).setValue(+target.value).setTouched(true)
+                    (field as Field<number | string>)
+                      .setValue(isBlank(target.value) || isNaN(+target.value) ? target.value : +target.value)
+                      .setTouched(true)
                   )
                 );
               }}
@@ -93,25 +96,37 @@ export default function SSLCertificateConfiguration({
             <TouchedMessages field={portField} />
           </FormGroup>
         </Stack>
+      </div>
+      <div className={locals.configContainer}>
         <FormGroup className={locals.descriptionInput}>
+          <Label htmlFor="daysRemaining">
+            {t('in-synthetics:dialog.createTest.advancedMode.certificateCheck.failureConfigLabel')}
+          </Label>
           <Stack direction="horizontal">
             <div className={locals.alignText}>
-              {t('in-synthetics:dialog.createTest.advancedMode.certificateCheck.inputDaysLine1')}
-            </div>
-            <Input
-              name="daysRemaining"
-              value={daysRemainingCheckField.value}
-              onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
-                updateForm(
-                  form.updateIn(['configuration', 'daysRemainingCheck'], (field: Item) =>
-                    (field as Field<number>).setValue(+target.value).setTouched(true)
+              <Trans
+                i18nKey="in-synthetics:dialog.createTest.advancedMode.certificateCheck.failureConfigText"
+                components={{
+                  certificateValidityDays: (
+                    <Input
+                      name="daysRemaining"
+                      data-testid="days-remaining"
+                      value={daysRemainingCheckField.value}
+                      className={locals.validityInput}
+                      onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
+                        updateForm(
+                          form.updateIn(['configuration', 'daysRemainingCheck'], (field: Item) =>
+                            (field as Field<number | string>)
+                              .setValue(isBlank(target.value) || isNaN(+target.value) ? target.value : +target.value)
+                              .setTouched(true)
+                          )
+                        );
+                      }}
+                      hasError={!daysRemainingCheckField.valid && daysRemainingCheckField.touched}
+                    />
                   )
-                );
-              }}
-              hasError={!daysRemainingCheckField.valid && daysRemainingCheckField.touched}
-            />
-            <div className={locals.alignText}>
-              {t('in-synthetics:dialog.createTest.advancedMode.certificateCheck.inputDaysLine2')}
+                }}
+              />
             </div>
           </Stack>
           <TouchedMessages field={daysRemainingCheckField} />
@@ -128,7 +143,7 @@ export default function SSLCertificateConfiguration({
           <Row className={locals.row}>
             {Object.keys(timeoutObject).map(unit => (
               <Col lg={4} key={unit}>
-                <CheckboxFancy
+                <RadioButton
                   key={unit}
                   label={timeoutObject[unit].label}
                   checked={timeoutObject[unit].value === timeout.unit}
@@ -140,7 +155,6 @@ export default function SSLCertificateConfiguration({
                       )
                     );
                   }}
-                  asRadioButton
                 />
               </Col>
             ))}
@@ -175,7 +189,7 @@ export default function SSLCertificateConfiguration({
           <Row className={locals.row}>
             {retriesObject.map(retry => (
               <Col lg={4} key={retry.value}>
-                <CheckboxFancy
+                <RadioButton
                   key={retry.value}
                   label={retry.label}
                   checked={retry.value === retriesField.value}
@@ -209,7 +223,6 @@ export default function SSLCertificateConfiguration({
                       );
                     }
                   }}
-                  asRadioButton
                 />
               </Col>
             ))}
@@ -220,30 +233,14 @@ export default function SSLCertificateConfiguration({
               <ActionTitle>
                 {t('in-synthetics:dialog.createTest.advancedMode.configStep.retryIntervalFieldLabel')}
               </ActionTitle>
-              <Description>{getRetryIntervalDescriptionText(retriesField.value, retryIntervalField.value)}</Description>
+              <Description>
+                {getRetryIntervalDescriptionText(retriesField.value, retryIntervalField?.value)}
+              </Description>
               {displayRetryIntervalSlider(retryIntervalField, form, updateForm)}
               <TouchedMessages field={retryIntervalField} />
             </Section>
           )}
         </FormGroup>
-      </div>
-      <div className={locals.configContainer}>
-        <Stack direction="horizontal">
-          <CheckboxFancy
-            wrapperClassName={locals.configCheckbox}
-            onChange={({ target }) => {
-              updateForm(
-                form.updateIn(['configuration', 'markSyntheticCall'], (field: Item) =>
-                  (field as Field<boolean>).setValue(target.checked).setTouched(true)
-                )
-              );
-            }}
-            checked={markSyntheticCall.value}
-            size="larger"
-            label={t('in-synthetics:dialog.createTest.advancedMode.configStep.markSyntheticCall')}
-            disabled={false}
-          />
-        </Stack>
       </div>
     </>
   );

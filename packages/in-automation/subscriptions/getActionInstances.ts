@@ -4,7 +4,15 @@
  * Copyright IBM Corp. 2023
  */
 
-import { GetActionInstancesQuery, ActionInstance, OrderDirection, PaginatedResult, Result, TimeConfig } from 'in-types';
+import {
+  GetActionInstancesQuery,
+  ActionInstance,
+  OrderDirection,
+  PaginatedResult,
+  Result,
+  TimeConfig
+} from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 const getActionInstances = createResultSubscriptionFactory<
@@ -12,7 +20,8 @@ const getActionInstances = createResultSubscriptionFactory<
   Result<PaginatedResult<ActionInstance>>
 >({
   eventId: 'getActionInstancesList',
-  trackSubscriptionStatistics: true
+  trackSubscriptionStatistics: true,
+  memoizeFor: 0
 });
 
 export default getActionInstances;

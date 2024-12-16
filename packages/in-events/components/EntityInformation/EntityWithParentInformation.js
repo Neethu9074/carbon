@@ -12,10 +12,10 @@ import EntityInformation from './EntityInformation';
 import { t } from 'in-i18n';
 
 export default function EntityWithParentInformation(props) {
-  const { entityType, entityId, metadata, timeConfig, linkTimeConfig } = props;
+  const { entityType, entityId, metadata, timeConfig, linkTimeConfig, isCveRedirect, onClose } = props;
   return (
     <div>
-      <EntityInformation {...props} pathname={physicalDashboardPath} />
+      <EntityInformation {...props} pathname={physicalDashboardPath} isCveRedirect={isCveRedirect} onClose={onClose} />
 
       {isEndpointEntity(entityType) && metadata && (
         <EntityInformation
@@ -29,6 +29,8 @@ export default function EntityWithParentInformation(props) {
           })}
           timeConfig={timeConfig}
           linkTimeConfig={linkTimeConfig}
+          onClose={onClose}
+          isCveRedirect={isCveRedirect}
         />
       )}
     </div>

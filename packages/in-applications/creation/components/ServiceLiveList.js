@@ -5,8 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { Ul } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Ul, Button } from '@instana/components';
 
 import ServiceLiveListItem from 'in-applications/creation/components/ServiceLiveListItem';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';

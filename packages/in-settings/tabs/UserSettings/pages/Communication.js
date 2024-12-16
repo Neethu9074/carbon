@@ -6,11 +6,10 @@
 import React from 'react';
 
 import { create } from '@instana/observables';
-import { Stack } from '@instana/components';
+import { Stack, Checkbox } from '@instana/components';
 
 import termsFormDefinition, { addDynamicRoleField } from 'in-settings/terms/termsFormDefinition';
 import { setAndSave, formUserSettingsObject } from 'in-settings/terms/termsAndPrivaySettings';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import MarketingMessageBox from 'in-settings/terms/MarketingMessageBox';
 import { fullTermsConfigEnabled } from 'in-services/featureFlags';
@@ -53,7 +52,7 @@ function render({ form, setForm, termsAndPrivacySettings, setCanSaveItem }) {
       <SectionLine />
       <Stack>
         {form.get('productTips').map(({ value }) => (
-          <CheckboxFancy
+          <Checkbox
             label={t('in-settings:tabs.productOnboardingSuccessTips')}
             explanation={t('in-settings:tabs.toHelpYouMakeTheMostOfInstanaProducts')}
             checked={value}
@@ -62,7 +61,7 @@ function render({ form, setForm, termsAndPrivacySettings, setCanSaveItem }) {
           />
         ))}
         {form.get('marketingMessages').map(({ value }) => (
-          <CheckboxFancy
+          <Checkbox
             label={t('in-settings:tabs.marketingMessages')}
             explanation={t('in-settings:tabs.relatedToInstanaProductsServicesAndOfferings')}
             checked={value}
@@ -74,7 +73,7 @@ function render({ form, setForm, termsAndPrivacySettings, setCanSaveItem }) {
           form
             .get('testingGroup')
             .map(({ value }) => (
-              <CheckboxFancy
+              <Checkbox
                 label={t('in-settings:tabs.userTestingGroup')}
                 explanation={t('in-settings:tabs.toParticipateInOptionalInterviewsAndSurveyWithOurProductTeam')}
                 checked={value}

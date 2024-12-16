@@ -7,6 +7,8 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { RadioButton } from '@instana/components';
+
 import {
   createViolationsInSequenceForm,
   createViolationsInPeriodForm,
@@ -17,7 +19,6 @@ import {
   timeThresholdTypes,
   timeThresholdLabels
 } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/formData';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/TimeThresholdConfig.mless';
 
@@ -54,12 +55,11 @@ export default function SelectTimeThreshold({
             [locals.disabled]: disabled
           })}
         >
-          <CheckboxFancy
+          <RadioButton
             wrapperClassName={disabled ? locals.checkboxDisabled : locals.checkbox}
             label={label}
             checked={checked}
             onChange={onChange}
-            asRadioButton
             withControlsGrayscale
             disabled={disabled}
           />
@@ -78,7 +78,7 @@ function createOption(form, updateForm, timeThresholdType, disabled = false) {
   };
 }
 
-function getTimeThresholdFormForType(form, timeThresholdType) {
+export function getTimeThresholdFormForType(form, timeThresholdType) {
   const timeThreshold = form.get('timeThreshold').toJS();
   const thresholdType = form.get('threshold').toJS().type;
 

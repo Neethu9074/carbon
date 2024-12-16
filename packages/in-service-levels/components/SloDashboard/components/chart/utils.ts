@@ -12,11 +12,46 @@ import { MetricDataPoint, MetricDataSeries } from 'in-components/Chart/types';
 import { calculateSloGranularity } from 'in-service-levels/utils/time';
 import { getChartGranularity } from 'in-stores/metric';
 
+interface FindMinMaxMetricValuesOptions {
+  withBuffer?: boolean;
+}
+
+export function findMinMaxMetricValues(
+  metrics: MetricDataSeries,
+  { withBuffer }: FindMinMaxMetricValuesOptions = {}
+): { min: number; max: number } {
+  const minMax = metrics.reduce<{ min: number; max: number }>(
+    (acc, [, value], index) => {
+      if (index === 0) {
+        acc.min = value;
+        acc.max = value;
+      } else {
+        acc.min = Math.min(acc.min, value);
+        acc.max = Math.max(acc.max, value);
+      }
+      return acc;
+    },
+    { min: Infinity, max: -Infinity }
+  );
+
+  if (!withBuffer) return minMax;
+
+  const range = minMax.max - minMax.min;
+  const fallbackBuffer = minMax.max * 0.8;
+  const buffer = Math.max(range * 0.2, fallbackBuffer);
+
+  return {
+    max: minMax.max + buffer,
+    min: minMax.min === 0 ? minMax.min : minMax.min - buffer
+  };
+}
+
 export function findMinMetricValue(metrics: MetricDataSeries): number {
-  return metrics.reduce<number>((acc, [, value], index) => {
-    if (index === 0) return value;
-    return Math.min(acc, value);
-  }, 0);
+  return metrics.reduce((acc, [, value]) => {
+    acc = Math.min(acc, value);
+
+    return acc;
+  }, Infinity);
 }
 
 export function calculateSloReferenceChartGranularity(
@@ -41,5 +76,19 @@ export function copyFirstBucketOfSubsequentDataSeries(metrics?: MetricDataSeries
 
     if (firstBucketOfSeries === undefined) return dataSeries;
     return [...dataSeries, firstBucketOfSeries];
+  });
+}
+
+export function filterMetricValuesWithinTimeWindow(
+  metricValues: MetricDataSeries[],
+  timeConfig: TimeConfig
+): MetricDataSeries[] {
+  const endTimestamp = timeConfig.to ?? Date.now();
+  const startTimestamp = endTimestamp - timeConfig.windowSize;
+
+  return metricValues.map(innerArray => {
+    return innerArray.filter(([timestamp]) => {
+      return timestamp >= startTimestamp && timestamp <= endTimestamp;
+    });
   });
 }

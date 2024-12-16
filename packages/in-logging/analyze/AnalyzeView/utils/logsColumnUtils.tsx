@@ -25,7 +25,7 @@ export const logLevelColumn = {
   widthInAbsoluteUnit: true,
   getContent({ tags, onSelectTagHref }: LogLevelColumnProps) {
     return (
-      <div className={locals.healthColumn}>
+      <div data-testid="log-level-pill" className={locals.healthColumn}>
         <LogHealthColumn tags={tags} onSelectTagHref={onSelectTagHref} />
       </div>
     );
@@ -42,7 +42,11 @@ export const timestampColumn = {
   useMaxHeight: true,
   widthInAbsoluteUnit: true,
   getContent({ timestamp }: TimestampColumnProps) {
-    return <div className={locals.dateTime}>{formatDateTime(timestamp)}</div>;
+    return (
+      <div className={locals.dateTime} data-testid={`log-timestamp-${timestamp}`}>
+        {formatDateTime(timestamp)}
+      </div>
+    );
   }
 };
 

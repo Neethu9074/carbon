@@ -6,8 +6,7 @@
 
 import React from 'react';
 
-import { Stack, StackItem } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Stack, StackItem, Button } from '@instana/components';
 
 import { TagFilterQueryBuilderProps } from 'in-service-levels/components/Shared/TagFilterQueryBuilder/types';
 import { TagFilterQueryBuilder } from 'in-service-levels/components/Shared/TagFilterQueryBuilder';

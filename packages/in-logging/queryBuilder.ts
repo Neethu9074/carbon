@@ -58,6 +58,11 @@ export function getValueMatchTagFilter(tagFilter: ReducedTagFilterWithDefaults):
   );
 }
 
+export function getValueMatchTagFilterWithKey(tagFilter: ReducedTagFilterWithDefaults): TagFilter {
+  const { name, key, value, operator = EQUALS, type = TAG_FILTER_TYPE, entity = 'NOT_APPLICABLE' } = tagFilter;
+  return sanitizeTagFilter({ type, operator: operator, name, key: key, entity, value: value });
+}
+
 export const LOG_ITEM_ID = 'log.itemId';
 export const LOG_LEVEL = 'log.level';
 export const LOG_STREAM_NAME = 'log.streamName';
@@ -85,6 +90,7 @@ export const KUBERNETES_NAMESPACE_SNAPSHOT_ID = 'id.kubernetesNamespace';
 export const LOG_EXCEPTION_TYPE = 'log.exception.type';
 export const LOG_EXCEPTION_MESSAGE = 'log.exception.message';
 export const LOG_EXCEPTION_STACK_TRACE = 'log.exception.stackTrace';
+export const LOG_RETENTION_TIME = 'expiration.ts.seconds';
 
 export const LOG_CUSTOM_KEY_SERVICE_ID = 'service_id';
 export const LOG_CUSTOM_KEY_ENDPOINT_ID = 'endpoint_id';
@@ -148,6 +154,7 @@ export const logTableTags = [
   PROCESS_ID,
   HOST_NAME,
   LOG_FILE_PATH,
+  LOG_RETENTION_TIME,
   ...containerSnapshotIds,
   ...containerIds,
   ...kubernetesTags

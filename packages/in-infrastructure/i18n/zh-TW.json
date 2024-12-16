@@ -9,18 +9,18 @@
     "tooltip1": "代理程式已在選取的時間範圍內報告，但是卻未在選取的時刻報告。",
     "tooltip2": "代理程式已在 {{startTime}} 時啟動，且仍在報告中。",
     "tooltip3": "代理程式已在 {{startTime}} 到 {{toTime}} 之間進行報告。",
-    "issueReported": "已報告 {{count}} 個問題：",
-    "issueReported_plural": "已報告 {{count}} 個問題：",
-    "issueReported_0": "已報告 {{count}} 個問題：",
-    "issueReported_1": "已報告 {{count}} 個問題：",
-    "issueReported_2": "已報告 {{count}} 個問題：",
+    "monitoringIssueReported": "已報告 {{count}} 個監視問題：",
+    "monitoringIssueReported_plural": "已報告 {{count}} 個監視問題：",
+    "monitoringIssueReported_0": "已報告 {{count}} 個監視問題：",
+    "monitoringIssueReported_1": "已報告 {{count}} 個監視問題：",
+    "monitoringIssueReported_2": "已報告 {{count}} 個監視問題：",
     "reporting": "產生報告",
     "notReporting": "未產生報告",
-    "issues": "{{count}} 個問題",
-    "issues_plural": "{{count}} 個問題",
-    "issues_0": "{{count}} 個問題",
-    "issues_1": "{{count}} 個問題",
-    "issues_2": "{{count}} 個問題",
+    "reportingMonitoringIssues": "正在報告，{{count}} 個監視問題",
+    "reportingMonitoringIssues_plural": "正在報告，{{count}} 個監視問題",
+    "reportingMonitoringIssues_0": "正在報告，{{count}} 個監視問題",
+    "reportingMonitoringIssues_1": "正在報告，{{count}} 個監視問題",
+    "reportingMonitoringIssues_2": "正在報告，{{count}} 個監視問題",
     "agents": "代理程式",
     "updateAllAgents": "更新所有代理程式",
     "resetAllAgents": "重設所有代理程式",
@@ -53,7 +53,8 @@
     "javaRuntime": "Java 執行時期",
     "status": "狀態",
     "agentDetails": "代理程式詳細資料",
-    "totalAgents": "代理程式總計"
+    "totalAgents": "代理程式總計",
+    "anErrorOccurredPleaseTryAgain": "發生錯誤，請重試。"
   },
   "dashboard": {
     "comparisonTable": "對照表",
@@ -74,11 +75,13 @@
     "restartCount": "重新啟動計數",
     "kubernetesLabels": "Kubernetes 標籤",
     "podmanAnnotations": "Podman 註釋",
-    "metricExplosion": "此儀表板可能不會顯示所有度量值，因為僅儲存 {{numberOfMetrics}}"
+    "metricExplosionBeeInstana": "此儀表板可能不會顯示所有指標，因為在任何給定時間最多只能擷取 {{numberOfMetrics}} 個指標。",
+    "metricExplosion": "此儀表板可能不會顯示所有指標，因為在任何給定時間最多只能擷取 {{numberOfMetrics}} 個高解析度指標。 若要檢視其他已標記度量，請使用分析基礎架構或自訂儀表板。"
   },
   "explore": {
     "analyzeInfrastructure": "分析基礎架構",
     "focusOnThisGroup": "聚焦於此群組",
+    "tagNotPresent": "標籤不存在",
     "theQueryConfigurationIsInvalid": "查詢配置無效。請先處理驗證失敗情況，再繼續進行。",
     "allInfrastructure": "所有基礎架構",
     "emptyInfrastructure": "選取實體類型",
@@ -86,14 +89,14 @@
     "search": "搜尋類型",
     "explore": "瀏覽",
     "health": "性能",
-    "noIssues": "沒有問題",
     "count": "計數",
     "errors": {
       "maximumNumberOfGroups": "此查詢有太多結果。 請使用限制性較強的過濾器來縮小搜尋範圍，或縮小時間範圍，然後再試一次。",
       "maximumNumberOfMembers": "此查詢有太多結果。 請使用限制性較強的過濾器來縮小搜尋範圍，或縮小時間範圍，然後再試一次。",
       "generalError": "發生非預期的錯誤。"
     },
-    "entityTypes": "實體類型 {{count, parenthesis}}"
+    "entityTypes": "實體類型 {{count, parenthesis}}",
+    "relatedInstances": "分析實例"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "顯示整個現行時間範圍的計數和平均值。",
@@ -128,7 +131,8 @@
     "map": "圖",
     "comparisonTable": "對照表",
     "infrastructureComparisonTable": "基礎架構對照表",
-    "smartAlerts": "智慧型警示"
+    "smartAlerts": "智慧型警示",
+    "graph": "圖形"
   },
   "smartAlertView": {
     "smartAlertTab": "基礎架構智慧型警示"
@@ -137,5 +141,13 @@
     "buttonSelectTags": "選取標籤",
     "titleAddATag": "新增標籤",
     "messagePleaseSelectAtMostTags": "請最多選取 {{maximumNumberOfTags}} 個標籤。"
+  },
+  "graphExplorerView": {
+    "infrastructureGraphExplorer": "圖形瀏覽器"
+  },
+  "threshold": {
+    "label": "臨界值",
+    "critical": "當 {{operator}} {{level}} 時為嚴重",
+    "warning": "當 {{operator}} {{level}} 時為警告"
   }
 }

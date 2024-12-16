@@ -8,7 +8,7 @@ import React, { ReactElement, useState } from 'react';
 import { MapForm } from 'formalistic';
 import classNames from 'classnames';
 
-import { ButtonKinds, Message } from '@instana/components';
+import { Message, ButtonKinds } from '@instana/components';
 import { SyntheticDatacenter } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';

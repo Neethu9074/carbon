@@ -11,11 +11,13 @@ interface SaveCancelProps {
   listPath?: string;
   cancelButtonLabel?: string;
   hasSaveButton?: boolean;
+  hasCancelButton?: boolean;
   isCreate?: boolean;
   form?: MapForm;
   onClickCancelButton?: (e: React.MouseEvent<Element, MouseEvent>) => void;
   message?: string | null;
   saveEnabled?: boolean;
+  type?: string;
 }
 
 declare function SaveCancelComponent(props: SaveCancelProps): JSX.Element;

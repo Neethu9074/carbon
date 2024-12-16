@@ -4,13 +4,13 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Redirect } from 'react-router-dom';
 import React from 'react';
 
 import { useIbmpViosDashboard } from 'in-phmc/navigation/paths';
-import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default function PhmcViosDashboard({ snapshot, timeConfig }) {
   const getIbmpViosDashboard = useIbmpViosDashboard();
-
-  return <RedirectWithHash to={getIbmpViosDashboard(snapshot.get('id'), { timeConfig })} />;
+  const href = getIbmpViosDashboard(snapshot.get('id'), { timeConfig });
+  return <Redirect to={href.substring(2)} />;
 }

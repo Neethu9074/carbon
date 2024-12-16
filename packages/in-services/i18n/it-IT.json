@@ -1,6 +1,6 @@
 {
   "shortcuts": {
-    "help": "È possibile attivare alcune importanti funzioni di Instana utilizzando i tasti di scelta rapida.\n\n - `c` : centratura della mappa\n - `f` : apertura e attivazione della barra di ricerca\n - `esc` : chiusura della barra laterale/dashboard attualmente visibile\n - `maiusc + ?` : visualizzazione della guida per i tasti di scelta rapida",
+    "help": "Alcune importanti funzioni di Instana possono essere attivate utilizzando scorciatoie da tastiera.\n\n - `c` : centratura della mappa\n - `f` : apertura e focalizzazione della barra di ricerca\n - `esc` : chiusura della barra laterale/del dashboard attualmente visibile\n - `shift + ?` : apertura della finestra di dialogo di aiuto per le scorciatoie",
     "shortcuts": "Tasti di scelta rapida"
   },
   "formatters": {
@@ -15,6 +15,14 @@
     "byteUnits_EiB": "{{num}} EiB",
     "byteUnits_ZiB": "{{num}} ZiB",
     "byteUnits_YiB": "{{num}} YiB",
+    "byteUnits_kB": "{{num}} kB",
+    "byteUnits_MB": "{{num}} MB",
+    "byteUnits_GB": "{{num}} GB",
+    "byteUnits_TB": "{{num}} TB",
+    "byteUnits_PB": "{{num}} PB",
+    "byteUnits_EB": "{{num}} EB",
+    "byteUnits_ZB": "{{num}} ZB",
+    "byteUnits_YB": "{{num}} YB",
     "perSec": "{{num}}/s",
     "perSec2": "{{num}} / sec",
     "noActivity": "Nessuna attività",
@@ -26,10 +34,10 @@
     "timeUnits_ns": "{{num}} ns",
     "timeUnits_us": "{{num}} µs",
     "timeUnits_ms": "{{num}} ms",
-    "timeUnits_s": "{{num}} s",
+    "timeUnits_s": "{{num}}s",
     "timeUnits_min": "{{num}} min",
-    "timeUnits_h": "{{num}} h",
-    "timeUnits_d": "{{num}} g",
+    "timeUnits_h": "{{num}}h",
+    "timeUnits_d": "{{num}}d",
     "temperature": "{{num}}°C",
     "lt1ms": "< 1ms"
   },

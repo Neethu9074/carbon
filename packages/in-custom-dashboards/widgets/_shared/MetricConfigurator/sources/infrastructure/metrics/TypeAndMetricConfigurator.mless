@@ -6,22 +6,8 @@
 @import '~in-themes/active.less';
 
 :local {
-  .configurator {
-    font-weight: 600;
-    font-size: 0.75rem;
-    line-height: 2;
-
-    padding: 0.1875rem 0.3rem 0.1875rem 0.4375rem;
-    width: fit-content;
-
-    display: flex;
-    align-items: center;
-
-    white-space: normal;
+  .carbonConfigurator {
     overflow-wrap: anywhere;
-    text-align: left;
-
-    cursor: pointer;
   }
   .loadingWrapper {
     display: flex;
@@ -35,5 +21,15 @@
     margin: -0.5rem -0.25rem;
 
     fill: var(--ids-color-option-neutral-400);
+  }
+  .configuratorWithAdditionalContent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: fit-content;
+  }
+  .metricUnitWrapper {
+    display: flex;
+    align-items: center;
   }
 }

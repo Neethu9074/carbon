@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -9,8 +9,8 @@ import React from 'react';
 import { AggregationType, KubernetesService, ResultType, TimeConfig } from '@instana/types';
 
 import {
-  LogsChartInteractionWrapper,
   andQuery,
+  LogsChartInteractionWrapper,
   tagEquals
 } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 // @ts-expect-error
@@ -21,19 +21,19 @@ import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/Mis
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 // @ts-expect-error
 import Endpoints from 'in-kubernetes/Dashboards/Service/tabs/Endpoints';
-import { twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { bytesTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
 import { k8sPodAndServiceChart } from 'in-kubernetes/components/K8sChartColors';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
-import { formatDuration } from 'in-services/formatters/date';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
+import { formatDuration } from 'in-services/formatters/date';
 import { summaryTab } from 'in-kubernetes/navigation/paths';
 import { getChartGranularity } from 'in-stores/metric';
-import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
+import { Col, Row } from 'in-components/layout/Grid';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
@@ -46,7 +46,7 @@ export default function Summary({ timeConfig, data: service }: SummaryProps) {
   const snapshotId = service.id;
   const { limits, requests, usage } = k8sPodAndServiceChart;
 
-  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('service', snapshotId, timeConfig);
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('kubernetes.service', snapshotId, timeConfig);
 
   const comparisonColors = {
     comparisonDecreaseColor: blue.id,

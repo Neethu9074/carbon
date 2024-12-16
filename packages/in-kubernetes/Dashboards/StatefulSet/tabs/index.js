@@ -5,8 +5,12 @@
 
 import React from 'react';
 
+import {
+  beeInstanaInfraMetricsEnabled,
+  beeinstanaInfraMetricsWithTimeshiftEnabled,
+  persistentVolumeSupportEnabled
+} from 'in-services/featureFlags';
 import PersistentVolumeClaims from 'in-kubernetes/Dashboards/commonComponents/pvc/PersistentVolumeClaims';
-import { beeInstanaInfraMetricsEnabled, persistentVolumeSupportEnabled } from 'in-services/featureFlags';
 import SummaryWithoutTimeShift from 'in-kubernetes/Dashboards/StatefulSet/tabs/SummaryWithoutTimeShift';
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
@@ -16,13 +20,15 @@ import { WorkloadTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Summary from 'in-kubernetes/Dashboards/StatefulSet/tabs/Summary';
 import Details from 'in-kubernetes/Dashboards/StatefulSet/tabs/Details';
+import { getTimeConfig } from 'in-stores/time/config';
 import { t } from 'in-i18n';
 
 export default [
   {
     label: t('in-kubernetes:dashboards.summary'),
     path: `${statefulSetDashboardFullyQualified}/summary`,
-    component: beeInstanaInfraMetricsEnabled ? Summary : SummaryWithoutTimeShift
+    component:
+      beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled ? Summary : SummaryWithoutTimeShift
   },
   {
     label: t('in-kubernetes:dashboards.details'),
@@ -60,7 +66,9 @@ export default [
   }
 ].filter(Boolean);
 
-function getCounterComponent({ workloadControllerId, tab, timeConfig }, valueExtractor) {
+function getCounterComponent({ result, tab, location }, valueExtractor) {
+  const workloadControllerId = result?.data?.id;
+  const timeConfig = getTimeConfig(location);
   return (
     <WorkloadTab
       workloadControllerId={workloadControllerId}

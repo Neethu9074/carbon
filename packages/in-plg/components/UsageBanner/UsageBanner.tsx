@@ -4,25 +4,47 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+// @ts-expect-error
+import ShareAndInviteDialogBox from 'promise-loader?global,shareAndInvite!in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/ShareAndInviteDialogBox/ShareAndInviteDialogBox';
+import { useHistory } from 'react-router';
+import React, { useEffect } from 'react';
 
 import { Link, LicenseBannerButton, SvgIcon, Stack } from '@instana/components';
+import { Observable, create } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
 
+import {
+  onPremLicenseInformationEnabled,
+  playWithReleaseEnabled,
+  playwithEnabled,
+  shareAndInviteEnabled
+} from 'in-services/featureFlags';
+//@ts-expect-error missing typescript migration
+import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import {
+  isWalkmeScriptLoaded,
+  termsAndPrivacySettingsStore$
+} from 'in-settings/terms/stores/termsAndPrivacySettingsStore';
 //@ts-expect-error missing typescript migration
 import { getQueuedLicensesAsResultObservable } from 'in-amp/api/account';
-//@ts-expect-error missing typescript migration
-import RequestQuoteDialog from 'in-components/RequestQuoteDialog';
-import { BUY_NOW_BUTTON_CLICKED, REQUEST_QUOTE_BUTTON_CLICKED, track } from 'in-services/tracking/tracking';
-import { onPremLicenseInformationEnabled, shareAndInviteEnabled } from 'in-services/featureFlags';
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { SHARE_AND_INVITE_INVITEE_JOINED } from 'in-services/tracking/eventNames';
+import { countryCode, editionID, languageCode } from 'in-plg/utils/constants';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { BuyNowDialog } from 'in-plg/components/BuyNowDialog/BuyNowDialog';
+import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Message } from 'in-components/MessageFlyout/stores/messages';
+import useIsAnyIdPActive from 'in-settings/hooks/useIsAnyIdPActive';
+import memoize from 'in-services/util/memoizingObservableGenerator';
+import { assistmeEnabled } from 'in-services/featureFlags';
 import AssistMe from 'in-plg/components/AssistMe/AssistMe';
 import { isLoading } from 'in-services/util/result';
 import Tooltip from 'in-components/Tooltip';
+import { role, user } from 'in-stores/user';
+import http from 'in-services/http/http';
 import { Trans, t } from 'in-i18n';
 
 import locals from './UsageBanner.mless';
@@ -33,8 +55,11 @@ interface UsageBannerProps {
 
 export function UsageBanner({ message }: UsageBannerProps) {
   const location = useLocation();
+  const history = useHistory();
+  const { createHref } = useNavigation();
+  const { trackCta } = useSegmentTracking();
   //@ts-expect-error
-  const queuedLicenseDetails: Result<any> = useObservable(getQueuedLicensesAsResultObservable(1), []);
+  const queuedLicenseDetails: Result<any> = useObservable(getQueuedLicensesAsResultObservable(1, 5), []);
   const { activeLicense, remainingDays, content } = message;
   const isQuota = activeLicense === 'quota';
   const isSelfService = activeLicense === 'selfService';
@@ -46,6 +71,33 @@ export function UsageBanner({ message }: UsageBannerProps) {
   const noQueuedLicense =
     !isLoading(queuedLicenseDetails) && queuedUpLicense !== 'paidPerUse' && queuedUpLicense !== 'hostBasedPaid';
   const needToShowReminder = isRemainingDaysLimited && isPaidLicenseUsage && noQueuedLicense;
+  const termsAndPrivacySettingsStore = useObservable(termsAndPrivacySettingsStore$, []);
+
+  const isAnyIDPActive = useIsAnyIdPActive();
+  const permissionToShowInvite =
+    role?.canConfigureUsers && !(playwithEnabled || playWithReleaseEnabled) && !isAnyIDPActive;
+  const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
+  // The AssistMe feature will be enabled if both assistmeEnabled and walkmeAnalyticsServices are enabled, and the WalkMe script is loaded.
+  const isWalkMeEnabled =
+    assistmeEnabled && isWalkmeScriptLoaded && termsAndPrivacySettingsStore?.walkmeAnalyticsServices;
+
+  useEffect(() => {
+    const invitedByKey = 'invitedBy';
+    if (Object.prototype.hasOwnProperty.call(location.query, invitedByKey)) {
+      trackCta(SHARE_AND_INVITE_INVITEE_JOINED, {
+        invitedby: location.query.invitedby,
+        // @ts-expect-error The User type needs to be updated.
+        invitee: decodeURIComponent(user?.fullName).replace(/\+/g, ' ')
+      });
+      let locationString = createHref(location);
+      if (locationString.includes(`&${invitedByKey}=`)) locationString = locationString.split(`&${invitedByKey}=`)[0];
+      if (locationString.includes(`?${invitedByKey}=`)) locationString = locationString.split(`?${invitedByKey}=`)[0];
+      locationString = locationString.replace('/#/', '/');
+      history.push(locationString);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Stack align="center" direction="horizontal" gap="small">
       {(isTrial || (isFreeNotForResale && isRemainingDaysLimited) || needToShowReminder) && (
@@ -54,75 +106,20 @@ export function UsageBanner({ message }: UsageBannerProps) {
           <IconForRemainingDays remainingDays={remainingDays} />
         </>
       )}
-
       {onPremLicenseInformationEnabled && (
-        <div className={locals.subText}>
-          <Trans
-            i18nKey="in-plg:licenseBanner.alreadyHaveLicense"
-            components={{
-              linkToDocker: (
-                //@ts-expect-error missing translation
-                <Link
-                  className={locals.bannerLink}
-                  external
-                  href="https://www.ibm.com/docs/obi/current?topic=installer-license-activation-renewal"
-                />
-              ),
-              linkToKubernetes: (
-                //@ts-expect-error missing translation
-                <Link
-                  className={locals.bannerLink}
-                  external
-                  href="https://www.ibm.com/docs/obi/current?topic=kubernetes-installing-operator-based-instana-setup#312-downloading-the-license-file"
-                />
-              )
-            }}
-          />
-        </div>
-      )}
-      {!onPremLicenseInformationEnabled && (
         <>
-          {isSelfService && (
-            <LicenseBannerButton
-              id="wm-buyonaws"
-              kind="primary"
-              target="_blank"
-              href="https://aws.amazon.com/marketplace/search/results?prevFilters=%257B%2522sr%2522%3A%25220-1%2522%2C%2522ref_%2522%3A%2522beagle%2522%2C%2522applicationId%2522%3A%2522AWSMPContessa%2522%257D&searchTerms=ibm+instana+observability"
-              //@ts-expect-error
-              rel="noopener noreferrer"
-              onClick={() => track(BUY_NOW_BUTTON_CLICKED, getPageType(location.pathname))}
-            >
-              {t('in-plg:licenseBanner.buyNowBtn')}
-            </LicenseBannerButton>
-          )}
-          {(isTrial || needToShowReminder) && (
-            <>
-              <LicenseBannerButton
-                icon="lib_actions_request_quote"
-                iconColor="var(--cds-link-primary)"
-                id="wm-requestaquote"
-                kind="ghost"
-                target="_blank"
-                onClick={e => {
-                  stopPropagationAndPreventDefault(e);
-                  track(REQUEST_QUOTE_BUTTON_CLICKED, getPageType(location.pathname));
-                  addActiveDialog(<RequestQuoteDialog />);
-                }}
-              >
-                {t('in-plg:licenseBanner.requestQuoteBtn')}
-              </LicenseBannerButton>
-              <div className={locals.verticalLine} />
-            </>
-          )}
           {shareAndInviteEnabled && (
             <>
-              <Tooltip align="bottomMiddle" content={t('in-plg:licenseBanner.shareTooltip')}>
+              <Tooltip align="bottomRight" content={t('in-plg:licenseBanner.shareTooltip')}>
                 <LicenseBannerButton
                   id="shareButton"
                   kind="ghost"
                   icon="lib_actions_share"
                   iconColor="var(--cds-link-primary)"
                   target="_blank"
+                  onClick={() =>
+                    addActiveDialog(<DeferredShareAndInviteDialogBox permissionToShowInvite={permissionToShowInvite} />)
+                  }
                 >
                   {t('in-plg:licenseBanner.share')}
                 </LicenseBannerButton>
@@ -130,27 +127,67 @@ export function UsageBanner({ message }: UsageBannerProps) {
               <div className={locals.verticalLine} />
             </>
           )}
-          <AssistMe />
+          <div className={locals.subText}>
+            <Trans
+              i18nKey="in-plg:licenseBanner.alreadyHaveLicense"
+              components={{
+                linkToDocker: (
+                  //@ts-expect-error missing translation
+                  <Link className={locals.bannerLink} external href="https://ibm.biz/license-ops" />
+                ),
+                linkToKubernetes: (
+                  //@ts-expect-error missing translation
+                  <Link className={locals.bannerLink} external href="https://ibm.biz/license-sales-key-renewal" />
+                )
+              }}
+            />
+          </div>
+        </>
+      )}
+      {!onPremLicenseInformationEnabled && (
+        <>
+          {(isTrial || needToShowReminder) && (
+            <LicenseBannerButton
+              kind="primary"
+              href={
+                isSelfService
+                  ? undefined
+                  : 'https://www.ibm.com/account/reg/us-en/signup?formid=QTE-automateinstana&utm_source=instanaproduct'
+              }
+              target={isSelfService ? undefined : '_blank'}
+              onClick={() => {
+                if (isSelfService) {
+                  addActiveDialog(<BuyNowDialog />);
+                }
+              }}
+            >
+              {t('in-plg:licenseBanner.buyNow')}
+            </LicenseBannerButton>
+          )}
+          {shareAndInviteEnabled && (
+            <>
+              <Tooltip align="bottomRight" content={t('in-plg:licenseBanner.shareTooltip')}>
+                <LicenseBannerButton
+                  id="shareButton"
+                  kind="ghost"
+                  icon="lib_actions_share"
+                  iconColor="var(--cds-link-primary)"
+                  target="_blank"
+                  onClick={() =>
+                    addActiveDialog(<DeferredShareAndInviteDialogBox permissionToShowInvite={permissionToShowInvite} />)
+                  }
+                >
+                  {t('in-plg:licenseBanner.share')}
+                </LicenseBannerButton>
+              </Tooltip>
+              <div className={locals.verticalLine} />
+            </>
+          )}
+          {isWalkMeEnabled && <AssistMe />}
         </>
       )}
     </Stack>
   );
-}
-
-function getPageType(pathname = '/') {
-  const pageName = pathname.split('/')[1];
-  switch (pageName) {
-    case 'physical':
-      return { pageName: 'Infrastructure' };
-    case 'websiteMonitoring':
-      return { pageName: 'EUM' };
-    case 'config':
-      return { pageName: 'Settings' };
-    case '':
-      return { pageName: '--' };
-    default:
-      return { pageName: pageName.charAt(0).toUpperCase() + pageName.slice(1) };
-  }
 }
 
 const IconForRemainingDays = ({ remainingDays = -1 }: { remainingDays: number | undefined }) => {
@@ -167,3 +204,30 @@ const IconForRemainingDays = ({ remainingDays = -1 }: { remainingDays: number | 
     return null;
   }
 };
+const refreshSignalTeams = create().emit(true);
+export function refresh() {
+  refreshSignalTeams.emit(true);
+}
+
+export function generateBuyOnIbmUrl(platformSubscriptionIds: string): string {
+  const parentPageName = encodeURIComponent(getViewTrackingMetaData().pageRootName?.toString() || '');
+  const parentProductArea = encodeURIComponent(getViewTrackingMetaData().productArea?.toString() || '');
+  const trialId = encodeURIComponent(platformSubscriptionIds);
+  const userRole =
+    window.instana?.termsAndPrivacySettings?.dynamicRole || window.instana?.termsAndPrivacySettings?.role;
+  const encodedUserRole = encodeURIComponent(userRole);
+  const generatedUrl = `https://www.ibm.com/marketplace/purchase/configuration/${languageCode}/${countryCode}/checkout?editionID=${editionID}&trialId=${trialId}&parentPageName=${parentPageName}&parentPageCategory=${parentProductArea}&userRole=${encodedUserRole}`;
+  return generatedUrl;
+}
+export const getPlatformSubscriptionIdsForTenantAndUnit = memoize(
+  getPlatformSubscriptionIdsForTenantAndUnitInternal,
+  () => '',
+  60000
+);
+function getPlatformSubscriptionIdsForTenantAndUnitInternal(): Observable<string[]> {
+  return http<string[]>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/platformSubscriptionIds`
+  }).map(response => response.body);
+}

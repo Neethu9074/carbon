@@ -5,17 +5,16 @@
 
 import React, { useState } from 'react';
 
-import { SvgIcon, Th, SortableTh } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { SvgIcon, SearchInput, Button, Checkbox } from '@instana/components';
+import { Th, SortableTh } from '@instana/legacy';
 
+import { carbonButtonEnabled, carbonTableEnabled } from 'in-services/featureFlags';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { OrderDirection, SortComparator } from 'in-types';
 import Overlay from 'in-components/overlays/Overlay';
-import SearchInput from 'in-components/SearchInput';
 import Pagination from 'in-components/Pagination';
 import { t } from 'in-i18n';
 
@@ -79,7 +78,7 @@ interface ConfigurableButtonProps<ItemType extends Object> extends ContentProps<
   children?: React.ReactNode;
 }
 
-function ConfigureButton<ItemType extends Object>({
+export function ConfigureButton<ItemType extends Object>({
   availableColumnDefinitions,
   columnDefinitions,
   children,
@@ -95,13 +94,17 @@ function ConfigureButton<ItemType extends Object>({
         content={Content}
         props={{ availableColumnDefinitions, columnDefinitions, onColumnChecked }}
       >
-        {({ toggle, refSetter }) => (
+        {({ toggle, refSetter, isOpen }) => (
           <Button
             className={locals.button}
-            kind="secondary"
+            aria-label={t('in-components:tables.sharedComponents.settings')}
+            aria-haspopup="true"
+            aria-expanded={isOpen}
+            kind={carbonTableEnabled ? 'action' : 'secondary'}
             onClick={toggle}
             // Casting here because ts has trouble handling the inverted information flow of refs. I.e. ts should accept more narrow types as values for refs specifying a wider accepted type, but fails to do that
             refSetter={refSetter as React.MutableRefObject<HTMLButtonElement>}
+            {...(carbonButtonEnabled ? { hasIconOnly: true } : {})}
           >
             <SvgIcon type="lib_actions_settings" />
           </Button>
@@ -155,7 +158,7 @@ function Content<ItemType extends Object>({
           const isEnabled = currentIds.indexOf(id) >= 0;
           return (
             <li key={id} className={locals.item}>
-              <CheckboxFancy
+              <Checkbox
                 labelClassName={locals.label}
                 checked={isDisabled || isEnabled}
                 disabled={isDisabled}

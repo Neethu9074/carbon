@@ -539,6 +539,23 @@ export default connectTo(
                       href={createHref({ ...location, pathname: '/internal/thisUnit/eum' })}
                       description={t('in-internal:components.landing.eumDescription')}
                     />
+                    <LinkListItem
+                      label={t('in-internal:components.landing.tagProcessorState')}
+                      href={createHref({ ...location, pathname: '/internal/thisUnit/tagProcessorState' })}
+                      description={t('in-internal:components.landing.tagProcessorStateDescription')}
+                    />
+                    <LinkListItem
+                      label="Tag Sets"
+                      href={createHref({ ...location, pathname: '/internal/thisUnit/tagSets' })}
+                      description="Analyze tag sets"
+                    />
+                    <LinkListItem
+                      // needs i18n...:
+                      label="Feature Flags"
+                      href={createHref({ ...location, pathname: '/internal/featureflags' })}
+                      // needs i18n...:
+                      description="the feature flags available for this tenant unit."
+                    />
                   </LinkList>
                 </Card>
               </Col>
@@ -555,7 +572,7 @@ export default connectTo(
                       >
                         <LinkList>
                           <LinkListItem
-                            label={' ' + t('in-internal:components.landing.unitMonitoringCoral')}
+                            label={'🟣 ' + t('in-internal:components.landing.unitMonitoringCoral')}
                             href="https://coral-instanaops.instana.io"
                             external
                             description={t('in-internal:components.landing.unitMonitoringCoralDesc')}

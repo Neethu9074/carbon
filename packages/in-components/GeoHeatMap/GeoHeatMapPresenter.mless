@@ -11,13 +11,7 @@
   .zoom {
     position: absolute;
     right: 0;
-    bottom: 2.5rem;
-  }
-
-  .home {
-    position: absolute;
-    right: 0;
-    bottom: 0;
+    bottom: 0.5rem;
   }
 
   .legend {

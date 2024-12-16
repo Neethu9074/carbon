@@ -39,7 +39,7 @@ export function displayRetryIntervalSlider(
       max={marks[marks.length - 1].value}
       min={1}
       step={1}
-      value={retryIntervalField.value}
+      value={retryIntervalField?.value}
       valueLabelDisplay="auto"
       onChange={(value: number) => {
         updateForm(

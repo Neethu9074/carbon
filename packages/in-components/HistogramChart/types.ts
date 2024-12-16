@@ -29,4 +29,5 @@ export interface ChartProps {
   selection?: Bucket;
   result?: Result<MetricResult[]>;
   renderWidgetNotSupportedIndicator?: boolean;
+  tooltipRef?: (tooltip: HTMLElement) => void;
 }

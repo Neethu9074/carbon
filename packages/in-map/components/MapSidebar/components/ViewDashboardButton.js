@@ -5,27 +5,17 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import connectTo from 'in-hoc/connectTo';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { t } from 'in-i18n';
 
-import './ViewDashboardButton.less';
+export default function ViewDashboardButton({ snapshotId }) {
+  const getDashboardLink = useGetDashboardLink();
 
-const block = 'in-sidebar-view-dashboard';
-
-export default connectTo(
-  props => {
-    return {
-      href: getDashboardLink(props.snapshotId)
-    };
-  },
-  function ViewDashboardButton({ href }) {
-    return (
-      <Button href={href} className={block}>
-        {t('in-map:openDashboard')}
-      </Button>
-    );
-  }
-);
+  return (
+    <Button size="compact" kind="tertiary" href={getDashboardLink(snapshotId)}>
+      {t('in-map:openDashboard')}
+    </Button>
+  );
+}

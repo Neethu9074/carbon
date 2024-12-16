@@ -3,42 +3,39 @@
  * (c) Copyright Instana Inc.
  */
 
-// Fixing the styling of any Toggle on the waiting page
-//
-// to be removed, after Toggle was migrated.
-// This loads the styling of react-toggle
-import 'react-toggle/style.css';
-import React from 'react';
+import React, { useState } from 'react';
 
-// ^ needs to be put here, to be bundled before the overriding styles from legacy package
-import '@instana/legacy/esm/index.css';
-import { ThemeProvider } from '@instana/components';
-import '@instana/components/esm/index.css';
+import { ThemeProvider, setThemeOverride, getThemeOverride } from '@instana/components';
 
 import FullViewOnboardingWidget from 'in-waiting-for-deployment/components/FullViewOnboardingWidget';
 import OnboardingWidgetPresenterV2 from 'in-plg/pages/onboarding/OnboardingWidgetPresenterV2';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
-import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import useResultFromApiPing from 'in-hooks/useResultFromApiPing';
 import createTracker from 'in-waiting-for-deployment/tracker';
 import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
+import { SwitchTheme, fallbackTheme } from 'in-themes/SwitchTheme';
 import GlobalTheme from 'in-themes/GlobalTheme';
 import config from 'in-services/config';
-
-import 'in-themes/foundation.less';
 
 const trackingService = createTracker('onboarding');
 
 export default function App() {
-  useDisabledBodyScroll();
+  const themeOverride = getThemeOverride() ?? fallbackTheme;
+  const [theme, setTheme] = useState(themeOverride);
 
   return (
     <ErrorBoundary name="app">
       <GlobalTheme>
-        <ThemeProvider theme="default">
+        <SwitchTheme
+          theme={theme}
+          setOverride={theme => {
+            setThemeOverride(theme);
+            setTheme(theme);
+          }}
+        />
+        <ThemeProvider theme={theme ?? fallbackTheme}>
           <DialogPresenter />
-
           <FullViewOnboardingWidget Renderer={Renderer} />
           <TooltipPresenter />
         </ThemeProvider>

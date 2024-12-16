@@ -20,7 +20,14 @@ interface Config {
   metricConfiguration: SyntheticMetricConfiguration;
 }
 
-const SyntheticTopListCatalog = ({ config, title, actions, dragHandle, timeConfig }: WidgetProps<Config>) => {
+const SyntheticTopListCatalog = ({
+  config,
+  title,
+  actions,
+  dragHandle,
+  timeConfig,
+  filterResult
+}: WidgetProps<Config>) => {
   const result = useTopListResultData(config, timeConfig) ?? pendingResult;
 
   return (
@@ -31,6 +38,7 @@ const SyntheticTopListCatalog = ({ config, title, actions, dragHandle, timeConfi
       tagCatalog={useSynMonTagCatalog(getSyntheticCatalog)}
       config={config}
       actions={actions}
+      filterResult={filterResult}
     />
   );
 };

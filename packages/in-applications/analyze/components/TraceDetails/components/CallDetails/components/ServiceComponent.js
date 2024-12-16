@@ -6,6 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { ExpandableGroup } from '@instana/components';
 import { Stack } from '@instana/components';
 
 import {
@@ -24,7 +25,6 @@ import SpanDetails from 'in-applications/analyze/components/TraceDetails/compone
 import LogsCard from 'in-logging/components/TraceDetails/components/LogDetails/LogsCard';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { getResolvedTimeConfig } from 'in-applications/metrics';
-import ExpandableGroup from 'in-components/ExpandableGroup';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { isBlank } from 'in-services/util/string';
 import { find } from 'in-services/arrayUtils';

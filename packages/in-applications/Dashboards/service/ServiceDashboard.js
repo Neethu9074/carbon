@@ -16,22 +16,24 @@ import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
-import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
+import InvalidUrlAlert from 'in-applications/Dashboards/commonComponents/InvalidUrlAlert';
 import { serviceDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { serviceDashboard, summaryTab } from 'in-applications/navigation/paths';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
-import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import getService from 'in-applications/subscriptions/getService';
 import { productAreas } from 'in-services/tracking/productAreas';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import tabs from 'in-applications/Dashboards/service/tabs/index';
+import { servicesList } from 'in-applications/navigation/paths';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
@@ -67,6 +69,7 @@ export default function ServiceDashboard({ location }) {
     location,
     onBoundaryStateChange: setUrlState
   };
+  const { createHref } = useNavigation();
 
   const missingBoundaryScope = props.applicationId && !props.boundaryScope;
   function getBoundaryScope([id, _missingBoundaryScope]) {
@@ -80,6 +83,17 @@ export default function ServiceDashboard({ location }) {
 
   const showAlertButton = role.canConfigureApplicationSmartAlerts;
 
+  if (!serviceId) {
+    return (
+      <InvalidUrlAlert
+        href={createHref({ ...location, pathname: servicesList })}
+        description={t('in-applications:dashboards.idNotPresent', {
+          id: 'Service ID'
+        })}
+        linkText={t('in-applications:linkViewAllServices')}
+      />
+    );
+  }
   return (
     <>
       <ViewTrackingMeta
@@ -89,7 +103,6 @@ export default function ServiceDashboard({ location }) {
           pageRootName: pageNames.service_summary
         }}
       />
-
       <TabView
         HeaderComponent={Header}
         location={location}
@@ -105,15 +118,13 @@ export default function ServiceDashboard({ location }) {
         props={props}
       />
 
-      {showAlertButton && (
-        <FloatingActionButtons>
-          <CreateSmartAlert
-            serviceId={props.serviceId}
-            applicationId={props.applicationId}
-            location={location}
-            boundaryScope={props.boundaryScope}
-          />
-        </FloatingActionButtons>
+      {showAlertButton && props.applicationId && (
+        <CreateSmartAlert
+          serviceId={props.serviceId}
+          applicationId={props.applicationId}
+          location={location}
+          boundaryScope={props.boundaryScope}
+        />
       )}
 
       <Footer />
@@ -137,7 +148,7 @@ function Header(props) {
       title={t('in-applications:labelService')}
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
-      renderButtonLineSecondary={renderButtonLineSecondary}
+      renderButtonLineSecondary={RenderButtonLineSecondary}
       renderMetaInformation={renderMetaInformation}
       contextConfigurations={contextConfigurations}
       showHistoricDataWarning={false}
@@ -166,7 +177,6 @@ function renderButtonLine({ applicationId, serviceId, boundaryScope, timeConfig,
         applicationId={applicationId}
         serviceId={serviceId}
         boundaryScope={boundaryScope}
-        timeConfig={timeConfig}
         groupBy={createGroupBy('endpoint.name', DESTINATION)}
         formModel={filterByType(result.data.types)}
         includeSynthetic={get(result, ['data', 'synthetic'])}
@@ -175,7 +185,7 @@ function renderButtonLine({ applicationId, serviceId, boundaryScope, timeConfig,
   );
 }
 
-function renderButtonLineSecondary({
+function RenderButtonLineSecondary({
   applicationId,
   serviceId,
   timeConfig,
@@ -184,6 +194,7 @@ function renderButtonLineSecondary({
   onBoundaryStateChange,
   location
 }) {
+  const { trackApplicationTimeShiftSelected } = useApplicationTracker();
   return (
     <>
       <InstanaServiceToCloudfoundryApplicationButton
@@ -194,7 +205,7 @@ function renderButtonLineSecondary({
       <TimeShiftDropdown
         disabled={currentTab !== summaryTab}
         onChange={offset =>
-          applicationTimeShiftSelectTracker({
+          trackApplicationTimeShiftSelected({
             area: 'service',
             offset: getTimeShiftLabel({ offset: offset }),
             windowSize: timeConfig.windowSize,

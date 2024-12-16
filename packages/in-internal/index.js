@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import React from 'react';
 
 // features available on customer units
@@ -27,6 +27,7 @@ import SnapshotVersions from 'in-internal/thisUnit/SnapshotVersions/SnapshotVers
 import SyntheticsReader from 'in-internal/monitoringUnit/synthetics/SyntheticsReader';
 import SyntheticsWriter from 'in-internal/monitoringUnit/synthetics/SyntheticsWriter';
 import BeeInstanaIngestors from 'in-internal/monitoringUnit/sre/BeeInstanaIngestors';
+import TagProcessorState from 'in-internal/thisUnit/TagProcessor/TagProcessorState';
 import EumHealthProcessor from 'in-internal/monitoringUnit/eum/EumHealthProcessor';
 import LogHealthProcessor from 'in-internal/monitoringUnit/log/LogHealthProcessor';
 import SloViolations from 'in-internal/monitoringUnit/SloViolations/SloViolations';
@@ -52,6 +53,7 @@ import EntityStatistics from 'in-internal/thisUnit/EntityStatistics';
 import MetaElastic from 'in-internal/monitoringUnit/sre/MetaElastic';
 import EumAcceptor from 'in-internal/monitoringUnit/eum/EumAcceptor';
 import Hubforce from 'in-internal/monitoringUnit/hubforce/Hubforce';
+import FeatureFlags from 'in-internal/monitoringUnit/FeatureFlags';
 import Clickhouse from 'in-internal/monitoringUnit/sre/Clickhouse';
 import Cashiers from 'in-internal/monitoringUnit/cashier/Cashiers';
 import { internalMonitoringUnit } from 'in-services/featureFlags';
@@ -61,6 +63,7 @@ import UnitList from 'in-internal/monitoringUnit/units/UnitList';
 import FillerStats from 'in-internal/monitoringUnit/FillerStats';
 import Appdata from 'in-internal/monitoringUnit/Appdata/Appdata';
 import Acceptors from 'in-internal/monitoringUnit/sre/Acceptors';
+import TagSets from 'in-internal/thisUnit/TagProcessor/TagSets';
 import Metrics from 'in-internal/thisUnit/Metrics/Metrics';
 import Kafka from 'in-internal/monitoringUnit/sre/Kafka';
 import Unit from 'in-internal/monitoringUnit/unit/Unit';
@@ -192,6 +195,10 @@ export default function Internal() {
       ]
     : [];
   internalRoutes.push(
+    <Route key="internalFeatureFlags" path="/internal/featureflags">
+      <FeatureFlags />
+    </Route>,
+
     <Route key="internalSyntheticAcceptor" path="/internal/monitoringUnit/synthetics/SyntheticAcceptor">
       {wrapInInternalView(SyntheticsAcceptor)}
     </Route>,
@@ -228,8 +235,11 @@ export default function Internal() {
     <Route key="internalLanding" exact path="/internal">
       {wrapInInternalView(Landing)}
     </Route>,
-    <Route key="internalRedirect" path="*">
-      <Redirect to="/internal" />
+    <Route key="internalTagProcessorState" path="/internal/thisUnit/tagProcessorState">
+      {wrapInInternalView(TagProcessorState)}
+    </Route>,
+    <Route key="internalTagSets" path="/internal/thisUnit/tagSets">
+      {wrapInInternalView(TagSets)}
     </Route>
   );
   return internalRoutes;

@@ -6,7 +6,8 @@
 
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { DescriptionList, DescriptionItem } from '@instana/components';
+
 import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
@@ -28,6 +29,12 @@ export default function Info({ snapshot }) {
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.zCics.cicsplexName')}>
         {data.get('CICSplex_Region_Overview.cicsplex_name')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.zCics.serviceClassName')}>
+        {data.get('CICSplex_Region_Overview.service_class_name')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.zCics.summaryType')}>
+        {data.get('CICSplex_Region_Overview.summary_type')}
       </DescriptionItem>
     </DescriptionList>
   );

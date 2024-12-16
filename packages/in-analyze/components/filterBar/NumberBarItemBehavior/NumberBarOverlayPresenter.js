@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { showGt, showLt } from 'in-analyze/components/filterBar/NumberBarItemBehavior/util';
 import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';

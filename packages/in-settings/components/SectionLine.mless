@@ -13,4 +13,25 @@
   .marginBottom {
     margin-bottom: 1.25rem;
   }
+
+  .fullWidth {
+    position: relative;
+
+    &:after,
+    &:before {
+      background: var(--ids-color-option-neutral-300);
+      position: absolute;
+      content: '';
+      height: 1px;
+      width: 100%;
+    }
+
+    &:after {
+      right: -1.5rem;
+    }
+
+    &:before {
+      left: -1.5rem;
+    }
+  }
 }

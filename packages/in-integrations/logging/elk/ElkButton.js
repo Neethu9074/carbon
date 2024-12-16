@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { CarbonMenuItem, SvgIcon } from '@instana/components';
 
 import { isBlank } from 'in-services/util/string';
 
@@ -17,15 +17,13 @@ export default function ElkButton(props) {
   }
 
   return (
-    <Button
-      className={props.className}
-      kind="secondary"
-      icon="lib_elk"
-      target="_blank"
-      href={constructElkLink(integration, props)}
-    >
-      ELK
-    </Button>
+    <CarbonMenuItem
+      renderIcon={() => {
+        return <SvgIcon type="lib_elk" />;
+      }}
+      label="ELK"
+      onClick={() => window.open(constructElkLink(integration, props), '_blank')}
+    />
   );
 }
 

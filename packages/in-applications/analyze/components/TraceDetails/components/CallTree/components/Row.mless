@@ -14,7 +14,6 @@
 
   .row {
     transition: background 0.4s ease-in-out;
-    height: 3.5rem;
     padding: 0 5rem 0 0;
   }
 
@@ -67,11 +66,14 @@
   .expandIcon {
     border-radius: var(--ids-border-radius-option-small);
     min-width: 0.75rem;
+    max-width: max-content;
+    justify-content: start;
     min-height: 0.75rem;
     margin-right: 0.5rem;
     fill: var(--ids-color-option-teal-500);
     cursor: pointer;
     z-index: 1;
+    block-size: unset;
 
     &:hover {
       fill: #12978e;
@@ -93,6 +95,10 @@
     .ellipsis();
   }
 
+  .callLabelWrapper {
+    display: grid;
+  }
+
   .clickable {
     cursor: pointer;
     // This is to compensate for the horizontal growth that "collapses" elements
@@ -112,6 +118,7 @@
 
   .pillFixer {
     z-index: 2;
+    min-width: fit-content;
   }
 
   .dashedLine {
@@ -125,13 +132,20 @@
     position: relative;
   }
 
+  // only temporary until legacy is removed
+  .left {
+    :global(.legacyIconButton .iconButton--primary) {
+      padding: 0;
+    }
+  }
+
   .intermediateLine,
   .intermediateLine2,
   .lineEnd,
   .firstLine,
   .nodeTypeParent {
     position: absolute;
-    top: -1.78rem;
+    top: -1.6rem;
 
     margin-left: 8px;
     border-right: 1px solid @lineColor;

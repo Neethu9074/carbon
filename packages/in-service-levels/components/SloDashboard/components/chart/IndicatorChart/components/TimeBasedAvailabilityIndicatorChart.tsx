@@ -8,28 +8,29 @@ import React from 'react';
 
 import {
   AvailabilityBlueprintIndicator,
+  DateAsNumber,
   isApplicationSloEntity,
   isWebsiteSloEntity,
   Result,
   SloEntityUnion,
   TagFilterExpression,
   TimeConfig,
-  UnifiedMetricConfiguration
+  UnifiedMetricConfigurationUnion
 } from '@instana/types';
 import { generateStableHash } from '@instana/utils';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
+import { useLineWithThresholdAndMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThresholdAndMissingDataIndicator';
 import {
-  lineWithThreshold,
-  thresholdMetricId
-} from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThreshold';
-import { IndicatorChartProps } from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
+  copyFirstBucketOfSubsequentDataSeries,
+  filterMetricValuesWithinTimeWindow
+} from 'in-service-levels/components/SloDashboard/components/chart/utils';
+import { thresholdMetricId } from 'in-service-levels/components/SloDashboard/components/chart/renderer/lineWithThreshold';
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
-import { copyFirstBucketOfSubsequentDataSeries } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 import getUnifiedMetrics, { UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import useSliMetricConfiguration from 'in-service-levels/hooks/useSliMetricConfiguration';
@@ -46,10 +47,24 @@ import { pendingResult } from 'in-services/fixedObjects';
 
 const metricId = 'availability';
 
+interface TimeBasedAvailabilityIndicatorChartProps {
+  automaticallySize?: boolean;
+  customHeight?: number;
+  customChartSkeletonHeight?: number;
+  entity: SloEntityUnion;
+  indicator: AvailabilityBlueprintIndicator;
+  missingDataIndicator?: DateAsNumber;
+  title?: string;
+}
 export default function TimeBasedAvailabilityIndicatorChart({
+  automaticallySize,
+  customHeight,
+  customChartSkeletonHeight,
   entity,
-  indicator
-}: IndicatorChartProps<AvailabilityBlueprintIndicator>) {
+  indicator,
+  missingDataIndicator,
+  title
+}: TimeBasedAvailabilityIndicatorChartProps) {
   const { threshold } = indicator;
 
   const sloZoomInAction = useSloZoomInAction();
@@ -77,10 +92,18 @@ export default function TimeBasedAvailabilityIndicatorChart({
     ? applicationMetrics.errorRate.label
     : websiteMetrics.beaconErrorRate.label;
 
+  const filteredData = filterMetricValuesWithinTimeWindow(metricValues, timeConfig);
+
+  const renderer = useLineWithThresholdAndMissingDataIndicatorRenderer({
+    firstCollectedMetricTimestamp: missingDataIndicator
+  });
   return (
     <ResultAwareChart
       config={{
-        title: t('in-service-levels:sloDashboard.components.indicatorChart.title'),
+        automaticallySize,
+        customHeight,
+        customChartSkeletonHeight,
+        title,
         renderHistoricDataIndicator: true,
         hasApproximateData: true,
         approximateTooltipText: t(
@@ -92,11 +115,11 @@ export default function TimeBasedAvailabilityIndicatorChart({
         granularity: result.data?.[0]?.granularity ?? granularity,
         y1: {
           metricIds: [...timeWindows.map(() => metricId), thresholdMetricId],
-          metrics: [...metricValues, thresholdMetrics],
+          metrics: [...filteredData, thresholdMetrics],
           labels: [...timeWindows.map(() => metricLabel), t('in-service-levels:general.metrics.threshold')],
           colors: [...timeWindowColors, themes.default.ids.color.option.red['500']],
           formatter: percentage.detailed,
-          renderer: lineWithThreshold
+          renderer
         },
         timeConfig,
         renderPostChartContent: props => <SloDashboardMarkerLanes entity={entity} {...props} />
@@ -112,7 +135,7 @@ function getMetricConfig(
   indicator: AvailabilityBlueprintIndicator,
   tagFilterExpression: TagFilterExpression,
   granularity: number
-): UnifiedMetricConfiguration {
+): UnifiedMetricConfigurationUnion {
   if (isApplicationSloEntity(entity)) {
     return applicationMetrics.errorRate.timeSeries({
       entity,

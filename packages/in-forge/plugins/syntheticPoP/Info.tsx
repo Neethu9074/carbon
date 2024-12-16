@@ -6,7 +6,8 @@
 
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { DescriptionList, DescriptionItem } from '@instana/components';
+
 import { formatDateTime, fromNowAccurately } from 'in-services/formatters/date';
 import { t } from 'in-i18n';
 
@@ -46,6 +47,9 @@ export default function SyntheticPoPInfo({ snapshot }: { snapshot: any }) {
         {data.get('properties.redisTlsEnabled')
           ? t('in-forge:plugins.syntheticPoP.redisEnabled')
           : t('in-forge:plugins.syntheticPoP.redisDisabled')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.syntheticPoP.tenantType')}>
+        {data.get('properties.tenantType')}
       </DescriptionItem>
     </DescriptionList>
   );

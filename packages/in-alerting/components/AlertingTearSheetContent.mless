@@ -10,4 +10,8 @@
     padding-right: 2rem;
     padding-bottom: 2rem;
   }
+
+  .color900 {
+    color: var(--ids-color-option-neutral-900);
+  }
 }

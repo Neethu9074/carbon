@@ -1,0 +1,19 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .carbonLoadMore {
+    &:hover {
+      background: #fff;
+    }
+    display: grid;
+  }
+
+  .loadingSkeleton {
+    width: 100%;
+    height: 1rem;
+    display: block;
+  }
+}

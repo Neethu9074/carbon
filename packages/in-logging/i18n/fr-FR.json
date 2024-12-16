@@ -1,6 +1,7 @@
 {
   "logs": "Journaux",
   "sum": "somme",
+  "count": "nombre",
   "bar": "Barre",
   "logsOverTime": "Journaux au fil du temps",
   "logsOverTime_ERROR": "Erreur",
@@ -53,5 +54,31 @@
   "process": "Processus",
   "host": "Hôte",
   "fileOnHost": "sur",
-  "file": "Fichier"
+  "file": "Fichier",
+  "logExpiration": "Conservé jusqu'au",
+  "stacktraceLogMessage": "Trace de pile",
+  "logTraceTitle": "Trace de pile",
+  "stackTraceHeader": "Message Stacktrace",
+  "dashboard": {
+    "summary": "Récapitulatif",
+    "smartAlerts": "Alertes intelligentes",
+    "deleteLogs": "Supprimer les journaux",
+    "configuration": "Configuration",
+    "logVolume": {
+      "logVolumeTitle": "Volume journal du mois en cours",
+      "gb": "Go",
+      "logVolumeIcon": "Aller au volume journal"
+    },
+    "retentionIcon": "Modifier la durée de conservation",
+    "noData": "Aucune donnée disponible",
+    "analyzeLogs": "Analyser les journaux",
+    "configurationPage": {
+      "logVolume": "Volume de journal",
+      "logVolumeDescription": "Visualisez le volume des journaux sur une période pouvant aller jusqu'à 12 mois et regroupez-les par balise d'infrastructure à la demande.",
+      "logIntegrations": "Intégrations de journaux",
+      "logIntegrationsDescription": "Connectez vos solutions de gestion des journaux et configurez-les en fonction de vos besoins.",
+      "retentionPeriod": "Durée de conservation",
+      "retentionPeriodDescription": "La modification de la période de conservation a une incidence sur la durée pendant laquelle les journaux sont conservés et disponibles dans les applications, les tableaux de bord et les analyses, et a un impact sur les coûts et la facturation."
+    }
+  }
 }

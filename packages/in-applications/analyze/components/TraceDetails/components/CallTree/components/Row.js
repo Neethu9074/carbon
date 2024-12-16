@@ -6,9 +6,9 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { SvgIcon, Pill, IconButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
-import { SvgIcon } from '@instana/components';
 
 import { ShowHiddenParentNestingLevelNode } from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/ShowHiddenParentNestingLevelNode';
 import {
@@ -34,7 +34,6 @@ import CallTimeAxis from 'in-applications/analyze/components/TraceDetails/compon
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { shorten } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './Row.mless';
@@ -300,7 +299,8 @@ function CallInformation(props) {
       >
         <HorizontalLine depth={depth} marginLeft={marginLeft} lineWidth={lineWidth} isOrphan={call.isOrphan} />
         {hasChildren && (
-          <SvgIcon
+          <IconButton
+            kind="primary"
             className={locals.expandIcon}
             type={isExpanded ? 'lib_openclose_remove_box' : 'lib_openclose_add_box'}
             aria-label={t('in-analyze:traceDetail.components.callTree.expandButtonForRow')}
@@ -310,25 +310,29 @@ function CallInformation(props) {
         )}
         <ErrorIndicator erroneous={call.errorCount} />
         <Tooltip themeStyle="light" content={shorten(call.label)}>
-          <span
-            className={classNames({
-              [locals.label]: true,
-              [locals.labelSelected]: isOpened,
-              [locals.clickable]: onCallClicked != null
-            })}
-            onClick={onCallClicked ? () => onCallClicked(call) : () => {}}
-          >
-            {call.label || 'Undefined'}
-          </span>
+          <div className={locals.callLabelWrapper}>
+            <span
+              className={classNames({
+                [locals.label]: true,
+                [locals.labelSelected]: isOpened,
+                [locals.clickable]: onCallClicked != null
+              })}
+              onClick={onCallClicked ? () => onCallClicked(call) : () => {}}
+            >
+              {call.label || 'Undefined'}
+            </span>
+          </div>
         </Tooltip>
         {call.batchSize > 1 && (
           <Tooltip
             themeStyle="light"
             content={`This call is batched and represents ${call.batchSize} individual calls.`}
           >
-            <Pill className={locals.batchSizeIndicator} kind="lighter">
-              {call.batchSize}
-            </Pill>
+            <div>
+              <Pill className={locals.batchSizeIndicator} kind="lighter">
+                {call.batchSize}
+              </Pill>
+            </div>
           </Tooltip>
         )}
         {!isUnknownTypeSpan(call) && call.endpoint && (

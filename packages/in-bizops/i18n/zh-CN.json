@@ -1,7 +1,7 @@
 {
   "labelBizOps": "进程",
-  "labelSmartAlerts": "智能警报",
-  "labelActivities": "活动",
+  "labelPerspectives": "透视图",
+  "labelPerspective": "透视图",
   "components": {
     "count": "计数"
   },
@@ -15,8 +15,61 @@
     "noData": "无可用数据",
     "healthLabel": "运行状况",
     "startLabel": "开始",
+    "latencyLabel": "等待时间",
     "unnamedActivity": "（未命名的活动）{{activityType}}",
     "unnamedService": "(未命名服务)"
+  },
+  "customDashboards": {
+    "activityCountMetric": "活动计数",
+    "erroneousActivityCallsCountLabel": "错误活动调用（计数）",
+    "erroneousActivityCallsCategory": "错误的活动调用",
+    "erroneousActivityCallsRateLabel": "错误活动调用（比率）",
+    "latency": "等待时间"
+  },
+  "processes": {
+    "deployAgent": "部署代理程序",
+    "noProcessesAvailable": "没有业务流程可用。",
+    "deployAgentFirst": "您需要先部署一个代理。",
+    "forMoreInformation": "如需了解更多信息，请阅读",
+    "documentation": "文档中提供。"
+  },
+  "perspectives": {
+    "newPerspective": "创建透视图",
+    "lists": {
+      "perspectives": "业务透视图",
+      "descriptionLabel": "描述",
+      "numberProcessesLabel": "流程数"
+    },
+    "processesLiveList": {
+      "title": "匹配的业务流程",
+      "empty": "添加过滤器以构建业务透视图",
+      "invalidQuery": "查询无效",
+      "noMatchedProcesses": "未找到匹配的业务流程",
+      "loadingStateLabel": "正在加载流程"
+    },
+    "dialog": {
+      "title": "新建业务透视图",
+      "stepOne": {
+        "progressBarTitle": "步骤 1：过滤业务流程，构建业务透视图",
+        "headline": "过滤业务流程，构建业务透视图",
+        "queryBuilderTitle": "业务流程"
+      },
+      "stepTwo": {
+        "progressBarTitle": "步骤 2：提供详细信息",
+        "headline": "提供详细信息",
+        "perspectiveName": "透视图名称",
+        "perspectiveDescription": "描述"
+      }
+    },
+    "errorMessages": {
+      "tagFilterExpressionMustNotBeEmpty": "业务透视图必须至少有一个过滤器",
+      "createOperationFailed": "创建操作失败",
+      "unableToCreatePerspective": "我们无法为您创建业务透视图。 请重试。"
+    },
+    "successMessages": {
+      "businessPerspectiveCreated": "创建业务透视图",
+      "perspectiveWasSuccessfullyCreated": "已成功创建“{{perspectiveName}}”。"
+    }
   },
   "navigation": {
     "businessMonitoring": "业务监视"
@@ -42,12 +95,14 @@
     "activity": {
       "pageTitle": "业务活动",
       "summaryTab": "摘要",
+      "servicesTab": "服务",
       "widgets": {
         "duration": "持续时间",
         "activityCount": "计数",
         "activityErrors": "错误",
         "topServices": "排名靠前的服务",
-        "activityLatency": "等待时间"
+        "activityLatency": "等待时间",
+        "viewAll": "查看所有服务"
       },
       "timespans": {
         "minute": "1 分钟",
@@ -55,6 +110,34 @@
         "day": "1 天",
         "week": "1 周"
       }
+    },
+    "perspectives": {
+      "pageTitleDefault": "业务透视图",
+      "processes": {
+        "tabLabel": "业务流程"
+      },
+      "configuration": {
+        "tabLabel": "配置",
+        "loadingText": "正在加载数据",
+        "updateCardLabel": "更新业务透视图",
+        "stepOneHeader": "1. 编辑名称和描述",
+        "perspectiveName": "透视图名称",
+        "perspectiveDescription": "描述",
+        "stepTwoHeader": "2. 编辑过滤器",
+        "saveChangesButton": "保存",
+        "removeCardLabel": "移除业务透视图",
+        "removePerspectiveDisclaimer": "如果您不想再使用此业务透视图，请单击“移除业务透视图”。",
+        "removePerspectiveCheckbox": "我知道此操作无法撤销",
+        "removePerspectiveButton": "移除业务透视图",
+        "businessPerspectiveDeleted": "业务透视图已移除",
+        "businessPerspectiveDeletedDetails": "已成功移除“{{perspectiveName}}”。",
+        "businessPerspectiveUpdated": "业务透视图已更新",
+        "businessPerspectiveUpdatedDetails": "已编辑“{{perspectiveName}}”，并且已保存您的更改。",
+        "error": "错误"
+      }
+    },
+    "flowMap": {
+      "tabLabel": "流程"
     }
   }
 }

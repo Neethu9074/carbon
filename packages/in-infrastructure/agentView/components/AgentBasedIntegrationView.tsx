@@ -7,7 +7,7 @@
 import React, { Fragment } from 'react';
 import { useState } from 'react';
 
-import { Stack, SvgIcon, Typography, Link } from '@instana/components';
+import { Stack, SvgIcon, Typography, Link, RadioButton } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
 // @ts-expect-error Module needs to be translated to TS
@@ -17,9 +17,7 @@ import { Bash } from 'in-waiting-for-deployment/components/OnboardingWidget/cont
 import FormFooter, { SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { close } from 'in-components/DialogPresenter/store';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import Tooltip from 'in-components/Tooltip';
 import { Trans, t } from 'in-i18n';
 
@@ -61,9 +59,7 @@ const AgentBasedIntegrationView = () => {
           <Description lines={[t('in-infrastructure:agentView.support')]} />
           <Listing
             items={[
-              <div>
-                {t('in-infrastructure:agentView.sap')} <BetaBadge />
-              </div>,
+              <div>{t('in-infrastructure:agentView.sap')}</div>,
               t('in-infrastructure:agentView.omegamon'),
               t('in-infrastructure:agentView.itmv6'),
               <Stack direction="horizontal" gap="xsmall" align="center">
@@ -90,19 +86,17 @@ const AgentBasedIntegrationView = () => {
               className={locals.archBox}
             >
               <Stack direction="vertical" gap="xsmall">
-                <CheckboxFancy
+                <RadioButton
                   label={t('in-infrastructure:agentView.amd64')}
                   checked={architecture === architectureOptions[0]}
                   onChange={() => setArchitecture(architectureOptions[0])}
                   size="default"
-                  asRadioButton
                 />
-                <CheckboxFancy
+                <RadioButton
                   label={t('in-infrastructure:agentView.s360x')}
                   checked={architecture === architectureOptions[1]}
                   onChange={() => setArchitecture(architectureOptions[1])}
                   size="default"
-                  asRadioButton
                 />
               </Stack>
             </LightCard>

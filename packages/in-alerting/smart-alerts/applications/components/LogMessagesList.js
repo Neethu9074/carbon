@@ -49,20 +49,39 @@ export default function LogMessagesList({
   includeSynthetic = false,
   timeConfig,
   onLogMessageSelect,
-  slideOut
+  slideOut,
+  pageSize = 10,
+  logsTearsheetColumns = [],
+  header = null,
+  currentPage = 1,
+  setCurrentPage,
+  tearSheetView
 }) {
   return (
     <List
       key={Math.random()} // It's save to trigger a reload this way because results are memoized in the backend.
-      getHeader={() => ''}
+      getHeader={() => header}
       searchAttributes={[entity => entity.message]}
       getEntityName={config => config.message}
-      columnDefinitions={columnDefinitions}
+      columnDefinitions={
+        logsTearsheetColumns?.length > 0
+          ? getColumnDefinition(logsTearsheetColumns, columnDefinitions[1])
+          : columnDefinitions
+      }
       loadEntities={() =>
-        isEmpty(applications)
-          ? just([]) // Show on–no–data message
+        !tearSheetView
+          ? isEmpty(applications)
+            ? just([]) // Show on–no–data message
+            : getTableData({
+                applicationIds: Object.keys(applications),
+                applicationBoundaryScope,
+                includeInternal,
+                includeSynthetic,
+                tagFilterExpression,
+                timeConfig
+              })
           : getTableData({
-              applicationIds: Object.keys(applications),
+              applicationIds: !isEmpty(applications) ? Object.keys(applications) : undefined,
               applicationBoundaryScope,
               includeInternal,
               includeSynthetic,
@@ -70,13 +89,15 @@ export default function LogMessagesList({
               timeConfig
             })
       }
-      pageSize={10}
+      pageSize={pageSize ?? 10}
       noDataMessage={t('in-alerting:smartAlerts.applications.logMessages.noDataMessage')}
       onRowClick={log => {
         onLogMessageSelect(log.message, log.level);
         slideOut();
       }}
       isSearchable
+      initialPageNumber={currentPage}
+      onPageChange={page => setCurrentPage(page)}
     />
   );
 }
@@ -89,7 +110,13 @@ LogMessagesList.propTypes = {
   includeSynthetic: PropTypes.bool,
   onLogMessageSelect: PropTypes.func.isRequired,
   slideOut: PropTypes.func.isRequired,
-  timeConfig: propTypeTimeConfig.isRequired
+  timeConfig: propTypeTimeConfig.isRequired,
+  pageSize: PropTypes.number,
+  logsTearsheetColumns: PropTypes.array,
+  header: PropTypes.element,
+  currentPage: PropTypes.number,
+  setCurrentPage: PropTypes.func,
+  tearSheetView: PropTypes.bool
 };
 
 function getTableData(kvArgs) {
@@ -174,7 +201,9 @@ function buildTagFilterExpression({ applicationIds, logLevel, tagFilterExpressio
       expressions: [
         joinExpressions({
           logicalOperator: or,
-          expressions: applicationIds.map(id => createApplicationIdTagFilter(id, applicationBoundaryScope))
+          expressions: applicationIds
+            ? applicationIds.map(id => createApplicationIdTagFilter(id, applicationBoundaryScope))
+            : undefined
         }),
         tagFilter('log.level', 'EQUALS', logLevel),
         tagFilterExpression
@@ -185,8 +214,12 @@ function buildTagFilterExpression({ applicationIds, logLevel, tagFilterExpressio
 
 function LogRow(item) {
   return (
-    <Tooltip content={item.message} align="topLeft" delay={500}>
+    <Tooltip content={item.message} delay={500} align="auto" forceTheme>
       <div className={locals.row}>{item.message}</div>
     </Tooltip>
   );
+}
+
+function getColumnDefinition(logsTearsheetColumns, columnDefinitions) {
+  return [...logsTearsheetColumns, columnDefinitions];
 }

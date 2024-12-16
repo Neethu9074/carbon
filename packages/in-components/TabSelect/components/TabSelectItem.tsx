@@ -8,10 +8,9 @@ import React, { PropsWithChildren } from 'react';
 import { isUndefined } from 'lodash';
 import classNames from 'classnames';
 
-import { Li } from '@instana/components';
+import { Li, RadioButton } from '@instana/components';
 
 import { PanelIdBase, useTabSelectContext } from 'in-components/TabSelect/context';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 
 import locals from './TabSelect.mless';
 
@@ -62,13 +61,7 @@ export function TabSelectItem<PanelId extends PanelIdBase>({
     >
       <div className={classNames(locals.itemBody, { [locals.itemDisabled]: disabled })}>
         {withRadioButton ? (
-          <CheckboxFancy
-            label={children}
-            checked={isActive}
-            onChange={onClickHandler}
-            disabled={disabled}
-            asRadioButton
-          />
+          <RadioButton label={children} checked={isActive} onChange={onClickHandler} disabled={disabled} />
         ) : (
           children
         )}

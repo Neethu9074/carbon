@@ -7,13 +7,8 @@ import React, { Fragment, useState } from 'react';
 
 import { Card, Link, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
-import {
-  showMobileAppDetailsInTraceView,
-  hideMobileAppDetailsInTraceView,
-  navigateToSessionFromBackendTrace
-} from 'in-mobile-apps/tracker';
 import { useGetLinkToMobileApp, useLinkToAnalyze, useLinkToSession } from 'in-mobile-apps/navigation/paths';
 import BeaconUserSummary from 'in-mobile-apps/analyze/BeaconUserSummary/BeaconUserSummary';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
@@ -21,6 +16,7 @@ import { getAdjustedTimeConfigToIncludeTimestamp } from 'in-stores/time/config';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { useMobileTracker } from 'in-mobile-apps/tracking/segTracker';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { tryGet, trySet } from 'in-services/localStorage';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -33,6 +29,8 @@ import locals from './MobileAppMonitoringData.mless';
 const localStorageKey = 'traceView.showMobileAppMonitoringData';
 
 export default function MobileAppMonitoringData({ traceId, startTime }) {
+  const { showMobileAppDetailsInTraceView, hideMobileAppDetailsInTraceView, navigateToSessionFromBackendTrace } =
+    useMobileTracker();
   const [showDetails, setDetails] = useState(tryGet(localStorageKey) !== 'false');
   const getLinkToMobileAppSession = useLinkToSession();
   const getLinkToMobileAppAnalyze = useLinkToAnalyze();

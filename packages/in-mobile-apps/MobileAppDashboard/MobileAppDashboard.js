@@ -6,7 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import MobileHealthIndicatorBehavior from 'in-mobile-apps/MobileAppDashboard/components/MobileHealthIndicatorBehavior/MobileHealthIndicatorBehavior';
 import { mobileAppPath, mobileAppPathFullyQualified, useLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
@@ -14,16 +14,20 @@ import { mobileAppId as matrixMobileAppId, viewId as matrixViewId } from 'in-mob
 import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 import MobileAppContextIcon from 'in-mobile-apps/MobileAppDashboard/components/MobileAppContextIcon';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
+import { dashboardTagFilters as tagFiltersTrackers } from 'in-mobile-apps/tracking/segTracker';
 import MobileAppContext from 'in-mobile-apps/MobileAppDashboard/components/MobileAppContext';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { tagFiltersInDashboardUrlParameter } from 'in-mobile-apps/navigation/urlParameters';
+import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { mobileAppTabs, viewTabs } from 'in-mobile-apps/MobileAppDashboard/tabs/index';
 import CreateSmartAlert from 'in-alerting/smart-alerts/mobileApp/CreateSmartAlert';
-import { dashboardTagFilters as tagFiltersTrackers } from 'in-mobile-apps/tracker';
 import QuickFilterBar from 'in-mobile-apps/analyze/AnalyzeView/QuickFilterBar';
+import { alertsTabListFullyQualified } from 'in-mobile-apps/navigation/paths';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useTagFilterManipulators } from 'in-mobile-apps/tagFiltersHoc';
+import { useMobileTracker } from 'in-mobile-apps/tracking/segTracker';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -33,19 +37,20 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { getTimeConfig } from 'in-stores/time/config';
-import { tabChange } from 'in-mobile-apps/tracker';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-components/Footer';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-const urlStateDefinition = {
+export const urlStateDefinition = {
   bind: [{ ...tagFiltersInDashboardUrlParameter, as: 'tagFilters' }],
   replaceHistory: false,
   reducerName: 'onChange'
 };
 
 export default function MobileAppDashboard() {
+  const { tabChange } = useMobileTracker();
+  const { trackCta } = useSegmentTracking();
   const location = useLocation();
   const [{ tagFilters: customTagFilters }, setUrl] = useUrlState(urlStateDefinition);
 
@@ -60,7 +65,7 @@ export default function MobileAppDashboard() {
       tagFilters: tagFilters.filter(f => f.name !== 'mobileBeacon.mobileApp.id' && f.name !== 'mobileBeacon.view.name')
     });
 
-  const tagFilterManipulators = useTagFilterManipulators(tagFiltersTrackers, customTagFilters, setUrlNew);
+  const tagFilterManipulators = useTagFilterManipulators(tagFiltersTrackers(trackCta), customTagFilters, setUrlNew);
   const props = {
     mobileAppId: getMatrixParameter(location, mobileAppPath, matrixMobileAppId),
     viewId: getMatrixParameter(location, mobileAppPath, matrixViewId),
@@ -86,9 +91,15 @@ export default function MobileAppDashboard() {
   }
 
   const tagFilters = (props.tagFilters = customTagFilters.concat(implicitTagFilters));
+
+  // hide the SA floating button from the alerts listing page, as the create button is now displayed alongside the table
+  const displayCarbonTable = smartAlertCarbonTableEnabled && carbonTableEnabled;
+  const hideButtonInTableView = displayCarbonTable ? location.pathname !== alertsTabListFullyQualified : true;
+
   const showAlertButton =
     role.canConfigureMobileAppSmartAlerts &&
-    !location.pathname.includes('/mobileAppMonitoring/mobileApp/configuration');
+    !location.pathname.includes('/mobileAppMonitoring/mobileApp/configuration') &&
+    hideButtonInTableView;
 
   return (
     <>
@@ -176,8 +187,9 @@ function ButtonLine({ viewId, mobileAppId, timeConfig, tagCatalogSessionStart, m
       />
       {viewId && (
         <Button
-          kind="primary"
+          kind="action"
           icon="lib_mobile_app_view"
+          size="compact"
           href={
             tagCatalogSessionStart &&
             getLinkToMobileAppAnalyze({
@@ -197,8 +209,9 @@ function ButtonLine({ viewId, mobileAppId, timeConfig, tagCatalogSessionStart, m
 
       {!viewId && (
         <Button
-          kind="primary"
+          kind="action"
           icon="lib_mobile_app_session"
+          size="compact"
           href={
             tagCatalogSessionStart &&
             getLinkToMobileAppAnalyze({

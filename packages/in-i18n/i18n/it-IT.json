@@ -1,9 +1,17 @@
 {
   "components": {
+    "uiShell": {
+      "mainNavigation": "Navigazione principale"
+    },
     "list": {
       "loadMore": "Carica altro",
+      "expand": "Espandi",
+      "collapse": "Comprimi",
       "toggleExtraContent": "Attiva/disattiva contenuto supplementare",
       "initiateDefaultAction": "Avvia azione predefinita"
+    },
+    "link": {
+      "opensInNewTab": "(si apre in una nuova scheda)"
     },
     "table": {
       "tableErrorRows": {
@@ -11,13 +19,43 @@
       },
       "tableLoadMoreRow": {
         "loadMore": "Carica altro"
-      }
+      },
+      "dataTable": "Tabella dati",
+      "expandHeader": "Espandi riga",
+      "expandRow": "Attiva/disattiva espansione riga",
+      "select": "seleziona riga",
+      "selectedRow": "Riga selezionata"
+    },
+    "tableSkeleton": {
+      "sampleTable": "Tabella di esempio"
     },
     "code": {
       "copy": "Copia",
       "copied": "Copiato.",
       "showMore": "Mostra altro",
-      "showLess": "Mostra meno"
+      "showLess": "Mostra meno",
+      "copytoboard": "Copia negli appunti"
+    },
+    "menu": {
+      "sideNavigation": "Navigazione laterale"
+    },
+    "dropDown": {
+      "selectOption": "Selezionare un'opzione"
+    },
+    "tabsNavigation": {
+      "pageNavigation": "Navigazione pagina"
+    },
+    "plg": {
+      "dashboardTable": {
+        "dataTableToolbar": "barra degli strumenti della tabella dati"
+      },
+      "tableTabs": {
+        "listOfTabs": "Elenco di schede"
+      }
+    },
+    "pill": {
+      "privatePreview": "Anteprima",
+      "publicPreview": "Anteprima"
     }
   },
   "formatDate": {
@@ -49,14 +87,17 @@
   "forms": {
     "actions": {
       "save": "Salva",
+      "saveIntegration": "Salva e abilita",
       "cancel": "Annulla",
       "create": "Crea",
       "delete": "Elimina",
       "close": "Chiudi",
-      "submit": "Inoltra"
+      "submit": "Inoltra",
+      "previous": "Precedente"
     },
     "states": {
-      "saving": "Salvataggio in corso..."
+      "saving": "Salvataggio in corso...",
+      "loading": "Caricamento…"
     }
   },
   "language_en-US": "Inglese",
@@ -82,6 +123,7 @@
   "aggregation_MAX": "max",
   "aggregation_DISTINCT_COUNT": "conteggio distinto",
   "aggregation_SUM": "somma",
+  "aggregation_INCREASE": "aumentare",
   "aggregation_DISTRIBUTION": "distribuzione",
   "aggregation_PER_SECOND": "al secondo"
 }

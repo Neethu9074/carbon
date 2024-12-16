@@ -6,6 +6,7 @@
   "labelAnalytic": "Analitica",
   "labelCall": "Chiamata",
   "labelTrace": "Traccia",
+  "labelStatus": "Stato",
   "linkDownload": "Scarica",
   "linkDownloadCalls": "Chiamate di download",
   "linkDownloadRawTrace": "Scarica traccia non elaborata",
@@ -122,6 +123,7 @@
   "messageSuccessfullySaved": "Salvataggio eseguito correttamente.",
   "messageErrorOccurred": "Si è verificato un errore, riprovare.",
   "messageWaitForChanges": "L'applicazione delle modifiche apportate potrebbe richiedere un po' di tempo.",
+  "linkViewAllApplications": "Visualizza tutte le applicazioni",
   "linkViewAllServices": "Visualizza tutti i servizi",
   "linkViewAllEndpoints": "Visualizza tutti gli endpoint",
   "lineViewInAnalyze": "Visualizza in Analizza",
@@ -151,6 +153,33 @@
   },
   "applications": {
     "noData": "Le prospettive applicazione forniscono uno strumento per modellare ambienti, insiemi di servizi, tenant o altro."
+  },
+  "subtraces": {
+    "labelSubtraces": "Sottotracce",
+    "labelSubtrace": "Sottotraccia",
+    "newSubtrace": "Aggiungi una sottotraccia",
+    "subtracesList": {
+      "name": "Nome",
+      "count": "Conteggio",
+      "meanDuration": "Durata media",
+      "meanSubcallCount": "Numero medio di sottochiamate",
+      "meanErrorRate": "Tasso di errore medio"
+    },
+    "configuration": {
+      "success": {
+        "title": "Sottotraccia {{action}} con successo",
+        "message": "La sottotraccia{{subtraceName}}\" è stata {{action}}."
+      },
+      "failure": {
+        "title": "Impossibile {{action}} Sottotraccia",
+        "message": "Si è verificato un problema durante il tentativo di {{action}} di questa sottotraccia:{{subtraceName}}\""
+      },
+      "title": "Aggiornamento della sottotraccia",
+      "subtraceName": "Nome della sottotraccia",
+      "subtraceFilter": "Definizione di sottotraccia",
+      "evaluationGranularity": "Granularità valutazione",
+      "evaluationGranularityValidationError": "Selezionare un valore per la granularità della valutazione"
+    }
   },
   "alert": {
     "tooltipMoreFilter": "+{{moreFilterCount}} filtro aggiuntivo",
@@ -209,6 +238,8 @@
     "closeTraceDetail": "Chiudi dettagli traccia",
     "invalidQueryConfig": "La configurazione della query non è valida. Correggere gli errori di convalida prima di continuare.",
     "invalidTraceIdTagFilter": "L'ID traccia \"{{traceId}}\" non è valido. Specificare un ID traccia valido con una lunghezza di 16 o 32 caratteri.",
+    "disabledApiQueryLatencyDistributionChart": "La distribuzione della latenza non è supportata dalla query API. Selezionare prima un grafico differente.",
+    "disabledApiQueryNoChart": "Impossibile utilizzare la query API senza la selezione del grafico. Selezionare prima un grafico.",
     "errorRateLabel": "Chiamate con errori (tasso)",
     "errorRateCategory": "Chiamate con errori",
     "errorMetricLabel": "Tasso di chiamate con errori",
@@ -244,7 +275,8 @@
     "dataSource_calls_plural": "{{formattedCount}} di chiamate",
     "dataSource_traces": "{{formattedCount}} di tracce",
     "dataSource_traces_plural": "{{formattedCount}} di tracce",
-    "analyzeCallsOfThisTrace": "Analizza chiamate di questa traccia"
+    "analyzeCallsOfThisTrace": "Analizza chiamate di questa traccia",
+    "noAvailableCustomMetrics": "Nessuna metrica personalizzata disponibile"
   },
   "creation": {
     "newAP": "Nuova prospettiva applicazione",
@@ -456,7 +488,9 @@
       "logMessagesDescription": "Non è stato richiamato alcun messaggio di log per l'intervallo di tempo selezionato.",
       "endpointsTitle": "Nessun endpoint disponibile",
       "endpointsDescription": "Non è stato richiamato alcun endpoint per l'intervallo di tempo selezionato."
-    }
+    },
+    "pageCannotBeFound": "Impossibile trovare la pagina",
+    "idNotPresent": "{{id}} non è presente nell'URL."
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "Il servizio non si trova nell'applicazione corrente.",
@@ -627,6 +661,8 @@
     "calls_latency": "Latenza",
     "calls_erroneousCalls": "Chiamate con errori",
     "calls_errors": "Tasso di chiamate con errori",
+    "calls_call_metric": "Metriche di chiamata personalizzate",
+    "calls_call_meta_metrics": "Metriche meta",
     "traces_calls": "Tracce",
     "traces_traces": "Tracce",
     "traces_latency": "Latenza",
@@ -678,5 +714,21 @@
     "alternativeServicesProblem": "<bold>No</bold>, se il nome del servizio corrente proviene dall'intestazione \"Host\" HTTP (regola di associazione dei servizi il cui l'ID è call.http.host) ma il nome del servizio alternativo no (poiché il relativo nome proviene da una regola che si basa sui tag dell'infrastruttura), o viceversa. Questi sono servizi duplicati.",
     "alternativeServicesPossibleProblem": "<bold>Forse</bold>, se il servizio corrente e i nomi dei servizi alternativi non provengono dall'intestazione \"Host\" HTTP, quindi sono servizi che risiedono dietro un proxy (validi) o sono servizi duplicati (non validi): alcuni dei servizi sono completamente collegati all'infrastruttura mentre altri sono collegati all'infrastruttura in modo parziale."
   },
-  "labelSyntheticMonitoring": "Monitoraggio sintetico"
+  "infoBanner": {
+    "title": "Azioni sulle risorse, gestite da Turbonomic",
+    "tryLabel": "Provare prima di acquistare",
+    "tryText": "Avviate una prova gratuita per vedere come le azioni sulle risorse possono aiutare le vostre applicazioni.",
+    "tryButtonLabel": "Avviare una prova",
+    "learnLabel": "Ulteriori informazioni",
+    "learnText": "Consultate alcuni blog e altri media per rimanere aggiornati su questa funzione.",
+    "learnButtonLabel": "Visitateci online",
+    "connectLabel": "Connettersi con le vendite",
+    "connectText": "Contattate il nostro team di vendita e comunicategli il vostro interesse.",
+    "connectButtonLabel": "Acquista ora",
+    "helpLabel": "Aiutateci a crescere",
+    "helpText": "Condividete i vostri pensieri con noi, in modo da poter continuare a fornire le funzioni che più desiderate.",
+    "helpButtonLabel": "Fornisci un feedback"
+  },
+  "labelSyntheticMonitoring": "Monitoraggio sintetico",
+  "labelResourceOptimizations": "Ottimizzazioni"
 }

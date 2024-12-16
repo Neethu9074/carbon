@@ -14,7 +14,6 @@ import {
   StatusCodeWebsiteAlertRule,
   ThresholdConfig,
   ThresholdOperator,
-  WebsiteAlertConfig,
   WebsiteAlertRule,
   isStaticThresholdConfig,
   TagFilter
@@ -34,6 +33,7 @@ import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/tr
 // @ts-expect-error needs conversion to TS
 import { availableFilterTags } from 'in-websites/tags';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { WebsiteSmartAlertConfig } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { millis, number, NumberFormatter, percentage } from 'in-services/formatters/number';
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
@@ -82,11 +82,11 @@ interface BluePrintBase {
   readonly thresholdDefaults: { readonly operator: ThresholdOperator };
   readonly getThresholdTypeOptions: () => ThresholdTypeOptions;
 
-  readonly getEntityTagFilterFormModel: (alertConfig: WebsiteAlertConfig) => TagFilter;
+  readonly getEntityTagFilterFormModel: (alertConfig: WebsiteSmartAlertConfig) => TagFilter;
 
   readonly getRuleTagFilterFormModel: (alertRule: WebsiteAlertRule) => FormModelElement[];
   readonly getExtraAnalyzeLinkTagFilterFormModel: (
-    alertConfig: WebsiteAlertConfig,
+    alertConfig: WebsiteSmartAlertConfig,
     timeConfig: FixedTimeConfig,
     adaptiveBaselineInfo?: Record<string, number>
   ) => FormModelElement[];
@@ -143,7 +143,7 @@ const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
   thresholdDefaults: {
     operator: '>='
   } as const,
-  getEntityTagFilterFormModel: (alertConfig: WebsiteAlertConfig) =>
+  getEntityTagFilterFormModel: (alertConfig: WebsiteSmartAlertConfig) =>
     tagFilter('beacon.website.id', EQUALS, alertConfig.websiteId),
   getRuleTagFilterFormModel: () => [],
   getExtraAnalyzeLinkTagFilterFormModel: () => []
@@ -336,6 +336,12 @@ export function getBlueprintConfig(alertType: WebsitesAlertType): BluePrint {
   return config;
 }
 
+// Radio buttons need a unique string id
+// type alone is not unique when subType is defined
+export function idFromBluePrint(item: BluePrint): string {
+  return `${item.type}_${item.subType || ''}`;
+}
+
 export function getSimpleModeBlueprintConfig(
   alertType: WebsitesAlertType,
   alertThreshold: ThresholdConfig
@@ -350,7 +356,7 @@ function isCustomRateMetric(metricName: MetricName | string): boolean {
 }
 
 function getExtraSlownessAnalyzeLinkTagFilterFormModel(
-  alertConfig: WebsiteAlertConfig,
+  alertConfig: WebsiteSmartAlertConfig,
   timeConfig: FixedTimeConfig,
   adaptiveBaselineInfo = {}
 ): FormModelElement[] {

@@ -18,11 +18,13 @@ import { t } from 'in-i18n';
 export default function IndicatorApplicationCustomFilters() {
   const { form, mode, onChange } = useContext(SloFormContext);
 
-  const entityIdField = form.getIn(['entity', 'entityId']);
+  const entityIdField = form.getIn(['entity', 'entityIds']);
   const boundaryScopeField = form.getIn(['scope', 'boundaryScope']);
   const goodEventsFilterExpressionField = form.getIn(['indicator', 'goodEventsFilter']);
   const badEventsFilterExpressionField = form.getIn(['indicator', 'badEventsFilter']);
   const isEditMode = mode === 'EDIT';
+
+  const applicationId = entityIdField.value[0];
 
   return (
     <Stack gap="small">
@@ -36,7 +38,7 @@ export default function IndicatorApplicationCustomFilters() {
           </Typography>
           {isEditMode && (
             <TagFilterQueryBuilder
-              applicationId={entityIdField.value}
+              applicationId={applicationId}
               boundaryScope={boundaryScopeField.value}
               value={goodEventsFilterExpressionField.value}
               readOnly
@@ -44,7 +46,7 @@ export default function IndicatorApplicationCustomFilters() {
           )}
           {!isEditMode && (
             <ClearableTagFilterQueryBuilder
-              applicationId={entityIdField.value}
+              applicationId={applicationId}
               boundaryScope={boundaryScopeField.value}
               value={goodEventsFilterExpressionField.value}
               onChange={newFilterExpression =>
@@ -61,7 +63,7 @@ export default function IndicatorApplicationCustomFilters() {
           </Typography>
           {isEditMode && (
             <TagFilterQueryBuilder
-              applicationId={entityIdField.value}
+              applicationId={applicationId}
               boundaryScope={boundaryScopeField.value}
               value={badEventsFilterExpressionField.value}
               readOnly
@@ -69,7 +71,7 @@ export default function IndicatorApplicationCustomFilters() {
           )}
           {!isEditMode && (
             <ClearableTagFilterQueryBuilder
-              applicationId={entityIdField.value}
+              applicationId={applicationId}
               boundaryScope={boundaryScopeField.value}
               value={badEventsFilterExpressionField.value}
               onChange={newFilterExpression =>

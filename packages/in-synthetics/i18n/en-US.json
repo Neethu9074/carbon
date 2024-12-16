@@ -10,7 +10,8 @@
         "step1": "Step 1: Select type",
         "step2": "Step 2: Request details",
         "step3": "Step 3: Scheduling",
-        "step4": "Step 4: Provide details"
+        "step4": "Step 4: Provide details",
+        "step5": "Step5: Associate"
       },
       "selectTest": {
         "title": "What kind of synthetic test would you like to create"
@@ -39,7 +40,9 @@
         "labelName": "Name of the test",
         "labelDescription": "Description",
         "labelFrequency": "Frequency (minute)",
-        "labelApplications": "Select an Application"
+        "labelFrequencyHour": "Frequency (hour)",
+        "labelApplication": "Select an Application",
+        "labelApplications": "Select Applications"
       },
       "bluePrint": {
         "title": "When to use?",
@@ -98,7 +101,7 @@
         },
         "certificateCheck": {
           "whenToUse": {
-            "line1": "Check whether the website certificate is going to expire or not using this script"
+            "line1": "Check whether the web server certificate is going to expire or not using this test."
           }
         }
       },
@@ -134,10 +137,10 @@
           "browserTypeText": "Browser synthetic testing is a method of monitoring web application performance by simulating user interactions with a website through a script in a web browser, providing valuable insights into issues that affect user experience and ensuring website functionality.",
           "browserSimpleTitle": "Browser Simple Test",
           "browserScriptTitle": "Browser Script Test",
-          "certificateCheckTitle": "Certificate Check",
-          "certificateCheckLabel": "SSL Certificate Check",
-          "certificateCheckHeadline": "SSL Certificate Check Headline",
-          "certificateCheckText": "SSL Certificate Check Text"
+          "certificateCheckTitle": "SSL Certificate Check",
+          "certificateCheckLabel": "SSL Certificate",
+          "certificateCheckHeadline": "SSL Certificate Check Test",
+          "certificateCheckText": "SSL Certificate check testing is a method to test the expiration for a SSL certificate in a web application by checking the remaining days on a issued certificate."
         },
         "configurationLabel": "Configuration",
         "configurationTitle": "Configuration: How will this test work?",
@@ -149,6 +152,8 @@
         "identifyTitle": "Identify: What is the test going to do?",
         "customPropertiesTitle": "Custom Properties",
         "frequency": "This test will run every {{frequencyValue}} minutes.",
+        "frequencyHours": "This test will run every {{frequencyHours}} hours.",
+        "frequencyHoursAndMinutes": "This test will run every {{frequencyHours}} hours and {{frequencyMinutes}} minutes.",
         "simultaneous": "Simultaneous",
         "simultaneousDescription": "This test will run simultaneously on each location(s) selected.",
         "configStep": {
@@ -223,7 +228,7 @@
         "advancedBluePrint": {
           "apiName": "API",
           "browserName": "Browser",
-          "certificateCheckName": "SSL Certificate Check"
+          "certificateCheckName": "SSL Certificate"
         },
         "customProperties": {
           "property": "Property",
@@ -234,9 +239,36 @@
         "certificateCheck": {
           "inputHostName": "Host Name",
           "inputPortNumber": "Port",
-          "inputDaysLine1": "Test will fail when there are",
-          "inputDaysLine2": "days remaining before expiration."
-        }
+          "failureConfigLabel": "Failure Configuration",
+          "failureConfigText": "Test will fail when certificate validity has <certificateValidityDays/> days remaining until expiration."
+        },
+        "associationsLabel": "Associate",
+        "applicationsTitle": "Associate: Select applications to associate with this synthetic test",
+        "applicationsDescription": "Associating a synthetic test with an application grants access rights to all users who have access to that application.",
+        "associationsTitle": "Associate: Select what you want to associate with this synthetic test",
+        "associationsDescription": "Associating a synthetic test with an application, website or mobile app grants access rights to all users who have access to those entities."
+      },
+      "associations": {
+        "applicationsTitle": "Select applications to associate with this synthetic test",
+        "applicationsDescription": "Associating a synthetic test with an application grants access rights to all users who have access to that application.",
+        "associationsTitle": "Select what you want to associate with this synthetic test",
+        "associationsDescription": "Associating a synthetic test with an application, website or mobile app grants access rights to all users who have access to those entities.",
+        "applicationsButtonLabel": "Select Applications",
+        "websitesButtonLabel": "Select Websites",
+        "mobileAppsButtonLabel": "Select Mobile Apps",
+        "entityName": "Name",
+        "noDataAvailable": {
+          "message": "{{component}} not available"
+        },
+        "addApplications": "Add {{count}} Applications",
+        "addApplication": "Add Application",
+        "addWebsites": "Add {{count}} Websites",
+        "addWebsite": "Add Website",
+        "addMobileApps": "Add {{count}} Mobile Apps",
+        "addMobileApp": "Add Mobile App",
+        "applicationsTableTitle": "Application(s)",
+        "websitesTableTitle": "Website(s)",
+        "mobileAppsTableTitle": "Mobile App(s)"
       }
     },
     "httpMethods": {
@@ -304,7 +336,7 @@
         "datacentersSubtitle": "Activate an Instana managed location in one of the available datacenters. For more information, see <linkDatacenters>Using an Instana-hosted PoP</linkDatacenters>.",
         "confirmationDialog": {
           "headline": "Locations are being deployed",
-          "message": "We are setting up your new locations at the following datacenters. Please be patient while we auto-deploy this for you. When this is finished, you can find your new locations in the locations tab. <strong>This can take up to 10 minutes for each selected datacenter.</strong>",
+          "message": "We are setting up your new locations at the following datacenters. Please be patient while we auto-deploy this for you. When this is finished, you can find your new locations in the locations tab. <strong>This deployment can take a few minutes for each selected datacenter.</strong>",
           "table": {
             "heads": {
               "datacenterCode": "Datacenter Code",
@@ -319,7 +351,7 @@
         },
         "deactivateDatacenter": {
           "title": "Deactivate Location",
-          "deactivateMessage": "Are you sure you want to deactivate location <strong>{{locationDisplayLabel}}</strong>?<br/><br/>Deactivating a location can take up to 10 minutes. Please be patient while we deprovision this for you. When this is finished, the location status will be Offline.<br/>",
+          "deactivateMessage": "Are you sure you want to deactivate location <strong>{{locationDisplayLabel}}</strong>?<br/><br/>Deactivating a location can take a few minutes. Please be patient while we deprovision this for you. When this is finished, the location status will be Offline.<br/>",
           "warningMessage": "Deactivating is not deleting. The location will be available and can be activated again. To completely remove the managed location, delete the location once its status changes to Offline.",
           "activeStatus": "Active",
           "deactivateButton": "Deactivate"
@@ -338,6 +370,46 @@
       "status": {
         "pending": "Pending"
       }
+    },
+    "credentialFeedback": {
+      "successMessageDelete": "Successfully deleted the credential",
+      "failureMesssage": "{{errorMessage}}"
+    },
+    "createCredential": {
+      "createButton": "New Credential",
+      "nameValue": "Name and value",
+      "associations": "Associations",
+      "newCredentials": "Create a synthetic credential",
+      "steps": {
+        "textInput": {
+          "placeholder": "Credential name",
+          "labelText": "Name",
+          "invalidText": "Credential name must start with a letter and contain only letters, numbers and underscores.",
+          "credentialNamesMustBeUnique": "Credential names must be unique. This name is taken. Try another."
+        },
+        "passwordInput": {
+          "placeholder": "Credential value",
+          "labelText": "Value"
+        },
+        "associationsDescription": "Associating a credential with an application, website or mobile app grants access rights to all users who have access to those entities."
+      },
+      "feedback": {
+        "successMessage": "Successfully created credential",
+        "failureMessageCreate": "Failed to create the credential: {{errorMessage}}",
+        "updateSuccessMessage": "Successfully updated credential",
+        "failureMessageUpdate": "Failed to update the credential: {{errorMessage}}"
+      },
+      "edit": {
+        "dialogTitle": "Edit synthetic credential {{credentialName}}",
+        "associations": "Associations",
+        "saveButton": "Save",
+        "textInputHelperText": "Credential name cannot be edited, is a readOnly field",
+        "passwordInputHelperText": "Type a new credential value if you want to update the current one."
+      },
+      "tooltipLabels": {
+        "hide": "Hide credential value",
+        "show": "Show credential value"
+      }
     }
   },
   "createSmartAlert": {
@@ -353,7 +425,8 @@
       "secondaryLabels": {
         "tests": "Tests",
         "locations": "Locations",
-        "smartAlerts": "Smart Alerts"
+        "smartAlerts": "Smart Alerts",
+        "credentials": "Credentials"
       },
       "popDialog": {
         "popUpDialogTitle": "Permissions for Synthetic Monitoring",
@@ -368,7 +441,23 @@
         "tlsInstructions": "If you want to enable Redis TLS, you need to have your X.509 certificate-key pair (`tls.crt`, `tls.key`) and CA root certificate file (`ca.crt`).\n\nIf you do not have your key/cert files, you can also use openssl command to generate new ones, see below examples:",
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt",
         "tlsSecretInstructions": "After key/cert files are provided, use the kubectl command to create a secret.",
-        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n\t--type=\"kubernetes.io/tls\" \\\n\t--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n\t--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n\t--from-file=tls.key=\"<path/to/tls.key>\""
+        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n\t--type=\"kubernetes.io/tls\" \\\n\t--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n\t--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n\t--from-file=tls.key=\"<path/to/tls.key>\"",
+        "associationsTitle": "{{number}} Associations",
+        "singleAssociationTitle": "{{number}} Association"
+      },
+      "multiAppDialog": {
+        "filterLabel": "Applications",
+        "singleAppHeader": "{{ number }} Association",
+        "multiAppHeader": "{{ number }} Associations",
+        "noApplicationsAssociated": "No applications associated"
+      },
+      "multiWebDialog": {
+        "filterLabel": "Websites",
+        "noWebsitesAssociated": "No websites associated."
+      },
+      "multiMobileDialog": {
+        "filterLabel": "Mobile Apps",
+        "noMobileAppsAssociated": "No mobile apps associated."
       },
       "testLabel": "Name",
       "status": "Status",
@@ -383,9 +472,16 @@
       "successRate": "Success Rate",
       "successRuns": "{{successRuns}} / {{totalRuns}} results",
       "latency": "Latency",
-      "locationLabel": "Location",
-      "locations": "{{totalLocations}} locations",
-      "applicationLabel": "Application",
+      "locationLabel": "Locations",
+      "locationsColumn": {
+        "singleLocation": "{{number}} location",
+        "multipleLocations": "{{number}} locations",
+        "singleRun": "Runs in {{number}} location",
+        "multipleRun": "Runs in {{number}} locations",
+        "warning": "Warning",
+        "noIssues": "No issues"
+      },
+      "associationLabel": "Associations",
       "health": "Health",
       "action": "Action",
       "labelConfirmRemoveTest": "Are you sure you want to remove <strong>{{testLabel}}</strong> test?",
@@ -419,6 +515,12 @@
       "deleteLocationBroswerRefreshInfo": "It will take some time for the location to disappear from the list of locations and may require a browser refresh.",
       "deactivateLocation": {
         "deactivate": "Deactivate"
+      },
+      "ipAddressColumn": {
+        "ipAddress": "IP Address",
+        "singleIPAddress": "{{number}} IP Address",
+        "multipleIPAddress": "{{number}} IP Addresses",
+        "noIPAddresses": "NA"
       }
     },
     "summary": {
@@ -461,7 +563,15 @@
       "totalRuns": "{{totalRuns}} total runs",
       "meanLatencyFor90th": "{{meanLatencyDetail}} for 90th",
       "smartAlertsTab": "Smart Alerts",
-      "configurationTab": "Configuration"
+      "configurationTab": "Configuration",
+      "isCertificateValid": "Last Run - Certificate is Signed by Public CA",
+      "resultsCertificateValid": "Certificate is Signed by Public CA",
+      "certificateValid": "Yes",
+      "certificateNotValid": "No",
+      "daysRemaining": "Last Run - Days Remaining",
+      "timeOfExpiry": "Last Run - Time of Expiry",
+      "smallerTimeFrameTitle": "No results for this time frame",
+      "smallerTimeFrameDescription": "Please select a longer time frame to see results for SSL Certificate Check tests."
     },
     "resultsListPage": {
       "startedColumn": "Started",
@@ -473,7 +583,8 @@
       "locationLabel": "Location",
       "failures": "Failures",
       "status": "Status",
-      "success": "Success"
+      "success": "Success",
+      "daysRemaining": "Days Remaining"
     },
     "detailsPage": {
       "detailLiveModeDisabled": "Live Mode is not applicable in Synthetic test result detail page",
@@ -598,7 +709,13 @@
         "imageButton": "Image",
         "ScreenshotsLoadingMessage": "Loading Screenshots",
         "noScreenshotsAvailableMessage": "Screenshots not available for this test result"
-      }
+      },
+      "sslCertificate": {
+        "daysRemaining": "Days Remaining",
+        "timeOfIssue": "Time of Issue",
+        "timeOfExpiry": "Time of Expiry"
+      },
+      "failedRunErrorTypeTitle": "Error Type"
     },
     "noDataAvailable": {
       "resultsTitle": "No results available",
@@ -664,6 +781,7 @@
       },
       "configurationEditAction": "Edit",
       "configurationDeleteAction": "Delete",
+      "configurationUnsupported": "Unsupported test type.",
       "timeoutLabel": "Timeout",
       "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
       "retryStrategyLabel": "Retry Strategy",
@@ -672,7 +790,44 @@
       "retryIntervalFieldLabel": "Retry Interval",
       "retryIntervalSecondDescription": "{{retryIntervalValue}} second",
       "retryIntervalSecondsDescription": "{{retryIntervalValue}} seconds",
-      "markSyntheticCall": "Mark Synthetic Call"
+      "markSyntheticCall": "Mark Synthetic Call",
+      "hostname": "Hostname",
+      "port": "Port",
+      "daysRemaining": "Failure Configuration",
+      "day": "Test will fail when certificate validity has {{daysRemainingCheck}} day remaining until expiration",
+      "days": "Test will fail when certificate validity has {{daysRemainingCheck}} days remaining until expiration",
+      "associations": "Associations",
+      "associatedApplications": "Associated Applications",
+      "noApplicationsAssociated": "No Applications associated",
+      "associatedWebsites": "Associated Websites",
+      "noWebsitesAssociated": "No Websites associated",
+      "associatedMobileApps": "Associated Mobile Apps",
+      "noMobileAppAssociated": "No Mobile Apps associated"
+    },
+    "credentialList": {
+      "mainLabel": "Credentials",
+      "name": "Name",
+      "associations": "Associations",
+      "createdAt": "Created at",
+      "createdBy": "Created by",
+      "lastModifiedBy": "Last modified by",
+      "actions": "Actions",
+      "noDataAvailable": {
+        "noCredentialsAvailableTitle": "No Synthetic credentials available",
+        "noCredentialsAvailableDescription": "There are no Synthetic credentials retrieved from the database."
+      },
+      "editAction": {
+        "editActionLabel": "Edit",
+        "theValueMustNotBeBlank": "The value must not be blank."
+      },
+      "deleteAction": {
+        "deleteActionLabel": "Delete",
+        "deleteCredentialTitle": "Delete synthetic credential {{credentialName}}",
+        "credentialNameValidation": "Enter the credentials full name to confirm deletion",
+        "deleteButtonLabel": "Delete credential",
+        "cancelButtonLabel": "Cancel",
+        "deletionSuccess": "The credential has been deleted"
+      }
     }
   }
 }

@@ -6,54 +6,67 @@
 
 import React from 'react';
 
-import {
-  ANSIBlE_TYPE,
-  DOC_LINK_TYPE,
-  EXTERNAL_TYPE,
-  GITHUB_TYPE,
-  GITLAB_TYPE,
-  JIRA_TYPE,
-  MANUAL_TYPE,
-  SCRIPT_TYPE,
-  WEBHOOK_TYPE
-} from 'in-automation/ActionCatalog/shared';
-import ComboBox from 'in-components/ComboBox/ComboBox';
+import { ActionType } from '@instana/types';
+
+import { ACTION_TYPE, ACTION_TRANSLATIONS } from 'in-automation/constants';
+import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
+import useActionFilter from 'in-automation/hooks/useActionFilter';
+import { hasError, isLoading } from 'in-services/util/result';
+import { compareIgnoreCase } from 'in-services/util/string';
+import { ActionFilter } from 'in-automation/types';
 import { t } from 'in-i18n';
 
-const baseOptions = [
-  { value: DOC_LINK_TYPE, label: t('in-automation:ActionCatalog.docLink') },
-  { value: SCRIPT_TYPE, label: t('in-automation:ActionCatalog.script') },
-  { value: WEBHOOK_TYPE, label: t('in-automation:ActionCatalog.http') },
-  { value: MANUAL_TYPE, label: t('in-automation:ActionCatalog.manual') },
-  { value: ANSIBlE_TYPE, label: t('in-automation:ActionCatalog.ansible') },
-  { value: GITHUB_TYPE, label: t('in-automation:ActionCatalog.github') },
-  { value: GITLAB_TYPE, label: t('in-automation:ActionCatalog.gitlab') },
-  { value: JIRA_TYPE, label: t('in-automation:ActionCatalog.jira') }
-];
+const mapToOption = (type: ActionType): Option => ({ value: type, label: ACTION_TRANSLATIONS[type] });
 
-const externalOption = { value: EXTERNAL_TYPE, label: t('in-automation:actionHistory.external') };
+const baseOptions = [
+  ACTION_TYPE.DOC_LINK,
+  ACTION_TYPE.SCRIPT,
+  ACTION_TYPE.HTTP,
+  ACTION_TYPE.MANUAL,
+  ACTION_TYPE.ANSIBLE,
+  ACTION_TYPE.GITHUB,
+  ACTION_TYPE.GITLAB,
+  ACTION_TYPE.JIRA
+].map(mapToOption);
+
+const externalOption = mapToOption(ACTION_TYPE.EXTERNAL);
 
 interface TypeFilterProps {
-  type: string | null;
-  setType: (type: string | null) => void;
+  type: string[] | undefined;
+  setType: (params: { types: string[] | undefined }) => void;
   showExternal?: boolean;
 }
 
+function filterTypes(actionFilter: 'all' | ActionFilter, options: Option[]) {
+  if (actionFilter === 'all' || actionFilter.types.length === 0) {
+    return options;
+  } else {
+    return options.filter(({ value }) => actionFilter.types.includes(value as ActionType));
+  }
+}
 export function TypeFilter({ type, setType, showExternal = false }: TypeFilterProps) {
+  const actionFilter = useActionFilter();
   const options = [...baseOptions];
   if (showExternal) options.push(externalOption);
+  const filteredOptions =
+    isLoading(actionFilter) || hasError(actionFilter)
+      ? []
+      : filterTypes(actionFilter.data!, options).sort((a, b) => compareIgnoreCase(a.label, b.label));
 
   return (
     <ComboBox
-      options={options}
+      disabled={isLoading(actionFilter)}
+      options={filteredOptions}
       placeholder={t('in-automation:type')}
       value={type}
+      isMulti
       onChange={newValue => {
         if (!newValue) {
-          setType(null);
+          setType({ types: undefined });
         } else {
-          // @ts-expect-error
-          setType(newValue.value);
+          if (Array.isArray(newValue)) {
+            setType({ types: newValue.map(a => a.value) });
+          }
         }
       }}
     />

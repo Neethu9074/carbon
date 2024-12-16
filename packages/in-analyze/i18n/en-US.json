@@ -111,6 +111,7 @@
       "summary": {
         "logs": "Logs",
         "analyzeLogs": "View in analyze",
+        "logsCardDescription": "This is a preview, view all logs in analyze",
         "correspondingMobileAppActivity": "Corresponding Mobile App Activity",
         "hideMobileAppInformation": "Hide Mobile App Information",
         "showMobileAppInformation": "Show Mobile App Information",
@@ -158,6 +159,7 @@
         "cacheInteraction": "Cache Interaction",
         "instanaDoesNotMonitorTheLocationOfThisCall": "Instana does not monitor the {{location}} of this call",
         "tags": "Tags",
+        "metrics": "Metrics",
         "loading": "Loading call details.",
         "labelError": "Unexpected error",
         "retryError": "Call details could not be loaded.",
@@ -165,7 +167,11 @@
         "selfTime": "Self Time",
         "networkTime": "Network Time",
         "waitingTime": "Waiting Time",
-        "latency": "Latency"
+        "latency": "Latency",
+        "findSQL" : "Find SQL in {{type}}",
+        "sumOfLatencies":"Sum of latencies",
+        "elapsedTime" : "Elapsed time",
+        "batchTooltip":"Total {{type}} for {{batchCount}} batched calls."
       },
       "callTree": {
         "expandButtonForRow": "Expand all Sub Calls",
@@ -272,6 +278,7 @@
     "titleParameters": "Parameters",
     "analyzeLogsLabel": "Analyze logs",
     "similarLogs": "Similar logs",
+    "message": "Message",
     "similarServiceLogs": "Show logs in context of this service",
     "restrictedAccessExpl": "You don't have permission to access this information"
   },
@@ -280,6 +287,7 @@
     "labelNetwork": "Network",
     "labelSelf": "Self",
     "labelWaiting": "Waiting",
+    "labelElapsed":"Elapsed",
     "labelService": "Service",
     "labelEndpoint": "Endpoint",
     "labelAggregatedTime": "Aggregated Time",
@@ -310,7 +318,6 @@
   "resultHeaderTooltip": "The query time range has been rounded up to nearest full minute to allow this view to load more quickly.",
   "components": {
     "analyzeHeader": {
-      "beta": "BETA",
       "analytics": "Analytics"
     },
     "filterBar": {

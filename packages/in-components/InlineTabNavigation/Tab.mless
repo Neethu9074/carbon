@@ -30,21 +30,13 @@
 
       &.active {
         cursor: default;
-        border-bottom-color: var(--ids-color-option-teal-500);
+        border-bottom-color: var(--cds-border-interactive);
         font-weight: 600;
       }
     }
 
     &.disabled {
       color: var(--ids-color-option-neutral-400);
-    }
-  }
-
-  :global(.g10) .tab {
-    &.interactive {
-      &.active {
-        border-bottom-color: var(--cds-interactive);
-      }
     }
   }
 

@@ -1,6 +1,6 @@
 {
   "shortcuts": {
-    "help": "Instana 的某些重要功能可以使用鍵盤快速鍵來啟動。\n\n - 'c'：將圖置中\n - 'f'：開啟並聚焦搜尋列\n - 'esc'：關閉目前可見的資訊看板 / 儀表板\n - 'shift + ?'：開啟快速鍵的說明對話框",
+    "help": "Instana 的一些重要功能可以使用鍵盤快速鍵來啟動。\n\n - `c`：將地圖置中\n - `f`：開啟並聚焦搜尋列\n - `esc`：關閉目前可見的側邊列/儀表板\n - `shift + ?`：開啟捷徑的說明對話框",
     "shortcuts": "快速鍵"
   },
   "formatters": {
@@ -15,7 +15,15 @@
     "byteUnits_EiB": "{{num}} EiB",
     "byteUnits_ZiB": "{{num}} ZiB",
     "byteUnits_YiB": "{{num}} YiB",
-    "perSec": "{{num}} 個/秒",
+    "byteUnits_kB": "{{num}} kB",
+    "byteUnits_MB": "{{num}} MB",
+    "byteUnits_GB": "{{num}} GB",
+    "byteUnits_TB": "{{num}} TB",
+    "byteUnits_PB": "{{num}} PB",
+    "byteUnits_EB": "{{num}} EB",
+    "byteUnits_ZB": "{{num}} ZB",
+    "byteUnits_YB": "{{num}} YB",
+    "perSec": "{{num}}/s",
     "perSec2": "{{num}} 個/秒",
     "noActivity": "無活動",
     "percent": "{{num}}%",
@@ -26,17 +34,17 @@
     "timeUnits_ns": "{{num}} 奈秒",
     "timeUnits_us": "{{num}} 微秒",
     "timeUnits_ms": "{{num}} 毫秒",
-    "timeUnits_s": "{{num}} 秒",
+    "timeUnits_s": "{{num}}s",
     "timeUnits_min": "{{num}} 分鐘",
-    "timeUnits_h": "{{num}} 小時",
-    "timeUnits_d": "{{num}} 天",
+    "timeUnits_h": "{{num}}h",
+    "timeUnits_d": "{{num}}d",
     "temperature": "{{num}}°C",
-    "lt1ms": "< 1 毫秒"
+    "lt1ms": "< 1ms"
   },
   "validators": {
     "timeDoesNotHaveTheFormat": "時間不是 {{timeFormat}} 格式",
     "dateDoesNotHaveTheFormat": "日期不是 {{dateFormat}} 格式",
-    "valueIsNotOneOfTheSupportedValuesExpectedOneOf": "值 '{{v}}' 不是其中一個支援的值。原預期為下列之一：{{allowedValues}}",
+    "valueIsNotOneOfTheSupportedValuesExpectedOneOf": "值 '{{v}}' 不是其中一個支援的值。 原預期為下列之一：{{allowedValues}}",
     "aValueOfTypeExpectedTypeIsRequired": "需要 '{{expectedType}}' 類型的值。",
     "msgGotActualType": "{{msg}} 卻取得 '{{actualType}}'。",
     "valueMustBeLargerOrEqualToMinInclusive": "值必須大於或等於 {{minInclusive}}。",

@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { track, AGENT_SUPPORT_DOWNLOAD_CLICKED } from 'in-services/tracking/tracking';
 import LogStreamer, { AggregateOptions, StateOptions } from './LogStreamer';

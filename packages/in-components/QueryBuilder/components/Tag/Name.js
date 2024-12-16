@@ -22,13 +22,16 @@ export default React.forwardRef(function Name(
     tagCatalog,
     onChange,
     focus,
-    element: { name, renderModelIndex },
+    element: { name, renderModelIndex, tagDefinition },
     withoutOrConjunction = false,
-    withoutBrackets = false
+    withoutBrackets = false,
+    getTagCatalog,
+    additionalGetTagCatalogProps,
+    addTagDefinitionToFormModel
   },
   ref
 ) {
-  const tagTreeNode = tagCatalog.tagsByName[name];
+  const tagTreeNode = tagDefinition ?? tagCatalog.tagsByName[name];
   const path = tagTreeNode?.path;
 
   return (
@@ -38,7 +41,10 @@ export default React.forwardRef(function Name(
         tagCatalog,
         onChange,
         withoutOrConjunction,
-        withoutBrackets
+        withoutBrackets,
+        getTagCatalog,
+        additionalGetTagCatalogProps,
+        addTagDefinitionToFormModel
       }}
       align="bottomMiddle"
       onCloseSideEffect={e => {

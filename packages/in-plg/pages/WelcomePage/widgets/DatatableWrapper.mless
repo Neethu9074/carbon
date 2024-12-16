@@ -1,0 +1,61 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+:local {
+  .truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .dataTableWrapper {
+    :global {
+      .dashboardTable {
+        table {
+          table-layout: fixed;
+          // The last <th> where favourites is present.
+          th:last-child:not(:has(*)) {
+            width: 2.5rem;
+          }
+          .favouriteIcon {
+            position: relative;
+            padding: 0 8px 0 0;
+            div {
+              float: right;
+            }
+          }
+          td {
+            .truncate-text;
+            span.cds--popover-container {
+              .truncate-text;
+              width: 100%;
+              .cds--popover-content {
+                color: var(--cds-popover-text-color);
+              }
+            }
+          }
+          td:not(.viewAllTableCell) {
+            a {
+              display: inline-block;
+              max-width: 100%;
+              vertical-align: middle;
+              .truncate-text;
+            }
+          }
+        }
+      }
+    }
+    // These style should be placed after the above "table-layout" as it needs to override it.
+    &.noData {
+      :global {
+        .dashboardTable {
+          table {
+            table-layout: auto;
+          }
+        }
+      }
+    }
+  }
+}

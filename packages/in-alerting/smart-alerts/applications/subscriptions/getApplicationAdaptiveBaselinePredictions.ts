@@ -6,11 +6,11 @@
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { Result, GetApplicationAdaptiveBaselinePredictionsQuery } from 'in-types';
-import { MetricDataSeries } from 'in-applications/subscriptions/types';
 
+type AdaptiveBaselinePrediction = [number, number, number][];
 export default createResultSubscriptionFactory<
   GetApplicationAdaptiveBaselinePredictionsQuery,
-  Result<MetricDataSeries>
+  Result<AdaptiveBaselinePrediction>
 >({
   eventId: 'getApplicationAdaptiveBaselinePredictions',
   memoizeFor: 0 // because subscribers rely on more than just the

@@ -8,6 +8,7 @@ import React from 'react';
 import UiCLientUpdateMessage from 'in-components/uiClientUpdateMessage/UiClientUpdateMessage';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { uiNeedsRefresh$ } from 'in-services/uiClientVersion';
+import { t } from 'in-i18n';
 
 export function init() {
   uiNeedsRefresh$.subscribe(uiNeedsRefresh => {
@@ -15,6 +16,7 @@ export function init() {
 
     addMessage(
       {
+        title: t('in-components:uiClinetUpdateMessage.newVersionOfInstanaAvailable'),
         type: 'info',
         icon: 'info',
         content: <UiCLientUpdateMessage />

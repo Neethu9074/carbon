@@ -367,6 +367,7 @@
       "viewAllOs": "모든 운영 체제 보기",
       "appVersions": "앱 버전",
       "viewAllVersions": "모든 버전 보기",
+      "syntheticMonitoringLabel": "합성 모니터링",
       "configurations": {
         "symbolFileConfigLabel": "스택 추적 변환",
         "symbolFileConfig": {
@@ -399,9 +400,12 @@
         }
       },
       "crashes": {
-        "crashesLabelErrorMessage": "오류 메시지",
+        "crashesLabelErrorMessage": "위치",
+        "crashesLabelErrorType": "오류 유형",
         "crashesLabelOccurrences": "발생 횟수",
         "crashesLabelAffectedUsers": "영향을 받는 사용자",
+        "crashesLabelLowestAppVersion": "가장 낮은 앱 버전",
+        "crashesLabelHighestAppVersion": "가장 높은 앱 버전",
         "crashesButtonAnalyzeCrashes": "충돌 분석",
         "crashesTableTitle": "충돌",
         "crashInfoTitle": "세부사항",
@@ -453,7 +457,10 @@
       "customEventsTitle": "사용 가능한 사용자 정의 이벤트가 없음",
       "customEventsDescription": "선택한 시간 범위에 대해 검색된 사용자 정의 이벤트가 없습니다.",
       "crashesTitle": "사용 가능한 충돌 없음",
-      "crashesDescription": "선택한 시간 범위에 대한 충돌이 없습니다."
+      "crashesDescription": "선택한 시간 범위에 대한 충돌이 없습니다.",
+      "syntheticMonitoring": {
+        "title": "이 모바일 앱과 연관된 합성 테스트가 없습니다."
+      }
     }
   },
   "appsList": {

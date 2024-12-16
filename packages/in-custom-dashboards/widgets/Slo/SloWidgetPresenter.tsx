@@ -1,112 +1,65 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
 
-import useMetricAlignedWidgetTimeConfig from 'in-custom-dashboards/widgets/Slo/hooks/useMetricAlignedWidgetTimeConfig';
-import { ensureConfigBackwardCompatibility, SloWidgetConfiguration } from 'in-custom-dashboards/widgets/Slo/form';
-import useSliConfigWithPreview from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfigWithPreview';
-import useWidgetTimeConfig from 'in-custom-dashboards/widgets/Slo/hooks/useWidgetTimeConfig';
-import useMonitoredEntity from 'in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity';
-import useSloMetrics from 'in-custom-dashboards/widgets/Slo/hooks/useSloMetrics';
-import Widget from 'in-custom-dashboards/widgets/Slo/components/widget/Widget';
-import { calculateSloGranularity } from 'in-service-levels/utils/time';
-import { all as allStatus } from 'in-hooks/utils/fetchStatus';
-import { all as allProgress } from 'in-hooks/utils/progress';
+import { LoadingSkeleton, Message } from '@instana/components';
 
-interface SloWidgetPresenterProps {
+import SloTimeWindowProvider from 'in-service-levels/components/SloDashboard/components/SloTimeWindowProvider';
+// @ts-expect-error file needs migration
+import { viewPath } from 'in-custom-dashboards/navigation/url';
+import { createSloUrlParameter } from 'in-service-levels/navigation/urlParameters';
+import { SloWidgetConfiguration } from 'in-custom-dashboards/widgets/Slo/types';
+import SloWidget from 'in-custom-dashboards/widgets/Slo/components/SloWidget';
+import useSloConfiguration from 'in-service-levels/hooks/useSloConfiguration';
+import { t } from 'in-i18n';
+
+import locals from './SloWidgetPresenter.mless';
+
+export interface SloWidgetPresenterProps {
   actions: React.ReactNode;
   config: SloWidgetConfiguration;
+  dragHandle: React.ReactNode;
+  isInModal?: boolean;
   isPreview?: boolean;
   title: string;
-  isInModal?: boolean;
-  dragHandle: React.ReactNode;
+  widgetId: string;
 }
 
 export default function SloWidgetPresenter({
   actions,
   config,
+  dragHandle,
+  isInModal,
   isPreview,
   title,
-  isInModal,
-  dragHandle
+  widgetId
 }: SloWidgetPresenterProps) {
-  const {
-    slo,
-    entityId,
-    entityType,
-    sliConfigId,
-    timeWindowType,
-    timeWindowDuration,
-    timeWindowDurationUnit,
-    timeWindowStart
-  } = ensureConfigBackwardCompatibility(config);
+  const [sloConfig, status] = useSloConfiguration(config.sloId);
 
-  const isRolling = timeWindowType === 'rolling';
-  const isFixed = timeWindowType === 'fixed';
+  if (status === 'pending') return <LoadingSkeleton className={locals.loadingSkeleton} />;
 
-  const ensuredTimeWindowDuration = timeWindowDuration ?? 1;
-  const ensuredTimeWindowDurationUnit = timeWindowDurationUnit ?? 'weeks';
-
-  const timeWindowStartDate = timeWindowStart?.date;
-  const timeWindowStartTime = timeWindowStart?.time;
-
-  const timeWindowConfig = useWidgetTimeConfig({
-    isPreview,
-    isRolling,
-    isFixed,
-    timeWindowDuration: ensuredTimeWindowDuration,
-    timeWindowDurationUnit: ensuredTimeWindowDurationUnit,
-    timeWindowStartDate,
-    timeWindowStartTime
-  });
-  const { timeConfig } = timeWindowConfig;
-
-  const [sliConfiguration, sliConfigurationStatus, , sliConfigurationProgress] = useSliConfigWithPreview(
-    sliConfigId,
-    isPreview
-  );
-
-  const [entity, entityStatus, , entityProgress] = useMonitoredEntity({ entityId, entityType });
-
-  const granularity = calculateSloGranularity(timeConfig);
-  const [sloMetrics, sloMetricsStatus, sloMetricsError, sloMetricsProgress] = useSloMetrics({
-    slo,
-    sliId: sliConfigId,
-    timeConfig,
-    granularity,
-    isPreview
-  });
-
-  const [firstMetric] = sloMetrics ?? [];
-  const chartGranularity = firstMetric?.granularity || granularity;
-
-  const chartTimeWindowConfig = useMetricAlignedWidgetTimeConfig(timeWindowConfig, firstMetric);
-
-  const unifiedStatus = allStatus(sliConfigurationStatus, entityStatus, sloMetricsStatus);
-  const unifiedProgress = allProgress(sliConfigurationProgress, entityProgress, sloMetricsProgress);
+  if (status === 'rejected' || sloConfig === undefined)
+    return <Message type="error" title={t('in-custom-dashboards:widgets.slo.general.sloNotFound')} />;
 
   return (
-    <Widget
-      title={title}
-      entityType={entityType}
-      entity={entity}
-      sliConfiguration={sliConfiguration}
-      slo={slo}
-      sloMetrics={sloMetrics}
-      granularity={chartGranularity}
-      timeWindowType={timeWindowType}
-      timeWindowConfig={chartTimeWindowConfig}
-      status={unifiedStatus}
-      progress={unifiedProgress}
-      errors={sloMetricsError}
-      actions={actions}
-      dragHandle={dragHandle}
-      isPreview={isPreview}
-      isInModal={isInModal}
-      disableZooming={isFixed || isRolling}
-    />
+    <SloTimeWindowProvider
+      sloConfigId={config.sloId}
+      sloTimeWindow={sloConfig.timeWindow}
+      timeWindowTypeParameterDefinition={createSloUrlParameter('timeWindowType', viewPath, widgetId)}
+    >
+      <SloWidget
+        actions={actions}
+        config={config}
+        dragHandle={dragHandle}
+        isPreview={isPreview}
+        title={title}
+        sloConfig={sloConfig}
+        isInModal={isInModal}
+      />
+    </SloTimeWindowProvider>
   );
 }

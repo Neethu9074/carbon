@@ -7,16 +7,17 @@
 import React from 'react';
 
 import {
+  beeInstanaInfraMetricsEnabled,
+  persistentVolumeSupportEnabled,
+  beeinstanaInfraMetricsWithTimeshiftEnabled,
+  playwithEnabled
+} from 'in-services/featureFlags';
+import {
   useDaemonSetDashboard,
   useDeploymentDashboard,
   useDeploymentConfigDashboard,
   useStatefulSetDashboard
 } from 'in-kubernetes/navigation/paths';
-import {
-  beeInstanaInfraMetricsEnabled,
-  persistentVolumeSupportEnabled,
-  playwithEnabled
-} from 'in-services/featureFlags';
 import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
 import getOpenShiftDeploymentConfigs$ from 'in-kubernetes/subscriptions/getOpenShiftDeploymentConfigs';
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
@@ -32,13 +33,15 @@ import Details from 'in-kubernetes/Dashboards/Namespace/tabs/Details';
 import PersistentVolumes from '../../Cluster/tabs/PersistentVolumes';
 import Pods from 'in-kubernetes/Dashboards/Namespace/tabs/Pods';
 import SummaryWithoutTimeShift from './SummaryWithoutTimeShift';
+import { getTimeConfig } from 'in-stores/time/config';
 import { t } from 'in-i18n';
 
 export default [
   {
     label: t('in-kubernetes:dashboards.summary'),
     path: `${namespaceDashboardFullyQualified}/summary`,
-    component: beeInstanaInfraMetricsEnabled ? Summary : SummaryWithoutTimeShift
+    component:
+      beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled ? Summary : SummaryWithoutTimeShift
   },
   {
     label: t('in-kubernetes:dashboards.details'),
@@ -135,7 +138,10 @@ export default [
     }
 ].filter(Boolean);
 
-function getCounterComponent({ namespaceId, tab, timeConfig }, valueExtractor) {
+function getCounterComponent({ result, tab, location }, valueExtractor) {
+  const namespaceId = result?.data?.id;
+  const timeConfig = getTimeConfig(location);
+
   return (
     <NamespaceTab namespaceId={namespaceId} label={tab.label} timeConfig={timeConfig} valueExtractor={valueExtractor} />
   );

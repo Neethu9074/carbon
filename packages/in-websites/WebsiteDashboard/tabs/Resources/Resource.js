@@ -5,8 +5,8 @@
 
 import React, { Fragment } from 'react';
 
+import { Button } from '@instana/components';
 import { just } from '@instana/observables';
-import { Button } from '@instana/legacy';
 
 import {
   detailsPath,

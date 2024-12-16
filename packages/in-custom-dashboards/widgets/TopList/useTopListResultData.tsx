@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { TimeConfig, UnifiedMetricConfiguration } from '@instana/types';
+import { TimeConfig, UnifiedMetricConfigurationUnion } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { getTimeConfigBasedOnMetricConfiguration } from '../_shared/lastTimeConfig';
@@ -14,7 +14,7 @@ import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 const useTopListResultData = (config: any, timeConfig: TimeConfig) => {
   const timeConfigExtendedForLiveMode = extendWindowSizeOnLiveMode(timeConfig);
   const usedTimeConfig = getTimeConfigBasedOnMetricConfiguration(
-    config.metricConfiguration as UnifiedMetricConfiguration,
+    config.metricConfiguration as UnifiedMetricConfigurationUnion,
     timeConfigExtendedForLiveMode
   );
 

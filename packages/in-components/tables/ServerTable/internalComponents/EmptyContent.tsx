@@ -5,10 +5,10 @@
 
 import React from 'react';
 
-import { Tr, Td } from '@instana/components';
+import { TrSizes } from '@instana/legacy/types/components/Table/types';
+import { Tr, Td } from '@instana/legacy';
 
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
-import { TrSizes } from '@instana/components/types/components/Table/types';
 
 interface EmptyContentProps {
   cols?: number;

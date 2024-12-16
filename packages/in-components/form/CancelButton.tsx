@@ -5,7 +5,7 @@
 
 import React, { ReactElement } from 'react';
 
-import { Button, ButtonProps } from '@instana/legacy';
+import { Button, ButtonProps } from '@instana/components';
 
 import { t } from 'in-i18n';
 
@@ -16,12 +16,12 @@ export interface CancelButtonProps extends Partial<ButtonProps> {
 
 export default function CancelButton({
   children = t('forms.actions.cancel'),
-  kind = 'subtle',
+  kind = 'secondary',
   onClick,
   isSaving,
   ...otherProps
 }: CancelButtonProps) {
-  const disabled = isSaving;
+  const disabled = isSaving || otherProps.disabled;
   return (
     <Button {...otherProps} onClick={disabled ? undefined : onClick} disabled={disabled} kind={kind}>
       {children}

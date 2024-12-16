@@ -5,6 +5,8 @@
 
 import React, { useState } from 'react';
 
+import { RadioButton } from '@instana/components';
+
 import {
   Description,
   DownloadButton,
@@ -14,7 +16,6 @@ import {
   Spacer
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
 import { Col, Row as GridRow } from 'in-components/layout/Grid';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { t } from 'in-i18n';
 
 export default function WindowsInstallerContent({
@@ -37,21 +38,19 @@ export default function WindowsInstallerContent({
         <>
           <h4>{t('in-waiting-for-deployment:content.agentModeLabel')}</h4>
           <p>
-            <CheckboxFancy
+            <RadioButton
               label={t('in-waiting-for-deployment:content.agentModeDynamic')}
               checked={agentMode === agentModeOptions[0]}
               onChange={() => setAgentMode(agentModeOptions[0])}
               size="default"
-              asRadioButton
             />
           </p>
           <p>
-            <CheckboxFancy
+            <RadioButton
               label={t('in-waiting-for-deployment:content.agentModeStatic')}
               checked={agentMode === agentModeOptions[1]}
               onChange={() => setAgentMode(agentModeOptions[1])}
               size="default"
-              asRadioButton
             />
           </p>
         </>
@@ -59,21 +58,19 @@ export default function WindowsInstallerContent({
         <>
           <h4>{t('in-waiting-for-deployment:content.agentRuntimeLabel')}</h4>
           <p>
-            <CheckboxFancy
-              label="Azul Zulu 1.8"
+            <RadioButton
+              label="Azul Zulu 11"
               checked={jvmVendor === jvmVendorOptions[0]}
               onChange={() => setJVMVendor(jvmVendorOptions[0])}
               size="default"
-              asRadioButton
             />
           </p>
           <p>
-            <CheckboxFancy
+            <RadioButton
               label="Eclipse OpenJ9 11"
               checked={jvmVendor === jvmVendorOptions[1]}
               onChange={() => setJVMVendor(jvmVendorOptions[1])}
               size="default"
-              asRadioButton
             />
           </p>
         </>

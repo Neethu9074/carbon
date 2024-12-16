@@ -59,7 +59,7 @@ interface ScopeEntryProps extends ScopeEntryType {
 function ScopeEntry({ iconType, iconSize, label, href, href$ }: ScopeEntryProps) {
   return (
     <>
-      <SvgIcon className={locals.icon} size={iconSize} type={iconType} />
+      <SvgIcon className={classNames({ [locals.icon]: true })} size={iconSize} type={iconType} />
       <Link href={href$ ?? href} className={locals.link}>
         {label}
       </Link>

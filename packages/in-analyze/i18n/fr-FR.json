@@ -111,6 +111,7 @@
       "summary": {
         "logs": "Journaux",
         "analyzeLogs": "Afficher dans l'analyse",
+        "logsCardDescription": "Il s'agit d'un aperçu, voir tous les journaux dans l'analyse",
         "correspondingMobileAppActivity": "Activité d'application mobile correspondante",
         "hideMobileAppInformation": "Masquer les informations d'application mobile",
         "showMobileAppInformation": "Afficher les informations d'application",
@@ -158,6 +159,7 @@
         "cacheInteraction": "Interaction du cache",
         "instanaDoesNotMonitorTheLocationOfThisCall": "Instana n'effectue pas la surveillance de {{location}} pour cet appel",
         "tags": "Étiquettes",
+        "metrics": "Métriques",
         "loading": "Chargement des détails de l'appel.",
         "labelError": "Erreur inattendue",
         "retryError": "Impossible de charger les détails de l'appel.",
@@ -165,7 +167,11 @@
         "selfTime": "Temps auto",
         "networkTime": "Temps réseau",
         "waitingTime": "Temps d'attente",
-        "latency": "Temps d'attente"
+        "latency": "Temps d'attente",
+        "findSQL": "Trouver SQL dans {{type}}",
+        "sumOfLatencies": "Somme des latences",
+        "elapsedTime": "Temps écoulé",
+        "batchTooltip": "{{type}} total(e) de {{batchCount}} appels traités par lots."
       },
       "callTree": {
         "expandButtonForRow": "Développer tous les sous-appels",
@@ -272,6 +278,7 @@
     "titleParameters": "Paramètres",
     "analyzeLogsLabel": "Analyser les journaux",
     "similarLogs": "Journaux similaires",
+    "message": "Message",
     "similarServiceLogs": "Afficher les journaux dans le contexte de ce service",
     "restrictedAccessExpl": "Vous n'êtes pas autorisé à accéder à ces informations"
   },
@@ -280,6 +287,7 @@
     "labelNetwork": "Réseau",
     "labelSelf": "Auto",
     "labelWaiting": "En attente",
+    "labelElapsed": "Écoulé",
     "labelService": "Service",
     "labelEndpoint": "Nœud final",
     "labelAggregatedTime": "Durée agrégée",
@@ -310,7 +318,6 @@
   "resultHeaderTooltip": "La période d'interrogation a été arrondie à la minute la plus proche pour permettre à cette vue de se charger plus rapidement.",
   "components": {
     "analyzeHeader": {
-      "beta": "BÊTA",
       "analytics": "Analyse"
     },
     "filterBar": {

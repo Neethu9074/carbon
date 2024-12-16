@@ -6,13 +6,18 @@
 import { Map } from 'immutable';
 import React from 'react';
 
+import { DescriptionItem } from '@instana/components';
+
 import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/dialog/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch';
 import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
+import {
+  extendWindowSizeForLateData,
+  getSmartAlertAnalyzeTimeConfig
+} from 'in-events/components/EventContent/analyzeUtils';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
@@ -24,12 +29,11 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
-import { DescriptionItem } from 'in-components/DescriptionList';
 import { t } from 'in-i18n';
 
 import locals from './ApplicationEventListItemContent.mless';
 
-export default function ApplicationEventListItemContent({ event }) {
+export default function ApplicationEventListItemContent({ event, justChart = false }) {
   const alertConfig = useApplicationEventAlertConfig(event);
   const eventEntity = useApplicationEventEntity(event);
 
@@ -37,11 +41,12 @@ export default function ApplicationEventListItemContent({ event }) {
     return null;
   }
 
+  const eventSeverity = event.getIn(['problem', 'severity'], '');
   const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
   const isGlobalSmartAlert = event.getIn(['metadata', 'globalSmartAlert'], false);
   const adaptiveBaselineInfo = event.getIn(['metadata', 'adaptiveBaselineInfo'], Map({})) ?? Map({});
   const { applicationId } = eventEntity;
-  const { rule, threshold } = alertConfig;
+  const { rule, threshold, granularity } = alertConfig;
   const { alertType } = rule;
 
   const blueprintConfig = getBlueprintConfig(alertType);
@@ -50,6 +55,11 @@ export default function ApplicationEventListItemContent({ event }) {
     windowSize: alertingEventDetailsChartTimeframe
   };
 
+  const extendedAnalyzeTimeConfig = extendWindowSizeForLateData(
+    getSmartAlertAnalyzeTimeConfig(event, alertConfig),
+    granularity
+  );
+
   const chartViewConfig = createDefaultChartConfig(timeConfig);
   const tagFilterFormModel = fromBackendModel(alertConfig.tagFilterExpression);
 
@@ -57,20 +67,24 @@ export default function ApplicationEventListItemContent({ event }) {
   const { QueryBuilder } = getQueryBuilderForAlertType(alertType, thresholdType);
   return (
     <>
-      <ProblemDescription fixSuggestion={fixSuggestion} />
-      <DescriptionButtons>
-        <ApplicationAlertConfigButton
-          applicationId={applicationId}
-          alertConfig={alertConfig}
-          isGlobalSmartAlert={isGlobalSmartAlert}
-        />
-        <AnalyzeApplicationEventButton
-          {...eventEntity}
-          alertConfig={alertConfig}
-          timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
-          adaptiveBaselineInfo={adaptiveBaselineInfo.toJS()}
-        />
-      </DescriptionButtons>
+      {!justChart && (
+        <>
+          <ProblemDescription fixSuggestion={fixSuggestion} />
+          <DescriptionButtons>
+            <ApplicationAlertConfigButton
+              applicationId={applicationId}
+              alertConfig={alertConfig}
+              isGlobalSmartAlert={isGlobalSmartAlert}
+            />
+            <AnalyzeApplicationEventButton
+              {...eventEntity}
+              alertConfig={alertConfig}
+              timeConfig={extendedAnalyzeTimeConfig}
+              adaptiveBaselineInfo={adaptiveBaselineInfo.toJS()}
+            />
+          </DescriptionButtons>
+        </>
+      )}
       <div className={locals.sectionWrapper}>
         <ApplicationAlertingChartWithErrorMessage
           alertConfigWithFormModel={{
@@ -82,11 +96,13 @@ export default function ApplicationEventListItemContent({ event }) {
           applicationId={eventEntity.applicationId}
           serviceId={eventEntity.serviceId}
           endpointId={eventEntity.endpointId}
+          eventBasedAdaptiveBaseline={Object.entries(adaptiveBaselineInfo.toJS()).sort((a, b) => a[0] - b[0])}
           isEventsView
+          eventSeverity={eventSeverity}
         />
       </div>
       <div className={locals.sectionWrapper}>
-        <DescriptionItem className={locals.title} title={t('in-events:titleScope')}>
+        <DescriptionItem inComponents className={locals.title} title={t('in-events:titleScope')}>
           <div className={locals.scopeContentWrapper}>
             <div className={locals.alertFiltersWrapper}>
               <ScopeConfigPresenter

@@ -1,6 +1,0 @@
-:local {
-  .input {
-    width: 100%;
-    margin-right: 1rem;
-  }
-}

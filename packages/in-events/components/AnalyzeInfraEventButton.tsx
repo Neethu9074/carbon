@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import {
   GetLinkToExploreProps,
@@ -13,13 +13,14 @@ import {
 } from 'in-infrastructure/navigation/paths';
 // eslint-disable-next-line no-restricted-imports
 import { Grouping } from 'in-custom-dashboards/widgets/Table/types';
-import { InfraAlertConfig, TimeConfig, GenericInfraAlertRule, TagFilterExpressionElementUnion } from 'in-types';
+import { InfraSmartAlertConfig } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
+import { TimeConfig, GenericInfraAlertRule, TagFilterExpressionElementUnion } from 'in-types';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { t } from 'in-i18n';
 
 interface Props {
-  alertConfig: InfraAlertConfig;
+  alertConfig: InfraSmartAlertConfig;
   timeConfig: TimeConfig;
 }
 

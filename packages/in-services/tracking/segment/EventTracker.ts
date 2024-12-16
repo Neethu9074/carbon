@@ -4,83 +4,54 @@
  * Copyright IBM Corp. 2024
  */
 
-import { find } from 'lodash';
-
-import { combineLatest } from '@instana/observables';
-
 import { customRealmName, productCode, productCodeType, productTitle, ut30 } from 'in-services/util/constants';
-import { PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED } from 'in-services/tracking/eventNames';
 //@ts-expect-error
 import { Segment } from 'in-services/tracking/segment/SegmentInit';
 import { getLicenseTypeForSegment } from 'in-services/util/segmentLicenseType';
-import { TenantsWithUnits, getTenantsWithUnits } from 'in-api/account';
-import getUsageInfo from 'in-subscription/getUsageInfo';
+import { EventTrackerProps } from 'in-services/tracking/segment/types';
 import { config } from 'in-services/config';
-import { tenant } from 'in-stores/user';
-
-interface EventTrackerProps {
-  parentProductArea: string;
-  parentPageName: string;
-  eventName: string;
-}
-
-interface currentUnitProps {
-  tenantUnitId: string;
-  tenantUnitName: string;
-  tenantName: string;
-}
-interface UsageInfoProps {
-  activeLicenseType: string;
-}
+import { user } from 'in-stores/user';
 
 let productPlanType: string;
-let instanceId: string;
-let tenantUnitName: string;
 let userId: string;
 
 const segment = Segment();
 
-export const eventTracker = ({ eventName, parentProductArea, parentPageName }: EventTrackerProps) => {
-  const url = window.location.href;
-  const path = window.location.pathname;
-  const userSelfDefinedRole =
-    window.instana?.termsAndPrivacySettings?.dynamicRole || window.instana?.termsAndPrivacySettings?.role;
-
-  combineLatest([getTenantsWithUnits(), getUsageInfo({})]).once(([tenantWithUnits, usageInfo]) => {
-    const usageInfoWithType = usageInfo as unknown as UsageInfoProps;
-    const tenantWithUnitsWithType = tenantWithUnits as unknown as TenantsWithUnits;
-    productPlanType = getLicenseTypeForSegment(usageInfoWithType?.activeLicenseType);
-    const units: any = tenantWithUnitsWithType[tenant?.name!];
-
-    if (!units) {
+export const eventTracker = ({ data, segmentEventName }: EventTrackerProps) => {
+  try {
+    if (!segment) {
       return;
     }
-    const currentUnit: currentUnitProps = find(units, unit => unit.tenantUnitName === config.tenantUnit)!;
-    if (currentUnit) {
-      instanceId = currentUnit.tenantUnitId;
-      tenantUnitName = currentUnit.tenantUnitName;
+
+    const url = window.location.href;
+    const { tenantUnitId, tenantId, tenantUnit, tenant, activeLicenseType } = config;
+    if (!tenantUnitId) {
+      return;
     }
-    userId = customRealmName + '-' + instanceId;
-    segment.track(eventName, {
-      CTA: PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED,
+
+    const userSelfDefinedRole =
+      window.instana?.termsAndPrivacySettings?.dynamicRole || window.instana?.termsAndPrivacySettings?.role;
+    productPlanType = getLicenseTypeForSegment(activeLicenseType);
+    // @ts-expect-error not types available...
+    userId = `${customRealmName}-${user?.id}`;
+    const segmentProperties = {
+      ...data,
       UT30: ut30,
-      instanceId: instanceId,
-      instanceName: tenantUnitName,
-      parentPageCategory: parentProductArea,
-      parentPageName: parentPageName,
-      path: path,
+      tenantId: tenantId,
+      instanceId: tenantUnitId,
+      instanceName: tenantUnit,
+      tenantName: tenant,
       productCode: productCode,
       productCodeType: productCodeType,
       productPlanType: productPlanType,
       productTitle: productTitle,
-      tenantId: instanceId,
       url: url,
-      user: {
-        bluemixId: userId,
-        role: userSelfDefinedRole,
-        tenantId: instanceId
-      }
-    });
-  });
-  return null; // SegmentEventTracker does not render anything
+      altUserId: userId,
+      roles: [userSelfDefinedRole],
+      'user.bluemixId': userId
+    };
+    segment.track(segmentEventName, segmentProperties);
+  } catch (e) {
+    //ignore
+  }
 };

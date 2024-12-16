@@ -9,12 +9,11 @@
     align-items: center;
   }
 
-  .goToInstanceButton {
-    justify-content: flex-start;
-
+  .goToInstanceButtonCarbon {
     margin-left: 1rem;
-
-    width: 12.5rem;
+    :global(.cds--g90) {
+      background-color: transparent;
+    }
   }
 
   .stepsWithProgressBar {

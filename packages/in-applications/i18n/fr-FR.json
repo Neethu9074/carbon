@@ -6,6 +6,7 @@
   "labelAnalytic": "Analyse",
   "labelCall": "Appel",
   "labelTrace": "Trace",
+  "labelStatus": "Statut",
   "linkDownload": "Télécharger",
   "linkDownloadCalls": "Télécharger les appels",
   "linkDownloadRawTrace": "Télécharger la trace brute",
@@ -122,6 +123,7 @@
   "messageSuccessfullySaved": "La sauvegarde a abouti.",
   "messageErrorOccurred": "Une erreur s'est produite. Veuillez réessayer.",
   "messageWaitForChanges": "L'application de vos modifications peut prendre un certain temps.",
+  "linkViewAllApplications": "Voir toutes les applications",
   "linkViewAllServices": "Afficher tous les services",
   "linkViewAllEndpoints": "Afficher tous les noeuds finaux",
   "lineViewInAnalyze": "Afficher dans l'analyse",
@@ -152,6 +154,33 @@
   "applications": {
     "noData": "Les perspectives d'application permettent de modéliser les environnements, les ensembles de services, les locataires, ou simplement n'importe quel élément."
   },
+  "subtraces": {
+    "labelSubtraces": "Sous-traces",
+    "labelSubtrace": "Sous-trace",
+    "newSubtrace": "Ajouter une sous-trace",
+    "subtracesList": {
+      "name": "Nom",
+      "count": "Nombre",
+      "meanDuration": "Durée moyenne",
+      "meanSubcallCount": "Nombre moyen de sous-appels",
+      "meanErrorRate": "Taux d'erreur moyen"
+    },
+    "configuration": {
+      "success": {
+        "title": "Sous-trace {{action}}",
+        "message": "La sous-trace \"{{subtraceName}}\" a été {{action}}."
+      },
+      "failure": {
+        "title": "La sous-trace n'a pas été {{action}}",
+        "message": "Un problème est survenu lors de la tentative de {{action}} de la sous-trace \"{{subtraceName}}\""
+      },
+      "title": "Mettre à jour la sous-trace",
+      "subtraceName": "Nom de la sous-trace",
+      "subtraceFilter": "Définition de la sous-trace",
+      "evaluationGranularity": "Granularité de l'évaluation",
+      "evaluationGranularityValidationError": "Sélectionner une valeur pour la granularité de l'évaluation"
+    }
+  },
   "alert": {
     "tooltipMoreFilter": "+{{moreFilterCount}} filtre supplémentaire",
     "tooltipMoreFilter_plural": "+{{moreFilterCount}} filtres supplémentaires",
@@ -170,9 +199,9 @@
     },
     "constants": {
       "inboundDashboard": "Le tableau de bord affiche des informations basées uniquement sur les appels effectués par les consommateurs de cette application.",
-      "inboundOverrideDefault": "La portée par défaut de cette application est Appels entrants uniquement. Vous pouvez modifier ce paramètre dans Configuration.",
+      "inboundOverrideDefault": "La portée par défaut pour cette application est Appels entrants uniquement. Vous pouvez modifier ce paramètre dans Configuration.",
       "allDashboard": "Le tableau de bord affiche des informations en fonction de tous les appels effectués dans cette application par les consommateurs et en interne.",
-      "allOverrideDefault": "La portée par défaut de cette application est Tous les appels. Vous pouvez modifier ce paramètre dans Configuration."
+      "allOverrideDefault": "La portée par défaut pour cette application est Tous les appels. Vous pouvez modifier ce paramètre dans Configuration."
     }
   },
   "analyze": {
@@ -209,6 +238,8 @@
     "closeTraceDetail": "Fermer les information de trace",
     "invalidQueryConfig": "La configuration de la requête n'est pas valide. Résolvez les échecs de validation avant de continuer.",
     "invalidTraceIdTagFilter": "L'ID de trace \"{{traceId}}\" n'est pas valide. Spécifiez un ID de trace valide de 16 ou 32 caractères.",
+    "disabledApiQueryLatencyDistributionChart": "La distribution des temps d'attente n'est pas prise en charge par la requête d'API. Sélectionnez d'abord un autre graphique.",
+    "disabledApiQueryNoChart": "La requête d'API ne peut pas être utilisée sans sélection de graphique. Sélectionnez d'abord un graphique.",
     "errorRateLabel": "Appels erronés (taux)",
     "errorRateCategory": "Appels erronés",
     "errorMetricLabel": "Taux d'appels erronés",
@@ -244,7 +275,8 @@
     "dataSource_calls_plural": "{{formattedCount}} appels",
     "dataSource_traces": "{{formattedCount}} trace",
     "dataSource_traces_plural": "{{formattedCount}} traces",
-    "analyzeCallsOfThisTrace": "Analyser les appels de cette trace"
+    "analyzeCallsOfThisTrace": "Analyser les appels de cette trace",
+    "noAvailableCustomMetrics": "Pas de métriques personnalisées disponibles"
   },
   "creation": {
     "newAP": "Nouvelle perspective d'application",
@@ -456,7 +488,9 @@
       "logMessagesDescription": "Aucun message de journal n'a été extrait pour la période sélectionnée",
       "endpointsTitle": "Aucun noeud final disponible",
       "endpointsDescription": "Aucun noeud final n'a été extrait pour la période sélectionnée"
-    }
+    },
+    "pageCannotBeFound": "Page introuvable",
+    "idNotPresent": "{{id}} n'est pas présent dans l'URL."
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "Le service n'est pas dans l'application en cours.",
@@ -627,6 +661,8 @@
     "calls_latency": "Temps d'attente",
     "calls_erroneousCalls": "Appels erronés",
     "calls_errors": "Taux d'appels erronés",
+    "calls_call_metric": "Métriques personnalisées des appels",
+    "calls_call_meta_metrics": "Métriques méta",
     "traces_calls": "Traces",
     "traces_traces": "Traces",
     "traces_latency": "Temps d'attente",
@@ -678,5 +714,21 @@
     "alternativeServicesProblem": "<bold>Non</bold>, si le nom du service en cours provient de l'en-tête HTTP \"Host\" (règle de mappage de service dont l'ID est call.http.host) et que le nom du service de remplacement ne le fait pas (car son nom provient d'une règle basée sur des balises d'infrastructure), ou vice versa. Il s'agit de services en double.",
     "alternativeServicesPossibleProblem": "<bold>Peut-être</bold>, si le service en cours et les noms de services de remplacement ne proviennent pas de l'en-tête HTTP \"Host\" ; ils sont alors soit des services placés derrière un proxy (bon), soit des services en double (mauvais) : certains des services sont entièrement liés à infra, tandis que d'autres sont partiellement liés à infra."
   },
-  "labelSyntheticMonitoring": "Surveillance synthétique"
+  "infoBanner": {
+    "title": "Actions de ressource, optimisées par Turbonomic",
+    "tryLabel": "Essayez avant d'acheter",
+    "tryText": "Commencez un essai gratuit pour découvrir comment les actions de ressource peuvent aider vos applications.",
+    "tryButtonLabel": "Commencer l'essai",
+    "learnLabel": "En savoir plus",
+    "learnText": "Consultez quelques blogues et d'autres supports pour vous tenir informé de l'évolution de cette fonctionnalité.",
+    "learnButtonLabel": "Rendez-nous visite en ligne",
+    "connectLabel": "Contacter le service commercial",
+    "connectText": "Contactez notre équipe commerciale et faites-lui part de votre intérêt.",
+    "connectButtonLabel": "Acheter maintenant",
+    "helpLabel": "Aidez-nous à évoluer",
+    "helpText": "Faites-nous part de votre avis afin que nous puissions continuer à vous proposer les fonctionnalités qui vous intéressent le plus.",
+    "helpButtonLabel": "Commentaires"
+  },
+  "labelSyntheticMonitoring": "Surveillance synthétique",
+  "labelResourceOptimizations": "Optimisations"
 }

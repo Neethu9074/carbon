@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { alertId as alertIdMatrixParam, testId as testIdMatrixParam } from 'in-synthetics/navigation/matrix';
 import { syntheticSmartAlertsPath, alertsTabDetailsFullyQualified } from 'in-synthetics/navigation/paths';

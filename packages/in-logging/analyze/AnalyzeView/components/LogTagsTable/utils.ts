@@ -4,6 +4,8 @@
  * Copyright IBM Corp. 2022
  */
 
+import { formatDate } from '@instana/format-date';
+
 import {
   CONTAINERD_ID,
   CONTAINERD_SNAPSHOT_ID,
@@ -19,12 +21,17 @@ import {
   ID_PROCESS,
   kubernetesTags,
   LOG_CUSTOM,
+  LOG_RETENTION_TIME,
   LOG_SERVICE_NAME,
   PROCESS_ID,
   restrictedTags
 } from 'in-logging/queryBuilder';
+import {
+  ANALYZE_LOGGING_QUERY_BUILDER_FILTER_ADDED,
+  ANALYZE_LOGGING_QUERY_BUILDER_GROUP_ADDED
+} from 'in-services/tracking/eventNames';
 import { ClickedTag, GroupedTags, GroupingTag } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable/types';
-import { filterAdded, groupAdded } from 'in-logging/analyze/AnalyzeView/tracker';
+import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { capitalize } from 'in-services/formatters/string';
 import { LogItem, LogTag } from 'in-types';
 
@@ -62,7 +69,10 @@ export const groupAndSortTags = (tags: LogTag[]): GroupedTags => {
       (groupedTags.infrastructure as LogTag[]).push(tag);
       return;
     } else {
-      groupedTags.other.push(tag);
+      if (tag.name === LOG_RETENTION_TIME) groupedTags.other.unshift(tag);
+      else {
+        groupedTags.other.push(tag);
+      }
       return;
     }
   });
@@ -75,15 +85,15 @@ export const groupAndSortTags = (tags: LogTag[]): GroupedTags => {
   return groupedTags;
 };
 
-export function trackFilterClick(tag: LogTag, value: string) {
-  filterAdded({ filter: createTag(value, tag.name, tag.key) });
+export function trackFilterClick(trackCTA: CtaTrackingFunction, tag: LogTag, value: string | number) {
+  trackCTA(ANALYZE_LOGGING_QUERY_BUILDER_FILTER_ADDED, { filter: createTag(value, tag.name, tag.key) });
 }
 
-export function trackGroupClick(group: string) {
-  groupAdded({ source: 'log message filter button', group });
+export function trackGroupClick(trackCTA: CtaTrackingFunction, group: string | number) {
+  trackCTA(ANALYZE_LOGGING_QUERY_BUILDER_GROUP_ADDED, { source: 'log message filter button', group });
 }
 
-export function createTag(value: string, name?: string, key?: string): ClickedTag {
+export function createTag(value: string | number, name?: string, key?: string): ClickedTag {
   const tag: ClickedTag = { name: name || '', value };
   if (key) {
     tag.key = key;
@@ -91,7 +101,7 @@ export function createTag(value: string, name?: string, key?: string): ClickedTa
   return tag;
 }
 
-export function createTagFilter(value: string, itemTags: LogTag[], name?: string, key?: string): ClickedTag {
+export function createTagFilter(value: string | number, itemTags: LogTag[], name?: string, key?: string): ClickedTag {
   const alternativeTag = name && itemTags.find(item => item.name === tagMap[name]);
 
   if (alternativeTag) return createTag(alternativeTag.stringValue!, alternativeTag.name, alternativeTag.key);
@@ -122,4 +132,18 @@ export const getSnapshotId = (tag: LogTag, item: LogItem) => {
   } else {
     return null;
   }
+};
+
+export function getIconBySeverity(severity: number) {
+  if (severity > 0 && severity <= 5) {
+    return 'lib_help_error_warning';
+  } else if (severity > 5) {
+    return 'lib_help_error_error_circle';
+  }
+  return 'lib_uncheck';
+}
+
+export const timestampToLocaleDate = (timestamp: number) => {
+  const timestampDate = new Date(timestamp * 1000);
+  return formatDate(timestampDate)?.toString();
 };

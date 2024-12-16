@@ -20,63 +20,7 @@
     margin: 0 0.375rem;
   }
 
-  .methodName {
-    color: var(--ids-color-option-neutral-900);
-    .ellipsis();
-    flex-shrink: 0;
-  }
-
-  .methodNameInvalid {
-    color: var(--ids-color-option-neutral-700);
-    .ellipsis();
-    flex-shrink: 0;
-  }
-
-  .methodNameHighlight {
-    color: var(--ids-color-option-teal-500);
-    .ellipsis();
-    flex-shrink: 0;
-  }
-
-  .at {
-    margin: 0 0.375rem;
-    color: var(--ids-color-option-neutral-500);
-  }
-
-  .fileName {
-    color: var(--ids-color-option-neutral-500);
-    .ellipsis();
-    flex-shrink: 1;
-  }
-
-  .line {
-    display: flex;
-    justify-content: space-between;
-
-    padding: 0.25rem 0;
-  }
-
-  .signature {
-    overflow: hidden;
-    font-family: var(--ids-font-family-option-monospace);
-  }
-
   .selectedLine {
     background: var(--ids-color-option-neutral-300);
-  }
-
-  .icon {
-    fill: var(--ids-color-option-neutral-700);
-  }
-
-  .iconPlaceholder {
-    min-width: 1rem;
-  }
-
-  .rightmost {
-    font-family: var(--ids-font-family-option-monospace);
-    margin-left: 0.25rem;
-
-    color: var(--ids-color-option-neutral-500);
   }
 }

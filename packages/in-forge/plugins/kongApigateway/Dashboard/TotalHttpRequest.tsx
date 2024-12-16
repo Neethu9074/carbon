@@ -23,6 +23,8 @@ interface TotalHttpRequestProps {
 
 interface Row {
   key: string;
+  snapshotId: string;
+  timeConfig: string;
   totalHttpRequest: Map<string, any>;
 }
 
@@ -74,12 +76,18 @@ const cols = [
   },
   {
     title: t('in-forge:plugins.kongApigateway.totalNumberofRequests'),
-    type: 'number',
+    type: 'metric',
     typeArgs: {
-      getValue(row: Row) {
-        return row.totalHttpRequest.get('requests');
+      getSnapshotId(row: Row) {
+        return row.snapshotId;
       },
-      getContent: number.compact
+      getMetricName(row: Row) {
+        return `kongHttpRequestsTotal.${row.key}.requests`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   }
 ];
@@ -125,7 +133,9 @@ const TotalHttpRequest = ({ snapshotId, timeConfig }: TotalHttpRequestProps) => 
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.kongApigateway.totalHttpRequests')}
+      cardTitle={t('in-forge:plugins.kongApigateway.totalHttpRequests', {
+        count: rows.length
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getDetails}

@@ -5,8 +5,8 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
 import { on } from '@instana/observables';
-import { Button } from '@instana/legacy';
 
 import { clearHighlightedTimeframe } from 'in-stores/highlightedTimeframe';
 import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';

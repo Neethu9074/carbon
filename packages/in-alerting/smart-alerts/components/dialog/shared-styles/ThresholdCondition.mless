@@ -9,11 +9,25 @@
     gap: 1rem;
   }
 
-  .thresholdValueWithValidationMessage {
-    padding: 1rem 0;
+  .multiThresholdValueWithValidationMessage {
+    padding: 0.5rem 0;
   }
 
   .narrowControl {
     width: 6rem;
+  }
+
+  .toolTip {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .topPaddingInput {
+    padding-top: 1.75rem;
+  }
+
+  .inputMd {
+    width: 9rem;
   }
 }

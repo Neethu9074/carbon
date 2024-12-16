@@ -39,7 +39,7 @@ export default function MessageStack({ className, messages = [] }: MessageStackP
         .map(withDefaultLevel)
         .sort((a, b) => -1 * compareIgnoreCase(a.level, b.level))
         .map((m, i) => (
-          <Message key={i} title={m.message} type={m.level} withIcon small />
+          <Message key={i} title={m.message} type={m.level} withIcon small fullInlineWidth />
         ))}
     </div>
   );

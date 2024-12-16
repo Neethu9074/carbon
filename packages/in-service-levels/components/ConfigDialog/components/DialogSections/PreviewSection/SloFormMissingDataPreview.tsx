@@ -6,8 +6,7 @@
 
 import React, { useContext } from 'react';
 
-import { Stack, Typography } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Stack, Typography, Button } from '@instana/components';
 
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { SloFormSideEffectsReturnType } from 'in-service-levels/hooks/useSloFormSideEffects';

@@ -3,19 +3,22 @@
   "edit": "편집",
   "delete": "삭제",
   "test": "테스트",
+  "cancel": "취소",
+  "recommendedActionsWithCount": "권장 조치 ({{count}})",
   "recommendedActions": "권장 조치",
+  "recommendedOptimizationsWithCount": "권장 리소스 조치({{count}}개)",
+  "recommendedOptimizations": "권장 리소스 조치",
+  "actionName": "조치 이름",
   "validVaultParameter": "선택 사항으로 표시된 Vault 매개변수는 둘 다 비어 있거나 둘 다 비어 있지 않아야 합니다.",
   "newAction": "새 조치",
-  "ok": "확인",
   "runAction": "조치 실행",
   "testAction": "조치 테스트",
   "targetAgent": "대상 에이전트",
-  "noTargetAgent": "이 조치를 실행할 수 있는 대상 에이전트가 없습니다.",
   "triggeringAgent": "{{hostname}}(트리거링 에이전트)",
   "targetAgentDescription": "에이전트는 1..* 센서를 캡슐화하며, 이러한 센서는 이벤트를 Instana 백엔드에 발생시킬 수 있습니다. 트리거링 에이전트에는 이 특정 이벤트를 발생시킨 센서가 포함되어 있습니다.",
-  "chosenToRun": "조치 카탈로그에서 {{actionName}}을(를) 실행하도록 선택했습니다.",
+  "chosenToRun": "조치 {{actionName}} 실행",
   "viewManualAction": "수동 조치 {{actionName}} 보기",
-  "chosenToTest": "조치 카탈로그에서 {{actionName}}을(를) 테스트하도록 선택했습니다.",
+  "chosenToTest": "조치 {{actionName}} 테스트",
   "failedToInitiate": "{{actionName}}을(를) 시작하는 데 실패했습니다.",
   "hasBeenInitiated": "{{actionName}}이(가) 시작되었습니다.",
   "configureAutomation": "{{actionName}}에 대한 자동화 구성",
@@ -29,7 +32,7 @@
   "body": "본문: {{body}}",
   "authType": "권한 유형: {{authType}}",
   "headers": "헤더:",
-  "secretPath": "보안 경로",
+  "secretPath": "시크릿 경로",
   "secretKey": "시크릿 키",
   "enterParameterValue": "매개변수 값 입력",
   "optional": "{{name}} (선택사항)",
@@ -39,14 +42,13 @@
   "parameters": "매개변수",
   "noParametersTitle": "매개변수 없음",
   "noParametersText": "이 조치에는 매개변수가 없습니다.",
-  "linkToActionLogs": "이 조치의 출력은 <logsLink>분석 > 로그</logsLink>에서 볼 수 있습니다.",
-  "linkToActionHistory": "이 조치 인스턴스의 출력은 <logsLink>조치 히스토리 페이지</logsLink>에서 볼 수 있습니다.",
+  "linkToActionHistory": "이 조치 인스턴스의 출력은 조치 히스토리에서 볼 수 있습니다.",
   "description": "설명",
   "automation": "자동화",
   "failedToResolveDynamicParameters": "동적 매개변수를 분석하는 데 실패했습니다.",
-  "associateActionWithName": "{{actionName}} 조치 연관",
   "deletePolicyWithName": "{{actionName}} 정책 삭제",
   "jobTemplate": "작업 템플리트",
+  "workflowJobTemplate": "워크플로우 작업 템플리트",
   "hostsLimit": "호스트 한계(선택사항)",
   "ownerInfo": "소유자/조직: {{owner}}",
   "repoInfo": "저장소: {{repo}}",
@@ -77,12 +79,15 @@
   "duplicate": "중복",
   "theValueMustNotBeBlank": "값은 공백이 아니어야 합니다.",
   "tags": "태그",
-  "noTagsConfigured": "구성된 태그 없음",
+  "tagsLabel": "태그(선택 사항)",
+  "actionCategory": "조치 카테고리",
   "value": "값",
   "type": "유형",
+  "automationPoliciesWithCount": "자동화 정책({{count}}개)",
   "automationPolicies": "자동화 정책",
   "copyOf": "{{name}} (사본 수)",
   "searchActions": "조치 검색",
+  "searchOptimizations": "검색 최적화",
   "hostsLimitHelpText": "지정된 대상 호스트로 실행을 제한합니다. Ansible 인벤토리에서 시스템이 표시되는 방법과 일치하는 값을 선택하거나 Ansible 제한 구문에서 지원되는 문자열을 입력하십시오.",
   "aiEngine": "AI 엔진",
   "engine": "엔진",
@@ -91,6 +96,92 @@
   "tag": "태그",
   "noTagsAvailable": "사용 가능한 태그 없음",
   "actions": "조치",
+  "actionsWithCount": "조치({{count}}개)",
+  "titleUrl": "URL",
+  "generateWithWatsonx": "watsonx로 생성",
+  "AISlugContent": "AI를 사용하여 이 컨텐츠를 생성함",
+  "createPolicyWithName": "{{actionName}} 조치 보기 및 정책 작성",
+  "viewActionCreatePolicy": "조치 보기 및 정책 작성",
+  "titleContentReadOnly": "생성된 컨텐츠(읽기 전용)",
+  "GenerateAIActionDialog": {
+    "actionConfiguration": "조치 구성",
+    "actionDetails": "조치 세부사항",
+    "Step1HeadlineSelectAction": "이 이벤트에 대한 새 조치를 생성하려면 watsonx에서 생성된 기본 제공 조치로 시작하십시오.",
+    "Step1HeadlinePrompt": "이벤트 이름, 설명 및 엔티티 유형에 따라 watsonx로 수동 조치를 생성하십시오.",
+    "Step2Headline": "조치 카탈로그에 저장하기 전에 조치 세부사항을 지정하거나 변경하십시오.",
+    "Step3Headline": "선택사항으로 조치와 함께 자동화 정책을 작성할 수 있습니다. 이 단계는 나중에 완료할 수도 있습니다.",
+    "step1Title": "1단계: 조치 생성 또는 선택",
+    "step1TitleGenerateAction": "1단계: 조치 생성",
+    "step1TitleSelectAction": "1단계: 작업 선택",
+    "step2Title": "2단계: 조치 구성",
+    "step3Title": "3단계: 정책 작성(선택사항)",
+    "policyDetails": "정책 세부사항",
+    "policy": {
+      "success": {
+        "title": "정책이 작성되었습니다.",
+        "content": "<Link>\"{{name}}\"</Link> 정책이 작성되었습니다."
+      }
+    },
+    "action": {
+      "success": {
+        "title": "액션이 작성되었습니다.",
+        "content": "<Link>\"{{name}}\"</Link> 조치가 작성되었습니다."
+      }
+    },
+    "generateAction": "AI를 사용하여 생성",
+    "closeDialogDescription": " 이 페이지에서 나가시겠습니까?",
+    "closeDialogSubDescription": "이 페이지를 나가면 입력하거나 선택한 모든 정보가 저장되지 않습니다.",
+    "liveGeneration": "라이브 생성",
+    "builtinActions": "기본 제공 조치({{count}}개)",
+    "eventName": "이벤트 이름",
+    "eventDescription": "이벤트 설명",
+    "eventEntityType": "이벤트 엔티티 유형",
+    "noDataAvailableLive": "프롬프트 필드를 채우고 <strong>조치 생성</strong> 단추를 클릭하여 컨텐츠를 가져오십시오.",
+    "noDataAvailableSelectAction": "컨텐츠를 보려면 선택하십시오.",
+    "watsonxLoadingContent": "watsonx가 컨텐츠를 생성 중입니다.",
+    "confirmButtonLabel": "페이지 나가기",
+    "cancelButtonLabel": "페이지 유지",
+    "noResultsYet": "아직 결과 없음",
+    "next": "다음",
+    "createActionAndPolicy": "조치 및 정책 작성",
+    "createAction": "조치 작성",
+    "nameExists": "이름: {{name}}, 유형: {{type}}의 조치가 이미 있음",
+    "failedToGenerateAction": "조치를 생성하는 데 실패했습니다.",
+    "failedToCreateActionPolicy": "조치 및 정책을 작성하는 데 실패했습니다.",
+    "failedToCreateAction": "조치를 작성하지 못했습니다.",
+    "generateScriptDialog": {
+      "dialogHeader": "수동 조치에서 스크립트 생성",
+      "step1Title": "1단계: 단계 선택",
+      "step2Title": "2단계: 스크립트 생성",
+      "step3Title": "3단계: 조치 구성 및 작성",
+      "step1Headline": "스크립트를 생성하려는 수동 조치 단계를 하나 선택하십시오. 다음 단계에서 수동 조치 단계를 수정할 수 있습니다.",
+      "step2Headline1": "조치 단계에 대한 세부사항을 검토하고 필요한 사항을 수정하십시오. 그런 다음 스크립트 생성을 클릭하여 watsonx 결과를 확인하십시오.",
+      "step2Headline2": "편집하고 다시 생성하여 다른 결과를 확인할 수 있습니다.",
+      "noDataAvailableLive": "생성 단추를 클릭하여 스크립트를 생성하십시오.",
+      "generateScriptButton": "스크립트 생성",
+      "titleGeneratedCodeReadOnly": "생성된 코드(읽기 전용)",
+      "promptTitle": "프롬프트",
+      "generateScriptTileHeader": "수동 조치 단계에서 스크립트 생성",
+      "generateScriptTileDescription": "watsonx AI를 사용하면 수동 조치 단계에서 프롬프트로 bash 스크립트를 빠르게 작성하고 몇 단계만 거치면 조치 카탈로그에 추가할 수 있습니다."
+    }
+  },
+  "CreatePolicyDialog": {
+    "Step1Headline": "권장 조치를 보고 이 이벤트에 대한 자동화 정책을 작성하십시오.",
+    "Step2Headline": "새 자동화 정책을 작성하기 위한 세부사항을 지정하십시오.",
+    "step1Title": "1단계: 권장 조치 보기",
+    "step2Title": "2단계: 정책 작성",
+    "actionDetails": "조치 세부사항",
+    "policy": {
+      "success": {
+        "title": "정책이 작성됨",
+        "content": "\"{{name}}\" 정책이 작성되었습니다."
+      }
+    }
+  },
+  "userDefinedWithCount": "사용자 작성({{count}}개)",
+  "userDefined": "사용자 작성",
+  "aiGeneratedWithCount": "AI 생성({{count}}개)",
+  "aiGenerated": "AI 생성",
   "ActionCatalog": {
     "actionCatalog": "조치 카탈로그",
     "action": "작업",
@@ -111,7 +202,7 @@
     "showsUpInTheListOfActions": "조치 목록에 표시됩니다. 고유하며 의미가 있어야 합니다.",
     "showsUpInTheActionDescription": "조치 설명에 표시됩니다. 가능한 한 구체적이어야 합니다.",
     "docLinkDescription": "문제 해결에 도움이 되는 문서의 URL입니다.",
-    "manualContentDescription": "여기에 수동 조치에 대한 지시사항을 입력하십시오.",
+    "manualContentDescription": "편집하는 경우 마크다운을 사용하여 목록에 단계를 추가할 수 있습니다.",
     "manual": "수동",
     "confidence_low": "낮음",
     "body": "본문(선택사항)",
@@ -201,13 +292,35 @@
     "newFeature": "새 기능",
     "view": "보기",
     "content": "컨텐츠",
+    "mustHaveRequiredTag": "작업에는 다음 태그 중 하나 이상이 포함되어야 합니다. {{tags}}",
     "deleteDialog": {
       "success": "액션이 삭제되었습니다.",
       "failure": "조치 삭제 실패: {{errorMessage}}"
+    },
+    "createDialog": {
+      "success": {
+        "title": "액션이 작성되었습니다.",
+        "content": "{{name}}\" 작업이 성공적으로 생성되었습니다."
+      },
+      "failure": {
+        "title": "작업을 만들지 못했습니다.",
+        "content": "이 작업을 만드는 동안 문제가 발생했습니다. {{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "작업이 성공적으로 업데이트되었습니다.",
+        "content": "\"{{name}}\" 작업이 성공적으로 업데이트되었습니다."
+      },
+      "failure": {
+        "title": "작업을 업데이트하지 못했습니다.",
+        "content": "이 작업을 업데이트하는 동안 문제가 발생했습니다. {{errorMessage}}"
+      }
     }
   },
   "actionHistory": {
     "actionHistory": "조치 히스토리",
+    "goToActionHistory": "조치 히스토리로 이동",
     "actionHistoryWithCount": "조치 히스토리({{count}}개)",
     "noActionInstances": "사용 가능한 데이터 없음",
     "external": "외부",
@@ -223,7 +336,8 @@
     "eventName": "이벤트 이름",
     "returnCode": "리턴 코드",
     "errorMessage": "오류 메시지",
-    "actionContent": "조치 내용",
+    "risk": "위험",
+    "action": "조치",
     "host": "호스트",
     "log": "log",
     "success": "성공",
@@ -236,7 +350,7 @@
     "inputParameters": "입력 매개변수",
     "feedbackTab": "피드백",
     "properties": "특성",
-    "filterNameOrActionInstanceId": "이름, 이벤트 이름 또는 조치 인스턴스 ID로 필터링",
+    "filter": "필터",
     "inputPrompt": "이 조치에 대한 귀하의 경험에 대해 알려주십시오.",
     "unhappyFeedback": "매우 불만족",
     "dissatisfiedFeedback": "불만족",
@@ -255,16 +369,24 @@
     "submitted": "제출됨",
     "timeout": "제한시간",
     "issueUrl": "문제 URL",
-    "taskUrl": "작업 URL"
+    "taskUrl": "작업 URL",
+    "output": "출력",
+    "user": "사용자",
+    "apiToken": "API 토큰",
+    "deleteTooltip": "조치 인스턴스 {{id}} 삭제",
+    "deleteDialog": {
+      "success": "조치 인스턴스가 삭제되었습니다.",
+      "failure": "조치 인스턴스를 삭제하는 데 실패했습니다."
+    }
   },
   "actionLanes": {
     "buttonInvestigate": "조사"
   },
   "policies": {
     "policies": "정책",
+    "policiesWithCount": "정책({{count}}개)",
     "newPolicy": "새 정책",
     "selectEventTrigger": "이벤트 트리거 선택",
-    "actionName": "조치 이름",
     "eventTrigger": "이벤트 트리거",
     "unknownPolicy": "알 수 없는 정책",
     "policy": "정책",
@@ -288,13 +410,13 @@
     "custom": "사용자 정의",
     "event": "이벤트",
     "entityType": "엔티티 유형",
-    "properties": "특성",
     "applicationSmartAlert": "애플리케이션 스마트 경보",
     "globalApplicationSmartAlert": "글로벌 애플리케이션 스마트 경보",
     "infraSmartAlert": "인프라 스마트 경보",
     "mobileAppSmartAlert": "모바일 애플리케이션 스마트 경보",
     "syntheticsSmartAlert": "합성 스마트 경보",
     "logSmartAlert": "스마트 경보 로그",
+    "sloSmartAlert": "서비스 레벨 스마트 경보",
     "docLinkAndManualCantBeAutomated": "문서 링크 및 수동 조치를 자동화할 수 없습니다.",
     "triggeringAgent": "트리거 에이전트",
     "triggeringHostFqdn": "트리거 호스트 FQDN",
@@ -308,6 +430,7 @@
     "manualAutomatic": "수동, 자동",
     "policyType": "정책 유형",
     "noPolicies": "구성된 정책이 없습니다.",
+    "filterApplied": "필터 적용됨",
     "createDialog": {
       "success": {
         "title": "정책이 작성되었습니다.",
@@ -315,7 +438,17 @@
       },
       "failure": {
         "title": "정책을 작성하는 데 실패했습니다.",
-        "content": "\"{{name}}\" 정책을 작성하는 중에 문제가 발생했습니다."
+        "content": "정책을 작성하는 중에 문제가 발생했습니다. {{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "정책이 업데이트되었습니다.",
+        "content": "\"{{name}}\" 정책이 업데이트되었습니다."
+      },
+      "failure": {
+        "title": "정책을 업데이트하는 데 실패했습니다.",
+        "content": "정책을 업데이트하는 중에 문제가 발생했습니다. {{errorMessage}}"
       }
     },
     "createBulkDialog": {
@@ -329,7 +462,7 @@
       },
       "failure": {
         "title": "정책을 작성하는 데 실패했습니다.",
-        "content": "정책을 작성하는 중에 문제가 발생했습니다.{{error}}"
+        "content": "정책을 작성하는 중에 문제가 발생했습니다. {{error}}"
       }
     },
     "deleteDialog": {
@@ -339,9 +472,45 @@
     "createPolicies": "정책 작성",
     "websiteSmartAlert": "웹 사이트 스마트 경보"
   },
+  "infoPanel": {
+    "taskGuidance": "사용자 안내",
+    "hideTasks": "숨기기",
+    "showTasks": "표시"
+  },
   "deleteDialog": {
     "pleaseConfirm": "확인하십시오.",
     "pleaseConfirmMsg": "<strong>{{name}}</strong>을(를) 삭제하시겠습니까?",
     "delete": "삭제"
+  },
+  "turboActionCategories": {
+    "compliance": "규제 준수",
+    "prevention": "방지",
+    "efficiency": "효율성",
+    "efficiency_improvement": "효율성 향상",
+    "savings": "절감액",
+    "performance": "성능",
+    "performance_assurance": "성능 보증"
+  },
+  "resourceOptimization": {
+    "details": "리소스 최적화 세부사항",
+    "targetAgent": "대상 에이전트",
+    "viewInTurbo": "Turbonomic에서 보기",
+    "resourceImpact": "리소스 영향",
+    "impactedApplications": "영향을 받는 애플리케이션",
+    "services": "서비스",
+    "current": "현재",
+    "afterActions": "조치 후",
+    "agentHelperText": "에이전트는 1..* 센서를 캡슐화하며, 이러한 센서는 이벤트를 Instana 백엔드에 발생시킬 수 있습니다. 트리거링 에이전트에는 이 특정 이벤트를 발생시킨 센서가 포함되어 있습니다.",
+    "proceedConfirm": "이 조치는 실행 취소할 수 없습니다. 계속하시겠습니까?",
+    "riskDescription": "위험 설명",
+    "runningAction": "조치 실행 중...",
+    "actionStarted": "조치가 시작됨",
+    "actionFailed": "조치 실패",
+    "actionStartedMessage": "<strong>{{actionName}}</strong>을(를) 실행했습니다 조치 히스토리 탭에서 이 조치의 진행 상황을 확인할 수 있습니다.",
+    "actionFailedMessage": "조치 <strong>{{actionName}}</strong>을(를) 실행하라는 요청이 실패했습니다. {{message}}.",
+    "viewActionHistory": "조치 히스토리 보기",
+    "actionName": "조치 이름",
+    "recommendedActionHistoryWithCount": "리소스 조치 히스토리({{count}}개)",
+    "recommendedActionHistory": "리소스 조치 히스토리"
   }
 }

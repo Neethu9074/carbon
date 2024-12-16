@@ -4,14 +4,14 @@
  * Copyright IBM Corp. 2022
  */
 
-import getJumpDirectlyToApplicationLikeUA2Href$ from 'in-custom-dashboards/widgets/Slo/hooks/analytics/getJumpDirectlyToApplicationLikeUA2Href';
+import getJumpDirectlyToApplicationLikeUA2Href$ from 'in-custom-dashboards/widgets/SloLegacy/hooks/analytics/getJumpDirectlyToApplicationLikeUA2Href';
+import getLinkToWebsiteAnalyze from 'in-custom-dashboards/widgets/SloLegacy/hooks/analytics/getLinkToWebsiteAnalyze';
 import useLinkToUnboundedAnalytics from 'in-custom-dashboards/widgets/Apdex/hooks/useLinkToUnboundedAnalytics';
-import getLinkToWebsiteAnalyze from 'in-custom-dashboards/widgets/Slo/hooks/analytics/getLinkToWebsiteAnalyze';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { minutes } from 'in-services/time';
 
-jest.mock('in-custom-dashboards/widgets/Slo/hooks/analytics/getLinkToWebsiteAnalyze');
-jest.mock('in-custom-dashboards/widgets/Slo/hooks/analytics/getJumpDirectlyToApplicationLikeUA2Href');
+jest.mock('in-custom-dashboards/widgets/SloLegacy/hooks/analytics/getLinkToWebsiteAnalyze');
+jest.mock('in-custom-dashboards/widgets/SloLegacy/hooks/analytics/getJumpDirectlyToApplicationLikeUA2Href');
 
 // Disable tests due to release fix #11630
 it('prevent failure due to no tests found', () => expect(true).toBeTruthy());

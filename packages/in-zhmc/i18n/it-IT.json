@@ -1,6 +1,6 @@
 {
-  "zhmcs": "zHMC",
-  "hostname": "Nome host",
+  "zhmcs": "zHMCs",
+  "hostname": "Nome Host",
   "name": "Nome",
   "systems": "Sistemi",
   "partitions": "Partizioni",
@@ -17,7 +17,7 @@
   "status": "Stato",
   "breadcrumbs": {
     "zhmc": "zHMC",
-    "zhmcs": "zHMC",
+    "zhmcs": "zHMCs",
     "systems": "Sistemi"
   },
   "dashboards": {
@@ -43,17 +43,17 @@
     "cryptoId": "Id crittografia",
     "processorUsage": "Utilizzo processore globale",
     "name": "Nome",
-    "zvm": "Velocità di paging z/VM",
     "ifl": "Utilizzo processore IFL",
     "icf": "Utilizzo processore ICF",
     "cbp": "Utilizzo processore CBP",
     "cp": "Utilizzo processore CP",
     "iip": "Utilizzo processore IIP",
+    "lparPowerConsumption": "Consumo di energia dell'LPAR (Watt)",
     "smt": "Utilizzo SMT",
     "thread0": "Utilizzo thread 0",
     "thread1": "Utilizzo thread 1",
     "networkUsage": "Utilizzo rete",
-    "storageUsage": "Utilizzo spazio di archiviazione",
+    "storageUsage": "Utilizzo archiviazione",
     "acceleratorUsage": "Utilizzo acceleratore",
     "cryptoUsage": "Utilizzo crittografia",
     "networkPortId": "Id porta di rete",
@@ -108,6 +108,6 @@
   "channelUsage": "Utilizzo canale",
   "networkUsage": "Utilizzo rete",
   "cryptoUsage": "Utilizzo crittografia",
-  "storageUsage": "Utilizzo spazio di archiviazione",
+  "storageUsage": "Utilizzo archiviazione",
   "acceleratorUsage": "Utilizzo acceleratore"
 }

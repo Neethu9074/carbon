@@ -13,6 +13,7 @@ const { getCurrentUser } = require('../auth');
 const paths = require('../services/paths');
 
 const indexJsChecksum = checkSumMod.getChecksumForFile(paths.indexJs);
+const compStyleCssChecksum = checkSumMod.getChecksumForFile(paths.compStyleCss);
 const waitingJsChecksum = checkSumMod.getChecksumForFile(paths.waitingJs);
 
 const router = (module.exports = express.Router());
@@ -70,6 +71,10 @@ router.use(
 
 router.get('/bundle/index-:version.js', (req, res) => {
   checkChecksumAndSend(req, res, indexJsChecksum, paths.indexJs);
+});
+
+router.get('/bundle/compStyle-:version.css', (req, res) => {
+  checkChecksumAndSend(req, res, compStyleCssChecksum, paths.compStyleCss);
 });
 
 router.get('/bundle/waiting-:version.js', (req, res) => {

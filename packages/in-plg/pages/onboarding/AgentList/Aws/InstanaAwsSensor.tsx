@@ -6,17 +6,17 @@
 
 import React, { useState } from 'react';
 
-import { Stack, Typography, KeyValue } from '@instana/components';
+import { Stack, Typography, KeyValue, RadioButton } from '@instana/components';
 
 import { Container, MainBody, SidePanel, Wrapper } from 'in-plg/pages/onboarding/Layout/Layout';
 import ExpandableCardPlg from 'in-plg/components/Card/ExpandableCard/OnboardingExpandCard';
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
 import InputWithButton from 'in-plg/components/InputWithButton/InputWithButton';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import Code from 'in-plg/components/Code/Code';
 import { t } from 'in-i18n';
 
@@ -85,6 +85,8 @@ export default function InstanaAwsSensor({
     }
   ];
 
+  if (shareAndInviteEnabled) supportData.pop();
+
   function getIamPermissions() {
     if (platform.key === 'ec2') {
       return `{
@@ -92,21 +94,29 @@ export default function InstanaAwsSensor({
         "Statement": [
           {
             "Action": [
-              "elasticbeanstalk:DescribeEnvironments",
-              "elasticbeanstalk:ListTagsForResource",
-              "elasticbeanstalk:DescribeInstancesHealth",
+              "apigateway:GET",
+              "appsync:ListGraphqlApis",
+              "appsync:GetGraphqlApi",
+              "appsync:ListDataSources",
+              "autoscaling:DescribeAutoScalingGroups",
+              "cloudfront:GetDistribution",
+              "cloudfront:ListDistributions",
+              "cloudfront:ListTagsForResource",
+              "docdb-elastic:ListClusters",
+              "docdb-elastic:GetCluster",
+              "docdb-elastic:ListTagsForResource",
               "dynamodb:ListTables",
               "dynamodb:DescribeTable",
               "dynamodb:ListTagsOfResource",
-              "rds:DescribeDBInstances",
-              "rds:DescribeEvents",
-              "rds:ListTagsForResource",
-              "sqs:ListQueues",
-              "sqs:GetQueueAttributes",
-              "sqs:ListQueueTags",
+              "ec2:DescribeInstances",
+              "ec2:DescribeTags",
+              "ec2:DescribeVolumes",
               "elasticache:ListTagsForResource",
               "elasticache:DescribeCacheClusters",
               "elasticache:DescribeEvents",
+              "elasticbeanstalk:DescribeEnvironments",
+              "elasticbeanstalk:ListTagsForResource",
+              "elasticbeanstalk:DescribeInstancesHealth",
               "elasticloadbalancing:DescribeLoadBalancers",
               "elasticloadbalancing:DescribeTags",
               "elasticmapreduce:ListClusters",
@@ -114,9 +124,8 @@ export default function InstanaAwsSensor({
               "es:ListDomainNames",
               "es:DescribeElasticsearchDomain",
               "es:ListTags",
-              "ec2:DescribeInstances",
-              "ec2:DescribeTags",
-              "ec2:DescribeVolumes",
+              "iot:DescribeEndpoint",
+              "iot:ListThings",
               "kafka:ListClusters",
               "kafka:ListNodes",
               "kafka:ListTagsForResource",
@@ -131,9 +140,25 @@ export default function InstanaAwsSensor({
               "lambda:GetFunctionConfiguration",
               "mq:ListBrokers",
               "mq:DescribeBroker",
+              "rds:DescribeDBClusters",
+              "rds:DescribeDBInstances",
+              "rds:DescribeEvents",
+              "rds:ListTagsForResource",
+              "redshift:DescribeClusters",
               "s3:GetBucketTagging",
               "s3:ListAllMyBuckets",
               "s3:GetBucketLocation",
+              "s3:GetBucketPolicyStatus",
+              "sns:GetTopicAttributes",
+              "sns:ListTagsForResource",
+              "sns:ListTopics",
+              "sqs:ListQueues",
+              "sqs:GetQueueAttributes",
+              "sqs:ListQueueTags",
+              "timestream:ListDatabases",
+              "timestream:DescribeEndpoints",
+              "timestream:DescribeDatabase",
+              "timestream:ListTagsForResource",
               "xray:BatchGetTraces",
               "xray:GetTraceSummaries",
               "tag:GetResources"
@@ -158,21 +183,26 @@ export default function InstanaAwsSensor({
         "Statement": [
           {
             "Action": [
-              "elasticbeanstalk:DescribeEnvironments",
-              "elasticbeanstalk:ListTagsForResource",
-              "elasticbeanstalk:DescribeInstancesHealth",
+              "apigateway:GET",
+              "appsync:ListGraphqlApis",
+              "appsync:GetGraphqlApi",
+              "appsync:ListDataSources",
+              "autoscaling:DescribeAutoScalingGroups",
+              "cloudfront:GetDistribution",
+              "cloudfront:ListDistributions",
+              "cloudfront:ListTagsForResource",
               "dynamodb:ListTables",
               "dynamodb:DescribeTable",
               "dynamodb:ListTagsOfResource",
-              "rds:DescribeDBInstances",
-              "rds:DescribeEvents",
-              "rds:ListTagsForResource",
-              "sqs:ListQueues",
-              "sqs:GetQueueAttributes",
-              "sqs:ListQueueTags",
+              "ec2:DescribeInstances",
+              "ec2:DescribeTags",
+              "ec2:DescribeVolumes",
               "elasticache:ListTagsForResource",
               "elasticache:DescribeCacheClusters",
               "elasticache:DescribeEvents",
+              "elasticbeanstalk:DescribeEnvironments",
+              "elasticbeanstalk:ListTagsForResource",
+              "elasticbeanstalk:DescribeInstancesHealth",
               "elasticloadbalancing:DescribeLoadBalancers",
               "elasticloadbalancing:DescribeTags",
               "elasticmapreduce:ListClusters",
@@ -180,9 +210,8 @@ export default function InstanaAwsSensor({
               "es:ListDomainNames",
               "es:DescribeElasticsearchDomain",
               "es:ListTags",
-              "ec2:DescribeInstances",
-              "ec2:DescribeTags",
-              "ec2:DescribeVolumes",
+              "iot:DescribeEndpoint",
+              "iot:ListThings",
               "kafka:ListClusters",
               "kafka:ListNodes",
               "kafka:ListTagsForResource",
@@ -197,9 +226,24 @@ export default function InstanaAwsSensor({
               "lambda:GetFunctionConfiguration",
               "mq:ListBrokers",
               "mq:DescribeBroker",
+              "rds:DescribeDBInstances",
+              "rds:DescribeEvents",
+              "rds:ListTagsForResource",
+              "redshift:DescribeClusters",
               "s3:GetBucketTagging",
               "s3:ListAllMyBuckets",
               "s3:GetBucketLocation",
+              "s3:GetBucketPolicyStatus",
+              "sns:GetTopicAttributes",
+              "sns:ListTagsForResource",
+              "sns:ListTopics",
+              "sqs:ListQueues",
+              "sqs:GetQueueAttributes",
+              "sqs:ListQueueTags",
+              "timestream:ListDatabases",
+              "timestream:DescribeEndpoints",
+              "timestream:DescribeDatabase",
+              "timestream:ListTagsForResource",
               "xray:BatchGetTraces",
               "xray:GetTraceSummaries",
               "tag:GetResources"
@@ -364,19 +408,17 @@ export default function InstanaAwsSensor({
             label={t('in-plg:agentDetails.gcp.installationMethod')}
             value={
               <Stack direction="horizontal">
-                <CheckboxFancy
+                <RadioButton
                   label={installationPlatforms[0].label}
                   checked={platform.key === 'ec2'}
                   onChange={() => setPlatform(installationPlatforms[0])}
                   size="default"
-                  asRadioButton
                 />
-                <CheckboxFancy
+                <RadioButton
                   label={installationPlatforms[1].label}
                   checked={platform.key === 'ecs'}
                   onChange={() => setPlatform(installationPlatforms[1])}
                   size="default"
-                  asRadioButton
                 />
               </Stack>
             }

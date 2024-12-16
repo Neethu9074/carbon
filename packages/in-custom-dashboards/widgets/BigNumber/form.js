@@ -74,7 +74,10 @@ export function createForm(savedState) {
         )
       })
     )
-    .put('metricConfiguration', createMetricConfigurationForm(savedState && savedState.metricConfiguration));
+    .put(
+      'metricConfiguration',
+      createMetricConfigurationForm(savedState && savedState.metricConfiguration, { withThresholdConfiguration: true })
+    );
 }
 
 export function migrate(savedState) {

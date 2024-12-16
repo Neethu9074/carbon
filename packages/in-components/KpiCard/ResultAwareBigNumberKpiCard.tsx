@@ -4,26 +4,28 @@
  */
 
 import React, { ReactNode } from 'react';
-import { find, map } from 'lodash';
+import { find } from 'lodash';
 
 import {
-  AdjustedTimeframe,
   MetricResult,
   Result,
   TagFilter,
+  Threshold,
   TimeConfig,
-  UnifiedMetricConfiguration
+  UnifiedMetricConfigurationUnion
 } from '@instana/types';
 
 import { getTimeShiftLabel, hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import ResultAwareKpiCard from 'in-components/KpiCard/ResultAwareKpiCard';
-import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
-import { transformLogsResult } from 'in-components/KpiCard/utils';
+import ThresholdKpiCard from 'in-components/KpiCard/TresholdKpiCard';
 import Badge from 'in-custom-dashboards/widgets/BigNumber/Badge';
+import { ThresholdFn } from 'in-components/Threshold/threshold';
+import { IconAction } from 'in-components/KpiCard/KpiCard';
 import { percentage } from 'in-services/formatters/number';
 import { FormatterFn } from 'in-stores/metric/formatters';
+import { ConversionFn } from 'in-stores/metric/units';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
 import { Nullish } from 'in-types';
@@ -33,26 +35,27 @@ export const metricKey = 'bigNumber';
 export const companionMetricKey = 'companion';
 export const comparisonMetricKey = 'comparison';
 
-export interface Config<METRIC_CONFIG extends UnifiedMetricConfiguration> {
+export interface Config<METRIC_CONFIG extends UnifiedMetricConfigurationUnion> {
   metricConfiguration: METRIC_CONFIG;
   formatter?: string;
   tagFilters?: TagFilter[];
   getColor?: (metricValue: number | Nullish) => string | undefined;
+  getThreshold?: (formatter: string, threshold?: Threshold) => ThresholdFn;
   comparisonIncreaseColor?: string;
   comparisonDecreaseColor?: string;
 }
 
-export interface ConfigWithCompanionMetric<METRIC_CONFIG extends UnifiedMetricConfiguration>
+export interface ConfigWithCompanionMetric<METRIC_CONFIG extends UnifiedMetricConfigurationUnion>
   extends Config<METRIC_CONFIG> {
-  companionMetricConfiguration: UnifiedMetricConfiguration;
+  companionMetricConfiguration: METRIC_CONFIG;
 }
 
-export interface ConfigWithStaticCompanion<METRIC_CONFIG extends UnifiedMetricConfiguration>
+export interface ConfigWithStaticCompanion<METRIC_CONFIG extends UnifiedMetricConfigurationUnion>
   extends Config<METRIC_CONFIG> {
   staticCompanionValue: ReactNode;
 }
 
-export interface ResultAwareBigNumberKpiCardProps<METRIC_CONFIG extends UnifiedMetricConfiguration> {
+export interface ResultAwareBigNumberKpiCardProps<METRIC_CONFIG extends UnifiedMetricConfigurationUnion> {
   title: string;
   formatter: FormatterFn;
   companionFormatter?: FormatterFn;
@@ -63,22 +66,26 @@ export interface ResultAwareBigNumberKpiCardProps<METRIC_CONFIG extends UnifiedM
   dragHandle?: ReactNode;
   result: Result<MetricResult[]>;
   isInModal?: boolean;
+  thresholdFn?: ThresholdFn;
   raw?: boolean;
+  extraInfo?: string;
+  approximateTooltipText?: string;
+  conversionFn?: ConversionFn;
 }
 
-export function isConfigWithCompanionMetric<METRIC_CONFIG extends UnifiedMetricConfiguration>(
+export function isConfigWithCompanionMetric<METRIC_CONFIG extends UnifiedMetricConfigurationUnion>(
   config: Config<METRIC_CONFIG>
 ): config is ConfigWithCompanionMetric<METRIC_CONFIG> {
   return (config as ConfigWithCompanionMetric<METRIC_CONFIG>).companionMetricConfiguration != null;
 }
 
-export function isConfigWithStaticCompanion<METRIC_CONFIG extends UnifiedMetricConfiguration>(
+export function isConfigWithStaticCompanion<METRIC_CONFIG extends UnifiedMetricConfigurationUnion>(
   config: Config<METRIC_CONFIG>
 ): config is ConfigWithStaticCompanion<METRIC_CONFIG> {
   return 'staticCompanionValue' in config;
 }
 
-export default function ResultAwareBigNumberKpiCard<METRIC_CONFIG extends UnifiedMetricConfiguration>({
+export default function ResultAwareBigNumberKpiCard<METRIC_CONFIG extends UnifiedMetricConfigurationUnion>({
   title,
   formatter,
   companionFormatter,
@@ -89,7 +96,11 @@ export default function ResultAwareBigNumberKpiCard<METRIC_CONFIG extends Unifie
   dragHandle,
   result,
   isInModal,
-  raw
+  thresholdFn,
+  conversionFn,
+  raw,
+  extraInfo,
+  approximateTooltipText
 }: ResultAwareBigNumberKpiCardProps<METRIC_CONFIG>) {
   const timeConfig = useTimeConfig();
 
@@ -120,14 +131,19 @@ export default function ResultAwareBigNumberKpiCard<METRIC_CONFIG extends Unifie
           dragHandle,
           useMaxAvailableHeight,
           raw,
-          isInModal
+          thresholdFn,
+          isInModal,
+          extraInfo,
+          approximateTooltipText,
+          conversionFn
         )
       }
+      extraInfo={extraInfo}
     />
   );
 }
 
-export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfiguration>(
+export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfigurationUnion>(
   result: Result<MetricResult[]>,
   config: Config<METRIC_CONFIG> | ConfigWithCompanionMetric<METRIC_CONFIG> | ConfigWithStaticCompanion<METRIC_CONFIG>,
   formatter: FormatterFn,
@@ -139,27 +155,24 @@ export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfiguration>(
   dragHandle: ReactNode,
   useMaxAvailableHeight: boolean | undefined,
   raw: boolean | undefined,
-  isInModal?: boolean
+  thresholdFn?: ThresholdFn,
+  isInModal?: boolean,
+  extraInfo?: string,
+  approximateTooltipText?: string,
+  conversionFn?: ConversionFn
 ) {
   let value = null;
-  const isLoggingWidget = config.metricConfiguration.source === 'LOG';
-
-  if (isLoggingWidget) {
-    result = transformLogsResult(result, config, timeConfig);
-  }
 
   const dataPoint = find(result.data, ({ id }) => id === metricKey);
   if (dataPoint?.values?.length === 1) {
-    value = dataPoint.values[0][1];
+    value = conversionFn ? conversionFn(dataPoint.values[0][1]) : dataPoint.values[0][1];
   }
 
-  const lastValueTooltipContent =
-    config.metricConfiguration.lastValue &&
-    getLastValueTooltipLabel(map(result.data, ({ adjustedTimeframe }) => adjustedTimeframe).pop() as AdjustedTimeframe);
+  const lastValueTooltipContent = config.metricConfiguration.lastValue && getLastValueTooltipLabel(timeConfig);
 
   // We are using the [0] selector as in this aspect we assume multiple results have the same value
   // Example Mean Latency receive a "Companion", which we assume have the same resultPrecision as it's parent.
-  const resultPrecisions = result?.data?.map(elem => elem.resultPrecisionDetails?.resultPrecision)[0];
+  const resultPrecision = result?.data?.map(elem => elem.resultPrecisionDetails?.resultPrecision)[0];
 
   let companionValue = undefined;
   if (hasActiveTimeShift(config.metricConfiguration.timeShift)) {
@@ -171,11 +184,12 @@ export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfiguration>(
   }
 
   return (
-    <KpiCard
+    <ThresholdKpiCard
       title={title}
       value={value}
       isInModal={isInModal}
       renderValue={formatter}
+      thresholdFn={thresholdFn}
       color={config.getColor?.(value)}
       useMaxAvailableHeight={useMaxAvailableHeight}
       actions={
@@ -188,9 +202,12 @@ export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfiguration>(
       }
       companionValue={companionValue}
       iconAction={iconAction}
-      resultPrecision={resultPrecisions}
+      resultPrecision={resultPrecision}
+      approximateTooltipText={approximateTooltipText}
       raw={raw}
       tooltipContent={lastValueTooltipContent}
+      bigNumbers
+      extraInfo={extraInfo}
     />
   );
 }
@@ -203,7 +220,7 @@ function renderCompanionValue(result: Result<MetricResult[]>, companionFormatter
   return null;
 }
 
-function renderTimeShiftValue<METRIC_CONFIG extends UnifiedMetricConfiguration>(
+function renderTimeShiftValue<METRIC_CONFIG extends UnifiedMetricConfigurationUnion>(
   config: Config<METRIC_CONFIG> | ConfigWithCompanionMetric<METRIC_CONFIG>,
   result: Result<MetricResult[]>,
   formatter: FormatterFn,

@@ -6,12 +6,11 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 
+import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import { ActionInstanceDialogTitle } from 'in-automation/components/ActionHistory/ActionInstanceDialogTitle';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
-import TabPane from 'in-automation/components/ActionHistory/actionInstanceDetailTabs/TabPane';
-import Tabs from 'in-automation/components/ActionHistory/actionInstanceDetailTabs/Tabs';
 import DetailsOutputTab from 'in-automation/components/ActionHistory/DetailsOutputTab';
 import DetailParamsTab from 'in-automation/components/ActionHistory/DetailParamsTab';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
@@ -20,6 +19,7 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import getActionInstance from 'in-automation/subscriptions/getActionInstance';
 import DetailTab from 'in-automation/components/ActionHistory/DetailTab';
 import Feedback from 'in-automation/components/ActionHistory/Feedback';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { close } from 'in-components/DialogPresenter/store';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -32,6 +32,7 @@ export default function ActionInstanceDetail({ id, title }: { id?: string; title
   const timeConfig = useTimeConfig();
   const [hasStaleFeedback, setHasStaleFeedback] = useState(false);
   const [reload, setReload] = useState(0);
+  const [currentTab, setCurrentTab] = useState('detailTab');
 
   const actionInstanceDetail =
     useObservable(
@@ -75,12 +76,30 @@ export default function ActionInstanceDetail({ id, title }: { id?: string; title
   }
   const { errors, data } = cachedActionInstanceDetail;
 
-  const handleTabChange = (from: number, _: number) => {
-    // fetch the data again only if we navigate away from the feedback tab
-    if (from === 2 && hasStaleFeedback) {
-      setHasStaleFeedback(false);
-      setReload(Math.random());
-    }
+  const tabs = {
+    detailTab: {
+      label: t('in-automation:actionHistory.properties'),
+      component: () => <DetailTab id={id} properties={data} />
+    },
+    ...(data?.output !== null &&
+      data?.output?.trim().length !== 0 && {
+        outputTab: {
+          label: t('in-automation:actionHistory.output'),
+          component: () => <DetailsOutputTab output={data?.output} />
+        }
+      }),
+    paramsTab: {
+      label: t('in-automation:actionHistory.inputParameters'),
+      component: () => <DetailParamsTab inputParameters={data?.inputParameters} />
+    },
+    ...(automationActionInstanceFeedbackEnabled && {
+      feedbackTab: {
+        label: t('in-automation:actionHistory.feedbackTab'),
+        component: () => (
+          <Feedback id={id} feedback={feedback} comment={comment} setHasStaleFeedback={setHasStaleFeedback} />
+        )
+      }
+    })
   };
 
   return (
@@ -94,30 +113,30 @@ export default function ActionInstanceDetail({ id, title }: { id?: string; title
         {errors.length > 0 ? (
           <ErroneousResultPresenter errors={[...errors]} />
         ) : (
-          <Tabs onTabChange={handleTabChange}>
-            <TabPane title={t('in-automation:actionHistory.properties')}>
-              <DashboardHeaderShadowModule />
-              <DetailTab id={id} properties={data} />
-            </TabPane>
-
-            {data?.output !== null && data?.output?.trim().length !== 0 ? (
-              <TabPane title={t('in-automation:actionHistory.output')}>
-                <DashboardHeaderShadowModule />
-                <DetailsOutputTab output={data?.output} />
-              </TabPane>
-            ) : null}
-
-            <TabPane title={t('in-automation:actionHistory.inputParameters')}>
-              <DashboardHeaderShadowModule />
-              <DetailParamsTab inputParameters={data?.inputParameters} />
-            </TabPane>
-            {automationActionInstanceFeedbackEnabled ? (
-              <TabPane title={t('in-automation:actionHistory.feedbackTab')}>
-                <DashboardHeaderShadowModule />
-                <Feedback id={id} feedback={feedback} comment={comment} setHasStaleFeedback={setHasStaleFeedback} />
-              </TabPane>
-            ) : null}
-          </Tabs>
+          <div>
+            <LeftRightPadding>
+              <SecondLevelNavigation>
+                {Object.keys(tabs).map(key => (
+                  <SecondLevelNavigationItem
+                    key={key}
+                    isActive={currentTab === key}
+                    // @ts-ignore
+                    label={tabs[key].label}
+                    onClick={() => {
+                      if (currentTab === 'feedbackTab' && hasStaleFeedback) {
+                        setHasStaleFeedback(false);
+                        setReload(Math.random());
+                      }
+                      setCurrentTab(key);
+                    }}
+                  />
+                ))}
+              </SecondLevelNavigation>
+            </LeftRightPadding>
+            <DashboardHeaderShadowModule />
+            {/* @ts-ignore */}
+            {tabs[currentTab].component()}
+          </div>
         )}
       </Dialog>
     </div>

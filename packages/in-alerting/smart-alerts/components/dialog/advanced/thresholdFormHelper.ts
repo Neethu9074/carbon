@@ -27,3 +27,15 @@ export function getThresholdComboBoxValue(form: MapForm<any>): string | undefine
   }
   return type;
 }
+
+export function getMultiThresholdComboBoxValue(form: MapForm<any>): string | undefined {
+  const thresholdForm = form.get('threshold') as MapForm<any>;
+  const warningThresholdField = thresholdForm.get('warningThreshold');
+  const thresholdType = warningThresholdField.get('type');
+  let type = thresholdType?.value;
+  if (type === HISTORIC_BASELINE) {
+    const seasonality = warningThresholdField.get('seasonality') as Field<any> | undefined;
+    return `${type}.${seasonality?.value}`;
+  }
+  return type;
+}

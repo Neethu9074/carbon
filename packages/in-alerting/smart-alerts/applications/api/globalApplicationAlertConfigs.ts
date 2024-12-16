@@ -6,22 +6,21 @@
 import { Observable } from '@instana/observables';
 
 import {
-  ConfigVersion,
-  GlobalApplicationsAlertConfigWithMetadata,
-  GlobalApplicationsAlertConfig,
-  Result
-} from 'in-types';
+  GlobalApplicationsSmartAlertConfig,
+  GlobalApplicationsSmartAlertConfigWithMetadata
+} from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
+import { ConfigVersion, Result } from 'in-types';
 import http from 'in-services/http';
 
 const baseUrl = apiEndpoint.APPLICATION_GLOBAL;
 
 export function createGlobalAlertConfig(
-  data: GlobalApplicationsAlertConfig
-): Observable<GlobalApplicationsAlertConfigWithMetadata> {
-  return http<GlobalApplicationsAlertConfigWithMetadata>({
+  data: GlobalApplicationsSmartAlertConfig
+): Observable<GlobalApplicationsSmartAlertConfigWithMetadata> {
+  return http<GlobalApplicationsSmartAlertConfigWithMetadata>({
     method: 'POST',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -31,10 +30,10 @@ export function createGlobalAlertConfig(
 }
 
 export function updateGlobalAlertConfig(
-  data: GlobalApplicationsAlertConfig,
+  data: GlobalApplicationsSmartAlertConfig,
   id: string
-): Observable<GlobalApplicationsAlertConfigWithMetadata> {
-  return http<GlobalApplicationsAlertConfigWithMetadata>({
+): Observable<GlobalApplicationsSmartAlertConfigWithMetadata> {
+  return http<GlobalApplicationsSmartAlertConfigWithMetadata>({
     method: 'POST',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -46,18 +45,18 @@ export function updateGlobalAlertConfig(
 export function getAllGlobalAlertConfigs(
   alertIds: string[],
   config: { asObservable: true }
-): Observable<Result<GlobalApplicationsAlertConfigWithMetadata[]>>;
+): Observable<Result<GlobalApplicationsSmartAlertConfigWithMetadata[]>>;
 export function getAllGlobalAlertConfigs(
   alertIds: string[],
   config?: { asObservable: false }
-): Observable<GlobalApplicationsAlertConfigWithMetadata[]>;
+): Observable<GlobalApplicationsSmartAlertConfigWithMetadata[]>;
 export function getAllGlobalAlertConfigs(
   alertIds: string[],
   config = { asObservable: false }
 ):
-  | Observable<Result<GlobalApplicationsAlertConfigWithMetadata[]>>
-  | Observable<GlobalApplicationsAlertConfigWithMetadata[]> {
-  const request = http<GlobalApplicationsAlertConfigWithMetadata[]>({
+  | Observable<Result<GlobalApplicationsSmartAlertConfigWithMetadata[]>>
+  | Observable<GlobalApplicationsSmartAlertConfigWithMetadata[]> {
+  const request = http<GlobalApplicationsSmartAlertConfigWithMetadata[]>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -72,18 +71,18 @@ export function getAllGlobalAlertConfigs(
 export function getAllGlobalAlertConfigsRelatedToApplicationId(
   applicationId: string,
   config: { asObservable: true }
-): Observable<Result<GlobalApplicationsAlertConfigWithMetadata[]>>;
+): Observable<Result<GlobalApplicationsSmartAlertConfigWithMetadata[]>>;
 export function getAllGlobalAlertConfigsRelatedToApplicationId(
   applicationId: string,
   config?: { asObservable: false }
-): Observable<GlobalApplicationsAlertConfigWithMetadata[]>;
+): Observable<GlobalApplicationsSmartAlertConfigWithMetadata[]>;
 export function getAllGlobalAlertConfigsRelatedToApplicationId(
   applicationId: string,
   config = { asObservable: false }
 ):
-  | Observable<Result<GlobalApplicationsAlertConfigWithMetadata[]>>
-  | Observable<GlobalApplicationsAlertConfigWithMetadata[]> {
-  const request = http<GlobalApplicationsAlertConfigWithMetadata[]>({
+  | Observable<Result<GlobalApplicationsSmartAlertConfigWithMetadata[]>>
+  | Observable<GlobalApplicationsSmartAlertConfigWithMetadata[]> {
+  const request = http<GlobalApplicationsSmartAlertConfigWithMetadata[]>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -97,18 +96,18 @@ export function getAllGlobalAlertConfigsRelatedToApplicationId(
 export function getLatestGlobalAlertConfig(
   id: string,
   config: { asObservable: true }
-): Observable<Result<GlobalApplicationsAlertConfigWithMetadata>>;
+): Observable<Result<GlobalApplicationsSmartAlertConfigWithMetadata>>;
 export function getLatestGlobalAlertConfig(
   id: string,
   config?: { asObservable: false }
-): Observable<GlobalApplicationsAlertConfigWithMetadata>;
+): Observable<GlobalApplicationsSmartAlertConfigWithMetadata>;
 export function getLatestGlobalAlertConfig(
   id: string,
   config = { asObservable: false }
 ):
-  | Observable<Result<GlobalApplicationsAlertConfigWithMetadata>>
-  | Observable<GlobalApplicationsAlertConfigWithMetadata> {
-  const request = http<GlobalApplicationsAlertConfigWithMetadata>({
+  | Observable<Result<GlobalApplicationsSmartAlertConfigWithMetadata>>
+  | Observable<GlobalApplicationsSmartAlertConfigWithMetadata> {
+  const request = http<GlobalApplicationsSmartAlertConfigWithMetadata>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -122,20 +121,20 @@ export function getGlobalAlertConfigByIdAndTimestamp(
   id: string,
   timestamp: number,
   config: { asObservable: true }
-): Observable<Result<GlobalApplicationsAlertConfigWithMetadata>>;
+): Observable<Result<GlobalApplicationsSmartAlertConfigWithMetadata>>;
 export function getGlobalAlertConfigByIdAndTimestamp(
   id: string,
   timestamp: number,
   config?: { asObservable: false }
-): Observable<GlobalApplicationsAlertConfigWithMetadata>;
+): Observable<GlobalApplicationsSmartAlertConfigWithMetadata>;
 export function getGlobalAlertConfigByIdAndTimestamp(
   id: string,
   timestamp: number,
   config = { asObservable: false }
 ):
-  | Observable<Result<GlobalApplicationsAlertConfigWithMetadata>>
-  | Observable<GlobalApplicationsAlertConfigWithMetadata> {
-  const request = http<GlobalApplicationsAlertConfigWithMetadata>({
+  | Observable<Result<GlobalApplicationsSmartAlertConfigWithMetadata>>
+  | Observable<GlobalApplicationsSmartAlertConfigWithMetadata> {
+  const request = http<GlobalApplicationsSmartAlertConfigWithMetadata>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -220,16 +219,16 @@ export function getAllVersionsOfGlobalAlertConfig(
 
 export function getAllBuiltInGlobalSmartAlerts(config: {
   asObservable: true;
-}): Observable<Result<GlobalApplicationsAlertConfigWithMetadata[]>>;
+}): Observable<Result<GlobalApplicationsSmartAlertConfigWithMetadata[]>>;
 export function getAllBuiltInGlobalSmartAlerts(config?: {
   asObservable: false;
-}): Observable<GlobalApplicationsAlertConfigWithMetadata[]>;
+}): Observable<GlobalApplicationsSmartAlertConfigWithMetadata[]>;
 export function getAllBuiltInGlobalSmartAlerts(
   config = { asObservable: false }
 ):
-  | Observable<Result<GlobalApplicationsAlertConfigWithMetadata[]>>
-  | Observable<GlobalApplicationsAlertConfigWithMetadata[]> {
-  const request = http<GlobalApplicationsAlertConfigWithMetadata[]>({
+  | Observable<Result<GlobalApplicationsSmartAlertConfigWithMetadata[]>>
+  | Observable<GlobalApplicationsSmartAlertConfigWithMetadata[]> {
+  const request = http<GlobalApplicationsSmartAlertConfigWithMetadata[]>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -242,8 +241,8 @@ export function getAllBuiltInGlobalSmartAlerts(
 export function restoreGlobalAlertConfigVersion(
   id: string,
   created: number
-): Observable<GlobalApplicationsAlertConfigWithMetadata> {
-  return http<GlobalApplicationsAlertConfigWithMetadata>({
+): Observable<GlobalApplicationsSmartAlertConfigWithMetadata> {
+  return http<GlobalApplicationsSmartAlertConfigWithMetadata>({
     method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),

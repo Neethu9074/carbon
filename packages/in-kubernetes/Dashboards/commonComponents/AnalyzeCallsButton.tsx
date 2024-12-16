@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { type as typeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -41,7 +41,7 @@ export default function AnalyzeCallsButton({
 
   return (
     <Button
-      kind="primary"
+      kind="action"
       icon="lib_application_call"
       href={getLinkToApplicationAnalyze({
         dataSource: 'calls',
@@ -57,6 +57,7 @@ export default function AnalyzeCallsButton({
         }),
         groupBy
       })}
+      size="compact"
     >
       {t('in-kubernetes:dashboards.analyzeCalls')}
     </Button>
@@ -91,7 +92,12 @@ export function getFilters({
   }
 
   if (namespaceName) {
-    filters.push({ name: 'kubernetes.namespace', value: namespaceName, operator: 'EQUALS', entity: 'DESTINATION' });
+    filters.push({
+      name: 'kubernetes.namespace.name',
+      value: namespaceName,
+      operator: 'EQUALS',
+      entity: 'DESTINATION'
+    });
   }
 
   if (daemonSetName) {

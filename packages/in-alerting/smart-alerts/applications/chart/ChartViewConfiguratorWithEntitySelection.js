@@ -39,7 +39,9 @@ export default function ChartViewConfiguratorWithEntitySelection({
   headerTransparent,
   framed = false,
   onChartViewConfigChange,
-  onEntityIdChange
+  onEntityIdChange,
+  isTearSheet,
+  sectionHeader
 }) {
   const selectApLevelOnly = alertConfigWithFormModel.evaluationType === PER_AP;
   const selectServiceLevel = alertConfigWithFormModel.evaluationType === PER_AP_SERVICE;
@@ -88,7 +90,37 @@ export default function ChartViewConfiguratorWithEntitySelection({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectApLevelOnly, selectServiceLevel]);
 
-  return (
+  return isTearSheet ? (
+    <>
+      <div className={locals.flexItem}>
+        {sectionHeader}
+        {showEntitySelection && (
+          <ChartSubEntitySelection
+            applicationId={applicationId}
+            setApplicationId={handleSetApplicationId}
+            serviceId={serviceId}
+            setServiceId={handleSetServiceId}
+            endpointId={endpointId}
+            setEndpointId={handleSetEndpointId}
+            alertConfigWithFormModel={alertConfigWithFormModel}
+            queryWindowSize={entitySelectionQueryWindowSize}
+            isTearSheet={isTearSheet}
+          />
+        )}
+        {!showEntitySelection && applications.length > 1 && <ShowApplicationSelection applicationId={applicationId} />}
+
+        <ButtonGroup
+          buttonPropsList={chartViewConfigs.map((chartConfig, index) => ({
+            text: chartConfig.label,
+            key: chartConfig.label,
+            onClick: () => onChartViewConfigChange(index)
+          }))}
+          activeKey={selectedChartViewConfig.label}
+        />
+      </div>
+      <div className={locals.boxBorder}>{children(selectedChartViewConfig, applicationId, serviceId, endpointId)}</div>
+    </>
+  ) : (
     <LightCard
       className={classNames(locals.container, {
         [className]: className, // className overrides everything
@@ -149,5 +181,7 @@ ChartViewConfiguratorWithEntitySelection.propTypes = {
     evaluationType: PropTypes.string
   }),
   onChartViewConfigChange: PropTypes.func.isRequired,
-  onEntityIdChange: PropTypes.func
+  onEntityIdChange: PropTypes.func,
+  isTearSheet: PropTypes.bool,
+  sectionHeader: PropTypes.object
 };

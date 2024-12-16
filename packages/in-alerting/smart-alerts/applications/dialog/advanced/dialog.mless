@@ -1,0 +1,22 @@
+/*
+ * (c) Copyright IBM Corp. 2024
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .dropdownsm {
+    min-width: 6.75rem;
+  }
+  .dropdownmd {
+    min-width: 8.5rem;
+  }
+  .dropdownlg {
+    min-width: 11.5rem;
+  }
+  .dropdownxlg {
+    min-width: 13.875rem;
+  }
+  .dropdownxxlg {
+    min-width: 15.625rem;
+  }
+}

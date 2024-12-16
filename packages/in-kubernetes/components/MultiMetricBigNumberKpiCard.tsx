@@ -42,8 +42,8 @@ export default function MultiMetricBigNumberKpiCard({
   dragHandle,
   raw
 }: MultiMetricsKpiCardProps) {
-  var resultArray: Array<Result<MetricResult[]>> = [];
-  for (var i = 0; i < config.length; i++) {
+  let resultArray: Array<Result<MetricResult[]>> = [];
+  for (let i = 0; i < config.length; i++) {
     resultArray.push(GetBigNumberKpiCardResult({ config: config[i] }));
   }
 
@@ -62,9 +62,7 @@ export default function MultiMetricBigNumberKpiCard({
             {dragHandle}
             {actions}
           </>
-        ) : (
-          undefined
-        )
+        ) : undefined
       }
       raw={raw}
     />

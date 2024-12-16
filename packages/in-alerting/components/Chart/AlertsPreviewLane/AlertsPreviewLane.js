@@ -25,7 +25,13 @@ export default function AlertsPreviewLanePropsChecker(props) {
   return <AlertsPreviewLane {...props} />;
 }
 
-function AlertsPreviewLane({ alertsPreviewConfiguration, getAlertsPreview, resultMetricKey, ...remainingProps }) {
+function AlertsPreviewLane({
+  alertsPreviewConfiguration,
+  getAlertsPreview,
+  resultMetricKey,
+  isTearSheet,
+  ...remainingProps
+}) {
   const [retryCounter, setRetryCounter] = React.useState(0);
 
   const result =
@@ -46,12 +52,19 @@ function AlertsPreviewLane({ alertsPreviewConfiguration, getAlertsPreview, resul
   return (
     <AlertsPreviewLanePresenter
       {...remainingProps}
-      onRetry={onRetry}
+      onRetry={isTearSheet ? undefined : onRetry}
       alerts={result?.data ?? emptyArray}
-      errorMessage={hasError(result) ? t('in-alerting:components.chart.chartAlertsLaneErrorMessage') : undefined}
+      errorMessage={hasError(result) ? getErrorMessage(isTearSheet) : undefined}
       isLoading={isLoading(result)}
     />
   );
+}
+
+function getErrorMessage(isTearSheet) {
+  if (isTearSheet) {
+    return t('in-alerting:components.chart.chartAlertsLaneErrorMessageForTearSheet');
+  }
+  return t('in-alerting:components.chart.chartAlertsLaneErrorMessage');
 }
 
 function isConfigValid({ granularity, threshold }) {
@@ -76,7 +89,8 @@ function isConfigValid({ granularity, threshold }) {
 AlertsPreviewLane.propTypes = {
   alertsPreviewConfiguration: PropTypes.object,
   getAlertsPreview: PropTypes.func,
-  resultMetricKey: PropTypes.string
+  resultMetricKey: PropTypes.string,
+  isTearSheet: PropTypes.bool
 };
 
 function getAlertsPreviewObservable([

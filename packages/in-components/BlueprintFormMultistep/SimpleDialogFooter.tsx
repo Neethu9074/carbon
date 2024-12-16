@@ -21,6 +21,7 @@ interface SimpleDialogFooterProps<FORM_TYPE extends MapFormItems> {
   additionalStepCheck?: (step: number) => boolean;
   customSaveButtonText?: string;
   noStepCheckOnFirstStep?: boolean;
+  renderCustomSaveAction?: () => React.ReactElement;
 }
 
 export function SimpleDialogFooter<FORM_TYPE extends MapFormItems>({
@@ -32,7 +33,8 @@ export function SimpleDialogFooter<FORM_TYPE extends MapFormItems>({
   isSaving,
   additionalStepCheck = () => true,
   noStepCheckOnFirstStep = false,
-  customSaveButtonText = t('in-components:blueprintFormMultistep.buttonCreate')
+  customSaveButtonText = t('in-components:blueprintFormMultistep.buttonCreate'),
+  renderCustomSaveAction
 }: SimpleDialogFooterProps<FORM_TYPE>) {
   const isDisabled =
     (step === stepConfigs.length - 1 && !form.hierarchyValid) ||
@@ -54,6 +56,7 @@ export function SimpleDialogFooter<FORM_TYPE extends MapFormItems>({
       }
       primaryActionDisabled={noStepCheckOnFirstStep ? isDisabled : isDisabled && step !== 0}
       saving={isSaving}
+      renderCustomSaveAction={renderCustomSaveAction}
     />
   );
 }

@@ -14,5 +14,5 @@ interface Props {
 }
 
 export default function SloEntityColumnContent({ item }: Props) {
-  return <SloEntityInfo entity={item.entity} entityType={item.configuration.entity.type} />;
+  return <SloEntityInfo entities={item.entities} entityType={item.configuration.entity.type} />;
 }

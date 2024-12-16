@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { Stack, Typography, KeyValue } from '@instana/components';
+import { Stack, Typography, KeyValue, RadioButton } from '@instana/components';
 
 import ExpandableCardPlg from 'in-plg/components/Card/ExpandableCard/OnboardingExpandCard';
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
@@ -15,7 +15,7 @@ import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import Code from 'in-plg/components/Code/Code';
 import { t } from 'in-i18n';
 
@@ -74,22 +74,22 @@ export default function AwsEc2Linux({
     }
   ];
 
+  if (shareAndInviteEnabled) sideCardData.pop();
+
   function getAgentPackaging() {
     return (
       <Stack direction="horizontal">
-        <CheckboxFancy
+        <RadioButton
           label={t('in-plg:agentDetails.agentMode.dynamic')}
           checked={agentMode === agentModeOptions[0]}
           onChange={() => setAgentMode(agentModeOptions[0])}
           size="default"
-          asRadioButton
         />
-        <CheckboxFancy
+        <RadioButton
           label={t('in-plg:agentDetails.agentMode.static')}
           checked={agentMode === agentModeOptions[1]}
           onChange={() => setAgentMode(agentModeOptions[1])}
           size="default"
-          asRadioButton
         />
       </Stack>
     );
@@ -98,20 +98,18 @@ export default function AwsEc2Linux({
   function getRuntime() {
     return (
       <Stack direction="horizontal">
-        <CheckboxFancy
-          label={t('in-plg:agentDetails.jvmVendor.azulZulu18')}
+        <RadioButton
+          label={t('in-plg:agentDetails.jvmVendor.azulZulu11')}
           checked={jvmVendor === jvmVendorOptions[0]}
           onChange={() => setJVMVendor(jvmVendorOptions[0])}
           size="default"
-          asRadioButton
           disabled={azulDisabled}
         />
-        <CheckboxFancy
+        <RadioButton
           label={t('in-plg:agentDetails.jvmVendor.eclipseOpenJD11')}
           checked={jvmVendor === jvmVendorOptions[1]}
           onChange={() => setJVMVendor(jvmVendorOptions[1])}
           size="default"
-          asRadioButton
         />
       </Stack>
     );

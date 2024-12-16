@@ -1,36 +1,39 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
 
 import { AggregationType, KubernetesNode, ResultType, TimeConfig } from '@instana/types';
 
+import {
+  andQuery,
+  LogsChartInteractionWrapper,
+  tagEquals
+} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 // @ts-expect-error
 import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/metrics';
 import KubernetesTimeShiftChartPresenter from 'in-kubernetes/Dashboards/commonComponents/KubernetesTimeShiftChartPresenter';
 // @ts-expect-error
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
-import { LogsChartInteractionWrapper } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 // @ts-expect-error
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
-import { tagEquals, andQuery } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import MultiMetricBigNumberKpiCard from 'in-kubernetes/components/MultiMetricBigNumberKpiCard';
-import { zeroDecimalPlaces, percentage, number, bytes } from 'in-services/formatters/number';
-import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
+import { bytes, number, percentage, zeroDecimalPlaces } from 'in-services/formatters/number';
+import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
-import { useNodeDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
+import { summaryTab, useNodeDashboard } from 'in-kubernetes/navigation/paths';
 import { k8sNodeChart } from 'in-kubernetes/components/K8sChartColors';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
-import { formatDuration } from 'in-services/formatters/date';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
+import { formatDuration } from 'in-services/formatters/date';
 import { capitalizeValue } from 'in-components/Capitalize';
 import { getChartGranularity } from 'in-stores/metric';
-import { Row, Col } from 'in-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
@@ -51,7 +54,7 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
   const tagFilterExpression = toBackendQueryModel(nodeQuery);
   const type = plugins.kubernetesNode;
 
-  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('node', snapshotId, timeConfig);
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('kubernetes.node', snapshotId, timeConfig);
 
   const kpiWidth = 2;
 
@@ -61,7 +64,8 @@ export default function Summary({ timeConfig, data: node }: SummaryProps) {
     aggregation: 'MEAN' as AggregationType,
     tagFilterExpression,
     timeConfig,
-    timeShift
+    timeShift,
+    regex: false
   };
 
   const defaultBigNumberMetricConfig = {

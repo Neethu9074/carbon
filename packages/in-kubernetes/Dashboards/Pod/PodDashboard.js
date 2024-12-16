@@ -10,6 +10,7 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 
 import { getKubernetesPrometheusMetricsWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesPrometheusMetrics';
+import { beeInstanaInfraMetricsEnabled, beeinstanaInfraMetricsWithTimeshiftEnabled } from 'in-services/featureFlags';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator/KubernetesIndicator';
 import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
@@ -17,12 +18,11 @@ import { cronJobId as matrixCronJobId, podId as matrixPodId } from 'in-kubernete
 import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import LoggingIntegrationButtons from 'in-integrations/logging/LoggingIntegrationButtons';
-import { kubernetesTimeShiftSelectTracker, podTabChange } from 'in-kubernetes/tracker';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import getKubernetesPod from 'in-kubernetes/subscriptions/getKubernetesPod';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
-import { beeInstanaInfraMetricsEnabled } from 'in-services/featureFlags';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -35,6 +35,7 @@ import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import tabs from 'in-kubernetes/Dashboards/Pod/tabs/index';
 import { PodBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { useSegmentTracker } from 'in-kubernetes/tracker';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
@@ -49,10 +50,17 @@ export default function PodDashboard({ location }) {
     timeConfig: getTimeConfig(location)
   };
 
+  const { k8sTabChange, kubernetesTimeShiftSelectTracker } = useSegmentTracker();
+
   const { podId, timeConfig } = props;
 
   const prometheusEndpoints =
     useObservable(() => getKubernetesPrometheusMetricsWithDefaults({ podId, timeConfig }), [podId]) ?? pendingResult;
+  const { loading } = prometheusEndpoints.progress;
+
+  if (loading) {
+    return <LoadingIndicator />;
+  }
 
   const hasPrometheusEndpoints = prometheusEndpoints?.data?.items.length > 0;
   const allTabs = hasPrometheusEndpoints
@@ -87,10 +95,18 @@ export default function PodDashboard({ location }) {
           id: podId,
           timeConfig: timeConfig
         })}
-        HeaderComponent={Header}
+        HeaderComponent={props => (
+          <Header {...props} kubernetesTimeShiftSelectTracker={kubernetesTimeShiftSelectTracker} />
+        )}
         location={location}
         tabs={allTabs}
-        tabChangeTracker={podTabChange}
+        tabChangeTracker={e => {
+          k8sTabChange({
+            ...e,
+            dashboard: 'pod',
+            path: location.pathname
+          });
+        }}
         props={props}
         renderErrors={errors => (
           <CenterAlignmentColumn>
@@ -147,13 +163,13 @@ function renderButtonLine({ podId, timeConfig, result }) {
   );
 }
 
-function renderButtonLineSecondary({ timeConfig, podId, result }) {
+function renderButtonLineSecondary({ timeConfig, podId, result, kubernetesTimeShiftSelectTracker }) {
   const podName = result?.data?.label;
 
   return (
     <>
-      <LoggingIntegrationButtons kubernetesPodName={podName} timeConfig={timeConfig} />
-      {beeInstanaInfraMetricsEnabled && (
+      <LoggingIntegrationButtons addMargin kubernetesPodName={podName} timeConfig={timeConfig} />
+      {beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled && (
         <TimeShiftDropdown
           onChange={offset =>
             kubernetesTimeShiftSelectTracker({

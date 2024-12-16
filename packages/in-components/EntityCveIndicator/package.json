@@ -1,0 +1,6 @@
+{
+  "name": "entity-health-indicator",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./EntityHealthIndicatorBehavior.js"
+}

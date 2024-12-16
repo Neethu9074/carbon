@@ -21,8 +21,6 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { shorten } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-import locals from './RawTableFormat.mless';
-
 interface IdocInBoundDetailsRow {
   key: string;
   snapshotId: string;
@@ -166,5 +164,5 @@ export default function IdocInboundMetrics({ snapshotId, timeConfig }: IdocInBou
 }
 
 function Args({ args }: { args: any }) {
-  return <code className={locals.statement}>{args}</code>;
+  return <code>{args}</code>;
 }

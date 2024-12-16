@@ -23,6 +23,7 @@ import { arrayNotEmptyValidator } from 'in-synthetics/createTests/validators/val
 import { BluePrint } from 'in-synthetics/createTests/data/simpleModeBluePrints';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { minValidator } from 'in-services/validators/number';
@@ -96,7 +97,7 @@ export function createForm(
     }
   }
 
-  return createMapForm({
+  let createTestForm = createMapForm({
     validator: notUndefinedValidator
   })
     .put('configuration', config)
@@ -140,6 +141,28 @@ export function createForm(
         value: savedState?.customProperties ?? {}
       })
     );
+  if (syntheticRbacLimitedEnabled) {
+    return createTestForm
+      .put(
+        'applications',
+        createField({
+          value: savedState?.applications ?? []
+        })
+      )
+      .put(
+        'websites',
+        createField({
+          value: savedState?.websites ?? []
+        })
+      )
+      .put(
+        'mobileApps',
+        createField({
+          value: savedState?.mobileApps ?? []
+        })
+      );
+  }
+  return createTestForm;
 }
 
 function createActionConfigurationForm(savedState?: Record<string, any>) {
@@ -364,7 +387,7 @@ export function createZipScriptConfigurationForm(bundle: string, scriptFile: str
     );
 }
 
-function createAdvancedActionConfigurationForm(savedState?: Record<string, any>) {
+export function createAdvancedActionConfigurationForm(savedState?: Record<string, any>) {
   return createMapForm()
     .put(
       'syntheticType',
@@ -474,7 +497,7 @@ function createAdvancedActionConfigurationForm(savedState?: Record<string, any>)
     );
 }
 
-function createAdvancedWebpageActionConfigurationForm(savedState?: Record<string, any>) {
+export function createAdvancedWebpageActionConfigurationForm(savedState?: Record<string, any>) {
   return createMapForm()
     .put(
       'syntheticType',
@@ -518,7 +541,7 @@ function createAdvancedWebpageActionConfigurationForm(savedState?: Record<string
     );
 }
 
-function createAdvancedSSLCertificateConfigurationForm(savedState?: Record<string, any>) {
+export function createAdvancedSSLCertificateConfigurationForm(savedState?: Record<string, any>) {
   return createMapForm()
     .put(
       'syntheticType',
@@ -543,14 +566,19 @@ function createAdvancedSSLCertificateConfigurationForm(savedState?: Record<strin
       'port',
       createField({
         value: savedState?.port ?? 443,
-        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0), checkForInvalidPort)
+        validator: composeAndShortCircuitOnError(
+          notBlankValidator,
+          numberValidator,
+          minValidator(1),
+          checkForInvalidPort
+        )
       })
     )
     .put(
       'daysRemainingCheck',
       createField({
         value: savedState?.daysRemainingCheck ?? '',
-        validator: composeAndShortCircuitOnError(numberValidator, minValidator(0))
+        validator: composeAndShortCircuitOnError(notBlankValidator, numberValidator, minValidator(0))
       })
     )
     .put(

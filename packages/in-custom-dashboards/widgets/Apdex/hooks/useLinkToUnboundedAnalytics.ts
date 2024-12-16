@@ -13,12 +13,12 @@ import {
   isWebsiteApdexConfiguration,
   WebsiteApdexConfiguration
 } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
-import getJumpDirectlyToApplicationLikeUA2Href$ from 'in-custom-dashboards/widgets/Slo/hooks/analytics/getJumpDirectlyToApplicationLikeUA2Href';
+import getJumpDirectlyToApplicationLikeUA2Href$ from 'in-custom-dashboards/widgets/SloLegacy/hooks/analytics/getJumpDirectlyToApplicationLikeUA2Href';
 import {
   GetLinkToAnalyzeProps,
   useLinkToAnalyze as useLinkToApplicationAnalyze
 } from 'in-applications/navigation/paths';
-import getLinkToWebsiteAnalyze from 'in-custom-dashboards/widgets/Slo/hooks/analytics/getLinkToWebsiteAnalyze';
+import getLinkToWebsiteAnalyze from 'in-custom-dashboards/widgets/SloLegacy/hooks/analytics/getLinkToWebsiteAnalyze';
 import { useGenerateLinkToAnalyze as useGenerateLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
 import { TimeConfigAwareHref$Creator } from 'in-components/Chart/types';
 import { createChartedMetric } from 'in-analyze/navigation/paths';

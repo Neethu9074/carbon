@@ -1,6 +1,7 @@
 {
   "logs": "Logs",
   "sum": "soma",
+  "count": "count",
   "bar": "Barra",
   "logsOverTime": "Logs ao longo do tempo",
   "logsOverTime_ERROR": "Erro",
@@ -53,5 +54,31 @@
   "process": "Processo",
   "host": "Host",
   "fileOnHost": "em",
-  "file": "Arquivo"
+  "file": "Arquivo",
+  "logExpiration": "Retido até",
+  "stacktraceLogMessage": "Rastreio de pilha",
+  "logTraceTitle": "Rastreio de pilha",
+  "stackTraceHeader": "Mensagem do Stacktrace",
+  "dashboard": {
+    "summary": "Resumo",
+    "smartAlerts": "Alertas inteligentes",
+    "deleteLogs": "Excluir logs",
+    "configuration": "Configuração",
+    "logVolume": {
+      "logVolumeTitle": "Volume de logs do mês atual",
+      "gb": "GB",
+      "logVolumeIcon": "Acessar o volume de log"
+    },
+    "retentionIcon": "Mudar período de retenção",
+    "noData": "Dados não disponíveis",
+    "analyzeLogs": "Analisar logs",
+    "configurationPage": {
+      "logVolume": "Volume de log",
+      "logVolumeDescription": "Visualize o volume de log de até 12 meses e agrupe por tags de infraestrutura sob demanda.",
+      "logIntegrations": "Integrações de log",
+      "logIntegrationsDescription": "Conecte suas soluções de gerenciamento de log e configure-as para atender às suas necessidades.",
+      "retentionPeriod": "Período de retenção",
+      "retentionPeriodDescription": "A mudança do período de retenção afeta o tempo em que os logs são retidos e disponibilizados em aplicativos, painéis e análises de dados e possui um impacto em custo e faturamento."
+    }
+  }
 }

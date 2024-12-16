@@ -1,19 +1,9 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright IBM Corp. 2024
+ * (c) Copyright Instana Inc. 2021
  */
 
-import classNames from 'classnames';
-import React from 'react';
+// Implementation moved to ui-foundataion
+import { HelpText } from '@instana/components';
 
-import locals from './HelpText.mless';
-
-interface Props {
-  children: React.ReactNode;
-  className?: string;
-  large?: boolean;
-}
-
-export default function HelpText({ children, className, large = false }: Props) {
-  return <p className={classNames(large ? locals.helpLarge : locals.help, className)}>{children}</p>;
-}
+export default HelpText;

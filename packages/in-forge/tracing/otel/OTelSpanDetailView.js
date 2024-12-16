@@ -5,8 +5,10 @@
 
 import React from 'react';
 
+import { Card } from '@instana/components';
+
+import SidebarTagList from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/SidebarTagList';
 import { Dl, Di } from 'in-components/HorizontalDescriptionList';
-import Code from 'in-sdk/components/traceDetails/Code';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { t } from 'in-i18n';
 
@@ -16,7 +18,10 @@ export default function OTelSpanDetailView({ span }) {
   const error = span.getIn(['data', 'error']);
   const errorDetail = span.getIn(['data', 'error_detail']);
   const traceState = span.getIn(['data', 'trace_state']);
-  const resource = span.getIn(['data', 'resource']);
+
+  const toKeyValueMap = map => Object.entries(map).map(([name, value]) => ({ name, value }));
+  const tags = toKeyValueMap(span.getIn(['data', 'tags'], emptyMap).toJS());
+  const resource = toKeyValueMap(span.getIn(['data', 'resource'], emptyMap).toJS());
 
   return (
     <div>
@@ -30,15 +35,13 @@ export default function OTelSpanDetailView({ span }) {
             {errorDetail != null && ` – ${errorDetail}`}
           </Di>
         )}
-        <Di title={t('in-forge:tracing.otel.tags')} verticalDisplay>
-          <Code code={JSON.stringify(span.getIn(['data', 'tags'], emptyMap).toJS(), 0, 2)} lang="json" />
-        </Di>
-        {resource != null && (
-          <Di title={t('in-forge:tracing.otel.resource')} verticalDisplay>
-            <Code code={JSON.stringify(resource.toJS(), 0, 2)} lang="json" />
-          </Di>
-        )}
       </Dl>
+      <Card title={t('in-forge:tracing.otel.tags')} hasMarginBottom>
+        <SidebarTagList tags={tags} />
+      </Card>
+      <Card title={t('in-forge:tracing.otel.resource')} hasMarginBottom>
+        <SidebarTagList tags={resource} />
+      </Card>
     </div>
   );
 }

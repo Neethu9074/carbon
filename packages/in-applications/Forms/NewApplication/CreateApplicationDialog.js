@@ -7,7 +7,7 @@ import { createField, createMapForm } from 'formalistic';
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
-import { Card, Message, Spacer } from '@instana/components';
+import { Card, Message, Spacer, Pill } from '@instana/components';
 import { just } from '@instana/observables';
 
 import {
@@ -22,7 +22,7 @@ import InboundOrAllCallsChoiceVertical from 'in-applications/Dashboards/commonCo
 import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import ContributionFilterDropdown from 'in-applications/creation/components/ContributionFilterDropdown';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
-import { applicationSubmitTracker } from 'in-applications/tracker';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import DescriptionText from 'in-components/form/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import OptionBox from 'in-applications/components/OptionBox';
@@ -35,12 +35,12 @@ import { isBlank } from 'in-services/util/string';
 import { noop } from 'in-services/fixedObjects';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import Pill from 'in-components/Pill';
 import { t, Trans } from 'in-i18n';
 
 import locals from './CreateApplicationDialog.mless';
 
 export default function CreateApplicationDialog({ applicationId, onCancelHref, getOnSavePath }) {
+  const { trackApplicationSubmitted } = useApplicationTracker();
   return (
     <MaxWidthFullscreenContainer className={locals.maxWidthFullscreenContainer}>
       <Card
@@ -60,7 +60,7 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref, g
               : just({ progress: { loading: false }, errors: [], data: createNewApplicationConfig() })
           }
           updateEntity={applicationConfig => {
-            applicationSubmitTracker({
+            trackApplicationSubmitted({
               name: applicationConfig.label,
               downstreamEnabled: applicationConfig.scope === 'INCLUDE_ALL_DOWNSTREAM',
               tags: applicationConfig.matchSpecification?.map(spec => spec.key) || []

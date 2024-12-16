@@ -1,0 +1,129 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+import { isEqual } from 'lodash';
+
+/* eslint-disable no-console */
+import { markAsFinished } from 'in-components/graphView/graphViewStore';
+import { navigationParameters$ } from 'in-stores/navigation/navigation';
+import Springy from 'in-components/graphView/layout/springy3d';
+import Edge from 'in-components/graphView/entities/Edge';
+import Node from 'in-components/graphView/entities/Node';
+import { getTimeConfig } from 'in-stores/time/config';
+import getGraph from 'in-subscription/graph';
+
+export default class Graph {
+  constructor() {
+    this.springyGraph = new Springy.Graph();
+    this.springyLayout = new Springy.Layout.ForceDirected(this.springyGraph, 100.0, 200.0, 0.5);
+
+    // maps node id => node instance
+    this.nodes = {};
+
+    // maps edge id => edge instance
+    this.edges = {};
+
+    this.graphSubscription = navigationParameters$
+      .map(location => ({ timeConfig: getTimeConfig(location), snapshotId: location.query.snapshotId }))
+      .distinct((prev, next) => !isEqual(prev, next))
+      .flatMap(params => getGraph(params).throttle(60000))
+      .once(this.processEdgeModifications.bind(this));
+  }
+
+  processEdgeModifications({ edges, idsToPlugins }) {
+    // maps node id => node instance
+    // used to remove unused nodes from the graph
+    const modifiedNodes = {};
+
+    edges.slice(0, 5000).forEach(edgeModification => {
+      const edgeId = edgeModification.id;
+      const fromNode = this.getOrCreateNode(edgeModification.from, idsToPlugins[edgeModification.from]);
+      modifiedNodes[fromNode.snapshotId] = fromNode;
+      const toNode = this.getOrCreateNode(edgeModification.to, idsToPlugins[edgeModification.to]);
+      modifiedNodes[toNode.snapshotId] = toNode;
+
+      if (edgeModification.modificationType === 'ADD') {
+        // nothing to do, we already know about this edge
+        if (this.edges[edgeId]) {
+          return;
+        }
+
+        const springyEdge = this.springyGraph.newEdge(fromNode.springyNode, toNode.springyNode);
+        this.edges[edgeId] = new Edge(
+          edgeId,
+          fromNode,
+          toNode,
+          edgeModification.relation,
+          this.springyGraph,
+          springyEdge
+        );
+        fromNode.increaseEdgeCount();
+        toNode.increaseEdgeCount();
+      } else {
+        const edge = this.edges[edgeId];
+
+        // nothing to do, we never knew about this edge
+        if (!edge) {
+          return;
+        }
+
+        edge.remove();
+        edge.dispose();
+        delete this.edges[edgeId];
+        fromNode.decreaseEdgeCount();
+        toNode.decreaseEdgeCount();
+      }
+    });
+
+    this.removeUnusedNodes();
+    this.restartLayoutProcess();
+  }
+
+  removeUnusedNodes() {
+    Object.keys(this.nodes).forEach(snapshotId => {
+      const node = this.nodes[snapshotId];
+
+      if (node.getEdgeCount() === 0) {
+        node.remove();
+        node.dispose();
+        delete this.nodes[snapshotId];
+      }
+    });
+  }
+
+  restartLayoutProcess() {
+    console.log(
+      '(Re-) starting layout with %s nodes and %s edges',
+      Object.keys(this.nodes).length,
+      Object.keys(this.edges).length
+    );
+    // start another layouting run
+    this.springyLayout.start(3, () => {}, markAsFinished);
+  }
+
+  getOrCreateNode(snapshotId, pluginId) {
+    let existingNode = this.nodes[snapshotId];
+    if (existingNode) {
+      return existingNode;
+    }
+
+    const springyNode = this.springyGraph.newNode({ label: snapshotId });
+    existingNode = this.nodes[snapshotId] = new Node(snapshotId, pluginId, this.springyGraph, springyNode);
+    return existingNode;
+  }
+
+  eachEdge(fn) {
+    Object.keys(this.edges).forEach(edgeId => fn(this.edges[edgeId]));
+  }
+
+  eachNode(fn) {
+    Object.keys(this.nodes).forEach(nodeId => fn(this.nodes[nodeId]));
+  }
+
+  dispose() {
+    this.graphSubscription.dispose();
+    Object.keys(this.nodes).forEach(nodeId => this.nodes[nodeId].dispose());
+  }
+}

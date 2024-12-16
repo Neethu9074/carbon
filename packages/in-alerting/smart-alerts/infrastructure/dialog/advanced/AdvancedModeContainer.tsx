@@ -4,37 +4,39 @@
  * Copyright IBM Corp. 2023
  */
 
+import { MapForm } from 'formalistic';
 import React from 'react';
 
+import {
+  infraPredictiveDetectionEnabled,
+  oneMinuteGranularityForStaticThresholdEnabled,
+  alertChannelPerSeverityInfraSaEnabled
+} from 'in-services/featureFlags';
 import {
   AlertConfigDialogPresenterProps,
   MainDialogControl
 } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
-import {
-  AlertPreview,
-  AlertPreviewHeadline
-} from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
+import { MultiThresholdAlertPreview } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/MultiThresholdAlertPreview';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
 import {
-  isCustomPayloadValidOrUntouched,
-  fieldTouchedAndInvalid
+  fieldTouchedAndInvalid,
+  isCustomPayloadValidOrUntouched
 } from 'in-alerting/smart-alerts/components/utils/formUtils';
-import {
-  oneMinuteGranularityForStaticThresholdEnabled,
-  infraPredictiveDetectionEnabled
-} from 'in-services/featureFlags';
+import ConfigureAlertChannelMT from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/ConfigureAlertChannel';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
-import InfraPredictiveTrigger from 'in-alerting/smart-alerts/infrastructure/components/InfraPredictiveTrigger';
+import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
-import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/eum/components/AlertPropertiesTitleRow';
-import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
+import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
+import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
+import ForecastAlerting from 'in-alerting/smart-alerts/infrastructure/components/ForecastAlerting';
 import ScopeSection from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeSection';
 import regexValidator from 'in-alerting/smart-alerts/infrastructure/data/regexValidator';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import TimeThreshold from 'in-alerting/smart-alerts/aggregated/TimeThreshold';
+import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import StepsContainer from 'in-components/StepsContainer';
 import { t } from 'in-i18n';
@@ -49,14 +51,18 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
     setSliderState,
     setCustomSlideInHeaderConfig,
     setTagFilterValid,
-    tagFilterValid
+    tagFilterValid,
+    TagBasedPayloadConfigurator
   } = props;
-  const thresholdType = form.get('threshold').get('type').value;
-  const metricLabel = form.get('hiddenFields').get('metricLabel').value;
+  // For now, we support only static threshold. So taking type from warningThreshold/criticalThreshold would not change anything.
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const entityType = form.get('rule')?.get('entityType')?.value;
   const metric = form.get('rule')?.get('metricName')?.value;
   const isRegex = form.get('rule').get('regex')?.value;
   const tagCatalog = useTagCatalog({ ownerType: entityType, metric, regex: isRegex });
+  const groupBy = form.get('groupBy').value;
+
+  const placeholders = getAllowedPlaceholders({ groupBy: toBackendGroupBy(groupBy) });
 
   return (
     <StepsContainer
@@ -66,7 +72,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           scrollId: '1',
           label: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.label'),
           title: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.title'),
-          valid: isMetricAndEntityValid() && tagFilterValid,
+          valid: isMetricAndEntityValid(form) && tagFilterValid,
           content: (
             <ScopeSection
               form={form}
@@ -88,7 +94,6 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
               form={form}
               onChartViewConfigChange={onChartViewConfigChange}
               selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-              // @ts-expect-error updateForm is required
               updateForm={updateForm}
               tagCatalog={tagCatalog}
               regex={isRegex}
@@ -110,7 +115,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                   thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
                 }
               />
-              {infraPredictiveDetectionEnabled && <InfraPredictiveTrigger form={form} updateForm={updateForm} />}
+              {infraPredictiveDetectionEnabled && <ForecastAlerting form={form} updateForm={updateForm} />}
             </>
           )
         },
@@ -120,13 +125,26 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           title: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.alertChannel.title'),
           valid: true,
           content: (
-            <ConfigureAlertChannel
-              form={form}
-              onChange={onChange}
-              setSliderState={setSliderState}
-              setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-              numberOfAlertChannelListRows={7}
-            />
+            <>
+              {alertChannelPerSeverityInfraSaEnabled ? (
+                <ConfigureAlertChannelMT
+                  form={form}
+                  onChange={onChange}
+                  updateForm={updateForm}
+                  setSliderState={setSliderState}
+                  setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+                  numberOfAlertChannelListRows={5}
+                />
+              ) : (
+                <ConfigureAlertChannel
+                  form={form}
+                  onChange={onChange}
+                  setSliderState={setSliderState}
+                  setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+                  numberOfAlertChannelListRows={5}
+                />
+              )}
+            </>
           )
         },
         {
@@ -146,24 +164,17 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                       form={form}
                       onChange={onChange}
                       getTitlePlaceholder={getTitlePlaceholder}
+                      placeholders={placeholders}
+                      placeholderTooltipContent={t(
+                        'in-alerting:smartAlerts.components.smartAlertDialog.groupingPlaceholdersMissingTooltip'
+                      )}
                     />
                   )}
+                  shouldDisplayAlertLevelSelection={false}
                 />
               )}
               renderAlertPreview={() => (
-                <AlertPreview
-                  form={form}
-                  renderHeadline={() => (
-                    <AlertPreviewHeadline title={form.get('name').value || getTitlePlaceholder()} />
-                  )}
-                  getDescriptionPlaceholder={getDescriptionPlaceholder}
-                  entityLabel={
-                    metricLabel
-                      ? metricLabel
-                      : t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.properties.preview.subtitle')
-                  }
-                  entityIconType="lib_infrastructure"
-                />
+                <MultiThresholdAlertPreview form={form} getDescriptionPlaceholder={getDescriptionPlaceholder} />
               )}
             />
           )
@@ -176,7 +187,12 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           content: (
             <>
               <GlobalCustomPayloadCard context="INFRA" />
-              <AlertConfigCustomPayload form={form} setForm={updateForm} supportDynamicTypes={false} />
+              <AlertConfigCustomPayload
+                form={form}
+                setForm={updateForm}
+                supportDynamicTypes
+                TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+              />
             </>
           )
         }
@@ -185,16 +201,17 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
   );
 
   function isThresholdSectionValid(): boolean {
-    return !fieldTouchedAndInvalid(form.get('threshold')?.get('value'));
+    return !fieldTouchedAndInvalid(form.get('threshold'));
   }
-  function isMetricAndEntityValid(): boolean {
-    const metric = form.get('rule')?.get('metricName')?.value;
-    const entityType = form.get('rule')?.get('entityType')?.value;
-    const regexpValidator = regexValidator((form as any)?.items);
-    return (
-      !fieldTouchedAndInvalid(form.get('rule')?.get('metricName')) &&
-      !regexpValidator?.length &&
-      !(metric.length && !entityType)
-    );
-  }
+}
+
+export function isMetricAndEntityValid(form: MapForm<any>): boolean {
+  const metric = form.get('rule')?.get('metricName')?.value;
+  const entityType = form.get('rule')?.get('entityType')?.value;
+  const regexpValidator = regexValidator((form as any)?.items);
+  return (
+    !fieldTouchedAndInvalid(form.get('rule')?.get('metricName')) &&
+    !regexpValidator?.length &&
+    !(metric.length && !entityType)
+  );
 }

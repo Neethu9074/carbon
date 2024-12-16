@@ -2,6 +2,7 @@
   "components": {
     "accountSettings": {
       "accountSettings": "Accounteinstellungen",
+      "unknownDomain": "Unbekannte Domäne",
       "billingAddress": "Rechnungsadresse",
       "country": "Land",
       "state": "Bundesstaat",
@@ -20,12 +21,25 @@
       "licensedApmHosts": "Lizenzierte APM-Hosts",
       "licensedIqmHosts": "Lizenzierte IQM-Hosts"
     },
+    "learnMore": {
+      "title": "Erfahren Sie mehr über die Fair Use Policy von Instana",
+      "leftTitle": "Was ist die Fair Use Policy?",
+      "rightTitle": "Wie kann ich mehr Daten kaufen?",
+      "leftBody": "Die Fair Use Policy von Instana beschreibt die monatliche Datenmenge, die mit Ihrem Lizenztyp verbunden ist. Weitere Informationen und Richtlinien zur Ressourcennutzung finden Sie in der <fupDocLink>Dokumentation Fair Use Policy</fupDocLink>.",
+      "rightBody": "Wenn Sie einen kontinuierlichen Bedarf an zusätzlicher Datennutzung erwarten, wenden Sie sich an Ihren Instana-Vertriebsmitarbeiter, um Add-on-Optionen zu prüfen. Setzen Sie sich <salesLink>hier</salesLink> mit dem Vertrieb in Verbindung."
+    },
     "ampInformationModifier": {
       "allPaidUnitsAggregated": "Alle bezahlten Einheiten (aggregiert)",
       "customerUsageIsReportedAcrossAllUnitsOfYourAccountWithAPaidLicense": "Die Kundennutzung wird für alle Einheiten Ihres Accounts mit einer bezahlten Lizenz gemeldet."
     },
     "noLicenseAvailableMessage": {
       "thereHasBeenNoActivePaidLicenseInThePast30Days": "In den letzten 30 Tagen gab es keine aktive bezahlte Lizenz. "
+    },
+    "fairUsePolicyMessage": {
+      "title": "Dieses Konto unterliegt der Fair-Use-Richtlinie. Siehe Datennutzung in den nachstehenden Diagrammen."
+    },
+    "fairUsePolicyNotActive": {
+      "title": "Die Fair-Use-Richtlinie ist nicht aktiv."
     },
     "restrictedUsage": {
       "accountUsage": "Accountnutzung"
@@ -36,10 +50,34 @@
       "max": "Max.",
       "average": "Durchschnitt"
     },
+    "dataIngestTable": {
+      "consumptionOverview": "Nutzungsübersicht",
+      "row": "Zeile",
+      "unit": "Einheit",
+      "calculation": "Berechnung",
+      "entitledNumberOfMVS": "Berechtigte Anzahl von MVS",
+      "actualAverage": "Tatsächliche durchschnittliche konfigurierte Anzahl von MVS",
+      "onDemandNumber": "Abrufbare Anzahl von MVS",
+      "dataIngestFairUseEntitlement": "Fair-Use-Nutzungsrecht für Datenaufnahme pro MVS",
+      "totalDataIngestFairUseEntitlement": "Fair-Use-Nutzungsrecht für Gesamtdatenaufnahme",
+      "dataIngestAddOnEntitlement": "Nutzungsrecht für das Datenaufnahme-Add-on",
+      "totalAmountPurchased": "Gesamtbetrag, der über das Add-on \"extra Datenaufnahme\" erworben wurde",
+      "dataIngestEntitlementFromOnDemand": "Fair-Use-Nutzungsrecht für die Datenaufnahme aus On-Demand-MVS",
+      "totalDataIngestEntitlement": "Nutzungsrecht zur gesamten Datenaufnahme",
+      "actualDataIngest": "Tatsächliche Datenaufnahme",
+      "onDemandDataIngest": "On-Demand Datenaufnahme",
+      "noData": "Keine Daten"
+    },
     "timePresets": {
       "last7Days": "Letzte 7 Tage",
-      "last15Days": "Letzte 15 Tage",
-      "last365Days": "Letzte 365 Tage"
+      "last30Days": "Letzte 30 Tage",
+      "last365Days": "Letzte 365 Tage",
+      "thisMonth": "Dieser Monat",
+      "lastMonth": "Letzter Monat"
+    },
+    "presentationPresets": {
+      "distinct": "Unterschiedliche Werte",
+      "cumulative": "Kumulierte Werte"
     },
     "usages": {
       "allPaidUnitsAggregated": "Alle bezahlten Einheiten (aggregiert)",
@@ -49,16 +87,31 @@
       "queuedLicenses": "Lizenzen in der Warteschlange"
     },
     "usageCharts": {
-      "apmUsage": "APM-Nutzung",
+      "standard": "Standard",
       "apmHosts": "APM-Hosts",
       "purchased": "Erworben",
-      "infrastructureUsage": "Infrastrukturnutzung",
+      "essentials": "Allgemeine Informationen",
       "iqmHosts": "IQM-Hosts",
       "syntheticPops": "Synthetische verwaltete PoPs",
-      "resourceUnits": "Ressourceneinheiten",
-      "consumedUnits": "Verbrauchte Einheiten",
+      "logging": "Logs im Kontext",
+      "resourceUnits": "Berechtigte Ressourceneinheiten",
+      "consumedUnits": "Verbrauchte Ressourceneinheiten",
+      "entitledData": "Berechtigte Daten",
+      "consumedData": "Verbrauchte Daten",
+      "infrastructure": "Infrastruktur",
+      "synthetics": "Synthetics",
+      "traces": "Traces",
+      "eumMobile": "EUM Mobil",
+      "eumWebsite": "EUM-Website",
       "addons": "Add-ons",
-      "helperText": "Anzahl der Ressourceneinheiten, die von jedem Aktionstyp verbraucht werden. Einheiten werden mit dem Faktor 0.025 für einfache Tests, 0.042 für API-Tests und 1.000 für Browsertests berechnet."
+      "trendLine": "Trendkurve",
+      "dataUsage": "Datennutzung",
+      "dataUsageHelperText": "Menge der über Agenten gesendeten Bytes im gewählten Zeitraum, getrennt nach Kategorien.",
+      "syntheticsHelperText": "Anzahl der Ressourceneinheiten, die von jedem Aktionstyp verbraucht werden. Einheiten werden mit dem Faktor 0.025 für einfache Tests, 0.042 für API-Tests und 1.000 für Browsertests berechnet.",
+      "loggingHelperText": {
+        "saas": "Dieses Diagramm zeigt die Datenmenge in Bytes an, die vom Protokollierungs-Add-on für die gewählte Aufbewahrungsfrist verwendet wird.",
+        "onprem": "Dieses Diagramm zeigt die Datenmenge in Bytes an, die vom Protokollierungs-Add-on für die gewählte Aufbewahrungsfrist verwendet wird."
+      }
     },
     "activationAdoption": {
       "activationAdoption": "Aktivierung und Umsetzung",

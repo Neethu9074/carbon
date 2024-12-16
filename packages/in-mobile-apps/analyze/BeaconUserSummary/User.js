@@ -6,11 +6,10 @@
 import { uniq, find } from 'lodash';
 import React from 'react';
 
-import { SvgIcon, Link } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { SvgIcon, Link, Button } from '@instana/components';
 
 import { isBlank, isNotBlank } from 'in-services/util/string';
-import Gravatar from 'in-components/Gravatar';
+import UserIcon from 'in-components/UserIcon/UserIcon';
 import { redirectURL } from '../../constants';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -65,7 +64,7 @@ export default function User({ beacon, beacons }) {
 
   return (
     <div className={locals.user}>
-      <Gravatar email={beacon.userEmail} size="l" />
+      <UserIcon size="xl" />
       <div className={locals.info}>
         <div className={locals.first}>
           <span className={locals.firstText}>{first}</span>{' '}

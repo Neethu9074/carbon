@@ -14,6 +14,7 @@ import { Card } from '@instana/components';
 // @ts-expect-error
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AnalyzeEntityCountVerificationEventButton from 'in-events/components/AnalyzeEntityCountVerificationEventButton';
+import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
@@ -26,15 +27,15 @@ import { hasInfrastructureAnalyzeAccess } from 'in-stores/permission';
 import { Config } from 'in-custom-dashboards/widgets/Chart/types';
 import { EVENT_TYPES, getEventType } from 'in-stores/events';
 import { numberCompact } from 'in-stores/metric/formatters';
-import { EventMap, EventOrMap } from 'in-events/types';
 import { getMetricDefinition } from 'in-sdk/metrics';
 import { Row, Col } from 'in-components/layout/Grid';
 import { line } from 'in-stores/metric/renderer';
+import { EventOrMap } from 'in-events/types';
 import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 interface Props {
-  event: EventMap;
+  event: EventOrMap;
   snapshot: Map<string, unknown>;
 }
 
@@ -88,10 +89,11 @@ export default function EntityCountVerificationEventContent({ event, snapshot }:
               linkTimeConfig={getTimeConfigFromEvent(event as EventOrMap)}
             />
 
-            <ProblemDescription fixSuggestion={fixSuggestion} className="in-event-view-event-content" />
+            <ProblemDescription fixSuggestion={fixSuggestion} />
 
             {hasInfrastructureAnalyzeAccess && (
               <DescriptionButtons>
+                <TriggeredIncidentButton event={event} />
                 <EventSpecificationLink event={event.toJS()} />
                 <AnalyzeEntityCountVerificationEventButton
                   tagFilterExpression={tagFilterExpression}

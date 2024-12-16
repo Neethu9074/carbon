@@ -1,0 +1,93 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+:local {
+  .thresholdConditionItem {
+    display: grid;
+    grid-template-columns: 10% 10% 80%;
+    align-items: center;
+    justify-items: start;
+    min-height: 4rem;
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
+
+    &:nth-child(even) {
+      background: var(--ids-color-option-neutral-50);
+    }
+
+    button,
+    input,
+    .checkbox,
+    label {
+      font-size: var(--ids-font-size-option-body-small);
+    }
+    label {
+      margin-bottom: 0;
+    }
+    label + button {
+      margin-left: 0.5rem;
+    }
+    input {
+      margin-right: 0.5rem;
+    }
+    button + input {
+      margin-left: 0.5rem;
+    }
+    :global .cds--number {
+      input {
+        margin-right: 0rem;
+      }
+    }
+    :global .cds--visually-hidden {
+      position: fixed;
+    }
+
+    color: var(--ids-color-option-neutral-700);
+  }
+
+  .increasedColumns {
+    grid-template-columns: 10% 20% 70%;
+  }
+
+  .whiteBackground {
+    background: var(--ids-color-option-white);
+  }
+
+  .content {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .extraGap {
+    column-gap: 0.5rem;
+  }
+
+  .alignStart {
+    align-items: flex-start;
+  }
+
+  .icon {
+    justify-self: center;
+  }
+
+  .label {
+    padding: 0 0.5rem 0 0;
+  }
+
+  .input {
+    width: 5.625rem;
+  }
+
+  .checkbox {
+    &:hover {
+      cursor: pointer;
+    }
+    &.checked {
+      font-weight: bold;
+    }
+  }
+}

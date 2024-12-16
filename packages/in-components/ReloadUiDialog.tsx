@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog/Dialog';
@@ -21,6 +21,7 @@ export default function ReloadUiDialog({ onClose = close }) {
         onClick={() => {
           window.location.reload();
         }}
+        // @ts-expect-error Property 'autoFocus' does not exist on type 'IntrinsicAttributes & PropsType & RefAttributes<any>'.
         autoFocus
       >
         {t('in-components:reloadUiDialogReloadBtn')}

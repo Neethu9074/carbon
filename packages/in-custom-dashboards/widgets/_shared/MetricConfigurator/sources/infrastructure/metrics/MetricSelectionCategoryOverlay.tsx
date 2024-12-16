@@ -8,11 +8,11 @@ import React from 'react';
 
 import { MetricCatalog, MetricMetadata, TagFilterExpression } from '@instana/types';
 
-// @ts-expect-error needs to be converted to typescript
-import MetricSelectorOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
 import RegexMetricSelectorOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/RegexMetricSelectorOverlay';
+import MetricSelectorOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
 import InlineTabNavigation from 'in-components/InlineTabNavigation/InlineTabNavigation';
 import { regexMetricSelectionEnabled } from 'in-services/featureFlags';
+import { MetricOptions } from 'in-components/SelectorOverlay/Node';
 import { t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectionCategoryOverlay.mless';
@@ -21,7 +21,7 @@ export interface Props {
   metricMetadata: MetricMetadata;
   metricCatalog: MetricCatalog;
   loading: boolean;
-  onMetricChange: (node: Node) => void;
+  onMetricChange: (options: MetricOptions) => void;
   query: string;
   onQueryChange: (q: string) => void;
   isRegex: boolean;
@@ -31,9 +31,10 @@ export interface Props {
   backendQueryModel: TagFilterExpression;
   type: string;
   onTypeChange: (t: string) => void;
-  onSelectType: (t: string) => void;
-  close?: () => void;
+  onSelectType: (t?: string) => void;
+  close?: VoidFunction;
   disabled: boolean;
+  selectedType?: string;
 }
 
 const tabList = [
@@ -66,7 +67,8 @@ export default function MetricSelectionCategoryOverlay({
   onTypeChange,
   onSelectType,
   close,
-  disabled
+  disabled,
+  selectedType
 }: Props) {
   const listOverlay = (
     <MetricSelectorOverlay
@@ -78,6 +80,7 @@ export default function MetricSelectionCategoryOverlay({
       onSelectType={onSelectType}
       close={close}
       disabled={disabled}
+      backButton={selectedType !== undefined}
     />
   );
   if (!regexMetricSelectionEnabled) {

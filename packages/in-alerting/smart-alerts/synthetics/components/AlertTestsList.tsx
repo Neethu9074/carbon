@@ -6,13 +6,16 @@
 
 import React, { ReactNode } from 'react';
 
-import { SvgIcon, TrProps, Link } from '@instana/components';
 import { Observable } from '@instana/observables';
+import { Link } from '@instana/components';
+import { TrProps } from '@instana/legacy';
 
+import AssociationsContentPresenter from 'in-synthetics/dashboards/global/tabs/tests/components/AssociationsContentPresenter';
+import ApplicationLabelContent from 'in-synthetics/dashboards/global/tabs/tests/components/ApplicationLabelContent';
 import List, { ColumnDefinition, leftHeaderWithSelectAll, TableActions } from 'in-settings/components/List';
-import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { syntheticsSummaryPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { getDisplayType } from 'in-synthetics/utils/syntheticTypeMap';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getTestsAsResultObservable } from 'in-synthetics/api';
@@ -166,25 +169,43 @@ function columnDefinitions(hasRowNavigation: boolean): Array<ColumnDefinition<Sy
 
 function applicationLabel(): ColumnDefinition<SyntheticTest> {
   return {
-    id: 'applicationLabel',
-    label: t('in-synthetics:dashboard.testList.applicationLabel'),
+    id: syntheticRbacLimitedEnabled ? 'associationLabels' : 'applicationLabel',
+    label: t('in-synthetics:dashboard.testList.associationLabel'),
     defaultOrderDirection: 'ASC',
     getContent(item: SyntheticTest) {
-      const applicationLabel = item.applicationLabel;
-      if (applicationLabel != null && applicationLabel !== '') {
+      if (syntheticRbacLimitedEnabled) {
+        const applicationLabels = item.applicationLabels ?? [];
+        const applicationIds = item.applications ?? [];
+        const websiteLabels = item.websiteLabels ?? [];
+        const websiteIds = item.websites ?? [];
+        const mobileAppLabels = item.mobileAppLabels ?? [];
+        const mobileAppIds = item.mobileApps ?? [];
+
         return (
-          <HorizontalFlexWrapper>
-            <SvgIcon type={'lib_application_invert'} />
-            <span className={locals.label}>{applicationLabel}</span>
-          </HorizontalFlexWrapper>
-        );
-      } else {
-        return (
-          <div>
-            <span className={locals.label}>{''}</span>
-          </div>
+          <AssociationsContentPresenter
+            applicationIds={applicationIds}
+            applicationLabels={applicationLabels}
+            websiteIds={websiteIds}
+            websiteLabels={websiteLabels}
+            mobileAppIds={mobileAppIds}
+            mobileAppLabels={mobileAppLabels}
+            applicationIdsCanBeLinked={[]}
+            websiteIdsCanBeLinked={[]}
+            mobileAppIdsCanBeLinked={[]}
+          />
         );
       }
+
+      const applicationLabel = item.applicationLabel ?? '';
+      const applicationId = item.applicationId ?? '';
+
+      return (
+        <ApplicationLabelContent
+          applicationId={applicationId}
+          applicationLabel={applicationLabel}
+          shouldDisplayLink={false}
+        />
+      );
     }
   };
 }

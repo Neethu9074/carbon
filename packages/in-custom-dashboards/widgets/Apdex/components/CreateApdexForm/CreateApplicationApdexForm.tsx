@@ -23,12 +23,12 @@ import {
   useValidateApplicationFilterExpression
 } from 'in-service-levels/hooks/useApplicationQueryBuilder';
 import ApplicationScopeConfiguratorSections from 'in-custom-dashboards/widgets/Apdex/components/ApplicationScopeConfiguratorSections';
-import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
+import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/SloLegacy/components/OverridingFieldValidationMessage';
 import { CreateApdexFormComponentProps } from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/CreateApdexForm';
 // eslint-disable-next-line import/no-deprecated
-import { getField } from 'in-custom-dashboards/widgets/Slo/form';
+import { getField } from 'in-custom-dashboards/widgets/SloLegacy/form';
 import EditConfigNotice from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/EditConfigNotice';
-import useSetFormFooterEffect from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSetFormFooterEffect';
+import useSetFormFooterEffect from 'in-custom-dashboards/widgets/SloLegacy/sli/hooks/useSetFormFooterEffect';
 import ApdexConfigPreview from 'in-custom-dashboards/widgets/Apdex/components/ApdexConfigPreview';
 import PreviewHeader from 'in-custom-dashboards/widgets/Apdex/components/PreviewHeader';
 import PreviewFooter from 'in-custom-dashboards/widgets/Apdex/components/PreviewFooter';

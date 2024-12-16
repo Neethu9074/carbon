@@ -12,12 +12,12 @@ import { generateUniqueShortId } from '@instana/utils';
 import { t } from '@instana/i18n-react';
 
 import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/createTests/data/advancedModeBluePrints';
+import { syntheticAdvancedCreateTestTypeSwitch } from 'in-synthetics/tracking/tracker';
 import SelectedTestType from 'in-synthetics/createTests/advanced/SelectedTestType';
 import { Code, ConfigItem, TestTypeSelected } from 'in-synthetics/utils/constants';
-import { syntheticAdvancedCreateTestTypeSwitch } from 'in-synthetics/tracker';
-import { syntheticCertificateCheckEnabled } from 'in-services/featureFlags';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
-import Menu from 'in-components/Menu';
+import SideRadioMenu from 'in-components/SideRadioMenu';
 
 import locals from 'in-synthetics/createTests/advanced/BluePrintSelectionSection.mless';
 
@@ -105,17 +105,25 @@ const SelectionMenu = ({
   setScriptDetails,
   setHeaders
 }: SelectionMenuProps) => {
+  const { trackCta } = useSegmentTracking();
+  const blueprintConfigs = getAdvancedBlueprintConfig();
   return (
-    <div className={classNames(locals.container, { [locals.disabled]: isUpdateConfig })}>
-      <Menu
-        items={getAdvancedBlueprintConfig(syntheticCertificateCheckEnabled)}
-        addRightSeparator
-        onItemClick={item => {
-          // Tracker
-          syntheticAdvancedCreateTestTypeSwitch({
-            detail: `Switched to create ${item.type} test section from advanced mode`
-          });
-          setCommonAttributes({ ...commonAttributes, syntheticType: '' });
+    <div
+      className={classNames(locals.container, {
+        [locals.disabled]: isUpdateConfig
+      })}
+    >
+      <SideRadioMenu
+        items={blueprintConfigs.map(x => ({ id: x.type, name: x.name }))}
+        onChange={type => {
+          const item = blueprintConfigs.find(x => x.type === type);
+          if (!item) {
+            return;
+          }
+          const isSSLCertificate = item.name === 'SSL Certificate';
+          // Segment Tracker
+          syntheticAdvancedCreateTestTypeSwitch(trackCta, item);
+          setCommonAttributes({ ...commonAttributes, syntheticType: isSSLCertificate ? 'SSLCertificate' : '' });
           setSelectedBlueprint(item as AdvancedBluePrint);
           //@ts-expect-error
           setTestTypeSelected((prevState: SetStateAction<TestTypeSelected>) => {
@@ -123,7 +131,7 @@ const SelectionMenu = ({
               ...prevState,
               api: { simple: false, script: false },
               browser: { simple: false, script: false },
-              ssl: { simple: false }
+              ssl: { simple: isSSLCertificate }
             };
           });
           setRenderSectionsCounter(0);
@@ -139,7 +147,7 @@ const SelectionMenu = ({
             }
           ]);
         }}
-        initialItemSelected={selectedBlueprint}
+        valueSelected={selectedBlueprint.type}
       />
       <div className={locals.spanTwoColumns}>
         <SelectedTestType

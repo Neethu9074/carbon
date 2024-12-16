@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { DescriptionList, DescriptionItem, Link } from '@instana/components';
+
 import { formatDateTime, fromNowAccurately } from 'in-services/formatters/date';
 import { modes, logLevels } from 'in-forge/plugins/instanaAgent/modes';
 import { supportsOpenFiles } from 'in-forge/plugins/host/hostUtils';
@@ -28,11 +29,20 @@ export default connectTo(
     const updateMode = data.get('updateMode');
     const startType = data.get('startType');
     const openFilesMax = data.get('proc.openFiles.max');
+    const isHyperLinkNeeded = isHyperLinkRequired(agentVersion);
 
     return (
       <DescriptionList>
         {agentVersion && (
-          <DescriptionItem title={t('in-forge:plugins.instanaAgent.agentVersion')}>{agentVersion}</DescriptionItem>
+          <DescriptionItem title={t('in-forge:plugins.instanaAgent.agentVersion')}>
+            {isHyperLinkNeeded ? (
+              <Link external href={'https://github.com/instana/agent-updates/releases/tag/' + agentVersion}>
+                {agentVersion}
+              </Link>
+            ) : (
+              agentVersion
+            )}
+          </DescriptionItem>
         )}
         <DescriptionItem title={t('in-forge:plugins.instanaAgent.bootVersion')}>{data.get('boot')}</DescriptionItem>
         {origin && <DescriptionItem title={t('in-forge:plugins.instanaAgent.origin')}>{origin}</DescriptionItem>}
@@ -77,3 +87,16 @@ export default connectTo(
     );
   }
 );
+function isHyperLinkRequired(agentVersion) {
+  if (typeof agentVersion !== 'string') {
+    return;
+  }
+
+  if (agentVersion.includes('-')) {
+    return false;
+  }
+
+  let agentVersionWithoutSpecialCharacter = agentVersion.replaceAll('.', '').trim();
+
+  return agentVersionWithoutSpecialCharacter.localeCompare('202406101442') >= 0;
+}

@@ -1,0 +1,78 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+:local {
+  .dialog {
+    width: 72%;
+    max-height: 96%;
+    .dalogContentWrapper {
+      display: flex;
+      flex-direction: column;
+      max-height: 70vh;
+    }
+    .card {
+      height: 100%;
+      min-height: 142px;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+      border: 1px solid transparent;
+      :global .carbon-card-layer {
+        justify-content: space-between;
+      }
+    }
+    .borderedCard {
+      border: 1px solid var(--ids-color-option-neutral-900);
+    }
+    .cardHeader {
+      align-items: flex-start;
+      flex-grow: 1;
+    }
+    .leftHeader {
+      font-size: var(--ids-font-size-option-body-regular);
+      text-wrap: wrap;
+      font-weight: var(--ids-font-weight-option-body-large);
+      line-height: var(--ids-line-height-option-body-small);
+    }
+    .cardBody {
+      flex-grow: 0;
+      height: 24px;
+    }
+    .textArea {
+      width: 100%;
+      border: 0;
+      font-size: var(--ids-font-size-option-body-regular);
+      padding: 1rem;
+    }
+  }
+  .cardWrap {
+    @gap: 0.25rem;
+    width: calc(100% - @gap);
+    cursor: pointer;
+    position: relative;
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+    }
+    @media (min-width: 768px) {
+      width: calc((100% / 2) - @gap);
+    }
+    @media (min-width: 1280px) {
+      width: calc((100% / 3) - @gap);
+    }
+  }
+  .actionButton {
+    width: calc(100% / 3);
+  }
+  .stackWrapper {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+}

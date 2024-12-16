@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { MetricResult, Result, UnifiedMetricConfiguration } from '@instana/types';
+import { MetricResult, Result, UnifiedMetricConfigurationUnion } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
@@ -23,7 +23,7 @@ export default function useResultData({ config }: any) {
     resultType: 'HISTOGRAM'
   };
 
-  const metrics: { [index: string]: UnifiedMetricConfiguration } = {
+  const metrics: { [index: string]: UnifiedMetricConfigurationUnion } = {
     [metricKey]: {
       timeConfig,
       ...config.metricConfiguration,

@@ -37,12 +37,22 @@
   }
 
   .squareHover:before {
+    border-radius: var(--ids-border-radius-option-small) !important;
+  }
+  .squareHover:focus {
     border-radius: var(--ids-border-radius-option-small);
   }
 
   .centeredCopyButtonWrapper {
     align-items: flex-start;
-
     height: 100%;
+  }
+
+  .removeBackground {
+    :global {
+      .li-nestedContent {
+        background: white !important;
+      }
+    }
   }
 }

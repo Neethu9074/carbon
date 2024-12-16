@@ -1,0 +1,57 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+:local {
+  .noIssues {
+    &:global(.cds--btn--tertiary.cds--btn--disabled) {
+      background: #f6fff7; //TODO: replace hex value when the token is available
+      border-color: var(--cds-support-success);
+    }
+
+    &:hover,
+    &:active,
+    &:focus {
+      border-color: var(--cds-support-success);
+      background-color: #f6fff7; //TODO: replace hex value when the token is available
+    }
+  }
+  .warning {
+    border-color: var(--cds-support-warning);
+    background-color: #fcf4d6; //TODO: replace hex value when the token is available
+    color: var(--ids-color-option-black);
+    &:global(.cds--btn--tertiary.cds--btn--disabled) {
+      border-color: var(--cds-support-warning);
+      background-color: #fcf4d6; //TODO: replace hex value when the token is available
+    }
+    &:hover,
+    &:active,
+    &:focus {
+      border-color: var(--cds-support-warning);
+      background-color: #fcf4d6; //TODO: replace hex value when the token is available
+      color: var(--ids-color-option-black);
+    }
+  }
+  .danger {
+    border-color: var(--cds-text-error);
+    background-color: #fff1f1; //TODO: replace hex value when the token is available
+    color: var(--ids-color-option-black);
+
+    &:global(.cds--btn--tertiary.cds--btn--disabled) {
+      background-color: #fff1f1; //TODO: replace hex value when the token is available
+      border-color: var(--cds-text-error);
+    }
+    &:hover,
+    &:active,
+    &:focus {
+      border-color: var(--cds-text-error);
+      background-color: #fff1f1; //TODO: replace hex value when the token is available
+      color: var(--ids-color-option-black);
+    }
+  }
+  .iconOnly {
+    margin-right: 0.5rem;
+  }
+}

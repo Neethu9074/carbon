@@ -8,17 +8,23 @@ import { useRouteMatch } from 'react-router';
 import React, { Fragment } from 'react';
 
 import { combineLatest } from '@instana/observables';
+import { CarbonSideNavItems, CarbonSideNavLink, SvgIcon, Typography } from '@instana/components';
 
 import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation/SideNavigation';
 import { isViewWithRouteParam } from 'in-components/layout/SideNavigationAndContent/routing';
 import SidebarContainer from 'in-components/layout/SidebarContainer/SidebarContainer';
 import StickySidebarContainer from 'in-components/layout/StickySidebarContainer';
-import { getModifiedUrlStream, isView } from 'in-stores/navigation';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
+import { isView } from 'in-stores/navigation';
 import Footer from 'in-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
+
+import { carbonSideNavLinksEnabled } from 'in-services/featureFlags';
+
+import locals from './SideNavigationAndContent.mless';
 
 /**
  * Takes a single array of pages and converts it into a navigation tree.
@@ -58,7 +64,9 @@ export default function SideNavigationAndContent(props) {
 
   const sideNavigationHasIcons = navigationTree.find(subTree => subTree.pages.find(page => page.icon));
 
-  const sidebar = <SideNavigationPane navigationTree={navigationTree} hasIcons={sideNavigationHasIcons} {...props} />;
+  const SideNavRenderer = carbonSideNavLinksEnabled ? CarbonSideNavigationPane : SideNavigationPane;
+
+  const sidebar = <SideNavRenderer navigationTree={navigationTree} hasIcons={sideNavigationHasIcons} {...props} />;
   if (stickySidebar)
     return (
       <StickySidebarContainer sidebar={sidebar} sidebarWidth={sidebarWidth}>
@@ -72,27 +80,75 @@ export default function SideNavigationAndContent(props) {
   );
 }
 
+export function CarbonSideNavigationPane({ navigationTree, ...otherProps }) {
+  const { location, createHref } = useNavigation();
+  return navigationTree.map((subTree, idx) => (
+    <div key={idx} className={locals.carbonSideNav}>
+      <Typography variant="heading-compact-01">
+        <div className={locals.title}>{subTree.title}</div>
+      </Typography>
+      <CarbonSideNavItems>
+        {subTree.pages.map(page => {
+          const targetNavigationLink = createHref({ ...location, pathname: page.path });
+          const options = {
+            // For CarbonSideNavLink:
+            onClick: scrollToTopSmoothly,
+            href: targetNavigationLink,
+            // For isActive:
+            subPages: page.subPages,
+            path: page.path
+          };
+          if (page.icon) {
+            options.renderIcon = () => <SvgIcon size="s" type={page.icon} />;
+          }
+          return (
+            <CarbonSideNavLinkWithActive key={page.path} {...options}>
+              {page.label ? page.label : page.renderLabel(otherProps)}
+            </CarbonSideNavLinkWithActive>
+          );
+        })}
+      </CarbonSideNavItems>
+    </div>
+  ));
+}
+
+const CarbonSideNavLinkWithActive = connectTo(
+  ({ path, subPages }) => ({ isActive: isActive(path, subPages) }),
+  props => {
+    const newProps = {
+      renderIcon: props.renderIcon,
+      children: props.children,
+      onClick: props.onClick,
+      href: props.href,
+      isActive: props.isActive
+    };
+    return <CarbonSideNavLink {...newProps} />;
+  }
+);
+
 function SideNavigationPane({ navigationTree, hasIcons, ...otherProps }) {
+  const { location, createHref } = useNavigation();
   return (
     <Fragment>
       {navigationTree.map((subTree, idx) => (
         <SideNavigation title={subTree.title} key={idx}>
-          {subTree.pages.map(page => (
-            <SideNavigationItemWithActiveFlag
-              href$={getModifiedUrlStream(params => {
-                params.pathname = page.path;
-              })}
-              onClick={scrollToTopSmoothly}
-              key={page.path}
-              icon={page.icon}
-              omitEmptyIcon={!hasIcons}
-              label={page.label ? page.label : page.renderLabel(otherProps)}
-              path={page.path}
-              isBeta={Boolean(page.isBeta)}
-              subPages={page.subPages}
-              {...otherProps}
-            />
-          ))}
+          {subTree.pages.map(page => {
+            const targetNavigationLink = createHref({ ...location, pathname: page.path });
+            return (
+              <SideNavigationItemWithActiveFlag
+                href={targetNavigationLink}
+                onClick={scrollToTopSmoothly}
+                key={page.path}
+                icon={page.icon}
+                omitEmptyIcon={!hasIcons}
+                label={page.label ? page.label : page.renderLabel(otherProps)}
+                path={page.path}
+                isBeta={Boolean(page.isBeta)}
+                subPages={page.subPages}
+                {...otherProps}
+              />
+            );
+          })}
         </SideNavigation>
       ))}
     </Fragment>

@@ -1,0 +1,29 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .removableRow {
+    display: flex;
+    justify-content: space-between;
+
+    & > :first-child {
+      @grid__gutter__px: @grid__gutter / 2px;
+      width: ~'calc(100% - @{grid__gutter__px})';
+    }
+  }
+
+  .removeButton {
+    fill: var(--ids-color-option-blue-500);
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-top: 1rem;
+  }
+
+  .addButton {
+    margin-bottom: 1rem;
+  }
+}

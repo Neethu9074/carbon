@@ -3,19 +3,22 @@
   "edit": "Editar",
   "delete": "Suprimir",
   "test": "Prueba",
+  "cancel": "Cancelar",
+  "recommendedActionsWithCount": "Acciones recomendadas ({{count}})",
   "recommendedActions": "Acciones recomendadas",
+  "recommendedOptimizationsWithCount": "Acciones de recursos recomendadas ({{count}})",
+  "recommendedOptimizations": "Acciones de recursos recomendadas",
+  "actionName": "Nombre de acción",
   "validVaultParameter": "Ambos parámetros de caja fuerte marcados como opcionales deberán estar en blanco o no en blanco.",
   "newAction": "Acción nueva",
-  "ok": "Aceptar",
   "runAction": "Ejecutar acción",
   "testAction": "Probar acción",
   "targetAgent": "Agente de destino",
-  "noTargetAgent": "No hay ningún agente de destino disponible para ejecutar esta acción.",
   "triggeringAgent": "{{hostname}} (agente desencadenante)",
   "targetAgentDescription": "Un agente encapsula 1..* Sensores, que a su vez son capaces de generar eventos al backend de Instana. Un agente desencadenante contiene el sensor que ha generado este evento concreto.",
-  "chosenToRun": "Ha elegido ejecutar {{actionName}} desde el catálogo de acciones.",
+  "chosenToRun": "Ejecutar acción {{actionName}}",
   "viewManualAction": "Ver acción manual {{actionName}}",
-  "chosenToTest": "Ha elegido probar {{actionName}} desde el catálogo de acciones.",
+  "chosenToTest": "Probar acción {{actionName}}",
   "failedToInitiate": "No se ha podido iniciar {{actionName}}.",
   "hasBeenInitiated": "Se ha iniciado {{actionName}}.",
   "configureAutomation": "Configurar automatización para {{actionName}}",
@@ -29,8 +32,8 @@
   "body": "Cuerpo: {{body}}",
   "authType": "Tipo de autorización: {{authType}}",
   "headers": "Cabeceras:",
-  "secretPath": "Vía de acceso de secreto",
-  "secretKey": "Clave secreta",
+  "secretPath": "Vía de acceso del secreto",
+  "secretKey": "Clave de secreto",
   "enterParameterValue": "Especifique un valor de parámetro",
   "optional": "{{name}} (opcional)",
   "vault": "Caja fuerte",
@@ -39,14 +42,13 @@
   "parameters": "Parámetros",
   "noParametersTitle": "Ningún parámetro",
   "noParametersText": "Esta acción no tiene ningún parámetro.",
-  "linkToActionLogs": "La salida de esta acción se puede ver en <logsLink>Analítica > Registros.</logsLink>",
-  "linkToActionHistory": "La salida de esta instancia de acción se puede ver en la <logsLink>página Historial de acciones</logsLink>.",
+  "linkToActionHistory": "La salida de esta instancia de acción se puede ver en el historial de acciones.",
   "description": "Descripción",
   "automation": "Automatización",
   "failedToResolveDynamicParameters": "No se han podido resolver los parámetros dinámicos.",
-  "associateActionWithName": "Asociar acción {{actionName}}",
   "deletePolicyWithName": "Suprimir política {{actionName}}",
-  "jobTemplate": "Plantilla de tarea",
+  "jobTemplate": "Plantilla de trabajo",
+  "workflowJobTemplate": "Plantilla de trabajo de flujo de trabajo",
   "hostsLimit": "Límite de hosts (opcional)",
   "ownerInfo": "Propietario/organización: {{owner}}",
   "repoInfo": "Repositorio: {{repo}}",
@@ -77,12 +79,15 @@
   "duplicate": "Duplicado",
   "theValueMustNotBeBlank": "El valor no debe estar en blanco.",
   "tags": "Códigos",
-  "noTagsConfigured": "No hay etiquetas configuradas",
+  "tagsLabel": "Etiquetas (opcional)",
+  "actionCategory": "Categorías de acciones",
   "value": "Valor",
   "type": "Tipo",
+  "automationPoliciesWithCount": "Políticas de automatización ({{count}})",
   "automationPolicies": "Políticas de automatización",
   "copyOf": "(Copia de) {{name}}",
   "searchActions": "Buscar acciones",
+  "searchOptimizations": "Buscar optimizaciones",
   "hostsLimitHelpText": "Limitar la ejecución al host de destino especificado. Seleccione el valor que coincida con la forma en que se representa el sistema en el inventario de Ansible o especifique una serie que admita la sintaxis de límite de Ansible.",
   "aiEngine": "Motor de IA",
   "engine": "Motor",
@@ -91,6 +96,92 @@
   "tag": "Código",
   "noTagsAvailable": "No hay ninguna etiqueta disponible",
   "actions": "Acciones",
+  "actionsWithCount": "Acciones ({{count}})",
+  "titleUrl": "URL",
+  "generateWithWatsonx": "Generar con watsonx",
+  "AISlugContent": "Se ha utilizado IA para generar este contenido",
+  "createPolicyWithName": "Ver acción {{actionName}} y crear política",
+  "viewActionCreatePolicy": "Ver acción y crear política",
+  "titleContentReadOnly": "Contenido generado (solo lectura)",
+  "GenerateAIActionDialog": {
+    "actionConfiguration": "Configuración de acciones",
+    "actionDetails": "Detalles de la acción",
+    "Step1HeadlineSelectAction": "Comience con una acción incorporada generada por watsonx para crear una nueva acción para este suceso.",
+    "Step1HeadlinePrompt": "Genera una acción manual con watsonx basada en el nombre del suceso, la descripción y el tipo de entidad.",
+    "Step2Headline": "Especifique los detalles de la acción o realice cambios antes de guardarla en el catálogo de acciones.",
+    "Step3Headline": "Opcionalmente, puede crear una política de automatización junto con la acción. También puede completar este paso más adelante.",
+    "step1Title": "Paso 1: Generar o seleccionar una acción",
+    "step1TitleGenerateAction": "Paso 1: Generar una acción",
+    "step1TitleSelectAction": "Paso 1: Seleccionar una acción",
+    "step2Title": "Paso 2: Configurar la acción",
+    "step3Title": "Paso 3: Crear política (opcional)",
+    "policyDetails": "Detalles de la política",
+    "policy": {
+      "success": {
+        "title": "La política se ha creado correctamente.",
+        "content": "Se ha creado correctamente la política <Link>\"{{name}}\"</Link>."
+      }
+    },
+    "action": {
+      "success": {
+        "title": "La acción se ha creado correctamente.",
+        "content": "La acción <Link>\"{{name}}\"</Link> se ha creado correctamente."
+      }
+    },
+    "generateAction": "Generar con IA",
+    "closeDialogDescription": " ¿Está seguro de que desea salir de esta página?",
+    "closeDialogSubDescription": "Si abandona esta página, no se guardará la información que haya introducido o seleccionado.",
+    "liveGeneration": "Generación en directo",
+    "builtinActions": "Acciones incorporadas ({{count}})",
+    "eventName": "Nombre de suceso",
+    "eventDescription": "Descripción del suceso",
+    "eventEntityType": "Tipo de entidad de suceso",
+    "noDataAvailableLive": "Rellene los campos obligatorios y pulse el botón <strong>Generar acción</strong> para obtener el contenido.",
+    "noDataAvailableSelectAction": "Haga una selección para ver el contenido.",
+    "watsonxLoadingContent": "watsonx está generando contenido",
+    "confirmButtonLabel": "Salir de página",
+    "cancelButtonLabel": "Permanecer en la página",
+    "noResultsYet": "Aún no hay resultados",
+    "next": "Siguiente",
+    "createActionAndPolicy": "Crear acción y política",
+    "createAction": "Crear acción",
+    "nameExists": "Ya existe una acción con nombre: {{name}} y tipo: {{type}}",
+    "failedToGenerateAction": "No se ha podido generar la acción.",
+    "failedToCreateActionPolicy": "No se ha podido crear la acción y la política.",
+    "failedToCreateAction": "No se ha podido crear la acción.",
+    "generateScriptDialog": {
+      "dialogHeader": "Generar un script a partir de una acción manual",
+      "step1Title": "Paso 1: Seleccionar paso",
+      "step2Title": "Paso 2: Generar un script",
+      "step3Title": "Paso 3: Configurar y crear la acción",
+      "step1Headline": "Seleccione un paso de acción manual para el que desee generar un script. Puede editar el paso de acción manual en el siguiente paso.",
+      "step2Headline1": "Revise los detalles del paso de acción y realice las modificaciones necesarias. A continuación, pulse Generar script para ver los resultados de watsonx.",
+      "step2Headline2": "Puede editar y generar de nuevo para ver resultados diferentes.",
+      "noDataAvailableLive": "Pulse el botón Generar para generar el script",
+      "generateScriptButton": "Generar script",
+      "titleGeneratedCodeReadOnly": "Código generado (solo lectura)",
+      "promptTitle": "Solicitud",
+      "generateScriptTileHeader": "Generar un script a partir de un paso de acción manual",
+      "generateScriptTileDescription": "Con watsonx AI puede crear rápidamente un script bash a partir de un paso de acción manual como indicador y añadirlo a su catálogo de acciones en unos pocos pasos."
+    }
+  },
+  "CreatePolicyDialog": {
+    "Step1Headline": "Vea la acción recomendada y cree una política de automatización para este suceso.",
+    "Step2Headline": "Especifique los detalles para crear una nueva política de automatización.",
+    "step1Title": "Paso 1: Ver acción recomendada",
+    "step2Title": "Paso 2: Crear política",
+    "actionDetails": "Detalles de la acción",
+    "policy": {
+      "success": {
+        "title": "Se ha creado la política",
+        "content": "La política \"{{name}}\" se ha creado correctamente."
+      }
+    }
+  },
+  "userDefinedWithCount": "Creado por el usuario ({{count}})",
+  "userDefined": "Creado por el usuario",
+  "aiGeneratedWithCount": "Generado por IA ({{count}})",
+  "aiGenerated": "Generado por IA",
   "ActionCatalog": {
     "actionCatalog": "Catálogo de acciones",
     "action": "acción",
@@ -111,7 +202,7 @@
     "showsUpInTheListOfActions": "Aparece en la lista de acciones. Debe ser exclusivo y significativo.",
     "showsUpInTheActionDescription": "Aparece en la descripción de la acción. Debe ser lo más descriptivo posible.",
     "docLinkDescription": "URL de la documentación que puede ayudar con la remediación.",
-    "manualContentDescription": "Especifique aquí las instrucciones para la acción manual.",
+    "manualContentDescription": "Si está editando puede usar markdown para añadir pasos a la lista.",
     "manual": "Manual",
     "confidence_low": "Bajo",
     "body": "Cuerpo (opcional)",
@@ -201,13 +292,35 @@
     "newFeature": "Nueva característica",
     "view": "Vista",
     "content": "Contenido",
+    "mustHaveRequiredTag": "La acción debe contener al menos una de las siguientes etiquetas: {{tags}}",
     "deleteDialog": {
       "success": "La acción se ha suprimido correctamente.",
       "failure": "No se ha podido suprimir la acción: {{errorMessage}}"
+    },
+    "createDialog": {
+      "success": {
+        "title": "La acción se ha creado correctamente.",
+        "content": "La acción \"{{name}}\" se ha creado correctamente."
+      },
+      "failure": {
+        "title": "No se ha podido crear la acción.",
+        "content": "Se ha producido un problema al crear esta acción: {{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "La acción se ha actualizado correctamente.",
+        "content": "La acción \"{{name}}\" se ha actualizado correctamente."
+      },
+      "failure": {
+        "title": "No se ha podido actualizar la acción.",
+        "content": "Se ha producido un problema al actualizar esta acción: {{errorMessage}}"
+      }
     }
   },
   "actionHistory": {
     "actionHistory": "Historial de acciones",
+    "goToActionHistory": "Ir al historial de acciones",
     "actionHistoryWithCount": "Historial de acciones ({{count}})",
     "noActionInstances": "No hay datos disponibles.",
     "external": "Externo",
@@ -223,7 +336,8 @@
     "eventName": "Nombre de suceso",
     "returnCode": "Código de retorno",
     "errorMessage": "Mensaje de error",
-    "actionContent": "Contenido de acción",
+    "risk": "Riesgo",
+    "action": "Acción",
     "host": "Host",
     "log": "Registro",
     "success": "Éxito",
@@ -236,13 +350,13 @@
     "inputParameters": "Parámetros de entrada",
     "feedbackTab": "Comentarios",
     "properties": "Propiedades",
-    "filterNameOrActionInstanceId": "Filtrar por nombre, nombre de suceso o ID de instancia de acción",
+    "filter": "Filtrar",
     "inputPrompt": "Cuéntenos su experiencia con esta acción:",
-    "unhappyFeedback": "Estoy muy insatisfecho/a",
+    "unhappyFeedback": "Estoy muy insatisfecho",
     "dissatisfiedFeedback": "Estoy insatisfecho/a",
     "neutralFeedback": "Neutro",
-    "satisfiedFeedback": "He quedado satisfecho/a",
-    "verySatisfiedFeedback": "He quedado muy satisfecho/a",
+    "satisfiedFeedback": "Estoy satisfecho",
+    "verySatisfiedFeedback": "Estoy muy satisfecho",
     "additionalFeedback": "Comentarios adicionales (opcional)",
     "feedbackError": "Se ha producido un error al guardar los comentarios. Vuelva a intentarlo más adelante.",
     "feedbackNotSelectedError": "Seleccione una opción antes de enviar.",
@@ -255,16 +369,24 @@
     "submitted": "Enviado",
     "timeout": "Tiempo de espera",
     "issueUrl": "URL del problema",
-    "taskUrl": "URL de la tarea"
+    "taskUrl": "URL de la tarea",
+    "output": "Salida",
+    "user": "Usuario",
+    "apiToken": "Señal de API",
+    "deleteTooltip": "Suprimir instancia de acción {{id}}",
+    "deleteDialog": {
+      "success": "La instancia de acción se ha suprimido correctamente.",
+      "failure": "No se ha podido eliminar la instancia de acción."
+    }
   },
   "actionLanes": {
     "buttonInvestigate": "Investigar"
   },
   "policies": {
     "policies": "Políticas",
+    "policiesWithCount": "Políticas ({{count}})",
     "newPolicy": "Política nueva",
     "selectEventTrigger": "Seleccionar desencadenante de evento",
-    "actionName": "Nombre de acción",
     "eventTrigger": "Desencadenante de sucesos",
     "unknownPolicy": "Política desconocida",
     "policy": "Política",
@@ -288,13 +410,13 @@
     "custom": "Personalizar",
     "event": "Suceso",
     "entityType": "Tipo de entidad",
-    "properties": "Propiedades",
     "applicationSmartAlert": "Añadir alerta inteligente",
     "globalApplicationSmartAlert": "Aplicación global SmartAlert",
     "infraSmartAlert": "Alerta inteligente de la infraestructura",
     "mobileAppSmartAlert": "Alerta inteligente de aplicación móvil",
     "syntheticsSmartAlert": "Alerta inteligente sintética",
     "logSmartAlert": "Registrar alerta inteligente",
+    "sloSmartAlert": "Alerta inteligente de niveles de servicio",
     "docLinkAndManualCantBeAutomated": "El enlace de la documentación y las acciones manuales no se pueden automatizar.",
     "triggeringAgent": "Agente desencadenante",
     "triggeringHostFqdn": "Nombre de dominio completo del host desencadenante",
@@ -308,6 +430,7 @@
     "manualAutomatic": "Manual, Automático",
     "policyType": "Tipo de política",
     "noPolicies": "No hay ninguna política configurada.",
+    "filterApplied": "Filtro aplicado",
     "createDialog": {
       "success": {
         "title": "La política se ha creado correctamente.",
@@ -315,7 +438,17 @@
       },
       "failure": {
         "title": "No se ha podido crear la política.",
-        "content": "Ha habido un problema al crear esta política: \"{{name}}\"."
+        "content": "Se ha producido un problema al crear esta política: {{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "La política se ha actualizado correctamente.",
+        "content": "La política \"{{name}}\" se ha actualizado correctamente."
+      },
+      "failure": {
+        "title": "No se ha podido actualizar la política.",
+        "content": "Se ha producido un problema al actualizar esta política: {{errorMessage}}"
       }
     },
     "createBulkDialog": {
@@ -329,7 +462,7 @@
       },
       "failure": {
         "title": "No se han podido crear las políticas.",
-        "content": "Ha habido un problema al crear las políticas:{{error}}"
+        "content": "Se ha producido un problema al crear las políticas: {{error}}"
       }
     },
     "deleteDialog": {
@@ -339,9 +472,45 @@
     "createPolicies": "Crear políticas",
     "websiteSmartAlert": "Alerta inteligente de sitio web"
   },
+  "infoPanel": {
+    "taskGuidance": "Guía de usuario",
+    "hideTasks": "Ocultar",
+    "showTasks": "Mostrar"
+  },
   "deleteDialog": {
     "pleaseConfirm": "Confírmelo",
     "pleaseConfirmMsg": "¿Seguro que desea suprimir <strong>{{name}}</strong>?",
     "delete": "Suprimir"
+  },
+  "turboActionCategories": {
+    "compliance": "Conformidad",
+    "prevention": "Prevención",
+    "efficiency": "Eficiencia",
+    "efficiency_improvement": "Mejora de la eficiencia",
+    "savings": "Ahorros",
+    "performance": "Rendimiento",
+    "performance_assurance": "Garantía del rendimiento"
+  },
+  "resourceOptimization": {
+    "details": "Detalles de la optimización de recursos",
+    "targetAgent": "Agente de destino",
+    "viewInTurbo": "Ver en Turbonomic",
+    "resourceImpact": "Impacto del recurso",
+    "impactedApplications": "Aplicaciones afectadas",
+    "services": "Servicios",
+    "current": "Actual",
+    "afterActions": "Después de las acciones",
+    "agentHelperText": "Un agente encapsula 1..* sensores, que a su vez son capaces de generar eventos al backend de Instana. Un agente desencadenante contiene el sensor que ha generado este evento concreto.",
+    "proceedConfirm": "Esta acción no se puede deshacer. ¿Seguro que quiere continuar?",
+    "riskDescription": "Descripción del riesgo",
+    "runningAction": "Ejecutando acción...",
+    "actionStarted": "Acción iniciada",
+    "actionFailed": "Acción anómala",
+    "actionStartedMessage": "Ha ejecutado <strong>{{actionName}}.</strong> Vea el progreso de esta acción en la pestaña de historial de acciones.",
+    "actionFailedMessage": "La solicitud para ejecutar la acción <strong>{{actionName}}</strong> ha fallado: {{message}}.",
+    "viewActionHistory": "Ver el historial de acciones",
+    "actionName": "Nombre de acción",
+    "recommendedActionHistoryWithCount": "Historial de acciones de recursos ({{count}})",
+    "recommendedActionHistory": "Historial de acciones de recursos"
   }
 }

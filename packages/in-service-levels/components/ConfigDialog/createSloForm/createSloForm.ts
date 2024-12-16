@@ -6,7 +6,12 @@
 
 import { createField, notBlankValidator } from 'formalistic';
 
-import { ServiceLevelIndicatorType, ServiceLevelObjectiveConfiguration, SloEntityType } from '@instana/types';
+import {
+  ServiceLevelIndicatorType,
+  ServiceLevelObjectiveConfiguration,
+  SloEntityType,
+  SLIThresholdOperator
+} from '@instana/types';
 
 import {
   CustomBlueprintType,
@@ -14,11 +19,14 @@ import {
   SloIndicatorFields,
   SloNameTagsFields
 } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
+import {
+  createOperatorFieldValidator,
+  createThresholdFieldValidator
+} from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
 import createSloFormFromPreviousForm from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromPreviousForm';
 import { createSloFormFromSloConfig } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromSloConfig';
 import { createSloFormFromForm } from 'in-service-levels/components/ConfigDialog/createSloForm/createSloFormFromForm';
 import { createDefaultSloForm } from 'in-service-levels/components/ConfigDialog/createSloForm/createDefaultSloForm';
-import { createThresholdFieldValidator } from 'in-service-levels/components/ConfigDialog/createSloForm/validator';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { stringValidator } from 'in-services/validators/jsonType';
@@ -59,8 +67,9 @@ interface CreateIndicatorThresholdFieldProps {
   value: number | undefined;
   touched?: boolean;
   blueprint: CustomBlueprintType;
-  indicatorType: ServiceLevelIndicatorType;
+  indicatorType?: ServiceLevelIndicatorType;
 }
+
 export function createIndicatorThresholdField({
   value,
   touched,
@@ -70,6 +79,24 @@ export function createIndicatorThresholdField({
   return createField({
     value,
     validator: createThresholdFieldValidator(blueprint, indicatorType),
+    touched
+  });
+}
+
+interface CreateIndicatorOperatorFieldProps {
+  value: SLIThresholdOperator;
+  touched?: boolean;
+  blueprint: CustomBlueprintType;
+}
+
+export function createIndicatorOperatorField({
+  value,
+  touched,
+  blueprint
+}: CreateIndicatorOperatorFieldProps): SloIndicatorFields['operator'] {
+  return createField({
+    value,
+    validator: createOperatorFieldValidator(blueprint),
     touched
   });
 }

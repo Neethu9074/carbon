@@ -1,6 +1,8 @@
 {
   "general": {
     "addButtonLabel": "Añada",
+    "addButtonLabel_slo": "Añadir objetivo de nivel de servicio",
+    "addButtonLabel_smartAlert": "Añadir alerta inteligente",
     "aggregation": "Agregación",
     "availability": "Disponibilidad",
     "beacon": "Baliza",
@@ -17,10 +19,14 @@
     "select": "Seleccione $t(in-service-levels:general.entityTypes.label, {\"context\":\"{{entity}}\"})",
     "noSelection": "No se ha seleccionado ninguno",
     "loadMore": "Cargar más",
+    "threshold": "Umbral",
     "noData": "No hay datos disponibles.",
+    "trafficType": "Tipo de tráfico",
+    "noMatchingTimeWindows": "No hay ninguna ventana de tiempo coincidente para el periodo seleccionado. Esto suele suceder si la ventana de tiempo seleccionada es anterior a la fecha de creación del SLO.",
     "serverErrors": {
       "sloLimitReachedError": "Se ha alcanzado el número máximo de configuraciones de objetivo de nivel de servicio ({{0}}). Póngase en contacto con el soporte de Instana para solicitar un aumento de este límite."
     },
+    "traffic": "Tráfico",
     "indicator": {
       "type": "Tipo desconocido",
       "type_eventBased": "Número de sucesos",
@@ -29,6 +35,7 @@
       "blueprint": "Blueprint desconocido",
       "blueprint_latency": "Latencia",
       "blueprint_availability": "Disponibilidad",
+      "blueprint_traffic": "Tráfico",
       "blueprint_custom": "Personalizar",
       "aggregation": "Desconocido",
       "aggregation_MEAN": "media",
@@ -41,16 +48,29 @@
       "aggregation_P90": "90th",
       "aggregation_P95": "95th",
       "aggregation_P98": "98th",
-      "aggregation_P99": "99th"
+      "aggregation_P99": "99th",
+      "application": {
+        "trafficType_all": "Todas las llamadas",
+        "trafficType_erroneous": "Llamadas erróneas"
+      },
+      "website": {
+        "trafficType_all": "Recuento de todas las balizas",
+        "trafficType_erroneous": "Recuento de errores de baliza"
+      },
+      "synthetic": {
+        "trafficType_all": "Todos los resultados",
+        "trafficType_erroneous": "Resultados erróneos"
+      },
+      "trafficTypeLabel": "$t(in-service-levels:general.indicator.{{entityType}}.trafficType, {\"context\": \"{{trafficType}}\" })"
     },
     "latency": "Latencia",
     "time": "Hora",
     "entityTypes": {
       "label": "Entidad desconocida",
       "label_application": "Aplicación",
-      "label_website": "Sitio web"
+      "label_website": "Sitio web",
+      "label_synthetic": "Pruebas sintéticas"
     },
-    "preview": "Vista previa",
     "type": "Tipo",
     "selectLabel": "Selección: {{selectedLabel}}",
     "serviceLevelObjective": "Objetivo de nivel de servicio",
@@ -93,12 +113,16 @@
       "beaconCount": "Recuento de balizas",
       "calls": "Llamadas",
       "latency": "Latencia",
+      "results": "Resultados",
       "beaconDuration": "Duración de baliza",
       "threshold": "Umbral",
+      "failureRate": "Frecuencia de errores",
       "errors": "Tasa de llamadas erróneas",
       "beaconErrorRate": "Tasa de errores de baliza",
       "goodEvents": "Sucesos buenos",
-      "badEvents": "Sucesos malos"
+      "badEvents": "Sucesos malos",
+      "erroneousCalls": "Llamadas erróneas",
+      "beaconErrorCount": "Recuento de errores de baliza"
     },
     "format": {
       "event_website": "{{formatted}} baliza",
@@ -110,7 +134,14 @@
       "event_application_plural": "{{formatted}} llamadas",
       "event_application_0": "{{formatted}} llamadas",
       "event_application_1": "{{formatted}} llamada",
-      "event_application_2": "{{formatted}} llamadas"
+      "event_application_2": "{{formatted}} llamadas",
+      "event_synthetic": "{{formatted}} resultado",
+      "event_synthetic_plural": "{{formatted}} resultados",
+      "event_synthetic_0": "{{formatted}} resultados",
+      "event_synthetic_1": "{{formatted}} resultados",
+      "event_synthetic_2": "{{formatted}} resultados",
+      "event_test": "{{count}} prueba",
+      "event_test_plural": "{{count}} pruebas"
     },
     "deleteDialog": {
       "pleaseConfirm": "Confírmelo",
@@ -118,24 +149,31 @@
       "delete": "Suprimir"
     }
   },
+  "validators": {
+    "noInvalidOperator": "Seleccione un operador de la lista."
+  },
   "components": {
     "tagFilterBuilder": {
       "filterAbscenseExplanation": "No se ha configurado ningún filtro personalizado"
     }
   },
   "createSloDialog": {
-    "customFilter": "Filtro personalizado (opcional)",
+    "customFilter": "Filtro personalizado",
+    "custom": "Personalizar",
+    "customDescription": "Establecer un filtro personalizado para seleccionar servicios y/o puntos finales",
     "title": "Crear objetivo de nivel de servicio (SLO)",
     "selectIndicator": "Seleccionar Blueprint",
     "selectEntityNavItem": "Establecer entidad",
     "selectEntityTitle": "Seleccione una entidad a la que añadir SLO:",
     "selectScopeNavItem": "Establecer ámbito",
+    "SelectServiceandEndpoint": "Seleccionar servicio y punto final",
     "selectIndicatorNavItem": "Establecer indicador",
     "beaconTypes": {
       "beaconLabel_httpRequest": "Solicitudes HTTP",
       "beaconLabel_pageLoad": "Cargas de página de sitio web",
       "beaconLabel_custom": "Eventos personalizados de sitio web"
     },
+    "serviceAndEndpoint": "Servicio y punto final",
     "selectObjectiveTitle": "Establecer objetivo",
     "sloTarget": "Destino de SLO",
     "timeWindow": "Ventana de tiempo",
@@ -151,13 +189,13 @@
     "errorTimeWindowMin": "El intervalo de tiempo debe ser como mínimo de un día",
     "errorInvalidExpression": "Los filtros especificados no son válidos",
     "errorBlankEntity": "Seleccione una entidad de la lista",
+    "errorEmptyGoodFilter": "Se debe definir un filtro adecuado",
+    "errorEqualTagFilter": "Los filtros adecuados y malos no deben ser idénticos",
     "nameAndTagsTitle": "Establecer detalles",
     "sloNameLabel": "Nombre del SLO",
     "sloNamePlaceholder": "Especificar nombre",
     "sloNameCopyTemplate": "Copia de {{name}}",
     "tagsLabel": "Etiquetas (opcional)",
-    "tagsPlaceholder": "Especificar etiquetas",
-    "tagsCreateLabel": "Crear: {{tag}}",
     "messages": {
       "creationSuccessfulTitle": "La configuración del SLO se ha creado correctamente",
       "creationSuccessfulContent": "Se ha creado la configuración de SLO \"{{name}}\".",
@@ -169,6 +207,7 @@
       "description_custom": "Mide el recuento de sucesos buenos y/o malos utilizando filtros definidos por el usuario.",
       "description_latency": "Mide la rapidez con la que el servicio ha respondido por encima de un umbral establecido. Por ejemplo, la medida de la rapidez con la que el servicio de pago responde más rápido que 100ms.",
       "description_availability": "Mide la frecuencia con la que un servicio responde adecuadamente. Por ejemplo, la frecuencia con la que las llamadas HTTP son erróneas.",
+      "description_traffic": "Mide cuánta demanda se está ejerciendo sobre un sistema utilizando una métrica específica del sistema general. Por ejemplo, un servicio web suele medirse en balizas de HTTP por segundo.",
       "timeTypeExplanation": "Llamadas correctas frente a malas agrupadas, agregadas por minuto",
       "eventTypeExplanation": "Recuento total de llamadas buenas versus malas",
       "eventCount": "Número de sucesos",
@@ -177,28 +216,29 @@
       "thresholdLabel_latency": "Umbral (ms)",
       "thresholdLabel_availability": "Tasa de errores (%)",
       "setGoodCall": "Establecer las llamadas correctas a un servicio",
-      "setBadCall": "Establecer las llamadas erróneas a un servicio (opcional)"
+      "setBadCall": "Establecer las llamadas erróneas a un servicio (opcional)",
+      "thresholdDescription_GT": "Un buen minuto se define por un recuento de más de {{thresholdValue}} llamadas por minuto. Un minuto malo se define por un recuento inferior o igual a {{thresholdValue}} llamadas por minuto.",
+      "thresholdDescription_GTE": "Un buen minuto se define por un recuento mayor o igual a {{thresholdValue}} llamadas por minuto. Un minuto malo se define por un recuento inferior a {{thresholdValue}} llamadas por minuto.",
+      "thresholdDescription_LT": "Un buen minuto se define por un recuento inferior a {{thresholdValue}} llamadas por minuto. Un minuto malo se define por un recuento mayor o igual a {{thresholdValue}} llamadas por minuto.",
+      "thresholdDescription_LTE": "Un buen minuto se define por un recuento inferior o igual a {{thresholdValue}} llamadas por minuto. Un minuto malo se define por un recuento de más de {{thresholdValue}} llamadas por minuto.",
+      "thresholdInput": "<Stack>Establezca un umbral de<HorizontalStack><OperatorDropdown /><ThresholdInput />llamadas por minuto<HorizontalStack/><Stack />"
     },
     "previewSection": {
-      "dataInfo": "Los datos de vista previa muestran solo un máximo de 7 días en el pasado. El SLO solo incluirá datos desde el momento en que se creó"
+      "dataInfo": "Los datos de vista previa muestran solo un máximo de 7 días en el pasado. El SLO solo incluirá datos desde el momento en que se creó",
+      "title": "Vista previa",
+      "title_synthetic": "Ejemplo"
     }
   },
   "sloChart": {
     "sloFormatter": {
-      "unit": "llamada",
-      "unit_application": "llamada",
-      "unit_website": "baliza",
-      "unit_plural": "calls",
-      "unit_application_plural": "calls",
-      "unit_website_plural": "balizas",
-      "thousandCallsFormat": "{{formattedCount}}K $t (in-service-levels:sloChart.sloFormatter.unit, {\"contexto\": \"{{entityType}}\", \"recuento\": {{count}} })",
-      "callsFormat": "{{formattedCount}} $t (in-service-levels:sloChart.sloFormatter.unit, {\"contexto\": \"{{entityType}}\", \"recuento\": {{count}} })"
+      "thousandCallsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formattedCount}}K\" })",
+      "callsFormat": "$t(in-service-levels:general.format.event, {\"context\": \"{{entityType}}\", \"count\": {{count}}, \"formatted\": \"{{formatted}}\" })"
     },
     "sloChartSummary": {
       "status": "Estado",
       "target": "Destino:",
+      "errorBudgetRemaining": "Restantes:",
       "errorBudgetSpent": "Margen de error gastado",
-      "errorBudget": "Margen de error:",
       "timeWindow": "Ventana de tiempo",
       "timeWindowType_dynamic": "Ventana de tiempo dinámico",
       "timeWindowType_rolling": "Ventana de tiempo de desplazable",
@@ -260,9 +300,13 @@
     }
   },
   "sloDashboard": {
+    "header": {
+      "created_at": "Creado el: {{creationDay}} a las {{creationTime}}"
+    },
     "tabs": {
       "summaryLabel": "Resumen",
-      "configurationLabel": "Configuración"
+      "configurationLabel": "Configuración",
+      "smartAlertsLabel": "Alertas inteligentes"
     },
     "timeWindowSelection": {
       "timeWindow": "Selección desconocida",
@@ -329,11 +373,13 @@
         "thresholdLabel": "Umbral (unidad desconocida)",
         "thresholdLabel_availability": "Umbral",
         "thresholdLabel_latency": "Umbral (ms)",
+        "thresholdLabel_traffic": "Umbral",
         "aggregationLabel": "Agregación",
         "goodEventsLabel": "Tipo de sucesos (sucesos correctos)",
         "goodEventsLabel_application": "Tipo de sucesos (llamadas correctas)",
         "badEventsLabel": "Tipo de sucesos (sucesos erróneos)",
-        "badEventsLabel_application": "Tipo de sucesos (llamadas erróneas)"
+        "badEventsLabel_application": "Tipo de sucesos (llamadas erróneas)",
+        "trafficTypeLabel": "Tipo de tráfico"
       },
       "objectiveSection": {
         "title": "Objetivo",

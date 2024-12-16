@@ -8,6 +8,7 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
+import { Card } from '@instana/components';
 
 // @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -19,6 +20,8 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
+
+import locals from 'in-sdk/components/dashboard/DashboardSection/DashboardSection.mless';
 
 interface LanStatsRow {
   key: string;
@@ -91,35 +94,55 @@ export default function LanInterface({ snapshotId, timeConfig }: LanStatsProps) 
 
   function getDetails(row: LanStatsRow) {
     return (
-      <div>
-        <Columize>
-          <DashboardSection title={t('in-sap:dashboards.lanMetricStats')}>
-            <Chart
-              snapshotId={snapshotId}
-              timeConfig={timeConfig}
-              y1={{
-                min: 0,
-                metrics: [
-                  `lanMetricStats.${row.key}.inPackets`,
-                  `lanMetricStats.${row.key}.outPackets`,
-                  `lanMetricStats.${row.key}.inErrors`,
-                  `lanMetricStats.${row.key}.outErrors`,
-                  `lanMetricStats.${row.key}.collisions`
-                ],
-                labels: [
-                  t('in-sap:dashboards.inPackets'),
-                  t('in-sap:dashboards.outPackets'),
-                  t('in-sap:dashboards.inErrors'),
-                  t('in-sap:dashboards.outErrors'),
-                  t('in-sap:dashboards.collisions')
-                ],
-                type: 'line',
-                formatter: number.compact
-              }}
-              renderPostChartContent={PluginDashboardsMarkerLanes}
-            />
-          </DashboardSection>
-        </Columize>
+      <div className={locals.dashboardSection}>
+        <Card title={t('in-sap:dashboards.lanMetricStats')}>
+          <Columize>
+            <DashboardSection>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  min: 0,
+                  metrics: [`lanMetricStats.${row.key}.inPackets`, `lanMetricStats.${row.key}.outPackets`],
+                  labels: [t('in-sap:dashboards.inPackets'), t('in-sap:dashboards.outPackets')],
+                  type: 'stackedBar',
+                  formatter: number.compact
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </DashboardSection>
+
+            <DashboardSection>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  min: 0,
+                  metrics: [`lanMetricStats.${row.key}.inErrors`, `lanMetricStats.${row.key}.outErrors`],
+                  labels: [t('in-sap:dashboards.inErrors'), t('in-sap:dashboards.outErrors')],
+                  type: 'stackedBar',
+                  formatter: number.compact
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </DashboardSection>
+
+            <DashboardSection>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  min: 0,
+                  metrics: [`lanMetricStats.${row.key}.collisions`],
+                  labels: [t('in-sap:dashboards.collisions')],
+                  type: 'line',
+                  formatter: number.compact
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </DashboardSection>
+          </Columize>
+        </Card>
       </div>
     );
   }

@@ -1,74 +1,46 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
-import React, { ReactNode } from 'react';
-import { motion } from 'framer-motion';
-import classNames from 'classnames';
+import React from 'react';
 
-import { Stack, SvgIcon } from '@instana/components';
+import { Message as CarbonMessage, MessageTypes } from '@instana/components';
+
+import { MessageWithId } from 'in-components/MessageFlyout/stores/messages';
 
 import locals from './Message.mless';
 
-interface Message {
-  content: ReactNode;
-  icon: string;
-  onClick?: (e: React.MouseEvent) => {};
-  title?: string;
-  type: 'info' | 'warning' | 'danger';
-}
-
 interface MessageProps {
-  message: Message;
-}
-
-interface TitleProps {
-  title?: string;
-}
-
-interface ContentProps {
-  content: ReactNode;
+  message: MessageWithId;
 }
 
 export default function Message({ message }: MessageProps) {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className={classNames({
-        [locals.flyoutMessage]: true,
-        [locals[message.type]]: message.type,
-        [locals.clickable]: message.onClick
-      })}
-      onClick={message.onClick}
-    >
-      <Stack direction="horizontal" gap="xsmall">
-        <SvgIcon type={message.icon} className={locals.icon} />
-        <div
-          className={classNames(locals.msg, {
-            [locals.verticallyCenterMsg]: !message.title && typeof message.content === 'string'
-          })}
-        >
-          <Title title={message.title} />
-          {typeof message.content === 'string' ? <Content content={message.content} /> : message.content}
-        </div>
-      </Stack>
-    </motion.div>
-  );
-}
-
-function Title({ title }: TitleProps) {
-  if (!title) {
-    return null;
+  let baseType;
+  switch (message.type) {
+    case 'warning':
+      baseType = MessageTypes.warning;
+      break;
+    case 'danger':
+      baseType = MessageTypes.error;
+      break;
+    case 'success':
+      baseType = MessageTypes.success;
+      break;
+    default:
+      baseType = MessageTypes.neutral;
   }
   return (
-    <div className={locals.title}>
-      <strong>{title}</strong>
-    </div>
+    <CarbonMessage
+      className={locals.carbon}
+      title={message.title}
+      type={baseType}
+      inline={false}
+      dismissible
+      onClose={message.onClick}
+    >
+      <div className={locals.carbonContent}>{message.content}</div>
+    </CarbonMessage>
   );
-}
-
-function Content({ content }: ContentProps) {
-  return <div className={locals.content}>{content}</div>;
 }

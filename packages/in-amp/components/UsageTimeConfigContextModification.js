@@ -10,9 +10,12 @@ import React from 'react';
 import LocalTimeConfigContextModification from 'in-stores/time/LocalTimeConfigContextModification';
 import { days } from 'in-services/time';
 
-export default function UsageTimeConfigContextModification({ windowSize, children }) {
+export default function UsageTimeConfigContextModification({ windowSize, to, children }) {
   return (
-    <LocalTimeConfigContextModification modification={() => modifyTimeConfig(windowSize)} valuesToWatch={[windowSize]}>
+    <LocalTimeConfigContextModification
+      modification={() => modifyTimeConfig(windowSize, to)}
+      valuesToWatch={[windowSize]}
+    >
       {children}
     </LocalTimeConfigContextModification>
   );
@@ -20,14 +23,15 @@ export default function UsageTimeConfigContextModification({ windowSize, childre
 
 UsageTimeConfigContextModification.propTypes = {
   windowSize: PropTypes.number.isRequired,
+  to: PropTypes.number,
   children: PropTypes.oneOfType([PropTypes.object.isRequired, PropTypes.array.isRequired])
 };
 
-function modifyTimeConfig(windowSize) {
-  const to = getNearestReasonableTo(windowSize);
+function modifyTimeConfig(windowSize, to) {
+  const determinedTo = to ?? getNearestReasonableTo(windowSize);
   return {
-    to,
-    focusedMoment: to,
+    to: determinedTo,
+    focusedMoment: determinedTo,
     windowSize,
     autoRefresh: false
   };

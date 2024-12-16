@@ -10,7 +10,8 @@
         "step1": "Etapa 1: Tipo de seleção",
         "step2": "Etapa 2: Detalhes da solicitação",
         "step3": "Etapa 3: Planejamento",
-        "step4": "Etapa 4: Fornecer detalhes"
+        "step4": "Etapa 4: Fornecer detalhes",
+        "step5": "Etapa 5: associar"
       },
       "selectTest": {
         "title": "Qual tipo de teste sintético você gostaria de criar"
@@ -39,7 +40,9 @@
         "labelName": "Nome do teste",
         "labelDescription": "Descrição",
         "labelFrequency": "Frequência (minuto)",
-        "labelApplications": "Selecionar um aplicativo"
+        "labelFrequencyHour": "Frequência (hora)",
+        "labelApplication": "Selecionar um aplicativo",
+        "labelApplications": "Selecionar aplicativos"
       },
       "bluePrint": {
         "title": "Quando usar?",
@@ -95,6 +98,11 @@
             "line3": "Etapa 3: escolha a frequência de teste (1 ~ 120 minutos).",
             "line4": "Etapa 4: na seção Nome do teste e Descrição, insira um nome significativo para seu teste no campo Nome. Inclua uma descrição do propósito de seu teste no campo Descrição."
           }
+        },
+        "certificateCheck": {
+          "whenToUse": {
+            "line1": "Verifique se o certificado do servidor web expirará ou não está usando esse teste."
+          }
         }
       },
       "validators": {
@@ -128,7 +136,11 @@
           "browserTypeHeadline": "Testes sintéticos do navegador",
           "browserTypeText": "O teste sintético do navegador é um método de monitoramento do desempenho do aplicativo da web ao simular as interações do usuário com um website por meio de um script em um navegador da web, fornecer insights valiosos sobre os problemas que afetam a experiência do usuário e assegurar a funcionalidade do website.",
           "browserSimpleTitle": "Teste Simples de Navegador",
-          "browserScriptTitle": "Teste de Script de Navegador"
+          "browserScriptTitle": "Teste de Script de Navegador",
+          "certificateCheckTitle": "Verificação de certificado SSL",
+          "certificateCheckLabel": "Certificado SSL",
+          "certificateCheckHeadline": "Teste de cerificação de certificado SSL",
+          "certificateCheckText": "O teste de verificação de certificado SSL é um método para testar a expiração de um certificado SSL em um aplicativo da Web verificando os dias restantes em um certificado emitido."
         },
         "configurationLabel": "Configuração",
         "configurationTitle": "Configuração: como esse teste funcionará?",
@@ -140,6 +152,8 @@
         "identifyTitle": "Identificar: o que o teste vai fazer?",
         "customPropertiesTitle": "Propriedades customizadas",
         "frequency": "Esse teste será executado a cada {{frequencyValue}} minutos.",
+        "frequencyHours": "Este teste será executado a cada {{frequencyHours}} horas.",
+        "frequencyHoursAndMinutes": "Esse teste será executado a cada {{frequencyHours}} horas e {{frequencyMinutes}} minutos.",
         "simultaneous": "Simultânea",
         "simultaneousDescription": "Esse teste será executado simultaneamente em cada local selecionado.",
         "configStep": {
@@ -213,14 +227,48 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "Navegador"
+          "browserName": "Navegador",
+          "certificateCheckName": "Certificado SSL"
         },
         "customProperties": {
           "property": "Propriedade",
           "propertyValue": "Valor",
           "addProperty": "Incluir Propriedade",
           "propertyNameMustBeUnique": "O nome da propriedade deve ser exclusivo."
-        }
+        },
+        "certificateCheck": {
+          "inputHostName": "Nome do host",
+          "inputPortNumber": "Porta",
+          "failureConfigLabel": "Configuração de falha",
+          "failureConfigText": "O teste falhará quando a validade do certificado tiver <certificateValidityDays/> dias restantes até a expiração."
+        },
+        "associationsLabel": "Associar",
+        "applicationsTitle": "Associar: selecione os aplicativos a serem associados a este teste sintético",
+        "applicationsDescription": "A associação de um teste sintético a um aplicativo concede direitos de acesso a todos os usuários que têm acesso a esse aplicativo.",
+        "associationsTitle": "Associar: selecione o que você deseja associar a esse teste sintético",
+        "associationsDescription": "A associação de um teste sintético a um aplicativo, site ou aplicativo móvel concede direitos de acesso a todos os usuários que têm acesso a essas entidades."
+      },
+      "associations": {
+        "applicationsTitle": "Selecione os aplicativos a serem associados a este teste sintético",
+        "applicationsDescription": "A associação de um teste sintético a um aplicativo concede direitos de acesso a todos os usuários que têm acesso a esse aplicativo.",
+        "associationsTitle": "Selecione o que você deseja associar a esse teste sintético",
+        "associationsDescription": "A associação de um teste sintético a um aplicativo, site ou aplicativo móvel concede direitos de acesso a todos os usuários que têm acesso a essas entidades.",
+        "applicationsButtonLabel": "Selecionar aplicativos",
+        "websitesButtonLabel": "Selecionar sites",
+        "mobileAppsButtonLabel": "Selecionar aplicativos móveis",
+        "entityName": "Nome",
+        "noDataAvailable": {
+          "message": "{{component}} não disponível"
+        },
+        "addApplications": "Incluir {{count}} aplicativos",
+        "addApplication": "Incluir aplicativo",
+        "addWebsites": "Incluir {{count}} sites",
+        "addWebsite": "Incluir website",
+        "addMobileApps": "Incluir {{count}} aplicativos móveis",
+        "addMobileApp": "Incluir aplicativo móvel",
+        "applicationsTableTitle": "Aplicativo(s)",
+        "websitesTableTitle": "Site(s)",
+        "mobileAppsTableTitle": "Aplicativo(s) móvel(is)"
       }
     },
     "httpMethods": {
@@ -241,9 +289,9 @@
     },
     "locationFeedback": {
       "successMessageDelete": "O local foi excluído com sucesso",
-      "failureMesssageDelete": "{{deleteLocationErrorMessage}}",
+      "failureMesssage": "{{errorMessage}}",
       "successMessageDeactivate": "Local desativado com sucesso",
-      "failureMesssageDeactivate": "{{deactivateLocationErrorMessage}}"
+      "successMessageActivate": "O local foi ativado com sucesso"
     },
     "updateTest": {
       "dialogTitle": "Editar teste de {{syntheticType}}",
@@ -288,7 +336,7 @@
         "datacentersSubtitle": "Ative um local gerenciado pela Instana em um dos data centers disponíveis. Para obter mais informações, consulte <linkDatacenters>Usando um PoP hospedado pelo Instana</linkDatacenters>.",
         "confirmationDialog": {
           "headline": "Os locais estão sendo implementados",
-          "message": "Estamos configurando seus novos locais nos data centers a seguir. Seja paciente enquanto implementamos automaticamente isso para você. Quando isso for concluído, será possível localizar seus novos locais na guia de locais. <strong>Isso pode levar até 10 minutos para cada data center selecionado.</strong>",
+          "message": "Estamos configurando seus novos locais nos data centers a seguir. Seja paciente enquanto implementamos automaticamente isso para você. Quando isso for concluído, será possível localizar seus novos locais na guia de locais. <strong>Essa implementação pode levar alguns minutos para cada data center selecionado.</strong>",
           "table": {
             "heads": {
               "datacenterCode": "Código do data center",
@@ -303,11 +351,14 @@
         },
         "deactivateDatacenter": {
           "title": "Desativar local",
-          "deactivateMessage": "Tem certeza de que deseja desativar o local <strong>{{locationDisplayLabel}}</strong>?<br/><br/>Desativar um local pode demorar até 10 minutos. Aguarde enquanto removemos essa provisão para você. Quando isso for concluído, o status do local será Off-line.<br/>",
+          "deactivateMessage": "Tem certeza de que deseja desativar o local <strong>{{locationDisplayLabel}}</strong>?<br/><br/>A desativação de um local pode levar alguns minutos. Aguarde enquanto removemos essa provisão para você. Quando isso for concluído, o status do local será Off-line.<br/>",
           "warningMessage": "A desativação não está sendo excluída. O local estará disponível e poderá ser ativado novamente. Para remover completamente o local gerenciado, exclua o local quando seu status mudar para Off-line.",
           "activeStatus": "Ativo",
           "deactivateButton": "Desativar"
-        }
+        },
+        "activate": "Ativar",
+        "okay": "Ok",
+        "activateLocation": "Ativar local"
       },
       "validators": {
         "theValueMustNotBeEmpty": "Pelo menos um data center precisa ser selecionado"
@@ -318,6 +369,46 @@
       },
       "status": {
         "pending": "Pendente"
+      }
+    },
+    "credentialFeedback": {
+      "successMessageDelete": "A credencial foi excluída com sucesso.",
+      "failureMesssage": "{{errorMessage}}"
+    },
+    "createCredential": {
+      "createButton": "Nova credencial",
+      "nameValue": "Nome e valor",
+      "associations": "Associações",
+      "newCredentials": "Criar uma credencial sintética",
+      "steps": {
+        "textInput": {
+          "placeholder": "Nome da credencial",
+          "labelText": "Nome",
+          "invalidText": "O nome da credencial deve iniciar com uma letra e conter apenas letras, números e sublinhados.",
+          "credentialNamesMustBeUnique": "Os nomes das credenciais devem ser exclusivos. Esse nome já está sendo usado. Tente um outro nome."
+        },
+        "passwordInput": {
+          "placeholder": "Valor da credencial",
+          "labelText": "Valor"
+        },
+        "associationsDescription": "A associação de uma credencial a um aplicativo, site da web ou aplicativo móvel concede direitos de acesso a todos os usuários que possuem acesso a essas entidades."
+      },
+      "feedback": {
+        "successMessage": "A credencial foi criada com sucesso.",
+        "failureMessageCreate": "Falha ao criar a credencial: {{errorMessage}}",
+        "updateSuccessMessage": "A credencial foi atualizada com sucesso.",
+        "failureMessageUpdate": "Falha ao atualizar a credencial: {{errorMessage}}"
+      },
+      "edit": {
+        "dialogTitle": "Editar credencial sintética {{credentialName}}",
+        "associations": "Associações",
+        "saveButton": "Salvar",
+        "textInputHelperText": "O nome da credencial não pode ser editado, é um campo de Somente leitura.",
+        "passwordInputHelperText": "Digite um novo valor de credencial se desejar atualizar o valor atual."
+      },
+      "tooltipLabels": {
+        "hide": "Ocultar o valor da credencial",
+        "show": "Mostrar o valor da credencial"
       }
     }
   },
@@ -334,7 +425,8 @@
       "secondaryLabels": {
         "tests": "Testes",
         "locations": "Locais",
-        "smartAlerts": "Alertas inteligentes"
+        "smartAlerts": "Alertas inteligentes",
+        "credentials": "Credenciais"
       },
       "popDialog": {
         "popUpDialogTitle": "Permissões para monitoramento sintético",
@@ -349,7 +441,23 @@
         "tlsInstructions": "Se você desejar ativar o TLS do Redis, será necessário ter o seu par de chaves do certificado X.509 (`tls.crt`, `tls.key`) e o arquivo de certificado raiz da autoridade de certificação (`ca.crt`)).\n\nSe você não tiver seus arquivos de chave/certificado, também será possível usar o comando openssl para gerar novos, consulte os exemplos abaixo:",
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt",
         "tlsSecretInstructions": "Após os arquivos de chave/certificado serem fornecidos, use o comando kubectl para criar um segredo.",
-        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\""
+        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\"",
+        "associationsTitle": "{{number}} Associações",
+        "singleAssociationTitle": "{{number}} Associação"
+      },
+      "multiAppDialog": {
+        "filterLabel": "Aplicativos",
+        "singleAppHeader": "{{ number }} Associação",
+        "multiAppHeader": "{{ number }} Associações",
+        "noApplicationsAssociated": "Nenhum aplicativo associado"
+      },
+      "multiWebDialog": {
+        "filterLabel": "Websites",
+        "noWebsitesAssociated": "Nenhum site associado."
+      },
+      "multiMobileDialog": {
+        "filterLabel": "Aplicativos móveis",
+        "noMobileAppsAssociated": "Nenhum aplicativo móvel associado."
       },
       "testLabel": "Nome",
       "status": "Status",
@@ -364,9 +472,16 @@
       "successRate": "Taxa de sucesso",
       "successRuns": "{{successRuns}} / {{totalRuns}} resultados",
       "latency": "Latência",
-      "locationLabel": "Local",
-      "locations": "{{totalLocations}} locais",
-      "applicationLabel": "Aplicativo",
+      "locationLabel": "Locais",
+      "locationsColumn": {
+        "singleLocation": "{{number}} localização",
+        "multipleLocations": "{{number}} localizações",
+        "singleRun": "Executa em {{number}} localização",
+        "multipleRun": "Executa em {{number}} localizações",
+        "warning": "Aviso",
+        "noIssues": "Sem problemas"
+      },
+      "associationLabel": "Associações",
       "health": "Funcionamento",
       "action": "Ação",
       "labelConfirmRemoveTest": "Tem certeza de que deseja remover o teste <strong>{{testLabel}}</strong>?",
@@ -400,6 +515,12 @@
       "deleteLocationBroswerRefreshInfo": "Levará algum tempo para que o local desapareça da lista de locais e isso pode requerer uma atualização do navegador.",
       "deactivateLocation": {
         "deactivate": "Desativar"
+      },
+      "ipAddressColumn": {
+        "ipAddress": "Endereço IP",
+        "singleIPAddress": "{{number}} endereço IP",
+        "multipleIPAddress": "{{number}} endereços IP",
+        "noIPAddresses": "NA"
       }
     },
     "summary": {
@@ -442,7 +563,15 @@
       "totalRuns": "{{totalRuns}} total de execuções",
       "meanLatencyFor90th": "{{meanLatencyDetail}} para 90º",
       "smartAlertsTab": "Alertas inteligentes",
-      "configurationTab": "Configuração"
+      "configurationTab": "Configuração",
+      "isCertificateValid": "Última execução: o certificado é assinado pela CA pública",
+      "resultsCertificateValid": "O certificado é assinado pela CA pública",
+      "certificateValid": "True",
+      "certificateNotValid": "Não",
+      "daysRemaining": "Última execução: dias restantes",
+      "timeOfExpiry": "Última execução - Horário de expiração",
+      "smallerTimeFrameTitle": "Não há nenhum resultado para este período de tempo",
+      "smallerTimeFrameDescription": "Selecione um prazo mais longo para consultar os resultados para testes de verificação de certificado SSL."
     },
     "resultsListPage": {
       "startedColumn": "Iniciado",
@@ -454,7 +583,8 @@
       "locationLabel": "Posição",
       "failures": "Falhas",
       "status": "Status",
-      "success": "Sucesso"
+      "success": "Sucesso",
+      "daysRemaining": "Dias restantes"
     },
     "detailsPage": {
       "detailLiveModeDisabled": "O Modo Ativo não é aplicável na página de detalhes do resultado de teste do Synthetic",
@@ -579,7 +709,13 @@
         "imageButton": "Imagem",
         "ScreenshotsLoadingMessage": "Carregando capturas de tela",
         "noScreenshotsAvailableMessage": "As capturas de tela não estão disponíveis para este resultado de teste"
-      }
+      },
+      "sslCertificate": {
+        "daysRemaining": "Dias restantes",
+        "timeOfIssue": "Horário de emissão",
+        "timeOfExpiry": "Horário de expiração"
+      },
+      "failedRunErrorTypeTitle": "Tipo de erro"
     },
     "noDataAvailable": {
       "resultsTitle": "Nenhum resultado disponível",
@@ -645,6 +781,7 @@
       },
       "configurationEditAction": "Editar",
       "configurationDeleteAction": "Excluir",
+      "configurationUnsupported": "Tipo de teste não suportado.",
       "timeoutLabel": "Tempo limite",
       "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
       "retryStrategyLabel": "Estratégia de nova tentativa",
@@ -653,7 +790,44 @@
       "retryIntervalFieldLabel": "Intervalo de novas tentativas",
       "retryIntervalSecondDescription": "{{retryIntervalValue}} segundo",
       "retryIntervalSecondsDescription": "{{retryIntervalValue}} segundos",
-      "markSyntheticCall": "Marcar chamada sintética"
+      "markSyntheticCall": "Marcar chamada sintética",
+      "hostname": "Nome do Host",
+      "port": "Porta",
+      "daysRemaining": "Configuração de falha",
+      "day": "O teste falhará quando a validade do certificado tiver {{daysRemainingCheck}} dia restante até a expiração",
+      "days": "O teste falhará quando a validade do certificado tiver {{daysRemainingCheck}} dias restantes até a expiração",
+      "associations": "Associações",
+      "associatedApplications": "Aplicativos Associados",
+      "noApplicationsAssociated": "Nenhum aplicativo associado",
+      "associatedWebsites": "Sites associados",
+      "noWebsitesAssociated": "Nenhum site associado",
+      "associatedMobileApps": "Aplicativos móveis associados",
+      "noMobileAppAssociated": "Nenhum aplicativo móvel associado"
+    },
+    "credentialList": {
+      "mainLabel": "Credenciais",
+      "name": "Nome",
+      "associations": "Associações",
+      "createdAt": "Criado em",
+      "createdBy": "Criado por",
+      "lastModifiedBy": "Modificado pela última vez por",
+      "actions": "Ações",
+      "noDataAvailable": {
+        "noCredentialsAvailableTitle": "Não há nenhuma credencial sintética disponível",
+        "noCredentialsAvailableDescription": "Não há nenhuma credencial sintética recuperada a partir do banco de dados."
+      },
+      "editAction": {
+        "editActionLabel": "Editar",
+        "theValueMustNotBeBlank": "O valor não deve ficar em branco."
+      },
+      "deleteAction": {
+        "deleteActionLabel": "Excluir",
+        "deleteCredentialTitle": "Excluir credencial sintética {{credentialName}}",
+        "credentialNameValidation": "Insira o nome completo das credenciais para confirmar a exclusão.",
+        "deleteButtonLabel": "Excluir credencial",
+        "cancelButtonLabel": "Cancelar",
+        "deletionSuccess": "A credencial foi excluída."
+      }
     }
   }
 }

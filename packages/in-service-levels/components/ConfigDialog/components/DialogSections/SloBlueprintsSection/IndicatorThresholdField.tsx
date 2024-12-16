@@ -12,9 +12,9 @@ import { Stack, Typography } from '@instana/components';
 import { CustomBlueprintType, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
 import ThresholdInput from 'in-service-levels/components/Shared/ThresholdInput/ThresholdInput';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
+import PercentageInput from 'in-service-levels/components/PercentageInput';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { t } from 'in-i18n';
-import PercentageInput from 'in-service-levels/components/PercentageInput';
 
 interface IndicatorThresholdFieldProps {
   blueprint: CustomBlueprintType;
@@ -52,6 +52,7 @@ export default function IndicatorThresholdField({
           value={field.value}
           onChange={value => onChange(['indicator', 'threshold'], () => field.setValue(value).setTouched(true))}
           hasError={!isThresholdValid}
+          disabled={disabled}
           decimalPrecision={2}
         />
       )}

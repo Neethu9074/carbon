@@ -6,17 +6,17 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { Li, Spacer, Stack, Ul } from '@instana/components';
-import { Toggle, Button } from '@instana/legacy';
+import { Li, Spacer, Stack, Ul, Toggle, Button } from '@instana/components';
 
+import { formatterPath, formatterSelectedPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import { MetricsForAxis, Reorderer } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricReordering';
 import { userSelectableRenderer as availableRenderers } from 'in-custom-dashboards/widgets/Chart/renderer';
-import { formatterPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
-import { getFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
+import { getFormatter, getCommonFormatterForUnits } from 'in-custom-dashboards/widgets/_shared/formatters';
+import { getFormatterById, publicFormatters } from 'in-stores/metric/formatters';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { publicFormatters } from 'in-stores/metric/formatters';
 import Sections from 'in-components/workspace/Sections';
+import { getBaseUnit } from 'in-stores/metric/units';
 import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -24,7 +24,7 @@ import { t } from 'in-i18n';
 
 import locals from './AxesConfigurator.mless';
 
-export default function AxesConfigurator({ form, onChange, getShortMetricKey }) {
+export default function AxesConfigurator({ form, onChange, getShortMetricKey, withUnit }) {
   const [showSecondaryAxis, setShowSecondaryAxis] = useState(form.getIn(['y2', 'metrics']).size > 0);
 
   return (
@@ -43,6 +43,7 @@ export default function AxesConfigurator({ form, onChange, getShortMetricKey }) 
           title={t('in-custom-dashboards:widgets.chart.axesConfigurator.primaryYAxis')}
           startIndex={0}
           getShortMetricKey={getShortMetricKey}
+          withUnit={withUnit}
         />
 
         {showSecondaryAxis && (
@@ -56,11 +57,18 @@ export default function AxesConfigurator({ form, onChange, getShortMetricKey }) 
             isSecondary
             setShowSecondaryAxis={setShowSecondaryAxis}
             showSecondaryAxis={showSecondaryAxis}
+            withUnit={withUnit}
           />
         )}
       </div>
     </Reorderer>
   );
+}
+
+function addFormatterIfMissing(existingFormatters, formatter) {
+  if (formatter && !existingFormatters.find(existingFormatter => existingFormatter.id === formatter.id)) {
+    existingFormatters.push(formatter);
+  }
 }
 
 function AxisConfigurator({
@@ -72,7 +80,8 @@ function AxisConfigurator({
   title,
   startIndex,
   getShortMetricKey,
-  isSecondary
+  isSecondary,
+  withUnit = false
 }) {
   const axisForm = form.get(axisName);
   const isAxisRemovable = isSecondary && axisForm.get('metrics').size === 0;
@@ -81,43 +90,54 @@ function AxisConfigurator({
     const source = map.get('source').value;
     const metric = map.get('metric').value;
     const aggregation = map.get('aggregation').value;
+    const baseUnit = withUnit ? getBaseUnit(map.get('unit')?.value) : undefined;
 
     return {
       source,
       metric,
-      aggregation
+      aggregation,
+      baseUnit
     };
   });
 
   let availableFormatters = [];
-  metricConfigurations.forEach(config =>
-    getFormatter(config.source, config.metric, config.aggregation).forEach(formatter => {
-      if (!availableFormatters.find(existingFormatter => existingFormatter.id === formatter.id)) {
-        availableFormatters.push(formatter);
-      }
-    })
+  metricConfigurations.forEach(config => {
+    getFormatter(config.source, config.metric, config.aggregation, config.baseUnit).forEach(formatter =>
+      addFormatterIfMissing(availableFormatters, formatter)
+    );
+  });
+  const configuredUnits = metricConfigurations.map(({ baseUnit }) => baseUnit).filter(Boolean);
+  getCommonFormatterForUnits(...configuredUnits).forEach(formatter =>
+    addFormatterIfMissing(availableFormatters, formatter)
   );
+
+  //Backward compatibility, add existing formatter to list of available formatters
+  const isFormatterSelected = axisForm.get(formatterSelectedPath)?.value;
+  if (isFormatterSelected) {
+    const selectedFormatter = axisForm.get(formatterPath)?.value;
+    addFormatterIfMissing(availableFormatters, getFormatterById(selectedFormatter));
+  }
 
   if (availableFormatters.length === 0) {
     availableFormatters = publicFormatters;
   }
 
   const updateShareMaxAxisDomain = e => {
-    if (e.target.checked) {
+    if (e) {
       onChange([], form =>
         form
           .updateIn(['y1', 'max'], field => field.setValue(undefined).setTouched(true))
           .updateIn(['y2', 'max'], field => field.setValue(undefined).setTouched(true))
-          .updateIn(['shareMaxAxisDomain'], field => field.setValue(e.target.checked).setTouched(true))
+          .updateIn(['shareMaxAxisDomain'], field => field.setValue(e).setTouched(true))
       );
     } else {
-      onChange(['shareMaxAxisDomain'], field => field.setValue(e.target.checked).setTouched(true));
+      onChange(['shareMaxAxisDomain'], field => field.setValue(e).setTouched(true));
     }
   };
 
   const onMaxChange = e => {
     const isShareMaxAxisDomainAxctive = form.get('shareMaxAxisDomain').value;
-    const maxValue = e.target.value.length !== 0 ? Number(e.target.value) : undefined;
+    const maxValue = e.target.value.length !== 0 && Number(e.target.value) !== 0 ? Number(e.target.value) : undefined;
     if (isShareMaxAxisDomainAxctive) {
       onChange([], form =>
         form
@@ -187,7 +207,7 @@ function AxisConfigurator({
                   onChange([], form =>
                     form
                       .updateIn([axisName, formatterPath], field => field.setValue(e.target.value).setTouched(true))
-                      .updateIn([axisName, 'formatterSelected'], field => field.setValue(true).setTouched(true))
+                      .updateIn([axisName, formatterSelectedPath], field => field.setValue(true).setTouched(true))
                   );
                 }}
                 hasError={!field.valid && field.touched}
@@ -247,7 +267,7 @@ function AxisConfigurator({
                 <div className={locals.shareMaxValueContainer}>
                   <Toggle
                     checked={form.get('shareMaxAxisDomain').value}
-                    onChange={e => {
+                    onToggle={e => {
                       updateShareMaxAxisDomain(e);
                     }}
                   />
@@ -264,6 +284,7 @@ function AxisConfigurator({
             axisName={axisName}
             startIndex={startIndex}
             getShortMetricKey={getShortMetricKey}
+            withUnitPill={withUnit}
           />
         </Stack>
       </Li>

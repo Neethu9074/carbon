@@ -8,7 +8,7 @@
 :local {
   .sectionHeading {
     align-items: center;
-    color: var(--ids-color-option-teal-500);
+    color: var(--cds-text-primary);
     display: flex;
     font-size: 1rem;
     font-weight: bold;
@@ -18,12 +18,6 @@
     & + .sectionHelp {
       margin-top: -0.7rem;
       margin-bottom: 1.3rem;
-    }
-  }
-
-  :global(.g10) {
-    .sectionHeading {
-      color: var(--cds-text-secondary);
     }
   }
 

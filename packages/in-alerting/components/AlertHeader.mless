@@ -25,8 +25,11 @@
     .flexbox();
   }
 
-  .alertIcon {
-    margin-right: 0.5rem;
+  .iconsContainer {
+    display: flex;
+    & > * {
+      margin-right: 0.5rem;
+    }
   }
 
   .name {
@@ -38,22 +41,7 @@
     margin-right: 1rem;
   }
 
-  .alertIcon {
-    margin-right: 1.5rem;
-
-    &SeverityLow {
-      fill: var(--ids-color-option-yellow-500);
-    }
-
-    &SeverityHigh {
-      fill: var(--ids-color-option-red-500);
-    }
-  }
-
   .bottomSpace {
     margin: 0 0 1.5rem 0;
-  }
-  .whiteSpace {
-    white-space: pre;
   }
 }

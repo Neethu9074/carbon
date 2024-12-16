@@ -1,0 +1,30 @@
+/*
+ * (c) Copyright IBM Corp. 2025
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .noLink {
+    cursor: not-allowed;
+    color: var(--ids-color-option-neutral-500);
+  }
+
+  .analyzeButton {
+    margin-right: 0.5rem;
+  }
+
+  .italic {
+    font-style: italic;
+  }
+
+  .logLevelPillCell {
+    span {
+      display: grid;
+      place-items: center;
+    }
+  }
+
+  .headCell {
+    white-space: nowrap;
+  }
+}

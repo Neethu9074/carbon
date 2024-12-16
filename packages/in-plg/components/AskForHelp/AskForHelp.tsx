@@ -7,8 +7,7 @@
 import { createField, createMapForm, Field, UpdatedMapForm, MapFormItems } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Stack, KeyValue } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Stack, KeyValue, Button } from '@instana/components';
 
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { notBlankValidator } from 'in-services/validators/string';
@@ -102,6 +101,7 @@ const AskForHelp: React.FC<AskForHelpProps> = ({ agentKey, isRestricted = false 
                   <Button
                     icon={isInvitingUser ? 'lib_actions_loading' : undefined}
                     iconSpinning={isInvitingUser}
+                    size="compact"
                     kind="action"
                     type="submit"
                     noAutoMargin
@@ -124,7 +124,7 @@ const AskForHelp: React.FC<AskForHelpProps> = ({ agentKey, isRestricted = false 
               value={<Input className={locals.input} disabled type="text" defaultValue={agentKey ? agentKey : ''} />}
               withGap
             />
-            <CopyToClipboardButton kind="action" getText={() => agentKey ?? ''} />
+            <CopyToClipboardButton size="compact" kind="action" getText={() => agentKey ?? ''} />
           </Stack>
         </Stack>
       </form>

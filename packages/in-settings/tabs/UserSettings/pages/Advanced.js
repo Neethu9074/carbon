@@ -6,8 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { DistinctSlider, Toggle } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Toggle } from '@instana/legacy';
 
 import {
   isTroubleshootingModeEnabled$,
@@ -24,8 +24,6 @@ import SectionLine from 'in-settings/components/SectionLine';
 import Footer from 'in-components/Footer';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
-
-import locals from './UiConfig.mless';
 
 export default function UiConfigAdvancedPage() {
   const [settings, saveSetting] = useSettingsEditor();
@@ -49,7 +47,7 @@ export default function UiConfigAdvancedPage() {
           <Toggle
             id="scroll-direction"
             checked={settings['map_scrollDirection'] === -1}
-            onChange={e => saveSetting('map_scrollDirection', e.target.checked ? -1 : 1)}
+            onToggle={e => saveSetting('map_scrollDirection', e ? -1 : 1)}
           />
         </HorizontalFormGroup>
 
@@ -58,7 +56,7 @@ export default function UiConfigAdvancedPage() {
           <Toggle
             id="zoom-panel"
             checked={settings['zoomPanelIsActive']}
-            onChange={e => saveSetting('zoomPanelIsActive', e.target.checked)}
+            onToggle={e => saveSetting('zoomPanelIsActive', e)}
           />
         </HorizontalFormGroup>
 
@@ -67,22 +65,21 @@ export default function UiConfigAdvancedPage() {
           <Toggle
             id="host-labels"
             checked={settings['map_showHostLabels']}
-            onChange={e => saveSetting('map_showHostLabels', e.target.checked)}
+            onToggle={e => saveSetting('map_showHostLabels', e)}
           />
         </HorizontalFormGroup>
 
         <HorizontalFormGroup>
           <Heading text={t('in-settings:tabs.zoomAndPanningSpeed')} htmlFor="zoom-speed" />
-          <input
-            type="range"
-            id="zoom-speed"
-            min={0.1}
-            max={20}
-            step={0.1}
-            className={locals.slider}
-            value={settings['map_scrollSpeed']}
-            onChange={e => saveSetting('map_scrollSpeed', e.target.value)}
-          />
+          <div>
+            <DistinctSlider
+              min={0.1}
+              max={20}
+              step={0.1}
+              value={settings['map_scrollSpeed']}
+              onChange={(_, value) => saveSetting('map_scrollSpeed', value)}
+            />
+          </div>
         </HorizontalFormGroup>
 
         <HorizontalFormGroup>
@@ -92,16 +89,15 @@ export default function UiConfigAdvancedPage() {
             })}
             htmlFor="packing_x_direction"
           />
-          <input
-            type="range"
-            id="packing_x_direction"
-            min={1}
-            max={10}
-            step={1}
-            className={locals.slider}
-            value={settings['map_packingXSpace']}
-            onChange={e => saveSetting('map_packingXSpace', Number(e.target.value))}
-          />
+          <div>
+            <DistinctSlider
+              min={1}
+              max={10}
+              step={1}
+              value={settings['map_packingXSpace']}
+              onChange={(_, value) => saveSetting('map_packingXSpace', value)}
+            />
+          </div>
         </HorizontalFormGroup>
 
         <HorizontalFormGroup>
@@ -111,16 +107,15 @@ export default function UiConfigAdvancedPage() {
             })}
             htmlFor="packing_y_direction"
           />
-          <input
-            type="range"
-            id="packing_y_direction"
-            min={1}
-            max={10}
-            step={1}
-            className={locals.slider}
-            value={settings['map_packingYSpace']}
-            onChange={e => saveSetting('map_packingYSpace', Number(e.target.value))}
-          />
+          <div>
+            <DistinctSlider
+              min={1}
+              max={10}
+              step={1}
+              value={settings['map_packingYSpace']}
+              onChange={(_, value) => saveSetting('map_packingYSpace', value)}
+            />
+          </div>
         </HorizontalFormGroup>
 
         <HorizontalFormGroup>
@@ -128,7 +123,7 @@ export default function UiConfigAdvancedPage() {
           <Toggle
             id="antialiasing"
             checked={settings['map_antialias'] === 'browserAA'}
-            onChange={e => saveSetting('map_antialias', e.target.checked ? 'browserAA' : 'off')}
+            onToggle={e => saveSetting('map_antialias', e ? 'browserAA' : 'off')}
           />
         </HorizontalFormGroup>
       </div>
@@ -140,7 +135,7 @@ export default function UiConfigAdvancedPage() {
           <Toggle
             id="kubernetes_ungrouped-pods"
             checked={get(settings, ['kubernetes_ungrouped_pods_enabled'], true)}
-            onChange={e => saveSetting('kubernetes_ungrouped_pods_enabled', e.target.checked)}
+            onToggle={e => saveSetting('kubernetes_ungrouped_pods_enabled', e)}
           />
         </HorizontalFormGroup>
       </div>
@@ -154,16 +149,15 @@ export default function UiConfigAdvancedPage() {
             })}
             htmlFor="packing_x_direction"
           />
-          <input
-            type="range"
-            id="packing_x_direction"
-            min={1}
-            max={10}
-            step={1}
-            className={locals.slider}
-            value={settings['map_packingXSpace']}
-            onChange={e => saveSetting('map_packingXSpace', Number(e.target.value))}
-          />
+          <div>
+            <DistinctSlider
+              min={1}
+              max={10}
+              step={1}
+              value={settings['map_packingXSpace']}
+              onChange={(_, value) => saveSetting('map_packingXSpace', value)}
+            />
+          </div>
         </HorizontalFormGroup>
         <HorizontalFormGroup>
           <Heading
@@ -172,16 +166,15 @@ export default function UiConfigAdvancedPage() {
             })}
             htmlFor="packing_y_direction"
           />
-          <input
-            type="range"
-            id="packing_y_direction"
-            min={1}
-            max={10}
-            step={1}
-            className={locals.slider}
-            value={settings['map_packingYSpace']}
-            onChange={e => saveSetting('map_packingYSpace', Number(e.target.value))}
-          />
+          <div>
+            <DistinctSlider
+              min={1}
+              max={10}
+              step={1}
+              value={settings['map_packingYSpace']}
+              onChange={(_, value) => saveSetting('map_packingYSpace', value)}
+            />
+          </div>
         </HorizontalFormGroup>
       </div>
 
@@ -192,7 +185,7 @@ export default function UiConfigAdvancedPage() {
           <Toggle
             id="use_queryable_tags"
             checked={get(settings, ['use_queryable_tags_enabled'], true)}
-            onChange={e => saveSetting('use_queryable_tags_enabled', e.target.checked)}
+            onToggle={e => saveSetting('use_queryable_tags_enabled', e)}
           />
         </HorizontalFormGroup>
       </div>
@@ -207,7 +200,7 @@ export default function UiConfigAdvancedPage() {
               <Toggle
                 id="enable-troubleshooting-mode"
                 checked={isTroubleshootingModeEnabled}
-                onChange={e => setEnableTroubleshootingMode(e.target.checked)}
+                onToggle={e => setEnableTroubleshootingMode(e)}
               />
             </HorizontalFormGroup>
           </div>

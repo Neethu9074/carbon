@@ -7,25 +7,18 @@
 import React, { useMemo, useState } from 'react';
 
 import { Stack } from '@instana/components';
-import { Card } from '@instana/components';
 
-import {
-  InfraAlertConfigWithMetadata,
-  InfraAlertRuleUnion,
-  Order,
-  StaticThresholdConfig,
-  TagCatalog,
-  TagFilter,
-  ThresholdConfigUnion
-} from 'in-types';
 // eslint-disable-next-line no-restricted-imports
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
 import {
   getQueryBuilder,
   getGroupByQueryBuilder
 } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
+import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/infrastructure/hooks/useTagBasedPayloadConfigurator';
 import { getMetrics } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
-import PredictiveTriggerDescription from 'in-alerting/smart-alerts/infrastructure/details/PredictiveTriggerDescription';
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
+import ForecastAlertingDescription from 'in-alerting/smart-alerts/infrastructure/details/ForecastAlertingDescription';
+import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 // eslint-disable-next-line no-restricted-imports
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
@@ -37,11 +30,13 @@ import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/Ch
 import { chartTimeConfig } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
 import InfraMetricGroup from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroup';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
+import { InfraAlertRuleUnion, Order, TagCatalog, TagFilter, RuleWithThreshold } from 'in-types';
 import InfraScopePath from 'in-alerting/smart-alerts/infrastructure/components/InfraScopePath';
 import { toUIGrouping } from 'in-alerting/smart-alerts/aggregated/utils/groupfilterExpression';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
 import { AlertGrouping } from 'in-alerting/smart-alerts/aggregated/components/AlertGrouping';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { alertChannelPerSeverityInfraSaEnabled } from 'in-services/featureFlags';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
@@ -67,32 +62,30 @@ export const tagSuggestionTimeConfig = {
 
 const initialChartConfigIndex = 0;
 
-export default function AlertConfiguration({ alertConfig }: { alertConfig: InfraAlertConfigWithMetadata }) {
+export default function AlertConfiguration({ alertConfig }: { alertConfig: InfraSmartAlertConfigWithMetadata }) {
   const {
     timeThreshold,
     granularity,
-    rule: { metricName, entityType, aggregation, crossSeriesAggregation, regex },
-    threshold,
     alertChannelIds,
+    alertChannels,
     tagFilterExpression,
     customPayloadFields,
     groupBy,
-    predictiveTrigger
+    forecastingConfig,
+    rules
   } = alertConfig;
 
+  const firstRule: RuleWithThreshold<InfraAlertRuleUnion> = rules[0];
+  const {
+    rule: { metricName, entityType, aggregation, crossSeriesAggregation, regex },
+    thresholdOperator,
+    thresholds: thresholdsMap
+  } = firstRule;
   const order = { by: groupBy[0], direction: 'DESC' };
 
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const tagCatalog = useTagCatalog({ ownerType: entityType });
   const entityLabel = getPluginName(entityType, 1);
-  // TODO : below logic can be removed once the dynamic payload support is enabled for infa SA
-  const customPayloadFieldsAllStatic = customPayloadFields.map(customPayload => {
-    const newCustomPayload = { ...customPayload };
-    if (typeof customPayload.value != 'string') {
-      newCustomPayload.value = customPayload.value.tagName;
-    }
-    return newCustomPayload;
-  });
 
   const AlertQueryBuilder = getQueryBuilder(tagCatalog as TagCatalog).QueryBuilder;
 
@@ -111,6 +104,8 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
 
   const groupingFilter = groupBy && toUIGrouping(groupBy);
 
+  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator({ metricName, regex, entityType });
+
   return (
     <AlertDetailsCard>
       <ListTitle>{t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfiguration')}</ListTitle>
@@ -121,7 +116,8 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
         darkFrame
       >
         <AlertThresholdInfos
-          threshold={threshold as ThresholdConfigUnion & StaticThresholdConfig}
+          thresholdOperator={thresholdOperator}
+          thresholdsMap={thresholdsMap}
           rule={{ metricName, entityType } as InfraAlertRuleUnion}
           metricLabel={metricLabel}
         />
@@ -136,7 +132,8 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
         framed
       >
         {chartViewConfig => (
-          <Card title={t('in-events:titleMetrics')}>
+          <>
+            <h1 className={locals.title}>{t('in-events:titleMetrics')}</h1>
             <InfraMetricChart
               alertConfig={alertConfig}
               timeConfig={chartViewConfig.timeConfig}
@@ -162,7 +159,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
                 tagCatalog={tagCatalog}
               />
             )}
-          </Card>
+          </>
         )}
       </ChartViewConfigurator>
 
@@ -195,7 +192,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
         darkFrame
       >
         <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
-        <PredictiveTriggerDescription predictiveTrigger={predictiveTrigger} />
+        <ForecastAlertingDescription forecastingConfig={forecastingConfig} />
       </ExpandableLightCard>
       <ExpandableLightCard
         title={t('in-alerting:smartAlerts.infrastructure.alertDetails.alertConfigurationTitleAlertChannels')}
@@ -205,7 +202,11 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
         darkFrame
       >
         <div className={locals.alertChannelsWrapper}>
-          <AlertChannelsViewer alertChannelIds={alertChannelIds} />
+          <AlertChannelsViewer
+            alertChannelIds={alertChannelIds}
+            alertChannels={alertChannels}
+            alertChannelPerSeverityEnabled={alertChannelPerSeverityInfraSaEnabled}
+          />
         </div>
       </ExpandableLightCard>
       <ExpandableLightCard
@@ -215,12 +216,17 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: Infra
         openByDefault
         darkFrame
       >
-        <AlertPropertyInfos alertConfig={alertConfig} disableTrigger />
+        <AlertPropertyInfos
+          alertConfig={alertConfig}
+          renderCustomTitle={() => replaceTitlePlaceholdersWithMarkup(alertConfig)}
+          disableTrigger
+          shouldDisplayAlertLevelSection={false}
+        />
       </ExpandableLightCard>
       <GlobalCustomPayloadCard context="INFRA" />
       <CustomPayloadCard
-        customPayloadFields={customPayloadFieldsAllStatic} //this can be replaced with - customPayloadFields - once the dynamic payload support is enabled for infa SA
-        TagBasedPayloadConfigurator={() => <></>}
+        customPayloadFields={customPayloadFields}
+        TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
         openByDefault
       />
     </AlertDetailsCard>

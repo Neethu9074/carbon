@@ -9,12 +9,6 @@ import { Message, Stack } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
 import {
-  ua2ApiQueryPressedTracker,
-  ua2GroupChangedTracker,
-  ua2NestingDepthTracker,
-  ua2QueryBuilderFilterAddedTracker
-} from 'in-mobile-apps/tracker';
-import {
   getMaximumExpressionDepth,
   toBackendQueryModel
 } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -26,6 +20,7 @@ import { findInvalidTraceIdTagFilter } from 'in-analyze/AnalyzeView/validationUt
 import { ActionSection } from 'in-components/workspace/ActionSection/ActionSection';
 import * as queryBuildersByDataSource from 'in-mobile-apps/queryBuilder';
 import { dataSourceTypes, defaultGroupings } from 'in-mobile-apps/tags';
+import { useMobileTracker } from 'in-mobile-apps/tracking/segTracker';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
@@ -39,6 +34,12 @@ import { t } from 'in-i18n';
 import locals from './QueryBuilderWorkspace.mless';
 
 export default function MobileAppsQueryBuilderWorkspace(props) {
+  const {
+    ua2QueryBuilderFilterAddedTracker,
+    ua2NestingDepthTracker,
+    ua2GroupChangedTracker,
+    ua2ApiQueryPressedTracker
+  } = useMobileTracker();
   const {
     formModel,
     onFormModelChange,

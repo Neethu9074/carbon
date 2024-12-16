@@ -6,7 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button, CarbonMenuItem, SvgIcon } from '@instana/components';
 
 import {
   isApplicationEntity,
@@ -23,7 +23,9 @@ import { defaultGroupings as defaultApplicationGroupings } from 'in-applications
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { createChartedMetric, createOrderBy } from 'in-analyze/navigation/paths';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { parseUrl } from 'in-stores/navigation/routing/parser';
 import { containsIgnoreCase } from 'in-services/util/string';
 import { boundaryScopes } from 'in-applications/constants';
 import connectTo from 'in-hoc/connectTo';
@@ -41,8 +43,10 @@ export default connectTo(
     }
     return observables;
   },
-  function AnalyzeIssueCalls({ className, event, endpointEntity }) {
+  function AnalyzeIssueCalls({ className, event, endpointEntity, as = 'button' }) {
     const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+
+    const { navigate } = useNavigation();
 
     if (!event) {
       return null;
@@ -76,6 +80,38 @@ export default connectTo(
     const orderBy = getOrderBy(event, groupBy);
     const orderByGroups = getOrderByGroup(event, groupBy);
     const chartedMetrics = getChartedMetrics(event);
+
+    if (as === 'menuItem') {
+      return (
+        <CarbonMenuItem
+          label={t('in-events:analyzeCalls')}
+          renderIcon={() => <SvgIcon size="xs" type="lib_application_call" />}
+          onClick={() => {
+            navigate(
+              parseUrl(
+                urlWithoutQueryParameter(
+                  getLinkToApplicationAnalyze({
+                    applicationName,
+                    serviceName,
+                    endpointName,
+                    boundaryScope,
+                    dataSource,
+                    formModel,
+                    hiddenCalls,
+                    groupBy,
+                    chartedMetrics,
+                    orderBy,
+                    orderByGroups,
+                    timeConfig: getTimeConfigFromEvent(event)
+                  })
+                ),
+                true
+              )
+            );
+          }}
+        />
+      );
+    }
 
     return (
       <Button

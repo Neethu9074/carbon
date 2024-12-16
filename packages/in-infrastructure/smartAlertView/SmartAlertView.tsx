@@ -9,8 +9,7 @@ import React from 'react';
 import { CreateInfraSmartAlertFloatingButtons } from 'in-infrastructure/smartAlertView/CreateInfraSmartAlertFloatingButtons';
 //@ts-expect-error
 import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeaderWithTabs';
-//@ts-expect-error
-import useOldBackgroundColor from 'in-infrastructure/hooks/useOldBackgroundColor';
+import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import Alerts from 'in-alerting/smart-alerts/infrastructure/Alerts';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -19,7 +18,6 @@ import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
 export default function SmartAlertView() {
-  useOldBackgroundColor();
   return (
     <>
       <InfraPageHeaderWithTabs>
@@ -33,7 +31,7 @@ export default function SmartAlertView() {
         <Title title={t('in-infrastructure:smartAlertView.smartAlertTab')} />
         <Alerts />
       </InfraPageHeaderWithTabs>
-      <CreateInfraSmartAlertFloatingButtons />
+      {!carbonTableEnabled || (!smartAlertCarbonTableEnabled && <CreateInfraSmartAlertFloatingButtons />)}
     </>
   );
 }

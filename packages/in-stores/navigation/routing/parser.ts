@@ -6,8 +6,18 @@
 import { Location, MatrixParameters, Parameters } from 'in-stores/navigation/types';
 import { emptyObject } from 'in-services/fixedObjects';
 
-export function parseUrl(href: string) {
+/**
+ * A function to convert Instana's URLs to a Location object
+ * @param href The url to convert to Locatio
+ * @param removeHash Optional: remove the starting /# from the url if you used createHref for the url. Helps with the navigate function.
+ * @returns Location object
+ */
+export function parseUrl(href: string, removeHash: boolean = false) {
   href = href || '/';
+
+  if (removeHash) {
+    href = href.replace('/#', '');
+  }
 
   let location = parseQueryParameters(href);
   location = parseMatrix(location);
@@ -43,10 +53,7 @@ function paramReducer(agg: Parameters, parameter: string) {
 }
 
 function parseMatrix(location: Location): Location {
-  location.matrix = location.pathname
-    .split('/')
-    .slice(1)
-    .reduce(segmentReducer.bind(null), {});
+  location.matrix = location.pathname.split('/').slice(1).reduce(segmentReducer.bind(null), {});
 
   let pathname = '';
   for (let key in location.matrix) {

@@ -10,7 +10,8 @@
         "step1": "Etape 1 : Sélectionner un type",
         "step2": "Etape 2 : Détails de la demande",
         "step3": "Etape 3 : Planification",
-        "step4": "Etape 4 : Fournir des détails"
+        "step4": "Etape 4 : Fournir des détails",
+        "step5": "Etape5: Associer"
       },
       "selectTest": {
         "title": "Quel type de test synthétique souhaitez-vous créer ?"
@@ -39,7 +40,9 @@
         "labelName": "Nom du test",
         "labelDescription": "Description",
         "labelFrequency": "Fréquence (minutes)",
-        "labelApplications": "Sélectionner une application"
+        "labelFrequencyHour": "Fréquence (heure)",
+        "labelApplication": "Sélectionner une application",
+        "labelApplications": "Sélection d'applications"
       },
       "bluePrint": {
         "title": "Quand l'utiliser ?",
@@ -95,6 +98,11 @@
             "line3": "Etape 3 : choisissez la fréquence du test (entre 1 et 120 minutes).",
             "line4": "Etape 4 : dans la section Nom du test et description, entrez un nom significatif pour votre test dans la zone Nom. Ajoutez une description de l'objectif de votre test dans la zone Description."
           }
+        },
+        "certificateCheck": {
+          "whenToUse": {
+            "line1": "Vérifiez si le certificat du serveur Web va expirer ou non à l'aide de ce test."
+          }
         }
       },
       "validators": {
@@ -128,7 +136,11 @@
           "browserTypeHeadline": "Tests synthétiques de navigateur",
           "browserTypeText": "Les tests synthétiques de navigateur sont une méthode pour surveiller les performances des applications Web en simulant des interactions utilisateur avec un site Web à l'aide d'un script dans un navigateur Web, pour fournir des informations utiles sur les problèmes qui affectent l'expérience utilisateur et pour garantir le bon fonctionnement du site Web.",
           "browserSimpleTitle": "Test simple du navigateur",
-          "browserScriptTitle": "Test de script de navigateur"
+          "browserScriptTitle": "Test de script de navigateur",
+          "certificateCheckTitle": "Vérification du certificat SSL",
+          "certificateCheckLabel": "Certificat SSL",
+          "certificateCheckHeadline": "Test de vérification de certificat SSL",
+          "certificateCheckText": "Le test de vérification de certificat SSL est une méthode permettant de tester l'expiration d'un certificat SSL dans une application Web en vérifiant les jours restants d'un certificat émis."
         },
         "configurationLabel": "Configuration",
         "configurationTitle": "Configuration : Comment ce test fonctionnera-t-il ?",
@@ -140,6 +152,8 @@
         "identifyTitle": "Identification : Que va faire le test ?",
         "customPropertiesTitle": "Propriétés personnalisées",
         "frequency": "Ce test s'exécutera toutes les {{frequencyValue}} minutes.",
+        "frequencyHours": "Ce test s'exécutera toutes les {{frequencyHours}} heures.",
+        "frequencyHoursAndMinutes": "Ce test s'exécutera toutes les {{frequencyHours}} heures et {{frequencyMinutes}} minutes.",
         "simultaneous": "Simultanée",
         "simultaneousDescription": "Ce test s'exécutera simultanément à chaque emplacement sélectionné.",
         "configStep": {
@@ -213,14 +227,48 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "Navigateur"
+          "browserName": "Navigateur",
+          "certificateCheckName": "Certificat SSL"
         },
         "customProperties": {
           "property": "Propriété",
           "propertyValue": "Valeur",
           "addProperty": "Ajouter une propriété",
           "propertyNameMustBeUnique": "Le nom de la propriété doit être unique."
-        }
+        },
+        "certificateCheck": {
+          "inputHostName": "Host Name",
+          "inputPortNumber": "Port",
+          "failureConfigLabel": "Configuration d'échec",
+          "failureConfigText": "Le test échoue lorsque la validité du certificat n'est plus que de <certificateValidityDays/> jours."
+        },
+        "associationsLabel": "Associer",
+        "applicationsTitle": "Associer : Sélectionnez les applications à associer à ce test synthétique",
+        "applicationsDescription": "L'association d'un test synthétique à une application donne des droits d'accès à tous les utilisateurs qui ont accès à cette application.",
+        "associationsTitle": "Associer : Sélectionnez les éléments que vous souhaitez associer à ce test synthétique",
+        "associationsDescription": "L'association d'un test synthétique à une application, un site Web ou une application mobile donne des droits d'accès à tous les utilisateurs qui ont accès à ces entités."
+      },
+      "associations": {
+        "applicationsTitle": "Sélectionnez les applications à associer à ce test synthétique",
+        "applicationsDescription": "L'association d'un test synthétique à une application donne des droits d'accès à tous les utilisateurs qui ont accès à cette application.",
+        "associationsTitle": "Sélectionnez les éléments que vous souhaitez associer à ce test synthétique",
+        "associationsDescription": "L'association d'un test synthétique à une application, un site Web ou une application mobile donne des droits d'accès à tous les utilisateurs qui ont accès à ces entités.",
+        "applicationsButtonLabel": "Sélection d'applications",
+        "websitesButtonLabel": "Sélectionner des sites Web",
+        "mobileAppsButtonLabel": "Sélectionner des applications mobiles",
+        "entityName": "Nom",
+        "noDataAvailable": {
+          "message": "{{component}} non disponible"
+        },
+        "addApplications": "Ajouter {{count}} applications",
+        "addApplication": "Ajouter une application",
+        "addWebsites": "Ajouter {{count}} sites Web",
+        "addWebsite": "Ajouter un site Web",
+        "addMobileApps": "Ajouter {{count}} applications mobiles",
+        "addMobileApp": "Ajouter une application mobile",
+        "applicationsTableTitle": "Application(s)",
+        "websitesTableTitle": "Site(s) Web",
+        "mobileAppsTableTitle": "Application(s) mobile(s)"
       }
     },
     "httpMethods": {
@@ -241,9 +289,9 @@
     },
     "locationFeedback": {
       "successMessageDelete": "La suppression de l'emplacement a abouti",
-      "failureMesssageDelete": "{{deleteLocationErrorMessage}}",
+      "failureMesssage": "{{errorMessage}}",
       "successMessageDeactivate": "L'emplacement a été désactivé",
-      "failureMesssageDeactivate": "{{deactivateLocationErrorMessage}}"
+      "successMessageActivate": "Emplacement activé"
     },
     "updateTest": {
       "dialogTitle": "Éditer le test {{syntheticType}}",
@@ -288,7 +336,7 @@
         "datacentersSubtitle": "Activez un emplacement géré Instana dans l'un des centres de données disponibles. Pour plus d'informations, voir <linkDatacenters>Utilisation d'un PoP hébergé par Instana</linkDatacenters>.",
         "confirmationDialog": {
           "headline": "Des emplacements sont en cours de déploiement",
-          "message": "Nous configurons vos nouveaux emplacements dans les centres de données suivants. Veuillez patienter pendant que nous le déployons automatiquement pour vous. Lorsque cette opération est terminée, vous pouvez trouver vos nouveaux emplacements dans l'onglet Emplacements. <strong>Cette opération peut prendre jusqu'à 10 minutes pour chaque centre de données sélectionné.</strong>",
+          "message": "Nous configurons vos nouveaux emplacements dans les centres de données suivants. Veuillez patienter pendant que nous le déployons automatiquement pour vous. Lorsque cette opération est terminée, vous pouvez trouver vos nouveaux emplacements dans l'onglet Emplacements. <strong>Ce déploiement peut prendre quelques minutes pour chaque centre de données sélectionné.</strong>",
           "table": {
             "heads": {
               "datacenterCode": "Code du centre de données",
@@ -303,11 +351,14 @@
         },
         "deactivateDatacenter": {
           "title": "Désactiver l'emplacement",
-          "deactivateMessage": "Voulez-vous vraiment désactiver l'emplacement <strong>{{locationDisplayLabel}}</strong> ?<br/><br/>La désactivation d'un emplacement peut prendre jusqu'à 10 minutes. Veuillez patienter pendant l'annulation de l'accès. Une fois l'opération terminée, le statut de l'emplacement sera Hors ligne.<br/>",
+          "deactivateMessage": "Voulez-vous vraiment désactiver l'emplacement <strong>{{locationDisplayLabel}}</strong> ?<br/><br/> La désactivation d'un lieu peut prendre quelques minutes. Veuillez patienter pendant l'annulation de l'accès. Une fois l'opération terminée, le statut de l'emplacement sera Hors ligne.<br/>",
           "warningMessage": "La désactivation n'équivaut pas à une suppression. L'emplacement sera disponible et pourra être réactivé. Pour retirer complètement l'emplacement géré, supprimez l'emplacement une fois que son statut est Hors ligne.",
           "activeStatus": "Actif",
           "deactivateButton": "Désactiver"
-        }
+        },
+        "activate": "Activer",
+        "okay": "OK",
+        "activateLocation": "Activer l'emplacement"
       },
       "validators": {
         "theValueMustNotBeEmpty": "Au moins un centre de données doit être sélectionné."
@@ -318,6 +369,46 @@
       },
       "status": {
         "pending": "En attente"
+      }
+    },
+    "credentialFeedback": {
+      "successMessageDelete": "La suppression des données d'identification a abouti",
+      "failureMesssage": "{{errorMessage}}"
+    },
+    "createCredential": {
+      "createButton": "Nouvelles données d'identification",
+      "nameValue": "Nom et valeur",
+      "associations": "Associations",
+      "newCredentials": "Créer des données d'identification synthétiques",
+      "steps": {
+        "textInput": {
+          "placeholder": "Nom des données d'identification",
+          "labelText": "Nom",
+          "invalidText": "Le nom des données d'identification doit commencer par une lettre et ne contenir que des lettres, des chiffres et des traits de soulignement.",
+          "credentialNamesMustBeUnique": "Les noms des données d'identification doivent être uniques. Ce nom est déjà utilisé. Indiquez-en un autre."
+        },
+        "passwordInput": {
+          "placeholder": "Valeur de données d'identification",
+          "labelText": "Valeur"
+        },
+        "associationsDescription": "L'association des données d'identification à une application, un site Web ou une application mobile confère des droits d'accès à tous les utilisateurs qui ont accès à ces entités."
+      },
+      "feedback": {
+        "successMessage": "La création de données d'identification a abouti",
+        "failureMessageCreate": "La création de données d'identification a échoué : {{errorMessage}}",
+        "updateSuccessMessage": "La mise à jour des données d'identification a abouti",
+        "failureMessageUpdate": "La mise à jour des données d'identification a échoué : {{errorMessage}}"
+      },
+      "edit": {
+        "dialogTitle": "Modifier les données d'identification synthétiques {{credentialName}}",
+        "associations": "Associations",
+        "saveButton": "Sauvegarder",
+        "textInputHelperText": "Le nom des données d'identification ne peut pas être modifié ; il s'agit d'une zone en lecture seule (readOnly)",
+        "passwordInputHelperText": "Entrez une nouvelle valeur de données d'identification si vous souhaitez mettre à jour la valeur actuelle."
+      },
+      "tooltipLabels": {
+        "hide": "Masquer la valeur de données d'identification",
+        "show": "Afficher la valeur de données d'identification"
       }
     }
   },
@@ -334,7 +425,8 @@
       "secondaryLabels": {
         "tests": "Tests",
         "locations": "Emplacements",
-        "smartAlerts": "Alertes intelligentes"
+        "smartAlerts": "Alertes intelligentes",
+        "credentials": "Données d'identification"
       },
       "popDialog": {
         "popUpDialogTitle": "Droits d'accès pour la surveillance synthétique",
@@ -349,7 +441,23 @@
         "tlsInstructions": "Si vous voulez activer le protocole Redis TLS, vous devez disposer de votre fichier de paire clé/certificat X.509 (`tls.crt`, `tls.key`) et de votre fichier de certificat racine de l'autorité de certification (`ca.crt`).\n\nSi vous ne disposez pas de vos fichiers de clés et de certificats, vous pouvez utiliser la commande openssl pour en générer de nouveaux. Reportez-vous aux exemples ci-dessous :",
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt",
         "tlsSecretInstructions": "Une fois les fichiers de clés/certificats fournis, utilisez la commande kubectl pour créer un secret.",
-        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<chemin/ca.crt>\" \\\n--from-file=tls.crt=\"<chemin/tls.crt>\" \\\n--from-file=tls.key=\"<chemin/tls.key>\""
+        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<chemin/ca.crt>\" \\\n--from-file=tls.crt=\"<chemin/tls.crt>\" \\\n--from-file=tls.key=\"<chemin/tls.key>\"",
+        "associationsTitle": "{{number}} associations",
+        "singleAssociationTitle": "{{number}} association"
+      },
+      "multiAppDialog": {
+        "filterLabel": "Applications",
+        "singleAppHeader": "{{ number }} association",
+        "multiAppHeader": "{{ number }} associations",
+        "noApplicationsAssociated": "Aucune application associée"
+      },
+      "multiWebDialog": {
+        "filterLabel": "Sites Web",
+        "noWebsitesAssociated": "Aucun site Web associé."
+      },
+      "multiMobileDialog": {
+        "filterLabel": "Applications mobiles",
+        "noMobileAppsAssociated": "Aucune application mobile associée."
       },
       "testLabel": "Nom",
       "status": "Statut",
@@ -364,9 +472,16 @@
       "successRate": "Taux de réussite",
       "successRuns": "{{successRuns}} / {{totalRuns}} résultats",
       "latency": "Temps d'attente",
-      "locationLabel": "Emplacement",
-      "locations": "{{totalLocations}} emplacements",
-      "applicationLabel": "Application",
+      "locationLabel": "Emplacements",
+      "locationsColumn": {
+        "singleLocation": "{{number}} emplacement",
+        "multipleLocations": "{{number}} emplacements",
+        "singleRun": "S'exécute dans {{number}} emplacement",
+        "multipleRun": "S'exécute dans {{number}} emplacements",
+        "warning": "Avertissement",
+        "noIssues": "Aucun problème"
+      },
+      "associationLabel": "Associations",
       "health": "Intégrité",
       "action": "Action",
       "labelConfirmRemoveTest": "Voulez-vous vraiment supprimer le test <strong>{{testLabel}}</strong>  ?",
@@ -400,6 +515,12 @@
       "deleteLocationBroswerRefreshInfo": "La disparition de l'emplacement de la liste des emplacements prend un certain temps et peut nécessiter une actualisation du navigateur.",
       "deactivateLocation": {
         "deactivate": "Désactiver"
+      },
+      "ipAddressColumn": {
+        "ipAddress": "Adresse IP",
+        "singleIPAddress": "{{number}} adresse IP",
+        "multipleIPAddress": "{{number}} adresses IP",
+        "noIPAddresses": "ND"
       }
     },
     "summary": {
@@ -442,7 +563,15 @@
       "totalRuns": "Nombre total d'exécutions {{totalRuns}}",
       "meanLatencyFor90th": "{{meanLatencyDetail}} pour 90e",
       "smartAlertsTab": "Alertes intelligentes",
-      "configurationTab": "Configuration"
+      "configurationTab": "Configuration",
+      "isCertificateValid": "Dernière exécution - Le certificat est signé par l'autorité de certification publique",
+      "resultsCertificateValid": "Le certificat est signé par une autorité de certification publique",
+      "certificateValid": "Oui",
+      "certificateNotValid": "Non",
+      "daysRemaining": "Dernière exécution - Jours restants",
+      "timeOfExpiry": "Dernière exécution - Date d'expiration",
+      "smallerTimeFrameTitle": "Aucun résultat pour cette fenêtre de temps",
+      "smallerTimeFrameDescription": "Sélectionnez une fenêtre de temps plus longue pour afficher les résultats des tests de vérification de certificat SSL."
     },
     "resultsListPage": {
       "startedColumn": "Démarré",
@@ -454,7 +583,8 @@
       "locationLabel": "Emplacement",
       "failures": "Echecs",
       "status": "Statut",
-      "success": "Succès"
+      "success": "Succès",
+      "daysRemaining": "Jours restants"
     },
     "detailsPage": {
       "detailLiveModeDisabled": "Le mode interactif n'est pas applicable dans la page de détails des résultats de test synthétique",
@@ -579,7 +709,13 @@
         "imageButton": "Image",
         "ScreenshotsLoadingMessage": "Chargement des captures d'écran",
         "noScreenshotsAvailableMessage": "Captures d'écran non disponibles pour ce résultat de test"
-      }
+      },
+      "sslCertificate": {
+        "daysRemaining": "Jours restants",
+        "timeOfIssue": "Date d'émission",
+        "timeOfExpiry": "Date d'expiration"
+      },
+      "failedRunErrorTypeTitle": "Type d'erreur"
     },
     "noDataAvailable": {
       "resultsTitle": "Aucun résultat n'est disponible",
@@ -645,6 +781,7 @@
       },
       "configurationEditAction": "Editer",
       "configurationDeleteAction": "Supprimer",
+      "configurationUnsupported": "Type de test non pris en charge.",
       "timeoutLabel": "Dépassements du délai d'attente",
       "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
       "retryStrategyLabel": "Stratégie de relance",
@@ -653,7 +790,44 @@
       "retryIntervalFieldLabel": "Intervalle entre les nouvelles tentatives",
       "retryIntervalSecondDescription": "{{retryIntervalValue}} seconde",
       "retryIntervalSecondsDescription": "{{retryIntervalValue}} secondes",
-      "markSyntheticCall": "Marquer l'appel synthétique"
+      "markSyntheticCall": "Marquer l'appel synthétique",
+      "hostname": "Nom d'hôte",
+      "port": "Port",
+      "daysRemaining": "Configuration d'échec",
+      "day": "Le test échouera si la validité du certificat a {{daysRemainingCheck}} jour restant jusqu'à l'expiration",
+      "days": "Le test échouera si la validité du certificat a {{daysRemainingCheck}} jours restants jusqu'à l'expiration",
+      "associations": "Associations",
+      "associatedApplications": "Applications associées",
+      "noApplicationsAssociated": "Aucune application associée",
+      "associatedWebsites": "Sites Web associés",
+      "noWebsitesAssociated": "Aucun site Web associé",
+      "associatedMobileApps": "Applications mobiles associées",
+      "noMobileAppAssociated": "Aucune application mobile associée"
+    },
+    "credentialList": {
+      "mainLabel": "Données d'identification",
+      "name": "Nom",
+      "associations": "Associations",
+      "createdAt": "Créé à",
+      "createdBy": "Créé par",
+      "lastModifiedBy": "Dernière modification par",
+      "actions": "Actions",
+      "noDataAvailable": {
+        "noCredentialsAvailableTitle": "Pas de données d'identification synthétiques disponibles",
+        "noCredentialsAvailableDescription": "Aucune donnée d'identification synthétique n'a été extraite de la base de données."
+      },
+      "editAction": {
+        "editActionLabel": "Editer",
+        "theValueMustNotBeBlank": "Vous devez définir une valeur."
+      },
+      "deleteAction": {
+        "deleteActionLabel": "Supprimer",
+        "deleteCredentialTitle": "Supprimer les données d'identification synthétiques {{credentialName}}",
+        "credentialNameValidation": "Entrez le nom complet des données d'identification pour confirmer la suppression",
+        "deleteButtonLabel": "Supprimer les données d'identification",
+        "cancelButtonLabel": "Annuler",
+        "deletionSuccess": "Les données d'identification ont été supprimées"
+      }
     }
   }
 }

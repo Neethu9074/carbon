@@ -21,12 +21,36 @@
     &.columns3 {
       grid-template-columns: 10% 20% 70%;
     }
+    //styles specific to tearSheet columns : start
+    &.columns3TS {
+      grid-template-columns: 15% 0.5fr 4fr;
+    }
+    &.columns3TSWithError {
+      grid-template-columns: 15% 1.5fr 4fr;
+    }
+    &.columns5TS {
+      grid-template-columns: 15% 1fr 0.5fr 1fr 2.5fr;
+    }
+    &.columns5TSBothFieldError {
+      grid-template-columns: 15% 1.5fr 0.5fr 1.5fr 2.5fr;
+    }
+    &.columns5TSFirstFieldError {
+      grid-template-columns: 15% 1.5fr 0.5fr 1fr 1.5fr;
+    }
+    //styles specific to tearSheet columns : End
     &.itemWithLabelGrid {
       grid-template-columns: 20% 80%;
     }
     &.leftPaddingNoIcon {
       padding-left: 1rem;
     }
+  }
+
+  .timeThresholdFieldContainer {
+    padding-top: 1.5rem;
+    min-height: unset;
+    grid-gap: 1rem;
+    border-bottom: none;
   }
 
   .icon {
@@ -58,7 +82,7 @@
   .thresholdTypeSelection {
     border-bottom: 1px solid var(--ids-color-option-neutral-300);
     color: var(--ids-color-option-neutral-700);
-    padding: 0.5rem 0.5rem 0.5rem 0.25rem;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
   }
 
   .errorMessage {
@@ -67,6 +91,9 @@
 
   .input {
     width: 5.625rem;
+  }
+  .inputTearSheet {
+    width: 4rem;
   }
 
   .checkbox {
@@ -104,5 +131,19 @@
 
   .configureSingleControlWrapper {
     padding: 0 1rem;
+  }
+  .traceImpactValidationContainer {
+    display: grid;
+    grid-template-columns: 1fr 4.6fr;
+  }
+  .traceImpactValidation {
+    grid-column-start: 2;
+  }
+  .timeWindowtValidation {
+    grid-column-start: 3;
+  }
+  .violationsInPeriodValidationContainer {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 3fr;
   }
 }

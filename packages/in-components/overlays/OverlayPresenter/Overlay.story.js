@@ -6,7 +6,7 @@
 import { range } from 'lodash';
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
 import Overlay from 'in-components/overlays/Overlay';

@@ -1,6 +1,7 @@
 {
   "logs": "Logs",
   "sum": "sum",
+  "count": "count",
   "bar": "Bar",
   "logsOverTime": "Logs over time",
   "logsOverTime_ERROR": "Error",
@@ -53,5 +54,31 @@
   "process": "Process",
   "host": "Host",
   "fileOnHost": "on",
-  "file": "File"
+  "file": "File",
+  "logExpiration": "Retained Until",
+  "stacktraceLogMessage":"Stacktrace",
+  "logTraceTitle": "Stacktrace",
+  "stackTraceHeader": "Stacktrace Message",
+  "dashboard": {
+    "summary": "Summary",
+    "smartAlerts": "Smart alerts",
+    "deleteLogs": "Delete logs",
+    "configuration": "Configuration",
+    "logVolume":{
+      "logVolumeTitle": "Current month log volume",
+      "gb": "GB",
+      "logVolumeIcon": "Go to log volume"
+    },
+    "retentionIcon": "Change retention period",
+    "noData": "No data available",
+    "analyzeLogs": "Analyze logs",
+    "configurationPage": {
+      "logVolume": "Log volume",
+      "logVolumeDescription": "View the log volume for up to 12 months and group by infrastructure tags on demand.",
+      "logIntegrations": "Log integrations",
+      "logIntegrationsDescription": "Connect your log management solutions and configure them to meet your needs.",
+      "retentionPeriod": "Retention period",
+      "retentionPeriodDescription": "Changing the retention period affects the time that logs are retained and available in Applications, Dashboards, and Analytics, and has an impact on cost and billing."
+    }
+  }
 }

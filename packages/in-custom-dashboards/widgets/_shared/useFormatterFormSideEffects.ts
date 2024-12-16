@@ -11,7 +11,9 @@ import { AggregationType } from '@instana/types';
 
 import useFormSideEffects, { CHANGE_TYPES, EffectFunction } from 'in-hooks/useFormSideEffects';
 import { getFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
+import { unitForInfraMetricsEnabled } from 'in-services/featureFlags';
 import { defaultFormatter } from 'in-stores/metric/formatters';
+import { BaseUnit, getBaseUnit } from 'in-stores/metric/units';
 
 export const y1AxisPath = 'y1';
 export const y2AxisPath = 'y2';
@@ -21,6 +23,8 @@ export const sourcePath = 'source';
 export const metricPath = 'metric';
 export const aggregationPath = 'aggregation';
 export const formatterPath = 'formatter';
+export const formatterSelectedPath = 'formatterSelected';
+export const unitPath = 'unit';
 
 const formSideEffects = [
   {
@@ -33,6 +37,10 @@ const formSideEffects = [
   },
   {
     path: [metricConfigurationPath, aggregationPath],
+    effects: [handleFormatterUpdate as EffectFunction]
+  },
+  {
+    path: [metricConfigurationPath, unitPath],
     effects: [handleFormatterUpdate as EffectFunction]
   }
 ];
@@ -47,6 +55,10 @@ const chartFormSideEffects = [
   },
   {
     path: [y1AxisPath, metricsPath, /\d+/, aggregationPath],
+    effects: [handleChartAxisFormatterUpdate(y1AxisPath) as EffectFunction]
+  },
+  {
+    path: [y1AxisPath, metricsPath, /\d+/, unitPath],
     effects: [handleChartAxisFormatterUpdate(y1AxisPath) as EffectFunction]
   },
   {
@@ -85,6 +97,7 @@ interface MetricConfig {
   source: MetricSource;
   metric: string;
   aggregation: AggregationType;
+  baseUnit?: BaseUnit;
 }
 
 function handleFormatterUpdate(form: MapForm<any>): Item {
@@ -92,13 +105,21 @@ function handleFormatterUpdate(form: MapForm<any>): Item {
   const sourceField = metricConfig.get(sourcePath) as Field<MetricSource>;
   const metricField = metricConfig.get(metricPath) as Field<string>;
   const aggregationField = metricConfig.get(aggregationPath) as Field<AggregationType>;
+  const unitField = metricConfig.get(unitPath) as Field<string>;
 
   const source = sourceField?.value;
   const metric = metricField?.value;
   const aggregation = aggregationField?.value;
-  const formatters = getFormatter(source, metric, aggregation);
+  const baseUnit = unitForInfraMetricsEnabled ? getBaseUnit(unitField?.value) : undefined;
+  const formatters = getFormatter(source, metric, aggregation, baseUnit);
 
-  const previousFormatter = form.get('formatter')?.value;
+  // Backward compatibility, don't override already selected formatter
+  const isFormatterSelected = form.get(formatterSelectedPath)?.value;
+  if (isFormatterSelected) {
+    return form;
+  }
+
+  const previousFormatter = form.get(formatterPath)?.value;
 
   for (let formatter of formatters) {
     if (previousFormatter === formatter.id) {
@@ -123,18 +144,29 @@ function handleChartAxisFormatterUpdate(axisName: 'y1' | 'y2') {
       const metric = (metricField as Field<string>)?.value;
       const aggregationField = (metricList as MapForm<any>).get(aggregationPath);
       const aggregation = (aggregationField as Field<AggregationType>)?.value;
+      const unitField = (metricList as MapForm<any>).get(unitPath);
+      const baseUnit = unitForInfraMetricsEnabled ? getBaseUnit(unitField?.value) : undefined;
 
       return {
         source,
         metric,
-        aggregation
+        aggregation,
+        baseUnit
       };
     });
 
-    const previousFormatter = axis.get('formatter')?.value;
+    //Backward compatibility, don't override already selected formatter
+    const isFormatterSelected = axis.get(formatterSelectedPath)?.value;
+    if (isFormatterSelected) {
+      return form;
+    }
+
+    const previousFormatter = axis.get(formatterPath)?.value;
 
     const formatters =
-      metricConfigurations?.flatMap(config => getFormatter(config.source, config.metric, config.aggregation)) ?? [];
+      metricConfigurations?.flatMap(config =>
+        getFormatter(config.source, config.metric, config.aggregation, config.baseUnit)
+      ) ?? [];
 
     for (let formatter of formatters) {
       if (previousFormatter === formatter.id) {

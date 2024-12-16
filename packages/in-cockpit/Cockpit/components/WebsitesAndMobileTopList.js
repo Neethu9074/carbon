@@ -6,13 +6,12 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { KeyValue, SvgIcon } from '@instana/components';
+import { KeyValue, SvgIcon, Button } from '@instana/components';
 import { combineLatest } from '@instana/observables';
-import { Button } from '@instana/legacy';
 
 import MobileHealthIndicatorBehavior from 'in-mobile-apps/MobileAppDashboard/components/MobileHealthIndicatorBehavior/MobileHealthIndicatorBehavior';
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior/WebsiteHealthIndicatorBehavior';
-import { linkToNewWebsite$, useGenerateLinkToWebsite, websiteMonitoringPath } from 'in-websites/navigation/paths';
+import { useLinkToNewWebsite, useGenerateLinkToWebsite, websiteMonitoringPath } from 'in-websites/navigation/paths';
 import { useGenerateLinkToMobileApp, useLinkToNewMobileApp } from 'in-mobile-apps/navigation/paths';
 import { mobileApp as mobileAppType, website as websiteType } from 'in-cockpit/starredItems/types';
 import EmptyStateContent from 'in-cockpit/widgets/WebsitesAndMobileTopList/EmptyStateContent';
@@ -26,14 +25,14 @@ import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { meanLatencyFixed, number } from 'in-services/formatters/number';
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { useMobileTracker } from 'in-mobile-apps/tracking/segTracker';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
+import { useWebsiteTracker } from 'in-websites/tracking/segTracker';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
-import { mobileAppsOpenAddForm } from 'in-mobile-apps/tracker';
 import { hasError, isLoading } from 'in-services/util/result';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import TopListWidget from 'in-cockpit/widgets/TopListWidget';
 import { playwithEnabled } from 'in-services/featureFlags';
-import { websitesOpenAddForm } from 'in-websites/tracker';
 import { add, remove } from 'in-cockpit/starredItems';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
@@ -41,19 +40,22 @@ import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function WebsitesAndMobileTopList({ config }) {
+  const { mobileAppsOpenAddForm } = useMobileTracker();
+  const { websiteOpenAddFrom } = useWebsiteTracker();
   const { createHrefToPath } = useNavigation();
   const getLinkToWebsite = useGenerateLinkToWebsite();
   const getLinkToMobileApp = useGenerateLinkToMobileApp();
   const linkToNewMobileAppHref = useLinkToNewMobileApp();
+  const linkToNewWebsite = useLinkToNewWebsite();
 
   const header = (
     <>
       {role.canConfigureEumApplications && (
         <Button
           kind="action"
-          onClick={() => websitesOpenAddForm()}
+          onClick={() => websiteOpenAddFrom()}
           icon="lib_openclose_add_circle_outline"
-          href$={linkToNewWebsite$}
+          href={linkToNewWebsite}
         >
           {t('in-cockpit:component.websiteMobileTopList.addWebsite')}
         </Button>

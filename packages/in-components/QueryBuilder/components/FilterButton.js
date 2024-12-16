@@ -5,13 +5,11 @@
 
 import React, { useRef } from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import ConjunctionTagSelectorOverlay from 'in-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionTagSelectorOverlay';
 import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';
-
-import locals from './FilterButton.mless';
 
 export default function FilterButton({
   tagCatalog,
@@ -21,7 +19,10 @@ export default function FilterButton({
   focus,
   trailingButton = false,
   withoutOrConjunction = false,
-  withoutBrackets = false
+  withoutBrackets = false,
+  getTagCatalog,
+  additionalGetTagCatalogProps,
+  addTagDefinitionToFormModel
 }) {
   // We must not execute the onCloseSideEffect when we just triggered a form model change
   // as this would place the focus onto the wrong element.
@@ -31,10 +32,13 @@ export default function FilterButton({
     <Overlay
       content={ConjunctionTagSelectorOverlay}
       props={{
-        tagCatalog: tagCatalog,
+        tagCatalog,
         onChange: addInitialTag,
-        withoutOrConjunction: withoutOrConjunction,
-        withoutBrackets: withoutBrackets
+        withoutOrConjunction,
+        withoutBrackets,
+        getTagCatalog,
+        additionalGetTagCatalogProps,
+        addTagDefinitionToFormModel
       }}
       align="bottomLeft"
       withoutWrapper
@@ -49,12 +53,12 @@ export default function FilterButton({
     >
       {({ toggle, refSetter }) => (
         <Button
-          className={locals.button}
           size="compact"
           icon={trailingButton ? '' : 'lib_openclose_add'}
-          kind="subtle"
+          kind="tertiary"
           onClick={toggle}
           refSetter={refSetter}
+          data-testid="query-builder-add-filter"
         >
           {t('in-components:queryBuilder.components.filterButtonAddFilter')}
         </Button>

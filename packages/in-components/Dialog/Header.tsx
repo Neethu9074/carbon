@@ -6,10 +6,9 @@
 import React, { ReactElement } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon } from '@instana/components';
+import { SvgIcon, IconButton } from '@instana/components';
 import { light } from '@instana/components';
 
-import IconButton from 'in-components/IconButton/IconButton';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './Dialog.mless';

@@ -367,6 +367,7 @@
       "viewAllOs": "Visualizza tutti i sistemi operativi",
       "appVersions": "Versioni app",
       "viewAllVersions": "Visualizza tutte le versioni",
+      "syntheticMonitoringLabel": "Monitoraggio sintetico",
       "configurations": {
         "symbolFileConfigLabel": "Conversione traccia di stack",
         "symbolFileConfig": {
@@ -399,9 +400,12 @@
         }
       },
       "crashes": {
-        "crashesLabelErrorMessage": "Messaggio di errore",
+        "crashesLabelErrorMessage": "Ubicazione",
+        "crashesLabelErrorType": "Tipo di errore",
         "crashesLabelOccurrences": "Ricorrenze",
         "crashesLabelAffectedUsers": "Utenti interessati",
+        "crashesLabelLowestAppVersion": "Versione app più bassa",
+        "crashesLabelHighestAppVersion": "Versione app più alta",
         "crashesButtonAnalyzeCrashes": "Analizza arresti anomali",
         "crashesTableTitle": "Arresti anomali",
         "crashInfoTitle": "Dettagli",
@@ -453,7 +457,10 @@
       "customEventsTitle": "Nessun evento personalizzato disponibile",
       "customEventsDescription": "Non è stato richiamato alcun evento personalizzato per l'intervallo di tempo selezionato.",
       "crashesTitle": "Nessun arresto anomalo disponibile",
-      "crashesDescription": "Non si sono verificati arresti anomali nell'intervallo di tempo selezionato."
+      "crashesDescription": "Non si sono verificati arresti anomali nell'intervallo di tempo selezionato.",
+      "syntheticMonitoring": {
+        "title": "A questa applicazione mobile non sono associati test sintetici."
+      }
     }
   },
   "appsList": {

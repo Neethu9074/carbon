@@ -6,12 +6,12 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Message } from '@instana/components';
+import { SvgIcon, Message, Spacer, Select } from '@instana/components';
 
 import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/IndeterminateLoadingIndicator';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import Overlay from 'in-components/overlays/Overlay';
+import { allUnits } from 'in-stores/metric/units';
 import { t } from 'in-i18n';
 
 import locals from './TypeAndMetricConfigurator.mless';
@@ -21,6 +21,7 @@ export default function TypeAndMetricConfigurator({
   SelectorOverlay,
   errors,
   selectMetric = t('in-custom-dashboards:widgets.srcInfrastructure.typeAndMetricConfigurator.pleaseSelectMetric'),
+  withUnit = false,
   ...props
 }) {
   if (errors?.length > 0) {
@@ -29,19 +30,42 @@ export default function TypeAndMetricConfigurator({
 
   return (
     <>
-      <Overlay content={SelectorOverlay} props={props} align="bottomLeft" withoutWrapper>
-        {({ toggle, refSetter }) => (
-          <DropdownButton
-            kind="secondary"
-            size="compact"
-            onClick={toggle}
-            refSetter={refSetter}
-            className={locals.configurator}
-          >
-            <TypeAndMetricLabel selectMetric={selectMetric} {...metricMetadata} />
-          </DropdownButton>
+      <div className={withUnit ? locals.configuratorWithAdditionalContent : ''}>
+        <Overlay content={SelectorOverlay} props={props} align="bottomLeft">
+          {({ toggle, refSetter }) => (
+            <DropdownButton
+              kind="tertiary"
+              size="compact"
+              onClick={toggle}
+              refSetter={refSetter}
+              className={locals.carbonConfigurator}
+            >
+              <TypeAndMetricLabel selectMetric={selectMetric} {...metricMetadata} />
+            </DropdownButton>
+          )}
+        </Overlay>
+        {withUnit && (
+          <div className={locals.metricUnitWrapper}>
+            <Spacer horizontal="large" />
+            {t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.unit')}
+            <Spacer horizontal="small" />
+            <Select
+              id="metric-configurator-unit"
+              value={props?.unitField?.value}
+              onChange={e => props?.onUnitChange(e)}
+              disabled={!!props?.preSelectedUnit}
+            >
+              <>
+                {Object.values(allUnits).map(({ id: value, label }) => (
+                  <option key={value} value={value}>
+                    {label}
+                  </option>
+                ))}
+              </>
+            </Select>
+          </div>
         )}
-      </Overlay>
+      </div>
     </>
   );
 }
@@ -55,7 +79,11 @@ TypeAndMetricConfigurator.propTypes = {
   query: rpt.string.isRequired,
   onQueryChange: rpt.func.isRequired,
   selectMetric: rpt.string,
-  SelectorOverlay: rpt.func
+  SelectorOverlay: rpt.func,
+  withUnit: rpt.bool,
+  onUnitChange: rpt.func,
+  preSelectedUnit: rpt.string,
+  unitField: rpt.object
 };
 
 function Errors({ errors }) {
@@ -74,7 +102,7 @@ function TypeAndMetricLabel({ selectMetric, path, label, loading, metric }) {
   if (loading) {
     return (
       <div className={locals.loadingWrapper}>
-        <IndeterminateLoadingIndicator size={'xs'} />
+        <IndeterminateLoadingIndicator customStyle={{ strokeColor: 'currentColor' }} size={'xs'} />
         <span className={locals.loadingText}>
           {t('in-custom-dashboards:widgets.srcInfrastructure.typeAndMetricConfigurator.loadingMetrics')}
         </span>

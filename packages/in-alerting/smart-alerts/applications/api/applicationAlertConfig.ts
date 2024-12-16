@@ -5,16 +5,22 @@
 
 import { Observable } from '@instana/observables';
 
-import { ApplicationAlertConfig, ApplicationAlertConfigWithMetadata, ConfigVersion, Result } from 'in-types';
+import {
+  ApplicationSmartAlertConfig,
+  ApplicationSmartAlertConfigWithMetadata
+} from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { baseUrl as apiEndpoint } from 'in-alerting/smart-alerts/components/api/apiEndpoints';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
+import { ConfigVersion, Result } from 'in-types';
 import http from 'in-services/http';
 
 const baseUrl = apiEndpoint.APPLICATION;
 
-export function createAlertConfig(data: ApplicationAlertConfig): Observable<ApplicationAlertConfigWithMetadata> {
-  return http<ApplicationAlertConfigWithMetadata>({
+export function createAlertConfig(
+  data: ApplicationSmartAlertConfig
+): Observable<ApplicationSmartAlertConfigWithMetadata> {
+  return http<ApplicationSmartAlertConfigWithMetadata>({
     method: 'POST',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -24,10 +30,10 @@ export function createAlertConfig(data: ApplicationAlertConfig): Observable<Appl
 }
 
 export function updateAlertConfig(
-  data: ApplicationAlertConfig,
+  data: ApplicationSmartAlertConfig,
   id: string
-): Observable<ApplicationAlertConfigWithMetadata> {
-  return http<ApplicationAlertConfigWithMetadata>({
+): Observable<ApplicationSmartAlertConfigWithMetadata> {
+  return http<ApplicationSmartAlertConfigWithMetadata>({
     method: 'POST',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -39,16 +45,18 @@ export function updateAlertConfig(
 export function getAllAlertConfigs(
   applicationId: string,
   config: { asObservable: true }
-): Observable<Result<ApplicationAlertConfigWithMetadata[]>>;
+): Observable<Result<ApplicationSmartAlertConfigWithMetadata[]>>;
 export function getAllAlertConfigs(
   applicationId: string,
   config?: { asObservable: false }
-): Observable<ApplicationAlertConfigWithMetadata[]>;
+): Observable<ApplicationSmartAlertConfigWithMetadata[]>;
 export function getAllAlertConfigs(
   applicationId: string,
   config = { asObservable: false }
-): Observable<Result<ApplicationAlertConfigWithMetadata[]>> | Observable<ApplicationAlertConfigWithMetadata[]> {
-  const request = http<ApplicationAlertConfigWithMetadata[]>({
+):
+  | Observable<Result<ApplicationSmartAlertConfigWithMetadata[]>>
+  | Observable<ApplicationSmartAlertConfigWithMetadata[]> {
+  const request = http<ApplicationSmartAlertConfigWithMetadata[]>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -82,16 +90,16 @@ export function getAllVersionsOfAlertConfig(
 export function getLatestAlertConfig(
   id: string,
   config: { asObservable: true }
-): Observable<Result<ApplicationAlertConfigWithMetadata>>;
+): Observable<Result<ApplicationSmartAlertConfigWithMetadata>>;
 export function getLatestAlertConfig(
   id: string,
   config?: { asObservable: false }
-): Observable<ApplicationAlertConfigWithMetadata>;
+): Observable<ApplicationSmartAlertConfigWithMetadata>;
 export function getLatestAlertConfig(
   id: string,
   config = { asObservable: false }
-): Observable<Result<ApplicationAlertConfigWithMetadata>> | Observable<ApplicationAlertConfigWithMetadata> {
-  const request = http<ApplicationAlertConfigWithMetadata>({
+): Observable<Result<ApplicationSmartAlertConfigWithMetadata>> | Observable<ApplicationSmartAlertConfigWithMetadata> {
+  const request = http<ApplicationSmartAlertConfigWithMetadata>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -105,18 +113,18 @@ export function getAlertConfigByIdAndTimestamp(
   id: string,
   timestamp: number,
   config: { asObservable: true }
-): Observable<Result<ApplicationAlertConfigWithMetadata>>;
+): Observable<Result<ApplicationSmartAlertConfigWithMetadata>>;
 export function getAlertConfigByIdAndTimestamp(
   id: string,
   timestamp: number,
   config?: { asObservable: false }
-): Observable<ApplicationAlertConfigWithMetadata>;
+): Observable<ApplicationSmartAlertConfigWithMetadata>;
 export function getAlertConfigByIdAndTimestamp(
   id: string,
   timestamp: number,
   config = { asObservable: false }
-): Observable<Result<ApplicationAlertConfigWithMetadata>> | Observable<ApplicationAlertConfigWithMetadata> {
-  const request = http<ApplicationAlertConfigWithMetadata>({
+): Observable<Result<ApplicationSmartAlertConfigWithMetadata>> | Observable<ApplicationSmartAlertConfigWithMetadata> {
+  const request = http<ApplicationSmartAlertConfigWithMetadata>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -159,16 +167,18 @@ export function deleteAlertConfig(id: string): Observable<void> {
 export function getAllAlertConfigsForAllApplications(
   alertIds: string[],
   config: { asObservable: true }
-): Observable<Result<ApplicationAlertConfigWithMetadata[]>>;
+): Observable<Result<ApplicationSmartAlertConfigWithMetadata[]>>;
 export function getAllAlertConfigsForAllApplications(
   alertIds: string[],
   config: { asObservable: false }
-): Observable<ApplicationAlertConfigWithMetadata[]>;
+): Observable<ApplicationSmartAlertConfigWithMetadata[]>;
 export function getAllAlertConfigsForAllApplications(
   alertIds: string[],
   config = { asObservable: false }
-): Observable<Result<ApplicationAlertConfigWithMetadata[]>> | Observable<ApplicationAlertConfigWithMetadata[]> {
-  const request = http<ApplicationAlertConfigWithMetadata[]>({
+):
+  | Observable<Result<ApplicationSmartAlertConfigWithMetadata[]>>
+  | Observable<ApplicationSmartAlertConfigWithMetadata[]> {
+  const request = http<ApplicationSmartAlertConfigWithMetadata[]>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -181,8 +191,11 @@ export function getAllAlertConfigsForAllApplications(
   return config.asObservable ? createObservable(request) : request.map(response => response.body);
 }
 
-export function restoreAlertConfigVersion(id: string, created: number): Observable<ApplicationAlertConfigWithMetadata> {
-  return http<ApplicationAlertConfigWithMetadata>({
+export function restoreAlertConfigVersion(
+  id: string,
+  created: number
+): Observable<ApplicationSmartAlertConfigWithMetadata> {
+  return http<ApplicationSmartAlertConfigWithMetadata>({
     method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),

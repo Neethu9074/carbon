@@ -5,10 +5,9 @@
 
 import React from 'react';
 
-import { Collapsible } from '@instana/components';
+import { Collapsible, DescriptionList, DescriptionItem } from '@instana/components';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import { emptyMap } from 'in-services/fixedImmutables';

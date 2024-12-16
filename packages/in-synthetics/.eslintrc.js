@@ -24,7 +24,10 @@ module.exports = {
         'in-subscription',
         'in-synthetics',
         'in-themes',
-        'in-bizops'
+        'in-bizops',
+        'in-websites',
+        'in-mobile-apps',
+        'in-settings'
       ]
     })
   }

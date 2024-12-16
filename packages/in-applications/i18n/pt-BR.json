@@ -6,6 +6,7 @@
   "labelAnalytic": "Análise de dados",
   "labelCall": "Chamada",
   "labelTrace": "Rastreio",
+  "labelStatus": "Status",
   "linkDownload": "Fazer download",
   "linkDownloadCalls": "Fazer download de chamadas",
   "linkDownloadRawTrace": "Fazer download do rastreio bruto",
@@ -122,6 +123,7 @@
   "messageSuccessfullySaved": "Salvo com sucesso.",
   "messageErrorOccurred": "Ocorreu um erro, tente novamente.",
   "messageWaitForChanges": "Pode levar algum tempo para que suas mudanças se apliquem.",
+  "linkViewAllApplications": "Visualizar todos os aplicativos",
   "linkViewAllServices": "Visualizar todos os serviços",
   "linkViewAllEndpoints": "Visualizar todos os terminais",
   "lineViewInAnalyze": "Visualizar na análise",
@@ -152,6 +154,33 @@
   "applications": {
     "noData": "As perspectivas de aplicativo fornecem um meio para modelar ambientes, conjuntos de serviços, locatários ou praticamente qualquer coisa."
   },
+  "subtraces": {
+    "labelSubtraces": "Sub-rastreios",
+    "labelSubtrace": "Sub-rastreio",
+    "newSubtrace": "Incluir sub-rastreio",
+    "subtracesList": {
+      "name": "Nome",
+      "count": "Contagem",
+      "meanDuration": "Duração média",
+      "meanSubcallCount": "Número médio de sub-chamadas",
+      "meanErrorRate": "Taxa média de erro"
+    },
+    "configuration": {
+      "success": {
+        "title": "A ação {{action}} de sub-rastreio foi realizada com sucesso.",
+        "message": "O nome \"{{subtraceName}}\" do sub-rastreio foi {{action}}."
+      },
+      "failure": {
+        "title": "Falha no sub-rastreio da ação {{action}}.",
+        "message": "Houve um problema ao tentar a ação {{action}} este sub-rastreio: \"{{subtraceName}}\""
+      },
+      "title": "Atualizar o sub-rastreio",
+      "subtraceName": "Nome do sub-rastreio",
+      "subtraceFilter": "Definição do sub-rastreio",
+      "evaluationGranularity": "Granularidade da avaliação",
+      "evaluationGranularityValidationError": "Assim, considere selecionar um valor para a granularidade da avaliação."
+    }
+  },
   "alert": {
     "tooltipMoreFilter": "+{{moreFilterCount}} mais filtro",
     "tooltipMoreFilter_plural": "+{{moreFilterCount}} mais filtros",
@@ -162,7 +191,7 @@
   "inboundOutboundCalls": {
     "config": {
       "inbound": {
-        "text": "Chamadas de entrada"
+        "text": "Chamadas recebidas"
       },
       "all": {
         "text": "Todas as chamadas"
@@ -170,9 +199,9 @@
     },
     "constants": {
       "inboundDashboard": "O painel está exibindo informações com base apenas nas chamadas executadas pelos consumidores deste aplicativo.",
-      "inboundOverrideDefault": "O escopo padrão para esse aplicativo é apenas Chamadas de entrada. É possível mudar isso na configuração.",
+      "inboundOverrideDefault": "O escopo padrão para esse aplicativo contempla apenas as chamadas recebidas. É possível mudar isso na configuração.",
       "allDashboard": "O painel está exibindo informações baseadas em todas as chamadas executadas neste aplicativo, tanto por consumidores quanto internamente.",
-      "allOverrideDefault": "O escopo padrão para esse aplicativo é Todas as chamadas. É possível mudar isso na configuração."
+      "allOverrideDefault": "O escopo padrão para esse aplicativo contempla todas as chamadas. É possível mudar isso na configuração."
     }
   },
   "analyze": {
@@ -209,6 +238,8 @@
     "closeTraceDetail": "Fechar detalhe de rastreio",
     "invalidQueryConfig": "A configuração da consulta é inválida. Trate as falhas de validação antes de continuar.",
     "invalidTraceIdTagFilter": "O ID de rastreio \"{{traceId}}\" é inválido. Especifique um ID de rastreio válido que tenha 16 ou 32 caracteres.",
+    "disabledApiQueryLatencyDistributionChart": "A distribuição de latência não é suportada pela consulta de API. Primeiro, selecione um gráfico diferente.",
+    "disabledApiQueryNoChart": "A consulta de API não pode ser usada sem a seleção de gráfico. Selecione um gráfico primeiro.",
     "errorRateLabel": "Chamadas errôneas (taxa)",
     "errorRateCategory": "Chamadas errôneas",
     "errorMetricLabel": "Taxa de chamadas errôneas",
@@ -244,7 +275,8 @@
     "dataSource_calls_plural": "{{formattedCount}} Chamadas",
     "dataSource_traces": "{{formattedCount}} Rastreio",
     "dataSource_traces_plural": "{{formattedCount}} Rastreios",
-    "analyzeCallsOfThisTrace": "Analisar as chamadas deste rastreio"
+    "analyzeCallsOfThisTrace": "Analisar as chamadas deste rastreio",
+    "noAvailableCustomMetrics": "Não há métricas customizadas disponíveis"
   },
   "creation": {
     "newAP": "Nova perspectiva de aplicativo",
@@ -456,7 +488,9 @@
       "logMessagesDescription": "Não houve nenhuma mensagem de log recuperada para o intervalo de tempo selecionado.",
       "endpointsTitle": "Nenhum terminal disponível",
       "endpointsDescription": "Não houve nenhum terminal recuperado para o intervalo de tempo selecionado."
-    }
+    },
+    "pageCannotBeFound": "A página não pode ser localizada",
+    "idNotPresent": "{{id}} não está presente na URL."
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "O serviço não está no aplicativo atual.",
@@ -627,6 +661,8 @@
     "calls_latency": "Latência",
     "calls_erroneousCalls": "Chamadas errôneas",
     "calls_errors": "Taxa de chamadas errôneas",
+    "calls_call_metric": "Métricas de chamadas customizadas",
+    "calls_call_meta_metrics": "Meta-métricas",
     "traces_calls": "Rastreios",
     "traces_traces": "Rastreios",
     "traces_latency": "Latência",
@@ -678,5 +714,21 @@
     "alternativeServicesProblem": "<bold>Não</bold>, se o nome do serviço atual vem do cabeçalho HTTP \"Host\" (regra de mapeamento de serviço cujo id é call.http.host) e o nome do serviço alternativo não (porque seu nome vem de uma regra que tem base em tags de infraestrutura), ou vice-versa. São serviços duplicados.",
     "alternativeServicesPossibleProblem": "<bold>Talvez</bold>, se o serviço atual e os nomes de serviços alternativos não provarem do cabeçalho HTTP \"Host\", então eles são serviços sentados atrás de um proxy (bom) ou são serviços duplicados (ruim): alguns dos serviços estão integralmente vinculados a infraestrutura, enquanto outros estão parcialmente vinculados a infraestrutura."
   },
-  "labelSyntheticMonitoring": "Monitoramento sintético"
+  "infoBanner": {
+    "title": "Ações de recursos, com tecnologia Turbonomic",
+    "tryLabel": "Experimente antes de comprar",
+    "tryText": "Inicie uma avaliação sem custo para consultar como as ações de recursos podem ajudar seus aplicativos.",
+    "tryButtonLabel": "Iniciar uma avaliação",
+    "learnLabel": "Saiba mais",
+    "learnText": "Confira alguns blogs e mídias adicionais para se manter atualizado sobre esse recurso.",
+    "learnButtonLabel": "Visite-nos on-line",
+    "connectLabel": "Conecte-se com Vendas",
+    "connectText": "Entre em contato com nossa equipe de vendas e diga que está interessado.",
+    "connectButtonLabel": "Comprar agora",
+    "helpLabel": "Ajude-nos a crescer",
+    "helpText": "Compartilhe suas ideias conosco para que possamos continuar a oferecer os recursos que você mais deseja.",
+    "helpButtonLabel": "Forneça um feedback"
+  },
+  "labelSyntheticMonitoring": "Monitoramento sintético",
+  "labelResourceOptimizations": "Otimizações"
 }

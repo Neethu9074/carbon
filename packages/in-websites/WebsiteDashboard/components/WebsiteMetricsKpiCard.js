@@ -32,6 +32,7 @@ export default connectTo(
 
           return (
             <KpiCard
+              headingVariant="heading-3"
               title={title}
               value={value}
               iconAction={iconAction}

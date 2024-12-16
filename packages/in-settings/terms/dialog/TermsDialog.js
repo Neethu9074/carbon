@@ -21,12 +21,12 @@ export default function TermsDialog({ onSave, fullTermsConfigEnabled }) {
       setForm(_form.setTouched(true, { recurse: true }));
       return;
     }
-
+    const updatedForm = _form.updateIn(['showUserGoalSelection'], field => field.setValue(true));
     const userPreferences = Object.freeze({
       // TODO
       tosAccepted: true,
       privacyAgreementAccepted: true,
-      userSettings: formUserSettingsObject(_form)
+      userSettings: formUserSettingsObject(updatedForm)
     });
 
     onSave(userPreferences, setSaveError);

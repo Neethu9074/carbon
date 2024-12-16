@@ -19,12 +19,12 @@
       "customMetricsTitleValue": "Wert",
       "customMetricsTitlePinned": "{{pinnedPrefix}} gepinnte Messdaten ({{pinnedLength}})",
       "customMetricsTitleCustom": "{{customPrefix}} angepasste Messdaten ({{customLength}})",
-      "customMetricsLableCount": "Anzahl",
-      "customMetricsLableValue": "Wert",
-      "customMetricsLableMean": "Mittelwert",
-      "customMetricsLableP50": "50.",
-      "customMetricsLableP99": "99.",
-      "customMetricsLableRate": "Rate"
+      "customMetricsLabelCount": "Anzahl",
+      "customMetricsLabelValue": "Wert",
+      "customMetricsLabelMean": "Mittelwert",
+      "customMetricsLabelP50": "50.",
+      "customMetricsLabelP99": "99.",
+      "customMetricsLabelRate": "Rate"
     },
     "table": {
       "tableNoData": "Keine Daten.",

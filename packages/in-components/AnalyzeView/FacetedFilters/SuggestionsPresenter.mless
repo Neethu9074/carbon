@@ -13,7 +13,7 @@
 
   .suggestion {
     cursor: pointer;
-    display: flex;
+    display: block;
     justify-content: space-between;
     width: 100%;
   }
@@ -32,6 +32,7 @@
   }
 
   .count {
+    display: flex;
     margin-left: 1rem;
     color: var(--ids-color-option-neutral-600);
   }
@@ -54,6 +55,9 @@
     &:hover {
       background: transparent;
       color: var(--ids-color-option-teal-500);
+    }
+    &:global(.cds--btn) {
+      min-block-size: unset;
     }
   }
 

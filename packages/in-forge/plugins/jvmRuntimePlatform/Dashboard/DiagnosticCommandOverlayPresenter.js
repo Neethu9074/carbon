@@ -5,8 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { Select } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Select, Button } from '@instana/components';
 
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
@@ -20,16 +19,14 @@ export default function DiagnosticCommandOverlayPresenter({ snapshot, getDiagnos
     <div className={locals.overlay}>
       <FormGroup>
         <Label>Available Commands</Label>
-        <Select
-          onChange={e => setDiagnosticCommand(e.currentTarget.value)}
-          autoComplete="off"
-          defaultValue={diagnosticCommand}
-        >
-          {commands.map(cmd => (
-            <option value={cmd} key={cmd}>
-              {cmd}
-            </option>
-          ))}
+        <Select onChange={e => setDiagnosticCommand(e.currentTarget.value)} value={diagnosticCommand}>
+          {commands
+            .map(cmd => (
+              <option value={cmd} key={cmd}>
+                {cmd}
+              </option>
+            ))
+            .toArray()}
         </Select>
       </FormGroup>
       <Button onClick={() => getDiagnosticInfo(snapshot, diagnosticCommand)}>Send Command</Button>

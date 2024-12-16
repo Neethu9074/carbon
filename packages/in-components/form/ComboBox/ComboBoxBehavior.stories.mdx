@@ -1,0 +1,37 @@
+import { Meta, Story, Preview, Props } from '@storybook/addon-docs';
+import { action as storybookAction } from '@storybook/addon-actions';
+
+import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
+import DropdownButton from 'in-components/Button/DropdownButton';
+
+<Meta component={ComboBoxBehavior} />
+
+## ComboBoxBehavior
+
+`ComboBoxBehavior` implements logic which turns any HTML element into a clickable element that triggers
+an `Overlay` in which items can be selected. `ComboBoxBehavior` can be used as a primitive to implement
+higher-level components or it can directly be used in non-reusable code to implement features.
+
+<Preview>
+  <Story name="default">
+    <ComboBoxBehavior
+      value="b"
+      options={[
+        { label: 'A', value: 'a' },
+        { label: 'B', value: 'b' },
+        { label: 'C', value: 'c' }
+      ]}
+      onChange={storybookAction('onChange')}
+    >
+      {({ elementProps, options, value, isOpen }) => (
+        <DropdownButton kind="secondary" icon="lib_actions_settings" expanded={isOpen} {...elementProps}>
+          {Boolean(value) ? options.find(opt => opt.value === value).label : 'Select A Value'}
+        </DropdownButton>
+      )}
+    </ComboBoxBehavior>
+  </Story>
+</Preview>
+
+### Props
+<Props of={ComboBoxBehavior} />
+

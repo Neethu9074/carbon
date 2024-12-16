@@ -8,12 +8,13 @@ import React from 'react';
 
 import locals from './SectionLine.mless';
 
-export default function SectionLine({ withBottomMargin = true }) {
+export default function SectionLine({ withBottomMargin = true, isFullWidth = false }) {
   return (
     <div
       className={classNames({
         [locals.line]: true,
-        [locals.marginBottom]: withBottomMargin
+        [locals.marginBottom]: withBottomMargin,
+        [locals.fullWidth]: isFullWidth
       })}
     />
   );

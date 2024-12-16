@@ -5,19 +5,21 @@
  */
 
 import { create, timeout } from '@instana/observables';
+import { Event, Policy, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import { ScoredAction, getAllActionsWithAISuggestions } from 'in-automation/api';
 import { error, hasError, isLoading, success } from 'in-services/util/result';
+import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
+import { ScoredAction, TriggerSpecification } from 'in-automation/types';
 import usePaginatedResult from 'in-automation/hooks/usePaginatedResult';
-import { TriggerSpecification } from 'in-automation/Policies/types';
+import { getAllActionsWithAISuggestions } from 'in-automation/api';
 import { pendingResult } from 'in-services/fixedObjects';
-import { Event, Policy, Result } from 'in-types';
 
 interface UseScoredActionsParams {
   event: Event;
   trigger: Result<TriggerSpecification>;
+  type: 'default' | 'watsonx';
 }
 
 const refreshSignal = create().emit(true);
@@ -25,20 +27,23 @@ export function refresh() {
   timeout(1000).once(() => refreshSignal.emit(true));
 }
 
-export default function useScoredActions({ event, trigger }: UseScoredActionsParams) {
+export default function useScoredActions({ event, trigger, type }: UseScoredActionsParams) {
+  const triggerType = getTriggerTypeFromEvent(event);
   return (
     useObservable(() => {
       if (isLoading(trigger)) {
         return null;
       }
-
+      if (type === 'watsonx' && triggerType !== 'builtinEvent') {
+        return null; // we are not supporting OOTB watsonx actions for any other events except builtin events. this code avoids making api call in that case
+      }
       return refreshSignal.flatMap(() => {
         if (hasError(trigger)) {
           return getAllActionsWithAISuggestions(event.problem?.problemText ?? '', '');
         } else {
-          const { name, description = '' } = trigger.data!;
+          const { name, description = '', id: eventId } = trigger.data!;
           const { entityId } = event;
-          return getAllActionsWithAISuggestions(name, description, entityId);
+          return getAllActionsWithAISuggestions(name, description, entityId, type, eventId);
         }
       });
     }, [trigger.progress.loading, refreshSignal]) ?? (pendingResult as Result<ScoredAction[]>)
@@ -50,7 +55,7 @@ interface UseRecommendedScoredActionsParams {
   policies: Result<Policy[]>;
 }
 
-export function useRecommendedScoredActions({ actions, policies }: UseRecommendedScoredActionsParams) {
+export function useUserRecommendedScoredActions({ actions, policies }: UseRecommendedScoredActionsParams) {
   if (isLoading(actions, policies)) return pendingResult as Result<ScoredAction[]>;
   if (hasError(actions, policies))
     return error<ScoredAction[]>([{ message: 'Failed to filter recommended actions.', code: 'SERVER' }]);
@@ -59,9 +64,17 @@ export function useRecommendedScoredActions({ actions, policies }: UseRecommende
       const policyExistWithAction = policies.data!.some(
         policy => policy.typeConfigurations[0]?.runnable.runConfiguration.actions[0].action.id === action.id
       );
-      return !policyExistWithAction && action.confidence != 'low';
+      return !policyExistWithAction && action.confidence != 'low' && !action.metadata?.builtIn;
     })
   );
+}
+
+export function useAIRecommendedScoredActions({ actions, policies }: UseRecommendedScoredActionsParams) {
+  if (isLoading(actions, policies)) return pendingResult as Result<ScoredAction[]>;
+  if (hasError(actions, policies))
+    return error<ScoredAction[]>([{ message: 'Failed to filter recommended actions.', code: 'SERVER' }]);
+
+  return success(actions.data!);
 }
 
 interface UsePaginatedScoredActionsParams {

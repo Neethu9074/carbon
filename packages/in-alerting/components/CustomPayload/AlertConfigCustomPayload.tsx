@@ -16,6 +16,7 @@ import {
 } from 'in-alerting/components/CustomPayload/customPayloadColumnDefinitions';
 import { createNewFormEntry } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import CustomPayloadTable from 'in-alerting/components/CustomPayload/CustomPayloadTable';
+import AlertTypography from 'in-alerting/components/AlertTypography';
 import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -39,13 +40,15 @@ interface AlertConfigCustomPayloadProps {
   setForm?: (form: MapForm<any>) => void;
   supportDynamicTypes: boolean;
   TagBasedPayloadConfigurator?: React.ReactNode;
+  isTearSheet?: boolean;
 }
 
 export default function AlertConfigCustomPayload({
   form,
   setForm,
   supportDynamicTypes,
-  TagBasedPayloadConfigurator
+  TagBasedPayloadConfigurator,
+  isTearSheet = false
 }: AlertConfigCustomPayloadProps) {
   return (
     <CustomPayloadTable
@@ -56,6 +59,7 @@ export default function AlertConfigCustomPayload({
       addRow={addRow}
       deleteRow={deleteRow}
       updateIn={updateIn}
+      isTearSheet={isTearSheet}
       result={
         {
           // Parent component would only render if 'result has no errors' or 'result not loading'. Passing loading and errors param accordingly.
@@ -73,7 +77,16 @@ export default function AlertConfigCustomPayload({
       customPayloadForm={form.get('customPayloadFields')}
       TagBasedPayloadConfigurator={supportDynamicTypes ? TagBasedPayloadConfigurator : null}
       leftHeader={
-        <div className={locals.leftHeader}>{t('in-alerting:components.customPayload.additionalCustomPayload')}</div>
+        isTearSheet ? (
+          <AlertTypography
+            variant={'heading-100'}
+            color={'color900-navy'}
+            content={t('in-alerting:components.customPayload.additionalCustomPayload')}
+            noMargin
+          />
+        ) : (
+          <div className={locals.leftHeader}>{t('in-alerting:components.customPayload.additionalCustomPayload')}</div>
+        )
       }
     />
   );

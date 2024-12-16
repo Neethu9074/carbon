@@ -4,17 +4,13 @@
  * Copyright IBM Corp. 2022
  */
 
-import { startsWith } from 'lodash';
 import React from 'react';
-
-import { SvgIcon } from '@instana/components';
 
 import {
   StackTraceThreadDesc,
   StackTraceThreadFrameDesc,
   StackTraceThreadFrameType
 } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/StackTrace/BeaconStackParser';
-import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { removeBlankLines } from 'in-services/util/string';
 import Code from 'in-components/Code';
 
@@ -38,70 +34,48 @@ export type RawStackProp = {
 };
 
 export default function RawStack(props: RawStackProp) {
+  let stackTraceContent,
+    stackTraceFormat = '';
+
+  // IOS Stack Trace
   if (props.data?.format === 'stack-json') {
     const items = props.data.stack?.st ?? [];
     const analyzeFrameFunc = props.data.analyzeFrame;
     let userFrameFound = false;
-    return (
-      <div>
-        {items.map((line, i) => {
-          const frameType = analyzeFrameFunc?.(line);
-          let icon = <div className={locals.iconPlaceholder} />;
-          if (!userFrameFound && frameType == 'user') {
-            userFrameFound = true;
-            icon = <SvgIcon className={locals.icon} type="lib_arrow_short_right" size="xs" />;
-          }
+    let renderedContent = ``;
 
-          return (
-            <div key={i} className={locals.line}>
-              <HorizontalFlexWrapper className={locals.signature}>
-                {icon}
-                <MethodName frameType={frameType} methodName={line.t || line.f} />
-                <At />
-                <FileNameAndLine file={line.n} line={line.o} />
-              </HorizontalFlexWrapper>
-              <span className={locals.rightmost}>{line.a}</span>
-            </div>
-          );
-        })}
-      </div>
-    );
+    items.forEach(line => {
+      const frameType = analyzeFrameFunc?.(line);
+      let userFrameFoundSymbol = '  ';
+      if (!userFrameFound && frameType == 'user') {
+        userFrameFound = true;
+        userFrameFoundSymbol = `→`;
+      }
+      const fileName = line.n ?? '<unknown>';
+      const lineNum = line.o ?? '';
+      const methodName = (line.t || line.f) ?? '<unknown>';
+      let lineContent = `${userFrameFoundSymbol}${methodName} at ${fileName}:${lineNum}`;
+      lineContent += `(${line.a})`;
+      renderedContent += `${lineContent}\n`;
+    });
+
+    stackTraceContent = renderedContent;
+    stackTraceFormat = props.data?.format === 'stack-json' ? 'java' : 'raw';
+  }
+  // Android Stack Trace
+  else {
+    stackTraceContent =
+      (props.data?.format === 'stack-java' ? removeBlankLines(props.data?.stack) : props.data?.stack) ?? '';
+    stackTraceFormat = props.data?.format === 'stack-java' ? 'java' : 'raw';
   }
 
   return (
     <Code
       wrapperClassName={locals.code}
       showLineNumbers={false}
-      code={(props.data?.format === 'stack-java' ? removeBlankLines(props.data?.stack) : props.data?.stack) ?? ''}
+      code={stackTraceContent}
       // @ts-expect-error Code does support Java, but the types are incomplete
-      lang={props.data?.format === 'stack-java' ? 'java' : 'raw'}
+      lang={stackTraceFormat}
     />
   );
-}
-
-function MethodName(props: { methodName?: string; frameType?: StackTraceThreadFrameType }) {
-  const name = props.methodName ?? '<unknown>';
-  let className: string;
-
-  if (props.frameType === 'user') {
-    className = locals.methodNameHighlight;
-  } else if (startsWith(name, '<')) {
-    className = locals.methodNameInvalid;
-  } else {
-    className = locals.methodName;
-  }
-  return <span className={className}>{name}</span>;
-}
-
-function FileNameAndLine(props: { file?: string; line?: string }) {
-  return (
-    <span className={locals.fileName}>
-      {props.file ?? '<unknown>'}
-      {props.line ? `:${props.line}` : ''}
-    </span>
-  );
-}
-
-function At() {
-  return <span className={locals.at}>at</span>;
 }

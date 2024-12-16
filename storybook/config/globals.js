@@ -3,6 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import featureFlags from '../../dev/featureFlags';
+import searchFieldValues from './searchFieldValues.json';
+
 window.instana = {
   user: {
     email: 'tom@example.com',
@@ -15,7 +18,9 @@ window.instana = {
       }
     ]
   },
+  searchFields: searchFieldValues,
   config: {
+    featureFlags,
     tenant: 'instana',
     tenantUnit: 'test',
     environment: 'internal'

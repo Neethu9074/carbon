@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { Stack, Typography, KeyValue } from '@instana/components';
+import { Stack, Typography, KeyValue, RadioButton } from '@instana/components';
 
 import ExpandableCardPlg from 'in-plg/components/Card/ExpandableCard/OnboardingExpandCard';
 import { getAgentDownloadURL } from 'in-plg/pages/onboarding/content/ContentComponents';
@@ -16,7 +16,7 @@ import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import Code from 'in-plg/components/Code/Code';
 import { t } from 'in-i18n';
 
@@ -70,22 +70,22 @@ export default function AwsEc2Windows({
     }
   ];
 
+  if (shareAndInviteEnabled) sideCardData.pop();
+
   function getPackaging() {
     return (
       <Stack direction="horizontal">
-        <CheckboxFancy
+        <RadioButton
           label={t('in-waiting-for-deployment:content.agentModeDynamic')}
           checked={agentMode === agentModeOptions[0]}
           onChange={() => setAgentMode(agentModeOptions[0])}
           size="default"
-          asRadioButton
         />
-        <CheckboxFancy
+        <RadioButton
           label={t('in-waiting-for-deployment:content.agentModeStatic')}
           checked={agentMode === agentModeOptions[1]}
           onChange={() => setAgentMode(agentModeOptions[1])}
           size="default"
-          asRadioButton
         />
       </Stack>
     );

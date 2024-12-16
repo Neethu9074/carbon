@@ -5,11 +5,13 @@
 
 import React, { forwardRef } from 'react';
 
+import { IconButton } from '@instana/components';
+
+import { SETTINGS_EVENT_DELETE_TRIGGER } from 'in-services/tracking/tracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import { trackerEventDeleteTrigger } from 'in-settings/tracker';
-import IconButton from 'in-components/IconButton/IconButton';
 import { t, Trans } from 'in-i18n';
 
 export default forwardRef(function Delete(
@@ -17,6 +19,7 @@ export default forwardRef(function Delete(
   ref
 ) {
   const validTypes = ['SCRIPT', 'HTTP', 'MANUAL'];
+  const { trackCta } = useSegmentTracking();
   return (
     <IconButton
       ref={ref}
@@ -27,7 +30,7 @@ export default forwardRef(function Delete(
       onClick={e => {
         stopPropagationAndPreventDefault(e);
         if (entity?.type == 'CUSTOM') {
-          trackerEventDeleteTrigger(entity);
+          trackCta(SETTINGS_EVENT_DELETE_TRIGGER, { ...entity });
         }
         addActiveDialog(
           <ConfirmationDialog

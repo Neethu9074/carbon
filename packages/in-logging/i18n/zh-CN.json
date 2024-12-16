@@ -1,6 +1,7 @@
 {
   "logs": "日志",
   "sum": "总和",
+  "count": "计数",
   "bar": "条形图",
   "logsOverTime": "一段时间内的日志数",
   "logsOverTime_ERROR": "错误",
@@ -53,5 +54,31 @@
   "process": "处理",
   "host": "主机",
   "fileOnHost": "于",
-  "file": "文件"
+  "file": "文件",
+  "logExpiration": "保留到",
+  "stacktraceLogMessage": "堆栈跟踪",
+  "logTraceTitle": "堆栈跟踪",
+  "stackTraceHeader": "堆栈跟踪消息",
+  "dashboard": {
+    "summary": "摘要",
+    "smartAlerts": "智能警报",
+    "deleteLogs": "删除日志",
+    "configuration": "配置",
+    "logVolume": {
+      "logVolumeTitle": "当月日志卷",
+      "gb": "GB",
+      "logVolumeIcon": "转至日志卷"
+    },
+    "retentionIcon": "更改保留期",
+    "noData": "无可用数据",
+    "analyzeLogs": "分析日志",
+    "configurationPage": {
+      "logVolume": "日志卷",
+      "logVolumeDescription": "查看长达 12 个月的日志量，并根据需要按基础架构标记分组。",
+      "logIntegrations": "日志集成",
+      "logIntegrationsDescription": "连接日志管理解决方案并进行配置，以满足您的需求。",
+      "retentionPeriod": "保留期",
+      "retentionPeriodDescription": "更改保留期会影响日志的保留时间以及在应用程序、仪表板和分析中的可用情况，并会对成本和计费产生影响。"
+    }
+  }
 }

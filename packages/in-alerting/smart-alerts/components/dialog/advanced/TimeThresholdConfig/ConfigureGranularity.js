@@ -19,7 +19,7 @@ import { t } from 'in-i18n';
 const defaultAllowedGranularity = [5, 10, 15, 20, 30];
 const adaptiveBaselineAllowedGranularity = [10, 15, 20, 30];
 
-function getMarksForThresholdType(thresholdType, oneMinuteGranularityAllowed) {
+export function getMarksForThresholdType(thresholdType, oneMinuteGranularityAllowed) {
   return getAllowedGranularities(thresholdType, oneMinuteGranularityAllowed).map(min => ({
     value: min,
     label: `${min} min`,
@@ -34,7 +34,7 @@ function getAllowedGranularities(thresholdType, oneMinuteGranularityAllowed) {
   return oneMinuteGranularityAllowed ? [1].concat(defaultAllowedGranularity) : defaultAllowedGranularity;
 }
 
-function getDefaultMark(marks, thresholdType) {
+export function getDefaultMark(marks, thresholdType) {
   return thresholdType === ADAPTIVE_BASELINE ? 20 : 10;
 }
 
@@ -65,6 +65,7 @@ export default function ConfigureGranularity({ onChange, granularity, thresholdT
           onChange(minutes.toMillis(value));
         }}
         valueLabelDisplay="off"
+        key={currentValue}
       />
     </AlertThresholdConfigItemContainer>
   );

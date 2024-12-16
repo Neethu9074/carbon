@@ -218,6 +218,68 @@ export default {
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
     explanationLinkHref: 'https://ibm.biz/insta-hostagentcantbind'
   },
+  remote_third_party_api_err: {
+    issueDescription: {
+      Component: function remoteThirdPartyApiErr({ plugin, code }) {
+        // plugin = Remote Third Party sensor name
+        // code = HTTP response code received by Remote Third Party sensor
+        return (
+          <span>
+            {
+              <p>
+                <Trans i18nKey="in-forge:plugins.remoteThirdParty.api_err" values={{ plugin: plugin, code: code }} />
+              </p>
+            }
+          </span>
+        );
+      }
+    },
+    // TODO Third party sensor troubleshooting doc page needs to be made and linked here
+    explanationLinkLabel: t('in-forge:plugins.remoteThirdParty.troubleShootingDocs'),
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/current?topic=agents-managing-host#troubleshooting`
+  },
+  remote_third_party_config_err: {
+    issueDescription: {
+      Component: function remoteThirdPartyConfigErr({ plugin, configField }) {
+        // plugin = Remote Third Party sensor name
+        // configField = field in the configuration.yaml that needs to be reviewed/fixed
+        return (
+          <span>
+            {
+              <p>
+                <Trans
+                  i18nKey="in-forge:plugins.remoteThirdParty.config_err"
+                  values={{ plugin: plugin, configField: configField }}
+                />
+              </p>
+            }
+          </span>
+        );
+      }
+    },
+    // TODO Third party sensor troubleshooting doc page needs to be made and linked here
+    explanationLinkLabel: t('in-forge:plugins.remoteThirdParty.troubleShootingDocs'),
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/current?topic=agents-managing-host#troubleshooting`
+  },
+  remote_third_party_unk_err: {
+    issueDescription: {
+      Component: function remoteThirdPartyUnknownErr({ plugin }) {
+        // plugin = Remote Third Party sensor name
+        return (
+          <span>
+            {
+              <p>
+                <Trans i18nKey="in-forge:plugins.remoteThirdParty.unknown_api_err" values={{ plugin: plugin }} />
+              </p>
+            }
+          </span>
+        );
+      }
+    },
+    // TODO Third party sensor troubleshooting doc page needs to be made and linked here
+    explanationLinkLabel: t('in-forge:plugins.remoteThirdParty.troubleShootingDocs'),
+    explanationLinkHref: `https://www.ibm.com/docs/en/instana-observability/current?topic=agents-managing-host#troubleshooting`
+  },
   turbonomic_sensor_exception: {
     issueDescription: {
       Component: function TurbonomicSensorException({ e }) {
@@ -265,5 +327,18 @@ export default {
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
     explanationLinkHref: `https://ibm.biz/BdvTVF`
+  },
+  solaris_jspawnhelper_executable_issue: {
+    issueDescription: {
+      Component: function solarisJspawnhelperExecutableIssue({ path }) {
+        return (
+          <span>
+            <Trans i18nKey="in-forge:plugins.instanaAgent.jspawnhelperPermissionIssueDescription" values={{ path }} />
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
+    explanationLinkHref: `https://ibm.biz/troubleshooting-Solaris_JVM_file_permission_issue`
   }
 };

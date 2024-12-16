@@ -80,7 +80,7 @@ export default function ActivityLatencyChart({ processId, activityName }: Activi
         type: 'EXPRESSION',
         elements: [
           {
-            entity: 'SOURCE',
+            entity: NOT_APPLICABLE,
             name: 'bpm_process_definition_id',
             operator: 'EQUALS',
             value: processId,

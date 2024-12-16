@@ -1,0 +1,159 @@
+{
+  "v2": [
+    {
+      "keyword": "event.severity",
+      "description": "Problem severity: critical or warning",
+      "context": "events",
+      "termType": "string",
+      "fixedValues": ["critical", "warning"]
+    },
+    {
+      "keyword": "entity.containerd.name",
+      "description": "Name of the containerd container",
+      "context": "entities",
+      "termType": "string",
+      "fixedValues": []
+    },
+    {
+      "keyword": "selfMonitoring.tenant",
+      "description": "Tenant name",
+      "context": "entities",
+      "termType": "string",
+      "fixedValues": []
+    },
+    {
+      "keyword": "entity.aws.ecs.clusterArn",
+      "description": "AWS ECS Cluster ARN",
+      "context": "entities",
+      "termType": "string",
+      "fixedValues": []
+    },
+    {
+      "keyword": "entity.azure.servicebus.queue.name",
+      "description": "Azure service bus queue name",
+      "context": "entities",
+      "termType": "string",
+      "fixedValues": []
+    },
+    {
+      "keyword": "entity.garden.ip",
+      "description": "IP of the garden container",
+      "context": "entities",
+      "termType": "string",
+      "fixedValues": []
+    },
+    {
+      "keyword": "entity.alicloud.oss.instanceId",
+      "description": "AliCloud OSS Instance ID",
+      "context": "entities",
+      "termType": "string",
+      "fixedValues": []
+    },
+    {
+      "keyword": "entity.process.runsIn",
+      "description": "Whether a process is running in a Docker container",
+      "context": "entities",
+      "termType": "string",
+      "fixedValues": ["docker"]
+    },
+    {
+      "keyword": "entity.jvm.prometheus.stateset",
+      "description": "Available Prometheus state set metrics",
+      "context": "entities",
+      "termType": "string",
+      "fixedValues": []
+    },
+    {
+      "keyword": "entity.ibmmq.channel.type",
+      "description": "IBM MQ channel type",
+      "context": "entities",
+      "termType": "string",
+      "fixedValues": []
+    },
+    {
+      "keyword": "entity.ibmz.ctg.system_id",
+      "description": "system_id of CTG for z/OS",
+      "context": "entities",
+      "termType": "string",
+      "fixedValues": []
+    },
+    {
+      "keyword": "entity.alicloud.rocketmq",
+      "description": "AliCloud RocketMq",
+      "context": "entities",
+      "termType": "string",
+      "fixedValues": []
+    },
+    {
+      "keyword": "entity.selfType",
+      "description": "Type of the entity",
+      "context": "entities",
+      "termType": "string",
+      "fixedValues": [
+        "ace.integrationNode",
+        "ace.integrationServer",
+        "ace.messageFlow",
+        "api",
+        "aws",
+        "aws.ecs.ecscontainer",
+        "aws.ecs.ecstask"
+      ]
+    },
+    {
+      "keyword": "entity.websphereliberty.name",
+      "description": "WebSphere liberty server name",
+      "context": "entities",
+      "termType": "string",
+      "fixedValues": []
+    },
+    {
+      "keyword": "entity.label",
+      "description": "Label/name of entity",
+      "context": "entities",
+      "termType": "string",
+      "fixedValues": []
+    },
+    {
+      "keyword": "entity.gcp.cloudrun.service.name",
+      "description": "GCP Cloud Run Service",
+      "context": "entities",
+      "termType": "string",
+      "fixedValues": []
+    },
+    {
+      "keyword": "entity.agent.logLevel",
+      "description": "Agent log level",
+      "context": "entities",
+      "termType": "string",
+      "fixedValues": []
+    },
+    {
+      "keyword": "entity.prometheus.gauge",
+      "description": "Available Prometheus gauges",
+      "context": "entities",
+      "termType": "string",
+      "fixedValues": []
+    },
+    {
+      "keyword": "entity.process.args",
+      "description": "Process arguments",
+      "context": "entities",
+      "termType": "string",
+      "fixedValues": []
+    },
+    {
+      "keyword": "entity.type",
+      "description": "Type of entity or type of an entity directly related to it",
+      "context": "entities",
+      "termType": "string",
+      "fixedValues": [
+        "ace.integrationNode",
+        "ace.integrationServer",
+        "agent",
+        "alicloud.rds.mysql",
+        "alicloud.rocketmq",
+        "alicloud.rocketmq.instance"
+      ]
+    }
+  ]
+}

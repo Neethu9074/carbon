@@ -11,6 +11,7 @@ import { timeDisplayBottomFormat, timeDisplayTopFormat } from 'in-components/tim
 // @ts-expect-error
 import DashboardHeaderButton from 'in-components/DashboardHeader/DashboardHeaderButton';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import TimeIcon from 'in-components/time/TimeIcon';
 import { TimeConfig } from 'in-types';
 
@@ -27,6 +28,27 @@ export interface TimePresenterProps {
 type FirstArgumentType<T> = T extends (first: infer ArgType, ...args: any[]) => any ? ArgType : never;
 
 export default function TimePresenter({ onClick, timeConfig, expanded, refSetter, darkTheme }: TimePresenterProps) {
+  if (carbonButtonEnabled) {
+    return (
+      <DashboardHeaderButton
+        data-test-id="time-picker"
+        expanded={expanded}
+        darkTheme={darkTheme}
+        onClick={(e: FirstArgumentType<typeof stopPropagationAndPreventDefault>) => {
+          stopPropagationAndPreventDefault(e);
+          onClick();
+        }}
+        refSetter={refSetter}
+        className={locals.carbonTimePicker}
+        noAutoMargin
+      >
+        <div className={locals.carbonDisplayTimeWrapper}>
+          <div className={locals.carbonTimeSettingTop}>{timeDisplayTopFormat(timeConfig)}</div>
+          <div className={locals.carbonTimeSetting}>{timeDisplayBottomFormat(timeConfig)}</div>
+        </div>
+      </DashboardHeaderButton>
+    );
+  }
   return (
     <DashboardHeaderButton
       expanded={expanded}

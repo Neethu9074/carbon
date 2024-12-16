@@ -39,12 +39,18 @@ const cols = [
   },
   {
     title: t('in-forge:plugins.kongApigateway.totalNumberofRequests'),
-    type: 'number',
+    type: 'metric',
     typeArgs: {
-      getValue(row: Row) {
-        return row.totalRequests.get('requests');
+      getSnapshotId(row: Row) {
+        return row.snapshotId;
       },
-      getContent: number.compact
+      getMetricName(row: Row) {
+        return `kongNginxRequestsTotal.${row.key}.requests`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
     }
   }
 ];

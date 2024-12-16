@@ -11,9 +11,18 @@ import { themes } from '@instana/design-tokens';
 import {
   createLineWithThreshold,
   createLineWithAdaptiveBaseline,
-  createLineWithBaselineAndOptionalPotentialProblem
+  createLineWithBaselineAndOptionalPotentialProblem,
+  createLineWithMultiStaticThreshold,
+  createLineWithMultiHistoricBaselineAndOptionalPotentialProblem,
+  createLineWithMultiAdaptiveBaseline
 } from 'in-alerting/components/Chart/renderer/Renderer';
+import {
+  severityMap,
+  WARNING_SEVERITY,
+  CRITICAL_SEVERITY
+} from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { extractBaselineForSeverity } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import AlertsPreviewLane from 'in-alerting/components/Chart/AlertsPreviewLane/AlertsPreviewLane';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
@@ -36,16 +45,31 @@ export default function AlertingChart({
   canReload,
   eventBasedAdaptiveBaseline,
   highlight,
-  setMetricResultPrecision
+  setMetricResultPrecision,
+  isTearSheet,
+  isMultiThresholdEnabled,
+  eventSeverity,
+  isEventsView
 }) {
-  const { granularity, rule, threshold, timeThreshold, includeInternal, includeSynthetic } = alertConfigWithFormModel;
+  const { granularity, timeThreshold, includeInternal, includeSynthetic } = alertConfigWithFormModel;
 
+  const rule = isMultiThresholdEnabled ? alertConfigWithFormModel?.rules[0]?.rule : alertConfigWithFormModel?.rule;
+
+  const threshold = getAvailableThreshold(alertConfigWithFormModel, isMultiThresholdEnabled);
   const metricName = blueprintConfig.getMetricName(rule);
   const metricChartGranularity = granularity;
   const formatter = blueprintConfig.getMetricFormat(metricName);
   const aggregation = blueprintConfig.getAggregation(rule);
   const metricLabel = blueprintConfig.getMetricLabel(metricName);
-  const renderer = getRendererBasedOnThresholdType(threshold, highlight, granularity, eventBasedAdaptiveBaseline);
+  const renderer = getAppropriateRenderer(
+    isMultiThresholdEnabled,
+    isEventsView,
+    eventSeverity,
+    alertConfigWithFormModel,
+    highlight,
+    granularity,
+    eventBasedAdaptiveBaseline
+  );
 
   // only apply zero filling to count metrics
   const requiresZeroFilling = aggregation === 'SUM';
@@ -64,7 +88,9 @@ export default function AlertingChart({
           numeratorTagFilterExpression,
           aggregation,
           granularity,
-          threshold,
+          threshold: isMultiThresholdEnabled
+            ? { ...threshold, operator: getThresholdOperator(alertConfigWithFormModel, isMultiThresholdEnabled) }
+            : threshold,
           timeThreshold
         });
 
@@ -74,6 +100,7 @@ export default function AlertingChart({
               getAlertsPreview={blueprintConfig.getAlertsPreviewRequest(metricName)}
               alertsPreviewConfiguration={alertsPreviewQuery}
               resultMetricKey="alerts"
+              isTearSheet={isTearSheet}
             />
           </MarkerLanesPresenter>
         );
@@ -84,14 +111,17 @@ export default function AlertingChart({
       getMetric={blueprintConfig.getMetricsRequest(metricName)}
       postProcessMetric={requiresZeroFilling && zeroFillAndClipMetric}
       metricsConfiguration={getMetricsConfiguration()}
-      y1={getY1(
+      y1={getAppropriateY1(
+        isMultiThresholdEnabled,
+        isEventsView,
+        eventSeverity,
+        alertConfigWithFormModel,
         metricName,
         highlight,
         metricLabel,
         formatter,
         renderer,
         granularity,
-        threshold,
         eventBasedAdaptiveBaseline,
         viewConfig
       )}
@@ -99,6 +129,8 @@ export default function AlertingChart({
       nonInteractive
       setMetricResultPrecision={setMetricResultPrecision}
       customHeight={182}
+      isMultiThresholdEnabled={isMultiThresholdEnabled}
+      isEventsView={isEventsView}
     />
   );
 
@@ -128,16 +160,15 @@ export function getY1(
   renderer,
   granularity,
   threshold,
+  operator,
   eventBasedAdaptiveBaseline,
   viewConfig,
+  thresholdColor = carbonAlert.red60,
   displayPredictions = false
 ) {
-  let chartColors = [carbonCategorical.cyan50, carbonAlert.red60];
-
+  let chartColors = [carbonCategorical.cyan50, thresholdColor];
   let metricIds = [metricName, 'threshold'];
-
-  let legendColors = [carbonCategorical.cyan50, carbonAlert.red60, getColorWithTransparency(carbonAlert.red60).c50];
-
+  let legendColors = [carbonCategorical.cyan50, thresholdColor, getColorWithTransparency(thresholdColor).c50];
   let iconTypes = ['lib_legend_line_chart', 'lib_legend_threshold', 'lib_actions_stop', 'lib_actions_stop'];
 
   let excludedLabelsFromLegend = [];
@@ -186,7 +217,7 @@ export function getY1(
     // used as additional data:
 
     threshold: threshold.value,
-    operator: threshold.operator,
+    operator: operator,
     sensitivity: threshold.deviationFactor,
     baseline: threshold.baseline,
     eventBasedAdaptiveBaseline,
@@ -201,7 +232,7 @@ export function getY1(
     } else if (threshold.type === ADAPTIVE_BASELINE) {
       return getMaxForAdaptiveBaselineChart({
         metricsMaxValue,
-        operator: threshold.operator,
+        operator: operator,
         fromTime,
         baseline: threshold.baseline,
         baselineEntriesFromMetadata: eventBasedAdaptiveBaseline,
@@ -212,11 +243,161 @@ export function getY1(
     // Fallback to HISTORIC_BASELINE
     return getMaxForBaselineChart({
       metricsMaxValue,
-      operator: threshold.operator,
+      operator: operator,
       baseline: threshold.baseline,
       sensitivity: threshold.deviationFactor,
       fromTime
     });
+  }
+}
+
+export function getY1ForMultiThreshold(
+  metricName,
+  metricLabel,
+  formatter,
+  renderer,
+  granularity,
+  operator,
+  warningThreshold,
+  criticalThreshold,
+  eventBasedAdaptiveBaseline,
+  viewConfig
+) {
+  let metricIds = [metricName];
+  let chartColors = [carbonCategorical.cyan50];
+  let legendColors = [carbonCategorical.cyan50];
+  let iconTypes = ['lib_legend_line_chart'];
+  let labels = [metricLabel];
+
+  if (!isEmptyThreshold(warningThreshold)) {
+    metricIds.push('warningThreshold');
+    chartColors.push(carbonCategorical.yellow50);
+    labels.push(t('in-alerting:components.chart.alertingChartLabelWarningThreshold'));
+    iconTypes.push('lib_legend_threshold');
+    legendColors.push(carbonCategorical.yellow50);
+  }
+
+  if (!isEmptyThreshold(criticalThreshold)) {
+    metricIds.push('criticalThreshold');
+    chartColors.push(carbonCategorical.red50);
+    labels.push(t('in-alerting:components.chart.alertingChartLabelCriticalThreshold'));
+    iconTypes.push('lib_legend_threshold');
+    legendColors.push(carbonCategorical.red50);
+  }
+
+  if (metricIds.indexOf('warningThreshold') > -1) {
+    labels.push(t('in-alerting:components.chart.alertingChartLabelWarningViolations'));
+    iconTypes.push('lib_actions_stop');
+    legendColors.push(getColorWithTransparency(carbonCategorical.yellow50).c50);
+  }
+
+  if (metricIds.indexOf('criticalThreshold') > -1) {
+    labels.push(t('in-alerting:components.chart.alertingChartLabelCriticalViolations'));
+    iconTypes.push('lib_actions_stop');
+    legendColors.push(getColorWithTransparency(carbonCategorical.red50).c50);
+  }
+
+  return {
+    colors: chartColors,
+    metricIds: metricIds,
+    excludedLabelsFromTooltip: [
+      t('in-alerting:components.chart.alertingChartLabelWarningViolations'),
+      t('in-alerting:components.chart.alertingChartLabelCriticalViolations')
+    ],
+    nonToggleableSeries: new Map([
+      [metricName, null],
+      ['warningThreshold', null],
+      ['criticalThreshold', null]
+    ]),
+    labels,
+    excludedLabelsFromLegend: [],
+    tooltipFormatter: value => {
+      return value < 0 || value === null ? valueMissingPlaceholder : formatter.detailed(value);
+    },
+    formatter: value => formatter.detailed(value),
+    renderer,
+    icons: {
+      types: iconTypes,
+      colors: legendColors
+    },
+    thresholdGranularity: granularity,
+    lineWidth: 1.75,
+
+    // used as additional data:
+    operator: operator,
+    warningThresholdValue: warningThreshold,
+    criticalThresholdValue: criticalThreshold,
+    eventBasedAdaptiveBaseline,
+    getMax: computeMax
+  };
+
+  function computeMax(metricsMaxValue) {
+    const fromTime = viewConfig ? Date.now() - viewConfig.timeConfig.windowSize : undefined;
+    const definedThresholdType = warningThreshold?.type ?? criticalThreshold?.type;
+
+    switch (definedThresholdType) {
+      case STATIC_THRESHOLD: {
+        const maxThresholdValue = Math.max(warningThreshold?.value ?? 0, criticalThreshold?.value ?? 0);
+        return maxThresholdValue >= metricsMaxValue
+          ? Math.max(metricsMaxValue, maxThresholdValue * 1.2)
+          : metricsMaxValue;
+      }
+
+      case HISTORIC_BASELINE: {
+        const maxThresholdValueForWarning = warningThreshold
+          ? getMaxForBaselineChart({
+              metricsMaxValue,
+              operator,
+              baseline: warningThreshold.baseline,
+              sensitivity: warningThreshold.deviationFactor,
+              fromTime
+            })
+          : 0;
+
+        const maxThresholdValueForCritical = criticalThreshold
+          ? getMaxForBaselineChart({
+              metricsMaxValue,
+              operator,
+              baseline: criticalThreshold.baseline,
+              sensitivity: criticalThreshold.deviationFactor,
+              fromTime
+            })
+          : 0;
+
+        const maxThresholdValue = Math.max(maxThresholdValueForWarning, maxThresholdValueForCritical);
+        return maxThresholdValue >= metricsMaxValue ? Math.max(metricsMaxValue, maxThresholdValue) : metricsMaxValue;
+      }
+
+      case ADAPTIVE_BASELINE: {
+        const maxThresholdValueForWarning = warningThreshold
+          ? getMaxForAdaptiveBaselineChart({
+              metricsMaxValue,
+              operator,
+              fromTime,
+              baseline: warningThreshold.baseline,
+              baselineEntriesFromMetadata: extractBaselineForSeverity(eventBasedAdaptiveBaseline, WARNING_SEVERITY),
+              sensitivity: warningThreshold.deviationFactor
+            })
+          : 0;
+
+        const maxThresholdValueForCritical = criticalThreshold
+          ? getMaxForAdaptiveBaselineChart({
+              metricsMaxValue,
+              operator,
+              fromTime,
+              baseline: criticalThreshold.baseline,
+              baselineEntriesFromMetadata: extractBaselineForSeverity(eventBasedAdaptiveBaseline, CRITICAL_SEVERITY),
+              sensitivity: criticalThreshold.deviationFactor
+            })
+          : 0;
+
+        const maxThresholdValue = Math.max(maxThresholdValueForWarning, maxThresholdValueForCritical);
+        return maxThresholdValue >= metricsMaxValue ? Math.max(metricsMaxValue, maxThresholdValue) : metricsMaxValue;
+      }
+
+      default:
+        return metricsMaxValue;
+    }
   }
 }
 
@@ -231,7 +412,135 @@ function isValidTimeThreshold(timeThreshold) {
   return true;
 }
 
+function getBothThresholdsForMultiThreshold(alertConfigWithFormModel) {
+  const thresholdsMap = alertConfigWithFormModel.rules[0].thresholds;
+  const warningThreshold = thresholdsMap[WARNING_SEVERITY];
+  const criticalThreshold = thresholdsMap[CRITICAL_SEVERITY];
+  return { warningThreshold, criticalThreshold };
+}
+
+function getAvailableThreshold(alertConfigWithFormModel, isMultiThresholdEnabled) {
+  if (isMultiThresholdEnabled) {
+    const { warningThreshold, criticalThreshold } = getBothThresholdsForMultiThreshold(alertConfigWithFormModel);
+    return !isEmptyThreshold(warningThreshold) ? warningThreshold : criticalThreshold;
+  } else {
+    return alertConfigWithFormModel.threshold;
+  }
+}
+
+function getAppropriateY1(
+  isMultiThresholdEnabled,
+  isEventsView,
+  eventSeverity,
+  alertConfigWithFormModel,
+  metricName,
+  highlight,
+  metricLabel,
+  formatter,
+  renderer,
+  granularity,
+  eventBasedAdaptiveBaseline,
+  viewConfig
+) {
+  const thresholdOperator = getThresholdOperator(alertConfigWithFormModel, isMultiThresholdEnabled);
+
+  if (isMultiThresholdEnabled) {
+    const { warningThreshold, criticalThreshold } = getBothThresholdsForMultiThreshold(alertConfigWithFormModel);
+    return isEventsView
+      ? getY1(
+          metricName,
+          highlight,
+          metricLabel,
+          formatter,
+          renderer,
+          granularity,
+          getViolatedThreshold(eventSeverity, warningThreshold, criticalThreshold),
+          thresholdOperator,
+          eventBasedAdaptiveBaseline,
+          viewConfig,
+          severityMap[eventSeverity] === WARNING_SEVERITY ? carbonCategorical.yellow50 : carbonAlert.red60
+        )
+      : getY1ForMultiThreshold(
+          metricName,
+          metricLabel,
+          formatter,
+          renderer,
+          granularity,
+          thresholdOperator,
+          warningThreshold,
+          criticalThreshold,
+          eventBasedAdaptiveBaseline,
+          viewConfig
+        );
+  }
+  return getY1(
+    metricName,
+    highlight,
+    metricLabel,
+    formatter,
+    renderer,
+    granularity,
+    alertConfigWithFormModel.threshold,
+    thresholdOperator,
+    eventBasedAdaptiveBaseline,
+    viewConfig
+  );
+}
+
+function getAppropriateRenderer(
+  isMultiThresholdEnabled,
+  isEventsView,
+  eventSeverity,
+  alertConfigWithFormModel,
+  highlight,
+  granularity,
+  eventBasedAdaptiveBaseline,
+  displayPredictions = false
+) {
+  const thresholdOperator = getThresholdOperator(alertConfigWithFormModel, isMultiThresholdEnabled);
+  if (isMultiThresholdEnabled) {
+    const { warningThreshold, criticalThreshold } = getBothThresholdsForMultiThreshold(alertConfigWithFormModel);
+    return isEventsView
+      ? getRendererBasedOnThresholdType(
+          thresholdOperator,
+          getViolatedThreshold(eventSeverity, warningThreshold, criticalThreshold),
+          highlight,
+          granularity,
+          eventBasedAdaptiveBaseline,
+          displayPredictions
+        )
+      : getRendererBasedOnThresholdTypeForMultiThreshold(
+          thresholdOperator,
+          warningThreshold,
+          criticalThreshold,
+          highlight,
+          granularity,
+          eventBasedAdaptiveBaseline,
+          displayPredictions
+        );
+  }
+  return getRendererBasedOnThresholdType(
+    thresholdOperator,
+    alertConfigWithFormModel.threshold,
+    highlight,
+    granularity,
+    eventBasedAdaptiveBaseline,
+    displayPredictions
+  );
+}
+
+function getViolatedThreshold(eventSeverity, warningThreshold, criticalThreshold) {
+  return severityMap[eventSeverity] === WARNING_SEVERITY ? warningThreshold : criticalThreshold;
+}
+
+function getThresholdOperator(alertConfigWithFormModel, isMultiThresholdEnabled) {
+  return isMultiThresholdEnabled
+    ? alertConfigWithFormModel.rules[0].thresholdOperator
+    : alertConfigWithFormModel.threshold.operator;
+}
+
 export function getRendererBasedOnThresholdType(
+  thresholdOperator,
   threshold,
   highlight,
   granularity,
@@ -240,11 +549,49 @@ export function getRendererBasedOnThresholdType(
 ) {
   switch (threshold.type) {
     case STATIC_THRESHOLD:
-      return createLineWithThreshold(threshold.operator, threshold.value, displayPredictions);
+      return createLineWithThreshold(thresholdOperator, threshold.value, displayPredictions);
     case HISTORIC_BASELINE:
-      return createLineWithBaselineAndOptionalPotentialProblem(threshold, granularity, highlight);
+      return createLineWithBaselineAndOptionalPotentialProblem(thresholdOperator, threshold, granularity, highlight);
     default:
-      return createLineWithAdaptiveBaseline(threshold, granularity, eventBasedAdaptiveBaseline);
+      return createLineWithAdaptiveBaseline(thresholdOperator, threshold, granularity, eventBasedAdaptiveBaseline);
+  }
+}
+export function getRendererBasedOnThresholdTypeForMultiThreshold(
+  operator,
+  warningThreshold,
+  criticalThreshold,
+  highlight,
+  granularity,
+  eventBasedAdaptiveBaseline,
+  displayPredictions = false
+) {
+  const definedThresholdType = warningThreshold?.type ? warningThreshold.type : criticalThreshold.type;
+  switch (definedThresholdType) {
+    case STATIC_THRESHOLD: {
+      return createLineWithMultiStaticThreshold(
+        operator,
+        warningThreshold?.value,
+        criticalThreshold?.value,
+        displayPredictions
+      );
+    }
+    case HISTORIC_BASELINE: {
+      return createLineWithMultiHistoricBaselineAndOptionalPotentialProblem(
+        operator,
+        warningThreshold,
+        criticalThreshold,
+        granularity,
+        highlight
+      );
+    }
+    default:
+      return createLineWithMultiAdaptiveBaseline(
+        operator,
+        warningThreshold,
+        criticalThreshold,
+        eventBasedAdaptiveBaseline,
+        granularity
+      );
   }
 }
 
@@ -291,7 +638,7 @@ function shouldRequestAlertsPreview(threshold) {
   if (threshold.type === 'staticThreshold') {
     return threshold.value != null;
   }
-  return threshold.baseline;
+  return threshold.type && threshold.deviationFactor && threshold.baseline;
 }
 
 function enhanceLabels(label, highlight, displayPredictions) {
@@ -372,6 +719,16 @@ function getMaxForAdaptiveBaselineChart({
   return overallMaxValue * 1.1;
 }
 
+export function isEmptyThreshold(threshold) {
+  return (
+    threshold === undefined ||
+    threshold === null ||
+    (typeof threshold === 'object' &&
+      (threshold.deviationFactor === undefined || threshold.deviationFactor === null) &&
+      (threshold.value === undefined || threshold.value === null))
+  );
+}
+
 AlertingChart.propTypes = {
   viewConfig: chartViewConfigPropType.isRequired,
   alertConfigWithFormModel: PropTypes.object.isRequired,
@@ -401,5 +758,9 @@ AlertingChart.propTypes = {
     color: PropTypes.arrayOf(PropTypes.string).isRequired,
     label: PropTypes.string.isRequired
   }),
-  setMetricResultPrecision: PropTypes.func
+  setMetricResultPrecision: PropTypes.func,
+  isTearSheet: PropTypes.bool,
+  isMultiThresholdEnabled: PropTypes.bool.isRequired,
+  eventSeverity: PropTypes.number,
+  isEventsView: PropTypes.bool
 };

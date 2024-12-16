@@ -13,41 +13,58 @@ import {
   alertingDialogItemPickerTimeframe as maxDurationMillis
 } from 'in-alerting/components/constants';
 import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
+import {
+  manuallyCloseEventEnabled,
+  eumImpactedUsersForAppAlertEnabled,
+  businessObservabilityEnabled
+} from 'in-services/featureFlags';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
+import {
+  getSmartAlertAnalyzeTimeConfig,
+  extendWindowSizeForLateData
+} from 'in-events/components/EventContent/analyzeUtils';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { SmartAlertAffectedEntities } from 'in-events/components/EventContent/SmartAlertAffectedEntities';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import { HighlightDataRetention } from 'in-events/components/EventContent/HighlightDataRetention';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
+import SmartAlertImpactedUsers from 'in-events/components/EventContent/SmartAlertImpactedUsers';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
+import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
+import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import ImpactedBusinessProcesses from 'in-events/components/ImpactedBusinessProcesses';
+import TriggeredIncidentButton from '../tabs/Summary/common/TriggeredIncidentButton';
 import { isApproximatePrecision } from 'in-events/components/util/metricResultUtil';
 import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity';
 import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
+import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
-import { getEventType, getServiceIds } from 'in-stores/events';
+import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { emptyMap } from 'in-services/fixedImmutables';
+import EventIcon from 'in-events/components/EventIcon';
 import { Col, Row } from 'in-components/layout/Grid';
+import { getEventType } from 'in-stores/events';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './ApplicationEventContent.mless';
 
-export default function ApplicationEventContent({ event, snapshot }) {
+export default function ApplicationEventContent({ event, snapshot, reload }) {
   const alertConfig = useApplicationEventAlertConfig(event);
   const eventEntity = useApplicationEventEntity(event);
   const [metricResultPrecision, setMetricResultPrecision] = useState();
 
   if (!eventEntity || !alertConfig) {
-    return null;
+    return <LoadingIndicator size="xxxl" />;
   }
 
   const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
@@ -55,7 +72,7 @@ export default function ApplicationEventContent({ event, snapshot }) {
   const adaptiveBaselineInfo = event.getIn(['metadata', 'adaptiveBaselineInfo'], emptyMap).toJS();
 
   const { applicationId } = eventEntity;
-  const { tagFilterExpression, rule, boundaryScope, threshold } = alertConfig;
+  const { tagFilterExpression, rule, boundaryScope, threshold, granularity } = alertConfig;
   const { alertType } = rule;
   const thresholdType = threshold.type;
   const { QueryBuilder } = getQueryBuilderForAlertType(alertType, thresholdType);
@@ -70,6 +87,12 @@ export default function ApplicationEventContent({ event, snapshot }) {
     ...(windowSize && { windowSize })
   };
 
+  const extendedDashboardTimeConfig = extendWindowSizeForLateData(getTimeConfigFromEvent(event), granularity);
+  const extendedAnalyzeTimeConfig = extendWindowSizeForLateData(
+    getSmartAlertAnalyzeTimeConfig(event, alertConfig),
+    granularity
+  );
+
   const chartViewConfig = createDefaultChartConfig(timeConfig);
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
@@ -77,37 +100,82 @@ export default function ApplicationEventContent({ event, snapshot }) {
   const isEndpointType = event.get('entityType') === 'Endpoint20';
 
   const eventType = getEventType(event);
-  const serviceIds = getServiceIds(event);
+
+  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const pillContent = getEventStateBadge(event);
+  const eventSeverity = event.getIn(['problem', 'severity'], '');
 
   return (
     <>
       <Row withoutSideMargin>
         <Col xs>
-          <Card title={t('in-events:titleDetails')}>
+          <Card title={t('in-events:titleDescription')} leftHeaderContent={pillContent}>
             <ApplicationScopePath
               {...eventEntity}
               boundaryScope={boundaryScope}
-              timeConfig={getTimeConfigFromEvent(event)}
+              timeConfig={extendedDashboardTimeConfig}
               showDashboardLinks
             />
-
             <ProblemDescription fixSuggestion={fixSuggestion} />
-            <DescriptionButtons>
-              <ApplicationAlertConfigButton
-                applicationId={applicationId}
-                alertConfig={alertConfig}
-                isGlobalSmartAlert={isGlobalSmartAlert}
-              />
-              <AnalyzeApplicationEventButton
-                {...eventEntity}
-                alertConfig={alertConfig}
-                timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
-                adaptiveBaselineInfo={adaptiveBaselineInfo}
-              />
-            </DescriptionButtons>
+            {canCloseManually && hasManualCloseFields(event) ? (
+              <div>
+                <ManualCloseDescription event={event} />
+                <DescriptionButtons>
+                  <TriggeredIncidentButton event={event} />
+                  <ApplicationAlertConfigButton
+                    applicationId={applicationId}
+                    alertConfig={alertConfig}
+                    isGlobalSmartAlert={isGlobalSmartAlert}
+                  />
+                  <AnalyzeApplicationEventButton
+                    {...eventEntity}
+                    alertConfig={alertConfig}
+                    timeConfig={extendedAnalyzeTimeConfig}
+                    adaptiveBaselineInfo={adaptiveBaselineInfo}
+                  />
+                </DescriptionButtons>
+              </div>
+            ) : (
+              <DescriptionButtons>
+                {canCloseManually && (
+                  <ManualCloseIssueButton
+                    event={event}
+                    reload={reload}
+                    iconComponent={
+                      <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
+                    }
+                  />
+                )}
+                <TriggeredIncidentButton event={event} />
+                <ApplicationAlertConfigButton
+                  applicationId={applicationId}
+                  alertConfig={alertConfig}
+                  isGlobalSmartAlert={isGlobalSmartAlert}
+                />
+                <AnalyzeApplicationEventButton
+                  {...eventEntity}
+                  alertConfig={alertConfig}
+                  timeConfig={extendedAnalyzeTimeConfig}
+                  adaptiveBaselineInfo={adaptiveBaselineInfo}
+                />
+              </DescriptionButtons>
+            )}
           </Card>
         </Col>
       </Row>
+
+      {eumImpactedUsersForAppAlertEnabled && (
+        <Row withoutSideMargin>
+          <Col xs>
+            <SmartAlertImpactedUsers
+              alertConfig={alertConfig}
+              event={event}
+              eventEntity={eventEntity}
+              snapshot={snapshot}
+            />
+          </Col>
+        </Row>
+      )}
 
       <Row withoutSideMargin>
         <Col xs>
@@ -130,6 +198,7 @@ export default function ApplicationEventContent({ event, snapshot }) {
               eventBasedAdaptiveBaseline={Object.entries(adaptiveBaselineInfo).sort((a, b) => a[0] - b[0])}
               setMetricResultPrecision={setMetricResultPrecision}
               isEventsView
+              eventSeverity={eventSeverity}
             />
           </Card>
         </Col>
@@ -153,7 +222,13 @@ export default function ApplicationEventContent({ event, snapshot }) {
 
       {!isEndpointType && <AffectedEntitiesRow alertConfig={alertConfig} event={event} eventEntity={eventEntity} />}
       <AutomationCard volatileId={snapshot?.get('volatileId')?.toJS() ?? {}} event={event?.toJS()} />
-      <ImpactedBusinessProcesses eventType={eventType} serviceIds={serviceIds} />
+      {businessObservabilityEnabled && (
+        <ImpactedBusinessProcesses
+          eventType={eventType}
+          entityType={event?.get('entityType', undefined)}
+          entityId={event?.get('entityId', undefined)}
+        />
+      )}
     </>
   );
 }

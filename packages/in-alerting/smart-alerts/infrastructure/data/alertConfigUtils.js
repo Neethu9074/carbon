@@ -6,12 +6,15 @@
 
 import { isEmpty } from 'lodash';
 
+import { MAX_LABEL_LENGTH } from 'in-alerting/formFieldLengths';
 import { emptyObject } from 'in-services/fixedObjects';
+import { isBlank } from 'in-services/util/string';
+import { t } from 'in-i18n';
 
 export function getMetricPathAndLabel(options, metricName, entityType) {
-  for (let i = 0; i < options.length; i++) {
+  for (let i = 0; i < options?.length; i++) {
     const option = options[i];
-    if (option.parentType === entityType && option.metric === metricName) {
+    if (option.levelType === entityType && option.metric === metricName) {
       return {
         path: option.parentLabels,
         label: option.label
@@ -40,4 +43,27 @@ export function setDefaultMetrics(items, setSelectedMetricGroup, selectedMetricG
   }
 
   setSelectedMetricGroup(items[0].tags);
+}
+
+export function titleValidator() {
+  return value => {
+    if (typeof value === 'string' && value.length > MAX_LABEL_LENGTH) {
+      return [
+        {
+          severity: 'error',
+          message: t('in-services:validators.valueMustBeShorterThanMaxLengthCharacters', {
+            maxLength: MAX_LABEL_LENGTH
+          })
+        }
+      ];
+    } else if (value == null || (typeof value === 'string' && isBlank(value))) {
+      return [
+        {
+          severity: 'error',
+          message: t('in-services:validators.theValueMustNotBeBlank')
+        }
+      ];
+    }
+    return null;
+  };
 }

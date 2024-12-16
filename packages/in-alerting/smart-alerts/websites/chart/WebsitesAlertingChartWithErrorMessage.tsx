@@ -5,7 +5,6 @@
 
 import React, { useMemo } from 'react';
 
-import { WebsiteAlertConfigWithMetadata } from '@instana/types';
 import { Spacer, Message } from '@instana/components';
 
 import { useFetchAdaptiveBaselineOrUseFallbackFromEvent } from 'in-alerting/smart-alerts/websites/hooks/useFetchAdaptiveBaselineOrUseFallbackFromEvent';
@@ -13,6 +12,7 @@ import {
   createBoundedAlertQueryBuilder,
   createIsAlertQueryValid
 } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
+import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
@@ -23,7 +23,7 @@ import { t, Trans } from 'in-i18n';
 interface WebsitesAlertingChartWithErrorMessageProps {
   viewConfig: ChartViewConfigItem;
   blueprintConfig: object;
-  alertConfigWithFormModel: Omit<WebsiteAlertConfigWithMetadata, 'tagFilterExpression'> & {
+  alertConfigWithFormModel: Omit<WebsiteSmartAlertConfigWithMetadata, 'tagFilterExpression'> & {
     tagFilterExpression: FormModelElement[];
   };
   isEventsView?: boolean;
@@ -55,7 +55,7 @@ function AlertingChartWithErrorMessageForAdaptiveBaseline(props: WebsitesAlertin
       {error && (
         <>
           <Spacer size="normal" />
-          <Message type="warning" withIcon small>
+          <Message type="warning" withIcon small fullInlineWidth>
             <Trans i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.adaptiveBaselineErrorMessageNotAvailable" />
           </Message>
         </>

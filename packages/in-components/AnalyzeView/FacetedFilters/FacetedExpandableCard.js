@@ -5,23 +5,26 @@
 
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { IconButton } from '@instana/components';
 
-import { ua2FacetedSearchFilterClosedTracker, ua2FacetedSearchFilterOpenedTracker } from 'in-components/tracker';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import ExpandableCard from './ExpandableCardWithSubtitle';
-import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './FacetedExpandableCard.mless';
 
-function HeaderButton({ icon, onClick, href, className, tooltip }) {
+function HeaderButton({ type, onClick, href, className, tooltip }) {
   return (
-    <Tooltip content={tooltip}>
-      <Button href={href} className={className} onClick={onClick}>
-        {icon}
-      </Button>
-    </Tooltip>
+    <IconButton
+      iconDescription={tooltip}
+      kind="action"
+      className={className}
+      type={type}
+      onClick={onClick}
+      size="compact"
+      href={href}
+      isWrapperedByTooltip
+    />
   );
 }
 
@@ -34,14 +37,14 @@ function GroupByHeaderButton({ tracker, tag, title, dataSource, linkToGroupedVie
       dataSource
     });
   };
-  const icon = <SvgIcon type={'lib_group_by'} size={'xs'} />;
+
   return (
     <HeaderButton
-      icon={icon}
+      tooltip={t('in-components:analyze.filterSidebar.groupingButton', { group: title })}
+      className={locals.headerButton}
+      type={'lib_group_by'}
       onClick={onClick}
       href={linkToGroupedView}
-      className={locals.headerButton}
-      tooltip={t('in-components:analyze.filterSidebar.groupingButton', { group: title })}
     />
   );
 }
@@ -55,10 +58,10 @@ function UngroupHeaderButton({ linkToUngroupedView, tag, dataSource, tracker }) 
       dataSource
     });
   };
-  const icon = <SvgIcon type={'lib_ungroup'} size={'xs'} />;
+
   return (
     <HeaderButton
-      icon={icon}
+      type={'lib_ungroup'}
       onClick={onClick}
       href={linkToUngroupedView}
       className={locals.headerButton}
@@ -106,13 +109,14 @@ export default function FacetedExpandableCard(props) {
     title
   } = props;
 
+  const { trackUa2FacetedSearchFilterOpened, trackUa2FacetedSearchFilterClosed } = useAnalyzeTracker();
   return (
     <ExpandableCard
       disabled={disabled}
       useMaxAvailableHeight={false}
       hasMarginBottom
       expansionTracker={({ expanded }) => {
-        const tracker = expanded ? ua2FacetedSearchFilterOpenedTracker : ua2FacetedSearchFilterClosedTracker;
+        const tracker = expanded ? trackUa2FacetedSearchFilterOpened : trackUa2FacetedSearchFilterClosed;
         tracker({
           tag,
           dataSource

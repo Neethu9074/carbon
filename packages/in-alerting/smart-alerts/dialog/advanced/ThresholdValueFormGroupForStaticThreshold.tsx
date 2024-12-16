@@ -6,6 +6,8 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
+import { Spacer } from '@instana/components';
+
 import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdValueWithValidationMessage';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
 import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton';
@@ -20,6 +22,8 @@ interface ThresholdValueFormGroupForStaticThresholdProps {
   hasSmallInputField?: boolean;
   isGlobalSmartAlert?: boolean;
   label?: string;
+  isTearSheet?: boolean;
+  showLabel?: boolean;
 }
 
 export default function ThresholdValueFormGroupForStaticThreshold({
@@ -30,10 +34,12 @@ export default function ThresholdValueFormGroupForStaticThreshold({
   percentageMetric = false,
   hasSmallInputField,
   isGlobalSmartAlert,
-  label = t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdValue')
+  label = t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdValue'),
+  isTearSheet = false,
+  showLabel
 }: ThresholdValueFormGroupForStaticThresholdProps) {
   return (
-    <ThresholdConditionFormGroup iconType="lib_threshold" label={label}>
+    <ThresholdConditionFormGroup iconType="lib_threshold" label={label} isTearSheet={isTearSheet} showLabel={showLabel}>
       <ThresholdValueInputWithValidationMessage
         max={maxValue}
         form={form}
@@ -41,7 +47,9 @@ export default function ThresholdValueFormGroupForStaticThreshold({
         metricUnitPostfix={metricUnitPostfix}
         percentageMetric={percentageMetric}
         isSmall={hasSmallInputField}
+        isTearSheet={isTearSheet}
       />
+      {isTearSheet && <Spacer horizontal="normal" />}
       <UseSuggestedValueButton
         form={form}
         updateForm={updateForm}

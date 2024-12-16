@@ -17,6 +17,7 @@
         "copied": "ウィジェットがコピーされました。CTRL-V または CMD-V を使用して任意のカスタム・ダッシュボードに貼り付けます",
         "duplicate": "複製",
         "delete": "削除",
+        "exportPDF": "PDFのダウンロード",
         "customDashboardWidgetTitle": "カスタム・ダッシュボード・ウィジェット: {{title}}"
       }
     },
@@ -69,7 +70,11 @@
       "renameDashboard": "ダッシュボードの名前変更",
       "dashboardName": "ダッシュボード名",
       "rename": "名前を変更",
-      "failSaveDashboard": "ダッシュボードを保存できませんでした。"
+      "failSaveDashboard": "ダッシュボードを保存できませんでした。",
+      "generatingPDFTitle": "PDF の作成",
+      "generatingPDFContent": "PDF が生成されるまでお待ちください。",
+      "generatedPDFTitle": "作成済み PDF",
+      "generatedPDFContent": "PDF のダウンロードはまもなく開始されます。"
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "ダッシュボードが見つかりません",
@@ -93,6 +98,32 @@
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "入力を JSON として解析できませんでした。",
       "jsonRootMustBeAnObject": "JSON root はオブジェクトでなければなりません。"
+    },
+    "downloadPdfDialog": {
+      "downloadPdf": "PDF ファイルをダウンロード",
+      "settings": "設定",
+      "pdfOrientation": "方向",
+      "portrait": "縦長",
+      "landscape": "横長",
+      "pdfLayout": "レイアウト",
+      "widgetsDisplay": "Display",
+      "singlePage": "シングルページ",
+      "singlePageInfo": "コンテンツをサイズに合わせてリサイズして、ダッシュボード全体を 1 ページに収めてください。",
+      "multiPages": "複数ページ",
+      "multiPagesInfo": "元のレイアウトを維持したまま、ダッシュボードを複数のページに分散させる。 一部のウィジェットがカットされる場合があります。",
+      "stackWidgetsTitle": "スタック・ウィジェット",
+      "stackWidgetsInfo": "複数のページにわたってウィジェットを垂直スタックで表示します。",
+      "loadingWidget": "{{totalNodes}} のウィジェット {{widgetIndex}} をロードする",
+      "generatePreview": "プレビューを生成します",
+      "generatingPreview": "pdf プレビューを生成中"
+    },
+    "filterContext": {
+      "topLevelFilterPartiallyApplied": "現在のダッシュボードのフィルターの一部が適用された。",
+      "topLevelFilterSelectsEverything": "現在のダッシュボードフィルタは、このウィジェットには適用されません。",
+      "topLevelFilterSelectsNothing": "現在のダッシュボードフィルタは、このウィジェットには適用されません。",
+      "topLevelFilterNotSupported": "ウィジェットがフィルタリングをサポートしていないため、現在のダッシュボード・フィルタはこのウィジェットに適用されませんでした。",
+      "topLevelFilterAppliedToSomeDatasets": "現在のダッシュボードのフィルターが以下のデータセットに完全に適用されていませんでした: {{datasets}}",
+      "unnamedDataset": "無名データセット"
     }
   },
   "dashboardSwitcher": {
@@ -130,6 +161,17 @@
         "unexpectedLowOrHighNumberOfCalls": "予想外に多いまたは少ない呼び出し数"
       }
     },
+    "srcBizOps": {
+      "formComponent": {
+        "pleaseSelect": "選択してください",
+        "pleaseSelectMetric": "メトリックを選択してください",
+        "aggregation": "集約",
+        "metric": "メトリック"
+      },
+      "index": {
+        "bizOps": "ビジネス・プロセス(アクティビティー)"
+      }
+    },
     "srcApp": {
       "formComponent": {
         "needToTurnOffPP": "グループ化を使用するには、最初に潜在的な問題の強調表示をオフにする必要があります。",
@@ -163,6 +205,7 @@
       "metricsFormComponent": {
         "metric": "メトリック",
         "selectMetric": "メトリックの選択",
+        "unit": "ユニット",
         "aggregation": "集約",
         "crossSeriesAggregation": "クロス系列集計に SUM を使用",
         "crossSeriesAggregationHelp": "通常、クロスシリーズアグリゲーションはクロスタイムアグリゲーション（データポイントを単一のバケット参加方法）と同じです。 このトグルを有効にすると、指定された集計を使用するのではなく、データ系列全体のバケットを参加します。",
@@ -293,6 +336,15 @@
         "increaseColor": "増加の色",
         "decreaseColor": "減少の色",
         "timeShift": "タイムシフト"
+      },
+      "thresholdForm": {
+        "addThresholdColorization": "しきい値を基準にした色分けの追加",
+        "threshold": "しきい値",
+        "critical": "次の場合にはクリティカル",
+        "warning": "次の場合には警告",
+        "criticalValidator": "> および >= 演算子の場合、クリティカルしきい値は警告しきい値より大きくなければなりません。",
+        "warningValidator": "< および <= 演算子の場合、警告しきい値はクリティカルしきい値より大きくなければなりません。",
+        "bytes": "バイト数"
       },
       "bigNumber": "重要な数値"
     },
@@ -425,6 +477,25 @@
       }
     },
     "slo": {
+      "general": {
+        "demoWidgetTitle": "ウィジェット・タイトル",
+        "sloNotFound": "SLO コンフィギュレーションが見つかりません"
+      },
+      "v2Form": {
+        "headline": "サービス・レベル目標を選択する",
+        "subheading": "既存の SLO を選択するか、「新しい SLO を追加する」をクリックして新しい SLO を作成する",
+        "addSloButtonLabel": "新しい SLOを追加する",
+        "chartTypeSelectionLabel": "グラフのタイプ",
+        "chartTypeOption": "",
+        "chartTypeOption_INDICATOR": "指標チャート",
+        "chartTypeOption_ERROR_BUDGET": "エラー予算表",
+        "validators": {
+          "notBlankSloValidator": "リストから SLO 構成を選択してください。"
+        }
+      },
+      "v2WidgetHeader": {
+        "indicatorType": "指標タイプ："
+      },
       "demo": {
         "title": "SLO のタイトル",
         "sliName": "サンプル SLI",
@@ -465,8 +536,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "エンドポイント",
-        "allEndpoints": "すべてのエンドポイント",
-        "loading": "<loading>"
+        "allEndpoints": "すべてのエンドポイント"
       },
       "goodBadEventsForm": {
         "goodEvents": "良好なイベント",
@@ -503,7 +573,6 @@
       },
       "servicesSelectBox": {
         "service": "サービス",
-        "loading": "<loading>",
         "allServices": "すべてのサービス"
       },
       "sliFormPresenter": {
@@ -608,6 +677,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "少なくとも 1 つのフィルター式を構成する必要があります。",
       "timeBased": "時刻ベース",
       "eventBased": "イベント・ベース",
+      "sloLegacy": "SLO の遺産",
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "アプリケーション",
@@ -709,7 +779,8 @@
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "しきい値構成",
-        "thresholdLabel": "しきい値"
+        "thresholdLabel": "しきい値",
+        "ms": "ミリ秒"
       },
       "entityInfo": {
         "tooltip": "不明な Apdex",
@@ -823,7 +894,9 @@
           },
           "formatter": "フォーマッター",
           "searchPlaceholder": "検索",
-          "countGroup": "グループ・カウントの表示"
+          "countGroup": "グループ・カウントの表示",
+          "showGroupsWithMissingTags": "タグが欠落しているグループを表示",
+          "filterEmptyValues": "空の値をフィルタリング"
         }
       },
       "dataSource": {
@@ -854,5 +927,8 @@
     "additionalFields": "このダッシュボードは、自分に対してのみ表示されます。 作成後に同僚と共有することを選択できます",
     "create": "作成",
     "failedToCreateDashboard": "ダッシュボードを作成できませんでした。"
+  },
+  "threshold": {
+    "label": "しきい値"
   }
 }

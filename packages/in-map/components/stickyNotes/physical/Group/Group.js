@@ -5,14 +5,15 @@
 
 import React from 'react';
 
+import { CarbonTag } from '@instana/components';
+
 import { selectedSnapshotId, setSelectedSnapshotId } from 'in-stores/snapshot';
 import createStickyNote from 'in-map/components/stickyNotes/StickyNote';
-import { getColorPool } from 'in-services/util/ColorGenerator';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
-import 'in-map/components/stickyNotes/physical/Group/Group.less';
+import locals from 'in-map/components/stickyNotes/physical/Group/Group.mless';
 
 export default createStickyNote(
   connectTo(
@@ -22,7 +23,7 @@ export default createStickyNote(
         selectedId: selectedSnapshotId
       };
     },
-    function Group({ selectedId, snapshot, id }) {
+    function Group({ snapshot, id }) {
       let label;
       if (snapshot) {
         label = getLabel(snapshot);
@@ -32,16 +33,10 @@ export default createStickyNote(
         return null;
       }
 
-      const c = getColorPool('groups').getColorRGB(id);
-      const backgroundColor =
-        selectedId === id
-          ? '#fff'
-          : 'rgb(' + ((c.r * 255) | 0) + ',' + ((c.g * 255) | 0) + ',' + ((c.b * 255) | 0) + ')';
-
       return (
-        <div className="in-sticky-note-group" onClick={() => setSelectedSnapshotId(id)} style={{ backgroundColor }}>
+        <CarbonTag size="sm" className={locals.inStickyNoteButton} onClick={() => setSelectedSnapshotId(id)}>
           {label}
-        </div>
+        </CarbonTag>
       );
     }
   )

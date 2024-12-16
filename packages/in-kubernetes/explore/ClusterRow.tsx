@@ -14,7 +14,6 @@ import getKubernetesClusterItemCounters from 'in-kubernetes/subscriptions/getKub
 import { KubernetesListItemWithCursor } from 'in-kubernetes/subscriptions/exploreKubernetes';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { TimeConfig, Result, KubernetesClusterItemCounters } from 'in-types';
-// @ts-expect-error
 import { getHistoricMetric } from 'in-stores/metric';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import WithIcon from 'in-components/WithIcon';
@@ -23,7 +22,7 @@ import { t } from 'in-i18n';
 import locals from 'in-kubernetes/explore/KubernetesExplore.mless';
 
 interface MetricsParams {
-  snapshotId: number;
+  snapshotId: string;
   metric: string;
   timeConfig: TimeConfig;
 }

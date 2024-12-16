@@ -5,10 +5,11 @@
 
 import React from 'react';
 
-import { markAsRead, unreadReleaseNotesContentAndVersion$ } from 'in-stores/releaseNotes';
+import { CarbonModal } from '@instana/components';
+
+import { markAsRead, unreadReleaseNotesContentAndVersion$, getReleaseNotesState } from 'in-stores/releaseNotes';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { toHtml } from 'in-services/formatters/markdown';
-import Dialog from 'in-components/Dialog/Dialog';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -25,13 +26,23 @@ export default connectTo(
       return null;
     }
 
+    // Get the state so we know if the modal should be displayed or not
+    const showNotes = getReleaseNotesState() === 'show again';
+
     return (
-      <Dialog
-        onClose={() => markAsRead(releaseNotes.version)}
-        title={t('in-components:releaseNotesDialog.releaseNotesTitle')}
+      <CarbonModal
+        open={showNotes}
+        modalHeading={t('in-components:releaseNotesDialog.releaseNotesTitle')}
+        onClose={() => {
+          markAsRead('releaseNotes.version');
+        }}
+        onRequestClose={() => {
+          markAsRead('releaseNotes.version');
+        }}
+        passiveModal
       >
         <DangerousHtmlPresenter className={block} html={toHtml(releaseNotes.content)} />
-      </Dialog>
+      </CarbonModal>
     );
   }
 );

@@ -33,11 +33,11 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
       const entityFields = getDefaultEntityFields(websiteEntityType);
 
       const entityTypeValue = entityFields.type.value;
-      const entityIdValue = entityFields.entityId.value;
+      const entityIdValue = entityFields.entityIds.value[0];
 
       // Then
       expect(entityTypeValue).toEqual('website');
-      expect(entityIdValue).toEqual('');
+      expect(entityIdValue).toEqual(undefined);
     });
 
     it('returns correct values when using getDefaultEntityFields with an application entity type', () => {
@@ -48,10 +48,10 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
       const entityFields = getDefaultEntityFields(applicationEntityType);
 
       const entityTypeValue = entityFields.type.value;
-      const entityIdValue = entityFields.entityId.value;
+      const entityIdValue = entityFields.entityIds.value[0];
 
       // Then
-      expect(entityIdValue).toEqual('');
+      expect(entityIdValue).toEqual(undefined);
       expect(entityTypeValue).toEqual('application');
     });
 
@@ -122,7 +122,7 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
       const websiteForm = createDefaultSloForm(websiteEntityType);
 
       const entityTypeValue = websiteForm.getIn(['entity', 'type']).value;
-      const entityIdIdValue = websiteForm.getIn(['entity', 'entityId']).value;
+      const entityIdIdValue = websiteForm.getIn(['entity', 'entityIds']).value[0];
       const beaconTypeValue = websiteForm.getIn(['scope', 'beaconType']).value;
       const boundaryScopeValue = websiteForm.getIn(['scope', 'boundaryScope']).value;
       const includeInternalValue = websiteForm.getIn(['scope', 'includeInternal']).value;
@@ -144,7 +144,7 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
 
       // Then
       expect(entityTypeValue).toEqual('website');
-      expect(entityIdIdValue).toEqual('');
+      expect(entityIdIdValue).toEqual(undefined);
       expect(beaconTypeValue).toEqual('httpRequest');
       expect(boundaryScopeValue).toEqual('ALL');
       expect(includeInternalValue).toEqual(false);
@@ -172,7 +172,7 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
       const applicationForm = createDefaultSloForm(applicationEntityType);
 
       const entityTypeValue = applicationForm.getIn(['entity', 'type']).value;
-      const entityIdIdValue = applicationForm.getIn(['entity', 'entityId']).value;
+      const entityIdIdValue = applicationForm.getIn(['entity', 'entityIds']).value[0];
       const beaconTypeValue = applicationForm.getIn(['scope', 'beaconType']).value;
       const boundaryScopeValue = applicationForm.getIn(['scope', 'boundaryScope']).value;
       const includeInternalValue = applicationForm.getIn(['scope', 'includeInternal']).value;
@@ -194,7 +194,7 @@ describe('in-service-levels/components/SloList/components/DialogSections/createS
 
       // Then
       expect(entityTypeValue).toEqual('application');
-      expect(entityIdIdValue).toEqual('');
+      expect(entityIdIdValue).toEqual(undefined);
       expect(beaconTypeValue).toEqual('httpRequest');
       expect(boundaryScopeValue).toEqual('ALL');
       expect(includeInternalValue).toEqual(false);

@@ -216,6 +216,24 @@ export default {
         },
         forceTimeWindowAggregation: true
       }
+    },
+    {
+      id: 'otlpAcceptorDroppedSpanMessagesRateLimited',
+      title: t('in-internal:monitoringUnit.units.application.otlpAcceptorDropSpanMsgRateLimit'),
+      type: 'metric',
+      typeArgs: {
+        getSnapshotId(row) {
+          return row.id;
+        },
+        getMetricName() {
+          return 'otlp-acceptor.droppedSpanMessagesRateLimited';
+        },
+        getContent: number.compact,
+        getTimeWindowAggregation(row) {
+          return row.metricAggregation;
+        },
+        forceTimeWindowAggregation: true
+      }
     }
   ],
   getRowDetails({ timeConfig, id }) {
@@ -294,11 +312,13 @@ export default {
               formatter: number.compact,
               metrics: [
                 `acceptor.droppedSpanMessagesRateLimited`,
-                `serverless-acceptor.droppedSpanMessagesRateLimited`
+                `serverless-acceptor.droppedSpanMessagesRateLimited`,
+                `otlp-acceptor.droppedSpanMessagesRateLimited`
               ],
               labels: [
                 t('in-internal:monitoringUnit.units.application.acceptorDropSpanMsgsRateLimit'),
-                t('in-internal:monitoringUnit.units.application.serverlessAcceptorDropSpanMsgRateLimit')
+                t('in-internal:monitoringUnit.units.application.serverlessAcceptorDropSpanMsgRateLimit'),
+                t('in-internal:monitoringUnit.units.application.otlpAcceptorDropSpanMsgRateLimit')
               ],
               colors: [themes.default.ids.color.option.red['500'], themes.default.ids.color.option.orange['500']],
               type: 'stackedArea'

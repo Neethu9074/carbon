@@ -15,8 +15,6 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { shorten } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-import locals from './RawTableFormat.mless';
-
 interface ICMRow {
   key: string;
   icmDetail: Map<string, object>;
@@ -28,10 +26,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: ICMRow) {
-        return row.icmDetail.get('THR_STAT');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.icmDetail.get('THR_STAT') as any, 128);
       }
     }
   },
@@ -40,21 +35,8 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: ICMRow) {
-        return row.icmDetail.get('REQ_TYPE');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.icmDetail.get('REQ_TYPE') as any, 128);
       }
-    }
-  },
-  {
-    title: t('in-sap:dashboards.reqCount'),
-    type: 'number',
-    typeArgs: {
-      getValue(row: ICMRow) {
-        return row.icmDetail.get('REQ_COUNT');
-      },
-      getContent: number.compact
     }
   },
   {
@@ -82,11 +64,18 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: ICMRow) {
-        return row.icmDetail.get('THR_ID');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.icmDetail.get('THR_ID') as any, 64);
       }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.reqCount'),
+    type: 'number',
+    typeArgs: {
+      getValue(row: ICMRow) {
+        return row.icmDetail.get('REQ_COUNT');
+      },
+      getContent: number.compact
     }
   }
 ];
@@ -115,12 +104,8 @@ export default function ICMThreadList({ snapshotId }: SnapshotData) {
       cardTitle={t('in-sap:dashboards.icmThreadMetrics')}
       cols={cols}
       rows={rows}
-      initialSortColumn={1}
-      initialSortDirection="asc"
+      initialSortColumn={5}
+      initialSortDirection="desc"
     />
   );
-}
-
-function Args({ args }: any) {
-  return <code className={locals.statement}>{args}</code>;
 }

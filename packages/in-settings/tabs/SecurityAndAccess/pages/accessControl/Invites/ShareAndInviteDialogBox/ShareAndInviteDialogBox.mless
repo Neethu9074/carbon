@@ -1,0 +1,44 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+:local {
+  .shareAndInviteDialogBox {
+    width: 55rem;
+    .modalBody {
+      padding: 0 1.5rem 1.5rem 1.5rem;
+      overflow: scroll;
+      margin-top: 1.5rem;
+    }
+    .hideInvite {
+      padding-bottom: 2.5rem;
+    }
+    .title {
+      padding-top: 1.5rem;
+    }
+    .groupComboBox {
+      width: 100%; // combobox placed inside a <Stack /> has its width reduced.
+    }
+    .emailAndGroupRow {
+      margin-top: 0.2rem;
+    }
+    .emailMessageTextArea {
+      line-height: 3;
+      textarea {
+        height: 10rem;
+      }
+    }
+    .formGroup {
+      gap: 0.2rem;
+      margin-bottom: 0;
+    }
+    .addUserAddGroup {
+      margin-top: 0.2rem;
+    }
+    .greyedOutText input {
+      color: var(--ids-color-option-neutral-500);
+    }
+  }
+}

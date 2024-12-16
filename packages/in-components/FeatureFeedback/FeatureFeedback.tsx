@@ -5,30 +5,22 @@
 
 import React, { CSSProperties } from 'react';
 
-import { Link } from '@instana/components';
+import { Link, PreviewPill } from '@instana/components';
 
-import Pill from 'in-components/Pill/Pill';
 import { t } from 'in-i18n';
 
 import locals from './FeatureFeedback.mless';
 
 interface FeatureFeedbackProps {
   href: string;
-  labelText?: string;
   styles?: CSSProperties;
 }
 
-export default function FeatureFeedback({
-  href,
-  labelText = t('in-components:featureFeedback.labelBETA'),
-  styles = {}
-}: FeatureFeedbackProps) {
+export default function FeatureFeedback({ href, styles = {} }: FeatureFeedbackProps) {
   return (
     <div className={locals.betaMarker} style={styles}>
-      <Pill kind="primary" className={locals.betaPill}>
-        {labelText}
-      </Pill>
-      <Link className={locals.betaLink} external href={href}>
+      <PreviewPill />
+      <Link external href={href}>
         {t('in-components:featureFeedback.linkLabelYouCanSendUsFeedback')}
       </Link>
     </div>

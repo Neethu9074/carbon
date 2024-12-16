@@ -6,13 +6,14 @@
 
 import React from 'react';
 
-import { ServiceLevelObjectiveConfiguration } from '@instana/types';
+import { ServiceLevelIndicatorType, ServiceLevelObjectiveConfiguration } from '@instana/types';
 import { formatDuration } from '@instana/format-date';
 import { KeyValue } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import useOverlappingTimeWindows from 'in-service-levels/hooks/useOverlappingTimeWindows';
 import useSloWindowTimeConfig from 'in-service-levels/hooks/useSloWindowTimeConfig';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { calculateAvailableErrorBudget } from 'in-service-levels/utils/math';
 import { calculateTimeRemaining } from 'in-service-levels/utils/time';
 import { minutes, number } from 'in-services/formatters/number';
@@ -21,7 +22,7 @@ import { hours } from 'in-services/time/time';
 
 interface ErrorBudgetInfoProps {
   configuration: ServiceLevelObjectiveConfiguration;
-  remainingErrorBudget: number;
+  remainingErrorBudget?: number;
 }
 
 export default function ErrorBudgetInfo({ configuration, remainingErrorBudget }: ErrorBudgetInfoProps) {
@@ -43,21 +44,26 @@ export default function ErrorBudgetInfo({ configuration, remainingErrorBudget }:
     <KeyValue
       label={t('in-service-levels:sloList.components.errorBudgetInfo.timeWindow', {
         context: timeWindowType,
-        durationUnit,
         duration,
-        remaining: formatDuration(timeRemaining)
+        durationUnit,
+        entityType,
+        remaining: remainingErrorBudget == null ? valueMissingPlaceholder : formatDuration(timeRemaining)
       })}
       value={t('in-service-levels:sloList.components.errorBudgetInfo.budget', {
+        budget: remainingErrorBudget == null ? valueMissingPlaceholder : minutes.fixedCompact(minutesInTimeWindow),
         context: indicatorType,
         entityType,
-        remaining: remainingErrorBudget,
-        remainingFormatted:
-          indicator.type === 'eventBased'
-            ? number.compact(remainingErrorBudget)
-            : minutes.fixedCompact(remainingErrorBudget),
-        budget: minutes.fixedCompact(minutesInTimeWindow)
+        remaining: remainingErrorBudget ?? 0,
+        remainingFormatted: formatRemainingBudget(indicatorType, remainingErrorBudget)
       })}
       inverted
     />
   );
+}
+
+function formatRemainingBudget(indicatorType?: ServiceLevelIndicatorType, remainingErrorBudget?: number) {
+  if (remainingErrorBudget == null) return valueMissingPlaceholder;
+  return indicatorType === 'eventBased'
+    ? number.compact(remainingErrorBudget)
+    : minutes.fixedCompact(remainingErrorBudget);
 }

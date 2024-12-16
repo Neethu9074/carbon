@@ -5,13 +5,13 @@
  */
 
 import React, { ChangeEvent, useContext } from 'react';
-import { MapForm, Field } from 'formalistic';
+import { Field } from 'formalistic';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import ServerTablePresenterWrapper from 'in-automation/ActionCatalog/ServerTablePresenterWrapper';
-import { ActionFormEntity, isNotEditableContext } from 'in-automation/ActionCatalog/Action';
-import { OnEntityChange, SetFormFunction } from 'in-settings/hooks/useEntityForm';
+import { isNotEditableContext, OnChange } from 'in-automation/ActionCatalog/Action';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
+import { ActionForm } from 'in-automation/ActionCatalog/useActionForm';
 import Input from 'in-components/form/Input/Input';
 
 import locals from './ServerTablePresenterWrapperConsumer.mless';
@@ -22,14 +22,14 @@ export interface Label {
 }
 
 interface LabelsTableProps {
-  form: MapForm<any>;
-  onChange: OnEntityChange<ActionFormEntity>;
+  form: ActionForm;
+  onChange: OnChange;
   fieldName?: string;
   label: string;
 }
 
 interface FieldProps extends LabelsTableProps {
-  setForm: SetFormFunction;
+  setForm: React.Dispatch<React.SetStateAction<ActionForm>>;
   customAddRowLabel: string;
   noDataMessage: string;
 }
@@ -42,7 +42,7 @@ const getColumnDefinitions = ({
   label
 }: LabelsTableProps & { isNotEditable: boolean }) => [
   {
-    id: 'id',
+    id: 'value',
     sortable: false,
     label: label ?? 'labels',
     getContent(item: Label) {

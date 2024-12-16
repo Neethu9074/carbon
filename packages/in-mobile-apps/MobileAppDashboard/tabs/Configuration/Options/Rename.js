@@ -7,12 +7,11 @@ import { createField } from 'formalistic';
 import { get, find } from 'lodash';
 import React from 'react';
 
-import { Stack, Card } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Stack, Card, Button } from '@instana/components';
 
 import HelpParagraph from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/HelpParagraph';
 import SaveIndicator from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/SaveIndicator';
-import { renameMobileApp as renameMobileAppTracker } from 'in-mobile-apps/tracker';
+import { renameMobileApp as renameMobileAppTracker } from 'in-mobile-apps/tracking/segTracker';
 import { renameMobileApp, getMobileApps } from 'in-mobile-apps/api/mobileApps';
 import { notBlankValidator } from 'in-services/validators/string';
 import ValidationBlock from 'in-components/form/ValidationBlock';
@@ -70,6 +69,7 @@ export default class Rename extends React.PureComponent {
     e.preventDefault();
 
     const { field } = this.state;
+    const { trackCta } = this.props;
     if (!field.valid) {
       this.setState({
         field: this.state.field.setTouched(true)
@@ -79,7 +79,7 @@ export default class Rename extends React.PureComponent {
       return;
     }
 
-    renameMobileAppTracker({
+    renameMobileAppTracker(trackCta, {
       newName: field.value,
       previousName: this.props.data.label
     });

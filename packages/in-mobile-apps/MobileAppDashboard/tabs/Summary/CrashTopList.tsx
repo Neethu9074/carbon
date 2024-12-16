@@ -91,14 +91,14 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
     timeConfig,
     pagination: {
       page: 1,
-      pageSize: 5
+      pageSize: 4
     },
     order: {
       by: selectedMetric,
       direction: 'DESC'
     },
     group: {
-      groupbyTag: 'mobileBeacon.error.message'
+      groupbyTag: 'mobileBeacon.crash.groupLabel'
     },
     metrics: {
       [selectedMetric]: {
@@ -145,6 +145,8 @@ function Label({ item, mobileAppId, viewId }: LabelProps) {
     // ignore
   }
 
+  let errLocationLabel = label.split('\n')[0];
+  let errorTypeLabel = label.split('\n')[1];
   return (
     <Link
       href={getLinkToMobileAppCrash(mobileAppId, {
@@ -152,7 +154,9 @@ function Label({ item, mobileAppId, viewId }: LabelProps) {
         viewId
       })}
     >
-      {label}
+      {errLocationLabel}
+      <br />
+      {errorTypeLabel}
     </Link>
   );
 }

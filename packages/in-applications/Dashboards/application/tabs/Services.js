@@ -345,7 +345,7 @@ function getTableData({
       },
       maxSeverity: {
         metric: 'maxSeverity',
-        aggregation: 'DISTINCT_COUNT'
+        aggregation: 'MAX'
       }
     },
     filter: {

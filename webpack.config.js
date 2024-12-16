@@ -11,7 +11,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 const WebpackBar = require('webpackbar');
-
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const {
   webpackPlugin: cssIdentWebpackPlugin,
   localIdentName,
@@ -47,6 +47,8 @@ const definePlugin = new webpack.DefinePlugin({
   'process.env.IS_TEST': 'false'
 });
 
+const gitCommitIdPrefix = process.env.GIT_SHORT_COMMIT ?? '';
+
 const plugins = [
   new WebpackBar(),
   definePlugin,
@@ -54,6 +56,11 @@ const plugins = [
   new CaseSensitivePathsPlugin(),
   cssIdentWebpackPlugin,
   process.env.ANALYZE_BUNDLE && new BundleAnalyzerPlugin(),
+  new MiniCssExtractPlugin({
+    filename: 'compStyle.css',
+    chunkFilename: gitCommitIdPrefix + '-[id]-chunks.css',
+    ignoreOrder: true
+  }),
   isDevModeBuild &&
     new forkTsCheckerWebpackPlugin({
       async: true,
@@ -81,8 +88,7 @@ const entry = hotReload
     };
 
 const styleLoader = {
-  loader: 'style-loader',
-  options: { injectType: 'singletonStyleTag' }
+  loader: MiniCssExtractPlugin.loader
 };
 
 const lessLoader = {
@@ -257,6 +263,7 @@ module.exports = {
   },
   plugins,
   resolve: {
-    extensions: ['.js', '.ts', '.tsx', '.d.ts']
+    extensions: ['.js', '.ts', '.tsx', '.d.ts'],
+    alias: { react$: require.resolve('react'), ['react-dom']: require.resolve('react-dom') }
   }
 };

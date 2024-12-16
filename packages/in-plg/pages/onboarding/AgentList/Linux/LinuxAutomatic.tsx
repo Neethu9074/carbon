@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { Stack, Typography, KeyValue } from '@instana/components';
+import { Stack, Typography, KeyValue, RadioButton } from '@instana/components';
 
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
@@ -16,7 +16,7 @@ import { CheckBox } from 'in-plg/pages/onboarding/content/ContentComponents';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import Code from 'in-plg/components/Code/Code';
 import { t } from 'in-i18n';
 
@@ -84,22 +84,22 @@ export default function LinuxAutomatic({
     }
   ];
 
+  if (shareAndInviteEnabled) sideCardData.pop();
+
   function getPackaging() {
     return (
       <Stack direction="horizontal">
-        <CheckboxFancy
+        <RadioButton
           label={t('in-waiting-for-deployment:content.agentModeDynamic')}
           checked={agentMode === agentModeOptions[0]}
           onChange={() => setAgentMode(agentModeOptions[0])}
           size="default"
-          asRadioButton
         />
-        <CheckboxFancy
+        <RadioButton
           label={t('in-waiting-for-deployment:content.agentModeStatic')}
           checked={agentMode === agentModeOptions[1]}
           onChange={() => setAgentMode(agentModeOptions[1])}
           size="default"
-          asRadioButton
         />
       </Stack>
     );
@@ -108,20 +108,18 @@ export default function LinuxAutomatic({
   function getRuntime() {
     return (
       <Stack direction="horizontal">
-        <CheckboxFancy
-          label="Azul Zulu 1.8"
+        <RadioButton
+          label="Azul Zulu 11"
           checked={jvmVendor === jvmVendorOptions[0]}
           onChange={() => setJVMVendor(jvmVendorOptions[0])}
           size="default"
-          asRadioButton
           disabled={azulDisabled}
         />
-        <CheckboxFancy
+        <RadioButton
           label="Eclipse OpenJ9 11"
           checked={jvmVendor === jvmVendorOptions[1]}
           onChange={() => setJVMVendor(jvmVendorOptions[1])}
           size="default"
-          asRadioButton
         />
       </Stack>
     );
@@ -130,19 +128,17 @@ export default function LinuxAutomatic({
   function getInstallationMode() {
     return (
       <Stack direction="horizontal">
-        <CheckboxFancy
+        <RadioButton
           label={t('in-waiting-for-deployment:content.agentInstallationModeInteractive')}
           checked={installMode === installModeOptions[0]}
           onChange={() => setInstallMode(installModeOptions[0])}
           size="default"
-          asRadioButton
         />
-        <CheckboxFancy
+        <RadioButton
           label={t('in-waiting-for-deployment:content.agentInstallationModeSilent')}
           checked={installMode === installModeOptions[1]}
           onChange={() => setInstallMode(installModeOptions[1])}
           size="default"
-          asRadioButton
         />
       </Stack>
     );

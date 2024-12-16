@@ -5,25 +5,30 @@
 
 import React, { ReactNode, useEffect, useState } from 'react';
 
-import { Message, Stack } from '@instana/components';
+import { Message, Stack, Button, PreviewPill } from '@instana/components';
 import { TagCatalog } from '@instana/types';
-import { Button } from '@instana/legacy';
 
-import { GetSuggestionLabel, GetSuggestionsProps, QueryBuilderComponent, QueryBuilderTrackingFunctions } from '..';
+import {
+  GetSuggestionLabel,
+  GetSuggestionsProps,
+  QueryBuilderComponent,
+  QueryBuilderTrackingFunctions
+} from 'in-components/QueryBuilder';
 import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext/SectionLabelWithSubtext';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import { FormModelElement } from '../transformation/formModel';
 import { emptyObject } from 'in-services/fixedObjects';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
 
 export const DEFAULT_MAX_EXPRESSION_DEPTH = 5;
 
-interface QueryBuilderSectionProps {
+interface QueryBuilderSectionProps<ADDITIONAL_TAG_CATALOG_PROPS = {}> {
   value: FormModelElement[];
-  QueryBuilder: QueryBuilderComponent;
+  QueryBuilder: QueryBuilderComponent<{}, ADDITIONAL_TAG_CATALOG_PROPS>;
   getSuggestionsProps?: GetSuggestionsProps;
   getSuggestionLabel?: GetSuggestionLabel;
+  additionalGetTagCatalogProps?: ADDITIONAL_TAG_CATALOG_PROPS;
   onChange: (formModel: FormModelElement[]) => void;
   tracking?: QueryBuilderTrackingFunctions;
   tagCatalog?: TagCatalog;
@@ -31,6 +36,7 @@ interface QueryBuilderSectionProps {
   useLastValidStateWhenErroneous?: boolean;
 
   withOptionalMarker?: boolean;
+  withTechnicalPreview?: boolean;
 
   hasError?: boolean;
   errors?: string[];
@@ -38,9 +44,10 @@ interface QueryBuilderSectionProps {
   actions?: ReactNode;
   withoutIcon?: boolean;
   onErrorStateChange?: (hasError: boolean) => void;
+  SectionWrapper?: React.FunctionComponent<any>;
 }
 
-export default function QueryBuilderSection({
+export default function QueryBuilderSection<ADDITIONAL_TAG_CATALOG_PROPS = {}>({
   value: tagFilterExpression,
   QueryBuilder,
   onChange,
@@ -49,13 +56,16 @@ export default function QueryBuilderSection({
   actions,
   useLastValidStateWhenErroneous = false,
   withOptionalMarker = false,
+  withTechnicalPreview = false,
   hasError: hasExternalError,
   errors: externalErrors,
   tagCatalog,
   getSuggestionsProps = {},
   getSuggestionLabel,
-  onErrorStateChange
-}: QueryBuilderSectionProps) {
+  onErrorStateChange,
+  additionalGetTagCatalogProps,
+  SectionWrapper = Section
+}: QueryBuilderSectionProps<ADDITIONAL_TAG_CATALOG_PROPS>) {
   const [{ hasError: hasInternalError, errors: internalErrors }, setInternalError] = useState<{
     hasError?: boolean;
     errors?: string[];
@@ -78,16 +88,23 @@ export default function QueryBuilderSection({
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasInternalError]);
 
-  const title = withOptionalMarker ? (
-    <SectionLabelWithSubtext subtext={t('in-components:queryBuilder.optional')}>
-      {t('in-components:queryBuilder.workspaceTitleFilter')}
-    </SectionLabelWithSubtext>
-  ) : (
-    t('in-components:queryBuilder.workspaceTitleFilter')
-  );
+  let title = <>{t('in-components:queryBuilder.workspaceTitleFilter')}</>;
+  if (withOptionalMarker) {
+    title = (
+      <SectionLabelWithSubtext subtext={t('in-components:queryBuilder.optional')}>{title}</SectionLabelWithSubtext>
+    );
+  }
+  if (withTechnicalPreview) {
+    title = (
+      <>
+        {title}
+        <PreviewPill privatePreview />
+      </>
+    );
+  }
 
   return (
-    <Section
+    <SectionWrapper
       icon={withoutIcon ? undefined : 'lib_actions_filter'}
       title={title}
       actions={
@@ -122,6 +139,7 @@ export default function QueryBuilderSection({
             useLastValidStateWhenErroneous={useLastValidStateWhenErroneous}
             getSuggestionsProps={getSuggestionsProps}
             getSuggestionLabel={getSuggestionLabel}
+            additionalGetTagCatalogProps={additionalGetTagCatalogProps}
           />
         </div>
         {hasInternalError &&
@@ -129,7 +147,7 @@ export default function QueryBuilderSection({
         {hasExternalError &&
           externalErrors?.map(error => <Message key={error} type="error" withIcon small title={error} />)}
       </Stack>
-    </Section>
+    </SectionWrapper>
   );
 
   function onClear() {

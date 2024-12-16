@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import { TrSizes } from '@instana/components/types/components/Table/types';
-import { ThProps, TrProps } from '@instana/components';
+import { TrSizes } from '@instana/legacy/types/components/Table/types';
+import { ThProps, TrProps } from '@instana/legacy';
 
 import { OrderDirection } from 'in-types';
 
@@ -36,9 +36,11 @@ export interface ColumnDefinition<
 export interface TableState {
   page: number;
   numPages: number;
+  totalItems: number;
   orderDirection: OrderDirection;
   onChange: (s: Partial<TableState>) => void;
   pageSize: number;
+  pageSizes?: Array<number>;
   query?: string;
   orderBy: string;
   disabledColumns?: string[];

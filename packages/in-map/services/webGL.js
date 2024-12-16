@@ -21,7 +21,7 @@ export function getWebGLCanvasContext(canvas) {
 
   // browser supports WebGL but if the canvas.getContext('webgl') returns null
   // then WebGL failed for some reason other than user's browser (no GPU, out of memory, etc...)
-  const names = ['webgl', 'experimental-webgl', 'webkit-3d', 'moz-webgl'];
+  const names = ['webgl2', 'experimental-webgl', 'webkit-3d', 'moz-webgl'];
   for (let ii = 0; ii < names.length; ++ii) {
     try {
       context = canvas.getContext(names[ii]);

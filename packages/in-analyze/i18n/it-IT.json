@@ -111,6 +111,7 @@
       "summary": {
         "logs": "Log",
         "analyzeLogs": "Visualizza in Analizza",
+        "logsCardDescription": "Si tratta di un'anteprima, per visualizzare tutti i log in analisi",
         "correspondingMobileAppActivity": "Attività app mobile corrispondente",
         "hideMobileAppInformation": "Nascondi informazioni sull'app mobile",
         "showMobileAppInformation": "Mostra informazioni sull'app mobile",
@@ -158,6 +159,7 @@
         "cacheInteraction": "Interazione cache",
         "instanaDoesNotMonitorTheLocationOfThisCall": "Instana non monitora la {{location}} di questa chiamata",
         "tags": "Tag",
+        "metrics": "Metriche",
         "loading": "Caricamento dei dettagli della chiamata.",
         "labelError": "Errore non previsto",
         "retryError": "Non è stato possibile caricare i dettagli della chiamata.",
@@ -165,7 +167,11 @@
         "selfTime": "Tempo autonomo",
         "networkTime": "Tempo di rete",
         "waitingTime": "Tempo di attesa",
-        "latency": "Latenza"
+        "latency": "Latenza",
+        "findSQL": "Trova SQL in {{type}}",
+        "sumOfLatencies": "Somma delle latenze",
+        "elapsedTime": "Tempo trascorso",
+        "batchTooltip": "Totale {{type}} per {{batchCount}} chiamate batch."
       },
       "callTree": {
         "expandButtonForRow": "Espandi tutte le chiamate secondarie",
@@ -272,6 +278,7 @@
     "titleParameters": "Parametri",
     "analyzeLogsLabel": "Analizza log",
     "similarLogs": "Log simili",
+    "message": "Messaggio",
     "similarServiceLogs": "Mostra i log nel contesto di questo servizio",
     "restrictedAccessExpl": "Non si dispone dell'autorizzazione per accedere a queste informazioni"
   },
@@ -280,6 +287,7 @@
     "labelNetwork": "Rete",
     "labelSelf": "Automatico",
     "labelWaiting": "In attesa",
+    "labelElapsed": "Tempo trascorso",
     "labelService": "Servizio",
     "labelEndpoint": "Endpoint",
     "labelAggregatedTime": "Tempo aggregato",
@@ -310,7 +318,6 @@
   "resultHeaderTooltip": "L'intervallo di tempo della query è stato arrotondato al minuto intero più vicino per consentire di caricare questa vista più rapidamente.",
   "components": {
     "analyzeHeader": {
-      "beta": "BETA",
       "analytics": "Analitica"
     },
     "filterBar": {

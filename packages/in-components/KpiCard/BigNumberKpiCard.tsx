@@ -6,7 +6,6 @@
 import React, { ReactNode } from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { just } from '@instana/observables';
 
 import ResultAwareBigNumberKpiCard, {
   Config,
@@ -14,15 +13,20 @@ import ResultAwareBigNumberKpiCard, {
   ConfigWithStaticCompanion,
   isConfigWithCompanionMetric
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
+import {
+  getFilterResultNote,
+  useFilteredMetricConfiguration
+} from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
 import { getTimeConfigBasedOnMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { hasActiveTimeShift, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
-import { MetricResult, Result, UnifiedMetricConfiguration } from 'in-types';
-import { useLogsPolling } from 'in-components/KpiCard/useLogsPolling';
-import { getLogMetricsConfig } from 'in-components/KpiCard/utils';
+import { MetricResult, Result, UnifiedMetricConfigurationUnion } from 'in-types';
+import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
+import { ThresholdFn } from 'in-components/Threshold/threshold';
 import { IconAction } from 'in-components/KpiCard/KpiCard';
 import { FormatterFn } from 'in-stores/metric/formatters';
 import { pendingResult } from 'in-services/fixedObjects';
+import { ConversionFn } from 'in-stores/metric/units';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 export const metricKey = 'bigNumber';
@@ -36,13 +40,16 @@ export interface BigNumberKpiCardProps {
   useMaxAvailableHeight?: boolean;
   iconAction?: IconAction;
   config:
-    | Config<UnifiedMetricConfiguration>
-    | ConfigWithCompanionMetric<UnifiedMetricConfiguration>
-    | ConfigWithStaticCompanion<UnifiedMetricConfiguration>;
+    | Config<UnifiedMetricConfigurationUnion>
+    | ConfigWithCompanionMetric<UnifiedMetricConfigurationUnion>
+    | ConfigWithStaticCompanion<UnifiedMetricConfigurationUnion>;
   actions?: ReactNode;
   dragHandle?: ReactNode;
   raw?: boolean;
   isInModal?: boolean;
+  thresholdFn?: ThresholdFn;
+  approximateTooltipText?: string;
+  conversionFn?: ConversionFn;
 }
 
 export default function BigNumberKpiCard({
@@ -54,63 +61,48 @@ export default function BigNumberKpiCard({
   config,
   actions,
   isInModal,
+  thresholdFn,
+  conversionFn,
   dragHandle,
-  raw
+  raw,
+  approximateTooltipText
 }: BigNumberKpiCardProps) {
   const timeConfig = useTimeConfig();
   const usedTimeConfig = getTimeConfigBasedOnMetricConfiguration(config.metricConfiguration, timeConfig);
-
-  const isLoggingWidget = config.metricConfiguration.source === 'LOG';
-  const isLogsPolling = isLoggingWidget && timeConfig.autoRefresh;
+  const { metricConfiguration, result: filterResult } = useFilteredMetricConfiguration(config.metricConfiguration);
 
   const metricDefaults = {
     timeShift: {
       offset: 0
     },
-    resultType: 'SINGLE_NUMBER'
+    resultType: 'SINGLE_NUMBER',
+    timeConfig: usedTimeConfig
   } as const;
 
-  let metrics: { [index: string]: UnifiedMetricConfiguration } = {
+  let metrics: { [index: string]: UnifiedMetricConfigurationUnion } = {
     [metricKey]: {
-      // @ts-expect-error The types require an additional timeConfig to be set, but that does not reflect the actual capabilities of the component and likely also not legacy usage
-      timeConfig: usedTimeConfig,
-      ...config.metricConfiguration,
-      ...config.tagFilters,
+      ...metricConfiguration,
       ...metricDefaults
-    }
+    } as UnifiedMetricConfigurationUnion
   };
 
-  if (hasActiveTimeShift(config.metricConfiguration.timeShift)) {
+  if (hasActiveTimeShift(metricConfiguration.timeShift)) {
     metrics[comparisonMetricKey] = {
-      // @ts-expect-error The types require an additional timeConfig to be set, but that does not reflect the actual capabilities of the component and likely also not legacy usage
-      timeConfig: usedTimeConfig,
-      ...config.metricConfiguration,
+      ...metricConfiguration,
       ...metricDefaults,
-      timeShift: translateOffsetToTimeShiftConfig(config.metricConfiguration.timeShift, timeConfig)
-    };
+      timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
+    } as UnifiedMetricConfigurationUnion;
   } else if (isConfigWithCompanionMetric(config)) {
     metrics[companionMetricKey] = {
-      // @ts-expect-error The types require an additional timeConfig to be set, but that does not reflect the actual capabilities of the component and likely also not legacy usage
-      timeConfig,
-      ...metricDefaults,
-      ...config.companionMetricConfiguration
+      ...config.companionMetricConfiguration,
+      ...metricDefaults
     };
   }
 
-  if (isLoggingWidget) {
-    metrics = getLogMetricsConfig(metrics);
-  }
+  const stableMetrics = useStableObjectInstance(metrics);
 
-  const metricsResult: Result<MetricResult[]> =
-    useObservable(!isLogsPolling ? () => getUnifiedMetrics({ metrics }) : just(null), [
-      config,
-      timeConfig,
-      config.metricConfiguration.timeShift
-    ]) ?? pendingResult;
-
-  const logsPollingResult = useLogsPolling({ metrics }) ?? pendingResult;
-
-  let result = isLogsPolling ? logsPollingResult : metricsResult;
+  const result: Result<MetricResult[]> =
+    useObservable(() => getUnifiedMetrics({ metrics }), [stableMetrics]) ?? pendingResult;
 
   return (
     <ResultAwareBigNumberKpiCard
@@ -118,6 +110,8 @@ export default function BigNumberKpiCard({
       result={result}
       formatter={formatter}
       companionFormatter={companionFormatter}
+      thresholdFn={thresholdFn}
+      conversionFn={conversionFn}
       useMaxAvailableHeight={useMaxAvailableHeight}
       isInModal={isInModal}
       iconAction={iconAction}
@@ -131,6 +125,8 @@ export default function BigNumberKpiCard({
         ) : undefined
       }
       raw={raw}
+      extraInfo={getFilterResultNote(filterResult)}
+      approximateTooltipText={approximateTooltipText}
     />
   );
 }

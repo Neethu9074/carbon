@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -18,47 +19,54 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/components/ProvideLogMessage.mless';
 
-export default function ProvideStatusCode({ form, updateForm }) {
+export default function ProvideStatusCode({ form, updateForm, tearSheetView }) {
   const selection = getStatusCodeFieldValue(form);
   const field = form.get('rule').get('statusCode');
   const startField = field.get('statusCodeStart');
   const endField = field.get('statusCodeEnd');
 
   return (
-    <div className={locals.container}>
+    <div className={classNames({ [locals.container]: !tearSheetView })}>
       <FormGroup>
         <Stack>
-          <Label htmlFor="ruleValue">
-            {t('in-alerting:smartAlerts.applications.components.provideStatusCodeStatusCode')}
-          </Label>
-          <ComboBox
-            id="ruleValue"
-            name="ruleValue"
-            value={selection}
-            options={ruleStatusCodeValueOptions}
-            onChange={e => {
-              if (e.value === 'custom') {
-                updateForm(
-                  form.updateIn(['rule', 'statusCode', 'isCustomRange'], f => f.setValue(true).setTouched(true))
-                );
-                return;
-              }
+          {/* The label does not need to be displayed in tearsheet view and will only appear in dialogs.
+           */}
+          {!tearSheetView && (
+            <Label htmlFor="ruleValue">
+              {t('in-alerting:smartAlerts.applications.components.provideStatusCodeStatusCode')}
+            </Label>
+          )}
+          <span className={classNames({ [locals.smallWidth]: tearSheetView })}>
+            <ComboBox
+              id="ruleValue"
+              name="ruleValue"
+              value={selection}
+              options={ruleStatusCodeValueOptions}
+              onChange={e => {
+                if (e.value === 'custom') {
+                  updateForm(
+                    form.updateIn(['rule', 'statusCode', 'isCustomRange'], f => f.setValue(true).setTouched(true))
+                  );
+                  return;
+                }
 
-              updateForm(
-                form
-                  .updateIn(['rule', 'statusCode', 'statusCodeStart'], f =>
-                    f.setValue(Number(getStartForStatusCode(e.value))).setTouched(true)
-                  )
-                  .updateIn(['rule', 'statusCode', 'statusCodeEnd'], f =>
-                    f.setValue(Number(getEndForStatusCode(e.value))).setTouched(true)
-                  )
-                  .updateIn(['rule', 'statusCode', 'isCustomRange'], f => f.setValue(false).setTouched(true))
-              );
-            }}
-            isClearable={false}
-          />
+                updateForm(
+                  form
+                    .updateIn(['rule', 'statusCode', 'statusCodeStart'], f =>
+                      f.setValue(Number(getStartForStatusCode(e.value))).setTouched(true)
+                    )
+                    .updateIn(['rule', 'statusCode', 'statusCodeEnd'], f =>
+                      f.setValue(Number(getEndForStatusCode(e.value))).setTouched(true)
+                    )
+                    .updateIn(['rule', 'statusCode', 'isCustomRange'], f => f.setValue(false).setTouched(true))
+                );
+              }}
+              isClearable={false}
+            />
+          </span>
           {selection === 'custom' && (
             <StatusCodeRangeSelection
+              tearSheetView={tearSheetView}
               startField={startField}
               endField={endField}
               onStartSelectionUpdate={start =>
@@ -86,7 +94,8 @@ export default function ProvideStatusCode({ form, updateForm }) {
 
 ProvideStatusCode.propTypes = {
   form: PropTypes.object.isRequired,
-  updateForm: PropTypes.func.isRequired
+  updateForm: PropTypes.func.isRequired,
+  tearSheetView: PropTypes.bool
 };
 
 function getStartForStatusCode(statusCode) {

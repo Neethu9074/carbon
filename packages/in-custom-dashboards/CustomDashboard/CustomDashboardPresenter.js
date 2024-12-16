@@ -6,13 +6,20 @@
 import { uniqBy } from 'lodash';
 import React from 'react';
 
-import { HorizontalIndicator } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { HorizontalIndicator, Button } from '@instana/components';
 
+import {
+  customDashboardTopLevelFiltersEnabled,
+  customDashboardsExportPdfEntireDashboard,
+  customDashboardsFastQueryModeEnabled
+} from 'in-services/featureFlags';
 import EntityPageMainNotificationLightCardV2 from 'in-components/EntityPageMainNotification/EntityPageMainNotificationLightCardV2';
+import { FastQueryModeToggle } from 'in-custom-dashboards/CustomDashboard/FastQueryModeToggle/FastQueryModeToggle';
 import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/customDashboards';
+import TopLevelFilterBar from 'in-custom-dashboards/CustomDashboard/FilterContext/TopLevelFilterBar';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import { MoreMenu, MoreMenuButton, MoreMenuSetAsLandingPageButton } from 'in-components/MoreMenu';
+import { FilterContext } from 'in-custom-dashboards/CustomDashboard/FilterContext/FilterContext';
 import DashboardErroneousResultPresenter from 'in-components/DashboardErroneousResultPresenter';
 import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
 import DashboardHeaderButton from 'in-components/DashboardHeader/DashboardHeaderButton';
@@ -25,6 +32,7 @@ import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { playwithEnabled } from 'in-services/featureFlags';
 import SaveButton from 'in-components/form/SaveButton';
 import WithTvMode from 'in-components/WithTvMode';
 import Tooltip from 'in-components/Tooltip';
@@ -47,7 +55,10 @@ export default function CustomDashboardPresenter(props) {
     onRemoveWidget,
     onCopyWidget,
     onDuplicateWidget,
-    onZoomWidget
+    onZoomWidget,
+    topLevelFilters,
+    onTopLevelFiltersChange,
+    shouldWidgetRenderOutsideViewport
   } = props;
 
   let titleOverwrite = config?.title;
@@ -59,7 +70,7 @@ export default function CustomDashboardPresenter(props) {
     }
   }
 
-  const loadingSection = result?.progress?.loading && <DefaultLoadingDashboard lightMode />;
+  const loadingSection = result?.progress?.loading && <DefaultLoadingDashboard />;
 
   const errorSection =
     result?.errors?.[0]?.code === 'NOT_FOUND' ? (
@@ -85,6 +96,7 @@ export default function CustomDashboardPresenter(props) {
                   <Grid
                     tvMode
                     scrollAreaDomNode={wrapperDomNode}
+                    shouldWidgetRenderOutsideViewport={shouldWidgetRenderOutsideViewport}
                     width={width}
                     config={config}
                     isResizable={false}
@@ -111,9 +123,14 @@ export default function CustomDashboardPresenter(props) {
                       }
                       renderTopLevelButtonLine={config && (() => <TopLevelButtonLine {...props} />)}
                     />
+                    {customDashboardTopLevelFiltersEnabled && (
+                      <TopLevelFilterBar
+                        topLevelFilters={topLevelFilters}
+                        onTopLevelFiltersChange={onTopLevelFiltersChange}
+                      />
+                    )}
                     {result && <HorizontalIndicator progress={result.progress} />}
                     <DashboardHeaderShadowModule />
-
                     <Title
                       title={t('in-custom-dashboards:customDashboard.customDashboardPresenter.customDashboard')}
                       dynamic={config && config.title}
@@ -132,19 +149,22 @@ export default function CustomDashboardPresenter(props) {
                 {errorSection}
                 {config && (
                   <div className={locals.wrapper}>
-                    <Grid
-                      width={width}
-                      config={config}
-                      onLayoutChange={onLayoutChange}
-                      onEditWidget={onEditWidget}
-                      onRemoveWidget={onRemoveWidget}
-                      onCopyWidget={onCopyWidget}
-                      onDuplicateWidget={onDuplicateWidget}
-                      onZoomWidget={onZoomWidget}
-                      isResizable={editable}
-                      isConfigurable={editable}
-                      isDraggable={editable}
-                    />
+                    <FilterContext.Provider value={topLevelFilters}>
+                      <Grid
+                        width={width}
+                        config={config}
+                        onLayoutChange={onLayoutChange}
+                        onEditWidget={onEditWidget}
+                        onRemoveWidget={onRemoveWidget}
+                        onCopyWidget={onCopyWidget}
+                        onDuplicateWidget={onDuplicateWidget}
+                        onZoomWidget={onZoomWidget}
+                        shouldWidgetRenderOutsideViewport={shouldWidgetRenderOutsideViewport}
+                        isResizable={editable}
+                        isConfigurable={editable}
+                        isDraggable={editable}
+                      />
+                    </FilterContext.Provider>
                   </div>
                 )}
               </Sticky>
@@ -169,6 +189,7 @@ function ButtonLine({ onSaveConfiguration, hasChanges, editable, isSaving, onDis
         onClick={onSaveConfiguration}
         type="button"
         isSaving={isSaving}
+        disabled={playwithEnabled}
       >
         {t('in-custom-dashboards:customDashboard.customDashboardPresenter.saveChange')}
       </SaveButton>
@@ -186,6 +207,7 @@ function SecondaryButtonLine({
   onDeleteCustomDashboard,
   onRenameDashboard,
   onDuplicateDashboard,
+  onPDFDashboardDownload,
   editable,
   onEditAsJson,
   onViewAsJson,
@@ -193,6 +215,7 @@ function SecondaryButtonLine({
 }) {
   return (
     <>
+      {customDashboardsFastQueryModeEnabled && <FastQueryModeToggle />}
       {editable && (
         <Button kind="action" onClick={onAddWidget} icon="lib_openclose_add_circle_outline">
           {t('in-custom-dashboards:customDashboard.customDashboardPresenter.addWidget')}
@@ -200,7 +223,7 @@ function SecondaryButtonLine({
       )}
 
       <MoreMenu kind="secondaryDarker">
-        <MoreMenuButton icon="lib_actions_maximize" onClick={() => setTvModeEnabled(true)}>
+        <MoreMenuButton icon="lib_actions_maximize" disabled={playwithEnabled} onClick={() => setTvModeEnabled(true)}>
           {t('in-custom-dashboards:customDashboard.customDashboardPresenter.tvMode')}
         </MoreMenuButton>
         <MoreMenuSetAsLandingPageButton
@@ -217,7 +240,7 @@ function SecondaryButtonLine({
             {t('in-custom-dashboards:customDashboard.customDashboardPresenter.editAsJson')}
           </MoreMenuButton>
         ) : (
-          <MoreMenuButton icon="lib_views_file" onClick={onViewAsJson}>
+          <MoreMenuButton icon="lib_views_file" disabled={playwithEnabled} onClick={onViewAsJson}>
             {t('in-custom-dashboards:customDashboard.customDashboardPresenter.viewAsJson')}
           </MoreMenuButton>
         )}
@@ -226,16 +249,25 @@ function SecondaryButtonLine({
           successText={t('in-custom-dashboards:customDashboard.customDashboardPresenter.copiedAllWidgets')}
         >
           {copyToClipboardRef => (
-            <MoreMenuButton icon="lib_actions_copy" ref={copyToClipboardRef}>
+            <MoreMenuButton icon="lib_actions_copy" disabled={playwithEnabled} ref={copyToClipboardRef}>
               {t('in-custom-dashboards:customDashboard.customDashboardPresenter.copyAllWidgets')}
             </MoreMenuButton>
           )}
         </CopyToClipboard>
-        <MoreMenuButton icon="lib_group_by" onClick={onDuplicateDashboard}>
+        {customDashboardsExportPdfEntireDashboard && (
+          <MoreMenuButton
+            icon="lib_actions_download"
+            disabled={playwithEnabled}
+            onClick={() => onPDFDashboardDownload(customDashboardId)}
+          >
+            {t('in-custom-dashboards:customDashboard.grid.grid.exportPDF')}
+          </MoreMenuButton>
+        )}
+        <MoreMenuButton icon="lib_group_by" disabled={playwithEnabled} onClick={onDuplicateDashboard}>
           {t('in-custom-dashboards:customDashboard.customDashboardPresenter.duplicate')}
         </MoreMenuButton>
         {editable && (
-          <MoreMenuButton icon="lib_actions_delete" onClick={onDeleteCustomDashboard}>
+          <MoreMenuButton icon="lib_actions_delete" disabled={playwithEnabled} onClick={onDeleteCustomDashboard}>
             {t('in-custom-dashboards:customDashboard.customDashboardPresenter.delete')}
           </MoreMenuButton>
         )}
@@ -254,6 +286,7 @@ function TopLevelButtonLine({ editable, onShare, canCreatePublicCustomDashboards
       icon="lib_actions_share"
       onClick={canCreatePublicCustomDashboards ? onShare : undefined}
       disabled={!canCreatePublicCustomDashboards}
+      className={locals.carbonShare}
     >
       {t('in-custom-dashboards:customDashboard.customDashboardPresenter.share')}
     </DashboardHeaderButton>

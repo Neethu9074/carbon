@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { AdaptiveBaselineData } from '@instana/types';
+import { AdaptiveBaselineData, ThresholdOperator } from '@instana/types';
 
 import {
   DataSeries,
@@ -23,6 +23,7 @@ import { Granularity, TimeConfig } from 'in-types';
 import { ScaleType } from 'in-services/scale';
 
 export const createLineWithAdaptiveBaseline = (
+  thresholdOperator: ThresholdOperator,
   threshold: AdaptiveBaselineData,
   thresholdGranularity: Granularity,
   eventBasedAdaptiveBaseline: DataSeries
@@ -34,6 +35,7 @@ export const createLineWithAdaptiveBaseline = (
       renderAdaptiveBaseline(
         config,
         scale,
+        thresholdOperator,
         threshold,
         eventBasedAdaptiveBaseline,
         thresholdGranularity,
@@ -97,19 +99,20 @@ function calculateFirstBucketInChartStartTime(timeConfig: TimeConfig, granularit
 function renderAdaptiveBaseline(
   config: RenderConfig,
   scale: ScaleType,
+  thresholdOperator: ThresholdOperator,
   baselineData: AdaptiveBaselineData,
   eventBasedAdaptiveBaseline: DataSeries,
   thresholdGranularity: Granularity,
   colors50: AxisColor[],
   colors100: AxisColor[]
 ): void {
-  const { baseline, deviationFactor: sensitivity, operator } = baselineData;
+  const { baseline, deviationFactor: sensitivity } = baselineData;
 
   if ((baseline ?? []).length === 0 && (eventBasedAdaptiveBaseline ?? []).length === 0) {
     return;
   }
 
-  const isGreaterOp = isGreaterOperatorOrUndefined(operator);
+  const isGreaterOp = isGreaterOperatorOrUndefined(thresholdOperator);
   const thresholdInTimeframe: DataSeries = getThresholdInTimeframe(
     eventBasedAdaptiveBaseline,
     baseline as BaselineDataSeries, // need casting for number[]-> [number,number,number]

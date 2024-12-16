@@ -12,7 +12,8 @@ import {
   CatalogUseCase,
   TagCatalog,
   TimeConfig,
-  MetricSource
+  MetricSource,
+  SyntheticCredential
 } from 'in-types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
@@ -28,6 +29,7 @@ const locationUrl = `/api/synthetics/settings/locations`;
 const resultUrl = `/api/synthetics/results`;
 const applicationsListUrl = `/api/application-monitoring/settings/application`;
 const tagCatalogUrl = `/api/synthetics/catalog`;
+const credentialUrl = `/api/synthetics/settings/credentials`;
 
 export function getLocations(): Observable<unknown> {
   return http({
@@ -45,6 +47,16 @@ export function getLocation(locationId: string): Observable<unknown> {
     maxRetries: 3,
     headers: getCsrfHeader(),
     url: locationUrl + '/' + locationId,
+    mapToResultObject: true
+  }).map(response => deepFreeze(response));
+}
+
+export function getDatacenter(locationLabel: string): Observable<unknown> {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: '/api/synthetics/settings/datacenters' + `?filter={locationLabel=${locationLabel}}`,
     mapToResultObject: true
   }).map(response => deepFreeze(response));
 }
@@ -118,8 +130,8 @@ export function getSyntheticTestsAsResult(): Observable<Result<SyntheticTest[]>>
   });
 }
 
-export function getTests(): Observable<unknown> {
-  return http({
+export function getTests(): Observable<Result<SyntheticTest[]>> {
+  return http<SyntheticTest[]>({
     method: 'GET',
     maxRetries: 3,
     url: testsUrl,
@@ -127,8 +139,8 @@ export function getTests(): Observable<unknown> {
   }).map(response => deepFreeze(response));
 }
 
-export function getTest(testId: string): Observable<unknown> {
-  return http({
+export function getTest(testId: string): Observable<Result<SyntheticTest>> {
+  return http<SyntheticTest>({
     method: 'GET',
     maxRetries: 3,
     url: testsUrl + '/' + testId,
@@ -222,3 +234,32 @@ export const getDatacenterLicense = (): Observable<any> => {
     mapToResultObject: true
   }).map(result => deepFreeze(result));
 };
+
+export function createCredential(credentialConfig: SyntheticCredential): Observable<unknown> {
+  return http({
+    method: 'POST',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: credentialUrl,
+    data: credentialConfig
+  }).map(response => deepFreeze(response.body));
+}
+
+export function updateCredential(credentialConfig: SyntheticCredential): Observable<unknown> {
+  return http({
+    method: 'PUT',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${credentialUrl}/${credentialConfig.credentialName}`,
+    data: credentialConfig
+  }).map(response => deepFreeze(response.body));
+}
+
+export function deleteCredential(credentialName: string): Observable<unknown> {
+  return http({
+    method: 'DELETE',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: credentialUrl + '/' + credentialName
+  }).map(response => deepFreeze(response));
+}

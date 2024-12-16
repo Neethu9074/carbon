@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { createRef } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
 import { create, on } from '@instana/observables';
 
@@ -53,6 +53,19 @@ export default connectTo(
       immediatelyOpenContextMenu: false
     };
 
+    constructor() {
+      super();
+
+      this.tooltipRef = createRef();
+      this.lastTooltipRef = null;
+    }
+
+    componentDidUpdate() {
+      if (this.tooltipRef.current) {
+        this.lastTooltipRef = this.tooltipRef.current;
+      }
+    }
+
     componentDidMount() {
       this.setupSubscriptions();
     }
@@ -65,7 +78,14 @@ export default connectTo(
       const { xScale } = this.props;
 
       return (
-        <div className={locals.overlay}>
+        <div
+          className={classNames(
+            {
+              [locals.overlay]: true
+            },
+            'chart-overlay'
+          )}
+        >
           <div
             className={classNames({
               [locals.glassPane]: true,
@@ -113,6 +133,7 @@ export default connectTo(
           {showTooltip && (
             <TooltipLineAndContent
               {...this.props}
+              ref={this.tooltipRef}
               timestamp={nearestTimeInMetrics}
               cursorXPosition={cursorXPosition}
               align={cursorXPosition > xScale.getRangeTo() / 2 ? 'left' : 'right'}
@@ -125,6 +146,12 @@ export default connectTo(
               highlightedTimeframe={localZoomedTimeframe}
               immediatelyOpenContextMenu={immediatelyOpenContextMenu}
               showContextMenu={showContextMenu}
+              tooltipRef={this.lastTooltipRef}
+              isCustomDashboard={this.props.isCustomDashboard}
+              setExportWidgetId={this.props.setExportWidgetId}
+              setTooltipRef={this.props.setTooltipRef}
+              trackCta={this.props.trackCta}
+              setShouldExportWidget={this.props.setShouldExportWidget}
               setShowContextMenu={showContextMenu => this.setState({ showContextMenu })}
             />
           )}

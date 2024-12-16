@@ -8,6 +8,7 @@ const markStorageLocation = '__instanaFormatterType';
 export type FormatterType =
   | 'BYTE_RATE'
   | 'BYTES'
+  | 'SI_BYTES'
   | 'KILO_BYTES'
   | 'LATENCY'
   | 'MEGA_BYTES'
@@ -17,6 +18,7 @@ export type FormatterType =
   | 'MINUTES'
   | 'NUMBER'
   | 'PERCENTAGE'
+  | 'PERCENTAGE_100'
   | 'RATE'
   | 'SECONDS'
   | 'UNDEFINED';
@@ -34,6 +36,7 @@ export type NumberFormatter = NumberFormatterFunction | NumberFormatterObject;
 
 export const BYTE_RATE_FORMATTER_TYPE: FormatterType = 'BYTE_RATE';
 export const BYTES_FORMATTER_TYPE: FormatterType = 'BYTES';
+export const SI_BYTES_FORMATTER_TYPE: FormatterType = 'SI_BYTES';
 export const KILO_BYTES_FORMATTER_TYPE: FormatterType = 'KILO_BYTES';
 export const LATENCY_FORMATTER_TYPE: FormatterType = 'LATENCY';
 export const MEGA_BYTES_FORMATTER_TYPE: FormatterType = 'MEGA_BYTES';
@@ -43,6 +46,7 @@ export const MILLIS_FORMATTER_TYPE: FormatterType = 'MILLIS';
 export const MINUTES_FORMATTER_TYPE: FormatterType = 'MINUTES';
 export const NUMBER_FORMATTER_TYPE: FormatterType = 'NUMBER';
 export const PERCENTAGE_FORMATTER_TYPE: FormatterType = 'PERCENTAGE';
+export const PERCENTAGE_100_FORMATTER_TYPE: FormatterType = 'PERCENTAGE_100';
 export const RATE_FORMATTER_TYPE: FormatterType = 'RATE';
 export const SECONDS_FORMATTER_TYPE: FormatterType = 'SECONDS';
 export const UNDEFINED_FORMATTER_TYPE: FormatterType = 'UNDEFINED';

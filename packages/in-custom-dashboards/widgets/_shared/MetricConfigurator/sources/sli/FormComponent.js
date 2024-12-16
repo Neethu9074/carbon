@@ -11,8 +11,8 @@ import { Stack } from '@instana/components';
 import * as serviceLevelIndicators from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli/serviceLevelIndicators';
 import { recreateSloField } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli/form';
 import { getWebsiteConfigurations as getWebsiteConfigsAsResultObservable } from 'in-websites/api/websites';
+import { getSliConfigurations } from 'in-custom-dashboards/widgets/SloLegacy/sli/api';
 import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
-import { getSliConfigurations } from 'in-custom-dashboards/widgets/Slo/sli/api';
 import SelectorOverlay from 'in-components/SelectorOverlay/SelectorOverlay';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
@@ -34,6 +34,7 @@ export default function FormComponent({
   dataSourceSection,
   labelSection,
   formatterSection,
+  thresholdConfiguration,
   timeShiftConfiguration
 }) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -166,6 +167,7 @@ export default function FormComponent({
           </Sections>
         ))}
       {timeShiftConfiguration}
+      {thresholdConfiguration}
       {labelSection}
     </Stack>
   );

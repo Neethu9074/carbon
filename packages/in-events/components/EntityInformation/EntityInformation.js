@@ -5,9 +5,10 @@
 
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { LoadingSkeleton, Stack, SvgIcon, Tooltip } from '@instana/components';
+import { Link, Typography } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
-import { Link } from '@instana/components';
 
 import {
   isInfraEntityType,
@@ -24,50 +25,70 @@ import {
   useLinkToEndpointDashboard,
   useLinkToServiceDashboard
 } from 'in-applications/navigation/paths';
+import { getSnapshot, getSnapshotOrDefaultOnTimeout } from 'in-stores/snapshot';
+import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
-import { getSnapshot } from 'in-stores/snapshot';
-import connectTo from 'in-hoc/connectTo';
+import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
+import { pendingResult } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
 import locals from './EntityInformation.mless';
 
-export default connectTo(
-  props => {
-    const { snapshot, entityId, entityType, metadata, timeConfig } = props;
+export default function EntityInformation(props) {
+  const { snapshot, entityId, entityType, metadata, timeConfig, onClose, isCveRedirect } = props;
+
+  const determineEntityInformationCall = () => {
     if (snapshot) {
       // if we get a snapshot (1.0 entity data), just use that
-      return {
-        entity: just(snapshot)
-      };
+      return just(snapshot);
     } else if (isInfraEntityType(entityType)) {
       // it is an 1.0 entity but the snapshot is not yet loaded, so load it now
-      return {
-        entity: getSnapshot(entityId, timeConfig).startWith(null)
-      };
+      // Use getSnapshotOrDefaultOnTimeout because if snapshot fails then it times out instead of sending failure result or null directly
+      return getSnapshotOrDefaultOnTimeout(entityId, null, 5000, timeConfig).startWith(pendingResult);
     } else {
-      return createAppDataEntityConnectToMapFromEvent(entityType, entityId, metadata);
+      const appDataEntity = createAppDataEntityConnectToMapFromEvent(entityType, entityId, metadata);
+      return appDataEntity.entity;
     }
-  },
-  function EntityInformation(props) {
-    const { entity, entityType } = props;
-    if (!entity) {
-      return null;
-    }
-    if (isLoading(entity) || hasErrors(entity)) {
-      // This component is used too often within the same view, e.g. trace view with lots of
-      // spans. Our loading indicator is too expensive for Chrome to render more than a few hundred
-      // times. So show no loading indicator instead.
-      return null;
-    }
+  };
 
-    if (isAppDataEntityType(entityType)) {
-      return <LegacyAppDataEntityInformation {...props} />;
-    } else {
-      // !entityType || entityType === 'Entity10'
-      return <InfraEntityInformation {...props} />;
-    }
+  const entity = useObservable(determineEntityInformationCall(), [entityId]);
+
+  if (metadata && metadata.has('infraSmartAlert')) {
+    return <InfraSmartAlertEntityInformation metadata={metadata} />;
   }
-);
+
+  if ((entity && (isLoading(entity) || hasErrors(entity))) || entity === undefined) {
+    return <LoadingSkeleton />;
+  }
+
+  // If our websocket timed out on the call for the entity
+  // Should only occur on infra entities but just in case allowed it for app data entities too
+  if (entity === null) {
+    return <GenericUnidentifiedEntityInformation {...props} />;
+  }
+
+  if (isAppDataEntityType(entityType)) {
+    return <LegacyAppDataEntityInformation {...props} entity={entity} />;
+  } else {
+    // !entityType || entityType === 'Entity10'
+    return <InfraEntityInformation {...props} entity={entity} onClose={onClose} isCveRedirect={isCveRedirect} />;
+  }
+}
+
+function InfraSmartAlertEntityInformation({ metadata }) {
+  // Currently infra smart does not have an unique snapshotId. Hence we are not able to find the triggering entity.
+  // Instead we display the entityName.
+  const entityName = metadata.get('entityName', '');
+
+  return (
+    <EntityInformationPresenter shouldDisplayDefaultLabel>
+      <Typography variant="body-small">
+        {t('in-events:infraSmartAlerts.pseudoAggregatedEntityLabel', { entityName: entityName })}
+      </Typography>
+    </EntityInformationPresenter>
+  );
+}
 
 function InfraEntityInformation({
   entity,
@@ -76,19 +97,28 @@ function InfraEntityInformation({
   kind = 'dark',
   getLabelCallback = label => label,
   pathname,
-  shouldDisplayDefaultLabel = true
+  shouldDisplayDefaultLabel = true,
+  isCveRedirect,
+  onClose
 }) {
+  const hostSnapshot = useObservable(
+    getHostSnapshotId(entity).flatMap(hostId => getSnapshot(hostId, linkTimeConfig)),
+    []
+  );
+  const snapshot = entity?.get('plugin') === 'hostWinService' ? hostSnapshot : undefined;
   return (
     <EntityInformationPresenter shouldDisplayDefaultLabel={shouldDisplayDefaultLabel}>
       <HierarchicalLink
         timeConfig={linkTimeConfig}
-        snapshot={entity}
+        snapshot={snapshot ?? entity}
         className={locals.link}
         pathname={pathname}
         useSnapshotLink={useSnapshotLink}
         kind={kind}
         calculateHierarchy
         getLabel={snapshotLabel => getLabelCallback(snapshotLabel)}
+        isCveRedirect={isCveRedirect}
+        onClose={onClose}
       />
     </EntityInformationPresenter>
   );
@@ -134,6 +164,64 @@ function LegacyAppDataEntityInformation({ entity, entityType, label, linkTimeCon
       </Link>
     </EntityInformationPresenter>
   );
+}
+
+/** Used in cases when a snapshot or entity could not be ascertained
+ * @param {Object} props
+ * @param {*} props.linkTimeConfig - Time config of current page
+ * @param {*} props.entityType - Entity type of triggering entity
+ * @param {*} props.entityId - Entity ID of trigerring entity
+ * @param {*} props.boundaryScope - Possible boundary scope of given entity
+ */
+function GenericUnidentifiedEntityInformation({ linkTimeConfig, entityType, entityId, boundaryScope }) {
+  const { createHref } = useNavigation();
+
+  const entityLabel = t('in-events:unidentifiedEntity');
+
+  if (isAppDataEntityType(entityType)) {
+    const genericEntity = {
+      data: {
+        id: entityId,
+        serviceId: undefined
+      }
+    };
+
+    return (
+      <Stack direction="horizontal" gap="small">
+        <LegacyAppDataEntityInformation
+          entity={genericEntity}
+          entityType={entityType}
+          label={entityLabel}
+          linkTimeConfig={linkTimeConfig}
+          boundaryScope={boundaryScope}
+        />
+        <Tooltip align="rightMiddle" content={t('in-events:unidentifiedEntityTooltip')}>
+          <SvgIcon type="lib_help_error_help_outline" size="s" />
+        </Tooltip>
+      </Stack>
+    );
+  } else {
+    const query = { ...location.query };
+    query[snapshotIdUrlParameter.name] = entityId;
+    const pathname = '/physical/dashboard';
+    const linkToPhysicalDashboard = createHref({
+      ...location,
+      pathname,
+      query,
+      matrix: {}
+    });
+
+    return (
+      <EntityInformationPresenter shouldDisplayDefaultLabel>
+        <Stack direction="horizontal" gap="small">
+          <Link href={linkToPhysicalDashboard}>{entityLabel}</Link>
+          <Tooltip align="rightMiddle" content={t('in-events:unidentifiedEntityTooltip')}>
+            <SvgIcon type="lib_help_error_help_outline" size="s" />
+          </Tooltip>
+        </Stack>
+      </EntityInformationPresenter>
+    );
+  }
 }
 
 function EntityInformationPresenter({ children, shouldDisplayDefaultLabel, label }) {

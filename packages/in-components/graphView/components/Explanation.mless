@@ -1,0 +1,45 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .wrapper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 20rem;
+    padding: 1rem;
+    box-sizing: border-box;
+
+    text-align: center;
+    background: hsla(198, 23%, 23%, 0.75);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+  }
+
+  .header {
+    font-size: 2rem;
+    font-weight: normal;
+    color: #fff;
+    margin: 0.8rem 0;
+  }
+
+  .text {
+    font-size: 0.8125rem;
+    color: #92a5ae;
+  }
+
+  .link {
+    color: #64aade;
+  }
+
+  .lettering {
+    width: 109px;
+    height: 15px;
+  }
+}

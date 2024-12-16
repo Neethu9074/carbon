@@ -6,15 +6,16 @@
 
 import React from 'react';
 
-import { getAbapCentralInstanceDashboard } from 'in-sap/navigation/paths';
-import { getAbapInstanceDashboard } from 'in-sap/navigation/paths';
+import { useAbapInstanceDashboard, useAbapCentralInstanceDashboard } from 'in-sap/navigation/paths';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default function SystemDashboard({ snapshot }) {
   const data = snapshot.get('data');
+  const hrefCentral = useAbapCentralInstanceDashboard(snapshot.get('id'));
+  const href = useAbapInstanceDashboard(snapshot.get('id'));
   if (data.get('name').includes('Central')) {
-    return <RedirectWithHash to$={getAbapCentralInstanceDashboard(snapshot.get('id'))} />;
+    return <RedirectWithHash href={hrefCentral} />;
   } else {
-    return <RedirectWithHash to$={getAbapInstanceDashboard(snapshot.get('id'))} />;
+    return <RedirectWithHash href={href} />;
   }
 }

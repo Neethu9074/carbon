@@ -68,9 +68,9 @@ function SmartAlertConfigDialogWithQueryValidation({
   // because only that part can ever be invalid
   const { rule, tagFilterExpression, threshold } = alertConfigWithFormModel;
   const { isQueryValid, getTagCatalog } = useMemo(() => {
-    const thresholdType = threshold.type;
+    const thresholdType = threshold.warningThreshold.type;
     return getQueryBuilderForAlertType(rule.alertType, thresholdType);
-  }, [rule.alertType, threshold.type]);
+  }, [rule.alertType, threshold]);
 
   const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isQueryValid);
 
@@ -90,7 +90,8 @@ function SmartAlertConfigDialogWithQueryValidation({
     alertConfigWithFormModel,
     blueprintConfig,
     enrichedTagFilterFormModel,
-    numeratorTagFilterFormModel
+    numeratorTagFilterFormModel,
+    editMode
   });
 
   const { step, setStep, simpleModeStep, backOrCancel, handleSubmit } = useSimpleModePageNavigation({

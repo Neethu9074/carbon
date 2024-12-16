@@ -6,10 +6,9 @@
 import React, { useRef, useState } from 'react';
 import classNames from 'classnames';
 
-import { HorizontalIndicator, SvgIcon } from '@instana/components';
+import { HorizontalIndicator, SvgIcon, Button } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/legacy';
 
 import { PresentedLaneProps } from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
@@ -193,37 +192,43 @@ function MarkersLanePresenter<EventType extends MarkerLaneEvent>({
         })}
       >
         {!errorMessage &&
-          events.map(eventData => {
-            const showIconForCluster = (eventData?.count ?? 0) > 1;
-            const xPos = getClampedXPos(eventData.timestamp);
-            return (
-              <Tooltip
-                align={getTooltipAlignmentForChartContentPosition(chartContentPosition)}
-                key={`${eventData.id ?? eventData.timestamp}`}
-                content={
-                  TooltipContent ? (
-                    <div>
-                      <TooltipContent {...eventData} />
-                    </div>
-                  ) : null
-                }
-              >
-                <LaneItem
-                  xPos={xPos}
-                  onHover={s => {
-                    setHoveredEventData(s);
-                    trackMarkerHoverEvent?.(eventData);
-                  }}
-                  showIconForCluster={showIconForCluster}
-                  chartContentPosition={chartContentPosition}
-                  isClustered={isClustered}
-                  eventData={eventData}
-                  xScale={xScale}
-                  {...remainingProps}
-                />
-              </Tooltip>
-            );
-          })}
+          // For tabbing to be correct for the marker lanes we need to initially
+          // sort by the timestamp
+          events
+            .slice()
+            .sort((a, b) => a.timestamp - b.timestamp)
+            .map(eventData => {
+              const showIconForCluster = (eventData?.count ?? 0) > 1;
+              const xPos = getClampedXPos(eventData.timestamp);
+              return (
+                <Tooltip
+                  align={getTooltipAlignmentForChartContentPosition(chartContentPosition)}
+                  legacy
+                  key={`${eventData.id ?? eventData.timestamp}`}
+                  content={
+                    TooltipContent ? (
+                      <div>
+                        <TooltipContent {...eventData} />
+                      </div>
+                    ) : null
+                  }
+                >
+                  <LaneItem
+                    xPos={xPos}
+                    onHover={s => {
+                      setHoveredEventData(s);
+                      trackMarkerHoverEvent?.(eventData);
+                    }}
+                    showIconForCluster={showIconForCluster}
+                    chartContentPosition={chartContentPosition}
+                    isClustered={isClustered}
+                    eventData={eventData}
+                    xScale={xScale}
+                    {...remainingProps}
+                  />
+                </Tooltip>
+              );
+            })}
         {!errorMessage && (alwaysDisplayLabels || laneLabelsVisible) && (
           <div className={locals.laneLabel} style={{ [labelAlignment!]: 0 }}>
             <div

@@ -7,30 +7,35 @@
 import GoogleComputeEngine from 'in-plg/pages/onboarding/AgentList/GoogleCloudPlatform/GoogleComputeEngine';
 import LinuxGoogleCloudComputing from 'in-plg/pages/onboarding/AgentList/Linux/LinuxGoogleCloudComputing';
 import Windows64BitUnattended from 'in-plg/pages/onboarding/AgentList/Windows/Windows64BitUnattended';
+import AzureContainerApps from 'in-plg/pages/onboarding/AgentList/Azure/ContainerApps/ContainerApps';
 import LinuxElasticComputing from 'in-plg/pages/onboarding/AgentList/Linux/LinuxElasticComputing';
 import GoogleCloudRun from 'in-plg/pages/onboarding/AgentList/GoogleCloudPlatform/GoogleCloudRun';
 import KubernetesOperator from 'in-plg/pages/onboarding/AgentList/Kubernetes/KubernetesOperator';
 import OpenshiftOperator from 'in-plg/pages/onboarding/AgentList/Openshift/OpenshiftOperator';
+import AzureAppService from 'in-plg/pages/onboarding/AgentList/Azure/AppService/AppService';
 import WindowsZipArchive from 'in-plg/pages/onboarding/AgentList/Windows/WindowsZipArchive';
+import WindowsAirgapped from 'in-plg/pages/onboarding/AgentList/Windows/WindowsAirgapped';
 import InstanaAwsSensor from 'in-plg/pages/onboarding/AgentList/Aws/InstanaAwsSensor';
 import LinuxAutomatic from 'in-plg/pages/onboarding/AgentList/Linux/LinuxAutomatic';
+import LinuxAirgapped from 'in-plg/pages/onboarding/AgentList/Linux/LinuxAirgapped';
 import AwsFargate from 'in-plg/pages/onboarding/AgentList/Aws/Fargate/AwsFargate';
 import Windows64Bit from 'in-plg/pages/onboarding/AgentList/Windows/Windows64Bit';
 import LinuxPackages from 'in-plg/pages/onboarding/AgentList/Linux/LinuxPackages';
 import Kubernetes from 'in-plg/pages/onboarding/AgentList/Kubernetes/Kubernetes';
+import UnixAirgapped from 'in-plg/pages/onboarding/AgentList/Unix/UnixAirgapped';
 import AwsEc2Windows from 'in-plg/pages/onboarding/AgentList/Aws/AwsEc2Windows';
 import LinuxArchive from 'in-plg/pages/onboarding/AgentList/Linux/LinuxArchive';
 import VmwareTanzu from 'in-plg/pages/onboarding/AgentList/Vmware/VmwareTanzu';
 import AwsLambda from 'in-plg/pages/onboarding/AgentList/Aws/Lambda/AwsLambda';
 import Openshift from 'in-plg/pages/onboarding/AgentList/Openshift/Openshift';
 import WindowsEC2 from 'in-plg/pages/onboarding/AgentList/Windows/WindowsEC2';
+import IBMiArchive from 'in-plg/pages/onboarding/AgentList/IBMi/IBMiArchive';
 import AwsEc2Linux from 'in-plg/pages/onboarding/AgentList/Aws/AwsEc2Linux';
 import CfAndBosh from 'in-plg/pages/onboarding/AgentList/Bosh/CfAndBosh';
 import Docker from 'in-plg/pages/onboarding/AgentList/Docker/Docker';
-import AwsEks from 'in-plg/pages/onboarding/AgentList/Aws/AwsEks';
-import Azure from 'in-plg/pages/onboarding/AgentList/Azure/Azure';
 import MacOs from 'in-plg/pages/onboarding/AgentList/Mac/MacOs';
 import Unix from 'in-plg/pages/onboarding/AgentList/Unix/Unix';
+import MacOsAirgapped from '../AgentList/Mac/MacOsAirgapped';
 import { t } from 'in-i18n';
 
 export function getEntriesForFreeTrial() {
@@ -41,7 +46,6 @@ export function getEntriesForFreeTrial() {
       pageName: 'Kubernetes > Helm Chart', // tracking data
       label: t('in-waiting-for-deployment:content.kubernetes'),
       icon: 'lib_kubernetes',
-      iconColor: '#3F6EDE',
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.helmChart'),
@@ -55,7 +59,6 @@ export function getEntriesForFreeTrial() {
       pageName: 'Kubernetes > Operator', // tracking data
       label: t('in-waiting-for-deployment:content.kubernetes'),
       icon: 'lib_kubernetes',
-      iconColor: '#3F6EDE',
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.operator'),
@@ -69,7 +72,6 @@ export function getEntriesForFreeTrial() {
       pageName: 'Kubernetes > Yaml', // tracking data
       label: t('in-waiting-for-deployment:content.kubernetes'),
       icon: 'lib_kubernetes',
-      iconColor: '#3F6EDE',
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.yaml'),
@@ -83,26 +85,24 @@ export function getEntriesForFreeTrial() {
       pageName: 'Kubernetes > Azure Kubernetes Service (AKS)', // tracking data
       label: t('in-waiting-for-deployment:content.kubernetes'),
       icon: 'lib_kubernetes',
-      iconColor: '#3F6EDE',
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.azureKubernetesServiceAks'),
         keyWords: 'azurekubernetesserviceaksk8s',
-        Content: Kubernetes
+        Content: KubernetesOperator
       }
     },
     {
       id: 'k8_eks',
-      title: 'Kubernetes - AWS Elastic Kubernetes Service (EKS)',
-      pageName: 'Kubernetes > AWS Elastic Kubernetes Service (EKS)', // tracking data
+      title: 'Amazon Web Services - Elastic Kubernetes Service (EKS)',
+      pageName: 'Kubernetes > Elastic Kubernetes Service (EKS)', // tracking data
       label: t('in-waiting-for-deployment:content.kubernetes'),
       icon: 'lib_kubernetes',
-      iconColor: '#3F6EDE',
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.awsElasticKubernetesServiceEks'),
         keyWords: 'awselastickubernetesserviceeksk8s',
-        Content: Kubernetes
+        Content: KubernetesOperator
       }
     },
     {
@@ -111,7 +111,6 @@ export function getEntriesForFreeTrial() {
       pageName: 'Openshift > Operator', // tracking data
       label: t('in-waiting-for-deployment:content.openShift'),
       icon: 'lib_openshift',
-      iconColor: '#DA2430',
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.operator'),
@@ -125,7 +124,6 @@ export function getEntriesForFreeTrial() {
       pageName: 'Openshift > Helm Chart', // tracking data
       label: t('in-waiting-for-deployment:content.openShift'),
       icon: 'lib_openshift',
-      iconColor: '#DA2430',
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.helmChart'),
@@ -139,7 +137,6 @@ export function getEntriesForFreeTrial() {
       pageName: 'Openshift > YAML', // tracking data
       label: t('in-waiting-for-deployment:content.openShift'),
       icon: 'lib_openshift',
-      iconColor: '#DA2430',
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.yaml'),
@@ -153,7 +150,6 @@ export function getEntriesForFreeTrial() {
       pageName: 'Docker', // tracking data
       label: t('in-waiting-for-deployment:content.docker'),
       icon: 'lib_container_docker',
-      iconColor: '#2D6DD0',
       category: t('in-waiting-for-deployment:content.platform'),
       keyWords: 'dockercontainer',
       Content: Docker
@@ -195,6 +191,19 @@ export function getEntriesForFreeTrial() {
         label: t('in-waiting-for-deployment:content.archiveTarGz'),
         keyWords: 'linuxmanualtarball',
         Content: LinuxArchive
+      }
+    },
+    {
+      id: 'ibmi_archive_tar',
+      title: 'IBM i - Archive (tar.gz)',
+      pageName: 'IBMi > Archive (tar.gz)', // tracking data
+      label: t('in-plg:agentDetails.ibmi.ibmi'),
+      icon: 'lib_infra_ibmIOs',
+      category: t('in-plg:agentDetails.ibmi.os'),
+      subTechnology: {
+        label: t('in-plg:agentDetails.ibmi.archiveTarGz'),
+        keyWords: 'ibmimanualtarball',
+        Content: IBMiArchive
       }
     },
     {
@@ -286,7 +295,7 @@ export function getEntriesForFreeTrial() {
       subTechnology: {
         label: t('in-waiting-for-deployment:content.elasticContainerServiceForKubernetesEks'),
         keyWords: 'elasticcontainerkubernetesk8s',
-        Content: AwsEks
+        Content: KubernetesOperator
       }
     },
     {
@@ -323,13 +332,40 @@ export function getEntriesForFreeTrial() {
       pageName: 'Microsoft Azure > Azure Kubernetes Service (AKS)', // tracking data
       label: t('in-waiting-for-deployment:content.azure'),
       icon: 'lib_azure',
-      iconColor: '#3178CD',
       fullLabel: t('in-waiting-for-deployment:content.microsoftAzure'),
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.azureKubernetesServiceAks'),
         keyWords: 'azurekubernetesk8s',
-        Content: Azure
+        Content: KubernetesOperator
+      }
+    },
+    {
+      id: 'azure_aca',
+      title: 'Microsoft Azure - Azure Container Apps',
+      pageName: 'Microsoft Azure > Azure Container Apps', // tracking data
+      label: t('in-waiting-for-deployment:content.azure'),
+      icon: 'lib_azure',
+      fullLabel: t('in-waiting-for-deployment:content.microsoftAzure'),
+      category: t('in-waiting-for-deployment:content.platform'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.azureContainerApps'),
+        keyWords: 'azurecontainerapps',
+        Content: AzureContainerApps
+      }
+    },
+    {
+      id: 'azure_app_service',
+      title: 'Microsoft Azure - Azure App Service',
+      pageName: 'Microsoft Azure > Azure App Service', // tracking data
+      label: t('in-waiting-for-deployment:content.azure'),
+      icon: 'lib_azure',
+      fullLabel: t('in-waiting-for-deployment:content.microsoftAzure'),
+      category: t('in-waiting-for-deployment:content.platform'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.azureAppService'),
+        keyWords: 'azureappservice',
+        Content: AzureAppService
       }
     },
     {
@@ -446,6 +482,59 @@ export function getEntriesForFreeTrial() {
         label: t('in-waiting-for-deployment:content.elasticComputingEc2Windows64Bit'),
         keyWords: 'elasticcomputeec2windows',
         Content: WindowsEC2
+      }
+    },
+    {
+      id: 'windows_airgapped',
+      title: 'Windows - Air-gapped (Installer, Archive - 32bit, 64bit)',
+      pageName: 'Windows > Air-gapped (Installer, Archive - 32bit, 64bit)', // tracking data
+      label: t('in-waiting-for-deployment:content.windows'),
+      icon: 'lib_windows',
+      category: t('in-waiting-for-deployment:content.os'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.windowsAirgapped'),
+        keyWords: 'windowsairgapped',
+        Content: WindowsAirgapped
+      }
+    },
+    {
+      id: 'linux_airgapped',
+      title: 'Linux - Air-gapped (Archive, DEB, RPM)',
+      pageName: 'Linux > Air-gapped (Archive, DEB, RPM)', // tracking data
+      label: t('in-waiting-for-deployment:content.linux'),
+      icon: 'lib_linux',
+      category: t('in-waiting-for-deployment:content.os'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.linuxAirgapped'),
+        keyWords: 'linuxairgapped',
+        Content: LinuxAirgapped
+      }
+    },
+    {
+      id: 'unix_airgapped',
+      title: 'Unix - Air-gapped (Archive)',
+      pageName: 'Unix > Air-gapped (Archive)', // tracking data
+      label: t('in-waiting-for-deployment:content.unix'),
+      icon: 'lib_unix',
+      category: t('in-waiting-for-deployment:content.os'),
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.unixAirgapped'),
+        keyWords: 'unixairgapped',
+        Content: UnixAirgapped
+      }
+    },
+    {
+      id: 'macos_airgapped',
+      title: 'macOs - Air-gapped (Archive)',
+      pageName: 'macOs > Air-gapped (Archive)', // tracking data
+      label: t('in-waiting-for-deployment:content.macOs'),
+      category: t('in-waiting-for-deployment:content.os'),
+      keyWords: 'macosxairgapped',
+      icon: 'lib_apple',
+      subTechnology: {
+        label: t('in-waiting-for-deployment:content.macAirgapped'),
+        keyWords: 'macosxairgapped',
+        Content: MacOsAirgapped
       }
     }
   ];

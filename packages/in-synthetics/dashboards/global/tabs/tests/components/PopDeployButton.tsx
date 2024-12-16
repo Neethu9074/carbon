@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import DeployTabSelection from 'in-synthetics/createLocation/steps/DeployTabSelection';

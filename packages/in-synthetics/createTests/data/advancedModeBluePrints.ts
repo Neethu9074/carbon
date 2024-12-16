@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2023
  */
 
-import { syntheticCertificateCheckEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export interface AdvancedBluePrint {
@@ -13,7 +12,6 @@ export interface AdvancedBluePrint {
   label?: string;
   description: { headline: string; text: string };
   testType?: string;
-  isBeta?: boolean;
 }
 
 const apiBlueprint: AdvancedBluePrint = {
@@ -45,15 +43,11 @@ const certificateCheckBlueprint: AdvancedBluePrint = {
     headline: t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.certificateCheckHeadline'),
     text: t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.certificateCheckText')
   },
-  testType: '',
-  isBeta: syntheticCertificateCheckEnabled
+  testType: ''
 };
 
 const advancedBluePrintConfig: readonly Readonly<AdvancedBluePrint>[] = Object.freeze([]);
 
-export const getAdvancedBlueprintConfig = (isCertificateCheckEnabled: boolean) => {
-  if (isCertificateCheckEnabled) {
-    return advancedBluePrintConfig.concat(apiBlueprint, browserBlueprint, certificateCheckBlueprint);
-  }
-  return advancedBluePrintConfig.concat(apiBlueprint, browserBlueprint);
+export const getAdvancedBlueprintConfig = () => {
+  return advancedBluePrintConfig.concat(apiBlueprint, browserBlueprint, certificateCheckBlueprint);
 };

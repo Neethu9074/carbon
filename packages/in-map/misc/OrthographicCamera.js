@@ -55,7 +55,7 @@ export default class OrthographicCameraWrapper extends Subscriber {
     camera.updateProjectionMatrix();
 
     // sets INVERSE to camera.matrixWorld^-1
-    INVERSE.getInverse(camera.matrixWorld);
+    INVERSE.copy(camera.matrixWorldInverse);
 
     // sets the projection matrix
     camera.projection.multiplyMatrices(camProjectionMat, INVERSE);

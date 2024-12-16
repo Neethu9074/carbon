@@ -6,8 +6,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Stack, Typography, KeyValue } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Stack, Typography, KeyValue, RadioButton, IconButton } from '@instana/components';
 
 import { getPlatformArchitectures, supportViewData } from 'in-plg/pages/onboarding/AgentList/Unix/Data';
 import { DropDown, getAgentDownloadURL } from 'in-plg/pages/onboarding/content/ContentComponents';
@@ -15,7 +14,6 @@ import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/L
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
 import SupportViewSection from 'in-plg/pages/onboarding/Layout/SupportViewSection';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import { t } from 'in-i18n';
 
@@ -45,14 +43,12 @@ export default function Unix({
           options={getPlatformArchitectureValue.map(option => option.label)}
           onChange={setSelectedPlatform}
         />
-        <Button
+        <IconButton
           href={getAgentDownloadURL(tenant, tenantUnit, agentKey, downloadKey, platformArch.key, butlerDomain)}
-          icon="lib_actions_download"
-          iconSize="s"
+          type="lib_actions_download"
+          iconSize="xs"
           kind="action"
-        >
-          {''}
-        </Button>
+        />
       </Stack>
     );
   }
@@ -60,19 +56,17 @@ export default function Unix({
   function getInstallationMethod() {
     return (
       <Stack direction="horizontal">
-        <CheckboxFancy
+        <RadioButton
           label={agentModeOptions[0].label}
           checked={agentMode === agentModeOptions[0].key}
           onChange={() => setAgentMode(agentModeOptions[0].key)}
           size="default"
-          asRadioButton
         />
-        <CheckboxFancy
+        <RadioButton
           label={agentModeOptions[1].label}
           checked={agentMode === agentModeOptions[1].key}
           onChange={() => setAgentMode(agentModeOptions[1].key)}
           size="default"
-          asRadioButton
         />
       </Stack>
     );

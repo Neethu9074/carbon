@@ -1,6 +1,7 @@
 {
   "logs": "Protokolle",
   "sum": "Summe",
+  "count": "count",
   "bar": "Leiste",
   "logsOverTime": "Protokolle im Laufe der Zeit",
   "logsOverTime_ERROR": "Fehler",
@@ -53,5 +54,31 @@
   "process": "Prozess",
   "host": "Host",
   "fileOnHost": "ein",
-  "file": "Datei"
+  "file": "Datei",
+  "logExpiration": "Beibehalten bis",
+  "stacktraceLogMessage": "Stack-Trace",
+  "logTraceTitle": "Stack-Trace",
+  "stackTraceHeader": "Stacktrace-Meldung",
+  "dashboard": {
+    "summary": "Zusammenfassung",
+    "smartAlerts": "Smart Alerts",
+    "deleteLogs": "Protokolle löschen",
+    "configuration": "Konfiguration",
+    "logVolume": {
+      "logVolumeTitle": "Logvolumen des aktuellen Monats",
+      "gb": "GB",
+      "logVolumeIcon": "Zum Log-Volumen gehen"
+    },
+    "retentionIcon": "Aufbewahrungszeitraum ändern",
+    "noData": "Keine Daten verfügbar",
+    "analyzeLogs": "Protokolle analysieren",
+    "configurationPage": {
+      "logVolume": "Protokolldatenvolumen",
+      "logVolumeDescription": "Zeigen Sie das Protokollvolumen für bis zu 12 Monate an und gruppieren Sie bei Bedarf nach Infrastruktur-Tags.",
+      "logIntegrations": "Protokoll-Integrationen",
+      "logIntegrationsDescription": "Verbinden Sie Ihre Protokollverwaltungslösungen und konfigurieren Sie sie entsprechend Ihren Anforderungen.",
+      "retentionPeriod": "Aufbewahrungszeitraum",
+      "retentionPeriodDescription": "Die Änderung des Aufbewahrungszeitraums wirkt sich auf den Zeitraum aus, in dem Protokolle aufbewahrt werden und in Anwendungen, Dashboards und Analysen verfügbar sind, und hat Auswirkungen auf Kosten und Abrechnung."
+    }
+  }
 }

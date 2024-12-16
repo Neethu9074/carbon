@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { DescriptionList, DescriptionItem } from '@instana/components';
+
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import useMetricIds from 'in-infrastructure/hooks/useMetricIds';
 import { emptyList } from 'in-services/fixedImmutables';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -16,7 +17,7 @@ export default function Info({ snapshot }) {
   const data = snapshot.get('data');
 
   const timeConfig = useTimeConfig();
-  const metricIds = useMetricIds({ snapshotId: snapshot.get('id'), timeConfig: timeConfig })
+  const metricIds = useMetricIds({ snapshotId: snapshot.get('id'), timeConfig: timeConfig });
 
   const counters = countMetrics(metricIds, snapshot, 'metrics.counters');
   const gauges = countMetrics(metricIds, snapshot, 'metrics.gauges');

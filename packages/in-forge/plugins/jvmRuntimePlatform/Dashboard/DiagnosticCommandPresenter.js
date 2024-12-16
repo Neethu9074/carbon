@@ -21,6 +21,7 @@ export default function DiagnosticCommandPresenter(props) {
           refSetter={refSetter}
           kind="secondary"
           className={locals.button}
+          size="normal"
         >
           Get diagnostic info
         </DropdownButton>

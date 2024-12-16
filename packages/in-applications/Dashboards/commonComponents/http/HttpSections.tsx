@@ -27,6 +27,7 @@ import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHr
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { createChartedMetric } from 'in-analyze/navigation/paths';
+import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { ChartedMetricsConfig } from 'in-components/Chart/types';
 import { perSecondDetailed } from 'in-stores/metric/formatters';
 import { timeShift, carbonAlert } from 'in-themes/chartColors';
@@ -50,17 +51,6 @@ interface HttpSectionsProps {
   timeConfig: TimeConfig;
   timeShiftConfig?: TimeShift;
   timeShiftMetric?: string;
-}
-
-interface MetricConfigProps {
-  aggregation: AggregationType;
-  granularity: number;
-  label: string;
-  metric: string;
-  source: string;
-  tagFilters: (TagFilter | { name: string; operator: TagFilterOperator })[];
-  timeConfig: TimeConfig;
-  timeShift: number;
 }
 
 export default function HttpSections({
@@ -188,7 +178,7 @@ export default function HttpSections({
     });
   }
 
-  let metricConfigs: MetricConfigProps[];
+  let metricConfigs: Metric[];
   let renderer;
   let colors;
   if (timeShiftConfig?.offset) {
@@ -197,7 +187,8 @@ export default function HttpSections({
       metric: timeShiftChartMetric.metric,
       label: timeShiftChartMetric.label,
       ...timeShiftChartMetric.config
-    };
+    } as Metric;
+
     metricConfigs = [
       {
         ...timeShiftMetricConfig,
@@ -207,7 +198,7 @@ export default function HttpSections({
       {
         ...timeShiftMetricConfig
       }
-    ];
+    ] as Metric[];
     colors = [timeShift, timeShiftChartMetric.color];
     renderer = line.id;
   } else {
@@ -215,7 +206,7 @@ export default function HttpSections({
       metric: m.metric,
       label: m.label,
       ...m.config
-    }));
+    })) as Metric[];
     colors = chartMetrics.map(m => m.color);
     renderer = stackedBar.id;
   }
@@ -316,11 +307,7 @@ export default function HttpSections({
   );
 }
 
-function selectedMetricsToFormModel(
-  renderedMetrics: string[],
-  metricConfigs: MetricConfigProps[],
-  timeShiftConfig?: TimeShift
-) {
+function selectedMetricsToFormModel(renderedMetrics: string[], metricConfigs: Metric[], timeShiftConfig?: TimeShift) {
   if (timeShiftConfig?.offset) {
     if (metricConfigs[0].metric === 'calls') {
       return [tagFilter(TAG_CALL_HTTP_STATUS, IS_EMPTY)];

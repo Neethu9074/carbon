@@ -1,0 +1,16 @@
+/*
+ * (c) Copyright IBM Corp. 2024
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .consumptionOverview {
+    th,
+    td {
+      padding: 0 0.9rem;
+    }
+    section {
+      display: none;
+    }
+  }
+}

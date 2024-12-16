@@ -1,9 +1,17 @@
 {
   "components": {
+    "uiShell": {
+      "mainNavigation": "Hauptnavigation"
+    },
     "list": {
       "loadMore": "Mehr laden",
+      "expand": "Einblenden",
+      "collapse": "Ausblenden",
       "toggleExtraContent": "Zusätzlichen Inhalt ein-/ausschalten",
       "initiateDefaultAction": "Standardaktion einleiten"
+    },
+    "link": {
+      "opensInNewTab": "(wird in neuer Registerkarte geöffnet)"
     },
     "table": {
       "tableErrorRows": {
@@ -11,13 +19,43 @@
       },
       "tableLoadMoreRow": {
         "loadMore": "Mehr laden"
-      }
+      },
+      "dataTable": "Datentabelle",
+      "expandHeader": "Zeile einblenden",
+      "expandRow": "Zeile erweitern umschalten",
+      "select": "Zeile auswählen",
+      "selectedRow": "AusgewählteZeile"
+    },
+    "tableSkeleton": {
+      "sampleTable": "Beispieltabelle"
     },
     "code": {
       "copy": "Copy",
       "copied": "Kopiert!",
       "showMore": "Erweitern",
-      "showLess": "Reduzieren"
+      "showLess": "Reduzieren",
+      "copytoboard": "In Zwischenablage kopieren"
+    },
+    "menu": {
+      "sideNavigation": "Seitennavigation"
+    },
+    "dropDown": {
+      "selectOption": "Option auswählen"
+    },
+    "tabsNavigation": {
+      "pageNavigation": "Seitennavigation"
+    },
+    "plg": {
+      "dashboardTable": {
+        "dataTableToolbar": "Symbolleiste für Datentabelle"
+      },
+      "tableTabs": {
+        "listOfTabs": "Liste der Registerkarten"
+      }
+    },
+    "pill": {
+      "privatePreview": "Vorschau",
+      "publicPreview": "Vorschau"
     }
   },
   "formatDate": {
@@ -49,14 +87,17 @@
   "forms": {
     "actions": {
       "save": "Speichern",
+      "saveIntegration": "Speichern und aktivieren",
       "cancel": "Abbrechen",
       "create": "Erstellen",
       "delete": "Löschen",
       "close": "Schließen",
-      "submit": "Übergeben"
+      "submit": "Übergeben",
+      "previous": "Zurück"
     },
     "states": {
-      "saving": "Speichervorgang läuft..."
+      "saving": "Speichervorgang läuft...",
+      "loading": "Wird geladen..."
     }
   },
   "language_en-US": "Englisch",
@@ -82,6 +123,7 @@
   "aggregation_MAX": "Max.",
   "aggregation_DISTINCT_COUNT": "eindeutige Anzahl",
   "aggregation_SUM": "Summe",
+  "aggregation_INCREASE": "erhöhen",
   "aggregation_DISTRIBUTION": "Verteilung",
   "aggregation_PER_SECOND": "pro Sekunde"
 }

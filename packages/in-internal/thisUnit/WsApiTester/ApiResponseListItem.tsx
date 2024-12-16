@@ -6,8 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { ColumnizedContent, ColumnizedDefinition, KeyValue, Li, Spacer } from '@instana/components';
-import { Toggle } from '@instana/legacy';
+import { ColumnizedContent, ColumnizedDefinition, KeyValue, Li, Spacer, Toggle } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import { ApiTestResponse } from 'in-internal/thisUnit/WsApiTester/ApiResponseList';
@@ -60,7 +59,7 @@ export default function ApiResponseListItem(props: Props) {
           <HorizontalFlexWrapper>
             <Label className={locals.label}>{t('in-internal:thisUnit.wsApiTester.prettyPrintButtonLabel')}</Label>
             <Spacer horizontal="xxsmall" />
-            <Toggle checked={prettyPrint} onChange={e => setPrettyPrint(e.target.checked)} />
+            <Toggle checked={prettyPrint} onToggle={e => setPrettyPrint(e)} />
           </HorizontalFlexWrapper>
         </div>
       </header>

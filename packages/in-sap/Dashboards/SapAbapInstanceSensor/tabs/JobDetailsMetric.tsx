@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
@@ -14,12 +14,16 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { number, minutes } from 'in-services/formatters/number';
-import Table from 'in-sdk/components/dashboard/Table';
+import { statusMap } from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/JobStatus';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Table from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Table';
+import Columize from 'in-sdk/components/dashboard/Columize';
+import { minutes } from 'in-services/formatters/number';
+import ComboBox from 'in-components/ComboBox/ComboBox';
 import { shorten } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-import locals from './RawTableFormat.mless';
+import locals from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ComboBox.mless';
 
 interface JobDetailsRow {
   key: string;
@@ -38,10 +42,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: JobDetailsRow) {
-        return row.jobDetails.get('JOBNAME');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.jobDetails.get('JOBNAME') as any, 64);
       }
     }
   },
@@ -51,9 +52,6 @@ const cols = [
     typeArgs: {
       getValue(row: JobDetailsRow) {
         return row.jobDetails.get('JOBCOUNT');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
       }
     }
   },
@@ -63,9 +61,6 @@ const cols = [
     typeArgs: {
       getValue(row: JobDetailsRow) {
         return row.jobDetails.get('JOBCLASS');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
       }
     }
   },
@@ -75,9 +70,6 @@ const cols = [
     typeArgs: {
       getValue(row: JobDetailsRow) {
         return row.jobDetails.get('STATUS');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
       }
     }
   },
@@ -87,9 +79,6 @@ const cols = [
     typeArgs: {
       getValue(row: JobDetailsRow) {
         return row.jobDetails.get('SDLSTRTDT');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
       }
     }
   },
@@ -99,37 +88,18 @@ const cols = [
     typeArgs: {
       getValue(row: JobDetailsRow) {
         return row.jobDetails.get('SDLSTRTTM');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
       }
     }
   },
   {
-    title: t('in-sap:dashboards.prdHours'),
+    title: t('in-sap:dashboards.jobDuration'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row: JobDetailsRow) {
         return row.snapshotId;
       },
       getMetricName(row: JobDetailsRow) {
-        return `jobDetails.${row.key}.PRDHOURS`;
-      },
-      getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-sap:dashboards.prdMins'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: JobDetailsRow) {
-        return row.snapshotId;
-      },
-      getMetricName(row: JobDetailsRow) {
-        return `jobDetails.${row.key}.PRDMINS`;
+        return `jobDetails.${row.key}.jobDuration`;
       },
       getContent: minutes.compact,
       getTimeWindowAggregation() {
@@ -141,6 +111,20 @@ const cols = [
 
 export default function JobDetailsMetrics({ snapshotId, timeConfig }: JobDetailsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'jobDetails'), [snapshotId]);
+  // @ts-expect-error Module needs to be translated to TS
+  const [{ status }, setPhase] = useState(statusMap);
+  const rightHeader = (
+    <ComboBox
+      placeholder={t('in-sap:dashboards.status')}
+      isSearchable={false}
+      value={status}
+      className={locals.filter}
+      // @ts-expect-error Module needs to be translated to TS
+      onChange={t => setPhase({ status: t ? t.value : null })}
+      options={statusMap}
+    />
+  );
+
   if (!data) {
     return null;
   }
@@ -156,31 +140,33 @@ export default function JobDetailsMetrics({ snapshotId, timeConfig }: JobDetails
         timeConfig,
         jobDetails
       };
+    })
+    .filter(function (rows: JobDetailsRow) {
+      if (status == null) {
+        return rows;
+      } else {
+        return rows != null && rows.jobDetails.get('STATUS') === status;
+      }
     });
 
   function getDetails(row: JobDetailsRow) {
     return (
-      <div>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            formatter: number.compact,
-            metrics: [`jobDetails.${row.key}.PRDHOURS`],
-            labels: [t('in-sap:dashboards.prdHours')],
-            type: 'line'
-          }}
-          y2={{
-            min: 0,
-            formatter: minutes.detailed,
-            metrics: [`jobDetails.${row.key}.PRDMINS`],
-            labels: [t('in-sap:dashboards.prdMins')],
-            type: 'line'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </div>
+      <Columize>
+        <DashboardSection>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: minutes.compact,
+              metrics: [`jobDetails.${row.key}.jobDuration`],
+              labels: [t('in-sap:dashboards.jobDuration')],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
     );
   }
   return (
@@ -189,13 +175,10 @@ export default function JobDetailsMetrics({ snapshotId, timeConfig }: JobDetails
       cardTitle={t('in-sap:dashboards.jobsInformation')}
       cols={cols}
       rows={rows}
-      initialSortColumn={1}
-      initialSortDirection="asc"
+      initialSortColumn={0}
+      initialSortDirection="desc"
       getRowDetails={getDetails}
+      rightHeader={rightHeader}
     />
   );
-}
-
-function Args({ args }: { args: any }) {
-  return <code className={locals.statement}>{args}</code>;
 }

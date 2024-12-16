@@ -10,10 +10,9 @@ import { TimeConfig } from '@instana/types';
 
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import Catalog from 'in-forge/plugins/ibmApiConnect/Dashboard/CatalogTables';
-//@ts-expect-error
-import MetricValue from 'in-components/MetricValue';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
 import { number } from 'in-services/formatters/number';
+import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 
 interface IbmApiConnectDashboardProps {

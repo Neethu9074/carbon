@@ -8,8 +8,8 @@ import React, { Fragment } from 'react';
 import { Ul, Li } from '@instana/components';
 import { Link } from '@instana/components';
 
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { formatDateTime } from 'in-services/formatters/date';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import { setTimeConfig } from 'in-stores/time/config';
 import { t } from 'in-i18n';
 
@@ -83,17 +83,12 @@ function SimpleVersion({ from, to }) {
 
 function VersionLink({ from, to }) {
   const windowSize = (to || Date.now()) - from;
+  const { location, createHref } = useNavigation();
+  setTimeConfig(location, { windowSize, to, focusedMoment: to });
+  const versionEntityLocation = { ...location };
+
   return (
-    <Link
-      className={locals.link}
-      href={getModifiedUrlStream(location =>
-        setTimeConfig(location, {
-          windowSize,
-          to,
-          focusedMoment: to
-        })
-      )}
-    >
+    <Link className={locals.link} href={createHref(versionEntityLocation)}>
       <span className={locals.fromTimestamp}>{formatDateTime(from)}</span>
       <span className={locals.toSpan}>to</span>
       <span className={locals.toTimestamp}>{to ? formatDateTime(to) : 'Now'}</span>

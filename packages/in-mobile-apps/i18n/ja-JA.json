@@ -367,6 +367,7 @@
       "viewAllOs": "すべてのオペレーティング・システムを表示",
       "appVersions": "アプリケーション・バージョン",
       "viewAllVersions": "すべてのバージョンを表示",
+      "syntheticMonitoringLabel": "シンセティック・モニタリング",
       "configurations": {
         "symbolFileConfigLabel": "スタック・トレース変換",
         "symbolFileConfig": {
@@ -399,9 +400,12 @@
         }
       },
       "crashes": {
-        "crashesLabelErrorMessage": "エラー・メッセージ",
+        "crashesLabelErrorMessage": "Location",
+        "crashesLabelErrorType": "エラー・タイプ",
         "crashesLabelOccurrences": "発生件数",
         "crashesLabelAffectedUsers": "影響を受けたユーザー",
+        "crashesLabelLowestAppVersion": "最低アプリバージョン",
+        "crashesLabelHighestAppVersion": "最高アプリバージョン",
         "crashesButtonAnalyzeCrashes": "クラッシュの分析",
         "crashesTableTitle": "異常終了",
         "crashInfoTitle": "詳細",
@@ -453,7 +457,10 @@
       "customEventsTitle": "表示可能なカスタム・イベントはありません",
       "customEventsDescription": "選択された時刻範囲で取得されたカスタム・イベントはありません。",
       "crashesTitle": "使用可能な異常終了はありません",
-      "crashesDescription": "選択された時刻範囲の異常終了はありませんでした。"
+      "crashesDescription": "選択された時刻範囲の異常終了はありませんでした。",
+      "syntheticMonitoring": {
+        "title": "このモバイル・アプリには合成テストは関連付けられていません。"
+      }
     }
   },
   "appsList": {

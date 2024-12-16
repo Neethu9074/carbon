@@ -5,15 +5,15 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Spacer, Stack } from '@instana/components';
-import { Toggle } from '@instana/legacy';
+import { Spacer, Stack, Toggle } from '@instana/components';
 
-import MetricSelectionCategoryOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectionCategoryOverlay';
 import {
   autoFormatterTimeSeriesEnabled,
   lastValueForNonTimeSeriesWidgetEnabled,
-  multiGroupTimeSeriesEnabled
+  multiGroupTimeSeriesEnabled,
+  unitForInfraMetricsEnabled
 } from 'in-services/featureFlags';
+import MetricSelectionCategoryOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectionCategoryOverlay';
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
 import { regexValidationError } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/regexValidator';
 import { formCallbacks } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/formStateManagement';
@@ -27,10 +27,14 @@ import ValidationMessages, {
 } from 'in-custom-dashboards/widgets/Chart/FormComponent/ValidationMessages';
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
 import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
+import { getInfrastructureMetricFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
+import { unitPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { getUiMetricsValueByBackendType } from 'in-services/formatters/backendFormatter';
+import { getMetricUnitByBackendType, getUnitByFormatter } from 'in-stores/metric/units';
+import { defaultFormatter, getFormatterIdByFn } from 'in-stores/metric/formatters';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
 import QueryBuilder from 'in-infrastructure/Explore/components/QueryBuilder';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
@@ -40,7 +44,6 @@ import TypeAndMetricConfigurator from './TypeAndMetricConfigurator';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { aggregationLabels } from 'in-stores/metric/beeInstant';
-import { defaultFormatter } from 'in-stores/metric/formatters';
 import { getFormatterId } from 'in-stores/metric/formatters';
 import HelpAction from 'in-components/workspace/HelpAction';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
@@ -62,8 +65,10 @@ export default function FormComponent({
   labelSection,
   formatterSection,
   timeShiftConfiguration,
+  thresholdConfiguration,
   withGrouping = true,
   withFiltering = true,
+  withUnit = false,
   type: baseType,
   isTypePrefilled = false,
   withAggregationInMetrics = true,
@@ -73,6 +78,7 @@ export default function FormComponent({
 }) {
   const typeField = form.get('type');
   const metricField = form.get('metric');
+  const unitField = form.get('unit');
   const aggregationField = form.get('aggregation');
   const crossSeriesAggregationField = form.get('crossSeriesAggregation');
   const allowedCrossSeriesAggregations = form.get('allowedCrossSeriesAggregations');
@@ -112,7 +118,8 @@ export default function FormComponent({
   const [tagFilterExpression, setTagFilterExpression] = useTagFilterExpressionState({
     tagCatalogResult: tagCatalog ? success(tagCatalog) : pendingResult,
     form,
-    onChange
+    onChange,
+    disableEntitySelection: true
   });
 
   const catalogQuery = useDebouncedValue('', noop, 800);
@@ -121,7 +128,8 @@ export default function FormComponent({
     getMetricCatalog,
     tagFilterExpression: backendQueryModel,
     type: isTypePrefilled ? type : selectedType,
-    query: catalogQuery.debouncedValue
+    query: catalogQuery.debouncedValue,
+    withHierarchy: !isTypePrefilled
   });
 
   const kpiDefinitions = getKpiDefinitions(type);
@@ -130,8 +138,20 @@ export default function FormComponent({
   const uiMetricFormatter = formatterBackendType
     ? getUiMetricsValueByBackendType(formatterBackendType)
     : getFormatterId(metricMetadatas?.[metric]?.formatter);
-  const metricDefaultFormatter =
-    isFormatterSelected || (metric && formatter !== defaultFormatter.id) ? formatter : uiMetricFormatter;
+
+  const preSelectedUnit = unitForInfraMetricsEnabled
+    ? formatterBackendType
+      ? getMetricUnitByBackendType(formatterBackendType)
+      : getUnitByFormatter(getFormatterIdByFn(metricMetadatas?.[metric]?.formatter))
+    : undefined;
+
+  const metricDefaultFormatter = getMetricDefaultFormatter({
+    baseUnit: preSelectedUnit?.baseUnit,
+    formatter,
+    isFormatterSelected,
+    metric,
+    uiMetricFormatter
+  });
 
   const {
     setMetadata,
@@ -139,6 +159,7 @@ export default function FormComponent({
     setIsRegex,
     onRegexChange,
     setAggregation,
+    setUnit,
     setIsSumCrossSeriesAggregation,
     setIsLastValue,
     onTypeChange
@@ -162,17 +183,6 @@ export default function FormComponent({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [metricCatalog, typeField.value, metricField.value]);
 
-  // Update metric formatter with builtin one
-  useEffect(() => {
-    if (autoFormatterTimeSeriesEnabled) {
-      onChange([], form =>
-        form.updateIn(['formatter'], field => field.setValue(metricDefaultFormatter).setTouched(true))
-      );
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [metricDefaultFormatter]);
-
   // In case multi group is enabled, it should change the groupKey from "by" to "groupBys" for backward compatibility.
   useEffect(() => {
     if (isMultiGroup && grouping && !grouping?.groupBys) {
@@ -181,6 +191,24 @@ export default function FormComponent({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMultiGroup]);
+
+  // Update metric formatter with builtin one
+  useEffect(() => {
+    onChange([], form => {
+      let f = form;
+
+      if (autoFormatterTimeSeriesEnabled) {
+        f = f.updateIn(['formatter'], field => field.setValue(metricDefaultFormatter).setTouched(true));
+      }
+
+      if (preSelectedUnit) {
+        f = f.updateIn([unitPath], field => field.setValue(preSelectedUnit?.id).setTouched(true));
+      }
+
+      return f;
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [metricDefaultFormatter, preSelectedUnit, metricMetadatas]);
 
   const metricMetadata = {
     metric,
@@ -219,6 +247,11 @@ export default function FormComponent({
             onSelectType={onSelectType}
             backendQueryModel={backendQueryModel}
             SelectorOverlay={MetricSelectionCategoryOverlay}
+            withUnit={unitForInfraMetricsEnabled && withUnit}
+            onUnitChange={e => setUnit(e.target.value)}
+            preSelectedUnit={preSelectedUnit}
+            unitField={unitField}
+            selectedType={selectedType}
           />
           <TouchedMessages field={metricField} />
           <ValidationMessages form={form} category={regexValidationError} />
@@ -246,7 +279,7 @@ export default function FormComponent({
                         id="metric-configurator-cross-series-aggregation"
                         checked={isSumCrossSeriesAggregation}
                         disabled={!isCrossSeriesSumAggregationToggleEnabled}
-                        onChange={e => setIsSumCrossSeriesAggregation(e.target.checked)}
+                        onToggle={e => setIsSumCrossSeriesAggregation(e)}
                       />
                     </span>
                   </Tooltip>
@@ -266,7 +299,7 @@ export default function FormComponent({
                       <Toggle
                         id="metric-configurator-use-last-value"
                         checked={isLastValue}
-                        onChange={e => setIsLastValue(e.target.checked)}
+                        onToggle={e => setIsLastValue(e)}
                       />
                     </span>
                     <Spacer horizontal="xxsmall" />
@@ -305,6 +338,7 @@ export default function FormComponent({
             onChange={setTagFilterExpression}
             QueryBuilder={QueryBuilder}
             tagCatalog={tagCatalog}
+            additionalGetTagCatalogProps={{ ownerType: type, metric, regex: isRegex }}
             withoutIcon
           />
         </Sections>
@@ -325,11 +359,14 @@ export default function FormComponent({
         hasError={groupingField ? groupingField.touched && !groupingField.valid : false}
         additionalContent={<TouchedMessages field={groupingField} />}
         withOptionalMarker={!isRequiringGroupingConfiguration(form)}
-        hideIncludeOthersToggle
         maxGrouping={maxGrouping}
+        additionalGetTagCatalogProps={{ ownerType: type, metric, regex: isRegex }}
+        hideIncludeOthersToggle
       />
 
       {timeShiftConfiguration}
+
+      {thresholdConfiguration}
 
       {labelSection}
 
@@ -352,7 +389,7 @@ export function getCrossSeriesAggregationTooltip(
       'in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationRestrictedHelp'
     );
   }
-  return !isCrossSeriesAggregationEnabled && aggregation !== 'SUM'
+  return !isCrossSeriesAggregationEnabled && !['SUM', 'PER_SECOND', 'INCREASE'].includes(aggregation)
     ? t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationDisabledHelp', {
         aggregation: aggregationLabels[aggregation]
       })
@@ -385,4 +422,16 @@ export function getGroups({ isMultiGroup, infraExploreGrouping }) {
 
 export function includesInSelectedAggregations(aggregationFieldValue) {
   return ['MEAN', 'MIN', 'MAX'].includes(aggregationFieldValue);
+}
+
+function getMetricDefaultFormatter({ baseUnit, isFormatterSelected, metric, formatter, uiMetricFormatter }) {
+  const formatters = getInfrastructureMetricFormatter(baseUnit);
+  const isFormatterAvailable = formatters.find(formatter => formatter.id === formatter);
+
+  const metricDefaultFormatter =
+    isFormatterSelected || (metric && formatter !== defaultFormatter.id && isFormatterAvailable)
+      ? formatter
+      : uiMetricFormatter;
+
+  return metricDefaultFormatter;
 }

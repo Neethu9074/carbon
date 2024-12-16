@@ -22,6 +22,8 @@ import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constan
 import websiteCreateRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
 import Dropdown from 'in-alerting/components/Dropdown';
 
+import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/dialog.mless';
+
 interface ThresholdTypeSelectionProps {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
@@ -49,6 +51,7 @@ export default function ThresholdTypeSelection({
       ) : (
         <Dropdown
           value={thresholdComboBoxValue as string}
+          className={locals.dropdownxlg}
           items={options}
           onChange={newThresholdTypeWithSeasonality => {
             if (eumType === websiteEum) {

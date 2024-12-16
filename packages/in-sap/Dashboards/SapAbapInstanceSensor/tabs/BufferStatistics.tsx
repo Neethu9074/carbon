@@ -14,8 +14,8 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { bytes, number, percentagePlain } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { bytes, number, percentage } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
@@ -74,22 +74,6 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.usePercent'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: MemoryStatsRow) {
-        return row.snapshotId;
-      },
-      getMetricName(row: MemoryStatsRow) {
-        return `bufferMetrics.${row.key}.usePercent`;
-      },
-      getContent: percentagePlain.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
     title: t('in-sap:dashboards.request'),
     type: 'metric',
     typeArgs: {
@@ -121,12 +105,45 @@ const cols = [
       }
     }
   },
+
+  {
+    title: t('in-sap:dashboards.hitRatio'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: MemoryStatsRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: MemoryStatsRow) {
+        return `bufferMetrics.${row.key}.hitRatio`;
+      },
+      getContent: number.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
   {
     title: t('in-sap:dashboards.swap'),
     type: 'string',
     typeArgs: {
       getValue(row: MemoryStatsRow) {
         return row.memoryStats.get('swap');
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.usage'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: MemoryStatsRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: MemoryStatsRow) {
+        return `bufferMetrics.${row.key}.usePercent`;
+      },
+      getContent: percentage.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
       }
     }
   }
@@ -212,7 +229,7 @@ export default function BufferStatistics({ snapshotId, timeConfig }: MemoryStats
       cardTitle={t('in-sap:dashboards.bufferStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={3}
+      initialSortColumn={7}
       initialSortDirection="desc"
       getRowDetails={getDetails}
     />

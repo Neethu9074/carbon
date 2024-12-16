@@ -33,15 +33,18 @@ export interface GetTagSuggestionsProps<ADDITIONAL_PROPS extends {} = {}> extend
   filter?: Filter;
 }
 
-export interface GetTagCatalogProps {
+export interface GetTagCatalogProps<ADDITIONAL_PROPS extends {} = {}> extends ADDITIONAL_PROPS {
   timeConfig: TimeConfig;
+  query?: string;
 }
 
 export type GetSuggestions<ADDITIONAL_TAG_SUGGESTION_PROPS = {}> = (
   props: GetTagSuggestionsProps<ADDITIONAL_TAG_SUGGESTION_PROPS>
 ) => Observable<Result<TagSuggestions>> | Nullish;
 
-export type GetTagCatalog = (props: GetTagCatalogProps) => Observable<Result<TagCatalog>>;
+export type GetTagCatalog<ADDITIONAL_PROPS = {}> = (
+  props: GetTagCatalogProps<ADDITIONAL_PROPS>
+) => Observable<Result<TagCatalog>>;
 
 export type QueryBuilderTrackingFunctions = {
   onTagAdded?: (newFormModel: FormModelElement, updatedFormModel: FormModelElement[]) => void;
@@ -52,7 +55,10 @@ export type QueryBuilderTrackingFunctions = {
 
 type GetSuggestionLabel = (props: { item: string; tagName: string }) => string;
 
-interface QueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS extends {} = {}> {
+interface QueryBuilderProps<
+  ADDITIONAL_TAG_SUGGESTION_PROPS extends {} = {},
+  ADDITIONAL_TAG_CATALOG_PROPS extends {} = {}
+> {
   value: FormModelElement[];
   onChange?: (formModel: FormModelElement[]) => void;
   onError?: (props: { hasError: boolean; errors: string[] }) => void;
@@ -61,6 +67,10 @@ interface QueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS extends {} = {}> {
   getSuggestions?: GetSuggestions<ADDITIONAL_TAG_SUGGESTION_PROPS>;
   getSuggestionLabel?: GetSuggestionLabel;
   getSuggestionsProps?: GetSuggestionsProps;
+  getTagCatalog?: GetTagCatalog<ADDITIONAL_TAG_CATALOG_PROPS>;
+  additionalGetTagCatalogProps?: ADDITIONAL_TAG_CATALOG_PROPS;
+  addTagDefinitionToFormModel?: boolean;
+  disableEntitySelection?: boolean;
 
   tracking?: QueryBuilderTrackingFunctions;
 
@@ -73,21 +83,26 @@ interface QueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS extends {} = {}> {
   allowEmptyKey?: boolean;
 }
 
-interface CreateDynamicQueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS = {}> {
+interface CreateDynamicQueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS = {}, ADDITIONAL_TAG_CATALOG_PROPS = {}> {
   getSuggestions?: GetSuggestions<ADDITIONAL_TAG_SUGGESTION_PROPS>;
   withoutOrConjunction?: boolean;
   withoutBrackets?: boolean;
+  allowEmptyKey?: boolean;
+  disableEntitySelection?: boolean;
+  addTagDefinitionToFormModel?: boolean;
   maxExpressionDepth?: number;
+  getTagCatalog?: GetTagCatalog<ADDITIONAL_TAG_CATALOG_PROPS>;
 }
 
-interface CreateQueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS = {}>
+interface CreateQueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS = {}, ADDITIONAL_TAG_CATALOG_PROPS = {}>
   extends CreateDynamicQueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS> {
-  getTagCatalog: GetTagCatalog;
+  getTagCatalog: GetTagCatalog<ADDITIONAL_TAG_CATALOG_PROPS>;
 }
 
-export type QueryBuilderComponent<ADDITIONAL_TAG_SUGGESTION_PROPS = {}> = ComponentType<
-  QueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS>
->;
+export type QueryBuilderComponent<
+  ADDITIONAL_TAG_SUGGESTION_PROPS = {},
+  ADDITIONAL_TAG_CATALOG_PROPS = {}
+> = ComponentType<QueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS, ADDITIONAL_TAG_CATALOG_PROPS>>;
 
 interface CreateQueryBuilderResponse<ADDITIONAL_TAG_SUGGESTION_PROPS = {}> {
   getTagCatalog: GetTagCatalog;
@@ -106,6 +121,6 @@ export function createQueryBuilder<ADDITIONAL_TAG_SUGGESTION_PROPS = {}>(
   props: CreateQueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS>
 ): CreateQueryBuilderResponse;
 
-export function createDynamicQueryBuilder<ADDITIONAL_TAG_SUGGESTION_PROPS = {}>(
-  props: CreateDynamicQueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS>
+export function createDynamicQueryBuilder<ADDITIONAL_TAG_SUGGESTION_PROPS = {}, ADDITIONAL_TAG_CATALOG_PROPS = {}>(
+  props: CreateDynamicQueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS, ADDITIONAL_TAG_CATALOG_PROPS>
 ): CreateDynamicQueryBuilderResponse;

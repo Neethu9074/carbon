@@ -6,21 +6,23 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import CreateSyntheticTestDialog from 'in-synthetics/createTests/dialog/CreateSyntheticTestDialog';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { syntheticCreateButtonClick } from 'in-synthetics/tracking/tracker';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { syntheticCreateButtonClick } from 'in-synthetics/tracker';
 
 interface CreateSyntheticTestProps {
   onClose: () => void;
 }
 
 const CreateSyntheticTest = ({ onClose }: CreateSyntheticTestProps) => {
+  const { trackCta } = useSegmentTracking();
   const handleClick = () => {
-    // Tracker
-    syntheticCreateButtonClick({ detail: `Create a Synthetic test` });
+    // Segment Tracker
+    syntheticCreateButtonClick(trackCta);
     addActiveDialog(<CreateSyntheticTestDialog onClose={onClose} />);
   };
 

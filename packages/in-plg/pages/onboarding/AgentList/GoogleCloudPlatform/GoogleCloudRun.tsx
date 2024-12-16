@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { KeyValue, Stack, Typography } from '@instana/components';
+import { KeyValue, Stack, Typography, RadioButton } from '@instana/components';
 
 import {
   documentationCloudNativeBuildPack,
@@ -22,10 +22,10 @@ import SupportViewSection from 'in-plg/pages/onboarding/Layout/SupportViewSectio
 import InputWithButton from 'in-plg/components/InputWithButton/InputWithButton';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import { DropDown } from 'in-plg/pages/onboarding/content/ContentComponents';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import Code from 'in-plg/components/Code/Code';
 import { t } from 'in-i18n';
 
@@ -94,22 +94,22 @@ export default function GoogleCloudRun({
     }
   ];
 
+  if (shareAndInviteEnabled) supportViewData.pop();
+
   function installationMethod() {
     return (
       <Stack direction="horizontal">
-        <CheckboxFancy
+        <RadioButton
           label={installationOptions[0].label}
           checked={installationMode.key === installationOptions[0].key}
           onChange={() => setInstallationMode(installationOptions[0])}
           size="default"
-          asRadioButton
         />
-        <CheckboxFancy
+        <RadioButton
           label={installationOptions[1].label}
           checked={installationMode.key === installationOptions[1].key}
           onChange={() => setInstallationMode(installationOptions[1])}
           size="default"
-          asRadioButton
         />
       </Stack>
     );

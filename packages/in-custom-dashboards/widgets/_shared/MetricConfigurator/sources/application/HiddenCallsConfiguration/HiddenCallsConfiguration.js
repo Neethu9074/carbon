@@ -6,8 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Spacer } from '@instana/components';
-import { Toggle } from '@instana/legacy';
+import { Spacer, Toggle } from '@instana/components';
 
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
@@ -27,7 +26,7 @@ export default function HiddenCallsConfiguration({
           className={locals.toggle}
           id="select-hidden-calls-internal"
           checked={includeInternal}
-          onChange={e => onIncludeInternalChange(e.target.checked)}
+          onToggle={e => onIncludeInternalChange(e)}
         />
         <Spacer horizontal="xxsmall" />
         <span className={locals.label}>
@@ -37,7 +36,7 @@ export default function HiddenCallsConfiguration({
         <Toggle
           id="select-hidden-calls-synthetic"
           checked={includeSynthetic}
-          onChange={e => onIncludeSyntheticChange(e.target.checked)}
+          onToggle={e => onIncludeSyntheticChange(e)}
         />
         <Spacer horizontal="xxsmall" />
         <span className={locals.label}>

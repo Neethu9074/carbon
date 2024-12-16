@@ -10,8 +10,8 @@ import { Link } from '@instana/components';
 
 import getWebsiteBackendTraces from 'in-websites/subscriptions/getWebsiteBackendTraces';
 import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
-import { navigateToBackendTraceFromPageLoad } from 'in-websites/tracker';
 import { latencyFixed, number } from 'in-services/formatters/number';
+import { useWebsiteTracker } from 'in-websites/tracking/segTracker';
 import { useLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { Di } from 'in-components/HorizontalDescriptionList';
 import Tooltip from 'in-components/Tooltip';
@@ -38,6 +38,7 @@ export default connect(({ beacon }) => ({
 }))(BackendDi);
 
 function BackendDi({ traceSummaries }) {
+  const { navigateToBackendTraceFromPageLoad } = useWebsiteTracker();
   const getLinkToTraceDetail = useLinkToTraceDetail();
 
   if (traceSummaries == null || traceSummaries.length === 0) {

@@ -4,20 +4,28 @@
  * Copyright IBM Corp. 2023
  */
 
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import React from 'react';
 
 import ShowHideInputField from 'in-settings/components/ShowHideInputField/ShowHideInputField';
 
 describe('in-settings/components/ShowHideInputField', () => {
   test('should allow toggling on eye icon button click', async () => {
-    const { container } = render(<ShowHideInputField />);
-    const inputValue = container.querySelector('.local-css-input') as HTMLElement;
+    const inputProps = {
+      id: 'newPassword',
+      value: '',
+      autoComplete: 'off',
+      labelText: 'new Password'
+    };
 
-    fireEvent.change(inputValue, { target: { value: 'test' } });
-    fireEvent.click(container.querySelector('.local-css-iconButton') as HTMLElement);
+    const { container } = render(<ShowHideInputField {...inputProps} />);
 
-    const input = await screen.findByRole('textbox');
-    expect(input).toHaveValue('test');
+    const inputValue = container.querySelector('.cds--password-input') as HTMLElement;
+    userEvent.type(inputValue, 'new value');
+    const button = await screen.findByRole('button');
+    userEvent.click(button);
+
+    expect(inputValue).toHaveAttribute('type', 'password');
   });
 });

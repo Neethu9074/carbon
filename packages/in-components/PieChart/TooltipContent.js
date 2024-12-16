@@ -15,11 +15,16 @@ import { percentage } from 'in-services/formatters/number';
 
 import locals from './TooltipContent.mless';
 
-export default function TooltipContent({ slice, formatter }) {
+export default function TooltipContent({ slice, formatter, timeConfig, displayLabel = false }) {
   return (
     <div className={locals.wrapper}>
-      <span className={locals.dot} style={{ background: slice.color }} />
-      <span className={locals.label}>{slice.label}</span>
+      {displayLabel && (
+        <>
+          <span className={locals.dot} style={{ background: slice.color }} />
+          <span className={locals.label}>{slice.label}</span>
+        </>
+      )}
+
       {slice.timeShift.offset !== 0 && (
         <span className={locals.timeShift}>{`(${getTimeShiftLabel(slice.timeShift)})`}</span>
       )}
@@ -29,9 +34,7 @@ export default function TooltipContent({ slice, formatter }) {
       <strong>{formatter(slice.value)}</strong>
       <span className={locals.percentage}> {`(${percentage.detailed(slice.percentage)})`}</span>
       {slice.lastValue && (
-        <span className={locals.adjustedWindowSize}>{`- ${getLastValueTooltipLabel({
-          windowSize: slice.adjustedWindowSize
-        })}`}</span>
+        <span className={locals.adjustedWindowSize}>{`- ${getLastValueTooltipLabel(timeConfig)}`}</span>
       )}
     </div>
   );
@@ -39,5 +42,7 @@ export default function TooltipContent({ slice, formatter }) {
 
 TooltipContent.propTypes = {
   slice: rpt.object.isRequired,
-  formatter: rpt.func.isRequired
+  formatter: rpt.func.isRequired,
+  timeConfig: rpt.object.isRequired,
+  displayLabel: rpt.bool
 };

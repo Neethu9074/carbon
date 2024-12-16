@@ -96,7 +96,6 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
               <BluePrintSelectionSection
                 alertType={alertType}
                 form={form}
-                //@ts-expect-error as its type is optional in shared component
                 updateForm={updateForm}
                 setSliderState={setSliderState}
               />
@@ -190,7 +189,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
               onChange={onChange}
               setSliderState={setSliderState}
               setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-              numberOfAlertChannelListRows={7}
+              numberOfAlertChannelListRows={5}
             />
           )
         },

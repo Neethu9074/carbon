@@ -5,6 +5,7 @@
 
 import React, { useState } from 'react';
 
+import { SearchInput } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import EntityPageMainNotification from 'in-components/EntityPageMainNotification/EntityPageMainNotification';
@@ -14,7 +15,6 @@ import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import ItemList from 'in-cockpit/widgets/TopListWidget/ItemList';
 import Star from 'in-cockpit/widgets/TopListWidget/Star';
 import { starredItems$ } from 'in-cockpit/starredItems';
-import SearchInput from 'in-components/SearchInput';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -98,15 +98,7 @@ export default connectTo(({ pinnedItemTypes }) => ({
       rightHeaderContent={
         <>
           {header && <div className={locals.customHeaderWrapper}>{header}</div>}
-          {
-            <SearchInput
-              disabled={!hasContent}
-              width={250}
-              query={query}
-              placeholder=""
-              onChange={query => setQuery(query)}
-            />
-          }
+          <SearchInput disabled={!hasContent} width={250} query={query} onChange={query => setQuery(query)} />
         </>
       }
     >

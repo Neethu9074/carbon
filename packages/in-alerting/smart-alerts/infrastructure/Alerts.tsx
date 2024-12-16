@@ -6,12 +6,8 @@
 
 import React from 'react';
 
-import {
-  InfraAlertConfigWithMetadata,
-  ThresholdConfigUnion,
-  InfraAlertRuleUnion,
-  PredictiveTrigger
-} from '@instana/types';
+import { ThresholdConfigUnion, InfraAlertRuleUnion, ForecastingConfig } from '@instana/types';
+import { themes } from '@instana/design-tokens';
 
 import {
   infraAlertsDetailsPath,
@@ -23,41 +19,67 @@ import {
   alertId as alertIdMatrixParam
 } from 'in-infrastructure/navigation/matrix';
 import { humanReadableThresholdOperator } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormData';
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { getAllAlertConfigsWithResult } from 'in-alerting/smart-alerts/infrastructure/api/infrastructureAlertConfig';
+import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 import { actionHandlers } from 'in-alerting/smart-alerts/infrastructure/lists/ListActionHandlers';
+import { CreateSmartAlertButton } from 'in-alerting/smart-alerts/infrastructure/CreateSmartAlert';
+import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
+import StatusColumnCell from 'in-alerting/smart-alerts/components/list/StatusColumnCell';
 import { MetricLabel } from 'in-alerting/smart-alerts/infrastructure/lists/MetricLabel';
 import { sortOptions } from 'in-alerting/smart-alerts/infrastructure/lists/constants';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import ScopeColumn from 'in-alerting/smart-alerts/infrastructure/lists/ScopeColumn';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import PluginIcon from 'in-components/PluginIcon/PluginIcon';
 import { Location } from 'in-stores/navigation/types';
+import { getPluginName } from 'in-sdk/pluginName';
+import Footer from 'in-components/Footer/Footer';
 import { role } from 'in-stores/user';
+import { t, Trans } from 'in-i18n';
+
+import locals from './Alerts.mless';
+
+const displayCarbonTable = carbonTableEnabled && smartAlertCarbonTableEnabled;
 
 export default function Alerts() {
-  const handlers = role?.canConfigureGlobalInfraSmartAlerts ? actionHandlers : {};
+  const handlers = role?.canConfigureGlobalInfraSmartAlerts && !role?.limitedInfrastructureScope ? actionHandlers : {};
 
   function getColumnDefinitions() {
     return [
       {
         id: 'filterApplied',
         label: '',
-        getContent: (entity: InfraAlertConfigWithMetadata) => <ScopeColumn config={entity} />
+        getContent: (entity: InfraSmartAlertConfigWithMetadata) => <ScopeColumn config={entity} />
       }
     ];
   }
 
   return (
     <>
-      <AlertBaseList<InfraAlertConfigWithMetadata>
-        extraColumnDefinitions={getColumnDefinitions()}
-        actionHandlers={handlers}
-        getAlertConfigs={() => getAllAlertConfigsWithResult()}
-        createRowLinkLocation={createRowLinkLocation}
-        getSubtitle={config => getSubtitle(config.rule, config.threshold, config.predictiveTrigger)}
-        sortOptions={sortOptions}
-        alertsTab={infraSmartAlerts}
-      />
+      <div className={locals.wrapper}>
+        <AlertBaseList<InfraSmartAlertConfigWithMetadata>
+          extraColumnDefinitions={getColumnDefinitions()}
+          actionHandlers={handlers}
+          getAlertConfigs={() => getAllAlertConfigsWithResult()}
+          createRowLinkLocation={createRowLinkLocation}
+          getSubtitle={config => getSubtitle(config.rule, config.threshold, config.forecastingConfig)}
+          sortOptions={sortOptions}
+          alertsTab={infraSmartAlerts}
+          renderName={replaceTitlePlaceholdersWithMarkup}
+          hideAlertIcon
+          // for carbon table
+          displayCarbonTable={displayCarbonTable}
+          extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
+          carbonActionHandlers={handlers}
+          getNameSubtitle={(config: InfraSmartAlertConfigWithMetadata) => getNameSubtitle(config)}
+          toolBarContent={role?.canConfigureGlobalInfraSmartAlerts ? <CreateSmartAlertButton /> : undefined}
+          noDataHeader={t('in-alerting:smartAlerts.infrastructure.list.noDataHeader')}
+          noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.infrastructure.list.noDataDescription" />}
+        />
+      </div>
+      <Footer />
     </>
   );
 }
@@ -65,7 +87,7 @@ export default function Alerts() {
 export function getSubtitle(
   rule: InfraAlertRuleUnion,
   threshold: ThresholdConfigUnion & { value?: number },
-  predictiveTrigger?: PredictiveTrigger
+  forecastingConfig?: ForecastingConfig
 ) {
   const { type, operator, value } = threshold;
   const { entityType, metricName, aggregation } = rule;
@@ -80,7 +102,7 @@ export function getSubtitle(
         aggregation={aggregation}
         humanReadableOperator={humanReadableOperator}
         value={value ?? 0}
-        predictiveTrigger={predictiveTrigger ?? null}
+        forecastingConfig={forecastingConfig ?? null}
       />
     );
   }
@@ -88,7 +110,7 @@ export function getSubtitle(
   throw new Error('Not yet supported threshold type: ' + type);
 }
 
-function createRowLinkLocation(config: InfraAlertConfigWithMetadata, location: Location): Location {
+function createRowLinkLocation(config: InfraSmartAlertConfigWithMetadata, location: Location): Location {
   const rowLinkLocation = {
     ...location,
     pathname: infraAlertDetailsFullyQualifiedPath
@@ -96,5 +118,71 @@ function createRowLinkLocation(config: InfraAlertConfigWithMetadata, location: L
 
   setOrDeleteMatrixKey(rowLinkLocation, infraAlertsDetailsPath, alertIdMatrixParam, config.id);
   setOrDeleteMatrixKey(rowLinkLocation, infraAlertsDetailsPath, alertCreatedMatrixParam, config.created);
+
   return rowLinkLocation;
+}
+
+interface ThresholdInfoProps {
+  rule: InfraAlertRuleUnion;
+  threshold: ThresholdConfigUnion & { value?: number };
+  forecastingConfig?: ForecastingConfig;
+}
+
+function TriggeringCondition({ rule, threshold, forecastingConfig }: ThresholdInfoProps) {
+  const { type, operator, value } = threshold;
+  const { entityType, metricName, aggregation } = rule;
+
+  if (type === STATIC_THRESHOLD) {
+    const humanReadableOperator = humanReadableThresholdOperator(operator);
+
+    return (
+      <MetricLabel
+        entityType={entityType}
+        metricName={metricName}
+        aggregation={aggregation}
+        humanReadableOperator={humanReadableOperator}
+        value={value ?? 0}
+        forecastingConfig={forecastingConfig ?? null}
+      />
+    );
+  }
+  throw new Error('Not yet supported threshold type: ' + type);
+}
+
+function getCarbonTableColumnDefinitions() {
+  return [
+    {
+      id: 'triggering-action',
+      label: t('in-alerting:table.triggeringAction'),
+      getContent: (config: InfraSmartAlertConfigWithMetadata) => (
+        <TriggeringCondition
+          rule={config.rule}
+          threshold={config.threshold}
+          forecastingConfig={config.forecastingConfig}
+        />
+      ),
+      sortable: false
+    },
+    {
+      id: 'enabled',
+      label: t('in-alerting:table.status'),
+      getContent: ({ enabled }: InfraSmartAlertConfigWithMetadata) => <StatusColumnCell status={enabled} />,
+      sortable: true
+    }
+  ];
+}
+
+function getNameSubtitle(config: InfraSmartAlertConfigWithMetadata) {
+  const {
+    rule: { entityType }
+  } = config;
+  if (entityType) {
+    return (
+      <span className={locals.iconWrapper}>
+        <PluginIcon color={themes.default.ids.color.option.neutral['700']} plugin={entityType} size="s" />
+        {getPluginName(entityType, 1)}
+      </span>
+    );
+  }
+  throw new Error('Not yet supported entity type: ' + entityType);
 }

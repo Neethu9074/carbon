@@ -20,6 +20,7 @@
   "totalMemory": "總記憶體",
   "totalStorage": "儲存體總計",
   "totalCapacity": "總容量",
+  "cpuUtilizationPercent": "CPU 使用率 (%)",
   "availableCapacity": "可用的容量",
   "volumeCount": "磁區計數",
   "cpuArch": "CPU 架構",

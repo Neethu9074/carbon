@@ -6,6 +6,7 @@
 import React from 'react';
 
 import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
+import { DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_OTEL } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
 export default function OpenTelemetryDashboard({ snapshot, timeConfig }) {
@@ -14,6 +15,7 @@ export default function OpenTelemetryDashboard({ snapshot, timeConfig }) {
       snapshot={snapshot}
       timeConfig={timeConfig}
       titlePrefix={t('in-forge:plugins.openTelemetry.openTelemetry')}
+      distanceBetweenDatapointsInMillis={DEFAULT_DISTANCE_BETWEEN_DATA_POINTS_OTEL}
       specs={SPECS}
     />
   );

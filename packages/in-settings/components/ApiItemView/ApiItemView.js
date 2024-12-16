@@ -6,8 +6,8 @@
 import { createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
+import { CarbonLayer, Message } from '@instana/components';
 import { combineLatest } from '@instana/observables';
-import { Message } from '@instana/components';
 
 import renderLoadingStateDefault from 'in-settings/components/ApiItemView/FallbackLoadingView';
 import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter';
@@ -111,29 +111,31 @@ function ApiItemViewResultPresenter(props) {
 
   const content = (
     <div data-testid="api-item-view-content" className={locals.wrapper}>
-      <div>
-        <Header parentPath={parentPath} parentViewName={parentViewName} />
-        <MessageWrapper message={message} />
-        {render ? render(renderProps) : <Content {...renderProps} />}
-      </div>
+      <CarbonLayer>
+        <div>
+          <Header parentPath={parentPath} parentViewName={parentViewName} />
+          <MessageWrapper message={message} />
+          {render ? render(renderProps) : <Content {...renderProps} />}
+        </div>
 
-      {!hideFooter && (
-        <Footer
-          canSaveItem={canSaveItem}
-          canDeleteItem={canDeleteItem}
-          saveButtonVisible={saveItem || onSubmit}
-          saveLabel={savelabel}
-          isSaving={message?.isSaving}
-          onSaveClick={saveItem ? () => saveItem({ ...props, setMessage, form, setForm, setCanSaveItem }) : undefined}
-          onDeleteClick={
-            deleteItem ? () => deleteItem({ ...props, setMessage, form, setForm, setCanSaveItem }) : undefined
-          }
-          onCancelClick={onCancelClick}
-          deleteLabel={deleteLabel}
-          parentPath={parentPath}
-          form={form}
-        />
-      )}
+        {!hideFooter && (
+          <Footer
+            canSaveItem={canSaveItem}
+            canDeleteItem={canDeleteItem}
+            saveButtonVisible={saveItem || onSubmit}
+            saveLabel={savelabel}
+            isSaving={message?.isSaving}
+            onSaveClick={saveItem ? () => saveItem({ ...props, setMessage, form, setForm, setCanSaveItem }) : undefined}
+            onDeleteClick={
+              deleteItem ? () => deleteItem({ ...props, setMessage, form, setForm, setCanSaveItem }) : undefined
+            }
+            onCancelClick={onCancelClick}
+            deleteLabel={deleteLabel}
+            parentPath={parentPath}
+            form={form}
+          />
+        )}
+      </CarbonLayer>
     </div>
   );
 

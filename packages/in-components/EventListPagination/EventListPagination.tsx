@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { Stack, Typography } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Stack, Typography, Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 interface EventListPaginationProps {

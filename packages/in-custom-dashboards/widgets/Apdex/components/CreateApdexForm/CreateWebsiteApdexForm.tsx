@@ -17,19 +17,19 @@ import {
   thresholdKey,
   toApdexConfigurationInput
 } from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/form';
+import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/SloLegacy/components/OverridingFieldValidationMessage';
 import {
   useValidateWebsiteFilterExpression,
   useWebsiteQueryBuilder
 } from 'in-service-levels/hooks/useWebsiteQueryBuilder';
-import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import { CreateApdexFormComponentProps } from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/CreateApdexForm';
 // eslint-disable-next-line import/no-deprecated
-import { getField } from 'in-custom-dashboards/widgets/Slo/form';
+import { getField } from 'in-custom-dashboards/widgets/SloLegacy/form';
 import EditConfigNotice from 'in-custom-dashboards/widgets/Apdex/components/CreateApdexForm/EditConfigNotice';
-import useSetFormFooterEffect from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSetFormFooterEffect';
+import useSetFormFooterEffect from 'in-custom-dashboards/widgets/SloLegacy/sli/hooks/useSetFormFooterEffect';
 import ApdexConfigPreview from 'in-custom-dashboards/widgets/Apdex/components/ApdexConfigPreview';
-import { AvailableApdexBeaconTypes } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import BeaconConfigurator from 'in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator';
+import { AvailableApdexBeaconTypes } from 'in-custom-dashboards/widgets/SloLegacy/sli/sliTypes';
+import BeaconConfigurator from 'in-custom-dashboards/widgets/SloLegacy/sli/BeaconConfigurator';
 import PreviewHeader from 'in-custom-dashboards/widgets/Apdex/components/PreviewHeader';
 import PreviewFooter from 'in-custom-dashboards/widgets/Apdex/components/PreviewFooter';
 import { enabledApdexBeaconTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';

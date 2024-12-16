@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { CarbonMenuItem, SvgIcon } from '@instana/components';
 
 import { toParams } from 'in-stores/navigation/routing/stringifier';
 import { isBlank } from 'in-services/util/string';
@@ -15,17 +15,14 @@ export default function CoralogixButton(props) {
   if (!shouldShowButton(props) || !integration || !integration.enabled) {
     return null;
   }
-
   return (
-    <Button
-      className={props.className}
-      kind="secondary"
-      icon="lib_coralogix"
-      target="_blank"
-      href={constructCoralogixLink(integration, props)}
-    >
-      Coralogix
-    </Button>
+    <CarbonMenuItem
+      renderIcon={() => {
+        return <SvgIcon type="lib_coralogix" />;
+      }}
+      onClick={() => window.open(constructCoralogixLink(integration, props), '_blank')}
+      label="Coralogix"
+    />
   );
 }
 

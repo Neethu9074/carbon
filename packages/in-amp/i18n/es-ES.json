@@ -2,6 +2,7 @@
   "components": {
     "accountSettings": {
       "accountSettings": "Valores de la cuenta",
+      "unknownDomain": "Dominio desconocido",
       "billingAddress": "Dirección de facturación",
       "country": "País",
       "state": "Estado",
@@ -15,10 +16,17 @@
       "name": "Nombre",
       "tenant": "Arrendatario",
       "type": "Tipo",
-      "licenseStartData": "Datos de inicio de licencia",
-      "licenseEndData": "Datos de fin de licencia",
+      "licenseStartData": "Fecha de inicio de la licencia",
+      "licenseEndData": "Fecha de finalización de la licencia",
       "licensedApmHosts": "Hosts APM con licencia",
       "licensedIqmHosts": "Hosts IQM con licencia"
+    },
+    "learnMore": {
+      "title": "Más información sobre la Política de uso razonable de Instana",
+      "leftTitle": "¿Qué es la Política de uso razonable?",
+      "rightTitle": "¿Cómo puedo comprar más datos?",
+      "leftBody": "La Política de uso razonable de Instana describe la asignación mensual de datos asociada a su tipo de licencia. Para obtener más información y conocer las directrices de uso de los recursos, consulte la <fupDocLink>documentación sobre la Política de uso razonable</fupDocLink>.",
+      "rightBody": "Si prevé una necesidad continua de uso de datos adicional, póngase en contacto con su representante de ventas de Instana para analizar las opciones de complementos. Póngase en contacto con Ventas <salesLink>aquí</salesLink>."
     },
     "ampInformationModifier": {
       "allPaidUnitsAggregated": "Todas las unidades pagadas (agregadas)",
@@ -26,6 +34,12 @@
     },
     "noLicenseAvailableMessage": {
       "thereHasBeenNoActivePaidLicenseInThePast30Days": "Ninguna licencia de pago ha estado activa durante los últimos 30 días."
+    },
+    "fairUsePolicyMessage": {
+      "title": "Esta cuenta está sujeta a la Política de uso justo. Consulte el uso de datos en los gráficos siguientes."
+    },
+    "fairUsePolicyNotActive": {
+      "title": "La Política de uso justo no está activa."
     },
     "restrictedUsage": {
       "accountUsage": "Uso de la cuenta"
@@ -36,10 +50,34 @@
       "max": "Máx",
       "average": "Promedio"
     },
+    "dataIngestTable": {
+      "consumptionOverview": "Visión general del consumo",
+      "row": "Fila",
+      "unit": "Unidad",
+      "calculation": "Cálculo",
+      "entitledNumberOfMVS": "Número autorizado de MVS",
+      "actualAverage": "Número medio configurado real de MVS",
+      "onDemandNumber": "Número de MVS a petición",
+      "dataIngestFairUseEntitlement": "Autorización de uso justo de ingesta de datos por MVS",
+      "totalDataIngestFairUseEntitlement": "Autorización de uso justo de ingesta total de datos",
+      "dataIngestAddOnEntitlement": "Autorización de Complemento de Ingesta de datos",
+      "totalAmountPurchased": "Importe total adquirido a través del complemento de ingesta de datos extra",
+      "dataIngestEntitlementFromOnDemand": "Autorización de uso justo de ingesta de datos de MVS a petición",
+      "totalDataIngestEntitlement": "Autorización de ingesta de datos total",
+      "actualDataIngest": "Ingesta de datos real",
+      "onDemandDataIngest": "Intesta de datos a petición",
+      "noData": "No hay datos"
+    },
     "timePresets": {
       "last7Days": "Últimos 7 días",
-      "last15Days": "Últimos 15 días",
-      "last365Days": "Últimos 365 días"
+      "last30Days": "Últimos 30 días",
+      "last365Days": "Últimos 365 días",
+      "thisMonth": "Este mes",
+      "lastMonth": "Último mes"
+    },
+    "presentationPresets": {
+      "distinct": "Valores diferenciados",
+      "cumulative": "Valores acumulados"
     },
     "usages": {
       "allPaidUnitsAggregated": "Todas las unidades pagadas (agregadas)",
@@ -49,16 +87,31 @@
       "queuedLicenses": "Licencias en cola"
     },
     "usageCharts": {
-      "apmUsage": "Uso de APM",
+      "standard": "Standard",
       "apmHosts": "Hosts de APM",
       "purchased": "Adquirido",
-      "infrastructureUsage": "Uso de la infraestructura",
+      "essentials": "Essentials",
       "iqmHosts": "Hosts de IQM",
       "syntheticPops": "PoP sintéticos gestionados",
-      "resourceUnits": "Unidades de recursos",
-      "consumedUnits": "Unidades consumidas",
+      "logging": "Registros en contexto",
+      "resourceUnits": "Unidades de recursos autorizadas",
+      "consumedUnits": "Unidades de recursos consumidas",
+      "entitledData": "Datos autorizados",
+      "consumedData": "Datos consumidos",
+      "infrastructure": "Infraestructura",
+      "synthetics": "Synthetics",
+      "traces": "Rastreos",
+      "eumMobile": "EUM Móvil",
+      "eumWebsite": "EUM Sitio web",
       "addons": "Complementos",
-      "helperText": "Número de unidades de recurso consumidas por cada tipo de acción. Las unidades se calculan con un factor de 0,025 para pruebas simples, 0,042 para pruebas de API y 1,000 para pruebas de navegador."
+      "trendLine": "Línea de tendencia",
+      "dataUsage": "Uso de datos",
+      "dataUsageHelperText": "Cantidad de bytes enviados a través de agentes separados por categoría en el periodo de tiempo elegido.",
+      "syntheticsHelperText": "Número de unidades de recurso consumidas por cada tipo de acción. Las unidades se calculan con un factor de 0,025 para pruebas simples, 0,042 para pruebas de API y 1,000 para pruebas de navegador.",
+      "loggingHelperText": {
+        "saas": "Este gráfico muestra la cantidad de datos en bytes utilizados por el complemento de registro durante el periodo de retención elegido.",
+        "onprem": "Este gráfico muestra la cantidad de datos en bytes utilizados por el complemento de registro durante el periodo de retención elegido."
+      }
     },
     "activationAdoption": {
       "activationAdoption": "Activación y adopción",
@@ -86,7 +139,7 @@
         "numOfApplicationPerspectives": "# APs",
         "numOfReportingApplicationPerspectives": "# APs de informes",
         "numOfWebsites": "# Sitios web",
-        "numOfAlertChannels": "# Canales de alerta",
+        "numOfAlertChannels": "Núm. de canales de alerta",
         "numOfAlerts": "# Alertas",
         "numOfActiveAlerts": "# Alertas activas",
         "numOfReleases": "# Marcadores de Release/# Releases",

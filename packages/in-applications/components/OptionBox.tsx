@@ -6,9 +6,8 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon } from '@instana/components';
+import { SvgIcon, RadioButton, Checkbox, PreviewPill } from '@instana/components';
 
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import FeatureFeedback from 'in-components/FeatureFeedback';
 
 import locals from './OptionBox.mless';
@@ -24,6 +23,7 @@ interface OptionBoxProps {
   onChange: (checked: boolean) => void;
   asRadioButton?: boolean;
   className?: string;
+  isBeta?: boolean;
 }
 
 const OptionBoxWithRef = forwardRef(function OptionBox(
@@ -36,32 +36,46 @@ const OptionBoxWithRef = forwardRef(function OptionBox(
     onChange,
     asRadioButton,
     className,
-    featureFeedbackLink
+    featureFeedbackLink,
+    isBeta
   }: OptionBoxProps,
   ref: React.ForwardedRef<HTMLDivElement>
 ) {
   const labelContent = (
     <>
-      <SvgIcon type={icon} className={locals.icon} />
       <div className={locals.content}>
-        <div className={locals.title}>{title}</div>
-        <div className={locals.description}>
-          {description}
-          {featureFeedbackLink && (
-            <div className={locals.betaBadge}>
-              <FeatureFeedback href={featureFeedbackLink} />
+        <div className={locals.titlediv}>
+          {icon && (
+            <div>
+              <SvgIcon type={icon} className={locals.icononly} />
             </div>
           )}
+          <div>{title}</div>
         </div>
+        {(description || featureFeedbackLink || isBeta) && (
+          <div className={locals.description}>
+            {description}
+            {isBeta && (
+              <div className={locals.space}>
+                <PreviewPill />
+              </div>
+            )}
+            {featureFeedbackLink && (
+              <div className={locals.betaBadge}>
+                <FeatureFeedback href={featureFeedbackLink} />
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </>
   );
 
+  const BoxComponent = asRadioButton ? RadioButton : Checkbox;
   return (
     <div className={classNames(className, locals.wrapper)} ref={ref}>
-      <CheckboxFancy
+      <BoxComponent
         label={labelContent}
-        asRadioButton={asRadioButton}
         checked={checked}
         disabled={disabled}
         onChange={e => onChange(e.target.checked)}

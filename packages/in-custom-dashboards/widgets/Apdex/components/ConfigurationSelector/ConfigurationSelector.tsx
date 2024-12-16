@@ -7,9 +7,9 @@
 import React, { useEffect } from 'react';
 import { Field } from 'formalistic';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
-import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
+import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/SloLegacy/components/OverridingFieldValidationMessage';
 import useApdexConfigurations from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexConfigurations';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import SelectInSection from 'in-components/form/Select/SelectInSection';

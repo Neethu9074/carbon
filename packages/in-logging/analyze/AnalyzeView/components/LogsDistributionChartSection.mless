@@ -11,10 +11,13 @@
   .chartWrapper {
     padding: 1rem;
     background: var(--ids-color-option-white);
-    border-top: 1px solid var(--ids-color-option-neutral-400);
     div {
       box-shadow: none;
     }
+  }
+
+  .noBorder {
+    border: none;
   }
 
   .header {

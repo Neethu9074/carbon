@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useState, useEffect } from 'react';
 import { get } from 'lodash';
-import React from 'react';
 
-import { SeverityIndicatorCellContentWrapper } from '@instana/components';
+import { SeverityIndicatorCellContentWrapper } from '@instana/legacy';
 import { TableEntityCounter } from '@instana/legacy';
-import { Button } from '@instana/legacy';
-import { Link } from '@instana/components';
+import { Link, Button } from '@instana/components';
+import { useObservable } from '@instana/hooks';
+import { empty } from '@instana/observables';
 
 import {
   createEndpointTypesUrlParameter,
@@ -20,20 +21,27 @@ import TechnologyIndicatorList from 'in-applications/components/TechnologyIndica
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import ServicesNoDataNotification from 'in-applications/lists/components/ServicesNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { type as tagFilterType } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { servicesList, useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import { serviceListPrefix as matrixPrefix } from 'in-applications/navigation/matrix';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { percentage, meanLatencyFixed, number } from 'in-services/formatters/number';
 import { getServicesWithDefaults } from 'in-applications/subscriptions/getServices';
 import ScopeNotification from 'in-applications/lists/components/ScopeNotification';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import getService from 'in-applications/subscriptions/getService';
 import { newServiceView } from 'in-applications/navigation/paths';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -42,6 +50,7 @@ import { pageNames } from 'in-services/tracking/pageNames';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { playwithEnabled } from 'in-services/featureFlags';
 import Filters from 'in-applications/components/Filters';
+import { emptyArray } from 'in-services/fixedObjects';
 import { isBlank } from 'in-services/util/string';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
@@ -209,13 +218,40 @@ export default function ServicesList({
   plugin
 }) {
   tagFilters = tagFilters ? tagFilters.map(tagFilter => ({ ...tagFilter, stringValue: tagFilter.value })) : [];
-
   const { location, createHref } = useNavigation();
+  const [callTypes, setCallTypes] = useState(null);
+  const service = useObservable(
+    contextScope && serviceId
+      ? getService({
+          id: serviceId,
+          filter: {
+            timeConfig
+          }
+        })
+      : empty,
+    [timeConfig]
+  );
+  const applicationName = useObservable(getApplicationLabelObservable, [applicationId]);
+  const serviceName = useObservable(getServiceLabelObservable, [serviceId]);
+  useEffect(() => {
+    setCallTypes(
+      joinExpressions({
+        logicalOperator: or,
+        expressions: service?.data?.types?.map(type => ({
+          type: tagFilterType,
+          name: 'call.type',
+          value: type,
+          operator: EQUALS
+        }))
+      })
+    );
+  }, [service]);
 
   const rightHeader = ({ query }) => (
     <>
       {role.canConfigureServiceMapping && !playwithEnabled && (
         <Button
+          size="compact"
           className={locals.button}
           icon="lib_actions_settings"
           kind="action"
@@ -225,12 +261,12 @@ export default function ServicesList({
         </Button>
       )}
       <Filters
-        applicationId={applicationId}
         contextScope={contextScope}
         endpointTypes={endpointTypes}
         technologies={technologies}
         setFilter={setFilter}
-        serviceId={serviceId}
+        serviceName={serviceName}
+        applicationName={applicationName}
         query={query}
         buttonLabel={t('in-applications:buttonAnalyzeServices')}
         groupBy={
@@ -238,6 +274,7 @@ export default function ServicesList({
             ? createGroupBy('service.name', entityTypes.DESTINATION)
             : createGroupBy('service.name', entityTypes.SOURCE)
         }
+        callTypes={callTypes ?? emptyArray}
       />
     </>
   );
@@ -254,7 +291,7 @@ export default function ServicesList({
         tagFilters={tagFilters}
         snapshotId={snapshotId}
         plugin={plugin}
-        onClose={() =>
+        onClose={() => {
           setFilter({
             applicationId: '',
             serviceId: '',
@@ -263,8 +300,9 @@ export default function ServicesList({
             tagFilters: [],
             snapshotId: '',
             plugin: ''
-          })
-        }
+          });
+          setCallTypes(null);
+        }}
       />
     );
 
@@ -311,4 +349,18 @@ function getTableData(params) {
 
 function getHasDataToRender(timeConfig) {
   return getServicesWithDefaults({ timeConfig }).map(result => !result.data || result.data.totalHits > 0);
+}
+
+function getServiceLabelObservable([id]) {
+  if (!id) {
+    return null;
+  }
+  return getServiceLabel({ id }).map(result => result.data?.label);
+}
+
+function getApplicationLabelObservable([id]) {
+  if (!id) {
+    return null;
+  }
+  return getApplication({ id }).map(result => result.data?.label);
 }

@@ -7,41 +7,51 @@
 import React from 'react';
 
 import { Button, Spacer, Stack, Typography } from '@instana/components';
+import { Action, Error, Result } from '@instana/types';
 
 import {
-  getDocLinkFromFields,
-  isAnsible,
-  isDocLink,
-  isManual,
-  isNotEditable
-} from 'in-automation/ActionCatalog/shared';
+  createTagsUrlParameter,
+  createTypeUrlParameter,
+  createTabTypeUrlParameter
+} from 'in-automation/navigation/urlParameters';
+import GenerateAIScriptActionDialog from 'in-automation/AutomationCard/GenerateAI/GenerateScriptAction/GenerateAIScriptActionDialog';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { descriptionColumn, lastModifiedColumn, nameColumn } from 'in-automation/ActionTable/columnDefinitions';
 import useActionCatalogFilterUrlState from 'in-automation/ActionCatalog/useActionCatalogFilterUrlState';
-import { createTagsUrlParameter, createTypeUrlParameter } from 'in-automation/navigation/urlParameters';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import useActions, { refresh, usePaginatedActions } from 'in-automation/ActionCatalog/useActions';
-import useNavigateToActionDetails from 'in-automation/ActionCatalog/useNavigateToActionDetails';
+import useNavigateToActionDetails from 'in-automation/navigation/hooks/useNavigateToActionDetails';
+import { getDocLinkFromFields, getManualContentFromFields } from 'in-automation/utils/actionField';
+import { refresh, usePaginatedActions } from 'in-automation/ActionCatalog/useActions';
+import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlags';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
+import useHasAccessToScript from 'in-automation/hooks/useHasAccessToScript';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import AutomationTabs from 'in-automation/AutomationTabs/AutomationTabs';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import MoreMenuButton from 'in-components/MoreMenu/MoreMenuButton';
+import { isNotEditable } from 'in-automation/utils/action';
+import { useSegmentTracker } from 'in-automation/tracker';
 import MoreMenu from 'in-components/MoreMenu/MoreMenu';
+import { ACTION_TYPE } from 'in-automation/constants';
+import { isLoading } from 'in-services/util/result';
 import { deleteAction } from 'in-automation/api';
-import { Action, Error } from 'in-types';
 import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
 const pathSegment = '/actionCatalog';
 const matrixPrefix = '';
 
-export default function ActionCatalog() {
+export default function ActionCatalog({
+  actions,
+  actionsType
+}: {
+  actions: Result<Action[]>;
+  actionsType: 'user' | 'ai';
+}) {
   const [serverTableUrlState, setServerTableUrlState] = useServerTableUrlState({
     pathSegment,
     matrixPrefix,
@@ -49,59 +59,145 @@ export default function ActionCatalog() {
     defaultPageSize: 10,
     paginationResettingUrlParameters: [
       createTypeUrlParameter(pathSegment, matrixPrefix),
-      createTagsUrlParameter(pathSegment, matrixPrefix)
+      createTagsUrlParameter(pathSegment, matrixPrefix),
+      createTabTypeUrlParameter(pathSegment, matrixPrefix)
     ]
   });
+  const isUserActions = actionsType === 'user';
   const { page, pageSize, orderBy, orderDirection, query } = serverTableUrlState;
 
-  const [{ tags, type }, setFilter] = useActionCatalogFilterUrlState({ pathSegment, matrixPrefix });
-
-  const actions = useActions();
-
-  const paginatedActions = usePaginatedActions({ actions, serverTableUrlState, setServerTableUrlState, type, tags });
+  const [{ tags, types }, setFilter] = useActionCatalogFilterUrlState({ pathSegment, matrixPrefix });
+  const paginatedActions = usePaginatedActions({ actions, serverTableUrlState, setServerTableUrlState, types, tags });
 
   const availableTags = [...new Set(actions?.data?.flatMap(({ tags }) => tags ?? []))];
+  const totalHits = paginatedActions.data?.totalHits;
 
   const navigateToActionDetails = useNavigateToActionDetails();
+  const columnDefinitions: ColumnDefinition<Action>[] = getColumnDefinitions({ isUserActions: isUserActions });
   return (
-    <AutomationTabs>
-      <ServerTablePresenter<Action, ServerTablePresenterProps<Action>>
-        onChange={setServerTableUrlState}
-        pageSize={pageSize}
-        page={page}
-        searchPlaceholder={t('in-automation:searchActions')}
-        onRowClick={item => navigateToActionDetails(item, false)}
-        cardTitle={t('in-automation:ActionCatalog.actionCatalog')}
-        rightHeader={
+    <ServerTablePresenter<Action, ServerTablePresenterProps<Action>>
+      onChange={setServerTableUrlState}
+      pageSize={pageSize}
+      page={page}
+      searchPlaceholder={t('in-automation:searchActions')}
+      searchMaxWidth={180}
+      cardTitle={
+        isLoading(paginatedActions)
+          ? t('in-automation:actions')
+          : t('in-automation:actionsWithCount', { count: totalHits })
+      }
+      rightHeader={
+        <>
+          {role?.canConfigureAutomationActions && isUserActions && (
+            <Button kind="action" onClick={() => navigateToActionDetails()} icon="lib_openclose_add_circle_outline">
+              {t('in-automation:ActionCatalog.newAction')}
+            </Button>
+          )}
           <>
-            {role?.canConfigureAutomationActions && (
-              <Button kind="action" onClick={() => navigateToActionDetails()} icon="lib_openclose_add_circle_outline">
-                {t('in-automation:ActionCatalog.newAction')}
-              </Button>
-            )}
-            <>
-              <Spacer horizontal="small" />
-              <Stack direction="horizontal">
-                <TypeFilter type={type ?? null} setType={type => setFilter({ type: type ?? undefined })} />
-                <TagsFilter availableTags={availableTags} tags={tags} setTags={tags => setFilter({ tags })} />
-              </Stack>
-              <Spacer horizontal="small" />
-            </>
+            <Spacer horizontal="small" />
+            <Stack direction="horizontal">
+              <TypeFilter
+                type={types ?? undefined} // Ensure `types` can be `string[]` or `null`
+                setType={params => setFilter({ types: params.types?.length ? params.types : undefined })} // Handle `types` correctly
+              />
+
+              <TagsFilter availableTags={availableTags} tags={tags} setTags={tags => setFilter({ tags })} />
+            </Stack>
+            <Spacer horizontal="small" />
           </>
-        }
-        orderBy={orderBy}
-        orderDirection={orderDirection}
-        query={query}
-        result={paginatedActions}
-        noDataMessage={t('in-automation:ActionCatalog.noActions')}
-        columnDefinitions={columnDefinition}
-        fixedLayout
-      />
-    </AutomationTabs>
+        </>
+      }
+      orderBy={orderBy}
+      orderDirection={orderDirection}
+      query={query}
+      result={paginatedActions}
+      noDataMessage={t('in-automation:ActionCatalog.noActions')}
+      columnDefinitions={columnDefinitions}
+      fixedLayout
+    />
   );
 }
 
-const columnDefinition: ColumnDefinition<Action>[] = [
+function ActionCatalogMoreMenu({ action, isUserActions }: { action: Action; isUserActions: boolean }) {
+  const navigateToActionDetails = useNavigateToActionDetails();
+  const hasAccessToScript = useHasAccessToScript();
+  const { generateAIButtonClickTrackerSegment } = useSegmentTracker();
+  const hasPermisson = role?.canConfigureAutomationActions || role?.canRunAutomationActions;
+  let manualContent = '';
+
+  if (action.type === ACTION_TYPE.MANUAL) {
+    const content = getManualContentFromFields(action.fields);
+    if (content.encoding === 'base64') {
+      manualContent = atob(content.value);
+    }
+  }
+  if (!hasPermisson) return null;
+  return (
+    <Stack align="end">
+      <MoreMenu kind="subtle">
+        {role?.canRunAutomationActions && action.type !== ACTION_TYPE.MANUAL && (
+          <MoreMenuButton
+            icon="lib_actions_play"
+            onClick={() => {
+              if (action.type === ACTION_TYPE.DOC_LINK) {
+                window.open(getDocLinkFromFields(action.fields).value, '_blank')?.focus();
+              } else {
+                addActiveDialog(<RunActionDialog test action={action} volatileId={{}} />);
+              }
+            }}
+          >
+            {t('in-automation:test')}
+          </MoreMenuButton>
+        )}
+        {role?.canConfigureAutomationActions && (
+          <>
+            {isUserActions && (
+              <MoreMenuButton icon="lib_actions_edit" onClick={() => navigateToActionDetails(action.id, false)}>
+                {t('in-automation:edit')}
+              </MoreMenuButton>
+            )}
+            <MoreMenuButton
+              disabled={action.type === ACTION_TYPE.ANSIBLE}
+              icon="lib_actions_copy"
+              onClick={() => navigateToActionDetails(action.id, true)}
+            >
+              {t('in-automation:copy')}
+            </MoreMenuButton>
+            {action.type === ACTION_TYPE.MANUAL && automationActionAiGenerationUnitEnabled && hasAccessToScript && (
+              <MoreMenuButton
+                icon="lib_launch_ai"
+                onClick={() => {
+                  generateAIButtonClickTrackerSegment({
+                    type: 'script',
+                    location: 'action catalog',
+                    actionName: action.name,
+                    actionId: action?.id
+                  });
+                  addActiveDialog(
+                    <GenerateAIScriptActionDialog manualContent={manualContent} actionName={action.name} />
+                  );
+                }}
+              >
+                {t('in-automation:GenerateAIActionDialog.generateScriptDialog.generateScriptButton')}
+              </MoreMenuButton>
+            )}
+            {isUserActions && (
+              <MoreMenuButton
+                disabled={isNotEditable(action, false)}
+                icon="lib_actions_delete"
+                onClick={() => showConfirmationDialog(action)}
+              >
+                {t('in-automation:delete')}
+              </MoreMenuButton>
+            )}
+          </>
+        )}
+      </MoreMenu>
+    </Stack>
+  );
+}
+
+const getColumnDefinitions = ({ isUserActions }: { isUserActions: boolean }): ColumnDefinition<Action>[] => [
   nameColumn,
   descriptionColumn,
   lastModifiedColumn,
@@ -111,52 +207,7 @@ const columnDefinition: ColumnDefinition<Action>[] = [
     id: 'actions',
     sortable: false,
     width: 5,
-    getContent: function Content(action) {
-      const navigateToActionDetails = useNavigateToActionDetails();
-      const hasPermisson = role?.canConfigureAutomationActions || role?.canRunAutomationActions;
-      if (!hasPermisson) return null;
-      return (
-        <Stack align="end">
-          <MoreMenu kind="subtle">
-            {role?.canRunAutomationActions && !isManual(action.type) && (
-              <MoreMenuButton
-                icon="lib_actions_play"
-                onClick={() => {
-                  if (isDocLink(action.type)) {
-                    window.open(getDocLinkFromFields(action.fields).value, '_blank')?.focus();
-                  } else {
-                    addActiveDialog(<RunActionDialog test action={action} volatileId={{}} />);
-                  }
-                }}
-              >
-                {t('in-automation:test')}
-              </MoreMenuButton>
-            )}
-            {role?.canConfigureAutomationActions && (
-              <>
-                <MoreMenuButton icon="lib_actions_edit" onClick={() => navigateToActionDetails(action, false)}>
-                  {t('in-automation:edit')}
-                </MoreMenuButton>
-                <MoreMenuButton
-                  disabled={isAnsible(action.type)}
-                  icon="lib_actions_copy"
-                  onClick={() => navigateToActionDetails(action, true)}
-                >
-                  {t('in-automation:copy')}
-                </MoreMenuButton>
-                <MoreMenuButton
-                  disabled={isNotEditable(action, false)}
-                  icon="lib_actions_delete"
-                  onClick={() => showConfirmationDialog(action)}
-                >
-                  {t('in-automation:delete')}
-                </MoreMenuButton>
-              </>
-            )}
-          </MoreMenu>
-        </Stack>
-      );
-    }
+    getContent: action => <ActionCatalogMoreMenu action={action} isUserActions={isUserActions} />
   }
 ];
 

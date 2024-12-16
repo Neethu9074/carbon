@@ -1,5 +1,5 @@
 {
-  "zhmcs": "zHMC",
+  "zhmcs": "zHMCs",
   "hostname": "主机名",
   "name": "名称",
   "systems": "系统",
@@ -17,13 +17,13 @@
   "status": "状态",
   "breadcrumbs": {
     "zhmc": "zHMC",
-    "zhmcs": "zHMC",
+    "zhmcs": "zHMCs",
     "systems": "系统"
   },
   "dashboards": {
     "zhmc": "zHMC",
     "systems": "系统",
-    "summary": "目录",
+    "summary": "摘要",
     "environmentalAndPower": "环境与电力",
     "channel": "通道",
     "adapter": "适配器",
@@ -43,17 +43,17 @@
     "cryptoId": "加密标识",
     "processorUsage": "总体处理器使用情况",
     "name": "名称",
-    "zvm": "z/VM 调页率",
     "ifl": "IFL 处理器使用情况",
     "icf": "ICF 处理器使用情况",
     "cbp": "CBP 处理器使用情况",
     "cp": "CP 处理器使用情况",
     "iip": "IIP 处理器使用情况",
+    "lparPowerConsumption": "LPAR 功耗（瓦特）",
     "smt": "SMT 使用情况",
     "thread0": "线程 0 用法",
     "thread1": "线程 1 用法",
     "networkUsage": "网络使用情况",
-    "storageUsage": "存储使用情况",
+    "storageUsage": "存储使用率",
     "acceleratorUsage": "加速器使用情况",
     "cryptoUsage": "加密使用情况",
     "networkPortId": "网络端口标识",
@@ -108,6 +108,6 @@
   "channelUsage": "通道使用情况",
   "networkUsage": "网络使用情况",
   "cryptoUsage": "加密使用情况",
-  "storageUsage": "存储使用情况",
+  "storageUsage": "存储使用率",
   "acceleratorUsage": "加速器使用情况"
 }

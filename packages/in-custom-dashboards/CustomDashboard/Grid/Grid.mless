@@ -51,6 +51,12 @@
     gap: 0.75rem;
     margin-left: 0.5rem;
   }
+  .carbonMoreMenuContainer {
+    margin-left: 0.75rem;
+  }
+  .moreMenuContent {
+    display: flex;
+  }
 
   .viewInAnalyze {
     display: grid;

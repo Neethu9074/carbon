@@ -37,6 +37,13 @@
       padding-left: 0.5rem;
     }
   }
+  .alertPreviewTearSheeet {
+    min-height: 10.5rem;
+  }
+
+  .multiThresholdAlertPreview {
+    min-height: 6rem;
+  }
 
   .alertPreviewContent {
     display: flex;

@@ -1,0 +1,12 @@
+:local {
+  .dialogActions {
+    display: flex;
+  }
+  .dialogContentWrapper {
+    padding: 1.5rem;
+    padding-top: 0;
+    padding-right: 3rem;
+    flex: 1;
+    overflow-y: auto;
+  }
+}

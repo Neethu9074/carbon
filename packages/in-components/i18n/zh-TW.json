@@ -17,9 +17,11 @@
     "chartWrapperMetricNotfound": "找不到度量 ID {{metricId}}。",
     "chartWrapperSameAxisSameValue": "一軸的所有聚集類型都必須具有相同的值。",
     "viewInAnalyticsBtnLabel": "在分析中檢視",
+    "chartLegendBlankLabel": "空白",
     "chartLendMetricTimeShifted": "度量的時間已遷移至：{{timeShiftedLabel}}",
-    "chartDownloadLabel": "下載 JSON",
-    "chartDownloadCSVLabel": "下載 CSV",
+    "chartDownloadLabel": "匯出成 JSON",
+    "chartDownloadCSVLabel": "匯出為 CSV",
+    "chartDownloadPDFLabel": "下載 PDF",
     "chartGlobalHighlightLabel": "在所有圖表上強調顯示",
     "chartZoomInLabel": "縮放至時間範圍",
     "chartAlertsLanePresenterAlertsLabel": "警示",
@@ -38,7 +40,8 @@
       "itemMsg": "+{{leftCount}} 個以上的 {{moreMsg}}"
     },
     "chartMarkerLane": {
-      "retryButtonLabel": "重試"
+      "retryButtonLabel": "重試",
+      "openList": "開啟清單"
     },
     "chartReleasesLanePresenterReleasesLabel": "版本",
     "chartReleasesLanePresenterTooltip": "+{{len}} 個以上的版本",
@@ -64,9 +67,14 @@
   "touchedMessages": {
     "withPath": "{{message}}（位於 <codeWithClass>{{path}}</codeWithClass>）"
   },
-  "gravatar": {
-    "avatarUrlAlt": "gravatar.com 提供的 {{email}} 頭像。",
-    "avatarNullAlt": "{{email}} 的備用頭像。"
+  "graphView": {
+    "graphTitle": "圖形",
+    "explanationHeader": "動態圖形展示",
+    "explanationP1": "推動 Instana 的核心技術我們稱為「動態圖形」。 「圖形」是您應用程式的模型，可瞭解元件的所有實體與邏輯相依關係。 在右邊，您會看到現行環境的「動態圖形」！",
+    "explanationP2": "該圖包含 Instana 代理程式和感測器自動探索到的所有資源及其相依性，以便該圖持續保持最新。 該圖中的每個節點也會不斷更新狀態資訊，例如指標、配置資料和基於語意知識計算的性能值。 此知識也會分析圖形中的相依關係，來尋找服務和應用程式等之類的邏輯分組，以瞭解對該層次的影響，並衍生問題的嚴重性。 整個圖形會持續存在，您可以適時地反覆來回，以便將圖形的知識運用於許多的作業使用案例中。",
+    "explanationP3": "您可以透過在基礎架構圖上選取資源並回到此頁面來過濾右側的視圖。 選取資源後，應在允許此過濾的 URL 中設定 snapshotId 參數。",
+    "explanationLink": "<linkToBlog>請造訪我們的部落格</linkToBlog>以獲取更多資訊。",
+    "closeBtn": "關閉圖形"
   },
   "releaseNotesDialog": {
     "releaseNotesTitle": "版本注意事項"
@@ -115,6 +123,7 @@
       "entititiesDescription": "所選的時間範圍內未擷取到任何的實體。"
     },
     "sharedComponents": {
+      "settings": "設定",
       "configurableThSearchItemPlaceholder": "搜尋 {{len}} 個項目",
       "configurableThNoMatchesTxt": "無相符項"
     }
@@ -124,6 +133,7 @@
     "tagListNoTagsDefined": "未定義任何標籤",
     "tagListShowAll": "顯示所有標籤（{{num}} 個以上）"
   },
+  "copyToClipboard": "剪貼簿",
   "copyToClipboardPressToCopy": "按 CTRL+C / CMD+C 以複製！",
   "copyToClipboardCopied": "已複製！",
   "reloadUiDialogTitle": "有新的使用者介面版本可用",
@@ -233,6 +243,7 @@
     "labelRegion": "地區",
     "labelTag": "標籤",
     "labelCommit": "確定",
+    "buttonGraphShowcase": "圖形展示",
     "geo": {
       "title": "地理資料",
       "description": "本產品包含透過 MaxMind 建立的 GeoLite2 資料；如需 MaxMind 相關資訊，請造訪 <linkToMaxMind>https://www.maxmind.com</linkToMaxMind>。"
@@ -263,6 +274,7 @@
   },
   "dialog": {
     "confirmationDialogLabelConfirm": "確認",
+    "secondaryDialogLabelCancel": "取消",
     "promptPresenterLabelConfirm": "確認"
   },
   "draggableItemSelector": {
@@ -294,12 +306,7 @@
     "tooltipShowLess": "顯示更少",
     "tooltipShowMore": "顯示更多"
   },
-  "expandableGroup": {
-    "tooltipShowContent": "顯示內容",
-    "labelExpandButtonForContent": "內容的展開按鈕"
-  },
   "featureFeedback": {
-    "labelBETA": "測試版",
     "linkLabelYouCanSendUsFeedback": "您可以傳送意見給我們"
   },
   "geoHeatMap": {
@@ -352,7 +359,55 @@
     "openIncidents_1": "{{count}} 個事故",
     "openIncidents_2": "{{count}} 個事故",
     "labelWarning": "警告",
-    "labelCritical": "重大"
+    "labelCritical": "重大",
+    "carbonNoIssues": "沒有問題",
+    "carbonOpenIssues": "{{count}} 個問題",
+    "carbonOpenIssues_plural": "{{count}} 個問題",
+    "carbonOpenIssues_0": "{{count}} 個問題",
+    "carbonOpenIssues_1": "{{count}} 個問題",
+    "carbonOpenIssues_2": "{{count}} 個問題",
+    "carbonNoIncidents": "無記事",
+    "carbonOpenIncidents": "{{count}} 個發生事件",
+    "carbonOpenIncidents_plural": "{{count}} 個發生事件",
+    "carbonOpenIncidents_0": "{{count}} 個發生事件",
+    "carbonOpenIncidents_1": "{{count}} 個發生事件",
+    "carbonOpenIncidents_2": "{{count}} 個發生事件"
+  },
+  "vulnerabilities": {
+    "eventType_issue": "漏洞",
+    "eventType_issue_plural": "漏洞",
+    "eventType_issue_0": "漏洞",
+    "eventType_issue_1": "漏洞",
+    "eventType_issue_2": "漏洞",
+    "openIssuesListPresenterActionsViewIssues": "檢視漏洞",
+    "openIssuesListPresenterActionsViewNumbersOfIssue": "檢視 {{openIssueCount}} 個漏洞",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "載入開啟的漏洞…",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "無法載入開啟的漏洞",
+    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} 個開啟的漏洞",
+    "noVulnerabilities": "無漏洞",
+    "openVulnerabilities": "{{count}} 個漏洞",
+    "openVulnerabilities_plural": "{{count}} 個漏洞",
+    "openVulnerabilities_0": "{{count}} 個漏洞",
+    "openVulnerabilities_1": "{{count}} 個漏洞",
+    "openVulnerabilities_2": "{{count}} 個漏洞",
+    "noIncidents": "無發生事件",
+    "openIncidents": "{{count}} 個事故",
+    "openIncidents_plural": "{{count}} 個事故",
+    "openIncidents_0": "{{count}} 個事故",
+    "openIncidents_1": "{{count}} 個事故",
+    "openIncidents_2": "{{count}} 個事故",
+    "carbonNoVulnerabilities": "無漏洞",
+    "carbonOpenVulnerabilities": "{{count}} 個漏洞",
+    "carbonOpenVulnerabilities_plural": "{{count}} 個漏洞",
+    "carbonOpenVulnerabilities_0": "{{count}} 個漏洞",
+    "carbonOpenVulnerabilities_1": "{{count}} 個漏洞",
+    "carbonOpenVulnerabilities_2": "{{count}} 個漏洞",
+    "carbonNoIncidents": "無記事",
+    "carbonOpenIncidents": "{{count}} 個發生事件",
+    "carbonOpenIncidents_plural": "{{count}} 個發生事件",
+    "carbonOpenIncidents_0": "{{count}} 個發生事件",
+    "carbonOpenIncidents_1": "{{count}} 個發生事件",
+    "carbonOpenIncidents_2": "{{count}} 個發生事件"
   },
   "inlineTabNavigation": {
     "labelSelectTab": "選取標籤"
@@ -388,9 +443,9 @@
     "labelLoadingData": "正在載入資料"
   },
   "mainNavigation": {
+    "skipToMainContent": "跳到主要內容",
     "viewSwitcherLabelSettings": "設定",
     "viewSwitcherLabelMore": "更多",
-    "viewSwitcherLabelTenants": "租戶",
     "viewSwitcherLabelAgents": "代理程式",
     "viewSwitcherLabelReleaseNotes": "版本注意事項",
     "viewSwitcherLabelDocumentation": "說明文件",
@@ -400,7 +455,9 @@
     "viewSwitcherLabelEvents": "事件",
     "viewSwitcherlabelInfrastructure": "基礎架構",
     "viewSwitcherLabelApplications": "應用程式",
+    "viewVulnerabilityCenter": "漏洞",
     "viewSwitcherLabelSlo": "服務水準",
+    "viewSwitcherLabelLogs": "日誌",
     "viewSwitcherLabelAnalytics": "分析",
     "viewSwitcherLabelWebsitesAndMobileApps": "網站和行動式應用程式",
     "viewSwitcherLabelWebsites": "網站",
@@ -414,10 +471,17 @@
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "平台",
-    "viewSwitcherButtonSignOut": "登出",
     "viewSwitcherCustomDashboards": "自訂儀表板",
+    "viewSwitcherButtonSignOut": "登出",
+    "viewSwitcherLabelTenants": "租戶",
+    "viewSwitcherLabelNutanix": "Nutanix",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "有新的 Instana 使用者介面版本可用",
-    "newUiClientVersionAvailableButtonReloadToUpdate": "重新載入以更新"
+    "newUiClientVersionAvailableButtonReloadToUpdate": "重新載入以更新",
+    "profileMenu_profileLink": "設定",
+    "profileMenu_tooltip": "設定檔功能表",
+    "profileMenu_unitName_tenantName": "單位名稱 - 租戶名稱",
+    "profileMenu_switchUnitOrTenant": "切換單位或租戶",
+    "profileMenu_logOut": "登出"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "選取度量",
@@ -438,8 +502,10 @@
     "aggregation_MAX": "最大值",
     "aggregation_DISTINCTCOUNT": "個別的計數",
     "aggregation_SUM": "總和",
+    "aggregation_INCREASE": "Δ",
     "aggregation_DISTRIBUTION": "分佈",
-    "aggregation_PERSECOND": "每秒"
+    "aggregation_PERSECOND": "每秒",
+    "labelFilterEmptyValue": "過濾空值"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "已用",
@@ -517,6 +583,12 @@
     "fillerTextIn": " 位於 ",
     "fillerTextAt": " 於 "
   },
+  "sessionTimeout": {
+    "title": "階段作業逾時",
+    "message": "由於閒置，您將在以下位置登出：",
+    "loggedInButton": "保持已登入狀態",
+    "logOutButton": "登出"
+  },
   "time": {
     "lastMinute": "前一分鐘",
     "lastMinute_plural": "過去 {{count}} 分鐘",
@@ -584,8 +656,8 @@
     "loadingData": "正在載入資料"
   },
   "uiClinetUpdateMessage": {
-    "newVersionOfInstanaAvailable": "有新的 Instana 版本可用",
-    "buttonReloadToUpdate": "重新載入以更新"
+    "newVersionOfInstanaAvailable": "Instana UI 有更新",
+    "buttonReloadToUpdate": "重新整理瀏覽器以將其載入。"
   },
   "upstreamDownstream": {
     "companionMetricLabelCalls": "呼叫",
@@ -645,6 +717,7 @@
     "setEnabledMessagePressESCToDisableTVMode": "按 ESC 鍵以停用 TV 模式。"
   },
   "analyze": {
+    "facettedFilters": "切面過濾器",
     "loadMoreWithCount": "再載入 {{count}} 個",
     "loadMore": "載入更多",
     "activeFacets": "已選取 {{count}} 個",
@@ -655,6 +728,7 @@
     "fromUnit": "從 ({{unit}})",
     "to": "到",
     "toUnit": "到 ({{unit}})",
+    "fromto": "定義 FROM-TO 範圍",
     "rangeSelected": "已選取範圍",
     "rangeOrder": "範圍必須是升冪。",
     "earliestTimestamp": "最早時間戳記",
@@ -668,6 +742,8 @@
     },
     "groupName": "群組名稱",
     "groupedOnly": "度量僅適用於分析群組時。",
+    "groupNameNotAvailable": "{{groupbyTag}} 資訊無法使用",
+    "options": "選項",
     "filterSidebar": {
       "groupingButton": "依 {{group}} 分組",
       "ungroupButton": "移除分組"
@@ -829,5 +905,9 @@
     "notice": "此租戶單元已移轉至新區域。 您目前正在存取的單元僅包含歷程資料。",
     "goToNewLocationLabel": "移至新位置",
     "exploreDataLabel": "探索歷程資料"
+  },
+  "creatableTagSelect": {
+    "placeholder": "輸入標籤",
+    "createLabel": "建立：{{tag}}"
   }
 }

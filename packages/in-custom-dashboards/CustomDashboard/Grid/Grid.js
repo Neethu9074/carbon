@@ -3,14 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { memo, useEffect, useContext, useState } from 'react';
 import { InView } from 'react-intersection-observer';
-import React, { useEffect, useState } from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import classNames from 'classnames';
 
-import { Card, Message, SvgIcon } from '@instana/components';
+import { Card, IconButton, Message, SvgIcon } from '@instana/components';
 
 import {
   breakpoints,
@@ -19,16 +19,20 @@ import {
   margin,
   rowHeightPixels
 } from 'in-custom-dashboards/CustomDashboard/Grid/settings';
+import { CustomDashboardContext } from 'in-custom-dashboards/CustomDashboard/CustomDashboardContext';
+import { customDashboardsExportPdfWidget, zoomWidgetEnabled } from 'in-services/featureFlags';
+import { CUSTOM_DASHBOARD_WIDGET_DOWNLOAD_PDF } from 'in-services/tracking/tracking';
+import { useFastQueryConfig } from 'in-custom-dashboards/hooks/useFastQueryConfig';
 import ViewTracker from 'in-custom-dashboards/CustomDashboard/Grid/ViewTracker';
+import { gridGutter } from 'in-custom-dashboards/CustomDashboard/Grid/settings';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { ViewLogsButton } from 'in-logging/components/ViewLogsButton';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
-import { zoomWidgetEnabled } from 'in-services/featureFlags';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import widgets from 'in-custom-dashboards/widgets';
 import Tooltip from 'in-components/Tooltip';
 import { t, Trans } from 'in-i18n';
-import oldTheme from 'in-themes';
 
 import locals from './Grid.mless';
 import './Grid.less';
@@ -65,6 +69,7 @@ function Grid({
   onRemoveWidget,
   tvMode,
   scrollAreaDomNode,
+  shouldWidgetRenderOutsideViewport,
   width
 }) {
   // react-grid-layout has transitions enabled on each widget element. This means at the time of
@@ -76,6 +81,10 @@ function Grid({
   // as intended.
   const [disabledTransitions, setDisabledTransitions] = useState(true);
 
+  const { trackCta } = useSegmentTracking();
+
+  const { setExportWidgetId, setShouldExportWidget } = useContext(CustomDashboardContext);
+
   useEffect(() => {
     const handle = setTimeout(setDisabledTransitions, 0, false);
 
@@ -85,10 +94,15 @@ function Grid({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const layout = config.widgets.map(widget => {
-    const { minimumWidth = 3, minimumHeight = 9 } = widgets[widget.type] ?? {};
-    return getLayoutFields(widget, minimumWidth, minimumHeight);
-  });
+  const layout = config.widgets
+    .map(widget => {
+      const { minimumWidth = 3, minimumHeight = 9 } = widgets[widget.type] ?? {};
+      return getLayoutFields(widget, minimumWidth, minimumHeight);
+    })
+    .sort((a, b) => (a.y !== b.y ? a.y - b.y : a.x - b.x)); // sort the layout based on the widget position
+
+  const orderedIds = layout.map(item => item.i);
+  const sortedWidgets = orderedIds.map(id => config.widgets.find(item => item.id === id)).filter(Boolean);
 
   return (
     <ReactGridLayout
@@ -101,7 +115,7 @@ function Grid({
       margin={margin}
       // Remove the horizontal spacing added by the grid layout to avoid
       // horizontal overflow.
-      width={width - oldTheme.grid.gutter}
+      width={width - gridGutter}
       containerPadding={containerPadding}
       layout={layout}
       breakpoints={breakpoints}
@@ -111,16 +125,22 @@ function Grid({
       onResizeStop={forwardLayoutChange}
       draggableHandle={`.${draggableHandle || locals.dragHandle}`}
     >
-      {config.widgets.map(widget => {
+      {sortedWidgets.map(widget => {
         const content = widgets[widget.type] ? (
-          <WidgetContent
+          <MemoizedWidgetContent
             widget={widget}
             isConfigurable={isConfigurable}
+            shouldRenderOutsideViewport={shouldWidgetRenderOutsideViewport}
             onEditWidget={onEditWidget}
             onCopyWidget={onCopyWidget}
             onDuplicateWidget={onDuplicateWidget}
             onZoomWidget={onZoomWidget}
             onRemoveWidget={onRemoveWidget}
+            setExportWidgetId={setExportWidgetId}
+            setShouldExportWidget={value => {
+              trackCta(CUSTOM_DASHBOARD_WIDGET_DOWNLOAD_PDF, { widgetId: widget.id });
+              setShouldExportWidget(value);
+            }}
             isDraggable={isDraggable}
             scrollAreaDomNode={scrollAreaDomNode}
           />
@@ -174,10 +194,16 @@ function WidgetContent({
   onDuplicateWidget,
   onZoomWidget,
   onRemoveWidget,
+  setExportWidgetId,
+  setShouldExportWidget,
   isDraggable,
-  scrollAreaDomNode
+  customHeight,
+  scrollAreaDomNode,
+  shouldRenderOutsideViewport = false
 }) {
   const { Widget, onlyRenderInsideViewport = true, trackViews } = widgets[widget.type];
+
+  const widgetConfig = useFastQueryConfig(widget.config, widget.type);
 
   const actions = isConfigurable && (
     <WidgetMoreMenu
@@ -186,6 +212,8 @@ function WidgetContent({
       onDuplicateWidget={onDuplicateWidget}
       onCopyWidget={onCopyWidget}
       onZoomWidget={onZoomWidget}
+      setExportWidgetId={setExportWidgetId}
+      setShouldExportWidget={setShouldExportWidget}
       onRemoveWidget={onRemoveWidget}
     />
   );
@@ -195,8 +223,11 @@ function WidgetContent({
       title={widget.title || '–'}
       actions={actions}
       dragHandle={isDraggable && dragHandle}
-      config={widget.config}
+      config={widgetConfig}
       setApDialogOpen={widget.setApDialogOpen}
+      widgetId={widget.id}
+      setExportWidgetId={setExportWidgetId}
+      customHeight={customHeight}
     />
   );
 
@@ -204,7 +235,7 @@ function WidgetContent({
     content = <ViewTracker widget={widget}>{content}</ViewTracker>;
   }
 
-  if (onlyRenderInsideViewport) {
+  if (onlyRenderInsideViewport && !shouldRenderOutsideViewport) {
     // We cannot reference 'content' directly within InView as this would create a circular rendering problem.
     const trackVisibilityContent = content;
     content = (
@@ -227,15 +258,27 @@ function WidgetContent({
   return content;
 }
 
-function WidgetMoreMenu({ onEditWidget, widget, onDuplicateWidget, onCopyWidget, onZoomWidget, onRemoveWidget }) {
+export const MemoizedWidgetContent = memo(WidgetContent);
+
+function WidgetMoreMenu({
+  onEditWidget,
+  widget,
+  onDuplicateWidget,
+  onCopyWidget,
+  onZoomWidget,
+  onRemoveWidget,
+  setExportWidgetId,
+  setShouldExportWidget
+}) {
   return (
-    <div className={locals.moreMenuContainer}>
+    <div className={classNames(locals.moreMenuContainer, locals.carbonMoreMenuContainer)}>
       <ViewLogsButton className={locals.viewInAnalyze} config={widget.config} />
       {zoomWidgetEnabled && (
         <Tooltip content={t('in-forge:plugins.docker.dashboard.zoomTooltip')}>
           <div>
-            <SvgIcon
-              size="s"
+            <IconButton
+              kind="action"
+              size={'compact'}
               className={locals.zoom}
               type="lib_actions_maximize"
               onClick={() => onZoomWidget(widget.id)}
@@ -243,9 +286,14 @@ function WidgetMoreMenu({ onEditWidget, widget, onDuplicateWidget, onCopyWidget,
           </div>
         </Tooltip>
       )}
-      <Tooltip content={t('in-forge:plugins.docker.dashboard.moreTooltip')}>
-        <div>
-          <MoreMenu kind="secondaryDarker" size="compact" className={locals.more}>
+      <Tooltip content={null}>
+        <div className={locals.moreMenuContent}>
+          <MoreMenu
+            kind="secondaryDarker"
+            size="compact"
+            className={locals.more}
+            iconDescription={t('in-forge:plugins.docker.dashboard.moreTooltip')}
+          >
             <MoreMenuButton icon="lib_actions_edit" onClick={() => onEditWidget(widget.id)}>
               {t('in-custom-dashboards:customDashboard.grid.grid.edit')}
             </MoreMenuButton>
@@ -262,6 +310,17 @@ function WidgetMoreMenu({ onEditWidget, widget, onDuplicateWidget, onCopyWidget,
             <MoreMenuButton icon="lib_group_by" onClick={() => onDuplicateWidget(widget.id)}>
               {t('in-custom-dashboards:customDashboard.grid.grid.duplicate')}
             </MoreMenuButton>
+            {customDashboardsExportPdfWidget && (
+              <MoreMenuButton
+                icon="lib_actions_download"
+                onClick={() => {
+                  setExportWidgetId(widget.id);
+                  setShouldExportWidget(true);
+                }}
+              >
+                {t('in-custom-dashboards:customDashboard.grid.grid.exportPDF')}
+              </MoreMenuButton>
+            )}
             <MoreMenuButton icon="lib_actions_delete" onClick={() => onRemoveWidget(widget.id)}>
               {t('in-custom-dashboards:customDashboard.grid.grid.delete')}
             </MoreMenuButton>

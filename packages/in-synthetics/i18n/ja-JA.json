@@ -10,7 +10,8 @@
         "step1": "ステップ 1：タイプの選択",
         "step2": "ステップ 2：要求の詳細",
         "step3": "ステップ 3：スケジューリング",
-        "step4": "ステップ 4：詳細の入力"
+        "step4": "ステップ 4：詳細の入力",
+        "step5": "Step5: アソシエイト"
       },
       "selectTest": {
         "title": "どのような種類のシンセティック・テストを作成しますか"
@@ -39,6 +40,8 @@
         "labelName": "テストの名前",
         "labelDescription": "説明",
         "labelFrequency": "頻度 (分)",
+        "labelFrequencyHour": "頻度 (時間)",
+        "labelApplication": "アプリケーションの選択",
         "labelApplications": "アプリケーションの選択"
       },
       "bluePrint": {
@@ -95,6 +98,11 @@
             "line3": "ステップ 3: テスト頻度 (1 分 ~ 120 分) を選択します。",
             "line4": "ステップ 4:「テストの名前と説明」セクションの「名前」フィールドにテストの分かりやすい名前を入力します。 テストの目的の説明を「説明」フィールドに追加します。"
           }
+        },
+        "certificateCheck": {
+          "whenToUse": {
+            "line1": "このテストを使用して、Webサーバー証明書の有効期限が切れるかどうかを確認してください。"
+          }
         }
       },
       "validators": {
@@ -128,7 +136,11 @@
           "browserTypeHeadline": "ブラウザー・シンセティック・テスト",
           "browserTypeText": "ブラウザー・シンセティック・テストは、Web ブラウザーでスクリプトを使用して Web サイトとのユーザー対話をシミュレートすることにより、Web アプリケーションのパフォーマンスをモニターする方法です。これにより、ユーザー・エクスペリエンスに影響を与える問題に関する貴重な洞察を提供し、Web サイトの機能を確保します。",
           "browserSimpleTitle": "ブラウザー単純テスト",
-          "browserScriptTitle": "ブラウザー・スクリプト・テスト"
+          "browserScriptTitle": "ブラウザー・スクリプト・テスト",
+          "certificateCheckTitle": "SSL証明書の確認",
+          "certificateCheckLabel": "SSL 証明書",
+          "certificateCheckHeadline": "SSL証明書の確認テスト",
+          "certificateCheckText": "SSL証明書の確認テストは、発行された証明書の残り日数を確認することによって、WebアプリケーションでSSL証明書の有効期限をテストする方法です。"
         },
         "configurationLabel": "構成",
         "configurationTitle": "構成: このテストはどのように機能しますか?",
@@ -140,6 +152,8 @@
         "identifyTitle": "識別: テストは何を行いますか?",
         "customPropertiesTitle": "カスタム・プロパティー",
         "frequency": "このテストは {{frequencyValue}} 分ごとに実行されます。",
+        "frequencyHours": "このテストは、{{frequencyHours}}時間ごとに実行されます。",
+        "frequencyHoursAndMinutes": "このテストは、 {{frequencyHours}}時間と{{frequencyMinutes}}分ごとに実行されます。",
         "simultaneous": "同時",
         "simultaneousDescription": "このテストは、選択した各ロケーションで同時に実行されます。",
         "configStep": {
@@ -213,14 +227,48 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "ブラウザー"
+          "browserName": "ブラウザー",
+          "certificateCheckName": "SSL 証明書"
         },
         "customProperties": {
           "property": "プロパティー",
           "propertyValue": "値",
           "addProperty": "プロパティーの追加",
           "propertyNameMustBeUnique": "プロパティー名は固有でなければなりません。"
-        }
+        },
+        "certificateCheck": {
+          "inputHostName": "ホスト名",
+          "inputPortNumber": "ポート",
+          "failureConfigLabel": "失敗構成",
+          "failureConfigText": "証明書の有効期限が切れるまで残り<certificateValidityDays/>日の場合は、テストが失敗します。"
+        },
+        "associationsLabel": "アソシエイト",
+        "applicationsTitle": "関連付け: この合成テストに関連付けるアプリケーションを選択します",
+        "applicationsDescription": "合成テストをアプリケーションに関連付けると、そのアプリケーションにアクセスできるすべてのユーザーにアクセ ス権が付与されます。",
+        "associationsTitle": "関連付け: この合成テストに関連付けたいものを選択します",
+        "associationsDescription": "合成テストをアプリケーション、ウェブサイト、またはモバイルアプリに関連付けると、それらのエンティティにアクセスできるすべてのユーザーにアクセス権が付与されます。"
+      },
+      "associations": {
+        "applicationsTitle": "この合成テストに関連付けるアプリケーションを選択する",
+        "applicationsDescription": "合成テストをアプリケーションに関連付けると、そのアプリケーションにアクセスできるすべてのユーザーにアクセ ス権が付与されます。",
+        "associationsTitle": "この合成テストに関連付けたいものを選択します",
+        "associationsDescription": "合成テストをアプリケーション、ウェブサイト、またはモバイルアプリに関連付けると、それらのエンティティにアクセスできるすべてのユーザーにアクセス権が付与されます。",
+        "applicationsButtonLabel": "アプリケーションの選択",
+        "websitesButtonLabel": "Web サイトの選択",
+        "mobileAppsButtonLabel": "モバイル・アプリの選択",
+        "entityName": "名前",
+        "noDataAvailable": {
+          "message": "{{component}} が使用不可です"
+        },
+        "addApplications": "{{count}} アプリケーションの追加",
+        "addApplication": "アプリケーションの追加",
+        "addWebsites": "{{count}} ウェブサイトの追加",
+        "addWebsite": "Web サイトの追加",
+        "addMobileApps": "{{count}} モバイルアプリの追加",
+        "addMobileApp": "モバイル・アプリケーションの追加",
+        "applicationsTableTitle": "アプリケーション (複数可)",
+        "websitesTableTitle": "ウェブサイト",
+        "mobileAppsTableTitle": "モバイルアプリ"
       }
     },
     "httpMethods": {
@@ -241,9 +289,9 @@
     },
     "locationFeedback": {
       "successMessageDelete": "ロケーションが正常に削除されました",
-      "failureMesssageDelete": "{{deleteLocationErrorMessage}}",
+      "failureMesssage": "{{errorMessage}}",
       "successMessageDeactivate": "ロケーションが正常に非アクティブ化されました",
-      "failureMesssageDeactivate": "{{deactivateLocationErrorMessage}}"
+      "successMessageActivate": "ロケーションが正常にアクティブ化されました"
     },
     "updateTest": {
       "dialogTitle": "{{syntheticType}} テストの編集",
@@ -288,7 +336,7 @@
         "datacentersSubtitle": "使用可能なデータ・センターのいずれかで Instana 管理ロケーションをアクティブ化します。 詳しくは、<linkDatacenters>Instana でホストされる PoP</linkDatacenters> を参照してください。 ",
         "confirmationDialog": {
           "headline": "ロケーションをデプロイしています",
-          "message": "以下のデータ・センターで新しいロケーションをセットアップしています。 これを自動デプロイする間、しばらくお待ちください。 これが完了すると、新しいロケーションが「ロケーション」タブに表示されます。 <strong>これには、選択したデータ・センターごとに最大 10 分かかる場合があります。</strong>",
+          "message": "以下のデータ・センターで新しいロケーションをセットアップしています。 これを自動デプロイする間、しばらくお待ちください。 これが完了すると、新しいロケーションが「ロケーション」タブに表示されます。 <strong>この展開には、選択したデータセンターごとに数分かかることがあります。</strong>",
           "table": {
             "heads": {
               "datacenterCode": "データ・センター・コード",
@@ -303,11 +351,14 @@
         },
         "deactivateDatacenter": {
           "title": "ロケーションの非アクティブ化",
-          "deactivateMessage": "ロケーション <strong>{{locationDisplayLabel}}</strong> を非アクティブにしますか?<br/><br/>ロケーションの非アクティブ化には最大 10 分かかる場合があります。 これをプロビジョン解除するまで、しばらくお待ちください。 これが完了すると、ロケーションのステータスは「オフライン」になります。<br/>",
+          "deactivateMessage": "ロケーション <strong>{{locationDisplayLabel}}</strong> を非アクティブにしますか?<br/><br/> ロケーションの停止には数分かかります。 これをプロビジョン解除するまで、しばらくお待ちください。 これが完了すると、ロケーションのステータスは「オフライン」になります。<br/>",
           "warningMessage": "非アクティブ化は削除されません。 ロケーションは使用可能になり、再度アクティブ化することができます。 管理対象ロケーションを完全に削除するには、ロケーションのステータスが「オフライン」に変更されたら、そのロケーションを削除します。",
           "activeStatus": "アクティブ",
           "deactivateButton": "非アクティブ"
-        }
+        },
+        "activate": "アクティブ",
+        "okay": "わかった",
+        "activateLocation": "ロケーションのアクティブ化"
       },
       "validators": {
         "theValueMustNotBeEmpty": "少なくとも 1 つのデータ・センターを選択する必要があります"
@@ -318,6 +369,46 @@
       },
       "status": {
         "pending": "保留中"
+      }
+    },
+    "credentialFeedback": {
+      "successMessageDelete": "クレデンシャルの削除に成功",
+      "failureMesssage": "{{errorMessage}}"
+    },
+    "createCredential": {
+      "createButton": "新規資格情報",
+      "nameValue": "名前と値",
+      "associations": "関連付け",
+      "newCredentials": "合成クレデンシャルの作成",
+      "steps": {
+        "textInput": {
+          "placeholder": "資格情報名",
+          "labelText": "名前",
+          "invalidText": "クレデンシャル名は、文字で始まり、文字、数字、アンダースコアのみを含む必要がある。",
+          "credentialNamesMustBeUnique": "クレデンシャル名はユニークでなければなりません。 この名前は使用されています。 別のものを使用してください。"
+        },
+        "passwordInput": {
+          "placeholder": "資格情報値",
+          "labelText": "値"
+        },
+        "associationsDescription": "クレデンシャルをアプリケーション、Web サイト、またはモバイル・アプリに関連付けると、それらのエンティティにアクセスできるすべてのユーザにアクセス権が付与されます。"
+      },
+      "feedback": {
+        "successMessage": "クレデンシャルの作成に成功",
+        "failureMessageCreate": "クレデンシャルの作成に失敗しました: {{errorMessage}}",
+        "updateSuccessMessage": "クレデンシャルの更新に成功しました",
+        "failureMessageUpdate": "クレデンシャルの更新に失敗しました: {{errorMessage}}"
+      },
+      "edit": {
+        "dialogTitle": "合成クレデンシャル {{credentialName}} を編集する",
+        "associations": "関連付け",
+        "saveButton": "保存",
+        "textInputHelperText": "クレデンシャル名は編集できず、readOnly フィールドです",
+        "passwordInputHelperText": "現在のクレデンシャルを更新する場合は、新しいクレデンシャル値を入力する。"
+      },
+      "tooltipLabels": {
+        "hide": "クレデンシャルの値を非表示にします",
+        "show": "クレデンシャルの値を表示する"
       }
     }
   },
@@ -334,7 +425,8 @@
       "secondaryLabels": {
         "tests": "テスト",
         "locations": "ロケーション",
-        "smartAlerts": "スマート・アラート"
+        "smartAlerts": "スマート・アラート",
+        "credentials": "資格情報"
       },
       "popDialog": {
         "popUpDialogTitle": "シンセティック・モニターのための権限",
@@ -349,7 +441,23 @@
         "tlsInstructions": "Redis TLSを有効にする場合は、X.509証明書と鍵のペア(「tls.crt」、「tls.key」)およびCAルート証明書ファイル(「ca.crt」)が必要です。\n\n鍵/証明書ファイルがない場合は、opensslコマンドを使用して新しい鍵/証明書ファイルを生成することもできます。以下の例を参照してください。",
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt",
         "tlsSecretInstructions": "鍵/証明書ファイルが提供されたら、kubectlコマンドを使用して秘密を作成します。",
-        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\""
+        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\"",
+        "associationsTitle": "{{number}} アソシエーション",
+        "singleAssociationTitle": "{{number}} 協会"
+      },
+      "multiAppDialog": {
+        "filterLabel": "アプリケーション",
+        "singleAppHeader": "{{ number }} 協会",
+        "multiAppHeader": "{{ number }} 連想",
+        "noApplicationsAssociated": "関連付けられたアプリケーションなし"
+      },
+      "multiWebDialog": {
+        "filterLabel": "Web サイト",
+        "noWebsitesAssociated": "関連サイトはない。"
+      },
+      "multiMobileDialog": {
+        "filterLabel": "モバイル・アプリケーション",
+        "noMobileAppsAssociated": "モバイルアプリは関連なし。"
       },
       "testLabel": "名前",
       "status": "状況",
@@ -365,8 +473,15 @@
       "successRuns": "{{successRuns}} / {{totalRuns}} 件の結果",
       "latency": "待ち時間",
       "locationLabel": "ロケーション",
-      "locations": "{{totalLocations}} カ所のロケーション",
-      "applicationLabel": "アプリケーション",
+      "locationsColumn": {
+        "singleLocation": "{{number}} 場所",
+        "multipleLocations": "{{number}} 場所",
+        "singleRun": "{{number}} 場所で実行する",
+        "multipleRun": "{{number}} 場所で実行する",
+        "warning": "警告",
+        "noIssues": "問題なし"
+      },
+      "associationLabel": "関連付け",
       "health": "正常性",
       "action": "アクション",
       "labelConfirmRemoveTest": "<strong>{{testLabel}}</strong> テストを削除してもよろしいですか。",
@@ -400,6 +515,12 @@
       "deleteLocationBroswerRefreshInfo": "ロケーションのリストからロケーションが表示されなくなるまでに時間がかかり、ブラウザーの最新表示が必要になる場合があります。",
       "deactivateLocation": {
         "deactivate": "非アクティブ"
+      },
+      "ipAddressColumn": {
+        "ipAddress": "IP アドレス",
+        "singleIPAddress": "{{number}}IPアドレス",
+        "multipleIPAddress": "{{number}} IPアドレス",
+        "noIPAddresses": "NA"
       }
     },
     "summary": {
@@ -442,7 +563,15 @@
       "totalRuns": "{{totalRuns}}の合計実行数",
       "meanLatencyFor90th": "90 パーセンタイルでは {{meanLatencyDetail}}",
       "smartAlertsTab": "スマート・アラート",
-      "configurationTab": "構成"
+      "configurationTab": "構成",
+      "isCertificateValid": "最後の実行-証明書はパブリック CA によって署名される",
+      "resultsCertificateValid": "証明書はパブリック CA によって署名される",
+      "certificateValid": "はい",
+      "certificateNotValid": "いいえ",
+      "daysRemaining": "前回の実行 - 残り日数",
+      "timeOfExpiry": "最後の実行 - 有効期限",
+      "smallerTimeFrameTitle": "この時間枠の結果はありません",
+      "smallerTimeFrameDescription": "SSL証明書確認テストの結果を確認するには、より長い時間枠を選択してください。"
     },
     "resultsListPage": {
       "startedColumn": "開始済み",
@@ -454,7 +583,8 @@
       "locationLabel": "Location",
       "failures": "障害",
       "status": "状況",
-      "success": "成功"
+      "success": "成功",
+      "daysRemaining": "残り日数"
     },
     "detailsPage": {
       "detailLiveModeDisabled": "ライブ・モードは、シンセティック・テスト結果の詳細ページには適用されません",
@@ -579,7 +709,13 @@
         "imageButton": "画像",
         "ScreenshotsLoadingMessage": "スクリーン・ショットのロード",
         "noScreenshotsAvailableMessage": "このテスト結果ではスクリーン・ショットを使用できません"
-      }
+      },
+      "sslCertificate": {
+        "daysRemaining": "残り日数",
+        "timeOfIssue": "発行時期",
+        "timeOfExpiry": "有効期限"
+      },
+      "failedRunErrorTypeTitle": "エラー・タイプ"
     },
     "noDataAvailable": {
       "resultsTitle": "表示可能な結果はありません",
@@ -645,6 +781,7 @@
       },
       "configurationEditAction": "編集",
       "configurationDeleteAction": "削除",
+      "configurationUnsupported": "サポートされていないテスト・タイプです。",
       "timeoutLabel": "Timeout",
       "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
       "retryStrategyLabel": "再試行戦略",
@@ -653,7 +790,44 @@
       "retryIntervalFieldLabel": "再試行間隔",
       "retryIntervalSecondDescription": "{{retryIntervalValue}} 秒",
       "retryIntervalSecondsDescription": "{{retryIntervalValue}} 秒",
-      "markSyntheticCall": "マーク・シンセティック・コール"
+      "markSyntheticCall": "マーク・シンセティック・コール",
+      "hostname": "ホスト名",
+      "port": "ポート",
+      "daysRemaining": "失敗構成",
+      "day": "証明書の有効期間が満了まで残り {{daysRemainingCheck}} 日である場合、テストは失敗します",
+      "days": "証明書の有効期間が満了まで残り {{daysRemainingCheck}} 日である場合、テストは失敗します",
+      "associations": "関連付け",
+      "associatedApplications": "関連アプリケーション",
+      "noApplicationsAssociated": "関連出願なし",
+      "associatedWebsites": "関連ウェブサイト",
+      "noWebsitesAssociated": "関連サイトなし",
+      "associatedMobileApps": "関連モバイル・アプリ",
+      "noMobileAppAssociated": "モバイル・アプリは関連なし"
+    },
+    "credentialList": {
+      "mainLabel": "資格情報",
+      "name": "名前",
+      "associations": "関連付け",
+      "createdAt": "作成日時",
+      "createdBy": "作成者",
+      "lastModifiedBy": "最終変更者",
+      "actions": "アクション",
+      "noDataAvailable": {
+        "noCredentialsAvailableTitle": "合成証明書なし",
+        "noCredentialsAvailableDescription": "データベースから取得された合成クレデンシャルはありません。"
+      },
+      "editAction": {
+        "editActionLabel": "編集",
+        "theValueMustNotBeBlank": "値をブランクにすることはできません。"
+      },
+      "deleteAction": {
+        "deleteActionLabel": "削除",
+        "deleteCredentialTitle": "合成クレデンシャル {{credentialName}} を削除する",
+        "credentialNameValidation": "削除を確認するため、認証情報のフルネームを入力します",
+        "deleteButtonLabel": "資格情報の削除",
+        "cancelButtonLabel": "キャンセル",
+        "deletionSuccess": "クレデンシャルが削除されました"
+      }
     }
   }
 }

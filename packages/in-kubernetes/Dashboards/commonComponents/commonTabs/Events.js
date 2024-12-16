@@ -7,7 +7,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Card, TableDateTime } from '@instana/components';
+import { TableDateTime } from '@instana/legacy';
+import { Card } from '@instana/components';
 
 import ViewWidthRestrictedColumn from 'in-infrastructure/tableView/components/Table/components/ViewWidthRestrictedColumn';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';

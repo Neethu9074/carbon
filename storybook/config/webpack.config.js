@@ -74,8 +74,8 @@ const necessaryLoaders = [
     },
     use: [
       {
-        options: { cacheDirectory: true },
-        loader: 'babel-loader'
+        options: {loader: 'tsx'},
+        loader: 'esbuild-loader'
       }
     ]
   },

@@ -4,41 +4,53 @@
  * Copyright IBM Corp. 2023
  */
 
+// import ReactDOMServer from 'react-dom/server';
 import { Map } from 'immutable';
 import React from 'react';
 
 import { Card } from '@instana/components';
 
+import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import SyntheticScopePath from 'in-alerting/smart-alerts/synthetics/components/SyntheticScopePath';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import AnalyzeSyntheticEventButton from 'in-events/components/AnalyzeSyntheticEventButton';
 import SyntheticsAlertconfigButton from 'in-events/components/SyntheticsAlertconfigButton';
+import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import useSyntheticEventAlertConfig from 'in-events/hooks/useSyntheticEventAlertConfig';
 import { locationIdTagName, statusTagName, testIdTagName } from 'in-synthetics/tags';
 import { TimeConfig, TagFilterExpressionElementUnion, TagFilter } from 'in-types';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
+// @ts-expect-error
+import EventIcon from 'in-events/components/EventIcon';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { getEventSeverityLabelWithEventType } from 'in-stores/events';
+import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { fixateTimeConfig } from 'in-stores/time/config';
 import { number } from 'in-services/formatters/number';
 import { EventMap, EventOrMap } from 'in-events/types';
 import { Row, Col } from 'in-components/layout/Grid';
 import { bar } from 'in-stores/metric/renderer';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 interface Props {
-  event: EventMap;
+  event: EventOrMap;
   snapshot: Map<string, unknown>;
+  reload: () => void;
 }
 
-export default function SyntheticEventContent({ event, snapshot }: Props) {
+export default function SyntheticEventContent({ event, snapshot, reload }: Props) {
   const alertConfig = useSyntheticEventAlertConfig(event);
 
   if (!alertConfig) {
-    return null;
+    return <LoadingIndicator size="xxxl" />;
   }
 
   const { tagFilterExpression } = alertConfig;
@@ -52,27 +64,60 @@ export default function SyntheticEventContent({ event, snapshot }: Props) {
   const analyzeTimeConfig = fixateTimeConfig(eventTimeConfig);
   const chartTimeConfigWithContext = getChartTimeConfig(event, syntheticTestInterval);
 
+  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const pillContent = getEventStateBadge(event);
+
   return (
     <>
       <Row withoutSideMargin>
         <Col xs>
-          <Card title={t('in-events:titleDescription')}>
+          <Card title={t('in-events:titleDescription')} leftHeaderContent={pillContent}>
             <SyntheticScopePath
               syntheticTestId={syntheticTestId}
               syntheticTestLabel={syntheticTestLabel}
               locationLabel={locationLabel}
             />
-
             <ProblemDescription fixSuggestion={fixSuggestion} />
-
-            <DescriptionButtons>
-              <SyntheticsAlertconfigButton alertConfig={alertConfig} />
-              <AnalyzeSyntheticEventButton
-                testId={syntheticTestId}
-                locationLabel={locationLabel}
-                timeConfig={analyzeTimeConfig}
-              />
-            </DescriptionButtons>
+            {canCloseManually && hasManualCloseFields(event) ? (
+              <div>
+                <ManualCloseDescription event={event} />
+                <DescriptionButtons>
+                  <TriggeredIncidentButton event={event} />
+                  <SyntheticsAlertconfigButton alertConfig={alertConfig} />
+                  <AnalyzeSyntheticEventButton
+                    testId={syntheticTestId}
+                    locationId={locationId}
+                    locationLabel={locationLabel}
+                    timeConfig={analyzeTimeConfig}
+                    syntheticTestLabel={syntheticTestLabel}
+                  />
+                </DescriptionButtons>
+              </div>
+            ) : (
+              <DescriptionButtons>
+                {canCloseManually && (
+                  <ManualCloseIssueButton
+                    event={event}
+                    reload={reload}
+                    iconComponent={
+                      <EventIcon
+                        event={event}
+                        tooltipLabel={getEventSeverityLabelWithEventType(event, eventTimeConfig)}
+                      />
+                    }
+                  />
+                )}
+                <TriggeredIncidentButton event={event} />
+                <SyntheticsAlertconfigButton alertConfig={alertConfig} />
+                <AnalyzeSyntheticEventButton
+                  testId={syntheticTestId}
+                  locationId={locationId}
+                  locationLabel={locationLabel}
+                  timeConfig={analyzeTimeConfig}
+                  syntheticTestLabel={syntheticTestLabel}
+                />
+              </DescriptionButtons>
+            )}
           </Card>
         </Col>
       </Row>

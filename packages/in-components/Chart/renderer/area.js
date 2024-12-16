@@ -6,8 +6,8 @@
 import { drawCircleWithLine } from './utils';
 
 export default {
-  render: ({ dataSeries, colors, colors100, index, scale, config }) => {
-    const blocks = config.calculateBlocks(dataSeries);
+  render: ({ dataSeries, colors, colors100, index, scale, config, axis, metricId }) => {
+    const blocks = config.calculateBlocks(dataSeries, axis?.distanceBetweenDatapointsInMillis?.[metricId]);
 
     for (let i = 0; i < blocks.length; i++) {
       drawBlock(blocks[i]);

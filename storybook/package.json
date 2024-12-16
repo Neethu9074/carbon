@@ -2,23 +2,26 @@
   "name": "ui-client-storybook",
   "version": "1.0.0",
   "description": "A playground for Instana's Product Frontend",
-  "main": "index.js",
   "license": "UNLICENSED",
-  "scripts": {},
+  "scripts": {
+    "foundation-build-copy": "mkdir -p public/ui-foundation/build && cp -r node_modules/@instana/playground/build public/ui-foundation/"
+  },
   "dependencies": {
-    "@storybook/addon-docs": "^6.5.13",
-    "@storybook/addon-essentials": "^6.5.13",
-    "@storybook/addon-storyshots": "^6.5.13",
-    "@storybook/react": "^6.5.13",
-    "@storybook/theming": "^6.5.13",
+    "@storybook/addon-docs": "7.6.4",
+    "@storybook/addon-essentials": "7.6.4",
+    "@storybook/addon-links": "7.6.4",
+    "@storybook/addon-storyshots": "7.6.4",
+    "@storybook/react": "7.6.4",
+    "@storybook/theming": "7.6.4",
     "react": "^17.0.2",
     "react-dom": "17.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.5",
-    "@storybook/builder-webpack5": "^6.5.13",
-    "@storybook/manager-webpack5": "^6.5.13",
+    "@instana/playground": "3.41.1",
+    "@storybook/addon-a11y": "7.6.4",
+    "@storybook/react-webpack5": "7.6.4",
     "babel-loader": "^8.1.0",
+    "storybook": "7.6.4",
     "webpack": "5.66.0"
   }
 }

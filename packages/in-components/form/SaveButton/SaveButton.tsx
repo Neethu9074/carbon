@@ -6,7 +6,7 @@
 import React, { ReactElement, MouseEvent } from 'react';
 import { Item } from 'formalistic';
 
-import { Button, ButtonKinds, ButtonTypes } from '@instana/legacy';
+import { Button, ButtonKinds, ButtonTypes } from '@instana/components';
 
 import { t } from 'in-i18n';
 
@@ -53,6 +53,7 @@ export default function SaveButton({
       icon={isSaving ? 'lib_actions_loading' : icon}
       iconSpinning={isSaving}
       className={className}
+      // @ts-expect-error Property 'autoFocus' does not exist on type 'IntrinsicAttributes & PropsType & RefAttributes<any>'.
       autoFocus={autoFocus}
     >
       {children}

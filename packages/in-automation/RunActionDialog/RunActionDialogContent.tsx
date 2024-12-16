@@ -9,69 +9,51 @@ import classNames from 'classnames';
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import { Typography, Spacer, Link } from '@instana/components';
+import { Typography, Spacer, Link, DescriptionList, DescriptionItem } from '@instana/components';
+import { Action, Parameter, VolatileId, DynamicFieldValue } from '@instana/types';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import {
-  AUTH_TYPES,
   getAnsibleFields,
   getInterpreterToUse,
   getScriptFromFields,
-  getType,
+  getDocLinkFromFields,
   getWebhookFields,
-  getManualContentFromFields,
   getGithubFields,
-  isAnsible,
-  isScript,
-  isManual,
-  isExternal,
-  isWebhook,
-  isGithub,
-  isGitlab,
-  isJira,
-  GH_TICKET_TYPES,
   getGitlabFields,
   getJiraFields,
+  getManualContentFromFields
+} from 'in-automation/utils/actionField';
+import { toViewModel } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import {
+  ACTION_TRANSLATIONS,
+  ACTION_TYPE,
+  AUTH_TRANSLATIONS,
+  GIT_OPERATIONS,
   JIRA_OPERATIONS
-} from 'in-automation/ActionCatalog/shared';
-import { toViewModel } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+} from 'in-automation/constants';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import { DescriptionItem, DescriptionList } from 'in-components/DescriptionList/DescriptionList';
+import ManualActionContent from 'in-automation/components/ManualActionContent/ManualActionContent';
 import { TagBasedPayloadConfigurator } from 'in-automation/ActionCatalog/ParameterDialog';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
-import { actionHistoryPath, actionHistory } from 'in-automation/navigation/paths';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { Action, Parameter, VolatileId, DynamicFieldValue } from 'in-types';
-import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { ResolvedDynamicParamValue, NewPolicy } from 'in-automation/types';
 import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
+import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
-import { ResolvedDynamicParamValue } from 'in-automation/api';
-import IconButton from 'in-components/IconButton/IconButton';
-import { useLinkToLogs } from 'in-logging/navigation/paths';
-import CopyToClipboard from 'in-components/CopyToClipboard';
-import { close } from 'in-components/DialogPresenter/store';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import Notification from 'in-components/form/Notification';
-import { toHtml } from 'in-services/formatters/markdown';
-import { NewPolicy } from 'in-automation/Policies/types';
 import { Col } from 'in-components/layout/Grid/Grid';
 import { Row } from 'in-components/layout/Grid/Grid';
-import useTimeConfig from 'in-hooks/useTimeConfig';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
 import { getSnapshot } from 'in-stores/snapshot';
-import { role } from 'in-stores/user';
 import Code from 'in-components/Code';
-import { t, Trans } from 'in-i18n';
+import { t } from 'in-i18n';
 
 import locals from './RunActionDialog.mless';
 
@@ -104,19 +86,6 @@ export default function RunActionDialogContent({
   resolvedDynamicParameters,
   policy
 }: RunActionDialogContentProps) {
-  const timeConfig = useTimeConfig();
-  const { createHref, location } = useNavigation();
-  function getLinkToActionHistory(id: string) {
-    const path = location;
-    path.pathname = actionHistoryPath;
-    setOrDeleteMatrixKey(path, actionHistory, 'query', id);
-    return createHref(path);
-  }
-
-  const tagFilterExpression = tagFilter('log.custom', 'EQUALS', actionInstanceId, 'actionInstanceId');
-
-  const logLink = useLinkToLogs({ tagFilterExpression: [tagFilterExpression], timeConfig });
-
   if (!form) return <LoadingIndicator size="xxl" />;
   if (error && !actionInstanceId) {
     return (
@@ -126,6 +95,7 @@ export default function RunActionDialogContent({
       </>
     );
   }
+
   if (actionInstanceId) {
     return (
       <Typography variant="body-small">
@@ -135,76 +105,45 @@ export default function RunActionDialogContent({
             <Spacer horizontal="xsmall" />
           </>
         )}
-        {role?.canViewAutomationActionInstances ? (
-          <Trans
-            i18nKey={'in-automation:linkToActionHistory'}
-            components={{
-              // @ts-expect-error
-              logsLink: <Link target="_blank" onClick={close} href={getLinkToActionHistory(actionInstanceId)} />
-            }}
-          />
-        ) : (
-          <Trans
-            i18nKey={'in-automation:linkToActionLogs'}
-            components={{
-              // @ts-expect-error
-              logsLink: <Link target="_blank" onClick={close} href={logLink} />
-            }}
-          />
-        )}
+        {t('in-automation:linkToActionHistory')}
       </Typography>
     );
   }
-  if (isManual(action.type)) {
-    return <ManualActionContent action={action} />;
+  if (action.type === ACTION_TYPE.MANUAL) {
+    return <ManualActionContent content={getManualContentFromFields(action.fields)} addCopyButton />;
   }
-  if (isExternal(action.type)) {
-    return <ExternalActionContent action={action} agentSnapShots={agentSnapShots} form={form} setForm={setForm} />;
-  }
+
   return (
     <HorizontalFlexWrapper className={locals.alignStretch}>
-      <div className={locals.borderRight}>
-        <DescriptionList>
-          <DescriptionItem
-            className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-            title={t('in-automation:description')}
-          >
-            {action.description}
-          </DescriptionItem>
-          <DescriptionItem
-            className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-            title={t('in-automation:titleActionType')}
-          >
-            {getType(action.type)}
-          </DescriptionItem>
-        </DescriptionList>
-        {isScript(action.type) && <ScriptActionContent action={action} />}
-        {isWebhook(action.type) && <WebhookActionContent action={action} />}
-        {isGithub(action.type) && <GithubActionContent action={action} />}
-        {isGitlab(action.type) && <GitlabActionContent action={action} />}
-        {isJira(action.type) && <JiraActionContent action={action} />}
-        {isAnsible(action.type) && (
-          <AnsibleActionContent
-            form={form}
-            setForm={setForm}
-            action={action}
-            resolvedDynamicParameters={resolvedDynamicParameters}
-            policy={policy}
-          />
-        )}
-        <AgentSelection
-          policy={policy}
-          form={form}
-          volatileId={volatileId}
-          setForm={setForm}
-          agentSnapShots={agentSnapShots}
-        />
-        <Typography variant="body-small">{t('in-automation:actionCannotBeUndone')}</Typography>
-      </div>
-      <Spacer horizontal="normal" />
+      <Col lg={8}>
+        <div className={locals.borderRight}>
+          <MetadataActionContent action={action} viewRecommendedAction={false} />
+          {action.type === ACTION_TYPE.ANSIBLE && (
+            <AnsibleActionContent
+              form={form}
+              setForm={setForm}
+              action={action}
+              resolvedDynamicParameters={resolvedDynamicParameters}
+              policy={policy}
+            />
+          )}
+          <div>
+            <AgentSelection
+              policy={policy}
+              form={form}
+              volatileId={volatileId}
+              setForm={setForm}
+              agentSnapShots={agentSnapShots}
+            />
+            <Typography variant="body-small">{t('in-automation:actionCannotBeUndone')}</Typography>
+          </div>
+        </div>
+        <Spacer horizontal="normal" />
+      </Col>
       <Col className={locals.parameterContainer} lg={4}>
-        <DescriptionList>
+        <DescriptionList inComponents>
           <DescriptionItem
+            inComponents
             className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
             title={t('in-automation:parameters')}
           >
@@ -219,48 +158,6 @@ export default function RunActionDialogContent({
         </DescriptionList>
       </Col>
     </HorizontalFlexWrapper>
-  );
-}
-
-function TurboAgentSelection({
-  form,
-  setForm,
-  agentSnapShots
-}: Pick<RunActionDialogContentProps, 'form' | 'setForm' | 'agentSnapShots'>) {
-  const targetAgent = form?.get('targetAgent') as Field<string> | undefined;
-
-  const options = agentSnapShots?.data?.online?.map(agent => {
-    const hostname = agent.label ?? '';
-    return {
-      label: hostname,
-      value: agent.volatileId?.host_id ?? ''
-    };
-  });
-
-  return (
-    <>
-      {targetAgent?.map(field => (
-        <FormGroup>
-          <Label htmlFor="target-agent" hasError={!field.valid && field.touched}>
-            {t('in-automation:targetAgent')}
-          </Label>
-          <ComboBox
-            options={options ?? []}
-            id="target-agent"
-            value={field.value}
-            isClearable={false}
-            onChange={o => {
-              const updatedForm = form?.updateIn(['targetAgent'], field =>
-                (field as Field<string>).setValue((o as Option).value).setTouched(true)
-              );
-              setForm(updatedForm);
-            }}
-          />
-          <TouchedMessages field={field} className={locals.subErrorTextFormField} />
-          <HelpText className={locals.subTextFormField}>{t('in-automation:targetAgentDescription')}</HelpText>
-        </FormGroup>
-      ))}
-    </>
   );
 }
 
@@ -345,14 +242,16 @@ function ScriptActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
     plaintextInterpreter = atob(plaintextInterpreter);
   }
   return (
-    <DescriptionList>
+    <DescriptionList inComponents>
       <DescriptionItem
+        inComponents
         className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
         title={t('in-automation:titleInterpreter')}
       >
         {plaintextInterpreter}
       </DescriptionItem>
       <DescriptionItem
+        inComponents
         className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
         title={t('in-automation:titleScriptContent')}
       >
@@ -362,13 +261,79 @@ function ScriptActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
   );
 }
 
+export function MetadataActionContent({
+  action,
+  viewRecommendedAction = false
+}: {
+  action: Action;
+  viewRecommendedAction?: boolean;
+}) {
+  return (
+    <>
+      <DescriptionList inComponents>
+        {viewRecommendedAction && (
+          <DescriptionItem
+            inComponents
+            className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+            title={t('in-automation:name')}
+          >
+            {action.name}
+          </DescriptionItem>
+        )}
+        <DescriptionItem
+          inComponents
+          className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+          title={t('in-automation:description')}
+        >
+          {action.description}
+        </DescriptionItem>
+        <DescriptionItem
+          inComponents
+          className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+          title={t('in-automation:titleActionType')}
+        >
+          {ACTION_TRANSLATIONS[action.type]}
+        </DescriptionItem>
+      </DescriptionList>
+      {action.type === ACTION_TYPE.SCRIPT && <ScriptActionContent action={action} />}
+      {action.type === ACTION_TYPE.DOC_LINK && <DocActionContent action={action} />}
+      {action.type === ACTION_TYPE.HTTP && <WebhookActionContent action={action} />}
+      {action.type === ACTION_TYPE.GITHUB && <GithubActionContent action={action} />}
+      {action.type === ACTION_TYPE.MANUAL && (
+        <ManualActionContent content={getManualContentFromFields(action.fields)} addCopyButton />
+      )}
+      {action.type === ACTION_TYPE.GITLAB && <GitlabActionContent action={action} />}
+      {action.type === ACTION_TYPE.JIRA && <JiraActionContent action={action} />}
+      {action.type === ACTION_TYPE.ANSIBLE && viewRecommendedAction && <AnsibleActionMetadata action={action} />}
+    </>
+  );
+}
+
+function DocActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
+  const link = getDocLinkFromFields(action.fields).value;
+  return (
+    <DescriptionList inComponents>
+      <DescriptionItem
+        inComponents
+        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+        title={t('in-automation:titleUrl')}
+      >
+        <Link external href={link}>
+          {link}
+        </Link>
+      </DescriptionItem>
+    </DescriptionList>
+  );
+}
+
 function WebhookActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
   const { host, method, body, headerParsed, authenParsed } = getWebhookFields(action);
   const headerEntries = Object.entries(headerParsed);
-  const authType = AUTH_TYPES.find(a => a.value === authenParsed.type)?.translation;
+  const authType = AUTH_TRANSLATIONS[authenParsed.type];
   return (
-    <DescriptionList>
+    <DescriptionList inComponents>
       <DescriptionItem
+        inComponents
         className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
         title={t('in-automation:request')}
       >
@@ -407,10 +372,11 @@ function WebhookActionContent({ action }: Pick<RunActionDialogContentProps, 'act
 
 function GithubActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
   const { owner, repo, ticketActionType } = getGithubFields(action);
-  const ticketTypeTranslated = GH_TICKET_TYPES.find(a => a.value === ticketActionType.value)?.translation;
+  const ticketTypeTranslated = GIT_OPERATIONS.find(a => a.value === ticketActionType.value)?.translation;
   return (
-    <DescriptionList>
+    <DescriptionList inComponents>
       <DescriptionItem
+        inComponents
         className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
         title={t('in-automation:request')}
       >
@@ -432,10 +398,11 @@ function GithubActionContent({ action }: Pick<RunActionDialogContentProps, 'acti
 
 function GitlabActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
   const { projectId, ticketActionType } = getGitlabFields(action);
-  const ticketTypeTranslated = GH_TICKET_TYPES.find(a => a.value === ticketActionType.value)?.translation;
+  const ticketTypeTranslated = GIT_OPERATIONS.find(a => a.value === ticketActionType.value)?.translation;
   return (
-    <DescriptionList>
+    <DescriptionList inComponents>
       <DescriptionItem
+        inComponents
         className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
         title={t('in-automation:request')}
       >
@@ -458,8 +425,9 @@ function JiraActionContent({ action }: Pick<RunActionDialogContentProps, 'action
   const { project, ticketActionType } = getJiraFields(action);
   const ticketTypeTranslated = JIRA_OPERATIONS.find(a => a.value === ticketActionType.value)?.translation;
   return (
-    <DescriptionList>
+    <DescriptionList inComponents>
       <DescriptionItem
+        inComponents
         className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
         title={t('in-automation:request')}
       >
@@ -472,74 +440,6 @@ function JiraActionContent({ action }: Pick<RunActionDialogContentProps, 'action
           </Typography>
         </div>
       </DescriptionItem>
-    </DescriptionList>
-  );
-}
-
-function ManualActionContent({ action }: Pick<RunActionDialogContentProps, 'action'>) {
-  const content = getManualContentFromFields(action.fields);
-  let contentText = content.value;
-  if (content.encoding === 'base64') {
-    contentText = atob(contentText);
-  }
-
-  return (
-    <DescriptionList>
-      <DescriptionItem
-        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin, locals.manualContent)}
-        title={t('in-automation:ActionCatalog.content')}
-      >
-        <Spacer vertical="normal" />
-        <div className={locals.manualContentMarkdown}>
-          <DangerousHtmlPresenter html={toHtml(contentText, { breaks: true })} />
-          <CopyToClipboard getText={() => contentText}>
-            {refSetter => (
-              <span ref={refSetter}>
-                <IconButton onClick={stopPropagationAndPreventDefault} type="lib_actions_copy" />
-              </span>
-            )}
-          </CopyToClipboard>
-        </div>
-      </DescriptionItem>
-    </DescriptionList>
-  );
-}
-
-function ExternalActionContent({
-  action,
-  agentSnapShots,
-  form,
-  setForm
-}: Pick<RunActionDialogContentProps, 'action' | 'agentSnapShots' | 'form' | 'setForm'>) {
-  const noTurboAgents = agentSnapShots?.data?.online?.length === 0; // this sets true when  when agent is unavailable to run turbo action;
-  const numberOfTurboAgents = agentSnapShots?.data?.online?.length ?? 1;
-  const targetAgentForTurbo = agentSnapShots?.data?.online[0]?.label;
-
-  return (
-    <DescriptionList>
-      <DescriptionItem
-        className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-        title={t('in-automation:name')}
-      >
-        {action.description}
-      </DescriptionItem>
-      {numberOfTurboAgents > 1 ? (
-        <TurboAgentSelection form={form} setForm={setForm} agentSnapShots={agentSnapShots} />
-      ) : !noTurboAgents ? (
-        <DescriptionItem
-          className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-          title={t('in-automation:targetAgent')}
-        >
-          {targetAgentForTurbo}
-        </DescriptionItem>
-      ) : (
-        <DescriptionItem
-          className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-          title={t('in-automation:targetAgent')}
-        >
-          {t('in-automation:noTargetAgent')}
-        </DescriptionItem>
-      )}
     </DescriptionList>
   );
 }
@@ -751,7 +651,6 @@ function AnsibleActionContent({
   setForm,
   policy
 }: Pick<RunActionDialogContentProps, 'action' | 'resolvedDynamicParameters' | 'form' | 'setForm' | 'policy'>) {
-  const { jobTemplateUrl } = getAnsibleFields(action);
   const ip = resolvedDynamicParameters?.find(p => p.name === 'ip')?.resolvedValue ?? '[]';
   const parsedIp: string[] = safeJsonParse(ip ? ip : '[]');
   const fqdn = resolvedDynamicParameters?.find(p => p.name === 'fqdn')?.resolvedValue;
@@ -767,16 +666,7 @@ function AnsibleActionContent({
 
   return (
     <>
-      <DescriptionList>
-        <DescriptionItem
-          className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
-          title={t('in-automation:jobTemplate')}
-        >
-          <Link external href={jobTemplateUrl}>
-            {action.name}
-          </Link>
-        </DescriptionItem>
-      </DescriptionList>
+      <AnsibleActionMetadata action={action} />
       <FormGroup key="hostLimit">
         <Label htmlFor="hostLimit">{t('in-automation:hostsLimit')}</Label>
         <CreatableComboBox
@@ -793,6 +683,26 @@ function AnsibleActionContent({
         />
         <HelpText className={locals.subTextFormField}>{t('in-automation:hostsLimitHelpText')}</HelpText>
       </FormGroup>
+    </>
+  );
+}
+
+function AnsibleActionMetadata({ action }: Pick<RunActionDialogContentProps, 'action'>) {
+  const { jobTemplateUrl, isWorkflowJobTemplate } = getAnsibleFields(action);
+
+  return (
+    <>
+      <DescriptionList inComponents>
+        <DescriptionItem
+          inComponents
+          className={classNames(locals.actionModalFontSize, locals.actionDescriptionMargin)}
+          title={isWorkflowJobTemplate ? t('in-automation:workflowJobTemplate') : t('in-automation:jobTemplate')}
+        >
+          <Link external href={jobTemplateUrl}>
+            {action.name}
+          </Link>
+        </DescriptionItem>
+      </DescriptionList>
     </>
   );
 }

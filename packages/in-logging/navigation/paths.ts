@@ -7,15 +7,28 @@ import { buildJsonSerializer, setOrDeleteMatrixKey } from 'in-stores/navigation/
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
+import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { TagFilterExpression, TimeConfig } from 'in-types';
 import { setTimeConfig } from 'in-stores/time/config';
 import { Location } from 'in-stores/navigation/types';
 
 export const logsPath = '/logs';
+//logs is already taken by Analytics > Logs
+export const loggingDashboardPath = '/logging';
+export const logsPathWithDataSource = '/logs;dataSource=logs';
 export const alertsPath = '/alerts';
 export const alertsDetailsPath = '/details';
 export const alertsFullyQualifiedPath = `${logsPath}${alertsPath}`;
 export const alertDetailsFullyQualifiedPath = `${alertsFullyQualifiedPath}${alertsDetailsPath}`;
+export const dashboardAlertDetailsFullPath = `${loggingDashboardPath}${alertsPath}${alertsDetailsPath}`;
+export const dashboardSmartAlertsPath = `${loggingDashboardPath}${alertsPath}`;
+export const dashboardDeletePath = `${loggingDashboardPath}/delete`;
+export const dashboardConfigurationPath = `${loggingDashboardPath}/configure`;
+export const dashboardRetentionConfigurationPath = `${dashboardConfigurationPath}/retention`;
+export const dashboardLogVolumePath = `${dashboardConfigurationPath}/logVolume`;
+export const dashboardIntegrationsPath = `${dashboardConfigurationPath}/integrations`;
+
+export const isLoggingView = getRootPathPredicate(loggingDashboardPath);
 
 interface QueryBuilderTag {
   type: string;
@@ -34,7 +47,7 @@ export function useGenerateLinkToLogs() {
     getLogsHref(location, createHref, tagFilterExpression, timeConfig);
 }
 
-function getLogsHref(
+export function getLogsHref(
   location: Location,
   createHref: (target: Location) => string,
   tagFilterExpression?: QueryBuilderTag | TagFilterExpression | Array<QueryBuilderTag | TagFilterExpression>,

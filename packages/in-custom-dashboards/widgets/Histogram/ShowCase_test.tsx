@@ -20,7 +20,7 @@ describe('in-custom-dashboards/widgets/Histogram/ShowCase', () => {
     await screen.findByText('80');
 
     // Legend should be displayed
-    await screen.findByText(`${t('in-components:histogram.metricLabel')} - Total 523`);
+    await screen.findAllByText(`${t('in-components:histogram.metricLabel')} - Total 523`);
   });
 
   it('must render correct number of bars', async () => {

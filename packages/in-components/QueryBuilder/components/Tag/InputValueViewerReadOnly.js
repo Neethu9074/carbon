@@ -16,7 +16,7 @@ export default function InputValueViewerReadOnly({ value = '', className }) {
   value = String(value);
 
   return (
-    <Tooltip content={<span>{value}</span>}>
+    <Tooltip content={<span>{value}</span>} overflowEllipsis>
       <div
         className={classNames({
           [locals.inputValueViewer_disablehover]: true,

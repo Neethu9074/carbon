@@ -9,19 +9,26 @@ import { t } from '@instana/i18n-react';
 
 import {
   serviceLevelsObjectiveSummaryFullyQualified,
-  serviceLevelsObjectiveConfigurationFullyQualified
+  serviceLevelsObjectiveConfigurationFullyQualified,
+  serviceLevelsObjectiveAlertsFullyQualified
 } from 'in-service-levels/navigation/path';
 import SloConfigurationDetails from 'in-service-levels/components/SloDashboard/components/SloConfigurationDetails';
+import SloSmartAlerts from 'in-service-levels/components/SloDashboard/components/SloSmartAlerts';
 import SloSummary from 'in-service-levels/components/SloDashboard/components/SloSummary';
 import { Tab } from 'in-components/LocationAwareTabView/types';
 import { LabeledEntity } from 'in-service-levels/types';
 
 export interface SloTabData {
   configuration: ServiceLevelObjectiveConfiguration;
-  entity: LabeledEntity;
+  entities: LabeledEntity[];
+}
+
+export interface WebsiteSloTabData extends SloTabData {
+  entities: [LabeledEntity];
 }
 
 export interface ApplicationSloTabData extends SloTabData {
+  entities: [LabeledEntity];
   service?: LabeledEntity;
   endpoint?: LabeledEntity;
 }
@@ -31,7 +38,7 @@ export function isApplicationSloTabData(data: SloTabData): data is ApplicationSl
   return Boolean(service || endpoint);
 }
 
-const tabs: Tab<SloTabData, {}>[] = [
+const dashboardTabs: Tab<SloTabData, {}>[] = [
   {
     label: t('in-service-levels:sloDashboard.tabs.summaryLabel'),
     path: serviceLevelsObjectiveSummaryFullyQualified,
@@ -43,7 +50,13 @@ const tabs: Tab<SloTabData, {}>[] = [
     path: serviceLevelsObjectiveConfigurationFullyQualified,
     component: SloConfigurationDetails,
     hideTabLabelWhenAlone: true
+  },
+  {
+    label: t('in-service-levels:sloDashboard.tabs.smartAlertsLabel'),
+    path: serviceLevelsObjectiveAlertsFullyQualified,
+    component: SloSmartAlerts,
+    hideTabLabelWhenAlone: true
   }
 ];
 
-export default tabs;
+export default dashboardTabs;

@@ -3,14 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
-
 :local {
   .flyout {
     position: fixed;
     top: 6rem;
     right: 1.25rem;
 
-    z-index: var(--ids-z-index-option-graph-view);
+    z-index: var(--ids-z-index-option-message-flyout);
   }
 }

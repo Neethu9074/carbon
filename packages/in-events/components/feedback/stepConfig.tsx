@@ -17,7 +17,7 @@ import { FeedbackConfigEventForm } from 'in-events/components/feedback/api';
 import { t } from 'in-i18n';
 
 export interface FeedbackStepConfigs {
-  nextStep(stepKey: string): void;
+  nextStep: () => void;
   form: MapForm<FeedbackConfigEventForm>;
   setForm: (form: MapForm<any>) => void;
 }

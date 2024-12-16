@@ -5,8 +5,9 @@
 
 import React from 'react';
 
-import { Table, Thead, Tbody, Tr, Th, Td } from '@instana/legacy';
+import { DataTable as CarbonDataTable } from '@instana/components';
 
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { compare } from 'in-services/util/number';
 import { t } from 'in-i18n';
 
@@ -17,54 +18,53 @@ import { t } from 'in-i18n';
 export default function TopActiveUsersTable({ accountInfo }) {
   const dataSet = accountInfo?.data?.userUsage?.customer_last_week_top_active_users;
   if (!dataSet || Object.keys(dataSet).length === 0) {
-    return null;
+    return (
+      <>
+        <NoDataAvailable text={t('in-amp:components.activationAdoption.topUsersTable.noDataAvailable')} height={300} />
+      </>
+    );
   }
   const result = dataSet[Object.keys(dataSet)[0]];
 
+  const carbonHeaders = [
+    {
+      key: 'name',
+      header: t('in-amp:components.activationAdoption.topUsersTable.name')
+    },
+    {
+      key: 'organizationRole',
+      header: t('in-amp:components.activationAdoption.topUsersTable.organizationRole')
+    },
+    {
+      key: 'daysActive',
+      header: t('in-amp:components.activationAdoption.topUsersTable.daysActive')
+    }
+  ];
+
   if (Object.keys(result).length === 0) {
     return (
-      <Table>
-        <Thead>
-          <Tr size="compact">
-            <Th>{t('in-amp:components.activationAdoption.topUsersTable.noDataAvailable')}</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          <Tr size="compact">
-            <Td>{t('in-amp:components.activationAdoption.topUsersTable.noTopActiveUsers')}</Td>
-          </Tr>
-        </Tbody>
-      </Table>
+      <div>
+        <NoDataAvailable text={t('in-amp:components.activationAdoption.topUsersTable.noTopActiveUsers')} height={300} />
+      </div>
     );
   }
 
+  const carbonRows = Object.keys(result)
+    .sort((a, b) => compare(result[b], result[a]))
+    .map(entry => {
+      const values = entry.split('#');
+      return {
+        ['name']:
+          values[1] === '[not provided]'
+            ? t('in-amp:components.activationAdoption.topUsersTable.notProvided')
+            : values[1],
+        ['organizationRole']: values[2],
+        ['daysActive']: result[entry]
+      };
+    });
   return (
-    <Table>
-      <Thead>
-        <Tr size="compact">
-          <Th>{t('in-amp:components.activationAdoption.topUsersTable.name')}</Th>
-          <Th>{t('in-amp:components.activationAdoption.topUsersTable.organizationRole')}</Th>
-          <Th>{t('in-amp:components.activationAdoption.topUsersTable.daysActive')}</Th>
-        </Tr>
-      </Thead>
-      <Tbody>
-        {Object.keys(result)
-          .sort((a, b) => compare(result[b], result[a]))
-          .map(entry => {
-            const values = entry.split('#');
-            return (
-              <Tr key={values[0]} size="compact">
-                <Td>
-                  {values[1] === '[not provided]'
-                    ? t('in-amp:components.activationAdoption.topUsersTable.notProvided')
-                    : values[1]}
-                </Td>
-                <Td>{values[2]}</Td>
-                <Td>{result[entry]}</Td>
-              </Tr>
-            );
-          })}
-      </Tbody>
-    </Table>
+    <>
+      <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
+    </>
   );
 }

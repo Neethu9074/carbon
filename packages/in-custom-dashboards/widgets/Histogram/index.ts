@@ -17,6 +17,3 @@ export const label = t('in-custom-dashboards:widgets.histogram.histogram');
 export const minimumWidth = 6;
 export const minimumHeight = 13;
 export const enabled = beeinstanaHistogramsEnabled;
-export const badge = {
-  content: 'BETA'
-};

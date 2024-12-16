@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { DescriptionList, DescriptionItem } from '@instana/components';
+
 import ClasspathLayouter from 'in-sdk/components/sidebar/ClassPathLayouter';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { t } from 'in-i18n';

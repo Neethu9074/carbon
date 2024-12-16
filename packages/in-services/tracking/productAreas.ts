@@ -10,21 +10,25 @@ export const productAreas = Object.freeze({
   applications: 'Applications',
   infrastructure: 'Infrastructure',
   synthetic_monitoring: 'Synthetic Monitoring',
+  logging: 'Logging',
   analytics: 'Analytics',
   events: 'Events',
   slo: 'Service Level Objectives',
   settings: 'Settings',
-  bizops: 'BizOps',
+  bizops: 'Business Monitoring',
   cloud_foundry: 'Platforms - Cloud Foundry',
   ibmZ: 'Platforms - IBM Z HMC',
   kubernetes: 'Platforms - Kubernetes',
   vsphere: 'Platforms - vSphere',
   openstack: 'Platforms - Openstack',
   ibmpower: 'Platforms - IBM Power HMC',
+  nutanix: 'Platforms - Nutanix',
   sap: 'Platforms - SAP',
   custom_dashboard: 'Custom Dashboard',
   agents: 'Agents',
-  power_vc: 'PowerVC'
+  power_vc: 'PowerVC',
+  automation: 'Automation',
+  vulnerability: 'Vulnerability'
 } as const);
 
 type ProductAreaKey = keyof typeof productAreas;

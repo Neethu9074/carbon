@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { form$, setValue, save, error$ } from 'in-components/SearchBar/stores/dialog';
 import ValidationBlock from 'in-components/form/ValidationBlock';

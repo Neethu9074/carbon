@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { getModifiedUrlStream, LocationMutator } from 'in-stores/navigation/navigation';
 import { datacenterId as matrixDatacenterId } from 'in-vsphere/navigation/matrix';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { hostId as matrixHostId } from 'in-vsphere/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { LocationMutator } from 'in-stores/navigation/navigation';
 import { vmId as matrixVmId } from 'in-vsphere/navigation/matrix';
 
 export const vsphere = '/vsphere';
@@ -74,16 +75,24 @@ export const useVspehereEntityLink = (entityType: keyof typeof VsphereEntities, 
       break;
   }
 
-  return useNavigateToDashboard(hookParams);
+  return useNewNavigateToDashboard(hookParams);
 };
 
-const useNavigateToDashboard = ({ base, matrixSegment, matrixParam, paramsCallback }: NavigateToDashboardProps) => {
-  return (id: string) =>
-    getModifiedUrlStream(params => {
-      params.pathname = `${base}/summary`;
-      setOrDeleteMatrixKey(params, matrixSegment, matrixParam, id);
-      if (paramsCallback) {
-        paramsCallback(params);
-      }
-    });
+export const useNewNavigateToDashboard = ({
+  base,
+  matrixSegment,
+  matrixParam,
+  paramsCallback
+}: NavigateToDashboardProps) => {
+  const { location, createHref } = useNavigation();
+  const navigatoToDashboardLocation = { ...location, pathname: `${base}/summary` };
+
+  return (id: string) => {
+    setOrDeleteMatrixKey(navigatoToDashboardLocation, matrixSegment, matrixParam, id);
+    if (paramsCallback) {
+      paramsCallback(navigatoToDashboardLocation);
+    }
+
+    return createHref(navigatoToDashboardLocation);
+  };
 };

@@ -36,8 +36,6 @@ import Footer from 'in-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';
 import { getTests } from 'in-synthetics/api';
 
-const isAppcontext = true;
-
 const urlStateDefinition = {
   bind: filterUrlStateDefinition.bind,
   reducer: (prevState: FilterState, { syntheticTypes, locationIds }: CurrentState) => ({
@@ -48,12 +46,14 @@ const urlStateDefinition = {
 
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
-    columnDefinitions: columnDefinitions.filter(column => column.id != 'applicationLabel'),
+    columnDefinitions: columnDefinitions.filter(
+      column => !['applicationLabels', 'applicationLabel'].includes(column.id)
+    ),
     title: t('in-synthetics:dashboard.noDataAvailable.testSummaryTitle'),
     description: t('in-synthetics:dashboard.noDataAvailable.testSummaryDescription')
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, syntheticTypesUrlParameter, locationsUrlParameter],
-  columnDefinitions: columnDefinitions.filter(column => column.id != 'applicationLabel'),
+  columnDefinitions: columnDefinitions.filter(column => !['applicationLabels', 'applicationLabel'].includes(column.id)),
   defaultOrderBy: 'successRate',
   defaultOrderDirection: 'ASC',
   pathSegment,
@@ -76,7 +76,7 @@ export default function SyntheticList() {
           <Filters
             result={syntheticTests}
             setFilter={setFilter}
-            isAppcontext={isAppcontext}
+            isAssociationsContext
             syntheticTypes={syntheticTypes}
             locationIds={locationIds}
           />

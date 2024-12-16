@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { KeyValue, Stack, Typography } from '@instana/components';
+import { KeyValue, Stack, Typography, RadioButton } from '@instana/components';
 
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
@@ -15,7 +15,7 @@ import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import Code from 'in-plg/components/Code/Code';
 import { t } from 'in-i18n';
 
@@ -70,6 +70,8 @@ export default function LinuxGoogleCloudComputing({
     }
   ];
 
+  if (shareAndInviteEnabled) sideCardData.pop();
+
   return (
     <Container>
       <MainBody>
@@ -83,19 +85,17 @@ export default function LinuxGoogleCloudComputing({
               label={t('in-plg:agentDetails.linux.linux_ec2.Packaging')}
               value={
                 <Stack direction="horizontal">
-                  <CheckboxFancy
+                  <RadioButton
                     label={t('in-plg:agentDetails.linux.linux_ec2.dynamic')}
                     checked={agentMode === agentModeOptions[0]}
                     onChange={() => setAgentMode(agentModeOptions[0])}
                     size="default"
-                    asRadioButton
                   />
-                  <CheckboxFancy
+                  <RadioButton
                     label={t('in-plg:agentDetails.linux.linux_ec2.static')}
                     checked={agentMode === agentModeOptions[1]}
                     onChange={() => setAgentMode(agentModeOptions[1])}
                     size="default"
-                    asRadioButton
                   />
                 </Stack>
               }
@@ -105,19 +105,17 @@ export default function LinuxGoogleCloudComputing({
               label={t('in-plg:agentDetails.linux.linux_ec2.runtime')}
               value={
                 <Stack direction="horizontal">
-                  <CheckboxFancy
+                  <RadioButton
                     label={t('in-plg:agentDetails.linux.linux_ec2.azulZulu')}
                     checked={jvmVendor === jvmVendorOptions[0]}
                     onChange={() => setJVMVendor(jvmVendorOptions[0])}
                     size="default"
-                    asRadioButton
                   />
-                  <CheckboxFancy
+                  <RadioButton
                     label={t('in-plg:agentDetails.linux.linux_ec2.eclipseOpenJ9')}
                     checked={jvmVendor === jvmVendorOptions[1]}
                     onChange={() => setJVMVendor(jvmVendorOptions[1])}
                     size="default"
-                    asRadioButton
                   />
                 </Stack>
               }

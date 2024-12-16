@@ -6,9 +6,8 @@
 
 import React from 'react';
 
-import { Collapsible } from '@instana/components';
+import { Collapsible, DescriptionList, DescriptionItem } from '@instana/components';
 
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import getPodForContainerSubscription from 'in-subscription/podForContainer';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import { timeConfig$ } from 'in-stores/time/config';

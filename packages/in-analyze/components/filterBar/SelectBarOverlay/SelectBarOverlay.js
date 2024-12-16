@@ -6,14 +6,13 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon } from '@instana/components';
+import { SvgIcon, SearchInput } from '@instana/components';
 
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { containsIgnoreCase } from 'in-services/util/string';
-import SearchInput from 'in-components/SearchInput';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -38,7 +37,12 @@ export default function SelectBarOverlay({
 }) {
   return (
     <BarOverlay>
-      <SearchInput onChange={onQueryChange} query={query} autoFocus />
+      <SearchInput
+        onChange={onQueryChange}
+        query={query}
+        autoFocus
+        placeholder={t('in-components:searchInput.placeholderSearch')}
+      />
 
       {selectedItem && (
         <Tooltip
@@ -79,7 +83,10 @@ export default function SelectBarOverlay({
             )
             .map((item, i) => (
               <li key={`${item.key}${i}`}>
-                <Tooltip content={t('in-analyze:filterBar.selectBarOverlay.clickToFilter', { itemLabel: item.label })}>
+                <Tooltip
+                  content={t('in-analyze:filterBar.selectBarOverlay.clickToFilter', { itemLabel: item.label })}
+                  overwriteBlock
+                >
                   <Item item={item} onClick={onSelectItem} itemLabelRenderer={itemLabelRenderer} />
                 </Tooltip>
               </li>

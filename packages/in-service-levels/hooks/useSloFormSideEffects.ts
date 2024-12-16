@@ -64,7 +64,7 @@ function clampTimeWindowDuration(form: SloForm): SloForm {
   );
 }
 
-function updateIndicatorThresholdValidator(form: SloForm): SloForm {
+function updateIndicatorThresholdField(form: SloForm): SloForm {
   const blueprint = form.getIn(['indicator', 'blueprint']).value;
   const type = form.getIn(['indicator', 'type']).value;
   return form.updateIn(['indicator', 'threshold'], field => {
@@ -83,16 +83,16 @@ const formSideEffects: Effect<SloForm>[] = [
     effects: [resetEntity, resetScopes, resetIndicatorForm]
   },
   {
-    path: ['entity', 'entityId'],
+    path: ['entity', 'entityIds'],
     effects: [resetScopes, resetIndicatorForm]
   },
   {
     path: ['indicator', 'blueprint'],
-    effects: [resetIndicatorFormAndPreserveBlueprint, updateIndicatorThresholdValidator]
+    effects: [resetIndicatorFormAndPreserveBlueprint, updateIndicatorThresholdField]
   },
   {
     path: ['indicator', 'type'],
-    effects: [updateIndicatorThresholdValidator]
+    effects: [updateIndicatorThresholdField]
   },
   {
     path: ['objective', 'durationUnit'],

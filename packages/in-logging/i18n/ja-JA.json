@@ -1,6 +1,7 @@
 {
   "logs": "ログ",
   "sum": "合計",
+  "count": "count",
   "bar": "バー",
   "logsOverTime": "時系列に沿ったログ",
   "logsOverTime_ERROR": "エラー",
@@ -53,5 +54,31 @@
   "process": "プロセス",
   "host": "ホスト",
   "fileOnHost": "オン",
-  "file": "ファイル"
+  "file": "ファイル",
+  "logExpiration": "保存期限",
+  "stacktraceLogMessage": "スタック・トレース",
+  "logTraceTitle": "スタック・トレース",
+  "stackTraceHeader": "スタックトレース・メッセージ",
+  "dashboard": {
+    "summary": "サマリー",
+    "smartAlerts": "スマート・アラート",
+    "deleteLogs": "ログの削除",
+    "configuration": "構成",
+    "logVolume": {
+      "logVolumeTitle": "当月のログ量",
+      "gb": "GB",
+      "logVolumeIcon": "ログ・ボリュームへ"
+    },
+    "retentionIcon": "保存期間の変更",
+    "noData": "表示可能なデータがありません",
+    "analyzeLogs": "ログの分析",
+    "configurationPage": {
+      "logVolume": "ログ・ボリューム",
+      "logVolumeDescription": "最大 12 ヶ月のログ・ボリュームを表示し、必要に応じてインフラストラクチャ・タグでグループ化します。",
+      "logIntegrations": "ログ統合",
+      "logIntegrationsDescription": "ログ管理ソリューションを接続し、ニーズに合わせて設定します。",
+      "retentionPeriod": "保存期間",
+      "retentionPeriodDescription": "保持期間を変更すると、ログが保持され、アプリケーション、ダッシュボード、およびアナリティクスで利用できるようになる時間に影響し、コストと請求に影響します。"
+    }
+  }
 }

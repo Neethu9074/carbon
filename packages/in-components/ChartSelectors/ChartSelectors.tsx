@@ -5,13 +5,12 @@
 
 import React, { useEffect } from 'react';
 
-import { ButtonGroup } from '@instana/components';
+import { ButtonGroup, CarbonMenuButton as MenuButton, CarbonMenuItem as MenuItem } from '@instana/components';
 
 import { urlParameter as timeShiftUrlParameter } from 'in-stores/time/shifting';
-import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
-import DropdownButton from 'in-components/Button/DropdownButton';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import useUrlState from 'in-hooks/useUrlState';
+import { t } from 'in-i18n';
 
 import locals from './ChartSelectors.mless';
 
@@ -118,6 +117,7 @@ export function TimeShiftAwareChartSelectorWithUrlState({
   ) : (
     tabs.length > 1 && (
       <TabChartSelector
+        cardTitle={cardTitle}
         tabs={tabs}
         selected={getActiveTab()}
         onChange={setActiveTab}
@@ -160,27 +160,24 @@ export function ComboChartMetricSelector({
   onChange
 }: ComboChartMetricSelectorProps): React.ReactElement {
   return (
-    <ComboBoxBehavior
-      value={selected}
-      options={
-        metrics.map((o: MetricsProps) => ({
-          value: o.id,
-          label: <div className={locals.comboOption}>{o.label}</div>
-        })) as MetricsProps[]
-      }
-      onChange={value => onChange(value)}
-      disableAutomaticOptionSorting
-      overlayAlignment="bottomRight"
+    <MenuButton
+      kind="ghost"
+      size="sm"
+      label={metrics.find((o: MetricsProps) => o.id === selected)?.label}
+      title={t('in-components:chartingConfigurator.labelChangeSelectedMetric')}
+      menuAlignment="bottom-start"
     >
-      {({ elementProps, isOpen }) => {
+      {metrics.map((o: MetricsProps) => {
         return (
-          // @ts-expect-error the 'ref' property does not match here against HTMLElement:
-          <DropdownButton {...elementProps} kind="subtle" size="compact" expanded={isOpen}>
-            {metrics.find((o: MetricsProps) => o.id === selected)?.label}
-          </DropdownButton>
+          <MenuItem
+            key={o.id}
+            label={o.label}
+            onClick={() => onChange(o.id)}
+            className={o.id === selected ? locals.selected : undefined}
+          />
         );
-      }}
-    </ComboBoxBehavior>
+      })}
+    </MenuButton>
   );
 }
 
@@ -189,11 +186,14 @@ interface TabChartSelectorProps {
   selected: string;
   onChange: (tabId: string) => void;
   disabledWidgetInLive?: boolean;
+  cardTitle?: string;
 }
 
-export function TabChartSelector({ tabs, selected, onChange, disabledWidgetInLive }: TabChartSelectorProps) {
+export function TabChartSelector({ tabs, selected, onChange, disabledWidgetInLive, cardTitle }: TabChartSelectorProps) {
+  const cardTitleAlphanumeric = (cardTitle || '').replace(/[^a-zA-Z\d]/g, '');
   return (
     <ButtonGroup
+      id={`button-group-${cardTitleAlphanumeric}`}
       activeKey={selected}
       disabledWidgetInLive={disabledWidgetInLive}
       buttonPropsList={tabs.map((tab: TabProps) => ({

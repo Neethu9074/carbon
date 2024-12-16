@@ -23,7 +23,7 @@ import locals from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/Scop
 
 interface ScopeSectionProps {
   form: MapForm<any>;
-  updateForm?: (form: MapForm<any>) => void;
+  updateForm: (form: MapForm<any>) => void;
   tagCatalog: TagCatalog | undefined;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
   setTagFilterValid?: React.Dispatch<React.SetStateAction<boolean>>;

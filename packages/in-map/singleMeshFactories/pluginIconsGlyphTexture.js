@@ -3,15 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { getSvgIcon, getSvgIconNames } from '@instana/components';
 import { createLogger } from '@instana/logger';
 
 import { Texture, LinearFilter } from 'in-map/3DLibProvider';
+import { fullyQualifiedPlugins } from 'in-forge/constants';
+import { getRegistry } from 'in-sdk/iconType';
 
-const allIcons = getSvgIconNames()
-  .filter(name => name.indexOf('lib_infra_') === 0)
-  .map(name => ({ id: name.substr('lib_infra_'.length), path: getSvgIcon(name).path }));
-
+const allIcons = getRegistry();
 export const config = {
   numElementsPerColumn: Math.ceil(Math.sqrt(allIcons.length)),
   iconWidth: 128,
@@ -59,7 +57,7 @@ export function init() {
     context.fill(p);
 
     // update Look Up Table
-    config.LUT[icon.id] = { x, y };
+    config.LUT[fullyQualifiedPlugins[icon.id]] = { x, y };
 
     column++;
     if (column >= config.numElementsPerColumn) {

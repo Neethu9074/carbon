@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
+import NewDashboardDialog from 'promise-loader?global,inCustomDashboards!in-custom-dashboards/NewDashboardDialog';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
 import DashboardSwitcherPresenter from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcherPresenter';
 import { dashboardIdUrlParameter, viewPathFullyQualified } from 'in-custom-dashboards/navigation/url';
-import NewDashboardDialog from 'in-custom-dashboards/NewDashboardDialog';
+import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getCustomDashboards } from 'in-custom-dashboards/api';
@@ -19,6 +20,7 @@ import { t } from 'in-i18n';
 const systemOverviewTitle = 'Instana';
 const loadingTitle = t('in-custom-dashboards:dashboardSwitcher.dashboardSwitcher.loading');
 
+const DeferredNewDashboardDialog = createAsyncViewComponent(NewDashboardDialog);
 export default function DashboardSwitcher({ titleOverwrite }) {
   const result = useObservable(getCustomDashboards, []);
   const navigationParameters = useObservable(navigationParameters$, []);
@@ -67,5 +69,5 @@ function determineActiveDashboard(result, navigationParameters, titleOverwrite) 
 }
 
 function onCreateNewDashboard() {
-  addActiveDialog(<NewDashboardDialog />);
+  addActiveDialog(<DeferredNewDashboardDialog />);
 }

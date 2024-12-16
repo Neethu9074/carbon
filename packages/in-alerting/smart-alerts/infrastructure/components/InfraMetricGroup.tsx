@@ -6,17 +6,18 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { Cursor, Order, Result, TagCatalog, TimeConfig } from '@instana/types';
+import { InfraExploreCursor, InfraMetricQuery, Order, Result, TagCatalog, TimeConfig } from '@instana/types';
 import { just } from '@instana/observables';
 
-import { MetricType } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
+import {
+  MetricType,
+  Tags
+} from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import InfraMetricGroupTableList from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroupTableList';
-import { Tags } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ThresholdSelectionInteractiveChart';
 import { sparkChartGranularity } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
-//@ts-expect-error
-import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
 import { setBackendQueryModel } from 'in-alerting/smart-alerts/aggregated/utils/groupfilterExpression';
 import { getMetricKey, getSeriesKey } from 'in-infrastructure/Explore/services/metrics';
+import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
 import { Metadatas } from 'in-infrastructure/hooks/useMetricMetadatas';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { TagFilterExpressionElementUnion } from 'in-types';
@@ -69,7 +70,7 @@ export default function InfraMetricGroup(props: InfraMetricGroupProps) {
     setFilterExpression(backendQueryModel);
   }, [backendQueryModel]);
 
-  const { totalHits, ...cursorPaginatedProps } = useCursorPagination(
+  const { totalHits, ...cursorPaginatedProps } = useCursorPagination<InfraExploreCursor, any>(
     ({ cursor }) => {
       return getGroups({
         timeConfig,
@@ -78,7 +79,7 @@ export default function InfraMetricGroup(props: InfraMetricGroupProps) {
         order: orderByDirection,
         type,
         metrics,
-        cursor,
+        cursor: cursor as InfraExploreCursor,
         retrievalSize
       });
     },
@@ -115,7 +116,7 @@ interface GroupProps
     InfraMetricGroupProps,
     'backendGroupBy' | 'metricMetadatas' | 'selectedMetricGroup' | 'setSelectedMetricGroup' | 'tagCatalog'
   > {
-  cursor?: Cursor;
+  cursor?: InfraExploreCursor;
   retrievalSize: number;
 }
 
@@ -140,6 +141,7 @@ export function getGroups({ timeConfig, backendQueryModel, groupBy, cursor, type
       timeConfig,
       tagFilterExpression: backendQueryModel
     },
+    firstPageOnly: false,
     pagination: {
       cursor,
       retrievalSize,
@@ -161,8 +163,9 @@ export function getGroups({ timeConfig, backendQueryModel, groupBy, cursor, type
                 granularity: kpiGranularity,
                 aggregation,
                 crossSeriesAggregation,
-                regex
-              }
+                regex,
+                required: false
+              } as InfraMetricQuery
             ],
             [
               getSeriesKey(id),
@@ -171,8 +174,9 @@ export function getGroups({ timeConfig, backendQueryModel, groupBy, cursor, type
                 granularity: sparkChartGranularity,
                 aggregation,
                 crossSeriesAggregation,
-                regex
-              }
+                regex,
+                required: false
+              } as InfraMetricQuery
             ]
           ];
         })

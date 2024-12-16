@@ -5,13 +5,14 @@
 
 @import '~in-themes/mixins.less';
 
+@import './SameServerFonts.css';
+
 :local {
-  .content {
-    position: relative;
-    margin-left: 4.5rem;
+  :global(.shell-wrapper) {
+    .print(none);
   }
 
-  .contentCarbon {
+  .content {
     position: relative;
     margin-left: 48px;
     margin-top: 48px;
@@ -19,8 +20,16 @@
     .print();
   }
 
+  @page {
+    size: 8.5in 11in;
+    margin: 0.25in;
+  }
+
   @media print {
-    print-color-adjust: exact;
+    * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
 
     body {
       background: var(--ids-color-option-white);

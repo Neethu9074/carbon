@@ -8,7 +8,9 @@ import React from 'react';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 
-export default {};
+export default {
+  title: 'Errors'
+};
 
 export function SingleMessage() {
   return <ErroneousResultPresenter errors={[{ message: 'A backend error occured' }]} />;

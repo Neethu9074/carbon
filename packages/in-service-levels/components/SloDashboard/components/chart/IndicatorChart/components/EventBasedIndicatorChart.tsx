@@ -7,6 +7,7 @@
 import React from 'react';
 
 import {
+  DateAsNumber,
   isApplicationSloEntity,
   isWebsiteSloEntity,
   Result,
@@ -14,14 +15,14 @@ import {
   SloEntityUnion,
   TagFilterExpressionElementUnion,
   TimeConfig,
-  UnifiedMetricConfiguration
+  UnifiedMetricConfigurationUnion
 } from '@instana/types';
 import { generateStableHash } from '@instana/utils';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
-import { IndicatorChartProps } from 'in-service-levels/components/SloDashboard/components/chart/IndicatorChart/IndicatorChart';
+import { useBarWithMissingDataIndicatorRenderer } from 'in-service-levels/components/SloDashboard/components/chart/renderer/barWithMissingDataIndicator';
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/components/chart/SloDashboardMarkerLanes';
@@ -37,7 +38,6 @@ import { calculateEventGraphGranularity } from 'in-service-levels/utils/time';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
-import Renderer from 'in-components/Chart/renderer/Renderer';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { successObservable } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -45,10 +45,24 @@ import { number } from 'in-services/formatters/number';
 
 const goodEventsMetricId = 'goodEvents';
 const badEventsMetricId = 'badEvents';
+interface EventBasedIndicatorChartProps {
+  automaticallySize?: boolean;
+  customHeight?: number;
+  customChartSkeletonHeight?: number;
+  entity: SloEntityUnion;
+  indicator: ServiceLevelIndicatorUnion;
+  missingDataIndicator?: DateAsNumber;
+  title?: string;
+}
 export default function EventBasedIndicatorChart({
+  automaticallySize,
+  customHeight,
+  customChartSkeletonHeight,
   entity,
-  indicator
-}: IndicatorChartProps<ServiceLevelIndicatorUnion>) {
+  indicator,
+  missingDataIndicator,
+  title
+}: EventBasedIndicatorChartProps) {
   const sloZoomInAction = useSloZoomInAction();
   const timeConfig = useContextAwareSloTimeWindowConfig();
   const granularity = calculateEventGraphGranularity(timeConfig);
@@ -56,11 +70,16 @@ export default function EventBasedIndicatorChart({
 
   const goodEventsMetricResult = result.data?.find(res => res.id === goodEventsMetricId);
   const badEventsMetricResult = result.data?.find(res => res.id === badEventsMetricId);
-
+  const renderer = useBarWithMissingDataIndicatorRenderer({
+    firstCollectedMetricTimestamp: missingDataIndicator
+  });
   return (
     <ResultAwareChart
       config={{
-        title: t('in-service-levels:sloDashboard.components.indicatorChart.title'),
+        automaticallySize,
+        customHeight,
+        customChartSkeletonHeight,
+        title,
         rightHeaderContent: <FilterInfo entity={entity} indicator={indicator} />,
         primaryContextMenuAction: sloZoomInAction.name,
         additionalContextMenuButtons: [sloZoomInAction],
@@ -75,7 +94,7 @@ export default function EventBasedIndicatorChart({
           labels: [t('in-service-levels:general.metrics.badEvents'), t('in-service-levels:general.metrics.goodEvents')],
           colors: [themes.default.ids.color.option.red['500'], themes.default.ids.color.option.green['500']],
           formatter: number.compact,
-          renderer: Renderer.bar
+          renderer
         },
         timeConfig,
         renderPostChartContent: props => <SloDashboardMarkerLanes entity={entity} {...props} />
@@ -85,7 +104,7 @@ export default function EventBasedIndicatorChart({
   );
 }
 
-interface UseEventBasedIndicatorMetricsProps extends IndicatorChartProps<ServiceLevelIndicatorUnion> {
+interface UseEventBasedIndicatorMetricsProps extends EventBasedIndicatorChartProps {
   granularity: number;
   timeConfig: TimeConfig;
 }
@@ -136,7 +155,7 @@ function getMetricConfiguration(
   tagFilterExpression: TagFilterExpressionElementUnion,
   granularity: number,
   timeConfig: TimeConfig
-): UnifiedMetricConfiguration {
+): UnifiedMetricConfigurationUnion {
   if (isApplicationSloEntity(entity)) {
     return applicationMetrics.calls.timeSeries({
       entity,

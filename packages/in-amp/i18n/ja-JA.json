@@ -2,6 +2,7 @@
   "components": {
     "accountSettings": {
       "accountSettings": "アカウント設定",
+      "unknownDomain": "未知の領域",
       "billingAddress": "請求先住所",
       "country": "国",
       "state": "都道府県/州",
@@ -15,10 +16,17 @@
       "name": "名前",
       "tenant": "テナント",
       "type": "タイプ",
-      "licenseStartData": "ライセンス開始データ",
-      "licenseEndData": "ライセンス終了データ",
+      "licenseStartData": "ライセンス開始日",
+      "licenseEndData": "ライセンス終了日",
       "licensedApmHosts": "ライセンス交付を受けた APM ホスト",
       "licensedIqmHosts": "ライセンス交付を受けた IQM ホスト"
+    },
+    "learnMore": {
+      "title": "Instanaの公正な使用ポリシーについてはこちら",
+      "leftTitle": "公正な使用ポリシーとは何ですか？",
+      "rightTitle": "データ使用量の追加方法",
+      "leftBody": "Instanaの公正な使用ポリシーには、お客様のライセンス・タイプに関連付けられた月次データ許容量の概要が記載されています。 リソースの使用に関するガイドラインについては、<fupDocLink>公正な使用ポリシー</fupDocLink>をご覧ください。",
+      "rightBody": "継続的にデータ使用量を追加する必要があると予想される場合は、Instanaの営業担当員に連絡して、追加オプションを検討してください。 営業担当へのお問い合わせは<salesLink>こちら</salesLink>。"
     },
     "ampInformationModifier": {
       "allPaidUnitsAggregated": "すべての有料単位 (集計)",
@@ -26,6 +34,12 @@
     },
     "noLicenseAvailableMessage": {
       "thereHasBeenNoActivePaidLicenseInThePast30Days": "過去 30 日間にアクティブな有料ライセンスはありません。"
+    },
+    "fairUsePolicyMessage": {
+      "title": "このアカウントは公正使用ポリシーの対象となります。 以下のグラフでデータ使用量をご覧ください。"
+    },
+    "fairUsePolicyNotActive": {
+      "title": "フェアユースポリシーは有効ではありません。"
     },
     "restrictedUsage": {
       "accountUsage": "アカウント使用量"
@@ -36,10 +50,34 @@
       "max": "最大",
       "average": "平均"
     },
+    "dataIngestTable": {
+      "consumptionOverview": "消費概要",
+      "row": "行",
+      "unit": "ユニット",
+      "calculation": "計算",
+      "entitledNumberOfMVS": "MVS のタイトル数",
+      "actualAverage": "実際の平均構成 MVS 数",
+      "onDemandNumber": "MVS のオンデマンド数",
+      "dataIngestFairUseEntitlement": "MVS ごとのデータ・インジェスト公正使用権",
+      "totalDataIngestFairUseEntitlement": "データ・インジェスト公正使用権合計",
+      "dataIngestAddOnEntitlement": "データ・インジェスト・アドオン・エンタイトルメント",
+      "totalAmountPurchased": "追加データ・インジェスト・アドオンによる購入総額",
+      "dataIngestEntitlementFromOnDemand": "オンデマンド MVS からのデータ・インジェスト・フェアユース・エンタイトルメント",
+      "totalDataIngestEntitlement": "データ・インジェスト・エントリメント合計",
+      "actualDataIngest": "実際のデータ - 取り込み",
+      "onDemandDataIngest": "オンデマンド・データ・インジェスト",
+      "noData": "データなし"
+    },
     "timePresets": {
       "last7Days": "過去 7 日間",
-      "last15Days": "直近の 15 日間",
-      "last365Days": "過去 365 日間"
+      "last30Days": "過去 30 日間",
+      "last365Days": "過去 365 日間",
+      "thisMonth": "今月",
+      "lastMonth": "前月"
+    },
+    "presentationPresets": {
+      "distinct": "個別値",
+      "cumulative": "累積値"
     },
     "usages": {
       "allPaidUnitsAggregated": "すべての有料単位 (集計)",
@@ -49,16 +87,31 @@
       "queuedLicenses": "待機ライセンス"
     },
     "usageCharts": {
-      "apmUsage": "APM 使用量",
+      "standard": "Standard",
       "apmHosts": "APM ホスト",
       "purchased": "購入済み",
-      "infrastructureUsage": "インフラストラクチャー使用量",
+      "essentials": "基本情報",
       "iqmHosts": "IQM ホスト",
       "syntheticPops": "シンセティック・マネージド PoPs",
+      "logging": "コンテキスト内のログ",
       "resourceUnits": "リソース・ユニット",
-      "consumedUnits": "消費済みユニット",
+      "consumedUnits": "消費されたリソース単位",
+      "entitledData": "エンタイトル・データ",
+      "consumedData": "消費データ",
+      "infrastructure": "インフラストラクチャー",
+      "synthetics": "シンセティック",
+      "traces": "トレース",
+      "eumMobile": "EUM モバイル",
+      "eumWebsite": "EUM ウェブサイト",
       "addons": "アドオン",
-      "helperText": "各タイプのアクションによって消費されたリソース単位の数。 単位は、単純テストの場合は 0.025、API テストの場合は 0.042、ブラウザー・テストの場合は 1.000 の係数で計算されます。"
+      "trendLine": "傾向線",
+      "dataUsage": "データ使用量",
+      "dataUsageHelperText": "選択した時間枠でカテゴリ別に分離されたエージェントを介して送信されたバイト数。",
+      "syntheticsHelperText": "各タイプのアクションによって消費されたリソース単位の数。 単位は、単純テストの場合は 0.025、API テストの場合は 0.042、ブラウザー・テストの場合は 1.000 の係数で計算されます。",
+      "loggingHelperText": {
+        "saas": "このチャートは、選択した保持期間中にロギング・アドオンが使用したデータ量をバイト単位で表示します。",
+        "onprem": "このチャートは、選択した保持期間中にロギング・アドオンが使用したデータ量をバイト単位で表示します。"
+      }
     },
     "activationAdoption": {
       "activationAdoption": "アクティブ化 & 導入",
@@ -86,7 +139,7 @@
         "numOfApplicationPerspectives": "AP 数",
         "numOfReportingApplicationPerspectives": "報告 AP 数",
         "numOfWebsites": "Web サイト数",
-        "numOfAlertChannels": "アラート・チャネル数",
+        "numOfAlertChannels": "# アラート・チャネル",
         "numOfAlerts": "アラート数",
         "numOfActiveAlerts": "アクティブ・アラート数",
         "numOfReleases": "リリース・マーカー数 / リリース数",

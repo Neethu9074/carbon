@@ -75,33 +75,7 @@
       }
     }
   }
-  :global(.g10) {
-    .active,
-    .segmented.active {
-      background: var(--cds-border-inverse);
-      border: 1px solid var(--cds-border-inverse);
-      color: var(--cds-text-on-color);
-      &:hover {
-        border: 1px solid var(--cds-border-inverse);
-        background: var(--cds-border-inverse);
-      }
-    }
-    .segmented {
-      background: white;
-      color: var(--ids-color-option-neutral-800);
-      &:hover {
-        background: white;
-      }
-    }
-    .first {
-      border-top-left-radius: var(--ids-border-radius-option-medium);
-      border-bottom-left-radius: var(--ids-border-radius-option-medium);
-    }
-    .last {
-      border-top-right-radius: var(--ids-border-radius-option-medium);
-      border-bottom-right-radius: var(--ids-border-radius-option-medium);
-    }
-  }
+
   .disabledWidget {
     background-color: var(--ids-color-option-neutral-50);
   }

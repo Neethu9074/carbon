@@ -7,9 +7,8 @@
 import { Field, Item, MapForm, ValidationResult } from 'formalistic';
 import React from 'react';
 
+import { IconButton, Stack, Button } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
-import { Stack, SvgIcon } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 import { onlyUniqueKeyNames } from 'in-synthetics/createTests/validators/configValidators';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
@@ -193,7 +192,11 @@ export default function CustomPropertiesSection({
               )}
             </FormGroup>
             <div className={locals.deleteProperty}>
-              <SvgIcon type="lib_actions_delete" onClick={() => deleteCustomPropertyAction(customProperty.id)} />
+              <IconButton
+                kind="action"
+                type="lib_actions_delete"
+                onClick={() => deleteCustomPropertyAction(customProperty.id)}
+              />
             </div>
           </Stack>
         );

@@ -57,7 +57,7 @@ export const Documentations = ({ id }: { id: string }): JSX.Element => {
         <Stack direction="vertical" gap="small">
           <DocumentLink
             text={t('in-plg:agentDetails.kubernetes.helmChart.installAnAgentOnKubernetes')}
-            href="https://ibm.biz/insta-agent-k8shelm"
+            href="https://ibm.biz/k8sagent-install-helm"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.kubernetes.helmChart.configurationParameters')}
@@ -65,7 +65,7 @@ export const Documentations = ({ id }: { id: string }): JSX.Element => {
           />
           <DocumentLink
             text={t('in-plg:agentDetails.common.configuringTheAgentAfterInstall')}
-            href="https://ibm.biz/insta-agent-config"
+            href="https://ibm.biz/K8s-agent-administer"
           />
         </Stack>
       );
@@ -74,15 +74,15 @@ export const Documentations = ({ id }: { id: string }): JSX.Element => {
         <Stack direction="vertical" gap="small">
           <DocumentLink
             text={t('in-plg:agentDetails.kubernetes.k8_deamon.installUsingYAML')}
-            href="https://ibm.biz/insta-agent-k8syaml"
+            href="https://ibm.biz/K8sagent-install-yaml"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.kubernetes.k8_deamon.installAnAgentOnKubernetes')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host-agent-kubernetes#install-as-a-daemonset"
+            href="https://ibm.biz/K8s-agent-install"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.common.configuringTheAgentAfterInstall')}
-            href="https://ibm.biz/insta-agent-config"
+            href="https://ibm.biz/K8s-agent-administer"
           />
         </Stack>
       );
@@ -95,7 +95,7 @@ export const Documentations = ({ id }: { id: string }): JSX.Element => {
           />
           <DocumentLink
             text={t('in-plg:agentDetails.common.configuringTheAgentAfterInstall')}
-            href="https://ibm.biz/insta-agent-config"
+            href="https://ibm.biz/K8s-agent-administer"
           />
         </Stack>
       );
@@ -184,7 +184,7 @@ const ChooseProperInstallationAndNetworkRequiremtent = (): JSX.Element => (
   <Stack direction="vertical" gap="small">
     <DocumentLink
       text={t('in-plg:agentDetails.common.choosingTheProperInstallationMethod')}
-      href="https://ibm.biz/insta-agent-k8schoose"
+      href="https://ibm.biz/insta-agent-K8schoose"
     />
     <DocumentLink
       text={t('in-plg:agentDetails.common.networkRequirements')}

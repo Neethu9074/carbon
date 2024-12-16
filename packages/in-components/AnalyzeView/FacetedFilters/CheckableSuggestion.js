@@ -3,29 +3,32 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { uniqueId } from 'lodash';
 import React from 'react';
 
-import { Stack } from '@instana/components';
+import { Stack, CarbonCheckbox as Checkbox } from '@instana/components';
 
+import { approximateValueIndicator } from 'in-components/AnalyzeView/FacetedFilters/approximateValueIndicator';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { twoDigitApproximation } from 'in-components/AnalyzeView/utils.ts';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './CheckableSuggestion.mless';
 
 export function CheckableSuggestion({ label, count, checked, onChange }) {
+  const id = uniqueId('suglab_');
+  const cid = uniqueId('sugchk_');
+  const labelText = <div className={locals.label}>{label}</div>;
   return (
-    <Tooltip content={String(label)} align="rightMiddle" delay={1000}>
+    <Tooltip content={`${label}`} align="rightMiddle" delay={1000} overwriteBlock>
       <Stack direction="horizontal" align="center" distribution="spaceBetween">
-        <CheckboxFancy
-          checked={checked}
-          label={label}
-          onChange={onChange}
-          labelClassName={locals.label}
-          className={locals.leftAlignedCheckbox}
-          size={'large'}
-        />
-        {count != null && <div className={locals.count}>{withSiPrefixOneDecimalPlace(count)}</div>}
+        <Checkbox id={cid} aria-describedby={id} checked={checked} labelText={labelText} onChange={onChange} />
+        {count && (
+          <div id={id} className={locals.count}>
+            <span>{approximateValueIndicator} </span>
+            <span>{withSiPrefixOneDecimalPlace(twoDigitApproximation(count))}</span>
+          </div>
+        )}
       </Stack>
     </Tooltip>
   );

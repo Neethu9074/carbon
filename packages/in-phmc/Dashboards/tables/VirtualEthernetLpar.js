@@ -73,7 +73,7 @@ const cols = [
       getValue(row) {
         return row.virtualEthernetAdapter.get('sentPackets');
       },
-      getContent: number.detailed
+      getContent: number.perSecond.detailed
     }
   },
   {
@@ -83,7 +83,7 @@ const cols = [
       getValue(row) {
         return row.virtualEthernetAdapter.get('receivedPackets');
       },
-      getContent: number.detailed
+      getContent: number.perSecond.detailed
     }
   },
   {
@@ -93,7 +93,7 @@ const cols = [
       getValue(row) {
         return row.virtualEthernetAdapter.get('droppedPackets');
       },
-      getContent: number.detailed
+      getContent: number.perSecond.detailed
     }
   },
   {
@@ -103,7 +103,7 @@ const cols = [
       getValue(row) {
         return row.virtualEthernetAdapter.get('sentBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.compact
     }
   },
   {
@@ -113,7 +113,7 @@ const cols = [
       getValue(row) {
         return row.virtualEthernetAdapter.get('receivedBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.compact
     }
   },
   {
@@ -123,7 +123,7 @@ const cols = [
       getValue(row) {
         return row.virtualEthernetAdapter.get('transferredBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.compact
     }
   },
   {
@@ -133,7 +133,7 @@ const cols = [
       getValue(row) {
         return row.virtualEthernetAdapter.get('transferredPhysicalBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.compact
     }
   }
 ];
@@ -177,7 +177,7 @@ export default connectTo(
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                formatter: number,
+                formatter: number.perSecond.compact,
                 metrics: [
                   'virtualEthernetAdapters.' + row.key + '.sentPackets',
                   'virtualEthernetAdapters.' + row.key + '.receivedPackets',
@@ -195,7 +195,7 @@ export default connectTo(
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                formatter: number,
+                formatter: number.perSecond.detailed,
                 metrics: [
                   'virtualEthernetAdapters.' + row.key + '.sentBytes',
                   'virtualEthernetAdapters.' + row.key + '.receivedBytes',

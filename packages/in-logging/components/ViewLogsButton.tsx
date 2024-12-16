@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { IconButton } from '@instana/components';
 
 import {
   enclose,
@@ -16,14 +16,15 @@ import {
 } from 'in-components/QueryBuilder/transformation/formModel';
 import { isEmptyExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { Config as BigNumberConfig } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
-import { TagFilterExpressionElementUnion, UnifiedMetricConfiguration } from 'in-types';
-import { customWidgetSeeInLogsClicked } from 'in-logging/analyze/AnalyzeView/tracker';
+import { TagFilterExpressionElementUnion, UnifiedMetricConfigurationUnion } from 'in-types';
+import { ANALYZE_CUSTOM_WIDGET_SEE_IN_LOGS_CLICKED } from 'in-services/tracking/eventNames';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
 import { ChartConfig } from 'in-components/Chart/types';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
-type MetricsConfig = ChartConfig | BigNumberConfig<UnifiedMetricConfiguration>;
+type MetricsConfig = ChartConfig | BigNumberConfig<UnifiedMetricConfigurationUnion>;
 
 export function ViewLogsButton({ config, className = '' }: { config: MetricsConfig; className?: string }) {
   const isLogsWidget = containsLogMetrics(config);
@@ -32,30 +33,32 @@ export function ViewLogsButton({ config, className = '' }: { config: MetricsConf
 
   const link = useLinkToLogs({ tagFilterExpression: filters as FormModelElement[] });
 
+  const { trackCta } = useSegmentTracking();
   if (!isLogsWidget) return null;
 
   return (
     <Tooltip content={t('in-forge:plugins.docker.dashboard.seeLogsInAnalyze')}>
-      <a
+      <IconButton
         href={link}
         className={className}
         onClick={() =>
-          customWidgetSeeInLogsClicked({
+          trackCta(ANALYZE_CUSTOM_WIDGET_SEE_IN_LOGS_CLICKED, {
             source: `See logs in Analyze - Custom Dashboard`,
             navigationLink: link,
             filters
           })
         }
-      >
-        <SvgIcon size="s" type="lib_analyze" />
-      </a>
+        kind="action"
+        size={'compact'}
+        type="lib_analyze"
+      />
     </Tooltip>
   );
 }
 
 function containsLogMetrics(config: MetricsConfig) {
   return (
-    (config as BigNumberConfig<UnifiedMetricConfiguration>).metricConfiguration?.source === 'LOG' ||
+    (config as BigNumberConfig<UnifiedMetricConfigurationUnion>).metricConfiguration?.source === 'LOG' ||
     Object.values(config).some(
       value =>
         Array.isArray(value?.metrics) && value.metrics.some((metric: { source: string }) => metric.source === 'LOG')

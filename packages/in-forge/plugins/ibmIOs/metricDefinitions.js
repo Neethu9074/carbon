@@ -257,31 +257,5 @@ export default [
     min: 0,
     formatter: number,
     category: [t('in-forge:plugins.ibmIOs.dashboard.tables.jobQueue.name')]
-  },
-  {
-    metrics: [
-      getDynamicMetricMatch(
-        'messageQueueMetrics',
-        'severity',
-        t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.name')
-      )
-    ],
-    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.severity')],
-    min: 0,
-    formatter: number,
-    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.name')]
-  },
-  {
-    metrics: [
-      getDynamicMetricMatch(
-        'messageQueueMetrics',
-        'messageType',
-        t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.name')
-      )
-    ],
-    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageType')],
-    min: 0,
-    formatter: number,
-    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.name')]
   }
 ];

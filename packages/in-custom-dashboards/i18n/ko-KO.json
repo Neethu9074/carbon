@@ -17,6 +17,7 @@
         "copied": "위젯이 복사되었습니다. CTRL-V 또는 CMD-V를 사용하여 사용자 정의 대시보드에 붙여넣으십시오.",
         "duplicate": "복제",
         "delete": "삭제",
+        "exportPDF": "PDF 다운로드",
         "customDashboardWidgetTitle": "사용자 정의 대시보드 위젯: {{title}}"
       }
     },
@@ -69,7 +70,11 @@
       "renameDashboard": "대시보드 이름 바꾸기",
       "dashboardName": "대시보드 이름",
       "rename": "이름 바꾸기",
-      "failSaveDashboard": "대시보드를 저장하는 데 실패했습니다."
+      "failSaveDashboard": "대시보드를 저장하는 데 실패했습니다.",
+      "generatingPDFTitle": "PDF 생성",
+      "generatingPDFContent": "PDF가 생성되는 동안 잠시 기다려주세요.",
+      "generatedPDFTitle": "PDF 생성",
+      "generatedPDFContent": "PDF 다운로드가 곧 시작됩니다."
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "대시보드를 찾을 수 없음",
@@ -93,6 +98,32 @@
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "입력을 JSON으로 구문 분석하는 데 실패했습니다.",
       "jsonRootMustBeAnObject": "JSON 루트는 오브젝트여야 합니다."
+    },
+    "downloadPdfDialog": {
+      "downloadPdf": "PDF 파일 다운로드",
+      "settings": "설정",
+      "pdfOrientation": "방향",
+      "portrait": "세로",
+      "landscape": "랜드스케이프",
+      "pdfLayout": "레이아웃",
+      "widgetsDisplay": "표시",
+      "singlePage": "단일 페이지",
+      "singlePageInfo": "전체 대시보드를 한 페이지에 맞추고 컨텐츠 크기를 적절히 조정합니다.",
+      "multiPages": "여러 페이지",
+      "multiPagesInfo": "원래 레이아웃을 유지하면서 대시보드를 여러 페이지에 분산합니다. 일부 위젯이 잘릴 수 있습니다.",
+      "stackWidgetsTitle": "스택 위젯",
+      "stackWidgetsInfo": "여러 페이지에 걸쳐 위젯을 세로 스택으로 표시합니다.",
+      "loadingWidget": "{{totalNodes}}개 중 {{widgetIndex}}개 위젯 로드 중",
+      "generatePreview": "미리보기 생성",
+      "generatingPreview": "PDF 미리 보기 생성 중"
+    },
+    "filterContext": {
+      "topLevelFilterPartiallyApplied": "현재 대시보드 필터 중 일부가 적용되었습니다.",
+      "topLevelFilterSelectsEverything": "현재 대시보드 필터는 이 위젯에 적용되지 않습니다.",
+      "topLevelFilterSelectsNothing": "현재 대시보드 필터는 이 위젯에 적용되지 않습니다.",
+      "topLevelFilterNotSupported": "이 위젯은 필터링을 지원하지 않기 때문에 현재 대시보드 필터가 이 위젯에 적용되지 않았습니다.",
+      "topLevelFilterAppliedToSomeDatasets": "현재 대시보드 필터가 다음 데이터 세트에 완전히 적용되지 않았습니다. {{datasets}}",
+      "unnamedDataset": "이름 지정되지 않은 데이터 세트"
     }
   },
   "dashboardSwitcher": {
@@ -130,6 +161,17 @@
         "unexpectedLowOrHighNumberOfCalls": "예상치 못하게 높거나 낮은 호출 수"
       }
     },
+    "srcBizOps": {
+      "formComponent": {
+        "pleaseSelect": "선택",
+        "pleaseSelectMetric": "메트릭을 선택하십시오.",
+        "aggregation": "집계",
+        "metric": "메트릭"
+      },
+      "index": {
+        "bizOps": "비즈니스 프로세스(활동)"
+      }
+    },
     "srcApp": {
       "formComponent": {
         "needToTurnOffPP": "그룹화를 사용하려면 먼저 잠재적 문제점 강조표시를 꺼야 합니다.",
@@ -163,6 +205,7 @@
       "metricsFormComponent": {
         "metric": "메트릭",
         "selectMetric": "메트릭 선택",
+        "unit": "단위",
         "aggregation": "집계",
         "crossSeriesAggregation": "교차 계열 집계에 SUM 사용",
         "crossSeriesAggregationHelp": "일반적으로 교차 계열 집계는 교차 시간 집계(데이터 점을 단일 버킷으로 결합하는 데 사용되는 방법)와 동일합니다. 이 토글을 사용으로 설정하면 지정된 집계를 사용하는 대신 데이터 계열의 버킷을 합산합니다.",
@@ -293,6 +336,15 @@
         "increaseColor": "색상 증가",
         "decreaseColor": "색상 감소",
         "timeShift": "시간 이동"
+      },
+      "thresholdForm": {
+        "addThresholdColorization": "임계값 기반 색상 지정 추가",
+        "threshold": "임계값",
+        "critical": "다음과 같은 경우 위험",
+        "warning": "다음과 같은 경우 경고",
+        "criticalValidator": "위험 임계값은 > 및 >= 연산자의 경고 임계값보다 커야 합니다.",
+        "warningValidator": "경고 임계값은 < 및 <= 연산자의 위험 임계값보다 커야 합니다.",
+        "bytes": "바이트"
       },
       "bigNumber": "큰 수"
     },
@@ -425,6 +477,25 @@
       }
     },
     "slo": {
+      "general": {
+        "demoWidgetTitle": "위젯 제목",
+        "sloNotFound": "슬로 구성을 찾을 수 없음"
+      },
+      "v2Form": {
+        "headline": "서비스 수준 목표 선택",
+        "subheading": "기존 SLO를 선택하거나 \"새 SLO 추가\"를 클릭하여 새 SLO 만들기",
+        "addSloButtonLabel": "새 SLO 추가",
+        "chartTypeSelectionLabel": "차트 유형",
+        "chartTypeOption": "",
+        "chartTypeOption_INDICATOR": "표시기 차트",
+        "chartTypeOption_ERROR_BUDGET": "오류 예산 차트",
+        "validators": {
+          "notBlankSloValidator": "목록에서 SLO 구성을 선택하세요."
+        }
+      },
+      "v2WidgetHeader": {
+        "indicatorType": "지표 유형:"
+      },
       "demo": {
         "title": "SLO 제목",
         "sliName": "예 Sli",
@@ -465,8 +536,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "엔드포인트",
-        "allEndpoints": "모든 엔드포인트",
-        "loading": "<loading>"
+        "allEndpoints": "모든 엔드포인트"
       },
       "goodBadEventsForm": {
         "goodEvents": "양호 이벤트",
@@ -503,7 +573,6 @@
       },
       "servicesSelectBox": {
         "service": "서비스",
-        "loading": "<loading>",
         "allServices": "모든 서비스"
       },
       "sliFormPresenter": {
@@ -608,6 +677,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "하나 이상의 필터 표현식을 구성해야 합니다.",
       "timeBased": "시간 기반",
       "eventBased": "이벤트 기반",
+      "sloLegacy": "SLO 레거시",
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "애플리케이션",
@@ -709,7 +779,8 @@
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "임계값 구성",
-        "thresholdLabel": "임계값"
+        "thresholdLabel": "임계값",
+        "ms": "ms"
       },
       "entityInfo": {
         "tooltip": "알 수 없는 Apdex",
@@ -823,7 +894,9 @@
           },
           "formatter": "포맷터",
           "searchPlaceholder": "검색",
-          "countGroup": "그룹 수 표시"
+          "countGroup": "그룹 수 표시",
+          "showGroupsWithMissingTags": "누락된 태그가 있는 그룹 표시",
+          "filterEmptyValues": "비어 있는 값 필터링"
         }
       },
       "dataSource": {
@@ -854,5 +927,8 @@
     "additionalFields": "이 대시보드는 사용자에게만 표시됩니다. 작성 후에 동료와 공유하도록 선택할 수 있습니다.",
     "create": "작성",
     "failedToCreateDashboard": "대시보드를 작성하는 데 실패했습니다."
+  },
+  "threshold": {
+    "label": "임계값"
   }
 }

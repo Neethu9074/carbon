@@ -8,13 +8,12 @@ import React, { Fragment } from 'react';
 
 import InfrastructureIssuesAndChanges from 'in-bizops/dashboards/summary/tabs/summary/components/InfrastructureIssuesAndChanges';
 import DurationAndDistribution from 'in-bizops/dashboards/activity/tabs/summary/components/DurationAndDistribution';
+import ActivityMetricKpiCard from 'in-bizops/dashboards/activity/tabs/summary/components/ActivityMetricKpiCard';
 import ActivityLatencyChart from 'in-bizops/dashboards/activity/tabs/summary/components/ActivityLatencyChart';
+import ActivityErrorsChart from 'in-bizops/dashboards/activity/tabs/summary/components/ActivityErrorsChart';
 import TopServices from 'in-bizops/dashboards/activity/tabs/summary/components/TopServices';
 import { businessActivityPath, businessProcessDashboard } from 'in-bizops/navigation/paths';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
-import ActivityMetricKpiCard from 'in-bizops/dashboards/activity/tabs/summary/components/ActivityMetricKpiCard';
-import ActivityErrorsChart from 'in-bizops/dashboards/activity/tabs/summary/components/ActivityErrorsChart';
-import { bizopsGoldenSignalsEnabled } from 'in-services/featureFlags';
 import BizOpsCountChart from 'in-bizops/components/BizOpsCountChart';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
@@ -41,91 +40,60 @@ export default function Summary() {
   const businessActivityId: string =
     getMatrixParameter(location, businessActivityPath, 'activityId') ?? t('in-bizops:dashboards.summary.pageTitle');
 
-  // TODO: remove this if and just return once golden signals is complete
-  if (bizopsGoldenSignalsEnabled) {
-    return (
-      <Fragment>
-        <KpiGridRow sizes={[true, true]}>
-          <ActivityMetricKpiCard
-            title={t('in-bizops:dashboards.activity.widgets.activityCount')}
-            metric="COUNT"
+  return (
+    <Fragment>
+      <KpiGridRow sizes={[true, true]}>
+        <ActivityMetricKpiCard
+          title={t('in-bizops:dashboards.activity.widgets.activityCount')}
+          metric="COUNT"
+          timeConfig={timeConfig}
+          processId={businessProcessId}
+          activityName={businessActivityName}
+        />
+        <ActivityMetricKpiCard
+          title={t('in-bizops:dashboards.activity.widgets.activityErrors')}
+          metric="ERRORS"
+          timeConfig={timeConfig}
+          processId={businessProcessId}
+          activityName={businessActivityName}
+        />
+      </KpiGridRow>
+      <Row>
+        <Col lg>
+          <BizOpsCountChart
+            timeShiftConfig={timeShiftConfig}
             timeConfig={timeConfig}
-            processId={businessProcessId}
-            activityName={businessActivityName}
+            businessProcessId={businessProcessId}
+            businessProcessName={businessProcessName}
+            businessActivityName={businessActivityName}
+            metric={'activities_count'}
+            label={businessActivityName}
+            dataSource={'BUSINESS_ACTIVITIES'}
           />
-          <ActivityMetricKpiCard
-            title={t('in-bizops:dashboards.activity.widgets.activityErrors')}
-            metric="ERRORS"
-            timeConfig={timeConfig}
-            processId={businessProcessId}
-            activityName={businessActivityName}
+        </Col>
+        <Col lg>
+          <TopServices businessActivityId={businessActivityId} businessProcessDefinitionId={businessProcessId} />
+        </Col>
+      </Row>
+      <Row>
+        <Col lg>
+          <InfrastructureIssuesAndChanges
+            businessProcessId={businessProcessId}
+            businessProcessName={businessProcessName}
           />
-        </KpiGridRow>
-        <Row>
-          <Col lg>
-            <BizOpsCountChart
-              timeShiftConfig={timeShiftConfig}
-              timeConfig={timeConfig}
-              businessProcessId={businessProcessId}
-              businessProcessName={businessProcessName}
-              businessActivityName={businessActivityName}
-              metric={'activities_count'}
-              label={businessActivityName}
-              dataSource={'BUSINESS_ACTIVITIES'}
-            />
-          </Col>
-          <Col lg>
-            <TopServices businessActivityId={businessActivityId} />
-          </Col>
-        </Row>
-        <Row>
-          <Col lg>
-            <InfrastructureIssuesAndChanges
-              businessProcessId={businessProcessId}
-              businessProcessName={businessProcessName}
-            />
-          </Col>
-          <Col lg>
-            <ActivityErrorsChart processId={businessProcessId} activityName={businessActivityName} />
-          </Col>
-        </Row>
-        <Row>
-          <Col lg>
-            <ActivityLatencyChart processId={businessProcessId} activityName={businessActivityName} />
-          </Col>
-          <Col lg>
-            <DurationAndDistribution />
-          </Col>
-        </Row>
-      </Fragment>
-    );
-  } else {
-    return (
-      <Fragment>
-        <Row>
-          <Col lg>
-            <BizOpsCountChart
-              timeShiftConfig={timeShiftConfig}
-              timeConfig={timeConfig}
-              businessProcessId={businessProcessId}
-              businessProcessName={businessProcessName}
-              businessActivityName={businessActivityName}
-              metric={'activities_count'}
-              label={businessActivityName}
-              dataSource={'BUSINESS_ACTIVITIES'}
-            />
-          </Col>
-          <Col lg>
-            <DurationAndDistribution />
-          </Col>
-          <Col lg>
-            <InfrastructureIssuesAndChanges
-              businessProcessId={businessProcessId}
-              businessProcessName={businessProcessName}
-            />
-          </Col>
-        </Row>
-      </Fragment>
-    );
-  }
+        </Col>
+        <Col lg>
+          <ActivityErrorsChart processId={businessProcessId} activityName={businessActivityName} />
+        </Col>
+      </Row>
+      <Row>
+        <Col lg>
+          <ActivityLatencyChart processId={businessProcessId} activityName={businessActivityName} />
+        </Col>
+        <Col lg>
+          <DurationAndDistribution />
+        </Col>
+      </Row>
+    </Fragment>
+  );
 }

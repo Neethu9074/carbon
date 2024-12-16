@@ -26,6 +26,10 @@
     flex-shrink: 0;
   }
 
+  .carbonFooter {
+    margin-bottom: 1rem;
+  }
+
   .table {
     width: 100%;
     border-collapse: collapse;
@@ -80,5 +84,11 @@
 
   .paginationWrapper {
     transform: scale(0.85);
+  }
+
+  .emptyTable {
+    :global(.table-row) {
+      display: grid;
+    }
   }
 }

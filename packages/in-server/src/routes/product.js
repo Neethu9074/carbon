@@ -10,7 +10,6 @@ const fs = require('fs');
 
 const { getCurrentUser, isRequestCarryingAValidSeemingCookie } = require('../auth');
 const getNumberLocaleDefinition = require('../services/numberLocale');
-const { getMixpanelToken } = require('../services/mixpanel');
 const { getSegmentKey } = require('../services/segment');
 const buildInformation = require('../../assets/build.json');
 const configResolver = require('../services/config');
@@ -30,6 +29,7 @@ const compiledRedirectTemplate = Handlebars.compile(
 );
 
 const indexJsChecksum = checkSumMod.getChecksumForFile(paths.indexJs);
+const compStyleCssChecksum = checkSumMod.getChecksumForFile(paths.compStyleCss);
 const stringifiedBuildInformation = JSON.stringify(buildInformation);
 
 // Module file name patterns for which a prefetch instruction should be added to the HTML
@@ -168,34 +168,39 @@ router.get('/', async (req, res) => {
       termsAndPrivacyAccepted,
       reportingData,
       starredItems,
+      getLicenseInfo,
       clientConfig
     ] = await (subRequestPromises || initializeSubRequestPromises(req));
+
+    const featureFlags = clientConfig.featureFlags;
 
     const nonce = uuidv4();
     const loggedUser = getParsedUser(userStr);
     clientConfig.walkmeUuid = loggedUser;
     clientConfig.segmentKey = getSegmentKey();
+    const activeLicenseInfo = JSON.parse(getLicenseInfo)?.type;
+    clientConfig.activeLicenseType = activeLicenseInfo;
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
-    const isAssistMeEnabled =
-      !clientConfig.featureFlags?.playwithEnabled && !clientConfig.featureFlags?.playWithReleaseEnabled;
-    res.set('Content-Security-Policy', getCsp(nonce, isAssistMeEnabled));
+    const walkmeEnabled = termsAndPrivacy.walkmeAnalyticsServices;
+    const ibmCommonEnabled = featureFlags.ibmCommonEnabled;
+    const isAssistMeEnabled = featureFlags?.assistmeEnabled && ibmCommonEnabled && walkmeEnabled;
+    res.set('Content-Security-Policy', getCsp(nonce, walkmeEnabled, ibmCommonEnabled));
     res.send(
       compiledTemplate({
         indexJsChecksum,
+        compStyleCssChecksum,
         nonce,
-        appcuesId: termsAndPrivacy.allSupportAndResearchServices && serverConfig.appcuesId,
-        mixpanelToken: getMixpanelToken(loggedUser, termsAndPrivacy.allAnalyticsServices),
         eumTrackingDomain: serverConfig.eum.domain,
         eumTrackingApiKey: serverConfig.eum.apiKey,
         eumRetrievalDomain: serverConfig.eum.retrievalDomain || serverConfig.eum.domain,
+        eumEnableSri: serverConfig.eum.enableSri,
+        eumAgentVersion: serverConfig.eum.agentVersion,
+        eumAgentSri: serverConfig.eum.agentSri,
         backendTraceId: req.get('x-instana-t') || '',
         prefetchItems,
         user: userStr,
         permissions: permissions,
         config: JSON.stringify(clientConfig),
-        playwithinstanaEnabled: clientConfig.featureFlags?.playwithEnabled && clientConfig.featureFlags.playwithEnabled,
-        playwithTestEnabled: clientConfig.featureFlags?.playwithTestEnabled ?? false,
-        playWithReleaseEnabled: clientConfig.featureFlags?.playWithReleaseEnabled ?? false,
         build: stringifiedBuildInformation,
         searchFields: searchFieldsStr,
         settings: userSettings,
@@ -206,7 +211,9 @@ router.get('/', async (req, res) => {
         termsAndPrivacyAccepted,
         reportingData,
         starredItems,
-        isAssistMeEnabled
+        isAssistMeEnabled,
+        walkmeEnabled,
+        ibmCommonEnabled
       })
     );
   } catch (err) {
@@ -226,6 +233,7 @@ function initializeSubRequestPromises(req) {
     getLatestTermsAndPrivacyAcceptance(req),
     getIsMonitoring(req),
     getStarredItems(req),
+    getLicenseInfo(req),
     configResolver.getClientConfig(req, req.tenant, req.unit)
   ]);
 }
@@ -319,6 +327,13 @@ function getStarredItems(req) {
   return getFromUiBackend({
     req,
     path: '/api/starred-item'
+  });
+}
+
+function getLicenseInfo(req) {
+  return getFromUiBackend({
+    req,
+    path: '/api/license'
   });
 }
 

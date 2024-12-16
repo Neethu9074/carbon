@@ -1,5 +1,5 @@
 {
-  "zhmcs": "ZHMCs",
+  "zhmcs": "zHMCs",
   "hostname": "Nom d'hôte",
   "name": "Nom",
   "systems": "Systèmes",
@@ -17,7 +17,7 @@
   "status": "Statut",
   "breadcrumbs": {
     "zhmc": "zHMC",
-    "zhmcs": "ZHMCs",
+    "zhmcs": "zHMCs",
     "systems": "Systèmes"
   },
   "dashboards": {
@@ -43,12 +43,12 @@
     "cryptoId": "ID crypto",
     "processorUsage": "Utilisation globale du processeur",
     "name": "Nom",
-    "zvm": "Fréquence de pagination de z/VM",
     "ifl": "Utilisation des processeur IFL",
     "icf": "Utilisation des processeur ICF",
     "cbp": "Utilisation du processeur CBP",
     "cp": "Utilisation du processeur CP",
     "iip": "Utilisation des processeurs IIP",
+    "lparPowerConsumption": "Consommation électrique de la partition logique (watts)",
     "smt": "Utilisation SMT",
     "thread0": "Utilisation de l'unité d'exécution 0",
     "thread1": "Utilisation de l'unité d'exécution 1",

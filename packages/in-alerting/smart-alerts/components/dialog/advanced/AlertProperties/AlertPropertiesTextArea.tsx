@@ -6,9 +6,10 @@
 import React, { forwardRef } from 'react';
 import { Field } from 'formalistic';
 
+import { TextArea } from '@instana/components';
+
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
-import TextArea from 'in-components/form/TextArea/TextArea';
 
 import locals from './AlertPropertiesTextArea.mless';
 
@@ -19,23 +20,40 @@ interface AlertPropertiesTextareaProps {
   onChange: (arg: React.ChangeEvent<HTMLTextAreaElement>) => void;
   placeholder: string;
   formField: Field<string>;
+  isTearSheet?: boolean;
 }
 
 const AlertPropertiesTextarea = forwardRef(function AlertPropertiesTextarea(
-  { formField, ...remainingProps }: AlertPropertiesTextareaProps,
+  { formField, isTearSheet, ...remainingProps }: AlertPropertiesTextareaProps,
   ref
 ) {
   return (
-    <FormGroup>
-      <TextArea
-        {...remainingProps}
-        hasError={hasFieldError(formField)}
-        className={locals.textArea}
-        value={formField?.value}
-        ref={ref as React.MutableRefObject<HTMLTextAreaElement>}
-      />
-      <TouchedMessages field={formField} />
-    </FormGroup>
+    <>
+      {isTearSheet ? (
+        <>
+          <TextArea
+            {...remainingProps}
+            hasError={hasFieldError(formField)}
+            className={locals.textArea}
+            value={formField?.value}
+            ref={ref as React.MutableRefObject<HTMLTextAreaElement>}
+            rows={1}
+          />
+          <TouchedMessages field={formField} />
+        </>
+      ) : (
+        <FormGroup>
+          <TextArea
+            {...remainingProps}
+            hasError={hasFieldError(formField)}
+            className={locals.textArea}
+            value={formField?.value}
+            ref={ref as React.MutableRefObject<HTMLTextAreaElement>}
+          />
+          <TouchedMessages field={formField} />
+        </FormGroup>
+      )}
+    </>
   );
 });
 

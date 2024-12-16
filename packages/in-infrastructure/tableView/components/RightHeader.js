@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { clearSelectedSnapshots } from 'in-infrastructure/tableView/stores/selectedSnapshots';
 import { showAggregations$, toggle } from 'in-stores/metric/showAggregations';
@@ -36,7 +36,7 @@ export default connectTo(
           </Tooltip>
         </label>
 
-        <Button kind="secondary" size="compact" onClick={clearSelection}>
+        <Button darkTheme kind="secondary" size="compact" onClick={clearSelection}>
           {t('in-infrastructure:tableView.clearSelections')}
         </Button>
       </header>

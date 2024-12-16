@@ -22,6 +22,8 @@ import { blueprintConfigPropType } from 'in-alerting/components/constants';
 import Dropdown from 'in-alerting/components/Dropdown';
 import { t } from 'in-i18n';
 
+import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/dialog.mless';
+
 export default function SlownessThresholdCondition({ form, updateForm, blueprintConfig, editMode }) {
   const thresholdType = form.get('threshold').get('type')?.value;
   const metricName = form.get('rule').get('metricName').value;
@@ -36,6 +38,7 @@ export default function SlownessThresholdCondition({ form, updateForm, blueprint
         <Dropdown
           value={getAggregationValue(form)}
           items={getAggregationOptions(form)}
+          className={locals.dropdownsm}
           onChange={value => {
             updateForm(form.updateIn(['rule', 'aggregation'], f => f.setValue(value).setTouched(true)));
           }}

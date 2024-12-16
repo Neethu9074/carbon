@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import React from 'react';
@@ -9,14 +9,14 @@ import React from 'react';
 import { AggregationType, KubernetesNamespace, ResultType, TimeConfig } from '@instana/types';
 
 import {
-  resourceQuotaPercentage,
-  resourceQuotaNumber,
   resourceQuotaBytes,
+  resourceQuotaNumber,
+  resourceQuotaPercentage,
   resourceQuotaZeroDecimalPlaces
 } from 'in-kubernetes/formatters';
 import {
-  LogsChartInteractionWrapper,
   andQuery,
+  LogsChartInteractionWrapper,
   tagEquals
 } from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 // @ts-expect-error
@@ -33,14 +33,15 @@ import MultiMetricBigNumberKpiCard from 'in-kubernetes/components/MultiMetricBig
 import { k8sChartColors, k8sNamespaceChart } from 'in-kubernetes/components/K8sChartColors';
 // @ts-expect-error
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
-import { useNamespaceDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
+import { summaryTab, useNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
+import { preAggregatedMetricsQueryEnabled } from 'in-services/featureFlags';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
-import { formatDuration } from 'in-services/formatters/date';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
-import { Row, Col } from 'in-components/layout/Grid';
+import { formatDuration } from 'in-services/formatters/date';
+import { Col, Row } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
@@ -54,7 +55,7 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
   const timeShift = useTimeShiftConfig();
   const snapshotId = namespace.id;
 
-  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('namespace', snapshotId, timeConfig);
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('kubernetes.namespace', snapshotId, timeConfig);
 
   const { hardLimits, hardRequests, pods } = k8sChartColors;
   const { limits, requests, usage } = k8sNamespaceChart;
@@ -70,7 +71,8 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
     aggregation: 'MEAN' as AggregationType,
     tagFilterExpression,
     timeConfig,
-    timeShift
+    timeShift,
+    regex: false
   };
   const defaultBigNumberMetricConfig = {
     ...defaultConfig,
@@ -85,9 +87,12 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
   const isContainerMetric = {
     /* use this configuration on containers of this pod (which can be of type docker, containerd or crio)
       type filtering must be disabled and cross series aggregation uses SUM */
-    type: undefined,
+    type: preAggregatedMetricsQueryEnabled ? type : undefined,
     crossSeriesAggregation: 'SUM' as AggregationType
   };
+
+  const preAggregatedMetric = (metric: string): string =>
+    preAggregatedMetricsQueryEnabled ? `pre_aggregated.${metric}` : metric;
 
   const isPodCountMetric = {
     type: plugins.kubernetesPod,
@@ -132,7 +137,7 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
             config={[
               {
                 metricConfiguration: {
-                  metric: 'cpuRequests',
+                  metric: preAggregatedMetric('cpuRequests'),
                   ...defaultBigNumberMetricConfig,
                   ...isContainerMetric
                 },
@@ -156,7 +161,7 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
             config={[
               {
                 metricConfiguration: {
-                  metric: 'cpuLimits',
+                  metric: preAggregatedMetric('cpuLimits'),
                   ...defaultBigNumberMetricConfig,
                   ...isContainerMetric
                 },
@@ -180,7 +185,7 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
             config={[
               {
                 metricConfiguration: {
-                  metric: 'memoryRequests',
+                  metric: preAggregatedMetric('memoryRequests'),
                   ...defaultBigNumberMetricConfig,
                   ...isContainerMetric
                 },
@@ -204,7 +209,7 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
             config={[
               {
                 metricConfiguration: {
-                  metric: 'memoryLimits',
+                  metric: preAggregatedMetric('memoryLimits'),
                   ...defaultBigNumberMetricConfig,
                   ...isContainerMetric
                 },
@@ -228,9 +233,8 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
             config={[
               {
                 metricConfiguration: {
-                  metric: 'pods.count',
-                  ...defaultBigNumberMetricConfig,
-                  ...isPodCountMetric
+                  metric: 'used_pods',
+                  ...defaultBigNumberMetricConfig
                 },
                 ...comparisonColors
               },
@@ -257,7 +261,7 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
                 ...defaultChartMetricConfig
               },
               {
-                metric: 'cpuRequests',
+                metric: preAggregatedMetric('cpuRequests'),
                 label: t('in-kubernetes:dashboards.usedRequests'),
                 color: requests,
                 ...defaultChartMetricConfig,
@@ -270,14 +274,14 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
                 ...defaultChartMetricConfig
               },
               {
-                metric: 'cpuLimits',
+                metric: preAggregatedMetric('cpuLimits'),
                 label: t('in-kubernetes:dashboards.usedLimits'),
                 color: limits,
                 ...defaultChartMetricConfig,
                 ...isContainerMetric
               },
               {
-                metric: 'cpu.total_usage',
+                metric: preAggregatedMetric('cpu.total_usage'),
                 label: t('in-kubernetes:dashboards.usage'),
                 color: usage,
                 ...defaultChartMetricConfig,
@@ -306,7 +310,7 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
                 ...defaultChartMetricConfig
               },
               {
-                metric: 'memoryRequests',
+                metric: preAggregatedMetric('memoryRequests'),
                 label: t('in-kubernetes:dashboards.usedRequests'),
                 color: requests,
                 ...defaultChartMetricConfig,
@@ -319,14 +323,14 @@ export default function Summary({ timeConfig, data: namespace }: SummaryProps) {
                 ...defaultChartMetricConfig
               },
               {
-                metric: 'memoryLimits',
+                metric: preAggregatedMetric('memoryLimits'),
                 label: t('in-kubernetes:dashboards.usedLimits'),
                 color: limits,
                 ...defaultChartMetricConfig,
                 ...isContainerMetric
               },
               {
-                metric: 'memory.usage',
+                metric: preAggregatedMetric('memory.usage'),
                 label: t('in-kubernetes:dashboards.usage'),
                 color: usage,
                 ...defaultChartMetricConfig,

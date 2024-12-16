@@ -8,11 +8,19 @@ import { useMemo, useCallback } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import { Order, OrderDirectionType, TagFilterExpressionElementUnion, TimeConfig } from 'in-types';
+import {
+  CursorPaginatedResult,
+  InfrastructureGroup,
+  Order,
+  OrderDirectionType,
+  Result,
+  TagFilterExpressionElementUnion,
+  TimeConfig
+} from 'in-types';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-// @ts-expect-error
 import getGroups from 'in-infrastructure/subscriptions/getGroups';
 import { pendingResult } from 'in-services/fixedObjects';
+import { hiddenPlugins } from 'in-forge/constants';
 import { mapData } from 'in-services/util/result';
 import { getPluginName } from 'in-sdk/pluginName';
 
@@ -33,21 +41,23 @@ export default function useInfrastructureEntities({
   query,
   setQuery
 }: Props) {
-  const typesResult =
+  const typesResult: Result<CursorPaginatedResult<InfrastructureGroup>> =
     useObservable(() => getAvailableTypes({ timeConfig, backendQueryModel }), [timeConfig, backendQueryModel]) ??
     pendingResult;
 
   const tableResult = useMemo(
     () =>
-      //@ts-expect-error
-      mapData(typesResult, (data: any) => {
-        //@ts-expect-error
-        const rawItems = data.items.map(({ tags: { type }, count = 0 }) => ({
-          type,
-          label: getPluginName(type),
-          count
-        }));
-        const filteredItems = rawItems.filter((item: any) => item.label.toLowerCase().includes(query.toLowerCase()));
+      mapData(typesResult, data => {
+        const filteredItems = data.items
+          .map(({ tags, count = 0 }) => ({
+            type: tags?.type,
+            label: getPluginName(tags?.type),
+            count
+          }))
+          .filter(
+            item =>
+              !hiddenPlugins.includes(item.type) && item.label && item.label.toLowerCase().includes(query.toLowerCase())
+          );
         const items = sortItems(filteredItems, order.by, order.direction);
         return { items, page: 1 };
       }),

@@ -1,7 +1,7 @@
 {
   "labelBizOps": "Processus",
-  "labelSmartAlerts": "Alertes intelligentes",
-  "labelActivities": "Activités",
+  "labelPerspectives": "Perspectives",
+  "labelPerspective": "Perspective",
   "components": {
     "count": "Nombre"
   },
@@ -15,8 +15,61 @@
     "noData": "Aucune donnée disponible",
     "healthLabel": "Intégrité",
     "startLabel": "Démarré",
+    "latencyLabel": "Temps d'attente",
     "unnamedActivity": "(Activité sans nom) {{activityType}}",
     "unnamedService": "(Service sans nom)"
+  },
+  "customDashboards": {
+    "activityCountMetric": "Nombre d'activités",
+    "erroneousActivityCallsCountLabel": "Appels d'activité erronés (nombre)",
+    "erroneousActivityCallsCategory": "Appels d'activité erronés",
+    "erroneousActivityCallsRateLabel": "Appels d'activité erronés (taux)",
+    "latency": "Temps d'attente"
+  },
+  "processes": {
+    "deployAgent": "Déployer l'agent",
+    "noProcessesAvailable": "Aucun processus métier n'est disponible.",
+    "deployAgentFirst": "Vous devez d'abord déployer un agent.",
+    "forMoreInformation": "Pour plus d'informations, lisez le",
+    "documentation": "documentation."
+  },
+  "perspectives": {
+    "newPerspective": "Créer une perspective",
+    "lists": {
+      "perspectives": "Perspectives métier",
+      "descriptionLabel": "Description",
+      "numberProcessesLabel": "Nombre de processus"
+    },
+    "processesLiveList": {
+      "title": "Processus métier correspondants",
+      "empty": "Ajoutez des filtres pour créer votre perspective métier",
+      "invalidQuery": "Votre requête n'est pas valide.",
+      "noMatchedProcesses": "Aucun processus métier correspondant n'a été trouvé",
+      "loadingStateLabel": "Chargement des processus"
+    },
+    "dialog": {
+      "title": "Nouvelle perspective métier",
+      "stepOne": {
+        "progressBarTitle": "Étape 1 : Filtrer les processus d'entreprise pour construire votre perspective d'entreprise",
+        "headline": "Filtrer les processus métier pour créer votre perspective d'entreprise",
+        "queryBuilderTitle": "Processus métier"
+      },
+      "stepTwo": {
+        "progressBarTitle": "Etape 2 : Fournissez les détails",
+        "headline": "Fournissez des détails",
+        "perspectiveName": "Nom de la perspective",
+        "perspectiveDescription": "Description"
+      }
+    },
+    "errorMessages": {
+      "tagFilterExpressionMustNotBeEmpty": "La perspective métier doit comporter au moins un filtre",
+      "createOperationFailed": "Échec de l'opération de création",
+      "unableToCreatePerspective": "Nous n'avons pas pu créer votre perspective métier. Veuillez réessayer."
+    },
+    "successMessages": {
+      "businessPerspectiveCreated": "Perspective commerciale créée",
+      "perspectiveWasSuccessfullyCreated": "\"{{perspectiveName}}\" a été créée."
+    }
   },
   "navigation": {
     "businessMonitoring": "Surveillance métier"
@@ -42,12 +95,14 @@
     "activity": {
       "pageTitle": "Activité métier",
       "summaryTab": "Récapitulatif",
+      "servicesTab": "services",
       "widgets": {
         "duration": "Durée",
         "activityCount": "Nombre",
         "activityErrors": "Erreurs",
         "topServices": "Principaux services",
-        "activityLatency": "Temps d'attente"
+        "activityLatency": "Temps d'attente",
+        "viewAll": "Afficher tous les services"
       },
       "timespans": {
         "minute": "1 minute",
@@ -55,6 +110,34 @@
         "day": "1 journée",
         "week": "1 semaine"
       }
+    },
+    "perspectives": {
+      "pageTitleDefault": "Perspective métier",
+      "processes": {
+        "tabLabel": "Processus métier"
+      },
+      "configuration": {
+        "tabLabel": "Configuration",
+        "loadingText": "Chargement des données",
+        "updateCardLabel": "Mettre à jour la perspective métier",
+        "stepOneHeader": "1. Modifier le nom et la description",
+        "perspectiveName": "Nom de la perspective",
+        "perspectiveDescription": "Description",
+        "stepTwoHeader": "2. Editer le filtre",
+        "saveChangesButton": "Sauvegarder",
+        "removeCardLabel": "Supprimer la perspective métier",
+        "removePerspectiveDisclaimer": "Si vous ne souhaitez plus utiliser cette perspective métier, cliquez sur \"Supprimer la perspective métier\".",
+        "removePerspectiveCheckbox": "Je comprends que cette action ne peut pas être annulée",
+        "removePerspectiveButton": "Supprimer la perspective métier",
+        "businessPerspectiveDeleted": "Perspective métier supprimée",
+        "businessPerspectiveDeletedDetails": "\"{{perspectiveName}}\" a été supprimée.",
+        "businessPerspectiveUpdated": "Perspective métier mise à jour",
+        "businessPerspectiveUpdatedDetails": "\"{{perspectiveName}}\" a été édité et vos modifications ont été enregistrées.",
+        "error": "Erreur"
+      }
+    },
+    "flowMap": {
+      "tabLabel": "Flux"
     }
   }
 }

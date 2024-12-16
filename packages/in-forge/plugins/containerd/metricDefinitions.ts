@@ -42,8 +42,7 @@ export default [
       'memory.active_anon',
       'memory.active_file',
       'memory.inactive_anon',
-      'memory.inactive_file',
-      'memory.working_set_usage_percentage'
+      'memory.inactive_file'
     ],
     labels: [
       t('in-forge:plugins.containerd.labelUsage'),
@@ -53,11 +52,20 @@ export default [
       t('in-forge:plugins.containerd.labelActiveAnonymous'),
       t('in-forge:plugins.containerd.labelActiveCache'),
       t('in-forge:plugins.containerd.labelInactiveAnonymous'),
-      t('in-forge:plugins.containerd.labelInactiveCache'),
-      t('in-forge:plugins.containerd.labelMemoryWorkingSet')
+      t('in-forge:plugins.containerd.labelInactiveCache')
     ],
     min: 0,
     category: [t('in-forge:plugins.containerd.memory')],
     formatter: bytes
+  },
+  {
+    metrics: ['memory.used_percentage', 'memory.working_set_usage_percentage'],
+    labels: [
+      t('in-forge:plugins.containerd.labelMemoryUsedPercentage'),
+      t('in-forge:plugins.containerd.labelMemoryWorkingSet')
+    ],
+    min: 0,
+    category: [t('in-forge:plugins.containerd.memory')],
+    formatter: percentage
   }
 ];

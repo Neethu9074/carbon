@@ -5,12 +5,16 @@
  */
 
 import {
+  AggregationType,
   AvailabilityBlueprintIndicator,
   CustomBlueprintIndicator,
   LatencyBlueprintIndicator,
-  ServiceLevelIndicatorUnion
+  SLIThresholdOperator,
+  ServiceLevelIndicatorUnion,
+  TrafficBlueprintIndicator
 } from '@instana/types';
-import { SloTimeWindowTypes } from 'in-service-levels/constants';
+
+import { SloTimeWindowTypes, sliThresholdOperators, timeAggregationOptions } from 'in-service-levels/constants';
 
 export type AggregatedServiceLevelIndicator = AvailabilityBlueprintIndicator | LatencyBlueprintIndicator;
 
@@ -38,17 +42,29 @@ export function isCustomBlueprintIndicator(
   return indicator.blueprint === 'custom';
 }
 
-export function isAvailableTimeWindowType(
-  timeWindowType: any
-): timeWindowType is AvailableTimeWindowTypes {
+export function isTrafficBlueprintIndicator(
+  indicator: ServiceLevelIndicatorUnion
+): indicator is TrafficBlueprintIndicator {
+  return indicator.blueprint === 'traffic';
+}
+
+export function isAvailableTimeWindowType(timeWindowType: any): timeWindowType is AvailableTimeWindowTypes {
   return timeWindowType && Object.values(SloTimeWindowTypes).includes(timeWindowType);
 }
 
 export type AvailableTimeWindowTypes = keyof typeof SloTimeWindowTypes;
 
 export interface LabeledEntity {
+  id: string;
   label: string;
   deleted?: boolean;
 }
 
 export type SloBeaconTypes = 'httpRequest' | 'pageLoad' | 'custom';
+
+export type SloAggregationOptions = Record<AggregationType, string>;
+export type TimeAggregationOptions = keyof typeof timeAggregationOptions;
+
+export function isSliThresholdOperator(operator: string): operator is SLIThresholdOperator {
+  return sliThresholdOperators.includes(operator as SLIThresholdOperator);
+}

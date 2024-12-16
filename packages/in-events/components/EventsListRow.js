@@ -6,8 +6,9 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Tr, Td, Pill } from '@instana/components';
+import { Pill, Checkbox } from '@instana/components';
 import { just } from '@instana/observables';
+import { Tr, Td } from '@instana/legacy';
 
 import {
   isApplicationEntity,
@@ -17,6 +18,7 @@ import {
   isInfraEntityType
 } from 'in-services/entityUtils';
 import { getEventType, EVENT_TYPES, getEventSeverityLabelWithEventType } from 'in-stores/events';
+import { carbonTableEnabled, multiCloseEnabled } from 'in-services/featureFlags';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
@@ -51,10 +53,14 @@ export default function EventRow({
   timeConfig,
   event,
   headers,
-  isPreview
+  isPreview,
+  selectedRows,
+  handleSelectRow,
+  selectedType
 }) {
   const active = event.id === selectedEventId;
   const onClick = () => onItemClicked(event.id);
+
   if (isDenseList) {
     return (
       <EventsListRowDense
@@ -68,10 +74,33 @@ export default function EventRow({
     );
   }
 
+  const canMultiCloseEvents = multiCloseEnabled && role?.canManuallyCloseIssue;
+  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const isEventClosed = event.state === 'closed' || event.state === 'manually_closed';
   const start = event.start;
-  const end = event.end || Date.now();
+  const end = event.manualCloseTimestamp || event.end || Date.now();
   const eventType = getEventType(event);
+  const eventTypeSupported = selectedType === 'incident' || selectedType === 'issue';
+
+  const renderCheckboxes = () => {
+    if (!eventTypeSupported) {
+      return null;
+    }
+
+    return (
+      <Td>
+        <Checkbox
+          disabled={isEventClosed}
+          checked={selectedRows.includes(event.id)}
+          onChange={() => handleSelectRow(event.id)}
+        />
+      </Td>
+    );
+  };
+
   const isChangeEvent = eventType === EVENT_TYPES.CHANGE;
+
+  const cvssScore = event.metadata?.cve.cvssScore;
 
   const timeScaleStart = timeScale.getRange(start);
   const timeScaleEnd = timeScale.getRange(end);
@@ -80,62 +109,145 @@ export default function EventRow({
   const width = toPercentageString(isChangeEvent ? 10 : Math.max(12, timeScaleEnd - timeScaleStart));
   const smallColumn = isPreview && headers?.length > 2 ? true : false;
 
+  const carbonRow = {
+    id: event.id,
+    icon: <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />,
+    title: (
+      <div
+        className={classNames({
+          [locals.smallColumn]: smallColumn,
+          [locals.title]: true
+        })}
+        title={event.title}
+      >
+        {event.title}
+      </div>
+    ),
+    entityLabel: <OnEntity rawEvent={event} smallColumn={smallColumn} />,
+    started: <span className={locals.text}>{formatDisplayDateTime(start, headers, isPreview)}</span>,
+    ended: <span className={locals.text}>{getEndValue(event, isChangeEvent, end, start, headers, isPreview)}</span>,
+    cvssScore: <span className={locals.text}>{cvssScore}</span>,
+    state: <span className={locals.text}>{getStateBadge(event)}</span>,
+    timeline: (
+      <div className={locals.timelineWrapper}>
+        <div style={{ left, width }} className={locals.line} />
+      </div>
+    ),
+    duration: (
+      <span className={locals.text}>
+        <Duration event={event} listView />
+      </span>
+    )
+  };
+
+  if (carbonTableEnabled && !canMultiCloseEvents) {
+    return carbonRow;
+  }
   return (
-    <Tr key={event.id} size="compact" active={active} onClick={isPreview ? undefined : onClick}>
-      <Td>
-        <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
-      </Td>
-      {isDisplayColumn(headers, 'title') && (
-        <Td>
-          <div
-            className={classNames({
-              [locals.smallColumn]: smallColumn,
-              [locals.title]: true
-            })}
-          >
-            {event.title}
-          </div>
-        </Td>
-      )}
-      {isDisplayColumn(headers, 'entityLabel') && (
-        <Td>
-          <OnEntity rawEvent={event} smallColumn={smallColumn} />
-        </Td>
-      )}
-      {isDisplayColumn(headers, 'started') && (
-        <Td>
-          <span className={locals.text}>{formatDisplayDateTime(start, headers, isPreview)}</span>
-        </Td>
-      )}
-      {isDisplayColumn(headers, 'ended') && (
-        <Td>
-          <span className={locals.text}>{getEndValue(event, isChangeEvent, end, start, headers, isPreview)}</span>
-        </Td>
-      )}
-      {isDisplayColumn(headers, 'timeline') && (
-        <Td>
-          <div className={locals.timelineWrapper}>
-            <div style={{ left, width }} className={locals.line} />
-          </div>
-        </Td>
-      )}
-      {manuallyCloseEventEnabled && role?.canManuallyCloseIssue && isDisplayColumn(headers, 'state') && (
-        <Td>
-          <span className={locals.text}>{getStateBadge(state)}</span>
-        </Td>
-      )}
-      {headers && isDisplayColumn(headers, 'duration') && (
-        <Td>
-          <span className={locals.text}>
-            <Duration event={event} listView />
-          </span>
-        </Td>
+    <Tr key={event.id} size="compact" active={active}>
+      {/* Conditional rendering based on eventType */}
+      {event.type === 'cve_issue' ? (
+        // Custom rendering logic for cve_issue
+        <>
+          {renderCheckboxes()}
+          <Td onClick={onClick}>
+            <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
+          </Td>
+          {isDisplayColumn(headers, 'title') && (
+            <Td onClick={onClick}>
+              <div
+                className={classNames({
+                  [locals.smallColumn]: smallColumn,
+                  [locals.title]: true
+                })}
+                title={event.title}
+              >
+                {event.title}
+              </div>
+            </Td>
+          )}
+          {isDisplayColumn(headers, 'entityLabel') && (
+            <Td onClick={onClick}>
+              <OnEntity rawEvent={event} smallColumn={smallColumn} />
+            </Td>
+          )}
+          {isDisplayColumn(headers, 'started') && (
+            <Td onClick={onClick}>
+              <span className={locals.text}>{formatDisplayDateTime(start, headers, isPreview)}</span>
+            </Td>
+          )}
+          {isDisplayColumn(headers, 'cvssScore') && (
+            <Td onClick={onClick}>
+              <span className={locals.text}>{cvssScore}</span>
+            </Td>
+          )}
+          {isDisplayColumn(headers, 'state') && (
+            <Td onClick={onClick}>
+              <span className={locals.text}>{getStateBadge(event)}</span>
+            </Td>
+          )}
+        </>
+      ) : (
+        // Default rendering logic
+        <>
+          {renderCheckboxes()}
+          <Td onClick={onClick}>
+            <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
+          </Td>
+          {isDisplayColumn(headers, 'title') && (
+            <Td onClick={onClick}>
+              <div
+                className={classNames({
+                  [locals.smallColumn]: smallColumn,
+                  [locals.title]: true
+                })}
+                title={event.title}
+              >
+                {event.title}
+              </div>
+            </Td>
+          )}
+          {isDisplayColumn(headers, 'entityLabel') && (
+            <Td onClick={onClick}>
+              <OnEntity rawEvent={event} smallColumn={smallColumn} />
+            </Td>
+          )}
+          {isDisplayColumn(headers, 'started') && (
+            <Td onClick={onClick}>
+              <span className={locals.text}>{formatDisplayDateTime(start, headers, isPreview)}</span>
+            </Td>
+          )}
+          {isDisplayColumn(headers, 'ended') && (
+            <Td onClick={onClick}>
+              <span className={locals.text}>{getEndValue(event, isChangeEvent, end, start, headers, isPreview)}</span>
+            </Td>
+          )}
+          {isDisplayColumn(headers, 'timeline') && (
+            <Td onClick={onClick}>
+              <div className={locals.timelineWrapper}>
+                <div style={{ left, width }} className={locals.line} />
+              </div>
+            </Td>
+          )}
+          {canCloseManually && isDisplayColumn(headers, 'state') && (
+            <Td onClick={onClick}>
+              <span className={locals.text}>{getStateBadge(event)}</span>
+            </Td>
+          )}
+          {headers && isDisplayColumn(headers, 'duration') && (
+            <Td onClick={onClick}>
+              <span className={locals.text}>
+                <Duration event={event} listView />
+              </span>
+            </Td>
+          )}
+        </>
       )}
     </Tr>
   );
 }
 
-const OnEntity = connectTo(
+export const OnEntity = connectTo(
   props => {
     const {
       rawEvent,
@@ -178,7 +290,9 @@ const OnEntity = connectTo(
         })}
       >
         <PluginIcon className={locals.entityIcon} size="s" plugin={rawEvent.plugin} />
-        <div className={locals.title}>{label}</div>
+        <div className={locals.smallColumn} title={label}>
+          {label}
+        </div>
       </div>
     );
   }
@@ -212,42 +326,58 @@ function getLabel(entityType, entityOrSnapshot) {
   return entityOrSnapshot?.data?.label ?? UNKNOWN_LABEL;
 }
 
-function getEndValue(event, isChangeEvent, end, start, headers, isPreview) {
+export function getEndValue(event, isChangeEvent, end, start, headers, isPreview) {
   if (event.state === 'open') {
-    return t('in-events:active');
+    return '-';
   }
+  const endTime = event.manualCloseTimestamp ? event.manualCloseTimestamp : end;
   if (isChangeEvent) {
-    return formatDisplayDateTime(end, headers, isPreview);
+    return formatDisplayDateTime(endTime, headers, isPreview);
   }
-  return start !== end ? formatDisplayDateTime(end, headers, isPreview) : valueMissingPlaceholder;
+  return start !== endTime ? formatDisplayDateTime(endTime, headers, isPreview) : valueMissingPlaceholder;
 }
 
-function getColorForState(state) {
-  switch (state) {
-    case 'open':
+function getColorForState(event) {
+  if (event.state === 'open') {
+    return 'cyan';
+  }
+
+  if (event.state === 'closed') {
+    if (!event.manuallyClosed) {
       return 'gray';
-    case 'closed':
-      return 'teal';
-    case 'manually_closed':
+    } else {
       return 'green';
+    }
+  }
+
+  if (event.state === 'manually_closed') {
+    return 'green';
   }
 }
 
-function getTranslatedLabelForState(state) {
-  switch (state) {
-    case 'open':
-      return t('in-events:stateActive');
-    case 'closed':
+function getTranslatedLabelForState(event) {
+  const eventState = event.state;
+  if (eventState === 'open') {
+    return t('in-events:stateActive');
+  }
+
+  if (eventState === 'closed') {
+    if (!event.manuallyClosed) {
       return t('in-events:stateClosedByInstana');
-    case 'manually_closed':
+    } else {
       return t('in-events:stateManuallyClosed');
+    }
+  }
+
+  if (eventState === 'manually_closed') {
+    return t('in-events:stateManuallyClosed');
   }
 }
 
-function getStateBadge(state) {
+export function getStateBadge(event) {
   return (
-    <Pill className={locals.badge} type={getColorForState(state)}>
-      {getTranslatedLabelForState(state)}
+    <Pill className={locals.badge} type={getColorForState(event)}>
+      {getTranslatedLabelForState(event)}
     </Pill>
   );
 }

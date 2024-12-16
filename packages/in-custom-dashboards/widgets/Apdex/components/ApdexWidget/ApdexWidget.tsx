@@ -10,7 +10,7 @@ import { ApdexConfiguration, TagCatalog } from '@instana/types';
 import { Error, Progress, TimeConfig } from '@instana/types';
 import { Message } from '@instana/components';
 
-import useShouldShowMissingDataIndicator from 'in-custom-dashboards/widgets/Slo/hooks/useShouldShowMissingDataIndicator';
+import useShouldShowMissingDataIndicator from 'in-custom-dashboards/widgets/SloLegacy/hooks/useShouldShowMissingDataIndicator';
 import useApdexWidgetContextMenu from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexWidgetContextMenu';
 import WidgetHeader from 'in-custom-dashboards/widgets/Apdex/components/WidgetHeader';
 import WidgetCard from 'in-custom-dashboards/widgets/Apdex/components/WidgetCard';
@@ -71,11 +71,15 @@ export default function ApdexWidget({
 
   return (
     <WidgetCard
-      dragHandle={dragHandle}
-      actions={actions}
       progress={progress}
       isInModal={isInModal}
-      header={
+      rightHeaderContent={
+        <>
+          {dragHandle}
+          {actions}
+        </>
+      }
+      leftHeaderContent={
         <WidgetHeader
           apdexConfig={apdexConfig}
           title={title}

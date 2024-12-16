@@ -9,9 +9,10 @@
     width: 75%;
     border-right: 1px solid var(--ids-color-option-neutral-400);
     overflow-y: auto;
-    height: 90vh;
+    height: 93%;
     padding: 1.5rem;
   }
+
   .sidePanel {
     width: 25%;
     padding: 1.5rem;

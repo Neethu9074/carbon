@@ -1,11 +1,11 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc. 2021
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 :local {
   .wrapper {
-    max-height: 400px;
     margin: 1rem;
     transform: scale(0.95);
     min-width: 50rem;

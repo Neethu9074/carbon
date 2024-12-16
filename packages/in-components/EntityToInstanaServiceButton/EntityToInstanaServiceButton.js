@@ -6,8 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Td, Table, Tbody, Tr, SvgIcon } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Td, Table, Tbody, Tr } from '@instana/legacy';
+import { SvgIcon, Button } from '@instana/components';
 
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';

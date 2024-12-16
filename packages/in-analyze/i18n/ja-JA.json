@@ -111,6 +111,7 @@
       "summary": {
         "logs": "ログ",
         "analyzeLogs": "分析で表示",
+        "logsCardDescription": "これはプレビューであり、分析ですべてのログを表示します",
         "correspondingMobileAppActivity": "対応するモバイル・アプリケーション・アクティビティー",
         "hideMobileAppInformation": "モバイル・アプリケーション情報を隠す",
         "showMobileAppInformation": "モバイル・アプリケーション情報を表示",
@@ -158,6 +159,7 @@
         "cacheInteraction": "相互作用のキャッシュ",
         "instanaDoesNotMonitorTheLocationOfThisCall": "Instana はこの呼び出しの {{location}} をモニターしません",
         "tags": "タグ",
+        "metrics": "メトリック",
         "loading": "通話の詳細をロードしています。",
         "labelError": "予期しないエラー",
         "retryError": "通話詳細をロードできませんでした。",
@@ -165,7 +167,11 @@
         "selfTime": "セルフタイム",
         "networkTime": "ネットワーク時間",
         "waitingTime": "待機時間",
-        "latency": "待ち時間"
+        "latency": "待ち時間",
+        "findSQL": "{{type}} で SQL を検索します",
+        "sumOfLatencies": "待ち時間の合計",
+        "elapsedTime": "経過時間",
+        "batchTooltip": "{{batchCount}} バッチコールの {{type}} の合計。"
       },
       "callTree": {
         "expandButtonForRow": "すべてのサブ呼び出しを展開",
@@ -272,6 +278,7 @@
     "titleParameters": "パラメーター",
     "analyzeLogsLabel": "ログの分析",
     "similarLogs": "類似するログ",
+    "message": "メッセージ",
     "similarServiceLogs": "このサービスのコンテキストでログを表示",
     "restrictedAccessExpl": "この情報にアクセスする権限がありません。"
   },
@@ -280,6 +287,7 @@
     "labelNetwork": "ネットワーク",
     "labelSelf": "セルフ",
     "labelWaiting": "待機中",
+    "labelElapsed": "経過時間",
     "labelService": "サービス",
     "labelEndpoint": "エンドポイント",
     "labelAggregatedTime": "集約時間",
@@ -310,7 +318,6 @@
   "resultHeaderTooltip": "照会の時刻範囲は、このビューをより迅速にロードするために直近の 1 分に切り上げられています。",
   "components": {
     "analyzeHeader": {
-      "beta": "ベータ",
       "analytics": "分析"
     },
     "filterBar": {

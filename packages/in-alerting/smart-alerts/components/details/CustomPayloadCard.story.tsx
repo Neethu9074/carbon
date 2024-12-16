@@ -6,7 +6,7 @@
 
 import { CustomPayloadFieldUnion } from '@instana/types';
 
-import { createTagBasedPayloadConfigurator } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
+import { createTagBasedPayloadConfigurator } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import { someCommonTags } from 'in-alerting/smart-alerts/components/details/someCommonTagsTagCatalog';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
 import { successObservable } from 'in-services/util/result';

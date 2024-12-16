@@ -6,7 +6,7 @@
 import { createField, createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { useSetCurrentViewWithViewGrouping } from 'in-stores/navigation/paths/mainPaths';
 import { notBlankValidator } from 'in-services/validators/string';

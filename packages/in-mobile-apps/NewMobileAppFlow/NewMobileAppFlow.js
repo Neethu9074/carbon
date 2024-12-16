@@ -9,10 +9,10 @@ import { get } from 'lodash';
 
 import { interval } from '@instana/observables';
 
-import { addMobileApp as addMobileAppTracker } from 'in-mobile-apps/tracker';
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import { getWaitForEntityCreationTimeConfig } from 'in-stores/time/config';
 import { useGetLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
+import { useMobileTracker } from 'in-mobile-apps/tracking/segTracker';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import { notBlankValidator } from 'in-services/validators/string';
 import InputStep from 'in-mobile-apps/NewMobileAppFlow/InputStep';
@@ -26,6 +26,7 @@ import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
 export default function NewMobileAppFlow() {
+  const { addMobileAppTracker } = useMobileTracker();
   const [field, setField] = useState(createField({ value: '', validator: notBlankValidator }));
   const [mobileApp, setMobileApp] = useState(null);
   const [mobileAppId, setMobileAppId] = useState('');

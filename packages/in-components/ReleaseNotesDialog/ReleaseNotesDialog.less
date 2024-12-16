@@ -4,8 +4,6 @@
  */
 
 .in-release-notes-dialog {
-  max-width: 40rem;
-
   a {
     color: #6b8088;
 
@@ -13,5 +11,42 @@
     &:active {
       color: #8c969a;
     }
+  }
+
+  // Prevent font reset for markdown content
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  ul,
+  li,
+  p {
+    font: revert;
+    padding: revert;
+  }
+  // Restore style for ordered and unordered list
+  ol,
+  ul {
+    list-style: initial;
+  }
+
+  p,
+  ul,
+  li {
+    font-size: var(--cds-body-01-font-size);
+  }
+
+  h1 {
+    font-size: var(--cds-heading-03-font-size);
+  }
+
+  h2 {
+    font-size: var(--cds-heading-02-font-size);
+  }
+
+  h3 {
+    font-size: var(--cds-heading-01-font-size);
   }
 }

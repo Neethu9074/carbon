@@ -1,17 +1,15 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import { TagCatalog, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import getTagCatalogSubscription from 'in-infrastructure/subscriptions/getTagCatalog';
-import { getTagCatalogOnce } from 'in-services/tags/tagCatalog';
+import getTagCatalog from 'in-infrastructure/Explore/services/getTagCatalog';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-
-const getTagCatalog = getTagCatalogOnce(getTagCatalogSubscription, true, 'infrastructure');
 
 interface UseTagCatalogProps {
   metric?: string;

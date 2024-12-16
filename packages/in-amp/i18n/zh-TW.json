@@ -2,6 +2,7 @@
   "components": {
     "accountSettings": {
       "accountSettings": "帳戶設定",
+      "unknownDomain": "未知的網域",
       "billingAddress": "帳單地址",
       "country": "國家/地區",
       "state": "州/省（縣/市）",
@@ -15,10 +16,17 @@
       "name": "名稱",
       "tenant": "租戶",
       "type": "類型",
-      "licenseStartData": "授權開始資料",
-      "licenseEndData": "授權結束資料",
+      "licenseStartData": "授權開始日期",
+      "licenseEndData": "授權結束日期",
       "licensedApmHosts": "授權的 APM 主機",
       "licensedIqmHosts": "授權的 IQM 主機"
+    },
+    "learnMore": {
+      "title": "進一步瞭解 Instana 的公平使用原則",
+      "leftTitle": "什麼是公平使用原則？",
+      "rightTitle": "如何購買更多資料？",
+      "leftBody": "Instana 的公平使用原則概述了與您的授權類型相關的每月資料限額。 若要進一步瞭解並探索資源使用指引，請查看<fupDocLink>公平使用原則文件</fupDocLink>。",
+      "rightBody": "如果您預計持續需要額外的資料用量，請聯絡您的 Instana 業務代表以探索附加選項。 請<salesLink>在此</salesLink>與銷售人員聯絡。"
     },
     "ampInformationModifier": {
       "allPaidUnitsAggregated": "所有付費單元（聚集）",
@@ -26,6 +34,12 @@
     },
     "noLicenseAvailableMessage": {
       "thereHasBeenNoActivePaidLicenseInThePast30Days": "過去 30 天沒有生效的付費授權。"
+    },
+    "fairUsePolicyMessage": {
+      "title": "此帳戶受限於公平使用原則。 請參閱下面圖表中的資料使用情況。"
+    },
+    "fairUsePolicyNotActive": {
+      "title": "公平使用原則不在作用中。"
     },
     "restrictedUsage": {
       "accountUsage": "帳戶使用情形"
@@ -36,10 +50,34 @@
       "max": "最大值",
       "average": "平均值"
     },
+    "dataIngestTable": {
+      "consumptionOverview": "耗用概觀",
+      "row": "列",
+      "unit": "單元",
+      "calculation": "計算",
+      "entitledNumberOfMVS": "MVS 的授權數",
+      "actualAverage": "實際平均配置的 MVS 數",
+      "onDemandNumber": "按需的 MVS 數",
+      "dataIngestFairUseEntitlement": "每個 MVS 的資料擷取公平使用授權",
+      "totalDataIngestFairUseEntitlement": "總資料擷取公平使用授權",
+      "dataIngestAddOnEntitlement": "資料擷取附加授權",
+      "totalAmountPurchased": "透過額外資料擷取附加功能購買的總金額",
+      "dataIngestEntitlementFromOnDemand": "來自按需 MVS 的資料擷取公平使用授權",
+      "totalDataIngestEntitlement": "總資料擷取授權",
+      "actualDataIngest": "實際資料擷取",
+      "onDemandDataIngest": "按需資料擷取",
+      "noData": "沒有資料"
+    },
     "timePresets": {
       "last7Days": "過去 7 天",
-      "last15Days": "過去 15 天",
-      "last365Days": "過去 365 天"
+      "last30Days": "過去 30 天",
+      "last365Days": "過去 365 天",
+      "thisMonth": "這個月",
+      "lastMonth": "上一個月"
+    },
+    "presentationPresets": {
+      "distinct": "相異值",
+      "cumulative": "累計值"
     },
     "usages": {
       "allPaidUnitsAggregated": "所有付費單元（聚集）",
@@ -49,16 +87,31 @@
       "queuedLicenses": "佇列的授權"
     },
     "usageCharts": {
-      "apmUsage": "APM 使用情形",
+      "standard": "標準",
       "apmHosts": "APM 主機",
       "purchased": "已採購",
-      "infrastructureUsage": "基礎架構使用情形",
+      "essentials": "Essentials",
       "iqmHosts": "IQM 主機",
       "syntheticPops": "綜合管理的 PoPs",
-      "resourceUnits": "資源單位數",
-      "consumedUnits": "已耗用單元數",
+      "logging": "環境定義中的日誌",
+      "resourceUnits": "已授權資源單位",
+      "consumedUnits": "已耗用資源單位",
+      "entitledData": "授權資料",
+      "consumedData": "耗用資料",
+      "infrastructure": "基礎架構",
+      "synthetics": "綜合",
+      "traces": "追蹤",
+      "eumMobile": "歐盟行動式裝置",
+      "eumWebsite": "歐盟網站",
       "addons": "附加程式",
-      "helperText": "每一種動作所耗用的資源單位數。 單位的計算係數為 0.025（適用於簡式測試）、0.042（適用於 API 測試）及 1.000（適用於瀏覽器測試）。"
+      "trendLine": "趨勢線",
+      "dataUsage": "資料用量",
+      "dataUsageHelperText": "在所選時間範圍內透過按類別分隔的代理程式傳送的位元組數。",
+      "syntheticsHelperText": "每一種動作所耗用的資源單位數。 單位的計算係數為 0.025（適用於簡式測試）、0.042（適用於 API 測試）及 1.000（適用於瀏覽器測試）。",
+      "loggingHelperText": {
+        "saas": "此圖表顯示日誌記錄附加程式在所選保留期間內使用的資料量（以位元組為單位）。",
+        "onprem": "此圖表顯示日誌記錄附加程式在所選保留期間內使用的資料量（以位元組為單位）。"
+      }
     },
     "activationAdoption": {
       "activationAdoption": "啟動與採用",

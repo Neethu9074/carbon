@@ -33,20 +33,20 @@ interface FioriCallStatsProps {
 
 const cols = [
   {
-    title: t('in-sap:dashboards.account'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: FioriCallStatsRow) {
-        return row.fioriCallStats.get('account');
-      }
-    }
-  },
-  {
     title: t('in-sap:dashboards.client'),
     type: 'string',
     typeArgs: {
       getValue(row: FioriCallStatsRow) {
         return row.fioriCallStats.get('client');
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.userName'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: FioriCallStatsRow) {
+        return row.fioriCallStats.get('account');
       }
     }
   },
@@ -67,28 +67,59 @@ const cols = [
         return row.fioriCallStats.get('path');
       }
     }
+  },
+  {
+    title: t('in-sap:dashboards.callTime'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: FioriCallStatsRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: FioriCallStatsRow) {
+        return `fioriCallMetrics.${row.key}.callTime`;
+      },
+      getContent: millis.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.executionTime'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: FioriCallStatsRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: FioriCallStatsRow) {
+        return `fioriCallMetrics.${row.key}.executionTime`;
+      },
+      getContent: millis.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
   }
 ];
 
 export default function FioriCallMetric({ snapshotId, timeConfig }: FioriCallStatsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'fioriCallMetrics'), [snapshotId]);
-  if (!data) {
-    return null;
-  }
-  const fioriCallStat = (data as SnapshotData).get('raw_payload', []);
+  const fioriCallStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: FioriCallStatsRow[] = fioriCallStat
-    .keySeq()
-    .toArray()
-    .map((key: string) => {
-      const fioriCallStats = fioriCallStat.get(key);
+    ? fioriCallStat
+        .keySeq()
+        .toArray()
+        .map((key: string) => {
+          const fioriCallStats = fioriCallStat.get(key);
 
-      return {
-        key,
-        snapshotId,
-        timeConfig,
-        fioriCallStats
-      };
-    });
+          return {
+            key,
+            snapshotId,
+            timeConfig,
+            fioriCallStats
+          };
+        })
+    : [];
 
   function getDetails(row: FioriCallStatsRow) {
     return (

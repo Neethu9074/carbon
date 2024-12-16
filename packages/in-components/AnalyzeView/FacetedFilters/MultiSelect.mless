@@ -30,6 +30,10 @@
       background: transparent;
       color: var(--ids-color-option-teal-500);
     }
+
+    &:global(.cds--btn) {
+      min-block-size: unset;
+    }
   }
 
   .clearFacet {
@@ -39,12 +43,17 @@
     &:hover {
       background: transparent;
     }
+
+    &:global(.cds--btn) {
+      min-block-size: unset;
+    }
   }
 
   .search {
     padding: 0 0.25rem;
     height: 1.5rem;
     font-size: 0.875rem;
+    background-color: var(--ids-color-option-neutral-100);
   }
 
   .searchContainer {

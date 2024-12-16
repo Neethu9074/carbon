@@ -9,20 +9,38 @@ import { Size } from '@instana/components/types/components/SvgIcon/types';
 import { themes } from '@instana/design-tokens';
 import { SvgIcon } from '@instana/components';
 
-import { isWebsitePlugin, isSyntheticPlugin, isMobileAppPlugin, isLogPlugin } from 'in-forge/plugins/pluginTypes';
+import {
+  isWebsitePlugin,
+  isSyntheticPlugin,
+  isMobileAppPlugin,
+  isLogPlugin,
+  isOtelDatabasePlugin
+} from 'in-forge/plugins/pluginTypes';
 import { getIconType as getInfraIconType } from 'in-infrastructure/infrastructureIconType';
+import { capitalize } from 'in-services/formatters/string';
 import { SnapshotMap } from 'in-components/EntityLink';
+import { getPluginName } from 'in-sdk/pluginName';
 
-interface PluginIconProps extends Omit<React.ComponentProps<typeof SvgIcon>, 'type'> {
+export interface PluginIconProps extends Omit<React.ComponentProps<typeof SvgIcon>, 'type'> {
   size?: Size;
   color?: string;
   snapshot?: SnapshotMap;
-  plugin: string;
+  plugin?: string;
 }
 
 export default forwardRef(function PluginIcon(props: PluginIconProps, ref: React.ForwardedRef<SVGSVGElement>) {
   const { size, color = themes.default.ids.color.option.neutral['700'] } = props;
-  return <SvgIcon ref={ref} {...props} size={size} color={color} type={getIconType(props.snapshot, props.plugin)} />;
+  const pluginName = getPluginName(props.plugin) || capitalize(props.snapshot?.get('plugin') as string) || 'Unknown';
+  return (
+    <SvgIcon
+      ref={ref}
+      {...props}
+      size={size}
+      color={color}
+      aria-label={`${pluginName} icon`}
+      type={getIconType(props.snapshot, props.plugin)}
+    />
+  );
 });
 
 function getIconType(snapshot?: SnapshotMap, plugin?: string): string {
@@ -42,6 +60,26 @@ function getIconType(snapshot?: SnapshotMap, plugin?: string): string {
       return 'lib_application_logging';
     }
   }
+  if (isOtelDatabasePlugin(plugin || (snapshot?.get('plugin') as string))) {
+    return dataBaseIcon(snapshot, plugin);
+  }
 
   return getInfraIconType(snapshot ?? plugin!);
+}
+
+function dataBaseIcon(snapshot?: SnapshotMap, plugin?: string): string {
+  const data = snapshot?.get('data') as Map<string, unknown>;
+  const database = (data?.get('resource.db.system') as string)?.toLowerCase();
+  switch (database) {
+    case 'db2':
+      return 'lib_infra_db2Database';
+    case 'mysql':
+      return 'lib_infra_mySqlDatabase';
+    case 'mongodb':
+      return 'lib_infra_mongoDb';
+    case 'informix':
+      return 'lib_infra_informix';
+    default:
+      return getInfraIconType(snapshot ?? plugin!);
+  }
 }

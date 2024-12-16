@@ -6,8 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Stack } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Stack, Button } from '@instana/components';
 
 import { CookiePolicyButton, PrivacyButton } from 'in-settings/terms/dialog/DocumentLinkButtons';
 import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndicator';

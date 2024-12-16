@@ -5,12 +5,10 @@
  */
 
 import { Field, Item, MapForm } from 'formalistic';
-import classNames from 'classnames';
 import React from 'react';
 
+import { IconButton, Stack, Button } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
-import { Stack, SvgIcon } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 import {
   expectJson,
@@ -284,8 +282,9 @@ export default function ValidationSection({
                 </>
               </FormGroup>
             )}
-            <div className={classNames(locals.deleteAction, locals.deleteValidation)}>
-              <SvgIcon
+            <div className={locals.deleteAction}>
+              <IconButton
+                kind="action"
                 type="lib_actions_delete"
                 onClick={() => deleteHeaderAction(selection.id, selection.fieldName)}
               />

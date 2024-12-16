@@ -4,6 +4,7 @@
  */
 
 const { getReportingEndpointsFromButler } = require('../reportingEndpoints.js');
+const { getTenantInfoFromUiBackend } = require('../getTenantInfo.js');
 const serverConfig = require('../../serverConfig.js');
 
 exports.getFeatureFlags = () => Promise.resolve(serverConfig.clientConfig.featureFlags);
@@ -16,4 +17,8 @@ exports.getButlerBaseUrl = () => Promise.resolve(serverConfig.butlerBaseUrl);
 
 exports.getReportingEndpoints = (req, tenant, unit) => {
   return getReportingEndpointsFromButler(req, serverConfig.butlerBaseUrl, tenant, unit);
+};
+
+exports.getTenantInfo = (req, tenant, unit) => {
+  return getTenantInfoFromUiBackend(req, tenant, unit);
 };

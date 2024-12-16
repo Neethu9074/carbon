@@ -9,10 +9,10 @@ import React, { useContext } from 'react';
 import { Stack } from '@instana/components';
 
 import SloDialogSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/Shared/SloDialogSection';
-import CreatableTagSelect from 'in-service-levels/components/ConfigDialog/components/FormComponents/CreatableTagSelect';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSloForm/utils';
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
+import CreatableTagSelect from 'in-components/CreatableTagSelect';
 import Sections from 'in-components/workspace/Sections/Sections';
 import useSloTags from 'in-service-levels/hooks/useSloTags';
 import { titleWidth } from 'in-service-levels/constants';

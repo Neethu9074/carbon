@@ -16,6 +16,7 @@ import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export default function VmwareTanzu({
@@ -51,12 +52,8 @@ export default function VmwareTanzu({
             href="https://ibm.biz/insta-agent-vmtanzu-install"
           />
           <DocumentLink
-            text={t('in-plg:agentDetails.tanzu.vmwareTanzuDocumentation')}
+            text={t('in-plg:agentDetails.tanzu.installingAndConfiguringMicroservicesApplicationsMonitoring')}
             href="https://ibm.biz/insta-agent-vmtanzu-docs"
-          />
-          <DocumentLink
-            text={t('in-plg:agentDetails.tanzu.vmwareTanzuNetwork')}
-            href="https://ibm.biz/insta-agent-vmtanzu-network"
           />
         </Stack>
       ),
@@ -68,6 +65,8 @@ export default function VmwareTanzu({
       openByDefault: false
     }
   ];
+
+  if (shareAndInviteEnabled) sideCardData.pop();
 
   return (
     <Container>
@@ -87,7 +86,9 @@ export default function VmwareTanzu({
             value={
               <InputWithButton
                 type="copy"
-                inputValue={'https://network.pivotal.io/products/instana-microservices-application-monitoring'}
+                inputValue={
+                  'https://support.broadcom.com/group/ecx/productdownloads?subfamily=Instana%20Microservices%20Application%20Monitoring%20for%20VMware%20Tanzu'
+                }
               />
             }
             withGap

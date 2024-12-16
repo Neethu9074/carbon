@@ -14,6 +14,7 @@ export interface MetricItem {
   crossSeriesAggregation?: AggregationType;
   regex?: boolean;
   label?: string;
+  required?: boolean;
 }
 
 interface GetLinkToExploreProps {
@@ -36,3 +37,5 @@ export function useLinkToExplore(): (getLinkToExploreProps: GetLinkToExploreProp
 export const defaultInfraExploreViewParams: GetLinkToExploreProps;
 
 export const useGetAlertConfigLink: () => (alertConfigId: string, alertConfigVersion?: number) => string;
+
+export const useNavigationToAlertConfig: () => (alertConfigId: string, alertConfigVersion?: number) => string;

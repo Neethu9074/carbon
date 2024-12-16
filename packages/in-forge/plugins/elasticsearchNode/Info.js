@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { DescriptionList, DescriptionItem } from '@instana/components';
+
 import ClusterStatusLabel from 'in-forge/plugins/elasticsearchCluster/ClusterStatusLabel';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -38,6 +39,8 @@ export default connectTo(
         </DescriptionItem>
 
         <DescriptionItem title={t('in-forge:plugins.elasticsearchNode.node')}>{data.get('node.name')}</DescriptionItem>
+
+        <DescriptionItem title={t('in-forge:plugins.elasticsearchNode.nodeId')}>{data.get('node.id')}</DescriptionItem>
 
         <DescriptionItem title={t('in-forge:plugins.elasticsearchNode.nodeType')}>
           {data.get('node.type')}

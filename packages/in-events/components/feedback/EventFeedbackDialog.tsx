@@ -7,10 +7,11 @@
 import { MapForm, createField, createMapForm } from 'formalistic';
 import React, { FormEvent, useEffect, useState } from 'react';
 
-import { Stack, Typography } from '@instana/components';
+import { Stack, Typography, Button } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
-import { Button } from '@instana/legacy';
+import { Error, ErrorCode } from '@instana/types';
 
+import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import { FeedbackConfigEventForm, saveEventFeedbackForm } from 'in-events/components/feedback/api';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { IStepConfig } from 'in-events/components/feedback/eventStepConfig';
@@ -21,6 +22,7 @@ import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { close } from 'in-components/DialogPresenter/store';
 import { eventsPath } from 'in-events/navigation/paths';
 import { Location } from 'in-stores/navigation/types';
+import { EventOrMap } from 'in-events/types';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/feedback/Feedback.mless';
@@ -32,6 +34,7 @@ interface FeedbackDialogProps {
   skipStepTracker: (e: Object) => void;
   submitTracker: (e: Object) => void;
   submitMetadata?: Object; // meant to be any additional data you want to send to mixpanel so I generalized it to be Object
+  eventData?: EventOrMap;
 }
 
 export default function EventFeedbackDialog({
@@ -40,16 +43,19 @@ export default function EventFeedbackDialog({
   nextStepTracker,
   skipStepTracker,
   submitTracker,
-  submitMetadata = {}
+  submitMetadata = {},
+  eventData
 }: FeedbackDialogProps) {
   const [step, setStep] = useState<string>('start_0');
   const [form, setForm] = useState<MapForm<FeedbackConfigEventForm>>(createForm());
+  const [error, setError] = useState<Error[]>([]);
   const { location } = useNavigation();
 
   const nextStep = () => {
-    if (currentStepConfig.lastStep) {
+    if (currentStepConfig.lastStep({ form, eventData })) {
       const stepStr = step.split('_')[0];
       setStep(stepStr + '_end');
+      onSubmit(null);
     } else {
       const stepNum = parseInt(step.split('_')[1]);
       setStep(step.split('_')[0] + `_${stepNum + 1}`);
@@ -96,15 +102,42 @@ export default function EventFeedbackDialog({
         form={form}
         disabled={!form.hierarchyValid || (currentStepConfig.validateStep && currentStepConfig.validateStep(form))}
         onClick={() => {
-          nextStepTracker({
-            stepTitle: currentStepConfig.title,
-            eventID: location.matrix[eventsPath]?.eventId,
-            eventType: location.matrix[eventsPath]?.view
-          });
-          nextStep();
+          if (currentStepConfig.requestBeforeEnd) {
+            const apiObject = currentStepConfig.requestBeforeEnd.apiObject(form, setError);
+            if (apiObject) {
+              const observable = currentStepConfig.requestBeforeEnd.apiObservable(
+                eventData?.get('id') as string,
+                apiObject
+              );
+              observable.once(() => {
+                nextStepTracker({
+                  stepTitle: currentStepConfig.title,
+                  eventID: location.matrix[eventsPath]?.eventId,
+                  eventType: location.matrix[eventsPath]?.view
+                });
+                nextStep();
+              });
+
+              observable.errors().once(data => {
+                setError([
+                  {
+                    code: (data.response.statusText as string).toUpperCase().replace(' ', '_') as ErrorCode,
+                    message: data.message as string
+                  }
+                ]);
+              });
+            }
+          } else {
+            nextStepTracker({
+              stepTitle: currentStepConfig.title,
+              eventID: location.matrix[eventsPath]?.eventId,
+              eventType: location.matrix[eventsPath]?.view
+            });
+            nextStep();
+          }
         }}
       >
-        {currentStepConfig.lastStep
+        {currentStepConfig.lastStep({ form, eventData })
           ? t('in-settings:maintenanceWindow.feedback.submit')
           : t('in-components:blueprintFormMultistep.buttonNext')}
       </SaveButton>
@@ -113,7 +146,11 @@ export default function EventFeedbackDialog({
   return (
     <form onSubmit={onSubmit}>
       <DialogWithSlideInView
-        title={t('in-settings:maintenanceWindow.feedback.shareFeedback')}
+        title={
+          currentStepConfig.customCardTitle
+            ? currentStepConfig.customCardTitle
+            : t('in-settings:maintenanceWindow.feedback.shareFeedback')
+        }
         onClose={() => {
           const thingsWentWrong = form.get('thingsWentWrong').value;
           const id = form.get('id').value;
@@ -135,11 +172,16 @@ export default function EventFeedbackDialog({
           <Stack distribution="center" align="center">
             <img src={currentStepConfig.stepImg} className={locals.feedbackImage} />
           </Stack>
-          <div className={locals.dialogContent}>
+          <div className={currentStepConfig.noBodyPadding ? locals.dialogContentNoPadding : locals.dialogContent}>
             <Stack gap="medium">
-              <Typography variant="heading-500" align={currentStepConfig.titleAlignment} noMargin>
-                {currentStepConfig.title}
-              </Typography>
+              {currentStepConfig.title && (
+                <Typography variant="heading-500" align={currentStepConfig.titleAlignment} noMargin>
+                  {currentStepConfig.title}
+                </Typography>
+              )}
+
+              {currentStepConfig.DescriptionComponent &&
+                currentStepConfig.DescriptionComponent({ nextStep, form, setForm, eventData })}
               {currentStepConfig.description && Array.isArray(currentStepConfig.description) && (
                 <Stack gap="xxsmall">
                   {currentStepConfig.description.map((description, idx) => (
@@ -154,9 +196,11 @@ export default function EventFeedbackDialog({
                   <div className={locals.feedbackDescription}>{currentStepConfig.description}</div>
                 </Typography>
               )}
+
               <div className={locals.dialogComponent}>
-                {currentStepConfig.component({ nextStep: setStep, form, setForm })}
+                {currentStepConfig.component({ nextStep, form, setForm, eventData })}
               </div>
+              <ErroneousResultPresenter errors={error} />
             </Stack>
           </div>
         </div>
@@ -171,7 +215,10 @@ function createForm(): MapForm<FeedbackConfigEventForm> {
     items: {
       id: createField({ value: generateUniqueShortId() }),
       thingsWentWrong: createField({ value: '' }),
-      contactMe: createField({ value: undefined })
+      contactMe: createField({ value: undefined }),
+      closureComments: createField({ value: '' }),
+      muteAlerts: createField({ value: false }),
+      disableEvent: createField({ value: false })
     }
   });
 }

@@ -17,9 +17,11 @@
     "chartWrapperMetricNotfound": "Messwert-ID {{metricId}} nicht gefunden.",
     "chartWrapperSameAxisSameValue": "Alle Aggregationstypen für eine Achse müssen denselben Wert haben.",
     "viewInAnalyticsBtnLabel": "In Analyse anzeigen",
+    "chartLegendBlankLabel": "Leer",
     "chartLendMetricTimeShifted": "Messwert-Zeitverschiebung nach {{timeShiftedLabel}}",
-    "chartDownloadLabel": "JSON herunterladen",
-    "chartDownloadCSVLabel": "CSV herunterladen",
+    "chartDownloadLabel": "In JSON exportieren",
+    "chartDownloadCSVLabel": "In CSV exportieren",
+    "chartDownloadPDFLabel": "PDF herunterladen",
     "chartGlobalHighlightLabel": "In allen Diagrammen hervorheben",
     "chartZoomInLabel": "Zoom auf Zeitbereich",
     "chartAlertsLanePresenterAlertsLabel": "Alerts",
@@ -38,7 +40,8 @@
       "itemMsg": "+{{leftCount}} weitere {{moreMsg}}"
     },
     "chartMarkerLane": {
-      "retryButtonLabel": "Wiederholen"
+      "retryButtonLabel": "Wiederholen",
+      "openList": "Liste öffnen"
     },
     "chartReleasesLanePresenterReleasesLabel": "Releases",
     "chartReleasesLanePresenterTooltip": "+{{len}} weitere Releases",
@@ -64,9 +67,14 @@
   "touchedMessages": {
     "withPath": "{{message}} (unter <codeWithClass>{{path}}</codeWithClass>)"
   },
-  "gravatar": {
-    "avatarUrlAlt": "Avatar für {{email}} von gravatar.com.",
-    "avatarNullAlt": "Fallback-Avatar für {{email}}."
+  "graphView": {
+    "graphTitle": "Diagramm",
+    "explanationHeader": "Showcase für dynamisches Diagramm",
+    "explanationP1": "Die Kerntechnologie, die Instana antreibt, ist das dynamische Diagramm. Das Diagramm ist ein Modell für Ihre Anwendung, das alle physischen und logischen Abhängigkeiten von Komponenten abbildet. Auf der rechten Seite sehen Sie das dynamische Diagramm Ihrer aktuellen Umgebung!",
+    "explanationP2": "Der Graph enthält alle Ressourcen und ihre Abhängigkeiten, die vom Instana-Agenten und den Sensoren automatisch entdeckt werden, so dass der Graph ständig auf dem neuesten Stand gehalten wird. Jeder Knoten im Graphen wird außerdem kontinuierlich mit Zustandsinformationen wie Metriken, Konfigurationsdaten und einem auf semantischem Wissen basierenden berechneten Zustandswert aktualisiert. Mit diesem Wissen werden auch die Abhängigkeiten im Diagramm analysiert, um logische Gruppierungen wie Services und Anwendungen zu finden, Auswirkungen auf diese Ebene zu verstehen und den Schweregrad von Problemen abzuleiten. Das gesamte Diagramm ist persistent und Sie können im Zeitablauf hin- und herblättern, um die Aussagen des Diagramms für viele Anwendungsfälle zu nutzen.",
+    "explanationP3": "Sie können die Ansicht auf der rechten Seite filtern, indem Sie eine Ressource auf der Infrastrukturkarte auswählen und zu dieser Seite zurückkehren. Nach der Auswahl einer Ressource sollte ein snapshotId in der URL gesetzt werden, der diese Filterung ermöglicht.",
+    "explanationLink": "<linkToBlog>Rufen Sie unseren Blog auf</linkToBlog>, um weitere Informationen zu erhalten.",
+    "closeBtn": "Diagramm schließen"
   },
   "releaseNotesDialog": {
     "releaseNotesTitle": "Releaseinformationen"
@@ -115,6 +123,7 @@
       "entititiesDescription": "Es wurden keine Entitäten für den ausgewählten Zeitbereich abgerufen."
     },
     "sharedComponents": {
+      "settings": "Einstellungen",
       "configurableThSearchItemPlaceholder": "{{len}} Elemente suchen",
       "configurableThNoMatchesTxt": "Keine Übereinstimmungen"
     }
@@ -124,6 +133,7 @@
     "tagListNoTagsDefined": "Es sind keine Tags definiert",
     "tagListShowAll": "Alle Tags anzeigen ({{num}} weitere)"
   },
+  "copyToClipboard": "Zwischenablage",
   "copyToClipboardPressToCopy": "Drücken Sie STRG+C/CMD+C zum Kopieren!",
   "copyToClipboardCopied": "Kopiert!",
   "reloadUiDialogTitle": "Neue Version der Benutzerschnittstelle verfügbar",
@@ -233,6 +243,7 @@
     "labelRegion": "Region",
     "labelTag": "Tag",
     "labelCommit": "Festschreiben",
+    "buttonGraphShowcase": "Diagramm-Showcase",
     "geo": {
       "title": "Geodaten",
       "description": "Dieses Produkt enthält von MaxMind erstellte GeoLite2-Daten; verfügbar unter <linkToMaxMind>https://www.maxmind.com</linkToMaxMind>."
@@ -263,6 +274,7 @@
   },
   "dialog": {
     "confirmationDialogLabelConfirm": "Bestätigen",
+    "secondaryDialogLabelCancel": "Abbrechen",
     "promptPresenterLabelConfirm": "Bestätigen"
   },
   "draggableItemSelector": {
@@ -294,12 +306,7 @@
     "tooltipShowLess": "Weniger anzeigen",
     "tooltipShowMore": "Mehr anzeigen"
   },
-  "expandableGroup": {
-    "tooltipShowContent": "Inhalt anzeigen",
-    "labelExpandButtonForContent": "Erweiterungsschaltfläche für Inhalt"
-  },
   "featureFeedback": {
-    "labelBETA": "BETA",
     "linkLabelYouCanSendUsFeedback": "Sie können uns Feedback senden"
   },
   "geoHeatMap": {
@@ -352,7 +359,55 @@
     "openIncidents_1": "{{count}} Vorfall",
     "openIncidents_2": "{{count}} Vorfälle",
     "labelWarning": "Warnung",
-    "labelCritical": "Kritisch"
+    "labelCritical": "Kritisch",
+    "carbonNoIssues": "Keine Probleme",
+    "carbonOpenIssues": "{{count}} Problem",
+    "carbonOpenIssues_plural": "{{count}} Probleme",
+    "carbonOpenIssues_0": "{{count}} Probleme",
+    "carbonOpenIssues_1": "{{count}} Problem",
+    "carbonOpenIssues_2": "{{count}} Probleme",
+    "carbonNoIncidents": "Keine Vorfälle",
+    "carbonOpenIncidents": "{{count}} Vorfall",
+    "carbonOpenIncidents_plural": "{{count}} Vorfälle",
+    "carbonOpenIncidents_0": "{{count}} Vorfälle",
+    "carbonOpenIncidents_1": "{{count}} Vorfall",
+    "carbonOpenIncidents_2": "{{count}} Vorfälle"
+  },
+  "vulnerabilities": {
+    "eventType_issue": "Sicherheitslücken",
+    "eventType_issue_plural": "Sicherheitslücken",
+    "eventType_issue_0": "Sicherheitslücken",
+    "eventType_issue_1": "Sicherheitslücken",
+    "eventType_issue_2": "Sicherheitslücken",
+    "openIssuesListPresenterActionsViewIssues": "Sicherheitslücken anzeigen",
+    "openIssuesListPresenterActionsViewNumbersOfIssue": "Ansicht {{openIssueCount}} Schwachstellen",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "Laden Offene Sicherheitslücken...",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "Offene Schwachstellen konnten nicht geladen werden",
+    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} Offene Schwachstellen",
+    "noVulnerabilities": "Keine Schwachstellen",
+    "openVulnerabilities": "{{count}} Schwachstelle",
+    "openVulnerabilities_plural": "{{count}} Schwachstellen",
+    "openVulnerabilities_0": "{{count}} Schwachstellen",
+    "openVulnerabilities_1": "{{count}} Schwachstelle",
+    "openVulnerabilities_2": "{{count}} Schwachstellen",
+    "noIncidents": "Keine Vorfälle",
+    "openIncidents": "{{count}} Vorfall",
+    "openIncidents_plural": "{{count}} Vorfälle",
+    "openIncidents_0": "{{count}} Vorfälle",
+    "openIncidents_1": "{{count}} Vorfall",
+    "openIncidents_2": "{{count}} Vorfälle",
+    "carbonNoVulnerabilities": "Keine Schwachstellen",
+    "carbonOpenVulnerabilities": "{{count}} Schwachstelle",
+    "carbonOpenVulnerabilities_plural": "{{count}} Schwachstellen",
+    "carbonOpenVulnerabilities_0": "{{count}} Schwachstellen",
+    "carbonOpenVulnerabilities_1": "{{count}} Schwachstelle",
+    "carbonOpenVulnerabilities_2": "{{count}} Schwachstellen",
+    "carbonNoIncidents": "Keine Vorfälle",
+    "carbonOpenIncidents": "{{count}} Vorfall",
+    "carbonOpenIncidents_plural": "{{count}} Vorfälle",
+    "carbonOpenIncidents_0": "{{count}} Vorfälle",
+    "carbonOpenIncidents_1": "{{count}} Vorfall",
+    "carbonOpenIncidents_2": "{{count}} Vorfälle"
   },
   "inlineTabNavigation": {
     "labelSelectTab": "Registerkarte auswählen"
@@ -388,9 +443,9 @@
     "labelLoadingData": "Daten werden geladen"
   },
   "mainNavigation": {
+    "skipToMainContent": "Zum Hauptinhalt springen",
     "viewSwitcherLabelSettings": "Einstellungen",
     "viewSwitcherLabelMore": "Mehr",
-    "viewSwitcherLabelTenants": "Tenants",
     "viewSwitcherLabelAgents": "Agenten",
     "viewSwitcherLabelReleaseNotes": "Releaseinformationen",
     "viewSwitcherLabelDocumentation": "Dokumentation",
@@ -400,7 +455,9 @@
     "viewSwitcherLabelEvents": "Ereignisse",
     "viewSwitcherlabelInfrastructure": "Infrastruktur",
     "viewSwitcherLabelApplications": "Anwendungen",
+    "viewVulnerabilityCenter": "Sicherheitslücken",
     "viewSwitcherLabelSlo": "Service-Level",
+    "viewSwitcherLabelLogs": "Protokolle",
     "viewSwitcherLabelAnalytics": "Analyse",
     "viewSwitcherLabelWebsitesAndMobileApps": "Websites und mobile Apps",
     "viewSwitcherLabelWebsites": "Websites",
@@ -414,10 +471,17 @@
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "Plattformen",
-    "viewSwitcherButtonSignOut": "Abmelden",
     "viewSwitcherCustomDashboards": "Angepasste Dashboards",
+    "viewSwitcherButtonSignOut": "Abmelden",
+    "viewSwitcherLabelTenants": "Tenants",
+    "viewSwitcherLabelNutanix": "Nutanix",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Neue Version der Instana-Benutzerschnittstelle verfügbar",
-    "newUiClientVersionAvailableButtonReloadToUpdate": "Erneut laden zum Aktualisieren"
+    "newUiClientVersionAvailableButtonReloadToUpdate": "Erneut laden zum Aktualisieren",
+    "profileMenu_profileLink": "Profil",
+    "profileMenu_tooltip": "Profilmenü",
+    "profileMenu_unitName_tenantName": "Einheitenname - Nutzername",
+    "profileMenu_switchUnitOrTenant": "Einheit oder Nutzer wechseln",
+    "profileMenu_logOut": "Abmelden"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "Messdaten auswählen",
@@ -438,8 +502,10 @@
     "aggregation_MAX": "Max.",
     "aggregation_DISTINCTCOUNT": "eindeutige Anzahl",
     "aggregation_SUM": "Summe",
+    "aggregation_INCREASE": "Δ",
     "aggregation_DISTRIBUTION": "Verteilung",
-    "aggregation_PERSECOND": "pro Sekunde"
+    "aggregation_PERSECOND": "pro Sekunde",
+    "labelFilterEmptyValue": "Leere Werte filtern"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "Verwendet",
@@ -517,6 +583,12 @@
     "fillerTextIn": " in ",
     "fillerTextAt": " unter "
   },
+  "sessionTimeout": {
+    "title": "Sitzungszeitlimit",
+    "message": "Aufgrund von Inaktivität werden Sie ausgeloggt:",
+    "loggedInButton": "Angemeldet bleiben",
+    "logOutButton": "Abmelden"
+  },
   "time": {
     "lastMinute": "Letzte Minute",
     "lastMinute_plural": "Letzte {{count}} Minuten",
@@ -584,8 +656,8 @@
     "loadingData": "Daten werden geladen"
   },
   "uiClinetUpdateMessage": {
-    "newVersionOfInstanaAvailable": "Neue Version von Instana verfügbar",
-    "buttonReloadToUpdate": "Erneut laden zum Aktualisieren"
+    "newVersionOfInstanaAvailable": "Es gibt ein Update für die Instana Benutzeroberfläche",
+    "buttonReloadToUpdate": "Aktualisieren Sie Ihren Browser, um sie zu laden."
   },
   "upstreamDownstream": {
     "companionMetricLabelCalls": "Aufrufe",
@@ -645,6 +717,7 @@
     "setEnabledMessagePressESCToDisableTVMode": "Drücken Sie ESC, um den Fernsehmodus zu inaktivieren."
   },
   "analyze": {
+    "facettedFilters": "Facettierte Filter",
     "loadMoreWithCount": "{{count}} weitere laden",
     "loadMore": "Mehr laden",
     "activeFacets": "{{count}} ausgewählt",
@@ -655,6 +728,7 @@
     "fromUnit": "Von ({{unit}})",
     "to": "Bis",
     "toUnit": "Bis ({{unit}})",
+    "fromto": "Von-Bis-Bereich definieren",
     "rangeSelected": "Ausgewählter Bereich",
     "rangeOrder": "Der Bereich muss in aufsteigender Reihenfolge geordnet sein.",
     "earliestTimestamp": "Älteste Zeitmarke",
@@ -668,6 +742,8 @@
     },
     "groupName": "Gruppenname",
     "groupedOnly": "Messwert ist nur verfügbar, wenn Gruppen analysiert werden.",
+    "groupNameNotAvailable": "{{groupbyTag}} Information nicht verfügbar",
+    "options": "Optionen",
     "filterSidebar": {
       "groupingButton": "Nach {{group}} gruppieren",
       "ungroupButton": "Gruppierung entfernen"
@@ -829,5 +905,9 @@
     "notice": "Diese Tenanteinheit wurde in eine neue Region migriert. Die Einheit, auf die Sie momentan zugreifen, enthält nur Protokolldaten.",
     "goToNewLocationLabel": "Zu neuer Position wechseln",
     "exploreDataLabel": "Protokolldaten untersuchen"
+  },
+  "creatableTagSelect": {
+    "placeholder": "Tags eingeben",
+    "createLabel": "Erstellen: {{tag}}"
   }
 }

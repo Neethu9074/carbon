@@ -4,12 +4,12 @@
  */
 
 :local {
-  .mapSidebar {
+  .carbonMapSidebar {
     position: absolute;
     top: 14.6rem;
     left: 2.6rem;
-    width: 20.5rem;
-    background: #fff;
+    width: 25.8rem;
+    background: var(--ids-color-option-white);
     border-radius: var(--ids-border-radius-option-small);
     max-height: ~'calc(100vh - 200px)';
   }
@@ -18,14 +18,14 @@
     overflow-y: auto;
     overflow-x: hidden;
     & > div {
-      width: 20.5rem;
+      width: 100%;
     }
 
     &NoBanner {
-      max-height: ~'calc(100vh - 400px)';
+      max-height: ~'calc(100vh - 28rem)';
     }
     &Banner {
-      max-height: ~'calc(100vh - 446px)';
+      max-height: ~'calc(100vh - 30.875rem)';
     }
   }
 }

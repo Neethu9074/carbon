@@ -7,13 +7,13 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { MobileAppAlertConfig } from '@instana/types';
 import { SvgIcon } from '@instana/components';
 
 import { getFiltersCount, getLimitedNumberOfFilters } from 'in-alerting/smart-alerts/components/limitedFilters';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
 import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { fromBackendModel, isTagFilter } from 'in-components/QueryBuilder/transformation/formModel';
+import { MobileAppSmartAlertConfig } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -23,7 +23,7 @@ export default function ScopeColumn({
   config,
   mobileAppLabel
 }: {
-  config: MobileAppAlertConfig;
+  config: MobileAppSmartAlertConfig;
   mobileAppLabel: string;
 }) {
   const tagFilterExpression = fromBackendModel(config.tagFilterExpression);
@@ -74,7 +74,8 @@ export default function ScopeColumn({
                 })}
             </div>
           }
-          align="topMiddle"
+          align="auto"
+          forceTheme
           delay={500}
         >
           <span className={locals.centered}>

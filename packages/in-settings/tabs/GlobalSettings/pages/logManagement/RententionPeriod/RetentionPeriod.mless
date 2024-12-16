@@ -1,0 +1,74 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2023
+ */
+
+:local {
+  .detailPageSection {
+    padding: 0;
+  }
+  .titleSection {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0 0.5rem 0;
+  }
+
+  .loadingIndicator {
+    display: block;
+    width: 21.5rem;
+  }
+
+  .skeleton {
+    .loadingIndicator();
+    height: 6rem;
+    margin: 0 var(--cds-layout-density-padding-inline-local) var(--cds-layout-density-padding-inline-local)
+      var(--cds-layout-density-padding-inline-local);
+  }
+
+  .link {
+    margin-left: 0.5rem;
+  }
+
+  .modalContainer {
+    > div {
+      max-width: 35rem;
+    }
+  }
+
+  .newLine {
+    display: block;
+    margin-top: 1rem;
+  }
+
+  .retentionContent {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: flex-start;
+    align-items: baseline;
+  }
+
+  .body {
+    color: var(--ids-color-option-neutral-700);
+    font-size: 1rem;
+    font-weight: 300;
+  }
+  .body p {
+    font-weight: 300;
+    margin: 0;
+  }
+  .number {
+    font-size: 2.375rem;
+    font-weight: 400;
+    color: var(--ids-color-text-primary-on-light);
+  }
+  .validationMessage {
+    margin-top: 0;
+    font-size: 0.75rem;
+  }
+  .typo {
+    padding: 0.5rem 0 0.25rem;
+  }
+}

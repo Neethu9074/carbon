@@ -1,6 +1,7 @@
 {
   "logs": "Registros",
   "sum": "suma",
+  "count": "count",
   "bar": "Barra",
   "logsOverTime": "Registros a lo largo del tiempo",
   "logsOverTime_ERROR": "Error",
@@ -53,5 +54,31 @@
   "process": "Proceso",
   "host": "Host",
   "fileOnHost": "act",
-  "file": "Archivo"
+  "file": "Archivo",
+  "logExpiration": "Retenido hasta",
+  "stacktraceLogMessage": "Seguimiento de pila",
+  "logTraceTitle": "Seguimiento de pila",
+  "stackTraceHeader": "Mensaje de Stacktrace",
+  "dashboard": {
+    "summary": "Resumen",
+    "smartAlerts": "Alertas inteligentes",
+    "deleteLogs": "Suprimir registros",
+    "configuration": "Configuración",
+    "logVolume": {
+      "logVolumeTitle": "Volumen de registro del mes en curso",
+      "gb": "ES",
+      "logVolumeIcon": "Ir al volumen de registro"
+    },
+    "retentionIcon": "Cambiar periodo de retención",
+    "noData": "No hay datos disponibles.",
+    "analyzeLogs": "Analizar registros",
+    "configurationPage": {
+      "logVolume": "Volumen de registros",
+      "logVolumeDescription": "Visualice el volumen de registros de hasta 12 meses y agrupe por etiquetas de infraestructura a petición.",
+      "logIntegrations": "Integraciones de registros",
+      "logIntegrationsDescription": "Conecte sus soluciones de gestión de registros y configúrelas para satisfacer sus necesidades.",
+      "retentionPeriod": "Periodo de retención",
+      "retentionPeriodDescription": "El cambio en el periodo de retención afecta al tiempo que los registros se conservan y están disponibles en Aplicaciones, Paneles de control y Análisis, y tiene un impacto en el coste y la facturación."
+    }
+  }
 }

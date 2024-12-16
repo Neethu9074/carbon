@@ -26,13 +26,14 @@ import DragAndDropBehaviour from 'in-components/QueryBuilder/DragAndDropBehaviou
 import LoadingIndicator from 'in-components/GroupingConfigurator/LoadingIndicator';
 import QueryBuilderReadOnly from 'in-components/QueryBuilder/QueryBuilderReadOnly';
 import FilterButton from 'in-components/QueryBuilder/components/FilterButton';
-import { createTagForm } from 'in-components/QueryBuilder/validation/tagForm';
 import Conjunction from 'in-components/QueryBuilder/components/Conjunction';
 import Spacing from 'in-components/QueryBuilder/components/Spacing/Spacing';
 import Expression from 'in-components/QueryBuilder/components/Expression';
 import Bracket from 'in-components/QueryBuilder/components/Bracket';
 import Tag from 'in-components/QueryBuilder/components/Tag/Tag';
 import ErrorBoundary from 'in-components/ErrorBoundary';
+import { LOG_MESSAGE } from 'in-logging/queryBuilder';
+import { CONTAINS } from './tagFilter/operators';
 
 import locals from './QueryBuilder.mless';
 
@@ -67,10 +68,13 @@ function QueryBuilder({
   maxExpressionDepth,
   autoFocusInput = false,
   getSuggestionLabel,
-  allowEmptyKey = false
+  allowEmptyKey = false,
+  getTagCatalog,
+  additionalGetTagCatalogProps,
+  addTagDefinitionToFormModel,
+  disableEntitySelection
 }) {
   const [draggedFormModelIndex$] = useState(create());
-  const resolvedCreateTagForm = tagCatalog && createTagForm.bind(null, tagCatalog);
 
   // Keep the fromMode state internally and notify the parent only about valid changes
   const [currentFormModel, setCurrentFormModel] = useState(formModel);
@@ -88,7 +92,8 @@ function QueryBuilder({
       tagCatalog: tagCatalog,
       formModel: _formModel,
       maxExpressionDepth,
-      allowEmptyKey
+      allowEmptyKey,
+      disableEntitySelection
     });
     if (isValid) {
       tracking?.onQueryChanged?.(_formModel);
@@ -140,6 +145,10 @@ function QueryBuilder({
       focus={focus}
       withoutOrConjunction={withoutOrConjunction}
       withoutBrackets={withoutBrackets}
+      getTagCatalog={getTagCatalog}
+      additionalGetTagCatalogProps={additionalGetTagCatalogProps}
+      addTagDefinitionToFormModel={addTagDefinitionToFormModel}
+      disableEntitySelection={disableEntitySelection}
     />
   ) : (
     <>
@@ -160,7 +169,6 @@ function QueryBuilder({
             <Elements
               draggedFormModelIndex$={draggedFormModelIndex$}
               switchFormModelIndices={switchFormModelIndices}
-              createTagForm={resolvedCreateTagForm}
               onChange={onChangeFormModelElement}
               getSuggestions={getSuggestions}
               getSuggestionsProps={getSuggestionsProps}
@@ -175,6 +183,10 @@ function QueryBuilder({
               autoFocusInput={autoFocusInput}
               getSuggestionLabel={getSuggestionLabel}
               allowEmptyKey={allowEmptyKey}
+              getTagCatalog={getTagCatalog}
+              additionalGetTagCatalogProps={additionalGetTagCatalogProps}
+              addTagDefinitionToFormModel={addTagDefinitionToFormModel}
+              disableEntitySelection={disableEntitySelection}
             />
           </div>
         )}
@@ -188,6 +200,10 @@ function QueryBuilder({
         trailingButton
         withoutOrConjunction={withoutOrConjunction}
         withoutBrackets={withoutBrackets}
+        getTagCatalog={getTagCatalog}
+        additionalGetTagCatalogProps={additionalGetTagCatalogProps}
+        addTagDefinitionToFormModel={addTagDefinitionToFormModel}
+        disableEntitySelection={disableEntitySelection}
       />
     </>
   );
@@ -208,6 +224,7 @@ function QueryBuilder({
   }
 
   function onAddFormModelElement({ formModelIndex, renderModelIndex, newFormModel }) {
+    newFormModel = newFormModel.name === LOG_MESSAGE ? { ...newFormModel, operator: CONTAINS } : newFormModel;
     const updatedFormModel = currentFormModel.slice();
     const addConjunction = shouldAutomaticallyAddAConjunction(updatedFormModel, newFormModel, formModelIndex);
     updatedFormModel.splice(formModelIndex, 0, newFormModel);
@@ -310,7 +327,6 @@ function Elements({
   draggedFormModelIndex$,
   getSuggestions,
   getSuggestionsProps,
-  createTagForm,
   tagCatalog,
   onRemove,
   onChange,
@@ -322,7 +338,11 @@ function Elements({
   withoutBrackets,
   autoFocusInput,
   getSuggestionLabel,
-  allowEmptyKey
+  allowEmptyKey,
+  getTagCatalog,
+  additionalGetTagCatalogProps,
+  addTagDefinitionToFormModel,
+  disableEntitySelection
 }) {
   return (
     <>
@@ -346,7 +366,6 @@ function Elements({
                 getSuggestions={getSuggestions}
                 getSuggestionsProps={getSuggestionsProps}
                 onRemove={onRemove}
-                createTagForm={createTagForm}
                 onChange={(newFormModel, changeFocus = true) =>
                   onChange({
                     formModelIndex: element.formModelIndex,
@@ -372,6 +391,10 @@ function Elements({
                 autoFocusInput={autoFocusInput}
                 getSuggestionLabel={getSuggestionLabel}
                 allowEmptyKey={allowEmptyKey}
+                getTagCatalog={getTagCatalog}
+                additionalGetTagCatalogProps={additionalGetTagCatalogProps}
+                addTagDefinitionToFormModel={addTagDefinitionToFormModel}
+                disableEntitySelection={disableEntitySelection}
               >
                 {element.elements && (
                   <Elements
@@ -379,7 +402,6 @@ function Elements({
                     draggedFormModelIndex$={draggedFormModelIndex$}
                     switchFormModelIndices={switchFormModelIndices}
                     getSuggestions={getSuggestions}
-                    createTagForm={createTagForm}
                     elements={element.elements}
                     onRemove={onRemove}
                     onChange={onChange}
@@ -391,6 +413,11 @@ function Elements({
                     withoutBrackets={withoutBrackets}
                     autoFocusInput={autoFocusInput}
                     getSuggestionLabel={getSuggestionLabel}
+                    allowEmptyKey={allowEmptyKey}
+                    getTagCatalog={getTagCatalog}
+                    additionalGetTagCatalogProps={additionalGetTagCatalogProps}
+                    addTagDefinitionToFormModel={addTagDefinitionToFormModel}
+                    disableEntitySelection={disableEntitySelection}
                   />
                 )}
               </Component>
@@ -420,7 +447,11 @@ QueryBuilder.propTypes = {
   maxExpressionDepth: rpt.number,
   autoFocusInput: rpt.bool,
   getSuggestionLabel: rpt.func,
-  allowEmptyKey: rpt.bool
+  allowEmptyKey: rpt.bool,
+  getTagCatalog: rpt.func,
+  additionalGetTagCatalogProps: rpt.object,
+  addTagDefinitionToFormModel: rpt.bool,
+  disableEntitySelection: rpt.bool
 };
 
 function shouldAutomaticallyAddAConjunction(formModel, newElement, newElementIndex) {

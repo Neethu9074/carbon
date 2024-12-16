@@ -367,6 +367,7 @@
       "viewAllOs": "Ver todos los sistemas operativos",
       "appVersions": "Versiones de apps",
       "viewAllVersions": "Ver todas las versiones",
+      "syntheticMonitoringLabel": "Supervisión sintética",
       "configurations": {
         "symbolFileConfigLabel": "Stack Trace Translation",
         "symbolFileConfig": {
@@ -399,9 +400,12 @@
         }
       },
       "crashes": {
-        "crashesLabelErrorMessage": "Mensaje de error",
+        "crashesLabelErrorMessage": "Ubicación",
+        "crashesLabelErrorType": "Tipo de error",
         "crashesLabelOccurrences": "Apariciones",
         "crashesLabelAffectedUsers": "Usuarios afectados",
+        "crashesLabelLowestAppVersion": "Versión más baja de la aplicación",
+        "crashesLabelHighestAppVersion": "Versión más alta de la aplicación",
         "crashesButtonAnalyzeCrashes": "Analizar caídas",
         "crashesTableTitle": "Caídas",
         "crashInfoTitle": "Detalles",
@@ -453,7 +457,10 @@
       "customEventsTitle": "No hay sucesos personalizados disponibles",
       "customEventsDescription": "No se han recuperado sucesos personalizados para el rango de tiempo seleccionado.",
       "crashesTitle": "No hay caídas disponibles",
-      "crashesDescription": "No se han producido caídas para el intervalo de tiempo seleccionado."
+      "crashesDescription": "No se han producido caídas para el intervalo de tiempo seleccionado.",
+      "syntheticMonitoring": {
+        "title": "No hay pruebas sintéticas asociadas a esta aplicación móvil."
+      }
     }
   },
   "appsList": {

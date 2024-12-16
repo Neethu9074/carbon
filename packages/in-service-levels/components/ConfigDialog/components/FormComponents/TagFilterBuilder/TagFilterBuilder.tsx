@@ -4,21 +4,17 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
 
 import ApplicationTagFilterBuilder from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/ApplicationTagFilterBuilder';
 import WebsiteTagFilterBuilder from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/WebsiteTagFilterBuilder';
-import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 
-interface TagFilterBuilderProps {
-  form: SloForm;
-  onChange: SloFormOnChange;
-}
-
-export default function TagFilterBuilder({ form, onChange }: TagFilterBuilderProps) {
+export default function TagFilterBuilder() {
+  const { form } = useContext(SloFormContext);
   const entityType = form.getIn(['entity', 'type']).value;
 
-  if (entityType === 'application') return <ApplicationTagFilterBuilder form={form} onChange={onChange} />;
+  if (entityType === 'application') return <ApplicationTagFilterBuilder />;
 
-  return <WebsiteTagFilterBuilder form={form} onChange={onChange} />;
+  return <WebsiteTagFilterBuilder />;
 }

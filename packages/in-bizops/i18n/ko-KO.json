@@ -1,7 +1,7 @@
 {
   "labelBizOps": "프로세스",
-  "labelSmartAlerts": "스마트 경보",
-  "labelActivities": "활동",
+  "labelPerspectives": "퍼스펙티브",
+  "labelPerspective": "퍼스펙티브",
   "components": {
     "count": "개수"
   },
@@ -15,8 +15,61 @@
     "noData": "사용 가능한 데이터 없음",
     "healthLabel": "상태",
     "startLabel": "시작됨",
+    "latencyLabel": "대기 시간",
     "unnamedActivity": "(이름 지정되지 않은 활동){{activityType}}",
     "unnamedService": "(이름 지정되지 않은 서비스)"
+  },
+  "customDashboards": {
+    "activityCountMetric": "활동 수",
+    "erroneousActivityCallsCountLabel": "잘못된 활동 호출(개수)",
+    "erroneousActivityCallsCategory": "잘못된 활동 호출 수",
+    "erroneousActivityCallsRateLabel": "잘못된 활동 호출(비율)",
+    "latency": "대기 시간"
+  },
+  "processes": {
+    "deployAgent": "에이전트 배치",
+    "noProcessesAvailable": "비즈니스 프로세스를 사용할 수 없습니다.",
+    "deployAgentFirst": "먼저 에이전트를 배치해야 합니다.",
+    "forMoreInformation": "자세한 정보는",
+    "documentation": "문서를 검토하십시오."
+  },
+  "perspectives": {
+    "newPerspective": "관점 작성",
+    "lists": {
+      "perspectives": "비즈니스 퍼스펙티브",
+      "descriptionLabel": "설명",
+      "numberProcessesLabel": "프로세스 수"
+    },
+    "processesLiveList": {
+      "title": "일치하는 비즈니스 프로세스",
+      "empty": "비즈니스 퍼스펙티브를 빌드하기 위한 필터 추가",
+      "invalidQuery": "조회가 올바르지 않음",
+      "noMatchedProcesses": "일치하는 비즈니스 프로세스를 찾을 수 없음",
+      "loadingStateLabel": "로딩 프로세스"
+    },
+    "dialog": {
+      "title": "새 비즈니스 퍼스펙티브",
+      "stepOne": {
+        "progressBarTitle": "1단계: 비즈니스 프로세스를 필터링하여 비즈니스 관점 빌드",
+        "headline": "비즈니스 프로세스를 필터링하여 비즈니스 관점 빌드",
+        "queryBuilderTitle": "비즈니스 프로세스"
+      },
+      "stepTwo": {
+        "progressBarTitle": "2단계: 세부사항 제공",
+        "headline": "세부사항 제공",
+        "perspectiveName": "퍼스펙티브 이름",
+        "perspectiveDescription": "설명"
+      }
+    },
+    "errorMessages": {
+      "tagFilterExpressionMustNotBeEmpty": "비즈니스 관점에는 필터가 하나 이상 있어야 함",
+      "createOperationFailed": "조작 작성 실패",
+      "unableToCreatePerspective": "비즈니스 관점을 작성할 수 없습니다. 다시 시도하십시오."
+    },
+    "successMessages": {
+      "businessPerspectiveCreated": "비즈니스 관점 작성됨",
+      "perspectiveWasSuccessfullyCreated": "\"{{perspectiveName}}\"이(가) 작성되었습니다."
+    }
   },
   "navigation": {
     "businessMonitoring": "비즈니스 모니터링"
@@ -42,12 +95,14 @@
     "activity": {
       "pageTitle": "비즈니스 활동",
       "summaryTab": "요약",
+      "servicesTab": "서비스",
       "widgets": {
         "duration": "지속 기간",
         "activityCount": "개수",
         "activityErrors": "오류",
         "topServices": "상위 서비스",
-        "activityLatency": "대기 시간"
+        "activityLatency": "대기 시간",
+        "viewAll": "모든 서비스 보기"
       },
       "timespans": {
         "minute": "1분",
@@ -55,6 +110,34 @@
         "day": "1일",
         "week": "1주"
       }
+    },
+    "perspectives": {
+      "pageTitleDefault": "비즈니스 관점",
+      "processes": {
+        "tabLabel": "비즈니스 프로세스"
+      },
+      "configuration": {
+        "tabLabel": "구성",
+        "loadingText": "데이터 로드 중",
+        "updateCardLabel": "비즈니스 퍼스펙티브 업데이트",
+        "stepOneHeader": "1. 이름 및 설명 편집",
+        "perspectiveName": "퍼스펙티브 이름",
+        "perspectiveDescription": "설명",
+        "stepTwoHeader": "2. 필터 편집",
+        "saveChangesButton": "저장",
+        "removeCardLabel": "비즈니스 퍼스펙티브 제거",
+        "removePerspectiveDisclaimer": "이 비즈니스 퍼스펙티브를 더 이상 사용하지 않으려면 \"비즈니스 퍼스펙티브 제거\"를 클릭하십시오.",
+        "removePerspectiveCheckbox": "이 조치를 실행 취소할 수 없음을 이해합니다.",
+        "removePerspectiveButton": "비즈니스 퍼스펙티브 제거",
+        "businessPerspectiveDeleted": "비즈니스 관점 제거됨",
+        "businessPerspectiveDeletedDetails": "\"{{perspectiveName}}\"이(가) 제거되었습니다.",
+        "businessPerspectiveUpdated": "비즈니스 관점 업데이트됨",
+        "businessPerspectiveUpdatedDetails": "\"{{perspectiveName}}\"이(가) 편집되었으며 변경 내용이 저장되었습니다.",
+        "error": "오류"
+      }
+    },
+    "flowMap": {
+      "tabLabel": "플로우"
     }
   }
 }

@@ -30,6 +30,7 @@ import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/Expa
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import CustomPayloadCard from 'in-alerting/smart-alerts/components/details/CustomPayloadCard';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { alertChannelPerSeverityApplicationSaEnabled } from 'in-services/featureFlags';
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
@@ -52,17 +53,22 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const {
     name,
-    rule: { operator, alertType, message, level, aggregation, metricName },
-    threshold,
     evaluationType,
     timeThreshold,
     alertChannelIds,
+    alertChannels,
     tagFilterExpression,
     applications,
     boundaryScope,
-    customPayloadFields
+    customPayloadFields,
+    rules
   } = alertConfig;
-
+  const ruleWithThreshold = rules[0];
+  const {
+    rule: { operator, alertType, message, level, aggregation, metricName },
+    thresholdOperator,
+    thresholds: thresholdsMap
+  } = ruleWithThreshold;
   const blueprintConfig = getBlueprintConfig(alertType);
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
   const TagBasedPayloadConfigurator = useTagBasedApplicationPayloadConfigurator(applications, boundaryScope);
@@ -76,7 +82,8 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
         darkFrame
       >
         <AlertThresholdInfos
-          threshold={threshold}
+          thresholdOperator={thresholdOperator}
+          thresholdsMap={thresholdsMap}
           evaluationType={evaluationType}
           rule={{ alertType, aggregation, metricName }}
         />
@@ -161,7 +168,11 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
         darkFrame
       >
         <div className={locals.alertChannelsWrapper}>
-          <AlertChannelsViewer alertChannelIds={alertChannelIds} />
+          <AlertChannelsViewer
+            alertChannelIds={alertChannelIds}
+            alertChannels={alertChannels}
+            alertChannelPerSeverityEnabled={alertChannelPerSeverityApplicationSaEnabled}
+          />
         </div>
       </ExpandableLightCard>
 
@@ -177,6 +188,7 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
           renderCustomTitle={() =>
             getAlertTitleWithPlaceholderHighlighting({ configName: name, evaluationType: evaluationType })
           }
+          shouldDisplayAlertLevelSection={false}
         />
       </ExpandableLightCard>
       <GlobalCustomPayloadCard context="APPLICATION" />
@@ -205,10 +217,26 @@ function ServiceEndpointSelectionCard({ alertConfig, isGlobalSmartAlert }) {
 
   const moreThanOneSelection = applications && Object.values(applications).length > 1;
 
+  // FIXME In the current read-only mode of this control, when the fake API-subscriptions are passed,
+  //       we currently need to hide the entity search, because it turns out that it was broken since at least R234,
+  //       and simply never returns any results. The respective dead code should either be fixed, or removed.
+  //       Potentially related PR: https://github.ibm.com/instana/ui-client/pull/10139
+  const showSearch = false;
+
   return (
     <ExpandableLightCard
       title={t('in-alerting:smartAlerts.applications.details.applicationsServiceEndpointScopeTitle')}
-      header={moreThanOneSelection && <ServicesAndEndpointsSearchInput onChange={setSearchQuery} />}
+      header={
+        moreThanOneSelection &&
+        showSearch && (
+          <ServicesAndEndpointsSearchInput
+            placeholderText={t(
+              'in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigSearchApplicationsPlaceholder'
+            )}
+            onChange={setSearchQuery}
+          />
+        )
+      }
       headerClassName={locals.lightCardHeader}
       openByDefault
       bodyWithoutPadding

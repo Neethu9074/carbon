@@ -22,5 +22,5 @@ registerSnapshotDefinition({
       Environment: snapshot.getIn(['data', 'env'])
     });
   },
-  getIconType: () => 'openTelemetry'
+  getIconType: () => 'sap_dbms'
 });

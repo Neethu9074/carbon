@@ -18,6 +18,9 @@ const betaConfig = {
   text: 'text'
 };
 
+export default {
+  title: 'Blue print description'
+};
 export const Description = () => (
   <BlueprintDescription config={config} selectButtonDisabled={false} isSimpleMode={false} />
 );

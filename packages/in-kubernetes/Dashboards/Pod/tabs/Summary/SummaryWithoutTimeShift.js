@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import { get } from 'lodash';
@@ -15,17 +15,17 @@ import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/Mis
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/ContainerStates';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
-import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import { useGetK8sEntityUid } from 'in-kubernetes/Dashboards/useGetK8sEntityUid';
 import { k8sPodAndServiceChart } from 'in-kubernetes/components/K8sChartColors';
 import { usePodDashboard } from 'in-kubernetes/navigation/paths';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
 import { capitalizeValue } from 'in-components/Capitalize';
-import { Col, Row } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import MetricValue from 'in-components/MetricValue';
+import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
@@ -39,7 +39,7 @@ export default function SummaryWithoutTimeShift({ data: pod, timeConfig }) {
 
   const kpiWidth = 2;
 
-  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('pod', snapshotId, timeConfig);
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('kubernetes.pod', snapshotId, timeConfig);
   const viewAllHref = usePodDashboard(snapshotId, { tab: '/conditions' });
 
   return (

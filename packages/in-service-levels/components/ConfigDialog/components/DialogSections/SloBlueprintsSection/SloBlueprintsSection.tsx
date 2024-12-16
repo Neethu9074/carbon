@@ -11,6 +11,7 @@ import { BlueprintType } from '@instana/types';
 
 import SloIndicatorAvailabilityForm from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorAvailabilityForm';
 import SloIndicatorLatencyForm from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorLatencyForm';
+import SloIndicatorTrafficForm from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorTrafficForm';
 import SloIndicatorCustomForm from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/SloIndicatorCustomForm';
 import TabSelect, {
   TabSelectHeader,
@@ -28,9 +29,11 @@ export default function SloBlueprintsSection() {
   const { form, mode, onChange } = useContext(SloFormContext);
 
   const blueprintField = form.getIn(['indicator', 'blueprint']);
+  const entityTypeField = form.getIn(['entity', 'type']);
   const indicatorTypeField = form.getIn(['indicator', 'type']);
 
   const isFormInEditMode = mode === 'EDIT';
+  const isSyntheticsSlo = entityTypeField.value === 'synthetic';
 
   // Temporary workaround to force the indicator type for custom blueprints to always be event-based.
   // Can be removed once we have time-based indicator support for custom blueprints.
@@ -61,9 +64,14 @@ export default function SloBlueprintsSection() {
           <TabSelectItem<BlueprintType> forId="availability" disabled={isFormInEditMode} withRadioButton>
             <span>{t('in-service-levels:general.availability')}</span>
           </TabSelectItem>
-          <TabSelectItem<BlueprintType> forId="custom" disabled={isFormInEditMode} withRadioButton>
-            <span>{t('in-service-levels:general.custom')}</span>
+          <TabSelectItem<BlueprintType> forId="traffic" disabled={isFormInEditMode} withRadioButton>
+            <span>{t('in-service-levels:general.traffic')}</span>
           </TabSelectItem>
+          {!isSyntheticsSlo && (
+            <TabSelectItem<BlueprintType> forId="custom" disabled={isFormInEditMode} withRadioButton>
+              <span>{t('in-service-levels:general.custom')}</span>
+            </TabSelectItem>
+          )}
         </TabSelectMenu>
         <TabSelectPanels>
           <TabSelectPanel<BlueprintType> id="latency">
@@ -72,9 +80,14 @@ export default function SloBlueprintsSection() {
           <TabSelectPanel<BlueprintType> id="availability">
             <SloIndicatorAvailabilityForm />
           </TabSelectPanel>
-          <TabSelectPanel<BlueprintType> id="custom">
-            <SloIndicatorCustomForm />
+          <TabSelectPanel<BlueprintType> id="traffic">
+            <SloIndicatorTrafficForm />
           </TabSelectPanel>
+          {!isSyntheticsSlo && (
+            <TabSelectPanel<BlueprintType> id="custom">
+              <SloIndicatorCustomForm />
+            </TabSelectPanel>
+          )}
         </TabSelectPanels>
       </TabSelect>
     </SloDialogSection>

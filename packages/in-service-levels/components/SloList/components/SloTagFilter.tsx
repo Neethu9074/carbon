@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { t } from '@instana/i18n-react';
 
@@ -18,6 +18,19 @@ export interface SloTagFilterProps {
 }
 
 export default function SloTagFilter({ tags, value, onChange, disabled }: SloTagFilterProps) {
+  useEffect(() => {
+    const validTags = tags || [];
+    // Filter out tags that aren't in the available tags list
+    const filteredTags = validTags.length > 0 ? value.filter(tag => validTags.includes(tag)) : value;
+    // Check if the value list contains any tags that are no longer valid
+    const isValid = value.length > 0 && (filteredTags.length === 0 || filteredTags.length < value.length);
+
+    if (isValid) {
+      // Update the value with only valid tags
+      onChange(filteredTags);
+    }
+  }, [value, tags, onChange]);
+
   return (
     <ComboBox
       placeholder={t('in-service-levels:sloList.components.sloTagFilter.placeholder')}

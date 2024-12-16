@@ -4,60 +4,102 @@
  */
 
 import {
-  teamSettingsAccessControlUsers,
-  teamSettingsAccessControlApiTokens,
-  teamSettingsAlertingEvents,
-  teamSettingsAlertingAlertChannels,
-  teamSettingsActionLog,
-  teamSettingsLogManagementHumio,
-  teamSettingsAccessControlGroups,
-  teamSettingsAlertingCustomPayloadConfiguration,
-  teamSettingsAlertingMaintenanceConfigurations
+  securityAndAccessAccessControlUsers,
+  securityAndAccessAccessControlApiTokens,
+  globalSettingsAlertingEvents,
+  globalSettingsAlertingAlertChannels,
+  securityAndAccessActionLog,
+  globalSettingsIntegrationsLoggingHumio,
+  securityAndAccessAccessControlGroups,
+  globalSettingsAlertingCustomPayloadConfiguration,
+  globalSettingsAlertingMaintenanceConfigurations,
+  globalSettingsIntegrationsDatabase,
+  securityAndAccessGoogleSSO,
+  securityAndAccessSaml,
+  securityAndAccessLdap,
+  securityAndAccessGroupMapping,
+  securityAndAccessTimeouts
 } from 'in-settings/navigation/paths';
 import { productOwnerPermissions } from 'in-stores/permission';
 import { role } from 'in-stores/user';
 
-export function roleHasAnyTeamPermissions() {
+export function roleHasAnyGlobalPermissions() {
   return (
-    role.canConfigureUsers ||
-    role.canConfigureTeams ||
-    role.canConfigureApiTokens ||
     role.canConfigureEventsAndAlerts ||
     role.canConfigureIntegrations ||
     role.canConfigureMaintenanceWindows ||
     role.canConfigureGlobalAlertPayload ||
-    role.canViewAuditLog ||
-    role.canConfigureLogManagement
+    role.canConfigureLogRetentionPeriod ||
+    role.canConfigureLogManagement ||
+    role.canConfigureDatabaseManagement ||
+    role.canViewLogVolume ||
+    role.canDeleteLogs
   );
 }
 
-export function findFirstPermittedTeamPage() {
-  if (role.canConfigureUsers) {
-    return teamSettingsAccessControlUsers;
-  }
-  if (role.canConfigureTeams) {
-    return teamSettingsAccessControlGroups;
-  }
-  if (role.canConfigureApiTokens) {
-    return teamSettingsAccessControlApiTokens;
-  }
+export function roleHasAnySecurityAccessPermissions() {
+  return (
+    role.canConfigureUsers ||
+    role.canConfigureTeams ||
+    role.canConfigureApiTokens ||
+    role.canViewAuditLog ||
+    role.canConfigureAuthenticationMethods ||
+    role.canConfigureSessionSettings
+  );
+}
+
+export function findFirstPermittedGlobalPage() {
   if (role.canConfigureEventsAndAlerts) {
-    return teamSettingsAlertingEvents;
+    return globalSettingsAlertingEvents;
   }
   if (role.canConfigureIntegrations) {
-    return teamSettingsAlertingAlertChannels;
+    return globalSettingsAlertingAlertChannels;
   }
   if (role.canConfigureMaintenanceWindows) {
-    return teamSettingsAlertingMaintenanceConfigurations;
+    return globalSettingsAlertingMaintenanceConfigurations;
   }
   if (role.canConfigureGlobalAlertPayload) {
-    return teamSettingsAlertingCustomPayloadConfiguration;
-  }
-  if (role.canViewAuditLog) {
-    return teamSettingsActionLog;
+    return globalSettingsAlertingCustomPayloadConfiguration;
   }
   if (role.canConfigureLogManagement) {
-    return teamSettingsLogManagementHumio;
+    return globalSettingsIntegrationsLoggingHumio;
+  }
+  if (role.canConfigureDatabaseManagement) {
+    return globalSettingsIntegrationsDatabase;
+  }
+}
+
+export function findFirstPermittedSecurityAndAccessPage(isGoogleSSOAvailable, isSamlAvailable, isLdapAvailable) {
+  if (role.canConfigureUsers) {
+    return securityAndAccessAccessControlUsers;
+  }
+  if (role.canConfigureTeams) {
+    return securityAndAccessAccessControlGroups;
+  }
+  if (role.canConfigureApiTokens) {
+    return securityAndAccessAccessControlApiTokens;
+  }
+  if (role.canViewAuditLog) {
+    return securityAndAccessActionLog;
+  }
+  if (role.canConfigureAuthenticationMethods) {
+    if (isGoogleSSOAvailable) {
+      return securityAndAccessGoogleSSO;
+    }
+
+    if (isSamlAvailable) {
+      return securityAndAccessSaml;
+    }
+
+    if (isLdapAvailable) {
+      return securityAndAccessLdap;
+    }
+  }
+  if (role.canConfigureTeams) {
+    return securityAndAccessGroupMapping;
+  }
+  if (role.canConfigureSessionSettings) {
+    return securityAndAccessTimeouts;
   }
 }
 

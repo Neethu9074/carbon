@@ -5,19 +5,20 @@
  */
 
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
+import { getUnit } from 'in-stores/metric/units';
 import { t } from 'in-i18n';
 
 export function getShortMetricKey(axisName: string, indexInAxis: number): string {
   return `${axisName.toUpperCase()}.${indexInAxis + 1}`;
 }
 
-export function getMetricLabel(metric: Metric): string {
+export function getMetricLabel(metric: Metric, hasGroups: boolean = false): string {
   if (metric.label) {
     return metric.label;
   }
 
   if (metric.metricLabel) {
-    return metric.metricLabel;
+    return hasGroups ? 'no_group' : metric.metricLabel;
   }
 
   if (metric.metric) {
@@ -25,6 +26,13 @@ export function getMetricLabel(metric: Metric): string {
   }
 
   return t('in-custom-dashboards:widgets.util.unnamMetric');
+}
+
+export function getMetricUnit(metric: Metric): string {
+  if (metric.unit) {
+    return getUnit(metric.unit)?.label;
+  }
+  return 'Unknown';
 }
 
 export function getMetricId(metricIndex: number): string {

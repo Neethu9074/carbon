@@ -20,9 +20,13 @@ import { stringify } from 'in-services/util/json';
 import { TimeConfig } from 'in-types';
 
 const matrixTestId = 'testId';
+const matrixTestLabel = 'testLabel';
 const matrixStatus = 'status';
 const matrixLocationLabels = 'locationLabels';
+const matrixLocationDisplayLabels = 'locationDisplayLabels';
+const matrixLocationIds = 'locationIds';
 
+export const globalSyntheticsPath = '/#/syntheticTests';
 const summaryTab = '/summary';
 export const resultsTab = '/results';
 export const alertsTab = '/alerts';
@@ -38,6 +42,7 @@ export const syntheticConfigurationPath = `${syntheticsDashboard}${configuration
 export const syntheticDetailsPath = `/syntheticDetails`;
 export const syntheticSmartAlertsPath = '/syntheticSmartAlerts';
 export const syntheticSmartAlertsDetailsPath = '/details';
+export const syntheticCredentialPath = `/syntheticCredentials`;
 
 export const alertsTabDetailsFullyQualified = `${syntheticSmartAlertsPath}${syntheticSmartAlertsDetailsPath}`;
 export const dashboardAlertsFullyQualified = `${syntheticsDashboard}${alertsTab}`;
@@ -50,7 +55,8 @@ export const isSyntheticMonitoringView = getRootPathPredicate(
   syntheticsSummaryPath,
   syntheticResultsListPath,
   syntheticDetailsPath,
-  syntheticSmartAlertsPath
+  syntheticSmartAlertsPath,
+  syntheticCredentialPath
 );
 
 export function useSyntheticTestDashboard() {
@@ -65,11 +71,26 @@ function useDashboard(basePath: string, tab: string) {
   const { location, createHref } = useNavigation();
 
   return useCallback(
-    (testId: string, timeConfig?: TimeConfig, failedStatusFilter?: boolean, locationLabelFilters?: string[]) => {
+    (
+      testId: string,
+      testLabel: string,
+      timeConfig?: TimeConfig,
+      failedStatusFilter?: boolean,
+      locationLabelFilters?: string[],
+      locationIds?: string
+    ) => {
       const clonedLocation = cloneLocation(location);
 
       clonedLocation.pathname = `${basePath}${tab}`;
       setOrDeleteMatrixKey(clonedLocation, basePath, matrixTestId, testId);
+      setOrDeleteMatrixKey(clonedLocation, basePath, matrixTestLabel, testLabel);
+      setOrDeleteMatrixKey(
+        clonedLocation,
+        basePath,
+        matrixLocationDisplayLabels,
+        locationLabelFilters?.join(',') || ''
+      );
+      setOrDeleteMatrixKey(clonedLocation, basePath, matrixLocationIds, locationIds);
 
       if (timeConfig != null) {
         setTimeConfig(clonedLocation, timeConfig);

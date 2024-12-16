@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { DescriptionItem } from '@instana/components';
+
 import { formatDateTime, fromNow } from 'in-services/formatters/date';
 
 export function DateTimeWithPeriodSinceDescriptionItem({ dateTime, title }) {

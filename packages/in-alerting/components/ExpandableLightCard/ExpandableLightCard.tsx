@@ -5,7 +5,7 @@
 
 import React, { ReactNode, useState } from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { IconButton } from '@instana/components';
 
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import Tooltip from 'in-components/Tooltip';
@@ -66,7 +66,7 @@ export default function ExpandableLightCard({
         }
         delay={500}
       >
-        <SvgIcon
+        <IconButton
           className={locals.icon}
           type={expanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
           onClick={() => {
@@ -77,7 +77,8 @@ export default function ExpandableLightCard({
             }
             setExpanded(!expanded);
           }}
-          size="s"
+          size="normal"
+          kind="action"
         />
       </Tooltip>
     </div>

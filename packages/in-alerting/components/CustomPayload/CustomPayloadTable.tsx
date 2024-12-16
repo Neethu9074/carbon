@@ -4,10 +4,11 @@
  */
 
 import { Item, ListForm, MapForm } from 'formalistic';
+import classNames from 'classnames';
 import React from 'react';
 
-import { TrProps } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
+import { TrProps } from '@instana/legacy';
 
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import NoItemSelected from 'in-alerting/smart-alerts/components/NoItemSelected';
@@ -48,6 +49,7 @@ interface CustomPayloadTableProps extends ServerTableCustomPayloadConfig {
   customPayloadForm: ListForm<any>;
   result?: Result<PaginatedResult<CustomPayloadItem>> | Nullish;
   canConfigureAlertPayload?: boolean;
+  isTearSheet?: boolean;
 }
 
 export default function CustomPayloadTable(props: CustomPayloadTableProps) {
@@ -63,10 +65,16 @@ export default function CustomPayloadTable(props: CustomPayloadTableProps) {
     customPayloadForm,
     canConfigureAlertPayload = true,
     enabled = true,
-    leftHeader
+    leftHeader,
+    isTearSheet
   } = props;
   return (
-    <div>
+    <div
+      className={classNames({
+        [locals.customPayloadTearsheet]: isTearSheet,
+        [locals.tableContent]: true
+      })}
+    >
       <ServerTablePresenter<CustomPayloadItem, ServerTableCustomPayloadConfig>
         isScrollableTable={false}
         columnDefinitions={columnDefinitions}

@@ -5,9 +5,8 @@
 
 import React, { useEffect, useRef } from 'react';
 
-import { ColumnizedDefinition } from '@instana/components';
+import { ColumnizedDefinition, Button } from '@instana/components';
 import { TagFilter } from '@instana/types';
-import { Button } from '@instana/legacy';
 
 import {
   centerAlignedCopyColumn,
@@ -30,12 +29,13 @@ import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/component
 import { handleLogCallsWithFilters } from '../../utils';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/Charts/ChartsPresenter';
+import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { GetDataParams, ListItemProps } from 'in-components/AnalyzeView/UngroupedView/types';
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
 import UngroupedViewList from 'in-components/AnalyzeView/UngroupedView/UngroupedViewList';
 import { LogTagsTable } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
+import { ANALYZE_LOGGING_SORTING_CHANGED } from 'in-services/tracking/eventNames';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
-import { sortingChanged } from 'in-logging/analyze/AnalyzeView/tracker';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
@@ -75,7 +75,7 @@ export default function Logs(props: LogsProps) {
 
   const selectedWasOpened = useRef(false);
   const timeConfig = useTimeConfig();
-
+  const { trackCta } = useSegmentTracking();
   useEffect(() => {
     selectedWasOpened.current = false;
   }, [selectedId]);
@@ -107,7 +107,7 @@ export default function Logs(props: LogsProps) {
 
     if (isFirstPage) params.contextSubjectLogId = props.selectedId;
 
-    return getTableData(params);
+    return getTableData(trackCta, params);
   };
 
   const columnDefinitions = [
@@ -155,6 +155,7 @@ export default function Logs(props: LogsProps) {
       initialLines={initialLogLines}
       withEmbeddedLoadingIndicator
       infiniteScroll={infiniteScroll}
+      wrapperClassNames={locals.removeBackground}
     />
   );
 
@@ -170,15 +171,16 @@ function DetailView() {
 }
 
 function CustomHeaderActions({ orderBy, setOrder }: HeaderActionProps) {
+  const { trackCta } = useSegmentTracking();
   useEffect(() => {
-    const cleanup = () => sortingChanged({ source: 'end state of sorting order' });
+    const cleanup = () => trackCta(ANALYZE_LOGGING_SORTING_CHANGED, { source: 'end state of sorting order' });
     window.addEventListener('beforeunload', cleanup);
     return cleanup;
-  }, [orderBy.direction]);
+  }, [orderBy.direction, trackCta]);
 
   const sortingButtonClickHandle = () => {
     const newDirection = (orderBy.direction === 'ASC' ? 'DESC' : 'ASC') as SortDirection;
-    sortingChanged({ source: `changed sorting order to ${newDirection}` });
+    trackCta(ANALYZE_LOGGING_SORTING_CHANGED, { source: `changed sorting order to ${newDirection}` });
     const order = {
       by: orderBy.by,
       direction: newDirection
@@ -191,19 +193,24 @@ function CustomHeaderActions({ orderBy, setOrder }: HeaderActionProps) {
     orderBy.direction === 'ASC' ? t('in-logging:sorting.oldest') : t('in-logging:sorting.mostRecent');
 
   return (
-    <Button icon={sortingIcon} kind="secondary" onClick={sortingButtonClickHandle}>
+    <Button
+      data-testid={`sortLogsButton-${orderBy.direction}`}
+      icon={sortingIcon}
+      kind="secondary"
+      onClick={sortingButtonClickHandle}
+    >
       {sortingButtonLabel}
     </Button>
   );
 }
 
-function getTableData(props: GetDataParams) {
+function getTableData(trackCta: CtaTrackingFunction, props: GetDataParams) {
   const { timeConfig, afterKey, backendQueryModel, retrievalSize = pageSize, orderBy, contextSubjectLogId } = props;
   const mixpanelProps = {
     timeConfig: timeConfig,
     tagFilterExpression: backendQueryModel
   };
-  handleLogCallsWithFilters(mixpanelProps);
+  handleLogCallsWithFilters(trackCta, mixpanelProps);
 
   return getLogs({
     timeConfig,

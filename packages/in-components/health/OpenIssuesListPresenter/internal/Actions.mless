@@ -13,4 +13,8 @@
   .button {
     width: 100%;
   }
+
+  .carbonButton {
+    min-width: 100%;
+  }
 }

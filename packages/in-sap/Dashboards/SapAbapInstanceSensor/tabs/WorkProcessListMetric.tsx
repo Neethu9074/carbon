@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
@@ -13,10 +13,16 @@ import { TimeConfig } from '@instana/types';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import { workProcessStatusMap } from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/WorkProcessStatus';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Table from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Table';
 import { number, seconds } from 'in-services/formatters/number';
-import Table from 'in-sdk/components/dashboard/Table';
+import Columize from 'in-sdk/components/dashboard/Columize';
+import ComboBox from 'in-components/ComboBox';
 import { t } from 'in-i18n';
+
+import locals from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ComboBox.mless';
 
 interface WorkProcessRow {
   key: string;
@@ -125,11 +131,27 @@ const cols = [
 
 export default function WorkProcessListMetric({ snapshotId, timeConfig }: WorkProcessProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'workprocessList'), [snapshotId]);
+  // @ts-expect-error Module needs to be translated to TS
+  const [{ wpStatus }, setPhase] = useState(workProcessStatusMap);
+
+  const rightHeader = (
+    <ComboBox
+      placeholder={t('in-sap:dashboards.status')}
+      isSearchable={false}
+      value={wpStatus}
+      className={locals.filter}
+      // @ts-expect-error Module needs to be translated to TS
+      onChange={t => setPhase({ wpStatus: t ? t.value : null })}
+      options={workProcessStatusMap}
+    />
+  );
+
   if (!data) {
     return null;
   }
   const wpList = (data as SnapshotData).get('raw_payload', []);
-  const rows: WorkProcessRow[] = wpList
+
+  let rows: WorkProcessRow[] = wpList
     .keySeq()
     .toArray()
     .map((key: string) => {
@@ -140,57 +162,72 @@ export default function WorkProcessListMetric({ snapshotId, timeConfig }: WorkPr
         timeConfig,
         workprocessList
       };
+    })
+    .filter(function (rows: WorkProcessRow) {
+      if (wpStatus == null) {
+        return rows;
+      } else {
+        return rows != null && rows.workprocessList.get('wpStatus') === wpStatus;
+      }
     });
 
   function getDetails(row: WorkProcessRow) {
     return (
-      <div>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            formatter: number.compact,
-            metrics: [
-              `workprocessList.${row.key}.wpIndex`,
-              `workprocessList.${row.key}.wpIStatus`,
-              `workprocessList.${row.key}.wpDumps`,
-              `workprocessList.${row.key}.wpIType`,
-              `workprocessList.${row.key}.wpRestart`
-            ],
-            labels: [
-              t('in-sap:dashboards.workProcessNumber'),
-              t('in-sap:dashboards.workProcessStatus'),
-              t('in-sap:dashboards.workProcessDumps'),
-              t('in-sap:dashboards.workProcessType'),
-              t('in-sap:dashboards.workProcessRestart')
-            ],
-            type: 'line'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            formatter: seconds.detailed,
-            metrics: [`workprocessList.${row.key}.wpCPU`],
-            labels: [t('in-sap:dashboards.workProcessCpu')],
-            type: 'line'
-          }}
-          y2={{
-            min: 0,
-            formatter: number.compact,
-            metrics: [`workprocessList.${row.key}.wpMutex`],
-            labels: [t('in-sap:dashboards.workProcessMutex')],
-            type: 'line'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </div>
+      <Columize>
+        <DashboardSection>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: number.compact,
+              metrics: [
+                `workprocessList.${row.key}.wpIStatus`,
+                `workprocessList.${row.key}.wpDumps`,
+                `workprocessList.${row.key}.wpRestart`
+              ],
+              labels: [
+                t('in-sap:dashboards.workProcessStatus'),
+                t('in-sap:dashboards.workProcessDumps'),
+                t('in-sap:dashboards.workProcessRestart')
+              ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: number.compact,
+              metrics: [`workprocessList.${row.key}.wpMutex`],
+              labels: [t('in-sap:dashboards.workProcessMutex')],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: seconds.detailed,
+              metrics: [`workprocessList.${row.key}.wpCPU`],
+              labels: [t('in-sap:dashboards.workProcessCpu')],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
     );
   }
+
   return (
     <Table
       withoutPadding
@@ -200,6 +237,7 @@ export default function WorkProcessListMetric({ snapshotId, timeConfig }: WorkPr
       initialSortColumn={0}
       initialSortDirection="asc"
       getRowDetails={getDetails}
+      rightHeader={rightHeader}
     />
   );
 }

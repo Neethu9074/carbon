@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { view$, types as views } from 'in-infrastructure/perspectives';
+import { view$, types as views } from 'in-infrastructure/perspectives/view';
 import ContainerMapNode from 'in-map/SceneGraph/container/MapNode';
 import PhysicalMapNode from 'in-map/SceneGraph/physical/MapNode';
 import Node from 'in-map/SceneGraph/Node';

@@ -6,7 +6,7 @@
 import React, { forwardRef, useState } from 'react';
 import classNames from 'classnames';
 
-import { Spacer, SvgIcon, Toggle } from '@instana/components';
+import { Spacer, SvgIcon, Toggle, IconButton } from '@instana/components';
 
 import locals from './Rule.mless';
 
@@ -21,7 +21,8 @@ const Rule = forwardRef(function Rule(
     isUnspecified,
     onToggleEnable,
     onEdit,
-    onRemove
+    onRemove,
+    editDisabled
   },
   ref
 ) {
@@ -55,16 +56,21 @@ const Rule = forwardRef(function Rule(
             <div className={locals.iconPlaceholder} />
           ) : (
             <>
-              <SvgIcon
+              <IconButton
+                kind="primary"
                 className={locals.icon}
                 type="lib_actions_edit"
                 onClick={isInstanaDefaultRule ? null : () => onEdit()}
+                buttonType="button"
+                disabled={editDisabled}
               />
               {onRemove && (
-                <SvgIcon
+                <IconButton
+                  kind="primary"
                   className={locals.icon}
                   type="lib_actions_delete"
                   onClick={isInstanaDefaultRule ? null : () => onRemove()}
+                  buttonType="button"
                 />
               )}
             </>
@@ -77,10 +83,12 @@ const Rule = forwardRef(function Rule(
             </>
           )}
           {expandableContent ? (
-            <SvgIcon
+            <IconButton
+              kind="action"
               className={locals.icon}
               type={expand ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
               onClick={() => setExpand(!expand)}
+              buttonType="button"
             />
           ) : (
             <div className={locals.iconPlaceholder} />

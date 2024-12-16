@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import Pill from 'in-components/Pill/Pill';
+import { Pill } from '@instana/components';
 
 import locals from 'in-synthetics/dashboards/details/components/Logs.mless';
 
@@ -21,7 +21,9 @@ export const consoleLogLevelColumn = {
   getContent({ name }: LogLevelColumnProps) {
     return (
       <div className={locals.healthColumn}>
-        <Pill className={locals.pill}>{name}</Pill>
+        <Pill className={locals.pill} type={'high-contrast'}>
+          {name}
+        </Pill>
       </div>
     );
   }

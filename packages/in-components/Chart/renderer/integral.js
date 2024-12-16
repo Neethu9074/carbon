@@ -6,6 +6,7 @@
 let layerBuffer;
 let layerBufferCtx;
 
+import { extrapolateMissingStackedAreaValuesEnabled } from 'in-services/featureFlags';
 import { calculateMetricMap } from 'in-components/Chart/renderer/utils';
 import { updateCanvasDimensions } from 'in-components/Chart/canvas';
 import { createCanvas } from 'in-components/Chart/canvasHelper';
@@ -13,7 +14,7 @@ import { copyCanvasInto } from 'in-components/Chart/canvas';
 import { drawCircleWithLine } from './utils';
 
 export default {
-  render: ({ metrics, colors, colors100, scale, config, axis }) => {
+  render: ({ metrics, colors, colors100, scale, config, axis, axisName }) => {
     if (!layerBuffer) {
       layerBuffer = createCanvas();
     }
@@ -23,11 +24,21 @@ export default {
 
     let metricMap = {};
     if (!axis.calculateStackDifferences) {
-      metricMap = calculateMetricMap(metrics);
+      metricMap = calculateMetricMap(metrics, axis.extrapolateMissingMetrics);
     }
 
     for (let iMetric = metrics.length - 1; iMetric >= 0; iMetric--) {
-      renderDataSeries(config, metrics[iMetric], metricMap, scale, iMetric === 0, colors100[iMetric], colors[iMetric]);
+      renderDataSeries(
+        config,
+        metrics[iMetric],
+        metricMap,
+        scale,
+        iMetric === 0,
+        colors100[iMetric],
+        colors[iMetric],
+        axis,
+        `${axisName}-${iMetric}`
+      );
     }
 
     const dpr = window.devicePixelRatio;
@@ -42,6 +53,7 @@ export default {
   enrich: (config, axis) => {
     axis.valuesNeedToBeStacked = true;
     axis.valuesDependOnEachOther = true;
+    axis.extrapolateMissingMetrics = extrapolateMissingStackedAreaValuesEnabled;
   }
 };
 
@@ -49,8 +61,8 @@ function resizeLayerBuffer(config) {
   updateCanvasDimensions(layerBuffer, layerBufferCtx, config.backBufferWidth, config.height, config.devicePixelRatio);
 }
 
-function renderDataSeries(config, dataSeries, metricMap, scale, isLastSeries, strokeStyle, fillStyle) {
-  const blocks = config.calculateBlocks(dataSeries);
+function renderDataSeries(config, dataSeries, metricMap, scale, isLastSeries, strokeStyle, fillStyle, axis, metricId) {
+  const blocks = config.calculateBlocks(dataSeries, axis?.distanceBetweenDatapointsInMillis?.[metricId]);
   for (let i = 0; i < blocks.length; i++) {
     drawBlock(metricMap, config, scale, blocks[i], isLastSeries, strokeStyle, fillStyle);
   }

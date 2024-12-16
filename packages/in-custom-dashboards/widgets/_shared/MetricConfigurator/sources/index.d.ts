@@ -18,5 +18,3 @@ interface DataSource {
   Form: React.ReactElement;
   configureChart?: (previous: ConfigFromDataSeries, timeConfig: TimeConfig, metric: Metric) => ConfigFromDataSeries;
 }
-
-export declare function isBetaSource(source?: string): boolean;

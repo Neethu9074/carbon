@@ -12,9 +12,9 @@ import {
   getConfiguredThreshold,
   getOperatorLabel
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/thresholdConditionUtil';
+import ThresholdValueFormGroupForMultiStaticThreshold from 'in-alerting/smart-alerts/dialog/advanced/ThresholdValueFormGroupForMultiStaticThreshold';
 import FixedThresholdConditionForBuiltInAlert from 'in-alerting/smart-alerts/applications/dialog/advanced/FixedThresholdConditionForBuiltInAlert';
-import ThresholdValueFormGroupForStaticThreshold from 'in-alerting/smart-alerts/dialog/advanced/ThresholdValueFormGroupForStaticThreshold';
-import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdDeviationSliderForm';
+import { MultiThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/dialog/advanced/MultiThresholdDeviationSliderForm';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdOperatorDropDown';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/applications/dialog/advanced/ThresholdTypeSelection';
@@ -27,6 +27,8 @@ import { blueprintConfigPropType } from 'in-alerting/components/constants';
 import Dropdown from 'in-alerting/components/Dropdown';
 import { t } from 'in-i18n';
 
+import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/dialog.mless';
+
 export default function SlownessThresholdCondition({
   form,
   updateForm,
@@ -35,7 +37,7 @@ export default function SlownessThresholdCondition({
   isGlobalSmartAlert
 }) {
   const isBuiltIn = form.get('builtIn').value;
-  const thresholdType = form.get('threshold').get('type')?.value;
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
@@ -55,6 +57,7 @@ export default function SlownessThresholdCondition({
           <>
             <ThresholdLabel>{blueprintConfig.getMetricLabel(metricName)}</ThresholdLabel>
             <Dropdown
+              className={locals.dropdownsm}
               value={getAggregationValue(form)}
               items={getAggregationOptions(form)}
               onChange={value => {
@@ -75,7 +78,7 @@ export default function SlownessThresholdCondition({
       </ThresholdConditionFormGroup>
 
       {thresholdType === STATIC_THRESHOLD && (
-        <ThresholdValueFormGroupForStaticThreshold
+        <ThresholdValueFormGroupForMultiStaticThreshold
           form={form}
           updateForm={updateForm}
           maxValue={maxValue}
@@ -86,7 +89,7 @@ export default function SlownessThresholdCondition({
       )}
 
       {thresholdType !== STATIC_THRESHOLD && (
-        <ThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
+        <MultiThresholdDeviationSliderForm form={form} updateForm={updateForm} defaultValue={defaultDeviationFactor} />
       )}
     </>
   );

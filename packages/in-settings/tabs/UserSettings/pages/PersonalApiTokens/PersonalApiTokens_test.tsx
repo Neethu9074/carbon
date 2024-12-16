@@ -15,7 +15,8 @@ import {
   getPersonalApiTokensOfUserAsResultObservable as getPersonalApiTokens
 } from 'in-settings/tabs/UserSettings/api/personalApiToken';
 import PersonalApiTokens from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiTokens';
-import { TenantsWithUnits, getTenantsWithUnits } from 'in-api/account';
+import { useTenantUnitsInfo } from 'in-settings/hooks/useTenantUnitsInfo';
+import { formatDateTime } from 'in-services/formatters/date';
 
 jest.mock('in-i18n', () => ({
   ...jest.requireActual('in-i18n'),
@@ -30,21 +31,28 @@ jest.mock('in-components/DialogPresenter/store', () => ({
   close: () => {},
   addActiveDialog: mockAddActiveDialog
 }));
+jest.mock('in-settings/hooks/useTenantUnitsInfo', () => ({
+  useTenantUnitsInfo: jest.fn()
+}));
 
+jest.mock('in-services/formatters/date', () => ({
+  formatDateTime: jest.fn().mockImplementation(date => (date ? `formatted-${date}` : 'formatted-null')),
+  fromNow: jest.fn().mockImplementation(date => (date ? `fromNow-${date}` : 'formatted-null'))
+}));
 describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiTokens', () => {
   beforeEach(() => {
     jest.resetModules();
     // @ts-expect-error
     getPersonalApiTokens.mockClear();
-    // @ts-expect-error
-    getTenantsWithUnits.mockClear();
   });
 
   const createToken = (name = generateUniqueShortId()) => ({
     tokenId: generateUniqueShortId(),
     name,
     accessGrantingToken: generateUniqueShortId(),
-    userId: generateUniqueShortId()
+    userId: generateUniqueShortId(),
+    createdOn: Date.now(),
+    lastUsedOn: Date.now()
   });
 
   interface MockConfig {
@@ -84,72 +92,17 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiToken
     getPersonalApiTokens.mockReturnValue(res);
   };
 
-  const mockGetTenantUnit = (data: TenantsWithUnits) => {
-    const res = create();
-    res.emit({ errors: null, progress: { loading: true }, data: null });
-    res.emit(data);
-    // @ts-expect-error
-    getTenantsWithUnits.mockReturnValue(res);
-  };
-
   it('should show information banner if there are more than one units for the tenant', () => {
+    (useTenantUnitsInfo as jest.Mock).mockReturnValue(true);
     const token: PersonalApiToken = {
       name: 'my-token-name',
       tokenId: '1234',
       accessGrantingToken: 'my-token',
-      userId: 'my-user'
+      userId: 'my-user',
+      createdOn: 1718792878367,
+      lastUsedOn: 1718792874930
     };
     mockGet({ amount: 0, first: token });
-
-    const data: TenantsWithUnits = {
-      instana: [
-        {
-          status: 'ACTIVE',
-          tenantId: '55557f97186b9c0007857730',
-          tenantName: 'instana',
-          tenantUnitId: '55557f97186b9c0007857901',
-          tenantUnitName: 'nightly',
-          tenantUnitKey: 'nightly',
-          agentKey: '2Zykc2m_RiKJnVE-TNNdrA',
-          region: 'pink',
-          createDate: 1592304623410
-        },
-        {
-          status: 'ACTIVE',
-          tenantId: '55557f97186b9c0007857730',
-          tenantName: 'instana',
-          tenantUnitId: '646b1ad08bb80d0001a5f95b',
-          tenantUnitName: 'plg',
-          tenantUnitKey: 'plg',
-          agentKey: '8RWwEQZ5SLOi3hZ6LVckeA',
-          region: 'saas',
-          createDate: 1684740816639
-        },
-        {
-          status: 'ACTIVE',
-          tenantId: '55557f97186b9c0007857730',
-          tenantName: 'instana',
-          tenantUnitId: '649158770951b300012d1990',
-          tenantUnitName: 'plgprovider',
-          tenantUnitKey: 'plgprovider',
-          agentKey: 'gV9g7fmKQx2rLydRKRxy7g',
-          region: 'saas',
-          createDate: 1687246967277
-        },
-        {
-          status: 'ACTIVE',
-          tenantId: '55557f97186b9c0007857730',
-          tenantName: 'instana',
-          tenantUnitId: '55557f97186b9c0007857900',
-          tenantUnitName: 'test',
-          tenantUnitKey: 'test',
-          agentKey: '2Zykc2m_RiKJnVE-TNNdrA',
-          region: 'pink',
-          createDate: 1592304616757
-        }
-      ]
-    };
-    mockGetTenantUnit(data);
 
     const { queryByText, getByText } = render(<PersonalApiTokens />);
     expect(getByText('in-settings:tabs.personalApiTokens (1)')).toBeInTheDocument();
@@ -157,30 +110,16 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiToken
   });
 
   it('should hide information banner if there are one unit for the tenant', () => {
+    (useTenantUnitsInfo as jest.Mock).mockReturnValue(false);
     const token: PersonalApiToken = {
       name: 'my-token-name',
       tokenId: '1234',
       accessGrantingToken: 'my-token',
-      userId: 'my-user'
+      userId: 'my-user',
+      createdOn: 1718792878367,
+      lastUsedOn: 1718792874930
     };
     mockGet({ amount: 0, first: token });
-
-    const data: TenantsWithUnits = {
-      instana: [
-        {
-          status: 'ACTIVE',
-          tenantId: '55557f97186b9c0007857730',
-          tenantName: 'instana',
-          tenantUnitId: '55557f97186b9c0007857901',
-          tenantUnitName: 'nightly',
-          tenantUnitKey: 'nightly',
-          agentKey: '2Zykc2m_RiKJnVE-TNNdrA',
-          region: 'pink',
-          createDate: 1592304623410
-        }
-      ]
-    };
-    mockGetTenantUnit(data);
 
     const { queryByText, getByText } = render(<PersonalApiTokens />);
     expect(getByText('in-settings:tabs.personalApiTokens (1)')).toBeInTheDocument();
@@ -192,7 +131,9 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiToken
       name: 'my-token-name',
       tokenId: '1234',
       accessGrantingToken: 'my-token',
-      userId: 'my-user'
+      userId: 'my-user',
+      createdOn: 1718792878367,
+      lastUsedOn: 1718792874930
     };
     mockGet({ amount: 0, first: token });
 
@@ -203,6 +144,8 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiToken
     expect(getByText('in-settings:tabs.newPersonalApiToken')).toBeInTheDocument(); // add btn
     expect(getByText('in-settings:tabs.name')).toBeInTheDocument(); // col header entityName
     expect(getByText('in-settings:tabs.token')).toBeInTheDocument(); // col header entityToken
+    expect(getByText('in-settings:tabs.tokenLastUsed')).toBeInTheDocument(); // col header last used
+    expect(getByText('in-settings:tabs.tokenCreated')).toBeInTheDocument(); // col header created by
     expect(queryByText('in-settings:tabs.noPersonalApiTokens')).not.toBeInTheDocument(); // no data
     expect(container.querySelector('.tableLoadingSkeletonRows-skeleton')).not.toBeInTheDocument(); // loading
     expect(container.querySelector('div[class*="pagination"]')).not.toBeInTheDocument(); // no pagination
@@ -210,6 +153,9 @@ describe('in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiToken
     await waitFor(() => expect(getByText(token.name)).toBeInTheDocument());
     expect(getByText(token.name)).toBeInTheDocument();
     expect(getByText('my-t********************')).toBeInTheDocument();
+    expect(formatDateTime).toHaveBeenCalledWith(token.createdOn);
+    expect(getByText(`fromNow-${token.createdOn}`, { exact: false })).toBeInTheDocument();
+    expect(getByText(`fromNow-${token.lastUsedOn}`, { exact: false })).toBeInTheDocument();
   });
 
   it('should provide an empty table for personal api tokens', async () => {

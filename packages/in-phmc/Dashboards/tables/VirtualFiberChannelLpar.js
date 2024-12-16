@@ -71,7 +71,7 @@ const cols = [
       getValue(row) {
         return row.virtualFiberChannelAdapter.get('numOfReads');
       },
-      getContent: number.detailed
+      getContent: number.perSecond.detailed
     }
   },
   {
@@ -81,7 +81,7 @@ const cols = [
       getValue(row) {
         return row.virtualFiberChannelAdapter.get('numOfWrites');
       },
-      getContent: number.detailed
+      getContent: number.perSecond.detailed
     }
   },
   {
@@ -91,7 +91,7 @@ const cols = [
       getValue(row) {
         return row.virtualFiberChannelAdapter.get('readBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.detailed
     }
   },
   {
@@ -101,7 +101,7 @@ const cols = [
       getValue(row) {
         return row.virtualFiberChannelAdapter.get('writeBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.detailed
     }
   },
   {
@@ -111,7 +111,7 @@ const cols = [
       getValue(row) {
         return row.virtualFiberChannelAdapter.get('transmittedBytes');
       },
-      getContent: bytes.compact
+      getContent: bytes.perSecond.detailed
     }
   },
   {
@@ -166,7 +166,7 @@ export default connectTo(
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                formatter: number,
+                formatter: number.perSecond.compact,
                 metrics: [
                   'virtualFiberChannelAdapters.' + row.key + '.numOfReads',
                   'virtualFiberChannelAdapters.' + row.key + '.numOfWrites'
@@ -183,7 +183,7 @@ export default connectTo(
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                formatter: number,
+                formatter: number.perSecond.compact,
                 metrics: [
                   'virtualFiberChannelAdapters.' + row.key + '.readBytes',
                   'virtualFiberChannelAdapters.' + row.key + '.writeBytes',

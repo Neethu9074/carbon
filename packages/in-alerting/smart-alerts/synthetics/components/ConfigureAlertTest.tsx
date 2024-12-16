@@ -9,11 +9,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { Result, SyntheticTest } from '@instana/types';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
-import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
+import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';
-import SelectListDialogContentComponent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
+import SelectListDialogContentComponent from 'in-settings/tabs/GlobalSettings/components/SelectListDialogContent';
 import { SliderState } from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import TestSummaryList from 'in-alerting/smart-alerts/synthetics/components/TestSummaryList';
 import AlertTestsList from 'in-alerting/smart-alerts/synthetics/components/AlertTestsList';

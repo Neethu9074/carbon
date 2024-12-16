@@ -19,6 +19,7 @@ import { alertDetailsFullyQualifiedPath, alertsDetailsPath } from 'in-logging/na
 import { createOrSaveAlert } from 'in-alerting/smart-alerts/logs/components/AlertCreateOrSave';
 import { toGroupByTag } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { alertCreated, alertId } from 'in-logging/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -47,6 +48,7 @@ export default function AlertConfigDialog({
   const [messages, setMessages] = useState<EnrichedError[]>([]);
   const [isSimpleMode, setIsSimpleMode] = useState(startWithSimpleMode);
   const getLinkToAlertConfig = useGetAlertConfigLink();
+  const { trackCta } = useSegmentTracking();
 
   return (
     <AlertConfigDialogWithThreshold
@@ -67,7 +69,8 @@ export default function AlertConfigDialog({
           setMessages,
           toAlertConfig,
           isSimpleMode,
-          duplicateFrom
+          duplicateFrom,
+          trackCta
         });
       }}
       onClose={() => {

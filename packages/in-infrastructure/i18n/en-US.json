@@ -9,18 +9,18 @@
     "tooltip1": "The agent reported in the selected time range but has not reported at the selected moment. ",
     "tooltip2": "The agent started at {{startTime}} and is still reporting.",
     "tooltip3": "The agent reported between: {{startTime}} and {{toTime}}.",
-    "issueReported": "{{count}} Issue reported:",
-    "issueReported_plural": "{{count}} Issues reported:",
-    "issueReported_0": "{{count}}s Issue reported:",
-    "issueReported_1": "{{count}}s Issue reported:",
-    "issueReported_2": "{{count}}s Issue reported:",
+    "monitoringIssueReported": "{{count}} Monitoring Issue reported:",
+    "monitoringIssueReported_plural": "{{count}} Monitoring Issues reported:",
+    "monitoringIssueReported_0": "{{count}}s Monitoring Issue reported:",
+    "monitoringIssueReported_1": "{{count}}s Monitoring Issue reported:",
+    "monitoringIssueReported_2": "{{count}}s Monitoring Issue reported:",
     "reporting": "reporting",
     "notReporting": "not reporting",
-    "issues": "{{count}} issue",
-    "issues_plural": "{{count}} issues",
-    "issues_0": "{{count}} issues",
-    "issues_1": "{{count}} issues",
-    "issues_2": "{{count}} issues",
+    "reportingMonitoringIssues": "reporting, {{count}} monitoring issue",
+    "reportingMonitoringIssues_plural": "reporting, {{count}} monitoring issues",
+    "reportingMonitoringIssues_0": "reporting, {{count}} monitoring issues",
+    "reportingMonitoringIssues_1": "reporting, {{count}} monitoring issues",
+    "reportingMonitoringIssues_2": "reporting, {{count}} monitoring issues",
     "agents": "Agents",
     "updateAllAgents": "Update All Agents",
     "resetAllAgents": "Reset All Agents",
@@ -53,7 +53,8 @@
     "javaRuntime": "Java Runtime",
     "status": "Status",
     "agentDetails": "Agent Details",
-    "totalAgents": "Total Agents"
+    "totalAgents": "Total Agents",
+    "anErrorOccurredPleaseTryAgain": "An error occurred, please try again."
   },
   "dashboard": {
     "comparisonTable": "Comparison Table",
@@ -74,7 +75,8 @@
     "restartCount": "Restart Count",
     "kubernetesLabels": "Kubernetes Labels",
     "podmanAnnotations": "Podman Annotations",
-    "metricExplosion": "This dashboard may not display all metrics as only {{numberOfMetrics}} were stored"
+    "metricExplosionBeeInstana": "This dashboard may not display all metrics since a maximum of {{numberOfMetrics}} metrics are captured at any given time.",
+    "metricExplosion": "This dashboard may not display all metrics since a maximum of {{numberOfMetrics}} high resolution metrics are captured at any given time. To view additional tagged metrics, use Analyze Infrastructure or a custom dashboard."
   },
   "explore": {
     "analyzeInfrastructure": "Analyze Infrastructure",
@@ -87,14 +89,14 @@
     "search": "Search for a type",
     "explore": "Explore",
     "health": "Health",
-    "noIssues": "No Issues",
     "count": "Count",
     "errors": {
       "maximumNumberOfGroups": "This query has too many results. Please narrow your search using a more restrictive filter or narrow your time-range and try again.",
       "maximumNumberOfMembers": "This query has too many results. Please narrow your search using a more restrictive filter or narrow your time-range and try again.",
       "generalError": "An unexpected error occurred."
     },
-    "entityTypes": "Entity types {{count, parenthesis}}"
+    "entityTypes": "Entity types {{count, parenthesis}}",
+    "relatedInstances": "Analyze Instances"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "Show counts and averages across the current time window.",
@@ -129,7 +131,8 @@
     "map": "Map",
     "comparisonTable": "Comparison Table",
     "infrastructureComparisonTable": "Infrastructure Comparison Table",
-    "smartAlerts": "Smart Alerts"
+    "smartAlerts": "Smart Alerts",
+    "graph": "Graph"
   },
   "smartAlertView": {
     "smartAlertTab": "Infrastructure Smart Alerts"
@@ -138,5 +141,13 @@
     "buttonSelectTags": "Select tags",
     "titleAddATag": "Add a tag",
     "messagePleaseSelectAtMostTags": "Please select at most {{maximumNumberOfTags}} tags."
+  },
+  "graphExplorerView": {
+    "infrastructureGraphExplorer": "Graph Explorer"
+  },
+  "threshold": {
+    "label": "Threshold",
+    "critical": "Critical when {{operator}} {{level}}",
+    "warning": "Warning when {{operator}} {{level}}"
   }
 }

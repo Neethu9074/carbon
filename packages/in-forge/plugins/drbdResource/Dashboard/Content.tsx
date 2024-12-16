@@ -16,14 +16,19 @@ import DevicesTable from 'in-forge/plugins/drbdResource/Dashboard/DevicesTable';
 import PeersTable from 'in-forge/plugins/drbdResource/Dashboard/PeersTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import { number } from 'in-services/formatters/number';
-// @ts-expect-error Module needs to be translated to TS
-import MetricValue from 'in-components/MetricValue';
-import { t } from 'in-i18n';
-import { SnapshotData } from 'in-stores/snapshot';
 import { yesOrNo } from 'in-services/formatters/boolean';
+import { number } from 'in-services/formatters/number';
+import MetricValue from 'in-components/MetricValue';
+import { SnapshotData } from 'in-stores/snapshot';
+import { t } from 'in-i18n';
 
-export default function ResourceDashboard({ snapshot, timeConfig }: { snapshot: SnapshotData; timeConfig: TimeConfig; }) {
+export default function ResourceDashboard({
+  snapshot,
+  timeConfig
+}: {
+  snapshot: SnapshotData;
+  timeConfig: TimeConfig;
+}) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
   if (sensorConnectionStatus !== 'OK') {
     return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
@@ -56,7 +61,7 @@ export default function ResourceDashboard({ snapshot, timeConfig }: { snapshot: 
           />
         </DashboardSection>
       </Columize>
-      <DevicesTable snapshot={snapshot}/>
+      <DevicesTable snapshot={snapshot} />
       <ConnectionsTable snapshot={snapshot} />
       <PeersTable snapshot={snapshot} />
     </div>

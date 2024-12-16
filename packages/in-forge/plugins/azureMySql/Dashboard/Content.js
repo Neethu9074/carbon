@@ -16,6 +16,7 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 
@@ -111,10 +112,11 @@ export default function AzureMySqlDashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
-            metrics: ['active_connections', 'aborted_connections'],
+            metrics: ['active_connections', 'aborted_connections', 'total_connections'],
             labels: [
               t('in-forge:plugins.azureMySql.dashboard.labelActiveConnections'),
-              t('in-forge:plugins.azureMySql.dashboard.labelAbortedConnections')
+              t('in-forge:plugins.azureMySql.dashboard.labelAbortedConnections'),
+              t('in-forge:plugins.azureMySql.dashboard.labelTotalConnections')
             ],
             type: 'line',
             min: 0
@@ -137,6 +139,104 @@ export default function AzureMySqlDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+      <Columize>
+        <DashboardSection title={t('in-forge:plugins.azureMySql.dashboard.titleQueries')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: zeroDecimalPlaces,
+              metrics: ['queries'],
+              labels: [t('in-forge:plugins.azureMySql.dashboard.labelCount')],
+              type: 'line',
+              min: 0
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-forge:plugins.azureMySql.dashboard.titleSlowQueries')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: zeroDecimalPlaces,
+              metrics: ['slow_queries'],
+              labels: [t('in-forge:plugins.azureMySql.dashboard.labelCount')],
+              type: 'line',
+              min: 0
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
+
+      <Columize>
+        <DashboardSection title={t('in-forge:plugins.azureMySql.dashboard.titleCreateStatements')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: zeroDecimalPlaces,
+              metrics: ['com_create_db', 'com_create_table'],
+              labels: [
+                t('in-forge:plugins.azureMySql.dashboard.labelCreateDB'),
+                t('in-forge:plugins.azureMySql.dashboard.labelCreateTable')
+              ],
+              type: 'line',
+              min: 0
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-forge:plugins.azureMySql.dashboard.titleDropStatements')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: zeroDecimalPlaces,
+              metrics: ['com_drop_db', 'com_drop_table'],
+              labels: [
+                t('in-forge:plugins.azureMySql.dashboard.labelDropDB'),
+                t('in-forge:plugins.azureMySql.dashboard.labelDropTable')
+              ],
+              type: 'line',
+              min: 0
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
+
+      <Columize>
+        <DashboardSection title={t('in-forge:plugins.azureMySql.dashboard.titleStatements')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: zeroDecimalPlaces,
+              metrics: ['com_delete', 'com_insert', 'com_select'],
+              labels: [
+                t('in-forge:plugins.azureMySql.dashboard.labelDelete'),
+                t('in-forge:plugins.azureMySql.dashboard.labelInsert'),
+                t('in-forge:plugins.azureMySql.dashboard.labelSelect')
+              ],
+              type: 'line',
+              min: 0
+            }}
+            y2={{
+              formatter: zeroDecimalPlaces,
+              metrics: ['com_alter_table', 'com_update'],
+              labels: [
+                t('in-forge:plugins.azureMySql.dashboard.labelAlter'),
+                t('in-forge:plugins.azureMySql.dashboard.labelUpdate')
+              ],
+              type: 'line',
+              min: 0
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
     </>
   );
 }

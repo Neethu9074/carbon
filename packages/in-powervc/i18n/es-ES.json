@@ -20,6 +20,7 @@
   "totalMemory": "Memoria total",
   "totalStorage": "Almacenamiento total",
   "totalCapacity": "Capacidad total",
+  "cpuUtilizationPercent": "Utilización de CPU (%)",
   "availableCapacity": "Capacidad disponible",
   "volumeCount": "Recuento de volúmenes",
   "cpuArch": "Arquitectura de CPU",

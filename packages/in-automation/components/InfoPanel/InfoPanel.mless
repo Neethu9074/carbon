@@ -1,0 +1,78 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+:local {
+  .panel {
+    background-color: var(--cds-layer);
+    margin-left: -24px;
+    margin-right: -24px;
+    margin-top: -24px;
+    padding-top: 16px;
+  }
+  .panelEmpty {
+    background-color: var(--cds-layer);
+    margin-left: -24px;
+    margin-right: -24px;
+    margin-top: -24px;
+  }
+  .contentContainer {
+    display: flex;
+    width: 100%;
+    margin-left: 36px;
+    margin-right: 36px;
+    gap: 24px;
+    justify-content: flex-start;
+  }
+  .columnContainer {
+    display: flex;
+    gap: 24px;
+    width: 200px;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .contentTitle {
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 40px;
+    margin-left: 36px;
+    margin-bottom: 16px;
+  }
+  .columnTitle {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    margin-bottom: 12px;
+  }
+  .columnText {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+  }
+  .linkButton {
+    border: 0;
+    width: 136px;
+    height: 32px;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .linkButton:hover:global(.cds--link) {
+    background-color: var(--cds-button-primary);
+    color: #ffffff;
+    text-decoration: none;
+    padding-left: 16px;
+  }
+  .buttonSection {
+    margin-top: 16px;
+    padding-left: 36px;
+    border-top: 1px solid #e0e0e0;
+  }
+}
+
+:global {
+  #infoPanelFooter .dashboardButton.cds--btn {
+    padding-left: 0;
+  }
+}

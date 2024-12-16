@@ -4,71 +4,110 @@
  * Copyright IBM Corp. 2024
  */
 
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 
 //@ts-expect-error TS migration
 import AlertConfigTearSheetStep4 from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearSheetStep4';
+//@ts-expect-error TS migration
+import AlertConfigTearSheetStep3 from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearSheetStep3';
 //@ts-expect-error
 import AlertConfigTearSheetStep1 from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearSheetStep1';
 import { AlertConfigTearSheetWithThresholdProps } from 'in-alerting/smart-alerts/applications/tearSheet/AlertConfigTearSheetWithThreshold';
 //@ts-expect-error
 import AlertConfigTearSheetStep5 from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearSheetStep5';
+import AlertConfigTearSheetStep6 from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearSheetStep6';
 import AlertConfigTearSheetStep2 from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearSheetStep2';
 import AlertingTearSheetContent from 'in-alerting/components/AlertingTearSheetContent';
+import { Nullish } from 'in-types';
 import { t } from 'in-i18n';
 
 export const stepConfigs = [
   {
     title: t('in-alerting:smartAlerts.applications.tearSheet.step1Title'),
-    validateIntermediately: []
+    validateIntermediately: [
+      ['rule', 'message'],
+      ['rule', 'statusCode'], // fail when from > to (comparison)
+      ['rule', 'statusCode', 'statusCodeStart'], // fail on empty start field
+      ['rule', 'statusCode', 'statusCodeEnd'], // fail on empty end field
+      ['rule', 'level']
+    ]
   },
   {
     title: t('in-alerting:smartAlerts.applications.tearSheet.step2Title'),
-    validateIntermediately: [],
-    isOptional: true
+    validateIntermediately: [['applications']]
   },
   {
-    title: t('in-alerting:smartAlerts.applications.tearSheet.step3Title'),
-    validateIntermediately: [],
-    isOptional: true
+    title: t('in-alerting:smartAlerts.applications.tearSheet.step3Title')
   },
   {
     title: t('in-alerting:smartAlerts.applications.tearSheet.step4Title'),
-    validateIntermediately: [],
-    isOptional: true
+    validateIntermediately: [
+      ['threshold'],
+      ['timeThreshold', 'timeWindow'],
+      ['timeThreshold', 'violations'],
+      ['timeThreshold', 'requests']
+    ]
+  },
+  {
+    title: t('in-alerting:smartAlerts.applications.tearSheet.step5Title'),
+    validateIntermediately: [['name']]
+  },
+  {
+    title: t('in-alerting:smartAlerts.applications.tearSheet.step6Title'),
+    validateIntermediately: []
   }
 ];
 
-export const getStepRenderers = (props: AlertConfigTearSheetWithThresholdProps) => [
-  () => (
-    <AlertingTearSheetContent title={stepConfigs[0].title}>
+export type stepRendersType = AlertConfigTearSheetWithThresholdProps & {
+  isTagFilterFormModelValid: boolean;
+  setStep: Dispatch<SetStateAction<number>>;
+};
+
+export const APStepRenderers = [
+  (props: stepRendersType) => (
+    <AlertingTearSheetContent title={stepConfigs[0].title} key={0}>
       <AlertConfigTearSheetStep1 setLogMessagesListVisible {...props} />
     </AlertingTearSheetContent>
   ),
-  () => (
-    <AlertingTearSheetContent title={stepConfigs[1].title}>
+  (props: stepRendersType) => (
+    <AlertingTearSheetContent title={stepConfigs[1].title} key={1}>
       <AlertConfigTearSheetStep2 {...props} />
     </AlertingTearSheetContent>
   ),
-  () => (
-    <AlertingTearSheetContent title={stepConfigs[2].title}>
+  (props: stepRendersType) => (
+    <AlertingTearSheetContent title={stepConfigs[2].title} key={2}>
+      <AlertConfigTearSheetStep3 {...props} />
+    </AlertingTearSheetContent>
+  ),
+  (props: stepRendersType) => (
+    <AlertingTearSheetContent title={stepConfigs[3].title} key={3}>
       <AlertConfigTearSheetStep4 {...props} />
     </AlertingTearSheetContent>
   ),
-  () => (
-    <AlertingTearSheetContent title={stepConfigs[3].title}>
+  (props: stepRendersType) => (
+    <AlertingTearSheetContent title={stepConfigs[4].title} key={4}>
       <AlertConfigTearSheetStep5 {...props} />
     </AlertingTearSheetContent>
   ),
-  () => <AlertingTearSheetContent title={stepConfigs[4].title}>{''}</AlertingTearSheetContent>
+  (props: stepRendersType) => (
+    <AlertingTearSheetContent title={stepConfigs[5].title} key={5}>
+      <AlertConfigTearSheetStep6 {...props} />
+    </AlertingTearSheetContent>
+  )
 ];
 
-export const getFooterActions = (editMode: boolean | undefined, backOrCancel: (oldStep: number) => void) => [
+export const getFooterActions = (
+  backOrCancel: (oldStep: number) => void,
+  cancelTearSheet: () => string | Nullish,
+  handleSubmit: () => void,
+  editMode: boolean | undefined,
+  migrationMode: boolean | undefined
+) => [
   {
     kind: 'ghost',
     isLeftAlign: true,
     label: t('in-alerting:smartAlerts.components.smartAlertDialog.cancelTitle'),
-    onClick: () => undefined
+    href: cancelTearSheet()
   },
   {
     kind: 'secondary',
@@ -79,9 +118,17 @@ export const getFooterActions = (editMode: boolean | undefined, backOrCancel: (o
   {
     kind: 'primary',
     isLeftAlign: false,
-    label: editMode
-      ? t('in-alerting:smartAlerts.components.smartAlertDialog.buttonSave')
-      : t('in-alerting:smartAlerts.components.smartAlertDialog.buttonCreate'),
-    onClick: () => undefined
+    label: getButtonLabel(editMode, migrationMode),
+    onClick: () => handleSubmit()
   }
 ];
+
+function getButtonLabel(editMode?: boolean, migrationMode?: boolean) {
+  if (migrationMode) {
+    return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonMigrate');
+  }
+  if (editMode) {
+    return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonSave');
+  }
+  return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonCreate');
+}

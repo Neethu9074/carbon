@@ -8,7 +8,7 @@ import { MapForm } from 'formalistic';
 import React from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import { Code, ConfigItem, SSLCertificateTest, TestTypeSelected } from 'in-synthetics/utils/constants';
@@ -85,13 +85,16 @@ const SelectedTestType = ({
 }: SelectedTestTypeProps) => {
   const populateCommonAttributes = () => {
     commonAttributes['url'] = '';
-    commonAttributes['testFrequency'] = selectedBlueprint.type === SSLCertificateTest ? 120 : 15;
+    commonAttributes['testFrequency'] = selectedBlueprint.type === SSLCertificateTest ? 1440 : 15;
     commonAttributes['locations'] = form.get('locations').value;
     commonAttributes['label'] = form.get('label').value;
     commonAttributes['description'] = form.get('description').value;
-    commonAttributes['applicationId'] = form.get('applicationId').value;
+    commonAttributes['applicationId'] = form.get('applicationId')?.value;
     commonAttributes['script'] = '';
     commonAttributes['customProperties'] = form.get('customProperties').value;
+    commonAttributes['applications'] = form.get('applications')?.value ?? [];
+    commonAttributes['websites'] = form.get('websites')?.value ?? [];
+    commonAttributes['mobileApps'] = form.get('mobileApps')?.value ?? [];
     setCommonAttributes(commonAttributes);
     updateForm(createForm(false, selectedBlueprint, commonAttributes));
   };
@@ -203,7 +206,7 @@ const RenderCertificateCheck = ({
       </h3>
       <DangerousHtmlPresenter className={locals.text} html={selectedBlueprint.description.text} />
       <Row>
-        <Col lg={6} className={locals.column}>
+        <Col lg={8} className={locals.column}>
           <SimpleOrScriptOption
             checked={!testTypeSelected?.ssl.simple ? simple : testTypeSelected?.ssl.simple}
             title={t('in-synthetics:dialog.createTest.advancedMode.testTypeSection.certificateCheckTitle')}
@@ -213,7 +216,7 @@ const RenderCertificateCheck = ({
               setTestTypeSelected((prevState: SetStateAction<TestTypeSelected>) => {
                 return { ...prevState, ssl: { simple: true } };
               });
-              setCommonAttributes({ ...commonAttributes, script: '', syntheticType: 'SSLCertificate' });
+              setCommonAttributes({ ...commonAttributes, script: '', syntheticType: commonAttributes.syntheticType });
               setScriptDetails({ modified: false, name: '' });
             }}
             disabled={isUpdateConfig}

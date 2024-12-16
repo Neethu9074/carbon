@@ -12,12 +12,19 @@ import {
   deleteAlertConfig
 } from 'in-alerting/smart-alerts/components/api/smartAlertConfig';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
-import { trackAlertDeleteConfirm } from 'in-alerting/smart-alerts/components/tracker';
+import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { ALERTING_DELETE_CONFIRM } from 'in-services/tracking/eventNames';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { t, Trans } from 'in-i18n';
 
-export function handleDelete(id: string, setIsSaving: (saving: boolean) => void, configName: string, baseUrl: string) {
+export function handleDelete(
+  id: string,
+  setIsSaving: (saving: boolean) => void,
+  configName: string,
+  baseUrl: string,
+  trackCta?: CtaTrackingFunction
+) {
   addActiveDialog(
     <ConfirmationDialog
       header={t('in-alerting:smartAlerts.components.list.labelConfirm')}
@@ -32,7 +39,7 @@ export function handleDelete(id: string, setIsSaving: (saving: boolean) => void,
         close();
         deleteAlertConfig(id, baseUrl).once(
           () => {
-            trackAlertDeleteConfirm(id);
+            trackCta?.(ALERTING_DELETE_CONFIRM, { id });
             refreshSmartAlertConfigsList();
           },
           () => {

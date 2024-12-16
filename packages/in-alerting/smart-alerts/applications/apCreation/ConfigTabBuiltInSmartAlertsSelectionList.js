@@ -66,6 +66,7 @@ function MainColumnContent({ config, applicationId, alertIds, onItemSelect }) {
       {...config}
       alertIds={alertIds}
       onItemSelect={selected => onItemSelect(selected, config.id)}
+      index={config.id}
       customLabel={() => (
         <Stack gap="xxsmall">
           <Link

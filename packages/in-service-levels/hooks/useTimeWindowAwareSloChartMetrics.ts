@@ -10,7 +10,7 @@ import {
   Result,
   ServiceLevelObjectiveConfiguration,
   TimeConfig,
-  UnifiedMetricConfiguration
+  UnifiedMetricConfigurationUnion
 } from '@instana/types';
 import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
@@ -22,7 +22,7 @@ import { hasError, isLoading, success } from 'in-services/util/result';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { FetchedState } from 'in-hooks/utils/types';
 
-interface ResultAwareChartMetrics {
+export interface ResultAwareChartMetrics {
   granularity: number;
   metrics: MetricDataSeries[];
   adjustedTimeframe?: AdjustedTimeframe;
@@ -30,23 +30,26 @@ interface ResultAwareChartMetrics {
 
 export default function useTimeWindowAwareSloChartMetrics(
   sloConfig: ServiceLevelObjectiveConfiguration,
-  getMetricConfigForTimeConfig: (timeConfig: TimeConfig) => UnifiedMetricConfiguration,
+  getMetricConfigForTimeConfig: (timeConfig: TimeConfig) => UnifiedMetricConfigurationUnion,
   selectedTimeConfig: TimeConfig,
   timeWindows: TimeConfig[],
   granularity?: number
 ): FetchedState<ResultAwareChartMetrics> {
   const { id } = sloConfig;
-  const metricConfigs = timeWindows.reduce(
-    (previous, timeConfig, index) => ({
-      ...previous,
-      [`timeWindow${index}`]: getMetricConfigForTimeConfig(timeConfig)
-    }),
+  const metricConfigs: { [index: string]: UnifiedMetricConfigurationUnion } = timeWindows.reduce(
+    (previous, timeConfig, index) =>
+      ({
+        ...previous,
+        [`timeWindow${index}`]: getMetricConfigForTimeConfig(timeConfig)
+      } as {
+        [index: string]: UnifiedMetricConfigurationUnion;
+      }),
     {} as GetUnifiedMetricsQuery['metrics']
   );
 
   const result = useObservable(
     () => getUnifiedMetrics({ metrics: metricConfigs }),
-    [id, generateStableHash(timeWindows)]
+    [id, generateStableHash(timeWindows), generateStableHash(metricConfigs)]
   );
 
   if (!result || isLoading(result) || hasError(result)) {

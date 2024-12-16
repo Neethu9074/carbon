@@ -54,7 +54,7 @@ export default function SortingConfigurator({ form, updateForm, sortingOptions }
   return sortingField?.map((field: Field<Order>) => (
     <>
       <SelectInSection
-        id={sortingFieldName}
+        id={`${sortingFieldName}By`}
         label={sortBy}
         value={field.value.by}
         hasError={!field.valid && field.touched}
@@ -67,7 +67,7 @@ export default function SortingConfigurator({ form, updateForm, sortingOptions }
         ))}
       </SelectInSection>
       <SelectInSection
-        id={sortingFieldName}
+        id={`${sortingFieldName}Direction`}
         label={`${sortDirection}`}
         value={field.value.direction}
         hasError={!field.valid && field.touched}

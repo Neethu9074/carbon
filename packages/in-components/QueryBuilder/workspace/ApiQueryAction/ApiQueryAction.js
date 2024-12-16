@@ -24,7 +24,9 @@ export default function ApiQueryAction({
   tracking,
   hiddenCalls,
   endpointUrl,
-  docsLink
+  docsLink,
+  disabled,
+  disabledTooltip
 }) {
   return (
     <Overlay
@@ -48,7 +50,8 @@ export default function ApiQueryAction({
     >
       {({ toggle, refSetter }) => (
         <Action
-          disabled={!backendQueryModel}
+          disabled={disabled || !backendQueryModel}
+          disabledTooltip={disabledTooltip}
           icon="lib_views_code"
           refSetter={refSetter}
           onClick={() => {
@@ -78,6 +81,8 @@ ApiQueryAction.propTypes = {
   hiddenCalls: rpt.object,
   endpointUrl: rpt.string,
   docsLink: rpt.string,
+  disabled: rpt.bool,
+  disabledTooltip: rpt.string,
   tracking: rpt.shape({
     onClick: rpt.func
   })

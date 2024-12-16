@@ -16,4 +16,7 @@ export interface ConfigureAlertChannelProps {
   setSliderState: (state: SliderState) => void;
   setCustomSlideInHeaderConfig: (state: { title: string | null; onClose: (() => void) | null }) => void;
   numberOfAlertChannelListRows?: number;
+  isTearSheet?: boolean;
+  updateForm?: (form: MapForm<any>) => void;
+  alertChannelPerSeverityEnabled?: boolean;
 }

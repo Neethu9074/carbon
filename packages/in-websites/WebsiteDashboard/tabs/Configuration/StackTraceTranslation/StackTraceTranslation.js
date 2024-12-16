@@ -6,9 +6,8 @@
 import React, { Fragment, useState } from 'react';
 
 import { combineLatest, just } from '@instana/observables';
-import { Card, Stack } from '@instana/components';
+import { Card, Stack, Button } from '@instana/components';
 import { ButtonGroup } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 import {
   getSourceMapDownloadConfigurations,
@@ -122,6 +121,7 @@ export default function StackTraceTranslationConfigurationPresenter({ websiteId 
 
   const buttonGroup = (totalHitsBeforeFilter, totalHitsAfterFilter) => (
     <ButtonGroup
+      id="button-group-web-ul-dl"
       segmented
       buttonPropsList={[
         {

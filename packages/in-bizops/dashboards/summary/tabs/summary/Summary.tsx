@@ -13,7 +13,6 @@ import ProcessErrorsChart from 'in-bizops/dashboards/summary/tabs/summary/compon
 import TopActivities from 'in-bizops/dashboards/summary/tabs/summary/components/TopActivities';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { businessProcessDashboard } from 'in-bizops/navigation/paths';
-import { bizopsGoldenSignalsEnabled } from 'in-services/featureFlags';
 import BizOpsCountChart from 'in-bizops/components/BizOpsCountChart';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
@@ -35,88 +34,58 @@ export default function Summary() {
     getMatrixParameter(location, businessProcessDashboard, 'definitionId') ??
     t('in-bizops:dashboards.summary.pageTitle');
 
-  // TODO: remove this if and just return once golden signals is complete
-  if (bizopsGoldenSignalsEnabled) {
-    return (
-      <Fragment>
-        <KpiGridRow sizes={[true, true]}>
-          <ProcessMetricKpiCard
-            title={t('in-bizops:dashboards.summary.widgets.processCount')}
-            metric="COUNT"
+  return (
+    <Fragment>
+      <KpiGridRow sizes={[true, true]}>
+        <ProcessMetricKpiCard
+          title={t('in-bizops:dashboards.summary.widgets.processCount')}
+          metric="COUNT"
+          timeConfig={timeConfig}
+          processId={businessProcessId}
+        />
+        <ProcessMetricKpiCard
+          title={t('in-bizops:dashboards.summary.widgets.processErrors')}
+          metric="ERRORS"
+          timeConfig={timeConfig}
+          processId={businessProcessId}
+        />
+      </KpiGridRow>
+      <Row>
+        <Col lg>
+          <BizOpsCountChart
+            timeShiftConfig={timeShiftConfig}
             timeConfig={timeConfig}
-            processId={businessProcessId}
+            businessProcessName={businessProcessName}
+            businessProcessId={businessProcessId}
+            // this metric is mapped on the backend to started_processes
+            metric={'startedProcessesCount'}
+            label={businessProcessName}
+            dataSource={'BUSINESS_PROCESSES'}
           />
-          <ProcessMetricKpiCard
-            title={t('in-bizops:dashboards.summary.widgets.processErrors')}
-            metric="ERRORS"
-            timeConfig={timeConfig}
-            processId={businessProcessId}
+        </Col>
+        <Col lg>
+          <TopActivities businessProcessId={businessProcessId} businessProcessName={businessProcessName} />
+        </Col>
+      </Row>
+      <Row>
+        <Col lg>
+          <InfrastructureIssuesAndChanges
+            businessProcessId={businessProcessId}
+            businessProcessName={businessProcessName}
           />
-        </KpiGridRow>
-        <Row>
-          <Col lg>
-            <BizOpsCountChart
-              timeShiftConfig={timeShiftConfig}
-              timeConfig={timeConfig}
-              businessProcessName={businessProcessName}
-              businessProcessId={businessProcessId}
-              // this metric is mapped on the backend to started_processes
-              metric={'startedProcessesCount'}
-              label={businessProcessName}
-              dataSource={'BUSINESS_PROCESSES'}
-            />
-          </Col>
-          <Col lg>
-            <TopActivities businessProcessId={businessProcessId} businessProcessName={businessProcessName} />
-          </Col>
-        </Row>
-        <Row>
-          <Col lg>
-            <InfrastructureIssuesAndChanges
-              businessProcessId={businessProcessId}
-              businessProcessName={businessProcessName}
-            />
-          </Col>
-          <Col lg>
-            <ProcessErrorsChart businessProcessId={businessProcessId} />
-          </Col>
-        </Row>
-        <Row>
-          <Col lg>
-            <ProcessLatencyChart businessProcessId={businessProcessId} />
-          </Col>
-          <Col lg>
-            <></>
-          </Col>
-        </Row>
-      </Fragment>
-    );
-  } else {
-    return (
-      <Fragment>
-        <Row>
-          <Col lg={4}>
-            <BizOpsCountChart
-              timeShiftConfig={timeShiftConfig}
-              timeConfig={timeConfig}
-              businessProcessName={businessProcessName}
-              businessProcessId={businessProcessId}
-              metric={'startedProcessesCount'}
-              label={businessProcessName}
-              dataSource={'BUSINESS_PROCESSES'}
-            />
-          </Col>
-          <Col lg={4}>
-            <TopActivities businessProcessId={businessProcessId} businessProcessName={businessProcessName} />
-          </Col>
-          <Col lg={4}>
-            <InfrastructureIssuesAndChanges
-              businessProcessId={businessProcessId}
-              businessProcessName={businessProcessName}
-            />
-          </Col>
-        </Row>
-      </Fragment>
-    );
-  }
+        </Col>
+        <Col lg>
+          <ProcessErrorsChart businessProcessId={businessProcessId} />
+        </Col>
+      </Row>
+      <Row>
+        <Col lg>
+          <ProcessLatencyChart businessProcessId={businessProcessId} />
+        </Col>
+        <Col lg>
+          <></>
+        </Col>
+      </Row>
+    </Fragment>
+  );
 }

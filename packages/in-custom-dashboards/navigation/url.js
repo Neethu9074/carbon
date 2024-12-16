@@ -3,9 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { cockpit } from 'in-cockpit/navigation/paths';
+import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 
 export const customDashboardsPath = '/customDashboards';
 
@@ -22,23 +20,18 @@ export const dashboardTvModeUrlParameter = {
   path: viewPath,
   name: 'tvMode'
 };
+export const fastQueryModeEnabledParameter = {
+  path: viewPath,
+  name: 'fastQueryModeEnabled',
+  initialState: true,
+  parser: v => v === 'true',
+  serializer: Boolean
+};
 
-export function goToCustomDashboardList() {
-  mutateUrl(params => {
-    params.pathname = cockpit;
-  });
-}
-
-export function goToCustomDashboard(customDashboardId) {
-  mutateUrl(params => {
-    params.pathname = viewPathFullyQualified;
-    setOrDeleteMatrixKey(params, dashboardIdUrlParameter.path, dashboardIdUrlParameter.name, customDashboardId);
-  });
-}
-
-export function getCustomDashboardLink(customDashboardId) {
-  return getModifiedUrlStream(params => {
-    params.pathname = viewPathFullyQualified;
-    setOrDeleteMatrixKey(params, dashboardIdUrlParameter.path, dashboardIdUrlParameter.name, customDashboardId);
-  });
-}
+export const dashboardTopLevelFilterUrlParameter = {
+  path: viewPath,
+  name: 'tagFilterExpression',
+  serializer: buildJsonSerializer(),
+  parser: buildJsonParser([]),
+  initialState: []
+};

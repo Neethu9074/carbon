@@ -3,27 +3,34 @@
  * (c) Copyright Instana Inc.
  */
 
+import PotentialProblemsDialogPresenter from 'promise-loader?global,potentialProblems!in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemsDialogPresenter';
+import AlertConfigDialog from 'promise-loader?global,potentialProblems!in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import PotentialProblemsDialogPresenter from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemsDialogPresenter';
 import PotentialProblemsHoverArea from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsHoverArea';
+import { POTENTIAL_PROBLEMS_MARKER_HOVERED, POTENTIAL_PROBLEMS_MARKER_CLICKED } from 'in-services/tracking/eventNames';
 import { potentialProblemsLaneAlertsPropType } from 'in-alerting/PotentialProblems/PotentialProblemsLane/proptypes';
 import PotentialProblemMarker from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemMarker';
 import SingleMarkerLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleMarkerLaneItem';
-import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
-import { trackMarkerClicked, trackMarkerHovered } from 'in-alerting/PotentialProblems/tracker';
+import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
+import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import MarkerLane from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { getTitle } from 'in-alerting/PotentialProblems/textUtil';
+import { UI_INTERACTION } from 'in-services/util/constants';
 import { t } from 'in-i18n';
 
+const DeferredPotentialProblemsDialogPresenter = createAsyncViewComponent(PotentialProblemsDialogPresenter);
+const DeferredAlertConfigDialog = createAsyncViewComponent(AlertConfigDialog);
 export default function PotentialProblemsLanePresenter({
   potentialProblems,
   alertRules,
   openingDialogDisabled,
   ...remainingProps
 }) {
+  const { trackCta, unstable_trackEvent } = useSegmentTracking();
   const events = useMemo(() => {
     function buildPotentialProblemEventObject({ alerts, lastStart, lastEnd, granularity, thresholds }) {
       const lastStartShifted = adjustTimestampFraction(lastStart, granularity) - granularity / 2;
@@ -99,22 +106,47 @@ export default function PotentialProblemsLanePresenter({
     return events;
   }, [potentialProblems, remainingProps]);
 
+  const constructRules = dialogProps => [
+    {
+      rule: dialogProps.rule,
+      thresholdOperator: dialogProps.threshold.operator,
+      thresholds: {
+        WARNING: { ...dialogProps.threshold, isCheckboxSelected: true },
+        CRITICAL: {
+          type: dialogProps.threshold.type,
+          deviationFactor: defaultDeviationFactor,
+          value: null,
+          isCheckboxSelected: false
+        }
+      }
+    }
+  ];
+
   const defaultClickHandler = ({ alerts, thresholds }) => {
     addActiveDialog(
-      <PotentialProblemsDialogPresenter
+      <DeferredPotentialProblemsDialogPresenter
         {...remainingProps}
         alertRules={alertRules}
         alerts={alerts}
         thresholds={thresholds}
+        getPotentialProblemConfig={dialogProps => {
+          return {
+            ...remainingProps,
+            ...dialogProps,
+            rules: constructRules(dialogProps)
+          };
+        }}
         renderSmartAlertDialogComponent={dialogProps => {
           const { applicationLabel } = remainingProps;
+          const alertConfig = {
+            ...remainingProps,
+            ...dialogProps,
+            rules: constructRules(dialogProps)
+          };
           return (
-            <AlertConfigDialog
+            <DeferredAlertConfigDialog
               applicationLabel={applicationLabel}
-              alertConfig={{
-                ...remainingProps,
-                ...dialogProps
-              }}
+              alertConfig={alertConfig}
               onClose={close}
               startWithSimpleMode
             />
@@ -122,7 +154,7 @@ export default function PotentialProblemsLanePresenter({
         }}
       />
     );
-    trackMarkerClicked({ metricNames: getUniqueMetricNames(alertRules) });
+    trackCta(POTENTIAL_PROBLEMS_MARKER_CLICKED, { metricNames: getUniqueMetricNames(alertRules) });
   };
 
   return (
@@ -147,11 +179,15 @@ export default function PotentialProblemsLanePresenter({
       LaneItem={SingleMarkerLaneItem}
       renderMarkerItem={PotentialProblemMarker}
       trackMarkerHoverEvent={eventData => {
-        trackMarkerHovered({
-          metricNames: getUniqueMetricNames(alertRules),
-          numberOfProblems: eventData.alerts.length,
-          chartName: remainingProps.chartName
-        });
+        unstable_trackEvent(
+          UI_INTERACTION,
+          { CTA: POTENTIAL_PROBLEMS_MARKER_HOVERED },
+          {
+            metricNames: getUniqueMetricNames(alertRules),
+            numberOfProblems: eventData.alerts.length,
+            chartName: remainingProps.chartName
+          }
+        );
       }}
       hideDefaultHoverStyle
     />

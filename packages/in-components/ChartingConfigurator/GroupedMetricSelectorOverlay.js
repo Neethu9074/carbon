@@ -7,14 +7,14 @@ import React, { useState } from 'react';
 import { escapeRegExp } from 'lodash';
 import classNames from 'classnames';
 
-import { keyCodes, KeyValue, Li, ListGroup, SvgIcon, Ul } from '@instana/components';
+import { keyCodes, KeyValue, Li, ListGroup, SvgIcon, Ul, SearchInput } from '@instana/components';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import { getIconByType } from 'in-analyze/AnalyzeView/dataSources';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { capitalize } from 'in-services/formatters/string';
-import SearchInput from 'in-components/SearchInput';
+import { t } from 'in-i18n';
 
 import locals from 'in-components/ChartingConfigurator/GroupedMetricSelectorOverlay.mless';
 
@@ -70,13 +70,7 @@ export default function GroupedMetricSelectorOverlay({
 }) {
   const [valueFilter, setValueFilter] = useState('');
 
-  const valueRegex = new RegExp(
-    valueFilter
-      .split('')
-      .map(escapeRegExp)
-      .join('.*'),
-    'i'
-  );
+  const valueRegex = new RegExp(valueFilter.split('').map(escapeRegExp).join('.*'), 'i');
 
   const items = options
     .filter(
@@ -126,6 +120,7 @@ export default function GroupedMetricSelectorOverlay({
           inputClassName={locals.search}
           className={locals.searchContainer}
           autoFocus
+          placeholder={t('in-components:searchInput.placeholderSearch')}
         />
       </div>
       <Ul className={locals.list} framed={false} borderRadius="medium" onKeyDown={onKeyDown}>

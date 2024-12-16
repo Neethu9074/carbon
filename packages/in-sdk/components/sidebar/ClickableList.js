@@ -7,7 +7,7 @@ import React from 'react';
 
 import { Link } from '@instana/components';
 
-import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
 import PluginIcon from 'in-components/PluginIcon';
 import { getPluginName } from 'in-sdk/pluginName';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -21,6 +21,7 @@ export const ClickableSnapshotListItem = connectTo(({ children, snapshotId }) =>
   snapshot: children != null ? undefined : getSnapshot(snapshotId)
 }))(function ClickableSnapshotListItem({ snapshotId, snapshot, children, withIcon = false, onClick }) {
   let content = children;
+  const getLinkToSnapshotInCurrentView = useGetLinkToSnapshotInCurrentView(snapshotId);
   if (!content) {
     if (!snapshot) {
       return null;
@@ -43,7 +44,7 @@ export const ClickableSnapshotListItem = connectTo(({ children, snapshotId }) =>
   }
 
   return (
-    <ClickableListItem href$={getLinkToSnapshotInCurrentView(snapshotId)} onClick={onClick}>
+    <ClickableListItem href={getLinkToSnapshotInCurrentView} onClick={onClick}>
       {content}
     </ClickableListItem>
   );

@@ -5,16 +5,26 @@
 
 import React from 'react';
 
-import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
+import { Severity } from '@instana/types/typeDefinitions';
+
+import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 //@ts-expect-error TS migration
-import AlertChannelsList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
+import AlertChannelsList from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
 //@ts-expect-error TS migration
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import NoChannelSelected from 'in-alerting/components/NoChannelSelected';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { role } from 'in-stores/user';
 
-export default function AlertChannelsViewer({ alertChannelIds }: { alertChannelIds: string[] }) {
+export default function AlertChannelsViewer({
+  alertChannelIds,
+  alertChannels,
+  alertChannelPerSeverityEnabled
+}: {
+  alertChannelIds: string[];
+  alertChannels?: { [P in Severity]?: string[] };
+  alertChannelPerSeverityEnabled?: boolean;
+}) {
   return (
     <>
       <AlertChannelsList
@@ -25,6 +35,9 @@ export default function AlertChannelsViewer({ alertChannelIds }: { alertChannelI
         isSearchable={false}
         getHeader={() => null}
         rightHeader={null}
+        detailView
+        alertChannels={alertChannels}
+        alertChannelPerSeverityEnabled={alertChannelPerSeverityEnabled}
       />
     </>
   );

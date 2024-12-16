@@ -89,4 +89,13 @@
     align-items: center;
     justify-content: flex-end;
   }
+
+  .emptyTable {
+    :global(.cds--data-table tbody) {
+      display: none;
+    }
+    :global(.table-row) {
+      display: grid;
+    }
+  }
 }

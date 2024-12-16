@@ -9,25 +9,6 @@ import { Message, Stack } from '@instana/components';
 import { just } from '@instana/observables';
 
 import {
-  filterAddedTracker,
-  filterRemovedTracker,
-  filtersClearedTracker,
-  groupAddedTracker,
-  groupRemovedTracker,
-  groupFocusedOnTracker,
-  navigateToEntityTracker,
-  typeSelectorChangedTracker,
-  groupExpandedTracker,
-  groupCollapsedTracker,
-  loadMoreTracker,
-  metricAddedTracker,
-  metricRemovedTracker,
-  metricAggregationChangedTracker,
-  sortingTracker,
-  LOAD_MORE_CONTEXT,
-  SORTING_CONTEXT
-} from 'in-infrastructure/Explore/services/tracking';
-import {
   tagFilterExpressionMatrixParameter,
   resetMetricsAndOrderOnTypeChange,
   metricsMatrixParameter,
@@ -50,11 +31,13 @@ import { removeDuplicatesFromArrayObjects, getUniqueMetricsLabels } from 'in-cus
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import { getDefaultOrder, getUpdatedOrder, toBackendGroupBy } from 'in-infrastructure/Explore/utils';
+import { LOAD_MORE_CONTEXT, SORTING_CONTEXT } from 'in-infrastructure/Explore/services/tracking';
 import GroupedInfrastructure from 'in-infrastructure/Explore/components/GroupedInfrastructure';
 import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import ApiQueryAction from 'in-components/QueryBuilder/workspace/ApiQueryAction';
+import { useSegmentTracker } from 'in-infrastructure/Explore/services/tracking';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
 import { fromUrlMetrics } from 'in-infrastructure/Explore/services/metrics';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
@@ -110,6 +93,15 @@ export default function InfraExploreView() {
 function InfraExploreViewWithFixatedTimeConfig() {
   const timeConfig = useTimeConfig();
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
+  const {
+    navigateToEntityTracker,
+    metricAddedTracker,
+    metricRemovedTracker,
+    metricAggregationChangedTracker,
+    typeSelectorChangedTracker,
+    chartChangedTracker
+  } = useSegmentTracker();
+
   const [
     {
       tagFilterExpression,
@@ -132,8 +124,12 @@ function InfraExploreViewWithFixatedTimeConfig() {
   const validTagFilterExpressionResult = isQueryValid(tagFilterExpression, tagCatalog);
   const validGroupResult = isGroupingConfigurationValid(group, tagCatalog);
   // in case of a pending result (validTagFilterExpressionResult.data === null) we do not want to show the user an error message
-  const isValid = tagFilterExpression.length === 0 || (validTagFilterExpressionResult.data === true && validGroupResult.data === true);
-  const isInvalid = tagFilterExpression.length > 0 && (validTagFilterExpressionResult.data === false || validGroupResult.data === false);
+  const isValid =
+    tagFilterExpression.length === 0 ||
+    (validTagFilterExpressionResult.data === true && validGroupResult.data === true);
+  const isInvalid =
+    tagFilterExpression.length > 0 &&
+    (validTagFilterExpressionResult.data === false || validGroupResult.data === false);
 
   const backendGroupBy = useMemo(() => toBackendGroupBy(groupBy), [groupBy]);
 
@@ -153,7 +149,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
     onNavigateToEntity: navigateToEntityTracker(getInfraExploreState),
     onMetricAdded: metricAddedTracker(getInfraExploreState),
     onMetricRemoved: metricRemovedTracker(getInfraExploreState),
-    onMetricAggregationChanged: metricAggregationChangedTracker(getInfraExploreState)
+    onMetricAggregationChanged: metricAggregationChangedTracker(getInfraExploreState),
+    onChartChanged: chartChangedTracker(getInfraExploreState)
   };
 
   const isInitPage =
@@ -240,6 +237,9 @@ function Content({
   const setTags = useCallback(tags => setUrl({ tags }), [setUrl]);
   const setOrder = useCallback(order => setUrl({ order }), [setUrl]);
 
+  const { filterAddedTracker, filterRemovedTracker, filtersClearedTracker, groupAddedTracker, groupRemovedTracker } =
+    useSegmentTracker();
+
   const onTagFilterExpressionChange = useCallback(tagFilterExpression => setUrl({ tagFilterExpression }), [setUrl]);
   const onChartedMetricsChange = useCallback(chartedMetrics => setUrl({ chartedMetrics }), [setUrl]);
   const onGroupChange = useCallback(
@@ -259,7 +259,8 @@ function Content({
     getMetricCatalog,
     tagFilterExpression: backendQueryModel,
     type,
-    query: catalogQuery.debouncedValue
+    query: catalogQuery.debouncedValue,
+    withHierarchy: false
   });
 
   const metricsIds = metrics.map(metric => metric.metric);
@@ -299,6 +300,7 @@ function Content({
         }}
         hasError={isInvalid}
         useLastValidStateWhenErroneous
+        additionalGetTagCatalogProps={{ ownerType: type }}
       />
 
       <GroupingConfiguratorSection
@@ -311,6 +313,7 @@ function Content({
           onGroupAdded: groupAddedTracker(getInfraExploreState),
           onGroupRemoved: groupRemovedTracker(getInfraExploreState)
         }}
+        additionalGetTagCatalogProps={{ ownerType: type }}
       />
 
       <ActionSection
@@ -332,7 +335,7 @@ function Content({
   );
 
   const errorMessage = (
-    <Message type="error" withIcon small>
+    <Message type="error" withIcon small fullInlineWidth>
       {t('in-infrastructure:explore.theQueryConfigurationIsInvalid')}
     </Message>
   );
@@ -403,6 +406,9 @@ function List({
   showGroupsWithMissingTags
 }) {
   const getLinkToInfraEntityExplore = useLinkToInfraEntityExplore();
+
+  const { sortingTracker, loadMoreTracker, groupFocusedOnTracker, groupExpandedTracker, groupCollapsedTracker } =
+    useSegmentTracker();
 
   if (isInitPage) {
     return (
@@ -485,14 +491,10 @@ function List({
 }
 
 export function getUniqueMetricsAndLabels(metrics, metricMetadatas) {
-  const uniqueMetrics = removeDuplicatesFromArrayObjects(metrics, ['metric', 'aggregation']).map(
-    ({ metric, aggregation, label, regex }) => ({
-      metric,
-      aggregation,
-      label: mapData(metricMetadatas, data => data[metric]?.label)?.data ?? label,
-      regex
-    })
-  );
+  const uniqueMetrics = removeDuplicatesFromArrayObjects(metrics, ['metric', 'aggregation']).map(item => ({
+    ...item,
+    label: mapData(metricMetadatas, data => data[item.metric]?.label)?.data ?? item.label
+  }));
 
   const uniqueMetricsLabels = getUniqueMetricsLabels(uniqueMetrics);
 

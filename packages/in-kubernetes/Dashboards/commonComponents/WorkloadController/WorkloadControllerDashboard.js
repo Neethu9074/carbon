@@ -7,6 +7,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { beeInstanaInfraMetricsEnabled, beeinstanaInfraMetricsWithTimeshiftEnabled } from 'in-services/featureFlags';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator/KubernetesIndicator';
 import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import RenderButtonLineSecondary from 'in-kubernetes/Dashboards/commonComponents/RenderButtonLineSecondary';
@@ -15,9 +16,7 @@ import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsF
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
-import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
-import { beeInstanaInfraMetricsEnabled } from 'in-services/featureFlags';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -28,6 +27,7 @@ import DashboardHeader from 'in-components/DashboardHeader';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { pageNames } from 'in-services/tracking/pageNames';
+import { useSegmentTracker } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-components/Footer';
 
@@ -57,6 +57,8 @@ export default function WorkloadControllerDashboard({
   };
   props[`${props.workloadControllerType}Id`] = props.workloadControllerId;
 
+  const { kubernetesTimeShiftSelectTracker } = useSegmentTracker();
+
   return (
     <>
       <ViewTrackingMeta
@@ -65,14 +67,15 @@ export default function WorkloadControllerDashboard({
           pageRootName: pageNames.deployment_summary
         }}
       />
-
       <KubernetesBreadcrumbs props={props} />
       <TabView
         result$={workloadControllerSubscriptionName({
           id: props.workloadControllerId,
           timeConfig: props.timeConfig
         })}
-        HeaderComponent={Header}
+        HeaderComponent={props => (
+          <Header {...props} kubernetesTimeShiftSelectTracker={kubernetesTimeShiftSelectTracker} />
+        )}
         location={location}
         tabs={tabs}
         tabChangeTracker={tabChangeTracker}
@@ -88,7 +91,6 @@ export default function WorkloadControllerDashboard({
           </CenterAlignmentColumn>
         )}
       />
-
       <Footer />
     </>
   );
@@ -114,11 +116,12 @@ function KubernetesBreadcrumbs({ props }) {
 }
 
 function Header(props) {
+  const { plugin } = props;
   return (
     <DashboardHeader
       {...props}
       title={props.headerTitle}
-      icon="lib_kubernetes_workload"
+      icon={plugin ? `lib_infra_${plugin}` : `lib_kubernetes_workload`}
       label={get(props.result, ['data', 'name'])}
       renderButtonLine={renderButtonLine}
       renderButtonLineSecondary={renderButtonLineSecondary}
@@ -127,14 +130,14 @@ function Header(props) {
   );
 }
 
-function renderButtonLineSecondary({ timeConfig, podId }) {
+function renderButtonLineSecondary({ timeConfig, podId, kubernetesTimeShiftSelectTracker, workloadControllerType }) {
   return (
     <>
-      {beeInstanaInfraMetricsEnabled && (
+      {beeInstanaInfraMetricsEnabled && beeinstanaInfraMetricsWithTimeshiftEnabled && (
         <TimeShiftDropdown
           onChange={offset =>
-            applicationTimeShiftSelectTracker({
-              area: 'pod',
+            kubernetesTimeShiftSelectTracker({
+              area: workloadControllerType,
               offset: getTimeShiftLabel({ offset: offset }),
               windowSize: timeConfig.windowSize,
               autoRefresh: timeConfig.autoRefresh

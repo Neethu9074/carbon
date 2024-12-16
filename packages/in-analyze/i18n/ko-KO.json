@@ -111,6 +111,7 @@
       "summary": {
         "logs": "로그",
         "analyzeLogs": "분석으로 보기",
+        "logsCardDescription": "이는 미리보기입니다. 분석에서 모든 로그를 확인하십시오.",
         "correspondingMobileAppActivity": "해당하는 모바일 앱 활동",
         "hideMobileAppInformation": "모바일 앱 정보 숨기기",
         "showMobileAppInformation": "모바일 앱 정보 표시",
@@ -158,6 +159,7 @@
         "cacheInteraction": "캐시 상호작용",
         "instanaDoesNotMonitorTheLocationOfThisCall": "Instana는 이 호출의 {{location}}을(를) 모니터하지 않음",
         "tags": "태그",
+        "metrics": "메트릭",
         "loading": "통화 세부사항을 로드 중입니다.",
         "labelError": "예기치 않은 오류",
         "retryError": "통화 세부사항을 로드할 수 없습니다.",
@@ -165,7 +167,11 @@
         "selfTime": "자가 시간",
         "networkTime": "네트워크 시간",
         "waitingTime": "대기 시간",
-        "latency": "대기 시간"
+        "latency": "대기 시간",
+        "findSQL": "{{type}}에서 SQL 찾기",
+        "sumOfLatencies": "지연 시간 합계",
+        "elapsedTime": "경과 시간",
+        "batchTooltip": "{{batchCount}}개의 일괄 처리 통화에 대한 총 {{type}}입니다."
       },
       "callTree": {
         "expandButtonForRow": "모든 하위 호출 펼치기",
@@ -272,6 +278,7 @@
     "titleParameters": "매개변수",
     "analyzeLogsLabel": "로그 분석",
     "similarLogs": "유사한 로그",
+    "message": "메시지",
     "similarServiceLogs": "이 서비스의 컨텍스트에서 로그인 표시",
     "restrictedAccessExpl": "이 정보에 액세스할 수 있는 권한이 없습니다."
   },
@@ -280,6 +287,7 @@
     "labelNetwork": "네트워크",
     "labelSelf": "셀프",
     "labelWaiting": "대기 중",
+    "labelElapsed": "경과",
     "labelService": "서비스",
     "labelEndpoint": "엔드포인트",
     "labelAggregatedTime": "집계된 시간",
@@ -310,7 +318,6 @@
   "resultHeaderTooltip": "이 보기를 더 빨리 로드할 수 있도록 조회 시간 범위가 가장 근접한 분 단위로 반올림되었습니다.",
   "components": {
     "analyzeHeader": {
-      "beta": "베타",
       "analytics": "분석"
     },
     "filterBar": {

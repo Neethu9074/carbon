@@ -2,6 +2,7 @@
   "components": {
     "accountSettings": {
       "accountSettings": "Account Settings",
+      "unknownDomain": "Unknown Domain",
       "billingAddress": "Billing Address",
       "country": "Country",
       "state": "State",
@@ -15,10 +16,17 @@
       "name": "Name",
       "tenant": "Tenant",
       "type": "Type",
-      "licenseStartData": "License Start Data",
-      "licenseEndData": "License End Data",
+      "licenseStartData": "License Start Date",
+      "licenseEndData": "License End Date",
       "licensedApmHosts": "Licensed APM Hosts",
       "licensedIqmHosts": "Licensed IQM Hosts"
+    },
+    "learnMore":{
+      "title": "Learn more about Instana’s Fair Use Policy",
+      "leftTitle":"What is the Fair Use Policy?",
+      "rightTitle":"How do I buy more data?",
+      "leftBody":"Instana's Fair Use Policy outlines the monthly data allowance associated with your license type. To learn more and explore resource usage guidelines, check out the <fupDocLink>Fair Use Policy documentation</fupDocLink>.",
+      "rightBody":"If you anticipate an ongoing need for additional data usage, reach out to your Instana sales representative to explore add-on options. Get in touch with Sales <salesLink>here</salesLink>."
     },
     "ampInformationModifier": {
       "allPaidUnitsAggregated": "All paid units (aggregated)",
@@ -26,6 +34,12 @@
     },
     "noLicenseAvailableMessage": {
       "thereHasBeenNoActivePaidLicenseInThePast30Days": "There has been no active paid license in the past 30 days."
+    },
+    "fairUsePolicyMessage": {
+      "title": "This account is subject to Fair Use Policy. See data usage in charts below."
+    },
+    "fairUsePolicyNotActive": {
+      "title": "Fair Use Policy is not active."
     },
     "restrictedUsage": {
       "accountUsage": "Account Usage"
@@ -36,10 +50,34 @@
       "max": "Max",
       "average": "Average"
     },
+    "dataIngestTable": {
+      "consumptionOverview": "Consumption Overview",
+      "row": "Row",
+      "unit": "Unit",
+      "calculation": "Calculation",
+      "entitledNumberOfMVS": "Entitled Number of MVS",
+      "actualAverage": "Actual Average Configured Number of MVS",
+      "onDemandNumber": "On-Demand number of MVS",
+      "dataIngestFairUseEntitlement": "Data Ingest fair-use entitlement per MVS",
+      "totalDataIngestFairUseEntitlement": "Total Data Ingest fair-use entitlement",
+      "dataIngestAddOnEntitlement": "Data Ingest Add-on entitlement",
+      "totalAmountPurchased": "Total amount purchased via extra data-ingest add-on",
+      "dataIngestEntitlementFromOnDemand": "Data Ingest fair-Use Entitlement from On-Demand MVS",
+      "totalDataIngestEntitlement": "Total Data Ingest Entitlement",
+      "actualDataIngest": "Actual Data-Ingest",
+      "onDemandDataIngest": "On-Demand Data-Ingest",
+      "noData": "No data"
+    },
     "timePresets": {
       "last7Days": "Last 7 days",
-      "last15Days": "Last 15 days",
-      "last365Days": "Last 365 days"
+      "last30Days": "Last 30 days",
+      "last365Days": "Last 365 days",
+      "thisMonth": "This Month",
+      "lastMonth": "Last Month"
+    },
+    "presentationPresets": {
+      "distinct": "Distinct values",
+      "cumulative": "Cumulated values"
     },
     "usages": {
       "allPaidUnitsAggregated": "All paid units (aggregated)",
@@ -49,16 +87,31 @@
       "queuedLicenses": "Queued Licenses"
     },
     "usageCharts": {
-      "apmUsage": "APM Usage",
+      "standard": "Standard",
       "apmHosts": "APM Hosts",
       "purchased": "Purchased",
-      "infrastructureUsage": "Infrastructure Usage",
+      "essentials": "Essentials",
       "iqmHosts": "IQM Hosts",
-      "syntheticPops":"Synthetic Managed PoPs",
-      "resourceUnits":"Resource Units",
-      "consumedUnits":"Consumed Units",
-      "addons":"Add-ons",
-      "helperText": "Number of resource units consumed by each type of action. Units are calculated with a factor of 0.025 for simple tests, 0.042 for API tests, and 1.000 for browser tests."
+      "syntheticPops": "Synthetic Managed PoPs",
+      "logging": "Logs in context",
+      "resourceUnits": "Entitled resource units",
+      "consumedUnits": "Consumed resource units",
+      "entitledData": "Entitled data",
+      "consumedData": "Consumed data",
+      "infrastructure": "Infrastructure",
+      "synthetics": "Synthetics",
+      "traces": "Traces",
+      "eumMobile": "EUM Mobile",
+      "eumWebsite": "EUM Website",
+      "addons": "Add-ons",
+      "trendLine": "Trendline",
+      "dataUsage": "Data usage",
+      "dataUsageHelperText": "Amount of bytes sent through agents separated by category in the chosen timeframe.",
+      "syntheticsHelperText": "Number of resource units consumed by each type of action. Units are calculated with a factor of 0.025 for simple tests, 0.042 for API tests, and 1.000 for browser tests.",
+      "loggingHelperText": {
+        "saas": "This chart displays the amount of data in bytes used by the logging add-on for the chosen retention period.",
+        "onprem": "This chart displays the amount of data in bytes used by the logging add-on for the chosen retention period."
+      }
     },
     "activationAdoption": {
       "activationAdoption": "Activation & Adoption",
@@ -86,7 +139,7 @@
         "numOfApplicationPerspectives": "# APs",
         "numOfReportingApplicationPerspectives": "# Reporting APs",
         "numOfWebsites": "# Websites",
-        "numOfAlertChannels": "# Alert Channels",
+        "numOfAlertChannels": "# Alert channels",
         "numOfAlerts": "# Alerts",
         "numOfActiveAlerts": "# Active Alerts",
         "numOfReleases": "# Release Markers / # Releases",
@@ -102,7 +155,7 @@
         "metric_all_alerts": "All Alerts",
         "metric_active_alerts": "Active Alerts",
         "metric_mobile_apps": "Mobile Apps",
-        "metric_alert_channels": "Alert Channels",
+        "metric_alert_channels": "Alert channels",
         "metric_custom_dashboards": "Custom Dashboards",
         "metric_releases": "Releases"
       },

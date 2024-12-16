@@ -6,6 +6,8 @@
 import React, { useState, ReactElement, MouseEvent, PropsWithChildren } from 'react';
 import classNames from 'classnames';
 
+import { CarbonLayer } from '@instana/components';
+
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import Header from 'in-components/Dialog/Header';
 
@@ -50,26 +52,28 @@ export default function Dialog({
       onClick={e => (doNotCloseOnOutsideClick ? stopPropagationAndPreventDefault(e) : onClose(e))}
     >
       <section className={classNames(locals.dialog, className)} onClick={stopPropagation}>
-        {!headless && (
-          <Header
-            icon={titleIconType}
-            onIconClick={onTitleIconClick}
-            title={title}
-            renderCustomCloseBehaviour={renderCustomCloseBehaviour}
-            onClose={onClose}
-            closeTooltip={closeTooltip}
-            addScrollShadow={scrollshadow}
-          />
-        )}
-        <div
-          className={classNames(locals.body, locals.withRoundedBottomBorder, {
-            [locals.withoutPadding]: withoutBodyPadding,
-            [locals.showOverflow]: showOverflow
-          })}
-          onScroll={e => setScrollshadow(e.currentTarget?.scrollTop > 0)}
-        >
-          {children}
-        </div>
+        <CarbonLayer>
+          {!headless && (
+            <Header
+              icon={titleIconType}
+              onIconClick={onTitleIconClick}
+              title={title}
+              renderCustomCloseBehaviour={renderCustomCloseBehaviour}
+              onClose={onClose}
+              closeTooltip={closeTooltip}
+              addScrollShadow={scrollshadow}
+            />
+          )}
+          <div
+            className={classNames(locals.body, locals.withRoundedBottomBorder, {
+              [locals.withoutPadding]: withoutBodyPadding,
+              [locals.showOverflow]: showOverflow
+            })}
+            onScroll={(e: { currentTarget: { scrollTop: number } }) => setScrollshadow(e.currentTarget?.scrollTop > 0)}
+          >
+            {children}
+          </div>
+        </CarbonLayer>
       </section>
     </div>
   );

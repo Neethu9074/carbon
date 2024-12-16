@@ -6,16 +6,15 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Typography } from '@instana/components';
-import { SvgIcon } from '@instana/components';
+import { Checkbox } from '@instana/components';
 
+import LabelDescriptionWithIcon from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/LabelDescriptionWithIcon';
 import {
   hasSubEntitySelection,
   resetEntitySelection
 } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
@@ -25,41 +24,45 @@ export default function IncludeInternalOrSyntheticCallsSwitch({
   form,
   updateForm,
   isGlobalSmartAlert,
-  isTearsheet = false
+  tearSheetView = false
 }) {
   const includeInternal = form.get('includeInternal').value;
   const includeSynthetic = form.get('includeSynthetic').value;
   const applications = form.get('applications').value;
 
-  const includeInternalLabelContent = getLabelDescriptionWithIcon(
-    'lib_application_call',
-    callLabels['includeInternal'],
-    t('in-alerting:smartAlerts.applications.tearSheet.hiddenCalls.config.includeInternal.text')
+  const includeInternalLabelContent = (
+    <LabelDescriptionWithIcon
+      icon={'lib_application_call'}
+      label={callLabels['includeInternal']}
+      description={t('in-alerting:smartAlerts.applications.tearSheet.hiddenCalls.config.includeInternal.text')}
+    />
   );
 
-  const includeSyntheticLabelContent = getLabelDescriptionWithIcon(
-    'lib_synthetic',
-    callLabels['includeSynthetic'],
-    t('in-alerting:smartAlerts.applications.tearSheet.hiddenCalls.config.includeSynthetic.text')
+  const includeSyntheticLabelContent = (
+    <LabelDescriptionWithIcon
+      icon={'lib_synthetic'}
+      label={callLabels['includeSynthetic']}
+      description={t('in-alerting:smartAlerts.applications.tearSheet.hiddenCalls.config.includeSynthetic.text')}
+    />
   );
 
   return (
     <div
       className={classNames({
-        [locals.container]: !isTearsheet
+        [locals.container]: !tearSheetView
       })}
     >
       <Row>
-        <Col lg={6} className={locals.column}>
-          <CheckboxFancy
-            label={isTearsheet ? includeInternalLabelContent : callLabels['includeInternal']}
+        <Col lg={6} md={6} className={classNames({ [locals.column]: !tearSheetView, [locals.gap]: tearSheetView })}>
+          <Checkbox
+            label={tearSheetView ? includeInternalLabelContent : callLabels['includeInternal']}
             checked={includeInternal}
             onChange={() => handleChange('includeInternal', includeInternal)}
           />
         </Col>
-        <Col lg={6} className={locals.column}>
-          <CheckboxFancy
-            label={isTearsheet ? includeSyntheticLabelContent : callLabels['includeSynthetic']}
+        <Col lg={6} md={6} className={classNames({ [locals.column]: !tearSheetView, [locals.gap]: tearSheetView })}>
+          <Checkbox
+            label={tearSheetView ? includeSyntheticLabelContent : callLabels['includeSynthetic']}
             checked={includeSynthetic}
             onChange={() => handleChange('includeSynthetic', includeSynthetic)}
           />
@@ -120,21 +123,3 @@ const callLabels = Object.freeze({
     'in-alerting:smartAlerts.applications.advanced.includeInternalOrSyntheticCalls.includeSyntheticCalls'
   )
 });
-
-function getLabelDescriptionWithIcon(icon, label, description) {
-  return (
-    <div className={locals.wrapper}>
-      <SvgIcon type={icon} className={locals.icon} />
-      <div className={locals.content}>
-        <Typography variant="body-large">
-          <div className={locals.title}>{label}</div>
-        </Typography>
-        <div className={locals.description}>
-          <Typography variant="body-small">
-            <p className={locals.description}>{description}</p>
-          </Typography>
-        </div>
-      </div>
-    </div>
-  );
-}

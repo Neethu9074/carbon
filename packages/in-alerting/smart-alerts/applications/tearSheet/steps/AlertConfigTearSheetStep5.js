@@ -6,38 +6,31 @@
 
 import React from 'react';
 
-import { Typography } from '@instana/components';
+import { Spacer, Typography } from '@instana/components';
 
 import useTagBasedApplicationPayloadConfigurator from 'in-alerting/smart-alerts/applications/hooks/useTagBasedApplicationPayloadConfigurator';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
+import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/tearSheet/AlertProperties/AlertPropertiesTitleRow';
 import { ApplicationAlertPreview } from 'in-alerting/smart-alerts/applications/dialog/advanced/ApplicationAlertPreview';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
-import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
 import { placeholdersByEvaluationType } from 'in-alerting/smart-alerts/applications/inventory/placeholders';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
-import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
+import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearSheetStep5.mless';
 
-export default function AlertConfigTearSheetStep5({
-  form,
-  updateForm,
-  onChange,
-  setSliderState,
-  setCustomSlideInHeaderConfig,
-  applicationLabel
-}) {
+export default function AlertConfigTearSheetStep5({ form, updateForm, onChange, applicationLabel }) {
   const evaluationType = form.get('evaluationType').value;
   const description = form.get('description').value;
-  const severity = Number(form.get('severity').value);
   const triggering = form.get('triggering').value;
   const boundaryScope = form.get('boundaryScope')?.value || 'ALL';
   const applications = form.get('applications')?.value || {};
   const TagBasedPayloadConfigurator = useTagBasedApplicationPayloadConfigurator(applications, boundaryScope);
+
   return (
     <>
       <TearSheetStepContentWrapper
@@ -59,6 +52,8 @@ export default function AlertConfigTearSheetStep5({
                   getTitlePlaceholder={getTitlePlaceholder}
                 />
               )}
+              isTearSheet
+              shouldDisplayAlertLevelSelection={false}
             />
           )}
           renderAlertPreview={() => (
@@ -71,19 +66,23 @@ export default function AlertConfigTearSheetStep5({
                 description={description}
                 applicationLabel={applicationLabel}
                 evaluationType={evaluationType}
-                severity={severity}
                 triggering={triggering}
+                isTearSheet
               />
             </div>
           )}
           isTearSheet
         />
       </TearSheetStepContentWrapper>
-
-      <TearSheetStepContentWrapper
-        headline={t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.payloadsOptional.title')}
-        isFullWidth
-      >
+      <Spacer vertical="medium" />
+      <Spacer vertical="xxsmall" />
+      <>
+        <AlertTypography
+          variant={'heading-200'}
+          color={'color900'}
+          content={t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.payloadsOptional.title')}
+          noMargin
+        />
         <div className={locals.columnContainer}>
           <GlobalCustomPayloadCard context="APPLICATION" />
           <AlertConfigCustomPayload
@@ -91,22 +90,10 @@ export default function AlertConfigTearSheetStep5({
             setForm={updateForm}
             TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
             supportDynamicTypes
+            isTearSheet
           />
         </div>
-      </TearSheetStepContentWrapper>
-
-      <TearSheetStepContentWrapper
-        headline={t('in-alerting:smartAlerts.applications.tearSheet.AlertChannelTitle')}
-        isFullWidth
-      >
-        <ConfigureAlertChannel
-          form={form}
-          onChange={onChange}
-          setSliderState={setSliderState}
-          setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
-          numberOfAlertChannelListRows={7}
-        />
-      </TearSheetStepContentWrapper>
+      </>
     </>
   );
 }

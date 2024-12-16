@@ -12,7 +12,7 @@ import { host as hostType, container as containerType, process as processType } 
 import { entityTypeToFullyQualifiedPlugin } from 'in-infrastructure/tableView/stores/snapshotIds';
 import columnDefinitions from 'in-cockpit/widgets/InfrastructureTopList/columnDefinitions';
 import TopListWidget, { getFlattenedIds } from 'in-cockpit/widgets/TopListWidget';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { physicalTablePath } from 'in-stores/navigation/paths/mainPaths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -27,6 +27,7 @@ import { t } from 'in-i18n';
 export default function InfrastructureTopList({ config }) {
   const [selectedType, setSelectedType] = useState('host');
   const { location, createHref } = useNavigation();
+  const getDashboardLink = useGetDashboardLink();
   const fullListViewLocation = { ...location, pathname: physicalTablePath };
   setOrDeleteMatrixKey(fullListViewLocation, physicalTablePath, 'plugin', selectedType);
 

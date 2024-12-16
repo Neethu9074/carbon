@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { ColumnizedContent, Li, Ul, Message } from '@instana/components';
+import { ColumnizedContent, Li, Ul, Message, Checkbox } from '@instana/components';
 import { LiLoadMore } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
@@ -17,7 +17,6 @@ import { stateManagementPropType } from 'in-alerting/smart-alerts/applications/s
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import ValidationBlock from 'in-components/form/ValidationBlock';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import IconLabel from 'in-alerting/components/IconLabel';
 import { noop } from 'in-services/util/function';
@@ -51,14 +50,15 @@ export default function SharedList({
   initiallyOpen,
   timeConfig,
   isFramed = true,
-  viewOnly
+  viewOnly,
+  tearSheetView
 }) {
   const columnDefinitions = [
     {
       width: '2.5rem',
       getContent({ checked, indeterminate, onChange, virtuallyChecked, viewOnly }) {
         return (
-          <CheckboxFancy
+          <Checkbox
             onChange={viewOnly ? noop : onChange}
             checked={checked}
             indeterminate={indeterminate}
@@ -144,7 +144,7 @@ export default function SharedList({
             key={_id}
             renderNestedContent={renderSubList?.(itemTreeIds)}
             toggleContentOnRowClick={Boolean(renderSubList)}
-            className={locals.listItem}
+            className={classNames({ [locals.listItem]: !tearSheetView, [locals.lightBgListItem]: tearSheetView })}
             initiallyOpen={initiallyOpen}
           >
             <StaleItemPropsInjector
@@ -179,7 +179,9 @@ export default function SharedList({
           </Li>
         );
       })}
-      {canLoadMore && <LiLoadMore loadMore={loadMore} />}
+      {canLoadMore && (
+        <LiLoadMore loadMore={loadMore} className={classNames({ [locals.greyBackground]: tearSheetView })} />
+      )}
       {isLoading && <LoadingList numSkeletonRows="1" />}
       {!shouldShowPlaceholderForEmptySelection && !isLoading && !listData?.length && (
         <NoDataAvailable text={noDataCustomText()} height={86} />
@@ -243,5 +245,6 @@ SharedList.propTypes = {
   initiallyOpen: PropTypes.bool,
   timeConfig: propTypeTimeConfig,
   isFramed: PropTypes.bool,
-  viewOnly: PropTypes.bool
+  viewOnly: PropTypes.bool,
+  tearSheetView: PropTypes.bool
 };

@@ -7,15 +7,14 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { LocationListItem, SyntheticDatacenter } from '@instana/types';
-import { Link, Typography } from '@instana/components';
+import { Link, Typography, Checkbox } from '@instana/components';
+import { SyntheticDatacenter } from '@instana/types';
 import { just } from '@instana/observables';
 
 import ActivateConfirmationDialog from 'in-synthetics/dashboards/global/tabs/locations/components/ActivateConfirmationDialog';
 // eslint-disable-next-line no-restricted-imports
 import List, { ColumnDefinition } from 'in-settings/components/List';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
@@ -26,8 +25,7 @@ import { Trans, t } from 'in-i18n';
 import locals from 'in-synthetics/dashboards/global/tabs/locations/components/DeactivateSelectedLocation.mless';
 
 interface Props {
-  item: LocationListItem;
-  datacenters: SyntheticDatacenter[];
+  datacenter: SyntheticDatacenter[];
   onClose: () => void;
 }
 
@@ -39,7 +37,7 @@ export const getColumnDefinitions = (): Array<ColumnDefinition<SyntheticDatacent
       label: t('in-synthetics:dialog.createLocation.managedLocation.datacenterCode'),
       defaultOrderDirection: 'ASC',
       getContent(entity: SyntheticDatacenter) {
-        return <CheckboxFancy label={entity?.code} checked onChange={() => true} />;
+        return <Checkbox label={entity?.code} checked onChange={() => true} />;
       }
     },
     {
@@ -79,27 +77,18 @@ export const getColumnDefinitions = (): Array<ColumnDefinition<SyntheticDatacent
   ];
 };
 
-const ActivateSelectedLocation = ({ item, datacenters, onClose }: Props) => {
+const ActivateSelectedLocation = ({ datacenter, onClose }: Props) => {
   const managedPopDocsUrl = 'https://ibm.biz/Instana-hosted_PoP';
-  /**
-   * If Datacenter status is Inactive
-   * We need to construct the datacenterId (-provider-code-cityName)
-   * to be able to filter the list of datacenters on location label.
-   */
-  const singleDatacenter = datacenters?.filter(data => {
-    const id = `-${data?.provider}-${data?.code}-${data?.cityName}`;
-    return item.label.endsWith(id);
-  });
 
   const onActivate = () => {
     onClose();
-    addActiveDialog(<ActivateConfirmationDialog singleDatacenter={singleDatacenter} onClose={onClose} />);
+    addActiveDialog(<ActivateConfirmationDialog singleDatacenter={datacenter} onClose={onClose} />);
   };
 
   const customButtons = (
     <>
       <CancelButton onClick={onClose} isSaving={false} />
-      <SaveButton kind="primary" isSaving={false} disabled={singleDatacenter[0]?.status != 'Inactive'}>
+      <SaveButton kind="primary" isSaving={false} disabled={datacenter[0]?.status != 'Inactive'}>
         {t('in-synthetics:dialog.createLocation.managedLocation.activate')}
       </SaveButton>
     </>
@@ -130,7 +119,7 @@ const ActivateSelectedLocation = ({ item, datacenters, onClose }: Props) => {
       <List<SyntheticDatacenter>
         getHeader={() => null}
         columnDefinitions={getColumnDefinitions()}
-        loadEntities={() => just(singleDatacenter)}
+        loadEntities={() => just(datacenter)}
         renderNoDataAvailable={() => (
           <NoDataAvailable
             type="lib_synthetic"

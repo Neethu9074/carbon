@@ -7,7 +7,7 @@ import { createField, createMapForm } from 'formalistic';
 import { get } from 'lodash';
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import EditConfigDialog from 'in-applications/Forms/components/EditConfigDialog';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';

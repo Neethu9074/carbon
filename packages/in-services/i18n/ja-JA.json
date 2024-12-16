@@ -1,6 +1,6 @@
 {
   "shortcuts": {
-    "help": "Instana のいくつかの重要な機能は、キーボード・ショートカットを使用してアクティブにできます。\n\n - 「c」: マップの中央揃え\n - 「f」: 検索バーを開いてフォーカスする\n - 「esc」: 現在表示されているサイドバー/ダッシュボードを閉じる\n - 「shift + ?」: ショートカットのヘルプ・ダイアログを開く",
+    "help": "Instana のいくつかの重要な機能は、キーボード・ショートカットを使用して起動することができます。\n\n - `c`: マップを中央に表示\n - `f`: 検索バーを開いてフォーカスする\n - `esc`: 現在表示されているサイドバー/ダッシュボードを閉じる\n - `shift + ?`: ショートカットのヘルプ・ダイアログを開く",
     "shortcuts": "ショートカット"
   },
   "formatters": {
@@ -15,7 +15,15 @@
     "byteUnits_EiB": "{{num}} EiB",
     "byteUnits_ZiB": "{{num}} ZiB",
     "byteUnits_YiB": "{{num}} YiB",
-    "perSec": "{{num}}/秒",
+    "byteUnits_kB": "{{num}} kB",
+    "byteUnits_MB": "{{num}} MB",
+    "byteUnits_GB": "{{num}} GB",
+    "byteUnits_TB": "{{num}} TB",
+    "byteUnits_PB": "{{num}} PB",
+    "byteUnits_EB": "{{num}} EB",
+    "byteUnits_ZB": "{{num}} ZB",
+    "byteUnits_YB": "{{num}} YB",
+    "perSec": "{{num}}/s",
     "perSec2": "{{num}} / 秒",
     "noActivity": "アクティビティーなし",
     "percent": "{{num}}%",
@@ -26,12 +34,12 @@
     "timeUnits_ns": "{{num}} ナノ秒",
     "timeUnits_us": "{{num}} マイクロ秒",
     "timeUnits_ms": "{{num}} ミリ秒",
-    "timeUnits_s": "{{num}} 秒",
+    "timeUnits_s": "{{num}}s",
     "timeUnits_min": "{{num}} 分",
-    "timeUnits_h": "{{num}} 時間",
-    "timeUnits_d": "{{num}} 日",
+    "timeUnits_h": "{{num}}h",
+    "timeUnits_d": "{{num}}d",
     "temperature": "{{num}}°C",
-    "lt1ms": "< 1 ミリ秒"
+    "lt1ms": "< 1ms"
   },
   "validators": {
     "timeDoesNotHaveTheFormat": "時刻の形式が {{timeFormat}} ではありません",

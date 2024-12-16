@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 
@@ -16,7 +16,6 @@ import {
   sortListBySelectionState
 } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/utils';
 import {
-  createApplicationNameTagFilter,
   createEndpointNameTagFilter,
   createServiceNameTagFilter
 } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/tagFilterCreators';
@@ -28,10 +27,10 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import useCursorPagination from 'in-hooks/useCursorPagination';
+import { hasError, isLoading } from 'in-services/util/result';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isNotBlank } from 'in-services/util/string';
-import { isLoading } from 'in-services/util/result';
 import { noop } from 'in-services/util/function';
 
 export default function ApplicationsList({ isGlobalSmartAlert, searchQuery, ...props }) {
@@ -51,6 +50,7 @@ export default function ApplicationsList({ isGlobalSmartAlert, searchQuery, ...p
       />
     ) : (
       <ApplicationListMultipleApplications
+        key={trimmedSearchQuery}
         {...props}
         searchQuery={trimmedSearchQuery}
         getStaleEntity={getStaleEntity}
@@ -62,38 +62,121 @@ export default function ApplicationsList({ isGlobalSmartAlert, searchQuery, ...p
 }
 
 function ApplicationListMultipleApplications({ getApplicationsCursorPaginated, ...props }) {
-  const { includeSynthetic, timeConfig, searchQuery } = props;
+  const {
+    includeSynthetic,
+    includeInternal,
+    timeConfig,
+    searchQuery,
+    searchType,
+    retrievalSize = DEFAULT_PAGE_SIZE,
+    boundaryScope
+  } = props;
 
-  const { items = [], ...tableProps } = useCursorPagination(
-    ({ cursor }) =>
-      getApplicationsCursorPaginated({
-        pagination: {
-          cursor,
-          retrievalSize: DEFAULT_PAGE_SIZE
-        },
-        order: {
-          by: 'applicationLabel',
-          direction: 'ASC'
-        },
-        metrics: {},
-        filter: {
-          timeConfig,
-          includeSyntheticCalls: includeSynthetic
-        },
-        tagFilterExpression: buildTagFilterExpression(searchQuery)
-      }),
-    [searchQuery, includeSynthetic, timeConfig]
+  const searchResult = useFilteredCursorPagination(
+    getApplicationsCursorPaginated,
+    item => item.metrics.callsAgg[0][1] > 0,
+    retrievalSize,
+    searchType,
+    searchQuery,
+    boundaryScope,
+    includeSynthetic,
+    includeInternal,
+    timeConfig
   );
 
   return (
     <ApplicationBaseList
       {...props}
-      {...tableProps}
-      items={items}
-      isLoading={isLoading(tableProps)}
-      initiallyOpen={Boolean(searchQuery) && items.length > 0}
+      {...searchResult}
+      isLoading={isLoading(searchResult)}
+      initiallyOpen={Boolean(searchQuery) && searchType !== 'APPLICATION'}
     />
   );
+}
+
+/**
+ * Custom cursor pagination hook, which filters the results based on a filter function.
+ * However, in order to fulfill {@link retrievalSize}, it uses an incremental loading mechanism with over-fetching.
+ */
+function useFilteredCursorPagination(
+  getApplicationsCursorPaginated,
+  itemFilter,
+  retrievalSize,
+  searchType,
+  searchQuery,
+  boundaryScope,
+  includeSynthetic,
+  includeInternal,
+  timeConfig
+) {
+  const { items = [], ...tableProps } = useCursorPagination(
+    ({ cursor }) =>
+      getApplicationsCursorPaginated({
+        pagination: {
+          cursor,
+          retrievalSize: retrievalSize * 3 // over-fetching reduces the chance of having to repeat queries to complete the list when items are filtered
+        },
+        order: {
+          by: 'applicationLabel',
+          direction: 'ASC'
+        },
+        metrics: {
+          callsAgg: {
+            metric: 'calls',
+            aggregation: 'SUM'
+          }
+        },
+        filter: {
+          label: searchType === 'APPLICATION' && isNotBlank(searchQuery) ? searchQuery : undefined,
+          applicationBoundaryScope: boundaryScope,
+          timeConfig,
+          includeSyntheticCalls: includeSynthetic,
+          includeInternalCalls: includeInternal
+        },
+        tagFilterExpression:
+          searchType !== 'APPLICATION' && isNotBlank(searchQuery)
+            ? buildTagFilterExpression(searchType, searchQuery)
+            : undefined
+      }),
+    [searchType, searchQuery, includeSynthetic, includeInternal, timeConfig]
+  );
+
+  const { loadMore, canLoadMore } = tableProps;
+  const [maxVisibleItems, setMaxVisibleItems] = useState(retrievalSize);
+
+  // To really exclude calls that respect all filters, such as boundary scope,
+  // we need to check whether there are no matching calls on the client side as a workaround.
+  // More details: https://github.ibm.com/instana/ui-client/pull/18168#discussion_r9667739
+  const filteredAppItemsAll = items.filter(itemFilter);
+  const filteredAppItems = filteredAppItemsAll.slice(0, maxVisibleItems);
+
+  const isLoaded = !isLoading(tableProps) && !hasError(tableProps);
+
+  const incrementalLoadMore = useCallback(() => {
+    if (!isLoaded) {
+      return;
+    }
+    if (maxVisibleItems + retrievalSize + 1 > filteredAppItemsAll.length && canLoadMore) {
+      loadMore();
+    }
+    setMaxVisibleItems(maxVisibleItems => maxVisibleItems + retrievalSize);
+  }, [maxVisibleItems, retrievalSize, filteredAppItemsAll, canLoadMore, setMaxVisibleItems, loadMore, isLoaded]);
+
+  const incrementalCanLoadMore = isLoaded && (canLoadMore || filteredAppItemsAll.length > filteredAppItems.length);
+
+  useEffect(() => {
+    const tooSmallAfterFiltering = isLoaded && canLoadMore && retrievalSize > filteredAppItems.length;
+    if (tooSmallAfterFiltering) {
+      loadMore();
+    }
+  }, [loadMore, canLoadMore, retrievalSize, filteredAppItems.length, tableProps, isLoaded]);
+
+  return {
+    ...tableProps,
+    items: filteredAppItems,
+    loadMore: incrementalLoadMore,
+    canLoadMore: incrementalCanLoadMore
+  };
 }
 
 function ApplicationListSingleApplication({ appIdForIndividualSmartAlert, getApplication, ...props }) {
@@ -106,12 +189,12 @@ function ApplicationListSingleApplication({ appIdForIndividualSmartAlert, getApp
       []
     ) ?? pendingResult;
 
-  const initiallyOpen = Boolean(props.searchQuery) && applicationResult.items.length > 0;
+  const initiallyOpen = Boolean(props.searchQuery) && props.searchType !== 'APPLICATION';
 
   return (
     <ApplicationBaseList
       {...props}
-      key={initiallyOpen} //force rerender to show/render expanded list
+      key={initiallyOpen} // force rerender to show/render expanded list
       items={applicationResult.items}
       isLoading={isLoading(applicationResult)}
       loadMore={noop}
@@ -146,9 +229,10 @@ function ApplicationBaseList({ items = [], isLoading, getStaleEntity, initiallyO
       }
       validationError={validationError}
       /* eslint-disable-next-line react/display-name */
-      renderSubList={({ applicationId }) => () => {
-        return <ServicesList {...props} parentIds={{ applicationId }} />;
-      }}
+      renderSubList={({ applicationId }) =>
+        () => {
+          return <ServicesList {...props} parentIds={{ applicationId }} />;
+        }}
       stateProcessors={{
         entityType: 'APPLICATION',
         getTooltipSettings() {
@@ -197,18 +281,25 @@ function hasUserInteractedWithItem(state) {
   return itemTreeIds => Boolean(selectApplication(state, itemTreeIds));
 }
 
-function buildTagFilterExpression(searchQuery) {
+function buildTagFilterExpression(searchType, searchQuery) {
   let tfe = [];
 
+  // FIXME When boundary scope "Inbound call" option is used, we should actually only return APs where there is a matching
+  //       service or endpoint for calls that are inbound. Currently, we also return APs, which in the nested ServicesList
+  //       have no services listed.
   if (isNotBlank(searchQuery)) {
-    tfe = joinExpressions({
-      logicalOperator: or,
-      expressions: [
-        createApplicationNameTagFilter(searchQuery),
-        createServiceNameTagFilter(searchQuery),
-        createEndpointNameTagFilter(searchQuery)
-      ]
-    });
+    if (searchType === 'SERVICE') {
+      tfe = joinExpressions({
+        logicalOperator: or,
+        expressions: [createServiceNameTagFilter(searchQuery)]
+      });
+    }
+    if (searchType === 'ENDPOINT') {
+      tfe = joinExpressions({
+        logicalOperator: or,
+        expressions: [createEndpointNameTagFilter(searchQuery)]
+      });
+    }
   }
 
   return toBackendQueryModel(tfe);

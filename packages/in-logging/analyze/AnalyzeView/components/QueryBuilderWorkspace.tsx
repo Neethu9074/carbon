@@ -10,12 +10,6 @@ import { themes } from '@instana/design-tokens';
 import { TagFilter } from '@instana/types';
 
 import {
-  FilterAddedTrackingPayload,
-  ua2GroupChangedTracker,
-  ua2NestingDepthTracker,
-  ua2QueryBuilderFilterAddedTracker
-} from 'in-applications/tracker';
-import {
   getMaximumExpressionDepth,
   toBackendQueryModel
 } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -25,7 +19,7 @@ import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuild
 import LogsQueryBuilder from 'in-logging/analyze/AnalyzeView/workspace/LogsQueryBuilder';
 import { StateManagementChildProps } from 'in-components/AnalyzeView/StateManagement';
 import { QueryBuilderTrackingFunctions } from 'in-components/QueryBuilder';
-import ViewSwitcher from 'in-logging/analyze/AnalyzeView/ViewSwitcher';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { logSmartAlertsEnabled } from 'in-services/featureFlags';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
@@ -40,6 +34,7 @@ interface LoggingQueryBuilderWorkspaceProps extends StateManagementChildProps {
   children: React.ReactNode;
   validationError?: string;
 }
+type FilterAddedTrackingPayload = { dataSource: string; tagName: string; tagFilter?: TagFilter };
 export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderWorkspaceProps) {
   const {
     formModel,
@@ -54,7 +49,7 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
     isLoading,
     groupBy
   } = props;
-
+  const { trackUa2QueryBuilderFilterAdded, trackUa2NestingDepth, trackUa2GroupChanged } = useAnalyzeTracker();
   const tracking: QueryBuilderTrackingFunctions = {
     onTagAdded: tagFilter => {
       const tagName = (tagFilter as TagFilter).name;
@@ -62,10 +57,10 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
       if (!tagName) {
         trackingPayload.tagFilter = tagFilter as TagFilter;
       }
-      ua2QueryBuilderFilterAddedTracker(trackingPayload);
+      trackUa2QueryBuilderFilterAdded(trackingPayload);
     },
     onQueryChanged: _formModel =>
-      ua2NestingDepthTracker({
+      trackUa2NestingDepth({
         dataSource,
         nestingDepth: getMaximumExpressionDepth(toBackendQueryModel(_formModel))
       })
@@ -81,7 +76,6 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
             liveModeDisabledTooltip={t('in-logging:liveModeDisabled')}
             withoutShadow={logSmartAlertsEnabled}
           />
-          {logSmartAlertsEnabled && <ViewSwitcher />}
         </>
       }
       backgroundColor={themes.default.ids.color.option.white}
@@ -105,7 +99,7 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
               GroupingConfigurator={LogsGroupingConfigurator}
               tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
               tracking={{
-                onGroupAdded: group => ua2GroupChangedTracker({ dataSource, tagName: group.groupbyTag })
+                onGroupAdded: group => trackUa2GroupChanged({ dataSource, tagName: group.groupbyTag })
               }}
             />
           </Sections>

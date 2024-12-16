@@ -50,5 +50,8 @@
     .message {
       padding-right: 1rem;
     }
+    .bannerButton:hover {
+      text-decoration: none;
+    }
   }
 }

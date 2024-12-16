@@ -6,19 +6,24 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Tr, Td } from '@instana/components';
+import { useObservable } from '@instana/hooks';
+import { Tr, Td } from '@instana/legacy';
 
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { formatDateTime } from 'in-services/formatters/date';
 import EventIcon from 'in-events/components/EventIcon';
+import { getEvent } from 'in-stores/events';
 
 import locals from './EventsListRowDense.mless';
 
 export default function EventListRowDense({ event, active, onClick, timeConfig }) {
+  const updatedEventInfo = useObservable(getEvent(event.id), [event]);
+  const eventToUse = updatedEventInfo ? updatedEventInfo : event;
+
   return (
     <Tr size="compact" active={active} onClick={onClick}>
       <Td>
-        <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
+        <EventIcon event={eventToUse} tooltipLabel={getEventSeverityLabelWithEventType(eventToUse, timeConfig)} />
       </Td>
       <Td>
         <div
@@ -28,7 +33,9 @@ export default function EventListRowDense({ event, active, onClick, timeConfig }
           })}
           onClick={onClick}
         >
-          <span className={locals.label}>{event.title}</span>
+          <span className={locals.label} title={event.title}>
+            {event.title}
+          </span>
           <div className={locals.secondRow}>
             <time dateTime={new Date(event.start).toISOString()}>{formatDateTime(event.start)}</time>
           </div>

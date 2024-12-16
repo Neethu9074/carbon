@@ -66,6 +66,7 @@ function header({ showDeploymentConfigs, selectedTab, setSelectedTab }) {
   return (
     showDeploymentConfigs && (
       <ButtonGroup
+        id="button-group-top-deployments"
         buttonPropsList={[
           {
             text: t('in-kubernetes:dashboards.deployments'),

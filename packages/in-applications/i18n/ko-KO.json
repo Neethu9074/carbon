@@ -6,6 +6,7 @@
   "labelAnalytic": "분석",
   "labelCall": "호출",
   "labelTrace": "추적",
+  "labelStatus": "상태",
   "linkDownload": "다운로드",
   "linkDownloadCalls": "다운로드 호출",
   "linkDownloadRawTrace": "원시 추적 다운로드",
@@ -122,6 +123,7 @@
   "messageSuccessfullySaved": "저장되었습니다.",
   "messageErrorOccurred": "오류가 발생했습니다. 다시 시도하십시오.",
   "messageWaitForChanges": "변경사항을 적용하는 데 다소 시간이 걸릴 수 있습니다.",
+  "linkViewAllApplications": "모든 애플리케이션 보기",
   "linkViewAllServices": "모든 서비스 보기",
   "linkViewAllEndpoints": "모든 엔드포인트 보기",
   "lineViewInAnalyze": "분석으로 보기",
@@ -151,6 +153,33 @@
   },
   "applications": {
     "noData": "애플리케이션 퍼스펙티브에서 환경, 서비스 세트, 테넌트 또는 거의 모든 것을 모델링하는 수단을 제공합니다."
+  },
+  "subtraces": {
+    "labelSubtraces": "하위 추적",
+    "labelSubtrace": "하위 추적",
+    "newSubtrace": "하위 추적 추가",
+    "subtracesList": {
+      "name": "이름",
+      "count": "개수",
+      "meanDuration": "평균 지속 시간",
+      "meanSubcallCount": "평균 번호 서브콜 중",
+      "meanErrorRate": "평균 오류율"
+    },
+    "configuration": {
+      "success": {
+        "title": "하위 추적 {{action}} 성공",
+        "message": "하위 추적 \"{{subtraceName}}\"이(가) {{action}}되었습니다."
+      },
+      "failure": {
+        "title": "하위 추적 {{action}} 실패",
+        "message": "이 하위 추적 \"{{subtraceName}}\"을(를) {{action}}하는 동안 문제가 발생했습니다."
+      },
+      "title": "하위 추적 업데이트",
+      "subtraceName": "하위 추적 이름",
+      "subtraceFilter": "하위 추적 정의",
+      "evaluationGranularity": "평가 단위",
+      "evaluationGranularityValidationError": "평가 세분화를 위한 값 선택"
+    }
   },
   "alert": {
     "tooltipMoreFilter": "{{moreFilterCount}}개 추가 필터",
@@ -209,6 +238,8 @@
     "closeTraceDetail": "추적 세부사항 닫기",
     "invalidQueryConfig": "조회 구성이 올바르지 않습니다. 계속하기 전에 유효성 검증 실패를 해결하십시오.",
     "invalidTraceIdTagFilter": "추적 ID \"{{traceId}}\"이(가) 유효하지 않습니다. 16자 또는 32자 길이의 유효한 추적 ID를 지정하십시오.",
+    "disabledApiQueryLatencyDistributionChart": "대기 시간 분배는 API 조회에서 지원되지 않습니다. 먼저 다른 차트를 선택하십시오.",
+    "disabledApiQueryNoChart": "차트를 선택하지 않으면 API 조회를 사용할 수 없습니다. 먼저 차트를 선택하십시오.",
     "errorRateLabel": "잘못된 호출(비율)",
     "errorRateCategory": "잘못된 호출",
     "errorMetricLabel": "잘못된 호출 비율",
@@ -244,7 +275,8 @@
     "dataSource_calls_plural": "{{formattedCount}}개 호출",
     "dataSource_traces": "{{formattedCount}}개 추적",
     "dataSource_traces_plural": "{{formattedCount}}개 추적",
-    "analyzeCallsOfThisTrace": "이 추적의 호출 분석"
+    "analyzeCallsOfThisTrace": "이 추적의 호출 분석",
+    "noAvailableCustomMetrics": "사용 가능한 사용자 정의 메트릭 없음"
   },
   "creation": {
     "newAP": "새 애플리케이션 퍼스펙티브",
@@ -456,7 +488,9 @@
       "logMessagesDescription": "선택한 시간 범위에 대해 검색된 로그 메시지가 없습니다.",
       "endpointsTitle": "사용 가능한 엔드포인트가 없음",
       "endpointsDescription": "선택한 시간 범위에 대해 검색된 엔드포인트가 없습니다."
-    }
+    },
+    "pageCannotBeFound": "페이지를 찾을 수 없음",
+    "idNotPresent": "{{id}}이(가) URL에 없습니다."
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "현재 애플리케이션에 서비스가 없습니다.",
@@ -627,6 +661,8 @@
     "calls_latency": "대기 시간",
     "calls_erroneousCalls": "잘못된 호출",
     "calls_errors": "잘못된 호출 비율",
+    "calls_call_metric": "사용자 정의 호출 메트릭",
+    "calls_call_meta_metrics": "메타 메트릭",
     "traces_calls": "추적",
     "traces_traces": "추적",
     "traces_latency": "대기 시간",
@@ -678,5 +714,21 @@
     "alternativeServicesProblem": "<bold>아니오</bold>, 현재 서비스의 이름이 HTTP \"Host\" 헤더(ID가 call.http.host인 서비스 맵핑 규칙)에서 나오고 대체 서비스의 이름은 그렇지 않은 경우(해당 이름이 인프라 태그를 기반으로 하는 규칙에서 오기 때문에) 또는 그 반대의 경우입니다. 중복된 서비스입니다.",
     "alternativeServicesPossibleProblem": "<bold>아마도</bold>, 현재 서비스 및 대체 서비스 이름이 HTTP \"Host\" 헤더에서 오지 않는 경우에는 프록시 뒤에 있는 서비스(좋음) 또는 중복 서비스(나쁨)입니다. 일부 서비스는 인프라에 완전히 링크되어 있는 반면 다른 서비스는 부분적으로 링크되어 있습니다."
   },
-  "labelSyntheticMonitoring": "합성 모니터링"
+  "infoBanner": {
+    "title": "Turbonomic이 제공하는 리소스 조치",
+    "tryLabel": "구매하기 전에 사용해 보기",
+    "tryText": "무료 평가판을 시작하여 리소스 작업이 애플리케이션에 어떤 도움이 되는지 알아보십시오.",
+    "tryButtonLabel": "평가판 시작",
+    "learnLabel": "자세히 알아보기",
+    "learnText": "블로그와 추가 미디어에서 이 기능에 대한 최신 정보를 확인하십시오.",
+    "learnButtonLabel": "온라인 방문하기",
+    "connectLabel": "영업 팀과 연결",
+    "connectText": "영업 팀에 연락하여 관심이 있음을 알려주십시오.",
+    "connectButtonLabel": "지금 구매",
+    "helpLabel": "성장을 도와주십시오.",
+    "helpText": "여러분께서 가장 원하는 기능을 지속적으로 제공할 수 있도록 의견을 공유해 주십시오.",
+    "helpButtonLabel": "피드백 제공"
+  },
+  "labelSyntheticMonitoring": "합성 모니터링",
+  "labelResourceOptimizations": "최적화"
 }

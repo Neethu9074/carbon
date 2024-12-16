@@ -7,16 +7,17 @@ import React from 'react';
 
 import { Card, HorizontalIndicator, LoadingSkeleton, Message } from '@instana/components';
 
+import { AxisConfiguration, ChartConfig, MetricDataPoint, MetricsConfiguration } from 'in-components/Chart/types';
 import Renderer, { extendTimeConfigForBarRenderer } from 'in-components/Chart/renderer/Renderer';
-import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import Chart, { ChartReactComponentProps } from 'in-components/Chart/ChartReactComponent';
 import { clickhouseTimeoutErrorMessage } from 'in-components/AnalyzeView/utils';
-import { AxisConfiguration, ChartConfig } from 'in-components/Chart/types';
+import WidgetCardHeader from 'in-components/WidgetCardHeader/WidgetCardHeader';
+import { getUnit, getUnitByFormatterFn } from 'in-stores/metric/units';
+import { unitForInfraMetricsEnabled } from 'in-services/featureFlags';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 // @ts-expect-error
 import PieChart from 'in-components/PieChart';
-import IconLink from 'in-components/IconButton/IconLink';
-import Tooltip from 'in-components/Tooltip/Tooltip';
+import { FormatterFn } from 'in-stores/metric/formatters';
 import { Result } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -44,6 +45,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     renderErrorDetail = false,
     renderHistoricDataIndicator = false,
     hasApproximateData,
+    extraInfo,
     customChartSkeletonHeight,
     renderWidgetNotSupportedIndicator = false,
     granularity,
@@ -52,6 +54,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     approximateTooltipText = t('in-components:approximateDataIndicator.dataRetention'),
     onLegendItemToggle
   } = config;
+
   let content;
 
   const height = customHeight || '100%';
@@ -81,12 +84,18 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
   } else {
     const rendererId = config.y1?.renderer.id;
     if (rendererId === Renderer.pie.id) {
+      if (unitForInfraMetricsEnabled) {
+        config = convertMetricForAxis(config as ChartReactComponentProps);
+      }
       content = <PieChart renderLegend={renderLegend} config={config} />;
     } else {
       if (extendBar && granularity && (rendererId === Renderer.bar.id || rendererId === Renderer.stackedBar.id)) {
         config.timeConfig = extendTimeConfigForBarRenderer(config.timeConfig, granularity);
       }
       config = normalizeTimeShiftedTimestamps(config as ChartReactComponentProps);
+      if (unitForInfraMetricsEnabled) {
+        config = convertMetricForAxis(config as ChartReactComponentProps);
+      }
       content = (
         <Chart
           renderLegend={renderLegend}
@@ -102,25 +111,20 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     return content;
   }
 
-  const LeftHeaderContent = () => {
-    return (
-      <>
-        {renderHistoricDataIndicator && hasApproximateData && <MultiLineToolTipIcon lines={[approximateTooltipText]} />}
-        {renderWidgetNotSupportedIndicator && (
-          <Tooltip content={t('in-components:liveModeIndicator.widgetNotSupportedInLiveMode')}>
-            <IconLink type="lib_help_error_info_outline" className={locals.liveModeIcon} />
-          </Tooltip>
-        )}
-      </>
-    );
-  };
-
   const card = (
     <Card
+      headingVariant="heading-3"
       className={renderWidgetNotSupportedIndicator ? locals.disabledChart : ''}
       title={title}
       useMaxAvailableHeight={config.cardUseMaxAvailableHeight}
-      leftHeaderContent={<LeftHeaderContent />}
+      leftHeaderContent={
+        <WidgetCardHeader
+          renderApproximateDataTooltip={renderHistoricDataIndicator && hasApproximateData}
+          approximateTooltipText={approximateTooltipText}
+          renderWidgetNotSupportedIndicator={renderWidgetNotSupportedIndicator}
+          extraInfoTooltip={extraInfo}
+        />
+      }
       rightHeaderContent={config.rightHeaderContent}
       size="l"
     >
@@ -170,6 +174,40 @@ function containsOnlyEmptyData(metrics: [number, number][][]) {
     }
   }
   return true;
+}
+
+function convertMetricForAxis(config: ChartReactComponentProps) {
+  return {
+    ...config,
+    y1:
+      (config.y1 &&
+        config.metricsConfiguration &&
+        getConvertedMetricForUnits(config.y1, config.metricsConfiguration)) ??
+      config.y1,
+    y2:
+      (config.y2 &&
+        config.metricsConfiguration &&
+        getConvertedMetricForUnits(config.y2, config.metricsConfiguration)) ??
+      config.y2
+  };
+}
+
+function getConvertedMetricForUnits(
+  axisConfig: AxisConfiguration,
+  metricConfig: MetricsConfiguration
+): AxisConfiguration {
+  const units = axisConfig?.metricIds?.map(id => getUnit(metricConfig?.metrics[id]?.unit ?? 'number'));
+  const appliedUnit = getUnitByFormatterFn(axisConfig?.formatter as FormatterFn);
+  const metrics = axisConfig?.metrics?.map((dataSeries: MetricDataPoint[], index) => {
+    if (units[index]?.baseUnit === appliedUnit?.baseUnit) {
+      return dataSeries.map(data => [data[0], units[index]?.converter(data[1])]) as MetricDataPoint[];
+    }
+    return dataSeries;
+  });
+  return {
+    ...axisConfig,
+    ...(metrics.length && { metrics })
+  };
 }
 
 function normalizeTimeShiftedTimestamps(config: ChartReactComponentProps) {

@@ -17,6 +17,7 @@
         "copied": "Widget copiado, utilice CTRL-V o CMD-V para pegar en cualquier panel de control personalizado",
         "duplicate": "Duplicar",
         "delete": "Suprimir",
+        "exportPDF": "Descargar PDF",
         "customDashboardWidgetTitle": "Widget del panel de control personalizado: {{title}}"
       }
     },
@@ -69,7 +70,11 @@
       "renameDashboard": "Renombrar panel de control",
       "dashboardName": "Nombre del panel de control",
       "rename": "Renombrar",
-      "failSaveDashboard": "No se ha podido guardar el panel de control."
+      "failSaveDashboard": "No se ha podido guardar el panel de control.",
+      "generatingPDFTitle": "Generar pdf",
+      "generatingPDFContent": "Espere mientras se genera el pdf.",
+      "generatedPDFTitle": "Pdf generado",
+      "generatedPDFContent": "La descarga del pdf comenzará en breve."
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "No se ha encontrado el panel de control",
@@ -93,6 +98,32 @@
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "No se ha podido analizar la entrada como JSON.",
       "jsonRootMustBeAnObject": "La raíz JSON debe ser un objeto."
+    },
+    "downloadPdfDialog": {
+      "downloadPdf": "Descargar archivo PDF",
+      "settings": "Valores",
+      "pdfOrientation": "Orientación",
+      "portrait": "Vertical",
+      "landscape": "Horizontal",
+      "pdfLayout": "Diseño",
+      "widgetsDisplay": "Visualización",
+      "singlePage": "Una sola página",
+      "singlePageInfo": "Incluir todo el panel de control en una página, con el contenido adaptado a su tamaño.",
+      "multiPages": "Varias páginas",
+      "multiPagesInfo": "Distribuir el panel de control en varias páginas, manteniendo el diseño original. Puede que algunos widgets aparezcan cortados.",
+      "stackWidgetsTitle": "Apilar widgets",
+      "stackWidgetsInfo": "Mostrar widgets en una pila vertical en múltiples páginas.",
+      "loadingWidget": "Cargando widget {{widgetIndex}} de {{totalNodes}}",
+      "generatePreview": "Generar vista previa",
+      "generatingPreview": "Generando vista previa en pdf"
+    },
+    "filterContext": {
+      "topLevelFilterPartiallyApplied": "Se han aplicado algunos de los filtros actuales del panel de control.",
+      "topLevelFilterSelectsEverything": "Los filtros actuales del panel de control no se aplican a este widget.",
+      "topLevelFilterSelectsNothing": "Los filtros actuales del panel de control no se aplican a este widget.",
+      "topLevelFilterNotSupported": "Los filtros actuales del panel de control no se han aplicado a este widget porque no admite filtros.",
+      "topLevelFilterAppliedToSomeDatasets": "Los filtros actuales del panel de control no se han aplicado por completo a los siguientes conjuntos de datos: {{datasets}}",
+      "unnamedDataset": "Conjunto de datos sin nombre"
     }
   },
   "dashboardSwitcher": {
@@ -130,6 +161,17 @@
         "unexpectedLowOrHighNumberOfCalls": "Número de llamadas inesperadamente alto o bajo"
       }
     },
+    "srcBizOps": {
+      "formComponent": {
+        "pleaseSelect": "Seleccione",
+        "pleaseSelectMetric": "Seleccione una métrica",
+        "aggregation": "Agregación",
+        "metric": "Métrica"
+      },
+      "index": {
+        "bizOps": "Procesos empresariales (actividades)"
+      }
+    },
     "srcApp": {
       "formComponent": {
         "needToTurnOffPP": "Para utilizar la agrupación es necesario desactivar primero el resaltado de problemas potenciales.",
@@ -163,6 +205,7 @@
       "metricsFormComponent": {
         "metric": "Métrica",
         "selectMetric": "Seleccionar métrica",
+        "unit": "Unidad",
         "aggregation": "Agregación",
         "crossSeriesAggregation": "Utilice SUM para la agregación de series cruzadas",
         "crossSeriesAggregationHelp": "Normalmente, la agregación entre series es igual a la suma entre tiempos (el método utilizado para combinar puntos de datos en un único grupo). Con este conmutador habilitado, sumaremos los grupos de varias series de datos en lugar de utilizar la suma especificada.",
@@ -293,6 +336,15 @@
         "increaseColor": "Aumentar color",
         "decreaseColor": "Reducir color",
         "timeShift": "Salto en el tiempo"
+      },
+      "thresholdForm": {
+        "addThresholdColorization": "Añadir coloración basada en umbral",
+        "threshold": "Umbral",
+        "critical": "Crítico cuando",
+        "warning": "Aviso cuando",
+        "criticalValidator": "El umbral crítico debe ser mayor que el umbral de aviso para los operadores > y >=.",
+        "warningValidator": "El umbral de aviso debe ser mayor que el umbral crítico para los operadores < y < =.",
+        "bytes": "Bytes"
       },
       "bigNumber": "Número grande"
     },
@@ -425,6 +477,25 @@
       }
     },
     "slo": {
+      "general": {
+        "demoWidgetTitle": "Título del widget",
+        "sloNotFound": "No se ha encontrado la configuración de SLO"
+      },
+      "v2Form": {
+        "headline": "Seleccione un objetivo de nivel de servicio",
+        "subheading": "Seleccione un SLO existente o pulse \"Añadir nuevo SLO\" para crear uno nuevo",
+        "addSloButtonLabel": "Añadir nuevo SLO",
+        "chartTypeSelectionLabel": "Tipo de gráfico",
+        "chartTypeOption": "",
+        "chartTypeOption_INDICATOR": "Gráfico de indicadores",
+        "chartTypeOption_ERROR_BUDGET": "Gráfico de presupuesto de errores",
+        "validators": {
+          "notBlankSloValidator": "Elija una configuración de SLO de la lista."
+        }
+      },
+      "v2WidgetHeader": {
+        "indicatorType": "Tipo de indicador:"
+      },
       "demo": {
         "title": "Título de SLO",
         "sliName": "Ejemplo de Sli",
@@ -465,8 +536,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "Punto final",
-        "allEndpoints": "Todos los puntos finales",
-        "loading": "<loading>"
+        "allEndpoints": "Todos los puntos finales"
       },
       "goodBadEventsForm": {
         "goodEvents": "Sucesos buenos",
@@ -503,7 +573,6 @@
       },
       "servicesSelectBox": {
         "service": "Servicio",
-        "loading": "<loading>",
         "allServices": "Todos los servicios"
       },
       "sliFormPresenter": {
@@ -608,6 +677,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "Al menos una expresión de filtro debe estar configurada.",
       "timeBased": "Basado en tiempo",
       "eventBased": "Basada en sucesos",
+      "sloLegacy": "Legado de SLO",
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "Aplicación",
@@ -709,7 +779,8 @@
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "Configuración de umbral",
-        "thresholdLabel": "Umbral"
+        "thresholdLabel": "Umbral",
+        "ms": "ms"
       },
       "entityInfo": {
         "tooltip": "Apdex desconocido",
@@ -823,7 +894,9 @@
           },
           "formatter": "Formateador",
           "searchPlaceholder": "Búsqueda",
-          "countGroup": "Mostrar recuento de grupos"
+          "countGroup": "Mostrar recuento de grupos",
+          "showGroupsWithMissingTags": "Mostrar grupos a los que faltan etiquetas",
+          "filterEmptyValues": "Filtrar valores vacíos"
         }
       },
       "dataSource": {
@@ -854,5 +927,8 @@
     "additionalFields": "Este panel de control solo lo puede visualizar usted. Puede optar por compartirlo con sus compañeros después de crearlo",
     "create": "Crear",
     "failedToCreateDashboard": "La creación del panel de control ha fallado."
+  },
+  "threshold": {
+    "label": "Umbral"
   }
 }

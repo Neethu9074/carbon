@@ -4,55 +4,7 @@
  */
 
 :local {
-  .group {
-    display: inline-flex;
-    justify-content: center;
-
-    & > * {
-      display: block;
-      border-radius: 0;
-
-      & + * {
-        margin-left: 0 !important;
-      }
-    }
-  }
-
-  .vertical {
-    flex-direction: column;
-
-    & > * {
-      margin-top: 1px;
-
-      &:first-child {
-        margin-top: 0;
-        border-top-left-radius: 0.188rem;
-        border-top-right-radius: 0.188rem;
-      }
-
-      &:last-child {
-        border-bottom-left-radius: 0.188rem;
-        border-bottom-right-radius: 0.188rem;
-      }
-    }
-  }
-
-  .horizontal {
-    flex-direction: row;
-
-    & > * {
-      margin-left: 1px !important;
-
-      &:first-child {
-        margin-left: 0 !important;
-        border-top-left-radius: 0.188rem;
-        border-bottom-left-radius: 0.188rem;
-      }
-
-      &:last-child {
-        border-top-right-radius: 0.188rem;
-        border-bottom-right-radius: 0.188rem;
-      }
-    }
+  .carbonButtonSet {
+    min-width: max-content;
   }
 }

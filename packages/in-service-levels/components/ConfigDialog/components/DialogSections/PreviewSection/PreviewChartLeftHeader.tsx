@@ -12,6 +12,7 @@ import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloF
 import SloEntityInfo from 'in-service-levels/components/SloList/components/SloEntityInfo';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { FetchStatus } from 'in-hooks/utils/types';
+import { t } from 'in-i18n';
 
 import locals from 'in-service-levels/components/ConfigDialog/components/DialogSections/PreviewSection/PreviewChartLeftHeader.mless';
 
@@ -23,9 +24,13 @@ export default function PreviewChartLeftHeader({ status }: WidgetLeftHeaderProps
   const { form } = useContext(SloFormContext);
 
   const entityType = form.getIn(['entity', 'type']).value;
-  const title = form.getIn(['nameTags', 'name']).value;
+  const sloName = form.getIn(['nameTags', 'name']).value;
 
-  const titleToDisplay = title === '' ? valueMissingPlaceholder : title;
+  const sloNameToDisplay = sloName === '' ? valueMissingPlaceholder : sloName;
+  const label =
+    entityType === 'synthetic'
+      ? t('in-service-levels:createSloDialog.previewSection.title', { context: 'synthetic' })
+      : sloNameToDisplay;
   const isLoading = status === 'pending';
 
   return (
@@ -34,7 +39,7 @@ export default function PreviewChartLeftHeader({ status }: WidgetLeftHeaderProps
         <Stack direction="horizontal" align="center">
           <StackItem>
             {isLoading && <LoadingSkeleton />}
-            {!isLoading && <SloEntityInfo entityType={entityType} entity={{ label: titleToDisplay }} />}
+            {!isLoading && <SloEntityInfo entityType={entityType} entities={[{ id: '', label }]} />}
           </StackItem>
         </Stack>
       </Stack>

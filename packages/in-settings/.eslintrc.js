@@ -18,6 +18,7 @@ module.exports = {
         'in-api',
         'in-applications',
         'in-automation',
+        'in-bizops',
         'in-components',
         'in-connection',
         'in-events',
@@ -34,7 +35,10 @@ module.exports = {
         'in-stores',
         'in-subscription',
         'in-synthetics',
-        'in-websites'
+        'in-websites',
+        'in-infrastructure',
+        'in-service-levels',
+        'in-analyze'
       ]
     })
   }

@@ -125,6 +125,14 @@
     overflow-wrap: break-word;
   }
 
+  .labelBlank {
+    width: 100%;
+    min-width: 3.25rem;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    font-style: italic;
+  }
+
   .timeShift {
     color: var(--ids-color-option-neutral-600);
     text-transform: lowercase;

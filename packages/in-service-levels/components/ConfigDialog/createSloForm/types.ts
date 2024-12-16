@@ -13,7 +13,9 @@ import {
   DurationUnitType,
   ServiceLevelIndicatorType,
   SloEntityType,
-  TimeWindowType
+  TimeWindowType,
+  SLIThresholdOperator,
+  TrafficIndicatorType
 } from '@instana/types';
 
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
@@ -48,41 +50,43 @@ export type SloTargetFields = {
 };
 
 export type SloEntityFields = {
-  entityId: Field<string>;
+  entityIds: Field<string[]>;
   type: Field<SloEntityType>;
 };
 
 export type SloScopeFields = {
-  beaconType: Field<SloBeaconTypes>;
-  boundaryScope: Field<ApplicationBoundaryScope>;
-  includeInternal: Field<boolean>;
-  includeSynthetic: Field<boolean>;
-  endpointId: Field<string>;
-  serviceId: Field<string>;
-  tagFilterExpression: Field<FormModelElement[]>;
+  beaconType: Field<SloBeaconTypes | undefined>;
+  boundaryScope: Field<ApplicationBoundaryScope | undefined>;
+  includeInternal: Field<boolean | undefined>;
+  includeSynthetic: Field<boolean | undefined>;
+  endpointId: Field<string | undefined>;
+  serviceId: Field<string | undefined>;
+  tagFilterExpression: Field<FormModelElement[] | undefined>;
 };
 
 export type SloIndicatorFields = {
   aggregation: Field<AggregationType>;
   badEventsFilter: Field<FormModelElement[]>;
   blueprint: Field<BlueprintType>;
+  trafficType: Field<TrafficIndicatorType | undefined>;
+  operator: Field<SLIThresholdOperator>;
   goodEventsFilter: Field<FormModelElement[]>;
   threshold: Field<number | undefined>;
-  type: Field<ServiceLevelIndicatorType>;
+  type: Field<ServiceLevelIndicatorType | undefined>;
 };
 
 export type SloObjectiveFields = {
   target: Field<number | undefined>;
   duration: Field<number>;
   durationUnit: Field<DurationUnitType>;
-  startTimestamp: MapForm<TimeStamp>;
+  startTimestamp: MapForm<TimeStampFields>;
   type: Field<TimeWindowType>;
 };
 
 export type SloTimeWindowFields = {
   duration: Field<number>;
   durationUnit: Field<DurationUnitType>;
-  startTimestamp: MapForm<TimeStamp>;
+  startTimestamp: MapForm<TimeStampFields>;
   type: Field<TimeWindowType>;
 };
 
@@ -91,7 +95,7 @@ export type SloNameTagsFields = {
   tags: Field<string[]>;
 };
 
-export type TimeStamp = {
+export type TimeStampFields = {
   date: Field<string>;
   time: Field<string>;
 };

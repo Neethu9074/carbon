@@ -6,7 +6,7 @@
 
 import React, { ReactNode } from 'react';
 
-import { InfraMetricConfiguration, UnifiedMetricConfiguration } from '@instana/types';
+import { InfraMetricConfiguration, UnifiedMetricConfigurationUnion } from '@instana/types';
 
 import { Config, ConfigWithCompanionMetric } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
@@ -17,7 +17,7 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 export interface BigNumberProps {
   title: string;
   useMaxAvailableHeight?: boolean;
-  config: Config<UnifiedMetricConfiguration> | ConfigWithCompanionMetric<UnifiedMetricConfiguration>;
+  config: Config<UnifiedMetricConfigurationUnion> | ConfigWithCompanionMetric<UnifiedMetricConfigurationUnion>;
   actions?: ReactNode;
   dragHandle?: ReactNode;
   isPreview?: boolean;

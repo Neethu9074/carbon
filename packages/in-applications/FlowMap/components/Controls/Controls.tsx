@@ -5,21 +5,15 @@
 
 import React, { Fragment, useEffect } from 'react';
 
+import { ButtonGroup, LinkProps } from '@instana/components';
 import { ResultPrecisionDetails } from '@instana/types';
-import { ButtonGroup } from '@instana/components';
-import { LinkProps } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-import {
-  flowMapCallsClickedTracker,
-  flowMapErrorClickedTracker,
-  flowMapLatencyClickedTracker,
-  flowMapSimulationClickedTracker
-} from 'in-applications/tracker';
 import HorizontalControlsPresenter from 'in-components/MapControls/HorizontalControlsPresenter';
 import VerticalControlsPresenter from 'in-components/MapControls/VerticalControlsPresenter';
 import { getServiceLocators } from 'in-applications/FlowMap/serviceLocator/serviceLocator';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import MapButtonGroup from 'in-components/MapControls/ButtonGroup';
 import Button from 'in-components/MapControls/Button';
 import Tooltip from 'in-components/Tooltip';
@@ -43,12 +37,13 @@ interface Props {
 }
 
 export default function Controls({ serviceLocatorUid, resultPrecisionDetails, entity }: Props) {
+  const { trackFlowMapSimulationClicked } = useApplicationTracker();
   const eventBusServiceLocator = getServiceLocators(serviceLocatorUid).eventBusServiceLocator;
   const hasApproximateData = resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
 
   useEffect(() => {
     eventBusServiceLocator.emit(SIGNALS.PARTICLES, false);
-    eventBusServiceLocator.emit(SIGNALS.HEATMAP, null);
+    eventBusServiceLocator.emit(SIGNALS.HEATMAP, SIGNAL_VALUES.HEATMAP_CALLS);
   }, [eventBusServiceLocator]);
 
   return (
@@ -62,12 +57,19 @@ export default function Controls({ serviceLocatorUid, resultPrecisionDetails, en
         </MapButtonGroup>
       </HorizontalControlsPresenter>
       <VerticalControlsPresenter position="leftTop">
-        <ParticlesButton onClick={toggleParticles} serviceLocatorUid={serviceLocatorUid} />
+        <ParticlesButton
+          onClick={() => toggleParticles(trackFlowMapSimulationClicked)}
+          serviceLocatorUid={serviceLocatorUid}
+        />
         <MapButtonGroup vertical>
-          <Tooltip themeStyle="light" content={t('in-applications:applicationMap.tooltipZoomIn')}>
+          <Tooltip themeStyle="light" align={'rightMiddle'} content={t('in-applications:applicationMap.tooltipZoomIn')}>
             <Button appendBottom icon="lib_actions_zoom_in" onClick={() => zoomIn(serviceLocatorUid)} />
           </Tooltip>
-          <Tooltip themeStyle="light" content={t('in-applications:applicationMap.tooltipZoomOut')}>
+          <Tooltip
+            themeStyle="light"
+            align={'rightMiddle'}
+            content={t('in-applications:applicationMap.tooltipZoomOut')}
+          >
             <Button appendTop icon="lib_actions_zoom_out" onClick={() => zoomOut(serviceLocatorUid)} />
           </Tooltip>
         </MapButtonGroup>
@@ -75,9 +77,9 @@ export default function Controls({ serviceLocatorUid, resultPrecisionDetails, en
     </Fragment>
   );
 
-  function toggleParticles() {
+  function toggleParticles(trackFlowMapSimulationClicked: (payload?: object) => void) {
     eventBusServiceLocator.on(SIGNALS.PARTICLES).once((_signal: string) => {
-      flowMapSimulationClickedTracker({ entity, toggle: !_signal });
+      trackFlowMapSimulationClicked({ entity, toggle: !_signal });
       eventBusServiceLocator.emit(SIGNALS.PARTICLES, !_signal);
     });
   }
@@ -102,7 +104,11 @@ function ParticlesButton({ onClick, serviceLocatorUid }: ParticlesButtonProps) {
     []
   ) as boolean;
   return (
-    <Tooltip themeStyle="light" content={t('in-applications:applicationMap.tooltipSimulateTraffic')}>
+    <Tooltip
+      themeStyle="light"
+      align={'rightMiddle'}
+      content={t('in-applications:applicationMap.tooltipSimulateTraffic')}
+    >
       <Button icon="lib_actions_particles" onClick={onClick} isActive={isEnabled} />
     </Tooltip>
   );
@@ -114,6 +120,7 @@ interface HeatmapButtonsProps {
 }
 
 function HeatmapButtons({ serviceLocatorUid, entity }: HeatmapButtonsProps) {
+  const { trackFlowMapCallsClicked, trackFlowMapLatencyClicked, trackFlowMapErrorClicked } = useApplicationTracker();
   const currentSignal = useObservable(
     getServiceLocators(serviceLocatorUid).eventBusServiceLocator.on(SIGNALS.HEATMAP),
     []
@@ -137,7 +144,7 @@ function HeatmapButtons({ serviceLocatorUid, entity }: HeatmapButtonsProps) {
           text: t('in-applications:labelCalls'),
           key: SIGNAL_VALUES.HEATMAP_CALLS,
           onClick: () => {
-            flowMapCallsClickedTracker({ entity });
+            trackFlowMapCallsClicked({ entity });
             toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_CALLS);
           }
         },
@@ -145,7 +152,7 @@ function HeatmapButtons({ serviceLocatorUid, entity }: HeatmapButtonsProps) {
           text: t('in-applications:labelLatency'),
           key: SIGNAL_VALUES.HEATMAP_LATENCY,
           onClick: () => {
-            flowMapLatencyClickedTracker({ entity });
+            trackFlowMapLatencyClicked({ entity });
             toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_LATENCY);
           }
         },
@@ -153,7 +160,7 @@ function HeatmapButtons({ serviceLocatorUid, entity }: HeatmapButtonsProps) {
           text: t('in-applications:labelErrors'),
           key: SIGNAL_VALUES.HEATMAP_ERROR_RATE,
           onClick: () => {
-            flowMapErrorClickedTracker({ entity });
+            trackFlowMapErrorClicked({ entity });
             toggleHeatMapSignal(SIGNAL_VALUES.HEATMAP_ERROR_RATE);
           }
         }

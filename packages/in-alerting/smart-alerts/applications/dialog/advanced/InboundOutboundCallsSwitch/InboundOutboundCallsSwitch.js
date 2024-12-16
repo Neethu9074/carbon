@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import InboundOrAllCallsOption from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsOption';
@@ -18,27 +19,27 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsSwitch.mless';
 
-export default function InboundOutboundCallsSwitch({ form, updateForm, isGlobalSmartAlert }) {
+export default function InboundOutboundCallsSwitch({ form, updateForm, isGlobalSmartAlert, tearSheetView }) {
   const boundaryScope = form.get('boundaryScope').value;
   const applications = form.get('applications').value;
 
   return (
-    <div className={locals.inboundOutboundCallsSwitchContainer}>
+    <div className={classNames({ [locals.inboundOutboundCallsSwitchContainer]: !tearSheetView })}>
       <Row>
-        <Col lg={6}>
+        <Col lg={6} md={6} className={classNames({ [locals.gap]: tearSheetView })}>
           <InboundOrAllCallsOption
             boundaryScope={boundaryScope}
             onBoundaryStateChange={() => handleChangeToInboundCalls()}
             scope={boundaryScopes.inbound}
-            boundaryScopes={boundaryScopes}
+            tearSheetView={tearSheetView}
           />
         </Col>
-        <Col lg={6}>
+        <Col lg={6} md={6} className={classNames({ [locals.gap]: tearSheetView })}>
           <InboundOrAllCallsOption
             boundaryScope={boundaryScope}
             onBoundaryStateChange={() => updateBoundaryScope(boundaryScopes.all)}
             scope={boundaryScopes.all}
-            boundaryScopes={boundaryScopes}
+            tearSheetView={tearSheetView}
           />
         </Col>
       </Row>

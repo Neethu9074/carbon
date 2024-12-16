@@ -33,6 +33,10 @@ interface AlertingChartWithErrorMessageProps<AlertConfig extends Object> {
   queryValidator?: QueryValidatorType;
   getErrorMessage: (args: boolean) => string | undefined;
   customValidators?: (args: boolean) => boolean;
+  isTearSheet?: boolean;
+  isMultiThresholdEnabled?: boolean;
+  eventSeverity?: number;
+  isEventsView?: boolean;
 }
 export default function AlertingChartWithErrorMessage<AlertConfig extends Object>({
   getErrorMessage,
@@ -44,6 +48,7 @@ export default function AlertingChartWithErrorMessage<AlertConfig extends Object
   alertConfigWithFormModel,
   blueprintConfig,
   viewConfig,
+  isMultiThresholdEnabled = false,
   ...remainingProps
 }: AlertingChartWithErrorMessageProps<AlertConfig>) {
   const queryValidationResult: Result<boolean> =
@@ -73,6 +78,7 @@ export default function AlertingChartWithErrorMessage<AlertConfig extends Object
   const isValidDependingOnMode = queryValidationResult?.data !== false;
 
   const customValidationValid = customValidators?.(isValidDependingOnMode) ?? true;
+  const { isEventsView, eventSeverity } = remainingProps;
 
   return isValidDependingOnMode && customValidationValid ? (
     <AlertingChart
@@ -82,9 +88,12 @@ export default function AlertingChartWithErrorMessage<AlertConfig extends Object
       viewConfig={viewConfig}
       numeratorTagFilterExpression={numeratorTagFilterExpression}
       enrichedTagFilterExpression={enrichedTagFilterExpression}
+      isMultiThresholdEnabled={isMultiThresholdEnabled}
+      isEventsView={isEventsView}
+      eventSeverity={eventSeverity}
     />
   ) : (
-    <Message withIcon>
+    <Message withIcon fullInlineWidth>
       {getErrorMessage?.(isValidDependingOnMode) ??
         t('in-alerting:components.chart.alertingChartMessageInvalidFilterQuery')}
     </Message>

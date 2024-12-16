@@ -40,4 +40,17 @@
       background: #fff;
     }
   }
+
+  .carbonLoadMore {
+    &:hover {
+      background: #fff;
+    }
+    display: grid;
+  }
+
+  .loadingSkeleton {
+    width: 100%;
+    height: 1rem;
+    display: block;
+  }
 }

@@ -12,4 +12,47 @@
   .sortingConfiguratorWrapper {
     margin-right: 1rem;
   }
+
+  .queryCard {
+    margin-bottom: 1rem;
+    border: 1px solid var(--ids-color-option-neutral-400);
+  }
+
+  .querySection {
+    display: flex;
+    align-items: flex-start;
+    align-items: center;
+    width: 100%;
+    min-height: 2rem;
+  }
+
+  .queryLabel {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    width: 11rem;
+  }
+
+  .queryText {
+    margin: 0 0 0 0.5rem;
+  }
+
+  .processQueryBuilder {
+    width: calc(100% - 11rem);
+    flex-grow: 1;
+  }
+}
+
+:global {
+  // This and other bizops rules that affect the carbon tabs buttons are a temporary measure
+  // to remove the tab scrolling arrows currently visible.  These scrolling arrow buttons do nothing of value
+  // and only clutter the tab view with unnecessary elements.  We are discussing with Carbon adoption team
+  // for a more permanent solution to this issue.
+  :local(.processList) .carbon-tabs button {
+    display: none;
+  }
+
+  :local(.processList) .in-center-alignment {
+    background-color: var(--ids-color-option-neutral-100);
+  }
 }

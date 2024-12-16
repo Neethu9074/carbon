@@ -24,3 +24,13 @@ export const getStackForEndpoint = createResultSubscriptionFactory({
   eventId: 'getStackForEndpoint',
   trackSubscriptionStatistics: true
 });
+
+export const getStackForBusinessProcess = createResultSubscriptionFactory({
+  eventId: 'getStackForBusinessProcess',
+  trackSubscriptionStatistics: true
+});
+
+export const getStackForBusinessActivity = createResultSubscriptionFactory({
+  eventId: 'getStackForBusinessActivity',
+  trackSubscriptionStatistics: true
+});

@@ -19,7 +19,7 @@ interface Props {
 export default function LiErrorList({ errors }: Props) {
   return errors.map((error, i) => (
     <Li key={i}>
-      <Message type="error" small>
+      <Message type="error" small fullInlineWidth>
         {getErrorMessage(error)}
       </Message>
     </Li>

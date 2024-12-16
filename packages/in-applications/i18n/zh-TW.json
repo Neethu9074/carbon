@@ -6,6 +6,7 @@
   "labelAnalytic": "分析",
   "labelCall": "呼叫",
   "labelTrace": "追蹤",
+  "labelStatus": "狀態",
   "linkDownload": "下載",
   "linkDownloadCalls": "下載呼叫",
   "linkDownloadRawTrace": "下載原始追蹤",
@@ -122,6 +123,7 @@
   "messageSuccessfullySaved": "已順利儲存。",
   "messageErrorOccurred": "發生錯誤，請重試。",
   "messageWaitForChanges": "可能需要一些時間來套用您的變更。",
+  "linkViewAllApplications": "檢視所有應用程式",
   "linkViewAllServices": "檢視所有服務",
   "linkViewAllEndpoints": "檢視所有端點",
   "lineViewInAnalyze": "在分析中檢視",
@@ -152,6 +154,33 @@
   "applications": {
     "noData": "藉由應用程式視景，可針對環境、服務集、租戶或任何事物建模。"
   },
+  "subtraces": {
+    "labelSubtraces": "子追蹤",
+    "labelSubtrace": "子追蹤",
+    "newSubtrace": "新增子追蹤",
+    "subtracesList": {
+      "name": "名稱",
+      "count": "計數",
+      "meanDuration": "平均持續時間",
+      "meanSubcallCount": "平均數 子呼叫數",
+      "meanErrorRate": "平均錯誤率"
+    },
+    "configuration": {
+      "success": {
+        "title": "子追蹤{{action}}成功",
+        "message": "子追蹤 \"{{subtraceName}}\" 已{{action}}。"
+      },
+      "failure": {
+        "title": "無法{{action}}子追蹤",
+        "message": "嘗試{{action}}此子追蹤時出現問題：\"{{subtraceName}}\""
+      },
+      "title": "更新子追蹤",
+      "subtraceName": "子追蹤名稱",
+      "subtraceFilter": "子追蹤定義",
+      "evaluationGranularity": "評估精度",
+      "evaluationGranularityValidationError": "請選取評估精度的值"
+    }
+  },
   "alert": {
     "tooltipMoreFilter": "+{{moreFilterCount}} 個以上的過濾器",
     "tooltipMoreFilter_plural": "+{{moreFilterCount}} 個以上的過濾器",
@@ -170,9 +199,9 @@
     },
     "constants": {
       "inboundDashboard": "儀表板只會根據此應用程式的消費者所執行的呼叫來顯示資訊。",
-      "inboundOverrideDefault": "此應用程式的預設範圍只有「入埠呼叫」。您可以在「配置」中變更此項。",
+      "inboundOverrideDefault": "此應用程式的預設範圍只有「入埠呼叫」。 您可以在「配置」中變更此項。",
       "allDashboard": "儀表板會根據此應用程式內所執行的所有呼叫（包括消費者及內部的呼叫都是）來顯示資訊。",
-      "allOverrideDefault": "此應用程式的預設範圍是「所有呼叫」。您可以在「配置」中變更此項。"
+      "allOverrideDefault": "此應用程式的預設範圍是「所有呼叫」。 您可以在「配置」中變更此項。"
     }
   },
   "analyze": {
@@ -209,6 +238,8 @@
     "closeTraceDetail": "關閉追蹤明細",
     "invalidQueryConfig": "查詢配置無效。請先處理驗證失敗情況，再繼續進行。",
     "invalidTraceIdTagFilter": "追蹤 ID \"{{traceId}}\" 無效。 請指定長度為 16 或 32 個字元的有效追蹤 ID。",
+    "disabledApiQueryLatencyDistributionChart": "API 查詢不支援延遲分佈。 請先選取不同的圖表。",
+    "disabledApiQueryNoChart": "如果沒有選取圖表，則無法使用 API 查詢。 請先選取圖表。",
     "errorRateLabel": "錯誤呼叫（比率）",
     "errorRateCategory": "錯誤呼叫",
     "errorMetricLabel": "錯誤呼叫率",
@@ -244,7 +275,8 @@
     "dataSource_calls_plural": "{{formattedCount}} 個呼叫",
     "dataSource_traces": "{{formattedCount}} 個追蹤",
     "dataSource_traces_plural": "{{formattedCount}} 個追蹤",
-    "analyzeCallsOfThisTrace": "分析此追蹤的呼叫"
+    "analyzeCallsOfThisTrace": "分析此追蹤的呼叫",
+    "noAvailableCustomMetrics": "沒有可用的自訂度量"
   },
   "creation": {
     "newAP": "新建應用程式視景",
@@ -456,7 +488,9 @@
       "logMessagesDescription": "所選的時間範圍內未擷取到任何的日誌訊息。",
       "endpointsTitle": "沒有可用的端點",
       "endpointsDescription": "所選的時間範圍內未擷取到任何的端點。"
-    }
+    },
+    "pageCannotBeFound": "無法找到頁面",
+    "idNotPresent": "{{id}} 在 URL 中不存在。"
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "服務不在現行應用程式中。",
@@ -627,6 +661,8 @@
     "calls_latency": "延遲",
     "calls_erroneousCalls": "錯誤呼叫",
     "calls_errors": "錯誤呼叫率",
+    "calls_call_metric": "自訂呼叫度量",
+    "calls_call_meta_metrics": "元度量",
     "traces_calls": "追蹤",
     "traces_traces": "追蹤",
     "traces_latency": "延遲",
@@ -678,5 +714,21 @@
     "alternativeServicesProblem": "<bold>否</bold>，如果現行服務的名稱來自 HTTP \"Host\" 標頭（ID 為 call.http.host 的服務對映規則），而替代服務的名稱則不是（因為其名稱來自基於基礎架構標籤的規則），反之亦然。 這些是重複的服務。",
     "alternativeServicesPossibleProblem": "<bold>可能</bold>，如果現行服務及替代服務名稱不是來自 HTTP \"Host\" 標頭，則它們是位於 Proxy 後面的服務（良好）或重複服務（不良）：部分服務完全鏈結至基礎架構，而其他服務部分鏈結至基礎架構。"
   },
-  "labelSyntheticMonitoring": "綜合監視"
+  "infoBanner": {
+    "title": "資源動作，採用 Turbonomic",
+    "tryLabel": "先試用再購買",
+    "tryText": "開始免費試用，瞭解資源動作如何協助您的應用程式。",
+    "tryButtonLabel": "開始試用",
+    "learnLabel": "進一步瞭解",
+    "learnText": "查看一些部落格和其他媒體，以瞭解有關此特性的最新資訊。",
+    "learnButtonLabel": "線上造訪我們",
+    "connectLabel": "與銷售人員聯絡",
+    "connectText": "聯絡我們的銷售團隊，讓他們知道您有興趣。",
+    "connectButtonLabel": "立即購買",
+    "helpLabel": "協助我們成長",
+    "helpText": "與我們分享您的想法，以便我們能夠繼續提供您最想要的特性。",
+    "helpButtonLabel": "提供意見回饋"
+  },
+  "labelSyntheticMonitoring": "綜合監視",
+  "labelResourceOptimizations": "最佳化"
 }

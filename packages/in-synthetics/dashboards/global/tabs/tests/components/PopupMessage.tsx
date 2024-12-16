@@ -26,10 +26,5 @@ export default function PoPMessage() {
     />
   );
 
-  return (
-    <div className={locals.container}>
-      <h1 className={locals.controls}>{docLinkComponent}</h1>
-      {/* <div className={locals.controls}>{docLinkComponent}</div> */}
-    </div>
-  );
+  return <span className={locals.controls}>{docLinkComponent}</span>;
 }

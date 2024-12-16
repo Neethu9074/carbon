@@ -6,10 +6,8 @@
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import React, { useMemo } from 'react';
 
-import { SvgIcon, Ul, Li, Stack, StackItem } from '@instana/components';
+import { SvgIcon, Ul, Li, Stack, StackItem, Button, IconButton, Select } from '@instana/components';
 import { getIntlDateFormatter } from '@instana/format-date';
-import { Select } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 // eslint-disable-next-line no-restricted-imports
 import moment from 'in-services/moment-timezone';
@@ -70,64 +68,67 @@ export default function TimeZoneWidgetFormComponent({ form: timeZonesForm, onCha
               {timeZonesForm.map((timeZoneform, i) => (
                 <Draggable key={i} draggableId={String(i)} index={i}>
                   {provided => (
-                    <Ul ref={provided.innerRef} {...provided.draggableProps}>
-                      <Li noAlternatingBg className={locals.timeZone}>
-                        <HorizontalFlexWrapper className={locals.left}>
-                          <Tooltip content={t('in-custom-dashboards:widgets.timezone.formComp.reorderTimeZones')}>
-                            <div className={locals.dragHandle} {...provided.dragHandleProps}>
-                              <SvgIcon type="lib_menu" />
-                            </div>
-                          </Tooltip>
+                    <div ref={provided.innerRef} {...provided.draggableProps}>
+                      <Ul>
+                        <Li noAlternatingBg className={locals.timeZone}>
+                          <HorizontalFlexWrapper className={locals.left}>
+                            <Tooltip content={t('in-custom-dashboards:widgets.timezone.formComp.reorderTimeZones')}>
+                              <div className={locals.dragHandle} {...provided.dragHandleProps}>
+                                <SvgIcon type="lib_menu" />
+                              </div>
+                            </Tooltip>
 
-                          {timeZoneform.get('timeZone').map(field => (
-                            <>
-                              <label className={locals.label} htmlFor={`timeZones-widget-timeZone-${i}`}>
-                                {t('in-custom-dashboards:widgets.timezone.formComp.timeZone')}
-                              </label>
-                              <Select
-                                id={`timeZones-widget-timeZone-${i}`}
+                            {timeZoneform.get('timeZone').map(field => (
+                              <>
+                                <label className={locals.label} htmlFor={`timeZones-widget-timeZone-${i}`}>
+                                  {t('in-custom-dashboards:widgets.timezone.formComp.timeZone')}
+                                </label>
+                                <Select
+                                  id={`timeZones-widget-timeZone-${i}`}
+                                  value={field.value}
+                                  onChange={e =>
+                                    onChange([i, 'timeZone'], field => field.setValue(e.target.value).setTouched(true))
+                                  }
+                                  hasError={!field.valid && field.touched}
+                                  className={locals.timeZoneSelection}
+                                  useFullWidth
+                                >
+                                  {supportedTimeZones.map(({ name, humanReadableOffset }) => (
+                                    <option key={name} value={name}>
+                                      {humanReadableOffset} – {name}
+                                    </option>
+                                  ))}
+                                </Select>
+                              </>
+                            ))}
+                            {timeZoneform.get('label').map(field => (
+                              <Input
+                                id={`timeZones-widget-label-${i}`}
+                                type="text"
                                 value={field.value}
+                                placeholder={timeZoneform.get('timeZone').value ?? 'Label'}
                                 onChange={e =>
-                                  onChange([i, 'timeZone'], field => field.setValue(e.target.value).setTouched(true))
+                                  onChange([i, 'label'], field => field.setValue(e.target.value).setTouched(true))
                                 }
                                 hasError={!field.valid && field.touched}
-                                className={locals.timeZoneSelection}
-                                useFullWidth
-                              >
-                                {supportedTimeZones.map(({ name, humanReadableOffset }) => (
-                                  <option key={name} value={name}>
-                                    {humanReadableOffset} – {name}
-                                  </option>
-                                ))}
-                              </Select>
-                            </>
-                          ))}
-                          {timeZoneform.get('label').map(field => (
-                            <Input
-                              id={`timeZones-widget-label-${i}`}
-                              type="text"
-                              value={field.value}
-                              placeholder={timeZoneform.get('timeZone').value ?? 'Label'}
-                              onChange={e =>
-                                onChange([i, 'label'], field => field.setValue(e.target.value).setTouched(true))
-                              }
-                              hasError={!field.valid && field.touched}
-                              className={locals.timeZoneLabel}
-                              maxLength={256}
-                            />
-                          ))}
-                        </HorizontalFlexWrapper>
+                                className={locals.timeZoneLabel}
+                                maxLength={256}
+                              />
+                            ))}
+                          </HorizontalFlexWrapper>
 
-                        <HorizontalFlexWrapper className={locals.right}>
-                          <SvgIcon
-                            aria-label={t('in-custom-dashboards:widgets.timezone.formComp.removeTimeZone')}
-                            className={locals.removeButton}
-                            type="lib_actions_delete"
-                            onClick={() => onChange([], form => form.remove(i).setTouched(true))}
-                          />
-                        </HorizontalFlexWrapper>
-                      </Li>
-                    </Ul>
+                          <HorizontalFlexWrapper className={locals.right}>
+                            <IconButton
+                              kind="primary"
+                              aria-label={t('in-custom-dashboards:widgets.timezone.formComp.removeTimeZone')}
+                              className={locals.removeButton}
+                              type="lib_actions_delete"
+                              onClick={() => onChange([], form => form.remove(i).setTouched(true))}
+                            />
+                          </HorizontalFlexWrapper>
+                        </Li>
+                      </Ul>
+                    </div>
                   )}
                 </Draggable>
               ))}

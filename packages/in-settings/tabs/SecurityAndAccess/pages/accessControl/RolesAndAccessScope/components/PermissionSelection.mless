@@ -1,0 +1,13 @@
+/*
+ * (c) Copyright IBM Corp. 2023
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .clickable {
+    cursor: pointer;
+  }
+  .entitiesForm {
+    margin: 0 1rem;
+  }
+}

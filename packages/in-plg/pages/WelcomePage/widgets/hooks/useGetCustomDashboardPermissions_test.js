@@ -13,9 +13,9 @@ import useGetCustomDashboardPermissions from 'in-plg/pages/WelcomePage/widgets/h
 jest.mock('@instana/hooks');
 
 describe('useGetCustomDashboardPermissions', () => {
-  it('should return permission as Private by default', () => {
+  it('should return permission as null by default', () => {
     const { result } = renderHook(() => useGetCustomDashboardPermissions('212'));
-    expect(result.current).toBe('Private');
+    expect(result.current).toBe(null);
   });
 
   it('should return Permission as shared when accessType = READ and relationType = GLOBAL', () => {

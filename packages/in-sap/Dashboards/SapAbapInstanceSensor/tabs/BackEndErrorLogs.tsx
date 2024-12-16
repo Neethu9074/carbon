@@ -36,24 +36,6 @@ interface GatewayBackendErrorStatsProps {
 
 const cols = [
   {
-    title: t('in-sap:dashboards.userName'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: GatewayBackendErrorStatsRow) {
-        return row.gatewayErrorStats.get('userName');
-      }
-    }
-  },
-  {
-    title: t('in-sap:dashboards.errorText'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: GatewayBackendErrorStatsRow) {
-        return row.gatewayErrorStats.get('errorText');
-      }
-    }
-  },
-  {
     title: t('in-sap:dashboards.errorCount'),
     type: 'metric',
     typeArgs: {
@@ -70,11 +52,29 @@ const cols = [
     }
   },
   {
+    title: t('in-sap:dashboards.userName'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: GatewayBackendErrorStatsRow) {
+        return row.gatewayErrorStats.get('userName');
+      }
+    }
+  },
+  {
     title: t('in-sap:dashboards.remoteAddress'),
     type: 'string',
     typeArgs: {
       getValue(row: GatewayBackendErrorStatsRow) {
         return row.gatewayErrorStats.get('remoteAddress');
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.errorText'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: GatewayBackendErrorStatsRow) {
+        return row.gatewayErrorStats.get('errorText');
       }
     }
   }
@@ -105,14 +105,6 @@ export default function BackEndErrorLogs({ snapshotId, timeConfig }: GatewayBack
       <div>
         <Columize>
           <DashboardSection>
-            <label>{t('in-sap:dashboards.transactionId')} : </label>
-            <Code code={formatSql(row.gatewayErrorStats.get('transactionId'))} lang="sql" softWrap />
-            <label>{t('in-sap:dashboards.errorPackage')} : </label>
-            <Code code={formatSql(row.gatewayErrorStats.get('errorPackage'))} lang="sql" softWrap />
-            <label>{t('in-sap:dashboards.sourceProgram')} : </label>
-            <Code code={formatSql(row.gatewayErrorStats.get('sourceProgram'))} lang="sql" softWrap />
-          </DashboardSection>
-          <DashboardSection>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -126,6 +118,32 @@ export default function BackEndErrorLogs({ snapshotId, timeConfig }: GatewayBack
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
+          <DashboardSection>
+            <label>{t('in-sap:dashboards.transactionId')} : </label>
+            <Code
+              code={formatSql(
+                row.gatewayErrorStats.get('transactionId') == null ? '' : row.gatewayErrorStats.get('transactionId')
+              )}
+              lang="sql"
+              softWrap
+            />
+            <label>{t('in-sap:dashboards.errorPackage')} : </label>
+            <Code
+              code={formatSql(
+                row.gatewayErrorStats.get('errorPackage') == null ? '' : row.gatewayErrorStats.get('errorPackage')
+              )}
+              lang="sql"
+              softWrap
+            />
+            <label>{t('in-sap:dashboards.sourceProgram')} : </label>
+            <Code
+              code={formatSql(
+                row.gatewayErrorStats.get('sourceProgram') == null ? '' : row.gatewayErrorStats.get('sourceProgram')
+              )}
+              lang="sql"
+              softWrap
+            />
+          </DashboardSection>
         </Columize>
       </div>
     );
@@ -137,7 +155,7 @@ export default function BackEndErrorLogs({ snapshotId, timeConfig }: GatewayBack
       cols={cols}
       rows={rows}
       initialSortColumn={0}
-      initialSortDirection="asc"
+      initialSortDirection="desc"
       getRowDetails={getDetails}
     />
   );

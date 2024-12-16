@@ -31,7 +31,8 @@ export default function APSelection({
   setApplicationId,
   setServiceId,
   setEndpointId,
-  alertConfigWithFormModel
+  alertConfigWithFormModel,
+  isTearSheet
 }) {
   const { applications } = alertConfigWithFormModel;
 
@@ -86,7 +87,7 @@ export default function APSelection({
       {({ toggle, refSetter, isOpen }) => (
         <HorizontalFlexWrapper>
           <DropdownButton
-            kind="secondary"
+            kind="tertiary"
             size="compact"
             refSetter={refSetter}
             onClick={toggle}
@@ -94,9 +95,13 @@ export default function APSelection({
             className={locals.labelWithGap}
             disabled={applications.length === 0}
           >
-            {t('in-alerting:smartAlerts.components.smartAlertDialog.PreviewForAP')}
+            {isTearSheet ? (
+              <ApplicationScopePath applicationName={applicationName ?? applicationId} noBottomMargin />
+            ) : (
+              t('in-alerting:smartAlerts.components.smartAlertDialog.PreviewForAP')
+            )}
           </DropdownButton>
-          <ApplicationScopePath applicationName={applicationName ?? applicationId} noBottomMargin />
+          {!isTearSheet && <ApplicationScopePath applicationName={applicationName ?? applicationId} noBottomMargin />}
         </HorizontalFlexWrapper>
       )}
     </Overlay>

@@ -10,11 +10,11 @@ import { Field, MapForm } from 'formalistic';
 import { Result, SyntheticLocation } from '@instana/types/typeDefinitions';
 import { Observable } from '@instana/observables';
 import { ButtonGroup } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 // eslint-disable-next-line no-restricted-imports
-import SelectListDialogContentComponent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
+import SelectListDialogContentComponent from 'in-settings/tabs/GlobalSettings/components/SelectListDialogContent';
 import LocationsSection, { LocationsListProps } from 'in-synthetics/createTests/advanced/LocationsSection';
 import memoize, { ObservableCreator, TtiGenerator } from 'in-services/util/memoizingObservableGenerator';
 import ConfigSlideContentWrapper from 'in-synthetics/createTests/advanced/ConfigSlideContentWrapper';
@@ -28,11 +28,14 @@ import SaveButton from 'in-components/form/SaveButton';
 
 import locals from 'in-synthetics/createTests/advanced/ConfigureLocations.mless';
 
-interface ConfigureLocationsProps {
+export interface ConfigureLocationsProps extends RightHeaderProps {
+  syntheticType: string;
+}
+
+interface RightHeaderProps {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
   setSliderState: (state: SliderState) => void;
-  syntheticType: string;
   locations: (syntheticType: string) => Observable<SyntheticLocation[]>;
 }
 
@@ -48,13 +51,50 @@ function createMemoizedObservableForReferencedLocations<RESULT>(
   );
 }
 
-const noLocationsDataAvailable = () => {
+export const noLocationsDataAvailable = () => {
   return (
     <NoDataAvailable
       type="lib_synthetic"
       height={160}
       text={t('in-synthetics:dashboard.locationList.noDataAvailable.message', { component: 'Locations' })}
     />
+  );
+};
+
+export const selectLocationButtonElement = ({ form, updateForm, locations, setSliderState }: RightHeaderProps) => {
+  return (
+    <Button
+      className={locals.selectButton}
+      kind="action"
+      onClick={() =>
+        setSliderState({
+          slideInConfig: {
+            component: (
+              <SelectListDialogContent
+                locations={locations}
+                form={form}
+                onSubmit={(selectedIds: string[]) => {
+                  const currentLocationIds = (form.get('locations') as Field<string[]>)?.value ?? [];
+                  updateForm(
+                    form.updateIn(['locations'], field =>
+                      (field as Field<string[]>).setValue(currentLocationIds.concat(selectedIds)).setTouched(true)
+                    )
+                  );
+                  setSliderState({ isVisible: false });
+                }}
+                numberOfLocationListRows={10}
+                setSliderState={setSliderState}
+              />
+            ),
+            title: t('in-synthetics:dialog.createTest.advancedMode.selectTests.selectLocation')
+          },
+          isVisible: true
+        })
+      }
+      icon="lib_openclose_add_circle_outline"
+    >
+      {t('in-synthetics:dialog.createTest.advancedMode.selectTests.selectLocation')}
+    </Button>
   );
 };
 
@@ -82,49 +122,13 @@ export default function ConfigureLocations({
   const loadEntities = () => getSelectedLocations((form.get('locations') as Field<string[]>).value ?? []);
 
   return (
-    <>
-      <LocationsSection
-        setTitle={false}
-        // @ts-expect-error
-        loadEntities={loadEntities ? loadEntities : () => locations}
-        renderNoDataAvailable={() => noLocationsDataAvailable()}
-        tableActions={locationTestSelectionTableActions(form, updateForm)}
-        rightHeader={
-          <Button
-            className={locals.selectButton}
-            kind="action"
-            onClick={() =>
-              setSliderState({
-                slideInConfig: {
-                  component: (
-                    <SelectListDialogContent
-                      locations={locations}
-                      form={form}
-                      onSubmit={(selectedIds: string[]) => {
-                        const currentLocationIds = (form.get('locations') as Field<string[]>)?.value ?? [];
-                        updateForm(
-                          form.updateIn(['locations'], field =>
-                            (field as Field<string[]>).setValue(currentLocationIds.concat(selectedIds)).setTouched(true)
-                          )
-                        );
-                        setSliderState({ isVisible: false });
-                      }}
-                      numberOfLocationListRows={10}
-                      setSliderState={setSliderState}
-                    />
-                  ),
-                  title: t('in-synthetics:dialog.createTest.advancedMode.selectTests.selectLocation')
-                },
-                isVisible: true
-              })
-            }
-            icon="lib_openclose_add_circle_outline"
-          >
-            {t('in-synthetics:dialog.createTest.advancedMode.selectTests.selectLocation')}
-          </Button>
-        }
-      />
-    </>
+    <LocationsSection
+      setTitle={false}
+      loadEntities={loadEntities ?? locations}
+      renderNoDataAvailable={() => noLocationsDataAvailable()}
+      tableActions={locationTestSelectionTableActions(form, updateForm)}
+      rightHeader={selectLocationButtonElement({ form, updateForm, setSliderState, locations })}
+    />
   );
 }
 
@@ -157,6 +161,7 @@ function SelectListDialogContent({
   const buttonGroup = (
     <div className={locals.inline}>
       <ButtonGroup
+        id="button-group-private-manage"
         buttonPropsList={locationTypes.map((locationType, index) => ({
           text: locationtypeLabels[index],
           key: locationType,
@@ -227,7 +232,7 @@ function SelectListDialogContent({
   );
 }
 
-function locationTestSelectionTableActions(form: MapForm<any>, updateForm: (form: MapForm<any>) => void) {
+export function locationTestSelectionTableActions(form: MapForm<any>, updateForm: (form: MapForm<any>) => void) {
   return {
     deselect: {
       deselect: (deselectedEntity: SyntheticLocation) => {

@@ -4,8 +4,19 @@
  * Copyright IBM Corp. 2023
  */
 
-import { AdjustedTimeframe, DurationUnitType, TimeConfig, TimeWindow } from '@instana/types';
+import { addDays, addMonths, addWeeks, subDays, subMonths, subWeeks } from 'date-fns';
 
+import {
+  AdjustedTimeframe,
+  DurationUnitType,
+  isFixedTimeWindow,
+  isRollingTimeWindow,
+  TimeConfig,
+  TimeWindow
+} from '@instana/types';
+
+import { ServiceLevelErrors } from 'in-service-levels/constants';
+import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { days, hours, minutes } from 'in-services/time/time';
 
 export function applyAdjustedTimeframe(timeConfig: TimeConfig, adjustedTimeframe?: AdjustedTimeframe): TimeConfig {
@@ -129,6 +140,73 @@ export function getEntireTimeWindowConfigFromTimeWindows(timeWindows: TimeConfig
     focusedMoment: to,
     autoRefresh: false
   };
+}
+
+export function getSubForTimeWindowUnit(durationUnit: DurationUnitType) {
+  switch (durationUnit) {
+    case 'month':
+      return subMonths;
+    case 'week':
+      return subWeeks;
+    case 'day':
+    default:
+      return subDays;
+  }
+}
+
+export function getAddForTimeWindowUnit(durationUnit: DurationUnitType) {
+  switch (durationUnit) {
+    case 'month':
+      return addMonths;
+    case 'week':
+      return addWeeks;
+    case 'day':
+    default:
+      return addDays;
+  }
+}
+
+export function toFixedTimeConfig(from: number, to: number): TimeConfig {
+  return {
+    windowSize: to - from,
+    to,
+    focusedMoment: to,
+    autoRefresh: false
+  };
+}
+
+export function calculateTimeConfigFromTimeWindow(timeWindow: TimeWindow, timeConfig?: TimeConfig): TimeConfig {
+  const now = Date.now();
+  const baseTimeConfig = timeConfig ?? getTimeConfigAtMoment(now);
+  const windowSize = calculateWindowSize(timeWindow);
+
+  if (isFixedTimeWindow(timeWindow)) {
+    const timeWindowCount = Math.floor((now - timeWindow.startTimestamp) / windowSize);
+    const currentTimeWindowStart = timeWindow.startTimestamp + windowSize * timeWindowCount;
+
+    return {
+      ...baseTimeConfig,
+      windowSize,
+      to: currentTimeWindowStart
+    };
+  }
+
+  if (isRollingTimeWindow(timeWindow)) {
+    return {
+      ...baseTimeConfig,
+      windowSize,
+      to: now - windowSize
+    };
+  }
+
+  throw new Error(ServiceLevelErrors.UNSUPPORTED_TIME_WINDOW_TYPE);
+}
+
+export function calculateWindowSize(timeWindow: TimeWindow): number {
+  const now = Date.now();
+  const addition = getAddForTimeWindowUnit(timeWindow.durationUnit);
+  const futureDate = addition(now, timeWindow.duration);
+  return futureDate.getTime() - now;
 }
 
 export function getMaxTimeWindowDurationValue(unit: DurationUnitType): number {

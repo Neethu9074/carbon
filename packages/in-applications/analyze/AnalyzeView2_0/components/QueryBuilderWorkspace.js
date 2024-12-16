@@ -9,12 +9,6 @@ import { Message, Stack } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
 import {
-  ua2ApiQueryPressedTracker,
-  ua2GroupChangedTracker,
-  ua2NestingDepthTracker,
-  ua2QueryBuilderFilterAddedTracker
-} from 'in-applications/tracker';
-import {
   getMaximumExpressionDepth,
   toBackendQueryModel
 } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -27,11 +21,12 @@ import CallQueryBuilder from 'in-applications/analyze/components/workspace/CallQ
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { findInvalidTraceIdTagFilter } from 'in-analyze/AnalyzeView/validationUtils';
 import { ActionSection } from 'in-components/workspace/ActionSection/ActionSection';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { useWebsiteTracker } from 'in-websites/tracking/segTracker';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
 import { defaultGroupings } from 'in-applications/tags';
-import { ua2FilterRemoved } from 'in-websites/tracker';
 import { emptyArray } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getPluginName } from 'in-sdk/pluginName';
@@ -51,6 +46,9 @@ const groupingConfiguratorPerDataSource = {
 };
 
 export default function ApplicationsQueryBuilderWorkspace(props) {
+  const { ua2FilterRemoved } = useWebsiteTracker();
+  const { trackUa2QueryBuilderFilterAdded, trackUa2NestingDepth, trackUa2GroupChanged, trackUa2ApiQueryPressed } =
+    useAnalyzeTracker();
   const {
     formModel,
     onFormModelChange,
@@ -67,7 +65,8 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
     useLastValidStateWhenErroneous,
     CustomAction,
     chartedMetrics,
-    hiddenCalls
+    hiddenCalls,
+    orderByGroups
   } = props;
 
   const { hasError, errors } = validate(formModel);
@@ -78,7 +77,6 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
       return t('in-applications:tracesLiveModeDisabled');
     }
   };
-
   const timeConfig = useTimeConfig();
   const docCallOrTrace = dataSource === 'calls' ? 'getCallGroup' : 'getTraceGroups';
   const getEndpointCallOrTrace = () => {
@@ -105,6 +103,20 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
       return metric;
     });
   }
+
+  const latencyDistributionChartSelected = chartedMetrics.some(
+    m => m.aggregationId === 'DISTRIBUTION' && m.metricId === 'latency'
+  );
+  const noChartSelected = chartedMetrics.length === 0;
+
+  const disableApiQuery = latencyDistributionChartSelected || noChartSelected;
+  let disabledApiQueryTooltip;
+  if (latencyDistributionChartSelected) {
+    disabledApiQueryTooltip = t('in-applications:analyze.disabledApiQueryLatencyDistributionChart');
+  } else if (noChartSelected) {
+    disabledApiQueryTooltip = t('in-applications:analyze.disabledApiQueryNoChart');
+  }
+
   return (
     <Sticky
       header={
@@ -126,9 +138,9 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
               QueryBuilder={queryBuilderPerDataSource[dataSource]}
               useLastValidStateWhenErroneous={useLastValidStateWhenErroneous}
               tracking={{
-                onTagAdded: tagFilter => ua2QueryBuilderFilterAddedTracker({ dataSource, tagName: tagFilter.name }),
+                onTagAdded: tagFilter => trackUa2QueryBuilderFilterAdded({ dataSource, tagName: tagFilter.name }),
                 onQueryChanged: formModel =>
-                  ua2NestingDepthTracker({
+                  trackUa2NestingDepth({
                     dataSource,
                     nestingDepth: getMaximumExpressionDepth(toBackendQueryModel(formModel))
                   }),
@@ -148,7 +160,7 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
               GroupingConfigurator={groupingConfiguratorPerDataSource[dataSource]}
               tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
               tracking={{
-                onGroupAdded: group => ua2GroupChangedTracker({ dataSource, tagName: group.groupbyTag })
+                onGroupAdded: group => trackUa2GroupChanged({ dataSource, tagName: group.groupbyTag })
               }}
             />
 
@@ -160,15 +172,17 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
                     group={hasNoGroupingForCalls ? defaultGroupings.calls : groupBy}
                     hiddenCalls={hiddenCalls}
                     metrics={getMetricsAsApi()}
-                    order={orderBy}
+                    order={isGrouped ? removeAggregation(orderByGroups, dataSource) : orderBy}
                     backendQueryModel={backendQueryModel}
                     backendQueryModelWithFacets={backendQueryModelWithFacets}
                     tracking={{
-                      onClick: () => ua2ApiQueryPressedTracker({ dataSource })
+                      onClick: () => trackUa2ApiQueryPressed({ dataSource })
                     }}
                     docsLink={docLink}
                     endpointUrl={endpointUrl}
                     timeFrame={timeConfig}
+                    disabled={disableApiQuery}
+                    disabledTooltip={disabledApiQueryTooltip}
                   />
                 </Stack>
               }
@@ -196,3 +210,13 @@ function validate(formModel) {
     : emptyArray;
   return { hasError, errors };
 }
+
+const removeAggregation = (order, dataSource) => {
+  if (dataSource === 'calls') {
+    return {
+      ...order,
+      by: order.by.includes('_') ? order.by.split('_')[0] : order.by
+    };
+  }
+  return order;
+};

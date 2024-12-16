@@ -36,7 +36,12 @@ interface NonEmptyRegex {
 
 export default function RegexMetricList({ regex, ...props }: Props & Regex) {
   if (!regex) {
-    return <NoDataAvailable height="10rem" text={t('in-custom-dashboards:widgets.srcInfrastructure.regexMetricsList.noRegex')} />;
+    return (
+      <NoDataAvailable
+        height="10rem"
+        text={t('in-custom-dashboards:widgets.srcInfrastructure.regexMetricsList.noRegex')}
+      />
+    );
   }
 
   return <NonEmptyRegexMetricList regex={regex} {...props} />;
@@ -58,7 +63,12 @@ function NonEmptyRegexMetricList({ regex, tagFilterExpression, size, type }: Pro
 
 function ListPresenter({ result }: { result: Result<MetricsList> }) {
   if (result.progress.loading) {
-    return <LoadingIndicator text={t('in-custom-dashboards:widgets.srcInfrastructure.regexMetricsList.loading')} height={100} />;
+    return (
+      <LoadingIndicator
+        text={t('in-custom-dashboards:widgets.srcInfrastructure.regexMetricsList.loading')}
+        height={100}
+      />
+    );
   }
 
   if (result.errors.length > 0) {
@@ -70,24 +80,39 @@ function ListPresenter({ result }: { result: Result<MetricsList> }) {
   }
 
   if (!result.data?.metrics || result.data.metrics.length === 0) {
-    return <NoDataAvailable height="10rem" text={t('in-custom-dashboards:widgets.srcInfrastructure.regexMetricsList.noResults')} />;
+    return (
+      <NoDataAvailable
+        height="10rem"
+        text={t('in-custom-dashboards:widgets.srcInfrastructure.regexMetricsList.noResults')}
+      />
+    );
   }
 
   return (
     <div className={locals.listContainer}>
-      <ListGroup label={t('in-custom-dashboards:widgets.srcInfrastructure.regexMetricsList.matches', {number: result.data?.totalSize})}>
-      {result.data?.metrics.map((metric) =>
-        <Li key={metric.ownerType + "/" + metric.id} noBorderTop className={locals.li}>
-          <BreadcrumbAndLabel
-            className={locals.breadcrumb}
-            path={[metric.category ?? getPluginName(metric.ownerType)].filter(Boolean) as string[]}
-            label={<span className={locals.metricId}>{metric.id}</span>}
-          />
-        </Li>
-      )}
-      { result.data?.totalSize > result.data?.metrics.length ? <Li noBorderTop className={locals.li} >
-        <div className={locals.more}>{t('in-custom-dashboards:widgets.srcInfrastructure.regexMetricsList.more', {number: result.data?.totalSize - result.data?.metrics.length})}</div>
-        </Li> : null}
+      <ListGroup
+        label={t('in-custom-dashboards:widgets.srcInfrastructure.regexMetricsList.matches', {
+          number: result.data?.totalSize
+        })}
+      >
+        {result.data?.metrics.map(metric => (
+          <Li key={metric.ownerType + '/' + metric.id} noBorderTop className={locals.li}>
+            <BreadcrumbAndLabel
+              className={locals.breadcrumb}
+              path={[metric.category ?? getPluginName(metric.ownerType)].filter(Boolean) as string[]}
+              label={<span className={locals.metricId}>{metric.id}</span>}
+            />
+          </Li>
+        ))}
+        {result.data?.totalSize > result.data?.metrics.length ? (
+          <Li noBorderTop className={locals.li}>
+            <div className={locals.more}>
+              {t('in-custom-dashboards:widgets.srcInfrastructure.regexMetricsList.more', {
+                number: result.data?.totalSize - result.data?.metrics.length
+              })}
+            </div>
+          </Li>
+        ) : null}
       </ListGroup>
     </div>
   );

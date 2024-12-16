@@ -5,10 +5,11 @@
 
 import React from 'react';
 
+import { IconButton } from '@instana/components';
+
 import { buildJsonSerializer, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { fixateTimeConfig, getTimeConfig, setTimeConfig } from 'in-stores/time/config';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import IconButton from 'in-components/IconButton/IconButton';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { logsPath } from 'in-logging/navigation/paths';
 import Tooltip from 'in-components/Tooltip';
@@ -29,10 +30,15 @@ export function LinkButton({ itemId, time, groupKey, className }: LinkButtonProp
       <CopyToClipboard getText={() => link.toString()}>
         {(copyToClipboardRef: React.ForwardedRef<HTMLButtonElement>) => (
           <IconButton
+            data-testid="link-button"
+            color="var(--ids-color-option-neutral-900)"
             className={className}
             ref={copyToClipboardRef}
             iconSize={'xs'}
             type="lib_actions_interface_link"
+            onClick={e => {
+              e.stopPropagation();
+            }}
           />
         )}
       </CopyToClipboard>

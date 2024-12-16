@@ -4,18 +4,18 @@
  */
 
 import {
+  AdaptiveBaselineData,
   AggregationType,
-  ApplicationAlertConfig,
   ApplicationAlertRule,
-  HistoricBaselineConfig,
   HistoricBaselineData,
   LogsApplicationAlertRule,
-  StaticThresholdConfig,
+  StaticBaselineThresholdRule,
+  StaticThresholdRule,
   StatusCodeApplicationAlertRule,
   ThresholdConfig,
   ThresholdOperator,
-  isAdaptiveBaselineConfig,
-  isStaticThresholdConfig
+  isAdaptiveThresholdRule,
+  isStaticThresholdRule
 } from 'in-types';
 import {
   applicationThresholdTypeOptions,
@@ -32,6 +32,7 @@ import {
   getEntitySelectionAsTagFilterFormModel
 } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import getApplicationMetricsAlertPreview from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationMetricsAlertsPreview';
+import { ApplicationSmartAlertConfig } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
@@ -62,10 +63,10 @@ interface BluePrintBase {
   readonly getAlertsPreviewRequest: () => typeof getApplicationMetricsAlertPreview;
   readonly getThresholdSuggestionRequest: () => typeof getApplicationMetricsThresholdSuggestion;
   readonly thresholdDefaults: { readonly operator: ThresholdOperator };
-  readonly enrichWithDefaultThresholdValues: (alertConfig: ApplicationAlertConfig) => ApplicationAlertConfig;
+  readonly enrichWithDefaultThresholdValues: (alertConfig: ApplicationSmartAlertConfig) => ApplicationSmartAlertConfig;
 
   readonly getEntityTagFilterFormModel: (
-    alertConfig: ApplicationAlertConfig,
+    alertConfig: ApplicationSmartAlertConfig,
     applicationId: string,
     applicationName?: string,
     serviceId?: string,
@@ -74,7 +75,7 @@ interface BluePrintBase {
 
   readonly getRuleTagFilterFormModel: (alertRule: ApplicationAlertRule) => FormModelElement[];
   readonly getExtraAnalyzeLinkTagFilterFormModel: (
-    alertConfig: ApplicationAlertConfig,
+    alertConfig: ApplicationSmartAlertConfig,
     timeConfig: FixedTimeConfig,
     adaptiveBaselineInfo?: Record<string, number>
   ) => FormModelElement[];
@@ -90,6 +91,8 @@ export interface BluePrint extends BluePrintBase {
   readonly name: string;
   readonly headline?: string;
   readonly text?: string;
+  readonly tearSheetHeadline?: string;
+  readonly tearSheetDescription?: string;
   readonly subType?: string;
   readonly isSelected?: (alertThreshold: ThresholdConfig) => boolean;
 
@@ -123,7 +126,7 @@ const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
   isBeta: false,
   enrichWithDefaultThresholdValues: enrichWithDefaultThresholdValuesForBaselines,
   getEntityTagFilterFormModel: (
-    alertConfig: ApplicationAlertConfig,
+    alertConfig: ApplicationSmartAlertConfig,
     applicationId: string,
     applicationName?: string,
     serviceId?: string,
@@ -147,6 +150,8 @@ const slownessBlueprintConfig: Readonly<BluePrint> = Object.freeze<BluePrint>({
   name: t('in-alerting:smartAlerts.applications.blueprintConfig.slowness.name'),
   headline: t('in-alerting:smartAlerts.applications.blueprintConfig.slowness.headline'),
   text: t('in-alerting:smartAlerts.applications.blueprintConfig.slowness.text'),
+  tearSheetHeadline: t('in-alerting:smartAlerts.applications.blueprintConfig.slowness.tearSheetHeadline'),
+  tearSheetDescription: t('in-alerting:smartAlerts.applications.blueprintConfig.slowness.tearSheetDescription'),
   baselineEnabled: true,
   defaultMetric: 'latency',
   getMetricName: () => 'latency',
@@ -169,16 +174,16 @@ const errorsBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   name: t('in-alerting:smartAlerts.applications.blueprintConfig.errors.name'),
   headline: t('in-alerting:smartAlerts.applications.blueprintConfig.errors.headline'),
   text: t('in-alerting:smartAlerts.applications.blueprintConfig.errors.text'),
-  baselineEnabled: false,
-  enrichWithDefaultThresholdValues: enrichWithDefaultStaticThresholdValues,
+  tearSheetHeadline: t('in-alerting:smartAlerts.applications.blueprintConfig.errors.tearSheetHeadline'),
+  tearSheetDescription: t('in-alerting:smartAlerts.applications.blueprintConfig.errors.tearSheetDescription'),
+  baselineEnabled: true,
   defaultMetric: 'errors',
   getMetricName: (alertRule: ApplicationAlertRule) => alertRule.metricName,
   getMetricLabel: (metricName: MetricName) => errorMetricLabelsByName[metricName],
   getMetricFormat: (metricName: MetricName) => (isCustomRateMetric(metricName) ? percentage : number.forcedCompact),
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: (alertRule: ApplicationAlertRule) => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
-  getThresholdTypeOptions: () =>
-    withoutHistoricBaselineOptions(withoutAdaptiveBaselineOptions(applicationThresholdTypeOptions)),
+  getThresholdTypeOptions: () => applicationThresholdTypeOptions,
   isRuleComplete: () => true,
   getRuleTagFilterFormModel: () => [],
   getExtraAnalyzeLinkTagFilterFormModel: () => [tagFilter('call.erroneous', 'EQUALS', true)]
@@ -190,6 +195,8 @@ const logsBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   name: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.name'),
   headline: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.headline'),
   text: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.text'),
+  tearSheetHeadline: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.tearSheetHeadline'),
+  tearSheetDescription: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.text'),
   isBeta: true,
   baselineEnabled: false,
   enrichWithDefaultThresholdValues: enrichWithDefaultStaticThresholdValues,
@@ -213,6 +220,8 @@ const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   name: t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.name'),
   headline: t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.headline'),
   text: t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.text'),
+  tearSheetHeadline: t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.tearSheetHeadline'),
+  tearSheetDescription: t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.tearSheetDescription'),
   baselineEnabled: true,
   defaultMetric: 'calls',
   getMetricName: (alertRule: ApplicationAlertRule) => alertRule.metricName,
@@ -243,6 +252,8 @@ const throughputBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   name: t('in-alerting:smartAlerts.applications.blueprintConfig.throughput.name'),
   headline: t('in-alerting:smartAlerts.applications.blueprintConfig.throughput.headline'),
   text: t('in-alerting:smartAlerts.applications.blueprintConfig.throughput.text'),
+  tearSheetHeadline: t('in-alerting:smartAlerts.applications.blueprintConfig.throughput.tearSheetHeadline'),
+  tearSheetDescription: t('in-alerting:smartAlerts.applications.blueprintConfig.throughput.tearSheetDescription'),
   baselineEnabled: true,
   defaultMetric: 'calls',
   getMetricName: () => 'calls',
@@ -354,18 +365,19 @@ function getStatusCodeFormModel(alertRule: StatusCodeApplicationAlertRule): Form
 }
 
 function getExtraSlownessAnalyzeLinkTagFilterFormModel(
-  alertConfig: ApplicationAlertConfig,
+  alertConfig: ApplicationSmartAlertConfig,
   timeConfig: FixedTimeConfig,
   adaptiveBaselineInfo = {}
 ): FormModelElement[] {
   let value: number;
 
-  const { threshold } = alertConfig;
+  const { rules } = alertConfig;
+  const threshold = rules[0].thresholds.WARNING ?? rules[0].thresholds.CRITICAL;
 
-  if (isStaticThresholdConfig(threshold)) {
+  if (isStaticThresholdRule(threshold!)) {
     value = threshold.value;
-  } else if (isAdaptiveBaselineConfig(threshold)) {
-    value = getApproximatedAdaptiveBaselineThresholdValue(threshold, adaptiveBaselineInfo);
+  } else if (isAdaptiveThresholdRule(threshold!)) {
+    value = getApproximatedAdaptiveBaselineThresholdValue(rules[0], adaptiveBaselineInfo, true);
   } else {
     // HISTORIC_BASELINE
     value = getApproximatedHistoricBaselineThresholdValue(
@@ -375,39 +387,77 @@ function getExtraSlownessAnalyzeLinkTagFilterFormModel(
     );
   }
 
-  return [tagFilter('call.latency', toTagFilterNumberOperator(alertConfig.threshold.operator), value)];
+  return [tagFilter('call.latency', toTagFilterNumberOperator(rules[0].thresholdOperator), value)];
 }
 
-function enrichWithDefaultStaticThresholdValues(alertConfig: ApplicationAlertConfig): ApplicationAlertConfig {
-  const { threshold } = alertConfig;
+function enrichWithDefaultStaticThresholdValues(alertConfig: ApplicationSmartAlertConfig): ApplicationSmartAlertConfig {
+  const { rules } = alertConfig;
+
   return {
     ...alertConfig,
-    threshold: {
-      ...threshold,
-      // as this should already be introducing the right threshold when invoked from the blueprint,
-      // using casting to the different Threshold Types here should be fine, to make TS happy, and
-      // to prepare the next step to refactor this away. Actually, the rendering should be resilient and
-      // do not need these defaults...
-      // @ts-expect-error-error needs to be refactored
-      value: (threshold as StaticThresholdConfig)?.value ?? null
-    }
+    rules: [
+      {
+        ...rules[0],
+        thresholds: {
+          ...rules[0].thresholds,
+          // as this should already be introducing the right threshold when invoked from the blueprint,
+          // using casting to the different Threshold Types here should be fine, to make TS happy, and
+          // to prepare the next step to refactor this away. Actually, the rendering should be resilient and
+          // do not need these defaults...
+          // @ts-expect-error-error needs to be refactored
+          WARNING: {
+            ...rules[0]?.thresholds?.WARNING,
+            value: (rules[0]?.thresholds?.WARNING as StaticThresholdRule)?.value ?? null
+          },
+          // @ts-expect-error-error needs to be refactored
+          CRITICAL: {
+            ...rules[0]?.thresholds?.CRITICAL,
+            value: (rules[0]?.thresholds?.CRITICAL as StaticThresholdRule)?.value ?? null
+          }
+        }
+      },
+      ...rules.slice(1)
+    ]
   };
 }
 
-function enrichWithDefaultThresholdValuesForBaselines(alertConfig: ApplicationAlertConfig): ApplicationAlertConfig {
-  const { threshold } = alertConfig;
+function enrichWithDefaultThresholdValuesForBaselines(
+  alertConfig: ApplicationSmartAlertConfig
+): ApplicationSmartAlertConfig {
+  const { rules } = alertConfig;
+
   return {
     ...alertConfig,
-    threshold: {
-      ...threshold,
-      // as this should already be introducing the right threshold when invoked from the blueprint,
-      // using casting to the different Threshold Types here should be fine, to make TS happy, and
-      // to prepare the next step to refactor this away. Actually, the rendering should be resilient and
-      // do not need these defaults, but needs another double-check with the different use cases.
-      value: (threshold as StaticThresholdConfig)?.value ?? null,
-      // @ts-expect-error-error needs to be refactored
-      baseline: (threshold as HistoricBaselineConfig).baseline ?? [],
-      deviationFactor: (threshold as HistoricBaselineConfig).deviationFactor ?? 0
-    }
+    rules: [
+      {
+        ...rules[0],
+        thresholds: {
+          ...rules[0].thresholds,
+          // as this should already be introducing the right threshold when invoked from the blueprint,
+          // using casting to the different Threshold Types here should be fine, to make TS happy, and
+          // to prepare the next step to refactor this away. Actually, the rendering should be resilient and
+          // do not need these defaults, but needs another double-check with the different use cases.
+          // @ts-expect-error-error needs to be refactored
+          WARNING: {
+            ...rules[0]?.thresholds?.WARNING,
+            value: (rules[0]?.thresholds?.WARNING as StaticThresholdRule)?.value ?? null,
+            baseline:
+              (rules[0]?.thresholds?.WARNING as StaticBaselineThresholdRule)?.baseline ??
+              (rules[0]?.thresholds?.WARNING as AdaptiveBaselineData)?.baseline,
+            deviationFactor: (rules[0]?.thresholds?.WARNING as StaticBaselineThresholdRule)?.deviationFactor ?? null
+          },
+          // @ts-expect-error-error needs to be refactored
+          CRITICAL: {
+            ...rules[0]?.thresholds?.CRITICAL,
+            value: (rules[0]?.thresholds?.CRITICAL as StaticThresholdRule)?.value ?? null,
+            baseline:
+              (rules[0]?.thresholds?.CRITICAL as StaticBaselineThresholdRule)?.baseline ??
+              (rules[0]?.thresholds?.WARNING as AdaptiveBaselineData)?.baseline,
+            deviationFactor: (rules[0]?.thresholds?.CRITICAL as StaticBaselineThresholdRule)?.deviationFactor ?? null
+          }
+        }
+      },
+      ...rules.slice(1)
+    ]
   };
 }

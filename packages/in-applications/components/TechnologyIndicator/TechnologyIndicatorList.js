@@ -41,15 +41,17 @@ export default function TechnologyIndicatorList({ technologies, getHref$, respon
   return (
     <ul className={locals.list} ref={ref}>
       {technologies?.length > 0 &&
-        techToDisplay.map(pluginOrGroupType => (
-          <TechnologyIndicator
-            getHref$={getHref$}
-            key={pluginOrGroupType}
-            pluginOrGroupType={pluginOrGroupType}
-            showTechnologyLabel={showTechnologyLabel}
-          />
+        techToDisplay.map((pluginOrGroupType, i) => (
+          <li key={i}>
+            <TechnologyIndicator
+              getHref$={getHref$}
+              key={pluginOrGroupType}
+              pluginOrGroupType={pluginOrGroupType}
+              showTechnologyLabel={showTechnologyLabel}
+            />
+          </li>
         ))}
-      {remainder}
+      <li key={limit}>{remainder}</li>
     </ul>
   );
   // }

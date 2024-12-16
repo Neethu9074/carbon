@@ -3,19 +3,22 @@
   "edit": "編集",
   "delete": "削除",
   "test": "テスト",
+  "cancel": "キャンセル",
+  "recommendedActionsWithCount": "推奨アクション ({{count}})",
   "recommendedActions": "推奨アクション",
+  "recommendedOptimizationsWithCount": "推奨されるリソース・アクション {{count}})",
+  "recommendedOptimizations": "推奨されるリソース・アクション",
+  "actionName": "アクション名",
   "validVaultParameter": "オプションとしてマークされたボールト・パラメーターは、両方ともブランクであるか、あるいは両方ともブランクではない必要があります。",
   "newAction": "新規アクション",
-  "ok": "OK",
   "runAction": "アクションの実行",
   "testAction": "テスト・アクション",
   "targetAgent": "ターゲット・エージェント",
-  "noTargetAgent": "このアクションを実行するために使用できるターゲット・エージェントがありません。",
   "triggeringAgent": "{{hostname}} (エージェントのトリガー)",
   "targetAgentDescription": "エージェントは 1 ..* をカプセル化します。 センサーは、Instana バックエンドにイベントを発生させることができます。 トリガー・エージェントには、この特定のイベントを発生させたセンサーが含まれています。",
-  "chosenToRun": "アクション・カタログから {{actionName}} を実行することを選択しました。",
+  "chosenToRun": "アクションの実行 {{actionName}}",
   "viewManualAction": "手動アクション {{actionName}} の表示",
-  "chosenToTest": "アクション・カタログから {{actionName}} をテストすることを選択しています。",
+  "chosenToTest": "テスト・アクション {{actionName}}",
   "failedToInitiate": "{{actionName}} の開始に失敗しました。",
   "hasBeenInitiated": "{{actionName}} が開始されました。",
   "configureAutomation": "{{actionName}} の自動化の構成",
@@ -39,14 +42,13 @@
   "parameters": "パラメーター",
   "noParametersTitle": "パラメーターはありません。",
   "noParametersText": "このアクションにはパラメーターはありません。",
-  "linkToActionLogs": "このアクションの出力は、 <logsLink>「分析」>「ログ」</logsLink> で確認できます。",
-  "linkToActionHistory": "このアクション・インスタンスの出力は、<logsLink>「アクション履歴」ページ</logsLink> で表示できます。",
+  "linkToActionHistory": "このアクション・インスタンスの出力は、「アクション履歴」で表示できます。",
   "description": "説明",
   "automation": "自動化",
   "failedToResolveDynamicParameters": "動的パラメーターの解決に失敗しました。",
-  "associateActionWithName": "アクション {{actionName}} の関連付け",
   "deletePolicyWithName": "ポリシー {{actionName}} の削除",
   "jobTemplate": "ジョブ・テンプレート",
+  "workflowJobTemplate": "ワークフロー・ジョブ・テンプレート",
   "hostsLimit": "ホスト制限 (オプション)",
   "ownerInfo": "所有者/組織: {{owner}}",
   "repoInfo": "リポジトリー: {{repo}}",
@@ -77,12 +79,15 @@
   "duplicate": "重複",
   "theValueMustNotBeBlank": "値をブランクにすることはできません。",
   "tags": "タグ",
-  "noTagsConfigured": "タグが構成されていません",
+  "tagsLabel": "タグ (オプション)",
+  "actionCategory": "行動カテゴリー",
   "value": "値",
   "type": "タイプ",
+  "automationPoliciesWithCount": "自動化ポリシー ({{count}})",
   "automationPolicies": "自動化ポリシー",
   "copyOf": "{{name}}(のコピー)",
   "searchActions": "検索アクション",
+  "searchOptimizations": "検索の最適化",
   "hostsLimitHelpText": "指定されたターゲット・ホストに実行を制限します。 Ansible インベントリーでのシステムの表示方法に一致する値を選択するか、Ansible 制限構文でサポートされるストリングを入力します。",
   "aiEngine": "AI エンジン",
   "engine": "エンジン",
@@ -91,6 +96,92 @@
   "tag": "タグ",
   "noTagsAvailable": "使用可能なタグがありません",
   "actions": "アクション",
+  "actionsWithCount": "アクション({{count}})",
+  "titleUrl": "URL",
+  "generateWithWatsonx": "watsonx で生成",
+  "AISlugContent": "このコンテンツを生成するためにAIが使用されました",
+  "createPolicyWithName": "アクション {{actionName}} の表示およびポリシーの作成",
+  "viewActionCreatePolicy": "アクションの表示およびポリシーの作成",
+  "titleContentReadOnly": "生成されたコンテンツ (読み取り専用)",
+  "GenerateAIActionDialog": {
+    "actionConfiguration": "アクション構成",
+    "actionDetails": "アクションの詳細",
+    "Step1HeadlineSelectAction": "watsonx によって生成された組み込みアクションから、このイベント用の新しいアクションを作成します。",
+    "Step1HeadlinePrompt": "イベント名、説明、エンティティ・タイプに基づいて、watsonx で手動アクションを生成します。",
+    "Step2Headline": "アクション・カタログに保存する前に、アクションの詳細を指定したり、変更を加えたりします。",
+    "Step3Headline": "オプションで、アクションと一緒に自動化ポリシーを作成することができます。 このステップは後で完了することもできます。",
+    "step1Title": "ステップ 1: アクションの生成または選択",
+    "step1TitleGenerateAction": "ステップ 1: アクションの生成",
+    "step1TitleSelectAction": "ステップ 1：アクションの選択",
+    "step2Title": "ステップ 2: アクションの設定",
+    "step3Title": "ステップ 3: ポリシーの作成 (オプション)",
+    "policyDetails": "ポリシーの詳細",
+    "policy": {
+      "success": {
+        "title": "ポリシーが正常に作成されました。",
+        "content": "ポリシー <Link>\"{{name}}\"</Link> が正常に作成されました。"
+      }
+    },
+    "action": {
+      "success": {
+        "title": "アクションは正常に作成されました。",
+        "content": "アクション <Link>\"{{name}}\"</Link> が正常に作成されました。"
+      }
+    },
+    "generateAction": "AIで生成",
+    "closeDialogDescription": " このページから移動しますか?",
+    "closeDialogSubDescription": "このページを終了すると、入力または選択した情報は保存されません。",
+    "liveGeneration": "ライブ・ジェネレーション",
+    "builtinActions": "組み込みのアクション ({{count}})",
+    "eventName": "イベント名",
+    "eventDescription": "イベントの説明",
+    "eventEntityType": "イベント・エンティティ・タイプ",
+    "noDataAvailableLive": "プロンプトのフィールドに入力し、<strong>アクションの生成</strong> ボタンをクリックしてコンテンツを取得します。",
+    "noDataAvailableSelectAction": "コンテンツを表示するために選択します。",
+    "watsonxLoadingContent": "watsonx がコンテンツを生成している",
+    "confirmButtonLabel": "ページを離れる",
+    "cancelButtonLabel": "ページにとどまる",
+    "noResultsYet": "現時点で結果なし",
+    "next": "次へ",
+    "createActionAndPolicy": "アクションとポリシーを作成する",
+    "createAction": "アクション作成",
+    "nameExists": "アクションはすでに次の名前で存在します: {{name}}、およびタイプ: {{type}}",
+    "failedToGenerateAction": "アクションの生成に失敗しました。",
+    "failedToCreateActionPolicy": "アクションとポリシーの生成に失敗しました。",
+    "failedToCreateAction": "アクションの作成に失敗しました。",
+    "generateScriptDialog": {
+      "dialogHeader": "手動操作からスクリプトを生成する",
+      "step1Title": "ステップ 1: ステップの選択",
+      "step2Title": "ステップ 2: スクリプトの作成",
+      "step3Title": "ステップ 3: アクションの設定と作成",
+      "step1Headline": "スクリプトを生成する予定の手動アクション ステップを 1 つ選択します。 次のステップで、マニュアル・アクション・ステップを編集することができます。",
+      "step2Headline1": "アクション・ステップの詳細を確認し、必要な編集を行う。 次にスクリプトの生成をクリックすると、watsonx の結果が表示されます。",
+      "step2Headline2": "編集して再度生成し、別の結果を見ることができます。",
+      "noDataAvailableLive": "生成ボタンをクリックして、スクリプトを生成する",
+      "generateScriptButton": "スクリプトの生成",
+      "titleGeneratedCodeReadOnly": "生成コード (読み取り専用)",
+      "promptTitle": "プロンプト",
+      "generateScriptTileHeader": "手動アクション・ステップからスクリプトを生成する",
+      "generateScriptTileDescription": "watsonx AI を使用すると、手動アクション・ステップから bash スクリプトをプロンプトとして素早く作成し、数ステップでアクション・カタログに追加することができます。"
+    }
+  },
+  "CreatePolicyDialog": {
+    "Step1Headline": "推奨アクションを表示し、このイベントの自動化ポリシーを作成します。",
+    "Step2Headline": "新規自動化ポリシーを作成するための詳細を指定します。",
+    "step1Title": "ステップ1: 推奨アクションの表示",
+    "step2Title": "ステップ2: ポリシーの作成",
+    "actionDetails": "アクションの詳細",
+    "policy": {
+      "success": {
+        "title": "ポリシーが作成されました",
+        "content": "ポリシー \"{{name}}\" が正常に作成されました。"
+      }
+    }
+  },
+  "userDefinedWithCount": "ユーザー作成({{count}})",
+  "userDefined": "ユーザー作成",
+  "aiGeneratedWithCount": "AI生成({{count}})",
+  "aiGenerated": "AI生成",
   "ActionCatalog": {
     "actionCatalog": "アクション・カタログ",
     "action": "アクション",
@@ -111,7 +202,7 @@
     "showsUpInTheListOfActions": "アクションのリストに表示されます。 固有で、かつ意味のあるものでなければなりません。",
     "showsUpInTheActionDescription": "アクションの説明内に表示されます。 できるだけ分かりやすいものにする必要があります。",
     "docLinkDescription": "修復に役立つ可能性がある資料の URL。",
-    "manualContentDescription": "手動アクションの手順をここに入力します。",
+    "manualContentDescription": "編集する場合は、マーク・ダウンを使用してリストにステップを追加できます。",
     "manual": "手動",
     "confidence_low": "低",
     "body": "本文 (オプション)",
@@ -201,13 +292,35 @@
     "newFeature": "新機能",
     "view": "表示",
     "content": "内容",
+    "mustHaveRequiredTag": "アクションには、以下のタグのうち少なくとも1つが含まれていなければなりません：{{tags}}",
     "deleteDialog": {
       "success": "アクションは正常に削除されました。",
       "failure": "アクションの削除に失敗しました: {{errorMessage}}"
+    },
+    "createDialog": {
+      "success": {
+        "title": "アクションは正常に作成されました。",
+        "content": "アクション「{{name}}」が正常に作成されました。"
+      },
+      "failure": {
+        "title": "アクションの作成に失敗しました。",
+        "content": "このアクションを作成する際に問題が発生しました：{{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "アクションは正常に更新されました。",
+        "content": "アクション「{{name}}」は正常に更新されました。"
+      },
+      "failure": {
+        "title": "アクションの更新に失敗しました。",
+        "content": "このアクションの更新に問題が発生しました：{{errorMessage}}"
+      }
     }
   },
   "actionHistory": {
     "actionHistory": "アクション履歴",
+    "goToActionHistory": "アクション履歴に移動",
     "actionHistoryWithCount": "アクション履歴 ({{count}})",
     "noActionInstances": "表示可能なデータがありません",
     "external": "外部",
@@ -223,7 +336,8 @@
     "eventName": "イベント名",
     "returnCode": "戻りコード",
     "errorMessage": "エラー・メッセージ",
-    "actionContent": "アクション・コンテンツ",
+    "risk": "リスク",
+    "action": "アクション",
     "host": "ホスト",
     "log": "ログ",
     "success": "成功",
@@ -236,13 +350,13 @@
     "inputParameters": "入力パラメーター",
     "feedbackTab": "フィードバック",
     "properties": "プロパティー",
-    "filterNameOrActionInstanceId": "名前、イベント名、またはアクション・インスタンス ID でフィルター",
+    "filter": "フィルター",
     "inputPrompt": "このアクションの経験について教えてください。",
-    "unhappyFeedback": "私は非常に不幸である",
+    "unhappyFeedback": "私は非常に不満です",
     "dissatisfiedFeedback": "満足していません",
     "neutralFeedback": "私は中立です",
-    "satisfiedFeedback": "私は満足した",
-    "verySatisfiedFeedback": "私はとても満足していた",
+    "satisfiedFeedback": "私は満足しています",
+    "verySatisfiedFeedback": "私は非常に満足しています",
     "additionalFeedback": "追加コメント (オプション)",
     "feedbackError": "フィードバックの保存中にエラーが発生しました。 しばらくしてからやり直してください。",
     "feedbackNotSelectedError": "送信する前にオプションを選択してください。",
@@ -255,16 +369,24 @@
     "submitted": "実行依頼済み",
     "timeout": "Timeout",
     "issueUrl": "問題 URL",
-    "taskUrl": "タスク URL"
+    "taskUrl": "タスク URL",
+    "output": "出力",
+    "user": "ユーザー",
+    "apiToken": "API トークン",
+    "deleteTooltip": "アクション・インスタンスの削除 {{id}}",
+    "deleteDialog": {
+      "success": "アクション・インスタンスは正常に削除されました。",
+      "failure": "アクション・インスタンスの削除に失敗しました。"
+    }
   },
   "actionLanes": {
     "buttonInvestigate": "調査"
   },
   "policies": {
     "policies": "ポリシー",
+    "policiesWithCount": "ポリシー ({{count}})",
     "newPolicy": "新規ポリシー",
     "selectEventTrigger": "イベント・トリガーの選択",
-    "actionName": "アクション名",
     "eventTrigger": "イベント・トリガー",
     "unknownPolicy": "不明なポリシー",
     "policy": "policy",
@@ -288,13 +410,13 @@
     "custom": "カスタム",
     "event": "イベント",
     "entityType": "エンティティー・タイプ",
-    "properties": "プロパティー",
     "applicationSmartAlert": "アプリケーションのスマート・アラート",
     "globalApplicationSmartAlert": "グローバル・アプリケーション・スマート・アラート",
     "infraSmartAlert": "インフラストラクチャー・スマート・アラート",
     "mobileAppSmartAlert": "モバイル・アプリケーション・スマート・アラート",
     "syntheticsSmartAlert": "シンセティック・スマート・アラート",
     "logSmartAlert": "スマート・アラートをログに記録",
+    "sloSmartAlert": "サービス・レベル・スマート・アラート",
     "docLinkAndManualCantBeAutomated": "文書リンクおよび手動アクションは自動化できません。",
     "triggeringAgent": "トリガー・エージェント",
     "triggeringHostFqdn": "トリガー・ホスト FQDN",
@@ -308,6 +430,7 @@
     "manualAutomatic": "手動、自動",
     "policyType": "ポリシー・タイプ",
     "noPolicies": "ポリシーが構成されていません。",
+    "filterApplied": "適用されているフィルター",
     "createDialog": {
       "success": {
         "title": "ポリシーが正常に作成されました。",
@@ -315,7 +438,17 @@
       },
       "failure": {
         "title": "ポリシーの作成に失敗しました。",
-        "content": "このポリシーの作成中に問題が発生しました: \"{{name}}\"。"
+        "content": "このポリシーの作成中に問題が発生しました: {{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "ポリシーは正常に更新されました。",
+        "content": "ポリシー \"{{name}}\" は正常に更新されました。"
+      },
+      "failure": {
+        "title": "ポリシーの更新に失敗しました。",
+        "content": "このポリシーの更新中に問題が発生しました: {{errorMessage}}"
       }
     },
     "createBulkDialog": {
@@ -339,9 +472,45 @@
     "createPolicies": "ポリシーの作成",
     "websiteSmartAlert": "Web サイト・スマート・アラート"
   },
+  "infoPanel": {
+    "taskGuidance": "ユーザー・ガイド",
+    "hideTasks": "非表示",
+    "showTasks": "表示"
+  },
   "deleteDialog": {
     "pleaseConfirm": "ご確認ください",
     "pleaseConfirmMsg": "<strong>{{name}}</strong> を削除してよろしいですか?",
     "delete": "削除"
+  },
+  "turboActionCategories": {
+    "compliance": "コンプライアンス",
+    "prevention": "防止",
+    "efficiency": "効率性",
+    "efficiency_improvement": "効率改善",
+    "savings": "貯金",
+    "performance": "パフォーマンス",
+    "performance_assurance": "パフォーマンスの保証"
+  },
+  "resourceOptimization": {
+    "details": "リソース最適化の詳細",
+    "targetAgent": "ターゲット・エージェント",
+    "viewInTurbo": "Turbonomic で見る",
+    "resourceImpact": "リソースの影響",
+    "impactedApplications": "影響を受けるアプリケーション",
+    "services": "サービス",
+    "current": "現在",
+    "afterActions": "アクション後",
+    "agentHelperText": "エージェントは 1 ..* をカプセル化します センサーは、Instana バックエンドにイベントを発生させることができます。 トリガー・エージェントには、この特定のイベントを発生させたセンサーが含まれています。",
+    "proceedConfirm": "この操作は元に戻せません。 続行しますか?",
+    "riskDescription": "リスクの説明",
+    "runningAction": "実行アクション...",
+    "actionStarted": "アクションは開始しました",
+    "actionFailed": "アクション失敗",
+    "actionStartedMessage": "<strong>{{actionName}} を実行しました。</strong> アクション履歴タブで、このアクションの進行状況を見ます。",
+    "actionFailedMessage": "アクション <strong>{{actionName}}</strong> の実行要求に失敗しました: {{message}}。",
+    "viewActionHistory": "アクション履歴の表示",
+    "actionName": "アクション名",
+    "recommendedActionHistoryWithCount": "リソースのアクション履歴({{count}})",
+    "recommendedActionHistory": "リソース・アクション履歴"
   }
 }

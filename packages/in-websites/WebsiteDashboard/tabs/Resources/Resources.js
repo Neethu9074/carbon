@@ -6,8 +6,7 @@
 import React, { Fragment } from 'react';
 import invariant from 'invariant';
 
-import { Link } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Link, Button } from '@instana/components';
 
 import {
   pageIdUrlParameter,
@@ -140,7 +139,13 @@ export default function Resources({ timeConfig, tagFilters, websiteId, resourceT
 
   const resourcesListRightHeader = (
     <Fragment>
-      <Button disabled={!analyzeHref} kind="secondary" href={analyzeHref} style={{ marginRight: '0.5rem' }}>
+      <Button
+        disabled={!analyzeHref}
+        kind="secondary"
+        href={analyzeHref}
+        style={{ marginRight: '0.5rem' }}
+        size="compact"
+      >
         {t('in-websites:websiteDashboard.tabs.resources.resourcesButtonAnalyzeResources')}
       </Button>
 

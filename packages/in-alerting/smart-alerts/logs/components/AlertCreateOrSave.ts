@@ -13,8 +13,9 @@ import {
   enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError
 } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import { updateAlertConfig, createAlertConfig } from 'in-alerting/smart-alerts/logs/api/logsAlertConfig';
-import { trackAlertSaved, trackAlertUpdated } from 'in-alerting/smart-alerts/components/tracker';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
+import { ALERTING_SAVED, ALERTING_UPDATED } from 'in-services/tracking/eventNames';
+import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
 
 interface createOrSaveAlertProps {
   form: MapForm<any>;
@@ -27,6 +28,7 @@ interface createOrSaveAlertProps {
   toAlertConfig: (form: MapForm<any>) => Readonly<LogAlertConfig>;
   isSimpleMode: boolean;
   duplicateFrom?: string;
+  trackCta: CtaTrackingFunction;
 }
 
 export function createOrSaveAlert({
@@ -39,7 +41,8 @@ export function createOrSaveAlert({
   setMessages,
   toAlertConfig,
   isSimpleMode,
-  duplicateFrom
+  duplicateFrom,
+  trackCta
 }: createOrSaveAlertProps) {
   setIsSaving(true);
 
@@ -64,7 +67,7 @@ export function createOrSaveAlert({
       updatedAlertConfig => {
         onClose(updatedAlertConfig);
         showSuccessMessage(updatedAlertConfig.name, editMode);
-        trackAlertUpdated(updatedAlertConfig);
+        trackCta(ALERTING_UPDATED, { ...updatedAlertConfig, dialogMode: 'Advanced' });
       },
       error => {
         addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
@@ -79,7 +82,7 @@ export function createOrSaveAlert({
         const href = getLinkToAlertConfig(createAlertConfig.id);
         showSuccessMessage(createAlertConfig.name, editMode, false, href);
         const newConfig = duplicateFrom ? { ...createAlertConfig, cloneFromId: duplicateFrom } : createAlertConfig;
-        trackAlertSaved(newConfig, isSimpleMode);
+        trackCta(ALERTING_SAVED, { ...newConfig, dialogMode: isSimpleMode ? 'Simple' : 'Advanced' });
       },
       error => {
         addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));

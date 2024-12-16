@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { TimeConfig } from '@instana/types';
@@ -13,12 +13,16 @@ import { TimeConfig } from '@instana/types';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 // @ts-expect-error needs TS migration
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import { taskTypeMap, taskTypeList } from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/TaskType';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Table from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/Table';
 import { bytes, millis, number } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import Table from 'in-sdk/components/dashboard/Table';
+import ComboBox from 'in-components/ComboBox';
 import { t } from 'in-i18n';
+
+import locals from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/ComboBox.mless';
 
 interface DatabaseHitListRow {
   key: string;
@@ -33,20 +37,20 @@ interface DatabaseHitListProps {
 
 const cols = [
   {
-    title: t('in-sap:dashboards.account'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: DatabaseHitListRow) {
-        return row.dataStats.get('account');
-      }
-    }
-  },
-  {
     title: t('in-sap:dashboards.client'),
     type: 'string',
     typeArgs: {
       getValue(row: DatabaseHitListRow) {
         return row.dataStats.get('client');
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.userName'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: DatabaseHitListRow) {
+        return row.dataStats.get('account');
       }
     }
   },
@@ -87,22 +91,6 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.dbCalls'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row: DatabaseHitListRow) {
-        return row.snapshotId;
-      },
-      getMetricName(row: DatabaseHitListRow) {
-        return `databaseStats.${row.key}.totalDbCalls`;
-      },
-      getContent: number.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
     title: t('in-sap:dashboards.bytesRequested'),
     type: 'metric',
     typeArgs: {
@@ -117,11 +105,41 @@ const cols = [
         return 'mean';
       }
     }
+  },
+  {
+    title: t('in-sap:dashboards.calls'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row: DatabaseHitListRow) {
+        return row.snapshotId;
+      },
+      getMetricName(row: DatabaseHitListRow) {
+        return `databaseStats.${row.key}.totalDbCalls`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
   }
 ];
 
 export default function DatabaseHitList({ snapshotId, timeConfig }: DatabaseHitListProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'databaseStats'), [snapshotId]);
+  // @ts-expect-error Module needs to be translated to TS
+  const [{ taskType }, setPhase] = useState(taskTypeMap);
+
+  const rightHeader = (
+    <ComboBox
+      placeholder={t('in-sap:dashboards.taskType')}
+      isSearchable={false}
+      value={taskType}
+      className={locals.filter}
+      // @ts-expect-error Module needs to be translated to TS
+      onChange={t => setPhase({ taskType: t ? t.value : null })}
+      options={taskTypeMap}
+    />
+  );
   if (!data) {
     return null;
   }
@@ -137,6 +155,20 @@ export default function DatabaseHitList({ snapshotId, timeConfig }: DatabaseHitL
         timeConfig,
         dataStats
       };
+    })
+    .filter((row: DatabaseHitListRow) => {
+      const userValue = row.dataStats.get('account');
+      return typeof userValue === 'string' && userValue !== 'UNKNOWN';
+    })
+    .filter(function (rows: DatabaseHitListRow) {
+      if (taskType == null) {
+        return rows;
+      } else if (taskType == 'Others') {
+        const taskType = rows.dataStats.get('taskType');
+        return rows != null && typeof taskType === 'string' && !taskTypeList.includes(taskType);
+      } else {
+        return rows != null && rows.dataStats.get('taskType') === taskType;
+      }
     });
 
   function getDetails(row: DatabaseHitListRow) {
@@ -195,9 +227,10 @@ export default function DatabaseHitList({ snapshotId, timeConfig }: DatabaseHitL
       cardTitle={t('in-sap:dashboards.databaseHitList')}
       cols={cols}
       rows={rows}
-      initialSortColumn={0}
+      initialSortColumn={7}
       initialSortDirection="desc"
       getRowDetails={getDetails}
+      rightHeader={rightHeader}
     />
   );
 }

@@ -14,8 +14,10 @@ export default function PieLegend({
   updateHiddenMetrics,
   y1,
   y2,
+  slices,
   reverseLegendOrder,
-  metricsConfiguration
+  metricsConfiguration,
+  timeConfig
 }) {
   return (
     <Legend
@@ -23,6 +25,8 @@ export default function PieLegend({
       y2={y2}
       y1Lables={getLabelsFromAxis(y1, hiddenMetrics, updateHiddenMetrics, metricsConfiguration)}
       y2Lables={getLabelsFromAxis(y2, hiddenMetrics, updateHiddenMetrics, metricsConfiguration, 'y2')}
+      slices={slices}
+      timeConfig={timeConfig}
       reverseLegendOrder={reverseLegendOrder}
     />
   );
@@ -34,7 +38,9 @@ PieLegend.propTypes = {
   y1: rpt.object.isRequired,
   y2: rpt.object,
   reverseLegendOrder: rpt.bool,
-  metricsConfiguration: rpt.object
+  metricsConfiguration: rpt.object,
+  slices: rpt.array,
+  timeConfig: rpt.object
 };
 
 /**
@@ -48,8 +54,13 @@ function getLabelsFromAxis(axis, list = [], updateList, metricsConfiguration, ax
     axis?.labels?.map((label, i) => {
       let defaultName = label;
       if (!label?.trim() && metricsConfiguration) {
-        // If no label is present use the metric name as default
-        defaultName = getMetricLabel(metricsConfiguration.metrics[`${axisName}-${i}`]);
+        // If no label is present use the metric name as default if possible,
+        // otherwise continue with a blank label (which can appear for metric
+        // tags).
+        var metric = metricsConfiguration.metrics[`${axisName}-${i}`];
+        if (metric) {
+          defaultName = getMetricLabel(metric);
+        }
       }
       const isToggleable =
         !axis.nonToggleableSeries ||

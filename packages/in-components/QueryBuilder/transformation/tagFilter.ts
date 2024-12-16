@@ -19,17 +19,18 @@ import { TagCatalog, TagFilter, TagFilterEntity, TagFilterOperator } from 'in-ty
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 import { isNotBlank } from 'in-services/util/string';
+import { MinimalTagDefinition } from './formModel';
 
 const logger = createLogger('in-components/QueryBuilder/transformation/tagFilter');
 
 export const type = 'TAG_FILTER';
 
 type TagFilterLike = Pick<TagFilter, 'type' | 'name' | 'operator'> &
-  Partial<Pick<TagFilter, 'key' | 'value' | 'entity'>>;
+  Partial<Pick<TagFilter, 'key' | 'value' | 'entity'>> & { tagDefinition?: MinimalTagDefinition };
 
 export function toTagFilter(tagFilterLike: TagFilterLike): TagFilter {
-  const { name, key, value, operator, entity } = tagFilterLike;
-  return tagFilter(name, operator, value, key, entity);
+  const { name, key, value, operator, entity, tagDefinition } = tagFilterLike;
+  return tagFilter(name, operator, value, key, entity, tagDefinition);
 }
 
 // A tag filter with a string value exceeding the max length is invalid, to fix that
@@ -144,7 +145,8 @@ export function tagFilter(
   operator: TagFilterOperator,
   value?: any,
   key?: string | null,
-  entity: TagFilterEntity = NOT_APPLICABLE
+  entity: TagFilterEntity = NOT_APPLICABLE,
+  tagDefinition?: MinimalTagDefinition
 ): TagFilter {
   return {
     type,
@@ -152,6 +154,7 @@ export function tagFilter(
     operator,
     entity,
     ...(value != null && { value }),
-    ...(key != null && { key })
+    ...(key != null && { key }),
+    ...(tagDefinition != null && { tagDefinition })
   };
 }

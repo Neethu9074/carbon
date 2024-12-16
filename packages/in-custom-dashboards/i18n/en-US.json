@@ -17,6 +17,7 @@
         "copied": "Widget copied, use CTRL-V or CMD-V to paste on any custom dashboard",
         "duplicate": "Duplicate",
         "delete": "Delete",
+        "exportPDF": "Download PDF",
         "customDashboardWidgetTitle": "Custom dashboard widget: {{title}}"
       }
     },
@@ -69,7 +70,11 @@
       "renameDashboard": "Rename Dashboard",
       "dashboardName": "Dashboard Name",
       "rename": "Rename",
-      "failSaveDashboard": "Failed to save the dashboard."
+      "failSaveDashboard": "Failed to save the dashboard.",
+      "generatingPDFTitle": "Generating pdf",
+      "generatingPDFContent": "Please wait while the pdf is being generated.",
+      "generatedPDFTitle": "Pdf Generated",
+      "generatedPDFContent": "The pdf download will start shortly."
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "Dashboard not found",
@@ -93,6 +98,32 @@
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "Failed to parse input as JSON.",
       "jsonRootMustBeAnObject": "JSON root must be an object."
+    },
+    "downloadPdfDialog": {
+      "downloadPdf": "Download PDF file",
+      "settings": "Settings",
+      "pdfOrientation": "Orientation",
+      "portrait": "Portrait",
+      "landscape": "Landscape",
+      "pdfLayout": "Layout",
+      "widgetsDisplay": "Display",
+      "singlePage": "Single page",
+      "singlePageInfo": "Fit the entire dashboard on one page, with content resized to fit.",
+      "multiPages": "Multiple pages",
+      "multiPagesInfo": "Distribute the dashboard across multiple pages, keeping the original layout. Some widgets may be cut off.",
+      "stackWidgetsTitle": "Stack widgets",
+      "stackWidgetsInfo": "Display widgets in a vertical stack across multiple pages.",
+      "loadingWidget": "Loading widget {{widgetIndex}} of {{totalNodes}}",
+      "generatePreview": "Generate preview",
+      "generatingPreview": "Generating pdf preview"
+    },
+    "filterContext": {
+      "topLevelFilterPartiallyApplied": "Some of the current dashboard filters were applied.",
+      "topLevelFilterSelectsEverything": "The current dashboard filters do not apply to this widget.",
+      "topLevelFilterSelectsNothing": "The current dashboard filters do not apply to this widget.",
+      "topLevelFilterNotSupported": "The current dashboard filters were not applied to this widget because the widget does not support filtering.",
+      "topLevelFilterAppliedToSomeDatasets": "The current dashboard filters were not fully applied to the following datasets: {{datasets}}",
+      "unnamedDataset": "Unnamed dataset"
     }
   },
   "dashboardSwitcher": {
@@ -130,6 +161,17 @@
         "unexpectedLowOrHighNumberOfCalls": "Unexpectedly high or low number of calls"
       }
     },
+    "srcBizOps": {
+      "formComponent": {
+        "pleaseSelect": "Please select",
+        "pleaseSelectMetric": "Please select a metric",
+        "aggregation": "Aggregation",
+        "metric": "Metric"
+      },
+      "index": {
+        "bizOps": "Business Processes (Activities)"
+      }
+    },
     "srcApp": {
       "formComponent": {
         "needToTurnOffPP": "To use grouping you need to turn off Potential Problems highlighting first.",
@@ -163,6 +205,7 @@
       "metricsFormComponent": {
         "metric": "Metric",
         "selectMetric": "Select metric",
+        "unit": "Unit",
         "aggregation": "Aggregation",
         "crossSeriesAggregation": "Use SUM for cross-series aggregation",
         "crossSeriesAggregationHelp": "Normally, the cross-series aggregation is the same as the cross-time aggregation (the method used to combine data-points into a single bucket). With this toggle enabled, we'll sum the buckets across the data-series rather than using the specified aggregation.",
@@ -293,6 +336,15 @@
         "increaseColor": "Increase Color",
         "decreaseColor": "Decrease Color",
         "timeShift": "Time Shift"
+      },
+      "thresholdForm": {
+        "addThresholdColorization": "Add threshold based colorization",
+        "threshold": "Threshold",
+        "critical": "Critical when",
+        "warning": "Warning when",
+        "criticalValidator": "Critical threshold should be greater than warning threshold for > and >= operators.",
+        "warningValidator": "Warning threshold should be greater than critical threshold for < and <= operators.",
+        "bytes": "Bytes"
       },
       "bigNumber": "Big Number"
     },
@@ -425,6 +477,25 @@
       }
     },
     "slo": {
+      "general": {
+        "demoWidgetTitle": "Widget Title",
+        "sloNotFound": "Slo Configuration Not Found"
+      },
+      "v2Form": {
+        "headline": "Select a Service Level Objective",
+        "subheading": "Select an existing SLO or click \"Add new SLO\" to create a new one",
+        "addSloButtonLabel": "Add new SLO",
+        "chartTypeSelectionLabel": "Chart type",
+        "chartTypeOption": "",
+        "chartTypeOption_INDICATOR": "Indicator chart",
+        "chartTypeOption_ERROR_BUDGET": "Error budget chart",
+        "validators": {
+          "notBlankSloValidator": "Please choose a SLO configuration from the list."
+        }
+      },
+      "v2WidgetHeader": {
+        "indicatorType": "Indicator type:"
+      },
       "demo": {
         "title": "SLO Title",
         "sliName": "Example Sli",
@@ -465,8 +536,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "Endpoint",
-        "allEndpoints": "All Endpoints",
-        "loading": "<loading>"
+        "allEndpoints": "All Endpoints"
       },
       "goodBadEventsForm": {
         "goodEvents": "Good Events",
@@ -503,7 +573,6 @@
       },
       "servicesSelectBox": {
         "service": "Service",
-        "loading": "<loading>",
         "allServices": "All Services"
       },
       "sliFormPresenter": {
@@ -608,6 +677,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "At least one filter expression must be configured.",
       "timeBased": "Time-based",
       "eventBased": "Event-based",
+      "sloLegacy": "SLO legacy",
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "Application",
@@ -709,7 +779,8 @@
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "Threshold Configuration",
-        "thresholdLabel": "Threshold"
+        "thresholdLabel": "Threshold",
+        "ms": "ms"
       },
       "entityInfo": {
         "tooltip": "Unknown Apdex",
@@ -856,5 +927,8 @@
     "additionalFields": "This dashboard will only be visible to you. You can choose to share it with colleagues after creation",
     "create": "Create",
     "failedToCreateDashboard": "Failed to create dashboard."
+  },
+  "threshold": {
+    "label": "Threshold"
   }
 }

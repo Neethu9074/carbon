@@ -16,11 +16,14 @@ import {
 import MobileAppAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/mobileApp/chart/MobileAppAlertingChartWithErrorMessage';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
 import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
+import TriggeredIncidentButton from 'in-events/components/tabs/Summary/common/TriggeredIncidentButton';
 import { HighlightDataRetention } from 'in-events/components/EventContent/HighlightDataRetention';
 import MobileAppScopePath from 'in-alerting/smart-alerts/mobileApp/components/MobileAppScopePath';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import AnalyzeMobileAppEventButton from 'in-events/components/AnalyzeMobileAppEventButton';
+import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
 import MobileAppAlertConfigButton from 'in-events/components/MobileAppAlertConfigButton';
+import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import useMobileAppEventAlertConfig from 'in-events/hooks/useMobileAppEventAlertConfig';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
@@ -28,12 +31,19 @@ import { isApproximatePrecision } from 'in-events/components/util/metricResultUt
 import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import useMobileAppEventEntity from 'in-events/hooks/useMobileAppEventEntity';
+import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
+// @ts-expect-error
+import EventIcon from 'in-events/components/EventIcon';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
+import { getEventSeverityLabelWithEventType } from 'in-stores/events';
+import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { Row, Col } from 'in-components/layout/Grid';
 import { EventOrMap } from 'in-events/types';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/EventContent/MobileEventContent.mless';
@@ -41,14 +51,15 @@ import locals from 'in-events/components/EventContent/MobileEventContent.mless';
 interface Props {
   event: EventOrMap;
   snapshot: Map<string, unknown>;
+  reload: () => void;
 }
 
-export default function MobileEventContent({ event, snapshot }: Props) {
+export default function MobileEventContent({ event, snapshot, reload }: Props) {
   const eventEntity = useMobileAppEventEntity(event);
   const alertConfig = useMobileAppEventAlertConfig(event);
   const [metricResultPrecision, setMetricResultPrecision] = useState<string>('');
   if (!eventEntity || !alertConfig) {
-    return null;
+    return <LoadingIndicator size="xxxl" />;
   }
   const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
   const { tagFilterExpression, rule } = alertConfig;
@@ -64,22 +75,50 @@ export default function MobileEventContent({ event, snapshot }: Props) {
   };
   const chartViewConfig = createDefaultChartConfig(timeConfig);
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
+
+  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const pillContent = getEventStateBadge(event);
+
   return (
     <>
       <Row withoutSideMargin>
         <Col xs>
-          <Card title={t('in-events:titleDescription')}>
+          <Card title={t('in-events:titleDescription')} leftHeaderContent={pillContent}>
             <MobileAppScopePath {...eventEntity} showDashboardLinks />
-
-            <ProblemDescription fixSuggestion={fixSuggestion} className="in-event-view-event-content" />
-            <DescriptionButtons>
-              <MobileAppAlertConfigButton alertConfig={alertConfig} />
-              <AnalyzeMobileAppEventButton
-                mobileAppName={eventEntity.mobileAppName}
-                alertConfig={alertConfig}
-                timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
-              />
-            </DescriptionButtons>
+            <ProblemDescription fixSuggestion={fixSuggestion} />
+            {canCloseManually && hasManualCloseFields(event) ? (
+              <div>
+                <ManualCloseDescription event={event} />
+                <DescriptionButtons>
+                  <TriggeredIncidentButton event={event} />
+                  <MobileAppAlertConfigButton alertConfig={alertConfig} />
+                  <AnalyzeMobileAppEventButton
+                    mobileAppName={eventEntity.mobileAppName}
+                    alertConfig={alertConfig}
+                    timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
+                  />
+                </DescriptionButtons>
+              </div>
+            ) : (
+              <DescriptionButtons>
+                {canCloseManually && (
+                  <ManualCloseIssueButton
+                    event={event}
+                    reload={reload}
+                    iconComponent={
+                      <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
+                    }
+                  />
+                )}
+                <TriggeredIncidentButton event={event} />
+                <MobileAppAlertConfigButton alertConfig={alertConfig} />
+                <AnalyzeMobileAppEventButton
+                  mobileAppName={eventEntity.mobileAppName}
+                  alertConfig={alertConfig}
+                  timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
+                />
+              </DescriptionButtons>
+            )}
           </Card>
         </Col>
       </Row>

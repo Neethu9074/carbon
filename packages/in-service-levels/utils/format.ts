@@ -20,28 +20,31 @@ interface FormatSloStatusResponse {
   sloTarget?: string;
 }
 
-export function formatSloStatus({ status, target }: { status?: number; target?: number }): FormatSloStatusResponse {
-  if (isUndefined(status) || isUndefined(target)) return {};
-  const format = createSloPercentageFormatter(target);
+export function formatSloStatus({
+  status,
+  target,
+  precision = SLO_TARGET_DECIMAL_PRECISION
+}: {
+  status?: number;
+  target?: number;
+  precision?: number;
+}): FormatSloStatusResponse {
+  if (isUndefined(status) || isUndefined(target)) {
+    return { sloStatus: valueMissingPlaceholder, sloTarget: valueMissingPlaceholder };
+  }
+  const format = createSloPercentageFormatter(precision);
   return {
     sloStatus: format(status) ?? valueMissingPlaceholder,
     sloTarget: format(target) ?? valueMissingPlaceholder
   };
 }
 
-export function createSloPercentageFormatter(sloTarget: number): NumberFormatter {
-  const minimumFractionDigits = 2;
-  const hundredthsDigits = 2;
-
-  // Determines the current decimal places and increments the decimals by one, if necessary,
-  // to inform the user whether the specified target has been exceeded.
-  const numberStr = sloTarget.toFixed(SLO_TARGET_DECIMAL_PRECISION + hundredthsDigits + 2);
-  const decimalCount = numberStr.split('.')[1].replace(/0+$/, '').length - hundredthsDigits;
-  const displayedFractionDigits = Math.max(decimalCount + 1, minimumFractionDigits);
-
+export function createSloPercentageFormatter(precision = SLO_TARGET_DECIMAL_PRECISION): NumberFormatter {
   return getIntlNumberFormatter({
-    minimumFractionDigits,
-    maximumFractionDigits: displayedFractionDigits,
+    minimumFractionDigits: precision,
+    maximumFractionDigits: precision,
+    //@ts-expect-error roundingMode is supported in all major browser version of last two years but not part of types yet
+    roundingMode: 'trunc',
     style: 'percent'
   });
 }

@@ -9,8 +9,9 @@ import PropTypes from 'prop-types';
 
 import PotentialProblemContent from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemContent/PotentialProblemContent';
 import { alertRulesPropType, thresholdsPropType } from 'in-alerting/PotentialProblems/PotentialProblemsLane/proptypes';
+import { POTENTIAL_PROBLEMS_SELECTED, POTENTIAL_PROBLEMS_DIALOG_CLOSED } from 'in-services/tracking/eventNames';
 import PotentialProblemsList from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemsList';
-import { trackCurrentlySelected, trackDialogClosed } from 'in-alerting/PotentialProblems/tracker';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
@@ -33,15 +34,16 @@ function PotentialProblemsDialogPresenter({ alertRules, thresholds, alerts, ...r
   const [selectedItem, setSelectedItem] = useState(alerts[0]);
   const ruleSelected = alertRules[selectedItem.key].rule;
   const thresholdSelected = thresholds[selectedItem.key];
+  const { trackCta } = useSegmentTracking();
 
-  useTrackItemSelect(thresholdSelected, alerts, ruleSelected);
+  useTrackItemSelect(thresholdSelected, alerts, ruleSelected, trackCta);
 
   return (
     <Dialog
       title={title}
       onClose={() => {
         close();
-        trackDialogClosed({
+        trackCta(POTENTIAL_PROBLEMS_DIALOG_CLOSED, {
           metricName: ruleSelected.metricName,
           numberOfProblems: alerts.length
         });
@@ -78,13 +80,12 @@ function PotentialProblemsDialogPresenter({ alertRules, thresholds, alerts, ...r
   );
 }
 
-function useTrackItemSelect(threshold, alerts, rule) {
+function useTrackItemSelect(threshold, alerts, rule, trackCta) {
   useEffect(() => {
-    trackCurrentlySelected({
+    trackCta(POTENTIAL_PROBLEMS_SELECTED, {
       metricName: threshold.metricName,
       numberOfProblems: alerts.length
     });
-    // Deliberately executing Mixpanel tracking on these prop changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [alert, rule, threshold]);
 }

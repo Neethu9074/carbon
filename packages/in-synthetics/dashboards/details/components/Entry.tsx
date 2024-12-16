@@ -6,7 +6,7 @@
 
 import React, { Fragment, useState } from 'react';
 
-import { toInteractiveElement } from '@instana/components';
+import { toInteractiveElement, Pill } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import { bytesZeroDecimalPlaces, millisToTwoDecimalSeconds } from 'in-services/formatters/number';
@@ -20,7 +20,6 @@ import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import { TestResultEntry } from 'in-synthetics/utils/constants';
 import { Row, Col } from 'in-components/layout/Grid';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import Pill from 'in-components/Pill';
 
 import locals from 'in-synthetics/dashboards/details/components/Entry.mless';
 
@@ -49,7 +48,7 @@ const Entry = ({ entry, earliestTimestamp, endTimestamp }: EntryProps) => {
       <div className={locals.entry}>
         <div ref={ref} className={locals.leftHeader}>
           <Tooltip content={typeDefinition.long} align="rightMiddle">
-            <Pill color={typeDefinition.color} className={locals.type}>
+            <Pill type={typeDefinition.color} className={locals.type}>
               {typeDefinition.short}
             </Pill>
           </Tooltip>

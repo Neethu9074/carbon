@@ -7,6 +7,8 @@ import React, { forwardRef, ReactElement } from 'react';
 import { MapFormItems } from 'formalistic';
 import classNames from 'classnames';
 
+import { CarbonLayer } from '@instana/components';
+
 import SaveButtonComponent, { SaveButtonProps as OriginSaveButtonProps } from 'in-components/form/SaveButton';
 import PreviousButtonComponent, { PreviousButtonProps } from 'in-components/form/PreviousButton';
 import CancelButtonComponent, { CancelButtonProps } from 'in-components/form/CancelButton';
@@ -18,11 +20,12 @@ import locals from './FormFooter.mless';
 export interface FormFooterProps {
   className?: string;
   withRoundedBottomBorder?: boolean;
+  withoutCarbonLayer?: boolean;
   children: React.ReactNode;
 }
 
 export default forwardRef<HTMLElement, FormFooterProps>(function FormFooter(
-  { className, withRoundedBottomBorder, children },
+  { className, withRoundedBottomBorder, withoutCarbonLayer = false, children },
   ref
 ) {
   return (
@@ -30,7 +33,7 @@ export default forwardRef<HTMLElement, FormFooterProps>(function FormFooter(
       ref={ref}
       className={classNames(locals.controls, className, { [locals.withRoundedBottomBorder]: withRoundedBottomBorder })}
     >
-      {children}
+      {withoutCarbonLayer ? children : <CarbonLayer>{children}</CarbonLayer>}
     </nav>
   );
 });

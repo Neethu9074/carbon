@@ -6,8 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { KeyValue, Stack, Typography } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { KeyValue, Stack, Typography, RadioButton, IconButton } from '@instana/components';
 
 import { getAgentDownloadURL } from 'in-plg/pages/onboarding/content/ContentComponents';
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
@@ -17,8 +16,8 @@ import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import { DropDown } from 'in-plg/pages/onboarding/content/ContentComponents';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { t } from 'in-i18n';
 
 const agentModeOptions = ['dynamic', 'static'];
@@ -43,19 +42,17 @@ interface PackagingProps {
 function Packaging({ agentMode, agentModeOptions, setAgentMode }: PackagingProps) {
   return (
     <Stack direction="horizontal">
-      <CheckboxFancy
+      <RadioButton
         label={t('in-plg:agentDetails.agentMode.dynamic')}
         checked={agentMode === agentModeOptions[0]}
         onChange={() => setAgentMode(agentModeOptions[0])}
         size="default"
-        asRadioButton
       />
-      <CheckboxFancy
+      <RadioButton
         label={t('in-plg:agentDetails.agentMode.static')}
         checked={agentMode === agentModeOptions[1]}
         onChange={() => setAgentMode(agentModeOptions[1])}
         size="default"
-        asRadioButton
       />
     </Stack>
   );
@@ -85,12 +82,11 @@ function PlatformArchitecture({
   return (
     <Stack direction="horizontal" gap="disabled">
       <DropDown value={option} options={agentOptions} onChange={setOption} />
-      <Button
+      <IconButton
         target="_blank"
-        icon="lib_actions_download"
-        iconSize="s"
+        type="lib_actions_download"
+        iconSize="xs"
         kind="action"
-        noAutoMargin
         href={getAgentDownloadURL(
           tenant,
           tenantUnit,
@@ -99,9 +95,7 @@ function PlatformArchitecture({
           agentMode === 'dynamic' ? option : `${option}Static`,
           butlerDomain
         )}
-      >
-        {''}
-      </Button>
+      />
     </Stack>
   );
 }
@@ -132,11 +126,11 @@ const LinuxArchive = ({ tenant, tenantUnit, agentKey, downloadKey, butlerDomain,
         <>
           <DocumentLink
             text={t('in-plg:agentDetails.linux.archive.installUsingATarFile')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host-agent-linux#tarball-installation"
+            href="https://ibm.biz/insta-agent-linuxtar"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.linux.archive.startingTheAgent')}
-            href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-installing-host-agent-linux#starting-the-agent"
+            href="https://ibm.biz/insta-agent-linuxstart"
           />
         </>
       ),
@@ -148,6 +142,8 @@ const LinuxArchive = ({ tenant, tenantUnit, agentKey, downloadKey, butlerDomain,
       openByDefault: false
     }
   ];
+
+  if (shareAndInviteEnabled) sideCardData.pop();
 
   return (
     <Container>

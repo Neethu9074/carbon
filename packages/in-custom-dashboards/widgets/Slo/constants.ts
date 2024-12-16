@@ -1,11 +1,16 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc. 2021
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
-import { sloEnabled, websiteSloEnabled } from 'in-services/featureFlags';
+import { sloV2Enabled } from 'in-services/featureFlags';
 
-export const isWebsiteSloEnabled = sloEnabled && websiteSloEnabled;
+export const isSloWidgetEnabled = sloV2Enabled;
 
-export const MonitoringSources = Object.freeze(['application', 'website'] as const);
-export type MonitoringSource = (typeof MonitoringSources)[number];
+export const SloWidgetChartVariant = Object.freeze({
+  INDICATOR: 'INDICATOR',
+  ERROR_BUDGET: 'ERROR_BUDGET'
+} as const);
+export type SloWidgetChartType = keyof typeof SloWidgetChartVariant;
+export const SloWidgetChartTypes = Object.freeze(Object.values(SloWidgetChartVariant));

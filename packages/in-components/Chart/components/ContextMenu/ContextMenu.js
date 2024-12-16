@@ -6,19 +6,23 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { keyCodes, SvgIcon } from '@instana/components';
+import { keyCodes, SvgIcon, Button } from '@instana/components';
 import { on } from '@instana/observables';
-import { Button } from '@instana/legacy';
 
 import globalHighlightAction from 'in-components/Chart/components/ContextMenu/actions/globalHighlight';
 import downloadJSONAction from 'in-components/Chart/components/ContextMenu/actions/downloadJSON';
 import downloadCSVAction from 'in-components/Chart/components/ContextMenu/actions/downloadCSV';
+import downloadPDFAction from 'in-components/Chart/components/ContextMenu/actions/downloadPDF';
+import { CUSTOM_DASHBOARD_WIDGET_DOWNLOAD_PDF } from 'in-services/tracking/tracking';
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { customDashboardsExportPdfWidget } from 'in-services/featureFlags';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
+import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { containsIgnoreCase } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
 import { minutes } from 'in-services/time';
+import { t } from 'in-i18n';
 
 import locals from './ContextMenu.mless';
 
@@ -30,7 +34,18 @@ export default class extends React.Component {
   constructor(props) {
     super(props);
 
-    const { setShowContextMenu, highlightedTimeframe, chart } = props;
+    const {
+      setShowContextMenu,
+      highlightedTimeframe,
+      chart,
+      chartWrapper,
+      isCustomDashboard,
+      setExportWidgetId,
+      setTooltipRef,
+      setShouldExportWidget,
+      trackCta,
+      tooltipRef
+    } = props;
 
     const basicButtonConfigs = [
       {
@@ -53,6 +68,20 @@ export default class extends React.Component {
         onClick: () => downloadCSVAction.onClick(this.props.metrics, highlightedTimeframe)
       }
     ];
+
+    if (isCustomDashboard && customDashboardsExportPdfWidget) {
+      basicButtonConfigs.push({
+        ...downloadPDFAction,
+        onClick: () => {
+          setTooltipRef(tooltipRef);
+          setShouldExportWidget(true);
+          const widgetNode = chartWrapper.closest('[id^="widget-"]');
+          const widgetId = widgetNode?.id.replace(/^widget-/, '') || '';
+          trackCta(CUSTOM_DASHBOARD_WIDGET_DOWNLOAD_PDF, { widgetId });
+          downloadPDFAction.onClick({ widgetId, setExportWidgetId });
+        }
+      });
+    }
 
     const primaryContextMenuAction = chart.config.primaryContextMenuAction || zoomInAction.name;
     const excludedContextMenuActions = chart.config.excludedContextMenuActions || [];
@@ -140,13 +169,20 @@ export default class extends React.Component {
       size: 'compact'
     };
 
+    if (carbonButtonEnabled) {
+      buttonProps['kind'] = 'action';
+    }
+
     const leftAligned = this.isLeftAligned();
     const barWidthInPx = xScale.getRangeArea(chart.config.granularity);
 
     return (
       <>
         <div
-          className={locals.contextMenuActionsButtonsWrapper}
+          className={classNames({
+            [locals.contextMenuActionsButtonsWrapper]: true,
+            [locals.contextMenuCarbonButtonWrapper]: carbonButtonEnabled
+          })}
           style={{ left: this.getXPosition(contextMenuButtons.length) }}
         >
           {!immediatelyOpenContextMenu && this.renderButtons(contextMenuButtons)}
@@ -167,7 +203,11 @@ export default class extends React.Component {
                   key={index}
                   {...buttonProps}
                   icon={buttonConfig.icon}
-                  href$={buttonConfig.getHref$ && buttonConfig.getHref$()}
+                  {...(typeof buttonConfig.getHref === 'string'
+                    ? { href: buttonConfig.getHref }
+                    : buttonConfig.getHref$
+                    ? { href$: buttonConfig.getHref$() }
+                    : {})}
                   onClick={buttonConfig.onClick}
                 >
                   {buttonConfig.label}
@@ -217,7 +257,7 @@ export default class extends React.Component {
       return null;
     }
 
-    const primaryButton = createIconButton(contextMenuButtons[0]);
+    const primaryButton = createIconButton(contextMenuButtons[0], true);
 
     if (contextMenuButtons.length === 1) {
       return primaryButton;
@@ -247,23 +287,35 @@ export default class extends React.Component {
   renderContextMenu = () => {
     return createIconButton({
       icon: 'lib_menu_more_horizontal',
+      label: carbonButtonEnabled && t('in-components:analyze.options'),
       onClick: this.toggleContextMenu
     });
   };
 }
 
-function createIconButton(config) {
+function createIconButton(config, isPrimary) {
+  const carbonProps = {
+    hasIconOnly: true,
+    icon: config.icon,
+    size: 'compact',
+    style: isPrimary ? { left: '1px' } : {},
+    kind: 'tertiary'
+  };
+  if (config.label) {
+    carbonProps['iconDescription'] = config.label;
+  }
   const button = (
     <Button
       className={locals.contextMenuOpenButton}
       href$={config.getHref$ && config.getHref$()}
       onClick={config.onClick}
       kind="secondary"
+      {...(carbonButtonEnabled ? carbonProps : {})}
     >
-      <SvgIcon className={locals.contextMenuOpenButtonIcon} type={config.icon} />
+      {!carbonButtonEnabled && <SvgIcon className={locals.contextMenuOpenButtonIcon} type={config.icon} />}
     </Button>
   );
-  if (config.label) {
+  if (!carbonButtonEnabled && config.label) {
     return <Tooltip content={config.label}>{button}</Tooltip>;
   }
   return button;

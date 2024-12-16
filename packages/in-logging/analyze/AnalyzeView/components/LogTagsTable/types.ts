@@ -9,7 +9,7 @@ import { LogItem, LogTag } from 'in-types';
 
 export interface ClickedTag {
   name: string;
-  value: string;
+  value: string | number;
   key?: string;
 }
 
@@ -32,8 +32,8 @@ export interface LogTagsTableProps {
 export interface GetContentType extends LogTagsTableProps {
   tag: LogTag;
   uniqueTagName: string;
-  isHovered: boolean;
   allowedTagsForGrouping?: Set<string>;
+  resolvedValue: string;
 }
 
 export interface TagEntryProps extends LogTagsTableProps {

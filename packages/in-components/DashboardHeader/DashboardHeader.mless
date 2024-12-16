@@ -51,6 +51,7 @@
   }
 
   .rightContent {
+    flex-shrink: 0;
     justify-content: flex-end;
   }
 
@@ -123,6 +124,7 @@
 
   .secondaryActions {
     justify-self: flex-end;
+    gap: 0.25rem;
   }
   .specialIndicator {
     height: 8px;

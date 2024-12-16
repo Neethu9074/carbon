@@ -13,9 +13,12 @@ export const EVENT_TYPES;
 
 export const openEventsAtServerTime$: Observable<any>;
 
+export const healthColors: Record<string, string>;
+
 type Kind = keyof typeof ButtonKinds;
 
 export function getDesignLibraryColorBySeverity(severity: number, fallback?: string): string;
+export function getDesignLibrarySeverityIcon(severity: number): string;
 
 export function getButtonKindBySeverity(severity: number, fallback?: Kind): Kind;
 
@@ -25,3 +28,4 @@ interface Parms {
 export function getColorBySeverity(severity: number, parms?: Parms): Property.BackgroundColor | undefined;
 export function getIcon(eventType: number): string;
 export function getEventType(event: RawEvent | EventMap): number;
+export function getEventSeverityLabelWithEventType(event: RawEvent | EventMap, timeConfig: TimeConfig): string;

@@ -10,7 +10,8 @@
         "step1": "步驟 1：選取類型",
         "step2": "步驟 2：要求詳細資料",
         "step3": "步驟 3：排程",
-        "step4": "步驟 4：提供詳細資料"
+        "step4": "步驟 4：提供詳細資料",
+        "step5": "步驟 5: 關聯"
       },
       "selectTest": {
         "title": "您要建立何種類型的綜合測試"
@@ -39,6 +40,8 @@
         "labelName": "測試的名稱",
         "labelDescription": "說明",
         "labelFrequency": "頻率（分鐘）",
+        "labelFrequencyHour": "頻率（小時）",
+        "labelApplication": "選取應用程式",
         "labelApplications": "選取應用程式"
       },
       "bluePrint": {
@@ -95,6 +98,11 @@
             "line3": "步驟 3：選擇測試頻率（1 ~ 120 分鐘）。",
             "line4": "步驟 4：在測試和說明的名稱區段中，在名稱欄位中輸入測試的有意義名稱。 將測試目的的說明新增至說明欄位。"
           }
+        },
+        "certificateCheck": {
+          "whenToUse": {
+            "line1": "使用此測試來檢查 Web 伺服器憑證是否即將到期。"
+          }
         }
       },
       "validators": {
@@ -128,7 +136,11 @@
           "browserTypeHeadline": "瀏覽器綜合測試",
           "browserTypeText": "瀏覽器綜合測試是一種監視 Web 應用程式效能的方法，其方式是透過 Web 瀏覽器中的 Script 來模擬使用者與網站的互動，對影響使用者體驗的問題提供有價值的見解並確保網站正常發揮作用。",
           "browserSimpleTitle": "瀏覽器簡式測試",
-          "browserScriptTitle": "瀏覽器 Script 測試"
+          "browserScriptTitle": "瀏覽器 Script 測試",
+          "certificateCheckTitle": "SSL 憑證檢查",
+          "certificateCheckLabel": "SSL 憑證",
+          "certificateCheckHeadline": "SSL 憑證檢查測試",
+          "certificateCheckText": "SSL 憑證檢查測試是一種透過檢查已發出憑證的剩餘天數來測試 Web 應用程式中 SSL 憑證有效期限的方法。"
         },
         "configurationLabel": "配置",
         "configurationTitle": "配置：此測試將如何運作？",
@@ -140,6 +152,8 @@
         "identifyTitle": "識別：測試將執行什麼動作？",
         "customPropertiesTitle": "自訂內容",
         "frequency": "此測試將每隔 {{frequencyValue}} 分鐘執行一次。",
+        "frequencyHours": "此測試將每隔 {{frequencyHours}} 小時執行一次。",
+        "frequencyHoursAndMinutes": "此測試將每隔 {{frequencyHours}} 小時及 {{frequencyMinutes}} 分鐘執行一次。",
         "simultaneous": "同時",
         "simultaneousDescription": "此測試將在每一個選取的位置上同步執行。",
         "configStep": {
@@ -213,14 +227,48 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "瀏覽器"
+          "browserName": "瀏覽器",
+          "certificateCheckName": "SSL 憑證"
         },
         "customProperties": {
           "property": "內容",
           "propertyValue": "值",
           "addProperty": "新增內容",
           "propertyNameMustBeUnique": "內容名稱必須是唯一的。"
-        }
+        },
+        "certificateCheck": {
+          "inputHostName": "主機名稱",
+          "inputPortNumber": "埠",
+          "failureConfigLabel": "失敗配置",
+          "failureConfigText": "當憑證有效性還剩 <certificateValidityDays/> 天到期時，測試將會失敗。"
+        },
+        "associationsLabel": "關聯",
+        "applicationsTitle": "關聯：選取要與此綜合測試相關聯的應用程式",
+        "applicationsDescription": "將綜合測試與應用程式相關聯將為所有有權存取該應用程式的使用者授予存取權限。",
+        "associationsTitle": "關聯：選取您要與此綜合測試相關聯的項目",
+        "associationsDescription": "將綜合測試與應用程式、網站或行動應用程式相關聯，可以向所有有權存取這些實體的使用者授予存取權限。"
+      },
+      "associations": {
+        "applicationsTitle": "選取要與此綜合測試相關聯的應用程式",
+        "applicationsDescription": "將綜合測試與應用程式相關聯將為所有有權存取該應用程式的使用者授予存取權限。",
+        "associationsTitle": "選取您要與此綜合測試相關聯的項目",
+        "associationsDescription": "將綜合測試與應用程式、網站或行動應用程式相關聯，可以向所有有權存取這些實體的使用者授予存取權限。",
+        "applicationsButtonLabel": "選取應用程式",
+        "websitesButtonLabel": "選取網站",
+        "mobileAppsButtonLabel": "選取行動式應用程式",
+        "entityName": "名稱",
+        "noDataAvailable": {
+          "message": "{{component}} 無法使用"
+        },
+        "addApplications": "新增 {{count}} 個應用程式",
+        "addApplication": "新增應用程式",
+        "addWebsites": "新增 {{count}} 個網站",
+        "addWebsite": "新增網站",
+        "addMobileApps": "新增 {{count}} 個行動應用程式",
+        "addMobileApp": "新增行動式應用程式",
+        "applicationsTableTitle": "應用程式",
+        "websitesTableTitle": "網站",
+        "mobileAppsTableTitle": "行動應用程式"
       }
     },
     "httpMethods": {
@@ -241,9 +289,9 @@
     },
     "locationFeedback": {
       "successMessageDelete": "已順利刪除位置",
-      "failureMesssageDelete": "{{deleteLocationErrorMessage}}",
+      "failureMesssage": "{{errorMessage}}",
       "successMessageDeactivate": "已順利取消啟動位置",
-      "failureMesssageDeactivate": "{{deactivateLocationErrorMessage}}"
+      "successMessageActivate": "已順利啟動位置"
     },
     "updateTest": {
       "dialogTitle": "編輯 {{syntheticType}} 測試",
@@ -288,7 +336,7 @@
         "datacentersSubtitle": "在其中一個可用的資料中心啟動 Instana 受管理位置。 如需相關資訊，請參閱<linkDatacenters>使用 Instana 管理的 PoP</linkDatacenters>。",
         "confirmationDialog": {
           "headline": "正在部署位置",
-          "message": "我們正在下列資料中心設定您的新位置。 請耐心等候我們為您自動部署此項目。 完成時，您可以在「位置」標籤中找到新的位置。 <strong>每一個選取的資料中心最多可能需要 10 分鐘。</strong>",
+          "message": "我們正在下列資料中心設定您的新位置。 請耐心等候我們為您自動部署此項目。 完成時，您可以在「位置」標籤中找到新的位置。 <strong>對於每個選取的資料中心，此部署可能需要花費數分鐘的時間。</strong>",
           "table": {
             "heads": {
               "datacenterCode": "資料中心代碼",
@@ -303,11 +351,14 @@
         },
         "deactivateDatacenter": {
           "title": "取消啟動位置",
-          "deactivateMessage": "您確定要取消啟動位置 <strong>{{locationDisplayLabel}}</strong> 嗎？<br/><br/>取消啟動位置可能需要 10 分鐘。 請耐心等候我們為您取消供應此項目。 完成此作業後，位置狀態將為「離線」。<br/>",
+          "deactivateMessage": "您確定要取消啟動位置 <strong>{{locationDisplayLabel}}</strong> 嗎？<br/><br/>停用位置可能需要花費幾分鐘的時間。 請耐心等候我們為您取消供應此項目。 完成此作業後，位置狀態將為「離線」。<br/>",
           "warningMessage": "取消啟動未刪除。 該位置將可用，並且可以再次啟動。 若要完全移除受管理位置，請在位置狀態變更為「離線」時刪除該位置。",
           "activeStatus": "作用中",
           "deactivateButton": "取消啟動"
-        }
+        },
+        "activate": "啟動",
+        "okay": "好",
+        "activateLocation": "啟動位置"
       },
       "validators": {
         "theValueMustNotBeEmpty": "至少需要選取一個資料中心"
@@ -318,6 +369,46 @@
       },
       "status": {
         "pending": "擱置"
+      }
+    },
+    "credentialFeedback": {
+      "successMessageDelete": "成功刪除認證",
+      "failureMesssage": "{{errorMessage}}"
+    },
+    "createCredential": {
+      "createButton": "新建認證",
+      "nameValue": "名稱和值",
+      "associations": "關聯",
+      "newCredentials": "建立綜合認證",
+      "steps": {
+        "textInput": {
+          "placeholder": "認證名稱",
+          "labelText": "名稱",
+          "invalidText": "認證名稱必須以字母開頭，並且僅包含字母、數字和底線。",
+          "credentialNamesMustBeUnique": "認證名稱必須是唯一的。 此名稱已採用。 嘗試另一個。"
+        },
+        "passwordInput": {
+          "placeholder": "認證值",
+          "labelText": "值"
+        },
+        "associationsDescription": "將認證與應用程式、網站或行動式應用程式關聯後，會將存取權限授與所有可以存取這些實體的使用者。"
+      },
+      "feedback": {
+        "successMessage": "認證建立成功",
+        "failureMessageCreate": "無法建立認證：{{errorMessage}}",
+        "updateSuccessMessage": "已成功更新認證",
+        "failureMessageUpdate": "無法更新認證：{{errorMessage}}"
+      },
+      "edit": {
+        "dialogTitle": "編輯綜合認證 {{credentialName}}",
+        "associations": "關聯",
+        "saveButton": "儲存",
+        "textInputHelperText": "認證名稱無法編輯，為 readOnly 欄位",
+        "passwordInputHelperText": "如果您想要更新目前的認證值，請鍵入新的認證值。"
+      },
+      "tooltipLabels": {
+        "hide": "隱藏認證值",
+        "show": "顯示認證值"
       }
     }
   },
@@ -334,7 +425,8 @@
       "secondaryLabels": {
         "tests": "測試",
         "locations": "位置",
-        "smartAlerts": "智慧型警示"
+        "smartAlerts": "智慧型警示",
+        "credentials": "認證"
       },
       "popDialog": {
         "popUpDialogTitle": "Synthetic Monitoring 的許可權",
@@ -349,7 +441,23 @@
         "tlsInstructions": "如果您想要啟用 Redis TLS，則需要具有 X.509 憑證金鑰組（`tls.crt`、`tls.key`）及 CA 主要憑證檔 (`ca.crt`)。\n\n如果您沒有金鑰/憑證檔案，也可以使用 openssl 指令來產生新的檔案，請參閱下列範例：",
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt",
         "tlsSecretInstructions": "提供金鑰/憑證檔案之後，請使用 kubectl 指令來建立密鑰。",
-        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\""
+        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\"",
+        "associationsTitle": "{{number}} 個關聯",
+        "singleAssociationTitle": "{{number}} 個關聯"
+      },
+      "multiAppDialog": {
+        "filterLabel": "應用程式",
+        "singleAppHeader": "{{ number }} 個關聯",
+        "multiAppHeader": "{{ number }} 個關聯",
+        "noApplicationsAssociated": "沒有相關聯的應用程式"
+      },
+      "multiWebDialog": {
+        "filterLabel": "網站",
+        "noWebsitesAssociated": "沒有相關聯的網站。"
+      },
+      "multiMobileDialog": {
+        "filterLabel": "行動式應用程式",
+        "noMobileAppsAssociated": "沒有相關聯的行動應用程式。"
       },
       "testLabel": "名稱",
       "status": "狀態",
@@ -365,8 +473,15 @@
       "successRuns": "{{successRuns}} / {{totalRuns}} 個結果",
       "latency": "延遲",
       "locationLabel": "位置",
-      "locations": "{{totalLocations}} 個位置",
-      "applicationLabel": "應用程式",
+      "locationsColumn": {
+        "singleLocation": "{{number}} 個位置",
+        "multipleLocations": "{{number}} 個位置",
+        "singleRun": "在 {{number}} 個位置中執行",
+        "multipleRun": "在 {{number}} 個位置中執行",
+        "warning": "警告",
+        "noIssues": "沒有問題"
+      },
+      "associationLabel": "關聯",
       "health": "性能",
       "action": "動作",
       "labelConfirmRemoveTest": "您確定要移除 <strong>{{testLabel}}</strong> 測試嗎？",
@@ -400,6 +515,12 @@
       "deleteLocationBroswerRefreshInfo": "該位置需要一段時間才能從位置清單中消失，且可能需要進行瀏覽器重新整理。",
       "deactivateLocation": {
         "deactivate": "取消啟動"
+      },
+      "ipAddressColumn": {
+        "ipAddress": "IP 位址",
+        "singleIPAddress": "{{number}} 個 IP 位址",
+        "multipleIPAddress": "{{number}} 個 IP 位址",
+        "noIPAddresses": "NA"
       }
     },
     "summary": {
@@ -442,7 +563,15 @@
       "totalRuns": "{{totalRuns}} 執行總數",
       "meanLatencyFor90th": "第 90 個的 {{meanLatencyDetail}}",
       "smartAlertsTab": "智慧型警示",
-      "configurationTab": "配置"
+      "configurationTab": "配置",
+      "isCertificateValid": "上次執行 - 憑證由公開 CA 簽署",
+      "resultsCertificateValid": "憑證由公開 CA 簽署",
+      "certificateValid": "是",
+      "certificateNotValid": "否",
+      "daysRemaining": "前次執行 - 剩餘天數",
+      "timeOfExpiry": "上次執行 - 到期時間",
+      "smallerTimeFrameTitle": "此時間範圍沒有結果",
+      "smallerTimeFrameDescription": "請選取一個較長的時間範圍，以查看「SSL 憑證檢查」測試的結果。"
     },
     "resultsListPage": {
       "startedColumn": "已開始",
@@ -454,7 +583,8 @@
       "locationLabel": "位置",
       "failures": "失敗",
       "status": "狀態",
-      "success": "成功"
+      "success": "成功",
+      "daysRemaining": "剩餘天數"
     },
     "detailsPage": {
       "detailLiveModeDisabled": "即時模式在虛構測試結果詳細資料頁面中不適用",
@@ -579,7 +709,13 @@
         "imageButton": "影像",
         "ScreenshotsLoadingMessage": "正在載入擷取畫面",
         "noScreenshotsAvailableMessage": "此測試結果無法使用擷取畫面"
-      }
+      },
+      "sslCertificate": {
+        "daysRemaining": "剩餘天數",
+        "timeOfIssue": "發出時間",
+        "timeOfExpiry": "到期時間"
+      },
+      "failedRunErrorTypeTitle": "錯誤類型"
     },
     "noDataAvailable": {
       "resultsTitle": "無可用的結果",
@@ -645,6 +781,7 @@
       },
       "configurationEditAction": "編輯",
       "configurationDeleteAction": "刪除",
+      "configurationUnsupported": "不受支援的測試類型。",
       "timeoutLabel": "逾時",
       "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
       "retryStrategyLabel": "重試策略",
@@ -653,7 +790,44 @@
       "retryIntervalFieldLabel": "重試間隔",
       "retryIntervalSecondDescription": "{{retryIntervalValue}} 秒",
       "retryIntervalSecondsDescription": "{{retryIntervalValue}} 秒",
-      "markSyntheticCall": "標示虛構呼叫"
+      "markSyntheticCall": "標示虛構呼叫",
+      "hostname": "主機名稱",
+      "port": "埠",
+      "daysRemaining": "失敗配置",
+      "day": "當憑證有效性剩下 {{daysRemainingCheck}} 天到期時，測試將失敗",
+      "days": "當憑證有效性剩下 {{daysRemainingCheck}} 天到期時，測試將失敗",
+      "associations": "關聯",
+      "associatedApplications": "相關聯的應用程式",
+      "noApplicationsAssociated": "沒有相關聯的應用程式",
+      "associatedWebsites": "相關聯的網站",
+      "noWebsitesAssociated": "沒有相關聯的網站",
+      "associatedMobileApps": "相關聯的行動應用程式",
+      "noMobileAppAssociated": "沒有相關聯的行動應用程式"
+    },
+    "credentialList": {
+      "mainLabel": "認證",
+      "name": "名稱",
+      "associations": "關聯",
+      "createdAt": "建立時間",
+      "createdBy": "建立者",
+      "lastModifiedBy": "前次修改者",
+      "actions": "動作",
+      "noDataAvailable": {
+        "noCredentialsAvailableTitle": "沒有可用的綜合認證",
+        "noCredentialsAvailableDescription": "未從資料庫中擷取到綜合認證。"
+      },
+      "editAction": {
+        "editActionLabel": "編輯",
+        "theValueMustNotBeBlank": "值不得空白。"
+      },
+      "deleteAction": {
+        "deleteActionLabel": "刪除",
+        "deleteCredentialTitle": "刪除綜合認證 {{credentialName}}",
+        "credentialNameValidation": "輸入認證完整名稱以確認刪除",
+        "deleteButtonLabel": "刪除認證",
+        "cancelButtonLabel": "取消",
+        "deletionSuccess": "認證已刪除"
+      }
     }
   }
 }

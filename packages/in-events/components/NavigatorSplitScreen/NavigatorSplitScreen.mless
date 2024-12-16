@@ -16,6 +16,11 @@
     flex-grow: 0;
     flex-shrink: 0;
     border-right: 1px solid #d5dfe4;
+    z-index: 125;
+  }
+
+  .dialogIndex:has(:global(.carbonDeleteModalOpen)) {
+    z-index: calc(var(--ids-z-index-option-dialog) - 6);
   }
 
   .detailView {
@@ -28,7 +33,7 @@
 
   .header {
     background: var(--ids-color-option-neutral-50);
-    padding: 1.375rem 1.5rem;
+    padding: 0.5rem 1rem;
 
     display: flex;
     align-items: center;
@@ -38,6 +43,7 @@
   .toggleBar {
     width: 3rem;
     border-right: 1px solid #d5dfe4;
+    z-index: 125;
   }
 
   .toggleWrapper {
@@ -46,7 +52,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1.63rem 0;
+    padding: 0.5rem 0;
   }
 
   .toggle,

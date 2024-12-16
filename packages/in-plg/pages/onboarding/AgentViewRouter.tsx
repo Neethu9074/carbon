@@ -21,7 +21,6 @@ interface BreadCrumbItem {
   icon?: string;
   title?: string;
   href?: string;
-  iconColor?: string;
 }
 
 interface AgentViewRouterProps {
@@ -50,8 +49,7 @@ export default function AgentViewRouter({
       },
       {
         icon: selectedEntity?.icon,
-        title: selectedEntity?.title,
-        iconColor: selectedEntity?.iconColor
+        title: selectedEntity?.title
       }
     ];
   };

@@ -11,7 +11,11 @@ import {
   seconds,
   micros,
   latency,
-  NumberFormatter
+  NumberFormatter,
+  kiloBytes,
+  megaBytes,
+  percentagePlain,
+  nanos
 } from 'in-services/formatters/number';
 
 interface FormatterWithDefault {
@@ -24,16 +28,29 @@ interface FormatterWithDefault {
 export type BackendFormatterType =
   | 'BYTE_RATE'
   | 'BYTES'
+  | 'KILO_BYTES'
+  | 'MEGA_BYTES'
   | 'LATENCY'
   | 'MICROS'
   | 'MILLIS'
+  | 'NANOS'
   | 'NUMBER'
   | 'PERCENTAGE'
+  | 'PERCENTAGE_100'
   | 'RATE'
   | 'SECONDS'
   | 'LATENCY_WITH_DECIMALS';
 
-export type InternalFormatterTypes = 'NUMBER' | 'PERCENTAGE' | 'BYTES' | 'MILLIS' | 'LATENCY';
+export type InternalFormatterTypes =
+  | 'NUMBER'
+  | 'PERCENTAGE'
+  | 'PERCENTAGE_100'
+  | 'BYTES'
+  | 'MILLIS'
+  | 'LATENCY'
+  | 'MICROS'
+  | 'NANOS'
+  | 'RATE';
 
 const mappings: {
   readonly [key in BackendFormatterType]: FormatterWithDefault;
@@ -42,12 +59,16 @@ const mappings: {
   RATE: createFormatterWithDefault(number.perSecond, 'detailed'),
 
   PERCENTAGE: createFormatterWithDefault(percentage, 'detailed'),
+  PERCENTAGE_100: createFormatterWithDefault(percentagePlain, 'detailed'),
 
   BYTES: createFormatterWithDefault(bytes, 'detailed'),
+  KILO_BYTES: createFormatterWithDefault(kiloBytes, 'detailed'),
+  MEGA_BYTES: createFormatterWithDefault(megaBytes, 'detailed'),
   BYTE_RATE: createFormatterWithDefault(bytes.perSecond, 'detailed'),
 
   LATENCY: createFormatterWithDefault(latency, 'compact'),
 
+  NANOS: createFormatterWithDefault(nanos, 'compact'),
   MICROS: createFormatterWithDefault(micros, 'compact'),
   MILLIS: createFormatterWithDefault(millis, 'compact'),
   SECONDS: createFormatterWithDefault(seconds, 'fixedCompact'),
@@ -80,9 +101,13 @@ const mappingsToUiInternalNames: {
 } = {
   NUMBER: 'number.compact',
   PERCENTAGE: 'percentage.detailed',
+  PERCENTAGE_100: 'percentagePlain.detailed',
   BYTES: 'bytes.detailed',
   MILLIS: 'millis.compact',
-  LATENCY: 'latency.detailed'
+  MICROS: 'micros.compact',
+  NANOS: 'nanos.compact',
+  LATENCY: 'latency.detailed',
+  RATE: 'perSecond.detailed'
 };
 
 export function getUiInternalFormatterName(backendType: InternalFormatterTypes): string {
@@ -93,11 +118,15 @@ export const mappingsBackendTypesToUiMetrics = {
   NUMBER: 'number.compact',
   RATE: 'perSecond.detailed',
   PERCENTAGE: 'percentage.detailed',
+  PERCENTAGE_100: 'percentagePlain.detailed',
   BYTES: 'bytes.detailed',
+  KILO_BYTES: 'kilobytes.detailed',
+  MEGA_BYTES: 'megabytes.detailed',
   BYTE_RATE: 'perSecond.detailed',
   LATENCY: 'latency.detailed',
   MILLIS: 'millis.compact',
-  MICROS: 'millis.compact',
+  MICROS: 'micros.compact',
+  NANOS: 'nanos.compact',
   SECONDS: 'seconds.fixedCompact',
   LATENCY_WITH_DECIMALS: 'millis.compact'
 } as const;

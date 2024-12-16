@@ -4,31 +4,25 @@
  * Copyright IBM Corp. 2023
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
+
+import { StackItem } from '@instana/components';
 
 import ApplicationTagFilterBuilderContent from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/ApplicationTagFilterBuilderContent';
 import DisabledTagFilterButton from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/DisabledTagFilterButton';
-import { SloForm, SloFormOnChange } from 'in-service-levels/components/ConfigDialog/createSloForm';
+import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
 
-interface ApplicationTagFilterBuilderProps {
-  form: SloForm;
-  onChange: SloFormOnChange;
-  readOnly?: boolean;
-  width?: string;
-}
-
-export default function ApplicationTagFilterBuilder({
-  form,
-  onChange,
-  readOnly = false,
-  width
-}: ApplicationTagFilterBuilderProps) {
-  const applicationIdField = form.getIn(['entity', 'entityId']);
+export default function ApplicationTagFilterBuilder() {
+  const { form } = useContext(SloFormContext);
+  const applicationIdField = form.getIn(['entity', 'entityIds']);
   const boundaryScopeField = form.getIn(['scope', 'boundaryScope']);
+  const isScopeSelected = boundaryScopeField.value && applicationIdField.value[0];
 
-  const isScopeSelected = boundaryScopeField.value && applicationIdField.value;
-
-  if (!isScopeSelected) return <DisabledTagFilterButton width={width} />;
-
-  return <ApplicationTagFilterBuilderContent form={form} onChange={onChange} readOnly={readOnly} width={width} />;
+  return !isScopeSelected ? (
+    <StackItem>
+      <DisabledTagFilterButton noCustomTitle />
+    </StackItem>
+  ) : (
+    <ApplicationTagFilterBuilderContent />
+  );
 }

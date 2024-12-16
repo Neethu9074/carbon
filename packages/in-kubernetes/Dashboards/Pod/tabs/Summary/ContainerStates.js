@@ -7,8 +7,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Td, Table, Thead, Tbody, Tr, Th } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link, DataTable as CarbonDataTable } from '@instana/components';
+import { Td, Table, Thead, Tbody, Tr, Th } from '@instana/legacy';
 
 import {
   bytesTwoDecimalPlaces,
@@ -27,7 +27,8 @@ import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
 import ViewAllWrapper from 'in-components/TopListCard/ViewAllWrapper';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { usePodDashboard } from 'in-kubernetes/navigation/paths';
-import { getContainerIconByPlugin } from 'in-kubernetes/icons';
+import { getContainerIconByPlugin } from 'in-kubernetes/utils';
+import { carbonTableEnabled } from 'in-services/featureFlags';
 import Capitalize from 'in-components/Capitalize';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -48,6 +49,134 @@ export default connectTo(
 
     const maxPresentedStates = 5;
     const presentedStates = allContainerStates.slice(0, maxPresentedStates);
+    if (carbonTableEnabled) {
+      const carbonHeaders = [
+        {
+          key: 'name',
+          header: t('in-kubernetes:dashboards.name')
+        },
+        {
+          key: 'ready',
+          header: t('in-kubernetes:dashboards.ready')
+        },
+        {
+          key: 'status',
+          header: t('in-kubernetes:dashboards.status')
+        },
+        {
+          key: 'message',
+          header: t('in-kubernetes:dashboards.message')
+        },
+        {
+          key: 'cpuTotalPercentage',
+          header: t('in-kubernetes:dashboards.cpuTotalPercentage')
+        },
+        {
+          key: 'memoryUsage',
+          header: t('in-kubernetes:dashboards.memoryUsage')
+        },
+        {
+          key: 'health',
+          header: t('in-kubernetes:dashboards.health')
+        }
+      ];
+      const carbonRows = presentedStates.map((status, i) => {
+        const containerSnapshot = snapshotEnrichedContainerStates[status.containerSnapshotId]?.snapshot;
+        if (get(snapshotEnrichedContainerStates, [status?.containerSnapshotId, 'snapshot'])) {
+          return {
+            id: `${i}`,
+            ['name']: (
+              <div className={locals.labelColumn}>
+                <SeverityAwareEntityLink
+                  icon={getContainerIconByPlugin(get(containerSnapshot, ['container', 'plugin']))}
+                  label={get(containerSnapshot, ['containerLabel'])}
+                  href={getDashboardLink(status.containerSnapshotId, {
+                    pathname: '/physical/dashboard',
+                    to: timeConfig.to,
+                    focusedMoment: timeConfig.to
+                  })}
+                  severity={get(containerSnapshot, ['entityHealthInfo', 'maxSeverity'])}
+                />
+              </div>
+            ),
+            ['ready']: status.ready ? t('in-kubernetes:dashboards.yes') : t('in-kubernetes:dashboards.no'),
+            ['status']: <Capitalize>{status.state.status}</Capitalize>,
+            ['message']: <PodMessage message={status.message} />,
+            ['cpuTotalPercentage']: status.containerSnapshotId && (
+              <InfrastructureMetricSparkChart
+                snapshotId={status.containerSnapshotId}
+                timeConfig={timeConfig}
+                formatter={percentageZeroDecimalPlaces}
+                tooltipFormatter={percentageTwoDecimalPlaces}
+                metric="cpu.total_usage"
+                renderPostChartContent={K8DashboardsMarkerLanes}
+              />
+            ),
+            ['memoryUsage']: status.containerSnapshotId && (
+              <InfrastructureMetricSparkChart
+                snapshotId={status.containerSnapshotId}
+                timeConfig={timeConfig}
+                formatter={bytesZeroDecimalPlaces}
+                tooltipFormatter={bytesTwoDecimalPlaces}
+                metric="memory.usage"
+                renderPostChartContent={K8DashboardsMarkerLanes}
+              />
+            ),
+            ['health']: (
+              <EntityHealthIndicator
+                openIssues={get(containerSnapshot, ['entityHealthInfo', 'openIssues', 'length'])}
+                maxSeverity={get(containerSnapshot, ['entityHealthInfo', 'maxSeverity'])}
+                IndicatorPresenter={HealthIndicatorPresenter}
+                timeConfig={timeConfig}
+                snapshotId={status.containerSnapshotId}
+              />
+            )
+          };
+        }
+        return {
+          id: String(i),
+          ['name']: status.name,
+          ['ready']: status.ready ? t('in-kubernetes:dashboards.yes') : t('in-kubernetes:dashboards.no'),
+          ['status']: <Capitalize>{status.state.status}</Capitalize>,
+          ['message']: <PodMessage message={status.message} />,
+          ['cpuTotalPercentage']: status?.containerSnapshotId && (
+            <InfrastructureMetricSparkChart
+              snapshotId={status?.containerSnapshotId}
+              timeConfig={timeConfig}
+              formatter={percentageZeroDecimalPlaces}
+              tooltipFormatter={percentageTwoDecimalPlaces}
+              metric="cpu.total_usage"
+              renderPostChartContent={K8DashboardsMarkerLanes}
+            />
+          ),
+          ['memoryUsage']: status?.containerSnapshotId && (
+            <InfrastructureMetricSparkChart
+              snapshotId={status?.containerSnapshotId}
+              timeConfig={timeConfig}
+              formatter={bytesZeroDecimalPlaces}
+              tooltipFormatter={bytesTwoDecimalPlaces}
+              metric="memory.usage"
+              renderPostChartContent={K8DashboardsMarkerLanes}
+            />
+          ),
+          ['health']: <>&mdash;</>
+        };
+      });
+
+      return (
+        <>
+          <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
+          <div className={locals.viewAllWrapper}>
+            <ViewAllWrapper
+              ViewAll={ViewAll}
+              viewAllHref={viewAllHref}
+              presentedStates={presentedStates}
+              className={locals.viewAllLink}
+            />
+          </div>
+        </>
+      );
+    }
 
     return (
       <>

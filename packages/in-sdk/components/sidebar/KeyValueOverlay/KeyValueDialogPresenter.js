@@ -6,8 +6,10 @@
 import { Iterable, Map } from 'immutable';
 import React, { Fragment } from 'react';
 
+import { SearchInput } from '@instana/components';
+
 import { containsIgnoreCase, compareIgnoreCase } from 'in-services/util/string';
-import SearchInput from 'in-components/SearchInput/SearchInput';
+import { t } from 'in-i18n';
 
 import locals from './KeyValueDialogPresenter.mless';
 
@@ -17,7 +19,11 @@ export default function KeyValueDialogPresenter({ header, items, query, sort = t
       <div className={locals.header}>
         {header}
         <div>
-          <SearchInput onChange={onQueryChange} query={query} />
+          <SearchInput
+            onChange={onQueryChange}
+            query={query}
+            placeholder={t('in-components:searchInput.placeholderSearch')}
+          />
         </div>
       </div>
       <div className={locals.body}>{createHtmlContent(items, query, sort)}</div>

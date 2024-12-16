@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest } from '@instana/observables';
 import React from 'react';
+
+import { combineLatest } from '@instana/observables';
 
 import getOpenEventsCountTimeSeries from 'in-events/subscriptions/getOpenEventsCountTimeSeries';
 import { extendMetricConfigurationOnLiveMode } from 'in-events/metrics';

@@ -20,6 +20,7 @@ export default function createServerTableWithUrlState({
   defaultOrderBy,
   defaultOrderDirection,
   defaultPageSize,
+  defaultPageSizes,
   defaultQuery,
   defaultDisabledColumns,
   settingsKey,
@@ -36,6 +37,7 @@ export default function createServerTableWithUrlState({
       defaultOrderBy: defaultOrderBy ?? staticColumnDefinitions[0].id,
       defaultOrderDirection,
       defaultPageSize,
+      defaultPageSizes,
       defaultQuery,
       defaultDisabledColumns,
       paginationResettingUrlParameters

@@ -13,8 +13,8 @@ import { TimeConfig } from '@instana/types';
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 // @ts-expect-error Module needs to be translated to TS
 import { formatSql } from 'in-forge/tracing/jdbc/sql';
-import { formatDateTime } from 'in-services/formatters/date';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { formatDateTime } from 'in-services/formatters/date';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { millis } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -81,23 +81,22 @@ const cols = [
 
 export default function ExpensiveStatementStatsList({ snapshotId, timeConfig }: ExpensiveStatementStatsProps) {
   const data = useObservable(() => getRawPayloadWithTimestamp(snapshotId, 'expensiveStatementStats'), [snapshotId]);
-  if (!data) {
-    return null;
-  }
-  const expensiveStatementStat = (data as SnapshotData).get('raw_payload', []);
+  const expensiveStatementStat = data ? (data as SnapshotData).get('raw_payload', []) : null;
   const rows: ExpensiveStatementStatsRow[] = expensiveStatementStat
-    .keySeq()
-    .toArray()
-    .map((key: string) => {
-      const expensiveStatementStats = expensiveStatementStat.get(key);
+    ? expensiveStatementStat
+        .keySeq()
+        .toArray()
+        .map((key: string) => {
+          const expensiveStatementStats = expensiveStatementStat.get(key);
 
-      return {
-        key,
-        snapshotId,
-        timeConfig,
-        expensiveStatementStats
-      };
-    });
+          return {
+            key,
+            snapshotId,
+            timeConfig,
+            expensiveStatementStats
+          };
+        })
+    : [];
   function extractQuery(row: ExpensiveStatementStatsRow) {
     return row.key
       ? formatSql(row.expensiveStatementStats.get('statementString'))

@@ -71,7 +71,7 @@ describe('in-alerting/components/AlertHeader', () => {
     );
 
     // THEN
-    const messages = container.querySelectorAll('.message');
+    const messages = container.querySelectorAll('.carbon-message');
     expect(messages.length).toBe(1);
     expect(messages[0]).toHaveTextContent('deleted');
   });
@@ -137,7 +137,7 @@ describe('in-alerting/components/AlertHeader', () => {
     );
 
     // THEN
-    const messages = container.querySelectorAll('.message');
+    const messages = container.querySelectorAll('.carbon-message');
     expect(messages.length).toBe(1);
     expect(messages[0]).toHaveTextContent('Revision 1 ');
   });

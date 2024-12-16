@@ -29,6 +29,7 @@ interface ChartSelectorProps {
 interface ChartValue {
   aggregationId?: string;
   metricId?: string;
+  secondLevelMetricId?: string;
   rendererId?: string;
   templateId?: string;
   description?: string;
@@ -55,8 +56,11 @@ interface ChartMetric {
   description: string;
   label: string;
   metricId: string;
+  secondLevelMetricId?: string;
   formatter: string;
   groupLabel?: string;
+  customMetric?: boolean;
+  metricTagSuggestions?: { label: string; value: string }[];
 }
 
 interface ChartAggregation {
@@ -94,7 +98,7 @@ export default function ChartSelectorOverlay(props: ChartSelectorProps) {
   };
 
   const optionGroups = Object.getOwnPropertyNames(options);
-  const groups: { value: string, options: (ChartMetric | ChartTemplate)[] }[] = []
+  const groups: { value: string; options: (ChartMetric | ChartTemplate)[] }[] = [];
   optionGroups.forEach(key => {
     options[key].forEach(option => {
       const groupName = getGroupName(key, option);
@@ -127,18 +131,27 @@ export default function ChartSelectorOverlay(props: ChartSelectorProps) {
   }
 
   const overlayOnChange = (input: ChartMetric | ChartTemplate) => {
-    let change = { ...value };
+    let change: ChartValue = { ...value };
 
-    // If we previously displayed a template, discard all previous values
-    if (value?.templateId) {
+    // If we previously displayed a template or custom metric, discard all previous values
+    if (value?.templateId || value?.secondLevelMetricId) {
       change = {};
     }
 
     if (isChartMetric(input)) {
-      change = {
-        ...change,
-        metricId: input.metricId
-      };
+      if (isCustomChartMetric(input)) {
+        change = {
+          ...change,
+          metricId: `${input.metricId}`,
+          secondLevelMetricId: ''
+        };
+      } else {
+        change = {
+          ...change,
+          secondLevelMetricId: undefined,
+          metricId: input.metricId
+        };
+      }
 
       const metric = options.metrics?.find(opt => opt.metricId === input.metricId);
       let aggregation = metric?.aggregations?.find(opt => opt.id === change.aggregationId);
@@ -166,7 +179,6 @@ export default function ChartSelectorOverlay(props: ChartSelectorProps) {
         metrics
       };
     }
-
     onChange(change);
   };
 
@@ -227,10 +239,17 @@ export function getActiveChartMetric(options: ChartOptions, value: ChartValue): 
   for (let key of Object.getOwnPropertyNames(options)) {
     for (let option of options[key]) {
       const chartMetric = option as ChartMetric;
-      if (chartMetric.metricId === value?.metricId) {
+      if (
+        chartMetric.metricId === value?.metricId ||
+        (isCustomChartMetric(chartMetric) && value?.metricId?.startsWith(chartMetric.metricId))
+      ) {
         return chartMetric;
       }
     }
   }
   return undefined;
+}
+
+function isCustomChartMetric(input: ChartMetric): boolean {
+  return input.customMetric === true;
 }

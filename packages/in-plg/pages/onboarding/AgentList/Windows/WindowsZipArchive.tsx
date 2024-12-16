@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { KeyValue, Stack, Typography } from '@instana/components';
+import { KeyValue, Stack, Typography, RadioButton } from '@instana/components';
 
 import { getAgentDownloadURL } from 'in-plg/pages/onboarding/content/ContentComponents';
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
@@ -17,7 +17,7 @@ import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 const WindowsZipArchive = ({
@@ -76,6 +76,8 @@ const WindowsZipArchive = ({
     }
   ];
 
+  if (shareAndInviteEnabled) sideCardData.pop();
+
   return (
     <Container>
       <MainBody>
@@ -88,19 +90,17 @@ const WindowsZipArchive = ({
             label={t('in-plg:agentDetails.windows.common.packaging')}
             value={
               <Stack direction="horizontal">
-                <CheckboxFancy
+                <RadioButton
                   label={t('in-plg:agentDetails.windows.common.dynamic')}
                   checked={agentMode === agentModeOptions[0]}
                   onChange={() => setAgentMode(agentModeOptions[0])}
                   size="default"
-                  asRadioButton
                 />
-                <CheckboxFancy
+                <RadioButton
                   label={t('in-plg:agentDetails.windows.common.static')}
                   checked={agentMode === agentModeOptions[1]}
                   onChange={() => setAgentMode(agentModeOptions[1])}
                   size="default"
-                  asRadioButton
                 />
               </Stack>
             }

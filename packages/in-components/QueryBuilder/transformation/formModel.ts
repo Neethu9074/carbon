@@ -5,7 +5,15 @@
 
 import { findIndex, isEqual } from 'lodash';
 
-import { LogicalOperator, TagCatalog, TagFilter, TagFilterExpression, TagFilterExpressionElementUnion } from 'in-types';
+import {
+  LogicalOperator,
+  MetricSource,
+  TagCatalog,
+  TagFilter,
+  TagFilterExpression,
+  TagFilterExpressionElementUnion,
+  TagType
+} from 'in-types';
 import { toNewTagFilterFormat, type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { and, or, not } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
@@ -27,7 +35,20 @@ export interface Bracket {
   type: typeof OPEN_BRACKET | typeof CLOSE_BRACKET;
 }
 
-export type FormModelElement = TagFilter | Conjunction | Bracket;
+export interface MinimalTagDefinition {
+  name: string;
+  type: TagType;
+  path: MinimalPathNode[];
+  availability: MetricSource[];
+}
+
+export interface MinimalPathNode {
+  label: string;
+}
+
+export type SelfValidatingTagFilter = TagFilter & { tagDefinition?: MinimalTagDefinition };
+
+export type FormModelElement = SelfValidatingTagFilter | Conjunction | Bracket;
 
 // This function can be used to transform between the old tag filters model
 // we introduced with App 2.0 / websites 2.0 / mobile apps 1.0 in the new

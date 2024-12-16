@@ -5,9 +5,8 @@
 
 import React from 'react';
 
-import { Collapsible } from '@instana/components';
+import { Collapsible, DescriptionList, DescriptionItem } from '@instana/components';
 
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
 import { t } from 'in-i18n';

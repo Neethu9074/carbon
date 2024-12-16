@@ -6,7 +6,7 @@
 import { combineLatest } from '@instana/observables';
 
 // eslint-disable-next-line no-restricted-imports
-import { view$ } from 'in-infrastructure/perspectives';
+import { view$ } from 'in-infrastructure/perspectives/view';
 import { physicalPath, containerPath } from 'in-stores/navigation/paths/mainPaths';
 import createSearchSubscription from 'in-subscription/search';
 import { isView } from 'in-stores/navigation/navigation';

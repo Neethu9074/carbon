@@ -8,14 +8,12 @@ import React, { useContext } from 'react';
 
 import { Stack } from '@instana/components';
 
-import ApplicationTagFilterBuilder from 'in-service-levels/components/ConfigDialog/components/FormComponents/TagFilterBuilder/ApplicationTagFilterBuilder';
 import BoundaryScopeConfigurator from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/BoundaryScopeConfigurator';
 import HiddenCallsConfigurator from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/HiddenCallsConfigurator';
-import EndpointSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/EndpointSelectBox';
-import ServiceSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/ServiceSelectBox';
+import ScopeSelection from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloBlueprintsSection/ScopeSelection';
 import SloDialogSection from 'in-service-levels/components/ConfigDialog/components/DialogSections/Shared/SloDialogSection';
 import SloFormContext from 'in-service-levels/components/ConfigDialog/createSloForm/SloFormContext';
-import { titleWidth } from 'in-service-levels/constants';
+import { defaultBoundaryScope, titleWidth } from 'in-service-levels/constants';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
@@ -23,13 +21,11 @@ import { t } from 'in-i18n';
 export default function SloScopeApplicationSection() {
   const { form, mode, onChange } = useContext(SloFormContext);
 
-  const applicationIdField = form.getIn(['entity', 'entityId']);
-  const endpointIdField = form.getIn(['scope', 'endpointId']);
   const boundaryField = form.getIn(['scope', 'boundaryScope']);
   const includeInternalField = form.getIn(['scope', 'includeInternal']);
   const includeSyntheticField = form.getIn(['scope', 'includeSynthetic']);
-  const serviceIdField = form.getIn(['scope', 'serviceId']);
 
+  const boundaryScope = boundaryField.value ?? defaultBoundaryScope;
   const isFormInEditMode = mode === 'EDIT';
 
   return (
@@ -42,7 +38,7 @@ export default function SloScopeApplicationSection() {
               onChange={scope =>
                 onChange(['scope', 'boundaryScope'], () => boundaryField.setValue(scope).setTouched(true))
               }
-              value={boundaryField.value}
+              value={boundaryScope}
             />
           </Section>
           <Section title={t('in-custom-dashboards:widgets.slo.sliFormPresenter.hiddenCalls')} titleWidth={titleWidth}>
@@ -60,27 +56,8 @@ export default function SloScopeApplicationSection() {
               }
             />
           </Section>
-          <ServiceSelectBox
-            applicationId={applicationIdField.value}
-            boundaryScope={boundaryField.value}
-            disabled={isFormInEditMode}
-            hasError={!serviceIdField.valid && serviceIdField.touched}
-            onChange={value => onChange(['scope', 'serviceId'], () => serviceIdField.setValue(value!).setTouched(true))}
-            value={serviceIdField.value}
-          />
-          <EndpointSelectBox
-            applicationId={applicationIdField.value}
-            boundaryScope={boundaryField.value}
-            disabled={isFormInEditMode}
-            hasError={!endpointIdField.valid && endpointIdField.touched}
-            onChange={value =>
-              onChange(['scope', 'endpointId'], () => endpointIdField.setValue(value).setTouched(true))
-            }
-            serviceId={serviceIdField.value}
-            value={endpointIdField.value}
-          />
-          <ApplicationTagFilterBuilder form={form} onChange={onChange} readOnly={isFormInEditMode} width={titleWidth} />
         </Sections>
+        <ScopeSelection />
       </Stack>
     </SloDialogSection>
   );

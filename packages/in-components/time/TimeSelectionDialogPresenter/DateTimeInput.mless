@@ -11,11 +11,13 @@
 
   .inputs {
     display: flex;
+    gap: 0.5rem;
+    :global(.carbonDateInput .cds--date-picker.cds--date-picker--single .cds--date-picker__input) {
+      inline-size: 12rem;
+    }
   }
 
   .field {
     width: 7rem;
-
-    margin-right: 0.5rem;
   }
 }

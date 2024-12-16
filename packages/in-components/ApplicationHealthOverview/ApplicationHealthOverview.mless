@@ -16,6 +16,14 @@
       padding-bottom: 0em;
     }
   }
+  .paginationSmallWidth {
+    :global(.cds--pagination__left) {
+      display: none;
+    }
+    :global(.cds--pagination__right) {
+      width: inherit;
+    }
+  }
 
   .disabledHealthIndicator {
     pointer-events: none;

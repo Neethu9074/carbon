@@ -9,13 +9,10 @@ import React from 'react';
 import DashboardSwitcherOverlayPresenter from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcherOverlayPresenter';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import Overlay from 'in-components/overlays/Overlay';
-import Lettering from 'in-components/Lettering';
 import { t } from 'in-i18n';
 
-import locals from './DashboardSwitcherPresenter.mless';
-
 export default function DashboardSwitcherPresenter(props) {
-  const { activeDashboardTitle, isCockpit } = props;
+  const { activeDashboardTitle } = props;
 
   return (
     <Overlay withoutWrapper content={DashboardSwitcherOverlayPresenter} props={props}>
@@ -24,12 +21,11 @@ export default function DashboardSwitcherPresenter(props) {
           expanded={isOpen}
           onClick={toggle}
           refSetter={refSetter}
-          kind="secondary"
-          className={locals.button}
+          size="normal"
+          kind="tertiary"
+          iconSize="xs"
         >
-          {isCockpit && <Lettering className={locals.lettering} />}
-          {!isCockpit &&
-            (activeDashboardTitle || t('in-custom-dashboards:dashboardSwitcher.dashboardSwitcherPresenter.loading'))}
+          {activeDashboardTitle || t('in-custom-dashboards:dashboardSwitcher.dashboardSwitcherPresenter.loading')}
         </DropdownButton>
       )}
     </Overlay>

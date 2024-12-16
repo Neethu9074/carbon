@@ -2,5 +2,5 @@
   "name": "trackingSnippet",
   "version": "0.0.0",
   "private": true,
-  "main": "./trackingSnippet.js"
+  "main": "./trackingSnippet.ts"
 }

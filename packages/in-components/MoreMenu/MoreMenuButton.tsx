@@ -5,14 +5,8 @@
 
 import React, { forwardRef } from 'react';
 
-import { Button, ButtonProps } from '@instana/legacy';
+import { MoreMenuButton as CarbonMoreMenuButton, MoreMenuButtonProps } from '@instana/components';
 
-import locals from './MoreMenuButton.mless';
-
-export default forwardRef<HTMLLIElement, ButtonProps>(function MoreMenuButton(props, ref) {
-  return (
-    <li className={locals.item} ref={ref}>
-      <Button kind="secondary" {...props} className={locals.button} />
-    </li>
-  );
+export default forwardRef<HTMLLIElement, MoreMenuButtonProps>(function MoreMenuButton(props, ref) {
+  return <CarbonMoreMenuButton {...props} ref={ref} />;
 });

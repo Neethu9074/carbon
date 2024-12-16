@@ -17,6 +17,7 @@ import AgentzoneLister from 'in-plg/components/AgentzoneLister/AgentzoneLister';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import Code from 'in-plg/components/Code/Code';
 import { t } from 'in-i18n';
 
@@ -60,6 +61,8 @@ const Kubernetes = ({
     }
   ];
 
+  if (shareAndInviteEnabled) sideCardData.pop();
+
   const updateAgentZone = (agent: string) => {
     setAgentZone(agent);
   };
@@ -77,7 +80,7 @@ const Kubernetes = ({
           <Stack direction="horizontal">
             <KeyValue
               label={t('in-plg:agentDetails.common.clusterName')}
-              value={<FormInputPlg onChange={value => setClusterName(value)} />}
+              value={<FormInputPlg onChange={value => setClusterName(value)} maxLength={65} />}
               withGap
             />
             <AgentzoneLister callBackFunc={updateAgentZone} />

@@ -4,21 +4,6 @@
  */
 
 :local {
-  .indicator {
-    color: var(--ids-color-option-orange-500);
-    font-weight: bold;
-    font-size: 0.9rem;
-    border: 2px dotted var(--ids-color-option-orange-500);
-    border-radius: var(--ids-border-radius-option-small);
-    flex-shrink: 0;
-    padding: 0.063rem 0.288rem;
-    margin: 0 0.4rem 0 0;
-
-    &:hover {
-      text-decoration: none;
-    }
-  }
-
   .content {
     line-height: 1.4;
   }

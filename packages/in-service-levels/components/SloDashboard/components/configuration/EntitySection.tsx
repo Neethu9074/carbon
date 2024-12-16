@@ -48,7 +48,7 @@ function EntityLabelColumn({ data }: EntitySectionProps) {
   return (
     <KeyValue
       label={t('in-service-levels:sloDashboard.components.entitySection.nameLabel')}
-      value={data.entity.label}
+      value={data.entities.map(({ label }) => label).join(', ')}
     />
   );
 }

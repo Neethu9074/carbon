@@ -48,33 +48,42 @@
       padding-top: 1rem;
       padding-bottom: 1rem;
     }
+    .detailsLink {
+      color: var(--cds-link-primary);
+    }
   }
 
-  .paramsTab {
+  .instanceTabContent {
     margin: 0rem 3rem 3rem 3rem;
+    height: 34rem;
+    overflow-y: auto;
   }
 
   .detailDialog {
     section {
-      width: auto;
+      width: 65rem;
       overflow-y: hidden;
     }
     .detailsLink {
       display: flex;
       align-items: center;
+      color: var(--cds-link-primary);
     }
 
     .singleHostLimit {
       padding-left: 0px;
     }
+
+    .hostLimit {
+      background-color: var(--cds-layer);
+    }
   }
 
   .ActionLaneTable {
-    width: auto;
     td,
     th {
-      padding-top: 0px;
-      padding-bottom: 0px;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
       height: 2.5rem;
       a {
         svg {
@@ -88,5 +97,11 @@
   .titleWrapper {
     gap: 1rem;
     max-width: 40rem;
+  }
+  .actionInstanceIdContent {
+    .actionInstanceId {
+      top: 0.6rem;
+      position: relative;
+    }
   }
 }

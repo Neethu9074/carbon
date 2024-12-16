@@ -10,8 +10,9 @@ import { Link } from '@instana/components';
 
 import { useLinkToEndpointDashboard, useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { latency, number, withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
 import getTraceParticipants from 'in-applications/subscriptions/getTraceParticipants';
-import { latencyFixed } from 'in-services/formatters/number';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './ServiceEndpointList.mless';
@@ -81,15 +82,18 @@ export default function ServiceEndpointList({
       id: 'aggregatedTime',
       label: t('in-analyze:traceDetails.labelAggregatedTime'),
       getContent(item) {
-        return <span className={locals.aggregatedTime}>{latencyFixed.compact(item.aggregatedTime)}</span>;
+        return <span className={locals.aggregatedTime}>{latency.detailed(item.aggregatedTime)}</span>;
       }
     },
-
     {
       id: 'callCount',
       label: t('in-analyze:traceDetails.labelCalls'),
       getContent(item) {
-        return <span>{item.callCount ? item.callCount : null}</span>;
+        return (
+          <Tooltip content={number.compact(item.callCount ?? 0)} delay={500}>
+            <span>{withSiPrefixOneDecimalPlace(item.callCount ?? 0)}</span>
+          </Tooltip>
+        );
       }
     },
 
@@ -97,7 +101,11 @@ export default function ServiceEndpointList({
       id: 'errorCount',
       label: t('in-analyze:traceDetails.labelErroneousCalls'),
       getContent(item) {
-        return <span>{item.errorCount ? item.errorCount : null}</span>;
+        return (
+          <Tooltip content={number.compact(item.errorCount ?? 0)} delay={500}>
+            <span>{withSiPrefixOneDecimalPlace(item.errorCount ?? 0)}</span>
+          </Tooltip>
+        );
       }
     }
   ];
@@ -105,6 +113,7 @@ export default function ServiceEndpointList({
     columnDefinitions,
     pathSegment: '/analyze',
     defaultPageSize: 5,
+    defaultPageSizes: [5],
     defaultOrderBy: 'aggregatedTime',
     defaultOrderDirection: 'DESC',
     isSearchable: false,
@@ -118,6 +127,7 @@ export default function ServiceEndpointList({
       traceId={traceId}
       onRowMouseEnter={onListItemMouseEnter}
       onRowMouseLeave={onListItemMouseLeave}
+      fixedLayout
     />
   );
 }

@@ -5,12 +5,11 @@
 
 import React from 'react';
 
-import { Stack, SvgIcon } from '@instana/components';
+import { Stack, SvgIcon, Pill } from '@instana/components';
 
 import { getLogLevelAndColor } from 'in-logging/components/TraceDetails/utils';
 import { number } from 'in-services/formatters/number';
 import { role } from 'in-stores/user';
-import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './LogTooltipContent.mless';

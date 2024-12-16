@@ -1,9 +1,17 @@
 {
   "components": {
+    "uiShell": {
+      "mainNavigation": "メイン・ナビゲーション"
+    },
     "list": {
       "loadMore": "さらにロード",
+      "expand": "展開",
+      "collapse": "省略",
       "toggleExtraContent": "追加コンテンツの切り替え",
       "initiateDefaultAction": "デフォルト・アクションの開始"
+    },
+    "link": {
+      "opensInNewTab": "(新しいタブで開きます)"
     },
     "table": {
       "tableErrorRows": {
@@ -11,13 +19,43 @@
       },
       "tableLoadMoreRow": {
         "loadMore": "さらにロード"
-      }
+      },
+      "dataTable": "データ・テーブ",
+      "expandHeader": "行を展開",
+      "expandRow": "行の拡張を切り替える",
+      "select": "行を選択",
+      "selectedRow": "選択行"
+    },
+    "tableSkeleton": {
+      "sampleTable": "サンプル表"
     },
     "code": {
       "copy": "コピー",
       "copied": "コピーされました",
       "showMore": "さらに表示",
-      "showLess": "少なく表示"
+      "showLess": "少なく表示",
+      "copytoboard": "クリップボードにコピー"
+    },
+    "menu": {
+      "sideNavigation": "サイド・ナビゲーション"
+    },
+    "dropDown": {
+      "selectOption": "オプションの選択"
+    },
+    "tabsNavigation": {
+      "pageNavigation": "ページ・ナビゲーション"
+    },
+    "plg": {
+      "dashboardTable": {
+        "dataTableToolbar": "データ・テーブル・ツールバー"
+      },
+      "tableTabs": {
+        "listOfTabs": "タブのリスト"
+      }
+    },
+    "pill": {
+      "privatePreview": "プレビュー",
+      "publicPreview": "プレビュー"
     }
   },
   "formatDate": {
@@ -49,14 +87,17 @@
   "forms": {
     "actions": {
       "save": "保存",
+      "saveIntegration": "保存して有効にする",
       "cancel": "キャンセル",
       "create": "作成",
       "delete": "削除",
       "close": "閉じる",
-      "submit": "実行依頼"
+      "submit": "実行依頼",
+      "previous": "前へ"
     },
     "states": {
-      "saving": "保存中…"
+      "saving": "保存中…",
+      "loading": "ロード中です…"
     }
   },
   "language_en-US": "英語",
@@ -82,6 +123,7 @@
   "aggregation_MAX": "最大",
   "aggregation_DISTINCT_COUNT": "個別の数",
   "aggregation_SUM": "合計",
+  "aggregation_INCREASE": "増加",
   "aggregation_DISTRIBUTION": "分布",
   "aggregation_PER_SECOND": "秒当たり"
 }

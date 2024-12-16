@@ -15,7 +15,7 @@ interface SloTileProps {
   title: string;
   value?: string;
   budget?: string;
-  budgetTitle: string;
+  budgetTitle?: string;
   compact?: boolean;
   budgetSpent?: boolean;
 }
@@ -59,9 +59,11 @@ export default function SloTile({ compact, title, value, budgetTitle, budget, bu
         <span>{value ?? valueMissingPlaceholder}</span>
       </div>
 
-      <div className={locals.targetInfo}>
-        <span>{budgetTitle}</span> <span className={locals.leftSpace}>{budget ?? valueMissingPlaceholder}</span>
-      </div>
+      {budgetTitle && (
+        <div className={locals.targetInfo}>
+          <span>{budgetTitle}</span> <span className={locals.leftSpace}>{budget ?? valueMissingPlaceholder}</span>
+        </div>
+      )}
     </div>
   );
 }

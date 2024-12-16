@@ -1,29 +1,9 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright IBM Corp. 2024
+ * (c) Copyright Instana Inc. 2021
  */
 
-import classNames from 'classnames';
-import React from 'react';
+// Implementation moved to ui-foundataion
+import { Label } from '@instana/components';
 
-import locals from './Label.mless';
-
-interface LabelProps {
-  hasError?: boolean;
-  className?: string;
-}
-
-export default function Label({
-  hasError,
-  className,
-  ...labelProps
-}: LabelProps & React.LabelHTMLAttributes<HTMLLabelElement>) {
-  return (
-    <label
-      className={classNames(locals.label, className, {
-        [locals.hasError]: hasError
-      })}
-      {...labelProps}
-    />
-  );
-}
+export default Label;

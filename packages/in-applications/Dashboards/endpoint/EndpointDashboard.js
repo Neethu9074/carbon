@@ -7,6 +7,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import ApplicationContextIcon from 'in-applications/components/ApplicationSwitcherContext/ApplicationContextIcon';
@@ -16,12 +17,13 @@ import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/E
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
 import ServiceContextIcon from 'in-applications/components/ServiceContext/ServiceContextIcon';
-import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
+import InvalidUrlAlert from 'in-applications/Dashboards/commonComponents/InvalidUrlAlert';
 import { endpointDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { endpointDashboard, summaryTab } from 'in-applications/navigation/paths';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
-import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
+import { useLinkToServiceDashboard } from 'in-applications/navigation/paths';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import ServiceContext from 'in-applications/components/ServiceContext';
@@ -54,6 +56,7 @@ const urlStateDefinition = {
 export default function EndpointDashboard({ location }) {
   const [{ appId, serviceId, endpointId, boundaryScope }, setUrlState] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
+  const getLinkToServiceDashboard = useLinkToServiceDashboard();
 
   const props = {
     applicationId: appId,
@@ -89,7 +92,7 @@ export default function EndpointDashboard({ location }) {
     id: props.endpointId,
     filter: { timeConfig }
   };
-  const endpoint = useObservable(getEndpoint(getEndpointParams), [props.endpointId]);
+  const endpoint = useObservable(props.endpointId ? getEndpoint(getEndpointParams) : just(null), [props.endpointId]);
   if (!props.serviceId) {
     props.serviceId = endpoint?.data?.serviceId;
   }
@@ -100,7 +103,22 @@ export default function EndpointDashboard({ location }) {
       : () => true;
 
   const showAlertButton = role.canConfigureApplicationSmartAlerts;
-
+  if (!endpointId) {
+    return (
+      <InvalidUrlAlert
+        href={getLinkToServiceDashboard({
+          applicationId: props.applicationId,
+          serviceId: props.serviceId,
+          boundaryScope: props.boundaryScope,
+          tab: '/endpoints'
+        })}
+        description={t('in-applications:dashboards.idNotPresent', {
+          id: 'Endpoint ID'
+        })}
+        linkText={t('in-applications:linkViewAllEndpoints')}
+      />
+    );
+  }
   return (
     <>
       <ViewTrackingMeta
@@ -120,16 +138,14 @@ export default function EndpointDashboard({ location }) {
         props={props}
       />
 
-      {showAlertButton && (
-        <FloatingActionButtons>
-          <CreateSmartAlert
-            serviceId={props.serviceId}
-            endpointId={props.endpointId}
-            applicationId={props.applicationId}
-            location={location}
-            boundaryScope={props.boundaryScope}
-          />
-        </FloatingActionButtons>
+      {showAlertButton && props.applicationId && (
+        <CreateSmartAlert
+          serviceId={props.serviceId}
+          endpointId={props.endpointId}
+          applicationId={props.applicationId}
+          location={location}
+          boundaryScope={props.boundaryScope}
+        />
       )}
 
       <Footer />
@@ -159,7 +175,7 @@ function Header(props) {
       title={t('in-applications:labelEndpoint')}
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
-      renderButtonLineSecondary={renderButtonLineSecondary}
+      renderButtonLineSecondary={RenderButtonLineSecondary}
       renderMetaInformation={renderMetaInformation}
       contextConfigurations={contextConfigurations}
       showHistoricDataWarning={false}
@@ -193,7 +209,6 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
         endpointId={endpointId}
         boundaryScope={boundaryScope}
         syntheticType={get(result, ['data', 'syntheticType'])}
-        timeConfig={timeConfig}
         groupBy={createGroupBy('call.name')}
         includeSynthetic={get(result, ['data', 'synthetic'])}
       />
@@ -201,13 +216,14 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
   );
 }
 
-function renderButtonLineSecondary({ currentTab, applicationId, boundaryScope, onBoundaryStateChange, timeConfig }) {
+function RenderButtonLineSecondary({ currentTab, applicationId, boundaryScope, onBoundaryStateChange, timeConfig }) {
+  const { trackApplicationTimeShiftSelected } = useApplicationTracker();
   return (
     <>
       <TimeShiftDropdown
         disabled={currentTab !== summaryTab}
         onChange={offset =>
-          applicationTimeShiftSelectTracker({
+          trackApplicationTimeShiftSelected({
             area: 'endpoint',
             offset: getTimeShiftLabel({ offset: offset }),
             windowSize: timeConfig.windowSize,

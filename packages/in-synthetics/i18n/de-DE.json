@@ -10,7 +10,8 @@
         "step1": "Schritt 1: Typ auswählen",
         "step2": "Schritt 2: Details anfordern",
         "step3": "Schritt 3: Zeitplanung",
-        "step4": "Schritt 4: Details bereitstellen"
+        "step4": "Schritt 4: Details bereitstellen",
+        "step5": "Schritt5: Zuordnen"
       },
       "selectTest": {
         "title": "Welche Art von synthetischem Test soll erstellt werden"
@@ -39,7 +40,9 @@
         "labelName": "Name des Tests",
         "labelDescription": "Beschreibung",
         "labelFrequency": "Häufigkeit (Minute)",
-        "labelApplications": "Anwendung auswählen"
+        "labelFrequencyHour": "Häufigkeit (Stunde)",
+        "labelApplication": "Anwendung auswählen",
+        "labelApplications": "Anwendungen auswählen"
       },
       "bluePrint": {
         "title": "Wann zu verwenden?",
@@ -95,6 +98,11 @@
             "line3": "Schritt 3: Wählen Sie die Testfrequenz aus (1 ~ 120 Minuten).",
             "line4": "Schritt 4: Geben Sie im Abschnitt mit dem Namen des Tests und der Beschreibung einen aussagekräftigen Namen für Ihren Test in das Feld 'Name' ein. Fügen Sie im Feld \"Beschreibung\" eine Beschreibung des Testzwecks hinzu."
           }
+        },
+        "certificateCheck": {
+          "whenToUse": {
+            "line1": "Überprüfen Sie, ob das Web-Server-Zertifikat abläuft oder nicht verwendet wird."
+          }
         }
       },
       "validators": {
@@ -128,7 +136,11 @@
           "browserTypeHeadline": "Synthetische Browsertests",
           "browserTypeText": "Synthetische Browsertests sind eine Methode zur Überwachung der Leistung von Webanwendungen durch Simulation von Benutzerinteraktionen mit einer Website über ein Script in einem Web-Browser. Sie bieten wertvolle Einblicke in Probleme, die sich auf die Benutzererfahrung auswirken, und stellen die Funktionalität der Website sicher.",
           "browserSimpleTitle": "Browser-Simple-Test",
-          "browserScriptTitle": "Browser-Script-Test"
+          "browserScriptTitle": "Browser-Script-Test",
+          "certificateCheckTitle": "SSL-Zertifikatsprüfung",
+          "certificateCheckLabel": "SSL-Zertifikat",
+          "certificateCheckHeadline": "Test der SSL-Zertifikatsprüfung",
+          "certificateCheckText": "Der Test der SSL-Zertifikatsprüfung ist eine Methode zum Testen des Ablaufs eines SSL-Zertifikats in einer Webanwendung, indem die verbleibenden Tage eines ausgestellten Zertifikats überprüft werden."
         },
         "configurationLabel": "Konfiguration",
         "configurationTitle": "Konfiguration: Wie funktioniert dieser Test?",
@@ -140,6 +152,8 @@
         "identifyTitle": "Ermitteln: Was wird der Test tun?",
         "customPropertiesTitle": "Angepasste Eigenschaften",
         "frequency": "Dieser Test wird alle {{frequencyValue}} Minuten ausgeführt.",
+        "frequencyHours": "Dieser Test wird alle {{frequencyHours}} Stunden ausgeführt.",
+        "frequencyHoursAndMinutes": "Dieser Test wird alle {{frequencyHours}} Stunden und {{frequencyMinutes}} Minuten ausgeführt.",
         "simultaneous": "Simultan",
         "simultaneousDescription": "Dieser Test wird gleichzeitig an jeder ausgewählten Position ausgeführt.",
         "configStep": {
@@ -213,14 +227,48 @@
         },
         "advancedBluePrint": {
           "apiName": "API",
-          "browserName": "Browser"
+          "browserName": "Browser",
+          "certificateCheckName": "SSL-Zertifikat"
         },
         "customProperties": {
           "property": "Eigenschaft",
           "propertyValue": "Wert",
           "addProperty": "Eigenschaft hinzufügen",
           "propertyNameMustBeUnique": "Der Eigenschaftsname muss eindeutig sein."
-        }
+        },
+        "certificateCheck": {
+          "inputHostName": "Hostname",
+          "inputPortNumber": "Port",
+          "failureConfigLabel": "Fehlerkonfiguration",
+          "failureConfigText": "Der Test schlägt fehl, wenn für die Zertifikatsgültigkeit noch <certificateValidityDays/> Tage bis zum Ablauf verbleiben."
+        },
+        "associationsLabel": "Zuordnen",
+        "applicationsTitle": "Zuordnen: Wählen Sie die Anwendungen aus, die mit diesem synthetischen Test verknüpft werden sollen",
+        "applicationsDescription": "Die Verknüpfung eines synthetischen Tests mit einer Anwendung gewährt allen Benutzern Zugriffsrechte, die Zugriff auf diese Anwendung haben.",
+        "associationsTitle": "Zuordnen: Wählen Sie aus, was Sie mit diesem synthetischen Test verknüpfen möchten",
+        "associationsDescription": "Die Verknüpfung eines synthetischen Tests mit einer Anwendung, einer Website oder einer mobilen Anwendung gewährt allen Benutzern, die Zugang zu diesen Entitäten haben, Zugriffsrechte."
+      },
+      "associations": {
+        "applicationsTitle": "Wählen Sie die Anwendungen aus, die mit diesem synthetischen Test verknüpft werden sollen",
+        "applicationsDescription": "Die Verknüpfung eines synthetischen Tests mit einer Anwendung gewährt allen Benutzern Zugriffsrechte, die Zugriff auf diese Anwendung haben.",
+        "associationsTitle": "Wählen Sie aus, was Sie mit diesem synthetischen Test verknüpfen möchten",
+        "associationsDescription": "Die Verknüpfung eines synthetischen Tests mit einer Anwendung, einer Website oder einer mobilen Anwendung gewährt allen Benutzern, die Zugang zu diesen Entitäten haben, Zugriffsrechte.",
+        "applicationsButtonLabel": "Anwendungen auswählen",
+        "websitesButtonLabel": "Websites auswählen",
+        "mobileAppsButtonLabel": "Mobile Apps auswählen",
+        "entityName": "Name",
+        "noDataAvailable": {
+          "message": "{{component}} nicht verfügbar"
+        },
+        "addApplications": "{{count}} Anwendungen hinzufügen",
+        "addApplication": "Anwendung hinzufügen",
+        "addWebsites": "{{count}} Websites hinzufügen",
+        "addWebsite": "Website hinzufügen",
+        "addMobileApps": "{{count}} Mobile Apps hinzufügen",
+        "addMobileApp": "Mobile App hinzufügen",
+        "applicationsTableTitle": "Anwendung(en)",
+        "websitesTableTitle": "Website(s)",
+        "mobileAppsTableTitle": "Mobile App(s)"
       }
     },
     "httpMethods": {
@@ -241,9 +289,9 @@
     },
     "locationFeedback": {
       "successMessageDelete": "Position erfolgreich gelöscht",
-      "failureMesssageDelete": "{{deleteLocationErrorMessage}}",
+      "failureMesssage": "{{errorMessage}}",
       "successMessageDeactivate": "Position erfolgreich deaktiviert",
-      "failureMesssageDeactivate": "{{deactivateLocationErrorMessage}}"
+      "successMessageActivate": "Position erfolgreich aktiviert"
     },
     "updateTest": {
       "dialogTitle": "Test {{syntheticType}} bearbeiten",
@@ -288,7 +336,7 @@
         "datacentersSubtitle": "Aktivieren Sie ein Exemplar einer verwalteten Position in einem der verfügbaren Rechenzentren. Weitere Informationen finden Sie unter <linkDatacenters>Instanziiertes PoP</linkDatacenters>.",
         "confirmationDialog": {
           "headline": "Standorte werden implementiert",
-          "message": "Wir richten Ihre neuen Standorte in den folgenden Rechenzentren ein. Bitte haben Sie etwas Geduld, während wir dies automatisch für Sie bereitstellen. Wenn dies abgeschlossen ist, können Sie Ihre neuen Standorte auf der Registerkarte \"Standorte\" finden. <strong>Dies kann bis zu 10 Minuten für jedes ausgewählte Rechenzentrum dauern.</strong>",
+          "message": "Wir richten Ihre neuen Standorte in den folgenden Rechenzentren ein. Bitte haben Sie etwas Geduld, während wir dies automatisch für Sie bereitstellen. Wenn dies abgeschlossen ist, können Sie Ihre neuen Standorte auf der Registerkarte \"Standorte\" finden. <strong>Diese Bereitstellung kann für jedes ausgewählte Rechenzentrum einige Minuten dauern.</strong>",
           "table": {
             "heads": {
               "datacenterCode": "Rechenzentrumscode",
@@ -303,11 +351,14 @@
         },
         "deactivateDatacenter": {
           "title": "Position deaktivieren",
-          "deactivateMessage": "Möchten Sie die Position <strong>{{locationDisplayLabel}}</strong> wirklich deaktivieren?<br/><br/>Die Inaktivierung einer Position kann bis zu 10 Minuten dauern. Bitte haben Sie Geduld, während wir die Bereitstellung für Sie zurücknehmen. Wenn dieser Vorgang abgeschlossen ist, lautet der Standortstatus \"Offline\".<br/>",
+          "deactivateMessage": "Möchten Sie die Position <strong>{{locationDisplayLabel}}</strong> wirklich deaktivieren?<br/><br/>Die Deaktivierung eines Standorts kann einige Minuten dauern. Bitte haben Sie Geduld, während wir die Bereitstellung für Sie zurücknehmen. Wenn dieser Vorgang abgeschlossen ist, lautet der Standortstatus \"Offline\".<br/>",
           "warningMessage": "Die Inaktivierung wird nicht gelöscht. Die Position ist verfügbar und kann wieder aktiviert werden. Um den verwalteten Standort vollständig zu löschen, löschen Sie den Standort, sobald sich sein Status in \"Offline\" ändert.",
           "activeStatus": "Aktiv",
           "deactivateButton": "Deaktivieren"
-        }
+        },
+        "activate": "Aktivieren",
+        "okay": "OK",
+        "activateLocation": "Standort aktivieren"
       },
       "validators": {
         "theValueMustNotBeEmpty": "Mindestens ein Rechenzentrum muss ausgewählt werden"
@@ -318,6 +369,46 @@
       },
       "status": {
         "pending": "Anstehend"
+      }
+    },
+    "credentialFeedback": {
+      "successMessageDelete": "Die Zugangsdaten wurden erfolgreich gelöscht",
+      "failureMesssage": "{{errorMessage}}"
+    },
+    "createCredential": {
+      "createButton": "Neuer Berechtigungsnachweis",
+      "nameValue": "Name und Wert",
+      "associations": "Zuordnungen",
+      "newCredentials": "Erstellen einer synthetischen Berechtigung",
+      "steps": {
+        "textInput": {
+          "placeholder": "Berechtigungsnachweisname",
+          "labelText": "Name",
+          "invalidText": "Der Name der Berechtigung muss mit einem Buchstaben beginnen und darf nur Buchstaben, Zahlen und Unterstriche enthalten.",
+          "credentialNamesMustBeUnique": "Die Namen der Berechtigungsnachweise müssen eindeutig sein. Dieser Name wird bereits verwendet. Versuchen Sie einen anderen."
+        },
+        "passwordInput": {
+          "placeholder": "Wert des Berechtigungsnachweises",
+          "labelText": "Wert"
+        },
+        "associationsDescription": "Die Verknüpfung eines Berechtigungsnachweises mit einer Anwendung, einer Website oder einer mobilen Anwendung gewährt allen Benutzern, die Zugang zu diesen Einheiten haben, Zugriffsrechte."
+      },
+      "feedback": {
+        "successMessage": "Erfolgreich erstellter Berechtigungsnachweis",
+        "failureMessageCreate": "Die Zugangsdaten konnten nicht erstellt werden: {{errorMessage}}",
+        "updateSuccessMessage": "Erfolgreich aktualisierte Anmeldeinformationen",
+        "failureMessageUpdate": "Die Aktualisierung der Anmeldeinformationen ist fehlgeschlagen: {{errorMessage}}"
+      },
+      "edit": {
+        "dialogTitle": "Synthetischen Berechtigungsnachweis bearbeiten {{credentialName}}",
+        "associations": "Zuordnungen",
+        "saveButton": "Speichern",
+        "textInputHelperText": "Der Name des Berechtigungsnachweises kann nicht bearbeitet werden, er ist ein readOnly Feld",
+        "passwordInputHelperText": "Geben Sie einen neuen Berechtigungswert ein, wenn Sie den aktuellen Wert aktualisieren möchten."
+      },
+      "tooltipLabels": {
+        "hide": "Berechtigungsnachweiswert ausblenden",
+        "show": "Berechtigungsnachweiswert anzeigen"
       }
     }
   },
@@ -334,7 +425,8 @@
       "secondaryLabels": {
         "tests": "Tests",
         "locations": "Standorte",
-        "smartAlerts": "Smart Alerts"
+        "smartAlerts": "Smart Alerts",
+        "credentials": "Berechtigungsnachweise"
       },
       "popDialog": {
         "popUpDialogTitle": "Berechtigungen für synthetische Überwachung",
@@ -349,7 +441,23 @@
         "tlsInstructions": "Wenn Sie Redis TLS aktivieren möchten, benötigen Sie Ihr X.509-Zertifikatsschlüsselpaar (`tls.crt`, `tls.key`) und die CA-Stammzertifikatsdatei (`ca.crt`).\n\nWenn Sie Ihre Schlüssel-/Zertifikatsdateien nicht haben, können Sie auch den Befehl 'openssl' verwenden, um neue Dateien zu generieren (siehe die folgenden Beispiele):",
         "tlsConfiguration": "openssl genrsa -out tls.key 4096\nopenssl req -x509 -new -nodes -sha256 -key tls.key -days 3650 -subj '/0=Redis/CN=Certificate Authority' -out ca.crt\nopenssl req -new -sha256 -key tls.key -subj '/0=Redis/CN=Server' | openssl x509 -req -sha256 -CA ca.crt -CAkey tls.key -CAserial ca.txt -CAcreateserial -days 3650 -out tls.crt",
         "tlsSecretInstructions": "Verwenden Sie nach der Bereitstellung von key/cert-Dateien den Befehl kubectl, um einen geheimen Schlüssel zu erstellen.",
-        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\""
+        "tlsSecretConfigurations": "kubectl create secret generic syntheticpop-redis -n syn \\\n--type=\"kubernetes.io/tls\" \\\n--from-file=ca.crt=\"<path/to/ca.crt>\" \\\n--from-file=tls.crt=\"<path/to/tls.crt>\" \\\n--from-file=tls.key=\"<path/to/tls.key>\"",
+        "associationsTitle": "{{number}} Zuordnungen",
+        "singleAssociationTitle": "{{number}} Zuordnung"
+      },
+      "multiAppDialog": {
+        "filterLabel": "Anwendungen",
+        "singleAppHeader": "{{ number }} Zuordnung",
+        "multiAppHeader": "{{ number }} Zuordnungen",
+        "noApplicationsAssociated": "Keine zugeordneten Anwendungen"
+      },
+      "multiWebDialog": {
+        "filterLabel": "Websites",
+        "noWebsitesAssociated": "Keine zugeordneten Websites."
+      },
+      "multiMobileDialog": {
+        "filterLabel": "Mobile Apps",
+        "noMobileAppsAssociated": "Keine zugeordneten mobilen Apps."
       },
       "testLabel": "Name",
       "status": "Status",
@@ -364,9 +472,16 @@
       "successRate": "Erfolgsquote",
       "successRuns": "{{successRuns}} / {{totalRuns}} Ergebnisse",
       "latency": "Latenzzeit",
-      "locationLabel": "Standort",
-      "locations": "{{totalLocations}} Positionen",
-      "applicationLabel": "Anwendung",
+      "locationLabel": "Standorte",
+      "locationsColumn": {
+        "singleLocation": "{{number}} Standort",
+        "multipleLocations": "{{number}} Standorte",
+        "singleRun": "Läuft in {{number}} Ort",
+        "multipleRun": "Läuft in {{number}} Orten",
+        "warning": "Warnung",
+        "noIssues": "Keine Probleme"
+      },
+      "associationLabel": "Zuordnungen",
       "health": "Status",
       "action": "Aktion",
       "labelConfirmRemoveTest": "Soll der Test <strong>{{testLabel}}</strong> wirklich entfernt werden?",
@@ -400,6 +515,12 @@
       "deleteLocationBroswerRefreshInfo": "Es dauert einige Zeit, bis die Position aus der Liste der Positionen entfernt wird und eine Browseraktualisierung erforderlich ist.",
       "deactivateLocation": {
         "deactivate": "Deaktivieren"
+      },
+      "ipAddressColumn": {
+        "ipAddress": "IP-Adresse",
+        "singleIPAddress": "{{number}} IP-Adresse",
+        "multipleIPAddress": "{{number}} IP-Adressen",
+        "noIPAddresses": "Nicht verfügbar"
       }
     },
     "summary": {
@@ -442,7 +563,15 @@
       "totalRuns": "{{totalRuns}} Ausführungen insgesamt",
       "meanLatencyFor90th": "{{meanLatencyDetail}} für 90.",
       "smartAlertsTab": "Smart Alerts",
-      "configurationTab": "Konfiguration"
+      "configurationTab": "Konfiguration",
+      "isCertificateValid": "Letzter Lauf - Zertifikat wird von öffentlicher CA signiert",
+      "resultsCertificateValid": "Das Zertifikat ist von einer öffentlichen CA signiert",
+      "certificateValid": "Ja",
+      "certificateNotValid": "Nein",
+      "daysRemaining": "Letzte Ausführung - Tage verbleibend",
+      "timeOfExpiry": "Letzte Ausführung - Ablaufdatum",
+      "smallerTimeFrameTitle": "Keine Ergebnisse für diesen Zeitrahmen",
+      "smallerTimeFrameDescription": "Wählen Sie einen längeren Zeitrahmen aus, um Ergebnisse für SSL-Zertifikatsprüfungstests anzuzeigen."
     },
     "resultsListPage": {
       "startedColumn": "Gestartet",
@@ -454,7 +583,8 @@
       "locationLabel": "Position",
       "failures": "Fehler",
       "status": "Status",
-      "success": "Erfolgreich"
+      "success": "Erfolgreich",
+      "daysRemaining": "Verbleibende Tage"
     },
     "detailsPage": {
       "detailLiveModeDisabled": "Der Livemodus ist auf der Detailseite des Ergebnisses des synthetischen Tests nicht anwendbar.",
@@ -579,7 +709,13 @@
         "imageButton": "Image",
         "ScreenshotsLoadingMessage": "Screenshots werden geladen",
         "noScreenshotsAvailableMessage": "Für dieses Testergebnis sind keine Screenshots verfügbar"
-      }
+      },
+      "sslCertificate": {
+        "daysRemaining": "Verbleibende Tage",
+        "timeOfIssue": "Zeitpunkt der Ausgabe",
+        "timeOfExpiry": "Ablaufdatum"
+      },
+      "failedRunErrorTypeTitle": "Fehlertyp"
     },
     "noDataAvailable": {
       "resultsTitle": "Keine Ergebnisse verfügbar",
@@ -645,6 +781,7 @@
       },
       "configurationEditAction": "Bearbeiten",
       "configurationDeleteAction": "Löschen",
+      "configurationUnsupported": "Nicht unterstützter Testtyp.",
       "timeoutLabel": "Zeitlimit",
       "timeoutDescription": "{{timeoutValue}} {{timeoutUnit}}",
       "retryStrategyLabel": "Wiederholungsstrategie",
@@ -653,7 +790,44 @@
       "retryIntervalFieldLabel": "Wiederholungsintervall",
       "retryIntervalSecondDescription": "{{retryIntervalValue}} Sekunde",
       "retryIntervalSecondsDescription": "{{retryIntervalValue}} Sekunden",
-      "markSyntheticCall": "Synthetischen Aufruf markieren"
+      "markSyntheticCall": "Synthetischen Aufruf markieren",
+      "hostname": "Hostname",
+      "port": "Port",
+      "daysRemaining": "Fehlerkonfiguration",
+      "day": "Test schlägt fehl, wenn die Zertifikatsgültigkeit {{daysRemainingCheck}} Tag bis zum Ablauf verbleibt",
+      "days": "Test schlägt fehl, wenn die Gültigkeit des Zertifikats {{daysRemainingCheck}} Tage bis zum Ablauf verbleibt",
+      "associations": "Zuordnungen",
+      "associatedApplications": "Zugeordnete Anwendungen",
+      "noApplicationsAssociated": "Keine zugeordneten Anwendungen",
+      "associatedWebsites": "Zugeordnete Websites",
+      "noWebsitesAssociated": "Keine zugeordneten Websites",
+      "associatedMobileApps": "Zugeordnete Mobile Apps",
+      "noMobileAppAssociated": "Keine zugeordneten Mobile Apps"
+    },
+    "credentialList": {
+      "mainLabel": "Berechtigungsnachweise",
+      "name": "Name",
+      "associations": "Zuordnungen",
+      "createdAt": "Erstellt am",
+      "createdBy": "Erstellt von",
+      "lastModifiedBy": "Letzte Änderung durch",
+      "actions": "Aktionen",
+      "noDataAvailable": {
+        "noCredentialsAvailableTitle": "Keine synthetischen Nachweise verfügbar",
+        "noCredentialsAvailableDescription": "Es werden keine synthetischen Anmeldeinformationen aus der Datenbank abgerufen."
+      },
+      "editAction": {
+        "editActionLabel": "Bearbeiten",
+        "theValueMustNotBeBlank": "Der Wert darf nicht leer sein."
+      },
+      "deleteAction": {
+        "deleteActionLabel": "Löschen",
+        "deleteCredentialTitle": "Synthetischen Berechtigungsnachweis löschen {{credentialName}}",
+        "credentialNameValidation": "Geben Sie den vollständigen Namen des Berechtigungsnachweises ein, um die Löschung zu bestätigen",
+        "deleteButtonLabel": "Berechtigungsnachweis löschen",
+        "cancelButtonLabel": "Abbrechen",
+        "deletionSuccess": "Der Berechtigungsnachweis wurde gelöscht"
+      }
     }
   }
 }

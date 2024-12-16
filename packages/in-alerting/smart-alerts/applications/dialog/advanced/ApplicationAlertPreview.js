@@ -6,22 +6,30 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { MultiThresholdAlertPreviewCommon } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/MultiThresholdAlertPreviewCommon';
 import ApplicationAlertPreviewHeadline from 'in-alerting/smart-alerts/applications/dialog/advanced/ApplicationAlertPreviewHeadline';
 import { AlertPreview } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import { getDescriptionPlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { t } from 'in-i18n';
 
-export function ApplicationAlertPreview({ form, applicationLabel, evaluationType }) {
+export function ApplicationAlertPreview({ form, applicationLabel, evaluationType, isTearSheet }) {
+  const warningThresholdField = form.get('threshold').get('warningThreshold');
+  const criticalThresholdField = form.get('threshold').get('criticalThreshold');
+  const isWarningDefined = warningThresholdField.get('isCheckboxSelected').value;
+  const isCriticalDefined = criticalThresholdField.get('isCheckboxSelected').value;
   const entityLabel = getEntityLabel(applicationLabel, evaluationType);
   const entityIconType = getEntityIconType(evaluationType);
 
   return (
-    <AlertPreview
+    <MultiThresholdAlertPreviewCommon
       form={form}
-      renderHeadline={() => <ApplicationAlertPreviewHeadline form={form} />}
       getDescriptionPlaceholder={getDescriptionPlaceholder}
+      isWarningDefined={isWarningDefined}
+      isCriticalDefined={isCriticalDefined}
       entityLabel={entityLabel}
       entityIconType={entityIconType}
+      renderHeadline={() => <ApplicationAlertPreviewHeadline form={form} isTearSheet={isTearSheet} />}
+      isTearSheet={isTearSheet}
     />
   );
 }
@@ -49,5 +57,6 @@ function getEntityLabel(applicationLabel, evaluationType) {
 AlertPreview.propTypes = {
   form: PropTypes.object.isRequired,
   applicationLabel: PropTypes.string,
-  evaluationType: PropTypes.string
+  evaluationType: PropTypes.string,
+  isTearSheet: PropTypes.bool
 };

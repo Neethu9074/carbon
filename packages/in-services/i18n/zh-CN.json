@@ -1,11 +1,11 @@
 {
   "shortcuts": {
-    "help": "可以使用键盘快捷键激活 Instana 的一些重要功能。\n\n - `c`：使图居中\n - `f`：打开并聚焦搜索栏\n - `esc`：关闭当前可见的侧边栏/仪表板\n - `shift + ?`：打开帮助对话框以了解快捷键",
+    "help": "Instana 的一些重要功能可通过键盘快捷键激活。\n\n - c`：将地图居中\n - f`：打开并聚焦搜索栏\n - `esc` : 关闭当前可见的侧边栏/仪表板\n - `shift + ?`：打开帮助对话框以获取快捷键",
     "shortcuts": "快捷键"
   },
   "formatters": {
     "yes": "是",
-    "no": "否",
+    "no": "False",
     "byteUnits_B": "{{num}} B",
     "byteUnits_kiB": "{{num}} kiB",
     "byteUnits_MiB": "{{num}} MiB",
@@ -15,7 +15,15 @@
     "byteUnits_EiB": "{{num}} EiB",
     "byteUnits_ZiB": "{{num}} ZiB",
     "byteUnits_YiB": "{{num}} YiB",
-    "perSec": "{{num}}/秒",
+    "byteUnits_kB": "{{num}} kB",
+    "byteUnits_MB": "{{num}} MB",
+    "byteUnits_GB": "{{num}} GB",
+    "byteUnits_TB": "{{num}} TB",
+    "byteUnits_PB": "{{num}} PB",
+    "byteUnits_EB": "{{num}} EB",
+    "byteUnits_ZB": "{{num}} ZB",
+    "byteUnits_YB": "{{num}} YB",
+    "perSec": "{{num}}/s",
     "perSec2": "{{num}}/秒",
     "noActivity": "无活动",
     "percent": "{{num}}%",
@@ -26,17 +34,17 @@
     "timeUnits_ns": "{{num}} 纳秒",
     "timeUnits_us": "{{num}} 微秒",
     "timeUnits_ms": "{{num}} 毫秒",
-    "timeUnits_s": "{{num}} 秒",
+    "timeUnits_s": "{{num}}s",
     "timeUnits_min": "{{num}} 分钟",
-    "timeUnits_h": "{{num}} 小时",
-    "timeUnits_d": "{{num}} 天",
+    "timeUnits_h": "{{num}}h",
+    "timeUnits_d": "{{num}}d",
     "temperature": "{{num}}°C",
-    "lt1ms": "< 1 毫秒"
+    "lt1ms": "< 1ms"
   },
   "validators": {
     "timeDoesNotHaveTheFormat": "时间未采用 {{timeFormat}} 格式",
     "dateDoesNotHaveTheFormat": "日期未采用 {{dateFormat}} 格式",
-    "valueIsNotOneOfTheSupportedValuesExpectedOneOf": "值“{{v}}”不是受支持的值之一。期望值为以下值之一：{{allowedValues}}",
+    "valueIsNotOneOfTheSupportedValuesExpectedOneOf": "值“{{v}}”不是受支持的值之一。 期望值为以下值之一：{{allowedValues}}",
     "aValueOfTypeExpectedTypeIsRequired": "需要类型为“{{expectedType}}”的值。",
     "msgGotActualType": "{{msg}} 获得“{{actualType}}”。",
     "valueMustBeLargerOrEqualToMinInclusive": "值必须大于或等于 {{minInclusive}}。",

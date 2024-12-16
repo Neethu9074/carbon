@@ -6,14 +6,14 @@
 
 import {
   userSettings,
-  authSettings,
-  audit,
+  securityAndAccess,
+  securityAndAccessAudit,
   accessControl,
-  teamSettingsAlertingMaintenanceConfigurations,
-  teamSettingsAlertingEvents,
-  teamSettingsAlertingAlerts,
-  teamSettingsAlertingAlertChannels,
-  teamSettingsAlertingCustomPayloadConfiguration,
+  globalSettingsAlertingMaintenanceConfigurations,
+  globalSettingsAlertingEvents,
+  globalSettingsAlertingAlerts,
+  globalSettingsAlertingAlertChannels,
+  globalSettingsAlertingCustomPayloadConfiguration,
   logManagement
 } from 'in-settings/navigation/paths';
 import {
@@ -21,6 +21,8 @@ import {
   syntheticSmartAlertsPath,
   syntheticLocationPath
 } from 'in-synthetics/navigation/paths';
+//@ts-expect-error TS migration needed
+import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 //@ts-expect-error TS migration needed
 import { openstack } from 'in-openstack/navigation/paths';
 import { physicalPath, agentsPath, eventsPath } from 'in-stores/navigation/paths/mainPaths';
@@ -37,10 +39,10 @@ import { cloudfoundry } from 'in-cloudfoundry/navigation/paths';
 import { isSloView } from 'in-service-levels/navigation/path';
 import { kubernetes } from 'in-kubernetes/navigation/paths';
 import { isBizOpsView } from 'in-bizops/navigation/paths';
+import { analyze } from 'in-analyze/navigation/constants';
 import { explore } from 'in-kubernetes/navigation/paths';
 import { powervc } from 'in-powervc/navigation/paths';
 import { vsphere } from 'in-vsphere/navigation/paths';
-import { analyze } from 'in-analyze/navigation/paths';
 import { ibmz } from 'in-zhmc/navigation/paths';
 import { t } from 'in-i18n';
 
@@ -102,13 +104,14 @@ const SEARCH_WORD_MAP = {
   [actionHistoryPath]: t('in-plg:assistme.dataSearchContext.automation'),
   [accessControl]: t('in-plg:assistme.dataSearchContext.settingsTab'),
   [userSettings]: t('in-plg:assistme.dataSearchContext.userSettings'),
-  [teamSettingsAlertingEvents]: t('in-plg:assistme.dataSearchContext.customEvents'),
-  [teamSettingsAlertingAlerts]: t('in-plg:assistme.dataSearchContext.configuringAlerts'),
-  [teamSettingsAlertingAlertChannels]: t('in-plg:assistme.dataSearchContext.alertChannel'),
-  [teamSettingsAlertingMaintenanceConfigurations]: t('in-plg:assistme.dataSearchContext.maintenanceWindow'),
-  [teamSettingsAlertingCustomPayloadConfiguration]: t('in-plg:assistme.dataSearchContext.customPayload'),
+  [globalSettingsAlertingEvents]: t('in-plg:assistme.dataSearchContext.customEvents'),
+  [globalSettingsAlertingAlerts]: t('in-plg:assistme.dataSearchContext.configuringAlerts'),
+  [globalSettingsAlertingAlertChannels]: t('in-plg:assistme.dataSearchContext.alertChannel'),
+  [globalSettingsAlertingMaintenanceConfigurations]: t('in-plg:assistme.dataSearchContext.maintenanceWindow'),
+  [globalSettingsAlertingCustomPayloadConfiguration]: t('in-plg:assistme.dataSearchContext.customPayload'),
   [logManagement]: t('in-plg:assistme.dataSearchContext.logManagement'),
-  [audit]: t('in-plg:assistme.dataSearchContext.auditLogs'),
-  [authSettings]: t('in-plg:assistme.dataSearchContext.authSettings'),
-  [agentsPath]: t('in-plg:assistme.dataSearchContext.installAgent')
+  [securityAndAccessAudit]: t('in-plg:assistme.dataSearchContext.auditLogs'),
+  [securityAndAccess]: t('in-plg:assistme.dataSearchContext.securityAndAccess'),
+  [agentsPath]: t('in-plg:assistme.dataSearchContext.installAgent'),
+  [customDashboardsPath]: t('in-plg:assistme.dataSearchContext.customDashboard')
 };

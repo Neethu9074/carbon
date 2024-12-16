@@ -15,15 +15,15 @@ import { FormModelElement } from 'in-components/QueryBuilder/transformation/form
 import { getSnapshot } from 'in-stores/snapshot';
 
 type K8sEntityType =
-  | 'pod'
-  | 'cluster'
-  | 'node'
-  | 'namespace'
-  | 'deployment'
-  | 'statefulSet'
-  | 'daemonSet'
-  | 'service'
-  | 'deploymentConfig';
+  | 'kubernetes.pod'
+  | 'kubernetes.cluster'
+  | 'kubernetes.node'
+  | 'kubernetes.namespace'
+  | 'kubernetes.deployment'
+  | 'kubernetes.statefulSet'
+  | 'kubernetes.daemonSet'
+  | 'kubernetes.service'
+  | 'openshift.deploymentConfig';
 
 export function useGetK8sEntityUid(
   entityType: K8sEntityType,
@@ -35,9 +35,9 @@ export function useGetK8sEntityUid(
 } {
   const snapshot = useObservable(snapshotId ? getSnapshot(snapshotId) : just(null), [snapshotId, timeConfig]);
 
-  const entityPropertyPath = entityType === 'cluster' ? 'data.clusterUuid' : 'data.uid';
+  const entityPropertyPath = entityType === 'kubernetes.cluster' ? 'data.clusterUuid' : 'data.uid';
   const entityUIDTag =
-    entityType === 'cluster' ? 'kubernetes.cluster.uuid' : `kubernetes.${entityType.toLowerCase()}.uid`;
+    entityType === 'kubernetes.cluster' ? `${entityType.toLowerCase()}.uuid` : `${entityType.toLowerCase()}.uid`;
   const entityUid = snapshot ? get(snapshot.toJS(), entityPropertyPath) : null;
   const tagFilterExpression = entityUid && andQuery(tagEquals(entityUIDTag, entityUid));
 

@@ -17,7 +17,6 @@ import SloEntityColumnContent from 'in-service-levels/components/SloList/compone
 import SloStatusColumnContent from 'in-service-levels/components/SloList/components/SloStatusColumnContent';
 import SloNameColumnContent from 'in-service-levels/components/SloList/components/SloNameColumnContent';
 import SloTagsColumnContent from 'in-service-levels/components/SloList/components/SloTagsColumnContent';
-import useNavigateToSloDashboard from 'in-service-levels/navigation/hooks/useNavigateToSloDashboard';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import SloListFilters from 'in-service-levels/components/SloList/components/SloListFilters';
 import useSloListFilterUrlState from 'in-service-levels/hooks/useSloListFilterUrlState';
@@ -101,9 +100,9 @@ function getColumnDefinitions({
 
 export interface SloListItem {
   configuration: ServiceLevelObjectiveConfiguration;
-  entity: LabeledEntity;
-  status: number;
-  remainingBudget: number;
+  entities: LabeledEntity[];
+  status?: number;
+  remainingBudget?: number;
   burnDown: MetricDataSeries;
   metricTimeConfig: TimeConfig;
   metricGranularity: number;
@@ -121,7 +120,7 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
   const track = useSloTrackers();
 
   useEffect(() => {
-    track(SLO_LIST_VIEW, {});
+    track(SLO_LIST_VIEW, undefined);
   }, [track]);
 
   const [{ page, pageSize, orderBy, orderDirection, query }, setServerTableState] = useServerTableUrlState({
@@ -136,7 +135,7 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
   });
   const [{ tags, entityType }, setFilter] = useSloListFilterUrlState({ pathSegment, matrixPrefix });
 
-  const [result, , sloErrors, sloProgress] = useSloListItems({
+  const [result, , , sloProgress] = useSloListItems({
     page,
     pageSize,
     orderBy,
@@ -145,13 +144,11 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
     tags,
     entityType
   });
-  const [availableTags, , tagsErrors, tagsProgress] = useSloTags();
-  const navigateToSloDashboard = useNavigateToSloDashboard();
+  const [availableTags, , , tagsProgress] = useSloTags();
 
   const actualPage = result?.page ?? page;
   const actualPageSize = result?.pageSize ?? pageSize;
   const progress = all(sloProgress, tagsProgress);
-  const errors = [...sloErrors, ...tagsErrors];
 
   return (
     <ServerTablePresenter<SloListItem, ServerTablePresenterProps<SloListItem>>
@@ -164,11 +161,10 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
       columnDefinitions={getColumnDefinitions({ isMediumWidth, isSmallWidth })}
       result={{
         progress,
-        errors,
+        errors: [],
         data: result
       }}
       onChange={setServerTableState}
-      onRowClick={({ configuration }) => navigateToSloDashboard(configuration)}
       rightHeader={() => (
         <SloListFilters
           tags={availableTags ?? []}

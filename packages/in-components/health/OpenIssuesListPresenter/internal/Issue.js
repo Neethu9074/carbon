@@ -6,14 +6,13 @@
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon } from '@instana/components';
+import { SvgIcon, Pill } from '@instana/components';
 import { Link } from '@instana/components';
 
+import { getDesignLibraryColorBySeverity, getDesignLibrarySeverityIcon } from 'in-stores/events';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
-import { getDesignLibraryColorBySeverity } from 'in-stores/events';
 import { formatDateTime } from 'in-services/formatters/date';
 import { toHtml } from 'in-services/formatters/markdown';
-import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './Issue.mless';
@@ -21,7 +20,9 @@ import locals from './Issue.mless';
 const MAX_PROBLEM_TEXT_LENGTH = 1000;
 
 export default function Issue({ issue, getIssueLink }) {
-  const color = getDesignLibraryColorBySeverity(issue.problem.severity);
+  const severity = issue.problem.severity;
+  const color = getDesignLibraryColorBySeverity(severity);
+  const type = getDesignLibrarySeverityIcon(severity);
 
   let content = (
     <Fragment>
@@ -30,7 +31,15 @@ export default function Issue({ issue, getIssueLink }) {
       </div>
 
       <h2 className={locals.title}>
-        <SvgIcon type="lib_help_error_warning" color={color} className={locals.icon} />
+        <SvgIcon
+          type={type}
+          color={color}
+          size="s"
+          className={classNames({
+            [locals.icon]: true,
+            [locals.iconWarning]: !(severity > 5) && severity !== 0
+          })}
+        />
         {issue.problem.problemText}
       </h2>
 

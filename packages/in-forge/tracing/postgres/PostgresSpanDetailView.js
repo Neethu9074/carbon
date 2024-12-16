@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import ExternalIntegrationLink from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/ExternalIntegrationLink';
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import Code from 'in-sdk/components/traceDetails/Code';
@@ -13,6 +14,7 @@ import { t } from 'in-i18n';
 
 export default function PostgresSpanDetailView({ span }) {
   const statement = span.getIn(['data', 'pg', 'stmt'], span.getIn(['data', 'pg', 'sql']));
+  const databaseIntegrations = span.getIn(['data', 'databaseIntegrations']).toJS();
 
   return (
     <Dl>
@@ -27,6 +29,7 @@ export default function PostgresSpanDetailView({ span }) {
           <Code code={formatSql(statement)} lang="sql" showLineNumbers={false} />
         </Di>
       ) : null}
+      {databaseIntegrations && <ExternalIntegrationLink integrations={databaseIntegrations} statement={statement} />}
     </Dl>
   );
 }

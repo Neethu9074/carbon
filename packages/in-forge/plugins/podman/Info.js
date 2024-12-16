@@ -6,12 +6,23 @@
 
 import React from 'react';
 
+import { DescriptionList, DescriptionItem } from '@instana/components';
+
 import { DateTimeWithPeriodSinceDescriptionItem } from 'in-sdk/components/sidebar/DateTimeWithPeriodSinceDescriptionItem';
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { t } from 'in-i18n';
+
+function getIsRootlessString(data) {
+  let isRootless = data.get('rootless');
+  if (isRootless != undefined) {
+    isRootless = data.get('rootless') ? 'true' : 'false';
+  }
+  return isRootless;
+}
 
 export default function PodmanContainerInfo({ snapshot }) {
   const data = snapshot.get('data');
+  const isRootless = getIsRootlessString(data);
+
   return (
     <DescriptionList>
       <DescriptionItem title={t('in-forge:plugins.podman.image')}>{data.get('Image')}</DescriptionItem>
@@ -29,6 +40,14 @@ export default function PodmanContainerInfo({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.podman.graphDriver')}>{data.get('GraphDriver')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.podman.networkMode')}>{data.get('NetworkMode')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.podman.restartCount')}>{data.get('RestartCount')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.podman.remoteSocketPath')}>
+        {data.get('remoteSocket')}
+      </DescriptionItem>
+      {isRootless && (
+        <DescriptionItem title={t('in-forge:plugins.podman.isPodmanRootless')}>
+          {getIsRootlessString(data)}
+        </DescriptionItem>
+      )}
       <DescriptionItem title={t('in-forge:plugins.podman.podmanVersion')}>{data.get('Podman_Version')}</DescriptionItem>
     </DescriptionList>
   );

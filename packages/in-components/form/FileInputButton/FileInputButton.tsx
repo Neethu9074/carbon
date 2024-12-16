@@ -5,7 +5,7 @@
 
 import React, { useRef, forwardRef, ReactNode, useState, ChangeEvent } from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { number } from 'in-services/formatters/number';
 import { compositeRef } from 'in-services/util/react';

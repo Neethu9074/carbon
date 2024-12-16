@@ -6,12 +6,17 @@
 
 import { useMemo } from 'react';
 
-import { createTypeUrlParameter, createTagsUrlParameter } from 'in-automation/navigation/urlParameters';
+import {
+  createTypeUrlParameter,
+  createTagsUrlParameter,
+  createTabTypeUrlParameter
+} from 'in-automation/navigation/urlParameters';
 import useUrlState, { Options, UrlStateReturn } from 'in-hooks/useUrlState';
 
 export interface ActionCatalogFilterState {
   tags: string[];
-  type?: string;
+  types?: string[];
+  view?: string;
 }
 
 interface Params {
@@ -32,6 +37,10 @@ export default function useActionCatalogFilterUrlState({
 
 function createUrlStateDefinition({ pathSegment, matrixPrefix = '' }: Params): Options<ActionCatalogFilterState> {
   return {
-    bind: [createTypeUrlParameter(pathSegment, matrixPrefix), createTagsUrlParameter(pathSegment, matrixPrefix)]
+    bind: [
+      createTypeUrlParameter(pathSegment, matrixPrefix),
+      createTagsUrlParameter(pathSegment, matrixPrefix),
+      createTabTypeUrlParameter(pathSegment, matrixPrefix)
+    ]
   };
 }

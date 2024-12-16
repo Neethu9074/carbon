@@ -23,6 +23,10 @@ export function isAixOs(snapshot) {
   return snapshot.getIn(['data', 'os.name'], '').match(/AIX/i);
 }
 
+export function isIbmiOs(snapshot) {
+  return snapshot.getIn(['data', 'os.name'], '').match(/OS\/400/i);
+}
+
 export function supportsOpenFiles(snapshot) {
-  return !isWindows(snapshot) && !isZos(snapshot) && !isAixOs(snapshot);
+  return !isWindows(snapshot) && !isZos(snapshot) && !isAixOs(snapshot) && !isIbmiOs(snapshot);
 }

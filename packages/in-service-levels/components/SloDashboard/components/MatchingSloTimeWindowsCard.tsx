@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Card, Stack, Typography } from '@instana/components';
+import { Card, LoadingSkeleton, Stack, Typography } from '@instana/components';
 import { formatDateShort } from '@instana/format-date';
 import { TimeConfig } from '@instana/types';
 import { t } from '@instana/i18n-react';
@@ -15,10 +15,11 @@ import TimeWindowPill from 'in-service-levels/components/SloDashboard/components
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 
 export default function MatchingSloTimeWindowsCard() {
-  const { timeWindows, timeWindowColors } = useSloTimeWindowContext();
+  const { timeWindows, timeWindowColors, progress } = useSloTimeWindowContext();
 
   const matchingTimeWindows = calculateMatchTimeWindow(timeWindows);
   const hasMatchingTimeWindows = timeWindows.length > 0;
+  const isLoading = progress.loading;
 
   return (
     <Card>
@@ -34,9 +35,10 @@ export default function MatchingSloTimeWindowsCard() {
             </TimeWindowPill>
           );
         })}
-        {!hasMatchingTimeWindows && (
+        {!isLoading && !hasMatchingTimeWindows && (
           <TimeWindowPill color="default.ids.color.option.neutral.400">No matching time window found</TimeWindowPill>
         )}
+        {isLoading && <LoadingSkeleton />}
       </Stack>
     </Card>
   );

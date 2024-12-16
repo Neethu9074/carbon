@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { Collapsible } from '@instana/components';
+import { Collapsible, DescriptionList, DescriptionItem } from '@instana/components';
 
 import {
   useDeploymentDashboard,
@@ -15,7 +15,6 @@ import {
   usePodDashboard,
   useNodeDashboard
 } from 'in-kubernetes/navigation/paths';
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import KubernetesSnapshotLink from 'in-components/Link/SnapshotLink/KubernetesSnapshotLink';
 import getDeploymentForPodSubscription from 'in-subscription/deploymentForPod';
 import getNodeForContainerSubscription from 'in-subscription/nodeForContainer';

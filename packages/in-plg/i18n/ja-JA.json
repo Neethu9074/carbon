@@ -7,23 +7,55 @@
     "trialExpirationPopUpDescription": "データ収集が終了しました。 製品の使用をさらに 7 日間続けることができます。 7 日が経過すると、試用版にアクセスできなくなります。 お客様が製品の購入を計画している場合は、お客様のデータをさらに 2 週間保持することができます。",
     "trialExpirationPopUpDescriptionAfterSevenDays": "Instana をご検討いただき、ありがとうございます。 試用期間が終了し、製品にアクセスできなくなりました。"
   },
+  "buyNowDialog": {
+    "title": "使用量に基づく柔軟な請求",
+    "cancelbtn": "キャンセル",
+    "subHeading": "PayPerUse オプションを使用すると、使用した分だけ課金されます。",
+    "sidePanelTitle": "サブスクリプションするかどうかお悩みですか?",
+    "sidePanelDescription": "お客様に最適なオプションを見つけるお手伝いをいたします。",
+    "mainBodyTitle1": "IBM Instana Observability による自動化、コンテキスト、インテリジェントなアクション",
+    "mainBodyDescription1": "業界最高レベルの1秒単位の細分性と包括的な要求トレースにより、問題が検知を逃れることはありません。 使いやすいダッシュボードとカスタマイズされたアラート発行に対応するSmartAlerts™を使用して、アプリケーション・コード、Kubernetesコンテナ、マイクロサービス全体をフルスタックで可視化します。 AWSとのシームレスな統合により、Instanaは300を超えるテクノロジーをサポートし、Amazon AWS上のコンテナ化されたアプリケーションに対して心配のないパフォーマンス・モニタリングを行います。",
+    "mainBodyTitle2": "PayPerUseのご紹介",
+    "mainBodyDescription2": "PayPerUse の階層は、お客様のビジネス ニーズを満たすスタンダードとエッセンシャルのオプションで、機能と価値を提供します。 毎月末に使用量に応じて請求されます。",
+    "listTitle1": "パッケージ",
+    "listTitle2": "説明",
+    "listTitle3": "価格",
+    "listUnit1": "標準 MVS† 時間",
+    "listUnit2": "エッセンシャル MVS† 時間 ",
+    "listDescription1": "インフラストラクチャーのモニターを含む完全な可観測性 + トレース + EUM + シンセティックが含まれます",
+    "listDescription2": "インフラストラクチャーのモニターのみ",
+    "listCost1": "$0.12",
+    "listCost2": "$0.03",
+    "learnMore": "詳細については、 ",
+    "serviceDescription": "サービスの説明。",
+    "mvs": "†管理対象仮想サーバー (MVS) は、Instana のライセンス交付を受けるための測定単位です。 MVS についてもっと知る ",
+    "here": "ここ。"
+  },
   "licenseBanner": {
-    "freeTrialBannerTitle": "IBM Instana",
     "requestQuoteBtn": "見積もり依頼",
+    "buyNow": "今すぐ購入",
     "buyNowBtn": "AWS で購入",
+    "buyNowBtnIbm": "IBMで購入",
     "alreadyHaveLicense": "ライセンスをお持ちですか? <linkToDocker>Docker</linkToDocker> または <linkToKubernetes>Kubernetes</linkToKubernetes>でアクティブにします。",
     "getAnswers": "回答を見る",
+    "share": "共有",
+    "shareTooltip": "このページを同僚と共有し、Instanaでの共同作業に招待しましょう。",
     "titleDetail": {
       "trial": "トライアル",
       "sandboxTrial": "Sandbox 評価版"
     }
   },
   "playwithinstana": {
-    "title": "Instana で再生",
     "content": "独自の環境をモニターする準備ができました",
-    "bookdemo": " デモを予約する",
-    "freetrial": " 無料トライアル",
+    "bookdemo": " ライブデモを予約する",
+    "freetrial": " 無料でお試しください",
     "taketour": " ツアーの実行"
+  },
+  "dataConsumptionMessage": {
+    "description": "データ取り込み権限の{{dataConsumption}}%に達しました。 100% に達すると、取り込まれた追加データに対して従量課金制で課金されます。",
+    "description100": "データ取り込み権限の100%に達しましたが、心配しないでください。Instanaの価値を引き続き最大限に享受できます。 取り込まれた追加データの正確な量に対してのみ、従量課金制で課金されます。",
+    "buttonText": "データ使用量の見直し",
+    "title": "Instanaの使用が急増しているようです"
   },
   "agentDetails": {
     "agentMode": {
@@ -38,7 +70,7 @@
       "configurationOptions": "構成オプション"
     },
     "jvmVendor": {
-      "azulZulu18": "Azul Zulu 1.8",
+      "azulZulu11": "Azul Zulu 11",
       "eclipseOpenJD11": "Eclipse Open J9 11"
     },
     "askForHelp": {
@@ -58,6 +90,7 @@
       "step5": "ステップ 5: ",
       "download": "ダウンロード",
       "clusterName": "クラスター名",
+      "applicationRuntime": "アプリケーション・ランタイム",
       "agentZoneOptional": "エージェント・ゾーン (オプション)",
       "networkRequirements": "ネットワーク要件",
       "toInstallAndRunAnAgentCompleteTheFollowingSteps": "エージェントをインストールして実行するには、以下の手順を実行します。",
@@ -82,8 +115,7 @@
     "kubernetes": {
       "kubernetes": {
         "enterAClusterNameAndOptionallyTheAgentZone": "ステップ 1: クラスター名を入力し、オプションで、クラスターを含めるエージェント・ゾーンを入力します。",
-        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "ステップ 2: 前提条件を確認し、エージェント・デプロイメント・コードを実行します。",
-        "support": "サポート"
+        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "ステップ 2: 前提条件を確認し、エージェント・デプロイメント・コードを実行します。"
       },
       "operator": {
         "installUsingTheOperator": "Operator を使用したインストール",
@@ -114,7 +146,12 @@
       "selectThePlatformArchitecture": "プラットフォーム・アーキテクチャーの選択",
       "platformArchitecture": "プラットフォームのアーキテクチャー",
       "previewPrerequisites": "前提条件のプレビュー",
-      "installingInstanaAgent": "Instana エージェントのインストール"
+      "installingInstanaAgent": "Instana エージェントのインストール",
+      "unix_airgapped": {
+        "step1DownloadTheInstallArchive": "ステップ 1. インストール・アーカイブをダウンロードします。",
+        "airgappedArchives": "アーカイブ",
+        "installUsingAnArchive": "アーカイブを使ってインストールする"
+      }
     },
     "aws": {
       "step1": "ステップ 1: ",
@@ -171,6 +208,7 @@
       "useScriptAsUserDataForEc2Instance": "このスクリプトは、EC2 インスタンスのユーザー・データとして使用します",
       "selectAgentPackagingAndRuntime": "エージェントのパッケージ化モードとランタイムを選択します",
       "awsLambdaPythonAutotrace": "Python ベースの AWS Lambda 関数をトレースの対象として構成する方法として推奨されているのは、Instana Lambda レイヤーと AutoTrace です。",
+      "awsLambdaDotnetAutotrace": ".NET CoreベースのAWS Lambda関数をトレースの対象として構成する方法として推奨されているのは、AutoTraceを使用したInstana Lambdaレイヤーです。",
       "preferredMethodForNodeJsLambdaConfiguration": "Node.js 8.x ベースの AWS Lambda 関数を構成する方法として推奨されているのは、<lambdaManualWrapping>Instana Lambda レイヤーと手動ラッピング</lambdaManualWrapping>を使用することです。",
       "imageOptions": {
         "linuxGlibcBased": "Linux (glibc ベース)",
@@ -183,7 +221,6 @@
       "selectAwsRegionAndLambdaHandler": "AWS 領域を選択し、現在のラムダ・ハンドラーを入力します",
       "setInstanaAutoWrapHandlerAsLambdaFunction": "Instana 自動ラップ・ハンドラーを Lambda 関数のハンドラーとして設定します。",
       "autoWrapHandler": "自動折り返しハンドラー",
-      "runCodeBelow": "以下のエージェント・デプロイメント・コードを実行します。",
       "prerequisiteLinks": {
         "networkRequirements": "ネットワーク要件"
       },
@@ -202,6 +239,7 @@
         "runningStartupScript": "始動スクリプトの実行",
         "uninstallingTheHostAgent": "ホスト・エージェントのアンインストール",
         "awsLambdaNativeTracingForJava": "Java 用の AWS Lambda ネイティブ・トレース",
+        "awsLambdaNativeTracingForDotNet": ".NET Core用AWS Lambda Native Tracing",
         "awsLambdaFunctions": "AWS Lambda 関数",
         "monitoringAwsFargate": "AWS Fargate のモニター",
         "monitoringAwsFargateJava": "AWS Fargate (Java) のモニター",
@@ -214,7 +252,6 @@
         "installGcrCollectors": "Gogle Cloud Run プロセス内コレクターのインストール",
         "installAgentOnEc2": "AWS EC2 へのエージェントのインストール",
         "configurationOptions": "構成オプション",
-        "installAgentAwsEks": "AWS EKS へのエージェントのインストール",
         "monitoringGcr": "Google Cloud Run のモニタリング",
         "monitoringAwsFargateRuby": "AWS Fargate (Ruby) のモニター",
         "awsServiceDocumentation": "AWS サービスの資料",
@@ -265,8 +302,7 @@
       "vmwareTanzuNetworkLink": "VMware Tanzu ネットワーク・リンク",
       "reviewThePrerequisites": "前提条件の確認",
       "installingTheInstanaAgent": "Instana エージェントのインストール",
-      "vmwareTanzuDocumentation": "VMware Tanzu の資料",
-      "vmwareTanzuNetwork": "VMware Tanzu ネットワーク",
+      "installingAndConfiguringMicroservicesApplicationsMonitoring": "マイクロサービス・アプリケーションのモニタリングのインストールと設定",
       "addTileToOpsManagerAndConfigureIt": "タイルを Ops Manager に追加して構成します",
       "addInstanaApplicationMonitoring": "「Instana Microservices Application Monitoring」タイルを Ops Manager に追加し、タイルの「バックエンド構成」タブに以下を適用します。",
       "nameYourVmwareFoundation": "VMware Tanzu ファウンデーションの名前を指定します",
@@ -314,6 +350,11 @@
         "installTheScriptOnTheVirtualMachine": "スクリプトを Windows サービスとして仮想マシンにインストールし、自動的に開始します。",
         "installAgentOnAWSEC2Windows": "AWS EC2 へのエージェントのインストール (Windows)",
         "runCommandsOnAWSEC2": "AWS EC2 でのコマンドの実行"
+      },
+      "windows_airgapped": {
+        "step1DownloadTheInstallPackageOrArchive": "ステップ 1. インストーラーまたはアーカイブをダウンロードします。",
+        "airgappedPackagesOrArchive": "アーカイブおよび Windows インストーラ (32bit および 64bit)",
+        "installUsingAPackageOrArchive": "インストーラーまたはアーカイブを使ってインストールする"
       }
     },
     "linux": {
@@ -324,9 +365,28 @@
         "runningTheAgent": "エージェントの実行"
       },
       "linux_deb_rpm": {
+        "configureTheAgent": "ステップ 1: エージェントの構成",
+        "installUsingAPackage": "パッケージを使用したインストール",
+        "selectThePlatformArchitecture": "ステップ 2: プラットフォーム・アーキテクチャーの選択",
+        "platformArchitecture": "プラットフォームのアーキテクチャー",
+        "mode": "モード",
+        "agentOptions": {
+          "linux64BitAarch": "Linux (64Bit - AArch)",
+          "linux64BitArm": "Linux (64 ビット - ARM)",
+          "linux64BitAmd": "Linux (64Bit - AMD)",
+          "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
+          "linux64BitPowerPcLittleEndian": "Linux (64 ビット - PowerPC リトル・エンディアン)",
+          "linuxS390XJdkNotIncluded": "Linux (64Bit - s390x) JDK は含まれません",
+          "linuxS390X": "Linux (64Bit - s390x)",
+          "linuxX8664": "Linux (64Bit - x86_64)",
+          "linuxRhel6X8664": "Linux (64Bit - RHEL6 x86_64)",
+          "linuxRhel7X8664": "Linux (64Bit - RHEL7 x86_64)"
+        }
+      },
+      "linux_airgapped": {
         "step1DownloadTheInstallPackage": "ステップ 1. インストール・パッケージをダウンロードします。",
-        "DEBAndRPMPackage": "DEB および RPM パッケージ",
-        "installUsingAPackage": "パッケージを使用したインストール"
+        "airgappedPackages": "アーカイブ、DEB、RPM パッケージ",
+        "installUsingAPackage": "パッケージまたはアーカイブを使用してインストールする"
       },
       "linux_ec2": {
         "selectTheAgentPackagingMode": "ステップ 1: エージェント・パッケージ化モードの選択",
@@ -334,7 +394,7 @@
         "dynamic": "動的",
         "static": "静的",
         "runtime": "Runtime",
-        "azulZulu": "Azul Zulu 1.8",
+        "azulZulu": "Azul Zulu 11",
         "eclipseOpenJ9": "Eclipse Open J9 11",
         "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "ステップ 2: 前提条件を確認し、エージェント・デプロイメント・コードを実行します。",
         "installagentOnAWSEC2": "AWS EC2 へのエージェントのインストール",
@@ -364,6 +424,22 @@
         "configurationParameters": "構成パラメーター"
       }
     },
+    "ibmi": {
+      "ibmi": "IBM i",
+      "os": "OS",
+      "archiveTarGz": "アーカイブ (tar.gz)",
+      "archive": {
+        "selectTheAgentPackagingMode": "ステップ 1: エージェント・パッケージ化モードの選択",
+        "selecTthePlatformArchitecture": "ステップ 2: プラットフォーム・アーキテクチャーの選択",
+        "platformArchitecture": "プラットフォームのアーキテクチャー",
+        "beforeYouInstall": "インストールする前に",
+        "installingManually": "手動でのインストール",
+        "startingTheAgent": "エージェントの開始",
+        "agentOptions": {
+          "ibmi64Bit": "IBM i"
+        }
+      }
+    },
     "openshift": {
       "documentLinks": {
         "installOperatorByUsingOlm": "OLM を使用した Operator のインストール",
@@ -388,8 +464,34 @@
       }
     },
     "azure": {
-      "installingAgentOnAks": "Aks へのエージェントのインストール",
-      "configureAfterInstall": "インストール後のエージェントの構成"
+      "referenceToAzureContainerAppsDocumentation": "Azure コンテナ アプリにデプロイされた Go アプリケーションは、トレース・データを収集するために手動でインスツルメンテーションする必要があります。 <azureContainerAppsDoc>Azure Container Apps Go documentation</azureContainerAppsDoc> の指示に従ってください。",
+      "selectAzureContainerAppsRuntime": "Azure Container Apps ランタイムを選択します",
+      "reviewPrerequisitesAndConfigureContainerApps": "前提条件を確認し、Azure Container Apps をトレース用に設定します。",
+      "containerAppSetEnvironmentVariables": "Azure コンテナアプリを作成する際に、以下の環境変数を設定します。",
+      "monitoringAzure": "Azure エージェントによる Microsoft Azure の監視とインストルメンテーション",
+      "monitoringAzureContainerApps": "モニタリング Azure コンテナ・アプリ",
+      "selectAzureAppServiceRuntime": "Azure App Service ランタイムを選択します。",
+      "nodejs": {
+        "reviewPrerequisitesAndInstallAppService": "前提条件を確認して、コレクタをインストールします。",
+        "monitoringAppService": "Azure App Service for Node.js を監視する",
+        "referenceAppServiceDocumentationContent": "前提条件を確認し、インストール・ガイドに従ってコレクタをインス トールします。 詳しい説明は、<azureAppServiceDoc>ドキュメント</azureAppServiceDoc>を参照してください。",
+        "activatingAppService": "コレクターの起動",
+        "appName": "アプリケーション名",
+        "resourceGroupName": "リソース・グループ名",
+        "activatingAppServiceContent": "Azure CLI コマンドの例 Node.js v18.19 以降を使用する ECMAScript モジュール・アプリケーション:",
+        "activatingAppServiceNote": "NODE_OPTIONS の値を更新して、構成に合った正しい設定にしてください。 ガイダンスについては、<azureAppServiceEnableCollectorDoc>ドキュメント</azureAppServiceEnableCollectorDoc>を参照してください。"
+      },
+      "dotnet": {
+        "monitoringAppService": "Azure App Servicefor .NETのモニタリング",
+        "activatingAppService": "コレクターをインストールしています。",
+        "appName": "アプリケーション名",
+        "resourceGroupName": "リソース・グループ名",
+        "configureOptionsForTracing": "アプリ・サービスのモニタリングに必要なパラメーターの構成",
+        "uploadConfigFile": "構成ファイルのアップロード- ApplicationHost.xdt",
+        "activatingAppServiceNote": "ファイルをダウンロードします。 ファイル名が常に「ApplicationHost.xdt」であることを確認してください",
+        "ftpsAuthCredsNote": "AzureポータルでApp Serviceにログインし、「デプロイメント」->「デプロイメント・センター」->「App ServiceのFTPS資格情報」でFTPSURL、FTPSユーザー名、パスワード(アプリケーション・スコープ)を確認します。 以下のコマンドでこれらの値を置き換えます",
+        "restartAppServiceNote": "App Serviceを再始動します"
+      }
     },
     "gcp": {
       "dockerBuild": "Docker ビルド",
@@ -410,99 +512,175 @@
     },
     "mac": {
       "selectAgentPackagingMode": "ステップ 1: エージェントのパッケージ化モードを選択します。",
-      "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "ステップ 2: 前提条件を確認し、エージェント・デプロイメント・コードを実行します。"
+      "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "ステップ 2: 前提条件を確認し、エージェント・デプロイメント・コードを実行します。",
+      "mac_airgapped": {
+        "step1DownloadTheInstallArchive": "ステップ 1. インストール・アーカイブをダウンロードします。",
+        "airgappedArchives": "アーカイブ",
+        "installUsingAnArchive": "アーカイブを使ってインストールする"
+      }
     }
   },
   "welcomepage": {
-    "heading": "ようこそ",
+    "heading": "Instanaへようこそ",
+    "foldableTileTitle": "開始しましょう。",
     "viewAll": "すべて表示",
-    "search": "検索",
-    "addMore": "追加",
     "UrlShortener": "URL 短縮形",
-    "consumeData": {
-      "title": "サービスのディスカバー",
-      "description": "まず、Instana がモニター対象のサービスやその他のデータをディスカバーできるようにします。",
-      "buttonName": "エージェントのデプロイ",
-      "buttonType": "1 次"
+    "addMore": "追加",
+    "collapsibleButton": {
+      "showOnboardingTasks": "オンボーディング・タスクの表示",
+      "hideOnboardingTasks": "オンボーディング・タスクの非表示"
+    },
+    "startIntegrating": {
+      "title": "データの統合を始める",
+      "description": "エージェントをインストールすることで、Instanaのセットアップとシームレスなデータ統合を開始します。",
+      "buttonName": "エージェントのインストール"
+    },
+    "traceInteractions": {
+      "title": "相互作用トレース",
+      "description": "コンポーネントがどのように接続されているかを理解し、トレースを手動でセットアップする必要があるかどうかを確認します。",
+      "buttonName": "トレースの検証"
+    },
+    "inviteUsers": {
+      "title": "専門家とつながる",
+      "description": "セットアップ・タスクを完了するためのサポートを得たり、製品機能を試すことができます。",
+      "buttonName": "ユーザーの招待"
+    },
+    "additionalAgents": {
+      "title": "より多くのデータを取り込む",
+      "description": "アーキテクチャー全体で可観測性を拡張します。",
+      "buttonName": "追加エージェントのインストール"
+    },
+    "appPerspective": {
+      "title": "ビューの調整",
+      "description": "アプリケーションとサービスを最適化するために必要な情報を取り込みます。",
+      "buttonName": "アプリケーション・パースペクティブの作成"
+    },
+    "smartAlerts": {
+      "title": "アラートを受け取る",
+      "description": "単純なカスタマイズと高度なカスタマイズの両方に対応する、事前定義されたブループリントを使用してアラートを簡単に構成できます。",
+      "buttonName": "スマート・アラートのセットアップ"
+    },
+    "startMonitoring": {
+      "title": "環境のモニター",
+      "description": "アプリケーションおよびWebサイトでアラートをアクティブ化します。",
+      "buttonName": "モニターの開始"
     },
     "inviteTeammates": {
-      "title": "チームメイトの招待",
-      "description": "同僚とコラボレーションします。",
-      "buttonName": "ユーザーの管理",
-      "buttonType": "ghost"
-    },
-    "nextSteps": {
-      "title": "次のステップ",
-      "description": "その他のツアーや追加のサポートをご覧ください。",
-      "buttonName": "回答を見る",
-      "buttonType": "ghost"
+      "title": "チームに招く",
+      "description": "同僚をInstanaに招待し、コラボレーションを開始します。",
+      "buttonName": "チームメートを招待する"
     },
     "component": {
       "applicationWidget": {
         "label": "アプリケーション",
         "name": "名前",
         "calls": "呼び出し",
+        "scope": "範囲",
         "latency": "待ち時間",
         "erroneousCallRate": "エラーのある呼び出し率",
-        "openCreationDialog": "作成ダイアログを開く"
+        "openCreationDialog": "作成ダイアログを開く",
+        "health": "正常性",
+        "searchPlaceholderLabel": "アプリケーション",
+        "addButtonLabel": "アプリケーション",
+        "viewAllLabel": "アプリケーション"
       },
       "eventWidget": {
         "label": "イベント",
+        "viewAllLabel": "イベント",
         "incidents": "インシデント",
         "critical": "クリティカル",
         "warning": "警告",
-        "viewEvents": "イベントの表示"
+        "viewEvents": "イベントを表示する"
       },
       "platformWidget": {
         "platforms": "プラットフォーム",
         "cloudFoundry": "Cloud Foundry",
         "vsphere": "vSphere",
         "openstack": "OpenStack",
+        "openshift": "OpenShift",
         "ibmp": "IBM Power HMC",
         "powervcRegion": "PowerVC リージョン",
         "sap": "SAP",
         "ibmz": "IBM Z HMC",
-        "kubernetes": "Kubernetes",
+        "gke": "Google Kubernetes Engine",
+        "eks": "Amazon Elastic Kubernetes Service",
         "name": "名前",
         "nodes": "ノード",
         "namespaces": "名前空間",
-        "pods": "ポッド数"
+        "pods": "ポッド数",
+        "health": "正常性",
+        "vMs": "VM",
+        "systems": "システム",
+        "instances": "インスタンス",
+        "partitions": "パーティション",
+        "memoryLimit": "メモリー制限",
+        "adapters": "アダプター",
+        "vios": "Virtual I/O Server",
+        "memoryUsage": "メモリー使用量",
+        "cpuUsage": "CPU 使用率",
+        "esXiHosts": "ESXi ホスト",
+        "searchPlaceholderLabel": "プラットフォーム",
+        "viewAllLabel": "プラットフォーム"
       },
       "bizopsWidget": {
         "label": "ビジネス・モニタリング",
         "name": "名前",
         "activities": "アクティビティー",
-        "count": "数"
+        "started": "開始済み",
+        "health": "正常性",
+        "searchPlaceholderLabel": "ビジネス・プロセス",
+        "viewAllLabel": "ビジネス・プロセス"
       },
       "incidentsWidget": {
         "label": "インシデント",
         "active": "アクティブ",
         "title": "役職",
         "on": "オン",
-        "started": "開始済み",
-        "end": "語末"
+        "started": "開始",
+        "end": "語末",
+        "severity": "重大度",
+        "searchPlaceholderLabel": "インシデント",
+        "viewAllLabel": "インシデント"
       },
       "websitesWidget": {
         "label": "Web サイト",
         "name": "名前",
         "pageViews": "ページ・ビュー",
-        "onLoadTimes": "OnLoad 回"
+        "onLoadTimes": "OnLoad 回",
+        "health": "正常性",
+        "searchPlaceholderLabel": "Webサイト",
+        "addButtonLabel": "Web サイト",
+        "viewAllLabel": "Webサイト"
       },
       "mobileAppsWidget": {
-        "label": "モバイル・アプリケーション",
+        "label": "モバイル・アプリ",
         "name": "名前",
         "sessions": "セッション数",
-        "views": "ビュー"
+        "views": "ビュー",
+        "health": "正常性",
+        "searchPlaceholderLabel": "モバイル・アプリケーション",
+        "addButtonLabel": "モバイル・アプリ",
+        "viewAllLabel": "モバイル・アプリケーション"
       },
       "infrastructureWidget": {
         "label": "インフラストラクチャー",
         "mean": "平均値",
         "name": "名前",
         "os": "OS",
+        "zones": "ゾーン",
+        "hosts": "ホスト",
+        "technologies": "テクノロジー",
         "cpuNum": "CPU の数",
         "cpuUsage": "CPU 使用率",
         "created": "作成日",
-        "started": "開始済み"
+        "started": "開始済み",
+        "health": "正常性",
+        "hostSearchPlaceholderLabel": "ホスト",
+        "hostViewAllLabel": "ホスト",
+        "containersSearchPlaceholderLabel": "コンテナー",
+        "containersViewAllLabel": "コンテナー",
+        "processesSearchPlaceholderLabel": "プロセス",
+        "processesViewAllLabel": "プロセス"
       },
       "syntheticWidget": {
         "label": "シンセティック・モニタリング",
@@ -514,19 +692,31 @@
         "lastTestRunOn": "最終テスト実行日",
         "version": "バージョン",
         "timeThreshold": "時間しきい値",
-        "testsApplied": "適用されるテスト"
+        "testsApplied": "適用されるテスト",
+        "health": "正常性",
+        "testSearchPlaceholderLabel": "シンセティック・テスト",
+        "testAddButtonLabel": "シンセティック・テスト",
+        "testViewAllLabel": "シンセティック・テスト",
+        "locationsSearchPlaceholderLabel": "合成ロケ地",
+        "locationsViewAllLabel": "合成ロケ地",
+        "smartalertsSearchPlaceholderLabel": "合成スマート・アラート",
+        "smartalertsAddButtonLabel": "合成スマート・アラート",
+        "smartalertsViewAllLabel": "合成スマート・アラート"
       },
       "dashboardWidget": {
         "label": "マイ・カスタム・ダッシュボード",
         "name": "名前",
         "owner": "所有者",
-        "permissions": "権限"
+        "permissions": "権限",
+        "searchPlaceholderLabel": "ダッシュボード",
+        "addButtonLabel": "ダッシュボード",
+        "viewAllLabel": "ダッシュボード"
       }
     },
     "noData": {
       "applicationWidget": {
         "header": "アプリケーションはありません",
-        "description": "監視するサービスに関する独自の視点を作成します。",
+        "description": "観察したいサービスについて、独自のアプリケーション・パースペクティブを作成します。",
         "buttonName": "アプリケーション・パースペクティブの作成"
       },
       "incidentsWidget": {
@@ -535,25 +725,34 @@
       },
       "websitesWidget": {
         "header": "Web サイトなし",
-        "description": "Web サイトの追加とデータ収集の開始",
+        "description": "ウェブサイト・データを収集し、ユーザーのデジタル体験を理解する。",
         "buttonName": "Web サイトの追加"
       },
       "mobileListWidget": {
         "header": "モバイル・アプリがありません",
-        "description": "モバイル・アプリケーションを追加し、データの収集を開始します。",
+        "description": "モバイルアプリのデータを収集し、ユーザーのデジタル体験を理解する。",
         "buttonName": "モバイル・アプリケーションの追加"
       },
       "infrastructureWidget": {
-        "header": "ホスト、コンテナー、またはプロセスがありません",
-        "description": "デプロイされたエージェントの結果をここで見つけます。"
+        "description": "ここで詳細を表示するには、エージェントを展開します。<br>エージェント <linkToAgents>Agents</linkToAgents> ページで開始します。",
+        "link": "エージェント",
+        "hosts": {
+          "header": "ホストがありません"
+        },
+        "docker": {
+          "header": "容器なし"
+        },
+        "process": {
+          "header": "プロセスがありません"
+        }
       },
       "platformsWidget": {
         "header": "プラットフォームなし",
-        "description": "インストールされているすべてのプラットフォームがここにあります。"
+        "description": "表示するプラットフォームはまだない。"
       },
       "businessMonitoringWidget": {
         "header": "ビジネス・プロセスがありません",
-        "description": "IBM Business Automation Workflow を有効にするか、Instana を構成してビジネス・プロセスからビジネス・データを収集して保管します。"
+        "description": "お客様のビジネス・プロセスからデータを取得し、保存するように Instana を設定します。"
       },
       "syntheticWidget": {
         "test": {
@@ -562,14 +761,18 @@
           "buttonName": "シンセティック・テストの追加"
         },
         "location": {
-          "header": "シンセティック・ロケーションがありません",
-          "description": "特定の連続した間隔で実行するようにシンセティック・ロケーションを構成します。"
+          "header": "合成ロケーションなし",
+          "description": "合成テストを実行する合成ロケーションを設定します。"
         },
         "smartalerts": {
-          "header": "ノー・シンセティック・スマートルツ",
-          "description": "特定の連続した間隔で実行するように、シンセティック・スマート・バーツを構成します。",
-          "buttonName": "合成スマート・バーツの追加"
+          "header": "合成スマート・アラートなし",
+          "description": "ロケーションのテストが失敗した場合にアラートを送信するように、合成のスマート・アラートを設定します。",
+          "buttonName": "合成スマート・アラートの追加"
         }
+      },
+      "eventsWidget": {
+        "header": "イベントなし",
+        "description": "表示するイベントやインシデントがない場合や、最初にデータを設定する必要がある場合があります。"
       },
       "dashboardWidget": {
         "header": "カスタム・ダッシュボードがありません",
@@ -577,10 +780,25 @@
         "buttonName": "カスタム・ダッシュボードの作成"
       }
     },
+    "quickLinks": {
+      "iconDescriptions": {
+        "settings": "設定",
+        "user": "ユーザー",
+        "externalLink": "外部リンク",
+        "resultNew": "結果 新規",
+        "whatsNewLink": "新着情報 リンク"
+      },
+      "buttonNames": {
+        "deployAgent": "エージェントのデプロイ",
+        "addUser": "ユーザーの追加",
+        "documentation": "IBM 資料",
+        "releaseNotes": "リリース情報",
+        "whatsNewLink": "インスタナの新機能"
+      }
+    },
     "ariaLabel": {
+      "search": "検索",
       "shareButton": "「共有」ボタン",
-      "searchButton": "「検索」ボタン",
-      "addButton": "「追加」ボタン",
       "handleButton": "「ハンドル」ボタン"
     }
   },
@@ -592,7 +810,45 @@
   },
   "assistme": {
     "dataSearchContext": {
-      "gettingStarted": "始めに"
+      "gettingStarted": "開始しました。",
+      "websites": "Webサイト",
+      "mobileApps": "モバイル・アプリ",
+      "businessMonitoring": "ビジネス・モニタリング",
+      "application": "アプリケーション",
+      "smartAlerts": "スマート・アラート",
+      "infrastructureMap": "マップ",
+      "cloudFoundry": "Cloud Foundryのモニタリング",
+      "powerHmc": " IBM Powerのモニタリング",
+      "kubernetes": "Kubernetes",
+      "sap": "SAPのモニタリング",
+      "synthetic": "シンセティック・モニタリング",
+      "syntheticAlerts": "シンセティック・アラート",
+      "syntheticPop": "シンセティックPoP",
+      "serviceLevel": "サービス・レベル",
+      "installAgent": "エージェントのインストール",
+      "analyzeCalls": "トレースおよび呼び出しの分析",
+      "settingsTab": "ユーザー・アクセスの管理",
+      "userSettings": "ユーザー設定",
+      "securityAndAccess": "セキュリティとアクセスの設定",
+      "auditLogs": "監査ログの表示",
+      "automation": "アクションの管理",
+      "customEvents": "カスタム・イベントの定義",
+      "configuringAlerts": "アラートの構成",
+      "alertChannel": "アラート・チャネル",
+      "maintenanceWindow": "スケジューリング",
+      "customPayload": "カスタム・ペイロード",
+      "eventsPage": "イベントの管理",
+      "logManagement": "logging",
+      "configuringAndMonitoring": "構成およびモニタリング",
+      "customDashboard": "カスタム・ダッシュボード"
     }
+  },
+  "userGoalSelectionDialog": {
+    "title": "あなたの目標は何ですか？",
+    "description": "Instana へようこそ。 このトライアルの主な目標をお聞かせいただき、より良い体験の提供にご協力ください。 該当するものをすべて選択します。",
+    "skip": "スキップ",
+    "done": "完了",
+    "otherGoalPlaceholder": "例えば、自分の環境全体を可視化する",
+    "otherGoalToAccomplish": "他に達成しようとしている目標を達成しようとしていますか?"
   }
 }

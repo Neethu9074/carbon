@@ -10,12 +10,12 @@
   }
   .actionModalFontSize {
     font-size: 0.8rem;
+    dd {
+      width: 95%;
+    }
   }
   .dialog {
     width: 65%;
-    > div > div {
-      width: 95%;
-    }
   }
   .actionDescriptionMargin dt {
     margin-bottom: 0.25rem;
@@ -57,10 +57,8 @@
       height: auto;
     }
   }
-  .manualContentMarkdown {
-    background: var(--ids-color-option-neutral-50);
 
-    display: flex;
-    justify-content: space-between;
+  .logsLink {
+    color: var(--cds-link-primary);
   }
 }

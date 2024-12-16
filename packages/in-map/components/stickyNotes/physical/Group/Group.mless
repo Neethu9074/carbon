@@ -1,0 +1,23 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .inStickyNoteButton {
+    border: 1px solid var(--cds-border-strong) !important;
+    background-color: #525252;
+    cursor: pointer;
+
+    :global(.cds--tag__label) {
+      color: var(--cds-text-inverse);
+    }
+
+    &:hover {
+      background-color: var(--cds-button-secondary-active);
+    }
+    &:focus {
+      background-color: var(--cds-button-secondary-active);
+    }
+  }
+}

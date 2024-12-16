@@ -5,15 +5,13 @@
 
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 
-import { Card, Stack } from '@instana/components';
-import { Link } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Card, Stack, Link, Button } from '@instana/components';
+import { FileInputButton } from '@instana/components';
 
 import { put } from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/CustomGeoDetails/apiCall';
 import SaveIndicator from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/SaveIndicator';
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
 import OptionsRow from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/OptionsRow';
-import FileInputButton from 'in-components/form/FileInputButton';
 import SaveError from 'in-components/form/SaveError';
 import { TechnicalHttpApiError } from 'in-types';
 import { t, Trans } from 'in-i18n';
@@ -50,7 +48,7 @@ export default function Uploader({ apiUrl, documentationUrl }: Props) {
             />
           </HelpParagraph>
 
-          <Stack direction="horizontal" align="center">
+          <Stack direction="horizontal" align="start">
             <FileInputButton accept="text/csv,.csv" onChange={onChange} disabled={state.loading} />
             <Button
               type="submit"

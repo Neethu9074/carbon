@@ -7,7 +7,7 @@ import React, { useCallback, useMemo, useRef } from 'react';
 import { isEqual } from 'lodash';
 import rpt from 'prop-types';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import ActiveGroupingConfiguration from 'in-components/GroupingConfigurator/ActiveGroupingConfiguration';
 import TagSelectorOverlay from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
@@ -26,7 +26,11 @@ export default function GroupingConfigurator({
   onChange,
   tracking,
   label = t('in-components:groupingConfigurator.addGroup'),
-  loadingLabel
+  loadingLabel,
+  getTagCatalog,
+  additionalGetTagCatalogProps,
+  addTagDefinitionToFormModel,
+  disableEntitySelection
 }) {
   const autoFocus = useRef();
 
@@ -94,21 +98,31 @@ export default function GroupingConfigurator({
                 tagCatalog={tagCatalog}
                 tagFilterExpression={tagFilterExpression}
                 autoFocus={autoFocus.current}
+                disableEntitySelection={disableEntitySelection}
               />
             )}
           </GroupingOverlay>
         );
       })}
       {groups.length < maxLength && (
-        <GroupingOverlay tagCatalog={tagCatalog} autoFocus={autoFocus} onChange={addGroup} tracking={tracking}>
+        <GroupingOverlay
+          tagCatalog={tagCatalog}
+          autoFocus={autoFocus}
+          onChange={addGroup}
+          tracking={tracking}
+          getTagCatalog={getTagCatalog}
+          additionalGetTagCatalogProps={additionalGetTagCatalogProps}
+          addTagDefinitionToFormModel={addTagDefinitionToFormModel}
+          disableEntitySelection={disableEntitySelection}
+        >
           {({ toggle, refSetter }) => (
             <Button
-              className={locals.addGroupingButton}
-              kind="subtle"
+              kind="tertiary"
               size="compact"
               icon="lib_openclose_add"
               refSetter={refSetter}
               onClick={toggle}
+              data-testid="query-builder-add-group"
             >
               {label}
             </Button>
@@ -124,18 +138,31 @@ export const trackingProps = {
   onGroupRemoved: rpt.func
 };
 
-function GroupingOverlay({ tagCatalog, autoFocus, children, onChange, tracking }) {
+function GroupingOverlay({
+  tagCatalog,
+  autoFocus,
+  children,
+  onChange,
+  tracking,
+  getTagCatalog,
+  additionalGetTagCatalogProps,
+  addTagDefinitionToFormModel,
+  disableEntitySelection
+}) {
   return (
     <Overlay
       content={TagSelectorOverlay}
       props={{
         tagCatalog,
-        onChange: ({ name, tagType }) => {
+        onChange: ({ name, tagType, tagDefinition }) => {
           autoFocus.current = Date.now();
-          const selectedGroup = setEntityIfNecessary(name, tagType);
+          const selectedGroup = setEntityIfNecessary(name, tagType, tagDefinition);
           tracking?.onGroupAdded?.(selectedGroup);
           onChange(selectedGroup);
-        }
+        },
+        getTagCatalog,
+        additionalGetTagCatalogProps,
+        addTagDefinitionToFormModel
       }}
       align={'bottomLeft'}
       withoutWrapper
@@ -144,16 +171,17 @@ function GroupingOverlay({ tagCatalog, autoFocus, children, onChange, tracking }
     </Overlay>
   );
 
-  function setEntityIfNecessary(groupbyTag, tagType) {
-    const tagTreeNode = tagCatalog?.tagsByName[groupbyTag];
-    if (tagTreeNode.canApplyToSource || tagTreeNode.canApplyToDestination) {
+  function setEntityIfNecessary(groupbyTag, tagType, tagDefinition) {
+    const tagTreeNode = tagDefinition ?? tagCatalog?.tagsByName[groupbyTag];
+    if (!disableEntitySelection && (tagTreeNode.canApplyToSource || tagTreeNode.canApplyToDestination)) {
       return {
         groupbyTag,
-        groupbyTagEntity: tagTreeNode.canApplyToDestination ? DESTINATION : SOURCE
+        groupbyTagEntity: tagTreeNode.canApplyToDestination ? DESTINATION : SOURCE,
+        tagDefinition
       };
     }
 
-    return { groupbyTag, tagType };
+    return { groupbyTag, tagType, tagDefinition };
   }
 }
 
@@ -165,5 +193,9 @@ GroupingConfigurator.propTypes = {
   tagFilterExpression: rpt.oneOfType([rpt.array, rpt.object]),
   tracking: rpt.shape(trackingProps),
   label: rpt.string,
-  loadingLabel: rpt.string
+  loadingLabel: rpt.string,
+  getTagCatalog: rpt.func,
+  additionalGetTagCatalogProps: rpt.object,
+  addTagDefinitionToFormModel: rpt.bool,
+  disableEntitySelection: rpt.bool
 };

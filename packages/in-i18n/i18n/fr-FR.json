@@ -1,9 +1,17 @@
 {
   "components": {
+    "uiShell": {
+      "mainNavigation": "Navigation principale"
+    },
     "list": {
       "loadMore": "Charger plus",
+      "expand": "Développer",
+      "collapse": "Réduire",
       "toggleExtraContent": "Basculer le contenu supplémentaire",
       "initiateDefaultAction": "Lancer l'action par défaut"
+    },
+    "link": {
+      "opensInNewTab": "(s'ouvre dans un nouvel onglet)"
     },
     "table": {
       "tableErrorRows": {
@@ -11,13 +19,43 @@
       },
       "tableLoadMoreRow": {
         "loadMore": "Charger plus"
-      }
+      },
+      "dataTable": "Table de données",
+      "expandHeader": "Développer la ligne",
+      "expandRow": "Basculer pour développer la ligne",
+      "select": "sélectionner la ligne",
+      "selectedRow": "Ligne sélectionnée"
+    },
+    "tableSkeleton": {
+      "sampleTable": "Exemple de table"
     },
     "code": {
       "copy": "Copier",
       "copied": "Copié",
       "showMore": "Afficher plus",
-      "showLess": "Afficher moins"
+      "showLess": "Afficher moins",
+      "copytoboard": "Copier dans le presse-papiers"
+    },
+    "menu": {
+      "sideNavigation": "Navigation latérale"
+    },
+    "dropDown": {
+      "selectOption": "Sélectionner une option"
+    },
+    "tabsNavigation": {
+      "pageNavigation": "Navigation de page"
+    },
+    "plg": {
+      "dashboardTable": {
+        "dataTableToolbar": "barre d'outils de table de données"
+      },
+      "tableTabs": {
+        "listOfTabs": "Liste des onglets"
+      }
+    },
+    "pill": {
+      "privatePreview": "Aperçu",
+      "publicPreview": "Aperçu"
     }
   },
   "formatDate": {
@@ -49,14 +87,17 @@
   "forms": {
     "actions": {
       "save": "Enregistrer",
+      "saveIntegration": "Sauvegarder et activer",
       "cancel": "Annuler",
       "create": "Créer",
       "delete": "Supprimer",
       "close": "Fermer",
-      "submit": "Soumettre"
+      "submit": "Soumettre",
+      "previous": "Précédent"
     },
     "states": {
-      "saving": "Enregistrement en cours..."
+      "saving": "Enregistrement en cours...",
+      "loading": "Chargement en cours..."
     }
   },
   "language_en-US": "Anglais",
@@ -82,6 +123,7 @@
   "aggregation_MAX": "max",
   "aggregation_DISTINCT_COUNT": "nombre distinct",
   "aggregation_SUM": "somme",
+  "aggregation_INCREASE": "augmentation",
   "aggregation_DISTRIBUTION": "distribution",
   "aggregation_PER_SECOND": "par seconde"
 }

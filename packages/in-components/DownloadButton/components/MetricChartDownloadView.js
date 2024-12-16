@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest } from '@instana/observables';
 import React from 'react';
+
+import { combineLatest } from '@instana/observables';
 
 import DownloadView from 'in-components/DownloadButton/components/DownloadView';
 import { getMetricsForTimeframe } from 'in-stores/metric';
@@ -54,6 +55,22 @@ export default connectTo(
           )
         )
         .map(metrics => {
+          const counters = {};
+          metrics
+            .filter(metric => !!metric)
+            .forEach(metric => {
+              counters[metric.label] = (counters[metric.label] || 0) + 1;
+            });
+          Object.entries(counters)
+            .filter(e => e[1] > 1)
+            .forEach(([label]) => {
+              let i = 1;
+              metrics
+                .filter(metric => metric.label === label)
+                .forEach(metric => {
+                  metric.label += `_(${i++})`;
+                });
+            });
           const map = {};
           metrics.forEach(metric => {
             if (metric) {
@@ -84,7 +101,7 @@ function getCsvData(metricValues) {
 
   const timestamps = `timestamps,${metricValues[metrics[0]].map(value => value[0]).join(',')}`;
   const lines = Object.keys(metricValues)
-    .map(key => `${key},${metricValues[key].map(value => value[1]).join(',')}`)
+    .map(key => `${key.replace(/_\(\d+\)$/, '')},${metricValues[key].map(value => value[1]).join(',')}`)
     .join('\n');
   return `${timestamps}\n${lines}`;
 }

@@ -198,7 +198,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
                     tagCatalog: tagCatalogCrash
                   }),
                   groupBy: {
-                    groupbyTag: 'mobileBeacon.error.message'
+                    groupbyTag: 'mobileBeacon.crash.groupLabel'
                   }
                 })
             }}
@@ -239,7 +239,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
                       tagCatalog: tagCatalogCrash
                     }),
                     groupBy: {
-                      groupbyTag: 'mobileBeacon.error.message'
+                      groupbyTag: 'mobileBeacon.crash.groupLabel'
                     },
                     fields: [
                       {

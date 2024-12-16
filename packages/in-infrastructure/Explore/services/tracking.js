@@ -19,123 +19,157 @@ import {
   INFRA_EXPLORE_METRIC_REMOVED,
   INFRA_EXPLORE_METRIC_AGGREGATION_CHANGED,
   INFRA_EXPLORE_SORTED,
-  track
+  INFRA_EXPLORE_CHART_CHANGED
 } from 'in-services/tracking/tracking';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
+import { UI_INTERACTION } from 'in-services/util/constants';
 
-export function filterAddedTracker(getInfraExploreState) {
-  return function(addedFilter) {
-    const context = serializeContext(getInfraExploreState(), { addedFilter });
-    track(INFRA_EXPLORE_FILTER_ADDED, context);
-  };
-}
-
-export function filterRemovedTracker(getInfraExploreState) {
-  return function(removedFilter) {
-    const context = serializeContext(getInfraExploreState(), { removedFilter });
-    track(INFRA_EXPLORE_FILTER_REMOVED, context);
-  };
-}
-
-export function filtersClearedTracker(getInfraExploreState) {
-  return function() {
-    track(INFRA_EXPLORE_FILTERS_CLEARED, serializeContext(getInfraExploreState()));
-  };
-}
-
-export function groupAddedTracker(getInfraExploreState) {
-  return function(addedGroup) {
-    const context = serializeContext(getInfraExploreState(), { addedGroup: addedGroup.groupbyTag });
-    track(INFRA_EXPLORE_GROUP_ADDED, context);
-  };
-}
-
-export function groupRemovedTracker(getInfraExploreState) {
-  return function(removedGroup) {
-    const context = serializeContext(getInfraExploreState(), { removedGroup: removedGroup.groupbyTag });
-    track(INFRA_EXPLORE_GROUP_REMOVED, context);
-  };
-}
-
-export function groupFocusedOnTracker(getInfraExploreState) {
-  return function({ tags }) {
-    const context = serializeContext(getInfraExploreState(), { focusedGroup: tags });
-    track(INFRA_EXPLORE_GROUP_FOCUSED_ON, context);
-  };
-}
-
-export function groupExpandedTracker(getInfraExploreState) {
-  return function({ tags }) {
-    const context = serializeContext(getInfraExploreState(), { expandedGroup: tags });
-    track(INFRA_EXPLORE_GROUP_EXPANDED, context);
-  };
-}
-
-export function groupCollapsedTracker(getInfraExploreState) {
-  return function({ tags }) {
-    const context = serializeContext(getInfraExploreState(), { collapsedGroup: tags });
-    track(INFRA_EXPLORE_GROUP_COLLAPSED, context);
-  };
-}
-
-export function navigateToEntityTracker(getInfraExploreState) {
-  return function(pluginId) {
-    const context = serializeContext(getInfraExploreState(), { plugin: pluginId });
-    track(INFRA_EXPLORE_NAVIGATE_TO_ENTITY_DASHBOARD, context);
-  };
-}
-
-export function typeSelectorChangedTracker(getInfraExploreState) {
-  return function(selectedType) {
-    const context = serializeContext(getInfraExploreState(), { selectedType });
-    track(INFRA_EXPLORE_TYPE_SELECTOR_STATE_CHANGED, context);
-  };
-}
+export const SORTING_CONTEXT = {
+  ENTITIES: 'ENTITIES',
+  GROUPS: 'GROUPS'
+};
 
 export const LOAD_MORE_CONTEXT = {
   GROUPS: 'GROUPS',
   ENTITIES_IN_GROUP: 'ENTITIES_IN_GROUP',
   UNGROUPED_ENTITIES: 'UNGROUPED_ENTITIES'
 };
-export function loadMoreTracker(getInfraExploreState) {
-  return function(pagesLoaded, loadMoreContext) {
-    const context = serializeContext(getInfraExploreState(), { pagesLoaded, loadMoreContext });
-    track(INFRA_EXPLORE_LOAD_MORE, context);
-  };
-}
 
-export function metricAddedTracker(getInfraExploreState) {
-  return function({ metric: addedMetric, aggregation: addedAggregation }) {
-    const context = serializeContext(getInfraExploreState(), { addedMetric, addedAggregation });
-    track(INFRA_EXPLORE_METRIC_ADDED, context);
-  };
-}
+export function useSegmentTracker() {
+  const { trackCta, unstable_trackEvent } = useSegmentTracking();
 
-export function metricRemovedTracker(getInfraExploreState) {
-  return function({ metric: removedMetric, aggregation: removedAggregation }) {
-    const context = serializeContext(getInfraExploreState(), { removedMetric, removedAggregation });
-    track(INFRA_EXPLORE_METRIC_REMOVED, context);
-  };
-}
+  function sortingTracker(getInfraExploreState) {
+    return function ({ by, direction }, sortingContext) {
+      const context = serializeContext(getInfraExploreState(), {
+        sortedBy: by,
+        sortDirection: direction,
+        sortingContext
+      });
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_SORTED }, context);
+    };
+  }
 
-export function metricAggregationChangedTracker(getInfraExploreState) {
-  return function({ metric: changedMetric, aggregation: oldAggregation }, newAggregation) {
-    const context = serializeContext(getInfraExploreState(), { changedMetric, oldAggregation, newAggregation });
-    track(INFRA_EXPLORE_METRIC_AGGREGATION_CHANGED, context);
-  };
-}
+  function loadMoreTracker(getInfraExploreState) {
+    return function (pagesLoaded, loadMoreContext) {
+      const context = serializeContext(getInfraExploreState(), { pagesLoaded, loadMoreContext });
+      trackCta(INFRA_EXPLORE_LOAD_MORE, context);
+    };
+  }
 
-export const SORTING_CONTEXT = {
-  ENTITIES: 'ENTITIES',
-  GROUPS: 'GROUPS'
-};
-export function sortingTracker(getInfraExploreState) {
-  return function({ by, direction }, sortingContext) {
-    const context = serializeContext(getInfraExploreState(), {
-      sortedBy: by,
-      sortDirection: direction,
-      sortingContext
-    });
-    track(INFRA_EXPLORE_SORTED, context);
+  function filterAddedTracker(getInfraExploreState) {
+    return function (addedFilter) {
+      const context = serializeContext(getInfraExploreState(), { addedFilter });
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_FILTER_ADDED }, context);
+    };
+  }
+
+  function filterRemovedTracker(getInfraExploreState) {
+    return function (removedFilter) {
+      const context = serializeContext(getInfraExploreState(), { removedFilter });
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_FILTER_REMOVED }, context);
+    };
+  }
+
+  function filtersClearedTracker(getInfraExploreState) {
+    return function () {
+      trackCta(INFRA_EXPLORE_FILTERS_CLEARED, serializeContext(getInfraExploreState()));
+    };
+  }
+
+  function groupAddedTracker(getInfraExploreState) {
+    return function (addedGroup) {
+      const context = serializeContext(getInfraExploreState(), { addedGroup: addedGroup.groupbyTag });
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_GROUP_ADDED }, context);
+    };
+  }
+
+  function groupRemovedTracker(getInfraExploreState) {
+    return function (removedGroup) {
+      const context = serializeContext(getInfraExploreState(), { removedGroup: removedGroup.groupbyTag });
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_GROUP_REMOVED }, context);
+    };
+  }
+
+  function groupFocusedOnTracker(getInfraExploreState) {
+    return function ({ tags }) {
+      const context = serializeContext(getInfraExploreState(), { focusedGroup: tags });
+      unstable_trackEvent(UI_INTERACTION, { objeactiontType: INFRA_EXPLORE_GROUP_FOCUSED_ON }, context);
+    };
+  }
+
+  function groupExpandedTracker(getInfraExploreState) {
+    return function ({ tags }) {
+      const context = serializeContext(getInfraExploreState(), { expandedGroup: tags });
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_GROUP_EXPANDED }, context);
+    };
+  }
+
+  function groupCollapsedTracker(getInfraExploreState) {
+    return function ({ tags }) {
+      const context = serializeContext(getInfraExploreState(), { collapsedGroup: tags });
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_GROUP_COLLAPSED }, context);
+    };
+  }
+
+  function navigateToEntityTracker(getInfraExploreState) {
+    return function (pluginId) {
+      const context = serializeContext(getInfraExploreState(), { plugin: pluginId });
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_NAVIGATE_TO_ENTITY_DASHBOARD }, context);
+    };
+  }
+
+  function typeSelectorChangedTracker(getInfraExploreState) {
+    return function (selectedType) {
+      const context = serializeContext(getInfraExploreState(), { selectedType });
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_TYPE_SELECTOR_STATE_CHANGED }, context);
+    };
+  }
+
+  function metricAddedTracker(getInfraExploreState) {
+    return function ({ metric: addedMetric, aggregation: addedAggregation }) {
+      const context = serializeContext(getInfraExploreState(), { addedMetric, addedAggregation });
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_METRIC_ADDED }, context);
+    };
+  }
+
+  function metricRemovedTracker(getInfraExploreState) {
+    return function ({ metric: removedMetric, aggregation: removedAggregation }) {
+      const context = serializeContext(getInfraExploreState(), { removedMetric, removedAggregation });
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_METRIC_REMOVED }, context);
+    };
+  }
+
+  function metricAggregationChangedTracker(getInfraExploreState) {
+    return function ({ metric: changedMetric, aggregation: oldAggregation }, newAggregation) {
+      const context = serializeContext(getInfraExploreState(), { changedMetric, oldAggregation, newAggregation });
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_METRIC_AGGREGATION_CHANGED }, context);
+    };
+  }
+
+  function chartChangedTracker(getInfraExploreState) {
+    return function ({ dataSource, template, metric, aggregation }) {
+      const context = serializeContext(getInfraExploreState(), { dataSource, template, metric, aggregation });
+      unstable_trackEvent(UI_INTERACTION, { action: INFRA_EXPLORE_CHART_CHANGED }, context);
+    };
+  }
+
+  return {
+    filterAddedTracker,
+    filterRemovedTracker,
+    filtersClearedTracker,
+    groupAddedTracker,
+    groupRemovedTracker,
+    groupFocusedOnTracker,
+    groupExpandedTracker,
+    groupCollapsedTracker,
+    navigateToEntityTracker,
+    typeSelectorChangedTracker,
+    loadMoreTracker,
+    metricAddedTracker,
+    metricRemovedTracker,
+    metricAggregationChangedTracker,
+    sortingTracker,
+    chartChangedTracker
   };
 }
 

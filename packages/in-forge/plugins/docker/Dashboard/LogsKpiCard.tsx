@@ -13,8 +13,11 @@ import { SvgIcon } from '@instana/components';
 import { LOG_LEVEL, getValueMatchTagFilter, DOCKER_ID, CONTAINERD_ID } from 'in-logging/queryBuilder';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import {
+  ANALYZE_LOGGING_JUMP_TO_LOGS,
+} from 'in-services/tracking/tracking';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
 import { isLoading, hasError } from 'in-services/util/result';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
@@ -41,7 +44,7 @@ const PLUGIN_IDS: Record<string, string> = {
 
 export default function LogsKpiCard(props: LogsKpiCardProps) {
   const { timeConfig, hasLogs, snapshot } = props;
-
+  const {trackCta} = useSegmentTracking()
   const snapshotId = snapshot.get('data')?.get('Id') || snapshot.get('data')?.get('id');
 
   const tagFilterExpression: FormModelElement[] = [
@@ -94,7 +97,7 @@ export default function LogsKpiCard(props: LogsKpiCardProps) {
         icon: 'lib_analyze',
         href: logsHref,
         onClick: () =>
-          jumpToLogs({
+          trackCta(ANALYZE_LOGGING_JUMP_TO_LOGS,{
             source: 'analyze logs from infra dashboard',
             plugin: snapshot.get('plugin'),
             snapshotId: snapshot.get('id')

@@ -6,14 +6,10 @@
 @import '~in-themes/active.less';
 
 :local {
-  .snippetWrapper {
-    align-items: top;
-    justify-content: space-between;
-  }
-
   .snippet {
     flex-grow: 1;
     margin: 0 1rem 0 0;
+    padding-top: 1rem;
   }
 
   .options {
@@ -23,31 +19,61 @@
   .option {
     display: flex;
     justify-content: flex-start;
-    margin-bottom: 12px;
+    margin-bottom: 0.75rem;
   }
 
   .label {
     margin: 0;
     display: flex;
     align-items: center;
-    color: var(--ids-color-option-blue-700);
-    font-size: var(--ids-font-size-option-body-small);
+    color: var(--cds-text-primary);
+    font-size: var(--ids-font-size-option-body-large);
+    font-weight: 600;
+    line-height: 1.5rem;
   }
 
-  .helpWrapper {
-    display: flex;
-    align-items: center;
+  .toggleLabel {
+    color: var(--cds-text-primary);
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.125rem;
+  }
 
-    &:active .help,
-    &:hover .help {
-      /* replaced old less variable links__hover__decoration
-       *  even when it does not make sense here...
-       */
-      fill: underline;
+  .toggle {
+    color: var(--ids-color-option-neutral-700);
+    font-size: var(--ids-font-size-option-body-small);
+    display: flex;
+  }
+
+  .button {
+    padding: 1.25rem 0 1rem;
+  }
+
+  .dialogContent {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 4rem;
+
+    > span:first-child {
+      margin-bottom: 1rem;
     }
   }
 
-  .help {
-    fill: var(--ids-color-option-blue-500);
+  .confButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: -1.5rem;
+    padding: 0.5rem 1.5rem;
+    background: var(--ids-color-option-neutral-300);
+  }
+
+  .dialog {
+    width: 45rem;
+  }
+
+  .wrapperClassName pre span {
+    color: #16161640 !important;
   }
 }

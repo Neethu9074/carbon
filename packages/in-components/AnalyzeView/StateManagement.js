@@ -4,20 +4,20 @@
  */
 
 import React, { useCallback, useMemo, useRef, useState } from 'react';
+import pickBy from 'lodash/pickBy';
 import rpt from 'prop-types';
 
 import { useObservable } from '@instana/hooks';
 
 import { EQUALS, IS_BLANK, IS_EMPTY, NOT_EMPTY, STARTS_WITH } from 'in-components/QueryBuilder/tagFilter/operators';
+import { BOOLEAN, KEY_NUMBER_PAIR, KEY_VALUE_PAIR, NUMBER } from 'in-components/QueryBuilder/tagFilter/types';
 import { CONJUNCTION, joinExpressions, TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import { removeFacetTag, tagFiltersFromFacets } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import { ua2OrderByChangedTracker, ua2OrderByGroupChangedTracker } from 'in-components/tracker';
-import { ua2FacetsChangedTracker, ua2FormModelChangedTracker } from 'in-applications/tracker';
-import { BOOLEAN, KEY_VALUE_PAIR, NUMBER } from 'in-components/QueryBuilder/tagFilter/types';
+import { useCustomMetricSuggestions } from 'in-applications/hooks/useCustomMetricSuggestions';
 import { isValid as isValidGrouping } from 'in-components/GroupingConfigurator/validation';
 import { sanitizeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { validateFormModel } from 'in-components/QueryBuilder/validation/formModel';
@@ -26,6 +26,7 @@ import { emptyArray, emptyObject, pendingResult } from 'in-services/fixedObjects
 import { getSingleNumberMetricId } from 'in-components/AnalyzeView/metrics';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import { getTagCatalogOnce } from 'in-services/tags/tagCatalog';
 import { noResultObservable } from 'in-services/util/result';
 import { aggregationLabels } from 'in-stores/metric/metric';
@@ -60,7 +61,7 @@ export default function TimeFixatingAnalyzeStateManagement(props) {
 
   // Ensure that we only ever receive the tag catalog once (per time config).
   const getTagCatalog = useMemo(() => getTagCatalogOnce(props.getTagCatalog), [props.getTagCatalog]);
-
+  const { trackUa2FacetsChanged, trackUa2FormModelChanged } = useAnalyzeTracker();
   return (
     <FixatedTimeConfigContextModification>
       {({ refresh }) => (
@@ -69,6 +70,8 @@ export default function TimeFixatingAnalyzeStateManagement(props) {
           urlStateDefinition={urlStateDefinition}
           getTagCatalog={getTagCatalog}
           refreshFixatedTimeConfig={refresh}
+          trackUa2FacetsChanged={trackUa2FacetsChanged}
+          trackUa2FormModelChanged={trackUa2FormModelChanged}
         />
       )}
     </FixatedTimeConfigContextModification>
@@ -194,7 +197,9 @@ function AnalyzeStateManagement({
   urlStateDefinition,
   dataSourceConfigurations,
   getCustomGroupingTagFilter,
-  children
+  children,
+  trackUa2FacetsChanged,
+  trackUa2FormModelChanged
 }) {
   const timeConfig = useTimeConfig();
   const [urlState, onChange, getChangeAsUrl] = useUrlState(urlStateDefinition);
@@ -208,12 +213,19 @@ function AnalyzeStateManagement({
     defaultSelectableFields = emptyArray,
     defaultChartedMetrics = emptyArray,
     metricCatalogTransformer,
-    chartableMetricCatalogTransformer
+    chartableMetricCatalogTransformer,
+    supportedCustomMetrics
   } = dataSourceConfigurations[dataSource];
 
+  const { trackUa2OrderByChanged, trackUa2OrderByGroupChanged } = useAnalyzeTracker();
   const formModel = useStableObjectInstance(urlState.formModel);
   const onFormModelChange = formModel => {
-    ua2FormModelChangedTracker({ formModel, url: getChangeAsUrl({ formModel }) });
+    trackUa2FormModelChanged({
+      formModel,
+      url: getChangeAsUrl({ formModel }),
+      tagName: formModel?.filter(form => form.name).map(form => form.name),
+      operator: formModel?.filter(form => form.operator).map(form => form.operator)
+    });
     onChange({ formModel });
   };
   const facets = useStableObjectInstance(urlState.facets);
@@ -227,7 +239,7 @@ function AnalyzeStateManagement({
   };
 
   const onFacetedSearchChange = facets => {
-    ua2FacetsChangedTracker({ facets, url: getChangeAsUrl({ facets }) });
+    trackUa2FacetsChanged({ facets, url: getChangeAsUrl({ facets }) });
     onChange({ facets });
   };
 
@@ -257,6 +269,12 @@ function AnalyzeStateManagement({
 
   const metricTemplatesResult =
     useObservable(() => getMetricTemplates() || noResultObservable(), [getMetricTemplates]) ?? pendingResult;
+
+  const customMetricSuggestionsResult = useCustomMetricSuggestions(supportedCustomMetrics, timeConfig, formModel);
+  const customMetricSuggestions = useMemo(
+    () => customMetricSuggestionsResult?.data,
+    [customMetricSuggestionsResult?.data]
+  );
 
   const chartedMetricsTemplates = useMemo(() => {
     if (metricTemplatesResult?.progress.loading) {
@@ -326,10 +344,20 @@ function AnalyzeStateManagement({
 
   const chartableMetricCatalog = useMemo(() => {
     if (chartableMetricCatalogTransformer != null) {
-      return metricCatalogResult?.data?.map(chartableMetricCatalogTransformer).filter(Boolean);
+      const catalog = metricCatalogResult?.data?.map(chartableMetricCatalogTransformer).filter(Boolean);
+      if (catalog && customMetricSuggestions) {
+        addCustomMetricProps(customMetricSuggestions, catalog, chartedMetrics);
+      }
+      return catalog;
     }
     return metricCatalog;
-  }, [metricCatalog, metricCatalogResult, chartableMetricCatalogTransformer]);
+  }, [
+    chartableMetricCatalogTransformer,
+    chartedMetrics,
+    metricCatalog,
+    metricCatalogResult?.data,
+    customMetricSuggestions
+  ]);
 
   const backendQueryModel = useMemo(() => {
     return toBackendQueryModel(formModel);
@@ -437,7 +465,7 @@ function AnalyzeStateManagement({
     isGrouped,
     groupBy,
     selectedGroup,
-    onGroupByChange: groupBy => onChange({ groupBy }),
+    onGroupByChange: groupBy => onChange({ groupBy: pickBy(groupBy, val => !!val) }),
     getHrefToUngroupedView(groupValue) {
       return getChangeAsUrl({
         ...(groupValue != null ? getStateChangeForUngroupedView(groupValue) : { groupBy: emptyObject }),
@@ -477,12 +505,12 @@ function AnalyzeStateManagement({
 
     orderBy,
     onOrderByChange: orderBy => {
-      ua2OrderByChangedTracker({ dataSource, ...orderBy });
+      trackUa2OrderByChanged({ dataSource, ...orderBy });
       onChange({ orderBy });
     },
     orderByGroups,
     onOrderByGroupsChange: orderByGroups => {
-      ua2OrderByGroupChangedTracker({ dataSource, ...orderByGroups });
+      trackUa2OrderByGroupChanged({ dataSource, ...orderByGroups });
       onChange({ orderByGroups });
     },
     selectableFields,
@@ -523,6 +551,18 @@ function AnalyzeStateManagement({
       )
     };
   }
+}
+
+function addCustomMetricProps(customMetricSuggestions, catalog, chartedMetrics) {
+  customMetricSuggestions.forEach(({ metricId, suggestions }) => {
+    const customMetricDefinition = catalog?.find(metric => metric.metricId === metricId);
+    if (customMetricDefinition) {
+      const metricTagSuggestions = suggestions.map(suggestion => ({ label: suggestion, value: suggestion }));
+      catalog.find(metric => metric.metricId === metricId).metricTagSuggestions = metricTagSuggestions;
+      catalog.find(metric => metric.metricId === metricId).secondLevelMetricId =
+        chartedMetrics?.[0]?.secondLevelMetricId;
+    }
+  });
 }
 
 function getOrderById({ metricCatalog, field }) {
@@ -642,7 +682,10 @@ export function addGroupingCriteriaToFormModel(
       key: groupBy.groupbyTagSecondLevelKey,
       entity: groupBy.groupbyTagEntity
     };
-  } else if (groupByTagType === KEY_VALUE_PAIR && !groupBy.groupbyTagSecondLevelKey) {
+  } else if (
+    (groupByTagType === KEY_VALUE_PAIR || groupByTagType === KEY_NUMBER_PAIR) &&
+    !groupBy.groupbyTagSecondLevelKey
+  ) {
     newTagFilter = {
       type: TAG,
       operator: NOT_EMPTY,
@@ -652,7 +695,7 @@ export function addGroupingCriteriaToFormModel(
     };
   } else {
     let value;
-    if (groupByTagType === NUMBER) {
+    if (groupByTagType === NUMBER || groupByTagType === KEY_NUMBER_PAIR) {
       value = Number(groupValue);
     } else if (groupByTagType === BOOLEAN) {
       value = groupValue === 'true';

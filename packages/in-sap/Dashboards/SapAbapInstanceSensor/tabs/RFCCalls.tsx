@@ -21,8 +21,6 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { shorten } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-import locals from './RawTableFormat.mless';
-
 interface RFCCallsRow {
   key: string;
   snapshotId: string;
@@ -36,7 +34,19 @@ interface RFCCallsProps {
 
 const cols = [
   {
-    title: t('in-sap:dashboards.account'),
+    title: t('in-sap:dashboards.client'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: RFCCallsRow) {
+        return row.rfcDetails.get('client');
+      },
+      getContent(args: any) {
+        return <Args args={shorten(args, 128)} />;
+      }
+    }
+  },
+  {
+    title: t('in-sap:dashboards.userName'),
     type: 'string',
     typeArgs: {
       getValue(row: RFCCallsRow) {
@@ -84,6 +94,18 @@ const cols = [
     }
   },
   {
+    title: t('in-sap:dashboards.rfcSource'),
+    type: 'string',
+    typeArgs: {
+      getValue(row: RFCCallsRow) {
+        return row.rfcDetails.get('target');
+      },
+      getContent(args: any) {
+        return <Args args={shorten(args, 128)} />;
+      }
+    }
+  },
+  {
     title: t('in-sap:dashboards.calls'),
     type: 'metric',
     typeArgs: {
@@ -119,6 +141,10 @@ export default function RFCCalls({ snapshotId, timeConfig }: RFCCallsProps) {
         timeConfig,
         rfcDetails
       };
+    })
+    .filter((row: RFCCallsRow) => {
+      const userValue = row.rfcDetails.get('account');
+      return typeof userValue === 'string' && userValue !== 'UNKNOWN';
     });
 
   function getDetails(row: RFCCallsRow) {
@@ -163,13 +189,13 @@ export default function RFCCalls({ snapshotId, timeConfig }: RFCCallsProps) {
       cardTitle={t('in-sap:dashboards.rfcStats')}
       cols={cols}
       rows={rows}
-      initialSortColumn={1}
-      initialSortDirection="asc"
+      initialSortColumn={6}
+      initialSortDirection="desc"
       getRowDetails={getDetails}
     />
   );
 }
 
 function Args({ args }: { args: any }) {
-  return <code className={locals.statement}>{args}</code>;
+  return <code>{args}</code>;
 }

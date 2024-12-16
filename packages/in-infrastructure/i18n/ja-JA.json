@@ -9,18 +9,18 @@
     "tooltip1": "エージェントは、選択した時刻範囲では報告を行いましたが、選択した時刻には報告を行っていません。 ",
     "tooltip2": "エージェントは {{startTime}} に始動し、引き続き報告を行っています。",
     "tooltip3": "エージェントが報告を行った時間: {{startTime}} から {{toTime}} まで。",
-    "issueReported": "{{count}} 件の問題が報告されました:",
-    "issueReported_plural": "{{count}} 件の問題が報告されました:",
-    "issueReported_0": "{{count}} 件の問題が報告されました:",
-    "issueReported_1": "{{count}} 件の問題が報告されました:",
-    "issueReported_2": "{{count}} 件の問題が報告されました:",
+    "monitoringIssueReported": "{{count}}件のモニタリングの問題が報告されました:",
+    "monitoringIssueReported_plural": "{{count}}件のモニタリングの問題が報告されました:",
+    "monitoringIssueReported_0": "{{count}}件のモニタリングの問題が報告されました:",
+    "monitoringIssueReported_1": "{{count}}件のモニタリングの問題が報告されました:",
+    "monitoringIssueReported_2": "{{count}}件のモニタリングの問題が報告されました:",
     "reporting": "報告中",
     "notReporting": "報告なし",
-    "issues": "{{count}} 件の問題",
-    "issues_plural": "{{count}} 件の問題",
-    "issues_0": "{{count}} 件の問題",
-    "issues_1": "{{count}} 件の問題",
-    "issues_2": "{{count}} 件の問題",
+    "reportingMonitoringIssues": "報告、{{count}}件のモニタリングの問題",
+    "reportingMonitoringIssues_plural": "報告、{{count}}件のモニタリングの問題",
+    "reportingMonitoringIssues_0": "報告、{{count}}件のモニタリングの問題",
+    "reportingMonitoringIssues_1": "報告、{{count}}件のモニタリングの問題",
+    "reportingMonitoringIssues_2": "報告、{{count}}件のモニタリングの問題",
     "agents": "エージェント",
     "updateAllAgents": "すべてのエージェントの更新",
     "resetAllAgents": "すべてのエージェントのリセット",
@@ -53,7 +53,8 @@
     "javaRuntime": "Java ランタイム",
     "status": "状況",
     "agentDetails": "エージェントの詳細",
-    "totalAgents": "エージェントの総数"
+    "totalAgents": "エージェントの総数",
+    "anErrorOccurredPleaseTryAgain": "エラーが発生しました。再試行してください。"
   },
   "dashboard": {
     "comparisonTable": "比較表",
@@ -74,11 +75,13 @@
     "restartCount": "再始動カウント",
     "kubernetesLabels": "Kubernetes ラベル",
     "podmanAnnotations": "Podman注釈",
-    "metricExplosion": "{{numberOfMetrics}} 個のみが保管されたため、このダッシュボードにすべてのメトリックが表示されない可能性があります"
+    "metricExplosionBeeInstana": "このダッシュボードは、最大 {{numberOfMetrics}} 個のメトリクスを常にキャプチャしているため、すべてのメトリクスを表示しない場合があります。",
+    "metricExplosion": "このダッシュボードは、最大 {{numberOfMetrics}} 個の高解像度メトリクスを常にキャプチャしているため、すべてのメトリクスを表示しない場合があります。 追加のタグが指定されたメトリックを表示するには、Analyze Infrastructure またはカスタム・ダッシュボードを使用します。"
   },
   "explore": {
     "analyzeInfrastructure": "インフラストラクチャーの分析",
     "focusOnThisGroup": "このグループにフォーカス",
+    "tagNotPresent": "タグが存在しない",
     "theQueryConfigurationIsInvalid": "照会構成が無効です。 続行する前に検証の失敗に対処してください。",
     "allInfrastructure": "すべてのインフラストラクチャー",
     "emptyInfrastructure": "対象タイプを選択",
@@ -86,14 +89,14 @@
     "search": "タイプの検索",
     "explore": "探索",
     "health": "正常性",
-    "noIssues": "問題はありません",
     "count": "数",
     "errors": {
       "maximumNumberOfGroups": "この照会の結果が多すぎます。 より制限的なフィルターを使用して検索を絞り込むか、時刻範囲を絞り込んでから再試行してください。",
       "maximumNumberOfMembers": "この照会の結果が多すぎます。 より制限的なフィルターを使用して検索を絞り込むか、時刻範囲を絞り込んでから再試行してください。",
       "generalError": "予期しないエラーが発生しました。"
     },
-    "entityTypes": "エンティティー・タイプ {{count, parenthesis}}"
+    "entityTypes": "エンティティー・タイプ {{count, parenthesis}}",
+    "relatedInstances": "インスタンスの分析"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "現在の時間枠でのカウントと平均を表示します。",
@@ -128,7 +131,8 @@
     "map": "マップ",
     "comparisonTable": "比較表",
     "infrastructureComparisonTable": "インフラストラクチャー比較表",
-    "smartAlerts": "スマート・アラート"
+    "smartAlerts": "スマート・アラート",
+    "graph": "グラフ"
   },
   "smartAlertView": {
     "smartAlertTab": "インフラストラクチャー・スマート・アラート"
@@ -137,5 +141,13 @@
     "buttonSelectTags": "タグの選択",
     "titleAddATag": "タグの追加",
     "messagePleaseSelectAtMostTags": "最大 {{maximumNumberOfTags}} 個のタグを選択してください。"
+  },
+  "graphExplorerView": {
+    "infrastructureGraphExplorer": "グラフ・エクスプローラー"
+  },
+  "threshold": {
+    "label": "しきい値",
+    "critical": "{{operator}} がクリティカル {{level}}",
+    "warning": "{{operator}} 時の警告 {{level}}"
   }
 }

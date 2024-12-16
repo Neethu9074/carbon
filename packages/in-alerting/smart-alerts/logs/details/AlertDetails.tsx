@@ -18,7 +18,8 @@ import {
 import {
   alertsDetailsPath as alertsTabSegment,
   alertDetailsFullyQualifiedPath as detailsPath,
-  alertsFullyQualifiedPath as listPath
+  dashboardSmartAlertsPath as dashboardAlertsListPath,
+  alertsFullyQualifiedPath as alertListPath
 } from 'in-logging/navigation/paths';
 import { CreateLogsSmartAlertFloatingButton } from 'in-logging/navigation/createLogsSmartAlertFloatingButton';
 //@ts-expect-error need TS migration
@@ -29,15 +30,23 @@ import AlertConfigDialog from 'in-alerting/smart-alerts/logs/dialog/advanced/Ale
 import AlertConfiguration from 'in-alerting/smart-alerts/logs/details/AlertConfiguration';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import LogsAlertsTabHeader from 'in-alerting/smart-alerts/logs/LogsAlertsTabHeader';
+import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';
 import { LogAlertConfigWithMetadata, Nullish } from 'in-types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { role } from 'in-stores/user';
 
-export default function AlertDetails() {
+interface AlertDetailsProps {
+  isLogsDashboardHeader?: boolean;
+}
+
+export default function AlertDetails({ isLogsDashboardHeader = false }: AlertDetailsProps) {
   const timeConfig = useTimeConfig();
+  const Header = isLogsDashboardHeader ? LoggingDashboardWrapper : LogsAlertsTabHeader;
+  const listPath = isLogsDashboardHeader ? dashboardAlertsListPath : alertListPath;
+
   return (
     <>
-      <LogsAlertsTabHeader>
+      <Header>
         <LeftRightPadding>
           <Alert
             timeConfig={timeConfig}
@@ -62,7 +71,7 @@ export default function AlertDetails() {
             canConfigureGlobalAlertConfigs={role?.canConfigureGlobalLogSmartAlerts}
           />
         </LeftRightPadding>
-      </LogsAlertsTabHeader>
+      </Header>
       <CreateLogsSmartAlertFloatingButton />
     </>
   );

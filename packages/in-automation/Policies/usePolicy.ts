@@ -4,13 +4,14 @@
  * Copyright IBM Corp. 2023
  */
 
+import { Policy, Result } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
-import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
-import { NewPolicy, PolicyFormEntity } from 'in-automation/Policies/types';
 import { mapData, successObservable } from 'in-services/util/result';
+import { PolicyFormEntity } from 'in-automation/Policies/types';
+import { pendingResult } from 'in-services/fixedObjects';
+import { NewPolicy } from 'in-automation/types';
 import { getPolicy } from 'in-automation/api';
-import { Result } from 'in-types';
 import { t } from 'in-i18n';
 
 function createPolicy() {
@@ -28,8 +29,8 @@ function createPolicy() {
 }
 
 export default function usePolicy(id: string | null, isCopy: boolean) {
-  return resultToFetchedStateResponse(
-    useObservable<Result<PolicyFormEntity>, []>(
+  return (
+    useObservable<Result<PolicyFormEntity>, [boolean, string | null]>(
       () =>
         id
           ? getPolicy(id).map(result =>
@@ -38,7 +39,7 @@ export default function usePolicy(id: string | null, isCopy: boolean) {
               )
             )
           : successObservable(createPolicy()),
-      []
-    )
+      [isCopy, id]
+    ) ?? (pendingResult as Result<Policy>)
   );
 }

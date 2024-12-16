@@ -5,16 +5,14 @@
 
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { SvgIcon, Button } from '@instana/components';
 
 import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
 import { applicationId as matrixApplicationId } from 'in-applications/navigation/matrix';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import WithHealthIndication from 'in-components/health/WithHealthIndication';
-import { applicationOpenSubmitFormTracker } from 'in-applications/tracker';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { emptyObject } from 'in-services/fixedObjects';
 import { t, Trans } from 'in-i18n';
 
 import locals from './ApplicationSwitcher.mless';
@@ -47,6 +45,7 @@ export default function ApplicationSwitcher({ applicationId, applications, viewP
 }
 
 function ApplicationButtonItem({ item, viewPath }) {
+  const { trackApplicationOpenSubmitForm } = useApplicationTracker();
   const { location, createHref } = useNavigation();
   setOrDeleteMatrixKey(location, viewPath, matrixApplicationId, item.application.id);
 
@@ -56,7 +55,7 @@ function ApplicationButtonItem({ item, viewPath }) {
         className={locals.button}
         kind="subtle"
         href={createHref(location)}
-        onClick={() => applicationOpenSubmitFormTracker(emptyObject)}
+        onClick={() => trackApplicationOpenSubmitForm()}
         icon="lib_application"
       >
         {item.application.label}

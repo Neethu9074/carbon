@@ -8,7 +8,7 @@ import { MapForm } from 'formalistic';
 import { Field } from 'formalistic';
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/dialog/AlertConfigSlideInContentWrapper';
 import MobileAppCustomEventsList from 'in-alerting/smart-alerts/mobileApp/components/CustomEventsList';

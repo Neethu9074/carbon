@@ -31,7 +31,8 @@ export default function Latency({
   tagFilters,
   groupBy,
   renderPostChartContent,
-  rightHeaderContent
+  rightHeaderContent,
+  customChartSkeletonHeight
 }) {
   const granularity = getChartGranularity(timeConfig);
   const slownessBlueprintConfig = getBlueprintConfig('slowness');
@@ -90,21 +91,27 @@ export default function Latency({
       label: t('in-mobile-apps:dashboard.tabs.maxLabel'),
       color: chartColors.strokeColors100[4],
       defaultDisabled: !timeShiftConfig.offset
-    },
-    {
-      config: defaultMetricConfig,
-      aggregation: 'MEAN',
-      label: t('in-mobile-apps:dashboard.tabs.meanLabel'),
-      color: chartColors.strokeColors100[5],
-      defaultDisabled: !timeShiftConfig.offset
     }
   ];
 
   let metricConfigs;
+  let metricConfigsY2 = [];
   let renderer;
   let colors;
+  let colorsY2;
+  const latencyMetricsY2 = [
+    {
+      config: defaultMetricConfig,
+      aggregation: 'MEAN',
+      label: t('in-mobile-apps:dashboard.tabs.meanLabel'),
+      color: chartColors.strokeColors100[5]
+    }
+  ];
   if (timeShiftConfig.offset) {
-    const timeShiftChartMetric = latencyMetrics.find(m => m.aggregation === timeShiftAggregation) ?? latencyMetrics[0];
+    const timeShiftChartMetric =
+      latencyMetrics.find(m => m.aggregation === timeShiftAggregation) ??
+      latencyMetricsY2.find(m => m.aggregation === timeShiftAggregation) ??
+      latencyMetrics[0];
     const timeShiftMetricConfig = {
       label: timeShiftChartMetric.label,
       aggregation: timeShiftChartMetric.aggregation,
@@ -130,12 +137,19 @@ export default function Latency({
       ...m.config
     }));
     colors = latencyMetrics.map(m => m.color);
+    colorsY2 = latencyMetricsY2.map(m => m.color);
     renderer = integral.id;
+    metricConfigsY2 = latencyMetricsY2.map(m => ({
+      label: m.label,
+      aggregation: m.aggregation,
+      defaultDisabled: m.defaultDisabled,
+      ...m.config
+    }));
   }
   return (
     <UnifiedMetricsChart
       renderHistoricDataIndicator
-      customChartSkeletonHeight={280}
+      customChartSkeletonHeight={customChartSkeletonHeight || 280}
       renderPostChartContent={props =>
         renderPostChartContent({
           chartName: cardTitle,
@@ -161,7 +175,11 @@ export default function Latency({
           colors: colors
         },
         y2: {
-          metrics: []
+          metrics: metricConfigsY2,
+          labels: t('in-mobile-apps:dashboard.tabs.meanLabel'),
+          formatter: 'millis.compact',
+          renderer: line.id,
+          colors: colorsY2
         },
         type: 'TIME_SERIES',
         primaryContextMenuAction: 'analyze',

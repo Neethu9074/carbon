@@ -7,7 +7,7 @@
 import React from 'react';
 
 import { ServiceLevelObjectiveConfiguration } from '@instana/types';
-import { Stack } from '@instana/components';
+import { Stack, IconButton } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import useDoDeleteSloConfiguration from 'in-service-levels/hooks/useDoDeleteSloConfiguration';
@@ -16,7 +16,6 @@ import { serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { productAreas } from 'in-services/tracking/productAreas';
-import IconButton from 'in-components/IconButton/IconButton';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { noop } from 'in-services/fixedObjects';
 

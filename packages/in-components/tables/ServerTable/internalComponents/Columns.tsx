@@ -6,12 +6,12 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Tr, Th, SortableTh, ThProps } from '@instana/components';
+import { Checkbox } from '@instana/components';
+import { Tr, Th, SortableTh, ThProps } from '@instana/legacy';
 
 import ConfigurableTh from 'in-components/tables/sharedComponents/ConfigurableTh';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { OrderDirection } from 'in-types';
 
 import locals from './Columns.mless';
@@ -55,7 +55,7 @@ export default function Columns<ItemType extends Object>(props: ColumnsProps<Ite
           // render toggle-all checkbox in thead
           return (
             <Th key={columnDefinition.id} {...headCellProps}>
-              <CheckboxFancy
+              <Checkbox
                 checked={allRowsAreSelected}
                 onChange={() => setSelectedStateForRows?.(!allRowsAreSelected)}
                 size="large"

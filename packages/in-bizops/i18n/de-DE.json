@@ -1,7 +1,7 @@
 {
   "labelBizOps": "Prozesse",
-  "labelSmartAlerts": "Smart Alerts",
-  "labelActivities": "Aktivitäten",
+  "labelPerspectives": "Perspektiven",
+  "labelPerspective": "Perspektive",
   "components": {
     "count": "Anzahl"
   },
@@ -15,8 +15,61 @@
     "noData": "Keine Daten verfügbar",
     "healthLabel": "Status",
     "startLabel": "Gestartet",
+    "latencyLabel": "Latenzzeit",
     "unnamedActivity": "(Nicht benannte Aktivität) {{activityType}}",
     "unnamedService": "(Nicht benannter Service)"
+  },
+  "customDashboards": {
+    "activityCountMetric": "Aktivitäten zählen",
+    "erroneousActivityCallsCountLabel": "Fehlerhafte Aktivitätsaufrufe (Anzahl)",
+    "erroneousActivityCallsCategory": "Fehlerhafte Aktivitätsaufrufe",
+    "erroneousActivityCallsRateLabel": "Fehlerhafte Aktivitätsaufrufe (Rate)",
+    "latency": "Latenzzeit"
+  },
+  "processes": {
+    "deployAgent": "Agenten implementieren",
+    "noProcessesAvailable": "Es sind keine Geschäftsprozesse verfügbar.",
+    "deployAgentFirst": "Sie müssen zunächst einen Agenten einsetzen.",
+    "forMoreInformation": "Für weitere Informationen lesen Sie bitte die",
+    "documentation": "Dokumentation."
+  },
+  "perspectives": {
+    "newPerspective": "Perspektive schaffen",
+    "lists": {
+      "perspectives": "Geschäftsperspektiven",
+      "descriptionLabel": "Beschreibung",
+      "numberProcessesLabel": "Anzahl der Prozesse"
+    },
+    "processesLiveList": {
+      "title": "Abgestimmte Geschäftsprozesse",
+      "empty": "Filter hinzufügen, um Ihre Geschäftsperspektive zu erstellen",
+      "invalidQuery": "Ihre Abfrage ist ungültig.",
+      "noMatchedProcesses": "Keine abgestimmten Geschäftsprozesse gefunden",
+      "loadingStateLabel": "Prozesse werden geladen"
+    },
+    "dialog": {
+      "title": "Neue Geschäftsperspektive",
+      "stepOne": {
+        "progressBarTitle": "Schritt 1: Filtern Sie die Geschäftsprozesse, um Ihre Geschäftsperspektive zu erstellen",
+        "headline": "Geschäftsprozesse filtern, um Ihre Geschäftsperspektive aufzubauen",
+        "queryBuilderTitle": "Geschäftsprozesse"
+      },
+      "stepTwo": {
+        "progressBarTitle": "Schritt 2: Details angeben",
+        "headline": "Details angeben",
+        "perspectiveName": "Name der Perspektive",
+        "perspectiveDescription": "Beschreibung"
+      }
+    },
+    "errorMessages": {
+      "tagFilterExpressionMustNotBeEmpty": "Die Geschäftsperspektive muss mindestens einen Filter haben",
+      "createOperationFailed": "Erstellungsvorgang fehlgeschlagen",
+      "unableToCreatePerspective": "Wir konnten Ihre Geschäftsperspektive nicht erstellen. Versuchen Sie es erneut."
+    },
+    "successMessages": {
+      "businessPerspectiveCreated": "Geschäftsperspektive erstellt",
+      "perspectiveWasSuccessfullyCreated": "\"{{perspectiveName}}\" wurde erfolgreich erstellt."
+    }
   },
   "navigation": {
     "businessMonitoring": "Business Monitoring"
@@ -42,12 +95,14 @@
     "activity": {
       "pageTitle": "Geschäftsaktivität",
       "summaryTab": "Zusammenfassung",
+      "servicesTab": "Services",
       "widgets": {
         "duration": "Dauer",
         "activityCount": "Anzahl",
         "activityErrors": "Fehler",
         "topServices": "Wichtigste Services",
-        "activityLatency": "Latenzzeit"
+        "activityLatency": "Latenzzeit",
+        "viewAll": "Alle Services anzeigen"
       },
       "timespans": {
         "minute": "1 Minute",
@@ -55,6 +110,34 @@
         "day": "1 Tag",
         "week": "1 Woche"
       }
+    },
+    "perspectives": {
+      "pageTitleDefault": "Geschäftsperspektive",
+      "processes": {
+        "tabLabel": "Geschäftsprozesse"
+      },
+      "configuration": {
+        "tabLabel": "Konfiguration",
+        "loadingText": "Daten werden geladen",
+        "updateCardLabel": "Geschäftsperspektive aktualisieren",
+        "stepOneHeader": "1. Name und Beschreibung bearbeiten",
+        "perspectiveName": "Name der Perspektive",
+        "perspectiveDescription": "Beschreibung",
+        "stepTwoHeader": "2. Filter bearbeiten",
+        "saveChangesButton": "Speichern",
+        "removeCardLabel": "Geschäftsperspektive entfernen",
+        "removePerspectiveDisclaimer": "Wenn Sie diese Geschäftsperspektive nicht mehr verwenden wollen, klicken Sie auf \"Geschäftsperspektive entfernen\".",
+        "removePerspectiveCheckbox": "Ich verstehe, dass diese Aktion nicht rückgängig gemacht werden kann",
+        "removePerspectiveButton": "Geschäftsperspektive entfernen",
+        "businessPerspectiveDeleted": "Geschäftsperspektive entfernt",
+        "businessPerspectiveDeletedDetails": "\"{{perspectiveName}}\" wurde erfolgreich entfernt.",
+        "businessPerspectiveUpdated": "Geschäftsperspektive aktualisiert",
+        "businessPerspectiveUpdatedDetails": "\"{{perspectiveName}}\" wurde bearbeitet und Ihre Änderungen wurden gespeichert.",
+        "error": "Fehler"
+      }
+    },
+    "flowMap": {
+      "tabLabel": "Datenfluss"
     }
   }
 }

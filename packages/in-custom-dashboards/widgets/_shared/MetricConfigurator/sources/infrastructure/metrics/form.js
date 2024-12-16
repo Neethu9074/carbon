@@ -12,6 +12,7 @@ import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { aggregationLabels } from 'in-stores/metric/metric';
+import { allUnits, number } from 'in-stores/metric/units';
 
 const DEFAULT_AGGREGATION = 'MEAN';
 
@@ -87,6 +88,15 @@ export function createForm(form, savedState) {
       createField({
         value: savedState?.regex || undefined,
         validator: composeAndShortCircuitOnError(booleanValidator)
+      })
+    )
+    .put(
+      'unit',
+      createField({
+        value: savedState?.unit || number?.id,
+        validator: composeAndShortCircuitOnError(
+          buildEnumValidator(Object.values(allUnits).map(({ id: value }) => value))
+        )
       })
     );
 }

@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { combineLatest } from '@instana/observables';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import {
   availableGroupings,
@@ -26,7 +26,7 @@ import Control from 'in-map/components/MapOverlayControls/components/Control';
 import { MAP_GROUPING_CHANGED, track } from 'in-services/tracking/tracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { types, view$ } from 'in-infrastructure/perspectives';
+import { types, view$ } from 'in-infrastructure/perspectives/view';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -56,7 +56,7 @@ function ViewGroupingMenu() {
             kind={matchLocation(physicalPath) ? 'primaryv2' : 'info'}
             size="compact"
             href={createHrefToPath(physicalPath)}
-            className={`${block}__button`}
+            darkTheme
           >
             {t('in-map:host')}
           </Button>
@@ -64,7 +64,7 @@ function ViewGroupingMenu() {
             kind={matchLocation(containerPath) ? 'primaryv2' : 'info'}
             size="compact"
             href={createHrefToPath(containerPath)}
-            className={`${block}__button`}
+            darkTheme
           >
             {t('in-map:container')}
           </Button>
@@ -105,12 +105,13 @@ const MenuContent = connectTo(
         <br />
         <Button
           kind={activeGrouping.indexOf('custom-') === 0 ? 'primaryv2' : 'info'}
+          darkTheme
           size="compact"
           onClick={() => {
             const dialog = view === 'CONTAINER' ? <CustomContainerGroupingDialog /> : <CustomHostGroupingDialog />;
             addActiveDialog(dialog);
           }}
-          className={`${block}__custom-button`}
+          className={`${block}__custom-buttoncarbon`}
         >
           {humanReadableDescriptions[view === 'CONTAINER' ? 'custom_container' : 'custom_physical']}
         </Button>
@@ -127,7 +128,7 @@ function GroupingButton({ grouping, activeGrouping, view }) {
       kind={activeGrouping === grouping ? 'primaryv2' : 'info'}
       size="compact"
       href={href}
-      className={`${block}__button`}
+      darkTheme
       onClick={() => {
         if (activeGrouping !== grouping) {
           track(MAP_GROUPING_CHANGED);

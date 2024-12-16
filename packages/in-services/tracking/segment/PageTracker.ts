@@ -6,87 +6,64 @@
 
 import { useEffect } from 'react';
 
-import { combineLatest } from '@instana/observables';
-
 import { productCode, productCodeType, productTitle, ut30 } from 'in-services/util/constants';
 //@ts-expect-error
 import { Segment } from 'in-services/tracking/segment/SegmentInit';
 import { getLicenseTypeForSegment } from 'in-services/util/segmentLicenseType';
+import { useLocation } from 'in-stores/navigation/LocationStateProvider';
+import { PageTrackerProps } from 'in-services/tracking/segment/types';
 import { customRealmName } from 'in-services/util/constants';
-import getUsageInfo from 'in-subscription/getUsageInfo';
-import { getTenantsWithUnits } from 'in-api/account';
-import { TenantsWithUnits } from 'in-api/account';
-import { find } from 'in-services/arrayUtils';
 import { config } from 'in-services/config';
-import { tenant } from 'in-stores/user';
-
-interface SegmentEventTrackerProps {
-  parentProductArea: string;
-  parentPageName: string;
-}
-
-interface currentUnitProps {
-  tenantUnitId: string;
-  tenantUnitName: string;
-  tenantName: string;
-}
+import { user } from 'in-stores/user';
 
 let productPlanType: string;
-let instanceId: string;
-let tenantUnitName: string;
 let userId: string;
-interface UsageInfoProps {
-  activeLicenseType: string;
-}
+
 const segment = Segment();
-const PageTracker = ({ parentProductArea, parentPageName }: SegmentEventTrackerProps) => {
+const usePageTracker = ({ productArea, pageRootName }: PageTrackerProps) => {
+  const location = useLocation();
   useEffect(() => {
+    if (!(productArea && pageRootName)) {
+      return;
+    }
     if (!segment) {
       return;
     }
 
     const url = window.location.href;
-    const path = window.location.pathname;
+    const { tenantUnitId, tenantId, tenantUnit, tenant, activeLicenseType } = config;
+    if (!tenantUnitId) {
+      return;
+    }
+
+    const path = location.pathname;
     const userSelfDefinedRole =
       window.instana?.termsAndPrivacySettings?.dynamicRole || window.instana?.termsAndPrivacySettings?.role;
-
-    combineLatest([getTenantsWithUnits(), getUsageInfo({})]).once(([tenantWithUnits, usageInfo]) => {
-      const usageInfoWithType = usageInfo as unknown as UsageInfoProps;
-      const tenantWithUnitsWithType = tenantWithUnits as unknown as TenantsWithUnits;
-      productPlanType = getLicenseTypeForSegment(usageInfoWithType?.activeLicenseType);
-      const units: any = tenantWithUnitsWithType[tenant?.name!];
-
-      if (!units) {
-        return;
-      }
-      const currentUnit: currentUnitProps = find(units, unit => unit.tenantUnitName === config.tenantUnit)!;
-      if (currentUnit) {
-        instanceId = currentUnit.tenantUnitId;
-        tenantUnitName = currentUnit.tenantUnitName;
-      }
-      userId = customRealmName + '-' + instanceId;
-      segment.track('Page Viewed', {
-        UT30: ut30,
-        instanceId: instanceId,
-        instanceName: tenantUnitName,
-        parentPageCategory: parentProductArea,
-        parentPageName: parentPageName,
-        path: path,
-        productCode: productCode,
-        productCodeType: productCodeType,
-        productPlanType: productPlanType,
-        productTitle: productTitle,
-        tenantId: instanceId,
-        url: url,
-        user: {
-          bluemixId: userId,
-          role: userSelfDefinedRole,
-          tenantId: instanceId
-        }
-      });
+    productPlanType = getLicenseTypeForSegment(activeLicenseType);
+    // @ts-expect-error not types available...
+    userId = customRealmName + '-' + user?.id;
+    segment.page('Page Viewed', {
+      UT30: ut30,
+      instanceId: tenantUnitId,
+      instanceName: tenantUnit,
+      tenantId: tenantId,
+      tenantName: tenant,
+      parentPageCategory: productArea,
+      parentPageName: pageRootName,
+      path: path,
+      productCode: productCode,
+      productCodeType: productCodeType,
+      productPlanType: productPlanType,
+      productTitle: productTitle,
+      url: url,
+      altUserId: userId,
+      roles: [userSelfDefinedRole],
+      'user.bluemixId': userId
     });
-  }, [parentProductArea, parentPageName]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [productArea, pageRootName, location.pathname]);
   return null; // SegmentEventTracker does not render anything
 };
 
-export default PageTracker;
+/* TODO rename the file to make it clear that it is a custom react hook */
+export default usePageTracker;

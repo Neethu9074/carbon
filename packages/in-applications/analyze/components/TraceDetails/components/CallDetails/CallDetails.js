@@ -6,7 +6,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { get } from 'lodash';
 
-import { Card, Link, Stack, SvgIcon } from '@instana/components';
+import { Card, Link, Stack, SvgIcon, Spacer } from '@instana/components';
 import { create, just } from '@instana/observables';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
@@ -19,20 +19,20 @@ import Header from 'in-applications/analyze/components/TraceDetails/components/C
 import getTraceActivityTreeNodeDetails from 'in-applications/subscriptions/getTraceActivityTreeNodeDetails';
 import { hasOnlyExitSpan } from 'in-applications/analyze/components/TraceDetails/components/callHelper';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { downloadCallDetailsClickedTracker } from 'in-applications/tracker';
-import { emptyObject, pendingResult } from 'in-services/fixedObjects';
 import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { hasError, isLoading } from 'in-services/util/result';
 import { latencyFixed } from 'in-services/formatters/number';
 import { formatDateTime } from 'in-services/formatters/date';
+import { pendingResult } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip';
 import { seconds } from 'in-services/time';
 import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';
 
-import locals from './CallDetails.mless';
+import locals from 'in-applications/analyze/components/TraceDetails/components/CallDetails/CallDetails.mless';
 
 const MAX_RETRIES = 1;
 const RECENCY_WINDOW = seconds.toMillis(40);
@@ -90,6 +90,7 @@ export default function CallDetails(props) {
     cardContent = <ErroneousResultPresenter errors={callResult.errors} isRetryError={isRetryError(callResult)} />;
   } else {
     call = callResult.data;
+    const isBatched = call.batchSize > 1;
     const waitingTime = hasOnlyExitSpan(call)
       ? null
       : call.duration - (call.minSelfTime || call.selfTime || 0) - (call.networkTime || 0);
@@ -100,14 +101,21 @@ export default function CallDetails(props) {
         formatter: formatDateTimeWithMilliSeconds
       },
       {
-        label: t('in-analyze:traceDetail.components.callDetails.latency'),
-        duration: call.duration
+        label: isBatched
+          ? t('in-analyze:traceDetail.components.callDetails.sumOfLatencies')
+          : t('in-analyze:traceDetail.components.callDetails.latency'),
+        duration: call.duration,
+        showInfoIcon: isBatched,
+        toolTipLabel: t('in-analyze:traceDetail.components.callDetails.latency')
       },
       {
-        label: t('in-analyze:traceDetail.components.callDetails.selfTime'),
+        label: isBatched
+          ? t('in-analyze:traceDetail.components.callDetails.elapsedTime')
+          : t('in-analyze:traceDetail.components.callDetails.selfTime'),
         duration: call.minSelfTime || call.selfTime,
         totalDuration: call.duration,
-        showDurationInpercent: true
+        showDurationInpercent: !isBatched,
+        showInfoIcon: isBatched
       },
       {
         label: t('in-analyze:traceDetail.components.callDetails.networkTime'),
@@ -124,7 +132,7 @@ export default function CallDetails(props) {
     ];
     cardContent = (
       <>
-        <DisplayTimeData values={values} />
+        <DisplayTimeData values={values} batchCount={call.batchSize} />
         <Stack direction="vertical" gap="normal">
           <ServiceComponent call={call} websiteBeacon={websiteBeacon} mobileAppBeacon={mobileAppBeacon} />
           <IsSynthetic call={call} />
@@ -146,6 +154,7 @@ export default function CallDetails(props) {
 }
 
 function ActionButtons({ traceId, callId, onClose }) {
+  const { trackDownloadCallDetailsClicked } = useApplicationTracker();
   const downloadUrl = `/api/application-monitoring/v2/analyze/traces/${encodeURIComponent(
     traceId
   )}/calls/${encodeURIComponent(callId)}/details?pretty`;
@@ -159,7 +168,7 @@ function ActionButtons({ traceId, callId, onClose }) {
         href={downloadUrl}
         className={locals.downloadLink}
         target="_blank"
-        onClick={() => downloadCallDetailsClickedTracker(emptyObject)}
+        onClick={() => trackDownloadCallDetailsClicked()}
       >
         <Tooltip content={downloadLabel}>
           <SvgIcon size="xs" aria-label={downloadLabel} type="lib_actions_download" color={svgIconColor} />
@@ -226,21 +235,44 @@ function getTraceActivityTreeNodeDetailsRetriable([traceId, callId, retry]) {
       });
 }
 
-function DisplayTimeData({ values }) {
+function DisplayTimeData({ values, batchCount }) {
   return (
     <Dl>
       {values.map(value => {
-        const { label, duration, totalDuration, showDurationInpercent } = value;
+        const { label, duration, totalDuration, showDurationInpercent, showInfoIcon, toolTipLabel } = value;
         const formatter = value.formatter ?? latencyFixed.compact;
         const durationValue = duration == null ? valueMissingPlaceholder : `${formatter(duration)}`;
         const durationInPercent =
           totalDuration >= 1 && duration >= 1 && showDurationInpercent
             ? '(' + (((duration / totalDuration) * 100) | 0) + '%)'
             : null;
-
         return (
-          <Di title={label} key={label}>
-            {durationValue} {durationInPercent !== null ? ` ${durationInPercent}` : ''}
+          <Di
+            title={
+              <div className={locals.iconContainer}>
+                {label}
+                <Spacer horizontal="xsmall" />
+
+                {showInfoIcon && (
+                  <Tooltip
+                    content={t('in-analyze:traceDetail.components.callDetails.batchTooltip', {
+                      batchCount: batchCount,
+                      type: String(toolTipLabel ?? label).toLocaleLowerCase()
+                    })}
+                  >
+                    <SvgIcon
+                      type="lib_help_error_info_outline"
+                      size="xxs"
+                      color={themes.default.ids.color.option.neutral['700']}
+                    />
+                  </Tooltip>
+                )}
+              </div>
+            }
+            key={label}
+          >
+            {durationValue}
+            {durationInPercent !== null ? ` ${durationInPercent}` : ''}
           </Di>
         );
       })}

@@ -13,13 +13,13 @@ export const staticOrAdaptiveThresholds = {
     STATIC: {
       title: t('in-alerting:smartAlerts.applications.advanced.staticOrAdaptive.config.static.title'),
       icon: 'lib_alerting_threshold_icon',
-      featureFeedbackLink: undefined,
+      isBeta: undefined,
       description: t('in-alerting:smartAlerts.applications.advanced.staticOrAdaptive.config.static.description')
     },
     ADAPTIVE: {
       title: t('in-alerting:smartAlerts.applications.advanced.staticOrAdaptive.config.adaptive.title'),
       icon: 'lib_alerting_adaptive_threshold_icon',
-      featureFeedbackLink: 'https://forms.gle/bscqinv1njxKnhUm7',
+      isBeta: true,
       description: t('in-alerting:smartAlerts.applications.advanced.staticOrAdaptive.config.adaptive.description')
     }
   }
@@ -33,14 +33,16 @@ export const tearSheetStaticOrAdaptiveThresholds = {
     STATIC: {
       title: t('in-alerting:smartAlerts.applications.advanced.staticOrAdaptive.config.static.title'),
       icon: '',
-      featureFeedbackLink: undefined,
-      description: t('in-alerting:smartAlerts.applications.tearSheet.staticOrAdaptive.config.static.description')
+      description: t('in-alerting:smartAlerts.applications.tearSheet.staticOrAdaptive.config.static.description'),
+      isBeta: undefined,
+      label: t('in-alerting:smartAlerts.applications.tearSheet.staticOrAdaptive.config.static.label')
     },
     ADAPTIVE: {
       title: t('in-alerting:smartAlerts.applications.advanced.staticOrAdaptive.config.adaptive.title'),
       icon: '',
-      featureFeedbackLink: undefined,
-      description: t('in-alerting:smartAlerts.applications.tearSheet.staticOrAdaptive.config.adaptive.description')
+      description: t('in-alerting:smartAlerts.applications.tearSheet.staticOrAdaptive.config.adaptive.description'),
+      isBeta: undefined,
+      label: t('in-alerting:smartAlerts.applications.tearSheet.staticOrAdaptive.config.adaptive.label')
     }
   }
 } as const;

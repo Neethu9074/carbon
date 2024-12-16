@@ -13,6 +13,8 @@ export const testIdTagName = 'synthetic.testId';
 export const testNameTagName = 'synthetic.testName';
 export const locationIdTagName = 'synthetic.locationId';
 export const applicationIdTagName = 'synthetic.applicationId';
+export const websiteIdTagName = 'synthetic.websiteId';
+export const mobileAppIdTagName = 'synthetic.mobileApplicationId';
 export const serviceIdTagName = 'synthetic.serviceId';
 export const typeTagName = 'synthetic.syntheticType';
 export const startTimeTagName = 'synthetic.startTime';
@@ -22,6 +24,7 @@ export const locationTypeTagName = 'synthetic.locationType';
 // Field obtained from GK Location through a temp table join
 export const locationNameTagName = 'synthetic.locationName';
 export const locationLabelTagName = 'synthetic.locationLabel';
+
 /*
 Will assign the following names when needed
   'synthetic.metricsBlocking',

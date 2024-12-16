@@ -11,7 +11,8 @@ import {
   PaginatedResult,
   ApplicationItem,
   GetApplicationsQuery,
-  Result
+  Result,
+  TagFilterExpression
 } from '@instana/types';
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
@@ -38,6 +39,7 @@ interface GetApplicationsWithDefaultsProps {
   endpointId?: string;
   contextScope: ContextScope;
   tagFilters?: TagFilter[];
+  tagFilterExpression?: TagFilterExpression;
 }
 
 export function getApplicationsWithDefaults({
@@ -51,7 +53,8 @@ export function getApplicationsWithDefaults({
   serviceId = '',
   endpointId = '',
   contextScope,
-  tagFilters = []
+  tagFilters = [],
+  tagFilterExpression = undefined
 }: GetApplicationsWithDefaultsProps) {
   return getApplications({
     pagination: {
@@ -116,6 +119,7 @@ export function getApplicationsWithDefaults({
     },
     contextScope: contextScope ? contextScope : 'NONE',
     tagFilters: tagFilters ? [...tagFilters] : undefined,
-    supportedOrderByCriteria: false
+    supportedOrderByCriteria: false,
+    tagFilterExpression: tagFilterExpression
   });
 }

@@ -5,10 +5,9 @@
 
 import React, { useState } from 'react';
 
+import { Dropdown } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 
-import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
-import DropdownButton from 'in-components/Button/DropdownButton';
 import activationStages from 'in-amp/api/activationStages';
 import FunnelTile from 'in-amp/components/FunnelTile';
 import { t } from 'in-i18n';
@@ -49,13 +48,14 @@ function ActivationFunnelTileContent({ activationByEnvironmentId }) {
 
   return (
     <div className={locals.container}>
-      <ComboBoxBehavior options={dropdownOptions} onChange={setTenantUnit}>
-        {({ elementProps, isOpen }) => (
-          <DropdownButton {...elementProps} className={locals.dropdown} kind="secondary" expanded={isOpen}>
-            {parseTenantUnitName(tenantUnit)}
-          </DropdownButton>
-        )}
-      </ComboBoxBehavior>
+      <Dropdown
+        items={dropdownOptions}
+        size="sm"
+        value={tenantUnit}
+        onChange={setTenantUnit}
+        className={locals.activationDropdown}
+      />
+
       <div className={locals.entriesContainer}>
         {activationStages.map(stage => {
           const val = activationByEnvironmentId[tenantUnit][stage.key];

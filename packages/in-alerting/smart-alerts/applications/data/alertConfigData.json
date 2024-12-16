@@ -1,0 +1,135 @@
+{
+  "alertConfig": {
+    "name": "_PR272",
+    "description": "Occurrences of HTTP Status Code 404 (Not Found) is higher or equal to 800..",
+    "boundaryScope": "INBOUND",
+    "applications": {
+      "rZKBzrADRPWYLnu6QwgFJA": {
+        "applicationId": "rZKBzrADRPWYLnu6QwgFJA",
+        "inclusive": true,
+        "services": {}
+      }
+    },
+    "applicationIds": ["rZKBzrADRPWYLnu6QwgFJA"],
+    "triggering": true,
+    "tagFilterExpression": {
+      "type": "EXPRESSION",
+      "logicalOperator": "AND",
+      "elements": []
+    },
+    "includeInternal": true,
+    "includeSynthetic": true,
+    "rules": [
+      {
+        "rule": {
+          "alertType": "errors",
+          "metricName": "errors",
+          "aggregation": "MEAN"
+        },
+        "thresholdOperator": ">=",
+        "thresholds": {
+          "WARNING": {
+            "type": "staticThreshold",
+            "value": 0.13
+          }
+        }
+      }
+    ],
+    "alertChannelIds": ["iYCMUdyggaRAdHQt", "jNjhzEIcJsmxt8Wr", "rq2yKfqQJFd_EnAl", "A_5EsBb228e9TQFY"],
+    "granularity": 1200000,
+    "timeThreshold": {
+      "type": "requestImpact",
+      "timeWindow": 1200000,
+      "requests": 20
+    },
+    "evaluationType": "PER_AP",
+    "customPayloadFields": [
+      {
+        "type": "dynamic",
+        "key": "asd",
+        "value": {
+          "tagName": "agent.zone",
+          "key": null
+        }
+      }
+    ],
+    "id": "y1iigKjXQKCyGxETqHmKQw",
+    "created": 1718620992691,
+    "initialCreated": 1714057681170,
+    "readOnly": false,
+    "enabled": true,
+    "builtIn": false
+  },
+
+  "alertConfigMultiThreshold": {
+    "name": "CHNL-TST-PR",
+    "description": "Calls are slower or equal to the expectation based on latency (90th).",
+    "boundaryScope": "INBOUND",
+    "applications": {
+      "qOlcrsSlS_eWLGnBjooqWA": {
+        "applicationId": "qOlcrsSlS_eWLGnBjooqWA",
+        "inclusive": true,
+        "services": {}
+      }
+    },
+    "applicationIds": ["qOlcrsSlS_eWLGnBjooqWA"],
+    "severity": 5,
+    "triggering": false,
+    "tagFilterExpression": {
+      "type": "EXPRESSION",
+      "logicalOperator": "AND",
+      "elements": []
+    },
+    "includeInternal": false,
+    "includeSynthetic": false,
+    "rule": {
+      "alertType": "errors",
+      "metricName": "errors",
+      "aggregation": "MEAN"
+    },
+    "threshold": {
+      "type": "staticThreshold",
+      "operator": ">=",
+      "value": 0,
+      "lastUpdated": 1733119413820
+    },
+    "alertChannelIds": ["AJxYElPZKpppt_cg", "bcg", "cwc", "vaQv-bnpTLjJE-O0"],
+    "granularity": 1200000,
+    "timeThreshold": {
+      "type": "violationsInSequence",
+      "timeWindow": 1200000
+    },
+    "evaluationType": "PER_AP",
+    "customPayloadFields": [],
+    "rules": [
+      {
+        "thresholdOperator": ">=",
+        "rule": {
+          "alertType": "errors",
+          "metricName": "errors",
+          "aggregation": "MEAN"
+        },
+        "thresholds": {
+          "CRITICAL": {
+            "type": "staticThreshold",
+            "value": 0.01
+          },
+          "WARNING": {
+            "type": "staticThreshold",
+            "value": 0
+          }
+        }
+      }
+    ],
+    "alertChannels": {
+      "CRITICAL": ["AJxYElPZKpppt_cg", "cwc"],
+      "WARNING": ["bcg", "vaQv-bnpTLjJE-O0"]
+    },
+    "id": "8HA0IXFvSPyVyntEt9n-vw",
+    "created": 1733119413844,
+    "initialCreated": 1732169592013,
+    "readOnly": false,
+    "enabled": false,
+    "builtIn": false
+  }
+}

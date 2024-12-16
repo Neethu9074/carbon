@@ -6,10 +6,8 @@
 
 import React, { useState, useMemo } from 'react';
 
+import { Message, Stack } from '@instana/components';
 import { create } from '@instana/observables';
-import { Message } from '@instana/components';
-import { Stack } from '@instana/components';
-import { Card } from '@instana/components';
 
 import { getQueryBuilder, getGroupByQueryBuilder } from 'in-alerting/smart-alerts/logs/components/AlertQueryBuilder';
 import { logsGroupbyTag, toUIGrouping } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
@@ -84,7 +82,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAl
         framed
       >
         {chartViewConfig => (
-          <Card title={t('in-events:titleMetrics')}>
+          <>
             <LogMetricChart
               alertConfig={alertConfig}
               timeConfig={{
@@ -105,7 +103,7 @@ export default function AlertConfiguration({ alertConfig }: { alertConfig: LogAl
                 tagCatalog={groupByTagCatalog}
               />
             )}
-          </Card>
+          </>
         )}
       </ChartViewConfigurator>
 

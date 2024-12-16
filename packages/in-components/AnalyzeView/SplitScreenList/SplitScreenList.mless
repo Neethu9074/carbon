@@ -33,7 +33,7 @@
     border-right: 1px solid #d5dfe4;
   }
 
-  .actions .toggle {
+  .actions {
     margin-left: 1rem;
   }
 
@@ -55,19 +55,8 @@
     justify-content: center;
     padding: 1.63rem 0;
 
+    z-index: 125;
     position: fixed;
     width: 2.95rem;
-  }
-
-  .toggle,
-  .next,
-  .prev {
-    cursor: pointer;
-    fill: var(--ids-color-option-neutral-500);
-    display: block;
-
-    &:hover {
-      fill: var(--ids-color-option-neutral-700);
-    }
   }
 }

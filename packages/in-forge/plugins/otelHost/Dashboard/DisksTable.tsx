@@ -7,6 +7,7 @@ import React from 'react';
 
 // @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { WINDOW_FOR_LATEST_METRIC, DISTANCE_BETWEEN_DATAPOINTS } from 'in-forge/plugins/otelHost/constants';
 import { timeBySecondsTwoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -39,6 +40,9 @@ const cols = [
       getContent: bytesTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return WINDOW_FOR_LATEST_METRIC;
       }
     }
   },
@@ -55,6 +59,9 @@ const cols = [
       getContent: bytesTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return WINDOW_FOR_LATEST_METRIC;
       }
     }
   },
@@ -71,6 +78,9 @@ const cols = [
       getContent: timeBySecondsTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return WINDOW_FOR_LATEST_METRIC;
       }
     }
   },
@@ -87,6 +97,9 @@ const cols = [
       getContent: bytesTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return WINDOW_FOR_LATEST_METRIC;
       }
     }
   },
@@ -103,6 +116,9 @@ const cols = [
       getContent: timeBySecondsTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return WINDOW_FOR_LATEST_METRIC;
       }
     }
   },
@@ -119,6 +135,9 @@ const cols = [
       getContent: bytesTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return WINDOW_FOR_LATEST_METRIC;
       }
     }
   },
@@ -135,6 +154,9 @@ const cols = [
       getContent: timeBySecondsTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return WINDOW_FOR_LATEST_METRIC;
       }
     }
   },
@@ -151,6 +173,9 @@ const cols = [
       getContent: timeBySecondsTwoDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return WINDOW_FOR_LATEST_METRIC;
       }
     }
   }
@@ -184,6 +209,7 @@ function getDetails(row: any) {
     <>
       <Columize>
         <Chart
+          distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{
@@ -209,6 +235,7 @@ function getDetails(row: any) {
       </Columize>
       <Columize>
         <Chart
+          distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{
@@ -235,6 +262,7 @@ function getDetails(row: any) {
       </Columize>
       <Columize>
         <Chart
+          distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{

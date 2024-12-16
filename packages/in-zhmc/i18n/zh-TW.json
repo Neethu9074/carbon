@@ -1,5 +1,5 @@
 {
-  "zhmcs": "zHMC",
+  "zhmcs": "zHMCs",
   "hostname": "主機名稱",
   "name": "名稱",
   "systems": "系統",
@@ -17,7 +17,7 @@
   "status": "狀態",
   "breadcrumbs": {
     "zhmc": "zHMC",
-    "zhmcs": "zHMC",
+    "zhmcs": "zHMCs",
     "systems": "系統"
   },
   "dashboards": {
@@ -43,12 +43,12 @@
     "cryptoId": "加密 ID",
     "processorUsage": "整體處理器用量",
     "name": "名稱",
-    "zvm": "z/VM 分頁率",
     "ifl": "IFL 處理器用量",
     "icf": "ICF 處理器用量",
     "cbp": "CBP 處理器用量",
     "cp": "CP 處理器用量",
     "iip": "IIP 處理器用量",
+    "lparPowerConsumption": "LPAR 功耗（瓦）",
     "smt": "SMT 用量",
     "thread0": "執行緒 0 用量",
     "thread1": "執行緒 1 用量",

@@ -8,11 +8,22 @@
 :local {
   .wrapper {
     padding: 0.625rem 1rem;
-    .ellipsis();
     position: relative;
-    background: var(--ids-color-option-white);
     border-radius: var(--ids-border-radius-option-large);
-    box-shadow: var(--ids-shadow-option-subtle);
+  }
+
+  .wrapper .kpibody {
+    padding: 0;
+    line-height: unset;
+  }
+
+  .wrapper .kpiheader {
+    padding: 0;
+  }
+
+  :global(.cds--tile) {
+    border-radius: 0;
+    line-height: unset;
   }
 
   .borderless {
@@ -31,20 +42,16 @@
     .widgetInModal();
   }
 
-  .useMaxAvailableHeight {
-    height: 100%;
-  }
-
-  .title {
+  .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    min-height: 1.75rem;
+    min-height: 1.9rem;
 
-    color: var(--ids-color-option-neutral-700);
+    color: var(--cds-text-primary);
     font-size: 1rem;
-    font-weight: 200;
+    font-weight: 600;
   }
 
   .flexTooltip {
@@ -57,37 +64,25 @@
     justify-content: center;
   }
 
-  .action {
-    display: none;
-    margin: -4px 0;
-  }
-
-  .actionIcon {
-    fill: var(--ids-color-option-neutral-600);
-    cursor: pointer;
-  }
-
-  .wrapper:hover .showLongVariantOnHover {
-    .action {
-      display: inline-flex;
-    }
-
-    .actionIcon {
-      display: none;
-    }
-  }
-
   .major,
   .minor {
     color: var(--ids-color-option-neutral-900);
   }
 
   .major {
-    font-size: 2.375rem;
+    font-size: 1.5rem;
+
+    &.bigMajor {
+      font-size: 2.375rem;
+    }
   }
 
   .minor {
-    font-size: 1.5rem;
+    font-size: 1rem;
+
+    &.bigMinor {
+      font-size: 1.5rem;
+    }
   }
 
   .companion {
@@ -95,6 +90,7 @@
     font-size: 1rem;
     font-weight: 200;
     padding-left: 1rem;
+    display: inline-block;
   }
 
   .actions {
@@ -102,11 +98,38 @@
     align-items: center;
   }
 
+  .titleContainer {
+    margin-right: 1rem;
+    display: flex;
+    align-items: flex-start;
+  }
+
   .titleText {
     .ellipsis();
   }
 
+  .contentText {
+    .ellipsis();
+    width: 100%;
+    display: block;
+  }
+
   .hidden {
     display: none;
+  }
+
+  .major,
+  .minor {
+    &.critical {
+      color: var(--ids-color-option-red-700);
+    }
+
+    &.warning {
+      color: var(--ids-color-option-yellow-500);
+    }
+  }
+
+  .hasInfo {
+    background-color: var(--ids-color-option-neutral-50);
   }
 }

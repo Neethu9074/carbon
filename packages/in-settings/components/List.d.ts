@@ -66,6 +66,8 @@ interface ListProps<ItemType extends Object> {
   onRowClick?: (entity: ItemType) => void;
   renderNoDataAvailable?: (message?: string) => React.ReactNode;
   onCreateNew?: () => void;
+  onFilter?: (entities: any[]) => any[];
+  onSearch?: (query: string) => void;
   labelNew?: string;
   customDialogMessage?: (entity: ItemType) => void;
   customDialogConfirmLabel?: string;
@@ -101,3 +103,5 @@ export default ListComponent;
 export function reload(): void;
 
 export function defaultHeaderWithCount(title: string): (totalHits: number, filteredHits: number) => string;
+
+export function filterReducer(query: string, entity: any, foundMatch: boolean, searchAttribute: any): boolean;

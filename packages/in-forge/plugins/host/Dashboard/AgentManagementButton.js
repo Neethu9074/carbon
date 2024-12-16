@@ -5,9 +5,9 @@
 
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import getAgentSnapshotId from 'in-subscription/getAgentSnapshotId';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { isEntityOnline } from 'in-stores/snapshot';
@@ -19,10 +19,12 @@ export default connectTo(
   props => {
     return {
       isOnline: isEntityOnline(props.snapshot.get('id')),
-      href: getAgentSnapshotId(props.snapshot).flatMap(getDashboardLink)
+      snapshotId: getAgentSnapshotId(props.snapshot)
     };
   },
-  function EnableSelfMonitoringButton({ isOnline, href }) {
+  function EnableSelfMonitoringButton({ isOnline, snapshotId }) {
+    const href = useGetDashboardLink()(snapshotId);
+
     const button = (
       <Button kind="primary" disabled={!isOnline || playwithEnabled} href={href}>
         {t('in-forge:plugins.host.dashboard.openAgentManagement')}

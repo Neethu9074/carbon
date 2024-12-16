@@ -7,10 +7,9 @@ import classNames from 'classnames';
 import { List } from 'immutable';
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Checkbox, Button } from '@instana/components';
 
-import { latencyPercentileMenuClickedTracker } from 'in-analyze/tracker';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';
 
@@ -19,11 +18,12 @@ import locals from './PercentileMenu.mless';
 export const ALL_PERCENTILES = List.of(50, 90, 95, 99);
 
 export default function PercentileMenu(props) {
+  const { trackLatencyPercentileMenuClicked } = useAnalyzeTracker();
   return (
     <Overlay withoutWrapper content={PercentileMenuContent} props={props}>
       {({ toggle, refSetter }) => {
         const trackAndToggle = () => {
-          latencyPercentileMenuClickedTracker();
+          trackLatencyPercentileMenuClicked();
           toggle();
         };
         return (
@@ -47,7 +47,7 @@ function PercentileMenuContent({ percentilesShown, onChange }) {
   return (
     <ul className={locals.list}>
       <li key="all" className={locals.item}>
-        <CheckboxFancy
+        <Checkbox
           checked={indeterminateAll ? null : percentilesShown.count() === ALL_PERCENTILES.count()}
           indeterminate={indeterminateAll}
           onChange={() =>
@@ -59,7 +59,7 @@ function PercentileMenuContent({ percentilesShown, onChange }) {
       {ALL_PERCENTILES.map(percentile => {
         return (
           <li key={percentile} className={classNames(locals.item, locals.child)}>
-            <CheckboxFancy
+            <Checkbox
               checked={percentilesShown.includes(percentile)}
               onChange={() =>
                 percentilesShown.includes(percentile)

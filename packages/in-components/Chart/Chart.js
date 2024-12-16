@@ -23,7 +23,6 @@ export default class Chart {
     this.canvas = canvas;
     this.config = new Config(props);
     this.renderScheduler = new DoubleBufferRenderScheduler(canvas, this);
-
     this.combinedSubscriptions = combineLatest([
       this.config.localHighlightedTimeframe$.nextFrame().throttle(STEADY_FRAMERATE),
       highlightedTimeframe$.nextFrame().throttle(STEADY_FRAMERATE)
@@ -48,7 +47,6 @@ export default class Chart {
       });
     });
   }
-
   update(props) {
     this.config.update(props);
 
@@ -138,7 +136,8 @@ export default class Chart {
     if (axis.valuesNeedToBeStacked || axis.valuesDependOnEachOther || axis.manualRenderLoop) {
       axis.renderer.render({
         axis,
-        metricIds: metricIds,
+        metricIds,
+        axisName,
         metrics,
         colors,
         colors50,

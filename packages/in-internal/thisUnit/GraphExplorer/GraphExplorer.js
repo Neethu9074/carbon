@@ -34,10 +34,11 @@ export default function GraphExplorer() {
   const [{ snapshotId }, setSnapshotId] = useUrlState(urlStateConfig);
   const connected = useObservable(
     combineLatest([
-      getSnapshot(snapshotId)
-        .filter(Boolean)
-        .distinct(),
-      timeConfig$.flatMap(getGraph).throttle(60 * 1000)
+      getSnapshot(snapshotId).filter(Boolean).distinct(),
+      timeConfig$
+        .map(timeConfig => ({ snapshotId, timeConfig }))
+        .flatMap(getGraph)
+        .throttle(60 * 1000)
     ]).map(([snapshot, graph]) => ({
       selectedSnapshotId: snapshot.get('id'),
       ...getConnectedEntities(snapshot.get('id'), graph)

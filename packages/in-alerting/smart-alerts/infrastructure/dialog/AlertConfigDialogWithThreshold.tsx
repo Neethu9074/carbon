@@ -15,10 +15,12 @@ import {
 } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
+import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/infrastructure/hooks/useTagBasedPayloadConfigurator';
 import { CreateBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/AdvancedModeContainer';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/dialog/AlertConfigDialogPresenter';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/dialog/advanced/AdvancedModeFooter';
+import useThresholdSuggestion from 'in-alerting/smart-alerts/infrastructure/hooks/useThresholdSuggestion';
 import { triggerScrollToInvalidItem } from 'in-components/StepsContainer/useScrollToFirstInvalidNavItem';
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/dialog/simple/SimpleModeContainer';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
@@ -114,6 +116,17 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
     updateTagFilterExpression
   );
 
+  const isValid = isMetricAndEntityValid && tagFilterValid;
+
+  const [thresholdResult, setThresholdResult] = useState();
+
+  useThresholdSuggestion(form, updateForm, setThresholdResult, editMode, {
+    isValid,
+    alertConfigWithFormModel
+  });
+
+  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator({ metricName, entityType, regex });
+
   const footer = (
     <AdvancedModeFooter
       form={form}
@@ -143,14 +156,14 @@ export default function AlertConfigDialogWithThreshold(props: AlertConfigDialogW
       footer={footer}
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
-      TagBasedPayloadConfigurator={() => <></>}
-      isDynamicCustomPayloadValid // TODO to be changed when custom payload is implemented
+      TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
+      isDynamicCustomPayloadValid
       QueryBuilderComponent={() => <></>}
       AdvancedModeElement={AdvancedModeContainer}
       SimpleModeElement={SimpleModeContainer}
       onChartViewConfigChange={onChartViewConfigChange}
       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-      thresholdResult={null}
+      thresholdResult={thresholdResult}
       timeConfig={timeConfig}
       isTagFilterFormModelValid
       setTagFilterValid={setTagFilterValid}

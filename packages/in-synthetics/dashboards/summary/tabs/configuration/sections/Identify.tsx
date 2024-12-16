@@ -6,14 +6,13 @@
 
 import React, { useState } from 'react';
 
+import { KeyValue, SearchInput, Checkbox } from '@instana/components';
 import { SyntheticTest } from '@instana/types/typeDefinitions';
-import { KeyValue } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
-import SearchInput from 'in-components/SearchInput/SearchInput';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 
 import locals from 'in-synthetics/dashboards/summary/tabs/configuration/Configuration.mless';
@@ -29,9 +28,8 @@ const Identify = ({ test }: Props) => {
     <SearchInput
       disabled
       className={locals.rightHeader}
-      maxWidth="140"
+      maxWidth={140}
       query={searchInput}
-      placeholder=""
       onChange={q => setSearchInput(q)}
     />
   );
@@ -58,19 +56,21 @@ const Identify = ({ test }: Props) => {
         </Col>
       </Row>
       <Row>
-        <LightCard
-          className={locals.lastConfigRow}
-          header={header}
-          title={t('in-synthetics:dashboard.configuration.associatedApplication')}
-          darkFrame
-          framed
-        >
-          {test.applicationLabel === '' || test.applicationLabel === undefined ? (
-            t('in-synthetics:dashboard.configuration.noApplicationAssociated')
-          ) : (
-            <CheckboxFancy checked disabled label={test.applicationLabel} />
-          )}
-        </LightCard>
+        {!syntheticRbacLimitedEnabled && (
+          <LightCard
+            className={locals.lastConfigRow}
+            header={header}
+            title={t('in-synthetics:dashboard.configuration.associatedApplication')}
+            darkFrame
+            framed
+          >
+            {test.applicationLabel === '' || test.applicationLabel === undefined ? (
+              t('in-synthetics:dashboard.configuration.noApplicationAssociated')
+            ) : (
+              <Checkbox checked disabled label={test.applicationLabel} />
+            )}
+          </LightCard>
+        )}
       </Row>
     </ExpandableLightCard>
   );

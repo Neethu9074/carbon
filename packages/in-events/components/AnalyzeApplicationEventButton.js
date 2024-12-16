@@ -6,19 +6,22 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button, CarbonMenuItem, SvgIcon } from '@instana/components';
 
-import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/applications/tracker';
 import { joinExpressions, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
+import { APPLICATIONS_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE } from 'in-services/tracking/tracking';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { containsTagName } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { createChartedMetric } from 'in-analyze/navigation/paths';
+import { parseUrl } from 'in-stores/navigation/routing/parser';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Tooltip from 'in-components/Tooltip';
@@ -35,9 +38,12 @@ export default function AnalyzeApplicationEventButton({
   applicationName,
   serviceId,
   endpointId,
-  adaptiveBaselineInfo = {}
+  adaptiveBaselineInfo = {},
+  as = 'button'
 }) {
+  const { trackCta } = useSegmentTracking();
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+  const { navigate } = useNavigation();
 
   const linkToUA = getLinkToUnboundAnalytics(
     {
@@ -54,6 +60,20 @@ export default function AnalyzeApplicationEventButton({
 
   const linkDisabled = !linkToUA;
 
+  if (as === 'menuItem') {
+    return (
+      <CarbonMenuItem
+        renderIcon={() => <SvgIcon type="lib_application_call" size="xs" />}
+        onClick={() => {
+          trackCta(APPLICATIONS_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE);
+          navigate(parseUrl(linkToUA, true));
+        }}
+        disabled={linkDisabled}
+        label={t('in-events:analyzeCalls')}
+      />
+    );
+  }
+
   return (
     <Tooltip
       content={
@@ -67,7 +87,7 @@ export default function AnalyzeApplicationEventButton({
       <Button
         kind="primary"
         icon="lib_application_call"
-        onClick={() => applicationsAlertingEventDetailsGoToAnalyze()}
+        onClick={() => trackCta(APPLICATIONS_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE)}
         href={linkToUA}
         disabled={linkDisabled}
       >
@@ -84,7 +104,8 @@ AnalyzeApplicationEventButton.propTypes = {
   applicationName: PropTypes.string,
   serviceId: PropTypes.string,
   adaptiveBaselineInfo: PropTypes.object,
-  endpointId: PropTypes.string
+  endpointId: PropTypes.string,
+  as: PropTypes.oneOf(['button', 'menuItem'])
 };
 
 export function getLinkToUnboundAnalytics(

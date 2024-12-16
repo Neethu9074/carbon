@@ -21,7 +21,6 @@
 
   .lightCardHeaderControlsSearchInputWrapper {
     width: 9.375rem;
-    margin-left: 1rem;
   }
 
   .lightCardHeaderControlsDirtyStateIndicator {
@@ -48,5 +47,64 @@
 
   .alertFilterConfiguratorWrapperBottomPadding {
     padding-bottom: 1rem;
+  }
+
+  .toggleDialogUsage {
+    > button {
+      position: inherit;
+      top: 0;
+      display: flex;
+    }
+  }
+
+  .scopeConfigContainerTearSheetView {
+    background: var(--ids-color-option-white);
+    padding: 1rem;
+  }
+
+  .listHeight {
+    height: 20.25rem;
+  }
+  .list {
+    max-height: 20.25rem;
+    overflow: auto;
+    border: 1px solid var(--ids-color-option-neutral-300);
+  }
+
+  .carbonVariant {
+    .listHeight {
+      height: 19.5rem;
+    }
+    .list {
+      max-height: 19.5rem;
+    }
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 40% 58%;
+    grid-template-rows: min-content auto;
+    grid-column-gap: 1rem;
+    width: 100%;
+    align-items: center;
+  }
+
+  .alignRight {
+    justify-content: flex-end;
+  }
+
+  .tearSheetLightCardHeader {
+    border-bottom: 1px solid var(--ids-color-option-neutral-300);
+    padding: 1rem 0.75rem;
+  }
+
+  .subtitle {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .searchContext {
+    width: 9rem;
   }
 }

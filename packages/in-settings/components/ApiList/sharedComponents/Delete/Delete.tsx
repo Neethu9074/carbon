@@ -6,21 +6,15 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { IconButton, SvgIcon, Button } from '@instana/components';
 
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import Tooltip from 'in-components/Tooltip';
 import { t, Trans } from 'in-i18n';
 
 import locals from './Delete.mless';
-
-interface DeleteIconProps {
-  onClick: () => void;
-  disabled: boolean;
-  isDeleting: boolean;
-}
 
 interface DeleteProps {
   kind?: DeleteKind;
@@ -86,36 +80,47 @@ export function Delete({
       </Button>
     );
   } else {
-    if (!tooltipContent) return <DeleteIcon disabled={disabled} isDeleting={isDeleting} onClick={handleClick} />;
-
     return (
-      <Tooltip content={tooltipContent}>
-        <DeleteIcon disabled={disabled} isDeleting={isDeleting} onClick={handleClick} />
-      </Tooltip>
+      <>
+        {tooltipContent ? (
+          <Tooltip content={tooltipContent}>
+            {isDeleting ? (
+              <SvgIcon className={locals.loadingIcon} data-testid="loadingIcon" type="lib_actions_loading" spinning />
+            ) : (
+              <IconButton
+                kind="primary"
+                className={classNames({
+                  [locals.icon]: true,
+                  [locals.disabled]: disabled
+                })}
+                type="lib_actions_delete"
+                data-testid="deleteIcon"
+                onClick={handleClick}
+              />
+            )}
+          </Tooltip>
+        ) : (
+          <>
+            {isDeleting ? (
+              <SvgIcon className={locals.loadingIcon} data-testid="loadingIcon" type="lib_actions_loading" spinning />
+            ) : (
+              <IconButton
+                kind="primary"
+                className={classNames({
+                  [locals.icon]: true,
+                  [locals.disabled]: disabled
+                })}
+                type="lib_actions_delete"
+                data-testid="deleteIcon"
+                onClick={e => {
+                  stopPropagationAndPreventDefault(e);
+                  handleClick();
+                }}
+              />
+            )}
+          </>
+        )}
+      </>
     );
   }
 }
-
-export const DeleteIcon = React.forwardRef<SVGSVGElement, DeleteIconProps>((props, ref) => {
-  const { disabled, isDeleting, onClick } = props;
-
-  if (isDeleting)
-    return (
-      <SvgIcon className={locals.loadingIcon} data-testid="loadingIcon" type="lib_actions_loading" spinning ref={ref} />
-    );
-
-  return (
-    <SvgIcon
-      className={classNames({
-        [locals.icon]: true,
-        [locals.disabled]: disabled
-      })}
-      type="lib_actions_delete"
-      data-testid="deleteIcon"
-      onClick={onClick}
-      ref={ref}
-    />
-  );
-});
-
-DeleteIcon.displayName = 'DeleteIcon';

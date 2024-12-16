@@ -52,7 +52,7 @@ function renderItemContent(item) {
     <div className={locals.itemContainer}>
       <Stack direction="horizontal" gap="normal" align="center">
         {iconType && <SvgIcon className={locals.icon} type={item.iconType} size={SvgIconSizes.s} aria-hidden="true" />}
-        <Stack direction="vertical" gap="xxsmall">
+        <Stack gap="xxsmall">
           <Stack direction="horizontal" gap="xlarge">
             <div className={classNames(locals.description, locals.textPrimary)}>{description}</div>
             <time dateTime={formatDateTime(created)} className={classNames(locals.date, locals.textSecondary)}>

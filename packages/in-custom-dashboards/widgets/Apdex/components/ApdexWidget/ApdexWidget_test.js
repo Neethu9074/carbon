@@ -7,9 +7,9 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 
+import WidgetCard from 'in-custom-dashboards/widgets/Apdex/components/WidgetCard/WidgetCard';
 import ApdexWidget from 'in-custom-dashboards/widgets/Apdex/components/ApdexWidget';
 import ApdexChart from 'in-custom-dashboards/widgets/Apdex/components/ApdexChart';
-import WidgetCard from 'in-custom-dashboards/widgets/Apdex/components/WidgetCard';
 import { minutes } from 'in-services/time/time';
 
 describe('in-custom-dashboards/widgets/Apdex/components/ApdexWidget/ApdexWidget', () => {
@@ -54,9 +54,7 @@ describe('in-custom-dashboards/widgets/Apdex/components/ApdexWidget/ApdexWidget'
     );
 
     expect(wrapper.find(WidgetCard).props()).toMatchObject({
-      progress: { loading: true },
-      actions: [],
-      dragHandle: null
+      progress: { loading: true }
     });
   });
 });

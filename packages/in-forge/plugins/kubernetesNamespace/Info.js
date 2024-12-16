@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { DescriptionList, DescriptionItem } from '@instana/components';
+
 import createClusterForNamespaceSubscription from 'in-subscription/clusterForNamespace';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import { formatDateTime } from 'in-services/formatters/date';

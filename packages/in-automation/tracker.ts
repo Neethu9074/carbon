@@ -5,29 +5,169 @@
  */
 
 import {
-  track,
   AUTOMATION_ACTION_RUN,
   AUTOMATION_ACTION_CREATE,
   AUTOMATION_ACTION_EDIT,
-  AUTOMATION_ACTION_DELETE,
   AUTOMATION_ACTION_HISTORY_VIEW,
   AUTOMATION_ACTION_HISTORY_INSTANCE_VIEW,
-  AUTOMATION_ACTION_HISTORY_FEEDBACK_SEND,
   AUTOMATION_POLICY_CREATE,
   AUTOMATION_POLICY_EDIT,
-  CLICK_TURBO_LINK_FOR_DETAILS,
-  VIEW_TURBO_ACTION
+  AUTOMATION_OPTIMIZATION_RUN_CLICK,
+  AUTOMATION_RECOMMENDED_ACTIONS_TAB_CLICK,
+  AUTOMATION_TEST_ACTION_RUN,
+  AUTOMATION_GENERATE_AI_BUTTON_CLICK,
+  AUTOMATION_CLICK_AI_GENERATED_ACTIONS_TAB,
+  AUTOMATION_VIEW_AI_GENERATED_ACTION,
+  AUTOMATION_ACTION_HISTORY_INSTANCE_DELETE,
+  AUTOMATION_GENERATE_AI_ACTION_CLICK_PROMPT_STEP,
+  AUTOMATION_AI_SELECT_NEXT_PROMPT_STEP_CLICK,
+  AUTOMATION_AI_SELECT_NEXT_CUSTOMIZE_ACTION_STEP_CLICK,
+  AUTOMATION_AI_ACTION_CONTENT_MODIFIED,
+  AUTOMATION_AI_LEAVE_GENERATE_DIALOG,
+  AUTOMATION_AI_SCRIPT_SELECT_STEP_NEXT_CLICK,
+  AUTOMATION_GENERATE_AI_SCRIPT_BUTTON_CLICK_STEP2,
+  AUTOMATION_AI_SCRIPT_GENERATE_STEP_NEXT_CLICK
 } from 'in-services/tracking/tracking';
+import { CREATED_OBJECT, STARTED_PROCESS, UPDATED_OBJECT } from 'in-services/util/constants';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 
-export const runActionTracker = (e: Object) => track(AUTOMATION_ACTION_RUN, e);
-export const createActionTracker = (e: Object) => track(AUTOMATION_ACTION_CREATE, e);
-export const editActionTracker = (e: Object) => track(AUTOMATION_ACTION_EDIT, e);
-export const deleteActionTracker = (e: Object) => track(AUTOMATION_ACTION_DELETE, e);
-export const actionHistoryTracker = () => track(AUTOMATION_ACTION_HISTORY_VIEW);
-export const actionHistoryInstanceViewTracker = (e: Object) => track(AUTOMATION_ACTION_HISTORY_INSTANCE_VIEW, e);
-export const actionHistoryInstanceFeedbackTracker = (e: Object) => track(AUTOMATION_ACTION_HISTORY_FEEDBACK_SEND, e);
-export const createPolicyTracker = (e: Object) => track(AUTOMATION_POLICY_CREATE, e);
-export const createBulkPoliciesTracker = (e: Object) => track(AUTOMATION_POLICY_CREATE, e);
-export const editPolicyTracker = (e: Object) => track(AUTOMATION_POLICY_EDIT, e);
-export const clickTurboLinkForDetailsTracker = (e: Object) => track(CLICK_TURBO_LINK_FOR_DETAILS, e);
-export const viewTurboActionTracker = (e: Object) => track(VIEW_TURBO_ACTION, e);
+// Segment trackers
+export type TrackingFunction = (optionalPayloadData?: Object) => void;
+export function useSegmentTracker(): {
+  createActionTrackerSegment: TrackingFunction;
+  editActionTrackerSegment: TrackingFunction;
+  runActionTrackerSegment: TrackingFunction;
+  runOptimizationTrackerSegment: TrackingFunction;
+  testActionTrackerSegment: TrackingFunction;
+  createPolicyTrackerSegment: TrackingFunction;
+  editPolicyTrackerSegment: TrackingFunction;
+  actionHistoryTrackerSegment: TrackingFunction;
+  actionHistoryInstanceViewTrackerSegment: TrackingFunction;
+  aiGenaratedActionsTabClickTrackerSegment: TrackingFunction;
+  viewAIGenaratedActionTrackerSegment: TrackingFunction;
+  recommendedActionsTabClickTrackerSegment: TrackingFunction;
+  actionHistoryInstanceDeleteTrackerSegment: TrackingFunction;
+  generateAIButtonClickTrackerSegment: TrackingFunction;
+  generateAIClickPromptStepTrackerSegment: TrackingFunction;
+  selectNextPromptStepClickTrackerSegment: TrackingFunction;
+  selectNextCustomizeActionStepClickTrackerSegment: TrackingFunction;
+  AIActionContentModifiedTrackerSegment: TrackingFunction;
+  AIActionLeaveGenerateDialogTrackerSegment: TrackingFunction;
+  aiActionScriptSelectStepNextTrackerSegment: TrackingFunction;
+  aiActionScriptGenerateAIButtonTrackerSegment: TrackingFunction;
+  aiActionScriptGenerateStepNextClickTrackerSegment: TrackingFunction;
+} {
+  const { trackCta, unstable_trackEvent } = useSegmentTracking();
+
+  function createActionTrackerSegment(customData?: Object): void {
+    unstable_trackEvent(CREATED_OBJECT, { objectType: AUTOMATION_ACTION_CREATE }, customData);
+  }
+
+  function editActionTrackerSegment(customData?: Object): void {
+    unstable_trackEvent(UPDATED_OBJECT, { objectType: AUTOMATION_ACTION_EDIT }, customData);
+  }
+
+  function runActionTrackerSegment(customData?: Object): void {
+    unstable_trackEvent(STARTED_PROCESS, { processType: AUTOMATION_ACTION_RUN }, customData);
+  }
+
+  function runOptimizationTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_OPTIMIZATION_RUN_CLICK, customData);
+  }
+
+  function testActionTrackerSegment(customData?: Object): void {
+    unstable_trackEvent(STARTED_PROCESS, { processType: AUTOMATION_TEST_ACTION_RUN }, customData);
+  }
+
+  function createPolicyTrackerSegment(customData?: Object): void {
+    unstable_trackEvent(CREATED_OBJECT, { objectType: AUTOMATION_POLICY_CREATE }, customData);
+  }
+
+  function editPolicyTrackerSegment(customData?: Object): void {
+    unstable_trackEvent(UPDATED_OBJECT, { objectType: AUTOMATION_POLICY_EDIT }, customData);
+  }
+
+  function actionHistoryTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_ACTION_HISTORY_VIEW, customData);
+  }
+  function actionHistoryInstanceViewTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_ACTION_HISTORY_INSTANCE_VIEW, customData);
+  }
+
+  function aiGenaratedActionsTabClickTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_CLICK_AI_GENERATED_ACTIONS_TAB, customData);
+  }
+
+  function viewAIGenaratedActionTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_VIEW_AI_GENERATED_ACTION, customData);
+  }
+
+  function recommendedActionsTabClickTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_RECOMMENDED_ACTIONS_TAB_CLICK, customData);
+  }
+
+  function actionHistoryInstanceDeleteTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_ACTION_HISTORY_INSTANCE_DELETE, customData);
+  }
+
+  function generateAIButtonClickTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_GENERATE_AI_BUTTON_CLICK, customData);
+  }
+
+  function generateAIClickPromptStepTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_GENERATE_AI_ACTION_CLICK_PROMPT_STEP, customData);
+  }
+
+  function selectNextPromptStepClickTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_AI_SELECT_NEXT_PROMPT_STEP_CLICK, customData);
+  }
+
+  function selectNextCustomizeActionStepClickTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_AI_SELECT_NEXT_CUSTOMIZE_ACTION_STEP_CLICK, customData);
+  }
+
+  function AIActionContentModifiedTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_AI_ACTION_CONTENT_MODIFIED, customData);
+  }
+
+  function AIActionLeaveGenerateDialogTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_AI_LEAVE_GENERATE_DIALOG, customData);
+  }
+
+  function aiActionScriptSelectStepNextTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_AI_SCRIPT_SELECT_STEP_NEXT_CLICK, customData);
+  }
+
+  function aiActionScriptGenerateAIButtonTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_GENERATE_AI_SCRIPT_BUTTON_CLICK_STEP2, customData);
+  }
+
+  function aiActionScriptGenerateStepNextClickTrackerSegment(customData?: Object): void {
+    trackCta(AUTOMATION_AI_SCRIPT_GENERATE_STEP_NEXT_CLICK, customData);
+  }
+
+  return {
+    createActionTrackerSegment,
+    editActionTrackerSegment,
+    runActionTrackerSegment,
+    runOptimizationTrackerSegment,
+    testActionTrackerSegment,
+    createPolicyTrackerSegment,
+    editPolicyTrackerSegment,
+    actionHistoryTrackerSegment,
+    actionHistoryInstanceViewTrackerSegment,
+    aiGenaratedActionsTabClickTrackerSegment,
+    viewAIGenaratedActionTrackerSegment,
+    recommendedActionsTabClickTrackerSegment,
+    actionHistoryInstanceDeleteTrackerSegment,
+    generateAIButtonClickTrackerSegment,
+    generateAIClickPromptStepTrackerSegment,
+    selectNextPromptStepClickTrackerSegment,
+    selectNextCustomizeActionStepClickTrackerSegment,
+    AIActionContentModifiedTrackerSegment,
+    AIActionLeaveGenerateDialogTrackerSegment,
+    aiActionScriptSelectStepNextTrackerSegment,
+    aiActionScriptGenerateAIButtonTrackerSegment,
+    aiActionScriptGenerateStepNextClickTrackerSegment
+  };
+}

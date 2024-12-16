@@ -6,108 +6,49 @@
 
 import React from 'react';
 
-import { DashboardButton, HeaderItemTile, HeaderTile, Stack } from '@instana/components';
+import { Stack } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-// @ts-expect-error missing a type definition for it
-import UrlShortenerOverlay from 'in-components/DashboardHeader/UrlShortener/UrlShortenerOverlay';
-import { track, URL_SHORTENER_OPEN } from 'in-services/tracking/tracking';
-import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { openAssistMe } from 'in-plg/components/AssistMe/AssistMe';
+import OnboardingCarousel from 'in-plg/components/WelcomeHeader/OnboardingCarousel/OnboardingCarousel';
+import { AccountActivationProp } from 'in-plg/pages/WelcomePage/widgets/hooks/useGetAccountActivation';
+import WelcomeToolbar, { UrlShortener } from 'in-plg/components/WelcomeHeader/toolbar/WelcomeToolbar';
+import { playwithEnabled, shareAndInviteEnabled } from 'in-services/featureFlags';
 import DatePicker from 'in-plg/components/DatePicker/DatePicker';
-import Overlay from 'in-components/overlays/Overlay';
 import { user } from 'in-stores/user';
 
-export default function WelcomeHeader() {
-  // @ts-expect-error The User type needs to be updated.
-  const headerTitle = `${t('in-plg:welcomepage.heading')}, ${user?.fullName ?? ''}!`;
-  const { createHrefToPath } = useNavigation();
+import locals from 'in-plg/components/WelcomeHeader/WelcomeHeader.mless';
 
-  const tileData = [
-    {
-      key: 'consumeData',
-      title: t('in-plg:welcomepage.consumeData.title'),
-      description: t('in-plg:welcomepage.consumeData.description'),
-      buttonName: t('in-plg:welcomepage.consumeData.buttonName'),
-      buttonType: t('in-plg:welcomepage.consumeData.buttonType')
-    },
-    {
-      key: 'inviteTeammates',
-      title: t('in-plg:welcomepage.inviteTeammates.title'),
-      description: t('in-plg:welcomepage.inviteTeammates.description'),
-      buttonName: t('in-plg:welcomepage.inviteTeammates.buttonName'),
-      buttonType: t('in-plg:welcomepage.inviteTeammates.buttonType')
-    },
-    {
-      key: 'nextSteps',
-      title: t('in-plg:welcomepage.nextSteps.title'),
-      description: t('in-plg:welcomepage.nextSteps.description'),
-      buttonName: t('in-plg:welcomepage.nextSteps.buttonName'),
-      buttonType: t('in-plg:welcomepage.nextSteps.buttonType')
-    }
-  ];
+interface WelcomeHeaderProps {
+  onboardingHeaderEnabled: boolean;
+  accountActivationData: AccountActivationProp;
+}
 
-  function createRedirectHref(currentTile: string) {
-    if (currentTile == 'consumeData') {
-      return createHrefToPath('/agents/installation');
-    } else {
-      return createHrefToPath('/config/team/accessControl/users');
-    }
-  }
-
+export default function WelcomeHeader({ onboardingHeaderEnabled, accountActivationData }: WelcomeHeaderProps) {
+  const username = onboardingHeaderEnabled
+    ? `, ${user?.fullName ?? ''}!`
+    : !playwithEnabled
+    ? `, ${user?.fullName ?? ''}!`
+    : '';
+  const headerTitle = `${t('in-plg:welcomepage.heading')}${username}`;
   return (
-    <div data-search-context={t('in-plg:assistme.dataSearchContext.gettingStarted')}>
-      <HeaderTile headerTitle={headerTitle} datepicker={<DatePickerHeader />}>
-        {tileData.map(({ title, description, buttonName, buttonType, key }) => (
-          <HeaderItemTile
-            key={key}
-            title={title}
-            description={description}
-            buttonName={buttonName}
-            buttonType={buttonType === 'primary' ? 'primary' : 'ghost'}
-            href={key === 'nextSteps' ? undefined : createRedirectHref(key)}
-            onClick={e => {
-              e.stopPropagation();
-              if (key === 'nextSteps') {
-                openAssistMe();
-              }
-            }}
-          />
-        ))}
-      </HeaderTile>
+    <div
+      className={locals.stickyHeader}
+      data-search-context={t('in-plg:assistme.dataSearchContext.gettingStarted')}
+      data-testid="header"
+    >
+      <WelcomeToolbar title={headerTitle} shareAndInviteEnabled={shareAndInviteEnabled} />
+      {onboardingHeaderEnabled && <OnboardingCarousel accountActivationData={accountActivationData} />}
     </div>
   );
 }
 
 export function DatePickerHeader() {
   return (
-    <div className="header">
+    <div className="header" data-testid="date-picker">
       <Stack direction="horizontal">
-        <UrlShortener darkTheme={false} />
+        {!shareAndInviteEnabled && <UrlShortener darkTheme={false} />}
         <DatePicker darkTheme={false} />
       </Stack>
     </div>
-  );
-}
-
-export function UrlShortener(props: any) {
-  return (
-    <Overlay props={props} content={UrlShortenerOverlay} withoutWrapper withoutArrow>
-      {({ toggle, refSetter }) => (
-        <DashboardButton
-          id="url-shortener-button"
-          ariaLabel={t('in-plg:welcomepage.ariaLabel.shareButton')}
-          icon="lib_actions_interface_link"
-          iconDescription={t('in-plg:welcomepage.UrlShortener')}
-          kind="tertiary"
-          onClick={e => {
-            track(URL_SHORTENER_OPEN);
-            toggle();
-            e.stopPropagation();
-          }}
-          ref={refSetter}
-        />
-      )}
-    </Overlay>
   );
 }

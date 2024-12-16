@@ -16,14 +16,16 @@ import { AdvancedBluePrint, getAdvancedBlueprintConfig } from 'in-synthetics/cre
 import SSLCertificateConfiguration from 'in-synthetics/createTests/advanced/SSLCertificateConfiguration';
 import BrowserSimpleConfiguration from 'in-synthetics/createTests/advanced/BrowserSimpleConfiguration';
 import BluePrintSelectionSection from 'in-synthetics/createTests/advanced/BluePrintSelectionSection';
+import AssociationsCommonSection from 'in-synthetics/createTests/wizard/AssociationsCommonSection';
 import CustomPropertiesSection from 'in-synthetics/createTests/advanced/CustomPropertiesSection';
 import ConfigurationSection from 'in-synthetics/createTests/advanced/ConfigurationSection';
+import ApplicationsSection from 'in-synthetics/createTests//wizard/ApplicationsSection';
 import ConfigureLocations from 'in-synthetics/createTests/advanced/ConfigureLocations';
 import SelectScheduleStep from 'in-synthetics/createTests/wizard/SelectScheduleStep';
 import IdentifySection from 'in-synthetics/createTests/advanced/IdentifySection';
 import ScriptsSection from 'in-synthetics/createTests/advanced/ScriptsSection';
-import { syntheticCertificateCheckEnabled } from 'in-services/featureFlags';
 import StepsContainer from 'in-components/StepsContainer/StepsContainer';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { getLocationsAsResultObservable } from 'in-synthetics/api';
 import { AdvancedModeProps } from 'in-synthetics/utils/constants';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -57,10 +59,17 @@ const AdvancedMode = ({
   setInvalidTimeout
 }: AdvancedModeProps) => {
   const EMPTY = [] as SyntheticLocation[];
+  const getSelectedBlueprintIndex = () => {
+    if (testTypeSelected.browser.simple || testTypeSelected.browser.script) {
+      return 1;
+    } else if (testTypeSelected.api.simple || testTypeSelected.api.script) {
+      return 0;
+    } else {
+      return 2;
+    }
+  };
   const [selectedBlueprint, setSelectedBlueprint] = useState<AdvancedBluePrint>(
-    getAdvancedBlueprintConfig(syntheticCertificateCheckEnabled)[
-      testTypeSelected.browser.simple || testTypeSelected.browser.script ? 1 : 0
-    ]
+    getAdvancedBlueprintConfig()[getSelectedBlueprintIndex()]
   );
   const timeConfig = useTimeConfig();
   const applications: Result<GroupPermissionEntity[]> =
@@ -196,8 +205,25 @@ const AdvancedMode = ({
       valid: true,
       content: <IdentifySection form={form} updateForm={updateForm} applications={applications} />
     },
+    syntheticRbacLimitedEnabled
+      ? {
+          scrollId: '6',
+          label: t('in-synthetics:dialog.createTest.advancedMode.associationsLabel'),
+          title: t('in-synthetics:dialog.createTest.advancedMode.associationsTitle'),
+          subTitle: t('in-synthetics:dialog.createTest.advancedMode.associationsDescription'),
+          valid: true,
+          content: <AssociationsCommonSection form={form} updateForm={updateForm} setSliderState={setSliderState} />
+        }
+      : {
+          scrollId: '6',
+          label: t('in-synthetics:dialog.createTest.advancedMode.associationsLabel'),
+          title: t('in-synthetics:dialog.createTest.advancedMode.applicationsTitle'),
+          subTitle: t('in-synthetics:dialog.createTest.advancedMode.applicationsDescription'),
+          valid: true,
+          content: <ApplicationsSection form={form} updateForm={updateForm} applications={applications} />
+        },
     {
-      scrollId: '6',
+      scrollId: '7',
       label: t('in-synthetics:dialog.createTest.advancedMode.customPropertiesTitle'),
       title: t('in-synthetics:dialog.createTest.advancedMode.customPropertiesTitle'),
       valid: true,
@@ -216,7 +242,13 @@ const AdvancedMode = ({
 
   const getRenderSections = (value: number) => {
     if (value >= 1) {
-      return [mainSection, switchTestTypeSection, ...commonSections];
+      return syntheticRbacLimitedEnabled
+        ? [mainSection, switchTestTypeSection, ...commonSections]
+        : [
+            mainSection,
+            switchTestTypeSection,
+            ...commonSections.filter(commonSection => commonSection.scrollId !== '6')
+          ];
     }
     return [mainSection];
   };

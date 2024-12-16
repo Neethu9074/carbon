@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Link, Button } from '@instana/components';
 
 import TrackingSnippetPresenter from 'in-websites/trackingSnippet/TrackingSnippetPresenter';
 import Paragraph from 'in-websites/NewWebsiteFlow/Paragraph';
@@ -14,7 +13,15 @@ import Actions from 'in-websites/NewWebsiteFlow/Actions';
 import Frame from 'in-websites/NewWebsiteFlow/Frame';
 import { SecureString, t, Trans } from 'in-i18n';
 
-export default function ReadyStep({ websiteId, websiteName, websiteLink, trackSessions, setTrackSessions }) {
+export default function ReadyStep({
+  websiteId,
+  websiteName,
+  websiteLink,
+  trackSessions,
+  setTrackSessions,
+  enableSRI,
+  setEnableSRI
+}) {
   return (
     <Frame title={t('in-websites:newWebsiteFlow.readyStepTitleEverythingsReady')}>
       <Paragraph>
@@ -30,7 +37,9 @@ export default function ReadyStep({ websiteId, websiteName, websiteLink, trackSe
       <TrackingSnippetPresenter
         websiteId={websiteId}
         trackSessions={trackSessions}
+        enableSRI={enableSRI}
         setTrackSessions={setTrackSessions}
+        setEnableSRI={setEnableSRI}
       />
 
       <Actions>

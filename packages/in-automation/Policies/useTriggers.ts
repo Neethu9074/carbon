@@ -4,19 +4,15 @@
  * Copyright IBM Corp. 2023
  */
 
+import {
+  EventSpecificationInfo,
+  LogAlertConfigWithMetadata,
+  Result,
+  ServiceLevelsAlertConfigWithMetadata,
+  SyntheticAlertConfigWithMetadata
+} from '@instana/types';
 import { useObservable } from '@instana/hooks';
 
-import {
-  ApplicationAlertConfigWithMetadata,
-  EventSpecificationInfo,
-  GlobalApplicationsAlertConfigWithMetadata,
-  InfraAlertConfigWithMetadata,
-  LogAlertConfigWithMetadata,
-  MobileAppAlertConfigWithMetadata,
-  Result,
-  SyntheticAlertConfigWithMetadata,
-  WebsiteAlertConfigWithMetadata
-} from 'in-types';
 import {
   getEventSpecifications,
   getApplicationSmartAlertConfigs,
@@ -25,32 +21,43 @@ import {
   getMobileAppSmartAlertConfigs,
   getInfraSmartAlertConfigs,
   getLogSmartAlertConfigs,
-  getSyntheticSmartAlertConfigs
+  getSyntheticSmartAlertConfigs,
+  getSloSmartAlertConfigs
 } from 'in-automation/api';
+import {
+  ApplicationSmartAlertConfigWithMetadata,
+  GlobalApplicationsSmartAlertConfigWithMetadata
+} from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
+import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
+import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { pendingResult } from 'in-services/fixedObjects';
-import { Triggers } from 'in-automation/Policies/types';
 import { mapData } from 'in-services/util/result';
+import { Triggers } from 'in-automation/types';
 
 export default function useTriggers(): Triggers {
   const eventSpecification =
     useObservable(getEventSpecifications, []) ?? (pendingResult as Result<EventSpecificationInfo[]>);
   const applicationSmartAlert =
     useObservable(getApplicationSmartAlertConfigs, []) ??
-    (pendingResult as Result<ApplicationAlertConfigWithMetadata[]>);
+    (pendingResult as Result<ApplicationSmartAlertConfigWithMetadata[]>);
   const websiteSmartAlert =
-    useObservable(getWebsiteSmartAlertConfigs, []) ?? (pendingResult as Result<WebsiteAlertConfigWithMetadata[]>);
+    useObservable(getWebsiteSmartAlertConfigs, []) ?? (pendingResult as Result<WebsiteSmartAlertConfigWithMetadata[]>);
   const globalApplicationSmartAlert =
     useObservable(getGlobalApplicationSmartAlertConfigs, []) ??
-    (pendingResult as Result<GlobalApplicationsAlertConfigWithMetadata[]>);
+    (pendingResult as Result<GlobalApplicationsSmartAlertConfigWithMetadata[]>);
   const mobileAppSmartAlert =
-    useObservable(getMobileAppSmartAlertConfigs, []) ?? (pendingResult as Result<MobileAppAlertConfigWithMetadata[]>);
+    useObservable(getMobileAppSmartAlertConfigs, []) ??
+    (pendingResult as Result<MobileAppSmartAlertConfigWithMetadata[]>);
   const infraSmartAlert =
-    useObservable(getInfraSmartAlertConfigs, []) ?? (pendingResult as Result<InfraAlertConfigWithMetadata[]>);
+    useObservable(getInfraSmartAlertConfigs, []) ?? (pendingResult as Result<InfraSmartAlertConfigWithMetadata[]>);
   const logSmartAlert =
     useObservable(getLogSmartAlertConfigs, []) ?? (pendingResult as Result<LogAlertConfigWithMetadata[]>);
   const syntheticsSmartAlert = useObservable(getSyntheticSmartAlertConfigs, []) as Result<
     SyntheticAlertConfigWithMetadata[]
   >;
+  const sloSmartAlert =
+    useObservable(getSloSmartAlertConfigs, []) ?? (pendingResult as Result<ServiceLevelsAlertConfigWithMetadata[]>);
 
   const customEvent = mapData(eventSpecification, data =>
     data?.reduce<EventSpecificationInfo[]>((specs, eventSpecification) => {
@@ -78,6 +85,7 @@ export default function useTriggers(): Triggers {
     mobileAppSmartAlert,
     infraSmartAlert,
     logSmartAlert,
-    syntheticsSmartAlert
+    syntheticsSmartAlert,
+    sloSmartAlert
   };
 }

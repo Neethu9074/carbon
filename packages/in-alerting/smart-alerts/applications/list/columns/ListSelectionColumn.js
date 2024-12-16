@@ -6,13 +6,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { Checkbox } from '@instana/components';
 
 export default function ListSelectionColumn({ config, selection, onSelect }) {
   const { id } = config;
   const selected = selection.some(i => id === i);
   return (
-    <CheckboxFancy
+    <Checkbox
       onChange={() => {
         onSelect(id, !selected);
       }}

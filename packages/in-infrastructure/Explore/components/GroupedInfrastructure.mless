@@ -4,6 +4,7 @@
  */
 
 @import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
   .list {
@@ -28,5 +29,38 @@
 
   .italic {
     font-style: italic;
+  }
+
+  .carbonHeaderLabel {
+    word-break: break-all;
+    height: 1.9rem;
+    white-space: inherit;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    align-content: center;
+  }
+
+  .carbonHeaderCountLabelColumn {
+    white-space: inherit;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    align-content: center;
+  }
+
+  .carbonRowWordBreak {
+    word-break: break-word;
+    min-width: 3rem;
+  }
+  .bdi {
+    .ellipsis();
+    table-layout: fixed;
+    width: 100%;
+    display: table;
+    direction: rtl;
+  }
+  .carbonHeaderEllipsis {
+    .ellipsis();
+    display: block;
+    text-align: left;
   }
 }

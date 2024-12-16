@@ -19,7 +19,7 @@ export default function EntityWithIcon({ label, tooltip, type, technologies, roo
       {(type || technologies || icon) && (
         <MultipleTechnologiesIcon type={type} icon={icon} technologies={technologies} size={size} />
       )}
-      <Tooltip content={tooltip ?? label} delay={500}>
+      <Tooltip content={tooltip ?? label} delay={500} overflowEllipsis>
         <span
           className={classNames({
             [locals.label]: true,

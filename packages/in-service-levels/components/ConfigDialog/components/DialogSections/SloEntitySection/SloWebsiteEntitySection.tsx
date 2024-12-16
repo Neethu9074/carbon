@@ -6,7 +6,7 @@
 
 import React, { useContext, useState } from 'react';
 
-import { Typography } from '@instana/components';
+import { Typography, SearchInput } from '@instana/components';
 import { Website } from '@instana/types';
 
 import SloEntityTable, {
@@ -19,7 +19,6 @@ import { isFieldValid } from 'in-service-levels/components/ConfigDialog/createSl
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import useWebsiteEntities from 'in-service-levels/hooks/useWebsiteEntities';
 import Sections from 'in-components/workspace/Sections/Sections';
-import SearchInput from 'in-components/SearchInput/SearchInput';
 import { finishedProgress } from 'in-services/fixedObjects';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import useWebsite from 'in-websites/hooks/useWebsite';
@@ -36,8 +35,8 @@ export default function SloWebsiteEntitySection() {
   } = useDebouncedValue(query, setQuery);
 
   const entityTypeField = form.getIn(['entity', 'type']);
-  const entityIdField = form.getIn(['entity', 'entityId']);
-  const entityId = entityIdField.value;
+  const entityIdField = form.getIn(['entity', 'entityIds']);
+  const entityId = entityIdField.value[0];
 
   const [separatelyLoadedEntity, , , labelProgress] = useWebsite(entityId);
   const [entityResult, , , entitiesProgress] = useWebsiteEntities({
@@ -55,7 +54,7 @@ export default function SloWebsiteEntitySection() {
   const isEntityIdFieldValid = isFieldValid(entityIdField);
 
   const onEntityChange = ({ id }: EntityData) => {
-    onChange(['entity', 'entityId'], () => entityIdField.setValue(id).setTouched(true));
+    onChange(['entity', 'entityIds'], () => entityIdField.setValue([id]).setTouched(true));
   };
 
   const sortedEntities = [
@@ -71,19 +70,24 @@ export default function SloWebsiteEntitySection() {
         <Typography variant="heading-200" component="h2">
           {t('in-service-levels:general.select', { entity: entityTypeField.value })}
         </Typography>
-        <SearchInput query={queryInput} onChange={q => setQueryDebounced(q)} />
+        <SearchInput
+          query={queryInput}
+          onChange={q => setQueryDebounced(q)}
+          placeholder={t('in-components:searchInput.placeholderSearch')}
+        />
       </SloTableHeader>
       {!isEntityIdFieldValid &&
         entityIdField.messages.map(({ message, path }, index) => (
           <ValidationBlock key={`${path}:${index}`}>{message}</ValidationBlock>
         ))}
       <SloEntityTable
-        hasError={!isEntityIdFieldValid}
+        asRadioButton
+        canLoadMore={canLoadMore}
         entityList={sortedEntities}
+        hasError={!isEntityIdFieldValid}
+        loadMore={loadMore}
         onChange={onEntityChange}
         progress={progress}
-        canLoadMore={canLoadMore}
-        loadMore={loadMore}
       />
     </Sections>
   );

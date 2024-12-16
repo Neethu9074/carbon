@@ -7,13 +7,12 @@ import React, { useMemo } from 'react';
 import { sortedUniqBy } from 'lodash';
 import classNames from 'classnames';
 
+import { Select, SearchInput } from '@instana/components';
 import { themes } from '@instana/design-tokens';
-import { Select } from '@instana/components';
 
 import { types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { compareIgnoreCase, isNotBlank } from 'in-services/util/string';
-import SearchInput from 'in-components/SearchInput';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -53,6 +52,7 @@ export default function Filter({ query, setQuery, page, setPage, filterTypes, se
         <SearchInput
           maxWidth="10rem"
           query={query}
+          placeholder={t('in-components:searchInput.placeholderSearch')}
           onChange={query => {
             if (isNotBlank(query)) {
               setQuery(query);

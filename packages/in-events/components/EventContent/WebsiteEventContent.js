@@ -17,32 +17,41 @@ import { HighlightDataRetention } from 'in-events/components/EventContent/Highli
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import { hasManualCloseFields, getEventStateBadge } from 'in-events/components/eventUtil';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
+import ManualCloseDescription from 'in-events/components/legacy/ManualCloseDescription';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import AnalyzeWebsiteEventButton from 'in-events/components/AnalyzeWebsiteEventButton';
 import WebsiteAlertConfigButton from 'in-events/components/WebsiteAlertConfigButton';
+import TriggeredIncidentButton from '../tabs/Summary/common/TriggeredIncidentButton';
 import useWebsiteEventAlertConfig from 'in-events/hooks/useWebsiteEventAlertConfig';
 import { isApproximatePrecision } from 'in-events/components/util/metricResultUtil';
 import { getWindowSizeFromEvent } from 'in-alerting/components/Chart/chartUtils';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
+import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
+import { getEventSeverityLabelWithEventType } from 'in-stores/events';
+import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { emptyMap } from 'in-services/fixedImmutables';
+import EventIcon from 'in-events/components/EventIcon';
 import { Row, Col } from 'in-components/layout/Grid';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/EventContent/WebsiteEventContent.mless';
 
-export default function WebsiteEventContent({ event, snapshot }) {
+export default function WebsiteEventContent({ event, snapshot, reload }) {
   const eventEntity = useWebsiteEventEntity(event);
   const alertConfig = useWebsiteEventAlertConfig(event);
   const [metricResultPrecision, setMetricResultPrecision] = useState();
 
   if (!eventEntity || !alertConfig) {
-    return null;
+    return <LoadingIndicator size="xxxl" />;
   }
 
   const fixSuggestion = event.getIn(['problem', 'fixSuggestion'], '');
@@ -67,23 +76,52 @@ export default function WebsiteEventContent({ event, snapshot }) {
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
+  const canCloseManually = manuallyCloseEventEnabled && role?.canManuallyCloseIssue;
+  const pillContent = getEventStateBadge(event);
+
   return (
     <>
       <Row withoutSideMargin>
         <Col xs>
-          <Card title={t('in-events:titleDescription')}>
+          <Card title={t('in-events:titleDescription')} leftHeaderContent={pillContent}>
             <WebsiteScopePath {...eventEntity} timeConfig={getTimeConfigFromEvent(event)} showDashboardLinks />
 
-            <ProblemDescription fixSuggestion={fixSuggestion} className="in-event-view-event-content" />
-            <DescriptionButtons>
-              <WebsiteAlertConfigButton alertConfig={alertConfig} />
-              <AnalyzeWebsiteEventButton
-                websiteName={eventEntity.websiteName}
-                alertConfig={alertConfig}
-                timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
-                adaptiveBaselineInfo={adaptiveBaselineInfo}
-              />
-            </DescriptionButtons>
+            <ProblemDescription fixSuggestion={fixSuggestion} />
+            {canCloseManually && hasManualCloseFields(event) ? (
+              <div>
+                <ManualCloseDescription event={event} />
+                <DescriptionButtons>
+                  <TriggeredIncidentButton event={event} />
+                  <WebsiteAlertConfigButton alertConfig={alertConfig} />
+                  <AnalyzeWebsiteEventButton
+                    websiteName={eventEntity.websiteName}
+                    alertConfig={alertConfig}
+                    timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
+                    adaptiveBaselineInfo={adaptiveBaselineInfo}
+                  />
+                </DescriptionButtons>
+              </div>
+            ) : (
+              <DescriptionButtons>
+                {canCloseManually && (
+                  <ManualCloseIssueButton
+                    event={event}
+                    reload={reload}
+                    iconComponent={
+                      <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
+                    }
+                  />
+                )}
+                <TriggeredIncidentButton event={event} />
+                <WebsiteAlertConfigButton alertConfig={alertConfig} />
+                <AnalyzeWebsiteEventButton
+                  websiteName={eventEntity.websiteName}
+                  alertConfig={alertConfig}
+                  timeConfig={getSmartAlertAnalyzeTimeConfig(event, alertConfig)}
+                  adaptiveBaselineInfo={adaptiveBaselineInfo}
+                />
+              </DescriptionButtons>
+            )}
           </Card>
         </Col>
       </Row>

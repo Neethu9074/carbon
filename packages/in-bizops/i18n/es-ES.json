@@ -1,7 +1,7 @@
 {
   "labelBizOps": "Procesos",
-  "labelSmartAlerts": "Alertas inteligentes",
-  "labelActivities": "Actividades",
+  "labelPerspectives": "Perspectivas",
+  "labelPerspective": "Perspectiva",
   "components": {
     "count": "Count"
   },
@@ -15,8 +15,61 @@
     "noData": "No hay datos disponibles.",
     "healthLabel": "Estado",
     "startLabel": "Iniciado",
+    "latencyLabel": "Latencia",
     "unnamedActivity": "(Actividad sin nombre) {{activityType}}",
     "unnamedService": "(Servicio sin nombre)"
+  },
+  "customDashboards": {
+    "activityCountMetric": "Recuento de actividades",
+    "erroneousActivityCallsCountLabel": "Llamadas de actividad erróneas (recuento)",
+    "erroneousActivityCallsCategory": "Llamadas de actividad erróneas",
+    "erroneousActivityCallsRateLabel": "Llamadas de actividad erróneas (tasa)",
+    "latency": "Latencia"
+  },
+  "processes": {
+    "deployAgent": "Desplegar agente",
+    "noProcessesAvailable": "No hay procesos empresariales disponibles.",
+    "deployAgentFirst": "Primero debe desplegar un agente.",
+    "forMoreInformation": "Para más información, lea la",
+    "documentation": "documentación."
+  },
+  "perspectives": {
+    "newPerspective": "Crear perspectiva",
+    "lists": {
+      "perspectives": "Perspectivas de negocio",
+      "descriptionLabel": "Descripción",
+      "numberProcessesLabel": "Número de procesos"
+    },
+    "processesLiveList": {
+      "title": "Procesos empresariales coincidentes",
+      "empty": "Añadir filtros para crear la perspectiva de negocio",
+      "invalidQuery": "Su consulta no es válida",
+      "noMatchedProcesses": "No se han encontrado procesos empresariales coincidentes",
+      "loadingStateLabel": "Cargando procesos"
+    },
+    "dialog": {
+      "title": "Nueva perspectiva de negocio",
+      "stepOne": {
+        "progressBarTitle": "Paso 1: Filtrar los procesos empresariales para crear su perspectiva empresarial",
+        "headline": "Filtre los procesos empresariales para crear su perspectiva empresarial",
+        "queryBuilderTitle": "Procesos empresariales"
+      },
+      "stepTwo": {
+        "progressBarTitle": "Paso 2: Proporcionar detalles",
+        "headline": "Proporcionar detalles",
+        "perspectiveName": "Nombre de perspectiva",
+        "perspectiveDescription": "Descripción"
+      }
+    },
+    "errorMessages": {
+      "tagFilterExpressionMustNotBeEmpty": "La Perspectiva empresarial debe tener al menos un filtro",
+      "createOperationFailed": "Error en la operación de creación",
+      "unableToCreatePerspective": "No hemos podido crear su perspectiva de negocio. Inténtelo de nuevo."
+    },
+    "successMessages": {
+      "businessPerspectiveCreated": "Se ha creado la perspectiva empresarial",
+      "perspectiveWasSuccessfullyCreated": "\"{{perspectiveName}}\" se ha creado correctamente."
+    }
   },
   "navigation": {
     "businessMonitoring": "Supervisión de negocio"
@@ -42,12 +95,14 @@
     "activity": {
       "pageTitle": "Actividad empresarial",
       "summaryTab": "Resumen",
+      "servicesTab": "Servicios",
       "widgets": {
         "duration": "Duración",
         "activityCount": "Count",
         "activityErrors": "Errores",
         "topServices": "Servicios principales",
-        "activityLatency": "Latencia"
+        "activityLatency": "Latencia",
+        "viewAll": "Ver todos los servicios"
       },
       "timespans": {
         "minute": "1 minuto",
@@ -55,6 +110,34 @@
         "day": "1 día",
         "week": "1 semana"
       }
+    },
+    "perspectives": {
+      "pageTitleDefault": "Perspectiva empresarial",
+      "processes": {
+        "tabLabel": "Procesos de negocio"
+      },
+      "configuration": {
+        "tabLabel": "Configuración",
+        "loadingText": "Cargando datos",
+        "updateCardLabel": "Actualizar perspectiva de negocio",
+        "stepOneHeader": "1. Editar nombre y descripción",
+        "perspectiveName": "Nombre de perspectiva",
+        "perspectiveDescription": "Descripción",
+        "stepTwoHeader": "2. Editar filtro",
+        "saveChangesButton": "Guardar",
+        "removeCardLabel": "Eliminar perspectiva de negocio",
+        "removePerspectiveDisclaimer": "Si ya no desea utilizar esta perspectiva de negocio, pulse \"Eliminar perspectiva de negocio\".",
+        "removePerspectiveCheckbox": "Entiendo que esta acción no se puede deshacer",
+        "removePerspectiveButton": "Eliminar perspectiva de negocio",
+        "businessPerspectiveDeleted": "Se ha eliminado la perspectiva empresarial",
+        "businessPerspectiveDeletedDetails": "\"{{perspectiveName}}\" se ha eliminado correctamente.",
+        "businessPerspectiveUpdated": "Se ha actualizado la perspectiva empresarial",
+        "businessPerspectiveUpdatedDetails": "\"{{perspectiveName}}\" se ha editado y sus cambios se han guardado.",
+        "error": "Error"
+      }
+    },
+    "flowMap": {
+      "tabLabel": "Flujo"
     }
   }
 }

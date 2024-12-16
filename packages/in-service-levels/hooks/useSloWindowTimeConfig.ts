@@ -4,11 +4,12 @@
  * Copyright IBM Corp. 2023
  */
 
-import { addDays, addMonths, addWeeks, isBefore, subDays, subMonths, subWeeks } from 'date-fns';
+import { isBefore } from 'date-fns';
 import { useMemo } from 'react';
 
-import { DurationUnitType, isFixedTimeWindow, isRollingTimeWindow, TimeConfig, TimeWindow } from '@instana/types';
+import { isFixedTimeWindow, isRollingTimeWindow, TimeConfig, TimeWindow } from '@instana/types';
 
+import { getAddForTimeWindowUnit, getSubForTimeWindowUnit, toFixedTimeConfig } from 'in-service-levels/utils/time';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 /**
@@ -56,37 +57,4 @@ export function calculateTimeConfigForSloTimeWindow(timeConfig: TimeConfig, time
   }
 
   return timeConfig;
-}
-
-function getSubForTimeWindowUnit(durationUnit: DurationUnitType) {
-  switch (durationUnit) {
-    case 'month':
-      return subMonths;
-    case 'week':
-      return subWeeks;
-    case 'day':
-    default:
-      return subDays;
-  }
-}
-
-function getAddForTimeWindowUnit(durationUnit: DurationUnitType) {
-  switch (durationUnit) {
-    case 'month':
-      return addMonths;
-    case 'week':
-      return addWeeks;
-    case 'day':
-    default:
-      return addDays;
-  }
-}
-
-function toFixedTimeConfig(from: number, to: number): TimeConfig {
-  return {
-    windowSize: to - from,
-    to,
-    focusedMoment: to,
-    autoRefresh: false
-  };
 }

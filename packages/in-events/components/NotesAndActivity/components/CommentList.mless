@@ -1,0 +1,98 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+:local {
+  .userIcon {
+    fill: white;
+    background: var(--cds-chat-avatar-agent);
+    border-radius: 1.563rem;
+    padding: 0.125rem;
+  }
+
+  .menuWrapper {
+    position: absolute;
+    right: 1rem;
+    padding-top: 10px;
+  }
+
+  .snowIcon {
+    fill: #62d84e;
+  }
+
+  .aiIcon {
+    fill: white;
+    background-color: var(--cds-chat-avatar-user);
+    border-radius: 1.563rem;
+  }
+
+  .aiIconSlug {
+    border: 1px solid black;
+  }
+
+  .notesSection {
+    position: relative;
+    padding: 0rem 1rem 2.25rem 1rem;
+    overflow: auto;
+    display: flex;
+    height: 100%;
+    flex-direction: column-reverse;
+    -webkit-mask-image: linear-gradient(transparent, black 10%);
+  }
+
+  .bubble {
+    padding: 10px 15px 10px 15px;
+    margin-top: 0.625rem;
+    margin-left: 2rem;
+    white-space: pre-wrap;
+    line-height: normal;
+  }
+
+  .myBubble {
+    background: var(--cds-chat-bubble-user, #edf5ff);
+    border-radius: 8px 0px 8px 8px;
+  }
+
+  .aiGenBubble {
+    padding: 0px;
+    line-height: 1.5;
+  }
+
+  .ext {
+    border-radius: 0px 8px 8px 8px;
+    border: 1px solid var(--cds-border-subtle-01);
+  }
+
+  .chatEntry {
+    display: flex;
+    padding-top: 1.625rem;
+  }
+
+  .myChatEntry {
+    justify-content: flex-end;
+  }
+
+  .chatEntryInfo {
+    padding-top: 5px;
+    padding-left: 5px;
+    color: var(--cds-text-secondary);
+    display: inline-flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .myChatEntryInfo {
+    padding-top: 5px;
+    color: var(--cds-text-secondary);
+  }
+
+  .wordWrap {
+    overflow-wrap: break-word;
+  }
+
+  .spaceForEditDelete {
+    margin-right: 1rem;
+  }
+}

@@ -3,12 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { isEqual } from 'lodash';
 import rpt from 'prop-types';
 
-import { SeverityIndicatorCellContentWrapper, Ul } from '@instana/components';
+import { SeverityIndicatorCellContentWrapper } from '@instana/legacy';
+import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
+import { Ul } from '@instana/components';
 
 import {
   firstValue,
@@ -16,25 +18,33 @@ import {
   getMetricKey,
   getMetricValue,
   getSeriesKey,
-  lastValueForMetric
+  lastValueForMetric,
+  getMetricFormatterFromUnitOrDefault,
+  getConvertedSeries
 } from 'in-infrastructure/Explore/services/metrics';
 import MetricCatalogAndSortingConfigurator from 'in-infrastructure/components/MetricCatalogAndSortingConfigurator/MetricCatalogAndSortingConfigurator';
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-infrastructure/components/MetricCatalogConfigurator/MetricCatalogConfigurator';
 import { formatCsvColumnName, formatCsvColumnValue } from 'in-infrastructure/Explore/services/MetricCsvColumnFormatter';
 import { getLastValueTooltipLabel } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
+import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
+import { extremeValueInSeries, getThresholdColors } from 'in-components/Threshold/threshold';
 import { default as MetricLabel } from 'in-infrastructure/Explore/components/MetricLabel';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import { ChartsPresenter } from 'in-infrastructure/Explore/components/ChartsPresenter';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
+import ThresholdTooltip from 'in-infrastructure/Explore/components/ThresholdTooltip';
 import { default as TagLabel } from 'in-infrastructure/Explore/components/TagLabel';
 import { default as TagValue } from 'in-infrastructure/Explore/components/TagValue';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { fixOrderForBackwardsCompatibility } from 'in-infrastructure/Explore/utils';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import LiErrorList from 'in-infrastructure/Explore/components/LiErrorList';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
+import { getBaseUnit, getUnit } from 'in-stores/metric/units';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { getFormatter } from 'in-stores/metric/formatters';
+import { getSnapshot } from 'in-stores/snapshot/snapshot';
 import { pendingResult } from 'in-services/fixedObjects';
 import { tag_not_present_group } from '../constants';
 import CsvExporter from 'in-components/CsvExporter';
@@ -67,7 +77,7 @@ export default function InfrastructureList({
   type,
   metrics,
   metricMetadatas,
-  order,
+  order: incomingOrder,
   tracking,
   metricCatalog,
   tagCatalog,
@@ -87,7 +97,7 @@ export default function InfrastructureList({
     retrievalSize,
     metrics
   });
-
+  const order = useMemo(() => fixOrderForBackwardsCompatibility(incomingOrder, metrics), [incomingOrder, metrics]);
   const {
     items,
     totalHits,
@@ -101,7 +111,17 @@ export default function InfrastructureList({
     ...tableProps
   } = useCursorPagination(
     ({ cursor }) =>
-      getTableData({ timeConfig, granularity, retrievalSize, backendQueryModel, order, tags, type, metrics, cursor }),
+      getTableData({
+        timeConfig,
+        granularity,
+        retrievalSize,
+        backendQueryModel,
+        order,
+        tags,
+        type,
+        metrics,
+        cursor
+      }),
     [timeConfig, retrievalSize, backendQueryModel, type, order, ...dependencies]
   );
 
@@ -125,10 +145,11 @@ export default function InfrastructureList({
     getLabelColumn(tracking?.onNavigateToEntity, isPreview, timeConfig),
     ...tags.map(tag => {
       const path = (tagCatalog.tagsByName && tagCatalog.tagsByName[tag]?.path?.map(node => node.label)) || [];
+
       return {
         id: tag,
         label: { data: path },
-        renderLabel: TagLabel,
+        renderLabel: ({ label }) => <TagLabel label={{ data: label }} />,
         width: '12rem',
         widthInAbsoluteUnit: true,
         sortable: showHeader || sortableTags,
@@ -150,14 +171,16 @@ export default function InfrastructureList({
       widthInAbsoluteUnit: true,
       sortable: false,
       getContent(item) {
-        const problems = getAllIssues(
-          item.entityHealthInfo?.openIssues,
-          item.entityHealthInfo?.maxSeverity,
-          t('in-infrastructure:explore.noIssues')
+        return (
+          <EntityHealthIndicator
+            openIssues={item.entityHealthInfo?.openIssues?.length ?? 0}
+            maxSeverity={item.entityHealthInfo?.maxSeverity ?? 0}
+            IndicatorPresenter={HealthIndicatorPresenter}
+            timeConfig={timeConfig}
+            snapshotId={item.snapshotId}
+            inContentArea
+          />
         );
-        const openIssues = item.entityHealthInfo?.openIssues?.length ?? 0;
-        const maxSeverity = item.entityHealthInfo?.maxSeverity ?? 0;
-        return <HealthIndicatorPresenter openIssues={openIssues} maxSeverity={maxSeverity} tooltipLabel={problems} />;
       }
     }
   ];
@@ -176,6 +199,7 @@ export default function InfrastructureList({
           onChartedMetricsChange={onChartedMetricsChange}
           tagFilterExpression={backendQueryModel}
           type={type}
+          tracking={tracking}
         />
       )}
       {showHeader && (
@@ -277,42 +301,67 @@ function getTableData({
     metrics: Object.fromEntries(
       metrics
         .filter(({ metric, removeFromTable }) => metric !== undefined && metric !== null && !removeFromTable)
-        .flatMap(({ metric, aggregation, crossSeriesAggregation, regex }) => {
+        .flatMap(({ metric, aggregation, crossSeriesAggregation, regex, required }) => {
           const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
           const kpiGranularity = timeConfig.windowSize;
           return [
-            [id, { metric, granularity: kpiGranularity, aggregation, regex, crossSeriesAggregation }],
-            [getSeriesKey(id), { metric, granularity, aggregation, regex, crossSeriesAggregation }]
+            [id, { metric, granularity: kpiGranularity, aggregation, regex, crossSeriesAggregation, required }],
+            [getSeriesKey(id), { metric, granularity, aggregation, regex, crossSeriesAggregation, required }]
           ];
         })
     ),
     missingPlaceholder: tag_not_present_group
   });
 }
+const DashboardLink = ({ item, isPreview, timeConfig, onNavigateToEntity }) => {
+  const snapshot = useObservable(
+    () => (item.snapshotId ? getSnapshot(item.snapshotId).map(snapshot => snapshot) : just({})),
+    [item.snapshotId]
+  );
+
+  const time = item.time < timeConfig.to ? item.time : undefined;
+  const getDashboardLink = useGetDashboardLink();
+  return (
+    <SeverityIndicatorCellContentWrapper severity={item.entityHealthInfo?.maxSeverity}>
+      <div className={locals.entityLink}>
+        <EntityLink
+          label={item.label}
+          plugin={item.plugin}
+          snapshot={snapshot}
+          href={
+            isPreview
+              ? undefined
+              : getDashboardLink(item.snapshotId, {
+                  pathname: '/physical/dashboard',
+                  to: time,
+                  focusedMoment: time
+                })
+          }
+          onClick={
+            isPreview
+              ? noop
+              : () => {
+                  onNavigateToEntity?.(item.plugin);
+                }
+          }
+        />
+      </div>
+    </SeverityIndicatorCellContentWrapper>
+  );
+};
 
 function getLabelColumn(onNavigateToEntity, isPreview, timeConfig) {
   return {
     id: 'label',
     label: t('in-infrastructure:explore.name'),
     getContent(item) {
-      const time = item.time < timeConfig.to ? item.time : undefined;
       return (
-        <SeverityIndicatorCellContentWrapper severity={item.entityHealthInfo?.maxSeverity}>
-          <div className={locals.entityLink}>
-            <EntityLink
-              label={item.label}
-              plugin={item.plugin}
-              href$={isPreview ? undefined : getDashboardLink(item.snapshotId, { pathname: '/physical/dashboard', to: time, focusedMoment: time })}
-              onClick={
-                isPreview
-                  ? noop
-                  : () => {
-                      onNavigateToEntity?.(item.plugin);
-                    }
-              }
-            />
-          </div>
-        </SeverityIndicatorCellContentWrapper>
+        <DashboardLink
+          item={item}
+          isPreview={isPreview}
+          timeConfig={timeConfig}
+          onNavigateToEntity={onNavigateToEntity}
+        />
       );
     }
   };
@@ -367,7 +416,9 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
         formatterId,
         isFormatterSelected,
         label: metricLabel,
-        lastValue
+        lastValue,
+        unit,
+        threshold
       }) => {
         const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
         const metadata = mapData(metricMetadatas, data => data[metric]);
@@ -387,19 +438,28 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
           defaultDisabled: !isKpi,
           headCellProps: { className: locals.metricLabel },
           getContent(item) {
-            const id = getMetricKey(metric, aggregation);
+            const id = getMetricKey(metric, aggregation, crossSeriesAggregation);
             const metadata = mapData(metricMetadatas, data => data[metric]);
+            const formatterType = formatterId?.split('.')[1];
             const formatter = isFormatterSelected
               ? getFormatter(formatterId)
-              : mapData(metadata, data => data?.formatter).data;
+              : getMetricFormatterFromUnitOrDefault(
+                  getBaseUnit(unit),
+                  mapData(metadata, data => data?.formatter).data,
+                  formatterType
+                );
+            const unitConverter = getUnit(unit)?.converter;
 
             const renderedLabel = <MetricLabel label={label} aggregation={aggregation} />;
             const seriesKey = getSeriesKey(id);
             const kpi = lastValue ? lastValueForMetric(item.metrics[seriesKey]) : firstValue(item.metrics[id]);
-            const series = item.metrics[seriesKey];
+            const series = getConvertedSeries(item.metrics[seriesKey], unitConverter);
             const percentageMetric = mapData(metadata, data => data?.percentageMetric).data;
-            const metricValue = getMetricValue(kpi, formatter);
-            const customValueTooltip = lastValue && getLastValueTooltipLabel(item.adjustedTimeframe);
+            const metricValue = getMetricValue(kpi, formatter, unitConverter);
+            const customValueTooltip = lastValue && getLastValueTooltipLabel(timeConfig);
+
+            const extremeValue = extremeValueInSeries(threshold, series);
+            const { strokeColor, fillColor } = getThresholdColors(threshold, extremeValue, formatterId);
 
             return (
               <SparkChart
@@ -412,6 +472,13 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
                 rollup={granularity}
                 label={renderedLabel}
                 customValueTooltip={customValueTooltip}
+                strokeColor={strokeColor}
+                fillColor={fillColor}
+                customChartTooltip={
+                  threshold && (
+                    <ThresholdTooltip threshold={threshold} formatter={formatter} formatterId={formatterId} />
+                  )
+                }
               />
             );
           },
@@ -443,13 +510,21 @@ function processData(items, columns) {
 
     columns.forEach(col => {
       let found = false;
+      let foundTag = false;
       Object.keys(item.metrics ?? {}).forEach(metric => {
         if (metric === col.id) {
           row[col.getColumnLabel()] = formatCsvColumnValue(col.getFormatter(), firstValue(item.metrics[metric]));
           found = true;
         }
       });
-      if (!found && col.id !== 'label' && col.id !== 'Health') {
+      Object.keys(item.tags ?? {}).forEach(tag => {
+        if (tag === col.id) {
+          const label = col.label.data.join(' ');
+          row[label] = item.tags[tag];
+          foundTag = true;
+        }
+      });
+      if (!found && !foundTag && col.id !== 'label' && col.id !== 'Health') {
         row[col.getColumnLabel()] = '-';
       }
     });
@@ -465,16 +540,8 @@ function getHeaderActions(props) {
     return <></>;
   }
 
-  const timeConfig = props.timeConfig;
-  const backendQueryModel = props.backendQueryModel;
-  const order = props.order;
-  const type = props.type;
-  const metrics = props.metrics;
-  const tags = props.tags;
-  const cursor = props.cursor;
-  const columns = props.columns;
-  const granularity = props.granularity;
-  const csvFileName = 'infrastructure_entities_' + type + '.csv';
+  const { timeConfig, backendQueryModel, order, type, metrics, tags, cursor, columns, granularity } = props;
+  const csvFileName = `infrastructure_entities_${type}.csv`;
 
   const getAllData = ({ cursor }) =>
     getTableData({

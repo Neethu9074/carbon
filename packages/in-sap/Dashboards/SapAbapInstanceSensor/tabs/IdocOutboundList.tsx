@@ -21,8 +21,6 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { shorten } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-import locals from './RawTableFormat.mless';
-
 interface IdocOutboundDetailsRow {
   key: string;
   snapshotId: string;
@@ -166,5 +164,5 @@ export default function IdocOutboundMetrics({ snapshotId, timeConfig }: IdocOutB
 }
 
 function Args({ args }: { args: any }) {
-  return <code className={locals.statement}>{args}</code>;
+  return <code>{args}</code>;
 }

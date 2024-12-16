@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { TimeConfig, WebsiteAlertConfigWithMetadata } from '@instana/types';
+import { TimeConfig, VersionedConfig } from '@instana/types';
 
 import {
   deleteAlertConfig,
@@ -23,14 +23,14 @@ import {
 } from 'in-websites/navigation/paths';
 //@ts-expect-error TS migration
 import AlertConfiguration from 'in-alerting/smart-alerts/websites/details/AlertConfiguration';
-//@ts-expect-error TS migration
-import AlertConfigDialog from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
+import { WebsiteSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-websites/navigation/matrix';
 //@ts-expect-error TS migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
-import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import AlertConfigDialog from 'in-alerting/smart-alerts/websites/dialog/AlertConfigDialog';
 import { role } from 'in-stores/user';
 import { Nullish } from 'in-types';
+import { t } from 'in-i18n';
 
 const endpointConfig = { asObservable: true };
 
@@ -59,17 +59,19 @@ export default function AlertDetails(props: AlertDetailsProps) {
       deleteConfig={deleteAlertConfig}
       restoreConfig={restoreAlertConfigVersion}
       renderSmartAlertDialog={(props: SmartAlertDialogWrapperProps) => <SmartAlertDialogWrapper {...props} />}
-      renderAlertConfiguration={({ alertConfig }: { alertConfig: WebsiteAlertConfigWithMetadata }) => (
+      renderAlertConfiguration={({ alertConfig }: { alertConfig: WebsiteSmartAlertConfigWithMetadata }) => (
         <AlertConfiguration alertConfig={alertConfig} />
       )}
       canConfigureIndividualAlertConfigs={role?.canConfigureWebsiteSmartAlerts}
     />
   );
 }
-
+export type DuplicateWebsiteAlertConfig = WebsiteSmartAlertConfigWithMetadata & {
+  duplicateFrom?: string | undefined;
+};
 interface SmartAlertDialogWrapperProps {
   close: () => void;
-  alertConfig: WebsiteAlertConfigWithMetadata;
+  alertConfig: DuplicateWebsiteAlertConfig;
   setRevision: (arg: string | Nullish) => void;
   isCopy: boolean;
 }
@@ -77,7 +79,7 @@ interface SmartAlertDialogWrapperProps {
 function SmartAlertDialogWrapper({ close, alertConfig, setRevision, isCopy }: SmartAlertDialogWrapperProps) {
   return (
     <AlertConfigDialog
-      alertConfig={isCopy ? duplicateAlertConfig(alertConfig) : alertConfig}
+      alertConfig={isCopy ? (duplicateAlertConfig(alertConfig) as DuplicateWebsiteAlertConfig) : alertConfig}
       onClose={() => {
         close();
         setRevision(null);
@@ -85,4 +87,18 @@ function SmartAlertDialogWrapper({ close, alertConfig, setRevision, isCopy }: Sm
       editMode={!isCopy}
     />
   );
+}
+
+export function duplicateAlertConfig<
+  T extends VersionedConfig & {
+    name: string;
+  }
+>({ ...config }: T) {
+  const { id, ...withoutId } = config;
+
+  return {
+    ...withoutId,
+    duplicateFrom: id,
+    name: t('in-alerting:smartAlerts.titleCopyOf', { smartAlertTitle: config.name })
+  };
 }

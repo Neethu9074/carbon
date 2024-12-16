@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import React from 'react';
+
 import { LoggingIntegrationButtonsRenderer, getObservables } from 'in-integrations/logging/LoggingIntegrationButtons';
 import agentMonitoringIssueDefinitions from 'in-forge/plugins/host/agentMonitoringIssueDefinitions';
 import getKubernetesNodeByHost from 'in-kubernetes/subscriptions/getKubernetesNodeByHost';
@@ -19,6 +21,7 @@ const applePlugin = plugins.host + '_apple';
 const windowsPlugin = plugins.host + '_windows';
 const aixPlugin = plugins.host + '_aix';
 const solarisPlugin = plugins.host + '_solaris';
+const ibmIPlugin = 'ibmIOs';
 
 registerSnapshotDefinition({
   plugin: plugins.host,
@@ -49,6 +52,8 @@ registerSnapshotDefinition({
         return applePlugin;
       } else if (os.match(/z\/os/i)) {
         return zosPlugin;
+      } else if (os.match(/os\/400/i)) {
+        return ibmIPlugin;
       }
     }
     return linuxPlugin;
@@ -71,7 +76,7 @@ registerSnapshotDefinition({
             .map(result => result.data)
             .filter(Boolean)
         }),
-        render: LoggingIntegrationButtonsRenderer,
+        render: props => <LoggingIntegrationButtonsRenderer {...props} addMargin />,
         props: {
           hostFqdn,
           hostName

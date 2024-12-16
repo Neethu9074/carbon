@@ -9,15 +9,15 @@ import React from 'react';
 import ChangePassword from 'in-settings/tabs/UserSettings/pages/ChangePassword/ChangePassword';
 import { t } from 'in-i18n';
 
-describe('in-settings/tabs/AuthSettings/pages/password/ChangePassword', () => {
+describe('in-settings/tabs/UserSettings/pages/ChangePassword/ChangePassword', () => {
   function fillInputs(passwordScreen, currentPassword, newPassword, repeatPassword) {
-    const passInput = passwordScreen.getByLabelText(t('in-settings:tabs.newPassword'));
+    const passInput = document.getElementById('newPassword');
     fireEvent.change(passInput, { target: { value: newPassword } });
 
-    const oldPassInput = passwordScreen.getByLabelText(t('in-settings:tabs.password'));
+    const oldPassInput = document.getElementById('password');
     fireEvent.change(oldPassInput, { target: { value: currentPassword } });
 
-    const repeatPassInput = passwordScreen.getByLabelText(t('in-settings:tabs.repeatPassword'));
+    const repeatPassInput = document.getElementById('repeatedPassword');
     fireEvent.change(repeatPassInput, { target: { value: repeatPassword } });
   }
 
@@ -46,7 +46,7 @@ describe('in-settings/tabs/AuthSettings/pages/password/ChangePassword', () => {
     fillInputs(changePass, 'previousPass', newPass, newPass);
 
     expect(screen.getByText(t('in-settings:tabs.thePasswordIsWeak'))).toBeInTheDocument();
-    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('button-disabled');
+    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('cds--btn--disabled');
   });
 
   it('complains about small password', async () => {
@@ -56,21 +56,22 @@ describe('in-settings/tabs/AuthSettings/pages/password/ChangePassword', () => {
     fillInputs(changePass, 'previousPass', newPass, newPass);
 
     expect(screen.getByText(t('in-settings:tabs.required15CharsMin'))).toBeInTheDocument();
-    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('button-disabled');
+    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('cds--btn--disabled');
   });
 
   it('when repeated password is empty, don´t show the passwords dont match msg', async () => {
-    const passwordScreen = render(<ChangePassword />);
+    render(<ChangePassword />);
 
     const newPass = '1 REALLY good password';
-    const passInput = passwordScreen.getByLabelText(t('in-settings:tabs.newPassword'));
+    const passInput = document.getElementById('newPassword');
+
     fireEvent.change(passInput, { target: { value: newPass } });
 
-    const oldPassInput = passwordScreen.getByLabelText(t('in-settings:tabs.password'));
+    const oldPassInput = document.getElementById('password');
     fireEvent.change(oldPassInput, { target: { value: 'Not important' } });
 
     expect(screen.queryByText(t('in-settings:tabs.thePasswordsMustBeTheSame'))).not.toBeInTheDocument();
-    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('button-disabled');
+    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('cds--btn--disabled');
   });
 
   it('when repeated password is the same, dont show the passwords dont match msg', async () => {
@@ -80,7 +81,7 @@ describe('in-settings/tabs/AuthSettings/pages/password/ChangePassword', () => {
     fillInputs(changePass, 'previousPass', newPass, newPass);
 
     expect(screen.queryByText(t('in-settings:tabs.thePasswordsMustBeTheSame'))).not.toBeInTheDocument();
-    expect(screen.getByText(t('forms.actions.save'))).not.toHaveClass('button-disabled');
+    expect(screen.getByText(t('forms.actions.save'))).not.toHaveClass('cds--btn--disabled');
   });
 
   it('when repeated password is not the same, show the passwords dont match msg', async () => {
@@ -90,7 +91,7 @@ describe('in-settings/tabs/AuthSettings/pages/password/ChangePassword', () => {
     fillInputs(changePass, 'previousPass', newPass, '1 REALLY good password with a typo');
 
     expect(screen.getByText(t('in-settings:tabs.thePasswordsMustBeTheSame'))).toBeInTheDocument();
-    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('button-disabled');
+    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('cds--btn--disabled');
   });
 
   it('complains about password with no number', async () => {
@@ -100,7 +101,7 @@ describe('in-settings/tabs/AuthSettings/pages/password/ChangePassword', () => {
     fillInputs(changePass, 'previousPass', newPass, newPass);
 
     expect(screen.getByText(t('in-settings:tabs.required1Number'))).toBeInTheDocument();
-    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('button-disabled');
+    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('cds--btn--disabled');
   });
 
   it('complains about password with no lowercase', async () => {
@@ -110,15 +111,16 @@ describe('in-settings/tabs/AuthSettings/pages/password/ChangePassword', () => {
     fillInputs(changePass, 'previousPass', newPass, newPass);
 
     expect(screen.getByText(t('in-settings:tabs.required1Lower'))).toBeInTheDocument();
-    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('button-disabled');
+    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('cds--btn--disabled');
   });
 
   it('complains about password with no uppercase', async () => {
-    const changePass = render(<ChangePassword />);
-    const passInput = changePass.getByLabelText('New password');
+    render(<ChangePassword />);
+    //const passInput = changePass.getByLabelText('New password');
+    const passInput = document.getElementById('newPassword');
     fireEvent.change(passInput, { target: { value: 'isthiss3cu?ere10' } });
     expect(screen.getByText(t('in-settings:tabs.required1Upper'))).toBeInTheDocument();
-    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('button-disabled');
+    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('cds--btn--disabled');
   });
 
   it('complains about password with no special char', async () => {
@@ -141,19 +143,20 @@ describe('in-settings/tabs/AuthSettings/pages/password/ChangePassword', () => {
       const newPass = 'isthiss3CuSere10' + c;
       fillInputs(changePass, 'previousPass', newPass, newPass);
 
-      expect(screen.getByText(t('forms.actions.save'))).not.toHaveClass('button-disabled');
+      expect(screen.getByText(t('forms.actions.save'))).not.toHaveClass('cds--btn--disabled');
       cleanup();
     }
   });
 
   it('when unmask button is clicked, it should show the password as text', async () => {
     const { container } = render(<ChangePassword />);
-    const oldPassInput = screen.getByLabelText(t('in-settings:tabs.password'));
+    const oldPassInput = document.getElementById('password');
 
     fireEvent.change(oldPassInput, { target: { value: 'Not important' } });
-    fireEvent.click(container.querySelector('.local-css-iconButton'));
+    fireEvent.click(container.querySelectorAll('button')[0]);
 
-    const input = await screen.findByRole('textbox', { name: /Password/i });
+    const input = await document.getElementById('password');
+    expect(input).toHaveAttribute('type', 'text');
     expect(input).toHaveValue('Not important');
   });
 });

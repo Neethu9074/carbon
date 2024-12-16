@@ -17,10 +17,9 @@ import integral from 'in-components/Chart/renderer/integral';
 import area from 'in-components/Chart/renderer/area';
 // @ts-expect-error
 import bar from 'in-components/Chart/renderer/bar';
-// @ts-expect-error
-import pie from 'in-components/Chart/renderer/pie';
 import point from 'in-components/Chart/renderer/point';
 import line from 'in-components/Chart/renderer/line';
+import pie from 'in-components/Chart/renderer/pie';
 import { Renderer } from './types';
 
 export default {

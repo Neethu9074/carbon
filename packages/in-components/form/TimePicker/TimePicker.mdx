@@ -1,0 +1,21 @@
+{/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */}
+
+import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs';
+
+import * as TimePickerStories from './TimePicker.stories';
+
+<Meta of={TimePickerStories} />
+
+# Customized Carbon TimePicker
+ A component that provides an Instana wrapper around the Carbon components for picking time. Using this customized
+ TimePicker,
+ rather than the Carbon native components directly, allows for a consistent usage of time picking across Instana.
+ Time format is automatically checked to match the pattern ``/^([01]\d|2[0-3]):?([0-5]\d)$/`` or ```HH:mm```.
+
+ At this time only a 24 hour clock is supported.
+
+<Canvas of={TimePickerStories.Default} />

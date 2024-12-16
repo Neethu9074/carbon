@@ -7,7 +7,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import {
   applicationDashboardUrlParameters,
@@ -25,6 +25,7 @@ import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresen
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
@@ -71,6 +72,8 @@ const columnDefinitions = [
   {
     id: 'endpointLabel',
     label: t('in-applications:labelName'),
+    widthInAbsoluteUnit: true,
+    width: '25vw',
     getContent(item, { applicationId, serviceId, boundaryScope, syntheticCalls }) {
       return (
         <EndpointLabelContent
@@ -85,6 +88,7 @@ const columnDefinitions = [
   },
   {
     id: 'Type',
+    label: t('in-applications:labelTypes'),
     sortable: false,
     getContent(item) {
       return <Badge color={getColor(item.endpoint.type)}>{item.endpoint.type}</Badge>;
@@ -92,6 +96,7 @@ const columnDefinitions = [
   },
   {
     id: 'Technology',
+    label: t('in-applications:labelTechnologies'),
     sortable: false,
     getContent(item) {
       return <TechnologyIndicatorList technologies={item.endpoint.technologies} />;
@@ -173,6 +178,8 @@ const columnDefinitions = [
   {
     id: 'maxSeverity',
     label: t('in-applications:labelHealth'),
+    widthInAbsoluteUnit: true,
+    width: '5rem',
     defaultOrderDirection: 'DESC',
     getContent(item, { result, applicationId, serviceId, timeConfig }) {
       const openIssues = get(item, ['metrics', 'openIssues', 0, 1], 0);
@@ -196,6 +203,7 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
+    fixedLayout: true,
     title: t('in-applications:dashboards.noDataAvailable.endpointsTitle'),
     description: t('in-applications:dashboards.noDataAvailable.endpointsDescription')
   }),
@@ -227,16 +235,33 @@ const urlStateDefinition = {
 export default function Endpoints(props) {
   const { timeConfig, data, applicationId, serviceId, endpointId, boundaryScope, syntheticCalls } = props;
 
+  const endpointTypesSyntheticIncluded = useObservable(
+    getEndpointTypes({
+      filter: {
+        application: applicationId,
+        service: serviceId,
+        timeConfig,
+        applicationBoundaryScope: boundaryScope,
+        includeInternalCalls: false,
+        // custom HTTP rules should still be configurable if an endpoint receives only synthetic calls in a certain time window
+        includeSyntheticCalls: true,
+        useLongTermDataOnly: false
+      }
+    }).map(result => result?.data),
+    [applicationId, serviceId, timeConfig, boundaryScope]
+  );
+
   const applicationLabel = useObservable(getApplicationLabelObservable, [applicationId]);
   const serviceLabel = useObservable(getServiceLabelObservable, [serviceId]);
   const [{ endpointTypes, technologies }, setFilter] = useUrlState(urlStateDefinition);
   const getLinkToEndpointConfig = useLinkToEndpointConfiguration();
-  const hasHttpType = data.types.indexOf('HTTP') >= 0;
+  const hasHttpType = endpointTypesSyntheticIncluded?.includes('HTTP');
 
   const rightHeader = ({ query }) => (
     <>
       {role.canConfigureServiceMapping && (
         <Button
+          size="compact"
           className={locals.button}
           icon="lib_actions_settings"
           kind="action"
@@ -248,7 +273,7 @@ export default function Endpoints(props) {
 
       <Filters
         endpointTypes={endpointTypes}
-        restrictedEndpointTypes={data.types}
+        restrictedEndpointTypes={endpointTypesSyntheticIncluded}
         technologies={technologies}
         restrictedTechnologies={data.technologies}
         setFilter={setFilter}
@@ -356,7 +381,7 @@ function getTableData({
       },
       maxSeverity: {
         metric: 'maxSeverity',
-        aggregation: 'DISTINCT_COUNT'
+        aggregation: 'MAX'
       }
     }
   });

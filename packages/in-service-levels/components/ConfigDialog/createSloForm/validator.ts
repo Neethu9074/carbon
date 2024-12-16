@@ -20,6 +20,7 @@ import { FormModelElement } from 'in-components/QueryBuilder/transformation/form
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { dateValidator, timeValidator } from 'in-services/validators/date';
 import { notBlankValidator } from 'in-services/validators/string';
+import { isSliThresholdOperator } from 'in-service-levels/types';
 import { t } from 'in-i18n';
 
 export const inputNotUndefinedValidator = (v: any): ValidationResult => {
@@ -69,22 +70,50 @@ export function validateTimeWindow(timeWindow: SloTimeWindowFields): ValidationR
   return;
 }
 
+export function operatorValidator(operator: string): ValidationResult {
+  if (!isSliThresholdOperator(operator)) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-service-levels:validators.noInvalidOperator')
+      }
+    ];
+  }
+  return undefined;
+}
+
 type ThresholdFieldValidator = (value: number | undefined) => ValidationResult;
+
 const commonThresholdValidator = composeAndShortCircuitOnError(inputNotUndefinedValidator, numericValidator);
+
 export function createThresholdFieldValidator(
   blueprint: CustomBlueprintType,
-  type: ServiceLevelIndicatorType
+  type?: ServiceLevelIndicatorType
 ): ThresholdFieldValidator | undefined {
   if (!blueprint) return undefined;
 
   switch (blueprint) {
     case 'custom':
       return undefined;
+    case 'traffic':
     case 'latency':
       return composeAndShortCircuitOnError(commonThresholdValidator, minValidator(1));
     case 'availability':
       if (type === 'eventBased') return undefined;
       return composeAndShortCircuitOnError(commonThresholdValidator, positiveNumberValidator, maxValidator(100));
+  }
+}
+
+type OperatorFieldValidator = (operator: string) => ValidationResult;
+
+export function createOperatorFieldValidator(blueprint: CustomBlueprintType): OperatorFieldValidator | undefined {
+  if (!blueprint) return undefined;
+
+  switch (blueprint) {
+    case 'traffic':
+      return operatorValidator;
+    default:
+      return undefined;
   }
 }
 
@@ -112,8 +141,8 @@ export function noInvalidTagFilterExpression(tagFilterExpression: FormModelEleme
   return undefined;
 }
 
-export function noBlankEntitySelection(entityId: string): ValidationResult {
-  if (entityId) return;
+export function noBlankEntitySelection(entityIds: string[]): ValidationResult {
+  if (entityIds && entityIds.length > 0) return;
 
   return [
     {

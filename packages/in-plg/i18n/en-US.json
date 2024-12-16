@@ -7,25 +7,55 @@
     "trialExpirationPopUpDescription": "Data collection has ended. You can continue using the product for another 7 days. After 7 days, you will not be able to access the trial. If you plan to purchase the product, we can retain your data for another 2 weeks.",
     "trialExpirationPopUpDescriptionAfterSevenDays": "Thanks for exploring Instana! You have reached the end of your trial and can no longer access the product."
   },
+  "buyNowDialog": {
+    "title": "Flexible billing based on your usage",
+    "cancelbtn": "Cancel",
+    "subHeading": "Now with the PayPerUse option, you’ll only be billed for what you use.",
+    "sidePanelTitle": "Still not sure if you want a subscription?",
+    "sidePanelDescription": "We’re here to help find the perfect option for you.",
+    "mainBodyTitle1": "Automation, context and intelligent action with IBM Instana Observability",
+    "mainBodyDescription1": "Our industry-leading, one-second granularity and comprehensive request tracing guarantee that no issue escapes detection. Gain full-stack visibility across application code, Kubernetes containers, and microservices with user-friendly dashboards and SmartAlerts™ for tailored alerting. Seamlessly integrated into AWS, Instana supports over 300 technologies, providing worry-free performance monitoring for containerized applications on Amazon AWS.",
+    "mainBodyTitle2": "Introducing PayPerUse",
+    "mainBodyDescription2": "Designed to give you flexibility, our PayPerUse tiers provide function and value with Standard and Essential options to meet your business needs. You'll be billed at the end of each month based on usage.",
+    "listTitle1": "Package",
+    "listTitle2": "Description",
+    "listTitle3": "Price",
+    "listUnit1": "Standard MVS† hour",
+    "listUnit2": "Essential MVS† hour ",
+    "listDescription1": "Full Observability with Infrastructure Monitoring + Tracing + EUM + Synthetics included",
+    "listDescription2": "Infrastructure Monitoring only",
+    "listCost1": "$0.12",
+    "listCost2": "$0.03",
+    "learnMore": "Learn more in the ",
+    "serviceDescription": "Service description.",
+    "mvs": "†Managed Virtual Server (MVS) is a unit of measure by which Instana can be licensed. Learn more about MVS ",
+    "here": "here."
+  },
   "licenseBanner": {
-    "freeTrialBannerTitle": "IBM Instana",
     "requestQuoteBtn": "Request a quote",
+    "buyNow": "Buy now",
     "buyNowBtn": "Buy on AWS",
+    "buyNowBtnIbm": "Buy on IBM",
     "alreadyHaveLicense": "Already have a license? Activate it on <linkToDocker>Docker</linkToDocker> or <linkToKubernetes>Kubernetes</linkToKubernetes>.",
     "getAnswers": "Get answers",
     "share": "Share",
-    "shareTooltip":"Share this page with colleagues and invite them to collaborate in Instana.",
+    "shareTooltip": "Share this page with colleagues and invite them to collaborate in Instana.",
     "titleDetail": {
       "trial": "Trial",
       "sandboxTrial": "Sandbox trial"
     }
   },
   "playwithinstana": {
-    "title": "Play with Instana",
     "content": "Ready to monitor your own environment",
-    "bookdemo": " Book a demo",
-    "freetrial": " Free trial",
+    "bookdemo": " Book a live demo",
+    "freetrial": " Try it free",
     "taketour": " Take a tour"
+  },
+  "dataConsumptionMessage": {
+    "description": "You have reached {{dataConsumption}}% of your data ingest entitlement. Once you reach 100%, you will be charged on a pay-per-use basis for any additional data ingested.",
+    "description100": "You have reached 100% of your data ingest entitlement, but don’t worry, you will continue to receive the full value of Instana. You will only be charged on a pay-per-use basis for the exact amount of additional data ingested.",
+    "buttonText": "Review data usage",
+    "title": "Looks like your Instana usage is taking off!"
   },
   "agentDetails": {
     "agentMode": {
@@ -40,7 +70,7 @@
       "configurationOptions": "Configuration options"
     },
     "jvmVendor": {
-      "azulZulu18": "Azul Zulu 1.8",
+      "azulZulu11": "Azul Zulu 11",
       "eclipseOpenJD11": "Eclipse OpenJ9 11"
     },
     "askForHelp": {
@@ -60,6 +90,7 @@
       "step5": "Step 5: ",
       "download": "Download",
       "clusterName": "Cluster name",
+      "applicationRuntime": "Application runtime",
       "agentZoneOptional": "Agent zone (optional)",
       "networkRequirements": "Network requirements",
       "toInstallAndRunAnAgentCompleteTheFollowingSteps": "To install and run an agent, complete the following steps.",
@@ -84,8 +115,7 @@
     "kubernetes": {
       "kubernetes": {
         "enterAClusterNameAndOptionallyTheAgentZone": "Step 1: Enter a cluster name and optionally the agent zone that you want the cluster to be part of.",
-        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Step 2: Review the prerequisites and run the agent deployment code.",
-        "support": "Support"
+        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Step 2: Review the prerequisites and run the agent deployment code."
       },
       "operator": {
         "installUsingTheOperator": "Install using the Operator",
@@ -116,7 +146,12 @@
       "selectThePlatformArchitecture": "Select the platform architecture",
       "platformArchitecture": "Platform architecture",
       "previewPrerequisites": "Preview the prerequisites",
-      "installingInstanaAgent": "Installing the Instana agent"
+      "installingInstanaAgent": "Installing the Instana agent",
+      "unix_airgapped": {
+        "step1DownloadTheInstallArchive": "Step 1. Download the install archive.",
+        "airgappedArchives": "Archives",
+        "installUsingAnArchive": "Install using an archive"
+      }
     },
     "aws": {
       "step1": "Step 1: ",
@@ -173,6 +208,7 @@
       "useScriptAsUserDataForEc2Instance": "Use this script as User Data for the EC2 instance",
       "selectAgentPackagingAndRuntime": "Select the agent packaging mode and runtime",
       "awsLambdaPythonAutotrace": "The preferred way to configure AWS Lambda functions based on Python for tracing is the Instana Lambda layer with AutoTrace.",
+      "awsLambdaDotnetAutotrace": "The preferred way to configure AWS Lambda functions based on .NET Core for tracing is the Instana Lambda layer with AutoTrace.",
       "preferredMethodForNodeJsLambdaConfiguration": "The preferred way to configure AWS Lambda functions based on Node.js 8.x is to use the <lambdaManualWrapping>Instana Lambda layer with manual wrapping</lambdaManualWrapping>.",
       "imageOptions": {
         "linuxGlibcBased": "Linux (glibc - based)",
@@ -185,7 +221,6 @@
       "selectAwsRegionAndLambdaHandler": "Select AWS region and enter the current lambda handler",
       "setInstanaAutoWrapHandlerAsLambdaFunction": "Set Instana auto-wrap handler as the handler for the Lambda function.",
       "autoWrapHandler": "Auto-wrap Handler",
-      "runCodeBelow": "Run the agent deployment code below.",
       "prerequisiteLinks": {
         "networkRequirements": "Network Requirements"
       },
@@ -204,6 +239,7 @@
         "runningStartupScript": "Running Startup Script",
         "uninstallingTheHostAgent": "Uninstalling the host agent",
         "awsLambdaNativeTracingForJava": "AWS Lambda Native Tracing for Java",
+        "awsLambdaNativeTracingForDotNet": "AWS Lambda Native Tracing for .NET Core",
         "awsLambdaFunctions": "AWS lambda functions",
         "monitoringAwsFargate": "Monitoring AWS Fargate",
         "monitoringAwsFargateJava": "Monitoring AWS Fargate (Java)",
@@ -216,7 +252,6 @@
         "installGcrCollectors": "Install Gogle Cloud Run in-process collectors",
         "installAgentOnEc2": "Install agent on AWS EC2",
         "configurationOptions": "Configuration options",
-        "installAgentAwsEks": "Install an agent on AWS EKS",
         "monitoringGcr": "Monitoring Google Cloud Run",
         "monitoringAwsFargateRuby": "Monitoring AWS Fargate (Ruby)",
         "awsServiceDocumentation": "AWS Service documentation",
@@ -267,8 +302,7 @@
       "vmwareTanzuNetworkLink": "VMware Tanzu network link",
       "reviewThePrerequisites": "Review the prerequisites",
       "installingTheInstanaAgent": "Installing the Instana Agent",
-      "vmwareTanzuDocumentation": "VMware Tanzu documentation",
-      "vmwareTanzuNetwork": "VMware Tanzu network",
+      "installingAndConfiguringMicroservicesApplicationsMonitoring": "Installing and configuring microservices applications monitoring",
       "addTileToOpsManagerAndConfigureIt": "Add the tile to Ops Manager and configure it",
       "addInstanaApplicationMonitoring": "Add the \"Instana Microservices Application Monitoring\" tile to your Ops Manager and apply the following to the \"Backend configuration\" tab of the tile.",
       "nameYourVmwareFoundation": "Name your VMware Tanzu foundation",
@@ -316,6 +350,11 @@
         "installTheScriptOnTheVirtualMachine": "Install the script on the virtual machine as a Windows Service and then automatically start it.",
         "installAgentOnAWSEC2Windows": "Install agent on AWS EC2 (Windows)",
         "runCommandsOnAWSEC2": "Run commands on AWS EC2"
+      },
+      "windows_airgapped": {
+        "step1DownloadTheInstallPackageOrArchive": "Step 1. Download the installer or archive.",
+        "airgappedPackagesOrArchive": "Archives and Windows Installers (32bit and 64bit)",
+        "installUsingAPackageOrArchive": "Install using a installer or an archive"
       }
     },
     "linux": {
@@ -326,9 +365,28 @@
         "runningTheAgent": "Running the agent"
       },
       "linux_deb_rpm": {
+        "configureTheAgent": "Step 1: Configure the agent",
+        "installUsingAPackage": "Install using a package",
+        "selectThePlatformArchitecture": "Step 2: Select the platform architecture",
+        "platformArchitecture": "Platform architecture",
+        "mode": "Mode",
+        "agentOptions": {
+          "linux64BitAarch": "Linux (64Bit - AArch)",
+          "linux64BitArm": "Linux (64Bit - ARM)",
+          "linux64BitAmd": "Linux (64Bit - AMD)",
+          "linux64BitPowerPc": "Linux (64Bit - PowerPC)",
+          "linux64BitPowerPcLittleEndian": "Linux (64Bit - PowerPC Little Endian)",
+          "linuxS390XJdkNotIncluded": "Linux (64Bit - s390x) JDK not included",
+          "linuxS390X": "Linux (64Bit - s390x)",
+          "linuxX8664": "Linux (64Bit - x86_64)",
+          "linuxRhel6X8664": "Linux (64Bit - RHEL6 x86_64)",
+          "linuxRhel7X8664": "Linux (64Bit - RHEL7 x86_64)"
+        }
+      },
+      "linux_airgapped": {
         "step1DownloadTheInstallPackage": "Step 1. Download the install package.",
-        "DEBAndRPMPackage": "DEB and RPM package",
-        "installUsingAPackage": "Install using a package"
+        "airgappedPackages": "Archives, DEB and RPM packages",
+        "installUsingAPackage": "Install using a package or an archive"
       },
       "linux_ec2": {
         "selectTheAgentPackagingMode": "Step 1: Select the agent packaging mode",
@@ -336,7 +394,7 @@
         "dynamic": "Dynamic",
         "static": "Static",
         "runtime": "Runtime",
-        "azulZulu": "Azul Zulu 1.8",
+        "azulZulu": "Azul Zulu 11",
         "eclipseOpenJ9": "Eclipse OpenJ9 11",
         "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Step 2: Review the prerequisites and run the agent deployment code.",
         "installagentOnAWSEC2": "Install agent on AWS EC2",
@@ -366,6 +424,22 @@
         "configurationParameters": "Configuration Parameters"
       }
     },
+    "ibmi": {
+      "ibmi": "IBM i",
+      "os": "OS",
+      "archiveTarGz": "Archive (tar.gz)",
+      "archive": {
+        "selectTheAgentPackagingMode": "Step 1: Select the agent packaging mode",
+        "selecTthePlatformArchitecture": "Step 2: Select the platform architecture",
+        "platformArchitecture": "Platform architecture",
+        "beforeYouInstall": "Before you Install",
+        "installingManually": "Installing Manually",
+        "startingTheAgent": "Starting the Agent",
+        "agentOptions": {
+          "ibmi64Bit": "IBM i"
+        }
+      }
+    },
     "openshift": {
       "documentLinks": {
         "installOperatorByUsingOlm": "Installing Operator by using OLM",
@@ -390,8 +464,34 @@
       }
     },
     "azure": {
-      "installingAgentOnAks": "Installing an Agent on Aks",
-      "configureAfterInstall": "Configuring the agent after install"
+      "referenceToAzureContainerAppsDocumentation": "Go Application deployed in Azure Container Apps need to be manually instrumented in order to collect trace data. Follow the instructions of the <azureContainerAppsDoc>Azure Container Apps Go documentation</azureContainerAppsDoc>.",
+      "selectAzureContainerAppsRuntime": "Select Azure Container Apps runtime",
+      "reviewPrerequisitesAndConfigureContainerApps": "Review the prerequisites and configure your Azure Container Apps for tracing.",
+      "containerAppSetEnvironmentVariables": "Set the following environment variables while creating an Azure Container App.",
+      "monitoringAzure": "Monitoring and instrumenting Microsoft Azure with Azure agent",
+      "monitoringAzureContainerApps": "Monitoring Azure Container Apps",
+      "selectAzureAppServiceRuntime": "Select Azure App Service runtime.",
+      "nodejs": {
+        "reviewPrerequisitesAndInstallAppService": "Review the prerequisites and Install the collector.",
+        "monitoringAppService": "Monitoring Azure App Service for Node.js",
+        "referenceAppServiceDocumentationContent": "Review the prerequisites and follow the installation guide for installing collector. For detailed instructions, refer to the <azureAppServiceDoc>documentation</azureAppServiceDoc>.",
+        "activatingAppService": "Activating the collector.",
+        "appName": "App Name",
+        "resourceGroupName": "Resource Group Name",
+        "activatingAppServiceContent": "Example Azure CLI command for an ECMAScript module application using Node.js v18.19 or later:",
+        "activatingAppServiceNote": "Please update the NODE_OPTIONS value to match the correct setting for your configuration. Refer to the <azureAppServiceEnableCollectorDoc>documentation</azureAppServiceEnableCollectorDoc> for the guidance."
+      },
+      "dotnet": {
+        "monitoringAppService": "Monitoring Azure App Service for .NET",
+        "activatingAppService": "Installing the collector.",
+        "appName": "App Name",
+        "resourceGroupName": "Resource Group Name",
+        "configureOptionsForTracing": "Configure required parameters for monitoring app service",
+        "uploadConfigFile": "Upload the config file - ApplicationHost.xdt",
+        "activatingAppServiceNote": "Download the file. Please make sure the file name is always \"ApplicationHost.xdt\"",
+        "ftpsAuthCredsNote": "Login to the App service in Azure portal and under Deployment -> Deployment Center -> FTPS credentials of the App Service you will have FTPS URL, FTPS username and password (Application Scope). Replace these values in the below command",
+        "restartAppServiceNote": "Restart the App Service"
+      }
     },
     "gcp": {
       "dockerBuild": "Docker build",
@@ -412,123 +512,215 @@
     },
     "mac": {
       "selectAgentPackagingMode": "Step 1: Select  agent packaging mode.",
-      "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Step 2: Review the prerequisites and run the agent deployment code."
+      "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Step 2: Review the prerequisites and run the agent deployment code.",
+      "mac_airgapped": {
+        "step1DownloadTheInstallArchive": "Step 1. Download the install archive.",
+        "airgappedArchives": "Archives",
+        "installUsingAnArchive": "Install using an archive"
+      }
     }
   },
   "welcomepage": {
-    "heading": "Welcome",
+    "heading": "Welcome to Instana",
+    "foldableTileTitle": "Let’s get started.",
     "viewAll": "View all",
-    "search": "Search",
-    "addMore": "Add",
     "UrlShortener": "URL Shortener",
-    "consumeData": {
-      "title": "Discover services",
-      "description": "Start by enabling Instana to discover your services and other data to monitor.",
-      "buttonName": "Deploy agent",
-      "buttonType": "primary"
+    "addMore": "Add",
+    "collapsibleButton": {
+      "showOnboardingTasks": "Show onboarding tasks",
+      "hideOnboardingTasks": "Hide onboarding tasks"
+    },
+    "startIntegrating": {
+      "title": "Start integrating data",
+      "description": "Kickstart your Instana setup and seamless data integration by installing an agent.",
+      "buttonName": "Install agents"
+    },
+    "traceInteractions": {
+      "title": "Trace interactions",
+      "description": "Understand how your components are connected and see if you need to manually set up tracing.",
+      "buttonName": "Verify tracing"
+    },
+    "inviteUsers": {
+      "title": "Connect with your experts",
+      "description": "Get help to complete setup tasks and try out product features.",
+      "buttonName": "Invite users"
+    },
+    "additionalAgents": {
+      "title": "Bring in more data",
+      "description": "Expand observability throughout your architecture.",
+      "buttonName": "Install additional agents"
+    },
+    "appPerspective": {
+      "title": "Tailor your view",
+      "description": "Capture the information you need to optimize your applications and services.",
+      "buttonName": "Create an application perspective"
+    },
+    "smartAlerts": {
+      "title": "Get alerted",
+      "description": "Configure alerts easily with predefined blueprints for both simple and advanced customization.",
+      "buttonName": "Set up Smart Alerts"
+    },
+    "startMonitoring": {
+      "title": "Monitor your environment",
+      "description": "Activate alerts on your applications and websites.",
+      "buttonName": "Start monitoring"
     },
     "inviteTeammates": {
-      "title": "Invite teammates",
-      "description": "Collaborate with your colleagues.",
-      "buttonName": "Manage users",
-      "buttonType": "ghost"
+      "title": "Bring in your team",
+      "description": "Invite your colleagues to Instana and start collaborating.",
+      "buttonName": "Invite your teammates"
     },
-    "nextSteps": {
-      "title": "Next steps",
-      "description": "Find more tours and additional support.",
-      "buttonName": "Get answers",
-      "buttonType": "ghost"
+    "favouriteButton": {
+      "ariaFilled": "Remove favorite",
+      "aria": "Add to favorite"
     },
     "component": {
       "applicationWidget": {
         "label": "Applications",
         "name": "Name",
         "calls": "Calls",
+        "scope": "Scope",
         "latency": "Latency",
         "erroneousCallRate": "Erroneous call rate",
-        "openCreationDialog": "Open Creation Dialog"
+        "openCreationDialog": "Open creation dialog",
+        "health": "Health",
+        "searchPlaceholderLabel": "applications",
+        "addButtonLabel": "application",
+        "viewAllLabel": "applications"
       },
       "eventWidget": {
         "label": "Events",
+        "viewAllLabel": "events",
         "incidents": "Incidents",
         "critical": "Critical",
         "warning": "Warning",
-        "viewEvents": "View Events"
+        "viewEvents": "View events"
       },
       "platformWidget": {
         "platforms": "Platforms",
         "cloudFoundry": "Cloud Foundry",
         "vsphere": "vSphere",
         "openstack": "OpenStack",
+        "openshift": "OpenShift",
         "ibmp": "IBM Power HMC",
         "powervcRegion": "PowerVC Region",
         "sap": "SAP",
         "ibmz": "IBM Z HMC",
-        "kubernetes": "Kubernetes",
+        "gke": "Google Kubernetes Engine",
+        "eks": "Amazon Elastic Kubernetes Service",
         "name": "Name",
         "nodes": "Nodes",
         "namespaces": "Namespaces",
-        "pods": "Pods"
+        "pods": "Pods",
+        "health": "Health",
+        "vMs": "VMs",
+        "systems": "Systems",
+        "instances": "Instances",
+        "partitions": "Partitions",
+        "memoryLimit": "Memory Limit",
+        "adapters": "Adapters",
+        "vios": "Virtual I/O Server",
+        "memoryUsage": "Memory Usage",
+        "cpuUsage": "CPU Usage",
+        "esXiHosts": "ESXi Host",
+        "searchPlaceholderLabel": "platforms",
+        "viewAllLabel": "platforms"
       },
       "bizopsWidget": {
-        "label": "Business Monitoring",
+        "label": "Business monitoring",
         "name": "Name",
         "activities": "Activities",
-        "count": "Count"
+        "started": "Started",
+        "health": "Health",
+        "searchPlaceholderLabel": "business processes",
+        "viewAllLabel": "business processes"
       },
       "incidentsWidget": {
         "label": "Incidents",
         "active": "active",
         "title": "Title",
         "on": "On",
-        "started": "Started",
-        "end": "End"
+        "started": "Start",
+        "end": "End",
+        "severity": "Severity",
+        "searchPlaceholderLabel": "incidents",
+        "viewAllLabel": "incidents"
       },
       "websitesWidget": {
         "label": "Websites",
         "name": "Name",
         "pageViews": "Page views",
-        "onLoadTimes": "OnLoad times"
+        "onLoadTimes": "OnLoad times",
+        "health": "Health",
+        "searchPlaceholderLabel": "websites",
+        "addButtonLabel": "website",
+        "viewAllLabel": "websites"
       },
       "mobileAppsWidget": {
-        "label": "Mobile Apps",
+        "label": "Mobile apps",
         "name": "Name",
         "sessions": "Sessions",
-        "views": "Views"
+        "views": "Views",
+        "health": "Health",
+        "searchPlaceholderLabel": "mobile apps",
+        "addButtonLabel": "mobile app",
+        "viewAllLabel": "mobile apps"
       },
       "infrastructureWidget": {
         "label": "Infrastructure",
         "mean": "mean",
         "name": "Name",
         "os": "OS",
+        "zones": "Zones",
+        "hosts": "Hosts",
+        "technologies": "Technologies",
         "cpuNum": "Number of CPUs",
-        "cpuUsage": "CPU Usage",
+        "cpuUsage": "CPU usage",
         "created": "Created",
-        "started": "Started"
+        "started": "Started",
+        "health": "Health",
+        "hostSearchPlaceholderLabel": "hosts",
+        "hostViewAllLabel": "hosts",
+        "containersSearchPlaceholderLabel": "containers",
+        "containersViewAllLabel": "containers",
+        "processesSearchPlaceholderLabel": "processes",
+        "processesViewAllLabel": "processes"
       },
       "syntheticWidget": {
-        "label": "Synthetic Monitoring",
+        "label": "Synthetic monitoring",
         "na": "N/A",
         "name": "Name",
         "type": "Type",
-        "successRate": "Success Rate",
+        "successRate": "Success rate",
         "latency": "Latency",
         "lastTestRunOn": "Last test run on",
         "version": "Version",
         "timeThreshold": "Time threshold",
-        "testsApplied": "Tests applied"
+        "testsApplied": "Tests applied",
+        "health": "Health",
+        "testSearchPlaceholderLabel": "synthetic tests",
+        "testAddButtonLabel": "synthetic test",
+        "testViewAllLabel": "synthetic tests",
+        "locationsSearchPlaceholderLabel": "synthetic locations",
+        "locationsViewAllLabel": "synthetic locations",
+        "smartalertsSearchPlaceholderLabel": "synthetic Smart Alerts",
+        "smartalertsAddButtonLabel": "synthetic Smart Alert",
+        "smartalertsViewAllLabel": "synthetic Smart Alerts"
       },
       "dashboardWidget": {
         "label": "My custom dashboards",
         "name": "Name",
         "owner": "Owner",
-        "permissions": "Permissions"
+        "permissions": "Permissions",
+        "searchPlaceholderLabel": "dashboards",
+        "addButtonLabel": "dashboard",
+        "viewAllLabel": "dashboards"
       }
     },
     "noData": {
       "applicationWidget": {
         "header": "No applications",
-        "description": "Create your own perspective on the services you want to observe.",
+        "description": "Create your own application perspective on the services you want to observe.",
         "buttonName": "Create application perspective"
       },
       "incidentsWidget": {
@@ -537,41 +729,54 @@
       },
       "websitesWidget": {
         "header": "No websites",
-        "description": "Add websites and start to collect data",
+        "description": "Collect website data to understand your user's digital experience.",
         "buttonName": "Add website"
       },
       "mobileListWidget": {
         "header": "No mobiles apps",
-        "description": "Add mobile applications and start to collect data.",
+        "description": "Collect mobile app data to understand your user's digital experience.",
         "buttonName": "Add mobile applications"
       },
       "infrastructureWidget": {
-        "header": "No hosts, containers or processes",
-        "description": "Find the result of the deployed agent here."
+        "description": "Deploy an agent to see the details here.<br>Get started on the <linkToAgents>Agents</linkToAgents> page.",
+        "link": "Agents",
+        "hosts": {
+          "header": "No hosts"
+        },
+        "docker": {
+          "header": "No containers"
+        },
+        "process": {
+          "header": "No processes"
+        }
       },
       "platformsWidget": {
         "header": "No platforms",
-        "description": "Find all installed platforms here."
+        "description": "There are no platforms to display yet."
       },
       "businessMonitoringWidget": {
         "header": "No business processes",
-        "description": "Enable the IBM Business Automation Workflow or configure Instana to capture and store business data from business processes."
+        "description": "Configure Instana to capture and store data from your business procesess."
       },
       "syntheticWidget": {
         "test": {
-          "header": "No Synthetic tests",
-          "description": "Configure Synthetic tests to run at specific continuous intervals.",
+          "header": "No synthetic tests",
+          "description": "Configure synthetic tests to run at specific continuous intervals.",
           "buttonName": "Add Synthetic test"
         },
         "location": {
-          "header": "No Synthetic location",
-          "description": "Configure Synthetic location to run at specific continuous intervals."
+          "header": "No synthetic locations",
+          "description": "Configure a synthetic location where your synthetic tests will run."
         },
         "smartalerts": {
-          "header": "No Synthetic smartalerts",
-          "description": "Configure Synthetic smartalerts to run at specific continuous intervals.",
-          "buttonName": "Add Synthetic smartalerts"
+          "header": "No synthetic Smart Alerts",
+          "description": "Configure Smart Alerts for synthetics to send an alert if the test for a location fails.",
+          "buttonName": "Add Synthetic smart alerts"
         }
+      },
+      "eventsWidget": {
+        "header": "No events",
+        "description": "There may be no events or incidents to display or you may need to set up data first."
       },
       "dashboardWidget": {
         "header": "No custom dashboards",
@@ -579,10 +784,25 @@
         "buttonName": "Create custom dashboard"
       }
     },
+    "quickLinks": {
+      "iconDescriptions": {
+        "settings": "Settings",
+        "user": "User",
+        "externalLink": "External Link",
+        "resultNew": "Result New",
+        "whatsNewLink": "Whats new Link"
+      },
+      "buttonNames": {
+        "deployAgent": "Deploy agent",
+        "addUser": "Add user",
+        "documentation": "IBM documentation",
+        "releaseNotes": "Release notes",
+        "whatsNewLink": "What’s new in Instana"
+      }
+    },
     "ariaLabel": {
+      "search": "Search",
       "shareButton": "Share button",
-      "searchButton": "Search button",
-      "addButton": "Add button",
       "handleButton": "Handle button"
     }
   },
@@ -594,36 +814,45 @@
   },
   "assistme": {
     "dataSearchContext": {
-    "gettingStarted": "getting started",
-    "websites": "websites",
-    "mobileApps":"mobile app",
-    "businessMonitoring": "business monitoring",
-    "application":"application",
-    "smartAlerts": "smart alerts",
-    "infrastructureMap": "map",
-    "cloudFoundry": "monitoring cloud foundry",
-    "powerHmc": " monitoring IBM power",
-    "kubernetes":"kubernetes",
-    "sap": "monitoring SAP",
-    "synthetic": "synthetic monitoring",
-    "syntheticAlerts": "synthetic alerts",
-    "syntheticPop":"synthetic PoP",
-    "serviceLevel": "service level",
-    "installAgent": "install agent",
-    "analyzeCalls": "analyzing traces and calls",
-    "settingsTab": "managing user access",
-    "userSettings": "user settings",
-    "authSettings": "configuring authentication",
-    "auditLogs": "viewing audit logs",
-    "automation": "managing actions",
-    "customEvents":"defining custom events",
-    "configuringAlerts": "configuring alerts",
-    "alertChannel": "alert channels",
-    "maintenanceWindow":"scheduling",
-    "customPayload": "custom payload",
-    "eventsPage": "managing events",
-    "logManagement": "logging",
-    "configuringAndMonitoring":"configuring and monitoring"
+      "gettingStarted": "getting started",
+      "websites": "websites",
+      "mobileApps": "mobile app",
+      "businessMonitoring": "business monitoring",
+      "application": "application",
+      "smartAlerts": "smart alerts",
+      "infrastructureMap": "map",
+      "cloudFoundry": "monitoring cloud foundry",
+      "powerHmc": " monitoring IBM power",
+      "kubernetes": "kubernetes",
+      "sap": "monitoring SAP",
+      "synthetic": "synthetic monitoring",
+      "syntheticAlerts": "synthetic alerts",
+      "syntheticPop": "synthetic PoP",
+      "serviceLevel": "service level",
+      "installAgent": "install agent",
+      "analyzeCalls": "analyzing traces and calls",
+      "settingsTab": "managing user access",
+      "userSettings": "user settings",
+      "securityAndAccess": "configuring security and access",
+      "auditLogs": "viewing audit logs",
+      "automation": "managing actions",
+      "customEvents": "defining custom events",
+      "configuringAlerts": "configuring alerts",
+      "alertChannel": "alert channels",
+      "maintenanceWindow": "scheduling",
+      "customPayload": "custom payload",
+      "eventsPage": "managing events",
+      "logManagement": "logging",
+      "configuringAndMonitoring": "configuring and monitoring",
+      "customDashboard": "custom dashboard"
     }
+  },
+  "userGoalSelectionDialog": {
+    "title": "What are your goals?",
+    "description": "Welcome to Instana! Help us provide a better experience by sharing your primary goals for this trial. Select all that apply.",
+    "skip": "Skip",
+    "done": "Done",
+    "otherGoalPlaceholder": "For example, Gain visibility across my environment",
+    "otherGoalToAccomplish": "What other goals are you trying to accomplish?"
   }
 }

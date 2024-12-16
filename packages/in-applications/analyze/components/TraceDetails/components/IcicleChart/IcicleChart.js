@@ -49,6 +49,8 @@ export default function IcicleChart(props) {
                   themeStyle="light"
                   content={<CallTooltipContent call={callFrame} getColor={getColor} />}
                   align={tooltipAlignment}
+                  overwriteBlock
+                  forceTheme
                 >
                   <CallFrame
                     {...props}

@@ -11,6 +11,12 @@ import {
   enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError
 } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import {
+  MobileAppSmartAlertConfigWithMetadata,
+  MobileAppSmartAlertConfig,
+  WebsiteSmartAlertConfig,
+  WebsiteSmartAlertConfigWithMetadata
+} from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
+import {
   updateAlertConfig as mobileUpdateAlertConfig,
   createAlertConfig as mobileCreateAlertConfig
 } from 'in-alerting/smart-alerts/mobileApp/api/mobileAppAlertConfig';
@@ -18,21 +24,17 @@ import {
   updateAlertConfig as websiteUpdateAlertConfig,
   createAlertConfig as webisteCreateAlertConfig
 } from 'in-alerting/smart-alerts/websites/api/websiteAlertConfig';
-import {
-  MobileAppAlertConfig,
-  MobileAppAlertConfigWithMetadata,
-  WebsiteAlertConfig,
-  WebsiteAlertConfigWithMetadata
-} from 'in-types';
-import { trackAlertSaved, trackAlertUpdated } from 'in-alerting/smart-alerts/components/tracker';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import { eumType as websiteEum } from 'in-alerting/smart-alerts/websites/constants';
+import { ALERTING_SAVED, ALERTING_UPDATED } from 'in-services/tracking/eventNames';
+import { CtaTrackingFunction } from 'in-services/tracking/useSegmentTracking';
+import { MobileAppAlertConfig, WebsiteAlertConfig } from 'in-types';
 
 interface createOrSaveAlertProps {
   form: MapForm<any>;
   setForm: (form: MapForm<any>) => void;
   getLinkToAlertConfig: (alertConfigId: string, id: string, alertConfigVersion?: number) => string;
-  onClose: (config?: MobileAppAlertConfig | (WebsiteAlertConfig & { readonly id?: string })) => void;
+  onClose: (config?: MobileAppSmartAlertConfig | (WebsiteSmartAlertConfig & { readonly id?: string })) => void;
   editMode: boolean;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
   setMessages: React.Dispatch<React.SetStateAction<EnrichedError[]>>;
@@ -40,6 +42,7 @@ interface createOrSaveAlertProps {
   isSimpleMode: boolean;
   eumType: string;
   duplicateFrom?: string;
+  trackCta: CtaTrackingFunction;
 }
 
 export function createOrSaveAlert({
@@ -53,7 +56,8 @@ export function createOrSaveAlert({
   toAlertConfig,
   isSimpleMode,
   eumType,
-  duplicateFrom
+  duplicateFrom,
+  trackCta
 }: createOrSaveAlertProps) {
   setIsSaving(true);
 
@@ -75,13 +79,13 @@ export function createOrSaveAlert({
   if (editMode) {
     const updateConfig =
       eumType === websiteEum
-        ? websiteUpdateAlertConfig(alertConfig as WebsiteAlertConfig, form.get('id').value)
-        : mobileUpdateAlertConfig(alertConfig as MobileAppAlertConfig, form.get('id').value);
+        ? websiteUpdateAlertConfig(alertConfig as WebsiteSmartAlertConfig, form.get('id').value)
+        : mobileUpdateAlertConfig(alertConfig as MobileAppSmartAlertConfig, form.get('id').value);
     updateConfig.once(
       updatedAlertConfig => {
         onClose(updatedAlertConfig);
         showSuccessMessage(updatedAlertConfig.name, editMode);
-        trackAlertUpdated(updatedAlertConfig);
+        trackCta?.(ALERTING_UPDATED, { ...updatedAlertConfig, dialogMode: 'Advanced' });
       },
       error => {
         addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
@@ -91,8 +95,8 @@ export function createOrSaveAlert({
   } else {
     const createConfig =
       eumType === websiteEum
-        ? webisteCreateAlertConfig(alertConfig as WebsiteAlertConfig)
-        : mobileCreateAlertConfig(alertConfig as MobileAppAlertConfig);
+        ? webisteCreateAlertConfig(alertConfig as WebsiteSmartAlertConfig)
+        : mobileCreateAlertConfig(alertConfig as MobileAppSmartAlertConfig);
     createConfig.once(
       createAlertConfig => {
         onClose(createAlertConfig);
@@ -100,15 +104,15 @@ export function createOrSaveAlert({
           eumType === websiteEum
             ? getLinkToAlertConfig(
                 createAlertConfig.id,
-                (createAlertConfig as WebsiteAlertConfigWithMetadata).websiteId
+                (createAlertConfig as WebsiteSmartAlertConfigWithMetadata).websiteId
               )
             : getLinkToAlertConfig(
                 createAlertConfig.id,
-                (createAlertConfig as MobileAppAlertConfigWithMetadata).mobileAppId
+                (createAlertConfig as MobileAppSmartAlertConfigWithMetadata).mobileAppId
               );
         showSuccessMessage(createAlertConfig.name, editMode, false, href);
         const newConfig = duplicateFrom ? { ...createAlertConfig, cloneFromId: duplicateFrom } : createAlertConfig;
-        trackAlertSaved(newConfig, isSimpleMode);
+        trackCta?.(ALERTING_SAVED, { ...newConfig, dialogMode: isSimpleMode ? 'Simple' : 'Advanced' });
       },
       error => {
         addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));

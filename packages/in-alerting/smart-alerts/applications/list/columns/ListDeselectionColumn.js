@@ -6,8 +6,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { IconButton } from '@instana/components';
+
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import IconButton from 'in-components/IconButton/IconButton';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

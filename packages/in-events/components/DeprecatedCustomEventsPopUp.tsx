@@ -10,17 +10,17 @@ import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
 
 import {
-  applicationsAlertingMigrationNotificationDocs,
-  applicationsAlertingMigrationNotificationEvents,
-  applicationsAlertingShowMigrationNotification
-} from 'in-alerting/smart-alerts/applications/tracker';
-import { smartAlertMigrationUrl } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
+  APPLICATIONS_ALERTING_MIGRATION_NOTIFICATION_DOCS,
+  APPLICATIONS_ALERTING_MIGRATION_NOTIFICATION_EVENTS
+} from 'in-services/tracking/tracking';
+import { smartAlertMigrationUrl } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getLegacyAlertConfigStats';
-import { deprecatedValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+import { deprecatedValue } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/util';
+import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addMessage, Message, removeMessage } from 'in-components/MessageFlyout/stores/messages';
-import { events, teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
+import { events, globalSettingsAlertingEvents } from 'in-settings/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import { tryGet, trySet } from 'in-services/localStorage';
 import { pendingResult } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
@@ -39,9 +39,19 @@ const recurringIntervalDuration = days.toMillis(7);
 // localStorage.setItem('nextReminderAfter', 9)
 const localStorageKey = 'nextReminderAfter';
 
+export function useLinkToDeprecatedCustomEvents() {
+  const { location, createHref } = useNavigation();
+  location.pathname = globalSettingsAlertingEvents;
+  setOrDeleteMatrixKey(location, events, 'type', deprecatedValue);
+
+  return createHref(location);
+}
+
 export default function DeprecatedCustomEventsPopUp() {
   const legacyAlertConfigStats = useObservable(getLegacyAlertConfigStats, []) ?? pendingResult;
   const storedAlarmTime = storedAlarmTimeOrNull();
+  const hrefLink = useLinkToDeprecatedCustomEvents();
+  const { trackCta } = useSegmentTracking();
 
   useEffect(() => {
     const deprecatedCustomEventsExist = legacyAlertConfigStats?.data?.deprecatedCustomEvents > 0;
@@ -50,18 +60,17 @@ export default function DeprecatedCustomEventsPopUp() {
         setReminder(calculateNextOccurrence(initialDelay));
       } else {
         if (timeExpired()) {
-          showNotification(legacyAlertConfigStats.data.deprecatedCustomEvents);
-          const deprecatedCustomEvents = legacyAlertConfigStats?.data?.deprecatedCustomEvents;
-          applicationsAlertingShowMigrationNotification({ deprecatedCustomEvents });
+          showNotification(legacyAlertConfigStats.data.deprecatedCustomEvents, hrefLink, trackCta);
         }
       }
     }
-  }, [legacyAlertConfigStats, storedAlarmTime /* trigger, when localStorage was changed */]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [legacyAlertConfigStats, storedAlarmTime /* trigger, when localStorage was changed */, hrefLink]);
 
   return null;
 }
 
-export function showNotification(deprecatedCustomEvents: number) {
+export function showNotification(deprecatedCustomEvents: number, hrefLink: string, trackCta: CtaTrackingFunction) {
   const id = 'deprecatedCustomEventsInfo';
   const message: Message = {
     type: 'warning',
@@ -81,7 +90,9 @@ export function showNotification(deprecatedCustomEvents: number) {
                 <Link
                   href={smartAlertMigrationUrl}
                   external
-                  onClick={() => applicationsAlertingMigrationNotificationDocs({ deprecatedCustomEvents })}
+                  onClick={() =>
+                    trackCta(APPLICATIONS_ALERTING_MIGRATION_NOTIFICATION_DOCS, { deprecatedCustomEvents })
+                  }
                 >
                   &nbsp;
                 </Link>
@@ -90,11 +101,8 @@ export function showNotification(deprecatedCustomEvents: number) {
           />
         </p>
         <Link
-          href={getModifiedUrlStream(location => {
-            location.pathname = teamSettingsAlertingEvents;
-            setOrDeleteMatrixKey(location, events, 'type', deprecatedValue);
-          })}
-          onClick={() => applicationsAlertingMigrationNotificationEvents({ deprecatedCustomEvents })}
+          href={hrefLink}
+          onClick={() => trackCta(APPLICATIONS_ALERTING_MIGRATION_NOTIFICATION_EVENTS, { deprecatedCustomEvents })}
         >
           {t('in-events:deprecatedCustomEventGlobalPopup.affectedEventsLink')}
         </Link>

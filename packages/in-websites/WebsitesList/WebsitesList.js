@@ -6,8 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Link, Card, SeverityIndicatorCellContentWrapper } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { SeverityIndicatorCellContentWrapper } from '@instana/legacy';
+import { Link, Card, Button } from '@instana/components';
 
 import {
   getTimeConfigAlignedToResultTime,
@@ -17,7 +17,7 @@ import {
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior';
 import WebsitesNoDataNotification from 'in-websites/WebsitesList/components/WebsitesNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import { linkToNewWebsite$, useLinkToWebsite, websitesPath } from 'in-websites/navigation/paths';
+import { useLinkToNewWebsite, useLinkToWebsite, websitesPath } from 'in-websites/navigation/paths';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -26,11 +26,11 @@ import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { meanLatencyFixed, number } from 'in-services/formatters/number';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import { useWebsiteTracker } from 'in-websites/tracking/segTracker';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { playwithEnabled } from 'in-services/featureFlags';
 import { pageNames } from 'in-services/tracking/pageNames';
-import { websitesOpenAddForm } from 'in-websites/tracker';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
@@ -40,7 +40,7 @@ import { t } from 'in-i18n';
 
 import locals from './WebsitesList.mless';
 
-const WebsiteLabelColumn = item => {
+function WebsiteLabelColumn({ item }) {
   const websiteHref = useLinkToWebsite(item.website.id);
 
   return (
@@ -48,13 +48,15 @@ const WebsiteLabelColumn = item => {
       <Link href={websiteHref}>{item.website.label}</Link>
     </SeverityIndicatorCellContentWrapper>
   );
-};
+}
 
 const columnDefinitions = [
   {
     id: 'websiteLabel',
     label: t('in-websites:websitesList.websitesListLabelName'),
-    getContent: WebsiteLabelColumn
+    getContent(item) {
+      return <WebsiteLabelColumn item={item} />;
+    }
   },
   {
     id: 'pageViewsAgg',
@@ -121,17 +123,23 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   pathSegment: websitesPath
 });
 
-const rightHeader = role.canConfigureEumApplications && !playwithEnabled && (
-  <Button
-    kind="action"
-    onClick={() => websitesOpenAddForm()}
-    className={locals.button}
-    icon="lib_openclose_add_circle_outline"
-    href$={linkToNewWebsite$}
-  >
-    {t('in-websites:websitesList.websitesListButtonAddWebsite')}
-  </Button>
-);
+const RightHeader = () => {
+  const { websiteOpenAddFrom } = useWebsiteTracker();
+  const linkToNewWebsite = useLinkToNewWebsite();
+  if (role.canConfigureEumApplications && !playwithEnabled) {
+    return (
+      <Button
+        kind="action"
+        onClick={() => websiteOpenAddFrom()}
+        className={locals.button}
+        icon="lib_openclose_add_circle_outline"
+        href={linkToNewWebsite}
+      >
+        {t('in-websites:websitesList.websitesListButtonAddWebsite')}
+      </Button>
+    );
+  }
+};
 
 export default connectTo(
   {
@@ -153,7 +161,7 @@ export default connectTo(
             FallbackComponent={WebsitesNoDataNotification}
           >
             <Card hasMarginBottom>
-              <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} rightHeader={rightHeader} />
+              <ServerTableWithUrlState get={getTableData} timeConfig={timeConfig} rightHeader={RightHeader} />
             </Card>
           </WithEmptyStateFallback>
         </LeftRightPadding>

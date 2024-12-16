@@ -121,6 +121,16 @@ export const sloMetrics = deepFreeze({
         metric: 'CONSUMED_ERROR_BUDGET_CHART',
         timeConfig,
         granularity: granularity ?? calculateSloGranularity(timeConfig)
+      } as const),
+    singleNumber: ({ configId, timeConfig }: SloMetricConfigGeneratorProps) =>
+      ({
+        aggregation: 'MEAN',
+        configId,
+        metric: 'CONSUMED_ERROR_BUDGET_CHART',
+        resultType: 'SINGLE_NUMBER',
+        source: 'SLO',
+        timeConfig,
+        timeShift: { offset: 0 }
       } as const)
   },
 
@@ -232,6 +242,30 @@ export const applicationMetrics = deepFreeze({
         queryPrecision: 'FULL',
         timeConfig
       } as const)
+  },
+
+  erroneousCalls: {
+    label: t('in-service-levels:general.metrics.erroneousCalls'),
+    timeSeries: ({
+      entity,
+      tagFilterExpression,
+      timeConfig,
+      granularity
+    }: TimeSeriesGenerator<ApplicationMetricConfigGeneratorProps>) =>
+      ({
+        granularity,
+        aggregation: 'SUM',
+        source: 'APPLICATION',
+        dataSource: 'CALLS',
+        tagFilterExpression,
+        timeShift: { offset: 0 },
+        includeInternal: Boolean(entity.includeInternal),
+        includeSynthetic: Boolean(entity.includeSynthetic),
+        metric: 'erroneousCalls',
+        resultType: 'TIME_SERIES',
+        queryPrecision: 'FULL',
+        timeConfig
+      } as const)
   }
 });
 
@@ -304,6 +338,27 @@ export const websiteMetrics = deepFreeze({
         aggregation,
         source: 'WEBSITE',
         metric: 'beaconErrorRate',
+        beaconType: entity.beaconType,
+        tagFilterExpression,
+        timeShift: { offset: 0 },
+        timeConfig,
+        resultType: 'TIME_SERIES'
+      } as const)
+  },
+
+  beaconErrorCount: {
+    label: t('in-service-levels:general.metrics.beaconErrorCount'),
+    timeSeries: ({
+      entity,
+      tagFilterExpression,
+      timeConfig,
+      granularity
+    }: TimeSeriesGenerator<WebsiteMetricConfigGeneratorProps>) =>
+      ({
+        granularity,
+        aggregation: 'SUM',
+        source: 'WEBSITE',
+        metric: 'beaconErrorCount',
         beaconType: entity.beaconType,
         tagFilterExpression,
         timeShift: { offset: 0 },

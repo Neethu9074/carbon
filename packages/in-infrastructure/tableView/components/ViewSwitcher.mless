@@ -10,4 +10,7 @@
     display: flex;
     align-items: flex-end;
   }
+  .betaPill {
+    margin-left: 0.5rem;
+  }
 }

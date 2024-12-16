@@ -7,15 +7,11 @@ import { createField, createMapForm, composeValidators } from 'formalistic';
 import React, { useState } from 'react';
 import { get } from 'lodash';
 
-import { Spacer as SpacerComponent } from '@instana/components';
-import { Select } from '@instana/components';
-import { Link } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Spacer as SpacerComponent, Select, Checkbox, Button, Link } from '@instana/components';
 
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { notBlankValidator } from 'in-services/validators/string';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { close } from 'in-components/DialogPresenter/store';
 import InputComponent from 'in-components/form/Input';
 import Dialog from 'in-components/Dialog/Dialog';
@@ -84,7 +80,7 @@ export function Input({ id, value, onChange, placeholder, hasError }) {
 
 export function CheckBox({ label, checked, setChecked }) {
   return (
-    <CheckboxFancy
+    <Checkbox
       wrapperClassName={locals.checkbox}
       label={label}
       checked={checked}

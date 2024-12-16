@@ -3,19 +3,22 @@
   "edit": "编辑",
   "delete": "删除",
   "test": "测试",
+  "cancel": "取消",
+  "recommendedActionsWithCount": "建议的操作 ({{count}})",
   "recommendedActions": "建议的操作",
+  "recommendedOptimizationsWithCount": "建议的资源操作 ({{count}})",
+  "recommendedOptimizations": "建议的资源操作",
+  "actionName": "操作名称",
   "validVaultParameter": "标记为可选的保险库文件参数必须同时为空白或同时为非空白。",
   "newAction": "新建操作",
-  "ok": "确定",
   "runAction": "运行操作",
   "testAction": "测试操作",
   "targetAgent": "目标代理程序",
-  "noTargetAgent": "没有可用于运行此操作的目标代理程序。",
   "triggeringAgent": "{{hostname}} (触发代理程序)",
   "targetAgentDescription": "代理程序封装 1 ..* 个传感器，这些传感器进而能够向 Instana 后端发出事件。 触发代理程序包含发出此特定事件的传感器。",
-  "chosenToRun": "您已选择从操作目录运行 {{actionName}}。",
+  "chosenToRun": "运行操作 {{actionName}}",
   "viewManualAction": "查看手动操作 {{actionName}}",
-  "chosenToTest": "您已选择测试“操作目录”中的 {{actionName}}。",
+  "chosenToTest": "测试操作 {{actionName}}",
   "failedToInitiate": "{{actionName}} 无法启动。",
   "hasBeenInitiated": "{{actionName}} 已启动。",
   "configureAutomation": "配置 {{actionName}} 的自动化",
@@ -29,7 +32,7 @@
   "body": "主体：{{body}}",
   "authType": "授权类型：{{authType}}",
   "headers": "标题：",
-  "secretPath": "私钥路径",
+  "secretPath": "密钥路径",
   "secretKey": "私钥",
   "enterParameterValue": "输入参数值",
   "optional": "{{name}}（可选）",
@@ -39,14 +42,13 @@
   "parameters": "参数",
   "noParametersTitle": "无参数",
   "noParametersText": "此操作没有任何参数。",
-  "linkToActionLogs": "可在<logsLink>分析 > 日志</logsLink>中查看此操作的输出。",
-  "linkToActionHistory": "可以在<logsLink>“操作历史记录\"页面</logsLink>中查看此操作实例的输出。",
+  "linkToActionHistory": "可以在“操作历史记录”中查看此操作实例的输出。",
   "description": "描述",
   "automation": "自动化",
   "failedToResolveDynamicParameters": "未能解析动态参数。",
-  "associateActionWithName": "关联操作 {{actionName}}",
   "deletePolicyWithName": "删除策略 {{actionName}}",
   "jobTemplate": "作业模板",
+  "workflowJobTemplate": "工作流程作业模板",
   "hostsLimit": "主机限制（可选）",
   "ownerInfo": "所有者/组织：{{owner}}",
   "repoInfo": "存储库：{{repo}}",
@@ -77,12 +79,15 @@
   "duplicate": "复制",
   "theValueMustNotBeBlank": "值不能为空。",
   "tags": "标记",
-  "noTagsConfigured": "未配置标记",
+  "tagsLabel": "标记（可选）",
+  "actionCategory": "操作类别",
   "value": "值",
   "type": "Type",
+  "automationPoliciesWithCount": "自动化策略（{{count}} 个）",
   "automationPolicies": "自动化策略",
   "copyOf": "{{name}}（的副本）",
   "searchActions": "搜索操作",
+  "searchOptimizations": "搜索优化",
   "hostsLimitHelpText": "将执行限制为指定的目标主机。 选择与系统在 Ansible 清单中的表示方式相匹配的值，或者输入 Ansible 限制语法支持的字符串。",
   "aiEngine": "AI 引擎",
   "engine": "引擎",
@@ -91,6 +96,92 @@
   "tag": "标记",
   "noTagsAvailable": "没有可用的标记",
   "actions": "操作",
+  "actionsWithCount": "操作 ({{count}})",
+  "titleUrl": "URL",
+  "generateWithWatsonx": "使用 watsonx 生成",
+  "AISlugContent": "使用 AI 生成了此内容",
+  "createPolicyWithName": "查看操作 {{actionName}} 并创建策略",
+  "viewActionCreatePolicy": "查看操作并创建策略",
+  "titleContentReadOnly": "生成的内容（只读）",
+  "GenerateAIActionDialog": {
+    "actionConfiguration": "操作配置",
+    "actionDetails": "操作详细信息",
+    "Step1HeadlineSelectAction": "从 watsonx 生成的内置操作开始，为该事件创建一个新操作。",
+    "Step1HeadlinePrompt": "根据事件名称、描述和实体类型，使用 watsonx 生成手动操作。",
+    "Step2Headline": "在保存到操作目录之前，指定操作详细信息或进行更改。",
+    "Step3Headline": "（可选）您可以在创建操作的同时创建自动化策略。 您也可以稍后再完成此步骤。",
+    "step1Title": "步骤 1：生成或选择操作",
+    "step1TitleGenerateAction": "步骤 1：生成操作",
+    "step1TitleSelectAction": "步骤 1：选择操作",
+    "step2Title": "步骤 2：配置操作",
+    "step3Title": "步骤 3：创建策略（可选）",
+    "policyDetails": "策略详细信息",
+    "policy": {
+      "success": {
+        "title": "已成功创建策略。",
+        "content": "已成功创建策略<Link>“{{name}}”</Link>。"
+      }
+    },
+    "action": {
+      "success": {
+        "title": "已成功创建操作。",
+        "content": "已成功创建操作<Link>“{{name}}”</Link>。"
+      }
+    },
+    "generateAction": "使用 AI 生成",
+    "closeDialogDescription": " 确定要从此页面离开吗？",
+    "closeDialogSubDescription": "如果您离开此页面，将不会保存您输入或选择的任何信息。",
+    "liveGeneration": "实时生成",
+    "builtinActions": "内置操作（{{count}} 个）",
+    "eventName": "事件名称",
+    "eventDescription": "事件描述",
+    "eventEntityType": "事件实体类型",
+    "noDataAvailableLive": "填写提示字段并单击<strong>生成操作</strong>按钮以获取内容。",
+    "noDataAvailableSelectAction": "进行选择以查看内容。",
+    "watsonxLoadingContent": "watsonx 正在生成内容",
+    "confirmButtonLabel": "离开页面",
+    "cancelButtonLabel": "停留在页面上",
+    "noResultsYet": "尚无结果",
+    "next": "下一步",
+    "createActionAndPolicy": "创建操作和策略",
+    "createAction": "创建操作",
+    "nameExists": "已存在名称为 {{name}} 且类型为 {{type}} 的操作",
+    "failedToGenerateAction": "生成操作失败。",
+    "failedToCreateActionPolicy": "创建操作和策略失败。",
+    "failedToCreateAction": "创建操作失败。",
+    "generateScriptDialog": {
+      "dialogHeader": "通过手动操作生成脚本",
+      "step1Title": "步骤 1：选择步骤",
+      "step2Title": "步骤 2：生成脚本",
+      "step3Title": "步骤 3：配置和创建操作",
+      "step1Headline": "选择一个要为其生成脚本的手动操作步骤。 您可以在下一步中对手动操作步骤进行编辑。",
+      "step2Headline1": "查看操作步骤的详细信息，并进行必要的编辑。 然后，单击“生成脚本”以查看 watsonx 的结果。",
+      "step2Headline2": "您可以编辑并再次生成脚本，以查看不同的结果。",
+      "noDataAvailableLive": "单击“生成”按钮以生成脚本",
+      "generateScriptButton": "生成脚本",
+      "titleGeneratedCodeReadOnly": "生成的代码（只读）",
+      "promptTitle": "提示",
+      "generateScriptTileHeader": "通过手动操作步骤生成脚本",
+      "generateScriptTileDescription": "利用 watsonx AI，只需几步，即可通过手动操作步骤快速创建一个 bash 脚本作为提示，并将其添加到操作目录中。"
+    }
+  },
+  "CreatePolicyDialog": {
+    "Step1Headline": "查看建议的操作，并为此事件创建自动化策略。",
+    "Step2Headline": "指定详细信息以创建新自动化策略。",
+    "step1Title": "步骤 1：查看建议的操作",
+    "step2Title": "步骤 2：创建策略",
+    "actionDetails": "操作详细信息",
+    "policy": {
+      "success": {
+        "title": "已创建策略",
+        "content": "已成功创建策略“{{name}}”。"
+      }
+    }
+  },
+  "userDefinedWithCount": "用户创建的 ({{count}})",
+  "userDefined": "用户创建的",
+  "aiGeneratedWithCount": "AI 生成的 ({{count}})",
+  "aiGenerated": "AI 生成的",
   "ActionCatalog": {
     "actionCatalog": "操作目录",
     "action": "操作",
@@ -111,7 +202,7 @@
     "showsUpInTheListOfActions": "显示在操作列表中。 应该唯一且有意义。",
     "showsUpInTheActionDescription": "显示在操作描述中。 应尽可能具有描述性。",
     "docLinkDescription": "可帮助修复的文档的 URL。",
-    "manualContentDescription": "请在此处输入手动操作的指示信息。",
+    "manualContentDescription": "如果要进行编辑，您可以使用 markdown 将步骤添加到列表中。",
     "manual": "手动",
     "confidence_low": "低",
     "body": "主体（可选）",
@@ -201,13 +292,35 @@
     "newFeature": "新建功能部件",
     "view": "视图",
     "content": "内容",
+    "mustHaveRequiredTag": "操作必须至少包含以下其中一个标记：{{tags}}",
     "deleteDialog": {
       "success": "已成功删除操作。",
       "failure": "未能删除操作: {{errorMessage}}"
+    },
+    "createDialog": {
+      "success": {
+        "title": "已成功创建操作。",
+        "content": "已成功创建操作“{{name}}”。"
+      },
+      "failure": {
+        "title": "创建操作失败。",
+        "content": "创建此操作时出现问题：{{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "已成功更新操作。",
+        "content": "已成功更新操作“{{name}}”。"
+      },
+      "failure": {
+        "title": "更新操作失败。",
+        "content": "更新此操作时出现问题：{{errorMessage}}"
+      }
     }
   },
   "actionHistory": {
     "actionHistory": "操作历史记录",
+    "goToActionHistory": "转至“操作历史记录”",
     "actionHistoryWithCount": "操作历史记录 ({{count}})",
     "noActionInstances": "无可用数据",
     "external": "外部",
@@ -223,7 +336,8 @@
     "eventName": "事件名称",
     "returnCode": "返回码",
     "errorMessage": "错误消息",
-    "actionContent": "操作内容",
+    "risk": "风险",
+    "action": "操作",
     "host": "主机",
     "log": "日志",
     "success": "成功",
@@ -236,12 +350,12 @@
     "inputParameters": "输入参数",
     "feedbackTab": "反馈",
     "properties": "属性",
-    "filterNameOrActionInstanceId": "按名称、事件名称或操作实例标识过滤",
+    "filter": "过滤",
     "inputPrompt": "告诉我们您使用此操作的经验：",
-    "unhappyFeedback": "我非常不开心",
+    "unhappyFeedback": "我非常不满意",
     "dissatisfiedFeedback": "我不满意",
     "neutralFeedback": "我保持中立",
-    "satisfiedFeedback": "我很满意",
+    "satisfiedFeedback": "我感到满意",
     "verySatisfiedFeedback": "我非常满意",
     "additionalFeedback": "其他注释（可选）",
     "feedbackError": "保存反馈时发生错误。 请稍后重试。",
@@ -255,16 +369,24 @@
     "submitted": "已提交",
     "timeout": "超时",
     "issueUrl": "问题 URL",
-    "taskUrl": "任务 URL"
+    "taskUrl": "任务 URL",
+    "output": "输出",
+    "user": "用户",
+    "apiToken": "API 令牌",
+    "deleteTooltip": "删除操作实例 {{id}}",
+    "deleteDialog": {
+      "success": "操作实例已被成功删除。",
+      "failure": "无法删除操作实例。"
+    }
   },
   "actionLanes": {
     "buttonInvestigate": "调查"
   },
   "policies": {
     "policies": "策略",
+    "policiesWithCount": "策略（{{count}} 个）",
     "newPolicy": "新策略",
     "selectEventTrigger": "选择事件触发器",
-    "actionName": "操作名称",
     "eventTrigger": "事件触发器",
     "unknownPolicy": "未知策略",
     "policy": "策略",
@@ -288,13 +410,13 @@
     "custom": "定制",
     "event": "事件",
     "entityType": "实体类型",
-    "properties": "属性",
     "applicationSmartAlert": "应用程序智能警报",
     "globalApplicationSmartAlert": "全局应用程序智能警报",
     "infraSmartAlert": "基础架构智能警报",
     "mobileAppSmartAlert": "移动应用程序智能警报",
     "syntheticsSmartAlert": "合成智能警报",
     "logSmartAlert": "日志智能警报",
+    "sloSmartAlert": "服务级别智能警报",
     "docLinkAndManualCantBeAutomated": "无法自动执行文档链接和手动操作。",
     "triggeringAgent": "触发代理程序",
     "triggeringHostFqdn": "触发主机 FQDN",
@@ -308,6 +430,7 @@
     "manualAutomatic": "手动，自动",
     "policyType": "策略类型",
     "noPolicies": "未配置任何策略。",
+    "filterApplied": "已应用的过滤器",
     "createDialog": {
       "success": {
         "title": "已成功创建策略。",
@@ -315,7 +438,17 @@
       },
       "failure": {
         "title": "未能创建策略。",
-        "content": "创建此策略时发生问题: \"{{name}}\"。"
+        "content": "创建此策略时发生问题：{{errorMessage}}"
+      }
+    },
+    "editDialog": {
+      "success": {
+        "title": "已成功更新策略。",
+        "content": "已成功更新策略“{{name}}”。"
+      },
+      "failure": {
+        "title": "未能更新策略。",
+        "content": "更新此策略时发生问题：{{errorMessage}}"
       }
     },
     "createBulkDialog": {
@@ -329,7 +462,7 @@
       },
       "failure": {
         "title": "未能创建策略。",
-        "content": "创建策略时发生问题:{{error}}"
+        "content": "创建策略时发生问题：{{error}}"
       }
     },
     "deleteDialog": {
@@ -339,9 +472,45 @@
     "createPolicies": "创建策略",
     "websiteSmartAlert": "Web 站点智能警报"
   },
+  "infoPanel": {
+    "taskGuidance": "用户指南",
+    "hideTasks": "隐藏",
+    "showTasks": "显示"
+  },
   "deleteDialog": {
     "pleaseConfirm": "请确认",
     "pleaseConfirmMsg": "确定要删除 <strong>{{name}}</strong> 吗？",
     "delete": "删除"
+  },
+  "turboActionCategories": {
+    "compliance": "合规性",
+    "prevention": "预防",
+    "efficiency": "效率",
+    "efficiency_improvement": "效率提升",
+    "savings": "节省额",
+    "performance": "性能",
+    "performance_assurance": "性能保证"
+  },
+  "resourceOptimization": {
+    "details": "资源优化详细信息",
+    "targetAgent": "目标代理程序",
+    "viewInTurbo": "在 Turbonomic 中查看",
+    "resourceImpact": "资源影响",
+    "impactedApplications": "受影响的应用程序",
+    "services": "服务",
+    "current": "当前",
+    "afterActions": "操作后",
+    "agentHelperText": "代理程序封装 1..* 个传感器，这些传感器又能够向 Instana 后端发出事件。 触发代理程序包含引发此特定事件的传感器。",
+    "proceedConfirm": "此操作不可撤销。 确定要继续吗？",
+    "riskDescription": "风险描述",
+    "runningAction": "运行操作...",
+    "actionStarted": "操作已启动",
+    "actionFailed": "操作失败",
+    "actionStartedMessage": "您执行了 <strong>{{actionName}}。</strong> 在“操作历史”选项卡中查看此操作的进度。",
+    "actionFailedMessage": "执行 <strong>{{actionName}}</strong> 操作的请求失败：{{message}}。",
+    "viewActionHistory": "查看操作历史记录",
+    "actionName": "操作名称",
+    "recommendedActionHistoryWithCount": "资源行动历史记录{{count}})",
+    "recommendedActionHistory": "资源行动历史"
   }
 }

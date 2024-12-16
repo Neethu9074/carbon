@@ -4,6 +4,8 @@
  */
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import memoize from 'in-services/util/memoizingObservableGenerator';
+import { minutes } from 'in-services/time';
 import http from 'in-services/http';
 
 export interface ChangePasswordRequest {
@@ -21,14 +23,18 @@ export function changePassword(data: ChangePasswordRequest) {
   });
 }
 
-function isAvailableQuery() {
+export function isAvailable() {
   return http<boolean>({
     method: 'GET',
     maxRetries: 3,
     url: '/api/settings/authentication/password/available'
-  });
+  }).map(res => res.body);
 }
 
-export function isAvailable() {
-  return isAvailableQuery().map(res => res.body);
-}
+// follow the patterns of caching in other areas. Here, without a parameter for any id
+// be careful: only deletes itself and cached value
+// after all observers had been disposed!
+const memoizedIsAvailable = memoize(isAvailable, () => 'PasswordAuthenticationAvailable', minutes.toMillis(1));
+
+// always returns a cached observable
+export const isAvailableCached = () => memoizedIsAvailable(0 /*unused*/);

@@ -5,14 +5,12 @@
 
 import React from 'react';
 
-import { Ul, Li, ColumnizedContent, KeyValue, SvgIcon } from '@instana/components';
-import { Select } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Ul, Li, ColumnizedContent, KeyValue, IconButton, Button, Select } from '@instana/components';
 
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
+import UserIcon from 'in-components/UserIcon/UserIcon';
 import FormGroup from 'in-components/form/FormGroup';
-import Gravatar from 'in-components/Gravatar';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import { user } from 'in-stores/user';
@@ -23,8 +21,8 @@ import locals from './IndividualEditRightSelection.mless';
 const columnDefinitions = [
   {
     width: '3rem',
-    getContent({ user }) {
-      return <Gravatar email={user.email} />;
+    getContent: () => {
+      return <UserIcon size="l" />;
     }
   },
   {
@@ -42,7 +40,12 @@ const columnDefinitions = [
             { fullName: user.fullName }
           )}
         >
-          <SvgIcon className={locals.delete} type="lib_actions_delete" onClick={() => removeEditor(user.id)} />
+          <IconButton
+            kind="primary"
+            className={locals.delete}
+            type="lib_actions_delete"
+            onClick={() => removeEditor(user.id)}
+          />
         </Tooltip>
       );
     }

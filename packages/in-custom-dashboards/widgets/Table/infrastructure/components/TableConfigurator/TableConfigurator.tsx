@@ -7,7 +7,7 @@
 import { Item, MapForm } from 'formalistic';
 import React, { useMemo } from 'react';
 
-import { Li, Spacer, Stack } from '@instana/components';
+import { Li, Spacer, Stack, Checkbox } from '@instana/components';
 
 import {
   datasets,
@@ -17,7 +17,9 @@ import {
   aggregation as aggregationFieldName,
   grouping,
   countGroup,
-  showGroupsWithMissingTags
+  showGroupsWithMissingTags,
+  entityType as entityTypeFieldName,
+  crossSeriesAggregation as crossSeriesAggregationFieldName
 } from 'in-custom-dashboards/widgets/Table/infrastructure/form';
 // @ts-expect-error
 import { MetricsForAxis as MetricsForColumns } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricReordering';
@@ -30,7 +32,6 @@ import { getShortMetricKey } from 'in-custom-dashboards/widgets/Table/infrastruc
 import GroupConfigurator from 'in-custom-dashboards/widgets/Table/infrastructure/components/GroupConfigurator';
 import { metricsPath } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
 import Sections from 'in-components/workspace/Sections/Sections';
 import Section from 'in-components/workspace/Section';
@@ -70,6 +71,7 @@ export default function TableConfigurator({
   const datasetsColumnsField = form.get(datasets);
   const metricsSize = datasetsColumnsField.get(metricsPath).size;
   const groups = form.get(grouping).value;
+  const ownerType = form.get(entityTypeFieldName).value;
 
   const isMetricsEnabled = metricsSize > 0;
   const metrics = getMetrics(datasetsColumnsField.get(metricsPath));
@@ -94,6 +96,7 @@ export default function TableConfigurator({
                 tagFilterExpression={tagFilterExpression}
                 setTagFilterExpression={setTagFilterExpression}
                 tagCatalog={tagCatalog}
+                ownerType={ownerType}
               />
             </Sections>
 
@@ -103,6 +106,7 @@ export default function TableConfigurator({
                 updateForm={updateForm}
                 tagFilterExpression={tagFilterExpressionFieldValue ?? tagFilterExpression}
                 tagCatalog={tagCatalog}
+                ownerType={ownerType}
               />
             </Sections>
 
@@ -110,7 +114,7 @@ export default function TableConfigurator({
               <Sections>
                 <Section title={t('in-custom-dashboards:widgets.table.form.infrastructure.countGroup')}>
                   <Stack direction="horizontal" align="center" distribution="stretch" gap="large">
-                    <CheckboxFancy
+                    <Checkbox
                       checked={counterField}
                       onChange={({ target }) =>
                         updateForm(
@@ -122,11 +126,13 @@ export default function TableConfigurator({
                 </Section>
                 <Section title={t('in-custom-dashboards:widgets.table.form.infrastructure.showGroupsWithMissingTags')}>
                   <Stack direction="horizontal" align="center" distribution="stretch" gap="large">
-                    <CheckboxFancy
+                    <Checkbox
                       checked={showGroupsWithMissingTagsField}
                       onChange={({ target }) =>
                         updateForm(
-                          form.updateIn([showGroupsWithMissingTags], field => field.setValue(target.checked).setTouched(true))
+                          form.updateIn([showGroupsWithMissingTags], field =>
+                            field.setValue(target.checked).setTouched(true)
+                          )
                         )
                       }
                     />
@@ -176,9 +182,10 @@ function getMetrics(metrics: Metric[]) {
     const metric = field.get(metricFieldName).value;
     const label = field.get(metricLabel).value;
     const aggregation = field.get(aggregationFieldName).value;
+    const crossSeriesAggregation = field.get(crossSeriesAggregationFieldName)?.value;
 
     if (metric !== '') {
-      output.push({ value: `${metric}.${aggregation}`, label: label });
+      output.push({ value: `${metric}.${aggregation}.${crossSeriesAggregation}`, label: label });
     }
 
     return output;

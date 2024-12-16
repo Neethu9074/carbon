@@ -6,26 +6,19 @@
 @import '~in-themes/mixins.less';
 
 :local {
+  .healthIcon {
+    padding-inline-start: 1rem;
+  }
+
   .link {
     display: block;
     .ellipsis();
   }
 
-  .dot {
-    width: 0.625rem;
-    height: 0.625rem;
-    border-radius: var(--ids-border-radius-option-round);
-    background-color: var(--ids-color-option-neutral-700);
-  }
-
-  .erroneous {
-    display: flex;
-    align-items: center;
-  }
-
   .batchedLine {
     display: flex;
     flex-direction: row;
+    align-items: center;
   }
 
   .latencyDistribution {

@@ -5,33 +5,32 @@
 
 import React from 'react';
 
-import { Link } from '@instana/components';
+import { ApplicationBoundaryScope, LogMessageItem, OrderDirection, Result, TimeConfig } from '@instana/types';
+import { Link, Pill } from '@instana/components';
 
 //@ts-expect-error Needs TS migration
 import AnalyzeMessagesButton from 'in-applications/Dashboards/commonTabs/messages/components/AnalyzeMessagesButton';
 //@ts-expect-error Needs TS migration
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
-//@ts-expect-error Needs TS migration
-import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
-import { getResolvedTimeConfig, getSparkChartGranularity, TimeResult } from 'in-applications/metrics';
 //@ts-expect-error Needs TS migration
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import { clickedAppPerspectiveLink } from 'in-logging/analyze/AnalyzeView/tracker';
+//@ts-expect-error Needs TS migration
+import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import { getResolvedTimeConfig, getSparkChartGranularity, TimeResult } from 'in-applications/metrics';
+import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
+import { LOGGING_CLICKED_APPLICATION_PERSPECTIVE_LINK } from 'in-services/tracking/eventNames';
+import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
+import { ColumnDefinition, TableProps } from 'in-components/tables/ServerTable/types';
 import { EQUALS, IS_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { logPillColorMap } from 'in-logging/analyze/AnalyzeView/utils/constants';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-//@ts-expect-error Needs TS migration
-import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getLogMessages from 'in-applications/subscriptions/getLogMessages';
 import { number } from 'in-services/formatters/number';
 import { collationLanguage, t } from 'in-i18n';
-import {Pill} from '@instana/components';
 
 import locals from 'in-logging/components/Dashboards/components/MessagesTable.mless';
-import { ApplicationBoundaryScope, LogMessageItem, OrderDirection, Result, TimeConfig } from '@instana/types';
-import { ColumnDefinition, TableProps } from 'in-components/tables/ServerTable/types';
 
 const pathSegment = '/logMessages';
 const matrixPrefix = 'log.';
@@ -68,8 +67,6 @@ const columnDefinitions: ColumnDefinition<LogMessageItem, AdditionalProps>[] = [
     getContent(item: LogMessageItem) {
       const color = logPillColorMap[item.level.toLowerCase()]  ?? 'high-contrast';
       return (
-        // @ts-expect-error the type definition in ui-foundation is not correct,
-        // yellow is not accepted since version 3.0
         <Pill className={locals.logLevelPill} type={color}>
           {item.level}
         </Pill>
@@ -239,9 +236,9 @@ interface MessageProps extends LogMessageTableProps{
 }
 function Message({ message, applicationName, serviceName, endpointName, boundaryScope }: MessageProps) {
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
-
+  const {trackCta} = useSegmentTracking()
   const trackLinkClick = () => {
-    clickedAppPerspectiveLink();
+    trackCta(LOGGING_CLICKED_APPLICATION_PERSPECTIVE_LINK);
   };
 
   return (

@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect } from 'react';
+import classNames from 'classnames';
 
 import { LogGroupItem, TagFilterExpression, TimeConfig } from '@instana/types';
 import { Group, IngestionOffsetCursor } from '@instana/types/typeDefinitions';
@@ -32,15 +33,16 @@ import { t } from 'in-i18n';
 import locals from 'in-logging/analyze/AnalyzeView/components/LogsDistributionChartSection.mless';
 
 const placeholderTimeConfig = { to: null, windowSize: 1, autoRefresh: false };
-const title = `${t('in-logging:logs')} (${t('in-logging:sum')})`;
+const title = `${t('in-logging:logs')} ${t('in-logging:count')} (${t('in-logging:sum')})`;
 
 export default function LogsDistributionChartSection(props: LogsDistributionChartSectionProps) {
-  const { chartedMetrics, dataSource, onChartedMetricsChange, tracking, hideRenderer, disableClose } = props;
+  const { chartedMetrics, dataSource, onChartedMetricsChange, tracking, hideRenderer, disableClose, isDashboard } =
+    props;
   const showChartMetricSelector = logsChartOptions?.metrics.length > 1;
   const metric = chartedMetrics?.[0];
 
   return (
-    <Sections className={locals.wrapper}>
+    <Sections className={classNames({ [locals.wrapper]: locals.wrapper, [locals.noBorder]: isDashboard })}>
       {showChartMetricSelector && (
         <ChartingConfiguratorSection
           value={chartedMetrics?.[0]}
@@ -55,7 +57,7 @@ export default function LogsDistributionChartSection(props: LogsDistributionChar
         />
       )}
       {metric && (
-        <div className={locals.chartWrapper}>
+        <div className={classNames({ [locals.chartWrapper]: locals.chartWrapper, [locals.noBorder]: isDashboard })}>
           <Chart {...props} metric={metric} />
         </div>
       )}
@@ -86,7 +88,7 @@ function Chart(props: ChartProps) {
   return <LogsChart {...props} />;
 }
 
-function LogsChart({ backendQueryModelWithFacets, metric }: ChartProps) {
+function LogsChart({ backendQueryModelWithFacets, metric, rightHeaderContent }: ChartProps) {
   const timeConfig = useTimeConfig();
   const { setState, state } = useLoggingAnalyzeContext();
 
@@ -121,6 +123,7 @@ function LogsChart({ backendQueryModelWithFacets, metric }: ChartProps) {
       <UnifiedMetricsChart
         customHeight={customChartHeight}
         automaticallySize={false}
+        rightHeaderContent={rightHeaderContent}
         renderLegend
         title={title}
         excludedContextMenuActions={['globalHighlight', 'download']}
@@ -138,7 +141,14 @@ function LogsChart({ backendQueryModelWithFacets, metric }: ChartProps) {
   );
 }
 
-function GroupedLogsChart({ filteringTagCatalog, metric, groupBy, getColor, backendQueryModelWithFacets }: ChartProps) {
+function GroupedLogsChart({
+  filteringTagCatalog,
+  metric,
+  groupBy,
+  getColor,
+  backendQueryModelWithFacets,
+  rightHeaderContent
+}: ChartProps) {
   const timeConfig = useTimeConfig();
   const { items, progress, errors } = useCursorPagination<IngestionOffsetCursor, LogGroupItem>(
     params => getData({ timeConfig, groupBy, backendQueryModelWithFacets, ...params }),
@@ -174,6 +184,7 @@ function GroupedLogsChart({ filteringTagCatalog, metric, groupBy, getColor, back
       customHeight={customChartHeight}
       automaticallySize={false}
       renderLegend
+      rightHeaderContent={rightHeaderContent}
       title={title}
       config={{
         y1: {

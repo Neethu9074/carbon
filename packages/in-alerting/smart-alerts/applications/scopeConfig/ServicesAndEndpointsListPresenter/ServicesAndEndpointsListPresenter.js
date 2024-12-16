@@ -4,8 +4,11 @@
  */
 
 import React, { useEffect, useMemo, useReducer, useState } from 'react';
+import { secondsToMilliseconds } from 'date-fns';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
+
+import { SearchInput } from '@instana/components';
 
 import { applicationsItemTreePropType } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import {
@@ -24,7 +27,7 @@ import { applicationDashboard } from 'in-applications/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { propTypeTimeConfig } from 'in-stores/time/config';
-import SearchInput from 'in-components/SearchInput';
+import { t } from 'in-i18n';
 
 const backendApiSubscriptions = {
   getApplication,
@@ -73,13 +76,15 @@ export default function ServicesAndEndpointsListPresenter({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [applicationsSelection]);
 
-  const [timeTo] = useState(Date.now());
+  const minute = secondsToMilliseconds(60);
+  const to = new Date().getTime() + minute * 30;
+  const [timeTo] = useState(to);
   const location = useLocation();
 
-  const timeConfigWithFixedFocussedMoment = useMemo(() => ({ ...timeConfig, to: timeTo, focusedMoment: timeTo }), [
-    timeConfig,
-    timeTo
-  ]);
+  const timeConfigWithFixedFocussedMoment = useMemo(
+    () => ({ ...timeConfig, to: timeTo, focusedMoment: timeTo }),
+    [timeConfig, timeTo]
+  );
 
   return (
     <ApplicationsList
@@ -110,7 +115,7 @@ export default function ServicesAndEndpointsListPresenter({
   }
 }
 
-export function ServicesAndEndpointsSearchInput({ query = '', onChange }) {
+export function ServicesAndEndpointsSearchInput({ query = '', placeholderText, onChange }) {
   const { value, onChange: debouncedOnChange } = useDebouncedValue(
     query,
     value => {
@@ -119,12 +124,18 @@ export function ServicesAndEndpointsSearchInput({ query = '', onChange }) {
     500
   );
 
-  return <SearchInput onChange={debouncedOnChange} query={value} />;
+  return (
+    <SearchInput
+      onChange={debouncedOnChange}
+      query={value}
+      placeholder={placeholderText ?? t('in-components:searchInput.placeholderSearch')}
+    />
+  );
 }
 
 ServicesAndEndpointsListPresenter.propTypes = {
   /**
-   * Only needed for storybook/testing otherwise yopu may not want to inject custom API subscriptions
+   * Only needed for storybook/testing otherwise you may not want to inject custom API subscriptions
    */
   apiSubscriptions: PropTypes.shape({
     getApplicationsCursorPaginated: PropTypes.func.isRequired,

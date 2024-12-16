@@ -7,5 +7,14 @@
 :local {
   .container {
     margin: 3rem 0 0;
+    :global {
+      // Address the outline issue in favourite icon
+      .favouriteIcon button.cds--btn--ghost:focus,
+      .favouriteIcon button.cds--btn--ghost:focus {
+        border-color: transparent;
+        box-shadow: none;
+        outline: none;
+      }
+    }
   }
 }

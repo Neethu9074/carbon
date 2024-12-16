@@ -27,10 +27,11 @@ export default function Tooltip(ComposedComponent) {
 
     componentDidMount() {
       this.positionSubscription = onMove(this.props.canvas, event => {
+        const canvas = this.props.canvas.getBoundingClientRect();
         const tooltip = this.tooltip;
         if (tooltip) {
-          const x = event.clientX - OFFSET * 3;
-          const y = event.clientY - 154 - OFFSET;
+          const x = event.clientX - canvas.left + OFFSET * 3;
+          const y = event.clientY - canvas.top - OFFSET;
           applyTransform(tooltip, `translate3d(${x}px,${y}px,0)`);
         }
       });

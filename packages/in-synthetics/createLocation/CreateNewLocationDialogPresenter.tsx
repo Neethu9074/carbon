@@ -11,7 +11,6 @@ import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
 import { t } from '@instana/i18n-react';
 
-// @ts-expect-error
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import SelectLocationType from 'in-synthetics/createLocation/steps/SelectLocationType';
 import ConfirmationDialog from 'in-synthetics/createLocation/steps/ConfirmationDialog';
@@ -44,14 +43,14 @@ const CreateNewLocationDialogPresenter = ({
   const checkLicense: Result<string> = useObservable<any, []>(() => getDatacenterLicense(), []) ?? pendingResult;
 
   // Steps configuration for the dialog
-  const stepConfigs = Object.freeze([
+  const stepConfigs = [
     {
       title: t('in-synthetics:dialog.createLocation.stepConfigs.selectType')
     },
     {
       title: t('in-synthetics:dialog.createLocation.stepConfigs.configuration')
     }
-  ]);
+  ];
 
   // Locations Blueprint State
   const [selectedBlueprint, setSelectedBlueprint] = useState(getLocationsBluePrintConfig()[0]);

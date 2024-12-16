@@ -6,8 +6,9 @@
 
 import React, { SetStateAction, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
+import classNames from 'classnames';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import {
@@ -22,7 +23,7 @@ import {
   browserScriptTest,
   browserSimpleTest
 } from 'in-synthetics/utils/constants';
-import { syntheticAdvancedCreateButtonClick, syntheticCreateAdvancedButtonClick } from 'in-synthetics/tracker';
+import { syntheticAdvancedCreateButtonClick, syntheticCreateAdvancedButtonClick } from 'in-synthetics/tracking/tracker';
 import getDefaultCustomProperties from 'in-synthetics/createTests/utils/getDefaultCustomProperties';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import populateCommonAttributes from 'in-synthetics/createTests/utils/populateCommonAttributes';
@@ -31,7 +32,9 @@ import WizardModeContainer from 'in-synthetics/createTests/wizard/WizardModeCont
 import { createForm } from 'in-synthetics/createTests/form/createSyntheticTestForm';
 import getDefaultHeaders from 'in-synthetics/createTests/utils/getDefaultHeaders';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { isNotBlank } from 'in-services/util/string';
 import { Error as ScriptError } from 'in-types';
 
@@ -82,6 +85,7 @@ const CreateSyntheticTestDialogPresenter = ({
   renderSectionsCounter,
   setRenderSectionsCounter
 }: CreateSyntheticTestDialogPresenterProps) => {
+  const { trackCta } = useSegmentTracking();
   const [simpleModeStep, setSimpleModeStep] = useState(0);
 
   //commonAttributes stores common SyntheticTest configuration attributes
@@ -110,6 +114,7 @@ const CreateSyntheticTestDialogPresenter = ({
     const syntheticTypeField = configForm.get('syntheticType') as Field<string>;
     const frequencyField = form.get('testFrequency') as Field<number>;
     const locationsField = form.get('locations') as Field<string[]>;
+    const labelField = form.get('label') as Field<string>;
 
     switch (step) {
       case 1: {
@@ -128,6 +133,8 @@ const CreateSyntheticTestDialogPresenter = ({
       }
       case 2:
         return frequencyField.valid;
+      case 3:
+        return syntheticRbacLimitedEnabled ? labelField.valid : true;
       default:
         return true;
     }
@@ -145,6 +152,14 @@ const CreateSyntheticTestDialogPresenter = ({
           (configForm.get('expectStatus') && !configForm.get('expectStatus').valid) ||
           invalidJSON.invalid ||
           (configForm.get('expectMatch') && !configForm.get('expectMatch').valid)
+      : undefined;
+  };
+
+  const SSLCertificateErrorsExist = (configForm: MapForm<any>, syntheticTypeField: Field<string>) => {
+    return syntheticTypeField.value === 'SSLCertificate'
+      ? (configForm.get('hostname') && !configForm.get('hostname').valid) ||
+          (configForm.get('port') && !configForm.get('port').valid) ||
+          (configForm.get('daysRemainingCheck') && !configForm.get('daysRemainingCheck').valid)
       : undefined;
   };
 
@@ -190,6 +205,8 @@ const CreateSyntheticTestDialogPresenter = ({
       HTTPActionErrorsExist(configForm, syntheticTypeField) ||
       // for HTTPScript, WebpageScript, and BrowserScript
       scriptErrorExist(configForm, syntheticTypeField) ||
+      // for SSL Certificate
+      SSLCertificateErrorsExist(configForm, syntheticTypeField) ||
       !syntheticTypeField.valid ||
       locationsField.value.length === 0 ||
       !frequencyField.valid ||
@@ -213,8 +230,8 @@ const CreateSyntheticTestDialogPresenter = ({
         isSaving={isSaving}
         disabled={isProceedDisabledAdvanced()}
         onClick={() => {
-          // Tracker
-          syntheticAdvancedCreateButtonClick({ detail: `Create a test using advanced mode` });
+          // Segment Tracker
+          syntheticAdvancedCreateButtonClick(trackCta);
           onCreate();
         }}
       >
@@ -252,8 +269,8 @@ const CreateSyntheticTestDialogPresenter = ({
             <Button
               kind="action"
               onClick={() => {
-                // Track
-                syntheticCreateAdvancedButtonClick({ detail: 'Switch to advanced mode' });
+                // Segment Track
+                syntheticCreateAdvancedButtonClick(trackCta);
                 //@ts-expect-error
                 setTestTypeSelected((prevState: SetStateAction<any>) => {
                   return getSelectedTestSubTypes(prevState);
@@ -268,6 +285,7 @@ const CreateSyntheticTestDialogPresenter = ({
                   isNotBlank(commonAttributes.label) ||
                   isNotBlank(commonAttributes.description) ||
                   isNotBlank(commonAttributes.applicationId) ||
+                  commonAttributes.applications.length !== 0 ||
                   isNotBlank(commonAttributes.script)
                 ) {
                   setRenderSectionsCounter((v: number) => v + 1);
@@ -286,7 +304,12 @@ const CreateSyntheticTestDialogPresenter = ({
       removeBottomPaddingWhenFooterIsShown
       doNotCloseOnOutsideClick
     >
-      <div className={simpleMode ? locals.simpleDialog : locals.advancedDialog}>
+      <div
+        className={classNames({
+          [locals.simpleDialog]: true,
+          [locals.advancedDialog]: !simpleMode
+        })}
+      >
         {simpleMode ? (
           <WizardModeContainer
             form={form}
@@ -305,6 +328,7 @@ const CreateSyntheticTestDialogPresenter = ({
             isStepDisabled={isStepDisabled}
             selectedBlueprint={selectedBlueprint}
             setSelectedBlueprint={setSelectedBlueprint}
+            setSliderState={setSliderState}
           />
         ) : (
           <AdvancedMode

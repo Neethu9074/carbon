@@ -4,14 +4,16 @@
  * Copyright IBM Corp. 2023
  */
 
-import { LogGroupItem, TagFilterExpression } from '@instana/types';
+import { LogGroupItem, TagFilter, TagFilterExpression } from '@instana/types';
 
 import { logLevelColors } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
 import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
+import { NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { Config, Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { ChartedMetric } from 'in-components/AnalyzeView/StateManagement';
 import { capitalize } from 'in-services/formatters/string';
 import { outlineForColor } from 'in-themes/chartColors';
+import { Mutable } from 'in-types';
 import { t } from 'in-i18n';
 
 export const getLogsChartConfig = (
@@ -86,7 +88,7 @@ export const getLogsChartConfig = (
   return config;
 };
 
-const getNextLogLevelForChart = (logGroups?: LogGroupItem[]): LogGroupItem | null => {
+export const getNextLogLevelForChart = (logGroups?: LogGroupItem[]): LogGroupItem | null => {
   if (!logGroups) return null;
 
   const otherLogLevels = logGroups
@@ -114,14 +116,29 @@ export function getMetricConfig({
   tag,
   value,
   label,
-  key
+  key,
+  type
 }: GetMetricParams): Metric {
+  const metricTagFilterExpression = getValueMatchTagFilter({ name: tag, key, value }) as Mutable<TagFilter>;
+
+  if (type === 'KEY_VALUE_PAIR') {
+    if (!key) {
+      metricTagFilterExpression.operator = NOT_EMPTY;
+      metricTagFilterExpression.key = value;
+      delete metricTagFilterExpression.value;
+    } else {
+      metricTagFilterExpression.operator = 'EQUALS';
+      metricTagFilterExpression.key = key;
+      metricTagFilterExpression.value = value;
+    }
+  }
+
   return {
     metric: metric.metricId,
     aggregation: metric.aggregationId,
-    label: label ?? value,
+    label: label ?? (value || '-'),
     source: 'LOG',
-    metricTagFilterExpression: getValueMatchTagFilter({ name: tag, key, value }),
+    metricTagFilterExpression: metricTagFilterExpression,
     tagFilterExpression: backendQueryModelWithFacets
 
     // granularity and timeConfig are send automatically by the chart impl

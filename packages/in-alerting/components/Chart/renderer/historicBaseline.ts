@@ -4,12 +4,20 @@
  * Copyright IBM Corp. 2022
  */
 
-import { Granularity, HistoricBaselineData, ThresholdOperator, TimeConfig } from '@instana/types';
+import {
+  Granularity,
+  HistoricBaselineData,
+  ThresholdOperator,
+  TimeConfig,
+  ThresholdData,
+  Seasonality
+} from '@instana/types';
 
 import {
   renderGreyAreaAsMetricUnavailableIndicator,
   renderThresholdLineAndBackgrounds
 } from 'in-alerting/components/Chart/renderer/renderThresholdAndBackgrounds';
+import { renderBackgroundsAndLinesWithGapsForMultiThreshold } from 'in-alerting/components/Chart/renderer/renderThresholdsAndBackgroundsForMultiThreshold';
 import { isGreaterOperatorOrUndefined } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { getHistoricBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { DataSeries, RenderConfig } from 'in-components/Chart/renderer/types';
@@ -33,23 +41,25 @@ export function renderHistoricBaseline(
   scale: ScaleType,
   colors50: AxisColor[],
   colors100: AxisColor[],
+  thresholdOperator: ThresholdOperator,
   historicBaselineData: HistoricBaselineData,
   thresholdGranularity: Granularity,
   metric?: DataSeries
 ): void {
   const { markerPaneHeight, timeConfig } = config;
-  const { baseline, deviationFactor, operator } = historicBaselineData;
+  const { baseline, deviationFactor } = historicBaselineData;
 
   if (!baseline || baseline.length === 0) {
     return;
   }
   if (baseline && baseline.length > 0 && timeConfig) {
-    const { isGreaterOp, oneSidedThresholdInTimeframe } = initOneSidedThreshold(
+    const isGreaterOp = isGreaterOperatorOrUndefined(thresholdOperator);
+    const { oneSidedThresholdInTimeframe } = initOneSidedThreshold(
       baseline as BaselineDataSeries,
-      operator,
       deviationFactor,
       thresholdGranularity,
-      timeConfig
+      timeConfig,
+      isGreaterOp
     );
 
     renderThresholdLineAndBackgrounds(config, scale, colors50, colors100, oneSidedThresholdInTimeframe, isGreaterOp);
@@ -77,13 +87,12 @@ export function renderHistoricBaseline(
 
 function initOneSidedThreshold(
   baseline: BaselineDataSeries,
-  operator: ThresholdOperator,
   sensitivity: number,
   thresholdGranularity: Granularity,
-  timeConfig: TimeConfig
-): { isGreaterOp: boolean; oneSidedThresholdInTimeframe: DataSeries } {
+  timeConfig: TimeConfig,
+  isGreaterOP: boolean
+): { oneSidedThresholdInTimeframe: DataSeries } {
   const oneSidedThresholdInTimeframe: DataSeries = [];
-  const isGreaterOp = isGreaterOperatorOrUndefined(operator);
 
   if (timeConfig.to) {
     const baselineWindowSize = (timeConfig.windowSize / thresholdGranularity) * thresholdGranularity;
@@ -96,10 +105,99 @@ function initOneSidedThreshold(
         baseline,
         sensitivity,
         thresholdGranularity,
-        isGreaterOp
+        isGreaterOP
       );
       oneSidedThresholdInTimeframe.push([timestamp, thresholdValue]);
     }
   }
-  return { isGreaterOp, oneSidedThresholdInTimeframe };
+  return { oneSidedThresholdInTimeframe };
+}
+
+export interface HistoricBaselineDataForMultiThreshold extends ThresholdData {
+  readonly baseline: BaselineDataSeries;
+  readonly deviationFactor: number;
+  readonly seasonality: Seasonality;
+  readonly type: 'historicBaseline';
+}
+
+export function renderMultiHistoricBaseline(
+  config: RenderConfig,
+  scale: ScaleType,
+  colors50: AxisColor[],
+  colors100: AxisColor[],
+  operator: ThresholdOperator,
+  warningHistoricBaselineData: HistoricBaselineDataForMultiThreshold | undefined,
+  criticalHistoricBaselineData: HistoricBaselineDataForMultiThreshold | undefined,
+  thresholdGranularity: Granularity,
+  metric?: DataSeries
+): void {
+  const { markerPaneHeight, timeConfig } = config;
+  const { baseline, warningDeviationFactor, criticalDeviationFactor } = extractHistoricBaselineData(
+    warningHistoricBaselineData,
+    criticalHistoricBaselineData
+  );
+
+  if (!baseline || baseline?.length === 0) {
+    return;
+  }
+  if (timeConfig) {
+    const isGreaterOp = isGreaterOperatorOrUndefined(operator);
+
+    const oneSidedThresholdInTimeframeForWarning =
+      warningDeviationFactor != null
+        ? initOneSidedThreshold(baseline, warningDeviationFactor, thresholdGranularity, timeConfig, isGreaterOp)
+            .oneSidedThresholdInTimeframe
+        : [];
+
+    const oneSidedThresholdInTimeframeForCritical =
+      criticalDeviationFactor != null
+        ? initOneSidedThreshold(baseline, criticalDeviationFactor, thresholdGranularity, timeConfig, isGreaterOp)
+            .oneSidedThresholdInTimeframe
+        : [];
+
+    renderBackgroundsAndLinesWithGapsForMultiThreshold(
+      config,
+      scale,
+      colors50,
+      colors100,
+      oneSidedThresholdInTimeframeForWarning,
+      oneSidedThresholdInTimeframeForCritical,
+      isGreaterOp
+    );
+
+    const definedOneSidedThresholdInTimeframe =
+      warningDeviationFactor !== undefined
+        ? oneSidedThresholdInTimeframeForWarning
+        : oneSidedThresholdInTimeframeForCritical;
+
+    const numOfThresholds = definedOneSidedThresholdInTimeframe.length;
+    const numOfMetrics = metric?.length ?? 0;
+
+    if (numOfThresholds > 0 && metric && numOfMetrics > 0) {
+      const lastAvailableThresholdTimestamp = definedOneSidedThresholdInTimeframe[numOfThresholds - 1][0];
+
+      const chartHeight = scale.getRangeFrom();
+
+      const graphAreaHeight = chartHeight - markerPaneHeight;
+      const lastAvailableMetricTimestamp = metric[numOfMetrics - 1][0];
+
+      renderGreyAreaAsMetricUnavailableIndicator(
+        config,
+        graphAreaHeight,
+        lastAvailableThresholdTimestamp,
+        lastAvailableMetricTimestamp
+      );
+    }
+  }
+}
+
+function extractHistoricBaselineData(
+  warningHistoricBaselineData: HistoricBaselineDataForMultiThreshold | undefined,
+  criticalHistoricBaselineData: HistoricBaselineDataForMultiThreshold | undefined
+) {
+  return {
+    baseline: warningHistoricBaselineData?.baseline ?? criticalHistoricBaselineData?.baseline ?? [],
+    warningDeviationFactor: warningHistoricBaselineData?.deviationFactor,
+    criticalDeviationFactor: criticalHistoricBaselineData?.deviationFactor
+  };
 }

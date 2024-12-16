@@ -6,13 +6,14 @@
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
+import { SearchInput } from '@instana/components';
+
 import { SideNavigation, SideNavigationSection, SideNavigationItem } from 'in-components/SideNavigation/SideNavigation';
 import { categorise, filter, score } from 'in-waiting-for-deployment/components/OnboardingWidget/contentUtils';
 import HelpAndSupport from 'in-waiting-for-deployment/components/OnboardingWidget/HelpAndSupport';
 import Collaboration from 'in-waiting-for-deployment/components/OnboardingWidget/Collaboration';
 import EntryContent from 'in-waiting-for-deployment/components/OnboardingWidget/EntryContent';
 import getEntries from 'in-waiting-for-deployment/components/OnboardingWidget/content';
-import SearchInput from 'in-components/SearchInput';
 import { t } from 'in-i18n';
 
 import locals from './InstallDocumentation.mless';
@@ -35,7 +36,13 @@ export default function InstallDocumentation(props) {
       </div>
       <div className={locals.contentWithNavigation}>
         <div className={locals.navigationWrapper}>
-          <SearchInput onChange={props.onQueryChange} query={props.query} autoFocus hasError={hasError} />
+          <SearchInput
+            onChange={props.onQueryChange}
+            query={props.query}
+            autoFocus
+            hasError={hasError}
+            placeholder={t('in-components:searchInput.placeholderSearch')}
+          />
           <SideNavigation>
             {categories.map(({ title, items }) => (
               <Fragment key={title}>

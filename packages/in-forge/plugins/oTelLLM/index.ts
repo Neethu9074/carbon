@@ -21,5 +21,6 @@ registerSnapshotDefinition({
     return Map({
       Environment: snapshot.getIn(['data', 'env'])
     });
-  }
+  },
+  getIconType: () => 'ai'
 });

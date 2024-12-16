@@ -7,6 +7,7 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
+import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import { getAccountAsResultObservable } from 'in-amp/api/account';
 import { hasError, isLoading } from 'in-services/util/result';
 import ApiItemView from 'in-settings/components/ApiItemView';
@@ -28,15 +29,17 @@ export default function WithAccountInformationResultWrapper({ children }) {
 }
 
 function WithAccountInformation({ children, environments }) {
-  const canShowAggregatedMetrics = containsPaidLicenses(environments);
+  // Do not show aggregated metrics, based on feature flag
+  const canShowAggregatedMetrics = !onPremLicenseInformationEnabled && containsPaidLicenses(environments);
   const unitSelectorOptions = environments.map(mapEnvironmentToComboBoxItem);
-  const hasSyntheticAddons = syntheticAddons(environments);
-
+  const hasSyntheticAddon = syntheticAddons(environments);
+  const hasLoggingAddon = loggingAddons(environments);
   return children({
     getCurrentTenantOption,
     unitSelectorOptions,
     canShowAggregatedMetrics,
-    hasSyntheticAddons
+    hasSyntheticAddon,
+    hasLoggingAddon
   });
 }
 
@@ -51,6 +54,35 @@ function syntheticAddons(licenses) {
   }
   return false;
 }
+
+/**
+ * This function checks if any of the active, expired or queued license has logging retention data
+ * available? if not then return false, if there is, then return an array of retention days to be
+ * displayed. If any of the license in any environment has the addon property then will be added to
+ * the array. The function checks on expiredLicenses to see the retention period of old data.
+ * @param {*} environments
+ * @returns null | string[]
+ */
+function loggingAddons(environments) {
+  const logAddonDays = [];
+
+  environments.forEach(env => {
+    const licenseLists = ['activeLicenses', 'expiredLicenses', 'queuedLicenses'];
+
+    licenseLists.forEach(licenseList => {
+      env[licenseList].forEach(license => {
+        const retention = license.licenseSpecs?.addons?.LOGGING_RETENTION;
+
+        if (retention?.bucket30Days > 0) logAddonDays.push('bucket30Days');
+        if (retention?.bucket60Days > 0) logAddonDays.push('bucket60Days');
+        if (retention?.bucket90Days > 0) logAddonDays.push('bucket90Days');
+      });
+    });
+  });
+
+  return logAddonDays.length > 0 ? logAddonDays : null;
+}
+
 function getCurrentTenantOption(unitSelectorOptions) {
   return (
     unitSelectorOptions.find(({ value }) => value.tenant === config.tenant && value.unit === config.tenantUnit) ??

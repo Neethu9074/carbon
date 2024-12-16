@@ -24,4 +24,17 @@
   .collapsedMessage {
     .ellipsis();
   }
+
+  .stackTraceMessageWrapper {
+    margin: 0.75rem 0;
+  }
+
+  .stackTrace {
+    font-weight: 600;
+    color: var(--cds-link-primary);
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
 }

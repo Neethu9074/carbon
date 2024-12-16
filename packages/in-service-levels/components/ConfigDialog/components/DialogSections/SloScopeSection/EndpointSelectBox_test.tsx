@@ -3,186 +3,146 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { shallow } from 'enzyme';
+import { act } from 'react-dom/test-utils';
+import { mount } from 'enzyme';
 import React from 'react';
 
+import { Subject, create } from '@instana/observables';
+
 import EndpointSelectBox from 'in-service-levels/components/ConfigDialog/components/DialogSections/SloScopeSection/EndpointSelectBox';
-import SelectInSection from 'in-components/form/Select/SelectInSection';
-import { EndpointItem, PaginatedResult } from 'in-types';
-import uE from 'in-applications/hooks/useEndpoints';
-import { FetchedState } from 'in-hooks/utils/types';
+import ComboBoxInSection from 'in-components/form/ComboBoxInSection/ComboBoxInSection';
+import getEndpointsOriginal from 'in-applications/subscriptions/getEndpoints';
+import { pendingResult } from 'in-services/fixedObjects';
+import { listSuccess } from 'in-services/util/result';
 import { noop } from 'in-services/util/function';
+import { Result } from 'in-types';
 import { t } from 'in-i18n';
 
-const useEndpoints = uE as jest.MockedFunction<typeof uE>;
-
-jest.mock('in-applications/hooks/useEndpoints', () => ({
-  __esModule: true,
-  default: jest.fn(() => [undefined, 'pending', []])
-}));
+jest.mock('in-applications/subscriptions/getEndpoints');
+type Wrapper = ReturnType<typeof mount>;
 
 describe('in-custom-dashbaords/widgets/Slo/sli/EndpointSelectBox', () => {
+  let getEndpoints$: Subject<Result<any>>;
   beforeEach(() => {
-    jest.clearAllMocks();
-
-    useEndpoints.mockReturnValue([undefined, 'pending', [], { loading: false }]);
+    jest.resetModules();
+    getEndpoints$ = create();
+    // @ts-expect-error
+    getEndpointsOriginal.mockReturnValue(getEndpoints$);
   });
+  async function emitAndUpdate(wrapper: Wrapper, result: Result<any>) {
+    getEndpoints$.emit(result);
+    await new Promise(process.nextTick);
 
-  it('renders a loading indicator while endpoints are being loaded', () => {
-    // Given
-    useEndpoints.mockReturnValue([undefined, 'pending', [], { loading: false }]);
+    wrapper.update();
+  }
 
+  async function openSelect(wrapper: Wrapper) {
+    await act(async () => {
+      wrapper.find('.Select__dropdown-indicator').hostNodes().simulate('mouseDown', {
+        button: 0
+      });
+    });
+    wrapper.update();
+  }
+  it('should be disabled with empty applicationId', async () => {
     // When
-    const wrapper = shallow(
+    const wrapper = mount(
       <EndpointSelectBox applicationId="" serviceId="" boundaryScope="ALL" value={undefined} onChange={noop} />
     );
+    await emitAndUpdate(wrapper, pendingResult);
 
-    // Then
-    expect(wrapper.text()).toContain(t('in-custom-dashboards:widgets.slo.endpointSelectBox.loading'));
+    await openSelect(wrapper);
+
+    expect(wrapper.find(ComboBoxInSection).prop('isDisabled')).toBeTruthy();
   });
-
-  it.each([['pending'], ['rejected']])('disables the selection if the endpoint result is %s', status => {
-    // Given
-    useEndpoints.mockReturnValue([undefined, status, [], { loading: false }] as FetchedState<
-      PaginatedResult<EndpointItem>
-    >);
-
-    // When
-    const wrapper = shallow(
-      <EndpointSelectBox applicationId="" serviceId="" boundaryScope="ALL" value={undefined} onChange={noop} />
+  it('has exactly one option element for all endpoints initally', async () => {
+    const wrapper = mount(
+      <EndpointSelectBox applicationId="someApplication" serviceId="" boundaryScope="ALL" value={''} onChange={noop} />
     );
 
-    // Then
-    expect(wrapper.find(SelectInSection).prop('disabled')).toBeTruthy();
-  });
+    await emitAndUpdate(wrapper, pendingResult);
 
-  it('propagates the value prop to the selection element', () => {
-    // Given
+    await openSelect(wrapper);
+
+    expect(wrapper.find('.Select__option').hostNodes()).toHaveLength(1);
+    expect(wrapper.find('.Select__option').hostNodes().prop('children')).toEqual(
+      t('in-custom-dashboards:widgets.slo.endpointSelectBox.allEndpoints')
+    );
+  });
+  it('loading indicator is shown while loading', async () => {
+    const wrapper = mount(
+      <EndpointSelectBox applicationId="someApplication" serviceId="" boundaryScope="ALL" value={''} onChange={noop} />
+    );
+
+    await emitAndUpdate(wrapper, pendingResult);
+
+    await openSelect(wrapper);
+
+    expect(wrapper.find('.Select__loading-indicator').exists()).toBeTruthy();
+  });
+  it('propagates the value prop to the selection element', async () => {
     const value = 'checkout';
-    useEndpoints.mockReturnValue([
-      {
-        items: [{ endpoint: { id: 'checkout', label: 'Checkout' } }],
-        page: 1,
-        pageSize: 1,
-        totalHits: 1
-      } as PaginatedResult<EndpointItem>,
-      'resolved',
-      [],
-      { loading: false }
-    ]);
-
-    // When
-    const wrapper = shallow(
-      <EndpointSelectBox applicationId="" serviceId="" boundaryScope="ALL" value={value} onChange={noop} />
-    );
-
-    expect(wrapper.find(SelectInSection).prop('value')).toEqual(value);
-  });
-
-  it.each([[undefined], [null], ['']])(
-    'indicates all endpoints are being selected if value is %s and endpoints are resolved',
-    value => {
-      // Given
-      useEndpoints.mockReturnValue([
-        { items: [], page: 1, pageSize: 0, totalHits: 0 } as PaginatedResult<EndpointItem>,
-        'resolved',
-        [],
-        { loading: false }
-      ]);
-
-      // When
-      const wrapper = shallow(
-        <EndpointSelectBox applicationId="" serviceId="" boundaryScope="ALL" value={value} onChange={noop} />
-      );
-
-      // Then
-      expect(
-        wrapper.containsMatchingElement(
-          <option>{t('in-custom-dashboards:widgets.slo.endpointSelectBox.allEndpoints')}</option>
-        )
-      ).toBeTruthy();
-    }
-  );
-
-  it('renders options for all resolved endpoints', () => {
-    // Given
-    useEndpoints.mockReturnValue([
-      {
-        items: [
-          { endpoint: { id: 'checkout', label: 'Checkout' } },
-          { endpoint: { id: 'tracking', label: 'Tracking' } },
-          { endpoint: { id: 'signUp', label: 'SignUp' } }
-        ],
-        page: 1,
-        pageSize: 3,
-        totalHits: 3
-      } as PaginatedResult<EndpointItem>,
-      'resolved',
-      [],
-      { loading: false }
-    ]);
-
-    // When
-    const wrapper = shallow(
-      <EndpointSelectBox applicationId="" serviceId="" boundaryScope="ALL" value={undefined} onChange={noop} />
-    );
-
-    // Then
-    expect(
-      wrapper.containsMatchingElement(
-        <option>{t('in-custom-dashboards:widgets.slo.endpointSelectBox.allEndpoints')}</option>
-      )
-    ).toBeTruthy();
-    expect(
-      wrapper.containsMatchingElement(
-        <option value="checkout" key="checkout">
-          Checkout
-        </option>
-      )
-    ).toBeTruthy();
-    expect(
-      wrapper.containsMatchingElement(
-        <option value="tracking" key="tracking">
-          Tracking
-        </option>
-      )
-    ).toBeTruthy();
-    expect(
-      wrapper.containsMatchingElement(
-        <option value="signUp" key="signUp">
-          SignUp
-        </option>
-      )
-    ).toBeTruthy();
-  });
-
-  it('only fetches endpoints for the provided applicationId, serviceId and boundaryScope', () => {
-    // Given
-    const applicationId = 'stansLab';
-    const serviceId = 'orderStatus';
-    const boundaryScope = 'INBOUND';
-
-    // When
-    shallow(
+    const wrapper = mount(
       <EndpointSelectBox
-        applicationId={applicationId}
-        serviceId={serviceId}
-        boundaryScope={boundaryScope}
-        value={undefined}
+        applicationId="someApplication"
+        serviceId=""
+        boundaryScope="ALL"
+        value={value}
         onChange={noop}
       />
     );
 
-    // Then
-    expect(useEndpoints).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        application: 'stansLab',
-        service: 'orderStatus',
-        filter: expect.objectContaining({
-          applicationBoundaryScope: 'INBOUND'
-        })
-      })
+    await emitAndUpdate(wrapper, pendingResult);
+
+    await emitAndUpdate(wrapper, listSuccess([{ endpoint: { value, label: value } }]));
+
+    await openSelect(wrapper);
+
+    expect(wrapper.find(ComboBoxInSection).prop('value')).toEqual(value);
+  });
+
+  it('passes an empty string to LazyComboxInSection value prop', async () => {
+    const wrapper = mount(
+      <EndpointSelectBox applicationId="someApplication" serviceId="" boundaryScope="ALL" onChange={noop} />
     );
+
+    await emitAndUpdate(wrapper, pendingResult);
+
+    expect(wrapper.find(ComboBoxInSection).prop('value')).toEqual('');
+  });
+  it('passes falsy value to SelectInSections hasError prop', async () => {
+    const wrapper = mount(
+      <EndpointSelectBox applicationId="someApplication" serviceId="" boundaryScope="ALL" onChange={noop} />
+    );
+
+    await emitAndUpdate(wrapper, pendingResult);
+
+    expect(wrapper.find(ComboBoxInSection).prop('hasError')).toBeFalsy();
+  });
+
+  it('renders three option elements with appropriate values and labels', async () => {
+    const wrapper = mount(
+      <EndpointSelectBox applicationId="someApplication" serviceId="" boundaryScope="ALL" onChange={noop} />
+    );
+
+    await emitAndUpdate(wrapper, pendingResult);
+
+    await emitAndUpdate(
+      wrapper,
+      listSuccess([
+        { endpoint: { id: 'checkout', label: 'Checkout' } },
+        { endpoint: { id: 'tracking', label: 'Tracking' } }
+      ])
+    );
+
+    await openSelect(wrapper);
+
+    expect(wrapper.find('.Select__option').hostNodes()).toHaveLength(3);
+    expect(wrapper.find('.Select__option').hostNodes().at(0).prop('children')).toEqual(
+      t('in-custom-dashboards:widgets.slo.endpointSelectBox.allEndpoints')
+    );
+    expect(wrapper.find('.Select__option').hostNodes().at(1).prop('children')).toEqual('Checkout');
+    expect(wrapper.find('.Select__option').hostNodes().at(2).prop('children')).toEqual('Tracking');
   });
 
   it('indicates an error state if hasError is true', () => {
@@ -190,10 +150,10 @@ describe('in-custom-dashbaords/widgets/Slo/sli/EndpointSelectBox', () => {
     const hasError = true;
 
     // When
-    const wrapper = shallow(
+    const wrapper = mount(
       <EndpointSelectBox
         hasError={hasError}
-        applicationId=""
+        applicationId="someApplication"
         serviceId=""
         boundaryScope="ALL"
         value={undefined}
@@ -202,20 +162,64 @@ describe('in-custom-dashbaords/widgets/Slo/sli/EndpointSelectBox', () => {
     );
 
     // Then
-    expect(wrapper.find(SelectInSection).prop('hasError')).toBeTruthy();
+    expect(wrapper.find(ComboBoxInSection).prop('hasError')).toBeTruthy();
   });
 
-  it('calls the onChange handler with the selected endpointId when a selection is made', () => {
+  describe('If an endpoint has been selected', () => {
+    it('fires onChange event', async () => {
+      const onChangeMock = jest.fn();
+      const wrapper = mount(
+        <EndpointSelectBox applicationId="someApplication" serviceId="" boundaryScope="ALL" onChange={onChangeMock} />
+      );
+
+      await emitAndUpdate(wrapper, pendingResult);
+
+      await emitAndUpdate(
+        wrapper,
+        listSuccess([
+          { endpoint: { id: 'checkout', label: 'Checkout' } },
+          { endpoint: { id: 'tracking', label: 'Tracking' } }
+        ])
+      );
+
+      await openSelect(wrapper);
+
+      await act(async () => {
+        wrapper.find('.Select__option').hostNodes().at(1).simulate('click');
+      });
+      wrapper.update();
+
+      expect(onChangeMock).toBeCalledWith('checkout');
+    });
+  });
+  it('only fetches endpoints for the provided applicationId, serviceId and boundaryScope', async () => {
     // Given
-    const onChange = jest.fn();
+    const applicationId = 'stansLab';
+    const serviceId = 'orderStatus';
+    const boundaryScope = 'INBOUND';
 
     // When
-    const wrapper = shallow(
-      <EndpointSelectBox onChange={onChange} applicationId="" serviceId="" boundaryScope="ALL" value={undefined} />
+    const wrapper = mount(
+      <EndpointSelectBox
+        applicationId={applicationId}
+        serviceId={serviceId}
+        boundaryScope={boundaryScope}
+        value={undefined}
+        onChange={noop}
+      />
     );
-    wrapper.find(SelectInSection).simulate('change', { target: { value: 'awesomeNewEndpoint' } });
+    await emitAndUpdate(wrapper, pendingResult);
+    await openSelect(wrapper);
 
     // Then
-    expect(onChange).toHaveBeenLastCalledWith('awesomeNewEndpoint');
+    expect(getEndpointsOriginal).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        filter: expect.objectContaining({
+          application: 'stansLab',
+          service: 'orderStatus',
+          applicationBoundaryScope: 'INBOUND'
+        })
+      })
+    );
   });
 });

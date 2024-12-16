@@ -11,7 +11,9 @@ import { TimeConfig } from '@instana/types';
 import {
   Axis,
   AxisConfiguration,
+  ChartConfig,
   Config as CombinedChartConfig,
+  DatapointsDistancePerSeries,
   Formatter,
   FormatterObject,
   MetricDataSeries
@@ -64,6 +66,7 @@ export default class Config {
 
   timeConfig?: TimeConfig;
 
+  distanceBetweenDatapointsInMillis?: number;
   maxDistanceBetweenDatapoints?: number;
   maxDistanceBetweenDatapointsInMillis?: number;
 
@@ -150,13 +153,14 @@ export default class Config {
   }
 
   calculateMaxMillisBetweenDatapoints(): number {
-    if (this.maxDistanceBetweenDatapoints) {
-      return this.maxDistanceBetweenDatapoints;
-    }
-    if (this.rollup === 1000) {
-      return allowedMillisGapsInOneSecondResolution;
-    }
-    return this.rollup! * allowedMultiplesOfRollupSizeMissingInCharts;
+    const maxMillisFromDistance = this.distanceBetweenDatapointsInMillis
+      ? this.distanceBetweenDatapointsInMillis * allowedMultiplesOfRollupSizeMissingInCharts
+      : 0;
+    const maxMillisFromRollup =
+      this.rollup === 1000
+        ? allowedMillisGapsInOneSecondResolution
+        : this.rollup! * allowedMultiplesOfRollupSizeMissingInCharts;
+    return Math.max(maxMillisFromDistance, maxMillisFromRollup);
   }
 
   enrichConfig(): void {
@@ -189,6 +193,18 @@ export default class Config {
 
     if (axis.renderer.enrich) {
       axis.renderer.enrich(this, axis);
+    }
+
+    const { metricsConfiguration } = this as ChartConfig;
+
+    if (metricsConfiguration) {
+      axis.distanceBetweenDatapointsInMillis = {} as DatapointsDistancePerSeries;
+      Object.entries(metricsConfiguration?.metrics)?.forEach(
+        ([metricId, metric]) =>
+          (axis.distanceBetweenDatapointsInMillis![metricId] = metric.pollRate
+            ? Math.max(metric.pollRate, this.maxDistanceBetweenDatapointsInMillis!)
+            : this.maxDistanceBetweenDatapointsInMillis!)
+      );
     }
   }
 
@@ -253,7 +269,7 @@ export default class Config {
     return this.allDomainValues;
   }
 
-  calculateBlocks(dataSeries: MetricDataSeries): MetricDataSeries[] {
+  calculateBlocks(dataSeries: MetricDataSeries, distanceBetweenDatapointsInMillis: number) {
     const blocks: MetricDataSeries[] = [];
     if (dataSeries.length === 0) {
       return blocks;
@@ -272,7 +288,9 @@ export default class Config {
       const nextDataPoint = i + 1 < dataSeries.length ? dataSeries[i + 1] : dataPoint;
       let isEndOfBlock = true;
       if (nextDataPoint) {
-        isEndOfBlock = nextDataPoint[0] - dataPoint[0] > this.maxDistanceBetweenDatapointsInMillis!;
+        isEndOfBlock =
+          nextDataPoint[0] - dataPoint[0] >
+          (distanceBetweenDatapointsInMillis ?? this.maxDistanceBetweenDatapointsInMillis!);
       }
 
       if (isEndOfBlock) {

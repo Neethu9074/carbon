@@ -10,7 +10,9 @@ import { ColumnizedContent, Li, SvgIcon, Pill } from '@instana/components';
 import { create } from '@instana/observables';
 
 import {
+  formatterPath,
   metricsPath,
+  unitPath,
   useChartFormatterFormSideEffects
 } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import MetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfigurator';
@@ -18,9 +20,14 @@ import { source as sliSource } from 'in-custom-dashboards/widgets/_shared/Metric
 import { duplicate, onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import { isInitiallyOpen } from 'in-custom-dashboards/widgets/Chart/FormComponent/autoOpenHelper';
 import TimeShiftingForm from 'in-custom-dashboards/widgets/Chart/FormComponent/TimeShiftingForm';
+import { getCommonFormatterForUnits } from 'in-custom-dashboards/widgets/_shared/formatters';
+import ThresholdForm from 'in-custom-dashboards/widgets/_shared/Threshold/ThresholdForm';
 import { getMetricId, getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import { HighlightedEffect } from 'in-components/SelectedElementHighlighter';
+import useSubForm from 'in-custom-dashboards/widgets/_shared/useSubForm';
+import { unitForInfraMetricsEnabled } from 'in-services/featureFlags';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
+import { getBaseUnit } from 'in-stores/metric/units';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -79,9 +86,10 @@ export const columnDefinitions = [
           >
             {t('in-custom-dashboards:widgets.formCompChart.metricConfigChart.duplicate')}
           </MoreMenuButton>
-
           <MoreMenuButton
             icon="lib_actions_delete"
+            requireTitle
+            title={t('in-custom-dashboards:widgets.formCompChart.metricConfigChart.removeDataset')}
             onClick={() => {
               onChange([axisName, 'metrics'], f => f.remove(indexInAxis).setTouched(true));
               refreshDFQ$.emit(true);
@@ -112,12 +120,26 @@ export default function MetricConfiguration(props) {
     isTypePrefilled = false,
     displayDFQ = true,
     withLastValue = false,
-    withEmptyValueFilterSection
+    withEmptyValueFilterSection,
+    withUnit = false,
+    withThreshold = false
   } = props;
 
   const updateForm = useChartFormatterFormSideEffects(form, updatedForm => {
     onChange([], () => updatedForm);
   });
+
+  const { form: thresholdForm, update: updateThresholdForm } = useSubForm({
+    form,
+    path: [axisName, metricsPath, indexInAxis, 'threshold'],
+    updateForm
+  });
+
+  const unitField = metricForm.get(unitPath);
+  const baseUnit = unitForInfraMetricsEnabled ? getBaseUnit(unitField?.value) : undefined;
+  const metricFormatter = baseUnit
+    ? getCommonFormatterForUnits(baseUnit)?.[0]?.id
+    : metricForm.get(formatterPath)?.value;
 
   return (
     <HighlightedEffect id={getMetricId(index)}>
@@ -171,6 +193,12 @@ export default function MetricConfiguration(props) {
               displayDFQ={displayDFQ}
               withLastValue={withLastValue}
               withEmptyValueFilterSection={withEmptyValueFilterSection}
+              withUnit={withUnit}
+              thresholdConfiguration={
+                withThreshold && (
+                  <ThresholdForm form={thresholdForm} updateForm={updateThresholdForm} formatter={metricFormatter} />
+                )
+              }
             />
           )}
         >

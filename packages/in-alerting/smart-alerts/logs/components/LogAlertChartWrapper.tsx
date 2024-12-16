@@ -64,7 +64,7 @@ export default function LogAlertChartWrapper({
 
   const chartViewConfig = createDefaultChartConfig(timeConfig);
 
-  const renderer = getRendererBasedOnThresholdType(threshold, highlight, granularity, [], false);
+  const renderer = getRendererBasedOnThresholdType(threshold.operator, threshold, highlight, granularity, [], false);
 
   const enrichedTagFilterExpression = selectedMetricGroup
     ? getExpressionWithLogsGroupingTags(tagFilterExpression as TagFilterExpression, [selectedMetricGroup])
@@ -83,6 +83,7 @@ export default function LogAlertChartWrapper({
       renderer,
       granularity,
       threshold,
+      threshold.operator,
       [],
       chartViewConfig
     )
@@ -118,7 +119,8 @@ export default function LogAlertChartWrapper({
   // window endtime or return the adjustedWindowSize, so we'll patch the return values.
   // NB: We should only zerofill log metrics which are aggregated by sum(count, message size, etc)
   const windowEnd = metricChartProps.result.time - (metricChartProps.result.time % granularity);
-  const updatedResult = { ...metricChartProps.result, time: windowEnd, adjustedWindowSize: timeConfig.windowSize };
+  const adjustedWindowSize = timeConfig.windowSize - (timeConfig.windowSize % granularity);
+  const updatedResult = { ...metricChartProps.result, time: windowEnd, adjustedWindowSize };
   const zeroFilledResult = applyPostProcessing(updatedResult, zeroFillAndClipMetric, granularity);
 
   return (

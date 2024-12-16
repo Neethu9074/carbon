@@ -5,13 +5,14 @@
 
 import React from 'react';
 
-import { AggregationType, EndpointType, Granularity, Group, TagFilter, TimeConfig } from '@instana/types';
+import { EndpointType, Granularity, Group, TagFilter, TimeConfig } from '@instana/types';
 
 import { createChartedMetric, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
+import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { carbonAlert, timeShift } from 'in-themes/chartColors';
 import { filterByEndpointType } from './includeEndpointTypes';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -32,18 +33,6 @@ interface ErrorsProps {
   timeConfig: TimeConfig;
 }
 
-interface ErrorRateProps {
-  aggregation: AggregationType;
-  color: string;
-  granularity: Granularity;
-  label: string;
-  metric: string;
-  source: string;
-  tagFilters: TagFilter;
-  timeConfig: TimeConfig;
-  timeShift: number;
-}
-
 export default function Errors({
   timeConfig,
   endpointId,
@@ -60,7 +49,7 @@ export default function Errors({
   const errorsBlueprintConfig = getBlueprintConfig('errors');
   const timeShiftConfig = useTimeShiftConfig();
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
-  const errorRate: ErrorRateProps = {
+  const errorRate: Metric = {
     metric: 'errors',
     label: t('in-applications:titleErroneousCallRate'),
     aggregation: 'MEAN',
@@ -73,7 +62,7 @@ export default function Errors({
     color: carbonAlert.red60
   };
 
-  let metrics;
+  let metrics: Metric[];
   let renderer;
   let colors;
   if (timeShiftConfig.offset) {

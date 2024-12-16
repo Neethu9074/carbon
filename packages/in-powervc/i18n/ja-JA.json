@@ -20,6 +20,7 @@
   "totalMemory": "メモリーの合計",
   "totalStorage": "ストレージの合計",
   "totalCapacity": "合計容量",
+  "cpuUtilizationPercent": "CPU使用率 (%)",
   "availableCapacity": "利用可能容量",
   "volumeCount": "ボリューム・カウント",
   "cpuArch": "CPU アーキテクチャー",

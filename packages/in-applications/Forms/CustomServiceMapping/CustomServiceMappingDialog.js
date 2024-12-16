@@ -4,29 +4,42 @@
  */
 
 import { composeValidators, createField, createListForm, createMapForm } from 'formalistic';
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { assign, get } from 'lodash';
 
+import { combineLatest, create } from '@instana/observables';
 import { generateUniqueShortId } from '@instana/utils';
-import { Link } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Link, Button } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 import { createNewServiceConfigs, getServiceConfigs, replaceAllServiceConfigs } from 'in-api/serviceConfiguration';
 import DragAndDropRuleList from 'in-applications/Forms/CustomServiceMapping/DragAndDropRuleList';
 import { regularExpressionValidator } from 'in-services/validators/regexp';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { getApplicationTagCatalog } from 'in-applications/api/catalog';
+import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import { notBlankValidator } from 'in-services/validators/string';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { servicesList } from 'in-applications/navigation/paths';
+import { hasError, isLoading } from 'in-services/util/result';
 import Steps from 'in-applications/Forms/components/Steps';
 import BasicForm from 'in-applications/Forms/BasicForm';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { isBlank } from 'in-services/util/string';
 import { Trans, t } from 'in-i18n';
 
 import locals from './CustomServiceMappingDialog.mless';
 
+const getServiceMappingTagCatalog = getApplicationTagCatalog({ useCase: 'SERVICE_MAPPING' });
+
 export default function CustomServiceMappingDialog() {
   const { createHrefToPath } = useNavigation();
+  const timeConfig = useTimeConfig();
+  const tagCatalogResult = useObservable(getServiceMappingTagCatalog, [timeConfig]);
+  const [tagCatalogResult$] = useState(create);
+  useEffect(() => {
+    tagCatalogResult$.emit(tagCatalogResult);
+  }, [tagCatalogResult, tagCatalogResult$]);
 
   return (
     <BasicForm
@@ -34,14 +47,7 @@ export default function CustomServiceMappingDialog() {
       saveButtonLabel={t('in-applications:buttonSave')}
       onCancelHref={createHrefToPath(servicesList)}
       getOnSavePath={() => servicesList}
-      getEntity={() =>
-        getServiceConfigs().map(result => {
-          if (result.data) {
-            return assign({}, result, { data: result.data || createNewServiceConfigs() });
-          }
-          return result;
-        })
-      }
+      getEntity={getServiceMappingConfig(tagCatalogResult$)}
       updateEntity={serviceConfigs => {
         serviceConfigs.map(
           serviceConfig => (serviceConfig.id = serviceConfig.id === [] ? serviceConfig.id : generateUniqueShortId())
@@ -95,6 +101,7 @@ export default function CustomServiceMappingDialog() {
                         removeMatchSpecification={removeMatchSpecification}
                         updateForm={updateForm}
                         setValue={setValue}
+                        serviceMappingTagCatalog={tagCatalogResult?.data}
                       />
                     </div>
                   )
@@ -106,6 +113,40 @@ export default function CustomServiceMappingDialog() {
       }}
     />
   );
+}
+
+function getServiceMappingConfig(catalogResult$) {
+  return () =>
+    combineLatest([getServiceConfigs(), catalogResult$], true).map(result => {
+      const [serviceConfigResult, tagCatalogResult] = result;
+      if (isLoading(serviceConfigResult, tagCatalogResult)) {
+        return pendingResult;
+      }
+      if (hasError(serviceConfigResult)) {
+        return serviceConfigResult;
+      }
+      if (hasError(tagCatalogResult)) {
+        return tagCatalogResult;
+      }
+      resolveTagAliases(tagCatalogResult, serviceConfigResult);
+      if (serviceConfigResult.data) {
+        return assign({}, serviceConfigResult, { data: serviceConfigResult.data || createNewServiceConfigs() });
+      }
+      return serviceConfigResult;
+    });
+}
+
+function resolveTagAliases(tagCatalogResult, serviceConfigResult) {
+  const tagByAlias = tagCatalogResult.data.tags.reduce((map, tag) => {
+    (tag.aliases ?? emptyArray).forEach(alias => (map[alias] = tag.name));
+    return map;
+  }, {});
+
+  serviceConfigResult.data.forEach(rule => {
+    rule.matchSpecification.forEach(matchSpec => {
+      matchSpec.key = tagByAlias[matchSpec.key] ?? matchSpec.key;
+    });
+  });
 }
 
 function getInitialForm(serviceConfigs) {

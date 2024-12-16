@@ -94,3 +94,16 @@ function createLicenseObservable(page, pageSize, type) {
     })
   );
 }
+
+export const getDataTableAsResultObservable = memoize(getDataTableAsResultObservableInternal, () => '', 60000);
+function getDataTableAsResultObservableInternal() {
+  return refreshSignal.flatMap(() =>
+    createObservable(
+      http({
+        method: 'GET',
+        maxRetries: 3,
+        url: `/api/settings/amp/dataTable`
+      })
+    )
+  );
+}

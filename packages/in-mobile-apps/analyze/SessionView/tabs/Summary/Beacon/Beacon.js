@@ -52,6 +52,7 @@ export default function Beacon(props) {
                 : t('in-mobile-apps:sessionView.tabsSumBeacon.showmoreTooltip')
             }
             align="topMiddle"
+            overwriteBlock
           >
             <div
               className={locals.header}
@@ -69,7 +70,10 @@ export default function Beacon(props) {
               <div className={locals.rightHeader}>
                 <BackendTraceButton beacon={beacon} />
                 {beacon.type === 'crash' && (
-                  <ViewCrashGroupButton mobileAppId={beacon.mobileAppId} errorMessage={beacon.errorMessage} />
+                  <ViewCrashGroupButton
+                    mobileAppId={beacon.mobileAppId}
+                    crashGroupLabel={beacon.stackTraceKeyInformation + '\n' + beacon.errorType}
+                  />
                 )}
                 <HeaderToggleIcon {...props} />
               </div>

@@ -7,7 +7,7 @@
   .sidebarBreadcrumb {
     position: absolute;
     top: 0;
-    left: 21rem;
+    left: 26.3rem;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -16,6 +16,7 @@
     background: #fff;
     border-radius: var(--ids-border-radius-option-small);
   }
+
   .crumb {
     width: 2.25rem;
     height: 2.25rem;

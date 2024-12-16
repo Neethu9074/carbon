@@ -1,3 +1,4 @@
 serverConfig.json
 serverConfig.yaml
 /coverage
+/.yarn/cache

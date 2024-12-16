@@ -1,0 +1,31 @@
+import { Meta } from '@storybook/addon-docs';
+
+<Meta title="IN-HOOKS/useResizeObserver" />
+
+## Observing HTML Element Sizes
+
+You can use the `useResizeObserver` hook to be informed whenever the size of an HTML element changes. This can be helpful to implement responsive design techniques that depend on element (and therefore not screen) sizes.
+
+## Import
+
+```js
+import useResizeObserver from 'in-hooks/useResizeObserver';
+```
+
+## Best-Practice Usage
+
+```js
+import React from 'react';
+
+import useResizeObserver from 'in-hooks/useResizeObserver';
+
+function MyComponent() {
+  const { ref, width } = useResizeObserver();
+
+  return (
+    <div ref={ref} style={{ color: width > 500 ? 'red' : 'blue' }}>
+      …
+    </div>
+  );
+}
+```

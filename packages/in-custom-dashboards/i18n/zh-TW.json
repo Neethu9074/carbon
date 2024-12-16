@@ -17,6 +17,7 @@
         "copied": "已複製小組件，使用 CTRL-V 或 CMD-V 貼到任何自訂儀表板上",
         "duplicate": "複製",
         "delete": "刪除",
+        "exportPDF": "下載 PDF",
         "customDashboardWidgetTitle": "自訂儀表板小組件：{{title}}"
       }
     },
@@ -69,7 +70,11 @@
       "renameDashboard": "重新命名儀表板",
       "dashboardName": "儀表板名稱",
       "rename": "重新命名",
-      "failSaveDashboard": "無法儲存儀表板。"
+      "failSaveDashboard": "無法儲存儀表板。",
+      "generatingPDFTitle": "正在產生 pdf",
+      "generatingPDFContent": "正在產生 pdf，請稍候。",
+      "generatedPDFTitle": "已產生 PDF",
+      "generatedPDFContent": "pdf 下載即將開始。"
     },
     "customDashboardPresenter": {
       "dashboardNotFound": "儀表板找不到",
@@ -93,6 +98,32 @@
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "無法剖析 JSON 形式的輸入。",
       "jsonRootMustBeAnObject": "JSON root 必須是物件。"
+    },
+    "downloadPdfDialog": {
+      "downloadPdf": "下載 PDF 檔案",
+      "settings": "設定",
+      "pdfOrientation": "方向",
+      "portrait": "直印",
+      "landscape": "橫印",
+      "pdfLayout": "佈置",
+      "widgetsDisplay": "顯示",
+      "singlePage": "單一頁面",
+      "singlePageInfo": "將整個儀表板放在一頁上，並調整內容至合適大小。",
+      "multiPages": "多頁",
+      "multiPagesInfo": "將儀表板分佈在多個頁面上，保持原始佈置。 某些小組件可能會被截斷。",
+      "stackWidgetsTitle": "堆疊小組件",
+      "stackWidgetsInfo": "在多個頁面的垂直堆疊中顯示小組件。",
+      "loadingWidget": "正在載入小組件 {{widgetIndex}}，共 {{totalNodes}} 個",
+      "generatePreview": "產生預覽",
+      "generatingPreview": "產生 pdf 預覽"
+    },
+    "filterContext": {
+      "topLevelFilterPartiallyApplied": "套用了一些目前的儀表板過濾器。",
+      "topLevelFilterSelectsEverything": "目前的儀表板過濾器不會套用於此小組件。",
+      "topLevelFilterSelectsNothing": "目前的儀表板過濾器不會套用於此小組件。",
+      "topLevelFilterNotSupported": "目前的儀表板過濾器未套用於此小組件，因為該小組件不支援過濾。",
+      "topLevelFilterAppliedToSomeDatasets": "目前的儀表板過濾器未完全套用至以下資料集：{{datasets}}",
+      "unnamedDataset": "未命名資料集"
     }
   },
   "dashboardSwitcher": {
@@ -130,6 +161,17 @@
         "unexpectedLowOrHighNumberOfCalls": "呼叫數非預期地高或低"
       }
     },
+    "srcBizOps": {
+      "formComponent": {
+        "pleaseSelect": "請選取",
+        "pleaseSelectMetric": "請選取度量",
+        "aggregation": "聚集",
+        "metric": "度量"
+      },
+      "index": {
+        "bizOps": "業務程序（活動）"
+      }
+    },
     "srcApp": {
       "formComponent": {
         "needToTurnOffPP": "若要使用分組，您需要先關閉強調顯示的「潛在問題」。",
@@ -163,6 +205,7 @@
       "metricsFormComponent": {
         "metric": "度量",
         "selectMetric": "選取度量",
+        "unit": "單元",
         "aggregation": "聚集",
         "crossSeriesAggregation": "使用 SUM 進行跨系列聚集",
         "crossSeriesAggregationHelp": "通常，跨系列聚集與跨時間聚集（用於將資料點結合至單一儲存區的方法）相同。 啟用此切換開關後，我們將加總所有資料系列之間的儲存區，而不是使用指定的聚集。",
@@ -293,6 +336,15 @@
         "increaseColor": "增加顏色",
         "decreaseColor": "減少顏色",
         "timeShift": "時間遷移"
+      },
+      "thresholdForm": {
+        "addThresholdColorization": "新增基於臨界值的著色",
+        "threshold": "臨界值",
+        "critical": "嚴重時機",
+        "warning": "警告時機",
+        "criticalValidator": "對於 > 及 >= 運算子，嚴重臨界值應該大於警告臨界值。",
+        "warningValidator": "對於 < 及 <= 運算子，警告臨界值應該大於嚴重臨界值。",
+        "bytes": "位元組"
       },
       "bigNumber": "大數"
     },
@@ -425,6 +477,25 @@
       }
     },
     "slo": {
+      "general": {
+        "demoWidgetTitle": "小組件標題",
+        "sloNotFound": "未找到 Slo 配置"
+      },
+      "v2Form": {
+        "headline": "選取服務層次目標",
+        "subheading": "選取現有的 SLO 或按一下「新增 SLO」以建立新的 SLO",
+        "addSloButtonLabel": "新增 SLO",
+        "chartTypeSelectionLabel": "圖表類型",
+        "chartTypeOption": "",
+        "chartTypeOption_INDICATOR": "指示器圖表",
+        "chartTypeOption_ERROR_BUDGET": "錯誤預算圖表",
+        "validators": {
+          "notBlankSloValidator": "請從清單中選擇 SLO 配置。"
+        }
+      },
+      "v2WidgetHeader": {
+        "indicatorType": "指示器類型："
+      },
       "demo": {
         "title": "SLO 標題",
         "sliName": "範例 Sli",
@@ -465,8 +536,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "端點",
-        "allEndpoints": "所有端點",
-        "loading": "<loading>"
+        "allEndpoints": "所有端點"
       },
       "goodBadEventsForm": {
         "goodEvents": "良好事件",
@@ -503,7 +573,6 @@
       },
       "servicesSelectBox": {
         "service": "服務",
-        "loading": "<loading>",
         "allServices": "所有服務"
       },
       "sliFormPresenter": {
@@ -608,6 +677,7 @@
       "atLeastOneFilterExpressionMustBeConfigured": "至少需要配置一個過濾表示式。",
       "timeBased": "時間型",
       "eventBased": "事件型",
+      "sloLegacy": "SLO 舊版",
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "應用程式",
@@ -709,7 +779,8 @@
       },
       "createWebsiteApdexForm": {
         "thresholdHeader": "臨界值配置",
-        "thresholdLabel": "臨界值"
+        "thresholdLabel": "臨界值",
+        "ms": "毫秒"
       },
       "entityInfo": {
         "tooltip": "不明 Apdex",
@@ -823,7 +894,9 @@
           },
           "formatter": "格式製作程式",
           "searchPlaceholder": "搜尋",
-          "countGroup": "顯示群組計數"
+          "countGroup": "顯示群組計數",
+          "showGroupsWithMissingTags": "顯示具有遺漏標籤的群組",
+          "filterEmptyValues": "過濾空值"
         }
       },
       "dataSource": {
@@ -854,5 +927,8 @@
     "additionalFields": "只有您可看見此儀表板。在建立之後，您可以選擇分享給同事",
     "create": "建立",
     "failedToCreateDashboard": "無法建立儀表板。"
+  },
+  "threshold": {
+    "label": "臨界值"
   }
 }

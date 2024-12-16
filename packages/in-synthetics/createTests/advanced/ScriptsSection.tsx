@@ -7,9 +7,8 @@
 import { Field, Item, MapForm, createField, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Stack, SvgIcon } from '@instana/components';
+import { Stack, RadioButton, Checkbox, Button, IconButton } from '@instana/components';
 import { just } from '@instana/observables';
-import { Button } from '@instana/legacy';
 
 import {
   timeoutObject,
@@ -37,7 +36,6 @@ import { stringValidator, numberValidator } from 'in-services/validators/jsonTyp
 import ValidationBlock from 'in-components/form/ValidationBlock/ValidationBlock';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { isBlank, isNotBlank } from 'in-services/util/string';
@@ -151,7 +149,7 @@ export default function ScriptsSection({
         return (
           <HorizontalFlexWrapper className={locals.row}>
             <span>{getScriptFileName()}</span>
-            <SvgIcon type="lib_actions_delete" onClick={deleteScript} />
+            <IconButton kind="action" type="lib_actions_delete" onClick={deleteScript} />
           </HorizontalFlexWrapper>
         );
       }
@@ -340,7 +338,7 @@ export default function ScriptsSection({
           <Row className={locals.row}>
             {Object.keys(timeoutObject).map(unit => (
               <Col lg={4} key={unit}>
-                <CheckboxFancy
+                <RadioButton
                   key={unit}
                   label={timeoutObject[unit].label}
                   checked={timeoutObject[unit].value === timeout.unit}
@@ -352,7 +350,6 @@ export default function ScriptsSection({
                       )
                     );
                   }}
-                  asRadioButton
                 />
               </Col>
             ))}
@@ -387,7 +384,7 @@ export default function ScriptsSection({
           <Row className={locals.row}>
             {retriesObject.map(retry => (
               <Col lg={4} key={retry.value}>
-                <CheckboxFancy
+                <RadioButton
                   key={retry.value}
                   label={retry.label}
                   checked={retry.value === retriesField.value}
@@ -421,7 +418,6 @@ export default function ScriptsSection({
                       );
                     }
                   }}
-                  asRadioButton
                 />
               </Col>
             ))}
@@ -441,7 +437,7 @@ export default function ScriptsSection({
       </div>
       <div className={locals.configContainer}>
         <Stack direction="horizontal">
-          <CheckboxFancy
+          <Checkbox
             wrapperClassName={locals.configCheckbox}
             onChange={({ target }) => {
               updateForm(

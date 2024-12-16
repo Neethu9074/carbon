@@ -6,7 +6,7 @@
 
 import React, { useState } from 'react';
 
-import { KeyValue, Stack, Typography } from '@instana/components';
+import { KeyValue, Stack, Typography, RadioButton } from '@instana/components';
 
 import { getAgentDownloadURL } from 'in-plg/pages/onboarding/content/ContentComponents';
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
@@ -17,12 +17,15 @@ import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
 import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import { CodeProps } from 'in-plg/components/Code/Code';
 import Code from 'in-plg/components/Code/Code';
 import { t } from 'in-i18n';
 
 import locals from './Windows64BitUnattended.mless';
+
+const agentModeOptions = ['dynamic', 'static'];
+const jvmVendorOptions = ['azul', 'eclipse'];
 
 const Windows64BitUnattended = ({
   tenant,
@@ -34,9 +37,6 @@ const Windows64BitUnattended = ({
   butlerDomain,
   fromOnboarding
 }: OnboardingProps) => {
-  const agentModeOptions = ['dynamic', 'static'];
-  const jvmVendorOptions = ['azul', 'eclipse'];
-
   const [agentMode, setAgentMode] = useState(agentModeOptions[0]);
   const [jvmVendor, setJVMVendor] = useState(jvmVendorOptions[0]);
 
@@ -76,12 +76,18 @@ const Windows64BitUnattended = ({
     }
   ];
 
-  const cmdLine = (): CodeProps => {
+  if (shareAndInviteEnabled) sideCardData.pop();
+
+  const cmdLine = (agentMode: string, jvmVendor: string): CodeProps => {
+    let fileName = 'instana-agent-windows-64bit';
+    if (jvmVendor === jvmVendorOptions[1]) fileName += '-j9';
+    if (agentMode === agentModeOptions[1]) fileName += '-offline';
+    fileName += '.exe';
     return {
       code: [
         '@ECHO OFF',
         '',
-        `AgentBootstrap.exe INSTANA_AGENT_ENDPOINT=${agentEndpoint} INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort} INSTANA_AGENT_KEY=${agentKey} INSTANA_DOWNLOAD_KEY=${downloadKey} /quiet`
+        `${fileName} INSTANA_AGENT_ENDPOINT=${agentEndpoint} INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort} INSTANA_AGENT_KEY=${agentKey} INSTANA_DOWNLOAD_KEY=${downloadKey} /quiet`
       ],
       lang: 'bash',
       withoutCopyButton: !(!!agentEndpoint && !!agentEndpointPort && !!agentKey && !!downloadKey)
@@ -91,19 +97,17 @@ const Windows64BitUnattended = ({
   function getPackaging() {
     return (
       <Stack direction="horizontal">
-        <CheckboxFancy
+        <RadioButton
           label={t('in-plg:agentDetails.windows.common.dynamic')}
           checked={agentMode === agentModeOptions[0]}
           onChange={() => setAgentMode(agentModeOptions[0])}
           size="default"
-          asRadioButton
         />
-        <CheckboxFancy
+        <RadioButton
           label={t('in-plg:agentDetails.windows.common.static')}
           checked={agentMode === agentModeOptions[1]}
           onChange={() => setAgentMode(agentModeOptions[1])}
           size="default"
-          asRadioButton
         />
       </Stack>
     );
@@ -112,19 +116,17 @@ const Windows64BitUnattended = ({
   function getRuntime() {
     return (
       <Stack direction="horizontal">
-        <CheckboxFancy
-          label="Azul Zulu 1.8"
+        <RadioButton
+          label="Azul Zulu 11"
           checked={jvmVendor === jvmVendorOptions[0]}
           onChange={() => setJVMVendor(jvmVendorOptions[0])}
           size="default"
-          asRadioButton
         />
-        <CheckboxFancy
+        <RadioButton
           label="Eclipse OpenJ9 11"
           checked={jvmVendor === jvmVendorOptions[1]}
           onChange={() => setJVMVendor(jvmVendorOptions[1])}
           size="default"
-          asRadioButton
         />
       </Stack>
     );
@@ -178,7 +180,7 @@ const Windows64BitUnattended = ({
                 'in-plg:agentDetails.windows.windows_64_bit_unattended.theFollowingCommandLineInstallationWillInstallTheInstanaAgent'
               )}
             </Typography>
-            <Code {...cmdLine()} />
+            <Code {...cmdLine(agentMode, jvmVendor)} />
           </Stack>
         </LayoutSection>
 

@@ -15,18 +15,20 @@ module.exports = {
       enforceAbsoluteImportPaths: true,
 
       allowedInPackages: [
+        'in-alerting',
         'in-analyze',
         'in-api',
         'in-applications',
         'in-components',
         'in-hooks',
+        'in-service-levels',
         'in-services',
         'in-stores',
         'in-subscription',
+        'in-synthetics',
         'in-test',
         'in-themes',
-        'in-websites',
-        'in-service-levels'
+        'in-websites'
       ]
     }),
     'react/function-component-definition': [

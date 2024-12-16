@@ -7,7 +7,7 @@ import React, { useEffect } from 'react';
 
 import { keyCodes, Stack } from '@instana/components';
 
-import sources, { isBetaSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
+import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext';
 import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -15,7 +15,6 @@ import InputInSection from 'in-components/form/Input/InputInSection';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { compareIgnoreCase } from 'in-services/util/string';
-import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import Sections from 'in-components/workspace/Sections';
 import { emptyArray } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
@@ -29,6 +28,7 @@ export default function MetricConfigurator({
   updateForm,
   formatterSection,
   timeShiftConfiguration,
+  thresholdConfiguration,
   disabledDataSources = emptyArray,
   axisForm,
   axisName,
@@ -43,7 +43,8 @@ export default function MetricConfigurator({
   maxGrouping,
   displayDFQ = true,
   withLastValue = false,
-  withEmptyValueFilterSection
+  withEmptyValueFilterSection,
+  withUnit = false
 }) {
   const sourceField = form.get('source');
   const label = form.get('label')?.value;
@@ -89,7 +90,6 @@ export default function MetricConfigurator({
   const additionalDataSourceSelectorContent = (
     <Stack inline direction="horizontal">
       <LeftRightPadding>
-        {isBetaSource(sourceField.value) && <BetaBadge />}
         <TouchedMessages field={sourceField} />
       </LeftRightPadding>
     </Stack>
@@ -155,6 +155,7 @@ export default function MetricConfigurator({
         labelSection={labelSection}
         formatterSection={formatterSection}
         timeShiftConfiguration={timeShiftConfiguration}
+        thresholdConfiguration={thresholdConfiguration}
         axisForm={axisForm}
         axisName={axisName}
         withGrouping={withGrouping}
@@ -168,6 +169,7 @@ export default function MetricConfigurator({
         displayDFQ={displayDFQ}
         withLastValue={withLastValue}
         withEmptyValueFilterSection={withEmptyValueFilterSection}
+        withUnit={withUnit}
       />
     );
   }

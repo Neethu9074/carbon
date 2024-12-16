@@ -10,7 +10,7 @@ import { Link } from '@instana/components';
 
 import getMobileAppBackendTraces from 'in-mobile-apps/subscriptions/getMobileAppBackendTraces';
 import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
-import { navigateToBackendTraceFromSession } from 'in-mobile-apps/tracker';
+import { useMobileTracker } from 'in-mobile-apps/tracking/segTracker';
 import { latencyFixed, number } from 'in-services/formatters/number';
 import { useLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { Di } from 'in-components/HorizontalDescriptionList';
@@ -38,6 +38,7 @@ export default connect(({ beacon }) => ({
 }))(BackendDi);
 
 function BackendDi({ traceSummaries }) {
+  const { navigateToBackendTraceFromSession } = useMobileTracker();
   const getLinkToTraceDetail = useLinkToTraceDetail();
 
   if (traceSummaries == null || traceSummaries.length === 0) {

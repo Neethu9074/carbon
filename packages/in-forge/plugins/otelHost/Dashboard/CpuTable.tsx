@@ -8,6 +8,7 @@ import React from 'react';
 
 // @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { WINDOW_FOR_LATEST_METRIC, DISTANCE_BETWEEN_DATAPOINTS } from 'in-forge/plugins/otelHost/constants';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { percentage } from 'in-services/formatters/number';
 import { SnapshotData } from 'in-stores/snapshot/snapshot';
@@ -43,6 +44,9 @@ const cols = [
       getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return WINDOW_FOR_LATEST_METRIC;
       }
     }
   },
@@ -60,6 +64,9 @@ const cols = [
       getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return WINDOW_FOR_LATEST_METRIC;
       }
     }
   },
@@ -77,6 +84,9 @@ const cols = [
       getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return WINDOW_FOR_LATEST_METRIC;
       }
     }
   },
@@ -94,6 +104,9 @@ const cols = [
       getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return WINDOW_FOR_LATEST_METRIC;
       }
     }
   },
@@ -111,6 +124,9 @@ const cols = [
       getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return WINDOW_FOR_LATEST_METRIC;
       }
     }
   },
@@ -128,6 +144,9 @@ const cols = [
       getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return WINDOW_FOR_LATEST_METRIC;
       }
     }
   },
@@ -145,6 +164,9 @@ const cols = [
       getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
+      },
+      getWindowForLatest() {
+        return WINDOW_FOR_LATEST_METRIC;
       }
     }
   }
@@ -185,6 +207,7 @@ export default function CpuTable({ snapshot }: { snapshot: SnapshotData }) {
 function getRowDetails(row: any) {
   return (
     <Chart
+      distanceBetweenDatapointsInMillis={DISTANCE_BETWEEN_DATAPOINTS}
       snapshotId={row.snapshotId}
       timeConfig={row.timeConfig}
       y1={{

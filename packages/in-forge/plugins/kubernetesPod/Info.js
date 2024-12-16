@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { DescriptionList, DescriptionItem } from '@instana/components';
+
 import createDeploymentConfigForPodSubscription from 'in-subscription/deploymentConfigForPod';
-import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import createDeploymentForPodSubscription from 'in-subscription/deploymentForPod';
 import createNamespaceForPodSubscription from 'in-subscription/namespaceForPod';
 import createClusterForPodSubscription from 'in-subscription/clusterForPod';

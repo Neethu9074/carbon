@@ -13,10 +13,11 @@ import {
   createTagForm,
   getFormPresentationInformation
 } from 'in-components/QueryBuilder/validation/tagForm';
+// eslint-disable-next-line import/no-unresolved
+import BooleanSelector from 'in-components/QueryBuilder/components/Tag/BooleanSelector';
 import { EQUALS, NOT_EQUAL, NOT_STARTS_WITH, STARTS_WITH } from 'in-components/QueryBuilder/tagFilter/operators';
 import { KEY_VALUE_PAIR, STRING, STRING_LIST, STRING_SET } from 'in-components/QueryBuilder/tagFilter/types';
 import { getSuggestionsTagFilterExpression } from 'in-components/QueryBuilder/tagFilter/tagSuggestions';
-import BooleanSelector from 'in-components/QueryBuilder/components/Tag/BooleanSelector';
 import { STRING_MAX_LENGTH } from 'in-components/QueryBuilder/tagFilter/constraints';
 import NumberInput from 'in-components/QueryBuilder/components/Tag/NumberInput';
 import { onElementKeyUp } from 'in-components/QueryBuilder/keyboardInteraction';
@@ -46,12 +47,12 @@ export default function Tag(props) {
     formModel,
     autoFocusInput = false,
     getSuggestionLabel,
-    allowEmptyKey
+    allowEmptyKey,
+    disableEntitySelection
   } = props;
   const { renderModelIndex, formModelIndex, name: tagName } = element;
-  const form = createTagForm(tagCatalog, element, allowEmptyKey);
+  const form = createTagForm(tagCatalog, element, allowEmptyKey, disableEntitySelection);
   const { allowedOperators, valueType, type: tagType } = getFormPresentationInformation(tagCatalog, form);
-
   const locals = useThemedLocals(styleDefs);
 
   // To allow re-rendering when no React state has changed. We use this when we change the
@@ -107,7 +108,7 @@ export default function Tag(props) {
         ref={autoFocusTargets.name}
         onChange={newTag => {
           if (newTag.type === TAG) {
-            const newForm = changeName(tagCatalog, form, newTag.name);
+            const newForm = changeName(tagCatalog, form, newTag.name, newTag.tagDefinition);
             focusField('name', false);
             onChangeInFormModel(newForm.toJS(), false);
           } else {

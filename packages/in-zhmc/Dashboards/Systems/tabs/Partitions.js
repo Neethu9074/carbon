@@ -5,13 +5,18 @@
 
 import React from 'react';
 
-import { number, percentage } from 'in-services/formatters/number';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { percentage } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
+const version = ['2.14.0', '2.15.0'];
 const cols = [
   {
     title: t('in-zhmc:dashboards.name'),
+    id: 'name',
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,6 +26,7 @@ const cols = [
   },
   {
     title: t('in-zhmc:dashboards.processorUsage'),
+    id: 'processorUsage',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -36,23 +42,8 @@ const cols = [
     }
   },
   {
-    title: t('in-zhmc:dashboards.zvm'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.data.id;
-      },
-      getMetricName(row) {
-        return `logicalPartitions.${row.key}.zvmPagingRate`;
-      },
-      getContent: number.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
     title: t('in-zhmc:dashboards.cp'),
+    id: 'cp',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -69,6 +60,7 @@ const cols = [
   },
   {
     title: t('in-zhmc:dashboards.ifl'),
+    id: 'ifl',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -85,6 +77,7 @@ const cols = [
   },
   {
     title: t('in-zhmc:dashboards.icf'),
+    id: 'icf',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -101,6 +94,7 @@ const cols = [
   },
   {
     title: t('in-zhmc:dashboards.iip'),
+    id: 'iip',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -117,6 +111,7 @@ const cols = [
   },
   {
     title: t('in-zhmc:dashboards.cbp'),
+    id: 'cbp',
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -126,6 +121,23 @@ const cols = [
         return `logicalPartitions.${row.key}.cbpProcessorUsage`;
       },
       getContent: percentage.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-zhmc:dashboards.lparPowerConsumption'),
+    id: 'lparPowerConsumption',
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.data.id;
+      },
+      getMetricName(row) {
+        return `logicalPartitions.${row.key}.lparPowerConsumption`;
+      },
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -246,8 +258,9 @@ export default function Partitions({ data, timeConfig }) {
       <Table
         cardTitle={t('in-zhmc:dashboards.logicalPartition')}
         withoutPadding
-        cols={cols}
+        cols={version.includes(data.hmcVersion) ? cols : cols.filter(col => col.id !== 'cbp')}
         rows={rows}
+        getRowDetails={getRowDetails}
         initialSortDirection="desc"
       />
     );
@@ -277,4 +290,19 @@ export default function Partitions({ data, timeConfig }) {
       />
     );
   }
+}
+
+function getRowDetails(row) {
+  return (
+    <Chart
+      snapshotId={row.data.id}
+      timeConfig={row.timeConfig}
+      y1={{
+        metrics: [`logicalPartitions.${row.key}.lparPowerConsumption`],
+        labels: [t('in-zhmc:dashboards.lparPowerConsumption')],
+        type: 'stackedArea'
+      }}
+      renderPostChartContent={PluginDashboardsMarkerLanes}
+    />
+  );
 }

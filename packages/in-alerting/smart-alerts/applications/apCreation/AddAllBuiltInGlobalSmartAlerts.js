@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/components';
+import { Link, Checkbox } from '@instana/components';
 
 import { getAllBuiltInGlobalSmartAlerts } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
@@ -17,7 +17,6 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { alertsCategory } from 'in-applications/navigation/matrix';
 import Sections from 'in-components/workspace/Sections/Sections';
 import { alertsList } from 'in-applications/navigation/paths';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { t } from 'in-i18n';
 
 import locals from './AddAllBuiltInGlobalSmartAlerts.mless';
@@ -31,7 +30,7 @@ export default function AddAllBuiltInGlobalSmartAlerts({
 
   return (
     <Sections className={locals.container}>
-      <CheckboxFancy
+      <Checkbox
         label={<Headline builtInAlerts={builtInAlerts} />}
         explanation={<Explanation />}
         checked={checked}

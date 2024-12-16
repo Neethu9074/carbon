@@ -15,6 +15,6 @@ export function DashboardLink({ item }: { item: CloudfoundryApplicationListItem 
   const getApplicationDashboardLink = useNavigateToApplicationDashboard();
 
   return (
-    <EntityLink label={item.label} href$={getApplicationDashboardLink(item.id)} icon="lib_cloudfoundry_application" />
+    <EntityLink label={item.label} href={getApplicationDashboardLink(item.id)} icon="lib_cloudfoundry_application" />
   );
 }

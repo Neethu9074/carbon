@@ -7,18 +7,20 @@
 import React, { useEffect, useMemo } from 'react';
 import { MapForm } from 'formalistic';
 
-import { InfraAlertConfigWithMetadata, Order, TagCatalog } from '@instana/types';
+import { InfraAlertRuleUnion, Order, TagCatalog } from '@instana/types';
+import { RuleWithThreshold } from '@instana/types/typeDefinitions';
 import { create } from '@instana/observables';
 
+import InfraMultiThresholdCondition from 'in-alerting/smart-alerts/infrastructure/components/InfraMultiThresholdCondition';
 import { getFormatter, getMetricUnitPostfix } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
-import InfraThresholdCondition from 'in-alerting/smart-alerts/infrastructure/components/InfraThresholdCondition';
+import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
-import { alertConfigWithDefaultThresholdAndTfe } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { chartViewConfigs as defaultChartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { InfraMetricChart } from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricChart';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/dialog/ChartViewConfigurator';
 import { chartTimeConfig } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
 import InfraMetricGroup from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroup';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import BorderedContainer from 'in-alerting/components/BorderedContainer';
 import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
@@ -27,6 +29,7 @@ import { AggregationType } from 'in-types';
 import { t } from 'in-i18n';
 
 export const selectedMetricGroup$ = create().emit(null);
+
 export interface ThresholdProps {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
@@ -85,11 +88,12 @@ export default function ThresholdSelectionInteractiveChart({
 
   return (
     <BorderedContainer>
-      <InfraThresholdCondition
+      <InfraMultiThresholdCondition
         form={form}
         updateForm={updateForm}
         percentageMetric={percentageMetric}
         metricUnitPostfix={metricUnitPostfix}
+        groupBy={groupBy}
       />
       <ChartViewConfigurator
         chartViewConfigs={chartViewConfigs}
@@ -102,7 +106,7 @@ export default function ThresholdSelectionInteractiveChart({
         {chartViewConfig => (
           <>
             <InfraMetricChart
-              alertConfig={alertConfigModel as InfraAlertConfigWithMetadata}
+              alertConfig={alertConfigModel as InfraSmartAlertConfigWithMetadata}
               timeConfig={chartViewConfig.timeConfig}
               groupBy={groupBy}
               entityType={entityType}
@@ -167,4 +171,22 @@ export function getMetrics(
       label: entityLabel
     }
   ];
+}
+
+export function alertConfigWithDefaultThresholdAndTfe(form: MapForm<any>) {
+  const tagFilterExpression = form.get('tagFilterExpression').value;
+  const warningThresholdField = form.get('threshold').get('warningThreshold');
+  const criticalThresholdField = form.get('threshold').get('criticalThreshold');
+
+  const ruleWithThreshold: RuleWithThreshold<InfraAlertRuleUnion> = {
+    rule: form.get('rule').toJS(),
+    thresholdOperator: form.get('threshold').get('operator').value,
+    thresholds: { WARNING: warningThresholdField.toJS(), CRITICAL: criticalThresholdField.toJS() }
+  };
+
+  return {
+    ...form.toJS(),
+    rules: [ruleWithThreshold],
+    tagFilterExpression: toBackendQueryModel(tagFilterExpression)
+  };
 }

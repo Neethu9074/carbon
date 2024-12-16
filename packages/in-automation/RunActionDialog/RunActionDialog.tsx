@@ -8,9 +8,10 @@ import { createField, createListForm, createMapForm, Field, ListForm, MapForm } 
 import React, { useEffect, useState } from 'react';
 import { isEmpty } from 'lodash';
 
+import { Action, Event, ParameterValue, VolatileId, Policy, AgentSnapshot } from '@instana/types';
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import RunActionContent, {
   shouldHideParameter,
@@ -20,33 +21,26 @@ import RunActionContent, {
   TRIGGERING_HOST_IP,
   TRIGGERING_HOST_IP_OPTION
 } from 'in-automation/RunActionDialog/RunActionDialogContent';
-import {
-  getTimeoutFromFields,
-  isAnsible,
-  isScript,
-  isExternal,
-  isWebhook,
-  isJira,
-  parseDynamicParameter,
-  parseVaultParameter,
-  isGithub,
-  isGitlab,
-  isManual
-} from 'in-automation/ActionCatalog/shared';
-import { ResolvedDynamicParamValue, resolveDynamicParameters, runTurboAction, runAction } from 'in-automation/api';
+import { getTimeoutFromFields, getAnsibleHostIdFromFields } from 'in-automation/utils/actionField';
+import useNavigateToActionHistory from 'in-automation/navigation/hooks/useNavigateToActionHistory';
 import getAgentSnapshotsInTimeframe, { OUT } from 'in-subscription/getAgentSnapshotsInTimeframe';
+import { setActiveKey } from 'in-automation/AutomationCard/AutomationCardButtonGroup';
 import FormFooter, { CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import { ActionInstance } from 'in-automation/subscriptions/submitActionExecution';
-import { Action, Event, ParameterValue, VolatileId, Policy } from 'in-types';
-import { refresh } from 'in-automation/AutomationCard/useScoredActions';
+import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
+import { ResolvedDynamicParamValue, NewPolicy } from 'in-automation/types';
+import { refreshHistory } from 'in-automation/AutomationCard/useHistory';
+import { resolveDynamicParameters, runAction } from 'in-automation/api';
+import { isAIAction, isAIActionCopy } from 'in-automation/utils/action';
+import { isAutomatic, isManual } from 'in-automation/utils/policy';
 import { notBlankValidator } from 'in-services/validators/string';
 import SaveButton from 'in-components/form/SaveButton/SaveButton';
 import { Option, Options } from 'in-components/ComboBox/ComboBox';
 import { hasError, isLoading } from 'in-services/util/result';
 import { close } from 'in-components/DialogPresenter/store';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
-import { runActionTracker } from 'in-automation/tracker';
-import { NewPolicy } from 'in-automation/Policies/types';
+import { safeParseJSON } from 'in-automation/utils/json';
+import { ACTION_TYPE } from 'in-automation/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
@@ -78,7 +72,6 @@ export default function RunActionDialog({
   const agentSnapShots = useAgentSnapShots({ action });
   // we usually see rec actions only when agents available. some times, when agent is stopped, we will have 10 minute window to updates actions.
   // This flag here sets true which uses to disable the run button when agent is unavailable
-  const noTurboAgents = isExternal(action.type) && agentSnapShots?.data?.online.length === 0;
   const { resolvedDynamicParameters, errorResolvingDynamicParameters } = useResolvedDynamicParameters({
     action,
     event
@@ -91,12 +84,13 @@ export default function RunActionDialog({
     policy,
     executePolicy
   });
+  const { runActionTrackerSegment, testActionTrackerSegment } = useSegmentTracker();
   return (
     <Dialog
       className={locals.dialog}
-      titleIconType={isManual(action.type) ? undefined : 'lib_help_error_error_circle'}
+      titleIconType={action.type === ACTION_TYPE.MANUAL ? undefined : 'lib_help_error_error_circle'}
       title={getTitle({ action, error, actionInstanceId, test, policy })}
-      onClose={close}
+      onClose={() => onClose({ error, actionInstanceId })}
       withoutBodyPadding
     >
       <>
@@ -115,7 +109,7 @@ export default function RunActionDialog({
           />
         </div>
         <FormFooter>
-          {isManual(action.type) ? (
+          {action.type === ACTION_TYPE.MANUAL ? (
             <CancelButton onClick={close}>{t('in-automation:close')}</CancelButton>
           ) : (
             <RunActionFooter
@@ -124,22 +118,25 @@ export default function RunActionDialog({
               test={test}
               actionInstanceId={actionInstanceId}
               isSaving={isSaving}
-              noTurboAgents={noTurboAgents}
               form={form}
               onSave={() =>
-                onSave({
-                  form,
-                  setForm,
-                  setIsSaving,
-                  action,
-                  agentSnapShots,
-                  setError,
-                  setActionInstanceId,
-                  event,
-                  policy,
-                  handleSave,
-                  executePolicy
-                })
+                onSave(
+                  {
+                    form,
+                    setIsSaving,
+                    action,
+                    agentSnapShots,
+                    setError,
+                    setActionInstanceId,
+                    event,
+                    policy,
+                    handleSave,
+                    executePolicy,
+                    test
+                  },
+                  runActionTrackerSegment,
+                  testActionTrackerSegment
+                )
               }
             />
           )}
@@ -149,31 +146,66 @@ export default function RunActionDialog({
   );
 }
 
+function onClose({ error, actionInstanceId }: { error?: string; actionInstanceId?: string }) {
+  if (error || actionInstanceId) {
+    refreshHistory();
+  }
+  close();
+}
 interface GetTitleParams extends Pick<RunActionDialogProps, 'action' | 'test' | 'policy'> {
   actionInstanceId: string;
   error: string;
 }
 const getTitle = ({ action, error, actionInstanceId, test, policy }: GetTitleParams) => {
-  const actionName = isExternal(action.type) ? action?.description : action.name;
+  const actionName = action.type === ACTION_TYPE.EXTERNAL ? action?.description : action.name;
   if (policy) return t('in-automation:configureAutomation', { actionName });
   if (error) return t('in-automation:failedToInitiate', { actionName });
   if (actionInstanceId) return t('in-automation:hasBeenInitiated', { actionName });
   if (test) return t('in-automation:chosenToTest', { actionName });
-  if (isManual(action.type)) return t('in-automation:viewManualAction', { actionName });
+  if (action.type === ACTION_TYPE.MANUAL) return t('in-automation:viewManualAction', { actionName });
   return t('in-automation:chosenToRun', { actionName });
 };
+
+function filterAgentSnapShotsArray(hostId: string, agents: OUT | null | undefined): OUT | null | undefined {
+  if (!agents || !agents.data || !agents.data.online) {
+    return agents;
+  }
+
+  const filteredOnline = agents.data.online.filter((agent: AgentSnapshot) => agent?.volatileId?.host_id === hostId);
+
+  // If no agent is found with the specified hostId, return the original agents to show the list of ansible agents
+  if (filteredOnline.length === 0) {
+    return agents;
+  }
+
+  return {
+    ...agents,
+    data: {
+      ...agents.data,
+      online: filteredOnline
+    }
+  };
+}
 
 function useAgentSnapShots({ action }: { action: Action }) {
   const timeConfig = useTimeConfig();
   let query = '';
-  if (isScript(action.type)) query = 'entity.agent.capability:action-script';
-  else if (isWebhook(action.type)) query = 'entity.agent.capability:action-http';
-  else if (isAnsible(action.type)) query = 'entity.agent.capability:action-ansible';
-  else if (isGithub(action.type)) query = 'entity.agent.capability:action-github';
-  else if (isGitlab(action.type)) query = 'entity.agent.capability:action-gitlab';
-  else if (isJira(action.type)) query = 'entity.agent.capability:action-jira';
-  else if (isExternal(action.type)) query = 'entity.agent.capability:turbonomic-action';
-  const agentSnapShots = useObservable(() => getAgentSnapshotsInTimeframe({ timeConfig, query }), [timeConfig]);
+  if (action.type === ACTION_TYPE.SCRIPT) query = 'entity.agent.capability:action-script';
+  else if (action.type === ACTION_TYPE.HTTP) query = 'entity.agent.capability:action-http';
+  else if (action.type === ACTION_TYPE.ANSIBLE) query = 'entity.agent.capability:action-ansible';
+  else if (action.type === ACTION_TYPE.GITHUB) query = 'entity.agent.capability:action-github';
+  else if (action.type === ACTION_TYPE.GITLAB) query = 'entity.agent.capability:action-gitlab';
+  else if (action.type === ACTION_TYPE.JIRA) query = 'entity.agent.capability:action-jira';
+  const agentSnapShots: OUT | null | undefined = useObservable(
+    () => getAgentSnapshotsInTimeframe({ timeConfig, query }),
+    [timeConfig]
+  );
+
+  if (action.type === ACTION_TYPE.ANSIBLE) {
+    const hostId = getAnsibleHostIdFromFields(action.fields).value;
+    // filtering agent snapshot with host id (show only the agent that the action definition is associated with)
+    return hostId ? filterAgentSnapShotsArray(hostId, agentSnapShots) : agentSnapShots;
+  }
   return agentSnapShots;
 }
 
@@ -194,14 +226,14 @@ const useResolvedDynamicParameters = ({ action, event }: { action: Action; event
   const resolvedDynamicParameters = useObservable(() => {
     if (!event) return emptyParametersArray;
     const dynamicParameters = action.inputParameters?.filter(({ type }) => type === 'dynamic') ?? [];
-    if (dynamicParameters.length === 0 && !isAnsible(action.type)) return emptyParametersArray;
+    if (dynamicParameters.length === 0 && action.type !== ACTION_TYPE.ANSIBLE) return emptyParametersArray;
     const parsedParameters = dynamicParameters.map(({ value, name }) => ({
       name,
       ...parseDynamicParameter(value)
     }));
     const timestamp: number =
       event.metadata?.triggerTime != null ? Math.min(event.start, event.metadata.triggerTime) : event.start;
-    if (isAnsible(action.type)) {
+    if (action.type === ACTION_TYPE.ANSIBLE) {
       parsedParameters.push(...ansibleHostQueries);
     }
     return resolveDynamicParameters({ eventId: event.id, parameters: parsedParameters, timestamp }).map(result => {
@@ -241,9 +273,32 @@ const useRunActionForm = ({
   return [form, setForm] as const;
 };
 
+type VaultParameter = { secretKey: string; secretPath: string };
+const isVaultParameter = (param: VaultParameter | {}): param is VaultParameter => {
+  return 'secretKey' in param && 'secretPath' in param;
+};
+function parseVaultParameter(str?: string) {
+  const vaultParameter = safeParseJSON<VaultParameter>(str);
+  if (!isVaultParameter(vaultParameter)) {
+    return { secretKey: '', secretPath: '' };
+  }
+  return vaultParameter;
+}
+
+type DynamicParameter = { key?: string; tagName: string };
+const isDynamicParameter = (param: DynamicParameter | {}): param is DynamicParameter => {
+  return 'tagName' in param;
+};
+function parseDynamicParameter(str?: string) {
+  const dynamicParameter = safeParseJSON<DynamicParameter>(str);
+  if (!isDynamicParameter(dynamicParameter)) {
+    return { key: '', tagName: '' };
+  }
+  return dynamicParameter;
+}
+
 interface OnSaveParams extends Pick<RunActionDialogProps, 'action' | 'event'> {
   form: MapForm<any> | undefined;
-  setForm: React.Dispatch<React.SetStateAction<MapForm<any> | undefined>>;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
   agentSnapShots: OUT | null | undefined;
   setError: React.Dispatch<React.SetStateAction<string>>;
@@ -251,32 +306,28 @@ interface OnSaveParams extends Pick<RunActionDialogProps, 'action' | 'event'> {
   policy?: NewPolicy;
   handleSave?: (params: ParameterValue[], volatileId: VolatileId) => void;
   executePolicy?: Policy;
+  test?: boolean;
 }
 
-function onSave({
-  form,
-  setForm,
-  setIsSaving,
-  action,
-  agentSnapShots,
-  setError,
-  setActionInstanceId,
-  event,
-  policy,
-  handleSave,
-  executePolicy
-}: OnSaveParams) {
-  // when user have single turbonomic agent we just show it as static text and run action. we do not have any form.valid case in that scenario.
-  // when user have multiple turbonomic agents, we show dropdown with agents and, we have to execute below code in that scenario.
-  if (!form?.hierarchyValid && !(isExternal(action.type) && agentSnapShots?.data?.online.length === 1)) {
-    setForm(form?.setTouched(true, { recurse: true }));
-    return;
-  }
+function onSave(
+  {
+    form,
+    setIsSaving,
+    action,
+    agentSnapShots,
+    setError,
+    setActionInstanceId,
+    event,
+    policy,
+    handleSave,
+    executePolicy,
+    test
+  }: OnSaveParams,
+  runActionTrackerSegment: TrackingFunction,
+  testActionTrackerSegment: TrackingFunction
+) {
   setIsSaving(true);
-  runActionTracker({
-    actionType: action.type,
-    actionName: action.name
-  });
+
   const targetAgent = form?.get('targetAgent') as Field<string>;
   const parameters = form?.get('parameters') as MapForm<any>;
   const inputParameters = parameters.reduce<ParameterValue[]>((acc, parameter, key) => {
@@ -347,9 +398,6 @@ function onSave({
       setActionInstanceId(response?.actionInstanceId);
     } else {
       setActionInstanceId(response.actionInstanceId);
-      if (isExternal(action.type)) {
-        refresh();
-      }
     }
   };
 
@@ -362,6 +410,8 @@ function onSave({
   };
   const timeout = getTimeoutFromFields(action.fields).value;
 
+  // If 'policy' exists then this dialog is being used to edit the action configuration for a policy.
+  // An action is not being run, but rather the action configuration is being saved.
   if (policy) {
     if (isEmpty(selectedVolatileId) && targetAgent.value !== '') {
       // @ts-expect-error
@@ -371,12 +421,12 @@ function onSave({
       hostsLimit.value && hostsLimit.value.length > 0 ? [...allInputParameters, hostsLimit] : allInputParameters;
     return handleSave?.(params, selectedVolatileId);
   }
+
+  // Run the action
   if (
-    isScript(action.type) ||
-    isGithub(action.type) ||
-    isGitlab(action.type) ||
-    isJira(action.type) ||
-    isWebhook(action.type)
+    [ACTION_TYPE.SCRIPT, ACTION_TYPE.GITHUB, ACTION_TYPE.GITLAB, ACTION_TYPE.JIRA, ACTION_TYPE.HTTP].includes(
+      action.type
+    )
   ) {
     runAction({
       volatileId: selectedVolatileId,
@@ -387,22 +437,7 @@ function onSave({
       policyId: executePolicyId,
       inputParameters: allInputParameters
     }).once(handleActionResponse);
-  } else if (isExternal(action.type)) {
-    const volatileId =
-      Object.keys(selectedVolatileId).length === 0 ? agentSnapShots?.data?.online[0]?.volatileId : selectedVolatileId;
-    const actionInstanceId = action?.metadata?.ai ? action?.metadata?.ai[0]?.turbonomicActionInstanceId : '';
-    const createdTime = action?.metadata?.ai ? action?.metadata?.ai[0]?.turbonomicActionInstanceCreatedDate : 0;
-    runTurboAction({
-      volatileId: volatileId ?? {},
-      event,
-      createdDate: createdTime,
-      actionName: action?.description ?? '',
-      timeout,
-      actionId,
-      actionInstanceId: actionInstanceId,
-      policyId: executePolicyId
-    }).once(handleActionResponse);
-  } else if (isAnsible(action.type)) {
+  } else if (action.type === ACTION_TYPE.ANSIBLE) {
     runAction({
       volatileId: selectedVolatileId,
       eventId: event?.id,
@@ -414,7 +449,38 @@ function onSave({
       policyId: executePolicyId
     }).once(handleActionResponse);
   }
+
+  // Track an action was either tested or run
+  if (test) {
+    testActionTrackerSegment({
+      actionName: action.name,
+      actionType: action.type,
+      aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
+    });
+  } else {
+    // Set policyType when running an action via a policy
+    let policyType;
+    if (executePolicy) {
+      policyType =
+        isManual(executePolicy) && isAutomatic(executePolicy)
+          ? 'both'
+          : isManual(executePolicy)
+          ? 'manual'
+          : 'automatic';
+    } else {
+      policyType = '';
+    }
+
+    runActionTrackerSegment({
+      actionName: action.name,
+      actionType: action.type,
+      policyName: executePolicy?.name ?? '',
+      policyType,
+      aiOriginated: isAIAction(action) || isAIActionCopy(action) ? true : false
+    });
+  }
 }
+
 interface RunActionFooterProps {
   error: string;
   actionInstanceId: string;
@@ -423,31 +489,49 @@ interface RunActionFooterProps {
   onSave: () => void;
   test?: boolean;
   policy?: NewPolicy;
-  noTurboAgents?: boolean;
 }
 
-function RunActionFooter({
-  error,
-  actionInstanceId,
-  isSaving,
-  form,
-  onSave,
-  test,
-  policy,
-  noTurboAgents = false
-}: RunActionFooterProps) {
+function RunActionFooter({ error, actionInstanceId, isSaving, form, onSave, test, policy }: RunActionFooterProps) {
+  const navigateToActionHistory = useNavigateToActionHistory();
   if (error || actionInstanceId) {
     return (
-      <Button kind="primary" onClick={close}>
-        {t('in-automation:ok')}
-      </Button>
+      <>
+        <CancelButton
+          isSaving={isSaving}
+          onClick={() => {
+            close();
+            refreshHistory();
+          }}
+        >
+          {t('in-automation:close')}
+        </CancelButton>
+        <Button
+          kind="primary"
+          onClick={() => {
+            if (test) {
+              navigateToActionHistory(actionInstanceId);
+            } else {
+              refreshHistory();
+              setActiveKey('actionHistory');
+            }
+
+            close();
+          }}
+        >
+          {t('in-automation:actionHistory.goToActionHistory')}
+        </Button>
+      </>
     );
   }
   return (
     <>
       <CancelButton isSaving={isSaving} onClick={close} />
-      <SaveButton kind="primary" form={form} disabled={!form || noTurboAgents} isSaving={isSaving} onClick={onSave}>
-        {policy ? 'Save' : test ? t('in-automation:testAction') : t('in-automation:runAction')}
+      <SaveButton kind="primary" form={form} disabled={!form} isSaving={isSaving} onClick={onSave}>
+        {policy
+          ? t('in-automation:actionHistory.saveButton')
+          : test
+          ? t('in-automation:testAction')
+          : t('in-automation:runAction')}
       </SaveButton>
     </>
   );
@@ -458,9 +542,19 @@ interface CreateFormParams extends Pick<RunActionDialogProps, 'volatileId' | 'ac
   resolvedDynamicParameters: ResolvedDynamicParamValue[];
 }
 
-function getAgent(volatileId: VolatileId, agentSnapShots: OUT, executeOrNewPolicy: NewPolicy | Policy | undefined) {
+function getAgent(
+  volatileId: VolatileId,
+  agentSnapShots: OUT,
+  policy: NewPolicy | undefined,
+  executePolicy: Policy | undefined
+) {
+  const executeOrNewPolicy = policy || executePolicy;
   if (executeOrNewPolicy) {
-    return executeOrNewPolicy.typeConfigurations[0]?.runnable?.runConfiguration?.actions[0]?.agentId ?? '';
+    const agentId = executeOrNewPolicy.typeConfigurations[0]?.runnable?.runConfiguration?.actions[0]?.agentId ?? '';
+    if (agentId === TRIGGERING_AGENT && executePolicy) {
+      return volatileId.host_id;
+    }
+    return agentId;
   }
   return (
     agentSnapShots?.data?.online?.find(agent => agent.volatileId?.host_id === volatileId.host_id)?.volatileId
@@ -479,9 +573,9 @@ function getParameterFromName(policy: NewPolicy | undefined, name: string) {
   );
 }
 
-function getHostLimit(policy: NewPolicy | undefined): Options {
-  if (policy) {
-    const param = getParameterFromName(policy, 'hostsLimit');
+function getHostLimit(executeOrNewPolicy: NewPolicy | Policy | undefined): Options {
+  if (executeOrNewPolicy) {
+    const param = getParameterFromName(executeOrNewPolicy, 'hostsLimit');
     if (param) {
       const hostsLimit = param.value.split(',');
       return hostsLimit.map(host => {
@@ -523,7 +617,7 @@ function createForm({
     .put(
       'targetAgent',
       createField({
-        value: getAgent(volatileId, agentSnapShots, executeOrNewPolicy),
+        value: getAgent(volatileId, agentSnapShots, policy, executePolicy),
         validator: notBlankValidator
       })
     )
@@ -586,7 +680,7 @@ function createForm({
         }, {})
       })
     )
-    .put('hostsLimit', createField({ value: getHostLimit(policy) }));
+    .put('hostsLimit', createField({ value: getHostLimit(executeOrNewPolicy) }));
 }
 
 const formatResolvedValue = (value: string) => {

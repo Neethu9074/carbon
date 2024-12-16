@@ -13,11 +13,13 @@ import { createLogger } from '@instana/logger';
 
 import cleanConfigurationForm from 'in-synthetics/dashboards/summary/tabs/configuration/actions/cleanConfigurationForm';
 import { showUpdateSuccessMessage, showUpdateErrorMessage } from 'in-synthetics/createTests/utils/userFeedback';
+import { clickSyntheticMonitoringConfigurationTabEditTracker } from 'in-synthetics/tracking/tracker';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { ConfigItem, SlideInHeader, TestTypeSelected } from 'in-synthetics/utils/constants';
 import { updateForm } from 'in-synthetics/createTests/form/updateSyntheticTestForm';
 import deserializeErrorMessage from 'in-synthetics/utils/deserializeErrorMessage';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import AdvancedMode from 'in-synthetics/createTests/advanced/AdvancedMode';
 import { updateTest } from 'in-synthetics/api';
 import { SyntheticTest } from 'in-types';
@@ -43,6 +45,7 @@ interface Props {
 }
 
 export default function EditConfigurationDialogPresenter({ test, onClose, setReloadCount }: Props) {
+  const { trackCta } = useSegmentTracking();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [form, setForm] = useState(() => updateForm(test));
   const [slideInConfig, setSlideInConfig] = useState<SlideInConfig | null>(null);
@@ -55,8 +58,11 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     locations: form.get('locations').value,
     label: form.get('label').value,
     description: form.get('description').value,
-    applicationId: form.get('applicationId').value,
-    script: form.get('script')?.value
+    applicationId: form.get('applicationId')?.value,
+    script: form.get('script')?.value,
+    applications: form.get('applications')?.value,
+    websites: form.get('websites')?.value,
+    mobileApps: form.get('mobileApps')?.value
   });
 
   const syntheticType: string = test.configuration.syntheticType;
@@ -161,6 +167,7 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
   };
 
   function onSubmit(form: MapForm<any>, test: SyntheticTest) {
+    clickSyntheticMonitoringConfigurationTabEditTracker(trackCta);
     setIsSubmitting(true);
     const testConfig = cleanConfigurationForm(form, test);
 
@@ -181,6 +188,14 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
       }
     );
   }
+
+  const SSLCertificateErrorsExist = (configForm: MapForm<any>, syntheticTypeField: Field<string>) => {
+    return syntheticTypeField.value === 'SSLCertificate'
+      ? (configForm.get('hostname') && !configForm.get('hostname').valid) ||
+          (configForm.get('port') && !configForm.get('port').valid) ||
+          (configForm.get('daysRemainingCheck') && !configForm.get('daysRemainingCheck').valid)
+      : undefined;
+  };
 
   const isProceedDisabledAdvanced = () => {
     const configForm = form.get('configuration') as MapForm<any>;
@@ -215,6 +230,8 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
           // validating zip file if 'scripts' is present
           (configForm.get('scripts') &&
             (!configForm.getIn(['scripts', 'bundle']).valid || !configForm.getIn(['scripts', 'scriptFile']).valid)))) ||
+      // for SSL Certificate
+      SSLCertificateErrorsExist(configForm, syntheticTypeField) ||
       !syntheticTypeField.valid ||
       !frequencyField.valid ||
       !labelField.valid ||
@@ -247,11 +264,21 @@ export default function EditConfigurationDialogPresenter({ test, onClose, setRel
     </FormFooter>
   );
 
+  const getDialogTitle = () => {
+    if (testTypeSelected.browser.simple || testTypeSelected.browser.script) {
+      return 'Browser';
+    } else if (testTypeSelected.api.simple || testTypeSelected.api.script) {
+      return 'API';
+    } else {
+      return 'SSL Certificate';
+    }
+  };
+
   return (
     <DialogWithSlideInView
       footer={footer}
       title={t('in-synthetics:dialog.updateTest.dialogTitle', {
-        syntheticType: testTypeSelected.browser.simple || testTypeSelected.browser.script ? 'Browser' : 'API'
+        syntheticType: getDialogTitle()
       })}
       slideInViewTitle={customSlideInHeaderConfig?.title ?? slideInConfig?.title}
       onSlideInViewTitleClick={() =>

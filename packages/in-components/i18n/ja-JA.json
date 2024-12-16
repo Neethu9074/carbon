@@ -17,9 +17,11 @@
     "chartWrapperMetricNotfound": "メトリック ID {{metricId}} が見つかりません。",
     "chartWrapperSameAxisSameValue": "1 つの軸のすべての集約タイプの値は同じである必要があります。",
     "viewInAnalyticsBtnLabel": "分析で表示",
+    "chartLegendBlankLabel": "空",
     "chartLendMetricTimeShifted": "メトリックが {{timeShiftedLabel}} にタイムシフトされました",
-    "chartDownloadLabel": "JSON のダウンロード",
-    "chartDownloadCSVLabel": "CSV 形式でダウンロード",
+    "chartDownloadLabel": "JSON にエクスポート",
+    "chartDownloadCSVLabel": "CSV にエクスポート",
+    "chartDownloadPDFLabel": "PDFのダウンロード",
     "chartGlobalHighlightLabel": "すべてのグラフで強調表示",
     "chartZoomInLabel": "時刻範囲にズーム",
     "chartAlertsLanePresenterAlertsLabel": "アラート",
@@ -38,7 +40,8 @@
       "itemMsg": "さらに {{leftCount}} 件の {{moreMsg}}"
     },
     "chartMarkerLane": {
-      "retryButtonLabel": "再試行"
+      "retryButtonLabel": "再試行",
+      "openList": "リストを開く"
     },
     "chartReleasesLanePresenterReleasesLabel": "リリース",
     "chartReleasesLanePresenterTooltip": "さらに {{len}} 件のリリース",
@@ -64,9 +67,14 @@
   "touchedMessages": {
     "withPath": "{{message}} (場所: <codeWithClass>{{path}}</codeWithClass>)"
   },
-  "gravatar": {
-    "avatarUrlAlt": "gravatar.com からの {{email}} のアバター。",
-    "avatarNullAlt": "{{email}} のフォールバック・アバター。"
+  "graphView": {
+    "graphTitle": "グラフ",
+    "explanationHeader": "ダイナミック・グラフ・ショーケース",
+    "explanationP1": "Instana を駆動するコア・テクノロジーは、ダイナミック・グラフと呼ばれています。 このグラフは、コンポーネントのすべての物理的および論理的な依存関係を理解するアプリケーションのモデルです。 右側に、現在の環境のダイナミック・グラフが表示されています。",
+    "explanationP2": "グラフには、Instana エージェントとセンサーによって自動的に検出されたすべてのリソースとその依存関係が含まれ、グラフは常に最新の状態に保たれます。 グラフ内の各ノードはまた、メトリクス、構成データ、セマンティックな知識に基づく計算された健全性値などの状態情報で継続的に更新される。 また、この知識によってグラフ内の依存関係が分析され、サービスやアプリケーションなどの論理的なグループを検出して、そのレベルでの影響を理解し、問題の重要度を導き出します。 グラフ全体が永続的であり、前後の時間に移動して、多くの運用上のユース・ケースにグラフの知識を活用できます。",
+    "explanationP3": "インフラストラクチャー・マップでリソースを選択し、このページに戻ることで、右側のビューをフィルタリングすることができます。 リソースを選択した後、このフィルタリングを可能にする snapshotId パラメータを URL に設定する必要があります。",
+    "explanationLink": "詳しくは<linkToBlog>ブログをご覧</linkToBlog>ください。",
+    "closeBtn": "グラフを閉じる"
   },
   "releaseNotesDialog": {
     "releaseNotesTitle": "リリース・ノート"
@@ -115,6 +123,7 @@
       "entititiesDescription": "選択された時刻範囲で取得されたエンティティーはありません。"
     },
     "sharedComponents": {
+      "settings": "設定",
       "configurableThSearchItemPlaceholder": "{{len}} 項目の検索",
       "configurableThNoMatchesTxt": "一致がありません"
     }
@@ -124,6 +133,7 @@
     "tagListNoTagsDefined": "タグが定義されていません",
     "tagListShowAll": "すべてのタグを表示 (さらに {{num}} 個)"
   },
+  "copyToClipboard": "クリップボード",
   "copyToClipboardPressToCopy": "コピーするには、Ctrl+C または CMD+C を押してください。",
   "copyToClipboardCopied": "コピーされました。",
   "reloadUiDialogTitle": "ユーザー・インターフェースの新規バージョンが使用可能",
@@ -233,6 +243,7 @@
     "labelRegion": "リージョン",
     "labelTag": "タグ",
     "labelCommit": "コミット",
+    "buttonGraphShowcase": "グラフ・ショーケース",
     "geo": {
       "title": "ジオデータ",
       "description": "この製品には、<linkToMaxMind>https://www.maxmind.com</linkToMaxMind> で入手可能な MaxMind で作成される GeoLite2 データが含まれています。"
@@ -263,6 +274,7 @@
   },
   "dialog": {
     "confirmationDialogLabelConfirm": "確認",
+    "secondaryDialogLabelCancel": "キャンセル",
     "promptPresenterLabelConfirm": "確認"
   },
   "draggableItemSelector": {
@@ -294,12 +306,7 @@
     "tooltipShowLess": "表示を減らす",
     "tooltipShowMore": "さらに表示"
   },
-  "expandableGroup": {
-    "tooltipShowContent": "コンテンツの表示",
-    "labelExpandButtonForContent": "コンテンツの展開ボタン"
-  },
   "featureFeedback": {
-    "labelBETA": "BETA",
     "linkLabelYouCanSendUsFeedback": "フィードバックをお送りください"
   },
   "geoHeatMap": {
@@ -352,7 +359,55 @@
     "openIncidents_1": "{{count}} 個のインシデント",
     "openIncidents_2": "{{count}} 個のインシデント",
     "labelWarning": "警告",
-    "labelCritical": "クリティカル"
+    "labelCritical": "クリティカル",
+    "carbonNoIssues": "問題なし",
+    "carbonOpenIssues": "{{count}} 件の問題",
+    "carbonOpenIssues_plural": "{{count}} 件の問題",
+    "carbonOpenIssues_0": "{{count}} 件の問題",
+    "carbonOpenIssues_1": "{{count}} 件の問題",
+    "carbonOpenIssues_2": "{{count}} 件の問題",
+    "carbonNoIncidents": "インシデントなし",
+    "carbonOpenIncidents": "{{count}} 件のインシデント",
+    "carbonOpenIncidents_plural": "{{count}} 件のインシデント",
+    "carbonOpenIncidents_0": "{{count}} 件のインシデント",
+    "carbonOpenIncidents_1": "{{count}} 件のインシデント",
+    "carbonOpenIncidents_2": "{{count}} 件のインシデント"
+  },
+  "vulnerabilities": {
+    "eventType_issue": "脆弱性",
+    "eventType_issue_plural": "脆弱性",
+    "eventType_issue_0": "脆弱性",
+    "eventType_issue_1": "脆弱性",
+    "eventType_issue_2": "脆弱性",
+    "openIssuesListPresenterActionsViewIssues": "脆弱性を見る",
+    "openIssuesListPresenterActionsViewNumbersOfIssue": "{{openIssueCount}} 脆弱性を見る",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "オープンな脆弱性をロードしています…",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "ロードに失敗したオープンな脆弱性",
+    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} オープンな脆弱性",
+    "noVulnerabilities": "脆弱性なし",
+    "openVulnerabilities": "{{count}} 脆弱性",
+    "openVulnerabilities_plural": "{{count}} 脆弱性",
+    "openVulnerabilities_0": "{{count}} 脆弱性",
+    "openVulnerabilities_1": "{{count}} 脆弱性",
+    "openVulnerabilities_2": "{{count}} 脆弱性",
+    "noIncidents": "インシデントなし",
+    "openIncidents": "{{count}} 個のインシデント",
+    "openIncidents_plural": "{{count}} 個のインシデント",
+    "openIncidents_0": "{{count}} 個のインシデント",
+    "openIncidents_1": "{{count}} 個のインシデント",
+    "openIncidents_2": "{{count}} 個のインシデント",
+    "carbonNoVulnerabilities": "脆弱性なし",
+    "carbonOpenVulnerabilities": "{{count}} 脆弱性",
+    "carbonOpenVulnerabilities_plural": "{{count}} 脆弱性",
+    "carbonOpenVulnerabilities_0": "{{count}} 脆弱性",
+    "carbonOpenVulnerabilities_1": "{{count}} 脆弱性",
+    "carbonOpenVulnerabilities_2": "{{count}} 脆弱性",
+    "carbonNoIncidents": "インシデントなし",
+    "carbonOpenIncidents": "{{count}} 件のインシデント",
+    "carbonOpenIncidents_plural": "{{count}} 件のインシデント",
+    "carbonOpenIncidents_0": "{{count}} 件のインシデント",
+    "carbonOpenIncidents_1": "{{count}} 件のインシデント",
+    "carbonOpenIncidents_2": "{{count}} 件のインシデント"
   },
   "inlineTabNavigation": {
     "labelSelectTab": "タブの選択"
@@ -388,9 +443,9 @@
     "labelLoadingData": "データをロード中"
   },
   "mainNavigation": {
+    "skipToMainContent": "メイン・コンテンツにスキップ",
     "viewSwitcherLabelSettings": "設定",
     "viewSwitcherLabelMore": "その他",
-    "viewSwitcherLabelTenants": "テナント",
     "viewSwitcherLabelAgents": "エージェント",
     "viewSwitcherLabelReleaseNotes": "リリース・ノート",
     "viewSwitcherLabelDocumentation": "資料",
@@ -400,7 +455,9 @@
     "viewSwitcherLabelEvents": "イベント",
     "viewSwitcherlabelInfrastructure": "インフラストラクチャー",
     "viewSwitcherLabelApplications": "アプリケーション",
+    "viewVulnerabilityCenter": "脆弱性",
     "viewSwitcherLabelSlo": "サービス・レベル",
+    "viewSwitcherLabelLogs": "Logs",
     "viewSwitcherLabelAnalytics": "分析",
     "viewSwitcherLabelWebsitesAndMobileApps": "Web サイトおよびモバイル・アプリケーション",
     "viewSwitcherLabelWebsites": "Web サイト",
@@ -414,10 +471,17 @@
     "viewSwitcherLabelSap": "SAP",
     "viewSwitcherLabelzhmc": "IBM Z HMC",
     "viewSwitcherLabelPlatforms": "プラットフォーム",
-    "viewSwitcherButtonSignOut": "サインアウト",
     "viewSwitcherCustomDashboards": "カスタム・ダッシュボード",
+    "viewSwitcherButtonSignOut": "サインアウト",
+    "viewSwitcherLabelTenants": "テナント",
+    "viewSwitcherLabelNutanix": "Nutanix",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "新規バージョンの Instana UI が使用可能です",
-    "newUiClientVersionAvailableButtonReloadToUpdate": "再ロードして更新"
+    "newUiClientVersionAvailableButtonReloadToUpdate": "再ロードして更新",
+    "profileMenu_profileLink": "プロファイル",
+    "profileMenu_tooltip": "プロファイル・メニュー",
+    "profileMenu_unitName_tenantName": "ユニット名 - テナント名",
+    "profileMenu_switchUnitOrTenant": "スイッチ・ユニットまたはテナント",
+    "profileMenu_logOut": "ログアウト"
   },
   "metricConfigurator": {
     "buttonSelectMetrics": "メトリックの選択",
@@ -438,8 +502,10 @@
     "aggregation_MAX": "最大",
     "aggregation_DISTINCTCOUNT": "特徴的なカウント",
     "aggregation_SUM": "sum",
+    "aggregation_INCREASE": "Δ",
     "aggregation_DISTRIBUTION": "分布",
-    "aggregation_PERSECOND": "秒当たり"
+    "aggregation_PERSECOND": "秒当たり",
+    "labelFilterEmptyValue": "空の値をフィルタリング"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "使用中",
@@ -517,6 +583,12 @@
     "fillerTextIn": " 着信 ",
     "fillerTextAt": " 時点 "
   },
+  "sessionTimeout": {
+    "title": "セッション・タイムアウト",
+    "message": "操作を行わなかったため、ログアウトされます:",
+    "loggedInButton": "ログインしたままにする",
+    "logOutButton": "ログアウト"
+  },
   "time": {
     "lastMinute": "過去 1 分間",
     "lastMinute_plural": "過去 {{count}} 分間",
@@ -577,15 +649,15 @@
   },
   "timeShift": {
     "changeSelectedTimeShift": "選択したタイムシフトの変更",
-    "timeShiftValue": "タイムシフト: {{timeShiftValue}}",
+    "timeShiftValue": "タイムシフト:{{timeShiftValue}}",
     "compareToTimeShiftTimeConfig": "{{timeShiftTimeConfig}} と比較"
   },
   "topListCard": {
     "loadingData": "データのロード中"
   },
   "uiClinetUpdateMessage": {
-    "newVersionOfInstanaAvailable": "新規バージョンの Instana が使用可能です",
-    "buttonReloadToUpdate": "再ロードして更新"
+    "newVersionOfInstanaAvailable": "インスタナの UI にアップデートがありました",
+    "buttonReloadToUpdate": "ブラウザを更新して読み込みます。"
   },
   "upstreamDownstream": {
     "companionMetricLabelCalls": "呼び出し",
@@ -645,6 +717,7 @@
     "setEnabledMessagePressESCToDisableTVMode": "ESC を押して TV モードを無効にします。"
   },
   "analyze": {
+    "facettedFilters": "ファセット・フィルター",
     "loadMoreWithCount": "さらに {{count}} 件をロード",
     "loadMore": "さらにロード",
     "activeFacets": "選択済み: {{count}} 件",
@@ -655,6 +728,7 @@
     "fromUnit": "始点 ({{unit}})",
     "to": "終点",
     "toUnit": "終点 ({{unit}})",
+    "fromto": "開始点から終了点までの範囲の定義",
     "rangeSelected": "範囲が選択済み",
     "rangeOrder": "範囲は昇順でなければなりません。",
     "earliestTimestamp": "最初のタイム・スタンプ",
@@ -668,6 +742,8 @@
     },
     "groupName": "グループ名",
     "groupedOnly": "グループの分析時にのみ使用可能なメトリック。",
+    "groupNameNotAvailable": "{{groupbyTag}} 情報がありません",
+    "options": "オプション",
     "filterSidebar": {
       "groupingButton": "{{group}} によるグループ化",
       "ungroupButton": "グループ化の解除"
@@ -829,5 +905,9 @@
     "notice": "このテナント・ユニットは新しいリージョンにマイグレーションされました。 現在アクセスしているユニットには、履歴データのみが含まれています。",
     "goToNewLocationLabel": "新規ロケーションに移動",
     "exploreDataLabel": "履歴データの検索"
+  },
+  "creatableTagSelect": {
+    "placeholder": "タグの入力",
+    "createLabel": "作成: {{tag}}"
   }
 }

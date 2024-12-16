@@ -5,9 +5,8 @@
 
 import React from 'react';
 
+import { Message, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Message } from '@instana/components';
-import { Button } from '@instana/legacy';
 
 import getIssueDefinitionForSnapshotAndCode, * as IssueCategories from 'in-sdk/agentMonitoringIssueDefinition';
 import getKubernetesClusterByRelation from 'in-kubernetes/subscriptions/getKubernetesClusterByRelation';

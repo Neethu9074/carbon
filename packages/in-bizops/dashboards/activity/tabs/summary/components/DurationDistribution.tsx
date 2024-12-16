@@ -22,6 +22,8 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
+import locals from 'in-bizops/dashboards/activity/tabs/summary/components/DurationDistribution.mless';
+
 type DurationDistributionProps = {
   rightHeaderContent: React.ReactElement;
 };
@@ -35,8 +37,8 @@ export default function DurationDistribution({ rightHeaderContent }: DurationDis
   const businessProcessId: string =
     getMatrixParameter(location, businessProcessDashboard, 'definitionId') ??
     t('in-bizops:dashboards.summary.pageTitle');
-  const businessActivityName: string =
-    getMatrixParameter(location, businessActivityPath, 'activityName') ?? t('in-bizops:dashboards.summary.pageTitle');
+  const businessActivityId: string =
+    getMatrixParameter(location, businessActivityPath, 'activityId') ?? t('in-bizops:dashboards.summary.pageTitle');
 
   // timespans that will be used in the content selector
   const timespans: TimespanSelectorOption[] = [
@@ -79,9 +81,9 @@ export default function DurationDistribution({ rightHeaderContent }: DurationDis
           type: 'TAG_FILTER'
         },
         {
-          name: 'bpm_activity_name',
+          name: 'bpm_activity_id',
           operator: 'EQUALS',
-          stringValue: businessActivityName,
+          stringValue: businessActivityId,
           entity: 'NOT_APPLICABLE',
           type: 'TAG_FILTER'
         }
@@ -91,7 +93,6 @@ export default function DurationDistribution({ rightHeaderContent }: DurationDis
 
   return (
     <Card
-      className={'bizops-duration-dist'}
       title={t('in-bizops:dashboards.activity.widgets.duration')}
       size="l"
       rightHeaderContent={rightHeaderContent} // tabs for swapping charts
@@ -101,15 +102,16 @@ export default function DurationDistribution({ rightHeaderContent }: DurationDis
         selectedTimespan={selectedTimespan as DurationDistributionScale}
         onChange={onTimespanChange}
       />
-
-      <LatencyDistributionBase10Chart
-        dataSource="calls"
-        subscription={getActivityDurationDistributionBase10(distDurationRequest)}
-        timeShiftSubscription={getActivityDurationDistributionBase10(distDurationRequest)}
-        showLegend
-        timeShiftConfig={timeShiftConfig}
-        renderWidgetNotSupportedIndicator={false}
-      />
+      <div className={locals.latencyBizopsChart}>
+        <LatencyDistributionBase10Chart
+          dataSource="calls"
+          subscription={getActivityDurationDistributionBase10(distDurationRequest)}
+          timeShiftSubscription={getActivityDurationDistributionBase10(distDurationRequest)}
+          showLegend
+          timeShiftConfig={timeShiftConfig}
+          renderWidgetNotSupportedIndicator={false}
+        />
+      </div>
     </Card>
   );
 }

@@ -21,6 +21,87 @@ export default [
     formatter: number
   },
   {
+    metric: 'totalTraffic.status2xx',
+    label: t('in-forge:plugins.kongApigateway.status2xx'),
+    formatter: number
+  },
+  {
+    metric: 'totalTraffic.status3xx',
+    label: t('in-forge:plugins.kongApigateway.status3xx'),
+    formatter: number
+  },
+  {
+    metric: 'totalTraffic.status4xx',
+    label: t('in-forge:plugins.kongApigateway.status4xx'),
+    formatter: number
+  },
+  {
+    metric: 'totalTraffic.status5xx',
+    label: t('in-forge:plugins.kongApigateway.status5xx'),
+    formatter: number
+  },
+
+  {
+    metrics: [
+      'requestLatencyTotal.serviceLatencyFiftyPercentile',
+      'requestLatencyTotal.serviceLatencyNinetyPercentile',
+      'requestLatencyTotal.serviceLatencyNinetyfivePercentile',
+      'requestLatencyTotal.serviceLatencyNinetyninePercentile',
+      'kongLatencyTotal.serviceLatencyFiftyPercentile',
+      'kongLatencyTotal.serviceLatencyNinetyPercentile',
+      'kongLatencyTotal.serviceLatencyNinetyfivePercentile',
+      'kongLatencyTotal.serviceLatencyNinetyninePercentile',
+      'upstreamLatencyTotal.serviceLatencyFiftyPercentile',
+      'upstreamLatencyTotal.serviceLatencyNinetyPercentile',
+      'upstreamLatencyTotal.serviceLatencyNinetyfivePercentile',
+      'upstreamLatencyTotal.serviceLatencyNinetyninePercentile',
+      'requestLatencyTotal.routeLatencyFiftyPercentile',
+      'requestLatencyTotal.routeLatencyNinetyPercentile',
+      'requestLatencyTotal.routeLatencyNinetyfivePercentile',
+      'requestLatencyTotal.routeLatencyNinetyninePercentile',
+      'kongLatencyTotal.routeLatencyFiftyPercentile',
+      'kongLatencyTotal.routeLatencyNinetyPercentile',
+      'kongLatencyTotal.routeLatencyNinetyfivePercentile',
+      'kongLatencyTotal.routeLatencyNinetyninePercentile',
+      'upstreamLatencyTotal.routeLatencyFiftyPercentile',
+      'upstreamLatencyTotal.routeLatencyNinetyPercentile',
+      'upstreamLatencyTotal.routeLatencyNinetyfivePercentile',
+      'upstreamLatencyTotal.routeLatencyNinetyninePercentile',
+      'bandwidthBytesTotal.ingress',
+      'bandwidthBytesTotal.egress'
+    ],
+    labels: [
+      t('in-forge:plugins.kongApigateway.requestLatencyallServices50'),
+      t('in-forge:plugins.kongApigateway.requestLatencyallServices90'),
+      t('in-forge:plugins.kongApigateway.requestLatencyallServices95'),
+      t('in-forge:plugins.kongApigateway.requestLatencyallServices99'),
+      t('in-forge:plugins.kongApigateway.kongLatencyallServices50'),
+      t('in-forge:plugins.kongApigateway.kongLatencyallServices90'),
+      t('in-forge:plugins.kongApigateway.kongLatencyallServices95'),
+      t('in-forge:plugins.kongApigateway.kongLatencyallServices99'),
+      t('in-forge:plugins.kongApigateway.upstreamLatencyallServices50'),
+      t('in-forge:plugins.kongApigateway.upstreamLatencyallServices90'),
+      t('in-forge:plugins.kongApigateway.upstreamLatencyallServices95'),
+      t('in-forge:plugins.kongApigateway.upstreamLatencyallServices99'),
+      t('in-forge:plugins.kongApigateway.requestLatencyallRoutes50'),
+      t('in-forge:plugins.kongApigateway.requestLatencyallRoutes90'),
+      t('in-forge:plugins.kongApigateway.requestLatencyallRoutes95'),
+      t('in-forge:plugins.kongApigateway.requestLatencyallRoutes99'),
+      t('in-forge:plugins.kongApigateway.kongLatencyallRoutes50'),
+      t('in-forge:plugins.kongApigateway.kongLatencyallRoutes90'),
+      t('in-forge:plugins.kongApigateway.kongLatencyallRoutes95'),
+      t('in-forge:plugins.kongApigateway.kongLatencyallRoutes99'),
+      t('in-forge:plugins.kongApigateway.upstreamLatencyallRoutes50'),
+      t('in-forge:plugins.kongApigateway.upstreamLatencyallRoutes90'),
+      t('in-forge:plugins.kongApigateway.upstreamLatencyallRoutes95'),
+      t('in-forge:plugins.kongApigateway.upstreamLatencyallRoutes99'),
+      t('in-forge:plugins.kongApigateway.bandwidthTotalIngress'),
+      t('in-forge:plugins.kongApigateway.bandwidthTotalEgress')
+    ],
+    min: 0,
+    formatter: number
+  },
+  {
     metrics: [
       getDynamicMetricMatch(
         'memoryLuaSharedDictBytes',
@@ -36,12 +117,12 @@ export default [
   {
     metrics: [
       getDynamicMetricMatch(
-        'nginxHttpCurrentConnections',
-        'conneections',
+        'nginxConnectionsTotal',
+        'connections',
         t('in-forge:plugins.kongApigateway.dashboard.totalConnections')
       )
     ],
-    labels: [t('in-forge:plugins.kongApigateway.totalConnections')],
+    labels: [t('in-forge:plugins.kongApigateway.state')],
     category: [t('in-forge:plugins.kongApigateway.dashboard.totalConnections')],
     min: 0,
     formatter: number

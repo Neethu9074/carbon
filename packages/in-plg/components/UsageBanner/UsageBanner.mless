@@ -25,7 +25,6 @@
     // color: var(--ids-color-option-blue-400);
     text-decoration: underline;
   }
-
   .subText {
     margin-right: 0.75rem;
     margin-top: 0.5rem;

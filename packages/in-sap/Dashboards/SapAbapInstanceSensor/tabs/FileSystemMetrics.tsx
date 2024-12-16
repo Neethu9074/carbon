@@ -16,13 +16,12 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { SnapshotData, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { megaBytes, percentagePlain } from 'in-services/formatters/number';
+import { megaBytes, percentage } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { shorten } from 'in-services/util/string';
 import { t } from 'in-i18n';
-
-import locals from './RawTableFormat.mless';
 
 interface FileSystemRow {
   key: string;
@@ -37,14 +36,21 @@ interface FileSystemProps {
 
 const cols = [
   {
+    title: t('in-sap:dashboards.serialNo'),
+    type: 'number',
+    typeArgs: {
+      getValue(row: FileSystemRow) {
+        return row.fileSystem.get('SERIALNR');
+      },
+      getContent: number.compact
+    }
+  },
+  {
     title: t('in-sap:dashboards.fileType'),
     type: 'string',
     typeArgs: {
       getValue(row: FileSystemRow) {
         return row.fileSystem.get('TYPE');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
       }
     }
   },
@@ -54,21 +60,6 @@ const cols = [
     typeArgs: {
       getValue(row: FileSystemRow) {
         return row.fileSystem.get('SUBTYPE');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
-      }
-    }
-  },
-  {
-    title: t('in-sap:dashboards.serialNo'),
-    type: 'string',
-    typeArgs: {
-      getValue(row: FileSystemRow) {
-        return row.fileSystem.get('SERIALNR');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
       }
     }
   },
@@ -77,10 +68,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row: FileSystemRow) {
-        return row.fileSystem.get('FSYSNAME');
-      },
-      getContent(args: any) {
-        return <Args args={shorten(args, 128)} />;
+        return shorten(row.fileSystem.get('FSYSNAME') as any, 64);
       }
     }
   },
@@ -117,7 +105,7 @@ const cols = [
     }
   },
   {
-    title: t('in-sap:dashboards.usedPercentage'),
+    title: t('in-sap:dashboards.usage'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row: FileSystemRow) {
@@ -126,7 +114,7 @@ const cols = [
       getMetricName(row: FileSystemRow) {
         return `fileSystemStats.${row.key}.USED_PERCENTAGE`;
       },
-      getContent: percentagePlain.detailed,
+      getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -177,9 +165,9 @@ export default function FileSystemMetrics({ snapshotId, timeConfig }: FileSystem
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                formatter: percentagePlain.detailed,
+                formatter: percentage.detailed,
                 metrics: [`fileSystemStats.${row.key}.USED_PERCENTAGE`],
-                labels: [t('in-sap:dashboards.usedPercentage')],
+                labels: [t('in-sap:dashboards.usage')],
                 type: 'line',
                 // @ts-expect-error Module needs to be translated to TS
                 colors: [themes.default.ids.color.option.purple['500']]
@@ -202,8 +190,4 @@ export default function FileSystemMetrics({ snapshotId, timeConfig }: FileSystem
       getRowDetails={getDetails}
     />
   );
-}
-
-function Args({ args }: { args: any }) {
-  return <code className={locals.statement}>{args}</code>;
 }

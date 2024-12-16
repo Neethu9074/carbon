@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { DataTable as CarbonDataTable } from '@instana/components';
+
 import {
   zeroDecimalPlaces,
   twoDecimalPlaces,
@@ -18,6 +20,7 @@ import { greaterThanZeroFormatter } from 'in-forge/plugins/rabbitMq/formatters';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import QueuesTable from 'in-forge/plugins/rabbitMq/Dashboard/QueuesTable';
+import { carbonTableEnabled } from 'in-services/featureFlags';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyMap } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
@@ -207,28 +210,53 @@ export default function RabbitMqDashboard({ snapshot, timeConfig }) {
 }
 
 function renderNetworkPartitionWarn(netPartitions) {
+  const carbonHeaders = [
+    {
+      key: 'node',
+      header: t('in-forge:plugins.rabbitMq.dashboard.node')
+    },
+    {
+      key: 'wasPartitionedFrom',
+      header: t('in-forge:plugins.rabbitMq.dashboard.wasPartitionedFrom')
+    }
+  ];
+
+  const carbonRows = netPartitions
+    ?.map((partFrom, node, index) => {
+      return {
+        key: index,
+        ['node']: node,
+        ['wasPartitionedFrom']: partFrom.toArray().join(',')
+      };
+    })
+    .valueSeq()
+    .toArray();
+
   return (
     <DashboardNotification type="danger">
       <div>
         <p>{t('in-forge:plugins.rabbitMq.dashboard.networkPartitionDetected')}</p>
         <p>{t('in-forge:plugins.rabbitMq.dashboard.theNatureOfThePartitionIsAsFollows')}</p>
-        <table>
-          <tbody>
-            <tr>
-              <th>{t('in-forge:plugins.rabbitMq.dashboard.node')}</th>
-              <th>{t('in-forge:plugins.rabbitMq.dashboard.wasPartitionedFrom')}</th>
-            </tr>
-            {netPartitions
-              .map((partFrom, node) => (
-                <tr>
-                  <td>{node}</td>
-                  <td>{partFrom.toArray().join(',')}</td>
-                </tr>
-              ))
-              .valueSeq()
-              .toArray()}
-          </tbody>
-        </table>
+        {carbonTableEnabled && <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />}
+        {!carbonTableEnabled && (
+          <table>
+            <tbody>
+              <tr>
+                <th>{t('in-forge:plugins.rabbitMq.dashboard.node')}</th>
+                <th>{t('in-forge:plugins.rabbitMq.dashboard.wasPartitionedFrom')}</th>
+              </tr>
+              {netPartitions
+                .map((partFrom, node) => (
+                  <tr>
+                    <td>{node}</td>
+                    <td>{partFrom.toArray().join(',')}</td>
+                  </tr>
+                ))
+                .valueSeq()
+                .toArray()}
+            </tbody>
+          </table>
+        )}
         <br />
         <p>
           <Trans

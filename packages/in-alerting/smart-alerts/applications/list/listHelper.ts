@@ -4,11 +4,10 @@
  * Copyright IBM Corp. 2023
  */
 
-import { ApplicationAlertConfig } from '@instana/types';
-
+import { ApplicationSmartAlertConfig } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 
-export const getMetricName = (config: ApplicationAlertConfig) => {
+export const getMetricName = (config: ApplicationSmartAlertConfig) => {
   const { rule } = config;
   const { aggregation, metricName, alertType } = rule;
   const blueprintConfig = getBlueprintConfig(alertType);

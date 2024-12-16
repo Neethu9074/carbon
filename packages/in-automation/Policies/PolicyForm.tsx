@@ -6,39 +6,31 @@
 
 import React, { useState } from 'react';
 
-import { Link, Spacer, Stack, Typography } from '@instana/components';
-import { Button } from '@instana/legacy';
+import {
+  Link,
+  Spacer,
+  Stack,
+  Typography,
+  IconButton,
+  Button,
+  TextArea,
+  RadioButton,
+  Checkbox
+} from '@instana/components';
+import { Action, TriggerType } from '@instana/types';
 
 import {
-  ApplyOn,
-  PolicyForm,
-  PolicyFormEntity,
-  TriggerSpecification,
-  Triggers,
-  getTriggerType,
-  isApplicationSmartAlert,
-  isEventSpecification,
-  isGlobalApplicationSmartAlert,
-  isInfraSmartAlert,
-  isMobileAppSmartAlert,
-  isPolicy,
-  isSyntheticsSmartAlert,
-  isWebsiteSmartAlert,
-  scopeAll,
-  scopeDfq
-} from 'in-automation/Policies/types';
-import {
-  Action,
-  ApplicationAlertConfigWithMetadata,
-  EventSpecificationInfo,
-  GlobalApplicationsAlertConfigWithMetadata,
-  InfraAlertConfigWithMetadata,
-  LogAlertConfigWithMetadata,
-  MobileAppAlertConfigWithMetadata,
-  SyntheticAlertConfigWithMetadata,
-  TriggerType,
-  WebsiteAlertConfigWithMetadata
-} from 'in-types';
+  appFilterAppliedColumn,
+  entityTypeColumn,
+  infraFilterAppliedColumn,
+  logsFilterAppliedColumn,
+  mobileAppFilterAppliedColumn,
+  sloFilterAppliedColumn,
+  syntheticFilterAppliedColumn,
+  triggerDescriptionColumn,
+  triggerNameColumn,
+  websiteFilterAppliedColumn
+} from 'in-automation/components/Triggers/columnDefinitions';
 import TabSelect, {
   TabSelectHeader,
   TabSelectItem,
@@ -49,66 +41,63 @@ import TabSelect, {
 import useServerTableUrlState, {
   ServerTableUrlState
 } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { isAnsible, isScript, isWebhook, isGithub, isGitlab, isJira } from 'in-automation/ActionCatalog/shared';
-import { SimpleListNameColumn } from 'in-alerting/smart-alerts/applications/list/columns/SimpleListNameColumn';
-import ListEntityNameColumn from 'in-alerting/smart-alerts/applications/list/columns/ListEntityNameColumn';
-import { EntityType, EventName } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
+import { getPolicyFromForm, scopeAll, scopeDfq, ApplyOn, PolicyForm } from 'in-automation/Policies/usePolicyForm';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import ListFilterColumn from 'in-alerting/smart-alerts/applications/list/columns/ListFiltersColumn';
-import { getSubtitle as getSubtitleInfra } from 'in-alerting/smart-alerts/infrastructure/Alerts';
+import useNavigateToPolicyDetails from 'in-automation/navigation/hooks/useNavigateToPolicyDetails';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
-import { getSubtitle as getSubtitleMobileApp } from 'in-alerting/smart-alerts/mobileApp/Alerts';
-import { getSubtitle as getSubtitleWebsite } from 'in-alerting/smart-alerts/websites/Alerts';
 import { descriptionColumn, nameColumn } from 'in-automation/ActionTable/columnDefinitions';
-import useNavigateToPolicyDetails from 'in-automation/Policies/useNavigateToPolicyDetails';
-import useMobileAppLabel from 'in-alerting/smart-alerts/mobileApp/hooks/useMobileAppLabel';
-import SyntheticsScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn';
-import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
-import InfraScopeColumn from 'in-alerting/smart-alerts/infrastructure/lists/ScopeColumn';
-import MobileAppScopeColumn from 'in-alerting/smart-alerts/mobileApp/lists/ScopeColumn';
-import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWrapper';
-import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import useWebsiteLabel from 'in-alerting/smart-alerts/websites/hooks/useWebsiteLabel';
-import { getSubtitle as getSubtitleLog } from 'in-alerting/smart-alerts/logs/Alerts';
-import WebsiteScopeColumn from 'in-alerting/smart-alerts/websites/list/ScopeColumn';
+import useNavigateToPolicies from 'in-automation/navigation/hooks/useNavigateToPolicies';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
+import CreatableTagSelect from 'in-components/CreatableTagSelect/CreatableTagSelect';
+import { hasError, isLoading, listSuccess, success } from 'in-services/util/result';
 import DescriptionText from 'in-components/form/DescriptionText/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
-import useNavigateToPolicies from 'in-automation/Policies/useNavigateToPolicies';
-import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import LogScopeColumn from 'in-alerting/smart-alerts/logs/lists/ScopeColumn';
 import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { getPolicyFromForm } from 'in-automation/Policies/usePolicyForm';
-import { hasError, listSuccess, success } from 'in-services/util/result';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
 import usePaginatedResult from 'in-automation/hooks/usePaginatedResult';
+import { TriggerSpecification, isPolicy } from 'in-automation/types';
 import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import ComboBox, { Option } from 'in-components/ComboBox/ComboBox';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import { TagsFilter } from 'in-automation/components/tableFilters';
-import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import { PolicyFormEntity } from 'in-automation/Policies/types';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
-import FormGroup from 'in-components/form/FormGroup/FormGroup';
-import TagsTable from 'in-automation/ActionCatalog/TagsTable';
-import IconButton from 'in-components/IconButton/IconButton';
+import usePolicyTags from 'in-automation/hooks/usePolicyTags';
+import { getTriggerType } from 'in-automation/utils/trigger';
+import { EXECUTABLE_ACTIONS } from 'in-automation/constants';
 import HelpText from 'in-components/form/HelpText/HelpText';
-import TextArea from 'in-components/form/TextArea/TextArea';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { merge } from 'in-services/util/resultMerger';
+import FormGroup from 'in-components/form/FormGroup';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import Label from 'in-components/form/Label/Label';
 import Input from 'in-components/form/Input/Input';
 import { FetchStatus } from 'in-hooks/utils/types';
 import Dialog from 'in-components/Dialog/Dialog';
+import { Triggers } from 'in-automation/types';
 import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
 import locals from './Policy.mless';
+
+export function PolicyFormHeader({ isNew, policy }: { isNew: boolean; policy: PolicyFormEntity }) {
+  return (
+    <HorizontalFlexWrapper className={locals.spaceBetween}>
+      <SubViewHeader>
+        {isNew
+          ? t('in-automation:policies.createANewPolicy')
+          : t('in-automation:policies.configurePolicyEntityName', { entityName: policy.name })}
+      </SubViewHeader>
+      <HorizontalFlexWrapper>
+        {isPolicy(policy) && role?.canConfigureAutomationPolicies && <CopyPolicyLink isNew={isNew} policy={policy} />}
+      </HorizontalFlexWrapper>
+    </HorizontalFlexWrapper>
+  );
+}
 
 export function PolicyFormBody({
   form,
@@ -117,12 +106,12 @@ export function PolicyFormBody({
   triggers
 }: {
   form: PolicyForm;
-  setForm: React.Dispatch<React.SetStateAction<PolicyForm | null>>;
+  setForm: React.Dispatch<React.SetStateAction<PolicyForm>>;
   actions: Action[];
   triggers: Triggers;
 }) {
   return (
-    <fieldset>
+    <LeftRightPadding>
       <Row>
         <Col lg={8}>
           <SectionHeading>{t('in-automation:policies.1PolicyDetails')}</SectionHeading>
@@ -135,22 +124,7 @@ export function PolicyFormBody({
           <SelectAction form={form} setForm={setForm} actions={actions} />
         </Col>
       </Row>
-    </fieldset>
-  );
-}
-
-export function PolicyFormHeader({ isNew, policy }: { isNew: boolean; policy: PolicyFormEntity }) {
-  return (
-    <HorizontalFlexWrapper className={locals.spaceBetween}>
-      <SubViewHeader>
-        {isNew
-          ? t('in-automation:policies.createANewPolicy')
-          : t('in-automation:policies.configurePolicyEntityName', { entityName: policy.name })}
-      </SubViewHeader>
-      <HorizontalFlexWrapper>
-        {role?.canConfigureAutomationPolicies && <CopyPolicyLink isNew={isNew} policy={policy} />}
-      </HorizontalFlexWrapper>
-    </HorizontalFlexWrapper>
+    </LeftRightPadding>
   );
 }
 
@@ -188,10 +162,12 @@ function DetailsSection({
   setForm
 }: {
   form: PolicyForm;
-  setForm: React.Dispatch<React.SetStateAction<PolicyForm | null>>;
+  setForm: React.Dispatch<React.SetStateAction<PolicyForm>>;
 }) {
   const name = form.get('name');
   const description = form.get('description');
+  const tags = form.get('tags');
+  const availableTags = usePolicyTags();
 
   return (
     <>
@@ -206,7 +182,7 @@ function DetailsSection({
             value={field.value}
             disabled={!role?.canConfigureAutomationPolicies}
             onChange={e =>
-              setForm(form => form!.updateIn(['name'], item => item.setValue(e.target.value).setTouched(true)))
+              setForm(form => form.updateIn(['name'], item => item.setValue(e.target.value).setTouched(true)))
             }
             hasError={!field.valid && field.touched}
             maxLength={256}
@@ -229,7 +205,7 @@ function DetailsSection({
             disabled={!role?.canConfigureAutomationPolicies}
             onChange={e =>
               setForm(form =>
-                form!.updateIn(['description'], item =>
+                form.updateIn(['description'], item =>
                   item.setValue((e.target as HTMLTextAreaElement).value).setTouched(true)
                 )
               )
@@ -242,17 +218,23 @@ function DetailsSection({
           </HelpText>
         </FormGroup>
       ))}
-      <FormGroup>
-        <TagsTable
-          form={form}
-          setForm={setForm}
-          isEditable={role?.canConfigureAutomationPolicies}
-          onChange={(fieldName, value) =>
-            //@ts-expect-error
-            setForm(form => form!.updateIn([fieldName], item => item.setValue(value).setTouched(true)))
-          }
-        />
-      </FormGroup>
+      {tags.map(field => (
+        <FormGroup>
+          <Label htmlFor="policy-tags" hasError={!field.valid && field.touched}>
+            {t('in-automation:tagsLabel')}
+          </Label>
+          <CreatableTagSelect
+            id="policy-tags"
+            isLoading={isLoading(availableTags)}
+            tags={availableTags.data}
+            value={field.value}
+            onChange={newTags =>
+              setForm(form => form.updateIn(['tags'], item => item.setValue(newTags).setTouched(true)))
+            }
+            disabled={!role?.canConfigureAutomationActions}
+          />
+        </FormGroup>
+      ))}
     </>
   );
 }
@@ -262,7 +244,7 @@ function ScopeSection({
   setForm
 }: {
   form: PolicyForm;
-  setForm: React.Dispatch<React.SetStateAction<PolicyForm | null>>;
+  setForm: React.Dispatch<React.SetStateAction<PolicyForm>>;
 }) {
   const scope = form.get('scope');
   const applyOn = scope.get('applyOn');
@@ -287,7 +269,7 @@ function ScopeSection({
                 disabled={!role?.canConfigureAutomationPolicies}
                 onChange={e =>
                   setForm(form =>
-                    form!.updateIn(['scope', 'applyOn'], item =>
+                    form.updateIn(['scope', 'applyOn'], item =>
                       item.setValue((e as Option).value as ApplyOn).setTouched(true)
                     )
                   )
@@ -310,7 +292,7 @@ function ScopeSection({
                 theme="light"
                 disabled={!role?.canConfigureAutomationPolicies}
                 onQueryValueChange={value => {
-                  setForm(form => form!.updateIn(['scope', 'query'], item => item.setValue(value).setTouched(true)));
+                  setForm(form => form.updateIn(['scope', 'query'], item => item.setValue(value).setTouched(true)));
                 }}
                 queryValue={field.value}
                 manageFiltersDisabled
@@ -336,7 +318,7 @@ function TypeSection({
   setForm
 }: {
   form: PolicyForm;
-  setForm: React.Dispatch<React.SetStateAction<PolicyForm | null>>;
+  setForm: React.Dispatch<React.SetStateAction<PolicyForm>>;
 }) {
   const type = form.getIn(['action', 'type']);
   return (
@@ -344,13 +326,13 @@ function TypeSection({
       <Label hasError={!type.valid && type.touched}>{t('in-automation:policies.policyType')}</Label>
       <Row>
         <Col lg={3} className={locals.column}>
-          <CheckboxFancy
+          <Checkbox
             label={t('in-automation:policies.manual')}
             checked={type.get('manual').value}
             disabled={!role?.canConfigureAutomationPolicies}
             onChange={e =>
               setForm(form =>
-                form!
+                form
                   .updateIn(['action', 'type', 'manual'], item => item.setValue(e.target.checked))
                   .updateIn(['action', 'type'], item => item.setTouched(true))
               )
@@ -358,13 +340,13 @@ function TypeSection({
           />
         </Col>
         <Col lg={3} className={locals.column}>
-          <CheckboxFancy
+          <Checkbox
             label={t('in-automation:policies.automatic')}
             checked={type.get('automatic').value}
             disabled={!role?.canConfigureAutomationPolicies}
             onChange={e =>
               setForm(form =>
-                form!
+                form
                   .updateIn(['action', 'type', 'automatic'], item => item.setValue(e.target.checked))
                   .updateIn(['action', 'type'], item => item.setTouched(true))
               )
@@ -384,157 +366,12 @@ function CopyPolicyLink({ isNew, policy }: { isNew: boolean; policy: PolicyFormE
 
   return (
     <Tooltip content={t('in-automation:duplicate')} delay={500}>
-      <Link ellipsis onClick={() => navigateToPolicyDetails(policy, true)}>
+      <Link ellipsis onClick={() => navigateToPolicyDetails(policy.id, true)}>
         <IconButton id={`copy_${policy.id}`} buttonType="button" kind="primaryv2" type="lib_actions_copy" />
       </Link>
     </Tooltip>
   );
 }
-
-const triggerNameColumn: ColumnDefinition<TriggerSpecification> = {
-  id: 'name',
-  label: t('in-automation:name'),
-  getContent: item => {
-    if (isWebsiteSmartAlert(item)) {
-      return <NameColumnCell config={item} getSubtitle={config => getSubtitleWebsite(config.rule, config.threshold)} />;
-    }
-    if (isApplicationSmartAlert(item)) {
-      return <SimpleListNameColumn config={item} />;
-    }
-    if (isMobileAppSmartAlert(item)) {
-      return (
-        <NameColumnCell config={item} getSubtitle={config => getSubtitleMobileApp(config.rule, config.threshold)} />
-      );
-    }
-    if (isGlobalApplicationSmartAlert(item)) {
-      return <SimpleListNameColumn config={item} />;
-    }
-    if (isSyntheticsSmartAlert(item)) {
-      return (
-        <NameColumnCell
-          config={item}
-          getSubtitle={() => t('in-alerting:smartAlerts.synthetics.alertList.numberOfFailures')}
-          renderName={config => replaceTitlePlaceholdersWithMarkup(config.name)}
-        />
-      );
-    }
-    if (isInfraSmartAlert(item)) {
-      return (
-        <NameColumnCell
-          config={item}
-          getSubtitle={config => getSubtitleInfra(config.rule, config.threshold, config.predictiveTrigger)}
-        />
-      );
-    }
-    if (isEventSpecification(item)) {
-      return <EventName hasRowNavigation={false} entity={item} />;
-    }
-
-    return <NameColumnCell config={item} getSubtitle={config => getSubtitleLog(config.threshold)} />;
-  },
-  width: 25
-};
-
-const triggerDescriptionColumn: ColumnDefinition<TriggerSpecification> = {
-  id: 'description',
-  label: t('in-automation:description'),
-  getContent: item => (
-    <FourLineWrapper>
-      <Typography variant="body-regular">{item.description}</Typography>
-    </FourLineWrapper>
-  ),
-  width: 25
-};
-
-const appFilterAppliedColumn: ColumnDefinition<
-  ApplicationAlertConfigWithMetadata | GlobalApplicationsAlertConfigWithMetadata
-> = {
-  id: 'filterApplied',
-  label: t('in-automation:policies.filterApplied'),
-  getContent: item => {
-    const { tagFilterExpression, rule, threshold, applications } = item;
-    const backendModelTagFilterExpression = fromBackendModel(tagFilterExpression);
-    const isGlobalSmartAlertConfig = isGlobalApplicationSmartAlert(item);
-    return (
-      <HorizontalFlexWrapper>
-        <ListEntityNameColumn applications={applications} isGlobalSmartAlertConfig={isGlobalSmartAlertConfig} />
-        <Spacer horizontal="small" />
-        {backendModelTagFilterExpression.length > 0 && (
-          <ListFilterColumn tagFilterExpression={backendModelTagFilterExpression} rule={rule} threshold={threshold} />
-        )}
-      </HorizontalFlexWrapper>
-    );
-  },
-  ellipsis: true,
-  sortable: false
-};
-
-const websiteFilterAppliedColumn: ColumnDefinition<WebsiteAlertConfigWithMetadata> = {
-  id: 'filterApplied',
-  label: t('in-automation:policies.filterApplied'),
-  getContent: function Content(item) {
-    const websiteLabel = useWebsiteLabel(item.websiteId);
-    if (!websiteLabel) return <LoadingIndicator size="s" />;
-    return <WebsiteScopeColumn config={item} websiteLabel={websiteLabel} />;
-  },
-  ellipsis: true,
-  sortable: false
-};
-
-const mobileAppFilterAppliedColumn: ColumnDefinition<MobileAppAlertConfigWithMetadata> = {
-  id: 'filterApplied',
-  label: t('in-automation:policies.filterApplied'),
-  getContent: function Content(item) {
-    const mobileAppLabel = useMobileAppLabel(item.mobileAppId);
-    if (!mobileAppLabel) return <LoadingIndicator size="s" />;
-    return <MobileAppScopeColumn config={item} mobileAppLabel={mobileAppLabel} />;
-  },
-  ellipsis: true,
-  sortable: false
-};
-
-const infraFilterAppliedColumn: ColumnDefinition<InfraAlertConfigWithMetadata> = {
-  id: 'filterApplied',
-  label: t('in-automation:policies.filterApplied'),
-  getContent: item => <InfraScopeColumn config={item} />,
-  ellipsis: true,
-  sortable: false
-};
-
-const syntheticFilterAppliedColumn: ColumnDefinition<SyntheticAlertConfigWithMetadata> = {
-  id: 'filterApplied',
-  label: t('in-synthetics:dashboard.alertList.filterApplied'),
-  getContent: item => (
-    <HorizontalFlexWrapper>
-      <DefaultCell
-        title={t('in-synthetics:dashboard.alertList.testsCount', {
-          testsCount: item.syntheticTestIds.length
-        })}
-        subtitle={t('in-synthetics:dashboard.alertList.testsApplied')}
-      />
-      <Spacer horizontal="small" />
-      <SyntheticsScopeColumn config={item} />
-    </HorizontalFlexWrapper>
-  ),
-  ellipsis: true,
-  sortable: false
-};
-
-const logsFilterAppliedColumn: ColumnDefinition<LogAlertConfigWithMetadata> = {
-  id: 'filterApplied',
-  label: t('in-automation:policies.filterApplied'),
-  getContent: item => <LogScopeColumn config={item} />,
-  ellipsis: true,
-  sortable: false
-};
-
-const entityTypeColumn: ColumnDefinition<EventSpecificationInfo> = {
-  id: 'entityType',
-  label: t('in-automation:policies.entityType'),
-  getContent: item => <EntityType entity={item} />,
-  ellipsis: true,
-  sortable: false
-};
 
 function SelectTrigger({
   triggers,
@@ -542,7 +379,7 @@ function SelectTrigger({
   setForm
 }: {
   form: PolicyForm;
-  setForm: React.Dispatch<React.SetStateAction<PolicyForm | null>>;
+  setForm: React.Dispatch<React.SetStateAction<PolicyForm>>;
   triggers: Triggers;
 }) {
   const triggerId = form.get('triggerId');
@@ -553,7 +390,7 @@ function SelectTrigger({
 
   const result = hasError(selectedTriggerType)
     ? {
-        data: [],
+        data: { items: [] },
         errors: selectedTriggerType.errors,
         progress: {
           loading: false
@@ -569,6 +406,7 @@ function SelectTrigger({
   if (triggerType.value === 'infraSmartAlert') columnDefinitions.push(infraFilterAppliedColumn);
   if (triggerType.value === 'syntheticsSmartAlert') columnDefinitions.push(syntheticFilterAppliedColumn);
   if (triggerType.value === 'logSmartAlert') columnDefinitions.push(logsFilterAppliedColumn);
+  if (triggerType.value === 'sloSmartAlert') columnDefinitions.push(sloFilterAppliedColumn);
   if (triggerType.value === 'builtinEvent' || triggerType.value === 'customEvent')
     columnDefinitions.push(entityTypeColumn);
 
@@ -612,7 +450,7 @@ function SelectTriggerDialog({
 }: {
   form: PolicyForm;
   triggers: Triggers;
-  setForm: React.Dispatch<React.SetStateAction<PolicyForm | null>>;
+  setForm: React.Dispatch<React.SetStateAction<PolicyForm>>;
 }) {
   const selectedTriggerId = form.get('triggerId').value;
   const selectedTriggerType = form.get('triggerType').value;
@@ -648,7 +486,7 @@ function SelectTriggerDialog({
 
   function handleSubmit() {
     setForm(form =>
-      form!
+      form
         .updateIn(['triggerId'], item => item.setValue(selectedId).setTouched(true))
         .updateIn(['triggerType'], item => item.setValue(selectedType).setTouched(true))
     );
@@ -666,9 +504,7 @@ function SelectTriggerDialog({
       id: 'select',
       label: '',
       width: 5,
-      getContent: item => (
-        <CheckboxFancy label="" asRadioButton checked={item.id === selectedId} onChange={() => onChange(item)} />
-      )
+      getContent: item => <RadioButton label="" checked={item.id === selectedId} onChange={() => onChange(item)} />
     },
     triggerNameColumn,
     triggerDescriptionColumn
@@ -681,6 +517,7 @@ function SelectTriggerDialog({
   if (selectedTab === 'infraSmartAlert') columnDefinitions.push(infraFilterAppliedColumn);
   if (selectedTab === 'syntheticsSmartAlert') columnDefinitions.push(syntheticFilterAppliedColumn);
   if (selectedTab === 'logSmartAlert') columnDefinitions.push(logsFilterAppliedColumn);
+  if (selectedTab === 'sloSmartAlert') columnDefinitions.push(sloFilterAppliedColumn);
   if (selectedTab === 'event') columnDefinitions.push(entityTypeColumn);
 
   const table = (
@@ -740,6 +577,9 @@ function SelectTriggerDialog({
             <TabSelectItem forId="logSmartAlert" withRadioButton>
               {t('in-automation:policies.logSmartAlert')}
             </TabSelectItem>
+            <TabSelectItem forId="sloSmartAlert" withRadioButton>
+              {t('in-automation:policies.sloSmartAlert')}
+            </TabSelectItem>
           </TabSelectMenu>
           <TabSelectPanels>
             <TabSelectPanel id="event">{table}</TabSelectPanel>
@@ -750,6 +590,7 @@ function SelectTriggerDialog({
             <TabSelectPanel id="mobileAppSmartAlert">{table}</TabSelectPanel>
             <TabSelectPanel id="syntheticsSmartAlert">{table}</TabSelectPanel>
             <TabSelectPanel id="logSmartAlert">{table}</TabSelectPanel>
+            <TabSelectPanel id="sloSmartAlert">{table}</TabSelectPanel>
           </TabSelectPanels>
         </TabSelect>
       </div>
@@ -804,7 +645,7 @@ function SelectAction({
   setForm
 }: {
   form: PolicyForm;
-  setForm: React.Dispatch<React.SetStateAction<PolicyForm | null>>;
+  setForm: React.Dispatch<React.SetStateAction<PolicyForm>>;
   actions: Action[];
 }) {
   const action = form.get('action');
@@ -818,14 +659,8 @@ function SelectAction({
     descriptionColumn,
     tagsColumn as ColumnDefinition<Action>
   ];
-  const executableAction =
-    isScript(selectedAction?.type) ||
-    isWebhook(selectedAction?.type) ||
-    isAnsible(selectedAction?.type) ||
-    isGithub(selectedAction?.type) ||
-    isGitlab(selectedAction?.type) ||
-    isJira(selectedAction?.type);
-  if (executableAction && role?.canConfigureAutomationPolicies) {
+  const isExecutableAction = selectedAction ? EXECUTABLE_ACTIONS.includes(selectedAction.type) : false;
+  if (isExecutableAction && role?.canConfigureAutomationPolicies) {
     columnDefinitions.push({
       id: 'configure',
       label: '',
@@ -838,7 +673,7 @@ function SelectAction({
                 <RunActionDialog
                   handleSave={(params, volatileId) => {
                     setForm(form =>
-                      form!
+                      form
                         .updateIn(['action', 'parameters'], item => item.setValue(params).setTouched(true))
                         .updateIn(['action', 'agentId'], item => item.setValue(volatileId.host_id!).setTouched(true))
                     );
@@ -896,7 +731,7 @@ function SelectActionDialog({
 }: {
   actions: Action[];
   form: PolicyForm;
-  setForm: React.Dispatch<React.SetStateAction<PolicyForm | null>>;
+  setForm: React.Dispatch<React.SetStateAction<PolicyForm>>;
 }) {
   const selectedActionId = form.getIn(['action', 'actionId']).value;
   const [selectedId, setSelectedId] = useState(selectedActionId);
@@ -909,7 +744,7 @@ function SelectActionDialog({
   });
   const { page, pageSize, orderBy, orderDirection, query } = serverTableUrlState;
   const actionTags = [...new Set(actions.flatMap(action => action.tags ?? []))];
-  const { filteredActions, type, setType, tags, setTags } = useActionFilters({ actions, setServerTableUrlState });
+  const { filteredActions, types, setTypes, tags, setTags } = useActionFilters({ actions, setServerTableUrlState });
   const result = usePaginatedResult({
     result: success(filteredActions),
     serverTableUrlState,
@@ -925,7 +760,7 @@ function SelectActionDialog({
   });
 
   function handleSubmit() {
-    setForm(form => form!.updateIn(['action', 'actionId'], item => item.setValue(selectedId).setTouched(true)));
+    setForm(form => form.updateIn(['action', 'actionId'], item => item.setValue(selectedId).setTouched(true)));
     close();
   }
 
@@ -939,9 +774,7 @@ function SelectActionDialog({
       id: 'select',
       label: '',
       width: 5,
-      getContent: item => (
-        <CheckboxFancy label="" asRadioButton checked={item.id === selectedId} onChange={() => onChange(item)} />
-      )
+      getContent: item => <RadioButton label="" checked={item.id === selectedId} onChange={() => onChange(item)} />
     },
     nameColumn,
     descriptionColumn,
@@ -962,7 +795,7 @@ function SelectActionDialog({
           rightHeader={
             <>
               <Stack direction="horizontal">
-                <TypeFilter type={type} setType={setType} showExternal />
+                <TypeFilter type={types} setType={params => setTypes({ types: params.types })} />
                 <TagsFilter availableTags={actionTags} tags={tags} setTags={setTags} />
               </Stack>
               <Spacer horizontal="small" />
@@ -992,36 +825,44 @@ function useActionFilters({
   actions: Action[];
   setServerTableUrlState: (newState: Partial<Omit<ServerTableUrlState, 'disabledColumns' | 'enabledColumns'>>) => void;
 }) {
-  const [type, setType] = useState<string | null>(null);
+  const [types, setTypesState] = useState<string[] | undefined>(undefined);
   const [tags, setTags] = useState<string[]>([]);
 
   const filters = [
     {
-      key: 'type' as const,
-      value: type
+      key: 'types' as const,
+      value: types
     },
     {
       key: 'tags' as const,
       value: tags
     }
   ];
+
   const filteredActions = actions.filter(action => {
+    // Filter OOTB wastsonx actions
+    if (action.metadata?.builtIn && action.metadata?.ai !== null) {
+      return false;
+    }
+
     let shouldInclude = true;
     filters.forEach(filter => {
       const nonEmptyFilter = filter.value?.length;
-      if (filter.key === 'type' && nonEmptyFilter) {
-        shouldInclude = shouldInclude && filter.value === action.type;
+      if (filter.key === 'types' && nonEmptyFilter) {
+        shouldInclude = shouldInclude && (filter.value?.some(type => action.type === type) ?? false);
       } else if (filter.key === 'tags' && nonEmptyFilter) {
         shouldInclude = shouldInclude && (action.tags?.some(tag => filter.value.includes(tag)) ?? false);
       }
     });
+
     return shouldInclude;
   });
+
   return {
     filteredActions,
-    type,
-    setType: (type: string | null) => {
-      setType(type);
+    types,
+    setTypes: ({ types }: { types: string[] | undefined }) => {
+      setTypesState(types);
       setServerTableUrlState({ page: 1, query: '' });
     },
     tags,
@@ -1040,7 +881,8 @@ type TriggerTab =
   | 'infraSmartAlert'
   | 'mobileAppSmartAlert'
   | 'syntheticsSmartAlert'
-  | 'logSmartAlert';
+  | 'logSmartAlert'
+  | 'sloSmartAlert';
 type EventType = 'customEvent' | 'builtinEvent' | null;
 
 function useTriggerFilters({

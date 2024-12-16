@@ -3,93 +3,114 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { get } from 'lodash';
 
+import { SvgIcon, Pill } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
-import { SvgIcon } from '@instana/components';
+import { just } from '@instana/observables';
 
 //@ts-expect-error TS migration needed
 import * as typeToLabelMapping from 'in-components/QueryBuilder/tagFilter/typeToLabelMapping';
-//@ts-expect-error TS migration needed
+import { EnrichedTagCatalog, TagWithPath, mergeTagCatalogs } from 'in-services/tags/tagCatalog';
+import { MinimalTagDefinition } from 'in-components/QueryBuilder/transformation/formModel';
+import { minimizeTagDefinition } from 'in-components/QueryBuilder/validation/tagForm';
 import SelectorOverlay from 'in-components/SelectorOverlay/SelectorOverlay';
+import { emptyArray, noop, pendingResult } from 'in-services/fixedObjects';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
-import { EnrichedTagCatalog } from 'in-services/tags/tagCatalog';
-import { Nullish, TagTreeNodeUnion, TagType } from 'in-types';
-import { emptyArray } from 'in-services/fixedObjects';
+import { TagOptions } from 'in-components/SelectorOverlay/Node';
+import { GetTagCatalog } from 'in-components/QueryBuilder';
+import useDebouncedValue from 'in-hooks/useDebouncedValue';
+import { TagTreeNodeUnion, TagType } from 'in-types';
+import { isNotBlank } from 'in-services/util/string';
+import useTimeConfig from 'in-hooks/useTimeConfig';
+import { success } from 'in-services/util/result';
 import { settings$ } from 'in-services/settings';
-import Pill from 'in-components/Pill';
 
 import locals from './TagSelectorOverlay.mless';
 
-interface TagSelectorOverlayProps {
+interface TagSelectorOverlayProps<ADDITIONAL_TAG_CATALOG_PROPS = {}> {
   tagCatalog: EnrichedTagCatalog;
-  onChange: ({ name, tagType }: { name: string; tagType?: TagType }) => void;
+  getTagCatalog?: GetTagCatalog;
+  additionalGetTagCatalogProps?: ADDITIONAL_TAG_CATALOG_PROPS;
+  onChange: (props: OnChangeProps) => void;
   close: VoidFunction;
   showTypeBadge?: boolean;
+  addTagDefinitionToFormModel?: boolean;
 }
 
-interface NodeProps {
-  tagName: string;
-  tagType?: TagType;
+interface OnChangeProps {
+  name: string;
+  tagType: TagType;
+  tagDefinition?: MinimalTagDefinition;
 }
 
-export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTypeBadge }: TagSelectorOverlayProps) {
+export default function TagSelectorOverlay({
+  tagCatalog: staticTagCatalog,
+  onChange,
+  close,
+  showTypeBadge = false,
+  getTagCatalog,
+  additionalGetTagCatalogProps,
+  addTagDefinitionToFormModel
+}: Readonly<TagSelectorOverlayProps>) {
   const queryableOnly = useObservable(
     settings$.map(settings => get(settings, ['use_queryable_tags_enabled'], true)),
     []
   );
+  const query = useDebouncedValue('', noop, 800);
+  const timeConfig = useTimeConfig();
+  const shouldUseQueryCatalog = isNotBlank(query.value) && getTagCatalog && additionalGetTagCatalogProps;
+  const queryCatalog =
+    useObservable(
+      () =>
+        shouldUseQueryCatalog
+          ? getTagCatalog({ timeConfig, query: query.debouncedValue, ...additionalGetTagCatalogProps })
+          : just(success(undefined)),
+      [shouldUseQueryCatalog, timeConfig, query.debouncedValue, getTagCatalog, additionalGetTagCatalogProps]
+    ) ?? pendingResult;
+  const tagCatalog =
+    shouldUseQueryCatalog && queryCatalog?.data
+      ? mergeTagCatalogs(queryCatalog.data, staticTagCatalog)
+      : staticTagCatalog;
   const options = useMemo(
     () => toOptions(tagCatalog, tagCatalog.tagTree, showTypeBadge, queryableOnly, undefined, []),
     [showTypeBadge, tagCatalog, queryableOnly]
   );
 
   useDisabledBodyScroll();
-  const [query, onQueryChange] = useState('');
 
   return (
     <SelectorOverlay
       withIcons
       options={options}
-      onChange={(node: NodeProps) => {
-        onChange({ name: node.tagName, tagType: node.tagType });
+      onChange={node => {
+        if (node.type === 'TAG') {
+          onChange({
+            name: node.tagName,
+            tagType: node.tagType || 'STRING',
+            tagDefinition: addTagDefinitionToFormModel ? minimizeTagDefinition(node.tagDefinition) : undefined
+          });
+        }
         close();
       }}
-      query={query}
-      onQueryChange={onQueryChange}
+      query={query.value}
+      onQueryChange={query.onChange}
+      loading={shouldUseQueryCatalog ? query.debouncedValue !== query.value || queryCatalog.progress?.loading : false}
+      showLoadingInBackground
     />
   );
 }
 
-export interface Options {
-  label: string;
-  badge: JSX.Element | Nullish | false;
-  parentLabels: string[];
-  description?: string;
-  keywords: string;
-  tagName: string;
-  icon?: string;
-  scoreBoost?: number;
-  children: Options[];
-  withHighlights?: {
-    label: string | JSX.Element;
-    description?: string | JSX.Element;
-    parentLabels: (string | JSX.Element)[];
-  };
-  tagType?: TagType;
-  levelType?: string;
-}
-
 function toOptions(
-  tagCatalog: EnrichedTagCatalog,
+  tagCatalog: EnrichedTagCatalog | undefined,
   tagTreeNodes: TagTreeNodeUnion[],
-  showTypeBadge: boolean | Nullish,
+  showTypeBadge: boolean,
   queryableOnly: boolean,
   scoreBoost?: number,
   parentLabels: string[] = []
-): Options[] {
-  const joinedParentLabels = parentLabels.join(' ');
+): TagOptions[] {
   return tagTreeNodes
     .filter(tagTreeNode => {
       return (
@@ -97,7 +118,7 @@ function toOptions(
         ('hidden' in tagTreeNode && tagTreeNode.hidden) !== true
       );
     })
-    .map((tagTreeNode: TagTreeNodeUnion): Options | null => {
+    .map((tagTreeNode: TagTreeNodeUnion): TagOptions | null => {
       const filteredChildren =
         'children' in tagTreeNode
           ? toOptions(
@@ -108,28 +129,31 @@ function toOptions(
               tagTreeNode.scoreBoost,
               parentLabels.concat(tagTreeNode.label)
             )
-          : (emptyArray as unknown as Options[]);
+          : (emptyArray as unknown as TagOptions[]);
       // filter empty category nodes
-      return tagTreeNode.type === 'LEVEL' && filteredChildren?.length === 0
-        ? null
-        : {
-            label: tagTreeNode.label,
-            badge:
-              showTypeBadge &&
-              'tagName' in tagTreeNode &&
-              Boolean(tagTreeNode.tagName) &&
-              ((<Badge tagTreeNode={tagTreeNode} tagCatalog={tagCatalog} />) as JSX.Element | Nullish),
-            parentLabels: parentLabels,
-            description: tagTreeNode.description,
-            keywords: [joinedParentLabels, tagTreeNode.label].filter(Boolean).join(' '),
-            tagName: 'tagName' in tagTreeNode ? tagTreeNode.tagName : '',
-            icon: tagTreeNode.icon,
-            scoreBoost: multiplyBoost(scoreBoost, tagTreeNode.scoreBoost),
-            children: filteredChildren,
-            tagType: 'tagName' in tagTreeNode ? tagCatalog.tagsByName?.[tagTreeNode.tagName]?.type : undefined
-          };
+      if (tagTreeNode.type === 'LEVEL' && filteredChildren?.length === 0) {
+        return null;
+      }
+      const tagDefinition = 'tagName' in tagTreeNode ? tagCatalog?.tagsByName?.[tagTreeNode.tagName] : undefined;
+      return {
+        type: 'TAG',
+        label: tagTreeNode.label,
+        badge:
+          showTypeBadge && 'tagName' in tagTreeNode && Boolean(tagTreeNode.tagName) ? (
+            <Badge tagTreeNode={tagTreeNode} tagDefinition={tagDefinition} />
+          ) : undefined,
+        parentLabels: parentLabels,
+        description: tagTreeNode.description,
+        tagName: 'tagName' in tagTreeNode ? tagTreeNode.tagName : '',
+        icon: tagTreeNode.icon,
+        scoreBoost: multiplyBoost(scoreBoost, tagTreeNode.scoreBoost),
+        children: filteredChildren,
+        tagType: tagDefinition?.type || 'STRING',
+        tagDefinition: tagDefinition,
+        disabled: false
+      };
     })
-    .filter(Boolean) as Options[];
+    .filter(Boolean) as TagOptions[];
 }
 
 function multiplyBoost(scoreA?: number, scoreB?: number) {
@@ -144,11 +168,17 @@ function multiplyBoost(scoreA?: number, scoreB?: number) {
 
 interface BreadcrumbAndLabelProps {
   path: string[];
-  label: string;
+  pathLabels?: (JSX.Element | string)[];
+  label: JSX.Element | string;
   hasChildren: boolean;
 }
 
-export function BreadcrumbAndLabel({ path, label, hasChildren }: BreadcrumbAndLabelProps): JSX.Element {
+export function BreadcrumbAndLabel({
+  path,
+  label,
+  hasChildren,
+  pathLabels = []
+}: Readonly<BreadcrumbAndLabelProps>): JSX.Element {
   if (hasChildren) {
     return <>{label}</>;
   }
@@ -157,7 +187,7 @@ export function BreadcrumbAndLabel({ path, label, hasChildren }: BreadcrumbAndLa
     <>
       {path.map((part, i) => (
         <span className={locals.path} key={`${part}-${i}`}>
-          {part}
+          {pathLabels[i] || part}
           <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
         </span>
       ))}
@@ -168,14 +198,13 @@ export function BreadcrumbAndLabel({ path, label, hasChildren }: BreadcrumbAndLa
 
 interface BadgeProps {
   tagTreeNode: TagTreeNodeUnion;
-  tagCatalog: EnrichedTagCatalog;
+  tagDefinition?: TagWithPath;
 }
 
-function Badge({ tagTreeNode, tagCatalog }: BadgeProps): JSX.Element | null {
+function Badge({ tagTreeNode, tagDefinition }: BadgeProps): JSX.Element | null {
   // only show for leaves
   if ('children' in tagTreeNode && tagTreeNode.children?.length > 0) return null;
 
-  const tag = 'tagName' in tagTreeNode ? tagCatalog.tagsByName[tagTreeNode.tagName] : undefined;
-  const type = typeToLabelMapping[tag?.type];
+  const type = typeToLabelMapping[tagDefinition?.type];
   return type && <Pill color={themes.default.ids.color.option.neutral['600']}>{type}</Pill>;
 }

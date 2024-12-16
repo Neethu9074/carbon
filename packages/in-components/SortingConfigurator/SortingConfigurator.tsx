@@ -5,9 +5,7 @@
 
 import React, { useRef } from 'react';
 
-import { Li } from '@instana/components';
-import { Button } from '@instana/legacy';
-import { Ul } from '@instana/components';
+import { Li, Button, Ul } from '@instana/components';
 
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import OverlayOption from 'in-components/OverlayOption/OverlayOption';
@@ -49,7 +47,7 @@ export default function SortingConfigurator({ options, orderBy, onChange }: Prop
   const ref: React.MutableRefObject<HTMLButtonElement | HTMLAnchorElement | undefined> = useRef();
 
   return (
-    <div className={locals.configurator}>
+    <div className={locals.carbonConfigurtor}>
       <Overlay
         content={Options}
         props={{ options, onChange, orderBy }}
@@ -79,6 +77,7 @@ export default function SortingConfigurator({ options, orderBy, onChange }: Prop
             direction: orderBy.direction === 'ASC' ? 'DESC' : 'ASC'
           })
         }
+        size="compact"
       >
         {orderBy.direction === 'ASC'
           ? t('in-components:sortingConfigurator.buttonAscending')

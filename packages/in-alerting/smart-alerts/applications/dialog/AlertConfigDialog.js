@@ -18,15 +18,20 @@ import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/application
 import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { useLinkToAlertConfig, useLinkToGlobalAlertConfigWithoutAPDashboard } from 'in-applications/navigation/paths';
-import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
+import { HISTORIC_BASELINE, STATIC_THRESHOLD, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useApplicationSmartAlertFormSideEffects';
+import { WARNING_SEVERITY, CRITICAL_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
+import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useApplicationLabel from 'in-alerting/smart-alerts/applications/hooks/useApplicationLabel';
-import { trackAlertSaved, trackAlertUpdated } from 'in-alerting/smart-alerts/components/tracker';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
+import { alertChannelPerSeverityApplicationSaEnabled } from 'in-services/featureFlags';
+import { ALERTING_SAVED, ALERTING_UPDATED } from 'in-services/tracking/eventNames';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { t } from 'in-i18n';
 
@@ -52,6 +57,7 @@ export default function AlertConfigDialog({
   const [messages, setMessages] = useState([]);
   const getLinkToGlobalAlertConfigWithoutAPDashboard = useLinkToGlobalAlertConfigWithoutAPDashboard();
   const getLinkToAlertConfig = useLinkToAlertConfig();
+  const { trackCta } = useSegmentTracking(); // For segment tracking
 
   useEffect(() => {
     if (migrationMode) {
@@ -66,14 +72,13 @@ export default function AlertConfigDialog({
   }, [migrationMode]);
 
   const applicationLabel = useApplicationLabel(firstApplicationId(form.get('applications').value), isGlobalSmartAlert);
-
   const withTrackCreate = simpleMode => {
     if (isEmpty(form.get('applications').value)) {
       addActiveDialog(
         <ConfirmationDialog
           header={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogHeader')}
           description={t('in-alerting:components.alertConfirmationDialogDescription', {
-            entityPlaceholder: t('in-alerting:smartAlerts.components.alertsHub.applications.title')
+            entityPlaceholder: t('in-settings:productAreas.title_applications')
           })}
           confirmButtonLabel={t('in-alerting:components.labelConfirm')}
           confirmButtonKind="danger"
@@ -91,7 +96,8 @@ export default function AlertConfigDialog({
               getLinkToGlobalAlertConfigWithoutAPDashboard,
               getLinkToAlertConfig,
               simpleMode,
-              duplicateFrom
+              duplicateFrom,
+              trackCta
             });
           }}
         />
@@ -110,7 +116,8 @@ export default function AlertConfigDialog({
       getLinkToGlobalAlertConfigWithoutAPDashboard,
       getLinkToAlertConfig,
       simpleMode,
-      duplicateFrom
+      duplicateFrom,
+      trackCta
     });
   };
 
@@ -151,7 +158,8 @@ function createOrSaveAlert({
   getLinkToGlobalAlertConfigWithoutAPDashboard,
   getLinkToAlertConfig,
   simpleMode,
-  duplicateFrom
+  duplicateFrom,
+  trackCta
 }) {
   setIsSaving(true);
   // remove existing error messages:
@@ -180,7 +188,7 @@ function createOrSaveAlert({
       config => {
         onClose(config);
         showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
-        trackAlertUpdated(alertConfig);
+        trackCta(ALERTING_UPDATED, { ...alertConfig, dialogMode: 'Advanced' });
       },
       error => {
         logger.error(`failed to update alertConfig: ${alertConfig} ${error.message}`, error);
@@ -198,7 +206,7 @@ function createOrSaveAlert({
 
         showSuccessMessage(config.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert, href);
         const newConfig = duplicateFrom ? { ...config, cloneFromId: duplicateFrom } : config;
-        trackAlertSaved(newConfig, simpleMode);
+        trackCta(ALERTING_SAVED, { ...newConfig, dialogMode: simpleMode ? 'Simple' : 'Advanced' });
       },
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);
@@ -210,60 +218,154 @@ function createOrSaveAlert({
 }
 
 function toAlertConfig(form) {
+  const ruleWithThreshold = getRuleWithThreshold(form);
   let alertConfig = form
     .remove('hiddenFields')
+    .remove('rule')
+    .remove('threshold')
     .updateIn(['tagFilterExpression'], f =>
       f.setValue(toBackendQueryModel(form.get('tagFilterExpression').value, false))
     )
     .toJS();
 
-  if (alertConfig.rule.alertType === 'statusCode') {
+  alertConfig.rules = [ruleWithThreshold];
+
+  if (alertConfig.rules[0].rule.alertType === 'statusCode') {
     alertConfig = mapStatusCodeSelection(alertConfig);
   }
-
   alertConfig.applicationId = undefined;
+
+  if (alertChannelPerSeverityApplicationSaEnabled) {
+    alertConfig.alertChannelIds = null;
+  } else {
+    alertConfig.alertChannels = null;
+  }
+
   alertConfig.name = alertConfig.name || getTitlePlaceholder(form);
   alertConfig.description = alertConfig.description || getDescriptionPlaceholder(form);
   return alertConfig;
 }
 
+export function getRuleWithThreshold(form) {
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
+
+  const warningThresholdField = form.get('threshold').get('warningThreshold');
+  const criticalThresholdField = form.get('threshold').get('criticalThreshold');
+
+  const warningThreshold = getThresholdData(thresholdType, warningThresholdField, WARNING_SEVERITY);
+  const criticalThreshold = getThresholdData(thresholdType, criticalThresholdField, CRITICAL_SEVERITY);
+
+  const ruleWithThreshold = {
+    rule: form.get('rule').toJS(),
+    thresholdOperator: form.get('threshold').get('operator').value,
+    thresholds: { ...warningThreshold, ...criticalThreshold }
+  };
+
+  return ruleWithThreshold;
+}
+
+export function getThresholdData(thresholdType, thresholdField, severity) {
+  if (
+    thresholdType === HISTORIC_BASELINE ||
+    thresholdType === ADAPTIVE_BASELINE ||
+    thresholdType === STATIC_THRESHOLD
+  ) {
+    return thresholdField.get('isCheckboxSelected')?.value ? { [severity]: thresholdField.toJS() } : {};
+  }
+
+  return {};
+}
+
 function mapStatusCodeSelection(alertConfig) {
   const {
-    rule: {
-      statusCode: { statusCodeStart, statusCodeEnd },
-      ...remainingRule
-    }
+    rules: [
+      {
+        rule: {
+          statusCode: { statusCodeStart, statusCodeEnd },
+          ...remainingRule
+        }
+      }
+    ]
   } = alertConfig;
 
-  alertConfig.rule = {
+  alertConfig.rules[0].rule = {
     statusCodeStart,
     statusCodeEnd,
     ...remainingRule
   };
+
   return alertConfig;
 }
 
 function fromAlertConfig(alertConfig) {
-  if (alertConfig?.rule?.alertType === 'statusCode') {
+  if (alertConfig?.rules?.[0]?.rule?.alertType === 'statusCode') {
     alertConfig = mapStatusCodeConfig(alertConfig);
   }
+
+  const ruleWithThreshold = alertConfig?.rules?.[0];
+
+  // When creating the thresholdForm, both the warning and critical threshold fields are required.
+  // However, the alertConfig we receive as JSON from the backend may include either both thresholds or only one,
+  // depending on what the user configured. If only one threshold (either warning or critical) is present,
+  // we need to initialize the missing threshold with placeholder (dummy) values. The missing threshold should
+  // have the same type (e.g., STATIC_THRESHOLD, HISTORIC_BASELINE or ADAPTIVE_BASELINE) as the configured threshold.
+  if (ruleWithThreshold?.thresholds) {
+    const { WARNING, CRITICAL } = ruleWithThreshold.thresholds;
+
+    const initializeThreshold = (referenceThreshold, isCheckboxSelected) => ({
+      ...referenceThreshold,
+      value: null,
+      deviationFactor: defaultDeviationFactor,
+      isCheckboxSelected
+    });
+
+    const thresholds = {
+      // If WARNING exists, retain its values and set 'isCheckboxSelected' to true by default.
+      // Otherwise, initialize WARNING based on CRITICAL's structure with placeholder values.
+      WARNING: WARNING
+        ? { ...WARNING, isCheckboxSelected: WARNING?.isCheckboxSelected ?? true }
+        : initializeThreshold(CRITICAL, false),
+
+      // If CRITICAL exists, retain its values and set 'isCheckboxSelected' to true by default.
+      // Otherwise, initialize CRITICAL based on WARNING's structure with placeholder values.
+      CRITICAL: CRITICAL
+        ? { ...CRITICAL, isCheckboxSelected: CRITICAL?.isCheckboxSelected ?? true }
+        : initializeThreshold(WARNING, false)
+    };
+
+    return {
+      ...alertConfig,
+      rules: [
+        {
+          ...ruleWithThreshold,
+          thresholds
+        }
+      ]
+    };
+  }
+
   return alertConfig;
 }
 
 function mapStatusCodeConfig(alertConfig) {
   const {
     rule: { statusCodeStart, statusCodeEnd, ...remainingRule }
-  } = alertConfig;
+  } = alertConfig.rules[0];
 
   return {
     ...alertConfig,
-    rule: {
-      statusCode: {
-        statusCodeEnd,
-        statusCodeStart
-      },
-      ...remainingRule
-    }
+    rules: [
+      {
+        ...alertConfig.rules[0],
+        rule: {
+          statusCode: {
+            statusCodeEnd,
+            statusCodeStart
+          },
+          ...remainingRule
+        }
+      }
+    ]
   };
 }
 
@@ -279,7 +381,7 @@ AlertConfigDialog.propTypes = {
   alertConfig: PropTypes.shape({
     applications: PropTypes.object,
     id: PropTypes.string,
-    threshold: PropTypes.object,
+    rules: PropTypes.arrayOf(PropTypes.object),
     boundaryScope: PropTypes.string,
     calculateThresholdOnBackend: PropTypes.bool,
     /**

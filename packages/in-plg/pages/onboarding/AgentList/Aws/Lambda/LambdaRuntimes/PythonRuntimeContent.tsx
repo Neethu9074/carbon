@@ -82,10 +82,7 @@ export default function PythonRuntimeContent({
             i18nKey={'in-plg:agentDetails.aws.referDocumentationForSettingUpAwsSensor'}
             components={{
               awsSensorDoc: (
-                <Link
-                  href="https://www.ibm.com/docs/en/instana-observability/current?topic=agents-amazon-web-services-aws-agent"
-                  target="_blank"
-                >
+                <Link href="https://ibm.biz/monitor-aws" target="_blank">
                   {t('in-plg:agentDetails.aws.documentationLinks.awsServiceDocumentation')}
                 </Link>
               )

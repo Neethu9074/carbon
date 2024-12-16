@@ -19,13 +19,15 @@ interface GroupConfiguratorProps {
   updateForm: (form: MapForm<any>) => void;
   tagFilterExpression: FormModelElement[];
   tagCatalog?: TagCatalog;
+  ownerType: string;
 }
 
 export default function GroupConfigurator({
   form,
   updateForm,
   tagFilterExpression,
-  tagCatalog
+  tagCatalog,
+  ownerType
 }: GroupConfiguratorProps) {
   const grouping = form.get(groupingFieldName)?.value;
 
@@ -50,6 +52,7 @@ export default function GroupConfigurator({
         onGroupAdded: () => null,
         onGroupRemoved: () => null
       }}
+      additionalGetTagCatalogProps={{ ownerType }}
     />
   );
 }

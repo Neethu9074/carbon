@@ -4,8 +4,9 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
+import { ExpandableGroup } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
@@ -25,23 +26,26 @@ import { getCardTitle } from 'in-logging/components/TraceDetails/components/LogD
 import { maxRetrievalSize } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
 import { useLogsInCallsContext } from 'in-logging/components/TraceDetails/LogsInCallsContext';
 import LogDetails from 'in-logging/components/TraceDetails/components/LogDetails/LogDetails';
-import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { handleLogCallsWithFilters } from 'in-logging/analyze/AnalyzeView/utils/index';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { finishedProgress, pendingResult } from 'in-services/fixedObjects';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import ExpandableGroup from 'in-components/ExpandableGroup';
 import { loggingEnabled } from 'in-services/featureFlags';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import getLogs from 'in-logging/subscriptions/getLogs';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 const LogsCard = ({ call, processSnapshotId }) => {
   const { logs } = call;
+  const { trackCta } = useSegmentTracking();
   const { selectedLog, timeConfigForLogs, setSelectedLog } = useLogsInCallsContext();
-  const logsResult = useObservable(getData({ callId: call.id, timeConfig: timeConfigForLogs }), []) ?? pendingResult;
+  const [isToggled, setIsToggled] = useState(!!selectedLog);
+  const logsResult =
+    useObservable(getData(trackCta, { callId: call.id, timeConfig: timeConfigForLogs }), []) ?? pendingResult;
   const hasLoggingLogs = logsResult?.data?.items?.length > 0;
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => () => setSelectedLog(null), []);
 
@@ -52,12 +56,13 @@ const LogsCard = ({ call, processSnapshotId }) => {
   )})`;
 
   const handleToggle = isToggled => {
+    setIsToggled(isToggled);
     if (!isToggled) setSelectedLog(null);
   };
 
   return (
     <ErrorBoundary name="log tree sidebar">
-      <ExpandableGroup key={!!selectedLog} onToggle={handleToggle} defaultExpanded={!!selectedLog} title={cardTitle}>
+      <ExpandableGroup onToggle={handleToggle} key={!!selectedLog} defaultExpanded={!!selectedLog} title={cardTitle}>
         {loggingEnabled && hasLoggingLogs
           ? logsResult.data.items.map((log, i) => (
               <LogDetails
@@ -72,11 +77,14 @@ const LogsCard = ({ call, processSnapshotId }) => {
               <LogDetails callId={call.id} callLog={log} processSnapshotId={processSnapshotId} key={i} />
             ))}
       </ExpandableGroup>
+      {!isToggled && role.canViewLogs && (
+        <LogDetails callId={call.id} justTitle callLog={logs[0]} processSnapshotId={processSnapshotId} />
+      )}
     </ErrorBoundary>
   );
 };
 
-function getData({ callId, timeConfig }) {
+function getData(trackCta, { callId, timeConfig }) {
   if (!loggingEnabled) {
     return just({
       errors: [],
@@ -117,7 +125,7 @@ function getData({ callId, timeConfig }) {
     tagFilterExpression: callBody.tagFilterExpression
   };
 
-  handleLogCallsWithFilters(mixpanelProps);
+  handleLogCallsWithFilters(trackCta, mixpanelProps);
 
   return getLogs(callBody);
 }

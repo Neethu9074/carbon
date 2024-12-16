@@ -11,7 +11,7 @@ import CreateSmartAlert from 'in-alerting/smart-alerts/infrastructure/CreateSmar
 import { role } from 'in-stores/user';
 
 export function CreateInfraSmartAlertFloatingButtons() {
-  if (role?.canConfigureGlobalInfraSmartAlerts) {
+  if (role?.canConfigureGlobalInfraSmartAlerts && !role?.limitedInfrastructureScope) {
     return (
       <FloatingActionButtons>
         <CreateSmartAlert />

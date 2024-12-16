@@ -6,7 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Button } from '@instana/legacy';
+import { Button } from '@instana/components';
 
 import { applicationsItemTreePropType } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import {
@@ -14,11 +14,20 @@ import {
   rulePropType,
   thresholdPropType
 } from 'in-alerting/PotentialProblems/PotentialProblemsLane/proptypes';
+import {
+  POTENTIAL_PROBLEMS_SMART_ALERT_CREATE,
+  POTENTIAL_PROBLEMS_GO_TO_ANALYZE
+} from 'in-services/tracking/eventNames';
+import {
+  applicationSmartAlertFullScreenDesignEnabled,
+  applicationSmartAlertDialogView
+} from 'in-services/featureFlags';
 import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
-import { trackCreateSmartAlert, trackGotoAnalyze } from 'in-alerting/PotentialProblems/tracker';
+import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { getLinkToUnboundAnalytics } from 'in-events/components/AnalyzeApplicationEventButton';
-import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
+import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { close } from 'in-components/DialogPresenter/store';
@@ -36,11 +45,27 @@ export default function PotentialProblemContentControls({
   alert,
   rule,
   threshold,
+  getPotentialProblemConfig,
   renderSmartAlertDialogComponent
 }) {
   const getLinkToCreateSmartAlert = useSmartAlertCreateUrl();
-  const smartAlertCreatePath = getLinkToCreateSmartAlert({ isGlobal: false, migration: false });
+  const smartAlertCreatePath = getLinkToCreateSmartAlert({ isGlobal: false, migration: false, potentialProblem: true });
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
+  const rules = [
+    {
+      rule: rule,
+      thresholdOperator: threshold.operator,
+      thresholds: {
+        WARNING: { ...threshold },
+        CRITICAL: {
+          type: threshold.type,
+          deviationFactor: defaultDeviationFactor,
+          value: null,
+          isCheckboxSelected: false
+        }
+      }
+    }
+  ];
   const linkToUnboundAnalytics = getLinkToUnboundAnalytics(
     {
       applicationId,
@@ -50,6 +75,7 @@ export default function PotentialProblemContentControls({
         applications,
         rule,
         threshold,
+        rules,
         tagFilterExpression,
         includeSynthetic,
         includeInternal,
@@ -59,6 +85,7 @@ export default function PotentialProblemContentControls({
     },
     getLinkToApplicationAnalyze
   );
+  const { trackCta } = useSegmentTracking();
 
   return (
     <>
@@ -66,7 +93,7 @@ export default function PotentialProblemContentControls({
         kind="primary"
         onClick={e => {
           e.stopPropagation();
-          trackGotoAnalyze({
+          trackCta(POTENTIAL_PROBLEMS_GO_TO_ANALYZE, {
             metricName: rule.metricName
           });
           close();
@@ -78,38 +105,56 @@ export default function PotentialProblemContentControls({
       </Button>
       {role.canConfigureApplicationSmartAlerts && applicationId && applicationLabel && (
         <>
-          <Button
-            kind="secondaryDarker"
-            onClick={() => {
-              close();
-              addActiveDialog(
-                renderSmartAlertDialogComponent({
-                  rule,
-                  threshold,
-                  applicationLabel,
-                  boundaryScope,
-                  granularity: defaultGranularity
-                })
-              );
-              trackCreateSmartAlert({
-                metricName: rule.metricName
-              });
-            }}
-            icon="lib_alerts_create"
-          >
-            {t('in-alerting:potentialProblems.buttonAddSmartAlert')}
-          </Button>
+          {applicationSmartAlertDialogView && (
+            <Button
+              kind="secondaryDarker"
+              onClick={() => {
+                close();
+                addActiveDialog(
+                  renderSmartAlertDialogComponent({
+                    rule,
+                    threshold,
+                    applicationLabel,
+                    boundaryScope,
+                    granularity: defaultGranularity
+                  })
+                );
+                trackCta(POTENTIAL_PROBLEMS_SMART_ALERT_CREATE, {
+                  metricName: rule.metricName
+                });
+              }}
+              icon="lib_alerts_create"
+            >
+              {t('in-alerting:potentialProblems.buttonAddSmartAlert')}
+            </Button>
+          )}
           {applicationSmartAlertFullScreenDesignEnabled && (
             <Button
               icon="lib_alerts_create"
               kind="secondaryDarker"
               href={smartAlertCreatePath}
               onClick={e => {
+                localStorage.setItem(
+                  'potentialProblemConfig',
+                  JSON.stringify(
+                    getPotentialProblemConfig({
+                      rule,
+                      threshold,
+                      applicationLabel,
+                      boundaryScope,
+                      granularity: defaultGranularity
+                    })
+                  )
+                );
+
+                trackCta(POTENTIAL_PROBLEMS_SMART_ALERT_CREATE, {
+                  metricName: rule.metricName
+                });
                 e.stopPropagation();
                 close();
               }}
             >
-              {t('in-alerting:smartAlerts.applications.components.createSmartAlertNew')}
+              {getButtonName(t('in-alerting:smartAlerts.applications.components.createSmartAlert'))}
             </Button>
           )}
         </>
@@ -135,6 +180,7 @@ PotentialProblemContentControls.propTypes = {
   applicationLabel: PropTypes.string,
   applications: applicationsItemTreePropType,
   boundaryScope: PropTypes.string,
+  getPotentialProblemConfig: PropTypes.func.isRequired,
   renderSmartAlertDialogComponent: PropTypes.func.isRequired,
   tagFilterExpression: PropTypes.object.isRequired,
   includeSynthetic: PropTypes.bool,

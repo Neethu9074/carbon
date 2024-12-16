@@ -6,13 +6,12 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Card, HorizontalIndicator, LoadingSkeleton, Message } from '@instana/components';
+import { Card, HorizontalIndicator, LoadingSkeleton, Message, IconButton, SvgIcon } from '@instana/components';
 import { ButtonGroup } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
-import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import { TOPLIST_METRIC_CHANGED, track } from 'in-services/tracking/tracking';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
-import IconLink from 'in-components/IconButton/IconLink';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import List from 'in-components/TopListCard/List';
 import { t } from 'in-i18n';
@@ -33,18 +32,22 @@ export default function TopListCard(props) {
     useMaxAvailableHeight,
     renderHistoricDataIndicator = false,
     hasApproximateData = false,
+    approximateTooltipText = t('in-components:approximateDataIndicator.dataRetention'),
     renderWidgetNotSupportedIndicator = false,
     isScrollbarVisible = false,
     helpInfo,
     isInModal,
-    noDataMessage
+    noDataMessage,
+    topLevelFilterInfo
   } = props;
   const shouldRenderOnItem = showMetricSelectorsForSingleMetrics && metrics.length === 1;
 
+  const cardTitleAlphanumeric = (title || '').replace(/[^a-zA-Z\d]/g, '');
   const headerComponent =
     header ||
     ((metrics.length > 1 || shouldRenderOnItem) && (
       <ButtonGroup
+        id={`button-group-${cardTitleAlphanumeric}`}
         disabledWidgetInLive={renderWidgetNotSupportedIndicator}
         buttonPropsList={metrics.map((metric, i) => ({
           text: labels[i],
@@ -81,16 +84,35 @@ export default function TopListCard(props) {
     return (
       <>
         {renderHistoricDataIndicator && hasApproximateData && (
-          <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
+          <Tooltip content={approximateTooltipText}>
+            <SvgIcon type="lib_approximately_equal" color={themes.default.ids.color.option.neutral['300']} />
+          </Tooltip>
         )}
         {renderWidgetNotSupportedIndicator && (
           <Tooltip content={t('in-components:liveModeIndicator.widgetNotSupportedInLiveMode')}>
-            <IconLink type="lib_help_error_info_outline" className={locals.infoIconWithoutPadding} />
+            <IconButton
+              iconDescription={t('in-components:liveModeIndicator.widgetNotSupportedInLiveMode')}
+              type="lib_help_error_info_outline"
+              className={locals.infoIconWithoutPadding}
+            />
           </Tooltip>
         )}
         {helpInfo && (
           <Tooltip content={helpInfo}>
-            <IconLink type="lib_help_error_info_outline" className={locals.infoIconWithoutPadding} />
+            <IconButton
+              iconDescription={helpInfo}
+              type="lib_help_error_info_outline"
+              className={locals.infoIconWithoutPadding}
+            />
+          </Tooltip>
+        )}
+        {topLevelFilterInfo && (
+          <Tooltip content={topLevelFilterInfo}>
+            <IconButton
+              iconDescription={topLevelFilterInfo}
+              type="lib_help_error_info_outline"
+              className={locals.infoIconWithoutPadding}
+            />
           </Tooltip>
         )}
       </>
@@ -99,6 +121,7 @@ export default function TopListCard(props) {
 
   const card = (
     <Card
+      headingVariant="heading-3"
       className={classNames({
         [locals.disabledWidget]: renderWidgetNotSupportedIndicator,
         [locals.modal]: isInModal,

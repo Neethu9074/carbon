@@ -94,9 +94,11 @@ function Content({
 }) {
   return (
     <Col xs={7}>
-      <Label htmlFor={`tag-configuration-tag-${index}`} className={locals.label}>
-        <TagLabel tagCatalog={tagCatalog} tag={tag.value} />
-      </Label>
+      <div className={locals.label}>
+        <Label htmlFor={`tag-configuration-tag-${index}`}>
+          <TagLabel tagCatalog={tagCatalog} tag={tag.value} />
+        </Label>
+      </div>
     </Col>
   );
 }

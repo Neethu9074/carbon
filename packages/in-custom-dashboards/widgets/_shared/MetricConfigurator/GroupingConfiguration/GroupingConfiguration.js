@@ -6,9 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Spacer } from '@instana/components';
-import { Select } from '@instana/components';
-import { Toggle } from '@instana/legacy';
+import { Spacer, Toggle, Select } from '@instana/components';
 
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -26,14 +24,15 @@ export default function GroupingConfiguration({
   tagFilterExpressionField,
   onByChange,
   onDirectionChange,
-  onIncludeOthersChange,
+  onIncludeOthersChange = () => {},
   tagCatalog,
   GroupingConfigurator,
   hasError,
   additionalContent,
   withOptionalMarker,
   hideIncludeOthersToggle,
-  maxGrouping = 20
+  maxGrouping = 20,
+  additionalGetTagCatalogProps
 }) {
   return (
     <>
@@ -45,10 +44,11 @@ export default function GroupingConfiguration({
             GroupingConfigurator={GroupingConfigurator}
             tagFilterExpression={tagFilterExpressionField.valid ? tagFilterExpressionField.value : EMPTY_EXPRESSION}
             onChange={group => onByChange(group)}
-            withoutIcon
             hasError={hasError}
             additionalContent={additionalContent}
             withOptionalMarker={withOptionalMarker}
+            additionalGetTagCatalogProps={additionalGetTagCatalogProps}
+            withoutIcon
           />
 
           {grouping && (
@@ -83,7 +83,7 @@ export default function GroupingConfiguration({
                       className={locals.toggle}
                       id="select-top-groups-display-sum-others"
                       checked={grouping.includeOthers}
-                      onChange={e => onIncludeOthersChange(e.target.checked)}
+                      onToggle={e => onIncludeOthersChange(e)}
                     />
                     <Spacer horizontal="xxsmall" />
                     {t('in-custom-dashboards:widgets.metricConfig.groupingConfig.showRemainingGroupsAggregOther')}
@@ -109,7 +109,7 @@ GroupingConfiguration.propTypes = {
   }),
   onByChange: PropTypes.func.isRequired,
   onDirectionChange: PropTypes.func.isRequired,
-  onIncludeOthersChange: PropTypes.func.isRequired,
+  onIncludeOthersChange: PropTypes.func,
   tagCatalog: PropTypes.object,
   tagFilterExpressionField: PropTypes.shape({
     valid: PropTypes.any,
@@ -120,5 +120,6 @@ GroupingConfiguration.propTypes = {
   hasError: PropTypes.bool,
   additionalContent: PropTypes.node,
   hideIncludeOthersToggle: PropTypes.bool,
-  maxGrouping: PropTypes.number.isRequired
+  maxGrouping: PropTypes.number.isRequired,
+  additionalGetTagCatalogProps: PropTypes.object
 };

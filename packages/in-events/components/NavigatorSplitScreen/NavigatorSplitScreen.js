@@ -6,14 +6,13 @@
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon } from '@instana/components';
+import { IconButton } from '@instana/components';
 
 import { findNextIndexToOpen, findPrevIndexToOpen } from 'in-events/components/NavigatorSplitScreen/FindIndex.js';
 import { leftArrowId, rightArrowId } from 'in-components/AnalyzeView/SplitScreenList/elementIds';
 import { debouncedResize$, refreshWindowSizeDependingState } from 'in-services/browser';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import ResultHeader from 'in-analyze/components/ResultHeader';
-import Tooltip from 'in-components/Tooltip';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -73,69 +72,59 @@ function NavigatorSplitScreen({
                   withoutMargin
                   withMaxWidth
                 />
-
                 <div className={locals.actions}>
                   {hasPrev && (
-                    <Tooltip
-                      content={t('in-events:navigatorSplitScreen.tooltipViewPrevious', {
+                    <IconButton
+                      kind="action"
+                      type="lib_arrow_drop_left"
+                      aria-label={t('in-events:navigatorSplitScreen.tooltipViewPrevious', {
                         context: typeLabel
                       })}
-                    >
-                      <SvgIcon
-                        type="lib_arrow_drop_left"
-                        aria-label={t('in-events:navigatorSplitScreen.tooltipViewPrevious', {
-                          context: typeLabel
-                        })}
-                        size="s"
-                        className={locals.prev}
-                        id={leftArrowId}
-                        onClick={e =>
-                          openItem(e, prevOpenItemIndex, items, canLoadMore, loadMore, progress, customOpenItem)
-                        }
-                      />
-                    </Tooltip>
+                      id={leftArrowId}
+                      onClick={e =>
+                        openItem(e, prevOpenItemIndex, items, canLoadMore, loadMore, progress, customOpenItem)
+                      }
+                      isWrapperedByTooltip
+                      iconDescription={t('in-events:navigatorSplitScreen.tooltipViewPrevious', {
+                        context: typeLabel
+                      })}
+                      align="bottom"
+                      iconSize="s"
+                    />
                   )}
-
                   {hasNext && (
-                    <Tooltip
-                      content={t('in-events:navigatorSplitScreen.tooltipViewNext', {
+                    <IconButton
+                      kind="action"
+                      type="lib_arrow_drop_right"
+                      aria-label={t('in-events:navigatorSplitScreen.tooltipViewNext', {
                         context: typeLabel
                       })}
-                    >
-                      <SvgIcon
-                        type="lib_arrow_drop_right"
-                        aria-label={t('in-events:navigatorSplitScreen.tooltipViewNext', {
-                          context: typeLabel
-                        })}
-                        size="s"
-                        className={locals.next}
-                        id={rightArrowId}
-                        onClick={e =>
-                          openItem(e, nextOpenItemIndex, items, canLoadMore, loadMore, progress, customOpenItem)
-                        }
-                      />
-                    </Tooltip>
+                      id={rightArrowId}
+                      onClick={e =>
+                        openItem(e, nextOpenItemIndex, items, canLoadMore, loadMore, progress, customOpenItem)
+                      }
+                      isWrapperedByTooltip
+                      iconDescription={t('in-events:navigatorSplitScreen.tooltipViewNext', {
+                        context: typeLabel
+                      })}
+                      align="bottom"
+                      iconSize="s"
+                    />
                   )}
-
-                  <Tooltip
-                    content={
+                  <IconButton
+                    kind="action"
+                    type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
+                    aria-label={
                       expanded
                         ? t('in-events:navigatorSplitScreen.tooltipCloseSidebar')
                         : t('in-events:navigatorSplitScreen.tooltipOpenSidebar')
                     }
-                  >
-                    <SvgIcon
-                      type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
-                      aria-label={
-                        expanded
-                          ? t('in-events:navigatorSplitScreen.tooltipCloseSidebar')
-                          : t('in-events:navigatorSplitScreen.tooltipOpenSidebar')
-                      }
-                      size="s"
-                      className={locals.toggle}
-                      onClick={() => setExpanded(!expanded)}
-                    />
-                  </Tooltip>
+                    onClick={() => setExpanded(!expanded)}
+                    isWrapperedByTooltip
+                    iconDescription={t('in-events:navigatorSplitScreen.tooltipCloseSidebar')}
+                    align="bottom"
+                    iconSize="s"
+                  />
                 </div>
               </div>
             }
@@ -152,25 +141,16 @@ function NavigatorSplitScreen({
           <Sticky
             header={
               <div className={locals.toggleWrapper}>
-                <Tooltip
-                  content={
-                    expanded
-                      ? t('in-events:navigatorSplitScreen.tooltipCloseSidebar')
-                      : t('in-events:navigatorSplitScreen.tooltipOpenSidebar')
-                  }
-                >
-                  <SvgIcon
-                    type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
-                    aria-label={
-                      expanded
-                        ? t('in-events:navigatorSplitScreen.tooltipCloseSidebar')
-                        : t('in-events:navigatorSplitScreen.tooltipOpenSidebar')
-                    }
-                    size="s"
-                    className={`${locals.toggleInBar} ${locals.toggle}`}
-                    onClick={() => setExpanded(!expanded)}
-                  />
-                </Tooltip>
+                <IconButton
+                  kind="action"
+                  type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
+                  aria-label={t('in-events:navigatorSplitScreen.tooltipOpenSidebar')}
+                  onClick={() => setExpanded(!expanded)}
+                  iconSize="s"
+                  isWrapperedByTooltip
+                  iconDescription={t('in-events:navigatorSplitScreen.tooltipOpenSidebar')}
+                  align="right"
+                />
               </div>
             }
           />
@@ -182,7 +162,8 @@ function NavigatorSplitScreen({
       <div
         className={classNames({
           [locals.detailView]: true,
-          [locals.useFullWidth]: !expanded
+          [locals.useFullWidth]: !expanded,
+          [locals.dialogIndex]: true // Used for the modal dialog inside notes and activity
         })}
       >
         {children}
@@ -195,6 +176,10 @@ function openItem(e, openItemIndex, items, canLoadMore, loadMore, progress, cust
   // todo only do when clicking on next/prev
   if (openItemIndex + 10 >= items.length && canLoadMore && !progress.loading) {
     loadMore();
+  }
+
+  if (e.target.id) {
+    document.getElementById(e.target.id).focus();
   }
 
   const item = items[openItemIndex];

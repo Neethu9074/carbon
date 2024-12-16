@@ -2,6 +2,7 @@
   "components": {
     "accountSettings": {
       "accountSettings": "Impostazioni account",
+      "unknownDomain": "Dominio sconosciuto",
       "billingAddress": "Indirizzo di fatturazione",
       "country": "Paese",
       "state": "Stato",
@@ -16,9 +17,16 @@
       "tenant": "Tenant",
       "type": "Tipo",
       "licenseStartData": "Data di inizio della licenza",
-      "licenseEndData": "Data di fine della licenza",
+      "licenseEndData": "Data di fine licenza",
       "licensedApmHosts": "Host APM con licenza",
       "licensedIqmHosts": "Host IQM con licenza"
+    },
+    "learnMore": {
+      "title": "Ulteriori informazioni sulla politica di utilizzo corretto di Instana",
+      "leftTitle": "Che cos'è la Politica di utilizzo corretto?",
+      "rightTitle": "Come posso acquistare più dati?",
+      "leftBody": "La politica di utilizzo corretto di Instana indica il limite mensile di dati associato al tipo di licenza. Per saperne di più ed esplorare le linee guida sull'utilizzo delle risorse, consultate la <fupDocLink>documentazione sulla politica di utilizzo corretto</fupDocLink>.",
+      "rightBody": "Se si prevede una necessità costante di utilizzo di dati aggiuntivi, contattare il rappresentante commerciale Instana per esplorare le opzioni aggiuntive. Contattate le vendite <salesLink>qui</salesLink>."
     },
     "ampInformationModifier": {
       "allPaidUnitsAggregated": "Tutte le unità pagate (aggregate) (aggregate)",
@@ -26,6 +34,12 @@
     },
     "noLicenseAvailableMessage": {
       "thereHasBeenNoActivePaidLicenseInThePast30Days": "Nessuna licenza pagata attiva negli ultimi 30 giorni."
+    },
+    "fairUsePolicyMessage": {
+      "title": "Questo account è soggetto alla politica di utilizzo discreta. Vedere l'utilizzo dei dati nei grafici sottostanti."
+    },
+    "fairUsePolicyNotActive": {
+      "title": "La politica di utilizzo corretto non è attiva."
     },
     "restrictedUsage": {
       "accountUsage": "Utilizzo account"
@@ -36,10 +50,34 @@
       "max": "Massimo",
       "average": "Media"
     },
+    "dataIngestTable": {
+      "consumptionOverview": "Panoramica dei consumi",
+      "row": "Riga",
+      "unit": "Unità",
+      "calculation": "Calcolo",
+      "entitledNumberOfMVS": "Numero di MVS aventi diritto",
+      "actualAverage": "Numero medio effettivo di MVS configurati",
+      "onDemandNumber": "Numero di MVS su richiesta",
+      "dataIngestFairUseEntitlement": "Diritto di utilizzo corretto dei dati per MVS",
+      "totalDataIngestFairUseEntitlement": "Diritto di utilizzo corretto dell'inserimento dei dati totali",
+      "dataIngestAddOnEntitlement": "Diritto al componente aggiuntivo di inserimento dati",
+      "totalAmountPurchased": "Importo totale acquistato tramite il componente aggiuntivo extra di inserimento dati",
+      "dataIngestEntitlementFromOnDemand": "Diritti all'utilizzo corretto dell'inserimento dei dati da MVS on-demand",
+      "totalDataIngestEntitlement": "Diritto totale di inserimento dei dati",
+      "actualDataIngest": "Inserimento dati effettivi",
+      "onDemandDataIngest": "Inserimento dati su richiesta",
+      "noData": "Nessun dato"
+    },
     "timePresets": {
       "last7Days": "Ultimi 7 giorni",
-      "last15Days": "Ultimi 15 giorni",
-      "last365Days": "Ultimi 365 giorni"
+      "last30Days": "Ultimi 30 giorni",
+      "last365Days": "Ultimi 365 giorni",
+      "thisMonth": "Questo mese",
+      "lastMonth": "Ultimo  Mese"
+    },
+    "presentationPresets": {
+      "distinct": "Valori distinti",
+      "cumulative": "Valori cumulati"
     },
     "usages": {
       "allPaidUnitsAggregated": "Tutte le unità pagate (aggregate) (aggregate)",
@@ -49,16 +87,31 @@
       "queuedLicenses": "Licenze in coda"
     },
     "usageCharts": {
-      "apmUsage": "Utilizzo APM",
+      "standard": "Standard",
       "apmHosts": "Host APM",
       "purchased": "Acquistato",
-      "infrastructureUsage": "Utilizzo infrastruttura",
+      "essentials": "Essentials",
       "iqmHosts": "Host IQM",
       "syntheticPops": "PoPs sintetici gestiti",
-      "resourceUnits": "Unità risorsa",
-      "consumedUnits": "Unità utilizzate",
+      "logging": "Log nel contesto",
+      "resourceUnits": "Unità di risorse autorizzate",
+      "consumedUnits": "Unità di risorse consumate",
+      "entitledData": "Dati di diritto",
+      "consumedData": "Dati consumati",
+      "infrastructure": "Infrastruttura",
+      "synthetics": "Synthetics",
+      "traces": "Tracce",
+      "eumMobile": "EUM mobile",
+      "eumWebsite": "Sito web dell'EUM",
       "addons": "Componenti aggiuntivi",
-      "helperText": "Numero di unità di risorse utilizzate da ciascun tipo di azione. Le unità vengono calcolate con un fattore di 0.025 per test semplici, 0.042 per test API e 1.000 per test browser."
+      "trendLine": "Linea di tendenza",
+      "dataUsage": "Utilizzo dei dati",
+      "dataUsageHelperText": "Quantità di byte inviati attraverso gli agenti, separati per categoria, nell'intervallo di tempo scelto.",
+      "syntheticsHelperText": "Numero di unità di risorse utilizzate da ciascun tipo di azione. Le unità vengono calcolate con un fattore di 0.025 per test semplici, 0.042 per test API e 1.000 per test browser.",
+      "loggingHelperText": {
+        "saas": "Questo grafico mostra la quantità di dati in byte utilizzati dal componente aggiuntivo di log per il periodo di conservazione scelto.",
+        "onprem": "Questo grafico mostra la quantità di dati in byte utilizzati dal componente aggiuntivo di log per il periodo di conservazione scelto."
+      }
     },
     "activationAdoption": {
       "activationAdoption": "Attivazione & Adozione",

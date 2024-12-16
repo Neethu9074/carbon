@@ -17,10 +17,12 @@ import PotentialProblemsLanePresenter from 'in-alerting/PotentialProblems/Potent
 import isOutsideCallsShortTermStorage from 'in-alerting/PotentialProblems/PotentialProblemsLane/isOutsideCallsShortTermStorage';
 import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import getPotentialProblems from 'in-alerting/PotentialProblems/subscription/getPotentialProblems';
-import { trackRequestLoadingTime } from 'in-alerting/PotentialProblems/tracker';
+import { POTENTIAL_PROBLEMS_REQUEST_LOADING_TIME } from 'in-services/tracking/eventNames';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
+import { UI_INTERACTION } from 'in-services/util/constants';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -40,6 +42,7 @@ export default function PotentialProblemsLane({
 }) {
   const globalTimeConfig = useTimeConfig();
   const labels = useGetLabels(applicationId, serviceId, endpointId);
+  const { unstable_trackEvent } = useSegmentTracking();
 
   if (isOutsideCallsShortTermStorage(globalTimeConfig)) {
     return null;
@@ -70,6 +73,7 @@ export default function PotentialProblemsLane({
       chartName={chartName}
       globalTimeConfig={globalTimeConfig}
       clusterSizeMillis={clusterSizeMillis}
+      unstable_trackEvent={unstable_trackEvent}
     />
   );
 }
@@ -84,6 +88,7 @@ function PotentialProblemsLaneConnected({
   chartName,
   clusterSizeMillis,
   globalTimeConfig,
+  unstable_trackEvent,
   ...remainingProps
 }) {
   const startTime = useRef(null);
@@ -97,7 +102,8 @@ function PotentialProblemsLaneConnected({
         startTime,
         chartName,
         boundaryScope,
-        applicationId
+        applicationId,
+        unstable_trackEvent
       ]),
     [globalTimeConfig, alertRules, clusterSizeMillis, includeSynthetic, applications]
   );
@@ -162,7 +168,8 @@ function getPotentialProblemsObservable([
   startTime,
   chartName,
   boundaryScope,
-  applicationId
+  applicationId,
+  unstable_trackEvent
 ]) {
   return getPotentialProblems({
     timeConfig: globalTimeConfig,
@@ -179,12 +186,16 @@ function getPotentialProblemsObservable([
         startTime.current = Date.now();
       } else if (result.data && start) {
         if (result.data.alerts.length !== 0) {
-          trackRequestLoadingTime({
-            requestTime: `${Date.now() - start / 1000}s`,
-            numberPotentialProblems: result.data.alerts.length,
-            windowSize: globalTimeConfig.windowSize,
-            chartName
-          });
+          unstable_trackEvent(
+            UI_INTERACTION,
+            { CTA: POTENTIAL_PROBLEMS_REQUEST_LOADING_TIME },
+            {
+              requestTime: `${Date.now() - start / 1000}s`,
+              numberPotentialProblems: result.data.alerts.length,
+              windowSize: globalTimeConfig.windowSize,
+              chartName
+            }
+          );
           startTime.current = null;
         }
       }

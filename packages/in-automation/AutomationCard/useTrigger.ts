@@ -6,22 +6,22 @@
 
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { Event, Result } from '@instana/types';
 
 import {
   getApplicationSmartAlertConfig,
-  getBuiltInEventSpecification,
-  getCustomEventSpecification,
+  getEventSpecification,
   getGlobalApplicationSmartAlertConfig,
   getInfraSmartAlertConfig,
   getLogSmartAlertConfig,
   getMobileAppSmartAlertConfig,
+  getSloSmartAlertConfig,
   getSyntheticSmartAlertConfig,
   getWebsiteSmartAlertConfig
 } from 'in-automation/api';
 import { getTriggerIdFromEvent, getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
-import { TriggerSpecification } from 'in-automation/Policies/types';
+import { TriggerSpecification } from 'in-automation/types';
 import { pendingResult } from 'in-services/fixedObjects';
-import { Event, Result } from 'in-types';
 
 interface UseTriggerParams {
   event: Event;
@@ -32,9 +32,8 @@ function getTrigger(event: Event): () => Observable<Result<TriggerSpecification>
   const triggerType = getTriggerTypeFromEvent(event);
   switch (triggerType) {
     case 'builtinEvent':
-      return () => getBuiltInEventSpecification(triggerId);
     case 'customEvent':
-      return () => getCustomEventSpecification(triggerId);
+      return () => getEventSpecification(triggerId);
     case 'applicationSmartAlert':
       return () => getApplicationSmartAlertConfig(triggerId);
     case 'websiteSmartAlert':
@@ -49,6 +48,8 @@ function getTrigger(event: Event): () => Observable<Result<TriggerSpecification>
       return () => getLogSmartAlertConfig(triggerId);
     case 'syntheticsSmartAlert':
       return () => getSyntheticSmartAlertConfig(triggerId);
+    case 'sloSmartAlert':
+      return () => getSloSmartAlertConfig(triggerId);
   }
 }
 

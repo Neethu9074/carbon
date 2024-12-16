@@ -10,7 +10,7 @@ import { SvgIcon } from '@instana/components';
 import { Ul, Li } from '@instana/components';
 
 import PhysicalHierarchyBreadcrumb from 'in-infrastructure/Dashboard/components/PhysicalHierarchyBreadcrumb';
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import Overlay from 'in-components/overlays/Overlay';
 
@@ -47,10 +47,11 @@ export default function CollapsedEntitiesBreadcrumb({ ids, light }) {
 }
 
 function ApplicationSwitcher({ ids }) {
+  const getDashboardLink = useGetDashboardLink();
   return (
     <Ul>
       {ids.map(id => (
-        <Li key={id} href$={getDashboardLink(id)}>
+        <Li key={id} href={getDashboardLink(id)}>
           <PhysicalHierarchyBreadcrumb className={locals.listBreadcrumb} snapshotId={id} asLink={false} />
         </Li>
       ))}

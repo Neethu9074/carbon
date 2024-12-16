@@ -4,7 +4,7 @@
  */
 
 import { AxisConfiguration, ChartConfig, ContextMenuConfig, TimeShift } from 'in-components/Chart/types';
-import { Grouping, ResultType, TimeConfig, UnifiedMetricConfiguration } from 'in-types';
+import { Grouping, ResultType, TimeConfig, UnifiedMetricConfigurationUnion } from 'in-types';
 import { ChartReactComponentProps } from 'in-components/Chart/ChartReactComponent';
 import { TimeShiftOffset } from 'in-stores/time/shifting';
 
@@ -37,10 +37,11 @@ type Axis = Partial<Pick<AxisConfiguration, AxisParams>> & {
   renderer?: string;
   colorMapper?: (id: string, label: string) => string | null;
   reverseOrder?: boolean;
+  formatterSelected?: boolean;
 };
 
 type MetricParams = 'metric' | 'source' | 'aggregation';
-type BaseMetric = Pick<UnifiedMetricConfiguration, MetricParams>;
+type BaseMetric = Pick<UnifiedMetricConfigurationUnion, MetricParams>;
 
 export interface Metric extends BaseMetric {
   timeShift?: TimeShift | TimeShiftOffset;
@@ -50,6 +51,7 @@ export interface Metric extends BaseMetric {
   metricLabel?: string;
   defaultDisabled?: boolean;
   grouping?: Grouping[];
+  unit?: string;
 
   // other properties may be sent to the backend
   [k: string]: any;
@@ -64,6 +66,7 @@ interface UnifiedMetricsChartProps extends BaseChartConfig {
   snapshotId?: string;
   hasActionlane?: boolean;
   hasButtonInActionslane?: boolean;
+  bulkRequest?: boolean;
   onApproximateDataChange?: (hasApproximateData: boolean) => void;
   onLegendItemToggle?: (chartConfig: ChartConfig, label: string) => void;
 }

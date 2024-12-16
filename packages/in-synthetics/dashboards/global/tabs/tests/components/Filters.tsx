@@ -8,8 +8,9 @@ import React, { Fragment } from 'react';
 
 import { Result, SyntheticTest } from '@instana/types';
 
+import { association, FilterSectionProps } from 'in-synthetics/utils/constants';
+import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { getDisplayType } from 'in-synthetics/utils/syntheticTypeMap';
-import { FilterSectionProps } from 'in-synthetics/utils/constants';
 import ComboBox from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 
@@ -25,12 +26,13 @@ let locationLabelOptions: Option[] = [];
 let applicationLabelOptions: Option[] = [];
 
 export default function Filters({
-  isAppcontext,
+  isAssociationsContext,
   setFilter,
   result,
   syntheticTypes,
   locationIds,
-  applicationIds = []
+  applicationIds = [],
+  entityIds = []
 }: FilterSectionProps) {
   return (
     <Fragment>
@@ -50,13 +52,18 @@ export default function Filters({
         options={getLocationLabels(result)}
         className={locals.filter}
       />
-      {!isAppcontext && (
+      {!isAssociationsContext && (
         <ComboBox
-          value={applicationIds}
-          onChange={t => Array.isArray(t) && setFilter({ applicationIds: t.map(a => a.value) })}
-          placeholder={t('in-synthetics:dashboard.testList.applicationLabel')}
+          value={syntheticRbacLimitedEnabled ? entityIds : applicationIds}
+          onChange={t =>
+            Array.isArray(t) &&
+            setFilter(
+              syntheticRbacLimitedEnabled ? { entityIds: t.map(a => a.value) } : { applicationIds: t.map(a => a.value) }
+            )
+          }
+          placeholder={t('in-synthetics:dashboard.testList.associationLabel')}
           isMulti
-          options={getApplicationLabels(result)}
+          options={syntheticRbacLimitedEnabled ? getAssociationLabels(result) : getApplicationLabels(result)}
           className={locals.filter}
         />
       )}
@@ -126,11 +133,14 @@ function getApplicationLabels(result: Result<SyntheticTest[]> | undefined) {
   // Get applicationLabels and applicationIds from SyntheticTest
   if (!result?.progress?.loading) {
     result?.data?.forEach(function (item: SyntheticTest) {
-      const applicationitem = {
-        label: item?.applicationLabel ?? '',
-        value: item?.applicationId ?? ''
-      };
-      applicationLabelOptions.push(applicationitem);
+      if (item?.applications) {
+        item?.applications.forEach((applicationId, i) => {
+          applicationLabelOptions.push({
+            label: item?.applicationLabels?.at(i) ?? '',
+            value: applicationId
+          });
+        });
+      }
     });
 
     // Clean up duplicate and empty array elements
@@ -147,4 +157,44 @@ function getApplicationLabels(result: Result<SyntheticTest[]> | undefined) {
 
   // return application labels and ids;
   return applicationLabelOptions;
+}
+
+function getAssociationLabels(result: Result<SyntheticTest[]> | undefined) {
+  const associationLabels: Option[] = [];
+  let showApplications = false;
+  let showWebsites = false;
+  let showMobileApplications = false;
+
+  if (!result?.progress?.loading) {
+    result?.data?.forEach(function (item: SyntheticTest) {
+      if (!showApplications && (item.applications ?? []).length! > 0) {
+        showApplications = true;
+      }
+      if (!showWebsites && (item.websites ?? []).length > 0) {
+        showWebsites = true;
+      }
+      if (!showMobileApplications && (item.mobileApps ?? []).length > 0) {
+        showMobileApplications = true;
+      }
+    });
+    if (showApplications) {
+      associationLabels.push({
+        label: association.applications,
+        value: 'applications'
+      });
+    }
+    if (showWebsites) {
+      associationLabels.push({
+        label: association.websites,
+        value: 'websites'
+      });
+    }
+    if (showMobileApplications) {
+      associationLabels.push({
+        label: association.mobileApps,
+        value: 'mobileApps'
+      });
+    }
+  }
+  return associationLabels;
 }

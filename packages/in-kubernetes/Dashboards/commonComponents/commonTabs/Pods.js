@@ -231,8 +231,8 @@ function createTable(columnDefinitions) {
       statefulSetIdUrlParameter
     ],
     columnDefinitions,
-    defaultOrderBy: 'name',
-    defaultOrderDirection: 'ASC',
+    defaultOrderBy: 'health',
+    defaultOrderDirection: 'DESC',
     defaultDisabledColumns: ['phase', 'cpuRequests', 'cpuLimits', 'memoryRequests', 'memoryLimits'],
     settingsKey: 'table_disabled_columns_pods',
     pathSegment,
@@ -300,8 +300,8 @@ function getTableData({
   query = '',
   page = 1,
   pageSize = 20,
-  orderBy = 'name',
-  orderDirection = 'ASC',
+  orderBy = 'health',
+  orderDirection = 'DESC',
   timeConfig,
   namespaceId,
   clusterId,
@@ -332,10 +332,54 @@ function getTableData({
       phase
     },
     granularity: getInfraGranularity(timeConfig)
-  });
+  }).map(props => sortByHealthIssues({ result: props, orderBy, orderDirection }));
 }
 
 function PodLink({ podId, deploymentId, serviceId, nodeId, podLabel, maxSeverity }) {
   const href = usePodDashboard(podId, { deploymentId, serviceId, nodeId });
   return <SeverityAwareEntityLink icon="lib_kubernetes_pod" label={podLabel} href={href} severity={maxSeverity} />;
+}
+
+function sortByHealthIssues({ result, orderBy, orderDirection }) {
+  if (!result?.data?.items || orderBy !== 'health') return result;
+  const multiplier = orderDirection === 'ASC' ? -1 : 1;
+  const getItemsWithHealthInfo = item => {
+    const {
+      pod: { conditions: podConditions },
+      entityHealthInfo,
+      statusSummary
+    } = item;
+
+    const { maxSeverity, openIssuesCount } = getHealthyStatus({
+      podConditions,
+      entityHealthInfo,
+      statusSummary
+    });
+
+    return {
+      ...item,
+      entityHealthInfo: {
+        ...entityHealthInfo,
+        maxSeverity,
+        openIssuesCount
+      }
+    };
+  };
+
+  const compareHealthInfo = (a, b) => {
+    if (a.entityHealthInfo.maxSeverity !== b.entityHealthInfo.maxSeverity) {
+      return (b.entityHealthInfo.maxSeverity - a.entityHealthInfo.maxSeverity) * multiplier;
+    }
+    return (b.entityHealthInfo.openIssuesCount - a.entityHealthInfo.openIssuesCount) * multiplier;
+  };
+
+  const sortedPods = [...result.data.items].map(getItemsWithHealthInfo).sort(compareHealthInfo);
+
+  return {
+    ...result,
+    data: {
+      ...result.data,
+      items: sortedPods
+    }
+  };
 }

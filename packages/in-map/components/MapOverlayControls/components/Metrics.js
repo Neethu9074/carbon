@@ -5,123 +5,102 @@
 
 /* eslint-disable react/no-multi-comp */
 import classNames from 'classnames';
+import React, { useEffect, useState } from 'react';
 import { fromJS } from 'immutable';
 import { isEqual } from 'lodash';
-import React from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 
 import { setActiveMetric, clearActiveMetric, activeMetric$ } from 'in-stores/metric';
 import Control from 'in-map/components/MapOverlayControls/components/Control';
 import { track, MAP_METRICS_SHOW } from 'in-services/tracking/tracking';
-import { types, view$ } from 'in-infrastructure/perspectives';
-import connectTo from 'in-hoc/connectTo';
+import { types, view$ } from 'in-infrastructure/perspectives/view';
 import { t } from 'in-i18n';
 
 import 'in-map/components/MapOverlayControls/components/Metrics.less';
 
 const block = 'in-controls-metrics';
 
-export default connectTo(
-  {
-    activeMetric: activeMetric$
-  },
-  class extends React.Component {
-    static displayName = 'Metrics';
+export default function Metrics() {
+  const activeMetric = useObservable(() => activeMetric$, []);
 
-    componentWillUnmount() {
-      if (this.props.activeMetric) {
-        clearActiveMetric();
-      }
-    }
+  useEffect(() => {
+    return () => {
+      clearActiveMetric();
+    };
+  }, []);
 
-    render() {
-      return (
-        <Control
-          createMenuContent={createMenuContent}
-          isActive={this.props.activeMetric ? true : false}
-          tooltipText={t('in-map:showMetrics')}
-          type="lib_datetime_speed"
-        />
-      );
-    }
-  }
-);
+  return (
+    <Control
+      createMenuContent={createMenuContent}
+      isActive={!!activeMetric}
+      tooltipText={t('in-map:showMetrics')}
+      type="lib_datetime_speed"
+    />
+  );
+}
 
 function createMenuContent() {
   return <MetricPanel />;
 }
 
-const MetricPanel = connectTo(
-  {
-    view: view$
-  },
-  class extends React.Component {
-    static displayName = 'MetricPanel';
+function MetricPanel() {
+  const [isOpen, setIsOpen] = useState(true);
 
-    state = {
-      isOpen: true
-    };
+  const view = useObservable(() => view$, []);
 
-    render() {
-      const metricList = getMetricList(this.props.view);
-      return (
-        <div className={block}>
-          {this.state.isOpen ? (
-            <div className={`${block}__wrapper`}>
-              {Object.keys(metricList).map(topic => (
-                <Topic key={topic} label={topic} list={metricList} />
-              ))}
-            </div>
-          ) : null}
+  const metricList = getMetricList(view);
 
-          <DropDown onClick={() => this.setState({ isOpen: !this.state.isOpen })} isOpen={this.state.isOpen} />
+  return (
+    <div className={block}>
+      {isOpen && (
+        <div className={`${block}__wrapper`}>
+          {Object.keys(metricList).map(topic => (
+            <Topic key={topic} label={topic} list={metricList} />
+          ))}
         </div>
-      );
-    }
-  }
-);
+      )}
 
-const DropDown = connectTo(
-  {
-    activeMetric: activeMetric$
-  },
-  function DropDown({ activeMetric, onClick, isOpen }) {
-    return (
-      <div className={`${block}__dropdown`}>
-        <div className={`${block}__dropdown-label`} onClick={onClick}>
-          {activeMetric ? activeMetric.get('longLabel') : t('in-map:chooseMetric')}
+      <DropDown onClick={() => setIsOpen(!isOpen)} isOpen={isOpen} />
+    </div>
+  );
+}
 
-          <SvgIcon
-            className={`${block}__icon`}
-            type={isOpen ? 'lib_arrow_drop_down' : 'lib_arrow_drop_up'}
-            size="s"
-            color={'#7b8e96'}
-          />
-        </div>
+const DropDown = ({ onClick, isOpen }) => {
+  const activeMetric = useObservable(() => activeMetric$, []);
 
-        <ResetButton />
+  return (
+    <div className={`${block}__dropdown`}>
+      <div className={`${block}__dropdown-label`} onClick={onClick}>
+        {activeMetric ? activeMetric.get('longLabel') : t('in-map:chooseMetric')}
+
+        <SvgIcon
+          className={`${block}__icon`}
+          type={isOpen ? 'lib_arrow_drop_down' : 'lib_arrow_drop_up'}
+          size="s"
+          color={'#7b8e96'}
+        />
       </div>
-    );
-  }
-);
 
-const ResetButton = connectTo(
-  {
-    activeMetric: activeMetric$
-  },
-  function ResetButton({ activeMetric }) {
-    if (!activeMetric) {
-      return null;
-    }
+      <ResetButton />
+    </div>
+  );
+};
 
-    return (
-      <div className={`${block}__reset`} onClick={clearActiveMetric}>
-        {t('in-map:reset')}
-      </div>
-    );
+const ResetButton = () => {
+  const activeMetric = useObservable(() => activeMetric$, []);
+
+  if (!activeMetric) {
+    return null;
   }
-);
+
+  return (
+    <div className={`${block}__reset`} onClick={clearActiveMetric}>
+      {t('in-map:reset')}
+    </div>
+  );
+};
 
 function Topic({ label, list }) {
   const topic = list[label];
@@ -138,37 +117,36 @@ function Topic({ label, list }) {
 }
 
 let lastMetricSelection = { topic: null, metricKey: null };
-const Metric = connectTo(
-  {
-    activeMetric: activeMetric$
-  },
-  function Metric({ activeMetric, metricKey, metric, topic }) {
-    return (
-      <div
-        className={classNames({
-          [`${block}__metric`]: true,
-          [`${block}__metric--active`]: activeMetric && activeMetric.get('name') === metricKey
-        })}
-        onClick={() => {
-          const newMetricSelection = { topic, metricKey };
-          if (!isEqual(lastMetricSelection, newMetricSelection)) {
-            track(MAP_METRICS_SHOW);
-          }
-          lastMetricSelection = newMetricSelection;
-          return setActiveMetric(
-            fromJS({
-              name: metricKey,
-              longLabel: `${topic} ${metricKey}`,
-              metrics: metric[metricKey]
-            })
-          );
-        }}
-      >
-        {t('in-map:metrics', { context: metricKey })}
-      </div>
+const Metric = ({ metricKey, metric, topic }) => {
+  const activeMetric = useObservable(() => activeMetric$, []);
+
+  const handleClick = () => {
+    const newMetricSelection = { topic, metricKey };
+    if (!isEqual(lastMetricSelection, newMetricSelection)) {
+      track(MAP_METRICS_SHOW);
+    }
+    lastMetricSelection = newMetricSelection;
+    setActiveMetric(
+      fromJS({
+        name: metricKey,
+        longLabel: `${topic} ${metricKey}`,
+        metrics: metric[metricKey]
+      })
     );
-  }
-);
+  };
+
+  return (
+    <div
+      className={classNames({
+        [`${block}__metric`]: true,
+        [`${block}__metric--active`]: activeMetric && activeMetric.get('name') === metricKey
+      })}
+      onClick={handleClick}
+    >
+      {t('in-map:metrics', { context: metricKey })}
+    </div>
+  );
+};
 
 function getMetricList(view) {
   if (view === types.container) {

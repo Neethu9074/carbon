@@ -12,7 +12,7 @@ import locals from './ActionInstanceDetail.mless';
 
 export default function DetailsOutputTab({ output }: { output: string }) {
   return (
-    <div className={locals.paramsTab}>
+    <div className={locals.instanceTabContent}>
       <Code code={output} lang={'bash'} softWrap />
     </div>
   );

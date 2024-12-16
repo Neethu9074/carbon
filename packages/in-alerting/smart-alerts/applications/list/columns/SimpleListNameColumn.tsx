@@ -5,19 +5,19 @@
 
 import React from 'react';
 
-import getAlertTitleWithPlaceholderHighlighting from 'in-alerting/smart-alerts/applications/inventory/getAlertTitleWithPlaceholderHighlighting';
 import {
-  ApplicationAlertConfigWithMetadata,
-  ApplicationAlertRuleUnion,
-  GlobalApplicationsAlertConfigWithMetadata
-} from 'in-types';
+  ApplicationSmartAlertConfigWithMetadata,
+  GlobalApplicationsSmartAlertConfigWithMetadata
+} from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
+import getAlertTitleWithPlaceholderHighlighting from 'in-alerting/smart-alerts/applications/inventory/getAlertTitleWithPlaceholderHighlighting';
 import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltInIndicator';
 import { NameColumnCell } from 'in-alerting/smart-alerts/components/list/NameColumnCell';
+import { ApplicationAlertRuleUnion } from 'in-types';
 import { t } from 'in-i18n';
 
 interface SimpleListNameColumnProps {
-  config: ApplicationAlertConfigWithMetadata | GlobalApplicationsAlertConfigWithMetadata;
+  config: ApplicationSmartAlertConfigWithMetadata | GlobalApplicationsSmartAlertConfigWithMetadata;
 }
 export function SimpleListNameColumn({ config }: SimpleListNameColumnProps) {
   return (

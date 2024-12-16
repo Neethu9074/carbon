@@ -1,9 +1,17 @@
 {
   "components": {
+    "uiShell": {
+      "mainNavigation": "主要導覽"
+    },
     "list": {
       "loadMore": "載入更多",
+      "expand": "展開",
+      "collapse": "收合",
       "toggleExtraContent": "切換額外內容",
       "initiateDefaultAction": "起始預設動作"
+    },
+    "link": {
+      "opensInNewTab": "（在新標籤中開啟）"
     },
     "table": {
       "tableErrorRows": {
@@ -11,13 +19,43 @@
       },
       "tableLoadMoreRow": {
         "loadMore": "載入更多"
-      }
+      },
+      "dataTable": "資料表",
+      "expandHeader": "展開列",
+      "expandRow": "切換展開列",
+      "select": "選取列",
+      "selectedRow": "選取的列"
+    },
+    "tableSkeleton": {
+      "sampleTable": "範例表格"
     },
     "code": {
       "copy": "複製",
       "copied": "已複製！",
       "showMore": "顯示更多",
-      "showLess": "顯示簡略資訊"
+      "showLess": "顯示簡略資訊",
+      "copytoboard": "複製到剪貼簿"
+    },
+    "menu": {
+      "sideNavigation": "側邊導覽"
+    },
+    "dropDown": {
+      "selectOption": "選取選項"
+    },
+    "tabsNavigation": {
+      "pageNavigation": "頁面導覽"
+    },
+    "plg": {
+      "dashboardTable": {
+        "dataTableToolbar": "資料表工具列"
+      },
+      "tableTabs": {
+        "listOfTabs": "標籤清單"
+      }
+    },
+    "pill": {
+      "privatePreview": "預覽",
+      "publicPreview": "預覽"
     }
   },
   "formatDate": {
@@ -49,14 +87,17 @@
   "forms": {
     "actions": {
       "save": "儲存",
+      "saveIntegration": "儲存並啟用",
       "cancel": "取消",
       "create": "建立",
       "delete": "刪除",
       "close": "關閉",
-      "submit": "提交"
+      "submit": "提交",
+      "previous": "上一步"
     },
     "states": {
-      "saving": "儲存中..."
+      "saving": "儲存中...",
+      "loading": "載入中..."
     }
   },
   "language_en-US": "英文",
@@ -82,6 +123,7 @@
   "aggregation_MAX": "最大值",
   "aggregation_DISTINCT_COUNT": "個別的計數",
   "aggregation_SUM": "總和",
+  "aggregation_INCREASE": "增加",
   "aggregation_DISTRIBUTION": "分佈",
   "aggregation_PER_SECOND": "每秒"
 }

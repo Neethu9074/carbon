@@ -15,7 +15,6 @@
 
   .icon {
     margin: 0 0.25rem 0 0;
-    fill: var(--ids-color-option-neutral-900);
   }
 
   .separator {

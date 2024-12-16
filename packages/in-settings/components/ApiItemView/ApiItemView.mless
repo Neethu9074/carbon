@@ -5,7 +5,8 @@
 
 :local {
   .wrapper {
-    padding: 0 1rem 4rem;
+    padding: 1rem 1rem 4rem 1rem;
+    background: var(--cds-layer);
   }
 
   .controls,

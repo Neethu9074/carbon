@@ -6,8 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import { get } from 'lodash';
 
-import { Spacer } from '@instana/components';
-import { Button } from '@instana/legacy';
+import { Spacer, Button } from '@instana/components';
 
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { serviceDashboard } from 'in-applications/navigation/paths';

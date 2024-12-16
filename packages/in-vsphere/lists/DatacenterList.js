@@ -30,7 +30,7 @@ const matrixPrefix = 'datacenter.';
 const VsphereDatacenterLink = ({ label, id }) => {
   const getVsphereDatacenterDashboard = useVspehereEntityLink('datacenter');
 
-  return <EntityLink label={label} href$={getVsphereDatacenterDashboard(id)} icon="lib_vsphere_datacenter" />;
+  return <EntityLink label={label} href={getVsphereDatacenterDashboard(id)} icon="lib_vsphere_datacenter" />;
 };
 
 const columnDefinitions = [

@@ -7,7 +7,7 @@ import { fromJS } from 'immutable';
 
 import { generateUniqueShortId } from '@instana/utils';
 
-import { configs, fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
+import { configs, fullyQualified } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
 

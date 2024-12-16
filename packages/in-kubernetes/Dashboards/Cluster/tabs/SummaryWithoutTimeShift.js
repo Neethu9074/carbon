@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 import { get } from 'lodash';
@@ -34,7 +34,7 @@ export default function Summary({ timeConfig, data: cluster }) {
   const { running, limits, requests, usage } = k8sChartColors;
   const { pending, capacity, allocated } = k8sClusterChart;
 
-  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('cluster', snapshotId, timeConfig);
+  const { tagFilterExpression: logsChartQuery } = useGetK8sEntityUid('kubernetes.cluster', snapshotId, timeConfig);
 
   const allItemsNodesHrefs = useClusterDashboard(cluster.id, {
     tab: '/nodes'

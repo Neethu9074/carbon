@@ -1,0 +1,11 @@
+
+:local {
+  .carbonSideNav {
+    :global(a.cds--side-nav__link:hover) {
+      text-decoration: none;
+    }
+    :global(.cds--side-nav__items) {
+      padding: 0 0 1rem 0;
+    }
+  }
+}

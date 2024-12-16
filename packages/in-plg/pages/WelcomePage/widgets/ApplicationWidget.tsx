@@ -7,46 +7,67 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Link, Stack, SvgIcon } from '@instana/components';
+import { IconButton, Link, Stack } from '@instana/components';
+import { EntityHealthInfo, TimeConfig } from '@instana/types';
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 import { t } from '@instana/i18n-react';
 
+import {
+  ApplicationProps,
+  ColumnDefinitionItem,
+  GetApplicationsWithDefaultsProps
+} from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 //@ts-expect-error
 import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
 //@ts-expect-error doesn't contain type file
 import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateApplicationDialog';
 //@ts-expect-error doesn't contain type file
 import { getNewApplicationWaiterViewPath } from 'in-applications/creation/CreateApplication';
-//@ts-expect-error doesn't contain type file
-import { applicationCreationOpenDialogClick } from 'in-applications/creation/tracker';
-import { ApplicationProps, ColumnDefinitionItem } from 'in-plg/pages/WelcomePage/widgets/types/DashboardTypeDefiniton';
 //@ts-expect-error
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+//@ts-expect-error doesn't contain type file
+import { add, remove } from 'in-cockpit/starredItems';
+import TypographyWithTooltip from 'in-plg/components/TypographyWithTooltip/TypographyWithTooltip';
 import { createNewApplicationConfig, getApplicationConfig } from 'in-api/applicationConfigs';
 import { getApplicationsWithDefaults } from 'in-applications/subscriptions/getApplications';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-//@ts-expect-error doesn't contain type file
-import connectTo from 'in-hoc/connectTo';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
+import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
+import { application as applicationType } from 'in-cockpit/starredItems/types';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { applicationsList } from 'in-applications/navigation/paths';
-import HealthDot from 'in-components/health/HealthDot/HealthDot';
+import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
+import getMetrics from 'in-applications/subscriptions/getMetrics';
+import { hasError, isLoading } from 'in-services/util/result';
 import { successObservable } from 'in-services/util/result';
 import { boundaryScopes } from 'in-applications/constants';
 import { getTimeConfig } from 'in-stores/time/config';
-import { timeConfig$ } from 'in-stores/time/config';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import { role } from 'in-stores/user';
 
-function getApplicationData(params: any) {
+function getApplicationData(params: GetApplicationsWithDefaultsProps) {
   return getApplicationsWithDefaults(params);
 }
 
-export default connectTo(() => ({
-  timeConfig: timeConfig$
-}))(function ApplicationWidget({
+function handleFavoriteClick(id: string, item: any, isFavourite: boolean) {
+  if (!id && !item) return;
+  if (isFavourite) {
+    remove({ id: id, type: applicationType });
+  } else {
+    add({
+      id: item?.application?.id,
+      label: item?.application?.label,
+      type: applicationType
+    });
+  }
+}
+
+export default function ApplicationWidget({
   config,
   timeConfig,
   applicationId,
@@ -60,6 +81,10 @@ export default connectTo(() => ({
         key: 'name'
       },
       {
+        header: t('in-plg:welcomepage.component.applicationWidget.scope'),
+        key: 'scope'
+      },
+      {
         header: t('in-plg:welcomepage.component.applicationWidget.calls'),
         key: 'calls'
       },
@@ -70,6 +95,14 @@ export default connectTo(() => ({
       {
         header: t('in-plg:welcomepage.component.applicationWidget.erroneousCallRate'),
         key: 'erroneousCallRate'
+      },
+      {
+        header: t('in-plg:welcomepage.component.applicationWidget.health'),
+        key: 'health'
+      },
+      {
+        key: 'favourite',
+        header: ''
       }
     ];
   };
@@ -82,6 +115,7 @@ export default connectTo(() => ({
   const entityResult = useObservable(getConfig, [applicationId]);
   const getLinkToApplicationDashboard = useLinkToApplicationDashboard();
   const { createHrefToPath } = useNavigation();
+  const { trackApplicationCreationOpenDialogClicked } = useApplicationTracker();
 
   function addNewApplications() {
     let ele;
@@ -94,7 +128,7 @@ export default connectTo(() => ({
         editMode
       />
     );
-    applicationCreationOpenDialogClick({
+    trackApplicationCreationOpenDialogClicked({
       status: t('in-plg:welcomepage.component.applicationWidget.openCreationDialog')
     });
     return ele;
@@ -102,55 +136,105 @@ export default connectTo(() => ({
 
   function BoundaryScopeColumn({ item }: any) {
     if (item.application.boundaryScope) {
-      return (
-        //@ts-expect-error
-        <Tooltip content={boundaryScopes.info[item.application.boundaryScope].dashboard}>
-          <SvgIcon
-            //@ts-expect-error
-            type={boundaryScopes.info[item.application.boundaryScope].icon}
-          />
-        </Tooltip>
-      );
+      const boundaryScope = item.application.boundaryScope;
+      if (boundaryScope !== 'ALL' && boundaryScope !== 'INBOUND') return null;
+      if (boundaryScope === 'ALL') return <TypographyWithTooltip content={boundaryScopes.info['ALL'].text} />;
+      if (boundaryScope === 'INBOUND') return <TypographyWithTooltip content={boundaryScopes.info['INBOUND'].text} />;
     }
     return null;
+  }
+
+  function getItem(id: string, timeConfig: TimeConfig) {
+    const granularity = getSparkChartGranularity(timeConfig);
+
+    return getApplication({ id }).flatMap((applicationResult: any) => {
+      if (isLoading(applicationResult) || hasError(applicationResult)) {
+        return just(applicationResult);
+      } else {
+        return getMetrics({
+          filter: {
+            timeConfig,
+            application: id,
+            includeInternalCalls: false,
+            includeSyntheticCalls: false,
+            useLongTermDataOnly: false,
+            applicationBoundaryScope: applicationResult.data.boundaryScope
+          },
+          metrics: {
+            services: {
+              metric: 'services',
+              aggregation: 'DISTINCT_COUNT'
+            },
+            calls: {
+              metric: 'calls',
+              aggregation: 'SUM',
+              granularity
+            },
+            callsAgg: {
+              metric: 'calls',
+              aggregation: 'SUM'
+            },
+            latencyAgg: {
+              metric: 'latency',
+              aggregation: 'MEAN'
+            },
+            latency: {
+              metric: 'latency',
+              aggregation: 'MEAN',
+              granularity
+            },
+            errorsAgg: {
+              metric: 'errors',
+              aggregation: 'MEAN'
+            },
+            errors: {
+              metric: 'errors',
+              aggregation: 'MEAN',
+              granularity
+            }
+          }
+        }).map(metricResult => {
+          if (isLoading(metricResult) || hasError(metricResult)) {
+            return metricResult;
+          } else {
+            return {
+              application: {
+                ...applicationResult.data
+              },
+              metrics: { ...metricResult.data },
+              mainKpiValue: get(metricResult.data, ['callsAgg', 0, 1]),
+              time: metricResult.time
+            };
+          }
+        });
+      }
+    });
   }
 
   const columnDefinitions: ColumnDefinitionItem[] = [
     {
       key: 'name',
       getContent({ item }) {
-        const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1]);
-        if (maxSeverity !== undefined) {
-          return (
-            <Stack direction="horizontal" align="center">
-              <HealthDot severity={maxSeverity} iconSize={10} />
-              <SvgIcon type="lib_application" color="var(--ids-color-option-neutral-700)" />
-              <Link href={getLinkToApplicationDashboard({ applicationId: item.application.id })}>
-                {item.application.label}
-              </Link>
-            </Stack>
-          );
-        }
         return (
-          <Stack direction="horizontal" align="center">
-            <WithApplicationHealthIndicationBehaviour
-              applicationId={item.application.id}
-              render={(healthInfo: any) =>
-                healthInfo ? <HealthDot severity={healthInfo.maxSeverity} iconSize={10} /> : null
-              }
-            />
-            <SvgIcon type="lib_application" color="var(--ids-color-option-neutral-700)" />
-            <Link>{item.application.label}</Link>
-          </Stack>
+          <Tooltip content={item.application.label} align="auto" caret={false} delay={300}>
+            <Link href={getLinkToApplicationDashboard({ applicationId: item.application.id })}>
+              {item.application.label}
+            </Link>
+          </Tooltip>
         );
       }
     },
     {
+      key: 'scope',
+      getContent({ item }) {
+        return <BoundaryScopeColumn item={item} />;
+      }
+    },
+    {
       key: 'calls',
-      getContent({ item, result }) {
+      getContent({ item, timeConfig, result }) {
         return (
           <Stack direction="horizontal" align="center">
-            <BoundaryScopeColumn item={item} />
             <SparkChart
               loading={result?.progress?.loading}
               rollup={getSparkChartGranularity(timeConfig)}
@@ -198,6 +282,50 @@ export default connectTo(() => ({
           />
         );
       }
+    },
+
+    {
+      key: 'health',
+      getContent({ item }) {
+        const maxSeverity = get(item, ['metrics', 'maxSeverity', 0, 1]);
+        if (maxSeverity !== undefined) {
+          return <HealthIcon severity={maxSeverity} iconSize="xs" />;
+        }
+        return (
+          <WithApplicationHealthIndicationBehaviour
+            applicationId={item.application.id}
+            render={(healthInfo: EntityHealthInfo) =>
+              healthInfo ? <HealthIcon severity={healthInfo.maxSeverity} iconSize="xs" /> : null
+            }
+          />
+        );
+      }
+    },
+    {
+      key: 'favourite',
+      getContent({ id, item, isDisabled = false, isFavourite = false }) {
+        return (
+          <IconButton
+            aria-label={
+              isFavourite
+                ? t('in-plg:welcomepage.favouriteButton.ariaFilled')
+                : item?.pinned
+                ? t('in-plg:welcomepage.favouriteButton.ariaFilled')
+                : t('in-plg:welcomepage.favouriteButton.aria')
+            }
+            type={
+              isFavourite
+                ? 'lib_actions_favorite_filled'
+                : item?.pinned
+                ? 'lib_actions_favorite_filled'
+                : 'lib_actions_favorite'
+            }
+            onClick={() => handleFavoriteClick(id, item, isFavourite)}
+            iconSize="xs"
+            disabled={isDisabled}
+          />
+        );
+      }
     }
   ];
 
@@ -211,14 +339,21 @@ export default connectTo(() => ({
   return (
     <DatatableWrapper
       {...generalProps}
+      tableType="applicationWidget"
+      pinnedItemTypes={[applicationType]}
       getItems={getApplicationData}
-      hasAddMore
+      getItem={getItem}
+      hasAddPermission={role?.canConfigureApplications}
+      hasAddMore={role?.canConfigureApplications}
       viewAll
       addMore={addNewApplications}
       addData={addNewApplications}
       href={createHrefToPath(applicationsList)}
       label={widgetLabel}
       dashboardTileProps={dashboardTileProps}
+      searchPlaceholderLabel={t('in-plg:welcomepage.component.applicationWidget.searchPlaceholderLabel')}
+      addButtonLabel={t('in-plg:welcomepage.component.applicationWidget.addButtonLabel')}
+      viewAllLabel={t('in-plg:welcomepage.component.applicationWidget.viewAllLabel')}
     />
   );
-});
+}

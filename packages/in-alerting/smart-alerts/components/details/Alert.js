@@ -6,17 +6,17 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
 import {
-  trackAlertDeleteTrigger,
-  trackAlertDeleteConfirm,
-  trackAlertEdit,
-  trackAlertCloneTrigger,
-  trackAlertPaused,
-  trackAlertResumed
-} from 'in-alerting/smart-alerts/components/tracker';
+  ALERTING_EDIT,
+  ALERTING_DELETE_TRIGGER,
+  ALERTING_DELETE_CONFIRM,
+  ALERTING_PAUSED,
+  ALERTING_RESUMED,
+  ALERTING_CLONE_TRIGGER,
+  ALERTING_REVISION_CHANGED
+} from 'in-services/tracking/eventNames';
 import { replacePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/components/dialog/advanced/placeholderUtil';
 import { alertCreated as alertCreatedMatrixParam } from 'in-applications/navigation/matrix';
 import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltInIndicator';
@@ -24,13 +24,13 @@ import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/m
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import AlertHistoryList from 'in-alerting/components/AlertHistoryList';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import AlertHeader from 'in-alerting/components/AlertHeader';
 import { close } from 'in-components/DialogPresenter/store';
 import { propTypeTimeConfig } from 'in-stores/time/config';
-import SetBodyColor from 'in-components/SetBodyColor';
 import { Col, Row } from 'in-components/layout/Grid';
 import Footer from 'in-components/Footer/Footer';
 import Title from 'in-components/Title';
@@ -51,15 +51,18 @@ export default function Alert({
   isGlobalSmartAlert,
   renderSmartAlertDialog,
   renderAlertConfiguration,
-  tracking = {},
   showActionButton = true,
   getAllowedPlaceholders = () => [],
   displayEditAction = true,
+  displayTearSheetActions = false,
+  getLinkToEditOrDuplicateSmartAlertTearSheet,
   displayDuplicateAction = true,
   canConfigureGlobalAlertConfigs = false,
-  canConfigureIndividualAlertConfigs = false
+  canConfigureIndividualAlertConfigs = false,
+  hideAlertIcon = false
 }) {
   const { location, navigate } = useNavigation();
+  const { trackCta } = useSegmentTracking();
 
   const [reload, triggerReload] = useState();
 
@@ -101,6 +104,7 @@ export default function Alert({
           alertConfig={alertConfig}
           alertConfigVersions={alertConfigVersions}
           setRevision={setRevision}
+          isGlobalSmartAlert={isGlobalSmartAlert}
           openDialog={({ isCopy }) => {
             addActiveDialog(
               renderSmartAlertDialog({
@@ -114,9 +118,9 @@ export default function Alert({
               })
             );
             if (isCopy) {
-              trackAlertCloneTrigger(alertConfig);
+              trackCta(ALERTING_CLONE_TRIGGER, alertConfig);
             } else if (!isCopy) {
-              trackAlertEdit(alertConfig);
+              trackCta(ALERTING_EDIT, alertConfig);
             }
           }}
           fullyQualifiedAlertsList={listPath}
@@ -126,33 +130,19 @@ export default function Alert({
           doRestoreConfig$={restoreConfig}
           onConfigStateChanged={(alertConfigId, enabled) => {
             if (enabled) {
-              if (tracking.trackPaused) {
-                tracking.trackPaused?.({ alertConfigId });
-              } else {
-                trackAlertPaused(alertConfig);
-              }
+              trackCta(ALERTING_PAUSED, { alertConfigId });
             } else {
-              if (tracking.trackResumed) {
-                tracking.trackResumed?.({ alertConfigId });
-              } else {
-                trackAlertResumed(alertConfig);
-              }
+              trackCta(ALERTING_RESUMED, { alertConfigId });
             }
           }}
           onConfigDeleted={() => {
-            if (tracking.trackDeleted) {
-              tracking.trackDeleted({ alertConfig });
-            } else {
-              trackAlertDeleteConfirm(alertConfig);
-            }
+            trackCta(ALERTING_DELETE_CONFIRM, alertConfig);
           }}
-          onConfigRevisionChanged={tracking.trackRevisionChanged}
+          onConfigRevisionChanged={() => trackCta(ALERTING_REVISION_CHANGED, alertConfig)}
           renderCustomTitle={() => {
             return (
               <HorizontalFlexWrapper className={locals.titleWrapper}>
-                <div>
-                  {replacePlaceholdersWithMarkup(getAllowedPlaceholders(alertConfig.evaluationType), alertConfig.name)}
-                </div>
+                <div>{replacePlaceholdersWithMarkup(getAllowedPlaceholders(alertConfig), alertConfig.name)}</div>
                 <BuiltInIndicator builtIn={alertConfig.builtIn} />
               </HorizontalFlexWrapper>
             );
@@ -160,10 +150,13 @@ export default function Alert({
           showActionButton={showActionButton}
           allowActionButtons={isGlobalSmartAlert ? canConfigureGlobalAlertConfigs : canConfigureIndividualAlertConfigs}
           onConfigDeleteTrigger={() => {
-            trackAlertDeleteTrigger(alertConfig);
+            trackCta(ALERTING_DELETE_TRIGGER, alertConfig);
           }}
           displayEditAction={displayEditAction}
+          displayTearSheetActions={displayTearSheetActions}
+          getLinkToEditOrDuplicateSmartAlertTearSheet={getLinkToEditOrDuplicateSmartAlertTearSheet}
           displayDuplicateAction={displayDuplicateAction}
+          hideAlertIcon={hideAlertIcon}
         />
 
         <Row>
@@ -173,7 +166,6 @@ export default function Alert({
           </Col>
         </Row>
       </div>
-      <SetBodyColor color={themes.default.ids.color.option.white} />
       <Footer />
     </>
   );
@@ -202,14 +194,6 @@ Alert.propTypes = {
   renderSmartAlertDialog: PropTypes.func.isRequired,
   restoreConfig: PropTypes.func.isRequired,
   timeConfig: propTypeTimeConfig.isRequired,
-  tracking: PropTypes.shape({
-    trackEdit: PropTypes.func,
-    trackDeleted: PropTypes.func,
-    trackPaused: PropTypes.func,
-    trackResumed: PropTypes.func,
-    trackRevisionChanged: PropTypes.func,
-    trackDeleteTrigger: PropTypes.func
-  }),
   paths: PropTypes.shape({
     detailsPath: PropTypes.string.isRequired,
     listPath: PropTypes.string.isRequired,
@@ -222,7 +206,10 @@ Alert.propTypes = {
   showActionButton: PropTypes.bool,
   getAllowedPlaceholders: PropTypes.func,
   displayEditAction: PropTypes.bool,
+  displayTearSheetActions: PropTypes.bool,
+  getLinkToEditOrDuplicateSmartAlertTearSheet: PropTypes.func,
   displayDuplicateAction: PropTypes.bool,
   canConfigureGlobalAlertConfigs: PropTypes.bool,
-  canConfigureIndividualAlertConfigs: PropTypes.bool
+  canConfigureIndividualAlertConfigs: PropTypes.bool,
+  hideAlertIcon: PropTypes.bool
 };

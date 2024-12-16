@@ -21,4 +21,29 @@
     font-weight: var(--ids-font-weight-option-heading-400);
     margin-bottom: 0.25rem;
   }
+
+  .issue {
+    margin: 0;
+    padding: 1rem 1rem 0.5rem 1rem;
+    list-style: none;
+    border-top: 1px solid var(--ids-color-option-neutral-300);
+    position: relative;
+    font-weight: var(--ids-font-weight-option-heading-400);
+
+    &:first-child {
+      border-top: 0;
+    }
+  }
+
+  .ipAddressList {
+    max-height: 25rem;
+    width: 30rem;
+  }
+
+  .ipAddressLabel {
+    font-weight: var(--ids-font-weight-option-heading-400);
+    margin-bottom: 0.25rem;
+    cursor: pointer;
+    color: var(--cds-link-primary);
+  }
 }

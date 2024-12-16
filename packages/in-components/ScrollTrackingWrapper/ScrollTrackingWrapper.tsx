@@ -7,8 +7,11 @@
 import { useEffect, useState, useCallback } from 'react';
 import * as React from 'react';
 
-import { track, PAGE_SCROLLED_BOTTOM } from 'in-services/tracking/tracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { eventTracker } from 'in-services/tracking/segment/EventTracker';
+import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
+import { PAGE_SCROLLED_BOTTOM } from 'in-services/tracking/tracking';
+import { UI_INTERACTION } from 'in-services/util/constants';
 import usePrevious from 'in-hooks/usePrevious';
 
 interface Props {
@@ -19,6 +22,8 @@ export default function ScrollTrackingWrapper({ children }: Props) {
   const {
     location: { pathname }
   } = useNavigation();
+
+  const { pageRootName, productArea } = getViewTrackingMetaData();
 
   const [isBottomReached, setIsBottomReached] = useState(false);
   const [isTrackingPerformed, setIsTrackingPerformed] = useState(false);
@@ -40,14 +45,20 @@ export default function ScrollTrackingWrapper({ children }: Props) {
     setIsBottomReached(false);
   }, []);
 
-  // Send hit to mixpanel in case it has not been performed before
   useEffect(() => {
     if (isBottomReached && !isTrackingPerformed) {
-      track(PAGE_SCROLLED_BOTTOM, { pathname });
-
+      if (pageRootName && productArea) {
+        const data = {
+          parentPageName: pageRootName,
+          parentPageCategory: productArea,
+          action: PAGE_SCROLLED_BOTTOM,
+          path: pathname
+        };
+        eventTracker({ data, segmentEventName: UI_INTERACTION });
+      }
       setIsTrackingPerformed(true);
     }
-  }, [isBottomReached, isTrackingPerformed, pathname]);
+  }, [isBottomReached, isTrackingPerformed, pageRootName, pathname, productArea]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleOnScroll);

@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import { Stack, SvgIcon } from '@instana/components';
+import { Stack, SvgIcon, Typography } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 
 import { useScrollToFirstInvalidNavItem } from 'in-components/StepsContainer/useScrollToFirstInvalidNavItem';
@@ -33,28 +33,31 @@ export default function StepsContainer({ navItems, noHeader, noDivider, messages
       <div className={locals.scrollWrapper}>
         <div className={locals.content}>
           <Stack gap="large">
-            {navItems.map(({ scrollId, title, content, titleToolTipText, hidden }, i) => {
+            {navItems.map(({ scrollId, title, content, titleToolTipText, hidden, subTitle }, i) => {
               if (hidden) return;
               return (
                 <Fragment key={scrollId}>
                   <ScrollStep id={scrollId}>
                     <Stack gap="normal">
-                      {!noHeader && (
-                        <Header>
-                          <Stack gap="xxsmall" direction="horizontal">
-                            {title}
-                            {titleToolTipText && (
-                              <Tooltip align="bottomMiddle" content={titleToolTipText}>
-                                <SvgIcon
-                                  className={locals.helpicon}
-                                  type="lib_help_error_info_outline"
-                                  color={themes.default.ids.color.option.neutral['600']}
-                                />
-                              </Tooltip>
-                            )}
-                          </Stack>
-                        </Header>
-                      )}
+                      <div>
+                        {!noHeader && (
+                          <Header>
+                            <Stack gap="xxsmall" direction="horizontal">
+                              {title}
+                              {titleToolTipText && (
+                                <Tooltip align="auto" content={titleToolTipText}>
+                                  <SvgIcon
+                                    className={locals.helpicon}
+                                    type="lib_help_error_info_outline"
+                                    color={themes.default.ids.color.option.neutral['600']}
+                                  />
+                                </Tooltip>
+                              )}
+                            </Stack>
+                          </Header>
+                        )}
+                        {subTitle && <Typography variant={'body-regular'}>{subTitle}</Typography>}
+                      </div>
                       {content}
                     </Stack>
                   </ScrollStep>

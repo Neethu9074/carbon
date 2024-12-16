@@ -111,6 +111,7 @@
       "summary": {
         "logs": "日志",
         "analyzeLogs": "查看分析",
+        "logsCardDescription": "这是预览，请在分析中查看所有日志",
         "correspondingMobileAppActivity": "相应的移动应用程序活动",
         "hideMobileAppInformation": "隐藏移动应用程序信息",
         "showMobileAppInformation": "显示移动应用程序信息",
@@ -158,6 +159,7 @@
         "cacheInteraction": "高速缓存交互",
         "instanaDoesNotMonitorTheLocationOfThisCall": "Instana 不监视此调用的 {{location}}",
         "tags": "标记",
+        "metrics": "度量",
         "loading": "正在装入调用详细信息。",
         "labelError": "意外错误",
         "retryError": "无法装入调用详细信息。",
@@ -165,7 +167,11 @@
         "selfTime": "自计时",
         "networkTime": "网络时间",
         "waitingTime": "等待时间",
-        "latency": "等待时间"
+        "latency": "等待时间",
+        "findSQL": "在 {{type}} 中查找 SQL",
+        "sumOfLatencies": "延迟时间总计",
+        "elapsedTime": "耗用时间",
+        "batchTooltip": "总计 {{batchCount}} 批类型为 {{type}} 的调用。"
       },
       "callTree": {
         "expandButtonForRow": "展开所有子调用",
@@ -272,6 +278,7 @@
     "titleParameters": "参数",
     "analyzeLogsLabel": "分析日志",
     "similarLogs": "相似日志",
+    "message": "消息",
     "similarServiceLogs": "显示此服务上下文中的日志",
     "restrictedAccessExpl": "您没有访问此信息的许可权"
   },
@@ -280,6 +287,7 @@
     "labelNetwork": "网络",
     "labelSelf": "自身",
     "labelWaiting": "正在等待",
+    "labelElapsed": "已过时间",
     "labelService": "服务",
     "labelEndpoint": "端点",
     "labelAggregatedTime": "汇总时间",
@@ -310,7 +318,6 @@
   "resultHeaderTooltip": "查询时间范围已四舍五入到最接近的整分钟，以便更快速地装入此视图。",
   "components": {
     "analyzeHeader": {
-      "beta": "BETA",
       "analytics": "分析"
     },
     "filterBar": {

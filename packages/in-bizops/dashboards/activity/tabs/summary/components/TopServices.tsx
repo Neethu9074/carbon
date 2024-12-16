@@ -6,19 +6,25 @@
 
 import React from 'react';
 
+import { Link } from '@instana/components';
+
 // @ts-expect-error Could not find a declaration file for module
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 // @ts-expect-error Could not find a declaration file for module
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
+import { businessActivityServiceListPath, businessActivitySummaryPath } from 'in-bizops/navigation/paths';
 import getActivityServices from 'in-bizops/subscriptions/getActivityServices';
 import { millis, number, percentage } from 'in-services/formatters/number';
-import { businessActivitySummaryPath } from 'in-bizops/navigation/paths';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { serviceDashboard } from 'in-kubernetes/navigation/paths';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { Service, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 interface TopServicesProps {
   businessActivityId: string;
+  businessProcessDefinitionId: string;
 }
 
 const labels = [
@@ -28,7 +34,7 @@ const labels = [
 ];
 
 // This chart displays the top services within an activity
-export default function TopServices({ businessActivityId }: TopServicesProps) {
+export default function TopServices({ businessActivityId, businessProcessDefinitionId }: TopServicesProps) {
   const timeConfig = useTimeConfig();
   return (
     <TopListWithUrlState
@@ -36,8 +42,10 @@ export default function TopServices({ businessActivityId }: TopServicesProps) {
       title={t('in-bizops:dashboards.activity.widgets.topServices')}
       labels={labels}
       formatters={[millis.fixedCompact, number.compact, percentage.detailed]}
+      ViewAll={ViewAll}
       timeConfig={timeConfig}
       businessActivityId={businessActivityId}
+      businessProcessDefinitionId={businessProcessDefinitionId}
       getList={getList}
       Renderer={TopListCardPresenter}
       Label={Label}
@@ -46,16 +54,34 @@ export default function TopServices({ businessActivityId }: TopServicesProps) {
   );
 }
 
+interface viewAllProps {
+  className: string;
+}
+
+// className styling provided by chart component
+function ViewAll({ className }: viewAllProps) {
+  const { createHrefToPath } = useNavigation();
+
+  const viewAllPath: string = createHrefToPath(businessActivityServiceListPath);
+  return (
+    <Link className={className} href={viewAllPath}>
+      {t('in-bizops:dashboards.activity.widgets.viewAll')}
+    </Link>
+  );
+}
+
 type GetListProps = {
   businessActivityId: string;
+  businessProcessDefinitionId: string;
   timeConfig: TimeConfig;
   selectedMetric: string;
 };
 
 // Invoke the websocket to fetch business activity service list data from backend
-function getList({ businessActivityId, timeConfig, selectedMetric }: GetListProps) {
+function getList({ businessActivityId, businessProcessDefinitionId, timeConfig, selectedMetric }: GetListProps) {
   return getActivityServices({
     activityId: businessActivityId,
+    processDefinitionId: businessProcessDefinitionId,
     serviceMetrics: {
       latency: {
         metric: 'latency',
@@ -94,11 +120,17 @@ type LabelProps = {
 // Forms each row in the service chart, including the URL.
 // item is each element returned from the query made in getList
 function Label({ item }: LabelProps) {
+  const { location, createHref } = useNavigation();
+
+  location.pathname = serviceDashboard;
+  setOrDeleteMatrixKey(location, serviceDashboard, 'serviceId', item.service?.id);
+
   let serviceName: string;
   if (item.service?.label) {
     serviceName = item.service?.label;
   } else {
     serviceName = t('in-bizops:lists.unnamedService');
   }
-  return serviceName;
+
+  return <Link href={createHref(location)}>{serviceName}</Link>;
 }

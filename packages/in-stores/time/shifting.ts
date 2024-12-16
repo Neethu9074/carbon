@@ -88,7 +88,7 @@ const defaultTimeShiftConfig: TimeShift = {
   offset: 0
 };
 export function translateOffsetToTimeShiftConfig(
-  timeShift: TimeShiftOffset | TimeShift | Nullish,
+  timeShift: TimeShiftOffset | TimeShift | Nullish | 'auto',
   timeConfig: TimeConfig
 ): TimeShift {
   if (timeShift == null) {
