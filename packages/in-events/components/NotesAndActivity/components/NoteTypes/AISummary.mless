@@ -18,6 +18,7 @@
 
     :global(.cds--popover-container) {
       margin-left: auto;
+      align-items: center;
     }
 
     :global(.cds--inline-loading) {
