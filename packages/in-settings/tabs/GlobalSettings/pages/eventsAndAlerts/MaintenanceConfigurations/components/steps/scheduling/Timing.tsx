@@ -62,7 +62,8 @@ export default function Timing({
   const timeField = windowForm.getIn(['start', 'time']) as Field<string>;
   const duration = (windowForm.get('duration') as Field<Duration>).value;
 
-  const [dateDisplayed, setDateDisplayed] = useState<Date | undefined>(undefined); // necessary for carbon date picker
+  // necessary for carbon date picker as it does not accept strings for dates
+  const [dateDisplayed, setDateDisplayed] = useState<Date | undefined>(undefined);
 
   const asUtc = useObservable(getSetting$('formatTimestampsAsUtc'), ['formatTimestampsAsUtc']);
 
