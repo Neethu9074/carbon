@@ -38,6 +38,7 @@ export default function DateInput(props: DateInputProps) {
       hasError={hasError}
       onChange={date => {
         let singleDate = date;
+        // Carbon can return an array for a date -- change with v11.72
         if (Array.isArray(date)) {
           singleDate = date.length ? date[0] : undefined;
         }
