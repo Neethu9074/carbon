@@ -106,7 +106,7 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'prcIssueEnabled',
+    uiClientKey: 'cveIssueEnabled',
     instanaCtlKey: 'feature.cve.issues.enabled',
     defaultValue: false
   },
