@@ -35,10 +35,10 @@ import {
   globalSettingsAlertingMaintenanceConfigurations,
   getEntityHref
 } from 'in-settings/navigation/paths';
-import { carbonButtonEnabled, recurrentMaintenanceWindowsTabsEnabled } from 'in-services/featureFlags';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/synthetics/components/AlertQueryBuilder';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEditor';
+import { recurrentMaintenanceWindowsTabsEnabled } from 'in-services/featureFlags';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -49,8 +49,6 @@ import List from 'in-settings/components/List';
 import WithIcon from 'in-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
-
-import locals from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration.mless';
 
 export default function RecurrentMaintenanceWindowsList(props) {
   const getStartAsString = entity => getFormattedDateTimeOccurence(entity, 'start');
@@ -166,7 +164,6 @@ export default function RecurrentMaintenanceWindowsList(props) {
                 iconSize="s"
                 kind="subtle"
                 size="compact"
-                className={carbonButtonEnabled ? undefined : locals.shareFeedback}
               >
                 {t('in-settings:tabs.shareFeedback')}
               </Button>
