@@ -12,8 +12,8 @@ import { SvgIcon, CarbonOverflowMenu, CarbonOverflowMenuItem } from '@instana/co
 import { AISummary } from 'in-events/components/NotesAndActivity/components/NoteTypes/AISummary';
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import { TYPE_NOTE, TYPE_EXT_NOTE, TYPE_EXT_F_CHANGE, TYPE_AI_SUMMARY } from '../utils';
-import { noteNameAndTimeFormat, createDataString } from './utils';
 import { dateFormat, timeFormat } from 'in-services/formatters/date';
+import { noteNameAndTimeFormat, createDataString } from './utils';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -219,7 +219,7 @@ export function ChatBubble({
 export function EditDeleteOverflowMenu({ setNote, setEditNoteId, setNeedOverlay, noteId, contents }) {
   return (
     <div className={locals.menuWrapper}>
-      <CarbonOverflowMenu size="sm" align="left" flipped>
+      <CarbonOverflowMenu size="sm" align="left" flipped menuOptionsClass={locals.highIndex}>
         <CarbonOverflowMenuItem
           itemText={t('in-events:notes.edit')}
           onClick={() => {
