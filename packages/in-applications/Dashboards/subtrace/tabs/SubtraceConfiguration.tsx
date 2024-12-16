@@ -13,12 +13,14 @@ import { t } from '@instana/i18n-react';
 import FormFooter, { CancelButton, DeleteButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { SubtraceConfigForm } from 'in-applications/Forms/SubtraceConfiguration/SubtraceConfigForm';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { deleteSubtrace, updateSubtrace } from 'in-applications/api/subtraces';
 import { SubtraceTabData } from 'in-applications/Dashboards/subtrace/tabs';
 import { SubtraceFormFields, SubtraceConfig } from 'in-applications/types';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useSubtraceForm } from 'in-applications/hooks/useSubtraceForm';
+import { subtracesList } from 'in-applications/navigation/paths';
 import { Subtrace } from 'in-applications/lists/SubtracesList';
-import { updateSubtrace } from 'in-applications/api/subtraces';
 import useFormSubmission from 'in-hooks/useFormSubmission';
 import { Nullish } from 'in-types';
 
@@ -41,18 +43,49 @@ export function SubtraceConfiguration({ data: subtrace }: SubtraceConfigurationW
 
 function SubtraceConfigurationContent({ subtraceTabData }: SubtraceConfigurationProps) {
   const subtrace = subtraceTabData as Subtrace;
-  const [formSubmitStatus, doSubmit] = useFormSubmission(updateSubtrace);
+
+  const { goToPath } = useNavigation();
+  const [updateStatus, doUpdate] = useFormSubmission(updateSubtrace);
+  const [deleteStatus, doDelete] = useFormSubmission(deleteSubtrace);
   const { form, isFormValid, updateForm, resetForm } = useSubtraceForm(subtrace);
 
-  const disabled = !form.hierarchyTouched || formSubmitStatus === 'pending';
+  const disabled = !form.hierarchyTouched || updateStatus === 'pending' || deleteStatus === 'pending';
 
   const onHandleSubmit = () => {
     const payload = normalizeFormData(form, subtrace.id);
     const subtraceName = form.get('name').value;
-    doSubmit({
+    doUpdate({
       payload,
-      onSuccess: () => onSaveSuccess(subtraceName),
-      onError: () => onSaveFailure(subtraceName)
+      onSuccess: () =>
+        addSuccessMessage(
+          t('in-applications:subtraces.configuration.success.updated.title'),
+          t('in-applications:subtraces.configuration.success.updated.message', { subtraceName })
+        ),
+      onError: () =>
+        addErrorMessage(
+          t('in-applications:subtraces.configuration.failure.updated.title'),
+          t('in-applications:subtraces.configuration.failure.updated.message', { subtraceName })
+        )
+    });
+  };
+
+  const onHandleDelete = () => {
+    const payload = subtrace.id;
+    const subtraceName = subtrace.name;
+    doDelete({
+      payload,
+      onSuccess: () => {
+        goToPath(subtracesList);
+        addSuccessMessage(
+          t('in-applications:subtraces.configuration.success.deleted.title'),
+          t('in-applications:subtraces.configuration.success.deleted.message', { subtraceName })
+        );
+      },
+      onError: () =>
+        addErrorMessage(
+          t('in-applications:subtraces.configuration.failure.deleted.title'),
+          t('in-applications:subtraces.configuration.failure.deleted.message', { subtraceName })
+        )
     });
   };
 
@@ -62,20 +95,18 @@ function SubtraceConfigurationContent({ subtraceTabData }: SubtraceConfiguration
       <Spacer vertical="normal" />
       <FormFooter withoutCarbonLayer className={locals.formFooter}>
         <DeleteButton
-          onClick={() => {
-            // TODO: implement delete with redirection to ???
-          }}
+          onClick={() => onHandleDelete()}
           form={form}
-          isDeleting={false}
+          isDeleting={deleteStatus === 'pending'}
           icon="lib_actions_delete"
         />
         <div>
           <CancelButton onClick={() => resetForm()} disabled={disabled} />
           <SaveButton
             form={form}
-            isSaving={formSubmitStatus === 'pending'}
+            isSaving={updateStatus === 'pending'}
             disabled={!isFormValid || disabled}
-            onClick={onHandleSubmit}
+            onClick={() => onHandleSubmit()}
           />
         </div>
       </FormFooter>
@@ -83,27 +114,27 @@ function SubtraceConfigurationContent({ subtraceTabData }: SubtraceConfiguration
   );
 }
 
-function onSaveSuccess(subtraceName: string) {
+function addSuccessMessage(title: string, content: string) {
   addMessage(
     {
       type: 'info',
       timeout: 4000,
-      title: t('in-applications:subtraces.configuration.success.title'),
-      content: t('in-applications:subtraces.configuration.success.message', { subtraceName, action: 'updated' })
+      title,
+      content
     },
-    'save-subtrace-success'
+    'subtrace-success'
   );
 }
 
-function onSaveFailure(subtraceName: string) {
+function addErrorMessage(title: string, content: string) {
   addMessage(
     {
       type: 'danger',
       timeout: 4000,
-      title: t('in-applications:subtraces.configuration.failure.title'),
-      content: t('in-applications:subtraces.configuration.failure.message', { subtraceName, action: 'update' })
+      title,
+      content
     },
-    'save-subtrace-failure'
+    'subtrace-failure'
   );
 }
 

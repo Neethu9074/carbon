@@ -167,8 +167,18 @@
     },
     "configuration": {
       "success": {
-        "title": "Subtrace {{action}} successfully",
-        "message": "Subtrace \"{{subtraceName}}\" has been {{action}}."
+        "created": {
+          "title": "Subtrace created successfully",
+          "message": "Subtrace \"{{subtraceName}}\" has been created."
+        },
+        "updated": {
+          "title": "Subtrace updated successfully",
+          "message": "Subtrace \"{{subtraceName}}\" has been updated."
+        },
+        "deleted": {
+          "title": "Subtrace deleted successfully",
+          "message": "Subtrace \"{{subtraceName}}\" has been deleted."
+        }
       },
       "failure": {
         "title": "Failed to {{action}} Subtrace",
