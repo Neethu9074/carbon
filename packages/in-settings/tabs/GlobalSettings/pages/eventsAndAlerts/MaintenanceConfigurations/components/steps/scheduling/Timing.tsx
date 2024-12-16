@@ -147,7 +147,10 @@ export default function Timing({
                         if (dateArray && dateArray.length > 0) {
                           const date = dateArray[0];
                           setDateDisplayed(dateDisplayed);
-                          setValue(form, ['window', 'start', 'date'], formatDate(date));
+
+                          const dateString = formatDate(date);
+
+                          setValue(form, ['window', 'start', 'date'], dateString);
                         }
                       }}
                       hasError={!dateField.valid && dateField.touched}
