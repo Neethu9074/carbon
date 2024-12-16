@@ -33,7 +33,7 @@ interface SubtraceConfigurationProps {
 }
 
 export function SubtraceConfiguration({ data: subtrace }: SubtraceConfigurationWrapperProps) {
-  if (!subtrace || !subtrace.id) {
+  if (!subtrace?.id) {
     return null;
   }
   return <SubtraceConfigurationContent subtraceTabData={subtrace} />;
