@@ -1,4 +1,0 @@
-namePrefix: ui-client-
-resources:
-- hello-pr.yaml
-- pipeline.yaml

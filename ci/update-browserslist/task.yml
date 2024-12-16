@@ -73,6 +73,23 @@ run:
       if [ "$ACTIVE_PRS" = "" ] ; then
         echo "No existing PRs found, creating a new one"
         gh pr create --head browserslist-update-pr --repo instana/ui-client --title "Update browserslist" --body-file update-browserslist-pr-body.txt
+
+        # Wait for the PR to be created and retrievable
+        sleep 3
+        PR=$(gh pr list -S "Update browserslist" -B "${1:-develop}")
+        PR_ID=$(echo $PR | cut -d " " -f1)
+
+        ## -- this is kept for reference. TODO need to login as another user to approve this pr.
+        ## Login as pr-approval
+        ## echo "-- Login to GitHub as pr-approval"
+        ## gh auth login --hostname github.ibm.com --with-token <<< "((ibm-github-e-api-token))"
+
+        ## echo "-- Approve the pull request"
+        ## gh pr checkout ${PR_ID}
+        ## gh pr review --approve
+
+        echo "-- Enable auto merge squash"
+        gh pr merge --auto -s
       else
         echo "Stopping pipeline, because a PR already exists: $ACTIVE_PRS"
         exit 0;

@@ -293,7 +293,6 @@ def rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instan
         def currentBackendTag = "${backendRepoPath}/${it}:${backendStableImageVersion}"
         def newBackendTag = "${backendRepoPath}/${it}:${instanaImageVersion}"
         rebuildBackendComponents[it] = {
-          lock(resource: "build-ui-client-rebuild-backend-${branchName}", quantity: 10) {
             withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId:'delivery-instana-io-internal-project-artifact-read-writer-creds', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
               sh """
               INSTANA_ARTIFACTORY_USERNAME=$USERNAME INSTANA_ARTIFACTORY_PASSWORD=$PASSWORD \
@@ -303,8 +302,7 @@ def rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instan
               "--build-arg current_fully_qualified_tag=${currentBackendTag} --label com.instana.image.tag=${instanaImageVersion}"
               """
             }
-          }
-      }
+        }
     }
     parallel rebuildBackendComponents
 
