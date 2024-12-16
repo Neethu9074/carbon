@@ -23,6 +23,8 @@ import Tooltip from 'in-components/Tooltip/Tooltip';
 import { ScoredAction } from 'in-automation/types';
 import { t } from 'in-i18n';
 
+import locals from 'in-automation/ActionTable/columnDefinitions.mless';
+
 function NameColumn({ action }: { action: Action | ScoredAction }) {
   const name = action.name;
   const hrefToActionDetails = useHrefToActionDetails();
@@ -31,20 +33,19 @@ function NameColumn({ action }: { action: Action | ScoredAction }) {
   const isAIActions = location.matrix[actionCatalog]?.view && location.matrix[actionCatalog]?.view === 'ai';
 
   return (
-    <Tooltip content={name} align="auto" delay={500} overwriteBlock caret={false}>
-      <WithSubscript subscript={ACTION_TRANSLATIONS[action.type]}>
-        <Link
-          href={hrefToActionDetails(action.id, false)}
-          onClick={() => {
-            if (isAIActions) {
-              viewAIGenaratedActionTrackerSegment({ actionName: action.name, actionType: action.type });
-            }
-          }}
-        >
-          {name}
-        </Link>
-      </WithSubscript>
-    </Tooltip>
+    <WithSubscript subscript={ACTION_TRANSLATIONS[action.type]}>
+      <Link
+        className={locals.ellipsis}
+        href={hrefToActionDetails(action.id, false)}
+        onClick={() => {
+          if (isAIActions) {
+            viewAIGenaratedActionTrackerSegment({ actionName: action.name, actionType: action.type });
+          }
+        }}
+      >
+        {name}
+      </Link>
+    </WithSubscript>
   );
 }
 

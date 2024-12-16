@@ -17,7 +17,7 @@ import { ACTION_TRANSLATIONS } from 'in-automation/constants';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/components/IconLabel.mless';
+import locals from 'in-automation/PolicyTable/columnDefinitions.mless';
 
 function Subscript({ policy }: { policy: Policy }) {
   if (isManual(policy) && isAutomatic(policy)) {
