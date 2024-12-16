@@ -37,10 +37,17 @@ export default function DateInput(props: DateInputProps) {
       disabled={disabled}
       hasError={hasError}
       onChange={date => {
-        if (date === undefined || Array.isArray(date)) return onChange(undefined);
-        // date can be provided as a Date object or a date string --> onChange expects a string so convert.
-        // javascript does not provide a method to test for Date object specifically.
-        onChange(convertDateObj(typeof date === 'object' ? new Date(date.toString()) : date));
+        let singleDate = date;
+        if (Array.isArray(date)) {
+          singleDate = date.length ? date[0] : undefined;
+        }
+        if (singleDate === undefined) {
+          onChange(undefined);
+        } else {
+          // date can be provided as a Date object or a date string --> onChange expects a string so convert.
+          // javascript does not provide a method to test for Date object specifically.
+          onChange(convertDateObj(typeof singleDate === 'object' ? new Date(singleDate.toString()) : singleDate));
+        }
       }}
       dateFormat={dateFormat}
       locale={activeLanguage?.split('-')[0]}
