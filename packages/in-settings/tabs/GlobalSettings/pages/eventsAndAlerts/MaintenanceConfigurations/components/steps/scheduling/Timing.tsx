@@ -6,10 +6,10 @@
 
 import { Field, Item, MapForm } from 'formalistic';
 import { isValid, parse } from 'date-fns';
+import React, { useState } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
-import { Message, Stack, StackItem, SvgIcon } from '@instana/components';
+import { Message, Stack, StackItem, SvgIcon, DateInput as CarbonDateInput } from '@instana/components';
 import { Duration, TimeUnitType } from '@instana/types';
 import { Link, Toggle } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -17,14 +17,13 @@ import { useObservable } from '@instana/hooks';
 //import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import formatInputTime from 'in-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
+import { dateFormat, dateTimeFormat, formatDate } from 'in-services/formatters/date';
 import { getEntityIdView, userSettingsGeneral } from 'in-settings/navigation/paths';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import { dateFormat, dateTimeFormat } from 'in-services/formatters/date';
 import ComboBox, { Option } from 'in-components/ComboBox';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import FormGroup from 'in-components/form/FormGroup';
-import DateInput from 'in-components/form/DateInput';
 import { getSetting$ } from 'in-services/settings';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -62,6 +61,9 @@ export default function Timing({
   const dateField = windowForm.getIn(['start', 'date']) as Field<string>;
   const timeField = windowForm.getIn(['start', 'time']) as Field<string>;
   const duration = (windowForm.get('duration') as Field<Duration>).value;
+
+  // necessary for carbon date picker as it does not accept strings for dates
+  const [dateDisplayed, setDateDisplayed] = useState<Date | undefined>(undefined);
 
   const asUtc = useObservable(getSetting$('formatTimestampsAsUtc'), ['formatTimestampsAsUtc']);
 
@@ -136,11 +138,21 @@ export default function Timing({
                     </Label>
                   </HorizontalFlexWrapper>
                   <ErrorBoundary name="dateInput-timing-RMW">
-                    <DateInput
+                    <CarbonDateInput
                       id={`maintenance-start-date`}
                       placeholder="YYYY-MM-DD"
-                      value={dateField.value}
-                      onChange={v => setValue(form, ['window', 'start', 'date'], v)}
+                      value={dateDisplayed}
+                      //@ts-expect-error
+                      onChange={(dateArray: Date[] | undefined) => {
+                        if (dateArray && dateArray.length > 0) {
+                          const date = dateArray[0];
+                          setDateDisplayed(dateDisplayed);
+
+                          const dateString = formatDate(date);
+
+                          setValue(form, ['window', 'start', 'date'], dateString);
+                        }
+                      }}
                       hasError={!dateField.valid && dateField.touched}
                     />
                   </ErrorBoundary>
