@@ -32,8 +32,18 @@ export default function CreateSubtraceDialog() {
     const subtraceName = form.get('name').value;
     doSubmit({
       payload,
-      onSuccess: () => onSaveSuccess(subtraceName),
-      onError: () => onSaveFailure(subtraceName)
+      onSuccess: () => {
+        close();
+        addSuccessMessage(
+          t('in-applications:subtraces.configuration.success.created.title'),
+          t('in-applications:subtraces.configuration.success.created.message', { subtraceName })
+        );
+      },
+      onError: () =>
+        addErrorMessage(
+          t('in-applications:subtraces.configuration.failure.created.title'),
+          t('in-applications:subtraces.configuration.failure.created.message', { subtraceName })
+        )
     });
   };
 
@@ -55,28 +65,27 @@ export default function CreateSubtraceDialog() {
   );
 }
 
-function onSaveSuccess(subtraceName: string) {
+function addSuccessMessage(title: string, content: string) {
   addMessage(
     {
       type: 'info',
       timeout: 4000,
-      title: t('in-applications:subtraces.configuration.success.title'),
-      content: t('in-applications:subtraces.configuration.success.message', { subtraceName, action: 'created' })
+      title,
+      content
     },
-    'save-subtrace-success'
+    'subtrace-success'
   );
-  close();
 }
 
-function onSaveFailure(subtraceName: string) {
+function addErrorMessage(title: string, content: string) {
   addMessage(
     {
       type: 'danger',
       timeout: 4000,
-      title: t('in-applications:subtraces.configuration.failure.title'),
-      content: t('in-applications:subtraces.configuration.failure.message', { subtraceName, action: 'create' })
+      title,
+      content
     },
-    'save-subtrace-failure'
+    'subtrace-failure'
   );
 }
 
