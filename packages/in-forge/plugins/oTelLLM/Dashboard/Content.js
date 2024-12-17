@@ -25,14 +25,38 @@ import { t } from 'in-i18n';
 export default function OTelLLMDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const metricIds = snapshot.get('metricIds');
-  const tokens = metricIds.filter(metric => metric.includes('llm.usage.total_tokens')).toArray();
-  const inputTokens = metricIds.filter(metric => metric.includes('llm.usage.input_tokens')).toArray();
-  const outputTokens = metricIds.filter(metric => metric.includes('llm.usage.output_tokens')).toArray();
-  const costs = metricIds.filter(metric => metric.includes('llm.usage.cost')).toArray();
-  const inputCosts = metricIds.filter(metric => metric.includes('llm.usage.input_cost')).toArray();
-  const outputCosts = metricIds.filter(metric => metric.includes('llm.usage.output_cost')).toArray();
-  const count = metricIds.filter(metric => metric.includes('llm.request.count')).toArray();
-  const durations = metricIds.filter(metric => metric.includes('llm.response.duration')).toArray();
+  const tokens = metricIds
+    .filter(metric => metric.includes('llm.usage.total_tokens'))
+    .sort()
+    .toArray();
+  const inputTokens = metricIds
+    .filter(metric => metric.includes('llm.usage.input_tokens'))
+    .sort()
+    .toArray();
+  const outputTokens = metricIds
+    .filter(metric => metric.includes('llm.usage.output_tokens'))
+    .sort()
+    .toArray();
+  const costs = metricIds
+    .filter(metric => metric.includes('llm.usage.cost'))
+    .sort()
+    .toArray();
+  const inputCosts = metricIds
+    .filter(metric => metric.includes('llm.usage.input_cost'))
+    .sort()
+    .toArray();
+  const outputCosts = metricIds
+    .filter(metric => metric.includes('llm.usage.output_cost'))
+    .sort()
+    .toArray();
+  const count = metricIds
+    .filter(metric => metric.includes('llm.request.count'))
+    .sort()
+    .toArray();
+  const durations = metricIds
+    .filter(metric => metric.includes('llm.response.duration'))
+    .sort()
+    .toArray();
   const getDashboardLink = useGetDashboardLink();
 
   const instanceId = snapshot.get('data').get('resource.service.instance.id');
