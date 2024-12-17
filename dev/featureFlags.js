@@ -8,6 +8,7 @@
 // in-services/featureFlags
 module.exports = {
   timeOutSessionEnabled: true,
+  iframeEnabled: true,
   agentMonitoringIssuesEnabled: true,
   cveIssueEnabled: false,
   businessObservabilityEnabled: true,
