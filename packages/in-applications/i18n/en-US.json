@@ -181,8 +181,18 @@
         }
       },
       "failure": {
-        "title": "Failed to {{action}} Subtrace",
-        "message": "There was a problem while trying to {{action}} this Subtrace: \"{{subtraceName}}\""
+        "created": {
+          "title": "Failed to create Subtrace",
+          "message": "There was a problem while trying to create this Subtrace: \"{{subtraceName}}\""
+        },
+        "updated": {
+          "title": "Failed to update Subtrace",
+          "message": "There was a problem while trying to update this Subtrace: \"{{subtraceName}}\""
+        },
+        "deleted": {
+          "title": "Failed to delete Subtrace",
+          "message": "There was a problem while trying to delete this Subtrace: \"{{subtraceName}}\""
+        }
       },
       "title": "Update subtrace",
       "subtraceName": "Subtrace name",
