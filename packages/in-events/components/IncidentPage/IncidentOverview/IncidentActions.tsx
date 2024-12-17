@@ -36,8 +36,6 @@ import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
 import { isSloSmartAlertEvent } from 'in-events/components/eventUtil';
 import { aqmDisableConfigOnEventViewEnabled, manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import DisableEventConfigButton from 'in-events/components/tabs/Summary/DisableEventConfigButton';
-// @ts-expect-error No typedef available
-import EventIcon from 'in-events/components/EventIcon';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
 import AnalyzeMobileAppEventButton from 'in-events/components/AnalyzeMobileAppEventButton';
@@ -55,6 +53,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import useSloEventEntity from 'in-events/hooks/useSloEventEntity';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
+import EventIcon from 'in-events/components/EventIcon';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { EventOrMap } from 'in-events/types';
 import { role } from 'in-stores/user';

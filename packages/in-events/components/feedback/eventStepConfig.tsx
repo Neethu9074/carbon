@@ -12,16 +12,16 @@ import { Stack, Typography } from '@instana/components';
 import { Error, ManualCloseInfo } from '@instana/types';
 import { Observable } from '@instana/observables';
 
+import { EVENT_TYPES, getEventSeverityLabelWithEventType, getEventType } from 'in-stores/events';
 import problematic_end from 'in-events/components/feedback/assets/problematic_end.png';
 import feedback_two from 'in-events/components/feedback/assets/feedback_two.png';
 import FeedbackStepThree from 'in-events/components/feedback/FeedbackStepThree';
 import FeedbackStepOne from 'in-events/components/feedback/FeedbackStepOne';
 import FeedbackStepTwo from 'in-events/components/feedback/FeedbackStepTwo';
 import { FeedbackConfigEventForm } from 'in-events/components/feedback/api';
-//@ts-expect-error
-import EventIcon from 'in-events/components/EventIcon';
 import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
-import { EVENT_TYPES, getEventType } from 'in-stores/events';
+import { getTimeConfigFromEvent } from 'in-events/timeframe';
+import EventIcon from 'in-events/components/EventIcon';
 import { manuallyCloseIssue } from 'in-events/api';
 import { EventOrMap } from 'in-events/types';
 import { role, user } from 'in-stores/user';
@@ -133,7 +133,13 @@ export const eventStepConfig: IStepConfig = {
     DescriptionComponent: ({ eventData }: FeedbackStepConfigs) => (
       <Stack>
         <Stack direction="horizontal" gap="xsmall">
-          <EventIcon event={eventData} />
+          <EventIcon
+            event={eventData}
+            tooltipLabel={getEventSeverityLabelWithEventType(
+              eventData as EventOrMap,
+              getTimeConfigFromEvent(eventData as EventOrMap)
+            )}
+          />
           <Typography variant="heading-100">{eventData?.getIn(['problem', 'problemText'], '')}</Typography>
         </Stack>
         <Typography variant="body-regular">

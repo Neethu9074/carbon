@@ -45,14 +45,13 @@ import { EventListItemSkeleton } from 'in-events/components/legacy/EventListItem
 import PopulationChart from 'in-events/components/legacy/PopulationChart';
 // @ts-expect-error no typedef available
 import EndedMarker from 'in-events/components/legacy/marker/EndedMarker';
-// @ts-expect-error no typedef available
-import EventIcon from 'in-events/components/EventIcon';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { carbonPaginationEnabled } from 'in-services/featureFlags';
 import { emptyList } from 'in-services/fixedImmutables';
+import EventIcon from 'in-events/components/EventIcon';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Pagination from 'in-components/Pagination';

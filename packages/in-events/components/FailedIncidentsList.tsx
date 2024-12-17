@@ -11,8 +11,6 @@ import { useObservable } from '@instana/hooks';
 
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
-//@ts-expect-error
-import EventIcon from 'in-events/components/EventIcon';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
@@ -21,6 +19,7 @@ import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import { close } from 'in-components/DialogPresenter/store';
 import { toHtml } from 'in-services/formatters/markdown';
 import { eventsPath } from 'in-events/navigation/paths';
+import EventIcon from 'in-events/components/EventIcon';
 import { getEvents } from 'in-events/api';
 import { t } from 'in-i18n';
 
