@@ -29,9 +29,9 @@ export default connectTo(
 
       // This starts the logic in order to force focus trap inside the overlay
       const id = this.props.id;
-      const overlayElement = document.querySelectorAll(`[data-overlay-id=${id}]`)[0];
-      const startElement = document.querySelectorAll(`[id=start-${id}]`)[0];
-      const endElement = document.querySelectorAll(`[id=end-${id}]`)[0];
+      const overlayElement = document.querySelector(`[data-overlay-id=${id}]`);
+      const startElement = document.getElementById(`start-${id}`);
+      const endElement = document.getElementById(`end-${id}`);
       const triggerTabKey = (shiftKey = false) => {
         const event = new KeyboardEvent('keydown', {
           key: 'Tab',
@@ -41,25 +41,27 @@ export default connectTo(
         });
         document.dispatchEvent(event);
       };
-      overlayElement.addEventListener('keydown', event => {
-        if (event.key === 'Tab' && !event.shiftKey) {
-          // TAB
-          triggerTabKey(false);
-          // If we tab and reach the overlay-end-trap we want to wrap back to the start
-          if (document.activeElement && document.activeElement.getAttribute('ID') == `end-${id}`) {
-            startElement.focus();
+      if (overlayElement) {
+        overlayElement.addEventListener('keydown', event => {
+          if (event.key === 'Tab' && !event.shiftKey) {
+            // TAB
             triggerTabKey(false);
-          }
-        } else if (event.shiftKey && event.key === 'Tab') {
-          // SHIFT TAB
-          triggerTabKey(true);
-          // If we tab and reach the overlay-start-trap we want to wrap back to the end
-          if (document.activeElement && document.activeElement.getAttribute('ID') == `start-${id}`) {
-            endElement.focus();
+            // If we tab and reach the overlay-end-trap we want to wrap back to the start
+            if (document.activeElement && document.activeElement.getAttribute('ID') == `end-${id}`) {
+              startElement?.focus();
+              triggerTabKey(false);
+            }
+          } else if (event.shiftKey && event.key === 'Tab') {
+            // SHIFT TAB
             triggerTabKey(true);
+            // If we tab and reach the overlay-start-trap we want to wrap back to the end
+            if (document.activeElement && document.activeElement.getAttribute('ID') == `start-${id}`) {
+              endElement?.focus();
+              triggerTabKey(true);
+            }
           }
-        }
-      });
+        });
+      }
     }
 
     componentWillUnmount() {
@@ -70,8 +72,8 @@ export default connectTo(
 
       // Now we need to remove the event listeners used for focus trap
       const id = this.props.id;
-      const overlayElement = document.querySelectorAll(`[data-overlay-id=${id}]`)[0];
-      overlayElement.removeEventListener('keydown', () => {});
+      const overlayElement = document.querySelector(`[data-overlay-id=${id}]`);
+      if (overlayElement) overlayElement.removeEventListener('keydown', () => {});
     }
 
     componentDidUpdate() {
