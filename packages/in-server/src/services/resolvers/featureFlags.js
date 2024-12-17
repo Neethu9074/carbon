@@ -21,6 +21,16 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'timeOutSessionEnabled',
+    instanaCtlKey: 'feature.sessiontimeout.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'iframeEnabled',
+    instanaCtlKey: 'feature.customdashboard.iframe.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'useInstanaSaasEumTrackingUrlEnabled',
     instanaCtlKey: 'feature.use.instana.saas.eum.tracking.url.enabled',
     defaultValue: true
