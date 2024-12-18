@@ -4,7 +4,14 @@
  * Copyright IBM Corp. 2024
  */
 
-import { customRealmName, productCode, productCodeType, productTitle, ut30 } from 'in-services/util/constants';
+import {
+  customRealmName,
+  productCode,
+  productCodeType,
+  productPlatformTitle,
+  productTitle,
+  ut30
+} from 'in-services/util/constants';
 //@ts-expect-error
 import { Segment } from 'in-services/tracking/segment/SegmentInit';
 import { getLicenseTypeForSegment } from 'in-services/util/segmentLicenseType';
@@ -47,6 +54,7 @@ export const eventTracker = ({ data, segmentEventName }: EventTrackerProps) => {
       productTitle: productTitle,
       url: url,
       altUserId: userId,
+      platformTitle: productPlatformTitle,
       roles: [userSelfDefinedRole],
       'user.bluemixId': userId
     };

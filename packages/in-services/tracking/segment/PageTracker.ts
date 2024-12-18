@@ -6,7 +6,7 @@
 
 import { useEffect } from 'react';
 
-import { productCode, productCodeType, productTitle, ut30 } from 'in-services/util/constants';
+import { productCode, productCodeType, productPlatformTitle, productTitle, ut30 } from 'in-services/util/constants';
 //@ts-expect-error
 import { Segment } from 'in-services/tracking/segment/SegmentInit';
 import { getLicenseTypeForSegment } from 'in-services/util/segmentLicenseType';
@@ -57,6 +57,7 @@ const usePageTracker = ({ productArea, pageRootName }: PageTrackerProps) => {
       productTitle: productTitle,
       url: url,
       altUserId: userId,
+      platformTitle: productPlatformTitle,
       roles: [userSelfDefinedRole],
       'user.bluemixId': userId
     });
