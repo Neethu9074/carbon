@@ -13,5 +13,5 @@ export default createSubscription<
     idleTimeout: number; // represents the timestamp in milliseconds (UTC)
   }
 >({
-  eventId: 'getSessionTimeouts'
+  eventId: 'subscribe-session-timeouts'
 });
