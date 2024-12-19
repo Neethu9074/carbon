@@ -13,9 +13,9 @@ import { t } from '@instana/i18n-react';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 // @ts-expect-error needs ts migration
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
-import { useLinkToSubtraceDashboard } from 'in-applications/navigation/hooks/useLinkToSubtraceDashboard';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import CreateSubtraceDialog from 'in-applications/creation/Dialog/CreateSubtraceDialog';
+import { useLinkToSubtraceDashboard } from 'in-applications/navigation/paths';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
@@ -45,7 +45,7 @@ export interface Subtrace {
 
 const SubtraceLink = ({ item }: { item: Subtrace }) => {
   const getLinkToSubtraceDashboard = useLinkToSubtraceDashboard();
-  return <Link href={getLinkToSubtraceDashboard({ id: item.id })}>{item.name}</Link>;
+  return <Link href={getLinkToSubtraceDashboard({ subtraceId: item.id })}>{item.name}</Link>;
 };
 
 const columnDefinitions: ColumnDefinition<Subtrace>[] = [
