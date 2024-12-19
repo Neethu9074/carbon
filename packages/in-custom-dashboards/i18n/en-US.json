@@ -833,6 +833,14 @@
         "tagNoValue": "Tag '{{labelname}}' present with no value"
       }
     },
+    "iFrame": {
+      "title": "iFrame",
+      "previewTitle": "Rendering https://...",
+      "form": {
+        "heading": "Which page would you like to embed?",
+        "title": "Enter URL"
+      }
+    },
     "applicationHealth": {
       "index": {
         "applicationHealth": "Health Overview"

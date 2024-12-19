@@ -31,8 +31,8 @@ const useSideEffect = createSideEffectHook(
 export default function ViewTrackingMeta({ data }: Props) {
   const { productArea, pageRootName } = data;
   usePageTracker({
-     productArea,
-     pageRootName
+    productArea,
+    pageRootName
   });
   if (productArea && pageRootName) {
     setViewTrackingDataValues(productArea, pageRootName);

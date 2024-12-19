@@ -35,12 +35,11 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import useMobileAppEventEntity from 'in-events/hooks/useMobileAppEventEntity';
 import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
-// @ts-expect-error
-import EventIcon from 'in-events/components/EventIcon';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
+import EventIcon from 'in-events/components/EventIcon';
 import { Row, Col } from 'in-components/layout/Grid';
 import { EventOrMap } from 'in-events/types';
 import { role } from 'in-stores/user';

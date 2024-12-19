@@ -25,7 +25,7 @@ export default class Overlay<FORWARDED_CONTENT_PROPS> extends React.Component<
 > {
   state: OverlayState = {
     isOpen: false,
-    id: generateUniqueShortId(),
+    id: `overlay_${generateUniqueShortId()}`,
     wrapper: null,
     parentOverlay: null
   };

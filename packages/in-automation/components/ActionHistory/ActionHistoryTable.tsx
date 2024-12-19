@@ -200,7 +200,7 @@ export default function ActionHistoryTable({
       width: 20,
       getContent(row: ActionInstance) {
         return (
-          <Tooltip content={row.actionName} align="topLeft" delay={500} overwriteBlock>
+          <Tooltip content={row.actionName} align="auto" delay={500}>
             <WithSubscript subscript={ACTION_TRANSLATIONS[row.type]}>
               <div
                 className={classNames({
@@ -221,7 +221,7 @@ export default function ActionHistoryTable({
       width: 15,
       getContent(row: ActionInstance) {
         return (
-          <Tooltip content={row.actorName} align="topLeft" delay={500} overwriteBlock>
+          <Tooltip content={row.actorName} align="auto" delay={500} overwriteBlock>
             <WithSubscript subscript={getActorType(row.actorType ?? 'ACTOR_UNKNOWN')}>
               <div
                 className={classNames({
@@ -258,7 +258,7 @@ export default function ActionHistoryTable({
       width: 25,
       getContent(row: ActionInstance) {
         return (
-          <Tooltip content={row.problemText} align="topLeft" delay={500}>
+          <Tooltip content={row.problemText} align="auto" delay={500}>
             <div
               className={classNames({
                 [locals.smallColumn]: row?.problemText && row?.problemText.length > 60

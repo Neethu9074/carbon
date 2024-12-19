@@ -11,7 +11,6 @@ import { Observable } from '@instana/observables';
 
 import { useVulnerabilityTracker } from 'in-events/useVulnerabilityTracker';
 import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { getButtonKindBySeverity } from 'in-stores/events';
 import { t } from 'in-i18n';
 
@@ -44,7 +43,6 @@ export default function CveIndicatorButtonPresenter({
 }: CveIndicatorButtonPresenterProps) {
   const isWithoutIssues = maxSeverity === 0 && showCheckAsNeutral;
   const kind = isWithoutIssues ? 'create' : getButtonKindBySeverity(maxSeverity);
-  const icon = isWithoutIssues ? 'lib_check' : 'lib_events_cve';
   const isWarning = kind === 'warning';
   const isDanger = kind === 'danger';
   const { trackVulnerabilityInContainerDashboard } = useVulnerabilityTracker();
@@ -54,39 +52,25 @@ export default function CveIndicatorButtonPresenter({
       onClick();
     }
   };
-  if (carbonButtonEnabled) {
-    return (
-      <Button
-        kind="tertiary"
-        onClick={handleClick}
-        href$={href$}
-        size={size ? size : 'compact'}
-        refSetter={refSetter}
-        className={classNames({
-          [locals.noIssues]: isWithoutIssues,
-          [locals.warning]: isWarning,
-          [locals.danger]: isDanger
-        })}
-        icon={isWithoutIssues ? undefined : isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
-        disabled={!onClick && !href$}
-      >
-        <Stack direction="horizontal" gap="xsmall" align={isWarning ? undefined : 'center'}>
-          <HealthIcon disabled={!onClick && !href$} severity={maxSeverity} iconSize="xs" />
-          {getLabel(openIssues, openIncidents)}
-        </Stack>
-      </Button>
-    );
-  }
   return (
     <Button
-      kind={kind}
-      icon={icon}
+      kind="tertiary"
       onClick={handleClick}
       href$={href$}
+      size={size ? size : 'compact'}
       refSetter={refSetter}
+      className={classNames({
+        [locals.noIssues]: isWithoutIssues,
+        [locals.warning]: isWarning,
+        [locals.danger]: isDanger
+      })}
+      icon={isWithoutIssues ? undefined : isOpen ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
       disabled={!onClick && !href$}
     >
-      {getLabel(openIssues, openIncidents)}
+      <Stack direction="horizontal" gap="xsmall" align={isWarning ? undefined : 'center'}>
+        <HealthIcon disabled={!onClick && !href$} severity={maxSeverity} iconSize="xs" />
+        {getLabel(openIssues, openIncidents)}
+      </Stack>
     </Button>
   );
 }
@@ -104,32 +88,20 @@ function getLabel(openIssues?: number, openIncidents?: number): string {
 
 function getIssueLabel(count: number): string {
   if (count === 0) {
-    return carbonButtonEnabled
-      ? t('in-components:vulnerabilities.carbonNoVulnerabilities')
-      : t('in-components:vulnerabilities.noVulnerabilities');
+    return t('in-components:vulnerabilities.noVulnerabilities');
   }
 
-  return carbonButtonEnabled
-    ? t('in-components:vulnerabilities.carbonOpenVulnerabilities', {
-        count
-      })
-    : t('in-components:vulnerabilities.openVulnerabilities', {
-        count
-      });
+  return t('in-components:vulnerabilities.openVulnerabilities', {
+    count
+  });
 }
 
 function getIncidentLabel(count: number): string {
   if (count === 0) {
-    return carbonButtonEnabled
-      ? t('in-components:vulnerabilities.carbonNoIncidents')
-      : t('in-components:vulnerabilities.noIncidents');
+    return t('in-components:vulnerabilities.noIncidents');
   }
 
-  return carbonButtonEnabled
-    ? t('in-components:vulnerabilities.carbonOpenIncidents', {
-        count
-      })
-    : t('in-components:vulnerabilities.openIncidents', {
-        count
-      });
+  return t('in-components:vulnerabilities.openIncidents', {
+    count
+  });
 }

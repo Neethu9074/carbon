@@ -18,6 +18,10 @@
     padding-top: 10px;
   }
 
+  .highIndex {
+    z-index: 9211;
+  }
+
   .snowIcon {
     fill: #62d84e;
   }
