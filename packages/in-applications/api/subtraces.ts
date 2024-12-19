@@ -4,20 +4,25 @@
  * Copyright IBM Corp. 2024
  */
 
+import { create } from '@instana/observables';
+
 import { NewSubtraceConfig, SubtraceConfig } from 'in-applications/types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { Subtrace } from 'in-applications/lists/SubtracesList';
 import http from 'in-services/http';
 
 const basePath = '/api/application-monitoring/settings/subtrace';
+const refreshSignal$ = create<string>().emit('');
 
 export const getSubtraces = () => {
-  return http<Subtrace[]>({
-    method: 'GET',
-    maxRetries: 3,
-    url: basePath,
-    mapToResultObject: true
-  });
+  return refreshSignal$.flatMap(() =>
+    http<Subtrace[]>({
+      method: 'GET',
+      maxRetries: 3,
+      url: basePath,
+      mapToResultObject: true
+    })
+  );
 };
 
 export const createSubtrace = (subtrace: NewSubtraceConfig) => {
@@ -28,6 +33,9 @@ export const createSubtrace = (subtrace: NewSubtraceConfig) => {
     headers: getCsrfHeader(),
     data: subtrace,
     mapToResultObject: true
+  }).map(result => {
+    if (result.data?.id) refreshSignal$.emit(result.data.id);
+    return result;
   });
 };
 
