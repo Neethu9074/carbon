@@ -13,11 +13,18 @@
     height: 31px;
   }
 
-  .title h2 {
+  .title h2,
+  .trackingScriptTitle h2 {
     margin: unset;
   }
 
-  .configurationBlock > div > div:first-child {
-    padding-bottom: 12px !important;
+  .configurationBlock {
+    padding: 1.5rem;
+  }
+  .title {
+    padding-bottom: 0.5rem !important;
+  }
+  .trackingScriptTitle {
+    padding-bottom: 2rem !important;
   }
 }

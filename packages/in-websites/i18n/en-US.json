@@ -351,6 +351,7 @@
     "trackingSnippetPresenterLabelSRI": "Enable Subresource Integrity (SRI)",
     "enableSubResourceIntegrityHelpText": "Subresource Integrity (SRI) is a security feature that ensures browsers can verify the resources they fetch.",
     "trackingSnippetPresenterLabelAgentVersion": "Select agent version",
+    "OldAgentVersionInfoMessage": "Older agent versions might not support all features. To ensure you can access current capabilities, select the latest agent version.",
     "trackingSnippetPresenterToggleYes": "Yes",
     "trackingSnippetPresenterToggleNo": "No",
     "trackingSnippetPresenterAgentVersion": "Version",
@@ -525,7 +526,7 @@
         "configurationRemoveButton": "Remove website",
         "configurationRenameTitle": "Rename your website",
         "configurationRenameButton": "Rename",
-        "configurationTrackingScriptTitle": "Setup an agent tracking script",
+        "configurationTrackingScriptTitle": "Set up an agent tracking script",
         "saved": "Saved",
         "ipMasking": {
           "title": "IP masking",
@@ -867,7 +868,7 @@
     }
   },
   "rename": {
-    "help": "Renaming a website is an eventually consistent action within the Instana system. For this reason, a change to a website name may take up to a few minutes until it has populated throughout the whole system."
+    "help": "Renaming a website is an eventually consistent action within the Instana system. For this reason, a change to a website name may take up to a few minutes until it has populated throughout the whole system."
   },
   "delete": {
     "disclaimer": "If you no longer wish to monitor the website <strong>{{websiteName}}</strong> using Instana, please use this form to remove it. Removing a website is an eventually consistent action. For this reason, removing a website may take <strong>up to a few minutes</strong> until it has been completely removed."
