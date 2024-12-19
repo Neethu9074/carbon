@@ -110,17 +110,6 @@ const resourceTimingMetrics = [
     {
       tag: 'beacon.timing.response'
     }
-  ),
-  withRawDataField(
-    newTimeMetric({
-      metric: 'ttfb',
-      label: t('in-websites:analyze.analyzeView.resourceTimingMetricsLabelTimeToFirstByte'),
-      category: t('in-websites:analyze.analyzeView.resourceTimingMetricsCategoryResourceTiming')
-    }),
-    {
-      tag: 'beacon.timing.timeToFirstByte',
-      rawDataField: 'backendTime'
-    }
   )
 ];
 
@@ -304,7 +293,6 @@ export const availableMetrics = {
         tag: 'beacon.timing.frontend'
       }
     ),
-
     withRawDataField(
       newTimeMetric({
         metric: 'firstPaintTime',
@@ -317,19 +305,9 @@ export const availableMetrics = {
     ),
     withRawDataField(
       newTimeMetric({
-        metric: 'firstContentfulPaintTime',
-        label: t('in-websites:analyze.analyzeView.availableMetricsLabelFirstContentfulPaint'),
-        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryPaintTiming')
-      }),
-      {
-        tag: 'beacon.timing.firstContentfulPaint'
-      }
-    ),
-    withRawDataField(
-      newTimeMetric({
         metric: 'largestContentfulPaintTime',
         label: t('in-websites:analyze.analyzeView.availableMetricsLabelLargestContentfulPaint'),
-        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryPaintTiming')
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryCoreWebVitals')
       }),
       {
         tag: 'beacon.timing.largestContentfulPaint'
@@ -337,18 +315,19 @@ export const availableMetrics = {
     ),
     withRawDataField(
       newTimeMetric({
-        metric: 'firstInputDelay',
-        label: t('in-websites:analyze.analyzeView.availableMetricsLabelFirstInputDelay')
+        metric: 'interactionNextPaint',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelInteractionNextPaint'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryCoreWebVitals')
       }),
       {
-        tag: 'beacon.timing.firstInputDelay',
-        rawDataField: 'firstInputDelayTime'
+        tag: 'beacon.timing.interactionNextPaint'
       }
     ),
     withRawDataField(
       newNumberWithDecimalsMetric({
         metric: 'cumulativeLayoutShift',
         label: t('in-websites:analyze.analyzeView.availableMetricsLabelCumulativeLayoutShift'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryCoreWebVitals'),
         formatter: clsFormatter
       }),
       {
@@ -357,12 +336,23 @@ export const availableMetrics = {
     ),
     withRawDataField(
       newTimeMetric({
-        metric: 'interactionNextPaint',
-        label: t('in-websites:analyze.analyzeView.availableMetricsLabelInteractionNextPaint'),
-        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryPaintTiming')
+        metric: 'firstContentfulPaintTime',
+        label: t('in-websites:analyze.analyzeView.availableMetricsLabelFirstContentfulPaint'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryOtherWebVitals')
       }),
       {
-        tag: 'beacon.timing.interactionNextPaint'
+        tag: 'beacon.timing.firstContentfulPaint'
+      }
+    ),
+    withRawDataField(
+      newTimeMetric({
+        metric: 'ttfb',
+        label: t('in-websites:analyze.analyzeView.resourceTimingMetricsLabelTimeToFirstByte'),
+        category: t('in-websites:analyze.analyzeView.availableMetricsCategoryOtherWebVitals')
+      }),
+      {
+        tag: 'beacon.timing.timeToFirstByte',
+        rawDataField: 'backendTime'
       }
     )
   ],
