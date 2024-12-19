@@ -27,6 +27,7 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
 import EventIcon from 'in-events/components/EventIcon';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import TimelineCell from './TimelineCell';
 import { t } from 'in-i18n';
 
 const eventsTableColumns = [
@@ -76,6 +77,15 @@ const eventsTableColumns = [
       return endValue;
     },
     width: 250
+  },
+  {
+    Header: 'Timeline',
+    accessor: 'Timeline',
+    Cell: ({ cell }: { cell: { row: { original: RawEvent } } }) => {
+      const event = cell.row.original;
+      return <TimelineCell event={event} />;
+    },
+    disableSortBy: true
   },
   {
     Header: t('in-events:dataGridEventTable.state'),
