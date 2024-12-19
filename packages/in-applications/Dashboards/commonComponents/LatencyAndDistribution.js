@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import LatencyDistributionHistogram from 'in-applications/Dashboards/commonComponents/LatencyDistributionHistogram';
 import { TimeShiftAwareChartSelectorWithUrlState } from 'in-components/ChartSelectors/ChartSelectors';
@@ -85,6 +85,10 @@ export default function LatencyAndDistribution({
   customChartSkeletonHeight
 }) {
   const { location } = useNavigation();
+  const [tableOpen, setTableOpen] = useState(false);
+  // Currently the LatencyDistributionHistogram does not support a table yet
+  // so we only want to show the button for Latency chart
+  const [hasTable, setHasTable] = useState(false);
   return (
     <TimeShiftAwareChartSelectorWithUrlState
       cardTitle={cardTitle}
@@ -95,6 +99,7 @@ export default function LatencyAndDistribution({
         renderWidgetNotSupportedIndicator &&
         location.matrix[urlMatrixParamConfig.path]['latencyTab'] === tabDistribution.id
       }
+      setTableOpen={hasTable && (() => setTableOpen(true))}
     >
       <ChartPresenter
         applicationId={applicationId}
@@ -109,6 +114,9 @@ export default function LatencyAndDistribution({
         renderPostChartContent={renderPostChartContent}
         renderWidgetNotSupportedIndicator={renderWidgetNotSupportedIndicator}
         customChartSkeletonHeight={customChartSkeletonHeight}
+        tableOpen={tableOpen}
+        tableCloseHandler={() => setTableOpen(false)}
+        setHasTable={setHasTable}
       />
     </TimeShiftAwareChartSelectorWithUrlState>
   );
@@ -131,8 +139,13 @@ function ChartPresenter({
   cardTitle,
   selectorComponent,
   renderWidgetNotSupportedIndicator,
-  customChartSkeletonHeight
+  customChartSkeletonHeight,
+  tableOpen,
+  tableCloseHandler,
+  setHasTable
 }) {
+  // Latency chart only has table
+  setHasTable(selectedTabId === tabOverTime.id);
   return selectedTabId === tabOverTime.id ? (
     <Latency
       applicationId={applicationId}
@@ -150,6 +163,8 @@ function ChartPresenter({
       syntheticCalls={syntheticCalls}
       endpointTypes={endpointTypes}
       customChartSkeletonHeight={customChartSkeletonHeight}
+      tableOpen={tableOpen}
+      tableCloseHandler={tableCloseHandler}
     />
   ) : (
     <LatencyDistributionHistogram

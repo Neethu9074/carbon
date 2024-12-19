@@ -109,6 +109,9 @@ export interface ChartConfig {
   companionMetricsConfiguration?: MetricsConfiguration;
   withoutPadding?: boolean;
 
+  tableOpen?: boolean;
+  tableCloseHandler?: Function;
+
   getAllDomainValues?: () => number[];
   shareMaxAxisDomain?: boolean;
 

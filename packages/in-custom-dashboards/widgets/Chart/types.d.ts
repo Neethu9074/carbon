@@ -69,6 +69,8 @@ interface UnifiedMetricsChartProps extends BaseChartConfig {
   bulkRequest?: boolean;
   onApproximateDataChange?: (hasApproximateData: boolean) => void;
   onLegendItemToggle?: (chartConfig: ChartConfig, label: string) => void;
+  tableOpen?: boolean;
+  tableCloseHandler?: Function;
 }
 
 type MetricTimestamp = number;

@@ -40,6 +40,14 @@
       "msg": "{{smartAlertsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countSmartAlert, { \"count\": {{smartAlertsCount}} }) & {{incidentsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countIncident, { \"count\": {{incidentsCount}} })",
       "itemMsg": "+{{leftCount}} more {{moreMsg}}"
     },
+    "charTable": {
+      "group": "Group",
+      "xVal": "x-value (Time)",
+      "yVal": "y-value",
+      "tabularRep": "Tabular representation",
+      "tableVis": "Table visualization",
+      "close": "Close"
+    },
     "chartMarkerLane": {
       "retryButtonLabel": "Retry",
       "openList": "Open list"
@@ -49,6 +57,7 @@
     "highlightedTimeframeCloseButtonClearHighlight": "Clear highlight",
     "resultAwareChartSomethingWentWrong": "Something went wrong…",
     "resultAwareChartPleaseTryAgainLater": "Please try again later.",
+    "openTable": "Open table",
     "tooltip": {
       "scrollHint": "Scroll using <upArrow /><downArrow /> keys",
       "rollup": "over {{rollup}}",

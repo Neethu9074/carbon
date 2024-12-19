@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
-import { Card, HorizontalIndicator, LoadingSkeleton, Message } from '@instana/components';
+import { Card, HorizontalIndicator, LoadingSkeleton, Message, CarbonIconButton, SvgIcon } from '@instana/components';
 
 import { AxisConfiguration, ChartConfig, MetricDataPoint, MetricsConfiguration } from 'in-components/Chart/types';
 import Renderer, { extendTimeConfigForBarRenderer } from 'in-components/Chart/renderer/Renderer';
@@ -32,9 +32,11 @@ interface Props {
   renderLegend?: boolean;
   result: Result<unknown>;
   onLegendItemToggle?: (chartConfig: ChartConfig, label: string) => void;
+  tableOpen?: boolean;
+  tableCloseHandler?: Function;
 }
 
-export default function ResultAwareChart({ result, config, renderLegend = true }: Props) {
+export default function ResultAwareChart({ result, config, renderLegend = true, tableOpen, tableCloseHandler }: Props) {
   let {
     timeConfig,
     y1,
@@ -56,6 +58,33 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
   } = config;
 
   let content;
+
+  // For cases where the table open needs to be set at this file level.
+  // Ultimately this will be assigned to rightHeaderContent of the card below
+  const [tableOpenAtLevel, setTableOpenAtLevel] = useState(false);
+  // If no data we want to disable the show table button
+  const noDataAvailable =
+    !timeConfig || !y1 || !y1.metrics || (showNoDataInfoWhenEmpty && containsOnlyEmptyData(y1.metrics));
+  // Pie Chart doesn't have table capability yet
+  const tableAvailable = config?.y1?.renderer.id != Renderer.pie.id;
+  // If no right header has been passed in then we can safely add in the table button at this level
+  const rightHeaderContent = config.rightHeaderContent || (
+    <>
+      {tableAvailable && (
+        <CarbonIconButton
+          label={t('in-components:chart.openTable')}
+          size="sm"
+          kind="ghost"
+          disabled={noDataAvailable}
+          onClick={() => {
+            setTableOpenAtLevel(true);
+          }}
+        >
+          <SvgIcon type="lib_table_of_contents" size={'xs'} />
+        </CarbonIconButton>
+      )}
+    </>
+  );
 
   const height = customHeight || '100%';
   if (result.errors.length > 0) {
@@ -79,7 +108,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     } else {
       content = <ChartSkeleton height={customChartSkeletonHeight ?? height} />;
     }
-  } else if (!timeConfig || !y1 || !y1.metrics || (showNoDataInfoWhenEmpty && containsOnlyEmptyData(y1.metrics))) {
+  } else if (noDataAvailable) {
     content = <NoDataAvailable width={frontBufferWidth} height={height} />;
   } else {
     const rendererId = config.y1?.renderer.id;
@@ -99,6 +128,15 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
       content = (
         <Chart
           renderLegend={renderLegend}
+          // First look to see if tableOpen and tableCloseHandler
+          // have been passed in and use those first
+          tableOpen={tableOpen || tableOpenAtLevel}
+          tableCloseHandler={
+            tableCloseHandler ||
+            (() => {
+              setTableOpenAtLevel(false);
+            })
+          }
           onLegendItemToggle={onLegendItemToggle}
           {...(config as ChartReactComponentProps)}
           disableChartInLive={disableChartInLive}
@@ -125,7 +163,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
           extraInfoTooltip={extraInfo}
         />
       }
-      rightHeaderContent={config.rightHeaderContent}
+      rightHeaderContent={rightHeaderContent}
       size="l"
     >
       {content}

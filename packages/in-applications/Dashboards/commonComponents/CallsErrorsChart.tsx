@@ -34,6 +34,8 @@ interface Props {
   renderPostChartContent: (props: AdditionChartContentProps) => React.ReactNode;
   rightHeaderContent?: React.ReactElement;
   endpointTypes?: EndpointType[];
+  tableOpen?: boolean;
+  tableCloseHandler?: Function;
 }
 
 export default function CallsErrorsChart({
@@ -49,7 +51,9 @@ export default function CallsErrorsChart({
   cardTitle,
   renderPostChartContent,
   rightHeaderContent,
-  endpointTypes
+  endpointTypes,
+  tableOpen,
+  tableCloseHandler
 }: Props) {
   const getLinkToApplicationAnalyze = useLinkToApplicationAnalyze();
   const granularity = getChartGranularity(timeConfig);
@@ -137,6 +141,8 @@ export default function CallsErrorsChart({
 
   return (
     <UnifiedMetricsChart
+      tableOpen={tableOpen}
+      tableCloseHandler={tableCloseHandler}
       title={cardTitle}
       customChartSkeletonHeight={280}
       rightHeaderContent={rightHeaderContent}

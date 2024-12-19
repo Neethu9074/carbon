@@ -13,6 +13,7 @@ import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import { CustomDashboardContext } from 'in-custom-dashboards/CustomDashboard/CustomDashboardContext';
 import ExternallyDefinedWidthAndHeight from 'in-components/layout/ExternallyDefinedWidthAndHeight';
 import { HEIGHT as commonLegendHeight } from 'in-components/Chart/components/Legend';
+import { ChartTableComponent } from 'in-components/Chart/ChartTableComponent';
 import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -65,7 +66,9 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
     snapshotHostFqdn,
     hasActionlane = false,
     hasButtonInActionslane = true,
-    onLegendItemToggle
+    onLegendItemToggle,
+    tableCloseHandler = false, // execute a function when the table closes
+    tableOpen = false // control table opening / closing
   } = props;
 
   const { setExportWidgetId, setTooltipRef, setShouldExportWidget } = useContext(CustomDashboardContext);
@@ -93,6 +96,8 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
 
   const chartWrapperRef = useRef();
   const [chart, setChart] = useState();
+  const [openTableView, setOpenTableView] = useState(false);
+
   const canvasRefSetter = canvas => {
     // Check that the canvas domElement != null. As part of the React lifecycle canvas
     // would rotate constantly between the DOM element and null and our setState call
@@ -136,44 +141,33 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
   useEffect(() => () => chart?.dispose(), [chart]);
 
   const heightOfDrawableCanvas = chart ? chartHeight - chart.config.timeAxisHeight - chart.config.markerPaneHeight : 0;
+
+  // If there are labels and metrics we can show the table
+  const canHaveTable =
+    (chart?.config?.y1?.labels && chart?.config?.y1?.metrics) ||
+    (chart?.config?.y2?.labels && chart?.config?.y2?.metrics);
+
   return (
-    <div
-      className={locals.chart}
-      ref={compositeRef(outerRef, chartWrapperRef)}
-      style={{ height: customChartSkeletonHeight ?? 'auto' }}
-    >
-      <div ref={legendRef}>
-        {chart && renderLegend && (
-          <ChartLegend
-            chart={chart}
-            filteredDataSeries={chart.config.filteredDataSeries}
-            onLegendItemToggle={onLegendItemToggle}
-          />
-        )}
-      </div>
-
-      <div className={locals.markerLanesWrapper}>
-        {typeof renderPreChartContent === 'function' && (
-          <div ref={preContentRef}>
-            {preAndPostContentConfig &&
-              renderPreChartContent({
-                ...preAndPostContentConfig,
-                chartContentPosition: 'pre'
-              })}
-          </div>
-        )}
-
-        <div className={locals.chartAxisWrapper}>
-          {chart?.config.y1 && (
-            <MetricAwareAxis chart={chart} axisName="y1" height={heightOfDrawableCanvas} align="left" />
-          )}
-
-          {chart && width && (
-            <ChartOverlay
-              width={width}
-              chartHeight={chartHeight}
-              timeConfig={timeConfig}
+    <div className={locals.fullWidth}>
+      {canHaveTable && (openTableView || tableOpen) && (
+        <ChartTableComponent
+          chart={chart}
+          openTableView={openTableView || tableOpen}
+          setOpenTableView={setOpenTableView}
+          tableCloseHandler={tableCloseHandler}
+        />
+      )}
+      <div
+        className={locals.chart}
+        ref={compositeRef(outerRef, chartWrapperRef)}
+        style={{ height: customChartSkeletonHeight ?? 'auto' }}
+      >
+        <div ref={legendRef}>
+          {chart && renderLegend && (
+            <ChartLegend
               chart={chart}
+              filteredDataSeries={chart.config.filteredDataSeries}
+              onLegendItemToggle={onLegendItemToggle}
               chartWrapper={chartWrapperRef.current}
               reverseTooltipOrder={reverseTooltipOrder}
               metrics={props}
@@ -188,22 +182,59 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
               isHighlightedOnDisabledChart$={isHighlightedOnDisabledChart$}
             />
           )}
-          <canvas className={locals.canvas} ref={canvasRefSetter} />
+        </div>
 
-          {chart?.config.y2 && (
-            <MetricAwareAxis chart={chart} axisName="y2" height={heightOfDrawableCanvas} align="right" />
+        <div className={locals.markerLanesWrapper}>
+          {typeof renderPreChartContent === 'function' && (
+            <div ref={preContentRef}>
+              {preAndPostContentConfig &&
+                renderPreChartContent({
+                  ...preAndPostContentConfig,
+                  chartContentPosition: 'pre'
+                })}
+            </div>
+          )}
+
+          <div className={locals.chartAxisWrapper}>
+            {chart?.config.y1 && (
+              <MetricAwareAxis chart={chart} axisName="y1" height={heightOfDrawableCanvas} align="left" />
+            )}
+            {chart && width && (
+              <ChartOverlay
+                width={width}
+                chartHeight={chartHeight}
+                timeConfig={timeConfig}
+                chart={chart}
+                chartWrapper={chartWrapperRef.current}
+                reverseTooltipOrder={reverseTooltipOrder}
+                metrics={props}
+                nonInteractive={nonInteractive}
+                wiggleRoom={wiggleRoom}
+                disableChartInLive={disableChartInLive}
+                isCustomDashboard={matchLocation(customDashboardsPath)}
+                setExportWidgetId={setExportWidgetId}
+                setShouldExportWidget={setShouldExportWidget}
+                setTooltipRef={setTooltipRef}
+                isHighlightedOnDisabledChart$={isHighlightedOnDisabledChart$}
+              />
+            )}
+            <canvas className={locals.canvas} ref={canvasRefSetter} />
+
+            {chart?.config.y2 && (
+              <MetricAwareAxis chart={chart} axisName="y2" height={heightOfDrawableCanvas} align="right" />
+            )}
+          </div>
+          {typeof renderPostChartContent === 'function' && (
+            <div ref={postContentRef}>
+              {preAndPostContentConfig &&
+                renderPostChartContent({
+                  ...preAndPostContentConfig,
+                  chartContentPosition: 'post',
+                  displayReleaseLane: automaticallySize
+                })}
+            </div>
           )}
         </div>
-        {typeof renderPostChartContent === 'function' && (
-          <div ref={postContentRef}>
-            {preAndPostContentConfig &&
-              renderPostChartContent({
-                ...preAndPostContentConfig,
-                chartContentPosition: 'post',
-                displayReleaseLane: automaticallySize
-              })}
-          </div>
-        )}
       </div>
     </div>
   );
