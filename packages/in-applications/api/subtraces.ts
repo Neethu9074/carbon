@@ -42,3 +42,13 @@ export const updateSubtrace = (subtrace: SubtraceConfig) => {
     mapToResultObject: true
   });
 };
+
+export const deleteSubtrace = (subtraceId: string) => {
+  return http<Subtrace>({
+    method: 'DELETE',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${basePath}/${subtraceId}`,
+    mapToResultObject: true
+  });
+};
