@@ -73,6 +73,14 @@ export interface NodesMap {
   [index: string]: nodeInfo;
 }
 
+/**
+ * Helper function mainly meant for triggering entities as there is an equivalent in rca utils.
+ * Meant to give you a string containing a generic type ('infrastructure', 'application', 'endpoint', 'service') and an actual plugin type for infra entities
+ *
+ * @param plugin - string containing 'infrastructure', 'application', 'endpoint', 'service'
+ * @returns {generic: string, actual: string}
+ */
+
 export function determineEntityTypeFromEntityIDMap(plugin: string) {
   if (plugin === 'application' || plugin === 'service') return { generic: plugin, actual: plugin };
 
@@ -82,6 +90,14 @@ export function determineEntityTypeFromEntityIDMap(plugin: string) {
 
   return { generic: 'infrastructure', actual: plugin };
 }
+
+/**
+ * All entities should have a stack query that occurs on them which contains what services they belong to.
+ * This function is meant to extract the service infos from the stack
+ *
+ * @param entity - RCAEntityDataType from useFetchAppropriateRCAEntityData
+ * @returns Item[] of services extracted from stack data
+ */
 
 export function extractServicesFromStackQuery(entity: RCAEntityDataType) {
   const { entityStackData, entityType } = entity;
@@ -97,6 +113,15 @@ export function extractServicesFromStackQuery(entity: RCAEntityDataType) {
   }
   return [];
 }
+
+/**
+ * This is a filtering method meant to take in our ServiceMap and filter our services and connections that are not directly related to our RCA or TE
+ *
+ * @param applicationServiceMap - ServiceMap object containing {connections: ServiceMapConnection[], services: ExtendedService[]}
+ * @param triggeringEntityServices - Item[] Services extracted from stack query (see extractServicesFromStackQuery above)
+ * @param rootCauseServices - Set<string> of service IDs related to root causes
+ * @returns ServiceMap of filtered services and connections
+ */
 
 export function getServiceToServiceConnections(
   applicationServiceMap: ServiceMap,
@@ -141,6 +166,16 @@ export function getServiceToServiceConnections(
   return { connections: filteredConnections, services: filteredServices };
 }
 
+/**
+ * This function builds our initial connections map based on the data of our root causes and TE and thier respective services and hierarchies (if appropriate).
+ *
+ * @param serviceToServiceConnections - ServiceMap of filtered connections and services
+ * @param rootCausesInArray - RCAEntityDataType[] containing all of our RCA data obtained via useFetchAppropriateRCAEntityData
+ * @param triggeringEntityData - RCAEntityDataType containing Triggering Entity data obtained via useFetchAppropriateRCAEntityData
+ * @param triggeringEntityServices - Item[] containing TE service infromation obtained from stack query of TE
+ * @param nodeFilters - string[] containing a list of all of our nodes to make sure that we can filter our connections later to only relevant connections
+ * @returns ConnectionsMap[] containing all of our connections
+ */
 export function constructConnectionsMap(
   serviceToServiceConnections: { connections: ServiceMapConnection[]; services: ExtendedService[] },
   rootCausesInArray: RCAEntityDataType[],
@@ -309,6 +344,17 @@ export function constructConnectionsMap(
   });
 }
 
+/**
+ * This method constructs our initial node map that contains all of our node entities in an object structure with the id of entity being the key and the value being
+ * {id, data, specialCaseVisibility, entityType, tags}
+ *
+ * @param serviceToServiceConnections - ServiceMap of filtered connections and services from ServiceMap query call
+ * @param rootCausesInArray - RCAEntityDataType[] containing all of our RCA data obtained via useFetchAppropriateRCAEntityData
+ * @param triggeringEntityData - RCAEntityDataType containing Triggering Entity data obtained via useFetchAppropriateRCAEntityData
+ * @param triggeringEntityServices - Item[] containing TE service infromation obtained from stack query of TE
+ * @returns {NodesMap} Map of nodes in the format of {id, data, specialCaseVisibility, entityType, tags}[]
+ */
+
 export function constructNodesMap(
   serviceToServiceConnections: { connections: ServiceMapConnection[]; services: ExtendedService[] },
   rootCausesInArray: RCAEntityDataType[],
@@ -365,7 +411,10 @@ export function constructNodesMap(
     if (nonInfraServiceLabelInformation) {
       relevantServicesToAdd.push(nonInfraServiceLabelInformation);
     } else if (infraServiceLabelInformation && infraServiceLabelInformation.length > 0) {
-      relevantServicesToAdd.push(...infraServiceLabelInformation);
+      const filteredInfraServices = infraServiceLabelInformation.filter(service =>
+        services.find(mapService => mapService.id === service.id)
+      );
+      relevantServicesToAdd.push(...filteredInfraServices);
     } else if (entityStackData.data) {
       const rcaServices = extractServicesFromStackQuery(rootCause);
       if (rcaServices && rcaServices.length > 0) {
@@ -488,6 +537,21 @@ export function constructNodesMap(
   return constructedNodes;
 }
 
+/**
+ * This function is meant to create a filter for our getServiceMap query call in order to get the appropriate connections and services to start from and begin filtering.
+ * Uses triggering entity and app id as a base filter. Adds triggering entity and RCA information to filter if they exist
+ *
+ * @todo Make separate queries with each entity type if app ID does not exist for more accurate results
+ *
+ * @param appID - string containing app perspective ID for incident
+ * @param timeConfig - string of time window of incident
+ * @param triggeringEntity - RCAEntityDataType of triggering entity
+ * @param firstRCA - RCAEntityDataType of first RCA entity if it exists
+ * @param secondRCA - RCAEntityDataType of second RCA entity if it exists
+ * @param thirdRCA - RCAEntityDataType of third RCA entity if it exists
+ * @returns Filter type for getServiceMap query call
+ */
+
 export function getFilterForServiceRelationships(
   appID: string | Nullish,
   timeConfig: TimeConfig,
@@ -537,7 +601,15 @@ interface GetMetricsObservableProps {
   serviceId: string | undefined;
   timeConfig: TimeConfig;
 }
-
+/**
+ * This is meant to create a request for the AP metrics around calls, errors and latency for a given entity
+ *
+ * This is better used by infra entities to get AP related metrics
+ *
+ * @param tagFilterExpression - Tag filter expression of an entity
+ * @param timeConfig - TimeConfig of incident
+ * @returns Observable containing request for AP metrics for an entity
+ */
 export function getAPMetricsObservable(tagFilterExpression: TagFilterExpressionElementUnion, timeConfig: TimeConfig) {
   const granularity = getSparkChartGranularity(timeConfig);
 
@@ -587,7 +659,14 @@ export function getAPMetricsObservable(tagFilterExpression: TagFilterExpressionE
   });
 }
 
-// This one works better for direct AP entities
+/**
+ * Gets an observable contianing a request for AP entities
+ * @param {Object} AP - The AP entity that we're getting metrics for
+ * @param {string} AP.applicationId - The AP ID for a given entity if it exists
+ * @param {string} AP.endpointId - The endpoint ID for a given entity if it exists
+ * @param {string} AP.serviceId - The service ID for a given entity if it exists
+ * @returns Observable for a request for metrics for a given AP entity
+ */
 export function getLegacyAPMetricsObservable({
   applicationId,
   endpointId,
@@ -647,12 +726,20 @@ export function getLegacyAPMetricsObservable({
   });
 }
 
+// Special cases filter FF
 const enabledSpecialCases = {
   connectUnspecifiedServiceToAP: true,
   addAPIfItDoesntExist: true,
   superServices: false
 };
 
+/**
+ * Goes through our existing relationships and nodes and filters for some additional special uses cases such as having unspecified services, adding an AP node if it is non existent and combining multiple services into one node (super services)
+ * @param nodes - NodesMap that has our initial nodes map that we created
+ * @param relationships - ConnectionsMap[] that has all of our initial relationships that we created
+ * @param relatedApplicationInformation - Application of our TE/RCAs
+ * @returns {Object} A map containing our updated NodesMap and ConnectionsMap[] as {nodes: NodesMap, relationships: ConnectionsMap[]}
+ */
 export function specialCaseConnectionsAndNodes(
   nodes: NodesMap,
   relationships: ConnectionsMap[],
@@ -887,6 +974,13 @@ export function specialCaseConnectionsAndNodes(
   };
 }
 
+/**
+ * Filters out relationships that contain nodes which do not exist in our nodes map
+ *
+ * @param nodes - string[] containing all IDs of our node map
+ * @param relationships - ConnectionsMap[] relationships in our graph
+ * @returns ConnectionsMap[] updated to remove all relationships with non-existent nodes
+ */
 function filterOutRelationshipsThatContainNonExistentNodes(
   nodes: string[],
   relationships: ConnectionsMap[]
@@ -898,6 +992,12 @@ function filterOutRelationshipsThatContainNonExistentNodes(
   });
 }
 
+/**
+ * Filters out nodes that do not have a relationship in our connections map
+ *
+ * @param nodes - NodesMap that contains all the nodes on our graph
+ * @param relationships - ConnectionsMap[] containing all the relationships in our graph
+ */
 function filterNodesWithoutRelationships(nodes: NodesMap, relationships: ConnectionsMap[]) {
   const isInARelationship = (nodeID: string) => {
     let found = false;
@@ -916,6 +1016,14 @@ function filterNodesWithoutRelationships(nodes: NodesMap, relationships: Connect
     }
   });
 }
+
+/**
+ * Filters our services that do not have any connections except to AP on graph
+ * Excluding TE and RCA entities of course
+ *
+ * @param nodes - NodesMap of all of our existing nodes
+ * @param relationships - ConnectionsMap of all of our existing relationships in the graph
+ */
 
 function filterServicesThatDoNotHaveExternalConnections(nodes: NodesMap, relationships: ConnectionsMap[]) {
   const onlyAPConnection = (nodeID: string) => {
@@ -951,6 +1059,13 @@ function filterServicesThatDoNotHaveExternalConnections(nodes: NodesMap, relatio
   });
 }
 
+/**
+ * Get all the ougoing connections for a given node ID based on our relationship map
+ *
+ * @param nodeID - string containing the ID of a node were searching for
+ * @param relationships - ConnectionsMap[] of all the relationships in our graph
+ * @returns string[] containing the IDs of all outgoing connections
+ */
 function getOutgoingConnectionsForGivenNode(nodeID: string, relationships: ConnectionsMap[]): string[] {
   const outgoingNodeConnections: string[] = [];
 
