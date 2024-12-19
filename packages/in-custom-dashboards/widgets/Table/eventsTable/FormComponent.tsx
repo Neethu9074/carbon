@@ -9,11 +9,12 @@ import React, { useState } from 'react';
 
 import { Spacer, Stack, Checkbox } from '@instana/components';
 
+import { kubernetesEventColumns } from 'in-custom-dashboards/widgets/Table/kubernetesTable/KubernetesEventsColumns';
 import { useFormatterFormSideEffects } from 'in-custom-dashboards/widgets/_shared/useFormatterFormSideEffects';
 import { eventColumns } from 'in-custom-dashboards/widgets/Table/eventsTable/EventColumns';
-
 //@ts-expect-error
 import { trim } from 'in-components/SearchBar/Input';
+import { dataSources } from 'in-custom-dashboards/widgets/Table/index';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DfqSearchBar from 'in-components/SearchBar/DfqSearchBar';
 import HelpAction from 'in-components/workspace/HelpAction';
@@ -31,6 +32,18 @@ export default function FormComponent({
   const columnField = form.get('columns') as Field<string[]>;
 
   const [dynamicFocusQuery] = useState(form.get('dynamicFocusQuery').value);
+
+  const dataSource = form.get('source').value;
+  const eventColumnsBasedOnDatasource = getEventColumnsBasedOnDatasource(dataSource);
+
+  function getEventColumnsBasedOnDatasource(source: string) {
+    switch (source) {
+      case dataSources.KUBERNETES_EVENTS.type:
+        return kubernetesEventColumns;
+      default:
+        return eventColumns;
+    }
+  }
 
   function handleDfqChange(value: string) {
     updateForm(
@@ -74,7 +87,7 @@ export default function FormComponent({
       <Sections>
         <Section title={t('in-custom-dashboards:widgets.table.form.columns')}>
           <Stack direction="horizontal" align="center" distribution="stretch" gap="large">
-            {Object.entries(eventColumns).map(([key, columnName]) => (
+            {Object.entries(eventColumnsBasedOnDatasource).map(([key, columnName]) => (
               <Checkbox
                 label={columnName}
                 checked={columnField?.value?.includes(key)}

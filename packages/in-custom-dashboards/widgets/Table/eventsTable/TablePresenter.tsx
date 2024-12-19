@@ -11,6 +11,10 @@ import { Disposable, on, Subject } from '@instana/observables';
 import { Typography } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+import {
+  KubernetesTablePresenter,
+  orderByConfigForK8s
+} from 'in-custom-dashboards/widgets/Table/kubernetesTable/KubernetesTablePresenter';
 import { TableFormConfiguration, TableWidgetProps } from 'in-custom-dashboards/widgets/Table/types';
 import TableConfigInfo from 'in-custom-dashboards/widgets/Table/eventsTable/TableConfigInfo';
 //@ts-expect-error TS migration
@@ -20,12 +24,14 @@ import getRawEvents from 'in-subscription/getRawEvents';
 import { ShowcaseProps } from 'in-custom-dashboards/widgets/Table/eventsTable/ShowCase';
 import { useModifiedTimeConfig } from 'in-events/hooks/useModifiedTimeConfig';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { dataSources } from 'in-custom-dashboards/widgets/Table/index';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { concatQueries, spreadTimeConfig } from 'in-events/utils';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import { Cursor, Cursorific, TimeConfig } from 'in-types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { EventContext } from 'in-types';
 
 import locals from './TablePresenter.mless';
 
@@ -82,7 +88,8 @@ interface TableConfigProps extends TableOverviewBehaviourProps {
 function TableConfig(props: TableConfigProps) {
   const { config, rowsPerPage, timeConfig } = props;
   const [isLoadMoreClicked, setIsLoadMoreClicked] = useState(false);
-  const orderByColumn = config?.columns?.length ? getOrderByColumn(config?.columns) : orderByConfig.started;
+
+  const orderByColumn = config?.columns?.length ? getOrderByColumn(config) : 'start';
 
   const [sorting, setSorting] = useState(setListSorting(orderByColumn));
 
@@ -102,9 +109,10 @@ function TableConfig(props: TableConfigProps) {
         order: {
           by: sorting.orderBy,
           direction: sorting.orderDirection
-        }
+        },
+        eventContext: getEventContext(config?.source)
       }),
-    [sorting, config?.dynamicFocusQuery, ...spreadTimeConfig(undefined, timeConfig)]
+    [sorting, config?.source, config?.dynamicFocusQuery, ...spreadTimeConfig(undefined, timeConfig)]
   );
 
   function loadMoreData() {
@@ -112,6 +120,21 @@ function TableConfig(props: TableConfigProps) {
     tableProps.loadMore();
   }
 
+  if (config?.source === dataSources.KUBERNETES_EVENTS.type) {
+    return (
+      <KubernetesTablePresenter
+        {...props}
+        {...tableProps}
+        {...sorting}
+        timeConfig={timeConfig}
+        headers={config?.columns}
+        setSorting={setSorting}
+        loadMoreData={loadMoreData}
+        orderBy={sorting.orderBy}
+        orderDirection={sorting.orderDirection}
+      />
+    );
+  }
   return (
     <TablePresenter
       {...props}
@@ -181,7 +204,6 @@ export const TablePresenter = (props: TablePresenterProps) => {
     setupSubscriptions();
   });
 
-  // function to navigate to events list page
   function onItemClicked(eventId: string) {
     const eventsListLocation = { ...location, pathname: eventsPath };
     setOrDeleteMatrixKey(eventsListLocation, eventsPath, 'eventId', eventId);
@@ -227,7 +249,18 @@ export const TablePresenter = (props: TablePresenterProps) => {
   );
 };
 
-function getOrderByColumn(columns: string[]) {
+function getOrderByColumn(config: TableFormConfiguration) {
+  const source = config.source;
+  const columns = config.columns;
+
+  if (!columns) {
+    return 'start';
+  }
+
+  if (source === dataSources.KUBERNETES_EVENTS.type) {
+    return columns?.includes('time') ? 'time' : columns[0];
+  }
+
   if (columns.includes('started')) {
     return orderByConfig.started;
   }
@@ -235,8 +268,18 @@ function getOrderByColumn(columns: string[]) {
 }
 
 function setListSorting(orderByColumn: string) {
+  let orderBy;
+
+  if (orderByColumn in orderByConfig) {
+    orderBy = orderByConfig[orderByColumn as keyof typeof orderByConfig];
+  } else if (orderByColumn in orderByConfigForK8s) {
+    orderBy = orderByConfigForK8s[orderByColumn as keyof typeof orderByConfigForK8s];
+  } else {
+    orderBy = orderByConfig.started;
+  }
+
   return {
-    orderBy: orderByConfig[orderByColumn as keyof typeof orderByConfig] ?? orderByConfig.started,
+    orderBy,
     orderDirection: 'DESC'
   };
 }
@@ -259,4 +302,13 @@ export function EventsTitle({
       </span>
     </Typography>
   );
+}
+
+function getEventContext(source: string | undefined): EventContext {
+  switch (source) {
+    case dataSources.KUBERNETES_EVENTS.type:
+      return 'KUBERNETES_EVENTS';
+    default:
+      return 'EVENTS';
+  }
 }

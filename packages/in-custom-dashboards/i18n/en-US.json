@@ -908,7 +908,8 @@
         }
       },
       "dataSource": {
-        "events": "Events"
+        "events": "Events",
+        "k8sEvents": "Kubernetes Events"
       },
       "eventColumns": {
         "title": "Title",
@@ -916,6 +917,19 @@
         "startedOn": "Started On",
         "endedOn": "Ended On",
         "duration": "Duration"
+      },
+      "kubernetesEventColumns": {
+        "type": "Type",
+        "reason": "Reason",
+        "message": "Message",
+        "namespace": "Namespace",
+        "involvedObject": "Involved Object",
+        "kind": "Kind",
+        "time": "Time"
+      },
+      "emptyTable": {
+        "title" : "No events available",
+        "explanation" : "There were no events retrieved for the selected time range"
       }
     },
     "time": {
