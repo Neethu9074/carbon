@@ -13,13 +13,12 @@ import { formatDateTime } from '@instana/format-date';
 import { TableLoadMoreRow } from '@instana/legacy';
 
 import { EventsTitle, TablePresenterProps } from 'in-custom-dashboards/widgets/Table/eventsTable/TablePresenter';
-//@ts-expect-error TS migration
-import EventIcon from 'in-events/components/EventIcon';
 import EntityPageMainNotification from 'in-components/EntityPageMainNotification';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import EventIcon from 'in-events/components/EventIcon';
 import PluginIcon from 'in-components/PluginIcon';
 import { RawEvent, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
