@@ -16,6 +16,7 @@
     align-items: center;
     min-width: auto;
     min-height: auto;
+    align-items: start;
 
     :global(.ids-carbon-slider) {
       padding: 0;

@@ -127,6 +127,7 @@ function toAlertConfig(form: MapForm<any>): Readonly<InfraAlertConfig> {
     id: form.get(fieldNames.id).value,
     timeThreshold: form.get('timeThreshold').toJS(),
     granularity: form.get(fieldNames.granularity).value,
+    gracePeriod: form.get(fieldNames.gracePeriod).value,
     groupBy: toBackendGroupBy(form.get(fieldNames.groupBy).value),
     forecastingConfig: form.get(fieldNames.forecastingConfig).value,
     customPayloadFields: form.get('customPayloadFields').toJS(),

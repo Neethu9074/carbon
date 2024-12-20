@@ -30,6 +30,7 @@ export const fieldNames = Object.freeze({
   customPayloadFields: 'customPayloadFields',
   description: 'description',
   granularity: 'granularity',
+  gracePeriod: 'gracePeriod',
   groupBy: 'groupBy',
   name: 'name',
   forecastingConfig: 'forecastingConfig',
@@ -56,6 +57,7 @@ export default function alertFormDefinition(
     alertChannels = { WARNING: [], CRITICAL: [] },
     description = '',
     granularity = 600000,
+    gracePeriod = granularity,
     groupBy = [],
     name = '',
     forecastingConfig = undefined,
@@ -90,6 +92,12 @@ export default function alertFormDefinition(
       'granularity',
       createField({
         value: granularity
+      })
+    )
+    .put(
+      fieldNames.gracePeriod,
+      createField({
+        value: gracePeriod ?? granularity
       })
     )
     .put(

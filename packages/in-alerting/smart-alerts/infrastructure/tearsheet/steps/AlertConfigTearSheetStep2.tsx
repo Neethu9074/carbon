@@ -7,14 +7,15 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-import { Spacer } from '@instana/components';
+import { Spacer, Stack } from '@instana/components';
 
 import ThresholdViolation from 'in-alerting/smart-alerts/infrastructure/tearsheet/components/ThresholdViolation';
-import ThresholdSection from 'in-alerting/smart-alerts/infrastructure/tearsheet/components/ThresholdSection';
 import { ThresholdChart } from 'in-alerting/smart-alerts/infrastructure/tearsheet/components/ThresholdChart';
 import ForecastAlerting from 'in-alerting/smart-alerts/infrastructure/tearsheet/components/ForecastAlerting';
+import ThresholdSection from 'in-alerting/smart-alerts/infrastructure/tearsheet/components/ThresholdSection';
 import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
 import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
+import GracePeriod from 'in-alerting/smart-alerts/components/tearSheet/GracePeriod';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { t } from 'in-i18n';
 
@@ -56,18 +57,21 @@ export default function AlertConfigTearSheetStep2({
           />
         </TearSheetStepContentWrapper>
         <span className={locals.seperator} />
-        <TearSheetStepContentWrapper
-          headline={t('in-alerting:smartAlerts.infrastructure.tearSheet.timeThreshold.title')}
-          description={t('in-alerting:smartAlerts.infrastructure.tearSheet.timeThreshold.description')}
-        >
-          <Spacer size="gutter" />
-          <ThresholdViolation
-            form={form}
-            updateForm={updateForm}
-            oneMinuteGranularityAllowed={oneMinuteGranularityAllowed}
-          />
+        <Stack>
+          <TearSheetStepContentWrapper
+            headline={t('in-alerting:smartAlerts.infrastructure.tearSheet.timeThreshold.title')}
+            description={t('in-alerting:smartAlerts.infrastructure.tearSheet.timeThreshold.description')}
+          >
+            <Spacer size="gutter" />
+            <ThresholdViolation
+              form={form}
+              updateForm={updateForm}
+              oneMinuteGranularityAllowed={oneMinuteGranularityAllowed}
+            />
+          </TearSheetStepContentWrapper>
+          <GracePeriod form={form} updateForm={updateForm} />
           <ForecastAlerting form={form} updateForm={updateForm} />
-        </TearSheetStepContentWrapper>
+        </Stack>
       </div>
       <ThresholdChart
         form={form}
