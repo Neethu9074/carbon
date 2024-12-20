@@ -137,6 +137,9 @@ export const syntheticInstanaHostedPoPEnabled = isFeatureFlagEnabled('syntheticI
 // Synthetic RBAC Limited Access feature flag
 export const syntheticRbacLimitedEnabled = isFeatureFlagEnabled('syntheticRbacLimitedEnabled');
 
+// Synthetic DNSAction feature flag
+export const syntheticDNSActionEnabled = isFeatureFlagEnabled('syntheticDNSActionEnabled');
+
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
   'mobileAppSmartAlertsAdaptiveBaselineEnabled'

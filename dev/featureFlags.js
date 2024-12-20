@@ -127,6 +127,7 @@ module.exports = {
   infraPredictiveDetectionEnabled: true,
   syntheticInstanaHostedPoPEnabled: true,
   syntheticRbacLimitedEnabled: true,
+  syntheticDNSActionEnabled: true,
   flowMapEnabled: true,
   zoomWidgetEnabled: true,
   allowDownloadMetricsFromCharts: true,
