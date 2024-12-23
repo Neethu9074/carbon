@@ -100,7 +100,7 @@ export default function Unix({
         <GetDeployedAgents agent={platformArch.searchKey} fromOnboarding={fromOnboarding} />
       </MainBody>
       <SidePanel>
-        <SupportViewSection items={supportViewData(agentKey)} />
+        <SupportViewSection items={supportViewData()} />
       </SidePanel>
     </Container>
   );

@@ -15,8 +15,6 @@ import InputWithButton from 'in-plg/components/InputWithButton/InputWithButton';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
-import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
-import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 export default function VmwareTanzu({
@@ -58,15 +56,8 @@ export default function VmwareTanzu({
         </Stack>
       ),
       openByDefault: true
-    },
-    {
-      title: t('in-plg:agentDetails.askForHelp.askForHelpTitle'),
-      body: <AskForHelp agentKey={agentKey} />,
-      openByDefault: false
     }
   ];
-
-  if (shareAndInviteEnabled) sideCardData.pop();
 
   return (
     <Container>

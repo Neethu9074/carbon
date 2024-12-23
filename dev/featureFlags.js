@@ -143,7 +143,6 @@ module.exports = {
   resourceOptimizationActionsEnabled: true,
   eventResourceActionsEnabled: true,
   carbonTabsEnabled: true,
-  shareAndInviteEnabled: true,
   automationActionInstanceFeedbackEnabled: false,
   infraExploreFilterEmptyValueEnabled: true,
   weaselSubresourceIntegrityEnabled: true,

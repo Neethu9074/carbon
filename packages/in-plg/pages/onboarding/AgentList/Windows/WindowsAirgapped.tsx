@@ -15,11 +15,9 @@ import InputWithButton from 'in-plg/components/InputWithButton/InputWithButton';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
-import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
-import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
-const WindowsAirGappedInstalls = ({ agentKey, downloadKey, instanaDomain, fromOnboarding }: OnboardingProps) => {
+const WindowsAirGappedInstalls = ({ downloadKey, instanaDomain, fromOnboarding }: OnboardingProps) => {
   const sideCardData = [
     {
       title: t('in-plg:agentDetails.common.prerequisitesTitle'),
@@ -44,15 +42,8 @@ const WindowsAirGappedInstalls = ({ agentKey, downloadKey, instanaDomain, fromOn
         </Stack>
       ),
       openByDefault: true
-    },
-    {
-      title: t('in-plg:agentDetails.askForHelp.askForHelpTitle'),
-      body: <AskForHelp agentKey={agentKey} />,
-      openByDefault: false
     }
   ];
-
-  if (shareAndInviteEnabled) sideCardData.pop();
 
   return (
     <Container>

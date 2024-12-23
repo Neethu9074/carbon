@@ -677,11 +677,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'shareAndInviteEnabled',
-    instanaCtlKey: 'feature.share.and.invite.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'serviceNowAutoCloseAndCustomPayloadsEnabled',
     instanaCtlKey: 'feature.service.now.auto.close.and.custom.payloads.enabled',
     defaultValue: false

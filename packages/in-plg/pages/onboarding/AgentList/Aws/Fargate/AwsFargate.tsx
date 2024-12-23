@@ -19,7 +19,6 @@ import NodeJsRuntime from 'in-plg/pages/onboarding/AgentList/Runtimes/NodeJsRunt
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import { DropDown } from 'in-plg/pages/onboarding/content/ContentComponents';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
-import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
 import { t } from 'in-i18n';
 
 interface RuntimeOption {
@@ -150,11 +149,6 @@ export default function AwsFargate({
       title: t('in-plg:agentDetails.common.documentationTitle'),
       body: documentations(selectedRuntime.key),
       openByDefault: true
-    },
-    {
-      title: t('in-plg:agentDetails.askForHelp.askForHelpTitle'),
-      body: <AskForHelp agentKey={agentKey ? agentKey : ''} />,
-      openByDefault: false
     }
   ];
 
