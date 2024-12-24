@@ -5,7 +5,7 @@
   "bar": "バー",
   "logsOverTime": "時系列に沿ったログ",
   "logsOverTime_ERROR": "エラー",
-  "logsOverTime_WARN": "警告 ",
+  "logsOverTime_WARN": "警告",
   "logsOverTime_INFO": "情報",
   "logsOverTime_FATAL": "致命的",
   "logsOverTime_NEXTLOGLEVEL": "{{label}}",

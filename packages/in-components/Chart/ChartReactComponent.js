@@ -67,6 +67,8 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
     hasActionlane = false,
     hasButtonInActionslane = true,
     onLegendItemToggle,
+    facets,
+    formModel,
     tableCloseHandler = false, // execute a function when the table closes
     tableOpen = false // control table opening / closing
   } = props;
@@ -165,6 +167,8 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
         <div ref={legendRef}>
           {chart && renderLegend && (
             <ChartLegend
+              facets={facets}
+              formModel={formModel}
               chart={chart}
               filteredDataSeries={chart.config.filteredDataSeries}
               onLegendItemToggle={onLegendItemToggle}

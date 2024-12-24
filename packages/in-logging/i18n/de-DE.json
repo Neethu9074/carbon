@@ -5,7 +5,7 @@
   "bar": "Leiste",
   "logsOverTime": "Protokolle im Laufe der Zeit",
   "logsOverTime_ERROR": "Fehler",
-  "logsOverTime_WARN": "Warnung ",
+  "logsOverTime_WARN": "Warnung",
   "logsOverTime_INFO": "Info",
   "logsOverTime_FATAL": "Fatal",
   "logsOverTime_NEXTLOGLEVEL": "{{label}}",

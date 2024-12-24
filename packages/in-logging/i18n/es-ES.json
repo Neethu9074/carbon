@@ -5,7 +5,7 @@
   "bar": "Barra",
   "logsOverTime": "Registros a lo largo del tiempo",
   "logsOverTime_ERROR": "Error",
-  "logsOverTime_WARN": "Avisos ",
+  "logsOverTime_WARN": "Avisos",
   "logsOverTime_INFO": "Información",
   "logsOverTime_FATAL": "Muy grave",
   "logsOverTime_NEXTLOGLEVEL": "{{label}}",

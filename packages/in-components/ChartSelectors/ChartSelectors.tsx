@@ -5,7 +5,13 @@
 
 import React, { useEffect } from 'react';
 
-import { ButtonGroup, CarbonMenuButton as MenuButton, CarbonMenuItem as MenuItem, SvgIcon, CarbonIconButton } from '@instana/components';
+import {
+  ButtonGroup,
+  CarbonMenuButton as MenuButton,
+  CarbonMenuItem as MenuItem,
+  SvgIcon,
+  CarbonIconButton
+} from '@instana/components';
 
 import { urlParameter as timeShiftUrlParameter } from 'in-stores/time/shifting';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';

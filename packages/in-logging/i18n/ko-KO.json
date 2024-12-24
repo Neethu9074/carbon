@@ -5,7 +5,7 @@
   "bar": "막대",
   "logsOverTime": "시간 경과에 따른 로그",
   "logsOverTime_ERROR": "오류",
-  "logsOverTime_WARN": "경고 ",
+  "logsOverTime_WARN": "경고",
   "logsOverTime_INFO": "정보",
   "logsOverTime_FATAL": "심각",
   "logsOverTime_NEXTLOGLEVEL": "{{label}}",

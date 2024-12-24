@@ -17,7 +17,7 @@ const { QueryBuilder, isQueryValid: isQueryValidInternal } = createQueryBuilder(
   getSuggestions: params => {
     const { tagFilterExpression, tagName, timeConfig, propose, key, value } = params;
     let entity = params.entity;
-    if (entity == null) entity = 'NOT_APPLICABLE'
+    if (entity == null) entity = 'NOT_APPLICABLE';
     const query: GetBizOpsTagSuggestionQuery = {
       entity: entity,
       tagFilterExpression: tagFilterExpression,

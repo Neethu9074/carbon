@@ -5,7 +5,7 @@
   "bar": "列",
   "logsOverTime": "一段時間的日誌",
   "logsOverTime_ERROR": "錯誤",
-  "logsOverTime_WARN": "警告 ",
+  "logsOverTime_WARN": "警告",
   "logsOverTime_INFO": "資訊",
   "logsOverTime_FATAL": "嚴重",
   "logsOverTime_NEXTLOGLEVEL": "{{label}}",

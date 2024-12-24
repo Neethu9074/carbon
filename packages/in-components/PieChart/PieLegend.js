@@ -23,8 +23,8 @@ export default function PieLegend({
     <Legend
       y1={y1}
       y2={y2}
-      y1Lables={getLabelsFromAxis(y1, hiddenMetrics, updateHiddenMetrics, metricsConfiguration)}
-      y2Lables={getLabelsFromAxis(y2, hiddenMetrics, updateHiddenMetrics, metricsConfiguration, 'y2')}
+      y1Labels={getLabelsFromAxis(y1, hiddenMetrics, updateHiddenMetrics, metricsConfiguration)}
+      y2Labels={getLabelsFromAxis(y2, hiddenMetrics, updateHiddenMetrics, metricsConfiguration, 'y2')}
       slices={slices}
       timeConfig={timeConfig}
       reverseLegendOrder={reverseLegendOrder}
