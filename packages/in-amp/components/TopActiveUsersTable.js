@@ -11,12 +11,14 @@ import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { compare } from 'in-services/util/number';
 import { t } from 'in-i18n';
 
+import locals from './TopActiveUsersTable.mless';
+
 /**
  * Renders a table containing the top active users with their name, role and days active.
  * @param {object} accountInfo The retrieved account information, including the user usage.
  */
 export default function TopActiveUsersTable({ accountInfo }) {
-  const dataSet = accountInfo?.data?.userUsage?.customer_last_week_top_active_users;
+  const dataSet = accountInfo?.data?.userUsage?.customer_top_active_users;
   if (!dataSet || Object.keys(dataSet).length === 0) {
     return (
       <>
@@ -51,9 +53,10 @@ export default function TopActiveUsersTable({ accountInfo }) {
 
   const carbonRows = Object.keys(result)
     .sort((a, b) => compare(result[b], result[a]))
-    .map(entry => {
+    .map((entry, index) => {
       const values = entry.split('#');
       return {
+        id: index,
         ['name']:
           values[1] === '[not provided]'
             ? t('in-amp:components.activationAdoption.topUsersTable.notProvided')
@@ -63,8 +66,8 @@ export default function TopActiveUsersTable({ accountInfo }) {
       };
     });
   return (
-    <>
+    <div className={locals.topActiveUsersTable}>
       <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
-    </>
+    </div>
   );
 }
