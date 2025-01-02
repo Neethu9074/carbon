@@ -26,13 +26,12 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
-// @ts-expect-error
-import EventIcon from 'in-events/components/EventIcon';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import { fixateTimeConfig } from 'in-stores/time/config';
+import EventIcon from 'in-events/components/EventIcon';
 import { number } from 'in-services/formatters/number';
 import { EventMap, EventOrMap } from 'in-events/types';
 import { Row, Col } from 'in-components/layout/Grid';

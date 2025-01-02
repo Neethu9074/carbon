@@ -119,6 +119,8 @@ export const websiteBeaconQueryOptimizationEnabled = isFeatureFlagEnabled(
 
 export const timeOutSessionEnabled = isFeatureFlagEnabled('timeOutSessionEnabled', false);
 
+export const iframeEnabled = isFeatureFlagEnabled('iframeEnabled', false);
+
 // SmartAlerts, Strontium-cloudberry:
 // Logs-Blueprint behind FF, Closed-Beta, only for customers already using it
 export const smartAlertsLogsBlueprintEnabled = isFeatureFlagEnabled('smartAlertsLogsBlueprintEnabled', false);
@@ -134,6 +136,9 @@ export const syntheticInstanaHostedPoPEnabled = isFeatureFlagEnabled('syntheticI
 
 // Synthetic RBAC Limited Access feature flag
 export const syntheticRbacLimitedEnabled = isFeatureFlagEnabled('syntheticRbacLimitedEnabled');
+
+// Synthetic DNSAction feature flag
+export const syntheticDNSActionEnabled = isFeatureFlagEnabled('syntheticDNSActionEnabled');
 
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
@@ -280,7 +285,6 @@ export const flowMapEnabled = isFeatureFlagEnabled('flowMapEnabled', true);
 export const enableCarbonIcons = isFeatureFlagEnabled('enableCarbonIcons', false);
 
 export const welcomePageV2Enabled = isFeatureFlagEnabled('welcomePageV2Enabled', true);
-export const shareAndInviteEnabled = isFeatureFlagEnabled('shareAndInviteEnabled', true);
 
 export const agentInstallationV2Enabled = isFeatureFlagEnabled('agentInstallationV2Enabled', false);
 

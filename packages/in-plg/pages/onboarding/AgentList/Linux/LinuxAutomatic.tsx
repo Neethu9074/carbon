@@ -15,8 +15,6 @@ import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import { CheckBox } from 'in-plg/pages/onboarding/content/ContentComponents';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
-import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
-import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import Code from 'in-plg/components/Code/Code';
 import { t } from 'in-i18n';
 
@@ -76,15 +74,8 @@ export default function LinuxAutomatic({
         </>
       ),
       openByDefault: true
-    },
-    {
-      title: t('in-plg:agentDetails.askForHelp.askForHelpTitle'),
-      body: <AskForHelp agentKey={agentKey} />,
-      openByDefault: false
     }
   ];
-
-  if (shareAndInviteEnabled) sideCardData.pop();
 
   function getPackaging() {
     return (

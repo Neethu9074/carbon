@@ -18,12 +18,6 @@
     justify-content: right;
   }
 
-  .tableRU {
-    grid-area: ru;
-    display: flex;
-    justify-content: right;
-  }
-
   .tableLabel {
     grid-area: label / span 2;
     justify-content: left;
@@ -31,13 +25,12 @@
   }
 
   .LogVolumeDetailsContainer {
-    background: red;
     margin: 2rem 0;
   }
 
   .LogVolumeDetails {
     .tableGrid();
-    background: #ebf1f7;
+    background: #e6e6e6;
     padding: 1.25rem;
 
     span {

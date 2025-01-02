@@ -9,10 +9,9 @@ import React from 'react';
 import { Stack } from '@instana/components';
 
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
-import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
 import { t } from 'in-i18n';
 
-export function supportViewData(agentKey?: string) {
+export function supportViewData() {
   return [
     {
       title: t('in-plg:agentDetails.common.prerequisitesTitle'),
@@ -41,11 +40,6 @@ export function supportViewData(agentKey?: string) {
         </Stack>
       ),
       openByDefault: true
-    },
-    {
-      title: t('in-plg:agentDetails.askForHelp.askForHelpTitle'),
-      body: <AskForHelp agentKey={agentKey ? agentKey : ''} />,
-      openByDefault: false
     }
   ];
 }

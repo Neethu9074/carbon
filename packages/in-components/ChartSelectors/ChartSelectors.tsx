@@ -5,7 +5,13 @@
 
 import React, { useEffect } from 'react';
 
-import { ButtonGroup, CarbonMenuButton as MenuButton, CarbonMenuItem as MenuItem } from '@instana/components';
+import {
+  ButtonGroup,
+  CarbonMenuButton as MenuButton,
+  CarbonMenuItem as MenuItem,
+  SvgIcon,
+  CarbonIconButton
+} from '@instana/components';
 
 import { urlParameter as timeShiftUrlParameter } from 'in-stores/time/shifting';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
@@ -37,6 +43,7 @@ interface TimeShiftAwareChartSelectorWithUrlStateProps {
   };
   disabledWidgetInLive?: boolean;
   children: React.ReactElement;
+  setTableOpen?: Function;
 }
 
 // The child components will receive these additional properties.
@@ -50,7 +57,8 @@ export function TimeShiftAwareChartSelectorWithUrlState({
   metrics,
   urlMatrixParamConfig: { path, paramTab, paramMetric },
   disabledWidgetInLive,
-  children
+  children,
+  setTableOpen
 }: TimeShiftAwareChartSelectorWithUrlStateProps): JSX.Element {
   // find the default metric of the specified tab
   const findDefaultMetricByTab = (tabId: string) =>
@@ -116,13 +124,27 @@ export function TimeShiftAwareChartSelectorWithUrlState({
     <ComboChartMetricSelector metrics={metrics} selected={getActiveMetric()} onChange={setActiveMetric} />
   ) : (
     tabs.length > 1 && (
-      <TabChartSelector
-        cardTitle={cardTitle}
-        tabs={tabs}
-        selected={getActiveTab()}
-        onChange={setActiveTab}
-        disabledWidgetInLive={disabledWidgetInLive}
-      />
+      <>
+        <TabChartSelector
+          cardTitle={cardTitle}
+          tabs={tabs}
+          selected={getActiveTab()}
+          onChange={setActiveTab}
+          disabledWidgetInLive={disabledWidgetInLive}
+        />
+        {setTableOpen && (
+          <CarbonIconButton
+            label={t('in-components:chart.openTable')}
+            size="sm"
+            kind="ghost"
+            onClick={() => {
+              setTableOpen();
+            }}
+          >
+            <SvgIcon type="lib_table_of_contents" size={'xs'} />
+          </CarbonIconButton>
+        )}
+      </>
     )
   );
 

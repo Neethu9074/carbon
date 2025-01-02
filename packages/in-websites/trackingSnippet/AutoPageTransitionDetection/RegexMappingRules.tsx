@@ -93,7 +93,7 @@ const RegexMappingRules = ({
 
   return (
     <>
-      <Spacer vertical="medium" />
+      <Spacer vertical="xsmall" />
       <div>
         {mappingRules.map(rule => (
           <MappingRuleRow
@@ -153,7 +153,7 @@ const MappingRuleRow = ({
         helperText={t('in-websites:trackingSnippet.autoPageTransition.mappingRuleHelperText')}
         hideLabel
       />
-      <Spacer horizontal="medium" />
+      <Spacer horizontal="normal" />
       <TextInput
         id="replaced-by"
         type="text"
@@ -174,7 +174,7 @@ const MappingRuleRow = ({
         />
       )}
     </div>
-    <Spacer vertical="small" />
+    <Spacer vertical="large" />
   </>
 );
 

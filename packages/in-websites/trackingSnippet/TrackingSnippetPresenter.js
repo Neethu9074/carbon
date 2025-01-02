@@ -6,7 +6,7 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
 
-import { Toggle, Typography, Spacer } from '@instana/components';
+import { Toggle, Typography, Spacer, Message } from '@instana/components';
 import { Select } from '@instana/components';
 
 import {
@@ -14,7 +14,7 @@ import {
   frameworkTypes,
   subresourceIntegrityURL,
   sessionTrackingURL,
-  REGEX_SUPPORTING_VERSION
+  MIN_SUPPORTED_REGEX_VERSION
 } from 'in-websites/trackingSnippet/AutoPageTransitionDetection/constants';
 import {
   LearnMoreLink,
@@ -171,7 +171,9 @@ export default function TrackingSnippetPresenter({
                 : t('in-websites:trackingSnippet.trackingSnippetPresenterToggleNo')}
             </div>
           </div>
+          <Spacer vertical="xsmall" />
           <SubHeadingHelpText text={t('in-websites:trackingSnippet.enableSubResourceIntegrityHelpText')} />
+          <Spacer vertical="xsmall" />
           <LearnMoreLink
             label={t('in-websites:trackingSnippet.autoPageTransition.learnMoreAboutText')}
             linkText={t('in-websites:trackingSnippet.autoPageTransition.subresourceIntegrityText')}
@@ -179,12 +181,13 @@ export default function TrackingSnippetPresenter({
           />
 
           {enableSRI && (
-            <div className={locals.button}>
+            <>
+              <Spacer vertical="normal" />
               <Typography variant="label-01" component="p" noMargin align="inherit">
                 {t('in-websites:trackingSnippet.trackingSnippetPresenterLabelAgentVersion')}
               </Typography>
 
-              <Spacer vertical="xxsmall" />
+              <Spacer vertical="xsmall" />
               <Select value={selectedWeaselVersion} onChange={e => handleVersionChange(e.target.value)}>
                 {weaselArray.map(version => (
                   <option value={version.value} key={version.label}>
@@ -192,10 +195,17 @@ export default function TrackingSnippetPresenter({
                   </option>
                 ))}
               </Select>
-            </div>
+              {weaselVersionNumber <= MIN_SUPPORTED_REGEX_VERSION && (
+                <>
+                  <Spacer vertical="normal" />
+                  <Message small description={t('in-websites:trackingSnippet.OldAgentVersionInfoMessage')} />
+                </>
+              )}
+            </>
           )}
         </div>
       )}
+      <Spacer vertical="normal" />
       <div className={locals.options}>
         <SubHeading text={t('in-websites:trackingSnippet.trackingSnippetPresenterLabelTrackSessions')} />
         <div className={locals.toggle}>
@@ -207,14 +217,14 @@ export default function TrackingSnippetPresenter({
           </div>
         </div>
       </div>
+      <Spacer vertical="xsmall" />
       <SubHeadingHelpText text={t('in-websites:trackingSnippet.enableSessionTrackingHelpText')} />
-
       <LearnMoreLink
         label={t('in-websites:trackingSnippet.autoPageTransition.learnMoreAboutText')}
         linkText={t('in-websites:trackingSnippet.autoPageTransition.trackingSessionsText')}
         url={sessionTrackingURL}
       />
-      {weaselVersionNumber > REGEX_SUPPORTING_VERSION && (
+      {weaselVersionNumber > MIN_SUPPORTED_REGEX_VERSION && (
         <FrameworkTypeSelection
           frameworkType={frameworkType}
           setFrameworkType={setFrameworkType}
@@ -227,19 +237,12 @@ export default function TrackingSnippetPresenter({
         />
       )}
 
-      <Spacer vertical="medium" />
+      <Spacer vertical="large" />
       <SubHeading text={t('in-websites:trackingSnippet.addTrackingScriptTitle')} />
       <SubHeadingHelpText text={t('in-websites:trackingSnippet.addTrackingScriptHelpText')} />
-
+      <Spacer vertical="xsmall" />
       <div className={locals.snippet}>
-        <Code
-          code={eumSnippet}
-          lang="html"
-          showLineNumbers={false}
-          withoutCopyButton={withoutCopyButton}
-          // Remove this wrapperClassName, once the carbon team fixes Code component disabled prop issue.
-          wrapperClassName={withoutCopyButton ? locals.wrapperClassName : undefined}
-        />
+        <Code code={eumSnippet} lang="html" showLineNumbers={false} disabled={withoutCopyButton} />
       </div>
     </div>
   );

@@ -74,7 +74,7 @@ export default function LogVolumeDetails({
                           return Array.isArray(period) ? period.length > 0 : period.gb > 0;
                         })
                         .map((days, index: number) => (
-                          <Li key={`${days}_${index}`}>
+                          <Li key={`${days}_${index}`} noAlternatingBg>
                             <div className={locals.retentionDays}>
                               <span className={locals.tableLabel}>
                                 {t('in-settings:tabs.logVolume.days', { context: days.replace('days', '') })}
@@ -91,7 +91,11 @@ export default function LogVolumeDetails({
                           .filter(days => retentionPeriods[days] && partialSums && partialSums[days].gb > 0)
                           .map((days, index) => (
                             <React.Fragment key={`${days}_${index}`}>
-                              <Li onClick={() => handleToggle(month, days)} className={locals.retentionDays}>
+                              <Li
+                                onClick={() => handleToggle(month, days)}
+                                className={locals.retentionDays}
+                                noAlternatingBg
+                              >
                                 <span className={locals.tableLabel}>
                                   {t('in-settings:tabs.logVolume.days', { context: days.replace('days', '') })}
                                 </span>

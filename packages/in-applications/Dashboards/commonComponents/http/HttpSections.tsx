@@ -51,6 +51,8 @@ interface HttpSectionsProps {
   timeConfig: TimeConfig;
   timeShiftConfig?: TimeShift;
   timeShiftMetric?: string;
+  tableOpen?: boolean;
+  tableCloseHandler?: Function;
 }
 
 export default function HttpSections({
@@ -67,7 +69,9 @@ export default function HttpSections({
   hasHttpAndOtherEndpoints,
   cardTitle,
   rightHeaderContent,
-  endpointTypes
+  endpointTypes,
+  tableOpen,
+  tableCloseHandler
 }: HttpSectionsProps): JSX.Element {
   const granularity = getChartGranularity(timeConfig);
   const throughputBlueprintConfig = getBlueprintConfig('throughput');
@@ -216,6 +220,8 @@ export default function HttpSections({
       customChartSkeletonHeight={280}
       rightHeaderContent={rightHeaderContent}
       renderHistoricDataIndicator
+      tableOpen={tableOpen}
+      tableCloseHandler={tableCloseHandler}
       renderPostChartContent={props =>
         renderPostChartContentHttpStatus({
           ...props,

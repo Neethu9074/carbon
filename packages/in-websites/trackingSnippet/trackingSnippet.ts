@@ -6,7 +6,7 @@
 import {
   pageTransitionMethods,
   frameworkTypes,
-  REGEX_SUPPORTING_VERSION
+  MIN_SUPPORTED_REGEX_VERSION
 } from 'in-websites/trackingSnippet/AutoPageTransitionDetection/constants';
 import { useInstanaSaasEumTrackingUrlEnabled } from 'in-services/featureFlags';
 import { weaselSubresourceIntegrityEnabled } from 'in-services/featureFlags';
@@ -80,7 +80,7 @@ export function getTrackingSnippet({
   }
 
   if (
-    weaselVersionNumber > REGEX_SUPPORTING_VERSION &&
+    weaselVersionNumber > MIN_SUPPORTED_REGEX_VERSION &&
     frameworkType === frameworkTypes.SPA &&
     enableAutoPageDetection
   ) {

@@ -13,14 +13,12 @@ import { Observable, create } from '@instana/observables';
 import { MessageContentModernDesign } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Events/components/LegacyAppdataEventInfoMessage';
 //@ts-expect-error missing typescript migration
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import InviteUserDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/InviteUserDialog';
 import { getEntityIdView, securityAndAccessAccessControlUsers } from 'in-settings/navigation/paths';
 import { getUsersAsResultObservable, removeUserFromTenant, UserResult } from 'in-api/users';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import useIsAnyIdPActive from 'in-settings/hooks/useIsAnyIdPActive';
-import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import { USER_INVITE } from 'in-services/tracking/tracking';
 import UserIcon from 'in-components/UserIcon/UserIcon';
 import { noop } from 'in-services/fixedObjects';
@@ -61,13 +59,7 @@ export default function Users() {
             ? undefined
             : () => {
                 trackCta(USER_INVITE);
-                addActiveDialog(
-                  shareAndInviteEnabled ? (
-                    <DeferredShareAndInviteDialogBox inviteOnly permissionToShowInvite />
-                  ) : (
-                    <InviteUserDialog />
-                  )
-                );
+                addActiveDialog(<DeferredShareAndInviteDialogBox inviteOnly permissionToShowInvite />);
               }
         }
         labelNew={t('in-settings:tabs.inviteUser')}

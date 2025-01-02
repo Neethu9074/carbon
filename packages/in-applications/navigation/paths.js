@@ -16,6 +16,7 @@ import {
   contextScope as matrixContextScope,
   dataSourceMatrixParameter,
   endpointId as matrixEndpointId,
+  subtraceId as matrixSubtraceId,
   facetedSearchMatrixParameter,
   hiddenCallsMatrixParameter,
   hasHttpType as matrixHasHttpType,
@@ -407,17 +408,31 @@ export function useLinkToEndpointDashboard() {
   return useDashboard(endpointDashboard);
 }
 
+export function useLinkToSubtraceDashboard() {
+  return useDashboard(subtraceDashboard);
+}
+
 function useDashboard(base) {
   const { location, createHref } = useNavigation();
 
   return useCallback(
-    ({ applicationId, serviceId, endpointId, boundaryScope, tab = summaryTab, tabMatrix = {}, timeConfig }) => {
+    ({
+      applicationId,
+      serviceId,
+      endpointId,
+      subtraceId,
+      boundaryScope,
+      tab = summaryTab,
+      tabMatrix = {},
+      timeConfig
+    }) => {
       const clonedLocation = cloneLocation(location);
 
       clonedLocation.pathname = `${base}${tab}`;
       setOrDeleteMatrixKey(clonedLocation, base, matrixApplicationId, applicationId);
       setOrDeleteMatrixKey(clonedLocation, base, matrixServiceId, serviceId);
       setOrDeleteMatrixKey(clonedLocation, base, matrixEndpointId, endpointId);
+      setOrDeleteMatrixKey(clonedLocation, base, matrixSubtraceId, subtraceId);
       setOrDeleteMatrixKey(clonedLocation, base, matrixBoundaryScope, boundaryScope);
 
       if (timeConfig != null) {

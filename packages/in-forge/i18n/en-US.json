@@ -983,6 +983,11 @@
   "pluginName_ibmDataPowerQueueManager_1": "IBM DataPower Queue Managers",
   "pluginName_ibmDataPowerQueueManager_2": "IBM DataPower Queue Managers",
   "pluginName_ibmDataPowerQueueManager": "IBM DataPower Queue Manager",
+  "pluginName_ibmDataPowerQueueManagerV9_plural": "IBM DataPower Queue Managers V9+",
+  "pluginName_ibmDataPowerQueueManagerV9_0": "IBM DataPower Queue Managers V9+",
+  "pluginName_ibmDataPowerQueueManagerV9_1": "IBM DataPower Queue Managers V9+",
+  "pluginName_ibmDataPowerQueueManagerV9_2": "IBM DataPower Queue Managers V9+",
+  "pluginName_ibmDataPowerQueueManagerV9": "IBM DataPower Queue Manager V9+",
   "pluginName_ibmDataPowerService_plural": "IBM DataPower Services",
   "pluginName_ibmDataPowerService_0": "IBM DataPower Services",
   "pluginName_ibmDataPowerService_1": "IBM DataPower Services",
@@ -3428,6 +3433,8 @@
       "state": "State",
       "queueManagersNumber": "Queue Manager ({{count}})",
       "queueManagersNumber_plural": "Queue Managers ({{count}})",
+      "queueManagersV9Number": "Queue Manager V9+ ({{count}})",
+      "queueManagersV9Number_plural": "Queue Managers V9+ ({{count}})",
       "serviceNumber": "Service ({{count}})",
       "serviceNumber_plural": "Services ({{count}})",
       "sqlDatasourceNumber": "SQL Data Source ({{count}})",
@@ -3468,6 +3475,12 @@
       "activeConnections": "Active Connections",
       "backendActiveConnections": "Backend Active Connections",
       "frontendActiveConnections": "Frontend Active Connections"
+    },
+    "ibmDataPowerQueueManagerV9": {
+      "ibmDataPowerQueueManagerV9Info": "IBM DataPower Queue Manager V9+",
+      "activeConversations": "Active Conversations",
+      "backendActiveConversations": "Backend Active Conversations",
+      "frontendActiveConversations": "Frontend Active Conversations"
     },
     "ibmDataPowerService": {
       "ibmDataPowerServiceInfo": "IBM DataPower Service",

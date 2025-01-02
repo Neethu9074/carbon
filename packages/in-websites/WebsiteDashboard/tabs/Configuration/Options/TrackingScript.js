@@ -19,7 +19,7 @@ export default function TrackingScript({ websiteId }) {
   return (
     <Card
       title={t('in-websites:websiteDashboard.tabs.configuration.configurationTrackingScriptTitle')}
-      headerClassName={locals.title}
+      headerClassName={locals.trackingScriptTitle}
       className={locals.configurationBlock}
     >
       <TrackingSnippetPresenter

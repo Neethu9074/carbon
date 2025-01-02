@@ -14,7 +14,7 @@ export const pageTransitionMethods = {
 };
 export const defaultMappingRule = { id: Date.now(), rule: '', replaceText: '' };
 
-export const REGEX_SUPPORTING_VERSION = '1.7.1';
+export const MIN_SUPPORTED_REGEX_VERSION = '1.7.1';
 
 // URL links
 export const applicationFrameworkURL = 'https://ibm.biz/web-FAQ';

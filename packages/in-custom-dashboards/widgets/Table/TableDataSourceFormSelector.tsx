@@ -22,6 +22,7 @@ export default function TableDataSourceFormSelector({ form, onChange }: TableDat
 
   switch (source) {
     case dataSources.EVENTS.type:
+    case dataSources.KUBERNETES_EVENTS.type:
       return <EventTableElements form={form} onChange={onChange} />;
     case dataSources.INFRA.type:
       return <InfrastructureTableForm form={form} onChange={onChange} />;

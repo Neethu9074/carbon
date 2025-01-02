@@ -38,5 +38,10 @@ export const dataSources: DataSourceProps = {
     type: infraMetrics.source,
     label: infraMetrics.label,
     isEnabled: customWidgetTableInfraDataSourceEnabled
+  },
+  KUBERNETES_EVENTS: {
+    type: 'KubernetesEventsTable',
+    label: t('in-custom-dashboards:widgets.table.dataSource.k8sEvents'),
+    isEnabled: true
   }
 };

@@ -8,6 +8,7 @@
 // in-services/featureFlags
 module.exports = {
   timeOutSessionEnabled: true,
+  iframeEnabled: true,
   agentMonitoringIssuesEnabled: true,
   cveIssueEnabled: false,
   businessObservabilityEnabled: true,
@@ -126,6 +127,7 @@ module.exports = {
   infraPredictiveDetectionEnabled: true,
   syntheticInstanaHostedPoPEnabled: true,
   syntheticRbacLimitedEnabled: true,
+  syntheticDNSActionEnabled: true,
   flowMapEnabled: true,
   zoomWidgetEnabled: true,
   allowDownloadMetricsFromCharts: true,
@@ -141,7 +143,6 @@ module.exports = {
   resourceOptimizationActionsEnabled: true,
   eventResourceActionsEnabled: true,
   carbonTabsEnabled: true,
-  shareAndInviteEnabled: true,
   automationActionInstanceFeedbackEnabled: false,
   infraExploreFilterEmptyValueEnabled: true,
   weaselSubresourceIntegrityEnabled: true,

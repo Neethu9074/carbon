@@ -230,7 +230,6 @@ function Header(props: DashboardButtonProps & { result: Result<TraceSummary> }) 
       renderButtonLine={renderButtonLine}
       renderMetaInformation={renderMetaInformation}
       renderTimeSelection={RenderTimeSelection}
-      hideUrlShortener
     />
   );
 }

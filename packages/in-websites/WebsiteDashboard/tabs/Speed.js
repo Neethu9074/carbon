@@ -371,7 +371,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
                 }}
                 y1={{
                   renderer: Renderer.line,
-                  formatter: clsFormatter,
+                  formatter: millis.forcedFixedCompact,
                   labels: [t('in-websites:websiteDashboard.tabs.speedLabelLargestContentfulPaint')],
                   metricIds: ['largestContentfulPaintTime']
                 }}
@@ -407,7 +407,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
                 }}
                 y1={{
                   renderer: Renderer.line,
-                  formatter: clsFormatter,
+                  formatter: millis.forcedFixedCompact,
                   labels: [t('in-websites:websiteDashboard.tabs.speedLabelInteractionNextPaint')],
                   metricIds: ['interactionNextPaint']
                 }}

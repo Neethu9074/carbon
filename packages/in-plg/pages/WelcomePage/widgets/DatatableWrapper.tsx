@@ -13,8 +13,6 @@ import { DashboardTableRow as Row } from '@instana/components';
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
 
-// import RegularItemList from 'in-plg/pages/WelcomePage/widgets/table/RegularItemList';
-import PinnedItemList, { Item } from 'in-plg/pages/WelcomePage/widgets/table/PinnedItemList';
 import {
   DatatableWidgetProps,
   StarredItemWithIdsType,
@@ -27,6 +25,7 @@ import {
 } from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
 //@ts-expect-error no declaration file found
 import { starredItems$ } from 'in-cockpit/starredItems';
+import PinnedItemList, { Item } from 'in-plg/pages/WelcomePage/widgets/table/PinnedItemList';
 //@ts-expect-error no declaration file found
 import connectTo from 'in-hoc/connectTo';
 import getResultsToDisplay from 'in-alerting/smart-alerts/components/list/ListHelper';
@@ -205,28 +204,11 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
   }
 
   function viewAllButton(key: string) {
-    if (viewAll) {
-      if (hasContent || favIds.length) {
-        return (
-          <ViewAllButton
-            key={key}
-            href={href}
-            viewLabel={`${t('in-plg:welcomepage.viewAll')} ${viewAllLabel}`}
-            columnCount={columnDefinitions.length}
-          />
-        );
-      } else {
-        return (
-          <ViewAllButton
-            key={key}
-            viewLabel={`${t('in-plg:welcomepage.viewAll')} ${viewAllLabel}`}
-            isTableEmpty
-            columnCount={columnDefinitions.length}
-          />
-        );
-      }
+    if (hasContent || favIds.length) {
+      return <ViewAllButton key={key} href={href} viewLabel={`${t('in-plg:welcomepage.viewAll')} ${viewAllLabel}`} />;
+    } else {
+      return <ViewAllButton key={key} viewLabel={`${t('in-plg:welcomepage.viewAll')} ${viewAllLabel}`} isTableEmpty />;
     }
-    return;
   }
 
   const generateRows = () => {
@@ -241,13 +223,11 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
     if (numberOfRegularItemsError || numberOfRegularItemsLoading || numberOfregularItems) {
       rows.push({ id: `${rowId++}`, ...regularItemsList });
     }
-    if (viewAll) rows.push({ id: `${rowId++}`, ...viewAllButton('viewAllButton') });
     return rows;
   };
 
   const dataArray = generateRows();
-  const filteredArrayExcludingViewAllButton = dataArray.filter(item => item.key !== 'viewAllButton');
-  const hasNoDataTile = !filteredArrayExcludingViewAllButton.length;
+  const hasNoDataTile = !dataArray.length;
   const updatedHeaders = mainPage ? headers.filter(obj => obj.key !== 'favourite') : null;
   const dataLoading = result?.progress?.loading;
   const showPagination = mainPage && (dataLoading || hits > pageSizes[0]);
@@ -286,6 +266,7 @@ export default connectTo(({ pinnedItemTypes }: { pinnedItemTypes: (keyof Starred
           toggles={dashboardTileProps.toggles}
           toggleCallback={dashboardTileProps.toggleCallback}
         />
+        {viewAll && viewAllButton('viewAllButton')}
       </DashboardTile>
       {showPagination &&
         (carbonPaginationEnabled ? (

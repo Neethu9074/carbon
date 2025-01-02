@@ -21,6 +21,16 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'timeOutSessionEnabled',
+    instanaCtlKey: 'feature.sessiontimeout.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'iframeEnabled',
+    instanaCtlKey: 'feature.customdashboard.iframe.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'useInstanaSaasEumTrackingUrlEnabled',
     instanaCtlKey: 'feature.use.instana.saas.eum.tracking.url.enabled',
     defaultValue: true
@@ -106,7 +116,7 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'prcIssueEnabled',
+    uiClientKey: 'cveIssueEnabled',
     instanaCtlKey: 'feature.cve.issues.enabled',
     defaultValue: false
   },
@@ -456,6 +466,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'syntheticDNSActionEnabled',
+    instanaCtlKey: 'feature.synthetic.dns.action.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'customWidgetEventsTableEnabled',
     instanaCtlKey: 'feature.custom.widget.events.table.enabled',
     defaultValue: true
@@ -659,11 +674,6 @@ module.exports = exports = [
   {
     uiClientKey: 'welcomePageV2Enabled',
     instanaCtlKey: 'feature.welcomepage.v2.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'shareAndInviteEnabled',
-    instanaCtlKey: 'feature.share.and.invite.enabled',
     defaultValue: true
   },
   {

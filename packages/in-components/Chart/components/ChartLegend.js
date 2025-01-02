@@ -9,29 +9,52 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 import { Tooltip } from '@instana/components';
 
+import { checkLogLevel } from 'in-components/Chart/components/utils';
 import Legend from 'in-components/Chart/components/Legend';
 import { t } from 'in-i18n';
 
-export default function ChartLegend({ chart, onLegendItemToggle }) {
+export default function ChartLegend({ chart, onLegendItemToggle, facets, formModel }) {
   const filteredDataSeries = useObservable(chart.config.filteredDataSeries$, [chart.config.filteredDataSeries$], {
     pure: false
   });
-  const y1Lables = getLabelsMapFromAxis(chart.config.y1, filteredDataSeries, chart, 'y1', onLegendItemToggle);
-  const y2Lables = getLabelsMapFromAxis(chart.config.y2, filteredDataSeries, chart, 'y2', onLegendItemToggle);
+
+  const y1Labels = getLabelsMapFromAxis(
+    chart.config.y1,
+    filteredDataSeries,
+    chart,
+    'y1',
+    onLegendItemToggle,
+    facets,
+    formModel
+  );
+  const y2Labels = getLabelsMapFromAxis(
+    chart.config.y2,
+    filteredDataSeries,
+    chart,
+    'y2',
+    onLegendItemToggle,
+    facets,
+    formModel
+  );
+
   return (
-    <Legend
-      reverseLegendOrder={chart.config.reverseLegendOrder}
-      y1={chart.config.y1}
-      y2={chart.config.y2}
-      y1Lables={y1Lables}
-      y2Lables={y2Lables}
-    />
+    <>
+      <Legend
+        reverseLegendOrder={chart.config.reverseLegendOrder}
+        y1={chart.config.y1}
+        y2={chart.config.y2}
+        y1Labels={y1Labels}
+        y2Labels={y2Labels}
+      />
+    </>
   );
 }
 
 ChartLegend.propTypes = {
   chart: rpt.object.isRequired,
-  onLegendItemToggle: rpt.func
+  onLegendItemToggle: rpt.func,
+  facets: rpt.object.isRequired,
+  formModel: rpt.object.isRequired
 };
 
 /**
@@ -44,8 +67,18 @@ ChartLegend.propTypes = {
  * @param {Object} chart
  * @param {String} axisName
  * @param {Function} onToggle
+ * @param facets
+ * @param formModel
  */
-function getLabelsMapFromAxis(axis, filteredDataSeries, chart, axisName = 'y1', onToggle = () => {}) {
+function getLabelsMapFromAxis(
+  axis,
+  filteredDataSeries,
+  chart,
+  axisName = 'y1',
+  onToggle = () => {},
+  facets,
+  formModel
+) {
   const axisLabels =
     axis?.excludedLabelsFromLegend?.length > 0
       ? axis.labels.filter(label => axis.excludedLabelsFromLegend.indexOf(label) == -1)
@@ -64,8 +97,12 @@ function getLabelsMapFromAxis(axis, filteredDataSeries, chart, axisName = 'y1', 
         ) : (
           label
         );
+
+      const disableLabel = !checkLogLevel(facets, label, formModel);
+
       return {
         name: showLegendToolTip,
+        renderLabel: disableLabel,
         dataSeriesName: `${axisName}-${i}`,
         isDisabled: filteredDataSeries?.has(`${axisName}-${i}`),
         timeShift: axis.timeShifts && axis.timeShifts[i],

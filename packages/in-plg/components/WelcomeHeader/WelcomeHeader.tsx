@@ -11,9 +11,9 @@ import { t } from '@instana/i18n-react';
 
 import OnboardingCarousel from 'in-plg/components/WelcomeHeader/OnboardingCarousel/OnboardingCarousel';
 import { AccountActivationProp } from 'in-plg/pages/WelcomePage/widgets/hooks/useGetAccountActivation';
-import WelcomeToolbar, { UrlShortener } from 'in-plg/components/WelcomeHeader/toolbar/WelcomeToolbar';
-import { playwithEnabled, shareAndInviteEnabled } from 'in-services/featureFlags';
+import WelcomeToolbar from 'in-plg/components/WelcomeHeader/toolbar/WelcomeToolbar';
 import DatePicker from 'in-plg/components/DatePicker/DatePicker';
+import { playwithEnabled } from 'in-services/featureFlags';
 import { user } from 'in-stores/user';
 
 import locals from 'in-plg/components/WelcomeHeader/WelcomeHeader.mless';
@@ -36,7 +36,7 @@ export default function WelcomeHeader({ onboardingHeaderEnabled, accountActivati
       data-search-context={t('in-plg:assistme.dataSearchContext.gettingStarted')}
       data-testid="header"
     >
-      <WelcomeToolbar title={headerTitle} shareAndInviteEnabled={shareAndInviteEnabled} />
+      <WelcomeToolbar title={headerTitle} />
       {onboardingHeaderEnabled && <OnboardingCarousel accountActivationData={accountActivationData} />}
     </div>
   );
@@ -46,7 +46,6 @@ export function DatePickerHeader() {
   return (
     <div className="header" data-testid="date-picker">
       <Stack direction="horizontal">
-        {!shareAndInviteEnabled && <UrlShortener darkTheme={false} />}
         <DatePicker darkTheme={false} />
       </Stack>
     </div>

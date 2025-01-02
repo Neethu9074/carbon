@@ -7,4 +7,19 @@
   .toolbarContent {
     justify-content: start;
   }
+
+  .timelineWrapper {
+    position: relative;
+    height: 10px;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: var(--ids-color-option-neutral-600);
+    border-radius: var(--ids-border-radius-option-large);
+  }
 }

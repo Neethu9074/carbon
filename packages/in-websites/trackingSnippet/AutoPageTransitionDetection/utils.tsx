@@ -18,7 +18,7 @@ import locals from 'in-websites/trackingSnippet/AutoPageTransitionDetection/Auto
 // LearnMoreLink component for displaying a help paragraph with an embedded translated link.
 export const LearnMoreLink = ({ label, linkText, url }: LearnMoreLinkProps) => (
   <>
-    <Spacer vertical="xxsmall" />
+    <Spacer vertical="xsmall" />
     <div className={locals.displayFlex}>
       <Typography variant="body-small" component="p" noMargin align="inherit">
         {label}

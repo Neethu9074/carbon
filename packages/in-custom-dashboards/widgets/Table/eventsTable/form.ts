@@ -25,3 +25,10 @@ export function createColumnsField(savedState: Partial<TableFormConfiguration>) 
     validator: composeAndShortCircuitOnError<string[]>(notUndefinedValidator, arrayValidator, arrayNotEmptyValidator)
   });
 }
+
+export function createColumnsFieldForKubernetes(savedState: Partial<TableFormConfiguration>) {
+  return createField<string[]>({
+    value: (savedState?.columns ?? ['type', 'reason']) as string[],
+    validator: composeAndShortCircuitOnError<string[]>(notUndefinedValidator, arrayValidator, arrayNotEmptyValidator)
+  });
+}

@@ -59,7 +59,7 @@ export default function EventsChartWidget({
         size="xs"
       >
         <div className={locals.eventsChartWrapper}>
-          <Stack distribution="spaceBetween" align="start">
+          <Stack distribution="spaceBetween">
             {isNoDataAvailable ? (
               <NoDataAvailable />
             ) : (

@@ -54,7 +54,7 @@ export default function RootCauseLogsSection({
     [relatedAPID]
   );
 
-  if (loadingSnapshotData || loadingStackData) return <LoadingIndicator />;
+  if (!entityData && (loadingSnapshotData || loadingStackData)) return <LoadingIndicator />;
 
   return (
     <Collapsible

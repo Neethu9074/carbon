@@ -40,7 +40,7 @@ const AutoPageTransitionDetection = ({
 
   return (
     <div className={locals.autoDetectBlockWrapper}>
-      <Spacer vertical="medium" />
+      <Spacer vertical="large" />
       <SubHeading text={t('in-websites:trackingSnippet.autoPageTransition.enableAutopageTransitionLabel')} />
       <Toggle
         id="enableAutoPageDetection"
@@ -49,6 +49,7 @@ const AutoPageTransitionDetection = ({
         labelA={t('in-websites:trackingSnippet.trackingSnippetPresenterToggleNo')}
         labelB={t('in-websites:trackingSnippet.trackingSnippetPresenterToggleYes')}
       />
+      <Spacer vertical="xsmall" />
       <SubHeadingHelpText text={t('in-websites:trackingSnippet.autoPageTransition.enableAutopageTransitionDesc')} />
       <LearnMoreLink
         label={t('in-websites:trackingSnippet.autoPageTransition.learnMoreAboutText')}

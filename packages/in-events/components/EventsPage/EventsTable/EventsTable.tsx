@@ -4,9 +4,6 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { useMemo, useEffect, useRef } from 'react';
-import { isEmpty } from 'lodash';
-
 import {
   Datagrid,
   useDatagrid,
@@ -14,8 +11,12 @@ import {
   useInfiniteScroll,
   useOnRowClick,
   useSortableColumns
-} from '@instana/ibm-products';
-import { formatDateTime } from '@instana/format-date';
+} from '@carbon/ibm-products';
+import React, { useMemo, useEffect, useRef } from 'react';
+import { isEmpty } from 'lodash';
+
+import { DateFormatterInput, formatDateTime } from '@instana/format-date';
+import { RawEvent } from '@instana/types';
 
 import { EVENT_TYPES, getEventSeverityLabelWithEventType, getEventType } from 'in-stores/events';
 import { DatagridActions } from 'in-events/components/EventsPage/EventsTable/DatagridActions';
@@ -26,13 +27,14 @@ import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
 import EventIcon from 'in-events/components/EventIcon';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import TimelineCell from './TimelineCell';
 import { t } from 'in-i18n';
 
 const eventsTableColumns = [
   {
     Header: '',
     accessor: 'severity',
-    Cell: ({ cell }) => {
+    Cell: ({ cell }: { cell: { row: { original: RawEvent } } }) => {
       const event = cell.row.original;
       const timeConfig = useTimeConfig();
       return <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />;
@@ -49,7 +51,7 @@ const eventsTableColumns = [
     Header: t('in-events:dataGridEventTable.on'),
     accessor: 'entityLabel',
     width: 250,
-    Cell: ({ cell }) => {
+    Cell: ({ cell }: { cell: { row: { original: RawEvent } } }) => {
       const event = cell.row.original;
       return <OnEntity rawEvent={event} />;
     },
@@ -58,13 +60,13 @@ const eventsTableColumns = [
   {
     Header: t('in-events:dataGridEventTable.started'),
     accessor: 'start',
-    Cell: ({ cell: { value } }) => formatDateTime(value),
+    Cell: ({ cell: { value } }: { cell: { value: DateFormatterInput } }) => formatDateTime(value),
     width: 250
   },
   {
     Header: t('in-events:dataGridEventTable.end'),
     accessor: 'end',
-    Cell: ({ cell }) => {
+    Cell: ({ cell }: { cell: { row: { original: RawEvent } } }) => {
       const event = cell.row.original;
       const eventType = getEventType(event);
       const isChangeEvent = eventType === EVENT_TYPES.CHANGE;
@@ -77,9 +79,18 @@ const eventsTableColumns = [
     width: 250
   },
   {
+    Header: 'Timeline',
+    accessor: 'Timeline',
+    Cell: ({ cell }: { cell: { row: { original: RawEvent } } }) => {
+      const event = cell.row.original;
+      return <TimelineCell event={event} />;
+    },
+    disableSortBy: true
+  },
+  {
     Header: t('in-events:dataGridEventTable.state'),
     accessor: 'state',
-    Cell: ({ cell }) => {
+    Cell: ({ cell }: { cell: { row: { original: RawEvent } } }) => {
       const event = cell.row.original;
       return getStateBadge(event);
     }
@@ -99,7 +110,7 @@ const denseListColumns = [
   {
     Header: '',
     accessor: 'severity',
-    Cell: ({ cell }) => {
+    Cell: ({ cell }: { cell: { row: { original: RawEvent } } }) => {
       const event = cell.row.original;
       const timeConfig = useTimeConfig();
       return <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />;
@@ -191,6 +202,19 @@ const sortingMapper = {
   end: 'end'
 };
 
+type SortingMapperKeys = 'title' | 'start' | 'state' | 'end';
+
+interface EventsTableProps {
+  onItemClicked: (eventID: string) => void;
+  rawEvents: RawEvent[];
+  isDenseList: boolean;
+  orderBy: string;
+  orderDirection: string;
+  loading: boolean;
+  canLoadMore: boolean;
+  loadMore: () => void;
+}
+
 const EventsTable = ({
   onItemClicked,
   rawEvents,
@@ -200,8 +224,8 @@ const EventsTable = ({
   loading,
   canLoadMore,
   loadMore
-}) => {
-  function buildQueryString(list, keyword) {
+}: EventsTableProps) => {
+  function buildQueryString(list: string[], keyword: string) {
     let queryString = '';
 
     list.forEach((item, index) => {
@@ -306,8 +330,8 @@ const EventsTable = ({
       hiddenColumns,
       data: rawEvents,
       multiLineWrapAll: false,
-      onRowClick: row => {
-        onItemClicked(row.original.id);
+      onRowClick: (row: { original: RawEvent }) => {
+        onItemClicked(row.original.id as string);
       },
       batchActions: true,
       DatagridActions,
@@ -355,7 +379,7 @@ const EventsTable = ({
     }
 
     const { id, desc } = sortBy[0];
-    setOrDeleteMatrixKey(location, eventsPath, 'orderBy', sortingMapper[id]);
+    setOrDeleteMatrixKey(location, eventsPath, 'orderBy', sortingMapper[id as SortingMapperKeys]);
     setOrDeleteMatrixKey(location, eventsPath, 'orderDirection', desc ? 'DESC' : 'ASC');
     navigate(location);
   }, [sortBy, location, navigate]);
@@ -364,7 +388,9 @@ const EventsTable = ({
   useEffect(() => {
     const updateSelectedFilters = () => {
       const selectedConfigTypes =
-        filters[0].value?.filter(config => config.selected)?.map(config => config.value) || [];
+        filters[0].value
+          ?.filter((config: { selected: boolean; value: string }) => config.selected)
+          ?.map((config: { selected: boolean; value: string }) => config.value) || [];
 
       //Convert all the selections into filters param
       let selectedQuery = '';
@@ -378,7 +404,7 @@ const EventsTable = ({
     };
 
     const clearAllFilters = () => {
-      if (clearFilters) {
+      if (clearFilters.current) {
         setOrDeleteMatrixKey(location, eventsPath, 'filter', null);
         navigate(location);
         return;

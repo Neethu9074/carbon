@@ -37,8 +37,6 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
 import { infraPredictiveDetectionEnabled } from 'in-services/featureFlags';
-// @ts-expect-error
-import EventIcon from 'in-events/components/EventIcon';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { TagCatalog, TagFilterExpression, TimeConfig } from 'in-types';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
@@ -47,6 +45,7 @@ import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { emptyList, emptyMap } from 'in-services/fixedImmutables';
 import { getChartTimeConfigByEvent } from 'in-events/timeframe';
+import EventIcon from 'in-events/components/EventIcon';
 import { Row, Col } from 'in-components/layout/Grid';
 import { deepCopy } from 'in-services/util/object';
 import PluginIcon from 'in-components/PluginIcon';

@@ -43,7 +43,7 @@ const EnableAutoPageDetection = ({
   };
   return (
     <>
-      <Spacer vertical="normal" />
+      <Spacer vertical="large" />
       <SubHeading text={t('in-websites:trackingSnippet.autoPageTransition.transitionDetectionHeading')} />
       <div className={locals.radioButtonWrapper}>
         {Object.values(pageTransitionMethods).map((method, index) => (
@@ -114,9 +114,8 @@ const EnableRegexMappingRule = ({ setRegexMappingRules, setWithoutCopyButton }: 
 
   return (
     <>
-      <Spacer vertical="medium" />
+      <Spacer vertical="large" />
       <SubHeading text={t('in-websites:trackingSnippet.autoPageTransition.mappingRulesTitle')} />
-      <Spacer vertical="xxsmall" />
       <Toggle
         id="enableRegexMappingRule"
         checked={enableRegexMappingRule}
@@ -125,6 +124,7 @@ const EnableRegexMappingRule = ({ setRegexMappingRules, setWithoutCopyButton }: 
         labelA={t('in-websites:trackingSnippet.trackingSnippetPresenterToggleNo')}
         labelB={t('in-websites:trackingSnippet.trackingSnippetPresenterToggleYes')}
       />
+      <Spacer vertical="xsmall" />
       <SubHeadingHelpText text={t('in-websites:trackingSnippet.autoPageTransition.mappingRulesDesc')} />
       <LearnMoreLink
         label={t('in-websites:trackingSnippet.autoPageTransition.learnMoreAboutText')}

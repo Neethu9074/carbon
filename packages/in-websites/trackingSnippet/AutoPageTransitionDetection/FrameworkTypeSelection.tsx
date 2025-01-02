@@ -47,7 +47,7 @@ const FrameworkTypeSelection = ({
   };
   return (
     <>
-      <Spacer vertical="normal" />
+      <Spacer vertical="large" />
       <div className={locals.wrapper}>
         <SubHeading text={t('in-websites:trackingSnippet.autoPageTransition.frameworkTypeSelectionLabel')} />
         <div className={locals.radioButtonWrapper}>

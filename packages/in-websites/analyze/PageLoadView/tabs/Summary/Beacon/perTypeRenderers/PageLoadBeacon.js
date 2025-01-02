@@ -88,34 +88,37 @@ export const Body = ({ beacon }) => {
   }
 
   const webVitals = [
-    beacon.firstContentfulPaintTime > -1 && (
-      <Di key={0} title={t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTitleFirstContentfulPaint')}>
-        {millis.fixedCompact(beacon.firstContentfulPaintTime)}
-      </Di>
-    ),
-    beacon.largestContentfulPaintTime > -1 && (
-      <Di key={1} title={t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTitleLargestContentfulPaint')}>
-        {millis.fixedCompact(beacon.largestContentfulPaintTime)}
-      </Di>
-    ),
     beacon.firstInputDelayTime > -1 && (
-      <Di key={2} title={t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTitleFirstInputDelay')}>
+      <Di key={0} title={t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTitleFirstInputDelay')}>
         {millis.fixedCompact(beacon.firstInputDelayTime)}
       </Di>
     ),
-    beacon.cumulativeLayoutShift >= 0 && (
-      <Di key={3} title={t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTitleCumulativeLayoutShift')}>
-        {fourDecimalPlaces(beacon.cumulativeLayoutShift)}
+    beacon.firstContentfulPaintTime > -1 && (
+      <Di key={1} title={t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTitleFirstContentfulPaint')}>
+        {millis.fixedCompact(beacon.firstContentfulPaintTime)}
       </Di>
     ),
     beacon.backendTime >= 0 && (
-      <Di key={4} title={t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTitleTimeToFirstByte')}>
+      <Di key={2} title={t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTitleTimeToFirstByte')}>
         {millis.fixedCompact(beacon.backendTime)}
+      </Di>
+    )
+  ].filter(Boolean);
+
+  const coreWebVitals = [
+    beacon.largestContentfulPaintTime > -1 && (
+      <Di key={0} title={t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTitleLargestContentfulPaint')}>
+        {millis.fixedCompact(beacon.largestContentfulPaintTime)}
       </Di>
     ),
     beacon.interactionNextPaint >= 0 && (
-      <Di key={5} title={t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTitleInteractionNextPaint')}>
+      <Di key={1} title={t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTitleInteractionNextPaint')}>
         {millis.fixedCompact(beacon.interactionNextPaint)}
+      </Di>
+    ),
+    beacon.cumulativeLayoutShift >= 0 && (
+      <Di key={2} title={t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTitleCumulativeLayoutShift')}>
+        {fourDecimalPlaces(beacon.cumulativeLayoutShift)}
       </Di>
     )
   ].filter(Boolean);
@@ -148,7 +151,7 @@ export const Body = ({ beacon }) => {
         )}
       </Row>
 
-      {(webVitals.length > 0 || hasNavigationTimings) && (
+      {(coreWebVitals.length > 0 || webVitals.length > 0 || hasNavigationTimings) && (
         <Row>
           {hasNavigationTimings && (
             <Col lg={6}>
@@ -165,10 +168,14 @@ export const Body = ({ beacon }) => {
             </Col>
           )}
 
-          {webVitals.length > 0 && (
+          {(coreWebVitals.length > 0 || webVitals.length > 0) && (
             <Col lg={6}>
+              <BodyHeader>
+                {t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconHeaderCoreWebVitals')}
+              </BodyHeader>
+              <Dl>{coreWebVitals}</Dl>
               <BodyHeader>{t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconHeaderWebVitals')}</BodyHeader>
-              {webVitals}
+              <Dl>{webVitals}</Dl>
             </Col>
           )}
         </Row>

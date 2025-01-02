@@ -40,14 +40,14 @@ export default function Legend(props) {
           <MetricSeries
             axis={props.y1}
             axisName="y1"
-            labels={props.y1Lables}
+            labels={props.y1Labels}
             {...props}
             showExpandableTrigger={setIsExpandalbe}
           />
           <MetricSeries
             axis={props.y2}
             axisName="y2"
-            labels={props.y2Lables}
+            labels={props.y2Labels}
             {...props}
             showExpandableTrigger={setIsExpandalbe}
           />
@@ -66,8 +66,8 @@ export default function Legend(props) {
 }
 
 Legend.propTypes = {
-  y1Lables: rpt.array.isRequired,
-  y2Lables: rpt.array.isRequired,
+  y1Labels: rpt.array.isRequired,
+  y2Labels: rpt.array.isRequired,
   y1: rpt.object.isRequired,
   y2: rpt.object
 };
@@ -99,7 +99,7 @@ function MetricSeries({ axis, reverseLegendOrder, labels, showExpandableTrigger,
     <ul className={locals.metricList} ref={ref}>
       {(reverseLegendOrder ? rangeRight(labels.length) : range(labels.length)).map(i => {
         const timeShift = labels[i].timeShift || defaultTimeShift;
-        const { isDisabled, isToggleable, onToggle, dataSeriesName, name, metricId } = labels[i];
+        const { isDisabled, isToggleable, onToggle, dataSeriesName, name, metricId, renderLabel = true } = labels[i];
         const slice = slices?.[i];
 
         const content = (
@@ -161,13 +161,13 @@ function MetricSeries({ axis, reverseLegendOrder, labels, showExpandableTrigger,
             )}
           </li>
         );
-        return isToggleable ? (
-          content
-        ) : (
-          <Tooltip key={name} content={axis.nonToggleableSeries.get(metricId)}>
-            {content}
-          </Tooltip>
-        );
+        return isToggleable
+          ? renderLabel && content
+          : renderLabel && (
+              <Tooltip key={name} content={axis.nonToggleableSeries.get(metricId)}>
+                {content}
+              </Tooltip>
+            );
       })}
     </ul>
   );

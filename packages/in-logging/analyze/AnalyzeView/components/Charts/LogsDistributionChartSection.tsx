@@ -88,7 +88,7 @@ function Chart(props: ChartProps) {
   return <LogsChart {...props} />;
 }
 
-function LogsChart({ backendQueryModelWithFacets, metric, rightHeaderContent }: ChartProps) {
+function LogsChart({ backendQueryModelWithFacets, metric, rightHeaderContent, facets, formModel }: ChartProps) {
   const timeConfig = useTimeConfig();
   const { setState, state } = useLoggingAnalyzeContext();
 
@@ -125,6 +125,8 @@ function LogsChart({ backendQueryModelWithFacets, metric, rightHeaderContent }: 
         automaticallySize={false}
         rightHeaderContent={rightHeaderContent}
         renderLegend
+        facets={facets}
+        formModel={formModel}
         title={title}
         excludedContextMenuActions={['globalHighlight', 'download']}
         config={config}

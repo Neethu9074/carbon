@@ -10,36 +10,26 @@ import { TableEntityCounter } from '@instana/legacy';
 import { Button, Link } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-// @ts-expect-error needs ts migration
-import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/CreateGlobalSmartAlertButton';
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 // @ts-expect-error needs ts migration
-import CreateApplication from 'in-applications/creation/CreateApplication';
-// @ts-expect-error needs ts migration
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
-import { useLinkToSubtraceDashboard } from 'in-applications/navigation/hooks/useLinkToSubtraceDashboard';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
-import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
-import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import CreateSubtraceDialog from 'in-applications/creation/Dialog/CreateSubtraceDialog';
-import { applicationListPrefix } from 'in-applications/navigation/matrix';
+import { useLinkToSubtraceDashboard } from 'in-applications/navigation/paths';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
-import { applicationSubtracesEnabled } from 'in-services/featureFlags';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import { applicationsList } from 'in-applications/navigation/paths';
 import { useSubtraces } from 'in-applications/hooks/useSubtraces';
+import { subtracesList } from 'in-applications/navigation/paths';
 import { productAreas } from 'in-services/tracking/productAreas';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { TagFilterExpressionElementUnion } from 'in-types';
 import Sticky from 'in-components/Sticky';
-import Footer from 'in-components/Footer';
 import Title from 'in-components/Title';
-import { role } from 'in-stores/user';
 
-const pathSegment = applicationsList;
-const matrixPrefix = applicationListPrefix;
+const pathSegment = subtracesList;
+const matrixPrefix = '';
 
 // TODO: take this from @instana/types once BE is exposing it.
 export interface Subtrace {
@@ -55,7 +45,7 @@ export interface Subtrace {
 
 const SubtraceLink = ({ item }: { item: Subtrace }) => {
   const getLinkToSubtraceDashboard = useLinkToSubtraceDashboard();
-  return <Link href={getLinkToSubtraceDashboard({ id: item.id })}>{item.name}</Link>;
+  return <Link href={getLinkToSubtraceDashboard({ subtraceId: item.id })}>{item.name}</Link>;
 };
 
 const columnDefinitions: ColumnDefinition<Subtrace>[] = [
@@ -92,7 +82,7 @@ const columnDefinitions: ColumnDefinition<Subtrace>[] = [
 ];
 
 const CreateSubtraceButton = () => (
-  <Button kind="primaryv2" onClick={() => addActiveDialog(<CreateSubtraceDialog />)} icon="lib_openclose_add_box">
+  <Button kind="action" onClick={() => addActiveDialog(<CreateSubtraceDialog />)} icon="lib_openclose_add_box">
     {t('in-applications:subtraces.newSubtrace')}
   </Button>
 );
@@ -128,19 +118,9 @@ export default function SubtracesList() {
           query={query}
           result={subtracesResult}
           columnDefinitions={columnDefinitions}
+          rightHeader={CreateSubtraceButton}
         />
       </LeftRightPadding>
-      <Footer />
-      <FloatingActionButtons>
-        <FloatingActionButtonMenu>
-          {role?.canConfigureApplications && (
-            <CreateApplication icon="lib_openclose_add_box" kind="primaryv2" location={location} />
-          )}
-
-          {role?.canConfigureGlobalApplicationSmartAlerts && <CreateGlobalSmartAlertButton renderAsSimpleButton />}
-          {applicationSubtracesEnabled && <CreateSubtraceButton />}
-        </FloatingActionButtonMenu>
-      </FloatingActionButtons>
     </Sticky>
   );
 }

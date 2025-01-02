@@ -9,7 +9,6 @@ import classNames from 'classnames';
 import { CarbonLayer } from '@instana/components';
 
 import { stopPropagation, stopPropagationAndPreventDefault, noop } from 'in-services/util/function';
-import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import SlideInView from 'in-components/SlideInView/SlideInView';
 import Header from 'in-components/Dialog/Header';
 
@@ -65,8 +64,7 @@ export default function DialogWithSlideInView({
       data-testid="dialog-slide-in-view"
       className={classNames({
         [locals.wrapper]: true,
-        [locals.cursorDefault]: doNotCloseOnOutsideClick,
-        [locals.shareAndInvite]: shareAndInviteEnabled
+        [locals.cursorDefault]: doNotCloseOnOutsideClick
       })}
       onClick={e => (doNotCloseOnOutsideClick ? stopPropagationAndPreventDefault(e) : onClose?.(e))}
     >

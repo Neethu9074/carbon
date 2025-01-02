@@ -716,7 +716,7 @@ function HeaderContent({ expanded, onClickSideNavExpand }: HeaderContentProps) {
 }
 
 export default function CarbonUIShell() {
-  const { matchLocation, createHrefToPath } = useNavigation();
+  const { matchLocation, createHrefToPath, location } = useNavigation();
   const titleDetail = useUIShellTitleDetail();
   const platforms = platformsContent(matchLocation, createHrefToPath).filter(Boolean);
   const [expanded, setExpanded] = useState(false);
@@ -752,6 +752,11 @@ export default function CarbonUIShell() {
       document.removeEventListener('keydown', handleKeyPress, true);
     };
   }, [expanded]);
+
+  useEffect(() => {
+    // @ts-expect-error ibmStats is not present in window type.
+    window?.ibmStats?.pageview();
+  }, [location]);
 
   return (
     <UIShell

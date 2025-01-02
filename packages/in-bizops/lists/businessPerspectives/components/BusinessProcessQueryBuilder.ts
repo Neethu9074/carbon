@@ -15,7 +15,9 @@ import { createQueryBuilder } from 'in-components/QueryBuilder';
 const { QueryBuilder, isQueryValid: isQueryValidInternal } = createQueryBuilder({
   getTagCatalog: getBusinessMonitoringTagCatalog,
   getSuggestions: params => {
-    const { tagFilterExpression, tagName, timeConfig, propose, key, value, entity } = params;
+    const { tagFilterExpression, tagName, timeConfig, propose, key, value } = params;
+    let entity = params.entity;
+    if (entity == null) entity = 'NOT_APPLICABLE';
     const query: GetBizOpsTagSuggestionQuery = {
       entity: entity,
       tagFilterExpression: tagFilterExpression,

@@ -73,14 +73,6 @@
       "azulZulu11": "Azul Zulu 11",
       "eclipseOpenJD11": "Eclipse OpenJ9 11"
     },
-    "askForHelp": {
-      "email": "email",
-      "send": "Send",
-      "askForHelpTitle": "Ask a colleague for help",
-      "thisWillBeAvailableOnceYourInstanceIsReady": "This will be available once your instance is ready.",
-      "inviteAColeague": "Invite a colleague",
-      "agentKey": "Agent key"
-    },
     "common": {
       "agentDeployment": "Agent deployment",
       "step1": "Step 1: ",
@@ -108,8 +100,7 @@
       "support": "Support",
       "sideCard": {
         "prerequisites": "Prerequisites",
-        "documentation": "Documentation",
-        "askAColleagueForHelp": "Ask a colleague for help"
+        "documentation": "Documentation"
       }
     },
     "kubernetes": {
@@ -524,7 +515,6 @@
     "heading": "Welcome to Instana",
     "foldableTileTitle": "Let’s get started.",
     "viewAll": "View all",
-    "UrlShortener": "URL Shortener",
     "addMore": "Add",
     "collapsibleButton": {
       "showOnboardingTasks": "Show onboarding tasks",
@@ -802,7 +792,6 @@
     },
     "ariaLabel": {
       "search": "Search",
-      "shareButton": "Share button",
       "handleButton": "Handle button"
     }
   },

@@ -34,6 +34,7 @@ import './webSphereDeploymentManager';
 import './kubernetesPersistentVolume';
 import './tomcatApplicationContainer';
 import './processingStatisticsMember';
+import './ibmDataPowerQueueManagerV9';
 import './ibmDataPowerSqlDatasource';
 import './jettyApplicationContainer';
 import './openshiftDeploymentConfig';

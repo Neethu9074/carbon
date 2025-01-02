@@ -1,0 +1,32 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
+ */
+
+import React from 'react';
+
+import { DescriptionList, DescriptionItem } from '@instana/components';
+
+import { SnapshotData } from 'in-stores/snapshot/snapshot';
+import { t } from 'in-i18n';
+
+export default function IbmDatapowerQueueManagerInfo({ snapshot }: { snapshot: SnapshotData }) {
+  const data = snapshot.get('data');
+  return (
+    <DescriptionList>
+      <DescriptionItem title={t('in-forge:plugins.ibmDataPowerQueueManager.domainName')}>
+        {data.get('domainName')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmDataPowerQueueManager.qmName')}>
+        {data.get('qmName')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmDataPowerQueueManager.remoteHost')}>
+        {data.get('remoteHost')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmDataPowerQueueManager.state')}>
+        {data.get('state')}
+      </DescriptionItem>
+    </DescriptionList>
+  );
+}

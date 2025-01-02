@@ -20,7 +20,6 @@ import {
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
@@ -81,23 +80,19 @@ export default function NewPlayWithHeader() {
       >
         {t('in-plg:playwithinstana.bookdemo')}
       </LicenseBannerButton>
-      {shareAndInviteEnabled && (
-        <>
-          <Tooltip align="bottomRight" content={t('in-plg:licenseBanner.shareTooltip')}>
-            <LicenseBannerButton
-              id="shareButton"
-              kind="ghost"
-              icon="lib_actions_share"
-              iconColor="var(--cds-link-primary)"
-              target="_blank"
-              onClick={() => addActiveDialog(<DeferredShareAndInviteDialogBox />)}
-            >
-              {t('in-plg:licenseBanner.share')}
-            </LicenseBannerButton>
-          </Tooltip>
-          <div className={locals.verticalLine} />
-        </>
-      )}
+      <Tooltip align="bottomRight" content={t('in-plg:licenseBanner.shareTooltip')}>
+        <LicenseBannerButton
+          id="shareButton"
+          kind="ghost"
+          icon="lib_actions_share"
+          iconColor="var(--cds-link-primary)"
+          target="_blank"
+          onClick={() => addActiveDialog(<DeferredShareAndInviteDialogBox />)}
+        >
+          {t('in-plg:licenseBanner.share')}
+        </LicenseBannerButton>
+      </Tooltip>
+      <div className={locals.verticalLine} />
       <LicenseBannerButton
         id="take_tour"
         kind="ghost"

@@ -1003,6 +1003,10 @@
           "static": "Static",
           "thresholdValue": "Threshold value",
           "timeWindow": "Time Window"
+        },
+        "gracePeriod": {
+          "title": "Grace period (optional)",
+          "description": "Automatically close an issue after the violation threshold is no longer met for:"
         }
       }
     },
