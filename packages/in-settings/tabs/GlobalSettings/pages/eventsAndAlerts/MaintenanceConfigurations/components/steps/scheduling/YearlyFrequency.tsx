@@ -96,19 +96,17 @@ export default function YearlyFrequency({ form, setFormRRule, rrule }: YearlyFre
             isDisabled={!onMonth}
             placeholder={t('in-settings:maintenanceWindow.month')}
           />
-          <div className={locals.largeInput}>
-            <Input
-              type="number"
-              id="monthly-recurrence-day"
-              placeholder={t('in-settings:maintenanceWindow.dayNum')}
-              disabled={!onMonth}
-              value={dayNum || undefined}
-              onChange={v => setDayNum(v.target.valueAsNumber)}
-              className={locals.medInput}
-              min="1"
-              max="31"
-            />
-          </div>
+          <Input
+            type="number"
+            id="monthly-recurrence-day"
+            placeholder={t('in-settings:maintenanceWindow.dayNum')}
+            disabled={!onMonth}
+            value={dayNum || undefined}
+            onChange={v => setDayNum(v.target.valueAsNumber)}
+            className={locals.medInput}
+            min="1"
+            max="31"
+          />
         </Stack>
         <Stack direction="horizontal" gap="xsmall" align="center">
           <RadioButton

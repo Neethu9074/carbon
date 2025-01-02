@@ -9,8 +9,8 @@ import { Field, Item, MapForm } from 'formalistic';
 import { getTimezoneOffset } from 'date-fns-tz';
 import { RRule } from 'rrule';
 
+import { CarbonCheckbox, CarbonCheckboxGroup, Link, Message, Stack } from '@instana/components';
 import { Duration, MaintenanceConfigV2 } from '@instana/types';
-import { Link, Message, Stack } from '@instana/components';
 import { ButtonGroup } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
@@ -211,6 +211,21 @@ export default function MaintenanceScheduleStep(props: MaintenanceScheduleStepPr
               setForm={setForm}
               isRecurring={recurrentType !== -1}
             />
+
+            <CarbonCheckboxGroup
+              legendText={t('in-settings:tabs.notificationMWCheckboxGroup')}
+              legendId="notifications"
+            >
+              <CarbonCheckbox
+                id="notificationsCheckEnabled"
+                checked={form.get('retriggerOpenAlertsEnabled').value || false}
+                labelText={t('in-settings:tabs.notificationMWCheckboxLabel')}
+                onChange={() => {
+                  const currentVal = form.get('retriggerOpenAlertsEnabled').value;
+                  setForm(form.updateIn(['retriggerOpenAlertsEnabled'], field => field.setValue(!currentVal)));
+                }}
+              />
+            </CarbonCheckboxGroup>
             <TimezoneMessage />
           </Stack>
         </div>

@@ -77,6 +77,7 @@ export default function Timing({
             <StackItem>
               <Toggle
                 id="allDay"
+                labelText={t('in-settings:tabs.allDay')}
                 checked={allDayToggle}
                 onToggle={() => {
                   if (!allDayToggle) {
@@ -105,7 +106,6 @@ export default function Timing({
                 }}
               />
             </StackItem>
-            <Label htmlFor="allDay">{t('in-settings:tabs.allDay')}</Label>
           </Stack>
           <StackItem>
             <Stack direction="vertical" gap="medium">

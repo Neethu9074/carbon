@@ -478,6 +478,8 @@ function save(
     schedulingTimezoneId: scheduling.type == 'RECURRENT' ? scheduling.timezoneId : ''
   };
 
+  const retriggerOpenAlertsEnabled = form.get('retriggerOpenAlertsEnabled').value || false;
+
   //maintenanceWindowObjectModification(isNew ? CREATED_OBJECT : UPDATED_OBJECT, location.pathname, scheduling.type);
   maintenanceWindowCTATracker(
     SETTINGS_MAINTENANCE_WINDOW_SUBMIT,
@@ -493,7 +495,8 @@ function save(
       query,
       scheduling,
       tagFilterExpressionEnabled,
-      tagFilterExpression
+      tagFilterExpression,
+      retriggerOpenAlertsEnabled
     )
   );
 }
@@ -597,6 +600,12 @@ function createForm(config: MaintenanceConfigV2, isCreate: boolean): MapForm<any
         value: applyOn,
         validator: notBlankValidator,
         touched: !isCreate
+      })
+    )
+    .put(
+      'retriggerOpenAlertsEnabled',
+      createField({
+        value: config.retriggerOpenAlertsEnabled
       })
     );
 
