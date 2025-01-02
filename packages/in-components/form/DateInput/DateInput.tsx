@@ -37,7 +37,7 @@ export default function DateInput(props: DateInputProps) {
       disabled={disabled}
       hasError={hasError}
       onChange={date => {
-        if (date === undefined || Array.isArray(date)) return onChange(undefined);
+        if (date === undefined || (Array.isArray(date) && date.length === 0)) return onChange(undefined);
         // date can be provided as a Date object or a date string --> onChange expects a string so convert.
         // javascript does not provide a method to test for Date object specifically.
         onChange(convertDateObj(typeof date === 'object' ? new Date(date.toString()) : date));
