@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import QueueManagersV9Table from 'in-forge/plugins/ibmDataPowerDomain/Dashboard/QueueManagerTableV9';
 import SqlDatasourcesTable from 'in-forge/plugins/ibmDataPowerDomain/Dashboard/SqlDatasourcesTable';
 import QueueManagersTable from 'in-forge/plugins/ibmDataPowerDomain/Dashboard/QueueManagersTable';
 import PeeringStatusTable from 'in-forge/plugins/ibmDataPowerDomain/Dashboard/PeeringStatusTable';
@@ -41,6 +42,7 @@ export default function IbmDataPowerDomainDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
 
       <QueueManagersTable snapshot={snapshot} timeConfig={timeConfig} />
+      <QueueManagersV9Table snapshotId={snapshotId} timeConfig={timeConfig} />
       <ServicesTable snapshot={snapshot} timeConfig={timeConfig} />
       <SqlDatasourcesTable snapshot={snapshot} timeConfig={timeConfig} />
       <XmlNamesTable snapshot={snapshot} />

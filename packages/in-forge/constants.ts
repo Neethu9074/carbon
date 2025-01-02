@@ -201,6 +201,7 @@ export const nonServicePlugins = {
   ibmDataPowerService: 'ibmDataPowerService',
   ibmDataPowerSqlDatasource: 'ibmDataPowerSqlDatasource',
   ibmDataPowerQueueManager: 'ibmDataPowerQueueManager',
+  ibmDataPowerQueueManagerV9: 'ibmDataPowerQueueManagerV9',
   ibmDataPowerEthernetInterface: 'ibmDataPowerEthernetInterface',
   ibmIDb2: 'ibmIDb2',
   ibmiDiskInfo: 'ibmiDiskInfo',
@@ -623,6 +624,8 @@ export const fullyQualifiedPlugins = {
     'com.instana.forge.infrastructure.messaging.ibmdatapower.derivedentity.sqldatasource.IbmDataPowerSqlDatasource',
   ibmDataPowerQueueManager:
     'com.instana.forge.infrastructure.messaging.ibmdatapower.derivedentity.queueManager.IbmDataPowerQueueManager',
+  ibmDataPowerQueueManagerV9:
+    'com.instana.forge.infrastructure.messaging.ibmdatapower.derivedentity.queuemanagerv9.IbmDataPowerQueueManagerV9',
   ibmDataPowerEthernetInterface:
     'com.instana.forge.infrastructure.messaging.ibmdatapower.derivedentity.ethernetinterface.IbmDataPowerEthernetInterface',
   ibmIDb2: 'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.db2.IbmIDb2',
