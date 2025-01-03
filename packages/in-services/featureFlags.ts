@@ -195,6 +195,8 @@ export const applicationSmartAlertDialogView = isFeatureFlagEnabled('application
 
 // infra SA full screen design
 export const infraSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled('infraSmartAlertFullScreenDesignEnabled');
+// Full screen design for Log SA
+export const logSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled('logSmartAlertFullScreenDesignEnabled');
 
 // SA carbon table
 export const smartAlertCarbonTableEnabled = isFeatureFlagEnabled('smartAlertCarbonTableEnabled');

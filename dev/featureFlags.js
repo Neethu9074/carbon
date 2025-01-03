@@ -180,5 +180,7 @@ module.exports = {
   openTelemetryKubernetesEnabled: true,
   dataUsageNotificationEnabled: false,
   rbacTeamsEnabled: false,
-  prcIssueEnabled: true
+  prcIssueEnabled: true,
+  logSmartAlertFullScreenDesignEnabled: false,
+  prometheusDeltaCountersSumEnabled: true
 };

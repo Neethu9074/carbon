@@ -827,6 +827,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'logSmartAlertFullScreenDesignEnabled',
+    instanaCtlKey: 'feature.log.Smart.alert.full.screen.design.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'alertChannelPerSeverityInfraSaEnabled',
     instanaCtlKey: 'feature.alert.channel.per.severity.infra.sa.enabled',
     defaultValue: true
