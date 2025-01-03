@@ -261,6 +261,7 @@ export const syntheticsFilterForMaintenanceWindowsEnabled = isFeatureFlagEnabled
   'syntheticsFilterForMaintenanceWindowsEnabled',
   true
 );
+export const retriggerOpenAlertsEnabled = isFeatureFlagEnabled('retriggerOpenAlertsEnabled', false);
 
 export const systemRuleEntityCountEnabled = isFeatureFlagEnabled('systemRuleEntityCountEnabled', false);
 

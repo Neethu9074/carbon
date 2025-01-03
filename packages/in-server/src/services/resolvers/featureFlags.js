@@ -431,6 +431,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'retriggerOpenAlertsEnabled',
+    instanaCtlKey: 'feature.retrigger.open.alerts.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'mobileAppSmartAlertsAdaptiveBaselineEnabled',
     instanaCtlKey: 'feature.mobileapp.smart.alerts.adaptive.baseline.enabled',
     defaultValue: false

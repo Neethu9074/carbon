@@ -95,6 +95,7 @@ module.exports = {
   recurrentMaintenanceWindowsEnabled: true,
   recurrentMaintenanceWindowsTabsEnabled: false,
   syntheticsFilterForMaintenanceWindowsEnabled: true,
+  retriggerOpenAlertsEnabled: true,
   kongEnabled: false,
   mobileAppSmartAlertsAdaptiveBaselineEnabled: true,
   systemRuleEntityCountEnabled: true,

@@ -23,6 +23,7 @@ import Recurring from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/Mai
 import Timing from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/steps/scheduling/Timing';
 import { getEntityIdView, userSettingsGeneral } from 'in-settings/navigation/paths';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { retriggerOpenAlertsEnabled } from 'in-services/featureFlags';
 import { SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { parseDateTime } from 'in-services/formatters/date';
@@ -211,21 +212,22 @@ export default function MaintenanceScheduleStep(props: MaintenanceScheduleStepPr
               setForm={setForm}
               isRecurring={recurrentType !== -1}
             />
-
-            <CarbonCheckboxGroup
-              legendText={t('in-settings:tabs.notificationMWCheckboxGroup')}
-              legendId="notifications"
-            >
-              <CarbonCheckbox
-                id="notificationsCheckEnabled"
-                checked={form.get('retriggerOpenAlertsEnabled').value || false}
-                labelText={t('in-settings:tabs.notificationMWCheckboxLabel')}
-                onChange={() => {
-                  const currentVal = form.get('retriggerOpenAlertsEnabled').value;
-                  setForm(form.updateIn(['retriggerOpenAlertsEnabled'], field => field.setValue(!currentVal)));
-                }}
-              />
-            </CarbonCheckboxGroup>
+            {retriggerOpenAlertsEnabled && (
+              <CarbonCheckboxGroup
+                legendText={t('in-settings:tabs.notificationMWCheckboxGroup')}
+                legendId="notifications"
+              >
+                <CarbonCheckbox
+                  id="notificationsCheckEnabled"
+                  checked={form.get('retriggerOpenAlertsEnabled').value || false}
+                  labelText={t('in-settings:tabs.notificationMWCheckboxLabel')}
+                  onChange={() => {
+                    const currentVal = form.get('retriggerOpenAlertsEnabled').value;
+                    setForm(form.updateIn(['retriggerOpenAlertsEnabled'], field => field.setValue(!currentVal)));
+                  }}
+                />
+              </CarbonCheckboxGroup>
+            )}
             <TimezoneMessage />
           </Stack>
         </div>
