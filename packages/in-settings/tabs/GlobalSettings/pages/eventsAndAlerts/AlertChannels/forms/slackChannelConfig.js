@@ -217,13 +217,14 @@ function Form({ form, onChange }) {
       {form.get('emojiRendering').map(field => (
         <FormGroup>
           <Toggle
+            id="global-alert-slack-emoji"
             labelA={t('in-services:formatters.no')}
             labelB={t('in-services:formatters.yes')}
             labelText={
               <Tooltip align={'rightMiddle'} delay={'500'} content={t('in-settings:tabs.displayEmojisInfo')}>
                 <Stack direction="horizontal" gap="xsmall">
                   <Typography variant="body-regular">{t('in-settings:tabs.displayEmojis')}</Typography>
-                  <SvgIcon type="lib_help_error_info_outline" />
+                  <SvgIcon onClick={() => false} type="lib_help_error_info_outline" />
                 </Stack>
               </Tooltip>
             }
