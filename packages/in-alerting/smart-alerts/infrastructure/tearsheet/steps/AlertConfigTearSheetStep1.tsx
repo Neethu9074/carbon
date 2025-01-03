@@ -16,13 +16,11 @@ import ScopeAggregation from 'in-alerting/smart-alerts/infrastructure/dialog/adv
 import ScopeAlerting from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeAlerting';
 import ScopeMetric from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeMetric';
 import ScopeFilter from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeFilter';
-import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
+import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
 import { t } from 'in-i18n';
-
-import locals from './AlertConfigTearSheetStep1.mless';
 
 const displayAlertingScope = false; // TODO : this flag variable can be removed once the API supports the feature and the technical design is completed.
 
@@ -46,8 +44,8 @@ export default function AlertConfigTearSheetStep1({
 
   return (
     <>
-      <TearSheetStepContentWrapper headline={t('in-alerting:smartAlerts.infrastructure.tearSheet.step1.header')}>
-        <div className={locals.wrapper}>
+      <TearSheetStepTitleWrapper headline={t('in-alerting:smartAlerts.infrastructure.tearSheet.step1.header')}>
+        <div>
           <Stack direction="vertical" gap={'gutter'}>
             {/* select Metric */}
             <Section
@@ -69,12 +67,12 @@ export default function AlertConfigTearSheetStep1({
             {displayAlertingScope && <ScopeAlerting />}
           </Stack>
         </div>
-      </TearSheetStepContentWrapper>
+      </TearSheetStepTitleWrapper>
 
       <Spacer size="gutter" />
 
-      <TearSheetStepContentWrapper headline={t('in-alerting:smartAlerts.infrastructure.tearSheet.scopeFilter.title')}>
-        <div className={locals.wrapper}>
+      <TearSheetStepTitleWrapper headline={t('in-alerting:smartAlerts.infrastructure.tearSheet.scopeFilter.title')}>
+        <div>
           <Stack direction="vertical" gap="normal">
             <ScopeWrapper
               title={t('in-alerting:smartAlerts.infrastructure.tearSheet.scopeFilter.filter')}
@@ -107,7 +105,7 @@ export default function AlertConfigTearSheetStep1({
             </ScopeWrapper>
           </Stack>
         </div>
-      </TearSheetStepContentWrapper>
+      </TearSheetStepTitleWrapper>
     </>
   );
 }

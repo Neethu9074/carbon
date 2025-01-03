@@ -18,7 +18,7 @@ import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
-import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
+import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
 import { InfraAlertRuleUnion } from 'in-types';
@@ -46,7 +46,7 @@ export default function AlertConfigTearSheetStep3({
 
   return (
     <>
-      <TearSheetStepContentWrapper headline={t('in-alerting:smartAlerts.infrastructure.tearSheet.step3.header')}>
+      <TearSheetStepTitleWrapper headline={t('in-alerting:smartAlerts.infrastructure.tearSheet.step3.header')}>
         <AlertPropertiesContainer
           renderAlertProperties={() => (
             <AlertProperties
@@ -80,7 +80,7 @@ export default function AlertConfigTearSheetStep3({
           )}
           isTearSheet
         />
-      </TearSheetStepContentWrapper>
+      </TearSheetStepTitleWrapper>
       <Spacer size="large" />
       <>
         <AlertTypography

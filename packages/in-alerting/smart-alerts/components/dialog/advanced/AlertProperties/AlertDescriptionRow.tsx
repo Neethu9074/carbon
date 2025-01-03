@@ -7,6 +7,7 @@ import { Field, Item, MapForm } from 'formalistic';
 import React from 'react';
 
 import AlertPropertiesTextarea from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesTextArea';
+import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import AlertSection from 'in-alerting/components/AlertSection';
 import { t } from 'in-i18n';
@@ -41,7 +42,7 @@ export default function AlertDescriptionRow({
           <AlertPropertiesTextarea
             name="description"
             id="description"
-            rows={3}
+            rows={getIsMutithresholdConfigured(form) ? 10 : 3}
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
               onChange(['description'], (field: Item) => {
                 return (field as Field<string>).setValue(e.target.value || '').setTouched(true);
@@ -73,4 +74,18 @@ export default function AlertDescriptionRow({
       )}
     </>
   );
+}
+
+function getIsMutithresholdConfigured(form: MapForm<any>) {
+  const warningThresholdField = form.get('threshold')?.get('warningThreshold') as MapForm<any>;
+  const criticalThresholdField = form.get('threshold')?.get('criticalThreshold') as MapForm<any>;
+  const warningThresholdValue = warningThresholdField?.get('value').value;
+  const criticalThresholdValue = criticalThresholdField?.get('value').value;
+  const isWarningThresholdDefined = !isEmpty(warningThresholdValue);
+  const isCriticalThresholdDefined = !isEmpty(criticalThresholdValue);
+  if (isWarningThresholdDefined && isCriticalThresholdDefined) {
+    return true;
+  }
+
+  return false;
 }

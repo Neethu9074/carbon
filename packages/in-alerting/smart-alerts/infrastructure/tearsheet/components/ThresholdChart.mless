@@ -8,4 +8,8 @@
   .chartPadding {
     padding: 1rem;
   }
+
+  .whiteBackground {
+    background: var(--ids-color-option-neutral-50);
+  }
 }

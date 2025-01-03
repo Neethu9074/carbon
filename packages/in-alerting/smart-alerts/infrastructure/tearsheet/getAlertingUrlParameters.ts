@@ -16,9 +16,7 @@ export default function getAlertingUrlParameters(location: Location) {
   const alertConfigId = getMatrixParameter(location, infraSmartAlertsFullScreen, alertId) ?? '';
   const alertConfigCreated = Number(getMatrixParameter(location, infraSmartAlertsFullScreen, alertCreated)) ?? '';
 
-  const cancelTearSheet = (): string => {
-    return getMatrixParameter(location, infraSmartAlertsFullScreen, cancelUrl) ?? infraSmartAlerts;
-  };
+  const cancelTearSheet = getMatrixParameter(location, infraSmartAlertsFullScreen, cancelUrl) ?? infraSmartAlerts;
 
   return {
     editMode,

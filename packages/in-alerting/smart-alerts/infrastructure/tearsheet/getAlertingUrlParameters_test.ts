@@ -30,6 +30,6 @@ describe('getAlertingUrlParameters', () => {
     expect(result.duplicateMode).toBe(false);
     expect(result.alertConfigId).toBe('123456');
     expect(result.alertConfigCreated).toBe(1732001460711);
-    expect(result.cancelTearSheet()).toBe('/#/infraAlerts;orderBy=created;orderDirection=DESC;page=1;query');
+    expect(result.cancelTearSheet).toBe('/#/infraAlerts;orderBy=created;orderDirection=DESC;page=1;query');
   });
 });

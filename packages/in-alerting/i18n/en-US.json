@@ -788,6 +788,8 @@
         "cancelTitle": "Cancel",
         "proceedTitle": "Proceed",
         "previousTitle": "Previous",
+        "nextTitle": "Next",
+        "closeTitle": "Close",
         "sharedListTooltip": "{{typeName}} is not available anymore",
         "clearTagFilterExpressionButton": "Clear",
         "baselineErrorMessageComputedOnApproximateData": "The baseline is computed based on approximate data due to data retention settings. Therefore, it might not be accurate in case there are few calls matching selected filters.",
@@ -986,6 +988,8 @@
         "labelRemove": "Remove"
       },
       "tearSheet": {
+        "cancelModalTitle": "Are you sure you want to cancel?",
+        "cancelModalDescription": "If you cancel, configuration details you have entered wont be saved.",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "When violations persist over time",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "Violations persist at random intervals",
@@ -1538,7 +1542,7 @@
           "header": "What properties do you want to set for this alert?"
         },
         "step4": {
-          "header": "What do you want to be notified for this alert?",
+          "header": "Where do you want to be notified for alert?",
           "description": "Select the recipient(s) of this alert"
         },
         "scopeAlerting": {

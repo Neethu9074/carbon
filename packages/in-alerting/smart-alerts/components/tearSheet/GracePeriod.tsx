@@ -9,7 +9,7 @@ import React from 'react';
 
 import { Dropdown } from '@instana/components';
 
-import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
+import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { days, minutes, hours } from 'in-services/time/time';
 import { t } from 'in-i18n';
@@ -30,7 +30,7 @@ export default function GracePeriod({
   };
 
   return (
-    <TearSheetStepContentWrapper
+    <TearSheetStepTitleWrapper
       headline={t('in-alerting:smartAlerts.components.tearSheet.gracePeriod.title')}
       description={t('in-alerting:smartAlerts.components.tearSheet.gracePeriod.description')}
     >
@@ -40,7 +40,7 @@ export default function GracePeriod({
         onChange={handleGracePeriodChange}
         size="sm"
       />
-    </TearSheetStepContentWrapper>
+    </TearSheetStepTitleWrapper>
   );
 }
 

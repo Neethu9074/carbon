@@ -9,25 +9,16 @@ import { Item, MapForm } from 'formalistic';
 
 import { TimeConfig, InfraAlertRuleUnion, TagCatalog } from '@instana/types';
 
-import {
-  infraStepRenderers,
-  stepConfigs,
-  getFooterActions,
-  stepRendersType
-} from 'in-alerting/smart-alerts/infrastructure/tearsheet/steps/TearSheetStepConfigs';
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/hooks/useRemoveInvalidTagsFromFilterExpression';
-import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
+import { stepConfigsForCarbonTearSheet } from 'in-alerting/smart-alerts/infrastructure/tearsheet/steps/TearSheetStepConfigs';
 import { CreateBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/infrastructure/components/AlertQueryBuilder';
 import useAlertConfigValidation from 'in-alerting/smart-alerts/infrastructure/hooks/useAlertConfigValidation';
 import useThresholdSuggestion from 'in-alerting/smart-alerts/infrastructure/hooks/useThresholdSuggestion';
+import AlertingFullScreenTearSheet from 'in-alerting/components/AlertingFullScreenTearSheet';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import AlertingTearSheet from 'in-alerting/components/AlertingTearSheet';
 import useTagCatalog from 'in-infrastructure/hooks/useTagCatalog';
-import { productAreas } from 'in-services/tracking/productAreas';
-import { Nullish } from 'in-types';
-
-const FORM_ID = 'smart-alert-editor';
+import { t } from 'in-i18n';
 
 export interface AlertConfigTearSheetWithThresholdProps {
   form: MapForm<any>;
@@ -41,26 +32,17 @@ export interface AlertConfigTearSheetWithThresholdProps {
   isSaving: boolean;
   messages: EnrichedError[];
   withTrackClose: () => void;
-  cancelTearSheet: () => string | Nullish;
+  cancelTearSheet: string;
+  tearSheetTitle: string;
 }
 
 export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTearSheetWithThresholdProps) {
-  const { form, updateForm, editMode, withTrackClose, isSaving, cancelTearSheet, onCreate } = props;
-
-  const { step, setStep, backOrCancel, handleSubmit } = useSimpleModePageNavigation({
-    stepConfigs,
-    form,
-    setForm: updateForm,
-    onCreate: () => onCreate(true),
-    onClose: withTrackClose
-  });
+  const { form, updateForm, editMode, onCreate, tearSheetTitle } = props;
 
   const [tagFilterValid, setTagFilterValid] = useState(true);
 
-  const actions = getFooterActions(backOrCancel, cancelTearSheet, handleSubmit, editMode);
-
   // this hook will validate each step and prevents navigation
-  const navItems = useAlertConfigValidation(stepConfigs, form, tagFilterValid, updateForm);
+  const navItems = useAlertConfigValidation(stepConfigsForCarbonTearSheet, form, tagFilterValid, updateForm);
 
   const alertConfigWithFormModel = form.toJS();
   const { rule, tagFilterExpression } = alertConfigWithFormModel;
@@ -96,42 +78,27 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
   });
 
   return (
-    <AlertingTearSheet
-      step={step}
-      setStep={setStep}
-      actions={actions}
+    <AlertingFullScreenTearSheet
+      {...props}
+      isTagFilterFormModelValid
+      isEditMode={editMode}
+      tearSheetTitle={tearSheetTitle}
       stepConfigs={navItems}
-      isSaving={isSaving}
-      formId={FORM_ID}
-      form={form}
-      setForm={updateForm}
-      sideNavigationEnabled={editMode}
-      productArea={productAreas.infrastructure}
-      headerWithMsg={false}
-      additionalValidationCheck={additionalValidationCheck(step, tagFilterValid)}
-    >
-      {infraStepRenderers.map((Renderer: (props: stepRendersType) => JSX.Element, idx: number) => {
-        return (
-          step === idx && (
-            <Renderer
-              {...props}
-              key={`key-${idx}`}
-              isTagFilterFormModelValid
-              thresholdResult={thresholdResult}
-              setStep={setStep}
-              setTagFilterValid={setTagFilterValid}
-            />
-          )
-        );
-      })}
-    </AlertingTearSheet>
+      thresholdResult={thresholdResult}
+      setTagFilterValid={setTagFilterValid}
+      handleFormSubmit={() => handleFormSubmit(onCreate)}
+      actionButtonLabel={getButtonLabel(editMode)}
+    />
   );
 }
 
-function additionalValidationCheck(step: number, tagFilterValid: boolean) {
-  // TODO remove this
-  if (step == 0) {
-    return tagFilterValid;
+function handleFormSubmit(onCreate: (simpleMode: boolean) => void): void {
+  onCreate(true);
+}
+
+function getButtonLabel(editMode?: boolean): string {
+  if (editMode) {
+    return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonSave');
   }
-  return true;
+  return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonCreate');
 }

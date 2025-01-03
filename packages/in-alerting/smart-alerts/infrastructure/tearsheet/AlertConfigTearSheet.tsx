@@ -20,12 +20,11 @@ import { createOrSaveAlertFromTearSheet } from 'in-alerting/smart-alerts/infrast
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/infrastructure/form/alertFormDefinition';
 import getAlertingUrlParameters from 'in-alerting/smart-alerts/infrastructure/tearsheet/getAlertingUrlParameters';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
-import AlertingPageHeader from 'in-alerting/smart-alerts/components/pageHeaderTemplate/AlertingPageHeader';
 import { useAlertConfig } from 'in-alerting/smart-alerts/infrastructure/hooks/useSmartAlertCreateUrl';
 import TearSheetLoading from 'in-alerting/smart-alerts/components/tearSheet/Loading/TearSheetLoading';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { InfraAlertConfig, InfraAlertRuleUnion, Nullish, RuleWithThreshold } from 'in-types';
 import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
+import { InfraAlertConfig, InfraAlertRuleUnion, RuleWithThreshold } from 'in-types';
 import { alertChannelPerSeverityInfraSaEnabled } from 'in-services/featureFlags';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useNavigationToAlertConfig } from 'in-infrastructure/navigation/paths';
@@ -65,7 +64,7 @@ function AlertConfigTearSheetContent({
   editMode
 }: {
   alertConfig: InfraSmartAlertConfigWithMetadata & { duplicateFrom?: string };
-  cancelTearSheet: () => string | Nullish;
+  cancelTearSheet: string;
   editMode: boolean;
 }) {
   const duplicateFrom = alertConfig?.duplicateFrom ?? undefined;
@@ -81,7 +80,6 @@ function AlertConfigTearSheetContent({
   const { trackCta } = useSegmentTracking();
   return (
     <>
-      <AlertingPageHeader title={getHeaderTitle(editMode)} />
       <AlertConfigTearSheetWithThreshold
         updateForm={updateForm}
         form={form}
@@ -108,6 +106,7 @@ function AlertConfigTearSheetContent({
         messages={messages}
         cancelTearSheet={cancelTearSheet}
         withTrackClose={() => undefined}
+        tearSheetTitle={getHeaderTitle(editMode)}
       />
     </>
   );

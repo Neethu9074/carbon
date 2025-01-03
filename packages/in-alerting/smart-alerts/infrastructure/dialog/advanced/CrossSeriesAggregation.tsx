@@ -75,7 +75,7 @@ function getActionIcon(isTearSheet: boolean): JSX.Element {
         <Tooltip
           content={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationHelp')}
         >
-          <SvgIcon type="lib_help_error_info_outline" size="regular" />
+          <SvgIcon type="lib_help_error_info_outline" size="s" />
         </Tooltip>
       </>
     );

@@ -7,7 +7,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { MapForm } from 'formalistic';
 
-import { Spacer, Stack, StackItem } from '@instana/components';
+import { CarbonLayer, Spacer, Stack, StackItem } from '@instana/components';
 import { ButtonGroup } from '@instana/components';
 import { create } from '@instana/observables';
 import { Order } from '@instana/types';
@@ -25,7 +25,7 @@ import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/compo
 import { InfraMetricChart } from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricChart';
 import { chartTimeConfig } from 'in-alerting/smart-alerts/infrastructure/components/InfraChartUtils';
 import InfraMetricGroup from 'in-alerting/smart-alerts/infrastructure/components/InfraMetricGroup';
-import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
+import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import useMetricMetadatas from 'in-infrastructure/hooks/useMetricMetadatas';
 import BorderedContainer from 'in-alerting/components/BorderedContainer';
 import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
@@ -80,6 +80,7 @@ export function ThresholdChart({ form, onChartViewConfigChange, selectedChartVie
   }, [groupBy]);
   return (
     <Stack>
+      <Spacer size="gutter" />
       <InfraChartConfigurator
         chartViewConfigs={chartViewConfigs}
         onChartViewConfigChange={onChartViewConfigChange}
@@ -87,37 +88,41 @@ export function ThresholdChart({ form, onChartViewConfigChange, selectedChartVie
       >
         {(chartViewConfig: ChartViewConfigItem) => (
           <>
-            <BorderedContainer>
-              <div className={locals.chartPadding}>
-                <InfraMetricChart
-                  alertConfig={alertConfigModel as InfraSmartAlertConfigWithMetadata}
-                  timeConfig={chartViewConfig.timeConfig}
-                  groupBy={groupBy}
-                  entityType={entityType}
-                  metricName={metricName}
-                  alertsPreviewEnabled
-                  metricLabel={metricLabel}
-                />
-              </div>
-            </BorderedContainer>
+            <div className={locals.whiteBackground}>
+              <BorderedContainer>
+                <div className={locals.chartPadding}>
+                  <InfraMetricChart
+                    alertConfig={alertConfigModel as InfraSmartAlertConfigWithMetadata}
+                    timeConfig={chartViewConfig.timeConfig}
+                    groupBy={groupBy}
+                    entityType={entityType}
+                    metricName={metricName}
+                    alertsPreviewEnabled
+                    metricLabel={metricLabel}
+                  />
+                </div>
+              </BorderedContainer>
+            </div>
             {groupBy.length > 0 && (
               <>
                 <Spacer size="small" />
-                <InfraMetricGroup
-                  backendQueryModel={alertConfigModel.tagFilterExpression}
-                  backendGroupBy={backendGroupBy}
-                  order={order as Order}
-                  type={entityType}
-                  metrics={metrics}
-                  groupBy={backendGroupBy}
-                  timeConfig={{
-                    ...chartViewConfig.timeConfig,
-                    to: timeConfig.to,
-                    focusedMoment: timeConfig.focusedMoment
-                  }}
-                  metricMetadatas={metricMetadatas}
-                  tagCatalog={tagCatalog}
-                />
+                <CarbonLayer>
+                  <InfraMetricGroup
+                    backendQueryModel={alertConfigModel.tagFilterExpression}
+                    backendGroupBy={backendGroupBy}
+                    order={order as Order}
+                    type={entityType}
+                    metrics={metrics}
+                    groupBy={backendGroupBy}
+                    timeConfig={{
+                      ...chartViewConfig.timeConfig,
+                      to: timeConfig.to,
+                      focusedMoment: timeConfig.focusedMoment
+                    }}
+                    metricMetadatas={metricMetadatas}
+                    tagCatalog={tagCatalog}
+                  />
+                </CarbonLayer>
               </>
             )}
           </>
@@ -142,14 +147,14 @@ function InfraChartConfigurator({
 }: InfraChartConfiguratorProps) {
   const selectedChartViewConfig = chartViewConfigs[selectedChartViewConfigIndex];
   return (
-    <Stack gap="normal">
-      <Stack direction="horizontal" gap="normal" align="end">
-        <TearSheetStepContentWrapper
+    <Stack gap="disabled">
+      <Stack direction="horizontal" gap="normal" align="center">
+        <TearSheetStepTitleWrapper
           headline={t('in-alerting:smartAlerts.infrastructure.tearSheet.chartAlertPreview')}
           description={t('in-alerting:smartAlerts.infrastructure.tearSheet.chartAlertPreviewDescription')}
         >
           <></>
-        </TearSheetStepContentWrapper>
+        </TearSheetStepTitleWrapper>
         <ButtonGroup
           buttonPropsList={chartViewConfigs.map((chartConfig: ChartViewConfigItem, index: number) => ({
             text: chartConfig.label,

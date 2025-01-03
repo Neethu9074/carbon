@@ -16,7 +16,7 @@ import {
 } from 'in-alerting/smart-alerts/infrastructure/components/ForecastAlerting';
 import ConfigureForecastTimeframe from 'in-alerting/smart-alerts/infrastructure/components/ConfigureForecastTimeframe';
 import ConfigureFitTimeframe from 'in-alerting/smart-alerts/infrastructure/components/ConfigureFitTimeframe';
-import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
+import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t, Trans } from 'in-i18n';
@@ -32,10 +32,10 @@ export default function ForecastAlerting({
   const enabled = forecastingConfig != null;
 
   return (
-    <TearSheetStepContentWrapper
+    <TearSheetStepTitleWrapper
       headline={t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.predictiveTrigger.title')}
+      hideSpace
     >
-      <Spacer size="xsmall" />
       <Stack direction="vertical" gap="xsmall">
         <Toggle
           checked={enabled}
@@ -63,6 +63,7 @@ export default function ForecastAlerting({
         />
         {enabled && (
           <>
+            <Spacer size="small" />
             <Stack direction="vertical" gap="normal">
               <ConfigureFitTimeframe form={form} updateForm={updateForm} isTearSheet />
               <TouchedMessages field={form.get('forecastingConfig')} />
@@ -84,6 +85,6 @@ export default function ForecastAlerting({
           </>
         )}
       </Stack>
-    </TearSheetStepContentWrapper>
+    </TearSheetStepTitleWrapper>
   );
 }

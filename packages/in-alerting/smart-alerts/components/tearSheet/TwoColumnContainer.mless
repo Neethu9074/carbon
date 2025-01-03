@@ -62,7 +62,6 @@
     grid-column-gap: 1rem;
     width: 100%;
     align-items: flex-start;
-    padding-top: 1.5rem;
   }
   .alertProsForm {
     border-right: 1px solid var(--ids-color-option-neutral-300);

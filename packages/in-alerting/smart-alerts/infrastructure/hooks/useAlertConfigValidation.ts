@@ -9,10 +9,9 @@ import { isEmpty } from 'lodash';
 
 import { CustomPayloadFieldUnion } from '@instana/types/typeDefinitions';
 
-import { isMetricAndEntityValid } from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/AdvancedModeContainer';
 import { isEmpty as isThresholdEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
-import { fieldTouchedAndInvalid } from 'in-alerting/smart-alerts/components/utils/formUtils';
-import { AlertingTearSheetStepConfigs } from 'in-alerting/components/AlertingTearSheet';
+import { AlertingTearSheetStepConfigs } from 'in-alerting/components/AlertingFullScreenTearSheet';
+import regexValidator from 'in-alerting/smart-alerts/infrastructure/data/regexValidator';
 
 export default function useAlertConfigValidation(
   stepConfigs: AlertingTearSheetStepConfigs[],
@@ -32,7 +31,7 @@ export default function useAlertConfigValidation(
     },
     {
       ...stepConfigs[2],
-      valid: isCustomPayloadValidOrUntouched(form) && !fieldTouchedAndInvalid(form?.get('name')),
+      valid: isCustomPayloadValidOrUntouched(form) && form?.get('name').valid,
       validator: () => updatedThresholdValue(form, updateForm, 'customPayloadFields')
     },
     {
@@ -83,4 +82,12 @@ function isCustomPayloadValidOrUntouched(form: MapForm<any>): boolean {
 function isTimeThresholdValid(form: MapForm<any>) {
   const timeThresholdValid = form.get('timeThreshold')?.get('timeWindow').valid;
   return timeThresholdValid;
+}
+
+function isMetricAndEntityValid(form: MapForm<any>): boolean {
+  const metric = form.get('rule')?.get('metricName')?.value;
+  const entityType = form.get('rule')?.get('entityType')?.value;
+  const regexpValidator = regexValidator((form as any)?.items);
+  const fieldValid = form.get('rule')?.get('metricName') && !form.get('rule')?.get('metricName').valid;
+  return !fieldValid && !regexpValidator?.length && !(metric.length && !entityType);
 }
