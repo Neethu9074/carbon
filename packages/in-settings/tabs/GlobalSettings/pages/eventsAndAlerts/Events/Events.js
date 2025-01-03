@@ -273,9 +273,9 @@ export function EventName({ entity, hasRowNavigation }) {
   );
   return (
     <WithIcon icon={icon.icon} iconColor={icon.color}>
-      <Tooltip content={tooltipContent} align="topLeft" delay={500}>
-        <WithSubscript subscript={<Subscript entity={entity} />}>
-          {hasRowNavigation ? (
+      <WithSubscript subscript={<Subscript entity={entity} />}>
+        {hasRowNavigation ? (
+          <Tooltip content={tooltipContent} align="mousePosition" delay={500}>
             <Link
               href={getEntityIdView(getDetailsPath(entity), entity.id)}
               ellipsis
@@ -290,11 +290,13 @@ export function EventName({ entity, hasRowNavigation }) {
             >
               {name}
             </Link>
-          ) : (
+          </Tooltip>
+        ) : (
+          <Tooltip content={tooltipContent} align="mousePosition" delay={500}>
             <span className={locals.ellipsis}>{name}</span>
-          )}
-        </WithSubscript>
-      </Tooltip>
+          </Tooltip>
+        )}
+      </WithSubscript>
     </WithIcon>
   );
 }
