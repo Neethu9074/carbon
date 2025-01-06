@@ -155,19 +155,19 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
           title={t('in-forge:plugins.oTelLLM.dashboard.totalCost')}
           metricName="metrics.gauges.llm.usage.cost"
           tagFilter={instanceId}
-          formatter="number.detailed"
+          formatter="scale.compact"
         />
         <TotalUsageBigNumber
           title={t('in-forge:plugins.oTelLLM.dashboard.totalInputCost')}
           metricName="metrics.gauges.llm.usage.input_cost"
           tagFilter={instanceId}
-          formatter="number.detailed"
+          formatter="scale.compact"
         />
         <TotalUsageBigNumber
           title={t('in-forge:plugins.oTelLLM.dashboard.totalOutputCost')}
           metricName="metrics.gauges.llm.usage.output_cost"
           tagFilter={instanceId}
-          formatter="number.detailed"
+          formatter="scale.compact"
         />
       </Columize>
 
@@ -176,19 +176,19 @@ export default function OTelLLMDashboard({ snapshot, timeConfig }) {
           title={t('in-forge:plugins.oTelLLM.dashboard.totalCostByModel')}
           metricName="metrics.gauges.llm.usage.cost"
           tagFilter={instanceId}
-          formatter="number.detailed"
+          formatter="scale.compact"
         />
         <TopListByModel
           title={t('in-forge:plugins.oTelLLM.dashboard.totalInputCostByModel')}
           metricName="metrics.gauges.llm.usage.input_cost"
           tagFilter={instanceId}
-          formatter="number.detailed"
+          formatter="scale.compact"
         />
         <TopListByModel
           title={t('in-forge:plugins.oTelLLM.dashboard.totalOutputCostByModel')}
           metricName="metrics.gauges.llm.usage.output_cost"
           tagFilter={instanceId}
-          formatter="number.detailed"
+          formatter="scale.compact"
         />
       </Columize>
 
