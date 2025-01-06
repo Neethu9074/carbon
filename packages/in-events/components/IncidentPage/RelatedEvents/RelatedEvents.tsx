@@ -50,6 +50,7 @@ import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailabl
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { carbonPaginationEnabled } from 'in-services/featureFlags';
+import { OnEntity } from 'in-events/components/EventsListRow';
 import { emptyList } from 'in-services/fixedImmutables';
 import EventIcon from 'in-events/components/EventIcon';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -214,26 +215,33 @@ interface RelatedEventsTableProps {
 
 const relatedEventsHeaders = [
   {
-    key: 'start',
-    header: t('in-events:headerStarted'),
-    width: '20%'
+    key: 'type',
+    header: ''
   },
   {
     key: 'name',
     header: t('in-events:headerTitle'),
-    width: '40%'
+    width: '25%'
   },
   {
-    key: 'type',
-    header: t('in-events:titleSeverity')
+    key: 'on',
+    header: t('in-events:headerOn'),
+    width: '25%'
+  },
+  {
+    key: 'start',
+    header: t('in-events:headerStarted'),
+    width: '15%'
   },
   {
     key: 'end',
-    header: t('in-events:headerEnd')
+    header: t('in-events:headerEnd'),
+    width: '15%'
   },
   {
     key: 'duration',
-    header: t('in-events:titleDuration')
+    header: t('in-events:titleDuration'),
+    width: '15%'
   }
 ];
 
@@ -291,7 +299,8 @@ const RelatedEventsTable = ({
     ),
     type: <EventIcon event={ev} tooltipLabel={getEventSeverityLabelWithEventType(ev, timeConfig)} size="xs" />,
     duration: <EventDurationMarker event={ev} justText />,
-    id: ev.get('id')
+    id: ev.get('id'),
+    on: <OnEntity rawEvent={ev.toJS()} />
   }));
 
   return (
