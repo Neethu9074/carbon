@@ -4,77 +4,19 @@
  */
 
 :local {
-  .button {
-    // Hide duplicate border of this non-button-group, but looks like
-    // button group button
-    margin-right: -1px;
-
-    border-radius: var(--ids-border-radius-option-small) 0 0 var(--ids-border-radius-option-small);
-
-    &:hover,
-    &:active,
-    &:focus {
-      // raise the button visually over the live mode button so that the right
-      // border is shown
-      z-index: 1;
-    }
-  }
-
-  .outerWrapper {
-    display: flex;
-    align-items: center;
-    margin-left: 0.5rem;
-  }
-
-  .dark {
-    border-left: 1px solid var(--ids-color-option-neutral-700);
-    border-right: 1px solid var(--ids-color-option-neutral-700);
-  }
-
-  .displayTimeWrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .timeIcon {
-    margin-right: 0.5rem;
-  }
-
-  .timeSetting,
-  .timeSettingTop {
-    white-space: nowrap;
-  }
-
-  .timeSettingTop {
-    font-size: 0.75rem;
-    line-height: 1rem;
-    font-weight: normal;
-  }
-  .timeSetting {
-    font-size: 1rem;
-    line-height: 1rem;
-    font-weight: 600;
-  }
-  .tooltip {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-  }
-
-  .tooltipLabel {
-    margin: 0.3rem 0 0.5rem;
-  }
   .carbonTimePicker {
     margin-right: -1px;
     height: 3rem;
     z-index: 1;
+
+    svg {
+      margin-block-start: 0.5rem;
+    }
   }
   .carbonDisplayTimeWrapper {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-top: -0.5rem;
   }
   .carbonTimeSetting {
     font-size: 0.875rem;

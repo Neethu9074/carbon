@@ -22,7 +22,6 @@ import {
   emptyInfrastructureType
 } from 'in-infrastructure/Explore/constants';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import DashboardHeaderButton from 'in-components/DashboardHeader/DashboardHeaderButton';
 import getAvailablePlugins from 'in-infrastructure/subscriptions/getAvailablePlugins';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
@@ -59,7 +58,7 @@ export default function HeaderTypeSelector({ onHrefSideEffect, excludeAllType })
       excludeAllType={excludeAllType}
       tagFilterExpression={tagFilterExpression}
       onHrefSideEffect={onHrefSideEffect}
-      ButtonComponent={DashboardHeaderButton}
+      ButtonComponent={DropdownButton}
       header
     />
   );

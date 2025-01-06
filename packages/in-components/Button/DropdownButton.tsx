@@ -9,8 +9,6 @@ import React from 'react';
 import { Button as CarbonButton, ButtonProps, SvgIcon } from '@instana/components';
 import { Button } from '@instana/legacy';
 
-import { carbonButtonEnabled } from 'in-services/featureFlags';
-
 import locals from './DropdownButton.mless';
 
 interface Props extends ButtonProps {
@@ -22,11 +20,21 @@ interface Props extends ButtonProps {
 }
 
 const DropdownButton = React.forwardRef<HTMLButtonElement, Props>(function DropdownButton(
-  { children, expanded, size, kind, icon, isBreadCrumbButton, className = '', spanClassName, ...buttonProps },
+  {
+    children,
+    expanded,
+    size,
+    kind,
+    icon,
+    darkTheme,
+    isBreadCrumbButton,
+    className = '',
+    spanClassName,
+    ...buttonProps
+  },
   ref
 ) {
-  const isCarbonUsed = carbonButtonEnabled && !isBreadCrumbButton;
-  const Component = isCarbonUsed ? CarbonButton : Button;
+  const Component = isBreadCrumbButton ? Button : CarbonButton;
 
   return (
     <Component
@@ -34,18 +42,14 @@ const DropdownButton = React.forwardRef<HTMLButtonElement, Props>(function Dropd
       //@ts-expect-error kind is different for legacy button
       kind={kind}
       ref={ref}
-      size={size ? size : isCarbonUsed ? 'compact' : undefined}
-      icon={isCarbonUsed ? (expanded ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down') : icon}
-      className={classNames(className, { [locals.dropdownButton]: !isCarbonUsed })}
+      size={size ?? 'compact'}
+      icon={isBreadCrumbButton ? icon : expanded ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'}
+      className={className}
       aria-haspopup
       aria-expanded={expanded}
+      {...(isBreadCrumbButton ? {} : { darkTheme: darkTheme })}
     >
-      {isCarbonUsed ? (
-        <>
-          {icon && <SvgIcon size="xs" type={icon} className={locals.carbonDropdownButtonIndicator} />}
-          <span className={spanClassName}>{children}</span>
-        </>
-      ) : (
+      {isBreadCrumbButton ? (
         <>
           {/* Group into one flexbox item */}
           <span className={spanClassName}>{children}</span>
@@ -56,6 +60,11 @@ const DropdownButton = React.forwardRef<HTMLButtonElement, Props>(function Dropd
               [`icon-${size}`]: size
             })}
           />
+        </>
+      ) : (
+        <>
+          {icon && <SvgIcon size="xs" type={icon} className={locals.carbonDropdownButtonIndicator} />}
+          <span className={spanClassName}>{children}</span>
         </>
       )}
     </Component>

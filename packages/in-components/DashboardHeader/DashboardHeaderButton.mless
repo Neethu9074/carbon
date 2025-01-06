@@ -4,21 +4,6 @@
  */
 
 :local {
-  .light {
-    background: #fff;
-  }
-
-  .dark {
-    // Deliberately deviation from the default styling of the button.
-    // Trying to keep the modifications down to the minimum necessary
-    // according to the design.
-    background: var(--ids-color-option-neutral-800);
-    border: 1px solid var(--ids-color-option-neutral-500);
-
-    &:hover {
-      background: var(--ids-color-option-neutral-700);
-    }
-  }
   .carbonDark {
     :global(.cds--g90) {
       background-color: transparent;

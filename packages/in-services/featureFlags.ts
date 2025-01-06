@@ -63,7 +63,6 @@ export const notesAndActivityEnabled = isFeatureFlagEnabled('notesAndActivityEna
 export const carbonIconButtonEnabled = isFeatureFlagEnabled('carbonIconButtonEnabled');
 export const carbonContentSwitcherEnabled = isFeatureFlagEnabled('carbonContentSwitcherEnabled');
 export const carbonTabsEnabled = isFeatureFlagEnabled('carbonTabsEnabled');
-export const carbonButtonEnabled = isFeatureFlagEnabled('carbonButtonEnabled', false);
 export const carbonTooltipEnabled = isFeatureFlagEnabled('carbonTooltipEnabled');
 export const carbonPaginationEnabled = isFeatureFlagEnabled('carbonPaginationEnabled');
 export const carbonTableEnabled = isFeatureFlagEnabled('carbonTableEnabled');

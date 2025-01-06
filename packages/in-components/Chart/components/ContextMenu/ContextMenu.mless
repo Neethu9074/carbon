@@ -52,14 +52,9 @@
     }
   }
 
-  .contextMenuActionsButtonsWrapper {
-    position: absolute;
-    top: -1.75rem;
-
-    display: flex;
-  }
-
   .contextMenuCarbonButtonWrapper {
+    position: absolute;
+    display: flex;
     top: -1.99rem;
     background: var(--ids-color-option-white);
   }

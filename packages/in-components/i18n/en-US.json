@@ -611,7 +611,6 @@
     "timeSelectionDialogPresenterLabelTimeRange": "Time Range",
     "timeSelectionDialogPresenterLabelReleases": "Releases",
     "timeFrameFormatterStarting": "Starting {{fromTime}}",
-    "timeIconHistoricDataMessage": "You are viewing approximate data due to the data retention settings. Precise data is available within the last {{retention}} days.",
     "timeUnit_year": "year",
     "timeUnit_month": "month",
     "timeUnit_day": "day",
