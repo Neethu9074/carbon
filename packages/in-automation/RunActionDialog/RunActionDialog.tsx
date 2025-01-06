@@ -123,6 +123,7 @@ export default function RunActionDialog({
                 onSave(
                   {
                     form,
+                    setForm,
                     setIsSaving,
                     action,
                     agentSnapShots,
@@ -299,6 +300,7 @@ function parseDynamicParameter(str?: string) {
 
 interface OnSaveParams extends Pick<RunActionDialogProps, 'action' | 'event'> {
   form: MapForm<any> | undefined;
+  setForm: React.Dispatch<React.SetStateAction<MapForm<any> | undefined>>;
   setIsSaving: React.Dispatch<React.SetStateAction<boolean>>;
   agentSnapShots: OUT | null | undefined;
   setError: React.Dispatch<React.SetStateAction<string>>;
@@ -312,6 +314,7 @@ interface OnSaveParams extends Pick<RunActionDialogProps, 'action' | 'event'> {
 function onSave(
   {
     form,
+    setForm,
     setIsSaving,
     action,
     agentSnapShots,
@@ -326,6 +329,10 @@ function onSave(
   runActionTrackerSegment: TrackingFunction,
   testActionTrackerSegment: TrackingFunction
 ) {
+  if (!form?.hierarchyValid) {
+    setForm(form?.setTouched(true, { recurse: true }));
+    return;
+  }
   setIsSaving(true);
 
   const targetAgent = form?.get('targetAgent') as Field<string>;
