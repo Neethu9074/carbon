@@ -15,7 +15,7 @@ import ForecastAlerting from 'in-alerting/smart-alerts/infrastructure/tearsheet/
 import ThresholdSection from 'in-alerting/smart-alerts/infrastructure/tearsheet/components/ThresholdSection';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import { oneMinuteGranularityForStaticThresholdEnabled } from 'in-services/featureFlags';
-import GracePeriod from 'in-alerting/smart-alerts/components/tearSheet/GracePeriod';
+import GracePeriodWrapper from 'in-alerting/smart-alerts/components/tearSheet/GracePeriodWrapper';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { t } from 'in-i18n';
 
@@ -66,7 +66,7 @@ export default function AlertConfigTearSheetStep2({
             oneMinuteGranularityAllowed={oneMinuteGranularityAllowed}
           />
           <Spacer size="gutter" />
-          <GracePeriod form={form} updateForm={updateForm} />
+          <GracePeriodWrapper form={form} updateForm={updateForm} />
           <Spacer size="gutter" />
           <ForecastAlerting form={form} updateForm={updateForm} />
         </TearSheetStepTitleWrapper>

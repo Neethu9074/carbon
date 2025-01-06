@@ -1,46 +1,50 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2024
+ * Copyright IBM Corp. 2025
  */
 
+// eslint-disable-next-line no-restricted-imports
+import { Dropdown } from '@carbon/react';
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
-import { Dropdown } from '@instana/components';
-
-import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { days, minutes, hours } from 'in-services/time/time';
 import { t } from 'in-i18n';
 
-export default function GracePeriod({
-  form,
-  updateForm
-}: {
+import locals from 'in-alerting/smart-alerts/components/GracePeriod.mless';
+
+type DropdownItem = { value: string; label: string };
+interface GracePeriodProps {
   form: MapForm<any>;
   updateForm: (form: MapForm<any>) => void;
-}) {
+}
+
+export default function GracePeriod({ form, updateForm }: GracePeriodProps) {
   const gracePeriod = form.get('gracePeriod').value;
   const granularity = form.get('granularity').value;
-  const gracePeriodOptions = generateGracePeriodOptions(granularity);
-  const handleGracePeriodChange = (newValue: string) => {
+  const gracePeriodOptions: DropdownItem[] = generateGracePeriodOptions(granularity);
+
+  const handleGracePeriodChange = (event: { selectedItem: DropdownItem }) => {
+    const newValue = event.selectedItem.value;
     const updatedGracePeriod = parseInt(newValue, 10);
     updateForm(form.updateIn(['gracePeriod'], (f: Field<number>) => f.setValue(updatedGracePeriod).setTouched(true)));
   };
 
   return (
-    <TearSheetStepTitleWrapper
-      headline={t('in-alerting:smartAlerts.components.tearSheet.gracePeriod.title')}
-      description={t('in-alerting:smartAlerts.components.tearSheet.gracePeriod.description')}
-    >
+    <div className={locals.dropdownContainer}>
       <Dropdown
+        id="grace-period-dropdown"
         items={gracePeriodOptions}
-        value={gracePeriod.toString()}
+        selectedItem={gracePeriodOptions.find(option => option.value === gracePeriod.toString())}
+        itemToString={item => (item ? item.label : '')}
         onChange={handleGracePeriodChange}
         size="sm"
+        label={t('in-alerting:smartAlerts.components.gracePeriod.label')}
+        titleText={t('in-alerting:smartAlerts.components.gracePeriod.description')}
       />
-    </TearSheetStepTitleWrapper>
+    </div>
   );
 }
 
@@ -57,7 +61,7 @@ const predefinedPeriods = [
   days.toMillis(7)
 ];
 
-export function generateGracePeriodOptions(granularityMillis: number): { value: string; label: string }[] {
+export function generateGracePeriodOptions(granularityMillis: number): DropdownItem[] {
   const granularityPeriods: number[] = [];
   for (let i = 1; i <= 10; i++) {
     granularityPeriods.push(i * granularityMillis);

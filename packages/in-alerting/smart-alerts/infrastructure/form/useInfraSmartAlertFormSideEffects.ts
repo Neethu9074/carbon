@@ -6,7 +6,7 @@
 
 import { Field, MapForm } from 'formalistic';
 
-import { generateGracePeriodOptions } from 'in-alerting/smart-alerts/components/tearSheet/GracePeriod';
+import { generateGracePeriodOptions } from 'in-alerting/smart-alerts/components/GracePeriod';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import useFormSideEffects, { CHANGE_TYPES } from 'in-hooks/useFormSideEffects';
 

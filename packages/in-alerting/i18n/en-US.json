@@ -987,6 +987,11 @@
         "labelConfirmRemoveConfig": "Are you sure you want to remove the alert <strong>{{configName}}</strong>?",
         "labelRemove": "Remove"
       },
+      "gracePeriod": {
+        "title": "Grace period (optional)",
+        "description": "Automatically close an issue after the violation threshold is no longer met for:",
+        "label": "Select"
+      },
       "tearSheet": {
         "cancelModalTitle": "Are you sure you want to cancel?",
         "cancelModalDescription": "If you cancel, configuration details you have entered wont be saved.",
@@ -1007,10 +1012,6 @@
           "static": "Static",
           "thresholdValue": "Threshold value",
           "timeWindow": "Time Window"
-        },
-        "gracePeriod": {
-          "title": "Grace period (optional)",
-          "description": "Automatically close an issue after the violation threshold is no longer met for:"
         }
       }
     },
