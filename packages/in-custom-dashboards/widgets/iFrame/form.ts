@@ -22,14 +22,15 @@ export function createForm(): IFrameWidgetForm {
 }
 
 function urlValidator(url: string): ValidationResult {
-  const regexString = '^https?:\\/\\/[\\w.-]+(\\/[\\w.-]*)*(\\/)?(\\?[\\w.-]+=[\\w.-]+(&[\\w.-]+=[\\w.-]+)*)?$'; // using string for handling no-useless-escape eslint error.
-  const regex = new RegExp(regexString);
-  return regex.test(url) // return true if url is valid.
-    ? null
-    : [
-        {
-          severity: 'error',
-          message: 'Please enter a valid URL.'
-        }
-      ];
+  try {
+    new URL(url);
+    return null;
+  } catch (_) {
+    return [
+      {
+        severity: 'error',
+        message: 'Please enter a valid URL.'
+      }
+    ];
+  }
 }

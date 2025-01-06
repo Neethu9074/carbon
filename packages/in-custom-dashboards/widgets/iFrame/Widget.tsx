@@ -42,7 +42,7 @@ export default function IFrameWidget({ title, config, actions, isInModal, isPrev
       isScrollable
     >
       <div className={locals.wrapper}>
-        <iframe src={config.iframe} width="100%" height="600" sandbox="allow-forms allow-scripts" />
+        <iframe src={config.iframe} width="100%" height="600" sandbox="allow-same-origin allow-scripts" />
       </div>
     </Card>
   );
