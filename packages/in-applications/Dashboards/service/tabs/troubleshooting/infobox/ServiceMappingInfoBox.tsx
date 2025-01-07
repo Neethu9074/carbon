@@ -9,8 +9,13 @@ import { t, Trans } from '@instana/i18n-react';
 
 // @ts-expect-error ExpandableCard is not yet converted to TS, nor does it provide types
 import ExpandableCard from 'in-components/AnalyzeView/FacetedFilters/ExpandableCardWithSubtitle';
-import { serviceMappingColorMap, serviceMappingColorMapper } from '../metricConfigs';
-import ColorIndicator, { getColorForValue } from './ColorIndicator';
+import {
+  serviceMappingColorMap,
+  serviceMappingColorMapper
+} from 'in-applications/Dashboards/service/tabs/troubleshooting/metricConfigs';
+import ColorIndicator, {
+  getColorForValue
+} from 'in-applications/Dashboards/service/tabs/troubleshooting/infobox/ColorIndicator';
 
 import locals from './Infobox.mless';
 

@@ -20,9 +20,14 @@
  *     limitations under the License.
  *
  */
-import { forceSecondaryRankPromotions, forcePrimaryRankPromotions, longestPathRanking, normalizeRanks } from './ranker';
-import { remove, restore } from './acyclicFAS';
-import Graph from './Graph';
+import {
+  forceSecondaryRankPromotions,
+  forcePrimaryRankPromotions,
+  longestPathRanking,
+  normalizeRanks
+} from 'in-applications/ApplicationMap/misc/layouting/vizceralResources/ranker';
+import { remove, restore } from 'in-applications/ApplicationMap/misc/layouting/vizceralResources/acyclicFAS';
+import Graph from 'in-applications/ApplicationMap/misc/layouting/vizceralResources/Graph';
 
 export default class LTRTreeLayouter {
   constructor() {}

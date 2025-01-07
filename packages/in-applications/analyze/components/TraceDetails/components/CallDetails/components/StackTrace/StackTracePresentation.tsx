@@ -9,9 +9,9 @@ import classNames from 'classnames';
 import { StackTraceItem } from '@instana/types';
 import { Button } from '@instana/components';
 
+import { determineCombineMethod } from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/StackTrace/utils';
 import ShowCodeButton from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/StackTrace/ShowCodeButton';
 import { SnapshotData } from 'in-stores/snapshot';
-import { determineCombineMethod } from './utils';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

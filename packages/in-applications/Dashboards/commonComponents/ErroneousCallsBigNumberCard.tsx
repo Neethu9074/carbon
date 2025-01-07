@@ -9,11 +9,11 @@ import DashboardBigNumberCard, {
   BigNumberCardProps,
   increaseIsBad
 } from 'in-applications/Dashboards/commonComponents/DashboardBigNumberCard';
+import { filterByEndpointType } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
 import { createChartedMetric, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { number, percentage } from 'in-services/formatters/number';
-import { filterByEndpointType } from './includeEndpointTypes';
 import { t } from 'in-i18n';
 
 export default function ErroneousCallsBigNumberCard({

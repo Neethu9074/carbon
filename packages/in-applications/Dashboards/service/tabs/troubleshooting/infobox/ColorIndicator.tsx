@@ -8,7 +8,7 @@ import React from 'react';
 
 import { colors } from 'in-custom-dashboards/widgets/Chart/FormComponent/colors';
 
-import locals from './ColorIndicator.mless';
+import locals from 'in-applications/Dashboards/service/tabs/troubleshooting/infobox/ColorIndicator.mless';
 
 export const getColorForValue = (value: string) => {
   return colors.find(c => c.id === value)?.color ?? value;

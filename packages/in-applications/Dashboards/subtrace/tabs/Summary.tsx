@@ -10,10 +10,10 @@ import CallsPerSubtraceBigCard from 'in-applications/Dashboards/subtrace/compone
 import ErroneousRateBigCard from 'in-applications/Dashboards/subtrace/components/ErroneousRateBigCard';
 import ErroneousRateChart from 'in-applications/Dashboards/subtrace/components/ErrenousRateChart';
 import NumberOfSubtraces from 'in-applications/Dashboards/subtrace/components/NumberOfSubtraces';
+import DurationMeanChart from 'in-applications/Dashboards/subtrace/components/DurationMeanChart';
 import DurationBigCard from 'in-applications/Dashboards/subtrace/components/DurationBigCard';
 import { Granularity, SubtraceUnifiedMetricConfiguration, TagFilter } from 'in-types';
 import { Config } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
-import DurationMeanChart from '../components/DurationMeanChart';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { Col, Row } from 'in-components/layout/Grid';

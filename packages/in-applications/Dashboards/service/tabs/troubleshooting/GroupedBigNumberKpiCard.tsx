@@ -17,13 +17,16 @@ import {
   TimeConfig,
   TimeShift
 } from 'in-types';
+import {
+  createServiceIdTagFilter,
+  createTagFilterExpression
+} from 'in-applications/Dashboards/service/tabs/troubleshooting/metricConfigs';
 import { createChartedMetric, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import getCallGroups, { GetCallGroupsResult } from 'in-applications/subscriptions/getCallGroups';
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import ResultAwareBigNumberKpiCard from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
-import { createServiceIdTagFilter, createTagFilterExpression } from './metricConfigs';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';

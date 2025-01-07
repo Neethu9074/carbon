@@ -7,10 +7,15 @@ import React from 'react';
 
 import { t, Trans } from '@instana/i18n-react';
 
+import {
+  infraLinkingColorMap,
+  infraLinkingColorMapper
+} from 'in-applications/Dashboards/service/tabs/troubleshooting/metricConfigs';
+import ColorIndicator, {
+  getColorForValue
+} from 'in-applications/Dashboards/service/tabs/troubleshooting/infobox/ColorIndicator';
 // @ts-expect-error
 import ExpandableCard from 'in-components/AnalyzeView/FacetedFilters/ExpandableCardWithSubtitle';
-import { infraLinkingColorMap, infraLinkingColorMapper } from '../metricConfigs';
-import ColorIndicator, { getColorForValue } from './ColorIndicator';
 
 import locals from './Infobox.mless';
 
