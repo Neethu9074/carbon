@@ -46,6 +46,8 @@
       background: #fff;
     }
     display: grid;
+    display: flex;
+    justify-content: center;
   }
 
   .loadingSkeleton {
