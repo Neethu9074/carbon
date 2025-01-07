@@ -12659,7 +12659,8 @@
       "hostname": "Hostname",
       "startType": "Start Type",
       "turbonomicSensorException": "Turbonomic sensor produced the following exception : <code>{{e}}</code>.",
-      "jspawnhelperPermissionIssueDescription": "The agent is not able to execute file jspawnhelper in the JVM path <code>{{path}}</code> . Please provide necessary permissions."
+      "jspawnhelperPermissionIssueDescription": "The agent is not able to execute file jspawnhelper in the JVM path <code>{{path}}</code> . Please provide necessary permissions.",
+      "switchtoJava11IssueDescription": "The agent is running with a JVM below Java 11. The used version is <code>{{version}}</code>."
     },
     "sparkStandalone": {
       "titleApplicationId": "Application Id",
