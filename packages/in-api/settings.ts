@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { getHeader as getCsrfHeader } from '../in-services/security/csrf';
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { UiSettings } from 'in-types';
 import http from 'in-services/http';
 
