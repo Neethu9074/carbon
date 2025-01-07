@@ -67,7 +67,7 @@ const Code: React.FC<CodeProps> = ({
         >
           {t('in-plg:agentDetails.common.download')}
         </Button>
-        <CopyToClipboardButton disabled={withoutCopyButton} kind="action" getText={() => content} />
+        <CopyToClipboardButton size="compact" disabled={withoutCopyButton} kind="action" getText={() => content} />
       </Stack>
       <CodeComponent
         code={content}
