@@ -6,7 +6,7 @@
 import { uniqueId } from 'lodash';
 import React from 'react';
 
-import { Stack, CarbonCheckbox as Checkbox } from '@instana/components';
+import { CarbonCheckbox as Checkbox } from '@instana/components';
 
 import { approximateValueIndicator } from 'in-components/AnalyzeView/FacetedFilters/approximateValueIndicator';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
@@ -21,7 +21,7 @@ export function CheckableSuggestion({ label, count, checked, onChange }) {
   const labelText = <div className={locals.label}>{label}</div>;
   return (
     <Tooltip content={`${label}`} align="rightMiddle" delay={1000} overwriteBlock>
-      <Stack direction="horizontal" align="center" distribution="spaceBetween">
+      <div className={locals.checkableSuggestion}>
         <Checkbox id={cid} aria-describedby={id} checked={checked} labelText={labelText} onChange={onChange} />
         {count && (
           <div id={id} className={locals.count}>
@@ -29,7 +29,7 @@ export function CheckableSuggestion({ label, count, checked, onChange }) {
             <span>{withSiPrefixOneDecimalPlace(twoDigitApproximation(count))}</span>
           </div>
         )}
-      </Stack>
+      </div>
     </Tooltip>
   );
 }
