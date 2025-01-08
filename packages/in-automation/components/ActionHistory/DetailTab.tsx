@@ -10,8 +10,8 @@ import React from 'react';
 
 import { Li, Link, Ul, IconButton, SvgIcon, DataTable as CarbonTable } from '@instana/components';
 import { ActionInstance, ActorType } from '@instana/types';
-import { Observable, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 import {
   getEntityIdView,
@@ -27,7 +27,6 @@ import { ACTION_TRANSLATIONS, ACTION_TYPE } from 'in-automation/constants';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { agentsPath } from 'in-stores/navigation/paths/mainPaths';
-import { carbonTableEnabled } from 'in-services/featureFlags';
 import { formatDateTime } from 'in-services/formatters/date';
 import { useLinkToLogs } from 'in-logging/navigation/paths';
 import CopyToClipboard from 'in-components/CopyToClipboard';
@@ -294,71 +293,13 @@ export default function DetailTab({
       };
     });
 
-  const renderRow = (
-    label: string,
-    value: React.ReactNode,
-    isLink?: boolean,
-    ObservableLink?: Observable<string> | null,
-    stringLink?: string | null,
-    showCondition?: boolean,
-    actionLane?: boolean,
-    inActionLane?: boolean
-  ) => {
-    if (!showCondition || (inActionLane && !actionLane) || (!inActionLane && actionLane)) return null;
-
-    return (
-      <tr key={label}>
-        <td>{label}</td>
-        <td>
-          {isLink ? (
-            <Link className={locals.detailsLink} target="_blank" href={ObservableLink ?? stringLink ?? undefined}>
-              {value} <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />
-            </Link>
-          ) : (
-            value
-          )}
-        </td>
-      </tr>
-    );
-  };
-
-  if (carbonTableEnabled) {
-    return (
-      <div
-        className={classNames({
-          [locals.instanceTabContent]: !inActionLane
-        })}
-      >
-        <CarbonTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
-      </div>
-    );
-  }
-
   return (
     <div
       className={classNames({
         [locals.instanceTabContent]: !inActionLane
       })}
     >
-      <table
-        className={classNames({
-          [locals.ActionInstanceDetailsTable]: true,
-          [locals.ActionLaneTable]: inActionLane
-        })}
-      >
-        <thead className={locals.headerRow}>
-          <tr>
-            <th>{t('in-automation:actionHistory.property')}</th>
-            <th>{t('in-automation:actionHistory.value')}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tableData.map(
-            ({ label, value, isLink, ObservableLink, stringLink, showCondition = true, actionLane = false }) =>
-              renderRow(label, value, isLink, ObservableLink, stringLink, showCondition, actionLane, inActionLane)
-          )}
-        </tbody>
-      </table>
+      <CarbonTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
     </div>
   );
 }
