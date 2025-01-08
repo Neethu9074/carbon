@@ -129,7 +129,7 @@ function EventViewComponent(props) {
       if (!isEmpty(query)) {
         queries.push(query);
       }
-      if (!isEmpty(filter) && eventType === 'issue') {
+      if (!isEmpty(filter) && (eventType === 'issue' || eventType === 'incident')) {
         queries.push(filter);
       }
       queries = queries.map(q => `(${q})`).join(' AND ');
