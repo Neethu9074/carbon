@@ -2945,20 +2945,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/carbon-charts@npm:0.4.0":
-  version: 0.4.0
-  resolution: "@instana/carbon-charts@npm:0.4.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcarbon-charts%2F-%2F%40instana%2Fcarbon-charts-0.4.0.tgz"
+"@instana/carbon-charts@npm:0.5.0":
+  version: 0.5.0
+  resolution: "@instana/carbon-charts@npm:0.5.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcarbon-charts%2F-%2F%40instana%2Fcarbon-charts-0.5.0.tgz"
   dependencies:
     "@carbon/charts-react": 1.22.7
     "@ibm/telemetry-js": 1.8.0
     react: ^17.0.2
-  checksum: 59c6ed280918b7f0b24ed0e4fffb9783669d45910908874ae5a2b89384ada64ffa649f35de55a72e5cf9d9e48a42e3a8da479bc47160dc76caf2552af36bb155
+  checksum: 20fae1113ced6bfa3b4d6f11bb4ad5e69af4ab60c97c9b4552dc4297b30c40ae13a602a6f9150f75f99b3d327d3f690bf852e6a3651614df4b220c404beb7196
   languageName: node
   linkType: hard
 
-"@instana/components@npm:4.64.0, @instana/components@npm:^4.64.0":
-  version: 4.64.0
-  resolution: "@instana/components@npm:4.64.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.64.0.tgz"
+"@instana/components@npm:4.65.0, @instana/components@npm:^4.65.0":
+  version: 4.65.0
+  resolution: "@instana/components@npm:4.65.0::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Fcomponents%2F-%2F%40instana%2Fcomponents-4.65.0.tgz"
   dependencies:
     "@carbon/icons-react": 11.45.0
     "@carbon/react": 1.72.0
@@ -2976,7 +2976,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.2
-  checksum: a34bf805d5bef4a5552548dce87297774793f7ab923d293b21f25e1be77f5f16eae6fca8f715629f649096cb1e8c0ae97f1fe3a59d7724f39b69b379a33e6ac0
+  checksum: 3b85d1e14b1bf51620dcc288778d421b52bbf3d3fe45651916e65f7feaa34d0e5647238dc02bde6149746750f113ec670a1841aafa9008db2813aae2dd4010a7
   languageName: node
   linkType: hard
 
@@ -3095,11 +3095,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@instana/legacy@npm:4.3.37":
-  version: 4.3.37
-  resolution: "@instana/legacy@npm:4.3.37::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.3.37.tgz"
+"@instana/legacy@npm:4.3.38":
+  version: 4.3.38
+  resolution: "@instana/legacy@npm:4.3.38::__archiveUrl=https%3A%2F%2Fdelivery.instana.io%2Fartifactory%2Fapi%2Fnpm%2Fint-npm-virtual%2F%40instana%2Flegacy%2F-%2F%40instana%2Flegacy-4.3.38.tgz"
   dependencies:
-    "@instana/components": ^4.64.0
+    "@instana/components": ^4.65.0
     "@instana/design-tokens": ^1.28.7
     "@instana/format-date": ^1.7.6
     "@instana/format-numbers": ^1.6.4
@@ -3111,7 +3111,7 @@ __metadata:
   peerDependencies:
     i18next: ^19.0.0
     react: ^17.0.0
-  checksum: 61ff0cfa95eb4199ea483c47ac585c8fc906e71b2dfd57cb18ca68f8de4545f8b32e2edf373d34d1d362a3a2cd63e61db80221d8ff4667469e27f6c040e44f95
+  checksum: 4d72042ed8133b4cdf77bbf35de42f6d35141c50a36e4f53f13e70c02f9e3d4a37a2a64c3fcbde3aa7c1f85b6e73602f75725a72077617b2c907c4840290e5ee
   languageName: node
   linkType: hard
 
@@ -22259,8 +22259,8 @@ __metadata:
     "@codemirror/state": 6.2.0
     "@codemirror/theme-one-dark": ^6.0.0
     "@codemirror/view": 6.6.0
-    "@instana/carbon-charts": 0.4.0
-    "@instana/components": 4.64.0
+    "@instana/carbon-charts": 0.5.0
+    "@instana/components": 4.65.0
     "@instana/design-tokens": 1.28.7
     "@instana/eslint-config-commons": 1.3.0
     "@instana/format-date": 1.7.6
@@ -22270,7 +22270,7 @@ __metadata:
     "@instana/i18n-react": 1.7.2
     "@instana/ibm-products": 0.6.3
     "@instana/import-sort-style-simon": 1.4.0
-    "@instana/legacy": 4.3.37
+    "@instana/legacy": 4.3.38
     "@instana/logger": ^1.3.1
     "@instana/observables": ^1.8.3
     "@instana/pseudo-translation": 1.5.4
