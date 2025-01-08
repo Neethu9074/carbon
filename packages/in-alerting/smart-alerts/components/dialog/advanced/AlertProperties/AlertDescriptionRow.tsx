@@ -79,8 +79,8 @@ export default function AlertDescriptionRow({
 function getIsMutithresholdConfigured(form: MapForm<any>) {
   const warningThresholdField = form.get('threshold')?.get('warningThreshold') as MapForm<any>;
   const criticalThresholdField = form.get('threshold')?.get('criticalThreshold') as MapForm<any>;
-  const warningThresholdValue = warningThresholdField?.get('value').value;
-  const criticalThresholdValue = criticalThresholdField?.get('value').value;
+  const warningThresholdValue = warningThresholdField?.get('value')?.value;
+  const criticalThresholdValue = criticalThresholdField?.get('value')?.value;
   const isWarningThresholdDefined = !isEmpty(warningThresholdValue);
   const isCriticalThresholdDefined = !isEmpty(criticalThresholdValue);
   if (isWarningThresholdDefined && isCriticalThresholdDefined) {
