@@ -24,5 +24,5 @@ export const aiOriginatedMetadata = {
 
 export const isNotEditable = (action: Action | NewAction, isCopy: boolean) =>
   ((action.metadata?.builtIn ?? false) && !isCopy) ||
-  action.type === ACTION_TYPE.ANSIBLE ||
+  (action.type === ACTION_TYPE.ANSIBLE && !role?.canConfigureAutomationActions) ||
   !role?.canConfigureAutomationActions;
