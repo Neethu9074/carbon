@@ -247,6 +247,7 @@ export default function CustomMetricsV2(props: CustomMetricProps) {
           initialSortColumn={2}
           showExpandAll
           distanceBetweenDatapointsInMillis={distanceBetweenDatapointsInMillis}
+          forceUsingLegacyTable
         />
       )}
       <Table

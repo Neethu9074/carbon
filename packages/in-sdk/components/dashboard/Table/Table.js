@@ -92,6 +92,10 @@ export default class Table extends React.Component {
   render() {
     const data = this.state.data;
     const cols = this.props.cols;
+    // workaround in 288 as a quick way to force using the legacy table
+    // when it won't work with carbon table, yet: Expandable rows
+    // this should not be used and necessary in release-289 and later.
+    const useCarbonTable = !this.props.forceUsingLegacyTable && carbonTableEnabled;
 
     if (!data || !this.store) {
       return null;
@@ -129,7 +133,7 @@ export default class Table extends React.Component {
             ]}
           />
         )}
-        {!carbonTableEnabled ? (
+        {!useCarbonTable ? (
           <SearchInput
             maxWidth={140}
             query={this.state.filter}
@@ -140,7 +144,7 @@ export default class Table extends React.Component {
       </div>
     );
 
-    if (carbonTableEnabled) {
+    if (useCarbonTable) {
       const carbonHeaders = cols.map((item, i) => ({
         id: i,
         key: item.title,
