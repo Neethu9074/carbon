@@ -72,9 +72,6 @@ export default function ParameterDialog({
   const type = parameterForm.get('type') as Field<string>;
   const parameterName = parameterForm.get('name') as Field<string>;
   const disableTicketIdParameter = isGitOrJira && parameterName.value === 'id';
-  // IMPORTANT: Ansible actions are a special case where we want to allow the parameters to be editable EXCEPT for the name so we override isNotEditable so that everything is editable except for the name where we will disable the input using isAnsible flag
-  isNotEditable = isNotEditable && !isAnsible;
-
   const sectionProps = {
     parameterForm,
     setParameterForm,
@@ -166,7 +163,7 @@ function MetaDataSection({
           id="parameter-name"
           type="text"
           // IMPORTANT: isNotEditable has been overridden for Ansible actions so we need to check isAnsible here to disable the input
-          disabled={isNotEditable || isAnsible || disableTicketIdParameter}
+          disabled={isNotEditable || isAnsible || disableTicketIdParameter || !role?.canConfigureAutomationActions}
           value={name.value}
           onChange={e => onParameterChange({ fieldName: 'name', value: e.target.value, setParameterForm, parameter })}
           hasError={!name.valid && name.touched}
