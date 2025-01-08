@@ -34,7 +34,7 @@ export default function ThresholdViolation({
   oneMinuteGranularityAllowed: boolean;
 }) {
   const granularity = form.get('granularity')?.value;
-  const thresholdType = form.get('threshold').get('type')?.value;
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
 
   const timeThresholdForm = form.get('timeThreshold');
   const timeThresholdTimeWindow = timeThresholdForm.get('timeWindow')?.value;

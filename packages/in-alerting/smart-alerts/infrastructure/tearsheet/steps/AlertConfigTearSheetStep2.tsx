@@ -38,7 +38,7 @@ export default function AlertConfigTearSheetStep2({
   onChartViewConfigChange?: (arg: number) => void;
   selectedChartViewConfigIndex?: number;
 }) {
-  const thresholdType = form.get('threshold').get('type')?.value;
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const oneMinuteGranularityAllowed =
     thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled;
 

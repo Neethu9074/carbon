@@ -47,7 +47,7 @@ export default function ThresholdSection({
   const formatter = getFormatter(entityType, metricName);
   const percentageMetric = formatter === 'PERCENTAGE';
   const metricUnitPostfix = getMetricUnitPostfix(formatter);
-  const thresholdType = form.get('threshold').get('type')?.value;
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
   const granularity = form.get('granularity')?.value;
 
   const marks = getMarksForThresholdType(thresholdType, oneMinuteGranularityAllowed);
