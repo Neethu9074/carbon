@@ -32,6 +32,7 @@ interface Props {
   tooltipDisabled?: boolean;
   openByDefault?: boolean;
   expansionTracker?: ({ expanded }: { expanded: boolean }) => void;
+  isTearSheetView?: boolean;
 }
 
 export default function ExpandableLightCard({
@@ -49,7 +50,8 @@ export default function ExpandableLightCard({
   label,
   darkFrame,
   useMaxAvailableHeight,
-  tooltipDisabled = false
+  tooltipDisabled = false,
+  isTearSheetView
 }: Props) {
   const [expanded, setExpanded] = useState(openByDefault);
 
@@ -97,6 +99,7 @@ export default function ExpandableLightCard({
       headerClassName={headerClassName}
       darkFrame={darkFrame}
       useMaxAvailableHeight={useMaxAvailableHeight}
+      isTearSheetView={isTearSheetView}
     >
       {expanded && children}
     </LightCard>

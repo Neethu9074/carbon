@@ -90,7 +90,7 @@ export default function AlertConfigTearSheetStep3({
           noMargin
         />
         <div className={locals.columnContainer}>
-          <GlobalCustomPayloadCard context="INFRA" />
+          <GlobalCustomPayloadCard context="INFRA" isTearSheetView />
           <AlertConfigCustomPayload
             form={form}
             setForm={updateForm}

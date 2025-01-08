@@ -28,6 +28,7 @@ interface LightCardProps {
   darkFrame?: boolean;
   framed?: boolean;
   useMaxAvailableHeight?: boolean;
+  isTearSheetView?: boolean;
 }
 
 export default function LightCard({
@@ -43,7 +44,8 @@ export default function LightCard({
   darkFrame = false,
   framed = true,
   useMaxAvailableHeight,
-  label
+  label,
+  isTearSheetView = false
 }: LightCardProps) {
   const isInteractiveCard = !!onHeaderBackgroundClicked;
   const onClickPrevented = isInteractiveCard ? stopPropagationAndPreventDefault : undefined;
@@ -70,7 +72,8 @@ export default function LightCard({
           [locals.clickableHeader]: isInteractiveCard,
           // @ts-expect-error this creates an undefined: undefined key value pair if className is undefined. TS errors on this, but in the context of class names it is acceptable.
           [headerClassName]: headerClassName,
-          [locals.noSubContent]: !titleSubContent
+          [locals.noSubContent]: !titleSubContent,
+          [locals.whiteBg]: isTearSheetView
         })}
         {...headerProps}
       >
