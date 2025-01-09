@@ -34,6 +34,7 @@ import { TypeFilter } from 'in-automation/ActionTable/tableFilters';
 import { refresh } from 'in-automation/AutomationCard/usePolicies';
 import { TagsFilter } from 'in-automation/components/tableFilters';
 import { close } from 'in-components/DialogPresenter/store';
+import { ACTION_TYPE } from 'in-automation/constants';
 import { saveBulkPolicies } from 'in-automation/api';
 import { mapData } from 'in-services/util/result';
 import Dialog from 'in-components/Dialog/Dialog';
@@ -124,6 +125,7 @@ function useActionFilters({
     filteredActions: mapData(actions, data =>
       data.filter(
         action =>
+          action.type !== ACTION_TYPE.EXTERNAL &&
           !isAIAction(action) &&
           filters.reduce((shouldInclude, filter) => {
             const emptyFilter = !filter.value?.length;
@@ -253,7 +255,7 @@ export default function CreatePoliciesDialog({ event, actions, trigger }: Create
           rightHeader={
             <>
               <Stack direction="horizontal">
-                <TypeFilter type={types} setType={params => setTypes({ types: params.types })} />
+                <TypeFilter type={types} setType={params => setTypes({ types: params.types })} showExternal />
 
                 <TagsFilter availableTags={actionTags} tags={tags} setTags={setTags} />
               </Stack>

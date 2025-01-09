@@ -28,9 +28,9 @@ import { automationActionAiGenerationUnitEnabled } from 'in-services/featureFlag
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { getTriggerTypeFromEvent } from 'in-automation/AutomationCard/shared';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import useHasAccessToManual from 'in-automation/hooks/useHasAccessToManual';
 import { TrackingFunction, useSegmentTracker } from 'in-automation/tracker';
+import RunActionDialog from 'in-automation/RunActionDialog/RunActionDialog';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { ScoredAction, TriggerSpecification } from 'in-automation/types';
 import { tagsColumn } from 'in-automation/components/columnDefinitions';
@@ -64,6 +64,27 @@ const actionColumn: ColumnDefinition<ScoredAction, RecommendedActionsTableProps>
   sortable: false,
   width: 17,
   getContent(action, { volatileId, event, trigger, runActionTrackerSegment }) {
+    const isManualExternal =
+      action?.metadata?.ai &&
+      action?.metadata?.ai[0]?.turbonomicActionMode === 'MANUAL' &&
+      action.type === ACTION_TYPE.EXTERNAL;
+    if (!isManualExternal) return null;
+    // if (isManualExternal) {
+    //   if (!role?.canRunAutomationActions) return null;
+    //   return (
+    //     <Button
+    //       kind="action"
+    //       icon="lib_actions_play"
+    //       onClick={e => {
+    //         stopPropagationAndPreventDefault(e);
+    //         addActiveDialog(<RunActionDialog action={action} volatileId={volatileId} event={event} />);
+    //       }}
+    //       noAutoMargin
+    //     >
+    //       {t('in-automation:ActionCatalog.run')}
+    //     </Button>
+    //   );
+    // }
     if (!role?.canRunAutomationActions && !role?.canConfigureAutomationPolicies) return null;
     return (
       <HorizontalFlexWrapper className={locals.rowActions}>
@@ -112,7 +133,7 @@ const actionColumn: ColumnDefinition<ScoredAction, RecommendedActionsTableProps>
               : t('in-automation:ActionCatalog.run')}
           </Button>
         )}
-        {role?.canConfigureAutomationPolicies && (
+        {role?.canConfigureAutomationPolicies && action.type !== ACTION_TYPE.EXTERNAL && (
           <Tooltip content={t('in-automation:createPolicyWithName', { actionName: action.name })} delay={500}>
             <IconButton
               kind="primaryv2"
@@ -307,7 +328,7 @@ export default function RecommendedActions({
           {(showOotbActions || automationActionAiGenerationUnitEnabled) && !isLoading(trigger) && (
             <GenerateAIActionButton event={event} trigger={trigger} ootbRecommendedActions={ootbRecommendedActions} />
           )}
-          <TypeFilter type={types} setType={params => setTypes({ types: params.types })} />
+          <TypeFilter type={types} setType={params => setTypes({ types: params.types })} showExternal />
           <AiEngineFilter availableAiEngines={availableAiEngines} aiEngine={aiEngine} setAiEngine={setAiEngine} />
           <TagsFilter availableTags={availableTags} tags={tags} setTags={setTags} />
           <Spacer horizontal="small" />

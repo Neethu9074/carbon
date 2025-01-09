@@ -13,11 +13,11 @@ import { Action } from '@instana/types';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import useHrefToActionDetails from 'in-automation/navigation/hooks/useHrefToActionDetails';
 import FourLineWrapper from 'in-automation/components/FourLineWrapper/FourLineWrapper';
+import { ACTION_TRANSLATIONS, ACTION_TYPE } from 'in-automation/constants';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { actionCatalog } from 'in-automation/navigation/paths';
-import { ACTION_TRANSLATIONS } from 'in-automation/constants';
 import { useSegmentTracker } from 'in-automation/tracker';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { ScoredAction } from 'in-automation/types';
@@ -26,13 +26,18 @@ import { t } from 'in-i18n';
 import locals from 'in-automation/ActionTable/columnDefinitions.mless';
 
 function NameColumn({ action }: { action: Action | ScoredAction }) {
-  const name = action.name;
   const hrefToActionDetails = useHrefToActionDetails();
   const { viewAIGenaratedActionTrackerSegment } = useSegmentTracker();
   const { location } = useNavigation();
   const isAIActions = location.matrix[actionCatalog]?.view && location.matrix[actionCatalog]?.view === 'ai';
+  const description = action.description ?? action.name;
+  const name = action.type === ACTION_TYPE.EXTERNAL ? description : action.name;
 
-  return (
+  return action.type === ACTION_TYPE.EXTERNAL ? (
+    <Link ellipsis href={action.name} external>
+      <span>{name}</span>
+    </Link>
+  ) : (
     <WithSubscript subscript={ACTION_TRANSLATIONS[action.type]}>
       <Link
         className={locals.ellipsis}
@@ -89,6 +94,7 @@ export const scoreColumn: ColumnDefinition<ScoredAction> = {
   width: 8,
   sortable: true,
   getContent(action) {
+    if (action.type === ACTION_TYPE.EXTERNAL) return null;
     return (
       <Tooltip
         content={t('in-automation:ActionCatalog.confidenceHelpText', { source: action.aiEngine })}
