@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2025
  * (c) Copyright Instana Inc.
  */
 
@@ -599,3 +599,7 @@ export const VULNERABILITIES_CSV_EXPORT_CLICK = 'vulnerabilities.csv.export.clic
 export const VULNERABILITIES_NAVIGATION_CLICK = 'vulnerabilities.navigation.click';
 export const CVE_TAB_IN_VULNERABILITIES_CLICK = 'cve.vulnerabilities.tab.click';
 export const DETECTIONS_TAB_IN_VULNERABILITIES_CLICK = 'detections.vulnerabilities.tab.click';
+export const VULNERABILITIES_CONCERT_TRY_CLICK = 'vulnerabilities.concert.try.click';
+export const VULNERABILITIES_CONCERT_DOCS_CLICK = 'vulnerabilities.concert.docs.click';
+export const VULNERABILITIES_CONCERT_BUY_CLICK = 'vulnerabilities.concert.buy.click';
+export const VULNERABILITIES_CONCERT_SUPPORT_CLICK = 'vulnerabilities.concert.support.click';
