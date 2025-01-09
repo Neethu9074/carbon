@@ -104,7 +104,7 @@ export default function ParameterDialog({
             isAnsible={isAnsible}
             disableTicketIdParameter={disableTicketIdParameter}
           />
-          {type.value === 'static' && <StaticSection {...sectionProps} />}
+          {type.value === 'static' && <StaticSection {...sectionProps} isAnsible={isAnsible} />}
           {type.value === 'vault' && <VaultSection {...sectionProps} />}
           {type.value === 'dynamic' && <DynamicSection {...sectionProps} />}
           {type.value !== 'dynamic' && <HiddenSection {...sectionProps} />}
@@ -140,6 +140,7 @@ function MetaDataSection({
   const type = parameterForm.get('type') as Field<string>;
   const required = parameterForm.get('required') as Field<boolean>;
   const hidden = parameterForm.get('hidden') as Field<boolean>;
+  isNotEditable = (isNotEditable && !isAnsible) || !role?.canConfigureAutomationActions;
 
   return (
     <>
@@ -303,10 +304,16 @@ function HiddenSection({ parameter, parameterForm, setParameterForm, isNotEditab
   );
 }
 
-function StaticSection({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) {
+function StaticSection({
+  parameter,
+  parameterForm,
+  setParameterForm,
+  isNotEditable,
+  isAnsible
+}: SectionProps & { isAnsible: boolean }) {
   const hidden = parameterForm.get('hidden') as Field<boolean>;
   const value = parameterForm.get('value') as Field<string>;
-
+  isNotEditable = (isNotEditable && !isAnsible) || !role?.canConfigureAutomationActions;
   return (
     <>
       <FormGroup>
