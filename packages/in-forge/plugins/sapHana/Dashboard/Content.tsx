@@ -19,6 +19,7 @@ import {
 // @ts-expect-error Module needs to be translated to TS
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import ExpensiveStatementStatsList from 'in-forge/plugins/sapHana/Dashboard/ExpensiveStatementStats';
+import BlockedTransactionStatsList from 'in-forge/plugins/sapHana/Dashboard/BlockedTransactionStats';
 import GarbageCollectionStatsList from 'in-forge/plugins/sapHana/Dashboard/GarbageCollectionStats';
 import ArchiveLogBackupStatsList from 'in-forge/plugins/sapHana/Dashboard/ArchiveLogBackupStats';
 import AggregatedCacheStatsList from 'in-forge/plugins/sapHana/Dashboard/AggregatedCacheStats';
@@ -28,6 +29,7 @@ import SchedulerJobsStatsList from 'in-forge/plugins/sapHana/Dashboard/Scheduler
 import SqlPlanCacheStatsList from 'in-forge/plugins/sapHana/Dashboard/SqlPlanCacheStats';
 import SystemEventStatsList from 'in-forge/plugins/sapHana/Dashboard/SystemEventStats';
 import TransactionStatsList from 'in-forge/plugins/sapHana/Dashboard/TransactionStats';
+import JobPorgressStatsList from 'in-forge/plugins/sapHana/Dashboard/JobProgressStats';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import TableSizeStatsList from 'in-forge/plugins/sapHana/Dashboard/TableSizeStats';
@@ -428,6 +430,8 @@ export default function Dashboard({ snapshot, timeConfig }: DashboardProps) {
       <UserLockStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <SchedulerJobsStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <TransactionStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+      <BlockedTransactionStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
+      <JobPorgressStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <IOStatsList snapshotId={snapshot.get('id')} timeConfig={timeConfig} />
       <AlertsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>

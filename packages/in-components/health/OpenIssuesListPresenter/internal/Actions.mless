@@ -10,10 +10,6 @@
     border-top: 1px solid var(--ids-color-option-neutral-300);
   }
 
-  .button {
-    width: 100%;
-  }
-
   .carbonButton {
     min-width: 100%;
   }

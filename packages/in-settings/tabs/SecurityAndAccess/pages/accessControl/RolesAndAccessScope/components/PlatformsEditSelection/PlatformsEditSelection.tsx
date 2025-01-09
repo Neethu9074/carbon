@@ -11,6 +11,17 @@ import { SvgIcon, Stack, Checkbox } from '@instana/components';
 import { PermissionSet } from '@instana/types';
 
 import {
+  hasKubernetesAccess,
+  hasOpenStackAccess,
+  hasPCFAccess,
+  hasPHMCAccess,
+  hasPowerVcAccess,
+  hasSAPAccess,
+  hasVSphereAccess,
+  hasZHMCAccess,
+  hasNutanixAccess
+} from 'in-stores/permission';
+import {
   getField,
   getScopeFromProductArea,
   updateFormField,
@@ -22,16 +33,6 @@ import {
   ScopedPermissionItem,
   ScopedPermissionType
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
-import {
-  hasKubernetesAccess,
-  hasOpenStackAccess,
-  hasPCFAccess,
-  hasPHMCAccess,
-  hasPowerVcAccess,
-  hasSAPAccess,
-  hasVSphereAccess,
-  hasZHMCAccess
-} from 'in-stores/permission';
 import KubernetesEditSection from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/components/PlatformsEditSelection/KubernetesEditSection';
 import { FormControlProps } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/RoleAndAccessScopeColumns';
 import Section from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Section';
@@ -56,7 +57,8 @@ const generalAreas: Array<LimitableProductArea> = [
   ...(hasZHMCAccess ? [ProductArea.ZHMC] : []),
   ...(hasOpenStackAccess ? [ProductArea.OPENSTACK] : []),
   ...(hasVSphereAccess ? [ProductArea.VSPHERE] : []),
-  ...(hasSAPAccess ? [ProductArea.SAP] : [])
+  ...(hasSAPAccess ? [ProductArea.SAP] : []),
+  ...(hasNutanixAccess ? [ProductArea.NUTANIX] : [])
 ];
 
 /**

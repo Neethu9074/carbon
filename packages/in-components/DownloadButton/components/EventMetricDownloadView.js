@@ -8,7 +8,6 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 import locals from './EventMetricDownloadView.mless';
@@ -60,13 +59,7 @@ function DownloadButtonJson({ onClick }) {
 
 function DownloadButton({ label, onClick }) {
   return (
-    <Button
-      key={label}
-      className={locals.button}
-      kind="info"
-      onClick={onClick}
-      size={carbonButtonEnabled ? 'compact' : 'normal'}
-    >
+    <Button key={label} className={locals.button} kind="info" onClick={onClick} size="compact">
       {label}
     </Button>
   );

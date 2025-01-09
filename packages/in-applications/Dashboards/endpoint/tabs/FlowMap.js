@@ -7,12 +7,17 @@ import React, { useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
+import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
 import getEndpointFlowNodes from 'in-applications/subscriptions/getEndpointFlowNodes';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { hideUpstream, hideDownstream } from 'in-applications/navigation/matrix';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
-import getMetrics from 'in-applications/subscriptions/getMetrics';
 import getService from 'in-applications/subscriptions/getService';
 import { boundaryScopes } from 'in-applications/constants';
 import ServerFlowMap from 'in-applications/ServerFlowMap';
@@ -75,13 +80,19 @@ export default function EndpointFlowMap({ data, applicationId, serviceId, endpoi
 }
 
 function getMetricsObservable([applicationId, endpointId, timeConfig]) {
-  return getMetrics({
-    filter: {
-      application: applicationId,
-      endpoint: endpointId,
-      timeConfig,
-      applicationBoundaryScope: boundaryScopes.all
-    },
+  var expressions = [];
+  if (applicationId) {
+    expressions.push(tagFilter('application.id', EQUALS, applicationId, null, DESTINATION));
+  }
+  if (endpointId) {
+    expressions.push(tagFilter('endpoint.id', EQUALS, endpointId, null, DESTINATION));
+  }
+  return getApplicationMetrics({
+    tagFilterExpression: toBackendQueryModel(joinExpressions({ expressions })),
+    timeConfig,
+    includeInternal: false,
+    includeSynthetic: false,
+    timeShift: { offset: 0 },
     metrics: {
       callsAgg: {
         metric: 'calls',

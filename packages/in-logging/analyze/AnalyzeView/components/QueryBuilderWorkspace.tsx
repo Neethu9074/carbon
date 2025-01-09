@@ -19,7 +19,6 @@ import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuild
 import LogsQueryBuilder from 'in-logging/analyze/AnalyzeView/workspace/LogsQueryBuilder';
 import { StateManagementChildProps } from 'in-components/AnalyzeView/StateManagement';
 import { QueryBuilderTrackingFunctions } from 'in-components/QueryBuilder';
-import ViewSwitcher from 'in-logging/analyze/AnalyzeView/ViewSwitcher';
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { logSmartAlertsEnabled } from 'in-services/featureFlags';
@@ -77,7 +76,6 @@ export default function LoggingQueryBuilderWorkspace(props: LoggingQueryBuilderW
             liveModeDisabledTooltip={t('in-logging:liveModeDisabled')}
             withoutShadow={logSmartAlertsEnabled}
           />
-          {logSmartAlertsEnabled && <ViewSwitcher />}
         </>
       }
       backgroundColor={themes.default.ids.color.option.white}

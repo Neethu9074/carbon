@@ -123,8 +123,7 @@
       "topLevelFilterSelectsNothing": "The current dashboard filters do not apply to this widget.",
       "topLevelFilterNotSupported": "The current dashboard filters were not applied to this widget because the widget does not support filtering.",
       "topLevelFilterAppliedToSomeDatasets": "The current dashboard filters were not fully applied to the following datasets: {{datasets}}",
-      "unnamedDataset": "Unnamed dataset",
-      "previewExplanation": "Filters will apply to all widgets wherever applicable"
+      "unnamedDataset": "Unnamed dataset"
     }
   },
   "dashboardSwitcher": {
@@ -170,7 +169,7 @@
         "metric": "Metric"
       },
       "index": {
-        "bizOps": "Business Monitoring (Activities)"
+        "bizOps": "Business Processes (Activities)"
       }
     },
     "srcApp": {
@@ -834,6 +833,14 @@
         "tagNoValue": "Tag '{{labelname}}' present with no value"
       }
     },
+    "iFrame": {
+      "title": "iFrame",
+      "previewTitle": "Rendering https://...",
+      "form": {
+        "heading": "Which page would you like to embed?",
+        "title": "Enter URL"
+      }
+    },
     "applicationHealth": {
       "index": {
         "applicationHealth": "Health Overview"
@@ -901,7 +908,8 @@
         }
       },
       "dataSource": {
-        "events": "Events"
+        "events": "Events",
+        "k8sEvents": "Kubernetes Events"
       },
       "eventColumns": {
         "title": "Title",
@@ -909,6 +917,19 @@
         "startedOn": "Started On",
         "endedOn": "Ended On",
         "duration": "Duration"
+      },
+      "kubernetesEventColumns": {
+        "type": "Type",
+        "reason": "Reason",
+        "message": "Message",
+        "namespace": "Namespace",
+        "involvedObject": "Involved Object",
+        "kind": "Kind",
+        "time": "Time"
+      },
+      "emptyTable": {
+        "title" : "No events available",
+        "explanation" : "There were no events retrieved for the selected time range"
       }
     },
     "time": {

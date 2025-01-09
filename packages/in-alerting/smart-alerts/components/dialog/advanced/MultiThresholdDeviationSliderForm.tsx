@@ -17,7 +17,6 @@ import {
 import { DebouncedSensitivitySlider } from 'in-alerting/smart-alerts/components/dialog/advanced/SensitivitySlider';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/dialog/advanced/ThresholdConditionFormGroup';
 import { getFormValueOrDefault } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdFormHelper';
-import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { t } from 'in-i18n';
 
@@ -45,17 +44,6 @@ export function MultiThresholdDeviationSliderForm({
   const alertChannelSelection = form.get('alertChannels').value;
 
   useEffect(() => {
-    if (isWarningChecked && warningThresholdField.get('deviationFactor')?.value === 0) {
-      updateForm(updateDeviationFactor('warningThreshold'));
-    }
-
-    if (isCriticalChecked && criticalThresholdField.get('deviationFactor')?.value === 0) {
-      updateForm(updateDeviationFactor('criticalThreshold'));
-    }
-    //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isWarningChecked, isCriticalChecked]);
-
-  useEffect(() => {
     updateAlertChannelSelectionOnWarningThresholdFieldChange(
       alertChannelSelection,
       isWarningChecked,
@@ -77,6 +65,40 @@ export function MultiThresholdDeviationSliderForm({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [criticalThresholdCheckBoxField]);
 
+  const handleCheckboxChange = (thresholdType: 'warningThreshold' | 'criticalThreshold', target: boolean) => {
+    const field = form.get('threshold').get(thresholdType) as MapForm<any>;
+
+    // Toggle the checkbox state
+    const updatedForm = form.updateIn(['threshold', thresholdType], thresholdMapForm =>
+      (thresholdMapForm as MapForm<any>).updateIn(['isCheckboxSelected'], item =>
+        (item as Field<boolean>).setValue(target).setTouched(true)
+      )
+    );
+
+    updateForm(updatedForm);
+
+    // Set the default deviation factor if unchecked and deviationFactor is 0
+    if (target && field.get('deviationFactor')?.value === 0) {
+      updateForm(
+        (updatedForm as MapForm<any>).updateIn(['threshold', thresholdType], thresholdMapForm =>
+          (thresholdMapForm as MapForm<any>).updateIn(['deviationFactor'], item =>
+            (item as Field<number>).setValue(defaultValue).setTouched(true)
+          )
+        )
+      );
+    }
+  };
+
+  const handleSliderChange = (thresholdType: 'warningThreshold' | 'criticalThreshold', value: number) => {
+    updateForm(
+      form.updateIn(['threshold', thresholdType], thresholdMapForm =>
+        (thresholdMapForm as MapForm<any>).updateIn(['deviationFactor'], item =>
+          (item as Field<number>).setValue(value).setTouched(true)
+        )
+      )
+    );
+  };
+
   return (
     <ThresholdConditionFormGroup
       iconType="lib_threshold"
@@ -91,15 +113,7 @@ export function MultiThresholdDeviationSliderForm({
             size="large"
             wrapperClassName={locals.elementPadding}
             checked={isWarningChecked}
-            onChange={() => {
-              updateForm(
-                form.updateIn(['threshold', 'warningThreshold'], thresholdMapForm =>
-                  (thresholdMapForm as MapForm<any>).updateIn(['isCheckboxSelected'], item =>
-                    (item as Field<any>).setValue(!isWarningChecked).setTouched(true)
-                  )
-                )
-              );
-            }}
+            onChange={({ target }) => handleCheckboxChange('warningThreshold', target.checked)}
           />
           <DebouncedSensitivitySlider
             value={getFormValueOrDefault(
@@ -108,15 +122,7 @@ export function MultiThresholdDeviationSliderForm({
               defaultValue
             )}
             defaultValue={defaultValue}
-            onChange={(value: number) => {
-              updateForm(
-                form.updateIn(['threshold', 'warningThreshold'], thresholdMapForm =>
-                  (thresholdMapForm as MapForm<any>).updateIn(['deviationFactor'], item =>
-                    (item as Field<any>).setValue(value).setTouched(true)
-                  )
-                )
-              );
-            }}
+            onChange={(value: number) => handleSliderChange('warningThreshold', value)}
             disabled={!isWarningChecked}
           />
 
@@ -125,15 +131,7 @@ export function MultiThresholdDeviationSliderForm({
             size="large"
             wrapperClassName={locals.elementPadding}
             checked={isCriticalChecked}
-            onChange={() => {
-              updateForm(
-                form.updateIn(['threshold', 'criticalThreshold'], thresholdMapForm =>
-                  (thresholdMapForm as MapForm<any>).updateIn(['isCheckboxSelected'], item =>
-                    (item as Field<any>).setValue(!isCriticalChecked).setTouched(true)
-                  )
-                )
-              );
-            }}
+            onChange={({ target }) => handleCheckboxChange('criticalThreshold', target.checked)}
           />
           <DebouncedSensitivitySlider
             value={getFormValueOrDefault(
@@ -142,17 +140,10 @@ export function MultiThresholdDeviationSliderForm({
               defaultValue
             )}
             defaultValue={defaultValue}
-            onChange={(value: number) => {
-              updateForm(
-                form.updateIn(['threshold', 'criticalThreshold'], thresholdMapForm =>
-                  (thresholdMapForm as MapForm<any>).updateIn(['deviationFactor'], item =>
-                    (item as Field<any>).setValue(value).setTouched(true)
-                  )
-                )
-              );
-            }}
+            onChange={(value: number) => handleSliderChange('criticalThreshold', value)}
             disabled={!isCriticalChecked}
           />
+
           <div className={locals.infoElementPadding}>
             <Stack>
               <TouchedMessages field={form.get('threshold')} />
@@ -163,12 +154,4 @@ export function MultiThresholdDeviationSliderForm({
       </div>
     </ThresholdConditionFormGroup>
   );
-
-  function updateDeviationFactor(thresholdType: string) {
-    return form.updateIn(['threshold', thresholdType], thresholdMapForm =>
-      (thresholdMapForm as MapForm<any>).updateIn(['deviationFactor'], item =>
-        (item as Field<any>).setValue(defaultDeviationFactor).setTouched(true)
-      )
-    );
-  }
 }

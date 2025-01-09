@@ -16,10 +16,17 @@
       "name": "이름",
       "tenant": "테넌트",
       "type": "유형",
-      "licenseStartData": "라이센스 시작 데이터",
-      "licenseEndData": "라이센스 종료 데이터",
+      "licenseStartData": "라이센스 시작 날짜",
+      "licenseEndData": "라이센스 종료 날짜",
       "licensedApmHosts": "라이센스가 부여된 APM 호스트",
       "licensedIqmHosts": "라이센스가 부여된 IQM 호스트"
+    },
+    "learnMore": {
+      "title": "Instana의 공정 사용 정책에 대해 자세히 알아보기",
+      "leftTitle": "공정 사용 정책의 개념",
+      "rightTitle": "데이터를 더 구매하려면 어떻게 해야 합니까?",
+      "leftBody": "Instana의 공정 사용 정책은 라이센스 유형과 관련된 월별 데이터 충당금을 간략하게 설명합니다. 자세한 내용을 알아보고 리소스 사용 가이드라인을 살펴보려면 <fupDocLink>공정 사용 정책 문서</fupDocLink>를 확인하십시오.",
+      "rightBody": "추가 데이터 사용량이 지속적으로 필요할 것으로 예상되는 경우 Instana 영업 담당자에게 문의하여 추가 옵션에 대해 알아보십시오. <salesLink>여기</salesLink>에서 영업 팀에 문의하십시오."
     },
     "ampInformationModifier": {
       "allPaidUnitsAggregated": "모든 유료 장치(집계됨)",

@@ -9,21 +9,21 @@ import { Field, Item, MapForm } from 'formalistic';
 import { getTimezoneOffset } from 'date-fns-tz';
 import { RRule } from 'rrule';
 
+import { CarbonCheckbox, CarbonCheckboxGroup, Link, Message, Stack } from '@instana/components';
 import { Duration, MaintenanceConfigV2 } from '@instana/types';
-import { Link, Message, Stack } from '@instana/components';
 import { ButtonGroup } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+import ScheduleRange from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/steps/scheduling/ScheduleRange';
 import {
   createRRuleFreq,
-  setPartsToUTCDate,
   setRRuleDtstart
 } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/rruleHelpers';
-import ScheduleRange from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/steps/scheduling/ScheduleRange';
 import Recurring from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/steps/scheduling/Recurring';
 import Timing from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/MaintenanceConfigurations/components/steps/scheduling/Timing';
 import { getEntityIdView, userSettingsGeneral } from 'in-settings/navigation/paths';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { retriggerOpenAlertsEnabled } from 'in-services/featureFlags';
 import { SetFormFunction } from 'in-settings/hooks/useEntityForm';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { parseDateTime } from 'in-services/formatters/date';
@@ -108,7 +108,7 @@ export default function MaintenanceScheduleStep(props: MaintenanceScheduleStepPr
   const [recurrentType, setRecrruentType] = useState(rrule ? rrule.options.freq : -1);
 
   useEffect(() => {
-    let dateTimeStart = null;
+    let dateTimeStart: Date | null | undefined = null;
     try {
       dateTimeStart = parseDateTime(`${dateStartField} ${timeField}`);
     } catch (exception) {
@@ -117,18 +117,17 @@ export default function MaintenanceScheduleStep(props: MaintenanceScheduleStepPr
 
     if (!dateTimeStart) return;
 
-    const formattedUTCDate = setPartsToUTCDate(dateTimeStart);
     if (
       rrule &&
       timeField &&
       dateStartField &&
       !isNaN(dateTimeStart.getTime()) &&
-      formattedUTCDate.getTime() !== rrule.options.dtstart.getTime()
+      dateTimeStart.getTime() !== rrule.options.dtstart.getTime()
     ) {
       setForm(
         //@ts-expect-error-next-line
         form.updateIn(['window', 'recurrence', 'rrule'], item =>
-          (item as Field<any>).setValue(setRRuleDtstart(rrule, formattedUTCDate)).setTouched(true)
+          (item as Field<any>).setValue(setRRuleDtstart(rrule, dateTimeStart as Date)).setTouched(true)
         )
       );
     }
@@ -213,6 +212,22 @@ export default function MaintenanceScheduleStep(props: MaintenanceScheduleStepPr
               setForm={setForm}
               isRecurring={recurrentType !== -1}
             />
+            {retriggerOpenAlertsEnabled && (
+              <CarbonCheckboxGroup
+                legendText={t('in-settings:tabs.notificationMWCheckboxGroup')}
+                legendId="notifications"
+              >
+                <CarbonCheckbox
+                  id="notificationsCheckEnabled"
+                  checked={form.get('retriggerOpenAlertsEnabled').value || false}
+                  labelText={t('in-settings:tabs.notificationMWCheckboxLabel')}
+                  onChange={() => {
+                    const currentVal = form.get('retriggerOpenAlertsEnabled').value;
+                    setForm(form.updateIn(['retriggerOpenAlertsEnabled'], field => field.setValue(!currentVal)));
+                  }}
+                />
+              </CarbonCheckboxGroup>
+            )}
             <TimezoneMessage />
           </Stack>
         </div>

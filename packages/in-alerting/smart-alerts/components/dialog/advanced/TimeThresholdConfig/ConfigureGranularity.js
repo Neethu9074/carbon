@@ -65,6 +65,7 @@ export default function ConfigureGranularity({ onChange, granularity, thresholdT
           onChange(minutes.toMillis(value));
         }}
         valueLabelDisplay="off"
+        key={currentValue}
       />
     </AlertThresholdConfigItemContainer>
   );

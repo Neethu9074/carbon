@@ -24,17 +24,18 @@ import locals from './TagFilterValidation.mless';
 export default function TagFilterValidation({ form, close, QueryBuilder, updateForm, setStep }) {
   const alertConfigWithFormModel = form.toJS();
 
-  const { rule, tagFilterExpression, threshold } = alertConfigWithFormModel;
+  const { rule, tagFilterExpression } = alertConfigWithFormModel;
 
   const updateTagFilterExpression = filteredTagFilterExpression => {
     updateForm(form.updateIn(['tagFilterExpression'], f => f.setValue(filteredTagFilterExpression)));
   };
 
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
+
   const { getTagCatalog } = useMemo(() => {
-    const thresholdType = threshold.type;
     return getQueryBuilderForAlertType(rule?.alertType, thresholdType);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rule?.alertType, threshold.type]);
+  }, [rule?.alertType, thresholdType]);
 
   const timeConfig = useTimeConfig();
 

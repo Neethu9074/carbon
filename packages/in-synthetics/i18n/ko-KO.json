@@ -384,12 +384,12 @@
         "textInput": {
           "placeholder": "신임 정보 이름",
           "labelText": "이름",
-          "invalidText": "신임 정보 이름은 문자로 시작해야 하며 문자, 숫자, 밑줄만 포함해야 합니다."
+          "invalidText": "신임 정보 이름은 문자로 시작해야 하며 문자, 숫자, 밑줄만 포함해야 합니다.",
+          "credentialNamesMustBeUnique": "신임 정보 이름은 고유해야 합니다. 이 이름을 사용하고 있습니다. 다른 것을 시도하십시오."
         },
         "passwordInput": {
           "placeholder": "신임 정보 값",
-          "labelText": "값",
-          "invalidText": "값이 비어 있지 않아야 합니다."
+          "labelText": "값"
         },
         "associationsDescription": "신임 정보를 애플리케이션, 웹사이트 또는 모바일 앱과 연관시키면 해당 엔터티에 액세스할 수 있는 모든 사용자에게 액세스 권한이 부여됩니다."
       },
@@ -515,6 +515,12 @@
       "deleteLocationBroswerRefreshInfo": "위치가 위치 목록에서 사라지는 데 시간이 다소 소요되며 브라우저 새로 고침이 필요할 수 있습니다.",
       "deactivateLocation": {
         "deactivate": "비활성화"
+      },
+      "ipAddressColumn": {
+        "ipAddress": "IP 주소",
+        "singleIPAddress": "{{number}} IP 주소",
+        "multipleIPAddress": "{{number}} IP 주소",
+        "noIPAddresses": "해당사항 없음"
       }
     },
     "summary": {
@@ -810,7 +816,10 @@
         "noCredentialsAvailableTitle": "사용 가능한 합성 신임 정보 없음",
         "noCredentialsAvailableDescription": "데이터베이스에서 검색된 합성 신임 정보가 없습니다."
       },
-      "editAction": "편집",
+      "editAction": {
+        "editActionLabel": "편집",
+        "theValueMustNotBeBlank": "값은 공백이 아니어야 합니다."
+      },
       "deleteAction": {
         "deleteActionLabel": "삭제",
         "deleteCredentialTitle": "합성 신임 정보 {{credentialName}} 삭제",

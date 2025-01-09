@@ -28,4 +28,12 @@
     position: relative;
     height: 100%;
   }
+
+  .tableModal {
+    z-index: var(--ids-z-index-option-overlays);
+    :global(.cds--modal-content) {
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+  }
 }

@@ -23,6 +23,7 @@ import {
 } from 'in-stores/navigation/paths/mainPaths';
 // eslint-disable-next-line no-restricted-imports
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-infrastructure/navigation/matrix';
+import { useSmartAlertCreateUrl as useSmartAlertTearSheetUrl } from 'in-alerting/smart-alerts/infrastructure/hooks/useSmartAlertCreateUrl';
 import { InfraSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
 //@ts-expect-error need TS migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
@@ -31,6 +32,7 @@ import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/infrastructure/
 import AlertConfiguration from 'in-alerting/smart-alerts/infrastructure/details/AlertConfiguration';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
+import { infraSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { role } from 'in-stores/user';
 import { Nullish } from 'in-types';
@@ -60,9 +62,11 @@ export default function AlertDetails() {
           <AlertConfiguration alertConfig={alertConfig} />
         )}
         getAllowedPlaceholders={getAllowedPlaceholders}
-        isGlobalSmartAlert
+        getLinkToEditOrDuplicateSmartAlertTearSheet={useSmartAlertTearSheetUrl}
         canConfigureGlobalAlertConfigs={role?.canConfigureGlobalInfraSmartAlerts && !role?.limitedInfrastructureScope}
+        displayTearSheetActions={infraSmartAlertFullScreenDesignEnabled}
         hideAlertIcon
+        isGlobalSmartAlert
       />
     </LeftRightPadding>
   );

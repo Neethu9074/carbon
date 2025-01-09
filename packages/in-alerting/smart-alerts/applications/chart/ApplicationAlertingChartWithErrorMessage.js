@@ -8,19 +8,13 @@ import PropTypes from 'prop-types';
 
 import { Message, Spacer } from '@instana/components';
 
-import {
-  WARNING_SEVERITY,
-  CRITICAL_SEVERITY,
-  isMultiThresholdEnabled,
-  extractBaselineForSeverity,
-  severityMap
-} from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { useFetchAdaptiveBaselineOrUseFallbackFromEvent } from 'in-alerting/smart-alerts/applications/hooks/useFetchAdaptiveBaselineOrUseFallbackFromEvent';
 import {
   PER_AP_SERVICE,
   PER_AP_ENDPOINT
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
+import { WARNING_SEVERITY, CRITICAL_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
 import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { chartViewConfigPropType } from 'in-alerting/components/Chart/chartViewConfig';
@@ -57,13 +51,9 @@ export default function ApplicationAlertingChartWithErrorMessage(props) {
 
 function AlertingChartWithErrorMessageForAdaptiveBaseline(props) {
   const { error, baseline } = useFetchAdaptiveBaselineOrUseFallbackFromEvent(props);
-  const extractedBaseline =
-    !isMultiThresholdEnabled && baseline[0]?.length === 3
-      ? extractBaselineForSeverity(baseline, severityMap[props.alertConfigWithFormModel.severity])
-      : baseline;
   return (
     <>
-      <ChartWithErrorMessageAndData {...props} eventBasedAdaptiveBaseline={extractedBaseline} />
+      <ChartWithErrorMessageAndData {...props} eventBasedAdaptiveBaseline={baseline} />
       {error && (
         <>
           <Spacer size="normal" />
@@ -80,10 +70,7 @@ function AlertingChartWithErrorMessageForAdaptiveBaseline(props) {
 function ChartWithErrorMessageAndData(props) {
   const { alertConfigWithFormModel, isTearSheet } = props;
 
-  const { alertType, thresholdType } = extractAlertConfigWithFormModel(
-    alertConfigWithFormModel,
-    isMultiThresholdEnabled
-  );
+  const { alertType, thresholdType } = extractAlertConfigWithFormModel(alertConfigWithFormModel);
   const isApplicationAlertQueryValid = useMemo(() => {
     const { isQueryValid } = getQueryBuilderForAlertType(alertType, thresholdType);
     return ([tagFilterFormModel, timeConfig]) => isQueryValid(tagFilterFormModel, timeConfig);
@@ -104,29 +91,20 @@ function ChartWithErrorMessageAndData(props) {
       customValidators={() => isServicesAndEndpointsSelectionValid}
       queryValidator={isApplicationAlertQueryValid}
       isTearSheet={isTearSheet}
-      isMultiThresholdEnabled={isMultiThresholdEnabled}
+      isMultiThresholdEnabled
     />
   );
 }
 
-function extractAlertConfigWithFormModel(alertConfigWithFormModel, isMultiThresholdEnabled) {
-  if (isMultiThresholdEnabled) {
-    const {
-      rule: { alertType },
-      thresholds
-    } = alertConfigWithFormModel.rules[0];
-
-    const definedThresholdType =
-      thresholds[WARNING_SEVERITY] !== undefined
-        ? thresholds[WARNING_SEVERITY].type
-        : thresholds[CRITICAL_SEVERITY].type;
-    return { alertType, definedThresholdType };
-  }
+function extractAlertConfigWithFormModel(alertConfigWithFormModel) {
   const {
     rule: { alertType },
-    threshold: { type: thresholdType }
-  } = alertConfigWithFormModel;
-  return { alertType, thresholdType };
+    thresholds
+  } = alertConfigWithFormModel.rules[0];
+
+  const definedThresholdType =
+    thresholds[WARNING_SEVERITY] !== undefined ? thresholds[WARNING_SEVERITY].type : thresholds[CRITICAL_SEVERITY].type;
+  return { alertType, definedThresholdType };
 }
 
 function getErrorMessage(isQB2Error, isServicesAndEndpointsSelectionError) {

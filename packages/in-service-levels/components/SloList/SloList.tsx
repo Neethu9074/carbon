@@ -17,7 +17,6 @@ import SloEntityColumnContent from 'in-service-levels/components/SloList/compone
 import SloStatusColumnContent from 'in-service-levels/components/SloList/components/SloStatusColumnContent';
 import SloNameColumnContent from 'in-service-levels/components/SloList/components/SloNameColumnContent';
 import SloTagsColumnContent from 'in-service-levels/components/SloList/components/SloTagsColumnContent';
-import useNavigateToSloDashboard from 'in-service-levels/navigation/hooks/useNavigateToSloDashboard';
 import useServerTableUrlState from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import SloListFilters from 'in-service-levels/components/SloList/components/SloListFilters';
 import useSloListFilterUrlState from 'in-service-levels/hooks/useSloListFilterUrlState';
@@ -146,7 +145,6 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
     entityType
   });
   const [availableTags, , , tagsProgress] = useSloTags();
-  const navigateToSloDashboard = useNavigateToSloDashboard();
 
   const actualPage = result?.page ?? page;
   const actualPageSize = result?.pageSize ?? pageSize;
@@ -167,7 +165,6 @@ export default function SloList({ pathSegment, matrixPrefix = '' }: Props) {
         data: result
       }}
       onChange={setServerTableState}
-      onRowClick={({ configuration }) => navigateToSloDashboard(configuration)}
       rightHeader={() => (
         <SloListFilters
           tags={availableTags ?? []}

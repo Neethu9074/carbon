@@ -7,10 +7,9 @@ import { createField } from 'formalistic';
 import { get, find } from 'lodash';
 import React from 'react';
 
-import { Stack, Card, Button } from '@instana/components';
+import { Stack, Card, Button, Typography } from '@instana/components';
 
 import SaveIndicator from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/SaveIndicator';
-import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
 import { renameWebsite as renameWebsiteTracker } from 'in-websites/tracking/segTracker';
 import { renameWebsite, getWebsites } from 'in-websites/api/websites';
 import { notBlankValidator } from 'in-services/validators/string';
@@ -19,7 +18,7 @@ import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
 import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input';
-import { t, Trans } from 'in-i18n';
+import { t } from 'in-i18n';
 
 import locals from './Rename.mless';
 
@@ -119,14 +118,18 @@ export default class Rename extends React.PureComponent {
     const { field, loading, saveError, savedLabel } = this.state;
 
     return (
-      <Card title={t('in-websites:websiteDashboard.tabs.configuration.configurationRenameTitle')}>
+      <Card
+        title={t('in-websites:websiteDashboard.tabs.configuration.configurationRenameTitle')}
+        headerClassName={locals.title}
+        className={locals.configurationBlock}
+      >
         <form onSubmit={this.onSubmit}>
           <FormGroup className={locals.group}>
             {saveError && <SaveError>{saveError}</SaveError>}
 
-            <HelpParagraph>
-              <Trans i18nKey="in-websites:rename.help" />
-            </HelpParagraph>
+            <Typography variant="body-regular" component="p">
+              {t('in-websites:rename.help')}
+            </Typography>
 
             <Stack direction="horizontal" align="center">
               <Input

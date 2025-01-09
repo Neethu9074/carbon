@@ -16,7 +16,7 @@ export interface CancelButtonProps extends Partial<ButtonProps> {
 
 export default function CancelButton({
   children = t('forms.actions.cancel'),
-  kind = 'subtle',
+  kind = 'secondary',
   onClick,
   isSaving,
   ...otherProps

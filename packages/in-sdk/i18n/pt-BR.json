@@ -19,12 +19,12 @@
       "customMetricsTitleValue": "Valor",
       "customMetricsTitlePinned": "{{pinnedPrefix}} métricas fixadas ({{pinnedLength}})",
       "customMetricsTitleCustom": "{{customPrefix}} métricas customizadas ({{customLength}})",
-      "customMetricsLableCount": "Contagem",
-      "customMetricsLableValue": "Valor",
-      "customMetricsLableMean": "Média",
-      "customMetricsLableP50": "50º",
-      "customMetricsLableP99": "99º",
-      "customMetricsLableRate": "Taxa"
+      "customMetricsLabelCount": "Contagem",
+      "customMetricsLabelValue": "Valor",
+      "customMetricsLabelMean": "Média",
+      "customMetricsLabelP50": "50º",
+      "customMetricsLabelP99": "99º",
+      "customMetricsLabelRate": "Taxa"
     },
     "table": {
       "tableNoData": "Não há dados.",

@@ -23,6 +23,7 @@ export const websiteUserBreakdownEnabled = isFeatureFlagEnabled('websiteUserBrea
 export const fullTermsConfigEnabled = isFeatureFlagEnabled('fullTermsConfigEnabled', true);
 export const agentMonitoringIssuesEnabled = isFeatureFlagEnabled('agentMonitoringIssuesEnabled');
 export const cveIssueEnabled = isFeatureFlagEnabled('cveIssueEnabled');
+export const prcIssueEnabled = isFeatureFlagEnabled('prcIssueEnabled');
 export const skipOnboardingDialog = isFeatureFlagEnabled('skipOnboardingDialog');
 export const routeIdOverPathTplEnabled = isFeatureFlagEnabled('routeIdOverPathTplEnabled');
 export const infraExploreDataEnabled = isFeatureFlagEnabled('infraExploreDataEnabled');
@@ -41,7 +42,9 @@ export const infraExploreFilterEmptyValueEnabled = isFeatureFlagEnabled('infraEx
 export const persistentVolumeSupportEnabled = isFeatureFlagEnabled('persistentVolumeSupportEnabled');
 export const ampCompanyInfoEnabled = isFeatureFlagEnabled('ampCompanyInfoEnabled');
 export const segmentAnalyticsEnabled = isFeatureFlagEnabled('segmentAnalyticsEnabled', false);
+export const ibmCommonEnabled = isFeatureFlagEnabled('ibmCommonEnabled', false);
 export const assistmeEnabled = isFeatureFlagEnabled('assistmeEnabled', false);
+export const dataUsageNotificationEnabled = isFeatureFlagEnabled('dataUsageNotificationEnabled', false);
 export const ampEnabled = isFeatureFlagEnabled('ampEnabled', true);
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
 export const phmcEnabled = isFeatureFlagEnabled('phmcEnabled');
@@ -58,18 +61,11 @@ export const carbonPillEnabled = isFeatureFlagEnabled('carbonPillEnabled');
 export const logRetentionPageEnabled = isFeatureFlagEnabled('logRetentionPageEnabled');
 export const notesAndActivityEnabled = isFeatureFlagEnabled('notesAndActivityEnabled');
 export const carbonIconButtonEnabled = isFeatureFlagEnabled('carbonIconButtonEnabled');
-export const carbonMoreMenuEnabled = isFeatureFlagEnabled('carbonMoreMenuEnabled');
 export const carbonContentSwitcherEnabled = isFeatureFlagEnabled('carbonContentSwitcherEnabled');
 export const carbonTabsEnabled = isFeatureFlagEnabled('carbonTabsEnabled');
-export const carbonButtonEnabled = isFeatureFlagEnabled('carbonButtonEnabled', false);
 export const carbonTooltipEnabled = isFeatureFlagEnabled('carbonTooltipEnabled');
-export const carbonRadioButtonEnabled = isFeatureFlagEnabled('carbonRadioButtonEnabled', false);
-export const carbonCheckboxEnabled = isFeatureFlagEnabled('carbonCheckboxEnabled', false);
 export const carbonPaginationEnabled = isFeatureFlagEnabled('carbonPaginationEnabled');
 export const carbonTableEnabled = isFeatureFlagEnabled('carbonTableEnabled');
-export const carbonMenuEnabled = isFeatureFlagEnabled('carbonMenuEnabled', false);
-export const carbonComboBoxEnabled = isFeatureFlagEnabled('carbonComboBoxEnabled');
-export const carbonDateInputEnabled = isFeatureFlagEnabled('carbonDateInputEnabled');
 export const carbonExpandableGroupEnabled = isFeatureFlagEnabled('carbonExpandableGroupEnabled');
 export const carbonSideNavLinksEnabled = isFeatureFlagEnabled('carbonSideNavLinksEnabled');
 export const carbonG10ThemeEnabled = isFeatureFlagEnabled('carbonG10ThemeEnabled');
@@ -105,7 +101,7 @@ export const sliCHClusterAccessEnabled =
 export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', true);
 export const sloEnabled = isFeatureFlagEnabled('sloEnabled', true);
 export const sloV2Enabled = isFeatureFlagEnabled('sloV2Enabled', true);
-export const sloSyntheticsEnabled = isFeatureFlagEnabled('sloSyntheticsEnabled', false);
+export const sloSyntheticsEnabled = isFeatureFlagEnabled('sloSyntheticsEnabled', true);
 
 export const mobileAppCrashBeaconEnabled = isFeatureFlagEnabled('mobileAppCrashBeaconEnabled', true);
 export const eumImpactedUsersForAppAlertEnabled = isFeatureFlagEnabled('eumImpactedUsersForAppAlertEnabled', false);
@@ -119,6 +115,10 @@ export const websiteBeaconQueryOptimizationEnabled = isFeatureFlagEnabled(
   'websiteBeaconQueryOptimizationEnabled',
   true
 );
+
+export const timeOutSessionEnabled = isFeatureFlagEnabled('timeOutSessionEnabled', false);
+
+export const iframeEnabled = isFeatureFlagEnabled('iframeEnabled', false);
 
 // SmartAlerts, Strontium-cloudberry:
 // Logs-Blueprint behind FF, Closed-Beta, only for customers already using it
@@ -136,8 +136,8 @@ export const syntheticInstanaHostedPoPEnabled = isFeatureFlagEnabled('syntheticI
 // Synthetic RBAC Limited Access feature flag
 export const syntheticRbacLimitedEnabled = isFeatureFlagEnabled('syntheticRbacLimitedEnabled');
 
-// Synthetic Credentials feature flag
-export const syntheticCredentialsEnabled = isFeatureFlagEnabled('syntheticCredentialsEnabled');
+// Synthetic DNSAction feature flag
+export const syntheticDNSActionEnabled = isFeatureFlagEnabled('syntheticDNSActionEnabled');
 
 // MobileApp Smart Alerts
 export const mobileAppSmartAlertsAdaptiveBaselineEnabled = isFeatureFlagEnabled(
@@ -157,6 +157,8 @@ export const customDashboardsExportPdfWidget = isFeatureFlagEnabled('customDashb
 export const customDashboardsExportPdfEntireDashboard = isFeatureFlagEnabled(
   'customDashboardsExportPdfEntireDashboard'
 );
+
+export const customDashboardsFastQueryModeEnabled = isFeatureFlagEnabled('customDashboardsFastQueryModeEnabled', false);
 
 // Infrastructure Smart Alerts
 export const infraSmartAlertsEnabled = isFeatureFlagEnabled('infraSmartAlertsEnabled');
@@ -192,6 +194,8 @@ export const applicationSmartAlertDialogView = isFeatureFlagEnabled('application
 
 // infra SA full screen design
 export const infraSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled('infraSmartAlertFullScreenDesignEnabled');
+// Full screen design for Log SA
+export const logSmartAlertFullScreenDesignEnabled = isFeatureFlagEnabled('logSmartAlertFullScreenDesignEnabled');
 
 // SA carbon table
 export const smartAlertCarbonTableEnabled = isFeatureFlagEnabled('smartAlertCarbonTableEnabled');
@@ -256,6 +260,7 @@ export const syntheticsFilterForMaintenanceWindowsEnabled = isFeatureFlagEnabled
   'syntheticsFilterForMaintenanceWindowsEnabled',
   true
 );
+export const retriggerOpenAlertsEnabled = isFeatureFlagEnabled('retriggerOpenAlertsEnabled', false);
 
 export const systemRuleEntityCountEnabled = isFeatureFlagEnabled('systemRuleEntityCountEnabled', false);
 
@@ -271,6 +276,7 @@ export const playWithReleaseEnabled = isFeatureFlagEnabled('playWithReleaseEnabl
 export const rcaUIEnabled = isFeatureFlagEnabled('rcaUIEnabled', true);
 export const rcaLogsEnabled = isFeatureFlagEnabled('rcaLogsEnabled', true);
 export const rcaFailedStateEnabled = isFeatureFlagEnabled('rcaFailedStateEnabled', false);
+export const rcaTopologyEnabled = isFeatureFlagEnabled('rcaTopologyEnabled', false);
 export const eventFeedbackEnabled = isFeatureFlagEnabled('eventFeedbackEnabled', true);
 export const incidentSummarizationEnabled = isFeatureFlagEnabled('incidentSummarizationEnabled', false);
 export const manuallyCloseEventEnabled = isFeatureFlagEnabled('manuallyCloseEventEnabled', true);
@@ -281,7 +287,6 @@ export const flowMapEnabled = isFeatureFlagEnabled('flowMapEnabled', true);
 export const enableCarbonIcons = isFeatureFlagEnabled('enableCarbonIcons', false);
 
 export const welcomePageV2Enabled = isFeatureFlagEnabled('welcomePageV2Enabled', true);
-export const shareAndInviteEnabled = isFeatureFlagEnabled('shareAndInviteEnabled', true);
 
 export const agentInstallationV2Enabled = isFeatureFlagEnabled('agentInstallationV2Enabled', false);
 
@@ -294,7 +299,9 @@ export const automationActionInstanceFeedbackEnabled = isFeatureFlagEnabled(
   'automationActionInstanceFeedbackEnabled',
   false
 );
-export const resourceOptimizationActionsEnabled = isFeatureFlagEnabled('resourceOptimizationActionsEnabled', false);
+export const multiCloseEnabled = isFeatureFlagEnabled('multiCloseEnabled', false);
+export const resourceOptimizationActionsEnabled = isFeatureFlagEnabled('resourceOptimizationActionsEnabled', true);
+export const eventResourceActionsEnabled = isFeatureFlagEnabled('eventResourceActionsEnabled', false);
 export const carbonStepProgressBarEnabled = isFeatureFlagEnabled('carbonStepProgressBarEnabled', false);
 export const carbonHorizontalIndicatorEnabled = isFeatureFlagEnabled('carbonHorizontalIndicatorEnabled', false);
 export const analyzeRelatedInstancesButtonEnabled = isFeatureFlagEnabled('analyzeRelatedInstancesButtonEnabled', false);
@@ -310,9 +317,14 @@ export const automationActionAiGenerationUnitEnabled = isFeatureFlagEnabled(
   'automationActionAiGenerationUnitEnabled',
   false
 );
-export const carbonSliderEnabled = isFeatureFlagEnabled('carbonSliderEnabled', false);
+export const graphTabEnabled = isFeatureFlagEnabled('graphTabEnabled', true);
 export const applicationSubtracesEnabled = isFeatureFlagEnabled('applicationSubtracesEnabled', false);
 export const customDashboardTopLevelFiltersEnabled = isFeatureFlagEnabled(
   'customDashboardTopLevelFiltersEnabled',
   false
 );
+export const aqmDisableConfigOnEventViewEnabled = isFeatureFlagEnabled('aqmDisableConfigOnEventViewEnabled', false);
+export const aqmDataGridEventTableEnabled = isFeatureFlagEnabled('aqmDataGridEventTableEnabled', false);
+export const openTelemetryKubernetes = isFeatureFlagEnabled('openTelemetryKubernetesEnabled', false);
+export const rbacTeamsEnabled = isFeatureFlagEnabled('rbacTeamsEnabled', false);
+export const accessControlCarbonTable = isFeatureFlagEnabled('accessControlCarbonTable', false);

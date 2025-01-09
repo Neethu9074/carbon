@@ -125,6 +125,23 @@ function getDummyAlertsList() {
         deviationFactor: 3.0,
         lastUpdated: 0
       },
+      rules: [
+        {
+          rule: {
+            alertType: 'slowness',
+            aggregation: 'P90',
+            metricName: 'latency'
+          },
+          thresholdOperator: '>=',
+          thresholds: {
+            WARNING: {
+              type: 'historicBaseline',
+              seasonality: 'DAILY',
+              deviationFactor: 3.0
+            }
+          }
+        }
+      ],
       alertChannelIds: [],
       granularity: 600000,
       timeThreshold: { type: 'violationsInSequence', timeWindow: 600000 },

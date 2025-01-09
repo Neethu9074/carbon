@@ -19,12 +19,12 @@
       "customMetricsTitleValue": "Valore",
       "customMetricsTitlePinned": "{{pinnedPrefix}} Metriche bloccate ({{pinnedLength}})",
       "customMetricsTitleCustom": "{{customPrefix}} Metriche personalizzate ({{customLength}})",
-      "customMetricsLableCount": "Conteggio",
-      "customMetricsLableValue": "Valore",
-      "customMetricsLableMean": "Media",
-      "customMetricsLableP50": "50esimo",
-      "customMetricsLableP99": "99esimo",
-      "customMetricsLableRate": "Tasso"
+      "customMetricsLabelCount": "Conteggio",
+      "customMetricsLabelValue": "Valore",
+      "customMetricsLabelMean": "Media",
+      "customMetricsLabelP50": "50esimo",
+      "customMetricsLabelP99": "99esimo",
+      "customMetricsLabelRate": "Tasso"
     },
     "table": {
       "tableNoData": "Nessun dato.",

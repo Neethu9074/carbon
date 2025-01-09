@@ -9,8 +9,8 @@ import React from 'react';
 import { LocationStatus, TestResultListItem } from '@instana/types';
 import { Card, Li, Stack, SvgIcon, Ul } from '@instana/components';
 import { generateUniqueShortId } from '@instana/utils';
-import { themes } from '@instana/design-tokens';
 
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter/HealthIndicatorPresenter';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import Overlay from 'in-components/overlays/Overlay/Overlay';
 import { t } from 'in-i18n';
@@ -78,7 +78,7 @@ const Content = (props: ContentProps) => {
   };
 
   const getContentBySeverity = (location: LocationStatus) => {
-    const severity = location.successRate == 1 ? 0 : 10;
+    const severity = location.successRate == 1 ? 0 : 5;
     const totalRuns = location.totalTestRuns;
     if (severity === 0) {
       return (
@@ -86,7 +86,13 @@ const Content = (props: ContentProps) => {
           <span data-test="no-issues-span" className={locals.locationsLabel}>
             {t('in-synthetics:dashboard.testList.locationsColumn.noIssues')}
           </span>
-          <SvgIcon type="lib_uncheck" size="s" color={themes.default.ids.color.option.green['500']} />
+          <HealthIndicatorPresenter
+            openIssues={severity}
+            maxSeverity={severity}
+            active={false}
+            iconOnly
+            iconOnlySize="s"
+          />
         </>
       );
     } else {
@@ -96,7 +102,13 @@ const Content = (props: ContentProps) => {
             <span data-test="warning-span" className={locals.locationsLabel}>
               {t('in-synthetics:dashboard.testList.locationsColumn.warning')}
             </span>
-            <SvgIcon type="lib_help_error_warning" size="s" color={themes.default.ids.color.option.yellow['500']} />
+            <HealthIndicatorPresenter
+              openIssues={severity}
+              maxSeverity={severity}
+              iconOnly
+              active={false}
+              iconOnlySize="s"
+            />
           </>
         );
       } else {

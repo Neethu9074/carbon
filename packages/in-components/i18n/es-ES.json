@@ -306,11 +306,6 @@
     "tooltipShowLess": "Mostrar menos",
     "tooltipShowMore": "Mostrar más"
   },
-  "expandableGroup": {
-    "tooltipShowContent": "Mostrar contenido",
-    "tooltipHideContent": "Ocultar contenido",
-    "labelExpandButtonForContent": "Ampliar botón para contenido"
-  },
   "featureFeedback": {
     "linkLabelYouCanSendUsFeedback": "Usted puede enviarnos sus comentarios"
   },
@@ -460,6 +455,7 @@
     "viewSwitcherLabelEvents": "Sucesos",
     "viewSwitcherlabelInfrastructure": "Infraestructura",
     "viewSwitcherLabelApplications": "Aplicaciones",
+    "viewVulnerabilityCenter": "Vulnerabilidades",
     "viewSwitcherLabelSlo": "Niveles de servicio",
     "viewSwitcherLabelLogs": "Registros",
     "viewSwitcherLabelAnalytics": "Analíticas",
@@ -587,6 +583,12 @@
     "fillerTextIn": " en ",
     "fillerTextAt": " en "
   },
+  "sessionTimeout": {
+    "title": "Tiempo de espera de sesión",
+    "message": "Debido a la inactividad, se le cerrará la sesión:",
+    "loggedInButton": "Continuar conectado",
+    "logOutButton": "Cerrar sesión"
+  },
   "time": {
     "lastMinute": "Último minuto",
     "lastMinute_plural": "Últimos {{count}} minutos",
@@ -647,7 +649,7 @@
   },
   "timeShift": {
     "changeSelectedTimeShift": "Cambiar salto en el tiempo seleccionado",
-    "timeShiftValue": "Salto en el tiempo: {{timeShiftValue}}",
+    "timeShiftValue": "Cambio de horario: {{timeShiftValue}}",
     "compareToTimeShiftTimeConfig": "Comparar con {{timeShiftTimeConfig}}"
   },
   "topListCard": {
@@ -715,6 +717,7 @@
     "setEnabledMessagePressESCToDisableTVMode": "Pulse ESC para inhabilitar la modalidad de TV."
   },
   "analyze": {
+    "facettedFilters": "Filtros facetados",
     "loadMoreWithCount": "Cargar {{count}} más",
     "loadMore": "Cargar más",
     "activeFacets": "{{count}} seleccionados",
@@ -725,6 +728,7 @@
     "fromUnit": "Desde ({{unit}})",
     "to": "Hasta",
     "toUnit": "Hasta ({{unit}})",
+    "fromto": "Definir el rango desde-hasta",
     "rangeSelected": "Rango seleccionado",
     "rangeOrder": "El rango ha de estar en orden ascendente.",
     "earliestTimestamp": "Primera indicación de fecha y hora",

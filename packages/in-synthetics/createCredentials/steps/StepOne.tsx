@@ -56,7 +56,7 @@ const StepOne = ({ form, updateForm }: Props) => {
           placeholder={t('in-synthetics:dialog.createCredential.steps.passwordInput.placeholder')}
           labelText={t('in-synthetics:dialog.createCredential.steps.passwordInput.labelText')}
           invalid={!credentialValue.valid && credentialValue.touched}
-          invalidText={t('in-synthetics:dialog.createCredential.steps.passwordInput.invalidText')}
+          invalidText={credentialValue.messages[0]?.message ?? ''}
           hidePasswordLabel={t('in-synthetics:dialog.createCredential.tooltipLabels.hide')}
           showPasswordLabel={t('in-synthetics:dialog.createCredential.tooltipLabels.show')}
         />

@@ -40,22 +40,13 @@
     }
   },
   "cookies": {
-    "categories": {
-      "analyticalPerformance": "Analytical / Performance",
-      "functionality": "Functionality"
-    },
     "expiration": {
-      "sevenDays": "Expires after 7 days",
-      "persistent": "Persistent",
       "afterSession": "Expires after session"
     },
-    "mixpanel": {
-      "title": "Product User Analytics",
-      "purpose": "Registers a unique ID that is used to generate statistical data on how the visitor uses the website."
-    },
-    "appcues": {
-      "title": "Tailored Onboarding Experience and NPS Surveys",
-      "purpose": "User Onboarding and NPS store survey."
+    "walkme": {
+      "title": "Product user analytics and guidance",
+      "purpose": "Registers a unique ID that is used to generate statistical data on how the visitor uses the product.",
+      "category": "Functional"
     }
   },
   "roleAndAccessScope": {
@@ -107,6 +98,7 @@
     "permissions_OPENSTACK": "OpenStack",
     "permissions_VSPHERE": "vSphere",
     "permissions_SAP": "SAP",
+    "permissions_NUTANIX": "Nutanix",
     "clusters": "Clusters",
     "namespaces": "Namespaces",
     "obsoleteEntityDescription": "Currently no data is available - access is still being granted.",
@@ -219,7 +211,7 @@
     "title_limited_access_bizops": "Limited access",
     "description_limited_access_bizops": "Access only the listed business perspectives and their business processes.",
     "description_access_all_bizops": "All features of business monitoring are accessible without limitation.",
-    "description_no_access_bizops": "Access to business monitoring is denied.",
+    "description_no_access_bizops": "No access: Access to business monitoring is denied.",
     "description_access_all_except_contributor": "Access all - except the ones accessed as contributor",
     "role": "Select a role",
     "role_owner": "Owner",
@@ -356,7 +348,8 @@
     "pleaseConfirm": "Please Confirm",
     "createNew": "Create New",
     "deselect": "Deselect",
-    "select": "Select"
+    "select": "Select",
+    "delete": "Delete"
   },
   "tabs": {
     "team": {
@@ -384,7 +377,7 @@
           "dbMarlinExampleForAnInternalInstance": "Enter the URL for your DBmarlin instance, for example <strong>https://team.dbmarlin.com</strong> or <strong>http://192.168.1.128:443</strong> for an internal instance.",
           "configureDbMarlin": "Configure DBmarlin",
           "configureDbMarlinDescription": "When enabled, the following configuration adds a link to DBmarlin in the call details for compatible calls.",
-          "configureYourDbMarlinSettings": "Configure your DBmarlin settings",
+          "configureYourDbMarlinSettings": "Configure your DBmarlin integration",
           "testDbMarlinInstance": "To test your DBmarlin link, go to",
           "failedToLoadDbMarlinConfiguration": "Failed to load DBmarlin configuration."
         }
@@ -471,6 +464,8 @@
       "deletionUntilDate": "Deletion until date",
       "untilDateValidationMessage": "Date must be on or before the current date",
       "reasonValidationMessage": "Deletion reason cannot be empty",
+      "untilTimeValidationMessage": "Time must be on or before the current time",
+      "correctTimeFormat": "Please enter a valid time in HH:mm format",
       "toastSuccessTitle": "Deleting logs might take a while.",
       "toastSuccessMessage": "You can close this pop-up window and check the status in the \"Log deletion action history\" table.",
       "toastErrorTitle": "Log deletion failed",
@@ -740,10 +735,12 @@
     "megabytes": "Megabytes",
     "count": "Count",
     "statusValue": "Status Value",
-    "scheduleMaintenanceWindow": "Schedule Maintenance Window",
-    "changeMaintenanceWindow": "Change Maintenance Window",
+    "scheduleMaintenanceWindow": "Schedule a maintenance window",
+    "changeMaintenanceWindow": "Change maintenance window",
     "allAlertsWillBeMutedForTheDurationOfThisMaintenanceWindow": "<strong>Caution!</strong> All alerts will be muted for the duration of this maintenance window. <strong>This might affect other users in your organization as well.</strong>",
     "aNonEmptyFilterQueryWhichDefinesTheMatchingAlerts": "A <strong>non-empty</strong> filter query which defines the matching alerts for incidents, issues, changes and online/offline to be muted. Select <em>\"Apply on: All available entities\"</em> if you want to mute all alerts. For more information on syntax, please see our <docLink>documentation</docLink>.",
+    "notificationMWCheckboxGroup": "Notification",
+    "notificationMWCheckboxLabel": "Send notifications for events that were created and suppressed during the maintenance window if they are still open after the maintenance window expires.",
     "clearDates": "Clear dates",
     "yourCurrentTimezoneIs": "Your current timezone is {{tz}}",
     "allDatesAndTimesAreInUtc": "All dates and times are in \"UTC\".",
@@ -756,16 +753,16 @@
     "dstInEffect": "DST in effect",
     "dstMsg": "{{dstMsg}}. {{label}} is \"{{currentTimeZone}}\" (UTC{{selectedUtcOffset}})",
     "maintenanceWindowConfigurationEntityName": "maintenance window configuration {{entityName}}",
-    "configureYourCoralogixSettings": "Configure your Coralogix settings",
+    "configureYourCoralogixSettings": "Configure your Coralogix integration",
     "failedToSaveConfiguration": "Failed to save configuration: {{err}}",
     "coralogixExampleForAnInternalInstance": "Enter the URL for your Coralogix instance, for example <br><strong>https://team.coralogix.com</strong> or <strong>http://192.168.1.128:443</strong> for an internal instance.</br>",
-    "configureYourElkSettings": "Configure your ELK settings",
+    "configureYourElkSettings": "Configure your ELK integration",
     "elkExampleForAnInternalInstance": "Enter the URL for your ELK instance, for example: <strong>http://kibana.com:5601</strong> or <strong>http://192.168.1.128:5601</strong> for an internal instance.",
     "optionalBasePathYouHaveConfiguredInElk": "Example: http://kibana.com:5601/<strong>instana</strong>/app/kibana#. Optional base path you have configured in ELK.",
     "idOfTheDashboardYouHaveConfiguredInElkForInstana": "Example: Can be found from the URL http://kibana.com:5601/app/kibana#/dashboard/a23a8810-4ce8-11ea-9be2-a53f95fe8814. ID of the dashboard you have configured in ELK for Instana.",
-    "configureYourHumioSettings": "Configure your Humio settings",
+    "configureYourHumioSettings": "Configure your Humio integration",
     "humioExampleForAnInternalInstance": "Enter the URL of Humio instance <strong>https://cloud.humio.com</strong> or <strong>http://192.168.1.128:443</strong> for an internal instance.",
-    "configureYourMezmoSettings": "Configure your Mezmo settings",
+    "configureYourMezmoSettings": "Configure your Mezmo integration",
     "canBeFoundFromTheMezmoUrl": "Enter the URL for your Mezmo instance. the URL consists of: <strong>https://base_url/account_id</strong>, for example: <strong>https://app.mezmo.com/123456789</strong>",
     "canBeFoundFromTheIbmCloudUrl": "URL consists of: <strong>https://base_url/guid</strong>, for example: <strong>https://cloud.ibm.com/observe/embedded-view/logging/123456789</strong>",
     "enterIbmCloudAccountId": "Please enter the GUID of the Logging Instance.",
@@ -773,7 +770,7 @@
     "mezmoDocumentationReference": "<br>For more information please refer to our <documentationLink>documentation</documentationLink>.</br>",
     "mezmoInstance": "Provider",
     "invalidMezmoId": "The Account/Dashboard ID must only contain letters, numbers and -.",
-    "configureYourSplunkSettings": "Configure your Splunk settings",
+    "configureYourSplunkSettings": "Configure your Splunk integration",
     "splunkExampleForAnInternalInstance": "Enter the URL for your Splunk instance, for example <strong>https://cloud.splunk.com</strong> or <strong>http://192.168.1.128:443</strong> for an internal instance.",
     "spaceBetweenGroupsInXDirection": "Space between groups in x direction ({{packingXSpace}})",
     "spaceBetweenGroupsInYDirection": "Space between groups in y direction ({{packingYSpace}})",
@@ -968,6 +965,8 @@
     "savingGroup": "Saving group",
     "groupSuccessfullySaved": "Group successfully saved.",
     "groups": "Groups",
+    "roles": "Roles",
+    "teams": "Teams",
     "groupDeleteTooltip_Default": "Default group is a built-in group and can't be deleted or renamed.",
     "groupDeleteTooltip_Owner": "Owner group is a built-in group and can't be deleted or renamed.",
     "deleteGroupMessage": "Are you sure you want to remove <strong>{{groupName}}</strong> from all units on this tenant?",
@@ -1332,6 +1331,7 @@
     "viewMwConfigMessage": "View Maintenance Window Configuration Here",
     "deleteUser": "Delete user",
     "userWithName": "user {{name}}",
+    "noOfItemsSelected": "{{noOfItemsSelected}} items selected",
     "tfaEnabled": "2FA enabled",
     "groupCountCol": "Number of groups",
     "tfaEnabledCol": "Authentication",

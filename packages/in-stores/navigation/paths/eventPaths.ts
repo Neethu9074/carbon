@@ -8,6 +8,8 @@
 import { mutateUrl, getModifiedUrlStream } from 'in-stores/navigation/navigation';
 // eslint-disable-next-line no-restricted-imports
 import { removeDFQueryFromLocationWhenChangingArea } from 'in-stores/navigation/utils';
+// eslint-disable-next-line no-restricted-imports
+import { vulnerabilitydetectionPath } from 'in-vulnerability-center/navigation/paths';
 import { eventId as eventIdMatricParam } from 'in-events/navigation/matrix';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -71,9 +73,13 @@ export function useGetEventsViewFilteredByEntity(entityId: string, eventTypeFilt
 
   const { location, createHref } = useNavigation();
   const query = `entity.id:"${entityId}"`;
-  const viewFilterFilteredLocation = { ...location, pathname: eventsPath, query: { q: query } };
+  const viewFilterFilteredLocation = {
+    ...location,
+    pathname: eventTypeFilter === 'cve_issue' ? vulnerabilitydetectionPath : eventsPath,
+    query: { q: query }
+  };
 
-  if (eventTypeFilter) {
+  if (eventTypeFilter && eventTypeFilter !== 'cve_issue') {
     setOrDeleteMatrixKey(viewFilterFilteredLocation, eventsPath, 'view', eventTypeFilter);
   }
 
@@ -181,11 +187,19 @@ export function useGetEventsViewFilteredBy() {
     if (additionalDFQFilter) {
       query += ` ${additionalDFQFilter}`;
     }
+    if (eventId) {
+      query = ` event.id:"${eventId}"`;
+    }
     query = query.trim();
 
     removeDFQueryFromLocationWhenChangingArea(location, eventsPath);
 
-    let eventViewFilteredByLocation = { ...location, pathname: eventsPath };
+    const targetPath = eventTypeFilter === 'cve_issue' ? vulnerabilitydetectionPath : eventsPath;
+
+    let eventViewFilteredByLocation = {
+      ...location,
+      pathname: targetPath
+    };
 
     if (query) {
       eventViewFilteredByLocation = { ...eventViewFilteredByLocation, query: { q: query } };
@@ -193,7 +207,7 @@ export function useGetEventsViewFilteredBy() {
 
     setOrDeleteMatrixKey(
       eventViewFilteredByLocation,
-      eventsPath,
+      targetPath,
       eventIdMatricParam,
       eventId || location.query.eventId
     );
@@ -204,7 +218,7 @@ export function useGetEventsViewFilteredBy() {
     }
 
     if (eventTypeFilter) {
-      setOrDeleteMatrixKey(eventViewFilteredByLocation, eventsPath, 'view', eventTypeFilter);
+      setOrDeleteMatrixKey(eventViewFilteredByLocation, targetPath, 'view', eventTypeFilter);
     }
 
     return createHref(eventViewFilteredByLocation);

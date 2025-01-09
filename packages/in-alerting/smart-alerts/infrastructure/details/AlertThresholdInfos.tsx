@@ -59,14 +59,16 @@ export function ThresholdInfo({ thresholdOperator, thresholdsMap, rule }: Thresh
 
   return (
     <Stack gap="xxsmall">
-      <div>
-        {!isEmpty(warningThreshold) &&
-          getFormattedThresholdValue(warningThresholdLabel, humanReadableOperator, metricFormat, warningThreshold!)}
-      </div>
-      <div>
-        {!isEmpty(criticalThreshold) &&
-          getFormattedThresholdValue(criticalThresholdLabel, humanReadableOperator, metricFormat, criticalThreshold!)}
-      </div>
+      {!isEmpty(warningThreshold) && (
+        <div>
+          {getFormattedThresholdValue(warningThresholdLabel, humanReadableOperator, metricFormat, warningThreshold!)}
+        </div>
+      )}
+      {!isEmpty(criticalThreshold) && (
+        <div>
+          {getFormattedThresholdValue(criticalThresholdLabel, humanReadableOperator, metricFormat, criticalThreshold!)}
+        </div>
+      )}
     </Stack>
   );
 }

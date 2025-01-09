@@ -14,7 +14,6 @@ import { CtaTrackingFunction, useSegmentTracking } from 'in-services/tracking/us
 import { GOAL_SELECTION, GOALS, TOGGLER } from 'in-plg/pages/UserGoalSelection/utils/consts';
 import { close as dialogClose } from 'in-components/DialogPresenter/store';
 import OtherGoalField from 'in-plg/pages/UserGoalSelection/OtherGoalField';
-import { carbonCheckboxEnabled } from 'in-services/featureFlags';
 import { UserGoal } from 'in-plg/pages/UserGoalSelection/types';
 import { saveUserSettings } from 'in-services/userSettings';
 import { DialogContent } from 'in-plg/components/Dialog';
@@ -72,14 +71,7 @@ const UserGoalSelectionDialog = () => {
                     })}
                     headerClassName={locals.cardHeader}
                     leftHeaderContent={<span className={locals.leftHeader}>{goal.text}</span>}
-                    rightHeaderContent={
-                      <Checkbox
-                        checked={isGoalSelected(goal)}
-                        className={classNames({
-                          [locals.cardLegacyCheckBox]: !carbonCheckboxEnabled
-                        })}
-                      />
-                    }
+                    rightHeaderContent={<Checkbox checked={isGoalSelected(goal)} />}
                     size="l"
                   >
                     <SvgIcon type={goal.icon} />

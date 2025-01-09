@@ -128,16 +128,16 @@ function AxisConfigurator({
         form
           .updateIn(['y1', 'max'], field => field.setValue(undefined).setTouched(true))
           .updateIn(['y2', 'max'], field => field.setValue(undefined).setTouched(true))
-          .updateIn(['shareMaxAxisDomain'], field => field.setValue(e.target.checked).setTouched(true))
+          .updateIn(['shareMaxAxisDomain'], field => field.setValue(e).setTouched(true))
       );
     } else {
-      onChange(['shareMaxAxisDomain'], field => field.setValue(e.target.checked).setTouched(true));
+      onChange(['shareMaxAxisDomain'], field => field.setValue(e).setTouched(true));
     }
   };
 
   const onMaxChange = e => {
     const isShareMaxAxisDomainAxctive = form.get('shareMaxAxisDomain').value;
-    const maxValue = e.target.value.length !== 0 ? Number(e.target.value) : undefined;
+    const maxValue = e.target.value.length !== 0 && Number(e.target.value) !== 0 ? Number(e.target.value) : undefined;
     if (isShareMaxAxisDomainAxctive) {
       onChange([], form =>
         form

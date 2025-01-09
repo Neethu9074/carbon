@@ -6,10 +6,13 @@
 
 import { useObservable } from '@instana/hooks';
 
+import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/mobileApp/api/mobileAppAlertConfig';
-import { MobileAppAlertConfigWithMetadata, Nullish } from 'in-types';
+import { Nullish } from 'in-types';
 
-export default function useMobileAppEventAlertConfig(event: any | Nullish): MobileAppAlertConfigWithMetadata | Nullish {
+export default function useMobileAppEventAlertConfig(
+  event: any | Nullish
+): MobileAppSmartAlertConfigWithMetadata | Nullish {
   return useObservable(
     ([event]) => {
       if (!event) {

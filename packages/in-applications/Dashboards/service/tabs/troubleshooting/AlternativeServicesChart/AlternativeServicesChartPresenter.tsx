@@ -5,6 +5,7 @@
 
 import React, { ReactElement } from 'react';
 
+import { MetricDefinition } from 'in-applications/Dashboards/service/tabs/troubleshooting/AlternativeServicesChart/AlternativeServicesChart';
 import {
   AdditionChartContentProps,
   AxisConfiguration,
@@ -17,7 +18,6 @@ import { ChartReactComponentProps } from 'in-components/Chart/ChartReactComponen
 import { PaginatedResult, Result, ServiceItem, TimeConfig } from 'in-types';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { getChartGranularity } from 'in-stores/metric/metric';
-import { MetricDefinition } from './AlternativeServicesChart';
 
 export interface AlternativeServicesChartPresenterProps {
   result: Result<PaginatedResult<ServiceItem>>;

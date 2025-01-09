@@ -9,12 +9,10 @@ import React from 'react';
 
 //@ts-expect-error missing typescript migration
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import InviteUserDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/InviteUserDialog';
 import { getPendingInvitations, PendingInvitation, revokeInvitation } from 'in-api/users';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import { formatDateTime } from 'in-services/formatters/date';
 import { USER_INVITE } from 'in-services/tracking/tracking';
 import UserIcon from 'in-components/UserIcon/UserIcon';
@@ -90,13 +88,7 @@ const Invites = () => {
       initialOrderBy="email"
       onCreateNew={() => {
         trackCta(USER_INVITE);
-        addActiveDialog(
-          shareAndInviteEnabled ? (
-            <DeferredShareAndInviteDialogBox inviteOnly permissionToShowInvite />
-          ) : (
-            <InviteUserDialog />
-          )
-        );
+        addActiveDialog(<DeferredShareAndInviteDialogBox inviteOnly permissionToShowInvite />);
       }}
       labelNew={t('in-settings:tabs.inviteUser')}
       searchAttributes={['email', 'groupName', 'invitedBy']}

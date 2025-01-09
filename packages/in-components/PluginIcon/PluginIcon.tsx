@@ -25,7 +25,7 @@ export interface PluginIconProps extends Omit<React.ComponentProps<typeof SvgIco
   size?: Size;
   color?: string;
   snapshot?: SnapshotMap;
-  plugin: string;
+  plugin?: string;
 }
 
 export default forwardRef(function PluginIcon(props: PluginIconProps, ref: React.ForwardedRef<SVGSVGElement>) {

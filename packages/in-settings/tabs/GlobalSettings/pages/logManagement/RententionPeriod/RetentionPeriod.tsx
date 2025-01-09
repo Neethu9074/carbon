@@ -120,12 +120,17 @@ export default function RetentionPeriod() {
             <SubViewHeaderComponent>{localisationStrings.retentionPeriod}</SubViewHeaderComponent>
             <Typography variant="body-regular">
               {localisationStrings.aboutRetentionPeriod}
-              <Link external href={analyzeDocs.logs}>
+              <Link external href={analyzeDocs.logsRetention}>
                 {localisationStrings.learnMore}
               </Link>
             </Typography>
           </div>
-          <Button className={locals.changeRetentionButton} onClick={() => setShowConfirmation(true)} kind="primary">
+          <Button
+            data-testid="change-retention-period-button"
+            className={locals.changeRetentionButton}
+            onClick={() => setShowConfirmation(true)}
+            kind="primary"
+          >
             {localisationStrings.changeRetentionPeriod}
           </Button>
         </section>

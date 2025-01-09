@@ -16,16 +16,14 @@ import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { timeConfig$, urlQueryKeys } from 'in-stores/time/config';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import TimePresenter from 'in-components/time/TimePresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import { Location } from 'in-stores/navigation/types';
 import Overlay from 'in-components/overlays/Overlay';
+import { formatRequestedTime } from '../timePresets';
 import Tooltip from 'in-components/Tooltip';
 import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
-
-import locals from './TimeSelection.mless';
 
 export interface TimeSelectionProps {
   isHidden?: boolean;
@@ -142,7 +140,6 @@ function LiveModeToggle({
         href={href}
         icon={icon}
         darkTheme={darkTheme}
-        className={carbonButtonEnabled ? undefined : isLive ? locals.live : locals.static}
         onClick={() => !isLive && trackCta(TIME_LIVE_MODE)}
       >
         {t('in-components:time.dashboardHeaderButtonLive')}
@@ -164,9 +161,9 @@ function TimeSelectionDialogPresenterWrapper({ timeConfig, close }: TimeSelectio
 
   function onChange(timeConfig: TimeConfig) {
     close();
-    trackCta(TIME_WINDOW_SIZE_VIA_PICKER, {});
-
     if (timeConfig) {
+      const trackingPayload = formatRequestedTime(timeConfig.to, timeConfig.windowSize);
+      trackCta(TIME_WINDOW_SIZE_VIA_PICKER, trackingPayload);
       navigate(setTimeframe(timeConfig.windowSize, timeConfig.to, location));
     }
   }

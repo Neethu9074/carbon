@@ -19,7 +19,13 @@ import { pendingResult } from 'in-services/fixedObjects';
 import IconLabel from 'in-alerting/components/IconLabel';
 import { t } from 'in-i18n';
 
-export default function GlobalCustomPayloadCard({ context = 'ALL' }: { context?: CustomPayloadContext }) {
+export default function GlobalCustomPayloadCard({
+  context = 'ALL',
+  isTearSheetView
+}: {
+  context?: CustomPayloadContext;
+  isTearSheetView?: boolean;
+}) {
   const globalCustomPayloads: Result<CustomPayloadConfigurationWithLastUpdated> =
     useObservable(() => getGlobalCustomPayloadAsResultObservable(context), [context]) ?? pendingResult;
 
@@ -31,6 +37,7 @@ export default function GlobalCustomPayloadCard({ context = 'ALL' }: { context?:
       <ExpandableLightCard
         title={t('in-alerting:components.customPayload.globalCustomPayload')}
         openByDefault={hasErrors}
+        isTearSheetView={isTearSheetView}
         darkFrame
       >
         {loading && <LoadingIndicator size={'s'} />}
@@ -53,6 +60,7 @@ export default function GlobalCustomPayloadCard({ context = 'ALL' }: { context?:
       TagBasedPayloadConfigurator={GlobalTagBasedPayloadConfigurator}
       noCustomPayloadConfiguredText={t('in-alerting:components.customPayload.noGlobalCustomPayloadConfigured')}
       alternatingBg
+      isTearSheetView={isTearSheetView}
     />
   );
 }

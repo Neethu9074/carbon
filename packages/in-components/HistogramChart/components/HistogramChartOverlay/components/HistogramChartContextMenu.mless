@@ -57,17 +57,13 @@
     }
   }
 
-  .contextMenuActionsButtonsWrapper {
+  .contextMenuCarbonButtonWrapper {
     position: absolute;
     display: flex;
-    top: -1px;
     transform: translate(-100%, 4px);
     width: auto;
     height: 26px;
     z-index: @z-index__contextMenuActionsButtonsWrapper;
-  }
-
-  .contextMenuCarbonButtonWrapper {
     top: -0.3rem;
     background: var(--ids-color-option-white);
   }

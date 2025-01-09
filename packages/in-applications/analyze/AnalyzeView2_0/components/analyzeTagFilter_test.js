@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import { analyzeTagFilterExpression } from './analyzeTagFilter';
+import { analyzeTagFilterExpression } from 'in-applications/analyze/AnalyzeView2_0/components/analyzeTagFilter';
 
 const traceId = 'e21ef53aa1787929';
 const backendQueryModel1 = {

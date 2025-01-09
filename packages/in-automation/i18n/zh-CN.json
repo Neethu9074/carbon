@@ -506,9 +506,11 @@
     "runningAction": "运行操作...",
     "actionStarted": "操作已启动",
     "actionFailed": "操作失败",
-    "actionStartedMessage": "您执行了 <strong>{{actionName}}。</strong> 在“操作历史记录”页面中查看此操作的进度。",
+    "actionStartedMessage": "您执行了 <strong>{{actionName}}。</strong> 在“操作历史”选项卡中查看此操作的进度。",
     "actionFailedMessage": "执行 <strong>{{actionName}}</strong> 操作的请求失败：{{message}}。",
     "viewActionHistory": "查看操作历史记录",
-    "actionName": "操作名称"
+    "actionName": "操作名称",
+    "recommendedActionHistoryWithCount": "资源行动历史记录{{count}})",
+    "recommendedActionHistory": "资源行动历史"
   }
 }

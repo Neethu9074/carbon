@@ -384,12 +384,12 @@
         "textInput": {
           "placeholder": "Credential name",
           "labelText": "Name",
-          "invalidText": "Credential name must start with a letter and contain only letters, numbers and underscores."
+          "invalidText": "Credential name must start with a letter and contain only letters, numbers and underscores.",
+          "credentialNamesMustBeUnique": "Credential names must be unique. This name is taken. Try another."
         },
         "passwordInput": {
           "placeholder": "Credential value",
-          "labelText": "Value",
-          "invalidText": "Value should not be empty."
+          "labelText": "Value"
         },
         "associationsDescription": "Associating a credential with an application, website or mobile app grants access rights to all users who have access to those entities."
       },
@@ -515,6 +515,12 @@
       "deleteLocationBroswerRefreshInfo": "It will take some time for the location to disappear from the list of locations and may require a browser refresh.",
       "deactivateLocation": {
         "deactivate": "Deactivate"
+      },
+      "ipAddressColumn": {
+        "ipAddress": "IP Address",
+        "singleIPAddress": "{{number}} IP Address",
+        "multipleIPAddress": "{{number}} IP Addresses",
+        "noIPAddresses": "NA"
       }
     },
     "summary": {
@@ -810,7 +816,10 @@
         "noCredentialsAvailableTitle": "No Synthetic credentials available",
         "noCredentialsAvailableDescription": "There are no Synthetic credentials retrieved from the database."
       },
-      "editAction": "Edit",
+      "editAction": {
+        "editActionLabel": "Edit",
+        "theValueMustNotBeBlank": "The value must not be blank."
+      },
       "deleteAction": {
         "deleteActionLabel": "Delete",
         "deleteCredentialTitle": "Delete synthetic credential {{credentialName}}",

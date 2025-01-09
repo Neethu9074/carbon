@@ -122,7 +122,7 @@ CreateGlobalSmartAlertButton.propTypes = {
   renderAsSimpleButton: PropTypes.bool
 };
 
-function generateAlertConfig() {
+export function generateAlertConfig() {
   return {
     rules: [
       {

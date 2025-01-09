@@ -5,22 +5,28 @@
 
 import React from 'react';
 
+import { ApplicationBoundaryScope } from '@instana/types';
 import { Button } from '@instana/components';
 
+//@ts-expect-error
+import { generateAlertConfig as generateGlobalAlertConfig } from 'in-alerting/smart-alerts/applications/CreateGlobalSmartAlertButton';
+import CreateSmartAlertButton, {
+  getButtonActions
+} from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
 //@ts-expect-error need migration
 import AlertConfigDialog from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
-import CreateSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateSmartAlertButton';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/components/list/SmartAlertsBaseList';
+import { useSmartAlertCreateUrl } from 'in-alerting/smart-alerts/applications/hooks/useSmartAlertCreateUrl';
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 import { isDialogAndTearSheetEnabled } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
+import { alertsList, alertsTabListFullyQualified } from 'in-applications/navigation/paths';
 import { applicationSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 import { defaultAlertRule } from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { getButtonName } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { alertsTabListFullyQualified } from 'in-applications/navigation/paths';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import FloatingActionButton from 'in-components/FloatingActionButton';
@@ -183,11 +189,14 @@ export function generateAlertConfig({
         WARNING: {
           type: HISTORIC_BASELINE,
           deviationFactor: defaultDeviationFactor,
+          isCheckboxSelected: true,
           seasonality: DAILY
         },
         CRITICAL: {
           type: HISTORIC_BASELINE,
           value: 0.0,
+          deviationFactor: defaultDeviationFactor,
+          isCheckboxSelected: false,
           seasonality: DAILY
         }
       }
@@ -206,4 +215,53 @@ export function generateAlertConfig({
     applications: getEntitySelection(applicationId, serviceId, endpointId),
     rules: defaultRules
   };
+}
+
+// this function is to display view selector dialog when carbon table is enabled
+export function CreateSmartAlertButtonForCarbonTable({
+  isGlobal,
+  applicationId,
+  boundaryScope: urlBoundaryScope,
+  location,
+  defaultBoundaryScope
+}: {
+  isGlobal: boolean;
+  applicationId: string;
+  boundaryScope: ApplicationBoundaryScope;
+  location: Location;
+  defaultBoundaryScope?: string;
+}) {
+  const { trackCta } = useSegmentTracking();
+  const getLinkToCreateSmartAlert = useSmartAlertCreateUrl();
+  const createSmartAlertPath = getLinkToCreateSmartAlert({
+    isGlobal: isGlobal,
+    applicationId: !isGlobal ? applicationId : undefined,
+    boundaryScope: urlBoundaryScope || defaultBoundaryScope
+  });
+
+  const openOldDialog = () => {
+    addActiveDialog(
+      <AlertConfigDialog
+        isGlobalSmartAlert={isGlobal}
+        startWithSimpleMode={!isGlobal}
+        alertConfig={
+          isGlobal
+            ? generateGlobalAlertConfig()
+            : generateAlertConfig({
+                boundaryScope: urlBoundaryScope || defaultBoundaryScope,
+                applicationId
+              })
+        }
+        onClose={() => {
+          close();
+
+          if (location?.pathname === alertsTabListFullyQualified || location?.pathname === alertsList) {
+            refreshSmartAlertConfigsList();
+          }
+        }}
+      />
+    );
+  };
+
+  return getButtonActions(trackCta, openOldDialog, createSmartAlertPath);
 }

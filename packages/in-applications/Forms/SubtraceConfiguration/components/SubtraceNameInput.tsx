@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { TextInput } from '@instana/components';
+import { CarbonTextInput as TextInput } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 interface SubtraceNameInputProps {

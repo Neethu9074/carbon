@@ -32,7 +32,9 @@ export default function Latency({
   groupBy,
   renderPostChartContent,
   rightHeaderContent,
-  customChartSkeletonHeight
+  customChartSkeletonHeight,
+  tableOpen,
+  tableCloseHandler
 }) {
   const granularity = getChartGranularity(timeConfig);
   const slownessBlueprintConfig = getBlueprintConfig('slowness');
@@ -149,6 +151,8 @@ export default function Latency({
   return (
     <UnifiedMetricsChart
       renderHistoricDataIndicator
+      tableOpen={tableOpen}
+      tableCloseHandler={tableCloseHandler}
       customChartSkeletonHeight={customChartSkeletonHeight || 280}
       renderPostChartContent={props =>
         renderPostChartContent({

@@ -19,8 +19,19 @@
     "unnamedActivity": "(Nicht benannte Aktivität) {{activityType}}",
     "unnamedService": "(Nicht benannter Service)"
   },
+  "customDashboards": {
+    "activityCountMetric": "Aktivitäten zählen",
+    "erroneousActivityCallsCountLabel": "Fehlerhafte Aktivitätsaufrufe (Anzahl)",
+    "erroneousActivityCallsCategory": "Fehlerhafte Aktivitätsaufrufe",
+    "erroneousActivityCallsRateLabel": "Fehlerhafte Aktivitätsaufrufe (Rate)",
+    "latency": "Latenzzeit"
+  },
   "processes": {
-    "deployAgent": "Agenten implementieren"
+    "deployAgent": "Agenten implementieren",
+    "noProcessesAvailable": "Es sind keine Geschäftsprozesse verfügbar.",
+    "deployAgentFirst": "Sie müssen zunächst einen Agenten einsetzen.",
+    "forMoreInformation": "Für weitere Informationen lesen Sie bitte die",
+    "documentation": "Dokumentation."
   },
   "perspectives": {
     "newPerspective": "Perspektive schaffen",

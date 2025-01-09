@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
+import { MapForm } from 'formalistic';
 import React from 'react';
 
 import {
@@ -28,6 +29,7 @@ import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/advanced/AlertPropertiesTitleRow';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
+import GracePeriodWrapper from 'in-alerting/smart-alerts/components/dialog/advanced/GracePeriodWrapper';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import ForecastAlerting from 'in-alerting/smart-alerts/infrastructure/components/ForecastAlerting';
@@ -71,7 +73,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
           scrollId: '1',
           label: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.label'),
           title: t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.scope.title'),
-          valid: isMetricAndEntityValid() && tagFilterValid,
+          valid: isMetricAndEntityValid(form) && tagFilterValid,
           content: (
             <ScopeSection
               form={form}
@@ -114,6 +116,7 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
                   thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
                 }
               />
+              <GracePeriodWrapper form={form} updateForm={updateForm} />
               {infraPredictiveDetectionEnabled && <ForecastAlerting form={form} updateForm={updateForm} />}
             </>
           )
@@ -202,14 +205,15 @@ export default function AdvancedModeContainer(props: AlertConfigDialogPresenterP
   function isThresholdSectionValid(): boolean {
     return !fieldTouchedAndInvalid(form.get('threshold'));
   }
-  function isMetricAndEntityValid(): boolean {
-    const metric = form.get('rule')?.get('metricName')?.value;
-    const entityType = form.get('rule')?.get('entityType')?.value;
-    const regexpValidator = regexValidator((form as any)?.items);
-    return (
-      !fieldTouchedAndInvalid(form.get('rule')?.get('metricName')) &&
-      !regexpValidator?.length &&
-      !(metric.length && !entityType)
-    );
-  }
+}
+
+export function isMetricAndEntityValid(form: MapForm<any>): boolean {
+  const metric = form.get('rule')?.get('metricName')?.value;
+  const entityType = form.get('rule')?.get('entityType')?.value;
+  const regexpValidator = regexValidator((form as any)?.items);
+  return (
+    !fieldTouchedAndInvalid(form.get('rule')?.get('metricName')) &&
+    !regexpValidator?.length &&
+    !(metric.length && !entityType)
+  );
 }

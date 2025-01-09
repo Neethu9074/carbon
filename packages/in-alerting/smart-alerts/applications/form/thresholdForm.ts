@@ -38,8 +38,7 @@ type ValidationResult = ValidationMessage[] | null;
 export default function createThresholdForm(
   ruleWithThreshold: RuleWithThreshold<ApplicationAlertRuleUnion> | undefined,
   alertType: ApplicationAlertType,
-  editMode?: boolean,
-  isSimpleMode?: boolean
+  editMode?: boolean
 ): MapForm<any> {
   if (!ruleWithThreshold) {
     return createThresholdRuleForm();
@@ -47,16 +46,15 @@ export default function createThresholdForm(
 
   switch (alertType) {
     case 'logs':
-      return createAdaptiveOrStaticThresholdRuleForm(ruleWithThreshold, editMode, isSimpleMode);
+      return createAdaptiveOrStaticThresholdRuleForm(ruleWithThreshold, editMode);
     default:
-      return createThresholdRuleForm(ruleWithThreshold, editMode, isSimpleMode);
+      return createThresholdRuleForm(ruleWithThreshold, editMode);
   }
 }
 
 function createAdaptiveOrStaticThresholdRuleForm(
   ruleWithThreshold: RuleWithThreshold<ApplicationAlertRuleUnion>,
-  editMode?: boolean,
-  isSimpleMode?: boolean
+  editMode?: boolean
 ): MapForm<any> {
   const thresholdRule = ruleWithThreshold?.thresholds;
 
@@ -70,7 +68,7 @@ function createAdaptiveOrStaticThresholdRuleForm(
   ) {
     return createAdaptiveBaselineForm(ruleWithThreshold, editMode);
   }
-  return createStaticThresholdForm(ruleWithThreshold, editMode, isSimpleMode);
+  return createStaticThresholdForm(ruleWithThreshold, editMode);
 }
 
 // Helper to convert threshold rule to threshold data
@@ -83,14 +81,13 @@ function toThresholdData(thresholdRule: SmartAlertThresholdRule, operator: Thres
 
 function createThresholdRuleForm(
   ruleWithThreshold?: RuleWithThreshold<ApplicationAlertRuleUnion>,
-  editMode?: boolean,
-  isSimpleMode?: boolean
+  editMode?: boolean
 ): MapForm<any> {
   const thresholdRule = ruleWithThreshold?.thresholds;
 
   //If neither WARNING nor CRITICAL thresholds are defined, it defaults to creating a static threshold form.
   if (!thresholdRule?.WARNING && !thresholdRule?.CRITICAL) {
-    return createStaticThresholdForm(ruleWithThreshold, editMode, isSimpleMode);
+    return createStaticThresholdForm(ruleWithThreshold, editMode);
   }
 
   // Based on the thresholdType, we are creating both WARNING and CRITICAL threshold fields.
@@ -98,10 +95,10 @@ function createThresholdRuleForm(
   // (i.e., both WARNING and CRITICAL should have the same type, such as Static, Static Baseline, or Adaptive Baseline).
   if (thresholdRule?.WARNING) {
     if (isStaticThresholdRule(thresholdRule.WARNING)) {
-      return createStaticThresholdForm(ruleWithThreshold, editMode, isSimpleMode);
+      return createStaticThresholdForm(ruleWithThreshold, editMode);
     }
     if (isStaticBaselineThresholdRule(thresholdRule.WARNING)) {
-      return createStaticBaselineForm(ruleWithThreshold, editMode, isSimpleMode);
+      return createStaticBaselineForm(ruleWithThreshold, editMode);
     }
     if (isAdaptiveBaselineData(toThresholdData(thresholdRule.WARNING, ruleWithThreshold?.thresholdOperator))) {
       return createAdaptiveBaselineForm(ruleWithThreshold, editMode);
@@ -110,10 +107,10 @@ function createThresholdRuleForm(
 
   if (thresholdRule?.CRITICAL) {
     if (isStaticThresholdRule(thresholdRule.CRITICAL)) {
-      return createStaticThresholdForm(ruleWithThreshold, editMode, isSimpleMode);
+      return createStaticThresholdForm(ruleWithThreshold, editMode);
     }
     if (isStaticBaselineThresholdRule(thresholdRule.CRITICAL)) {
-      return createStaticBaselineForm(ruleWithThreshold, editMode, isSimpleMode);
+      return createStaticBaselineForm(ruleWithThreshold, editMode);
     }
     if (isAdaptiveBaselineData(toThresholdData(thresholdRule.CRITICAL, ruleWithThreshold?.thresholdOperator))) {
       return createAdaptiveBaselineForm(ruleWithThreshold, editMode);
@@ -124,29 +121,26 @@ function createThresholdRuleForm(
 }
 
 function createThresholdMapForm(
-  ruleWithThreshold?: RuleWithThreshold<ApplicationAlertRuleUnion>,
   threshold?: SmartAlertThresholdRule | ThresholdData,
   seasonality?: Seasonality,
   baseline?: BaselineDataSeries,
-  editMode?: boolean,
-  isSimpleMode?: boolean
+  editMode?: boolean
 ): MapForm<any> {
   if (!threshold || isStaticThresholdRule(threshold)) {
-    return createStaticThresholdMapForm(threshold, editMode, isSimpleMode);
+    return createStaticThresholdMapForm(threshold, editMode);
   }
   if (isStaticBaselineThresholdRule(threshold)) {
-    return createStaticBaselineMapForm(ruleWithThreshold, threshold, seasonality, baseline, editMode, isSimpleMode);
+    return createStaticBaselineMapForm(threshold, seasonality, baseline, editMode);
   }
   if (isAdaptiveBaselineData(threshold as ThresholdData)) {
-    return createAdaptiveBaselineMapForm(ruleWithThreshold, threshold as AdaptiveBaselineData, editMode);
+    return createAdaptiveBaselineMapForm(threshold as AdaptiveBaselineData, editMode);
   }
   throw new Error(`Unknown threshold type ${threshold?.type}.`);
 }
 
 function createStaticThresholdForm(
   ruleWithThreshold?: RuleWithThreshold<ApplicationAlertRuleUnion>,
-  editMode?: boolean,
-  isSimpleMode?: boolean
+  editMode?: boolean
 ): MapForm<any> {
   const warningThreshold = ruleWithThreshold?.thresholds?.WARNING;
   const criticalThreshold = ruleWithThreshold?.thresholds?.CRITICAL;
@@ -157,31 +151,13 @@ function createStaticThresholdForm(
       operator: createField({
         value: ruleWithThreshold?.thresholdOperator ?? '>='
       }),
-      warningThreshold: createThresholdMapForm(
-        ruleWithThreshold,
-        warningThreshold,
-        undefined,
-        undefined,
-        editMode,
-        isSimpleMode
-      ),
-      criticalThreshold: createThresholdMapForm(
-        ruleWithThreshold,
-        criticalThreshold,
-        undefined,
-        undefined,
-        editMode,
-        isSimpleMode
-      )
+      warningThreshold: createThresholdMapForm(warningThreshold, undefined, undefined, editMode),
+      criticalThreshold: createThresholdMapForm(criticalThreshold, undefined, undefined, editMode)
     }
   });
 }
 
-function createStaticThresholdMapForm(
-  threshold?: StaticThresholdRule,
-  editMode: boolean = false,
-  isSimpleMode: boolean = false
-): MapForm<any> {
+function createStaticThresholdMapForm(threshold?: StaticThresholdRule, editMode: boolean = false): MapForm<any> {
   return createMapForm()
     .put(
       'type',
@@ -192,14 +168,14 @@ function createStaticThresholdMapForm(
     .put(
       'value',
       createField({
-        value: threshold?.value ?? (isSimpleMode ? null : (threshold as any)?.isCheckboxSelected === true ? 0 : null)
+        value: threshold?.value ?? ((threshold as any)?.isCheckboxSelected === true ? 0 : null)
       }).setTouched(editMode ? !isEmpty(threshold?.value) : false)
     )
     .put(
       'isCheckboxSelected',
       createField({
-        value: threshold?.value != null
-      })
+        value: (threshold as any)?.isCheckboxSelected
+      }).setTouched((threshold as any)?.isCheckboxSelected)
     );
 }
 
@@ -251,8 +227,7 @@ function validateStaticThresholdMapForm({
 
 function createStaticBaselineForm(
   ruleWithThreshold?: RuleWithThreshold<ApplicationAlertRuleUnion>,
-  editMode: boolean = false,
-  isSimpleMode?: boolean
+  editMode: boolean = false
 ): MapForm<any> {
   const warningThreshold = ruleWithThreshold?.thresholds?.WARNING as StaticBaselineThresholdRule;
   const criticalThreshold = ruleWithThreshold?.thresholds?.CRITICAL as StaticBaselineThresholdRule;
@@ -266,32 +241,26 @@ function createStaticBaselineForm(
         value: ruleWithThreshold?.thresholdOperator ?? '>='
       }),
       warningThreshold: createThresholdMapForm(
-        ruleWithThreshold,
         warningThreshold,
         commonSeasonality,
         commonBaseline as BaselineDataSeries,
-        editMode,
-        isSimpleMode
+        editMode
       ),
       criticalThreshold: createThresholdMapForm(
-        ruleWithThreshold,
         criticalThreshold,
         commonSeasonality,
         commonBaseline as BaselineDataSeries,
-        editMode,
-        isSimpleMode
+        editMode
       )
     }
   });
 }
 
 function createStaticBaselineMapForm(
-  ruleWithThreshold?: RuleWithThreshold<ApplicationAlertRuleUnion>,
   threshold?: StaticBaselineThresholdRule,
   seasonality: string = DAILY,
   baseline?: BaselineDataSeries,
-  editMode: boolean = false,
-  isSimpleMode: boolean = false
+  editMode: boolean = false
 ): MapForm<any> {
   return createMapForm()
     .put(
@@ -303,10 +272,8 @@ function createStaticBaselineMapForm(
     .put(
       'deviationFactor',
       createField({
-        value:
-          threshold?.deviationFactor ??
-          (threshold === ruleWithThreshold?.thresholds?.WARNING && !editMode ? defaultDeviationFactor : 0)
-      }).setTouched(editMode ? !isEmpty(threshold?.deviationFactor) : false)
+        value: threshold?.deviationFactor
+      }).setTouched(editMode ? (threshold as any)?.isCheckboxSelected : false)
     )
     .put(
       'seasonality',
@@ -334,11 +301,7 @@ function createStaticBaselineMapForm(
     .put(
       'isCheckboxSelected',
       createField({
-        value:
-          threshold?.deviationFactor != 0 &&
-          (isSimpleMode ||
-            (threshold as any)?.isCheckboxSelected === undefined ||
-            (threshold as any)?.isCheckboxSelected)
+        value: (threshold as any)?.isCheckboxSelected
       })
     );
 }
@@ -364,29 +327,13 @@ function createAdaptiveBaselineForm(
       baseline: createField({
         value: commonBaseline
       }),
-      warningThreshold: createThresholdMapForm(
-        ruleWithThreshold,
-        warningThresholdFields,
-        undefined,
-        undefined,
-        editMode
-      ),
-      criticalThreshold: createThresholdMapForm(
-        ruleWithThreshold,
-        criticalThresholdFields,
-        undefined,
-        undefined,
-        editMode
-      )
+      warningThreshold: createThresholdMapForm(warningThresholdFields, undefined, undefined, editMode),
+      criticalThreshold: createThresholdMapForm(criticalThresholdFields, undefined, undefined, editMode)
     }
   });
 }
 
-function createAdaptiveBaselineMapForm(
-  ruleWithThreshold?: RuleWithThreshold<ApplicationAlertRuleUnion>,
-  threshold?: AdaptiveBaselineData,
-  editMode: boolean = false
-): MapForm<any> {
+function createAdaptiveBaselineMapForm(threshold?: AdaptiveBaselineData, editMode: boolean = false): MapForm<any> {
   return createMapForm()
     .put(
       'type',
@@ -397,17 +344,13 @@ function createAdaptiveBaselineMapForm(
     .put(
       'deviationFactor',
       createField({
-        value:
-          threshold?.deviationFactor ??
-          (threshold === ruleWithThreshold?.thresholds?.WARNING && !editMode ? defaultDeviationFactor : 0)
-      }).setTouched(editMode ? !isEmpty(threshold?.deviationFactor) : false)
+        value: threshold?.deviationFactor
+      }).setTouched(editMode ? (threshold as any)?.isCheckboxSelected : false)
     )
     .put(
       'isCheckboxSelected',
       createField({
-        value:
-          threshold?.deviationFactor != 0 &&
-          ((threshold as any)?.isCheckboxSelected === undefined || (threshold as any)?.isCheckboxSelected)
+        value: (threshold as any)?.isCheckboxSelected
       })
     );
 }

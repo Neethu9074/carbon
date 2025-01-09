@@ -55,7 +55,7 @@ export interface ServerTablePresenterProps<ItemType extends ListItem> extends Ta
   handleRowSelect?: (row: RowProps) => void;
   handleToolBarActionCancel?: VoidFunction;
   noDataHeader?: string;
-  noDataDescription?: string;
+  noDataDescription?: string | JSX.Element;
   searchPlaceholderText?: string;
 }
 interface CarbonRow {

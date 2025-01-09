@@ -10,8 +10,8 @@ import React from 'react';
 
 import { Li, Link, Ul, IconButton, SvgIcon } from '@instana/components';
 import { ActionInstance, ActorType } from '@instana/types';
-import { Observable, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { just, Observable } from '@instana/observables';
 
 import {
   getEntityIdView,
@@ -204,7 +204,13 @@ export default function DetailTab({
           {(() => {
             const hostsLimit = (metadata?.find(data => data.name === 'hostsLimit')?.value ?? '').split(',');
             return hostsLimit.map(host => (
-              <Li key={host} className={classNames({ [locals.singleHostLimit]: hostsLimit.length === 1 })}>
+              <Li
+                key={host}
+                className={classNames({
+                  [locals.singleHostLimit]: hostsLimit.length === 1,
+                  [locals.hostLimit]: true
+                })}
+              >
                 {host}
               </Li>
             ));
@@ -333,27 +339,12 @@ export default function DetailTab({
         [locals.instanceTabContent]: !inActionLane
       })}
     >
-      {/* <table
-        className={classNames({
-          [locals.ActionInstanceDetailsTable]: true,
-          [locals.ActionLaneTable]: inActionLane
-        })}
-      >
-        <thead className={locals.headerRow}>
-          <tr>
-            <th>{t('in-automation:actionHistory.property')}</th>
-            <th>{t('in-automation:actionHistory.value')}</th>
-          </tr>
-        </thead>
-        <tbody> */}
       <Dl>
         {tableData.map(
           ({ label, value, isLink, ObservableLink, stringLink, showCondition = true, actionLane = false }) =>
             renderRow(label, value, isLink, ObservableLink, stringLink, showCondition, actionLane, inActionLane)
         )}
       </Dl>
-      {/* </tbody>
-      </table> */}
     </div>
   );
 }

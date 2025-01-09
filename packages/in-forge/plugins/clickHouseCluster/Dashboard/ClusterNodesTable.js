@@ -21,7 +21,8 @@ const cols = [
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
-      }
+      },
+      withHierarchy: true
     }
   },
   {

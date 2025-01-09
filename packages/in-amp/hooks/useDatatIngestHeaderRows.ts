@@ -108,7 +108,7 @@ export default function useDatatIngestHeaderRows(dataTable: DataTableProp, searc
           getOnDemandMVSStandard,
           '(3)-(1)'
         ),
-        getDataIngestTableRow(dataTable, 6, '', 'MVS', 'Essentials', getOnDemandMVSEssentials, '(4)-(2)'),
+        getDataIngestTableRow(dataTable, 6, '', 'MVS', 'Essentials', getOnDemandMVSEssentials, '(4)-(2) - ((1)-(3))'),
         getDataIngestTableRow(
           dataTable,
           7,
@@ -252,7 +252,12 @@ const getOnDemandMVSStandard = (data: DataTableValueProp) =>
   Math.max(0, getConfiguredMVSStandard(data) - getEntitledMVSStandard(data));
 
 const getOnDemandMVSEssentials = (data: DataTableValueProp) =>
-  Math.max(0, getConfiguredMVSEssentials(data) - getEntitledMVSEssentials(data));
+  Math.max(
+    0,
+    getConfiguredMVSEssentials(data) -
+      getEntitledMVSEssentials(data) -
+      Math.max(0, getEntitledMVSStandard(data) - getConfiguredMVSStandard(data))
+  );
 
 const getFairUseEntitlementStandard = (data: DataTableValueProp) =>
   Math.round((data?.standard?.budgetPerUnit ?? DEFAULT_ENTITLEMENT_STANDARD) / BYTES_IN_A_GIBIBYTE);

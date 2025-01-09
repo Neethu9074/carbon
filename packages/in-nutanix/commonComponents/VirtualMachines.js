@@ -32,19 +32,19 @@ export const VmLabel = ({ item }) => {
 
   const getNutanixVmDashboard = useNutanixEntityLink('vm', { hostId, datacenterId });
 
-  return <EntityLink label={item.label} href={getNutanixVmDashboard(item.id)} icon={resolveIcon(item)} />;
+  return <EntityLink label={item.label} href={getNutanixVmDashboard(item.id)} />;
 };
 
 const columnDefinitions = [
   {
-    id: 'id',
+    id: 'name',
     label: t('in-nutanix:name'),
     getContent(item) {
-      return <Capitalize>{get(item, ['id'], valueMissingPlaceholder)}</Capitalize>;
+      return item.name;
     }
   },
   {
-    id: 'type',
+    id: 'machineType',
     label: t('in-nutanix:type'),
     sortable: true,
     getContent(item) {
@@ -93,7 +93,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, datacenterIdUrlParameter],
   columnDefinitions,
-  defaultOrderBy: 'label',
+  defaultOrderBy: 'name',
   defaultOrderDirection: 'ASC',
   pathSegment,
   matrixPrefix
@@ -114,7 +114,7 @@ function getTableData({
   query = '',
   page = 1,
   pageSize = 20,
-  orderBy = 'label',
+  orderBy = 'name',
   orderDirection = 'ASC',
   timeConfig,
   datacenterId,
@@ -137,11 +137,6 @@ function getTableData({
     },
     granularity: getInfraGranularity(timeConfig)
   });
-}
-
-function resolveIcon(props) {
-  const guestFullName = get(props, ['guestFullName'], 'linux');
-  return guestFullName && guestFullName.toLowerCase().includes('windows') ? 'lib_windows' : 'lib_linux';
 }
 
 function isWithinDatacenter(props) {

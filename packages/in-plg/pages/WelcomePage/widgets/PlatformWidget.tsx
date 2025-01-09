@@ -482,6 +482,13 @@ export default function PlatformWidget({ config, timeConfig, widgetLabel, dashbo
       getContent({ id, item, isDisabled = false, isFavourite = false, type }) {
         return (
           <IconButton
+            aria-label={
+              isFavourite
+                ? t('in-plg:welcomepage.favouriteButton.ariaFilled')
+                : item?.pinned
+                ? t('in-plg:welcomepage.favouriteButton.ariaFilled')
+                : t('in-plg:welcomepage.favouriteButton.aria')
+            }
             type={
               isFavourite
                 ? 'lib_actions_favorite_filled'

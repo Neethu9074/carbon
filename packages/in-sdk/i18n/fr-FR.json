@@ -19,12 +19,12 @@
       "customMetricsTitleValue": "Valeur",
       "customMetricsTitlePinned": "{{pinnedPrefix}} Métriques épinglées ({{pinnedLength}})",
       "customMetricsTitleCustom": "{{customPrefix}} Métriques personnalisées ({{customLength}})",
-      "customMetricsLableCount": "Nombre",
-      "customMetricsLableValue": "Valeur",
-      "customMetricsLableMean": "Moyenne",
-      "customMetricsLableP50": "50e",
-      "customMetricsLableP99": "99e",
-      "customMetricsLableRate": "Taux"
+      "customMetricsLabelCount": "Nombre",
+      "customMetricsLabelValue": "Valeur",
+      "customMetricsLabelMean": "Moyenne",
+      "customMetricsLabelP50": "50e",
+      "customMetricsLabelP99": "99e",
+      "customMetricsLabelRate": "Taux"
     },
     "table": {
       "tableNoData": "Aucune donnée.",

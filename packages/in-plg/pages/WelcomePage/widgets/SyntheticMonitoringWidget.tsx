@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { get } from 'lodash';
 
 import { LocationListItem, TestResultListItem, VersionedConfig } from '@instana/types';
-import { Link, TableTab, TableTabs } from '@instana/components';
+import { CarbonTabPanel, Link, TableTab, TableTabs } from '@instana/components';
 import { formatDateTime } from '@instana/format-date';
 import { LocationStatus } from '@instana/types';
 import { t } from '@instana/i18n-react';
@@ -74,7 +74,10 @@ function Toggles({
   setSelectedType: React.Dispatch<React.SetStateAction<string>>;
 }) {
   return (
-    <TableTabs selectedIndex={toggles.filter(toggle => toggle.value === selectedType).map(toggle => toggle.index)[0]}>
+    <TableTabs
+      selectedIndex={toggles.filter(toggle => toggle.value === selectedType).map(toggle => toggle.index)[0]}
+      panels={toggles?.length > 0 && toggles.map(() => <CarbonTabPanel />)}
+    >
       {toggles?.length > 0 &&
         toggles.map(toggle => (
           <TableTab

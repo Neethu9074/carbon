@@ -14,7 +14,7 @@ import { user } from 'in-stores/user';
 import locals from 'in-logging/dashboard/Configuration/Configuration.mless';
 
 export default function LogIntegrations() {
-  if (!user?.role?.canConfigureIntegrations) return <RestrictedAccessMessage />;
+  if (!user?.role?.canConfigureLogManagement) return <RestrictedAccessMessage />;
 
   return (
     <main>

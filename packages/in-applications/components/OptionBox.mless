@@ -12,11 +12,6 @@
     border-radius: var(--ids-border-radius-option-large);
   }
 
-  .icon {
-    fill: var(--ids-color-option-teal-500);
-    margin: 0 4px;
-  }
-
   .icononly {
     margin-right: 0.25rem;
   }
@@ -29,11 +24,6 @@
     display: flex;
     align-items: flex-start;
     flex-direction: row;
-  }
-
-  .title {
-    color: var(--ids-color-option-teal-500);
-    font-size: 1rem;
   }
 
   .description {

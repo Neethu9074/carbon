@@ -70,17 +70,6 @@ export function createDataString(data) {
   return dataString;
 }
 
-export function getSummary(data) {
-  var dataString = [];
-  data?.map(entry => {
-    const props = Object.fromEntries(entry);
-    const entityLabel = (props.entityLabel && props.entityLabel !== '' && props.entityLabel) || props.entityName;
-    const entitySummary = `${props.entitySummary}\n`;
-    dataString.push({ label: entityLabel, summary: entitySummary });
-  });
-  return dataString;
-}
-
 // Function to handle the editing and updating of a note
 export function handleUpdateDeleteNote(incidentId, note, setNote, setEditNoteId, editNoteId) {
   // EditNoteId is false whenever its reset but when assigned its an array
@@ -109,24 +98,13 @@ export function handleUpdateDeleteNote(incidentId, note, setNote, setEditNoteId,
 // {
 //   incidentId: (incident.get('id')),
 //   author: (username),
+//   authorId: (user.id),
 //   action: (either 'create', update', or 'delete'),
 //   contents: (only for 'create' and 'update')
 //   currentId: (only for 'update' and 'delete', refers to note's ID)
 // }
 function sendUpdateDeleteNote(note) {
   annotateEvent(note);
-}
-
-// Taking in the response of the getSummary function above [{label: 'label', summary: 'summary'}]
-// And converting it to a string
-export function convertSummaryToString(data) {
-  var stringSummary = `This summary is AI generated\n\n`;
-  data?.map(entry => {
-    stringSummary += `${entry.label}\n`;
-    stringSummary += `${entry.summary}\n`;
-  });
-
-  return stringSummary;
 }
 
 // Check to make sure the recipients are valid

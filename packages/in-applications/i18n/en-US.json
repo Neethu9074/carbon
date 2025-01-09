@@ -12,6 +12,11 @@
   "linkDownloadRawTrace": "Download raw trace",
   "labelCalls": "Calls",
   "labelCallsPerSecondFull": "Calls Per Second",
+  "labelCallsPerSubtrace":"Calls per subtrace",
+  "labelDuration":"Duration (mean)",
+  "labelNumberOfSubtraces":"Number of subtraces",
+  "labelErroneousSubtraceRate": "Erroneous subtrace rate",
+  "labelErroneousRate":"Erroneous rate",
   "labelTraces": "Traces",
   "labelErrorRate": "Error Rate",
   "labelDisableSizing": "Disable sizing",
@@ -167,12 +172,32 @@
     },
     "configuration": {
       "success": {
-        "title": "Subtrace {{action}} successfully",
-        "message": "Subtrace \"{{subtraceName}}\" has been {{action}}."
+        "created": {
+          "title": "Subtrace created successfully",
+          "message": "Subtrace \"{{subtraceName}}\" has been created."
+        },
+        "updated": {
+          "title": "Subtrace updated successfully",
+          "message": "Subtrace \"{{subtraceName}}\" has been updated."
+        },
+        "deleted": {
+          "title": "Subtrace deleted successfully",
+          "message": "Subtrace \"{{subtraceName}}\" has been deleted."
+        }
       },
       "failure": {
-        "title": "Failed to {{action}} Subtrace",
-        "message": "There was a problem while trying to {{action}} this Subtrace: \"{{subtraceName}}\""
+        "created": {
+          "title": "Failed to create Subtrace",
+          "message": "There was a problem while trying to create this Subtrace: \"{{subtraceName}}\""
+        },
+        "updated": {
+          "title": "Failed to update Subtrace",
+          "message": "There was a problem while trying to update this Subtrace: \"{{subtraceName}}\""
+        },
+        "deleted": {
+          "title": "Failed to delete Subtrace",
+          "message": "There was a problem while trying to delete this Subtrace: \"{{subtraceName}}\""
+        }
       },
       "title": "Update subtrace",
       "subtraceName": "Subtrace name",
@@ -191,17 +216,17 @@
   "inboundOutboundCalls": {
     "config": {
       "inbound": {
-        "text": "Inbound Calls"
+        "text": "Inbound calls"
       },
       "all": {
-        "text": "All Calls"
+        "text": "All calls"
       }
     },
     "constants": {
       "inboundDashboard": "The dashboard is displaying information based only on the calls that are performed by the consumers of this application.",
-      "inboundOverrideDefault": "The default scope for this application is Inbound Calls only. You can change this in Configuration.",
+      "inboundOverrideDefault": "The default scope for this application is Inbound calls only. You can change this in Configuration.",
       "allDashboard": "The dashboard is displaying information based on all calls that are performed within this application, by both consumers as well as internally.",
-      "allOverrideDefault": "The default scope for this application is All Calls. You can change this in Configuration."
+      "allOverrideDefault": "The default scope for this application is All calls. You can change this in Configuration."
     }
   },
   "analyze": {
@@ -465,6 +490,8 @@
   "dashboards": {
     "callCount": "{{formattedCount}} total call",
     "callCount_plural": "{{formattedCount}} total calls",
+    "subtraceCount": "{{formattedCount}} total subtrace",
+    "subtraceCount_plural": "{{formattedCount}} total subtraces",
     "erroneousCallCount": "{{formattedCount}} total erroneous call",
     "erroneousCallCount_plural": "{{formattedCount}} total erroneous calls",
     "meanLatencyFor90th": "{{meanLatencyDetail}} for 90th",

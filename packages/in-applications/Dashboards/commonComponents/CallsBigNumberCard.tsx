@@ -9,10 +9,10 @@ import DashboardBigNumberCard, {
   BigNumberCardProps,
   increaseIsGood
 } from 'in-applications/Dashboards/commonComponents/DashboardBigNumberCard';
+import { filterByEndpointType } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
 import { createChartedMetric, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
-import { filterByEndpointType } from './includeEndpointTypes';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 

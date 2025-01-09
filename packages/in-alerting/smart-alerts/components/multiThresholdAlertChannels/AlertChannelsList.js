@@ -16,7 +16,8 @@ import {
   updateOnRowToggleAndFormForWarning,
   updateOnRowToggleAndFormForCritical,
   getAlertChannelTitle,
-  getAlertChannelColumnTitle
+  getAlertChannelColumnTitle,
+  getThresholdFieldStatus
 } from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 import {
   columnDefinitions,
@@ -26,7 +27,6 @@ import {
   createFilters
 } from 'in-settings/tabs/GlobalSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
 import { getEntityHref, teamSettingsAlertingAlertChannels } from 'in-settings/navigation/paths';
-import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { SETTINGS_ALERT_CHANNEL_CLICK } from 'in-services/tracking/eventNames';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
@@ -59,12 +59,7 @@ export default function AlertChannelsList({
 }) {
   const { trackCta } = useSegmentTracking();
   const selectedChannels = form.get('alertChannels').value;
-  const warningThresholdField = form.get('threshold')?.get('warningThreshold');
-  const criticalThresholdField = form.get('threshold')?.get('criticalThreshold');
-  const warningThresholdFieldDisabled =
-    isEmpty(warningThresholdField?.get('value')?.value) && !warningThresholdField?.get('isCheckboxSelected')?.value;
-  const criticalThresholdFieldDisabled =
-    isEmpty(criticalThresholdField?.get('value')?.value) && !criticalThresholdField?.get('isCheckboxSelected')?.value;
+  const { warningThresholdFieldDisabled, criticalThresholdFieldDisabled } = getThresholdFieldStatus(form);
 
   return (
     <List
@@ -179,12 +174,7 @@ function leftHeaderWithSelectAll(form, onChange) {
   const selectedChannelList = form.get('hiddenFields').get('selectedChannelList').value;
   const numberOfChannels = selectedChannelList.length;
   const enabledChannels = form.get('alertChannels').value;
-  const warningThresholdField = form.get('threshold')?.get('warningThreshold');
-  const criticalThresholdField = form.get('threshold')?.get('criticalThreshold');
-  const warningThresholdFieldDisabled =
-    isEmpty(warningThresholdField?.get('value')?.value) && !warningThresholdField?.get('isCheckboxSelected')?.value;
-  const criticalThresholdFieldDisabled =
-    isEmpty(criticalThresholdField?.get('value')?.value) && !criticalThresholdField?.get('isCheckboxSelected')?.value;
+  const { warningThresholdFieldDisabled, criticalThresholdFieldDisabled } = getThresholdFieldStatus(form);
 
   return function LeftHeaderWithSelectAll(totalHits, filteredHits, entitiesBeforePagination) {
     const getHeaderFunction = defaultHeaderWithCount(entityName);
@@ -212,6 +202,7 @@ function leftHeaderWithSelectAll(form, onChange) {
                   content={t('in-alerting:smartAlerts.alertChannelList.selectAllWarning')}
                 />
                 <Toggle
+                  id="selectAllWarningToggle"
                   disabled={warningThresholdFieldDisabled}
                   checked={ifAllSelectedChannelsEnabledForWarning}
                   onToggle={updateAllToggleAndFormForWarning(enabledChannels, entitiesBeforePagination, onChange)}
@@ -222,6 +213,7 @@ function leftHeaderWithSelectAll(form, onChange) {
                   content={t('in-alerting:smartAlerts.alertChannelList.selectAllCritical')}
                 />
                 <Toggle
+                  id="selectAllCriticalToggle"
                   disabled={criticalThresholdFieldDisabled}
                   checked={ifAllSelectedChannelsEnabledForCritical}
                   onToggle={updateAllToggleAndFormForCritical(enabledChannels, entitiesBeforePagination, onChange)}

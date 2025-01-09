@@ -7,7 +7,7 @@
 import React, { useEffect, useState } from 'react';
 import { List } from 'immutable';
 
-import { Link, IconButton, TableTabs, TableTab } from '@instana/components';
+import { CarbonTabPanel, Link, IconButton, TableTabs, TableTab } from '@instana/components';
 import { EntityHealthInfo, TimeConfig } from '@instana/types';
 import { combineLatest, just } from '@instana/observables';
 import { t } from '@instana/i18n-react';
@@ -76,7 +76,10 @@ function Toggles({
   setSelectedType: React.Dispatch<React.SetStateAction<string>>;
 }) {
   return (
-    <TableTabs selectedIndex={toggles.filter(toggle => toggle.value === selectedType).map(toggle => toggle.index)[0]}>
+    <TableTabs
+      selectedIndex={toggles.filter(toggle => toggle.value === selectedType).map(toggle => toggle.index)[0]}
+      panels={toggles?.length > 0 && toggles.map(() => <CarbonTabPanel />)}
+    >
       {toggles?.length > 0 &&
         toggles.map(toggle => (
           <TableTab
@@ -401,6 +404,13 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         getContent({ id, item, isDisabled = false, isFavourite = false }) {
           return (
             <IconButton
+              aria-label={
+                isFavourite
+                  ? t('in-plg:welcomepage.favouriteButton.ariaFilled')
+                  : item?.pinned
+                  ? t('in-plg:welcomepage.favouriteButton.ariaFilled')
+                  : t('in-plg:welcomepage.favouriteButton.aria')
+              }
               type={
                 isFavourite
                   ? 'lib_actions_favorite_filled'
@@ -492,6 +502,13 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         getContent({ id, item, isDisabled = false, isFavourite = false }) {
           return (
             <IconButton
+              aria-label={
+                isFavourite
+                  ? t('in-plg:welcomepage.favouriteButton.ariaFilled')
+                  : item?.pinned
+                  ? t('in-plg:welcomepage.favouriteButton.ariaFilled')
+                  : t('in-plg:welcomepage.favouriteButton.aria')
+              }
               type={
                 isFavourite
                   ? 'lib_actions_favorite_filled'
@@ -567,6 +584,13 @@ export default function InfrastructureWidget({ config, timeConfig, widgetLabel, 
         getContent({ id, item, isDisabled = false, isFavourite = false }) {
           return (
             <IconButton
+              aria-label={
+                isFavourite
+                  ? t('in-plg:welcomepage.favouriteButton.ariaFilled')
+                  : item?.pinned
+                  ? t('in-plg:welcomepage.favouriteButton.ariaFilled')
+                  : t('in-plg:welcomepage.favouriteButton.aria')
+              }
               type={
                 isFavourite
                   ? 'lib_actions_favorite_filled'

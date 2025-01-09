@@ -16,3 +16,5 @@ export function getEventSpecificationByIds(eventSpecificationIds: string[]): Obs
 export function disableMigratedCustomEventSpecification(eventSpecificationId: string, applicationAlertConfigId: string);
 export function getEventSpecifications(eventSpecificationIds?: string[]): Observable<EventSpecificationInfo[]>;
 export function getEventSpecificationsMutable(): Observable<EventSpecificationInfo[]>;
+export function setBuiltInEventSpecificationsEnabled(eventSpecificationId, enabled);
+export function setCustomEventSpecificationsEnabled(eventSpecificationId, enabled);

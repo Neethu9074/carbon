@@ -6,10 +6,10 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Card, HorizontalIndicator, LoadingSkeleton, Message, IconButton } from '@instana/components';
+import { Card, HorizontalIndicator, LoadingSkeleton, Message, IconButton, SvgIcon } from '@instana/components';
 import { ButtonGroup } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
-import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import { TOPLIST_METRIC_CHANGED, track } from 'in-services/tracking/tracking';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -32,6 +32,7 @@ export default function TopListCard(props) {
     useMaxAvailableHeight,
     renderHistoricDataIndicator = false,
     hasApproximateData = false,
+    approximateTooltipText = t('in-components:approximateDataIndicator.dataRetention'),
     renderWidgetNotSupportedIndicator = false,
     isScrollbarVisible = false,
     helpInfo,
@@ -83,7 +84,9 @@ export default function TopListCard(props) {
     return (
       <>
         {renderHistoricDataIndicator && hasApproximateData && (
-          <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
+          <Tooltip content={approximateTooltipText}>
+            <SvgIcon type="lib_approximately_equal" color={themes.default.ids.color.option.neutral['300']} />
+          </Tooltip>
         )}
         {renderWidgetNotSupportedIndicator && (
           <Tooltip content={t('in-components:liveModeIndicator.widgetNotSupportedInLiveMode')}>

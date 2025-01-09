@@ -191,6 +191,8 @@ export default function ActionHistoryTable({
   noEvent = false,
   title
 }: ActionHistoryTableProps) {
+  const { actionHistoryInstanceViewTrackerSegment, actionHistoryInstanceDeleteTrackerSegment } = useSegmentTracker();
+
   let columnDefinitions: ColumnDefinition<ActionInstance>[] = [
     {
       label: t('in-automation:actionHistory.name'),
@@ -198,7 +200,7 @@ export default function ActionHistoryTable({
       width: 20,
       getContent(row: ActionInstance) {
         return (
-          <Tooltip content={row.actionName} align="topLeft" delay={500} overwriteBlock>
+          <Tooltip content={row.actionName} align="auto" delay={500} overwriteBlock>
             <WithSubscript subscript={ACTION_TRANSLATIONS[row.type]}>
               <div
                 className={classNames({
@@ -219,7 +221,7 @@ export default function ActionHistoryTable({
       width: 15,
       getContent(row: ActionInstance) {
         return (
-          <Tooltip content={row.actorName} align="topLeft" delay={500} overwriteBlock>
+          <Tooltip content={row.actorName} align="auto" delay={500} overwriteBlock>
             <WithSubscript subscript={getActorType(row.actorType ?? 'ACTOR_UNKNOWN')}>
               <div
                 className={classNames({
@@ -256,7 +258,7 @@ export default function ActionHistoryTable({
       width: 25,
       getContent(row: ActionInstance) {
         return (
-          <Tooltip content={row.problemText} align="topLeft" delay={500}>
+          <Tooltip content={row.problemText} align="auto" delay={500}>
             <div
               className={classNames({
                 [locals.smallColumn]: row?.problemText && row?.problemText.length > 60
@@ -284,9 +286,7 @@ export default function ActionHistoryTable({
     id: 'delete',
     sortable: false,
     width: 5,
-    getContent: function Content(row) {
-      const { actionHistoryInstanceDeleteTrackerSegment } = useSegmentTracker();
-
+    getContent(row) {
       if (!isStatusFinished(row.status)) return null;
       return (
         <Tooltip content={t('in-automation:actionHistory.deleteTooltip')} delay={500}>
@@ -315,7 +315,6 @@ export default function ActionHistoryTable({
 
   const [{ types, actionStatuses }, setFilter] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
-  const { actionHistoryInstanceViewTrackerSegment, actionHistoryInstanceDeleteTrackerSegment } = useSegmentTracker();
 
   const ServerTableWithUrlState = createServerTableWithUrlState({
     Renderer: withEmptyTableState({

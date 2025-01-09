@@ -340,5 +340,18 @@ export default {
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
     explanationLinkHref: `https://ibm.biz/troubleshooting-Solaris_JVM_file_permission_issue`
+  },
+  switch_to_java11: {
+    issueDescription: {
+      Component: function switchtojava11({ version }) {
+        return (
+          <span>
+            <Trans i18nKey="in-forge:plugins.instanaAgent.switchtoJava11IssueDescription" values={{ version }} />
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
+    explanationLinkHref: `https://ibm.biz/switch-to-J11`
   }
 };

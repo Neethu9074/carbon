@@ -7,15 +7,17 @@
 import { GlobalApplicationsSmartAlertConfig } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { ApplicationSmartAlertConfig } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { InfraSmartAlertConfig } from 'in-alerting/smart-alerts/infrastructure/form/infraAlertConfigTypes';
-import { TimeConfig, WebsiteAlertConfig, MobileAppAlertConfig } from 'in-types';
+import { MobileAppSmartAlertConfig } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
+import { WebsiteSmartAlertConfig } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { fixateTimeConfig, trimTimeConfigEnd } from 'in-stores/time/config';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import { days, minutes } from 'in-services/time';
 import { EventOrMap } from 'in-events/types';
+import { TimeConfig } from 'in-types';
 
 type AnySmartAlertConfig =
-  | WebsiteAlertConfig
-  | MobileAppAlertConfig
+  | WebsiteSmartAlertConfig
+  | MobileAppSmartAlertConfig
   | ApplicationSmartAlertConfig
   | GlobalApplicationsSmartAlertConfig
   | InfraSmartAlertConfig;
@@ -36,7 +38,7 @@ export const dataDelayTimeframeExtension = minutes.toMillis(10);
 
 export function getSmartAlertAnalyzeTimeConfig(event: EventOrMap, alertConfig: AnySmartAlertConfig) {
   const analyzeTimeConfig =
-    alertConfig?.rule.alertType === 'throughput'
+    alertConfig?.rule?.alertType === 'throughput'
       ? getWidenedTimeConfigFromEvent(event, alertConfig.granularity)
       : getTimeConfigFromEvent(event);
   const fixedTimeConfig = fixateTimeConfig(analyzeTimeConfig);

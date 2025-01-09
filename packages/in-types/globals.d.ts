@@ -64,6 +64,8 @@ export interface Role {
   canConfigureMobileAppMonitoring: boolean;
   canManuallyCloseIssue: boolean;
   canDeleteAutomationActionHistory: boolean;
+  canViewAccountAndBillingInformation: boolean;
+  canConfigureLogManagement: boolean;
 }
 
 export interface User {

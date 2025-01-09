@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import { render, screen } from '@testing-library/react';
 import { shallow } from 'enzyme';
 import React from 'react';
 
@@ -23,9 +24,8 @@ describe('in-alerting/smart-alerts/components/MetricGroupHeader.tsx', () => {
       setBackendQueryModel: jest.fn()
     };
 
-    const wrapper = shallow(<MetricGroupHeader {...props} />);
-
-    expect(wrapper.text()).toContain(t('in-alerting:components.resultHeaderLoading'));
+    render(<MetricGroupHeader {...props} />);
+    expect(screen.getByText(t('in-alerting:components.resultHeaderLoading'))).toBeInTheDocument();
   });
 
   it('renders correctly when there are results', () => {
@@ -35,15 +35,13 @@ describe('in-alerting/smart-alerts/components/MetricGroupHeader.tsx', () => {
       setBackendQueryModel: jest.fn()
     };
 
-    const wrapper = shallow(<MetricGroupHeader {...props} />);
-
+    render(<MetricGroupHeader {...props} />);
     const topText = t('in-alerting:components.groupedViewHeader', {
       count: 100,
       formattedCount: number.compact(100)
     });
-
-    expect(wrapper.text()).toContain(topText);
-
+    expect(screen.getByText(topText)).toBeInTheDocument();
+    const wrapper = shallow(<MetricGroupHeader {...props} />);
     wrapper.find(SearchInput).simulate('change', { target: { value: 'awesomeNewEndpoint' } });
   });
 });

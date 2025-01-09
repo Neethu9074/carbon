@@ -57,6 +57,20 @@ export const fixedTimePickerPresets = [
   }
 ];
 
+export function formatRequestedTime(to: number | null | undefined, windowSize: number) {
+  if (to === null) {
+    to = Date.now();
+  }
+
+  const days = Math.floor(windowSize / twentyFourHours);
+  const hours = Math.floor((windowSize % twentyFourHours) / hour);
+  const minutes = Math.floor((windowSize % hour) / minute);
+
+  const formattedTime = `${days}d ${hours}h ${minutes}m`;
+
+  return formattedTime;
+}
+
 export function getTimePresets() {
   return [
     ...fixedTimePickerPresets,

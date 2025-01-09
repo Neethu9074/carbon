@@ -13,6 +13,7 @@ import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/mobile
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/mobileApp/form/formUtils';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { MobileAppSmartAlertConfig } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import { createOrSaveAlert } from 'in-alerting/smart-alerts/eum/components/AlertCreateOrSave';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -23,7 +24,7 @@ import { MobileAppAlertConfig, VersionedConfig } from 'in-types';
 interface AlertConfigDialogType {
   onClose: () => void;
   startWithSimpleMode: boolean;
-  alertConfig: MobileAppAlertConfig & VersionedConfig & { duplicateFrom?: string };
+  alertConfig: MobileAppSmartAlertConfig & VersionedConfig & { duplicateFrom?: string };
   editMode: boolean;
 }
 

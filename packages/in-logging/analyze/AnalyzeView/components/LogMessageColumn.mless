@@ -17,8 +17,10 @@
   }
 
   .messageExpanded {
-    white-space: pre-wrap;
-    .breakWord();
+    span {
+      word-break: keep-all;
+      white-space: pre-wrap;
+    }
   }
 
   .collapsedMessage {

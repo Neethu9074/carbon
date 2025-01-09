@@ -306,11 +306,6 @@
     "tooltipShowLess": "顯示更少",
     "tooltipShowMore": "顯示更多"
   },
-  "expandableGroup": {
-    "tooltipShowContent": "顯示內容",
-    "tooltipHideContent": "隱藏內容",
-    "labelExpandButtonForContent": "內容的展開按鈕"
-  },
   "featureFeedback": {
     "linkLabelYouCanSendUsFeedback": "您可以傳送意見給我們"
   },
@@ -460,6 +455,7 @@
     "viewSwitcherLabelEvents": "事件",
     "viewSwitcherlabelInfrastructure": "基礎架構",
     "viewSwitcherLabelApplications": "應用程式",
+    "viewVulnerabilityCenter": "漏洞",
     "viewSwitcherLabelSlo": "服務水準",
     "viewSwitcherLabelLogs": "日誌",
     "viewSwitcherLabelAnalytics": "分析",
@@ -586,6 +582,12 @@
   "stackTrace": {
     "fillerTextIn": " 位於 ",
     "fillerTextAt": " 於 "
+  },
+  "sessionTimeout": {
+    "title": "階段作業逾時",
+    "message": "由於閒置，您將在以下位置登出：",
+    "loggedInButton": "保持已登入狀態",
+    "logOutButton": "登出"
   },
   "time": {
     "lastMinute": "前一分鐘",
@@ -715,6 +717,7 @@
     "setEnabledMessagePressESCToDisableTVMode": "按 ESC 鍵以停用 TV 模式。"
   },
   "analyze": {
+    "facettedFilters": "切面過濾器",
     "loadMoreWithCount": "再載入 {{count}} 個",
     "loadMore": "載入更多",
     "activeFacets": "已選取 {{count}} 個",
@@ -725,6 +728,7 @@
     "fromUnit": "從 ({{unit}})",
     "to": "到",
     "toUnit": "到 ({{unit}})",
+    "fromto": "定義 FROM-TO 範圍",
     "rangeSelected": "已選取範圍",
     "rangeOrder": "範圍必須是升冪。",
     "earliestTimestamp": "最早時間戳記",

@@ -5,6 +5,7 @@
  */
 
 import React, { useMemo } from 'react';
+import classNames from 'classnames';
 
 import GroupingConfigurator, {
   isGroupingConfigurationValid
@@ -16,7 +17,7 @@ import { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder'
 
 import locals from 'in-alerting/smart-alerts/infrastructure/components/InfraGroupLabel.mless';
 
-export default function ScopeGroup({ form, updateForm, tagCatalog }) {
+export default function ScopeGroup({ form, updateForm, tagCatalog, SectionWrapper, isTearSheet }) {
   const tagFilterExpression = form?.get('tagFilterExpression')?.value;
   const groupBy = form?.get('groupBy')?.value;
   const validTagFilterExpressionResult = isQueryValid(tagFilterExpression, tagCatalog);
@@ -34,7 +35,7 @@ export default function ScopeGroup({ form, updateForm, tagCatalog }) {
   const groupByTagCatalog = useGroupByCatalog(tagCatalog);
 
   return (
-    <div className={locals.container}>
+    <div className={classNames({ [locals.container]: !isTearSheet })}>
       {groupByTagCatalog && (
         <GroupingConfiguratorSection
           value={groupBy}
@@ -42,6 +43,7 @@ export default function ScopeGroup({ form, updateForm, tagCatalog }) {
           tagCatalog={groupByTagCatalog}
           tagFilterExpression={backendQueryModel || EMPTY_EXPRESSION}
           onChange={groups => handleGroupChange(groups, form, updateForm)}
+          SectionWrapper={SectionWrapper}
         />
       )}
     </div>

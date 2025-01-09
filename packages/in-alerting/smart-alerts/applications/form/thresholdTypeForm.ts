@@ -19,11 +19,11 @@ import {
   PER_AP_SERVICE
 } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { defaultAdaptiveBaselineTimeWindow } from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
+import createThresholdForm, { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { updateFormIfHistoricBaseline } from 'in-alerting/smart-alerts/components/dialog/advanced/thresholdUtil';
 import { defaultAdaptiveBaselineGranularity } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/dialog/trackingHelpers';
-import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { perEndpointAdaptiveBaselineEnabled } from 'in-services/featureFlags';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
@@ -32,7 +32,8 @@ export function onThresholdTypeChange(
   typeWithOptionalSeasonality: string,
   form: MapForm<any>,
   updateForm: (form: MapForm<any>) => void,
-  trackThresholdTypeChanged?: (trackingObject: object) => void
+  trackThresholdTypeChanged?: (trackingObject: object) => void,
+  editMode?: boolean
 ): void {
   const typeSeasonalityParts = typeWithOptionalSeasonality.split('.');
   const updatedThresholdType: ThresholdType = typeSeasonalityParts[0] as ThresholdType;
@@ -46,47 +47,13 @@ export function onThresholdTypeChange(
       rule,
       thresholdOperator: form.get('threshold').get('operator').value,
       thresholds: {
-        WARNING: createThresholdByType(updatedThresholdType, warningThresholdField),
-        CRITICAL: createThresholdByType(updatedThresholdType, criticalThresholdField)
+        WARNING: getMultithresholdThresholdRule(updatedThresholdType, warningThresholdField),
+        CRITICAL: getMultithresholdThresholdRule(updatedThresholdType, criticalThresholdField)
       }
     },
     alertType,
-    true
+    editMode
   );
-
-  function createThresholdByType(type: string, thresholdField: MapForm<any>): SmartAlertThresholdRuleUnion {
-    switch (type) {
-      case STATIC_THRESHOLD:
-        return {
-          type: 'staticThreshold',
-          value:
-            thresholdField.get('value')?.value ?? thresholdField.get('isCheckboxSelected')?.value === true ? 0 : null,
-          isCheckboxSelected: thresholdField.get('isCheckboxSelected')?.value
-        } as unknown as StaticThresholdRule;
-      case HISTORIC_BASELINE:
-        return {
-          type: 'historicBaseline',
-          deviationFactor:
-            thresholdField.get('deviationFactor')?.value ?? thresholdField.get('isCheckboxSelected')?.value === true
-              ? 3
-              : 0,
-          baseline: thresholdField.get('baseline')?.value ?? [],
-          seasonality: thresholdField.get('seasonality')?.value ?? DAILY,
-          isCheckboxSelected: thresholdField.get('isCheckboxSelected')?.value
-        } as unknown as StaticBaselineThresholdRule;
-      case ADAPTIVE_BASELINE:
-        return {
-          type: 'adaptiveBaseline',
-          deviationFactor:
-            thresholdField.get('deviationFactor')?.value ?? thresholdField.get('isCheckboxSelected')?.value === true
-              ? 3
-              : 0,
-          isCheckboxSelected: thresholdField.get('isCheckboxSelected')?.value
-        } as unknown as AdaptiveThresholdRule;
-      default:
-        throw new Error('Unknown threshold type');
-    }
-  }
 
   if (updatedThresholdType === HISTORIC_BASELINE) {
     const seasonality = typeSeasonalityParts[1];
@@ -107,6 +74,34 @@ export function onThresholdTypeChange(
   updateForm(updatedForm);
 
   trackThresholdTypeChanged?.(getTrackingObject(form, { value: updatedThresholdType }));
+}
+
+function getMultithresholdThresholdRule(type: string, thresholdField: MapForm<any>): SmartAlertThresholdRuleUnion {
+  const isCheckboxSelected = thresholdField.get('isCheckboxSelected')?.value ?? false;
+  switch (type) {
+    case STATIC_THRESHOLD:
+      return {
+        type: STATIC_THRESHOLD,
+        value: thresholdField.get('value')?.value ?? (isCheckboxSelected ? 0 : null),
+        isCheckboxSelected
+      } as StaticThresholdRule;
+    case HISTORIC_BASELINE:
+      return {
+        type: HISTORIC_BASELINE,
+        deviationFactor: thresholdField.get('deviationFactor')?.value ?? defaultDeviationFactor,
+        baseline: thresholdField.get('baseline')?.value ?? [],
+        seasonality: thresholdField.get('seasonality')?.value ?? DAILY,
+        isCheckboxSelected
+      } as StaticBaselineThresholdRule;
+    case ADAPTIVE_BASELINE:
+      return {
+        type: ADAPTIVE_BASELINE,
+        deviationFactor: thresholdField.get('deviationFactor')?.value ?? defaultDeviationFactor,
+        isCheckboxSelected
+      } as AdaptiveThresholdRule;
+    default:
+      throw new Error('Unknown threshold type');
+  }
 }
 
 function updateFormIfAdaptiveBaseline(

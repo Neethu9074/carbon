@@ -9,8 +9,8 @@ import { renderHook } from '@testing-library/react-hooks';
 import { TraceActivityTreeNode } from '@instana/types';
 import { just } from '@instana/observables';
 
+import { useLoadCallTree } from 'in-applications/analyze/components/TraceDetails/components/CallTree/hooks/useLoadCallTree';
 import getTraceActivityTree from 'in-applications/subscriptions/getTraceActivityTree';
-import { useLoadCallTree } from './useLoadCallTree';
 import { success } from 'in-services/util/result';
 
 jest.mock('in-applications/subscriptions/getTraceActivityTree', () => ({

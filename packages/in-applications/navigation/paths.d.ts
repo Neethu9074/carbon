@@ -9,6 +9,7 @@ import { Group, Order, TagCatalog, TimeConfig, ApplicationBoundaryScope, Boundar
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 
 export declare const applicationsList: string;
+export declare const analyzePath: string;
 export declare const alertsList: string;
 export declare const alertsTab: string;
 export declare const alertsTabDetailsFullyQualified: string;
@@ -133,6 +134,10 @@ interface EndpointDashboardProps extends UseDashboardProps {
   serviceId?: string;
 }
 
+interface SubtraceDashboardProps extends UseDashboardProps {
+  subtraceId: string;
+}
+
 export function isApplicationsView(path: string): boolean;
 
 export function useLinkToApplicationDashboard(): (applicationDashboardProps: ApplicationDashboardProps) => string;
@@ -140,3 +145,6 @@ export function useLinkToApplicationDashboard(): (applicationDashboardProps: App
 export function useLinkToServiceDashboard(): (serviceDashboardProps: ServiceDashboardProps) => string;
 
 export function useLinkToEndpointDashboard(): (endpointDashboardProps: EndpointDashboardProps) => string;
+export function useLinkToSubtraceDashboard(): (subtraceDashboardProps: SubtraceDashboardProps) => string;
+
+export function useLinkToUngroupedView(): string;

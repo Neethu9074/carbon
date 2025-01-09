@@ -9,7 +9,6 @@ import React from 'react';
 import { Button } from '@instana/components';
 
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 import './DownloadView.less';
@@ -102,13 +101,7 @@ function DownloadButtonJson({ onClick }) {
 
 function DownloadButton({ label, onClick }) {
   return (
-    <Button
-      key={label}
-      className={`${block}__button`}
-      kind="info"
-      onClick={onClick}
-      size={carbonButtonEnabled ? 'compact' : 'normal'}
-    >
+    <Button key={label} className={`${block}__button`} kind="info" onClick={onClick} size="compact">
       {label}
     </Button>
   );
@@ -123,7 +116,7 @@ function DownloadLink({ label, href, download }) {
       target="_blank"
       href={href}
       download={download}
-      size={carbonButtonEnabled ? 'compact' : 'normal'}
+      size="compact"
     >
       {label}
     </Button>

@@ -10,11 +10,14 @@ import { KeyValue, Li, SvgIcon, Ul } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import AlternativeServicesChartPresenter from 'in-applications/Dashboards/service/tabs/troubleshooting/AlternativeServicesChart/AlternativeServicesChartPresenter';
+import {
+  availableCorrelationTags,
+  CorrelationTag
+} from 'in-applications/Dashboards/service/tabs/troubleshooting/AlternativeServicesChart/correlationTags';
+import AlternativeServicesTopList from 'in-applications/Dashboards/service/tabs/troubleshooting/AlternativeServicesChart/AlternativeServicesTopList';
 import { AggregationType, PaginatedResult, Result, ServiceItem, TagFilterEntity, TimeConfig } from 'in-types';
 import getServicesCorrelatedByTag from 'in-applications/subscriptions/getServicesCorrelatedByTag';
-import { availableCorrelationTags, CorrelationTag } from './correlationTags';
 import { OverlayContentProps } from 'in-components/overlays/Overlay/types';
-import AlternativeServicesTopList from './AlternativeServicesTopList';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { Renderer } from 'in-components/Chart/renderer/types';
@@ -23,7 +26,7 @@ import { FormatterFn } from 'in-stores/metric/formatters';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { pendingResult } from 'in-services/fixedObjects';
 
-import locals from './AlternativeServicesChartPresenter.mless';
+import locals from 'in-applications/Dashboards/service/tabs/troubleshooting/AlternativeServicesChart/AlternativeServicesChartPresenter.mless';
 
 export interface MetricDefinition {
   label: string;

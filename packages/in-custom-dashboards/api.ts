@@ -8,6 +8,7 @@ import { generateStableHash } from '@instana/utils';
 
 import { CustomDashboard, CustomDashboardPreview, Result, TagCatalog, TimeConfig, UserResult } from 'in-types';
 import memoize, { ObservableCreator } from 'in-services/util/memoizingObservableGenerator';
+import { DEFAULT_NUMBER_ROWS } from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { refreshSignalUsers } from 'in-api/usersRefreshSignal';
 import http from 'in-services/http';
@@ -29,6 +30,27 @@ function getCustomDashboardsInternal() {
     })
   );
 }
+
+export const getCustomDashboardsPaginated = ({
+  page = 1,
+  pageSize = DEFAULT_NUMBER_ROWS,
+  query
+}: {
+  page: number;
+  pageSize?: number;
+  query?: string;
+}) => {
+  let url = `/api/custom-dashboard?withTotalHits=${true}&pageSize=${pageSize}&page=${page}`;
+  if (query) url = `${url}&query=${query}`;
+  return refreshSignal.flatMap(() =>
+    http<CustomDashboardPreview[]>({
+      method: 'GET',
+      maxRetries: 3,
+      url: url,
+      mapToResultObject: true
+    })
+  );
+};
 
 export const searchCustomDashboards: ObservableCreator<string, Result<CustomDashboardPreview[]>> = memoize<
   string,

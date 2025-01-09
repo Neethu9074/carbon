@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { Card, IconButton } from '@instana/components';
 
 import LatencyDistributionBase10Chart from 'in-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
+import { filterByEndpointType } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
 import getLatencyDistributionBase10 from 'in-applications/subscriptions/getLatencyDistributionBase10';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
@@ -16,14 +17,13 @@ import { useApplicationTracker } from 'in-applications/hooks/useApplicationTrack
 import { createChartedMetric, createOrderBy } from 'in-analyze/navigation/paths';
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { filterByEndpointType } from './includeEndpointTypes';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { fixateTimeConfig } from 'in-stores/time/config';
 import { emptyObject } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
-import locals from './LatencyDistributionHistogram.mless';
+import locals from 'in-applications/Dashboards/commonComponents/LatencyDistributionHistogram.mless';
 
 export default function LatencyDistributionHistogram({
   timeConfig,

@@ -159,7 +159,8 @@ export function createMaintenanceConfigV2(
   query: string = '',
   scheduling: MaintenanceConfigSchedulingUnion = createDefaultSchedule(),
   tagFilterExpressionEnabled?: boolean,
-  tagFilterExpression?: TagFilterExpressionElementUnion
+  tagFilterExpression?: TagFilterExpressionElementUnion,
+  retriggerOpenAlertsEnabled?: boolean
 ): MaintenanceConfigV2 {
   return {
     id: id || generateUniqueShortId(),
@@ -168,7 +169,8 @@ export function createMaintenanceConfigV2(
     paused: paused || false,
     scheduling,
     tagFilterExpressionEnabled: tagFilterExpressionEnabled || false,
-    tagFilterExpression
+    tagFilterExpression,
+    retriggerOpenAlertsEnabled: retriggerOpenAlertsEnabled || false
   };
 }
 

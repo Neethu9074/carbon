@@ -5,7 +5,8 @@
 
 import {
   pageTransitionMethods,
-  frameworkTypes
+  frameworkTypes,
+  MIN_SUPPORTED_REGEX_VERSION
 } from 'in-websites/trackingSnippet/AutoPageTransitionDetection/constants';
 import { useInstanaSaasEumTrackingUrlEnabled } from 'in-services/featureFlags';
 import { weaselSubresourceIntegrityEnabled } from 'in-services/featureFlags';
@@ -18,7 +19,7 @@ interface SnippetProps {
   additionalScript: string | null;
   trackSessions: boolean;
   enableSRI: boolean;
-  urlWeaselVersion: string;
+  weaselVersionNumber: string;
   shaValue: string;
   enableAutoPageDetection: boolean;
   pageTransitionMethod: string;
@@ -40,7 +41,7 @@ export function getTrackingSnippet({
   additionalScript = null,
   trackSessions = false,
   enableSRI = false,
-  urlWeaselVersion,
+  weaselVersionNumber,
   shaValue,
   enableAutoPageDetection = false,
   pageTransitionMethod = '',
@@ -78,7 +79,11 @@ export function getTrackingSnippet({
     lines.push(`  ineum('trackSessions');`);
   }
 
-  if (frameworkType === frameworkTypes.SPA && enableAutoPageDetection) {
+  if (
+    weaselVersionNumber > MIN_SUPPORTED_REGEX_VERSION &&
+    frameworkType === frameworkTypes.SPA &&
+    enableAutoPageDetection
+  ) {
     if (pageTransitionMethod === pageTransitionMethods.PAGE_TITLE) {
       lines.push(TITLE_AS_PAGE_NAME);
     } else if (pageTransitionMethod === pageTransitionMethods.PAGE_URL) {
@@ -101,7 +106,7 @@ export function getTrackingSnippet({
 
   let scriptSrc = config?.websiteScriptSource || 'https://eum.instana.io/eum.min.js';
   if (weaselSubresourceIntegrityEnabled && enableSRI) {
-    scriptSrc = scriptSrc.replace('eum.min.js', `${urlWeaselVersion}/eum.min.js`);
+    scriptSrc = scriptSrc.replace('eum.min.js', `${weaselVersionNumber}/eum.min.js`);
   }
 
   if (!useInstanaSaasEumTrackingUrlEnabled) {

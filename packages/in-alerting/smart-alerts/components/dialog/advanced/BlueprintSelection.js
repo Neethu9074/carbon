@@ -6,10 +6,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { Menu } from '@instana/components';
-
 import { BlueprintDescription, BlueprintText } from 'in-alerting/smart-alerts/components/dialog/BlueprintDescription';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
+import { idFromBluePrint } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import SideRadioMenu from 'in-components/SideRadioMenu';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/BlueprintSelection.mless';
@@ -65,14 +65,16 @@ function BlueprintSelectionMenu({
 
   return (
     <div className={locals.container}>
-      <Menu
-        items={blueprintConfigs}
-        onItemClick={item => {
+      <SideRadioMenu
+        items={blueprintConfigs.map(x => ({ id: idFromBluePrint(x), name: x.name }))}
+        onChange={id => {
+          const item = blueprintConfigs.find(i => id === idFromBluePrint(i));
           setSelectButtonDisabled(false);
           setConfig(item);
           if (trackBlueprintChange) trackBlueprintChange(item.type);
         }}
-        initialItemSelected={selectedBlueprintConfig}
+        valueSelected={idFromBluePrint(config)}
+        advancedMode
       />
       <div className={locals.spanTwoColumns}>
         <BlueprintDescription

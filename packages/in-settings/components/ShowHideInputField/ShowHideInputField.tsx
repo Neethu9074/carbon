@@ -6,18 +6,13 @@
 
 import React from 'react';
 
-import { Stack, PasswordInput } from '@instana/components';
+import { Stack, CarbonPasswordInput as PasswordInput } from '@instana/components';
 
-import { InputProps } from 'in-components/form/Input/Input';
 import { t } from 'in-i18n';
 
-export interface ShowHideInputFieldProps extends InputProps {
-  tooltipShowLabel?: string;
-  tooltipHideLabel?: string;
-  labelText: string;
-}
-
-function ShowHideInputField(props: ShowHideInputFieldProps) {
+// Carbon does not export PasswordInput props
+//@ts-expect-error
+function ShowHideInputField(props) {
   const {
     tooltipHideLabel = t('in-settings:tabs.hidePasswordTooltip'),
     tooltipShowLabel = t('in-settings:tabs.showPasswordTooltip'),

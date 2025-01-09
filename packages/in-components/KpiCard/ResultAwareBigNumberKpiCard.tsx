@@ -69,6 +69,7 @@ export interface ResultAwareBigNumberKpiCardProps<METRIC_CONFIG extends UnifiedM
   thresholdFn?: ThresholdFn;
   raw?: boolean;
   extraInfo?: string;
+  approximateTooltipText?: string;
   conversionFn?: ConversionFn;
 }
 
@@ -98,7 +99,8 @@ export default function ResultAwareBigNumberKpiCard<METRIC_CONFIG extends Unifie
   thresholdFn,
   conversionFn,
   raw,
-  extraInfo
+  extraInfo,
+  approximateTooltipText
 }: ResultAwareBigNumberKpiCardProps<METRIC_CONFIG>) {
   const timeConfig = useTimeConfig();
 
@@ -132,6 +134,7 @@ export default function ResultAwareBigNumberKpiCard<METRIC_CONFIG extends Unifie
           thresholdFn,
           isInModal,
           extraInfo,
+          approximateTooltipText,
           conversionFn
         )
       }
@@ -155,6 +158,7 @@ export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfigurationUn
   thresholdFn?: ThresholdFn,
   isInModal?: boolean,
   extraInfo?: string,
+  approximateTooltipText?: string,
   conversionFn?: ConversionFn
 ) {
   let value = null;
@@ -168,7 +172,7 @@ export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfigurationUn
 
   // We are using the [0] selector as in this aspect we assume multiple results have the same value
   // Example Mean Latency receive a "Companion", which we assume have the same resultPrecision as it's parent.
-  const resultPrecisions = result?.data?.map(elem => elem.resultPrecisionDetails?.resultPrecision)[0];
+  const resultPrecision = result?.data?.map(elem => elem.resultPrecisionDetails?.resultPrecision)[0];
 
   let companionValue = undefined;
   if (hasActiveTimeShift(config.metricConfiguration.timeShift)) {
@@ -198,7 +202,8 @@ export function renderKpiCard<METRIC_CONFIG extends UnifiedMetricConfigurationUn
       }
       companionValue={companionValue}
       iconAction={iconAction}
-      resultPrecision={resultPrecisions}
+      resultPrecision={resultPrecision}
+      approximateTooltipText={approximateTooltipText}
       raw={raw}
       tooltipContent={lastValueTooltipContent}
       bigNumbers

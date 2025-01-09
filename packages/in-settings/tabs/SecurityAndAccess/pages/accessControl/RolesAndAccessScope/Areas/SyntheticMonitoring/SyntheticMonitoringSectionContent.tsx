@@ -8,12 +8,12 @@ import React, { useContext } from 'react';
 
 import { Ul } from '@instana/components';
 
-import { SyntheticTestList } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/SyntheticMonitoring/SyntheticTestList';
-import { CapabilitySubsection } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/components/CapabilitySubsection';
 import {
   ProductArea,
-  syntheticOtherCapabilities
+  syntheticAdditionalOwnerCapabilities
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
+import { SyntheticTestList } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/SyntheticMonitoring/SyntheticTestList';
+import { CapabilitySubsection } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/components/CapabilitySubsection';
 import { getSyntheticAreaData } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/utils/getSyntheticAreaData';
 import { useSyntheticTests } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/Areas/SyntheticMonitoring/hooks';
 import { RolesAndAccessScopeContext } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/context';
@@ -40,7 +40,7 @@ export const SyntheticMonitoringSectionContent = () => {
     <Ul>
       {syntheticTestList()}
       <CapabilitySubsection
-        capabilities={syntheticOtherCapabilities}
+        capabilities={syntheticAdditionalOwnerCapabilities}
         headerText={t('in-settings:productAreas.additionalPermissions')}
       />
     </Ul>

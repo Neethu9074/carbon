@@ -48,6 +48,9 @@ export default function EventsChart({ timeConfig, query, eventType }) {
   if (eventType === 'cve_issue') {
     getCveIssueConfigss(labels, metricIds, colors, metricsConfiguration, granularity, query);
   }
+  if (eventType === 'prc_issue') {
+    getPrcIssueConfigs(labels, metricIds, colors, metricsConfiguration, granularity, query);
+  }
 
   return (
     <div ref={ref}>
@@ -147,6 +150,16 @@ function getCveIssueConfigss(labels, metrics, colors, metricsConfiguration, gran
   };
   metricsConfiguration.cve_issue_Low = {
     query: getQueryWithEventTypeFilter('event.type:cve_issue event.cve.severity:Low', query),
+    granularity
+  };
+}
+
+function getPrcIssueConfigs(labels, metrics, colors, metricsConfiguration, granularity, query) {
+  labels.push(t('in-events:labelPrcIssue'));
+  metrics.push('prc_issues');
+  colors.push(carbonAlert.orange40);
+  metricsConfiguration.prc_issues = {
+    query: getQueryWithEventTypeFilter('event.type:prc_issue', query),
     granularity
   };
 }

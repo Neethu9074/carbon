@@ -33,8 +33,6 @@ import IBMiArchive from 'in-plg/pages/onboarding/AgentList/IBMi/IBMiArchive';
 import AwsEc2Linux from 'in-plg/pages/onboarding/AgentList/Aws/AwsEc2Linux';
 import CfAndBosh from 'in-plg/pages/onboarding/AgentList/Bosh/CfAndBosh';
 import Docker from 'in-plg/pages/onboarding/AgentList/Docker/Docker';
-import AwsEks from 'in-plg/pages/onboarding/AgentList/Aws/AwsEks';
-import Azure from 'in-plg/pages/onboarding/AgentList/Azure/Azure';
 import MacOs from 'in-plg/pages/onboarding/AgentList/Mac/MacOs';
 import Unix from 'in-plg/pages/onboarding/AgentList/Unix/Unix';
 import MacOsAirgapped from '../AgentList/Mac/MacOsAirgapped';
@@ -91,20 +89,20 @@ export function getEntriesForFreeTrial() {
       subTechnology: {
         label: t('in-waiting-for-deployment:content.azureKubernetesServiceAks'),
         keyWords: 'azurekubernetesserviceaksk8s',
-        Content: Kubernetes
+        Content: KubernetesOperator
       }
     },
     {
       id: 'k8_eks',
-      title: 'Kubernetes - AWS Elastic Kubernetes Service (EKS)',
-      pageName: 'Kubernetes > AWS Elastic Kubernetes Service (EKS)', // tracking data
+      title: 'Amazon Web Services - Elastic Kubernetes Service (EKS)',
+      pageName: 'Kubernetes > Elastic Kubernetes Service (EKS)', // tracking data
       label: t('in-waiting-for-deployment:content.kubernetes'),
       icon: 'lib_kubernetes',
       category: t('in-waiting-for-deployment:content.platform'),
       subTechnology: {
         label: t('in-waiting-for-deployment:content.awsElasticKubernetesServiceEks'),
         keyWords: 'awselastickubernetesserviceeksk8s',
-        Content: Kubernetes
+        Content: KubernetesOperator
       }
     },
     {
@@ -297,7 +295,7 @@ export function getEntriesForFreeTrial() {
       subTechnology: {
         label: t('in-waiting-for-deployment:content.elasticContainerServiceForKubernetesEks'),
         keyWords: 'elasticcontainerkubernetesk8s',
-        Content: AwsEks
+        Content: KubernetesOperator
       }
     },
     {
@@ -339,7 +337,7 @@ export function getEntriesForFreeTrial() {
       subTechnology: {
         label: t('in-waiting-for-deployment:content.azureKubernetesServiceAks'),
         keyWords: 'azurekubernetesk8s',
-        Content: Azure
+        Content: KubernetesOperator
       }
     },
     {

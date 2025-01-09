@@ -16,8 +16,6 @@ import AgentzoneLister from 'in-plg/components/AgentzoneLister/AgentzoneLister';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
-import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
-import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import Code from 'in-plg/components/Code/Code';
 import { Trans, t } from 'in-i18n';
 
@@ -44,7 +42,7 @@ const KubernetesOperator = ({
         <>
           <DocumentLink
             text={t('in-plg:agentDetails.common.choosingTheProperInstallationMethod')}
-            href="https://ibm.biz/insta-agent-k8schoose"
+            href="https://ibm.biz/insta-agent-K8schoose"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.common.networkRequirements')}
@@ -60,28 +58,21 @@ const KubernetesOperator = ({
         <>
           <DocumentLink
             text={t('in-plg:agentDetails.kubernetes.operator.installUsingTheOperator')}
-            href="https://ibm.biz/insta-agent-k8soperator"
+            href="https://ibm.biz/K8s-operator-install"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.kubernetes.operator.installAnAgentOnKubernetes')}
-            href="https://ibm.biz/install-host-agent-kubernetes"
+            href="https://ibm.biz/K8s-agent-install"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.common.configuringTheAgentAfterInstall')}
-            href="https://ibm.biz/insta-agent-config"
+            href="https://ibm.biz/K8s-agent-administer"
           />
         </>
       ),
       openByDefault: true
-    },
-    {
-      title: t('in-plg:agentDetails.common.sideCard.askAColleagueForHelp'),
-      body: <AskForHelp agentKey={agentKey} />,
-      openByDefault: false
     }
   ];
-
-  if (shareAndInviteEnabled) sideCardData.pop();
 
   const CODE_1 = [
     'kubectl apply -f https://github.com/instana/instana-agent-operator/releases/latest/download/instana-agent-operator.yaml'
@@ -108,7 +99,7 @@ const KubernetesOperator = ({
       '   env: {}',
       '   configuration_yaml: |',
       '    # You can leave this empty, or use this to configure your instana agent.',
-      '    # See https://ibm.biz/install-agent-k8-operator-config'
+      '    # See https://ibm.biz/K8s-agent-administer'
     );
     return content;
   };

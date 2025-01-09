@@ -1,6 +1,7 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2024
  */
 
 import { get } from 'lodash';
@@ -17,7 +18,8 @@ import {
   dependencyMapTab,
   smartAlertsTab,
   summaryTab,
-  syntheticsTab
+  syntheticsTab,
+  alertsTabListFullyQualified
 } from 'in-applications/navigation/paths';
 // @ts-expect-error needs TS migration
 import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/CreateGlobalSmartAlertButton';
@@ -27,6 +29,7 @@ import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import InvalidUrlAlert from 'in-applications/Dashboards/commonComponents/InvalidUrlAlert';
+import { useVulnerabilityTracker } from 'in-events/useVulnerabilityTracker';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/CreateSmartAlert';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
 import { categoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
@@ -38,6 +41,7 @@ import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { applicationsList } from 'in-applications/navigation/paths';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import { alertsCategory } from 'in-applications/navigation/matrix';
@@ -63,6 +67,7 @@ const boundaryScopeDropdownDisabledTabs = [dependencyMapTab, smartAlertsTab, syn
 
 export default function ApplicationDashboard({ location }: { location: Location }) {
   const { trackSyntheticMonitoringTabInApplicationsClicked } = useApplicationTracker();
+  const { trackVulnerabilitiesTabInApplications } = useVulnerabilityTracker();
   const [{ appId, boundaryScope }, setUrlState] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
 
@@ -132,11 +137,13 @@ export default function ApplicationDashboard({ location }: { location: Location 
         withProps={({ result }) => ({
           applicationName: get(result, ['data', 'label'])
         })}
-        tabChangeTracker={({ tab }) =>
-          tab === t('in-applications:labelSyntheticMonitoring')
-            ? trackSyntheticMonitoringTabInApplicationsClicked
-            : null
-        }
+        tabChangeTracker={({ tab }) => {
+          if (tab === t('in-applications:labelSyntheticMonitoring')) {
+            trackSyntheticMonitoringTabInApplicationsClicked();
+          } else if (tab === t('in-events:labelCveIssue')) {
+            trackVulnerabilitiesTabInApplications();
+          }
+        }}
       />
     </>
   );
@@ -183,7 +190,12 @@ function renderButtonLine(props: ButtonLineProps) {
     ? role?.canConfigureGlobalApplicationSmartAlerts
     : role?.canConfigureApplicationSmartAlerts;
 
-  const showAlertButton = allowActionButtons && !location.pathname.includes('/application/configuration');
+  const hideButtonInAlertsTab = smartAlertCarbonTableEnabled
+    ? location?.pathname === alertsTabListFullyQualified || location?.pathname === alertsList
+    : false;
+
+  const showAlertButton =
+    allowActionButtons && !hideButtonInAlertsTab && !location.pathname.includes('/application/configuration');
 
   return (
     <>

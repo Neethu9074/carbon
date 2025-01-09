@@ -6,26 +6,34 @@
 
 import React, { useState } from 'react';
 
-import { Button, IconButton, TextInput, Spacer } from '@instana/components';
+import { Button, IconButton, CarbonTextInput as TextInput, Spacer, Message } from '@instana/components';
 
 import type {
   MappingRule,
   MappingRuleRowProps,
   RegexMappingRulesProps
 } from 'in-websites/trackingSnippet/AutoPageTransitionDetection/types';
-import { isValidRegex, defaultMappingRule } from 'in-websites/trackingSnippet/AutoPageTransitionDetection/constants';
+import {
+  isValidRegexWithDelimiter,
+  defaultMappingRule
+} from 'in-websites/trackingSnippet/AutoPageTransitionDetection/constants';
 import { t } from 'in-i18n';
 
 import locals from 'in-websites/trackingSnippet/AutoPageTransitionDetection/AutoPageTransitionDetection.mless';
 
-const RegexMappingRules = ({ setRegexMappingRules }: RegexMappingRulesProps) => {
-  const [mappingRules, setMappingRules] = useState<MappingRule[]>([defaultMappingRule]);
+const RegexMappingRules = ({
+  setRegexMappingRules,
+  mappingRules,
+  setMappingRules,
+  setWithoutCopyButton
+}: RegexMappingRulesProps) => {
   const [errors, setErrors] = useState<Record<number, { ruleError: string | null; replaceTextError: string | null }>>(
     {}
   );
 
   const updateRule = (id: number, field: keyof MappingRule, value: string) => {
     setMappingRules(prevRules => prevRules.map(rule => (rule.id === id ? { ...rule, [field]: value } : rule)));
+    setWithoutCopyButton(true);
   };
 
   const addRule = () => {
@@ -53,13 +61,12 @@ const RegexMappingRules = ({ setRegexMappingRules }: RegexMappingRulesProps) => 
 
   const saveAll = () => {
     const newErrors: Record<number, { ruleError: string | null; replaceTextError: string | null }> = {};
-    let isValid = true;
 
     mappingRules.forEach(rule => {
       const ruleError =
         rule.rule.trim() === ''
           ? t('in-websites:trackingSnippet.autoPageTransition.emptyFieldValidationMessage')
-          : !isValidRegex(rule.rule)
+          : !isValidRegexWithDelimiter(rule.rule)
           ? t('in-websites:trackingSnippet.autoPageTransition.regexValidationMessage')
           : null;
       const replaceTextError =
@@ -68,21 +75,25 @@ const RegexMappingRules = ({ setRegexMappingRules }: RegexMappingRulesProps) => 
           : null;
 
       if (ruleError || replaceTextError) {
-        isValid = false;
         newErrors[rule.id] = { ruleError, replaceTextError };
       }
     });
 
     setErrors(newErrors);
 
-    if (isValid) {
+    if (Object.keys(newErrors).length === 0) {
       setRegexMappingRules(mappingRules);
+      setWithoutCopyButton(false);
+    } else {
+      setWithoutCopyButton(true);
     }
   };
 
+  const hasErrors = Object.values(errors).some(error => error.ruleError || error.replaceTextError);
+
   return (
     <>
-      <Spacer vertical="medium" />
+      <Spacer vertical="xsmall" />
       <div>
         {mappingRules.map(rule => (
           <MappingRuleRow
@@ -96,14 +107,25 @@ const RegexMappingRules = ({ setRegexMappingRules }: RegexMappingRulesProps) => 
           />
         ))}
       </div>
+      {hasErrors && (
+        <Message
+          type="error"
+          withIcon
+          description={t('in-websites:trackingSnippet.autoPageTransition.regexErrorMessage')}
+          fullInlineWidth
+          className={locals.bottomSpace}
+        />
+      )}
 
       <div className={locals.regexMappingRulesFooterWrapper}>
         <Button kind="action" icon="lib_openclose_add_circle_outline" onClick={addRule}>
           {t('in-websites:trackingSnippet.autoPageTransition.addLineButton')}
         </Button>
 
-        <Button type="submit" kind="create" onClick={saveAll}>
-          {t('in-websites:trackingSnippet.autoPageTransition.saveAllButton')}
+        <Button type="submit" kind="create" onClick={saveAll} icon="lib_save">
+          {mappingRules.length > 1
+            ? t('in-websites:trackingSnippet.autoPageTransition.saveAllButton')
+            : t('in-websites:trackingSnippet.autoPageTransition.saveButton')}
         </Button>
       </div>
     </>
@@ -129,8 +151,9 @@ const MappingRuleRow = ({
         invalidText={ruleError}
         invalid={!!ruleError}
         helperText={t('in-websites:trackingSnippet.autoPageTransition.mappingRuleHelperText')}
+        hideLabel
       />
-      <Spacer horizontal="medium" />
+      <Spacer horizontal="normal" />
       <TextInput
         id="replaced-by"
         type="text"
@@ -151,7 +174,7 @@ const MappingRuleRow = ({
         />
       )}
     </div>
-    <Spacer vertical="small" />
+    <Spacer vertical="large" />
   </>
 );
 

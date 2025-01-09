@@ -18,7 +18,6 @@ import {
 import { useLinkToLogs, useGenerateLinkToLogs } from 'in-logging/navigation/paths';
 import { ANALYZE_LOGGING_JUMP_TO_LOGS } from 'in-services/tracking/eventNames';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';
 
@@ -76,7 +75,7 @@ export default function AnalyzeLogsButton({ log }: AnalyzeLogsButtonProps) {
           icon="lib_analyze"
           onClick={toggle}
           refSetter={refSetter as MutableRefObject<HTMLButtonElement>}
-          size={carbonButtonEnabled ? 'compact' : 'normal'}
+          size="compact"
         >
           {t('in-analyze:logDetails.analyzeLogsLabel')}
           <SvgIcon className={locals.expandIcon} type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'} />

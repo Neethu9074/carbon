@@ -18,4 +18,5 @@ export interface ConfigureAlertChannelProps {
   numberOfAlertChannelListRows?: number;
   isTearSheet?: boolean;
   updateForm?: (form: MapForm<any>) => void;
+  alertChannelPerSeverityEnabled?: boolean;
 }

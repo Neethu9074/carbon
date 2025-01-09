@@ -274,7 +274,7 @@ describe('in-settings/tabs/SecurityAndAccess/pages/indentityProviders/GroupMappi
 
     expect(screen.getByText(t('in-settings:tabs.thereShouldBeAtLeastOneGroupMapping'))).toBeInTheDocument();
 
-    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('button-disabled');
+    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('cds--btn--disabled');
   });
 
   it('Does not allow anything without idp', async () => {

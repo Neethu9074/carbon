@@ -6,16 +6,17 @@
 :local {
   .tagContent {
     display: grid;
-    grid-template-columns: 16rem auto 10rem;
+    grid-template-columns: 15rem auto 6rem;
     gap: 1rem 0;
-    align-items: center;
+    align-items: start;
     padding: 0;
   }
 
   .tagValue {
     display: flex;
     gap: 0.5rem;
-    align-items: center;
+    align-items: flex-start;
+    word-break: break-word;
   }
 
   .groupHeader {
@@ -33,6 +34,10 @@
     justify-self: end;
     grid-column: 3;
     position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    z-index: 1;
   }
 
   a.appListLink.appListLink {

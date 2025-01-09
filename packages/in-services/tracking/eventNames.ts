@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2025
  * (c) Copyright Instana Inc.
  */
 
@@ -109,7 +109,6 @@ export const DFQ_FILTER_SELECTED = 'dfq.filter.selected';
 
 export const KUBERNETES_DASHBOARD_TAB_CHANGE = 'kubernetes.dashboard.tabChange';
 export const KUBERNETES_TIME_SHIFT_SELECT = 'kubernetes.timeShift.select';
-export const IS_MONITORING_HOSTS = 'isMonitoringHosts';
 export const MAP_GROUPING_CHANGED = 'map.grouping.change';
 export const MAP_METRICS_AGGREGATION = 'map.metrics.aggregation';
 export const MAP_METRICS_SHOW = 'map.metrics.show';
@@ -127,6 +126,10 @@ export const BUY_NOW_BUTTON_AWS_CLICKED = 'purchaseIntent.aws';
 export const BUY_NOW_BUTTON_IBM_CLICKED = 'purchaseIntent.ibm';
 export const PLAY_WITH_BOOK_DEMO_NOW_BUTTON_CLICKED = 'intentToTry.Demo';
 export const PLAY_WITH_BOOK_FREE_TRIAL_BUTTON_CLICKED = 'intentToTry.Trial';
+
+export const REVIEW_DATA_USAGE_BUTTON = 'reviewDataUsage.clicked';
+export const FAIR_USE_POLICY_BLOG = 'learnMoreFupDocumentation.clicked';
+export const CONTACT_SALES = 'learnMoreContactSales.clicked';
 
 export const TABLE_ENTITY_ADDED = 'table.entity.added';
 export const TABLE_ENTITY_CLEARED = 'table.entity.cleared';
@@ -219,7 +222,6 @@ export const MOBILE_APPS_DASHBOARD_VIEW_DEPRECATION_DETAILS = 'mobileApps.dashbo
 
 export const SETTINGS_AUDIT_TRAIL_ACCESS_LOG_CLICK = 'settings.auditTrail.accessLog.click';
 export const SETTINGS_AUDIT_TRAIL_ACTION_LOG_CLICK = 'settings.auditTrail.actionLog.click';
-
 export const SETTINGS_GROUP_APPLICATION_FILTER_ADDED = 'settings.group.application.filter.added';
 export const SETTINGS_GROUP_USER_ADDED = 'settings.group.user.added';
 export const SETTINGS_IDP_LDAP_TEST_CONFIGURATION = 'settings.idp.ldap.testConfiguration';
@@ -227,6 +229,10 @@ export const SETTINGS_USER_GROUP_ADDED = 'settings.user.group.added';
 export const SETTINGS_USER_INVITE_SUBMIT = 'settings.user.invite.submit';
 export const SETTINGS_ROLE_SUBMIT = 'settings.role.submit';
 export const SETTINGS_ROLE_OPEN_SUBMIT_FORM = 'settings.role.new';
+
+export const PROFILE_MENU_LOGOUT_CLICK = 'profileMenu.logout.click';
+export const PROFILE_MENU_SWITCH_TENANT_OR_UNIT_CLICK = 'profileMenu.switchUnitOrTenant.click';
+export const PROFILE_MENU_USER_PROFILE_CLICK = 'profileMenu.userProfile.click';
 
 export const SHARE_AND_INVITE_SUBMIT = 'shareAndInvite.submit';
 export const SHARE_AND_INVITE_CLOSED = 'shareAndInvite.closed';
@@ -300,6 +306,10 @@ export const SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUBMITTED = 'settings.logsManag
 export const SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUCCESS = 'settings.logsManagement.deleteLogs.success';
 export const SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_ERROR = 'settings.logsManagement.deleteLogs.error';
 export const SETTINGS_LOG_MANAGEMENT_RETENTION_PERIOD_SUBMITTED = 'settings.logsManagement.retention.period.submitted';
+
+export const SETTINGS_ACCOUNT_BILLING_TENANT_UNIT = 'settings.accountBilling.tenantUnit';
+export const SETTINGS_ACCOUNT_BILLING_TIMERANGE = 'settings.accountBilling.timeRange';
+export const SETTINGS_ACCOUNT_BILLING_PRESENTATION = 'settings.accountBilling.presentation';
 
 export const ONBOARDING_OPENED = 'onboardingNewUnit.dialog.opened';
 export const ONBOARDING_INSTANA_BEGINNER_VIDEOS_CLICKED = 'onboardingNewUnit.instanaBeginnerVideos.clicked';
@@ -505,7 +515,6 @@ export const BIZOPS_PERSPECTIVE_CREATED = 'bizops.perspective.created';
 export const BIZOPS_BREADCRUMB_CLICK = 'bizops.breadcrumb.click';
 export const BIZOPS_DEPLOY_AGENT_CLICK = 'bizops.deploy.agent.click';
 
-// Mixpanel
 export const BIZOPS_PERSPECTIVE_LIST_SELECT = 'bizops.perspective.list.select';
 
 export const BIZOPS_PROCESS_TABS_CLICK = 'bizops.process.tabs.click';
@@ -568,9 +577,11 @@ export const EVENT_NOTES_SUBMIT = 'event.notes.submit';
 export const EVENT_NOTES_EDIT_SUBMIT = 'event.notes.edit.submit';
 export const EVENT_NOTES_DELETE_SUBMIT = 'event.notes.delete.submit';
 export const EVENT_AI_GENERATE_SUBMIT = 'event.ai.generate.submit';
-export const EVENT_AI_SHOW_MORE = 'event.ai.show.more';
+export const EVENT_AI_SHOW_MORE_INCIDENTS = 'event.ai.show.more.incidents';
+export const EVENT_AI_SHOW_MORE_ACTIONS = 'event.ai.show.more.actions';
 export const EVENT_AI_SHARE_OPENED = 'event.ai.share.opened';
 export const EVENT_AI_SHARE_SUBMIT = 'event.ai.share.submit';
+export const EVENT_AI_RUN_ACTION = 'event.ai.run.action';
 export const EVENT_SIDE_PANEL_CLICK = 'event.side.panel.click';
 
 // Flow Map Tracking (services and endpoints)
@@ -580,3 +591,15 @@ export const FLOW_MAP_CLICK_LATENCY = 'flowmap.click.latency';
 export const FLOW_MAP_CLICK_ERROR = 'flowmap.click.error';
 export const FLOW_MAP_CLICK_SIMULATION = 'flowmap.click.simulation';
 export const FLOW_MAP_CLICK_EXPAND_LEVEL = 'flowmap.click.level.expand';
+
+// Vulnerabilities tracking
+export const VULNERABILITIES_TAB_IN_APP_CLICK = 'vulnerabilities.application.tab.click';
+export const VULNERABILITIES_BUTTON_IN_CONTAINER_DASHBOARD_CLICK = 'vulnerabilities.container.dashboard.click';
+export const VULNERABILITIES_CSV_EXPORT_CLICK = 'vulnerabilities.csv.export.click';
+export const VULNERABILITIES_NAVIGATION_CLICK = 'vulnerabilities.navigation.click';
+export const CVE_TAB_IN_VULNERABILITIES_CLICK = 'cve.vulnerabilities.tab.click';
+export const DETECTIONS_TAB_IN_VULNERABILITIES_CLICK = 'detections.vulnerabilities.tab.click';
+export const VULNERABILITIES_CONCERT_TRY_CLICK = 'vulnerabilities.concert.try.click';
+export const VULNERABILITIES_CONCERT_DOCS_CLICK = 'vulnerabilities.concert.docs.click';
+export const VULNERABILITIES_CONCERT_BUY_CLICK = 'vulnerabilities.concert.buy.click';
+export const VULNERABILITIES_CONCERT_SUPPORT_CLICK = 'vulnerabilities.concert.support.click';

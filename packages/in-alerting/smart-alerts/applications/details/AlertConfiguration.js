@@ -25,7 +25,6 @@ import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details
 import { getLogMessageRuleOperatorLabel } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
 import { AlertThresholdInfos } from 'in-alerting/smart-alerts/applications/details/AlertThresholdInfos';
 import getEndpointsCursorPaginated from 'in-applications/subscriptions/getEndpointsCursorPaginated';
-import { isMultiThresholdEnabled } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import getServicesCursorPaginated from 'in-applications/subscriptions/getServicesCursorPaginated';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
@@ -189,7 +188,7 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
           renderCustomTitle={() =>
             getAlertTitleWithPlaceholderHighlighting({ configName: name, evaluationType: evaluationType })
           }
-          shouldDisplayAlertLevelSection={!isMultiThresholdEnabled}
+          shouldDisplayAlertLevelSection={false}
         />
       </ExpandableLightCard>
       <GlobalCustomPayloadCard context="APPLICATION" />

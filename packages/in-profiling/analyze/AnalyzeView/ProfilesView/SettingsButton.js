@@ -8,7 +8,6 @@ import React from 'react';
 import { Spacer, Ul, Li, KeyValue, Toggle, Button } from '@instana/components';
 
 import DebouncedDistinctSlider from 'in-components/Slider/DebouncedDistinctSlider';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { percentage } from 'in-services/formatters/number';
 import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';
@@ -19,12 +18,7 @@ export default function SettingsButton(props) {
   return (
     <Overlay align="bottomMiddle" content={SettingsContent} props={props}>
       {({ toggle }) => (
-        <Button
-          size={carbonButtonEnabled ? 'compact' : 'normal'}
-          kind="secondary"
-          icon="lib_actions_settings"
-          onClick={toggle}
-        >
+        <Button size="compact" kind="secondary" icon="lib_actions_settings" onClick={toggle}>
           {t('in-profiling:settings')}
         </Button>
       )}

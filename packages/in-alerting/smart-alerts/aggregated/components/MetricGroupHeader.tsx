@@ -10,6 +10,7 @@ import React from 'react';
 import { SearchInput } from '@instana/components';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import AlertTypography from 'in-alerting/components/AlertTypography';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
@@ -49,7 +50,11 @@ export default function MetricGroupHeader({
         />
       </HorizontalFlexWrapper>
       <div className={locals.header}>
-        <h3 className={locals.topText}>{!isLoading ? topText : t('in-alerting:components.resultHeaderLoading')}</h3>
+        <AlertTypography
+          variant="heading-100"
+          color="colorNavy900"
+          content={!isLoading ? topText : t('in-alerting:components.resultHeaderLoading')}
+        />
       </div>
     </div>
   );

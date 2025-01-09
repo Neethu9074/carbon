@@ -7,7 +7,7 @@
   .titleRowContainer {
     display: grid;
     align-items: center;
-    grid-template-columns: 15% 50% 31%;
+    grid-template-columns: 15% 45% 28% 4%;
     grid-gap: 1rem;
 
     > div input::placeholder {

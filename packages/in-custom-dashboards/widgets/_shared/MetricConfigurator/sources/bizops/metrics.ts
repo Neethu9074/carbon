@@ -5,8 +5,8 @@
  */
 
 // @ts-expect-error needs migration
-import { newTimeMetric, wrapToDiscardNegativeValues } from 'in-analyze/metricDefinitionHelpers';
-import { number, percentage } from 'in-services/formatters/number';
+import { wrapToDiscardNegativeValues } from 'in-analyze/metricDefinitionHelpers';
+import { latencyFixed, number, percentage } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { FormatterFn } from 'in-stores/metric/formatters';
 import { t } from 'in-i18n';
@@ -20,7 +20,7 @@ export interface BizOpsMetric {
   category?: string;
 }
 
-const activities_count = {
+const activitiesCallCount = {
   metric: 'call_count',
   label: t('in-bizops:customDashboards.activityCountMetric'),
   formatter: wrapToDiscardNegativeValues(number.forcedCompact),
@@ -30,34 +30,37 @@ const activities_count = {
   unfoldAggregations: false
 };
 
-const errorRate = {
-  metric: 'errors',
-  label: t('in-bizops:customDashboards.erroneousActivityCallsRateLabel'),
-  formatter: percentage,
-  supportedAggregations: ['MEAN'],
-  preferredRenderer: Renderer.stackedBar,
-  min: 0,
-  category: t('in-bizops:customDashboards.erroneousActivityCallsCategory')
-};
-
 const erroneousCalls = {
-  metric: 'erroneousCalls',
+  metric: 'erroneous_call_count',
   label: t('in-bizops:customDashboards.erroneousActivityCallsCountLabel'),
   category: t('in-bizops:customDashboards.erroneousActivityCallsCategory'),
   formatter: wrapToDiscardNegativeValues(number.forcedCompact),
-  supportedAggregations: ['SUM', 'PER_SECOND'],
+  supportedAggregations: ['SUM'],
   min: 0,
   preferredRenderer: Renderer.stackedBar,
   unfoldAggregations: false
 };
 
-const latency = {
-  ...newTimeMetric({
-    metric: 'latency',
-    label: t('in-bizops:customDashboards.latency'),
-    category: t('in-bizops:customDashboards.latency')
-  }),
-  unfoldAggregations: true
+const errorRate = {
+  metric: 'erroneous_call_rate',
+  label: t('in-bizops:customDashboards.erroneousActivityCallsRateLabel'),
+  formatter: percentage,
+  supportedAggregations: ['SUM'],
+  preferredRenderer: Renderer.stackedBar,
+  min: 0,
+  category: t('in-bizops:customDashboards.erroneousActivityCallsCategory'),
+  unfoldAggregations: false
 };
 
-export const availableMetrics: BizOpsMetric[] = [activities_count, erroneousCalls, errorRate, latency];
+const latency = {
+  metric: 'call_latency',
+  label: t('in-bizops:customDashboards.latency'),
+  formatter: wrapToDiscardNegativeValues(latencyFixed),
+  supportedAggregations: ['MEAN', 'MIN', 'P50', 'P90', 'P95', 'P99', 'MAX'],
+  category: t('in-bizops:customDashboards.latency'),
+  min: 0,
+  preferredRenderer: Renderer.stackedArea,
+  unfoldAggregations: false
+};
+
+export const availableMetrics: BizOpsMetric[] = [activitiesCallCount, erroneousCalls, errorRate, latency];

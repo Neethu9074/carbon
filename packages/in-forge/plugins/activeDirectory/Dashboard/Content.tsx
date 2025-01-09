@@ -414,6 +414,146 @@ export default function ActiveDirectoryDashboard({
           }
         </Columize>
       </DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.activeDirectory.directorySystemAgentKCC')}>
+        <Columize>
+          {
+            <Card title={t('in-forge:plugins.activeDirectory.directorySystemAgentKCC')} useMaxAvailableHeight>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  metrics: [
+                    'stats.directorySystemAgent.dsPercentReadsFromKCC',
+                    'stats.directorySystemAgent.dsPercentWritesFromKCC',
+                    'stats.directorySystemAgent.dsPercentSearchesFromKCC'
+                  ],
+                  labels: [
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentReadsFromKCC'),
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentWritesFromKCC'),
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentSearchesFromKCC')
+                  ],
+                  formatter: percentage.detailed,
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </Card>
+          }
+        </Columize>
+      </DashboardSection>
+      <DashboardSection>
+        <Columize>
+          {
+            <Card title={t('in-forge:plugins.activeDirectory.directorySystemAgentLSA')} useMaxAvailableHeight>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  metrics: [
+                    'stats.directorySystemAgent.dsPercentReadsFromLSA',
+                    'stats.directorySystemAgent.dsPercentWritesFromLSA',
+                    'stats.directorySystemAgent.dsPercentSearchesFromLSA'
+                  ],
+                  labels: [
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentReadsFromLSA'),
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentWritesFromLSA'),
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentSearchesFromLSA')
+                  ],
+                  formatter: percentage.detailed,
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </Card>
+          }
+          {
+            <Card title={t('in-forge:plugins.activeDirectory.directorySystemAgentNSPI')} useMaxAvailableHeight>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  metrics: [
+                    'stats.directorySystemAgent.dsPercentReadsFromNSPI',
+                    'stats.directorySystemAgent.dsPercentWritesFromNSPI',
+                    'stats.directorySystemAgent.dsPercentSearchesFromNSPI'
+                  ],
+                  labels: [
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentReadsFromNSPI'),
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentWritesFromNSPI'),
+                    t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentSearchesFromNSPI')
+                  ],
+                  formatter: percentage.detailed,
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </Card>
+          }
+        </Columize>
+      </DashboardSection>
+      <DashboardSection>
+        <Columize>
+          {
+            <Card title={t('in-forge:plugins.activeDirectory.securityAccountManagerLabel')} useMaxAvailableHeight>
+              <Chart
+                snapshotId={snapshotId}
+                timeConfig={timeConfig}
+                y1={{
+                  metrics: [
+                    'stats.securityAccountManager.samAccountGroupEvaluationLatency',
+                    'stats.securityAccountManager.samResourceGroupEvaluationLatency',
+                    'stats.securityAccountManager.samDisplayInformationQueriesPerSec',
+                    'stats.securityAccountManager.samDomainLocalGroupMembershipEvaluationsPerSec',
+                    'stats.securityAccountManager.samMachineCreationAttemptsPerSec',
+                    'stats.securityAccountManager.samMembershipChangesPerSec',
+                    'stats.securityAccountManager.samNonTransitiveMembershipEvaluationsPerSec',
+                    'stats.securityAccountManager.samMachineCreationAttemptsPerSec',
+                    'stats.securityAccountManager.samMembershipChangesPerSec',
+                    'stats.securityAccountManager.samNonTransitiveMembershipEvaluationsPerSec',
+                    'stats.securityAccountManager.samPasswordChangesPerSec',
+                    'stats.securityAccountManager.samSuccessfulComputerCreationsPerSec',
+                    'stats.securityAccountManager.samSuccessfulUserCreationsPerSec',
+                    'stats.securityAccountManager.samTransitiveMembershipEvaluationsPerSec',
+                    'stats.securityAccountManager.samUniversalGroupMembershipEvaluationsPerSec',
+                    'stats.securityAccountManager.samUserCreationAttemptsPerSec'
+                  ],
+                  labels: [
+                    t('in-forge:plugins.activeDirectory.securityAccountManager.samAccountGroupEvaluationLatency'),
+                    t('in-forge:plugins.activeDirectory.securityAccountManager.samResourceGroupEvaluationLatency'),
+                    t('in-forge:plugins.activeDirectory.securityAccountManager.samDisplayInformationQueriesPerSec'),
+                    t(
+                      'in-forge:plugins.activeDirectory.securityAccountManager.samDomainLocalGroupMembershipEvaluationsPerSec'
+                    ),
+                    t('in-forge:plugins.activeDirectory.securityAccountManager.samEnumerationsPerSec'),
+                    t('in-forge:plugins.activeDirectory.securityAccountManager.samGCEvaluationsPerSec'),
+                    t(
+                      'in-forge:plugins.activeDirectory.securityAccountManager.samGlobalGroupMembershipEvaluationsPerSec'
+                    ),
+                    t('in-forge:plugins.activeDirectory.securityAccountManager.samMachineCreationAttemptsPerSec'),
+                    t('in-forge:plugins.activeDirectory.securityAccountManager.samMembershipChangesPerSec'),
+                    t(
+                      'in-forge:plugins.activeDirectory.securityAccountManager.samNonTransitiveMembershipEvaluationsPerSec'
+                    ),
+                    t('in-forge:plugins.activeDirectory.securityAccountManager.samPasswordChangesPerSec'),
+                    t('in-forge:plugins.activeDirectory.securityAccountManager.samSuccessfulComputerCreationsPerSec'),
+                    t('in-forge:plugins.activeDirectory.securityAccountManager.samSuccessfulUserCreationsPerSec'),
+                    t(
+                      'in-forge:plugins.activeDirectory.securityAccountManager.samTransitiveMembershipEvaluationsPerSec'
+                    ),
+                    t(
+                      'in-forge:plugins.activeDirectory.securityAccountManager.samUniversalGroupMembershipEvaluationsPerSec'
+                    ),
+                    t('in-forge:plugins.activeDirectory.securityAccountManager.samUserCreationAttemptsPerSec')
+                  ],
+                  formatter: number.compact,
+                  type: 'line'
+                }}
+                renderPostChartContent={PluginDashboardsMarkerLanes}
+              />
+            </Card>
+          }
+        </Columize>
+      </DashboardSection>
     </div>
   );
 }

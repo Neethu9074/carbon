@@ -5,6 +5,7 @@
 
 import { createLogger } from '@instana/logger';
 
+import { updateTermsAndPrivacySettings } from 'in-settings/terms/stores/termsAndPrivacySettingsStore';
 import { saveUserSettings } from 'in-settings/api/userSettings';
 import { t } from 'in-i18n';
 
@@ -14,6 +15,7 @@ export function setAndSave(settings, successCallback, errorCallback) {
   saveUserSettings(settings).once(
     savedBackendSettings => {
       window.instana.termsAndPrivacySettings = savedBackendSettings;
+      updateTermsAndPrivacySettings(savedBackendSettings);
       successCallback();
     },
     error => {
@@ -26,6 +28,7 @@ export function setAndSave(settings, successCallback, errorCallback) {
 export function formUserSettingsObject(form) {
   return Object.freeze({
     allAnalyticsServices: form.get('allAnalyticsServices').value,
+    walkmeAnalyticsServices: form.get('walkmeAnalyticsServices').value,
     allSupportAndResearchServices: form.get('allSupportAndResearchServices').value,
     marketingMessages: form.get('marketingMessages').value,
     productTips: form.get('productTips').value,

@@ -6,11 +6,13 @@
 import React from 'react';
 
 import EntityOpenIssuesList from 'in-components/EntityCveIndicator/EntityOpenIssuesList';
+import { useVulnerabilityTracker } from 'in-events/useVulnerabilityTracker';
 import Overlay from 'in-components/overlays/Overlay';
 
 import locals from './EntityCveIndicator.mless';
 
 export default function EntityCveIndicator(props) {
+  const { trackVulnerabilitiesButtonInContainersDashboard } = useVulnerabilityTracker();
   const { openIssues, maxSeverity } = props;
 
   if (openIssues == null || openIssues < 0) {
@@ -27,7 +29,10 @@ export default function EntityCveIndicator(props) {
         <props.IndicatorPresenter
           openIssues={openIssues}
           maxSeverity={maxSeverity}
-          onClick={toggle}
+          onClick={() => {
+            toggle();
+            trackVulnerabilitiesButtonInContainersDashboard();
+          }}
           refSetter={refSetter}
         />
       )}

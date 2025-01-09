@@ -6,20 +6,23 @@
 
 import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
-import { get, find } from 'lodash';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import { getHumanReadablePluginName } from 'in-sap/Dashboards/tables/getHumanReadablePluginName';
 import { getSapDbInstanceListsWithDefaults } from 'in-sap/subscriptions/getSapDbInstanceLists';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
+import { percentage, zeroDecimalPlaces, number, bytes } from 'in-services/formatters/number';
+import { getSapDbInstanceAnyDBLists } from 'in-sap/subscriptions/getSapDbInstanceAnyDBLists';
+import { getSapDbInstanceHanaLists } from 'in-sap/subscriptions/getSapDbInstanceHanaLists';
+import { getSapDbInstanceDB2Lists } from 'in-sap/subscriptions/getSapDbInstanceDB2Lists';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
-import { bytes, percentage, zeroDecimalPlaces } from 'in-services/formatters/number';
 import { useDashboardForEntity, sapDbInstanceList } from 'in-sap/navigation/paths';
 import SapNoDataNotification from 'in-sap/lists/components/SapNoDataNotification';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
+import EmptyStateHandler from 'in-sap/lists/components/EmptyStateHandler';
 import { colorFormatter } from 'in-sap/Dashboards/tables/ColorFormatter';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
@@ -136,6 +139,34 @@ const columnDefinitions = [
     }
   },
   {
+    id: 'db2Queries',
+    label: t('in-forge:plugins.db2Database.queries'),
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={number.compact}
+          metric="databases.queries"
+        />
+      );
+    }
+  },
+  {
+    id: 'db2Connection',
+    label: t('in-forge:plugins.db2Database.connections'),
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={number.compact}
+          metric="databases.connectionsCount"
+        />
+      );
+    }
+  },
+  {
     id: 'issues',
     label: t('in-sap:issues'),
     getContent(item, { timeConfig }) {
@@ -160,7 +191,7 @@ function getBadgeInfo(params) {
 const ServerTableWithUrlState = createServerTableWithUrlState({
   paginationResettingUrlParameters: [...timeConfigUrlParameters],
   columnDefinitions,
-  defaultOrderBy: 'issues',
+  defaultOrderBy: 'label',
   defaultOrderDirection: 'ASC',
   pathSegment,
   matrixPrefix
@@ -182,44 +213,104 @@ export default connectTo(
         />
 
         <WithEmptyStateFallback
-          getHasDataToRender={getHasDataToRender}
+          getHasDataToRender={getHasDataForDBToRender}
           FallbackComponent={<SapNoDataNotification icon="lib_sap" />}
         >
-          <ServerTableWithUrlState
-            get={getTableData}
-            filterColumnDefinitions={({ result }) => {
-              const hanaSensor =
-                result.data &&
-                result.data.items &&
-                Boolean(find(result.data.items, item => isHanaSensor(get(item, ['pluginName']))));
-              if (hanaSensor) {
-                return columnDefinition => columnDefinition.id !== 'label' && columnDefinition.id !== 'overallRating';
-              } else {
-                return columnDefinition =>
-                  columnDefinition.id !== 'infralabel' &&
-                  columnDefinition.id !== 'status' &&
-                  columnDefinition.id !== 'cpu' &&
-                  columnDefinition.id !== 'memory';
-              }
-            }}
-            timeConfig={timeConfig}
-          />
+          <div>
+            <EmptyStateHandler getHasDataToRender={getHasDataForHanaToRender}>
+              <ServerTableWithUrlState
+                get={getTableDataForHana}
+                filterColumnDefinitions={() => {
+                  return columnDefinition =>
+                    columnDefinition.id !== 'label' &&
+                    columnDefinition.id !== 'objectType' &&
+                    columnDefinition.id !== 'overallRating' &&
+                    columnDefinition.id !== 'db2Queries' &&
+                    columnDefinition.id !== 'db2Connection';
+                }}
+                timeConfig={timeConfig}
+                showHeaderCount
+                cardTitle={t('in-sap:sapHana')}
+              />
+            </EmptyStateHandler>
+          </div>
+          <div>
+            <EmptyStateHandler getHasDataToRender={getHasDataForDB2ToRender}>
+              <ServerTableWithUrlState
+                get={getTableDataForDB2}
+                filterColumnDefinitions={() => {
+                  return columnDefinition =>
+                    columnDefinition.id !== 'label' &&
+                    columnDefinition.id !== 'objectType' &&
+                    columnDefinition.id !== 'cpu' &&
+                    columnDefinition.id !== 'memory' &&
+                    columnDefinition.id !== 'user' &&
+                    columnDefinition.id !== 'overallRating';
+                }}
+                timeConfig={timeConfig}
+                showHeaderCount
+                cardTitle={t('in-sap:db2')}
+              />
+            </EmptyStateHandler>
+          </div>
+          <div>
+            <EmptyStateHandler getHasDataToRender={getHasDataForSolmanToRender}>
+              <ServerTableWithUrlState
+                get={getTableDataForSolman}
+                filterColumnDefinitions={() => {
+                  return columnDefinition =>
+                    columnDefinition.id !== 'infralabel' &&
+                    columnDefinition.id !== 'status' &&
+                    columnDefinition.id !== 'cpu' &&
+                    columnDefinition.id !== 'memory' &&
+                    columnDefinition.id !== 'user' &&
+                    columnDefinition.id !== 'db2Queries' &&
+                    columnDefinition.id !== 'db2Connection';
+                }}
+                timeConfig={timeConfig}
+                showHeaderCount
+                cardTitle={t('in-sap:sapSolman')}
+              />
+            </EmptyStateHandler>
+          </div>
         </WithEmptyStateFallback>
       </Fragment>
     );
   }
 );
 
-function getTableData(params) {
-  return getSapDbInstanceListsWithDefaults(params);
+function getHasDataForDB2ToRender() {
+  return timeConfig$
+    .flatMap(timeConfig => getSapDbInstanceDB2Lists({ timeConfig }))
+    .map(result => !result.data || result.data.totalHits > 0);
 }
 
-function getHasDataToRender() {
+function getHasDataForHanaToRender() {
+  return timeConfig$
+    .flatMap(timeConfig => getSapDbInstanceHanaLists({ timeConfig }))
+    .map(result => !result.data || result.data.totalHits > 0);
+}
+
+function getHasDataForSolmanToRender() {
   return timeConfig$
     .flatMap(timeConfig => getSapDbInstanceListsWithDefaults({ timeConfig }))
     .map(result => !result.data || result.data.totalHits > 0);
 }
 
-function isHanaSensor(dbType) {
-  return dbType === 'sapHana';
+function getHasDataForDBToRender() {
+  return timeConfig$
+    .flatMap(timeConfig => getSapDbInstanceAnyDBLists({ timeConfig }))
+    .map(result => !result.data || result.data.totalHits > 0);
+}
+
+function getTableDataForHana(params) {
+  return getSapDbInstanceHanaLists(params);
+}
+
+function getTableDataForDB2(params) {
+  return getSapDbInstanceDB2Lists(params);
+}
+
+function getTableDataForSolman(params) {
+  return getSapDbInstanceListsWithDefaults(params);
 }

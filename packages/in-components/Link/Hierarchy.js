@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest } from '@instana/observables';
 import React from 'react';
+
+import { combineLatest } from '@instana/observables';
 
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import { always } from 'in-services/fixedStreams';
@@ -23,7 +24,16 @@ export default connectTo(
         : combineLatest(props.hierarchy.toArray().map(id => getSnapshot(id, props.timeConfig)))
     };
   },
-  function Hierarchy({ snapshots, useSnapshotLink, kind, linkClassName, pathname, timeConfig }) {
+  function Hierarchy({
+    snapshots,
+    useSnapshotLink,
+    kind,
+    linkClassName,
+    pathname,
+    timeConfig,
+    onClose,
+    isCveRedirect
+  }) {
     if (!snapshots) {
       return null;
     }
@@ -40,6 +50,8 @@ export default connectTo(
                 linkClassName={linkClassName}
                 pathname={pathname}
                 timeConfig={timeConfig}
+                isCveRedirect={isCveRedirect}
+                onClose={onClose}
               />
             </li>
           );

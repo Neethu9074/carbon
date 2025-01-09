@@ -6,6 +6,14 @@
 
 import React from 'react';
 
+import FlowMapPresenter from 'in-bizops/dashboards/summary/tabs/flowMap/FlowMapPresenter';
+
 export default function BusinessProcessFlowMap() {
-  return <h1>Flow map</h1>;
+  // add title, tabs, etc as required here
+  return <FlowMapWrapper />;
+}
+
+export function FlowMapWrapper() {
+  // graph-specific state management & top level layout
+  return <FlowMapPresenter />;
 }

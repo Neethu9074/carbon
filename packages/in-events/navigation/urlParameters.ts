@@ -18,6 +18,12 @@ export const orderDirectionParameter = {
   initialState: 'DESC'
 };
 
+export const filterParameter = {
+  path: eventsPath,
+  name: 'filter',
+  initialState: ''
+}
+
 export const orderByUrlParameter = {
   path: eventsPath,
   name: 'orderBy',

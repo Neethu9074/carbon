@@ -6,15 +6,12 @@
 @import '~in-themes/active.less';
 
 :local {
-  .snippetWrapper {
-    align-items: top;
-    justify-content: space-between;
-  }
-
   .snippet {
     flex-grow: 1;
-    margin: 0 1rem 0 0;
-    padding-top: 1rem;
+  }
+
+  .snippet > div > pre {
+    margin: unset !important;
   }
 
   .options {
@@ -29,40 +26,25 @@
 
   .label {
     margin: 0;
-    height: 1.5rem;
     display: flex;
     align-items: center;
-    color: var(--ids-color-option-neutral-700);
-    font-size: var(--ids-font-size-option-body-small);
+    color: var(--cds-text-primary);
+    font-size: var(--ids-font-size-option-body-large);
+    font-weight: 600;
+    line-height: 1.5rem;
   }
 
-  .helpWrapper {
-    display: flex;
-    align-items: center;
-
-    &:active .help,
-    &:hover .help {
-      /* replaced old less variable links__hover__decoration
-       *  even when it does not make sense here...
-       */
-      fill: underline;
-    }
+  .toggleLabel {
+    color: var(--cds-text-primary);
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.125rem;
   }
 
   .toggle {
     color: var(--ids-color-option-neutral-700);
     font-size: var(--ids-font-size-option-body-small);
     display: flex;
-  }
-
-  .button {
-    padding-top: 0.75rem;
-    padding-bottom: 1rem;
-  }
-
-  .help {
-    fill: var(--ids-color-option-neutral-700);
-    margin-left: 0.25rem;
   }
 
   .dialogContent {

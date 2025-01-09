@@ -31,10 +31,10 @@ import {
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/components/dialog/simple/useSimpleModePageNavigation';
 //@ts-expect-error
 import { channelListLoading$ } from 'in-alerting/smart-alerts/components/tearSheet/AlertChannelsList';
+import { smartAlertsLogsBlueprintEnabled, alertChannelPerSeverityApplicationSaEnabled } from 'in-services/featureFlags';
 import { ApplicationSmartAlertConfig } from 'in-alerting/smart-alerts/applications/data/applicationAlertConfigTypes';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import useAlertConfigValidation from 'in-alerting/smart-alerts/applications/hooks/useAlertConfigValidation';
-import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
 import AlertingTearSheet from 'in-alerting/components/AlertingTearSheet';
 import { MessageType } from 'in-components/MessageStack/MessageStack';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -128,19 +128,21 @@ function SmartAlertConfigTearSheetWithQueryValidation({
 
   // we are validating only the user-defined part, not the whole enriched form model here,
   // because only that part can ever be invalid
-  const { rule, tagFilterExpression, threshold } = alertConfigWithFormModel;
-  const { isQueryValid, getTagCatalog } = useMemo(() => {
-    const thresholdType = threshold.type;
-    return getQueryBuilderForAlertType(rule.alertType, thresholdType);
-  }, [rule.alertType, threshold.type]);
+  const { rule, tagFilterExpression } = alertConfigWithFormModel;
 
-  const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isQueryValid, true);
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
+
+  const { isQueryValid, getTagCatalog } = useMemo(() => {
+    return getQueryBuilderForAlertType(rule.alertType, thresholdType);
+  }, [rule.alertType, thresholdType]);
 
   const updateTagFilterExpression = (filteredTagFilterExpression: any) => {
     updateForm(form.updateIn(['tagFilterExpression'], (f: any) => f.setValue(filteredTagFilterExpression)));
   };
 
   useIsTagFilterFormModelExists(tagFilterExpression, getTagCatalog, updateTagFilterExpression);
+
+  const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isQueryValid, true);
 
   const isValid = blueprintConfig.isRuleComplete(rule) && isTagFilterFormModelValid;
 
@@ -149,7 +151,8 @@ function SmartAlertConfigTearSheetWithQueryValidation({
     isGlobalSmartAlert,
     isValid,
     alertConfigWithFormModel,
-    blueprintConfig
+    blueprintConfig,
+    editMode
   });
 
   const { step, setStep, backOrCancel, handleSubmit } = useSimpleModePageNavigation({
@@ -226,7 +229,7 @@ function additionalValidationCheck(
   if (step === 1 || step === 3) {
     return isTagFilterFormModelValid;
   } else if (step === 5) {
-    return channelListLoading === undefined ? false : true;
+    return channelListLoading === undefined && !alertChannelPerSeverityApplicationSaEnabled ? false : true;
   }
   return true;
 }

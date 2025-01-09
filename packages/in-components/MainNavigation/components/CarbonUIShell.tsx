@@ -1,7 +1,7 @@
 /*
  * IBM Confidential
  * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2023
+ * Copyright IBM Corp. 2024
  */
 
 //@ts-expect-error promise loader
@@ -116,6 +116,7 @@ import { powervcRegionListFullyQualified, powervc } from 'in-powervc/navigation/
 import { isSloView, serviceLevelsOverview } from 'in-service-levels/navigation/path';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { useGetEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
+import { useVulnerabilityTracker } from 'in-events/useVulnerabilityTracker';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
@@ -458,6 +459,7 @@ function Analyze() {
 
 function VulnerabilityCenter() {
   const { createHrefToPath, matchLocation } = useNavigation();
+  const { trackVulnerabilitiesInNavigation } = useVulnerabilityTracker();
 
   return (
     <MenuItem
@@ -465,6 +467,7 @@ function VulnerabilityCenter() {
       label={t('in-components:mainNavigation.viewVulnerabilityCenter')}
       icon="lib_events_cve"
       isActive={matchLocation(isVulnerabilityView)}
+      onClick={trackVulnerabilitiesInNavigation}
       href={createHrefToPath(vulnerabilityRoot)}
     />
   );
@@ -713,7 +716,7 @@ function HeaderContent({ expanded, onClickSideNavExpand }: HeaderContentProps) {
 }
 
 export default function CarbonUIShell() {
-  const { matchLocation, createHrefToPath } = useNavigation();
+  const { matchLocation, createHrefToPath, location } = useNavigation();
   const titleDetail = useUIShellTitleDetail();
   const platforms = platformsContent(matchLocation, createHrefToPath).filter(Boolean);
   const [expanded, setExpanded] = useState(false);
@@ -749,6 +752,11 @@ export default function CarbonUIShell() {
       document.removeEventListener('keydown', handleKeyPress, true);
     };
   }, [expanded]);
+
+  useEffect(() => {
+    // @ts-expect-error ibmStats is not present in window type.
+    window?.ibmStats?.pageview();
+  }, [location]);
 
   return (
     <UIShell

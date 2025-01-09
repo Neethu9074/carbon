@@ -9,8 +9,6 @@ import { Link, PreviewPill } from '@instana/components';
 
 // @ts-expect-error migrate to TS
 import AnalyzeDataSourceSelector from 'in-analyze/components/AnalyzeHeader/AnalyzeDataSourceSelector';
-// @ts-expect-error migrate to TS
-import DashboardHeaderButton from 'in-components/DashboardHeader/DashboardHeaderButton';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import { ActiveConfiguration, AnalyzeHeaderProps } from 'in-analyze/components/AnalyzeHeader/types';
 import { productAreaTrackingNames, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
@@ -21,6 +19,7 @@ import TimeSelection from 'in-components/time/TimeSelection/TimeSelection';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { useAnalyzeTracker } from 'in-analyze/hooks/useAnalyzeTracker';
+import DropdownButton from 'in-components/Button/DropdownButton';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import Label from 'in-analyze/components/AnalyzeHeader/Label';
 import Overlay from 'in-components/overlays/Overlay/Overlay';
@@ -52,16 +51,17 @@ export default function AnalyzeHeader({
     ) : (
       <Overlay props={{ activeConfiguration, isGrouped, formModel }} withoutWrapper content={AnalyzeDataSourceSelector}>
         {({ toggle, isOpen, ref }) => (
-          <DashboardHeaderButton
+          <DropdownButton
             isBreadCrumbButton
             size="normal"
+            kind="secondary"
             className={locals.button}
-            ref={ref}
+            ref={ref as React.MutableRefObject<HTMLButtonElement>}
             onClick={toggle}
             expanded={isOpen}
           >
             <Label activeConfiguration={activeConfiguration} />
-          </DashboardHeaderButton>
+          </DropdownButton>
         )}
       </Overlay>
     );

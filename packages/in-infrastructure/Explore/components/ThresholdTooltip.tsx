@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import { round } from 'lodash';
 import React from 'react';
 
 import { Typography } from '@instana/components';
@@ -16,8 +17,9 @@ import { t } from 'in-i18n';
 export interface ThresholdTooltipProps {
   threshold: Threshold;
   formatter: FormatterFn;
+  formatterId: string;
 }
-export default function ThresholdTooltip({ threshold, formatter }: ThresholdTooltipProps) {
+export default function ThresholdTooltip({ threshold, formatter, formatterId }: ThresholdTooltipProps) {
   if (!threshold || !threshold.thresholdEnabled || !threshold.operator || (!threshold.critical && !threshold.warning))
     return null;
   const operator = humanReadableThresholdOperator.get(threshold.operator);
@@ -30,7 +32,7 @@ export default function ThresholdTooltip({ threshold, formatter }: ThresholdTool
         <Typography onDark variant="body-regular" component="div">
           {t('in-infrastructure:threshold.critical', {
             operator,
-            level: formatter(parseFloat(threshold.critical))
+            level: getLevel(threshold.critical, formatter, formatterId)
           })}
         </Typography>
       )}
@@ -38,10 +40,16 @@ export default function ThresholdTooltip({ threshold, formatter }: ThresholdTool
         <Typography onDark variant="body-regular" component="div">
           {t('in-infrastructure:threshold.warning', {
             operator,
-            level: formatter(parseFloat(threshold.warning))
+            level: getLevel(threshold.warning, formatter, formatterId)
           })}
         </Typography>
       )}
     </>
   );
+}
+
+function getLevel(value: string, formatter: FormatterFn, formatterId: string) {
+  let realValue = parseFloat(value);
+  realValue = round(formatterId.startsWith('percentage') ? realValue / 100 : realValue, 2);
+  return formatter(realValue);
 }

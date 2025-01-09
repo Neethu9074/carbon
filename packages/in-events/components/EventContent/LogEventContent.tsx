@@ -33,8 +33,6 @@ import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import LogAlertConfigButton from 'in-events/components/LogAlertConfigButton';
 import useLogEventAlertConfig from 'in-events/hooks/useLogEventAlertConfig';
 import ManualCloseIssueButton from '../tabs/Summary/ManualCloseIssueButton';
-// @ts-expect-error
-import EventIcon from 'in-events/components/EventIcon';
 import AutomationCard from 'in-automation/AutomationCard/AutomationCard';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
@@ -42,6 +40,7 @@ import { getChartTimeConfigByEvent } from 'in-events/timeframe';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import useTagCatalog from 'in-logging/hooks/useTagCatalog';
 import { fixateTimeConfig } from 'in-stores/time/config';
+import EventIcon from 'in-events/components/EventIcon';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';
 import { deepCopy } from 'in-services/util/object';

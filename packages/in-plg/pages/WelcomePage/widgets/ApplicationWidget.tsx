@@ -29,20 +29,25 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 //@ts-expect-error doesn't contain type file
 import { add, remove } from 'in-cockpit/starredItems';
 import TypographyWithTooltip from 'in-plg/components/TypographyWithTooltip/TypographyWithTooltip';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { createNewApplicationConfig, getApplicationConfig } from 'in-api/applicationConfigs';
 import { getApplicationsWithDefaults } from 'in-applications/subscriptions/getApplications';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import DatatableWrapper from 'in-plg/pages/WelcomePage/widgets/DatatableWrapper';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { application as applicationType } from 'in-cockpit/starredItems/types';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { applicationsList } from 'in-applications/navigation/paths';
 import HealthIcon from 'in-components/health/HealthIcon/HealthIcon';
-import getMetrics from 'in-applications/subscriptions/getMetrics';
 import { hasError, isLoading } from 'in-services/util/result';
 import { successObservable } from 'in-services/util/result';
 import { boundaryScopes } from 'in-applications/constants';
@@ -151,15 +156,21 @@ export default function ApplicationWidget({
       if (isLoading(applicationResult) || hasError(applicationResult)) {
         return just(applicationResult);
       } else {
-        return getMetrics({
-          filter: {
-            timeConfig,
-            application: id,
-            includeInternalCalls: false,
-            includeSyntheticCalls: false,
-            useLongTermDataOnly: false,
-            applicationBoundaryScope: applicationResult.data.boundaryScope
-          },
+        const applicationTagFilter =
+          applicationResult.data.boundaryScope === boundaryScopes.inbound
+            ? tagFilter('boundary.application.id', EQUALS, id)
+            : tagFilter('application.id', EQUALS, id, null, DESTINATION);
+
+        return getApplicationMetrics({
+          tagFilterExpression: toBackendQueryModel(
+            joinExpressions({
+              expressions: [applicationTagFilter]
+            })
+          ),
+          timeConfig,
+          includeInternal: false,
+          includeSynthetic: false,
+          timeShift: { offset: 0 },
           metrics: {
             services: {
               metric: 'services',
@@ -306,6 +317,13 @@ export default function ApplicationWidget({
       getContent({ id, item, isDisabled = false, isFavourite = false }) {
         return (
           <IconButton
+            aria-label={
+              isFavourite
+                ? t('in-plg:welcomepage.favouriteButton.ariaFilled')
+                : item?.pinned
+                ? t('in-plg:welcomepage.favouriteButton.ariaFilled')
+                : t('in-plg:welcomepage.favouriteButton.aria')
+            }
             type={
               isFavourite
                 ? 'lib_actions_favorite_filled'

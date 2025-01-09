@@ -56,7 +56,12 @@
       "website": {
         "trafficType_all": "Alle Signale zählen",
         "trafficType_erroneous": "Anzahl der Fehlersignale"
-      }
+      },
+      "synthetic": {
+        "trafficType_all": "Alle Ergebnisse",
+        "trafficType_erroneous": "Irrtümliche Ergebnisse"
+      },
+      "trafficTypeLabel": "$tin-service-levels:general.indicator{{entityType}}.trafficType, {\"context\":{{trafficType}}\" })"
     },
     "latency": "Latenzzeit",
     "time": "Zeit",
@@ -108,8 +113,10 @@
       "beaconCount": "Beacon-Anzahl",
       "calls": "Aufrufe",
       "latency": "Latenzzeit",
+      "results": "Ergebnisse",
       "beaconDuration": "Beacon-Dauer",
       "threshold": "Schwellenwert",
+      "failureRate": "Störungsrate",
       "errors": "Rate fehlerhafter Aufrufe",
       "beaconErrorRate": "Beacon-Fehlerrate",
       "goodEvents": "Fehlerfreie Ereignisse",
@@ -132,7 +139,9 @@
       "event_synthetic_plural": "{{formatted}} Ergebnisse",
       "event_synthetic_0": "{{formatted}} Ergebnisse",
       "event_synthetic_1": "{{formatted}} Ergebnisse",
-      "event_synthetic_2": "{{formatted}} Ergebnisse"
+      "event_synthetic_2": "{{formatted}} Ergebnisse",
+      "event_test": "{{count}} Test",
+      "event_test_plural": "{{count}} Tests"
     },
     "deleteDialog": {
       "pleaseConfirm": "Bitte bestätigen",
@@ -212,9 +221,7 @@
       "thresholdDescription_GTE": "Eine gute Minute ist definiert durch eine Anzahl von mehr als oder gleich {{thresholdValue}} Anrufen pro Minute. Eine schlechte Minute ist definiert durch eine Anzahl von weniger als {{thresholdValue}} Anrufen pro Minute.",
       "thresholdDescription_LT": "Eine gute Minute ist definiert durch eine Anzahl von weniger als {{thresholdValue}} Anrufen pro Minute. Eine schlechte Minute ist definiert durch eine Anzahl von mehr als oder gleich {{thresholdValue}} Anrufen pro Minute.",
       "thresholdDescription_LTE": "Eine gute Minute ist definiert durch eine Anzahl von weniger als oder gleich {{thresholdValue}} Anrufen pro Minute. Eine schlechte Minute ist definiert durch eine Anzahl von mehr als {{thresholdValue}} Anrufen pro Minute.",
-      "thresholdInput": "<Stack>Grenze festlegen des<HorizontalStack><OperatorDropdown /><ThresholdInput />Anrufe pro Minute<HorizontalStack/><Stack />",
-      "allCalls": "Alle Aufrufe",
-      "erroneousCalls": "Fehlerhafte Aufrufe"
+      "thresholdInput": "<Stack>Grenze festlegen des<HorizontalStack><OperatorDropdown /><ThresholdInput />Anrufe pro Minute<HorizontalStack/><Stack />"
     },
     "previewSection": {
       "dataInfo": "Vorschaudaten werden nur bis zu 7 Tage in der Vergangenheit angezeigt. Das SLO enthält nur Daten ab dem Zeitpunkt seiner Erstellung",
@@ -224,8 +231,8 @@
   },
   "sloChart": {
     "sloFormatter": {
-      "thousandCallsFormat": "{{formattedCount}}$tin-service-levels:general.format.event {\"context\":{{entityType}}\", \"count\": {{count}} })",
-      "callsFormat": "{{formattedCount}} $tin-service-levels:general.format.event, {\"context\":{{entityType}}\", \"count\": {{count}} })"
+      "thousandCallsFormat": "$tin-service-levels:general.format.event, {\"context\":{{entityType}}\", \"count\": {{count}}, \"formatted\":{{formattedCount}}\" })",
+      "callsFormat": "$tin-service-levels:general.format.event, {\"context\":{{entityType}}\", \"count\": {{count}}, \"formatted\":{{formatted}}\" })"
     },
     "sloChartSummary": {
       "status": "Status",

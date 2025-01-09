@@ -27,7 +27,11 @@
     "latency": "Latency"
   },
   "processes": {
-    "deployAgent": "Deploy agent"
+    "deployAgent": "Deploy agent",
+    "noProcessesAvailable": "No business processes are available.",
+    "deployAgentFirst": "You need to deploy an agent first.",
+    "forMoreInformation": "For more information, read the",
+    "documentation": "documentation."
   },
   "perspectives": {
     "newPerspective": "Create perspective",

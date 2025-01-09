@@ -4,10 +4,6 @@
  */
 
 :local {
-  .dropdownButton {
-    justify-content: space-between;
-  }
-
   .carbonDropdownButtonIndicator {
     margin: 0 0.5rem;
     align-self: center;

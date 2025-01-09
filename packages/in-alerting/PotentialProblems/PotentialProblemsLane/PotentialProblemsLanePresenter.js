@@ -13,6 +13,7 @@ import { POTENTIAL_PROBLEMS_MARKER_HOVERED, POTENTIAL_PROBLEMS_MARKER_CLICKED } 
 import { potentialProblemsLaneAlertsPropType } from 'in-alerting/PotentialProblems/PotentialProblemsLane/proptypes';
 import PotentialProblemMarker from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemMarker';
 import SingleMarkerLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleMarkerLaneItem';
+import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import MarkerLane from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -105,6 +106,22 @@ export default function PotentialProblemsLanePresenter({
     return events;
   }, [potentialProblems, remainingProps]);
 
+  const constructRules = dialogProps => [
+    {
+      rule: dialogProps.rule,
+      thresholdOperator: dialogProps.threshold.operator,
+      thresholds: {
+        WARNING: { ...dialogProps.threshold, isCheckboxSelected: true },
+        CRITICAL: {
+          type: dialogProps.threshold.type,
+          deviationFactor: defaultDeviationFactor,
+          value: null,
+          isCheckboxSelected: false
+        }
+      }
+    }
+  ];
+
   const defaultClickHandler = ({ alerts, thresholds }) => {
     addActiveDialog(
       <DeferredPotentialProblemsDialogPresenter
@@ -116,16 +133,7 @@ export default function PotentialProblemsLanePresenter({
           return {
             ...remainingProps,
             ...dialogProps,
-            rules: [
-              {
-                rule: dialogProps.rule,
-                thresholdOperator: dialogProps.threshold.operator,
-                thresholds: {
-                  WARNING: { ...dialogProps.threshold },
-                  CRITICAL: { type: dialogProps.threshold.type, deviationFactor: 0, value: null }
-                }
-              }
-            ]
+            rules: constructRules(dialogProps)
           };
         }}
         renderSmartAlertDialogComponent={dialogProps => {
@@ -133,16 +141,7 @@ export default function PotentialProblemsLanePresenter({
           const alertConfig = {
             ...remainingProps,
             ...dialogProps,
-            rules: [
-              {
-                rule: dialogProps.rule,
-                thresholdOperator: dialogProps.threshold.operator,
-                thresholds: {
-                  WARNING: { ...dialogProps.threshold },
-                  CRITICAL: { type: dialogProps.threshold.type, deviationFactor: 0, value: null }
-                }
-              }
-            ]
+            rules: constructRules(dialogProps)
           };
           return (
             <DeferredAlertConfigDialog

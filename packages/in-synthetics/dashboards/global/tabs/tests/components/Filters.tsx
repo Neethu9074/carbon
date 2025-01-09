@@ -8,8 +8,8 @@ import React, { Fragment } from 'react';
 
 import { Result, SyntheticTest } from '@instana/types';
 
+import { syntheticDNSActionEnabled, syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { association, FilterSectionProps } from 'in-synthetics/utils/constants';
-import { syntheticRbacLimitedEnabled } from 'in-services/featureFlags';
 import { getDisplayType } from 'in-synthetics/utils/syntheticTypeMap';
 import ComboBox from 'in-components/ComboBox';
 import { t } from 'in-i18n';
@@ -74,18 +74,21 @@ export default function Filters({
 function getSyntheticTypes(result: Result<SyntheticTest[]> | undefined) {
   // Get syntheticTypes from SyntheticTest
   // result can be undefined, isLoading(Result<x>) cannot be used here
+  let syntheticTypes: string[];
   if (!result?.progress?.loading) {
-    let syntheticTypes: string[] = [];
-    result?.data?.forEach(function (item: SyntheticTest) {
-      syntheticTypes.push(item?.configuration.syntheticType ?? '');
-    });
+    if (syntheticDNSActionEnabled) {
+      syntheticTypes = result?.data?.map(item => item?.configuration.syntheticType ?? '') ?? [];
+    } else {
+      syntheticTypes =
+        result?.data
+          ?.filter(item => item?.configuration.syntheticType !== 'DNSAction')
+          .map(item => item?.configuration.syntheticType ?? '') ?? [];
+    }
 
     // Clean up duplicate and empty array elements
     syntheticTypes = syntheticTypes.filter(function (item, index, arrayRef) {
       return arrayRef.indexOf(item) === index && item !== '';
     });
-
-    syntheticTypes.sort((a, b) => (a < b ? -1 : 1));
 
     syntheticTypeOptions = syntheticTypes.map(syntheticType => {
       return {
@@ -93,6 +96,9 @@ function getSyntheticTypes(result: Result<SyntheticTest[]> | undefined) {
         value: syntheticType
       };
     });
+
+    // Sorting on the display labels
+    syntheticTypeOptions.sort((a, b) => a.label.localeCompare(b.label));
   }
 
   // return syntheticTypeOptions;

@@ -50,6 +50,9 @@ export const PlatformsSection = () => {
         <GeneralPlatformListItem area={ProductArea.VSPHERE} />
       )}
       {groupConfig.sapAccess !== ScopedPermissionItem.NO_ACCESS && <GeneralPlatformListItem area={ProductArea.SAP} />}
+      {groupConfig.nutanixAccess !== ScopedPermissionItem.NO_ACCESS && (
+        <GeneralPlatformListItem area={ProductArea.NUTANIX} />
+      )}
       {groupConfig.kubernetesAccess !== ScopedPermissionItem.NO_ACCESS && currentKubeInstance()}
     </Ul>
   ) : (

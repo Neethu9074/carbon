@@ -51,6 +51,12 @@
     "freetrial": " 免费试用",
     "taketour": " 观看导览"
   },
+  "dataConsumptionMessage": {
+    "description": "您的数据摄取权限已达到 {{dataConsumption}} 一旦达到 100%，您将按每次使用付费，以获取更多数据。",
+    "description100": "您的数据摄取权限已达到 100%，但不用担心，您将继续获得 Instana 的全部价值。 您只需根据所摄取的额外数据的确切数量按次付费。",
+    "buttonText": "查看数据使用情况",
+    "title": "看来你对 Instana 的使用越来越多了！"
+  },
   "agentDetails": {
     "agentMode": {
       "dynamic": "动态",
@@ -109,8 +115,7 @@
     "kubernetes": {
       "kubernetes": {
         "enterAClusterNameAndOptionallyTheAgentZone": "步骤 1：输入集群名称以及（可选）您希望该集群所属的代理程序区域。",
-        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "步骤 2：查看先决条件并运行代理程序部署代码。",
-        "support": "支持"
+        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "步骤 2：查看先决条件并运行代理程序部署代码。"
       },
       "operator": {
         "installUsingTheOperator": "使用操作程序进行安装",
@@ -216,7 +221,6 @@
       "selectAwsRegionAndLambdaHandler": "选择 AWS 区域并输入当前的 lambda 处理程序",
       "setInstanaAutoWrapHandlerAsLambdaFunction": "将 Instana 自动打包处理程序设置为 Lambda 函数的处理程序。",
       "autoWrapHandler": "自动合并处理程序",
-      "runCodeBelow": "运行以下代理程序部署代码。",
       "prerequisiteLinks": {
         "networkRequirements": "网络需求"
       },
@@ -248,7 +252,6 @@
         "installGcrCollectors": "安装 Gogle Cloud Run 进程内收集器",
         "installAgentOnEc2": "在 AWS EC2 上安装代理程序",
         "configurationOptions": "配置选项",
-        "installAgentAwsEks": "在 AWS EKS 上安装代理程序",
         "monitoringGcr": "监视 Google Cloud Run",
         "monitoringAwsFargateRuby": "监视 AWS Fargate (Ruby)",
         "awsServiceDocumentation": "AWS 服务文档",
@@ -461,8 +464,6 @@
       }
     },
     "azure": {
-      "installingAgentOnAks": "在 Aks 上安装代理程序",
-      "configureAfterInstall": "安装后配置代理程序",
       "referenceToAzureContainerAppsDocumentation": "在 Azure Container Apps 中部署的 Go 应用程序需要手动检测，以便收集跟踪数据。 请按照 <azureContainerAppsDoc>Azure Container Apps Go 文档</azureContainerAppsDoc>中的说明进行操作。",
       "selectAzureContainerAppsRuntime": "选择 Azure Container Apps 运行时",
       "reviewPrerequisitesAndConfigureContainerApps": "查看先决条件并配置 Azure Container Apps 以进行跟踪。",
@@ -479,6 +480,17 @@
         "resourceGroupName": "资源组名称",
         "activatingAppServiceContent": "使用 Node.js V18.19 或更高版本的 ECMAScript 模块应用程序的 Azure CLI 命令示例：",
         "activatingAppServiceNote": "请更新 NODE_OPTIONS 值，使其符合您的配置的正确设置。 请参阅<azureAppServiceEnableCollectorDoc>文档</azureAppServiceEnableCollectorDoc>以获取指导。"
+      },
+      "dotnet": {
+        "monitoringAppService": "监控 Azure App Service for .NET",
+        "activatingAppService": "安装采集器。",
+        "appName": "应用程序名称",
+        "resourceGroupName": "资源组名称",
+        "configureOptionsForTracing": "配置监控应用程序服务所需的参数",
+        "uploadConfigFile": "上传配置文件 -ApplicationHost.xdt",
+        "activatingAppServiceNote": "下载该文件。 请确保文件名始终为 \"ApplicationHost.xdt\"",
+        "ftpsAuthCredsNote": "登录 Azure 门户中的应用程序服务，在部署 -> 部署中心 -> 应用程序 App Service 的 FTPS 凭据下，您将看到 FTPSURL、FTPS 用户名和密码（应用程序范围）。 在以下命令中替换这些值",
+        "restartAppServiceNote": "重启App Service"
       }
     },
     "gcp": {

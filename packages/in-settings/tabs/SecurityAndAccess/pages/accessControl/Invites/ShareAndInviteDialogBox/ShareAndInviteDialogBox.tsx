@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { noop } from 'lodash';
 
-import { Stack, SvgIcon, Typography, Checkbox, Button } from '@instana/components';
+import { Stack, SvgIcon, Typography, Checkbox, Button, IconButton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { ApiGroup } from '@instana/types';
 
@@ -61,7 +61,6 @@ import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { defaultRoleId, fallbackRoleId, role } from 'in-stores/user';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import TextArea from 'in-components/form/TextArea/TextArea';
 import { close } from 'in-components/DialogPresenter/store';
@@ -268,13 +267,6 @@ const ShareAndInviteDialogBox = ({ inviteOnly, permissionToShowInvite }: ShareAn
           content: message.text,
           timeout: 3000
         });
-      } else {
-        addMessage({
-          type: 'info',
-          title: t('in-settings:ShareAndInviteDialogBox.invitationSend'),
-          content: message.text,
-          timeout: 3000
-        });
       }
     } else if (message?.type === 'error') {
       addMessage({
@@ -423,11 +415,10 @@ const ShareAndInviteDialogBox = ({ inviteOnly, permissionToShowInvite }: ShareAn
                               className={locals.groupComboBox}
                               isClearable={false}
                             />
-                            <Button
-                              icon="lib_actions_delete"
-                              kind="action"
-                              iconSize="s"
-                              size="normal"
+                            <IconButton
+                              type="lib_actions_delete"
+                              kind="primaryv2"
+                              size="compact"
                               onClick={() =>
                                 onRemove({
                                   index,
@@ -436,9 +427,7 @@ const ShareAndInviteDialogBox = ({ inviteOnly, permissionToShowInvite }: ShareAn
                                 })
                               }
                               disabled={form.size <= 1}
-                            >
-                              {''}
-                            </Button>
+                            />
                           </Stack>
                         </Fields>
                       </Col>
@@ -451,7 +440,7 @@ const ShareAndInviteDialogBox = ({ inviteOnly, permissionToShowInvite }: ShareAn
                 <Col xs={9}>
                   <Button
                     icon="lib_openclose_add_circle_outline"
-                    iconSize={carbonButtonEnabled ? 's' : 'xs'}
+                    iconSize="s"
                     kind="action"
                     onClick={() => {
                       trackCta(SHARE_AND_INVITE_ADD_USER);
@@ -466,7 +455,7 @@ const ShareAndInviteDialogBox = ({ inviteOnly, permissionToShowInvite }: ShareAn
                   <Col xs={3}>
                     <Button
                       icon="lib_openclose_add_circle_outline"
-                      iconSize={carbonButtonEnabled ? 's' : 'xs'}
+                      iconSize="s"
                       kind="action"
                       href={createHrefToPath(securityAndAccessAccessControlGroupNew)}
                       onClick={() => {
@@ -575,14 +564,7 @@ const ShareAndInviteDialogBox = ({ inviteOnly, permissionToShowInvite }: ShareAn
             >
               {t('in-settings:ShareAndInviteDialogBox.cancel')}
             </CancelButton>
-            <SaveButton
-              type="submit"
-              disabled={disableSendButton}
-              className={classNames({
-                [locals.saveButton]: !carbonButtonEnabled,
-                [locals.buttonDisabled]: disableSendButton
-              })}
-            >
+            <SaveButton type="submit" disabled={disableSendButton}>
               {t('in-settings:ShareAndInviteDialogBox.send')}
             </SaveButton>
           </FormFooter>

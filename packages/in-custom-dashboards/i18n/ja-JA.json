@@ -161,6 +161,17 @@
         "unexpectedLowOrHighNumberOfCalls": "予想外に多いまたは少ない呼び出し数"
       }
     },
+    "srcBizOps": {
+      "formComponent": {
+        "pleaseSelect": "選択してください",
+        "pleaseSelectMetric": "メトリックを選択してください",
+        "aggregation": "集約",
+        "metric": "メトリック"
+      },
+      "index": {
+        "bizOps": "ビジネス・プロセス(アクティビティー)"
+      }
+    },
     "srcApp": {
       "formComponent": {
         "needToTurnOffPP": "グループ化を使用するには、最初に潜在的な問題の強調表示をオフにする必要があります。",

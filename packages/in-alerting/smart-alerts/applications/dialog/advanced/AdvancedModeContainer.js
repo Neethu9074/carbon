@@ -33,6 +33,7 @@ import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/dialog/
 import { placeholdersByEvaluationType } from 'in-alerting/smart-alerts/applications/inventory/placeholders';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
 import { ThresholdSection } from 'in-alerting/smart-alerts/applications/dialog/advanced/ThresholdSection';
+import GracePeriodWrapper from 'in-alerting/smart-alerts/components/dialog/advanced/GracePeriodWrapper';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/dialog/ConfigureAlertChannel';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/form/thresholdTypeForm';
@@ -109,6 +110,7 @@ export default function AdvancedModeContainer(props) {
                 form={form}
                 setForm={updateForm}
                 onThresholdTypeChange={onThresholdTypeChange}
+                editMode={editMode}
                 isMultiThreshold
               />
             </LightCard>
@@ -123,7 +125,12 @@ export default function AdvancedModeContainer(props) {
       valid: form.get('applications')?.valid && isTagFilterFormModelValid,
       content: (
         <>
-          <AlertEvaluationControl form={form} updateForm={updateForm} isGlobalSmartAlert={isGlobalSmartAlert} />
+          <AlertEvaluationControl
+            form={form}
+            updateForm={updateForm}
+            isGlobalSmartAlert={isGlobalSmartAlert}
+            editMode={editMode}
+          />
           <InboundOutboundCallsSwitch form={form} updateForm={updateForm} isGlobalSmartAlert={isGlobalSmartAlert} />
           <IncludeInternalOrSyntheticCallsSwitch
             form={form}
@@ -172,16 +179,19 @@ export default function AdvancedModeContainer(props) {
       title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.timeThreshold.title'),
       valid: !fieldTouchedAndInvalid(form.get('timeThreshold').get('requests')),
       content: (
-        <TimeThresholdConfigPresenter
-          form={form}
-          onChange={onChange}
-          updateForm={updateForm}
-          impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
-          hasTraceImpactOption
-          oneMinuteGranularityAllowed={
-            thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
-          }
-        />
+        <>
+          <TimeThresholdConfigPresenter
+            form={form}
+            onChange={onChange}
+            updateForm={updateForm}
+            impactTimeThresholdDisabled={blueprintConfig.impactTimeThresholdDisabled}
+            hasTraceImpactOption
+            oneMinuteGranularityAllowed={
+              thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
+            }
+          />
+          <GracePeriodWrapper form={form} updateForm={updateForm} />
+        </>
       )
     },
     {

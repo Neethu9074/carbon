@@ -69,7 +69,9 @@ export default function OptimizationsButtonGroup({
             })
           : t('in-automation:resourceOptimization.recommendedActionHistory'),
       key: 'history',
-      onClick: () => setActiveKey('history')
+      onClick: () => {
+        setActiveKey('history');
+      }
     }
   ];
 

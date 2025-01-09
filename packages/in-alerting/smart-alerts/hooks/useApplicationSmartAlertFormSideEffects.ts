@@ -7,7 +7,9 @@
 import { Field, MapForm } from 'formalistic';
 
 import { ADAPTIVE_BASELINE, STATIC_THRESHOLD, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { getThresholdFieldStatus } from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/dialog/form/ruleForm';
+import { generateGracePeriodOptions } from 'in-alerting/smart-alerts/components/GracePeriod';
 import useFormSideEffects, { CHANGE_TYPES } from 'in-hooks/useFormSideEffects';
 
 export function useSmartAlertFormSideEffects(form: MapForm<any>, setForm: (field: MapForm<any>) => void) {
@@ -38,7 +40,7 @@ export function useSmartAlertFormSideEffects(form: MapForm<any>, setForm: (field
     },
     {
       path: ['rule', 'alertType'],
-      effects: [resetThreshold]
+      effects: [resetThreshold, updateAlertChannelsOnBPChange]
     },
     {
       path: ['rule', 'metricName'],
@@ -62,7 +64,7 @@ export function useSmartAlertFormSideEffects(form: MapForm<any>, setForm: (field
     },
     {
       path: ['granularity'],
-      effects: [requestThresholdSuggestion]
+      effects: [requestThresholdSuggestion, resetGracePeriod]
     },
     {
       path: ['hiddenFields', 'chartViewEntitySelection'],
@@ -78,14 +80,33 @@ export function useSmartAlertFormSideEffects(form: MapForm<any>, setForm: (field
   });
 }
 
+function updateAlertChannelsOnBPChange(form: MapForm<any>) {
+  const selectedChannelsArray = form.get('hiddenFields').get('selectedChannelList').value;
+  const { warningThresholdFieldDisabled, criticalThresholdFieldDisabled } = getThresholdFieldStatus(form);
+  if (
+    selectedChannelsArray.length > 0 &&
+    ((warningThresholdFieldDisabled && criticalThresholdFieldDisabled) || criticalThresholdFieldDisabled)
+  ) {
+    return form.updateIn(['alertChannels'], f =>
+      f
+        .setValue({
+          WARNING: [...selectedChannelsArray],
+          CRITICAL: []
+        })
+        .setTouched(true)
+    );
+  }
+  return form;
+}
+
 function resetBaseline(form: MapForm<any>): MapForm<any> {
   const resetBaselineField = (form: MapForm<any>, thresholdType: string) => {
     const type = form?.get('threshold')?.get(thresholdType)?.get('type')?.value;
     if (type === HISTORIC_BASELINE) {
       return form.updateIn(['threshold', thresholdType], thresholdMapForm =>
-        (thresholdMapForm as MapForm<any>)
-          .updateIn(['baseline'], item => (item as Field<any>).setValue([]))
-          .setTouched(false)
+        (thresholdMapForm as MapForm<any>).updateIn(['baseline'], item =>
+          (item as Field<any>).setValue([]).setTouched(false)
+        )
       );
     } else if (type === ADAPTIVE_BASELINE) {
       return form.updateIn(['threshold', 'baseline'], item => (item as Field<any>).setValue([]).setTouched(false));
@@ -170,6 +191,21 @@ function resetThresholdValue(form: MapForm<any>, thresholdType: string) {
         (item as Field<boolean>).setValue(false).setTouched(false)
       )
     );
+}
+
+function resetGracePeriod(form: MapForm<any>) {
+  const granularity = form.get('granularity').value;
+  const currentGracePeriod = form.get('gracePeriod').value;
+  const newGracePeriodOptions = generateGracePeriodOptions(granularity);
+
+  // find the closest value
+  const closestGracePeriod = newGracePeriodOptions
+    .map(option => parseInt(option.value, 10))
+    .reduce((closest, value) =>
+      Math.abs(value - currentGracePeriod) < Math.abs(closest - currentGracePeriod) ? value : closest
+    );
+
+  return form.updateIn(['gracePeriod'], f => f.setValue(closestGracePeriod).setTouched(false));
 }
 
 function validateAggregation(form: MapForm<any>) {

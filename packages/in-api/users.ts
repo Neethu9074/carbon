@@ -9,7 +9,6 @@ import { UserGroupRestrictions } from '@instana/types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import { refreshSignalUsers } from 'in-api/usersRefreshSignal';
 import { Response } from 'in-services/http/types';
 import http from 'in-services/http';
@@ -39,6 +38,7 @@ export interface Invitation {
 }
 
 export interface PendingInvitation {
+  readonly id: string;
   readonly email: string;
   readonly groupId: string;
   readonly groupName: string;
@@ -105,6 +105,20 @@ export function removeUserFromTenant(userId: string) {
   });
 }
 
+export function removeUsersFromTenant(userIds: string[]) {
+  const basePath = '/api/settings/users';
+  return http<void>({
+    method: 'DELETE',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: basePath,
+    data: userIds
+  }).map(v => {
+    refreshSignalUsers.emit(true);
+    return v;
+  });
+}
+
 const refreshSignalInvitations = create().emit(true);
 
 export const getInvitations$ = memoize(getInvitationsInternal, () => 'Invitations', 60000);
@@ -134,7 +148,7 @@ function getPendingInvitationsInternal(): Observable<PendingInvitation[]> {
 export function sendInvitations(invitations: Invitation[]) {
   return http<InvitationResponse>({
     method: 'POST',
-    url: `/api/settings/${shareAndInviteEnabled ? 'invitation/share' : 'invitations'}`,
+    url: '/api/settings/invitation/share',
     headers: getCsrfHeader(),
     data: invitations
   }).map(v => {
@@ -146,7 +160,7 @@ export function sendInvitations(invitations: Invitation[]) {
 export function sendInvitation(invitation: Invitation) {
   return http<void>({
     method: 'POST',
-    url: `/api/settings/${shareAndInviteEnabled ? 'invitation/share' : 'invitations'}`,
+    url: '/api/settings/invitation/share',
     headers: getCsrfHeader(),
     data: invitation
   }).map(v => {

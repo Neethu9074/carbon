@@ -6,7 +6,6 @@
 import React, { useState } from 'react';
 
 import { just } from '@instana/observables';
-import { Card } from '@instana/components';
 
 import GlobalInventorySmartAlertsList from 'in-alerting/smart-alerts/applications/inventory/GlobalInventorySmartAlertsList';
 import SmartAlertsNoDataNotification from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsNoDataNotification';
@@ -14,6 +13,7 @@ import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/
 import AlertDetails from 'in-alerting/smart-alerts/applications/details/AlertDetails';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
+import { smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { globalAlertDetails } from 'in-applications/navigation/paths';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { productAreas } from 'in-services/tracking/productAreas';
@@ -49,15 +49,15 @@ export default function GlobalSmartAlerts({ location }) {
             <AlertDetails location={location} timeConfig={timeConfig} />
           ) : (
             <>
-              <Card useMaxAvailableHeight={false} hasMarginBottom>
-                <GlobalInventorySmartAlertsList onNoData={() => setHasDataToRender(false)} />
-              </Card>
+              <GlobalInventorySmartAlertsList onNoData={() => setHasDataToRender(false)} />
               <Footer />
             </>
           )}
         </WithEmptyStateFallback>
       </LeftRightPadding>
-      {role.canConfigureGlobalApplicationSmartAlerts && <CreateGlobalSmartAlertButton location={location} />}
+      {role.canConfigureGlobalApplicationSmartAlerts && !smartAlertCarbonTableEnabled && (
+        <CreateGlobalSmartAlertButton location={location} />
+      )}
     </Sticky>
   );
 }

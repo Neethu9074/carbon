@@ -15,7 +15,6 @@ import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import Heading from 'in-settings/tabs/UserSettings/pages/Heading';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import { carbonSliderEnabled } from 'in-services/featureFlags';
 import SectionLine from 'in-settings/components/SectionLine';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { saveUserSettings } from 'in-services/userSettings';
@@ -75,28 +74,15 @@ export default function UiConfigGeneralPage() {
           text={t('in-settings:tabs.tableRefreshRate', { refreshRate: settings['tables_refreshRate'] / 1000 })}
           htmlFor="table-refresh-rate"
         />
-        {carbonSliderEnabled ? (
-          <div>
-            <DistinctSlider
-              id="table-refresh-rate"
-              min={1}
-              max={10}
-              step={1}
-              value={Number(settings['tables_refreshRate']) / 1000}
-              onChange={(_, val) => saveSetting('tables_refreshRate', (val as number) * 1000)}
-            />
-          </div>
-        ) : (
-          <input
-            type="range"
-            id="table-refresh-rate"
-            min={1000}
-            max={10000}
-            step={1000}
-            value={settings['tables_refreshRate']}
-            onChange={e => saveSetting('tables_refreshRate', e.target.value)}
+        <div>
+          <DistinctSlider
+            min={1}
+            max={10}
+            step={1}
+            value={Number(settings['tables_refreshRate']) / 1000}
+            onChange={(_, value) => saveSetting('tables_refreshRate', (value as number) * 1000)}
           />
-        )}
+        </div>
       </HorizontalFormGroup>
       <HorizontalFormGroup
         helpText={<span className={locals.warning}>{t('in-settings:tabs.requiresBrowserRefreshToBecomeActive')}</span>}

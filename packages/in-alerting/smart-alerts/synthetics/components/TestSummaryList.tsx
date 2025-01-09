@@ -129,9 +129,7 @@ export function SummaryList({
   const listData = addIdToLists(list);
 
   if (isLoading(listData)) {
-    <>
-      <LoadingList numSkeletonRows={3} />
-    </>;
+    return <LoadingList numSkeletonRows={3} />;
   }
 
   function setFilters(filter: Partial<StateProps>) {

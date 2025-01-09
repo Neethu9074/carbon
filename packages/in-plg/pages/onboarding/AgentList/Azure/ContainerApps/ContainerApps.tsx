@@ -16,8 +16,6 @@ import SupportViewSection from 'in-plg/pages/onboarding/Layout/SupportViewSectio
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import { DropDown } from 'in-plg/pages/onboarding/content/ContentComponents';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
-import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
-import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 interface RuntimeOption {
@@ -49,15 +47,8 @@ export default function AzureContainerApps({
       title: t('in-plg:agentDetails.common.documentationTitle'),
       body: <Documentations runtime={selectedRuntime.key} />,
       openByDefault: true
-    },
-    {
-      title: t('in-plg:agentDetails.askForHelp.askForHelpTitle'),
-      body: <AskForHelp agentKey={agentKey} />,
-      openByDefault: false
     }
   ];
-
-  if (shareAndInviteEnabled) supportViewData.pop();
 
   function RenderRuntimeView(): JSX.Element {
     switch (selectedRuntime.key) {

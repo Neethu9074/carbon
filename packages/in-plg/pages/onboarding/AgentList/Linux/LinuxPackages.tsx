@@ -6,18 +6,16 @@
 
 import React, { useState } from 'react';
 
-import { KeyValue, Stack, Typography, RadioButton, Button } from '@instana/components';
+import { KeyValue, Stack, Typography, RadioButton, IconButton } from '@instana/components';
 
 import { getAgentDownloadURL } from 'in-plg/pages/onboarding/content/ContentComponents';
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
-import { carbonButtonEnabled, shareAndInviteEnabled } from 'in-services/featureFlags';
 import SupportViewSection from 'in-plg/pages/onboarding/Layout/SupportViewSection';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import { DropDown } from 'in-plg/pages/onboarding/content/ContentComponents';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
-import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
 import { t } from 'in-i18n';
 
 export default function LinuxPackages({
@@ -121,13 +119,11 @@ export default function LinuxPackages({
     return (
       <Stack direction="horizontal" gap="disabled">
         <DropDown value={option} options={architectureOptions} onChange={setOption} />
-        <Button
+        <IconButton
           target="_blank"
-          icon="lib_actions_download"
-          iconSize="s"
+          type="lib_actions_download"
+          iconSize="xs"
           kind="action"
-          noAutoMargin
-          {...(carbonButtonEnabled ? { hasIconOnly: true } : {})}
           href={getAgentDownloadURL(
             tenant,
             tenantUnit,
@@ -138,9 +134,7 @@ export default function LinuxPackages({
             }`,
             butlerDomain
           )}
-        >
-          {''}
-        </Button>
+        />
       </Stack>
     );
   }
@@ -169,15 +163,8 @@ export default function LinuxPackages({
         </Stack>
       ),
       openByDefault: true
-    },
-    {
-      title: t('in-plg:agentDetails.askForHelp.askForHelpTitle'),
-      body: <AskForHelp agentKey={agentKey} />,
-      openByDefault: false
     }
   ];
-
-  if (shareAndInviteEnabled) sideCardData.pop();
 
   function getRuntime() {
     return (

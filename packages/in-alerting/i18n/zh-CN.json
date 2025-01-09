@@ -29,6 +29,8 @@
     "groupBy": "分组依据",
     "noChannelAvailable": "没有可用的警报频道",
     "optional": "可选",
+    "on": "ON",
+    "off": "关闭",
     "revisionDropdownButton": {
       "revision": "修订版 {{alertRevision}}",
       "pause": "暂停",
@@ -98,7 +100,17 @@
     "groupedViewHeader_1": "{{formattedCount}} 个结果",
     "groupedViewHeader_2": "{{formattedCount}} 个结果",
     "resultHeaderLoading": "正在加载…",
-    "loadMore": "加载更多"
+    "loadMore": "加载更多",
+    "chooseLayoutDialog": {
+      "chooseLayout": "选择智能警报布局",
+      "layoutContent": "目前，您可以使用这两种布局在此环境中创建智能警报。 请选择所需的布局继续：",
+      "oldLayoutDescription": "旧布局：创建智能警报的传统界面",
+      "newLayoutDescription": "新布局：更新界面，增强功能，提高可用性。",
+      "layoutRecommendation": "如果不确定，我们建议探索新布局，以获得更好的体验。",
+      "cancelTitle": "取消",
+      "useOldLayout": "使用旧布局",
+      "useNewLayout": "使用新布局"
+    }
   },
   "potentialProblems": {
     "titleErrorRate": "错误调用率高于正常值",
@@ -144,6 +156,7 @@
   },
   "smartAlerts": {
     "addSmartAlert": "添加智能警报",
+    "createSmartAlert": "创建智能警报",
     "applicationSmartAlert": "应用程序智能警报",
     "globalApplicationSmartAlert": "全局应用程序智能警报",
     "titleNoSmartAlertsConfigured": "未配置智能警报",
@@ -152,6 +165,13 @@
     "titleCopyOf": "{{smartAlertTitle}}（的副本）",
     "smartAlertsTitle": "智能警报",
     "labelNew": "（新）",
+    "alertChannelList": {
+      "selectAllWarning": "选择所有警告",
+      "selectAllCritical": "选择所有关键的",
+      "alertLevel": "警报级别",
+      "critical": "严重",
+      "warning": "警告"
+    },
     "applications": {
       "alertConfiguration": "警报配置",
       "advanced": {
@@ -492,6 +512,8 @@
         "noPermissionGlobalSmartAlertEdit": "您无权执行此操作",
         "labelGlobalSmartAlertsList": "全局应用程序智能警报（{{numberOfAlerts}} 个）",
         "labelSmartAlertsList": "应用程序智能警报（{{numberOfAlerts}} 个）",
+        "labelGlobalSmartAlertsTable": "全局应用程序智能警报",
+        "labelSmartAlertsTable": "应用程序智能警报",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
         "getSubtitleForStaticThreshold": "静态阈值：{{metricLabel}} {{operator}} {{value}}",
         "getSubtitleForStaticDailySeasonality": "静态每日季节性：{{metricLabel}}",
@@ -509,7 +531,11 @@
         "numberOfApplicationsSelected_plural": "已选定 {{count}} 个应用程序",
         "numberOfApplicationsSelected_0": "已选择 {{count}} 个应用程序",
         "numberOfApplicationsSelected_1": "已选择 {{count}} 个应用程序",
-        "numberOfApplicationsSelected_2": "已选择 {{count}} 个应用程序"
+        "numberOfApplicationsSelected_2": "已选择 {{count}} 个应用程序",
+        "noGlobalAlertDataHeader": "无全局应用程序智能警报",
+        "noGlobalAlertDataDescription": "要开始操作，请单击<strong>创建全局智能警报</strong>。",
+        "noLocalAlertDataHeader": "无应用程序智能警报",
+        "noLocalAlertDataDescription": "要开始操作，请单击<strong>创建智能警报</strong>。"
       },
       "details": {
         "title": "警报详细信息",
@@ -973,7 +999,10 @@
           "tracesImpacted": "个跟踪受到影响",
           "outOfConsecutiveEvaluations": "个（共  个）",
           "persistenceType": "持久类型",
-          "numberOfConsecutiveViolationsPostLabel": "连续 {{granularity}} 分钟时间窗口有违例"
+          "numberOfConsecutiveViolationsPostLabel": "连续 {{granularity}} 分钟时间窗口有违例",
+          "static": "静态",
+          "thresholdValue": "阈值",
+          "timeWindow": "时间窗口"
         }
       }
     },
@@ -1100,7 +1129,9 @@
           "filter_0": "过滤器",
           "filter_1": "过滤器",
           "filter_2": "过滤器"
-        }
+        },
+        "noDataHeader": "无网站智能警报",
+        "noDataDescription": "要开始操作，请单击<strong>创建智能警报</strong>。"
       }
     },
     "sortOptions": {
@@ -1144,7 +1175,9 @@
         "timeThreshold": "时间阈值",
         "filterApplied": "已应用的过滤器",
         "violationsCount": "{{violationsCount}} 个故障",
-        "numberOfFailures": "故障警报"
+        "numberOfFailures": "故障警报",
+        "noDataHeader": "无合成智能警报",
+        "noDataDescription": "要开始操作，请单击<strong>创建智能警报</strong>。"
       },
       "alertProperties": {
         "testName": "Test_Name",
@@ -1279,7 +1312,9 @@
         "filter_0": "过滤器",
         "filter_1": "过滤器",
         "filter_2": "过滤器",
-        "filterApplied": "已应用的过滤器"
+        "filterApplied": "已应用的过滤器",
+        "noDataHeader": "无移动应用程序智能警报",
+        "noDataDescription": "要开始操作，请单击<strong>创建智能警报</strong>。"
       },
       "simple": {
         "stepConfigsStep1Title": "步骤 1：选择警报",
@@ -1410,7 +1445,7 @@
             "subtitle": {
               "staticThresholdType": "静态阈值",
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}",
-              "predictiveTrigger": "预测触发器"
+              "forecastAlerting": "预测警报"
             }
           }
         },
@@ -1423,7 +1458,9 @@
         "filter_plural": "过滤器",
         "filter_0": "过滤器",
         "filter_1": "过滤器",
-        "filter_2": "过滤器"
+        "filter_2": "过滤器",
+        "noDataHeader": "无基础架构智能警报",
+        "noDataDescription": "要开始操作，请单击<strong>创建智能警报</strong>。"
       },
       "advancedModeContainer": {
         "scope": {
@@ -1446,9 +1483,14 @@
           "title": "时间阈值：您希望何时收到警报？"
         },
         "predictiveTrigger": {
-          "title": "已禁用预测警报",
-          "alertTitle": "将在预测违例之前触发警报 {{value}}",
-          "timeToFailure": "失败时间"
+          "title": "预测警报",
+          "description": "根据历史数据趋势接收主动警报。 该选项可帮助您在潜在问题影响您的系统之前进行预测。",
+          "forecastTimeframe": "预测时间窗口",
+          "forecastTimeframeDetails": "定义用于警报的预测时间范围。 请注意，数值越大，错误警报的几率就越大。",
+          "fitTimeframe": "历史数据时间窗口",
+          "fitTimeframeDetails": "指定用于分析趋势的时间范围。 如果您关心短期趋势，请选择较短的时间框架；如果您希望在长期趋势预计将超过限值时收到警报，请选择较大的时间框架。",
+          "summary": "警报最多可提前 <strong> {{forecastTimeframe}}</strong> 触发。 预测是根据<strong>上一个 {{fitTimeframe}}</strong> 的线性趋势生成的。",
+          "invalidTimeframes": "历史数据时间窗口必须至少是预测时间窗口的两倍。"
         },
         "alertChannel": {
           "label": "警报通道",
@@ -1497,6 +1539,42 @@
         "step4": {
           "header": "您希望通过此警报来通知哪些内容？",
           "description": "选择该警报的收件人"
+        },
+        "scopeAlerting": {
+          "title": "选择警报的提醒方式",
+          "customAggregation": "自定义汇总",
+          "customAggregationDescription": "将范围内的所有指标汇总为每个组的单一指标。 每个小组每次最多只有一个活动议题。",
+          "perEntityAlerting": "每个实体警报",
+          "perEntityAlertingDescription": "单独监控各项指标。 您将收到违反阈值的每个指标的警报。"
+        },
+        "scopeFilter": {
+          "title": "选择基础架构的范围",
+          "filter": "过滤",
+          "filterDescription": "为服务添加过滤器，以获得更精确的警报。"
+        },
+        "scopeGroupBy": {
+          "group": "组",
+          "groupByDescription": "添加组以在组中配置调用。 组内的每次调用都是集体配置的，但会单独进行评估。"
+        },
+        "timeThreshold": {
+          "title": "设置违例何时触发警报",
+          "description": "指定警报触发的持续时间和故障时间。"
+        },
+        "thresholdDescription": {
+          "static": "将应用常量阈值，并且该值不会随时间变化。"
+        },
+        "chartAlertPreview": "警报预览",
+        "chartAlertPreviewDescription": "显示如何根据历史度量值数据触发警报。",
+        "forecastAlerting": {
+          "description": "根据历史数据和趋势接收主动警报。 该选项可帮助您在潜在问题影响系统之前对其进行预测。",
+          "historicalDataTime": {
+            "description": "指定用于分析趋势的时间范围。",
+            "tooltipContent": "如果您关心短期趋势，请选择较短的时间框架；如果您希望在长期趋势预计将超过限值时收到警报，请选择较大的时间框架。"
+          },
+          "forecastedTimeWindow": {
+            "description": "请注意，数值越大，错误警报的几率就越大。",
+            "tooltipContent": "定义用于警报的预测时间范围。 "
+          }
         }
       }
     },
@@ -1529,7 +1607,9 @@
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}"
             }
           }
-        }
+        },
+        "noDataHeader": "无日志智能警报",
+        "noDataDescription": "要开始操作，请单击<strong>创建智能警报</strong>。"
       },
       "advancedModeContainer": {
         "scope": {
@@ -1680,5 +1760,23 @@
         "failedTitle_EDIT": "更新此 SLO 智能警报时出现问题"
       }
     }
+  },
+  "table": {
+    "active": "活动",
+    "inactive": "不活动",
+    "triggeringAction": "触发条件",
+    "status": "状态",
+    "apply": "应用",
+    "cancel": "取消",
+    "filter": "过滤",
+    "alertType": "报警类型",
+    "notificationChannel": "通知通道",
+    "tableDataSettings": "表格数据设置",
+    "pause": "暂停",
+    "delete": "删除",
+    "warningAndCritical": "警告和批评",
+    "warning": "警告",
+    "critical": "严重",
+    "searchPlaceholder": "搜索"
   }
 }

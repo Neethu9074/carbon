@@ -8,7 +8,6 @@
 :local {
   .icon {
     fill: var(--ids-color-option-neutral-600);
-    margin: 0 0 0 1.5rem;
   }
 
   .header {
@@ -27,6 +26,7 @@
   }
 
   .title {
+    margin-bottom: 0;
     color: var(--ids-color-option-neutral-900);
     font-size: 0.875rem;
     font-weight: 500;

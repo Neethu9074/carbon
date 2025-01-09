@@ -79,13 +79,7 @@ function Header(props) {
     <DashboardHeader
       {...props}
       title={t('in-nutanix:dashboards.nutanixVm')}
-      icon={resolveIcon(props)}
       label={get(props.result, ['data', 'label'])}
     />
   );
-}
-
-export function resolveIcon(props) {
-  const guestFullName = get(props, ['result', 'data', 'guestFullName'], 'linux');
-  return guestFullName && guestFullName.toLowerCase().includes('windows') ? 'lib_windows' : 'lib_linux';
 }

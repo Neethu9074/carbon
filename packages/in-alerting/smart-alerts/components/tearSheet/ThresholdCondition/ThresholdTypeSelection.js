@@ -19,6 +19,7 @@ import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/for
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { DAILY, WEEKLY } from 'in-alerting/smart-alerts/data/seasonalities';
 import AlertTypography from 'in-alerting/components/AlertTypography';
+import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/tearSheet/steps/AlertConfigTearSheetStep4.mless';
@@ -51,7 +52,7 @@ export default function ThresholdTypeSelection({
               value={thresholdComboBoxValue}
               items={options}
               onChange={e => {
-                onThresholdTypeChange(e.target.value, form, updateForm);
+                onThresholdTypeChange(e.target.value, form, updateForm, noop, editMode);
               }}
               useFullWidth
               wrapperClassName={locals.fullWidth}

@@ -25,7 +25,7 @@ export default function SelectTimeThreshold({ form, updateForm, hasTraceImpactOp
 
   const currenttimeThreshold = form.get('timeThreshold').get('type').value;
   const selectedTriggerAlert =
-    (currenttimeThreshold == violationsInSequence) | (currenttimeThreshold == violationsInPeriod)
+    currenttimeThreshold == violationsInSequence || currenttimeThreshold == violationsInPeriod
       ? violationsInSequence
       : traceImpact;
   const selectedPersistanceType =

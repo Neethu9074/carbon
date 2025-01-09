@@ -11,7 +11,6 @@ import { Button } from '@instana/components';
 
 import { getValueRoundedToDecimals } from 'in-alerting/smart-alerts/components/utils/formatUtils';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/dialog/advanced/UseSuggestedValueButton.mless';
@@ -25,6 +24,7 @@ interface UseSuggestedValueButtonProps {
   thresholdField?: Field<any>;
   isMultiThreshold?: boolean;
   getUpdatedForm?: (targetValue: number | null) => MapForm<any>;
+  isTearSheet?: boolean;
 }
 
 export default function UseSuggestedValueButton({
@@ -35,7 +35,8 @@ export default function UseSuggestedValueButton({
   isGlobalSmartAlert = false,
   thresholdField = form.get('threshold').get('value'),
   isMultiThreshold = false,
-  getUpdatedForm
+  getUpdatedForm,
+  isTearSheet = false
 }: UseSuggestedValueButtonProps) {
   const suggestedThresholdValue = form.get('hiddenFields').get('suggestedThresholdValue').value;
   const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
@@ -65,13 +66,13 @@ export default function UseSuggestedValueButton({
           {showButton && (
             <div
               className={classNames({
-                [locals.buttonWrapper]: true,
-                [locals.multiThresholdButtonWrapper]: isMultiThreshold
+                [locals.buttonWrapper]: !isTearSheet,
+                [locals.multiThresholdButtonWrapper]: isMultiThreshold && !isTearSheet
               })}
             >
               <Button
-                size={carbonButtonEnabled ? 'compact' : 'normal'}
-                kind={carbonButtonEnabled ? 'tertiary' : 'secondaryDarker'}
+                size="compact"
+                kind="tertiary"
                 onClick={() => {
                   const updatedForm = getUpdatedForm
                     ? getUpdatedForm(suggestedThresholdValue)

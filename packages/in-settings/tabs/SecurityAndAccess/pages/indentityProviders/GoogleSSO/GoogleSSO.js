@@ -9,10 +9,12 @@ import React from 'react';
 import { Typography } from '@instana/components';
 
 import { getConfigAsResultObservable, refresh, setConfig } from 'in-settings/tabs/SecurityAndAccess/api/googleSSO';
+import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import ApiItemView from 'in-settings/components/ApiItemView';
+import { UPDATED_OBJECT } from 'in-services/util/constants';
 import Section from 'in-settings/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
@@ -21,6 +23,7 @@ import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
 export default function GoogleSSO() {
+  const { unstable_trackEvent } = useSegmentTracking();
   return (
     <ApiItemView
       getObservables={() => ({
@@ -28,7 +31,7 @@ export default function GoogleSSO() {
       })}
       enrichForm={enrichForm}
       onCancelClick={refresh}
-      saveItem={saveItem}
+      saveItem={data => saveItem({ ...data, unstable_trackEvent })}
       render={render}
     />
   );
@@ -73,11 +76,15 @@ function render({ form, setForm }) {
   );
 }
 
-function saveItem({ form, setMessage }) {
+function saveItem({ form, setMessage, unstable_trackEvent }) {
+  const googleSingleSignOnConfig = { filter: form.get('filter').value };
   setMessage({ message: t('in-settings:tabs.savingConfig'), type: 'neutral', isSaving: true });
-  const setConfigResult$ = setConfig({ filter: form.get('filter').value });
+  const setConfigResult$ = setConfig(googleSingleSignOnConfig);
   setConfigResult$.once(
-    () => setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: 'success' }),
+    () => {
+      setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: 'success' });
+      unstable_trackEvent(UPDATED_OBJECT, { objectType: 'settings.identityProvider.googleSingleSignOn' });
+    },
     error =>
       setMessage({
         text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }),

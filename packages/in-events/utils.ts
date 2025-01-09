@@ -9,7 +9,7 @@ import { TimeConfig } from 'in-types';
 function getExplicitEventFilter(eventFilter?: string) {
   if (!eventFilter) {
     // If no eventFilter is set, this means "All" events selected but should filter Monitoring Events
-    return `!event.type:agent_monitoring_issue AND !event.type:cve_issue`;
+    return `!event.type:agent_monitoring_issue AND !event.type:cve_issue AND !event.type:prc_issue`;
   } else if (eventFilter === 'change') {
     return 'event.type:changeAndPresence';
   } else {

@@ -22,7 +22,8 @@ import {
   Severity,
   SmartAlertThresholdRuleUnion,
   StaticThresholdRule,
-  ThresholdOperator
+  ThresholdOperator,
+  ForecastingConfig
 } from '@instana/types';
 
 import {
@@ -90,7 +91,7 @@ export default function InfraAlertChartWrapper({
   isEventDetailPage = false,
   eventSeverity = 5
 }: InfraAlertChartWrapperProps) {
-  const { timeThreshold, granularity, tagFilterExpression, rules } = alertConfig;
+  const { timeThreshold, granularity, tagFilterExpression, rules, forecastingConfig } = alertConfig;
 
   const firstRule: RuleWithThreshold<InfraAlertRuleUnion> = rules[0];
   const { entityType, metricName, aggregation, crossSeriesAggregation } = firstRule.rule;
@@ -215,7 +216,8 @@ export default function InfraAlertChartWrapper({
           granularity,
           getThresholdData(getThresholdWithLowestSeverity(thresholdsMap)!, thresholdOperator),
           timeThreshold,
-          entityType
+          entityType,
+          forecastingConfig
         );
 
         return (
@@ -278,7 +280,8 @@ function getAlertsPreviewQuery(
   granularity: Granularity,
   threshold: ThresholdData,
   timeThreshold: InfraTimeThreshold,
-  entityType: string
+  entityType: string,
+  forecastingConfig?: ForecastingConfig
 ) {
   if (shouldRequestAlertsPreview(threshold)) {
     return {
@@ -295,7 +298,8 @@ function getAlertsPreviewQuery(
         timeConfig,
         regex: false,
         type: entityType
-      }
+      },
+      forecastingConfig
     } as GetInfraMetricAlertsPreviewQuery;
   }
   return null;

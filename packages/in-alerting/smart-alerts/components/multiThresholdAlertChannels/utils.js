@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2024
  */
 
+import { isEmpty } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { t } from 'in-i18n';
 
 export const REMAINING = 'remaining';
@@ -11,7 +12,7 @@ export const REMOVING = 'removing';
 export const CRITICAL = 'CRITICAL';
 export const WARNING = 'WARNING';
 
-function getFilteredChannels(enabledList, thresholdType, filteredChannelList, condition = REMAINING) {
+export function getFilteredChannels(enabledList, thresholdType, filteredChannelList, condition = REMAINING) {
   const filteredIds = new Set(filteredChannelList.map(item => item.id));
   const items = enabledList?.[thresholdType];
 
@@ -140,7 +141,7 @@ export function updateOnRowToggleAndFormForCritical(selectedChannels, entity, on
   };
 }
 
-function updateAlertChannelFormField(onChange, newWarningSelections = [], newCriticalSelections = []) {
+export function updateAlertChannelFormField(onChange, newWarningSelections = [], newCriticalSelections = []) {
   onChange(['alertChannels'], field =>
     field
       .setValue({
@@ -246,4 +247,20 @@ export function updateAlertChannelSelectionOnCriticalThresholdFieldChange(
     // If only critical threshold is present, reset WARNING selections and move them to CRITICAL
     updateAlertChannelIds(form, updateForm, [], [...warningChannels]);
   }
+}
+
+export function getThresholdFieldStatus(form) {
+  const warningThresholdField = form?.get('threshold')?.get('warningThreshold');
+  const criticalThresholdField = form?.get('threshold')?.get('criticalThreshold');
+
+  const warningThresholdFieldDisabled =
+    isEmpty(warningThresholdField?.get('value')?.value) && !warningThresholdField?.get('isCheckboxSelected')?.value;
+
+  const criticalThresholdFieldDisabled =
+    isEmpty(criticalThresholdField?.get('value')?.value) && !criticalThresholdField?.get('isCheckboxSelected')?.value;
+
+  return {
+    warningThresholdFieldDisabled,
+    criticalThresholdFieldDisabled
+  };
 }

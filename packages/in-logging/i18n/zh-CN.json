@@ -5,7 +5,7 @@
   "bar": "条形图",
   "logsOverTime": "一段时间内的日志数",
   "logsOverTime_ERROR": "错误",
-  "logsOverTime_WARN": "警告 ",
+  "logsOverTime_WARN": "警告",
   "logsOverTime_INFO": "参考信息",
   "logsOverTime_FATAL": "致命",
   "logsOverTime_NEXTLOGLEVEL": "{{label}}",

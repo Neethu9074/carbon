@@ -8,9 +8,13 @@ import React from 'react';
 import ServiceInformation from 'in-applications/ApplicationMap/components/Tooltips/ServiceInformation/ServiceInformation';
 import ApplicationMapTootlip from 'in-applications/ApplicationMap/components/Tooltips/ApplicationMapTootlip';
 import Header from 'in-applications/ApplicationMap/components/Tooltips/ServiceInformation/Header';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getSparkChartGranularity } from 'in-applications/metrics';
-import getMetrics from 'in-applications/subscriptions/getMetrics';
-import { boundaryScopes } from 'in-applications/constants';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 
@@ -23,13 +27,19 @@ export default connectTo(
       timeConfig: timeConfig$,
       metricsResult: timeConfig$.flatMap(timeConfig => {
         const granularity = getSparkChartGranularity(timeConfig);
-        return getMetrics({
-          filter: {
-            application: props.applicationId,
-            applicationBoundaryScope: boundaryScopes.all,
-            service: props.serviceId,
-            timeConfig
-          },
+        return getApplicationMetrics({
+          tagFilterExpression: toBackendQueryModel(
+            joinExpressions({
+              expressions: [
+                tagFilter('application.id', EQUALS, props.applicationId, null, DESTINATION),
+                tagFilter('service.id', EQUALS, props.serviceId, null, DESTINATION)
+              ]
+            })
+          ),
+          includeInternal: false,
+          includeSynthetic: false,
+          timeShift: { offset: 0 },
+          timeConfig,
           metrics: {
             calls: {
               metric: 'calls',

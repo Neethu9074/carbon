@@ -15,7 +15,7 @@ export function getNutanixWithDefaults({
   query = '',
   page = 1,
   pageSize = 20,
-  orderBy = 'consoleName',
+  orderBy = 'name',
   orderDirection = 'ASC',
   timeConfig
 }) {

@@ -30,7 +30,7 @@ export default connectTo(
     if (!hostId) return null;
 
     return (
-      <Breadcrumb href={getNutanixHostDashboard(hostId)} label={t('in-nutanix:breadcrumbs.hosts')} icon="lib_linux">
+      <Breadcrumb href={getNutanixHostDashboard(hostId)} label={t('in-nutanix:breadcrumbs.hosts')}>
         {label}
       </Breadcrumb>
     );

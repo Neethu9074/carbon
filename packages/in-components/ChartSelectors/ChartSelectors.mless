@@ -4,8 +4,7 @@
  */
 
 :local {
-  .comboOption {
-    min-width: 8rem;
-    text-align: right;
+  .selected {
+    background: var(--cds-layer-selected);
   }
 }

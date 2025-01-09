@@ -4,84 +4,78 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { number, bytes } from 'in-services/formatters/number';
-import Columize from 'in-sdk/components/dashboard/Columize';
+import { bytes } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
-const deviceColumn = {
-  title: t('in-nutanix:dashboards.device'),
+const diskStatusColumn = {
+  title: t('in-nutanix:dashboards.diskStatus'),
   type: 'string',
   typeArgs: {
     getValue(row) {
-      return row.key;
+      return row.storagedisk.diskStatus;
     }
   }
 };
-const urlColumn = {
-  title: t('in-nutanix:dashboards.url'),
+const mountPathColumn = {
+  title: t('in-nutanix:dashboards.mountPath'),
   type: 'string',
   typeArgs: {
     getValue(row) {
-      return row.filesystem.url;
+      return row.storagedisk.mountPath;
     }
   }
 };
-const typeColumn = {
-  title: t('in-nutanix:dashboards.type'),
+const storageTierNameColumn = {
+  title: t('in-nutanix:dashboards.storageTierName'),
   type: 'string',
   typeArgs: {
     getValue(row) {
-      return row.filesystem.type;
+      return row.storagedisk.storageTierName;
     }
   }
 };
-const maxFileSizeColumn = {
-  title: t('in-nutanix:dashboards.maxFileSize'),
+const availableSpaceColumn = {
+  title: t('in-nutanix:dashboards.availableSpace'),
   type: 'number',
   typeArgs: {
     getValue(row) {
-      return row.filesystem.maxFileSize;
+      return row.storagedisk.availableSpace;
     },
     getContent: bytes.detailed
-  }
-};
-const capacityColumn = {
-  title: t('in-nutanix:dashboards.capacity'),
-  type: 'number',
-  typeArgs: {
-    getValue(row) {
-      return row.filesystem.capacity;
-    },
-    getContent: bytes.detailed
-  }
-};
-const freeSpaceColumn = {
-  title: t('in-nutanix:dashboards.freeSpace'),
-  type: 'metric',
-  typeArgs: {
-    getSnapshotId(row) {
-      return row.data.id;
-    },
-    getMetricName(row) {
-      return 'datastore.freeSpace.' + row.key;
-    },
-    getContent: bytes.detailed,
-    getTimeWindowAggregation() {
-      return 'mean';
-    }
   }
 };
 
-export default function FilesystemsTable({ data, timeConfig }) {
+const freeSpaceColumn = {
+  title: t('in-nutanix:dashboards.freeSpace'),
+  type: 'number',
+  typeArgs: {
+    getValue(row) {
+      return row.storagedisk.freeSpace;
+    },
+    getContent: bytes.detailed
+  }
+};
+
+const usedSpaceColumn = {
+  title: t('in-nutanix:dashboards.usedSpace'),
+  type: 'number',
+  typeArgs: {
+    getValue(row) {
+      return row.storagedisk.usedSpace;
+    },
+    getContent: bytes.detailed
+  }
+};
+
+export default function StoragedisksTable({ data, timeConfig }) {
   const rows = [
-    ...data.datastores.map(filesystem => {
+    ...data.datastores.map(storagedisk => {
       return {
-        key: filesystem.label,
-        filesystem,
+        key: storagedisk.uuid,
+        storagedisk,
         timeConfig,
         data
       };
@@ -92,108 +86,23 @@ export default function FilesystemsTable({ data, timeConfig }) {
     return null;
   }
 
-  const cols = [deviceColumn, urlColumn, typeColumn, maxFileSizeColumn, capacityColumn, freeSpaceColumn];
+  const cols = [
+    diskStatusColumn,
+    mountPathColumn,
+    storageTierNameColumn,
+    availableSpaceColumn,
+    freeSpaceColumn,
+    usedSpaceColumn
+  ];
 
   return (
     <Table
-      cardTitle={t('in-nutanix:dashboards.filesystems')}
+      cardTitle={t('in-nutanix:dashboards.noOfDisks')}
       withoutPadding
       cols={cols}
       rows={rows}
-      getRowDetails={getDetails}
       initialSortDirection="desc"
-      initialSortColumn={cols.indexOf(capacityColumn)}
+      initialSortColumn={cols.indexOf(availableSpaceColumn)}
     />
-  );
-}
-
-function getDetails(row) {
-  const fsId = row.filesystem.id;
-
-  return (
-    <Fragment>
-      <Columize>
-        <Chart
-          snapshotId={row.data.id}
-          timeConfig={row.timeConfig}
-          y1={{
-            min: 0,
-            formatter: number.compact,
-            tooltipFormatter: number.compact,
-            metrics: [
-              'datastore.datastoreReadIops.number.latest.' + fsId,
-              'datastore.datastoreWriteIops.number.latest.' + fsId,
-              'datastore.datastoreTotalIops.number.latest.' + fsId
-            ],
-            labels: [
-              t('in-nutanix:dashboards.iopsRead'),
-              t('in-nutanix:dashboards.iopsWrite'),
-              t('in-nutanix:dashboards.iopsTotal')
-            ],
-            type: 'line'
-          }}
-        />
-        <Chart
-          snapshotId={row.data.id}
-          timeConfig={row.timeConfig}
-          y1={{
-            min: 0,
-            formatter: number.compact,
-            tooltipFormatter: number.compact,
-            metrics: [
-              'datastore.numberReadAveraged.number.average.' + fsId,
-              'datastore.numberWriteAveraged.number.average.' + fsId
-            ],
-            labels: [t('in-nutanix:dashboards.readPerSec'), t('in-nutanix:dashboards.writePerSec')],
-            type: 'line'
-          }}
-          y2={{
-            min: 0,
-            formatter: bytes.compact,
-            tooltipFormatter: bytes.detailed,
-            metrics: [
-              'datastore.datastoreReadBytes.number.latest.' + fsId,
-              'datastore.datastoreWriteBytes.number.latest.' + fsId
-            ],
-            labels: [t('in-nutanix:dashboards.byteReadPerSec'), t('in-nutanix:dashboards.byteWritePerSec')],
-            type: 'line'
-          }}
-        />
-      </Columize>
-      <Columize>
-        <Chart
-          snapshotId={row.data.id}
-          timeConfig={row.timeConfig}
-          y1={{
-            min: 0,
-            formatter: number.compact,
-            tooltipFormatter: number.compact,
-            metrics: [
-              'datastore.datastoreNormalReadLatency.number.latest.' + fsId,
-              'datastore.datastoreNormalWriteLatency.number.latest.' + fsId,
-              'datastore.datastoreNormalTotalLatency.number.latest.' + fsId
-            ],
-            labels: [
-              t('in-nutanix:dashboards.latencyRead'),
-              t('in-nutanix:dashboards.latencyWrite'),
-              t('in-nutanix:dashboards.latencyTotal')
-            ],
-            type: 'line'
-          }}
-        />
-        <Chart
-          snapshotId={row.data.id}
-          timeConfig={row.timeConfig}
-          y1={{
-            min: 0,
-            formatter: bytes.detailed,
-            tooltipFormatter: bytes.detailed,
-            metrics: ['datastore.freeSpace.' + row.key],
-            labels: [t('in-nutanix:dashboards.freeSpace')],
-            type: 'line'
-          }}
-        />
-      </Columize>
-    </Fragment>
   );
 }

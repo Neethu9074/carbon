@@ -41,7 +41,7 @@ export function getNotes(event) {
           updated: x.get('updated'),
           data: x.get('data'),
           label: x.get('label'),
-          origin: x.get('origin')
+          origin: x.get('origin'),
         };
       }) || [];
   return notes;

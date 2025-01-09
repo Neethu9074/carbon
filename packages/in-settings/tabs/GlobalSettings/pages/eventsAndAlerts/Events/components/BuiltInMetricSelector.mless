@@ -11,10 +11,6 @@
     color: var(--ids-color-option-neutral-700);
     cursor: pointer;
 
-    &.padding {
-      padding: 8px 10px;
-    }
-
     &:hover {
       background-color: rgba(230, 239, 255, 0.69);
     }

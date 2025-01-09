@@ -983,6 +983,11 @@
   "pluginName_ibmDataPowerQueueManager_1": "IBM DataPower Queue Managers",
   "pluginName_ibmDataPowerQueueManager_2": "IBM DataPower Queue Managers",
   "pluginName_ibmDataPowerQueueManager": "IBM DataPower Queue Manager",
+  "pluginName_ibmDataPowerQueueManagerV9_plural": "IBM DataPower Queue Managers V9+",
+  "pluginName_ibmDataPowerQueueManagerV9_0": "IBM DataPower Queue Managers V9+",
+  "pluginName_ibmDataPowerQueueManagerV9_1": "IBM DataPower Queue Managers V9+",
+  "pluginName_ibmDataPowerQueueManagerV9_2": "IBM DataPower Queue Managers V9+",
+  "pluginName_ibmDataPowerQueueManagerV9": "IBM DataPower Queue Manager V9+",
   "pluginName_ibmDataPowerService_plural": "IBM DataPower Services",
   "pluginName_ibmDataPowerService_0": "IBM DataPower Services",
   "pluginName_ibmDataPowerService_1": "IBM DataPower Services",
@@ -1391,6 +1396,21 @@
   "pluginName_otelProcess_1": "OTel Processes",
   "pluginName_otelProcess_2": "OTel Processes",
   "pluginName_otelProcess": "OTel Processes",
+  "pluginName_oTelK8sPod_plural": "OTel Kubernetes Pod",
+  "pluginName_oTelK8sPod_0": "OTel Kubernetes Pod",
+  "pluginName_oTelK8sPod_1": "OTel Kubernetes Pod",
+  "pluginName_oTelK8sPod_2": "OTel Kubernetes Pod",
+  "pluginName_oTelK8sPod": "OTel Kubernetes Pod",
+  "pluginName_oTelK8sCluster_plural": "OTel Kubernetes Cluster",
+  "pluginName_oTelK8sCluster_0": "OTel Kubernetes Cluster",
+  "pluginName_oTelK8sCluster_1": "OTel Kubernetes Cluster",
+  "pluginName_oTelK8sCluster_2": "OTel Kubernetes Cluster",
+  "pluginName_oTelK8sCluster": "OTel Kubernetes Cluster",
+  "pluginName_oTelK8sNode_plural": "OTel Kubernetes Node",
+  "pluginName_oTelK8sNode_0": "OTel Kubernetes Node",
+  "pluginName_oTelK8sNode_1": "OTel Kubernetes Node",
+  "pluginName_oTelK8sNode_2": "OTel Kubernetes Node",
+  "pluginName_oTelK8sNode": "OTel Kubernetes Node",
   "pluginName_openLDAP_plural": "OpenLDAP Nodes",
   "pluginName_openLDAP_0": "OpenLDAP Nodes",
   "pluginName_openLDAP_1": "OpenLDAP Nodes",
@@ -1609,10 +1629,10 @@
   "pluginName_service_1": "Services",
   "pluginName_service_2": "Services",
   "pluginName_service": "Service",
-  "pluginName_snowflake_plural": "Snowflakes",
-  "pluginName_snowflake_0": "Snowflakes",
-  "pluginName_snowflake_1": "Snowflakes",
-  "pluginName_snowflake_2": "Snowflakes",
+  "pluginName_snowflake_plural": "Snowflake",
+  "pluginName_snowflake_0": "Snowflake",
+  "pluginName_snowflake_1": "Snowflake",
+  "pluginName_snowflake_2": "Snowflake",
   "pluginName_snowflake": "Snowflake",
   "pluginName_solr_plural": "Solr Nodes",
   "pluginName_solr_0": "Solr Nodes",
@@ -1624,10 +1644,10 @@
   "pluginName_solrCloudCluster_1": "Solr Cloud Clusters",
   "pluginName_solrCloudCluster_2": "Solr Cloud Clusters",
   "pluginName_solrCloudCluster": "Solr Cloud Cluster",
-  "pluginName_snowflakeOrganization_plural": "Snowflake Organizations",
-  "pluginName_snowflakeOrganization_0": "Snowflake Organizations",
-  "pluginName_snowflakeOrganization_1": "Snowflake Organizations",
-  "pluginName_snowflakeOrganization_2": "Snowflake Organizations",
+  "pluginName_snowflakeOrganization_plural": "Snowflake Organization",
+  "pluginName_snowflakeOrganization_0": "Snowflake Organization",
+  "pluginName_snowflakeOrganization_1": "Snowflake Organization",
+  "pluginName_snowflakeOrganization_2": "Snowflake Organization",
   "pluginName_snowflakeOrganization": "Snowflake Organization",
   "pluginName_sparkApplication_plural": "Spark Applications",
   "pluginName_sparkApplication_0": "Spark Applications",
@@ -1824,7 +1844,6 @@
   "pluginName_syntheticPoP_2": "Synthetic PoPs",
   "pluginName_syntheticPoP": "Synthetic PoP",
   "pluginName_powerVC": "PowerVC",
-
   "pluginName_websiteHttpd": "Website",
   "pluginName_websiteHttpd_plural": "Websites",
   "pluginName_websiteHttpd_0": "Websites",
@@ -3414,6 +3433,8 @@
       "state": "State",
       "queueManagersNumber": "Queue Manager ({{count}})",
       "queueManagersNumber_plural": "Queue Managers ({{count}})",
+      "queueManagersV9Number": "Queue Manager V9+ ({{count}})",
+      "queueManagersV9Number_plural": "Queue Managers V9+ ({{count}})",
       "serviceNumber": "Service ({{count}})",
       "serviceNumber_plural": "Services ({{count}})",
       "sqlDatasourceNumber": "SQL Data Source ({{count}})",
@@ -3454,6 +3475,12 @@
       "activeConnections": "Active Connections",
       "backendActiveConnections": "Backend Active Connections",
       "frontendActiveConnections": "Frontend Active Connections"
+    },
+    "ibmDataPowerQueueManagerV9": {
+      "ibmDataPowerQueueManagerV9Info": "IBM DataPower Queue Manager V9+",
+      "activeConversations": "Active Conversations",
+      "backendActiveConversations": "Backend Active Conversations",
+      "frontendActiveConversations": "Frontend Active Conversations"
     },
     "ibmDataPowerService": {
       "ibmDataPowerServiceInfo": "IBM DataPower Service",
@@ -3577,7 +3604,7 @@
       "lightweightDirectoryAccessProtocolLabel": "Lightweight Directory Access Protocol (LDAP)",
       "lightweightDirectoryAccessProtocol": {
         "operations": "Operations",
-        "operationRates": "Operation Rates (per second)",
+        "operationRates": "Operation rates (per second)",
         "add": "Add",
         "delete": "Delete",
         "modifyDN": "Modify DN",
@@ -3586,17 +3613,17 @@
         "search": "Search",
         "udp": "UDP",
         "connections": "Connections",
-        "connectionRates": "Connection Rates (per second)",
-        "clientSessions": "Client Sessions",
-        "closedConnections": "Closed Connections",
-        "sslConnections": "SSL Connections",
+        "connectionRates": "Connection rates (per second)",
+        "clientSessions": "Client sessions",
+        "closedConnections": "Closed connections",
+        "sslConnections": "SSL connections",
         "threads": "Threads",
-        "sleepingOnBusy": "Sleeping on BUSY",
+        "sleepingOnBusy": "Sleeping on busy",
         "active": "Active",
-        "busyretries": "Busy Retries",
+        "busyretries": "Busy retries",
         "batch": "Batches",
-        "availableBatchSlots": "Available Batch Slots",
-        "outboundBytes": "Outbound Bytes"
+        "availableBatchSlots": "Available batch slots",
+        "outboundBytes": "Outbound bytes"
       },
       "addressBookLabel": "Address Book",
       "addressBook": {
@@ -3616,6 +3643,10 @@
       "directorySystemAgentSearches": "Directory system agent(Searches details)",
       "directorySystemAgentWrite": "Directory system agent(Write details)",
       "directorySystemAgentSecurity": "Directory system agent(Security details)",
+      "directorySystemAgentKCC": "Knowledge consistency checker",
+      "directorySystemAgentLSA": "Local security authority",
+      "directorySystemAgentNSPI": "Name service provider",
+      "securityAccountManagerLabel": "Security accounts manager",
       "directorySystemAgent": {
         "dsClientBindsPerSec": "Client binds per second",
         "dsClientNameTranslationsPerSec": "Client name translations per second",
@@ -3628,23 +3659,49 @@
         "dsPercentReadsFromDRA": "Percentage DRA reads",
         "dsPercentReadsFromNTDSAPI": "Percentage NTDSAPI reads",
         "dsPercentReadsFromSAM": "Percentage SAM reads",
-        "dsPercentReadsOther": "Percentage Other reads",
+        "dsPercentReadsOther": "Percentage other reads",
         "dsPercentSearchesFromDRA": "Percentage DRA searches",
         "dsPercentSearchesFromLDAP": "Percentage LDAP searches",
         "dsPercentSearchesFromNTDSAPI": "Percentage NTDSAPI searches",
         "dsPercentSearchesFromSAM": "Percentage SAM searches",
-        "dsPercentSearchesOther": "Percentage Other searches",
+        "dsPercentSearchesOther": "Percentage other searches",
         "dsPercentWritesFromDRA": "Percentage writes DRA",
-        "dsPercentWritesFromLDAP": "Percentage writes LDPA",
+        "dsPercentWritesFromLDAP": "Percentage writes LDAP",
         "dsPercentWritesFromNTDSAPI": "Percentage writes NTDSAPI",
         "dsPercentWritesFromSAM": "Percentage writes SAM",
-        "dsPercentWritesOther": "Percentage writes Other",
+        "dsPercentWritesOther": "Percentage other writes",
         "dsSearchSubOperationsPerSec": "Search sub operations per second",
         "dsSecurityDescriptorPropagationsEvents": "Security descriptor propagations events",
         "dsSecurityDescriptorPropagatorAverageExclusionTime": "Security descriptor propagations average exclusion time",
         "dsSecurityDescriptorPropagatorRuntimeQueue": "Security descriptor propagations run time",
-        "dsSecurityDescriptorSubOperationsPersec": "Security descriptor suboperations per second"
-
+        "dsSecurityDescriptorSubOperationsPersec": "Security descriptor suboperations per second",
+        "dsPercentReadsFromKCC": "KCC reads(%)",
+        "dsPercentWritesFromKCC": "KCC writes(%)",
+        "dsPercentSearchesFromKCC": "KCC searches(%)",
+        "dsPercentReadsFromLSA": "LSA reads(%)",
+        "dsPercentWritesFromLSA": "LSA writes(%)",
+        "dsPercentSearchesFromLSA": "LSA searches(%)",
+        "dsPercentReadsFromNSPI": "NSPI reads(%)",
+        "dsPercentWritesFromNSPI": "NSPI writes(%)",
+        "dsPercentSearchesFromNSPI": "NSPI searches(%)"
+      },
+      "securityAccountManager": {
+        "samAccountGroupEvaluationLatency": "Account group evaluation latency",
+        "samDisplayInformationQueriesPerSec": "Display information queries per second",
+        "samDomainLocalGroupMembershipEvaluationsPerSec": "Domain local group membership evaluations per second",
+        "samEnumerationsPerSec": "Enumerations per second",
+        "samGCEvaluationsPerSec": "GC evaluations per second",
+        "samGlobalGroupMembershipEvaluationsPerSec": "Glocal group membership evaluations per second",
+        "samMachineCreationAttemptsPerSec": "Machine creation attempts per second",
+        "samMembershipChangesPerSec": "Membership changes per second",
+        "samNonTransitiveMembershipEvaluationsPerSec": "Non transitive membership evaluations per second",
+        "samPasswordChangesPerSec": "Password changes per second",
+        "samResourceGroupEvaluationLatency": "Resource group evaluation latency",
+        "samSuccessfulComputerCreationsPerSec": "Successful computer creations per second",
+        "samSuccessfulUserCreationsPerSec": "Successful user creations per second",
+        "samTransitiveMembershipEvaluationsPerSec": "Transitive membership evaluations per second",
+        "samUniversalGroupMembershipEvaluationsPerSec": "Universal group membership evaluations per second",
+        "samUserCreationAttemptsPerSec": "User creation attempts per second"
       }
     },
     "activeMQ": {
@@ -5069,7 +5126,6 @@
       "minDelayTarget": "Minimum Delay Target",
       "maxDelayTarget": "Maximum Delay Target"
     },
-
     "awsApiGateway": {
       "dashboard": {},
       "infoTitle": {
@@ -5097,7 +5153,6 @@
       "labelSum": "Sum",
       "labelCount": "Count"
     },
-
     "awsCloudFront": {
       "infoTitle": {
         "distributionId": "Distribution ID",
@@ -5130,7 +5185,6 @@
       "titleFunctionNames": "Function Names",
       "titleAssociatedFunctions": "Associated Functions"
     },
-
     "awsAppSync": {
       "dashboard": {
         "titleErrors": "Errors",
@@ -5263,7 +5317,6 @@
       "labelPredictiveScalingCapacityForecast": "Predictive Scaling Capacity Forecast",
       "labelPredictiveScalingMetricPairCorrelation": "Predictive Scaling Metric Pair Correlation"
     },
-
     "azure": {
       "dashboard": {
         "thereIsNoFurtherInformationAboutThisEntity": "There is no further information about this entity."
@@ -6089,7 +6142,6 @@
       "infoType": "Type",
       "infoKind": "Kind",
       "infoState": "State",
-
       "labelReCo": "Count Requests",
       "labelReAv": "Average Requests",
       "labelReMi": "Minimum Requests",
@@ -7343,6 +7395,7 @@
       "image": "Image",
       "id": "Id",
       "ip": "IP",
+      "version": "CRI-O Version",
       "createdAt": "Created At",
       "cpuTotalUsage": "CPU Total Usage",
       "cpuThrottlingCount": "CPU Throttling Count",
@@ -8717,7 +8770,6 @@
       "memoryUsage": "Memory Usage ",
       "cpuUsage": "CPU Usage "
     },
-
     "postgreSqlDatabase": {
       "troubleshootingDocs": "Troubleshooting docs",
       "statsNotEnabledIssueDescription": "Statistics collection is not enabled by server configuration. Please make sure <code>track_counts</code>, <code>track_activities</code>, <code>track_io_timing</code> are set to <strong>on</strong> <code>postgresql.conf</code>.",
@@ -9531,7 +9583,7 @@
         "diskUsagePercentage": "Disk Usage Percentage",
         "diskUsageSummary": "Disk Usage Summary",
         "usage": "Usage",
-        "archiveLogBackupStats": "Archive Log Backup",
+        "archiveLogBackupStats": "Backup History",
         "sourceDatabaseName": "Source Database",
         "userLockStats": "User Locks",
         "userMode": "User mode",
@@ -9565,7 +9617,23 @@
         "totalWriteTime": "Write Time",
         "fileSystemPath": "File System Path",
         "fileType": "File Type",
-        "ioStats": "I/O Statistics"
+        "ioStats": "I/O Statistics",
+        "blockedTransactionStats": "Blocked Transactions",
+        "lockOwnerTransactionId": "Lock Owner Transaction ID",
+        "lockOwnerConnectionId": "Lock Owner Connection ID",
+        "waitingRecordId": "Waiting Record ID",
+        "waitingTableName": "Waiting Table",
+        "waitingSchemaName": "Waiting Schema",
+        "blockedTime": "Blocked Time",
+        "lockMode": "Lock Mode",
+        "blockedTransactionId" : "Blocked Transaction ID",
+        "blockedConnectionId": "Blocked Connection ID",
+        "jobProgressStats": "Job Progress",
+        "jobName": "Job Name",
+        "currentProgress": "Current Progress",
+        "maxProgress": "Maximum Progress",
+        "progressDetail": "Progress Detail"
+
       },
       "systemId": "System ID",
       "databaseName": "Database Name",
@@ -9657,15 +9725,15 @@
       "dashboard": {
         "overallCreditUsage": "Overall credit usage",
         "totalStorageBytes": "Total storage bytes",
-        "usageInCurrency": "Usage in currency",
+        "usageInCurrency": "Usage in currency ({{currency}})",
         "topFiveBillingAccounts": "Top 5 billing accounts",
-        "remainingBalanceInCurrency": "Remaining balance in currency",
+        "remainingBalanceInCurrency": "Remaining balance in currency ({{currency}})",
         "balance": "Balance",
         "accountName": "Account name",
         "credits": "Credits",
         "name": "Name",
         "region": "Region",
-        "accountsMonitored": "Accounts monitored by instana"
+        "accountsMonitored": "Accounts monitored by Instana"
       }
     },
     "solr": {
@@ -12591,7 +12659,8 @@
       "hostname": "Hostname",
       "startType": "Start Type",
       "turbonomicSensorException": "Turbonomic sensor produced the following exception : <code>{{e}}</code>.",
-      "jspawnhelperPermissionIssueDescription": "The agent is not able to execute file jspawnhelper in the JVM path <code>{{path}}</code> . Please provide necessary permissions."
+      "jspawnhelperPermissionIssueDescription": "The agent is not able to execute file jspawnhelper in the JVM path <code>{{path}}</code> . Please provide necessary permissions.",
+      "switchtoJava11IssueDescription": "The agent is running with a JVM below Java 11. The used version is <code>{{version}}</code>."
     },
     "sparkStandalone": {
       "titleApplicationId": "Application Id",
@@ -13566,19 +13635,45 @@
       "label_category_LLM": "LLM",
       "llm_status": "LLM Status",
       "dashboard": {
-        "token": "Tokens",
-        "cost": "Cost",
+        "token": "Tokens by Model",
+        "inputToken": "Input Tokens by Model",
+        "outputToken": "Output Tokens by Model",
+        "serviceToken": "Tokens by Service",
+        "serviceInputToken": "Input Tokens by Service",
+        "serviceOutputToken": "Output Tokens by Service",
+        "cost": "Cost by Model",
+        "inputCost": "Input Cost by Model",
+        "outputCost": "Output Cost by Model",
+        "serviceCost": "Cost by Service",
+        "serviceInputCost": "Input Cost by Service",
+        "serviceOutputCost": "Output Cost by Service",
         "duration": "Model Latencies",
         "analytics": "Tracing",
         "llmonitor_agent": "LLMonitor Platform",
         "details": "Details",
-        "count": "Request Counts",
+        "count": "Request Counts by Model",
+        "serviceCount": "Request Counts by Service",
         "totalToken": "Total Tokens",
+        "totalInputToken": "Total Input Tokens",
+        "totalOutputToken": "Total Output Tokens",
         "totalCost": "Total Cost",
+        "totalInputCost": "Total Input Cost",
+        "totalOutputCost": "Total Output Cost",
         "totalCount": "Total Request Counts",
         "totalTokenByModel": "Total Tokens by Model",
+        "totalInputTokenByModel": "Total Input Tokens by Model",
+        "totalOutputTokenByModel": "Total Output Tokens by Model",
+        "totalTokenByService": "Total Tokens by Service",
+        "totalInputTokenByService": "Total Input Tokens by Service",
+        "totalOutputTokenByService": "Total Output Tokens by Service",
         "totalCostByModel": "Total Cost by Model",
-        "totalCountByModel": "Total Request Counts by Model"
+        "totalInputCostByModel": "Total Input Cost by Model",
+        "totalOutputCostByModel": "Total Output Cost by Model",
+        "totalCostByService": "Total Cost by Service",
+        "totalInputCostByService": "Total Input Cost by Service",
+        "totalOutputCostByService": "Total Output Cost by Service",
+        "totalCountByModel": "Total Request Counts by Model", 
+        "totalCountByService": "Total Request Counts by Service"
       }
     },
     "oTelDcgm": {
@@ -13616,6 +13711,100 @@
         "gpuUtil": "GPU Utilization Details",
         "memoryCpyUtil": "GPU Memory Cpy Utilization Details",
         "util": "Utilization"
+      }
+    },
+    "oTelK8sPod": {
+      "platform": "Platform",
+      "address": "Address",
+      "port": "Port",
+      "kind": "Kind",
+      "type": "Type",
+      "serviceName": "Service Name",
+      "entityType": "Entity Type",
+      "instanceId": "Instance ID",
+      "runtimeDesc": "Kubernetes Runtime",
+      "runtimeVersion": "Kubernetes Version",
+      "exePath": "Executable Path",
+      "dashboard": {
+        "poduptime": "Pod Uptime",
+        "cpuresources": "CPU Resources",
+        "cpuusage": "CPU Usage",
+        "cpuutilization": "CPU Utilization",
+        "cputime": "CPU Time",
+        "cpunodeutilization": "CPU Node Utilization",
+        "cpulimitutilization": "CPU Limit Utilization",
+        "cpurequestutilization": "CPU Request Utilization",
+        "memoryresources": "Memory Resources",
+        "memoryusage": "Memory Usage",
+        "memoryavailable": "Memory Available",
+        "memorylimitutilization": "Memory Limit Utilization",
+        "memoryrequestutilization": "Memory Request Utilization",
+        "memoryrss": "Memory RSS",
+        "memoryworkingset": "Memory Working Set",
+        "memorypagefaults": "Memory Page Faults",
+        "memorymajorpagefaults": "Memory Major page Faults",
+        "fsresources": "Filesystem Resources",
+        "fsusage": "Filesystem Usage",
+        "fsavailble": "Filesystem Available",
+        "fscapacity": "Filesystem Capacity"
+      }
+    },
+    "oTelK8sCluster": {
+      "platform": "Platform",
+      "address": "Address",
+      "port": "Port",
+      "kind": "Kind",
+      "serviceName": "Service Name",
+      "entityType": "Entity Type",
+      "instanceId": "Instance ID",
+      "runtimeDesc": "Kubernetes Cluster Runtime",
+      "runtimeVersion": "Kubernetes Cluster Version",
+      "exePath": "Executable Path",
+      "dashboard": {
+        "summary": "Summary",
+        "nodes": "Nodes",
+        "pods": "Pods",
+        "nodecount": "Nodes Count",
+        "podcount": "Pods Count",
+        "name": "Name",
+        "namespace": "Name space",
+        "age": "Age",
+        "status": "Status",
+        "health": "Health"
+      }
+    },
+    "oTelK8sNode": {
+      "platform": "Platform",
+      "address": "Address",
+      "port": "Port",
+      "kind": "Kind",
+      "type": "Type",
+      "serviceName": "Service Name",
+      "entityType": "Entity Type",
+      "instanceId": "Instance ID",
+      "runtimeDesc": "Kubernetes Cluster Runtime",
+      "runtimeVersion": "Kubernetes Cluster Version",
+      "exePath": "Executable Path",
+      "dashboard": {
+        "summary": "Summary",
+        "nodecondition": "Node State",
+        "nodeuptime": "Node Uptime",
+        "cpuresources": "CPU Resources",
+        "cpuusage": "CPU Usage",
+        "cpuutilization": "CPU Utilization",
+        "cputime": "CPU Time",
+        "memoryresources": "Memory Resources",
+        "memoryusage": "Memory Usage",
+        "memoryavailable": "Memory Available",
+        "memoryrss": "Memory RSS",
+        "memoryworkingset": "Memory Working Set",
+        "memorypagefaults": "Memory Page Faults",
+        "memorymajorpagefaults": "Memory Major page Faults",
+        "fsresources": "Filesystem Resources",
+        "fsusage": "Filesystem Usage",
+        "fsavailble": "Filesystem Available",
+        "fscapacity": "Filesystem Capacity",
+        "pods": "Pods"
       }
     },
     "oTelJvm": {
@@ -16120,7 +16309,6 @@
       "instBTCQueueLength": "Inst BTC Queue Length",
       "instBTCWPFree": "Inst BTCWP Free",
       "instBTCWPStopped": "Inst BTCWP Stopped",
-
       "instDialogLongRunning": "Inst Dialog Long Running",
       "dialogResources": "Dialog Resources",
       "noOfdialogStepsPerMin": "No Of Dialog Steps Per Min",
@@ -16130,7 +16318,6 @@
       "noICMConnections": "No ICM Connections",
       "noICMReq": "No ICM Req",
       "noICMThreads": "No ICM Threads",
-
       "memory": "Memory",
       "memoryCUADb": "Memory CUA Db",
       "memoryNametab": "Memory Nametab",
@@ -16139,9 +16326,7 @@
       "memoryTableGeneric": "Memory Table Generic",
       "memoryTableSingle": "Memory Table Single",
       "memoryNoOfBufferSwaps": "Memory No Of Buffer Swaps",
-
       "spoolResources": "Spool Resources",
-
       "wPStopped": "WP Stopped",
       "update1WPStopped": "Update1 WP Stopped",
       "update2WPStopped": "Update2 WP Stopped",

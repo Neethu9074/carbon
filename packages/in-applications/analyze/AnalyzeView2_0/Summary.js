@@ -17,12 +17,12 @@ import MobileAppMonitoringData from 'in-applications/analyze/components/TraceDet
 import ServerIcicleChart from 'in-applications/analyze/components/TraceDetails/components/IcicleChart/ServerIcicleChart';
 import WebsiteMonitoringData from 'in-applications/analyze/components/TraceDetails/tabs/Summary/WebsiteMonitoringData';
 import TraceValidationResult from 'in-applications/analyze/components/TraceDetails/tabs/Summary/TraceValidationResult';
+import { FAKE_ROOT_CALL_ID } from 'in-applications/analyze/components/TraceDetails/components/CallTree/lazyCallTree';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ServiceEndpointList from 'in-applications/analyze/components/TraceDetails/components/ServiceEndpointList';
 import { isLargeTrace, shouldUseLazyLoadedCallTree } from 'in-applications/analyze/AnalyzeView2_0/traceSummary';
 import CallDetails from 'in-applications/analyze/components/TraceDetails/components/CallDetails/CallDetails';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
-import { FAKE_ROOT_CALL_ID } from '../components/TraceDetails/components/CallTree/lazyCallTree';
 import CallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree';
 import ContentWrapper from 'in-components/LocationAwareTabView/components/ContentWrapper';
 import LogsInCallsContext from 'in-logging/components/TraceDetails/LogsInCallsContext';

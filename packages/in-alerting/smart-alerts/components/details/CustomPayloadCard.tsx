@@ -19,6 +19,7 @@ export interface CustomPayloadCardProps {
   openByDefault?: boolean;
   alternatingBg?: boolean;
   TagBasedPayloadConfigurator: React.FunctionComponent<any>;
+  isTearSheetView?: boolean;
 }
 
 export default function CustomPayloadCard({
@@ -29,7 +30,8 @@ export default function CustomPayloadCard({
   noCustomPayloadConfiguredText = t('in-alerting:components.customPayload.noCustomPayloadConfigured'),
   openByDefault = false,
   alternatingBg,
-  TagBasedPayloadConfigurator
+  TagBasedPayloadConfigurator,
+  isTearSheetView
 }: CustomPayloadCardProps) {
   const hasCustomPayload = Boolean(customPayloadFields.length);
 
@@ -40,6 +42,7 @@ export default function CustomPayloadCard({
       bodyWithoutPadding={hasCustomPayload}
       openByDefault={openByDefault}
       darkFrame
+      isTearSheetView={isTearSheetView}
     >
       {hasCustomPayload ? (
         <CustomPayloadViewer

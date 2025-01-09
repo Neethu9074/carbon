@@ -384,12 +384,12 @@
         "textInput": {
           "placeholder": "Berechtigungsnachweisname",
           "labelText": "Name",
-          "invalidText": "Der Name der Berechtigung muss mit einem Buchstaben beginnen und darf nur Buchstaben, Zahlen und Unterstriche enthalten."
+          "invalidText": "Der Name der Berechtigung muss mit einem Buchstaben beginnen und darf nur Buchstaben, Zahlen und Unterstriche enthalten.",
+          "credentialNamesMustBeUnique": "Die Namen der Berechtigungsnachweise müssen eindeutig sein. Dieser Name wird bereits verwendet. Versuchen Sie einen anderen."
         },
         "passwordInput": {
           "placeholder": "Wert des Berechtigungsnachweises",
-          "labelText": "Wert",
-          "invalidText": "Der Wert sollte nicht leer sein."
+          "labelText": "Wert"
         },
         "associationsDescription": "Die Verknüpfung eines Berechtigungsnachweises mit einer Anwendung, einer Website oder einer mobilen Anwendung gewährt allen Benutzern, die Zugang zu diesen Einheiten haben, Zugriffsrechte."
       },
@@ -515,6 +515,12 @@
       "deleteLocationBroswerRefreshInfo": "Es dauert einige Zeit, bis die Position aus der Liste der Positionen entfernt wird und eine Browseraktualisierung erforderlich ist.",
       "deactivateLocation": {
         "deactivate": "Deaktivieren"
+      },
+      "ipAddressColumn": {
+        "ipAddress": "IP-Adresse",
+        "singleIPAddress": "{{number}} IP-Adresse",
+        "multipleIPAddress": "{{number}} IP-Adressen",
+        "noIPAddresses": "Nicht verfügbar"
       }
     },
     "summary": {
@@ -810,7 +816,10 @@
         "noCredentialsAvailableTitle": "Keine synthetischen Nachweise verfügbar",
         "noCredentialsAvailableDescription": "Es werden keine synthetischen Anmeldeinformationen aus der Datenbank abgerufen."
       },
-      "editAction": "Bearbeiten",
+      "editAction": {
+        "editActionLabel": "Bearbeiten",
+        "theValueMustNotBeBlank": "Der Wert darf nicht leer sein."
+      },
       "deleteAction": {
         "deleteActionLabel": "Löschen",
         "deleteCredentialTitle": "Synthetischen Berechtigungsnachweis löschen {{credentialName}}",

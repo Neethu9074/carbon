@@ -46,7 +46,7 @@ describe('in-settings/tabs/UserSettings/pages/ChangePassword/ChangePassword', ()
     fillInputs(changePass, 'previousPass', newPass, newPass);
 
     expect(screen.getByText(t('in-settings:tabs.thePasswordIsWeak'))).toBeInTheDocument();
-    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('button-disabled');
+    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('cds--btn--disabled');
   });
 
   it('complains about small password', async () => {
@@ -56,7 +56,7 @@ describe('in-settings/tabs/UserSettings/pages/ChangePassword/ChangePassword', ()
     fillInputs(changePass, 'previousPass', newPass, newPass);
 
     expect(screen.getByText(t('in-settings:tabs.required15CharsMin'))).toBeInTheDocument();
-    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('button-disabled');
+    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('cds--btn--disabled');
   });
 
   it('when repeated password is empty, don´t show the passwords dont match msg', async () => {
@@ -71,7 +71,7 @@ describe('in-settings/tabs/UserSettings/pages/ChangePassword/ChangePassword', ()
     fireEvent.change(oldPassInput, { target: { value: 'Not important' } });
 
     expect(screen.queryByText(t('in-settings:tabs.thePasswordsMustBeTheSame'))).not.toBeInTheDocument();
-    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('button-disabled');
+    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('cds--btn--disabled');
   });
 
   it('when repeated password is the same, dont show the passwords dont match msg', async () => {
@@ -81,7 +81,7 @@ describe('in-settings/tabs/UserSettings/pages/ChangePassword/ChangePassword', ()
     fillInputs(changePass, 'previousPass', newPass, newPass);
 
     expect(screen.queryByText(t('in-settings:tabs.thePasswordsMustBeTheSame'))).not.toBeInTheDocument();
-    expect(screen.getByText(t('forms.actions.save'))).not.toHaveClass('button-disabled');
+    expect(screen.getByText(t('forms.actions.save'))).not.toHaveClass('cds--btn--disabled');
   });
 
   it('when repeated password is not the same, show the passwords dont match msg', async () => {
@@ -91,7 +91,7 @@ describe('in-settings/tabs/UserSettings/pages/ChangePassword/ChangePassword', ()
     fillInputs(changePass, 'previousPass', newPass, '1 REALLY good password with a typo');
 
     expect(screen.getByText(t('in-settings:tabs.thePasswordsMustBeTheSame'))).toBeInTheDocument();
-    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('button-disabled');
+    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('cds--btn--disabled');
   });
 
   it('complains about password with no number', async () => {
@@ -101,7 +101,7 @@ describe('in-settings/tabs/UserSettings/pages/ChangePassword/ChangePassword', ()
     fillInputs(changePass, 'previousPass', newPass, newPass);
 
     expect(screen.getByText(t('in-settings:tabs.required1Number'))).toBeInTheDocument();
-    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('button-disabled');
+    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('cds--btn--disabled');
   });
 
   it('complains about password with no lowercase', async () => {
@@ -111,7 +111,7 @@ describe('in-settings/tabs/UserSettings/pages/ChangePassword/ChangePassword', ()
     fillInputs(changePass, 'previousPass', newPass, newPass);
 
     expect(screen.getByText(t('in-settings:tabs.required1Lower'))).toBeInTheDocument();
-    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('button-disabled');
+    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('cds--btn--disabled');
   });
 
   it('complains about password with no uppercase', async () => {
@@ -120,7 +120,7 @@ describe('in-settings/tabs/UserSettings/pages/ChangePassword/ChangePassword', ()
     const passInput = document.getElementById('newPassword');
     fireEvent.change(passInput, { target: { value: 'isthiss3cu?ere10' } });
     expect(screen.getByText(t('in-settings:tabs.required1Upper'))).toBeInTheDocument();
-    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('button-disabled');
+    expect(screen.getByText(t('forms.actions.save'))).toHaveClass('cds--btn--disabled');
   });
 
   it('complains about password with no special char', async () => {
@@ -143,7 +143,7 @@ describe('in-settings/tabs/UserSettings/pages/ChangePassword/ChangePassword', ()
       const newPass = 'isthiss3CuSere10' + c;
       fillInputs(changePass, 'previousPass', newPass, newPass);
 
-      expect(screen.getByText(t('forms.actions.save'))).not.toHaveClass('button-disabled');
+      expect(screen.getByText(t('forms.actions.save'))).not.toHaveClass('cds--btn--disabled');
       cleanup();
     }
   });

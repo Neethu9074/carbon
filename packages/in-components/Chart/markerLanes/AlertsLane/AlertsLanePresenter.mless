@@ -12,6 +12,10 @@
   .list {
     max-height: 21rem;
     overflow-y: auto;
+
+    :global(.li-link) {
+      display: block;
+    }
   }
 
   .listItem {

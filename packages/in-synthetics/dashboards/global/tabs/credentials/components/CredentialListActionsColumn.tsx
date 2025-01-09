@@ -43,7 +43,7 @@ const CredentialListActionsColumn = ({ item }: { item: SyntheticCredential }) =>
         )}
       >
         <MoreMenuButton icon="lib_actions_edit" onClick={showEditDialog}>
-          {t('in-synthetics:dashboard.credentialList.editAction')}
+          {t('in-synthetics:dashboard.credentialList.editAction.editActionLabel')}
         </MoreMenuButton>
         <MoreMenuButton icon="lib_actions_delete" onClick={showDeleteDialog}>
           {t('in-synthetics:dashboard.credentialList.deleteAction.deleteActionLabel')}

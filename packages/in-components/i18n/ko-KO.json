@@ -306,11 +306,6 @@
     "tooltipShowLess": "간략하게 표시",
     "tooltipShowMore": "자세히 표시"
   },
-  "expandableGroup": {
-    "tooltipShowContent": "컨텐츠 표시",
-    "tooltipHideContent": "컨텐츠 숨기기",
-    "labelExpandButtonForContent": "컨텐츠에 대한 단추 펼치기"
-  },
   "featureFeedback": {
     "linkLabelYouCanSendUsFeedback": "피드백을 보낼 수 있습니다."
   },
@@ -460,6 +455,7 @@
     "viewSwitcherLabelEvents": "이벤트",
     "viewSwitcherlabelInfrastructure": "인프라",
     "viewSwitcherLabelApplications": "애플리케이션",
+    "viewVulnerabilityCenter": "취약점",
     "viewSwitcherLabelSlo": "서비스 레벨",
     "viewSwitcherLabelLogs": "로그",
     "viewSwitcherLabelAnalytics": "분석",
@@ -586,6 +582,12 @@
   "stackTrace": {
     "fillerTextIn": " 위치 ",
     "fillerTextAt": " 시간 "
+  },
+  "sessionTimeout": {
+    "title": "세션 제한시간",
+    "message": "활동이 없어 로그아웃됩니다.",
+    "loggedInButton": "로그인 상태 유지",
+    "logOutButton": "로그아웃"
   },
   "time": {
     "lastMinute": "지난 1분",
@@ -715,6 +717,7 @@
     "setEnabledMessagePressESCToDisableTVMode": "TV 모드를 사용 안함으로 설정하려면 ESC를 누르십시오."
   },
   "analyze": {
+    "facettedFilters": "패싯 필터",
     "loadMoreWithCount": "{{count}}개 추가 로드",
     "loadMore": "추가 로드",
     "activeFacets": "{{count}}개 선택됨",
@@ -725,6 +728,7 @@
     "fromUnit": "시작({{unit}})",
     "to": "종료",
     "toUnit": "종료({{unit}})",
+    "fromto": "범위 정의",
     "rangeSelected": "범위 선택됨",
     "rangeOrder": "범위는 오름차순이어야 합니다.",
     "earliestTimestamp": "최초 시간소인",

@@ -33,6 +33,7 @@ export type AlertingTearSheetStepConfigs = {
   isBeta?: boolean;
   isOptional?: boolean;
   valid?: boolean;
+  validator?: VoidFunction;
 };
 
 export interface AlertingTearSheetProps {

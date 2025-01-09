@@ -49,6 +49,8 @@ const EditCredentialInputs = ({ form, updateForm }: Props) => {
           helperText={t('in-synthetics:dialog.createCredential.edit.passwordInputHelperText')}
           hidePasswordLabel={t('in-synthetics:dialog.createCredential.tooltipLabels.hide')}
           showPasswordLabel={t('in-synthetics:dialog.createCredential.tooltipLabels.show')}
+          invalid={!credentialValue.valid && credentialValue.touched}
+          invalidText={credentialValue.messages[0]?.message ?? ''}
         />
       </Stack>
     </div>

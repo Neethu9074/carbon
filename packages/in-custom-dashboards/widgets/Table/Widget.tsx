@@ -16,28 +16,34 @@ import { TableWidgetProps } from 'in-custom-dashboards/widgets/Table/types';
 import { dataSources } from 'in-custom-dashboards/widgets/Table/index';
 
 export default function TableOverviewWidget({ config: baseConfig, ...props }: TableWidgetProps) {
-  const filterigResult = useFilteredMetricConfiguration({
+  const filteringResult = useFilteredMetricConfiguration({
     tagFilterExpression: baseConfig.tagFilterExpression,
     source: baseConfig.source
   });
   const config = {
     ...baseConfig,
-    ...filterigResult.metricConfiguration
+    ...filteringResult.metricConfiguration
   };
 
   if (config.source === dataSources.INFRA.type) {
     return (
       <InfrastructureTableWidget
         config={config}
-        topLevelFilterNote={getFilterResultNote(filterigResult.result)}
+        topLevelFilterNote={getFilterResultNote(filteringResult.result)}
         {...props}
       />
     );
   }
 
   if (config.source === dataSources.EVENTS.type) {
-    return <TableOverview config={config} topLevelFilterNote={getFilterResultNote(filterigResult.result)} {...props} />;
+    return (
+      <TableOverview config={config} topLevelFilterNote={getFilterResultNote(filteringResult.result)} {...props} />
+    );
   }
-
+  if (config.source === dataSources.KUBERNETES_EVENTS.type) {
+    return (
+      <TableOverview config={config} topLevelFilterNote={getFilterResultNote(filteringResult.result)} {...props} />
+    );
+  }
   return null;
 }

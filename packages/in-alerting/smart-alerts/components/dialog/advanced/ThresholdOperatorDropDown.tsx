@@ -43,7 +43,7 @@ export function ThresholdOperatorDropDown({
       value={value as string}
       onChange={e => {
         if (customOnChange) {
-          customOnChange(value);
+          customOnChange(e.target.value);
         } else {
           updateForm(
             form.updateIn(['threshold', 'operator'], f =>

@@ -16,7 +16,8 @@ import {
   Card,
   DateInput as CarbonDateInput,
   Link,
-  Typography
+  Typography,
+  ValidationBlock
 } from '@instana/components';
 
 import {
@@ -25,11 +26,15 @@ import {
   SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUCCESS,
   SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_ERROR
 } from 'in-services/tracking/tracking';
+import {
+  addSecondsIfValidFormat,
+  deleteLogs,
+  DeleteLogsRequest
+} from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/utils';
 import { deleteLogsLocalisationStrings } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/localisationStrings';
 // eslint-disable-next-line no-restricted-imports
 import { analyzeDocs } from 'in-analyze/components/AnalyzeHeader/constants';
 import { ModalNotification } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/ModalNotification';
-import { deleteLogs, DeleteLogsRequest } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/utils';
 import useDeleteLogsForm from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/useDeleteLogsForm';
 import { DeletionTable } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/DeletionTable';
 import { NotificationState } from 'in-settings/tabs/GlobalSettings/pages/logManagement/DeleteLogs/types';
@@ -127,7 +132,8 @@ function DeleteLogsModal({
     setReasonInputValue,
     validationValidationMessage,
     reasonValidationMessage,
-    dateTimeValidationMessage,
+    dateValidationMessage,
+    timeValidationMessage,
     canSubmit,
     setTimeInputValue,
     resetForm,
@@ -147,15 +153,16 @@ function DeleteLogsModal({
       touchForm();
       return;
     }
-
+    const newTimeInputValue = addSecondsIfValidFormat(timeInputValue as string);
     const entity: DeleteLogsRequest = {
       reason: reasonInputValue,
       triggeredByUser: user?.email!,
-      upToTime: parseDateTime(String(`${dateInputValue} ${timeInputValue}`)).getTime()
+      upToTime: parseDateTime(String(`${dateInputValue} ${newTimeInputValue}`)).getTime()
     };
+
     const deleteLogs$ = deleteLogs(entity);
     entity.retryCount = retryCount;
-    entity.upToTimeDateFormat = `${dateInputValue} ${timeInputValue}`;
+    entity.upToTimeDateFormat = `${dateInputValue} ${newTimeInputValue}`;
     setIsDeleting(true);
     trackCta(SETTINGS_LOG_MANAGEMENT_DELETE_LOGS_SUBMITTED, entity);
     setNotification({ show: false });
@@ -239,25 +246,32 @@ function DeleteLogsModal({
         <CarbonForm>
           <CarbonFormGroup legendText="">
             <CarbonStack gap={6}>
-              <Label htmlFor="deletionUntilDate">
-                {deleteLogsLocalisationStrings.deletionUntilDate}
-                <CarbonDateInput
-                  hasError={!!dateTimeValidationMessage}
+              <section className={locals.timeSection}>
+                <Label htmlFor="deletionUntilDate">
+                  <span>{deleteLogsLocalisationStrings.deletionUntilDate}</span>
+                  <section className={locals.marginLabel}>
+                    <CarbonDateInput
+                      hasError={!!dateValidationMessage}
+                      disabled={isDeleting}
+                      value={new Date(dateInputValue as string)}
+                      onChange={e => setDateInputValue(e as string[])}
+                    />
+                  </section>
+                  {dateValidationMessage && (
+                    <ValidationBlock className={locals.validationMessage}>{dateValidationMessage}</ValidationBlock>
+                  )}
+                </Label>
+                <TimePicker
+                  id={deleteLogsLocalisationStrings.deletionUntilTime}
+                  labelText={deleteLogsLocalisationStrings.deletionUntilTime}
                   disabled={isDeleting}
-                  value={new Date(dateInputValue)}
-                  onChange={e => setDateInputValue(e as string)}
+                  size="sm"
+                  value={timeInputValue as string}
+                  invalid={!!timeValidationMessage}
+                  invalidText={timeValidationMessage}
+                  onChange={e => setTimeInputValue(e)}
                 />
-              </Label>
-              <TimePicker
-                id={deleteLogsLocalisationStrings.deletionUntilTime}
-                labelText={deleteLogsLocalisationStrings.deletionUntilTime}
-                disabled={isDeleting}
-                invalid={!!dateTimeValidationMessage}
-                invalidText={dateTimeValidationMessage}
-                value={timeInputValue as string}
-                onChange={e => setTimeInputValue(e)}
-              />
-
+              </section>
               <CarbonTextInput
                 id={deleteLogsLocalisationStrings.deletionReason}
                 invalid={!!reasonValidationMessage}

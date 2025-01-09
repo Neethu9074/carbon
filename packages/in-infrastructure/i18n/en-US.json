@@ -131,7 +131,8 @@
     "map": "Map",
     "comparisonTable": "Comparison Table",
     "infrastructureComparisonTable": "Infrastructure Comparison Table",
-    "smartAlerts": "Smart Alerts"
+    "smartAlerts": "Smart Alerts",
+    "graph": "Graph"
   },
   "smartAlertView": {
     "smartAlertTab": "Infrastructure Smart Alerts"
@@ -140,6 +141,9 @@
     "buttonSelectTags": "Select tags",
     "titleAddATag": "Add a tag",
     "messagePleaseSelectAtMostTags": "Please select at most {{maximumNumberOfTags}} tags."
+  },
+  "graphExplorerView": {
+    "infrastructureGraphExplorer": "Graph Explorer"
   },
   "threshold": {
     "label": "Threshold",

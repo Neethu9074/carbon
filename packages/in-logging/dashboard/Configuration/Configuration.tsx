@@ -39,7 +39,7 @@ export default function Configuration() {
 
   const shouldShowRetentionPeriod = isLoggingAddonUser && user?.role?.canConfigureLogRetentionPeriod;
   const shouldShowLogVolume = isLoggingAddonUser && user?.role?.canViewLogVolume;
-  const shouldShowIntegrations = user?.role?.canConfigureIntegrations;
+  const shouldShowIntegrations = user?.role?.canConfigureLogManagement;
 
   if (!shouldShowRetentionPeriod && !shouldShowLogVolume && !shouldShowIntegrations) return <RestrictedAccessMessage />;
 

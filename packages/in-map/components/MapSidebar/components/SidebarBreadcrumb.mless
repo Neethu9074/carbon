@@ -7,7 +7,7 @@
   .sidebarBreadcrumb {
     position: absolute;
     top: 0;
-    left: 24.5rem;
+    left: 26.3rem;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -15,10 +15,6 @@
 
     background: #fff;
     border-radius: var(--ids-border-radius-option-small);
-  }
-
-  .reduceSidebar {
-    left: 21rem;
   }
 
   .crumb {

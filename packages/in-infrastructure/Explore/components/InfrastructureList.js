@@ -145,10 +145,11 @@ export default function InfrastructureList({
     getLabelColumn(tracking?.onNavigateToEntity, isPreview, timeConfig),
     ...tags.map(tag => {
       const path = (tagCatalog.tagsByName && tagCatalog.tagsByName[tag]?.path?.map(node => node.label)) || [];
+
       return {
         id: tag,
         label: { data: path },
-        renderLabel: TagLabel,
+        renderLabel: ({ label }) => <TagLabel label={{ data: label }} />,
         width: '12rem',
         widthInAbsoluteUnit: true,
         sortable: showHeader || sortableTags,
@@ -183,6 +184,7 @@ export default function InfrastructureList({
       }
     }
   ];
+
   return (
     <>
       {displayChart && (
@@ -472,7 +474,11 @@ function getMetricColumns({ metrics, sortable, metricMetadatas, timeConfig, gran
                 customValueTooltip={customValueTooltip}
                 strokeColor={strokeColor}
                 fillColor={fillColor}
-                customChartTooltip={threshold && <ThresholdTooltip threshold={threshold} formatter={formatter} />}
+                customChartTooltip={
+                  threshold && (
+                    <ThresholdTooltip threshold={threshold} formatter={formatter} formatterId={formatterId} />
+                  )
+                }
               />
             );
           },
@@ -504,13 +510,21 @@ function processData(items, columns) {
 
     columns.forEach(col => {
       let found = false;
+      let foundTag = false;
       Object.keys(item.metrics ?? {}).forEach(metric => {
         if (metric === col.id) {
           row[col.getColumnLabel()] = formatCsvColumnValue(col.getFormatter(), firstValue(item.metrics[metric]));
           found = true;
         }
       });
-      if (!found && col.id !== 'label' && col.id !== 'Health') {
+      Object.keys(item.tags ?? {}).forEach(tag => {
+        if (tag === col.id) {
+          const label = col.label.data.join(' ');
+          row[label] = item.tags[tag];
+          foundTag = true;
+        }
+      });
+      if (!found && !foundTag && col.id !== 'label' && col.id !== 'Health') {
         row[col.getColumnLabel()] = '-';
       }
     });
@@ -526,16 +540,8 @@ function getHeaderActions(props) {
     return <></>;
   }
 
-  const timeConfig = props.timeConfig;
-  const backendQueryModel = props.backendQueryModel;
-  const order = props.order;
-  const type = props.type;
-  const metrics = props.metrics;
-  const tags = props.tags;
-  const cursor = props.cursor;
-  const columns = props.columns;
-  const granularity = props.granularity;
-  const csvFileName = 'infrastructure_entities_' + type + '.csv';
+  const { timeConfig, backendQueryModel, order, type, metrics, tags, cursor, columns, granularity } = props;
+  const csvFileName = `infrastructure_entities_${type}.csv`;
 
   const getAllData = ({ cursor }) =>
     getTableData({

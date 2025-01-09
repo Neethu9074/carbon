@@ -16,7 +16,10 @@ export const oTelPlugins = {
   oTelDcgm: 'oTelDcgm',
   otelHost: 'otelHost',
   oTelJvm: 'oTelJvm',
-  otelProcess: 'otelProcess'
+  otelProcess: 'otelProcess',
+  oTelK8sPod: 'oTelK8sPod',
+  oTelK8sCluster: 'oTelK8sCluster',
+  oTelK8sNode: 'oTelK8sNode'
 };
 
 export const nonServicePlugins = {
@@ -132,6 +135,7 @@ export const nonServicePlugins = {
   dropwizardApplicationContainer: 'dropwizardApplicationContainer',
   ec2: 'ec2',
   ec2Tags: 'ec2Tags',
+  ec2TagsCollector: 'ec2TagsCollector',
   elasticsearchNode: 'elasticsearchNode',
   elasticsearchCluster: 'elasticsearchCluster',
   entityStatistics: 'entityStatistics',
@@ -197,6 +201,7 @@ export const nonServicePlugins = {
   ibmDataPowerService: 'ibmDataPowerService',
   ibmDataPowerSqlDatasource: 'ibmDataPowerSqlDatasource',
   ibmDataPowerQueueManager: 'ibmDataPowerQueueManager',
+  ibmDataPowerQueueManagerV9: 'ibmDataPowerQueueManagerV9',
   ibmDataPowerEthernetInterface: 'ibmDataPowerEthernetInterface',
   ibmIDb2: 'ibmIDb2',
   ibmiDiskInfo: 'ibmiDiskInfo',
@@ -544,6 +549,7 @@ export const fullyQualifiedPlugins = {
     'com.instana.forge.infrastructure.application.dropwizard.DropwizardApplicationContainer',
   ec2: 'com.instana.forge.hardware.virtual.ec2.Ec2',
   ec2Tags: 'com.instana.forge.hardware.virtual.ec2.Ec2Tags',
+  ec2TagsCollector: 'com.instana.forge.hardware.virtual.ec2.Ec2TagsCollector',
   elasticsearchCluster: 'com.instana.forge.infrastructure.database.elasticsearch.ElasticsearchCluster',
   elasticsearchNode: 'com.instana.forge.infrastructure.database.elasticsearch.ElasticsearchNode',
   endpoint: 'com.instana.forge.application.Endpoint',
@@ -618,6 +624,8 @@ export const fullyQualifiedPlugins = {
     'com.instana.forge.infrastructure.messaging.ibmdatapower.derivedentity.sqldatasource.IbmDataPowerSqlDatasource',
   ibmDataPowerQueueManager:
     'com.instana.forge.infrastructure.messaging.ibmdatapower.derivedentity.queueManager.IbmDataPowerQueueManager',
+  ibmDataPowerQueueManagerV9:
+    'com.instana.forge.infrastructure.messaging.ibmdatapower.derivedentity.queuemanagerv9.IbmDataPowerQueueManagerV9',
   ibmDataPowerEthernetInterface:
     'com.instana.forge.infrastructure.messaging.ibmdatapower.derivedentity.ethernetinterface.IbmDataPowerEthernetInterface',
   ibmIDb2: 'com.instana.forge.infrastructure.database.ibmiseries.derivedentity.db2.IbmIDb2',
@@ -723,6 +731,9 @@ export const fullyQualifiedPlugins = {
   oTelLLM: 'com.instana.forge.infrastructure.custom.sensorsdk.llmonitor.OTelLLM',
   oTelDcgm: 'com.instana.forge.infrastructure.custom.sensorsdk.dcgm.OTelDcgm',
   oTelJvm: 'com.instana.forge.infrastructure.custom.sensorsdk.jvm.OTelJvm',
+  oTelK8sPod: 'com.instana.forge.infrastructure.custom.sensorsdk.k8s.OTelK8sPod',
+  oTelK8sCluster: 'com.instana.forge.infrastructure.custom.sensorsdk.k8s.OTelK8sCluster',
+  oTelK8sNode: 'com.instana.forge.infrastructure.custom.sensorsdk.k8s.OTelK8sNode',
   otelHost: 'com.instana.forge.infrastructure.os.otelhost.OtelHost',
   otelProcess: 'com.instana.forge.infrastructure.os.otelprocess.OtelProcess',
   packet: 'com.instana.forge.hardware.virtual.Packet',

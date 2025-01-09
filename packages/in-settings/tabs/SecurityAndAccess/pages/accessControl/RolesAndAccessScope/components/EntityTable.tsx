@@ -13,8 +13,8 @@ import ServerTablePresenter, {
   ListItem,
   ServerTablePresenterProps
 } from 'in-components/tables/ServerTable/ServerTablePresenter';
-import { carbonCheckboxEnabled, carbonTableEnabled } from 'in-services/featureFlags';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { carbonTableEnabled } from 'in-services/featureFlags';
 import { FetchedState } from 'in-hooks/utils/types';
 
 import locals from './EntityTable.mless';
@@ -87,8 +87,7 @@ export default function EntityTable<ITEM_CONFIG extends ListItem>({
           disableRowClick
             ? () => null
             : (data, e) => {
-                // TODO Remove if condition as part of Legacy Checkbox Cleanup scheduled in INSTA-15417
-                if (carbonCheckboxEnabled) e.preventDefault();
+                e.preventDefault();
                 onClickItem(data);
               }
         }

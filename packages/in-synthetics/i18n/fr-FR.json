@@ -384,12 +384,12 @@
         "textInput": {
           "placeholder": "Nom des données d'identification",
           "labelText": "Nom",
-          "invalidText": "Le nom des données d'identification doit commencer par une lettre et ne contenir que des lettres, des chiffres et des traits de soulignement."
+          "invalidText": "Le nom des données d'identification doit commencer par une lettre et ne contenir que des lettres, des chiffres et des traits de soulignement.",
+          "credentialNamesMustBeUnique": "Les noms des données d'identification doivent être uniques. Ce nom est déjà utilisé. Indiquez-en un autre."
         },
         "passwordInput": {
           "placeholder": "Valeur de données d'identification",
-          "labelText": "Valeur",
-          "invalidText": "La valeur ne doit pas être vide."
+          "labelText": "Valeur"
         },
         "associationsDescription": "L'association des données d'identification à une application, un site Web ou une application mobile confère des droits d'accès à tous les utilisateurs qui ont accès à ces entités."
       },
@@ -515,6 +515,12 @@
       "deleteLocationBroswerRefreshInfo": "La disparition de l'emplacement de la liste des emplacements prend un certain temps et peut nécessiter une actualisation du navigateur.",
       "deactivateLocation": {
         "deactivate": "Désactiver"
+      },
+      "ipAddressColumn": {
+        "ipAddress": "Adresse IP",
+        "singleIPAddress": "{{number}} adresse IP",
+        "multipleIPAddress": "{{number}} adresses IP",
+        "noIPAddresses": "ND"
       }
     },
     "summary": {
@@ -810,7 +816,10 @@
         "noCredentialsAvailableTitle": "Pas de données d'identification synthétiques disponibles",
         "noCredentialsAvailableDescription": "Aucune donnée d'identification synthétique n'a été extraite de la base de données."
       },
-      "editAction": "Editer",
+      "editAction": {
+        "editActionLabel": "Editer",
+        "theValueMustNotBeBlank": "Vous devez définir une valeur."
+      },
       "deleteAction": {
         "deleteActionLabel": "Supprimer",
         "deleteCredentialTitle": "Supprimer les données d'identification synthétiques {{credentialName}}",

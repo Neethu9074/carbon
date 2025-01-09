@@ -7,6 +7,7 @@
 import React from 'react';
 
 import { OrderDirection, TagFilterExpressionElementUnion, TimeConfig } from '@instana/types';
+import { Card } from '@instana/components';
 
 // @ts-expect-error Module needs to be translated to TS
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -49,12 +50,14 @@ export default function ImpactedBusinessProcesses({ eventType, entityType, entit
   return (
     <Row withoutSideMargin>
       <Col xs>
-        <ServerTableWithUrlState
-          get={getBusinessProcessData}
-          timeConfig={timeConfig}
-          serviceId={entityId}
-          cardTitle={cardTitle}
-        />
+        <Card>
+          <ServerTableWithUrlState
+            get={getBusinessProcessData}
+            timeConfig={timeConfig}
+            serviceId={entityId}
+            cardTitle={cardTitle}
+          />
+        </Card>
       </Col>
     </Row>
   );

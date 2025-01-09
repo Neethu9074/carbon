@@ -4,23 +4,94 @@
  * Copyright IBM Corp. 2024
  */
 
+import { MapForm } from 'formalistic';
 import React from 'react';
 
+import { CarbonModal as Modal } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 import { SubtraceConfigForm } from 'in-applications/Forms/SubtraceConfiguration/SubtraceConfigForm';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { NewSubtraceConfig, SubtraceFormFields } from 'in-applications/types';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { useSubtraceForm } from 'in-applications/hooks/useSubtraceForm';
+import { createSubtrace } from 'in-applications/api/subtraces';
 import { close } from 'in-components/DialogPresenter/store';
-import Dialog from 'in-components/Dialog/Dialog';
+import useFormSubmission from 'in-hooks/useFormSubmission';
+
+import locals from './CreateSubtraceDialog.mless';
 
 export default function CreateSubtraceDialog() {
+  const [formSubmitStatus, doSubmit] = useFormSubmission(createSubtrace);
+  const { form, updateForm } = useSubtraceForm();
+
+  const disabled = !form.hierarchyTouched || formSubmitStatus === 'pending';
+
+  const onHandleSubmit = () => {
+    const payload = normalizeFormData(form);
+    const subtraceName = form.get('name').value;
+    doSubmit({
+      payload,
+      onSuccess: () => {
+        close();
+        addSuccessMessage(
+          t('in-applications:subtraces.configuration.success.created.title'),
+          t('in-applications:subtraces.configuration.success.created.message', { subtraceName })
+        );
+      },
+      onError: () =>
+        addErrorMessage(
+          t('in-applications:subtraces.configuration.failure.created.title'),
+          t('in-applications:subtraces.configuration.failure.created.message', { subtraceName })
+        )
+    });
+  };
+
   return (
-    <Dialog
-      title={t('in-applications:subtraces.newSubtrace')}
-      titleIconType="lib_openclose_add_box"
-      onClose={close}
-      withoutBodyPadding
+    <Modal
+      modalHeading={t('in-applications:subtraces.newSubtrace')}
+      onRequestClose={close}
+      primaryButtonText={t('forms.actions.save')}
+      primaryButtonDisabled={disabled}
+      onRequestSubmit={onHandleSubmit}
+      secondaryButtonText={t('forms.actions.cancel')}
+      className={locals.modal}
+      selectorsFloatingMenus={['.cds--search', '.cds--search-input']}
+      preventCloseOnClickOutside
+      open
     >
-      <SubtraceConfigForm />
-    </Dialog>
+      <SubtraceConfigForm form={form} updateForm={updateForm} />
+    </Modal>
   );
+}
+
+function addSuccessMessage(title: string, content: string) {
+  addMessage(
+    {
+      type: 'info',
+      timeout: 4000,
+      title,
+      content
+    },
+    'subtrace-success'
+  );
+}
+
+function addErrorMessage(title: string, content: string) {
+  addMessage(
+    {
+      type: 'danger',
+      timeout: 4000,
+      title,
+      content
+    },
+    'subtrace-failure'
+  );
+}
+
+function normalizeFormData(form: MapForm<SubtraceFormFields>): NewSubtraceConfig {
+  const subtrace = form.toJS();
+  const normalizedSubtrace = { ...subtrace, tagFilterExpression: toBackendQueryModel(subtrace.tagFilterExpression) };
+
+  return normalizedSubtrace as NewSubtraceConfig;
 }

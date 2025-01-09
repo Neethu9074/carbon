@@ -25,7 +25,7 @@
     height: 5rem;
   }
   .dialog {
-    width: 37.5rem;
+    width: 42rem;
   }
   .dialogContent {
     padding-left: 1.75rem;

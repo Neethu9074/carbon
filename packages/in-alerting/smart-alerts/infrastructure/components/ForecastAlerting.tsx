@@ -7,8 +7,8 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
+import { Toggle, PreviewPill, Typography } from '@instana/components';
 import { ForecastingConfig } from '@instana/types';
-import { Toggle } from '@instana/components';
 
 import ConfigureForecastTimeframe from 'in-alerting/smart-alerts/infrastructure/components/ConfigureForecastTimeframe';
 import ConfigureFitTimeframe from 'in-alerting/smart-alerts/infrastructure/components/ConfigureFitTimeframe';
@@ -20,13 +20,14 @@ import { hours } from 'in-services/time';
 import { t, Trans } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/infrastructure/components/ForecastAlerting.mless';
+import toogleLocals from 'in-alerting/smart-alerts/components/dialog/advanced/Toogle.mless';
 
 interface ForecastAlertingProps {
   form: MapForm<any>;
   updateForm?: (form: MapForm<any>) => void;
 }
 
-const defaultForecastingConfig: ForecastingConfig = Object.freeze({
+export const defaultForecastingConfig: ForecastingConfig = Object.freeze({
   fitTimeframe: hours.toMillis(24),
   forecastTimeframe: hours.toMillis(1)
 });
@@ -38,29 +39,36 @@ export default function ForecastAlerting({ form, updateForm }: ForecastAlertingP
   return (
     <BorderedContainer>
       <div className={locals.container}>
-        <HorizontalFlexWrapper className={locals.header}>
+        <HorizontalFlexWrapper>
           <h3 className={locals.headline}>
             {t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.predictiveTrigger.title')}
           </h3>
-          <Toggle
-            checked={enabled}
-            onToggle={enabled => {
-              if (!updateForm) {
-                return;
-              }
-
-              const value = enabled ? defaultForecastingConfig : null;
-              updateForm(
-                form.updateIn(['forecastingConfig'], f =>
-                  (f as Field<ForecastingConfig | null>).setValue(value).setTouched(true)
-                )
-              );
-            }}
-          />
+          <PreviewPill className={locals.previewPill} />
         </HorizontalFlexWrapper>
-        <span className={locals.description}>
-          {t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.predictiveTrigger.description')}
-        </span>
+        <Toggle
+          className={toogleLocals.toggleDialogUsage}
+          checked={enabled}
+          labelB={t('in-alerting:components.on')}
+          labelA={t('in-alerting:components.off')}
+          size="sm"
+          onToggle={enabled => {
+            if (!updateForm) {
+              return;
+            }
+
+            const value = enabled ? defaultForecastingConfig : null;
+            updateForm(
+              form.updateIn(['forecastingConfig'], f =>
+                (f as Field<ForecastingConfig | null>).setValue(value).setTouched(true)
+              )
+            );
+          }}
+        />
+        <div className={locals.description}>
+          <Typography variant="body-small" component="div">
+            {t('in-alerting:smartAlerts.infrastructure.advancedModeContainer.predictiveTrigger.description')}
+          </Typography>
+        </div>
         {enabled && (
           <div className={locals.content}>
             <BorderedContainer>
@@ -84,6 +92,6 @@ export default function ForecastAlerting({ form, updateForm }: ForecastAlertingP
   );
 }
 
-function formatTime(millis: number) {
+export function formatTime(millis: number) {
   return formatDurationAccurately(millis, 60000, false);
 }

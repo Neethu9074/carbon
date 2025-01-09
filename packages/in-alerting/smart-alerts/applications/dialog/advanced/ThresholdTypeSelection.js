@@ -18,6 +18,7 @@ import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/for
 import { HISTORIC_BASELINE, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { ThresholdTypesHelp } from 'in-alerting/smart-alerts/components/dialog/ThresholdTypesHelp';
 import Dropdown from 'in-alerting/components/Dropdown';
+import { noop } from 'in-services/util/function';
 
 import locals from 'in-alerting/smart-alerts/applications/dialog/advanced/dialog.mless';
 
@@ -48,7 +49,7 @@ export default function ThresholdTypeSelection({
           value={thresholdComboBoxValue}
           items={options}
           onChange={newThresholdTypeWithSeasonality => {
-            onThresholdTypeChange(newThresholdTypeWithSeasonality, form, updateForm);
+            onThresholdTypeChange(newThresholdTypeWithSeasonality, form, updateForm, noop, editMode);
           }}
         />
       )}

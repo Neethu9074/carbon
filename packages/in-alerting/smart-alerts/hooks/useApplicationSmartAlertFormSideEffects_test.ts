@@ -11,6 +11,7 @@ import {
   CreateApplicationAlertConfig
 } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useApplicationSmartAlertFormSideEffects';
+import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
@@ -29,15 +30,16 @@ describe('in-alerting/smart-alerts/applications/hooks/useSmartAlertFormSideEffec
         thresholds: {
           WARNING: {
             type: HISTORIC_BASELINE,
-            deviationFactor: 3.0,
+            deviationFactor: defaultDeviationFactor,
             seasonality: DAILY,
             baseline: [1],
             isCheckboxSelected: true
           },
           CRITICAL: {
             type: HISTORIC_BASELINE,
-            deviationFactor: 0.0,
-            seasonality: DAILY
+            deviationFactor: defaultDeviationFactor,
+            seasonality: DAILY,
+            isCheckboxSelected: false
           }
         }
       }
@@ -85,14 +87,14 @@ describe('in-alerting/smart-alerts/applications/hooks/useSmartAlertFormSideEffec
             warningThreshold: {
               type: 'historicBaseline',
               baseline: [],
-              deviationFactor: 3,
+              deviationFactor: defaultDeviationFactor,
               isCheckboxSelected: true,
               seasonality: DAILY
             },
             criticalThreshold: {
               type: 'historicBaseline',
               baseline: [],
-              deviationFactor: 0,
+              deviationFactor: defaultDeviationFactor,
               isCheckboxSelected: false,
               seasonality: DAILY
             }

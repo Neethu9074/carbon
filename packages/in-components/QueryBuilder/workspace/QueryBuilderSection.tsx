@@ -19,7 +19,6 @@ import { FormModelElement } from 'in-components/QueryBuilder/transformation/form
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { emptyObject } from 'in-services/fixedObjects';
 import Section from 'in-components/workspace/Section';
-import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
 export const DEFAULT_MAX_EXPRESSION_DEPTH = 5;
@@ -37,7 +36,7 @@ interface QueryBuilderSectionProps<ADDITIONAL_TAG_CATALOG_PROPS = {}> {
   useLastValidStateWhenErroneous?: boolean;
 
   withOptionalMarker?: boolean;
-  withTechnicalPreview?: string;
+  withTechnicalPreview?: boolean;
 
   hasError?: boolean;
   errors?: string[];
@@ -45,6 +44,7 @@ interface QueryBuilderSectionProps<ADDITIONAL_TAG_CATALOG_PROPS = {}> {
   actions?: ReactNode;
   withoutIcon?: boolean;
   onErrorStateChange?: (hasError: boolean) => void;
+  SectionWrapper?: React.FunctionComponent<any>;
 }
 
 export default function QueryBuilderSection<ADDITIONAL_TAG_CATALOG_PROPS = {}>({
@@ -56,14 +56,15 @@ export default function QueryBuilderSection<ADDITIONAL_TAG_CATALOG_PROPS = {}>({
   actions,
   useLastValidStateWhenErroneous = false,
   withOptionalMarker = false,
-  withTechnicalPreview = undefined,
+  withTechnicalPreview = false,
   hasError: hasExternalError,
   errors: externalErrors,
   tagCatalog,
   getSuggestionsProps = {},
   getSuggestionLabel,
   onErrorStateChange,
-  additionalGetTagCatalogProps
+  additionalGetTagCatalogProps,
+  SectionWrapper = Section
 }: QueryBuilderSectionProps<ADDITIONAL_TAG_CATALOG_PROPS>) {
   const [{ hasError: hasInternalError, errors: internalErrors }, setInternalError] = useState<{
     hasError?: boolean;
@@ -95,17 +96,15 @@ export default function QueryBuilderSection<ADDITIONAL_TAG_CATALOG_PROPS = {}>({
   }
   if (withTechnicalPreview) {
     title = (
-      <Tooltip content={withTechnicalPreview}>
-        <div>
-          {title}
-          <PreviewPill privatePreview />
-        </div>
-      </Tooltip>
+      <>
+        {title}
+        <PreviewPill privatePreview />
+      </>
     );
   }
 
   return (
-    <Section
+    <SectionWrapper
       icon={withoutIcon ? undefined : 'lib_actions_filter'}
       title={title}
       actions={
@@ -148,7 +147,7 @@ export default function QueryBuilderSection<ADDITIONAL_TAG_CATALOG_PROPS = {}>({
         {hasExternalError &&
           externalErrors?.map(error => <Message key={error} type="error" withIcon small title={error} />)}
       </Stack>
-    </Section>
+    </SectionWrapper>
   );
 
   function onClear() {

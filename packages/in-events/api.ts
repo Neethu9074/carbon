@@ -10,6 +10,7 @@ import { Observable } from '@instana/observables';
 import { ManualCloseInfo } from '@instana/types';
 
 import { getHeader as getCsrfHeader, getHeader } from 'in-services/security/csrf';
+import { Response } from 'in-services/http/types';
 import { EventOrMap } from 'in-events/types';
 import http from 'in-services/http';
 
@@ -21,6 +22,21 @@ export function manuallyCloseIssue(eventId: string, manualCloseInfo: ManualClose
     url: `/api/events/settings/manual-close/${encodeURIComponent(eventId)}`,
     data: manualCloseInfo
   }).map(response => fromJS(response.body));
+}
+
+export function manuallyCloseIssues(manualCloseInfo: ManualCloseInfo): Observable<Response<MultiCloseResponse>> {
+  return http<MultiCloseResponse>({
+    method: 'POST',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `/api/events/settings/manual-close/`,
+    data: manualCloseInfo
+  });
+}
+
+interface MultiCloseResponse {
+  successfulRequests: string[];
+  failedRequests: string[];
 }
 
 export function getManualCloseInfo(eventId: string): Observable<ManualCloseInfo> {

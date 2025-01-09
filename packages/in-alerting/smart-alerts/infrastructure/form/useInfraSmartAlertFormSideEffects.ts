@@ -6,6 +6,7 @@
 
 import { Field, MapForm } from 'formalistic';
 
+import { generateGracePeriodOptions } from 'in-alerting/smart-alerts/components/GracePeriod';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import useFormSideEffects, { CHANGE_TYPES } from 'in-hooks/useFormSideEffects';
 
@@ -37,7 +38,7 @@ export function useInfraSmartAlertFormSideEffects(form: MapForm<any>, setForm: (
     },
     {
       path: ['granularity'],
-      effects: [requestThresholdSuggestion]
+      effects: [requestThresholdSuggestion, resetGracePeriod]
     }
   ];
 
@@ -74,4 +75,19 @@ function resetThresholdValue(form: MapForm<any>, thresholdType: string) {
       (item as Field<number | null>).setValue(null).setTouched(false)
     )
   );
+}
+
+function resetGracePeriod(form: MapForm<any>) {
+  const granularity = form.get('granularity').value;
+  const currentGracePeriod = form.get('gracePeriod').value;
+  const newGracePeriodOptions = generateGracePeriodOptions(granularity);
+
+  // find the closest value
+  const closestGracePeriod = newGracePeriodOptions
+    .map(option => parseInt(option.value, 10))
+    .reduce((closest, value) =>
+      Math.abs(value - currentGracePeriod) < Math.abs(closest - currentGracePeriod) ? value : closest
+    );
+
+  return form.updateIn(['gracePeriod'], f => f.setValue(closestGracePeriod).setTouched(false));
 }

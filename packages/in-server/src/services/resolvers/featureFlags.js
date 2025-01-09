@@ -21,6 +21,16 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'timeOutSessionEnabled',
+    instanaCtlKey: 'feature.sessiontimeout.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'iframeEnabled',
+    instanaCtlKey: 'feature.customdashboard.iframe.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'useInstanaSaasEumTrackingUrlEnabled',
     instanaCtlKey: 'feature.use.instana.saas.eum.tracking.url.enabled',
     defaultValue: true
@@ -101,6 +111,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'prcIssueEnabled',
+    instanaCtlKey: 'feature.root.cause.identification.scheduler.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'cveIssueEnabled',
     instanaCtlKey: 'feature.cve.issues.enabled',
     defaultValue: false
@@ -153,6 +168,16 @@ module.exports = exports = [
   {
     uiClientKey: 'segmentAnalyticsEnabled',
     instanaCtlKey: 'feature.segment.analytics.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'dataUsageNotificationEnabled',
+    instanaCtlKey: 'feature.data.usage.notification.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'ibmCommonEnabled',
+    instanaCtlKey: 'feature.ibm.common.enabled',
     defaultValue: false
   },
   {
@@ -213,7 +238,7 @@ module.exports = exports = [
   {
     uiClientKey: 'logHomepageEnabled',
     instanaCtlKey: 'feature.log.homepage.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'enableTroubleshootingMode',
@@ -273,7 +298,7 @@ module.exports = exports = [
   {
     uiClientKey: 'sloSyntheticsEnabled',
     instanaCtlKey: 'feature.slo.synthetics.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'smartAlertsLogsBlueprintEnabled',
@@ -368,12 +393,12 @@ module.exports = exports = [
   {
     uiClientKey: 'bizopsProcessStackEnabled',
     instanaCtlKey: 'feature.bizops.process.stack.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'bizopsActivityStackEnabled',
     instanaCtlKey: 'feature.bizops.activity.stack.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'limitVisibleNestingLevelsInTraceEnabled',
@@ -404,6 +429,11 @@ module.exports = exports = [
     uiClientKey: 'syntheticsFilterForMaintenanceWindowsEnabled',
     instanaCtlKey: 'feature.recurrent.maintenance.windows.synthetics.enabled',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'retriggerOpenAlertsEnabled',
+    instanaCtlKey: 'feature.retrigger.open.alerts.enabled',
+    defaultValue: false
   },
   {
     uiClientKey: 'mobileAppSmartAlertsAdaptiveBaselineEnabled',
@@ -441,6 +471,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'syntheticDNSActionEnabled',
+    instanaCtlKey: 'feature.synthetic.dns.action.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'customWidgetEventsTableEnabled',
     instanaCtlKey: 'feature.custom.widget.events.table.enabled',
     defaultValue: true
@@ -468,6 +503,11 @@ module.exports = exports = [
   {
     uiClientKey: 'customDashboardsExportPdfEntireDashboard',
     instanaCtlKey: 'feature.custom.dashboards.export.pdf.entire.dashboard.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'customDashboardsFastQueryModeEnabled',
+    instanaCtlKey: 'feature.custom.dashboards.fast.query.mode.enabled',
     defaultValue: false
   },
 
@@ -512,9 +552,19 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'rcaTopologyEnabled',
+    instanaCtlKey: 'feature.rca.topology.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'eventFeedbackEnabled',
     instanaCtlKey: 'feature.event.feedback.enabled',
     defaultValue: true
+  },
+  {
+    uiClientKey: 'multiCloseEnabled',
+    instanaCtlKey: 'feature.multi.close.enabled',
+    defaultValue: false
   },
   {
     uiClientKey: 'incidentSummarizationEnabled',
@@ -577,35 +627,14 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'carbonButtonEnabled',
-    instanaCtlKey: 'feature.carbon.button.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonRadioButtonEnabled',
-    instanaCtlKey: 'feature.carbon.radiobutton.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonCheckboxEnabled',
-    instanaCtlKey: 'feature.carbon.checkbox.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'carbonIconButtonEnabled',
     instanaCtlKey: 'feature.carbon.iconbutton.enabled',
-    defaultValue: true
-  },
-
-  {
-    uiClientKey: 'carbonMoreMenuEnabled',
-    instanaCtlKey: 'feature.carbon.more.menu.enabled',
     defaultValue: true
   },
   {
     uiClientKey: 'carbonTooltipEnabled',
     instanaCtlKey: 'feature.carbon.tooltip.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'carbonPaginationEnabled',
@@ -615,21 +644,6 @@ module.exports = exports = [
   {
     uiClientKey: 'carbonTableEnabled',
     instanaCtlKey: 'feature.carbon.table.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonMenuEnabled',
-    instanaCtlKey: 'feature.carbon.menu.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonComboBoxEnabled',
-    instanaCtlKey: 'feature.carbon.combobox.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'carbonDateInputEnabled',
-    instanaCtlKey: 'feature.carbon.dateinput.enabled',
     defaultValue: true
   },
   {
@@ -663,11 +677,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'shareAndInviteEnabled',
-    instanaCtlKey: 'feature.share.and.invite.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'serviceNowAutoCloseAndCustomPayloadsEnabled',
     instanaCtlKey: 'feature.service.now.auto.close.and.custom.payloads.enabled',
     defaultValue: false
@@ -675,6 +684,11 @@ module.exports = exports = [
   {
     uiClientKey: 'resourceOptimizationActionsEnabled',
     instanaCtlKey: 'feature.resource.optimization.actions.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'eventResourceActionsEnabled',
+    instanaCtlKey: 'feature.event.resource.actions.enabled',
     defaultValue: false
   },
   {
@@ -793,8 +807,8 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'carbonSliderEnabled',
-    instanaCtlKey: 'feature.carbon.slider.enabled',
+    uiClientKey: 'graphTabEnabled',
+    instanaCtlKey: 'feature.graph.tab.enabled',
     defaultValue: true
   },
   {
@@ -808,28 +822,58 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'syntheticCredentialsEnabled',
-    instanaCtlKey: 'feature.synthetic.credentials.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'infraSmartAlertFullScreenDesignEnabled',
     instanaCtlKey: 'feature.infra.Smart.alert.full.screen.design.enabled',
     defaultValue: false
   },
   {
+    uiClientKey: 'logSmartAlertFullScreenDesignEnabled',
+    instanaCtlKey: 'feature.log.Smart.alert.full.screen.design.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'alertChannelPerSeverityInfraSaEnabled',
     instanaCtlKey: 'feature.alert.channel.per.severity.infra.sa.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'alertChannelPerSeverityApplicationSaEnabled',
     instanaCtlKey: 'feature.alert.channel.per.severity.application.sa.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'aqmDataGridEventTableEnabled',
+    instanaCtlKey: 'feature.aqm.data.grid.event.table.enabled',
     defaultValue: false
   },
   {
     uiClientKey: 'smartAlertCarbonTableEnabled',
     instanaCtlKey: 'feature.smart.alert.carbon.table.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'aqmDisableConfigOnEventViewEnabled',
+    instanaCtlKey: 'feature.aqm.disable.config.on.event.view.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'openTelemetryKubernetesEnabled',
+    instanaCtlKey: 'feature.infrastructure.otel.k8s.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'prometheusDeltaCountersSumEnabled',
+    instanaCtlKey: 'feature.prometheus.delta.counters.sum.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'rbacTeamsEnabled',
+    instanaCtlKey: 'feature.rbac.teams.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'accessControlCarbonTable',
+    instanaCtlKey: 'feature.accessControl.carbonTable.enabled',
     defaultValue: false
   }
 ];

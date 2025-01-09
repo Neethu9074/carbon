@@ -43,7 +43,11 @@ export default function SaveCancel({
       </Section>
       <Section className={type !== 'integration' ? locals.saveCancelRow : locals.saveButtonIntegrationContainer}>
         {hasCancelButton && (
-          <Button kind="subtle" className={locals.button} onClick={onClickCancelButton || (() => goToPath(listPath))}>
+          <Button
+            kind="secondary"
+            className={locals.button}
+            onClick={onClickCancelButton || (() => goToPath(listPath))}
+          >
             {cancelButtonLabel}
           </Button>
         )}

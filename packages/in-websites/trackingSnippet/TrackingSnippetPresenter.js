@@ -6,20 +6,27 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
 
-import { SvgIcon, Toggle, Link } from '@instana/components';
+import { Toggle, Typography, Spacer, Message } from '@instana/components';
+import { Select } from '@instana/components';
 
 import {
   pageTransitionMethods,
-  frameworkTypes
+  frameworkTypes,
+  subresourceIntegrityURL,
+  sessionTrackingURL,
+  MIN_SUPPORTED_REGEX_VERSION
 } from 'in-websites/trackingSnippet/AutoPageTransitionDetection/constants';
+import {
+  LearnMoreLink,
+  SubHeading,
+  SubHeadingHelpText
+} from 'in-websites/trackingSnippet/AutoPageTransitionDetection/utils';
 import FrameworkTypeSelection from 'in-websites/trackingSnippet/AutoPageTransitionDetection/FrameworkTypeSelection';
-import WeaselVersionDropdown from 'in-websites/trackingSnippet/WeaselVersionDropdown';
 import getJsAgentVersionsInfo from 'in-websites/subscriptions/getJsAgentVersionsInfo';
 import { getTrackingSnippet } from 'in-websites/trackingSnippet/trackingSnippet';
 import { weaselSubresourceIntegrityEnabled } from 'in-services/featureFlags';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import ModalSRI from 'in-websites/trackingSnippet/ModalSRI';
-import Tooltip from 'in-components/Tooltip';
 import Code from 'in-components/Code';
 import { t } from 'in-i18n';
 
@@ -32,26 +39,26 @@ export default function TrackingSnippetPresenter({
   enableSRI,
   setEnableSRI
 }) {
+  const [withoutCopyButton, setWithoutCopyButton] = useState(false);
   const [regexMappingRules, setRegexMappingRules] = useState([]);
   const [pageTransitionMethod, setPageTransitionMethod] = useState(pageTransitionMethods.PAGE_TITLE);
   const [enableAutoPageDetection, setEnableAutoPageDetection] = useState(false);
   const [frameworkType, setFrameworkType] = useState(frameworkTypes.MPA);
   const [weaselArray, setWeaselArray] = useState([]);
   const [selectedWeaselVersion, setSelectedWeaselVersion] = useState('');
-  const [urlWeaselVersion, setUrlWeaselVersion] = useState('');
   const [shaValue, setShaValue] = useState('');
   const [eumSnippet, setEumSnippet] = useState(
     getTrackingSnippet({
       key: websiteId,
       trackSessions,
       enableSRI,
-      selectedWeaselVersion,
       enableAutoPageDetection,
       pageTransitionMethod,
       regexMappingRules,
       frameworkType
     })
   );
+  const weaselVersionNumber = selectedWeaselVersion?.match(/\d+\.\d+\.\d+/)?.[0];
 
   useEffect(() => {
     if (enableSRI) {
@@ -72,7 +79,6 @@ export default function TrackingSnippetPresenter({
           const latestIndex = versionList.findIndex(item => item?.urlversion === latestVersion?.[0]);
           setWeaselArray(versionList);
           setSelectedWeaselVersion(versionList?.[latestIndex]?.label);
-          setUrlWeaselVersion(versionList?.[latestIndex]?.urlversion);
           setShaValue(versionList?.[latestIndex]?.sha);
         })
         .subscribe();
@@ -84,7 +90,7 @@ export default function TrackingSnippetPresenter({
       getTrackingSnippet({
         key: websiteId,
         trackSessions,
-        urlWeaselVersion: urlWeaselVersion,
+        weaselVersionNumber,
         shaValue: shaValue,
         enableSRI,
         enableAutoPageDetection,
@@ -96,7 +102,7 @@ export default function TrackingSnippetPresenter({
   }, [
     enableSRI,
     trackSessions,
-    urlWeaselVersion,
+    weaselVersionNumber,
     shaValue,
     websiteId,
     enableAutoPageDetection,
@@ -104,23 +110,29 @@ export default function TrackingSnippetPresenter({
     regexMappingRules,
     frameworkType
   ]);
+  const resetAllValues = () => {
+    setRegexMappingRules([]); // Clearing regex mapping rules when the version changes.
+    setFrameworkType(frameworkTypes.MPA); // Setting framework type to default value
+    setPageTransitionMethod(pageTransitionMethods.PAGE_TITLE); // Setting page transition method to default value
+    setEnableAutoPageDetection(false); // Setting autopage detection to default value
+    setWithoutCopyButton(false); // Setting code snippet to enabled
+  };
 
   const handleVersionChange = ver => {
+    resetAllValues();
     setSelectedWeaselVersion(ver);
-    setUrlWeaselVersion(weaselArray.find(item => item.label === ver)?.urlversion);
     setShaValue(weaselArray.find(item => item.label === ver)?.sha);
+  };
+  const toggleSessionTracking = enabled => {
+    setTrackSessions(enabled);
+    setWithoutCopyButton(false);
   };
 
   return (
-    <div className={locals.snippetWrapper}>
+    <div>
       {weaselSubresourceIntegrityEnabled && (
         <div>
-          <div className={locals.label}>
-            {t('in-websites:trackingSnippet.trackingSnippetPresenterLabelSRI')}
-            <Tooltip content={t('in-websites:trackingSnippet.trackingSnippetSRITooltip')}>
-              <SvgIcon type="lib_help_error_info_outline" size="xs" className={locals.help} />
-            </Tooltip>
-          </div>
+          <SubHeading text={t('in-websites:trackingSnippet.trackingSnippetPresenterLabelSRI')} />
           <div className={locals.toggle}>
             <Toggle
               id="sri"
@@ -153,53 +165,84 @@ export default function TrackingSnippetPresenter({
                 }
               }}
             />
-            {enableSRI
-              ? t('in-websites:trackingSnippet.trackingSnippetPresenterToggleYes')
-              : t('in-websites:trackingSnippet.trackingSnippetPresenterToggleNo')}
+            <div className={locals.toggleLabel}>
+              {enableSRI
+                ? t('in-websites:trackingSnippet.trackingSnippetPresenterToggleYes')
+                : t('in-websites:trackingSnippet.trackingSnippetPresenterToggleNo')}
+            </div>
           </div>
+          <Spacer vertical="xsmall" />
+          <SubHeadingHelpText text={t('in-websites:trackingSnippet.enableSubResourceIntegrityHelpText')} />
+          <Spacer vertical="xsmall" />
+          <LearnMoreLink
+            label={t('in-websites:trackingSnippet.autoPageTransition.learnMoreAboutText')}
+            linkText={t('in-websites:trackingSnippet.autoPageTransition.subresourceIntegrityText')}
+            url={subresourceIntegrityURL}
+          />
 
           {enableSRI && (
-            <div className={locals.button}>
-              <div className={locals.label}>
+            <>
+              <Spacer vertical="normal" />
+              <Typography variant="label-01" component="p" noMargin align="inherit">
                 {t('in-websites:trackingSnippet.trackingSnippetPresenterLabelAgentVersion')}
-              </div>
-              <WeaselVersionDropdown
-                selectedWeaselVersion={selectedWeaselVersion}
-                handleVersionChange={handleVersionChange}
-                weaselArray={weaselArray}
-              />
-            </div>
+              </Typography>
+
+              <Spacer vertical="xsmall" />
+              <Select value={selectedWeaselVersion} onChange={e => handleVersionChange(e.target.value)}>
+                {weaselArray.map(version => (
+                  <option value={version.value} key={version.label}>
+                    {version.label}
+                  </option>
+                ))}
+              </Select>
+              {weaselVersionNumber <= MIN_SUPPORTED_REGEX_VERSION && (
+                <>
+                  <Spacer vertical="normal" />
+                  <Message small description={t('in-websites:trackingSnippet.OldAgentVersionInfoMessage')} />
+                </>
+              )}
+            </>
           )}
         </div>
       )}
+      <Spacer vertical="normal" />
       <div className={locals.options}>
-        <div className={locals.label}>
-          {t('in-websites:trackingSnippet.trackingSnippetPresenterLabelTrackSessions')}
-          <Tooltip content={t('in-websites:trackingSnippet.trackingSnippetPresenterTooltip')}>
-            <Link href="https://ibm.biz/session-tracking" external className={locals.helpWrapper}>
-              <SvgIcon type="lib_help_error_help_outline" size="xs" className={locals.help} />
-            </Link>
-          </Tooltip>
-        </div>
+        <SubHeading text={t('in-websites:trackingSnippet.trackingSnippetPresenterLabelTrackSessions')} />
         <div className={locals.toggle}>
-          <Toggle id="trackSessions" checked={trackSessions} onToggle={e => setTrackSessions(e)} />
-          {trackSessions
-            ? t('in-websites:trackingSnippet.trackingSnippetPresenterToggleYes')
-            : t('in-websites:trackingSnippet.trackingSnippetPresenterToggleNo')}
+          <Toggle id="trackSessions" checked={trackSessions} onToggle={toggleSessionTracking} />
+          <div className={locals.toggleLabel}>
+            {trackSessions
+              ? t('in-websites:trackingSnippet.trackingSnippetPresenterToggleYes')
+              : t('in-websites:trackingSnippet.trackingSnippetPresenterToggleNo')}
+          </div>
         </div>
       </div>
-      <FrameworkTypeSelection
-        frameworkType={frameworkType}
-        setFrameworkType={setFrameworkType}
-        enableAutoPageDetection={enableAutoPageDetection}
-        setEnableAutoPageDetection={setEnableAutoPageDetection}
-        pageTransitionMethod={pageTransitionMethod}
-        setPageTransitionMethod={setPageTransitionMethod}
-        setRegexMappingRules={setRegexMappingRules}
+      <Spacer vertical="xsmall" />
+      <SubHeadingHelpText text={t('in-websites:trackingSnippet.enableSessionTrackingHelpText')} />
+      <LearnMoreLink
+        label={t('in-websites:trackingSnippet.autoPageTransition.learnMoreAboutText')}
+        linkText={t('in-websites:trackingSnippet.autoPageTransition.trackingSessionsText')}
+        url={sessionTrackingURL}
       />
+      {weaselVersionNumber > MIN_SUPPORTED_REGEX_VERSION && (
+        <FrameworkTypeSelection
+          frameworkType={frameworkType}
+          setFrameworkType={setFrameworkType}
+          enableAutoPageDetection={enableAutoPageDetection}
+          setEnableAutoPageDetection={setEnableAutoPageDetection}
+          pageTransitionMethod={pageTransitionMethod}
+          setPageTransitionMethod={setPageTransitionMethod}
+          setRegexMappingRules={setRegexMappingRules}
+          setWithoutCopyButton={setWithoutCopyButton}
+        />
+      )}
 
+      <Spacer vertical="large" />
+      <SubHeading text={t('in-websites:trackingSnippet.addTrackingScriptTitle')} />
+      <SubHeadingHelpText text={t('in-websites:trackingSnippet.addTrackingScriptHelpText')} />
+      <Spacer vertical="xsmall" />
       <div className={locals.snippet}>
-        <Code code={eumSnippet} lang="html" showLineNumbers={false} />
+        <Code code={eumSnippet} lang="html" showLineNumbers={false} disabled={withoutCopyButton} />
       </div>
     </div>
   );

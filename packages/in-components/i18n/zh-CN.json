@@ -306,11 +306,6 @@
     "tooltipShowLess": "显示更少内容",
     "tooltipShowMore": "显示更多内容"
   },
-  "expandableGroup": {
-    "tooltipShowContent": "显示内容",
-    "tooltipHideContent": "隐藏内容",
-    "labelExpandButtonForContent": "展开内容按钮"
-  },
   "featureFeedback": {
     "linkLabelYouCanSendUsFeedback": "您可以向我们发送反馈"
   },
@@ -460,6 +455,7 @@
     "viewSwitcherLabelEvents": "事件",
     "viewSwitcherlabelInfrastructure": "基础架构",
     "viewSwitcherLabelApplications": "应用程序",
+    "viewVulnerabilityCenter": "漏洞",
     "viewSwitcherLabelSlo": "服务级别",
     "viewSwitcherLabelLogs": "日志",
     "viewSwitcherLabelAnalytics": "分析",
@@ -586,6 +582,12 @@
   "stackTrace": {
     "fillerTextIn": " 在 ",
     "fillerTextAt": " 在 "
+  },
+  "sessionTimeout": {
+    "title": "会话超时",
+    "message": "由于未活动，您将退出登录：",
+    "loggedInButton": "保持登录",
+    "logOutButton": "注销"
   },
   "time": {
     "lastMinute": "最近 1 分钟",
@@ -715,6 +717,7 @@
     "setEnabledMessagePressESCToDisableTVMode": "按 ESC 键可禁用 TV 方式。"
   },
   "analyze": {
+    "facettedFilters": "分面滤波器",
     "loadMoreWithCount": "加载其他 {{count}} 项",
     "loadMore": "加载更多",
     "activeFacets": "已选定 {{count}} 个",
@@ -725,6 +728,7 @@
     "fromUnit": "自 ({{unit}})",
     "to": "至",
     "toUnit": "至 ({{unit}})",
+    "fromto": "定义从到的范围",
     "rangeSelected": "选定范围",
     "rangeOrder": "范围必须采用升序顺序。",
     "earliestTimestamp": "最早时间戳记",

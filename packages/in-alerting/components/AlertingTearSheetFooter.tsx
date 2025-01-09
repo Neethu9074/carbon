@@ -52,6 +52,7 @@ export default function AlertingTearSheetFooter({
             (action: AlertingFooterActions) =>
               action.kind === 'ghost' && (
                 <CancelButton
+                  kind="subtle"
                   key={action.label}
                   href={action.href ?? undefined}
                   onClick={() => {
@@ -71,7 +72,9 @@ export default function AlertingTearSheetFooter({
             <span key={i}>
               {action.kind === 'secondary' && (
                 <PreviousButton
+                  kind="secondary"
                   key={action.label}
+                  className={locals.button}
                   onClick={() => action.onClick && action.onClick(step)}
                   isDisabled={step === 0}
                 >
@@ -85,6 +88,13 @@ export default function AlertingTearSheetFooter({
                   formId={formId}
                   isSaving={isSaving}
                   onClick={() => {
+                    // This is to trigger validation of the form against each step.
+                    if (!stepConfigs[step].valid) {
+                      const validator = stepConfigs[step]?.validator;
+                      if (typeof validator === 'function') {
+                        return validator();
+                      }
+                    }
                     if (!additionalValidationCheck) {
                       return;
                     }

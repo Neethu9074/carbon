@@ -22,7 +22,7 @@ import locals from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThre
 
 export default function ConfigureAlertingThreshold({ form, onChange, updateForm, oneMinuteGranularityAllowed }) {
   const granularity = form.get('granularity')?.value;
-  const thresholdType = form.get('threshold').get('type')?.value;
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type')?.value;
   const timeThresholdForm = form.get('timeThreshold');
   const timeThresholdType = timeThresholdForm.get('type')?.value;
   const marks = getMarksForThresholdType(thresholdType, oneMinuteGranularityAllowed);
@@ -46,8 +46,8 @@ export default function ConfigureAlertingThreshold({ form, onChange, updateForm,
   function getConfigureTimeWindow(timeThresholdType) {
     let label;
     if (
-      (timeThresholdType === timeThresholdTypes.violationsInSequence) |
-      (timeThresholdType === timeThresholdTypes.violationsInPeriod)
+      timeThresholdType === timeThresholdTypes.violationsInSequence ||
+      timeThresholdType === timeThresholdTypes.violationsInPeriod
     ) {
       label = t('in-alerting:smartAlerts.components.tearSheet.timeThreshold.triggerAfter');
     } else if (timeThresholdType === timeThresholdTypes.userImpactOfViolationsInSequence) {

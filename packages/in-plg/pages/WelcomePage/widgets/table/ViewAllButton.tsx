@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { DashboardTableRow as Row, DashboardTableCell as Cell, DashboardButton } from '@instana/components';
+import { DashboardButton } from '@instana/components';
 
 import locals from './ViewAllButton.mless';
 
@@ -16,24 +16,20 @@ interface ViewAllButtonProps {
   isTableEmpty?: boolean;
 }
 
-export default function ViewAllButton({ href, viewLabel, isTableEmpty = false }: ViewAllButtonProps) {
+export default function ViewAllButton({ href, viewLabel, isTableEmpty = false }: Readonly<ViewAllButtonProps>) {
   return (
-    <Row className="viewAllTableRow">
-      <Cell className="viewAllTableCell">
-        <DashboardButton
-          size="md"
-          kind="ghost"
-          iconSize="s"
-          icon="lib_arrow_right"
-          iconStyle={locals.viewAllButtonArrowIcon}
-          href={href}
-          ariaLabel={viewLabel}
-          iconDescription={viewLabel}
-          disabled={isTableEmpty}
-        >
-          {viewLabel}
-        </DashboardButton>
-      </Cell>
-    </Row>
+    <DashboardButton
+      size="md"
+      kind="ghost"
+      iconSize="s"
+      icon="lib_arrow_right"
+      iconStyle={locals.viewAllButtonArrowIcon}
+      href={href}
+      ariaLabel={viewLabel}
+      iconDescription={viewLabel}
+      disabled={isTableEmpty}
+    >
+      {viewLabel}
+    </DashboardButton>
   );
 }

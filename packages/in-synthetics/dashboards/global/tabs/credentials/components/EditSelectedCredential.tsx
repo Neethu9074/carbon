@@ -5,6 +5,7 @@
  */
 
 import React, { useState } from 'react';
+import { Field } from 'formalistic';
 
 import { Stack, Typography } from '@instana/components';
 import { SyntheticCredential } from '@instana/types';
@@ -36,6 +37,7 @@ const EditSelectedCredential = ({ item }: Props) => {
   const [form, updateForm] = useState(() => editCredentialForm(item));
   const [slideInViewVisible, setSlideInViewVisible] = useState(false);
   const [slideInConfig, setSlideConfig] = useState<SlideInConfig | null>(null);
+  const credentialValueField = form.get('credentialValue') as Field<string>;
   const { trackCta } = useSegmentTracking();
 
   const setSliderState = ({ slideInConfig, isVisible }: SliderState) => {
@@ -90,7 +92,11 @@ const EditSelectedCredential = ({ item }: Props) => {
         </Stack>
         <Actions>
           <CancelButton onClick={close} />
-          <SaveButton onClick={handleEditCredential} kind="primary">
+          <SaveButton
+            onClick={handleEditCredential}
+            kind="primary"
+            disabled={!credentialValueField.valid && credentialValueField.touched}
+          >
             {t('in-synthetics:dialog.createCredential.edit.saveButton')}
           </SaveButton>
         </Actions>

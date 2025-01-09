@@ -16,10 +16,17 @@
       "name": "Name",
       "tenant": "Tenant",
       "type": "Type",
-      "licenseStartData": "License Start Data",
-      "licenseEndData": "License End Data",
+      "licenseStartData": "License Start Date",
+      "licenseEndData": "License End Date",
       "licensedApmHosts": "Licensed APM Hosts",
       "licensedIqmHosts": "Licensed IQM Hosts"
+    },
+    "learnMore":{
+      "title": "Learn more about Instana’s Fair Use Policy",
+      "leftTitle":"What is the Fair Use Policy?",
+      "rightTitle":"How do I buy more data?",
+      "leftBody":"Instana's Fair Use Policy outlines the monthly data allowance associated with your license type. To learn more and explore resource usage guidelines, check out the <fupDocLink>Fair Use Policy documentation</fupDocLink>.",
+      "rightBody":"If you anticipate an ongoing need for additional data usage, reach out to your Instana sales representative to explore add-on options. Get in touch with Sales <salesLink>here</salesLink>."
     },
     "ampInformationModifier": {
       "allPaidUnitsAggregated": "All paid units (aggregated)",

@@ -75,13 +75,16 @@ export const BuyNowDialog = () => {
                   </Ul>
                   <Typography variant="body-01">
                     {t('in-plg:buyNowDialog.learnMore')}
-                    <Link href="https://www.ibm.com/support/customer/csol/terms/?id=i126-8959&lc=en">
+                    <Link target="_blank" href="https://www.ibm.com/support/customer/csol/terms/?id=i126-8959&lc=en">
                       {t('in-plg:buyNowDialog.serviceDescription')}
                     </Link>
                   </Typography>
                   <Typography variant="body-01">
                     {t('in-plg:buyNowDialog.mvs')}
-                    <Link href="https://www.ibm.com/products/instana/pricing#Frequently+asked+questions">
+                    <Link
+                      target="_blank"
+                      href="https://www.ibm.com/products/instana/pricing#Frequently+asked+questions"
+                    >
                       {t('in-plg:buyNowDialog.here')}
                     </Link>
                   </Typography>

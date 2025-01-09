@@ -48,7 +48,6 @@
       "availableMetricsLabelFirstPaint": "First paint",
       "availableMetricsLabelFirstContentfulPaint": "First Contentful Paint",
       "availableMetricsLabelLargestContentfulPaint": "Largest Contentful Paint",
-      "availableMetricsLabelFirstInputDelay": "First Input Delay",
       "availableMetricsLabelCumulativeLayoutShift": "Cumulative Layout Shift",
       "availableMetricsLabelInteractionNextPaint": "Interaction to Next Paint",
       "availableMetricsLabelPageTransitions": "Page transitions",
@@ -75,6 +74,8 @@
       "availableMetricsLabelCustomMetric": "Custom metric",
       "availableMetricsCategoryNavigationTiming": "Navigation timing",
       "availableMetricsCategoryPaintTiming": "Paint timing",
+      "availableMetricsCategoryCoreWebVitals": "Core Web-Vitals",
+      "availableMetricsCategoryOtherWebVitals": "Other Web-Vitals",
       "availableMetricsCategoryHTTP": "HTTP",
       "quickFilterBarLabelWebsite": "Website",
       "quickFilterBarLabelWebsite_plural": "Websites",
@@ -204,7 +205,8 @@
         "pageLoadBeaconHeaderDocument": "Document",
         "pageLoadBeaconHeaderMeta": "Meta",
         "pageLoadBeaconHeaderNavigationTiming": "Navigation timing",
-        "pageLoadBeaconHeaderWebVitals": "Web vitals",
+        "pageLoadBeaconHeaderWebVitals": "Other Web Vitals",
+        "pageLoadBeaconHeaderCoreWebVitals": "Core Web Vitals",
         "pageLoadBeaconLabelPageLoad": "Page load",
         "pageLoadBeaconLabelOnLoadTime": "onLoad time",
         "pageLoadBeaconLabelUnload": "Unload",
@@ -346,11 +348,12 @@
     "waitStepButtonEnablingMonitoring": "Enabling monitoring…"
   },
   "trackingSnippet": {
-    "trackingSnippetPresenterLabelTrackSessions": "Tracking session",
-    "trackingSnippetPresenterTooltip": "Learn more about session tracking and the privacy implications.",
-    "trackingSnippetSRITooltip": "Subresource Integrity (SRI) is a security feature that ensures browsers can verify the resources they fetch.",
+    "trackingSnippetPresenterLabelTrackSessions": "Enable session tracking",
+    "enableSessionTrackingHelpText": "Session tracking can be used to gain insights into the activity of end-users across page loads. By enabling session tracking, Instana can determine end-user impact in the absence of defined user information.",
     "trackingSnippetPresenterLabelSRI": "Enable Subresource Integrity (SRI)",
-    "trackingSnippetPresenterLabelAgentVersion": "Agent version",
+    "enableSubResourceIntegrityHelpText": "Subresource Integrity (SRI) is a security feature that ensures browsers can verify the resources they fetch.",
+    "trackingSnippetPresenterLabelAgentVersion": "Select agent version",
+    "OldAgentVersionInfoMessage": "Older agent versions might not support all features. To ensure you can access current capabilities, select the latest agent version.",
     "trackingSnippetPresenterToggleYes": "Yes",
     "trackingSnippetPresenterToggleNo": "No",
     "trackingSnippetPresenterAgentVersion": "Version",
@@ -362,13 +365,17 @@
     "trackingSnippetPresenterDisablingModalTitle": "Are you sure you want to disable Subresource Integrity (SRI)?",
     "trackingSnippetPresenterDisablingModalFirstLine": "Disabling SRI might cause security issues.",
     "trackingSnippetPresenterDisablingModalBody": "If you decide to disable it, ensure that you are in a secure network environment. When SRI is disabled, the tracking script defaults to the latest JavaScript agent version but will not be able to ensure that browsers can verify the resources they fetch. ",
+    "addTrackingScriptTitle": "Add tracking script",
+    "addTrackingScriptHelpText": "Copy the following script to the HTML document's <head/> to get started with website monitoring.",
     "autoPageTransition": {
       "frameworkTypeSelectionLabel": "Select the application framework used by your website",
       "mpaLabel": "Multi-page applications",
       "spaLabel": "Single page applications",
       "applicationFrameworkText": "application framework",
       "learnMoreAboutText": "Learn more about ",
+      "subresourceIntegrityText": "subresource integrity",
       "autoDetectionText": "auto detection",
+      "trackingSessionsText": "tracking sessions",
       "enableAutopageTransitionLabel": "Enable auto detection for page transitions",
       "enableAutopageTransitionDesc": "Auto detection allows Instana to detect when users transition to a different part of the website without any code modification. If you disable page transition auto-detection, you will need to manually configure page transitions in the source code.",
       "transitionDetectionHeading": "Select how page transitions are detected",
@@ -377,6 +384,7 @@
       "pageTitleDesc": "For websites with meaningful page titles",
       "pageUrlDesc": "May require regex mapping",
       "mappingRulesTitle": "Enable regex mapping",
+      "mappingRulesLinkText": "mapping rules",
       "mappingRulesDesc": "Creating regex mapping rules can transform URL patterns into meaningful names in the data that Instana collects about your website. Add mapping rules by specifying a regex pattern and the name you want to use for it.",
       "mappingRuleLabel": "Mapping rule",
       "mappingRuleHelperText": "Enter a regex mapping rule, for example: /.*checkuserdetails.*/i",
@@ -384,8 +392,15 @@
       "replacedByHelperText": "Enter the text to replace it, for example: User Details",
       "emptyFieldValidationMessage": "The value must not be blank.",
       "regexValidationMessage": "The provided pattern is not a valid regex mapping rule.",
+      "regexErrorMessage": "The changes couldn't be saved. Please ensure all required fields are addressed to save your changes.",
       "addLineButton": "Add line",
-      "saveAllButton": "Save all"
+      "saveButton": "Save",
+      "saveAllButton": "Save all",
+      "regexMappingModalHeading": "Are you sure you want to disable regex mapping?",
+      "regexMappingModalDesc": "Any regex information you have entered will not be saved in the tracking script.",
+      "regexMappingModalText": "This action cannot be undone.",
+      "regexMappingModalDisableButton": "Yes, disable",
+      "regexMappingModalCancelButton": "Cancel"
     }
   },
   "websitesList": {
@@ -511,10 +526,9 @@
         "configurationRemoveHelpParagraph": "Please note that neither you nor the Instana support can undo this action!",
         "configurationRemoveInput": "I understand that this action cannot be undone.",
         "configurationRemoveButton": "Remove website",
-        "configurationRenameTitle": "Rename website",
+        "configurationRenameTitle": "Rename your website",
         "configurationRenameButton": "Rename",
-        "configurationTrackingScriptTitle": "Agent tracking script",
-        "configurationUserAgentVersion": "Your current agent version is {{agentVersion}}.",
+        "configurationTrackingScriptTitle": "Set up an agent tracking script",
         "saved": "Saved",
         "ipMasking": {
           "title": "IP masking",
@@ -808,9 +822,9 @@
       "speedCardTitleOnLoadTime": "onLoad time",
       "speedCardTitleNavigationTiming": "Navigation timing",
       "speedCardTitlePaintTiming": "Paint timing",
-      "speedCardTitleFirstInputDelay": "First Input Delay",
       "speedCardTitleCumulativeLayoutShift": "Cumulative Layout Shift",
       "speedCardTitleInteractionNextPaint": "Interaction to Next Paint",
+      "speedCardTitleLargestContentfulPaint": "Largest Contentful Paint",
       "speedLabelPageLoads": "Page loads",
       "speedLabelOnLoadTime": "onLoad time",
       "speedLabel50th": "50th",
@@ -833,7 +847,6 @@
       "speedLabelFirstPaint": "First paint",
       "speedLabelFirstContentfulPaint": "First Contentful Paint",
       "speedLabelLargestContentfulPaint": "Largest Contentful Paint",
-      "speedLabelFirstInputDelay": "First Input Delay",
       "speedLabelCumulativeLayoutShift": "Cumulative Layout Shift",
       "speedLabelInteractionNextPaint": "Interaction to Next Paint"
     },
@@ -857,10 +870,7 @@
     }
   },
   "rename": {
-    "help": "Renaming a website is an eventually consistent action within the Instana system. For this reason, a change to a website name may take <strong>up to a few minutes</strong> until it has populated throughout the whole system."
-  },
-  "trackingScript": {
-    "help": "The following tracking script is all you need to get started with website monitoring. Copy this script to the HTML document's <code>{{htmlElementName}}</code>. Information about website monitoring and the full capabilities of the tracking script are located <linkToDocs>within our docs</linkToDocs>."
+    "help": "Renaming a website is an eventually consistent action within the Instana system. For this reason, a change to a website name may take up to a few minutes until it has populated throughout the whole system."
   },
   "delete": {
     "disclaimer": "If you no longer wish to monitor the website <strong>{{websiteName}}</strong> using Instana, please use this form to remove it. Removing a website is an eventually consistent action. For this reason, removing a website may take <strong>up to a few minutes</strong> until it has been completely removed."

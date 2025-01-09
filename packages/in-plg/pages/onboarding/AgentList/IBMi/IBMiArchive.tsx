@@ -6,18 +6,16 @@
 
 import React, { useState } from 'react';
 
-import { KeyValue, Stack, Typography, RadioButton, Button } from '@instana/components';
+import { KeyValue, Stack, Typography, RadioButton, IconButton } from '@instana/components';
 
 import { getAgentDownloadURL } from 'in-plg/pages/onboarding/content/ContentComponents';
 import { Container, MainBody, SidePanel } from 'in-plg/pages/onboarding/Layout/Layout';
 import GetDeployedAgents from 'in-plg/components/GetDeployedAgents/GetDeployedAgents';
-import { carbonButtonEnabled, shareAndInviteEnabled } from 'in-services/featureFlags';
 import SupportViewSection from 'in-plg/pages/onboarding/Layout/SupportViewSection';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import { DropDown } from 'in-plg/pages/onboarding/content/ContentComponents';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
 import DocumentLink from 'in-plg/components/DocumentLink/DocumentLink';
-import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
 import { t } from 'in-i18n';
 
 const agentModeOptions = ['dynamic', 'static'];
@@ -73,12 +71,11 @@ function PlatformArchitecture({
   return (
     <Stack direction="horizontal" gap="disabled">
       <DropDown value={option} options={agentOptions} onChange={setOption} />
-      <Button
+      <IconButton
         target="_blank"
-        icon="lib_actions_download"
-        iconSize="s"
+        type="lib_actions_download"
+        iconSize="xs"
         kind="action"
-        // noAutoMargin
         href={getAgentDownloadURL(
           tenant,
           tenantUnit,
@@ -87,10 +84,7 @@ function PlatformArchitecture({
           agentMode === 'dynamic' ? option : `${option}Static`,
           butlerDomain
         )}
-        {...(carbonButtonEnabled ? { hasIconOnly: true } : {})}
-      >
-        {''}
-      </Button>
+      />
     </Stack>
   );
 }
@@ -105,7 +99,7 @@ const IBMiArchive = ({ tenant, tenantUnit, agentKey, downloadKey, butlerDomain, 
         <Stack>
           <DocumentLink
             text={t('in-plg:agentDetails.ibmi.archive.beforeYouInstall')}
-            href="http://ibm.biz/host-agent-install-ibm-i-prereq"
+            href="https://ibm.biz/host-agent-install-ibm-i-prereq"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.common.networkRequirements')}
@@ -121,7 +115,7 @@ const IBMiArchive = ({ tenant, tenantUnit, agentKey, downloadKey, butlerDomain, 
         <>
           <DocumentLink
             text={t('in-plg:agentDetails.ibmi.archive.installingManually')}
-            href="http://ibm.biz/host-agent-manual-install-ibm-i"
+            href="https://ibm.biz/host-agent-manual-install-ibm-i"
           />
           <DocumentLink
             text={t('in-plg:agentDetails.ibmi.archive.startingTheAgent')}
@@ -130,15 +124,8 @@ const IBMiArchive = ({ tenant, tenantUnit, agentKey, downloadKey, butlerDomain, 
         </>
       ),
       openByDefault: true
-    },
-    {
-      title: t('in-plg:agentDetails.askForHelp.askForHelpTitle'),
-      body: <AskForHelp agentKey={agentKey} />,
-      openByDefault: false
     }
   ];
-
-  if (shareAndInviteEnabled) sideCardData.pop();
 
   return (
     <Container>

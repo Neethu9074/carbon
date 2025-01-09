@@ -7,19 +7,26 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { TagFilter, WebsiteAlertConfig } from '@instana/types';
 import { SvgIcon } from '@instana/components';
+import { TagFilter } from '@instana/types';
 
 import { getFiltersCount, getLimitedNumberOfFilters } from 'in-alerting/smart-alerts/components/limitedFilters';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import { getBlueprintConfig, MetricName } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { fromBackendModel, isTagFilter } from 'in-components/QueryBuilder/transformation/formModel';
+import { WebsiteSmartAlertConfig } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/websites/list/ScopeColumn.mless';
 
-export default function ScopeColumn({ config, websiteLabel }: { config: WebsiteAlertConfig; websiteLabel: string }) {
+export default function ScopeColumn({
+  config,
+  websiteLabel
+}: {
+  config: WebsiteSmartAlertConfig;
+  websiteLabel: string;
+}) {
   const tagFilterExpression = fromBackendModel(config.tagFilterExpression);
   const pages = tagFilterExpression.filter(isTagFilter).filter(filter => {
     return filter.name === 'beacon.page.name' && filter.operator !== 'NOT_EQUAL';

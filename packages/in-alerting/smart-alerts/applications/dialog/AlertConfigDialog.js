@@ -21,6 +21,7 @@ import { useLinkToAlertConfig, useLinkToGlobalAlertConfigWithoutAPDashboard } fr
 import { HISTORIC_BASELINE, STATIC_THRESHOLD, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useApplicationSmartAlertFormSideEffects';
 import { WARNING_SEVERITY, CRITICAL_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
+import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useApplicationLabel from 'in-alerting/smart-alerts/applications/hooks/useApplicationLabel';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
@@ -302,19 +303,35 @@ function fromAlertConfig(alertConfig) {
   }
 
   const ruleWithThreshold = alertConfig?.rules?.[0];
+
   // When creating the thresholdForm, both the warning and critical threshold fields are required.
   // However, the alertConfig we receive as JSON from the backend may include either both thresholds or only one,
   // depending on what the user configured. If only one threshold (either warning or critical) is present,
   // we need to initialize the missing threshold with placeholder (dummy) values. The missing threshold should
   // have the same type (e.g., STATIC_THRESHOLD, HISTORIC_BASELINE or ADAPTIVE_BASELINE) as the configured threshold.
   if (ruleWithThreshold?.thresholds) {
-    const thresholds = { ...ruleWithThreshold.thresholds };
+    const { WARNING, CRITICAL } = ruleWithThreshold.thresholds;
 
-    if (!thresholds.WARNING && thresholds.CRITICAL) {
-      thresholds.WARNING = { ...thresholds.CRITICAL, value: null, deviationFactor: 0 };
-    } else if (!thresholds.CRITICAL && thresholds.WARNING) {
-      thresholds.CRITICAL = { ...thresholds.WARNING, value: null, deviationFactor: 0 };
-    }
+    const initializeThreshold = (referenceThreshold, isCheckboxSelected) => ({
+      ...referenceThreshold,
+      value: null,
+      deviationFactor: defaultDeviationFactor,
+      isCheckboxSelected
+    });
+
+    const thresholds = {
+      // If WARNING exists, retain its values and set 'isCheckboxSelected' to true by default.
+      // Otherwise, initialize WARNING based on CRITICAL's structure with placeholder values.
+      WARNING: WARNING
+        ? { ...WARNING, isCheckboxSelected: WARNING?.isCheckboxSelected ?? true }
+        : initializeThreshold(CRITICAL, false),
+
+      // If CRITICAL exists, retain its values and set 'isCheckboxSelected' to true by default.
+      // Otherwise, initialize CRITICAL based on WARNING's structure with placeholder values.
+      CRITICAL: CRITICAL
+        ? { ...CRITICAL, isCheckboxSelected: CRITICAL?.isCheckboxSelected ?? true }
+        : initializeThreshold(WARNING, false)
+    };
 
     return {
       ...alertConfig,

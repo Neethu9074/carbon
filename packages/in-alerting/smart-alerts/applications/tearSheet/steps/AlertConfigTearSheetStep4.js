@@ -29,6 +29,7 @@ import MetricDropdown from 'in-alerting/smart-alerts/components/tearSheet/Thresh
 import EvaluationGranularity from 'in-alerting/smart-alerts/components/tearSheet/EvaluationGranularity';
 import { toAlertConfig } from 'in-alerting/smart-alerts/applications/dialog/advanced/ThresholdSection';
 import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/form/thresholdTypeForm';
+import GracePeriodWrapper from 'in-alerting/smart-alerts/components/tearSheet/GracePeriodWrapper';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/AlertTypeSwitch';
 import TearSheetStepContentWrapper from 'in-alerting/components/TearSheetStepContentWrapper';
@@ -119,6 +120,7 @@ export default function AlertConfigTearSheetStep4(props) {
               isTearSheet
               isDisabled={!blueprintConfig?.baselineEnabled}
               bluePrint={blueprintConfig.name}
+              editMode={editMode}
               isMultiThreshold
             />
           </div>
@@ -196,6 +198,8 @@ export default function AlertConfigTearSheetStep4(props) {
               thresholdType === STATIC_THRESHOLD && oneMinuteGranularityForStaticThresholdEnabled
             }
           />
+          <Spacer size="gutter" />
+          <GracePeriodWrapper form={form} updateForm={updateForm} />
         </TearSheetStepContentWrapper>
       </div>
 

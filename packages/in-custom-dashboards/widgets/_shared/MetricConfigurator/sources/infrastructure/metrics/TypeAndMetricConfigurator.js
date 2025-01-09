@@ -10,7 +10,6 @@ import { SvgIcon, Message, Spacer, Select } from '@instana/components';
 
 import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/IndeterminateLoadingIndicator';
 import DropdownButton from 'in-components/Button/DropdownButton';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import Overlay from 'in-components/overlays/Overlay';
 import { allUnits } from 'in-stores/metric/units';
 import { t } from 'in-i18n';
@@ -35,11 +34,11 @@ export default function TypeAndMetricConfigurator({
         <Overlay content={SelectorOverlay} props={props} align="bottomLeft">
           {({ toggle, refSetter }) => (
             <DropdownButton
-              kind={carbonButtonEnabled ? 'tertiary' : 'secondary'}
+              kind="tertiary"
               size="compact"
               onClick={toggle}
               refSetter={refSetter}
-              className={carbonButtonEnabled ? locals.carbonConfigurator : locals.configurator}
+              className={locals.carbonConfigurator}
             >
               <TypeAndMetricLabel selectMetric={selectMetric} {...metricMetadata} />
             </DropdownButton>

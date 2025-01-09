@@ -22,9 +22,8 @@ import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
+import { analyzePath } from 'in-applications/navigation/paths';
 import { getChartGranularity } from 'in-stores/metric/metric';
-import { analyzePath } from 'in-websites/navigation/paths';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { TraceSummary } from 'in-types';
 import { role } from 'in-stores/user';
@@ -101,7 +100,7 @@ export function TraceDetailViewButtonLine({ traceId, traceSummary }: TraceDetail
           kind="primary"
           target="_blank"
           href={traceDownloadUrl(traceIdInUrl, traceSummary)}
-          size={carbonButtonEnabled ? 'compact' : 'normal'}
+          size="compact"
           onClick={() => trackDownloadTraceClicked({ rawTrace: false })}
         >
           {t('in-applications:linkDownload')}
@@ -112,8 +111,8 @@ export function TraceDetailViewButtonLine({ traceId, traceSummary }: TraceDetail
         kind="secondary"
         href={createHref({ ...locationAnalyzeCallsOfThisTrace, pathname: analyzePath })}
         onClick={handleOnClickAnalyzeCall}
-        size={carbonButtonEnabled ? 'compact' : 'normal'}
-        className={carbonButtonEnabled ? locals.carbonAnalyzeButton : undefined}
+        size="compact"
+        className={locals.carbonAnalyzeButton}
       >
         {t('in-applications:analyze.analyzeCallsOfThisTrace')}
       </Button>

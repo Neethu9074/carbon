@@ -7,11 +7,9 @@ import React from 'react';
 
 import { ButtonGroup, Pagination as CarbonPagination, DataTable as CarbonDataTable } from '@instana/components';
 
-import SortIndicator from 'in-infrastructure/tableView/components/Table/components/SortIndicator';
 import EmptyContent from 'in-components/tables/ServerTable/internalComponents/EmptyContent';
 import { createStore } from 'in-infrastructure/tableView/components/Table/stores/content';
-import { carbonPaginationEnabled, carbonTableEnabled } from 'in-services/featureFlags';
-import Row from 'in-infrastructure/tableView/components/Table/components/Row';
+import { carbonPaginationEnabled } from 'in-services/featureFlags';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { shallowEquals } from 'in-services/util/object';
 import Pagination from 'in-components/Pagination';
@@ -24,12 +22,6 @@ const footerElement = locals.footer;
 const carbonFooterElement = locals.carbonFooter;
 const headerLeftSideElement = locals.headerLeft;
 const headerRightSideElement = locals.headerRight;
-const tableElement = locals.table;
-const cellElement = locals.cell;
-const expandedCellElement = `${cellElement} ${locals.expanded}`;
-const headerCellElement = locals.headerCell;
-const headerToggleCellElement = locals.headerToggleCell;
-const columnHeader = locals.columnHeader;
 
 export default class Table extends React.Component {
   constructor(props) {
@@ -105,9 +97,7 @@ export default class Table extends React.Component {
 
     const supportsRowDetails = this.props.getRowDetails != null;
     const toggleRowDetails = supportsRowDetails ? this.store.toggleExpanded : null;
-    const colCount = supportsRowDetails ? cols.length + 1 : cols.length;
 
-    const rows = [];
     const carbonHeaders = cols.map((item, i) => ({
       id: i,
       key: item.title,
@@ -124,78 +114,34 @@ export default class Table extends React.Component {
     let carbonRows = [];
     let carbonRow = {};
     let emptyTable = <></>;
-    if (!carbonTableEnabled) {
-      if (data.rows?.length === 0) {
-        rows.push(
-          <tr key="no-data">
-            <td colSpan={colCount} className={cellElement}>
-              {this.props.noDataText || t('in-infrastructure:tableView.noData')}
-            </td>
-          </tr>
-        );
-      } else {
-        for (let i = 0, length = data.rows?.length; i < length; i++) {
-          const rowData = data.rows[i];
-
-          let onClick;
-          if (this.props.onRowClick) {
-            onClick = (row, e, rowIndex) => this.props.onRowClick(row, e, data.rows, rowIndex);
-          }
-
-          const selected = rowData.rowConfig.isSelected;
-
-          rows.push(
-            <Row
-              key={rowData.key}
-              row={rowData}
-              cellClassName={cellElement}
-              toggleRowDetails={toggleRowDetails}
-              rowIndex={i}
-              onClick={onClick}
-              selected={selected}
-            />
-          );
-
-          if (rowData.expanded) {
-            rows.push(
-              <tr key={`${rowData.key}--expanded`}>
-                <td className={expandedCellElement} colSpan={colCount}>
-                  {this.props.getRowDetails(rowData.rowConfig)}
-                </td>
-              </tr>
-            );
-          }
-        }
-      }
+    // empty data table
+    if (data.rows?.length === 0) {
+      emptyTable = (
+        <div className={locals.emptyTable}>
+          <CarbonDataTable headers={carbonHeaders} rows={[]} />
+          <EmptyContent
+            cols={cols?.length}
+            size="compact"
+            renderNoDataAvailable={() => (
+              <NoDataAvailable text={this.props.noDataText || t('in-infrastructure:tableView.noData')} height={80} />
+            )}
+            noDataMessage={this.props.noDataText || t('in-infrastructure:tableView.noData')}
+          />
+        </div>
+      );
     } else {
-      // empty data table
-      if (data.rows?.length === 0) {
-        emptyTable = (
-          <div className={locals.emptyTable}>
-            <CarbonDataTable headers={carbonHeaders} rows={[]} />
-            <EmptyContent
-              cols={cols?.length}
-              size="compact"
-              renderNoDataAvailable={() => (
-                <NoDataAvailable text={this.props.noDataText || t('in-infrastructure:tableView.noData')} height={80} />
-              )}
-              noDataMessage={this.props.noDataText || t('in-infrastructure:tableView.noData')}
-            />
-          </div>
-        );
-      } else {
-        // when api returns data
-        for (let i = 0, length = data.rows?.length; i < length; i++) {
-          carbonRow = {};
-          carbonRow['id'] = data.rows[i].key;
-          data.rows[i].columns.map((column, i) => {
-            // get column header name and assign value to that
-            carbonRow[carbonHeaders[i]['header']] = column.content ?? '-';
-          });
-          carbonRows.push(carbonRow);
-        }
+      // when api returns data
+      for (let i = 0, length = data.rows?.length; i < length; i++) {
+        carbonRow = {};
+        carbonRow['id'] = data.rows[i].key;
+        data.rows[i].columns.map((column, i) => {
+          // get column header name and assign value to that
+          carbonRow[carbonHeaders[i]['header']] = column.content ?? '-';
+        });
+        carbonRows.push(carbonRow);
       }
     }
+
     const handleRowSelect = row => {
       const selectedData = this.state.selectedData;
       const isThere = selectedData?.some(i => i === row.id);
@@ -264,33 +210,10 @@ export default class Table extends React.Component {
         ) : null}
 
         {this.props.contentBetweenHeaderAndTable}
-
-        {!carbonTableEnabled && (
-          <table className={tableElement}>
-            <thead className={columnHeader}>
-              <tr>
-                {supportsRowDetails ? <th className={headerToggleCellElement} /> : null}
-                {cols.map((col, i) => (
-                  <th key={i} className={headerCellElement} style={{ width: `${col.width ? col.width + 'px' : ''}` }}>
-                    <SortIndicator
-                      title={col.title}
-                      index={i}
-                      sortIndex={data.sortColumnIndex}
-                      sortDirection={data.sortDirection}
-                      onChangeSort={this.store.setSort}
-                      columnDefinition={col}
-                    />
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>{rows}</tbody>
-          </table>
-        )}
         {/* carbon empty table render */}
-        {carbonTableEnabled && data?.rows?.length === 0 && emptyTable}
+        {data?.rows?.length === 0 && emptyTable}
         {/* carbon with data table render */}
-        {carbonTableEnabled && data?.rows?.length !== 0 && (
+        {data?.rows?.length !== 0 && (
           <CarbonDataTable
             headers={carbonHeaders}
             rows={carbonRows}

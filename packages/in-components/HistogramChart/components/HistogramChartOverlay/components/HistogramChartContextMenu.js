@@ -8,12 +8,10 @@ import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import rpt from 'prop-types';
 
-import { SvgIcon, keyCodes, Button } from '@instana/components';
+import { keyCodes, Button } from '@instana/components';
 import { on } from '@instana/observables';
 
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { containsIgnoreCase } from 'in-services/util/string';
-import Tooltip from 'in-components/Tooltip';
 
 import locals from './HistogramChartContextMenu.mless';
 
@@ -107,22 +105,12 @@ export default function ChartContextMenu({
 
   const buttonProps = {
     className: locals.button,
-    kind: 'secondary',
+    kind: 'action',
     size: 'compact'
   };
 
-  if (carbonButtonEnabled) {
-    buttonProps['kind'] = 'action';
-  }
-
   return (
-    <div
-      className={classNames({
-        [locals.contextMenuActionsButtonsWrapper]: true,
-        [locals.contextMenuCarbonButtonWrapper]: carbonButtonEnabled
-      })}
-      style={style}
-    >
+    <div className={locals.contextMenuCarbonButtonWrapper} style={style}>
       {!immediatelyOpenContextMenu && renderButtons(contextMenuButtons)}
       {showContextMenu && (
         <div
@@ -153,40 +141,23 @@ export default function ChartContextMenu({
 }
 
 function IconButton({ label, icon, getHref$, onClick, isPrimary }) {
-  // The <div> element between the Tooltip and the Button components makes sure that the mouse event listeners
-  // added by the Tooltip element won't get lost when the Button component changes its root element.
-  const carbonProps = {
-    hasIconOnly: true,
-    icon: icon,
-    size: 'compact',
-    style: isPrimary ? { left: '1px' } : {},
-    kind: 'tertiary'
-  };
-  if (label) {
-    carbonProps['iconDescription'] = label;
-  }
   const button = (
-    <div
-      className={classNames({
-        [locals.buttonWrapper]: !carbonButtonEnabled
-      })}
+    <Button
+      className={locals.contextMenuOpenButton}
+      href$={getHref$ && getHref$()}
+      onClick={onClick}
+      hasIconOnly
+      icon={icon}
+      size="compact"
+      kind="tertiary"
+      // margin added by the buttonWrapper
+      noAutoMargin
+      iconDescription={label}
+      style={isPrimary ? { left: '1px' } : {}}
     >
-      <Button
-        className={locals.contextMenuOpenButton}
-        href$={getHref$ && getHref$()}
-        onClick={onClick}
-        kind="secondary"
-        // margin added by the buttonWrapper
-        noAutoMargin
-        {...(carbonButtonEnabled ? carbonProps : {})}
-      >
-        {!carbonButtonEnabled && <SvgIcon className={locals.contextMenuOpenButtonIcon} type={icon} />}
-      </Button>
-    </div>
+      {''}
+    </Button>
   );
-  if (!carbonButtonEnabled) {
-    return <Tooltip content={label ? label : null}>{button}</Tooltip>;
-  }
   return button;
 }
 

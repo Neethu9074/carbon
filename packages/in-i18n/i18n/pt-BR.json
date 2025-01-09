@@ -3,11 +3,6 @@
     "uiShell": {
       "mainNavigation": "Navegação principal"
     },
-    "expandableGroup": {
-      "tooltipShowContent": "Mostrar conteúdo",
-      "tooltipHideContent": "Ocultar conteúdo",
-      "labelExpandButtonForContent": "Botão Expandir para conteúdo"
-    },
     "list": {
       "loadMore": "Carregar mais",
       "expand": "Expandir",

@@ -7,10 +7,11 @@
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { getRuleWithThreshold } from 'in-alerting/smart-alerts/applications/dialog/AlertConfigDialog';
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
-import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
+import { alertChannelPerSeverityApplicationSaEnabled } from 'in-services/featureFlags';
 import { defaultAlertRule } from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { t } from 'in-i18n';
@@ -33,13 +34,16 @@ export function toAlertConfig(form) {
   const ruleWithThreshold = getRuleWithThreshold(form);
   let alertConfig = form
     .remove('hiddenFields')
-    .remove('alertChannels')
     .remove('rule')
     .remove('threshold')
     .updateIn(['tagFilterExpression'], f =>
       f.setValue(toBackendQueryModel(form.get('tagFilterExpression').value, false))
-    )
-    .toJS();
+    );
+
+  if (alertChannelPerSeverityApplicationSaEnabled) {
+    alertConfig = alertConfig.remove('alertChannelIds');
+  }
+  alertConfig = alertConfig.toJS();
 
   alertConfig.rules = [ruleWithThreshold];
 
@@ -80,14 +84,34 @@ export function fromAlertConfig(alertConfig) {
 
   const ruleWithThreshold = alertConfig?.rules?.[0];
 
+  // When creating the thresholdForm, both the warning and critical threshold fields are required.
+  // However, the alertConfig we receive as JSON from the backend may include either both thresholds or only one,
+  // depending on what the user configured. If only one threshold (either warning or critical) is present,
+  // we need to initialize the missing threshold with placeholder (dummy) values. The missing threshold should
+  // have the same type (e.g., STATIC_THRESHOLD, HISTORIC_BASELINE or ADAPTIVE_BASELINE) as the configured threshold.
   if (ruleWithThreshold?.thresholds) {
-    const thresholds = { ...ruleWithThreshold.thresholds };
+    const { WARNING, CRITICAL } = ruleWithThreshold.thresholds;
 
-    if (!thresholds.WARNING && thresholds.CRITICAL) {
-      thresholds.WARNING = { ...thresholds.CRITICAL, value: null, deviationFactor: 0 };
-    } else if (!thresholds.CRITICAL && thresholds.WARNING) {
-      thresholds.CRITICAL = { ...thresholds.WARNING, value: null, deviationFactor: 0 };
-    }
+    const initializeThreshold = (referenceThreshold, isCheckboxSelected) => ({
+      ...referenceThreshold,
+      value: null,
+      deviationFactor: defaultDeviationFactor,
+      isCheckboxSelected
+    });
+
+    const thresholds = {
+      // If WARNING exists, retain its values and set 'isCheckboxSelected' to true by default.
+      // Otherwise, initialize WARNING based on CRITICAL's structure with placeholder values.
+      WARNING: WARNING
+        ? { ...WARNING, isCheckboxSelected: WARNING?.isCheckboxSelected ?? true }
+        : initializeThreshold(CRITICAL, false),
+
+      // If CRITICAL exists, retain its values and set 'isCheckboxSelected' to true by default.
+      // Otherwise, initialize CRITICAL based on WARNING's structure with placeholder values.
+      CRITICAL: CRITICAL
+        ? { ...CRITICAL, isCheckboxSelected: CRITICAL?.isCheckboxSelected ?? true }
+        : initializeThreshold(WARNING, false)
+    };
 
     return {
       ...alertConfig,
@@ -141,12 +165,15 @@ export function generateAlertConfig(
         WARNING: {
           type: HISTORIC_BASELINE,
           deviationFactor: defaultDeviationFactor,
-          seasonality: DAILY
+          seasonality: DAILY,
+          isCheckboxSelected: true
         },
         CRITICAL: {
           type: HISTORIC_BASELINE,
+          deviationFactor: defaultDeviationFactor,
           value: 0.0,
-          seasonality: DAILY
+          seasonality: DAILY,
+          isCheckboxSelected: false
         }
       }
     }
@@ -162,10 +189,12 @@ export function generateAlertConfig(
           thresholdOperator: '>=',
           thresholds: {
             WARNING: {
-              type: STATIC_THRESHOLD
+              type: STATIC_THRESHOLD,
+              isCheckboxSelected: false
             },
             CRITICAL: {
-              type: STATIC_THRESHOLD
+              type: STATIC_THRESHOLD,
+              isCheckboxSelected: false
             }
           }
         }

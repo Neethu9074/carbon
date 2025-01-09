@@ -9,7 +9,7 @@ import React from 'react';
 import { DashboardTableRow as Row, DashboardTableCell as Cell } from '@instana/components';
 import { LoadingSkeleton } from '@instana/components';
 
-import { DEFAULT_NUMBER_SKELETON_ROWS } from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
+import { DEFAULT_NUMBER_ROWS } from 'in-plg/pages/WelcomePage/widgets/utils/WidgetUtil';
 
 import locals from 'in-plg/pages/WelcomePage/widgets/table/CommonTableStyle.mless';
 
@@ -20,7 +20,7 @@ interface LoadingListProps {
 }
 
 export default function LoadingTableList({
-  numSkeletonRows = DEFAULT_NUMBER_SKELETON_ROWS,
+  numSkeletonRows = DEFAULT_NUMBER_ROWS,
   numSkeletonColumns,
   favPresent = false
 }: LoadingListProps) {

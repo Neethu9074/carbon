@@ -14,6 +14,7 @@ import { isEntitySelectionValid, titleValidator } from 'in-alerting/smart-alerts
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import { PER_AP } from 'in-alerting/smart-alerts/applications/dialog/advanced/EvaluationSwitch/alertEvaluationTypes';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
+import { applyEditModeForMultiThreshold } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import createRuleForm, { defaultAlertRule } from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
@@ -76,6 +77,7 @@ export function createSmartAlertForm(
     evaluationType,
     id,
     granularity,
+    gracePeriod,
     includeSynthetic,
     includeInternal,
     name,
@@ -88,7 +90,7 @@ export function createSmartAlertForm(
 
   const alertChannelList = [...new Set([...(alertChannels?.WARNING ?? []), ...(alertChannels?.CRITICAL ?? [])])];
 
-  return createMapForm({
+  const form = createMapForm({
     items: {
       name: createField({
         value: name ?? '',
@@ -127,6 +129,9 @@ export function createSmartAlertForm(
       }),
       granularity: createField({
         value: granularity ?? getDefaultGranularity(rules?.[0]?.thresholds?.WARNING)
+      }),
+      gracePeriod: createField({
+        value: gracePeriod ?? granularity ?? getDefaultGranularity(rules?.[0]?.thresholds?.WARNING)
       }),
       id: createField({
         value: id ?? ''
@@ -178,11 +183,12 @@ export function createSmartAlertForm(
       customPayloadFields: createListFormForCustomPayloads(customPayloadFields ?? [], false),
       threshold: createThresholdForm(
         rules?.[0],
-        (rules?.[0].rule.alertType ?? defaultAlertRule.alertType) as ApplicationAlertType,
+        (rules?.[0].rule?.alertType ?? defaultAlertRule.alertType) as ApplicationAlertType,
         editMode
       )
     }
   });
+  return applyEditModeForMultiThreshold(form, editMode ?? false);
 }
 
 function getDefaultGranularity(threshold?: SmartAlertThresholdRuleUnion) {

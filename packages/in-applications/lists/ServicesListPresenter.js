@@ -33,7 +33,6 @@ import { getServicesWithDefaults } from 'in-applications/subscriptions/getServic
 import ScopeNotification from 'in-applications/lists/components/ScopeNotification';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import { carbonButtonEnabled, playwithEnabled } from 'in-services/featureFlags';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import getApplication from 'in-applications/subscriptions/getApplication';
@@ -49,6 +48,7 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { entityTypes } from 'in-analyze/applicationFilter';
+import { playwithEnabled } from 'in-services/featureFlags';
 import Filters from 'in-applications/components/Filters';
 import { emptyArray } from 'in-services/fixedObjects';
 import { isBlank } from 'in-services/util/string';
@@ -251,7 +251,7 @@ export default function ServicesList({
     <>
       {role.canConfigureServiceMapping && !playwithEnabled && (
         <Button
-          size={carbonButtonEnabled ? 'compact' : 'normal'}
+          size="compact"
           className={locals.button}
           icon="lib_actions_settings"
           kind="action"

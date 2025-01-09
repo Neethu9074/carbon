@@ -13,20 +13,18 @@ import {
   TableSkeleton as CarbonTableSkeleton,
   LoadingSkeleton
 } from '@instana/components';
-import { Table, Thead, Tbody, Tr, Th, Td, TableLoadMoreRow, TableHorizontalIndicatorRow } from '@instana/legacy';
+import { TableLoadMoreRow } from '@instana/legacy';
 
 import { OPERATOR_OR, createTagFilterExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
-import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import getCallGroups from 'in-applications/subscriptions/getCallGroups';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import { carbonTableEnabled } from 'in-services/featureFlags';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -71,51 +69,22 @@ export default function MatchedSyntheticEndpoints({ tagFilters }) {
   const isLoading = progress?.loading;
   const hasErrors = errors?.length > 0;
 
-  if (carbonTableEnabled) {
-    const carbonHeaders = [
-      {
-        key: t('in-applications:labelEndpoints'),
-        header: t('in-applications:labelEndpoints')
-      },
-      {
-        key: t('in-applications:labelServicesAffected'),
-        header: isInitialLoading ? (
-          t('in-applications:labelServicesAffected')
-        ) : (
-          <div className={classNames(locals.th, locals.alignRight)}>{t('in-applications:labelServicesAffected')}</div>
-        )
-      }
-    ];
-    if (isInitialLoading) {
-      return <CarbonTableSkeleton headers={carbonHeaders} columnCount={2} rowCount={3} />;
-    } else if (hasErrors) {
-      return <ErroneousResultPresenter errors={errors} />;
+  const carbonHeaders = [
+    {
+      key: t('in-applications:labelEndpoints'),
+      header: t('in-applications:labelEndpoints')
+    },
+    {
+      key: t('in-applications:labelServicesAffected'),
+      header: isInitialLoading ? (
+        t('in-applications:labelServicesAffected')
+      ) : (
+        <div className={classNames(locals.th, locals.alignRight)}>{t('in-applications:labelServicesAffected')}</div>
+      )
     }
-
-    const carbonRows = items.map(item => {
-      return {
-        id: item.name,
-        [t('in-applications:labelEndpoints')]: <EndpointName item={item} />,
-        [t('in-applications:labelServicesAffected')]: (
-          <div className={classNames(locals.alignRight, locals.td)}>
-            <ServicesAffected item={item} />
-          </div>
-        )
-      };
-    });
-    return (
-      <>
-        <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
-        {isLoading && <LoadingSkeleton className={locals.loadingSkeleton} />}
-        {canLoadMore && (
-          <TableLoadMoreRow className={locals.carbonLoadMore} loadMore={loadMore} cols={2} size="compact" />
-        )}
-      </>
-    );
-  }
-
+  ];
   if (isInitialLoading) {
-    return <LoadingIndicator text={t('in-applications:loadingData')} height={100} />;
+    return <CarbonTableSkeleton headers={carbonHeaders} columnCount={2} rowCount={3} />;
   } else if (hasErrors) {
     return <ErroneousResultPresenter errors={errors} />;
   }
@@ -124,30 +93,25 @@ export default function MatchedSyntheticEndpoints({ tagFilters }) {
     return <div className={locals.message}>{t('in-applications:forms.customSyntheticRule.messageNoMatchRule')}</div>;
   }
 
+  const carbonRows = items.map(item => {
+    return {
+      id: item.name,
+      [t('in-applications:labelEndpoints')]: <EndpointName item={item} />,
+      [t('in-applications:labelServicesAffected')]: (
+        <div className={classNames(locals.alignRight, locals.td)}>
+          <ServicesAffected item={item} />
+        </div>
+      )
+    };
+  });
   return (
-    <Table>
-      <Thead>
-        <Tr size="compact" className={locals.tr}>
-          <Th className={locals.th}>{t('in-applications:labelEndpoints')}</Th>
-          <Th className={classNames(locals.th, locals.alignRight)}>{t('in-applications:labelServicesAffected')}</Th>
-        </Tr>
-      </Thead>
-
-      <Tbody>
-        {items.map((item, index) => (
-          <Tr key={index} size="compact" className={locals.tr}>
-            <Td className={locals.td}>
-              <EndpointName item={item} />
-            </Td>
-            <Td className={classNames(locals.alignRight, locals.td)}>
-              <ServicesAffected item={item} />
-            </Td>
-          </Tr>
-        ))}
-        {canLoadMore && <TableLoadMoreRow className={locals.loadMore} loadMore={loadMore} cols={2} size="compact" />}
-        {isLoading && <TableHorizontalIndicatorRow cols={2} progress={progress} />}
-      </Tbody>
-    </Table>
+    <>
+      <CarbonDataTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
+      {isLoading && <LoadingSkeleton className={locals.loadingSkeleton} />}
+      {canLoadMore && (
+        <TableLoadMoreRow className={locals.carbonLoadMore} loadMore={loadMore} cols={2} size="compact" />
+      )}
+    </>
   );
 }
 

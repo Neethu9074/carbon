@@ -177,8 +177,8 @@ function SubmissionButton({ form, message, loading, isCreate, listPath }) {
   return (
     <div className={locals.submissionWrapper}>
       <SectionLine withMarginBottom={false} />
-      <Stack direction="horizontal" distribution="end">
-        <Button kind="subtle" className={locals.button} onClick={() => goToPath(listPath)}>
+      <Stack direction="horizontal" distribution="end" gap="disabled">
+        <Button kind="secondary" className={locals.button} onClick={() => goToPath(listPath)}>
           {t('forms.actions.cancel')}
         </Button>
         <Button

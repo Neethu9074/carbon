@@ -12,15 +12,11 @@ import {
   INFRASTRUCTURE_SIDEBAR_RELATED_ENTITIES_CLICKED,
   INFRASTRUCTURE_ANALYZE_RELATED_INSTANCES_BUTTON_CLICKED
 } from 'in-services/tracking/tracking';
-// @ts-expect-error needs ts migration
-import { createDurationTracker } from 'in-services/tracking/mixpanel';
 import { CTA_CLICKED, UI_INTERACTION, UI_LOADING } from 'in-services/util/constants';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { getViewTrackingMetaData } from 'in-components/ViewTrackingMeta';
 import { eventTracker } from 'in-services/tracking/segment/EventTracker';
 import { EventTrackerProps } from 'in-services/tracking/segment/types';
-
-export const contextGuideStackLoadedDurationTracker = createDurationTracker(INFRASTRUCTURE_CONTEXT_GUIDE_STACK_LOADED);
 
 export type TrackingFunction = (customData: Object, isLoading?: boolean) => void;
 

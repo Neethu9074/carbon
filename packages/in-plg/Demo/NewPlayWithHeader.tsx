@@ -20,7 +20,6 @@ import {
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';
 
@@ -73,7 +72,7 @@ export default function NewPlayWithHeader() {
         id="schedule_demo"
         kind="ghost"
         target="_blank"
-        href="https://www.ibm.com/account/reg/us-en/signup?formid=DEMO-automateinstanab&adobe_mc_sdid=SDID%3D391420F1528B6520-6272CB71B053DDE3%7CMCORGID%3DD10F27705ED7F5130A495C99%40AdobeOrg%7CTS%3D1726479874&adobe_mc_ref=https%3A%2F%2Fwww.ibm.com%2Fproducts%2Finstana&utm_source=playwith"
+        href="https://www.ibm.com/account/reg/us-en/subscribe?formid=DEMO-automateinstana&utm_source=playwith"
         onClick={() => {
           trackCta(PLAY_WITH_BOOK_DEMO_NOW_BUTTON_CLICKED, getPageType(location.pathname));
         }}
@@ -81,23 +80,19 @@ export default function NewPlayWithHeader() {
       >
         {t('in-plg:playwithinstana.bookdemo')}
       </LicenseBannerButton>
-      {shareAndInviteEnabled && (
-        <>
-          <Tooltip align="bottomRight" content={t('in-plg:licenseBanner.shareTooltip')}>
-            <LicenseBannerButton
-              id="shareButton"
-              kind="ghost"
-              icon="lib_actions_share"
-              iconColor="var(--cds-link-primary)"
-              target="_blank"
-              onClick={() => addActiveDialog(<DeferredShareAndInviteDialogBox />)}
-            >
-              {t('in-plg:licenseBanner.share')}
-            </LicenseBannerButton>
-          </Tooltip>
-          <div className={locals.verticalLine} />
-        </>
-      )}
+      <Tooltip align="bottomRight" content={t('in-plg:licenseBanner.shareTooltip')}>
+        <LicenseBannerButton
+          id="shareButton"
+          kind="ghost"
+          icon="lib_actions_share"
+          iconColor="var(--cds-link-primary)"
+          target="_blank"
+          onClick={() => addActiveDialog(<DeferredShareAndInviteDialogBox />)}
+        >
+          {t('in-plg:licenseBanner.share')}
+        </LicenseBannerButton>
+      </Tooltip>
+      <div className={locals.verticalLine} />
       <LicenseBannerButton
         id="take_tour"
         kind="ghost"

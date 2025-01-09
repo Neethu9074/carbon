@@ -13,7 +13,6 @@ import ActiveGroupingConfiguration from 'in-components/GroupingConfigurator/Acti
 import TagSelectorOverlay from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
 import { DESTINATION, SOURCE } from 'in-components/QueryBuilder/tagFilter/entities';
 import LoadingIndicator from 'in-components/GroupingConfigurator/LoadingIndicator';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';
 
@@ -118,12 +117,12 @@ export default function GroupingConfigurator({
         >
           {({ toggle, refSetter }) => (
             <Button
-              className={carbonButtonEnabled ? undefined : locals.addGroupingButton}
-              kind={carbonButtonEnabled ? 'tertiary' : 'subtle'}
+              kind="tertiary"
               size="compact"
               icon="lib_openclose_add"
               refSetter={refSetter}
               onClick={toggle}
+              data-testid="query-builder-add-group"
             >
               {label}
             </Button>

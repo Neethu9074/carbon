@@ -36,7 +36,7 @@ import { t } from 'in-i18n';
 import locals from './EntityInformation.mless';
 
 export default function EntityInformation(props) {
-  const { snapshot, entityId, entityType, metadata, timeConfig } = props;
+  const { snapshot, entityId, entityType, metadata, timeConfig, onClose, isCveRedirect } = props;
 
   const determineEntityInformationCall = () => {
     if (snapshot) {
@@ -72,7 +72,7 @@ export default function EntityInformation(props) {
     return <LegacyAppDataEntityInformation {...props} entity={entity} />;
   } else {
     // !entityType || entityType === 'Entity10'
-    return <InfraEntityInformation {...props} entity={entity} />;
+    return <InfraEntityInformation {...props} entity={entity} onClose={onClose} isCveRedirect={isCveRedirect} />;
   }
 }
 
@@ -97,7 +97,9 @@ function InfraEntityInformation({
   kind = 'dark',
   getLabelCallback = label => label,
   pathname,
-  shouldDisplayDefaultLabel = true
+  shouldDisplayDefaultLabel = true,
+  isCveRedirect,
+  onClose
 }) {
   const hostSnapshot = useObservable(
     getHostSnapshotId(entity).flatMap(hostId => getSnapshot(hostId, linkTimeConfig)),
@@ -115,6 +117,8 @@ function InfraEntityInformation({
         kind={kind}
         calculateHierarchy
         getLabel={snapshotLabel => getLabelCallback(snapshotLabel)}
+        isCveRedirect={isCveRedirect}
+        onClose={onClose}
       />
     </EntityInformationPresenter>
   );

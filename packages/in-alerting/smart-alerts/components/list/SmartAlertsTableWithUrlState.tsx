@@ -86,7 +86,7 @@ export interface SmartAlertsTableViewProps<AlertConfig extends AlertConfigType> 
   toolBarContent?: JSX.Element;
   isSelectable?: boolean;
   noDataHeader?: string;
-  noDataDescription?: string;
+  noDataDescription?: string | JSX.Element;
 }
 
 export default function SmartAlertsTableWithUrlState<AlertConfig extends AlertConfigType>(

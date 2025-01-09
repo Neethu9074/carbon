@@ -87,7 +87,11 @@ const Remove = (props: Props) => {
   };
 
   return (
-    <Card title={t('in-websites:websiteDashboard.tabs.configuration.configurationRemoveTitle')}>
+    <Card
+      title={t('in-websites:websiteDashboard.tabs.configuration.configurationRemoveTitle')}
+      headerClassName={locals.title}
+      className={locals.configurationBlock}
+    >
       <HelpParagraph>
         <Trans i18nKey="in-websites:delete.disclaimer" values={{ websiteName: label }} />
       </HelpParagraph>

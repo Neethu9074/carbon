@@ -29,6 +29,8 @@
     "groupBy": "Group by",
     "noChannelAvailable": "No Alert channels available",
     "optional": "Optional",
+    "on": "On",
+    "off": "Off",
     "revisionDropdownButton": {
       "revision": "Revision {{alertRevision}}",
       "pause": "Pause",
@@ -98,7 +100,17 @@
     "groupedViewHeader_1": "{{formattedCount}} Results",
     "groupedViewHeader_2": "{{formattedCount}} Results",
     "resultHeaderLoading": "Loading…",
-    "loadMore": "Load More"
+    "loadMore": "Load More",
+    "chooseLayoutDialog": {
+      "chooseLayout": "Choose Smart Alert layout",
+      "layoutContent": "You currently have access to both layouts for creating a Smart Alert in this environment. Please select the desired layout to proceed:",
+      "oldLayoutDescription": "Old Layout: The traditional interface for creating Smart Alerts",
+      "newLayoutDescription": "New Layout: The updated interface with enhanced features and usability improvements.",
+      "layoutRecommendation": "If unsure, we recommend exploring the New Layout for a better experience.",
+      "cancelTitle": "Cancel",
+      "useOldLayout": "Use old layout",
+      "useNewLayout": "Use new layout"
+    }
   },
   "potentialProblems": {
     "titleErrorRate": "Erroneous call rate is higher than normal",
@@ -500,6 +512,8 @@
         "noPermissionGlobalSmartAlertEdit": "You don't have the permission to perform this action",
         "labelGlobalSmartAlertsList": "Global Application Smart Alerts ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Application Smart Alerts ({{numberOfAlerts}})",
+        "labelGlobalSmartAlertsTable": "Global Application Smart Alerts",
+        "labelSmartAlertsTable": "Application Smart Alerts",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
         "getSubtitleForStaticThreshold": "Static Threshold, {{metricLabel}} {{operator}} {{value}}",
         "getSubtitleForStaticDailySeasonality": "Static Daily Seasonality, {{metricLabel}}",
@@ -517,7 +531,11 @@
         "numberOfApplicationsSelected_plural": "{{count}} applications selected",
         "numberOfApplicationsSelected_0": "{{count}} applications selected",
         "numberOfApplicationsSelected_1": "{{count}} applications selected",
-        "numberOfApplicationsSelected_2": "{{count}} applications selected"
+        "numberOfApplicationsSelected_2": "{{count}} applications selected",
+        "noGlobalAlertDataHeader": "No global application Smart Alerts",
+        "noGlobalAlertDataDescription": "To get started, click <strong>Create global Smart Alert</strong>.",
+        "noLocalAlertDataHeader": "No application Smart Alerts",
+        "noLocalAlertDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
       },
       "details": {
         "title": "Alert Details",
@@ -770,6 +788,8 @@
         "cancelTitle": "Cancel",
         "proceedTitle": "Proceed",
         "previousTitle": "Previous",
+        "nextTitle": "Next",
+        "closeTitle": "Close",
         "sharedListTooltip": "{{typeName}} is not available anymore",
         "clearTagFilterExpressionButton": "Clear",
         "baselineErrorMessageComputedOnApproximateData": "The baseline is computed based on approximate data due to data retention settings. Therefore, it might not be accurate in case there are few calls matching selected filters.",
@@ -967,7 +987,14 @@
         "labelConfirmRemoveConfig": "Are you sure you want to remove the alert <strong>{{configName}}</strong>?",
         "labelRemove": "Remove"
       },
+      "gracePeriod": {
+        "title": "Grace period (optional)",
+        "description": "Automatically close an issue after the violation threshold is no longer met for:",
+        "label": "Select"
+      },
       "tearSheet": {
+        "cancelModalTitle": "Are you sure you want to cancel?",
+        "cancelModalDescription": "If you cancel, configuration details you have entered wont be saved.",
         "timeThreshold": {
           "timeThresholdConfigTimeThresholdLabelViolationsPersistOverTime": "When violations persist over time",
           "timeThresholdConfigTimeThresholdLabelViolationsPersistRamdomInterval": "Violations persist at random intervals",
@@ -981,7 +1008,10 @@
           "tracesImpacted": "traces are impacted",
           "outOfConsecutiveEvaluations": "out of",
           "persistenceType": "Persistence type",
-          "numberOfConsecutiveViolationsPostLabel": "consecutive {{granularity}}-minute window(s) have violations"
+          "numberOfConsecutiveViolationsPostLabel": "consecutive {{granularity}}-minute window(s) have violations",
+          "static": "Static",
+          "thresholdValue": "Threshold value",
+          "timeWindow": "Time Window"
         }
       }
     },
@@ -1108,7 +1138,9 @@
           "filter_0": "Filters",
           "filter_1": "Filters",
           "filter_2": "Filters"
-        }
+        },
+        "noDataHeader": "No website Smart Alerts",
+        "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
       }
     },
     "sortOptions": {
@@ -1152,7 +1184,9 @@
         "timeThreshold": "Time Threshold",
         "filterApplied": "Filter Applied",
         "violationsCount": "{{violationsCount}} failures",
-        "numberOfFailures": "Failure Alerting"
+        "numberOfFailures": "Failure Alerting",
+        "noDataHeader": "No synthetic Smart Alerts",
+        "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
       },
       "alertProperties": {
         "testName": "Test_Name",
@@ -1287,7 +1321,9 @@
         "filter_0": "Filters",
         "filter_1": "Filters",
         "filter_2": "Filters",
-        "filterApplied": "Filter Applied"
+        "filterApplied": "Filter Applied",
+        "noDataHeader": "No mobile app Smart Alerts",
+        "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
       },
       "simple": {
         "stepConfigsStep1Title": "Step 1: Select alert",
@@ -1429,7 +1465,7 @@
         "filter_1": "Filters",
         "filter_2": "Filters",
         "noDataHeader": "No infrastructure Smart Alerts",
-        "noDataDescription": "To get started, click Create Smart Alert."
+        "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
       },
       "advancedModeContainer": {
         "scope": {
@@ -1489,6 +1525,7 @@
       "regexNotValid": "Regex is not valid",
       "tearSheet": {
         "createTitle": "Create an infrastructure Smart Alert",
+        "editTitle": "Edit an infrastructure Smart Alert",
         "steps": {
           "step1Title": "Define the condition",
           "step2Title": "Define when to get alerted",
@@ -1506,8 +1543,44 @@
           "header": "What properties do you want to set for this alert?"
         },
         "step4": {
-          "header": "What do you want to be notified for this alert?",
+          "header": "Where do you want to be notified for alert?",
           "description": "Select the recipient(s) of this alert"
+        },
+        "scopeAlerting": {
+          "title": "Choose how you want to be alerted",
+          "customAggregation": "Custom aggregation",
+          "customAggregationDescription": "Aggregates all metrics in scope to a single metric per group. There will be at most one active issue at a time per group.",
+          "perEntityAlerting": "Per entity alerting",
+          "perEntityAlertingDescription": "Monitors each metrics individually. You will receive an alert for each individual metric that is violating the threshold."
+        },
+        "scopeFilter": {
+          "title": "Choose the scope of the infrastructure",
+          "filter": "Filter",
+          "filterDescription": "Add filters to the services to get more precise alerts."
+        },
+        "scopeGroupBy": {
+          "group": "Group",
+          "groupByDescription": "Add group to configure calls in groups. Each call within the group is configured collectively but evaluated individually."
+        },
+        "timeThreshold": {
+          "title": "Set when violations trigger alerts",
+          "description": "Specify the persistence over time for alert trigger and time to failure."
+        },
+        "thresholdDescription": {
+          "static": "A constant threshold value is applied and it does not change over time."
+        },
+        "chartAlertPreview": "Alerts preview",
+        "chartAlertPreviewDescription": "Shows how alerts would have been triggered based on historical metric data.",
+        "forecastAlerting": {
+          "description": "Receive proactive alerts based on historical data and trends. This option helps you anticipate potential issues before they affect your system.",
+          "historicalDataTime": {
+            "description": "Specifies the timeframe used to analyze the trend.",
+            "tooltipContent": "Select a short timeframe when you care about short-term trends, or a larger timeframe if you want to be alerted when the long-term trend is expected to exceed the limit."
+          },
+          "forecastedTimeWindow": {
+            "description": "Please note that larger values will increase the chance of false alerts.",
+            "tooltipContent": "Defines the timeframe of the forecast used for alerting. "
+          }
         }
       }
     },
@@ -1540,7 +1613,9 @@
               "metricThresholdValue": "{{metricName}} {{operator}} {{value}}"
             }
           }
-        }
+        },
+        "noDataHeader": "No log Smart Alerts",
+        "noDataDescription": "To get started, click <strong>Create Smart Alert</strong>."
       },
       "advancedModeContainer": {
         "scope": {

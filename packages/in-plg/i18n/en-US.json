@@ -51,6 +51,12 @@
     "freetrial": " Try it free",
     "taketour": " Take a tour"
   },
+  "dataConsumptionMessage": {
+    "description": "You have reached {{dataConsumption}}% of your data ingest entitlement. Once you reach 100%, you will be charged on a pay-per-use basis for any additional data ingested.",
+    "description100": "You have reached 100% of your data ingest entitlement, but don’t worry, you will continue to receive the full value of Instana. You will only be charged on a pay-per-use basis for the exact amount of additional data ingested.",
+    "buttonText": "Review data usage",
+    "title": "Looks like your Instana usage is taking off!"
+  },
   "agentDetails": {
     "agentMode": {
       "dynamic": "Dynamic",
@@ -66,14 +72,6 @@
     "jvmVendor": {
       "azulZulu11": "Azul Zulu 11",
       "eclipseOpenJD11": "Eclipse OpenJ9 11"
-    },
-    "askForHelp": {
-      "email": "email",
-      "send": "Send",
-      "askForHelpTitle": "Ask a colleague for help",
-      "thisWillBeAvailableOnceYourInstanceIsReady": "This will be available once your instance is ready.",
-      "inviteAColeague": "Invite a colleague",
-      "agentKey": "Agent key"
     },
     "common": {
       "agentDeployment": "Agent deployment",
@@ -102,15 +100,13 @@
       "support": "Support",
       "sideCard": {
         "prerequisites": "Prerequisites",
-        "documentation": "Documentation",
-        "askAColleagueForHelp": "Ask a colleague for help"
+        "documentation": "Documentation"
       }
     },
     "kubernetes": {
       "kubernetes": {
         "enterAClusterNameAndOptionallyTheAgentZone": "Step 1: Enter a cluster name and optionally the agent zone that you want the cluster to be part of.",
-        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Step 2: Review the prerequisites and run the agent deployment code.",
-        "support": "Support"
+        "reviewThePrerequisitesAndRunTheAgentDeploymentCode": "Step 2: Review the prerequisites and run the agent deployment code."
       },
       "operator": {
         "installUsingTheOperator": "Install using the Operator",
@@ -216,7 +212,6 @@
       "selectAwsRegionAndLambdaHandler": "Select AWS region and enter the current lambda handler",
       "setInstanaAutoWrapHandlerAsLambdaFunction": "Set Instana auto-wrap handler as the handler for the Lambda function.",
       "autoWrapHandler": "Auto-wrap Handler",
-      "runCodeBelow": "Run the agent deployment code below.",
       "prerequisiteLinks": {
         "networkRequirements": "Network Requirements"
       },
@@ -248,7 +243,6 @@
         "installGcrCollectors": "Install Gogle Cloud Run in-process collectors",
         "installAgentOnEc2": "Install agent on AWS EC2",
         "configurationOptions": "Configuration options",
-        "installAgentAwsEks": "Install an agent on AWS EKS",
         "monitoringGcr": "Monitoring Google Cloud Run",
         "monitoringAwsFargateRuby": "Monitoring AWS Fargate (Ruby)",
         "awsServiceDocumentation": "AWS Service documentation",
@@ -461,8 +455,6 @@
       }
     },
     "azure": {
-      "installingAgentOnAks": "Installing an Agent on Aks",
-      "configureAfterInstall": "Configuring the agent after install",
       "referenceToAzureContainerAppsDocumentation": "Go Application deployed in Azure Container Apps need to be manually instrumented in order to collect trace data. Follow the instructions of the <azureContainerAppsDoc>Azure Container Apps Go documentation</azureContainerAppsDoc>.",
       "selectAzureContainerAppsRuntime": "Select Azure Container Apps runtime",
       "reviewPrerequisitesAndConfigureContainerApps": "Review the prerequisites and configure your Azure Container Apps for tracing.",
@@ -488,7 +480,7 @@
         "configureOptionsForTracing": "Configure required parameters for monitoring app service",
         "uploadConfigFile": "Upload the config file - ApplicationHost.xdt",
         "activatingAppServiceNote": "Download the file. Please make sure the file name is always \"ApplicationHost.xdt\"",
-        "ftpsAuthCredsNote":"Login to the App service in Azure portal and under Deployment -> Deployment Center -> FTPS credentials of the App Service you will have FTPS URL, FTPS username and password (Application Scope). Replace these values in the below command",
+        "ftpsAuthCredsNote": "Login to the App service in Azure portal and under Deployment -> Deployment Center -> FTPS credentials of the App Service you will have FTPS URL, FTPS username and password (Application Scope). Replace these values in the below command",
         "restartAppServiceNote": "Restart the App Service"
       }
     },
@@ -523,7 +515,6 @@
     "heading": "Welcome to Instana",
     "foldableTileTitle": "Let’s get started.",
     "viewAll": "View all",
-    "UrlShortener": "URL Shortener",
     "addMore": "Add",
     "collapsibleButton": {
       "showOnboardingTasks": "Show onboarding tasks",
@@ -568,6 +559,10 @@
       "title": "Bring in your team",
       "description": "Invite your colleagues to Instana and start collaborating.",
       "buttonName": "Invite your teammates"
+    },
+    "favouriteButton": {
+      "ariaFilled": "Remove favorite",
+      "aria": "Add to favorite"
     },
     "component": {
       "applicationWidget": {
@@ -797,7 +792,6 @@
     },
     "ariaLabel": {
       "search": "Search",
-      "shareButton": "Share button",
       "handleButton": "Handle button"
     }
   },

@@ -12,12 +12,9 @@
   .displayFlex {
     display: flex;
   }
+
   .neutralColor {
     color: var(--ids-color-option-neutral-700);
-  }
-  .neutralSmallText {
-    color: var(--ids-color-option-neutral-700);
-    font-size: var(--ids-font-size-option-body-small);
   }
 
   /* Component-specific styles */
@@ -26,6 +23,7 @@
       .neutralColor;
     }
   }
+
   .radioButtonWrapper {
     width: 70%;
     .displayFlex;
@@ -36,14 +34,13 @@
       padding: 0 !important;
     }
   }
+
   .autoDetectBlockWrapper {
     p {
       .neutralColor;
     }
   }
-  .toggle span {
-    .neutralSmallText;
-  }
+
   .mappingRuleRow {
     .displayFlex;
 
@@ -52,11 +49,17 @@
       width: calc((100% - 60px) / 2);
     }
   }
+
   .regexMappingRulesFooterWrapper {
     .displayFlex;
     justify-content: space-between;
   }
+
   .learnMoreLink {
     font-size: var(--ids-font-size-option-body-small);
+  }
+
+  .bottomSpace {
+    margin: 0 0 1.5rem 0;
   }
 }

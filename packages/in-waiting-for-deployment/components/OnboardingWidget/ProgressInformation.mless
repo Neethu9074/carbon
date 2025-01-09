@@ -9,13 +9,6 @@
     align-items: center;
   }
 
-  .goToInstanceButton {
-    justify-content: flex-start;
-
-    margin-left: 1rem;
-
-    width: 12.5rem;
-  }
   .goToInstanceButtonCarbon {
     margin-left: 1rem;
     :global(.cds--g90) {

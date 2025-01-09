@@ -75,7 +75,40 @@ export default [
       'stats.directorySystemAgent.dsSecurityDescriptorPropagationsEvents',
       'stats.directorySystemAgent.dsSecurityDescriptorPropagatorAverageExclusionTime',
       'stats.directorySystemAgent.dsSecurityDescriptorPropagatorRuntimeQueue',
-      'stats.directorySystemAgent.dsSecurityDescriptorSubOperationsPersec'
+      'stats.directorySystemAgent.dsSecurityDescriptorSubOperationsPersec',
+
+      'stats.directorySystemAgent.dsPercentReadsFromKCC',
+      'stats.directorySystemAgent.dsPercentWritesFromKCC',
+      'stats.directorySystemAgent.dsPercentSearchesFromKCC',
+
+      'stats.directorySystemAgent.dsPercentSearchesFromKCC',
+      'stats.directorySystemAgent.dsPercentSearchesFromKCC',
+      'stats.directorySystemAgent.dsPercentSearchesFromKCC',
+
+      'stats.directorySystemAgent.dsPercentReadsFromLSA',
+      'stats.directorySystemAgent.dsPercentWritesFromLSA',
+      'stats.directorySystemAgent.dsPercentSearchesFromLSA',
+
+      'stats.directorySystemAgent.dsPercentReadsFromNSPI',
+      'stats.directorySystemAgent.dsPercentWritesFromNSPI',
+      'stats.directorySystemAgent.dsPercentSearchesFromNSPI',
+
+      'stats.securityAccountManager.samAccountGroupEvaluationLatency',
+      'stats.securityAccountManager.samDisplayInformationQueriesPerSec',
+      'stats.securityAccountManager.samDomainLocalGroupMembershipEvaluationsPerSec',
+      'stats.securityAccountManager.samEnumerationsPerSec',
+      'stats.securityAccountManager.samGCEvaluationsPerSec',
+      'stats.securityAccountManager.samGlobalGroupMembershipEvaluationsPerSec',
+      'stats.securityAccountManager.samMachineCreationAttemptsPerSec',
+      'stats.securityAccountManager.samMembershipChangesPerSec',
+      'stats.securityAccountManager.samNonTransitiveMembershipEvaluationsPerSec',
+      'stats.securityAccountManager.samPasswordChangesPerSec',
+      'stats.securityAccountManager.samResourceGroupEvaluationLatency',
+      'stats.securityAccountManager.samSuccessfulComputerCreationsPerSec',
+      'stats.securityAccountManager.samSuccessfulUserCreationsPerSec',
+      'stats.securityAccountManager.samTransitiveMembershipEvaluationsPerSec',
+      'stats.securityAccountManager.samUniversalGroupMembershipEvaluationsPerSec',
+      'stats.securityAccountManager.samUserCreationAttemptsPerSec'
     ],
     labels: [
       t('in-forge:plugins.activeDirectory.lightweightDirectoryAccessProtocol.clientSessions'),
@@ -143,7 +176,35 @@ export default [
       t('in-forge:plugins.activeDirectory.directorySystemAgent.dsSecurityDescriptorPropagationsEvents'),
       t('in-forge:plugins.activeDirectory.directorySystemAgent.dsSecurityDescriptorPropagatorAverageExclusionTime'),
       t('in-forge:plugins.activeDirectory.directorySystemAgent.dsSecurityDescriptorPropagatorRuntimeQueue'),
-      t('in-forge:plugins.activeDirectory.directorySystemAgent.dsSecurityDescriptorSubOperationsPersec')
+      t('in-forge:plugins.activeDirectory.directorySystemAgent.dsSecurityDescriptorSubOperationsPersec'),
+      t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentReadsFromKCC'),
+      t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentWritesFromKCC'),
+      t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentSearchesFromKCC'),
+
+      t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentReadsFromLSA'),
+      t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentWritesFromLSA'),
+      t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentSearchesFromLSA'),
+
+      t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentReadsFromNSPI'),
+      t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentWritesFromNSPI'),
+      t('in-forge:plugins.activeDirectory.directorySystemAgent.dsPercentSearchesFromNSPI'),
+
+      t('in-forge:plugins.activeDirectory.securityAccountManager.samAccountGroupEvaluationLatency'),
+      t('in-forge:plugins.activeDirectory.securityAccountManager.samDisplayInformationQueriesPerSec'),
+      t('in-forge:plugins.activeDirectory.securityAccountManager.samDomainLocalGroupMembershipEvaluationsPerSec'),
+      t('in-forge:plugins.activeDirectory.securityAccountManager.samEnumerationsPerSec'),
+      t('in-forge:plugins.activeDirectory.securityAccountManager.samGCEvaluationsPerSec'),
+      t('in-forge:plugins.activeDirectory.securityAccountManager.samGlobalGroupMembershipEvaluationsPerSec'),
+      t('in-forge:plugins.activeDirectory.securityAccountManager.samMachineCreationAttemptsPerSec'),
+      t('in-forge:plugins.activeDirectory.securityAccountManager.samMembershipChangesPerSec'),
+      t('in-forge:plugins.activeDirectory.securityAccountManager.samNonTransitiveMembershipEvaluationsPerSec'),
+      t('in-forge:plugins.activeDirectory.securityAccountManager.samPasswordChangesPerSec'),
+      t('in-forge:plugins.activeDirectory.securityAccountManager.samResourceGroupEvaluationLatency'),
+      t('in-forge:plugins.activeDirectory.securityAccountManager.samSuccessfulComputerCreationsPerSec'),
+      t('in-forge:plugins.activeDirectory.securityAccountManager.samSuccessfulUserCreationsPerSec'),
+      t('in-forge:plugins.activeDirectory.securityAccountManager.samTransitiveMembershipEvaluationsPerSec'),
+      t('in-forge:plugins.activeDirectory.securityAccountManager.samUniversalGroupMembershipEvaluationsPerSec'),
+      t('in-forge:plugins.activeDirectory.securityAccountManager.samUserCreationAttemptsPerSec')
     ],
     formatter: number.compact
   }

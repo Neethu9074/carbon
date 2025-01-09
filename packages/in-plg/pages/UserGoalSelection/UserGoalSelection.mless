@@ -23,13 +23,6 @@
       :global .carbon-card-layer {
         justify-content: space-between;
       }
-      .cardLegacyCheckBox {
-        filter: grayscale(100%) brightness(0);
-        height: 1rem;
-        width: 1rem;
-        background-size: contain;
-        transform: scale(1);
-      }
     }
     .borderedCard {
       border: 1px solid var(--ids-color-option-neutral-900);

@@ -20,7 +20,7 @@ import {
   ProductAreaPermissionMap,
   ScopedPermissionItem,
   ScopedPermissionType,
-  syntheticOtherCapabilities,
+  syntheticAdditionalOwnerCapabilities,
   syntheticViewCapabilities
 } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/constants';
 import { GroupApiResult } from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessScope/types';
@@ -292,7 +292,9 @@ export const removeAdditionalPermissionsForNoaccess = (
       const role = getAreaRoleFromPermissionSet(productArea, permissionSet);
       if (role === AreaRole.VIEWER) {
         permissions = permissions.filter(
-          permission => !syntheticOtherCapabilities?.includes(permission as CapabilityType)
+          permission =>
+            permission === Capability.CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS ||
+            !syntheticAdditionalOwnerCapabilities?.includes(permission as CapabilityType)
         );
       }
     } else if (productArea === ProductArea.INFRASTRUCTURE) {

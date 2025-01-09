@@ -34,8 +34,8 @@ import { isMobileAppSmartAlertEvent } from 'in-events/components/eventUtil';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
 // @ts-expect-error No typedef available
 import { isSloSmartAlertEvent } from 'in-events/components/eventUtil';
-// @ts-expect-error No typedef available
-import EventIcon from 'in-events/components/EventIcon';
+import { aqmDisableConfigOnEventViewEnabled, manuallyCloseEventEnabled } from 'in-services/featureFlags';
+import DisableEventConfigButton from 'in-events/components/tabs/Summary/DisableEventConfigButton';
 import { getSmartAlertAnalyzeTimeConfig } from 'in-events/components/EventContent/analyzeUtils';
 import ManualCloseIssueButton from 'in-events/components/tabs/Summary/ManualCloseIssueButton';
 import AnalyzeMobileAppEventButton from 'in-events/components/AnalyzeMobileAppEventButton';
@@ -51,9 +51,9 @@ import useMobileAppEventEntity from 'in-events/hooks/useMobileAppEventEntity';
 import SloAlertConfigButton from 'in-events/components/SloAlertConfigButton';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { getEventSeverityLabelWithEventType } from 'in-stores/events';
-import { manuallyCloseEventEnabled } from 'in-services/featureFlags';
 import useSloEventEntity from 'in-events/hooks/useSloEventEntity';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
+import EventIcon from 'in-events/components/EventIcon';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { EventOrMap } from 'in-events/types';
 import { role } from 'in-stores/user';
@@ -91,6 +91,7 @@ const IncidentActions = ({ incident, triggeringEvent, latestSnapshot }: Incident
     >
       <IncidentActionsByType triggeringEvent={triggeringEvent} />
       {renderCloseButton(incident, canCloseManually, timeConfig)}
+      {renderDisableButton(incident)}
     </CarbonComboButton>
   );
 };
@@ -221,6 +222,18 @@ function renderCloseButton(incident: EventOrMap, canCloseManually: boolean | und
       iconComponent={
         <EventIcon event={incident} tooltipLabel={getEventSeverityLabelWithEventType(incident, timeConfig)} />
       }
+      reload={noop}
+    />
+  ) : null;
+}
+
+function renderDisableButton(incident: EventOrMap) {
+  return incident && aqmDisableConfigOnEventViewEnabled ? (
+    <DisableEventConfigButton
+      event={incident}
+      buttonKind="subtle"
+      eventType="incident"
+      buttonType="menuItem"
       reload={noop}
     />
   ) : null;

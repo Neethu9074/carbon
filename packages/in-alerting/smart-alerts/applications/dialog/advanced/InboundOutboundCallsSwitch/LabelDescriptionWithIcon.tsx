@@ -44,7 +44,7 @@ export default function LabelDescriptionWithIcon({
         {disabled && (
           <span className={locals.notSupported}>
             <Tooltip align={'rightMiddle'} delay={500} content={tooltipContent}>
-              <Pill kind="info" type="gray" className={locals.notSupported} size="md">
+              <Pill type="gray" className={locals.notSupported} size="md">
                 <span title="" className={locals.pillContent}>
                   <SvgIcon type="lib_help_error_error_outline" size="xs" />
                   {badgeTitle}

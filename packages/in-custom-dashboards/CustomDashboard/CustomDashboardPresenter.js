@@ -9,11 +9,12 @@ import React from 'react';
 import { HorizontalIndicator, Button } from '@instana/components';
 
 import {
-  carbonButtonEnabled,
   customDashboardTopLevelFiltersEnabled,
-  customDashboardsExportPdfEntireDashboard
+  customDashboardsExportPdfEntireDashboard,
+  customDashboardsFastQueryModeEnabled
 } from 'in-services/featureFlags';
 import EntityPageMainNotificationLightCardV2 from 'in-components/EntityPageMainNotification/EntityPageMainNotificationLightCardV2';
+import { FastQueryModeToggle } from 'in-custom-dashboards/CustomDashboard/FastQueryModeToggle/FastQueryModeToggle';
 import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/customDashboards';
 import TopLevelFilterBar from 'in-custom-dashboards/CustomDashboard/FilterContext/TopLevelFilterBar';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
@@ -214,6 +215,7 @@ function SecondaryButtonLine({
 }) {
   return (
     <>
+      {customDashboardsFastQueryModeEnabled && <FastQueryModeToggle />}
       {editable && (
         <Button kind="action" onClick={onAddWidget} icon="lib_openclose_add_circle_outline">
           {t('in-custom-dashboards:customDashboard.customDashboardPresenter.addWidget')}
@@ -284,7 +286,7 @@ function TopLevelButtonLine({ editable, onShare, canCreatePublicCustomDashboards
       icon="lib_actions_share"
       onClick={canCreatePublicCustomDashboards ? onShare : undefined}
       disabled={!canCreatePublicCustomDashboards}
-      className={carbonButtonEnabled ? locals.carbonShare : undefined}
+      className={locals.carbonShare}
     >
       {t('in-custom-dashboards:customDashboard.customDashboardPresenter.share')}
     </DashboardHeaderButton>

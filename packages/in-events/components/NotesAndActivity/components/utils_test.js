@@ -10,7 +10,6 @@ import {
   validTextEntry,
   noteNameAndTimeFormat,
   createDataString,
-  convertSummaryToString,
   validRecipients
 } from 'in-events/components/NotesAndActivity/components/utils';
 
@@ -97,52 +96,6 @@ describe('createDataString', () => {
       ])
     );
     expect(result).toEqual(['Priority: 1 - Critical\n', 'Incident state: \n', 'Opened by: ITIL User\n']);
-  });
-});
-
-describe('convertSummaryToString', () => {
-  test('should convert the summary object to a string', () => {
-    const summaryData = [
-      { label: 'Label 1', summary: 'Summary 1' },
-      { label: 'Label 2', summary: 'Summary 2' }
-    ];
-
-    const result = convertSummaryToString(summaryData);
-
-    expect(result).toBe('This summary is AI generated\n\nLabel 1\nSummary 1\nLabel 2\nSummary 2\n');
-  });
-
-  test('should handle an empty array', () => {
-    const summaryData = [];
-
-    const result = convertSummaryToString(summaryData);
-
-    expect(result).toBe('This summary is AI generated\n\n');
-  });
-
-  test('should handle null input', () => {
-    const summaryData = null;
-
-    const result = convertSummaryToString(summaryData);
-
-    expect(result).toBe('This summary is AI generated\n\n');
-  });
-
-  test('should handle long labels and summaries', () => {
-    const summaryData = [
-      {
-        label:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.',
-        summary:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.'
-      }
-    ];
-
-    const result = convertSummaryToString(summaryData);
-
-    expect(result).toBe(
-      'This summary is AI generated\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo eget felis facilisis fermentum. Aliquam porttitor mauris sit amet orci.\n'
-    );
   });
 });
 

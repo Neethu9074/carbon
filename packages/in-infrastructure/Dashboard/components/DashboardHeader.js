@@ -8,10 +8,10 @@ import React from 'react';
 import DashboardHeaderButtonSection from 'in-infrastructure/Dashboard/components/DashboardHeaderButtonSection';
 import AnalyzeRelatedInstancesButton from 'in-infrastructure/components/AnalyzeRelatedInstancesButton';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
-import { analyzeRelatedInstancesButtonEnabled, cveIssueEnabled } from 'in-services/featureFlags';
 import EntityCveIndicator from 'in-components/EntityCveIndicator/EntityHealthIndicatorBehavior';
 import DashboardBreadcrumb from 'in-infrastructure/Dashboard/components/DashboardBreadcrumb';
 import CveIndicatorButtonPresenter from 'in-components/health/CveIndicatorButtonPresenter';
+import { analyzeRelatedInstancesButtonEnabled } from 'in-services/featureFlags';
 import PluginBadge from 'in-infrastructure/Dashboard/components/PluginBadge';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { useSegmentTracker } from 'in-infrastructure/tracking/tracking';
@@ -66,7 +66,7 @@ function renderButtonLine(props) {
         timeConfig={timeConfig}
       />
 
-      {cveIssueEnabled && isContainer(snapshot) && (
+      {isContainer(snapshot) && (
         <EntityCveIndicator
           IndicatorPresenter={props => <CveIndicatorButtonPresenter size="normal" {...props} />}
           snapshotId={snapshot.get('id')}

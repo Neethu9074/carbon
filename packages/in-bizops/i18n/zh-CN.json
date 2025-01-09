@@ -19,8 +19,19 @@
     "unnamedActivity": "（未命名的活动）{{activityType}}",
     "unnamedService": "(未命名服务)"
   },
+  "customDashboards": {
+    "activityCountMetric": "活动计数",
+    "erroneousActivityCallsCountLabel": "错误活动调用（计数）",
+    "erroneousActivityCallsCategory": "错误的活动调用",
+    "erroneousActivityCallsRateLabel": "错误活动调用（比率）",
+    "latency": "等待时间"
+  },
   "processes": {
-    "deployAgent": "部署代理程序"
+    "deployAgent": "部署代理程序",
+    "noProcessesAvailable": "没有业务流程可用。",
+    "deployAgentFirst": "您需要先部署一个代理。",
+    "forMoreInformation": "如需了解更多信息，请阅读",
+    "documentation": "文档中提供。"
   },
   "perspectives": {
     "newPerspective": "创建透视图",

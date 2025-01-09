@@ -4,100 +4,35 @@
  * Copyright IBM Corp. 2024
  */
 
-import React, { Dispatch, SetStateAction } from 'react';
-
-import { AlertConfigTearSheetWithThresholdProps } from 'in-alerting/smart-alerts/infrastructure/tearsheet/AlertConfigTearSheetWithThreshold';
 import AlertConfigTearSheetStep1 from 'in-alerting/smart-alerts/infrastructure/tearsheet/steps/AlertConfigTearSheetStep1';
 import AlertConfigTearSheetStep2 from 'in-alerting/smart-alerts/infrastructure/tearsheet/steps/AlertConfigTearSheetStep2';
 import AlertConfigTearSheetStep3 from 'in-alerting/smart-alerts/infrastructure/tearsheet/steps/AlertConfigTearSheetStep3';
 import AlertConfigTearSheetStep4 from 'in-alerting/smart-alerts/infrastructure/tearsheet/steps/AlertConfigTearSheetStep4';
-import AlertingTearSheetContent from 'in-alerting/components/AlertingTearSheetContent';
-import { AlertingFooterActions } from 'in-alerting/components/AlertingTearSheet';
-import { Nullish, Result, StaticThresholdData } from 'in-types';
 import { t } from 'in-i18n';
 
-export const stepConfigs = [
+export const stepConfigsForCarbonTearSheet = [
   {
     title: t('in-alerting:smartAlerts.infrastructure.tearSheet.steps.step1Title'),
-    validateIntermediately: []
+    validateIntermediately: [
+      ['rule', 'entityType'],
+      ['rule', 'metricName']
+    ],
+    description: t('in-alerting:smartAlerts.infrastructure.tearSheet.step1.header'),
+    component: AlertConfigTearSheetStep1
   },
-
   {
     title: t('in-alerting:smartAlerts.infrastructure.tearSheet.steps.step2Title'),
-    validateIntermediately: [['name']]
+    validateIntermediately: [],
+    component: AlertConfigTearSheetStep2
   },
   {
     title: t('in-alerting:smartAlerts.infrastructure.tearSheet.steps.step3Title'),
-    validateIntermediately: []
+    validateIntermediately: [['name']],
+    component: AlertConfigTearSheetStep3
   },
   {
     title: t('in-alerting:smartAlerts.infrastructure.tearSheet.steps.step4Title'),
-    validateIntermediately: []
+    validateIntermediately: [],
+    component: AlertConfigTearSheetStep4
   }
 ];
-
-export type stepRendersType = AlertConfigTearSheetWithThresholdProps & {
-  isTagFilterFormModelValid: boolean;
-  setStep: Dispatch<SetStateAction<number>>;
-  thresholdResult: Result<StaticThresholdData> | undefined | null;
-};
-
-export const infraStepRenderers = [
-  //@ts-expect-error TODO to be handled
-  (props: stepRendersType) => (
-    <AlertingTearSheetContent title={stepConfigs[0].title} key={0}>
-      <AlertConfigTearSheetStep1 />
-    </AlertingTearSheetContent>
-  ),
-  //@ts-expect-error TODO to be handled
-  (props: stepRendersType) => (
-    <AlertingTearSheetContent title={stepConfigs[1].title} key={1}>
-      <AlertConfigTearSheetStep2 />
-    </AlertingTearSheetContent>
-  ),
-  //@ts-expect-error TODO to be handled
-  (props: stepRendersType) => (
-    <AlertingTearSheetContent title={stepConfigs[2].title} key={2}>
-      <AlertConfigTearSheetStep3 />
-    </AlertingTearSheetContent>
-  ),
-  //@ts-expect-error TODO to be handled
-  (props: stepRendersType) => (
-    <AlertingTearSheetContent title={stepConfigs[3].title} key={3}>
-      <AlertConfigTearSheetStep4 />
-    </AlertingTearSheetContent>
-  )
-];
-
-export const getFooterActions = (
-  backOrCancel: (oldStep: number) => void,
-  cancelTearSheet: () => string | Nullish,
-  handleSubmit: () => void,
-  editMode: boolean | undefined
-): AlertingFooterActions[] => [
-  {
-    kind: 'ghost',
-    isLeftAlign: true,
-    label: t('in-alerting:smartAlerts.components.smartAlertDialog.cancelTitle'),
-    href: cancelTearSheet()
-  },
-  {
-    kind: 'secondary',
-    isLeftAlign: false,
-    label: t('in-alerting:smartAlerts.components.smartAlertDialog.previousTitle'),
-    onClick: backOrCancel
-  },
-  {
-    kind: 'primary',
-    isLeftAlign: false,
-    label: getButtonLabel(editMode),
-    onClick: () => handleSubmit()
-  }
-];
-
-function getButtonLabel(editMode?: boolean) {
-  if (editMode) {
-    return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonSave');
-  }
-  return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonCreate');
-}

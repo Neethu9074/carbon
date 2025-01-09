@@ -6,6 +6,7 @@
 import { AxisConfiguration, ChartConfig, ContextMenuConfig, TimeShift } from 'in-components/Chart/types';
 import { Grouping, ResultType, TimeConfig, UnifiedMetricConfigurationUnion } from 'in-types';
 import { ChartReactComponentProps } from 'in-components/Chart/ChartReactComponent';
+import { Facets } from 'in-components/AnalyzeView/StateManagement';
 import { TimeShiftOffset } from 'in-stores/time/shifting';
 
 export interface ConfigFromDataSeries {
@@ -69,6 +70,10 @@ interface UnifiedMetricsChartProps extends BaseChartConfig {
   bulkRequest?: boolean;
   onApproximateDataChange?: (hasApproximateData: boolean) => void;
   onLegendItemToggle?: (chartConfig: ChartConfig, label: string) => void;
+  facets?: Facets;
+  formModel?: FormModelElement;
+  tableOpen?: boolean;
+  tableCloseHandler?: Function;
 }
 
 type MetricTimestamp = number;

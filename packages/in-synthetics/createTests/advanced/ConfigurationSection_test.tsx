@@ -4,7 +4,8 @@
  * Copyright IBM Corp. 2024
  */
 
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 import { createMapForm } from 'formalistic';
 import React from 'react';
 
@@ -50,12 +51,13 @@ describe('ConfigurationSection', () => {
         setInvalidTimeout={setInvalidTimeout}
       />
     );
+
     expect(screen.getByText('Operation')).toBeInTheDocument();
     expect(screen.getByText('URL')).toBeInTheDocument();
     expect(screen.getByText('Header')).toBeInTheDocument();
     expect(screen.getByText('Add Header')).toBeInTheDocument();
     expect(screen.getByText('Validation String')).toBeInTheDocument();
-    expect(screen.getByText('Expect Status')).toBeInTheDocument();
+    expect(screen.getByTitle('Expect Status')).toBeInTheDocument();
     expect(screen.getByText('Add Validation')).toBeInTheDocument();
     expect(screen.getByText('Timeout')).toBeInTheDocument();
     expect(screen.getByText('Retry Strategy')).toBeInTheDocument();
@@ -64,8 +66,8 @@ describe('ConfigurationSection', () => {
     expect(screen.getByText('Mark Synthetic Call')).toBeInTheDocument();
   });
 
-  it('Renders all new fields with their default values', () => {
-    const { container } = render(
+  it('Renders all new fields with their default values', async () => {
+    render(
       <ConfigurationSection
         form={form}
         updateForm={updateForm}
@@ -81,14 +83,18 @@ describe('ConfigurationSection', () => {
       />
     );
 
-    const inputElements = container.getElementsByTagName('input');
-    const selectElements = container.querySelectorAll('.Select');
+    const inputElements = screen.getAllByRole('textbox');
+    const selectElements = screen.getAllByRole('combobox');
+    const radiobuttonElements = screen.getAllByRole('radio');
+    const checkboxElements = screen.getAllByRole('checkbox');
 
-    expect(inputElements.length).toBe(18);
+    expect(inputElements.length).toBe(6);
     expect(selectElements.length).toBe(2);
+    expect(radiobuttonElements.length).toBe(6);
+    expect(checkboxElements.length).toBe(3);
 
     // Operation
-    expect(selectElements[0]).toHaveTextContent('GET');
+    expect(selectElements[0]).toHaveValue('GET');
 
     // URL
     expect(inputElements[0]).toHaveValue('');
@@ -111,12 +117,16 @@ describe('ConfigurationSection', () => {
     expect(inputElements[3]).toHaveValue('');
 
     // Expect Status/ Expect JSON/ Expect Match
-    expect(selectElements[1]).toHaveTextContent('Expect Status');
-    expect(inputElements[7]).toHaveValue('200');
-    fireEvent.change(selectElements[1], { target: { innerHTML: 'Expect JSON' } });
-    expect(selectElements[1].innerHTML).toBe('Expect JSON');
-    fireEvent.change(selectElements[1], { target: { innerHTML: 'Expect Match' } });
-    expect(selectElements[1].innerHTML).toBe('Expect Match');
+    expect(selectElements[1]).toHaveValue('Expect Status');
+    expect(inputElements[4]).toHaveValue('200');
+
+    await userEvent.click(selectElements[1]);
+    await userEvent.click(screen.getByRole('option', { name: 'Expect JSON' }));
+    expect(selectElements[1]).toHaveValue('Expect JSON');
+
+    await userEvent.click(selectElements[1]);
+    await userEvent.click(screen.getByRole('option', { name: 'Expect Match' }));
+    expect(selectElements[1]).toHaveValue('Expect Match');
     expect(
       screen.getByRole('button', {
         name: 'Add Validation'

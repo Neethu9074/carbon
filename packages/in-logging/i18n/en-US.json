@@ -5,7 +5,7 @@
   "bar": "Bar",
   "logsOverTime": "Logs over time",
   "logsOverTime_ERROR": "Error",
-  "logsOverTime_WARN": "Warn ",
+  "logsOverTime_WARN": "Warn",
   "logsOverTime_INFO": "Info",
   "logsOverTime_FATAL": "Fatal",
   "logsOverTime_NEXTLOGLEVEL": "{{label}}",
@@ -71,7 +71,7 @@
     },
     "retentionIcon": "Change retention period",
     "noData": "No data available",
-    "analyzeLogs": "Analyze Logs",
+    "analyzeLogs": "Analyze logs",
     "configurationPage": {
       "logVolume": "Log volume",
       "logVolumeDescription": "View the log volume for up to 12 months and group by infrastructure tags on demand.",

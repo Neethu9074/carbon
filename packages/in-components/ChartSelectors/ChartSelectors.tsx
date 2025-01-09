@@ -5,13 +5,18 @@
 
 import React, { useEffect } from 'react';
 
-import { ButtonGroup } from '@instana/components';
+import {
+  ButtonGroup,
+  CarbonMenuButton as MenuButton,
+  CarbonMenuItem as MenuItem,
+  SvgIcon,
+  CarbonIconButton
+} from '@instana/components';
 
 import { urlParameter as timeShiftUrlParameter } from 'in-stores/time/shifting';
-import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
-import DropdownButton from 'in-components/Button/DropdownButton';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import useUrlState from 'in-hooks/useUrlState';
+import { t } from 'in-i18n';
 
 import locals from './ChartSelectors.mless';
 
@@ -38,6 +43,7 @@ interface TimeShiftAwareChartSelectorWithUrlStateProps {
   };
   disabledWidgetInLive?: boolean;
   children: React.ReactElement;
+  setTableOpen?: Function;
 }
 
 // The child components will receive these additional properties.
@@ -51,7 +57,8 @@ export function TimeShiftAwareChartSelectorWithUrlState({
   metrics,
   urlMatrixParamConfig: { path, paramTab, paramMetric },
   disabledWidgetInLive,
-  children
+  children,
+  setTableOpen
 }: TimeShiftAwareChartSelectorWithUrlStateProps): JSX.Element {
   // find the default metric of the specified tab
   const findDefaultMetricByTab = (tabId: string) =>
@@ -117,13 +124,27 @@ export function TimeShiftAwareChartSelectorWithUrlState({
     <ComboChartMetricSelector metrics={metrics} selected={getActiveMetric()} onChange={setActiveMetric} />
   ) : (
     tabs.length > 1 && (
-      <TabChartSelector
-        cardTitle={cardTitle}
-        tabs={tabs}
-        selected={getActiveTab()}
-        onChange={setActiveTab}
-        disabledWidgetInLive={disabledWidgetInLive}
-      />
+      <>
+        <TabChartSelector
+          cardTitle={cardTitle}
+          tabs={tabs}
+          selected={getActiveTab()}
+          onChange={setActiveTab}
+          disabledWidgetInLive={disabledWidgetInLive}
+        />
+        {setTableOpen && (
+          <CarbonIconButton
+            label={t('in-components:chart.openTable')}
+            size="sm"
+            kind="ghost"
+            onClick={() => {
+              setTableOpen();
+            }}
+          >
+            <SvgIcon type="lib_table_of_contents" size={'xs'} />
+          </CarbonIconButton>
+        )}
+      </>
     )
   );
 
@@ -161,27 +182,24 @@ export function ComboChartMetricSelector({
   onChange
 }: ComboChartMetricSelectorProps): React.ReactElement {
   return (
-    <ComboBoxBehavior
-      value={selected}
-      options={
-        metrics.map((o: MetricsProps) => ({
-          value: o.id,
-          label: <div className={locals.comboOption}>{o.label}</div>
-        })) as MetricsProps[]
-      }
-      onChange={value => onChange(value)}
-      disableAutomaticOptionSorting
-      overlayAlignment="bottomRight"
+    <MenuButton
+      kind="ghost"
+      size="sm"
+      label={metrics.find((o: MetricsProps) => o.id === selected)?.label}
+      title={t('in-components:chartingConfigurator.labelChangeSelectedMetric')}
+      menuAlignment="bottom-start"
     >
-      {({ elementProps, isOpen }) => {
+      {metrics.map((o: MetricsProps) => {
         return (
-          // @ts-expect-error the 'ref' property does not match here against HTMLElement:
-          <DropdownButton {...elementProps} kind="subtle" size="compact" expanded={isOpen}>
-            {metrics.find((o: MetricsProps) => o.id === selected)?.label}
-          </DropdownButton>
+          <MenuItem
+            key={o.id}
+            label={o.label}
+            onClick={() => onChange(o.id)}
+            className={o.id === selected ? locals.selected : undefined}
+          />
         );
-      }}
-    </ComboBoxBehavior>
+      })}
+    </MenuButton>
   );
 }
 

@@ -31,6 +31,7 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import ApiItemView from 'in-settings/components/ApiItemView';
+import { UPDATED_OBJECT } from 'in-services/util/constants';
 import { scrollIntoView } from 'in-services/util/dom';
 import { Row, Col } from 'in-components/layout/Grid';
 import Section from 'in-settings/components/Section';
@@ -47,7 +48,7 @@ import locals from './Ldap.mless';
 
 export default function Ldap(props) {
   const [testResultMessage, setTestResultMessage] = useState({ waitingForTest: false, messageProps: null });
-  const { trackCta } = useSegmentTracking();
+  const { trackCta, unstable_trackEvent } = useSegmentTracking();
 
   return (
     <ApiItemView
@@ -69,14 +70,14 @@ export default function Ldap(props) {
                 </span>
               }
               onSubmit={() => {
-                saveItem(data);
+                saveItem({ ...data, unstable_trackEvent });
                 close();
               }}
               confirmButtonKind="create"
               confirmButtonLabel={t('forms.actions.save')}
             />
           );
-        } else saveItem(data);
+        } else saveItem({ ...data, unstable_trackEvent });
       }}
       deleteItem={deleteItem}
       render={data => render({ ...data, trackCta })}
@@ -426,12 +427,13 @@ function scrollToResultMessage() {
   scrollIntoView(document.getElementsByClassName('message')[0]);
 }
 
-function saveItem({ form, setMessage }) {
+function saveItem({ form, setMessage, unstable_trackEvent }) {
   setMessage({ message: t('in-settings:tabs.savingConfig'), type: 'neutral', isSaving: true });
   const setConfigResult$ = setConfig(form.toJS());
   setConfigResult$.once(
     () => {
       setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: 'success' });
+      unstable_trackEvent(UPDATED_OBJECT, { objectType: 'settings.identityProvider.ldap' });
       scrollToResultMessage();
     },
     error => {

@@ -8,12 +8,12 @@ import React from 'react';
 import { SecondLevelNavigation, SecondLevelNavigationItem } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-import { syntheticCredentialsEnabled, syntheticInstanaHostedPoPEnabled } from 'in-services/featureFlags';
 import { dummyPoPProperties, PoPInstallationPropertiesResponse } from 'in-synthetics/utils/constants';
 import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import PopDeployButton from 'in-synthetics/dashboards/global/tabs/tests/components/PopDeployButton';
 import getPoPInstallationProperties from 'in-synthetics/subscriptions/getPoPInstallationProperties';
+import { syntheticInstanaHostedPoPEnabled } from 'in-services/featureFlags';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import DashboardHeader from 'in-components/DashboardHeader';
 import * as paths from 'in-synthetics/navigation/paths';
@@ -60,7 +60,7 @@ export default function ViewSwitcher() {
               isActive={isLocationsActive && !isTestsActive && !isCredentialsActive && !isSmartAlertsActive}
               icon={'lib_synthetic_location'}
             />
-            {syntheticCredentialsEnabled && role?.canUseSyntheticCredentials && (
+            {role?.canUseSyntheticCredentials && (
               <SecondLevelNavigationItem
                 href={createHrefToPath(paths.syntheticCredentialPath)}
                 label={t('in-synthetics:dashboard.testList.secondaryLabels.credentials')}

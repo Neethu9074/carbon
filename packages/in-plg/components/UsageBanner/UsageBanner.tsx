@@ -14,16 +14,15 @@ import { Observable, create } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Result } from '@instana/types';
 
-import {
-  onPremLicenseInformationEnabled,
-  playWithReleaseEnabled,
-  playwithEnabled,
-  shareAndInviteEnabled
-} from 'in-services/featureFlags';
 //@ts-expect-error missing typescript migration
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import {
+  isWalkmeScriptLoaded,
+  termsAndPrivacySettingsStore$
+} from 'in-settings/terms/stores/termsAndPrivacySettingsStore';
 //@ts-expect-error missing typescript migration
 import { getQueuedLicensesAsResultObservable } from 'in-amp/api/account';
+import { onPremLicenseInformationEnabled, playWithReleaseEnabled, playwithEnabled } from 'in-services/featureFlags';
 import { SHARE_AND_INVITE_INVITEE_JOINED } from 'in-services/tracking/eventNames';
 import { countryCode, editionID, languageCode } from 'in-plg/utils/constants';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
@@ -67,11 +66,15 @@ export function UsageBanner({ message }: UsageBannerProps) {
   const noQueuedLicense =
     !isLoading(queuedLicenseDetails) && queuedUpLicense !== 'paidPerUse' && queuedUpLicense !== 'hostBasedPaid';
   const needToShowReminder = isRemainingDaysLimited && isPaidLicenseUsage && noQueuedLicense;
+  const termsAndPrivacySettingsStore = useObservable(termsAndPrivacySettingsStore$, []);
 
   const isAnyIDPActive = useIsAnyIdPActive();
   const permissionToShowInvite =
     role?.canConfigureUsers && !(playwithEnabled || playWithReleaseEnabled) && !isAnyIDPActive;
   const DeferredShareAndInviteDialogBox = createAsyncViewComponent(ShareAndInviteDialogBox);
+  // The AssistMe feature will be enabled if both assistmeEnabled and walkmeAnalyticsServices are enabled, and the WalkMe script is loaded.
+  const isWalkMeEnabled =
+    assistmeEnabled && isWalkmeScriptLoaded && termsAndPrivacySettingsStore?.walkmeAnalyticsServices;
 
   useEffect(() => {
     const invitedByKey = 'invitedBy';
@@ -100,25 +103,21 @@ export function UsageBanner({ message }: UsageBannerProps) {
       )}
       {onPremLicenseInformationEnabled && (
         <>
-          {shareAndInviteEnabled && (
-            <>
-              <Tooltip align="bottomRight" content={t('in-plg:licenseBanner.shareTooltip')}>
-                <LicenseBannerButton
-                  id="shareButton"
-                  kind="ghost"
-                  icon="lib_actions_share"
-                  iconColor="var(--cds-link-primary)"
-                  target="_blank"
-                  onClick={() =>
-                    addActiveDialog(<DeferredShareAndInviteDialogBox permissionToShowInvite={permissionToShowInvite} />)
-                  }
-                >
-                  {t('in-plg:licenseBanner.share')}
-                </LicenseBannerButton>
-              </Tooltip>
-              <div className={locals.verticalLine} />
-            </>
-          )}
+          <Tooltip align="bottomRight" content={t('in-plg:licenseBanner.shareTooltip')}>
+            <LicenseBannerButton
+              id="shareButton"
+              kind="ghost"
+              icon="lib_actions_share"
+              iconColor="var(--cds-link-primary)"
+              target="_blank"
+              onClick={() =>
+                addActiveDialog(<DeferredShareAndInviteDialogBox permissionToShowInvite={permissionToShowInvite} />)
+              }
+            >
+              {t('in-plg:licenseBanner.share')}
+            </LicenseBannerButton>
+          </Tooltip>
+          <div className={locals.verticalLine} />
           <div className={locals.subText}>
             <Trans
               i18nKey="in-plg:licenseBanner.alreadyHaveLicense"
@@ -156,26 +155,23 @@ export function UsageBanner({ message }: UsageBannerProps) {
               {t('in-plg:licenseBanner.buyNow')}
             </LicenseBannerButton>
           )}
-          {shareAndInviteEnabled && (
-            <>
-              <Tooltip align="bottomRight" content={t('in-plg:licenseBanner.shareTooltip')}>
-                <LicenseBannerButton
-                  id="shareButton"
-                  kind="ghost"
-                  icon="lib_actions_share"
-                  iconColor="var(--cds-link-primary)"
-                  target="_blank"
-                  onClick={() =>
-                    addActiveDialog(<DeferredShareAndInviteDialogBox permissionToShowInvite={permissionToShowInvite} />)
-                  }
-                >
-                  {t('in-plg:licenseBanner.share')}
-                </LicenseBannerButton>
-              </Tooltip>
-              <div className={locals.verticalLine} />
-            </>
-          )}
-          {assistmeEnabled && <AssistMe />}
+          <Tooltip align="bottomRight" content={t('in-plg:licenseBanner.shareTooltip')}>
+            <LicenseBannerButton
+              id="shareButton"
+              kind="ghost"
+              icon="lib_actions_share"
+              iconColor="var(--cds-link-primary)"
+              target="_blank"
+              onClick={() =>
+                addActiveDialog(<DeferredShareAndInviteDialogBox permissionToShowInvite={permissionToShowInvite} />)
+              }
+            >
+              {t('in-plg:licenseBanner.share')}
+            </LicenseBannerButton>
+          </Tooltip>
+          <div className={locals.verticalLine} />
+
+          {isWalkMeEnabled && <AssistMe />}
         </>
       )}
     </Stack>

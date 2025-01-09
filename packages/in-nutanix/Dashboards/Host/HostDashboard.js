@@ -76,11 +76,6 @@ export default function HostDashboard({ location }) {
 
 function Header(props) {
   return (
-    <DashboardHeader
-      {...props}
-      title={t('in-nutanix:dashboards.hosts')}
-      icon="lib_linux"
-      label={get(props.result, ['data', 'label'])}
-    />
+    <DashboardHeader {...props} title={t('in-nutanix:dashboards.hosts')} label={get(props.result, ['data', 'label'])} />
   );
 }

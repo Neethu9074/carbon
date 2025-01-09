@@ -64,26 +64,6 @@
     justify-content: center;
   }
 
-  .action {
-    display: none;
-    margin: -4px 0;
-  }
-
-  .actionIcon {
-    fill: var(--ids-color-option-neutral-600);
-    cursor: pointer;
-  }
-
-  .wrapper:hover .showLongVariantOnHover {
-    .action {
-      display: inline-flex;
-    }
-
-    .actionIcon {
-      display: none;
-    }
-  }
-
   .major,
   .minor {
     color: var(--ids-color-option-neutral-900);

@@ -163,7 +163,7 @@ export default function ResultsList({ test }: ResultListProps) {
   const locationDisplayLabels: string[] =
     getMatrixParameter(location, syntheticsDashboard, 'locationDisplayLabels')?.split(',') ?? [];
   const selectedMetric = getMatrixParameter(location, syntheticsDashboard, 'selectedMetric');
-  const defaultOrderBy: string = !selectedMetric || selectedMetric === 'response_time' ? 'response_time' : 'start_time';
+  const defaultOrderBy: string = !selectedMetric || selectedMetric !== 'response_time' ? 'start_time' : 'response_time';
   const defaultOrderDirection: string = 'DESC';
 
   const urlStateDefinition = {
@@ -243,7 +243,7 @@ type GetList = {
 
 function getSynthTableData({
   timeConfig,
-  orderBy = 'response_time',
+  orderBy = 'start_time',
   orderDirection = 'DESC',
   page = 1,
   pageSize = 20,

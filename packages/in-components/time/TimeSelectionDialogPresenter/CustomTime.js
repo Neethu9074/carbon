@@ -23,7 +23,6 @@ import Section from 'in-components/time/TimeSelectionDialogPresenter/Section';
 import { dateValidator, timeValidator } from 'in-services/validators/date';
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import { days, hours, minutes } from 'in-services/time';
 import { t } from 'in-i18n';
 
@@ -50,7 +49,7 @@ export default function CustomTime({ timeConfig, onChange }) {
             <span className={locals.to}>{t('in-components:time.to')}</span>
             <DateTimeInput form={form} path="to" setValue={setValue} />
           </div>
-          <Button className={locals.button} type="submit" size={carbonButtonEnabled ? 'compact' : 'normal'}>
+          <Button className={locals.button} type="submit" size="compact">
             {t('in-components:time.customTimeButtonSetTime')}
           </Button>
         </div>

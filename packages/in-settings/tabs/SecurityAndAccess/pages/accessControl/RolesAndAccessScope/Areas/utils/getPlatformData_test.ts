@@ -39,9 +39,9 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessS
       expect(groupConfig.zhmcAccess).toBe(ScopedPermissionItem.ACCESS_ALL);
       expect(groupConfig.sapAccess).toBe(ScopedPermissionItem.ACCESS_ALL);
       expect(groupConfig.vSphereAccess).toBe(ScopedPermissionItem.ACCESS_ALL);
-      expect(groupConfig.translations).toHaveLength(8);
+      expect(groupConfig.translations).toHaveLength(9);
       expect(groupConfig.translations).toContain(undefined);
-      expect(t).toHaveBeenCalledTimes(10);
+      expect(t).toHaveBeenCalledTimes(11);
     });
 
     it('returns correct data and calls the translation function with correct params with a non-empty permissions set and a feature flag for one of other platforms enabled', () => {
@@ -61,8 +61,8 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessS
       expect(groupConfig.sapAccess).toBe(ScopedPermissionItem.NO_ACCESS);
       expect(groupConfig.vSphereAccess).toBe(ScopedPermissionItem.LIMITED_ACCESS);
       // 2 undefined for kubernetes and vsphere
-      expect(groupConfig.translations).toHaveLength(2);
-      expect(t).toHaveBeenCalledTimes(3);
+      expect(groupConfig.translations).toHaveLength(3);
+      expect(t).toHaveBeenCalledTimes(4);
     });
 
     it('returns correct data and calls the translation function with correct params with a non-empty permissions set and a feature flag for one of other platforms disabled', async () => {
@@ -82,7 +82,7 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessS
 
       // Then
       expect(groupConfig.countOfKubernetesItemsWithAccess).toBe(4);
-      expect(groupConfig.hasOtherPlatformsAccess).toBe(false);
+      expect(groupConfig.hasOtherPlatformsAccess).toBe(true);
       expect(groupConfig.kubernetesNamespacesWithAccess).toStrictEqual(['5', '6']);
       expect(groupConfig.kubernetesAccess).toBe(ScopedPermissionItem.LIMITED_ACCESS);
       expect(groupConfig.pcfAccess).toBe(ScopedPermissionItem.NO_ACCESS);
@@ -94,7 +94,7 @@ describe('in-settings/tabs/SecurityAndAccess/pages/accessControl/RolesAndAccessS
       expect(groupConfig.vSphereAccess).toBe(ScopedPermissionItem.NO_ACCESS);
       expect(groupConfig.kubernetesNamespacesWithAccess).toStrictEqual(['5', '6']);
       // 1 undefined for kubernetes
-      expect(groupConfig.translations).toStrictEqual([undefined]);
+      expect(groupConfig.translations).toStrictEqual([undefined, undefined]);
     });
   });
 });

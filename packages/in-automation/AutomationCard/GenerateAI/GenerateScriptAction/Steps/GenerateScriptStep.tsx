@@ -14,12 +14,11 @@ import { GenerateAIScriptActionForm } from 'in-automation/AutomationCard/Generat
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import generateAIAction, { AIActionContent } from 'in-automation/subscriptions/generateAIAction';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
+import LoadingSection from 'in-automation/AutomationCard/GenerateAI/LoadingSection';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import TouchedMessages from 'in-components/form/TouchedMessages/TouchedMessages';
 import { useSegmentTracker, TrackingFunction } from 'in-automation/tracker';
 import { error, hasError, isLoading } from 'in-services/util/result';
-import { LoadingIndicator } from 'in-components/LoadingIndicators';
-import { carbonButtonEnabled } from 'in-services/featureFlags';
 import AISlugIcon from 'in-automation/components/AISlugIcon';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
@@ -126,7 +125,7 @@ function GenerateScriptButton({
   const { aiActionScriptGenerateAIButtonTrackerSegment } = useSegmentTracker();
   return (
     <Button
-      kind={carbonButtonEnabled ? 'secondary' : 'primaryv2'}
+      kind="secondary"
       className={locals.generateScriptButton}
       disabled={
         (!promptForm.hierarchyValid && promptForm.hierarchyTouched) || (!!generatedAction && isLoading(generatedAction))
@@ -150,7 +149,11 @@ function ActionPreview({ form }: { form: GenerateAIScriptActionForm }) {
 
   if (!generatedAction) return <EmptySection />;
   if (isLoading(generatedAction))
-    return <LoadingIndicator text={t('in-automation:GenerateAIActionDialog.watsonxLoadingContent')} />;
+    return (
+      <LoadingSection
+        title={t('in-automation:GenerateAIActionDialog.generateScriptDialog.titleGeneratedCodeReadOnly')}
+      />
+    );
   if (hasError(generatedAction)) return <ErroneousResultPresenter errors={generatedAction.errors} />;
   return <ScriptSection form={form} />;
 }

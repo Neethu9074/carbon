@@ -54,4 +54,9 @@
     background: var(--cds-layer-selected-01);
     align-items: center;
   }
+
+  .loadingContent {
+    height: 400px;
+    background-color: var(--cds-layer);
+  }
 }

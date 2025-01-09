@@ -245,6 +245,7 @@ export interface ItemProps {
 export function Item({ node, onClick, columnDefinitions }: Readonly<ItemProps>) {
   return (
     <Li
+      data-testid={`nodeItem-${node.label}`}
       noAlternatingBg
       onClick={node.disabled ? undefined : onClick}
       className={classNames({

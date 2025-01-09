@@ -306,11 +306,6 @@
     "tooltipShowLess": "表示を減らす",
     "tooltipShowMore": "さらに表示"
   },
-  "expandableGroup": {
-    "tooltipShowContent": "コンテンツの表示",
-    "tooltipHideContent": "コンテンツの非表示",
-    "labelExpandButtonForContent": "コンテンツの展開ボタン"
-  },
   "featureFeedback": {
     "linkLabelYouCanSendUsFeedback": "フィードバックをお送りください"
   },
@@ -460,6 +455,7 @@
     "viewSwitcherLabelEvents": "イベント",
     "viewSwitcherlabelInfrastructure": "インフラストラクチャー",
     "viewSwitcherLabelApplications": "アプリケーション",
+    "viewVulnerabilityCenter": "脆弱性",
     "viewSwitcherLabelSlo": "サービス・レベル",
     "viewSwitcherLabelLogs": "Logs",
     "viewSwitcherLabelAnalytics": "分析",
@@ -587,6 +583,12 @@
     "fillerTextIn": " 着信 ",
     "fillerTextAt": " 時点 "
   },
+  "sessionTimeout": {
+    "title": "セッション・タイムアウト",
+    "message": "操作を行わなかったため、ログアウトされます:",
+    "loggedInButton": "ログインしたままにする",
+    "logOutButton": "ログアウト"
+  },
   "time": {
     "lastMinute": "過去 1 分間",
     "lastMinute_plural": "過去 {{count}} 分間",
@@ -647,7 +649,7 @@
   },
   "timeShift": {
     "changeSelectedTimeShift": "選択したタイムシフトの変更",
-    "timeShiftValue": "タイムシフト: {{timeShiftValue}}",
+    "timeShiftValue": "タイムシフト:{{timeShiftValue}}",
     "compareToTimeShiftTimeConfig": "{{timeShiftTimeConfig}} と比較"
   },
   "topListCard": {
@@ -715,6 +717,7 @@
     "setEnabledMessagePressESCToDisableTVMode": "ESC を押して TV モードを無効にします。"
   },
   "analyze": {
+    "facettedFilters": "ファセット・フィルター",
     "loadMoreWithCount": "さらに {{count}} 件をロード",
     "loadMore": "さらにロード",
     "activeFacets": "選択済み: {{count}} 件",
@@ -725,6 +728,7 @@
     "fromUnit": "始点 ({{unit}})",
     "to": "終点",
     "toUnit": "終点 ({{unit}})",
+    "fromto": "開始点から終了点までの範囲の定義",
     "rangeSelected": "範囲が選択済み",
     "rangeOrder": "範囲は昇順でなければなりません。",
     "earliestTimestamp": "最初のタイム・スタンプ",

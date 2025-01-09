@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { TagCatalog, TagFilter, TimeConfig } from '@instana/types';
+import { Button } from '@instana/components';
 
 import useTagCatalog from 'in-applications/hooks/useTagCatalog'; // TODO can this be moved outside of AP area, since it seems to be generic to be used in Website area as well
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
@@ -27,6 +28,7 @@ import useWebsiteError from 'in-websites/hooks/useWebsiteError';
 import useWebsite from 'in-websites/hooks/useWebsite';
 import { Location } from 'in-stores/navigation/types';
 import { isNotBlank } from 'in-services/util/string';
+import { Website } from 'in-types';
 import { t } from 'in-i18n';
 
 const implicitTagFilters = ['beacon.website.id'];
@@ -36,9 +38,16 @@ interface CreateSmartAlertProps {
   websiteId: string;
   tagFilters: TagFilter[];
   timeConfig: TimeConfig;
+  isCarbonTableView?: boolean;
 }
 
-export default function CreateSmartAlert({ location, websiteId, tagFilters, timeConfig }: CreateSmartAlertProps) {
+export default function CreateSmartAlert({
+  location,
+  websiteId,
+  tagFilters,
+  timeConfig,
+  isCarbonTableView
+}: CreateSmartAlertProps) {
   const errorId = getMatrixParameter(location, '/details', 'errorId');
   const customEventName = getMatrixParameter(location, '/details', 'customEventId');
 
@@ -67,31 +76,43 @@ export default function CreateSmartAlert({ location, websiteId, tagFilters, time
     customEventName
   );
 
-  return (
-    <FloatingActionButton
-      icon="lib_alerts_create"
-      onClick={() => {
-        addActiveDialog(
-          <AlertConfigDialog
-            onClose={() => {
-              close();
+  const handleButtonClick = (website: Website) => {
+    addDialog(website);
+    trackCta(ALERTING_CREATE);
+  };
 
-              if (location.pathname.includes(alertsTabListFullyQualified)) {
-                refreshSmartAlertConfigsList();
-              }
-            }}
-            //@ts-expect-error
-            alertConfig={alertConfig}
-            websiteLabel={website.label}
-            startWithSimpleMode
-          />
-        );
-        trackCta(ALERTING_CREATE);
-      }}
-      withBoxShadow
-    >
-      {t('in-alerting:smartAlerts.addSmartAlert')}
-    </FloatingActionButton>
+  function addDialog(website: Website) {
+    return addActiveDialog(
+      <AlertConfigDialog
+        onClose={() => {
+          close();
+
+          if (location.pathname.includes(alertsTabListFullyQualified)) {
+            refreshSmartAlertConfigsList();
+          }
+        }}
+        //@ts-expect-error
+        alertConfig={alertConfig}
+        websiteLabel={website.label}
+        startWithSimpleMode
+      />
+    );
+  }
+
+  return (
+    <>
+      {!isCarbonTableView ? (
+        <FloatingActionButton icon="lib_alerts_create" onClick={() => handleButtonClick(website)} withBoxShadow>
+          {t('in-alerting:smartAlerts.addSmartAlert')}
+        </FloatingActionButton>
+      ) : (
+        <>
+          <Button kind="primaryv2" icon="lib_openclose_add" size="xl" onClick={() => handleButtonClick(website)}>
+            {t('in-alerting:smartAlerts.createSmartAlert')}
+          </Button>
+        </>
+      )}
+    </>
   );
 }
 

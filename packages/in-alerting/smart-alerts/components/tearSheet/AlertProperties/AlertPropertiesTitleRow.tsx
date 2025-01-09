@@ -7,7 +7,8 @@
 import { MapForm, Item, Field } from 'formalistic';
 import React from 'react';
 
-import { Button, Stack } from '@instana/components';
+import { Button, Stack, SvgIcon, Tooltip } from '@instana/components';
+import { themes } from '@instana/design-tokens';
 
 //@ts-expect-error TS migration
 import DebouncedInput from 'in-components/form/Input/DebouncedInput';
@@ -27,12 +28,16 @@ export interface AlertPropertiesTitleRowProps {
   onChange: (path: string[], updater: (item: Item) => Item) => void;
   getTitlePlaceholder: (form: MapForm<any>) => string;
   placeholders: ReadonlyArray<Readonly<Placeholder>>;
+  placeholderTooltipContent?: string | undefined;
+  showDisabledPlaceholder?: boolean;
 }
 export default function AlertPropertiesTitleRow({
   form,
   onChange,
   getTitlePlaceholder,
-  placeholders
+  placeholders,
+  placeholderTooltipContent,
+  showDisabledPlaceholder = false
 }: AlertPropertiesTitleRowProps) {
   const hasError = !form.get('name').valid && form.get('name').touched;
   return (
@@ -60,7 +65,7 @@ export default function AlertPropertiesTitleRow({
           placeholder={getTitlePlaceholder(form)}
         />
 
-        {placeholders.length > 0 && (
+        {(placeholders.length > 0 || showDisabledPlaceholder) && (
           <MoreMenu
             renderInteractiveElement={({ ref, toggle }: InteractiveElementsProps) => (
               <Button
@@ -77,6 +82,7 @@ export default function AlertPropertiesTitleRow({
                 {t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertyInsertPlaceholderLabel')}
               </Button>
             )}
+            disabled={placeholders.length === 0}
           >
             {placeholders.map(({ template }) => {
               return (
@@ -89,6 +95,15 @@ export default function AlertPropertiesTitleRow({
               );
             })}
           </MoreMenu>
+        )}
+        {placeholderTooltipContent && (
+          <Tooltip align="bottomMiddle" content={placeholderTooltipContent}>
+            <SvgIcon
+              type="lib_help_error_info_outline"
+              size="s"
+              color={themes.default.ids.color.option.neutral['700']}
+            />
+          </Tooltip>
         )}
       </div>
       <div className={locals.titleValidation}>

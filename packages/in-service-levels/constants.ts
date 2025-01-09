@@ -57,7 +57,7 @@ export const timeAggregationOptions: Partial<SloAggregationOptions> = Object.fre
   MAX: t('in-service-levels:general.indicator.aggregation_MAX')
 });
 
-export const defaultBlueprint: BlueprintType = 'availability';
+export const defaultBlueprint: BlueprintType = 'latency';
 
 export const defaultTrafficType: TrafficIndicatorType = 'all';
 

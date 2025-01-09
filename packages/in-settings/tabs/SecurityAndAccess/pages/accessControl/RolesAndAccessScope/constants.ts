@@ -74,6 +74,7 @@ export const ProductArea = Object.freeze({
   POWERVC: 'POWERVC',
   INFRASTRUCTURE: 'INFRASTRUCTURE',
   SAP: 'SAP',
+  NUTANIX: 'NUTANIX',
   ANALYTICS: 'ANALYTICS',
   EVENT: 'EVENT',
   DASHBOARD: 'DASHBOARD',
@@ -105,6 +106,7 @@ export type LimitableProductArea = Extract<
   | 'SYNTHETICS'
   | 'SAP'
   | 'AUTOMATION'
+  | 'NUTANIX'
 >;
 
 export const PermissionAreas = Object.freeze<Array<keyof PermissionSet>>([
@@ -150,16 +152,17 @@ export const syntheticViewCapabilities: Array<CapabilityType> = [
   Capability.CAN_VIEW_SYNTHETIC_LOCATIONS
 ];
 
-export const syntheticOtherCapabilities: Array<CapabilityType> = [
+export const syntheticAdditionalOwnerCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_SYNTHETIC_LOCATIONS,
   Capability.CAN_USE_SYNTHETIC_CREDENTIALS,
-  Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS
+  Capability.CAN_CONFIGURE_SYNTHETIC_CREDENTIALS,
+  Capability.CAN_CONFIGURE_GLOBAL_SYNTHETIC_SMART_ALERTS
 ];
 
 //Need to remove default and additional Synthetic view permissions when access scope is NO_ACCESS
 export const syntheticAdditionalDefaultCapabilities: Array<CapabilityType> = [
   ...syntheticViewCapabilities,
-  ...syntheticOtherCapabilities
+  ...syntheticAdditionalOwnerCapabilities
 ];
 
 export const infrastructureDefaultCapabilities: Array<CapabilityType> = [
@@ -297,6 +300,11 @@ export const ProductAreaPermissionMap: ProductAreaPermissionStructure = deepFree
   [ProductArea.KUBERNETES]: {
     limitation: LimitedAccessScope.LIMITED_KUBERNETES_SCOPE,
     permission: AreaPermission.ACCESS_KUBERNETES,
+    capabilities: noCapabilities
+  },
+  [ProductArea.NUTANIX]: {
+    limitation: LimitedAccessScope.LIMITED_NUTANIX_SCOPE,
+    permission: AreaPermission.ACCESS_NUTANIX,
     capabilities: noCapabilities
   },
   [ProductArea.VSPHERE]: {

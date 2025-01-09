@@ -20,7 +20,7 @@ import {
 
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { SloForm, SloScopeFields } from 'in-service-levels/components/ConfigDialog/createSloForm/types';
-import { defaultBlueprint, defaultSliThresholdOperator } from 'in-service-levels/constants';
+import { defaultSliThresholdOperator } from 'in-service-levels/constants';
 
 export const testDate = new Date('2020-01-01');
 
@@ -90,7 +90,7 @@ export const testApplicationForm: SloForm = createMapForm({
       items: {
         aggregation: createField<AggregationType>({ value: 'MAX' }),
         badEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),
-        blueprint: createField<BlueprintType>({ value: defaultBlueprint }),
+        blueprint: createField<BlueprintType>({ value: 'availability' }),
         operator: createField<SLIThresholdOperator>({ value: defaultSliThresholdOperator }),
         trafficType: createField<TrafficIndicatorType | undefined>({ value: undefined }),
         goodEventsFilter: createField<FormModelElement[]>({ value: fromBackendModel(undefined) }),

@@ -20,8 +20,6 @@ import { FormInputPlg } from 'in-plg/pages/onboarding/content/ContentComponents'
 import AgentzoneLister from 'in-plg/components/AgentzoneLister/AgentzoneLister';
 import OnboardingProps from 'in-plg/pages/onboarding/content/OnboardingProps';
 import LayoutSection from 'in-plg/pages/onboarding/Layout/LayoutSection';
-import AskForHelp from 'in-plg/components/AskForHelp/AskForHelp';
-import { shareAndInviteEnabled } from 'in-services/featureFlags';
 import Code from 'in-plg/components/Code/Code';
 import { Trans, t } from 'in-i18n';
 
@@ -48,15 +46,8 @@ export default function OpenshiftOperator({
       title: t('in-plg:agentDetails.common.documentationTitle'),
       body: getDocumentations(id),
       openByDefault: true
-    },
-    {
-      title: t('in-plg:agentDetails.askForHelp.askForHelpTitle'),
-      body: <AskForHelp agentKey={agentKey} />,
-      openByDefault: false
     }
   ];
-
-  if (shareAndInviteEnabled) sideCardData.pop();
 
   const updateAgentZone = (agent: string) => {
     setAgentZone(agent);
@@ -100,7 +91,7 @@ export default function OpenshiftOperator({
                 i18nKey="in-plg:agentDetails.openshift.instructions.operator.configureCustomYamlFileSubtext1"
                 components={{
                   installOperatorDoc: (
-                    <a href="https://ibm.biz/install-operator-manual" rel="noopener noreferrer" target="_blank" />
+                    <a href="https://ibm.biz/rhosagent-install-manual" rel="noopener noreferrer" target="_blank" />
                   )
                 }}
               />

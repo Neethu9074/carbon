@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { RadioButton, Spacer, Typography } from '@instana/components';
+import { RadioButton, Spacer } from '@instana/components';
 
 import {
   pageTransitionMethods,
@@ -15,7 +15,7 @@ import {
 } from 'in-websites/trackingSnippet/AutoPageTransitionDetection/constants';
 import AutoPageTransitionDetection from 'in-websites/trackingSnippet/AutoPageTransitionDetection/AutoPageTransitionDetection';
 import type { FrameworkTypeSelectionProps } from 'in-websites/trackingSnippet/AutoPageTransitionDetection/types';
-import { LearnMoreLink } from 'in-websites/trackingSnippet/AutoPageTransitionDetection/utils';
+import { LearnMoreLink, SubHeading } from 'in-websites/trackingSnippet/AutoPageTransitionDetection/utils';
 import { t } from 'in-i18n';
 
 import locals from 'in-websites/trackingSnippet/AutoPageTransitionDetection/AutoPageTransitionDetection.mless';
@@ -27,10 +27,12 @@ const FrameworkTypeSelection = ({
   setEnableAutoPageDetection,
   pageTransitionMethod,
   setPageTransitionMethod,
-  setRegexMappingRules
+  setRegexMappingRules,
+  setWithoutCopyButton
 }: FrameworkTypeSelectionProps) => {
   const handleFrameworkChange = (type: string) => {
     setFrameworkType(type);
+    setWithoutCopyButton(false);
     switch (type) {
       case frameworkTypes.MPA:
         setRegexMappingRules([]);
@@ -45,11 +47,9 @@ const FrameworkTypeSelection = ({
   };
   return (
     <>
-      <Spacer vertical="normal" />
+      <Spacer vertical="large" />
       <div className={locals.wrapper}>
-        <Typography variant="body-small" component="p" noMargin align="inherit">
-          {t('in-websites:trackingSnippet.autoPageTransition.frameworkTypeSelectionLabel')}
-        </Typography>
+        <SubHeading text={t('in-websites:trackingSnippet.autoPageTransition.frameworkTypeSelectionLabel')} />
         <div className={locals.radioButtonWrapper}>
           {Object.values(frameworkTypes).map(type => (
             <RadioButton
@@ -61,7 +61,6 @@ const FrameworkTypeSelection = ({
               }
               checked={frameworkType === type}
               onChange={() => handleFrameworkChange(type)}
-              labelClassName={locals.neutralSmallText}
             />
           ))}
         </div>
@@ -78,6 +77,7 @@ const FrameworkTypeSelection = ({
           pageTransitionMethod={pageTransitionMethod}
           setPageTransitionMethod={setPageTransitionMethod}
           setRegexMappingRules={setRegexMappingRules}
+          setWithoutCopyButton={setWithoutCopyButton}
         />
       )}
     </>

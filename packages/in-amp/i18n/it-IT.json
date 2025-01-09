@@ -17,9 +17,16 @@
       "tenant": "Tenant",
       "type": "Tipo",
       "licenseStartData": "Data di inizio della licenza",
-      "licenseEndData": "Data di fine della licenza",
+      "licenseEndData": "Data di fine licenza",
       "licensedApmHosts": "Host APM con licenza",
       "licensedIqmHosts": "Host IQM con licenza"
+    },
+    "learnMore": {
+      "title": "Ulteriori informazioni sulla politica di utilizzo corretto di Instana",
+      "leftTitle": "Che cos'è la Politica di utilizzo corretto?",
+      "rightTitle": "Come posso acquistare più dati?",
+      "leftBody": "La politica di utilizzo corretto di Instana indica il limite mensile di dati associato al tipo di licenza. Per saperne di più ed esplorare le linee guida sull'utilizzo delle risorse, consultate la <fupDocLink>documentazione sulla politica di utilizzo corretto</fupDocLink>.",
+      "rightBody": "Se si prevede una necessità costante di utilizzo di dati aggiuntivi, contattare il rappresentante commerciale Instana per esplorare le opzioni aggiuntive. Contattate le vendite <salesLink>qui</salesLink>."
     },
     "ampInformationModifier": {
       "allPaidUnitsAggregated": "Tutte le unità pagate (aggregate) (aggregate)",

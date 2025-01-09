@@ -19,7 +19,7 @@ jest.mock('in-stores/user', () => ({
   role: {
     canConfigureLogRetentionPeriod: true,
     canViewLogVolume: true,
-    canConfigureIntegrations: true
+    canConfigureLogManagement: true
   }
 }));
 
@@ -124,7 +124,7 @@ describe('useLoggingNavigationItems', () => {
     expect(result.current[3].isTabAllowed).toBe(true);
 
     (useObservable as jest.Mock).mockReturnValue(undefined);
-    role!.canConfigureIntegrations = false;
+    role!.canConfigureLogManagement = false;
 
     rerender();
 

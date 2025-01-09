@@ -8,6 +8,7 @@ import React from 'react';
 import { create } from '@instana/observables';
 
 import { setAndSave, formUserSettingsObject } from 'in-settings/terms/termsAndPrivaySettings';
+import { isWalkmeScriptLoaded } from 'in-settings/terms/stores/termsAndPrivacySettingsStore';
 import ExpandableCookieList from 'in-settings/terms/cookies/ExpandableCookieList';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import termsFormDefinition from 'in-settings/terms/termsFormDefinition';
@@ -56,11 +57,17 @@ function saveItem({ form, setMessage }) {
   });
   setAndSave(
     formUserSettingsObject(form),
-    () =>
-      setMessage({
-        text: t('in-settings:tabs.settingsSuccessfullySaved'),
-        type: 'success'
-      }),
+    () => {
+      const { walkmeAnalyticsServices } = window.instana.termsAndPrivacySettings;
+      if (walkmeAnalyticsServices && !isWalkmeScriptLoaded) {
+        window.location.reload();
+      } else {
+        setMessage({
+          text: t('in-settings:tabs.settingsSuccessfullySaved'),
+          type: 'success'
+        });
+      }
+    },
     error => setMessage({ text: t('in-settings:tabs.failedToSaveSettings', { err: error.message }), type: 'error' })
   );
 }

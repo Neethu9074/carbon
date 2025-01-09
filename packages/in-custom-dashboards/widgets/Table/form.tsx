@@ -16,9 +16,13 @@ import {
 } from 'in-custom-dashboards/widgets/Table/infrastructure/form';
 // @ts-expect-error needs ts migration
 import { addTagFilterExpressionField } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
+import {
+  createColumnsField,
+  createDynamicFocusQueryField,
+  createColumnsFieldForKubernetes
+} from 'in-custom-dashboards/widgets/Table/eventsTable/form';
 // @ts-expect-error needs ts migration
 import { createAxisForm as createColumnForm } from 'in-custom-dashboards/widgets/Chart/form';
-import { createColumnsField, createDynamicFocusQueryField } from 'in-custom-dashboards/widgets/Table/eventsTable/form';
 import { TableFormConfiguration } from 'in-custom-dashboards/widgets/Table/types';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { dataSources } from 'in-custom-dashboards/widgets/Table/index';
@@ -37,6 +41,10 @@ export function createForm(savedState: Partial<TableFormConfiguration>) {
       ...(source === dataSources.EVENTS.type && {
         dynamicFocusQuery: createDynamicFocusQueryField(savedState),
         columns: createColumnsField(savedState)
+      }),
+      ...(source === dataSources.KUBERNETES_EVENTS.type && {
+        dynamicFocusQuery: createDynamicFocusQueryField(savedState),
+        columns: createColumnsFieldForKubernetes(savedState)
       }),
       ...(source === dataSources.INFRA.type && {
         grouping: createGroupField(savedState),

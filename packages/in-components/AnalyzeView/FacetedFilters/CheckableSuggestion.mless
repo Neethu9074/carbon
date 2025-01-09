@@ -6,10 +6,16 @@
 @import '~in-themes/mixins.less';
 
 :local {
+  .checkableSuggestion {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   .label {
     font-size: 0.75rem;
+    inline-size: 6rem;
     align-self: center;
-    .ellipsis();
   }
 
   .count {

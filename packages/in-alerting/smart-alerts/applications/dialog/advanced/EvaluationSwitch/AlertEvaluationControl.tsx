@@ -20,6 +20,7 @@ import {
 import { getThresholdData } from 'in-alerting/smart-alerts/applications/dialog/advanced/ThresholdSection';
 import { WARNING_SEVERITY, CRITICAL_SEVERITY } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { AlertEvaluationType, ThresholdType, RuleWithThreshold, ApplicationAlertRuleUnion } from 'in-types';
+import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
@@ -28,9 +29,16 @@ interface Props {
   updateForm: (form: MapForm<any>) => void;
   isGlobalSmartAlert?: boolean;
   tearSheetView?: boolean;
+  editMode?: boolean;
 }
 
-export default function AlertEvaluationControl({ form, updateForm, isGlobalSmartAlert, tearSheetView }: Props) {
+export default function AlertEvaluationControl({
+  form,
+  updateForm,
+  isGlobalSmartAlert,
+  tearSheetView,
+  editMode
+}: Props) {
   const evaluationType = (form.get('evaluationType') as Field<AlertEvaluationType>).value;
   const alertType = ((form.get('rule') as MapForm<any>)!.get('alertType') as Field<ApplicationAlertType>)!.value;
   const isBuiltIn = (form.get('builtIn') as Field<boolean>).value;
@@ -45,6 +53,8 @@ export default function AlertEvaluationControl({ form, updateForm, isGlobalSmart
       const blueprintConfig = getBlueprintConfig(alertType);
       const warningThresholdField = form.get('threshold').get('warningThreshold');
       const criticalThresholdField = form.get('threshold').get('criticalThreshold');
+      const warningDeviationFactor = warningThresholdField.get('deviationFactor')?.value;
+      const criticalDeviationFactor = criticalThresholdField.get('deviationFactor')?.value;
       const warningThreshold = getThresholdData(thresholdType, warningThresholdField, WARNING_SEVERITY);
       const criticalThreshold = getThresholdData(thresholdType, criticalThresholdField, CRITICAL_SEVERITY);
 
@@ -61,6 +71,10 @@ export default function AlertEvaluationControl({ form, updateForm, isGlobalSmart
           ...warningThreshold.WARNING,
           type: newThresholdType,
           value: warningThresholdField.get('isCheckboxSelected')?.value === true ? 0 : null,
+          deviationFactor:
+            warningThresholdField.get('isCheckboxSelected')?.value === true
+              ? warningDeviationFactor
+              : defaultDeviationFactor,
           isCheckboxSelected: warningThresholdField.get('isCheckboxSelected')?.value
         }
       };
@@ -70,6 +84,10 @@ export default function AlertEvaluationControl({ form, updateForm, isGlobalSmart
           ...criticalThreshold.CRITICAL,
           type: newThresholdType,
           value: criticalThresholdField.get('isCheckboxSelected')?.value === true ? 0 : null,
+          deviationFactor:
+            criticalThresholdField.get('isCheckboxSelected')?.value === true
+              ? criticalDeviationFactor
+              : defaultDeviationFactor,
           isCheckboxSelected: criticalThresholdField.get('isCheckboxSelected')?.value
         }
       };
@@ -85,7 +103,7 @@ export default function AlertEvaluationControl({ form, updateForm, isGlobalSmart
           .updateIn(['evaluationType'], f =>
             (f as Field<AlertEvaluationType>).setValue(newEvaluationType).setTouched(true)
           )
-          .put('threshold', createThresholdForm(ruleWithThreshold, alertType, true))
+          .put('threshold', createThresholdForm(ruleWithThreshold, alertType, editMode))
       );
     }
   };

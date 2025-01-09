@@ -26,7 +26,7 @@ export function formatCsvColumnName(metricLabel, aggregation, formatter) {
   const metricAggregation = aggregation.toString().toLowerCase();
   const formatterName = getFormatterType(formatter);
 
-  var columnQualifier;
+  let columnQualifier;
 
   if (formatterName === UNDEFINED_FORMATTER_TYPE || formatterName === NUMBER_FORMATTER_TYPE) {
     columnQualifier = ' (' + metricAggregation + ')';

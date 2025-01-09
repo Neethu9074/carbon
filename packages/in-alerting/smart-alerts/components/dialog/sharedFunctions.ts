@@ -88,14 +88,14 @@ export function updateMultiThresholdInForm(
   createThresholdForm: (
     ruleWithThreshold: RuleWithThreshold<ApplicationAlertRuleUnion> | undefined,
     alertType: ApplicationAlertType,
-    editMode?: boolean,
-    simpleMode?: boolean
+    editMode?: boolean
   ) => MapForm<any>,
   form: MapForm<any>,
   updateForm: (form: MapForm<any>) => void,
   data: { type: string; value: any },
   errors: string | any[],
-  simpleMode: boolean
+  simpleMode: boolean,
+  editMode: boolean
 ): void {
   thresholdOrBaselineLoadingSignal$.emit(false);
   const currentThresholdForm = form.get('threshold') as MapForm<any>;
@@ -107,36 +107,12 @@ export function updateMultiThresholdInForm(
     rule: form.get('rule').toJS(),
     thresholdOperator: form.get('threshold').get('operator').value,
     thresholds: {
-      WARNING: createThresholdByType(warningThresholdField),
-      CRITICAL: createThresholdByType(criticalThresholdField)
+      WARNING: getMultithresholdThresholdRule(warningThresholdField, errors, data, simpleMode, false),
+      CRITICAL: getMultithresholdThresholdRule(criticalThresholdField, errors, data, simpleMode, true)
     }
   };
 
-  function createThresholdByType(thresholdField: MapForm<any>): any {
-    const currentThreshold = thresholdField.toJS();
-
-    let thresholdData;
-    if (errors.length === 0) {
-      thresholdData = {
-        ...currentThreshold,
-        ...data
-      };
-      if (thresholdField === criticalThresholdField) {
-        thresholdData.value = simpleMode ? null : currentThreshold?.value ?? null;
-      }
-    } else {
-      thresholdData = {
-        ...currentThreshold,
-        value: null,
-        isCheckboxSelected: currentThreshold.type === STATIC_THRESHOLD ? false : currentThreshold.isCheckboxSelected,
-        baseline: []
-      };
-    }
-
-    return thresholdData;
-  }
-
-  let updatedThresholdForm = createThresholdForm(ruleWithThreshold, alertType, true, simpleMode);
+  let updatedThresholdForm = createThresholdForm(ruleWithThreshold, alertType, editMode);
   updatedThresholdForm = shouldAddNewMultiThresholdData(simpleMode, currentThresholdForm)
     ? updatedThresholdForm
     : currentThresholdForm;
@@ -159,6 +135,41 @@ export function updateMultiThresholdInForm(
     .updateIn(['hiddenFields', 'suggestedThresholdValue'], f => (f as Field<number>).setValue(data?.value));
 
   updateForm(newForm);
+}
+
+function getMultithresholdThresholdRule(
+  thresholdField: MapForm<any>,
+  errors: string | any[],
+  data: { type: string; value: any },
+  simpleMode: boolean,
+  isCriticalThreshold: boolean
+): any {
+  const currentThreshold = thresholdField.toJS();
+
+  let thresholdData;
+  if (errors.length === 0) {
+    thresholdData = {
+      ...currentThreshold,
+      ...data,
+      isCheckboxSelected: simpleMode
+        ? data != null || currentThreshold?.isCheckboxSelected
+        : data?.value !== undefined || currentThreshold?.isCheckboxSelected
+    };
+    if (isCriticalThreshold) {
+      thresholdData.value = simpleMode ? null : currentThreshold?.value ?? null;
+      thresholdData.isCheckboxSelected =
+        thresholdData?.value != null ? true : Boolean(currentThreshold?.isCheckboxSelected);
+    }
+  } else {
+    thresholdData = {
+      ...currentThreshold,
+      value: null,
+      isCheckboxSelected: currentThreshold.type === STATIC_THRESHOLD ? false : currentThreshold?.isCheckboxSelected,
+      baseline: []
+    };
+  }
+
+  return thresholdData;
 }
 
 export function duplicateAlertConfig<
@@ -196,6 +207,27 @@ export function applyEditMode(form: MapForm<any>, editMode: boolean): MapForm<an
   }
 
   return form.updateIn(['threshold', 'baseline'], f => f.setTouched(true));
+}
+
+export function applyEditModeForMultiThreshold(form: MapForm<any>, editMode: boolean): MapForm<any> {
+  if (!editMode) return form;
+
+  const type = ((form.get('threshold') as MapForm<any>).get('warningThreshold').get('type') as Field<ThresholdType>)
+    .value;
+  if (type === HISTORIC_BASELINE) {
+    return form
+      .updateIn(['threshold', 'warningThreshold'], thresholdMapForm =>
+        (thresholdMapForm as unknown as MapForm<any>).updateIn(['baseline'], item =>
+          (item as Field<any>).setTouched(true)
+        )
+      )
+      .updateIn(['threshold', 'criticalThreshold'], thresholdMapForm =>
+        (thresholdMapForm as unknown as MapForm<any>).updateIn(['baseline'], item =>
+          (item as Field<any>).setTouched(true)
+        )
+      );
+  }
+  return form;
 }
 
 function shouldAddNewThresholdData(simpleMode: boolean, thresholdForm: MapForm<any>): boolean {

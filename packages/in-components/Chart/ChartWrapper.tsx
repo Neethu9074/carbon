@@ -70,7 +70,7 @@ interface Props extends ResultAwareChartConfig {
 }
 
 export default function ChartWrapper({ result, companionResult, ...props }: Props): React.ReactElement {
-  return <ResultAwareChart result={result} config={wrapProps(result, props, companionResult)} />;
+  return <ResultAwareChart result={result} config={wrapProps(result, props, companionResult)} {...props} />;
 }
 
 function wrapProps(

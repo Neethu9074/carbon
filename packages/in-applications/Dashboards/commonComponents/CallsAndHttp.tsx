@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { BoundaryScope, EndpointType, Group, TagFilter, TimeConfig, TimeShift } from '@instana/types';
 
@@ -118,12 +118,14 @@ export default function CallsAndHttp({
 }: CallsAndHttpProps): JSX.Element {
   const tabs = showHttp ? allTabs : callsOnlyTab;
   const metrics = showHttp ? (hasHttpAndOtherEndpoints ? allMetrics : allMetricsWithoutNonHttp) : allMetricsWithoutHttp;
+  const [tableOpen, setTableOpen] = useState(false);
   return (
     <TimeShiftAwareChartSelectorWithUrlState
       cardTitle={cardTitle}
       tabs={tabs}
       metrics={metrics}
       urlMatrixParamConfig={urlMatrixParamConfig}
+      setTableOpen={() => setTableOpen(true)}
     >
       <ChartPresenter
         applicationId={applicationId}
@@ -138,6 +140,8 @@ export default function CallsAndHttp({
         renderPostChartContentHttpStatus={renderPostChartContentHttpStatus}
         hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints}
         endpointTypes={endpointTypes}
+        tableOpen={tableOpen}
+        tableCloseHandler={() => setTableOpen(false)}
       />
     </TimeShiftAwareChartSelectorWithUrlState>
   );
@@ -148,6 +152,8 @@ interface ChartPresenterProps extends Props {
   selectedMetricValue?: string; // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
   timeShiftConfig?: TimeShift; // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
   selectorComponent?: React.ReactElement;
+  tableOpen?: boolean;
+  tableCloseHandler?: Function;
 }
 function ChartPresenter({
   applicationId,
@@ -165,7 +171,9 @@ function ChartPresenter({
   timeShiftConfig, // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
   cardTitle,
   selectorComponent,
-  endpointTypes
+  endpointTypes,
+  tableOpen,
+  tableCloseHandler
 }: ChartPresenterProps) {
   return selectedTabId === tabCallCount.id ? (
     <CallsErrorsChart
@@ -182,6 +190,8 @@ function ChartPresenter({
       endpointTypes={endpointTypes}
       cardTitle={cardTitle}
       rightHeaderContent={selectorComponent}
+      tableOpen={tableOpen}
+      tableCloseHandler={tableCloseHandler}
     />
   ) : (
     <HttpSections
@@ -199,6 +209,8 @@ function ChartPresenter({
       cardTitle={cardTitle}
       rightHeaderContent={selectorComponent}
       endpointTypes={endpointTypes}
+      tableOpen={tableOpen}
+      tableCloseHandler={tableCloseHandler}
     />
   );
 }

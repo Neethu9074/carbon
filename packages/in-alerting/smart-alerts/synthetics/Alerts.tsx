@@ -11,11 +11,14 @@ import {
   alertId as alertIdMatrixParam
 } from 'in-synthetics/navigation/matrix';
 import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/synthetics/dialog/advanced/titlePlaceholders';
+import { getCarbonTableColumnDefinitions, getSyntheticsSubtitle } from 'in-synthetics/dashboards/global/SmartAlertList';
 import { alertsTab, dashboardTestAlertsTabDetailsFullyQualified } from 'in-synthetics/navigation/paths';
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/synthetics/api/syntheticAlertConfig';
 import { actionHandlers } from 'in-alerting/smart-alerts/synthetics/lists/ListActionHandlers';
+import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
 import { Role, SyntheticAlertConfig, SyntheticAlertConfigWithMetadata } from 'in-types';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
+import CreateSmartAlert from 'in-alerting/smart-alerts/synthetics/CreateSmartAlert';
 import { sortOptions } from 'in-alerting/smart-alerts/synthetics/lists/constants';
 import ScopeColumn from 'in-alerting/smart-alerts/synthetics/lists/ScopeColumn';
 import DefaultCell from 'in-alerting/smart-alerts/components/list/DefaultCell';
@@ -26,7 +29,9 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { pageNames } from 'in-services/tracking/pageNames';
 import { Location } from 'in-stores/navigation/types';
 import { role } from 'in-stores/user';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
+
+const displayCarbonTable = smartAlertCarbonTableEnabled && carbonTableEnabled;
 
 export interface AlertsProps {
   testId: string;
@@ -54,6 +59,18 @@ export default function Alerts({ testId }: AlertsProps) {
         sortOptions={sortOptions}
         alertsTab={alertsTab}
         renderName={config => replaceTitlePlaceholdersWithMarkup(config.name)}
+        // for carbon table
+        extraCarbonTableColumnDefinitions={getCarbonTableColumnDefinitions()}
+        carbonActionHandlers={handlers}
+        getNameSubtitle={config => getSyntheticsSubtitle(config)}
+        displayCarbonTable={displayCarbonTable}
+        toolBarContent={
+          role?.canConfigureGlobalSyntheticSmartAlerts ? (
+            <CreateSmartAlert testId={testId} isCarbonTableView={displayCarbonTable} />
+          ) : undefined
+        }
+        noDataHeader={t('in-alerting:smartAlerts.synthetics.alertList.noDataHeader')}
+        noDataDescription={<Trans i18nKey="in-alerting:smartAlerts.synthetics.alertList.noDataDescription" />}
       />
     </>
   );
