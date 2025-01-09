@@ -348,7 +348,8 @@
     "pleaseConfirm": "Please Confirm",
     "createNew": "Create New",
     "deselect": "Deselect",
-    "select": "Select"
+    "select": "Select",
+    "delete": "Delete"
   },
   "tabs": {
     "team": {
@@ -1330,6 +1331,7 @@
     "viewMwConfigMessage": "View Maintenance Window Configuration Here",
     "deleteUser": "Delete user",
     "userWithName": "user {{name}}",
+    "noOfItemsSelected": "{{noOfItemsSelected}} items selected",
     "tfaEnabled": "2FA enabled",
     "groupCountCol": "Number of groups",
     "tfaEnabledCol": "Authentication",

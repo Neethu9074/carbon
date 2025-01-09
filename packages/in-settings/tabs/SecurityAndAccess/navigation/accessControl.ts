@@ -27,10 +27,11 @@ import UserPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Use
 import ApiTokenFormDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/ApiTokens/ApiTokenFormDialog';
 import ApiTokensPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/ApiTokens/ApiTokens';
 import InvitesPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/Invites';
+import UsersV2 from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Users/Users/UsersV2';
 import GroupsPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/Groups';
 import UsersPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Users/Users';
 import AuditTrailPage from 'in-settings/tabs/SecurityAndAccess/pages/audit/AuditTrail';
-import { rbacTeamsEnabled } from 'in-services/featureFlags';
+import { accessControlCarbonTable, rbacTeamsEnabled } from 'in-services/featureFlags';
 import { Role } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -44,7 +45,7 @@ export function getNavigationTreeForRole(role: Role, isAnyIDPActive: boolean) {
       accessControlPages.push({
         path: securityAndAccessAccessControlUsers,
         label: t('in-settings:tabs.users'),
-        component: UsersPage,
+        component: accessControlCarbonTable ? UsersV2 : UsersPage,
         subPages: [
           {
             path: securityAndAccessAccessControlUserEdit,

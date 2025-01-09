@@ -327,3 +327,4 @@ export const aqmDisableConfigOnEventViewEnabled = isFeatureFlagEnabled('aqmDisab
 export const aqmDataGridEventTableEnabled = isFeatureFlagEnabled('aqmDataGridEventTableEnabled', false);
 export const openTelemetryKubernetes = isFeatureFlagEnabled('openTelemetryKubernetesEnabled', false);
 export const rbacTeamsEnabled = isFeatureFlagEnabled('rbacTeamsEnabled', false);
+export const accessControlCarbonTable = isFeatureFlagEnabled('accessControlCarbonTable', false);

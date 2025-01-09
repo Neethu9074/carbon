@@ -870,5 +870,10 @@ module.exports = exports = [
     uiClientKey: 'rbacTeamsEnabled',
     instanaCtlKey: 'feature.rbac.teams.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'accessControlCarbonTable',
+    instanaCtlKey: 'feature.accessControl.carbonTable.enabled',
+    defaultValue: false
   }
 ];

@@ -1,0 +1,12 @@
+:local {
+  .loadingIcon {
+    padding: 0 14px;
+  }
+  .tableBatchAction {
+    :global {
+      .cds--batch-summary__para {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

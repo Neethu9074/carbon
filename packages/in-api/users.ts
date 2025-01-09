@@ -38,6 +38,7 @@ export interface Invitation {
 }
 
 export interface PendingInvitation {
+  readonly id: string;
   readonly email: string;
   readonly groupId: string;
   readonly groupName: string;
@@ -98,6 +99,20 @@ export function removeUserFromTenant(userId: string) {
     maxRetries: 3,
     headers: getCsrfHeader(),
     url: `/api/settings/users/${encodeURIComponent(userId)}`
+  }).map(v => {
+    refreshSignalUsers.emit(true);
+    return v;
+  });
+}
+
+export function removeUsersFromTenant(userIds: string[]) {
+  const basePath = '/api/settings/users';
+  return http<void>({
+    method: 'DELETE',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: basePath,
+    data: userIds
   }).map(v => {
     refreshSignalUsers.emit(true);
     return v;
