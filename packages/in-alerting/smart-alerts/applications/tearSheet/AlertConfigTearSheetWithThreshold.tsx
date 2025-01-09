@@ -128,19 +128,21 @@ function SmartAlertConfigTearSheetWithQueryValidation({
 
   // we are validating only the user-defined part, not the whole enriched form model here,
   // because only that part can ever be invalid
-  const { rule, tagFilterExpression, threshold } = alertConfigWithFormModel;
-  const { isQueryValid, getTagCatalog } = useMemo(() => {
-    const thresholdType = threshold.type;
-    return getQueryBuilderForAlertType(rule.alertType, thresholdType);
-  }, [rule.alertType, threshold.type]);
+  const { rule, tagFilterExpression } = alertConfigWithFormModel;
 
-  const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isQueryValid, true);
+  const thresholdType = form.get('threshold').get('warningThreshold').get('type').value;
+
+  const { isQueryValid, getTagCatalog } = useMemo(() => {
+    return getQueryBuilderForAlertType(rule.alertType, thresholdType);
+  }, [rule.alertType, thresholdType]);
 
   const updateTagFilterExpression = (filteredTagFilterExpression: any) => {
     updateForm(form.updateIn(['tagFilterExpression'], (f: any) => f.setValue(filteredTagFilterExpression)));
   };
 
   useIsTagFilterFormModelExists(tagFilterExpression, getTagCatalog, updateTagFilterExpression);
+
+  const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isQueryValid, true);
 
   const isValid = blueprintConfig.isRuleComplete(rule) && isTagFilterFormModelValid;
 
