@@ -200,7 +200,7 @@ export default function ActionHistoryTable({
       width: 20,
       getContent(row: ActionInstance) {
         return (
-          <Tooltip content={row.actionName} align="auto" delay={500}>
+          <Tooltip content={row.actionName} align="auto" delay={500} overwriteBlock>
             <WithSubscript subscript={ACTION_TRANSLATIONS[row.type]}>
               <div
                 className={classNames({
