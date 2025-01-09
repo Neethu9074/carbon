@@ -7,12 +7,17 @@ import React, { useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
+import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import getServiceFlowNodes from 'in-applications/subscriptions/getServiceFlowNodes';
 import { hideUpstream, hideDownstream } from 'in-applications/navigation/matrix';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
-import getMetrics from 'in-applications/subscriptions/getMetrics';
 import { boundaryScopes } from 'in-applications/constants';
 import ServerFlowMap from 'in-applications/ServerFlowMap';
 import useUrlState from 'in-hooks/useUrlState';
@@ -72,14 +77,22 @@ export default function ServiceFlowMap({ data, applicationId, serviceId, endpoin
 }
 
 function getMetricsObservable([applicationId, serviceId, endpointId, timeConfig]) {
-  return getMetrics({
-    filter: {
-      application: applicationId,
-      service: serviceId,
-      endpoint: endpointId,
-      timeConfig,
-      applicationBoundaryScope: boundaryScopes.all
-    },
+  var expressions = [];
+  if (applicationId) {
+    expressions.push(tagFilter('application.id', EQUALS, applicationId, null, DESTINATION));
+  }
+  if (serviceId) {
+    expressions.push(tagFilter('service.id', EQUALS, serviceId, null, DESTINATION));
+  }
+  if (endpointId) {
+    expressions.push(tagFilter('endpoint.id', EQUALS, endpointId, null, DESTINATION));
+  }
+  return getApplicationMetrics({
+    tagFilterExpression: toBackendQueryModel(joinExpressions({ expressions })),
+    includeInternal: false,
+    includeSynthetic: false,
+    timeShift: { offset: 0 },
+    timeConfig,
     metrics: {
       callsAgg: {
         metric: 'calls',

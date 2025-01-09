@@ -14,21 +14,26 @@ import { just } from '@instana/observables';
 
 import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
 import ApplicationsNoDataNotification from 'in-applications/lists/components/ApplicationsNoDataNotification';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { createNewApplicationConfig, getApplicationConfig } from 'in-api/applicationConfigs';
 import { getNewApplicationWaiterViewPath } from 'in-applications/creation/CreateApplication';
 import { getApplicationsWithDefaults } from 'in-applications/subscriptions/getApplications';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import { useApplicationTracker } from 'in-applications/hooks/useApplicationTracker';
 import { useLinkToApplicationDashboard } from 'in-applications/navigation/paths';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { application as applicationType } from 'in-cockpit/starredItems/types';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { applicationsList } from 'in-applications/navigation/paths';
-import getMetrics from 'in-applications/subscriptions/getMetrics';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import { hasError, isLoading } from 'in-services/util/result';
 import TopListWidget from 'in-cockpit/widgets/TopListWidget';
@@ -104,12 +109,20 @@ function getItem(id, timeConfig) {
     if (isLoading(applicationResult) || hasError(applicationResult)) {
       return just(applicationResult);
     } else {
-      return getMetrics({
-        filter: {
-          timeConfig,
-          application: id,
-          applicationBoundaryScope: applicationResult.data.boundaryScope
-        },
+      const applicationTagFilter =
+        applicationResult.data.boundaryScope === boundaryScopes.inbound
+          ? tagFilter('boundary.application.id', EQUALS, id)
+          : tagFilter('application.id', EQUALS, id, null, DESTINATION);
+      return getApplicationMetrics({
+        tagFilterExpression: toBackendQueryModel(
+          joinExpressions({
+            expressions: [applicationTagFilter]
+          })
+        ),
+        includeInternal: false,
+        includeSynthetic: false,
+        timeShift: { offset: 0 },
+        timeConfig,
         metrics: {
           services: {
             metric: 'services',

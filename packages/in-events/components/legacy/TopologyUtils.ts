@@ -22,11 +22,14 @@ import {
   TimeConfig
 } from 'in-types';
 import { RCAEntityDataType } from 'in-events/components/RootCauseAnalysis/hooks/useFetchAppropriateRCAEntityData';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getSparkChartGranularity } from 'in-applications/metrics';
-import getMetrics from 'in-applications/subscriptions/getMetrics';
-import { boundaryScopes } from 'in-applications/constants';
 
 // four levels of nodes
 export type RCA_TOPOLOGY_ENTITY_TYPE_TAGS =
@@ -660,7 +663,7 @@ export function getAPMetricsObservable(tagFilterExpression: TagFilterExpressionE
 }
 
 /**
- * Gets an observable contianing a request for AP entities
+ * Gets an observable containing a request for AP entities
  * @param {Object} AP - The AP entity that we're getting metrics for
  * @param {string} AP.applicationId - The AP ID for a given entity if it exists
  * @param {string} AP.endpointId - The endpoint ID for a given entity if it exists
@@ -674,18 +677,23 @@ export function getLegacyAPMetricsObservable({
   timeConfig
 }: GetMetricsObservableProps) {
   const granularity = getSparkChartGranularity(timeConfig);
+  var expressions = [];
+  if (applicationId) {
+    expressions.push(tagFilter('application.id', EQUALS, applicationId, null, DESTINATION));
+  }
+  if (serviceId) {
+    expressions.push(tagFilter('service.id', EQUALS, serviceId, null, DESTINATION));
+  }
+  if (endpointId) {
+    expressions.push(tagFilter('endpoint.id', EQUALS, endpointId, null, DESTINATION));
+  }
 
-  return getMetrics({
-    filter: {
-      application: applicationId,
-      endpoint: endpointId,
-      service: serviceId,
-      timeConfig,
-      applicationBoundaryScope: boundaryScopes.all,
-      includeInternalCalls: false,
-      includeSyntheticCalls: false,
-      useLongTermDataOnly: false
-    },
+  return getApplicationMetrics({
+    tagFilterExpression: toBackendQueryModel(joinExpressions({ expressions })),
+    includeInternal: false,
+    includeSynthetic: false,
+    timeShift: { offset: 0 },
+    timeConfig,
     metrics: {
       calls: {
         metric: 'calls',
