@@ -16,7 +16,7 @@ import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
-export default function TopListByModel({ title, metricName, tagFilter, formatter, actions, dragHandle }) {
+export default function TopListByModel({ title, metricName, tag, tagFilter, formatter, actions, dragHandle }) {
   const timeConfig = useTimeConfig();
   let tagCatalog = useTagCatalog(getTagCatalog);
 
@@ -43,7 +43,7 @@ export default function TopListByModel({ title, metricName, tagFilter, formatter
         {
           maxResults: 10,
           by: {
-            groupbyTag: 'metric.tag.model_id',
+            groupbyTag: tag,
             groupbyTagEntity: 'DESTINATION',
             groupbyTagSecondLevelKey: ''
           },
