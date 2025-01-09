@@ -77,6 +77,7 @@ export function createSmartAlertForm(
     evaluationType,
     id,
     granularity,
+    gracePeriod,
     includeSynthetic,
     includeInternal,
     name,
@@ -128,6 +129,9 @@ export function createSmartAlertForm(
       }),
       granularity: createField({
         value: granularity ?? getDefaultGranularity(rules?.[0]?.thresholds?.WARNING)
+      }),
+      gracePeriod: createField({
+        value: gracePeriod ?? granularity ?? getDefaultGranularity(rules?.[0]?.thresholds?.WARNING)
       }),
       id: createField({
         value: id ?? ''

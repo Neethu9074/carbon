@@ -9,6 +9,7 @@ import { Field, MapForm } from 'formalistic';
 import { ADAPTIVE_BASELINE, STATIC_THRESHOLD, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getThresholdFieldStatus } from 'in-alerting/smart-alerts/components/multiThresholdAlertChannels/utils';
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/dialog/form/ruleForm';
+import { generateGracePeriodOptions } from 'in-alerting/smart-alerts/components/GracePeriod';
 import useFormSideEffects, { CHANGE_TYPES } from 'in-hooks/useFormSideEffects';
 
 export function useSmartAlertFormSideEffects(form: MapForm<any>, setForm: (field: MapForm<any>) => void) {
@@ -63,7 +64,7 @@ export function useSmartAlertFormSideEffects(form: MapForm<any>, setForm: (field
     },
     {
       path: ['granularity'],
-      effects: [requestThresholdSuggestion]
+      effects: [requestThresholdSuggestion, resetGracePeriod]
     },
     {
       path: ['hiddenFields', 'chartViewEntitySelection'],
@@ -190,6 +191,21 @@ function resetThresholdValue(form: MapForm<any>, thresholdType: string) {
         (item as Field<boolean>).setValue(false).setTouched(false)
       )
     );
+}
+
+function resetGracePeriod(form: MapForm<any>) {
+  const granularity = form.get('granularity').value;
+  const currentGracePeriod = form.get('gracePeriod').value;
+  const newGracePeriodOptions = generateGracePeriodOptions(granularity);
+
+  // find the closest value
+  const closestGracePeriod = newGracePeriodOptions
+    .map(option => parseInt(option.value, 10))
+    .reduce((closest, value) =>
+      Math.abs(value - currentGracePeriod) < Math.abs(closest - currentGracePeriod) ? value : closest
+    );
+
+  return form.updateIn(['gracePeriod'], f => f.setValue(closestGracePeriod).setTouched(false));
 }
 
 function validateAggregation(form: MapForm<any>) {
