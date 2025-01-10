@@ -7,7 +7,7 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 
-import { ScopeWrapper, SectionWrapper } from 'in-alerting/smart-alerts/infrastructure/tearsheet/Wrapper';
+import { ScopeWrapper, SectionWrapper } from 'in-alerting/smart-alerts/components/tearSheet/CustomWrappers/Wrapper';
 
 describe('ScopeWrapper', () => {
   const children = <div>Test Children</div>;

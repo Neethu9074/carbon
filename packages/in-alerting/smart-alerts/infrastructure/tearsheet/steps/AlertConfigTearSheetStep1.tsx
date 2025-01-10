@@ -11,7 +11,7 @@ import { Spacer, Stack } from '@instana/components';
 
 //@ts-expect-error TS migration
 import ScopeGroup from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeGroup';
-import { ScopeWrapper, SectionWrapper } from 'in-alerting/smart-alerts/infrastructure/tearsheet/Wrapper';
+import { ScopeWrapper, SectionWrapper } from 'in-alerting/smart-alerts/components/tearSheet/CustomWrappers/Wrapper';
 import ScopeAggregation from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeAggregation';
 import ScopeAlerting from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeAlerting';
 import ScopeMetric from 'in-alerting/smart-alerts/infrastructure/dialog/advanced/ScopeMetric';

@@ -1668,6 +1668,15 @@
           "step2Title": "Define when to get alerted",
           "step3Title": "Define alert properties",
           "step4Title": "Define alert channels"
+        },
+        "scopeFilter": {
+          "title": "Choose the scope of the logs",
+          "filter": "Filter",
+          "filterDescription": "Add filters to the services to get more precise alerts."
+        },
+        "scopeGroupBy": {
+          "group": "Group",
+          "groupByDescription": "Add group to configure calls in groups. Each call within the group is configured collectively but evaluated individually."
         }
       }
     },
