@@ -1542,7 +1542,7 @@
           "header": "What properties do you want to set for this alert?"
         },
         "step4": {
-          "header": "Where do you want to be notified for alert?",
+          "header": "Where do you want to be notified for this alert?",
           "description": "Select the recipient(s) of this alert"
         },
         "scopeAlerting": {
@@ -1674,6 +1674,10 @@
         },
         "step3": {
           "header": "What properties do you want to set for this alert?"
+        },
+        "step4": {
+          "header": "Where do you want to be notified for this alert?",
+          "description": "Select the recipient(s) of this alert"
         },
         "scopeFilter": {
           "title": "Choose the scope of the logs",
