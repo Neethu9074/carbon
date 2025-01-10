@@ -4,7 +4,7 @@
  * Copyright IBM Corp. 2023
  */
 
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import { Typography, Pill } from '@instana/components';
@@ -36,40 +36,16 @@ export function DynamicTagList({ tags }: DynamicTagListProps) {
     }))
   );
   const [hiddenTags, setHiddenTags] = useState<TagsType>([]);
+  const [shouldDoFirstCalculation, setShouldDoFirstCalculation] = useState<boolean>(true);
+  const [shouldDoSecondCalculation, setShouldDoSecondCalculation] = useState<boolean>(true);
 
   const { ref, width } = useResizeObserver<HTMLDivElement>();
   const { ref: tooltipRef, width: tooltipWidth } = useResizeObserver<HTMLDivElement>();
 
-  const hasCompletedFirstCalculationRef = useRef(false);
-  const hasCompletedSecondCalculationRef = useRef(false);
-
+  // This is the initial calculation with the tags being rendered while the visibility is set to hidden by css.
+  // it is required to figure our how much space the tags need
   useLayoutEffect(() => {
-    if (!width || !hasCompletedFirstCalculationRef.current) return;
-
-    const widthOfTooltip = tooltipWidth ? tooltipWidth + tagsCssGap : 0;
-    const targetWidth = width - widthOfTooltip;
-
-    const optimizedTags = getTagsThatFitAfterResize({ displayedTags, hiddenTags, targetWidth });
-
-    const hasStateChangedFromPreviousRender = optimizedTags.displayedTags.length !== displayedTags.length;
-    const hasTooltipWidthBeenCorrectlyCalculated =
-      (tooltipWidth === 0 && hiddenTags.length === 0) || (tooltipWidth !== 0 && hiddenTags.length !== 0);
-
-    if (!hasCompletedSecondCalculationRef.current || hasStateChangedFromPreviousRender) {
-      setDisplayedTags(optimizedTags.displayedTags);
-      setHiddenTags(optimizedTags.hiddenTags);
-    }
-
-    if (!hasCompletedSecondCalculationRef.current && hasTooltipWidthBeenCorrectlyCalculated) {
-      hasCompletedSecondCalculationRef.current = true;
-    }
-
-    // For performance reasons recalculation should only be triggered when the width of the container or the tooltip changes, state is ommited
-    // eslint-disable-next-line
-  }, [width, tooltipWidth]);
-
-  useLayoutEffect(() => {
-    if (!ref.current || !width || hasCompletedFirstCalculationRef.current) return;
+    if (!ref.current || !width || !shouldDoFirstCalculation) return;
 
     const { children } = ref.current;
 
@@ -84,16 +60,60 @@ export function DynamicTagList({ tags }: DynamicTagListProps) {
 
     setDisplayedTags(tagsThatFit);
     setHiddenTags(tagsThatDontFit);
+    setShouldDoFirstCalculation(false);
+    setShouldDoSecondCalculation(true);
+    // eslint-disable-next-line
+  }, [shouldDoFirstCalculation, ref, width]);
 
-    hasCompletedFirstCalculationRef.current = true;
-  }, [ref, tags, width]);
+  // This is the follow-up calculation that works when the table or the column with the tags is resized
+  useLayoutEffect(() => {
+    if (!width || shouldDoFirstCalculation) return;
 
-  const wrapperClasses = classNames(locals.wrapper, {
-    [locals.visible]: hasCompletedSecondCalculationRef.current,
-    [locals.hidden]: !hasCompletedSecondCalculationRef.current
-  });
+    const widthOfTooltip = tooltipWidth && hiddenTags.length !== 0 ? tooltipWidth + tagsCssGap : 0;
+    const targetWidth = width - widthOfTooltip;
+
+    const optimizedTags = getTagsThatFitAfterResize({ displayedTags, hiddenTags, targetWidth });
+
+    const hasStateChangedFromPreviousRender = optimizedTags.displayedTags.length !== displayedTags.length;
+    const hasTooltipWidthBeenCorrectlyCalculated =
+      (tooltipWidth === 0 && hiddenTags.length === 0) || (tooltipWidth !== 0 && hiddenTags.length !== 0);
+
+    if (hasStateChangedFromPreviousRender) {
+      setDisplayedTags(optimizedTags.displayedTags);
+      setHiddenTags(optimizedTags.hiddenTags);
+      setShouldDoSecondCalculation(false);
+    }
+
+    if (shouldDoSecondCalculation && hasTooltipWidthBeenCorrectlyCalculated) {
+      setShouldDoSecondCalculation(false);
+    }
+
+    // For performance reasons recalculation should only be triggered when the width of the container or the tooltip changes, state is ommited
+    // eslint-disable-next-line
+  }, [shouldDoSecondCalculation, width, tooltipWidth]);
+
+  // This runs when the table tag filter is changed.
+  // It is necessary because the table does not render children anew but uses
+  // old children and passes different props to them, which results in no rerender.
+  useLayoutEffect(() => {
+    if (shouldDoSecondCalculation) return;
+
+    setDisplayedTags(
+      tags.map(tag => ({
+        text: tag,
+        width: 0
+      }))
+    );
+    setHiddenTags([]);
+    setShouldDoFirstCalculation(true);
+    // eslint-disable-next-line
+  }, [tags]);
 
   const shouldRenderTooltip = hiddenTags.length !== 0;
+
+  const wrapperClasses = classNames(locals.wrapper, {
+    [locals.hidden]: shouldDoSecondCalculation
+  });
 
   return (
     <div ref={ref} className={wrapperClasses}>
