@@ -3819,6 +3819,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@monaco-editor/loader@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "@monaco-editor/loader@npm:1.4.0"
+  dependencies:
+    state-local: ^1.0.6
+  peerDependencies:
+    monaco-editor: ">= 0.21.0 < 1"
+  checksum: 374ec0ea872ee15b33310e105a43217148161480d3955c5cece87d0f801754cd2c45a3f6c539a75da18a066c1615756fb87eaf1003f1df6a64a0cbce5d2c3749
+  languageName: node
+  linkType: hard
+
+"@monaco-editor/react@npm:^4.6.0":
+  version: 4.6.0
+  resolution: "@monaco-editor/react@npm:4.6.0"
+  dependencies:
+    "@monaco-editor/loader": ^1.4.0
+  peerDependencies:
+    monaco-editor: ">= 0.25.0 < 1"
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 9d44e76c5baad6db5f84c90a5540fbd3c9af691b97d76cf2a99b3c8273004d0efe44c2572d80e9d975c9af10022c21e4a66923924950a5201e82017c8b20428c
+  languageName: node
+  linkType: hard
+
 "@motionone/animation@npm:^10.12.0":
   version: 10.18.0
   resolution: "@motionone/animation@npm:10.18.0"
@@ -4143,6 +4167,102 @@ __metadata:
   version: 2.11.7
   resolution: "@popperjs/core@npm:2.11.7"
   checksum: 5b6553747899683452a1d28898c1b39173a4efd780e74360bfcda8eb42f1c5e819602769c81a10920fc68c881d07fb40429604517d499567eac079cfa6470f19
+  languageName: node
+  linkType: hard
+
+"@reactflow/background@npm:11.3.14":
+  version: 11.3.14
+  resolution: "@reactflow/background@npm:11.3.14"
+  dependencies:
+    "@reactflow/core": 11.11.4
+    classcat: ^5.0.3
+    zustand: ^4.4.1
+  peerDependencies:
+    react: ">=17"
+    react-dom: ">=17"
+  checksum: f16e85554f0027d450d1e5993e2a301007bceb8083b0062e38f095fabfc16cd6b69a8202a713a1a60e74f05ba1188e998852b532e22f05219e39c33aafaf39f9
+  languageName: node
+  linkType: hard
+
+"@reactflow/controls@npm:11.2.14":
+  version: 11.2.14
+  resolution: "@reactflow/controls@npm:11.2.14"
+  dependencies:
+    "@reactflow/core": 11.11.4
+    classcat: ^5.0.3
+    zustand: ^4.4.1
+  peerDependencies:
+    react: ">=17"
+    react-dom: ">=17"
+  checksum: 3e95782a125230cfada82986e64f65befd7fc36ce96891c22a524891d8b181d7e3065f5759156db5a5d5d96b07d4b997d73b3d2ce0ff6bbb506b37a0c3c69ec1
+  languageName: node
+  linkType: hard
+
+"@reactflow/core@npm:11.11.4":
+  version: 11.11.4
+  resolution: "@reactflow/core@npm:11.11.4"
+  dependencies:
+    "@types/d3": ^7.4.0
+    "@types/d3-drag": ^3.0.1
+    "@types/d3-selection": ^3.0.3
+    "@types/d3-zoom": ^3.0.1
+    classcat: ^5.0.3
+    d3-drag: ^3.0.0
+    d3-selection: ^3.0.0
+    d3-zoom: ^3.0.0
+    zustand: ^4.4.1
+  peerDependencies:
+    react: ">=17"
+    react-dom: ">=17"
+  checksum: ba0fb8460abcfe6a5a771da820c9e67a8dd695c762d8fcca6217daa2591b36ef88117848d649103a18d72e06f639e23f5e4dc0388855d881b8588be2059cfc08
+  languageName: node
+  linkType: hard
+
+"@reactflow/minimap@npm:11.7.14":
+  version: 11.7.14
+  resolution: "@reactflow/minimap@npm:11.7.14"
+  dependencies:
+    "@reactflow/core": 11.11.4
+    "@types/d3-selection": ^3.0.3
+    "@types/d3-zoom": ^3.0.1
+    classcat: ^5.0.3
+    d3-selection: ^3.0.0
+    d3-zoom: ^3.0.0
+    zustand: ^4.4.1
+  peerDependencies:
+    react: ">=17"
+    react-dom: ">=17"
+  checksum: 991300edff55315af9c3b28aa7de565af8bf5ca1a0e5363ccba6ec4b2c47803138dd467de490438fb0d2edc9506767acdbf3bb9ca894b082c4f2bfb489535240
+  languageName: node
+  linkType: hard
+
+"@reactflow/node-resizer@npm:2.2.14":
+  version: 2.2.14
+  resolution: "@reactflow/node-resizer@npm:2.2.14"
+  dependencies:
+    "@reactflow/core": 11.11.4
+    classcat: ^5.0.4
+    d3-drag: ^3.0.0
+    d3-selection: ^3.0.0
+    zustand: ^4.4.1
+  peerDependencies:
+    react: ">=17"
+    react-dom: ">=17"
+  checksum: ffe4bc3734688885293068617340dfb0ab50b653d886c200ed0bc076abe60c836a8e4e4120d5b10a8028aabab717de2f851ac411066e2281114d5ad55ba7ac6d
+  languageName: node
+  linkType: hard
+
+"@reactflow/node-toolbar@npm:1.3.14":
+  version: 1.3.14
+  resolution: "@reactflow/node-toolbar@npm:1.3.14"
+  dependencies:
+    "@reactflow/core": 11.11.4
+    classcat: ^5.0.3
+    zustand: ^4.4.1
+  peerDependencies:
+    react: ">=17"
+    react-dom: ">=17"
+  checksum: 6c5f0cb497fb8ba81b91f3f4b590c7e0d3cf69bf3038bf1a96db1df53a82d68c389ae584482e85c35bdd4bd1d5c764687b13fbe72c9e75828d830aa875527da7
   languageName: node
   linkType: hard
 
@@ -4561,7 +4681,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/d3-drag@npm:*":
+"@types/d3-drag@npm:*, @types/d3-drag@npm:^3.0.1":
   version: 3.0.7
   resolution: "@types/d3-drag@npm:3.0.7"
   dependencies:
@@ -4676,7 +4796,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/d3-selection@npm:*, @types/d3-selection@npm:^3.0.11":
+"@types/d3-selection@npm:*, @types/d3-selection@npm:^3.0.11, @types/d3-selection@npm:^3.0.3":
   version: 3.0.11
   resolution: "@types/d3-selection@npm:3.0.11"
   checksum: 4b76630f76dffdafc73cdc786d73e7b4c96f40546483074b3da0e7fe83fd7f5ed9bc6c50f79bcef83595f943dcc9ed6986953350f39371047af644cc39c41b43
@@ -4722,7 +4842,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/d3-zoom@npm:*, @types/d3-zoom@npm:^3.0.8":
+"@types/d3-zoom@npm:*, @types/d3-zoom@npm:^3.0.1, @types/d3-zoom@npm:^3.0.8":
   version: 3.0.8
   resolution: "@types/d3-zoom@npm:3.0.8"
   dependencies:
@@ -4732,7 +4852,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/d3@npm:^7.4.3":
+"@types/d3@npm:^7.4.0, @types/d3@npm:^7.4.3":
   version: 7.4.3
   resolution: "@types/d3@npm:7.4.3"
   dependencies:
@@ -8117,6 +8237,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"classcat@npm:^5.0.3, classcat@npm:^5.0.4":
+  version: 5.0.5
+  resolution: "classcat@npm:5.0.5"
+  checksum: 19bdeb99b8923b47f9df978b6ef2c5a4cc3bcaa8fb6be16244e31fad619b291b366429747331903ac2ea27560ffd6066d14089a99c95535ce0f1e897525fa63d
+  languageName: node
+  linkType: hard
+
 "classnames@npm:2.5.1, classnames@npm:^2.5.1":
   version: 2.5.1
   resolution: "classnames@npm:2.5.1"
@@ -9240,7 +9367,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"d3-drag@npm:2 - 3, d3-drag@npm:3":
+"d3-drag@npm:2 - 3, d3-drag@npm:3, d3-drag@npm:^3.0.0":
   version: 3.0.0
   resolution: "d3-drag@npm:3.0.0"
   dependencies:
@@ -15696,6 +15823,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jsonc-parser@npm:^3.0.0":
+  version: 3.3.1
+  resolution: "jsonc-parser@npm:3.3.1"
+  checksum: 81ef19d98d9c6bd6e4a37a95e2753c51c21705cbeffd895e177f4b542cca9cda5fda12fb942a71a2e824a9132cf119dc2e642e9286386055e1365b5478f49a47
+  languageName: node
+  linkType: hard
+
 "jsonfile@npm:^3.0.0":
   version: 3.0.1
   resolution: "jsonfile@npm:3.0.1"
@@ -17017,6 +17151,63 @@ __metadata:
   languageName: node
   linkType: hard
 
+"monaco-languageserver-types@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "monaco-languageserver-types@npm:0.4.0"
+  dependencies:
+    monaco-types: ^0.1.0
+    vscode-languageserver-protocol: ^3.0.0
+    vscode-uri: ^3.0.0
+  checksum: a8794670287805f4c974a18b6fc6c995d62d042cd521bf767650ead38f97040c18d39b6c9bd76677d42fb89a1e3831c61963c5ecee4096dfdec79ad8eda26678
+  languageName: node
+  linkType: hard
+
+"monaco-marker-data-provider@npm:^1.0.0":
+  version: 1.2.4
+  resolution: "monaco-marker-data-provider@npm:1.2.4"
+  dependencies:
+    monaco-types: ^0.1.0
+  checksum: 2d59bf1e566cca0759e40526f52275aa21213e1698ed8631ab79927196603522e29cd76ce11327845ac789e8ca304a629b7bdaf4af96bb4f552121b905f071b9
+  languageName: node
+  linkType: hard
+
+"monaco-types@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "monaco-types@npm:0.1.0"
+  checksum: aebfb3896f0340468f5a8b987009ecaeb105f0f01d91092c6a5a0d08cc155f30840693c4333afe9aaf1f63e21f36fa33fd5630f1e8cdf22d251930ba2a242d5e
+  languageName: node
+  linkType: hard
+
+"monaco-worker-manager@npm:^2.0.0":
+  version: 2.0.1
+  resolution: "monaco-worker-manager@npm:2.0.1"
+  peerDependencies:
+    monaco-editor: ">=0.30.0"
+  checksum: 269342261a182ba03eca7d450f0944a751e96bf1b3370c7c3f904d0448fcdbb05696d8cff2a0fa571280eca0f91bc84f5ec0a3a858949ddbe7e09b9cc7021b41
+  languageName: node
+  linkType: hard
+
+"monaco-yaml@npm:^5.2.3":
+  version: 5.2.3
+  resolution: "monaco-yaml@npm:5.2.3"
+  dependencies:
+    jsonc-parser: ^3.0.0
+    monaco-languageserver-types: ^0.4.0
+    monaco-marker-data-provider: ^1.0.0
+    monaco-types: ^0.1.0
+    monaco-worker-manager: ^2.0.0
+    path-browserify: ^1.0.0
+    prettier: ^2.0.0
+    vscode-languageserver-textdocument: ^1.0.0
+    vscode-languageserver-types: ^3.0.0
+    vscode-uri: ^3.0.0
+    yaml: ^2.0.0
+  peerDependencies:
+    monaco-editor: ">=0.36"
+  checksum: d67a190c18dd2c2cfff0358a1be2610fce40359252df383aa500956f9d189388778412333571dff630f3437f28cf1cfe0eac9c7e354956acf40cc03d468ca0d1
+  languageName: node
+  linkType: hard
+
 "moo-color@npm:^1.0.2":
   version: 1.0.3
   resolution: "moo-color@npm:1.0.3"
@@ -18192,6 +18383,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"path-browserify@npm:^1.0.0":
+  version: 1.0.1
+  resolution: "path-browserify@npm:1.0.1"
+  checksum: c6d7fa376423fe35b95b2d67990060c3ee304fc815ff0a2dc1c6c3cfaff2bd0d572ee67e18f19d0ea3bbe32e8add2a05021132ac40509416459fffee35200699
+  languageName: node
+  linkType: hard
+
 "path-dirname@npm:^1.0.0":
   version: 1.0.2
   resolution: "path-dirname@npm:1.0.2"
@@ -18947,6 +19145,15 @@ __metadata:
   version: 2.0.0
   resolution: "prepend-http@npm:2.0.0"
   checksum: 7694a9525405447662c1ffd352fcb41b6410c705b739b6f4e3a3e21cf5fdede8377890088e8934436b8b17ba55365a615f153960f30877bf0d0392f9e93503ea
+  languageName: node
+  linkType: hard
+
+"prettier@npm:^2.0.0":
+  version: 2.8.8
+  resolution: "prettier@npm:2.8.8"
+  bin:
+    prettier: bin-prettier.js
+  checksum: b49e409431bf129dd89238d64299ba80717b57ff5a6d1c1a8b1a28b590d998a34e083fa13573bc732bb8d2305becb4c9a4407f8486c81fa7d55100eb08263cf8
   languageName: node
   linkType: hard
 
@@ -19784,6 +19991,23 @@ __metadata:
     loose-envify: ^1.1.0
     object-assign: ^4.1.1
   checksum: b254cc17ce3011788330f7bbf383ab653c6848902d7936a87b09d835d091e3f295f7e9dd1597c6daac5dc80f90e778c8230218ba8ad599f74adcc11e33b9d61b
+  languageName: node
+  linkType: hard
+
+"reactflow@npm:^11.11.4":
+  version: 11.11.4
+  resolution: "reactflow@npm:11.11.4"
+  dependencies:
+    "@reactflow/background": 11.3.14
+    "@reactflow/controls": 11.2.14
+    "@reactflow/core": 11.11.4
+    "@reactflow/minimap": 11.7.14
+    "@reactflow/node-resizer": 2.2.14
+    "@reactflow/node-toolbar": 1.3.14
+  peerDependencies:
+    react: ">=17"
+    react-dom: ">=17"
+  checksum: 02f7f8ede0679ca4a5a6eb44546a0299c9effd2acbfc1b5b542693e3f0a32e44a4999ad689769cd9f1c0f974f0024242cc57c2d72b102c9c5cb7f3d951b317a6
   languageName: node
   linkType: hard
 
@@ -21482,6 +21706,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"state-local@npm:^1.0.6":
+  version: 1.0.7
+  resolution: "state-local@npm:1.0.7"
+  checksum: d1afcf1429e7e6eb08685b3a94be8797db847369316d4776fd51f3962b15b984dacc7f8e401ad20968e5798c9565b4b377afedf4e4c4d60fe7495e1cbe14a251
+  languageName: node
+  linkType: hard
+
 "static-extend@npm:^0.1.1":
   version: 0.1.2
   resolution: "static-extend@npm:0.1.2"
@@ -22755,6 +22986,7 @@ __metadata:
     "@instana/utils": ^1.3.1
     "@lezer/common": ^1.0.2
     "@lezer/generator": ^1.5.0
+    "@monaco-editor/react": ^4.6.0
     "@segment/analytics-next": ^1.74.0
     "@testing-library/jest-dom": ^5.16.3
     "@testing-library/react": ^12.1.5
@@ -22885,6 +23117,7 @@ __metadata:
     mini-css-extract-plugin: ^2.9.0
     mkdirp: ^3.0.1
     moment-timezone: ^0.5.43
+    monaco-yaml: ^5.2.3
     opn: 3.0.3
     postcss: ^8.4.1
     postcss-discard-comments: ^5.0.1
@@ -22913,6 +23146,7 @@ __metadata:
     react-select: ^4.3.1
     react-select-async-paginate: ~0.5
     react-test-renderer: ^17
+    reactflow: ^11.11.4
     rrule: ^2.7.1
     semver: ^5.3.0
     sinon: ^13.0.1
@@ -23268,6 +23502,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"use-sync-external-store@npm:1.2.2":
+  version: 1.2.2
+  resolution: "use-sync-external-store@npm:1.2.2"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: fe07c071c4da3645f112c38c0e57beb479a8838616ff4e92598256ecce527f2888c08febc7f9b2f0ce2f0e18540ba3cde41eb2035e4fafcb4f52955037098a81
+  languageName: node
+  linkType: hard
+
 "use@npm:^3.1.0":
   version: 3.1.1
   resolution: "use@npm:3.1.1"
@@ -23537,6 +23780,44 @@ __metadata:
   version: 3.1.0
   resolution: "void-elements@npm:3.1.0"
   checksum: 0390f818107fa8fce55bb0a5c3f661056001c1d5a2a48c28d582d4d847347c2ab5b7f8272314cac58acf62345126b6b09bea623a185935f6b1c3bbce0dfd7f7f
+  languageName: node
+  linkType: hard
+
+"vscode-jsonrpc@npm:8.2.0":
+  version: 8.2.0
+  resolution: "vscode-jsonrpc@npm:8.2.0"
+  checksum: f302a01e59272adc1ae6494581fa31c15499f9278df76366e3b97b2236c7c53ebfc71efbace9041cfd2caa7f91675b9e56f2407871a1b3c7f760a2e2ee61484a
+  languageName: node
+  linkType: hard
+
+"vscode-languageserver-protocol@npm:^3.0.0":
+  version: 3.17.5
+  resolution: "vscode-languageserver-protocol@npm:3.17.5"
+  dependencies:
+    vscode-jsonrpc: 8.2.0
+    vscode-languageserver-types: 3.17.5
+  checksum: dfb42d276df5dfea728267885b99872ecff62f6c20448b8539fae71bb196b420f5351c5aca7c1047bf8fb1f89fa94a961dce2bc5bf7e726198f4be0bb86a1e71
+  languageName: node
+  linkType: hard
+
+"vscode-languageserver-textdocument@npm:^1.0.0":
+  version: 1.0.12
+  resolution: "vscode-languageserver-textdocument@npm:1.0.12"
+  checksum: 49415c8f065860693fdd6cb0f7b8a24470130dc941e887a396b6e6bbae93be132323a644aa1edd7d0eec38a730e05a2d013aebff6bddd30c5af374ef3f4cd9ab
+  languageName: node
+  linkType: hard
+
+"vscode-languageserver-types@npm:3.17.5, vscode-languageserver-types@npm:^3.0.0":
+  version: 3.17.5
+  resolution: "vscode-languageserver-types@npm:3.17.5"
+  checksum: 79b420e7576398d396579ca3a461c9ed70e78db4403cd28bbdf4d3ed2b66a2b4114031172e51fad49f0baa60a2180132d7cb2ea35aa3157d7af3c325528210ac
+  languageName: node
+  linkType: hard
+
+"vscode-uri@npm:^3.0.0":
+  version: 3.0.8
+  resolution: "vscode-uri@npm:3.0.8"
+  checksum: 514249126850c0a41a7d8c3c2836cab35983b9dc1938b903cfa253b9e33974c1416d62a00111385adcfa2b98df456437ab704f709a2ecca76a90134ef5eb4832
   languageName: node
   linkType: hard
 
@@ -24095,6 +24376,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"yaml@npm:^2.0.0":
+  version: 2.6.1
+  resolution: "yaml@npm:2.6.1"
+  bin:
+    yaml: bin.mjs
+  checksum: 5cf2627f121dcf04ccdebce8e6cbac7c9983d465c4eab314f6fbdc13cda8a07f4e8f9c2252a382b30bcabe05ee3c683647293afd52eb37cbcefbdc7b6ebde9ee
+  languageName: node
+  linkType: hard
+
 "yargs-parser@npm:^20.2.2, yargs-parser@npm:^20.2.7":
   version: 20.2.9
   resolution: "yargs-parser@npm:20.2.9"
@@ -24191,6 +24481,26 @@ __metadata:
   version: 3.23.8
   resolution: "zod@npm:3.23.8"
   checksum: 15949ff82118f59c893dacd9d3c766d02b6fa2e71cf474d5aa888570c469dbf5446ac5ad562bb035bf7ac9650da94f290655c194f4a6de3e766f43febd432c5c
+  languageName: node
+  linkType: hard
+
+"zustand@npm:^4.4.1":
+  version: 4.5.5
+  resolution: "zustand@npm:4.5.5"
+  dependencies:
+    use-sync-external-store: 1.2.2
+  peerDependencies:
+    "@types/react": ">=16.8"
+    immer: ">=9.0.6"
+    react: ">=16.8"
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    immer:
+      optional: true
+    react:
+      optional: true
+  checksum: 654e47959970bc66bbf2ae80fced7e556dd488e9ee54eb678330cb036ecc7184f4b8c2cae273be28022533622c54ab6339bf3fe30d19236367c5c251b6c6679a
   languageName: node
   linkType: hard
 
