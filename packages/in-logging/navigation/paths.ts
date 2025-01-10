@@ -27,6 +27,7 @@ export const dashboardConfigurationPath = `${loggingDashboardPath}/configure`;
 export const dashboardRetentionConfigurationPath = `${dashboardConfigurationPath}/retention`;
 export const dashboardLogVolumePath = `${dashboardConfigurationPath}/logVolume`;
 export const dashboardIntegrationsPath = `${dashboardConfigurationPath}/integrations`;
+export const logSmartAlertsFullScreen = '/logSmartAlerts';
 
 export const isLoggingView = getRootPathPredicate(loggingDashboardPath);
 

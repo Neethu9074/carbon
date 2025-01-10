@@ -39,3 +39,5 @@ export const logIdMatrixParameter = {
 };
 export const alertId = 'alertId';
 export const alertCreated = 'alertCreated';
+export const isEditMode = 'isEditMode';
+export const isDuplicateMode = 'isDuplicateMode';

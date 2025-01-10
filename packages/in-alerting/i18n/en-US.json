@@ -1660,7 +1660,16 @@
         "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
         "noDataForSelectedGroup": "There is no data available for the specified filters and grouping combination."
       },
-      "logCount": "Log count"
+      "logCount": "Log count",
+      "tearSheet": {
+        "createTitle": "Create a log smart alert",
+        "steps": {
+          "step1Title": "Define the condition",
+          "step2Title": "Define when to get alerted",
+          "step3Title": "Define alert properties",
+          "step4Title": "Define alert channels"
+        }
+      }
     },
     "slo": {
       "components": {

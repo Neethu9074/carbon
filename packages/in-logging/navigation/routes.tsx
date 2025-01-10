@@ -6,6 +6,8 @@
 //@ts-expect-error
 import DashboardSmartAlertDetailsView from 'promise-loader?global,logging!in-logging/dashboard/SmartAlerts/SmartAlertDetails';
 //@ts-expect-error
+import AlertConfigTearSheet from 'promise-loader?global,logging!in-alerting/smart-alerts/logs/tearsheet/AlertConfigTearSheet';
+//@ts-expect-error
 import SmartAlertDetailsView from 'promise-loader?global,logging!!in-alerting/smart-alerts/logs/details/AlertDetails';
 //@ts-expect-error needs TS migration
 import AnalyzeView from 'promise-loader?global,logging!in-logging/analyze/AnalyzeView/AnalyzeView';
@@ -41,10 +43,12 @@ import {
   dashboardAlertDetailsFullPath,
   dashboardRetentionConfigurationPath,
   dashboardLogVolumePath,
-  dashboardIntegrationsPath
+  dashboardIntegrationsPath,
+  logSmartAlertsFullScreen
 } from 'in-logging/navigation/paths';
 //@ts-expect-error needs TS migration
 import { renderAsyncRouteChildren } from 'in-components/routing/createAsyncComponent';
+import { logSmartAlertFullScreenDesignEnabled } from 'in-services/featureFlags';
 
 export default [
   <Route key="logsSmartAlertDetails" path={alertDetailsFullyQualifiedPath}>
@@ -82,5 +86,10 @@ export default [
   </Route>,
   <Route key="loggingDashboardWrapper" path={`${loggingDashboardPath}/:subpath?`}>
     {renderAsyncRouteChildren(LoggingDashboardWrapper)}
-  </Route>
+  </Route>,
+  logSmartAlertFullScreenDesignEnabled && (
+    <Route key="infraSmartAlert" path={logSmartAlertsFullScreen}>
+      {renderAsyncRouteChildren(AlertConfigTearSheet)}
+    </Route>
+  )
 ];
