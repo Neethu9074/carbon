@@ -9,12 +9,9 @@ import React from 'react';
 
 import { Stack } from '@instana/components';
 
-import { getFormatter, getMetricUnitPostfix } from 'in-alerting/smart-alerts/infrastructure/details/AlertConfigHelper';
-import MultiThresholdCondition from 'in-alerting/smart-alerts/components/tearSheet/Section/MultiThresholdCondition';
-import { useGetMetricLabel } from 'in-alerting/smart-alerts/infrastructure/components/InfraAlertChartWrapper';
+import ThresholdFields from 'in-alerting/smart-alerts/logs/tearsheet/components/ThresholdFields';
 import EvaluationWindow from 'in-alerting/smart-alerts/components/tearSheet/EvaluationWindow';
 import Section from 'in-alerting/smart-alerts/components/tearSheet/Section/Section';
-import { alertChannelPerSeverityInfraSaEnabled } from 'in-services/featureFlags';
 import AlertTypography from 'in-alerting/components/AlertTypography';
 import { t } from 'in-i18n';
 
@@ -27,19 +24,6 @@ export default function ThresholdSection({
   updateForm: (form: MapForm<any>) => void;
   oneMinuteGranularityAllowed: boolean;
 }) {
-  const groupBy = form.get('groupBy').value;
-
-  const ruleForm = form.get('rule');
-  const entityType = ruleForm.get('entityType').value;
-  const metricName = ruleForm.get('metricName').value;
-  const aggregation = ruleForm.get('aggregation');
-
-  const metricLabel = useGetMetricLabel(entityType, metricName, aggregation);
-
-  const formatter = getFormatter(entityType, metricName);
-  const percentageMetric = formatter === 'PERCENTAGE';
-  const metricUnitPostfix = getMetricUnitPostfix(formatter);
-
   return (
     <Stack direction="vertical" gap="gutter" align="start">
       {/* Metric name */}
@@ -53,7 +37,11 @@ export default function ThresholdSection({
         }
         titleWidth="8rem"
       >
-        <AlertTypography variant="body-bold" color="color900" content={metricLabel} />
+        <AlertTypography
+          variant="body-bold"
+          color="color900"
+          content={t('in-alerting:smartAlerts.logs.alertDetails.metricName')}
+        />
       </Section>
 
       {/* threshold type */}
@@ -76,7 +64,7 @@ export default function ThresholdSection({
           <AlertTypography
             variant="body-small"
             color="color900"
-            content={t('in-alerting:smartAlerts.infrastructure.tearSheet.thresholdDescription.static')}
+            content={t('in-alerting:smartAlerts.logs.tearSheet.thresholdDescription.static')}
           />
         </Stack>
       </Section>
@@ -92,17 +80,9 @@ export default function ThresholdSection({
         }
         titleWidth="8rem"
       >
-        <MultiThresholdCondition
-          form={form}
-          updateForm={updateForm}
-          percentageMetric={percentageMetric}
-          metricUnitPostfix={metricUnitPostfix}
-          groupBy={groupBy}
-          alertChannelPerSeverityEnabled={alertChannelPerSeverityInfraSaEnabled}
-        />
+        <ThresholdFields form={form} updateForm={updateForm} percentageMetric={false} metricUnitPostfix={''} />
       </Section>
-
-      {/* Time window */}
+      {/* Evaluation Window */}
       <EvaluationWindow form={form} updateForm={updateForm} oneMinuteGranularityAllowed={oneMinuteGranularityAllowed} />
     </Stack>
   );
