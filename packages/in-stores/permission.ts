@@ -21,6 +21,7 @@ import {
   manuallyCloseEventEnabled,
   logVolumePageEnabled,
   logRetentionPageEnabled,
+  applicationSubtracesEnabled,
   nutanixEnabled
 } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
@@ -72,6 +73,7 @@ export const Capability = Object.freeze({
   CAN_CONFIGURE_EUM_APPLICATIONS: 'CAN_CONFIGURE_EUM_APPLICATIONS',
   CAN_CONFIGURE_MOBILE_APP_MONITORING: 'CAN_CONFIGURE_MOBILE_APP_MONITORING',
   CAN_CONFIGURE_APPLICATIONS: 'CAN_CONFIGURE_APPLICATIONS',
+  CAN_CONFIGURE_SUBTRACES: 'CAN_CONFIGURE_SUBTRACES',
   CAN_CONFIGURE_SERVICE_MAPPING: 'CAN_CONFIGURE_SERVICE_MAPPING',
   CAN_INSTALL_NEW_AGENTS: 'CAN_INSTALL_NEW_AGENTS',
   CAN_CONFIGURE_AGENTS: 'CAN_CONFIGURE_AGENTS',
@@ -354,6 +356,13 @@ export const productPermissionsObject: ProductPermissionsObjectType = {
     keyForApiTokenApi: 'canConfigureServiceMapping',
     label: t('in-stores:permissionCanConfigureServiceMappingLabel'),
     category: t('in-stores:permissionCanConfigureServiceMappingCategory'),
+    isOwnerPermission: false
+  },
+  [Capability.CAN_CONFIGURE_SUBTRACES]: {
+    keyForGroupApi: Capability.CAN_CONFIGURE_SUBTRACES,
+    keyForApiTokenApi: 'canConfigureSubtraces',
+    label: t('in-stores:permissionCanConfigureSubtracesLabel'),
+    category: t('in-stores:permissionCanConfigureSubtracesCategory'),
     isOwnerPermission: false
   },
   /* Infrastructure */
@@ -759,6 +768,12 @@ export function getProductPermissions(): Array<ProductPermission> {
   if (!manuallyCloseEventEnabled) {
     permissions = permissions.filter(({ keyForGroupApi }) => {
       return keyForGroupApi !== Capability.CAN_MANUALLY_CLOSE_ISSUE;
+    });
+  }
+
+  if (!applicationSubtracesEnabled) {
+    permissions = permissions.filter(({ keyForGroupApi }) => {
+      return keyForGroupApi !== Capability.CAN_CONFIGURE_SUBTRACES;
     });
   }
 

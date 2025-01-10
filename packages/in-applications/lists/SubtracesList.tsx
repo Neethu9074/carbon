@@ -27,6 +27,7 @@ import { pageNames } from 'in-services/tracking/pageNames';
 import { TagFilterExpressionElementUnion } from 'in-types';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
+import { role } from 'in-stores/user';
 
 const pathSegment = subtracesList;
 const matrixPrefix = '';
@@ -118,7 +119,7 @@ export default function SubtracesList() {
           query={query}
           result={subtracesResult}
           columnDefinitions={columnDefinitions}
-          rightHeader={CreateSubtraceButton}
+          rightHeader={role?.canConfigureSubtraces ? CreateSubtraceButton : undefined}
         />
       </LeftRightPadding>
     </Sticky>

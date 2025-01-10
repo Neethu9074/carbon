@@ -7,6 +7,14 @@
 import { PermissionSet } from '@instana/types';
 
 import {
+  applicationSubtracesEnabled,
+  infraSmartAlertsEnabled,
+  logRetentionPageEnabled,
+  logSmartAlertsEnabled,
+  logVolumePageEnabled,
+  syntheticsEnabled
+} from 'in-services/featureFlags';
+import {
   AreaPermission,
   AreaPermissionType,
   Capability,
@@ -15,13 +23,6 @@ import {
   LimitedAccessScopeType,
   PermissionsUnion
 } from 'in-stores/permission';
-import {
-  infraSmartAlertsEnabled,
-  logRetentionPageEnabled,
-  logSmartAlertsEnabled,
-  logVolumePageEnabled,
-  syntheticsEnabled
-} from 'in-services/featureFlags';
 import { deepFreeze } from 'in-services/util/object';
 
 // The area roles (not to be confused with the normal groups) are used
@@ -135,6 +136,9 @@ const websiteCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_EUM
 const mobileAppCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_MOBILE_APP_MONITORING];
 export const bizopsCapabilities: Array<CapabilityType> = [];
 export const applicationCapabilities: Array<CapabilityType> = [Capability.CAN_CONFIGURE_APPLICATIONS];
+export const subtraceCapabilities: Array<CapabilityType> = applicationSubtracesEnabled
+  ? [Capability.CAN_CONFIGURE_SUBTRACES]
+  : [];
 
 export const applicationAlertCapabilities: Array<CapabilityType> = [
   Capability.CAN_CONFIGURE_APPLICATION_SMART_ALERTS,
@@ -143,6 +147,7 @@ export const applicationAlertCapabilities: Array<CapabilityType> = [
 export const applicationAdditionalCapabilities: Array<CapabilityType> = [
   Capability.CAN_VIEW_TRACE_DETAILS,
   Capability.CAN_CONFIGURE_SERVICE_MAPPING,
+  ...subtraceCapabilities,
   ...applicationAlertCapabilities
 ];
 

@@ -32,6 +32,7 @@ export interface Role {
   limitedBizOpsScope: boolean;
   // pre-evaluated permissions from backend
   canConfigureApplications: boolean;
+  canConfigureSubtraces: boolean;
   canConfigureServiceLevelIndicators: boolean;
   canConfigureEventsAndAlerts: boolean;
   canConfigureMaintenanceWindows: boolean;
