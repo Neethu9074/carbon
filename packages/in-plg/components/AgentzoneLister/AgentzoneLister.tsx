@@ -5,6 +5,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import classNames from 'classnames';
 
 import { Stack, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -13,7 +14,6 @@ import { TimeConfig } from '@instana/types';
 import getEntities from 'in-plg/subscriptions/getInfrastructureEntities';
 import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
 import { Option, Options } from 'in-components/ComboBox/ComboBox';
-import HelpText from 'in-components/form/HelpText/HelpText';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { Trans, t } from 'in-i18n';
@@ -126,12 +126,12 @@ const AgentzoneLister = ({ callBackFunc }: AgentzoneListerProp) => {
         }
         align="auto"
       >
-        <div className={locals.helpTextContentWrapper}>
-          <Stack direction="horizontal" gap="xxsmall" align="center">
-            <HelpText className={locals.helpText}>{t('in-plg:agentDetails.common.agentZoneOptional')}</HelpText>
-            <SvgIcon size="xs" type="lib_help_error_help_outline" color="var(--ids-color-option-neutral-600)" />
-          </Stack>
-        </div>
+        <Stack direction="horizontal" align="end">
+          <div className={classNames('cds--form__helper-text', { [locals.helpText]: true })}>
+            {t('in-plg:agentDetails.common.agentZoneOptional')}
+          </div>
+          <SvgIcon size="xs" type="lib_help_error_help_outline" color="var(--ids-color-option-neutral-600)" />
+        </Stack>
       </Tooltip>
       <CreatableComboBox
         className={locals.comboBox}
