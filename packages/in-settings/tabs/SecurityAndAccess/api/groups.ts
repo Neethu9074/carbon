@@ -169,6 +169,16 @@ export function deleteGroup(id: string) {
   }).map(mapAndRefresh);
 }
 
+export function deleteGroups(ids: string[]) {
+  return http({
+    method: 'DELETE',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: basePath,
+    data: ids
+  }).map(mapAndRefresh);
+}
+
 /**
  * Removes the given user from the given group without doing any mapping or page reloads
  * @param {string} groupId to be removed from

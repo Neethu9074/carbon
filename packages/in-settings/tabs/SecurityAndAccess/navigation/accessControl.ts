@@ -26,8 +26,10 @@ import GroupPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Gr
 import UserPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Users/User';
 import ApiTokenFormDialog from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/ApiTokens/ApiTokenFormDialog';
 import ApiTokensPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/ApiTokens/ApiTokens';
+import InvitesV2 from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/InvitesV2';
 import InvitesPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Invites/Invites';
 import UsersV2 from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Users/Users/UsersV2';
+import GroupsV2 from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/GroupsV2';
 import GroupsPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Groups/Groups';
 import UsersPage from 'in-settings/tabs/SecurityAndAccess/pages/accessControl/Users/Users';
 import AuditTrailPage from 'in-settings/tabs/SecurityAndAccess/pages/audit/AuditTrail';
@@ -57,7 +59,7 @@ export function getNavigationTreeForRole(role: Role, isAnyIDPActive: boolean) {
         accessControlPages.push({
           path: securityAndAccessAccessControlInvites,
           label: t('in-settings:tabs.pendingInvitations'),
-          component: InvitesPage
+          component: accessControlCarbonTable ? InvitesV2 : InvitesPage
         });
       }
     }
@@ -67,7 +69,7 @@ export function getNavigationTreeForRole(role: Role, isAnyIDPActive: boolean) {
         accessControlPages.push({
           path: securityAndAccessAccessControlGroups,
           label: t('in-settings:tabs.roles'),
-          component: GroupsPage,
+          component: accessControlCarbonTable ? GroupsV2 : GroupsPage,
           subPages: [
             {
               path: securityAndAccessAccessControlGroupNew,
@@ -85,7 +87,7 @@ export function getNavigationTreeForRole(role: Role, isAnyIDPActive: boolean) {
         accessControlPages.push({
           path: securityAndAccessAccessControlGroups,
           label: t('in-settings:tabs.groups'),
-          component: GroupsPage,
+          component: accessControlCarbonTable ? GroupsV2 : GroupsPage,
           subPages: [
             {
               path: securityAndAccessAccessControlGroupNew,

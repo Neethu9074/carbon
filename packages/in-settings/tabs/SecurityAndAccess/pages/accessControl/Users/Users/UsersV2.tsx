@@ -145,7 +145,7 @@ export default function UsersV2() {
     return [
       {
         actionType: 'delete',
-        icon: TrashCan,
+        icon: <TrashCan />,
         label: t('in-settings:components.deleteEntity', { entity: fullName })
       }
     ];
