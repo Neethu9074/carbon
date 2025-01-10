@@ -16,6 +16,7 @@ import useAlertConfigValidation from 'in-alerting/smart-alerts/logs/hooks/useAle
 import AlertingFullScreenTearSheet from 'in-alerting/components/AlertingFullScreenTearSheet';
 import { getQueryBuilder } from 'in-alerting/smart-alerts/logs/components/AlertQueryBuilder';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { productAreas } from 'in-services/tracking/productAreas';
 import useTagCatalog from 'in-logging/hooks/useTagCatalog';
 import { t } from 'in-i18n';
 
@@ -69,6 +70,7 @@ export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTear
       setTagFilterValid={setTagFilterValid}
       handleFormSubmit={() => handleFormSubmit(onCreate)}
       actionButtonLabel={getButtonLabel(editMode)}
+      productArea={productAreas.logging}
     />
   );
 }
