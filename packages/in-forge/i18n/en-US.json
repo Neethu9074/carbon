@@ -12972,7 +12972,8 @@
         "scheduler": "Scheduler",
         "executor": "Executor",
         "agenthttp": "Agent-http",
-        "agentsocket": "Agent-socket"
+        "agentsocket": "Agent-socket",
+        "updateConfig": "Update Configuration"
       },
       "disabled": "Disabled",
       "infrastructure": "Infrastructure",

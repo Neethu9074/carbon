@@ -20,7 +20,7 @@ import {
   time,
   siPrefix
 } from 'in-services/formatters/number';
-import ConfigurationManagementDialog from 'in-forge/plugins/instanaAgent/Dashboard/ConfigurationManagementDialog';
+import ConfigurationManagementButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/ConfigurationManagementButtonSection';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ManagementButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/ManagementButtonSection';
 import ConfigurationManagement from 'in-forge/plugins/instanaAgent/Dashboard/ConfigurationManagement';
@@ -31,7 +31,6 @@ import AgentLogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/AgentLogSt
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import SpanMetrics from 'in-forge/plugins/instanaAgent/Dashboard/SpanMetrics';
-import ImageButton from 'in-forge/plugins/instanaAgent/Dashboard/ImageButton';
 import BundleList from 'in-forge/plugins/instanaAgent/Dashboard/BundleList';
 import LogMetrics from 'in-forge/plugins/instanaAgent/Dashboard/LogMetrics';
 import SensorList from 'in-forge/plugins/instanaAgent/Dashboard/SensorList';
@@ -39,7 +38,6 @@ import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import IssueList from 'in-forge/plugins/instanaAgent/Dashboard/IssueList';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
-import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { supportsOpenFiles } from 'in-forge/plugins/host/hostUtils';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -70,21 +68,8 @@ export default connectTo(
           <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.info')}>
             <InfoButtonSection snapshot={snapshot} />
           </DashboardSection>
-          <DashboardSection
-            title={t('in-forge:plugins.instanaAgent.dashboard.configurationManagement')}
-            button={
-              role.canConfigureAgents && snapshot.getIn(['data', 'git', 'present']) ? (
-                <ImageButton
-                  iconType="lib_actions_edit"
-                  onClick={() => addActiveDialog(<ConfigurationManagementDialog snapshot={snapshot} />)}
-                >
-                  {snapshot.getIn(['data', 'git', 'initialized'])
-                    ? t('in-forge:plugins.instanaAgent.dashboard.buttonUpdate')
-                    : t('in-forge:plugins.instanaAgent.dashboard.buttonInitialize')}
-                </ImageButton>
-              ) : null
-            }
-          >
+          <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.configurationManagement')}>
+            <ConfigurationManagementButtonSection snapshot={snapshot} />
             <ConfigurationManagement snapshot={snapshot} />
           </DashboardSection>
         </Columize>

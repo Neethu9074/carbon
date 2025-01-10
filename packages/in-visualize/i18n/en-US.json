@@ -1,0 +1,24 @@
+{
+  "general": {
+    "addButtonLabel": "Add",
+    "availability": "Availability",
+    "clear": "Clear",
+    "custom": "Custom",
+    "duration": "Duration",
+    "from": "From",
+    "saveButtonLabel": "Save",
+    "cancelButtonLabel": "Cancel",
+    "editButtonLabel": "Edit",
+    "copyButtonLabel": "Copy",
+    "deleteButtonLabel": "Delete",
+    "deleteDialog": {
+      "pleaseConfirm": "Please Confirm",
+      "pleaseConfirmMsg": "Are you sure you want to delete <strong>{{name}}</strong>?",
+      "delete": "Delete"
+    }
+  },
+  "visualize": {
+    "title" : "Visualize"
+  }
+
+}
