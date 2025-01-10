@@ -52,7 +52,7 @@ export default function EvaluationWindow({
       }
       titleWidth="8rem"
     >
-      <div style={{ width: '100%' }}>
+      <div>
         <DebouncedRestrictedSlider
           marks={marks}
           max={marks[marks.length - 1].value}

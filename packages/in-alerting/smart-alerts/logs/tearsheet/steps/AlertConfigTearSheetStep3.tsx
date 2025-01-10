@@ -9,19 +9,18 @@ import React from 'react';
 
 import { Spacer } from '@instana/components';
 
-import { MultiThresholdAlertPreview } from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/MultiThresholdAlertPreview';
+import {
+  AlertPreview,
+  AlertPreviewHeadline
+} from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPreview';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertPropertiesContainer';
 import AlertPropertiesTitleRow from 'in-alerting/smart-alerts/components/tearSheet/AlertProperties/AlertPropertiesTitleRow';
-import useTagBasedPayloadConfigurator from 'in-alerting/smart-alerts/infrastructure/hooks/useTagBasedPayloadConfigurator';
-import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/infrastructure/form/formUtils';
 import AlertProperties from 'in-alerting/smart-alerts/components/dialog/advanced/AlertProperties/AlertProperties';
+import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
 import GlobalCustomPayloadCard from 'in-alerting/smart-alerts/components/details/GlobalCustomPayloadCard';
-import { getAllowedPlaceholders } from 'in-alerting/smart-alerts/infrastructure/data/titlePlaceholders';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import TearSheetStepTitleWrapper from 'in-alerting/components/TearSheetStepTitleWrapper';
 import AlertTypography from 'in-alerting/components/AlertTypography';
-import { toBackendGroupBy } from 'in-infrastructure/Explore/utils';
-import { InfraAlertRuleUnion } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './AlertConfigTearSheetStep3.mless';
@@ -35,18 +34,9 @@ export default function AlertConfigTearSheetStep3({
   updateForm: (form: MapForm<any>) => void;
   onChange: (path: string[], updater: (item: Item) => Item) => void;
 }) {
-  const groupBy = form.get('groupBy').value;
-  const placeholders = getAllowedPlaceholders({ groupBy: toBackendGroupBy(groupBy) });
-
-  const alertConfigWithFormModel = form.toJS();
-  const { rule } = alertConfigWithFormModel;
-  const { metricName, entityType, regex } = rule as InfraAlertRuleUnion;
-
-  const TagBasedPayloadConfigurator = useTagBasedPayloadConfigurator({ metricName, entityType, regex });
-
   return (
     <>
-      <TearSheetStepTitleWrapper headline={t('in-alerting:smartAlerts.infrastructure.tearSheet.step3.header')}>
+      <TearSheetStepTitleWrapper headline={t('in-alerting:smartAlerts.logs.tearSheet.step3.header')}>
         <AlertPropertiesContainer
           renderAlertProperties={() => (
             <AlertProperties
@@ -54,18 +44,9 @@ export default function AlertConfigTearSheetStep3({
               onChange={onChange}
               getDescriptionPlaceholder={getDescriptionPlaceholder}
               renderAlertPropertiesTitleRow={() => (
-                <AlertPropertiesTitleRow
-                  form={form}
-                  onChange={onChange}
-                  placeholders={placeholders}
-                  placeholderTooltipContent={t(
-                    'in-alerting:smartAlerts.components.smartAlertDialog.groupingPlaceholdersMissingTooltip'
-                  )}
-                  getTitlePlaceholder={getTitlePlaceholder}
-                  showDisabledPlaceholder
-                />
+                <AlertPropertiesTitleRow form={form} onChange={onChange} getTitlePlaceholder={getTitlePlaceholder} />
               )}
-              shouldDisplayAlertLevelSelection={false}
+              shouldDisplayAlertLevelSelection
               isTearSheet
             />
           )}
@@ -75,7 +56,13 @@ export default function AlertConfigTearSheetStep3({
                 variant="heading-200"
                 content={t('in-alerting:smartAlerts.applications.tearSheet.alertProperties.previewTitle')}
               />
-              <MultiThresholdAlertPreview form={form} getDescriptionPlaceholder={getDescriptionPlaceholder} />
+              <AlertPreview
+                form={form}
+                renderHeadline={() => <AlertPreviewHeadline title={form.get('name').value || getTitlePlaceholder()} />}
+                getDescriptionPlaceholder={getDescriptionPlaceholder}
+                entityLabel={t('in-alerting:smartAlerts.logs.advancedModeContainer.properties.preview.subtitle')}
+                entityIconType="lib_application_logging"
+              />
             </div>
           )}
           isTearSheet
@@ -91,14 +78,8 @@ export default function AlertConfigTearSheetStep3({
         />
         <div className={locals.columnContainer}>
           <Spacer size="xxsmall" />
-          <GlobalCustomPayloadCard context="INFRA" isTearSheetView />
-          <AlertConfigCustomPayload
-            form={form}
-            setForm={updateForm}
-            TagBasedPayloadConfigurator={TagBasedPayloadConfigurator}
-            supportDynamicTypes
-            isTearSheet
-          />
+          <GlobalCustomPayloadCard context="LOG" isTearSheetView />
+          <AlertConfigCustomPayload form={form} setForm={updateForm} supportDynamicTypes={false} isTearSheet />
         </div>
       </>
     </>
