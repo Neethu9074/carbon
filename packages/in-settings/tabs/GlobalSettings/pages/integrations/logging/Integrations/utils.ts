@@ -7,14 +7,14 @@
 import {
   globalSettingsIntegrationsLoggingCoralogix,
   globalSettingsIntegrationsLoggingElk,
-  globalSettingsIntegrationsLoggingHumio,
+  globalSettingsIntegrationsLoggingFalconLogScale,
   globalSettingsIntegrationsLoggingMezmo,
   globalSettingsIntegrationsLoggingSplunk
 } from 'in-settings/navigation/paths';
+import { integrationKey as falconLogScale } from 'in-integrations/logging/falconLogScale/consts';
 import { integrationKey as coralogix } from 'in-integrations/logging/coralogix/consts';
 import { integrationKey as splunk } from 'in-integrations/logging/splunk/consts';
 import { integrationKey as mezmo } from 'in-integrations/logging/mezmo/consts';
-import { integrationKey as humio } from 'in-integrations/logging/humio/consts';
 import { integrationKey as elk } from 'in-integrations/logging/elk/consts';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { t } from 'in-i18n';
@@ -32,9 +32,9 @@ export function getIntegrationsSubPages() {
       label: t('in-settings:tabs.elk')
     },
     {
-      path: globalSettingsIntegrationsLoggingHumio,
-      type: humio,
-      label: t('in-settings:tabs.humio')
+      path: globalSettingsIntegrationsLoggingFalconLogScale,
+      type: falconLogScale,
+      label: t('in-settings:tabs.falconLogScale')
     },
     {
       path: globalSettingsIntegrationsLoggingMezmo,

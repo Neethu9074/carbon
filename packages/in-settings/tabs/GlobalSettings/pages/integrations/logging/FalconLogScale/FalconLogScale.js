@@ -12,11 +12,11 @@ import { Typography } from '@instana/components';
 import { createLogger } from '@instana/logger';
 
 import IntegrationsBreadcumb from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/Integrations/IntegrationsBreadcrumb';
+import FalconLogScaleForm from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/FalconLogScale/FalconLogScaleForm';
 import { callToastFlyout } from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/Integrations/utils';
-import HumioForm from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/Humio/HumioForm';
-import { globalSettingsIntegrationsLoggingHumio } from 'in-settings/navigation/paths';
+import { globalSettingsIntegrationsLoggingFalconLogScale } from 'in-settings/navigation/paths';
+import { integrationKey } from 'in-integrations/logging/falconLogScale/consts';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
-import { integrationKey } from 'in-integrations/logging/humio/consts';
 import { refresh } from 'in-integrations/logging/configurationsStore';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -27,13 +27,14 @@ import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
-import locals from './HumioForm.mless';
+import locals from './FalconLogScaleForm.mless';
 
 const block = 'in-ui-config';
 
+//This should be renamed to Falcon LogScale
 const logger = createLogger('humioConfig');
 
-const Humio = () => {
+const FalconLogScale = () => {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState(t('in-settings:tabs.loading'));
   const [form, setForm] = useState(null);
@@ -71,7 +72,7 @@ const Humio = () => {
 
     errorSubscriptionRef.current = result$.errors().once(() => {
       setLoading(false);
-      setMessage(t('in-settings:tabs.failedToLoadHumioConfiguration'));
+      setMessage(t('in-settings:tabs.failedToLoadFalconLogScaleConfiguration'));
     });
   }, [disposeAsyncAction]);
 
@@ -93,12 +94,12 @@ const Humio = () => {
         <section>
           <Typography variant="heading-200">{t('in-settings:tabs.integrations.toastSuccessTitle')}</Typography>
           <Typography variant="body-regular">
-            {t('in-settings:tabs.integrations.toastSuccessMessage', { integrationType: 'Humio' })}
+            {t('in-settings:tabs.integrations.toastSuccessMessage', { integrationType: 'Falcon LogScale' })}
           </Typography>
         </section>
       );
       callToastFlyout('success', content);
-      goToPath(globalSettingsIntegrationsLoggingHumio);
+      goToPath(globalSettingsIntegrationsLoggingFalconLogScale);
     });
 
     errorSubscriptionRef.current = result$.errors().once(error => {
@@ -150,17 +151,25 @@ const Humio = () => {
 
   return (
     <section className={locals.page}>
-      <Title title={t('in-settings:tabs.configureHumio')} />
+      <Title title={t('in-settings:tabs.configureFalconLogScale')} />
       <IntegrationsBreadcumb />
-      <SubViewHeader>{t('in-settings:tabs.configureYourHumioSettings')}</SubViewHeader>
+      <SubViewHeader>{t('in-settings:tabs.configureYourFalconLogScaleSettings')}</SubViewHeader>
       {form && (
         <form onSubmit={onSubmit}>
           <div style={{ marginBottom: '1rem' }}>
-            <Heading text={t('in-settings:tabs.showHumioLinkOnHostsContainersAndPods')} htmlFor="humio-enabled" />
+            <Heading
+              text={t('in-settings:tabs.showFalconLogScaleLinkOnHostsContainersAndPods')}
+              htmlFor="falconLogScale-enabled"
+            />
           </div>
           <SectionLine />
 
-          <HumioForm form={form} onChange={onChange} areFieldsBlank={areFieldsBlank(form)} disabled={!enabled} />
+          <FalconLogScaleForm
+            form={form}
+            onChange={onChange}
+            areFieldsBlank={areFieldsBlank(form)}
+            disabled={!enabled}
+          />
 
           <SaveCancel
             form={form}
@@ -176,7 +185,7 @@ const Humio = () => {
   );
 };
 
-export default Humio;
+export default FalconLogScale;
 
 function createForm(integration) {
   return createMapForm()

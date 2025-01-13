@@ -15,7 +15,7 @@ import Input from 'in-components/form/Input';
 import { t, Trans } from 'in-i18n';
 
 // TODO: use Coralogix css
-import locals from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/Humio/HumioForm.mless';
+import locals from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/FalconLogScale/FalconLogScaleForm.mless';
 
 export default function CoralogixForm({ form, onChange, disabled, areFieldsBlank }) {
   const coralogixUrl = form.get('url').value + '/#/dashboard';

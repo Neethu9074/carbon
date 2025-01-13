@@ -11,8 +11,8 @@ import { formatDurationAccurately } from 'in-services/formatters/date';
 import { toParams } from 'in-stores/navigation/routing/stringifier';
 import { isBlank } from 'in-services/util/string';
 
-export default function HumioButton(props) {
-  const { humioIntegration: integration } = props;
+export default function FalconLogScaleButton(props) {
+  const { falconLogScaleIntegration: integration } = props;
 
   if (!shouldShowButton(props) || !integration || !integration.enabled) {
     return null;
@@ -23,13 +23,13 @@ export default function HumioButton(props) {
       renderIcon={() => {
         return <SvgIcon type="lib_humio" />;
       }}
-      label="Humio"
-      onClick={() => window.open(constructHumioLink(integration, props), '_blank')}
+      label="Falcon Log Scale"
+      onClick={() => window.open(constructFalconLogScaleLink(integration, props), '_blank')}
     />
   );
 }
 
-function constructHumioLink(integration, props) {
+function constructFalconLogScaleLink(integration, props) {
   const { timeConfig } = props;
   const queryParameters = {
     query: serializeQuery(props)
