@@ -7,8 +7,6 @@ import React, { useState } from 'react';
 
 import { ThemeProvider, getThemeOverride, setThemeOverride } from '@instana/components';
 
-import '@instana/ibm-products/esm/index.css';
-
 import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/FloatingActionButtonPresenter';
 import SessionTimeoutContainer from 'in-components/SessionTimeoutDialog/SessionTimeoutContainer';
 import DeprecatedCustomEventsPopUp from 'in-events/components/DeprecatedCustomEventsPopUp';

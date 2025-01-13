@@ -1663,7 +1663,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.24.5, @babel/runtime@npm:^7.24.7":
+"@babel/runtime@npm:^7.24.5, @babel/runtime@npm:^7.24.7":
   version: 7.26.0
   resolution: "@babel/runtime@npm:7.26.0"
   dependencies:
@@ -1889,15 +1889,15 @@ __metadata:
   linkType: hard
 
 "@carbon/icons-react@npm:11.45.0":
-  version: 11.45.0
-  resolution: "@carbon/icons-react@npm:11.45.0"
+  version: 11.49.0
+  resolution: "@carbon/icons-react@npm:11.49.0"
   dependencies:
-    "@carbon/icon-helpers": ^10.49.0
+    "@carbon/icon-helpers": ^10.54.0
     "@ibm/telemetry-js": ^1.5.0
     prop-types: ^15.7.2
   peerDependencies:
     react: ">=16"
-  checksum: 9e2649e9145b9c4e8ace91d4a3c5e7b6e0c9566cdc228cb7191127f36b8810af6f14a4c8fa891132c019df8cab9e7e13e9b91524a392cf331b2a11eb2dfd3001
+  checksum: 30c6df61cdd2be65bcd40784dd78362e9c9814a145f6f2c81b64027647bbaf56b806304d667e7ac866caa0d459b2f7b4522cad02cc0b2a5a99ef45cab5270796
   languageName: node
   linkType: hard
 
@@ -4372,17 +4372,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/d3-format@npm:*":
+"@types/d3-format@npm:*, @types/d3-format@npm:^1.4.2":
   version: 3.0.4
   resolution: "@types/d3-format@npm:3.0.4"
   checksum: e69421cd93861a0c080084b0b23d4a5d6a427497559e46898189002fb756dae2c7c858b465308f6bcede7272b90e39ce8adab810bded2309035a5d9556c59134
-  languageName: node
-  linkType: hard
-
-"@types/d3-format@npm:^1.4.2":
-  version: 1.4.5
-  resolution: "@types/d3-format@npm:1.4.5"
-  checksum: f284da718785080cc3ee598c3585285c04585e4dc57631aca1051bda43bd6348e8256399b5f8a4f3af99809acedde3a74cd41aebdd4ce4c714f7cc554552e29b
   languageName: node
   linkType: hard
 
@@ -7835,10 +7828,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"classnames@npm:2.5.1, classnames@npm:2.x, classnames@npm:^2.2.6, classnames@npm:^2.3.1, classnames@npm:^2.5.1":
+"classnames@npm:2.5.1, classnames@npm:^2.5.1":
   version: 2.5.1
   resolution: "classnames@npm:2.5.1"
   checksum: da424a8a6f3a96a2e87d01a432ba19315503294ac7e025f9fece656db6b6a0f7b5003bb1fbb51cbb0d9624d964f1b9bb35a51c73af9b2434c7b292c42231c1e5
+  languageName: node
+  linkType: hard
+
+"classnames@npm:2.x, classnames@npm:^2.3.1":
+  version: 2.3.1
+  resolution: "classnames@npm:2.3.1"
+  checksum: 14db8889d56c267a591f08b0834989fe542d47fac659af5a539e110cc4266694e8de86e4e3bbd271157dbd831361310a8293e0167141e80b0f03a0f175c80960
+  languageName: node
+  linkType: hard
+
+"classnames@npm:^2.2.6":
+  version: 2.3.2
+  resolution: "classnames@npm:2.3.2"
+  checksum: 2c62199789618d95545c872787137262e741f9db13328e216b093eea91c85ef2bfb152c1f9e63027204e2559a006a92eb74147d46c800a9f96297ae1d9f96f4e
   languageName: node
   linkType: hard
 
@@ -8930,17 +8937,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"d3-dispatch@npm:1 - 3, d3-dispatch@npm:3":
+"d3-dispatch@npm:1 - 3, d3-dispatch@npm:3, d3-dispatch@npm:^1.0.3":
   version: 3.0.1
   resolution: "d3-dispatch@npm:3.0.1"
   checksum: fdfd4a230f46463e28e5b22a45dd76d03be9345b605e1b5dc7d18bd7ebf504e6c00ae123fd6d03e23d9e2711e01f0e14ea89cd0632545b9f0c00b924ba4be223
-  languageName: node
-  linkType: hard
-
-"d3-dispatch@npm:^1.0.3":
-  version: 1.0.6
-  resolution: "d3-dispatch@npm:1.0.6"
-  checksum: b4ecb016b6dda8b99aa4263b2d0a0c7b12e7dea93e4b0ce3013c94dca4d360d9ba00f5bdc15dc944cc4543af8e341067bd628f061f7b8deb642257e2ac90d06c
   languageName: node
   linkType: hard
 
@@ -9233,11 +9233,11 @@ __metadata:
   linkType: hard
 
 "date-fns-tz@npm:^1.2.2":
-  version: 1.3.8
-  resolution: "date-fns-tz@npm:1.3.8"
+  version: 1.2.2
+  resolution: "date-fns-tz@npm:1.2.2"
   peerDependencies:
     date-fns: ">=2.0.0"
-  checksum: dbf17cb88de7c7b71a9f86b815ac62ebdbf725c030e78d2421309456b5001a85284a5b6763f4af0ba660183f12e876c165e725a0723f642edb7846407db03133
+  checksum: 90c5145499570736cd004cfb13f8a9bbc9de514ceb92224ccd6fd2e0d88e0d55ab1d4e279500653d2df7cca0002c88a1ce0768c8531cbf6063cce91a1e4e78d4
   languageName: node
   linkType: hard
 
@@ -9258,11 +9258,9 @@ __metadata:
   linkType: hard
 
 "date-fns@npm:^2.28.0":
-  version: 2.30.0
-  resolution: "date-fns@npm:2.30.0"
-  dependencies:
-    "@babel/runtime": ^7.21.0
-  checksum: f7be01523282e9bb06c0cd2693d34f245247a29098527d4420628966a2d9aad154bd0e90a6b1cf66d37adcb769cd108cf8a7bd49d76db0fb119af5cdd13644f4
+  version: 2.28.0
+  resolution: "date-fns@npm:2.28.0"
+  checksum: a0516b2e4f99b8bffc6cc5193349f185f195398385bdcaf07f17c2c4a24473c99d933eb0018be4142a86a6d46cb0b06be6440ad874f15e795acbedd6fd727a1f
   languageName: node
   linkType: hard
 
