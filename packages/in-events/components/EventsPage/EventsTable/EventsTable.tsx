@@ -4,6 +4,9 @@
  * Copyright IBM Corp. 2024
  */
 
+import React, { useMemo, useEffect, useRef } from 'react';
+import { isEmpty } from 'lodash';
+
 import {
   Datagrid,
   useDatagrid,
@@ -11,10 +14,7 @@ import {
   useInfiniteScroll,
   useOnRowClick,
   useSortableColumns
-} from '@carbon/ibm-products';
-import React, { useMemo, useEffect, useRef } from 'react';
-import { isEmpty } from 'lodash';
-
+} from '@instana/ibm-products';
 import { DateFormatterInput, formatDateTime } from '@instana/format-date';
 import { RawEvent } from '@instana/types';
 
