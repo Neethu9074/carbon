@@ -9,7 +9,7 @@ import { Field, MapForm, MapPath } from 'formalistic';
 import {
   Application,
   Endpoint,
-  GetSubtracesResponseItem,
+  SubtraceItem,
   Result,
   ServiceLabel,
   SubtracesMetricConfiguration,
@@ -119,7 +119,7 @@ export type SubtraceMetrics = {
   duration: SubtracesMetricConfiguration;
 };
 
-export type SubtraceListItem = Required<Omit<GetSubtracesResponseItem, 'metrics'>> & {
+export type SubtraceListItem = Required<Omit<SubtraceItem, 'metrics'>> & {
   subtraceCount?: number;
   calls?: number;
   errorRate?: number;

@@ -4,17 +4,17 @@
  * Copyright IBM Corp. 2025
  */
 
-import { Observable } from '@instana/observables';
-
 import {
   GetSubtracesQuery,
   GetSubtracesQueryFilter,
-  GetSubtracesResponseItem,
+  SubtraceItem,
   Order,
   PaginatedResult,
   Pagination,
   Result
-} from 'in-types';
+} from '@instana/types';
+import { Observable } from '@instana/observables';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { SubtraceMetrics } from 'in-applications/types';
 
@@ -24,18 +24,16 @@ interface GetSubtracesWithDefaultsProps {
   pagination: Pagination;
 }
 
-export const getSubtraces: (
-  parameter: GetSubtracesQuery
-) => Observable<Result<PaginatedResult<GetSubtracesResponseItem>>> = createResultSubscriptionFactory<
-  GetSubtracesQuery,
-  Result<PaginatedResult<GetSubtracesResponseItem>>
->({ eventId: 'getSubtraces' });
+export const getSubtraces: (parameter: GetSubtracesQuery) => Observable<Result<PaginatedResult<SubtraceItem>>> =
+  createResultSubscriptionFactory<GetSubtracesQuery, Result<PaginatedResult<SubtraceItem>>>({
+    eventId: 'getSubtraces'
+  });
 
 export const getSubtracesWithDefaults = ({
   filter,
   order = { by: 'subtraceName', direction: 'ASC' },
   pagination = { pageSize: 10, page: 1 }
-}: GetSubtracesWithDefaultsProps): Observable<Result<PaginatedResult<GetSubtracesResponseItem>>> => {
+}: GetSubtracesWithDefaultsProps): Observable<Result<PaginatedResult<SubtraceItem>>> => {
   return getSubtraces({
     filter,
     metrics: {

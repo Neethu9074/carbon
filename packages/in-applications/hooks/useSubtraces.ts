@@ -7,8 +7,8 @@
 import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 
-import { GetSubtracesResponseItem, Order, PaginatedResult, Pagination, Result } from 'in-types';
 import { getSubtracesWithDefaults } from 'in-applications/subscriptions/getSubtraces';
+import { SubtraceItem, Order, PaginatedResult, Pagination, Result } from '@instana/types';
 import { getValueFromSingleValueMetric } from 'in-applications/metrics';
 import { error, hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -36,7 +36,7 @@ export const useSubtraces = ({ order, pagination, query = '' }: Props): Result<P
         generateStableHash(pagination),
         generateStableHash(query)
       ]
-    ) ?? (pendingResult as Result<PaginatedResult<GetSubtracesResponseItem>>);
+    ) ?? (pendingResult as Result<PaginatedResult<SubtraceItem>>);
 
   if (isLoading(result)) return pendingResult as Result<PaginatedResult<SubtraceListItem>>;
   if (hasError(result)) return error<PaginatedResult<SubtraceListItem>>(result.errors);
