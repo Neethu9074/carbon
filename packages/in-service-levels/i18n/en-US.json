@@ -246,7 +246,12 @@
       "configuredTimeWindow": "Configured SLO Time Window:",
       "configuredTimeWindowDetails": "{{duration}} {{durationUnit}} {{type}} ",
       "startTime": "Start Time: {{startDay}} , {{startTime}}",
-      "matchedSLOTimeWindow": "Matching SLO Time Windows: ",
+      "matchedSLOTimeWindow": "Matching SLO Time Window: ",
+      "matchedSLOTimeWindow_plural": "Matching SLO Time Windows: ",
+      "matchedSLOTimeWindow_0": "Matching SLO Time Window: ",
+      "matchedSLOTimeWindow_1": "Matching SLO Time Window: ",
+      "matchedSLOTimeWindow_2": "Matching SLO Time Windows: ",
+      "noMatchedSLOTimeWindow": "No matching time window found",
       "startAndEndTimeWindow": "{{firstDate}} - {{endDate}}"
     },
     "missingData": {
