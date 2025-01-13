@@ -72,6 +72,9 @@ export default function ParameterDialog({
   const type = parameterForm.get('type') as Field<string>;
   const parameterName = parameterForm.get('name') as Field<string>;
   const disableTicketIdParameter = isGitOrJira && parameterName.value === 'id';
+  // IMPORTANT: Ansible actions are a special case where we want to allow the parameters to be editable EXCEPT for the name so we override isNotEditable so that everything is editable except for the name where we will disable the input using isAnsible flag
+  isNotEditable = isNotEditable && !isAnsible;
+
   const sectionProps = {
     parameterForm,
     setParameterForm,
@@ -101,10 +104,10 @@ export default function ParameterDialog({
             isAnsible={isAnsible}
             disableTicketIdParameter={disableTicketIdParameter}
           />
-          {type.value === 'static' && <StaticSection {...sectionProps} />}
+          {type.value === 'static' && <StaticSection {...sectionProps} isAnsible={isAnsible} />}
           {type.value === 'vault' && <VaultSection {...sectionProps} />}
           {type.value === 'dynamic' && <DynamicSection {...sectionProps} />}
-          {type.value !== 'dynamic' && <HiddenSection {...sectionProps} />}
+          {type.value !== 'dynamic' && <HiddenSection {...sectionProps} isAnsible={isAnsible} />}
           <SaveCancel
             hasSaveButton={!isNotEditable && role?.canConfigureAutomationActions}
             form={parameterForm}
@@ -137,6 +140,7 @@ function MetaDataSection({
   const type = parameterForm.get('type') as Field<string>;
   const required = parameterForm.get('required') as Field<boolean>;
   const hidden = parameterForm.get('hidden') as Field<boolean>;
+  isNotEditable = (isNotEditable && !isAnsible) || !role?.canConfigureAutomationActions;
 
   return (
     <>
@@ -163,7 +167,7 @@ function MetaDataSection({
           id="parameter-name"
           type="text"
           // IMPORTANT: isNotEditable has been overridden for Ansible actions so we need to check isAnsible here to disable the input
-          disabled={isNotEditable || isAnsible || disableTicketIdParameter || !role?.canConfigureAutomationActions}
+          disabled={isNotEditable || isAnsible || disableTicketIdParameter}
           value={name.value}
           onChange={e => onParameterChange({ fieldName: 'name', value: e.target.value, setParameterForm, parameter })}
           hasError={!name.valid && name.touched}
@@ -258,9 +262,16 @@ function MetaDataSection({
   );
 }
 
-function HiddenSection({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) {
+function HiddenSection({
+  parameter,
+  parameterForm,
+  setParameterForm,
+  isNotEditable,
+  isAnsible
+}: SectionProps & { isAnsible: boolean }) {
   const hidden = parameterForm.get('hidden') as Field<boolean>;
   const type = parameterForm.get('type') as Field<string>;
+  isNotEditable = (isNotEditable && !isAnsible) || !role?.canConfigureAutomationActions;
 
   return (
     <FormGroup>
@@ -300,10 +311,16 @@ function HiddenSection({ parameter, parameterForm, setParameterForm, isNotEditab
   );
 }
 
-function StaticSection({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) {
+function StaticSection({
+  parameter,
+  parameterForm,
+  setParameterForm,
+  isNotEditable,
+  isAnsible
+}: SectionProps & { isAnsible: boolean }) {
   const hidden = parameterForm.get('hidden') as Field<boolean>;
   const value = parameterForm.get('value') as Field<string>;
-
+  isNotEditable = (isNotEditable && !isAnsible) || !role?.canConfigureAutomationActions;
   return (
     <>
       <FormGroup>
