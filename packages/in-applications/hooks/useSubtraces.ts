@@ -4,26 +4,52 @@
  * Copyright IBM Corp. 2024
  */
 
+import { generateStableHash } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
 
-import { error, hasError, isLoading, listSuccess } from 'in-services/util/result';
-import { Subtrace } from 'in-applications/lists/SubtracesList';
-import { getSubtraces } from 'in-applications/api/subtraces';
+import { GetSubtracesResponseItem, Order, PaginatedResult, Pagination, Result } from 'in-types';
+import { getSubtracesWithDefaults } from 'in-applications/subscriptions/getSubtraces';
+import { getValueFromSingleValueMetric } from 'in-applications/metrics';
+import { error, hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
-import { PaginatedResult, Result } from 'in-types';
+import { SubtraceListItem } from 'in-applications/types';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 
-export const useSubtraces = (page: number, pageSize: number) => {
-  const result = useObservable(getSubtraces, []) ?? pendingResult;
-
-  if (isLoading(result)) return pendingResult as Result<PaginatedResult<Subtrace>>;
-  if (hasError(result)) return error<PaginatedResult<Subtrace>>(result.errors);
-
-  const subtraces = paginateResult(result.data!, page, pageSize);
-
-  return subtraces;
+type Props = {
+  order: Order;
+  pagination: Pagination;
+  query: string;
 };
 
-function paginateResult(data: Subtrace[], page: number, pageSize: number) {
-  const resultPage = data.slice((page - 1) * pageSize, page * pageSize);
-  return listSuccess(resultPage, resultPage.length, pageSize, page);
-}
+export const useSubtraces = ({ order, pagination, query = '' }: Props): Result<PaginatedResult<SubtraceListItem>> => {
+  const timeConfig = useTimeConfig();
+  const result =
+    useObservable(
+      getSubtracesWithDefaults({
+        filter: { timeConfig, subtraceName: query },
+        order,
+        pagination
+      }),
+      [
+        generateStableHash(timeConfig),
+        generateStableHash(order),
+        generateStableHash(pagination),
+        generateStableHash(query)
+      ]
+    ) ?? (pendingResult as Result<PaginatedResult<GetSubtracesResponseItem>>);
+
+  if (isLoading(result)) return pendingResult as Result<PaginatedResult<SubtraceListItem>>;
+  if (hasError(result)) return error<PaginatedResult<SubtraceListItem>>(result.errors);
+
+  const subtraceListItems: SubtraceListItem[] =
+    result.data?.items.map(item => ({
+      subtraceConfigId: item.subtraceConfigId!,
+      subtraceName: item.subtraceName!,
+      subtraceCount: getValueFromSingleValueMetric(item.metrics?.subtraceCount),
+      calls: getValueFromSingleValueMetric(item.metrics?.calls),
+      errorRate: getValueFromSingleValueMetric(item.metrics?.errorRate),
+      duration: getValueFromSingleValueMetric(item.metrics?.duration)
+    })) ?? [];
+
+  return { ...result, data: { ...result.data!, items: subtraceListItems } };
+};

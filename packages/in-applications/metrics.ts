@@ -8,7 +8,7 @@ import { assign, merge } from 'lodash';
 import { WIGGLE_ROOM, ANIMATION_DURATION } from 'in-components/Chart/Configuration';
 import { MetricsConfiguration } from 'in-components/Chart/types';
 import { getChartGranularity } from 'in-stores/metric/metric';
-import { Mutable, TimeConfig } from 'in-types';
+import { Mutable, Nullish, TimeConfig } from 'in-types';
 
 const EXTEND_TIME_WINDOW_CUTOFF = 24 * 3600 * 1000;
 
@@ -71,4 +71,12 @@ export function extendWindowSizeOnLiveMode(timeConfig: TimeConfig, disableLiveMo
   }
 
   return modifiedTimeConfig;
+}
+
+export function getValueFromSingleValueMetric(metric: number[][] | undefined) {
+  return metric?.[0]?.[1];
+}
+
+export function formatMetricIfPresent(value: number | Nullish, formatter: (val: number) => string): string {
+  return value != null ? formatter(value) : '-';
 }
