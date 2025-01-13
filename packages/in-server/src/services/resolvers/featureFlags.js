@@ -221,6 +221,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'deleteLogsV3Enabled',
+    instanaCtlKey: 'feature.delete.logs.v3.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'logWidgetsEnabled',
     instanaCtlKey: 'feature.log.widgets.enabled',
     defaultValue: false

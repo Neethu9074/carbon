@@ -5,6 +5,7 @@
  */
 
 import { LogGroupItem, TagFilter, TagFilterExpression } from '@instana/types';
+import { DateFormatterOutput } from '@instana/format-date/types/types';
 
 import { logLevelColors } from 'in-logging/analyze/AnalyzeView/components/Charts/constants';
 import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
@@ -143,4 +144,19 @@ export function getMetricConfig({
 
     // granularity and timeConfig are send automatically by the chart impl
   };
+}
+
+export function getTimeDifferenceInMilliseconds(data: DateFormatterOutput): number {
+  if (!data) {
+    return 0;
+  }
+
+  const providedDate = new Date(data);
+  const now = new Date();
+
+  providedDate.setHours(now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds());
+
+  const differenceInMilliseconds: number = now.getTime() - providedDate.getTime();
+
+  return differenceInMilliseconds;
 }

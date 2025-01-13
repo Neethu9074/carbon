@@ -12,6 +12,15 @@
     }
   }
 
+  .tearsheet {
+    > div {
+      width: calc(100% - 8rem) !important;
+      height: calc(100% - 8rem) !important;
+      position: absolute !important;
+      top: 5rem !important;
+    }
+  }
+
   .confirmationDescription {
     margin-bottom: 0.5rem;
   }

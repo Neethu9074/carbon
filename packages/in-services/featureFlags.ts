@@ -54,6 +54,7 @@ export const zhmcEnabled = isFeatureFlagEnabled('zhmcEnabled');
 export const powervcEnabled = isFeatureFlagEnabled('powervcEnabled');
 export const sapEnabled = isFeatureFlagEnabled('sapEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
+export const deleteLogsV3Enabled = isFeatureFlagEnabled('deleteLogsV3Enabled');
 export const logWidgetsEnabled = isFeatureFlagEnabled('logWidgetsEnabled');
 export const logVolumePageEnabled = isFeatureFlagEnabled('logVolumePageEnabled');
 export const logHomepageEnabled = isFeatureFlagEnabled('logHomepageEnabled');

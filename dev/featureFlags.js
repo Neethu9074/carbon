@@ -52,6 +52,7 @@ module.exports = {
   segmentAnalyticsEnabled: false,
   ibmCommonEnabled: true,
   loggingEnabled: true,
+  deleteLogsV3Enabled: false,
   logRetentionPageEnabled: true,
   logWidgetsEnabled: true,
   carbonShellEnabled: true,

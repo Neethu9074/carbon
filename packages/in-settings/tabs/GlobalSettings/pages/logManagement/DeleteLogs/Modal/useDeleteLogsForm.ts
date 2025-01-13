@@ -7,10 +7,12 @@
 import { createField, createMapForm, MapForm } from 'formalistic';
 import { useState } from 'react';
 
+// eslint-disable-next-line no-restricted-imports
+import { returnFirstDeleteableDate } from './mockBackEnd';
+// eslint-disable-next-line no-restricted-imports
+import { DeleteLogsFormFields } from './modalTypes';
 import { formatDate, formatTimeWithoutSeconds } from 'in-services/formatters/date';
 import { t } from 'in-i18n';
-
-type DeleteLogsFormFields = 'validation' | 'reason' | 'deletionEndDate' | 'deletionEndTime';
 
 const localisationStrings = {
   typeValidation: t('in-settings:tabs.deleteLogs.typeToContinue', { logs: t('in-settings:tabs.deleteLogs.logs') }),
@@ -37,6 +39,34 @@ const getInitialFormState = () => {
         value: '',
         validator: value =>
           value !== '' ? null : [{ severity: 'error', message: localisationStrings.reasonValidationMessage }]
+      })
+    )
+    .put(
+      'deletionStartDate',
+      createField({
+        value: formatDate(returnFirstDeleteableDate()),
+        validator: value => {
+          const inputDate = new Date(value as string);
+          inputDate.setHours(0, 0, 0, 0);
+
+          return inputDate >= returnFirstDeleteableDate()
+            ? null
+            : [{ severity: 'error', message: ' The date cant be prior to first log deleteable' }];
+        }
+      })
+    )
+    .put(
+      'deletionStartTime',
+      createField({
+        value: formatTimeWithoutSeconds(new Date()),
+        validator: value => {
+          const regex = /^(?:[01][0-9]|2[0-3]):[0-5][0-9]$/;
+          if (!regex.test(value as string)) {
+            return [{ severity: 'error', message: localisationStrings.correctTimeFormat }];
+          }
+
+          return null;
+        }
       })
     )
     .put(
@@ -73,55 +103,71 @@ const getInitialFormState = () => {
 };
 export default function useDeleteLogsForm() {
   const [form, setForm] = useState(getInitialFormState());
-  const onChange = (name: DeleteLogsFormFields, value: string) => {
+
+  const updateField = (name: DeleteLogsFormFields, value: string) => {
     setForm(form.updateIn([name], field => field.setValue(value).setTouched(true)) as MapForm<any>);
   };
-  const setReasonInputValue = (value: string) => onChange('reason', value);
-  const setDateInputValue = (value: string[]) => onChange('deletionEndDate', value[0]);
 
-  const setValidationInputValue = (value: string) => onChange('validation', value);
-  const setTimeInputValue = (value: string) => onChange('deletionEndTime', value);
+  const setInputValues = {
+    reason: (value: string) => updateField('reason', value),
+    startDate: (value: string[]) => updateField('deletionStartDate', value[0]),
+    endDate: (value: string[]) => updateField('deletionEndDate', value[0]),
+    validation: (value: string) => updateField('validation', value),
+    startTime: (value: string) => updateField('deletionStartTime', value),
+    endTime: (value: string) => updateField('deletionEndTime', value)
+  };
 
-  const reasonInputValue = form.get('reason').value;
-  const dateInputValue = formatDate(form.get('deletionEndDate').value);
-  const timeInputValue = form.get('deletionEndTime').value;
-  const validationInputValue = form.get('validation').value;
+  const getFieldValue = (name: DeleteLogsFormFields) => form.get(name).value;
 
-  const validationValidationMessage =
-    form.get('validation').valid || !form.get('validation').touched ? null : form.get('validation').messages[0].message;
-  const reasonValidationMessage =
-    form.get('reason').valid || !form.get('reason').touched ? null : form.get('reason').messages[0].message;
-  const dateValidationMessage =
-    form.get('deletionEndDate').valid || !form.get('deletionEndDate').touched
-      ? null
-      : form.get('deletionEndDate').messages[0].message;
-  const timeValidationMessage =
-    form.get('deletionEndTime').valid || !form.get('deletionEndTime').touched
-      ? getValidationTime(dateInputValue as string, timeInputValue as string)
-      : form.get('deletionEndTime').messages[0].message;
+  const inputValues = {
+    reason: getFieldValue('reason'),
+    startDate: formatDate(getFieldValue('deletionStartDate')),
+    endDate: formatDate(getFieldValue('deletionEndDate')),
+    startTime: getFieldValue('deletionStartTime'),
+    endTime: getFieldValue('deletionEndTime'),
+    validation: getFieldValue('validation')
+  };
 
-  const canSubmit = form.hierarchyValid && !timeValidationMessage;
+  const getValidationMessage = (
+    field: DeleteLogsFormFields,
+    additionalValidation?: (value: string) => string | null
+  ) => {
+    const fieldData = form.get(field);
+    if (fieldData.valid || !fieldData.touched) return additionalValidation?.(fieldData.value) || null;
+    return fieldData.messages[0]?.message;
+  };
+
+  const validationMessages = {
+    reason: getValidationMessage('reason'),
+    startDate: getValidationMessage('deletionStartDate'),
+    endDate: getValidationMessage('deletionEndDate'),
+    startTime: getValidationMessage('deletionStartTime', _ =>
+      getValidationTime(inputValues.startDate as string, inputValues.startTime as string)
+    ),
+    endTime: getValidationMessage('deletionEndTime', _ =>
+      getValidationTime(inputValues.endDate as string, inputValues.endTime as string)
+    ),
+    validation: getValidationMessage('validation')
+  };
+
+  const canSubmit = form.hierarchyValid && !validationMessages.startTime && !validationMessages.endTime;
+  const canGoNextStep =
+    !validationMessages.startTime &&
+    !validationMessages.endTime &&
+    !validationMessages.endDate &&
+    !validationMessages.startDate;
+
   const resetForm = () => setForm(getInitialFormState());
   const touchForm = () => setForm(form.setTouched(true, { recurse: true }));
 
   return {
-    onChange,
-    form,
-    setReasonInputValue,
-    setDateInputValue,
-    setValidationInputValue,
-    setTimeInputValue,
-    reasonInputValue,
-    dateInputValue,
-    timeInputValue,
-    validationInputValue,
-    validationValidationMessage,
-    reasonValidationMessage,
-    dateValidationMessage,
-    timeValidationMessage,
+    setInputValues,
+    inputValues,
+    validationMessages,
     canSubmit,
     resetForm,
-    touchForm
+    touchForm,
+    canGoNextStep
   };
 }
 
