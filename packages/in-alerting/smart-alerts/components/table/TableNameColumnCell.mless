@@ -10,6 +10,8 @@
   .name {
     padding: 0.5rem 0 0 0;
     display: flex;
+    min-width: 40rem;
+    max-width: 40rem;
     a {
       .ellipsis();
       text-decoration: none;

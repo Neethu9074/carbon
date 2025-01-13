@@ -28,6 +28,7 @@ import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrappe
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import CreateSmartAlert from 'in-alerting/smart-alerts/logs/CreateSmartAlert';
 import { sortOptions } from 'in-alerting/smart-alerts/logs/lists/constants';
+import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
 import ScopeColumn from 'in-alerting/smart-alerts/logs/lists/ScopeColumn';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { number } from 'in-services/formatters/number';
@@ -126,7 +127,10 @@ function getCarbonTableColumnDefinitions() {
     {
       id: 'triggering-action',
       label: t('in-alerting:table.triggeringAction'),
-      getContent: (config: LogAlertConfigWithMetadata) => <>{getSubtitle(config.threshold)}</>,
+      ellipsis: '25vw',
+      getContent: (config: LogAlertConfigWithMetadata) => (
+        <TableCellWrapper>{getSubtitle(config.threshold)}</TableCellWrapper>
+      ),
       sortable: false
     },
     {

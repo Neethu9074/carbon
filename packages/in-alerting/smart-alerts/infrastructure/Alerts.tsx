@@ -31,6 +31,7 @@ import { sortOptions } from 'in-alerting/smart-alerts/infrastructure/lists/const
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import ScopeColumn from 'in-alerting/smart-alerts/infrastructure/lists/ScopeColumn';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import PluginIcon from 'in-components/PluginIcon/PluginIcon';
 import { Location } from 'in-stores/navigation/types';
@@ -136,14 +137,16 @@ function TriggeringCondition({ rule, threshold, forecastingConfig }: ThresholdIn
     const humanReadableOperator = humanReadableThresholdOperator(operator);
 
     return (
-      <MetricLabel
-        entityType={entityType}
-        metricName={metricName}
-        aggregation={aggregation}
-        humanReadableOperator={humanReadableOperator}
-        value={value ?? 0}
-        forecastingConfig={forecastingConfig ?? null}
-      />
+      <TableCellWrapper>
+        <MetricLabel
+          entityType={entityType}
+          metricName={metricName}
+          aggregation={aggregation}
+          humanReadableOperator={humanReadableOperator}
+          value={value ?? 0}
+          forecastingConfig={forecastingConfig ?? null}
+        />
+      </TableCellWrapper>
     );
   }
   throw new Error('Not yet supported threshold type: ' + type);
@@ -154,6 +157,7 @@ function getCarbonTableColumnDefinitions() {
     {
       id: 'triggering-action',
       label: t('in-alerting:table.triggeringAction'),
+      ellipsis: '25vw',
       getContent: (config: InfraSmartAlertConfigWithMetadata) => (
         <TriggeringCondition
           rule={config.rule}

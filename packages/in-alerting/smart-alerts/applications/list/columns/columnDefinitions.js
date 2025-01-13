@@ -22,6 +22,7 @@ import StatusColumnCell from 'in-alerting/smart-alerts/components/list/StatusCol
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { isCategoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
+import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -170,6 +171,7 @@ export function createTableColumnDefinition(configsCategory, trackCta) {
     id: 'name',
     label: t('in-alerting:smartAlerts.list.columns.name'),
     sortable: true,
+    ellipsis: '30vw',
     getContent: config => (
       <TableNameColumnCell
         config={config}
@@ -185,7 +187,8 @@ export function createTableColumnDefinition(configsCategory, trackCta) {
   const triggeringAction = {
     id: 'triggering-action',
     label: t('in-alerting:table.triggeringAction'),
-    getContent: config => <>{getSubtitle(config.rule, config.threshold)}</>,
+    ellipsis: '25vw',
+    getContent: config => <TableCellWrapper>{getSubtitle(config.rule, config.threshold)}</TableCellWrapper>,
     sortable: false
   };
 

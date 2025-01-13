@@ -25,6 +25,7 @@ import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseLi
 import CreateSmartAlert from 'in-alerting/smart-alerts/websites/CreateSmartAlert';
 import { sortOptions } from 'in-alerting/smart-alerts/components/list/constants';
 import ScopeColumn from 'in-alerting/smart-alerts/websites/list/ScopeColumn';
+import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
 import { NumberFormatterObject } from 'in-services/formatters/number';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -154,7 +155,10 @@ function getCarbonTableColumnDefinitions() {
     {
       id: 'triggering-action',
       label: t('in-alerting:table.triggeringAction'),
-      getContent: (config: WebsiteSmartAlertConfigWithMetadata) => <>{getSubtitle(config.rule, config.threshold)}</>,
+      ellipsis: '25vw',
+      getContent: (config: WebsiteSmartAlertConfigWithMetadata) => (
+        <TableCellWrapper>{getSubtitle(config.rule, config.threshold)}</TableCellWrapper>
+      ),
       sortable: false
     },
     {

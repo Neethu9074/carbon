@@ -32,6 +32,7 @@ import CreateSmartAlert from 'in-alerting/smart-alerts/mobileApp/CreateSmartAler
 import { AlertsProps } from 'in-mobile-apps/MobileAppDashboard/tabs/Alerts/index';
 import { sortOptions } from 'in-alerting/smart-alerts/mobileApp/lists/constants';
 import ScopeColumn from 'in-alerting/smart-alerts/mobileApp/lists/ScopeColumn';
+import { TableCellWrapper } from 'in-alerting/components/TableCellWrapper';
 import { useLocation } from 'in-stores/navigation/LocationStateProvider';
 import { NumberFormatterObject } from 'in-services/formatters/number';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
@@ -157,7 +158,10 @@ function getCarbonTableColumnDefinitions() {
     {
       id: 'triggering-action',
       label: t('in-alerting:table.triggeringAction'),
-      getContent: (config: MobileAppSmartAlertConfigWithMetadata) => <>{getSubtitle(config.rule, config.threshold)}</>,
+      ellipsis: '25vw',
+      getContent: (config: MobileAppSmartAlertConfigWithMetadata) => (
+        <TableCellWrapper>{getSubtitle(config.rule, config.threshold)}</TableCellWrapper>
+      ),
       sortable: false
     },
     {
