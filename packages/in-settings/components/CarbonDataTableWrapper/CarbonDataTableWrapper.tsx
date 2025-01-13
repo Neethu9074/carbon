@@ -351,14 +351,16 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
                         // @ts-expect-error no corrects typedef for ToolbarSearch
                         onChange={(e: ChangeEvent<HTMLInputElement>) => handleChangeSearchString(e.target.value)}
                       />
-                      <Button
-                        tabIndex={batchActionProps.shouldShowBatchActions ? -1 : 0}
-                        kind="primary"
-                        onClick={onCreateNew}
-                        renderIcon={Add}
-                      >
-                        {labelNew}
-                      </Button>
+                      {onCreateNew && (
+                        <Button
+                          tabIndex={batchActionProps.shouldShowBatchActions ? -1 : 0}
+                          kind="primary"
+                          onClick={onCreateNew}
+                          renderIcon={Add}
+                        >
+                          {labelNew}
+                        </Button>
+                      )}
                     </TableToolbarContent>
                   </TableToolbar>
                   <Table {...getTableProps()} aria-label={title}>
@@ -413,7 +415,7 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
                           ) : (
                             <TableCell>
                               {getMenuItems(row).map((item, index) => (
-                                <>
+                                <span key={row.id}>
                                   {item.actionType === 'delete' && loadingRow === row.id ? (
                                     <InlineLoading className={locals.loadingIcon} />
                                   ) : row.disabled ? (
@@ -433,11 +435,12 @@ export default function CarbonDataTableWrapper<ItemType extends Object>(props: C
                                         if (item.actionType === 'delete') handleDeleteActions(row);
                                       }}
                                       data-testid={`${item.actionType}Icon`}
+                                      autoAlign
                                     >
                                       {item.icon}
                                     </IconButton>
                                   )}
-                                </>
+                                </span>
                               ))}
                             </TableCell>
                           )}
