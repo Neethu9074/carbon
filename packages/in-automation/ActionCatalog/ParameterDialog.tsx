@@ -107,7 +107,7 @@ export default function ParameterDialog({
           {type.value === 'static' && <StaticSection {...sectionProps} isAnsible={isAnsible} />}
           {type.value === 'vault' && <VaultSection {...sectionProps} />}
           {type.value === 'dynamic' && <DynamicSection {...sectionProps} />}
-          {type.value !== 'dynamic' && <HiddenSection {...sectionProps} />}
+          {type.value !== 'dynamic' && <HiddenSection {...sectionProps} isAnsible={isAnsible} />}
           <SaveCancel
             hasSaveButton={!isNotEditable && role?.canConfigureAutomationActions}
             form={parameterForm}
@@ -262,9 +262,16 @@ function MetaDataSection({
   );
 }
 
-function HiddenSection({ parameter, parameterForm, setParameterForm, isNotEditable }: SectionProps) {
+function HiddenSection({
+  parameter,
+  parameterForm,
+  setParameterForm,
+  isNotEditable,
+  isAnsible
+}: SectionProps & { isAnsible: boolean }) {
   const hidden = parameterForm.get('hidden') as Field<boolean>;
   const type = parameterForm.get('type') as Field<string>;
+  isNotEditable = (isNotEditable && !isAnsible) || !role?.canConfigureAutomationActions;
 
   return (
     <FormGroup>
