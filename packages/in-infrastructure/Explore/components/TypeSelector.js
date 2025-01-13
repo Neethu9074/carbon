@@ -99,6 +99,7 @@ export function TypeSelector(props) {
         return (
           <Component
             size="normal"
+            kind="secondary"
             ref={ref}
             onClick={toggle}
             expanded={isOpen}
