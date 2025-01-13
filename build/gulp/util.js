@@ -59,6 +59,7 @@ exports.getDevModeConfig = function getDevModeConfig(envConfig) {
     featureFlags: require(paths.featureFlags),
     configuration: { maxAllowedAlertingConfigurations: 200 },
     segmentKey: 'K8GUn26weHMSk0fXYVNyiKtDPHmzr9Fj',
+    amplitudeKey: 'client-R2KC1Tw3m8BAnSOiVOSwMWosWdGyGDmN',
     agentEndpoint: 'ingress-pink-saas.instana.rocks',
     agentEndpointPort: 443,
     serverlessEndpoint: 'https://serverless-pink-saas.instana.rocks',

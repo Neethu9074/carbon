@@ -171,6 +171,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'amplitudeExperimentEnabled',
+    instanaCtlKey: 'feature.amplitude.experiment.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'dataUsageNotificationEnabled',
     instanaCtlKey: 'feature.data.usage.notification.enabled',
     defaultValue: false

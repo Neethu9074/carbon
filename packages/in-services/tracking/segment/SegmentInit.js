@@ -14,7 +14,7 @@ let analytics = null;
 
 export function Segment() {
   if (!segmentAnalyticsEnabled) return null;
-  if (analytics === null) {
+  if (analytics === null && user?.id) {
     analytics = AnalyticsBrowser.load({ writeKey: window.instana.config.segmentKey });
     const userId = customRealmName + '-' + user.id;
     analytics.identify(userId);

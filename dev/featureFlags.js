@@ -50,6 +50,7 @@ module.exports = {
   ampEnabled: true,
   persistentVolumeSupportEnabled: true,
   segmentAnalyticsEnabled: false,
+  amplitudeExperimentEnabled: false,
   ibmCommonEnabled: true,
   loggingEnabled: true,
   deleteLogsV3Enabled: false,

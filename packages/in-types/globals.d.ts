@@ -91,6 +91,9 @@ declare interface InstanaGlobals {
   tags: Tag[];
   permissions: string[];
   termsAndPrivacySettings: Record<string, any>;
+
+  // Needs to come in a follow-up task, after further clarification
+  // Currently missing: config: ClientConfig;
 }
 
 declare global {
