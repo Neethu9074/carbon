@@ -94,6 +94,18 @@ export function Summary({ data }: Props) {
               ...cardConfig.metricConfiguration,
               metric: 'subtraceDuration',
               aggregation: 'MEAN'
+            },
+            companionMetricConfiguration: {
+              metric: 'subtraceDuration',
+              aggregation: 'P90',
+              source: 'SUBTRACE',
+              queryPrecision: 'FULL',
+              tagFilterExpression,
+              resultType: 'SINGLE_NUMBER',
+              timeConfig: timeConfig,
+              timeShift: {
+                offset: 0
+              }
             }
           }}
         />
