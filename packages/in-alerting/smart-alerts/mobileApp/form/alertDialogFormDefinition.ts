@@ -30,6 +30,7 @@ export const fieldNames = Object.freeze({
   mobileAppId: 'mobileAppId',
   id: 'id',
   granularity: 'granularity',
+  gracePeriod: 'gracePeriod',
   customPayloadFields: 'customPayloadFields'
 });
 
@@ -52,7 +53,8 @@ export default function alertFormDefinition(
     name = '',
     mobileAppId = '',
     id = '',
-    granularity = 600000
+    granularity = 600000,
+    gracePeriod
   } = alertConfig;
 
   const form = createMapForm()
@@ -118,6 +120,12 @@ export default function alertFormDefinition(
       'granularity',
       createField({
         value: granularity
+      })
+    )
+    .put(
+      'gracePeriod',
+      createField({
+        value: gracePeriod ?? granularity
       })
     )
     .put(
