@@ -8,6 +8,8 @@ import { createField, createMapForm, MapForm } from 'formalistic';
 
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/dialog/advanced/TimeThresholdConfig/form';
+//@ts-expect-error
+import { titleValidator } from 'in-alerting/smart-alerts/logs/data/alertConfigUtils';
 import { logsGroupbyTag } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
 import { applyEditMode } from 'in-alerting/smart-alerts/components/dialog/sharedFunctions';
 import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
@@ -83,7 +85,7 @@ export default function alertFormDefinition(
       fieldNames.name,
       createField({
         value: name,
-        validator: stringMaxLengthValidator(MAX_LABEL_LENGTH)
+        validator: titleValidator()
       })
     )
     .put(

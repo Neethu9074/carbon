@@ -39,9 +39,9 @@ export interface AlertConfigTearSheetWithThresholdProps {
 export default function AlertConfigTearSheetWithThreshold(props: AlertConfigTearSheetWithThresholdProps) {
   const { form, updateForm, editMode, onCreate, tearSheetTitle } = props;
 
-  const [, setTagFilterValid] = useState(true);
+  const [tagFilterValid, setTagFilterValid] = useState(true);
 
-  const navItems = useAlertConfigValidation(stepConfigsForCarbonTearSheet);
+  const navItems = useAlertConfigValidation(stepConfigsForCarbonTearSheet, form, tagFilterValid, updateForm);
 
   const alertConfigWithFormModel = form.toJS();
   const { tagFilterExpression } = alertConfigWithFormModel;
