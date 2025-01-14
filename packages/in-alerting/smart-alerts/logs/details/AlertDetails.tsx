@@ -7,6 +7,13 @@
 import React from 'react';
 
 import {
+  alertsDetailsPath as alertsTabSegment,
+  alertDetailsFullyQualifiedPath as detailsPagePath,
+  dashboardAlertDetailsFullPath as dashboardAlertsdetailsPath,
+  dashboardSmartAlertsPath as dashboardAlertsListPath,
+  alertsFullyQualifiedPath as alertListPath
+} from 'in-logging/navigation/paths';
+import {
   deleteAlertConfig,
   disableAlertConfig,
   enableAlertConfig,
@@ -15,12 +22,6 @@ import {
   getLatestAlertConfig,
   restoreAlertConfigVersion
 } from 'in-alerting/smart-alerts/logs/api/logsAlertConfig';
-import {
-  alertsDetailsPath as alertsTabSegment,
-  alertDetailsFullyQualifiedPath as detailsPath,
-  dashboardSmartAlertsPath as dashboardAlertsListPath,
-  alertsFullyQualifiedPath as alertListPath
-} from 'in-logging/navigation/paths';
 import { CreateLogsSmartAlertFloatingButton } from 'in-logging/navigation/createLogsSmartAlertFloatingButton';
 //@ts-expect-error need TS migration
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
@@ -43,7 +44,7 @@ export default function AlertDetails({ isLogsDashboardHeader = false }: AlertDet
   const timeConfig = useTimeConfig();
   const Header = isLogsDashboardHeader ? LoggingDashboardWrapper : LogsAlertsTabHeader;
   const listPath = isLogsDashboardHeader ? dashboardAlertsListPath : alertListPath;
-
+  const detailsPath = isLogsDashboardHeader ? dashboardAlertsdetailsPath : detailsPagePath;
   return (
     <>
       <Header>
