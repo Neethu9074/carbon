@@ -373,7 +373,8 @@
     "output": "Output",
     "user": "User",
     "apiToken": "API Token",
-    "deleteTooltip": "Delete action instance {{id}}",
+    "viewTooltip": "View action instance {{actionName}}",
+    "deleteTooltip": "Delete action instance {{actionName}}",
     "deleteDialog": {
       "success": "Action instance was deleted successfully.",
       "failure": "Failed to delete action instance."
