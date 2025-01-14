@@ -13,23 +13,32 @@ import {
   useFiltering,
   useInfiniteScroll,
   useOnRowClick,
-  useSortableColumns
+  useSortableColumns,
+  useSelectRows,
+  useDisableSelectRows
 } from '@instana/ibm-products';
 import { DateFormatterInput, formatDateTime } from '@instana/format-date';
+import { Button } from '@instana/components';
 import { RawEvent } from '@instana/types';
 
 import { EVENT_TYPES, getEventSeverityLabelWithEventType, getEventType } from 'in-stores/events';
 import { DatagridActions } from 'in-events/components/EventsPage/EventsTable/DatagridActions';
 import { OnEntity, getStateBadge, getEndValue } from 'in-events/components/EventsListRow';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import MultiCloseIssueConfigForm from 'in-events/components/MultiCloseIssueConfigForm';
 import parseQuery from 'in-events/components/util/dataGridEventsTableUtil';
+import FailedIncidentsList from 'in-events/components/FailedIncidentsList';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { eventsPath } from 'in-stores/navigation/paths/mainPaths';
+import { multiCloseEnabled } from 'in-services/featureFlags';
 import EventIcon from 'in-events/components/EventIcon';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import TimelineCell from './TimelineCell';
 import { t } from 'in-i18n';
 
+// START table configurations
 const eventsTableColumns = [
   {
     Header: '',
@@ -204,6 +213,7 @@ const sortingMapper = {
 
 type SortingMapperKeys = 'title' | 'start' | 'state' | 'end';
 
+// END table configurations
 interface EventsTableProps {
   onItemClicked: (eventID: string) => void;
   rawEvents: RawEvent[];
@@ -213,6 +223,7 @@ interface EventsTableProps {
   loading: boolean;
   canLoadMore: boolean;
   loadMore: () => void;
+  eventType?: string;
 }
 
 const EventsTable = ({
@@ -223,7 +234,8 @@ const EventsTable = ({
   orderDirection,
   loading,
   canLoadMore,
-  loadMore
+  loadMore,
+  eventType
 }: EventsTableProps) => {
   function buildQueryString(list: string[], keyword: string) {
     let queryString = '';
@@ -253,6 +265,90 @@ const EventsTable = ({
     sections,
     panelIconDescription: t('in-events:dataGridEventTable.openFilters'),
     onClearFilters: () => (clearFilters.current = true)
+  };
+
+  // function to close selected events
+  const closeSelectedEvents = () => {
+    addActiveDialog(
+      <MultiCloseIssueConfigForm
+        onSaveSuccess={() => {
+          addMessage({
+            type: 'success',
+            timeout: 5000,
+            title:
+              eventType === 'incident'
+                ? t('in-events:multiClose.incidentsCloseSuccessTitle')
+                : t('in-events:multiClose.issuesCloseSuccessTitle'),
+            content: (
+              <div>
+                <p>
+                  {selectedFlatRows.length > 1
+                    ? eventType === 'incident'
+                      ? t('in-events:multiClose.multipleIncidentsCloseSuccessMessage', {
+                          count: selectedFlatRows.length
+                        })
+                      : t('in-events:multiClose.multipleIssuesCloseSuccessMessage', { count: selectedFlatRows.length })
+                    : eventType === 'incident'
+                    ? t('in-events:multiClose.singleCloseIncidentSuccessMessage')
+                    : t('in-events:multiClose.singleCloseIssueSuccessMessage')}
+                </p>
+              </div>
+            )
+          });
+
+          // manually change the state of closed ids
+
+          toggleAllRowsSelected(false);
+
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        }}
+        // @ts-expect-error
+        eventIds={selectedFlatRows.map(i => i.original.id)}
+        eventType={eventType}
+        onSaveError={failedEvents => {
+          addMessage({
+            type: 'danger',
+            title:
+              eventType === 'incident'
+                ? t('in-events:multiClose.incidentsCloseUnsuccessTitle')
+                : t('in-events:multiClose.issuesCloseUnsuccessTitle'),
+            content: (
+              <div>
+                <p>
+                  {failedEvents.length > 1
+                    ? eventType === 'incident'
+                      ? t('in-events:multiClose.multipleIncidentsCloseMessageUnsuccessful', {
+                          count: failedEvents.length
+                        })
+                      : t('in-events:multiClose.multipleIssuesCloseMessageUnsuccessful', { count: failedEvents.length })
+                    : eventType === 'incident'
+                    ? t('in-events:multiClose.singleIncidentCloseMessageUnsuccessful')
+                    : t('in-events:multiClose.singleIssueCloseMessageUnsuccessful')}
+                </p>
+                <Button
+                  kind="tertiary"
+                  size="compact"
+                  onClick={() =>
+                    addActiveDialog(
+                      <FailedIncidentsList
+                        failedEventIds={failedEvents}
+                        eventType={eventType}
+                        // @ts-expect-error
+                        eventIds={selectedFlatRows.map(i => i.original.id)}
+                      />
+                    )
+                  }
+                >
+                  {t('in-events:multiClose.viewUnsuccessfulEventsList')}
+                </Button>
+              </div>
+            )
+          });
+        }}
+      />
+    );
   };
 
   // Conversion of url filters to filter state
@@ -333,11 +429,25 @@ const EventsTable = ({
       onRowClick: (row: { original: RawEvent }) => {
         onItemClicked(row.original.id as string);
       },
-      batchActions: true,
       DatagridActions,
       filterProps,
-      hideSelectAll: true,
       manualSortBy: true,
+      // batch actions
+      batchActions: multiCloseEnabled,
+      hideSelectAll: false,
+      toolbarBatchActions: [
+        {
+          label:
+            eventType === 'incident' ? t('in-events:multiClose.closeIncidents') : t('in-events:multiClose.closeIssues'),
+          renderIcon: null,
+          onClick: () => closeSelectedEvents()
+        }
+      ],
+      // @ts-expect-error
+      shouldDisableSelectRow: row => row?.original?.state === 'manually_closed' || row?.original?.state === 'closed',
+      endPlugins: [useDisableSelectRows],
+      disableSelectAll: false,
+      // end batch actions
       manualFilters: true,
       initialState: {
         filters: currentFilters ? [initialFilters] : [],
@@ -358,15 +468,19 @@ const EventsTable = ({
       // currently its set to a static height until you refresh.
       // TODO: change it to be more dynamic if requested
       virtualHeight: window.innerHeight - 550
+      // end infinite scroll
     },
     useFiltering,
     useOnRowClick,
     useInfiniteScroll,
-    useSortableColumns
+    useSortableColumns,
+    multiCloseEnabled && useSelectRows
   );
 
   const {
-    state: { filters, sortBy }
+    state: { filters, sortBy },
+    selectedFlatRows,
+    toggleAllRowsSelected
   } = datagridState;
 
   // When sorting is changed, change it in the url.

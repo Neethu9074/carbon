@@ -188,9 +188,11 @@
     "titleFailtoCloseIssues": "Issue(s) that failed to close",
     "multiFailedCloseIncidentsDescription": "Out of {{total_incidents}} incident(s), {{number_incidents_succesfully_closed}} were successfully closed, but {{number_incidents_failed_closed}} failed. For more details, see the following list: ",
     "singleFailedCloseIncidentDescription": "Out of {{total_incidents}} incident(s), 1 was successfully closed, but {{number_incidents_failed_closed}} failed. For more details, see the following list: ",
+    "noSuccessfulIncidentCloseDescription": "Out of {{total_incidents}} incident(s), none were successfully closed, while {{number_incidents_failed_closed}} failed. For more details, see the following list: ",
     "multiFailedCloseIssuesDescription": "Out of {{total_issues}} issue(s), {{number_issues_succesfully_closed}} were successfully closed, but {{number_issues_failed_closed}} failed. For more details, see the following list: ",
-    "singleFailedCloseIssueDescription": "Out of {{total_issues}} issue(s), 1 was successfully closed, but {{number_issues_failed_closed}} failed. For more details, see the following list: "
-  },
+    "singleFailedCloseIssueDescription": "Out of {{total_issues}} issue(s), 1 was successfully closed, but {{number_issues_failed_closed}} failed. For more details, see the following list: ",
+    "noSuccessfulIssueCloseDescription": "Out of {{total_issues}} issue(s), none were successfully closed, while {{number_issues_failed_closed}} failed. For more details, see the following list: "
+   },
 
   "ibmMqFileTransfer": {
     "transferID": "Transfer ID",

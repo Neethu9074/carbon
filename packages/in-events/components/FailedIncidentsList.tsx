@@ -69,12 +69,22 @@ export default function FailedIncidentsList({ failedEventIds, eventType, eventId
                       number_issues_succesfully_closed: eventIds.length - failedEventIds.length,
                       number_issues_failed_closed: failedEventIds.length
                     })
+                : eventIds.length - failedEventIds.length === 1
+                ? eventType === 'incident'
+                  ? t('in-events:multiClose.singleFailedCloseIncidentDescription', {
+                      total_incidents: eventIds.length,
+                      number_incidents_failed_closed: failedEventIds.length
+                    })
+                  : t('in-events:multiClose.singleFailedCloseIssueDescription', {
+                      total_issues: eventIds.length,
+                      number_issues_failed_closed: failedEventIds.length
+                    })
                 : eventType === 'incident'
-                ? t('in-events:multiClose.singleFailedCloseIncidentDescription', {
+                ? t('in-events:multiClose.noSuccessfulIncidentCloseDescription', {
                     total_incidents: eventIds.length,
                     number_incidents_failed_closed: failedEventIds.length
                   })
-                : t('in-events:multiClose.singleFailedCloseIssueDescription', {
+                : t('in-events:multiClose.noSuccessfulIssueCloseDescription', {
                     total_issues: eventIds.length,
                     number_issues_failed_closed: failedEventIds.length
                   })
