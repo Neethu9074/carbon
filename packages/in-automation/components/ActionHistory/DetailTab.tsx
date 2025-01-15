@@ -4,20 +4,21 @@
  * Copyright IBM Corp. 2023
  */
 
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import { isEmpty } from 'lodash';
-import React from 'react';
 
-import { Li, Link, Ul, IconButton, SvgIcon } from '@instana/components';
-import { ActionInstance, ActorType } from '@instana/types';
-import { useObservable } from '@instana/hooks';
+import { Li, Link, Ul, IconButton, SvgIcon, Spacer, ExpandableGroup } from '@instana/components';
+import { ActionInstance, ActorType, Field, ActionType } from '@instana/types';
 import { just, Observable } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 
 import {
   getEntityIdView,
   securityAndAccessAccessControlUsers,
   securityAndAccessAccessControlApiTokens
 } from 'in-settings/navigation/paths';
+import { ACTION_FIELD_TRANSLATIONS } from 'in-automation/components/ActionHistory/constants';
 import useHrefToActionDetails from 'in-automation/navigation/hooks/useHrefToActionDetails';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { useGetDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
@@ -34,6 +35,7 @@ import CopyToClipboard from 'in-components/CopyToClipboard';
 import { getSnapshot } from 'in-stores/snapshot/snapshot';
 import { eventsPath } from 'in-events/navigation/paths';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import Code from 'in-components/Code';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
@@ -48,9 +50,10 @@ export default function DetailTab({
   properties: ActionInstance;
   inActionLane?: boolean;
 }) {
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const { createHref, location } = useNavigation();
   const getDashboardLink = useGetDashboardLink();
-
+  const handleToggle = () => setIsExpanded(expanded => !expanded);
   function getPolicyView(id: string): string {
     const path = location;
     path.pathname = policiesDetailsFullyQualified;
@@ -84,7 +87,8 @@ export default function DetailTab({
     actorType,
     actorName,
     output,
-    actorId
+    actorId,
+    actionSnapshot
   } = properties;
 
   const timeConfig = useTimeConfig();
@@ -188,6 +192,7 @@ export default function DetailTab({
                   color="var(--cds-link-primary)"
                   onClick={stopPropagationAndPreventDefault}
                   type="lib_actions_copy"
+                  size="compact"
                 />
               </span>
             )}
@@ -257,43 +262,6 @@ export default function DetailTab({
     }
   }
 
-  // const carbonHeaders = [
-  //   {
-  //     key: 'property',
-  //     header: t('in-automation:actionHistory.property')
-  //   },
-  //   {
-  //     key: 'value',
-  //     header: t('in-automation:actionHistory.value')
-  //   }
-  // ];
-
-  // const filterRows_WhenNotShowingCondition_or_actionLaneIsDifferent = ({
-  //   showCondition = true,
-  //   actionLane = false
-  // }) => {
-  //   if (!showCondition || (inActionLane && !actionLane) || (!inActionLane && actionLane)) {
-  //     return false;
-  //   }
-  //   return true;
-  // };
-
-  // const carbonRows = tableData
-  //   .filter(filterRows_WhenNotShowingCondition_or_actionLaneIsDifferent)
-  //   .map(({ label, value, isLink, ObservableLink, stringLink }) => {
-  //     return {
-  //       id: label,
-  //       property: label,
-  //       value: isLink ? (
-  //         <Link target="_blank" className={locals.detailsLink} href={ObservableLink ?? stringLink ?? undefined}>
-  //           {value} <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />{' '}
-  //         </Link>
-  //       ) : (
-  //         value
-  //       )
-  //     };
-  //   });
-
   const renderRow = (
     label: string,
     value: React.ReactNode,
@@ -312,7 +280,7 @@ export default function DetailTab({
 
         {isLink ? (
           <Link className={locals.detailsLink} target="_blank" href={ObservableLink ?? stringLink ?? undefined}>
-            {value} <SvgIcon size="s" type="lib_views_external_link" color="var(--cds-link-primary)" />
+            {value} <SvgIcon size="xs" type="lib_views_external_link" color="var(--cds-link-primary)" />
           </Link>
         ) : (
           value
@@ -320,18 +288,6 @@ export default function DetailTab({
       </Di>
     );
   };
-
-  // if (carbonTableEnabled) {
-  //   return (
-  //     <div
-  //       className={classNames({
-  //         [locals.instanceTabContent]: !inActionLane
-  //       })}
-  //     >
-  //       <CarbonTable headers={carbonHeaders} rows={carbonRows} isSearchEnabled={false} />
-  //     </div>
-  //   );
-  // }
 
   return (
     <div
@@ -345,6 +301,12 @@ export default function DetailTab({
             renderRow(label, value, isLink, ObservableLink, stringLink, showCondition, actionLane, inActionLane)
         )}
       </Dl>
+      <Spacer vertical="large" />
+      {actionSnapshot && (
+        <ExpandableGroup expanded={isExpanded} onToggle={handleToggle} title="Action snapshot details">
+          <ActionDetails type={type} actionSnapshot={actionSnapshot ?? ''} />
+        </ExpandableGroup>
+      )}
     </div>
   );
 }
@@ -358,4 +320,65 @@ function getActorLink(actorType?: ActorType, actorId?: string) {
     default:
       return null;
   }
+}
+
+function ActionDetails({ type, actionSnapshot }: { type: ActionType; actionSnapshot: string }) {
+  const parsedSnapshot = JSON.parse(actionSnapshot);
+  const { fields } = parsedSnapshot;
+
+  const decodeBase64 = (encodedValue: string) => {
+    return atob(encodedValue);
+  };
+
+  return (
+    <div>
+      {fields?.map((field: Field) => {
+        if (field.name === 'header' || field.name === 'authen') {
+          // Parse JSON if field is headers or authentication(http fields)
+          const parsedJsonField = JSON.parse(field.value);
+          return (
+            <>
+              <Spacer vertical="small" />
+              <div className={locals.parsedFields} key={field.name}>
+                <div className={locals.headerField}>
+                  <h3>{ACTION_FIELD_TRANSLATIONS[field.name]}</h3>
+                </div>
+
+                <div>
+                  {Object.entries(parsedJsonField).map(([key, value]) => (
+                    <Di key={key} title={key}>
+                      {value}
+                    </Di>
+                  ))}
+                </div>
+              </div>
+              <Spacer vertical="small" />
+            </>
+          );
+        }
+
+        // For other fields, display normally
+        return (
+          <Di
+            key={field.name}
+            title={
+              field.name === 'body' && (type === ACTION_TYPE.JIRA || type === ACTION_TYPE.GITLAB)
+                ? ACTION_FIELD_TRANSLATIONS['description']
+                : ACTION_FIELD_TRANSLATIONS[field.name]
+            }
+          >
+            {field.encoding === 'base64' ? (
+              field.name === 'script_ssh' ? (
+                <Code withExpandButton withoutCopyButton code={decodeBase64(field.value)} lang={'bash'} softWrap />
+              ) : (
+                decodeBase64(field.value) ?? ''
+              )
+            ) : (
+              field.value
+            )}
+          </Di>
+        );
+      })}
+    </div>
+  );
 }

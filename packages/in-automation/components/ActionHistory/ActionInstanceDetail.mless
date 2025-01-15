@@ -100,8 +100,24 @@
   }
   .actionInstanceIdContent {
     .actionInstanceId {
-      top: 0.6rem;
       position: relative;
+      button {
+        bottom: 6px;
+      }
+    }
+  }
+  dd {
+    color: var(--cds-text-primary);
+  }
+
+  dt {
+    color: var(--cds-text-secondary);
+  }
+
+  .parsedFields {
+    display: flex;
+    .headerField {
+      width: 10rem;
     }
   }
 }
