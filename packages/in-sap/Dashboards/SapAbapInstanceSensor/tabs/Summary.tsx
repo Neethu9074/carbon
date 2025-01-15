@@ -8,10 +8,13 @@ import React, { Fragment } from 'react';
 
 import { themes } from '@instana/design-tokens';
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
 // @ts-expect-error needs TS migration
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { number, kiloBytes, percentage, percentagePlain, millis } from 'in-services/formatters/number';
+//@ts-expect-error needs TS migration
+import { useNavigateToTab } from 'in-sap/navigation/paths';
 import AbapShortDumps from 'in-sap/Dashboards/SapAbapInstanceSensor/tabs/AbapShortDumps';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -31,6 +34,13 @@ import locals from './Summary.mless';
 
 export default function Summary({ data }: { data: SnapshotData }) {
   const timeConfig = useTimeConfig();
+  const getLinkToUser = useNavigateToTab('/userInformation');
+  const getLinkToRFC = useNavigateToTab('/rfc');
+  const getLinkToWorkload = useNavigateToTab('/workload');
+  const getLinkToDiagnostics = useNavigateToTab('/diagnostics');
+  const getLinkToNetworks = useNavigateToTab('/sapNetworks');
+  const getLinkToMemory = useNavigateToTab('/memory');
+
   const snapshotId = data.id;
   const snapshot = useObservable(getSnapshot(snapshotId, timeConfig), [snapshotId, timeConfig]);
   if (!snapshot) {
@@ -121,6 +131,15 @@ export default function Summary({ data }: { data: SnapshotData }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            primaryContextMenuAction="showStatistics"
+            additionalContextMenuButtons={[
+              {
+                name: 'showStatistics',
+                icon: 'lib_sap_abapTransaction',
+                label: 'View User Details',
+                getHref$: () => just(getLinkToUser())
+              }
+            ]}
             y1={{
               min: 0,
               metrics: ['sapMetricsStats.userName', 'sapMetricsStats.userSession'],
@@ -135,6 +154,15 @@ export default function Summary({ data }: { data: SnapshotData }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            primaryContextMenuAction="showStatistics"
+            additionalContextMenuButtons={[
+              {
+                name: 'showStatistics',
+                icon: 'lib_sap_abapTransaction',
+                label: 'View RFC Details',
+                getHref$: () => just(getLinkToRFC())
+              }
+            ]}
             y1={{
               min: 0,
               metrics: ['sapMetricsStats.totalRFCCalls'],
@@ -149,6 +177,15 @@ export default function Summary({ data }: { data: SnapshotData }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            primaryContextMenuAction="showStatistics"
+            additionalContextMenuButtons={[
+              {
+                name: 'showStatistics',
+                icon: 'lib_sap_abapTransaction',
+                label: 'View CPU Details',
+                getHref$: () => just(getLinkToWorkload())
+              }
+            ]}
             y1={{
               min: 0,
               metrics: ['cpuMetricStats.totalUtilization'],
@@ -166,6 +203,15 @@ export default function Summary({ data }: { data: SnapshotData }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            primaryContextMenuAction="showStatistics"
+            additionalContextMenuButtons={[
+              {
+                name: 'showStatistics',
+                icon: 'lib_sap_abapTransaction',
+                label: 'View Work Process Details',
+                getHref$: () => just(getLinkToWorkload())
+              }
+            ]}
             y1={{
               min: 0,
               metrics: [
@@ -196,6 +242,15 @@ export default function Summary({ data }: { data: SnapshotData }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            primaryContextMenuAction="showStatistics"
+            additionalContextMenuButtons={[
+              {
+                name: 'showStatistics',
+                icon: 'lib_sap_abapTransaction',
+                label: 'View Work Process Details',
+                getHref$: () => just(getLinkToWorkload())
+              }
+            ]}
             y1={{
               min: 0,
               metrics: [
@@ -224,6 +279,15 @@ export default function Summary({ data }: { data: SnapshotData }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            primaryContextMenuAction="showStatistics"
+            additionalContextMenuButtons={[
+              {
+                name: 'showStatistics',
+                icon: 'lib_sap_abapTransaction',
+                label: 'View Jobs Details',
+                getHref$: () => just(getLinkToWorkload())
+              }
+            ]}
             y1={{
               min: 0,
               metrics: [
@@ -252,6 +316,15 @@ export default function Summary({ data }: { data: SnapshotData }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            primaryContextMenuAction="showStatistics"
+            additionalContextMenuButtons={[
+              {
+                name: 'showStatistics',
+                icon: 'lib_sap_abapTransaction',
+                label: 'View Memory Details',
+                getHref$: () => just(getLinkToMemory())
+              }
+            ]}
             y1={{
               min: 0,
               metrics: ['swapmemory.physMem', 'swapmemory.freeMemory'],
@@ -266,6 +339,15 @@ export default function Summary({ data }: { data: SnapshotData }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            primaryContextMenuAction="showStatistics"
+            additionalContextMenuButtons={[
+              {
+                name: 'showStatistics',
+                icon: 'lib_sap_abapTransaction',
+                label: 'View Memory Details',
+                getHref$: () => just(getLinkToMemory())
+              }
+            ]}
             y1={{
               min: 0,
               metrics: ['swapmemory.swapSize', 'swapmemory.freeSwap'],
@@ -280,6 +362,15 @@ export default function Summary({ data }: { data: SnapshotData }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            primaryContextMenuAction="showStatistics"
+            additionalContextMenuButtons={[
+              {
+                name: 'showStatistics',
+                icon: 'lib_sap_abapTransaction',
+                label: 'View Memory Details',
+                getHref$: () => just(getLinkToMemory())
+              }
+            ]}
             y1={{
               min: 0,
               metrics: ['pagingStats.pageIn', 'pagingStats.pageOut'],
@@ -296,6 +387,15 @@ export default function Summary({ data }: { data: SnapshotData }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            primaryContextMenuAction="showStatistics"
+            additionalContextMenuButtons={[
+              {
+                name: 'showStatistics',
+                icon: 'lib_sap_abapTransaction',
+                label: 'View CPU Details',
+                getHref$: () => just(getLinkToWorkload())
+              }
+            ]}
             y1={{
               min: 0,
               metrics: ['cpuMetricStats.usrTotal', 'cpuMetricStats.sysTotal', 'cpuMetricStats.idleTotal'],
@@ -314,6 +414,15 @@ export default function Summary({ data }: { data: SnapshotData }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            primaryContextMenuAction="showStatistics"
+            additionalContextMenuButtons={[
+              {
+                name: 'showStatistics',
+                icon: 'lib_sap_abapTransaction',
+                label: 'View CPU Details',
+                getHref$: () => just(getLinkToWorkload())
+              }
+            ]}
             y1={{
               min: 0,
               metrics: ['cpuMetricStats.intSec', 'cpuMetricStats.syscSec', 'cpuMetricStats.csSec'],
@@ -332,6 +441,15 @@ export default function Summary({ data }: { data: SnapshotData }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            primaryContextMenuAction="showStatistics"
+            additionalContextMenuButtons={[
+              {
+                name: 'showStatistics',
+                icon: 'lib_sap_abapTransaction',
+                label: 'View CPU Details',
+                getHref$: () => just(getLinkToWorkload())
+              }
+            ]}
             y1={{
               min: 0,
               metrics: ['cpuMetricStats.loadAvg1', 'cpuMetricStats.loadAvg5', 'cpuMetricStats.loadAvg15'],
@@ -352,6 +470,15 @@ export default function Summary({ data }: { data: SnapshotData }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            primaryContextMenuAction="showStatistics"
+            additionalContextMenuButtons={[
+              {
+                name: 'showStatistics',
+                icon: 'lib_sap_abapTransaction',
+                label: 'View ICM Details',
+                getHref$: () => just(getLinkToNetworks())
+              }
+            ]}
             y1={{
               min: 0,
               metrics: ['icminfodatastats.curConn', 'icminfodatastats.curQueue', 'icminfodatastats.curThr'],
@@ -366,6 +493,15 @@ export default function Summary({ data }: { data: SnapshotData }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            primaryContextMenuAction="showStatistics"
+            additionalContextMenuButtons={[
+              {
+                name: 'showStatistics',
+                icon: 'lib_sap_abapTransaction',
+                label: 'View Diagnostic Details',
+                getHref$: () => just(getLinkToDiagnostics())
+              }
+            ]}
             y1={{
               min: 0,
               metrics: ['sapMetricsStats.successLogins', 'sapMetricsStats.failedLogins'],
@@ -382,6 +518,15 @@ export default function Summary({ data }: { data: SnapshotData }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            primaryContextMenuAction="showStatistics"
+            additionalContextMenuButtons={[
+              {
+                name: 'showStatistics',
+                icon: 'lib_sap_abapTransaction',
+                label: 'View Error Details',
+                getHref$: () => just(getLinkToDiagnostics())
+              }
+            ]}
             y1={{
               min: 0,
               metrics: ['sapMetricsStats.concernedSystemLogCount', 'sapMetricsStats.urgentSystemLogCount'],
@@ -400,6 +545,15 @@ export default function Summary({ data }: { data: SnapshotData }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            primaryContextMenuAction="showStatistics"
+            additionalContextMenuButtons={[
+              {
+                name: 'showStatistics',
+                icon: 'lib_sap_abapTransaction',
+                label: 'View Workload Details',
+                getHref$: () => just(getLinkToWorkload())
+              }
+            ]}
             y1={{
               min: 0,
               metrics: [
@@ -434,6 +588,15 @@ export default function Summary({ data }: { data: SnapshotData }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            primaryContextMenuAction="showStatistics"
+            additionalContextMenuButtons={[
+              {
+                name: 'showStatistics',
+                icon: 'lib_sap_abapTransaction',
+                label: 'View Workload Details',
+                getHref$: () => just(getLinkToWorkload())
+              }
+            ]}
             y1={{
               min: 0,
               metrics: [

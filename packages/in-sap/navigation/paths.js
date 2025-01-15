@@ -446,3 +446,18 @@ export const useNavigateToAbapSystemDashboard = () => {
     return createHref(location);
   };
 };
+
+export const useNavigateToTab = tab => {
+  const { createHref, location } = useNavigation();
+
+  return ({ tabMatrix = {}, timeConfig } = emptyObject) => {
+    location.pathname = sapAbapInstanceSensorDashboardFullyQualified + tab;
+
+    if (timeConfig) {
+      setTimeConfig(location, timeConfig);
+    }
+
+    location.matrix[tab] = tabMatrix;
+    return createHref(location);
+  };
+};
