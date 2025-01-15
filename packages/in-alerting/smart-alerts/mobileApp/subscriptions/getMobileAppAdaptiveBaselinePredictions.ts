@@ -4,11 +4,14 @@
  * Copyright IBM Corp. 2023
  */
 
+import { AdaptiveBaselineFetchedPredictions } from 'in-alerting/smart-alerts/data/adaptiveBaselinePredictionInfo';
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { Result, GetMobileAppAdaptiveBaselinePredictionsQuery } from 'in-types';
-import { MetricDataSeries } from 'in-applications/subscriptions/types';
 
-export default createResultSubscriptionFactory<GetMobileAppAdaptiveBaselinePredictionsQuery, Result<MetricDataSeries>>({
+export default createResultSubscriptionFactory<
+  GetMobileAppAdaptiveBaselinePredictionsQuery,
+  Result<AdaptiveBaselineFetchedPredictions>
+>({
   eventId: 'getMobileAppAdaptiveBaselinePredictions',
   memoizeFor: 0 // because subscribers rely on more than just the latest value
   // (and there is not an easy way to memoize all values of an observable)

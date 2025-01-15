@@ -13,7 +13,8 @@ import { ThresholdOperator } from 'in-types';
 export function createLineWithMultiStaticThreshold(
   operator: ThresholdOperator,
   warningThresholdValue: number | undefined,
-  criticalThresholdValue: number | undefined
+  criticalThresholdValue: number | undefined,
+  displayPredictions?: boolean
 ): Renderer<MultiMetricRenderProps> {
   return {
     render: ({ colors50, colors100, scale, config, metrics }): void => {
@@ -27,7 +28,9 @@ export function createLineWithMultiStaticThreshold(
         colors100,
         warningThresholdValue,
         criticalThresholdValue,
-        isGreaterOp
+        isGreaterOp,
+        metrics ?? [],
+        displayPredictions
       );
 
       renderer.line.render({ dataSeries: metric, color: colors100[0]!, scale, config });

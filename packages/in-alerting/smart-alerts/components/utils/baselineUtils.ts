@@ -14,6 +14,10 @@ import {
   ApplicationAlertRuleUnion,
   AdaptiveBaselineConfig
 } from 'in-types';
+import {
+  AdaptiveBaselineFetchedPredictions,
+  AdaptiveBaselinePredictionData
+} from 'in-alerting/smart-alerts/data/adaptiveBaselinePredictionInfo';
 import { hasError, isLoading } from 'in-services/util/result';
 import { FixedTimeConfig } from 'in-stores/time/config';
 import { days } from 'in-services/time';
@@ -125,19 +129,17 @@ export const severityMap: Record<number, Severity> = {
 };
 
 export function extractMultiBaselineFromResultsOrUseErrorFallback(
-  persistedBaselineResult: Result<[number, number, number][]> | Nullish,
-  errorFallbackBaseline: [number, number][],
-  eventSeverity: number | undefined
+  persistedBaselineResult: Result<AdaptiveBaselineFetchedPredictions> | Nullish,
+  errorFallbackBaseline: Array<[string, AdaptiveBaselinePredictionData]>
 ): {
-  baseline: [number, number, number][] | [number, number][];
+  baseline: AdaptiveBaselineFetchedPredictions;
   error?: boolean;
 } {
   const fetchError = persistedBaselineResult && hasError(persistedBaselineResult);
   if (fetchError) {
     // if a fallback baseline exists, hide the error
     if (errorFallbackBaseline?.length > 0) {
-      // only in case of events view
-      return { baseline: errorFallbackBaseline };
+      return { baseline: transformedFallbackBaseline(errorFallbackBaseline) };
     }
     return {
       error: fetchError,
@@ -146,21 +148,18 @@ export function extractMultiBaselineFromResultsOrUseErrorFallback(
   }
 
   if (persistedBaselineResult && isLoading(persistedBaselineResult)) {
-    return { baseline: [] as [number, number, number][] };
+    return { baseline: [] as AdaptiveBaselineFetchedPredictions };
   }
 
-  let baseline: [number, number, number][] = persistedBaselineResult?.data ?? [];
+  let baseline: AdaptiveBaselineFetchedPredictions = [];
 
-  if (eventSeverity) {
-    // For the events view
-    const violatedBaselineFromPersistedBaseline = extractBaselineForSeverity(baseline, severityMap[eventSeverity]);
-    return {
-      baseline:
-        violatedBaselineFromPersistedBaseline.length < errorFallbackBaseline.length
-          ? errorFallbackBaseline
-          : violatedBaselineFromPersistedBaseline
-    };
+  if (persistedBaselineResult && persistedBaselineResult.data) {
+    baseline =
+      errorFallbackBaseline && errorFallbackBaseline.length > persistedBaselineResult.data.length
+        ? transformedFallbackBaseline(errorFallbackBaseline)
+        : persistedBaselineResult.data;
   }
+
   return { baseline };
 }
 
@@ -174,4 +173,14 @@ export function extractBaselineForSeverity(
   return baseline.map(([timestamp, warningValue, criticalValue]) => {
     return eventSeverity === WARNING_SEVERITY ? [timestamp, warningValue] : [timestamp, criticalValue];
   });
+}
+
+export function transformedFallbackBaseline(
+  errorFallbackBaseline: Array<[string, AdaptiveBaselinePredictionData]>
+): AdaptiveBaselineFetchedPredictions {
+  return errorFallbackBaseline.map(([time, data]) => [
+    Number(time),
+    data.warningPredictionValue,
+    data.criticalPredictionValue
+  ]);
 }

@@ -192,8 +192,6 @@ export default function InfraEventContent({ event, snapshot, reload }: Props) {
               predictions={infraPredictiveDetectionEnabled ? predictions : []}
               lowerBound={infraPredictiveDetectionEnabled ? lowerBound : []}
               upperBound={infraPredictiveDetectionEnabled ? upperBound : []}
-              eventSeverity={event.getIn(['problem', 'severity'], 5)}
-              isEventDetailPage
             />
           </Card>
         </Col>

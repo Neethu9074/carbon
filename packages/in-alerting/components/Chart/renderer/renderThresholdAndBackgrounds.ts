@@ -380,7 +380,9 @@ export function renderMultiStaticThresholdLinesAndBackgrounds(
   colors100: AxisColor[],
   warningThresholdValue: number | undefined,
   criticalThresholdValue: number | undefined,
-  isGreaterOp: boolean
+  isGreaterOp: boolean,
+  metrics: MetricDataSeries[],
+  displayPredictions?: boolean
 ): void {
   const isWarningThresholdDefined = !isEmpty(warningThresholdValue);
   const isCriticalThresholdDefined = !isEmpty(criticalThresholdValue);
@@ -397,7 +399,8 @@ export function renderMultiStaticThresholdLinesAndBackgrounds(
       colors100,
       warningThresholdValue!,
       isGreaterOp,
-      []
+      metrics,
+      displayPredictions
     );
     return;
   } else if (!isWarningThresholdDefined && isCriticalThresholdDefined) {
@@ -408,7 +411,8 @@ export function renderMultiStaticThresholdLinesAndBackgrounds(
       colors100,
       criticalThresholdValue!,
       isGreaterOp,
-      []
+      metrics,
+      displayPredictions
     );
     return;
   }
@@ -442,6 +446,11 @@ export function renderMultiStaticThresholdLinesAndBackgrounds(
   const yScale: ScaleType = config.scales.y1;
   const warningThreshold = yScale.getRangeFrom() - yScale.getRange(warningThresholdValue!);
   const criticalThreshold = yScale.getRangeFrom() - yScale.getRange(criticalThresholdValue!);
+
+  if (displayPredictions) {
+    renderPredictions(config, metrics, scale);
+    backBufferCtx.setLineDash([]);
+  }
 
   // static horizontal line
   drawStaticHorizontalLine(backBufferCtx, chartHeight, warningThreshold, warningThresholdColor, chartWidth);

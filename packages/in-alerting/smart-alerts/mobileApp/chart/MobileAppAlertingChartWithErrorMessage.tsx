@@ -10,11 +10,17 @@ import { Message, Spacer } from '@instana/components';
 
 import { useFetchAdaptiveBaselineOrUseFallbackFromEvent } from 'in-alerting/smart-alerts/mobileApp/hooks/useFetchAdaptiveBaselineOrUseFallbackFromEvent';
 import {
+  CRITICAL_SEVERITY,
+  extractBaselineForSeverity,
+  WARNING_SEVERITY
+} from 'in-alerting/smart-alerts/components/utils/baselineUtils';
+import {
   createBoundedAlertQueryBuilder,
   createIsAlertQueryValid
 } from 'in-alerting/smart-alerts/mobileApp/components/AlertQueryBuilder';
 import { BluePrint, MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileApp/data/blueprintConfig';
 import { MobileAppSmartAlertConfigWithMetadata } from 'in-alerting/smart-alerts/eum/data/eumAlertConfigTypes';
+import { AdaptiveBaselinePredictionData } from 'in-alerting/smart-alerts/data/adaptiveBaselinePredictionInfo';
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { ChartViewConfigItem } from 'in-alerting/components/Chart/chartViewConfig';
@@ -30,7 +36,7 @@ interface MobileAppAlertingChartWithErrorMessageProps {
   isAlertDetailView?: boolean;
   isEventsView?: boolean;
   setMetricResultPrecision?: Dispatch<SetStateAction<string>>;
-  eventBasedAdaptiveBaseline: [number, number][];
+  eventBasedAdaptiveBaseline: Array<[string, AdaptiveBaselinePredictionData]>;
   canReload?: boolean;
   alertsPreviewEnabled?: boolean;
 }
@@ -39,24 +45,42 @@ interface MobileAppAlertingChartWithErrorMessageProps {
 export default function MobileAppAlertingChartWithErrorMessage(
   props: MobileAppAlertingChartWithErrorMessageProps
 ): JSX.Element {
-  const { alertConfigWithFormModel, isEventsView, isAlertDetailView } = props;
-
-  const { threshold } = alertConfigWithFormModel;
+  const {
+    alertConfigWithFormModel: { threshold },
+    eventBasedAdaptiveBaseline,
+    isEventsView,
+    isAlertDetailView,
+    ...remainingProps
+  } = props;
 
   if (threshold?.type === ADAPTIVE_BASELINE && (isAlertDetailView || isEventsView)) {
     return <AlertingChartWithErrorMessageForAdaptiveBaseline {...props} />;
   }
 
-  return <ChartWithErrorMessageAndData {...props} />;
+  return (
+    <ChartWithErrorMessageAndData
+      {...remainingProps}
+      isEventsView={isEventsView}
+      isAlertDetailView={isAlertDetailView}
+      alertConfigWithFormModel={props.alertConfigWithFormModel}
+    />
+  );
 }
 
 function AlertingChartWithErrorMessageForAdaptiveBaseline(
   props: MobileAppAlertingChartWithErrorMessageProps
 ): JSX.Element {
   const { error, baseline } = useFetchAdaptiveBaselineOrUseFallbackFromEvent(props);
+  const onlyCriticalThresholdDefined = props.alertConfigWithFormModel.rules[0].thresholds.WARNING === undefined;
   return (
     <>
-      <ChartWithErrorMessageAndData {...props} eventBasedAdaptiveBaseline={baseline} />
+      <ChartWithErrorMessageAndData
+        {...props}
+        eventBasedAdaptiveBaseline={extractBaselineForSeverity(
+          baseline,
+          onlyCriticalThresholdDefined ? CRITICAL_SEVERITY : WARNING_SEVERITY
+        )}
+      />
       {error && (
         <>
           <Spacer size="normal" />
@@ -69,7 +93,13 @@ function AlertingChartWithErrorMessageForAdaptiveBaseline(
   );
 }
 
-function ChartWithErrorMessageAndData(props: MobileAppAlertingChartWithErrorMessageProps): JSX.Element {
+// TODO , this needs to be updated once EUM changes for multi-threshold becomes available.
+interface ChartWithErrorMessageAndDataProps
+  extends Omit<MobileAppAlertingChartWithErrorMessageProps, 'eventBasedAdaptiveBaseline'> {
+  eventBasedAdaptiveBaseline?: [number, number][];
+}
+
+function ChartWithErrorMessageAndData(props: ChartWithErrorMessageAndDataProps): JSX.Element {
   const { alertConfigWithFormModel } = props;
   const { threshold, rule, mobileAppId } = alertConfigWithFormModel;
   const { metricName, alertType } = rule;
