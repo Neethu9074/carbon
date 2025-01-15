@@ -76,7 +76,7 @@ function Toggles({
   return (
     <TableTabs
       selectedIndex={toggles.filter(toggle => toggle.value === selectedType).map(toggle => toggle.index)[0]}
-      panels={toggles?.length > 0 && toggles.map(() => <CarbonTabPanel />)}
+      panels={toggles?.length > 0 && toggles.map(({ index }) => <CarbonTabPanel key={index} />)}
     >
       {toggles?.length > 0 &&
         toggles.map(toggle => (
