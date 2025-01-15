@@ -152,10 +152,10 @@
   "tooltipCloseEventDetail": "Close event detail",
   "releaseOccurName": "Release: {{releaseName}}",
   "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> ago)",
-  "deprecatedCustomEventWarning": "<strong>Custom Events on entity types Application, Service and Endpoint are deprecated. In the future, Custom Events for these three entity types will be removed, and you will no longer receive this {{issueOrIncident}}</strong><br/>View Custom Event configuration to migrate to Smart Alert. <documentationLink>Read more in our documentation</documentationLink>",
+  "deprecatedCustomEventWarning": "<strong>Custom Events on entity types Application, Service and Endpoint are deprecated. From March 2025, Custom Events for these three entity types will be removed, and you will no longer receive this {{issueOrIncident}}</strong><br/>View Custom Event configuration to migrate to Smart Alert. <documentationLink>Read more in our documentation</documentationLink>",
   "deprecatedCustomEventGlobalPopup": {
     "title": "{{deprecatedCustomEvents}} Custom Events require action",
-    "message": "Custom events on Application, Service and Endpoint are deprecated. You will not be able to create or update these types of custom events in the future.",
+    "message": "Custom events on Application, Service and Endpoint are deprecated. You will not be able to create or update these types of custom events starting <strong>March 2025</strong>.",
     "documentationLink": "<documentationLink>Read more in our documentation</documentationLink>",
     "affectedEventsLink": "View affected custom events"
   },
@@ -192,7 +192,7 @@
     "multiFailedCloseIssuesDescription": "Out of {{total_issues}} issue(s), {{number_issues_succesfully_closed}} were successfully closed, but {{number_issues_failed_closed}} failed. For more details, see the following list: ",
     "singleFailedCloseIssueDescription": "Out of {{total_issues}} issue(s), 1 was successfully closed, but {{number_issues_failed_closed}} failed. For more details, see the following list: ",
     "noSuccessfulIssueCloseDescription": "Out of {{total_issues}} issue(s), none were successfully closed, while {{number_issues_failed_closed}} failed. For more details, see the following list: "
-   },
+  },
 
   "ibmMqFileTransfer": {
     "transferID": "Transfer ID",
