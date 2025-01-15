@@ -12,8 +12,8 @@ import DashboardBigNumberCard, {
 import { filterByEndpointType } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
 import { useLinkToAnalyze as useLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
+import { createChartedMetric, createOrderBy } from 'in-analyze/navigation/paths';
 import { meanLatency } from 'in-services/formatters/number';
-import { createOrderBy } from 'in-analyze/navigation/paths';
 import { t } from 'in-i18n';
 
 export default function LatencyBigNumberCard({
@@ -48,7 +48,8 @@ export default function LatencyBigNumberCard({
           groupBy: jumpToAnalyze.groupBy,
           formModel: filterByEndpointType(endpointTypes),
           hiddenCalls: { includeSynthetic: includeSynthetic },
-          orderByGroups: createOrderBy('latency_MEAN', 'DESC')
+          orderByGroups: createOrderBy('latency_MEAN', 'DESC'),
+          chartedMetrics: [createChartedMetric('latency', 'MEAN')]
         },
         getLinkToApplicationAnalyze
       )}
