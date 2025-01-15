@@ -42,6 +42,7 @@ import {
   enforceSingleNumberResult,
   renderer as availableRenderers
 } from 'in-custom-dashboards/widgets/Chart/renderer';
+import { enrichBySettingDataSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/bizops/utils';
 import getUnifiedMetrics, { isLabeledMetricResult, UnifiedMetricsResult } from 'in-subscription/getUnifiedMetrics';
 import { getTimeConfigBasedOnMetricConfiguration } from 'in-custom-dashboards/widgets/_shared/lastTimeConfig';
 import { hasApplicationMetrics } from 'in-custom-dashboards/widgets/_shared/hasApplicationMetrics';
@@ -306,7 +307,7 @@ function addUnifiedMetricsConfigForMetrics(
   filter: FormModelElement[]
 ): ConfigurationResult {
   const filterResults: FilterResult[] = [];
-  metricConfig[axisName]?.metrics.forEach((metricConfiguration, i) => {
+  metricConfig[axisName]?.metrics.forEach((metricConfiguration: Metric, i: number) => {
     const updatedTimeConfig = isInfraMetricConfiguration(metricConfiguration as UnifiedMetricConfigurationUnion)
       ? getTimeConfigBasedOnMetricConfiguration(metricConfiguration as UnifiedMetricConfigurationUnion, timeConfig)
       : timeConfig;
@@ -320,7 +321,10 @@ function addUnifiedMetricsConfigForMetrics(
       } as UnifiedMetricConfigurationUnion,
       filter
     );
-    metrics[getMetricId(axisName, i)] = filterResult.metricConfiguration;
+
+    // Add required bizops data source to metrics object, if required
+    metrics[getMetricId(axisName, i)] = enrichBySettingDataSource(filterResult.metricConfiguration);
+
     if (filterResult.result) {
       filterResults.push(filterResult.result);
     }

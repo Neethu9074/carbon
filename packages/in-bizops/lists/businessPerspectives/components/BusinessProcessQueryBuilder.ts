@@ -12,8 +12,12 @@ import { getBusinessMonitoringTagCatalog } from 'in-bizops/api/catalog';
 import { GetBizOpsTagSuggestionQuery } from 'in-bizops/utils/types';
 import { createQueryBuilder } from 'in-components/QueryBuilder';
 
-const { QueryBuilder, isQueryValid: isQueryValidInternal } = createQueryBuilder({
-  getTagCatalog: getBusinessMonitoringTagCatalog,
+const {
+  QueryBuilder,
+  isQueryValid: isQueryValidInternal,
+  getTagCatalog: getTagCatalogInternal
+} = createQueryBuilder({
+  getTagCatalog: () => getBusinessMonitoringTagCatalog({ useCase: 'FILTERING' }),
   getSuggestions: params => {
     const { tagFilterExpression, tagName, timeConfig, propose, key, value } = params;
     let entity = params.entity;
@@ -34,3 +38,5 @@ const { QueryBuilder, isQueryValid: isQueryValidInternal } = createQueryBuilder(
 export default QueryBuilder;
 export const isQueryValid = ([tagFilterExpression, timeConfig]: [FormModelElement[], TimeConfig]) =>
   isQueryValidInternal(tagFilterExpression, timeConfig);
+
+export const getTagCatalog = getTagCatalogInternal;
