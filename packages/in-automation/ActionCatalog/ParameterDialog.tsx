@@ -243,6 +243,8 @@ function HiddenSection({ isNotEditable }: SectionProps) {
             let updatedForm = form.updateIn(['hidden'], item => item.setValue(e.target.checked).setTouched(true));
             if (e.target.checked) {
               updatedForm = updatedForm.updateIn(['required'], item => item.setValue(true).setTouched(true));
+            } else {
+              updatedForm = updatedForm.updateIn(['required'], item => item.setValue(false).setTouched(true));
             }
             return updatedForm;
           });
