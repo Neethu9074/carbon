@@ -6,9 +6,9 @@
 
 import React from 'react';
 
+import { number, percentage, bytes, withSiMultiplyPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { number, percentage, bytes } from 'in-services/formatters/number';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -189,6 +189,48 @@ function getRowDetails(row) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </Columize>
+      <div style={{ paddingTop: '1.5rem' }}>
+        <Columize>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: withSiMultiplyPrefixThreeDecimalPlaces,
+              tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces,
+              metrics: [
+                'advanceSolidStateDiskMetrics.' + row.key + '.elapsedReadRequests',
+                'advanceSolidStateDiskMetrics.' + row.key + '.elapsedWriteRequests'
+              ],
+              labels: [
+                t('in-forge:plugins.ibmiDiskInfo.dashboard.elapsedReadRequests'),
+                t('in-forge:plugins.ibmiDiskInfo.dashboard.elapsedWriteRequests')
+              ],
+              min: 0,
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              formatter: bytes.perSecond.detailed,
+              tooltipFormatter: bytes.perSecond.detailed,
+              metrics: [
+                'advanceSolidStateDiskMetrics.' + row.key + '.elapsedDataRead',
+                'advanceSolidStateDiskMetrics.' + row.key + '.elapsedDataWritten'
+              ],
+              labels: [
+                t('in-forge:plugins.ibmiDiskInfo.dashboard.elapsedDataRead'),
+                t('in-forge:plugins.ibmiDiskInfo.dashboard.elapsedDataWritten')
+              ],
+              min: 0,
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </Columize>
+      </div>
     </div>
   );
 }

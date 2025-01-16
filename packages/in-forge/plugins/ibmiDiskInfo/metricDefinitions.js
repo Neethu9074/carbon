@@ -43,7 +43,7 @@ export default [
         t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.spinningDiskType.name')
       )
     ],
-    labels: [t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.spinningDiskType.charts.elapsedPercentBusy')],
+    labels: [t('in-forge:plugins.ibmiDiskInfo.dashboard.elapsedPercentBusy')],
     min: 0,
     formatter: percentage.compact,
     category: [t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.spinningDiskType.name')]
@@ -368,7 +368,7 @@ export default [
         t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.systemDiskStatus.name')
       )
     ],
-    labels: [t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.systemDiskStatus.charts.elapsedPercentBusy')],
+    labels: [t('in-forge:plugins.ibmiDiskInfo.dashboard.elapsedPercentBusy')],
     min: 0,
     formatter: percentage.compact,
     category: [t('in-forge:plugins.ibmiDiskInfo.dashboard.tables.systemDiskStatus.name')]

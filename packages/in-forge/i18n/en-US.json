@@ -11655,10 +11655,7 @@
             "unitNumber": "Unit Number",
             "aspNumber": "ASP Number",
             "unitStorageCapacity": "Storage Capacity",
-            "unitMediaCapacityGb": "Media Capacity(GB)",
-            "charts": {
-              "elapsedPercentBusy": "Elapsed Percent Busy"
-            }
+            "unitMediaCapacityGb": "Media Capacity(GB)"
           },
           "solidStateDisk": {
             "name": "Solid State Disk(SSD) Info",
@@ -11682,10 +11679,7 @@
             "diskType": "Disk Type",
             "unitNumber": "Unit Number",
             "aspNumber": "ASP Number",
-            "typeOfDiskUnit": "Type of Disk Unit",
-            "charts": {
-              "elapsedPercentBusy": "Elapsed Percent Busy"
-            }
+            "typeOfDiskUnit": "Type of Disk Unit"
           },
           "nonVolatileMemory": {
             "name": "Non Volatile Memory Express(NVMe) Information",
@@ -11701,7 +11695,12 @@
             "unSafeShutDowns": "Unsafe Shutdowns",
             "firmwareLevel": "Firmware Level"
           }
-        }
+        },
+        "elapsedPercentBusy": "Elapsed Percent Busy",
+        "elapsedReadRequests": "Reads/s",
+        "elapsedWriteRequests": "Writes/s",
+        "elapsedDataRead": "Bytes Read/s",
+        "elapsedDataWritten": "Bytes Written/s"
       }
     },
     "ibmiNetworkInfo": {
