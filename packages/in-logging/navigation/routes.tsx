@@ -14,17 +14,17 @@ import AnalyzeView from 'promise-loader?global,logging!in-logging/analyze/Analyz
 //@ts-expect-error
 import LoggingDashboardWrapper from 'promise-loader?global,logging!in-logging/dashboard/LoggingDashboardWrapper';
 //@ts-expect-error
-import RetentionPeriod from 'promise-loader?global,logging!in-logging/dashboard/Configuration/RetentionPeriod';
+import RetentionPeriod from 'promise-loader?global,logging!in-logging/dashboard/Management/RetentionPeriod';
 //@ts-expect-error
-import LogIntegrations from 'promise-loader?global,logging!in-logging/dashboard/Configuration/LogIntegrations';
-//@ts-expect-error
-import Configuration from 'promise-loader?global,logging!in-logging/dashboard/Configuration/Configuration';
+import LogIntegrations from 'promise-loader?global,logging!in-logging/dashboard/Management/LogIntegrations';
 //@ts-expect-error needs TS migration
 import DeleteLogs from 'promise-loader?global,logging!in-logging/dashboard/DeleteLogs';
 //@ts-expect-error
 import SmartAlerts from 'promise-loader?global,logging!in-logging/dashboard/SmartAlerts/SmartAlerts';
 //@ts-expect-error
-import LogVolume from 'promise-loader?global,logging!in-logging/dashboard/Configuration/LogVolume';
+import Management from 'promise-loader?global,logging!in-logging/dashboard/Management/Management';
+//@ts-expect-error
+import LogVolume from 'promise-loader?global,logging!in-logging/dashboard/Management/LogVolume';
 //@ts-expect-error
 import SmartAlertList from 'promise-loader?global,logging!in-alerting/smart-alerts/logs/Alerts';
 //@ts-expect-error
@@ -39,9 +39,9 @@ import {
   logsPath,
   dashboardSmartAlertsPath,
   dashboardDeletePath,
-  dashboardConfigurationPath,
+  dashboardManagementPath,
   dashboardAlertDetailsFullPath,
-  dashboardRetentionConfigurationPath,
+  dashboardRetentionManagementPath,
   dashboardLogVolumePath,
   dashboardIntegrationsPath,
   logSmartAlertsFullScreen
@@ -60,17 +60,17 @@ export default [
   <Route key="logsAnalyze" path={logsPath}>
     {renderAsyncRouteChildren(AnalyzeView)}
   </Route>,
-  <Route key="loggingDashboardConfiguation" path={dashboardRetentionConfigurationPath}>
+  <Route key="loggingDashboardManagement" path={dashboardRetentionManagementPath}>
     {renderAsyncRouteChildren(RetentionPeriod)}
   </Route>,
-  <Route key="loggingDashboardConfiguation" path={dashboardLogVolumePath}>
+  <Route key="loggingDashboardManagement" path={dashboardLogVolumePath}>
     {renderAsyncRouteChildren(LogVolume)}
   </Route>,
-  <Route key="loggingDashboardConfiguation" path={dashboardIntegrationsPath}>
+  <Route key="loggingDashboardManagement" path={dashboardIntegrationsPath}>
     {renderAsyncRouteChildren(LogIntegrations)}
   </Route>,
-  <Route key="loggingDashboardConfiguation" path={dashboardConfigurationPath}>
-    {renderAsyncRouteChildren(Configuration)}
+  <Route key="loggingDashboardManagement" path={dashboardManagementPath}>
+    {renderAsyncRouteChildren(Management)}
   </Route>,
   <Route key="loggingDashboardAlertsDetails" path={dashboardAlertDetailsFullPath}>
     {renderAsyncRouteChildren(DashboardSmartAlertDetailsView)}

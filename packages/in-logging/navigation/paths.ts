@@ -23,10 +23,10 @@ export const alertDetailsFullyQualifiedPath = `${alertsFullyQualifiedPath}${aler
 export const dashboardAlertDetailsFullPath = `${loggingDashboardPath}${alertsPath}${alertsDetailsPath}`;
 export const dashboardSmartAlertsPath = `${loggingDashboardPath}${alertsPath}`;
 export const dashboardDeletePath = `${loggingDashboardPath}/delete`;
-export const dashboardConfigurationPath = `${loggingDashboardPath}/configure`;
-export const dashboardRetentionConfigurationPath = `${dashboardConfigurationPath}/retention`;
-export const dashboardLogVolumePath = `${dashboardConfigurationPath}/logVolume`;
-export const dashboardIntegrationsPath = `${dashboardConfigurationPath}/integrations`;
+export const dashboardManagementPath = `${loggingDashboardPath}/manage`;
+export const dashboardRetentionManagementPath = `${dashboardManagementPath}/retention`;
+export const dashboardLogVolumePath = `${dashboardManagementPath}/logVolume`;
+export const dashboardIntegrationsPath = `${dashboardManagementPath}/integrations`;
 export const logSmartAlertsFullScreen = '/logSmartAlerts';
 
 export const isLoggingView = getRootPathPredicate(loggingDashboardPath);

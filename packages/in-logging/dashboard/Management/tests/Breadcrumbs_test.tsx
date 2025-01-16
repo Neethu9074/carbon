@@ -23,7 +23,7 @@ jest.mock('in-i18n', () => ({
 jest.mock('in-i18n', () => ({
   t: jest.fn(key => {
     const localisationStrings: Record<string, string> = {
-      'in-logging:dashboard.configuration': 'Configuration',
+      'in-logging:dashboard.management': 'Management',
       'in-logging:logs': 'Logs'
     };
     return localisationStrings[key] || key;
@@ -44,8 +44,8 @@ describe('Breadcrumbs Component', () => {
     expect(screen.getByText('Logs')).toBeInTheDocument();
     expect(screen.getByText('Logs')).toHaveAttribute('href', '/mocked-path/logging');
 
-    expect(screen.getByText('Configuration')).toBeInTheDocument();
-    expect(screen.getByText('Configuration').closest('a')).toHaveAttribute('href', '/mocked-path/logging/configure');
+    expect(screen.getByText('Management')).toBeInTheDocument();
+    expect(screen.getByText('Management').closest('a')).toHaveAttribute('href', '/mocked-path/logging/manage');
   });
 
   test('renders breadcrumbs with default labels if no location matches', () => {
@@ -57,7 +57,7 @@ describe('Breadcrumbs Component', () => {
     render(<Breadcrumbs />);
 
     expect(screen.getByText('Logs')).toBeInTheDocument();
-    expect(screen.getByText('Configuration')).toBeInTheDocument();
+    expect(screen.getByText('Management')).toBeInTheDocument();
 
     const unmatchedLabel = screen.queryByText('Log Volume');
     expect(unmatchedLabel).not.toBeInTheDocument();

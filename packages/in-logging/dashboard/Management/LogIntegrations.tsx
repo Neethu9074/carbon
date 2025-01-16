@@ -7,11 +7,11 @@
 import React from 'react';
 
 import LogIntegrationsContent from 'in-settings/tabs/GlobalSettings/pages/integrations/logging/Integrations/Integrations';
-import Breadcrumbs from 'in-logging/dashboard/Configuration/Breadcrumbs';
+import Breadcrumbs from 'in-logging/dashboard/Management/Breadcrumbs';
 import RestrictedAccessMessage from 'in-components/rbac';
 import { user } from 'in-stores/user';
 
-import locals from 'in-logging/dashboard/Configuration/Configuration.mless';
+import locals from 'in-logging/dashboard/Management/Management.mless';
 
 export default function LogIntegrations() {
   if (!user?.role?.canConfigureLogManagement) return <RestrictedAccessMessage />;

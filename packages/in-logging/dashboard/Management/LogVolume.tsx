@@ -8,18 +8,18 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import RetentionPeriodContent from 'in-settings/tabs/GlobalSettings/pages/logManagement/RententionPeriod/RetentionPeriod';
-import Breadcrumbs from 'in-logging/dashboard/Configuration/Breadcrumbs';
+import { LogVolume as LogVolumeContent } from 'in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/LogVolume';
+import Breadcrumbs from 'in-logging/dashboard/Management/Breadcrumbs';
 import { isAddonUserCached } from 'in-logging/api/licence';
 import RestrictedAccessMessage from 'in-components/rbac';
 import { user } from 'in-stores/user';
 
-import locals from 'in-logging/dashboard/Configuration/Configuration.mless';
+import locals from './Management.mless';
 
-export default function RetentionPeriod() {
+export default function LogVolume() {
   const isLoggingAddonUser = useObservable(isAddonUserCached, []);
 
-  if (!(user?.role?.canConfigureLogRetentionPeriod && isLoggingAddonUser)) return <RestrictedAccessMessage />;
+  if (!(user?.role?.canViewLogVolume && isLoggingAddonUser)) return <RestrictedAccessMessage />;
 
   return (
     <main>
@@ -27,7 +27,7 @@ export default function RetentionPeriod() {
         <Breadcrumbs />
       </header>
       <section className={locals.content}>
-        <RetentionPeriodContent />
+        <LogVolumeContent />
       </section>
     </main>
   );

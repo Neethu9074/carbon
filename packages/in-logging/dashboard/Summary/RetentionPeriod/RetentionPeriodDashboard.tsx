@@ -10,7 +10,7 @@ import { HorizontalIndicator, LoadingSkeleton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import { retentionLogsGET } from 'in-settings/tabs/GlobalSettings/pages/logManagement/RententionPeriod/RetentionPeriod';
-import { dashboardRetentionConfigurationPath } from 'in-logging/navigation/paths';
+import { dashboardRetentionManagementPath } from 'in-logging/navigation/paths';
 import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
 import { getEntityIdView } from 'in-settings/navigation/paths';
 import { isAddonUserCached } from 'in-logging/api/licence';
@@ -31,7 +31,7 @@ export default function RetentionPeriodDashboard() {
     loading: isLoading
   };
 
-  const logRetentionHrefToLogginHomepage = useObservable(getEntityIdView(dashboardRetentionConfigurationPath, ''), []);
+  const logRetentionHrefToLogginHomepage = useObservable(getEntityIdView(dashboardRetentionManagementPath, ''), []);
 
   const isLoggingAddonUser = useObservable(isAddonUserCached, []);
 

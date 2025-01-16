@@ -9,26 +9,26 @@ import React from 'react';
 import { Link } from '@instana/components';
 
 import {
-  dashboardConfigurationPath,
+  dashboardManagementPath,
   dashboardIntegrationsPath,
   dashboardLogVolumePath,
-  dashboardRetentionConfigurationPath,
+  dashboardRetentionManagementPath,
   loggingDashboardPath
 } from 'in-logging/navigation/paths';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { t } from 'in-i18n';
 
-import locals from './Configuration.mless';
+import locals from './Management.mless';
 
 const localisationStrings = {
-  configuration: t('in-logging:dashboard.configuration'),
+  management: t('in-logging:dashboard.management'),
   logs: t('in-logging:logs')
 };
 
 const locationLabels = [
-  { path: dashboardLogVolumePath, label: t('in-logging:dashboard.configurationPage.logVolume') },
-  { path: dashboardIntegrationsPath, label: t('in-logging:dashboard.configurationPage.logIntegrations') },
-  { path: dashboardRetentionConfigurationPath, label: t('in-logging:dashboard.configurationPage.retentionPeriod') }
+  { path: dashboardLogVolumePath, label: t('in-logging:dashboard.managementPage.logVolume') },
+  { path: dashboardIntegrationsPath, label: t('in-logging:dashboard.managementPage.logIntegrations') },
+  { path: dashboardRetentionManagementPath, label: t('in-logging:dashboard.managementPage.retentionPeriod') }
 ];
 
 export default function Breadcrumbs() {
@@ -38,7 +38,7 @@ export default function Breadcrumbs() {
     <div className={locals.crumbs}>
       <Link href={createHrefToPath(loggingDashboardPath)}>{localisationStrings.logs}</Link>
       <span>/</span>
-      <Link href={createHrefToPath(dashboardConfigurationPath)}>{localisationStrings.configuration}</Link>
+      <Link href={createHrefToPath(dashboardManagementPath)}>{localisationStrings.management}</Link>
       <span>/</span>
       <Link>{locationLabels.find(location => matchLocation(location.path))?.label}</Link>
     </div>

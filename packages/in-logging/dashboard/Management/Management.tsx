@@ -13,7 +13,7 @@ import { useObservable } from '@instana/hooks';
 import {
   dashboardIntegrationsPath,
   dashboardLogVolumePath,
-  dashboardRetentionConfigurationPath
+  dashboardRetentionManagementPath
 } from 'in-logging/navigation/paths';
 import LoggingDashboardWrapper from 'in-logging/dashboard/LoggingDashboardWrapper';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -22,18 +22,18 @@ import RestrictedAccessMessage from 'in-components/rbac';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-import locals from './Configuration.mless';
+import locals from './Management.mless';
 
 const localisationStrings = {
-  logVolume: t('in-logging:dashboard.configurationPage.logVolume'),
-  logVolumeDescription: t('in-logging:dashboard.configurationPage.logVolumeDescription'),
-  logIntegrations: t('in-logging:dashboard.configurationPage.logIntegrations'),
-  logIntegrationsDescription: t('in-logging:dashboard.configurationPage.logIntegrationsDescription'),
-  retentionPeriod: t('in-logging:dashboard.configurationPage.retentionPeriod'),
-  retentionPeriodDescription: t('in-logging:dashboard.configurationPage.retentionPeriodDescription')
+  logVolume: t('in-logging:dashboard.managementPage.logVolume'),
+  logVolumeDescription: t('in-logging:dashboard.managementPage.logVolumeDescription'),
+  logIntegrations: t('in-logging:dashboard.managementPage.logIntegrations'),
+  logIntegrationsDescription: t('in-logging:dashboard.managementPage.logIntegrationsDescription'),
+  retentionPeriod: t('in-logging:dashboard.managementPage.retentionPeriod'),
+  retentionPeriodDescription: t('in-logging:dashboard.managementPage.retentionPeriodDescription')
 };
 
-export default function Configuration() {
+export default function Management() {
   const { goToPath } = useNavigation();
   const isLoggingAddonUser = useObservable(isAddonUserCached, []);
 
@@ -57,7 +57,7 @@ export default function Configuration() {
               <div className={locals.navButton}>
                 <IconButton
                   color="#0F62FE"
-                  onClick={() => goToPath(dashboardRetentionConfigurationPath)}
+                  onClick={() => goToPath(dashboardRetentionManagementPath)}
                   type="lib_arrow_right"
                 />
               </div>

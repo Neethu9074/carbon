@@ -10,7 +10,7 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 
 // eslint-disable-next-line no-restricted-imports
-import Configuration from '../Configuration';
+import Management from '../Management';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
 import { user } from 'in-stores/user';
 
@@ -29,12 +29,12 @@ jest.mock('in-stores/user', () => ({
 jest.mock('in-i18n', () => ({
   t: jest.fn(key => {
     const mockTranslations = {
-      'in-logging:dashboard.configurationPage.retentionPeriod': 'Retention Period',
-      'in-logging:dashboard.configurationPage.retentionPeriodDescription': 'Configure the retention period for logs.',
-      'in-logging:dashboard.configurationPage.logVolume': 'Log Volume',
-      'in-logging:dashboard.configurationPage.logVolumeDescription': 'View log volume details.',
-      'in-logging:dashboard.configurationPage.logIntegrations': 'Log Integrations',
-      'in-logging:dashboard.configurationPage.logIntegrationsDescription': 'Manage log integrations.'
+      'in-logging:dashboard.managementPage.retentionPeriod': 'Retention Period',
+      'in-logging:dashboard.managementPage.retentionPeriodDescription': 'Manage the retention period for logs.',
+      'in-logging:dashboard.managementPage.logVolume': 'Log Volume',
+      'in-logging:dashboard.managementPage.logVolumeDescription': 'View log volume details.',
+      'in-logging:dashboard.managementPage.logIntegrations': 'Log Integrations',
+      'in-logging:dashboard.managementPage.logIntegrationsDescription': 'Manage log integrations.'
     } as any;
     return mockTranslations[key] || key;
   })
@@ -45,7 +45,7 @@ jest.mock('in-logging/dashboard/LoggingDashboardWrapper', () => (props: any) => 
   <div data-testid="dashboard-wrapper">{props.children}</div>
 ));
 
-describe('Configuration Component', () => {
+describe('Management Component', () => {
   const mockGoToPath = jest.fn();
 
   beforeEach(() => {
@@ -61,7 +61,7 @@ describe('Configuration Component', () => {
   test('renders Restricted Access when no permissions are granted', () => {
     (user as any).role = {};
 
-    render(<Configuration />);
+    render(<Management />);
 
     expect(screen.getByText('Restricted Access')).toBeInTheDocument();
   });
@@ -69,37 +69,37 @@ describe('Configuration Component', () => {
   test('renders Retention Period card when permission is granted', () => {
     (user as any).role = { canConfigureLogRetentionPeriod: true };
 
-    render(<Configuration />);
+    render(<Management />);
 
     expect(screen.getByText('Retention Period')).toBeInTheDocument();
-    expect(screen.getByText('Configure the retention period for logs.')).toBeInTheDocument();
+    expect(screen.getByText('Manage the retention period for logs.')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button'));
-    expect(mockGoToPath).toHaveBeenCalledWith('/logging/configure/retention');
+    expect(mockGoToPath).toHaveBeenCalledWith('/logging/manage/retention');
   });
 
   test('renders Log Volume card when permission is granted', () => {
     (user as any).role = { canViewLogVolume: true };
 
-    render(<Configuration />);
+    render(<Management />);
 
     expect(screen.getByText('Log Volume')).toBeInTheDocument();
     expect(screen.getByText('View log volume details.')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button'));
-    expect(mockGoToPath).toHaveBeenCalledWith('/logging/configure/logVolume');
+    expect(mockGoToPath).toHaveBeenCalledWith('/logging/manage/logVolume');
   });
 
   test('renders Log Integrations card when permission is granted', () => {
     (user as any).role = { canConfigureLogManagement: true };
 
-    render(<Configuration />);
+    render(<Management />);
 
     expect(screen.getByText('Log Integrations')).toBeInTheDocument();
     expect(screen.getByText('Manage log integrations.')).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole('button'));
-    expect(mockGoToPath).toHaveBeenCalledWith('/logging/configure/integrations');
+    expect(mockGoToPath).toHaveBeenCalledWith('/logging/manage/integrations');
   });
 
   test('renders all cards when all permissions are granted', () => {
@@ -109,10 +109,10 @@ describe('Configuration Component', () => {
       canConfigureLogManagement: true
     };
 
-    render(<Configuration />);
+    render(<Management />);
 
     expect(screen.getByText('Retention Period')).toBeInTheDocument();
-    expect(screen.getByText('Configure the retention period for logs.')).toBeInTheDocument();
+    expect(screen.getByText('Manage the retention period for logs.')).toBeInTheDocument();
     expect(screen.getByText('Log Integrations')).toBeInTheDocument();
     expect(screen.getByText('Log Volume')).toBeInTheDocument();
     expect(screen.getByText('View log volume details.')).toBeInTheDocument();

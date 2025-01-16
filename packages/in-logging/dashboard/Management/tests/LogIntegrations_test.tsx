@@ -11,7 +11,7 @@ import React from 'react';
 import LogIntegrations from '../LogIntegrations';
 import { user } from 'in-stores/user';
 
-jest.mock('in-logging/dashboard/Configuration/Breadcrumbs', () => () => <div>Mocked Breadcrumbs</div>);
+jest.mock('in-logging/dashboard/Management/Breadcrumbs', () => () => <div>Mocked Breadcrumbs</div>);
 
 jest.mock('in-settings/tabs/GlobalSettings/pages/integrations/logging/Integrations/Integrations', () => () => (
   <div>Mocked Log Integrations Content</div>
@@ -23,7 +23,7 @@ jest.mock('in-stores/user', () => ({
   user: { role: {} }
 }));
 
-jest.mock('in-logging/dashboard/Configuration/Configuration.mless', () => ({
+jest.mock('in-logging/dashboard/Management/Management.mless', () => ({
   content: 'mocked-content-class'
 }));
 

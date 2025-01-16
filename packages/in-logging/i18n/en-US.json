@@ -63,7 +63,7 @@
     "summary": "Summary",
     "smartAlerts": "Smart alerts",
     "deleteLogs": "Delete logs",
-    "configuration": "Configuration",
+    "management": "Management",
     "logVolume":{
       "logVolumeTitle": "Current month log volume",
       "gb": "GB",
@@ -72,7 +72,7 @@
     "retentionIcon": "Change retention period",
     "noData": "No data available",
     "analyzeLogs": "Analyze logs",
-    "configurationPage": {
+    "managementPage": {
       "logVolume": "Log volume",
       "logVolumeDescription": "View the log volume for up to 12 months and group by infrastructure tags on demand.",
       "logIntegrations": "Log integrations",

@@ -10,14 +10,14 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 
 // eslint-disable-next-line no-restricted-imports
-import RetentionPeriod from '../RetentionPeriod';
+import LogVolume from '../LogVolume';
 import { user } from 'in-stores/user';
 
-jest.mock('in-logging/dashboard/Configuration/Breadcrumbs', () => () => <div>Mocked Breadcrumbs</div>);
+jest.mock('in-logging/dashboard/Management/Breadcrumbs', () => () => <div>Mocked Breadcrumbs</div>);
 
-jest.mock('in-settings/tabs/GlobalSettings/pages/logManagement/RententionPeriod/RetentionPeriod', () => () => (
-  <div>Mocked Retention Period Content</div>
-));
+jest.mock('in-settings/tabs/GlobalSettings/pages/logManagement/LogVolume/LogVolume', () => ({
+  LogVolume: () => <div>Mocked Log Volume Content</div>
+}));
 
 jest.mock('in-components/rbac', () => () => <div>Restricted Access</div>);
 
@@ -29,15 +29,11 @@ jest.mock('in-stores/user', () => ({
   user: { role: {} }
 }));
 
-jest.mock('in-logging/dashboard/Configuration/Configuration.mless', () => ({
-  content: 'mocked-content-class'
-}));
-
 jest.mock('@instana/hooks', () => ({
   useObservable: jest.fn()
 }));
 
-describe('RetentionPeriod Component', () => {
+describe('LogVolume Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -46,37 +42,35 @@ describe('RetentionPeriod Component', () => {
     (user as any).role = {};
     (useObservable as jest.Mock).mockReturnValue(false);
 
-    render(<RetentionPeriod />);
+    render(<LogVolume />);
 
     expect(screen.getByText('Restricted Access')).toBeInTheDocument();
 
     expect(screen.queryByText('Mocked Breadcrumbs')).not.toBeInTheDocument();
-    expect(screen.queryByText('Mocked Retention Period Content')).not.toBeInTheDocument();
+    expect(screen.queryByText('Mocked Log Volume Content')).not.toBeInTheDocument();
   });
 
   test('renders Restricted Access when the user is not an addon user', () => {
-    (user as any).role = { canConfigureLogRetentionPeriod: true };
+    (user as any).role = { canViewLogVolume: true };
     (useObservable as jest.Mock).mockReturnValue(false);
 
-    render(<RetentionPeriod />);
+    render(<LogVolume />);
 
     expect(screen.getByText('Restricted Access')).toBeInTheDocument();
 
     expect(screen.queryByText('Mocked Breadcrumbs')).not.toBeInTheDocument();
-    expect(screen.queryByText('Mocked Retention Period Content')).not.toBeInTheDocument();
+    expect(screen.queryByText('Mocked Log Volume Content')).not.toBeInTheDocument();
   });
 
-  test('renders Retention Period content when the user has permission and is an addon user', () => {
-    (user as any).role = { canConfigureLogRetentionPeriod: true };
+  test('renders Log Volume content when the user has permission and is an addon user', () => {
+    (user as any).role = { canViewLogVolume: true };
     (useObservable as jest.Mock).mockReturnValue(true);
 
-    render(<RetentionPeriod />);
+    render(<LogVolume />);
 
     expect(screen.queryByText('Restricted Access')).not.toBeInTheDocument();
 
     expect(screen.getByText('Mocked Breadcrumbs')).toBeInTheDocument();
-    expect(screen.getByText('Mocked Retention Period Content')).toBeInTheDocument();
-
-    expect(screen.getByText('Mocked Retention Period Content').parentElement).toHaveClass('mocked-content-class');
+    expect(screen.getByText('Mocked Log Volume Content')).toBeInTheDocument();
   });
 });
