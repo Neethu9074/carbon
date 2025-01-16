@@ -11,16 +11,18 @@ import { LogAlertConfigWithMetadata, LogAlertConfig } from '@instana/types';
 
 import { EnrichedError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import AlertConfigTearSheetWithThreshold from 'in-alerting/smart-alerts/logs/tearsheet/AlertConfigTearSheetWithThreshold';
+import { duplicateAlertConfig, getHeaderTitle } from 'in-alerting/smart-alerts/logs/tearsheet/sharedFunctions';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/logs/form/formUtils';
+import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter/ErroneousResultPresenter';
 import { createOrSaveAlertFromTearSheet } from 'in-alerting/smart-alerts/logs/components/AlertCreateOrSave';
 import { useSmartAlertFormSideEffects } from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/logs/form/alertFormDefinition';
 import getAlertingUrlParameters from 'in-alerting/smart-alerts/logs/tearsheet/getAlertingUrlParameters';
+import TearSheetLoading from 'in-alerting/smart-alerts/components/tearSheet/Loading/TearSheetLoading';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { dashboardAlertDetailsFullPath, alertsDetailsPath } from 'in-logging/navigation/paths';
 import { toGroupByTag } from 'in-alerting/smart-alerts/logs/dialog/advanced/AlertConfigUtils';
-import generateAlertConfig from 'in-alerting/smart-alerts/logs/data/generateAlertConfig';
-import { getHeaderTitle } from 'in-alerting/smart-alerts/logs/tearsheet/sharedFunctions';
+import { useAlertConfig } from 'in-alerting/smart-alerts/logs/hooks/useSmartAlertCreateUrl';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import { useSegmentTracking } from 'in-services/tracking/useSegmentTracking';
 import { useNavigation } from 'in-stores/navigation/hooks/useNavigation';
@@ -33,26 +35,38 @@ const initialChartConfigIndex = 0;
 
 export default function AlertConfigTearSheet() {
   const location = useLocation();
-  const alertConfig = generateAlertConfig();
-  const { cancelTearSheet } = useMemo(() => {
+  const { cancelTearSheet, editMode, duplicateMode, alertConfigId, alertConfigCreated } = useMemo(() => {
     return getAlertingUrlParameters(location);
   }, [location]);
 
-  return <AlertConfigTearSheetContent alertConfig={alertConfig} cancelTearSheet={cancelTearSheet} />;
+  const { alertConfig, alertConfigErrors } = useAlertConfig(alertConfigId, alertConfigCreated, editMode, duplicateMode);
+
+  if (alertConfigErrors?.length) {
+    return <ErroneousResultPresenter errors={[...alertConfigErrors]} />;
+  } else if (!alertConfig) {
+    return <TearSheetLoading />;
+  } else {
+    const logAlertConfig = duplicateMode ? duplicateAlertConfig(alertConfig) : alertConfig;
+
+    return (
+      <AlertConfigTearSheetContent alertConfig={logAlertConfig} cancelTearSheet={cancelTearSheet} editMode={editMode} />
+    );
+  }
 }
 
 function AlertConfigTearSheetContent({
   alertConfig,
-  cancelTearSheet
+  cancelTearSheet,
+  editMode
 }: {
   alertConfig: LogAlertConfigWithMetadata & { duplicateFrom?: string };
   cancelTearSheet: string;
+  editMode: boolean;
 }) {
-  const editMode = false; // TODO handle edit scenerio
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode));
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
-  const duplicateFrom = alertConfig?.duplicateFrom;
+  const duplicateFrom = alertConfig?.duplicateFrom ?? undefined;
 
   const [isSaving, setIsSaving] = useState(false);
   const [messages, setMessages] = useState<EnrichedError[]>([]);
@@ -87,7 +101,7 @@ function AlertConfigTearSheetContent({
         messages={messages}
         cancelTearSheet={cancelTearSheet}
         withTrackClose={() => undefined}
-        tearSheetTitle={getHeaderTitle()}
+        tearSheetTitle={getHeaderTitle(editMode)}
       />
     </>
   );

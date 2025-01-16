@@ -22,7 +22,7 @@ import { t } from 'in-i18n';
 export default function CreateSmartAlert({ isCarbonTableView }: { isCarbonTableView?: boolean }) {
   const { trackCta } = useSegmentTracking();
   const labelNew = t('in-alerting:smartAlerts.labelNew');
-  const getLinkToCreateSmartAlert = useSmartAlertCreateUrl();
+  const getLinkToCreateSmartAlert = useSmartAlertCreateUrl({});
 
   const handleButtonClick = () => {
     trackCta(ALERTING_CREATE);

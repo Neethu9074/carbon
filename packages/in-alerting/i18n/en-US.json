@@ -1661,7 +1661,10 @@
       },
       "logCount": "Log count",
       "tearSheet": {
+        "labelActionButtonEdit": "Edit",
+        "labelActionButtonDuplicate": "Duplicate",
         "createTitle": "Create a log smart alert",
+        "editTitle": "Edit log Smart Alert",
         "steps": {
           "step1Title": "Define the condition",
           "step2Title": "Define when to get alerted",

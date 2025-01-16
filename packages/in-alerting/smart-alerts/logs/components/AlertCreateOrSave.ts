@@ -133,13 +133,12 @@ export function createOrSaveAlertFromTearSheet({
   }
 
   const alertConfig: LogAlertConfig = toAlertConfig(form);
-
   if (editMode) {
     const updateConfig = updateAlertConfig(alertConfig, form.get('id').value);
     updateConfig.once(
       updatedAlertConfig => {
         trackCta(ALERTING_UPDATED, { ...updatedAlertConfig });
-        navigateToAlertConfig(updatedAlertConfig.id, updatedAlertConfig?.created);
+        navigateToAlertConfig(form.get('id').value);
       },
       error => {
         addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
