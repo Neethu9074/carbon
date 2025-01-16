@@ -15,9 +15,9 @@ import {
 } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
+import { calculateSloGranularity, getIndexOfFirstTimeWindowWithData } from 'in-service-levels/utils/time';
 import { ResultAwareChartMetrics } from 'in-service-levels/hooks/useTimeWindowAwareSloChartMetrics';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
-import { calculateSloGranularity } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { minutes, number } from 'in-services/formatters/number';
 import { sloMetrics } from 'in-service-levels/metrics';
@@ -63,6 +63,9 @@ export default function ControlledSloErrorBudgetChart({
 
   const chartMetrics = copyFirstBucketOfSubsequentDataSeries(metrics?.metrics);
   const { min, max } = findMinMaxMetricValues(chartMetrics.flat(1), { withBuffer: true });
+  const timeWindowStartIndex = getIndexOfFirstTimeWindowWithData(chartMetrics, timeWindows);
+  const timeWindowsWithData = timeWindows.slice(timeWindowStartIndex);
+  const windowColorsWithData = timeWindowColors.slice(timeWindowStartIndex);
 
   return (
     <ResultAwareChart
@@ -75,13 +78,13 @@ export default function ControlledSloErrorBudgetChart({
         additionalContextMenuButtons: [sloZoomInAction],
         excludedContextMenuActions: [zoomInAction.name],
         y1: {
-          metricIds: timeWindows.map((_, index) => `timeWindows${index}`),
+          metricIds: timeWindowsWithData.map((_, index) => `timeWindows${index}`),
           metrics: chartMetrics,
           min,
           max,
           renderAllTickLabels: true,
-          labels: timeWindows.map(() => sloMetrics.remainingBudget.label),
-          colors: timeWindowColors,
+          labels: timeWindowsWithData.map(() => sloMetrics.remainingBudget.label),
+          colors: windowColorsWithData,
           renderer,
           formatter
         },

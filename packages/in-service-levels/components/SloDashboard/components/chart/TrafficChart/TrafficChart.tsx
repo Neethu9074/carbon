@@ -28,13 +28,13 @@ import {
 } from 'in-service-levels/components/SloDashboard/components/chart/utils';
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
+import { calculateTrafficGranularity, getIndexOfFirstTimeWindowWithData } from 'in-service-levels/utils/time';
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 import useTimeWindowAwareSloChartMetrics from 'in-service-levels/hooks/useTimeWindowAwareSloChartMetrics';
 import useBasicTagFilterExpression from 'in-service-levels/navigation/hooks/useBasicFilterExpression';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import { applicationMetrics, websiteMetrics } from 'in-service-levels/metrics';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
-import { calculateTrafficGranularity } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { number } from 'in-services/formatters/number';
@@ -99,8 +99,12 @@ function AppWebsiteTrafficChart({
   const renderer = useLineWithMissingDataIndicatorRenderer({
     firstCollectedMetricTimestamp: missingDataIndicator
   });
+
   const metrics = copyFirstBucketOfSubsequentDataSeries(metricResult?.metrics);
   const { min } = findMinMaxMetricValues(metrics.flat(1));
+  const timeWindowStartIndex = getIndexOfFirstTimeWindowWithData(metrics, timeWindows);
+  const timeWindowsWithData = timeWindows.slice(timeWindowStartIndex);
+  const windowColorsWithData = timeWindowColors.slice(timeWindowStartIndex);
 
   return (
     <ResultAwareChart
@@ -116,11 +120,11 @@ function AppWebsiteTrafficChart({
         excludedContextMenuActions: [zoomInAction.name],
         y1: {
           metrics,
-          metricIds: timeWindows.map((_, index) => `timeWindows${index}`),
+          metricIds: timeWindowsWithData.map((_, index) => `timeWindows${index}`),
           min,
           renderAllTickLabels: true,
-          labels: timeWindows.map(() => label),
-          colors: timeWindowColors,
+          labels: timeWindowsWithData.map(() => label),
+          colors: windowColorsWithData,
           formatter: number.compact,
           renderer
         },

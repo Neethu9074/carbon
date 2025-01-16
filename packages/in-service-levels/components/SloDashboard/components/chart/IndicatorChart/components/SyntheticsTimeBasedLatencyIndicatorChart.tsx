@@ -19,10 +19,10 @@ import SloDashboardMarkerLanes from 'in-service-levels/components/SloDashboard/c
 // @ts-expect-error needs migration
 import zoomInAction from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import useSyntheticsTimeBasedLatencyMetrics from 'in-service-levels/hooks/useSyntheticsTimeBasedLatencyMetrics';
+import { calculateTrafficGranularity, getIndexOfFirstTimeWindowWithData } from 'in-service-levels/utils/time';
 import useContextAwareSloTimeWindowConfig from 'in-service-levels/hooks/useContextAwareSloTimeWindowConfig';
 import useSloTimeWindowContext from 'in-service-levels/hooks/useSloTimeWindowContext';
 import useSloZoomInAction from 'in-service-levels/hooks/useSloZoomInAction';
-import { calculateTrafficGranularity } from 'in-service-levels/utils/time';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { millis } from 'in-services/formatters/number';
@@ -60,6 +60,11 @@ export default function SyntheticsTimeBasedLatencyIndicatorChart({
   const metricLabel = t('in-service-levels:general.metrics.latency');
 
   const filteredData = filterMetricValuesWithinTimeWindow(metricValues, timeConfig);
+
+  const timeWindowStartIndex = getIndexOfFirstTimeWindowWithData(filteredData, timeWindows);
+  const timeWindowsWithData = timeWindows.slice(timeWindowStartIndex);
+  const windowColorsWithData = timeWindowColors.slice(timeWindowStartIndex);
+
   const renderer = useLineWithThresholdAndMissingDataIndicatorRenderer({
     firstCollectedMetricTimestamp: missingDataIndicator
   });
@@ -81,10 +86,10 @@ export default function SyntheticsTimeBasedLatencyIndicatorChart({
         excludedContextMenuActions: [zoomInAction.name],
         granularity,
         y1: {
-          metricIds: [...timeWindows.map(() => metricId), thresholdMetricId],
+          metricIds: [...timeWindowsWithData.map(() => metricId), thresholdMetricId],
           metrics: [...filteredData, thresholdMetrics],
-          labels: [...timeWindows.map(() => metricLabel), t('in-service-levels:general.metrics.threshold')],
-          colors: [...timeWindowColors, themes.default.ids.color.option.red['500']],
+          labels: [...timeWindowsWithData.map(() => metricLabel), t('in-service-levels:general.metrics.threshold')],
+          colors: [...windowColorsWithData, themes.default.ids.color.option.red['500']],
           formatter: millis.compact,
           renderer
         },

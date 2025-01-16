@@ -18,6 +18,33 @@ import {
 import { ServiceLevelErrors } from 'in-service-levels/constants';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { days, hours, minutes } from 'in-services/time/time';
+import { MetricDataSeries } from 'in-components/Chart/types';
+
+/**
+ * Returns the index of the first time-window that contains a data-point,
+ * and -1 if none of the metrics data-points fit into any of the time-windows.
+ **/
+export function getIndexOfFirstTimeWindowWithData(metrics: MetricDataSeries[], timeWindows: TimeConfig[]): number {
+  const flatMetrics = metrics.flat();
+  const dateNow = Date.now();
+
+  // Because throwIfClosureRequired is enabled Babel throws an error and won't
+  // allow usage of let or const without defining a new blockscope. Falling
+  // back to var, since var does not have a blockscope and works as intented in
+  // this context.
+  for (var datapoint of flatMetrics) {
+    var [metricTimestamp] = datapoint;
+    var timeWindowIndex = timeWindows.findIndex(timeWindow => {
+      const timeWindowTo = timeWindow.to ?? dateNow;
+      const timeWindowStartTime = timeWindowTo - timeWindow.windowSize;
+      return metricTimestamp >= timeWindowStartTime && metricTimestamp < timeWindowTo;
+    });
+
+    if (timeWindowIndex >= 0) return timeWindowIndex;
+  }
+
+  return -1;
+}
 
 export function applyAdjustedTimeframe(timeConfig: TimeConfig, adjustedTimeframe?: AdjustedTimeframe): TimeConfig {
   return {
