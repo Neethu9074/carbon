@@ -101,6 +101,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'kubecostEnabled',
+    instanaCtlKey: 'feature.kubecost.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'skipOnboardingDialog',
     instanaCtlKey: 'feature.skip.oboarding.dialog',
     defaultValue: false

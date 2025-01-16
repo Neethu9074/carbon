@@ -87,6 +87,7 @@ module.exports = {
   websiteBeaconQueryOptimizationEnabled: true,
   eumImpactedUsersForAppAlertEnabled: true,
   controlPlaneEnabled: true,
+  kubecostEnabled: true,
   largeTracesV2Enabled: true,
   multiCloseEnabled: false,
   limitVisibleNestingLevelsInTraceEnabled: false,

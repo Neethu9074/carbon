@@ -244,6 +244,7 @@ export const actionAutomationEnabled = isFeatureFlagEnabled('actionAutomationEna
 export const pluginMetricStatisticsEnabled = isFeatureFlagEnabled('pluginMetricStatisticsEnabled', false);
 
 export const controlPlaneEnabled = isFeatureFlagEnabled('controlPlaneEnabled', false);
+export const kubecostEnabled = isFeatureFlagEnabled('kubecostEnabled', true);
 
 export const limitVisibleNestingLevelsInTraceEnabled = isFeatureFlagEnabled(
   'limitVisibleNestingLevelsInTraceEnabled',

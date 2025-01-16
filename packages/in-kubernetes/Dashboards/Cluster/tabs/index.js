@@ -30,9 +30,11 @@ import Events from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events'
 import { clusterDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
 import { ClusterTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
+import KubeCost from 'in-kubernetes/Dashboards/Cluster/tabs/KubeCost';
 import Details from 'in-kubernetes/Dashboards/Cluster/tabs/Details';
 import { controlPlaneEnabled } from 'in-services/featureFlags';
 import Pods from 'in-kubernetes/Dashboards/Cluster/tabs/Pods';
+import { kubecostEnabled } from 'in-services/featureFlags';
 import { getTimeConfig } from 'in-stores/time/config';
 import Summary from './Summary';
 import { t } from 'in-i18n';
@@ -159,6 +161,11 @@ export default [
     path: `${clusterDashboardFullyQualified}/hosts`,
     component: Infrastructure,
     header: props => getCounterComponent(props, v => v.hosts)
+  },
+  kubecostEnabled && {
+    label: t('in-kubernetes:dashboards.kubecost.kubeCost'),
+    path: `${clusterDashboardFullyQualified}/kubecost`,
+    component: KubeCost
   }
 ].filter(Boolean);
 
