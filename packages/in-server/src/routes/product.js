@@ -184,6 +184,7 @@ router.get('/', async (req, res) => {
     clientConfig.amplitudeKey = getAmplitudeKey();
     const termsAndPrivacy = JSON.parse(termsAndPrivacySettings);
     const walkmeEnabled = termsAndPrivacy.walkmeAnalyticsServices;
+    const walkmeTestEnabled = walkmeEnabled && featureFlags?.playwithTestEnabled;
     const ibmCommonEnabled = featureFlags.ibmCommonEnabled;
     const isAssistMeEnabled = featureFlags?.assistmeEnabled && ibmCommonEnabled && walkmeEnabled;
     res.set('Content-Security-Policy', getCsp(nonce, walkmeEnabled, ibmCommonEnabled));
@@ -215,6 +216,7 @@ router.get('/', async (req, res) => {
         starredItems,
         isAssistMeEnabled,
         walkmeEnabled,
+        walkmeTestEnabled,
         ibmCommonEnabled
       })
     );
