@@ -11,10 +11,10 @@ import { SvgIcon } from '@instana/components';
 import { IconForButtonProps } from 'in-plg/components/IconForButton/types';
 
 export const IconForButton = ({ icon, iconStyle, iconSize }: IconForButtonProps) => {
-  const iconcomp: any = icon ? (
+  if (!icon) return null;
+  return (
     <div className="cds--btn__icon">
       <SvgIcon className={iconStyle} type={icon} color="currentColor" size={iconSize} />
     </div>
-  ) : null;
-  return iconcomp;
+  );
 };

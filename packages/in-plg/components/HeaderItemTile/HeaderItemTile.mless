@@ -9,6 +9,9 @@
     width: 12.5rem;
     height: 11rem;
     padding: initial;
+    > a {
+      text-decoration: none;
+    }
   }
   .tileButton {
     position: absolute;
