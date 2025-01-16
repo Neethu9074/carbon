@@ -25,7 +25,6 @@ import { replaceTitlePlaceholdersWithMarkup } from 'in-alerting/smart-alerts/inf
 import { actionHandlers } from 'in-alerting/smart-alerts/infrastructure/lists/ListActionHandlers';
 import { CreateSmartAlertButton } from 'in-alerting/smart-alerts/infrastructure/CreateSmartAlert';
 import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
-import StatusColumnCell from 'in-alerting/smart-alerts/components/list/StatusColumnCell';
 import { MetricLabel } from 'in-alerting/smart-alerts/infrastructure/lists/MetricLabel';
 import { sortOptions } from 'in-alerting/smart-alerts/infrastructure/lists/constants';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
@@ -166,13 +165,14 @@ function getCarbonTableColumnDefinitions() {
         />
       ),
       sortable: false
-    },
-    {
-      id: 'enabled',
-      label: t('in-alerting:table.status'),
-      getContent: ({ enabled }: InfraSmartAlertConfigWithMetadata) => <StatusColumnCell status={enabled} />,
-      sortable: true
     }
+    // TODO bring this back once the bulk actions are implemented
+    // {
+    //   id: 'enabled',
+    //   label: t('in-alerting:table.status'),
+    //   getContent: ({ enabled }: InfraSmartAlertConfigWithMetadata) => <StatusColumnCell status={enabled} />,
+    //   sortable: true
+    // }
   ];
 }
 

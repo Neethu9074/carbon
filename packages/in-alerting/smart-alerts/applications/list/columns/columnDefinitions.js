@@ -18,7 +18,6 @@ import TableNameColumnCell from 'in-alerting/smart-alerts/components/table/Table
 import { getSubtitle } from 'in-alerting/smart-alerts/applications/list/columns/ListNameColumn';
 import { actionHandlers } from 'in-alerting/smart-alerts/applications/list/ListActionHandlers';
 import { createRowLinkLocation } from 'in-alerting/smart-alerts/applications/list/rowLinking';
-import StatusColumnCell from 'in-alerting/smart-alerts/components/list/StatusColumnCell';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { isCategoryGlobal } from 'in-alerting/smart-alerts/components/list/constants';
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
@@ -191,13 +190,13 @@ export function createTableColumnDefinition(configsCategory, trackCta) {
     getContent: config => <TableCellWrapper>{getSubtitle(config.rule, config.threshold)}</TableCellWrapper>,
     sortable: false
   };
-
-  const status = {
-    id: 'enabled',
-    label: t('in-alerting:table.status'),
-    getContent: config => <StatusColumnCell status={config.enabled} />,
-    sortable: true
-  };
+  // TODO bring this back once the bulk actions are implemented
+  // const status = {
+  //   id: 'enabled',
+  //   label: t('in-alerting:table.status'),
+  //   getContent: config => <StatusColumnCell status={config.enabled} />,
+  //   sortable: true
+  // };
   const actionHandler = {
     id: 'actions',
     sortable: false,
@@ -213,5 +212,5 @@ export function createTableColumnDefinition(configsCategory, trackCta) {
       );
     }
   };
-  return [nameColumn, triggeringAction, status, actionHandler];
+  return [nameColumn, triggeringAction, actionHandler];
 }

@@ -1823,6 +1823,7 @@
     "warningAndCritical": "Warning and Critical",
     "warning": "Warning",
     "critical": "Critical",
-    "searchPlaceholder": "Search"
+    "searchPlaceholder": "Search",
+    "sortBy": "Sort by"
   }
 }

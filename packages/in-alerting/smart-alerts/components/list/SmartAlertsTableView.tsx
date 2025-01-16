@@ -26,6 +26,7 @@ import {
 } from 'in-alerting/smart-alerts/components/list/constants';
 import { SmartAlertsTableViewProps } from 'in-alerting/smart-alerts/components/list/SmartAlertsTableWithUrlState';
 import SmartAlertTablePresenter from 'in-alerting/smart-alerts/components/list/SmartAlertTablePresenter';
+import TableSortingConfigurator from 'in-alerting/smart-alerts/components/list/TableSortingConfigurator';
 import { AlertConfigType } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import { TableState } from 'in-components/tables/ServerTable/types';
@@ -56,6 +57,7 @@ export default function SmartAlertsTableView<AlertConfig extends AlertConfigType
   toolBarContent,
   isSelectable,
   noDataHeader,
+  sortOptions,
   noDataDescription
 }: SmartAlertsTableViewProps<AlertConfig>) {
   const [{ orderBy, orderDirection, page, query }, setState] = useOptionalExternalState(
@@ -134,7 +136,24 @@ export default function SmartAlertsTableView<AlertConfig extends AlertConfigType
           query: data.query ?? query
         });
       }}
-      toolBarContent={toolBarContent}
+      toolBarContent={
+        <>
+          <TableSortingConfigurator
+            options={sortOptions}
+            orderBy={{
+              by: orderBy,
+              direction: orderDirection
+            }}
+            onChange={({ by, direction }) =>
+              setState({
+                orderBy: by,
+                orderDirection: direction
+              })
+            }
+          />
+          {toolBarContent}
+        </>
+      }
       allRowSelected={selectedData.length > 0 && selectedData.length === listItems.current.length}
       rowSelected={selectedData}
       handleSelectAll={() => handleSelectAll(selectedData, setSelectedRows, listItems.current)}

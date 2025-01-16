@@ -11,6 +11,7 @@ import { Observable } from '@instana/observables';
 import { ServerTableUrlState } from 'in-components/tables/ServerTable/hooks/useServerTableUrlState';
 import { categoryGlobal, categoryLocal } from 'in-alerting/smart-alerts/components/list/constants';
 import SmartAlertsTableView from 'in-alerting/smart-alerts/components/list/SmartAlertsTableView';
+import { SortOption } from 'in-alerting/smart-alerts/components/list/TableSortingConfigurator';
 import { AlertConfigType } from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
@@ -76,6 +77,7 @@ export interface SmartAlertsTableViewProps<AlertConfig extends AlertConfigType> 
   getLocalAlertConfigTitle: (numberOfAlerts: number) => string;
   getGlobalAlertConfigTitle?: (numberOfAlerts: number) => string;
   columnDefinitions: ColumnDefinition<AlertConfig>[];
+  sortOptions: SortOption[];
   pageSize?: number;
   configsCategory?: typeof categoryLocal | typeof categoryGlobal;
   setConfigsCategory?: (a: string) => void;

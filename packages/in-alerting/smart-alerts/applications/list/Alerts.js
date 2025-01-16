@@ -72,6 +72,7 @@ export default function Alerts({ applicationId, boundaryScope, location, data })
           }
           noDataDescription={getNoDataMessage(configsCategory)}
           alertsTab={alertsTab}
+          sortOptions={sortOptions}
         />
       ) : (
         <Card>

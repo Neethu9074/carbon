@@ -19,7 +19,6 @@ import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/fe
 import { actionHandlers } from 'in-alerting/smart-alerts/websites/list/ListActionHandlers';
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
-import StatusColumnCell from 'in-alerting/smart-alerts/components/list/StatusColumnCell';
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import CreateSmartAlert from 'in-alerting/smart-alerts/websites/CreateSmartAlert';
@@ -160,13 +159,14 @@ function getCarbonTableColumnDefinitions() {
         <TableCellWrapper>{getSubtitle(config.rule, config.threshold)}</TableCellWrapper>
       ),
       sortable: false
-    },
-    {
-      id: 'enabled',
-      label: t('in-alerting:table.status'),
-      getContent: (config: WebsiteSmartAlertConfigWithMetadata) => <StatusColumnCell status={config.enabled} />,
-      sortable: true
     }
+    // TODO bring this back once the bulk actions are implemented
+    // {
+    //   id: 'enabled',
+    //   label: t('in-alerting:table.status'),
+    //   getContent: (config: WebsiteSmartAlertConfigWithMetadata) => <StatusColumnCell status={config.enabled} />,
+    //   sortable: true
+    // }
   ];
 }
 

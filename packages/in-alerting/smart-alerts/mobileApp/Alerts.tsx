@@ -25,7 +25,6 @@ import { MetricName, getBlueprintConfig } from 'in-alerting/smart-alerts/mobileA
 import { actionHandlers } from 'in-alerting/smart-alerts/mobileApp/lists/ListActionHandlers';
 import { alertsTabDetailsFullyQualified, alertsTab } from 'in-mobile-apps/navigation/paths';
 import { carbonTableEnabled, smartAlertCarbonTableEnabled } from 'in-services/featureFlags';
-import StatusColumnCell from 'in-alerting/smart-alerts/components/list/StatusColumnCell';
 import { ListSubtitle } from 'in-alerting/smart-alerts/components/list/ListSubtitle';
 import AlertBaseList from 'in-alerting/smart-alerts/components/list/AlertsBaseList';
 import CreateSmartAlert from 'in-alerting/smart-alerts/mobileApp/CreateSmartAlert';
@@ -163,13 +162,14 @@ function getCarbonTableColumnDefinitions() {
         <TableCellWrapper>{getSubtitle(config.rule, config.threshold)}</TableCellWrapper>
       ),
       sortable: false
-    },
-    {
-      id: 'enabled',
-      label: t('in-alerting:table.status'),
-      getContent: (config: MobileAppSmartAlertConfigWithMetadata) => <StatusColumnCell status={config.enabled} />,
-      sortable: true
     }
+    // TODO bring this back once the bulk actions are implemented
+    // {
+    //   id: 'enabled',
+    //   label: t('in-alerting:table.status'),
+    //   getContent: (config: MobileAppSmartAlertConfigWithMetadata) => <StatusColumnCell status={config.enabled} />,
+    //   sortable: true
+    // }
   ];
 }
 
